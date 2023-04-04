@@ -137,6 +137,27 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
     $_SERVER['HTTPS'] = 'on';
 }
 
+/**
+ * Multisite Settings
+ */
+Config::define( 'WP_ALLOW_MULTISITE', true );
+Config::define( 'MULTISITE', true );
+Config::define( 'SUBDOMAIN_INSTALL', true );
+Config::define( 'DOMAIN_CURRENT_SITE', env( 'DOMAIN_CURRENT_SITE' ) );
+Config::define( 'PATH_CURRENT_SITE', env( 'PATH_CURRENT_SITE' ) ?? '/' );
+Config::define( 'SITE_ID_CURRENT_SITE', env( 'SITE_ID_CURRENT_SITE' ) ?? 1 );
+Config::define( 'BLOG_ID_CURRENT_SITE', env( 'BLOG_ID_CURRENT_SITE' ) ?? 1 );
+Config::define( 'WP_DEFAULT_THEME', 'twentytwentythree');
+if ( ! defined( 'WP_CLI' ) ) {
+	Config::define( 'COOKIE_DOMAIN', '.' . env( 'DOMAIN_CURRENT_SITE' ) ?? 'codingblackfemales.com' ); // phpcs:ignore
+}
+Config::define('COOKIEPATH', '/');
+Config::define('COOKIEHASH', md5( env( 'DOMAIN_CURRENT_SITE' ) ) ); // notice absence of a '.' in front
+if ( env( 'HEADLESS_MODE_CLIENT_URL' ) ) {
+	Config::define( 'HEADLESS_MODE_CLIENT_URL', env( 'HEADLESS_MODE_CLIENT_URL' ) );
+}
+$base = '/';
+
 $env_config = __DIR__ . '/environments/' . WP_ENV . '.php';
 
 if (file_exists($env_config)) {
