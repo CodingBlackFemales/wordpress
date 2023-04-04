@@ -40,7 +40,16 @@
     "roots/wordpress": "6.2",
     "roots/wp-config": "1.0.0",
     "roots/wp-password-bcrypt": "1.1.0",
-    "wpackagist-theme/twentytwentythree": "^1.0"
+    "wpackagist-theme/twentytwentythree": "^1.0",
+    "wpackagist-theme/onepress": "^2.3",
+    "wpackagist-plugin/buddypress": "^11.1",
+    "wpackagist-plugin/pdf-viewer-block": "^1.1",
+    "wpackagist-plugin/import-users-from-csv": "^1.1",
+    "wpackagist-plugin/pdf-embedder": "^4.6",
+    "wpackagist-plugin/post-type-switcher": "^3.2",
+    "wpackagist-plugin/remove-dashboard-access-for-non-admins": "^1.1",
+    "wpackagist-plugin/wp-mail-smtp": "^3.7",
+    "wpackagist-plugin/zapier": "^1.0"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7.1",
