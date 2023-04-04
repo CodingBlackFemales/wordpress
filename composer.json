@@ -28,10 +28,15 @@
       "type": "composer",
       "url": "https://wpackagist.org",
       "only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/codingblackfemales/buddyboss-platform.git"
     }
   ],
   "require": {
     "php": ">=8.0",
+    "buddypress/buddypress": "dev-release",
     "composer/installers": "^2.2",
     "vlucas/phpdotenv": "^5.5",
     "oscarotero/env": "^2.1",
