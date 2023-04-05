@@ -94,6 +94,10 @@ if (env('DATABASE_URL')) {
     Config::define('DB_HOST', isset($dsn->port) ? "{$dsn->host}:{$dsn->port}" : $dsn->host);
 }
 
+if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI ) {
+	Config::define( 'DB_HOST', env( 'DB_HOST_LOCAL' ) );
+}
+
 /**
  * Authentication Unique Keys and Salts
  */
