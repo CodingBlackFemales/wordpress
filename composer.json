@@ -30,6 +30,15 @@
       "only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
     },
     {
+      "type": "composer",
+      "url": "https://wp-languages.github.io",
+      "only": [
+        "koodimonni-language/*",
+        "koodimonni-plugin-language/*",
+        "koodimonni-theme-language/*"
+      ]
+    },
+    {
       "type": "vcs",
       "url": "https://github.com/codingblackfemales/buddyboss-platform.git"
     }
@@ -38,6 +47,7 @@
     "php": ">=8.0",
     "buddyboss/bp-loader": "dev-release",
     "composer/installers": "^2.2",
+    "koodimonni-language/en_gb": "*",
     "vlucas/phpdotenv": "^5.5",
     "oscarotero/env": "^2.1",
     "roots/bedrock-autoloader": "^1.0",
@@ -87,7 +97,8 @@
     "preferred-install": "dist",
     "allow-plugins": {
       "composer/installers": true,
-      "roots/wordpress-core-installer": true
+      "roots/wordpress-core-installer": true,
+      "koodimonni/composer-dropin-installer": true
     }
   },
   "minimum-stability": "dev",
@@ -97,6 +108,17 @@
       "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
       "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
       "web/app/themes/{$name}/": ["type:wordpress-theme"]
+    },
+    "dropin-paths": {
+      "web/app/languages/": [
+        "vendor:koodimonni-language"
+      ],
+      "web/app/languages/plugins/": [
+        "vendor:koodimonni-plugin-language"
+      ],
+      "web/app/languages/themes/": [
+        "vendor:koodimonni-theme-language"
+      ]
     },
     "wordpress-install-dir": "web/wp"
   },
