@@ -36,7 +36,7 @@
   ],
   "require": {
     "php": ">=8.0",
-    "buddypress/buddypress": "dev-release",
+    "buddyboss/bp-loader": "dev-release",
     "composer/installers": "^2.2",
     "vlucas/phpdotenv": "^5.5",
     "oscarotero/env": "^2.1",
