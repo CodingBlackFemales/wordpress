@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "buddyboss-theme/buddypanel",
+	"version": "0.1.0",
+	"title": "BuddyPanel",
+	"category": "widgets",
+	"icon": "buddypanel bb-icon-l bb-icon-sidebar",
+	"description": "Add your BuddyPanel menu to your content or sidebar.",
+	"keywords": ["BuddyPanel"],
+	"supports": {
+		"html": false
+	},
+	"textdomain": "buddyboss-theme",
+	"example": {
+		"viewportWidth": 800
+	},
+  	"style": "bb_theme_block-buddypanel-style-css",
+	"editorScript": "bb_theme_block-buddypanel-block-js"
+}

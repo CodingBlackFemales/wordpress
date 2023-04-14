@@ -1,0 +1,21 @@
+.elementor-add-new-section .ba-add-section-btn {
+    color: #fff;
+    background: #F47216;
+    margin-right: 5px;
+    float: left;
+}
+
+body.rtl .elementor-add-new-section .ba-add-section-btn {
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.elementor-add-new-section .ba-add-section-btn img{
+    align-items: center;
+    position: relative;
+    display: inline-block;
+    float: left;
+    width: auto;
+    background-size: cover;
+    border-radius: 100%;
+}

@@ -2,6 +2,7 @@
 web/app/languages
 web/app/plugins/*
 !web/app/plugins/.gitkeep
+!web/app/plugins/buddyboss-*
 web/app/mu-plugins/*/
 web/app/themes/onepress/
 web/app/themes/twentytwentythree/

@@ -1,0 +1,1 @@
+!function(t){t(window).on("load",function(){t(".customize-control-range input").on("input",function(){var n=t(this);n.siblings("output").text(n.val())})})}(jQuery);

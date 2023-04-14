@@ -1,0 +1,28 @@
+.bp-zoom-meeting-container {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-flow: row wrap;
+	flex-flow: row wrap;
+	background: #fff;
+	border: 1px solid #e7e9ec;
+	border-radius: 4px;
+}
+
+#page .bp-zoom-meeting-container .bp-navs {
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 100%;
+	flex: 0 0 100%;
+	min-height: 1px;
+	border: 0;
+	padding: 0 20px;
+	border-radius: 4px 4px 0 0;
+	background: #fff;
+	border-bottom: 1px solid #e7e9ec;
+	margin: 0;
+}
+
+#page .bp-zoom-meeting-container .bp-navs a {
+	line-height: 1;
+	padding: 16px 0;
+}

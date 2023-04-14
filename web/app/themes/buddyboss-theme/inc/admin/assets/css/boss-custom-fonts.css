@@ -1,0 +1,205 @@
+#buddyboss-fonts-metabox .inside {
+    padding: 17px;
+    margin: 0; }
+.buddyboss-metabox-content .repeater-block {
+    background: #fafafa;
+    border: 1px solid #d2d2d2;
+    color: #6d7882;
+    padding: 20px 17px;
+    border-radius: 4px;
+    margin: 0 0 17px;
+    box-shadow: 0 1px 0 #d2d2d2; }
+.buddyboss-metabox-content .repeater-block span.buddyboss-repeater-tool-btn.close-repeater-row {
+    display: none; }
+.buddyboss-metabox-content .repeater-block.block-visible {
+    padding-bottom: 0; }
+.buddyboss-metabox-content .repeater-block.block-visible span.buddyboss-repeater-tool-btn.toggle-repeater-row {
+    display: none; }
+.buddyboss-metabox-content .repeater-block.block-visible span.buddyboss-repeater-tool-btn.close-repeater-row {
+    display: inline-block; }
+.buddyboss-metabox-content .repeater-block:not(.block-visible) .close-repeater-row {
+    display: none; }
+.buddyboss-metabox-content .repeater-block .repeater-title {
+    cursor: pointer; }
+
+.buddyboss-metabox-content .row-font-label {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    text-transform: capitalize; }
+.buddyboss-metabox-content .row-font-label li {
+    box-sizing: border-box;
+    flex-grow: 1;
+    width: 100%;
+    margin: 0; }
+.buddyboss-metabox-content .row-font-label li span.label {
+    font-weight: 500;
+    padding-right: 10px; }
+.buddyboss-metabox-content .row-font-label li.row-font-weight, .buddyboss-metabox-content .row-font-label li.row-font-style {
+    max-width: 180px; }
+.buddyboss-metabox-content .row-font-label li.row-font-actions {
+    max-width: 200px;
+    text-align: right; }
+
+.buddyboss-metabox-content .repeater-content {
+    margin: 0; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top {
+    display: flex;
+    line-height: 28px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top > div {
+    box-sizing: border-box;
+    flex-grow: 1; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top .buddyboss-field-toolbar {
+    text-align: right;
+}
+.buddyboss-metabox-content .repeater-content .repeater-content-top .buddyboss-field-toolbar .remove-repeater-row {
+    color: #a00;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.buddyboss-metabox-content .repeater-content .repeater-content-top .buddyboss-field-toolbar .remove-repeater-row:hover {
+    color: #CA423B;
+}
+.buddyboss-metabox-content .repeater-content .repeater-content-top p {
+    margin: 0;
+    display: inline-block; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top .buddyboss-field-select label {
+    font-weight: 500;
+    margin-right: 3px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top .buddyboss-field-select select {
+    margin-right: 25px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top .elementor-field-select {
+    max-width: 180px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-top .elementor-field-toolbar {
+    max-width: 200px;
+    text-align: right; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom {
+    padding: 10px 17px 20px;
+    margin: 20px -17px 0;
+    border-top: 1px solid #ddd; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .buddyboss-field-label {
+    margin: 1.5em 0 0.5em; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .buddyboss-field-label label {
+    font-weight: 600;
+    color: #444; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .buddyboss-field-file input[type=text] {
+    width: 82%; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05); }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field:last-child {
+    margin-bottom: 0; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field p,
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field input {
+    box-sizing: border-box;
+    flex-grow: 1;
+    width: 100%;
+    margin: 0; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field p.elementor-field-label {
+    font-weight: 500;
+    max-width: 120px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-field-input {
+    padding: 5px 8px;
+    margin: 0 15px;
+    border-radius: 3px;
+    font-size: 12px;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    color: #495157;
+    border: 1px solid;
+    outline: none; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-field-input:not(:focus) {
+    border-color: #d5dadf; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-field-input:focus {
+    border-color: #a4afb7; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-upload-btn,
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-upload-clear-btn {
+    max-width: 100px;
+    font-size: 11px; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-upload-clear-btn {
+    background-color: #eceeef;
+    color: #a4afb7; }
+.buddyboss-metabox-content .repeater-content .repeater-content-bottom .elementor-field .elementor-upload-clear-btn:hover {
+    background-color: #b01b1b;
+    color: white; }
+
+.buddyboss-metabox-content .elementor-button {
+    background-color: #a4afb7;
+    color: #fff;
+    line-height: 1;
+    text-transform: uppercase;
+    height: auto;
+    padding: 10px 20px;
+    outline: none;
+    border: none;
+    transition-property: background, color, box-shadow, opacity;
+    transition-duration: .3s; }
+.buddyboss-metabox-content .elementor-button:hover, .buddyboss-metabox-content .elementor-button:focus, .buddyboss-metabox-content .elementor-button:visited {
+    color: #fff; }
+.buddyboss-metabox-content .elementor-button:focus, .buddyboss-metabox-content .elementor-button:visited {
+    background-color: #a4afb7; }
+.buddyboss-metabox-content .elementor-button:hover {
+    background-color: #6d7882;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
+    border: none; }
+.buddyboss-metabox-content .elementor-button:active {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.1); }
+.buddyboss-metabox-content .elementor-button:not([disabled]) {
+    cursor: pointer; }
+.buddyboss-metabox-content .elementor-button.elementor-size-xs {
+    font-size: 11px;
+    padding: 10px 20px;
+    border-radius: 2px; }
+.buddyboss-metabox-content .elementor-button.elementor-size-sm {
+    font-size: 13px;
+    padding: 12px 24px;
+    border-radius: 3px; }
+.buddyboss-metabox-content .elementor-button.elementor-size-md {
+    font-size: 14px;
+    padding: 15px 30px;
+    border-radius: 4px; }
+.buddyboss-metabox-content .elementor-button.elementor-size-lg {
+    font-size: 15px;
+    padding: 20px 40px;
+    border-radius: 5px; }
+.buddyboss-metabox-content .elementor-button.elementor-size-xl {
+    font-size: 18px;
+    padding: 25px 50px;
+    border-radius: 6px; }
+.buddyboss-metabox-content .elementor-button .elementor-align-icon-right {
+    float: right;
+    margin-left: 5px; }
+.buddyboss-metabox-content .elementor-button .elementor-align-icon-left {
+    float: left;
+    margin-right: 5px; }
+
+.buddyboss-metabox-content input.button.add-repeater-row {
+    margin-top: 18px;
+    border: none;
+    box-shadow: none; }
+.buddyboss-metabox-content .row-font-preview,
+.buddyboss-metabox-content .inline-preview {
+    font-size: 16px;
+    text-transform: capitalize; }
+#buddyboss-fonts-tutorial .inside {
+    margin-top: 12px;
+}
+
+#buddyboss-fonts-description{
+    border: none;
+    box-shadow: none;
+    background: none;
+}
+#buddyboss-fonts-description button, #buddyboss-fonts-description h2 {
+    display: none;
+}
+
+.post-type-buddyboss_fonts #tagsdiv-elementor_font_type, .post-type-buddyboss_fonts #minor-publishing-actions, .post-type-buddyboss_fonts #misc-publishing-actions {
+    display: none;
+}

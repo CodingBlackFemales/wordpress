@@ -1,0 +1,398 @@
+.unlicensed-theme {
+    position: relative;
+}
+
+.unlicensed-theme .block {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+    vertical-align: middle;
+    background-color: rgba(250,250,250,0.8);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-radius: 3px;
+}
+.unlicensed-theme .block p {
+    color: #fff;
+    font-size: 22px;
+    background-color: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    margin: 100px 20px 0 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+.unlicensed-theme .block a{
+    color: #fff;
+}
+
+.unlicensed-theme .redux-container * {
+    pointer-events: none;
+}
+
+[id^=buddyboss_theme_options-] .ui-icon {
+    display: none;
+}
+
+.add-buddypanel-sections-nav-menu .accordion-section-content p.warning {
+	background-color: #fff3c8;
+	padding: 10px 13px;
+	border-radius: 5px;
+	color: #8b6300;
+	margin-bottom: 0;
+}
+
+/* Icon picker */
+
+.media-frame.bb-media-frame .media-frame-content .media-toolbar-secondary,
+.media-frame.bb-media-frame .search {
+	margin: 22px 0 0;
+}
+
+.bb-media-frame .media-frame-tab-panel .media-toolbar-primary.search-form:after {
+	content: '\ef10';
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	font-family: 'bb-icons';
+	font-size: 16px;
+	font-weight: 400;
+	position: relative;
+	top: -24px;
+	left: 6px;
+}
+
+.bb-media-frame .media-frame-tab-panel .media-toolbar-primary.search-form .search {
+	padding-left: 27px;
+}
+
+.bb-media-frame .media-frame-tab-panel .media-toolbar-primary.search-form .search::-webkit-input-placeholder {
+	position: relative;
+	top: 1px;
+}
+
+.media-frame.bb-media-frame .media-toolbar-secondary select,
+.media-frame.bb-media-frame .media-toolbar-secondary select.attachment-filters {
+	margin: 0 10px 0 0;
+}
+
+.bb-media-frame .menu-icon-tabs {
+	padding: 0 20px;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.bb-media-frame .media-frame-router {
+	margin-top: 20px;
+	position: relative;
+	z-index: 1;
+}
+
+.bb-media-frame .attachments-browser ul.attachments {
+	border-top: 1px solid #dfdfdf;
+	padding-top: 10px;
+	padding: 15px;
+}
+
+.bb-media-frame .attachments-browser .attachments-wrapper {
+	padding: 0;
+}
+
+.bb-media-frame .attachments-browser .attachments-wrapper ul.attachments {
+	border-top: 0;
+	overflow: hidden;
+	padding: 15px;
+}
+
+.bb-media-frame .media-frame-content {
+	border-top: 0;
+}
+
+.bb-media-frame.media-frame:not(.hide-router) .media-frame-content {
+	top: 50px;
+}
+
+.bb-media-frame:not(.hide-router) .media-toolbar .media-toolbar-secondary {
+	display: none;
+}
+
+.bb-media-frame:not(.hide-router) .attachments-browser .media-toolbar {
+	background: transparent;
+	display: inline-block;
+	width: 50%;
+	left: unset;
+	padding: 0 25px;
+}
+
+.bb-media-frame .media-frame-toolbar .media-toolbar {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.bb-media-frame .attachments-browser .media-toolbar {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.bb-media-frame .media-router {
+	overflow: hidden;
+	border-bottom: 1px solid #dfdfdf;
+	padding: 0 15px;
+}
+
+.bb-media-frame .media-router .media-menu-item {
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 14px 0 20px;
+	font-size: 1.2em;
+}
+
+.bb-media-frame .media-router .active, 
+.bb-media-frame .media-router .media-menu-item.active:last-child {
+	border: 0;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-bottom: 2px solid #2271b1;
+}
+
+.bb-media-frame .media-router .media-menu-item {
+	border: 0;
+	border-bottom: 2px solid transparent;
+	margin-top: -1px;
+}
+
+.bb-media-frame .media-router .active {
+	color: #2271b1;
+	border-bottom: 2px solid #2271b1;
+}
+
+.bb-media-frame .media-router .media-menu-item:focus {
+	box-shadow: none;
+}
+
+/*.bb-media-frame:not(.hide-router) .media-frame-content .media-toolbar {
+	top: 44px;
+}
+
+.bb-media-frame:not(.hide-router) .media-frame-content .attachments-browser:not(.has-load-more) .attachments, 
+.bb-media-frame:not(.hide-router) .media-frame-content .attachments-browser.has-load-more .attachments-wrapper,
+.bb-media-frame:not(.hide-router) .media-frame-content .attachments-browser .uploader-inline {
+	top: 116px;
+}*/
+
+.media-modal-content .menu-icon-tabs button {
+	background-color: transparent;
+	line-height: 40px;
+	padding: 0;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 10px;
+	padding: 0 10px;
+	font-size: 13px;
+	color: #222;
+	font-weight: 600;
+	width: 120px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #dfdfdf;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	margin-bottom: -1px;
+}
+
+.media-modal-content .menu-icon-tabs button.active {
+	border-bottom: 1px solid #fff;
+}
+
+.buddyboss-menu-icon-panel {
+	padding: 16px 25px;
+}
+
+.buddyboss-menu-icon-panel > h3 {
+	font-size: 1.5em;
+}
+
+.sidebar-preview-head-line {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	border-bottom: 0;
+	padding: 0;
+	margin: 0;
+}
+
+.media-sidebar .sidebar-preview-head-line .setting {
+	margin: 0;
+}
+
+.media-sidebar .sidebar-preview-head-line .setting select {
+	max-width: 100%;
+}
+
+.media-sidebar .sidebar-preview-head-line .setting > span {
+	display: none;
+}
+
+.sidebar-preview-head-line .mi-preview-heading {
+	margin: 0;
+}
+
+.sidebar-preview-head-line .attachment-info {
+	min-height: auto;
+	line-height: 1;
+	margin: 0 0 0 20px;
+	border: 0;
+	padding: 0;
+}
+
+.mi-preview.attachment-info {
+	background-color: #fff;
+	border: 1px solid #dcdcde;
+	text-align: center;
+	padding: 10px 10px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+}
+
+.mi-preview.menu-item.attachment-info {
+	min-height: 55px;
+}
+
+.mi-preview.menu-item.attachment-info a i {
+	font-size: 20px;
+}
+
+._tip > span {
+	font-weight: 700;
+}
+
+.buddyboss-menu-icon-settings-options > label {
+	margin: 0 0 7px;
+	display: inline-block;
+}
+
+.buddyboss-menu-icon-settings-options label:first-of-type {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.bb-media-frame .media-toolbar p.button-controls {
+	margin: 0;
+}
+
+.bb-media-frame .media-frame-toolbar .media-toolbar-secondary {
+	margin: 15px 0 0;
+}
+
+.bb-media-frame .media-frame-content .media-sidebar {
+ 	padding-top: 16px;
+ 	padding-bottom: 16px;
+}
+
+.bb-media-frame .media-frame-content .media-sidebar ._info {
+	font-size: 13px;
+}
+
+.bb-media-frame .media-toolbar-primary.search-form .media-search-input-label {
+	display: none;
+}
+
+.bb-media-frame .media-sidebar .mi-preview.menu-item ._icon {
+	max-width: 75px;
+	margin: 0 0.25em;
+}
+
+.bb-media-frame .mi-preview [class^="bb-icon-"], 
+.bb-media-frame .mi-preview [class*=" bb-icon-"],
+.bb-media-frame .mi-preview i {
+    font-size: 24px;
+}
+
+.bb-media-frame .media-sidebar ._tip {
+    border-top: 1px solid #dcdcde;
+    padding-top: 16px;
+}
+
+.bb-media-frame .media-sidebar ._tab_style_info {
+	padding-bottom: 16px;
+}
+
+.attachment-info.attachment-info--icon-setup,
+.attachment-info.attachment-info--header-menu {
+    border-bottom: 0;
+}
+
+.attachment-info.attachment-info--header-menu {
+    margin-bottom: 0;
+}
+
+.bb-media-frame .attachment-info--icon-setup .setting,
+.bb-media-frame .attachment-info--header-menu .setting {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+
+.bb-media-frame .attachment-info--icon-setup .setting span,
+.bb-media-frame .attachment-info--header-menu .setting span {
+	float: none;
+	-webkit-box-flex: 0;
+	    -ms-flex: 0 0 35%;
+	        flex: 0 0 35%;
+	text-align: left;
+}
+
+.bb-media-frame .attachment-info--icon-setup .setting select,
+.bb-media-frame .attachment-info--header-menu .setting select {
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+}
+
+.bb-media-frame .attachment-info--icon-setup .setting input[type="number"] {
+	max-width: 75px;
+	margin-right: 7px;
+	padding-right: 0;
+}
+
+.bb-media-frame .iconpicker-item ._icon i {
+	font-size: 65px;
+}
+
+.bb-media-frame .media-frame-content li.attachment {
+	min-width: 150px;
+	padding: 0;
+	margin: 10px;
+}
+
+.bb-media-frame .iconpicker-item ._icon {
+	margin-top: 33px;
+}
+
+.bb-media-frame .media-sidebar {
+	width: 330px;
+}
+
+.bb-media-frame .attachments-browser:not(.has-load-more) .attachments, 
+.bb-media-frame .attachments-browser.has-load-more .attachments-wrapper, 
+.bb-media-frame .attachments-browser .uploader-inline,
+.bb-media-frame .attachments-browser .media-toolbar {
+	right: 363px;
+}

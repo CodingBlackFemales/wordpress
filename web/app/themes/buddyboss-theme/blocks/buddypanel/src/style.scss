@@ -1,0 +1,180 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ // Front and Editor CSS
+.buddypanel-menu-block {
+
+	.count {
+		margin-right: 15px;
+	}
+
+	[data-balloon][data-balloon-pos='right']:before,
+	[data-balloon][data-balloon-pos='right']:after,
+	[data-balloon][data-balloon-pos='left']:before,
+	[data-balloon][data-balloon-pos='left']:after {
+		display: none;
+	}
+
+}
+
+.bb-template-v2 .side-panel-inner.is_block {
+	border-radius: 10px;
+	min-height: initial;
+
+	.side-panel-menu a {
+		width: 100%;
+	}
+
+	.buddypanel-menu-block li.bb-menu-section ~ li:not(.bb-menu-section) {
+		margin-left: 12px;
+	}
+
+}
+
+.side-panel-inner.is_block {
+	background-color: var(--bb-content-background-color);
+	border-radius: 4px;
+	position: relative;
+	height: initial;
+	overflow: initial;
+
+	.buddypanel-menu > li > .bb-menu-item > i:not(.bb-icon-angle-down) {
+		min-width: 48px;
+		text-align: center;
+	}
+
+	.side-panel-menu-container {
+		height: initial;
+	}
+
+	.buddypanel-menu-block li {
+
+		.bs-submenu-toggle {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.sub-menu.bb-open {
+			display: block;
+		}
+
+	}
+
+
+}
+
+.content-area :not(.widget_block) > .side-panel-inner.is_block {
+	border: 1px solid var(--bb-content-border-color);
+	padding: 23px 16px;
+	margin-bottom: 25px;
+
+	.buddypanel-menu-block {
+		padding: 0;
+	}
+
+}
+
+.content-area .inner:not(.widget_block) > .side-panel-inner.is_block {
+	border: 0;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+:not(.widget_block) > .side-panel-inner.is_block .buddypanel-menu-block {
+	padding: 0;
+}
+
+.widget_block > .side-panel-inner.is_block .buddypanel-menu-block {
+	padding: 0;
+
+	li.bb-menu-section a {
+		font-weight: 600;
+	}
+
+}
+
+
+// Editor CSS
+.block-editor-block-types-list__item-icon .block-editor-block-icon .bb-icon-f,
+.components-autocomplete__result.components-button .bb-icon-f,
+.components-button.has-icon .block-editor-block-icon .bb-icon-f {
+	font-size: 20px;
+
+	&:before {
+		margin-left: 0;
+	}
+
+}
+
+.wp-block .bb-menu-section {
+	text-transform: uppercase;
+	padding-left: 15px;
+
+	a > i[class*="bb-icon"] {
+		display: none;
+	}
+
+}
+
+.block-editor-block-icon .bb-icon-f {
+	align-items: center;
+	display: flex;
+	font-size: 22px;
+	width: auto;
+}
+
+.side-panel-menu.buddypanel-menu-block {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+
+	> li > a > i:not(.bs-submenu-toggle) {
+		min-width: 68px;
+	}
+
+	li {
+		position: relative;
+
+		.sub-menu.bb-open {
+			padding-top: 10px;
+			padding-left: 20px;
+		}
+
+	}
+
+	a {
+		padding: 15px 0;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		font-size: 14px;
+		letter-spacing: -0.24px;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		align-items: center;
+		line-height: 1;
+		position: static;
+		width: 100%;
+		text-decoration: none;
+
+		> i:not(.bs-submenu-toggle) {
+			margin: 0;
+			text-align: center;
+			font-size: 24px;
+			line-height: 1;
+			min-width: 34px;
+		}
+
+	}
+
+	.menu-item-has-children{
+		.count {
+			display: none;
+		}
+	}
+
+}
