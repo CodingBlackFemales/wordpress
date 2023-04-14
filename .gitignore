@@ -27,3 +27,9 @@ web/.htaccess
 
 # WP-CLI
 wp-cli.local.yml
+
+# macOS
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
