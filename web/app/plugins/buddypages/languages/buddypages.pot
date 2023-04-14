@@ -1,0 +1,303 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPages\n"
+"POT-Creation-Date: 2022-09-07 18:47-0500\n"
+"PO-Revision-Date: 2022-05-04 20:20-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: loader.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#: classes/class-group-pages.php:68 classes/class-user-pages.php:72
+#: inc/buddypages-screens.php:41 inc/buddypages-screens.php:194
+msgid "post status is draft"
+msgstr ""
+
+#: classes/class-pages-cpt.php:57
+msgctxt "Post Type General Name"
+msgid "BuddyPages"
+msgstr ""
+
+#: classes/class-pages-cpt.php:58
+msgctxt "Post Type Singular Name"
+msgid "BuddyPage"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: classes/class-pages-cpt.php:59 classes/class-pages-cpt.php:60
+msgid "BuddyPages"
+msgstr ""
+
+#: classes/class-pages-cpt.php:61
+msgid "Item Archives"
+msgstr ""
+
+#: classes/class-pages-cpt.php:62
+msgid "Parent Item:"
+msgstr ""
+
+#: classes/class-pages-cpt.php:63
+msgid "All Items"
+msgstr ""
+
+#: classes/class-pages-cpt.php:64
+msgid "Add New Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:65 inc/buddypages-screens.php:183
+msgid "Add New"
+msgstr ""
+
+#: classes/class-pages-cpt.php:66
+msgid "New Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:67
+msgid "Edit Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:68
+msgid "Update Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:69
+msgid "View Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:70
+msgid "Search Item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:71
+msgid "Not found"
+msgstr ""
+
+#: classes/class-pages-cpt.php:72
+msgid "Not found in Trash"
+msgstr ""
+
+#: classes/class-pages-cpt.php:73
+msgid "Featured Image"
+msgstr ""
+
+#: classes/class-pages-cpt.php:74
+msgid "Set featured image"
+msgstr ""
+
+#: classes/class-pages-cpt.php:75
+msgid "Remove featured image"
+msgstr ""
+
+#: classes/class-pages-cpt.php:76
+msgid "Use as featured image"
+msgstr ""
+
+#: classes/class-pages-cpt.php:77
+msgid "Insert into item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:78
+msgid "Uploaded to this item"
+msgstr ""
+
+#: classes/class-pages-cpt.php:79
+msgid "Items list"
+msgstr ""
+
+#: classes/class-pages-cpt.php:80
+msgid "Items list navigation"
+msgstr ""
+
+#: classes/class-pages-cpt.php:81
+msgid "Filter items list"
+msgstr ""
+
+#: classes/class-pages-cpt.php:84
+msgid "BuddyPage"
+msgstr ""
+
+#: classes/class-pages-cpt.php:85
+msgid "BuddyPress user pages for profiles and groups"
+msgstr ""
+
+#: classes/class-user-pages.php:82 inc/buddypages-screens.php:202
+#: inc/buddypages-screens.php:234
+msgid "Edit"
+msgstr ""
+
+#: classes/class-user-pages.php:131
+msgid "Add New Page"
+msgstr ""
+
+#: classes/class-user-pages.php:145 classes/class-user-pages.php:180
+msgid "Pages"
+msgstr ""
+
+#: inc/buddypages-functions.php:63
+msgid "Error adding page."
+msgstr ""
+
+#: inc/buddypages-functions.php:67
+msgid "Page added."
+msgstr ""
+
+#: inc/buddypages-functions.php:111
+msgid "Error editing page."
+msgstr ""
+
+#: inc/buddypages-functions.php:115
+msgid "Changes saved."
+msgstr ""
+
+#: inc/buddypages-functions.php:138
+msgid "Error deleting page."
+msgstr ""
+
+#: inc/buddypages-functions.php:141
+msgid "Page deleted."
+msgstr ""
+
+#: inc/buddypages-functions.php:195
+msgid "All Users"
+msgstr ""
+
+#: inc/buddypages-functions.php:197 inc/buddypages-functions.php:274
+msgid "All Groups"
+msgstr ""
+
+#: inc/buddypages-functions.php:200
+msgid "My Profile"
+msgstr ""
+
+#: inc/buddypages-functions.php:229
+msgid "Draft"
+msgstr ""
+
+#: inc/buddypages-functions.php:230
+msgid "Publish"
+msgstr ""
+
+#: inc/buddypages-functions.php:264
+msgid "Profile"
+msgstr ""
+
+#: inc/buddypages-functions.php:278
+msgid "All Members"
+msgstr ""
+
+#: inc/buddypages-functions.php:304
+msgid "BuddyPage Settings"
+msgstr ""
+
+#: inc/buddypages-functions.php:311
+msgid "Member Pages"
+msgstr ""
+
+#: inc/buddypages-functions.php:345
+msgid "Allow Members to Create Pages"
+msgstr ""
+
+#: inc/buddypages-functions.php:346
+msgid ""
+"Allow site members to create pages for profiles and groups. Site "
+"administrators can always create BuddyPages, regardless of this setting."
+msgstr ""
+
+#: inc/buddypages-functions.php:464
+msgid ""
+"BuddyPages pages are meant to be managed on the frontend through users' "
+"BuddyPress settings area."
+msgstr ""
+
+#: inc/buddypages-screens.php:73 inc/buddypages-screens.php:152
+msgid "Title"
+msgstr ""
+
+#: inc/buddypages-screens.php:78 inc/buddypages-screens.php:157
+msgid "Content"
+msgstr ""
+
+#: inc/buddypages-screens.php:84 inc/buddypages-screens.php:162
+msgid "Post In"
+msgstr ""
+
+#: inc/buddypages-screens.php:91 inc/buddypages-screens.php:169
+msgid "Post Status"
+msgstr ""
+
+#: inc/buddypages-screens.php:109
+msgid "Save Page"
+msgstr ""
+
+#: inc/buddypages-screens.php:113
+msgid "delete"
+msgstr ""
+
+#: inc/buddypages-screens.php:175
+msgid "Add Page"
+msgstr ""
+
+#: inc/buddypages-screens.php:201
+msgid "Posted in: "
+msgstr ""
+
+#: inc/buddypages-screens.php:202
+#, php-format
+msgid "Permanent Link to edit %s"
+msgstr ""
+
+#: inc/buddypages-screens.php:209
+msgid "Sorry, no pages created."
+msgstr ""
+
+#: loader.php:357
+#, php-format
+msgid ""
+"BuddyPages is missing requirements and has been <a href=\"%s\">deactivated</"
+"a>. Please make sure BuddyPress is installed and activated."
+msgstr ""
+
+#: loader.php:440
+#, php-format
+msgid "Check out %s from @pluginize"
+msgstr ""
+
+#: loader.php:445
+msgid "Documentation"
+msgstr ""
+
+#: loader.php:449
+msgid "More plugins for your WordPress site here!"
+msgstr ""
+
+#: loader.php:454 loader.php:459
+msgid "Spread the word!"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://pluginize.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Front end page creation for BuddyPress profiles and groups."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Pluginize from WebDevStudios"
+msgstr ""

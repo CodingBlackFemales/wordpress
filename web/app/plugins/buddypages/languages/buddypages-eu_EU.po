@@ -1,0 +1,670 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPages\n"
+"POT-Creation-Date: 2022-09-07 18:47-0500\n"
+"PO-Revision-Date: 2022-09-07 18:47-0500\n"
+"Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
+"Language-Team: ADIT SL <tomas.tamayo@gmail.com>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: loader.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: classes/class-group-pages.php:68 classes/class-user-pages.php:72
+#: inc/buddypages-screens.php:41 inc/buddypages-screens.php:194
+msgid "post status is draft"
+msgstr "Bidalketaren egoera zirriborroa da."
+
+#: classes/class-pages-cpt.php:57
+msgctxt "Post Type General Name"
+msgid "BuddyPages"
+msgstr "BuddyPages"
+
+#: classes/class-pages-cpt.php:58
+msgctxt "Post Type Singular Name"
+msgid "BuddyPage"
+msgstr "BuddyPage"
+
+#. Plugin Name of the plugin/theme
+#: classes/class-pages-cpt.php:59 classes/class-pages-cpt.php:60
+#: vendor/edd-updater/license-handler.php:20
+msgid "BuddyPages"
+msgstr "BuddyPages"
+
+#: classes/class-pages-cpt.php:61
+msgid "Item Archives"
+msgstr "Elementuaren artxiboak"
+
+#: classes/class-pages-cpt.php:62
+msgid "Parent Item:"
+msgstr "Guraso elementua:"
+
+#: classes/class-pages-cpt.php:63
+msgid "All Items"
+msgstr "Elementu guztiak"
+
+#: classes/class-pages-cpt.php:64
+msgid "Add New Item"
+msgstr "Gehitu Elementu Berria"
+
+#: classes/class-pages-cpt.php:65 inc/buddypages-screens.php:183
+msgid "Add New"
+msgstr "Gehitu berria"
+
+#: classes/class-pages-cpt.php:66
+msgid "New Item"
+msgstr "Elementu berria"
+
+#: classes/class-pages-cpt.php:67
+msgid "Edit Item"
+msgstr "Editatu Elementua"
+
+#: classes/class-pages-cpt.php:68
+msgid "Update Item"
+msgstr "Eguneratu Elementua"
+
+#: classes/class-pages-cpt.php:69
+msgid "View Item"
+msgstr "Ikusi Elementua"
+
+#: classes/class-pages-cpt.php:70
+msgid "Search Item"
+msgstr "Bilatu Elementua"
+
+#: classes/class-pages-cpt.php:71
+msgid "Not found"
+msgstr "Ez da aurkitu"
+
+#: classes/class-pages-cpt.php:72
+msgid "Not found in Trash"
+msgstr "Ez da aurkitu zakarrontzian"
+
+#: classes/class-pages-cpt.php:73
+msgid "Featured Image"
+msgstr "Nabarmendutako Irudia"
+
+#: classes/class-pages-cpt.php:74
+msgid "Set featured image"
+msgstr "Nabarmendutako irudia ezarri"
+
+#: classes/class-pages-cpt.php:75
+msgid "Remove featured image"
+msgstr "Kendu nabarmendutako irudia"
+
+#: classes/class-pages-cpt.php:76
+msgid "Use as featured image"
+msgstr "nabarmendu irudi gisa erabili"
+
+#: classes/class-pages-cpt.php:77
+msgid "Insert into item"
+msgstr "Elementuan txertatu"
+
+#: classes/class-pages-cpt.php:78
+msgid "Uploaded to this item"
+msgstr "eguneratu elementu honentzako"
+
+#: classes/class-pages-cpt.php:79
+msgid "Items list"
+msgstr "elementu zerrenda"
+
+#: classes/class-pages-cpt.php:80
+msgid "Items list navigation"
+msgstr "Nabigazio elementuen zerrenda"
+
+#: classes/class-pages-cpt.php:81
+msgid "Filter items list"
+msgstr "filtro elementuen zerrenda"
+
+#: classes/class-pages-cpt.php:84
+msgid "BuddyPage"
+msgstr "BuddyPage"
+
+#: classes/class-pages-cpt.php:85
+msgid "BuddyPress user pages for profiles and groups"
+msgstr "BuddyPress erabiltzaile orrialdeak profilak eta taldeentzako"
+
+#: classes/class-user-pages.php:82 inc/buddypages-screens.php:202
+#: inc/buddypages-screens.php:234
+msgid "Edit"
+msgstr "Editatu"
+
+#: classes/class-user-pages.php:131
+#, fuzzy
+#| msgid "Add Page"
+msgid "Add New Page"
+msgstr "Gehitu orrialdea"
+
+#: classes/class-user-pages.php:145 classes/class-user-pages.php:180
+msgid "Pages"
+msgstr "Orrialdeak"
+
+#: inc/buddypages-functions.php:63
+msgid "Error adding page."
+msgstr "Errorea orria gehitzen."
+
+#: inc/buddypages-functions.php:67
+msgid "Page added."
+msgstr "Orrialdea gehituta"
+
+#: inc/buddypages-functions.php:111
+msgid "Error editing page."
+msgstr "Errorea orria aldatzen."
+
+#: inc/buddypages-functions.php:115
+msgid "Changes saved."
+msgstr "Aldaketak gorde dira."
+
+#: inc/buddypages-functions.php:138
+msgid "Error deleting page."
+msgstr "Errorea orria ezabatzean."
+
+#: inc/buddypages-functions.php:141
+msgid "Page deleted."
+msgstr "Orrialdea ezabatuta."
+
+#: inc/buddypages-functions.php:195
+#, fuzzy
+msgid "All Users"
+msgstr "Erabiltzaile guztiak "
+
+#: inc/buddypages-functions.php:197 inc/buddypages-functions.php:274
+msgid "All Groups"
+msgstr "Talde guztiak"
+
+#: inc/buddypages-functions.php:200
+#, fuzzy
+msgid "My Profile"
+msgstr "Nire Profila "
+
+#: inc/buddypages-functions.php:229
+#, fuzzy
+msgid "Draft"
+msgstr "Zirriborroa "
+
+#: inc/buddypages-functions.php:230
+#, fuzzy
+msgid "Publish"
+msgstr "Argitaratu "
+
+#: inc/buddypages-functions.php:264
+msgid "Profile"
+msgstr "Profila"
+
+#: inc/buddypages-functions.php:278
+msgid "All Members"
+msgstr "Kide guztiak"
+
+#: inc/buddypages-functions.php:304
+msgid "BuddyPage Settings"
+msgstr "BuddyPage ezarpenak"
+
+#: inc/buddypages-functions.php:311
+msgid "Member Pages"
+msgstr "Kide orriak"
+
+#: inc/buddypages-functions.php:345
+msgid "Allow Members to Create Pages"
+msgstr "Onartu kideak orriak sortzeko"
+
+#: inc/buddypages-functions.php:346
+msgid ""
+"Allow site members to create pages for profiles and groups. Site "
+"administrators can always create BuddyPages, regardless of this setting."
+msgstr ""
+"Onartu guneko kideak profil eta talde orrialdeak sortzea. Gunearen "
+"adminitratzaileak beti sortuko ditzazke BuddyPagesak, ezarpen hau kontuan "
+"izan gabe."
+
+#: inc/buddypages-functions.php:464
+msgid ""
+"BuddyPages pages are meant to be managed on the frontend through users' "
+"BuddyPress settings area."
+msgstr ""
+
+#: inc/buddypages-screens.php:73 inc/buddypages-screens.php:152
+msgid "Title"
+msgstr "Izenburua"
+
+#: inc/buddypages-screens.php:78 inc/buddypages-screens.php:157
+msgid "Content"
+msgstr "Edukia"
+
+#: inc/buddypages-screens.php:84 inc/buddypages-screens.php:162
+msgid "Post In"
+msgstr "Sarrera mezua:"
+
+#: inc/buddypages-screens.php:91 inc/buddypages-screens.php:169
+msgid "Post Status"
+msgstr "Bidalketa egoera"
+
+#: inc/buddypages-screens.php:109
+#, fuzzy
+#| msgid "Save Changes"
+msgid "Save Page"
+msgstr "Gorde aldaketak"
+
+#: inc/buddypages-screens.php:113
+msgid "delete"
+msgstr "Ezabatu"
+
+#: inc/buddypages-screens.php:175
+msgid "Add Page"
+msgstr "Gehitu orrialdea"
+
+#: inc/buddypages-screens.php:201
+msgid "Posted in: "
+msgstr "-n argitaratua"
+
+#: inc/buddypages-screens.php:202
+#, fuzzy, php-format
+msgid "Permanent Link to edit %s"
+msgstr "Esteka Iraunkorrak %s editatzeko"
+
+#: inc/buddypages-screens.php:209
+msgid "Sorry, no pages created."
+msgstr "Sentitzen dut, ez dago orririk sortuta."
+
+#: loader.php:357
+#, php-format
+msgid ""
+"BuddyPages is missing requirements and has been <a href=\"%s\">deactivated</"
+"a>. Please make sure BuddyPress is installed and activated."
+msgstr ""
+"BuddyPages eskakizunak falta dira eta <a href=\"%s\">ezgaituak</a> izan "
+"dira. Mesedez ziurtatu BuddyPress instalatuta eta aktibatuta dagoela."
+
+#: loader.php:440 node_modules/wdsppf/core/loader-config.php:353
+#, php-format
+msgid "Check out %s from @pluginize"
+msgstr "Begiratu %s @pluginize -tik"
+
+#: loader.php:445
+msgid "Documentation"
+msgstr ""
+
+#: loader.php:449 node_modules/wdsppf/core/loader-config.php:355
+msgid "More plugins for your WordPress site here!"
+msgstr "Plugin gehiago zure WordPress gunerako hemen!"
+
+#: loader.php:454 loader.php:459 node_modules/wdsppf/core/loader-config.php:356
+#: node_modules/wdsppf/core/loader-config.php:357
+#: node_modules/wdsppf/core/loader-config.php:358
+msgid "Spread the word!"
+msgstr "Hitza zabaldu!"
+
+#: node_modules/wdsppf/core/loader-config.php:268
+#, fuzzy, php-format
+msgid ""
+"WDS Product Plugin Framework is missing requirements and has been <a href="
+"\"%s\">deactivated</a>. Please make sure all requirements are available."
+msgstr ""
+"Helpscout Scanner eskakizunak falta da eta  <a href=\"%s\">ezgaituta</a> "
+"izan da . Mesedez ziurtatu baldintza guztiak eskuragarri daudela."
+
+#: node_modules/wdsppf/core/vendor/helpscout/helpscout-dashboard-widget.php:209
+#, php-format
+msgid ""
+"Helpscout Scanner is missing requirements and has been <a href=\"%s"
+"\">deactivated</a>. Please make sure all requirements are available."
+msgstr ""
+"Helpscout Scanner eskakizunak falta da eta  <a href=\"%s\">ezgaituta</a> "
+"izan da . Mesedez ziurtatu baldintza guztiak eskuragarri daudela."
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:42
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:47
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:62
+msgid "Pluginize Support"
+msgstr "Pluginizeko laguntza"
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:58
+msgid ""
+"Thank you for choosing Pluginize! Here you can see our latest posts, search "
+"for help, or submit a ticket."
+msgstr ""
+"Eskerrik asko Pluginize aukeratzeagatik! Hemen gure azken bidalketak ikusi "
+"ahal izango dituzu, bilatu laguntzagatik, edo txartel bat aurkeztu."
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:59
+msgid ""
+"Pluginize products expand your ability to win the race with plugins used by "
+"companies looking for proven results."
+msgstr ""
+"Pluginize produktuak zure gaitasuna zabaltzen du lasterketa irabazteko "
+"plugin honekin frogatutako emaitzak bilatzen dituzten konpainiek erabilitakoa"
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:67
+msgid "Search Help Docs"
+msgstr "Bilatu laguntza dok-ak"
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:148
+msgid "Sorry, currently no news."
+msgstr "Sentitzen dut, une honetan ez dago berririk"
+
+#: node_modules/wdsppf/core/vendor/helpscout/includes/dashboard.php:165
+msgid "Sorry, currently no products."
+msgstr "Sentitzen dut, une honetan ez dago produkturik"
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:90
+msgid "Your server supports fsockopen."
+msgstr "Zure zerbitzariak fsockopen onartzen du."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:90
+msgid "Your server does not support fsockopen."
+msgstr "Zure zerbitzariak ez du fsockopen onartzen."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:91
+msgid "Your server supports cURL."
+msgstr "Zure zerbitzariak cURL onartzen du."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:91
+msgid "Your server does not support cURL."
+msgstr "Zure zerbitzariak ez du cURL onartzen."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:92
+msgid "Your server has the SOAP Client enabled."
+msgstr "Zure zerbitzariak SOAP bezeroa ahalbidetu du."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:92
+msgid "Your server does not have the SOAP Client enabled."
+msgstr "Zure zerbitzariak ez dauka SOAP Bezeroa gaituta."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:93
+msgid "Your server has SUHOSIN installed."
+msgstr "Zure zerbitzariak SUHOSIN instalatua dauka."
+
+#: node_modules/wdsppf/core/vendor/helpscout/views/system-info.php:93
+msgid "Your server does not have SUHOSIN installed."
+msgstr "Zure zerbitzariak ez dauka SUHOSIN instalatua."
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:219
+#, php-format
+msgid "There is a new version of %1$s available."
+msgstr ""
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:225
+msgid "Contact your network administrator to install the update."
+msgstr ""
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:230
+#, php-format
+msgid "%1$sView version %2$s details%3$s."
+msgstr ""
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:238
+#, php-format
+msgid "%1$sView version %2$s details%3$s or %4$supdate now%5$s."
+msgstr ""
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:249
+#, fuzzy
+#| msgid "Update Item"
+msgid "Update now."
+msgstr "Eguneratu Elementua"
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:476
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: vendor/edd-updater/EDD_SL_Plugin_Updater.php:476
+msgid "Error"
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:20
+#, fuzzy
+msgid "BuddyPages License"
+msgstr "BuddyPage ezarpenak"
+
+#: vendor/edd-updater/license-handler.php:40
+msgid "Thank you for activating your BuddyPages license."
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:45
+#, fuzzy
+msgid "License Key"
+msgstr "API Lizentzia gakoa"
+
+#: vendor/edd-updater/license-handler.php:49
+msgid "Enter your license key"
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:57
+#: vendor/edd-updater/license-handler.php:64
+#, fuzzy
+msgid "Activate License"
+msgstr "Desaktibatu API gako Lizentzia"
+
+#: vendor/edd-updater/license-handler.php:62
+#, fuzzy
+msgid "Deactivate License"
+msgstr "Desaktibatu API gako Lizentzia"
+
+#: vendor/edd-updater/license-handler.php:73
+#, fuzzy
+msgid "Status:"
+msgstr "Bidalketaren egoera zirriborroan"
+
+#: vendor/edd-updater/license-handler.php:76
+msgid "active"
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:138
+#: vendor/edd-updater/license-handler.php:176
+#: vendor/edd-updater/license-handler.php:219
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:149
+#, fuzzy, php-format
+msgid "Your license key expired on %s."
+msgstr "Zure zerbitzariak SOAP bezeroa ahalbidetu du."
+
+#: vendor/edd-updater/license-handler.php:155
+#, fuzzy
+msgid "Your license key has been disabled."
+msgstr "Zure zerbitzariak SOAP bezeroa ahalbidetu du."
+
+#: vendor/edd-updater/license-handler.php:159
+msgid "Invalid license."
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:164
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:168
+#, php-format
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: vendor/edd-updater/license-handler.php:172
+#, fuzzy
+msgid "Your license key has reached its activation limit."
+msgstr "Zure zerbitzariak SOAP bezeroa ahalbidetu du."
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+#, fuzzy
+#| msgid "http://pluginize.com"
+msgid "https://pluginize.com"
+msgstr "http://pluginize.com"
+
+#. Description of the plugin/theme
+msgid "Front end page creation for BuddyPress profiles and groups."
+msgstr "Front end orri sortzailea BuddyPress profil eta taldeentzako."
+
+#. Author of the plugin/theme
+#, fuzzy
+#| msgid "WebDevStudios"
+msgid "Pluginize from WebDevStudios"
+msgstr "WebDevStudios"
+
+#~ msgid "Edit Page"
+#~ msgstr "Orrialdea aldatu"
+
+#~ msgid "License Activation"
+#~ msgstr "Lizentzia Aktibazioa"
+
+#~ msgid "License Deactivation"
+#~ msgstr "Lizentzia desaktibazioa"
+
+#~ msgid ""
+#~ "<p>%sActivate%s your BuddyPages license here to receive support and "
+#~ "upgrade notifications.</p>"
+#~ msgstr ""
+#~ "<p> %sAktibatu%s zure BuddyPages lizentzia Hemen laguntza jasotzeko eta "
+#~ "jakinarazpenak berritzeko. </p>"
+
+#~ msgid ""
+#~ "<b>Warning!</b> You're blocking external requests which means you won't "
+#~ "be able to get %s updates. Please add %s to %s."
+#~ msgstr ""
+#~ "<b>Oharra</b>kanpoko eskaerak blokeatzen ari zara, horrek esan nahi du, "
+#~ "ez darela %s eguneraketak egiteko gai . Mesedez, gehitu %s %s ra."
+
+#~ msgid "API License Activation"
+#~ msgstr "API Lizentzia aktibazioa"
+
+#~ msgid "API License Key Status"
+#~ msgstr "API Lizentzia gako egoera"
+
+#~ msgid "API License email"
+#~ msgstr "API Lizentzia emaila"
+
+#~ msgid "API License Deactivation"
+#~ msgstr "API Lizentzia desaktibazioa"
+
+#~ msgid "Plugin activated. "
+#~ msgstr "Plugina aktibatuta."
+
+#~ msgid "Connection failed to the License Key API server. Try again later."
+#~ msgstr ""
+#~ "API lizentzia gakoen zerbitzarirako konexioa huts egin du. Saiatu berriro "
+#~ "beranduago."
+
+#~ msgid ""
+#~ "The license could not be deactivated. Use the License Deactivation tab to "
+#~ "manually deactivate the license before activating a new license."
+#~ msgstr ""
+#~ "Lizentzia ezin izan da desgaitu. Erabili lizentzia desgaitzeko fitxa "
+#~ "lizentzia eskuz desgaitzeko lizentzia berria gaitu baino lehen."
+
+#~ msgid "Plugin license deactivated. "
+#~ msgstr "Plugin lizentzia desgaitua."
+
+#~ msgid "Deactivates an API License Key so it can be used on another blog."
+#~ msgstr ""
+#~ "API Key License bat desaktibatzen beraz, beste blog batean erabili "
+#~ "daiteke."
+
+#~ msgid ""
+#~ "The license key for %s has expired. You can reactivate or purchase a "
+#~ "license key from your account <a href=\"%s\" target=\"_blank\">dashboard</"
+#~ "a>."
+#~ msgstr ""
+#~ "lizentzia%s gakoa iraungita dago. Berraktibattu ditzakezu edo "
+#~ "lizentziaren gako bat erosi dezakezu zure kontutik<a href=\"%s\" target="
+#~ "\"_blank\">Arbela</a> ."
+
+#~ msgid ""
+#~ "The subscription for %s is on-hold. You can reactivate the subscription "
+#~ "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza On-atxikitu da. Zure kontutik harpidetza berraktibatzeko "
+#~ "dezakezu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "The subscription for %s has been cancelled. You can renew the "
+#~ "subscription from your account <a href=\"%s\" target=\"_blank"
+#~ "\">dashboard</a>. A new license key will be emailed to you after your "
+#~ "order has been completed."
+#~ msgstr ""
+#~ "%s harpidetza bertan behera utzi da. Zure kontutik harpidetza berritu "
+#~ "dezakezu <a href=\"%s\" target=\"_blank\">Arbel</a> . lizentzia gako "
+#~ "berria bidaliko zaizu zure eskaera osatu da ondoren."
+
+#~ msgid ""
+#~ "The subscription for %s has expired. You can reactivate the subscription "
+#~ "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza iraungi da. Zure kontutik harpidetza berraktibatu dezakezu "
+#~ "<a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "The subscription for %s has been suspended. You can reactivate the "
+#~ "subscription from your account <a href=\"%s\" target=\"_blank"
+#~ "\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza eten egin da. Zure kontutik harpidetza berraktibatu "
+#~ "dezakezu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "The subscription for %s is still pending. You can check on the status of "
+#~ "the subscription from your account <a href=\"%s\" target=\"_blank"
+#~ "\">dashboard</a>."
+#~ msgstr ""
+#~ "%s for harpidetza oraindik. Duzu zure kontutik harpidetza egoera "
+#~ "egiaztatu dezakezu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "The subscription for %s has been placed in the trash and will be deleted "
+#~ "soon. You can purchase a new subscription from your account <a href=\"%s"
+#~ "\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza egin da zakarrontzi batean kokatzen da eta laster ezabatuko "
+#~ "dira. Zure kontutik harpidetza berri bat erosi ahal izango duzu <a href="
+#~ "\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "A subscription for %s could not be found. You can purchase a subscription "
+#~ "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza A ezin izan da aurkitu. Zure kontutik harpidetza bat erosi "
+#~ "ahal izango duzu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "A license key for %s could not be found. Maybe you forgot to enter a "
+#~ "license key when setting up %s, or the key was deactivated in your "
+#~ "account. You can reactivate or purchase a license key from your account "
+#~ "<a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "lizentzia%s gako bat ezin izan da aurkitu. Agian lizentzia gakoa sartzea "
+#~ "ahaztu duzu denean%s konfiguratzeko, edo gakoa zure kontuarekin ezgaituko "
+#~ "zen. Berraktibatzeko edo lizentziaren gako bat zure kontutik erosi "
+#~ "ditzakezu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "Download permission for %s has been revoked possibly due to a license key "
+#~ "or subscription expiring. You can reactivate or purchase a license key "
+#~ "from your account <a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "Download%s baimena ezeztatu egin ziurrenik lizentziaren gako bat edo "
+#~ "harpidetza iraungitzear. Berraktibatzeko edo lizentziaren gako bat zure "
+#~ "kontutik erosi ditzakezu <a href=\"%s\" target=\"_blank\">Arbel</a> ."
+
+#~ msgid ""
+#~ "%s has not been activated. Go to the settings page and enter the license "
+#~ "key and license email to activate %s."
+#~ msgstr ""
+#~ "%s ez da aktibatu. ezarpenak orrira eta sartu lizentzia gakoa eta "
+#~ "lizentzia email%s aktibatzeko."
+
+#~ msgid ""
+#~ "You changed the subscription for %s, so you will need to enter your new "
+#~ "API License Key in the settings page. The License Key should have arrived "
+#~ "in your email inbox, if not you can get it by logging into your account "
+#~ "<a href=\"%s\" target=\"_blank\">dashboard</a>."
+#~ msgstr ""
+#~ "%s harpidetza aldatu duzu, beraz, zure API Lizentzia ezarpenen orrian Key "
+#~ "berriak sartu ahal izango duzu. Lizentzia gakoa posta elektronikoko "
+#~ "sarrerako ontzian heldu behar, ez bada, lor dezakezu zure kontuan sartzen "
+#~ "<a href=\"%s\" target=\"_blank\">Arbel</a> ."

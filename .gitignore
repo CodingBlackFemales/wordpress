@@ -3,6 +3,8 @@ web/app/languages
 web/app/plugins/*
 !web/app/plugins/.gitkeep
 !web/app/plugins/buddyboss-*
+!web/app/plugins/buddypages
+web/app/plugins/buddypages/.git
 web/app/mu-plugins/*/
 web/app/themes/onepress/
 web/app/themes/twentytwentythree/

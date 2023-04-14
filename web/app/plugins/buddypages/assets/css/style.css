@@ -1,0 +1,23 @@
+#buddypress .pages-sub-nav {
+  overflow: hidden;
+  float: right;
+  padding-bottom: 10px;
+}
+
+#buddypress .pages-title {
+  display: inline-block;
+  width: 40%;
+}
+
+#buddypress .pages-posted-in {
+  display: inline-block;
+  width: 40%;
+}
+
+#buddypress .pages-edit {
+  float: right;
+}
+
+.bp-user.edit #buddypress a[id$="group-page"] {
+  display: none;
+}
