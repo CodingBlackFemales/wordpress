@@ -1,0 +1,138 @@
+# Copyright (C) 2022 WisdmLabs
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnDash Content Cloner 1.3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ld-content-cloner\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-04-08T11:56:53+05:30\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: ld-content-cloner\n"
+
+#. Plugin Name of the plugin
+msgid "LearnDash Content Cloner"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://wisdmlabs.com"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin clones LearnDash course content - the course along with the associated lessons and topics - for easy content creation."
+msgstr ""
+
+#. Author of the plugin
+msgid "WisdmLabs"
+msgstr ""
+
+#: admin/class-ldcc-admin.php:188
+msgid "No content in %s. %s duplication complete."
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:21
+#: includes/class-ldcc-bulk-rename.php:22
+#: includes/class-ldcc-bulk-rename.php:62
+msgid "%s Bulk Rename"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:107
+msgid "Post Type"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:107
+msgid "Post Title"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:107
+msgid "New Title"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:125
+msgid "Save New Titles"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:161
+msgid "( ID ) Select %s"
+msgstr ""
+
+#: includes/class-ldcc-bulk-rename.php:188
+msgid "Select Course"
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:52
+#: includes/class-ldcc-group.php:77
+msgid "Security check failed."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:57
+msgid "The current post is not a Course and hence could not be cloned."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:78
+msgid "Some error occurred. The Course could not be cloned."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:282
+msgid "The current post is not a Lesson or topic and hence could not be cloned."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:288
+msgid "The course ID provided with is incorrect for the lesson."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:341
+msgid "Some error occurred. The Lesson was not fully cloned."
+msgstr ""
+
+#: includes/class-ldcc-course-clone.php:443
+msgid "Some error occurred. The Quiz was not fully cloned."
+msgstr ""
+
+#: includes/class-ldcc-course.php:285
+#: includes/class-ldcc-group.php:61
+msgid "Clone %s"
+msgstr ""
+
+#: includes/class-ldcc-course.php:318
+#: includes/class-ldcc-group.php:217
+msgid "%s Cloning"
+msgstr ""
+
+#. translators: Link to group edit page.
+#: includes/class-ldcc-course.php:325
+#: includes/class-ldcc-group.php:225
+msgid "Click %s to edit the cloned %s"
+msgstr ""
+
+#. translators: Link to group edit page.
+#: includes/class-ldcc-course.php:325
+#: includes/class-ldcc-course.php:330
+#: includes/class-ldcc-group.php:225
+msgid "here"
+msgstr ""
+
+#: includes/class-ldcc-course.php:330
+msgid "Click %s to rename the cloned %s content"
+msgstr ""
+
+#: includes/class-ldcc-course.php:337
+msgid "Note: Remember to change the Title and Slugs for all the cloned Posts."
+msgstr ""
+
+#: includes/class-ldcc-group.php:82
+msgid "The current post is not a Group and hence could not be cloned."
+msgstr ""
+
+#: includes/class-ldcc-group.php:128
+msgid "Some error occurred. The Group could not be cloned."
+msgstr ""
+
+#: includes/class-ldcc-group.php:233
+msgid "Note: Remember to change the Title of the %s."
+msgstr ""

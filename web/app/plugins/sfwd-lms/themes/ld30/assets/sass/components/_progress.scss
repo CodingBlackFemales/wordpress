@@ -1,0 +1,81 @@
+.#{$namespace}-wrapper {
+	.ld-progress {
+		display:flex;
+		flex-direction:column;
+		margin:1em 0;
+		.ld-progress-heading {
+			display:flex;
+			justify-content:space-between;
+			font-size:0.75em;
+			line-height: 1em;
+			.ld-progress-label {
+				text-transform:uppercase;
+				font-weight:800;
+
+			}
+			.ld-progress-stats {
+				display:flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				.ld-progress-percentage {
+					text-transform:uppercase;
+					font-weight:800;
+					color:$green;
+					margin-right: 5px;
+				}
+			}
+		}
+		.ld-progress-bar {
+			height:7px;
+			background-color:$white;
+			border-radius:7px;
+			margin:5px 0;
+			overflow:hidden;
+			.ld-progress-bar-percentage {
+				height:7px;
+				background:$green;
+			}
+		}
+		&.ld-progress-inline {
+			flex-direction:row-reverse;
+			align-items:center;
+			.ld-progress-heading {
+
+			}
+			.ld-progress-bar {
+				flex:1 auto;
+				margin-right:1em;
+			}
+			.ld-status {
+				margin-left:1em;
+			}
+		}
+		@include for-phone {
+			.ld-progress-heading {
+				flex-direction:column;
+
+				&.ld-progress-inline {
+					flex-direction:column;
+				}
+			}
+		}
+	}
+	.ld-breadcrumbs + .ld-topic-status {
+		padding: 0;
+	}
+	&.learndash-widget {
+		.ld-progress {
+			flex-wrap: wrap;
+			.ld-progress-heading {
+				order:1;
+				flex-direction:column;
+				margin:0.25em 0;
+			}
+			.ld-progress-bar {
+				background-color:$border-grey;
+				width: 100%;
+				margin-right: 0;
+			}
+		}
+	}
+}

@@ -1,0 +1,86 @@
+/* Override legacy WPProQuiz styles from themes/legacy/templates/learndash_quiz_front.css */
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_addToplist {
+	margin-top: 10px;
+	background-color: rgb(0,162,232, 0.1);
+	padding: 10px;
+	border: 1px solid #00a2e8;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_toplistTable th {
+	background: #00a2e8;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_toplistTrOdd {
+	background-color: rgba(0,162,232, 0.1);
+}
+
+.learndash-wrapper .wpProQuiz_content a#quiz_continue_link:hover {
+    opacity: 0.75;
+    background-color: #019e7c;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button_reShowQuestion:hover,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button_restartQuiz:hover {
+	background-color: #019e7c;
+	opacity: 0.75;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewColor {
+	height: 15px;
+	width: 15px;
+	display: inline-block;
+	margin-right: 2px;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewColor_Answer {
+	background-color: #a1b6c9;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewColor_Review {
+	background-color: #ffd900;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewColor_AnswerCorrect {
+	background-color: #00c349;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewColor_AnswerIncorrect {
+	background-color: #f11414;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewDiv li.wpProQuiz_reviewQuestionTarget,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewLegend span.wpProQuiz_reviewQuestion_Target {
+	background-color: #ffffff;
+	color: #235af3;
+	outline: 2px solid #235af3;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewQuestion li.wpProQuiz_reviewQuestionSolved,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li.wpProQuiz_reviewQuestionSolved {
+	background-color: #a1b6c9;
+	color: #ffffff;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewQuestion li.wpProQuiz_reviewQuestionSolvedCorrect,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li.wpProQuiz_reviewQuestionSolvedCorrect {
+	background-color: #00c349;
+	color: #000000;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewQuestion li.wpProQuiz_reviewQuestionSolvedIncorrect,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li.wpProQuiz_reviewQuestionSolvedIncorrect {
+	background-color: #f11414;
+	color: #000000;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewQuestion li.wpProQuiz_reviewQuestionReview,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li.wpProQuiz_reviewQuestionReview {
+	background-color: #ffd900;
+	color: #000000;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_reviewQuestion li.wpProQuiz_reviewQuestionSkip,
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_box li.wpProQuiz_reviewQuestionSkip {
+	background-color: #ffd900;
+	color: #000000;
+}

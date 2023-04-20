@@ -1,0 +1,101 @@
+.wdm-license-table {
+	background-color: white;
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #e1e1e1;
+	font-size: 14px;
+}
+
+.wdm-license-table tbody tr:nth-child(1) {
+	border-bottom: 1px solid #e1e1e1;
+}
+
+.wdm-license-table tr:nth-child(even) {
+	background: #f9f9f9;
+}
+
+.wdm-license-table tr:nth-child(odd) {
+	background-color: #ffffff;
+}
+
+.wdm-license-table .product-name-head {
+	text-align: left;
+	width: 30%;
+	padding-left: 1%;
+}
+
+.product-name {
+	text-align: left;
+	width: 30%;
+	font-weight: bold;
+	padding-left: 1%;
+}
+
+.license-key-head, .license-key {
+	width: 30%;
+	text-align: left;
+}
+
+.license-status-head, .license-status {
+	width: 15%;
+	text-align: left;
+}
+
+.actions-head, .wdm-actions {
+	width: 15%;
+	text-align: left;
+	/*padding: 0px !important;*/
+}
+
+/*td {
+	padding: 0% !important;
+	}*/
+
+	.wdm-license-table tr {
+		line-height: 4;
+	}
+
+	.license-key > input {
+		width: 75%;
+	}
+
+	.wdm-license-table .button, .wdm-license-table .button:hover {
+		background: #0085ba;
+		border-color: #0073aa #006799;
+		color: #fff;
+		vertical-align: baseline;
+		font-size: 14px;
+	}
+
+	.wdm-link {
+		font-size: 1em;
+		text-align: left;
+		color: #0073aa;
+		background: none;
+		margin: 0;
+		padding: 0;
+		border: none;
+		cursor: pointer;
+		margin-right: 5%;
+	}
+
+	.wdm-link:hover {
+		color: #00a0d2;
+	}
+
+	#send_data + label {
+		font-size: 14px;
+		font-weight: bold;
+		vertical-align: initial;
+	}
+
+	#wpbody-content .wrap h2 {
+		margin-bottom: 1%;
+	}
+
+	#toplevel_page_wisdmlabs-licenses.current a.toplevel_page_wisdmlabs-licenses .wp-menu-image img {
+		opacity: 1;
+	}
+/*.license-key-head, .license-status-head, .actions-head, .license-status {
+	text-align: center !important;
+}*/

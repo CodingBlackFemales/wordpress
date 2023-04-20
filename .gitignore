@@ -5,6 +5,9 @@ web/app/plugins/*
 !web/app/plugins/buddyboss-*
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git
+!web/app/plugins/conditional-profile-fields-for-buddypress
+!web/app/plugins/ld-content-cloner
+!web/app/plugins/sfwd-lms
 web/app/mu-plugins/*/
 web/app/themes/onepress/
 web/app/themes/twentytwentythree/

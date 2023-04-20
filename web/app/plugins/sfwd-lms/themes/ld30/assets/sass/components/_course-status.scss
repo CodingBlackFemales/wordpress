@@ -1,0 +1,245 @@
+.#{$namespace}-wrapper {
+
+	.ld-course-status.ld-course-status-not-enrolled {
+		display:flex;
+		background: $light-grey;
+		padding: 1em 0;
+		margin: 1em 0;
+		border-radius: $border-radius;
+		> * {
+			flex:1 auto;
+			width: 33%;
+			justify-content: space-around;
+			text-align: center;
+			border-right: 2px solid #bec5cb;
+			padding:0 1em;
+			&:last-child {
+				border-right:0;
+			}
+		}
+		.ld-button {
+			margin:0;
+		}
+		.ld-status {
+			display:inline-block;
+			width:auto;
+		}
+		.ld-course-status-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
+			text-align: center;
+			margin-bottom: 0.5em;
+			line-height: 1.25em;
+		}
+		.ld-course-status-price {
+			display:flex;
+			align-items: center;
+			text-align: center;
+			justify-content: space-around;
+			font-size: 32px;
+			font-weight:bold;
+			color:$text-grey;
+			margin-top: -3px;
+			line-height:1;
+			.ld-text {
+				font-size: 18px;
+				margin-left: 8px;
+				font-weight: normal;
+			}
+			.ld-currency {
+				font-size: 16px;
+				margin-right: 0.25em;
+			}
+		}
+		.ld-course-status-label {
+			display:block;
+			color:$text-grey;
+			font-size:0.75em;
+			font-weight: bold;
+			margin-bottom: 1em;
+		}
+		.ld-course-status-action {
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			flex-wrap: wrap;
+			.ppalholder {
+				position: absolute;
+			}
+			.ld-text {
+				font-size: 14px;
+				color: $text-grey;
+				display: inline-block;
+				white-space:nowrap;
+				margin-right: 0.5em;
+				.ld-login-text {
+					display: inline-block;
+					margin-left: 5px;
+					text-decoration: underline;
+					font-weight: bold;
+
+				}
+			}
+			.learndash_checkout_buttons {
+				margin: 0 .5em;
+				@include for-phone {
+					margin-left: auto;
+				}
+			}
+			.learndash_checkout_button {
+
+			}
+			@include for-small-desktop {
+				flex-direction:column;
+				justify-content:flex-start;
+				align-items:center;
+				.learndash_checkout_buttons,
+				.learndash_checkout_button {
+					margin-right:0;
+				}
+				.learndash_checkout_button {
+					margin-bottom:0.5em;
+				}
+				.ld-text {
+					.ld-login-text {
+
+					}
+				}
+			}
+			#btn-join, .btn-join {
+				@include for-phone {
+					margin-left: auto;
+				}
+			}
+		}
+		.ld-course-status-seg-action.status-closed {
+			.ld-text {
+				white-space: normal;
+			}
+		}
+		@include for-phone {
+			flex-direction:column;
+			> * {
+				border-right:0;
+				border-bottom:1px solid $border-grey;
+				padding:1em 0;
+				width:auto;
+				&:last-child {
+					border-bottom:0;
+				}
+			}
+
+		}
+	}
+	.ld-course-status.ld-course-status-enrolled {
+		background-color:$light-grey;
+		border-radius:$border-radius;
+		padding:0.5em 1em;
+		display:flex;
+		.ld-progress {
+			margin:0;
+			padding:0;
+			flex:1;
+			padding-right:1em;
+
+		}
+		@include for-phone {
+			flex-direction:column;
+			.ld-progress {
+				flex-direction:column;
+				padding-right:0;
+				align-items:flex-start;
+				.ld-progress-heading {
+					display: block;
+					width: 100%;
+					text-align: center;
+				}
+				.ld-progress-stats {
+					flex-direction:column;
+					.ld-progress-steps {
+						margin-left:0;
+					}
+				}
+				.ld-progress-bar {
+					width:100%;
+					margin:1em 0;
+				}
+			}
+		}
+		.ld-status {
+			width: auto;
+			display: inline-block;
+			margin: 0 auto;
+		}
+	}
+	.ld-course-status {
+		.ld-status {
+			line-height:1.3;
+			&.ld-status-progress {
+				background: $blue;
+				color: #fff;
+			}
+			&.ld-status-complete {
+				background: $green;
+				color: #fff;
+			}
+		}
+	}
+	.ld-course-status-seg-price .ld-course-status-trial-price, .ld-course-status-seg-price .ld-course-status-course-price {
+		text-align: center;
+		width: 100%;
+	}
+	.ld-course-status-seg-price .ld-course-status-trial-price {
+		margin-bottom: 10px;
+	}
+	.ld-course-status-seg-price .ld-course-status-content .ld-text {
+		font-size: 16px;
+		margin-bottom: 0px;
+	}
+	.ld-course-status-seg-price .ld-course-status-content .ld-pricing {
+		font-size: 12px;
+	}
+	.ld-course-certificate {
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 1em 0;
+		.ld-button {
+			display: inline-block;
+			max-width: inherit;
+			font-size: 14px;
+		}
+		.ld-icon-certificate {
+			font-size: 24px;
+			margin-right: 5px;
+		}
+	}
+
+}
+
+/**
+/// This is inserted outside our wrapper and with a generic name
+**/
+.jq-dropdown-menu {
+	box-shadow: 0 0 0 1px #ddd !important;
+	input[type='button'],
+	input[type='submit'] {
+		@include btn-reset;
+		display: block !important;
+		width: 100% !important;
+		color: $blue;
+		padding: 0.5em 1em;
+		text-align: center;
+		font-size: 14px !important;
+		&:hover {
+			background: #fafafa !important;
+			color: $text-dark-grey !important;
+		}
+	}
+	.ppalholder {
+		display: none;
+	}
+}

@@ -1,0 +1,79 @@
+.#{$namespace}-wrapper {
+    .ld-user-status.ld-is-widget {
+        margin: 30px 0;
+        .ld-item-list .ld-item-list-item {
+            border: 0;
+            border-bottom: 2px solid $light-grey;
+            border-radius: 0;
+            padding: 10px 0;
+            margin: 10px 0;
+            &:last-child {
+                border-bottom: 0;
+            }
+            .ld-item-list-item-preview {
+                padding: 0;
+                .ld-item-title {
+                    font-size: 14px;
+                    line-height: 1.5em;
+                }
+                .ld-item-components {
+                    margin-top: 10px;
+                    span {
+                        display: block;
+                        margin: 0 0 5px 0;
+                        font-size: 12px;
+                        line-height: 1.5em;
+                    }
+                    span.ld-sep {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .ld-pagination {
+            justify-content: flex-start;
+        }
+    }
+    /*
+    .ld-course-info {
+        .ld-section-heading {
+            font-size: 0.8em;
+            font-style: italic;
+            display: block;
+            margin: 0.5em 0;
+        }
+        .ld-item-list-item {
+            border: 0;
+            padding: 0 0 10px 0;
+            margin: 0 0 10px 0;
+            border-bottom: 1px solid $border-grey;
+            &:last-child {
+                border-bottom: 0;
+            }
+            .ld-item-list-item-preview {
+                flex-wrap: wrap;
+                padding: 0;
+            }
+            a.item-name {
+                width: 100%;
+            }
+            .ld-course-title {
+                font-size: .875em;
+                line-height: 1.3em;
+            }
+            .ld-item-details {
+                margin-top: 10px;
+                display: block;
+                text-align: left;
+                .ld-progress-steps {
+                    font-size: 12px;
+                    color: $text-grey;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+        .ld-table-list-item-preview {
+            display: flex;
+        }
+    }*/
+}

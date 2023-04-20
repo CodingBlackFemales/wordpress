@@ -1,0 +1,132 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+.ui-dialog {
+	z-index: 999999 !important;
+}
+
+.ui-widget-overlay {
+	z-index: 99999 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	border-width: 0 0 1px;
+	margin-bottom: 10px;
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 1em;
+}
+#ldcc-dialog, #ldcc-group-dialog {
+	clear: left;
+}
+#ldcc-dialog .ldcc-success, #ldcc-dialog .ldcc-notice,
+#ldcc-group-dialog .ldcc-success, #ldcc-group-dialog .ldcc-notice {
+	display: none;
+}
+
+#ldcc-dialog .ldcc-success,#ldcc-group-dialog .ldcc-success {
+	background-color: #c0e3cf;
+	font-size: 15px;
+	margin: 20px 0;
+	padding: 10px;
+}
+
+#ldcc-dialog .ldcc-success > div,#ldcc-group-dialog .ldcc-success > div {
+	margin-bottom: 5px;
+}
+
+#ldcc-dialog .ldcc-notice,#ldcc-group-dialog .ldcc-notice {
+	font-weight: 600;
+}
+
+.ldcc-course-link,
+.ldcc-group-link,
+.ldcc-course-rename-link {
+	font-weight: 600;
+}
+
+.ldcc-course-link:hover,
+.ldcc-course-rename-link:hover {
+	color: #333;
+}
+
+#ldcc-dialog .ldcc-error, #ldcc-group-dialog .ldcc-error {
+	background-color: #e3c0c0;
+	font-size: 15px;
+	margin: 20px 0;
+	padding: 10px;
+}
+
+.ldcc-course-progress::before,
+#ldcc-dialog div[class^="ldcc-lesson-"]:before,
+#ldcc-dialog div[class^="ldcc-quiz-"]:before {
+	content: "";
+	display: table;
+}
+.ldcc-course-progress::after,
+#ldcc-dialog div[class^="ldcc-lesson-"]:before,
+#ldcc-dialog div[class^="ldcc-quiz-"]:before {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+.ldcc-course-progress {
+	border-bottom: 1px dotted #ddd;
+	padding: 0 0 5px;
+}
+
+.ldcc-course-progress > span {
+	display: inline-block;
+	font-size: 16px;
+	padding: 5px 0;
+}
+
+.ldcc-course-progress > img {
+	float: right;
+	height: 30px;
+	width: 30px;
+}
+
+#ldcc-dialog div[class^="ldcc-lesson-"],
+#ldcc-dialog div[class^="ldcc-quiz-"] {
+	border-bottom: 1px dotted #ddd;
+	padding: 10px 0;
+}
+
+
+#ldcc-dialog div[class^="ldcc-lesson-"] img,
+#ldcc-dialog div[class^="ldcc-quiz-"] img {
+	float: right;
+	height: 20px;
+	width: 20px;
+}
+
+#ldcc-dialog div[class^="ldcc-lesson-"] span,
+#ldcc-dialog div[class^="ldcc-quiz-"] span,
+#ldcc-dialog div.ldcc-course-progress span {
+	width: 90%;
+}
+
+#ldcc-dialog #ldcc_clone_status {
+	max-height: 220px;
+	overflow-y: auto;
+	padding-right: 10px;
+}
+
+.hide_extra_close.ui-dialog-titlebar-close {
+	background-color: transparent;
+    border: none;
+    top: 25% !important;
+    right: 1em !important;
+}
+
+.ui-button.ui-dialog-titlebar-close {
+	overflow: visible !important;
+}
+
+.ui-widget-header .ui-icon {
+	display: none;
+}

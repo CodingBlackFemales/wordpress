@@ -1,0 +1,336 @@
+.#{$namespace}-wrapper {
+	.ld-group-list {
+		margin-bottom: 2em;
+	}
+	.ld-item-list {
+		margin: 2em 0 1em 0;
+		.ld-table-list.ld-no-pagination {
+			border-bottom: 0 !important;
+		}
+		.ld-item-list-content {
+			padding: 1.5em;
+		}
+		.ld-section-heading {
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+			align-items:center;
+			h3 {
+				font-weight:bold;
+			}
+			.ld-item-list-actions {
+				display:flex;
+				align-items:center;
+				width:100%;
+				.ld-progress {
+					flex:1;
+					.ld-progress-stats {
+						align-items:flex-end;
+					}
+					.ld-progress-label {
+						text-transform:none;
+						font-size:1.5em;
+					}
+					.ld-progress-bar {
+						background-color:$border-grey;
+					}
+
+				}
+				.ld-expand-button {
+					margin-left:1em;
+				}
+			}
+			@include for-phone {
+				h2,h3 {
+					text-align: center;
+					margin-bottom: 10px;
+				}
+				.ld-item-list-actions {
+					.ld-expand-button {
+						margin: 10px auto;
+					}
+				}
+			}
+			.ld-search-prompt {
+				display:flex;
+				color:$text-grey;
+				cursor:pointer;
+				font-weight:800;
+				font-size:0.875em;
+				transition:color 0.3s ease;
+				border: none;
+				padding: 0 10px 0 0;
+				margin: 0;
+				.ld-icon {
+					width:20px;
+					height:20px;
+					margin-left:5px;
+					font-size: 1.4em;
+				}
+				&:hover {
+					color:$blue;
+					text-decoration: none;
+				}
+			}
+		}
+		.ld-item-search {
+			height:auto;
+			max-height:0px;
+			transition:max-height 0.3s ease;
+			overflow:hidden;
+			h4 {
+				margin:0;
+				margin-bottom:0.5em;
+				font-weight:bold;
+			}
+			.ld-closer {
+				position:absolute;
+				top:10px;
+				right:15px;
+				cursor: pointer;
+				font-weight:700;
+				display:flex;
+				font-size:0.625em;
+				&:before {
+					content:'x';
+					margin-right:0.25em;
+				}
+			}
+			.ld-item-search-wrapper {
+				padding:12px;
+				position:relative;
+				background:$border-grey;
+				border-radius:$border-radius;
+				margin:1em 0;
+				@include pointer;
+				overflow:visible;
+				&:before {
+					background:$border-grey;
+					z-index:9;
+					left:auto;
+					right: 175px;
+				}
+				@include for-phone {
+					&:before {
+						left:20px;
+						right:auto;
+					}
+				}
+			}
+			.ld-item-search-fields {
+				display:flex;
+				align-items:flex-end;
+				justify-content:space-between;
+				> * {
+					flex:1;
+					padding-right:1em;
+				}
+				label {
+					display:block;
+					margin-bottom:0.5em;
+					font-size:0.875em;
+					color:$text-grey;
+				}
+				input,
+				select {
+					height:30px;
+					border:2px solid $grey-on-grey;
+					background:$white;
+					border-radius:0;
+					width:100%;
+					padding:0 0.5em;
+				}
+				.ld-item-search-name {
+					position: relative;
+					.ld-reset-button {
+						position: absolute;
+						right: 18px;
+						bottom: 24px;
+						font-weight: 700;
+						font-size: 12px;
+						background-color: rgba( 0, 0, 0, 0 );
+						height: 23px;
+						padding: 0 1em;
+						line-height: 24px;
+						color: $text-grey;
+						text-decoration: none;
+						display: inline-block;
+						top: 41px;
+						&::before {
+							content: 'x';
+							margin-right: 0.25em;
+							display: inline-block;
+						}
+						@include for-phone {
+							right: 2px;
+						}
+					}
+					input[type=text] {
+						font-size: 20px;
+						line-height: 31.5px;
+						width:100%;
+					}
+				}
+				.ld-item-search-status {
+
+				}
+				.ld-item-search-submit {
+					flex:0 0 100px;
+					padding-right:0;
+
+					.ld-button {
+						height:30px;
+						justify-content:center;
+						border: 0;
+						@include button;
+						margin: 0;
+					}
+				}
+				@include for-phone {
+					flex-direction:column;
+					> * {
+						width:100%;
+						margin-bottom:1em;
+						padding-right:0;
+					}
+					.ld-item-search-submit {
+						justify-content:center;
+						flex:1;
+						.ld-button {
+							margin:auto;
+						}
+					}
+				}
+			}
+		}
+		.ld-item-list-item {
+			border:2px solid $border-grey;
+			border-radius:$border-radius;
+			margin: 1em 0;
+			background: #fff;
+			&.ld-is-next {
+				border-color: $blue;
+			}
+			.ld-item-list-item-preview {
+				padding:20px;
+				display:flex;
+				justify-content:space-between;
+				align-items:center;
+				.ld-status-icon {
+					margin-right:0.5em;
+					margin-top: 0.25em;
+				}
+			}
+			.ld-item-name {
+				display:flex;
+				flex: 1 1 100%;
+				align-items:top;
+				color:$text-dark-grey;
+				@include for-phone {
+					flex:1;
+				}
+			}
+			.ld-sep {
+				color: $border-grey;
+				padding: 0 0.5em;
+			}
+			a.ld-item-name {
+				&:hover {
+					color:$blue;
+					.ld-item-title {
+						.ld-item-components {
+							color:$text-grey;
+						}
+
+					}
+				}
+			}
+
+			.ld-item-title {
+				.ld-item-components {
+					font-weight:700;
+					display:block;
+					font-size:0.825em;
+					margin-top: 0.5em;
+					color: $text-grey;
+				}
+				.ld-status {
+					display:inline-block;
+					font-size: 0.825em;
+				}
+				.ld-item-component + .ld-status {
+					margin-left: 0.5em;
+				}
+			}
+
+			.ld-item-details {
+				display:flex;
+				align-items:center;
+				justify-content:flex-end;
+				.ld-expand-button {
+					margin-left:1em;
+				}
+				.ld-certificate-link {
+					margin-right: 15px;
+					font-size: 26px;
+					color: $green;
+				}
+			}
+
+			.ld-item-list-item-expanded {
+				position:relative;
+				height:auto;
+				max-height:0px;
+				overflow:hidden;
+				transition:max-height 0.5s ease;
+				@include pointer;
+				&:before {
+					left:64px;
+				}
+				.ld-progress {
+					background:$border-grey;
+					padding:2em 4.125em;
+				}
+				.ld-item-contents {
+					padding:2em 4.125em;
+				}
+				.ld-progress {
+					margin-top:0;
+				}
+			}
+
+		}
+
+		@include for-phone {
+			.ld-item-list-item {
+				.ld-item-list-item-preview {
+					flex-direction:column;
+					align-items:flex-start;
+					.ld-item-details {
+						margin-top:0;
+						margin-left:2em;
+						.ld-status {
+							margin-left:0;
+							margin-right:1em;
+						}
+						.ld-expand-button {
+							margin-left:0;
+						}
+					}
+
+				}
+				.ld-item-list-item-expanded {
+					.ld-progress,
+					.ld-item-contents {
+						padding:2em 1em;
+
+					}
+
+					.ld-item-contents {
+						padding-top:0;
+					}
+				}
+			}
+		}
+	}
+}

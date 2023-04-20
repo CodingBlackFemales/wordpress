@@ -1,0 +1,211 @@
+.#{$namespace}-wrapper {
+	.ld-profile-summary {
+		margin: 2em 0;
+		.ld-profile-card {
+			display:flex;
+			flex-direction:column;
+			align-items:center;
+			width:100%;
+			margin:1.5em 0;
+			.ld-profile-avatar {
+				width:150px;
+				height:150px;
+				border:5px solid $border-grey;
+			}
+			.ld-profile-heading {
+				font-size:2em;
+				font-weight:800;
+				margin:5px 0;
+			}
+			.ld-profile-edit-link {
+				color:$text-grey;
+				font-size:14px;
+			}
+		}
+		.ld-profile-stats {
+			display:flex;
+			justify-content:center;
+			.ld-profile-stat {
+				flex:0 0 90px;
+				text-align:center;
+				border-right:1px solid $border-grey;
+				padding:0 12px;
+				strong {
+					display:block;
+					font-size:36px;
+					margin-bottom: 8px;
+					font-weight:800;
+				}
+				span {
+					color:$text-grey;
+					font-size:14px;
+				}
+
+				&:last-child {
+					border-right:0;
+				}
+			}
+		}
+	}
+	#ld-profile {
+		.ld-section-heading {
+			margin-bottom: 0em;
+		}
+		.ld-quiz-list {
+			.ld-table-list-item-preview + .ld-table-list-item-expanded {
+				margin-top: -20px;
+				.ld-essay-list {
+					margin-top: 0;
+				}
+			}
+		}
+		button.ld-icon-search.ld-icon {
+			background-color: transparent;
+			color: $text-grey;
+			font-size: 1.5em;
+			border: none;
+			margin-right: -15px;
+			&:hover {
+				transition: .5 ease-in-out;
+				color: #333;
+			}
+			&.ld-expanded {
+				color: #333;
+				transition: .5 ease-in-out;
+			}
+		}
+		.ld-item-list-item-preview {
+			.ld-status {
+				white-space: nowrap;
+			}
+		}
+		@include for-phone {
+			.ld-section-heading {
+
+				.ld-item-list-actions {
+					justify-content:space-between;
+				}
+				.ld-expand-button {
+					margin: 10px 0;
+					max-width:120px;
+
+				}
+			}
+			.ld-profile-stats {
+				flex-wrap: wrap;
+				.ld-profile-stat {
+					width: 50%;
+					border: 0;
+					flex: 1;
+					margin: 0 0 2em 0 !important;
+					padding: 0 1em !important;
+				}
+			}
+		}
+	}
+}
+
+#wpProQuiz_overlay_close {
+	@include button;
+	max-width:180px;
+}
+#wpProQuiz_user_content {
+	h2 {
+		border-bottom: 2px solid $light-grey;
+		font-size: 24px;
+		padding:0.5em 0;
+		+ h2 {
+			font-size:18px;
+			border-bottom:0;
+		}
+	}
+	table.wp-list-table {
+		border-radius: 8px;
+		border-collapse: collapse;
+		background: transparent;
+		border: 0;
+		tr,td,th {
+			background: transparent;
+		}
+		thead th {
+			background: $blue;
+			color: #fff;
+			border-bottom: 0;
+			padding: 25px 15px;
+			font-size: 14px;
+			line-height: 1;
+			white-space: nowrap;
+			&:first-child {
+				border-radius: 8px 0 0 0;
+			}
+			&:last-child {
+				border-radius: 0 8px 0 0;
+			}
+		}
+		tbody {
+			tr.categoryTr {
+				th {
+					background: $light-grey;
+					padding: 15px;
+					border-bottom: 1px solid $light-grey;
+					line-height: 1;
+					white-space: nowrap;
+					text-align: center;
+					&:first-child,
+					&:only-child {
+						text-align: left;
+					}
+				}
+			}
+			tr {
+				th {
+					p {
+						margin: 0 0 5px 0;
+					}
+					padding: 15px;
+					font-weight: normal;
+					font-size: 16px;
+					text-align: center;
+					&:first-child {
+						box-shadow: inset 3px 0 0 0 $light-grey;
+					}
+					&:last-child {
+						box-shadow: inset -3px 0 0 0 $light-grey;
+					}
+					&:nth-child(2) {
+						text-align: left;
+					}
+					&:only-child {
+						box-shadow: inset -3px 0 0 0 $light-grey, inset 3px 0 0 0 $light-grey;
+					}
+				}
+				&.categoryTr {
+					th {
+						&:nth-child(2) {
+							text-align:center;
+						}
+					}
+				}
+			}
+		}
+		tfoot {
+			tr {
+				border-bottom: 0;
+				th {
+					background: $light-grey;
+					border: 0;
+					padding: 15px;
+					font-weight: normal;
+					font-size: 16px;
+					text-align: center;
+					&:first-child {
+						border-radius: 0 0 0 8px;
+					}
+					&:last-child {
+						border-radius: 0 0 8px 0;
+					}
+				}
+			}
+		}
+	}
+}

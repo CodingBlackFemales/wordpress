@@ -1,0 +1,128 @@
+
+$purple: #4d1081;
+$orange: #ca5116;
+$pink: #f495e8;
+
+/*
+* Primary color
+*/
+
+.learndash-wrapper .ld-item-list-item.ld-is-next {
+	border-color: $purple;
+}
+
+.learndash-wrapper .ld-icon-certificate {
+	color: $purple;
+}
+
+.learndash-wrapper a {
+	color:$purple;
+}
+
+.learndash-wrapper .ld-tabs .ld-tabs-navigation .ld-tab.ld-active {
+	color:$purple;
+}
+
+.learndash-wrapper .ld-tabs .ld-tabs-navigation .ld-tab.ld-active:after {
+	background:$purple;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_button {
+	background-color:$purple;
+}
+
+.learndash-wrapper .ld-button,
+.learndash-wrapper .ld-expand-button {
+	background-color:$purple;
+}
+
+.learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem label:focus-within {
+	border-color:$purple;
+}
+
+.learndash-wrapper .btn-join,
+.learndash-wrapper #btn-join {
+	background-color:$purple;
+}
+
+
+/* Primary color utility classes */
+.learndash-wrapper .ld-primary-color {
+	color:$purple!important;
+}
+
+.learndash-wrapper .ld-primary-color-hover:hover {
+	color:$purple !important;
+}
+
+.learndash-wrapper .ld-primary-background {
+	background-color:$purple !important;
+}
+
+
+/*
+* Secondary color
+*/
+
+.learndash-wrapper .ld-status-complete {
+	background-color:$orange;
+}
+
+.learndash-wrapper .learndash_mark_complete_button,
+.learndash-wrapper #learndash_mark_complete_button {
+	background-color:$orange;
+}
+
+/* Secondary color utility classes */
+
+.learndash-wrapper .ld-secondary-color {
+	color:$orange !important;
+}
+
+.learndash-wrapper .ld-secondary-background {
+	background-color:$orange !important;
+}
+
+.learndash-wrapper .ld-secondary-color-hover:hover {
+		color:$orange !important;
+}
+
+
+.learndash-wrapper .ld-secondary-in-progress-icon {
+	border-left-color:$orange !important;
+	border-top-color:$orange !important;
+
+}
+
+
+/*
+* Tertiary color
+*/
+
+
+.ld-alert-warningg .ld-alert-icon { background-color:$pink; } // cspell:disable-line
+.ld-status-waiting { background-color:$pink; }
+
+
+#learndash-tooltips .ld-tooltip {
+	background-color:$purple;
+}
+
+#learndash-tooltips .ld-tooltip:after {
+	background-color:$purple;
+}
+
+/* Tertiary color utility classes */
+
+.learndash-wrapper .ld-tertiary-color {
+	color:$pink !important;
+}
+
+.learndash-wrapper .ld-tertiary-background {
+	background-color:$pink !important;
+	color:white;
+}
+
+.learndash-wrapper .ld-tertiary-color-hover:hover {
+	color:$pink !important;
+}

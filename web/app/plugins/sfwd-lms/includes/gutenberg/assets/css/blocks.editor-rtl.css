@@ -1,0 +1,152 @@
+.edit-post-visual-editor .wp-block span.learndash-inner-header {
+	display: none;
+}
+
+.edit-post-visual-editor .wp-block.is-selected span.learndash-inner-header,
+.edit-post-visual-editor .wp-block.has-child-selected span.learndash-inner-header {
+	display: block;
+	opacity: .65;
+	font-size: .65em;
+	border-bottom: 1px solid rgba(66,88,99,.4);
+}
+
+.edit-post-visual-editor div[data-type="learndash/ld-course-list"],
+.edit-post-visual-editor div[data-type="learndash/ld-course-list"],
+.edit-post-visual-editor div[data-type="learndash/ld-lesson-list"],
+.edit-post-visual-editor div[data-type="learndash/ld-topic-list"],
+.edit-post-visual-editor div[data-type="learndash/ld-quiz-list"] {
+	padding-top: 10px;
+}
+
+/* Specific styles for the course list block output within the Gutenberg editor */
+.edit-post-visual-editor div[data-type="learndash/ld-course-list"] .ld-course-list-items h2.ld-entry-title {
+	margin-top: 0;
+	margin-bottom: 0;
+	clear: both;
+	width: 100%;
+}
+
+.edit-post-visual-editor .learndash-block-error-message,
+.block-editor-block-inspector .learndash-block-error-message,
+#learndash_shortcodes_sections .learndash-block-error-message {
+	display: block;
+	color: red;
+}
+
+.components-panel .learndash-block-controls-panel select[multiple] {
+	height: max-content !important;
+}
+
+.learndash-exam-question {
+	background-color: transparent;
+}
+
+.learndash-exam-question-empty-title, .learndash-exam-question-empty-correct, .learndash-exam-question-empty-answers {
+	display: none;
+	font-size: 0.8em;
+	color: #ff2b2b;
+	font-weight: bold;
+}
+
+.is-selected .learndash-exam-question-empty-title {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+}
+
+.is-selected .learndash-exam-question-empty-correct {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+}
+
+.is-selected .learndash-exam-question-empty-answers {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	bottom: 100%;
+}
+
+.learndash-exam-question-flexbox {
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: flex-start;
+	padding-bottom: 30px;
+}
+
+div.learndash-exam-question-answers-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+div.learndash-exam-question-single-answer {
+	display: flex;
+	gap: 5px;
+}
+
+.ld_exam .learndash-exam-question-single-answer span {
+	vertical-align: middle;
+}
+
+div.learndash-exam-question-single-answer .learndash-exam-question-single-answer-delete {
+	min-width: 36px;
+	visibility: hidden;
+}
+
+.wp-block[data-type="learndash/ld-question-answers-block"].is-selected .learndash-exam-question-single-answer-delete {
+	visibility: initial;
+}
+
+span.learndash-exam-question-answer-toggle {
+	margin-right: auto
+}
+
+span.learndash-exam-question-answer-input {
+	display: inline-block;
+	width: 100%;
+}
+
+button.learndash-exam-question-answer-toggle-button {
+	width: 80px;
+	justify-content: center;
+}
+
+div.wp-block[data-type="learndash/ld-exam-question"].has-child-selected div.wp-block[data-type="learndash/ld-correct-answer-message-block"],
+div.wp-block[data-type="learndash/ld-exam-question"].has-child-selected div.wp-block[data-type="learndash/ld-incorrect-answer-message-block"] {
+  display: inherit;
+  margin-top: 1em;
+}
+
+div.wp-block[data-type="learndash/ld-correct-answer-message-block"], div.wp-block[data-type="learndash/ld-incorrect-answer-message-block"] {
+  display: none;
+}
+
+div.wp-block[data-type="learndash/ld-exam"] .block-editor-block-list__layout .block-list-appender {
+	display: flex;
+	position: absolute;
+	left: calc(50% - 24px);
+}
+
+div.wp-block[data-type="learndash/ld-exam-question"] .learndash-exam-question-empty-title {
+	display: none;
+}
+
+div.wp-block[data-type="learndash/ld-exam-question"] .learndash-exam-question-empty-answers {
+	display: none;
+}
+
+div.wp-block[data-type="learndash/ld-exam-question"] .learndash-exam-question-allow-validations.learndash-exam-question-empty-title {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+}
+
+div.wp-block[data-type="learndash/ld-exam-question"] .learndash-exam-question-allow-validations .learndash-exam-question-empty-answers {
+	display: inline-block;
+	position: absolute;
+	left: 90px;
+	bottom: 45px;
+}

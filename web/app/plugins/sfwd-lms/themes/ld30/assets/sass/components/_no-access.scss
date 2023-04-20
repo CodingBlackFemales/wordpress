@@ -1,0 +1,73 @@
+
+/**
+ * No Access
+ */
+
+.learndash-not-available,
+.user_has_no_access {
+	.ld-table-list-item-preview,
+	.ld-lesson-item-preview,
+	.ld-item-list-item-preview {
+		cursor: not-allowed;
+		pointer-events: none;
+		a.ld-lesson-item-preview-heading,
+		a.ld-item-name {
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+		.ld-expand-button {
+			pointer-events: all;
+		}
+	}
+	a.ld-topic-row {
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+	&.is_sample {
+		.ld-lesson-item-preview,
+		.ld-item-list-item-preview {
+			cursor:pointer;
+			pointer-events:all;
+			a.ld-lesson-item-preview-heading,
+			a.ld-item-name {
+				cursor:pointer;
+				pointer-events:all;
+			}
+		}
+	}
+}
+
+/** Make ld_course_list links clickable in Quiz results messages */
+.user_has_no_access {
+	.wpProQuiz_resultsList {
+		.ld-item-list-item-preview {
+			a.ld-item-name {
+				cursor: pointer;
+				pointer-events: all;
+			}
+		}
+	}
+}
+
+/** Force open sample content **/
+.ld-topic-list.is_sample,
+.ld-lesson-item.is_sample,
+.ld-item-list-item.is_sample {
+	.ld-table-list-item-preview,
+	.ld-lesson-item-preview,
+	.ld-item-list-item-preview {
+		cursor:pointer;
+		pointer-events:all;
+		a.ld-lesson-item-preview-heading,
+		a.ld-item-name {
+			cursor:pointer;
+			pointer-events:all;
+		}
+	}
+	a.ld-lesson-item-preview,
+	a.ld-table-list-item-preview,
+	a.ld-topic-row {
+		cursor: pointer !important;
+		pointer-events: all !important;
+	}
+}

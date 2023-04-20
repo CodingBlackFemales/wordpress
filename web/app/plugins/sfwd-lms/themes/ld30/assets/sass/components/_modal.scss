@@ -1,0 +1,334 @@
+.#{$namespace}-wrapper {
+	.learndash-wrapper-login-modal {
+		position: relative;
+	}
+	.ld-modal {
+		position:absolute;
+		// top:50vh;
+		// left:50%;
+		transform:translateY(-50%)  translateX(-50%);
+		z-index:999;
+		width:100%;
+		z-index: 9000;
+		max-width:1024px;
+		min-height:300px;
+		background:white;
+		border-radius:$border-radius;
+		overflow:hidden;
+		overflow-y:auto;
+		box-shadow: -3px -3px 20px rgba(black, 0.14);
+		opacity:0;
+		visibility:hidden;
+		transition:all 0.3s ease;
+		.ld-modal-closer {
+			position:absolute;
+			top:0.5em;
+			right:0;
+			z-index:9;
+			color:$text-grey;
+			cursor:pointer;
+			line-height:0.5;
+			padding:1em;
+			font-size:1.5em;
+		}
+		&.ld-can-register {
+			.ld-modal-closer {
+				color: #fff;
+			}
+		}
+	}
+	&.ld-modal-closed {
+		display: none !important;
+	}
+	&.ld-modal-open {
+		.ld-modal {
+			opacity:1;
+			visibility:visible;
+		}
+
+	}
+	.ld-login-modal {
+		display:flex;
+		text-align:center;
+		margin: 25% 50% 20px 50%;
+
+		/*
+		.ld-alert {
+			padding: 10px;
+			margin: 10 auto;
+			.ld-alert-icon {
+				position: relative;
+				left: 0;
+				top: 0;
+			}
+		}
+		*/
+		.ld-modal-heading {
+			font-weight:300;
+			font-size:2.25em;
+			margin:0;
+			margin:0.5em 0;
+		}
+		.ld-login-modal-wrapper {
+			padding: 20px;
+			max-width: 350px;
+			min-width: 80%;
+			margin: 0 auto;
+		}
+		.ld-login-modal-login {
+			flex:1;
+			background:$white;
+			display:flex;
+			flex-direction:column;
+			justify-content:center;
+			.ld-modal-heading {
+				color:$blue;
+			}
+			.ld-modal-text {
+				color:$text-grey;
+				font-size:0.875em;
+			}
+		}
+		.ld-login-modal-register {
+			flex:1;
+			background:$blue;
+			display:flex;
+			flex-direction:column;
+			justify-content:center;
+			color:$white;
+			.ld-button {
+				&:hover {
+					opacity:1;
+					box-shadow: 0 0 0 5px #fff !important;
+				}
+			}
+			label {
+				display: block;
+				font-weight: bold;
+				margin-bottom: 0.5em;
+				font-size: 14px;
+			}
+			#ld-user-register {
+				margin: 2em 0;
+			}
+			input[type='text'],
+			input[type='password'],
+			input[type='email'] {
+				border:2px solid #fff;
+				margin:0;
+				margin-bottom:1em;
+				padding:0;
+				padding:0.5em;
+				background-color: #f9f9f9;
+				padding-left:2em;
+				font-size:1.2em;
+				width: 100%;
+				transition: all ease-in-out 250ms;
+				&:focus {
+					background: #fff;
+				}
+			}
+
+			#reg_passmail {
+				font-size: 0.825em;
+			}
+			#wp-submit {
+				margin: 0 auto;
+				min-width:150px;
+				text-align:center;
+				justify-content:center;
+				border: 0;
+				padding: 7px 35px;
+				border-radius: 20px;
+				font-weight: bold;
+				font-size: 14px;
+				border: 5px solid #fff;
+			}
+		}
+		.ld-login-modal-form {
+			margin:2em 0;
+			form {
+				display:flex;
+				flex-direction:column;
+
+			}
+			p {
+				margin: 0;
+				&.login-submit {
+					text-align: center;
+				}
+			}
+			label {
+				display: block;
+				color: $text-grey;
+				font-weight: bold;
+				margin-bottom: 0.5em;
+				font-size: 14px;
+			}
+			.login-username {
+				position:relative;
+				&:before {
+					@include pseudo-icon;
+					content: "\e90c";
+					position:absolute;
+					color:$text-grey;
+					top:2.5em;
+					left:0.5em;
+				}
+			}
+			.login-password {
+				position:relative;
+				&:before {
+					@include pseudo-icon;
+					content: "\e900";
+					position:absolute;
+					color:$text-grey;
+					top:2.5em;
+					left:0.5em;
+				}
+			}
+
+			.ld-login-modal-branding {
+				position:relative;
+				padding-top:2em;
+				margin-top:1em;
+				&:before {
+					content:'';
+					display:block;
+					position:absolute;
+					width:50px;
+					height:3px;
+					background-color:$border-grey;
+					left:50%;
+					top:0;
+					transform:translateX(-50%);
+				}
+
+				img {
+					max-width:100%;
+					max-height: 250px;
+					height:auto;
+				}
+			}
+		}
+		input[type='text'],
+		input[type='password'],
+		input[type='email'],
+		.ld-login-field,
+		.ld-password-field {
+			border:2px solid $border-grey;
+			margin:0;
+			margin-bottom:1em;
+			padding:0;
+			padding:0.5em;
+			background-color:$light-grey;
+			color:$text-grey;
+			padding-left:2em;
+			font-size:0.875em;
+			width: 100%;
+			transition: all ease-in-out 250ms;
+			&:focus {
+				border-color: $text-dark-grey;
+			}
+		}
+		:-ms-input-placeholder {
+			font-family: 'Open Sans', 'Arial','Helvetica', sans-serif;
+		  }
+		::-ms-input-placeholder {
+			font-family: 'Open Sans', 'Arial','Helvetica', sans-serif;
+		  }
+		::placeholder {
+			font-family:'Open Sans', 'Arial','Helvetica', sans-serif;
+		}
+		.ld-forgot-password-link {
+			color:$text-color;
+			text-decoration:underline;
+			font-size:0.875em;
+		}
+		.ld-button,
+		input[type='submit'] {
+			margin:2em auto;
+			min-width:150px;
+			text-align:center;
+			justify-content:center;
+			border: 0;
+			border-radius: 20px;
+			font-weight: bold;
+			font-size: 14px;
+		}
+		input[type='submit'] {
+			background: $blue;
+			color: #fff;
+			cursor: pointer;
+			padding: 0.75em 5em;
+			transition: all ease-in-out 250ms;
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+		@include for-laptop {
+			top: 100px;
+			width:80%;
+			transform: translateX(-50%);
+			&.ld-can-register {
+				.ld-modal-closer {
+					color: $text-grey;
+				}
+			}
+		}
+		@include for-tablet {
+			flex-direction:column;
+		}
+		@include for-phone {
+			width: 100%;
+		}
+	}
+	.ld-button.ld-login-button {
+		display: flex;
+		&.ld-logout {
+			justify-content: space-between;
+		}
+		&.ld-login {
+			justify-content: flex-start;
+			.ld-icon {
+				margin-right: 10px;
+			}
+		}
+	}
+	#learndash-registration-wrapper, #learndash-reset-password-wrapper {
+		margin: auto;
+
+		.registration-login-link {
+			margin-bottom: 1em;
+		}
+		form label {
+			display: inline-block;
+			font-size: 16px;
+			margin-bottom: 3px;
+		}
+		#learndash_registerform .learndash-required-field {
+			color: red;
+		}
+		form input {
+			border: solid 2px #a1a1a1;
+			border-radius: 5px;
+			font-size: 16px;
+			margin-left: 0px;
+			margin-bottom: 1em;
+			width: 100%;
+		}
+		form input[type="image"] {
+			display: none;
+		}
+		form input.btn-join {
+			border: none;
+			border-radius: 20px;
+		}
+		#loginform #rememberme {
+			width: auto;
+		}
+		#learndash_registerform #wp-submit {
+			margin-top: 30px;
+		}
+	}
+}

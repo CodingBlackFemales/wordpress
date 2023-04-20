@@ -1,0 +1,76 @@
+.#{$namespace}-wrapper {
+
+	.ld-item-list.ld-lesson-list {
+		.ld-topic-list {
+			.ld-table-list-header {
+				padding:20px 60px;
+			}
+			.ld-table-list-item {
+				margin: 0 2.8em;
+			}
+			@include for-tablet {
+				.ld-table-list-header {
+					padding-left: 1em;
+					padding-right: 1em;
+
+				}
+				.ld-table-list-item {
+					margin:0 1em;
+				}
+			}
+		}
+
+	}
+
+	.ld-topic-list.ld-table-list {
+		.ld-table-list-lesson-details {
+			display:flex;
+			align-items:center;
+			font-size:0.75em;
+			line-height: 1em;
+			.ld-lesson-list-progress {
+				text-transform:uppercase;
+				padding-right:10px;
+				margin-right:10px;
+				border-right:1px solid rgba(255,255,255,.5);
+			}
+			.ld-lesson-list-steps {
+				font-weight:normal;
+			}
+		}
+		.ld-table-list-item {
+			.ld-table-list-item-preview {
+				justify-content:flex-start;
+				flex-direction:row;
+				align-items:flex-start;
+				.ld-status-icon {
+					margin-right:0.5em;
+				}
+			}
+			.ld-table-list-item-expanded {
+				padding-top:0;
+				.ld-status {
+					display:inline-block;
+				}
+			}
+			.ld-topic-title {
+
+			}
+			&.unavailable {
+				.ld-table-list-item-preview {
+					opacity:0.5;
+
+				}
+			}
+		}
+		@include for-phone {
+			.ld-table-list-header {
+				flex-direction:column;
+				align-items:stretch;
+			}
+			.ld-table-list-lesson-details {
+				margin: 1em 2.9em;
+			}
+		}
+	}
+}

@@ -1,0 +1,91 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">sfwd-courses</custom-type>
+		<custom-type translate="1">sfwd-lessons</custom-type>
+		<custom-type translate="1">sfwd-topic</custom-type>
+		<custom-type translate="1">sfwd-quiz</custom-type>
+		<custom-type translate="1">sfwd-question</custom-type>
+		<custom-type translate="1">sfwd-assignment</custom-type>
+		<custom-type translate="1">sfwd-essays</custom-type>
+		<custom-type translate="1">groups</custom-type>
+		<custom-type translate="1">sfwd-certificates</custom-type>
+		<custom-type translate="0">sfwd-transactions</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">ld_course_category</taxonomy>
+		<taxonomy translate="1">ld_course_tag</taxonomy>
+		<taxonomy translate="1">ld_lesson_category</taxonomy>
+		<taxonomy translate="1">ld_lesson_tag</taxonomy>
+		<taxonomy translate="1">ld_topic_category</taxonomy>
+		<taxonomy translate="1">ld_topic_tag</taxonomy>
+		<taxonomy translate="1">ld_quiz_category</taxonomy>
+		<taxonomy translate="1">ld_quiz_tag</taxonomy>
+		<taxonomy translate="1">ld_group_category</taxonomy>
+		<taxonomy translate="1">ld_group_tag</taxonomy>
+	</taxonomies>
+	<custom-fields>
+		<custom-field action="ignore">course_id</custom-field>
+		<custom-field action="ignore">lesson_id</custom-field>
+		<custom-field action="ignore">course_price_billing_p3</custom-field>
+		<custom-field action="ignore">course_price_billing_t3</custom-field>
+		<custom-field action="ignore">course_sections</custom-field>
+		<custom-field action="ignore">ld_course_steps</custom-field>
+		<custom-field action="ignore">course_access_list</custom-field>
+		<custom-field action="ignore">quiz_pro_id</custom-field>
+		<custom-field action="ignore">ld_course_steps_dirty</custom-field>
+		<custom-field action="ignore">ld_auto_enroll_group_courses</custom-field>
+		<custom-field action="ignore">question_pro_id</custom-field>
+		<custom-field action="ignore">course_points</custom-field>
+		<custom-field action="ignore">ld_quiz_questions</custom-field>
+		<custom-field action="ignore">ld_quiz_questions_dirty</custom-field>
+		<custom-field action="ignore">learndash_certificate_options</custom-field>
+		<custom-field action="ignore">question_id</custom-field>
+		<custom-field action="ignore">ld_essay_grading_response</custom-field>
+		<custom-field action="ignore">question_points</custom-field>
+		<custom-field action="ignore">question_type</custom-field>
+		<custom-field action="ignore">question_pro_id</custom-field>
+		<custom-field action="ignore">question_pro_category</custom-field>
+		<custom-field action="ignore">_sfwd-courses</custom-field>
+		<custom-field action="ignore">_sfwd-lessons</custom-field>
+		<custom-field action="ignore">_sfwd-topic</custom-field>
+		<custom-field action="ignore">_sfwd-quiz</custom-field>
+		<custom-field action="ignore">_sfwd-question</custom-field>
+	</custom-fields>
+	<admin-texts>
+		<key name="sfwd_cpt_options" >
+			<key name="modules" >
+				<key name="sfwd-courses_options" >
+					<key name="sfwd-courses_paypal_country" />
+					<key name="sfwd-courses_paypal_cancelurl" />
+					<key name="sfwd-courses_paypal_returnurl" />
+					<key name="sfwd-courses_paypal_notifyurl" />
+				</key>
+			</key>
+		</key>
+		<key name="learndash_settings_custom_labels" >
+			<key name="course" />
+			<key name="courses" />
+			<key name="lesson" />
+			<key name="lessons" />
+			<key name="topic" />
+			<key name="topics" />
+			<key name="quiz" />
+			<key name="quizzes" />
+			<key name="question" />
+			<key name="questions" />
+			<key name="group" />
+			<key name="groups" />
+			<key name="button_take_this_course" />
+			<key name="button_take_this_group" />
+			<key name="button_mark_complete" />
+			<key name="button_click_here_to_continue" />
+		</key>
+		<key name="learndash_settings_registration_fields" >
+			<key name="username_label" />
+			<key name="email_label" />
+			<key name="first_name_label" />
+			<key name="last_name_label" />
+			<key name="password_label" />
+		</key>
+	</admin-texts>
+</wpml-config>

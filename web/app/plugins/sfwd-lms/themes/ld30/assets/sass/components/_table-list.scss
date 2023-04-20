@@ -1,0 +1,223 @@
+.#{$namespace}-wrapper {
+	.ld-table-list {
+		border-radius:$border-radius;
+		overflow:hidden;
+		margin:1.5em 0;
+		.ld-table-list-header,
+		.ld-table-list-item-preview {
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+			padding:20px 0;
+			overflow-wrap: break-word;
+			a {
+				color:$text-color;
+			}
+			.ld-table-list-title {
+				flex:1;
+				display:flex;
+				align-items:center;
+				a {
+					display:flex;
+					align-items:center;
+				}
+			}
+			.ld-table-list-columns {
+				display:flex;
+				justify-content:space-between;
+				align-items:center;
+				flex:2;
+				padding-left:1em;
+				.ld-table-list-column {
+					flex:1;
+					text-align:center;
+					padding-left: 0.25em;
+					padding-right: 0.25em;
+				}
+			}
+		}
+		a.ld-table-list-item-preview {
+			color:$text-color;
+			&:hover {
+				color:$blue;
+			}
+		}
+		.ld-table-list-header {
+			background-color:$blue;
+			color:$white;
+			font-weight:800;
+			padding:20px 22px;
+		}
+		.ld-table-list-items {
+			padding:0 20px;
+			border:2px solid $border-grey;
+			border-top:0;
+			border-bottom:0;
+			font-size:0.875em;
+			overflow:hidden;
+			@include for-phone {
+				padding: 0 20px;
+			}
+		}
+		.ld-table-list-item {
+			border-bottom:1px solid $border-grey;
+			padding-left:0;
+			padding-right:0;
+			&:last-child {
+				border-bottom:0;
+			}
+			.ld-table-list-title {
+				a {
+					color:$text-color;
+					&:hover {
+						color:$blue;
+					}
+				}
+			}
+			.ld-comments-column {
+				color:$text-grey;
+				font-weight:700;
+				font-size:1.2em;
+				a {
+					color:$text-grey;
+				}
+				.ld-icon-comments {
+					font-size:1.5em;
+					transform:translateY(0.2em);
+				}
+			}
+		}
+		.ld-table-list-item-expanded {
+			padding:0.75em 2em;
+			.ld-table-list {
+				position:relative;
+				@include pointer;
+				&:before {
+					left:32px;
+				}
+				.ld-table-list-header {
+					background-color:$border-grey;
+					color:$text-dark-grey;
+				}
+				.ld-table-list-items {
+					padding-top:0;
+					background:$border-grey;
+				}
+				.ld-table-list-item:first-child {
+					border-top:2px solid $text-dark-grey;
+				}
+				.ld-table-list-item {
+					border-bottom:1px solid rgba($text-dark-grey, 0.2);
+					&:last-child {
+						border-bottom: 0;
+					}
+				}
+				.ld-table-list-item-preview {
+					padding:10px;
+					padding-left:0;
+					padding-right:0;
+				}
+			}
+		}
+		.ld-table-list-footer {
+			background:$border-grey;
+			padding:20px;
+			.ld-pagination {
+				margin-bottom: 0;
+			}
+		}
+		&.ld-no-pagination {
+			.ld-table-list-footer {
+				background: transparent;
+				padding: 0;
+			}
+			border-bottom: 2px solid $border-grey;
+		}
+		.ld-table-list-header {
+			.ld-table-list-columns {
+				.ld-table-list-column {
+					font-size:0.75em;
+					flex:0 1 150px;
+					&.ld-assignment-column-approved {
+						flex:1;
+						text-align:right;
+					}
+				}
+			}
+		}
+		.ld-table-list-item-preview {
+			.ld-table-list-columns {
+				.ld-table-list-column {
+					font-size:0.875em;
+					flex:0 1 150px;
+					line-height: 1.4em;
+					.ld-column-label {
+						display:none;
+					}
+					&.ld-statuscolumn {
+						flex:1;
+						text-align:right;
+					}
+				}
+			}
+		}
+		&.ld-assignment-list {
+			.ld-table-list-item-preview {
+				.ld-table-list-title {
+					overflow:hidden;
+				}
+			}
+		}
+	}
+
+	@include for-tablet {
+		.ld-table-list {
+			.ld-table-list-header {
+				.ld-table-list-columns {
+					display:none;
+				}
+			}
+			.ld-table-list-item-preview {
+				flex-direction:column;
+				align-items: flex-start;
+				.ld-table-list-title {
+					width:100%;
+
+				}
+				.ld-table-list-columns {
+					width:100%;
+					flex-direction:column;
+					align-items:flex-start;
+					/*padding-left:2em;*/
+					padding-top:0.5em;
+					.ld-table-list-column {
+						flex:1 auto;
+						margin: 0 0 0.5em 0;
+						.ld-column-label {
+							display:inline-block;
+							margin: 0 0 0.5em 0;
+						}
+					}
+				}
+			}
+			&.ld-assignment-list {
+				.ld-table-list-item-preview {
+					.ld-table-list-title {
+						flex:1;
+					}
+
+				}
+			}
+		}
+	}
+	@include for-phone {
+		.ld-lesson-list {
+			.ld-table-list-items {
+				padding: 0;
+			}
+		}
+		#ld-profile .ld-table-list .ld-table-list-item-expanded {
+			padding: 0;
+		}
+	}
+}

@@ -1,0 +1,544 @@
+.#{$namespace}-wrapper {
+
+	* {
+	  box-sizing: border-box;
+	}
+
+	.learndash_checkout_buttons {
+	  margin: 0 0.5em 0 0;
+	}
+
+	.btn-join,
+	#btn-join {
+	  @include button;
+	  margin-left: 0;
+
+	  &:disabled:hover {
+		@include button;
+		cursor: default;
+		}
+
+	  &:hover {
+		color: $white;
+	  }
+	}
+
+	.ld-button {
+	  @include button;
+
+	  .ld-icon {
+		transition: all ease-in-out 250ms;
+	  }
+
+	  &:hover {
+		.ld-icon-arrow-right {
+		  transform: translateX(3px);
+		}
+
+		.ld-icon-arrow-left {
+		  transform: translateX(-3px);
+		}
+	  }
+	}
+
+	a {
+	  text-decoration: none;
+	  text-shadow: none;
+	  border-bottom: none !important;
+	  box-shadow: none !important;
+
+	  &:hover {
+		text-decoration: none;
+	  }
+	}
+
+	&.ld-container {
+	  display: flex;
+	  padding: 0 2em;
+	  max-width: 1280px;
+	  margin: auto;
+	}
+
+	.ld-page-content {
+	  flex: 1 auto;
+	  padding-right: 2.5%;
+	}
+
+	.ld-sidebar-content {
+	  flex: 0 0 250px;
+	  padding-left: 2.5%;
+	}
+
+	.ld-profile-avatar {
+	  border-radius: 100%;
+	  overflow: hidden;
+
+	  img {
+		width: 100%;
+		height: auto;
+
+	  }
+	}
+
+	@include for-laptop {
+	  &.ld-container {
+		flex-direction: column;
+	  }
+	  .ld-page-content {
+		margin-bottom: 3em;
+	  }
+	}
+
+	.sfwd-mark-complete,
+	#sfwd-mark-complete {
+	  position: relative;
+	  display: block;
+	  overflow: hidden;
+	  @include for-small-laptop {
+		width: 100%;
+	  }
+
+	  &::after {
+		@include pseudo-icon;
+		content: "\e906";
+		position: absolute;
+		right: .5em;
+		top: 50%;
+		transform: translateY(-50%);
+		color: $white;
+		padding-right: .15em;
+
+	  }
+	}
+
+	.learndash_mark_complete_button,
+	#learndash_mark_complete_button {
+	  @include button;
+	  background-color: $green;
+	  padding-right: 3em;
+
+	  &:disabled {
+		cursor: pointer;
+		-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+		filter: grayscale(100%);
+		background: #4c4c4c !important /* IE11 */
+	  }
+
+	  @include for-tablet {
+		max-width: 100%;
+		line-height: 1.5em;
+		white-space: normal;
+	  }
+	  @include for-phone {
+		max-width: 100%;
+		margin-left: 0;
+	  }
+	}
+
+	.ld-content-actions {
+	  clear: both;
+	  border-top: 2px solid $border-grey;
+	  padding: 1em 0;
+	  display: flex;
+	  justify-content: space-between;
+
+	  .ld-content-action {
+		flex-basis: 200px;
+		position: relative;
+		padding: 5px;
+
+		a.ld-button {
+		  @include for-phone {
+			  margin-left: 0;
+		  }
+		}
+
+		.ld-course-step-back {
+		  font-size: .75em;
+		  margin: 0 auto;
+		  display: block;
+		  width: 100%;
+		  text-align: center;
+		  @include for-small-laptop {
+			padding: 1.25em;
+			display: flex;
+			justify-content: space-between;
+		  }
+		  @include for-tablet {
+			padding: 1.25em;
+			display: block;
+		  }
+		  @include for-phone {
+			font-size: 1rem;
+			margin: 0;
+			width: 100%;
+			display: block;
+			text-align: center;
+		  }
+		}
+
+		@include for-small-laptop {
+		  flex-wrap: wrap;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  flex-direction: column;
+		}
+
+		@include for-tablet {
+		  padding: 1em;
+		}
+	  }
+
+	  @include for-tablet {
+		justify-content: space-evenly;
+		align-items: flex-start;
+	  }
+	  @include for-small-laptop {
+		justify-content: space-evenly;
+		align-items: flex-start;
+	  }
+
+	  .ld-content-action + a {
+		align-self: center;
+	  }
+
+	  > a {
+		flex: 1;
+		text-align: center;
+		font-size: .75em;
+	  }
+
+	  .learndash_timer,
+	  #learndash_timer {
+		position: absolute;
+		top: 100%;
+		text-align: center;
+		display: block;
+		padding: 1em;
+		left: 0;
+		right: 0;
+		color: $text-grey;
+		font-weight: bold;
+	  }
+
+	  @include for-tablet {
+		flex-direction: row;
+		justify-content: space-evenly;
+		align-items: flex-start;
+		.ld-content-action {
+		  flex: 1;
+		}
+
+		> * {
+		  margin-bottom: 2em;
+		  margin-left: 0;
+		  @include for-phone {
+			margin-bottom: 0;
+		  }
+		}
+	  }
+	  @include for-phone {
+		flex-direction: column-reverse;
+		div:nth-child(1),
+		div:nth-child(3) {
+		  width: 100%;
+		}
+		div:nth-child(2) {
+		  order: 1;
+		  width: 100%;
+		}
+	  }
+	}
+
+	.ld-mobile-only {
+	  display: none !important;
+	  @include for-phone {
+		display: inherit !important;
+	  }
+	}
+
+	.ld-not-mobile {
+	  @include for-phone {
+		display: none !important;
+	  }
+	}
+
+	.ld-loading {
+	  position: relative;
+
+	  &::after {
+		position: absolute;
+		content: '';
+		display: block;
+		z-index: 99;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(255, 255, 255, .5);
+	  }
+
+	  &::before {
+		content: '';
+		display: block;
+		position: absolute;
+		border-radius: 50%;
+		width: 40px;
+		z-index: 100;
+		height: 40px;
+		left: 50%;
+		top: 50%;
+		margin: -20px 0 0 -20px;
+		border: 3px solid rgba(0, 0, 0, 0.5);
+		border-top: 3px solid $blue;
+		animation: ldrotating 1.2s infinite linear;
+	  }
+	}
+
+	.order-overview {
+	  background-color: white;
+	  border: 1px solid #dddddd;
+	  border-radius: 10px;
+	  box-shadow: 0 6px 6px #cccccc;
+	  font-size: 18px;
+	  margin-bottom: 30px;
+	  padding: 35px 25px 20px 25px;
+
+	  .order-heading {
+		display: block;
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 30px;
+	  }
+
+	  .purchase-title {
+		font-size: 22px;
+		margin-bottom: 22px;
+	  }
+
+	  .purchase-rows {
+		border: 1px solid $border-grey;
+		border-radius: $border-radius;
+
+		.purchase-row {
+		  display: flex;
+		  justify-content: space-between;
+		  padding: 10px 15px;
+		  border-bottom: 1px solid $border-grey;
+
+		  &:last-of-type {
+			border-bottom: none;
+		  }
+
+		  .purchase-label {
+			font-weight: bold;
+		  }
+		}
+	  }
+
+	  .coupon-form {
+		display: flex;
+		float: right;
+		margin-top: 30px;
+		width: 60%;
+
+		@include for-laptop {
+		  width: 100%;
+		}
+
+		input {
+		  width: 50%;
+		  padding: 9px;
+
+		  &:first-of-type {
+			border-top-left-radius: $border-radius;
+			border-bottom-left-radius: $border-radius;
+			border-color: $dark-grey;
+			margin-right: -2px;
+			padding-left: 15px;
+			font-size: 0.75em;
+		  }
+
+		  &:last-of-type {
+			background: $dark-grey;
+			border-color: $dark-grey;
+			color: $white;
+			border-top-right-radius: $border-radius;
+			border-bottom-right-radius: $border-radius;
+			font-weight: 800;
+			font-size: 0.75em;
+
+			&:hover {
+			  color: $white;
+			  opacity: 0.9;
+			}
+		  }
+		}
+	  }
+
+	  #remove-coupon-form {
+		display: inline-flex;
+		align-items: center;
+
+		span {
+		  white-space: nowrap;
+		  padding-left: 20px;
+		}
+
+		input[type=submit] {
+		  background: $dark-grey;
+		  border-color: $dark-grey;
+		  border-radius: $border-radius;
+		  color: $white;
+		  margin-left: 5px;
+		  padding: 0 6px;
+		  font-size: 11px;
+		  height: 22px;
+
+		  &:hover {
+			color: $white;
+			opacity: 0.9;
+		  }
+		}
+	  }
+
+	  .totals {
+		float: right;
+		margin-top: 30px;
+		width: 60%;
+
+		@include for-laptop {
+		  width: 100%;
+		}
+
+		.order-heading {
+		  margin-bottom: 20px;
+		}
+	  }
+
+	  .order-overview-return {
+		display: block;
+		clear: both;
+		padding-top: 30px;
+		font-size: 15px;
+	  }
+	}
+
+	.ld-course-status.ld-course-status-not-enrolled .ld-course-status-mode-subscribe .ld-course-status-price {
+	  color: $text-grey;
+	  font-size: 24px;
+	}
+
+	.ld-course-status .ld-course-status-mode-subscribe .ld-text {
+	  color: $text-grey;
+	  font-weight: bold;
+	}
+
+	#learndash-checkout-wrapper {
+	  display: flex;
+	  align-items: flex-start;
+	  column-gap: 40px;
+	}
+
+	#learndash-registration-wrapper {
+
+	  width: 100%;
+
+	  .btn-join, #btn-join {
+		  margin: 15px -5px 15px auto;
+		  float: right;
+		  max-width: 100%;
+		  width: 60%;
+
+		  @include for-laptop {
+		  width: 100%;
+		  }
+	  }
+
+	  /**
+	   * Password strength meter
+	   */
+	  .learndash-password-strength {
+		text-align: center;
+		font-weight: 600;
+		padding: 3px 0.5em;
+		font-size: 1em;
+
+		&.strong {
+		  background-color: #c1e1b9;
+		  border-color: #83c373;
+		}
+
+		&.short {
+		  background-color: #f1adad;
+		  border-color: #e35b5b;
+		}
+
+		&.bad {
+		  background-color: #fbc5a9;
+		  border-color: #f78b53;
+		}
+
+		&.good {
+		  background-color: #ffe399;
+		  border-color: #ffc733;
+		}
+	  }
+
+	  .learndash-password-hint {
+		margin: 0.5em 0 0;
+		display: block;
+	  }
+	}
+
+	#learndash-cart-wrapper {
+	  border: solid 2px #a1a1a1;
+	  border-radius: 5px;
+	  width: 50%;
+
+	  .cart-checkout-form-title {
+		  text-align: center;
+	  }
+
+	  .ld-cart-item-row {
+
+		  border-bottom: solid 1px #CCC;
+		  font-size: 16px;
+		  margin: auto 5px;
+		  padding: 7px 5px;
+		  display: flex;
+
+		  .ld-cart-item-name {
+			  width: 60%;
+		  }
+
+		  .ld-cart-item-price {
+			  width: 34%;
+		  }
+
+		  .ld-cart-item-delete {
+			  width: 6%;
+		  }
+	  }
+	}
+
+  }
+
+  .checkout-dropdown-button .btn-join {
+	background-color: #fff !important;
+	color: #000 !important;
+	font-weight: normal !important;
+	font-size: 16px !important;
+
+	&:hover {
+	  background-color: #F5F5F5 !important;
+	  color: #000 !important;
+	}
+  }
+
+  @keyframes ldrotating {
+	100% {
+	  transform: rotate(360deg);
+	}
+  }

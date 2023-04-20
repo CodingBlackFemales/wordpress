@@ -1,0 +1,28 @@
+
+#wpbody-content .inline-edit-row .learndash-inline-edit fieldset.inline-edit-col-ld_groups_membership-settings {
+  clear: both;
+}
+
+#wpbody-content .inline-edit-row .learndash-inline-edit fieldset.inline-edit-col-ld_groups_membership-groups {
+  margin-top: 27px;
+  width: 60%;
+}
+
+#wpbody-content .inline-edit-row .learndash-inline-edit .inline-edit-col-ld_groups_membership .select2-container--learndash {
+  width: 75%;
+  min-width: 75%;
+  max-width: 75%;
+  float: right;
+}
+
+#wpbody-content .inline-edit-row .learndash-inline-edit .inline-edit-col-ld_groups_membership .select2-container--learndash .select2-selection--multiple .select2-search__field {
+  width: 100% !important
+}
+
+#wpbody-content .inline-edit-row .learndash-inline-edit .inline-edit-col-ld_groups_membership .select2-container--learndash .select2-selection--multiple {
+  height: 75px;
+}
+
+#wpbody-content .inline-edit-row .learndash-inline-edit .inline-edit-col-ld_groups_membership .ld-inline-edit-col-groups-hierarchical .select2-container--learndash .select2-selection--multiple {
+  height: 105px;
+}

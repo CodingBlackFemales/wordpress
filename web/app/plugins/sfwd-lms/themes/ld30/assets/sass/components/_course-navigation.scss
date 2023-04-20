@@ -1,0 +1,208 @@
+.#{$namespace}-wrapper {
+	.ld-course-navigation {
+		.ld-course-navigation-heading {
+			border-bottom:4px solid $border-grey;
+			padding-bottom:12px;
+			h3 {
+				margin-top:0;
+			}
+		}
+		.ld-course-navigation-actions {
+			.ld-home-link {
+				display: block;
+			}
+			.ld-expand-button {
+				margin-left:0;
+				font-size:12px;
+				.ld-icon {
+					font-size:10px;
+				}
+
+			}
+		}
+		.ld-status-icon {
+			width:15px;
+			height:15px;
+			flex:0 0 15px;
+			border:0;
+			text-align:center;
+			margin-right: 10px;
+			margin-top:0.15em;
+			.ld-icon-checkmark {
+				@include compact-icon;
+			}
+			&.ld-status-in-progress {
+				border:2px solid $border-grey;
+				border-left-color:$green;
+				border-top-color:$green;
+			}
+			&.ld-status-incomplete {
+				border:2px solid $border-grey;
+			}
+			.ld-icon-quiz {
+				font-size: 1.1em;
+				margin-top: -2px;
+			}
+		}
+		.ld-item-icon {
+			width:14px;
+			height:20px;
+			font-size:1em;
+		}
+		.ld-pagination {
+			justify-content:center;
+			margin:1em 0;
+			.ld-pages {
+				flex:0 0 120px;
+				background-color:$text-grey;
+				i, span {
+					color:$white;
+				}
+			}
+		}
+	}
+
+	/* Lesson list in course navigation */
+	.ld-course-navigation {
+		.ld-lesson-items {
+
+		}
+		.ld-lesson-item {
+			border-bottom: 1px solid $border-grey;
+			&.ld-is-current-lesson .ld-lesson-item-preview-heading,
+			&.ld-is-current-lesson .ld-lesson-title {
+				color: $blue;
+				font-weight: bold;
+				.ld-status-incomplete {
+					border:2px solid $blue;
+				}
+			}
+		}
+		.ld-sep {
+			color: $border-grey;
+			padding: 0 0.25em;
+		}
+		.ld-lesson-item-section-heading {
+			margin-top: 1em;
+			.ld-lesson-section-heading {
+				font-size: 1em;
+				font-weight: bold;
+				margin-bottom: 0.25em;
+				text-align: left;
+				display: block;
+			}
+		}
+		.ld-lesson-item-preview {
+			padding:10px 0;
+			.ld-lesson-item-preview-heading {
+				display:flex;
+				justify-content:flex-start;
+				flex-flow:row wrap;
+				line-height: 1.25em;
+			}
+			a.ld-lesson-item-preview-heading {
+				color: $text-dark-grey;
+				&:hover {
+					color:$blue;
+				}
+			}
+			.ld-lesson-title {
+				font-size:0.875em;
+				font-weight:400;
+				flex:1;
+				display:flex;
+				.ld-status-icon {
+					margin-left:0.5em;
+					pointer-events: all;
+					.ld-icon {
+						@include compact-icon;
+					}
+				}
+			}
+			.ld-expand-button {
+				flex-basis: 100%;
+				justify-content:flex-start;
+				padding-left:2em;
+				padding-top:0.5em;
+				color:$text-grey;
+				.ld-icon {
+					font-size:0.625em;
+				}
+			}
+		}
+		.ld-lesson-item-expanded {
+			height:auto;
+			max-height:0px;
+			transition:max-height 0.3s ease;
+			overflow:hidden;
+			background: $light-grey;
+			border-radius: 8px;
+			margin: 0 20px 0 20px;
+			position: relative;
+			&::before {
+				content: '';
+				display: block;
+				left: 50px;
+				top: 0px;
+				position: absolute;
+				width: 0;
+				height: 0;
+				border-left: 8px solid transparent;
+				border-right: 8px solid transparent;
+				border-top: 8px solid #fff;
+			}
+			&.ld-expanded {
+				max-height:20000px;
+				margin-bottom: 1em;
+			}
+			.ld-table-list-items {
+				padding: 1em 0.5em;
+			}
+		}
+		.ld-table-list-header {
+			display:none;
+		}
+		.ld-table-list-footer {
+			background: transparent;
+			padding: 0.25em !important;
+		}
+	}
+
+	/* Topic list in course navigation */
+	.ld-course-navigation {
+		.ld-table-list.ld-topic-list {
+			margin:0;
+			.ld-table-list-items {
+				border:0;
+				padding-right:0;
+			}
+			.ld-table-list-item {
+				font-size:0.9em;
+				border-bottom:0;
+				line-height: 1.5em;
+				.ld-table-list-item-preview {
+					align-items: flex-start;
+					padding: 0.5em;
+					&.ld-is-current-item {
+						font-weight: bold;
+					}
+					.ld-topic-title {
+						flex:1;
+						display:flex;
+						.ld-status-icon {
+							margin-left:0.5em;
+							pointer-events: all;
+							.ld-icon {
+								@include compact-icon;
+							}
+					}
+				}
+				}
+			}
+		}
+	}
+	.widget_course_return {
+		margin-top: 1em;
+		font-size: 0.8em;
+	}
+}

@@ -1,0 +1,78 @@
+
+.#{$namespace}-wrapper {
+	.ld-tabs {
+		margin:1em 0;
+		.ld-tabs-navigation {
+			position:relative;
+			margin:0;
+			padding:0;
+			display:flex;
+			align-items:center;
+			&:after {
+				content:'';
+				height:6px;
+				background:$border-grey;
+				position:absolute;
+				bottom:0;
+				left:0;
+				right:0;
+				z-index:8;
+			}
+			.ld-tab {
+				background-color: inherit;
+				border-color: transparent;
+				display:flex;
+				padding:1.5em;
+				align-items:center;
+				position:relative;
+				font-weight:700;
+				color:$text-grey;
+				cursor:pointer;
+				transition:color 0.3s ease;
+				white-space:nowrap;
+				&:hover {
+					border-color: transparent;
+				}
+				.ld-icon {
+					font-size:1.4em;
+					margin-right:0.25em;
+				}
+				&:after {
+					content:'';
+					height:6px;
+					background:transparent;
+					position:absolute;
+					bottom:0;
+					left:0;
+					right:0;
+					z-index:9;
+					transition:background 0.3s ease;
+				}
+				&.ld-active {
+					color:$blue;
+
+					&:after {
+						background:$blue;
+					}
+				}
+				@include for-phone {
+					padding: 1em;
+				}
+			}
+		}
+		.ld-tabs-content {
+			.ld-tab-content {
+				display:none;
+				padding:2em 0;
+				&.ld-visible {
+					display:block;
+				}
+			}
+		}
+		&.ld-tab-count-1 {
+			.ld-tab-content {
+				padding: 0;
+			}
+		}
+	}
+}

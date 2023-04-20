@@ -1,0 +1,12 @@
+.#{$namespace}-wrapper {
+	.ld-topic-status {
+		border-radius:$border-radius;
+		background:$light-grey;
+		overflow:hidden;
+		.ld-progress {
+			padding:0 1em;
+		}
+	}
+
+
+}

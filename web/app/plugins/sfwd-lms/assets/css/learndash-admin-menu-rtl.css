@@ -1,0 +1,49 @@
+/* Admin Users */
+body.learndash-user-admin #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics:after,
+body.learndash-user-admin #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups:after,
+body.learndash-user-admin #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions:after {
+	background: #b4b9be;
+	content: '';
+	display: block;
+	height: 1px;
+	margin: 5px auto 0 auto;
+	width: calc( 100% - 24px );
+	opacity: 0.4;
+}
+
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics,
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups,
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions {
+	padding-bottom: 1px;
+}
+
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics + li,
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups + li,
+body.learndash-user-admin #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions + li {
+	padding-top: 1px;
+}
+
+/* Group Leader */
+body.learndash-user-group-leader #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics:after,
+body.learndash-user-group-leader #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups:after,
+body.learndash-user-group-leader #adminmenumain .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions:after {
+	background: #b4b9be;
+	content: '';
+	display: block;
+	height: 1px;
+	margin: 5px auto 0 auto;
+	width: calc( 100% - 24px );
+	opacity: 0.4;
+}
+
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics,
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups,
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions {
+	padding-bottom: 1px;
+}
+
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-topics + li,
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-groups + li,
+body.learndash-user-group-leader #adminmenu .toplevel_page_learndash-lms .wp-submenu > li.submenu-ldlms-exam-questions + li {
+	padding-top: 1px;
+}
