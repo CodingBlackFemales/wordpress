@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79f04626c31afd3dbb4f01f120fc5722",
+    "content-hash": "a6848c4dfa909c6f52f432ac0752c8ce",
     "packages": [
         {
-            "name": "buddypress/buddypress",
+            "name": "buddyboss/buddyboss-platform",
             "version": "dev-release",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodingBlackFemales/buddyboss-platform.git",
-                "reference": "e69fa58818ca2dda88239f597606ac8cf56556a1"
+                "reference": "41ca3bda130fca4469b397c3a8a9a05a91738792"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/e69fa58818ca2dda88239f597606ac8cf56556a1",
-                "reference": "e69fa58818ca2dda88239f597606ac8cf56556a1",
+                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/41ca3bda130fca4469b397c3a8a9a05a91738792",
+                "reference": "41ca3bda130fca4469b397c3a8a9a05a91738792",
                 "shasum": ""
             },
             "require": {
@@ -65,12 +65,12 @@
             ],
             "authors": [
                 {
-                    "name": "BuddyPress Community",
-                    "homepage": "https://buddypress.org/about/"
+                    "name": "BuddyBoss",
+                    "homepage": "https://buddyboss.com/"
                 }
             ],
-            "description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
-            "homepage": "https://buddypress.org",
+            "description": "The BuddyBoss Platform adds community features to WordPress. Member Profiles, Activity Feeds, Direct Messaging, Notifications, and more!",
+            "homepage": "https://www.buddyboss.com/website-platform/",
             "keywords": [
                 "activity",
                 "community",
@@ -83,13 +83,13 @@
             ],
             "support": {
                 "forum": "https://buddypress.org/support/",
-                "docs": "https://codex.buddypress.org/",
-                "issues": "https://buddypress.trac.wordpress.org/",
-                "rss": "https://buddypress.org/feed/",
-                "source": "https://buddypress.trac.wordpress.org/browser/",
-                "wiki": "https://codex.buddypress.org/"
+                "docs": "https://www.buddyboss.com/resources/developers/",
+                "issues": "https://support.buddyboss.com/support/home/",
+                "rss": "https://www.buddyboss.com/feed/",
+                "source": "https://github.com/buddyboss/buddyboss-platform",
+                "wiki": "https://www.buddyboss.com/resources/docs/"
             },
-            "time": "2023-04-20T13:54:32+00:00"
+            "time": "2023-04-20T16:28:08+00:00"
         },
         {
             "name": "composer/installers",

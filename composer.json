@@ -45,7 +45,7 @@
   ],
   "require": {
     "php": ">=8.0",
-    "buddypress/buddypress": "dev-release",
+    "buddyboss/buddyboss-platform": "dev-release",
     "composer/installers": "^2.2",
     "koodimonni-language/en_gb": "*",
     "vlucas/phpdotenv": "^5.5",
