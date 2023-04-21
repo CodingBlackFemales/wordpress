@@ -21,9 +21,9 @@ final class Main {
 	 * Set the minimum required versions for the plugin.
 	 */
 	const PLUGIN_REQUIREMENTS = array(
-		'php_version' => '7.3',
-		'wp_version'  => '5.6',
-		'wc_version'  => '5.3',
+		'php_version' => '8.0',
+		'wp_version'  => '6.0',
+		'bp_version'  => '2.3',
 	);
 
 
@@ -132,9 +132,9 @@ final class Main {
 			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum WordPress version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['wp_version'] );
 		}
 
-		if ( isset( self::PLUGIN_REQUIREMENTS['wc_version'] ) && ( ! defined( 'WC_VERSION' ) || ! version_compare( WC_VERSION, self::PLUGIN_REQUIREMENTS['wc_version'], '>=' ) ) ) {
-			/* Translators: The minimum WC version */
-			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum WooCommerce version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['wc_version'] );
+		if ( isset( self::PLUGIN_REQUIREMENTS['bp_version'] ) && ( ! defined( 'BP_PLATFORM_VERSION' ) || ! version_compare( BP_PLATFORM_VERSION, self::PLUGIN_REQUIREMENTS['bp_version'], '>=' ) ) ) {
+			/* Translators: The minimum BuddyBoss Platform version */
+			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum BuddyBoss Platform version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['bp_version'] );
 		}
 
 		if ( empty( $errors ) ) {
