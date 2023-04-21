@@ -124,17 +124,17 @@ final class Main {
 
 		if ( ! version_compare( PHP_VERSION, self::PLUGIN_REQUIREMENTS['php_version'], '>=' ) ) {
 			/* Translators: The minimum PHP version */
-			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum PHP version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['php_version'] );
+			$errors[] = sprintf( esc_html__( 'CBF Academy requires a minimum PHP version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['php_version'] );
 		}
 
 		if ( ! version_compare( $wp_version, self::PLUGIN_REQUIREMENTS['wp_version'], '>=' ) ) {
 			/* Translators: The minimum WP version */
-			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum WordPress version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['wp_version'] );
+			$errors[] = sprintf( esc_html__( 'CBF Academy requires a minimum WordPress version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['wp_version'] );
 		}
 
 		if ( isset( self::PLUGIN_REQUIREMENTS['bp_version'] ) && ( ! defined( 'BP_PLATFORM_VERSION' ) || ! version_compare( BP_PLATFORM_VERSION, self::PLUGIN_REQUIREMENTS['bp_version'], '>=' ) ) ) {
 			/* Translators: The minimum BuddyBoss Platform version */
-			$errors[] = sprintf( esc_html__( 'WordPress Plugin Boilerplate requires a minimum BuddyBoss Platform version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['bp_version'] );
+			$errors[] = sprintf( esc_html__( 'CBF Academy requires a minimum BuddyBoss Platform version of %s.', 'cbf-academy' ), self::PLUGIN_REQUIREMENTS['bp_version'] );
 		}
 
 		if ( empty( $errors ) ) {
