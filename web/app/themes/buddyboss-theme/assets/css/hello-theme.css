@@ -1,4 +1,4 @@
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
 
 Loaded in wp-admin for query string `hello=theme`.
 
@@ -24,10 +24,10 @@ TABLE OF CONTENTS:
 6.3 - Desktop Medium
 6.4 - Desktop Large
 7   - Theme 2.0 Modal
-------------------------------------------------------------------------------*/
-/*------------------------------------------------------------------------------
+------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------
 * 1.0 - Typography and colour
-*----------------------------------------------------------------------------*/
+*---------------------------------------------------------------------------- */
 :root {
   --bp-hello-color-primary: #0071a1;
   --bp-hello-color-secondary: #e5e5e5;
@@ -36,7 +36,7 @@ TABLE OF CONTENTS:
 
 #theme-hello-container a:hover {
   -webkit-transition: all 0.1s ease-in-out;
-  transition: all 0.1s ease-in-out;
+          transition: all 0.1s ease-in-out;
   color: black;
 }
 
@@ -74,9 +74,9 @@ TABLE OF CONTENTS:
   height: 100%;
 }
 
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
 * 2.0 - Icons
-*----------------------------------------------------------------------------*/
+*---------------------------------------------------------------------------- */
 /*
 * 2.1 - Social Icons
 */
@@ -100,20 +100,20 @@ TABLE OF CONTENTS:
 }
 
 .theme-hello-social li a.youtube:before {
-  background-image: url(../images/svg/youtube.svg);
+  background-image: url("../images/svg/youtube.svg");
 }
 
 .theme-hello-social li a.twitter:before {
-  background-image: url(../images/svg/twitter.svg);
+  background-image: url("../images/svg/twitter.svg");
 }
 
 .theme-hello-social li a.facebook:before {
-  background-image: url(../images/svg/facebook-square.svg);
+  background-image: url("../images/svg/facebook-square.svg");
 }
 
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
 * 3.0 - Elements
-*----------------------------------------------------------------------------*/
+*---------------------------------------------------------------------------- */
 /*
 * 3.1 - Backdrop and container
 */
@@ -143,10 +143,11 @@ TABLE OF CONTENTS:
 */
 .theme-hello-footer {
   display: -webkit-box;
+  display: flexbox;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+      flex-wrap: wrap;
   height: 58px;
   max-height: 58px;
 }
@@ -190,16 +191,16 @@ TABLE OF CONTENTS:
   -webkit-overflow-scrolling: touch;
 }
 
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
 * 4.0 - Content styles
-*----------------------------------------------------------------------------*/
+*---------------------------------------------------------------------------- */
 /*
 * 4.1 - Backdrop and container
 */
 #theme-hello-backdrop {
   background-color: rgba(0, 0, 0, 0.8);
   -webkit-transition: opacity 0.15s ease-out;
-  transition: opacity 0.15s ease-out;
+          transition: opacity 0.15s ease-out;
 }
 
 #theme-hello-container {
@@ -279,9 +280,9 @@ TABLE OF CONTENTS:
   max-width: 100%;
 }
 
-/*------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------
 * 6.0 - Media Queries
-*----------------------------------------------------------------------------*/
+*---------------------------------------------------------------------------- */
 /**
 * 6.1 - Mobile
 */
@@ -406,7 +407,7 @@ TABLE OF CONTENTS:
   max-width: 100%;
 }
 #theme-hello-container.bb-update-theme-modal .theme-hello-header {
-  box-shadow: inset 0px -1px 0px #e7e9eb;
+  box-shadow: inset 0 -1px 0 #e7e9eb;
 }
 #theme-hello-container.bb-update-theme-modal .theme-hello-header .theme-hello-title h1 {
   margin-top: 6px;
@@ -435,8 +436,8 @@ TABLE OF CONTENTS:
   padding: 15px 23px;
 }
 #theme-hello-container.bb-update-theme-modal .bp-theme-hello-footer {
-  background: #F0F0F1;
-  box-shadow: inset 0px 1px 0px #E7E9EB;
+  background: #f0f0f1;
+  box-shadow: inset 0 1px 0 #e7e9eb;
   padding: 15px 23px;
   border-radius: 0 0 3px 3px;
 }

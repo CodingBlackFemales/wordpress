@@ -10354,7 +10354,9 @@ a.activity-type-icon.open-down:after {
 }
 .video-js .vjs-menu li.vjs-selected, .video-js .vjs-menu li:hover {
   color: var(--bb-tooltip-background);
-  background-color: var(--bb-tooltip-color);
+  /* stylelint-disable max-line-length */
+  background-color: var(--bb-tooltip-color) !important;
+  /* stylelint-disable */
 }
 .video-js .vjs-menu li.vjs-selected .vjs-menu-item-text, .video-js .vjs-menu li:hover .vjs-menu-item-text {
   opacity: 1;

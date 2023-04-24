@@ -50,7 +50,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   min-height: 100%;
   font-family: "SF UI Text", sans-serif;
 }
@@ -153,7 +154,7 @@ img {
   border: 1px solid var(--bb-content-border-color);
   border-radius: 4px;
   color: var(--bb-body-text-color);
-  margin: 0 auto 35px auto;
+  margin: 0 auto 35px;
   max-width: 500px;
   padding: 30px;
   text-align: left;
@@ -191,7 +192,7 @@ img {
   display: inline-block;
   padding: 0;
   margin: 4px;
-  opacity: 0.30;
+  opacity: 0.3;
   -webkit-transition: 0.2s linear all;
           transition: 0.2s linear all;
 }

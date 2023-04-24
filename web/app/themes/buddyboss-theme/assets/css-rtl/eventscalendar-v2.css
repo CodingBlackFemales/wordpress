@@ -21,9 +21,9 @@
   background: var(--bb-content-background-color);
 }
 .bb-tribe-events-views-v2 .tribe-events .tribe-events-calendar-month__header-row {
-  /*border-color: $color-border;
+  /* border-color: $color-border;
   border-style: solid;
-  border-width: 1px 0 0 1px;*/
+  border-width: 1px 0 0 1px; */
   border: 0;
 }
 .bb-tribe-events-views-v2 .tribe-events .tribe-events-calendar-month__header-column {

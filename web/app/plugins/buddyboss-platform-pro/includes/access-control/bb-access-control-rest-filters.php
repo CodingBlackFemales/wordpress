@@ -407,13 +407,39 @@ function bb_access_control_rest_user_can_join_group( $retval, $user_id ) {
 function bb_access_control_rest_messages_create_permissions_check( $retval, $request ) {
 	$message_settings = bb_access_control_send_messages_settings();
 
+	$message_thread_id = $request->get_param( 'id' );
+	$is_group_thread   = ! empty( $request->get_param( 'group_thread' ) ) && (bool) $request->get_param( 'group_thread' );
+	$first_message     = BP_Messages_Thread::get_first_message( (int) $message_thread_id );
+
+	if ( isset( $first_message->id ) ) {
+		$message_id = $first_message->id;
+
+		$group = (int) bp_messages_get_meta( $message_id, 'group_id', true ); // group id.
+
+		if ( ! empty( $group ) && bp_is_active( 'groups' ) && $group > 0 ) {
+			$group_thread = (int) groups_get_groupmeta( $group, 'group_message_thread' );
+			if ( (int) $message_thread_id === $group_thread ) {
+				$is_group_thread = true;
+			}
+		} elseif ( ! empty( $group ) && ! bp_is_active( 'groups' ) && $group > 0 ) {
+			global $wpdb;
+			$prefix            = apply_filters( 'bp_core_get_table_prefix', $wpdb->base_prefix );
+			$groups_meta_table = $prefix . 'bp_groups_groupmeta';
+			$thread_id         = (int) $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$groups_meta_table} WHERE meta_key = %s AND group_id = %d", 'group_message_thread', $group ) ); // db call ok; no-cache ok.
+			if ( (int) $message_thread_id === $thread_id ) {
+				$is_group_thread = true;
+			}
+		}
+	}
+
 	if (
 		true !== $retval ||
 		empty( $message_settings ) ||
 		(
 			isset( $message_settings['access-control-type'] ) &&
 			empty( $message_settings['access-control-type'] )
-		)
+		) ||
+		$is_group_thread
 	) {
 		return $retval;
 	}

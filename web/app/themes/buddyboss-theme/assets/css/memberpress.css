@@ -7,14 +7,14 @@
   width: 100%;
 }
 .mp_wrapper.mp_login_form #wp-submit:hover {
-  background: #007CFF;
+  background: #007cff;
 }
-.mp_wrapper.mp_login_form input[type=text],
-.mp_wrapper.mp_login_form input[type=url],
-.mp_wrapper.mp_login_form input[type=email],
-.mp_wrapper.mp_login_form input[type=tel],
-.mp_wrapper.mp_login_form input[type=number],
-.mp_wrapper.mp_login_form input[type=password] {
+.mp_wrapper.mp_login_form input[type="text"],
+.mp_wrapper.mp_login_form input[type="url"],
+.mp_wrapper.mp_login_form input[type="email"],
+.mp_wrapper.mp_login_form input[type="tel"],
+.mp_wrapper.mp_login_form input[type="number"],
+.mp_wrapper.mp_login_form input[type="password"] {
   position: relative;
   background-color: #fff;
   border: 1px solid #e7e9ec;
@@ -22,8 +22,8 @@
   border-radius: 3px;
   font-size: 16px;
 }
-.mp_wrapper.mp_login_form input[type=text],
-.mp_wrapper.mp_login_form input[type=password] {
+.mp_wrapper.mp_login_form input[type="text"],
+.mp_wrapper.mp_login_form input[type="password"] {
   padding: 0 5px 0 40px !important;
 }
 .mp_wrapper.mp_login_form .mepr_username,
@@ -33,19 +33,19 @@
 }
 .mp_wrapper.mp_login_form .mepr_username:before,
 .mp_wrapper.mp_login_form .mepr_password:before {
-  font-family: "bb-icons";
+  font-family: bb-icons;
   font-style: normal;
   font-weight: normal;
   speak: none;
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
-  margin-right: .2em;
+  margin-right: 0.2em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
   line-height: 1em;
-  margin-left: .2em;
+  margin-left: 0.2em;
   position: absolute;
   top: 12px;
   left: 10px;
@@ -56,15 +56,15 @@
   display: none;
 }
 .mp_wrapper.mp_login_form .mepr_username:before {
-  content: '\ef52';
-  font-family: 'bb-icons';
+  content: "\ef52";
+  font-family: bb-icons;
   font-size: 16px;
 }
 .mp_wrapper.mp_login_form .mepr_password .mp-form-label > label {
   display: none !important;
 }
-.mp_wrapper.mp_login_form .mepr_password input[type=text],
-.mp_wrapper.mp_login_form .mepr_password input[type=password] {
+.mp_wrapper.mp_login_form .mepr_password input[type="text"],
+.mp_wrapper.mp_login_form .mepr_password input[type="password"] {
   padding: 0 35px 0 40px !important;
 }
 .mp_wrapper.mp_login_form .mepr_password .button.mp-hide-pw {
@@ -76,17 +76,17 @@
   font-size: 16px;
 }
 .mp_wrapper.mp_login_form .mepr_password .button.mp-hide-pw .dashicons:before {
-  content: '\ee69';
-  font-family: "bb-icons";
+  content: "\ee69";
+  font-family: bb-icons;
   font-size: 16px;
-  color: #122B46;
+  color: #122b46;
   opacity: 0.5;
 }
 .mp_wrapper.mp_login_form .mepr_password .button.mp-hide-pw .dashicons.dashicons-hidden:before {
-  content: '\ee6a';
+  content: "\ee6a";
 }
 .mp_wrapper.mp_login_form .mepr_password:before {
-  content: '\eebf';
+  content: "\eebf";
   font-size: 20px;
 }
 .mp_wrapper.mp_login_form label {
@@ -127,12 +127,12 @@
 .mp_wrapper ul {
   padding: 0 !important;
 }
-.mp_wrapper input[type=text],
-.mp_wrapper input[type=url],
-.mp_wrapper input[type=email],
-.mp_wrapper input[type=tel],
-.mp_wrapper input[type=number],
-.mp_wrapper input[type=password] {
+.mp_wrapper input[type="text"],
+.mp_wrapper input[type="url"],
+.mp_wrapper input[type="email"],
+.mp_wrapper input[type="tel"],
+.mp_wrapper input[type="number"],
+.mp_wrapper input[type="password"] {
   position: relative;
   background-color: #fff;
   border: 1px solid #e7e9ec;
@@ -263,7 +263,7 @@
   background-color: #fff;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px #E7EAEC;
+  box-shadow: 0 0 0 1px #e7eaec;
 }
 
 .mp_wrapper table.mepr-account-table th {
@@ -283,7 +283,7 @@
 }
 
 .mp_wrapper-table-wrapper {
-  border: 1px solid #E7EAEC;
+  border: 1px solid #e7eaec;
   border-radius: 3px;
   overflow-x: auto;
 }
@@ -295,7 +295,7 @@
 }
 
 .mp-form-row.mepr_bold.mepr_price {
-  background: #FFFFFF;
+  background: #fff;
   border: 1px solid var(--bb-content-border-color);
   border-radius: 4px;
   display: -webkit-box;
@@ -318,7 +318,7 @@
 }
 
 .bb-mp-checkout-details {
-  background: #FFFFFF;
+  background: #fff;
   border: 1px solid var(--bb-content-border-color);
   border-radius: 4px;
   padding: 20px;
@@ -342,7 +342,8 @@
 .mepr-signup-form img.mepr-loading-gif {
   margin: 0 10px 12px 12px;
 }
-.mepr-signup-form .mp_wrapper .mepr-form-has-errors, .mepr-signup-form .mp_wrapper .cc-error {
+.mepr-signup-form .mp_wrapper .mepr-form-has-errors,
+.mepr-signup-form .mp_wrapper .cc-error {
   font-size: 14px;
   padding-left: 0;
 }
@@ -366,7 +367,7 @@
 }
 .registration.register #primary h1.entry-title {
   font-size: 28px;
-  color: #122B46;
+  color: #122b46;
   letter-spacing: 0;
   line-height: 1.3;
 }
@@ -492,8 +493,8 @@
   margin: 0 10px 30px;
   padding: 40px 30px;
   width: auto;
-  -webkit-transition: all linear .2s;
-          transition: all linear .2s;
+  -webkit-transition: all linear 0.2s;
+          transition: all linear 0.2s;
 }
 #content .mepr-price-menu .mepr-price-box:hover {
   box-shadow: 0 6px 24px 0 rgba(18, 43, 70, 0.12);
@@ -520,7 +521,7 @@
   font-size: 15px;
   line-height: 1;
   font-weight: 500;
-  color: #122B46;
+  color: #122b46;
   letter-spacing: -0.22px;
   margin-bottom: 16px;
   font-family: inherit !important;
@@ -551,9 +552,9 @@
   display: flex;
 }
 #content .mepr-price-menu .mepr-price-box-benefits-item:before {
-  content: '\E876';
+  content: "\E876";
   color: var(--bb-primary-color);
-  font: normal normal normal 15px/1 "bb-icons";
+  font: normal normal normal 15px/1 bb-icons;
   speak: none;
   display: inline-block;
   text-decoration: inherit;
@@ -591,7 +592,7 @@
   margin-top: 45px;
 }
 #content .mepr-price-menu.custom .mepr-price-box {
-  background: #FFFFFF;
+  background: #fff;
   border: 1px solid var(--bb-content-border-color);
   border-radius: 4px;
 }
@@ -614,7 +615,7 @@
   }
 }
 #content .mepr-price-menu.custom .mepr-price-box-button a {
-  background: #007CFF;
+  background: #007cff;
   border-radius: 100px;
   color: #fff;
   display: block;
@@ -656,7 +657,7 @@
 
 /* Pricing Page Theme : Classic Dark/Light */
 #content .mepr-price-menu.classic .mepr-price-box {
-  background: #FFFFFF;
+  background: #fff;
   border: 1px solid var(--bb-content-border-color);
   border-radius: 4px;
 }
@@ -703,7 +704,7 @@
   margin: 0 !important;
 }
 #content .mepr-price-menu.clean .mepr-price-box {
-  background: #FFFFFF;
+  background: #fff;
   border: 1px solid var(--bb-content-border-color);
   margin: 0;
   padding-bottom: 30px;
@@ -873,7 +874,7 @@
 }
 
 .bs-styled-checkbox + .mepr-checkbox:before {
-  content: '';
+  content: "";
   margin-right: 10px;
   display: inline-block;
   vertical-align: text-top;
@@ -881,20 +882,20 @@
   height: 20px;
   background: #fff;
   border-radius: 3px;
-  border: 1px solid #C9CBCA;
+  border: 1px solid #c9cbca;
 }
 
 .bs-styled-checkbox:checked + .mepr-checkbox:before {
-  background: #007CFF;
-  border-color: #007CFF;
+  background: #007cff;
+  border-color: #007cff;
 }
 
 .bs-styled-checkbox:checked + .mepr-checkbox:after {
-  content: '\E876';
+  content: "\E876";
   position: absolute;
   left: 3px;
   top: 3px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   color: #fff;
   font-size: 14px;
   line-height: 1;

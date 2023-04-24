@@ -24,9 +24,11 @@
   left: inherit;
 }
 
-.buddypress-wrap .filter select::-ms-expand, .buddypress-wrap #whats-new-post-in-box select::-ms-expand,
+.buddypress-wrap .filter select::-ms-expand,
+.buddypress-wrap #whats-new-post-in-box select::-ms-expand,
 .bb-courses-directory .sfwd-courses-filters .select-wrap select::-ms-expand,
-#buddypress .standard-form select::-ms-expand, .bb-album-actions select::-ms-expand,
+#buddypress .standard-form select::-ms-expand,
+.bb-album-actions select::-ms-expand,
 .ui-datepicker .ui-datepicker-title select::-ms-expand,
 #bbpress-forums fieldset.bbp-form select::-ms-expand,
 .bp-profile-search-widget select::-ms-expand,
@@ -113,11 +115,13 @@ body.logged-in .bp-list li .item .item-block,
   top: 22px;
 }
 
-ul#bp-message-thread-list .bp-message-content-wrap ul, ul#bp-message-thread-list .bp-message-content-wrap ol {
+ul#bp-message-thread-list .bp-message-content-wrap ul,
+ul#bp-message-thread-list .bp-message-content-wrap ol {
   margin-right: 22px;
 }
 
-#message-form-submit-wrapper, #message-reply-form-submit-wrapper {
+#message-form-submit-wrapper,
+#message-reply-form-submit-wrapper {
   display: block;
 }
 
@@ -134,12 +138,13 @@ ul#bp-message-thread-list .bp-message-content-wrap ul, ul#bp-message-thread-list
 }
 
 .bp-messages-content #bp-message-content #whats-new-messages-toolbar {
-  width: -webkit-calc(100% - 125px );
-  width: calc(100% - 125px );
+  width: -webkit-calc(100% - 125px);
+  width: calc(100% - 125px);
   float: right;
 }
 
-#message-new-submit, #message-reply-new-submit {
+#message-new-submit,
+#message-reply-new-submit {
   float: left;
   clear: none;
 }
@@ -155,7 +160,8 @@ ul#bp-message-thread-list .bp-message-content-wrap ul, ul#bp-message-thread-list
   overflow: auto;
 }
 
-#bp-message-thread-list .bp-message-content-wrap ol, #bp-message-thread-list .bp-message-content-wrap ul {
+#bp-message-thread-list .bp-message-content-wrap ol,
+#bp-message-thread-list .bp-message-content-wrap ul {
   margin-right: 25px;
 }
 
@@ -171,12 +177,12 @@ ul#bp-message-thread-list .bp-message-content-wrap ul, ul#bp-message-thread-list
   display: inline-block;
 }
 
-.buddypanel [data-balloon][data-balloon-pos='right']::after {
+.buddypanel [data-balloon][data-balloon-pos="right"]::after {
   margin-right: 8px;
   margin-top: 2px;
 }
 
-.buddypanel [data-balloon][data-balloon-pos='right']::before {
+.buddypanel [data-balloon][data-balloon-pos="right"]::before {
   margin-top: 1px;
 }
 
@@ -188,7 +194,8 @@ ul#bp-message-thread-list .bp-message-content-wrap ul, ul#bp-message-thread-list
   }
 }
 @media screen and (max-width: 800px) {
-  .bb-footer.style-2 .footer-bottom-right, .footer-bottom-left {
+  .bb-footer.style-2 .footer-bottom-right,
+  .footer-bottom-left {
     -webkit-box-flex: 1;
         -ms-flex: auto;
             flex: auto;

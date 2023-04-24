@@ -59,7 +59,7 @@ table#pmpro_invoices_table thead tr:first-child th:first-child,
 #pmpro_account-invoices table thead tr:first-child th:first-child,
 #pmpro_account-membership table thead tr:first-child th:first-child,
 #pmpro_cancel table thead tr:first-child th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0;
 }
 table.pmpro_checkout thead tr:first-child th:last-child,
 table#pmpro_invoices_table thead tr:first-child th:last-child,
@@ -111,14 +111,14 @@ table#pmpro_invoices_table tbody tr:last-child td:last-child,
 #pmpro_account-invoices table tbody tr:last-child td:last-child,
 #pmpro_account-membership table tbody tr:last-child td:last-child,
 #pmpro_cancel table tbody tr:last-child td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px;
 }
 
 .pmpro_btn,
 a.pmpro_btn,
 .entry-content a.pmpro_btn,
 .pmpro_btn:link {
-  /*padding: 5px 20px;*/
+  /* padding: 5px 20px; */
   font-size: 14px;
   font-style: normal;
   font-weight: normal;
@@ -175,7 +175,7 @@ form.pmpro_form .pmpro_payment-expiration select#ExpirationMonth {
 form.pmpro_form .pmpro_payment-expiration select#ExpirationYear {
   margin-left: 7px;
 }
-form.pmpro_form .pmpro_checkout-field-bcity_state_zip input[type=text] {
+form.pmpro_form .pmpro_checkout-field-bcity_state_zip input[type="text"] {
   max-width: 25%;
   margin-right: 5px;
 }
@@ -185,14 +185,14 @@ form.pmpro_form hr {
   border-top: 1px solid var(--bb-content-border-color);
   margin: 1.5em 0;
 }
-form.pmpro_form > div[align=center] {
+form.pmpro_form > div[align="center"] {
   text-align: left;
 }
 form.pmpro_form input[type="button"]#other_discount_code_button {
   text-decoration: none;
 }
 
-input[type=submit].pmpro_btn {
+input[type="submit"].pmpro_btn {
   border: 0;
 }
 
@@ -227,8 +227,8 @@ body[class^="pmpro"] hr {
   color: var(--bb-headings-color);
 }
 .pmpro_a-print:before {
-  content: '\eefe';
-  font-family: "bb-icons";
+  content: "\eefe";
+  font-family: bb-icons;
   font-size: 16px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;

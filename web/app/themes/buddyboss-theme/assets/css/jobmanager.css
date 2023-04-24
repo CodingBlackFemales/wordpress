@@ -35,7 +35,7 @@ ul.job_listings .listing-bookmarked div.position:after {
   width: 16px;
   height: 16px;
   -webkit-font-smoothing: antialiased;
-  font-family: 'bb-icons' !important;
+  font-family: bb-icons !important;
   text-decoration: none;
   font-weight: 500;
   font-style: normal;
@@ -101,7 +101,7 @@ ul.job_listings li.job_listing:last-child {
   border-radius: 0 0 var(--bb-block-radius) var(--bb-block-radius);
 }
 .widget ul.job_listings li.job_listing {
-  border-width: 0 0 1px 0;
+  border-width: 0 0 1px;
   margin: 0;
 }
 .widget ul.job_listings li.job_listing:last-child {
@@ -109,8 +109,8 @@ ul.job_listings li.job_listing:last-child {
 }
 ul.job_listings li.job_listing a {
   position: relative;
-  -webkit-transition: all linear .2s;
-          transition: all linear .2s;
+  -webkit-transition: all linear 0.2s;
+          transition: all linear 0.2s;
   padding: 0.6em 1em;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -158,7 +158,7 @@ ul.job_listings li.job_listing a div.position {
 }
 ul.job_listings li.job_listing a div.position h3 .job-manager-applications-applied-notice {
   font-size: 12px;
-  color: #48BF1E;
+  color: #48bf1e;
   line-height: 18px;
   padding-top: 2px;
   margin-right: 0.6em;
@@ -259,8 +259,8 @@ ul.job_listings li.job_listing div.location {
   top: 10px;
 }
 ul.job_listings li.job_listing div.location:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -285,19 +285,19 @@ ul.job_listings li.job_listing ul.meta li.job-type.internship {
   color: #6033cc;
 }
 ul.job_listings li.job_listing ul.meta li.job-type.freelance {
-  background-color: #DCF2FD;
+  background-color: #dcf2fd;
   color: #39c;
 }
 ul.job_listings li.job_listing ul.meta li.job-type.full-time {
-  background-color: #E4F6DD;
-  color: #48BF1E;
+  background-color: #e4f6dd;
+  color: #48bf1e;
 }
 ul.job_listings li.job_listing ul.meta li.job-type.part-time {
   background-color: #fff6ef;
   color: #f08d3c;
 }
 ul.job_listings li.job_listing ul.meta li.job-type.temporary {
-  background-color: #FFE2E0;
+  background-color: #ffe2e0;
   color: #d93674;
 }
 ul.job_listings li.job_listing ul.meta li.date {
@@ -333,18 +333,18 @@ ul.job_listings li.job_listing ul.meta li.application-deadline label {
   padding: 4px 10px;
 }
 .elementor-widget ul.job_listings li.job_listing ul.meta li:after {
-  padding: 0 0 0 .5em;
+  padding: 0 0 0 0.5em;
 }
 ul.job_listings li.no_job_listings_found {
   background-color: #fff;
-  border: 1px solid #E7EAEC;
+  border: 1px solid #e7eaec;
   margin: 0 0 -1px;
   border-radius: 4px;
 }
 
 @media (min-width: 544px) {
   ul.job_listings:not(.job_listings_grid) li.job_listing a img.company_logo {
-    /* IE11 fix*/
+    /* IE11 fix */
     /* top: 50%;
     transform: translateY(-50%); */
   }
@@ -398,14 +398,14 @@ ul.job_listings li.no_job_listings_found {
   line-height: 38px;
 }
 .job_filters .search_jobs .search_categories select {
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
 }
 .job_filters .search_jobs .search_keywords {
   position: relative;
 }
 .job_filters .search_jobs .search_keywords:before {
-  content: '\ef10';
-  font-family: "bb-icons";
+  content: "\ef10";
+  font-family: bb-icons;
   font-size: 18px;
   color: #bdbdbd;
   text-rendering: auto;
@@ -422,8 +422,8 @@ ul.job_listings li.no_job_listings_found {
   position: relative;
 }
 .job_filters .search_jobs .search_location:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 22px;
   color: #bdbdbd;
   text-rendering: auto;
@@ -447,7 +447,7 @@ ul.job_listings li.no_job_listings_found {
   margin: 0 2px;
   line-height: 1;
   text-align: center;
-  background-color: #ECEEF1;
+  background-color: #eceef1;
   color: var(--bb-body-text-color);
   -webkit-transition: 0.2s linear all;
           transition: 0.2s linear all;
@@ -456,8 +456,8 @@ ul.job_listings li.no_job_listings_found {
   opacity: 0.8;
 }
 .job_filters .search_jobs div.filter_wide .filter_by_tag_cloud a:after {
-  content: '\e828';
-  font-family: "bb-icons";
+  content: "\e828";
+  font-family: bb-icons;
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -465,18 +465,19 @@ ul.job_listings li.no_job_listings_found {
   top: 2px;
 }
 .job_filters .search_jobs div.filter_wide .filter_by_tag_cloud a.active:after {
-  content: '\e876';
-  font-family: "bb-icons";
+  content: "\e876";
+  font-family: bb-icons;
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
 }
 .job_filters .search_jobs .chosen-container-single .chosen-single {
   -webkit-appearance: none;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
   background-repeat: no-repeat;
   background-position: right 1rem center;
-  padding-right: 40px;
   font-family: inherit;
   font-size: 15px;
   height: 41px;
@@ -526,7 +527,7 @@ ul.job_listings li.no_job_listings_found {
 }
 .job_filters .job_types li {
   border: 0;
-  padding: 0 1.2em .5em 0;
+  padding: 0 1.2em 0.5em 0;
   float: left;
 }
 .job_filters .job_types li:first-child {
@@ -540,7 +541,7 @@ ul.job_listings li.no_job_listings_found {
   border-radius: var(--bb-block-radius) var(--bb-block-radius) 0 0;
   border: 1px solid var(--bb-content-border-color);
   border-bottom: 0;
-  padding: 1em 1em;
+  padding: 1em;
   font-size: 14px;
 }
 .job_filters .showing_jobs a {
@@ -557,29 +558,29 @@ ul.job_listings li.no_job_listings_found {
   line-height: 1.6875rem;
   position: relative;
   top: 1px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   margin-right: 7px;
 }
 .job_filters .showing_jobs a.reset {
   padding-left: 5px;
 }
 .job_filters .showing_jobs a.reset span:before {
-  font-family: 'bb-icons';
-  content: '\e828';
+  font-family: bb-icons;
+  content: "\e828";
   font-size: 24px;
   top: 3px;
   margin-right: 2px;
   line-height: 1.3875rem;
 }
 .job_filters .showing_jobs a.rss_link span:before {
-  font-family: 'bb-icons';
-  content: '\ef0d';
+  font-family: bb-icons;
+  content: "\ef0d";
   font-size: 16px;
   font-weight: 600;
 }
 .job_filters .showing_jobs a.alert span:before {
-  font-family: 'bb-icons' !important;
-  content: '\e8a5';
+  font-family: bb-icons !important;
+  content: "\e8a5";
   font-size: 16px;
 }
 
@@ -593,8 +594,8 @@ ul.job_listings li.no_job_listings_found {
   position: relative;
 }
 .page-header .jobs-search div.search_keywords:before {
-  content: '\ef10';
-  font-family: "bb-icons";
+  content: "\ef10";
+  font-family: bb-icons;
   font-size: 18px;
   color: #bdbdbd;
   text-rendering: auto;
@@ -608,8 +609,8 @@ ul.job_listings li.no_job_listings_found {
   max-width: 170px;
 }
 .page-header .jobs-search div.search_location:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 22px;
   color: #bdbdbd;
   text-rendering: auto;
@@ -620,7 +621,7 @@ ul.job_listings li.no_job_listings_found {
 }
 .page-header .jobs-search div.search_location input {
   padding: 0 15px 0 35px;
-  background-color: #E9EBED;
+  background-color: #e9ebed;
   width: 100%;
 }
 .page-header .jobs-search div input {
@@ -643,7 +644,7 @@ ul.job_listings li.no_job_listings_found {
   font-size: 16px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   content: "\e875" !important;
 }
 
@@ -658,37 +659,45 @@ ul.job_listings li.no_job_listings_found {
           transform-style: preserve-3d;
   margin-bottom: 15px;
 }
-#job-manager-alerts table.job-manager-alerts th, #job-manager-alerts table.job-manager-alerts td {
+#job-manager-alerts table.job-manager-alerts th,
+#job-manager-alerts table.job-manager-alerts td {
   background-color: #fff;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
-#job-manager-alerts table.job-manager-alerts th:first-child, #job-manager-alerts table.job-manager-alerts td:first-child {
+#job-manager-alerts table.job-manager-alerts th:first-child,
+#job-manager-alerts table.job-manager-alerts td:first-child {
   padding-left: 1em;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls, #job-manager-alerts table.job-manager-alerts td.bb-ctrls {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls {
   max-width: 40px;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap, #job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap {
   width: 35px;
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown, #job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown {
   z-index: 9;
   background-color: #fff;
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li, #job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li {
   background-color: #fff;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li a, #job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li a {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li a,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls .bs-dropdown-wrap ul.bs-dropdown li a {
   background-color: #fff;
   position: relative;
   z-index: 999;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link, #job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link {
   color: var(--bb-headings-color);
   border: 0;
   display: inline-block;
@@ -701,11 +710,14 @@ ul.job_listings li.no_job_listings_found {
   z-index: 0;
   pointer-events: none;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link.active, #job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link:hover, #job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link.active, #job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link:hover {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link.active, #job-manager-alerts table.job-manager-alerts th.bb-ctrls a.bs-dropdown-link:hover,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link.active,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls a.bs-dropdown-link:hover {
   background: transparent;
   opacity: 1;
 }
-#job-manager-alerts table.job-manager-alerts th.bb-ctrls i, #job-manager-alerts table.job-manager-alerts td.bb-ctrls i {
+#job-manager-alerts table.job-manager-alerts th.bb-ctrls i,
+#job-manager-alerts table.job-manager-alerts td.bb-ctrls i {
   font-size: 20px;
 }
 #job-manager-alerts table.job-manager-alerts thead th {
@@ -716,7 +728,7 @@ ul.job_listings li.no_job_listings_found {
   white-space: nowrap;
 }
 #job-manager-alerts table.job-manager-alerts thead tr:first-child th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 #job-manager-alerts table.job-manager-alerts thead tr:first-child th:last-child {
@@ -751,8 +763,8 @@ ul.job_listings li.no_job_listings_found {
   margin-top: 5px;
 }
 #job-manager-alerts table.job-manager-alerts tbody tr td.alert_location > span:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -777,7 +789,7 @@ ul.job_listings li.no_job_listings_found {
   border-radius: 0 0 0 4px;
 }
 #job-manager-alerts table.job-manager-alerts tbody tr:last-child td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px;
 }
 #job-manager-alerts table.job-manager-alerts tbody td:first-child {
   border-left: 1px solid rgba(0, 0, 0, 0.05);
@@ -889,7 +901,7 @@ ul.job_listings li.no_job_listings_found {
   line-height: 10px;
   position: relative;
   top: 1px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   margin-right: 3px;
   content: "\eef9";
 }
@@ -940,7 +952,7 @@ ul.job_listings li.no_job_listings_found {
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
     max-width: 100%;
-    padding-top: .9375rem;
+    padding-top: 0.9375rem;
   }
 
   body.single-resume .entry-content-job .entry-secondary {
@@ -963,7 +975,7 @@ ul.job_listings li.no_job_listings_found {
   border: 0;
   font-weight: normal;
   font-size: 1em;
-  margin: 0 -.2em;
+  margin: 0 -0.2em;
   border-bottom: 1px solid var(--bb-content-border-color);
   border-radius: 0;
 }
@@ -997,8 +1009,8 @@ ul.job_listings li.no_job_listings_found {
 }
 .ui-datepicker .ui-datepicker-header a.ui-datepicker-next span:before,
 .ui-datepicker .ui-datepicker-header a.ui-datepicker-prev span:before {
-  content: '\e827';
-  font-family: 'bb-icons';
+  content: "\e827";
+  font-family: bb-icons;
   font-weight: normal;
   speak: none;
   display: inline-block;
@@ -1069,7 +1081,7 @@ ul.job_listings li.no_job_listings_found {
 .job_listing .job-manager-info:before,
 .job-manager-info:before {
   color: #fff !important;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   content: "\eebc";
   font-style: normal;
   font-weight: 100;
@@ -1084,10 +1096,12 @@ table.job-manager-bookmarks {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
 }
-table.job-manager-bookmarks th, table.job-manager-bookmarks td {
+table.job-manager-bookmarks th,
+table.job-manager-bookmarks td {
   background-color: #fff;
 }
-table.job-manager-bookmarks th:first-child, table.job-manager-bookmarks td:first-child {
+table.job-manager-bookmarks th:first-child,
+table.job-manager-bookmarks td:first-child {
   padding-left: 1em;
 }
 table.job-manager-bookmarks thead th {
@@ -1100,7 +1114,7 @@ table.job-manager-bookmarks thead th {
   padding-bottom: 1rem;
 }
 table.job-manager-bookmarks thead tr:first-child th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 table.job-manager-bookmarks thead tr:first-child th:last-child {
@@ -1169,7 +1183,7 @@ table.job-manager-bookmarks tbody tr:last-child td:first-child {
   border-radius: 0 0 0 4px;
 }
 table.job-manager-bookmarks tbody tr:last-child td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px;
 }
 table.job-manager-bookmarks tbody td:first-child {
   border-left: 1px solid rgba(0, 0, 0, 0.05);
@@ -1228,14 +1242,14 @@ table.job-manager-bookmarks tbody td:last-child {
   box-shadow: none;
 }
 .job-manager-form fieldset .wp-editor-container .mce-toolbar .mce-btn-group .mce-btn .mce-ico {
-  color: #96A2AD;
+  color: #96a2ad;
 }
 .job-manager-form fieldset .resume-manager-data-row {
   padding-top: 15px;
 }
 .job-manager-form fieldset .resume-manager-data-row a.resume-manager-remove-row,
 .job-manager-form fieldset .resume-manager-data-row a.resume-manager-remove-row:hover {
-  margin: -.5em 0 0 0;
+  margin: -0.5em 0 0;
   color: var(--bb-alternate-text-color);
 }
 .job-manager-form fieldset a.resume-manager-add-row {
@@ -1265,7 +1279,7 @@ table.job-manager-bookmarks tbody td:last-child {
     width: 100%;
   }
 }
-body:not(.bb-page-loaded) .job-embed-from fieldset div.field input[type=checkbox],
+body:not(.bb-page-loaded) .job-embed-from fieldset div.field input[type="checkbox"],
 body:not(.bb-page-loaded) .job-embed-from fieldset div.field select[multiple] option,
 body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   display: none;
@@ -1309,17 +1323,19 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
     white-space: nowrap;
   }
 }
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
+/* stylelint-disable media-feature-name-no-unknown */
+@media only screen and (min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
+  /* stylelint-enable */
   .chosen-container-single .chosen-single div b {
     background-image: none !important;
   }
 }
 .job-manager-form fieldset {
   border-bottom: 0;
-  /*select[multiple] option {
-      display: none;
-      visibility: hidden;
-  }*/
+    /* select[multiple] option {
+	    display: none;
+	    visibility: hidden;
+	} */
 }
 .job-manager-form fieldset label {
   font-size: 16px;
@@ -1331,7 +1347,7 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   font-size: 12px;
   margin-top: 0.5em;
 }
-.job-manager-form fieldset input[type=file] {
+.job-manager-form fieldset input[type="file"] {
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -1342,13 +1358,19 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
 .job-manager-form fieldset input[placeholder] {
   text-overflow: ellipsis;
 }
-.job-manager-form fieldset ::-moz-placeholder {
+.job-manager-form fieldset ::-webkit-input-placeholder {
   text-overflow: ellipsis;
 }
-.job-manager-form fieldset input:-moz-placeholder {
+.job-manager-form fieldset :-ms-input-placeholder {
   text-overflow: ellipsis;
 }
-.job-manager-form fieldset input[type=file] + label {
+.job-manager-form fieldset ::placeholder {
+  text-overflow: ellipsis;
+}
+.job-manager-form fieldset input:placeholder {
+  text-overflow: ellipsis;
+}
+.job-manager-form fieldset input[type="file"] + label {
   font-size: 16px;
   font-weight: 700;
   color: var(--bb-primary-color);
@@ -1361,14 +1383,16 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   float: none;
   cursor: pointer;
 }
-.job-manager-form fieldset input[type=file]:focus + label,
-.job-manager-form fieldset input[type=file] + label:hover {
+.job-manager-form fieldset input[type="file"]:focus + label,
+.job-manager-form fieldset input[type="file"] + label:hover {
   color: var(--bb-primary-color);
 }
 .job-manager-form fieldset select[multiple] {
   height: 40px;
   -webkit-appearance: none;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 40px;
@@ -1378,14 +1402,15 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   display: none;
 }
 .job-manager-form fieldset select:not([multiple="multiple"]) {
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
 }
 .job-manager-form fieldset .chosen-container-multi .chosen-choices {
   -webkit-appearance: none;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
   background-repeat: no-repeat;
   background-position: right 1rem center;
-  padding-right: 40px;
   font-family: inherit;
   font-size: 15px;
   height: 41px;
@@ -1397,13 +1422,13 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   box-shadow: none;
   padding: 0 12px;
 }
-.job-manager-form fieldset .chosen-container-multi .chosen-choices li.search-field input[type=text] {
+.job-manager-form fieldset .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
   color: #c3c6c9;
 }
 .job-manager-form fieldset .chosen-container-multi .chosen-choices li.search-choice {
   margin-top: 8px;
   font-size: 12px;
-  background-color: #ECEEF1;
+  background-color: #eceef1;
   border-radius: 100px;
   padding-left: 10px;
   padding-right: 25px;
@@ -1430,7 +1455,7 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
 #submit-job-form > p {
   font-size: 16px;
 }
-#submit-job-form p input[type=submit] {
+#submit-job-form p input[type="submit"] {
   margin-left: 30%;
   padding-left: 40px;
   padding-right: 40px;
@@ -1491,7 +1516,7 @@ body:not(.bb-page-loaded) .job-manager-form fieldset select[multiple] option {
   #submit-job-form input.button.secondary.save_draft {
     margin-left: 0;
   }
-  #submit-job-form p input[type=submit] {
+  #submit-job-form p input[type="submit"] {
     margin-left: 0;
     padding-left: 35px;
     padding-right: 35px;
@@ -1537,27 +1562,27 @@ article.job_listing ul.job-listing-meta li.job-type.internship {
   color: #6033cc;
 }
 article.job_listing ul.job-listing-meta li.job-type.freelance {
-  background-color: #DCF2FD;
+  background-color: #dcf2fd;
   color: #39c;
 }
 article.job_listing ul.job-listing-meta li.job-type.full-time {
-  background-color: #E4F6DD;
-  color: #48BF1E;
+  background-color: #e4f6dd;
+  color: #48bf1e;
 }
 article.job_listing ul.job-listing-meta li.job-type.part-time {
   background-color: #fff6ef;
   color: #f08d3c;
 }
 article.job_listing ul.job-listing-meta li.job-type.temporary {
-  background-color: #FFE2E0;
+  background-color: #ffe2e0;
   color: #d93674;
 }
 article.job_listing ul.job-listing-meta li.location {
   margin-right: 0.5em;
 }
 article.job_listing ul.job-listing-meta li.location:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 20px;
   text-rendering: auto;
   display: inline-block;
@@ -1574,8 +1599,8 @@ article.job_listing ul.job-listing-meta li.date-posted {
   margin-right: 0.5em;
 }
 article.job_listing ul.job-listing-meta li.date-posted:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -1585,16 +1610,16 @@ article.job_listing ul.job-listing-meta li.salary {
   margin-right: 0.5em;
 }
 article.job_listing ul.job-listing-meta li.salary:before {
-  content: '\e86f';
-  font-family: "bb-icons" !important;
+  content: "\e86f";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   margin-right: 7px;
 }
 article.job_listing ul.job-listing-meta li.position-filled:before {
-  content: '\e876';
-  font-family: "bb-icons" !important;
+  content: "\e876";
+  font-family: bb-icons !important;
   font-size: 26px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -1603,8 +1628,8 @@ article.job_listing ul.job-listing-meta li.position-filled:before {
   top: 3px;
 }
 article.job_listing ul.job-listing-meta li.application-deadline:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -1662,16 +1687,16 @@ article.job_listing .entry-content .single_job_listing .company p.name a:hover:b
   color: #7f868f;
 }
 article.job_listing .entry-content .single_job_listing .company p.name a.company_twitter:before {
-  content: '\edf4	';
-  font-family: "bb-icons" !important;
+  content: "\edf4	";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   margin-right: 7px;
 }
 article.job_listing .entry-content .single_job_listing .company p.name a.website:before {
-  content: '\eec8';
-  font-family: "bb-icons" !important;
+  content: "\eec8";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -1695,8 +1720,8 @@ article.job_listing .entry-content-job .application input.apply-with-facebook {
   margin-bottom: 0;
   padding: 10px 25px;
   font-size: 15px;
-  background-color: #3C5A9A;
-  border-color: #3C5A9A;
+  background-color: #3c5a9a;
+  border-color: #3c5a9a;
   background-image: none;
 }
 @media (max-width: 544px) {
@@ -1714,7 +1739,6 @@ article.job_listing .single-job-sidebar figure.entry-img {
 article.job_listing .single-job-sidebar .job-media {
   border-radius: var(--bb-block-radius) var(--bb-block-radius) 0 0;
   height: 150px;
-  text-align: center;
   padding: 1em;
   background-color: #000;
   display: -webkit-box;
@@ -1765,7 +1789,7 @@ article.job_listing .single-job-sidebar .company-bar .application .application_b
   width: 100%;
 }
 article.job_listing .single-job-sidebar .company-bar .application .apply-with-facebook {
-  background-color: #3C5A9A;
+  background-color: #3c5a9a;
   color: #fff;
   width: 100%;
   margin-bottom: 10px;
@@ -1784,7 +1808,7 @@ article.job_listing .single-job-sidebar .name-meta a:hover:before {
   color: var(--bb-alternate-text-color);
 }
 article.job_listing .single-job-sidebar .name-meta a:before {
-  font-family: "bb-icons" !important;
+  font-family: bb-icons !important;
   font-size: 18px;
   display: inline-block;
   text-rendering: auto;
@@ -1794,10 +1818,10 @@ article.job_listing .single-job-sidebar .name-meta a:before {
   top: 1px;
 }
 article.job_listing .single-job-sidebar .name-meta a.website:before {
-  content: '\eec8';
+  content: "\eec8";
 }
 article.job_listing .single-job-sidebar .name-meta a.company_twitter:before {
-  content: '\edf4';
+  content: "\edf4";
 }
 article.job_listing .single-job-sidebar p.tagline {
   font-size: 14px;
@@ -1836,7 +1860,7 @@ article.job_listing .single-job-sidebar p.tagline {
 .entry-content-job .entry-primary .entry-content .company_video {
   border-top: 0;
   padding: 1em 0 0;
-  margin: 0 0 1.5em 0;
+  margin: 0 0 1.5em;
   position: relative;
   padding-bottom: 56.25%;
   padding-top: 0;
@@ -1887,8 +1911,8 @@ article.job_listing .single-job-sidebar p.tagline {
   margin-bottom: 10px;
 }
 .entry-content-job .entry-primary .single_job_listing .job-manager-single-alert-link a:before {
-  content: '\ee62';
-  font-family: "bb-icons" !important;
+  content: "\ee62";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -1898,7 +1922,12 @@ article.job_listing .single-job-sidebar p.tagline {
   line-height: 28px;
   letter-spacing: -0.24px;
 }
-.entry-content-job .job_description h1, .entry-content-job .job_description h2, .entry-content-job .job_description h3, .entry-content-job .job_description h4, .entry-content-job .job_description h5, .entry-content-job .job_description h6 {
+.entry-content-job .job_description h1,
+.entry-content-job .job_description h2,
+.entry-content-job .job_description h3,
+.entry-content-job .job_description h4,
+.entry-content-job .job_description h5,
+.entry-content-job .job_description h6 {
   font-weight: 500;
   margin-bottom: 0.9rem;
 }
@@ -1911,10 +1940,10 @@ article.job_listing .single-job-sidebar p.tagline {
   width: 100%;
 }
 .post-related-jobs ul.job_listings_grid {
-  /*display: none;*/
+  /* display: none; */
 }
 .post-related-jobs ul.job_listings_grid:not(.slick-initialized) li.job_listing {
-  border: 1px solid #E7EAEC;
+  border: 1px solid #e7eaec;
 }
 .post-related-jobs ul.job_listings_grid:not(.slick-initialized) li.job_listing a {
   padding: 1em;
@@ -1957,13 +1986,12 @@ article.job_listing .single-job-sidebar p.tagline {
 .post-related-jobs ul.job_listings_grid.slick-initialized .job_box_related img.company_logo {
   position: static;
   float: none;
-  margin: 0;
   width: 100px;
   height: 100px;
   margin: 0 auto 10px;
   visibility: visible;
   -webkit-clip-path: circle(49% at 50% 50%);
-  clip-path: circle(49% at 50% 50%);
+          clip-path: circle(49% at 50% 50%);
   object-fit: cover;
 }
 .post-related-jobs ul.job_listings_grid.slick-initialized .job_box_related div.position {
@@ -2008,7 +2036,7 @@ article.job_listing .single-job-sidebar p.tagline {
   margin-top: -25px;
   opacity: 1;
   background-color: var(--bb-content-background-color);
-  box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.09);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.09);
 }
 .post-related-jobs ul.job_listings_grid.slick-initialized .slick-arrow.bb-slide-next {
   right: -5px;
@@ -2075,7 +2103,7 @@ article.job_listing .single-job-sidebar p.tagline {
 #resume_preview .resume_preview {
   border: 1px solid var(--bb-content-border-color);
   border-top: 0;
-  padding: 1em 1em 1em;
+  padding: 1em;
   background-color: #fff;
   border-radius: 0 0 4px 4px;
 }
@@ -2146,12 +2174,12 @@ article.job_listing .single-job-sidebar p.tagline {
 }
 #job_preview ul.job-listing-meta li.job-type.freelance,
 #resume_preview ul.job-listing-meta li.job-type.freelance {
-  background-color: #DCF2FD;
+  background-color: #dcf2fd;
   color: #39c;
 }
 #job_preview ul.job-listing-meta li.job-type.full-time,
 #resume_preview ul.job-listing-meta li.job-type.full-time {
-  background-color: #E4F6DD;
+  background-color: #e4f6dd;
   color: #90da36;
 }
 #job_preview ul.job-listing-meta li.job-type.part-time,
@@ -2161,7 +2189,7 @@ article.job_listing .single-job-sidebar p.tagline {
 }
 #job_preview ul.job-listing-meta li.job-type.temporary,
 #resume_preview ul.job-listing-meta li.job-type.temporary {
-  background-color: #FFE2E0;
+  background-color: #ffe2e0;
   color: #d93674;
 }
 #job_preview ul.job-listing-meta li.location,
@@ -2172,8 +2200,8 @@ article.job_listing .single-job-sidebar p.tagline {
 }
 #job_preview ul.job-listing-meta li.location:before,
 #resume_preview ul.job-listing-meta li.location:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 20px;
   display: inline-block;
   text-rendering: auto;
@@ -2196,8 +2224,8 @@ article.job_listing .single-job-sidebar p.tagline {
 }
 #job_preview ul.job-listing-meta li.date-posted:before,
 #resume_preview ul.job-listing-meta li.date-posted:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2216,8 +2244,8 @@ article.job_listing .single-job-sidebar p.tagline {
 }
 #job_preview ul.job-listing-meta li.application-deadline:before,
 #resume_preview ul.job-listing-meta li.application-deadline:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2273,7 +2301,7 @@ article.job_listing .single-job-sidebar p.tagline {
 #job_preview .single-resume .resume-aside .name a:before,
 #resume_preview .single_job_listing .company .name a:before,
 #resume_preview .single-resume .resume-aside .name a:before {
-  font-family: "bb-icons" !important;
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2285,13 +2313,13 @@ article.job_listing .single-job-sidebar p.tagline {
 #job_preview .single-resume .resume-aside .name a.website:before,
 #resume_preview .single_job_listing .company .name a.website:before,
 #resume_preview .single-resume .resume-aside .name a.website:before {
-  content: '\eec8';
+  content: "\eec8";
 }
 #job_preview .single_job_listing .company .name a.company_twitter:before,
 #job_preview .single-resume .resume-aside .name a.company_twitter:before,
 #resume_preview .single_job_listing .company .name a.company_twitter:before,
 #resume_preview .single-resume .resume-aside .name a.company_twitter:before {
-  content: '\edf4	';
+  content: "\edf4	";
 }
 #job_preview .single_job_listing .company .tagline,
 #job_preview .single-resume .resume-aside .tagline,
@@ -2501,8 +2529,8 @@ div.resumes .resume_filters .search_resumes .search_keywords {
   position: relative;
 }
 div.resumes .resume_filters .search_resumes .search_keywords:before {
-  content: '\ef10';
-  font-family: "bb-icons";
+  content: "\ef10";
+  font-family: bb-icons;
   font-size: 18px;
   color: var(--bb-alternate-text-color);
   text-rendering: auto;
@@ -2519,8 +2547,8 @@ div.resumes .resume_filters .search_resumes .search_location {
   position: relative;
 }
 div.resumes .resume_filters .search_resumes .search_location:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 22px;
   color: var(--bb-alternate-text-color);
   text-rendering: auto;
@@ -2535,10 +2563,11 @@ div.resumes .resume_filters .search_resumes .search_location input {
 }
 div.resumes .resume_filters .search_resumes .chosen-container-single .chosen-single {
   -webkit-appearance: none;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K);
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgdmlld0JveD0iMCAwIDEwIDYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cjx0aXRsZT5TdHJva2UgNzczPC90aXRsZT4KPGRlc2M+Q3JlYXRlZCB1c2luZyBGaWdtYTwvZGVzYz4KPGcgaWQ9IkNhbnZhcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE5ODg2IDApIj4KPGcgaWQ9IlN0cm9rZSA3NzMiIG9wYWNpdHk9IjAuMjUiPgo8dXNlIHhsaW5rOmhyZWY9IiNwYXRoMF9zdHJva2UiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5ODg3IDEpIiBmaWxsPSIjMTIyQjQ2Ii8+CjwvZz4KPC9nPgo8ZGVmcz4KPHBhdGggaWQ9InBhdGgwX3N0cm9rZSIgZD0iTSA4LjYzNjQgMC42MzYzOTZDIDguOTg3ODcgMC4yODQ5MjQgOC45ODc4NyAtMC4yODQ5MjQgOC42MzY0IC0wLjYzNjM5NkMgOC4yODQ5MiAtMC45ODc4NjggNy43MTUwOCAtMC45ODc4NjggNy4zNjM2IC0wLjYzNjM5NkwgOC42MzY0IDAuNjM2Mzk2Wk0gNCA0TCAzLjM2MzYgNC42MzY0QyAzLjcxNTA4IDQuOTg3ODcgNC4yODQ5MiA0Ljk4Nzg3IDQuNjM2NCA0LjYzNjRMIDQgNFpNIDAuNjM2Mzk2IC0wLjYzNjM5NkMgMC4yODQ5MjQgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggLTAuNjM2Mzk2IC0wLjYzNjM5NkMgLTAuOTg3ODY4IC0wLjI4NDkyNCAtMC45ODc4NjggMC4yODQ5MjQgLTAuNjM2Mzk2IDAuNjM2Mzk2TCAwLjYzNjM5NiAtMC42MzYzOTZaTSA3LjM2MzYgLTAuNjM2Mzk2TCAzLjM2MzYgMy4zNjM2TCA0LjYzNjQgNC42MzY0TCA4LjYzNjQgMC42MzYzOTZMIDcuMzYzNiAtMC42MzYzOTZaTSA0LjYzNjQgMy4zNjM2TCAwLjYzNjM5NiAtMC42MzYzOTZMIC0wLjYzNjM5NiAwLjYzNjM5NkwgMy4zNjM2IDQuNjM2NEwgNC42MzY0IDMuMzYzNloiLz4KPC9kZWZzPgo8L3N2Zz4K");
   background-repeat: no-repeat;
   background-position: right 1rem center;
-  padding-right: 40px;
   font-family: inherit;
   font-size: 15px;
   height: 41px;
@@ -2562,7 +2591,7 @@ div.resumes .resume_filters .showing_resumes {
   border-radius: var(--bb-block-radius) var(--bb-block-radius) 0 0;
   border: 1px solid var(--bb-content-border-color);
   border-bottom: 0;
-  padding: 1em 1em;
+  padding: 1em;
   font-size: 14px;
 }
 div.resumes .resume_filters .showing_resumes a {
@@ -2579,15 +2608,15 @@ div.resumes .resume_filters .showing_resumes a:before {
   line-height: 1.6875rem;
   position: relative;
   top: 1px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   margin-right: 7px;
 }
 div.resumes .resume_filters .showing_resumes a.reset {
   padding-left: 5px;
 }
 div.resumes .resume_filters .showing_resumes a.reset:before {
-  font-family: 'bb-icons';
-  content: '\e828';
+  font-family: bb-icons;
+  content: "\e828";
   font-size: 24px;
   top: 3px;
   margin-right: 2px;
@@ -2630,7 +2659,7 @@ ul.resumes li.resume.listing-bookmarked a div.candidate-column:after {
   width: 16px;
   height: 16px;
   -webkit-font-smoothing: antialiased;
-  font-family: 'bb-icons' !important;
+  font-family: bb-icons !important;
   text-decoration: none;
   font-weight: 500;
   font-style: normal;
@@ -2657,7 +2686,7 @@ ul.resumes li.resume {
   width: 100%;
 }
 .widget ul.resumes li.resume {
-  border-width: 0 0 1px 0;
+  border-width: 0 0 1px;
 }
 ul.resumes li.resume:first-child {
   border-top-left-radius: var(--bb-block-radius);
@@ -2669,8 +2698,8 @@ ul.resumes li.resume:last-child {
 }
 ul.resumes li.resume a {
   position: relative;
-  -webkit-transition: all linear .2s;
-          transition: all linear .2s;
+  -webkit-transition: all linear 0.2s;
+          transition: all linear 0.2s;
   padding: 1em;
   font-size: 14px;
   display: -webkit-box;
@@ -2722,11 +2751,11 @@ ul.resumes li.resume a .candidate-location-column {
   color: var(--bb-alternate-text-color);
 }
 ul.resumes li.resume a .candidate-location-column span.candidate-location:before {
-  font-family: "bb-icons";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  content: '\eed1';
+  content: "\eed1";
   margin: 0 3px 0 0;
 }
 ul.resumes li.resume a .resume-posted-column {
@@ -2744,7 +2773,7 @@ ul.resumes li.resume a .resume-category:before {
   font-size: 12px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 2px;
   content: "\ee9e";
 }
@@ -2806,7 +2835,7 @@ div.resumes ul.resumes.loading {
 
 @media (min-width: 544px) {
   ul.resumes li.resume a img {
-    /* IE11 fix*/
+    /* IE11 fix */
     top: 50%;
     -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
@@ -2821,23 +2850,23 @@ div.resumes ul.resumes.loading {
   border: 0;
 }
 .resume-manager-resumes tbody tr td {
-  border-bottom: 1px solid #E7EAEC;
+  border-bottom: 1px solid #e7eaec;
   background-color: #fff;
   font-size: 14px;
 }
 .resume-manager-resumes tbody tr td:first-child {
-  border-left: 1px solid #E7EAEC;
+  border-left: 1px solid #e7eaec;
   padding-left: 1rem;
 }
 .resume-manager-resumes tbody tr td:last-child {
-  border-right: 1px solid #E7EAEC;
+  border-right: 1px solid #e7eaec;
   padding-right: 1rem;
 }
 .resume-manager-resumes tbody tr td.resume-title > a {
   font-size: 16px;
 }
 .resume-manager-resumes tbody tr:first-child td {
-  border-top: 1px solid #E7EAEC;
+  border-top: 1px solid #e7eaec;
 }
 .resume-manager-resumes tbody tr:first-child td:first-child {
   border-top-left-radius: 4px;
@@ -2917,8 +2946,8 @@ body.single-resume .resume-aside .bb-candidate-data p.job-title {
   font-weight: normal;
 }
 body.single-resume .resume-aside .bb-candidate-data p.job-title:before {
-  content: '\ef52';
-  font-family: "bb-icons";
+  content: "\ef52";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2934,7 +2963,7 @@ body.single-resume .resume-aside .bb-candidate-data p.resume-category:before {
   font-size: 13px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 8px;
   margin-left: 3px;
   content: "\ee9e";
@@ -2943,8 +2972,8 @@ body.single-resume .resume-aside .bb-candidate-data p.location {
   padding: 0;
 }
 body.single-resume .resume-aside .bb-candidate-data p.location a:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 20px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2961,8 +2990,8 @@ body.single-resume .resume-aside ul.resume-links li {
   line-height: 32px;
 }
 body.single-resume .resume-aside ul.resume-links li.resume-link a:before {
-  content: '\e876';
-  font-family: "bb-icons" !important;
+  content: "\e876";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -2970,17 +2999,17 @@ body.single-resume .resume-aside ul.resume-links li.resume-link a:before {
   line-height: 33px;
 }
 body.single-resume .resume-aside ul.resume-links li.resume-link.resume-link-facebook a:before {
-  content: '\edd2';
+  content: "\edd2";
 }
 body.single-resume .resume-aside ul.resume-links li.resume-link.resume-link-twitter a:before {
-  content: '\edf4';
+  content: "\edf4";
 }
 body.single-resume .resume-aside ul.resume-links li.resume-link.resume-link-instagram a:before {
   content: "\eddc";
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons" !important;
+  font-family: bb-icons !important;
   margin-right: 6px;
   margin-left: 2px;
 }
@@ -2989,7 +3018,7 @@ body.single-resume .resume-aside ul.resume-links li.resume-link.resume-link-gith
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons" !important;
+  font-family: bb-icons !important;
   margin-right: 6px;
   margin-left: 2px;
 }
@@ -2997,7 +3026,7 @@ body.single-resume .resume-aside ul.resume-links li.resume-file a:before {
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons" !important;
+  font-family: bb-icons !important;
   margin-right: 7px;
   margin-left: 1px;
   content: "\ee6e";
@@ -3040,7 +3069,7 @@ body.single-resume .resume-aside .resume_contact .resume_contact_details {
   border-color: var(--bb-content-border-color);
 }
 body.single-resume .resume-aside .resume_contact .resume_contact_details:before {
-  margin: -20px auto 0 auto;
+  margin: -20px auto 0;
   right: 0;
   top: 0;
   border-right: 10px solid transparent;
@@ -3048,7 +3077,7 @@ body.single-resume .resume-aside .resume_contact .resume_contact_details:before 
   border-bottom: 10px solid var(--bb-content-border-color);
 }
 body.single-resume .resume-aside .resume_contact .resume_contact_details:after {
-  margin: -18px auto 0 auto;
+  margin: -18px auto 0;
   right: 0;
   top: 0;
   border-right: 9px solid transparent;
@@ -3062,20 +3091,20 @@ body.single-resume ul.meta {
   font-size: 14px;
 }
 body.single-resume ul.meta li {
-  padding: .5em .9em .5em 0;
+  padding: 0.5em 0.9em 0.5em 0;
   color: var(--bb-alternate-text-color);
 }
 body.single-resume ul.meta li.date-posted:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   margin-right: 7px;
 }
 body.single-resume ul.meta li.resume-category:before {
-  content: '\eeae';
-  font-family: "bb-icons" !important;
+  content: "\eeae";
+  font-family: bb-icons !important;
   font-size: 20px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3090,8 +3119,8 @@ body.single-resume ul.meta li.candidate-location a:hover {
   color: var(--bb-primary-color);
 }
 body.single-resume ul.meta li.candidate-location:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 19px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3101,7 +3130,7 @@ body.single-resume ul.meta li.candidate-location:before {
 .single-resume .candidate-video {
   border-top: 0;
   padding: 0;
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
   position: relative;
   padding-bottom: 56.25%;
   height: 0;
@@ -3151,7 +3180,7 @@ body.single-resume ul.meta li.candidate-location:before {
   display: none;
 }
 .single-resume-content .resume_contact .resume_contact_details:before {
-  margin: -20px auto 0 auto;
+  margin: -20px auto 0;
   right: 0;
   top: 0;
   border-right: 10px solid transparent;
@@ -3159,7 +3188,7 @@ body.single-resume ul.meta li.candidate-location:before {
   border-bottom: 10px solid #eee;
 }
 .single-resume-content .resume_contact .resume_contact_details:after {
-  margin: -18px auto 0 auto;
+  margin: -18px auto 0;
   right: 0;
   top: 0;
   border-right: 9px solid transparent;
@@ -3226,7 +3255,7 @@ body.single-resume ul.meta li.candidate-location:before {
   padding-left: 0;
 }
 .single-resume-content .resume-manager-skills li:after {
-  content: '|';
+  content: "|";
   padding: 0 0 0 0.5em;
 }
 .single-resume-content .resume-manager-skills li:last-child:after {
@@ -3274,8 +3303,8 @@ body.single-resume ul.meta li.candidate-location:before {
           align-items: center;
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .resume-aside .resume-links .resume-link a:before {
-  content: '\eec8';
-  font-family: "bb-icons" !important;
+  content: "\eec8";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3293,8 +3322,8 @@ body.single-resume ul.meta li.candidate-location:before {
   padding-left: 1em;
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data p.location a:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 20px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3306,8 +3335,8 @@ body.single-resume ul.meta li.candidate-location:before {
   font-weight: normal;
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data p.job-title:before {
-  content: '\ef52';
-  font-family: "bb-icons" !important;
+  content: "\ef52";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3318,25 +3347,25 @@ body.single-resume ul.meta li.candidate-location:before {
   max-width: 100%;
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data ul.resume-links li.resume-link a:before {
-  content: '\eec8';
-  font-family: "bb-icons";
+  content: "\eec8";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   margin-right: 7px;
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data ul.resume-links li.resume-link.resume-link-facebook a:before {
-  content: '\edd2';
+  content: "\edd2";
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data ul.resume-links li.resume-link.resume-link-twitter a:before {
-  content: '\edf4';
+  content: "\edf4";
 }
 #resume_preview .single-resume .entry-content-job .entry-secondary .single-job-sidebar .bb-candidate-data ul.resume-links li.resume-link.resume-link-instagram a:before {
   content: "\eddc";
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 6px;
   margin-left: 2px;
 }
@@ -3345,7 +3374,7 @@ body.single-resume ul.meta li.candidate-location:before {
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 6px;
   margin-left: 2px;
 }
@@ -3353,7 +3382,7 @@ body.single-resume ul.meta li.candidate-location:before {
   font-size: 14px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 7px;
   margin-left: 1px;
   content: "\ee6e";
@@ -3374,7 +3403,7 @@ body.single-resume ul.meta li.candidate-location:before {
   font-size: 13px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   margin-right: 8px;
   margin-left: 3px;
   content: "\ee9e";
@@ -3386,8 +3415,8 @@ body.single-resume ul.meta li.candidate-location:before {
   display: none;
 }
 #resume_preview .single-resume ul.meta li.date-posted:before {
-  content: '\e884';
-  font-family: "bb-icons" !important;
+  content: "\e884";
+  font-family: bb-icons !important;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3400,8 +3429,8 @@ body.single-resume ul.meta li.candidate-location:before {
   color: var(--bb-primary-color);
 }
 #resume_preview .single-resume ul.meta li.candidate-location:before {
-  content: '\eed1';
-  font-family: "bb-icons" !important;
+  content: "\eed1";
+  font-family: bb-icons !important;
   font-size: 19px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3445,7 +3474,7 @@ body.single-resume ul.meta li.candidate-location:before {
 #submit-resume-form > p:last-child {
   text-align: right;
 }
-#submit-resume-form p input[type=submit] {
+#submit-resume-form p input[type="submit"] {
   margin-left: 30%;
   padding-left: 40px;
   padding-right: 40px;
@@ -3486,10 +3515,12 @@ body.single-resume ul.meta li.candidate-location:before {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
 }
-#job-manager-job-dashboard table.job-manager-jobs th, #job-manager-job-dashboard table.job-manager-jobs td {
+#job-manager-job-dashboard table.job-manager-jobs th,
+#job-manager-job-dashboard table.job-manager-jobs td {
   background-color: #fff;
 }
-#job-manager-job-dashboard table.job-manager-jobs th:first-child, #job-manager-job-dashboard table.job-manager-jobs td:first-child {
+#job-manager-job-dashboard table.job-manager-jobs th:first-child,
+#job-manager-job-dashboard table.job-manager-jobs td:first-child {
   padding-left: 1em;
 }
 #job-manager-job-dashboard table.job-manager-jobs thead th {
@@ -3502,7 +3533,7 @@ body.single-resume ul.meta li.candidate-location:before {
   padding-bottom: 1rem;
 }
 #job-manager-job-dashboard table.job-manager-jobs thead tr:first-child th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 #job-manager-job-dashboard table.job-manager-jobs thead tr:first-child th:last-child {
@@ -3526,7 +3557,7 @@ body.single-resume ul.meta li.candidate-location:before {
   padding-bottom: 1em;
 }
 #job-manager-job-dashboard table.job-manager-jobs tbody tr td.filled img.emoji {
-  opacity: .5;
+  opacity: 0.5;
 }
 #job-manager-job-dashboard table.job-manager-jobs tbody tr td.job_title {
   font-size: 16px;
@@ -3593,7 +3624,7 @@ body.single-resume ul.meta li.candidate-location:before {
   border-radius: 0 0 0 4px;
 }
 #job-manager-job-dashboard table.job-manager-jobs tbody tr:last-child td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px;
 }
 #job-manager-job-dashboard table.job-manager-jobs tbody td:first-child {
   border-left: 1px solid rgba(0, 0, 0, 0.05);
@@ -3611,7 +3642,7 @@ body.single-resume ul.meta li.candidate-location:before {
   line-height: 10px;
   position: relative;
   top: 1px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   margin-right: 7px;
 }
 #job-manager-job-dashboard .bb-ctrls .bs-dropdown a.job-dashboard-action-edit:before {
@@ -3646,10 +3677,12 @@ body.single-resume ul.meta li.candidate-location:before {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
 }
-#resume-manager-candidate-dashboard table.resume-manager-resumes th, #resume-manager-candidate-dashboard table.resume-manager-resumes td {
+#resume-manager-candidate-dashboard table.resume-manager-resumes th,
+#resume-manager-candidate-dashboard table.resume-manager-resumes td {
   background-color: #fff;
 }
-#resume-manager-candidate-dashboard table.resume-manager-resumes th:first-child, #resume-manager-candidate-dashboard table.resume-manager-resumes td:first-child {
+#resume-manager-candidate-dashboard table.resume-manager-resumes th:first-child,
+#resume-manager-candidate-dashboard table.resume-manager-resumes td:first-child {
   padding-left: 1em;
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes thead th {
@@ -3660,7 +3693,7 @@ body.single-resume ul.meta li.candidate-location:before {
   white-space: nowrap;
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes thead tr:first-child th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes thead tr:first-child th:last-child {
@@ -3712,8 +3745,8 @@ body.single-resume ul.meta li.candidate-location:before {
   font-size: 20px;
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes tbody tr td.candidate-location > span:before {
-  content: '\eed1';
-  font-family: "bb-icons";
+  content: "\eed1";
+  font-family: bb-icons;
   font-size: 18px;
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
@@ -3750,7 +3783,7 @@ body.single-resume ul.meta li.candidate-location:before {
   border-radius: 0 0 0 4px;
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes tfoot tr:last-child td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 4px;
 }
 #resume-manager-candidate-dashboard table.resume-manager-resumes tfoot tr:last-child td {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -3771,7 +3804,7 @@ body.single-resume ul.meta li.candidate-location:before {
   line-height: 10px;
   position: relative;
   top: 1px;
-  font-family: 'bb-icons';
+  font-family: bb-icons;
   margin-right: 7px;
 }
 #resume-manager-candidate-dashboard .bb-ctrls .bs-dropdown a.candidate-dashboard-action-edit:before {
@@ -3816,7 +3849,7 @@ body.single-resume ul.meta li.candidate-location:before {
 }
 #job-manager-job-applications .job-applications ul.job-applications .job-application .job-application-meta {
   width: 100%;
-  margin: 0 0 15px 0;
+  margin: 0 0 15px;
   border-radius: 4px;
 }
 
@@ -3860,7 +3893,7 @@ body.single-resume ul.meta li.candidate-location:before {
   margin: 0;
   list-style: none;
 }
-.entry-content .job-manager-form li.search-field input[type=text] {
+.entry-content .job-manager-form li.search-field input[type="text"] {
   min-width: 160px;
   border: 0;
   background: transparent;
@@ -3891,8 +3924,8 @@ body.single-resume ul.meta li.candidate-location:before {
   top: 6px;
 }
 .entry-content .job-manager-form .search-choice-close:after {
-  content: '\e828';
-  font: normal normal normal 14px/1 "bb-icons";
+  content: "\e828";
+  font: normal normal normal 14px/1 bb-icons;
   speak: none;
   display: inline-block;
   text-decoration: inherit;

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 08:20:30+00:00\n"
+"POT-Creation-Date: 2023-04-19 07:04:45+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -114,7 +114,7 @@ msgstr ""
 #: inc/plugins/elementor/templates/types/page.php:35
 #: inc/plugins/elementor/widgets/courses/templates/learndash-courses-template.php:176
 #: inc/plugins/elementor/widgets/courses/templates/lifterlms-courses-template.php:176
-#: inc/plugins/learndash-helper.php:797 inc/plugins/lifterlms-helper.php:774
+#: inc/plugins/learndash-helper.php:801 inc/plugins/lifterlms-helper.php:774
 #: inc/plugins/lifterlms-helper.php:877 lifterlms/course/course-index.php:289
 #: lifterlms/course/course-index.php:337
 #: lifterlms/membership/membership-index.php:71
@@ -124,7 +124,7 @@ msgstr ""
 #: archive-sfwd-courses.php:149
 #: inc/plugins/elementor/widgets/courses/templates/learndash-courses-template.php:195
 #: inc/plugins/elementor/widgets/courses/templates/lifterlms-courses-template.php:195
-#: inc/plugins/learndash-helper.php:810 inc/plugins/lifterlms-helper.php:801
+#: inc/plugins/learndash-helper.php:814 inc/plugins/lifterlms-helper.php:801
 #: lifterlms/course/course-index.php:308 lifterlms/course/course-index.php:355
 #: lifterlms/membership/membership-index.php:83
 msgid "Sorry, no courses were found."
@@ -476,6 +476,7 @@ msgstr ""
 
 #: bbpress/loop-search-topic.php:8 bbpress/loop-topic-list.php:9
 #: inc/admin/options-init.php:1440
+#: learndash/ld30/modules/infobar/course.php:247
 msgid "Closed"
 msgstr ""
 
@@ -1092,6 +1093,65 @@ msgstr ""
 msgid "This panel is set to be Read-Only. Saving is disabled."
 msgstr ""
 
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/class-redux-extension-import-export.php:84
+#: inc/admin/options-init.php:2855
+msgid "Import / Export"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:77
+msgid "Import Options"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:83
+msgid "Import from Clipboard"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:89
+msgid "Upload file"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:96
+msgid "Paste your clipboard data here."
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:109
+msgid "Import"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:112
+msgid ""
+"WARNING! This will overwrite all existing option values, please proceed "
+"with caution!"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:120
+msgid "Export Options"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:124
+msgid ""
+"Here you can copy/download your current option settings. Keep this safe as "
+"you can use it as a backup should anything go wrong, or you can use it to "
+"restore your settings on this site (or any other site)."
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:131
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:133
+msgid "Copy to Clipboard"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:132
+msgid "Copied!"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:136
+msgid "Export File"
+msgstr ""
+
+#: inc/admin/buddyboss-extensions/extensions/bb_import_export/import_export/class-redux-import-export.php:168
+msgid "Your panel has unchanged values, would you like to save them now?"
+msgstr ""
+
 #: inc/admin/buddyboss-extensions/extensions/bb_typography/bb_typography/field_bb_typography.php:275
 msgid "Font family"
 msgstr ""
@@ -1366,65 +1426,6 @@ msgstr ""
 #: inc/plugins/buddyboss-menu-icons/includes/settings.php:658
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/types/dashicons.php:799
 msgid "Yes"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/class-redux-extension-import-export.php:84
-#: inc/admin/options-init.php:2855
-msgid "Import / Export"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:77
-msgid "Import Options"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:83
-msgid "Import from Clipboard"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:89
-msgid "Upload file"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:96
-msgid "Paste your clipboard data here."
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:109
-msgid "Import"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:112
-msgid ""
-"WARNING! This will overwrite all existing option values, please proceed "
-"with caution!"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:120
-msgid "Export Options"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:124
-msgid ""
-"Here you can copy/download your current option settings. Keep this safe as "
-"you can use it as a backup should anything go wrong, or you can use it to "
-"restore your settings on this site (or any other site)."
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:131
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:133
-msgid "Copy to Clipboard"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:132
-msgid "Copied!"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:136
-msgid "Export File"
-msgstr ""
-
-#: inc/admin/buddyboss-extensions/extensions/import_export/import_export/class-redux-import-export.php:168
-msgid "Your panel has unchanged values, would you like to save them now?"
 msgstr ""
 
 #: inc/admin/buddyboss-extensions/extensions/repeater/repeater/field_repeater.php:251
@@ -4669,7 +4670,7 @@ msgid "Icon Picker"
 msgstr ""
 
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/loader.php:240
-#: inc/plugins/learndash-helper.php:1046 inc/plugins/lifterlms-helper.php:1244
+#: inc/plugins/learndash-helper.php:1064 inc/plugins/lifterlms-helper.php:1244
 msgid "All Categories"
 msgstr ""
 
@@ -10309,7 +10310,7 @@ msgstr ""
 
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/types/foundation-icons.php:951
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/types/genericon.php:503
-#: inc/plugins/learndash-helper.php:1844
+#: inc/plugins/learndash-helper.php:1862
 #: lifterlms/assignment/template-single-assignment-content.php:97
 #: lifterlms/lesson/template-single-lesson-content.php:154
 #: lifterlms/myaccount/my-notifications.php:42
@@ -10349,7 +10350,7 @@ msgstr ""
 
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/types/foundation-icons.php:1061
 #: inc/plugins/buddyboss-menu-icons/vendor/kucrut/icon-picker/includes/types/genericon.php:583
-#: inc/plugins/learndash-helper.php:1845
+#: inc/plugins/learndash-helper.php:1863
 #: lifterlms/assignment/template-single-assignment-content.php:93
 #: lifterlms/lesson/template-single-lesson-content.php:144
 #: lifterlms/myaccount/my-notifications.php:41
@@ -12285,6 +12286,7 @@ msgid "Show Author"
 msgstr ""
 
 #: inc/plugins/elementor/widgets/courses/controls/learndash-courses-controls.php:399
+#: learndash/ld30/modules/infobar/course.php:190
 msgid "Price"
 msgstr ""
 
@@ -12760,23 +12762,23 @@ msgid ""
 "course price box."
 msgstr ""
 
-#: inc/plugins/learndash-helper.php:1183 inc/plugins/lifterlms-helper.php:553
+#: inc/plugins/learndash-helper.php:1201 inc/plugins/lifterlms-helper.php:553
 msgid "All Instructors"
 msgstr ""
 
-#: inc/plugins/learndash-helper.php:1279 inc/plugins/lifterlms-helper.php:527
+#: inc/plugins/learndash-helper.php:1297 inc/plugins/lifterlms-helper.php:527
 msgid "Alphabetical"
 msgstr ""
 
-#: inc/plugins/learndash-helper.php:1280 inc/plugins/lifterlms-helper.php:528
+#: inc/plugins/learndash-helper.php:1298 inc/plugins/lifterlms-helper.php:528
 msgid "Newly Created"
 msgstr ""
 
-#: inc/plugins/learndash-helper.php:1284 inc/plugins/lifterlms-helper.php:532
+#: inc/plugins/learndash-helper.php:1302 inc/plugins/lifterlms-helper.php:532
 msgid "My Progress"
 msgstr ""
 
-#: inc/plugins/learndash-helper.php:1569
+#: inc/plugins/learndash-helper.php:1587
 msgid "RESUME"
 msgstr ""
 
@@ -13751,6 +13753,56 @@ msgstr ""
 msgid "Expired at"
 msgstr ""
 
+#: learndash/ld30/modules/infobar/course.php:133
+msgid "Current Status"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:144
+#: learndash/ld30/shortcodes/course_list_grid_template.php:285
+#: learndash/ld30/template-course-item.php:105
+#: learndash/ld30/template-single-course-sidebar.php:130
+#: lifterlms/course/course-index-loop.php:70
+msgid "Not Enrolled"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:247
+#: learndash/ld30/shortcodes/course_list_grid_template.php:81
+#: learndash/ld30/shortcodes/course_list_grid_template.php:117
+#: learndash/ld30/shortcodes/course_list_grid_template.php:281
+#: learndash/ld30/template-course-item.php:101
+#: learndash/ld30/template-single-course-sidebar.php:196
+#: learndash/ld30/template-single-course-sidebar.php:286
+#: lifterlms/course/lesson-preview.php:178
+msgid "Free"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:299
+#. translators: placeholders: %1$s Number of times the recurring payment
+#. repeats, %2$s Frequency of recurring payments: day, week, month, year.
+msgid "for %1$s %2$s"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:336
+#. translators: placeholders: %1$s Number of times the recurring payment
+#. repeats, %2$s Frequency of recurring payments: day, week, month, year.
+msgid " for %1$s %2$s"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:394
+msgid "Get Started"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:427
+#: learndash/ld30/template-single-course-sidebar.php:166
+msgid "Login to Enroll"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:442
+#: template-parts/content-buddypress.php:20
+msgid "or"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:444
 #: learndash/ld30/modules/login-modal.php:59
 #: learndash/ld30/template-single-course-sidebar.php:256
 #: woocommerce/myaccount/form-login.php:29
@@ -13814,26 +13866,9 @@ msgstr ""
 msgid "See more..."
 msgstr ""
 
-#: learndash/ld30/shortcodes/course_list_grid_template.php:81
-#: learndash/ld30/shortcodes/course_list_grid_template.php:117
-#: learndash/ld30/shortcodes/course_list_grid_template.php:281
-#: learndash/ld30/template-course-item.php:101
-#: learndash/ld30/template-single-course-sidebar.php:196
-#: learndash/ld30/template-single-course-sidebar.php:286
-#: lifterlms/course/lesson-preview.php:178
-msgid "Free"
-msgstr ""
-
 #: learndash/ld30/shortcodes/course_list_grid_template.php:126
 #: learndash/ld30/shortcodes/course_list_grid_template.php:133
 msgid "Enrolled"
-msgstr ""
-
-#: learndash/ld30/shortcodes/course_list_grid_template.php:285
-#: learndash/ld30/template-course-item.php:105
-#: learndash/ld30/template-single-course-sidebar.php:130
-#: lifterlms/course/course-index-loop.php:70
-msgid "Not Enrolled"
 msgstr ""
 
 #: learndash/ld30/shortcodes/course_list_grid_template.php:289
@@ -13899,10 +13934,6 @@ msgstr ""
 
 #: learndash/ld30/template-single-course-sidebar.php:143
 msgid "Start %s"
-msgstr ""
-
-#: learndash/ld30/template-single-course-sidebar.php:166
-msgid "Login to Enroll"
 msgstr ""
 
 #: learndash/ld30/template-single-course-sidebar.php:193
@@ -14379,10 +14410,6 @@ msgstr ""
 #: template-parts/content-sfwd.php:31
 #. translators: %s: Name of current post. Only visible to screen readers
 msgid "Edit <span class=\"screen-reader-text\">%s</span>"
-msgstr ""
-
-#: template-parts/content-buddypress.php:20
-msgid "or"
 msgstr ""
 
 #: template-parts/content-gamipress.php:45 template-parts/content-job.php:26
@@ -18280,10 +18307,41 @@ msgid_plural "%1$d %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
+#: learndash/ld30/modules/infobar/course.php:139
+#. translators: placeholder: course.
+msgctxt "placeholder: course"
+msgid "Enroll in this %s to get access"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:452
+#. translators: placeholder: course.
+msgctxt "placeholder: course"
+msgid "This %s is currently closed"
+msgstr ""
+
 #: learndash/ld30/modules/login-modal.php:75
 #. translators: placeholder: course.
 msgctxt "placeholder: course"
 msgid "Accessing this %s requires a login. Please enter your credentials below!"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:269
+#. translators: placeholders: Trial interval, Trial frequency.
+msgctxt "placeholders: Trial interval, Trial frequency"
+msgid "Trial price for %1$s %2$s, then"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:290
+#. translators: placeholders: %1$s Interval of recurring payments (number),
+#. %2$s Frequency of recurring payments: day, week, month or year.
+msgctxt "Recurring duration message"
+msgid "Full price every %1$s %2$s afterward"
+msgstr ""
+
+#: learndash/ld30/modules/infobar/course.php:328
+#. translators: Recurring duration message.
+msgctxt "Recurring duration message"
+msgid "Every %1$s %2$s"
 msgstr ""
 
 #: learndash/ld30/modules/progress.php:108

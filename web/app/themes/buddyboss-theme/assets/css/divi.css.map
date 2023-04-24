@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAqGA,gDAAgD;AAIhD,sBAAsB;ACzGtB,2BAA2B;AAIvB,0FAA6D;EACzD,MAAM,EAAE,gBAAgB;;;AAIhC,oGAAqG;EACjG,UAAU,EAAE,eAAe",
+"mappings": "AAqGA,gDAAgD;AAIhD,sBAAsB;ACzGtB,2BAA2B;AAGvB,0FAA6D;EACzD,MAAM,EAAE,gBAAgB;;;AAIhC,gGAAiG;EAC7F,UAAU,EAAE,eAAe",
 "sources": ["scss/functions/components/_utils.scss","scss/plugins/divi/components/_layout.scss"],
 "names": [],
 "file": "divi.css"

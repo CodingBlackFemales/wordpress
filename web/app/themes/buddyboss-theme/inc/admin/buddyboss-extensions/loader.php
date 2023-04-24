@@ -35,3 +35,23 @@ if ( !function_exists( 'buddyboss_theme_redux_register_custom_extension_loader' 
 	// Modify {$redux_opt_name} to match your opt_name
 	add_action( "redux/extensions/{$redux_opt_name}/before", 'buddyboss_theme_redux_register_custom_extension_loader', 0 );
 endif;
+
+if ( ! function_exists( 'bb_theme_override_import_export_extension' ) ) {
+	/**
+	 * Change the path of load the import export extensions path.
+	 *
+	 * @since 2.3.1
+	 *
+	 * @param string $path Extension loader path.
+	 *
+	 * @return string
+	 */
+	function bb_theme_override_import_export_extension( $path ) {
+		$path = get_template_directory() . '/inc/admin/buddyboss-extensions/extensions/bb_import_export/class-redux-extension-import-export.php';
+
+		return $path;
+	}
+
+	add_filter( "redux/extension/{$redux_opt_name}/import_export", 'bb_theme_override_import_export_extension', 10, 1 );
+
+}
