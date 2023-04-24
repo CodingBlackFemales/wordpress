@@ -59,6 +59,20 @@ add_action( 'wp_enqueue_scripts', 'cbfacademy_theme_scripts_styles', 9999 );
 
 // Add your own custom functions here
 
+/**
+ * Sets the correct database table prefix for BuddyBoss, based on the current subsite
+ *
+ * @param  string $base_prefix The base table prefix (e.g. `wp_`).
+ * @return string
+ */
+function cbfacademy_bp_core_get_table_prefix( $base_prefix ) {
+  if(is_multisite()){
+    $blog_id = get_current_blog_id();
+    $base_prefix .= "{$blog_id}_";
+  }
 
+  return $base_prefix;
+}
+add_filter( 'bp_core_get_table_prefix', 'cbfacademy_bp_core_get_table_prefix' );
 
 ?>
