@@ -1,0 +1,22 @@
+/*
+Theme Name: 	CBF Academy
+Theme URI: 		https://academy.codingblackfemales.com/
+Description: 	A child theme of BuddyBoss Theme. To ensure easy updates, make your own edits in this theme.
+Author: 		Coding Black Females
+Author URI: 	https://codingblackfemales.com/
+License: 		GNU General Public License v3 or later
+License URI: 	http://www.gnu.org/licenses/gpl-3.0.html
+Template: 		buddyboss-theme
+Version: 		1.0.0
+*/
+
+/*
+
+-- Stylesheet locations --
+
+Add any customisations into /css/custom.css in this child theme.
+
+Parent styles are called from /buddyboss-theme/inc/theme/functions.php in the 
+parent theme and are located in /buddyboss-theme/assets/css/ in the parent theme.
+
+*/
