@@ -1,0 +1,482 @@
+# Copyright (C) 2022 Astoundify
+# This file is distributed under the same license as the Stats for WP Job Manager plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Stats for WP Job Manager 2.7.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-job-manager-stats\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-08-08T08:05:13+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: wp-job-manager-stats\n"
+
+#. Plugin Name of the plugin
+msgid "Stats for WP Job Manager"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://astoundify.com/products/wp-job-manager-stats/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Capture and display stats of the listings."
+msgstr ""
+
+#. Author of the plugin
+msgid "Astoundify"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://astoundify.com"
+msgstr ""
+
+#: includes/class-wpjms-chart.php:22
+msgid "Chart: %s total views"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:59
+msgid "You need to login to view this page"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:98
+msgid "View All Listing Stats"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:116
+#: includes/class-wpjms-dashboard.php:163
+#: includes/class-wpjms-dashboard.php:227
+msgid "No Listing Found"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:134
+msgid "%s Stats"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:261
+#: includes/class-wpjms-stats-admin.php:150
+msgid "%s total views"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:317
+msgid "No listing found"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:355
+#: includes/class-wpjms-stats-admin.php:101
+msgid "Date range: Last %s days"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:372
+#: includes/class-wpjms-stats-admin.php:65
+#: includes/class-wpjms-stats-admin.php:179
+#: includes/functions.php:63
+msgid "Stats"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:413
+msgid "Add Listing to Chart"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:416
+msgid "Search listings..."
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:454
+msgid "(Expires: %s)"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:466
+#: includes/class-wpjms-stats-admin.php:180
+msgid "View Stats"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:467
+msgid "View Listing"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:468
+msgid "Remove from list"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:504
+#: includes/class-wpjms-stats-admin.php:181
+msgid "This week"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:505
+#: includes/class-wpjms-stats-admin.php:182
+msgid "This month"
+msgstr ""
+
+#: includes/class-wpjms-dashboard.php:506
+msgid "Please enter 3 or more characters"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:34
+msgid "Stats Setup"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:35
+msgid "Stats for WP Job Manager Setup"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:47
+msgid "Submit"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:48
+msgid "Skip"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:64
+msgid "Thanks for installing <em>Stats for WP Job Manager</em>!"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:64
+msgid "This setup wizard will help you get started by creating stats dashboard page."
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:66
+msgid "If you want to skip the wizard and setup the page and shortcode yourself manually, the process is still reletively simple. Refer to the %1$sdocumentation%2$s for help."
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:68
+msgid "Stats Dashboard Setup"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:70
+msgid "<em>Stats for WP Job Manager</em> includes a %1$sshortcode%2$s which can be used within your %3$spage%2$s to output the stats. This can be created for you below."
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:76
+msgid "Page Title"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:77
+msgid "Page Description"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:78
+msgid "Content Shortcode"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:84
+#: includes/class-wpjms-settings-setup.php:107
+msgid "Stats Dashboard"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:86
+msgid "Statistics Dashboard Page."
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:133
+msgid "All Done!"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:135
+msgid "Looks like you're all set to start using the plugin. In case you're wondering where to go next:"
+msgstr ""
+
+#: includes/class-wpjms-settings-setup.php:138
+msgid "Adjust the plugin settings."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:50
+msgid "Statistics"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:56
+#: includes/class-wpjms-settings.php:57
+msgid "Purge Data on Deletion"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:58
+msgid "Purge all statistics data when the plugin is deleted. <strong>This is irreversible</strong>."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:66
+msgid "Default Stat Days"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:67
+msgid "Default number of statistic days showing in the chart"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:78
+msgid "Stats Dashboard Page"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:79
+msgid "Select the page where you have placed the [stats_dashboard] shortcode. This lets the plugin know where the chart is located."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:102
+msgid "License Key"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:103
+msgid "Enter the license key you received with your purchase receipt to continue receiving plugin updates."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:133
+msgid "Listings Stats Dashboard"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:162
+msgid "Thanks for using WP Job Manager Stats!"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:164
+msgid "Your users are almost ready to start tracking their listing statistics."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:171
+msgid "Install Content"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:176
+msgid "Skip Installation"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:196
+msgid "Content and settings successfully setup."
+msgstr ""
+
+#: includes/class-wpjms-settings.php:202
+msgid "Edit Page"
+msgstr ""
+
+#: includes/class-wpjms-settings.php:206
+msgid "View Page"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:60
+#: includes/class-wpjms-stats-admin.php:50
+msgid "View stats"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:78
+#: includes/class-wpjms-stat-visits.php:40
+msgid "Visits"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:121
+msgid "Selected:"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:122
+msgid "Day"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:123
+msgid "Days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:124
+msgid "Close"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:125
+msgid "mo"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:126
+msgid "tu"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:127
+msgid "we"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:128
+msgid "th"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:129
+msgid "fr"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:130
+msgid "sa"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:131
+msgid "su"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:132
+msgid "W"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:134
+msgid "january"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:135
+msgid "february"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:136
+msgid "march"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:137
+msgid "april"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:138
+msgid "may"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:139
+msgid "june"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:140
+msgid "july"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:141
+msgid "august"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:142
+msgid "september"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:143
+msgid "october"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:144
+msgid "november"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:145
+msgid "december"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:147
+msgid "Shortcuts"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:148
+msgid "Custom Values"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:149
+msgid "Past"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:150
+msgid "Following"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:151
+msgid "Previous"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:152
+#: includes/class-wpjms-setup.php:156
+msgid "Week"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:153
+#: includes/class-wpjms-setup.php:157
+msgid "Month"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:154
+#: includes/class-wpjms-setup.php:158
+msgid "Year"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:155
+msgid "Next"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:159
+msgid "Date range should not be more than %d days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:160
+msgid "Date range should not be less than %d days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:161
+msgid "Please select a date range longer than %d days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:162
+msgid "Please select a date"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:163
+msgid "Please select a date range less than %d days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:164
+msgid "Please select a date range between %1$d and %2$d days"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:165
+msgid "Please select a date range"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:166
+msgid "Time"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:167
+msgid "Hour"
+msgstr ""
+
+#: includes/class-wpjms-setup.php:168
+msgid "Minute"
+msgstr ""
+
+#: includes/class-wpjms-stat-apply-button-click.php:39
+msgid "Contact Clicks"
+msgstr ""
+
+#: includes/class-wpjms-stat-apply-form-submit.php:39
+msgid "Contact Submissions"
+msgstr ""
+
+#: includes/class-wpjms-stat-unique-visits.php:32
+msgid "Unique Visits"
+msgstr ""
+
+#: includes/listing-payments/settings.php:46
+#: includes/wc-paid-listings/settings.php:46
+msgid "Require Purchase"
+msgstr ""
+
+#: includes/listing-payments/settings.php:47
+#: includes/wc-paid-listings/settings.php:47
+msgid "Requires a Listing Package"
+msgstr ""
+
+#: includes/listing-payments/settings.php:48
+#: includes/wc-paid-listings/settings.php:48
+msgid "Listing owners must have purchased a listing package to track statistics. Toggle statistics visibility in individual package settings."
+msgstr ""
+
+#: includes/listing-payments/setup.php:74
+#: includes/wc-paid-listings/setup.php:74
+msgid "Stats are disable for this listing"
+msgstr ""
+
+#: includes/listing-payments/woocommerce-setup.php:54
+#: includes/wc-paid-listings/woocommerce-setup.php:54
+msgid "Display statistics?"
+msgstr ""
+
+#: includes/listing-payments/woocommerce-setup.php:55
+#: includes/wc-paid-listings/woocommerce-setup.php:55
+msgid "Show statistics for listings that have this package."
+msgstr ""
