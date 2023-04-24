@@ -1,0 +1,155 @@
+/* Dashboard
+------------------------------------------ */
+.wpjms-job-dashboard,
+.wpjms-job-dashboard *{
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.wpjms-job-dashboard:after{
+	content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+
+/* Date Range Picker
+------------------------------------------ */
+.date-picker-wrapper table,
+.date-picker-wrapper thead,
+.date-picker-wrapper td,
+.date-picker-wrapper th{
+	border: none;
+}
+.wpjms-date-range-field input[type="text"]{
+	width: 200px;
+	max-width: 100%;
+	float: right;
+}
+
+/* Chart
+------------------------------------------ */
+.wpjms-chart{
+	margin-bottom: 30px;
+}
+.wpjms-chart:after{
+	content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+
+/* Stat + Legend Wrap
+------------------------------------------ */
+.wpjms-stat-legend-wrap{
+	position: relative;
+}
+.wpjms-stat-legend-wrap:after{
+	content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+
+/* Stats Options
+------------------------------------------ */
+.wpjms-stats-field{
+	width: 30%;
+	max-width: 100%;
+	float: right;
+	margin-bottom: 30px;
+}
+.wpjms-stats-field:after{
+	content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+.wpjms-stats-field h4{
+	text-transform: uppercase;
+	font-size: 17px;
+}
+.wpjms-stats-field ul{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+.wpjms-stats-field input[type="radio"]{
+	display: none;
+}
+.wpjms-stats-field .stat-label{
+	font-size: 20px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+.wpjms-stats-field .stat-label:before{
+	content: "\f238";
+	font-family: "dashicons";
+	vertical-align: top;
+	color: #888;
+	margin-right: 10px;
+	-webkit-font-smoothing: antialiased;
+}
+.wpjms-stats-option[data-checked="checked"] .stat-label:before,
+.wpjms-stats-field .stat-label:hover:before{
+	color: #f37f09;
+}
+
+
+/* Legend
+------------------------------------------ */
+.wpjms-chart-legend{
+	float: left;
+	width: 70%;
+	padding-right: 30px;
+}
+.wpjms-chart-legend h4{
+	text-transform: uppercase;
+	font-size: 17px;
+}
+.wpjms-chart-legend ul{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+.wpjms-chart-legend .chart-item{
+	position: relative;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+.wpjms-chart-legend .chart-item input[type="checkbox"]{
+	display: none;
+}
+.wpjms-chart-legend .chart-item-wrap{
+}
+.wpjms-chart-legend .chart-item-color{
+	display: block;
+	float: left;
+	width: 35px;
+	height: 35px;
+	margin-top: 5px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.wpjms-chart-legend .chart-item-title{
+	cursor: pointer;
+}
+.wpjms-chart-legend .chart-item-info{
+	font-weight: normal;
+}
+.wpjms-chart-legend .chart-item[data-checked="unchecked"] .chart-item-color{
+	opacity: 0.2;
+}
+.wpjms-chart-legend .chart-item[data-checked="unchecked"] .chart-item-title{
+	color: #999;
+}
+.wpjms-chart-legend .chart-item[data-checked="unchecked"] .chart-item-title:hover{
+	color: #777;
+}
+.wpjms-chart-legend .chart-item-action span:before{
+	content: " - ";
+}
+.wpjms-chart-legend .chart-item-action span:first-child:before{
+	content: "";
+}
+
+/* Media Queries
+------------------------------------------ */
+@media screen and (max-width: 700px) {
+	.wpjms-date-range-field:after{
+		content:".";display:block;height:0;clear:both;visibility:hidden;
+	}
+	.wpjms-stats-field,
+	.wpjms-chart-legend{
+		width: 100%;
+	}
+}

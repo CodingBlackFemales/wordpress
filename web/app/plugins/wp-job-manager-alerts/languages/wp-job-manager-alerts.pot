@@ -1,0 +1,366 @@
+# Copyright (C) 2022 Automattic
+# This file is distributed under the GNU General Public License v3.0.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Job Manager - Alerts 1.5.6\n"
+"Report-Msgid-Bugs-To: https://wpjobmanager.com/support/\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-11-17T19:58:43+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: wp-job-manager-alerts\n"
+
+#. Plugin Name of the plugin
+msgid "WP Job Manager - Alerts"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wpjobmanager.com/add-ons/job-alerts/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Allow users to subscribe to job alerts for their searches. Once registered, users can access a 'My Alerts' page which you can create with the shortcode [job_alerts]."
+msgstr ""
+
+#. Author of the plugin
+msgid "Automattic"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpjobmanager.com"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:33
+msgid "Daily"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:38
+msgid "Weekly"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:43
+msgid "Fortnightly"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:48
+msgid "Monthly"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:88
+msgid "Job Alert Results Matching \"%s\""
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:209
+msgid "No jobs were found matching your search. Login to your account to change your alert criteria"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-notifier.php:222
+msgid "This job alert will automatically stop sending after %s."
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:53
+msgid "Invalid token"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:72
+msgid "Please name your alert"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:87
+msgid "You need to approve receiving emails for this alert."
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:101
+#: includes/class-wp-job-manager-alerts-shortcodes.php:153
+#: includes/class-wp-job-manager-alerts-shortcodes.php:192
+#: includes/class-wp-job-manager-alerts-shortcodes.php:216
+msgid "Invalid Alert"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:178
+msgid "%s has been %s"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:178
+msgid "Enabled"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:178
+msgid "Disabled"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:196
+msgid "%s has been triggered"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:223
+msgid "%s has been deleted"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:235
+msgid "Your alerts have been updated"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:337
+#: includes/class-wp-job-manager-alerts-shortcodes.php:358
+msgid "No jobs found"
+msgstr ""
+
+#: includes/class-wp-job-manager-alerts-shortcodes.php:343
+msgid "Jobs matching your \"%s\" alert:"
+msgstr ""
+
+#: templates/alert-form.php:22
+#: templates/my-alerts.php:23
+msgid "Alert Name"
+msgstr ""
+
+#: templates/alert-form.php:24
+msgid "Enter a name for your alert"
+msgstr ""
+
+#: templates/alert-form.php:28
+msgid "Keyword"
+msgstr ""
+
+#: templates/alert-form.php:30
+msgid "Optionally add a keyword to match jobs against"
+msgstr ""
+
+#: templates/alert-form.php:35
+msgid "Job Region"
+msgstr ""
+
+#: templates/alert-form.php:47
+msgid "Any region"
+msgstr ""
+
+#: templates/alert-form.php:54
+#: templates/my-alerts.php:34
+msgid "Location"
+msgstr ""
+
+#: templates/alert-form.php:56
+msgid "Optionally define a location to search against"
+msgstr ""
+
+#: templates/alert-form.php:62
+#: templates/my-alerts.php:26
+msgid "Categories"
+msgstr ""
+
+#: templates/alert-form.php:80
+#: templates/my-alerts.php:29
+msgid "Tags"
+msgstr ""
+
+#: templates/alert-form.php:90
+msgid "Any tag"
+msgstr ""
+
+#: templates/alert-form.php:98
+msgid "Job Type"
+msgstr ""
+
+#: templates/alert-form.php:108
+msgid "Any type"
+msgstr ""
+
+#: templates/alert-form.php:116
+msgid "Email Frequency"
+msgstr ""
+
+#: templates/alert-form.php:133
+msgid "I would like to receive emails for this alert."
+msgstr ""
+
+#: templates/alert-form.php:143
+msgid "Save alert"
+msgstr ""
+
+#: templates/content-email_job_listing.php:40
+msgid "Location: %s"
+msgstr ""
+
+#: templates/content-email_job_listing.php:43
+msgid "Company: %s"
+msgstr ""
+
+#: templates/content-email_job_listing.php:47
+msgid "View Details: %s"
+msgstr ""
+
+#: templates/my-alerts-login.php:20
+msgid "You need to be signed in to manage your alerts."
+msgstr ""
+
+#: templates/my-alerts-login.php:20
+msgid "Sign in"
+msgstr ""
+
+#: templates/my-alerts.php:19
+msgid "Your job alerts are shown in the table below and will be emailed to %s."
+msgstr ""
+
+#: templates/my-alerts.php:24
+msgid "Keywords"
+msgstr ""
+
+#: templates/my-alerts.php:32
+msgid "Types"
+msgstr ""
+
+#: templates/my-alerts.php:35
+msgid "Frequency"
+msgstr ""
+
+#: templates/my-alerts.php:41
+#: wp-job-manager-alerts.php:317
+msgid "Add alert"
+msgstr ""
+
+#: templates/my-alerts.php:57
+msgid "Results"
+msgstr ""
+
+#: templates/my-alerts.php:61
+msgid "Send&nbsp;Now"
+msgstr ""
+
+#: templates/my-alerts.php:65
+msgid "Edit"
+msgstr ""
+
+#: templates/my-alerts.php:69
+msgid "Enable"
+msgstr ""
+
+#: templates/my-alerts.php:69
+msgid "Disable"
+msgstr ""
+
+#: templates/my-alerts.php:73
+msgid "Delete"
+msgstr ""
+
+#: templates/my-alerts.php:166
+msgid "Next: %s at %s"
+msgstr ""
+
+#: wp-job-manager-alerts.php:129
+msgid "<em>WP Job Manager - Alerts</em> requires WP Job Manager to be installed and activated."
+msgstr ""
+
+#: wp-job-manager-alerts.php:143
+msgid "<em>WP Job Manager - Alerts</em> requires WP Job Manager %s (you are using %s)."
+msgstr ""
+
+#: wp-job-manager-alerts.php:168
+msgid "Are you sure you want to delete this alert?"
+msgstr ""
+
+#: wp-job-manager-alerts.php:221
+msgid ""
+"Hello {display_name},\n"
+"\n"
+"The following jobs were found matching your \"{alert_name}\" job alert.\n"
+"\n"
+"================================================================================\n"
+"{jobs}\n"
+"Your next alert for this search will be sent {alert_next_date}.\n"
+"\n"
+"{alert_expiry}\n"
+"\n"
+"—\n"
+"You are receiving this email because you created the \"{alert_name}\" job alert.\n"
+"To manage your alerts please login and visit your alerts page here: {alert_page_url}\n"
+"Unsubscribe from this alert through the link: {alert_unsubscribe_url}"
+msgstr ""
+
+#: wp-job-manager-alerts.php:248
+msgid "Job Alerts"
+msgstr ""
+
+#: wp-job-manager-alerts.php:255
+msgid "Alert Email Content"
+msgstr ""
+
+#: wp-job-manager-alerts.php:256
+msgid "Enter the content for your email alerts or leave it blank to use the default message. The following tags can be used to insert data dynamically:"
+msgstr ""
+
+#: wp-job-manager-alerts.php:257
+msgid "The user WordPress username"
+msgstr ""
+
+#: wp-job-manager-alerts.php:258
+msgid "The name of the alert being sent"
+msgstr ""
+
+#: wp-job-manager-alerts.php:259
+msgid "When will this job alert automatically stop being sent"
+msgstr ""
+
+#: wp-job-manager-alerts.php:260
+msgid "The next date this alert will be sent"
+msgstr ""
+
+#: wp-job-manager-alerts.php:261
+msgid "The url to your alerts page"
+msgstr ""
+
+#: wp-job-manager-alerts.php:262
+msgid "The jobs found matching your alert"
+msgstr ""
+
+#: wp-job-manager-alerts.php:263
+msgid "The URL to unsubscribe the alert"
+msgstr ""
+
+#: wp-job-manager-alerts.php:271
+msgid "Alert Duration"
+msgstr ""
+
+#: wp-job-manager-alerts.php:272
+msgid "Enter the number of days before alerts are automatically disabled, or leave blank to disable this feature. By default, alerts will be turned off for a search after 90 days."
+msgstr ""
+
+#: wp-job-manager-alerts.php:278
+msgid "Alert Matches"
+msgstr ""
+
+#: wp-job-manager-alerts.php:279
+msgid "Send alerts with matches only"
+msgstr ""
+
+#: wp-job-manager-alerts.php:280
+msgid "Only send an alert when jobs are found matching its criteria. When disabled, an alert is sent regardless."
+msgstr ""
+
+#: wp-job-manager-alerts.php:286
+msgid "Alerts Page ID"
+msgstr ""
+
+#: wp-job-manager-alerts.php:287
+msgid "So that the plugin knows where to link users to view their alerts, you must select the page where you have placed the [job_alerts] shortcode."
+msgstr ""
+
+#: wp-job-manager-alerts.php:293
+msgid "Emails Permission Checkbox"
+msgstr ""
+
+#: wp-job-manager-alerts.php:294
+msgid "Add a permission checkbox to the alert form"
+msgstr ""
+
+#: wp-job-manager-alerts.php:295
+msgid "User will be able to create alerts only after authorizing to receive emails."
+msgstr ""
+
+#: wp-job-manager-alerts.php:362
+msgid "Alert me to jobs like this"
+msgstr ""

@@ -1,0 +1,148 @@
+/* Stat Icon */
+#posts-filter .widefat .column-job_actions .icon-stats:before {
+	content: "\f238";
+	font-family: "dashicons" !important;
+}
+
+/* Date Range Picker
+------------------------------------------ */
+.date-picker-wrapper table,
+.date-picker-wrapper thead,
+.date-picker-wrapper td,
+.date-picker-wrapper th{
+	border: none;
+}
+.wpjms-date-range-field input[type="text"]{
+	width: 200px;
+	max-width: 100%;
+	float: right;
+}
+
+
+/* Admin Control
+------------------------------------------ */
+.wpjms-admin-control{
+	margin-top: 10px;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+}
+.wpjms-admin-control:after{
+	content:".";display:block;height:0;clear:both;visibility:hidden;
+}
+.wpjms-date-range-field{
+	float: right;
+}
+.wpjms-stats-field{
+	float: left;
+}
+@media screen and (max-width: 600px) {
+	.wpjms-date-range-field{
+		width: 100%;
+		float: none;
+	}
+	.wpjms-date-range-field input[type="text"]{
+		width: 100%;
+		float: left;
+		margin-bottom: 10px;
+	}
+	.wpjms-stats-field{
+		width: 100%;
+	}
+	.wpjms-stats-field select{
+		width: 100%;
+	}
+}
+
+
+/* Date Picker
+------------------------------------------ */
+.date-picker-wrapper{
+	z-index: 999999999;
+}
+
+/* f(x) Box
+------------------------------------------ */
+#wpjms-box-overlay{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	z-index: 100050;
+	background: rgba(0,0,0,0.7);
+}
+	.wpjms-box-stop-scoll{
+		overflow: hidden;
+		height: 100%;
+	}
+#wpjms-box{
+	font-size: 14px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	max-width: 100%;
+	max-height: 100%;
+	border: none;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+	z-index: 100100;
+	overflow: visible;
+	background: #fff;
+	transform: translate(-50%, -50%);
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+#wpjms-box *,#wpjms-box *:before,#wpjms-box *:after {
+	-moz-box-sizing:inherit;
+	-webkit-box-sizing:inherit;
+	box-sizing:inherit;
+}
+#wpjms-box-title{
+	position: relative;
+	display: block;
+	padding: 10px 36px 10px 10px;
+	margin: 0;
+	font-size: 14px;
+	line-height: 1em;
+	font-weight: 600;
+	border: none;
+	border-bottom: 1px solid #dfdfdf;
+	background: #fcfcfc;
+}
+	.wpjms-box-close{
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: block;
+		padding: 0;
+		margin: 0;
+		border: none;
+		cursor: pointer;
+		color: #666;
+	}
+	.wpjms-box-close:hover{
+		color: #00a0d2;
+	}
+	.wpjms-box-close:before{
+		content: "\f158";
+		font: 20px/29px "dashicons";
+		display: block;
+		padding: 3px 8px;
+		margin: 0;
+		border: none;
+		vertical-align: top;
+		-webkit-font-smoothing: antialiased;
+	}
+#wpjms-box-content{
+	position: relative;
+	display: block;
+	padding: 5px 15px 15px;
+	border: none;
+	margin: 0;
+	overflow: auto;
+}
+
