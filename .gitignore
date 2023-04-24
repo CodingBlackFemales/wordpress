@@ -42,3 +42,6 @@ wp-cli.local.yml
 .AppleDouble
 .LSOverride
 Thumbs.db
+
+# SQL
+*.sql
