@@ -38,11 +38,10 @@
   margin-right: auto;
   background: transparent;
   background-image: none;
-  background-color: #EEF0F3;
+  background-color: #eef0f3;
   border-radius: 100%;
-  font-family: "bb-icons";
+  font-family: bb-icons;
   display: inline-block;
-  line-height: 1;
   font-weight: normal;
   font-style: normal;
   speak: none;
@@ -57,16 +56,16 @@
   line-height: 20px;
   vertical-align: top;
   text-align: center;
-  -webkit-transition: color .1s ease-in 0;
-          transition: color .1s ease-in 0;
+  -webkit-transition: color 0.1s ease-in 0;
+          transition: color 0.1s ease-in 0;
   color: var(--bb-alternate-text-color);
 }
 #badgeos-achievements-container .badgeos-open-close-switch a.show-hide-open:after {
-  content: '\e826';
+  content: "\e826";
   line-height: 21px;
 }
 #badgeos-achievements-container .badgeos-open-close-switch a.show-hide-close:after {
-  content: '\e87c';
+  content: "\e87c";
   -webkit-transform: none;
       -ms-transform: none;
           transform: none;

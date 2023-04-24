@@ -73,7 +73,8 @@ export default function SelectDropdown( { options, setTimezone, timezone, client
 		<div className="select_main" ref={ wrapperRef }>
 			<div className="select_option" onClick={ () => showDropdown() }>
 				<SelectControl
-					label={ __( 'Timezone', 'buddyboss-pro' ) }
+					//label={ __( 'Timezone', 'buddyboss-pro' ) }
+					label={bpZoomMeetingBlock.block_zoom_timezone}
 					value={ currentValue }
 					options={ options }
 					onChange={ setTimezone }
@@ -84,7 +85,7 @@ export default function SelectDropdown( { options, setTimezone, timezone, client
 				<div className="Select_suggestions-wrapper">
 					<TextControl
 						onChange={ ( val ) => filterSuggestions( val ) }
-						label={ __( 'Search timezone', 'buddyboss-pro' ) }
+						label={bpZoomMeetingBlock.block_zoom_search_timezone}
 						hideLabelFromVision={ true }
 						autoComplete="off"
 					/>
@@ -93,7 +94,7 @@ export default function SelectDropdown( { options, setTimezone, timezone, client
 							currentData.length ? currentData.map( item => (
 								<li key={ item.value } onClick={ () => selectItem( item.value ) }
 								    className={ `Select_suggestions-list-item ${ currentValue === item.value ? 'active' : '' }` }>{ item.label }</li>) ) : (
-								<li className="Select_suggestions-list-item no-result">{ __( 'No results found', 'buddyboss-pro' ) }</li>)
+								<li className="Select_suggestions-list-item no-result">{bpZoomMeetingBlock.block_zoom_no_results}</li>)
 						}
 					</ul>
 				</div>

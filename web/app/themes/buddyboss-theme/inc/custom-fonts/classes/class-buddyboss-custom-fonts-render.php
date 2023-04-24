@@ -220,6 +220,8 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_Render' ) ) :
 						$css .= 'font-style: ' . $font_face['font_style'] . '; ';
 					}
 
+                    $css .= 'font-display: swap; ';
+
 					$css .= '} ';
 				endforeach;
 			}

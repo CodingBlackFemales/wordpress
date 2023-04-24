@@ -757,6 +757,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
 			];
 
+			if ( current_user_can( 'manage_options' ) ) {
+				$args['post_status'] = [ 'publish', 'private' ];
+			}
+
 			$args = apply_filters( THEME_HOOK_PREFIX . 'lms_ajax_get_courses_args', $args );
 
 			$c_q = new \WP_Query( $args );
@@ -896,13 +900,23 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
 			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_all_courses_counts' ], 9999 );
-			$all_query     = new \WP_Query( [ 'post_type' => 'sfwd-courses', 'post_status' => 'publish' ] );
+
+			$args = [
+				'post_type'   => 'sfwd-courses',
+				'post_status' => 'publish',
+			];
+
+			if ( current_user_can( 'manage_options' ) ) {
+				$args['post_status'] = [ 'publish', 'private' ];
+			}
+
+			$all_query     = new \WP_Query( $args );
 			$return['all'] = $all_query->found_posts;
 
 			if ( is_user_logged_in() ) {
 				add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
 				add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_personal_courses_counts' ], 9999 );
-				$my_query             = new \WP_Query( [ 'post_type' => 'sfwd-courses', 'post_status' => 'publish' ] );
+				$my_query             = new \WP_Query( $args );
 				$return['my-courses'] = $my_query->found_posts;
 			}
 
@@ -976,12 +990,16 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			// Added hook so on page load of course archive page shows course count correctly when filters applied to courses.
 			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
-			$courses = new \WP_Query(
-				array(
-					'post_type'   => 'sfwd-courses',
-					'post_status' => 'publish',
-				)
-			);
+			$args = [
+				'post_type'   => 'sfwd-courses',
+				'post_status' => 'publish',
+			];
+
+			if ( current_user_can( 'manage_options' ) ) {
+				$args['post_status'] = [ 'publish', 'private' ];
+			}
+
+			$courses = new \WP_Query( $args );
 
 			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 

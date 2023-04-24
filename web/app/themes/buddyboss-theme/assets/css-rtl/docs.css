@@ -25,7 +25,7 @@
   border: 0;
   padding: 0;
 }
-.entry-content form.standard-form input[type=text]#doc-title {
+.entry-content form.standard-form input[type="text"]#doc-title {
   width: 100%;
 }
 
@@ -40,12 +40,12 @@
 .entry-content.entry-content p.toggle-switch,
 .entry-content .toggle-switch {
   background: #fff;
-  border: 1px solid #DEDFE2;
+  border: 1px solid #dedfe2;
   padding: 8px 4px;
 }
 
 .entry-content .toggle-content {
-  border: 1px solid #DEDFE2;
+  border: 1px solid #dedfe2;
   border-top: 0;
 }
 
@@ -67,7 +67,7 @@ button#mceu_0-open {
   background: transparent;
 }
 
-#doc-submit-options input[type=submit] {
+#doc-submit-options input[type="submit"] {
   margin-left: 15px;
 }
 
@@ -83,8 +83,8 @@ button#mceu_0-open {
 
 .bp-docs .desc a:before,
 .bp-docs .asc a:before {
-  content: '\e861';
-  font: normal normal normal 14px/1 "bb-icons";
+  content: "\e861";
+  font: normal normal normal 14px/1 bb-icons;
   speak: none;
   display: inline-block;
   text-decoration: inherit;
@@ -93,7 +93,7 @@ button#mceu_0-open {
 }
 
 .bp-docs .asc a:before {
-  content: '\e864';
+  content: "\e864";
   font-weight: 500;
 }
 

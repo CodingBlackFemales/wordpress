@@ -45,8 +45,8 @@ const currentDateTime = new Date( bpZoomMeetingBlock.wp_date_time );
 currentDateTime.setMinutes( currentDateTime.getMinutes() + ( 60 - currentDateTime.getMinutes() ) );
 
 registerBlockType( 'bp-zoom-meeting/create-meeting', {
-	title: __( 'Zoom Meeting', 'buddyboss-pro' ),
-	description: __( 'Create meeting in Zoom', 'buddyboss-pro' ),
+	title: bpZoomMeetingBlock.block_zoom_meeting,
+	description: bpZoomMeetingBlock.block_create_meeting_in_zoom,
 	icon: 'video-alt2',
 	category: isBuddyBossInCategories() ? 'buddyboss' : 'common',
 	keywords: [ __( 'zoom', 'buddyboss-pro' ), __( 'meeting', 'buddyboss-pro' ) ],
@@ -475,14 +475,14 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 
 		if ( host_user_type == 2 ) {
 			auto_recording_options = [
-				{ label: __( 'No Recordings', 'buddyboss-pro' ), value: 'none' },
-				{ label: __( 'Cloud', 'buddyboss-pro' ), value: 'cloud' },
-				{ label: __( 'Local', 'buddyboss-pro' ), value: 'local' },
+				{ label: bpZoomMeetingBlock.block_zoom_no_recordings, value: 'none' },
+				{ label: bpZoomMeetingBlock.block_zoom_cloud, value: 'cloud' },
+				{ label: bpZoomMeetingBlock.block_zoom_local, value: 'local' },
 			];
 		} else {
 			auto_recording_options = [
-				{ label: __( 'No Recordings', 'buddyboss-pro' ), value: 'none' },
-				{ label: __( 'Local', 'buddyboss-pro' ), value: 'local' },
+				{ label: bpZoomMeetingBlock.block_zoom_no_recordings, value: 'none' },
+				{ label: bpZoomMeetingBlock.block_zoom_local, value: 'local' },
 			];
 		}
 
@@ -623,19 +623,19 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 					<Placeholder
 						icon="video-alt2"
 						className="bb-input-container meeting_block_title"
-						label={__( 'Zoom Meeting', 'buddyboss-pro' )}
-						instructions={__( 'Create meeting or add existing meeting.', 'buddyboss-pro' )}
+						label={bpZoomMeetingBlock.block_zoom_meeting}
+						instructions={bpZoomMeetingBlock.block_create_add_zoom}
 					>
 
 						<Button isSecondary onClick={() => {
 							setMeetingFormType( 'create' )
 						}}>
-							{__( 'Create Meeting', 'buddyboss-pro' )}
+							{bpZoomMeetingBlock.block_create_zoom_meeting}
 						</Button>
 						<Button isSecondary onClick={() => {
 							setMeetingFormType( 'existing' )
 						}}>
-							{__( 'Add Existing Meeting', 'buddyboss-pro' )}
+							{bpZoomMeetingBlock.block_add_zoom_meeting}
 						</Button>
 					</Placeholder>
 					: ''
@@ -643,12 +643,12 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 				{'existing' === meetingFormType ?
 					<>
 						<Placeholder icon="video-alt2" className="bb-meeting-id-input-container"
-						             label={__( 'Add Existing Meeting', 'buddyboss-pro' )}>
+						             label={bpZoomMeetingBlock.block_add_zoom_meeting}>
 							<TextControl
-								label={__( 'Meeting ID', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_meeting_id}
 								value={meetingId}
 								className="components-placeholder__input bb-meeting-id-wrap"
-								placeholder={__( 'Enter meeting ID without spaces…', 'buddyboss-pro' )}
+								placeholder={bpZoomMeetingBlock.block_enter_meeting_id}
 								onChange={setMeetingId}
 							/>
 							<BaseControl
@@ -667,7 +667,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 										target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i>';
 										wp.data.dispatch( 'core/notices' ).createNotice(
 											'success',
-											__( 'Meeting Synced.', 'buddyboss-pro' ),
+											bpZoomMeetingBlock.block_meeting_synced,
 											{
 												isDismissible: true,
 											}
@@ -703,13 +703,13 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 											);
 										} );
 								}}>
-									{__( 'Save', 'buddyboss-pro' )}
+									{bpZoomMeetingBlock.block_zoom_save}
 								</Button>
 								{meetingId < 1 || '' === meetingId ?
 									<Button isTertiary onClick={() => {
 										setMeetingFormType( '' )
 									}}>
-										{__( 'Cancel', 'buddyboss-pro' )}
+										{bpZoomMeetingBlock.block_zoom_cancel}
 									</Button>
 									:
 									''
@@ -725,15 +725,15 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 					<>
 						<Placeholder icon="video-alt2" label={
 							!external_meeting ?
-								__( 'Create Meeting', 'buddyboss-pro' )
+								bpZoomMeetingBlock.block_create_zoom_meeting
 								:
-								__( 'Existing Meeting', 'buddyboss-pro' )
+								bpZoomMeetingBlock.block_existing_meeting
 						}
 						             className="bp-meeting-block-create">
 							{meetingId > 1 || '' !== meetingId ?
 								<Button isLink onClick={(e) => {
 									var target = e.currentTarget;
-									target.innerHTML = '<i class="bb-icon-l bb-icon-spinner animate-spin"></i> ' + __( 'Sync', 'buddyboss-pro' );
+									target.innerHTML = '<i class="bb-icon-l bb-icon-spinner animate-spin"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 									target.setAttribute( 'disabled', true );
 									const meeting_data = {
 										'_wpnonce': bpZoomMeetingBlock.bp_zoom_meeting_nonce,
@@ -742,10 +742,10 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 
 									zoomMeetingFetch( meeting_data ).then( ( response ) => {
 										target.removeAttribute( 'disabled' );
-										target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + __( 'Sync', 'buddyboss-pro' );
+										target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 										wp.data.dispatch( 'core/notices' ).createNotice(
 											'success',
-											__( 'Meeting Synced.', 'buddyboss-pro' ),
+											bpZoomMeetingBlock.block_meeting_synced,
 											{
 												isDismissible: true,
 											}
@@ -769,7 +769,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 									} )
 										.catch( ( error ) => {
 											target.removeAttribute( 'disabled' );
-											target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + __( 'Sync', 'buddyboss-pro' );
+											target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 											wp.data.dispatch( 'core/notices' ).createNotice(
 												'error',
 												error.error,
@@ -779,7 +779,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 											);
 										} );
 								}}>
-									<i className="bb-icon-l bb-icon-bolt"></i> { __( 'Sync', 'buddyboss-pro' ) }
+									<i className="bb-icon-l bb-icon-bolt"></i> { bpZoomMeetingBlock.block_zoom_sync }
 								</Button>
 								:
 								''
@@ -790,12 +790,12 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 								value={meetingId}
 							/>
 							<TextControl
-								label={__( 'Title', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_title}
 								value={title}
 								onChange={setTitle}
 							/>
 							<BaseControl
-								label={__( 'When', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_when}
 								className="bb-meeting-time-wrap"
 							>
 								<time dateTime={date( 'c', startDate )}>
@@ -830,7 +830,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 								/>
 							</div>
 							<SelectControl
-								label={__( 'Auto Recording', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_auto_recording}
 								value={autoRecording}
 								options={auto_recording_options}
 								onChange={setAutoRecording}
@@ -947,7 +947,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 												target.removeAttribute( 'disabled' );
 												wp.data.dispatch( 'core/notices' ).createNotice(
 													'success', // Can be one of: success, info, warning, error.
-													__( 'Meeting Updated.', 'buddyboss-pro' ), // Text string to display.
+													bpZoomMeetingBlock.block_meeting_updated, // Text string to display.
 													{
 														isDismissible: true, // Whether the user can dismiss the notice.
 													}
@@ -988,13 +988,13 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 										} );
 									}
 									}>
-									{__( 'Save Meeting', 'buddyboss-pro' )}
+									{bpZoomMeetingBlock.block_zoom_save_meeting}
 								</Button>
 								{meetingId < 1 || '' === meetingId ?
 									<Button isTertiary onClick={() => {
 										setMeetingFormType( '' )
 									}}>
-										{__( 'Cancel', 'buddyboss-pro' )}
+										{bpZoomMeetingBlock.block_zoom_cancel}
 									</Button>
 									:
 									<Button isDestructive onClick={(e) => {
@@ -1014,7 +1014,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 													target.removeAttribute( 'disabled' );
 													wp.data.dispatch( 'core/notices' ).createNotice(
 														'success', // Can be one of: success, info, warning, error.
-														__( 'Meeting Deleted.', 'buddyboss-pro' ), // Text string to display.
+														bpZoomMeetingBlock.block_meeting_deleted, // Text string to display.
 														{
 															isDismissible: true, // Whether the user can dismiss the notice.
 														}
@@ -1054,7 +1054,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 											} );
 										}
 									}}>
-										{__( 'Delete', 'buddyboss-pro' )}
+										{bpZoomMeetingBlock.block_zoom_delete}
 									</Button>
 								}
 							</BaseControl>
@@ -1066,26 +1066,26 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 				{'create' === meetingFormType ?
 					<InspectorControls>
 						<PanelBody
-							title={__( 'Settings', 'buddyboss-pro' )}
+							title={bpZoomMeetingBlock.block_zoom_settings}
 							initialOpen={true}>
 							<TextareaControl
-								label={__( 'Description (optional)', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_description}
 								value={description}
 								onChange={setDescription}
 							/>
 							<TextControl
-								label={__( 'Passcode (optional)', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_passcode}
 								onChange={setPassword}
 								value={password}
 							/>
 							<TextControl
 								type="number"
-								label={__( 'Duration (minutes)', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_duration}
 								onChange={setDuration}
 								value={duration}
 							/>
 							<TextControl
-								label={__( 'Default Host', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_default_host}
 								type="text"
 								disabled
 								value={hostDisplayName}
@@ -1094,23 +1094,23 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 								host_user_type == 2
 									?
 									<TextControl
-										label={__( 'Alternative Hosts', 'buddyboss-pro' )}
+										label={bpZoomMeetingBlock.block_zoom_alt_hosts}
 										onChange={setAltHosts}
 										value={alt_hosts}
-										placeholder={__( 'Example: mary@company.com', 'buddyboss-pro' )}
-										help={__( 'Entered by email, comma separated. Each email added needs to match with a user in your Zoom account.', 'buddyboss-pro' )}
+										placeholder={bpZoomMeetingBlock.block_zoom_example}
+										help={bpZoomMeetingBlock.block_zoom_email_enter}
 									/>
 									:
 									''
 							}
 							<CheckboxControl
-								label={__( 'Start video when host joins', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_start_video}
 								checked={hostVideo}
 								onChange={setHostVideo}
 								className="bb-checkbox-wrap"
 							/>
 							<CheckboxControl
-								label={__( 'Start video when participants join', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_zoom_start_video_par}
 								checked={participantsVideo}
 								onChange={setParticipantsVideo}
 								className="bb-checkbox-wrap"
@@ -1120,7 +1120,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 									?
 									<>
 										<CheckboxControl
-											label={__( 'Require Registration', 'buddyboss-pro' )}
+											label={bpZoomMeetingBlock.block_zoom_require_reg}
 											checked={registration}
 											onChange={setRegistration}
 											className="bb-checkbox-wrap"
@@ -1132,9 +1132,9 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 													<RadioControl
 														selected={ registration_type }
 														options={ [
-															{ label: __( 'Attendees register once and can attend any of the occurrences', 'buddyboss-pro' ), value: 1 },
-															{ label: __( 'Attendees need to register for each occurrence to attend', 'buddyboss-pro' ), value: 2 },
-															{ label: __( 'Attendees register once and can choose one or more occurrences to attend', 'buddyboss-pro' ), value: 3 },
+															{ label: bpZoomMeetingBlock.block_att_any, value: 1 },
+															{ label: bpZoomMeetingBlock.block_att_each, value: 2 },
+															{ label: bpZoomMeetingBlock.block_att_choose, value: 3 },
 														] }
 														onChange={setRegistrationType}
 													/>
@@ -1147,52 +1147,52 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 									''
 							}
 							<CheckboxControl
-								label={__( 'Enable join before host', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_enable_join_before}
 								checked={joinBeforeHost}
 								onChange={setJoinBeforeHost}
 								className="bb-checkbox-wrap"
 							/>
 							<CheckboxControl
-								label={__( 'Mute participants upon entry', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_mute_part}
 								checked={muteParticipants}
 								onChange={setMuteParticipants}
 								className="bb-checkbox-wrap"
 							/>
 							<CheckboxControl
-								label={__( 'Enable waiting room', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_enable_wait_room}
 								checked={waitingRoom}
 								onChange={setWaitingRoom}
 								className="bb-checkbox-wrap"
 							/>
 							<CheckboxControl
-								label={__( 'Only authenticated users can join', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_only_auth}
 								checked={authentication}
 								onChange={setAuthentication}
 								className="bb-checkbox-wrap"
 							/>
 						</PanelBody>
 						<PanelBody
-							title={__( 'Recurring Options', 'buddyboss-pro' )}
+							title={bpZoomMeetingBlock.block_recurring_options}
 							initialOpen={false}>
 							<CheckboxControl
-								label={__( 'Recurring Meeting', 'buddyboss-pro' )}
+								label={bpZoomMeetingBlock.block_recurring_meeting}
 								checked={recurring}
 								onChange={setRecurring}
 							/>
 							{true === recurring ?
 								<>
 									<SelectControl
-										label={__( 'Recurrence', 'buddyboss-pro' )}
+										label={bpZoomMeetingBlock.block_recurrence}
 										value={recurrence}
 										options={[
-											{ label: __( 'Daily', 'buddyboss-pro' ), value: 1 },
-											{ label: __( 'Weekly', 'buddyboss-pro' ), value: 2 },
-											{ label: __( 'Monthly', 'buddyboss-pro' ), value: 3 },
+											{ label: bpZoomMeetingBlock.block_zoom_week_daily, value: 1 },
+											{ label: bpZoomMeetingBlock.block_zoom_week_weekly, value: 2 },
+											{ label: bpZoomMeetingBlock.block_zoom_week_monthly, value: 3 },
 										]}
 										onChange={setRecurrence}
 									/>
 									<SelectControl
-										label={__( 'Repeat every', 'buddyboss-pro' )}
+										label={bpZoomMeetingBlock.block_repeat_every}
 										value={repeat_interval}
 										options={repeat_interval_options}
 										onChange={setRepeatInterval}
@@ -1201,16 +1201,16 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 									{2 === recurrence
 										?
 										<SelectControl
-											label={__( 'Days', 'buddyboss-pro' )}
+											label={bpZoomMeetingBlock.block_zoom_days}
 											value={weekly_days}
 											options={[
-												{ label: __( 'Sunday', 'buddyboss-pro' ), value: 1 },
-												{ label: __( 'Monday', 'buddyboss-pro' ), value: 2 },
-												{ label: __( 'Tuesday', 'buddyboss-pro' ), value: 3 },
-												{ label: __( 'Wednesday', 'buddyboss-pro' ), value: 4 },
-												{ label: __( 'Thursday', 'buddyboss-pro' ), value: 5 },
-												{ label: __( 'Friday', 'buddyboss-pro' ), value: 6 },
-												{ label: __( 'Saturday', 'buddyboss-pro' ), value: 7 },
+												{ label: bpZoomMeetingBlock.block_zoom_sunday, value: 1 },
+												{ label: bpZoomMeetingBlock.block_zoom_monday, value: 2 },
+												{ label: bpZoomMeetingBlock.block_zoom_tuesday, value: 3 },
+												{ label: bpZoomMeetingBlock.block_zoom_wednesday, value: 4 },
+												{ label: bpZoomMeetingBlock.block_zoom_thursday, value: 5 },
+												{ label: bpZoomMeetingBlock.block_zoom_friday, value: 6 },
+												{ label: bpZoomMeetingBlock.block_zoom_saturday, value: 7 },
 											]}
 											onChange={setWeeklyDays}
 											multiple
@@ -1222,12 +1222,12 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 										?
 										<>
 											<SelectControl
-												label={__( 'Occures on', 'buddyboss-pro' )}
+												label={bpZoomMeetingBlock.block_zoom_occures}
 												value={monthly_occurs_on}
 												options={[
-													{ label: __( 'Day of the month', 'buddyboss-pro' ), value: 'day' },
+													{ label: bpZoomMeetingBlock.block_zoom_day_month, value: 'day' },
 													{
-														label: __( 'Week of the month', 'buddyboss-pro' ),
+														label: bpZoomMeetingBlock.block_zoom_week_month,
 														value: 'week'
 													},
 												]}
@@ -1236,7 +1236,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 											{'day' === monthly_occurs_on
 												?
 												<SelectControl
-													label={__( 'Day', 'buddyboss-pro' )}
+													label={bpZoomMeetingBlock.block_zoom_day}
 													value={monthly_day}
 													options={[
 														{ label: __( '1', 'buddyboss-pro' ), value: 1 },
@@ -1272,34 +1272,34 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 														{ label: __( '31', 'buddyboss-pro' ), value: 31 },
 													]}
 													onChange={setMonthlyDay}
-													help={__( 'of the month', 'buddyboss-pro' )}
+													help={bpZoomMeetingBlock.block_zoom_of_month}
 												/>
 												:
 												<>
 													<SelectControl
 														value={monthly_week}
 														options={[
-															{ label: __( 'First', 'buddyboss-pro' ), value: 1 },
-															{ label: __( 'Second', 'buddyboss-pro' ), value: 2 },
-															{ label: __( 'Third', 'buddyboss-pro' ), value: 3 },
-															{ label: __( 'Fourth', 'buddyboss-pro' ), value: 4 },
-															{ label: __( 'Last', 'buddyboss-pro' ), value: -1 },
+															{ label: bpZoomMeetingBlock.block_zoom_first, value: 1 },
+															{ label: bpZoomMeetingBlock.block_zoom_second, value: 2 },
+															{ label: bpZoomMeetingBlock.block_zoom_third, value: 3 },
+															{ label: bpZoomMeetingBlock.block_zoom_fourth, value: 4 },
+															{ label: bpZoomMeetingBlock.block_zoom_last, value: -1 },
 														]}
 														onChange={setMonthlyWeek}
 													/>
 													<SelectControl
 														value={monthly_week_day}
 														options={[
-															{ label: __( 'Sunday', 'buddyboss-pro' ), value: 1 },
-															{ label: __( 'Monday', 'buddyboss-pro' ), value: 2 },
-															{ label: __( 'Tuesday', 'buddyboss-pro' ), value: 3 },
-															{ label: __( 'Wednesday', 'buddyboss-pro' ), value: 4 },
-															{ label: __( 'Thursday', 'buddyboss-pro' ), value: 5 },
-															{ label: __( 'Friday', 'buddyboss-pro' ), value: 6 },
-															{ label: __( 'Saturday', 'buddyboss-pro' ), value: 7 },
+															{ label: bpZoomMeetingBlock.block_zoom_sunday, value: 1 },
+															{ label: bpZoomMeetingBlock.block_zoom_monday, value: 2 },
+															{ label: bpZoomMeetingBlock.block_zoom_tuesday, value: 3 },
+															{ label: bpZoomMeetingBlock.block_zoom_wednesday, value: 4 },
+															{ label: bpZoomMeetingBlock.block_zoom_thursday, value: 5 },
+															{ label: bpZoomMeetingBlock.block_zoom_friday, value: 6 },
+															{ label: bpZoomMeetingBlock.block_zoom_saturday, value: 7 },
 														]}
 														onChange={setMonthlyWeekDay}
-														help={__( 'of the month', 'buddyboss-pro' )}
+														help={bpZoomMeetingBlock.block_zoom_of_month}
 													/>
 												</>
 											}
@@ -1311,11 +1311,11 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 										?
 										<>
 											<SelectControl
-												label={__( 'End by', 'buddyboss-pro' )}
+												label={bpZoomMeetingBlock.block_zoom_end_by}
 												value={end_time_select}
 												options={[
-													{ label: __( 'Date', 'buddyboss-pro' ), value: 'date' },
-													{ label: __( 'Occurrences', 'buddyboss-pro' ), value: 'times' },
+													{ label: bpZoomMeetingBlock.block_zoom_date, value: 'date' },
+													{ label: bpZoomMeetingBlock.block_zoom_occurrences, value: 'times' },
 												]}
 												onChange={setEndTimeSelect}
 											/>
@@ -1347,9 +1347,9 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 											}
 											{'times' == end_time_select ?
 												<SelectControl
-													label={__( 'End After', 'buddyboss-pro' )}
+													label={bpZoomMeetingBlock.block_zoom_end_after}
 													value={end_times}
-													help={__( 'occurences', 'buddyboss-pro' )}
+													help={bpZoomMeetingBlock.block_zoom_occurrences_low}
 													options={[
 														{ label: __( '1', 'buddyboss-pro' ), value: 1 },
 														{ label: __( '2', 'buddyboss-pro' ), value: 2 },
@@ -1387,7 +1387,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 						</PanelBody>
 						{true === recurring && occurrences.length ?
 							<PanelBody
-								title={__( 'Occurrences', 'buddyboss-pro' )}
+								title={bpZoomMeetingBlock.block_zoom_occurrences}
 								initialOpen={false}>
 								{
 									occurrences.map( ( occurrence ) => {
@@ -1408,7 +1408,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 													setCurrentOccurrence( occurrence );
 												}
 												}>
-												{__( 'Edit', 'buddyboss-pro' )}
+												{bpZoomMeetingBlock.block_zoom_edit}
 											</Button>
 											<Button isLink="true" className="edit-occurrences-button"
 											        onClick={(e) => {
@@ -1435,7 +1435,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 														        target.removeAttribute( 'disabled' );
 														        wp.data.dispatch( 'core/notices' ).createNotice(
 															        'success', // Can be one of: success, info, warning, error.
-															        __( 'Occurrence Deleted.', 'buddyboss-pro' ), // Text string to display.
+															        bpZoomMeetingBlock.block_zoom_occurrence_del, // Text string to display.
 															        {
 																        isDismissible: true, // Whether the user can dismiss the notice.
 															        }
@@ -1475,7 +1475,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 												        } );
 											}
 											}>
-												{__( 'Delete', 'buddyboss-pro' )}
+												{bpZoomMeetingBlock.block_zoom_delete}
 											</Button>
 											{
 												occurrence_edit && current_occurrence && current_occurrence.occurrence_id === occurrence.occurrence_id
@@ -1488,7 +1488,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 														/>
 														<TextControl
 															type="number"
-															label={__( 'Duration (minutes)', 'buddyboss-pro' )}
+															label={bpZoomMeetingBlock.block_zoom_duration}
 															onChange={setOccurrenceDuration}
 															value={current_occurrence_duration}
 														/>
@@ -1549,7 +1549,7 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 																			target.removeAttribute( 'disabled' );
 																			wp.data.dispatch( 'core/notices' ).createNotice(
 																				'success', // Can be one of: success, info, warning, error.
-																				__( 'Meeting Updated.', 'buddyboss-pro' ), // Text string to display.
+																				bpZoomMeetingBlock.block_meeting_updated, // Text string to display.
 																				{
 																					isDismissible: true, // Whether the user can dismiss the notice.
 																				}
@@ -1588,12 +1588,12 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 																		}
 																	} );
 																}}>
-																{__( 'Save', 'buddyboss-pro' )}
+																{bpZoomMeetingBlock.block_zoom_save}
 															</Button>
 															<Button isTertiary onClick={() => {
 																setOccurrenceEdit( false );
 															}}>
-																{__( 'Cancel', 'buddyboss-pro' )}
+																{bpZoomMeetingBlock.block_zoom_cancel}
 															</Button>
 														</BaseControl>
 													</Fragment>
@@ -1618,8 +1618,8 @@ registerBlockType( 'bp-zoom-meeting/create-meeting', {
 
 if ( bpZoomMeetingBlock.webinar_enabled ) {
 	registerBlockType( 'bp-zoom-meeting/create-webinar', {
-		title: __( 'Zoom Webinar', 'buddyboss-pro' ),
-		description: __( 'Create webinar in Zoom', 'buddyboss-pro' ),
+		title: bpZoomMeetingBlock.block_zoom_webinar,
+		description: bpZoomMeetingBlock.block_zoom_create_webinar,
 		icon: 'video-alt2',
 		category: isBuddyBossInCategories() ? 'buddyboss' : 'common',
 		keywords: [ __( 'zoom', 'buddyboss-pro' ), __( 'webinar', 'buddyboss-pro' ) ],
@@ -2041,14 +2041,14 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 
 			if ( host_user_type == 2 ) {
 				auto_recording_options = [
-					{ label: __( 'No Recordings', 'buddyboss-pro' ), value: 'none' },
-					{ label: __( 'Cloud', 'buddyboss-pro' ), value: 'cloud' },
-					{ label: __( 'Local', 'buddyboss-pro' ), value: 'local' },
+					{ label: bpZoomMeetingBlock.block_zoom_no_recordings, value: 'none' },
+					{ label: bpZoomMeetingBlock.block_zoom_cloud, value: 'cloud' },
+					{ label: bpZoomMeetingBlock.block_zoom_local, value: 'local' },
 				];
 			} else {
 				auto_recording_options = [
-					{ label: __( 'No Recordings', 'buddyboss-pro' ), value: 'none' },
-					{ label: __( 'Local', 'buddyboss-pro' ), value: 'local' },
+					{ label: bpZoomMeetingBlock.block_zoom_no_recordings, value: 'none' },
+					{ label: bpZoomMeetingBlock.block_zoom_local, value: 'local' },
 				];
 			}
 
@@ -2186,19 +2186,19 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 						<Placeholder
 							icon="video-alt2"
 							className="bb-input-container webinar_block_title"
-							label={__( 'Zoom Webinar', 'buddyboss-pro' )}
-							instructions={__( 'Create webinar or add existing webinar.', 'buddyboss-pro' )}
+							label={bpZoomMeetingBlock.block_zoom_webinar}
+							instructions={bpZoomMeetingBlock.block_zoom_create_add_webinar}
 						>
 
 							<Button isSecondary onClick={() => {
 								setWebinarFormType( 'create' )
 							}}>
-								{__( 'Create Webinar', 'buddyboss-pro' )}
+								{bpZoomMeetingBlock.block_create_webinar}
 							</Button>
 							<Button isSecondary onClick={() => {
 								setWebinarFormType( 'existing' )
 							}}>
-								{__( 'Add Existing Webinar', 'buddyboss-pro' )}
+								{bpZoomMeetingBlock.block_add_webinar}
 							</Button>
 						</Placeholder>
 						: ''
@@ -2206,12 +2206,12 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 					{'existing' === webinarFormType ?
 						<>
 							<Placeholder icon="video-alt2" className="bb-meeting-id-input-container"
-								label={__( 'Add Existing Webinar', 'buddyboss-pro' )}>
+								label={bpZoomMeetingBlock.block_add_webinar}>
 								<TextControl
-									label={__( 'Webinar ID', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_webinar_id}
 									value={webinarId}
 									className="components-placeholder__input bb-meeting-id-wrap"
-									placeholder={__( 'Enter webinar ID without spaces…', 'buddyboss-pro' )}
+									placeholder={bpZoomMeetingBlock.block_enter_webinar_id}
 									onChange={setWebinarId}
 								/>
 								<BaseControl
@@ -2230,7 +2230,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 											target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i>';
 											wp.data.dispatch( 'core/notices' ).createNotice(
 												'success',
-												__( 'Webinar Synced.', 'buddyboss-pro' ),
+												bpZoomMeetingBlock.block_webinar_sync,
 												{
 													isDismissible: true,
 												}
@@ -2266,13 +2266,13 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 												);
 											} );
 									}}>
-										{__( 'Save', 'buddyboss-pro' )}
+										{bpZoomMeetingBlock.block_zoom_save}
 									</Button>
 									{webinarId < 1 || '' === webinarId ?
 										<Button isTertiary onClick={() => {
 											setWebinarFormType( '' )
 										}}>
-											{__( 'Cancel', 'buddyboss-pro' )}
+											{bpZoomMeetingBlock.block_zoom_cancel}
 										</Button>
 										:
 										''
@@ -2288,15 +2288,15 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 						<>
 							<Placeholder icon="video-alt2" label={
 								!external_webinar ?
-									__( 'Create Webinar', 'buddyboss-pro' )
+									bpZoomMeetingBlock.block_create_webinar
 									:
-									__( 'Existing Webinar', 'buddyboss-pro' )
+									bpZoomMeetingBlock.block_existing_webinar
 							}
 								className="bp-meeting-block-create">
 								{webinarId > 1 || '' !== webinarId ?
 									<Button isLink onClick={( e ) => {
 										var target = e.currentTarget;
-										target.innerHTML = '<i class="bb-icon-l bb-icon-spinner animate-spin"></i> ' + __( 'Sync', 'buddyboss-pro' );
+										target.innerHTML = '<i class="bb-icon-l bb-icon-spinner animate-spin"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 										target.setAttribute( 'disabled', true );
 										const webinar_data = {
 											'_wpnonce': bpZoomMeetingBlock.bp_zoom_webinar_nonce,
@@ -2305,10 +2305,10 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 
 										zoomWebinarFetch( webinar_data ).then( ( response ) => {
 											target.removeAttribute( 'disabled' );
-											target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + __( 'Sync', 'buddyboss-pro' );
+											target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 											wp.data.dispatch( 'core/notices' ).createNotice(
 												'success',
-												__( 'Webinar Synced.', 'buddyboss-pro' ),
+												bpZoomMeetingBlock.block_webinar_sync,
 												{
 													isDismissible: true,
 												}
@@ -2332,7 +2332,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 										} )
 											.catch( ( error ) => {
 												target.removeAttribute( 'disabled' );
-												target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + __( 'Sync', 'buddyboss-pro' );
+												target.innerHTML = '<i class="bb-icon-l bb-icon-bolt"></i> ' + bpZoomMeetingBlock.block_zoom_sync;
 												wp.data.dispatch( 'core/notices' ).createNotice(
 													'error',
 													error.error,
@@ -2342,7 +2342,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 												);
 											} );
 									}}>
-										<i className="bb-icon-l bb-icon-bolt"></i> {__( 'Sync', 'buddyboss-pro' )}
+										<i className="bb-icon-l bb-icon-bolt"></i> {bpZoomMeetingBlock.block_zoom_sync}
 									</Button>
 									:
 									''
@@ -2353,12 +2353,12 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 									value={webinarId}
 								/>
 								<TextControl
-									label={__( 'Title', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_title}
 									value={title}
 									onChange={setTitle}
 								/>
 								<BaseControl
-									label={__( 'When', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_when}
 									className="bb-meeting-time-wrap"
 								>
 									<time dateTime={date( 'c', startDate )}>
@@ -2393,7 +2393,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 									/>
 								</div>
 								<SelectControl
-									label={__( 'Auto Recording', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_auto_recording}
 									value={autoRecording}
 									options={auto_recording_options}
 									onChange={setAutoRecording}
@@ -2506,7 +2506,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 													target.removeAttribute( 'disabled' );
 													wp.data.dispatch( 'core/notices' ).createNotice(
 														'success', // Can be one of: success, info, warning, error.
-														__( 'Webinar Updated.', 'buddyboss-pro' ), // Text string to display.
+														bpZoomMeetingBlock.block_webinar_updated, // Text string to display.
 														{
 															isDismissible: true, // Whether the user can dismiss the notice.
 														}
@@ -2547,13 +2547,13 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 											} );
 										}
 										}>
-										{__( 'Save Webinar', 'buddyboss-pro' )}
+										{bpZoomMeetingBlock.block_webinar_save}
 									</Button>
 									{webinarId < 1 || '' === webinarId ?
 										<Button isTertiary onClick={() => {
 											setWebinarFormType( '' )
 										}}>
-											{__( 'Cancel', 'buddyboss-pro' )}
+											{bpZoomMeetingBlock.block_zoom_cancel}
 										</Button>
 										:
 										<Button isDestructive onClick={( e ) => {
@@ -2573,7 +2573,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 														target.removeAttribute( 'disabled' );
 														wp.data.dispatch( 'core/notices' ).createNotice(
 															'success', // Can be one of: success, info, warning, error.
-															__( 'Webinar Deleted.', 'buddyboss-pro' ), // Text string to display.
+															bpZoomMeetingBlock.block_webinar_deleted, // Text string to display.
 															{
 																isDismissible: true, // Whether the user can dismiss the notice.
 															}
@@ -2613,7 +2613,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 												} );
 											}
 										}}>
-											{__( 'Delete', 'buddyboss-pro' )}
+											{bpZoomMeetingBlock.block_zoom_delete}
 										</Button>
 									}
 								</BaseControl>
@@ -2625,26 +2625,26 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 					{'create' === webinarFormType ?
 						<InspectorControls>
 							<PanelBody
-								title={__( 'Settings', 'buddyboss-pro' )}
+								title={bpZoomMeetingBlock.block_zoom_settings}
 								initialOpen={true}>
 								<TextareaControl
-									label={__( 'Description (optional)', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_description}
 									value={description}
 									onChange={setDescription}
 								/>
 								<TextControl
-									label={__( 'Passcode (optional)', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_passcode}
 									onChange={setPassword}
 									value={password}
 								/>
 								<TextControl
 									type="number"
-									label={__( 'Duration (minutes)', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_duration}
 									onChange={setDuration}
 									value={duration}
 								/>
 								<TextControl
-									label={__( 'Default Host', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_default_host}
 									type="text"
 									disabled
 									value={hostDisplayName}
@@ -2653,23 +2653,23 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 									host_user_type == 2
 										?
 										<TextControl
-											label={__( 'Alternative Hosts', 'buddyboss-pro' )}
+											label={bpZoomMeetingBlock.block_zoom_alt_hosts}
 											onChange={setAltHosts}
 											value={alt_hosts}
-											placeholder={__( 'Example: mary@company.com', 'buddyboss-pro' )}
-											help={__( 'Entered by email, comma separated. Each email added needs to match with a user in your Zoom account.', 'buddyboss-pro' )}
+											placeholder={bpZoomMeetingBlock.block_zoom_example}
+											help={bpZoomMeetingBlock.block_zoom_email_enter}
 										/>
 										:
 										''
 								}
 								<CheckboxControl
-									label={__( 'Start video when host joins', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_start_video}
 									checked={hostVideo}
 									onChange={setHostVideo}
 									className="bb-checkbox-wrap"
 								/>
 								<CheckboxControl
-									label={__( 'Start video when panelists join', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_zoom_start_video_par}
 									checked={panelistsVideo}
 									onChange={setPanelistsVideo}
 									className="bb-checkbox-wrap"
@@ -2679,7 +2679,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 										?
 										<>
 											<CheckboxControl
-												label={__( 'Require Registration', 'buddyboss-pro' )}
+												label={bpZoomMeetingBlock.block_zoom_require_reg}
 												checked={registration}
 												onChange={setRegistration}
 												className="bb-checkbox-wrap"
@@ -2692,15 +2692,15 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 															selected={registration_type}
 															options={[
 																{
-																	label: __( 'Attendees register once and can attend any of the occurrences', 'buddyboss-pro' ),
+																	label: bpZoomMeetingBlock.block_att_any,
 																	value: 1
 																},
 																{
-																	label: __( 'Attendees need to register for each occurrence to attend', 'buddyboss-pro' ),
+																	label: bpZoomMeetingBlock.block_att_each,
 																	value: 2
 																},
 																{
-																	label: __( 'Attendees register once and can choose one or more occurrences to attend', 'buddyboss-pro' ),
+																	label: bpZoomMeetingBlock.block_att_choose,
 																	value: 3
 																},
 															]}
@@ -2715,40 +2715,40 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 										''
 								}
 								<CheckboxControl
-									label={__( 'Enable practice session', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_enable_practice_session}
 									checked={practiceSession}
 									onChange={setPracticeSession}
 									className="bb-checkbox-wrap"
 								/>
 								<CheckboxControl
-									label={__( 'Only authenticated users can join', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_only_auth}
 									checked={authentication}
 									onChange={setAuthentication}
 									className="bb-checkbox-wrap"
 								/>
 							</PanelBody>
 							<PanelBody
-								title={__( 'Recurring Options', 'buddyboss-pro' )}
+								title={bpZoomMeetingBlock.block_recurring_options}
 								initialOpen={false}>
 								<CheckboxControl
-									label={__( 'Recurring Webinar', 'buddyboss-pro' )}
+									label={bpZoomMeetingBlock.block_recurring_webinar}
 									checked={recurring}
 									onChange={setRecurring}
 								/>
 								{true === recurring ?
 									<>
 										<SelectControl
-											label={__( 'Recurrence', 'buddyboss-pro' )}
+											label={bpZoomMeetingBlock.block_recurrence}
 											value={recurrence}
 											options={[
-												{ label: __( 'Daily', 'buddyboss-pro' ), value: 1 },
-												{ label: __( 'Weekly', 'buddyboss-pro' ), value: 2 },
-												{ label: __( 'Monthly', 'buddyboss-pro' ), value: 3 },
+												{ label: bpZoomMeetingBlock.block_zoom_week_daily, value: 1 },
+												{ label: bpZoomMeetingBlock.block_zoom_week_weekly, value: 2 },
+												{ label: bpZoomMeetingBlock.block_zoom_week_monthly, value: 3 },
 											]}
 											onChange={setRecurrence}
 										/>
 										<SelectControl
-											label={__( 'Repeat every', 'buddyboss-pro' )}
+											label={bpZoomMeetingBlock.block_repeat_every}
 											value={repeat_interval}
 											options={repeat_interval_options}
 											onChange={setRepeatInterval}
@@ -2757,16 +2757,16 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 										{2 === recurrence
 											?
 											<SelectControl
-												label={__( 'Days', 'buddyboss-pro' )}
+												label={bpZoomMeetingBlock.block_zoom_days}
 												value={weekly_days}
 												options={[
-													{ label: __( 'Sunday', 'buddyboss-pro' ), value: 1 },
-													{ label: __( 'Monday', 'buddyboss-pro' ), value: 2 },
-													{ label: __( 'Tuesday', 'buddyboss-pro' ), value: 3 },
-													{ label: __( 'Wednesday', 'buddyboss-pro' ), value: 4 },
-													{ label: __( 'Thursday', 'buddyboss-pro' ), value: 5 },
-													{ label: __( 'Friday', 'buddyboss-pro' ), value: 6 },
-													{ label: __( 'Saturday', 'buddyboss-pro' ), value: 7 },
+													{ label: bpZoomMeetingBlock.block_zoom_sunday, value: 1 },
+													{ label: bpZoomMeetingBlock.block_zoom_monday, value: 2 },
+													{ label: bpZoomMeetingBlock.block_zoom_tuesday, value: 3 },
+													{ label: bpZoomMeetingBlock.block_zoom_wednesday, value: 4 },
+													{ label: bpZoomMeetingBlock.block_zoom_thursday, value: 5 },
+													{ label: bpZoomMeetingBlock.block_zoom_friday, value: 6 },
+													{ label: bpZoomMeetingBlock.block_zoom_saturday, value: 7 },
 												]}
 												onChange={setWeeklyDays}
 												multiple
@@ -2778,15 +2778,15 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 											?
 											<>
 												<SelectControl
-													label={__( 'Occures on', 'buddyboss-pro' )}
+													label={bpZoomMeetingBlock.block_zoom_occures}
 													value={monthly_occurs_on}
 													options={[
 														{
-															label: __( 'Day of the month', 'buddyboss-pro' ),
+															label: bpZoomMeetingBlock.block_zoom_day_month,
 															value: 'day'
 														},
 														{
-															label: __( 'Week of the month', 'buddyboss-pro' ),
+															label: bpZoomMeetingBlock.block_zoom_week_month,
 															value: 'week'
 														},
 													]}
@@ -2795,7 +2795,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 												{'day' === monthly_occurs_on
 													?
 													<SelectControl
-														label={__( 'Day', 'buddyboss-pro' )}
+														label={bpZoomMeetingBlock.block_zoom_day}
 														value={monthly_day}
 														options={[
 															{ label: __( '1', 'buddyboss-pro' ), value: 1 },
@@ -2831,34 +2831,34 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 															{ label: __( '31', 'buddyboss-pro' ), value: 31 },
 														]}
 														onChange={setMonthlyDay}
-														help={__( 'of the month', 'buddyboss-pro' )}
+														help={bpZoomMeetingBlock.block_zoom_of_month}
 													/>
 													:
 													<>
 														<SelectControl
 															value={monthly_week}
 															options={[
-																{ label: __( 'First', 'buddyboss-pro' ), value: 1 },
-																{ label: __( 'Second', 'buddyboss-pro' ), value: 2 },
-																{ label: __( 'Third', 'buddyboss-pro' ), value: 3 },
-																{ label: __( 'Fourth', 'buddyboss-pro' ), value: 4 },
-																{ label: __( 'Last', 'buddyboss-pro' ), value: -1 },
+																{ label: bpZoomMeetingBlock.block_zoom_first, value: 1 },
+																{ label: bpZoomMeetingBlock.block_zoom_second, value: 2 },
+																{ label: bpZoomMeetingBlock.block_zoom_third, value: 3 },
+																{ label: bpZoomMeetingBlock.block_zoom_fourth, value: 4 },
+																{ label: bpZoomMeetingBlock.block_zoom_last, value: -1 },
 															]}
 															onChange={setMonthlyWeek}
 														/>
 														<SelectControl
 															value={monthly_week_day}
 															options={[
-																{ label: __( 'Sunday', 'buddyboss-pro' ), value: 1 },
-																{ label: __( 'Monday', 'buddyboss-pro' ), value: 2 },
-																{ label: __( 'Tuesday', 'buddyboss-pro' ), value: 3 },
-																{ label: __( 'Wednesday', 'buddyboss-pro' ), value: 4 },
-																{ label: __( 'Thursday', 'buddyboss-pro' ), value: 5 },
-																{ label: __( 'Friday', 'buddyboss-pro' ), value: 6 },
-																{ label: __( 'Saturday', 'buddyboss-pro' ), value: 7 },
+																{ label: bpZoomMeetingBlock.block_zoom_sunday, value: 1 },
+																{ label: bpZoomMeetingBlock.block_zoom_monday, value: 2 },
+																{ label: bpZoomMeetingBlock.block_zoom_tuesday, value: 3 },
+																{ label: bpZoomMeetingBlock.block_zoom_wednesday, value: 4 },
+																{ label: bpZoomMeetingBlock.block_zoom_thursday, value: 5 },
+																{ label: bpZoomMeetingBlock.block_zoom_friday, value: 6 },
+																{ label: bpZoomMeetingBlock.block_zoom_saturday, value: 7 },
 															]}
 															onChange={setMonthlyWeekDay}
-															help={__( 'of the month', 'buddyboss-pro' )}
+															help={bpZoomMeetingBlock.block_zoom_of_month}
 														/>
 													</>
 												}
@@ -2870,11 +2870,11 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 											?
 											<>
 												<SelectControl
-													label={__( 'End by', 'buddyboss-pro' )}
+													label={bpZoomMeetingBlock.block_zoom_end_by}
 													value={end_time_select}
 													options={[
-														{ label: __( 'Date', 'buddyboss-pro' ), value: 'date' },
-														{ label: __( 'Occurrences', 'buddyboss-pro' ), value: 'times' },
+														{ label: bpZoomMeetingBlock.block_zoom_date, value: 'date' },
+														{ label: bpZoomMeetingBlock.block_zoom_occurrences, value: 'times' },
 													]}
 													onChange={setEndTimeSelect}
 												/>
@@ -2906,9 +2906,9 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 												}
 												{'times' == end_time_select ?
 													<SelectControl
-														label={__( 'End After', 'buddyboss-pro' )}
+														label={bpZoomMeetingBlock.block_zoom_end_after}
 														value={end_times}
-														help={__( 'occurences', 'buddyboss-pro' )}
+														help={bpZoomMeetingBlock.block_zoom_occurrences_low}
 														options={[
 															{ label: __( '1', 'buddyboss-pro' ), value: 1 },
 															{ label: __( '2', 'buddyboss-pro' ), value: 2 },
@@ -2946,7 +2946,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 							</PanelBody>
 							{true === recurring && occurrences.length ?
 								<PanelBody
-									title={__( 'Occurrences', 'buddyboss-pro' )}
+									title={bpZoomMeetingBlock.block_zoom_occurrences}
 									initialOpen={false}>
 									{
 										occurrences.map( ( occurrence ) => {
@@ -2967,7 +2967,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 														setCurrentOccurrence( occurrence );
 													}
 													}>
-													{__( 'Edit', 'buddyboss-pro' )}
+													{bpZoomMeetingBlock.block_zoom_edit}
 												</Button>
 												<Button isLink="true" className="edit-occurrences-button"
 													onClick={( e ) => {
@@ -2994,7 +2994,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 																target.removeAttribute( 'disabled' );
 																wp.data.dispatch( 'core/notices' ).createNotice(
 																	'success', // Can be one of: success, info, warning, error.
-																	__( 'Occurrence Deleted.', 'buddyboss-pro' ), // Text string to display.
+																	bpZoomMeetingBlock.block_zoom_occurrence_del, // Text string to display.
 																	{
 																		isDismissible: true, // Whether the user can dismiss the notice.
 																	}
@@ -3034,7 +3034,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 														} );
 													}
 													}>
-													{__( 'Delete', 'buddyboss-pro' )}
+													{bpZoomMeetingBlock.block_zoom_delete}
 												</Button>
 												{
 													occurrence_edit && current_occurrence && current_occurrence.occurrence_id === occurrence.occurrence_id
@@ -3047,7 +3047,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 															/>
 															<TextControl
 																type="number"
-																label={__( 'Duration (minutes)', 'buddyboss-pro' )}
+																label={bpZoomMeetingBlock.block_zoom_duration}
 																onChange={setOccurrenceDuration}
 																value={current_occurrence_duration}
 															/>
@@ -3104,7 +3104,7 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 																				target.removeAttribute( 'disabled' );
 																				wp.data.dispatch( 'core/notices' ).createNotice(
 																					'success', // Can be one of: success, info, warning, error.
-																					__( 'Webinar Updated.', 'buddyboss-pro' ), // Text string to display.
+																					bpZoomMeetingBlock.block_webinar_updated, // Text string to display.
 																					{
 																						isDismissible: true, // Whether the user can dismiss the notice.
 																					}
@@ -3143,12 +3143,12 @@ if ( bpZoomMeetingBlock.webinar_enabled ) {
 																			}
 																		} );
 																	}}>
-																	{__( 'Save', 'buddyboss-pro' )}
+																	{bpZoomMeetingBlock.block_zoom_save}
 																</Button>
 																<Button isTertiary onClick={() => {
 																	setOccurrenceEdit( false );
 																}}>
-																	{__( 'Cancel', 'buddyboss-pro' )}
+																	{bpZoomMeetingBlock.block_zoom_cancel}
 																</Button>
 															</BaseControl>
 														</Fragment>

@@ -1,1 +1,1 @@
-html.et-fb-preview--wireframe body.et_divi_builder.et-fb-root-ancestor:not(.et_pb_section){height:100vh!important}html.et-fb-preview--wireframe:not(.et_bfb_module_drag):not(.et_bfb_module_drop) .et-fb-root-ancestor{min-height:100%!important}
+html.et-fb-preview--wireframe body.et_divi_builder.et-fb-root-ancestor:not(.et_pb_section){height:100vh!important}html.et-fb-preview--wireframe:not(.et_bfb_module_drag,.et_bfb_module_drop) .et-fb-root-ancestor{min-height:100%!important}

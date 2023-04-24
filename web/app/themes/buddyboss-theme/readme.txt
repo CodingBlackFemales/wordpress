@@ -2,7 +2,7 @@
 Contributors: BuddyBoss
 Requires at least: 4.9.1
 Tested up to: 6.1.1
-Version: 2.3.0
+Version: 2.3.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,18 @@ BuddyBoss Theme is a community theme for the BuddyBoss Platform.
 4. Upload the file 'buddyboss-theme-child.zip'
 
 == Changelog ==
+
+= 2.3.1 =
+* Theme Options - Handled 'import_export' notice showing issue
+* Forums - Handled quick reply form formatting option not working issue for forum discussion auto-generated activity
+* Forums - Handled quick reply disabled button issue for forum discussion auto-generated activity
+* Core - Handled text font issue using system fonts when the page is loading
+* Coding Standards - Code refactoring for all third-party integrations specific CSS
+* LearnDash - Handled inconsistent course count issues in the course directory and profile
+* LearnDash - Handled quiz matrix question type drag and drop not working as expected issue
+* Elementor - Handled critical issue when a menu is configured and 'BuddyBoss Platform' is not active
+* WooCommerce - Handled header mini cart dropdown UI issue for specific product type
+* Compatibility - Handled Learndash course info widget not showing issue in Elementor
 
 = 2.3.0 =
 * Header - Handled default profile dropdown color mapping UI issue

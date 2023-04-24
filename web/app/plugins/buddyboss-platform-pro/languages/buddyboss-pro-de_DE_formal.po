@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2 or later (license.txt).
 msgid ""
 msgstr ""
-"Project-Id-Version: BuddyBoss Platform Pro v2.3.0\n"
+"Project-Id-Version: BuddyBoss Platform Pro v2.3.1\n"
 "Report-Msgid-Bugs-To: https://www.buddyboss.com/contact/\n"
-"POT-Creation-Date: 2023-03-22 16:24+0100\n"
-"PO-Revision-Date: 2023-04-05 11:59+0400\n"
+"POT-Creation-Date: 2023-04-10 15:42+0200\n"
+"PO-Revision-Date: 2023-04-19 10:42+0400\n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language: de_DE@formal\n"
@@ -24,13 +24,13 @@ msgstr ""
 
 #. Plugin Name of the plugin/theme
 #: buddyboss-platform-pro.php:50 buddyboss-platform-pro.php:65
-#: includes/access-control/includes/class-bb-access-control.php:388
-#: includes/access-control/includes/class-bb-access-control.php:500
-#: includes/access-control/includes/class-bb-access-control.php:615
-#: includes/access-control/includes/class-bb-access-control.php:658
-#: includes/access-control/includes/class-bb-access-control.php:691
-#: includes/access-control/includes/class-bb-access-control.php:832
-#: includes/access-control/includes/class-bb-access-control.php:1029
+#: includes/access-control/includes/class-bb-access-control.php:400
+#: includes/access-control/includes/class-bb-access-control.php:512
+#: includes/access-control/includes/class-bb-access-control.php:627
+#: includes/access-control/includes/class-bb-access-control.php:670
+#: includes/access-control/includes/class-bb-access-control.php:703
+#: includes/access-control/includes/class-bb-access-control.php:844
+#: includes/access-control/includes/class-bb-access-control.php:1041
 #: includes/integrations/onesignal/templates/admin/integration-tab-intro.php:18
 #: includes/integrations/pusher/templates/admin/integration-tab-intro.php:18
 #: includes/integrations/zoom/templates/admin/integration-tab-intro.php:18
@@ -214,49 +214,69 @@ msgstr "Erfolgsstufe"
 msgid "Rank"
 msgstr "Rank"
 
-#: includes/access-control/includes/class-bb-access-control.php:285
-msgid "WordPress Role"
-msgstr "WordPress-Rolle"
+#: includes/access-control/includes/class-bb-access-control.php:107
+msgid "Profile types"
+msgstr "Profiltypen"
 
-#: includes/access-control/includes/class-bb-access-control.php:290
-msgid "Profile Type"
-msgstr "Profiltyp"
-
-#: includes/access-control/includes/class-bb-access-control.php:295
-msgid "GamiPress"
-msgstr "GamiPress"
-
-#: includes/access-control/includes/class-bb-access-control.php:300
-msgid "Membership"
-msgstr "Mitgliedschaft"
-
-#: includes/access-control/includes/class-bb-access-control.php:305
+#: includes/access-control/includes/class-bb-access-control.php:109
+#: includes/access-control/includes/class-bb-access-control.php:317
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: includes/access-control/includes/class-bb-access-control.php:330
-#: includes/access-control/includes/class-bb-access-control.php:339
+#. translators: Record type label. s
+#: includes/access-control/includes/class-bb-access-control.php:115
+#: includes/access-control/includes/class-bb-access-control.php:242
+#, php-format
+msgid "No %s found."
+msgstr "Keine %s gefunden."
+
+#: includes/access-control/includes/class-bb-access-control.php:234
+msgid "Memberships"
+msgstr "Mitgliedschaften"
+
+#: includes/access-control/includes/class-bb-access-control.php:236
+msgid "Groups"
+msgstr "Gruppen"
+
+#: includes/access-control/includes/class-bb-access-control.php:297
+msgid "WordPress Role"
+msgstr "WordPress-Rolle"
+
+#: includes/access-control/includes/class-bb-access-control.php:302
+msgid "Profile Type"
+msgstr "Profiltyp"
+
+#: includes/access-control/includes/class-bb-access-control.php:307
+msgid "GamiPress"
+msgstr "GamiPress"
+
+#: includes/access-control/includes/class-bb-access-control.php:312
+msgid "Membership"
+msgstr "Mitgliedschaft"
+
+#: includes/access-control/includes/class-bb-access-control.php:342
+#: includes/access-control/includes/class-bb-access-control.php:351
 msgid "Activity Access"
 msgstr "Aktivitätszugriff"
 
-#: includes/access-control/includes/class-bb-access-control.php:331
-#: includes/access-control/includes/class-bb-access-control.php:340
-#: includes/access-control/includes/class-bb-access-control.php:441
-#: includes/access-control/includes/class-bb-access-control.php:450
-#: includes/access-control/includes/class-bb-access-control.php:558
-#: includes/access-control/includes/class-bb-access-control.php:567
-#: includes/access-control/includes/class-bb-access-control.php:751
-#: includes/access-control/includes/class-bb-access-control.php:760
-#: includes/access-control/includes/class-bb-access-control.php:959
-#: includes/access-control/includes/class-bb-access-control.php:968
+#: includes/access-control/includes/class-bb-access-control.php:343
+#: includes/access-control/includes/class-bb-access-control.php:352
+#: includes/access-control/includes/class-bb-access-control.php:453
+#: includes/access-control/includes/class-bb-access-control.php:462
+#: includes/access-control/includes/class-bb-access-control.php:570
+#: includes/access-control/includes/class-bb-access-control.php:579
+#: includes/access-control/includes/class-bb-access-control.php:763
+#: includes/access-control/includes/class-bb-access-control.php:772
+#: includes/access-control/includes/class-bb-access-control.php:971
+#: includes/access-control/includes/class-bb-access-control.php:980
 msgid " — requires license"
 msgstr " — erfordert eine Lizenz"
 
-#: includes/access-control/includes/class-bb-access-control.php:351
+#: includes/access-control/includes/class-bb-access-control.php:363
 msgid "Activity Posts"
 msgstr "Aktivitätsbeiträge"
 
-#: includes/access-control/includes/class-bb-access-control.php:371
+#: includes/access-control/includes/class-bb-access-control.php:383
 msgid ""
 "Note: These settings do not apply to administrators or group activity feeds."
 msgstr ""
@@ -264,13 +284,13 @@ msgstr ""
 "Gruppenaktivitäts-Feeds."
 
 #. translators: %1$s - Platform Pro string, %2$s - License URL
-#: includes/access-control/includes/class-bb-access-control.php:387
-#: includes/access-control/includes/class-bb-access-control.php:499
-#: includes/access-control/includes/class-bb-access-control.php:614
-#: includes/access-control/includes/class-bb-access-control.php:657
-#: includes/access-control/includes/class-bb-access-control.php:690
-#: includes/access-control/includes/class-bb-access-control.php:831
-#: includes/access-control/includes/class-bb-access-control.php:1028
+#: includes/access-control/includes/class-bb-access-control.php:399
+#: includes/access-control/includes/class-bb-access-control.php:511
+#: includes/access-control/includes/class-bb-access-control.php:626
+#: includes/access-control/includes/class-bb-access-control.php:669
+#: includes/access-control/includes/class-bb-access-control.php:702
+#: includes/access-control/includes/class-bb-access-control.php:843
+#: includes/access-control/includes/class-bb-access-control.php:1040
 #: includes/integrations/onesignal/templates/admin/integration-tab-intro.php:17
 #: includes/integrations/pusher/templates/admin/integration-tab-intro.php:17
 #: includes/integrations/zoom/templates/admin/integration-tab-intro.php:17
@@ -281,56 +301,56 @@ msgstr ""
 "Sie müssen einen Lizenzschlüssel für %1$s aktivieren, um diese Funktion "
 "freizuschalten. %2$s"
 
-#: includes/access-control/includes/class-bb-access-control.php:402
-#: includes/access-control/includes/class-bb-access-control.php:514
-#: includes/access-control/includes/class-bb-access-control.php:629
-#: includes/access-control/includes/class-bb-access-control.php:672
-#: includes/access-control/includes/class-bb-access-control.php:705
-#: includes/access-control/includes/class-bb-access-control.php:846
-#: includes/access-control/includes/class-bb-access-control.php:1043
+#: includes/access-control/includes/class-bb-access-control.php:414
+#: includes/access-control/includes/class-bb-access-control.php:526
+#: includes/access-control/includes/class-bb-access-control.php:641
+#: includes/access-control/includes/class-bb-access-control.php:684
+#: includes/access-control/includes/class-bb-access-control.php:717
+#: includes/access-control/includes/class-bb-access-control.php:858
+#: includes/access-control/includes/class-bb-access-control.php:1055
 #: includes/integrations/onesignal/templates/admin/integration-tab-intro.php:32
 #: includes/integrations/pusher/templates/admin/integration-tab-intro.php:32
 #: includes/integrations/zoom/templates/admin/integration-tab-intro.php:32
 msgid "Add License key"
 msgstr "Lizenzschlüssel hinzufügen"
 
-#: includes/access-control/includes/class-bb-access-control.php:420
+#: includes/access-control/includes/class-bb-access-control.php:432
 msgid ""
 "Select which members should have access to create activity posts, based on:"
 msgstr ""
 "Wählen Sie aus, welchen Mitgliedern der Zugriff auf das Erstellen von "
 "Aktivitätsbeiträgen gewährt werden soll, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:440
-#: includes/access-control/includes/class-bb-access-control.php:449
+#: includes/access-control/includes/class-bb-access-control.php:452
+#: includes/access-control/includes/class-bb-access-control.php:461
 msgid "Connection Access"
 msgstr "Kontaktberechtigung"
 
-#: includes/access-control/includes/class-bb-access-control.php:462
+#: includes/access-control/includes/class-bb-access-control.php:474
 msgid "Connection Request"
 msgstr "Kontaktanfrage"
 
-#: includes/access-control/includes/class-bb-access-control.php:482
-#: includes/access-control/includes/class-bb-access-control.php:1010
+#: includes/access-control/includes/class-bb-access-control.php:494
+#: includes/access-control/includes/class-bb-access-control.php:1022
 msgid "Note: These settings do not apply to administrators."
 msgstr "Hinweis: Diese Einstellungen gelten nicht für Administratoren."
 
-#: includes/access-control/includes/class-bb-access-control.php:557
-#: includes/access-control/includes/class-bb-access-control.php:566
+#: includes/access-control/includes/class-bb-access-control.php:569
+#: includes/access-control/includes/class-bb-access-control.php:578
 msgid "Messages Access"
 msgstr "Nachrichtenzugriff"
 
-#: includes/access-control/includes/class-bb-access-control.php:578
+#: includes/access-control/includes/class-bb-access-control.php:590
 msgid "Send Messages"
 msgstr "Nachrichten versenden"
 
-#: includes/access-control/includes/class-bb-access-control.php:598
+#: includes/access-control/includes/class-bb-access-control.php:610
 msgid "Note: These settings do not apply to administrators or group messages."
 msgstr ""
 "Hinweis: Diese Einstellungen gelten nicht für Administratoren oder "
 "Gruppennachrichten."
 
-#: includes/access-control/includes/class-bb-access-control.php:717
+#: includes/access-control/includes/class-bb-access-control.php:729
 msgid ""
 "Select which members should have access to send messages to other members, "
 "based on:"
@@ -338,7 +358,7 @@ msgstr ""
 "Wählen Sie aus, welchen Mitgliedern der Zugriff auf das Senden von "
 "Nachrichten an andere Mitglieder gewährt werden soll, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:718
+#: includes/access-control/includes/class-bb-access-control.php:730
 msgid ""
 "Members with the {{option_value}} {{select_value}} can send messages to "
 "members with - Any Member / With Specific {{select_value}}(s)"
@@ -346,7 +366,7 @@ msgstr ""
 "Mitglieder mit dem {{option_value}} {{select_value}} können Nachrichten an "
 "Mitglieder mit - Jedes Mitglied / Mit bestimmten {{select_value}}(s) senden"
 
-#: includes/access-control/includes/class-bb-access-control.php:729
+#: includes/access-control/includes/class-bb-access-control.php:741
 msgid ""
 "Select which members should have access to send connection requests to other "
 "members, based on:"
@@ -354,7 +374,7 @@ msgstr ""
 "Wählen Sie aus, welche Mitglieder berechtigt sein sollen, um Kontaktanfragen "
 "an andere Mitglieder zu stellen, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:730
+#: includes/access-control/includes/class-bb-access-control.php:742
 msgid ""
 "Members with the {{option_value}} {{select_value}} can send connection "
 "request to members with - Any Member / With Specific {{select_value}}(s)"
@@ -363,36 +383,36 @@ msgstr ""
 "an Mitglieder mit - Jedes Mitglied / Mit bestimmten {{select_value}}(s) "
 "senden"
 
-#: includes/access-control/includes/class-bb-access-control.php:750
-#: includes/access-control/includes/class-bb-access-control.php:759
+#: includes/access-control/includes/class-bb-access-control.php:762
+#: includes/access-control/includes/class-bb-access-control.php:771
 msgid "Media Access"
 msgstr "Medienzugriff"
 
-#: includes/access-control/includes/class-bb-access-control.php:773
+#: includes/access-control/includes/class-bb-access-control.php:785
 msgid "Upload Photos"
 msgstr "Fotos hochladen"
 
-#: includes/access-control/includes/class-bb-access-control.php:784
+#: includes/access-control/includes/class-bb-access-control.php:796
 msgid "Upload Documents"
 msgstr "Dokumente hochladen"
 
-#: includes/access-control/includes/class-bb-access-control.php:795
+#: includes/access-control/includes/class-bb-access-control.php:807
 msgid "Upload Videos"
 msgstr "Videos hochladen"
 
-#: includes/access-control/includes/class-bb-access-control.php:815
+#: includes/access-control/includes/class-bb-access-control.php:827
 msgid "Note: These settings do not apply to administrators or group media."
 msgstr ""
 "Hinweis: Diese Einstellungen gelten nicht für Administratoren oder "
 "Gruppenmedien."
 
-#: includes/access-control/includes/class-bb-access-control.php:864
+#: includes/access-control/includes/class-bb-access-control.php:876
 msgid "Select which members should have access to upload photos, based on:"
 msgstr ""
 "Wählen Sie aus, welchen Mitgliedern der Zugriff auf das Hochladen von Fotos "
 "gewährt werden soll, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:871
+#: includes/access-control/includes/class-bb-access-control.php:883
 msgid ""
 "Enable upload photos settings above in either profiles or messages or "
 "forums, to control which members can upload photos in components above."
@@ -401,13 +421,13 @@ msgstr ""
 "den Profilen oder in den Nachrichten oder in den Foren, um zu steuern, "
 "welche Mitglieder Fotos in den obigen Komponenten hochladen können."
 
-#: includes/access-control/includes/class-bb-access-control.php:885
+#: includes/access-control/includes/class-bb-access-control.php:897
 msgid "Select which members should have access to upload videos, based on:"
 msgstr ""
 "Wählen Sie, welche Mitglieder basierend auf den folgenden Kriterien Zugriff "
 "auf das Hochladen von Videos haben sollen:"
 
-#: includes/access-control/includes/class-bb-access-control.php:892
+#: includes/access-control/includes/class-bb-access-control.php:904
 msgid ""
 "Enable upload videos settings above in either profiles or messages or "
 "forums, to control which members can upload videos in components above."
@@ -416,13 +436,13 @@ msgstr ""
 "den Profilen oder in den Nachrichten oder in den Foren aktivieren, um zu "
 "steuern, welche Mitglieder Videos in den obigen Komponenten hochladen können."
 
-#: includes/access-control/includes/class-bb-access-control.php:906
+#: includes/access-control/includes/class-bb-access-control.php:918
 msgid "Select which members should have access to upload documents, based on:"
 msgstr ""
 "Wählen Sie aus, welchen Mitgliedern der Zugriff auf das Hochladen von "
 "Dokumenten gewährt werden soll, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:913
+#: includes/access-control/includes/class-bb-access-control.php:925
 msgid ""
 "Enable upload documents settings above in either profiles or messages or "
 "forums, to control which members can upload documents in components above."
@@ -431,13 +451,13 @@ msgstr ""
 "entweder in Profilen oder in Nachrichten oder in Foren, um zu steuern, "
 "welche Mitglieder Dokumente in den obigen Komponenten hochladen können."
 
-#: includes/access-control/includes/class-bb-access-control.php:927
+#: includes/access-control/includes/class-bb-access-control.php:939
 msgid "Select which members should have access to create groups, based on:"
 msgstr ""
 "Wählen Sie aus, welche Mitglieder Zugriff auf das Erstellen von Gruppen "
 "haben sollen, basierend auf:"
 
-#: includes/access-control/includes/class-bb-access-control.php:935
+#: includes/access-control/includes/class-bb-access-control.php:947
 msgid ""
 "Enable social group creation by all members above to control which members "
 "can create groups."
@@ -445,20 +465,20 @@ msgstr ""
 "Aktivieren Sie die Erstellung sozialer Gruppen durch alle obigen Mitglieder, "
 "um zu steuern, welche Mitglieder Gruppen erstellen können."
 
-#: includes/access-control/includes/class-bb-access-control.php:958
-#: includes/access-control/includes/class-bb-access-control.php:967
+#: includes/access-control/includes/class-bb-access-control.php:970
+#: includes/access-control/includes/class-bb-access-control.php:979
 msgid "Group Access"
 msgstr "Gruppenzugriff"
 
-#: includes/access-control/includes/class-bb-access-control.php:980
+#: includes/access-control/includes/class-bb-access-control.php:992
 msgid "Create Groups"
 msgstr "Gruppen erstellen"
 
-#: includes/access-control/includes/class-bb-access-control.php:990
+#: includes/access-control/includes/class-bb-access-control.php:1002
 msgid "Join Groups"
 msgstr "Gruppen beitreten"
 
-#: includes/access-control/includes/class-bb-access-control.php:1060
+#: includes/access-control/includes/class-bb-access-control.php:1072
 msgid ""
 "Select which members should have access to join public groups or request "
 "access to private groups, based on:"
@@ -1105,17 +1125,17 @@ msgstr ""
 msgid "OneSignal <span>&mdash; requires license</span>"
 msgstr "OneSignal <span>&mdash; erfordert Lizenz</span>"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:208
+#: includes/integrations/pusher/bb-pusher-actions.php:213
 msgid "Now"
 msgstr "Jetzt"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:215
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:711
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:995
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1594
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2273
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2553
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3148
+#: includes/integrations/pusher/bb-pusher-actions.php:220
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:712
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:997
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1596
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2275
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2556
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3151
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:520
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:516
 #: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:54
@@ -1123,67 +1143,67 @@ msgstr "Jetzt"
 msgid "Cancel"
 msgstr "Verwerfen"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:216
+#: includes/integrations/pusher/bb-pusher-actions.php:221
 msgid "Not delivered"
 msgstr "Nicht zugestellt"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:217
+#: includes/integrations/pusher/bb-pusher-actions.php:222
 msgid "Try again"
 msgstr "Nochmal versuchen"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:218
+#: includes/integrations/pusher/bb-pusher-actions.php:223
 msgid "Sending..."
 msgstr "Senden..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:221
+#: includes/integrations/pusher/bb-pusher-actions.php:226
 #, php-format
 msgid "The conversation with %s has been deleted."
 msgstr "Die Unterhaltung mit %s wurde gelöscht."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:222
-#: includes/integrations/pusher/bb-pusher-actions.php:232
+#: includes/integrations/pusher/bb-pusher-actions.php:228
+#: includes/integrations/pusher/bb-pusher-actions.php:238
 msgid "You have left "
 msgstr "Sie haben verlassen "
 
-#: includes/integrations/pusher/bb-pusher-actions.php:223
+#: includes/integrations/pusher/bb-pusher-actions.php:229
 msgid "You are banned in "
 msgstr "Sie sind gesperrt in "
 
-#: includes/integrations/pusher/bb-pusher-actions.php:224
+#: includes/integrations/pusher/bb-pusher-actions.php:230
 msgid " are typing..."
 msgstr " tippen gerade..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:225
+#: includes/integrations/pusher/bb-pusher-actions.php:231
 msgid " is typing..."
 msgstr " tippt gerade..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:226
+#: includes/integrations/pusher/bb-pusher-actions.php:232
 msgid " members are typing..."
 msgstr " Mitglieder tippen gerade..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:227
+#: includes/integrations/pusher/bb-pusher-actions.php:233
 msgid " others are typing..."
 msgstr " andere tippen gerade..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:228
+#: includes/integrations/pusher/bb-pusher-actions.php:234
 msgid " and "
 msgstr " und "
 
-#: includes/integrations/pusher/bb-pusher-actions.php:229
+#: includes/integrations/pusher/bb-pusher-actions.php:235
 msgid "Group messages have been disabled by a site administrator."
 msgstr ""
 "Die Gruppennachrichten wurden von einem Website-Administrator deaktiviert."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:230
+#: includes/integrations/pusher/bb-pusher-actions.php:236
 msgid " was deleted."
 msgstr " wurde gelöscht."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:231
+#: includes/integrations/pusher/bb-pusher-actions.php:237
 msgid "Private messages have been disabled by a site administrator."
 msgstr ""
 "Private Nachrichten wurden von einem Website-Administrator deaktiviert."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:233
+#: includes/integrations/pusher/bb-pusher-actions.php:239
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:103
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:107
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:149
@@ -1191,7 +1211,7 @@ msgstr ""
 msgid "AM"
 msgstr "AM"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:234
+#: includes/integrations/pusher/bb-pusher-actions.php:240
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:107
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:111
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:153
@@ -1199,19 +1219,19 @@ msgstr "AM"
 msgid "PM"
 msgstr "PM"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:418
+#: includes/integrations/pusher/bb-pusher-actions.php:424
 msgid "Typing..."
 msgstr "Tippen..."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:1770
+#: includes/integrations/pusher/bb-pusher-actions.php:1776
 msgid "It's not a post request."
 msgstr "Es ist keine Beitragsanfrage."
 
-#: includes/integrations/pusher/bb-pusher-actions.php:1783
+#: includes/integrations/pusher/bb-pusher-actions.php:1789
 msgid "Not a valid thread access"
 msgstr "Kein gültiger Thread-Zugriff"
 
-#: includes/integrations/pusher/bb-pusher-actions.php:1794
+#: includes/integrations/pusher/bb-pusher-actions.php:1800
 msgid "Message marked as read."
 msgstr "Nachricht als gelesen markiert."
 
@@ -1420,28 +1440,40 @@ msgstr "Sie sind leider nicht berechtigt, auf diesen Endpunkt zuzugreifen"
 msgid "Pusher <span>&mdash; requires license</span>"
 msgstr "Pusher <span>&mdash; benötigt eine Lizenz</span>"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:47
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:625
+#: includes/integrations/zoom/assets/js/blocks/SelectDropdown.js:76
+#: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:143
+#: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:147
+#: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:193
+#: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:197
+msgid "Timezone"
+msgstr "Zeitzone"
+
+#: includes/integrations/zoom/assets/js/blocks/SelectDropdown.js:87
+msgid "Search timezone"
+msgstr "Zeitzone suchen"
+
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:48
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:626
 msgid "Zoom Meeting"
 msgstr "Zoom-Konferenz"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:48
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:49
 msgid "Create meeting in Zoom"
 msgstr "Konferenz mit Zoom erstellen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:51
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1623
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:52
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1625
 msgid "zoom"
 msgstr "Zoom"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:51
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:52
 msgid "meeting"
 msgstr "Konferenz"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:255
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:489
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1823
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2054
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:256
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:490
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1825
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2056
 #: includes/integrations/zoom/bp-zoom-functions.php:105
 #: includes/integrations/zoom/bp-zoom-functions.php:2780
 #: includes/integrations/zoom/bp-zoom-functions.php:2994
@@ -1454,47 +1486,47 @@ msgstr "Konferenz"
 msgid "day"
 msgstr "Tag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:477
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:483
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2042
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2048
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:478
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:484
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2044
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2050
 msgid "No Recordings"
 msgstr "Keine Aufnahmen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:478
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2043
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:479
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2045
 msgid "Cloud"
 msgstr "Cloud"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:479
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:484
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2044
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2049
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:480
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:485
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2046
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2051
 msgid "Local"
 msgstr "Lokal"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:495
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2060
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:496
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2062
 #: includes/integrations/zoom/bp-zoom-functions.php:107
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:37
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:37
 msgid "week"
 msgstr "Woche"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:501
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2066
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:502
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2068
 #: includes/integrations/zoom/bp-zoom-functions.php:106
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:40
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:40
 msgid "month"
 msgstr "Monat"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:626
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:627
 msgid "Create meeting or add existing meeting."
 msgstr "Konferenz erstellen oder bestehende Konferenz hinzufügen."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:632
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:727
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:633
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:728
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:178
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:2539
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:2590
@@ -1503,12 +1535,12 @@ msgstr "Konferenz erstellen oder bestehende Konferenz hinzufügen."
 msgid "Create Meeting"
 msgstr "Konferenz erstellen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:637
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:645
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:638
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:646
 msgid "Add Existing Meeting"
 msgstr "Vorhandene Konferenz hinzufügen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:647
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:648
 #: includes/integrations/zoom/bp-zoom-functions.php:3789
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:61
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:153
@@ -1516,46 +1548,46 @@ msgstr "Vorhandene Konferenz hinzufügen"
 msgid "Meeting ID"
 msgstr "Konferenz-ID"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:650
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:651
 msgid "Enter meeting ID without spaces…"
 msgstr "Konferenz-ID ohne Leerzeichen eingeben…"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:669
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:747
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:670
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:748
 msgid "Meeting Synced."
 msgstr "Konferenz synchronisiert."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:705
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1589
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2267
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3143
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:706
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1591
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2269
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3146
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:839
 msgid "Save"
 msgstr "Sichern"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:729
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:730
 msgid "Existing Meeting"
 msgstr "Bestehende Konferenz"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:735
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:744
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:771
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:781
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2297
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2306
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2333
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2343
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:736
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:745
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:772
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:782
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2299
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2308
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2335
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2345
 #: includes/integrations/zoom/templates/buddypress/groups/single/parts/zoom-subnav.php:51
 msgid "Sync"
 msgstr "Synchronisieren"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:792
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2354
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:793
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2356
 msgid "Title"
 msgstr "Titel"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:797
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2359
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:798
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2361
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:88
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:92
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:99
@@ -1563,47 +1595,38 @@ msgstr "Titel"
 msgid "When"
 msgstr "Wann"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:824
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2386
-#: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:143
-#: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:147
-#: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:193
-#: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:197
-msgid "Timezone"
-msgstr "Zeitzone"
-
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:831
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2393
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:833
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2396
 msgid "Auto Recording"
 msgstr "Automatische Aufzeichnung"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:948
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1550
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:950
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1552
 msgid "Meeting Updated."
 msgstr "Konferenz aktualisiert."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:989
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:991
 msgid "Save Meeting"
 msgstr "Konferenz speichern"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1015
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1017
 msgid "Meeting Deleted."
 msgstr "Konferenz gelöscht."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1055
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1476
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2613
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3034
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1057
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1478
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2616
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3037
 msgid "Delete"
 msgstr "Löschen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1067
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2625
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1069
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2628
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1070
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2628
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1072
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2631
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:69
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:73
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:79
@@ -1611,8 +1634,8 @@ msgstr "Einstellungen"
 msgid "Description (optional)"
 msgstr "Beschreibung (optional)"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1075
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2633
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1077
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2636
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:76
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:80
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:86
@@ -1620,20 +1643,20 @@ msgstr "Beschreibung (optional)"
 msgid "Passcode (optional)"
 msgstr "Kenncode (manuell eingeben oder automatisch vergeben lassen)"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1081
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1489
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2639
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3047
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1083
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1491
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2642
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3050
 msgid "Duration (minutes)"
 msgstr "Dauer (Minuten)"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1086
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2644
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1088
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2647
 msgid "Default Host"
 msgstr "Standard-Gastgeber"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1095
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2653
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1097
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2656
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:437
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:433
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:494
@@ -1641,13 +1664,13 @@ msgstr "Standard-Gastgeber"
 msgid "Alternative Hosts"
 msgstr "Alternative Gastgeber"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1098
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2656
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1100
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2659
 msgid "Example: mary@company.com"
 msgstr "Zum Beispiel: marie@meinunternehmen.de"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1099
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2657
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1101
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2660
 msgid ""
 "Entered by email, comma separated. Each email added needs to match with a "
 "user in your Zoom account."
@@ -1655,17 +1678,17 @@ msgstr ""
 "Per E-Mail eingegeben, Komma getrennt. Jede hinzugefügte E-Mail muss mit "
 "einem Benutzer in Ihrem Zoom-Konto übereinstimmen."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1105
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2663
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1107
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2666
 msgid "Start video when host joins"
 msgstr "Video starten, wenn der Gastgeber beitritt"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1111
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1113
 msgid "Start video when participants join"
 msgstr "Video starten, wenn Teilnehmer beitreten"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1121
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2679
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1123
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2682
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:370
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:374
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:400
@@ -1673,8 +1696,8 @@ msgstr "Video starten, wenn Teilnehmer beitreten"
 msgid "Require Registration"
 msgstr "Registrierung erforderlich"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1133
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2692
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1135
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2695
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:374
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:378
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:404
@@ -1684,8 +1707,8 @@ msgstr ""
 "Die Teilnehmer registrieren sich einmal und können an allen Veranstaltungen "
 "teilnehmen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1134
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2696
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1136
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2699
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:376
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:380
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:406
@@ -1693,8 +1716,8 @@ msgstr ""
 msgid "Attendees need to register for each occurrence to attend"
 msgstr "Die Teilnehmer müssen sich für jede Veranstaltung registrieren"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1135
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2700
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1137
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2703
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:378
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:382
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:408
@@ -1705,7 +1728,7 @@ msgstr ""
 "Die Teilnehmer melden sich einmal an und können eine oder mehrere "
 "Veranstaltungen auswählen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1148
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1150
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:218
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:282
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:385
@@ -1714,7 +1737,7 @@ msgstr ""
 msgid "Enable join before host"
 msgstr "Teilnahme vor dem Gastgeber ermöglichen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1154
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1156
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:222
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:196
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:286
@@ -1724,7 +1747,7 @@ msgstr "Teilnahme vor dem Gastgeber ermöglichen"
 msgid "Mute participants upon entry"
 msgstr "Teilnehmer bei Eintritt stumm schalten"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1160
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1162
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:226
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:290
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:395
@@ -1733,8 +1756,8 @@ msgstr "Teilnehmer bei Eintritt stumm schalten"
 msgid "Enable waiting room"
 msgstr "Warteraum aktivieren"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1166
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2721
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1168
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2724
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:230
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:200
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:294
@@ -1747,17 +1770,17 @@ msgstr "Warteraum aktivieren"
 msgid "Only authenticated users can join"
 msgstr "Nur berechtigte Benutzer (Zoom-Registrierung)"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1173
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2728
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1175
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2731
 msgid "Recurring Options"
 msgstr "Sich wiederholende Optionen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1176
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1178
 msgid "Recurring Meeting"
 msgstr "Konferenzserie"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1183
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2738
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1185
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2741
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:221
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:225
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:249
@@ -1765,8 +1788,8 @@ msgstr "Konferenzserie"
 msgid "Recurrence"
 msgstr "Häufigkeit"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1186
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2741
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1188
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2744
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:224
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:228
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:251
@@ -1774,8 +1797,8 @@ msgstr "Häufigkeit"
 msgid "Daily"
 msgstr "Täglich"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1187
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2742
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1189
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2745
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:225
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:229
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:252
@@ -1783,8 +1806,8 @@ msgstr "Täglich"
 msgid "Weekly"
 msgstr "Wöchentlich"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1188
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2743
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1190
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2746
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:226
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:230
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:253
@@ -1792,8 +1815,8 @@ msgstr "Wöchentlich"
 msgid "Monthly"
 msgstr "Monatlich"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1193
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2748
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1195
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2751
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:233
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:237
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:259
@@ -1801,78 +1824,78 @@ msgstr "Monatlich"
 msgid "Repeat every"
 msgstr "Wiederhole alle"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1202
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2757
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1204
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2760
 #: includes/integrations/zoom/bp-zoom-functions.php:113
 msgid "Days"
 msgstr "Tage"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1205
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1291
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2760
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2849
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1207
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1293
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2763
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2852
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1206
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1292
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2761
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2850
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1208
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1294
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2764
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2853
 msgid "Monday"
 msgstr "Montag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1207
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1293
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2762
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2851
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1209
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1295
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2765
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2854
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1208
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1294
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2763
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2852
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1210
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1296
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2766
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2855
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1209
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1295
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2764
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2853
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1211
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1297
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2767
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2856
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1210
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1296
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2765
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2854
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1212
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1298
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2768
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2857
 msgid "Friday"
 msgstr "Freitag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1211
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1297
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2766
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2855
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1213
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1299
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2769
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2858
 msgid "Saturday"
 msgstr "Samstag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1223
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2778
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1225
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2781
 msgid "Occures on"
 msgstr "Geschieht am"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1226
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2782
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1228
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2785
 msgid "Day of the month"
 msgstr "Tag des Monats"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1228
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2786
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1230
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2789
 msgid "Week of the month"
 msgstr "Woche des Monats"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1237
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2795
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1239
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2798
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:266
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:270
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:300
@@ -1880,205 +1903,205 @@ msgstr "Woche des Monats"
 msgid "Day"
 msgstr "Tag"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1240
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1352
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2798
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2910
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1242
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1354
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2801
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2913
 msgid "1"
 msgstr "1"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1241
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1353
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2799
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2911
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1243
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1355
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2802
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2914
 msgid "2"
 msgstr "2"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1242
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1354
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2800
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2912
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1244
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1356
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2803
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2915
 msgid "3"
 msgstr "3"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1243
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1355
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2801
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2913
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1245
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1357
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2804
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2916
 msgid "4"
 msgstr "4"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1244
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1356
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2802
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2914
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1246
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1358
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2805
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2917
 msgid "5"
 msgstr "5"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1245
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1357
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2803
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2915
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1247
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1359
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2806
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2918
 msgid "6"
 msgstr "6"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1246
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1358
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2804
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2916
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1248
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1360
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2807
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2919
 msgid "7"
 msgstr "7"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1247
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1359
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2805
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2917
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1249
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1361
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2808
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2920
 msgid "8"
 msgstr "8"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1248
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1360
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2806
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2918
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1250
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1362
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2809
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2921
 msgid "9"
 msgstr "9"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1249
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1361
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2807
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2919
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1251
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1363
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2810
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2922
 msgid "10"
 msgstr "10"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1250
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1362
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2808
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2920
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1252
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1364
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2811
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2923
 msgid "11"
 msgstr "11"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1251
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1363
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2809
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2921
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1253
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1365
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2812
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2924
 msgid "12"
 msgstr "12"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1252
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1364
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2810
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2922
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1254
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1366
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2813
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2925
 msgid "13"
 msgstr "13"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1253
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1365
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2811
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2923
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1255
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1367
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2814
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2926
 msgid "14"
 msgstr "14"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1254
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1366
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2812
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2924
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1256
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1368
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2815
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2927
 msgid "15"
 msgstr "15"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1255
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1367
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2813
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2925
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1257
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1369
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2816
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2928
 msgid "16"
 msgstr "16"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1256
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1368
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2814
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2926
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1258
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1370
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2817
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2929
 msgid "17"
 msgstr "17"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1257
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1369
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2815
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2927
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1259
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1371
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2818
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2930
 msgid "18"
 msgstr "18"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1258
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1370
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2816
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2928
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1260
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1372
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2819
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2931
 msgid "19"
 msgstr "19"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1259
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1371
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2817
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2929
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1261
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1373
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2820
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2932
 msgid "20"
 msgstr "20"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1260
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2818
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1262
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2821
 msgid "21"
 msgstr "21"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1261
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2819
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1263
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2822
 msgid "22"
 msgstr "22"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1262
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2820
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1264
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2823
 msgid "23"
 msgstr "23"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1263
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2821
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1265
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2824
 msgid "24"
 msgstr "24"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1264
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2822
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1266
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2825
 msgid "25"
 msgstr "25"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1265
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2823
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1267
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2826
 msgid "26"
 msgstr "26"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1266
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2824
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1268
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2827
 msgid "27"
 msgstr "27"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1267
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2825
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1269
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2828
 msgid "28"
 msgstr "28"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1268
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2826
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1270
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2829
 msgid "29"
 msgstr "29"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1269
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2827
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1271
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2830
 msgid "30"
 msgstr "30"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1270
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2828
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1272
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2831
 msgid "31"
 msgstr "31"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1273
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1300
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2831
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2858
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1275
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1302
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2834
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2861
 #: includes/integrations/zoom/bp-zoom-functions.php:2852
 #: includes/integrations/zoom/bp-zoom-functions.php:3066
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:272
@@ -2092,8 +2115,8 @@ msgstr "31"
 msgid "of the month"
 msgstr "vom Monat"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1280
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2838
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1282
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2841
 #: includes/integrations/zoom/bp-zoom-functions.php:2858
 #: includes/integrations/zoom/bp-zoom-functions.php:3072
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:279
@@ -2103,8 +2126,8 @@ msgstr "vom Monat"
 msgid "First"
 msgstr "Erste"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1281
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2839
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1283
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2842
 #: includes/integrations/zoom/bp-zoom-functions.php:2860
 #: includes/integrations/zoom/bp-zoom-functions.php:3074
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:280
@@ -2114,8 +2137,8 @@ msgstr "Erste"
 msgid "Second"
 msgstr "Sekunde"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1282
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2840
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1284
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2843
 #: includes/integrations/zoom/bp-zoom-functions.php:2862
 #: includes/integrations/zoom/bp-zoom-functions.php:3076
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:281
@@ -2125,8 +2148,8 @@ msgstr "Sekunde"
 msgid "Third"
 msgstr "Dritter"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1283
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2841
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1285
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2844
 #: includes/integrations/zoom/bp-zoom-functions.php:2864
 #: includes/integrations/zoom/bp-zoom-functions.php:3078
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:282
@@ -2136,8 +2159,8 @@ msgstr "Dritter"
 msgid "Fourth"
 msgstr "Vierter"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1284
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2842
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1286
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2845
 #: includes/integrations/zoom/bp-zoom-functions.php:2866
 #: includes/integrations/zoom/bp-zoom-functions.php:3080
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:283
@@ -2147,64 +2170,64 @@ msgstr "Vierter"
 msgid "Last"
 msgstr "Letzte"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1312
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2870
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1314
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2873
 msgid "End by"
 msgstr "Ende durch"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1315
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2873
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1317
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2876
 msgid "Date"
 msgstr "Datum"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1316
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1388
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2874
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2946
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1318
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1390
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2877
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2949
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:146
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:145
 msgid "Occurrences"
 msgstr "Ereignisse"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1348
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2906
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1350
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2909
 msgid "End After"
 msgstr "Ende nach"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1350
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2908
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1352
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2911
 msgid "occurences"
 msgstr "Ereignis"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1409
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2967
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1411
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2970
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1436
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2994
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1438
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2997
 msgid "Occurrence Deleted."
 msgstr "Ereignis gelöscht."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1619
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2187
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1621
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2189
 msgid "Zoom Webinar"
 msgstr "Zoom-Webinar"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1620
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1622
 msgid "Create webinar in Zoom"
 msgstr "Webinar in Zoom erstellen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1623
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:1625
 msgid "webinar"
 msgstr "Webinar"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2188
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2190
 msgid "Create webinar or add existing webinar."
 msgstr "Webinar erstellen oder bestehendes Webinar hinzufügen."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2194
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2289
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2196
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2291
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:2551
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:2602
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:11
@@ -2212,12 +2235,12 @@ msgstr "Webinar erstellen oder bestehendes Webinar hinzufügen."
 msgid "Create Webinar"
 msgstr "Webinar erstellen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2199
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2207
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2201
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2209
 msgid "Add Existing Webinar"
 msgstr "Vorhandenes Webinar hinzufügen"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2209
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2211
 #: includes/integrations/zoom/bp-zoom-functions.php:3935
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:59
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:152
@@ -2225,37 +2248,37 @@ msgstr "Vorhandenes Webinar hinzufügen"
 msgid "Webinar ID"
 msgstr "Webinar ID"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2212
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2214
 msgid "Enter webinar ID without spaces…"
 msgstr "Webinar-ID ohne Leerzeichen eingeben…"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2231
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2309
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2233
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2311
 msgid "Webinar Synced."
 msgstr "Webinar synchronisiert."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2291
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2293
 msgid "Existing Webinar"
 msgstr "Vorhandenes Webinar"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2506
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3104
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2509
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:3107
 msgid "Webinar Updated."
 msgstr "Webinar aktualisiert."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2547
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2550
 msgid "Save Webinar"
 msgstr "Webinar speichern"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2573
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2576
 msgid "Webinar Deleted."
 msgstr "Webinar Gelöscht."
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2669
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2672
 msgid "Start video when panelists join"
 msgstr "Video starten, wenn Diskussionsteilnehmer beitreten"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2715
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2718
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:255
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:389
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:420
@@ -2263,7 +2286,7 @@ msgstr "Video starten, wenn Diskussionsteilnehmer beitreten"
 msgid "Enable practice session"
 msgstr "Übungseinheit freigeben"
 
-#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2731
+#: includes/integrations/zoom/assets/js/blocks/bp-zoom-meeting-block.js:2734
 msgid "Recurring Webinar"
 msgstr "Webinar-Serie"
 
@@ -7145,9 +7168,6 @@ msgstr "BuddyBoss"
 #~ msgid "Private messages"
 #~ msgstr "Private Nachrichten"
 
-#~ msgid "Groups"
-#~ msgstr "Gruppen"
-
 #~ msgid "Forums in Groups (with data)"
 #~ msgstr "Foren in Gruppen (mit Daten)"
 
@@ -7504,9 +7524,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Profile Cover Images"
 #~ msgstr "Profil-Titelbilder"
-
-#~ msgid "Profile Types"
-#~ msgstr "Profiltypen"
 
 #~ msgid "Display Profile Types"
 #~ msgstr "Profiltypen anzeigen"
@@ -9283,9 +9300,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Blogs"
 #~ msgstr "Blogs"
-
-#~ msgid "Search these:"
-#~ msgstr "Such nach:"
 
 #~ msgid "Search anything&hellip;"
 #~ msgstr "Durchsuchen Sie alles&hellip;"
@@ -17111,9 +17125,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "No Group Profile Photo"
 #~ msgstr "Kein Gruppen Profilbild"
-
-#~ msgid "No groups found."
-#~ msgstr "Keine Gruppen gefunden."
 
 #~ msgid "Groups list"
 #~ msgstr "Gruppenliste"

@@ -3,7 +3,7 @@ Contributors: buddyboss
 Requires at least: 4.9.1
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,11 @@ To run BuddyBoss Platform Pro, we recommend your host supports:
 5. Activate 'BuddyBoss Platform Pro' from your Plugins page.
 
 == Changelog ==
+
+= 2.3.2 =
+* Member Access Controls - Handled group message permission issue when access control is configured
+* Zoom - Small improvement by providing an option to translate all strings from Zoom Gutenberg block
+* Zoom - Small performance and security improvement by updating the Zoom JS library
 
 = 2.3.1 =
 * Member Access Controls - Handled small translation issues for specific strings in the dashboard

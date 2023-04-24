@@ -99,7 +99,12 @@ class BB_Elementor_Widgets {
 		$classes  = array();
 		$controls = $data->get_controls();
 		if ( ! empty( $controls ) && ! empty( $controls['wp']['id_base'] ) ) {
-			$min = bp_core_get_minified_asset_suffix();
+
+			$min = '';
+			if ( function_exists( 'bp_core_get_minified_asset_suffix' ) ) {
+				$min = bp_core_get_minified_asset_suffix();
+			}
+
 			if ( 'bp_xprofile_profile_completion_widget' === $controls['wp']['id_base'] ) {
 				$classes = array(
 					'widget_bp_profile_completion_widget',
