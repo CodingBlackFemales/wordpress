@@ -33,8 +33,8 @@ class BuddyBoss {
 	 * @return string
 	 */
 	public static function bp_core_get_table_prefix( $base_prefix ) {
-		if(is_multisite()){
-			$base_prefix .= get_current_blog_id() . "_";
+		if ( is_multisite() ) {
+			$base_prefix .= get_current_blog_id() . '_';
 		}
 
 		return $base_prefix;

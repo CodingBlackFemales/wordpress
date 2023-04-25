@@ -36,6 +36,7 @@ final class Main {
 	 *
 	 * @return void
 	 */
+	// phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 	public static function conditional_includes() {
 
 		$screen = get_current_screen();

@@ -13,20 +13,18 @@
  *
  * @since CBF Academy 1.0.0
  */
-function cbf_academy_theme_languages()
-{
-  /**
-   * Makes child theme available for translation.
-   * Translations can be added into the /languages/ directory.
-   */
+function cbf_academy_theme_languages() {
+	/**
+	 * Makes child theme available for translation.
+	 * Translations can be added into the /languages/ directory.
+	 */
 
-  // Translate text from the PARENT theme.
-  load_theme_textdomain( 'buddyboss-theme', get_stylesheet_directory() . '/languages' );
+	// Translate text from the PARENT theme.
+	load_theme_textdomain( 'buddyboss-theme', get_stylesheet_directory() . '/languages' );
 
-  // Translate text from the CHILD theme only.
-  // Change 'buddyboss-theme' instances in all child theme files to 'buddyboss-theme-child'.
-  // load_theme_textdomain( 'buddyboss-theme-child', get_stylesheet_directory() . '/languages' );
-
+	// Translate text from the CHILD theme only.
+	// Change 'buddyboss-theme' instances in all child theme files to 'buddyboss-theme-child'.
+	// load_theme_textdomain( 'buddyboss-theme-child', get_stylesheet_directory() . '/languages' );
 }
 add_action( 'after_setup_theme', 'cbf_academy_theme_languages' );
 
@@ -35,23 +33,22 @@ add_action( 'after_setup_theme', 'cbf_academy_theme_languages' );
  *
  * @since CBF Academy Theme  1.0.0
  */
-function cbf_academy_theme_scripts_styles()
-{
-  /**
-   * Scripts and Styles loaded by the parent theme can be unloaded if needed
-   * using wp_deregister_script or wp_deregister_style.
-   *
-   * See the WordPress Codex for more information about those functions:
-   * http://codex.wordpress.org/Function_Reference/wp_deregister_script
-   * http://codex.wordpress.org/Function_Reference/wp_deregister_style
-   **/
-  $version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
+function cbf_academy_theme_scripts_styles() {
+	/**
+	  * Scripts and Styles loaded by the parent theme can be unloaded if needed
+	  * using wp_deregister_script or wp_deregister_style.
+	  *
+	  * See the WordPress Codex for more information about those functions:
+	  * http://codex.wordpress.org/Function_Reference/wp_deregister_script
+	  * http://codex.wordpress.org/Function_Reference/wp_deregister_style
+	  **/
+	$version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
 
-  // Styles
-  wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri().'/assets/css/custom.css', false, $version );
+	// Styles
+	wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri() . '/assets/css/custom.css', false, $version );
 
-  // Javascript
-  wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri().'/assets/js/custom.js', false, $version );
+	// Javascript
+	wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', false, $version );
 }
 add_action( 'wp_enqueue_scripts', 'cbf_academy_theme_scripts_styles', 9999 );
 
@@ -67,13 +64,13 @@ add_action( 'wp_enqueue_scripts', 'cbf_academy_theme_scripts_styles', 9999 );
  * @return string
  */
 function cbf_academy_bp_core_get_table_prefix( $base_prefix ) {
-  if(is_multisite()){
-    $blog_id = get_current_blog_id();
-    $base_prefix .= "{$blog_id}_";
-  }
+	if ( is_multisite() ) {
+		$blog_id = get_current_blog_id();
+		$base_prefix .= "{$blog_id}_";
+	}
 
-  return $base_prefix;
+	return $base_prefix;
 }
 add_filter( 'bp_core_get_table_prefix', 'cbf_academy_bp_core_get_table_prefix' );
 
-?>
+
