@@ -104,7 +104,6 @@ final class Main {
 		do_action( 'before__init' );
 
 		// Add needed hooks here.
-
 		// After init action.
 		do_action( '_init' );
 	}
@@ -115,6 +114,7 @@ final class Main {
 	 *
 	 * @return boolean
 	 */
+	// phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 	private static function check_plugin_requirements() {
 
 		$errors = array();
@@ -179,6 +179,6 @@ final class Main {
 
 		load_textdomain( 'cbf-academy', WP_LANG_DIR . '/cbf-academy/cbf-academy-' . $locale . '.mo' );
 
-		load_plugin_textdomain( 'cbf-academy', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
+		load_plugin_textdomain( 'cbf-academy', false, plugin_basename( __DIR__ ) . '/i18n/languages' );
 	}
 }

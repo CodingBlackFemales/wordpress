@@ -200,6 +200,7 @@ abstract class Assets {
 	 *
 	 * @return void
 	 */
+	// phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 	public static function load_scripts() {
 
 		if ( ! did_action( 'before__init' ) ) {
