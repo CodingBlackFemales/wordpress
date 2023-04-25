@@ -13,7 +13,7 @@
  *
  * @since CBF Academy 1.0.0
  */
-function cbfacademy_theme_languages()
+function cbf_academy_theme_languages()
 {
   /**
    * Makes child theme available for translation.
@@ -28,14 +28,14 @@ function cbfacademy_theme_languages()
   // load_theme_textdomain( 'buddyboss-theme-child', get_stylesheet_directory() . '/languages' );
 
 }
-add_action( 'after_setup_theme', 'cbfacademy_theme_languages' );
+add_action( 'after_setup_theme', 'cbf_academy_theme_languages' );
 
 /**
  * Enqueues scripts and styles for child theme front-end.
  *
  * @since CBF Academy Theme  1.0.0
  */
-function cbfacademy_theme_scripts_styles()
+function cbf_academy_theme_scripts_styles()
 {
   /**
    * Scripts and Styles loaded by the parent theme can be unloaded if needed
@@ -47,12 +47,12 @@ function cbfacademy_theme_scripts_styles()
    **/
 
   // Styles
-  wp_enqueue_style( 'cbfacademy-css', get_stylesheet_directory_uri().'/assets/css/custom.css' );
+  wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri().'/assets/css/custom.css' );
 
   // Javascript
-  wp_enqueue_script( 'cbfacademy-js', get_stylesheet_directory_uri().'/assets/js/custom.js' );
+  wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri().'/assets/js/custom.js' );
 }
-add_action( 'wp_enqueue_scripts', 'cbfacademy_theme_scripts_styles', 9999 );
+add_action( 'wp_enqueue_scripts', 'cbf_academy_theme_scripts_styles', 9999 );
 
 
 /****************************** CUSTOM FUNCTIONS ******************************/
@@ -65,7 +65,7 @@ add_action( 'wp_enqueue_scripts', 'cbfacademy_theme_scripts_styles', 9999 );
  * @param  string $base_prefix The base table prefix (e.g. `wp_`).
  * @return string
  */
-function cbfacademy_bp_core_get_table_prefix( $base_prefix ) {
+function cbf_academy_bp_core_get_table_prefix( $base_prefix ) {
   if(is_multisite()){
     $blog_id = get_current_blog_id();
     $base_prefix .= "{$blog_id}_";
@@ -73,6 +73,6 @@ function cbfacademy_bp_core_get_table_prefix( $base_prefix ) {
 
   return $base_prefix;
 }
-add_filter( 'bp_core_get_table_prefix', 'cbfacademy_bp_core_get_table_prefix' );
+add_filter( 'bp_core_get_table_prefix', 'cbf_academy_bp_core_get_table_prefix' );
 
 ?>
