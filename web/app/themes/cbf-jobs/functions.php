@@ -45,8 +45,7 @@ function cbf_jobs_theme_scripts_styles()
    * http://codex.wordpress.org/Function_Reference/wp_deregister_script
    * http://codex.wordpress.org/Function_Reference/wp_deregister_style
    **/
-	$theme   = wp_get_theme( 'cbf-jobs' );
-	$version = $theme->get( 'Version' );
+  $version = wp_get_theme( 'cbf-jobs' )->get( 'Version' );
 
   // Styles
   wp_deregister_style( 'onepress-fa' );
