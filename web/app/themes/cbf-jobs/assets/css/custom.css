@@ -1,0 +1,19 @@
+/*--------------------------------------------------------------
+This is your custom stylesheet.
+
+Add your own styles here to make theme updates easier.
+To override any styles from other stylesheets, simply copy them into here and edit away.
+
+Make sure to respect the media queries! Otherwise you may
+accidentally add desktop styles to the mobile layout.
+https://www.w3schools.com/css/css_rwd_mediaqueries.asp
+--------------------------------------------------------------*/
+#activity-groups-li.bp-groups-tab,
+#photos-groups-li.bp-groups-tab,
+#albums-groups-li.bp-groups-tab,
+#nav-forum-groups-li.bp-groups-tab,
+#invite-groups-li.bp-groups-tab,
+#group-messages-groups-li.bp-groups-tab,
+#videos-groups-li.bp-groups-tab {
+  display: none;
+}

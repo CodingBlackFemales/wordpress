@@ -1,0 +1,23 @@
+/* 
+Theme Name:		CBF Jobs
+Theme URI:		https://jobs.codingblackfemales.com/
+Description:	CBF Jobs is a child theme of OnePress
+Author:			Coding Black Females
+Author URI:		https://codingblackfemales.com/
+License: 		GNU General Public License v3 or later
+License URI: 	http://www.gnu.org/licenses/gpl-3.0.html
+Template:		onepress
+Version:		1.0.0
+Text Domain:	cbf-jobs
+*/
+
+/*
+
+-- Stylesheet locations --
+
+Add any customisations into /css/custom.css in this child theme.
+
+Parent styles are called from /onepress/functions.php in the 
+parent theme and are located in /onepress/assets/css/ in the parent theme.
+
+*/
