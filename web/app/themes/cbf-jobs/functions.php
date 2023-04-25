@@ -45,12 +45,19 @@ function cbf_jobs_theme_scripts_styles()
    * http://codex.wordpress.org/Function_Reference/wp_deregister_script
    * http://codex.wordpress.org/Function_Reference/wp_deregister_style
    **/
+	$theme   = wp_get_theme( 'cbf-jobs' );
+	$version = $theme->get( 'Version' );
 
   // Styles
-  wp_enqueue_style( 'cbf-jobs-css', get_stylesheet_directory_uri().'/assets/css/custom.css' );
+  wp_deregister_style( 'onepress-fa' );
+  wp_deregister_style( 'onepress-bootstrap' );
+  wp_enqueue_style( 'onepress-fa', 'https://codingblackfemales.com/vendor/fontawesome-free/css/all.min.css', false, $version );
+  wp_enqueue_style( 'onepress-bootstrap', 'https://codingblackfemales.com/vendor/bootstrap/css/bootstrap.min.css', false, $version );
+  wp_enqueue_style( 'cbf-jobs-css', get_stylesheet_directory_uri().'/assets/css/custom.css', false, $version );
+  wp_enqueue_style( 'cbf-style', 'https://codingblackfemales.com/css/agency.css', false, $version );
 
   // Javascript
-  wp_enqueue_script( 'cbf-jobs-js', get_stylesheet_directory_uri().'/assets/js/custom.js' );
+  wp_enqueue_script( 'cbf-jobs-js', get_stylesheet_directory_uri().'/assets/js/custom.js', false, $version );
 }
 add_action( 'wp_enqueue_scripts', 'cbf_jobs_theme_scripts_styles', 9999 );
 
