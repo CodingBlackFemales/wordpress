@@ -1,24 +1,67 @@
 <?xml version="1.0"?>
-<ruleset name="Roots">
-	<description>Roots Coding Standards</description>
+<ruleset name="CS">
+	<description>Custom coding standards.</description>
+	<config name="testVersion" value="5.6-"/>
 
 	<!-- Scan all files in directory -->
-	<file>.</file>
+	<file>./web/app</file>
 
 	<!-- Scan only PHP files -->
 	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg name="parallel" value="100"/>
+	<arg name="cache" value=".phpcs.cache"/>
 
 	<!-- Ignore WordPress and Composer dependencies -->
+	<exclude-pattern>\.codeception/*</exclude-pattern>
+	<exclude-pattern>\.github/*</exclude-pattern>
 	<exclude-pattern>web/wp</exclude-pattern>
 	<exclude-pattern>web/app/themes/twentytwentythree/</exclude-pattern>
-	<exclude-pattern>vendor/</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modues/*</exclude-pattern>
+	<exclude-pattern>assets/*</exclude-pattern>
 
 	<!-- Show colors in console -->
 	<arg value="-colors"/>
 
 	<!-- Show sniff codes in all reports -->
 	<arg value="ns"/>
+	<arg value="ps"/>
 
-	<!-- Use PSR-2 as a base -->
-	<rule ref="PSR2"/>
+	<rule ref="PHPCompatibilityWP" />
+	<config name="7.1-" />
+
+	<rule ref="WordPress-Core">
+		<!-- PSR4 -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+	</rule>
+
+	<rule ref="Generic.Metrics.CyclomaticComplexity">
+		<properties>
+			<property name="complexity" value="4"/>
+			<property name="absoluteComplexity" value="6"/>
+		</properties>
+	</rule>
+
+	<rule ref="Generic.Metrics.NestingLevel">
+		<properties>
+			<property name="absoluteNestingLevel" value="3"/>
+		</properties>
+	</rule>
+
+	<!-- exclude the 'empty' index files from some documentation checks -->
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.WrongStyle">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.InlineComment.SpacingAfter">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+
+	<!-- disallow Yoda comparisons -->
+ 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison" />
 </ruleset>
