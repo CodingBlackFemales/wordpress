@@ -45,12 +45,13 @@ function cbf_academy_theme_scripts_styles()
    * http://codex.wordpress.org/Function_Reference/wp_deregister_script
    * http://codex.wordpress.org/Function_Reference/wp_deregister_style
    **/
+  $version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
 
   // Styles
-  wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri().'/assets/css/custom.css' );
+  wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri().'/assets/css/custom.css', false, $version );
 
   // Javascript
-  wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri().'/assets/js/custom.js' );
+  wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri().'/assets/js/custom.js', false, $version );
 }
 add_action( 'wp_enqueue_scripts', 'cbf_academy_theme_scripts_styles', 9999 );
 
