@@ -5,6 +5,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
+    "@wordpress/stylelint-config": "^21.15.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.39.0",
@@ -12,7 +13,10 @@
     "eslint-plugin-prettier": "^4.2.1",
     "lefthook": "^1.3.10",
     "lint-staged": "^13.2.1",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "stylelint": "^14.2",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-prettier-scss": "^0.0.1"
   },
   "config": {
     "commitizen": {
@@ -20,6 +24,37 @@
     }
   },
   "scripts": {
-    "commitlint": "commitlint --edit"
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:commit": "commitlint --edit",
+    "lint:css": "stylelint",
+    "lint:css:all": "npm run lint:css \"web/app/plugins/cbf-academy/src/sass/**/*.scss\" \"web/app/themes/cbf-academy/assets/css/**/*.css\" \"web/app/themes/cbf-jobs/assets/css/**/*.css\"",
+    "lint:fix:css": "npm run lint:css:all -- --fix",
+    "lint:fix:js": "npm run lint:js:all -- --fix",
+    "lint:js": "eslint --ext .js",
+    "lint:js:all": "npm run lint:js web/app/plugins/cbf-academy/src/js web/app/themes/cbf-academy/assets/js web/app/themes/cbf-jobs/assets/js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "rules": {
+      "prettier/prettier": "error"
+    },
+    "plugins": [
+      "prettier"
+    ]
+  },
+  "stylelint": {
+    "extends": [
+      "@wordpress/stylelint-config",
+      "@wordpress/stylelint-config/scss",
+      "stylelint-config-prettier",
+      "stylelint-config-prettier-scss"
+    ]
   }
 }
