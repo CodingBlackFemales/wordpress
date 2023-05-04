@@ -56,3 +56,6 @@ Thumbs.db
 
 #NPM
 node_modules
+
+# MySQL
+data
