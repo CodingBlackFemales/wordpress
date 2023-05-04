@@ -1,0 +1,50 @@
+volumes:
+  mariadb:
+
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - ..:/var/www/html
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - php
+      - mariadb
+    links:
+      - php
+      - mariadb
+
+  php:
+    build: ./php
+    env_file: ../.env
+    volumes:
+      - ..:/var/www/html
+    links:
+      - mariadb
+
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      # MARIADB_ROOT_PASSWORD: root
+      # MARIADB_DATABASE: local
+      # MARIADB_USER: root
+      MYSQL_DATABASE: local
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: wordpress
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - 3307:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8000:8080
+    depends_on:
+      - mariadb
