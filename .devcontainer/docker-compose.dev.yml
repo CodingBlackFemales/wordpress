@@ -6,6 +6,8 @@ services:
     build: ./nginx
     volumes:
       - ..:/var/www/html
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/includes:/etc/nginx/includes
     ports:
       - '80:80'
       - '443:443'
