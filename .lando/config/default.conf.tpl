@@ -1,3 +1,6 @@
+# Based on https://github.com/lando/wordpress/blob/main/recipes/wordpress/default.conf.tpl
+# Check custom configuration blocks below for diff with standard recipe configuration
+
 # WordPress single site rules.
 # Designed to be included in any server {} block.
 
@@ -31,6 +34,15 @@ server {
 
   ## This should be in your http block and if it is, it's not needed here.
   index index.php;
+
+  ### START CUSTOM MULTISITE URL REWRITING ###
+  # source: https://discourse.roots.io/t/using-lando-bedrock-for-a-wp-multisite-setup-in-a-subdirectory/21564
+  if (!-e $request_filename) {
+    rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+    rewrite ^(/[^/]+)?(/wp-.*) /wp$2 last;
+    rewrite ^(/[^/]+)?(/.*\.php) /wp$2 last;
+  }
+  ### END CUSTOM MULTISITE URL REWRITING ###
 
   location = /favicon.ico {
     log_not_found off;
