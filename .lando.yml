@@ -1,0 +1,17 @@
+name: codingblackfemales
+recipe: wordpress
+config:
+  database: mariadb
+  php: '8.1'
+  via: nginx
+  webroot: web
+  xdebug: "develop,debug"
+  config:
+    vhosts: .lando/config/default.conf.tpl
+# Multisite networks must have each site listed below to work under lando
+# and the URLs must match those in the wp_blogs table
+proxy:
+  appserver_nginx:
+    - codingblackfemales.lndo.site
+    - academy.codingblackfemales.lndo.site
+    - jobs.codingblackfemales.lndo.site
