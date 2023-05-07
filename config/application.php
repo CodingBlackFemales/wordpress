@@ -94,7 +94,10 @@ if ( env( 'DATABASE_URL' ) ) {
 	Config::define( 'DB_HOST', isset( $dsn->port ) ? "{$dsn->host}:{$dsn->port}" : $dsn->host );
 }
 
-if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI ) {
+/**
+ * Defines custom DB_HOST value when run in LocalWP environment
+ */
+if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI && env('WP_ENVIRONMENT_TYPE') ) {
 	Config::define( 'DB_HOST', env( 'DB_HOST_LOCAL' ) );
 }
 
