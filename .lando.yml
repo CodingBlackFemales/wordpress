@@ -5,9 +5,10 @@ config:
   php: '8.1'
   via: nginx
   webroot: web
-  xdebug: "develop,debug"
+  xdebug: true
   config:
-    vhosts: .lando/config/default.conf.tpl
+    php: .lando/config/php/php.ini
+    vhosts: .lando/config/nginx/default.conf.tpl
 # Multisite networks must have each site listed below to work under lando
 # and the URLs must match those in the wp_blogs table
 proxy:
@@ -15,3 +16,34 @@ proxy:
     - codingblackfemales.lndo.site
     - academy.codingblackfemales.lndo.site
     - jobs.codingblackfemales.lndo.site
+services:
+  appserver:
+    build_as_root:
+      - curl -sL https://deb.nodesource.com/setup_20.x | bash -
+      - apt-get install -y nodejs
+    run:
+      - composer install
+      - npm install
+    run_as_root:
+      - .lando/scripts/xdebug.sh develop,debug
+    overrides:
+      environment:
+        XDEBUG_MODE:
+        PHP_IDE_CONFIG: "serverName=appserver"
+# https://github.com/lando/lando/issues/1668#issuecomment-557090549
+# events:
+#   pre-wp:
+#     - appserver: rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && pkill -o -USR2 php-fpm
+#   post-wp:
+#     - appserver: docker-php-ext-enable xdebug && pkill -o -USR2 php-fpm
+tooling:
+  node:
+    service: appserver
+  npm:
+    service: appserver
+  # https://github.com/lando/lando/issues/1668#issuecomment-772829423
+  xdebug:
+    description: Loads XDebug in the selected mode.
+    cmd:
+      - appserver: /app/.lando/scripts/xdebug.sh
+    user: root
