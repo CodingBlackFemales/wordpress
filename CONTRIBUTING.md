@@ -1,9 +1,8 @@
 # Contributing
 
 * [Development Setup](#setup)
-* [Running Tests](#tests)
 * [Coding Rules](#rules)
-* [Commit Message Guidelines](#commits)
+* [Git Commit Guidelines](#commits)
 * [Writing Documentation](#documentation)
 
 ## <a name="setup"></a> Development Setup
