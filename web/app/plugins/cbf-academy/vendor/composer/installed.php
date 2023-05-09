@@ -3,7 +3,7 @@
         'name' => 'author-slug/cbf-academy',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '813f9304e02c3c2b68c195148a1114da17cc76c1',
+        'reference' => '747208a1ebd03771975069162cb6cba3ff122154',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'author-slug/cbf-academy' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '813f9304e02c3c2b68c195148a1114da17cc76c1',
+            'reference' => '747208a1ebd03771975069162cb6cba3ff122154',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
