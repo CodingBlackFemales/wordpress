@@ -2,13 +2,15 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Listen for Xdebug (Local)",
+			"name": "Listen for XDebug (Lando)",
 			"type": "php",
 			"request": "launch",
+      "hostname": "127.0.0.1",
 			"port": 9003,
-			/*"pathMappings": {
-				"/app/public": "${workspaceRoot}"
-			},*/
+			"log": false,
+			"pathMappings": {
+			  "/app/": "${workspaceFolder}/",
+			},
 			"xdebugSettings": {
 				"max_children": 128,
 				"max_data": -1,
