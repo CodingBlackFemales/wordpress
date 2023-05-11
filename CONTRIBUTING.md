@@ -7,15 +7,19 @@
 
 ## <a name="setup"></a> Development Setup
 
-This document describes how to set up your development environment to build and test the Coding Black Females WordPress (CBFWP) network, and explains the basic mechanics of using `git`, `node`, `yarn` and `grunt`.
+This document describes how to set up your development environment to build and test the Coding Black Females WordPress (CBFWP) project.
 
 ### Prerequisites
 
 Before you can build CBFWP, you must install and configure the following dependencies on your machine:
 
-* [Git](https://git-scm.com/): Instructions are available on the [Github Guide to Installing Git](https://github.com/git-guides/install-git).
+* [Git](https://git-scm.com): Instructions are available on the [Github Guide to Installing Git](https://github.com/git-guides/install-git).
 
-* [Lando](https://lando.dev): Instructions are available on the [Lando Downloads page](https://lando.dev/download/).
+* [Lando](https://lando.dev): Instructions are available on the [downloads page](https://lando.dev/download).
+
+* [VS Code](https://code.visualstudio.com): Instructions are available on the [downloads page](https://code.visualstudio.com/download).
+
+  * [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) extension: Instructions are available on the [Developing inside a Container page](https://code.visualstudio.com/docs/devcontainers/containers).
 
 You'll also need to sign up for a [GitHub account](https://github.com/signup/free) if you don't already have one.
 
@@ -50,16 +54,21 @@ mv <download location>/<dump name>.sql data/
 lando db-import data/<dump name>.sql
 ```
 
-1. To access the local server, enter the following URL into your web browser:
+1. [Attach VS Code to the container](https://code.visualstudio.com/docs/devcontainers/attach-container#_attach-to-a-docker-container) labelled `/codingblackfemales_appserver_1`. This will connect you to the Docker container running WordPress.
+2. Open the Command Palette and select "Dev Containers: Open Container Configuration File". Copy the contents of `.lando/config/container.json` into the editor and save the file.
+3. Restart VS Code and re-attach the container.
+4. To access the local server, enter the following URL into your web browser:
    ```text
    https://codingblackfemales.lndo.site/
    ```
    By default, it serves the contents of the root site of the network, using the base twentytwentythree theme. The CBF Academy site is available at `https://academy.codingblackfemales.lndo.site/` and the CBF Job Board is available at `https://jobs.codingblackfemales.lndo.site/`
 
-2. To access the admin area, visit this URL (request credentials from a member of the tech team):
+5. To access the admin area, visit this URL (request credentials from a member of the tech team):
    ```text
    https://codingblackfemales.lndo.site/wp/wp-admin/
    ```
+
+> When VS Code first attaches to the container, it won't initially trust the repository because it's owned by a different user. To fix this, open the Source Control extension from the side bar and elect to trust the `/app/` repo.
 
 ## <a name="rules"></a> Coding Rules
 
