@@ -1,0 +1,6 @@
+{
+  "debug.javascript.terminalOptions": {
+    "env": {}
+  },
+  "php.executablePath": "/usr/local/bin/php"
+}
