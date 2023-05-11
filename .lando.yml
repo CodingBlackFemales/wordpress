@@ -30,6 +30,8 @@ services:
       environment:
         XDEBUG_MODE:
         PHP_IDE_CONFIG: "serverName=appserver"
+  database:
+    portforward: 3307
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
 # events:
 #   pre-wp:

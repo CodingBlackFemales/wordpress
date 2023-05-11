@@ -95,10 +95,10 @@ if ( env( 'DATABASE_URL' ) ) {
 }
 
 /**
- * Defines custom DB_HOST value when run in LocalWP environment
+ * Defines custom DB_HOST value when run outside container
  */
-if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI && env('WP_ENVIRONMENT_TYPE') ) {
-	Config::define( 'DB_HOST', env( 'DB_HOST_LOCAL' ) );
+if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI && ! env( 'LANDO' ) ) {
+	Config::define( 'DB_HOST', env( 'DB_HOST_EXTERNAL' ) ?? Config::get( 'DB_HOST' ) );
 }
 
 /**
