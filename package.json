@@ -24,14 +24,17 @@
     }
   },
   "scripts": {
-    "lint": "npm run lint:css && npm run lint:js",
+    "lint": "npm run lint:css && npm run lint:js && npm run lint:php:all",
     "lint:commit": "commitlint --edit",
     "lint:css": "stylelint",
     "lint:css:all": "npm run lint:css \"web/app/plugins/cbf-academy/src/sass/**/*.scss\" \"web/app/themes/cbf-academy/assets/css/**/*.css\" \"web/app/themes/cbf-jobs/assets/css/**/*.css\"",
     "lint:fix:css": "npm run lint:css:all -- --fix",
     "lint:fix:js": "npm run lint:js:all -- --fix",
+    "lint:fix:php": "composer fix:all",
     "lint:js": "eslint --ext .js",
-    "lint:js:all": "npm run lint:js web/app/plugins/cbf-academy/src/js web/app/themes/cbf-academy/assets/js web/app/themes/cbf-jobs/assets/js"
+    "lint:js:all": "npm run lint:js web/app/plugins/cbf-academy/src/js web/app/themes/cbf-academy/assets/js web/app/themes/cbf-jobs/assets/js",
+    "lint:php": "composer lint",
+    "lint:php:all": "composer lint:all"
   },
   "eslintConfig": {
     "extends": [
