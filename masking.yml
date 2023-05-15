@@ -1,0 +1,20 @@
+# table_name:
+#   column_name: masked_value
+
+wp_users:
+  # string: anonymized string
+  user_email: user%{n}@codingblackfemales.lndo.site # %{n} will be replaced with sequential number
+  # integer: 12345
+  # float: 123.45
+  # boolean: true
+  # null_column: null
+  # date: 2018-08-24
+  # time: 2018-08-24 15:54:06
+  # binary_or_blob: !binary | # Binary Data Language-Independent Type for YAML™ Version 1.1: http://yaml.org/type/binary.html
+  #   R0lGODlhDAAMAIQAAP//9/X17unp5WZmZgAAAOfn515eXvPz7Y6OjuDg4J+fn5
+  #   OTk6enp56enmlpaWNjY6Ojo4SEhP/++f/++f/++f/++f/++f/++f/++f/++f/+
+  #   +f/++f/++f/++f/++f/++SH+Dk1hZGUgd2l0aCBHSU1QACwAAAAADAAMAAAFLC
+  #   AgjoEwnuNAFOhpEMTRiggcz4BNJHrv/zCFcLiwMWYNG84BwwEeECcgggoBADs=
+  # When a column name is suffixed with `?`, the original NULL value will not be anonymized.
+  # This option can be beneficial for simulating SQL execution that closely resembles the original data.
+  # nullable_string?: anonymized nullable %{n} string
