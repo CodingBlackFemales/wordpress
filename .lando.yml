@@ -3,16 +3,15 @@ recipe: wordpress
 config:
   database: mariadb
   php: '8.1'
-  via: nginx
+  via: apache
   webroot: web
   xdebug: true
   config:
     php: .lando/config/php/php.ini
-    vhosts: .lando/config/nginx/default.conf.tpl
 # Multisite networks must have each site listed below to work under lando
 # and the URLs must match those in the wp_blogs table
 proxy:
-  appserver_nginx:
+  appserver:
     - codingblackfemales.lndo.site
     - academy.codingblackfemales.lndo.site
     - jobs.codingblackfemales.lndo.site
