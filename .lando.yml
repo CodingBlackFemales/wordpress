@@ -24,6 +24,7 @@ services:
     run:
       - composer install
       - npm install
+      - if [ ! -e .env ]; then cp .env.example .env; fi
     run_as_root:
       - .lando/scripts/xdebug.sh develop,debug
     overrides:
