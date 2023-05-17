@@ -17,6 +17,7 @@ proxy:
     - jobs.codingblackfemales.lndo.site
 services:
   appserver:
+    composer_version: 2-latest
     build_as_root:
       - curl -sL https://deb.nodesource.com/setup_20.x | bash -
       - apt-get install -y nodejs
