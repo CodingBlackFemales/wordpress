@@ -38,13 +38,11 @@ git clone https://github.com/<github username>/wordpress.git
 # Go to the CBFWP directory:
 cd wordpress
 
-# Create a .env file:
-cp .env.example .env
-
 # Trust Lando CA:
 ./.lando/scripts/trust-ca.sh
 
-# Start the Lando application:
+# Start the Lando application.
+# This will take a few minutes the first time, go make yourself a cup of tea:
 lando start
 
 # Copy the provided database:
