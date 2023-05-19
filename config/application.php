@@ -95,13 +95,6 @@ if ( env( 'DATABASE_URL' ) ) {
 }
 
 /**
- * Defines custom DB_HOST value when run outside container
- */
-if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI && ! env( 'LANDO' ) ) {
-	Config::define( 'DB_HOST', env( 'DB_HOST_EXTERNAL' ) ?? Config::get( 'DB_HOST' ) );
-}
-
-/**
  * Authentication Unique Keys and Salts
  */
 Config::define( 'AUTH_KEY', env( 'AUTH_KEY' ) );
