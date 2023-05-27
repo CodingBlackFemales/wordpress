@@ -153,7 +153,8 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "@configure-ssp"
+      "@configure-ssp",
+      "[ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv .htaccess .htaccess.default && mv .htaccess.staging .htaccess"
     ],
     "post-update-cmd": [
       "@configure-ssp"
