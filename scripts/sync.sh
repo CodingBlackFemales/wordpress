@@ -30,7 +30,7 @@ declare -A PRODUCTION=(
 	["url"]="https://wp.codingblackfemales.com"
 )
 
-case "$1-$2" in
+case "$FROM-$TO" in
   production-development) DIR="down ⬇️ "; ;;
   staging-development)    DIR="down ⬇️ "; ;;
   development-production) echo "syncing development to production not supported, sync to staging first. usage: $0 production development | staging development | development staging | staging production | production staging" && exit 1 ;;
@@ -40,13 +40,13 @@ case "$1-$2" in
   *) echo "usage: $0 production development | staging development | development staging | staging production | production staging" && exit 1 ;;
 esac
 
-case "$1" in
+case "$FROM" in
   production)  SOURCE=("${(@fkv)PRODUCTION}"); ;;
   development) SOURCE=("${(@fkv)DEV}"); ;;
   staging)     SOURCE=("${(@fkv)STAGING}"); ;;
 esac
 
-case "$2" in
+case "$TO" in
   development) DEST=("${(@fkv)DEV}"); ;;
   production)  DEST=("${(@fkv)PRODUCTION}"); ;;
   staging)     DEST=("${(@fkv)STAGING}"); ;;
