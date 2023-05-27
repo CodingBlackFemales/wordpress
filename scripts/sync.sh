@@ -11,7 +11,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 # Declare arrays to store environment configuration values
-SUBDOMAINS=("academy" "jobs")
+SUBSITES=("academy" "jobs")
 declare -A SOURCE
 declare -A DEST
 declare -A DEV=(
@@ -21,8 +21,8 @@ declare -A DEV=(
 )
 declare -A STAGING=(
 	["rootdomain"]="staging.codingblackfemales.com"
-	["domain"]="wp.staging.codingblackfemales.com"
-	["url"]="https://wp.staging.codingblackfemales.com"
+	["domain"]="staging.codingblackfemales.com"
+	["url"]="https://staging.codingblackfemales.com"
 )
 declare -A PRODUCTION=(
 	["rootdomain"]="codingblackfemales.com"
@@ -99,8 +99,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	};
 
 	sync_db() {
-	local DESTSUBDOMAIN
-	local SOURCESUBDOMAIN
+	local DESTSUBSITE
+	local SOURCESUBSITE
 
 	echo
 
@@ -114,14 +114,24 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		exit 1
 	fi
 
-	# Run search & replace for sub-domains
-	for subdomain in "${SUBDOMAINS[@]}"; do
-		DESTSUBDOMAIN="$subdomain.${DEST[rootdomain]}"
-		SOURCESUBDOMAIN="$subdomain.${SOURCE[rootdomain]}"
+	# Run search & replace for sub-sites
+	for subsite in "${SUBSITES[@]}"; do
+		if [ "$FROM" == "staging" ]; then
+			SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
+		else
+			SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
+		fi
+
+		if [ "$TO" == "staging" ]; then
+			DESTSUBSITE="${DEST[rootdomain]}/$subsite"
+		else
+			DESTSUBSITE="$subsite.${DEST[rootdomain]}"
+		fi
+
 		echo
-		echo "Replacing $SOURCESUBDOMAIN (sub-domain) with $DESTSUBDOMAIN"
-		wp @$TO search-replace "$SOURCESUBDOMAIN" "$DESTSUBDOMAIN" --url="$SOURCESUBDOMAIN" &&
-		wp @$TO search-replace "$SOURCESUBDOMAIN" "$DESTSUBDOMAIN" --url="${SOURCE[url]}"
+		echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
+		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="$SOURCESUBSITE" &&
+		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="${SOURCE[url]}"
 	done
 
 	# Run search & replace for primary domain
@@ -160,8 +170,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	availfrom
 	availto
 	sync_db
-	#   sync_uploads
-	notify
+	# sync_uploads
+	# notify
 
 	popd
 fi
