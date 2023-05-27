@@ -12,7 +12,7 @@ config:
 # and the URLs must match those in the wp_blogs table
 proxy:
   appserver:
-    - codingblackfemales.lndo.site
+    - wp.codingblackfemales.lndo.site
     - academy.codingblackfemales.lndo.site
     - jobs.codingblackfemales.lndo.site
 services:

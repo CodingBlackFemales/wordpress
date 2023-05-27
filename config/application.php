@@ -95,13 +95,6 @@ if ( env( 'DATABASE_URL' ) ) {
 }
 
 /**
- * Defines custom DB_HOST value when run outside container
- */
-if ( WP_ENV === 'development' && defined( 'WP_CLI' ) && WP_CLI && ! env( 'LANDO' ) ) {
-	Config::define( 'DB_HOST', env( 'DB_HOST_EXTERNAL' ) ?? Config::get( 'DB_HOST' ) );
-}
-
-/**
  * Authentication Unique Keys and Salts
  */
 Config::define( 'AUTH_KEY', env( 'AUTH_KEY' ) );
@@ -153,14 +146,12 @@ if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_P
 Config::define( 'WP_ALLOW_MULTISITE', true );
 Config::define( 'MULTISITE', true );
 Config::define( 'SUBDOMAIN_INSTALL', true );
-Config::define( 'DOMAIN_CURRENT_SITE', env( 'DOMAIN_CURRENT_SITE' ) );
+Config::define( 'DOMAIN_CURRENT_SITE', $_SERVER['HTTP_HOST'] ?? env( 'DOMAIN_CURRENT_SITE' ) );
 Config::define( 'PATH_CURRENT_SITE', env( 'PATH_CURRENT_SITE' ) ?? '/' );
 Config::define( 'SITE_ID_CURRENT_SITE', env( 'SITE_ID_CURRENT_SITE' ) ?? 1 );
 Config::define( 'BLOG_ID_CURRENT_SITE', env( 'BLOG_ID_CURRENT_SITE' ) ?? 1 );
 Config::define( 'WP_DEFAULT_THEME', 'twentytwentythree' );
-if ( ! defined( 'WP_CLI' ) ) {
-	Config::define( 'COOKIE_DOMAIN', '.' . env( 'DOMAIN_CURRENT_SITE' ) ?? 'codingblackfemales.com' ); // phpcs:ignore
-}
+Config::define( 'COOKIE_DOMAIN', false );
 Config::define( 'COOKIEPATH', '/' );
 Config::define( 'COOKIEHASH', md5( env( 'DOMAIN_CURRENT_SITE' ) ) ); // notice absence of a '.' in front
 if ( env( 'HEADLESS_MODE_CLIENT_URL' ) ) {
