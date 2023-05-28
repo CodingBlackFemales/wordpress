@@ -154,7 +154,7 @@
     ],
     "post-install-cmd": [
       "@configure-ssp",
-      "[ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv .htaccess .htaccess.default && mv .htaccess.staging .htaccess"
+      "[ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess"
     ],
     "post-update-cmd": [
       "@configure-ssp"
