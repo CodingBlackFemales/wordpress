@@ -182,13 +182,9 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local EXPORTFILE
 
 		echo "Syncing database..."
-		EXPORTFILE="data/export-$(date +'%Y%m%d%H%M%S').sql"
+		EXPORTFILE="data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
 
 		# Export/import database
-		wp "@$TO" db export "data/export-$(date +'%Y%m%d%H%M%S').sql" &&
-		wp "@$TO" db reset --yes &&
-		wp "@$FROM" db export - | wp "@$TO" db import -
-		# Export/import database, run search & replace
 		if [[ "$LOCAL" = true && $TO == "development" ]]; then
 			wp db export $EXPORTFILE --default-character-set=utf8mb4 &&
 			wp db reset --yes &&
