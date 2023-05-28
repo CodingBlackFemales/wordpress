@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5c8dbebf95b11e53be23389792539be",
+    "content-hash": "c6909b8af700183e401517d2475cee21",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -8705,6 +8705,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/hotjar/"
+        },
+        {
+            "name": "wpackagist-plugin/import-meetup-events",
+            "version": "1.5.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/import-meetup-events/",
+                "reference": "tags/1.5.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.5.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/import-meetup-events/"
         },
         {
             "name": "wpackagist-plugin/import-users-from-csv",
