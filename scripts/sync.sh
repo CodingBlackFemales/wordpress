@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Syncing Trellis & Bedrock-based WordPress environments with WP-CLI aliases (Kinsta version)
 # Version 1.1.0
@@ -99,13 +99,15 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	};
 
 	sync_db() {
+	local DESTDOMAIN
+	local DESTPATH
 	local DESTSUBSITE
 	local SOURCESUBSITE
 
 	echo
 
 	# Export/import database
-	wp "@$TO" db export &&
+	wp "@$TO" db export "data/export-$(date +'%Y%m%d%H%M%S').sql" &&
 	wp "@$TO" db reset --yes &&
 	wp "@$FROM" db export - | wp "@$TO" db import -
 
@@ -116,21 +118,26 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 	# Run search & replace for sub-sites
 	for subsite in "${SUBSITES[@]}"; do
-		if [ "$FROM" == "staging" ]; then
+		if [ "$FROM" = "staging" ]; then
 			SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
 		else
 			SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
 		fi
 
-		if [ "$TO" == "staging" ]; then
+		if [ "$TO" = "staging" ]; then
 			DESTSUBSITE="${DEST[rootdomain]}/$subsite"
+			DESTDOMAIN="${DEST[rootdomain]}"
+			DESTPATH="/$subsite/"
 		else
 			DESTSUBSITE="$subsite.${DEST[rootdomain]}"
+			DESTDOMAIN="$DESTSUBSITE"
+			DESTPATH="/"
 		fi
 
 		echo
 		echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="$SOURCESUBSITE" &&
+		wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCESUBSITE';" &&
+		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="$DESTSUBSITE" &&
 		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="${SOURCE[url]}"
 	done
 
