@@ -251,12 +251,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		# Sync uploads directory
 		chmod -R 755 web/app/uploads/ &&
 		if [[ $DIR == "horizontally"* ]]; then
-			[[ ${SOURCE[dir]} =~ ^(.*): ]] && FROMHOST=${BASH_REMATCH[1]}
-			[[ ${SOURCE[dir]} =~ ^(.*):(.*)$ ]] && FROMDIR=${BASH_REMATCH[2]}
-			[[ ${DEST[dir]} =~ ^(.*): ]] && TOHOST=${BASH_REMATCH[1]}
-			[[ ${DEST[dir]} =~ ^(.*):(.*)$ ]] && TODIR=${BASH_REMATCH[2]}
+			[[ ${SOURCE[dir]} =~ ^(.*): ]] && FROMHOST=${match[1]}
+			[[ ${SOURCE[dir]} =~ ^(.*):(.*)$ ]] && FROMDIR=${match[2]}
+			[[ ${DEST[dir]} =~ ^(.*): ]] && TOHOST=${match[1]}
+			[[ ${DEST[dir]} =~ ^(.*):(.*)$ ]] && TODIR=${match[2]}
 
-			ssh -p ${SOURCE[port]} -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no -p ${DEST[port]}' --progress $FROMDIR $TOHOST:$TODIR"
+			if [[ "$FROMHOST" == "$TOHOST" && "${SOURCE[port]}" == "${DEST[port]}" ]]; then
+				ssh -p ${SOURCE[port]} $FROMHOST "rsync -az --progress '$FROMDIR' '$TODIR'"
+			else
+				ssh -p ${SOURCE[port]} -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no -p ${DEST[port]}' --progress $FROMDIR $TOHOST:$TODIR"
+			fi
 		elif [[ $DIR == "down"* ]]; then
 			rsync -chavzP -e "ssh -p ${SOURCE[port]}" --progress "${SOURCE[dir]}" "${DEST[dir]}"
 		else
