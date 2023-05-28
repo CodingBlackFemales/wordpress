@@ -63,114 +63,114 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 	# Check we're running under a Bedrock site: https://unix.stackexchange.com/a/22215
 	findenv () {
-	root=$(pwd)
-	while [[ "$root" != "" && ! -e "$root/.env" ]]; do
-		root=${root%/*}
-	done
-	if [[ $root != "" ]]; then
-		pushd "$root"
-	else
-		echo "❌  Unable to find a Bedrock site root"
-		exit 1
-	fi
+		root=$(pwd)
+		while [[ "$root" != "" && ! -e "$root/.env" ]]; do
+			root=${root%/*}
+		done
+		if [[ $root != "" ]]; then
+			pushd "$root"
+		else
+			echo "❌  Unable to find a Bedrock site root"
+			exit 1
+		fi
 	};
 
 	# Make sure both environments are available before we continue
 	availfrom() {
-	local AVAILFROM
-	AVAILFROM=$(wp "@$FROM" option get home 2>&1)
-	if [[ $AVAILFROM == *"Error"* ]]; then
-		echo "❌  Unable to connect to $FROM"
-		exit 1
-	else
-		echo "✅  Able to connect to $FROM"
-	fi
+		local AVAILFROM
+		AVAILFROM=$(wp "@$FROM" option get home 2>&1)
+		if [[ $AVAILFROM == *"Error"* ]]; then
+			echo "❌  Unable to connect to $FROM"
+			exit 1
+		else
+			echo "✅  Able to connect to $FROM"
+		fi
 	};
 
 	availto() {
-	local AVAILTO
-	AVAILTO=$(wp "@$TO" option get home 2>&1)
-	if [[ $AVAILTO == *"Error"* ]]; then
-		echo "❌  Unable to connect to $TO"
-		exit 1
-	else
-		echo "✅  Able to connect to $TO"
-	fi
+		local AVAILTO
+		AVAILTO=$(wp "@$TO" option get home 2>&1)
+		if [[ $AVAILTO == *"Error"* ]]; then
+			echo "❌  Unable to connect to $TO"
+			exit 1
+		else
+			echo "✅  Able to connect to $TO"
+		fi
 	};
 
 	sync_db() {
-	local DESTDOMAIN
-	local DESTPATH
-	local DESTSUBSITE
-	local SOURCESUBSITE
-
-	echo
-
-	# Export/import database
-	wp "@$TO" db export "data/export-$(date +'%Y%m%d%H%M%S').sql" &&
-	wp "@$TO" db reset --yes &&
-	wp "@$FROM" db export - | wp "@$TO" db import -
-
-	if [ $? -ne 0 ]; then
-		echo "❌  Database import failed" >&2
-		exit 1
-	fi
-
-	# Run search & replace for sub-sites
-	for subsite in "${SUBSITES[@]}"; do
-		if [ "$FROM" = "staging" ]; then
-			SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
-		else
-			SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
-		fi
-
-		if [ "$TO" = "staging" ]; then
-			DESTSUBSITE="${DEST[rootdomain]}/$subsite"
-			DESTDOMAIN="${DEST[rootdomain]}"
-			DESTPATH="/$subsite/"
-		else
-			DESTSUBSITE="$subsite.${DEST[rootdomain]}"
-			DESTDOMAIN="$DESTSUBSITE"
-			DESTPATH="/"
-		fi
+		local DESTDOMAIN
+		local DESTPATH
+		local DESTSUBSITE
+		local SOURCESUBSITE
 
 		echo
-		echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-		wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCESUBSITE';" &&
-		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="$DESTSUBSITE" &&
-		wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="${SOURCE[url]}"
-	done
 
-	# Run search & replace for primary domain
-	echo
-	echo "Replacing ${SOURCE[domain]} (primary domain) with ${DEST[domain]}"
-	wp @$TO search-replace "${SOURCE[domain]}" "${DEST[domain]}" --url="${SOURCE[url]}" &&
-	wp @$TO search-replace --network "${SOURCE[domain]}" "${DEST[domain]}"
+		# Export/import database
+		wp "@$TO" db export "data/export-$(date +'%Y%m%d%H%M%S').sql" &&
+		wp "@$TO" db reset --yes &&
+		wp "@$FROM" db export - | wp "@$TO" db import -
+
+		if [ $? -ne 0 ]; then
+			echo "❌  Database import failed" >&2
+			exit 1
+		fi
+
+		# Run search & replace for sub-sites
+		for subsite in "${SUBSITES[@]}"; do
+			if [ "$FROM" = "staging" ]; then
+				SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
+			else
+				SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
+			fi
+
+			if [ "$TO" = "staging" ]; then
+				DESTSUBSITE="${DEST[rootdomain]}/$subsite"
+				DESTDOMAIN="${DEST[rootdomain]}"
+				DESTPATH="/$subsite/"
+			else
+				DESTSUBSITE="$subsite.${DEST[rootdomain]}"
+				DESTDOMAIN="$DESTSUBSITE"
+				DESTPATH="/"
+			fi
+
+			echo
+			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
+			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCESUBSITE';" &&
+			wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="$DESTSUBSITE" &&
+			wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --url="${SOURCE[url]}"
+		done
+
+		# Run search & replace for primary domain
+		echo
+		echo "Replacing ${SOURCE[domain]} (primary domain) with ${DEST[domain]}"
+		wp @$TO search-replace "${SOURCE[domain]}" "${DEST[domain]}" --url="${SOURCE[url]}" &&
+		wp @$TO search-replace --network "${SOURCE[domain]}" "${DEST[domain]}"
 	};
 
 	sync_uploads() {
-	# Sync uploads directory
-	chmod -R 755 web/app/uploads/ &&
-	if [[ $DIR == "horizontally"* ]]; then
-		[[ $FROMDIR =~ ^(.*): ]] && FROMHOST=${BASH_REMATCH[1]}
-		[[ $FROMDIR =~ ^(.*):(.*)$ ]] && FROMDIR=${BASH_REMATCH[2]}
-		[[ $TODIR =~ ^(.*): ]] && TOHOST=${BASH_REMATCH[1]}
-		[[ $TODIR =~ ^(.*):(.*)$ ]] && TODIR=${BASH_REMATCH[2]}
+		# Sync uploads directory
+		chmod -R 755 web/app/uploads/ &&
+		if [[ $DIR == "horizontally"* ]]; then
+			[[ $FROMDIR =~ ^(.*): ]] && FROMHOST=${BASH_REMATCH[1]}
+			[[ $FROMDIR =~ ^(.*):(.*)$ ]] && FROMDIR=${BASH_REMATCH[2]}
+			[[ $TODIR =~ ^(.*): ]] && TOHOST=${BASH_REMATCH[1]}
+			[[ $TODIR =~ ^(.*):(.*)$ ]] && TODIR=${BASH_REMATCH[2]}
 
-		ssh -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no' --progress $FROMDIR $TOHOST:$TODIR"
-	else
-		rsync -az --progress "$FROMDIR" "$TODIR"
-	fi
+			ssh -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no' --progress $FROMDIR $TOHOST:$TODIR"
+		else
+			rsync -az --progress "$FROMDIR" "$TODIR"
+		fi
 	};
 
 	# Slack notification when sync direction is up or horizontal
 	notify() {
-	# if [[ $DIR != "down"* ]]; then
-	#   USER="$(git config user.name)"
-	#   curl -X POST -H "Content-type: application/json" --data "{\"attachments\":[{\"fallback\": \"\",\"color\":\"#36a64f\",\"text\":\"🔄 Sync from ${SOURCE[url]} to ${DEST[url]} by ${USER} complete \"}],\"channel\":\"#site\"}" https://hooks.slack.com/services/xx/xx/xx
-	# fi
+		# if [[ $DIR != "down"* ]]; then
+		#   USER="$(git config user.name)"
+		#   curl -X POST -H "Content-type: application/json" --data "{\"attachments\":[{\"fallback\": \"\",\"color\":\"#36a64f\",\"text\":\"🔄 Sync from ${SOURCE[url]} to ${DEST[url]} by ${USER} complete \"}],\"channel\":\"#site\"}" https://hooks.slack.com/services/xx/xx/xx
+		# fi
 
-	echo -e "\n\n🔄  Sync from $FROM to $TO complete.\n\n    ${bold}${DEST[url]}${normal}\n"
+		echo -e "\n\n🔄  Sync from $FROM to $TO complete.\n\n    ${bold}${DEST[url]}${normal}\n"
 	};
 
 	findenv
