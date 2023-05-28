@@ -178,6 +178,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local DESTDOMAIN
 		local DESTPATH
 		local DESTSUBSITE
+		local SOURCEDOMAIN
+		local SOURCEPATH
 		local SOURCESUBSITE
 		local EXPORTFILE
 
@@ -208,8 +210,12 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		for subsite in "${SUBSITES[@]}"; do
 			if [ "$FROM" = "staging" ]; then
 				SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
+				SOURCEDOMAIN=${SOURCE[rootdomain]}
+				SOURCEPATH="/$subsite/"
 			else
 				SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
+				SOURCEDOMAIN=$SOURCESUBSITE
+				SOURCEPATH="/"
 			fi
 
 			if [ "$TO" = "staging" ]; then
@@ -224,7 +230,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCESUBSITE';" &&
+			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
 			wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
 		done
 
