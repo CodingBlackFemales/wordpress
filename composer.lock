@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6909b8af700183e401517d2475cee21",
+    "content-hash": "f071da1b28ef91b859d3cfa0274304ca",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -10508,12 +10508,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "203b168d7d107cf9c5b878947bf15c2945b297a3"
+                "reference": "a328aff1e0b05e55e61a02b9f4faae6482cfc3ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/203b168d7d107cf9c5b878947bf15c2945b297a3",
-                "reference": "203b168d7d107cf9c5b878947bf15c2945b297a3",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/a328aff1e0b05e55e61a02b9f4faae6482cfc3ad",
+                "reference": "a328aff1e0b05e55e61a02b9f4faae6482cfc3ad",
                 "shasum": ""
             },
             "require": {
@@ -10557,7 +10557,7 @@
                 "source": "https://github.com/WordPress/WordPress-Coding-Standards",
                 "wiki": "https://github.com/WordPress/WordPress-Coding-Standards/wiki"
             },
-            "time": "2023-05-23T06:36:37+00:00"
+            "time": "2023-05-28T19:30:57+00:00"
         }
     ],
     "aliases": [],
