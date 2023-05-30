@@ -1,0 +1,65 @@
+# This workflow deploys the application to a specified environment
+
+name: Deploy application
+
+# Controls when the action will run. Triggers the workflow on release publish events
+on:
+  workflow_dispatch:
+    inputs:
+      destinationEnvironment:
+        description: 'The target environment'
+        required: true
+        type: choice
+        options:
+          - "staging"
+          - "production"
+      sourceBranch:
+        description: 'The source branch/commit'
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      url: ${{ steps.configure.outputs.url }}
+    # Map a step output to a job output
+    environment:
+      name: "${{ inputs.destinationEnvironment }}"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Deploys specific branch/commit to target environment
+      - name: Deploy to target
+        uses: wei/git-sync@v3
+        with:
+          # GitHub repo slug or full clone url
+          source_repo: ${{ vars.SOURCE_REPO }}
+          # Branch name to sync from
+          source_branch: ${{ inputs.sourceBranch }}
+          # GitHub repo slug or full clone url
+          destination_repo: ${{ secrets.DESTINATION_REPO }}
+          # Branch name to sync to
+          destination_branch: ${{ vars.DESTINATION_BRANCH }}
+          # SSH key used to authenticate with git clone urls provided (optional if public or https clone url with authentication)
+          destination_ssh_private_key: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
+
+  check:
+    needs: [ deploy ]
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Sets the Node version
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: Check site
+        uses: srt32/uptime@master
+        with:
+          url-to-hit: ${{ vars.DESTINATION_URL }}
+          expected-statuses: "200"
