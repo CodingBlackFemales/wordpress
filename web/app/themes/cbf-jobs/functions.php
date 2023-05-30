@@ -61,4 +61,3 @@ add_action( 'wp_enqueue_scripts', 'cbf_jobs_theme_scripts_styles', 9999 );
 /****************************** CUSTOM FUNCTIONS ******************************/
 
 // Add your own custom functions here
-

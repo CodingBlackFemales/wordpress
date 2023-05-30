@@ -29,16 +29,16 @@ final class Main {
 	}
 
 	public static function customise_error_reporting() {
-		if( ! defined( 'EXCLUDED_ERROR_LEVELS' ) || ! is_array( EXCLUDED_ERROR_LEVELS ) ) {
+		if ( ! defined( 'EXCLUDED_ERROR_LEVELS' ) || ! is_array( EXCLUDED_ERROR_LEVELS ) ) {
 			return;
 		}
 
 		$error_mask = E_ALL;
 		foreach ( EXCLUDED_ERROR_LEVELS as $level_name ) {
-			if( defined( $level_name ) ) {
+			if ( defined( $level_name ) ) {
 				$level = constant( $level_name );
 
-				if( is_numeric( $level ) ) {
+				if ( is_numeric( $level ) ) {
 					$error_mask &= ~$level;
 				}
 			}
