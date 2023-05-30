@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'author-slug/cbf-academy',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '747208a1ebd03771975069162cb6cba3ff122154',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => '5696a2ed25d58ba2423c94ddf65029f15a020bda',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'author-slug/cbf-academy' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '747208a1ebd03771975069162cb6cba3ff122154',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '5696a2ed25d58ba2423c94ddf65029f15a020bda',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
