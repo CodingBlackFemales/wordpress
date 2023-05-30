@@ -72,5 +72,3 @@ function cbf_academy_bp_core_get_table_prefix( $base_prefix ) {
 	return $base_prefix;
 }
 add_filter( 'bp_core_get_table_prefix', 'cbf_academy_bp_core_get_table_prefix' );
-
-
