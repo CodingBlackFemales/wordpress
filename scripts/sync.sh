@@ -178,17 +178,15 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local DESTDOMAIN
 		local DESTPATH
 		local DESTSUBSITE
+		local SOURCEDOMAIN
+		local SOURCEPATH
 		local SOURCESUBSITE
 		local EXPORTFILE
 
 		echo "Syncing database..."
-		EXPORTFILE="data/export-$(date +'%Y%m%d%H%M%S').sql"
+		EXPORTFILE="data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
 
 		# Export/import database
-		wp "@$TO" db export "data/export-$(date +'%Y%m%d%H%M%S').sql" &&
-		wp "@$TO" db reset --yes &&
-		wp "@$FROM" db export - | wp "@$TO" db import -
-		# Export/import database, run search & replace
 		if [[ "$LOCAL" = true && $TO == "development" ]]; then
 			wp db export $EXPORTFILE --default-character-set=utf8mb4 &&
 			wp db reset --yes &&
@@ -212,8 +210,12 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		for subsite in "${SUBSITES[@]}"; do
 			if [ "$FROM" = "staging" ]; then
 				SOURCESUBSITE="${SOURCE[rootdomain]}/$subsite"
+				SOURCEDOMAIN=${SOURCE[rootdomain]}
+				SOURCEPATH="/$subsite/"
 			else
 				SOURCESUBSITE="$subsite.${SOURCE[rootdomain]}"
+				SOURCEDOMAIN=$SOURCESUBSITE
+				SOURCEPATH="/"
 			fi
 
 			if [ "$TO" = "staging" ]; then
@@ -228,7 +230,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCESUBSITE';" &&
+			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
 			wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
 		done
 
@@ -249,12 +251,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		# Sync uploads directory
 		chmod -R 755 web/app/uploads/ &&
 		if [[ $DIR == "horizontally"* ]]; then
-			[[ ${SOURCE[dir]} =~ ^(.*): ]] && FROMHOST=${BASH_REMATCH[1]}
-			[[ ${SOURCE[dir]} =~ ^(.*):(.*)$ ]] && FROMDIR=${BASH_REMATCH[2]}
-			[[ ${DEST[dir]} =~ ^(.*): ]] && TOHOST=${BASH_REMATCH[1]}
-			[[ ${DEST[dir]} =~ ^(.*):(.*)$ ]] && TODIR=${BASH_REMATCH[2]}
+			[[ ${SOURCE[dir]} =~ ^(.*): ]] && FROMHOST=${match[1]}
+			[[ ${SOURCE[dir]} =~ ^(.*):(.*)$ ]] && FROMDIR=${match[2]}
+			[[ ${DEST[dir]} =~ ^(.*): ]] && TOHOST=${match[1]}
+			[[ ${DEST[dir]} =~ ^(.*):(.*)$ ]] && TODIR=${match[2]}
 
-			ssh -p ${SOURCE[port]} -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no -p ${DEST[port]}' --progress $FROMDIR $TOHOST:$TODIR"
+			if [[ "$FROMHOST" == "$TOHOST" && "${SOURCE[port]}" == "${DEST[port]}" ]]; then
+				ssh -p ${SOURCE[port]} $FROMHOST "rsync -az --progress '$FROMDIR' '$TODIR'"
+			else
+				ssh -p ${SOURCE[port]} -o ForwardAgent=yes $FROMHOST "rsync -aze 'ssh -o StrictHostKeyChecking=no -p ${DEST[port]}' --progress $FROMDIR $TOHOST:$TODIR"
+			fi
 		elif [[ $DIR == "down"* ]]; then
 			rsync -chavzP -e "ssh -p ${SOURCE[port]}" --progress "${SOURCE[dir]}" "${DEST[dir]}"
 		else
