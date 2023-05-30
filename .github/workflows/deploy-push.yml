@@ -36,7 +36,7 @@ jobs:
         run: vendor/bin/phpcs -i
 
       - name: PHP Code Style (phpcs)
-        run: composer cs
+        run: composer lint:all
 
   version:
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(github.event.head_commit.author.name, 'GitHub Action') }}
