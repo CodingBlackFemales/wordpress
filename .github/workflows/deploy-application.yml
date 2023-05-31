@@ -25,7 +25,7 @@ jobs:
     # Map a step output to a job output
     outputs:
       url: ${{ steps.configure.outputs.url }}
-    # Map a step output to a job output
+    # Set target environment
     environment:
       name: "${{ inputs.destinationEnvironment }}"
 
@@ -50,6 +50,9 @@ jobs:
     needs: [ deploy ]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Set target environment
+    environment:
+      name: "${{ inputs.destinationEnvironment }}"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
