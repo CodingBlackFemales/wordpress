@@ -1,32 +1,27 @@
 {
-  "name": "roots/bedrock",
+  "name": "codingblackfemales/wordpress",
   "type": "project",
   "license": "MIT",
-  "description": "WordPress boilerplate with Composer, easier configuration, and an improved folder structure",
-  "homepage": "https://roots.io/bedrock/",
+  "description": "Bedrock-based multisite network containing all Coding Black Females WordPress sites",
+  "homepage": "https://wp.codingblackfemales.com",
   "authors": [
     {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
+      "name": "Gary McPherson",
+      "email": "gary@codingblackfemales.com",
+      "homepage": "https://github.com/Genyus"
     }
   ],
   "keywords": [
     "bedrock",
-    "composer",
     "roots",
     "wordpress",
-    "wp",
-    "wp-config"
+    "stack",
+    "composer",
+    "multisite",
+    "wp"
   ],
   "support": {
-    "issues": "https://github.com/roots/bedrock/issues",
-    "forum": "https://discourse.roots.io/category/bedrock"
+    "issues": "https://github.com/CodingBlackFemales/wordpress/issues"
   },
   "repositories": [
     {
