@@ -11,3 +11,10 @@ RewriteRule ^ - [L]
 RewriteRule ^(wp-(content|admin|includes).*) wp/$1 [L]
 RewriteRule ^(.*\.php)$ wp/$1 [L]
 RewriteRule . index.php [L]
+
+# Redirect members.codingblackfemales.com to academy.codingblackfemales.com
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP_HOST} ^members\.codingblackfemales\.com$ [NC]
+    RewriteRule ^(.*)$ https://academy.codingblackfemales.com/$1 [R=301,L]
+</IfModule>
