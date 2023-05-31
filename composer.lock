@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f071da1b28ef91b859d3cfa0274304ca",
+    "content-hash": "15e9699f6ab577d2e93ae0f10ccaa5ad",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -8797,6 +8797,60 @@
             "homepage": "https://wordpress.org/plugins/mailchimp-for-woocommerce/"
         },
         {
+            "name": "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online",
+            "version": "2.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/myworks-woo-sync-for-quickbooks-online/",
+                "reference": "tags/2.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/myworks-woo-sync-for-quickbooks-online.2.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/myworks-woo-sync-for-quickbooks-online/"
+        },
+        {
+            "name": "wpackagist-plugin/optimole-wp",
+            "version": "3.7.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/optimole-wp/",
+                "reference": "tags/3.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.7.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/optimole-wp/"
+        },
+        {
+            "name": "wpackagist-plugin/otter-blocks",
+            "version": "2.3.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/otter-blocks/",
+                "reference": "tags/2.3.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.3.0.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/otter-blocks/"
+        },
+        {
             "name": "wpackagist-plugin/pdf-embedder",
             "version": "4.6.4",
             "source": {
@@ -9083,6 +9137,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-mail-smtp/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-maintenance-mode",
+            "version": "2.6.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
+                "reference": "tags/2.6.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-maintenance-mode/"
         },
         {
             "name": "wpackagist-plugin/wp-rest-api-authentication",
