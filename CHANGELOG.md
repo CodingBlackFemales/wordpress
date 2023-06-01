@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.3](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.2...v0.1.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* prevent broken web font files ([2b393f7](https://github.com/CodingBlackFemales/wordpress/commit/2b393f74cc31db8b211f5a1ac7e376c57699527f))
+
 ## [0.1.2](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.1...v0.1.2) (2023-05-31)
 
 ## 0.1.1 (2023-05-31)
