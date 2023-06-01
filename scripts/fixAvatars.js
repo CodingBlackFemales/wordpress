@@ -8,7 +8,7 @@ function importJSON(filePath) {
     try {
       const jsonArray = [];
       const fileStream = fs.createReadStream(filePath);
-      const rl = require("readline").createInterface({
+      const rl = readline.createInterface({
         input: fileStream,
         crlfDelay: Infinity,
       });
@@ -19,7 +19,7 @@ function importJSON(filePath) {
           if (
             typeof jsonObj === "object" &&
             jsonObj !== null &&
-            jsonObj.hasOwnProperty("ID")
+            Object.prototype.hasOwnProperty.call(jsonObj, "ID")
           ) {
             jsonArray.push(jsonObj);
           }
@@ -113,7 +113,7 @@ function runShellCommand(command) {
 }
 
 const usersCommand =
-  "wp --url=academy.codingblackfemales.local user list --fields=ID,user_login --orderby=ID --format=json";
+  "wp --url=academy.codingblackfemales.lndo.site user list --fields=ID,user_login --orderby=ID --format=json";
 
 runShellCommand(usersCommand)
   .then((newUsers) => {

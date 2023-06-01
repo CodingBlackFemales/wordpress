@@ -15,6 +15,7 @@ proxy:
     - wp.codingblackfemales.lndo.site
     - academy.codingblackfemales.lndo.site
     - jobs.codingblackfemales.lndo.site
+    - cms.codingblackfemales.lndo.site
 services:
   appserver:
     composer_version: 2-latest
