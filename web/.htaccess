@@ -1,27 +1,30 @@
-RewriteEngine On
-# Redirect members.codingblackfemales.com to academy.codingblackfemales.com
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{HTTP_HOST} ^members\.codingblackfemales\.com$ [NC]
-    RewriteRule ^(.*)$ https://academy.codingblackfemales.com/$1 [R=301,L]
+	RewriteEngine On
+	RewriteBase /
+
+	# Redirect members.codingblackfemales.com to academy.codingblackfemales.com
+	RewriteCond %{HTTP_HOST} ^members\.codingblackfemales\.com$ [NC]
+	RewriteRule ^(.*)$ https://academy.codingblackfemales.com/$1 [R=301,L]
+
+	RewriteRule ^index\.php$ - [L]
+
+	# add a trailing slash to /wp-admin
+	RewriteRule ^wp-admin$ wp-admin/ [R=301,L]
+
+	RewriteCond %{REQUEST_FILENAME} -f [OR]
+	RewriteCond %{REQUEST_FILENAME} -d
+	RewriteRule ^ - [L]
+
+	# Bedrock WP core
+	RewriteRule ^(wp-(content|admin|includes).*) wp/$1 [L]
+	RewriteRule ^(.*\.php)$ wp/$1 [L]
+
+	RewriteRule . index.php [L]
 </IfModule>
-RewriteBase /
-RewriteRule ^index\.php$ - [L]
-
-# add a trailing slash to /wp-admin
-RewriteRule ^wp-admin$ wp-admin/ [R=301,L]
-
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-RewriteRule ^(wp-(content|admin|includes).*) wp/$1 [L]
-RewriteRule ^(.*\.php)$ wp/$1 [L]
-RewriteRule . index.php [L]
-
 
 # Enable sub-sites to access font files from network root
 <IfModule mod_headers.c>
-    <FilesMatch "\.(ttf|otf|woff)$">
-        Header set Access-Control-Allow-Origin "*"
-    </FilesMatch>
+	<FilesMatch "\.(ttf|otf|woff)$">
+		Header set Access-Control-Allow-Origin "*"
+	</FilesMatch>
 </IfModule>
