@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.5](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.4...v0.1.5) (2023-06-02)
+
+
+### Bug Fixes
+
+* prevent PHP memory exhaustion ([33fb18d](https://github.com/CodingBlackFemales/wordpress/commit/33fb18d75bd6419a5b7d71f04a453147a4e379ec))
+
 ## [0.1.4](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.3...v0.1.4) (2023-06-02)
 
 
