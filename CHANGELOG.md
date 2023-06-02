@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.4](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.3...v0.1.4) (2023-06-02)
+
+
+### Bug Fixes
+
+* restore admin ability to login as user ([c8886e6](https://github.com/CodingBlackFemales/wordpress/commit/c8886e6efb55d6365940ed5f48c16179887fd934))
+
 ## [0.1.3](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.2...v0.1.3) (2023-06-01)
 
 
