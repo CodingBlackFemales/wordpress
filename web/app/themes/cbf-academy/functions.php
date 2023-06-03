@@ -81,6 +81,6 @@ add_filter( 'bp_core_get_table_prefix', 'cbf_academy_bp_core_get_table_prefix' )
  * @return bool
  */
 function cbf_academy_option_buddypages_member_pages( $value, $option ) {
-	return current_user_can( 'manage_options' ) || $value;
+	return ! is_admin() && current_user_can( 'manage_options' ) || $value;
 }
 add_filter( 'option_buddypages-member-pages', 'cbf_academy_option_buddypages_member_pages', 10, 2 );
