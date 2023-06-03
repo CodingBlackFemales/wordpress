@@ -10,7 +10,7 @@ namespace CBFAcademy;
 
 use CBFAcademy\Admin\Main as Admin;
 use CBFAcademy\Front\Main as Front;
-
+use CBFAcademy\Customizations\BuddyBoss;
 
 /**
  * Base Plugin class holding generic functionality
@@ -84,6 +84,7 @@ final class Main {
 
 		// Common includes.
 		Block::hooks();
+		BuddyBoss::hooks();
 
 		// Set up localisation.
 		self::load_plugin_textdomain();
