@@ -159,7 +159,7 @@
     "post-update-cmd": [
       "@configure-ssp"
     ],
-    "configure-ssp": "cd web/app/plugins/cbf-academy;composer install;cd ../cbf-jobs;composer install;cd ../../../..",
+    "configure-ssp": "cd web/app/plugins/cbf-academy;npm install;cd ../cbf-jobs;npm install;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-academy ./web/app/plugins/cbf-jobs ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",
