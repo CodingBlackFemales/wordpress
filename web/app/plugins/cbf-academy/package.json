@@ -23,13 +23,12 @@
 		"fix:js": "cross-var wp-scripts format $npm_package_config_webpack_js",
 		"lint:css": "cross-var wp-scripts lint-style $npm_package_config_webpack_css",
 		"fix:css": "cross-var wp-scripts lint-style $npm_package_config_webpack_css --fix",
-		"makepot": "wpi18n makepot --domain-path=\"i18n/languages\" --pot-file=\"cbf-academy.pot\" --type=\"plugin\" --main-file=\"cbf-academy.php\" --exclude=\"node_modules,tests,docs,docker,vendor\"",
+		"makepot": "wp i18n make-pot . \"languages/cbf-academy.pot\" --exclude=\"node_modules,tests,docs,docker,vendor\"",
 		"watch": "webpack --mode=none --watch",
 		"archive": "cross-var rm -rf $npm_package_config_wp_org_slug.zip vendor/ node_modules/ && composer install --no-dev --optimize-autoloader && npm install --only=prod --ignore-scripts && composer archive --file=$npm_package_config_wp_org_slug --dir=$npm_package_config_wp_org_slug --format=zip",
 		"postarchive": "rm -rf vendor/ node_modules/ && npm install",
 		"build:assets": "wp-scripts build",
-		"build": "npm run makepot && npm run build:assets && npm run archive",
-		"postbuild": "cross-var unzip -q $npm_package_config_wp_org_slug/$npm_package_config_wp_org_slug.zip -d $npm_package_config_wp_org_slug && rm $npm_package_config_wp_org_slug/$npm_package_config_wp_org_slug.zip && zip -q -r $npm_package_config_wp_org_slug.zip $npm_package_config_wp_org_slug -qq && rm -rf $npm_package_config_wp_org_slug"
+		"build": "npm run makepot && npm run build:assets"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^24.3.0",
