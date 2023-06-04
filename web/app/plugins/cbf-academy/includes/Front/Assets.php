@@ -42,7 +42,7 @@ final class Assets {
 	public static function add_styles( $styles ) {
 
 		$styles['cbf-academy-general'] = array(
-			'src' => AssetsMain::localize_asset( 'css/front/cbf-academy.css' ),
+			'src' => AssetsMain::localize_asset( 'css/frontend/cbf-academy.css' ),
 		);
 
 		return $styles;
@@ -58,7 +58,7 @@ final class Assets {
 	public static function add_scripts( $scripts ) {
 
 		$scripts['cbf-academy-general'] = array(
-			'src'  => AssetsMain::localize_asset( 'js/front/cbf-academy.js' ),
+			'src'  => AssetsMain::localize_asset( 'js/frontend/cbf-academy.js' ),
 			'data' => array(
 				'ajax_url' => Utils::ajax_url(),
 			),
