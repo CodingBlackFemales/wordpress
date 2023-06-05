@@ -72,3 +72,15 @@ function cbf_academy_bp_core_get_table_prefix( $base_prefix ) {
 	return $base_prefix;
 }
 add_filter( 'bp_core_get_table_prefix', 'cbf_academy_bp_core_get_table_prefix' );
+
+/**
+ * Return true as 'buddypages-member-pages' option value for site admins
+ *
+ * @param bool   $value The value of the 'buddypages-member-pages' site option
+ * @param string $option The option name
+ * @return bool
+ */
+function cbf_academy_option_buddypages_member_pages( $value, $option ) {
+	return ! is_admin() && current_user_can( 'manage_options' ) || $value;
+}
+add_filter( 'option_buddypages-member-pages', 'cbf_academy_option_buddypages_member_pages', 10, 2 );
