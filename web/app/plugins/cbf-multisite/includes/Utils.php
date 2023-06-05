@@ -4,10 +4,10 @@
  *
  * @class       Utils
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs;
+namespace CodingBlackFemales\Multisite;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -66,7 +66,7 @@ final class Utils {
 	 */
 	public static function template_path() {
 		// Allow 3rd party plugin filter template path from their plugin.
-		return apply_filters( '_template_path', 'cbf-jobs/' );
+		return apply_filters( '_template_path', 'cbf-multisite/' );
 	}
 
 

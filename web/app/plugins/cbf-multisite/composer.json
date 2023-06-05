@@ -1,5 +1,5 @@
 {
-	"name": "author-slug/cbf-jobs",
+	"name": "author-slug/cbf-multisite",
 	"description": "This is a short description of what the plugin does. It's displayed in the WordPress admin area.",
 	"homepage": "http://example.com/",
 	"type": "wordpress-plugin",
@@ -16,7 +16,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"CBFJobs\\": "includes/"
+			"CodingBlackFemales\\Multisite\\": "includes/"
 		}
 	},
 	"config": {

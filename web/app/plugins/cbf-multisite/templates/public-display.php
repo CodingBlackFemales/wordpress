@@ -7,8 +7,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    CBFJobs
- * @subpackage CBFJobs/templates
+ * @package    CodingBlackFemales/Multisite
+ * @subpackage CodingBlackFemales/Multisite/templates
  */
 
 ?>
