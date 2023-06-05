@@ -4,10 +4,10 @@
  *
  * @class       Template
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs;
+namespace CodingBlackFemales\Multisite;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,7 +30,7 @@ final class Template {
 
 		$template = '';
 
-		// Look in yourtheme/slug-name.php and yourtheme/cbf-jobs/slug-name.php .
+		// Look in yourtheme/slug-name.php and yourtheme/cbf-multisite/slug-name.php .
 		if ( $name ) {
 			$template = locate_template( array( "{$slug}-{$name}.php", Utils::template_path() . "{$slug}-{$name}.php" ) );
 		}
@@ -40,7 +40,7 @@ final class Template {
 			$template = Utils::plugin_path() . "/templates/{$slug}-{$name}.php";
 		}
 
-		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/cbf-jobs/slug.php .
+		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/cbf-multisite/slug.php .
 		if ( ! $template ) {
 			$template = locate_template( array( "{$slug}.php", Utils::template_path() . "{$slug}.php" ) );
 		}

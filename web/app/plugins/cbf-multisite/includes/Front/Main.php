@@ -4,10 +4,10 @@
  *
  * @class       Front
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs\Front;
+namespace CodingBlackFemales\Multisite\Front;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -1,5 +1,5 @@
 {
-	"name": "cbf-jobs",
+	"name": "cbf-multisite",
 	"version": "1.0.0",
 	"description": "This is a short description of what the plugin does.",
 	"author": "SAU/CAL",
@@ -13,7 +13,7 @@
 			"js": "src/js/",
 			"css": "src/sass/"
 		},
-		"wp_org_slug": "cbf-jobs"
+		"wp_org_slug": "cbf-multisite"
 	},
 	"scripts": {
 		"postinstall": "composer install",
