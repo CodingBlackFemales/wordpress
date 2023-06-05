@@ -11,7 +11,6 @@ namespace CBFAcademy;
 use CBFAcademy\Admin\Main as Admin;
 use CBFAcademy\Front\Main as Front;
 
-
 /**
  * Base Plugin class holding generic functionality
  */
