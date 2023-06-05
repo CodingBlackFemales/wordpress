@@ -1,5 +1,6 @@
-/******/ (function() { // webpackBootstrap
-var __webpack_exports__ = {};
+/******/ (function () {
+  // webpackBootstrap
+  var __webpack_exports__ = {};
 /* eslint-disable */ // Remove this line if customising this file
 (function ($) {
   "use strict";
