@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.6](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.5...v0.1.6) (2023-06-05)
+
+
+### Bug Fixes
+
+* **academy:** prevent 404 errors from plugin assets ([ef37985](https://github.com/CodingBlackFemales/wordpress/commit/ef3798529e41e0a750aee9c20ab0e6f067124c4b))
+* **jobs:** prevent 404 errors from plugin assets ([8d04b4e](https://github.com/CodingBlackFemales/wordpress/commit/8d04b4e6a2152c71b1e45ac8f176cbe240292dbf))
+* restore BuddyPages access for site admins ([759971f](https://github.com/CodingBlackFemales/wordpress/commit/759971f88c7413c8c9956ea1bdedbf14fb67954e))
+
 ## [0.1.5](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.4...v0.1.5) (2023-06-02)
 
 
