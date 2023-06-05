@@ -2,14 +2,14 @@
 /**
  * Capability management
  *
- * @package     CBFJobs/Customizations
+ * @package     CodingBlackFemales/Multisite/Customizations
  * @version     1.0.0
  */
 
-namespace CBFJobs\Customizations;
+namespace CodingBlackFemales\Multisite\Customizations;
 
-use CBFJobs\Constants as Constants;
-use CBFJobs\Utils as Utils;
+use CodingBlackFemales\Multisite\Constants as Constants;
+use CodingBlackFemales\Multisite\Utils as Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

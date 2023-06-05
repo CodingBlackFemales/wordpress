@@ -4,10 +4,10 @@
  *
  * @class       Admin
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs\Admin;
+namespace CodingBlackFemales\Multisite\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

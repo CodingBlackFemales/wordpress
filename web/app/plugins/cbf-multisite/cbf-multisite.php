@@ -9,18 +9,18 @@
  *
  * @link              https://codingblackfemales.com
  * @since             1.0.0
- * @package           CBFJobs
+ * @package           CodingBlackFemales/Multisite
  *
  * @wordpress-plugin
- * Plugin Name: CBF Jobs
+ * Plugin Name: CBF Multisite
  * Plugin URI:  https://codingblackfemales.com
- * Description: Site-specific plugin for CBF Jobs
+ * Description: Site-specific plugin for CBF Multisite
  * Version:     1.0.0
  * Author:      Coding Black Females
  * Author URI:  https://codingblackfemales.com
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: cbf-jobs
+ * Text Domain: cbf-multisite
  * Domain Path: /i18n/languages
  */
 
@@ -31,7 +31,7 @@
  * - `phpcs.xml`
  */
 
-namespace CBFJobs;
+namespace CodingBlackFemales\Multisite;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -51,7 +51,7 @@ const PLUGIN_FILE = __FILE__;
 function get_error() {
 	return array(
 		/* translators: 1: composer command. 2: plugin directory */
-		'message'   => esc_html__( 'Your installation of CBF Jobs plugin is incomplete. Please run %1$s within the %2$s directory.', 'cbf-jobs' ),
+		'message'   => esc_html__( 'Your installation of CBF Multisite plugin is incomplete. Please run %1$s within the %2$s directory.', 'cbf-multisite' ),
 		'command'   => 'composer install',
 		'directory' => esc_html( str_replace( ABSPATH, '', __DIR__ ) ),
 	);

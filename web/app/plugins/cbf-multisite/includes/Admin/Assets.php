@@ -4,13 +4,13 @@
  *
  * @class       AdminAssets
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs\Admin;
+namespace CodingBlackFemales\Multisite\Admin;
 
-use CBFJobs\Assets as AssetsMain;
-use CBFJobs\Utils;
+use CodingBlackFemales\Multisite\Assets as AssetsMain;
+use CodingBlackFemales\Multisite\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -41,8 +41,8 @@ final class Assets {
 	 */
 	public static function add_styles( $styles ) {
 
-		$styles['cbf-jobs-admin'] = array(
-			'src' => AssetsMain::localize_asset( 'css/admin/cbf-jobs.css' ),
+		$styles['cbf-multisite-admin'] = array(
+			'src' => AssetsMain::localize_asset( 'css/admin/cbf-multisite.css' ),
 		);
 
 		return $styles;
@@ -57,8 +57,8 @@ final class Assets {
 	 */
 	public static function add_scripts( $scripts ) {
 
-		$scripts['cbf-jobs-admin'] = array(
-			'src'  => AssetsMain::localize_asset( 'js/admin/cbf-jobs.js' ),
+		$scripts['cbf-multisite-admin'] = array(
+			'src'  => AssetsMain::localize_asset( 'js/admin/cbf-multisite.js' ),
 			'data' => array(
 				'ajax_url' => Utils::ajax_url(),
 			),

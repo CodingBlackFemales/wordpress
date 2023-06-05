@@ -1,4 +1,4 @@
-=== CBF Jobs ===
+=== CBF Multisite ===
 Contributors: (this should be a list of wordpress.org userid's)
 Donate link: https://codingblackfemales.com
 Tags: comments, spam
@@ -43,7 +43,7 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload `cbf-jobs.php` to the `/wp-content/plugins/` directory
+1. Upload `cbf-multisite.php` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Place `<?php do_action('_hook'); ?>` in your templates
 

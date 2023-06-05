@@ -4,10 +4,10 @@
  *
  * @class       Block
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs;
+namespace CodingBlackFemales\Multisite;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -71,7 +71,7 @@ final class Block {
 		$asset_block = include Utils::plugin_path() . '/assets/build/' . $block_path . 'index.asset.php';
 
 		wp_register_script(
-			'cbf-jobs-' . $block_name . '-blocks',
+			'cbf-multisite-' . $block_name . '-blocks',
 			Utils::plugin_url() . '/assets/build/' . $block_path . 'index.js',
 			$asset_block['dependencies'],
 			$asset_block['version'],
@@ -104,18 +104,18 @@ final class Block {
 		}
 
 		// Set editor styles.
-		$editor_style = 'cbf-jobs-' . $block_name . '-blocks';
+		$editor_style = 'cbf-multisite-' . $block_name . '-blocks';
 		if ( ! empty( $args['editor_style'] ) ) {
 			$editor_style = $args['editor_style'];
 		}
 
 		register_block_type(
-			'cbf-jobs/' . $block_name,
+			'cbf-multisite/' . $block_name,
 			array(
 				'style'         => $styles,
 				'script'        => $script,
 				'editor_style'  => $editor_style,
-				'editor_script' => 'cbf-jobs-' . $block_name . '-blocks',
+				'editor_script' => 'cbf-multisite-' . $block_name . '-blocks',
 			)
 		);
 	}
