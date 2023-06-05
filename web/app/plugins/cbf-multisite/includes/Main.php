@@ -2,14 +2,14 @@
 /**
  * Main class.
  *
- * @package  CBFJobs
+ * @package  CodingBlackFemales/Multisite
  * @version  1.0.0
  */
 
-namespace CBFJobs;
+namespace CodingBlackFemales\Multisite;
 
-use CBFJobs\Admin\Main as Admin;
-use CBFJobs\Front\Main as Front;
+use CodingBlackFemales\Multisite\Admin\Main as Admin;
+use CodingBlackFemales\Multisite\Front\Main as Front;
 
 
 /**
@@ -48,7 +48,7 @@ final class Main {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'cbf-jobs' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'cbf-multisite' ), '1.0.0' );
 	}
 
 
@@ -58,7 +58,7 @@ final class Main {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'cbf-jobs' ), '1.0.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'cbf-multisite' ), '1.0.0' );
 	}
 
 
@@ -122,12 +122,12 @@ final class Main {
 
 		if ( ! version_compare( PHP_VERSION, self::PLUGIN_REQUIREMENTS['php_version'], '>=' ) ) {
 			/* Translators: The minimum PHP version */
-			$errors[] = sprintf( esc_html__( 'CBF Jobs requires a minimum PHP version of %s.', 'cbf-jobs' ), self::PLUGIN_REQUIREMENTS['php_version'] );
+			$errors[] = sprintf( esc_html__( 'CBF Multisite requires a minimum PHP version of %s.', 'cbf-multisite' ), self::PLUGIN_REQUIREMENTS['php_version'] );
 		}
 
 		if ( ! version_compare( $wp_version, self::PLUGIN_REQUIREMENTS['wp_version'], '>=' ) ) {
 			/* Translators: The minimum WP version */
-			$errors[] = sprintf( esc_html__( 'CBF Jobs requires a minimum WordPress version of %s.', 'cbf-jobs' ), self::PLUGIN_REQUIREMENTS['wp_version'] );
+			$errors[] = sprintf( esc_html__( 'CBF Multisite requires a minimum WordPress version of %s.', 'cbf-multisite' ), self::PLUGIN_REQUIREMENTS['wp_version'] );
 		}
 
 		if ( empty( $errors ) ) {
@@ -164,16 +164,16 @@ final class Main {
 	 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
 	 *
 	 * Locales found in:
-	 *      - WP_LANG_DIR/cbf-jobs/cbf-jobs-LOCALE.mo
-	 *      - WP_LANG_DIR/plugins/cbf-jobs-LOCALE.mo
+	 *      - WP_LANG_DIR/cbf-multisite/cbf-multisite-LOCALE.mo
+	 *      - WP_LANG_DIR/plugins/cbf-multisite-LOCALE.mo
 	 */
 	private static function load_plugin_textdomain() {
 
 		// Add plugin's locale.
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'cbf-jobs' );
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'cbf-multisite' );
 
-		load_textdomain( 'cbf-jobs', WP_LANG_DIR . '/cbf-jobs/cbf-jobs-' . $locale . '.mo' );
+		load_textdomain( 'cbf-multisite', WP_LANG_DIR . '/cbf-multisite/cbf-multisite-' . $locale . '.mo' );
 
-		load_plugin_textdomain( 'cbf-jobs', false, plugin_basename( __DIR__ ) . '/i18n/languages' );
+		load_plugin_textdomain( 'cbf-multisite', false, plugin_basename( __DIR__ ) . '/i18n/languages' );
 	}
 }

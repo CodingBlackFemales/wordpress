@@ -4,13 +4,13 @@
  *
  * @class       FrontAssets
  * @version     1.0.0
- * @package     CBFJobs/Classes/
+ * @package     CodingBlackFemales/Multisite/Classes/
  */
 
-namespace CBFJobs\Front;
+namespace CodingBlackFemales\Multisite\Front;
 
-use CBFJobs\Assets as AssetsMain;
-use CBFJobs\Utils;
+use CodingBlackFemales\Multisite\Assets as AssetsMain;
+use CodingBlackFemales\Multisite\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -41,8 +41,8 @@ final class Assets {
 	 */
 	public static function add_styles( $styles ) {
 
-		$styles['cbf-jobs-general'] = array(
-			'src' => AssetsMain::localize_asset( 'css/frontend/cbf-jobs.css' ),
+		$styles['cbf-multisite-general'] = array(
+			'src' => AssetsMain::localize_asset( 'css/frontend/cbf-multisite.css' ),
 		);
 
 		return $styles;
@@ -57,8 +57,8 @@ final class Assets {
 	 */
 	public static function add_scripts( $scripts ) {
 
-		$scripts['cbf-jobs-general'] = array(
-			'src'  => AssetsMain::localize_asset( 'js/frontend/cbf-jobs.js' ),
+		$scripts['cbf-multisite-general'] = array(
+			'src'  => AssetsMain::localize_asset( 'js/frontend/cbf-multisite.js' ),
 			'data' => array(
 				'ajax_url' => Utils::ajax_url(),
 			),

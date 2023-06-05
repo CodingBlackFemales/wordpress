@@ -4,7 +4,7 @@
  *
  * Uninstalling plugin code.
  *
- * @package     CBFJobs/Uninstaller
+ * @package     CodingBlackFemales/Multisite/Uninstaller
  * @version     1.0.0
  */
 

@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: CBF Jobs 1.0.0\n"
+"Project-Id-Version: CBF Multisite 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cbf-multisite\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,10 +12,10 @@ msgstr ""
 "POT-Creation-Date: 2023-06-05T23:23:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.0-alpha-aea6b3d\n"
-"X-Domain: cbf-jobs\n"
+"X-Domain: cbf-multisite\n"
 
 #. Plugin Name of the plugin
-msgid "CBF Jobs"
+msgid "CBF Multisite"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -24,7 +24,7 @@ msgid "https://codingblackfemales.com"
 msgstr ""
 
 #. Description of the plugin
-msgid "Site-specific plugin for CBF Jobs"
+msgid "Site-specific plugin for CBF Multisite"
 msgstr ""
 
 #. Author of the plugin
@@ -33,7 +33,7 @@ msgstr ""
 
 #. translators: 1: composer command. 2: plugin directory
 #: cbf-multisite.php:54
-msgid "Your installation of CBF Jobs plugin is incomplete. Please run %1$s within the %2$s directory."
+msgid "Your installation of CBF Multisite plugin is incomplete. Please run %1$s within the %2$s directory."
 msgstr ""
 
 #: includes/Main.php:51
@@ -43,10 +43,10 @@ msgstr ""
 
 #. Translators: The minimum PHP version
 #: includes/Main.php:125
-msgid "CBF Jobs requires a minimum PHP version of %s."
+msgid "CBF Multisite requires a minimum PHP version of %s."
 msgstr ""
 
 #. Translators: The minimum WP version
 #: includes/Main.php:130
-msgid "CBF Jobs requires a minimum WordPress version of %s."
+msgid "CBF Multisite requires a minimum WordPress version of %s."
 msgstr ""
