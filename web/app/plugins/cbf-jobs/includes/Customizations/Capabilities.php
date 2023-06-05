@@ -36,7 +36,7 @@ class Capabilities {
 		$role = get_role( 'administrator' );
 
 		if ( $role ) {
-			$role->add_cap( 'manage_network_users', true );
+			$role->add_cap( 'manage_network_users' );
 			$role->add_cap( 'unfiltered_html' );
 		}
 	}
