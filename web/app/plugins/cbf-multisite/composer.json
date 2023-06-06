@@ -34,7 +34,10 @@
 		],
 		"phpcbf": [
 			"phpcbf . --ignore=vendor,node_modules,assets --extensions=php -p"
-		]
+		],
+    "post-install-cmd": [
+      "npm install || true"
+    ]
 	},
 	"extra": {
 		"scripts-description": {
