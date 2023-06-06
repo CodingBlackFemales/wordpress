@@ -159,7 +159,7 @@
     "post-update-cmd": [
       "@configure-ssp"
     ],
-    "configure-ssp": "cd web/app/plugins/cbf-multisite;npm install;cd ../../../..",
+    "configure-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",
