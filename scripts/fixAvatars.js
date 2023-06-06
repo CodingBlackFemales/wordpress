@@ -43,19 +43,67 @@ function importJSON(filePath) {
 
 function getMappedUsers(oldUsers, newUsers) {
   const newUsersMap = new Map(
-    newUsers.map((newUser) => [newUser.user_login, newUser.ID])
+    newUsers.map((newUser) => [newUser.user_login.toLowerCase(), newUser.ID])
   );
   const userMap = new Map();
-  userMap.has();
-  for (const oldUser of oldUsers) {
-    const matchingNewUserId = newUsersMap.get(oldUser.user_login);
 
-    if (matchingNewUserId) {
+  for (const oldUser of oldUsers) {
+    const matchingNewUserId = newUsersMap.get(oldUser.user_login.toLowerCase());
+
+    if (matchingNewUserId && oldUser.ID !== matchingNewUserId) {
       userMap.set(oldUser.ID, matchingNewUserId);
     }
   }
 
   return userMap;
+}
+
+function fixGroupMembers(userMap) {
+  let updateQuery = "";
+  let dbCommand = `wp ${commandOptions.alias} db query 'DELETE FROM wp_2_bp_groups_members WHERE id > 586'`;
+
+  runShellCommand(dbCommand);
+
+  for (const [oldId, newId] of userMap) {
+    updateQuery += `UPDATE wp_2_bp_groups_members SET user_id = ${newId} WHERE user_id = ${oldId};\n`;
+  }
+
+  dbCommand = `wp ${commandOptions.alias} db query '${updateQuery}'`;
+  runShellCommand(dbCommand);
+}
+
+function fixUserPackages(userMap) {
+  let updateQuery = "";
+  const threshold = 10000;
+  // Convert Map to an array of entries
+  const entries = Array.from(userMap.entries());
+
+  // Sort the array in descending order
+  entries.sort((a, b) => {
+    if (a[0] > b[0]) {
+      return -1;
+    } else if (a[0] < b[0]) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  for (const [oldId, newId] of entries) {
+    if (oldId < newId) {
+      updateQuery += `UPDATE wp_3_wcpl_user_packages SET user_id = ${newId} WHERE user_id = ${oldId};\n`;
+    } else {
+      updateQuery += `UPDATE wp_3_wcpl_user_packages SET user_id = ${
+        threshold + newId
+      } WHERE user_id = ${oldId};\n`;
+    }
+  }
+
+  let dbCommand = `wp ${commandOptions.alias} db query '${updateQuery}'`;
+  runShellCommand(dbCommand);
+  updateQuery = `UPDATE wp_3_wcpl_user_packages SET user_id = user_id - ${threshold} WHERE user_id > ${threshold};\n`;
+  dbCommand = `wp ${commandOptions.alias} db query '${updateQuery}'`;
+  runShellCommand(dbCommand);
 }
 
 function renameDirectories(directoryPath, userMap) {
@@ -86,6 +134,7 @@ function renameDirectories(directoryPath, userMap) {
 }
 
 function runShellCommand(command) {
+  console.log(`Executing ${command}`);
   return new Promise((resolve, reject) => {
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -97,43 +146,100 @@ function runShellCommand(command) {
         return;
       }
 
-      // Assuming the output is a JSON string, parse it as an object
-      let parsedJson;
-      try {
-        parsedJson = JSON.parse(stdout);
-      } catch (e) {
-        reject(`Error parsing JSON: ${e}`);
-        return;
-      }
-
       // Resolve the promise with the parsed JSON object
-      resolve(parsedJson);
+      resolve(stdout);
     });
   });
 }
 
-const usersCommand =
-  "wp --url=academy.codingblackfemales.lndo.site user list --fields=ID,user_login --orderby=ID --format=json";
+function buildOptions() {
+  const sites = ["academy", "jobs"];
+  const environments = ["development", "staging", "production"];
 
-runShellCommand(usersCommand)
-  .then((newUsers) => {
-    importJSON(path.join(__dirname, "users.json"))
-      .then((data) => {
-        const oldUsers = data.map((user) => {
-          return { ID: parseInt(user.ID, 10), user_login: user.user_login };
+  // Ensure we have required argument
+  if (process.argv.length < 3) {
+    throw new Error(`Command syntax: node fixAvatars.js [site] [environment]`);
+  }
+
+  // Ensure we have a valid site
+  if (!sites.some((site) => site === process.argv[2].toLowerCase())) {
+    throw new Error(`Invalid site argument. Expected 'academy' or 'jobs'.`);
+  }
+
+  // Ensure we have a valid environment, if provided
+  if (
+    process.argv.length >= 4 &&
+    !environments.some(
+      (environment) => environment === process.argv[3].toLowerCase()
+    )
+  ) {
+    throw new Error(
+      `Invalid environment argument. Expected 'staging' or 'production'.`
+    );
+  }
+
+  const siteArg = process.argv[2].toLowerCase();
+  const envArg =
+    process.argv.length >= 4 ? process.argv[3].toLowerCase() : "development";
+  const subdomain = envArg === "staging" ? "staging" : siteArg;
+  const subdirectory = envArg === "staging" ? `/${siteArg}` : "";
+  const tld = envArg === "development" ? "lndo.site" : "com";
+  const options = {
+    alias: `@${envArg}`,
+    id: sites.findIndex((site) => site === siteArg) + 2,
+    url: `${subdomain}.codingblackfemales.${tld}${subdirectory}`,
+  };
+
+  // Resolve the promise with the parsed JSON object
+  return options;
+}
+
+let commandOptions;
+
+try {
+  commandOptions = buildOptions();
+  const usersCommand = `wp ${commandOptions.alias} --url=${commandOptions.url} user list --fields=ID,user_login --orderby=ID --format=json`;
+
+  runShellCommand(usersCommand)
+    .then((result) => {
+      let newUsers;
+
+      try {
+        // Assuming the output is a JSON string, parse it as an object
+        newUsers = JSON.parse(result);
+      } catch (e) {
+        console.error(`Error parsing JSON: ${e}`);
+        return;
+      }
+      importJSON(path.join(__dirname, `users-${commandOptions.id}.json`))
+        .then((data) => {
+          const oldUsers = data.map((user) => {
+            return {
+              ID: parseInt(user.ID, 10),
+              user_login: user.user_login,
+            };
+          });
+          const directoryPath = path.join(
+            path.dirname(__dirname),
+            "web/app/uploads/sites/2/avatars"
+          );
+          const userMap = getMappedUsers(oldUsers, newUsers);
+
+          // Deactivate unnecessary functions
+          if (userMap === undefined) {
+            renameDirectories(directoryPath, userMap);
+            fixGroupMembers(userMap);
+          }
+
+          fixUserPackages(userMap);
+        })
+        .catch((error) => {
+          console.error(error);
         });
-        const directoryPath = path.join(
-          path.dirname(__dirname),
-          "web/app/uploads/sites/2/avatars"
-        );
-        const userMap = getMappedUsers(oldUsers, newUsers);
-
-        renameDirectories(directoryPath, userMap);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+} catch (e) {
+  console.error(e.message);
+}
