@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.8](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.7...v0.1.8) (2023-06-06)
+
+
+### Bug Fixes
+
+* correctly enable unfiltered HTML capability ([3674837](https://github.com/CodingBlackFemales/wordpress/commit/3674837084ee74fc986e63276bf3a8c011496deb))
+
 ## [0.1.7](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.6...v0.1.7) (2023-06-06)
 
 
