@@ -6,7 +6,7 @@ web/app/plugins/*
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git
 !web/app/plugins/cbf-academy
-!web/app/plugins/cbf-jobs
+!web/app/plugins/cbf-multisite
 !web/app/plugins/conditional-profile-fields-for-buddypress
 !web/app/plugins/ld-content-cloner
 !web/app/plugins/learndash-hub
