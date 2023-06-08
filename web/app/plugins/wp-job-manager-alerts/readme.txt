@@ -1,8 +1,8 @@
 === Job Alerts ===
 Contributors: mikejolley, adamkheckler, kraftbj, jakeom, alexsanford1
 Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 1.5.6
+Tested up to: 6.2
+Stable tag: 1.6.0
 Requires PHP: 7.0
 License: GNU General Public License v3.0
 
@@ -31,6 +31,9 @@ If you need help with customisation you will need to find and hire a developer c
 To install this plugin, please refer to the guide here: [http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
 
 == Changelog ==
+
+2023-05-04 - version 1.6.0
+* Fix: Fix reflected XSS.
 
 2022-11-18 - version 1.5.6
 * Enhancement: Add Job Types to the My Alerts table.
