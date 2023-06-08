@@ -25,7 +25,7 @@ if ( resume_manager_user_can_view_contact_details( $post->ID ) ) :
 	wp_enqueue_script( 'wp-resume-manager-resume-contact-details' );
 	?>
 	<div class="resume_contact">
-		<input class="resume_contact_button" type="button" value="<?php _e( 'Contact', 'wp-job-manager-resumes' ); ?>" />
+		<input class="resume_contact_button" type="button" value="<?php esc_html_e( 'Contact', 'wp-job-manager-resumes' ); ?>" />
 
 		<div class="resume_contact_details">
 			<?php do_action( 'resume_manager_contact_details' ); ?>
