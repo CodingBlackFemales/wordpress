@@ -31,14 +31,14 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 		<tbody>
 			<?php if ( ! $resumes ) : ?>
 				<tr>
-					<td colspan="<?php echo count( $candidate_dashboard_columns ); ?>"><?php _e( 'You do not have any active resume listings.', 'wp-job-manager-resumes' ); ?></td>
+					<td colspan="<?php echo count( $candidate_dashboard_columns ); ?>"><?php esc_html_e( 'You do not have any active resume listings.', 'wp-job-manager-resumes' ); ?></td>
 				</tr>
 			<?php else : ?>
 				<?php foreach ( $resumes as $resume ) : ?>
 					<tr>
 						<?php foreach ( $candidate_dashboard_columns as $key => $column ) : ?>
 							<td class="<?php echo esc_attr( $key ); ?>">
-								<?php if ( 'resume-title' === $key ) : ?>
+								<?php if ( $key === 'resume-title' ) : ?>
 									<?php if ( $resume->post_status == 'publish' ) : ?>
 										<a href="<?php echo get_permalink( $resume->ID ); ?>"><?php echo esc_html( $resume->post_title ); ?></a>
 									<?php else : ?>
@@ -46,82 +46,82 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 									<?php endif; ?>
 									<ul class="candidate-dashboard-actions">
 										<?php
-											$actions = [];
+											$actions = array();
 
 										switch ( $resume->post_status ) {
 											case 'publish':
 												if ( resume_manager_user_can_edit_published_submissions() ) {
-													$actions['edit'] = [
+													$actions['edit'] = array(
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													];
+													);
 												}
-												$actions['hide'] = [
+												$actions['hide'] = array(
 													'label' => __( 'Hide', 'wp-job-manager-resumes' ),
 													'nonce' => true,
-												];
+												);
 												break;
 											case 'hidden':
 												if ( resume_manager_user_can_edit_published_submissions() ) {
-													$actions['edit'] = [
+													$actions['edit'] = array(
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													];
+													);
 												}
-												$actions['publish'] = [
+												$actions['publish'] = array(
 													'label' => __( 'Publish', 'wp-job-manager-resumes' ),
 													'nonce' => true,
-												];
+												);
 												break;
-											case 'pending_payment' :
-											case 'pending' :
+											case 'pending_payment':
+											case 'pending':
 												if ( resume_manager_user_can_edit_pending_submissions() ) {
-													$actions['edit'] = [
+													$actions['edit'] = array(
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													];
+													);
 												}
 												break;
 											case 'expired':
 												if ( get_option( 'resume_manager_submit_resume_form_page_id' ) ) {
-													$actions['relist'] = [
+													$actions['relist'] = array(
 														'label' => __( 'Relist', 'wp-job-manager-resumes' ),
 														'nonce' => true,
-													];
+													);
 												}
 												break;
 										}
 
-											$actions['delete'] = [
+											$actions['delete'] = array(
 												'label' => __( 'Delete', 'wp-job-manager-resumes' ),
 												'nonce' => true,
-											];
+											);
 
 											$actions = apply_filters( 'resume_manager_my_resume_actions', $actions, $resume );
 
 											foreach ( $actions as $action => $value ) {
 												$action_url = add_query_arg(
-													[
+													array(
 														'action' => $action,
 														'resume_id' => $resume->ID,
-													]
+													)
 												);
 												if ( $value['nonce'] ) {
 													$action_url = wp_nonce_url( $action_url, 'resume_manager_my_resume_actions' );
 												}
-												echo '<li><a href="' . $action_url . '" class="candidate-dashboard-action-' . $action . '">' . $value['label'] . '</a></li>';
+												echo '<li><a href="' . esc_url( $action_url ) . '" class="candidate-dashboard-action-' . esc_attr( $action ) . '">' . esc_html( $value['label'] ) . '</a></li>';
 											}
 											?>
 									</ul>
-								<?php elseif ( 'candidate-title' === $key ) : ?>
+								<?php elseif ( $key === 'candidate-title' ) : ?>
 									<?php the_candidate_title( '', '', true, $resume ); ?>
-								<?php elseif ( 'candidate-location' === $key ) : ?>
+								<?php elseif ( $key === 'candidate-location' ) : ?>
 									<?php the_candidate_location( false, $resume ); ?></td>
-								<?php elseif ( 'resume-category' === $key ) : ?>
+								<?php elseif ( $key === 'resume-category' ) : ?>
 									<?php the_resume_category( $resume ); ?>
-								<?php elseif ( 'status' === $key ) : ?>
+								<?php elseif ( $key === 'status' ) : ?>
 									<?php the_resume_status( $resume ); ?>
-								<?php elseif ( 'date' === $key ) : ?>
+								<?php elseif ( $key === 'date' ) : ?>
 									<?php
 									if ( ! empty( $resume->_resume_expires ) && strtotime( $resume->_resume_expires ) > current_time( 'timestamp' ) ) {
 										printf( __( 'Expires %s', 'wp-job-manager-resumes' ), date_i18n( get_option( 'date_format' ), strtotime( $resume->_resume_expires ) ) );
@@ -142,11 +142,11 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 			<tfoot>
 				<tr>
 					<td colspan="<?php echo count( $candidate_dashboard_columns ); ?>">
-						<a href="<?php echo esc_url( get_permalink( $submit_resume_form_page_id ) ); ?>"><?php _e( 'Add Resume', 'wp-job-manager-resumes' ); ?></a>
+						<a href="<?php echo esc_url( get_permalink( $submit_resume_form_page_id ) ); ?>"><?php esc_html_e( 'Add Resume', 'wp-job-manager-resumes' ); ?></a>
 					</td>
 				</tr>
 			</tfoot>
 		<?php endif; ?>
 	</table>
-	<?php get_job_manager_template( 'pagination.php', [ 'max_num_pages' => $max_num_pages ] ); ?>
+	<?php get_job_manager_template( 'pagination.php', array( 'max_num_pages' => $max_num_pages ) ); ?>
 </div>
