@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( defined( 'DOING_AJAX' ) ) : ?>
-	<li class="no_resumes_found"><?php _e( 'There are no listings matching your search.', 'wp-job-manager-resumes' ); ?></li>
+	<li class="no_resumes_found"><?php esc_html_e( 'There are no listings matching your search.', 'wp-job-manager-resumes' ); ?></li>
 <?php else : ?>
-	<p class="no_resumes_found"><?php _e( 'There are currently no resumes.', 'wp-job-manager-resumes' ); ?></p>
+	<p class="no_resumes_found"><?php esc_html_e( 'There are currently no resumes.', 'wp-job-manager-resumes' ); ?></p>
 <?php endif; ?>

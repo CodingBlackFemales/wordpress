@@ -21,10 +21,10 @@ class WP_Resume_Manager_Setup {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', [ $this, 'admin_menu' ], 12 );
-		add_action( 'admin_head', [ $this, 'admin_head' ] );
-		add_action( 'admin_init', [ $this, 'redirect' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ], 12 );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
+		add_action( 'admin_head', array( $this, 'admin_head' ) );
+		add_action( 'admin_init', array( $this, 'redirect' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 12 );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WP_Resume_Manager_Setup {
 	 * @return void
 	 */
 	public function admin_menu() {
-		add_dashboard_page( __( 'Setup', 'wp-job-manager-resumes' ), __( 'Setup', 'wp-job-manager-resumes' ), 'manage_options', 'resume-manager-setup', [ $this, 'output' ] );
+		add_dashboard_page( __( 'Setup', 'wp-job-manager-resumes' ), __( 'Setup', 'wp-job-manager-resumes' ), 'manage_options', 'resume-manager-setup', array( $this, 'output' ) );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class WP_Resume_Manager_Setup {
 			return;
 		}
 
-		if ( ( isset( $_GET['action'] ) && 'upgrade-plugin' == $_GET['action'] ) && ( isset( $_GET['plugin'] ) && strstr( $_GET['plugin'], 'wp-job-manager-resumes.php' ) ) ) {
+		if ( ( isset( $_GET['action'] ) && $_GET['action'] == 'upgrade-plugin' ) && ( isset( $_GET['plugin'] ) && strstr( $_GET['plugin'], 'wp-job-manager-resumes.php' ) ) ) {
 			return;
 		}
 
@@ -80,7 +80,7 @@ class WP_Resume_Manager_Setup {
 	 * Enqueue scripts for setup page
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_style( 'resume_manager_setup_css', RESUME_MANAGER_PLUGIN_URL . '/assets/dist/css/setup.css', [ 'dashicons' ], RESUME_MANAGER_VERSION );
+		wp_enqueue_style( 'resume_manager_setup_css', RESUME_MANAGER_PLUGIN_URL . '/assets/dist/css/setup.css', array( 'dashicons' ), RESUME_MANAGER_VERSION );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class WP_Resume_Manager_Setup {
 	 * @param  string $option
 	 */
 	public function create_page( $title, $content, $option ) {
-		$page_data = [
+		$page_data = array(
 			'post_status'    => 'publish',
 			'post_type'      => 'page',
 			'post_author'    => 1,
@@ -100,7 +100,7 @@ class WP_Resume_Manager_Setup {
 			'post_content'   => $content,
 			'post_parent'    => 0,
 			'comment_status' => 'closed',
-		];
+		);
 		$page_id   = wp_insert_post( $page_data );
 
 		if ( $option ) {
@@ -114,14 +114,14 @@ class WP_Resume_Manager_Setup {
 	public function output() {
 		$step = ! empty( $_GET['step'] ) ? absint( $_GET['step'] ) : 1;
 
-		if ( 3 === $step && ! empty( $_POST ) ) {
-			$create_pages    = isset( $_POST['wp-resume-manager-create-page'] ) ? $_POST['wp-resume-manager-create-page'] : [];
+		if ( $step === 3 && ! empty( $_POST ) ) {
+			$create_pages    = isset( $_POST['wp-resume-manager-create-page'] ) ? $_POST['wp-resume-manager-create-page'] : array();
 			$page_titles     = $_POST['wp-resume-manager-page-title'];
-			$pages_to_create = [
+			$pages_to_create = array(
 				'submit_resume_form'  => '[submit_resume_form]',
 				'candidate_dashboard' => '[candidate_dashboard]',
 				'resumes'             => '[resumes]',
-			];
+			);
 
 			foreach ( $pages_to_create as $page => $content ) {
 				if ( ! isset( $create_pages[ $page ] ) || empty( $page_titles[ $page ] ) ) {
@@ -155,13 +155,13 @@ class WP_Resume_Manager_Setup {
 				"><?php _e( '3. Done', 'wp-job-manager-resumes' ); ?></li>
 			</ul>
 
-			<?php if ( 1 === $step ) : ?>
+			<?php if ( $step === 1 ) : ?>
 
 				<h3><?php _e( 'Setup Wizard Introduction', 'wp-job-manager-resumes' ); ?></h3>
 
 				<p><?php _e( 'Thanks for installing <em>Resume Manager</em>!', 'wp-job-manager-resumes' ); ?></p>
 				<p><?php _e( 'This setup wizard will help you get started by creating the pages for resume submission, resume management, and resume listing.', 'wp-job-manager-resumes' ); ?></p>
-				<p><?php printf( __( 'If you want to skip the wizard and setup the pages and shortcodes yourself manually, the process is still reletively simple. Refer to the %1$sdocumentation%2$s for help.', 'wp-job-manager-resumes' ), '<a href=https://wpjobmanager.com/documentation/add-ons/resume-manager/">', '</a>' ); ?></p>
+				<p><?php printf( __( 'If you want to skip the wizard and setup the pages and shortcodes yourself manually, the process is still relatively simple. Refer to the %1$sdocumentation%2$s for help.', 'wp-job-manager-resumes' ), '<a href=https://wpjobmanager.com/documentation/add-ons/resume-manager/">', '</a>' ); ?></p>
 
 				<p class="submit">
 					<a href="<?php echo esc_url( add_query_arg( 'step', 2 ) ); ?>" class="button button-primary"><?php _e( 'Continue to page setup', 'wp-job-manager-resumes' ); ?></a>
@@ -169,7 +169,7 @@ class WP_Resume_Manager_Setup {
 				</p>
 
 			<?php endif; ?>
-			<?php if ( 2 === $step ) : ?>
+			<?php if ( $step === 2 ) : ?>
 
 				<h3><?php _e( 'Page Setup', 'wp-job-manager-resumes' ); ?></h3>
 
@@ -225,7 +225,7 @@ class WP_Resume_Manager_Setup {
 				</form>
 
 			<?php endif; ?>
-			<?php if ( 3 === $step ) : ?>
+			<?php if ( $step === 3 ) : ?>
 
 				<h3><?php _e( 'All Done!', 'wp-job-manager-resumes' ); ?></h3>
 
