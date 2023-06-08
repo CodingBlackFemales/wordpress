@@ -33,15 +33,15 @@ if ( resume_manager_user_can_view_resume( $post->ID ) ) : ?>
 			<?php echo apply_filters( 'the_resume_description', get_the_content() ); ?>
 		</div>
 
-		<?php if ( ( $skills = wp_get_object_terms( $post->ID, 'resume_skill', [ 'fields' => 'names' ] ) ) && is_array( $skills ) ) : ?>
-			<h2><?php _e( 'Skills', 'wp-job-manager-resumes' ); ?></h2>
+		<?php if ( ( $skills = wp_get_object_terms( $post->ID, 'resume_skill', array( 'fields' => 'names' ) ) ) && is_array( $skills ) ) : ?>
+			<h2><?php esc_html_e( 'Skills', 'wp-job-manager-resumes' ); ?></h2>
 			<ul class="resume-manager-skills">
 				<?php echo '<li>' . implode( '</li><li>', $skills ) . '</li>'; ?>
 			</ul>
 		<?php endif; ?>
 
 		<?php if ( $items = get_post_meta( $post->ID, '_candidate_education', true ) ) : ?>
-			<h2><?php _e( 'Education', 'wp-job-manager-resumes' ); ?></h2>
+			<h2><?php esc_html_e( 'Education', 'wp-job-manager-resumes' ); ?></h2>
 			<dl class="resume-manager-education">
 			<?php
 			foreach ( $items as $item ) :
@@ -62,7 +62,7 @@ if ( resume_manager_user_can_view_resume( $post->ID ) ) : ?>
 		<?php endif; ?>
 
 		<?php if ( $items = get_post_meta( $post->ID, '_candidate_experience', true ) ) : ?>
-			<h2><?php _e( 'Experience', 'wp-job-manager-resumes' ); ?></h2>
+			<h2><?php esc_html_e( 'Experience', 'wp-job-manager-resumes' ); ?></h2>
 			<dl class="resume-manager-experience">
 			<?php
 			foreach ( $items as $item ) :
@@ -94,7 +94,7 @@ if ( resume_manager_user_can_view_resume( $post->ID ) ) : ?>
 			<?php do_action( 'single_resume_meta_end' ); ?>
 		</ul>
 
-		<?php get_job_manager_template( 'contact-details.php', [ 'post' => $post ], 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
+		<?php get_job_manager_template( 'contact-details.php', array( 'post' => $post ), 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
 
 		<?php do_action( 'single_resume_end' ); ?>
 	</div>
