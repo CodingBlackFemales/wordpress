@@ -20,9 +20,9 @@ function the_candidate_location( $map_link = true, $post = null ) {
 
 	if ( $location ) {
 		if ( $map_link ) {
-			echo apply_filters( 'the_candidate_location_map_link', '<a class="google_map_link candidate-location" href="http://maps.google.com/maps?q=' . urlencode( $location ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false">' . $location . '</a>', $location, $post );
+			echo apply_filters( 'the_candidate_location_map_link', '<a class="google_map_link candidate-location" href="http://maps.google.com/maps?q=' . urlencode( $location ) . '&zoom=14&size=512x512&maptype=roadmap&sensor=false">' . esc_html( $location ) . '</a>', $location, $post );
 		} else {
-			echo '<span class="candidate-location">' . $location . '</span>';
+			echo '<span class="candidate-location">' . esc_html( $location ) . '</span>';
 		}
 	}
 }
@@ -174,12 +174,12 @@ function the_candidate_photo( $size = 'thumbnail', $default = null, $post = null
 			$logo = job_manager_get_resized_image( $logo, $size );
 		}
 
-		echo '<img class="candidate_photo" src="' . $logo . '" alt="Photo" />';
+		echo '<img class="candidate_photo" src="' . esc_attr( $logo ) . '" alt="Photo" />';
 
 	} elseif ( $default ) {
-		echo '<img class="candidate_photo" src="' . $default . '" alt="Photo" />';
+		echo '<img class="candidate_photo" src="' . esc_attr( $default ) . '" alt="Photo" />';
 	} else {
-		echo '<img class="candidate_photo" src="' . apply_filters( 'resume_manager_default_candidate_photo', RESUME_MANAGER_PLUGIN_URL . '/assets/images/candidate.png' ) . '" alt="Logo" />';
+		echo '<img class="candidate_photo" src="' . esc_attr( apply_filters( 'resume_manager_default_candidate_photo', RESUME_MANAGER_PLUGIN_URL . '/assets/images/candidate.png' ) ) . '" alt="Logo" />';
 	}
 }
 
@@ -223,7 +223,7 @@ function get_the_resume_category( $post = null ) {
 		return '';
 	}
 
-	$categories = wp_get_object_terms( $post->ID, 'resume_category', [ 'fields' => 'names' ] );
+	$categories = wp_get_object_terms( $post->ID, 'resume_category', array( 'fields' => 'names' ) );
 
 	if ( is_wp_error( $categories ) ) {
 		return '';
@@ -279,33 +279,33 @@ function resume_manager_get_registration_fields() {
 	$use_standard_password_setup_email = resume_manager_use_standard_password_setup_email();
 	$account_required                  = resume_manager_user_requires_account();
 
-	$registration_fields = [];
+	$registration_fields = array();
 	if ( resume_manager_enable_registration() ) {
 		if ( ! $generate_username_from_email ) {
-			$registration_fields['create_account_username'] = [
+			$registration_fields['create_account_username'] = array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Username', 'wp-job-manager-resumes' ),
 				'required' => $account_required,
 				'value'    => isset( $_POST['create_account_username'] ) ? $_POST['create_account_username'] : '',
-			];
+			);
 		}
 		if ( ! $use_standard_password_setup_email ) {
-			$registration_fields['create_account_password'] = [
+			$registration_fields['create_account_password'] = array(
 				'type'         => 'password',
 				'label'        => esc_html__( 'Password', 'wp-job-manager-resumes' ),
 				'autocomplete' => false,
 				'required'     => $account_required,
-			];
+			);
 			$password_hint                                  = wpjm_get_password_rules_hint();
 			if ( $password_hint ) {
 				$registration_fields['create_account_password']['description'] = $password_hint;
 			}
-			$registration_fields['create_account_password_verify'] = [
+			$registration_fields['create_account_password_verify'] = array(
 				'type'         => 'password',
 				'label'        => esc_html__( 'Verify Password', 'wp-job-manager-resumes' ),
 				'autocomplete' => false,
 				'required'     => $account_required,
-			];
+			);
 		}
 	}
 
@@ -383,10 +383,10 @@ function resume_class( $class = '', $post_id = null ) {
 function get_resume_class( $class = '', $post_id = null ) {
 	$post = get_post( $post_id );
 	if ( $post->post_type !== 'resume' ) {
-		return [];
+		return array();
 	}
 
-	$classes = [];
+	$classes = array();
 
 	if ( empty( $post ) ) {
 		return $classes;
@@ -418,7 +418,7 @@ function the_resume_permalink( $post = null ) {
  */
 function the_resume_links( $post = null ) {
 	$post = get_post( $post );
-	get_job_manager_template( 'resume-links.php', [ 'post' => $post ], 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' );
+	get_job_manager_template( 'resume-links.php', array( 'post' => $post ), 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' );
 }
 
 /**
@@ -475,9 +475,9 @@ function get_resume_files( $post = null ) {
 	$post  = get_post( $post );
 	$files = get_post_meta( $post->ID, '_resume_file', true );
 	if ( empty( $files ) ) {
-		return [];
+		return array();
 	}
-	$files = is_array( $files ) ? $files : [ $files ];
+	$files = is_array( $files ) ? $files : array( $files );
 	return $files;
 }
 
@@ -489,7 +489,7 @@ function get_resume_files( $post = null ) {
 function get_resume_attachments( $post = null ) {
 	$post  = get_post( $post );
 	$files = get_post_meta( $post->ID, '_resume_file', true );
-	$files = is_array( $files ) ? $files : [ $files ];
+	$files = is_array( $files ) ? $files : array( $files );
 
 	foreach ( $files as $id => $file_path ) {
 		if ( ! is_multisite() ) {
@@ -532,10 +532,10 @@ function get_resume_attachments( $post = null ) {
 	if ( isset( $attachments ) == false ) {
 		$attachments = false;
 	}
-	return [
+	return array(
 		'files'       => $files,
 		'attachments' => $attachments,
-	];
+	);
 }
 
 /**
@@ -562,10 +562,10 @@ function get_resume_file( $post = null ) {
 function get_resume_file_download_url( $post = null, $key = 0, $url = false ) {
 	$post = get_post( $post );
 	return add_query_arg(
-		[
+		array(
 			'download-resume' => $post->ID,
 			'file-id'         => $key,
-		],
+		),
 		$url
 	);
 }
@@ -591,7 +591,7 @@ function the_candidate_video( $post = null ) {
 	$filetype = wp_check_filetype( $video );
 
 	if ( ! empty( $filetype['ext'] ) ) {
-		$video_embed = wp_video_shortcode( [ 'src' => $video ] );
+		$video_embed = wp_video_shortcode( array( 'src' => $video ) );
 	} else {
 		$video_embed = ! empty( $video ) ? wp_oembed_get( $video ) : false;
 	}

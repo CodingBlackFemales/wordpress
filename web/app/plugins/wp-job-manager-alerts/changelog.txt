@@ -1,5 +1,8 @@
 *** WordPress Job Manager alerts changelog ***
 
+2023-05-04 - version 1.6.0
+* Fix: Fix reflected XSS.
+
 2022-11-18 - version 1.5.6
 * Enhancement: Add Job Types to the My Alerts table.
 * Enhancement: Use multiselect UI for Job Types in the form.

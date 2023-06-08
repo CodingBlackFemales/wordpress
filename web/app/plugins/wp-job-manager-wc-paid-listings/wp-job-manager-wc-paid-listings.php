@@ -3,14 +3,16 @@
  * Plugin Name: WP Job Manager - WooCommerce Paid Listings
  * Plugin URI: https://wpjobmanager.com/add-ons/wc-paid-listings/
  * Description: Add paid listing functionality via WooCommerce. Create 'job packages' as products with their own price, listing duration, listing limit, and job featured status and either sell them via your store or during the job submission process. A user's packages are shown on their account page and can be used to post future jobs if they allow more than 1 job listing. Also allows 'resume packages' if using the resumes add-on.
- * Version: 2.9.8
+ * Version: 2.9.9
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 5.7
- * Tested up to: 5.9
+ * Requires at least: 6.0
+ * Tested up to: 6.2
+ * Requires PHP: 7.4
+ * Text Domain: wp-job-manager-wc-paid-listings
+ * Domain Path: /languages/
  * WC requires at least: 4.0
- * WC tested up to: 6.0
- * Requires PHP: 7.0
+ * WC tested up to: 7.6
  *
  * WPJM-Product: wp-job-manager-wc-paid-listings
  *
@@ -24,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants
-define( 'JOB_MANAGER_WCPL_VERSION', '2.9.8' );
+define( 'JOB_MANAGER_WCPL_VERSION', '2.9.9' );
 define( 'JOB_MANAGER_WCPL_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'JOB_MANAGER_WCPL_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
+define( 'JOB_MANAGER_WCPL_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 define( 'JOB_MANAGER_WCPL_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/' );
 
 /**
@@ -43,7 +45,7 @@ class WC_Paid_Listings {
 	 * Get the class instance
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return self::$instance === null ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -75,19 +77,19 @@ class WC_Paid_Listings {
 		add_filter( 'resume_manager_settings', array( $this, 'resume_manager_settings' ) );
 
 		// Includes
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-package-product.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-product-job-package.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-admin.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-cart.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-orders.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-subscriptions.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-package.php' );
-		include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-submit-job-form.php' );
-		include_once( dirname( __FILE__ ) . '/includes/user-functions.php' );
-		include_once( dirname( __FILE__ ) . '/includes/package-functions.php' );
+		include_once __DIR__ . '/includes/class-wc-paid-listings-package-product.php';
+		include_once __DIR__ . '/includes/class-wc-product-job-package.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-admin.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-cart.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-orders.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-subscriptions.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-package.php';
+		include_once __DIR__ . '/includes/class-wc-paid-listings-submit-job-form.php';
+		include_once __DIR__ . '/includes/user-functions.php';
+		include_once __DIR__ . '/includes/package-functions.php';
 
 		// Load 3rd party customizations
-		require_once( dirname( __FILE__ ) . '/includes/3rd-party/3rd-party.php' );
+		require_once __DIR__ . '/includes/3rd-party/3rd-party.php';
 
 		// Checks if WP_Job_Manager_Simple_Paid_Listings is active and show a conflict message
 		if ( class_exists( 'WP_Job_Manager_Simple_Paid_Listings' ) ) {
@@ -98,17 +100,17 @@ class WC_Paid_Listings {
 			if ( version_compare( RESUME_MANAGER_VERSION, '1.11.0', '<' ) ) {
 				add_filter( 'admin_notices', array( $this, 'resume_update_required' ) );
 			} else {
-				include_once( dirname( __FILE__ ) . '/includes/class-wc-product-resume-package.php' );
-				include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-submit-resume-form.php' );
+				include_once __DIR__ . '/includes/class-wc-product-resume-package.php';
+				include_once __DIR__ . '/includes/class-wc-paid-listings-submit-resume-form.php';
 			}
 		}
 
 		if ( class_exists( 'WC_Product_Subscription' ) ) {
-			include_once( dirname( __FILE__ ) . '/includes/class-wc-paid-listings-subscription-product.php' );
-			include_once( dirname( __FILE__ ) . '/includes/class-wc-product-job-package-subscription.php' );
+			include_once __DIR__ . '/includes/class-wc-paid-listings-subscription-product.php';
+			include_once __DIR__ . '/includes/class-wc-product-job-package-subscription.php';
 
 			if ( class_exists( 'WP_Resume_Manager' ) ) {
-				include_once( dirname( __FILE__ ) . '/includes/class-wc-product-resume-package-subscription.php' );
+				include_once __DIR__ . '/includes/class-wc-product-resume-package-subscription.php';
 			}
 		}
 
@@ -120,7 +122,6 @@ class WC_Paid_Listings {
 		if ( class_exists( 'WC_Subscriptions' ) && version_compare( WC_Subscriptions::$version, '2.0', '<' ) ) {
 			add_filter( 'admin_notices', array( $this, 'subscriptions_update_required' ) );
 		}
-
 	}
 
 	/**
@@ -131,7 +132,7 @@ class WC_Paid_Listings {
 	 */
 	private function check_current_screen( $screens ) {
 		$screen = get_current_screen();
-		if ( null !== $screen && in_array( $screen->id, $screens, true ) ) {
+		if ( $screen !== null && in_array( $screen->id, $screens, true ) ) {
 			return true;
 		}
 		return false;
@@ -157,7 +158,7 @@ class WC_Paid_Listings {
 			apply_filters( 'job_manager_addon_core_version_check', true, self::JOB_MANAGER_CORE_MIN_VERSION )
 			&& version_compare( JOB_MANAGER_VERSION, self::JOB_MANAGER_CORE_MIN_VERSION, '<' )
 		) {
-			$this->display_error( sprintf( __( '<em>WP Job Manager - WC Paid Listings</em> requires WP Job Manager %s (you are using %s).', 'wp-job-manager-wc-paid-listings' ), self::JOB_MANAGER_CORE_MIN_VERSION, JOB_MANAGER_VERSION ) );
+			$this->display_error( sprintf( __( '<em>WP Job Manager - WC Paid Listings</em> requires WP Job Manager %1$s (you are using %2$s).', 'wp-job-manager-wc-paid-listings' ), self::JOB_MANAGER_CORE_MIN_VERSION, JOB_MANAGER_VERSION ) );
 		}
 
 		if ( ! $this->check_current_screen( array( 'plugins', 'edit-job_listing' ) ) ) {
@@ -167,7 +168,7 @@ class WC_Paid_Listings {
 		if ( ! defined( 'WC_VERSION' ) ) {
 			$this->display_error( __( '<em>WP Job Manager - WC Paid Listings</em> requires WooCommerce to be installed and activated.', 'wp-job-manager-wc-paid-listings' ) );
 		} elseif ( version_compare( WC_VERSION, self::WOOCOMMERCE_MIN_VERSION, '<' ) ) {
-			$this->display_error( sprintf( __( '<em>WP Job Manager - WC Paid Listings</em> requires WooCommerce %s (you are using %s).', 'wp-job-manager-wc-paid-listings' ), self::WOOCOMMERCE_MIN_VERSION, WC_VERSION ) );
+			$this->display_error( sprintf( __( '<em>WP Job Manager - WC Paid Listings</em> requires WooCommerce %1$s (you are using %2$s).', 'wp-job-manager-wc-paid-listings' ), self::WOOCOMMERCE_MIN_VERSION, WC_VERSION ) );
 		}
 	}
 
@@ -191,7 +192,8 @@ class WC_Paid_Listings {
 				?>
 			</p>
 			<p><?php esc_html_e( 'We recommend that you only use one of these plugins to sell job listings.', 'wp-job-manager-wc-paid-listings' ); ?></p>
-		</div><?php
+		</div>
+		<?php
 	}
 
 	/**
@@ -216,18 +218,22 @@ class WC_Paid_Listings {
 	 * Update nags
 	 */
 	public function resume_update_required() {
-		?><div class="update-nag">
+		?>
+		<div class="update-nag">
 			<?php _e( 'WC Paid Listings requires Resume Manager 1.11.0 and above. Please upgrade to continue using paid listings functionality for resumes.', 'wp-job-manager-wc-paid-listings' ); ?>
-		</div><?php
+		</div>
+		<?php
 	}
 
 	/**
 	 * Update nags
 	 */
 	public function subscriptions_update_required() {
-		?><div class="update-nag">
+		?>
+		<div class="update-nag">
 			<?php _e( 'WC Paid Listings requires WooCommerce Subscriptions 2.0 and above. Please upgrade as soon as possible!', 'wp-job-manager-wc-paid-listings' ); ?>
-		</div><?php
+		</div>
+		<?php
 	}
 
 	/**
@@ -246,14 +252,17 @@ class WC_Paid_Listings {
 	public function register_post_status() {
 		global $job_manager;
 
-		register_post_status( 'pending_payment', array(
-			'label'                     => _x( 'Pending Payment', 'job_listing', 'wp-job-manager-wc-paid-listings' ),
-			'protected'                 => true,
-			'exclude_from_search'       => false,
-			'show_in_admin_all_list'    => false,
-			'show_in_admin_status_list' => true,
-			'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'wp-job-manager-wc-paid-listings' ),
-		) );
+		register_post_status(
+			'pending_payment',
+			array(
+				'label'                     => _x( 'Pending Payment', 'job_listing', 'wp-job-manager-wc-paid-listings' ),
+				'protected'                 => true,
+				'exclude_from_search'       => false,
+				'show_in_admin_all_list'    => false,
+				'show_in_admin_status_list' => true,
+				'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'wp-job-manager-wc-paid-listings' ),
+			)
+		);
 
 		add_action( 'pending_payment_to_publish', array( $job_manager->post_types, 'set_expiry' ) );
 	}
@@ -307,10 +316,10 @@ class WC_Paid_Listings {
 	 */
 	public function job_manager_settings( $settings = array() ) {
 		$settings['job_submission'][1][] = array(
-			'name' 		=> 'job_manager_paid_listings_flow',
-			'std' 		=> '',
-			'label' 	=> __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
-			'desc'		=> __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
+			'name'      => 'job_manager_paid_listings_flow',
+			'std'       => '',
+			'label'     => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
+			'desc'      => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
 			'type'      => 'select',
 			'options'   => array(
 				'' => __( 'Choose a package after entering job details', 'wp-job-manager-wc-paid-listings' ),
@@ -328,10 +337,10 @@ class WC_Paid_Listings {
 	 */
 	public function resume_manager_settings( $settings = array() ) {
 		$settings['resume_submission'][1][] = array(
-			'name' 		=> 'resume_manager_paid_listings_flow',
-			'std' 		=> '',
-			'label' 	=> __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
-			'desc'		=> __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
+			'name'      => 'resume_manager_paid_listings_flow',
+			'std'       => '',
+			'label'     => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
+			'desc'      => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
 			'type'      => 'select',
 			'options'   => array(
 				'' => __( 'Choose a package after entering resume details', 'wp-job-manager-wc-paid-listings' ),
@@ -409,7 +418,7 @@ function wp_job_manager_wcpl_install() {
 		}
 	}
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 	/**
 	 * Table for user packages
@@ -475,4 +484,4 @@ function wp_job_manager_wcpl_delayed_install() {
 	}
 }
 
-register_activation_hook( __FILE__, 'wp_job_manager_wcpl_install' );
+register_activation_hook( basename( __DIR__ ) . '/' . basename( __FILE__ ), 'wp_job_manager_wcpl_install' );
