@@ -3,12 +3,14 @@
  * Plugin Name: WP Job Manager - Alerts
  * Plugin URI: https://wpjobmanager.com/add-ons/job-alerts/
  * Description: Allow users to subscribe to job alerts for their searches. Once registered, users can access a 'My Alerts' page which you can create with the shortcode [job_alerts].
- * Version: 1.5.6
+ * Version: 1.6.0
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 5.9
- * Tested up to: 6.1
- * Requires PHP: 7.0
+ * Requires at least: 5.8
+ * Tested up to: 6.2
+ * Requires PHP: 7.4
+ * Text Domain: wp-job-manager-alerts
+ * Domain Path: /languages/
  *
  * WPJM-Product: wp-job-manager-alerts
  *
@@ -33,9 +35,9 @@ class WP_Job_Manager_Alerts {
 	 */
 	public function __construct() {
 		// Define constants
-		define( 'JOB_MANAGER_ALERTS_VERSION', '1.5.6' );
+		define( 'JOB_MANAGER_ALERTS_VERSION', '1.6.0' );
 		define( 'JOB_MANAGER_ALERTS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-		define( 'JOB_MANAGER_ALERTS_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
+		define( 'JOB_MANAGER_ALERTS_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 
 		// Set up startup actions
 		add_action( 'plugins_loaded', array( $this, 'load_text_domain' ), 12 );
@@ -52,9 +54,9 @@ class WP_Job_Manager_Alerts {
 		}
 
 		// Includes
-		include( 'includes/class-wp-job-manager-alerts-shortcodes.php' );
-		include( 'includes/class-wp-job-manager-alerts-post-types.php' );
-		include( 'includes/class-wp-job-manager-alerts-notifier.php' );
+		include 'includes/class-wp-job-manager-alerts-shortcodes.php';
+		include 'includes/class-wp-job-manager-alerts-post-types.php';
+		include 'includes/class-wp-job-manager-alerts-notifier.php';
 
 		// Init classes
 		$this->post_types = new WP_Job_Manager_Alerts_Post_Types();
@@ -67,12 +69,12 @@ class WP_Job_Manager_Alerts {
 		add_filter( 'job_manager_job_filters_showing_jobs_links', array( $this, 'alert_link' ), 10, 2 );
 		add_action( 'single_job_listing_end', array( $this, 'single_alert_link' ) );
 		add_action( 'job-manager-alert-check-reschedule', array( $this, 'check_reschedule_events' ) );
-		if ( false === wp_next_scheduled( 'job-manager-alert-check-reschedule' ) ) {
+		if ( wp_next_scheduled( 'job-manager-alert-check-reschedule' ) === false ) {
 			wp_schedule_event( time(), 'daily', 'job-manager-alert-check-reschedule' );
 		}
 
 		// Update legacy options
-		if ( false === get_option( 'job_manager_alerts_page_id', false ) && get_option( 'job_manager_alerts_page_slug' ) ) {
+		if ( get_option( 'job_manager_alerts_page_id', false ) === false && get_option( 'job_manager_alerts_page_slug' ) ) {
 			$page_id = get_page_by_path( get_option( 'job_manager_alerts_page_slug' ) )->ID;
 			update_option( 'job_manager_alerts_page_id', $page_id );
 		}
@@ -82,15 +84,17 @@ class WP_Job_Manager_Alerts {
 	 * Checks alerts for their corresponding scheduled event and reschedules if missing.
 	 */
 	public function check_reschedule_events() {
-		$alert_posts = new WP_Query( array(
-			'post_type' => 'job_alert',
-			'posts_per_page' => -1,
-			'post_status' => 'publish'
-		) );
+		$alert_posts = new WP_Query(
+			array(
+				'post_type' => 'job_alert',
+				'posts_per_page' => -1,
+				'post_status' => 'publish',
+			)
+		);
 
 		$schedules = WP_Job_Manager_Alerts_Notifier::get_alert_schedules();
 		foreach ( $alert_posts->posts as $post ) {
-			if ( false === wp_next_scheduled( 'job-manager-alert', array( $post->ID ) ) ) {
+			if ( wp_next_scheduled( 'job-manager-alert', array( $post->ID ) ) === false ) {
 				$alert_frequency = get_post_meta( $post->ID, 'alert_frequency', true );
 
 				$next = strtotime( '+1 day' );
@@ -125,7 +129,7 @@ class WP_Job_Manager_Alerts {
 	public function version_check() {
 		if ( ! class_exists( 'WP_Job_Manager' ) || ! defined( 'JOB_MANAGER_VERSION' ) ) {
 			$screen = get_current_screen();
-			if ( null !== $screen && 'plugins' === $screen->id ) {
+			if ( $screen !== null && $screen->id === 'plugins' ) {
 				$this->display_error( __( '<em>WP Job Manager - Alerts</em> requires WP Job Manager to be installed and activated.', 'wp-job-manager-alerts' ) );
 			}
 		} elseif (
@@ -140,7 +144,7 @@ class WP_Job_Manager_Alerts {
 			apply_filters( 'job_manager_addon_core_version_check', true, self::JOB_MANAGER_CORE_MIN_VERSION )
 			&& version_compare( JOB_MANAGER_VERSION, self::JOB_MANAGER_CORE_MIN_VERSION, '<' )
 		) {
-			$this->display_error( sprintf( __( '<em>WP Job Manager - Alerts</em> requires WP Job Manager %s (you are using %s).', 'wp-job-manager-alerts' ), self::JOB_MANAGER_CORE_MIN_VERSION, JOB_MANAGER_VERSION ) );
+			$this->display_error( sprintf( __( '<em>WP Job Manager - Alerts</em> requires WP Job Manager %1$s (you are using %2$s).', 'wp-job-manager-alerts' ), self::JOB_MANAGER_CORE_MIN_VERSION, JOB_MANAGER_VERSION ) );
 		}
 	}
 
@@ -164,10 +168,14 @@ class WP_Job_Manager_Alerts {
 	public function frontend_scripts() {
 		wp_register_script( 'job-alerts', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/js/job-alerts.js', array( 'jquery', 'select2' ), JOB_MANAGER_ALERTS_VERSION, true );
 
-		wp_localize_script( 'job-alerts', 'job_manager_alerts', array(
-			'i18n_confirm_delete' => __( 'Are you sure you want to delete this alert?', 'wp-job-manager-alerts' ),
-			'is_rtl' => is_rtl(),
-		) );
+		wp_localize_script(
+			'job-alerts',
+			'job_manager_alerts',
+			array(
+				'i18n_confirm_delete' => __( 'Are you sure you want to delete this alert?', 'wp-job-manager-alerts' ),
+				'is_rtl' => is_rtl(),
+			)
+		);
 
 		wp_enqueue_style( 'job-alerts-frontend', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/css/frontend.css' );
 	}
@@ -218,9 +226,10 @@ class WP_Job_Manager_Alerts {
 	 * Return the default email content for alerts
 	 */
 	public function get_default_email() {
-		return __( "Hello {display_name},
+		return __(
+			'Hello {display_name},
 
-The following jobs were found matching your \"{alert_name}\" job alert.
+The following jobs were found matching your "{alert_name}" job alert.
 
 ================================================================================
 {jobs}
@@ -229,9 +238,11 @@ Your next alert for this search will be sent {alert_next_date}.
 {alert_expiry}
 
 —
-You are receiving this email because you created the \"{alert_name}\" job alert.
+You are receiving this email because you created the "{alert_name}" job alert.
 To manage your alerts please login and visit your alerts page here: {alert_page_url}
-Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-manager-alerts' );
+Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
+			'wp-job-manager-alerts'
+		);
 	}
 
 	/**
@@ -250,10 +261,10 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-
 				'wp_job_manager_alerts_settings',
 				array(
 					array(
-						'name' 		=> 'job_manager_alerts_email_template',
-						'std' 		=> $this->get_default_email(),
-						'label' 	=> __( 'Alert Email Content', 'wp-job-manager-alerts' ),
-						'desc'		=> __( 'Enter the content for your email alerts or leave it blank to use the default message. The following tags can be used to insert data dynamically:', 'wp-job-manager-alerts' ) . '<br/>' . '<br/>' .
+						'name'      => 'job_manager_alerts_email_template',
+						'std'       => $this->get_default_email(),
+						'label'     => __( 'Alert Email Content', 'wp-job-manager-alerts' ),
+						'desc'      => __( 'Enter the content for your email alerts or leave it blank to use the default message. The following tags can be used to insert data dynamically:', 'wp-job-manager-alerts' ) . '<br/>' . '<br/>' .
 							'<code>{display_name}</code>' . ' - ' . __( 'The user WordPress username', 'wp-job-manager-alerts' ) . '<br/>' .
 							'<code>{alert_name}</code>' . ' - ' . __( 'The name of the alert being sent', 'wp-job-manager-alerts' ) . '<br/>' .
 							'<code>{alert_expiry}</code>' . ' - ' . __( 'When will this job alert automatically stop being sent', 'wp-job-manager-alerts' ) . '<br/>' .
@@ -263,40 +274,40 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-
 							'<code>{alert_unsubscribe_url}</code>' . ' - ' . __( 'The URL to unsubscribe the alert', 'wp-job-manager-alerts' ) . '<br/>' .
 							'',
 						'type'      => 'textarea',
-						'required'  => true
+						'required'  => true,
 					),
 					array(
-						'name' 		=> 'job_manager_alerts_auto_disable',
-						'std' 		=> '90',
-						'label' 	=> __( 'Alert Duration', 'wp-job-manager-alerts' ),
-						'desc'		=> __( 'Enter the number of days before alerts are automatically disabled, or leave blank to disable this feature. By default, alerts will be turned off for a search after 90 days.', 'wp-job-manager-alerts' ),
-						'type'      => 'input'
+						'name'      => 'job_manager_alerts_auto_disable',
+						'std'       => '90',
+						'label'     => __( 'Alert Duration', 'wp-job-manager-alerts' ),
+						'desc'      => __( 'Enter the number of days before alerts are automatically disabled, or leave blank to disable this feature. By default, alerts will be turned off for a search after 90 days.', 'wp-job-manager-alerts' ),
+						'type'      => 'input',
 					),
 					array(
-						'name' 		=> 'job_manager_alerts_matches_only',
-						'std' 		=> '0',
-						'label' 	=> __( 'Alert Matches', 'wp-job-manager-alerts' ),
-						'cb_label' 	=> __( 'Send alerts with matches only', 'wp-job-manager-alerts' ),
-						'desc'		=> __( 'Only send an alert when jobs are found matching its criteria. When disabled, an alert is sent regardless.', 'wp-job-manager-alerts' ),
-						'type'      => 'checkbox'
+						'name'      => 'job_manager_alerts_matches_only',
+						'std'       => '0',
+						'label'     => __( 'Alert Matches', 'wp-job-manager-alerts' ),
+						'cb_label'  => __( 'Send alerts with matches only', 'wp-job-manager-alerts' ),
+						'desc'      => __( 'Only send an alert when jobs are found matching its criteria. When disabled, an alert is sent regardless.', 'wp-job-manager-alerts' ),
+						'type'      => 'checkbox',
 					),
 					array(
-						'name' 		=> 'job_manager_alerts_page_id',
-						'std' 		=> '',
-						'label' 	=> __( 'Alerts Page ID', 'wp-job-manager-alerts' ),
-						'desc'		=> __( 'So that the plugin knows where to link users to view their alerts, you must select the page where you have placed the [job_alerts] shortcode.', 'wp-job-manager-alerts' ),
-						'type'      => 'page'
+						'name'      => 'job_manager_alerts_page_id',
+						'std'       => '',
+						'label'     => __( 'Alerts Page ID', 'wp-job-manager-alerts' ),
+						'desc'      => __( 'So that the plugin knows where to link users to view their alerts, you must select the page where you have placed the [job_alerts] shortcode.', 'wp-job-manager-alerts' ),
+						'type'      => 'page',
 					),
 					array(
-						'name' 		=> 'job_manager_permission_checkbox',
-						'std' 		=> '0',
-						'label' 	=> __( 'Emails Permission Checkbox', 'wp-job-manager-alerts' ),
-						'cb_label' 	=> __( 'Add a permission checkbox to the alert form', 'wp-job-manager-alerts' ),
-						'desc'		=> __( 'User will be able to create alerts only after authorizing to receive emails.', 'wp-job-manager-alerts' ),
-						'type'      => 'checkbox'
-					)
+						'name'      => 'job_manager_permission_checkbox',
+						'std'       => '0',
+						'label'     => __( 'Emails Permission Checkbox', 'wp-job-manager-alerts' ),
+						'cb_label'  => __( 'Add a permission checkbox to the alert form', 'wp-job-manager-alerts' ),
+						'desc'      => __( 'User will be able to create alerts only after authorizing to receive emails.', 'wp-job-manager-alerts' ),
+						'type'      => 'checkbox',
+					),
 				)
-			)
+			),
 		);
 		return $settings;
 	}
@@ -306,23 +317,26 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-
 	 */
 	public function alert_link( $links, $args ) {
 		if ( is_user_logged_in() && get_option( 'job_manager_alerts_page_id' ) ) {
-			if ( isset( $_POST[ 'form_data' ] ) ) {
-				parse_str( $_POST[ 'form_data' ], $params );
-				$alert_regions = isset( $params[ 'search_region' ] ) ? absint( $params[ 'search_region' ] ) : '';
+			if ( isset( $_POST['form_data'] ) ) {
+				parse_str( $_POST['form_data'], $params );
+				$alert_regions = isset( $params['search_region'] ) ? absint( $params['search_region'] ) : '';
 			} else {
 				$alert_regions = '';
 			}
 
 			$links['alert'] = array(
 				'name' => __( 'Add alert', 'wp-job-manager-alerts' ),
-				'url'  => add_query_arg( array(
-					'action'         => 'add_alert',
-					'alert_job_type' => $args['filter_job_types'],
-					'alert_location' => urlencode( $args['search_location'] ),
-					'alert_cats'     => $args['search_categories'],
-					'alert_keyword'  => urlencode( $args['search_keywords'] ),
-					'alert_regions'  => $alert_regions,
-				), get_permalink( get_option( 'job_manager_alerts_page_id' ) ) )
+				'url'  => add_query_arg(
+					array(
+						'action'         => 'add_alert',
+						'alert_job_type' => $args['filter_job_types'],
+						'alert_location' => urlencode( $args['search_location'] ),
+						'alert_cats'     => $args['search_categories'],
+						'alert_keyword'  => urlencode( $args['search_keywords'] ),
+						'alert_regions'  => $alert_regions,
+					),
+					get_permalink( get_option( 'job_manager_alerts_page_id' ) )
+				),
 			);
 		}
 
@@ -358,7 +372,7 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-
 			 * @param array $args Arguments for alert
 			 */
 			$args = apply_filters( 'job_manager_alerts_single_listing_link', $args );
-			$link     =  add_query_arg( $args, get_permalink( get_option( 'job_manager_alerts_page_id' ) ) );
+			$link     = add_query_arg( $args, get_permalink( get_option( 'job_manager_alerts_page_id' ) ) );
 			echo '<p class="job-manager-single-alert-link"><a href="' . esc_url( $link ) . '">' . __( 'Alert me to jobs like this', 'wp-job-manager-alerts' ) . '</a></p>';
 		}
 	}
@@ -372,7 +386,7 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}", 'wp-job-
 	 * @return string Alert token.
 	 */
 	public function get_alert_token( $alert_id, $user_id ) {
-		$alert_token = wp_json_encode( [ $user_id, $alert_id ] );
+		$alert_token = wp_json_encode( array( $user_id, $alert_id ) );
 		$alert_token = crypt( $alert_token, $this->get_user_secret_key( $user_id ) );
 
 		return $alert_token;
