@@ -18,22 +18,22 @@ class WP_Resume_Manager_Post_Types {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'init', [ $this, 'register_post_types' ], 0 );
-		add_action( 'init', [ $this, 'register_meta_fields' ] );
+		add_action( 'init', array( $this, 'register_post_types' ), 0 );
+		add_action( 'init', array( $this, 'register_meta_fields' ) );
 	}
 
 	/**
 	 * Sets up actions related to the resume post type.
 	 */
 	public function init_post_types() {
-		add_action( 'wp', [ $this, 'download_resume_handler' ] );
-		add_action( 'wp', [ $this, 'maybe_add_yoast_filters' ] );
-		add_filter( 'admin_head', [ $this, 'admin_head' ] );
-		add_filter( 'the_title', [ $this, 'resume_title' ], 10, 2 );
-		add_filter( 'single_post_title', [ $this, 'resume_title' ], 10, 2 );
-		add_filter( 'the_content', [ $this, 'resume_content' ] );
+		add_action( 'wp', array( $this, 'download_resume_handler' ) );
+		add_action( 'wp', array( $this, 'maybe_add_yoast_filters' ) );
+		add_filter( 'admin_head', array( $this, 'admin_head' ) );
+		add_filter( 'the_title', array( $this, 'resume_title' ), 10, 2 );
+		add_filter( 'single_post_title', array( $this, 'resume_title' ), 10, 2 );
+		add_filter( 'the_content', array( $this, 'resume_content' ) );
 		if ( resume_manager_discourage_resume_search_indexing() ) {
-			add_action( 'wp_head', [ $this, 'add_no_robots' ], 0 );
+			add_action( 'wp_head', array( $this, 'add_no_robots' ), 0 );
 		}
 
 		add_filter( 'the_resume_description', 'wptexturize' );
@@ -43,39 +43,41 @@ class WP_Resume_Manager_Post_Types {
 		add_filter( 'the_resume_description', 'shortcode_unautop' );
 		add_filter( 'the_resume_description', 'prepend_attachment' );
 
-		add_action( 'resume_manager_contact_details', [ $this, 'contact_details_email' ] );
+		add_action( 'resume_manager_contact_details', array( $this, 'contact_details_email' ) );
 
-		add_action( 'pending_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'preview_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'draft_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'auto-draft_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'hidden_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'expired_to_publish', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'save_post', [ $this, 'setup_autohide_cron' ] );
-		add_action( 'auto-hide-resume', [ $this, 'hide_resume' ] );
+		add_action( 'pending_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'preview_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'draft_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'auto-draft_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'hidden_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'expired_to_publish', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'save_post', array( $this, 'setup_autohide_cron' ) );
+		add_action( 'auto-hide-resume', array( $this, 'hide_resume' ) );
 
-		add_action( 'update_post_meta', [ $this, 'maybe_update_menu_order' ], 10, 4 );
-		add_filter( 'wp_insert_post_data', [ $this, 'fix_post_name' ], 10, 2 );
-		add_action( 'pending_payment_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'pending_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'preview_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'draft_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'auto-draft_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'expired_to_publish', [ $this, 'set_expiry' ] );
-		add_action( 'resume_manager_check_for_expired_resumes', [ $this, 'check_for_expired_resumes' ] );
+		add_action( 'update_post_meta', array( $this, 'maybe_update_menu_order' ), 10, 4 );
+		add_filter( 'wp_insert_post_data', array( $this, 'fix_post_name' ), 10, 2 );
+		add_action( 'pending_payment_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'pending_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'preview_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'draft_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'auto-draft_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'expired_to_publish', array( $this, 'set_expiry' ) );
+		add_action( 'resume_manager_check_for_expired_resumes', array( $this, 'check_for_expired_resumes' ) );
 
-		add_action( 'save_post', [ $this, 'flush_get_resume_listings_cache' ] );
-		add_action( 'delete_post', [ $this, 'flush_get_resume_listings_cache' ] );
-		add_action( 'trash_post', [ $this, 'flush_get_resume_listings_cache' ] );
+		add_action( 'save_post', array( $this, 'flush_get_resume_listings_cache' ) );
+		add_action( 'delete_post', array( $this, 'flush_get_resume_listings_cache' ) );
+		add_action( 'trash_post', array( $this, 'flush_get_resume_listings_cache' ) );
 
-		add_action( 'resume_manager_my_resume_do_action', [ $this, 'resume_manager_my_resume_do_action' ] );
+		add_action( 'save_post_resume', array( $this, 'save_postmeta' ) );
+
+		add_action( 'resume_manager_my_resume_do_action', array( $this, 'resume_manager_my_resume_do_action' ) );
 	}
 
 	/**
 	 * Flush the cache
 	 */
 	public function flush_get_resume_listings_cache( $post_id ) {
-		if ( 'resume' === get_post_type( $post_id ) ) {
+		if ( get_post_type( $post_id ) === 'resume' ) {
 			WP_Job_Manager_Cache_Helper::get_transient_version( 'get_resume_listings', true );
 		}
 	}
@@ -109,23 +111,23 @@ class WP_Resume_Manager_Post_Types {
 			$plural   = __( 'Resume Categories', 'wp-job-manager-resumes' );
 
 			if ( current_theme_supports( 'resume-manager-templates' ) ) {
-				$rewrite = [
+				$rewrite = array(
 					'slug'         => _x( 'resume-category', 'Resume category slug - resave permalinks after changing this', 'wp-job-manager-resumes' ),
 					'with_front'   => false,
 					'hierarchical' => false,
-				];
+				);
 			} else {
 				$rewrite = false;
 			}
 
 			register_taxonomy(
 				'resume_category',
-				[ 'resume' ],
-				[
+				array( 'resume' ),
+				array(
 					'hierarchical'          => true,
 					'update_count_callback' => '_update_post_term_count',
 					'label'                 => $plural,
-					'labels'                => [
+					'labels'                => array(
 						'name'              => $plural,
 						'singular_name'     => $singular,
 						'search_items'      => sprintf( __( 'Search %s', 'wp-job-manager-resumes' ), $plural ),
@@ -136,19 +138,19 @@ class WP_Resume_Manager_Post_Types {
 						'update_item'       => sprintf( __( 'Update %s', 'wp-job-manager-resumes' ), $singular ),
 						'add_new_item'      => sprintf( __( 'Add New %s', 'wp-job-manager-resumes' ), $singular ),
 						'new_item_name'     => sprintf( __( 'New %s Name', 'wp-job-manager-resumes' ), $singular ),
-					],
+					),
 					'show_ui'               => true,
 					'query_var'             => true,
-					'capabilities'          => [
+					'capabilities'          => array(
 						'manage_terms' => $admin_capability,
 						'edit_terms'   => $admin_capability,
 						'delete_terms' => $admin_capability,
 						'assign_terms' => $admin_capability,
-					],
+					),
 					'rewrite'               => $rewrite,
 					'show_in_rest'          => true,
 					'rest_base'             => 'resume-categories',
-				]
+				)
 			);
 		}
 
@@ -157,23 +159,23 @@ class WP_Resume_Manager_Post_Types {
 			$plural   = __( 'Candidate Skills', 'wp-job-manager-resumes' );
 
 			if ( current_theme_supports( 'resume-manager-templates' ) ) {
-				$rewrite = [
+				$rewrite = array(
 					'slug'         => _x( 'resume-skill', 'Resume skill slug - resave permalinks after changing this', 'wp-job-manager-resumes' ),
 					'with_front'   => false,
 					'hierarchical' => false,
-				];
+				);
 			} else {
 				$rewrite = false;
 			}
 
 			register_taxonomy(
 				'resume_skill',
-				[ 'resume' ],
-				[
+				array( 'resume' ),
+				array(
 					'hierarchical'          => false,
 					'update_count_callback' => '_update_post_term_count',
 					'label'                 => $plural,
-					'labels'                => [
+					'labels'                => array(
 						'name'              => $plural,
 						'singular_name'     => $singular,
 						'search_items'      => sprintf( __( 'Search %s', 'wp-job-manager-resumes' ), $plural ),
@@ -184,19 +186,19 @@ class WP_Resume_Manager_Post_Types {
 						'update_item'       => sprintf( __( 'Update %s', 'wp-job-manager-resumes' ), $singular ),
 						'add_new_item'      => sprintf( __( 'Add New %s', 'wp-job-manager-resumes' ), $singular ),
 						'new_item_name'     => sprintf( __( 'New %s Name', 'wp-job-manager-resumes' ), $singular ),
-					],
+					),
 					'show_ui'               => true,
 					'query_var'             => true,
-					'capabilities'          => [
+					'capabilities'          => array(
 						'manage_terms' => $admin_capability,
 						'edit_terms'   => $admin_capability,
 						'delete_terms' => $admin_capability,
 						'assign_terms' => $admin_capability,
-					],
+					),
 					'rewrite'               => $rewrite,
 					'show_in_rest'          => true,
 					'rest_base'             => 'resume-skill',
-				]
+				)
 			);
 		}
 
@@ -212,19 +214,19 @@ class WP_Resume_Manager_Post_Types {
 			$has_archive = false;
 		}
 
-		$rewrite = [
+		$rewrite = array(
 			'slug'       => _x( 'resume', 'Resume permalink - resave permalinks after changing this', 'wp-job-manager-resumes' ),
 			'with_front' => false,
 			'feeds'      => false,
 			'pages'      => false,
-		];
+		);
 
 		register_post_type(
 			'resume',
 			apply_filters(
 				'register_post_type_resume',
-				[
-					'labels'                => [
+				array(
+					'labels'                => array(
 						'name'               => $plural,
 						'singular_name'      => $singular,
 						'menu_name'          => $plural,
@@ -240,13 +242,13 @@ class WP_Resume_Manager_Post_Types {
 						'not_found'          => sprintf( __( 'No %s found', 'wp-job-manager-resumes' ), $plural ),
 						'not_found_in_trash' => sprintf( __( 'No %s found in trash', 'wp-job-manager-resumes' ), $plural ),
 						'parent'             => sprintf( __( 'Parent %s', 'wp-job-manager-resumes' ), $singular ),
-					],
+					),
 					'description'           => __( 'This is where you can create and manage user resumes.', 'wp-job-manager-resumes' ),
 					'public'                => true,
 					// Hide the UI when the plugin is secretly disabled because WPJM core isn't activated.
 					'show_ui'               => class_exists( 'WP_Job_Manager' ),
 					'capability_type'       => 'post',
-					'capabilities'          => [
+					'capabilities'          => array(
 						'publish_posts'       => $admin_capability,
 						'edit_posts'          => $admin_capability,
 						'edit_others_posts'   => $admin_capability,
@@ -256,13 +258,13 @@ class WP_Resume_Manager_Post_Types {
 						'edit_post'           => $admin_capability,
 						'delete_post'         => $admin_capability,
 						'read_post'           => $admin_capability,
-					],
+					),
 					'publicly_queryable'    => true,
 					'exclude_from_search'   => true,
 					'hierarchical'          => false,
 					'rewrite'               => $rewrite,
 					'query_var'             => true,
-					'supports'              => [ 'title', 'editor', 'custom-fields' ],
+					'supports'              => array( 'title', 'editor', 'custom-fields', 'author' ),
 					'has_archive'           => $has_archive,
 					'show_in_nav_menus'     => false,
 					'delete_with_user'      => true,
@@ -270,22 +272,22 @@ class WP_Resume_Manager_Post_Types {
 					'show_in_rest'          => true,
 					'rest_base'             => 'resumes',
 					'rest_controller_class' => 'WP_REST_Posts_Controller',
-				]
+				)
 			)
 		);
 
-		add_filter( 'wp_sitemaps_post_types', [ $this, 'disable_sitemap' ] );
+		add_filter( 'wp_sitemaps_post_types', array( $this, 'disable_sitemap' ) );
 
 		register_post_status(
 			'hidden',
-			[
+			array(
 				'label'                     => _x( 'Hidden', 'post status', 'wp-job-manager-resumes' ),
 				'public'                    => true,
 				'exclude_from_search'       => true,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
 				'label_count'               => _n_noop( 'Hidden <span class="count">(%s)</span>', 'Hidden <span class="count">(%s)</span>', 'wp-job-manager-resumes' ),
-			]
+			)
 		);
 	}
 
@@ -330,7 +332,7 @@ class WP_Resume_Manager_Post_Types {
 			}
 
 			// Start setting headers.
-			if ( function_exists( 'set_time_limit' ) && false === strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
+			if ( function_exists( 'set_time_limit' ) && strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) === false && ! ini_get( 'safe_mode' ) ) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
 				@set_time_limit( 0 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- No output wanted during download.
 			}
 
@@ -430,8 +432,8 @@ class WP_Resume_Manager_Post_Types {
 	public function maybe_add_yoast_filters() {
 		$post = get_post();
 
-		if( ! is_null( $post ) ) {
-			if ( 'resume' === get_post_type( $post->ID ) && ! resume_manager_user_can_view_resume_name( $post->ID ) ) {
+		if ( ! is_null( $post ) ) {
+			if ( get_post_type( $post->ID ) === 'resume' && ! resume_manager_user_can_view_resume_name( $post->ID ) ) {
 				add_filter( 'wpseo_title', '__return_empty_string' );
 				add_filter( 'wpseo_opengraph_title', '__return_empty_string' );
 				add_filter( 'wpseo_schema_graph_pieces', 'remove_webpage_from_schema', 11, 2 );
@@ -467,7 +469,7 @@ class WP_Resume_Manager_Post_Types {
 		}
 
 		$post = get_post();
-		if ( ! $post || 'resume' !== $post->post_type ) {
+		if ( ! $post || $post->post_type !== 'resume' ) {
 			return;
 		}
 
@@ -486,7 +488,7 @@ class WP_Resume_Manager_Post_Types {
 	 * @return string
 	 */
 	public function resume_title( $title, $post_or_id = null ) {
-		if ( $post_or_id && 'resume' === get_post_type( $post_or_id ) && ! resume_manager_user_can_view_resume_name( $post_or_id ) ) {
+		if ( $post_or_id && get_post_type( $post_or_id ) === 'resume' && ! resume_manager_user_can_view_resume_name( $post_or_id ) ) {
 			$title_parts    = explode( ' ', $title );
 			$hidden_title[] = array_shift( $title_parts );
 			foreach ( $title_parts as $title_part ) {
@@ -507,7 +509,7 @@ class WP_Resume_Manager_Post_Types {
 			return $content;
 		}
 
-		remove_filter( 'the_content', [ $this, 'resume_content' ] );
+		remove_filter( 'the_content', array( $this, 'resume_content' ) );
 
 		if ( $post->post_type == 'resume' ) {
 			ob_start();
@@ -517,7 +519,7 @@ class WP_Resume_Manager_Post_Types {
 			$content = ob_get_clean();
 		}
 
-		add_filter( 'the_content', [ $this, 'resume_content' ] );
+		add_filter( 'the_content', array( $this, 'resume_content' ) );
 
 		return $content;
 	}
@@ -533,10 +535,10 @@ class WP_Resume_Manager_Post_Types {
 
 		get_job_manager_template(
 			'contact-details-email.php',
-			[
+			array(
 				'email'   => $email,
 				'subject' => $subject,
-			],
+			),
 			'wp-job-manager-resumes',
 			RESUME_MANAGER_PLUGIN_DIR . '/templates/'
 		);
@@ -556,12 +558,12 @@ class WP_Resume_Manager_Post_Types {
 		}
 
 		add_post_meta( $post->ID, '_featured', 0, true );
-		wp_clear_scheduled_hook( 'auto-hide-resume', [ $post->ID ] );
+		wp_clear_scheduled_hook( 'auto-hide-resume', array( $post->ID ) );
 
 		$resume_manager_autohide = get_option( 'resume_manager_autohide' );
 
 		if ( $resume_manager_autohide ) {
-			wp_schedule_single_event( strtotime( "+{$resume_manager_autohide} day" ), 'auto-hide-resume', [ $post->ID ] );
+			wp_schedule_single_event( strtotime( "+{$resume_manager_autohide} day" ), 'auto-hide-resume', array( $post->ID ) );
 		}
 	}
 
@@ -573,12 +575,12 @@ class WP_Resume_Manager_Post_Types {
 	public function hide_resume( $resume_id ) {
 		$resume = get_post( $resume_id );
 		if ( $resume->post_status === 'publish' ) {
-			$update_resume = [
+			$update_resume = array(
 				'ID'          => $resume_id,
 				'post_status' => 'hidden',
-			];
+			);
 			wp_update_post( $update_resume );
-			wp_clear_scheduled_hook( 'auto-hide-resume', [ $resume_id ] );
+			wp_clear_scheduled_hook( 'auto-hide-resume', array( $resume_id ) );
 		}
 	}
 
@@ -586,21 +588,21 @@ class WP_Resume_Manager_Post_Types {
 	 * Maybe set menu_order if the featured status of a resume is changed
 	 */
 	public function maybe_update_menu_order( $meta_id, $object_id, $meta_key, $_meta_value ) {
-		if ( '_featured' !== $meta_key || 'resume' !== get_post_type( $object_id ) ) {
+		if ( $meta_key !== '_featured' || get_post_type( $object_id ) !== 'resume' ) {
 			return;
 		}
 		global $wpdb;
 
-		if ( '1' == $_meta_value ) {
-			$wpdb->update( $wpdb->posts, [ 'menu_order' => -1 ], [ 'ID' => $object_id ] );
+		if ( $_meta_value == '1' ) {
+			$wpdb->update( $wpdb->posts, array( 'menu_order' => -1 ), array( 'ID' => $object_id ) );
 		} else {
 			$wpdb->update(
 				$wpdb->posts,
-				[ 'menu_order' => 0 ],
-				[
+				array( 'menu_order' => 0 ),
+				array(
 					'ID'         => $object_id,
 					'menu_order' => -1,
-				]
+				)
 			);
 		}
 
@@ -614,7 +616,7 @@ class WP_Resume_Manager_Post_Types {
 	 * @return array
 	 */
 	public function fix_post_name( $data, $postarr ) {
-		if ( 'resume' === $data['post_type'] && 'pending' === $data['post_status'] && ! current_user_can( 'publish_posts' ) ) {
+		if ( $data['post_type'] === 'resume' && $data['post_status'] === 'pending' && ! current_user_can( 'publish_posts' ) ) {
 			$data['post_name'] = $postarr['post_name'];
 		}
 		 return $data;
@@ -686,7 +688,7 @@ class WP_Resume_Manager_Post_Types {
 
 		if ( $resume_ids ) {
 			foreach ( $resume_ids as $resume_id ) {
-				$data                = [];
+				$data                = array();
 				$data['ID']          = $resume_id;
 				$data['post_status'] = 'expired';
 				wp_update_post( $data );
@@ -725,7 +727,7 @@ class WP_Resume_Manager_Post_Types {
 			register_meta(
 				'post',
 				$meta_key,
-				[
+				array(
 					'type'              => $field['data_type'],
 					'show_in_rest'      => $field['show_in_rest'],
 					'description'       => $field['label'],
@@ -733,7 +735,7 @@ class WP_Resume_Manager_Post_Types {
 					'auth_callback'     => $field['auth_edit_callback'],
 					'single'            => true,
 					'object_subtype'    => 'resume',
-				]
+				)
 			);
 		}
 	}
@@ -744,26 +746,25 @@ class WP_Resume_Manager_Post_Types {
 	 * @return array See `resume_manager_resume_fields` filter for more documentation.
 	 */
 	public static function get_resume_fields() {
-		$default_field = [
+		$default_field = array(
 			'label'              => null,
 			'placeholder'        => null,
 			'description'        => null,
 			'priority'           => 10,
 			'value'              => null,
 			'default'            => null,
-			'classes'            => [],
+			'classes'            => array(),
 			'type'               => 'text',
 			'data_type'          => 'string',
 			'show_in_admin'      => true,
 			'show_in_rest'       => false,
-			'auth_edit_callback' => [ __CLASS__, 'auth_check_can_edit_resumes' ],
+			'auth_edit_callback' => array( __CLASS__, 'auth_check_can_edit_resumes' ),
 			'auth_view_callback' => null,
-			'sanitize_callback'  => [ __CLASS__, 'sanitize_meta_field_based_on_input_type' ],
-		];
+			'sanitize_callback'  => array( __CLASS__, 'sanitize_meta_field_based_on_input_type' ),
+		);
 
-
-		$fields = [
-			'_candidate_title'    => [
+		$fields = array(
+			'_candidate_title'    => array(
 				'label'         => __( 'Professional Title', 'wp-job-manager-resumes' ),
 				'placeholder'   => '',
 				'description'   => '',
@@ -771,8 +772,8 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'     => 'string',
 				'show_in_admin' => true,
 				'show_in_rest'  => true,
-			],
-			'_candidate_email'    => [
+			),
+			'_candidate_email'    => array(
 				'label'         => __( 'Contact Email', 'wp-job-manager-resumes' ),
 				'placeholder'   => __( 'you@yourdomain.com', 'wp-job-manager-resumes' ),
 				'description'   => '',
@@ -780,8 +781,8 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'     => 'string',
 				'show_in_admin' => true,
 				'show_in_rest'  => true,
-			],
-			'_candidate_location' => [
+			),
+			'_candidate_location' => array(
 				'label'         => __( 'Candidate Location', 'wp-job-manager-resumes' ),
 				'placeholder'   => __( 'e.g. "London, UK", "New York", "Houston, TX"', 'wp-job-manager-resumes' ),
 				'description'   => '',
@@ -789,8 +790,8 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'     => 'string',
 				'show_in_admin' => true,
 				'show_in_rest'  => true,
-			],
-			'_candidate_photo'    => [
+			),
+			'_candidate_photo'    => array(
 				'label'         => __( 'Photo', 'wp-job-manager-resumes' ),
 				'placeholder'   => __( 'URL to the candidate photo', 'wp-job-manager-resumes' ),
 				'type'          => 'file',
@@ -798,8 +799,8 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'     => 'string',
 				'show_in_admin' => true,
 				'show_in_rest'  => true,
-			],
-			'_candidate_video'    => [
+			),
+			'_candidate_video'    => array(
 				'label'             => __( 'Video', 'wp-job-manager-resumes' ),
 				'placeholder'       => __( 'URL to the candidate video', 'wp-job-manager-resumes' ),
 				'type'              => 'text',
@@ -807,9 +808,9 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'         => 'string',
 				'show_in_admin'     => true,
 				'show_in_rest'      => true,
-				'sanitize_callback' => [ 'WP_Job_Manager_Post_Types', 'sanitize_meta_field_url' ],
-			],
-			'_resume_file'        => [
+				'sanitize_callback' => array( 'WP_Job_Manager_Post_Types', 'sanitize_meta_field_url' ),
+			),
+			'_resume_file'        => array(
 				'label'         => __( 'Resume File', 'wp-job-manager-resumes' ),
 				'placeholder'   => __( 'URL to the candidate\'s resume file', 'wp-job-manager-resumes' ),
 				'type'          => 'file',
@@ -817,8 +818,8 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'     => 'string',
 				'show_in_admin' => true,
 				'show_in_rest'  => true,
-			],
-			'_featured'           => [
+			),
+			'_featured'           => array(
 				'label'              => __( 'Feature this Resume?', 'wp-job-manager-resumes' ),
 				'type'               => 'checkbox',
 				'description'        => __( 'Featured resumes will be sticky during searches, and can be styled differently.', 'wp-job-manager-resumes' ),
@@ -826,20 +827,20 @@ class WP_Resume_Manager_Post_Types {
 				'data_type'          => 'integer',
 				'show_in_admin'      => true,
 				'show_in_rest'       => true,
-				'auth_edit_callback' => [ __CLASS__, 'auth_check_can_manage_resumes' ],
-			],
-			'_resume_expires'     => [
+				'auth_edit_callback' => array( __CLASS__, 'auth_check_can_manage_resumes' ),
+			),
+			'_resume_expires'     => array(
 				'label'              => __( 'Expires', 'wp-job-manager-resumes' ),
 				'placeholder'        => __( 'yyyy-mm-dd', 'wp-job-manager-resumes' ),
 				'priority'           => 8,
 				'data_type'          => 'string',
 				'show_in_admin'      => true,
 				'show_in_rest'       => true,
-				'auth_edit_callback' => [ __CLASS__, 'auth_check_can_manage_resumes' ],
-				'auth_view_callback' => [ __CLASS__, 'auth_check_can_edit_resumes' ],
-				'sanitize_callback'  => [ 'WP_Job_Manager_Post_Types', 'sanitize_meta_field_date' ],
-			],
-		];
+				'auth_edit_callback' => array( __CLASS__, 'auth_check_can_manage_resumes' ),
+				'auth_view_callback' => array( __CLASS__, 'auth_check_can_edit_resumes' ),
+				'sanitize_callback'  => array( 'WP_Job_Manager_Post_Types', 'sanitize_meta_field_date' ),
+			),
+		);
 
 		if ( ! get_option( 'resume_manager_enable_resume_upload' ) ) {
 			unset( $fields['_resume_file'] );
@@ -873,7 +874,7 @@ class WP_Resume_Manager_Post_Types {
 		 *         @type string        $type               Type of form field to render. Used in: WP Admin
 		 *                                                 (Default: 'text').
 		 *         @type string        $data_type          Data type to cast to. Options: 'string', 'boolean',
-		 *                                                 'integer', 'number'.  Used in: REST API. (	 *                                                 Default: 'string').
+		 *                                                 'integer', 'number'.  Used in: REST API. (    *                                                 Default: 'string').
 		 *         @type bool|callable $show_in_admin      Whether field should be displayed in WP admin. Can be
 		 *                                                 callable that returns boolean. Used in: WP Admin
 		 *                                                 (Default: true).
@@ -1018,12 +1019,12 @@ class WP_Resume_Manager_Post_Types {
 			$type = $fields[ $meta_key ]['type'];
 		}
 
-		if ( 'textarea' === $type || 'wp_editor' === $type ) {
+		if ( $type === 'textarea' || $type === 'wp_editor' ) {
 			return wp_kses_post( wp_unslash( $meta_value ) );
 		}
 
-		if ( 'checkbox' === $type ) {
-			if ( $meta_value && '0' !== $meta_value ) {
+		if ( $type === 'checkbox' ) {
+			if ( $meta_value && $meta_value !== '0' ) {
 				return 1;
 			}
 
@@ -1035,5 +1036,20 @@ class WP_Resume_Manager_Post_Types {
 		}
 
 		return sanitize_text_field( $meta_value );
+	}
+
+	/**
+	 * Save Resume Skills to post meta.
+	 *
+	 * @param int $post_id
+	 * @return void
+	 */
+	public function save_postmeta( $post_id ) {
+		if ( is_admin() ) {
+			$term_list = wp_get_post_terms( $post_id, 'resume_skill' );
+			$term_names = wp_list_pluck( $term_list, 'name' );
+			$new_terms = implode( ',', $term_names );
+			update_post_meta( $post_id, '_resume_skills', $new_terms );
+		}
 	}
 }
