@@ -1,0 +1,7 @@
+*** WordPress Job Manager WooCommerce paid listings changelog ***
+
+2022-05-08 - version 2.9.9
+Fix: Update plugin headers
+
+2022-04-25 - version 2.9.8
+Fix: Stop using deprecated WC subscriptions function
