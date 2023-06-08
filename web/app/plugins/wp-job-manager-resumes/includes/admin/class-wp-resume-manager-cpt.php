@@ -21,25 +21,25 @@ class WP_Resume_Manager_CPT {
 	 * @return void
 	 */
 	public function __construct() {
-		add_filter( 'enter_title_here', [ $this, 'enter_title_here' ], 1, 2 );
-		add_filter( 'manage_edit-resume_columns', [ $this, 'columns' ] );
-		add_action( 'manage_resume_posts_custom_column', [ $this, 'custom_columns' ], 2 );
-		add_filter( 'manage_edit-resume_sortable_columns', [ $this, 'sortable_columns' ] );
-		add_action( 'parse_query', [ $this, 'search_meta' ] );
-		add_filter( 'get_search_query', [ $this, 'search_meta_label' ] );
-		add_filter( 'request', [ $this, 'sort_columns' ] );
-		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ] );
-		add_action( 'admin_footer-edit.php', [ $this, 'add_bulk_actions' ] );
-		add_action( 'load-edit.php', [ $this, 'do_bulk_actions' ] );
-		add_action( 'admin_init', [ $this, 'approve_resume' ] );
-		add_action( 'admin_notices', [ $this, 'approved_notice' ] );
+		add_filter( 'enter_title_here', array( $this, 'enter_title_here' ), 1, 2 );
+		add_filter( 'manage_edit-resume_columns', array( $this, 'columns' ) );
+		add_action( 'manage_resume_posts_custom_column', array( $this, 'custom_columns' ), 2 );
+		add_filter( 'manage_edit-resume_sortable_columns', array( $this, 'sortable_columns' ) );
+		add_action( 'parse_query', array( $this, 'search_meta' ) );
+		add_filter( 'get_search_query', array( $this, 'search_meta_label' ) );
+		add_filter( 'request', array( $this, 'sort_columns' ) );
+		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
+		add_action( 'admin_footer-edit.php', array( $this, 'add_bulk_actions' ) );
+		add_action( 'load-edit.php', array( $this, 'do_bulk_actions' ) );
+		add_action( 'admin_init', array( $this, 'approve_resume' ) );
+		add_action( 'admin_notices', array( $this, 'approved_notice' ) );
 
 		if ( get_option( 'resume_manager_enable_categories' ) ) {
-			add_action( 'restrict_manage_posts', [ $this, 'resumes_by_category' ] );
+			add_action( 'restrict_manage_posts', array( $this, 'resumes_by_category' ) );
 		}
 
-		foreach ( [ 'post', 'post-new' ] as $hook ) {
-			add_action( "admin_footer-{$hook}.php", [ $this, 'extend_submitdiv_post_status' ] );
+		foreach ( array( 'post', 'post-new' ) as $hook ) {
+			add_action( "admin_footer-{$hook}.php", array( $this, 'extend_submitdiv_post_status' ) );
 		}
 	}
 
@@ -73,7 +73,7 @@ class WP_Resume_Manager_CPT {
 				check_admin_referer( 'bulk-posts' );
 
 				$post_ids         = array_map( 'absint', array_filter( (array) $_GET['post'] ) );
-				$approved_resumes = [];
+				$approved_resumes = array();
 
 				if ( ! empty( $post_ids ) ) {
 					foreach ( $post_ids as $post_id ) {
@@ -82,12 +82,12 @@ class WP_Resume_Manager_CPT {
 						if ( ! $new_post_status ) {
 							$new_post_status = 'publish';
 						}
-						$resume_data = [
+						$resume_data = array(
 							'ID'          => $post_id,
 							'post_status' => $new_post_status,
-						];
+						);
 
-						if ( 'pending' === get_post_status( $post_id ) && wp_update_post( $resume_data ) ) {
+						if ( get_post_status( $post_id ) === 'pending' && wp_update_post( $resume_data ) ) {
 							$approved_resumes[] = $post_id;
 						}
 					}
@@ -113,10 +113,10 @@ class WP_Resume_Manager_CPT {
 				$new_post_status = 'publish';
 			}
 
-			$resume_data = [
+			$resume_data = array(
 				'ID'          => $post_id,
 				'post_status' => $new_post_status,
-			];
+			);
 			wp_update_post( $resume_data );
 			wp_redirect( remove_query_arg( 'approve_resume', add_query_arg( 'approved_resumes', $post_id, admin_url( 'edit.php?post_type=resume' ) ) ) );
 			exit;
@@ -133,7 +133,7 @@ class WP_Resume_Manager_CPT {
 			$approved_resumes = $_REQUEST['approved_resumes'];
 			if ( is_array( $approved_resumes ) ) {
 				$approved_resumes = array_map( 'absint', $approved_resumes );
-				$titles           = [];
+				$titles           = array();
 				foreach ( $approved_resumes as $resume_id ) {
 					$titles[] = get_the_title( $resume_id );
 				}
@@ -167,7 +167,7 @@ class WP_Resume_Manager_CPT {
 			include_once JOB_MANAGER_PLUGIN_DIR . '/includes/class-wp-job-manager-category-walker.php';
 		}
 
-		$r                 = [];
+		$r                 = array();
 		$r['pad_counts']   = 1;
 		$r['hierarchical'] = $hierarchical;
 		$r['hide_empty']   = 0;
@@ -211,7 +211,7 @@ class WP_Resume_Manager_CPT {
 			$walker = $args[2]['walker'];
 		}
 
-		return call_user_func_array( [ $walker, 'walk' ], $args );
+		return call_user_func_array( array( $walker, 'walk' ), $args );
 	}
 
 	/**
@@ -235,7 +235,7 @@ class WP_Resume_Manager_CPT {
 	public function post_updated_messages( $messages ) {
 		global $post, $post_ID;
 
-		$messages['resume'] = [
+		$messages['resume'] = array(
 			0  => '',
 			1  => sprintf( __( 'Resume updated. <a href="%s">View Resume</a>', 'wp-job-manager-resumes' ), esc_url( get_permalink( $post_ID ) ) ),
 			2  => __( 'Custom field updated.', 'wp-job-manager-resumes' ),
@@ -251,7 +251,7 @@ class WP_Resume_Manager_CPT {
 				esc_url( get_permalink( $post_ID ) )
 			),
 			10 => sprintf( __( 'Resume draft updated. <a target="_blank" href="%s">Preview Resume</a>', 'wp-job-manager-resumes' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
-		];
+		);
 		return $messages;
 	}
 
@@ -264,10 +264,10 @@ class WP_Resume_Manager_CPT {
 	 */
 	public function columns( $columns ) {
 		if ( ! is_array( $columns ) ) {
-			$columns = [];
+			$columns = array();
 		}
 
-		unset( $columns['title'], $columns['date'] );
+		unset( $columns['title'], $columns['date'], $columns['author'] );
 
 		$columns['candidate']          = __( 'Candidate', 'wp-job-manager-resumes' );
 		$columns['candidate_location'] = __( 'Location', 'wp-job-manager-resumes' );
@@ -296,14 +296,14 @@ class WP_Resume_Manager_CPT {
 	 * @return array
 	 */
 	public function sortable_columns( $columns ) {
-		$custom = [
+		$custom = array(
 			'resume_posted'      => 'date',
 			'candidate'          => 'title',
 			'candidate_location' => 'candidate_location',
 			'resume_expires'     => 'resume_expires',
 			'featured_resume'    => 'featured_resume',
 			'resume_skills'      => 'resume_skills',
-		];
+		);
 		return wp_parse_args( $custom, $columns );
 	}
 
@@ -315,7 +315,7 @@ class WP_Resume_Manager_CPT {
 	public function search_meta( $wp ) {
 		global $pagenow, $wpdb;
 
-		if ( 'edit.php' != $pagenow || empty( $wp->query_vars['s'] ) || $wp->query_vars['post_type'] != 'resume' ) {
+		if ( $pagenow != 'edit.php' || empty( $wp->query_vars['s'] ) || $wp->query_vars['post_type'] != 'resume' ) {
 			return;
 		}
 
@@ -337,7 +337,7 @@ class WP_Resume_Manager_CPT {
 						esc_attr( $wp->query_vars['s'] )
 					)
 				),
-				[ 0 ]
+				array( 0 )
 			)
 		);
 
@@ -356,7 +356,7 @@ class WP_Resume_Manager_CPT {
 	public function search_meta_label( $query ) {
 		global $pagenow, $typenow;
 
-		if ( 'edit.php' != $pagenow || $typenow != 'resume' || ! get_query_var( 'resume_search' ) ) {
+		if ( $pagenow != 'edit.php' || $typenow != 'resume' || ! get_query_var( 'resume_search' ) ) {
 			return $query;
 		}
 
@@ -371,37 +371,37 @@ class WP_Resume_Manager_CPT {
 	 */
 	public function sort_columns( $vars ) {
 		if ( isset( $vars['orderby'] ) ) {
-			if ( 'resume_expires' === $vars['orderby'] ) {
+			if ( $vars['orderby'] === 'resume_expires' ) {
 				$vars = array_merge(
 					$vars,
-					[
+					array(
 						'meta_key' => '_resume_expires',
 						'orderby'  => 'meta_value',
-					]
+					)
 				);
-			} elseif ( 'candidate_location' === $vars['orderby'] ) {
+			} elseif ( $vars['orderby'] === 'candidate_location' ) {
 				$vars = array_merge(
 					$vars,
-					[
+					array(
 						'meta_key' => '_candidate_location',
 						'orderby'  => 'meta_value',
-					]
+					)
 				);
-			} elseif ( 'featured_resume' === $vars['orderby'] ) {
+			} elseif ( $vars['orderby'] === 'featured_resume' ) {
 				$vars = array_merge(
 					$vars,
-					[
+					array(
 						'meta_key' => '_featured',
 						'orderby'  => 'meta_value_num',
-					]
+					)
 				);
-			} elseif ( 'resume_skills' === $vars['orderby'] ) {
+			} elseif ( $vars['orderby'] === 'resume_skills' ) {
 				$vars = array_merge(
 					$vars,
-					[
+					array(
 						'meta_key' => '_resume_skills',
 						'orderby'  => 'meta_value',
-					]
+					)
 				);
 			}
 		}
@@ -464,39 +464,39 @@ class WP_Resume_Manager_CPT {
 				break;
 			case 'resume_actions':
 				echo '<div class="actions">';
-				$admin_actions = [];
+				$admin_actions = array();
 
 				if ( $post->post_status == 'pending' ) {
-					$admin_actions['approve'] = [
+					$admin_actions['approve'] = array(
 						'action' => 'approve',
 						'name'   => __( 'Approve', 'wp-job-manager-resumes' ),
 						'url'    => wp_nonce_url( add_query_arg( 'approve_resume', $post->ID ), 'approve_resume' ),
-					];
+					);
 				}
 
 				if ( $post->post_status !== 'trash' ) {
-					$admin_actions['view'] = [
+					$admin_actions['view'] = array(
 						'action' => 'view',
 						'name'   => __( 'View', 'wp-job-manager-resumes' ),
 						'url'    => get_permalink( $post->ID ),
-					];
+					);
 					if ( $email = get_post_meta( $post->ID, '_candidate_email', true ) ) {
-						$admin_actions['email'] = [
+						$admin_actions['email'] = array(
 							'action' => 'email',
 							'name'   => __( 'Email Candidate', 'wp-job-manager-resumes' ),
 							'url'    => 'mailto:' . esc_attr( $email ),
-						];
+						);
 					}
-					$admin_actions['edit']   = [
+					$admin_actions['edit']   = array(
 						'action' => 'edit',
 						'name'   => __( 'Edit', 'wp-job-manager-resumes' ),
 						'url'    => get_edit_post_link( $post->ID ),
-					];
-					$admin_actions['delete'] = [
+					);
+					$admin_actions['delete'] = array(
 						'action' => 'delete',
 						'name'   => __( 'Delete', 'wp-job-manager-resumes' ),
 						'url'    => get_delete_post_link( $post->ID ),
-					];
+					);
 				}
 
 				$admin_actions = apply_filters( 'resume_manager_admin_actions', $admin_actions, $post );
@@ -520,7 +520,7 @@ class WP_Resume_Manager_CPT {
 		global $wp_post_statuses, $post, $post_type;
 
 		// Abort if we're on the wrong post type, but only if we got a restriction
-		if ( 'resume' !== $post_type ) {
+		if ( $post_type !== 'resume' ) {
 			return;
 		}
 
