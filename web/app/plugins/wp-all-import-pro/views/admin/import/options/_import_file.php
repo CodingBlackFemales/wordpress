@@ -10,9 +10,9 @@
 			<div class="error-headers exclamation">
 				<h3><?php _e('File upload rejected by server', 'wp_all_import_plugin');?></h3>
 				<h4><?php _e("Contact your host and have them check your server's error log.", "wp_all_import_plugin"); ?></h4>
-			</div>		
-		</div>		
-		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
+			</div>
+		</div>
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>
 	</div>
 
 	<div class="rad4 first-step-errors error-file-validation" <?php if ( ! empty($upload_validation) ): ?> style="display:block;" <?php endif; ?>>
@@ -20,21 +20,21 @@
 			<div class="error-headers exclamation">
 				<h3><?php _e('There\'s a problem with your import file', 'wp_all_import_plugin');?></h3>
 				<h4>
-					<?php 
-					if ( ! empty($upload_validation) ): 										
+					<?php
+					if ( ! empty($upload_validation) ):
 						$file_type = strtoupper(pmxi_getExtension($post['file']));
-						printf(__('This %s file has errors and is not valid.', 'wp_all_import_plugin'), $file_type); 
+						printf(__('This %s file has errors and is not valid.', 'wp_all_import_plugin'), $file_type);
 					endif;
 					?>
 				</h4>
-			</div>		
-		</div>		
-		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>		
-	</div>		
+			</div>
+		</div>
+		<a class="button button-primary button-hero wpallimport-large-button wpallimport-notify-read-more" href="http://www.wpallimport.com/documentation/troubleshooting/problems-with-import-files/#invalid" target="_blank"><?php _e('Read More', 'wp_all_import_plugin');?></a>
+	</div>
 
 	<div class="wpallimport-content-section">
 		<div class="wpallimport-collapsed-header" style="padding-left:30px;">
-			<h3><?php _e('Import File','wp_all_import_plugin');?></h3>	
+			<h3><?php _e('Import File','wp_all_import_plugin');?></h3>
 		</div>
 		<div class="wpallimport-collapsed-content" style="padding-bottom: 40px;">
 			<hr>
@@ -56,20 +56,20 @@
 								<span class="wpallimport-icon"></span>
 								<span class="wpallimport-icon-label"><?php _e('Use existing file', 'wp_all_import_plugin'); ?></span>
 							</a>
-						</div>						
-						
+						</div>
+
 						<input type="hidden" value="<?php echo $post['type']; ?>" name="new_type"/>
 
-						<div class="wpallimport-upload-type-container" rel="upload_type">							
+						<div class="wpallimport-upload-type-container" rel="upload_type">
 							<div id="plupload-ui" class="wpallimport-file-type-options">
-					            <div>				                
+					            <div>
 					                <input type="hidden" name="filepath" value="<?php if ('upload' == $import->type) echo $import->path; ?>" id="filepath"/>
 					                <a id="select-files" href="javascript:void(0);"/><?php _e('Click here to select file from your computer...', 'wp_all_import_plugin'); ?></a>
 					                <div id="progressbar" class="wpallimport-progressbar">
 					                	<?php if ('upload' == $import->type) _e( '<span>Upload Complete</span> - '.basename($import->path).' 100%', 'wp_all_import_plugin'); ?>
 					                </div>
 					                <div id="progress" class="wpallimport-progress" <?php if ('upload' == $import->type):?>style="display: block;"<?php endif;?>>
-					                	<div id="upload_process" class="wpallimport-upload-process"></div>				                	
+					                	<div id="upload_process" class="wpallimport-upload-process"></div>
 					                </div>
 					            </div>
 					        </div>
@@ -86,10 +86,10 @@
                                 </a>
                             </div>
 						</div>
-						<div class="wpallimport-upload-type-container" rel="file_type">		
-							<?php $upload_dir = wp_upload_dir(); ?>					
-							<div class="wpallimport-file-type-options">								
-								
+						<div class="wpallimport-upload-type-container" rel="file_type">
+							<?php $upload_dir = wp_upload_dir(); ?>
+							<div class="wpallimport-file-type-options">
+
 								<?php
 									$files_directory = DIRECTORY_SEPARATOR . PMXI_Plugin::FILES_DIRECTORY . DIRECTORY_SEPARATOR;
 
@@ -120,7 +120,7 @@
 									}
 								    $import_file = str_replace(DIRECTORY_SEPARATOR . PMXI_Plugin::FILES_DIRECTORY . DIRECTORY_SEPARATOR, '', $import->path);
 								?>
-								<script type="text/javascript">									
+								<script type="text/javascript">
 									var existing_file_sizes = <?php echo json_encode($sizes) ?>;
 								</script>
 
@@ -130,10 +130,10 @@
 										<option value="<?php echo $file; ?>" <?php if ( 'file' == $import->type and $file == $import_file ):?>selected="selected"<?php endif; ?>><?php echo basename($file); ?></option>
 									<?php endforeach; ?>
 								</select>
-								
-								<input type="hidden" name="file" value="<?php if ('file' == $import->type) echo esc_attr($import->path); ?>"/>	
 
-								<script type="text/javascript">									
+								<input type="hidden" name="file" value="<?php if ('file' == $import->type) echo esc_attr($import->path); ?>"/>
+
+								<script type="text/javascript">
 									var existing_file_sizes = <?php echo json_encode($sizes) ?>;
 								</script>
 								<div class="wpallimport-note" style="width:60%; margin: 0 auto; ">
@@ -146,7 +146,7 @@
                             <div class="wpallimport-download-resource wpallimport-download-resource-step-two-url">
                                 <div class="wpallimport-file-type-options">
                                     <span class="wpallimport-input-icon wpallimport-url-icon"></span>
-                                    <input type="text" class="regular-text" name="url" value="<?php echo ('url' == $import->type) ? esc_attr($import->path) : 'Enter a web address to download the file from...'; ?>"/>
+                                    <input type="text" class="regular-text" name="url" value="<?php echo ('url' == $import->type) ? esc_attr($import->path) : ''; ?>" placeholder="<?php _e('Enter a web address to download the file from...', 'wp_all_import_plugin'); ?>"/>
                                     <!--a href="javascript:void(0);" class="wpallimport-download-from-url"><?php _e('Upload', 'wp_all_import_plugin'); ?></a-->
                                 </div>
                                 <input type="hidden" name="downloaded"/>
@@ -227,6 +227,6 @@
 					</td>
 				</tr>
 			</table>
-		</div>		
+		</div>
 	</div>
 </div>
