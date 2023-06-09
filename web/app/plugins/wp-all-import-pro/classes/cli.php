@@ -40,6 +40,9 @@ class PMXI_Cli {
 
         foreach( $import_ids as $import_id) {
             try {
+				// Set the import ID currently running.
+				add_filter('wp_all_import_cli_import_id', function() use ($import_id){ return $import_id;});
+
             	$logger = function($m) {
 		            print("<p>[". date("H:i:s") ."] ".wp_all_import_filter_html_kses($m)."</p>\n");
 	            };
@@ -152,7 +155,7 @@ class PMXI_Cli {
             $imports = new PMXI_Import_List();
             foreach ($imports->setColumns($imports->getTable() . '.*')->getBy(array('id !=' => ''))->convertRecords() as $import){
                 $import->getById($import->id);
-                if ( ! $import->isEmpty() ){
+                if ( ! $import->isEmpty() && $import->parent_import_id != 99999 ){
                     $items[] = [
                         'ID' => $import->id,
                         'Name' => empty($import->friendly_name) ? $import->name : $import->friendly_name,

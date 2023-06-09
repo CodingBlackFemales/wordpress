@@ -129,7 +129,14 @@ abstract class PMXI_Controller_Admin extends PMXI_Controller {
         if(false === $cm_settings['codeEditor']){
         	$cm_settings['codeEditor'] = wpai_wp_enqueue_code_editor(['type' => 'php']);
         }
-        wp_localize_script('pmxi-admin-script', 'wpai_cm_settings', $cm_settings);
+
+        $cm_settings = rawurlencode(json_encode($cm_settings));
+
+        wp_add_inline_script(
+            'pmxi-admin-script',
+            "var wpai_cm_settings = JSON.parse( decodeURIComponent( '" . esc_js( $cm_settings ) . "' ) );",
+            'before'
+        );
     }
 
 	/**
