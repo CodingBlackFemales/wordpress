@@ -17,6 +17,8 @@
 
 	<?php $visible_sections = apply_filters('pmxi_visible_template_sections', array('caption', 'main', 'taxonomies', 'cf', 'featured', 'other', 'nested'), $post['custom_type']); ?>
 
+    <?php if (!$this->isWizard){ require_once 'filters.php'; } ?>
+
 	<table class="wpallimport-layout">
 		<tr>
 			<td class="left">
@@ -35,7 +37,7 @@
 				<?php if ( in_array('caption', $visible_sections) ): ?>
 
 					<div class="wpallimport-collapsed wpallimport-section">
-						<div class="wpallimport-content-section" style="overflow: hidden; padding-bottom: 0;">
+						<div class="wpallimport-content-section" style="overflow: hidden; padding-bottom: 0; margin-top: 0;">
 							<div class="wpallimport-collapsed-header" style="margin-bottom: 15px;">
                                 <?php if ( in_array($post_type, ['comments', 'woo_reviews'] ) ){ ?>
                                     <h3><?php _e('Comment', 'wp_all_import_plugin'); ?></h3>
