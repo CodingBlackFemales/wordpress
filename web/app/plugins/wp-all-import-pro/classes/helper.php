@@ -1,14 +1,14 @@
 <?php
 /**
  * Helper class which defnes a namespace for some commonly used functions
- * 
+ *
  * @author Pavel Kulbakin <p.kulbakin@gmail.com>
  */
 class PMXI_Helper {
 	const GLOB_MARK = 1;
 	const GLOB_NOSORT = 2;
 	const GLOB_ONLYDIR = 4;
-	
+
 	const GLOB_NODIR = 256;
 	const GLOB_PATH = 512;
 	const GLOB_NODOTS = 1024;
@@ -40,7 +40,7 @@ class PMXI_Helper {
 	public static function safe_glob($pattern,  $flags=0) {
 		$split = explode('/', str_replace('\\', '/', $pattern));
 		$mask = array_pop($split);
-		$path = implode('/', $split);			
+		$path = implode('/', $split);
 
 		if (($dir = @opendir($path . '/')) !== false or ($dir = @opendir($path)) !== false) {
 			$glob = array();
@@ -49,24 +49,24 @@ class PMXI_Helper {
 				if (($flags & self::GLOB_RECURSE) && is_dir($path . '/' . $file) && ( ! in_array($file, array('.', '..')))) {
 					$glob = array_merge($glob, self::array_prepend(self::safe_glob($path . '/' . $file . '/' . $mask, $flags), ($flags & self::GLOB_PATH ? '' : $file . '/')));
 				}
-				// Match file mask				
-				if (self::fnmatch($mask, $file, self::FNM_CASEFOLD)) {					
+				// Match file mask
+				if (self::fnmatch($mask, $file, self::FNM_CASEFOLD)) {
 					if ((( ! ($flags & self::GLOB_ONLYDIR)) || is_dir("$path/$file"))
 						&& (( ! ($flags & self::GLOB_NODIR)) || ( ! is_dir($path . '/' . $file)))
 						&& (( ! ($flags & self::GLOB_NODOTS)) || ( ! in_array($file, array('.', '..'))))
 					) {
 						$glob[] = ($flags & self::GLOB_PATH ? $path . '/' : '') . $file . ($flags & self::GLOB_MARK ? '/' : '');
 					}
-				}				
+				}
 			}
 			closedir($dir);
-			if ( ! ($flags & self::GLOB_NOSORT)) sort($glob);			
+			if ( ! ($flags & self::GLOB_NOSORT)) sort($glob);
 			return $glob;
 		} else {
-			return (strpos($pattern, "*") === false) ? array($pattern) : false;
+			return (strpos($pattern, "*") === false) ? array($pattern) : [];
 		}
 	}
-	
+
 	/**
 	 * Prepends $string to each element of $array
 	 * If $deep is true, will indeed also apply to sub-arrays
@@ -96,7 +96,7 @@ class PMXI_Helper {
 	 * non-POSIX complient remplacement for the fnmatch
 	 */
 	public static function fnmatch($pattern, $string, $flags = 0) {
-		
+
 		$modifiers = null;
 		$transforms = array(
 			'\*'    => '.*',
@@ -108,32 +108,32 @@ class PMXI_Helper {
 			'\\'    => '\\\\',
 			'\-'    => '-',
 		);
-		 
+
 		// Forward slash in string must be in pattern:
 		if ($flags & self::FNM_PATHNAME) {
 			$transforms['\*'] = '[^/]*';
 		}
-		 
+
 		// Back slash should not be escaped:
 		if ($flags & self::FNM_NOESCAPE) {
 			unset($transforms['\\']);
 		}
-		 
+
 		// Perform case insensitive match:
 		if ($flags & self::FNM_CASEFOLD) {
 			$modifiers .= 'i';
 		}
-		 
+
 		// Period at start must be the same as pattern:
 		if ($flags & self::FNM_PERIOD) {
 			if (strpos($string, '.') === 0 && strpos($pattern, '.') !== 0) return false;
 		}
-		 
+
 		$pattern = '#^'
 			.strtr(preg_quote($pattern, '#'), $transforms)
 			.'$#'
 			.$modifiers;
-		
+
 		return (boolean)preg_match($pattern, $string);
 	}
 }
