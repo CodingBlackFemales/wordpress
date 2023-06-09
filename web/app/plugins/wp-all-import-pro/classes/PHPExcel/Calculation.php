@@ -2102,7 +2102,7 @@ class PHPExcel_Calculation
         if ($workbook !== null) {
             $instance = $workbook->getCalculationEngine();
             if (isset($instance)) {
-                return $instance;  
+                return $instance;
             }
         }
 
@@ -3441,7 +3441,7 @@ class PHPExcel_Calculation
             } elseif (isset(self::$operators[$opCharacter]) && !$expectingOperator) {
                 return $this->raiseFormulaError("Formula Error: Unexpected operator '$opCharacter'");
             } else {    // I don't even want to know what you did to get here
-                return $this->raiseFormulaError("Formula Error: An unexpected error occured");
+                return $this->raiseFormulaError("Formula Error: An unexpected error occurred");
             }
             //    Test for end of formula string
             if ($index == strlen($formula)) {
