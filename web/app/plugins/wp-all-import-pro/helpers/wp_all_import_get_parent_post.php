@@ -1,6 +1,11 @@
 <?php
 function wp_all_import_get_parent_post($identity, $post_type, $import_type = 'post') {
     $page = 0;
+
+    if ( empty( $identity ) ) {
+        return $page;
+    }
+
     switch ($import_type) {
         case 'post':
             if ( ! empty($identity) ){
@@ -9,7 +14,7 @@ function wp_all_import_get_parent_post($identity, $post_type, $import_type = 'po
                 }
                 else
                 {
-                    $page = get_page_by_title($identity, OBJECT, $post_type) or $page = get_page_by_path($identity, OBJECT, $post_type);
+                    $page = wp_all_import_get_page_by_title($identity, $post_type) or $page = get_page_by_path($identity, OBJECT, $post_type);
 
                     if ( empty($page) ){
                         $args = array(
@@ -28,7 +33,7 @@ function wp_all_import_get_parent_post($identity, $post_type, $import_type = 'po
             break;
 
         case 'page':
-            $page = get_page_by_title($identity) or $page = get_page_by_path($identity) or ctype_digit($identity) and $page = get_post($identity);
+            $page = wp_all_import_get_page_by_title($identity) or $page = get_page_by_path($identity) or ctype_digit($identity) and $page = get_post($identity);
             break;
 
         default:
@@ -36,4 +41,4 @@ function wp_all_import_get_parent_post($identity, $post_type, $import_type = 'po
             break;
     }
     return (!empty($page)) ? (int) $page->ID : 0;
-} 
+}

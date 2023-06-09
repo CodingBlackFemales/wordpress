@@ -153,7 +153,7 @@
                             <div class="wpallimport-download-resource wpallimport-download-resource-step-two-url">
                                 <div class="wpallimport-file-type-options">
                                     <span class="wpallimport-input-icon wpallimport-url-icon"></span>
-                                    <input type="text" class="regular-text" name="url" value="<?php echo ( ! empty($post['url'])) ? esc_attr($post['url']) : ''; ?>" placeholder="Enter a web address to download the file from..."/>
+                                    <input type="text" class="regular-text" name="url" value="<?php echo ( ! empty($post['url'])) ? esc_attr($post['url']) : ''; ?>" placeholder="<?php _e('Enter a web address to download the file from...', 'wp_all_import_plugin'); ?>"/>
                                     <a class="wpallimport-download-from-url rad4" href="javascript:void(0);"><?php _e('Download', 'wp_all_import_plugin'); ?></a>
                                     <span class="img_preloader" style="top:0; left: 5px; visibility: hidden; display: inline;"></span>
                                 </div>
@@ -163,6 +163,7 @@
                                 </div>
                                 <input type="hidden" name="downloaded" value="<?php echo esc_attr($post['downloaded']); ?>"/>
                                 <input type="hidden" name="template" value="<?php echo esc_attr($post['template']); ?>"/>
+                                <input type="hidden" name="bundle_xpath" value="<?php echo esc_attr($post['bundle_xpath'] ?? ''); ?>"/>
                             </div>
                             <div class="wpallimport-download-resource wpallimport-download-resource-step-two-ftp">
 
