@@ -20,8 +20,6 @@
             default:
                 if (in_array($custom_type->name, ['post', 'page'])) {
                     $cpt_name = 'WordPress ' . strtolower($custom_type->label);
-                } elseif ($custom_type->name !== strtolower($custom_type->label)) {
-                    $cpt_name = $custom_type->label . ' [' . $custom_type->name . ']';
                 } else {
                     $cpt_name = ( ! empty($custom_type)) ? strtolower($custom_type->label) : '';
                 }
