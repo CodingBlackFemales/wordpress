@@ -90,11 +90,24 @@ $product = Product::find( $course_id );
 						<?php
 					}
 
-
 					if ( buddyboss_theme_get_option( 'learndash_course_date' ) ) {
+						$course_date = get_the_date();
+					}
+
+					if ( $product ) {
+						$start_date = $product->get_start_date();
+						$end_date = $product->get_end_date();
+
+						if ( $start_date && $end_date ) {
+							$date_format = get_option( 'date_format' );
+							$course_date = wp_date( $date_format, $start_date ) . ' &mdash; ' . wp_date( $date_format, $end_date );
+						}
+					}
+
+					if ( $course_date ) {
 						?>
 						<span class="meta-saperator">&middot;</span>
-						<span class="course-date"><?php echo get_the_date(); ?></span>
+						<span class="course-date"><?php echo $course_date; ?></span>
 						<?php
 					}
 					?>
