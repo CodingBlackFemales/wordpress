@@ -2484,10 +2484,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util */ "./src/util/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -2495,29 +2495,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Rest endpoints URLs
  */
-
 const questionRestEndpoint = `${LearnDashData.rest.root}${LearnDashData.rest.namespace}/${LearnDashData.rest.base.question}`;
 const lessonsRestEndpoint = `${LearnDashData.rest.root}${LearnDashData.rest.namespace}/${LearnDashData.rest.base.lessons}`;
 const topicRestEndpoint = `${LearnDashData.rest.root}${LearnDashData.rest.namespace}/${LearnDashData.rest.base.topic}`;
-const quizRestEndpoint = `${LearnDashData.rest.root}${LearnDashData.rest.namespace}/${LearnDashData.rest.base.quiz}`; //const sectionHeadingRestEndpoint = `${ LearnDashData.rest.root }${ LearnDashData.rest.namespace }/sections`;
+const quizRestEndpoint = `${LearnDashData.rest.root}${LearnDashData.rest.namespace}/${LearnDashData.rest.base.quiz}`;
+//const sectionHeadingRestEndpoint = `${ LearnDashData.rest.root }${ LearnDashData.rest.namespace }/sections`;
 
 /**
  * Map of endpoints per entity type
  */
-
 const endpointMap = {
   question: questionRestEndpoint,
   lesson: lessonsRestEndpoint,
   topic: topicRestEndpoint,
   quiz: quizRestEndpoint
 };
+
 /**
  * Deletes an entity
  *
  * @param {number} id   The entity id.
  * @param {string} type Post data we want to delete.
  */
-
 const deleteEntity = async (id, type) => {
   const res = await axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](`${endpointMap[type]}/${id}?force=true`, {
     headers: {
@@ -2526,12 +2525,12 @@ const deleteEntity = async (id, type) => {
   });
   return res.status;
 };
+
 /**
  * Get question details from the REST API
  *
  * @param {number} id The question id
  */
-
 const getQuestion = async id => {
   const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(`${questionRestEndpoint}/${id}`, {
     headers: {
@@ -2540,13 +2539,13 @@ const getQuestion = async id => {
   });
   return res.data;
 };
+
 /**
  * Updates a question
  *
  * @param {number} id   The question id
  * @param {Object} data Fields we want to update.
  */
-
 const updateQuestion = async (id, data) => {
   const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${questionRestEndpoint}/${id}`, data, {
     headers: {
@@ -2555,6 +2554,7 @@ const updateQuestion = async (id, data) => {
   });
   return res.status;
 };
+
 /**
  * Updates an answer
  *
@@ -2562,13 +2562,11 @@ const updateQuestion = async (id, data) => {
  * @param {Object} answers Fields we want to update.
  * @param {boolean} shouldCalculatePoints
  */
-
 const updateAnswer = async function (id, answers) {
   let shouldCalculatePoints = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   // Convert data to match API format
   const formattedAnswers = (0,_util__WEBPACK_IMPORTED_MODULE_2__.formattedAnswersForAPI)(answers);
   let data;
-
   if (shouldCalculatePoints) {
     const {
       points,
@@ -2584,7 +2582,6 @@ const updateAnswer = async function (id, answers) {
       _answerData: formattedAnswers
     };
   }
-
   const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(`${questionRestEndpoint}/${id}`, _objectSpread({}, data), {
     headers: {
       'X-WP-Nonce': LearnDashData.rest.nonce
@@ -2592,25 +2589,25 @@ const updateAnswer = async function (id, answers) {
   });
   return res.status;
 };
+
 /**
  * Makes POST request to the AJAX endpoint
  *
  * @param {Object} payload The payload to send to the server
  * @param {Object} options
  */
-
 const ajaxRequest = async function (payload) {
   let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const res = await axios__WEBPACK_IMPORTED_MODULE_0___default().post(LearnDashData.ajaxurl, qs__WEBPACK_IMPORTED_MODULE_1___default().stringify(payload), options);
   return res;
 };
+
 /**
  * Adds a section header
  *
  * @param {number} id    The entity id
  * @param {Array}  array Section Headings we want to add
  */
-
 const addSectionHeading = async (id, array) => {
   /*
   const res = await axios.post(
@@ -2645,6 +2642,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
 /**
  * Shows up when there are no lessons in courses, i.e a lesson is empty.
  * Also used for the quiz builder
@@ -2653,7 +2651,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {string} props.type
  * @param {string} props.content
  */
-
 const EmptyEntity = _ref => {
   let {
     type,
@@ -2663,11 +2660,10 @@ const EmptyEntity = _ref => {
     className: "ld__builder--empty-entity"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, `${LearnDashData.labels[type]} ${LearnDashData.i18n.no_content}`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, `${LearnDashData.i18n.add_content} ${LearnDashData.labels[content]} ${LearnDashData.i18n.add_from_sidebar}`));
 };
+
 /**
  * Valid props
  */
-
-
 EmptyEntity.propTypes = {
   type: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
   content: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
@@ -2702,6 +2698,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Header section for our course and quiz builders.
  * Shows the number of lessons/questions in a builder, the undo button and the Expand/Collapse All toggle.
@@ -2716,7 +2713,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {onUndo} props.onUndo
  * @param {Object|Array} props.workspace
  */
-
 const EntityBuilderHeader = _ref => {
   let {
     totalEntities,
@@ -2732,8 +2728,9 @@ const EntityBuilderHeader = _ref => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, totalEntities, " ", 1 === totalEntities ? singular : plural, ' ', `${LearnDashData.i18n.in_this} ${type}`)), showUndo && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_undo_button__WEBPACK_IMPORTED_MODULE_4__["default"], {
     undoActionHandler: e => {
       e.preventDefault();
-      onUndo(); // If undoing affects section headings, update post meta
+      onUndo();
 
+      // If undoing affects section headings, update post meta
       if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type && 0 < workspace.past[workspace.past.length - 1].sections.length) {
         if (workspace.past[workspace.past.length - 1].sections !== workspace.present.sections) {
           (0,_api__WEBPACK_IMPORTED_MODULE_3__.addSectionHeading)(LearnDashData.post_data.builder_post_id, workspace.past[workspace.past.length - 1].sections);
@@ -2742,11 +2739,10 @@ const EntityBuilderHeader = _ref => {
     }
   }), 0 !== totalEntities && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_expand_collapse_all__WEBPACK_IMPORTED_MODULE_5__["default"], null));
 };
+
 /**
  * Valid props
  */
-
-
 EntityBuilderHeader.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_6___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().object),
@@ -2759,26 +2755,24 @@ EntityBuilderHeader.propTypes = {
   onUndo: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
   showUndo: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => {
   return {
     workspace: state.workspace
   };
 };
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   onUndo: () => dispatch(redux_undo__WEBPACK_IMPORTED_MODULE_2__.ActionCreators.undo())
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(EntityBuilderHeader));
 
 /***/ }),
@@ -2799,10 +2793,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
 /**
  * Error Boundary component (React 16)
  */
-
 class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -2815,28 +2809,27 @@ class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       hasError: false
     };
   }
+
   /**
    * To catch errors
    *
    * @param {Object} error
    * @param {Object} info
    */
-
-
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({
       hasError: true,
       error,
       info
-    }); // You can also log the error to an error reporting service
+    });
+    // You can also log the error to an error reporting service
     // console.log( error, info );
   }
+
   /**
    * Render child error message or components
    */
-
-
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
@@ -2844,25 +2837,22 @@ class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         className: this.props.className
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, this.props.message));
     }
-
     return this.props.children;
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 ErrorBoundary.propTypes = {
   children: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().node.isRequired),
   message: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string.isRequired),
   className: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
 };
+
 /**
  * When a prop is not passed down by the parent component.
  */
-
 ErrorBoundary.defaultProps = {
   message: `${LearnDashData.i18n.error}`,
   className: ''
@@ -2896,6 +2886,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Expand and collapse all nodes in our workspace
  *
@@ -2904,7 +2895,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Object} props.workspace
  * @param {toggleExpandAll} props.toggleExpandAll
  */
-
 const ExpandCollapseAll = _ref => {
   let {
     workspace,
@@ -2925,37 +2915,34 @@ const ExpandCollapseAll = _ref => {
     stroke: "#0073aa"
   }))));
 };
+
 /**
  * Valid props
  */
-
-
 ExpandCollapseAll.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_5___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().object)
   }),
   toggleExpandAll: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().func)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => {
   return {
     workspace: state.workspace
   };
 };
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   toggleExpandAll: () => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_3__.toggleExpandAll)())
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(ExpandCollapseAll));
 
 /***/ }),
@@ -2976,6 +2963,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
 /**
  * Displays SVG Icon
  *
@@ -2983,13 +2971,11 @@ __webpack_require__.r(__webpack_exports__);
  * @param {string} props.icon
  * @param {string} props.stroke
  */
-
 const Icon = _ref => {
   let {
     icon,
     stroke
   } = _ref;
-
   if ('plus' === icon) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
       width: "256",
@@ -3100,14 +3086,12 @@ const Icon = _ref => {
       d: "M538.5,386.199L356.5,70.8c-16.4-28.4-46.7-45.9-79.501-45.9c-32.8,0-63.1,17.5-79.5,45.9L12.3,391.6 c-16.4,28.4-16.4,63.4,0,91.8C28.7,511.8,59,529.3,91.8,529.3H462.2c0.101,0,0.2,0,0.2,0c50.7,0,91.8-41.101,91.8-91.8 C554.2,418.5,548.4,400.8,538.5,386.199z M316.3,416.899c0,21.7-16.7,38.3-39.2,38.3s-39.2-16.6-39.2-38.3V416 c0-21.601,16.7-38.301,39.2-38.301S316.3,394.3,316.3,416V416.899z M317.2,158.7L297.8,328.1c-1.3,12.2-9.4,19.8-20.7,19.8 s-19.4-7.7-20.7-19.8L237,158.6c-1.3-13.1,5.801-23,18-23H299.1C311.3,135.7,318.5,145.6,317.2,158.7z"
     }));
   }
-
   return null;
 };
+
 /**
  * Valid props
  */
-
-
 Icon.propTypes = {
   icon: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
   stroke: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
@@ -3135,10 +3119,10 @@ __webpack_require__.r(__webpack_exports__);
 const {
   wp
 } = window;
+
 /**
  * Media Upload component
  */
-
 class MediaUpload extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -3150,21 +3134,19 @@ class MediaUpload extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     this.frame = null;
     this.open = this.open.bind(this);
   }
+
   /**
    * Open the frame
    */
-
-
   open() {
     if (this.frame) {
       this.frame.open();
     }
   }
+
   /**
    * Once component is mounted, initialize the media frame
    */
-
-
   componentDidMount() {
     // Create a new media frame
     this.frame = wp.media({
@@ -3173,20 +3155,19 @@ class MediaUpload extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
         text: 'Select'
       },
       multiple: false // Set to true to allow multiple files to be selected
+    });
 
-    }); // When an image is selected in the media frame...
-
+    // When an image is selected in the media frame...
     this.frame.on('select', () => {
       // Get media attachment details from the frame state
       const attachment = this.frame.state().get('selection').first().toJSON();
       this.props.onSelect(attachment);
     });
   }
+
   /**
    * Render the media upload button
    */
-
-
   render() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       onClick: this.open,
@@ -3200,18 +3181,17 @@ class MediaUpload extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }
     }), this.props.buttonLabel));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 MediaUpload.propTypes = {
   buttonLabel: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
   onSelect: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().func)
-}; // Default props
+};
 
+// Default props
 MediaUpload.defaultProps = {
   buttonLabel: 'Add Media',
   onSelect: () => {}
@@ -3242,10 +3222,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../redux/actions/dataActions */ "./src/redux/actions/dataActions.js");
 /* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../icon */ "./src/components/common/icon/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -3261,7 +3241,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * If they cancel (handleCancelAddNew()), the temporary new entity will be deleted
  * If they decide to add the new entity (handleSubmit()), the new entity will be renamed to the title they choose
  */
-
 class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -3269,9 +3248,11 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @param {Object} props
    */
   constructor(props) {
-    super(props); // cancel token to abort any requests when unmounting the component.
+    super(props);
 
+    // cancel token to abort any requests when unmounting the component.
     this.signal = axios__WEBPACK_IMPORTED_MODULE_2___default().CancelToken.source();
+
     /**
      * Our state which contains:
      * - showForm: whether to show the edit/new form
@@ -3282,7 +3263,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - view_url: url for viewing the entity
      * - edit_url: url for editing the entity
      */
-
     this.state = {
       showForm: false,
       value: '',
@@ -3295,34 +3275,32 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.handleShowForm = this.handleShowForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCancelAddNew = this.handleCancelAddNew.bind(this); // to prevent memory leaks
+    this.handleCancelAddNew = this.handleCancelAddNew.bind(this);
 
+    // to prevent memory leaks
     this._isMounted = false;
   }
+
   /**
    * When component is mounted
    */
-
-
   componentDidMount() {
     this._isMounted = true;
   }
+
   /**
    * Cancel all requests when unmounting the component.
    */
-
-
   componentWillUnmount() {
     this.signal.cancel();
     this._isMounted = false;
   }
+
   /**
    * Handles the form submission. Should be replaced by calls to the API
    *
    * @param {handleSubmit} e
    */
-
-
   async handleSubmit(e) {
     e.preventDefault();
     const {
@@ -3350,7 +3328,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       addQuiz,
       addQuestion
     } = this.props;
-
     if (value && post_id) {
       if (this._isMounted) {
         // Set the loading state.
@@ -3358,9 +3335,9 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
           is_loading: true,
           error: null
         });
-      } // Adding a lesson, topic, quiz or question
+      }
 
-
+      // Adding a lesson, topic, quiz or question
       if ('answer' !== type && 'section-heading' !== type) {
         // Post data
         const payload = {
@@ -3378,7 +3355,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         this.setState({
           is_loading: false
         });
-
         if (res.data.status) {
           // Build the new entity object to add to our app workspace and data
           const entity = {
@@ -3388,21 +3364,19 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
             url: view_url,
             edit_link: edit_url,
             post_status
-          }; // Check if we have a parent node to set the active entity
+          };
 
+          // Check if we have a parent node to set the active entity
           if (parentLesson) {
             setActiveLesson({
               activeLesson: parentLesson
             });
           }
-
           if ('lesson' === type) {
             addLessonEntity(entity); // Adds to the workspace
-
             addLesson(entity); // Adds to the data
           } else if ('topic' === type) {
             addTopicEntity(parentLesson, null, entity); // Adds to the workspace
-
             addTopic(entity); // Adds to the data
           } else if ('quiz' === type) {
             // If adding from final quiz area, add as final quiz
@@ -3415,7 +3389,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
             addQuiz(entity); // Adds to the data
           } else if ('question' === type) {
             addQuestionEntity(entity); // Adds to the workspace
-
             addQuestion(entity); // Adds to the data
           }
 
@@ -3435,13 +3408,11 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       // Adding a section heading
       let currentSections = workspace.present.sections && 0 < workspace.present.sections.length ? workspace.present.sections : [];
       const currentID = LearnDashData.post_data.builder_post_id; // get current post ID
-
       const sectionID = new Date().getTime(); // generate an unique ID for the section heading
-
       const activeLessonIndex = workspace.present.lessons.findIndex(node => node.ID === workspace.present.activeLesson);
       const newSectionIndex = -1 !== activeLessonIndex ? parseInt(activeLessonIndex + 1, 10) : workspace.present.lessons.length; // Adds new section after active lesson, or after existing heading if there is no lesson
-      // Build the new section heading entity object to add to our app workspace and data
 
+      // Build the new section heading entity object to add to our app workspace and data
       const entity = {
         order: newSectionIndex,
         ID: sectionID,
@@ -3456,7 +3427,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       addSectionHeadingEntity(entity); // Adds to the workspace
 
       const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.addSectionHeading)(currentID, currentSections);
-
       if (200 === res) {
         if (this._isMounted) {
           this.setState({
@@ -3466,8 +3436,9 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         }
       }
     } else if (value && 'answer' === type) {
-      const question = this.props.question; // Setup a new answer object
+      const question = this.props.question;
 
+      // Setup a new answer object
       const newAnswer = {
         answer: value,
         html: false,
@@ -3480,16 +3451,16 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         gradedType: 'text',
         type: 'answer',
         answerType: 'single'
-      }; // Create new answers array for our question type
+      };
 
-      const newAnswers = [...question.answers[LearnDashData.questions_types_map[question.question_type]], newAnswer]; // Update question
+      // Create new answers array for our question type
+      const newAnswers = [...question.answers[LearnDashData.questions_types_map[question.question_type]], newAnswer];
 
+      // Update question
       const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.updateAnswer)(parentLesson, newAnswers);
-
       if (200 === res) {
         // Update our workspace
         addAnswerEntity(newAnswer, question);
-
         if (this._isMounted) {
           this.setState({
             showForm: false,
@@ -3499,19 +3470,19 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }
     }
   }
+
   /**
    * Shows the form to add the new entity. First make an AJAX call to retrieve the post id for the new entity.
    *
    * @param {handleShowForm} e
    */
-
-
   async handleShowForm(e) {
     e.preventDefault();
     const {
       type
-    } = this.props; // Adding a lesson, topic, quiz or question
+    } = this.props;
 
+    // Adding a lesson, topic, quiz or question
     if ('answer' !== type && 'section-heading' !== type) {
       // Build payload
       const d = new Date();
@@ -3527,12 +3498,12 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         item_id: newStepId,
         post_type: LearnDashData.sfwdMap[type],
         post_title: LearnDashData.labels[type]
-      }; // Post to AJAX endpoint.
+      };
 
+      // Post to AJAX endpoint.
       const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.ajaxRequest)(payload, {
         cancelToken: this.signal.token
       });
-
       if (res.data.status) {
         this.setState({
           post_id: res.data.new_steps[newStepId].post_id,
@@ -3545,33 +3516,31 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
           error: `${LearnDashData.i18n.error}`
         });
       }
-    } // show the form while we are fetching the id for the new entity in the background
+    }
 
-
+    // show the form while we are fetching the id for the new entity in the background
     this.setState({
       showForm: true
     });
   }
+
   /**
    * Change to input fields.
    *
    * @param {handleChange} e
    */
-
-
   handleChange(e) {
     e.preventDefault();
     this.setState({
       value: e.target.value
     });
   }
+
   /**
    * Cancel button click handler.
    *
    * @param {handleCancelAddNew} e
    */
-
-
   handleCancelAddNew(e) {
     e.preventDefault();
     const {
@@ -3583,12 +3552,12 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.setState({
       showForm: false
     });
-
     if ('answer' !== type && post_id) {
       // Delete the temporary post created if the user decides to cancel
       (0,_api__WEBPACK_IMPORTED_MODULE_3__.deleteEntity)(post_id, type);
     }
   }
+
   /**
    * Render function
    *
@@ -3597,8 +3566,6 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @event handleChange
    * @event handleCancelAddNew
    */
-
-
   render() {
     const {
       showForm,
@@ -3639,13 +3606,11 @@ class NewEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       className: "ld__builder--form-error"
     }, error))));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 NewEntity.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_7___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
@@ -3671,18 +3636,17 @@ NewEntity.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   addLesson: lesson => dispatch((0,_redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_5__.addLesson)(lesson)),
   addTopic: topic => dispatch((0,_redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_5__.addTopic)(topic)),
@@ -3697,7 +3661,6 @@ const mapDispatchToProps = dispatch => ({
   addAnswerEntity: (answer, parent) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_4__.addAnswerEntity)(answer, parent)),
   setActiveLesson: id => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_4__.setActiveLesson)(id))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(NewEntity));
 
 /***/ }),
@@ -3727,15 +3690,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../redux/actions/dataActions */ "./src/redux/actions/dataActions.js");
 /* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../icon */ "./src/components/common/icon/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* eslint-disable jsx-a11y/no-onchange */
 
 
- // import ReactHtmlParser from 'react-html-parser';
+
+// import ReactHtmlParser from 'react-html-parser';
 
 
 
@@ -3748,7 +3711,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Header for nodes which contains the title and the View, Edit, Remove, toggle buttons.
  * This is used for Lessons, Topics, Quizzes and Questions in the course and quiz builders
  */
-
 class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -3756,9 +3718,11 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @param {Object} props
    */
   constructor(props) {
-    super(props); // cancel token to abort any requests when unmounting the component.
+    super(props);
 
+    // cancel token to abort any requests when unmounting the component.
     this.signal = axios__WEBPACK_IMPORTED_MODULE_3___default().CancelToken.source();
+
     /**
      * Our state which contains:
      * - showForm: whether to show the edit/new title form
@@ -3770,7 +3734,6 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - points: the question points if on the quiz builder
      * - points_temp: value for the points text input on the quiz builder
      */
-
     this.state = {
       showForm: false,
       showPointsForm: false,
@@ -3788,31 +3751,28 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.moveEntityUp = this.moveEntityUp.bind(this);
     this.moveEntityDown = this.moveEntityDown.bind(this);
   }
+
   /**
    * Cancel all requests when unmounting the component.
    */
-
-
   componentWillUnmount() {
     this.signal.cancel();
   }
+
   /**
    * Sets the title for the node
    */
-
-
   componentDidMount() {
     this.setState({
       value: this.props.node.post_title
     });
   }
+
   /**
    * Data to be submitted when editing a node title.
    *
    * @param {handleSubmit} e
    */
-
-
   async handleSubmit(e) {
     e.preventDefault();
     const {
@@ -3826,21 +3786,19 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     } = this.props;
     const builder_nonce_element = document.getElementById('learndash_builder_nonce');
     let builder_nonce;
-
     if (builder_nonce_element) {
       builder_nonce = builder_nonce_element.value;
     }
-
     const builder_data = learndash_builder_assets[LearnDashData.post_data.builder_post_type].post_data;
     builder_data.builder_nonce = builder_nonce;
-
     if (value) {
       // Set the loading state.
       this.setState({
         is_loading: true,
         error: null
-      }); // Editing the title for a lesson, topic, quiz or question
+      });
 
+      // Editing the title for a lesson, topic, quiz or question
       if ('section-heading' !== node.type) {
         const payload = {
           action: 'learndash_builder_selector_step_title',
@@ -3850,19 +3808,20 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
             post_id: node.ID,
             post_type: node.type
           }
-        }; // Make AJAX request.
+        };
 
+        // Make AJAX request.
         const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.ajaxRequest)(payload, {
           cancelToken: this.signal.token
         });
-
         if (res.data.status) {
           // Update in workspace
           updateWorkspaceNodeTitle({
             ID: node.ID,
             post_title: value
-          }); // Update in data
+          });
 
+          // Update in data
           updateNodeTitle({
             ID: node.ID,
             post_title: value,
@@ -3886,12 +3845,13 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
               post_title: value
             });
           }
-
           return el;
-        }); // Update the post meta
+        });
 
-        (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections); // Update our workspace
+        // Update the post meta
+        (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections);
 
+        // Update our workspace
         updateWorkspaceNodeTitle({
           ID: node.ID,
           post_title: value
@@ -3900,29 +3860,26 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
           showForm: false
         });
       }
-
       this.setState({
         is_loading: false
       });
     }
   }
+
   /**
    * Listens to changes to input fields.
    *
    * @param {handleChange} e
    */
-
-
   handleChange(e) {
     this.setState({
       value: e.target.value
     });
   }
+
   /**
    * Listens to changes to input fields.
    */
-
-
   handleShowPointsForm() {
     this.setState(_ref => {
       let {
@@ -3933,13 +3890,12 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       };
     });
   }
+
   /**
    * Listens to changes to question type change.
    *
    * @param {handleSelectChange} e
    */
-
-
   async handleSelectChange(e) {
     const {
       value: question_type
@@ -3959,20 +3915,18 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateQuestion)(node.ID, {
       _answerType: question_type,
       _answerPointsActivated: answerPointsActivated
-    }); // If this is an essay, update the points in the answerData as well
+    });
 
+    // If this is an essay, update the points in the answerData as well
     if ('essay' === question_type || 'free_answer' === question_type || 'cloze_answer' === question_type || 'assessment_answer' === question_type) {
       const newPointsObject = {
         points
       };
-
       const newAnswer = _objectSpread(_objectSpread({}, node.answers[LearnDashData.questions_types_map[question_type]][0]), newPointsObject);
-
       node.answers[LearnDashData.questions_types_map[question_type]][0] = newAnswer;
       const newAnswers = node.answers[LearnDashData.questions_types_map[question_type]];
       res2 = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(node.ID, newAnswers);
     }
-
     if (200 === res || 200 === res2) {
       // Update our workspace
       updateQuestionType(_objectSpread(_objectSpread({}, node), {}, {
@@ -3981,13 +3935,12 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }));
     }
   }
+
   /**
    * Updates question points
    *
    * @param {handleSavePoints} e
    */
-
-
   async handleSavePoints(e) {
     e.preventDefault();
     const {
@@ -4005,24 +3958,21 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       points: parseInt(newPoints, 10),
       points_temp: parseInt(newPoints, 10)
     });
-
     if (0 <= points) {
       const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateQuestion)(node.ID, {
         _points: parseInt(newPoints, 10)
-      }); // If this is an essay, update the points in the answerData as well
+      });
 
+      // If this is an essay, update the points in the answerData as well
       if ('essay' === node.question_type || 'free_answer' === node.question_type || 'cloze_answer' === node.question_type || 'assessment_answer' === node.question_type) {
         const newPointsObject = {
           points: parseInt(newPoints, 10)
         };
-
         const newAnswer = _objectSpread(_objectSpread({}, node.answers[LearnDashData.questions_types_map[node.question_type]][0]), newPointsObject);
-
         node.answers[LearnDashData.questions_types_map[node.question_type]][0] = newAnswer;
         const newAnswers = node.answers[LearnDashData.questions_types_map[node.question_type]];
         res2 = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(node.ID, newAnswers);
       }
-
       if (200 === res || 200 === res2) {
         // Update our workspace
         updateQuestionType(_objectSpread(_objectSpread({}, node), {}, {
@@ -4031,13 +3981,12 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }
     }
   }
+
   /**
    * Listens to changes to question points.
    *
    * @param {handleChangePoints} e
    */
-
-
   handleChangePoints(e) {
     const {
       value: newPoints
@@ -4046,13 +3995,12 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       points_temp: newPoints
     });
   }
+
   /**
    * Moves entity up
    *
    * @param {moveEntityUp} e
    */
-
-
   moveEntityUp(e) {
     const {
       node,
@@ -4061,29 +4009,32 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       index,
       updateSectionHeadings
     } = this.props;
-    e.preventDefault(); // Update our workspace
+    e.preventDefault();
 
-    moveUp(node.ID); // If we're moving lessons or section headings, we need to update the index saved in section headings post meta
+    // Update our workspace
+    moveUp(node.ID);
 
+    // If we're moving lessons or section headings, we need to update the index saved in section headings post meta
     if ('sfwd-lessons' === node.type || 'section-heading' === node.type) {
       if (0 < workspace.present.sections.length) {
         const lessons = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.reorder)(workspace.present.lessons, index, parseInt(index - 1, 10));
         const newLessons = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.updateSectionHeadingsOrder)(lessons);
-        const newSections = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.getSectionHeadings)(newLessons); // Update section headings
+        const newSections = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.getSectionHeadings)(newLessons);
 
-        updateSectionHeadings(newSections); // Update post meta
+        // Update section headings
+        updateSectionHeadings(newSections);
 
+        // Update post meta
         (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections);
       }
     }
   }
+
   /**
    * Moves entity down
    *
    * @param {moveEntityDown} e
    */
-
-
   moveEntityDown(e) {
     const {
       node,
@@ -4092,40 +4043,42 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       index,
       updateSectionHeadings
     } = this.props;
-    e.preventDefault(); // Update our workspace
+    e.preventDefault();
 
-    moveDown(node.ID); // If we're moving lessons or section headings, we need to update the index saved in section headings post meta
+    // Update our workspace
+    moveDown(node.ID);
 
+    // If we're moving lessons or section headings, we need to update the index saved in section headings post meta
     if ('sfwd-lessons' === node.type || 'section-heading' === node.type) {
       if (0 < workspace.present.sections.length) {
         const lessons = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.reorder)(workspace.present.lessons, index, parseInt(index + 1, 10));
         const newLessons = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.updateSectionHeadingsOrder)(lessons);
-        const newSections = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.getSectionHeadings)(newLessons); // Update section headings
+        const newSections = (0,_helpers__WEBPACK_IMPORTED_MODULE_5__.getSectionHeadings)(newLessons);
 
-        updateSectionHeadings(newSections); // Update post meta
+        // Update section headings
+        updateSectionHeadings(newSections);
 
+        // Update post meta
         (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections);
       }
     }
   }
+
   /**
    * Check if the toggle should be shown
    *
    * @param {Object} node
    */
-
-
   maybeShowToggle(node) {
     if (node && node.type && 'sfwd-quiz' !== node.type && 'section-heading' !== node.type) {
       if ('sfwd-question' !== node.type || 'sfwd-question' === node.type && node.edit_link) {
         return true;
       }
-
       return false;
     }
-
     return false;
   }
+
   /**
    * Render function
    *
@@ -4137,8 +4090,6 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @event moveEntityUp
    * @event moveEntityDown
    */
-
-
   render() {
     const {
       showForm,
@@ -4267,8 +4218,9 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       onClick: () => {
         if ('section-heading' === node.type) {
           const currentSections = 0 < this.props.workspace.present.sections.length ? this.props.workspace.present.sections : [];
-          const newSections = currentSections.filter(el => el.ID !== node.ID); // Update workspace section headings
+          const newSections = currentSections.filter(el => el.ID !== node.ID);
 
+          // Update workspace section headings
           updateSectionHeadings(newSections);
           (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections);
           removeSectionHeadingEntity(node.ID);
@@ -4335,13 +4287,11 @@ class NodeHeader extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       stroke: "#0073aa"
     })));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 NodeHeader.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_9___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_9___default().object)
@@ -4369,18 +4319,17 @@ NodeHeader.propTypes = {
   updateQuestionType: (prop_types__WEBPACK_IMPORTED_MODULE_9___default().func),
   updateSectionHeadings: (prop_types__WEBPACK_IMPORTED_MODULE_9___default().func)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   moveUp: id => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.moveUp)({
     ID: id
@@ -4399,7 +4348,6 @@ const mapDispatchToProps = dispatch => ({
   updateQuestionType: node => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.updateQuestionType)(node)),
   updateSectionHeadings: node => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.updateSectionHeadings)(node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(NodeHeader));
 
 /***/ }),
@@ -4423,10 +4371,10 @@ __webpack_require__.r(__webpack_exports__);
 const {
   wp
 } = window;
+
 /**
  * Rich Text component (relies on WP Core)
  */
-
 class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -4437,19 +4385,18 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     super(props);
     this.onTextAreaChange = this.onTextAreaChange.bind(this);
   }
+
   /**
    * Once component is mounted, initialize the text area
    */
-
-
   componentDidMount() {
     const {
       onChange,
       id
-    } = this.props; // We need to listen for changes from TinyMCE Visual to Text mode and vice versa.
+    } = this.props;
 
+    // We need to listen for changes from TinyMCE Visual to Text mode and vice versa.
     const editorContainer = document.querySelector('.ld-answer-rt-editor');
-
     if (editorContainer) {
       const observer = new MutationObserver(() => {
         // Check if the editor is switched to text mode
@@ -4458,20 +4405,20 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
             // Capture input in text mode.
             editorContainer.addEventListener('input', function (e) {
               const textArea = editorContainer.querySelector(`#${id}`);
-
               if (e.target.id === textArea.id) {
                 // Save text mode input.
                 onChange(e.target.value);
               }
-            }); // Capture toolbar in text mode.
+            });
 
-            const toolbar = editorContainer.querySelector('.quicktags-toolbar'); // When toolbar button is clicked.
-
+            // Capture toolbar in text mode.
+            const toolbar = editorContainer.querySelector('.quicktags-toolbar');
+            // When toolbar button is clicked.
             if (toolbar) {
               toolbar.addEventListener('click', function (e) {
                 if ('INPUT' === e.target.tagName) {
-                  const textArea = editorContainer.querySelector(`#${id}`); // Save text mode input.
-
+                  const textArea = editorContainer.querySelector(`#${id}`);
+                  // Save text mode input.
                   onChange(textArea.value);
                 }
               });
@@ -4487,7 +4434,6 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       };
       observer.observe(editorContainer, observerConfig);
     }
-
     setTimeout(() => {
       if (wp.editor.initialize && wp.oldEditor.initialize) {
         wp.editor.initialize(id, {
@@ -4511,7 +4457,6 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
           quicktags: true
         });
       }
-
       if (!wp.editor.initialize && wp.oldEditor.initialize) {
         wp.oldEditor.initialize(id, {
           tinymce: {
@@ -4536,45 +4481,39 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }
     }, 30);
   }
+
   /**
    * Destroy the editor when component is unmounted
    */
-
-
   componentWillUnmount() {
     if (wp.editor.remove && wp.oldEditor.remove) {
       wp.editor.remove(this.props.id);
     }
-
     if (!wp.editor.remove && wp.oldEditor.remove) {
       wp.oldEditor.remove(this.props.id);
     }
   }
+
   /**
    * Fallback for when wp.editor.initialize is undefined
    *
    * @param {*} event The event fired when something is entered in the textarea
    */
-
-
   onTextAreaChange(event) {
     const {
       onChange
     } = this.props;
-
     if (!wp.editor.initialize) {
       onChange(event.target.value);
     }
-
     if (!wp.oldEditor.initialize) {
       onChange(event.target.value);
     }
   }
+
   /**
    * Render the textarea
    */
-
-
   render() {
     const {
       id,
@@ -4588,13 +4527,11 @@ class RichText extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       onChange: this.onTextAreaChange
     }));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 RichText.propTypes = {
   id: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
   value: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
@@ -4627,12 +4564,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../redux/actions/dataActions */ "./src/redux/actions/dataActions.js");
 /* harmony import */ var _redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../redux/actions/workspaceActions */ "./src/redux/actions/workspaceActions.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -4647,7 +4583,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Sidebar widget using Beautiful React DnD
  * Used for Lessons, Topics, Quizzes and Questions
  */
-
 class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -4656,6 +4591,7 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    */
   constructor(props) {
     super(props);
+
     /**
      * - checkedItems: array of selected entities, used to add multiple entities at once
      * - searchString: our search term
@@ -4667,7 +4603,6 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - all_list: all results
      * - all_list_pagination: all results, paged
      */
-
     this.state = {
       checkedItems: [],
       searchString: '',
@@ -4684,22 +4619,20 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getRecentlyAddedTopicCount = this.getRecentlyAddedTopicCount.bind(this);
   }
+
   /**
    * Once the component is mounted, fetch initial data, which is the latest 5 modified entities.
    */
-
-
   componentDidMount() {
     // Get last 5 entities
     this.latestQuery();
   }
+
   /**
    * Listen to any changes to the updated raw data, for example when adding a new entity from the builder
    *
    * @param {*} prevProps
    */
-
-
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       this.setState({
@@ -4707,14 +4640,13 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Watch for checkbox toggling
    *
    * @param {string} content
    * @param {toggleCheckboxChange} e
    */
-
-
   toggleCheckboxChange(content, e) {
     const {
       target
@@ -4722,29 +4654,28 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     const {
       name,
       checked
-    } = target; // If the checkbox is checked, add to the checkedItems
+    } = target;
 
+    // If the checkbox is checked, add to the checkedItems
     this.setState(prevState => ({
       [name]: checked ? [...prevState[name], content] : prevState[name].filter(item => item !== content)
     }));
   }
+
   /**
    * Handle input changes
    *
    * @param {handleInputChange} e
    */
-
-
   handleInputChange(e) {
     const searchTerm = e.target.value.toLowerCase();
-
     if (0 !== searchTerm.length) {
       // If we have a search term, we switch to the search mode.
       this.setState({
         searchString: searchTerm,
         mode: 'search'
-      }); // Filter the results containing the search term
-
+      });
+      // Filter the results containing the search term
       this.filterListDebounced(searchTerm);
     } else {
       // If we don't have a search term, we switch to the latest mode.
@@ -4758,41 +4689,36 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Return the nonce from the learndash_builder_nonce element
    *
    * @return {string} Builder nonce
    */
-
-
   getBuilderNonce() {
     const builder_nonce_element = document.getElementById('learndash_builder_nonce');
     let builder_nonce;
-
     if (builder_nonce_element) {
       builder_nonce = builder_nonce_element.value;
     }
-
     return builder_nonce;
   }
+
   /**
    * Search within entities
    *
    * @param {string} searchTerm
    */
-
-
   filterList(searchTerm) {
     this.searchQuery(searchTerm);
   }
+
   /**
    * Search through entities
    *
    * @param {string} searchString
    * @param {number} page
    */
-
-
   async searchQuery() {
     let searchString = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     let page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
@@ -4810,19 +4736,20 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         order: 'ASC',
         paged: page
       }
-    }; // Make AJAX request.
+    };
 
+    // Make AJAX request.
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.ajaxRequest)(payload);
-
     if (200 === res.status) {
-      let nodes = res.data.selector_rows; // Check if we are loading more data.
+      let nodes = res.data.selector_rows;
 
+      // Check if we are loading more data.
       if (1 !== page) {
         // We must filter out existing nodes, since the search results can return existing nodes.
         nodes = (0,_util__WEBPACK_IMPORTED_MODULE_4__.mergeUniqueItems)(this.props.data[this.props.content], res.data.selector_rows);
-      } // Update the list now.
+      }
 
-
+      // Update the list now.
       this.props.initData({
         field: this.props.content,
         data: nodes
@@ -4833,13 +4760,12 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Fetch initial data for various entities
    *
    * @param {number} page
    */
-
-
   async allQuery() {
     let page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
     const builder_data = learndash_builder_assets[LearnDashData.post_data.builder_post_type].post_data;
@@ -4857,18 +4783,19 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         format: 'json',
         post__not_in: entitiesInBuilder
       }
-    }; // Make AJAX request.
+    };
 
+    // Make AJAX request.
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.ajaxRequest)(payload);
-
     if (200 === res.status) {
-      let nodes = res.data.selector_rows; // Check if we are loading more data.
+      let nodes = res.data.selector_rows;
 
+      // Check if we are loading more data.
       if (1 !== page) {
         nodes = (0,_util__WEBPACK_IMPORTED_MODULE_4__.mergeUniqueItems)(this.props.data[this.props.content], res.data.selector_rows);
-      } // update the list now.
+      }
 
-
+      // update the list now.
       this.props.initData({
         field: this.props.content,
         data: nodes
@@ -4879,13 +4806,12 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Get the total number of topics added to the Builder from the Recent list
    *
    * @param {*} lessons
    */
-
-
   getRecentlyAddedTopicCount(lessons) {
     let totalTopics = 0;
     lessons.forEach(lesson => {
@@ -4893,11 +4819,10 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     });
     return totalTopics;
   }
+
   /**
    * Fetch last 5 + [number of items already added to builder] entities
    */
-
-
   async latestQuery() {
     const builder_data = learndash_builder_assets[LearnDashData.post_data.builder_post_type].post_data;
     builder_data.builder_nonce = this.getBuilderNonce();
@@ -4914,13 +4839,14 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         format: 'json',
         post__not_in: entitiesInBuilder
       }
-    }; // Make AJAX request.
+    };
 
+    // Make AJAX request.
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.ajaxRequest)(payload);
-
     if (200 === res.status) {
-      const nodes = res.data.selector_rows; // Update the list now.
+      const nodes = res.data.selector_rows;
 
+      // Update the list now.
       this.props.initData({
         field: this.props.content,
         data: nodes
@@ -4930,11 +4856,10 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Load more entities from the AJAX endpoint
    */
-
-
   loadMore() {
     if ('search' === this.state.mode) {
       this.searchQuery(this.state.searchString, this.state.search_pagination.next_page);
@@ -4942,14 +4867,13 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       this.allQuery(this.state.all_list_pagination.next_page);
     }
   }
+
   /**
    * Add entity to our workspace (builder area)
    *
    * @param {string} content
    * @param {addEntity} e
    */
-
-
   addEntity(content, e) {
     e.preventDefault();
     const {
@@ -4961,7 +4885,6 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       addFinalQuizEntity,
       workspace
     } = this.props;
-
     if ('lesson' === type) {
       addLessonEntity(content);
     } else if ('topic' === type) {
@@ -4977,36 +4900,31 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       addQuestionEntity(content);
     }
   }
+
   /**
    * Check if a topic has been added to the builder
    *
    * @param {Object} droppedNode The Node that is being checked against
    */
-
-
   canAddTopic(droppedNode) {
     const {
       present
     } = this.props.workspace;
     let filtered_items = [];
-
     for (const lesson of present.lessons) {
       filtered_items = lesson.tree.filter(added_item => added_item.ID === droppedNode.ID);
-
       if (0 < filtered_items.length) {
         break;
       }
     }
-
     return 0 === filtered_items.length;
   }
+
   /**
    * Check if a quiz has been added to the builder
    *
    * @param {number} entityID
    */
-
-
   canAddQuiz(entityID) {
     const {
       present
@@ -5014,77 +4932,62 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     const finalQuizzesNodes = Object.values(present.quizzes);
     if (_util__WEBPACK_IMPORTED_MODULE_4__.treeNodeUtils.getNodeByKey(finalQuizzesNodes, parseInt(entityID))) return false;
     let filtered_items = [];
-
     for (const lesson of present.lessons) {
       filtered_items = lesson.tree.filter(item => 'sfwd-quiz' === item.type && entityID === item.ID);
-
       if (0 < filtered_items.length) {
         break;
       }
-
       const topics = lesson.tree.filter(added_item => 'sfwd-topic' === added_item.type);
-
       for (const topic of topics) {
         filtered_items = topic.tree.filter(item => entityID === item.ID);
-
         if (0 < filtered_items.length) {
           break;
         }
       }
-
       if (0 < filtered_items.length) {
         break;
       }
     }
-
     return 0 === filtered_items.length;
   }
+
   /**
    * Check if we can add an entity
    *
    * @param {number} entityID
    */
-
-
   canAddEntity(entityID) {
     // Get workspace data
     const {
       present
     } = this.props.workspace;
     let entityNodes = null;
-
     if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
       entityNodes = Object.values(present.lessons);
     } else {
       entityNodes = Object.values(present.questions);
     }
-
     const droppedNode = _util__WEBPACK_IMPORTED_MODULE_4__.treeNodeUtils.getNodeByKey(entityNodes, parseInt(entityID));
     if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type && 'lessons' === this.props.content) return null === droppedNode;
-
     if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type && 'quizzes' === this.props.content) {
       if (!droppedNode) {
         return this.canAddQuiz(entityID);
       }
     }
-
     if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type && 'topics' === this.props.content && droppedNode) {
       return this.canAddTopic(droppedNode);
     }
-
     return null === droppedNode;
   }
+
   /**
    * Get IDs of entities already added to the builder
    */
-
-
   getEntitiesInBuilder() {
     const {
       present
     } = this.props.workspace;
     let entityNodes = [];
-
     if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
       if ('lessons' === this.props.content) {
         entityNodes = Object.values(present.lessons);
@@ -5094,7 +4997,6 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
             if ('sfwd-topic' === item.type) {
               acc.push(item);
             }
-
             return acc;
           }, []);
           entityNodes.push(...topics);
@@ -5112,10 +5014,10 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     } else {
       entityNodes = Object.values(present.questions);
     }
-
     const addedIDs = entityNodes.map(node => node.ID);
     return addedIDs;
   }
+
   /**
    * Show text whether all or no lessons or quizzes have been added
    *
@@ -5124,46 +5026,36 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @param {boolean} hasQuiz
    * @param {boolean} hasQuestion
    */
-
-
   showAllOrNoElementAddedText(type, hasLesson, hasQuiz, hasQuestion) {
     if ('lesson' === type) {
       if (0 === hasLesson) {
         return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.start_adding_element_labels[type]}.</p></div>`;
       }
-
       return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.all_elements_added_labels[type]}</p></div>`;
     }
-
     if ('quiz' === type) {
       if (0 === hasQuiz) {
         return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.start_adding_element_labels[type]}.</p></div>`;
       }
-
       return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.all_elements_added_labels[type]}</p></div>`;
     }
-
     if ('topic' === type) {
       if (0 === this.getRecentlyAddedTopicCount(this.props.workspace.present.lessons)) {
         return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.start_adding_element_labels[type]}.</p></div>`;
       }
-
       return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.all_elements_added_labels[type]}</p></div>`;
     }
-
     if ('question' === type) {
       if (0 === hasQuestion) {
         return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.start_adding_element_labels[type]}.</p></div>`;
       }
-
       return `<div className="editor-block-inspector__no-blocks"><p>${LearnDashData.i18n.all_elements_added_labels[type]}</p></div>`;
     }
   }
+
   /**
    * Maybe show the form.
    */
-
-
   maybeShowForm() {
     const {
       latest_list,
@@ -5173,6 +5065,7 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     } = this.state;
     return 'latest' === mode && latest_list && 0 !== latest_list.length || list && 0 !== list.length || all_list && 0 !== all_list.length || 'search' === mode && list && 0 !== list.length || latest_list && 0 !== latest_list.length || 'all' === mode && all_list && 0 !== all_list.length;
   }
+
   /**
    * Render function
    *
@@ -5180,8 +5073,6 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @event toggleCheckboxChange
    * @event handleInputChange
    */
-
-
   render() {
     const {
       searchString,
@@ -5198,14 +5089,14 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     } = this.props;
     const hasLesson = workspace.present.lessons.filter(node => 'section-heading' !== node.type).length;
     const hasQuiz = workspace.present.quizzes.length;
-    const hasQuestion = workspace.present.questions.length; // We can't add topics if there is no lesson
+    const hasQuestion = workspace.present.questions.length;
 
+    // We can't add topics if there is no lesson
     if (0 === hasLesson && 'topic' === type && 'sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "editor-block-inspector__no-blocks"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, LearnDashData.labels['start-adding-lesson']));
     }
-
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ld__builder-sidebar-widget"
     }, this.maybeShowForm() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
@@ -5282,8 +5173,9 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       className: `ld-node-status ld-node-status-${contentItem.post_status}`
     }, ` – ${LearnDashData.post_statuses[contentItem.post_status]} `)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       onClick: e => {
-        this.addEntity.call(this, contentItem, e); // Reset checkboxes
+        this.addEntity.call(this, contentItem, e);
 
+        // Reset checkboxes
         this.setState({
           checkedItems: []
         });
@@ -5312,18 +5204,18 @@ class SidebarWidget extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       className: "is-primary",
       onClick: e => {
         // Add selected items
-        checkedItems.map(content => this.addEntity.call(this, content, e)); // Reset checkboxes
+        checkedItems.map(content => this.addEntity.call(this, content, e));
 
+        // Reset checkboxes
         this.setState({
           checkedItems: []
         });
       }
     }, `${LearnDashData.i18n.add_selected}`));
   }
+}
 
-} // Validate prop types
-
-
+// Validate prop types
 SidebarWidget.propTypes = {
   title: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().string),
   content: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().string),
@@ -5337,18 +5229,17 @@ SidebarWidget.propTypes = {
   addQuestionEntity: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().func),
   addFinalQuizEntity: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().func)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   addLessonEntity: draggableLesson => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.addLessonEntity)(draggableLesson)),
   addTopicEntity: draggableTopic => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.addTopicEntity)(null, null, draggableTopic)),
@@ -5357,7 +5248,6 @@ const mapDispatchToProps = dispatch => ({
   addFinalQuizEntity: (index, draggableQuiz) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.addFinalQuizEntity)(index, draggableQuiz)),
   initData: post_type => dispatch((0,_redux_actions_dataActions__WEBPACK_IMPORTED_MODULE_5__.initData)(post_type))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(SidebarWidget));
 
 /***/ }),
@@ -5380,6 +5270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Undo button
  *
@@ -5387,7 +5278,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Object} props
  * @param {undoActionHandler} props.undoActionHandler
  */
-
 const UndoButton = _ref => {
   let {
     undoActionHandler
@@ -5399,11 +5289,10 @@ const UndoButton = _ref => {
     icon: "undo"
   }), `${LearnDashData.i18n.undo}`);
 };
+
 /**
  * Valid props
  */
-
-
 UndoButton.propTypes = {
   undoActionHandler: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func)
 };
@@ -5426,14 +5315,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _course_workspace_quiz__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../course-workspace-quiz */ "./src/components/courses/course-workspace-quiz/index.js");
 
 
+
 /**
  * Footer section for our course builder. Contains the Final Quizzes section
  */
-
 const CourseBuilderFooter = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("footer", {
   className: "ld__builder--footer"
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_course_workspace_quiz__WEBPACK_IMPORTED_MODULE_1__["default"], null));
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CourseBuilderFooter);
 
 /***/ }),
@@ -5462,10 +5350,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _course_builder_footer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../course-builder-footer */ "./src/components/courses/course-builder-footer/index.js");
 /* harmony import */ var _course_workspace__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../course-workspace */ "./src/components/courses/course-workspace/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -5484,7 +5372,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param {Object} props.workspace
  * @param {Object} props.data
  */
-
 const CourseBuilder = _ref => {
   let {
     workspace,
@@ -5494,23 +5381,21 @@ const CourseBuilder = _ref => {
     childrenField: 'tree',
     keyField: 'type'
   });
+
   /**
    * Filter Node function to count topics
    *
    * @param {string} query
    */
-
   const filterFindFunction = query => i => {
     const keywords = query.split(/\s+/);
     const nodeText = i.type;
     return 0 <= keywords.findIndex(kw => nodeText.includes(kw));
   };
-
   const childTopics = treeConfig.findNodes(workspace.present.lessons, filterFindFunction('sfwd-topic')); // get all the child topics
-
   const finalQuizzes = 0 === workspace.present.quizzes.length ? 0 : 1; // final quizzes count as 1 if any
-  // Make sure variables in totalStepsCount exist before running parseInt.
 
+  // Make sure variables in totalStepsCount exist before running parseInt.
   const workSpacePresentLessonsLength = workspace.present.lessons ? workspace.present.lessons.length : 0;
   const childTopicsLength = childTopics ? childTopics.length : 0;
   const workSpacePresentSectionsLength = workspace.present.sections ? workspace.present.sections.length : 0;
@@ -5552,30 +5437,27 @@ const CourseBuilder = _ref => {
     el: "sfwd-quizzes-app"
   }));
 };
+
 /**
  * Valid props
  */
-
-
 CourseBuilder.propTypes = {
   workspace: (prop_types__WEBPACK_IMPORTED_MODULE_9___default().object),
   data: prop_types__WEBPACK_IMPORTED_MODULE_9___default().shape({
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_9___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_2__.connect)(mapStateToProps, mapDispatchToProps)(CourseBuilder));
 
 /***/ }),
@@ -5609,10 +5491,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Component for final quizzes
  */
-
 class CourseWorkspaceQuiz extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -5626,38 +5508,34 @@ class CourseWorkspaceQuiz extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       workspace: this.props.workspace.present
     };
   }
+
   /**
    * Check whether the current draggable entity is a quiz so that the Droppable is enabled.
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
     const prevWorkspace = state.workspace;
     const stateObject = {
       workspace
     };
-
     if (workspace.currentDraggableEntity !== prevWorkspace.currentDraggableEntity && workspace.currentDraggableEntity) {
-      let isDropDisabled = true; // Only Draggable quizzes can be dropped on that Droppable.
+      let isDropDisabled = true;
 
+      // Only Draggable quizzes can be dropped on that Droppable.
       if ('quiz' === workspace.currentDraggableEntity.type || 'sfwd-quiz' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       stateObject.isDropDisabled = isDropDisabled;
     }
-
     return stateObject;
   }
+
   /**
    * Render function
    */
-
-
   render() {
     const {
       data,
@@ -5691,13 +5569,11 @@ class CourseWorkspaceQuiz extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       position: "footer"
     })))));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 CourseWorkspaceQuiz.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_7___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
@@ -5706,27 +5582,25 @@ CourseWorkspaceQuiz.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => {
   return {
     workspace: state.workspace,
     data: state.data
   };
 };
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   toggleExpandAll: () => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_5__.toggleExpandAll)())
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(CourseWorkspaceQuiz));
 
 /***/ }),
@@ -5754,12 +5628,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_empty_entity__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../common/empty-entity */ "./src/components/common/empty-entity/index.js");
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../helpers */ "./src/helpers/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* eslint-disable @wordpress/no-global-event-listener */
+
 
 
 
@@ -5774,7 +5648,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Lessons are handled by Beautiful React DnD, whereas the tree within a lesson is handled by React Sortable Tree
  * Separating the lessons from the tree provides us more flexibility for styling and selecting which lesson is active.
  */
-
 class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -5783,6 +5656,7 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    */
   constructor(props) {
     super(props);
+
     /**
      * Our state which contains:
      * - isDropDisabled: whether the current droppable is enabled or not, depending which draggable is the current item.
@@ -5790,7 +5664,6 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - savedSerializedData: last saved data
      * - workspace: current workspace
      */
-
     this.state = {
       isDropDisabled: true,
       serializedData: '',
@@ -5799,17 +5672,17 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     };
     this.maybeShowAlert = this.maybeShowAlert.bind(this);
     let saveHappened = false;
-    let showingNotice = false; // Check if the user has hit the publish button in Gutenberg
+    let showingNotice = false;
 
+    // Check if the user has hit the publish button in Gutenberg
     window.wp.data.subscribe(() => {
       if (false === saveHappened) {
         saveHappened = window.wp.data.select('core/editor') && true === window.wp.data.select('core/editor').isSavingPost();
       }
-
       if (saveHappened && false === window.wp.data.select('core/editor').isSavingPost() && false === showingNotice) {
         saveHappened = false;
-        showingNotice = true; // Save happened, update our state
-
+        showingNotice = true;
+        // Save happened, update our state
         this.setState({
           savedSerializedData: this.state.serializedData
         }, () => {
@@ -5818,39 +5691,35 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }
     });
   }
+
   /**
    * Check when we need to update the workspace to allow droppables.
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
-
     if (workspace.currentDraggableEntity !== state.currentDraggableEntity && workspace.currentDraggableEntity) {
-      let isDropDisabled = true; // Only Draggable lessons and section headings can be dropped on that Droppable.
+      let isDropDisabled = true;
 
+      // Only Draggable lessons and section headings can be dropped on that Droppable.
       if ('lesson' === workspace.currentDraggableEntity.type || 'sfwd-lessons' === workspace.currentDraggableEntity.type || 'section-heading' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       return {
         isDropDisabled,
         workspace
       };
     }
-
     return null;
   }
+
   /**
    * Shows alert if the user is trying to leave without saving
    *
    * @param {maybeShowAlert} e
    */
-
-
   maybeShowAlert(e) {
     if (window.adminpage && 'sfwd-courses_page_courses-builder' === window.adminpage) {
       // Standalone: if they're not clicking save, show alert
@@ -5858,18 +5727,18 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         e.returnValue = LearnDashData.i18n.unsaved_changes;
         return e.returnValue;
       }
-    } else if ( // Gutenberg
+    } else if (
+    // Gutenberg
     // Our saved data is different from the current data, we need saving to avoid losing changes
     this.state.savedSerializedData !== this.state.serializedData) {
       e.returnValue = LearnDashData.i18n.unsaved_changes;
       return e.returnValue;
     }
   }
+
   /**
    * Attach events once component is mounted
    */
-
-
   componentDidMount() {
     // Classic editor
     if (window.postL10n) {
@@ -5879,11 +5748,10 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       window.addEventListener('beforeunload', this.maybeShowAlert);
     }
   }
+
   /**
    * Detach events when component is unmounted
    */
-
-
   componentWillUnmount() {
     // Classic editor
     if (window.postL10n) {
@@ -5893,31 +5761,29 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       window.removeEventListener('beforeunload', this.maybeShowAlert);
     }
   }
+
   /**
    * When component is updated
    *
    * @param {Object} prevProps The previous props
    */
-
-
   componentDidUpdate(prevProps) {
     // For easier reading
     const workspace = this.props.workspace.present;
-    const prevWorkspace = prevProps.workspace.present; // Serialized the workspace as soon as it's updated.
+    const prevWorkspace = prevProps.workspace.present;
 
+    // Serialized the workspace as soon as it's updated.
     if (workspace !== prevWorkspace) {
       // Build serialized data for lessons
       let swfdData = workspace.lessons.reduce((accumulator, lesson) => {
         if (lesson.type === 'sfwd-lessons') {
           const lessonKey = `${lesson.type}:${lesson.ID}`;
           accumulator[lessonKey] = {};
-
           if (lesson.tree && lesson.tree.length) {
             lesson.tree.forEach(branch => {
               if (branch) {
                 const branchKey = `${branch.type}:${branch.ID}`;
                 accumulator[lessonKey][branchKey] = {};
-
                 if (branch.tree && branch.tree.length) {
                   branch.tree.forEach(leaf => {
                     if (leaf) {
@@ -5930,15 +5796,16 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
             });
           }
         }
-
         return accumulator;
-      }, {}); // Add final quizzes to the mix
+      }, {});
 
+      // Add final quizzes to the mix
       swfdData = workspace.quizzes.reduce((accumulator, quiz) => {
         accumulator[`${quiz.type}:${quiz.ID}`] = {};
         return accumulator;
-      }, swfdData); // Now update the section headings.
+      }, swfdData);
 
+      // Now update the section headings.
       const newLessons = (0,_helpers__WEBPACK_IMPORTED_MODULE_6__.updateSectionHeadingsOrder)(workspace.lessons);
       const newSections = (0,_helpers__WEBPACK_IMPORTED_MODULE_6__.getSectionHeadings)(newLessons);
       const sectionsData = newSections.reduce((accumulator, section) => {
@@ -5946,24 +5813,20 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
           const sectionKey = `${section.type}:${section.ID}`;
           accumulator[sectionKey] = section;
         }
-
         return accumulator;
       }, {});
-
       const stepsData = _objectSpread(_objectSpread({}, swfdData), sectionsData);
-
       this.setState({
         serializedData: JSON.stringify(stepsData)
       });
     }
   }
+
   /**
    * Render function
    *
    * @event maybeShowAlert
    */
-
-
   render() {
     const {
       workspace,
@@ -6013,13 +5876,11 @@ class CourseWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       value: this.state.serializedData
     }));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 CourseWorkspace.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_8___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().object)
@@ -6030,24 +5891,22 @@ CourseWorkspace.propTypes = {
   totalLessons: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().number),
   hooks: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().object)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => {
   return {
     workspace: state.workspace,
     data: state.data
   };
 };
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(CourseWorkspace));
 
 /***/ }),
@@ -6074,12 +5933,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_node_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/node-header */ "./src/components/common/node-header/index.js");
 /* harmony import */ var _redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../redux/actions/workspaceActions */ "./src/redux/actions/workspaceActions.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -6092,7 +5950,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Lesson Child component for the workspace. It can contain either topics or quizzes.
  */
-
 class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -6101,10 +5958,10 @@ class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component 
    */
   constructor(props) {
     super(props);
+
     /**
      * State
      */
-
     this.state = {
       expanded: this.props.node.expanded,
       isDropDisabled: true,
@@ -6112,14 +5969,13 @@ class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component 
       workspace: this.props.workspace.present
     };
   }
+
   /**
    * Checks whether we want to toggle all the nodes and whether a draggable can be droppable.
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
     const prevWorkspace = state.workspace;
@@ -6127,17 +5983,16 @@ class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component 
       workspace
     };
     let isDropDisabled = true;
-    let isDragDisabled = false; // Listen to any change to the expand all/collapse all button in the header
+    let isDragDisabled = false;
 
+    // Listen to any change to the expand all/collapse all button in the header
     if (workspace.expandAll !== prevWorkspace.expandAll) {
       stateObject.expanded = workspace.expandAll;
     }
-
     if (workspace.currentDraggableEntity !== state.currentDraggableEntity && workspace.currentDraggableEntity) {
       if ('quiz' === workspace.currentDraggableEntity.type || 'sfwd-quiz' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       if ('quiz' === workspace.currentDraggableEntity.type || 'sfwd-quiz' === workspace.currentDraggableEntity.type) {
         if ('topic' === props.node.type || 'sfwd-topic' === props.node.type) {
           isDragDisabled = true;
@@ -6148,16 +6003,14 @@ class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component 
         }
       }
     }
-
     stateObject.isDropDisabled = isDropDisabled;
     stateObject.isDragDisabled = isDragDisabled;
     return stateObject;
   }
+
   /**
    * Render function
    */
-
-
   render() {
     const {
       node,
@@ -6222,13 +6075,11 @@ class LessonChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component 
       "data-label": `${LearnDashData.i18n.drop_quizzes}`
     }, nodeDropProvided.placeholder)))));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 LessonChildWorkspace.propTypes = {
   node: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object),
   indexLesson: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().number),
@@ -6241,22 +6092,20 @@ LessonChildWorkspace.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   toggleExpandEntity: (indexLesson, node) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_5__.toggleExpandEntity)(indexLesson, node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(LessonChildWorkspace));
 
 /***/ }),
@@ -6281,12 +6130,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _common_node_header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../common/node-header */ "./src/components/common/node-header/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -6302,7 +6150,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param {number} props.indexLesson
  * @param {number} props.index
  */
-
 const LessonGrandchildWorkspace = _ref => {
   let {
     node,
@@ -6335,29 +6182,26 @@ const LessonGrandchildWorkspace = _ref => {
     }
   })));
 };
+
 /**
  * Valid props
  */
-
-
 LessonGrandchildWorkspace.propTypes = {
   node: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().object),
   index: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number),
   indexLesson: (prop_types__WEBPACK_IMPORTED_MODULE_5___default().number)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(LessonGrandchildWorkspace));
 
 /***/ }),
@@ -6385,12 +6229,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_new_entity__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../common/new-entity */ "./src/components/common/new-entity/index.js");
 /* harmony import */ var _redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../redux/actions/workspaceActions */ "./src/redux/actions/workspaceActions.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -6404,7 +6247,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Lesson component for the workspace. The component acts as a droppable for Topics and Quizzes
  */
-
 class LessonWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -6413,6 +6255,7 @@ class LessonWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
    */
   constructor(props) {
     super(props);
+
     /**
      * Our current state which contains the following
      * - ID: lesson ID
@@ -6420,7 +6263,6 @@ class LessonWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
      * - isDropDisabled: whether the Droppable is enabled or not
      * - workspace: current workspace
      */
-
     this.state = {
       ID: this.props.lesson.ID,
       expanded: -1 !== this.props.workspace.present.expandedItems.indexOf(this.props.lesson.ID),
@@ -6428,42 +6270,39 @@ class LessonWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       workspace: this.props.workspace.present
     };
   }
+
   /**
    * Check when we need to update the workspace to allow droppables.
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
     const prevWorkspace = state.workspace;
     const stateObject = {
       workspace
-    }; // Listen to changes to the expanded state
+    };
 
+    // Listen to changes to the expanded state
     if (workspace.expandedItems !== prevWorkspace.expandedItems) {
       stateObject.expanded = -1 !== workspace.expandedItems.indexOf(state.ID);
     }
-
     if (workspace.currentDraggableEntity !== state.currentDraggableEntity && workspace.currentDraggableEntity) {
-      let isDropDisabled = true; // Only Draggable topics and quizzes can be dropped on that Droppable.
+      let isDropDisabled = true;
 
+      // Only Draggable topics and quizzes can be dropped on that Droppable.
       if ('topic' === workspace.currentDraggableEntity.type || 'quiz' === workspace.currentDraggableEntity.type || 'sfwd-topic' === workspace.currentDraggableEntity.type || 'sfwd-quiz' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       stateObject.isDropDisabled = isDropDisabled;
     }
-
     return stateObject;
   }
+
   /**
    * Render function
    */
-
-
   render() {
     const {
       expanded
@@ -6559,13 +6398,11 @@ class LessonWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       })))))
     );
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 LessonWorkspace.propTypes = {
   lesson: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().object),
   index: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().number),
@@ -6578,23 +6415,21 @@ LessonWorkspace.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_8___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   setActiveLesson: id => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.setActiveLesson)(id)),
   toggleExpandEntity: (indexLesson, node) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_6__.toggleExpandEntity)(indexLesson, node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(LessonWorkspace));
 
 /***/ }),
@@ -6620,10 +6455,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../redux/actions/workspaceActions */ "./src/redux/actions/workspaceActions.js");
 /* harmony import */ var _common_icon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../common/icon */ "./src/components/common/icon/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -6635,7 +6470,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * New matrix answer
  */
-
 class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -6648,39 +6482,38 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
       showForm: false,
       answer: '',
       sortString: ''
-    }; // cancel token to abort any requests when unmounting the component.
+    };
 
+    // cancel token to abort any requests when unmounting the component.
     this.signal = axios__WEBPACK_IMPORTED_MODULE_2___default().CancelToken.source();
     this.handleShowForm = this.handleShowForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this); // to prevent memory leaks
+    this.handleSubmit = this.handleSubmit.bind(this);
 
+    // to prevent memory leaks
     this._isMounted = false;
   }
+
   /**
    * When component is mounted
    */
-
-
   componentDidMount() {
     this._isMounted = true;
   }
+
   /**
    * Cancel all requests when unmounting the component.
    */
-
-
   componentWillUnmount() {
     this.signal.cancel();
     this._isMounted = false;
   }
+
   /**
    * Handles the form submission. Should be replaced by calls to the API
    *
    * @param {handleSubmit} e
    */
-
-
   async handleSubmit(e) {
     e.preventDefault();
     const {
@@ -6693,7 +6526,6 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
       addAnswerEntity,
       question
     } = this.props;
-
     if ('answer' === type) {
       // Setup a new answer object
       const newAnswer = {
@@ -6708,25 +6540,25 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
         gradedType: 'text',
         type: 'answer',
         answerType: question.question_type
-      }; // Create new answers array for our question type
+      };
 
-      const newAnswers = [...question.answers[LearnDashData.questions_types_map[question.question_type]], newAnswer]; // Update question
+      // Create new answers array for our question type
+      const newAnswers = [...question.answers[LearnDashData.questions_types_map[question.question_type]], newAnswer];
 
+      // Update question
       const res = await (0,_api__WEBPACK_IMPORTED_MODULE_3__.updateAnswer)(parentLesson, newAnswers);
-
       if (200 === res) {
         // Update our workspace
         addAnswerEntity(newAnswer, question);
       }
     }
   }
+
   /**
    * Shows the form to add the new answer.
    *
    * @param {handleShowForm} e
    */
-
-
   handleShowForm(e) {
     e.preventDefault();
     this.setState(_ref => {
@@ -6738,13 +6570,12 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
       };
     });
   }
+
   /**
    * Change to input fields.
    *
    * @param {handleChange} e
    */
-
-
   handleChange(e) {
     const {
       target
@@ -6757,6 +6588,7 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
       [name]: value
     });
   }
+
   /**
    * Render function
    *
@@ -6764,8 +6596,6 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
    * @event handleShowForm
    * @event handleChange
    */
-
-
   render() {
     const {
       showForm,
@@ -6807,13 +6637,11 @@ class NewMatrixAnswerEntity extends react__WEBPACK_IMPORTED_MODULE_0__.Component
       className: "is-default ld__builder--new-entity-button"
     })))));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 NewMatrixAnswerEntity.propTypes = {
   type: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().string),
   addAnswerEntity: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().func),
@@ -6823,22 +6651,20 @@ NewMatrixAnswerEntity.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   addAnswerEntity: (answer, parent) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_4__.addAnswerEntity)(answer, parent))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(NewMatrixAnswerEntity));
 
 /***/ }),
@@ -6870,12 +6696,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _question_type_essay__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../question-type-essay */ "./src/components/quizzes/question-type-essay/index.js");
 /* harmony import */ var _common_icon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../common/icon */ "./src/components/common/icon/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -6894,7 +6719,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Question Child component for the workspace. It contains answers.
  */
-
 class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -6906,10 +6730,10 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
     const {
       node
     } = this.props;
+
     /**
      * Component state
      */
-
     this.state = {
       showFormIndividual: false,
       answer: node.answer,
@@ -6933,17 +6757,17 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
     this.handleAddMedia = this.handleAddMedia.bind(this);
     this.handleCorrectChange = this.handleCorrectChange.bind(this);
     this.handleMoveUp = this.handleMoveUp.bind(this);
-    this.handleMoveDown = this.handleMoveDown.bind(this); // to prevent memory leaks
+    this.handleMoveDown = this.handleMoveDown.bind(this);
 
+    // to prevent memory leaks
     this._isMounted = false;
   }
+
   /**
    * Toggles checkbox
    *
    * @param {handleCheckboxChange} e
    */
-
-
   handleCheckboxChange(e) {
     const {
       target
@@ -6956,13 +6780,12 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       [name]: checked
     });
   }
+
   /**
    * Handles input and textarea changes
    *
    * @param {handleInputChange} e
    */
-
-
   handleInputChange(e) {
     const {
       target
@@ -6975,40 +6798,34 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       [name]: value
     });
   }
+
   /**
    * Handles the change in the rich text editor
    *
    * @param {string} value
    */
-
-
   handleRichtextChange(value) {
     this.setState({
       answer: value
     });
   }
+
   /**
    * Inserts media in answer field
    *
    * @param {Object} media Selected media object
    */
-
-
   handleAddMedia(media) {
     let mediaHTML = `${LearnDashData.i18n.supported_media_in_answers}`;
-
     if ('image' === media.type) {
       mediaHTML = ` <img src="${media.url}" alt=${media.alt} />`;
     }
-
     if ('audio' === media.type) {
       mediaHTML = ` [audio src="${media.url}"]`;
     }
-
     if ('video' === media.type) {
       mediaHTML = ` [video src="${media.url}"]`;
     }
-
     this.setState(_ref => {
       let {
         answer
@@ -7020,13 +6837,12 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       };
     });
   }
+
   /**
    * Remove answer
    *
    * @param {handleAnswerRemove} e
    */
-
-
   async handleAnswerRemove(e) {
     e.preventDefault();
     const {
@@ -7034,26 +6850,27 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       node,
       index,
       removeAnswerEntity
-    } = this.props; // Create new answers array for our question type
+    } = this.props;
 
-    const newAnswers = question.answers[LearnDashData.questions_types_map[question.question_type]].filter(el => el !== node); // Update question
+    // Create new answers array for our question type
+    const newAnswers = question.answers[LearnDashData.questions_types_map[question.question_type]].filter(el => el !== node);
 
+    // Update question
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(question.ID, newAnswers);
-
     if (200 === res) {
       // unlock question
-      this.props.unlockQuestion(); // Update our workspace
+      this.props.unlockQuestion();
 
+      // Update our workspace
       removeAnswerEntity(index, question);
     }
   }
+
   /**
    * Update the correct answer
    *
    * @param {handleCorrectChange} e
    */
-
-
   async handleCorrectChange(e) {
     const {
       question,
@@ -7063,39 +6880,37 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
     const {
       checked
     } = e.target;
-    const newCorrect = checked; // Update current answer object
+    const newCorrect = checked;
 
+    // Update current answer object
     const newAnswers = question.answers[LearnDashData.questions_types_map[question.question_type]].map(answer => {
       if (answer === node) {
         return _objectSpread(_objectSpread({}, answer), {}, {
           correct: newCorrect
         });
       }
-
       if ('multiple' !== question.question_type) {
         return _objectSpread(_objectSpread({}, answer), {}, {
           correct: false
         });
       }
-
       return answer;
-    }); // Update question
+    });
 
+    // Update question
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(question.ID, newAnswers);
-
     if (200 === res) {
       // Update our workspace
       // this.setState( { correct: newCorrect } );
       updateQuestionAnswers(question, newAnswers);
     }
   }
+
   /**
    * Update answer
    *
    * @param {handleAnswerUpdate} e
    */
-
-
   async handleAnswerUpdate(e) {
     e.preventDefault();
     const {
@@ -7122,19 +6937,19 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       sortString,
       sortStringHtml,
       answerType: question.question_type
-    }; // Update current answer object
+    };
 
-    const newAnswer = _objectSpread(_objectSpread({}, question.answers[LearnDashData.questions_types_map[question.question_type]][index]), newObject); // Re-assign current answer object
+    // Update current answer object
+    const newAnswer = _objectSpread(_objectSpread({}, question.answers[LearnDashData.questions_types_map[question.question_type]][index]), newObject);
 
-
+    // Re-assign current answer object
     question.answers[LearnDashData.questions_types_map[question.question_type]][index] = newAnswer;
     const newAnswers = question.answers[LearnDashData.questions_types_map[question.question_type]];
-    const shouldCalculatePoints = 'assessment_answer' === question.question_type; // Update question
-
+    const shouldCalculatePoints = 'assessment_answer' === question.question_type;
+    // Update question
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(question.ID, newAnswers, shouldCalculatePoints);
     this.props.handleShowForm();
     this.handleShowFormIndividual();
-
     if (shouldCalculatePoints) {
       const {
         points
@@ -7145,7 +6960,6 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
     } else {
       updateQuestionType(_objectSpread({}, question));
     }
-
     if (200 === res) {
       if (this._isMounted) {
         // Update our workspace
@@ -7155,13 +6969,12 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       }
     }
   }
+
   /**
    * Moves answer up
    *
    * @param {handleMoveUp} e
    */
-
-
   async handleMoveUp(e) {
     e.preventDefault();
     const {
@@ -7169,21 +6982,23 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       node,
       index,
       moveUp
-    } = this.props; // Create new answers array for our question type
+    } = this.props;
 
-    const newAnswers = (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.reorder)(question.answers[LearnDashData.questions_types_map[question.question_type]], index, parseInt(index - 1, 10)); // Update our workspace
+    // Create new answers array for our question type
+    const newAnswers = (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.reorder)(question.answers[LearnDashData.questions_types_map[question.question_type]], index, parseInt(index - 1, 10));
 
-    moveUp(node, index, question); // Update question in the background
+    // Update our workspace
+    moveUp(node, index, question);
 
+    // Update question in the background
     await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(question.ID, newAnswers);
   }
+
   /**
    * Moves answer down
    *
    * @param {handleMoveDown} e
    */
-
-
   async handleMoveDown(e) {
     e.preventDefault();
     const {
@@ -7191,42 +7006,41 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       node,
       index,
       moveDown
-    } = this.props; // Create new answers array for our question type
+    } = this.props;
 
-    const newAnswers = (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.reorder)(question.answers[LearnDashData.questions_types_map[question.question_type]], index, parseInt(index + 1, 10)); // Update our workspace
+    // Create new answers array for our question type
+    const newAnswers = (0,_helpers__WEBPACK_IMPORTED_MODULE_2__.reorder)(question.answers[LearnDashData.questions_types_map[question.question_type]], index, parseInt(index + 1, 10));
 
-    moveDown(node, index, question); // Update question in the background
+    // Update our workspace
+    moveDown(node, index, question);
 
+    // Update question in the background
     await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(question.ID, newAnswers);
   }
+
   /**
    * When component is mounted
    */
-
-
   componentDidMount() {
     this._isMounted = true;
   }
+
   /**
    * When component is unmounted
    */
-
-
   componentWillUnmount() {
     this._isMounted = false;
   }
+
   /**
    * Displays edit mode - individual items
    *
    * @param {handleShowFormIndividual} e
    */
-
-
   handleShowFormIndividual(e) {
     if (e) {
       e.preventDefault();
     }
-
     this.setState(_ref2 => {
       let {
         showFormIndividual
@@ -7236,6 +7050,7 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       };
     });
   }
+
   /**
    * Render function
    *
@@ -7248,8 +7063,6 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
    * @event handleMoveDown
    * @event handleShowFormIndividual
    */
-
-
   render() {
     const {
       showFormIndividual,
@@ -7274,7 +7087,6 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       ID: questionID,
       post_content: questionContent
     } = question;
-
     if ('single' === questionType || 'multiple' === questionType || 'sort_answer' === questionType || 'matrix_sort_answer' === questionType) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_12__.Draggable, {
         draggableId: JSON.stringify(_objectSpread({}, node)),
@@ -7356,7 +7168,6 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
         showForm: showForm
       }));
     }
-
     return 'free_answer' === questionType && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
       key: key,
       className: `ld__builder--child-item ld-question-answer ld-node-header sfwd_options ${showForm ? '-showform -editing' : ''}`
@@ -7369,13 +7180,11 @@ class QuestionChildWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Componen
       showForm: showForm
     }));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 QuestionChildWorkspace.propTypes = {
   showForm: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().bool),
   node: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object),
@@ -7392,18 +7201,17 @@ QuestionChildWorkspace.propTypes = {
   unlockQuestion: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().func),
   updateQuestionType: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().func)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   moveUp: (node, index, question) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_3__.moveUp)(_objectSpread(_objectSpread({}, node), {}, {
     index,
@@ -7419,7 +7227,6 @@ const mapDispatchToProps = dispatch => ({
   updateQuestionAnswers: (question, answers) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_3__.updateQuestionAnswers)(question, answers)),
   updateQuestionType: node => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_3__.updateQuestionType)(node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(QuestionChildWorkspace));
 
 /***/ }),
@@ -7444,10 +7251,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../api */ "./src/api/index.js");
 /* harmony import */ var _redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../redux/actions/workspaceActions */ "./src/redux/actions/workspaceActions.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -7459,7 +7266,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Question content (the actual question, as opposed to the question post title)
  */
-
 class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -7476,13 +7282,12 @@ class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     this.handleQuestionContent = this.handleQuestionContent.bind(this);
     this.handleSaveSettings = this.handleSaveSettings.bind(this);
   }
+
   /**
    * Listener when we update the question content
    *
    * @param {string} value
    */
-
-
   handleQuestionContent(value) {
     if (this._isMounted) {
       this.setState({
@@ -7490,13 +7295,12 @@ class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       });
     }
   }
+
   /**
    * Listener when saving the settings
    *
    * @param {handleSaveSettings} e
    */
-
-
   async handleSaveSettings(e) {
     e.preventDefault();
     const {
@@ -7509,7 +7313,6 @@ class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     const res = await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateQuestion)(question.ID, {
       _question: content
     });
-
     if (200 === res) {
       updateQuestionType(_objectSpread(_objectSpread({}, question), {}, {
         post_content: content
@@ -7517,29 +7320,26 @@ class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       this.props.handleQuestionForm();
     }
   }
+
   /**
    * When component is mounted
    */
-
-
   componentDidMount() {
     this._isMounted = true;
   }
+
   /**
    * When component is unmounted
    */
-
-
   componentWillUnmount() {
     this._isMounted = false;
   }
+
   /**
    * Render the Question Settings
    *
    * @event handleSaveSettings
    */
-
-
   render() {
     const {
       question,
@@ -7592,13 +7392,11 @@ class QuestionContent extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       className: "ld__builder--form-error"
     }, error))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 QuestionContent.propTypes = {
   editQuestionForm: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().bool),
   question: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().object),
@@ -7610,22 +7408,20 @@ QuestionContent.propTypes = {
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_6___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   updateQuestionType: node => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_5__.updateQuestionType)(node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(QuestionContent));
 
 /***/ }),
@@ -7652,10 +7448,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Settings for each question
  */
-
 class QuestionSettings extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -7679,13 +7475,12 @@ class QuestionSettings extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent 
     this.handleSolutionHintMessage = this.handleSolutionHintMessage.bind(this);
     this.handleSaveSettings = this.handleSaveSettings.bind(this);
   }
+
   /**
    * Handle all checkbox changes
    *
    * @param {handleCheckChange} event
    */
-
-
   handleCheckChange(event) {
     const target = event.target;
     const name = target.name;
@@ -7693,51 +7488,47 @@ class QuestionSettings extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent 
       [name]: !prevState[name]
     }));
   }
+
   /**
    * Listener when we update the correct answer text
    *
    * @param {string} value
    */
-
-
   handleCorrectMessage(value) {
     this.setState({
       correctMessage: value
     });
     this.props.question.correctMsg = value;
   }
+
   /**
    * Listener when we update the incorrect answer text
    *
    * @param {string} value
    */
-
-
   handleIncorrectMessage(value) {
     this.setState({
       incorrectMessage: value
     });
     this.props.question.incorrectMsg = value;
   }
+
   /**
    * Listener when we update the solution hint message
    *
    * @param {string} value
    */
-
-
   handleSolutionHintMessage(value) {
     this.setState({
       solutionHintMessage: value
     });
   }
+
   /**
    * Listener when saving the settings
    *
    * @param {handleSaveSettings} e
    */
-
-
   async handleSaveSettings(e) {
     e.persist();
     e.preventDefault();
@@ -7755,27 +7546,24 @@ class QuestionSettings extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent 
       _tipEnabled: solutionHint,
       _tipMsg: solutionHintMessage
     });
-
     if (200 === res) {
       this.props.handleSettingsForm(e);
     }
   }
+
   /**
    * Listener when component unmounts
    */
-
-
   componentWillUnmount() {
     this.props.unlockQuestion();
   }
+
   /**
    * Render the Question Settings
    *
    * @event handleCheckChange
    * @event handleSaveSettings
    */
-
-
   render() {
     const {
       showSettings,
@@ -7866,13 +7654,11 @@ class QuestionSettings extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent 
       className: "ld__builder--form-error"
     }, error))));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 QuestionSettings.propTypes = {
   showSettings: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().bool),
   question: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object),
@@ -7899,6 +7685,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _common_media_upload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common/media-upload */ "./src/components/common/media-upload/index.js");
 /* harmony import */ var _common_icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../common/icon */ "./src/components/common/icon/index.js");
+
 
 
 
@@ -7932,7 +7719,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean} props.correct
  * @param {boolean} props.html
  */
-
 const QuestionTypeClassic = _ref => {
   let {
     handleAnswerUpdate,
@@ -8017,13 +7803,10 @@ const QuestionTypeClassic = _ref => {
         switch (parseInt(index + 1, 10)) {
           case 1:
             return `${LearnDashData.i18n.correct} ${LearnDashData.i18n.correct_1st}`;
-
           case 2:
             return `${LearnDashData.i18n.correct} ${LearnDashData.i18n.correct_2nd}`;
-
           case 3:
             return `${LearnDashData.i18n.correct} ${LearnDashData.i18n.correct_3rd}`;
-
           default:
             return `${LearnDashData.i18n.correct} ${parseInt(index + 1, 10)}${LearnDashData.i18n.correct_nth}`;
         }
@@ -8053,8 +7836,6 @@ const QuestionTypeClassic = _ref => {
 /**
  * Valid props
  */
-
-
 QuestionTypeClassic.propTypes = {
   handleAnswerUpdate: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
   handleAnswerRemove: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
@@ -8093,6 +7874,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Render Essay Question Type
  *
@@ -8108,7 +7890,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean} props.updated
  * @param {boolean} props.showForm
  */
-
 const QuestionTypeEssay = _ref => {
   let {
     handleAnswerUpdate,
@@ -8217,13 +7998,10 @@ const QuestionTypeEssay = _ref => {
     switch (gradingProgression) {
       case 'not-graded-none':
         return `${LearnDashData.i18n.essay_not_graded_no_points}`;
-
       case 'not-graded-full':
         return `${LearnDashData.i18n.essay_not_graded_full_points}`;
-
       case 'graded-full':
         return `${LearnDashData.i18n.essay_graded_full_points}`;
-
       default:
         return `${LearnDashData.i18n.essay_not_set}`;
     }
@@ -8237,11 +8015,10 @@ const QuestionTypeEssay = _ref => {
     className: "screen-reader-text"
   }, `${LearnDashData.i18n.edit}`)));
 };
+
 /**
  * Valid props
  */
-
-
 QuestionTypeEssay.propTypes = {
   handleShowForm: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
   handleAnswerUpdate: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
@@ -8273,6 +8050,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Render Free Choice Question Type
  *
@@ -8287,7 +8065,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean} props.updated
  * @param {boolean} props.showForm
  */
-
 const QuestionTypeFree = _ref => {
   let {
     handleAnswerUpdate,
@@ -8336,11 +8113,10 @@ const QuestionTypeFree = _ref => {
     className: "screen-reader-text"
   }, `${LearnDashData.i18n.edit}`)));
 };
+
 /**
  * Valid props
  */
-
-
 QuestionTypeFree.propTypes = {
   handleShowForm: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
   handleAnswerUpdate: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
@@ -8373,6 +8149,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Render Matrix Sorting Question Type
  *
@@ -8395,7 +8172,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {string} props.sortString
  * @param {boolean} props.sortStringHtml
  */
-
 const QuestionTypeMatrix = _ref => {
   let {
     handleAnswerUpdate,
@@ -8512,11 +8288,10 @@ const QuestionTypeMatrix = _ref => {
     onClick: handleAnswerRemove
   }, `${LearnDashData.i18n.remove}`))));
 };
+
 /**
  * Valid props
  */
-
-
 QuestionTypeMatrix.propTypes = {
   handleAnswerUpdate: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
   handleAnswerRemove: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
@@ -8554,6 +8329,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Render Rich Text (Fill in the blank, Assessment) Question Type
  *
@@ -8570,7 +8346,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean} props.updated
  * @param {boolean} props.showForm
  */
-
 const QuestionTypeRichtext = _ref => {
   let {
     handleAnswerUpdate,
@@ -8623,11 +8398,10 @@ const QuestionTypeRichtext = _ref => {
     className: "screen-reader-text"
   }, `${LearnDashData.i18n.edit}`)));
 };
+
 /**
  * Valid props
  */
-
-
 QuestionTypeRichtext.propTypes = {
   handleShowForm: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
   handleAnswerUpdate: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
@@ -8670,12 +8444,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_icon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../common/icon */ "./src/components/common/icon/index.js");
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../helpers */ "./src/helpers/index.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -8695,7 +8468,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Question component for the workspace.
  * This is the parent component for all question types
  */
-
 class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -8704,6 +8476,7 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    */
   constructor(props) {
     super(props);
+
     /**
      * Our current state which contains the following
      * - ID: current question ID
@@ -8715,7 +8488,6 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - showSettings: is the question settings form shown or not
      * - showForm: is an answer form shown or not
      */
-
     this.state = {
       ID: this.props.question.ID,
       expanded: -1 !== this.props.workspace.present.expandedItems.indexOf(this.props.question.ID),
@@ -8732,24 +8504,24 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.handleShowForm = this.handleShowForm.bind(this);
     this.handleQuestionForm = this.handleQuestionForm.bind(this);
   }
+
   /**
    * Check the current draggable type and match it against an answer.
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
     const prevWorkspace = state.workspace;
     const stateObject = {
       workspace
-    }; // Listen to changes to the expanded state
+    };
 
+    // Listen to changes to the expanded state
     if (workspace.expandedItems !== prevWorkspace.expandedItems) {
-      stateObject.expanded = -1 !== workspace.expandedItems.indexOf(state.ID); // If we're collapsing the question, unlock the question (remove the overlay)
-
+      stateObject.expanded = -1 !== workspace.expandedItems.indexOf(state.ID);
+      // If we're collapsing the question, unlock the question (remove the overlay)
       if (!stateObject.expanded) {
         stateObject.locked = false;
       } else {
@@ -8757,68 +8529,60 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         if (true === state.showSettings) {
           stateObject.locked = true;
         }
-
         if (true === state.showForm) {
           stateObject.locked = true;
         }
-
         if (true === state.editQuestionForm) {
           stateObject.locked = true;
         }
       }
-    } // Check for valid draggable types. It should be only answer.
+    }
 
-
+    // Check for valid draggable types. It should be only answer.
     if (workspace.currentDraggableEntity !== state.currentDraggableEntity && workspace.currentDraggableEntity) {
-      let isDropDisabled = true; // Only Draggable answers can be dropped on that Droppable.
+      let isDropDisabled = true;
 
+      // Only Draggable answers can be dropped on that Droppable.
       if ('answer' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       stateObject.isDropDisabled = isDropDisabled;
     }
-
     return stateObject;
   }
+
   /**
    * Locks the question to prevent editing
    */
-
-
   lockQuestion() {
     this.setState({
       locked: true
     });
   }
+
   /**
    * Unlocks the question to allow editing
    */
-
-
   unlockQuestion() {
     this.setState({
       locked: false
     });
   }
+
   /**
    * Toggles settings form
    *
    * @param {handleSettingsForm} e
    */
-
-
   handleSettingsForm(e) {
     if (e) {
       e.preventDefault();
     }
-
     if (!this.state.showSettings) {
       this.lockQuestion();
     } else {
       this.unlockQuestion();
     }
-
     this.setState(_ref => {
       let {
         showSettings
@@ -8828,24 +8592,21 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       };
     });
   }
+
   /**
    * Displays edit mode
    *
    * @param {handleShowForm} e
    */
-
-
   handleShowForm(e) {
     if (e) {
       e.preventDefault();
     }
-
     if (!this.state.showForm) {
       this.lockQuestion();
     } else {
       this.unlockQuestion();
     }
-
     this.setState(_ref2 => {
       let {
         showForm
@@ -8855,24 +8616,21 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       };
     });
   }
+
   /**
    * Toggles question edit form
    *
    * @param {handleQuestionForm} e
    */
-
-
   handleQuestionForm(e) {
     if (e) {
       e.preventDefault();
     }
-
     if (!this.state.editQuestionForm) {
       this.lockQuestion();
     } else {
       this.unlockQuestion();
     }
-
     this.setState(_ref3 => {
       let {
         editQuestionForm
@@ -8882,6 +8640,7 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       };
     });
   }
+
   /**
    * Render function
    *
@@ -8889,8 +8648,6 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @event handleShowForm
    * @event handleQuestionForm
    */
-
-
   render() {
     const {
       question,
@@ -9026,13 +8783,11 @@ class QuestionWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }))))
     );
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 QuestionWorkspace.propTypes = {
   questions: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object),
   index: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().number),
@@ -9041,23 +8796,21 @@ QuestionWorkspace.propTypes = {
   question: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object),
   workspace: (prop_types__WEBPACK_IMPORTED_MODULE_13___default().object)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  * @param {*} dispatch
  */
-
-
 const mapDispatchToProps = dispatch => ({
   setActiveLesson: id => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_9__.setActiveLesson)(id)),
   toggleExpandEntity: (indexQuestion, node) => dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_9__.toggleExpandEntity)(indexQuestion, node))
 });
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(QuestionWorkspace));
 
 /***/ }),
@@ -9083,16 +8836,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_entity_builder_header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../common/entity-builder-header */ "./src/components/common/entity-builder-header/index.js");
 /* harmony import */ var _quiz_workspace__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../quiz-workspace */ "./src/components/quizzes/quiz-workspace/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
- // import QuestionOverviewPortal from '~/portals/question-overview-portal';
+
+
+
+// import QuestionOverviewPortal from '~/portals/question-overview-portal';
 
 
 
@@ -9104,7 +8857,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param {Object} props.workspace
  * @param {Object} props.data
  */
-
 const QuizBuilder = _ref => {
   let {
     workspace,
@@ -9137,30 +8889,27 @@ const QuizBuilder = _ref => {
     el: "sfwd-questions-app"
   }));
 };
+
 /**
  * Valid props
  */
-
-
 QuizBuilder.propTypes = {
   workspace: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object),
   data: prop_types__WEBPACK_IMPORTED_MODULE_7___default().shape({
     labels: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
   })
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(QuizBuilder));
 
 /***/ }),
@@ -9195,10 +8944,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Our canvas when building a quiz. Allows you to add questions by drag and drop.
  */
-
 class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -9206,10 +8955,12 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
    * @param {Object} props
    */
   constructor(props) {
-    super(props); // Calculate total points on this quiz
+    super(props);
 
+    // Calculate total points on this quiz
     let totalPoints = 0;
     this.props.workspace.present.questions.map(question => totalPoints = parseInt(totalPoints + question.points, 10));
+
     /**
      * Our state which contains:
      * - isDropDisabled: whether the current droppable is enabled or not, depending which draggable is the current item.
@@ -9218,7 +8969,6 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
      * - totalPoints: total points for this quiz
      * - workspace: current workspace
      */
-
     this.state = {
       isDropDisabled: true,
       serializedData: '',
@@ -9228,17 +8978,17 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     };
     this.maybeShowAlert = this.maybeShowAlert.bind(this);
     let saveHappened = false;
-    let showingNotice = false; // Check if the user has hit the publish button in Gutenberg
+    let showingNotice = false;
 
+    // Check if the user has hit the publish button in Gutenberg
     window.wp.data.subscribe(() => {
       if (false === saveHappened) {
         saveHappened = window.wp.data.select('core/editor') && true === window.wp.data.select('core/editor').isSavingPost();
       }
-
       if (saveHappened && false === window.wp.data.select('core/editor').isSavingPost() && false === showingNotice) {
         saveHappened = false;
-        showingNotice = true; // Save happened, update our state
-
+        showingNotice = true;
+        // Save happened, update our state
         this.setState({
           savedSerializedData: this.state.serializedData
         }, () => {
@@ -9247,39 +8997,35 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       }
     });
   }
+
   /**
    * Changes whether the droppable can be enabled/disabled. We cannot use a function for the isDropDisabled for Droppable
    *
    * @param {Object} props
    * @param {Object} state
    */
-
-
   static getDerivedStateFromProps(props, state) {
     const workspace = props.workspace.present;
-
     if (workspace.currentDraggableEntity !== state.currentDraggableEntity && workspace.currentDraggableEntity) {
-      let isDropDisabled = true; // Only Draggable lessons can be dropped on that Droppable.
+      let isDropDisabled = true;
 
+      // Only Draggable lessons can be dropped on that Droppable.
       if ('question' === workspace.currentDraggableEntity.type || 'sfwd-question' === workspace.currentDraggableEntity.type) {
         isDropDisabled = false;
       }
-
       return {
         isDropDisabled,
         workspace
       };
     }
-
     return null;
   }
+
   /**
    * Show alert if the user is trying to leave without saving
    *
    * @param {maybeShowAlert} e
    */
-
-
   maybeShowAlert(e) {
     if (window.adminpage && 'sfwd-quiz_page_quizzes-builder' === window.adminpage) {
       // Standalone: if they're not clicking save, show alert
@@ -9287,18 +9033,18 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         e.returnValue = `${LearnDashData.i18n.unsaved_changes}`;
         return e.returnValue;
       }
-    } else if ( // Gutenberg
+    } else if (
+    // Gutenberg
     // Our saved data is different from the current data, we need saving to avoid losing changes
     this.state.savedSerializedData !== this.state.serializedData) {
       e.returnValue = `${LearnDashData.i18n.unsaved_changes}`;
       return e.returnValue;
     }
   }
+
   /**
    * Attach events once component is mounted
    */
-
-
   componentDidMount() {
     // Classic editor
     if (window.postL10n) {
@@ -9308,11 +9054,10 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       window.addEventListener('beforeunload', this.maybeShowAlert);
     }
   }
+
   /**
    * Detach events when component is unmounted
    */
-
-
   componentWillUnmount() {
     // Classic editor
     if (window.postL10n) {
@@ -9322,23 +9067,23 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       window.removeEventListener('beforeunload', this.maybeShowAlert);
     }
   }
+
   /**
    * When component is updated, serialize the data
    *
    * @param {Object} prevProps The previous props
    */
-
-
   componentDidUpdate(prevProps) {
     // For easier reading
     const workspace = this.props.workspace.present;
-    const prevWorkspace = prevProps.workspace.present; // Serialized the workspace as soon as it's updated.
+    const prevWorkspace = prevProps.workspace.present;
 
+    // Serialized the workspace as soon as it's updated.
     if (workspace !== prevWorkspace) {
       // Recalculate total points
       let totalPoints = 0;
-      workspace.questions.map(question => totalPoints = parseInt(totalPoints + question.points, 10)); // Build serialized data for lessons
-
+      workspace.questions.map(question => totalPoints = parseInt(totalPoints + question.points, 10));
+      // Build serialized data for lessons
       const swfdData = workspace.questions.reduce((accumulator, question) => {
         const questionKey = `${question.type}:${question.ID}`;
         accumulator[questionKey] = {};
@@ -9350,13 +9095,12 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       });
     }
   }
+
   /**
    * Render function
    *
    * @event maybeShowAlert
    */
-
-
   render() {
     const {
       isDropDisabled,
@@ -9409,13 +9153,11 @@ class QuizWorkspace extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       value: this.state.serializedData
     }));
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 QuizWorkspace.propTypes = {
   workspace: prop_types__WEBPACK_IMPORTED_MODULE_7___default().shape({
     present: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().object)
@@ -9425,24 +9167,22 @@ QuizWorkspace.propTypes = {
   }),
   totalLessons: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().number)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => {
   return {
     workspace: state.workspace,
     data: state.data
   };
 };
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(QuizWorkspace));
 
 /***/ }),
@@ -9547,10 +9287,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util */ "./src/util/index.js");
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api */ "./src/api/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
 
@@ -9564,20 +9304,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @param {*} startIndex
  * @param {*} endIndex
  */
-
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return result.filter(element => element !== undefined);
 };
+
 /**
  * Helper to update the section headings order key in the lessons outline
  * The section heading order value should match its index in the lessons outline
  *
  * @param {*} lessons
  */
-
 const updateSectionHeadingsOrder = lessons => {
   return lessons.map((node, index) => {
     if ('section-heading' === node.type) {
@@ -9585,37 +9324,38 @@ const updateSectionHeadingsOrder = lessons => {
         order: index
       });
     }
-
     return node;
   });
 };
+
 /**
  * Helper to get the updated section headings array from the lessons outline
  *
  * @param {*} lessons
  */
-
 const getSectionHeadings = lessons => {
   return lessons.filter(node => 'section-heading' === node.type);
 };
+
 /**
  * Fires when we start dragging a node
  * This is used to compare the dragged node to the droppable area
  *
  * @param {Object} result
  */
-
 const onDragStartEvent = result => {
   const {
     draggableId
-  } = result; // The whole node is stored in the ID
+  } = result;
 
+  // The whole node is stored in the ID
   const draggedNode = JSON.parse(draggableId);
   _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setDraggableEntity)({
     currentDraggableEntity: draggedNode,
     currentDroppableEntity: null
   }));
 };
+
 /**
  * Fired when we finish dragging a node in the course builder
  * This contains the logic to update the workspace, but also checks to see if the dropped object can be dropped.
@@ -9624,44 +9364,49 @@ const onDragStartEvent = result => {
  *
  * @param {Object} result
  */
-
 const onDragEndEvent = result => {
   const {
     source,
     destination,
     draggableId
   } = result;
-
   if (!destination) {
     return false;
-  } // since we are storing extra data in the id in JSON, parse the data.
+  }
 
-
+  // since we are storing extra data in the id in JSON, parse the data.
   const draggableIdObject = JSON.parse(draggableId);
   const sourceDroppableIdObject = JSON.parse(source.droppableId);
-  const destinationDroppableIdObject = JSON.parse(destination.droppableId); // Get the store.
+  const destinationDroppableIdObject = JSON.parse(destination.droppableId);
 
-  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState(); // Tree utils
+  // Get the store.
+  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState();
 
+  // Tree utils
   const workspaceNodes = Object.values(storeState.workspace.present.lessons);
-  const workspaceNodesWithData = tree_node_data__WEBPACK_IMPORTED_MODULE_0___default()(workspaceNodes, _util__WEBPACK_IMPORTED_MODULE_3__.treeConfig); // Sorting.
+  const workspaceNodesWithData = tree_node_data__WEBPACK_IMPORTED_MODULE_0___default()(workspaceNodes, _util__WEBPACK_IMPORTED_MODULE_3__.treeConfig);
 
+  // Sorting.
   if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
     // If we're dropping lessons
     if ('lesson' === storeState.workspace.present.currentDraggableEntity.type || 'sfwd-lessons' === storeState.workspace.present.currentDraggableEntity.type || 'section-heading' === storeState.workspace.present.currentDraggableEntity.type) {
       const newState = Object.values(storeState.workspace.present.lessons);
-      const lessons = reorder(newState, source.index, destination.index); // Update section heading order in outline (if any section heading)
+      const lessons = reorder(newState, source.index, destination.index);
 
-      const newLessons = updateSectionHeadingsOrder(lessons); // Get array of sections
+      // Update section heading order in outline (if any section heading)
+      const newLessons = updateSectionHeadingsOrder(lessons);
 
-      const newSections = getSectionHeadings(newLessons); // Update lessons in workspace
+      // Get array of sections
+      const newSections = getSectionHeadings(newLessons);
 
-      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateLessons)(newLessons)); // Update sections in workspace
+      // Update lessons in workspace
+      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateLessons)(newLessons));
 
-      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateSectionHeadings)(newSections)); // Update sections post meta
+      // Update sections in workspace
+      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateSectionHeadings)(newSections));
 
+      // Update sections post meta
       (0,_api__WEBPACK_IMPORTED_MODULE_4__.addSectionHeading)(LearnDashData.post_data.builder_post_id, newSections);
-
       if ('section-heading' !== storeState.workspace.present.currentDraggableEntity.type) {
         // Set the active lesson to the current dropped lesson
         _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setActiveLesson)({
@@ -9669,30 +9414,32 @@ const onDragEndEvent = result => {
         }));
       }
     }
-  } // Differentiate between when we need to sort within the workspace or when we are adding new items.
+  }
 
-
+  // Differentiate between when we need to sort within the workspace or when we are adding new items.
   if ('course-workspace-droppable' === destinationDroppableIdObject.ID && 'droppable-lesson' === sourceDroppableIdObject.ID) {
     if (('lesson' === storeState.workspace.present.currentDraggableEntity.type || 'sfwd-lessons' === storeState.workspace.present.currentDraggableEntity.type) && draggableIdObject.ID) {
       // get lesson from raw data.
-      const draggableLesson = storeState.data.lessons.find(lesson => lesson.ID === draggableIdObject.ID); // Add index to the draggable item when dropped
+      const draggableLesson = storeState.data.lessons.find(lesson => lesson.ID === draggableIdObject.ID);
 
-      draggableLesson.index = destination.index; // Fire action now
+      // Add index to the draggable item when dropped
+      draggableLesson.index = destination.index;
 
+      // Fire action now
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addLessonEntity)(draggableLesson));
     }
-  } // We are dropping topics
+  }
 
-
+  // We are dropping topics
   if ('topic' === draggableIdObject.type || 'sfwd-topic' === draggableIdObject.type) {
     // get node on which node was dropped
     const parentNode = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodes, parseInt(destinationDroppableIdObject.ID));
     const parentNodeWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
     if (parentNode) {
       // Find the entity dropped now.
-      const droppedNode = draggableIdObject; // If we have dropped node data.
+      const droppedNode = draggableIdObject;
 
+      // If we have dropped node data.
       if (droppedNode) {
         // We are not re ordering the topics, so add new one.
         if (sourceDroppableIdObject.ID !== destinationDroppableIdObject.ID) {
@@ -9701,9 +9448,9 @@ const onDragEndEvent = result => {
             _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.removeEntity)({
               ID: parseInt(draggableIdObject.ID)
             }));
-          } // Add the new entity
+          }
 
-
+          // Add the new entity
           _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addTopicEntity)(parseInt(destinationDroppableIdObject.ID), destination.index, droppedNode));
         } else if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
           // Sorting between topics
@@ -9711,9 +9458,9 @@ const onDragEndEvent = result => {
             parentNode.tree = reorder(parentNode.tree, source.index, destination.index);
             _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateLessons)(workspaceNodes));
           }
-        } // If we are dropping on a parent node, set active lesson to the parent node.
+        }
 
-
+        // If we are dropping on a parent node, set active lesson to the parent node.
         if (parentNodeWithData.ID && !parentNodeWithData.nodeData.parent) {
           _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setActiveLesson)({
             activeLesson: parentNodeWithData.ID
@@ -9721,9 +9468,9 @@ const onDragEndEvent = result => {
         }
       }
     }
-  } // Dropping quiz in the final quizzes section
+  }
 
-
+  // Dropping quiz in the final quizzes section
   if (('quiz' === draggableIdObject.type || 'sfwd-quiz' === draggableIdObject.type) && 'course-workspace-quiz-droppable' === destinationDroppableIdObject.ID) {
     if (('quiz' === storeState.workspace.present.currentDraggableEntity.type || 'sfwd-quiz' === storeState.workspace.present.currentDraggableEntity.type) && draggableIdObject.ID) {
       if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
@@ -9738,36 +9485,33 @@ const onDragEndEvent = result => {
           _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.removeEntity)({
             ID: draggableIdObject.ID
           }));
-        } // Fire action now
+        }
 
-
+        // Fire action now
         _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addFinalQuizEntity)(destination.index, draggableIdObject));
       }
     }
-  } // Drop quiz within the lessons area
+  }
+  // Drop quiz within the lessons area
   else if ('quiz' === draggableIdObject.type || 'sfwd-quiz' === draggableIdObject.type) {
     // get node on which node was dropped
     const parentNode = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodes, parseInt(destinationDroppableIdObject.ID));
     const parentNodeWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
     if (parentNode) {
       // Get the dropped node details
       const droppedNode = draggableIdObject;
-
       if (droppedNode) {
         if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
           // if we are trying to drop before a quiz, find the first quiz index and insert at that index
           const firstQuizIndex = parentNodeWithData.tree.findIndex(el => {
             return 'quiz' === el.type || 'sfwd-quiz' === el.type;
           });
-
           if (-1 !== firstQuizIndex) {
             // bail out if trying to drop before a topic
             if (destination.index < firstQuizIndex - 1) {
               return false;
             }
           }
-
           parentNode.tree = reorder(parentNode.tree, source.index, destination.index);
           _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateLessons)(workspaceNodes));
         } else {
@@ -9776,28 +9520,27 @@ const onDragEndEvent = result => {
             _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.removeEntity)({
               ID: draggableIdObject.ID
             }));
-          } // If we are not dropping on a lesson
+          }
 
-
+          // If we are not dropping on a lesson
           if ('lesson' !== destinationDroppableIdObject.type || 'sfwd-lessons' !== destinationDroppableIdObject.type) {
             if (sourceDroppableIdObject.ID !== destinationDroppableIdObject.ID) {
               _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.removeExistingEntity)({
                 ID: draggableIdObject.ID
-              })); // Adding a new node.
+              }));
 
+              // Adding a new node.
               _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addQuizEntity)(parseInt(destinationDroppableIdObject.ID), destination.index, droppedNode));
             }
           } else {
             // check previous sibling
             let topicDestinationIndex = destination.index;
-
             if (0 < destination.index) {
               if ('topic' === parentNodeWithData.tree[destination.index - 1].type || 'topic' === parentNodeWithData.tree[destination.index].type || 'sfwd-topic' === parentNodeWithData.tree[destination.index - 1].type || 'sfwd-topic' === parentNodeWithData.tree[destination.index].type) {
                 // if we are trying to drop before a quiz, find the first quiz index and insert topic at that index
                 const firstQuizIndex = parentNodeWithData.tree.findIndex(el => {
                   return 'quiz' === el.type || 'sfwd-quiz' === el.type;
                 });
-
                 if (-1 !== firstQuizIndex) {
                   topicDestinationIndex = firstQuizIndex;
                 } else {
@@ -9806,27 +9549,24 @@ const onDragEndEvent = result => {
               }
             } else if (0 === destination.index && parentNodeWithData.tree[destination.index] && ('topic' === parentNodeWithData.tree[destination.index].type || 'sfwd-topic' === parentNodeWithData.tree[destination.index].type)) {
               topicDestinationIndex = 1;
-            } // add node now
+            }
 
-
+            // add node now
             _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addQuizEntity)(parseInt(destinationDroppableIdObject.ID), topicDestinationIndex, droppedNode));
           }
-        } // Set the top most parent to be the active lesson
+        }
 
-
+        // Set the top most parent to be the active lesson
         let activeLesson = parentNode.ID;
-
         if ('lesson' !== parentNode.type && 'sfwd-lessons' !== parentNode.type) {
           activeLesson = parentNodeWithData.nodeData.ancestors[0];
         }
-
         _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setActiveLesson)({
           activeLesson
         }));
       }
     }
   }
-
   _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setIsDropDisabledLesson)({
     isDropDisabledLesson: null
   }));
@@ -9834,42 +9574,38 @@ const onDragEndEvent = result => {
     currentDraggableEntity: null
   }));
 };
+
 /**
  * Fired when there is an update to the dragged node
  *
  * @param {Object} result
  */
-
 const onDragUpdateEvent = result => {
   const {
     draggableId,
     destination
   } = result;
-
   if (!destination) {
     return false;
   }
-
   const draggableIdObject = JSON.parse(draggableId);
   const destinationDroppableIdObject = JSON.parse(destination.droppableId);
-  const destinationIndex = destination.index; // Get the store.
+  const destinationIndex = destination.index;
 
-  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState(); // Map of answer type
+  // Get the store.
+  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState();
 
+  // Map of answer type
   const answerTypeMap = LearnDashData.questions_types_map;
   let workspaceNodes = [];
-
   if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
     workspaceNodes = Object.values(storeState.workspace.present.lessons);
   } else {
     workspaceNodes = Object.values(storeState.workspace.present.questions);
   }
-
   const workspaceNodesWithData = tree_node_data__WEBPACK_IMPORTED_MODULE_0___default()(workspaceNodes, _util__WEBPACK_IMPORTED_MODULE_3__.treeConfig);
-
   if (('quiz' === draggableIdObject.type || 'sfwd-quiz' === draggableIdObject.type) && ('lesson' === destinationDroppableIdObject.type || 'sfwd-lessons' === destinationDroppableIdObject.type)) {
     const destinationDroppableWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
     if (destinationDroppableWithData.tree[destinationIndex] && ('topic' === destinationDroppableWithData.tree[destinationIndex].type || 'sfwd-topic' === destinationDroppableWithData.tree[destinationIndex].type)) {
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setIsDropDisabledLesson)({
         isDropDisabledLesson: destinationDroppableWithData.ID
@@ -9880,10 +9616,8 @@ const onDragUpdateEvent = result => {
       }));
     }
   }
-
   if ('topic' === draggableIdObject.type || 'sfwd-topic' === draggableIdObject.type) {
     const destinationDroppableWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
     if (destinationDroppableWithData.tree[destinationIndex] && ('quiz' === destinationDroppableWithData.tree[destinationIndex].type || 'sfwd-quiz' === destinationDroppableWithData.tree[destinationIndex].type)) {
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setIsDropDisabledLesson)({
         isDropDisabledLesson: destinationDroppableWithData.ID
@@ -9894,10 +9628,8 @@ const onDragUpdateEvent = result => {
       }));
     }
   }
-
   if ('answer' === draggableIdObject.type) {
     const destinationDroppableWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
     if (destinationDroppableWithData.answers[answerTypeMap[destinationDroppableWithData.question_type]][destinationIndex] && 'answer' === destinationDroppableWithData.answers[answerTypeMap[destinationDroppableWithData.question_type]][destinationIndex].type) {
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setIsDropDisabledLesson)({
         isDropDisabledLesson: destinationDroppableWithData.ID
@@ -9908,9 +9640,9 @@ const onDragUpdateEvent = result => {
       }));
     }
   }
-
   return false;
 };
+
 /**
  * Fired when we finish dragging a node on the quiz edit page
  * This contains the logic to update the workspace, but also checks to see if the dropped object can be dropped.
@@ -9918,34 +9650,36 @@ const onDragUpdateEvent = result => {
  *
  * @param {Object} result
  */
-
 const onDragEndEventQuiz = async result => {
   const {
     source,
     destination,
     draggableId
   } = result;
-
   if (!destination) {
     return false;
-  } // since we are storing extra data in the id in JSON, parse the data.
+  }
 
-
+  // since we are storing extra data in the id in JSON, parse the data.
   const draggableIdObject = JSON.parse(draggableId);
   const sourceDroppableIdObject = JSON.parse(source.droppableId);
-  const destinationDroppableIdObject = JSON.parse(destination.droppableId); // Get the store.
+  const destinationDroppableIdObject = JSON.parse(destination.droppableId);
 
-  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState(); // Map of answer type
+  // Get the store.
+  const storeState = _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.getState();
 
-  const answerTypeMap = LearnDashData.questions_types_map; // Sorting.
+  // Map of answer type
+  const answerTypeMap = LearnDashData.questions_types_map;
 
+  // Sorting.
   if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
     // We are dropping a question
     if ('question' === storeState.workspace.present.currentDraggableEntity.type || 'sfwd-question' === storeState.workspace.present.currentDraggableEntity.type) {
       const newState = Object.values(storeState.workspace.present.questions);
       const questions = reorder(newState, source.index, destination.index);
-      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateQuestions)(questions)); // Set the active lesson
+      _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateQuestions)(questions));
 
+      // Set the active lesson
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setActiveLesson)({
         activeLesson: draggableIdObject.ID
       }));
@@ -9953,28 +9687,31 @@ const onDragEndEventQuiz = async result => {
       // We're dropping an answer
       // Tree utils
       const workspaceNodes = Object.values(storeState.workspace.present.questions);
-      const workspaceNodesWithData = tree_node_data__WEBPACK_IMPORTED_MODULE_0___default()(workspaceNodes, _util__WEBPACK_IMPORTED_MODULE_3__.treeConfig); // get node on which node was dropped
+      const workspaceNodesWithData = tree_node_data__WEBPACK_IMPORTED_MODULE_0___default()(workspaceNodes, _util__WEBPACK_IMPORTED_MODULE_3__.treeConfig);
 
+      // get node on which node was dropped
       const parentNode = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodes, parseInt(destinationDroppableIdObject.ID));
       const parentNodeWithData = _util__WEBPACK_IMPORTED_MODULE_3__.treeNodeUtils.getNodeByKey(workspaceNodesWithData, parseInt(destinationDroppableIdObject.ID));
-
       if (parentNode) {
         // Find the entity dropped now.
-        const droppedNode = draggableIdObject; // If we have dropped node data.
+        const droppedNode = draggableIdObject;
 
+        // If we have dropped node data.
         if (droppedNode) {
           if (sourceDroppableIdObject.ID === destinationDroppableIdObject.ID && source.index !== destination.index) {
             if (parentNode.answers[answerTypeMap[parentNode.question_type]][source.index].type === parentNode.answers[answerTypeMap[parentNode.question_type]][destination.index].type) {
               // Sorting between answers
-              parentNode.answers[answerTypeMap[parentNode.question_type]] = reorder(parentNode.answers[answerTypeMap[parentNode.question_type]], source.index, destination.index); // Update order in our workspace
+              parentNode.answers[answerTypeMap[parentNode.question_type]] = reorder(parentNode.answers[answerTypeMap[parentNode.question_type]], source.index, destination.index);
 
-              _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateQuestions)(workspaceNodes)); // Update question in the background at the same time
+              // Update order in our workspace
+              _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.updateQuestions)(workspaceNodes));
 
+              // Update question in the background at the same time
               await (0,_api__WEBPACK_IMPORTED_MODULE_4__.updateAnswer)(parentNode.ID, parentNode.answers[answerTypeMap[parentNode.question_type]]);
             }
-          } // If we are dropping on a parent node.
+          }
 
-
+          // If we are dropping on a parent node.
           if (parentNodeWithData.ID && !parentNodeWithData.nodeData.parent) {
             _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setActiveLesson)({
               activeLesson: parentNodeWithData.ID
@@ -9983,44 +9720,44 @@ const onDragEndEventQuiz = async result => {
         }
       }
     }
-  } // Differentiate between when we need to sort within the workspace or when we are adding new items.
+  }
 
-
+  // Differentiate between when we need to sort within the workspace or when we are adding new items.
   if ('quiz-workspace-droppable' === destinationDroppableIdObject.ID && 'droppable-question' === sourceDroppableIdObject.ID) {
     if (('question' === storeState.workspace.present.currentDraggableEntity.type || 'sfwd-question' === storeState.workspace.present.currentDraggableEntity.type) && draggableIdObject.ID) {
       // get question from raw data.
-      const draggableQuestion = storeState.data.questions.find(question => question.ID === draggableIdObject.ID); // Add index to the draggable item when dropped
+      const draggableQuestion = storeState.data.questions.find(question => question.ID === draggableIdObject.ID);
 
-      draggableQuestion.index = destination.index; // Fire action now
+      // Add index to the draggable item when dropped
+      draggableQuestion.index = destination.index;
 
+      // Fire action now
       _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.addQuestionEntity)(draggableQuestion));
     }
   }
-
   _redux_configureStore__WEBPACK_IMPORTED_MODULE_2__.store.dispatch((0,_redux_actions_workspaceActions__WEBPACK_IMPORTED_MODULE_1__.setDraggableEntity)({
     currentDraggableEntity: null
   }));
 };
+
 /**
  * Helper to get the Question Alerts based on different criteria
  *
  * @param {*} question
  */
-
 const getQuestionAlerts = question => {
   let validAnswersCount = 0;
   let correctAnswersCount = 0;
-
   if ('sfwd-question' === question.type) {
-    const answerTypeMap = LearnDashData.questions_types_map; // Get answer data and retrieve contents of first answer.
+    const answerTypeMap = LearnDashData.questions_types_map;
 
+    // Get answer data and retrieve contents of first answer.
     const answerData = question.answers && question.answers[answerTypeMap[question.question_type]];
     answerData.map(question_answer => {
       if (question_answer.answer !== '') {
         validAnswersCount++;
       }
     });
-
     if (question.question_type === 'single' || question.question_type === 'multiple') {
       answerData.map(question_answer => {
         if (question_answer.correct === true) {
@@ -10031,7 +9768,6 @@ const getQuestionAlerts = question => {
       correctAnswersCount = 1;
     }
   }
-
   return {
     validAnswersCount: validAnswersCount,
     correctAnswersCount: correctAnswersCount
@@ -10060,10 +9796,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Portal using beautiful react dnd
  */
-
 class SidebarWidgetPortal extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Render function
@@ -10075,10 +9811,9 @@ class SidebarWidgetPortal extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       type: this.props.type
     }), document.getElementById(this.props.el));
   }
+}
 
-} // Validate prop types
-
-
+// Validate prop types
 SidebarWidgetPortal.propTypes = {
   el: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().string),
   title: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().string),
@@ -10107,72 +9842,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 
+
 /**
  * Inits raw data
  *
  * @param {*} payload
  */
-
 const initData = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.INIT_DATA,
     payload
   };
 };
+
 /**
  * Add a new lesson to raw data
  *
  * @param {*} payload
  */
-
 const addLesson = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_LESSON,
     payload
   };
 };
+
 /**
  * Add a new topic to raw data
  *
  * @param {*} payload
  */
-
 const addTopic = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_TOPIC,
     payload
   };
 };
+
 /**
  * Add a new quiz to raw data
  *
  * @param {*} payload
  */
-
 const addQuiz = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_QUIZ,
     payload
   };
 };
+
 /**
  * Add a new question to raw data
  *
  * @param {*} payload
  */
-
 const addQuestion = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_QUESTION,
     payload
   };
 };
+
 /**
  * Updates the node title in raw data
  *
  * @param {*} payload
  */
-
 const updateNodeTitle = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_NODE_TITLE,
@@ -10219,66 +9954,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 
+
 /**
  * Update lessons
  *
  * @param {*} payload
  */
-
 const updateLessons = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_LESSONS,
     payload
   };
 };
+
 /**
  * Adds a new lesson in the store. It'll be under workspace
  *
  * @param {*} payload
  */
-
 const addLessonEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_LESSON_ENTITY,
     payload
   };
 };
+
 /**
  * Adds a new section heading in the store. It'll be under workspace
  *
  * @param {*} payload
  */
-
 const addSectionHeadingEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_SECTION_HEADING_ENTITY,
     payload
   };
 };
+
 /**
  * Update section headings
  *
  * @param {*} payload
  */
-
 const updateSectionHeadings = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_SECTION_HEADINGS,
     payload
   };
 };
+
 /**
  * Sets the active lesson
  *
  * @param {*} payload
  */
-
 const setActiveLesson = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.SET_ACTIVE_LESSON,
     payload
   };
 };
+
 /**
  * Adds a new topic under the active lesson.
  *
@@ -10286,7 +10022,6 @@ const setActiveLesson = payload => {
  * @param {number} destinationIndex
  * @param {*} payload
  */
-
 const addTopicEntity = (parent, destinationIndex, payload) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_TOPIC_ENTITY,
@@ -10295,6 +10030,7 @@ const addTopicEntity = (parent, destinationIndex, payload) => {
     payload
   };
 };
+
 /**
  * Adds a new quiz under the active lesson.
  *
@@ -10302,7 +10038,6 @@ const addTopicEntity = (parent, destinationIndex, payload) => {
  * @param {number} destinationIndex
  * @param {*} payload
  */
-
 const addQuizEntity = (parent, destinationIndex, payload) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_QUIZ_ENTITY,
@@ -10311,37 +10046,37 @@ const addQuizEntity = (parent, destinationIndex, payload) => {
     payload
   };
 };
+
 /**
  * Update questions
  *
  * @param {*} payload
  */
-
 const updateQuestions = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_QUESTIONS,
     payload
   };
 };
+
 /**
  * Adds a new question in the store. It'll be under workspace
  *
  * @param {*} payload
  */
-
 const addQuestionEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_QUESTION_ENTITY,
     payload
   };
 };
+
 /**
  * Adds a new answer in the store. It'll be under workspace
  *
  * @param {*} payload
  * @param {*} parent
  */
-
 const addAnswerEntity = (payload, parent) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_ANSWER_ENTITY,
@@ -10349,13 +10084,13 @@ const addAnswerEntity = (payload, parent) => {
     parent
   };
 };
+
 /**
  * Removes an answer from the store.
  *
  * @param {*} payload
  * @param {*} parent
  */
-
 const removeAnswerEntity = (payload, parent) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.REMOVE_ANSWER_ENTITY,
@@ -10363,61 +10098,61 @@ const removeAnswerEntity = (payload, parent) => {
     parent
   };
 };
+
 /**
  * Sets which entity is being dragged
  *
  * @param {*} payload
  */
-
 const setDraggableEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.SET_DRAGGABLE_ENTITY,
     payload
   };
 };
+
 /**
  * Sets the is drop disable property in our store
  *
  * @param {*} payload
  */
-
 const setIsDropDisabledLesson = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.SET_IS_DROP_DISABLED_LESSON,
     payload
   };
 };
+
 /**
  * Updates the title for a node
  *
  * @param {*} payload
  */
-
 const updateWorkspaceNodeTitle = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_WORKSPACE_NODE_TITLE,
     payload
   };
 };
+
 /**
  * Toggles the expand all variable
  *
  * @param {*} payload
  */
-
 const toggleExpandAll = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.TOGGLE_EXPAND_ALL,
     payload
   };
 };
+
 /**
  * Toggles the expand entity
  *
  * @param {*} parent
  * @param {*} payload
  */
-
 const toggleExpandEntity = (parent, payload) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.TOGGLE_EXPAND_ENTITY,
@@ -10425,13 +10160,13 @@ const toggleExpandEntity = (parent, payload) => {
     payload
   };
 };
+
 /**
  * Adds a final quiz
  *
  * @param {number} index
  * @param {*} payload
  */
-
 const addFinalQuizEntity = (index, payload) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.ADD_FINAL_QUIZ_ENTITY,
@@ -10439,61 +10174,61 @@ const addFinalQuizEntity = (index, payload) => {
     payload
   };
 };
+
 /**
  * Sorts the final quizzes
  *
  * @param {*} payload
  */
-
 const sortFinalQuizzesOutline = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.SORT_FINAL_QUIZZES_OUTLINE,
     payload
   };
 };
+
 /**
  * Removes an entity from the workspace
  *
  * @param {*} payload
  */
-
 const removeEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.REMOVE_ENTITY,
     payload
   };
 };
+
 /**
  * Removes a section heading entity from the workspace
  *
  * @param {*} payload
  */
-
 const removeSectionHeadingEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.REMOVE_SECTION_HEADING_ENTITY,
     payload
   };
 };
+
 /**
  * Removes an existing entity from the workspace. Similar to removeEntity but use this one for moving entities.
  * We can then exclude that action from redux undo since when moving entities, it'll count as 2 actions.
  *
  * @param {*} payload
  */
-
 const removeExistingEntity = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.REMOVE_EXISTING_ENTITY,
     payload
   };
 };
+
 /**
  * Moves an entity up
  *
  * @param {*} payload
  */
-
 const moveUp = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.MOVE_ENTITY,
@@ -10501,12 +10236,12 @@ const moveUp = payload => {
     payload
   };
 };
+
 /**
  * Moves an entity down
  *
  * @param {*} payload
  */
-
 const moveDown = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.MOVE_ENTITY,
@@ -10514,25 +10249,25 @@ const moveDown = payload => {
     payload
   };
 };
+
 /**
  * Updates a question type
  *
  * @param {*} payload
  */
-
 const updateQuestionType = payload => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_QUESTION_TYPE,
     payload
   };
 };
+
 /**
  * Updates a question answers
  *
  * @param {*} question
  * @param {*} answers
  */
-
 const updateQuestionAnswers = (question, answers) => {
   return {
     type: _constants__WEBPACK_IMPORTED_MODULE_0__.UPDATE_QUESTION_ANSWERS,
@@ -10576,14 +10311,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util */ "./src/util/index.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
- // Default state for the data
-
+// Default state for the data
 const defaultState = {
   currentTab: LearnDashData.currentTab && LearnDashData.currentTab,
   tabs: LearnDashData.tabs && LearnDashData.tabs || '',
@@ -10595,17 +10330,16 @@ const defaultState = {
   labels: LearnDashData.labels && LearnDashData.labels,
   questions: LearnDashData.questions && LearnDashData.questions || ''
 };
+
 /**
  * Initial raw data
  *
  * @param {*} state
  * @param {*} action
  */
-
 const data = function () {
   let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
   let action = arguments.length > 1 ? arguments[1] : undefined;
-
   switch (action.type) {
     // Sets the data for each entity.
     case _constants__WEBPACK_IMPORTED_MODULE_1__.INIT_DATA:
@@ -10614,8 +10348,8 @@ const data = function () {
           [action.payload.field]: action.payload.data
         });
       }
-    // Adds a new lesson entity in the raw data
 
+    // Adds a new lesson entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_LESSON:
       {
         const lessons = Object.values(state.lessons);
@@ -10624,8 +10358,8 @@ const data = function () {
           lessons
         });
       }
-    // Adds a new topic entity in the raw data
 
+    // Adds a new topic entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_TOPIC:
       {
         const topics = Object.values(state.topics);
@@ -10634,8 +10368,8 @@ const data = function () {
           topics
         });
       }
-    // Adds a new quiz entity in the raw data
 
+    // Adds a new quiz entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUIZ:
       {
         const quizzes = Object.values(state.quizzes);
@@ -10644,8 +10378,8 @@ const data = function () {
           quizzes
         });
       }
-    // Adds a new question entity in the raw data
 
+    // Adds a new question entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUESTION:
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUESTION_ENTITY:
       {
@@ -10655,8 +10389,8 @@ const data = function () {
           questions
         });
       }
-    // Updates the title for a node
 
+    // Updates the title for a node
     case _constants__WEBPACK_IMPORTED_MODULE_1__.UPDATE_NODE_TITLE:
       {
         if (action.payload.ID && action.payload.post_title) {
@@ -10672,11 +10406,9 @@ const data = function () {
           };
           const stateObject = Object.values(state[nodeMap[action.payload.type]]);
           const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(stateObject, action.payload.ID);
-
           if (node) {
             node.post_title = action.payload.post_title;
           }
-
           if ('lesson' === action.payload.type) {
             return _objectSpread(_objectSpread({}, state), {}, {
               lessons: stateObject
@@ -10695,10 +10427,8 @@ const data = function () {
             });
           }
         }
-
         return state;
       }
-
     default:
       return state;
   }
@@ -10746,12 +10476,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_undo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-undo */ "./node_modules/redux-undo/lib/index.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* eslint-disable @wordpress/no-unused-vars-before-return */
+
 
 
 
@@ -10759,7 +10489,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Initial state of the app
  */
-
 const initialState = {
   disabledDrop: false,
   currentDraggableEntity: null,
@@ -10774,14 +10503,13 @@ const initialState = {
   expandAll: false,
   expandedItems: [],
   refresh: null // which data we need to refresh
+};
 
-}; // Check if we have existing lessons/questions, set the first entity as the active one.
-
+// Check if we have existing lessons/questions, set the first entity as the active one.
 if (LearnDashData.post_data && 'sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
   if (LearnDashData.outline && LearnDashData.outline.lessons && LearnDashData.outline.lessons.length) {
     // get index of first lesson (skip section heading)
     const firstLesson = LearnDashData.outline.lessons.findIndex(node => 'sfwd-lessons' === node.type);
-
     if (LearnDashData.outline.lessons[firstLesson]) {
       initialState.activeLesson = LearnDashData.outline.lessons[firstLesson].ID;
     }
@@ -10790,25 +10518,23 @@ if (LearnDashData.post_data && 'sfwd-quiz' !== LearnDashData.post_data.builder_p
   initialState.activeLesson = LearnDashData.outline.questions[0].ID;
   LearnDashData.outline.questions[0].expanded = true;
 }
+
 /**
  * Workspace related actions here.
  *
  * @param {*} state
  * @param {*} action
  */
-
-
 const workspaceReducer = function () {
   let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   let action = arguments.length > 1 ? arguments[1] : undefined;
-  const immutableLessons = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.lessons); // Final quizzes, which are separate from lessons (which can contain topics and quizzes)
-
-  const immutableQuizzes = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.quizzes); // Questions
-
-  const immutableQuestions = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.questions); // Sections
-
+  const immutableLessons = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.lessons);
+  // Final quizzes, which are separate from lessons (which can contain topics and quizzes)
+  const immutableQuizzes = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.quizzes);
+  // Questions
+  const immutableQuestions = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.questions);
+  // Sections
   const immutableSections = state.sections ? (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.sections) : (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)([]);
-
   switch (action.type) {
     /**
      * Update the lessons field in the store.
@@ -10823,7 +10549,6 @@ const workspaceReducer = function () {
     /**
      * Update the sections field in the store.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_SECTION_HEADINGS:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -10834,16 +10559,16 @@ const workspaceReducer = function () {
     /**
      * Adds a new lesson within the workspace at a specific position
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON_ENTITY:
       {
-        let index = action.payload.index; // Check if we have a valid index.
+        let index = action.payload.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.lessons.length;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const lessons = immutableLessons.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -10853,10 +10578,12 @@ const workspaceReducer = function () {
           expanded: false,
           type: 'sfwd-lessons',
           post_status: action.payload.post_status
-        }).toJS(); // Set the active lesson which is the newly added one.
+        }).toJS();
 
-        const activeLesson = action.payload.ID; // which data we need to refresh
+        // Set the active lesson which is the newly added one.
+        const activeLesson = action.payload.ID;
 
+        // which data we need to refresh
         const refresh = 'lesson';
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
@@ -10869,23 +10596,22 @@ const workspaceReducer = function () {
      * Adds a new section heading within the workspace at a specific position
      * Adds to workspace lesson but also to workspace sections
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_SECTION_HEADING_ENTITY:
       {
         let index = action.payload.index;
-        let lessonIndex = 0; // Check if we have a valid index.
+        let lessonIndex = 0;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.lessons.length;
         }
-
         if (state.activeLesson) {
           lessonIndex = immutableLessons.findIndex(node => node.get('ID') === state.activeLesson);
         } else {
           lessonIndex = index;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const lessons = immutableLessons.insert(parseInt(lessonIndex + 1, 10), {
           order: action.payload.order,
           ID: action.payload.ID,
@@ -10905,8 +10631,9 @@ const workspaceReducer = function () {
           tree: [],
           expanded: false,
           type: 'section-heading'
-        }).toJS(); // which data we need to refresh
+        }).toJS();
 
+        // which data we need to refresh
         const refresh = 'lesson';
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
@@ -10918,7 +10645,6 @@ const workspaceReducer = function () {
     /**
      * Sets the active lesson in the workspace.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -10929,30 +10655,29 @@ const workspaceReducer = function () {
     /**
      * Adds a new topic to a lesson
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_TOPIC_ENTITY:
       {
         let topicDestinationIndex = 0;
         let lessonIndex = null;
-        let activeLesson = state.activeLesson; // We are passing a parent to which the topic will be added to.
+        let activeLesson = state.activeLesson;
 
+        // We are passing a parent to which the topic will be added to.
         if (action.parent) {
           // get parent node
-          lessonIndex = immutableLessons.findIndex(node => node.get('ID') === action.parent); // If we found the parent node.
+          lessonIndex = immutableLessons.findIndex(node => node.get('ID') === action.parent);
 
+          // If we found the parent node.
           if (-1 !== lessonIndex) {
             // Get the tree
             const parentNode = immutableLessons.get(lessonIndex);
             const parentNodeTree = parentNode.get('tree');
             topicDestinationIndex = action.destinationIndex;
             activeLesson = action.parent;
-
             if (0 < topicDestinationIndex || null === topicDestinationIndex) {
               // if we are trying to drop before a quiz, find the first quiz index and insert topic at that index
               const firstQuizIndex = parentNodeTree.findIndex(el => {
                 return 'quiz' === el.get('type') || 'sfwd-quiz' === el.get('type');
               });
-
               if (-1 !== firstQuizIndex) {
                 topicDestinationIndex = firstQuizIndex;
               } else {
@@ -10963,36 +10688,36 @@ const workspaceReducer = function () {
         } else if (state.activeLesson) {
           // Get the active lesson
           lessonIndex = immutableLessons.findIndex(node => node.get('ID') === state.activeLesson);
-
           if (-1 !== lessonIndex) {
             const activeLessonNode = immutableLessons.get(lessonIndex);
             const activeLessonTree = activeLessonNode.get('tree');
             topicDestinationIndex = activeLessonTree.size;
-
             if (undefined === action.payload.destinationIndex) {
               // if we are trying to drop before a quiz, find the first quiz index and insert topic at that index
               const firstQuizIndex = activeLessonTree.findIndex(el => {
                 return 'quiz' === el.get('type') || 'sfwd-quiz' === el.get('type');
               });
-
               if (-1 !== firstQuizIndex) {
                 topicDestinationIndex = firstQuizIndex;
               }
             }
           }
-        } // Add extra information.
+        }
 
-
+        // Add extra information.
         action.payload.type = 'sfwd-topic';
         action.payload.tree = [];
-        action.payload.expanded = false; // Make the update
+        action.payload.expanded = false;
 
+        // Make the update
         const lessons = immutableLessons.updateIn([lessonIndex, 'tree'], tree => {
           return tree.insert(topicDestinationIndex, action.payload);
-        }).toJS(); // which data we need to refresh
+        }).toJS();
 
-        const refresh = 'topic'; // Return with updated values if any.
+        // which data we need to refresh
+        const refresh = 'topic';
 
+        // Return with updated values if any.
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
           activeLesson,
@@ -11003,42 +10728,42 @@ const workspaceReducer = function () {
     /**
      * Adds a new quiz entity to the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_QUIZ_ENTITY:
       {
         // Default values
         let nodePath = -1;
-        let activeLesson = state.activeLesson; // add some extra data.
+        let activeLesson = state.activeLesson;
 
+        // add some extra data.
         action.payload.type = 'sfwd-quiz';
         action.payload.expanded = false;
-
         if (action.parent) {
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.lessons, action.parent, true);
           activeLesson = action.parent;
         } else if (state.activeLesson) {
           // Adds quiz to the current active lesson. Get the active lesson first.
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.lessons, state.activeLesson, true);
-        } // If we have a path
+        }
 
-
+        // If we have a path
         if (-1 !== nodePath) {
           // Make the update.
           const lessons = immutableLessons.updateIn(nodePath, tree => {
             return tree.push(action.payload);
-          }).toJS(); // which data we need to refresh
+          }).toJS();
 
+          // which data we need to refresh
           const refresh = 'quiz';
           return _objectSpread(_objectSpread({}, state), {}, {
             lessons,
             activeLesson,
             refresh
           });
-        } // there is no active lesson, add to final quizzes
+        }
+        // there is no active lesson, add to final quizzes
+        const index = state.quizzes.length;
 
-
-        const index = state.quizzes.length; // Use the insert method to add the new object.
-
+        // Use the insert method to add the new object.
         const quizzes = immutableQuizzes.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -11056,7 +10781,6 @@ const workspaceReducer = function () {
     /**
      * Update the questions field in the store.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTIONS:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -11067,17 +10791,17 @@ const workspaceReducer = function () {
     /**
      * Adds a new question within the workspace at a specific position
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_QUESTION_ENTITY:
       {
-        let index = action.payload.index; // Check if we have a valid index.
+        let index = action.payload.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.questions.length;
-        } // answers objects when none are provided.
+        }
+
+        // answers objects when none are provided.
         // this need to match backend defaults
-
-
         const newAnswerObject = {
           answer: '',
           correct: false,
@@ -11098,8 +10822,9 @@ const workspaceReducer = function () {
           free_answer: [newAnswerObject],
           matrix_sort_answer: [newAnswerObject],
           sort_answer: [newAnswerObject]
-        }; // Use the insert method to add the new object.
+        };
 
+        // Use the insert method to add the new object.
         const questions = immutableQuestions.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -11112,10 +10837,12 @@ const workspaceReducer = function () {
           expanded: false,
           type: 'sfwd-question',
           post_status: action.payload.post_status
-        }).toJS(); // Set the active lesson which is the newly added one.
+        }).toJS();
 
-        const activeLesson = action.payload.ID; // which data we need to refresh
+        // Set the active lesson which is the newly added one.
+        const activeLesson = action.payload.ID;
 
+        // which data we need to refresh
         const refresh = 'question';
         return _objectSpread(_objectSpread({}, state), {}, {
           questions,
@@ -11127,7 +10854,6 @@ const workspaceReducer = function () {
     /**
      * Adds a new answer within the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_ANSWER_ENTITY:
       {
         let questions = state.questions;
@@ -11135,7 +10861,6 @@ const workspaceReducer = function () {
         const parentIndex = immutableQuestions.findIndex(node => node.get('ID') === action.parent.ID);
         const index = state.questions[parentIndex].answers[answerType].length + 1;
         const nodePath = [parentIndex, 'answers', answerType, action.payload.index];
-
         if (nodePath.length) {
           // we need to update a tree
           const treePath = nodePath.slice(0, nodePath.length - 1);
@@ -11146,21 +10871,18 @@ const workspaceReducer = function () {
             questions
           });
         }
-
         return state;
       }
 
     /**
      * Removes an answer within the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_ANSWER_ENTITY:
       {
         let questions = state.questions;
         const answerType = LearnDashData.questions_types_map[action.parent.question_type];
         const parentIndex = immutableQuestions.findIndex(node => node.get('ID') === action.parent.ID);
         const nodePath = [parentIndex, 'answers', answerType, action.payload];
-
         if (nodePath.length) {
           // we need to update a tree
           const treePath = nodePath.slice(0, nodePath.length - 1);
@@ -11171,14 +10893,12 @@ const workspaceReducer = function () {
             questions
           });
         }
-
         return state;
       }
 
     /**
      * Updates a node title.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_WORKSPACE_NODE_TITLE:
       {
         if (action.payload.ID && action.payload.post_title) {
@@ -11187,53 +10907,47 @@ const workspaceReducer = function () {
             lessons: state.lessons,
             questions: state.questions
           };
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
           } else {
             type = 'lessons';
           }
-
           const entityObject = Object.values(entities[type]);
           const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(entityObject, action.payload.ID);
-
           if (node) {
             node.post_title = action.payload.post_title;
             return _objectSpread(_objectSpread({}, state), {}, {
               [type]: entities[type]
             });
-          } // try to look into the quizzes
+          }
 
-
+          // try to look into the quizzes
           const quizzes = Object.values(state.quizzes);
           const quizNode = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(quizzes, action.payload.ID);
-
           if (quizNode) {
             quizNode.post_title = action.payload.post_title;
             return _objectSpread(_objectSpread({}, state), {}, {
               quizzes
             });
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Adds a quiz to the final quizzes section.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_FINAL_QUIZ_ENTITY:
       {
-        let index = action.index; // Check if we have a valid index.
+        let index = action.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.quizzes.length;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const quizzes = immutableQuizzes.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -11251,7 +10965,6 @@ const workspaceReducer = function () {
     /**
      * Used when sorting quizzes.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SORT_FINAL_QUIZZES_OUTLINE:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -11262,7 +10975,6 @@ const workspaceReducer = function () {
     /**
      * Remove any entity from the workspace based on the entity ID
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY:
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_SECTION_HEADING_ENTITY:
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_ENTITY:
@@ -11276,66 +10988,59 @@ const workspaceReducer = function () {
             questions: state.questions
           };
           let immutableEntities = null;
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
             immutableEntities = immutableQuestions;
           } else {
             type = 'lessons';
             immutableEntities = immutableLessons;
-          } // Whether we found the node.
+          }
+          // Whether we found the node.
+          let found = false;
 
-
-          let found = false; // Look if we need to remove a lesson.
-
+          // Look if we need to remove a lesson.
           const nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(entities[type], action.payload.ID);
-
           if (-1 !== nodePath) {
             entities[type] = immutableEntities.deleteIn(nodePath).toJS();
             found = true;
-            const activeLesson = 0 < entities[type].length ? entities[type][0].ID : null; // Found, return updated entities.
+            const activeLesson = 0 < entities[type].length ? entities[type][0].ID : null;
 
+            // Found, return updated entities.
             return _objectSpread(_objectSpread({}, state), {}, {
               [type]: entities[type],
               activeLesson
             });
           }
-
           if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
             // if node has not been found in lessons, look into final quizzes
             if (!found) {
               const quizNodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.quizzes, action.payload.ID);
-
               if (-1 !== quizNodePath) {
                 quizzes = immutableQuizzes.deleteIn(quizNodePath).toJS();
               }
-
               return _objectSpread(_objectSpread({}, state), {}, {
                 quizzes
               });
             }
-          } // Return everything now.
+          }
 
-
+          // Return everything now.
           return _objectSpread(_objectSpread({}, state), {}, {
             [type]: entities[type],
             quizzes
           });
         }
-
         return state;
       }
 
     /**
      * Moves an entity up or down
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.MOVE_ENTITY:
       {
         if (!action.payload) {
           return state;
         }
-
         let type = '';
         let nodePath = [];
         const entities = {
@@ -11343,7 +11048,6 @@ const workspaceReducer = function () {
           lessons: state.lessons
         };
         let immutableEntities = null;
-
         if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
           type = 'questions';
           immutableEntities = immutableQuestions;
@@ -11351,26 +11055,24 @@ const workspaceReducer = function () {
           type = 'lessons';
           immutableEntities = immutableLessons;
         }
-
         if ('answer' === action.payload.type) {
           const parentIndex = immutableEntities.findIndex(node => node.get('ID') === action.payload.parentID);
           nodePath = [parentIndex, 'answers', action.payload.answerType, action.payload.index];
         } else {
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(entities[type], action.payload.ID, false);
         }
-
         if (nodePath.length) {
           // Get the index of the node which is the last element in the array.
           const currentIndex = nodePath[nodePath.length - 1];
-          const currentNode = immutableEntities.getIn(nodePath); // set the new index depending on the direction.
+          const currentNode = immutableEntities.getIn(nodePath);
 
+          // set the new index depending on the direction.
           let newIndex = currentIndex + 1;
-
           if ('up' === action.direction) {
             newIndex = currentIndex - 1;
-          } // We are at the top level
+          }
 
-
+          // We are at the top level
           if (1 === nodePath.length) {
             entities[type] = immutableEntities.deleteIn(nodePath).insert(newIndex, currentNode).toJS();
           } else {
@@ -11380,19 +11082,16 @@ const workspaceReducer = function () {
               return tree.delete(currentIndex).insert(newIndex, currentNode);
             }).toJS();
           }
-
           return _objectSpread(_objectSpread({}, state), {}, {
             [type]: entities[type]
           });
         }
-
         return state;
       }
 
     /**
      * Sets the draggable and droppable entities.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -11404,7 +11103,6 @@ const workspaceReducer = function () {
     /**
      * Sets the is drop disabled value
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -11416,7 +11114,6 @@ const workspaceReducer = function () {
      * Used for the global expand/collapse all
      * Only affects top level items (lessons in course builder or questions in quiz builder)
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL:
       {
         let type = '';
@@ -11424,25 +11121,24 @@ const workspaceReducer = function () {
           questions: state.questions,
           lessons: state.lessons
         };
-
         if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
           type = 'questions';
         } else {
           type = 'lessons';
-        } // Get all the top level items (ignore section headings)
+        }
 
+        // Get all the top level items (ignore section headings)
+        const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type);
 
-        const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type); // Everything was already expanded, so collapse all
-
+        // Everything was already expanded, so collapse all
         if (state.expandAll) {
           return _objectSpread(_objectSpread({}, state), {}, {
             expandedItems: [],
             expandAll: false
           });
-        } // Everything was collapsed, so expand all
+        }
+        // Everything was collapsed, so expand all
         // Add all top level items IDs in expandedItems
-
-
         return _objectSpread(_objectSpread({}, state), {}, {
           expandedItems: realBuilderItems.map(item => item.ID),
           expandAll: true
@@ -11452,7 +11148,6 @@ const workspaceReducer = function () {
     /**
      * Used for the entity expand/collapse
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY:
       {
         if (action.payload.ID) {
@@ -11462,20 +11157,21 @@ const workspaceReducer = function () {
             questions: state.questions,
             lessons: state.lessons
           };
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
           } else {
             type = 'lessons';
-          } // Get all the top level items (ignore section headings)
+          }
 
+          // Get all the top level items (ignore section headings)
+          const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type);
 
-          const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type); // Expand/Collapse lessons or questions
-
+          // Expand/Collapse lessons or questions
           if ('sfwd-lessons' === action.payload.type || 'sfwd-question' === action.payload.type) {
-            const isExpanded = -1 !== state.expandedItems.indexOf(action.payload.ID); // If the item is not expanded, add it to expandedItems
-            // If the item is already expanded, remove it
+            const isExpanded = -1 !== state.expandedItems.indexOf(action.payload.ID);
 
+            // If the item is not expanded, add it to expandedItems
+            // If the item is already expanded, remove it
             const newExpandedItems = !isExpanded ? [...state.expandedItems, action.payload.ID] : state.expandedItems.filter(item => item !== action.payload.ID);
             return _objectSpread(_objectSpread({}, state), {}, {
               expandedItems: newExpandedItems,
@@ -11483,9 +11179,9 @@ const workspaceReducer = function () {
             });
           } else if ('sfwd-topic' === action.payload.type) {
             // Expand/Collapse topics
+
             entityObject = Object.values(entities[type][action.parent].tree);
             const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(entityObject, action.payload.ID);
-
             if (node) {
               node.expanded = !action.payload.expanded;
               return _objectSpread(_objectSpread({}, state), {}, {
@@ -11493,44 +11189,36 @@ const workspaceReducer = function () {
               });
             }
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Updates a question type.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_TYPE:
       {
         if (action.payload.ID) {
           const nodeIndex = immutableQuestions.findIndex(node => node.get('ID') === action.payload.ID);
-
           if (-1 !== nodeIndex) {
             const questions = immutableQuestions.update(nodeIndex, node => node.set('question_type', action.payload.question_type).set('points', action.payload.points).set('post_content', action.payload.post_content)).toJS();
             return _objectSpread(_objectSpread({}, state), {}, {
               questions
             });
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Updates the answers for a question. Used mainly when selecting the correct answer to refresh everything.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_ANSWERS:
       {
         if (action.question.ID) {
           const nodeIndex = immutableQuestions.findIndex(node => node.get('ID') === action.question.ID);
-
           if (-1 !== nodeIndex) {
             const questions = immutableQuestions.update(nodeIndex, node => node.setIn(['answers', LearnDashData.questions_types_map[action.question.question_type]], action.answers)).toJS();
             return _objectSpread(_objectSpread({}, state), {}, {
@@ -11538,19 +11226,17 @@ const workspaceReducer = function () {
             });
           }
         }
-
         return state;
       }
-
     default:
       {
         return state;
       }
   }
 };
-
 const workspace = (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__["default"])(workspaceReducer, {
-  filter: (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__.excludeAction)([_constants__WEBPACK_IMPORTED_MODULE_2__.INIT_DATA, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY, // used when moving things.
+  filter: (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__.excludeAction)([_constants__WEBPACK_IMPORTED_MODULE_2__.INIT_DATA, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY,
+  // used when moving things.
   _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_TYPE, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_SECTION_HEADING_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_SECTION_HEADING_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_SECTION_HEADINGS])
 });
 
@@ -11581,7 +11267,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Format the answer data to use in the API
  * Adds _ before key name
@@ -11596,21 +11281,19 @@ const formattedAnswersForAPI = answers => {
   });
   return formatted;
 };
+
 /**
  * Calculate the points for answers
  *
  * @param {Object} answers
  */
-
 const calculatePoints = answers => {
   const answerObject = answers[0];
   let points = 1,
-      maxPoints = 0;
-
+    maxPoints = 0;
   if (answerObject) {
     if ('assessment_answer' === answerObject.answerType) {
       const items = answerObject.answer.match(/{(.*?)}/im);
-
       if (items && 0 !== items.length && items[1]) {
         points = items[1].match(/\[([^|\]]+)(?:\|(\d+))?\]/gim).length;
         maxPoints = Math.max(maxPoints, points);
@@ -11619,35 +11302,35 @@ const calculatePoints = answers => {
       points = answerObject.points;
     }
   }
-
   return {
     points,
     maxPoints
   };
-}; // Tree utils
+};
 
+// Tree utils
 const treeConfig = {
   childrenField: 'tree',
   keyField: 'ID'
 };
 const treeNodeUtils = new (tree_node_utils__WEBPACK_IMPORTED_MODULE_1___default())(treeConfig);
+
 /**
  * Concatenates 2 arrays without any duplicates, based on the ID attribute.
  *
  * @param {Array} nodes
  * @param {Array} newNodes
  */
-
 const mergeUniqueItems = (nodes, newNodes) => {
   newNodes.forEach(data => {
     const existingElement = nodes.findIndex(node => node.ID === data.ID);
-
     if (-1 === existingElement) {
       nodes = [...nodes, data];
     }
   });
   return nodes;
 };
+
 /**
  * Get the parent path for a node, provide the ID.
  *
@@ -11657,30 +11340,24 @@ const mergeUniqueItems = (nodes, newNodes) => {
  *
  * @return {Array} to be used with immutable JS
  */
-
 const getNodePath = function (data, ID) {
   let appendTree = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   const immutableData = (0,immutable__WEBPACK_IMPORTED_MODULE_2__.fromJS)(data);
   const parentIndex = immutableData.findIndex(node => node.get('ID') === ID);
   let path = -1;
-
   if (-1 === parentIndex) {
     // look into child now
     immutableData.forEach((parent, index) => {
       const parentTree = parent.get('tree');
-
       if (parentTree.size) {
         const childIndex = parentTree.findIndex(node => node.get('ID') === ID);
-
         if (-1 !== childIndex) {
           path = [index, 'tree', childIndex];
         } else {
           parent.get('tree').forEach((child, childIndex) => {
             const childTree = child.get('tree');
-
             if (childTree && childTree.size) {
               const grandChildIndex = childTree.findIndex(node => node.get('ID') === ID);
-
               if (-1 !== grandChildIndex) {
                 path = [index, 'tree', childIndex, 'tree', grandChildIndex];
               }
@@ -11692,13 +11369,12 @@ const getNodePath = function (data, ID) {
   } else {
     path = [parentIndex];
   }
-
   if (-1 !== path && appendTree) {
     path.push('tree');
   }
-
   return path;
 };
+
 /**
  * Debounce callback
  * Replaces lodash.debounce
@@ -11707,14 +11383,12 @@ const getNodePath = function (data, ID) {
  * @param {callback} callback    Callback to be debounced
  * @param {number}   wait        Time to wait before execution
  */
-
 const debounce = (callback, wait) => {
   let timeout;
   return function () {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       callback.apply(this, args);
@@ -11815,9 +11489,9 @@ if ($defineProperty) {
 /***/ ((module, exports) => {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2018 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
 */
 /* global define */
 
@@ -11825,6 +11499,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	'use strict';
 
 	var hasOwn = {}.hasOwnProperty;
+	var nativeCodeString = '[native code]';
 
 	function classNames() {
 		var classes = [];
@@ -11845,14 +11520,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 					}
 				}
 			} else if (argType === 'object') {
-				if (arg.toString === Object.prototype.toString) {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				} else {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
 					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
 				}
 			}
 		}
@@ -11893,7 +11569,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "shrink": () => (/* binding */ shrink),
 /* harmony export */   "withScroll": () => (/* binding */ withScroll)
 /* harmony export */ });
-/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js");
+/* harmony import */ var tiny_invariant__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiny-invariant */ "./node_modules/tiny-invariant/dist/esm/tiny-invariant.js");
 
 
 var getRect = function getRect(_ref) {
@@ -12200,6 +11876,8 @@ var INTRINSICS = {
 	'%AsyncIteratorPrototype%': needsEval,
 	'%Atomics%': typeof Atomics === 'undefined' ? undefined : Atomics,
 	'%BigInt%': typeof BigInt === 'undefined' ? undefined : BigInt,
+	'%BigInt64Array%': typeof BigInt64Array === 'undefined' ? undefined : BigInt64Array,
+	'%BigUint64Array%': typeof BigUint64Array === 'undefined' ? undefined : BigUint64Array,
 	'%Boolean%': Boolean,
 	'%DataView%': typeof DataView === 'undefined' ? undefined : DataView,
 	'%Date%': Date,
@@ -12254,6 +11932,14 @@ var INTRINSICS = {
 	'%WeakRef%': typeof WeakRef === 'undefined' ? undefined : WeakRef,
 	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet
 };
+
+try {
+	null.error; // eslint-disable-line no-unused-expressions
+} catch (e) {
+	// https://github.com/tc39/proposal-shadowrealm/pull/384#issuecomment-1364264229
+	var errorProto = getProto(getProto(e));
+	INTRINSICS['%Error.prototype%'] = errorProto;
+}
 
 var doEval = function doEval(name) {
 	var value;
@@ -12396,7 +12082,7 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 		throw new $TypeError('"allowMissing" argument must be a boolean');
 	}
 
-	if ($exec(/^%?[^%]*%?$/g, name) === null) {
+	if ($exec(/^%?[^%]*%?$/, name) === null) {
 		throw new $SyntaxError('`%` may not be present anywhere but at the beginning and end of the intrinsic name');
 	}
 	var parts = stringToPath(name);
@@ -12696,6 +12382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Map": () => (/* binding */ Map),
 /* harmony export */   "OrderedMap": () => (/* binding */ OrderedMap),
 /* harmony export */   "OrderedSet": () => (/* binding */ OrderedSet),
+/* harmony export */   "PairSorting": () => (/* binding */ PairSorting),
 /* harmony export */   "Range": () => (/* binding */ Range),
 /* harmony export */   "Record": () => (/* binding */ Record),
 /* harmony export */   "Repeat": () => (/* binding */ Repeat),
@@ -14148,6 +13835,18 @@ function groupByFactory(collection, grouper, context) {
   });
   var coerce = collectionClass(collection);
   return groups.map(function (arr) { return reify(collection, coerce(arr)); }).asImmutable();
+}
+
+function partitionFactory(collection, predicate, context) {
+  var isKeyedIter = isKeyed(collection);
+  var groups = [[], []];
+  collection.__iterate(function (v, k) {
+    groups[predicate.call(context, v, k, collection) ? 1 : 0].push(
+      isKeyedIter ? [k, v] : v
+    );
+  });
+  var coerce = collectionClass(collection);
+  return groups.map(function (arr) { return reify(collection, coerce(arr)); });
 }
 
 function sliceFactory(collection, begin, end, useKeys) {
@@ -17147,7 +16846,11 @@ var Set = /*@__PURE__*/(function (SetCollection) {
     }
     return this.withMutations(function (set) {
       for (var ii = 0; ii < iters.length; ii++) {
-        SetCollection(iters[ii]).forEach(function (value) { return set.add(value); });
+        if (typeof iters[ii] === 'string') {
+          set.add(iters[ii]);
+        } else {
+          SetCollection(iters[ii]).forEach(function (value) { return set.add(value); });
+        }
       }
     });
   };
@@ -17582,6 +17285,10 @@ mixin(Collection, {
 
   filter: function filter(predicate, context) {
     return reify(this, filterFactory(this, predicate, context, true));
+  },
+
+  partition: function partition(predicate, context) {
+    return partitionFactory(this, predicate, context);
   },
 
   find: function find(predicate, context, notSetValue) {
@@ -18224,6 +17931,11 @@ function emptyOrderedSet() {
   );
 }
 
+var PairSorting = {
+  LeftThenRight: -1,
+  RightThenLeft: +1,
+};
+
 function throwOnInvalidDefaultValues(defaultValues) {
   if (isRecord(defaultValues)) {
     throw new Error(
@@ -18606,7 +18318,7 @@ function defaultConverter(k, v) {
   return isIndexed(v) ? v.toList() : isKeyed(v) ? v.toMap() : v.toSet();
 }
 
-var version = "4.1.0";
+var version = "4.3.0";
 
 var Immutable = {
   version: version,
@@ -18622,6 +18334,7 @@ var Immutable = {
   Stack: Stack,
   Set: Set,
   OrderedSet: OrderedSet,
+  PairSorting: PairSorting,
 
   Record: Record,
   Range: Range,
@@ -23400,16 +23113,20 @@ module.exports = function inspect_(obj, options, depth, seen) {
     }
     if (isMap(obj)) {
         var mapParts = [];
-        mapForEach.call(obj, function (value, key) {
-            mapParts.push(inspect(key, obj, true) + ' => ' + inspect(value, obj));
-        });
+        if (mapForEach) {
+            mapForEach.call(obj, function (value, key) {
+                mapParts.push(inspect(key, obj, true) + ' => ' + inspect(value, obj));
+            });
+        }
         return collectionOf('Map', mapSize.call(obj), mapParts, indent);
     }
     if (isSet(obj)) {
         var setParts = [];
-        setForEach.call(obj, function (value) {
-            setParts.push(inspect(value, obj));
-        });
+        if (setForEach) {
+            setForEach.call(obj, function (value) {
+                setParts.push(inspect(value, obj));
+            });
+        }
         return collectionOf('Set', setSize.call(obj), setParts, indent);
     }
     if (isWeakMap(obj)) {
@@ -24864,7 +24581,6 @@ var arrayPrefixGenerators = {
 };
 
 var isArray = Array.isArray;
-var split = String.prototype.split;
 var push = Array.prototype.push;
 var pushToArray = function (arr, valueOrArray) {
     push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
@@ -24966,14 +24682,6 @@ var stringify = function stringify(
     if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
         if (encoder) {
             var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
-            if (generateArrayPrefix === 'comma' && encodeValuesOnly) {
-                var valuesArray = split.call(String(obj), ',');
-                var valuesJoined = '';
-                for (var i = 0; i < valuesArray.length; ++i) {
-                    valuesJoined += (i === 0 ? '' : ',') + formatter(encoder(valuesArray[i], defaults.encoder, charset, 'value', format));
-                }
-                return [formatter(keyValue) + (commaRoundTrip && isArray(obj) && valuesArray.length === 1 ? '[]' : '') + '=' + valuesJoined];
-            }
             return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
         }
         return [formatter(prefix) + '=' + formatter(String(obj))];
@@ -24988,6 +24696,9 @@ var stringify = function stringify(
     var objKeys;
     if (generateArrayPrefix === 'comma' && isArray(obj)) {
         // we need to join elements in
+        if (encodeValuesOnly && encoder) {
+            obj = utils.maybeMap(obj, encoder);
+        }
         objKeys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
     } else if (isArray(filter)) {
         objKeys = filter;
@@ -25020,7 +24731,7 @@ var stringify = function stringify(
             commaRoundTrip,
             strictNullHandling,
             skipNulls,
-            encoder,
+            generateArrayPrefix === 'comma' && encodeValuesOnly && isArray(obj) ? null : encoder,
             filter,
             sort,
             allowDots,
@@ -30956,8 +30667,8 @@ function useHiddenTextElement(_ref2) {
 var AppContext = react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
 
 var peerDependencies = {
-	react: "^16.8.5 || ^17.0.0",
-	"react-dom": "^16.8.5 || ^17.0.0"
+	react: "^16.8.5 || ^17.0.0 || ^18.0.0",
+	"react-dom": "^16.8.5 || ^17.0.0 || ^18.0.0"
 };
 
 var semver = /(\d+)\.(\d+)\.(\d+)/;
@@ -35088,7 +34799,7 @@ function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, merg
 
   function handleSubsequentCalls(nextState, nextOwnProps) {
     var propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
-    var stateChanged = !areStatesEqual(nextState, state);
+    var stateChanged = !areStatesEqual(nextState, state, nextOwnProps, ownProps);
     state = nextState;
     ownProps = nextOwnProps;
     if (propsChanged && stateChanged) return handleNewPropsAndNewState();
@@ -61323,7 +61034,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
-const ReactReduxContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+const ReactReduxContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
 
 if (true) {
   ReactReduxContext.displayName = 'ReactRedux';
@@ -62018,7 +61729,7 @@ function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, merg
 
   function handleSubsequentCalls(nextState, nextOwnProps) {
     const propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
-    const stateChanged = !areStatesEqual(nextState, state);
+    const stateChanged = !areStatesEqual(nextState, state, nextOwnProps, ownProps);
     state = nextState;
     ownProps = nextOwnProps;
     if (propsChanged && stateChanged) return handleNewPropsAndNewState();
@@ -66469,17 +66180,6 @@ function applyMiddleware() {
   };
 }
 
-/*
- * This is a dummy function to check if the function name has been altered by minification.
- * If the function has been minified and NODE_ENV !== 'production', warn the user.
- */
-
-function isCrushed() {}
-
-if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
-}
-
 
 
 
@@ -67881,36 +67581,6 @@ module.exports = function getSideChannel() {
 
 /***/ }),
 
-/***/ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ invariant)
-/* harmony export */ });
-var isProduction = "development" === 'production';
-var prefix = 'Invariant failed';
-function invariant(condition, message) {
-    if (condition) {
-        return;
-    }
-    if (isProduction) {
-        throw new Error(prefix);
-    }
-    var provided = typeof message === 'function' ? message() : message;
-    var value = provided ? prefix + ": " + provided : prefix;
-    throw new Error(value);
-}
-
-
-
-
-/***/ }),
-
 /***/ "./node_modules/tree-node-data/lib/tree-node-data.js":
 /*!***********************************************************!*\
   !*** ./node_modules/tree-node-data/lib/tree-node-data.js ***!
@@ -69078,7 +68748,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ _defineProperty)
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -69089,7 +68762,6 @@ function _defineProperty(obj, key, value) {
   } else {
     obj[key] = value;
   }
-
   return obj;
 }
 
@@ -69110,14 +68782,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -69159,20 +68829,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _defineProperty_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty.js */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
-
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
     enumerableOnly && (symbols = symbols.filter(function (sym) {
       return Object.getOwnPropertyDescriptor(object, sym).enumerable;
     })), keys.push.apply(keys, symbols);
   }
-
   return keys;
 }
-
 function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {};
@@ -69182,7 +68848,6 @@ function _objectSpread2(target) {
       Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
     });
   }
-
   return target;
 }
 
@@ -69204,13 +68869,11 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   var target = {};
   var sourceKeys = Object.keys(source);
   var key, i;
-
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
   }
-
   return target;
 }
 
@@ -69234,6 +68897,107 @@ function _setPrototypeOf(o, p) {
   };
   return _setPrototypeOf(o, p);
 }
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function _toPrimitive(input, hint) {
+  if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function _toPropertyKey(arg) {
+  var key = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arg, "string");
+  return (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === "symbol" ? key : String(key);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+
+/***/ }),
+
+/***/ "./node_modules/tiny-invariant/dist/esm/tiny-invariant.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/tiny-invariant/dist/esm/tiny-invariant.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ invariant)
+/* harmony export */ });
+var isProduction = "development" === 'production';
+var prefix = 'Invariant failed';
+function invariant(condition, message) {
+    if (condition) {
+        return;
+    }
+    if (isProduction) {
+        throw new Error(prefix);
+    }
+    var provided = typeof message === 'function' ? message() : message;
+    var value = provided ? "".concat(prefix, ": ").concat(provided) : prefix;
+    throw new Error(value);
+}
+
+
+
 
 /***/ })
 
