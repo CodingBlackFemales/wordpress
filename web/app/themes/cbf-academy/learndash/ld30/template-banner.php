@@ -1,4 +1,7 @@
 <?php
+/**
+ * Template banner override
+ */
 use LearnDash\Core\Models\Product;
 
 $course_cover_photo = false;
