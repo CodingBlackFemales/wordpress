@@ -27,6 +27,7 @@ A quick overview of the Container features:
 - [Code Example](#code-example)
 - [Installation](#installation)
 - [Upgrading from version 2 to version 3](#upgrading-from-version-2-to-version-3)
+- [Upgrading from version 3.2 to version 3.3](#upgrading-from-version-32-to-version-33)
 - [Quick and dirty introduction to dependency injection](#quick-and-dirty-introduction-to-dependency-injection)
   * [What is dependency injection?](#what-is-dependency-injection-)
   * [What is a DI container?](#what-is-a-di-container-)
@@ -35,7 +36,6 @@ A quick overview of the Container features:
 - [The power of `get`](#the-power-of--get-)
 - [Storing variables](#storing-variables)
 - [Binding implementations](#binding-implementations)
-  * [Controlling the resolution of unbound classes](#controlling-the-resolution-of-unbound-classes)
 - [Binding implementations to slugs](#binding-implementations-to-slugs)
 - [Contextual binding](#contextual-binding)
 - [Binding decorator chains](#binding-decorator-chains)
@@ -45,6 +45,9 @@ A quick overview of the Container features:
   * [Booting service providers](#booting-service-providers)
   * [Deferred service providers](#deferred-service-providers)
   * [Dependency injection with service providers](#dependency-injection-with-service-providers)
+- [Customizing the container](#customizing-the-container)
+  * [Unbound classes resolution](#unbound-classes-resolution)
+  * [Exception masking](#exception-masking)
 
 ## Code Example
 
@@ -179,6 +182,25 @@ the `lucatume\di52\Container::get` one.
 For another small performance gain replace uses of `tad_DI52_Container::make` with `lucatume\di52\Container::get`.
 
 That should be all of it.
+
+## Upgrading from version 3.2 to version 3.3
+
+Version 3.3.0 of the library removed the `aliases.php` file, which previously helped to load non-PSR namespaced class names.
+However, if you're using the `tad_DI52_Container` and `tad_DI52_ServiceProvider` classes in your project, you can set up the aliases by adding a few lines of code to your project's bootstrap file to ensure your code continues to work as expected:
+
+```php
+<?php
+
+$aliases = [
+    ['lucatume\DI52\Container', 'tad_DI52_Container'],
+    ['lucatume\DI52\ServiceProvider', 'tad_DI52_ServiceProvider']
+];
+foreach ($aliases as list($class, $alias)) {
+    if (!class_exists($alias)) {
+        class_alias($class, $alias);
+    }
+}
+```
 
 ## Quick and dirty introduction to dependency injection
 
@@ -457,27 +479,7 @@ be built just the first time: any later call for that same interface should retu
 Implementations can be redefined in any moment simple calling the `bind` or `singleton` methods again specifying a
 different implementation.
 
-### Controlling the resolution of unbound classes
-The container will use reflection to work out the dependencies of an object, and will not require setup when resolving
-objects with type-hinted object dependencies in the `__construct` method.
-By default those _unbound_ classes will be resolved **as prototypes**, built new on each `get` request.
-
-To control the mode used to resolve unbound classes, a flag property can be set on the container when constructing it:
-
-```php
-use lucatume\DI52\Container;
-
-$container1 = new Container();
-$container2 = new Container(true);
-
-// Default resolution of unbound classes is prototype.
-assert($container1->get(A::class) !== $container1->get(A::class));
-// The second container will resolve unbound classes once, then store them as singletons.
-assert($container2->get(A::class) === $container2->get(A::class));
-```
-
-This will only apply to unbound classes! Whatever the flag used to build the container instance, the mode set in the
-binding phase using `Container::bind()` or `Container::singleton()` methods will **always** be respected.
+You can customize how unbound classes are resolved by the container, check the [unbound classes](#unbound-classes-resolution) section.
 
 ## Binding implementations to slugs
 
@@ -549,7 +551,7 @@ $container->bind(DbCache::class, function($container){
 });
 
 /*
- * but when an implementation of the `CacheInterface` is requested by
+ * But when an implementation of the `CacheInterface` is requested by
  * `TransactionManager`, then it should be given an instance of `Array Cache`.
  */
 $container->when(TransactionManager::class)
@@ -560,9 +562,18 @@ $container->when(TransactionManager::class)
  * We can also bind primitives where the container doesn't know how to auto-wire
  * them.
  */
-$container->when(PaginationManager::class)
-    ->needs('$per_page')
-    ->give(25);
+$container->when(MysqlOrm:class)
+    ->needs('$dbUrl')
+    ->give('mysql://user:password@127.0.0.1:3306/app');
+
+/*
+ * When primitives are bound to a class the container will correctly resolve them when building the class
+ * bound to an interface.
+ */
+$container->bind(ORMInterface::class, MysqlOrm::class);
+
+// The `ORMInterface` will be resolved an instance of the `MysqlOrm` class, with the `$dbUrl` argument set correctly.
+$orm = $container->get(ORMInterface::class);
 ```
 
 ## Binding decorator chains
@@ -863,4 +874,57 @@ $container->when(ProviderOne::class)
     ->give(true);
 
 $container->register(ProviderOne::class);
+```
+
+## Customizing the container
+
+The container will be built with some opinionated defaults; those are not set in stone and you can customize the
+container to your needs.
+
+### Unbound classes resolution
+The container will use reflection to work out the dependencies of an object, and will not require setup when resolving
+objects with type-hinted object dependencies in the `__construct` method.
+By default those _unbound_ classes will be resolved **as prototypes**, built new on **each** `get` request.
+
+To control the mode used to resolve unbound classes, a flag property can be set on the container when constructing it:
+
+```php
+use lucatume\DI52\Container;
+
+$container1 = new Container();
+$container2 = new Container(true);
+
+// Default resolution of unbound classes is prototype.
+assert($container1->get(A::class) !== $container1->get(A::class));
+// The second container will resolve unbound classes once, then store them as singletons.
+assert($container2->get(A::class) === $container2->get(A::class));
+```
+
+This will only apply to unbound classes! Whatever the flag used to build the container instance, the mode set in the
+binding phase using `Container::bind()` or `Container::singleton()` methods will **always** be respected.
+
+### Exception masking
+
+By default the container will catch any exception thrown during a service resolution and wrap into a `ContainerException`
+instance.  
+The container will modify the exception message and the trace file and line to provide information about the nested
+resolution tree and point your debug to the file and line that caused the issue.  
+You can customize how the container will handle exceptions by using the `Container::setExceptionMask()` method:
+
+```php
+use lucatume\DI52\Container;
+
+$container = new Container();
+
+// The container will throw any exception thrown during a service resolution without any modification.
+$container->setExceptionMask(Container::EXCEPTION_MASK_NONE);
+
+// Wrap any exception thrown during a service resolution in a `ContainerException` instance, modify the message.
+$container->setExceptionMask(Container::EXCEPTION_MASK_MESSAGE);
+
+// Wrap any exception thrown during a service resolution in a `ContainerException` instance, modify the trace file and line.
+$container->setExceptionMask(Container::EXCEPTION_MASK_FILE_LINE);
+
+// You can combine the options, this is the default value.
+$container->setExceptionMask(Container::EXCEPTION_MASK_MESSAGE | Container::EXCEPTION_MASK_FILE_LINE);
 ```

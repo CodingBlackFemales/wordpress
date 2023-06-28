@@ -181,8 +181,7 @@ if ( is_user_logged_in() && isset( $has_access ) && $has_access ) :
 					$group_pricing['repeat_frequency'] = '';
 				} else {
 					if ( empty( $group_pricing['trial_price'] ) ) {
-						$group_pricing['trial_interval']  = '';
-						$group_pricing['trial_frequency'] = '';
+						$group_pricing['trial_price'] = 0;
 					} elseif ( ( empty( $group_pricing['trial_interval'] ) ) || ( empty( $group_pricing['trial_frequency'] ) ) ) {
 						$group_pricing['trial_price'] = '';
 					}
@@ -211,7 +210,7 @@ if ( is_user_logged_in() && isset( $has_access ) && $has_access ) :
 				<?php
 			} elseif ( 'subscribe' === $group_pricing['type'] ) {
 				if ( ! empty( $group_pricing['price'] ) ) {
-					if ( ! empty( $group_pricing['trial_price'] ) ) {
+					if ( ! empty( $group_pricing['trial_frequency'] ) ) {
 						?>
 						<span class="ld-course-status-trial-price">
 						<?php
