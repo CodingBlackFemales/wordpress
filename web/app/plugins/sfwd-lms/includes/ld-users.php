@@ -174,7 +174,6 @@ function learndash_delete_user_data( $user_id ) {
 
 add_action( 'delete_user', 'learndash_delete_user_data' );
 
-
 /**
  * Gets the list of all courses enrolled by the user.
  *
@@ -597,7 +596,7 @@ function learndash_process_user_course_progress_update( $user_id = 0, $user_prog
 							if ( ! empty( $quiz_progress ) ) {
 								foreach ( $quiz_progress as $quiz_idx => $quiz_item ) {
 
-									if ( ( $quiz_item['quiz'] == $quiz_id ) && ( true === $quiz_item['pass'] ) ) {
+									if ( $quiz_item['quiz'] == $quiz_id && true === (bool) $quiz_item['pass'] ) {
 										$quiz_progress[ $quiz_idx ]['pass'] = false;
 
 										// We need to update the activity database records for this quiz_id.
