@@ -6,6 +6,8 @@
  * @package LearnDash\Transactions\Listing
  */
 
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -98,6 +100,13 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 					'listing_query_function'  => array( $this, 'filter_by_product' ),
 					'selector_value_function' => array( $this, 'selector_value_for_group' ),
 				),
+				'author'             => array(
+					'type'                     => 'user',
+					'show_all_value'           => '',
+					'show_all_label'           => esc_html__( 'All Users', 'learndash' ),
+					'selector_filter_function' => array( $this, 'selector_filter_for_author' ),
+					'selector_value_function'  => array( $this, 'selector_value_for_author' ),
+				),
 			);
 
 			$this->columns = array(
@@ -171,12 +180,12 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			if ( Learndash_Paypal_IPN_Gateway::get_name() === $selector['selected'] ) {
 				$q_vars['meta_query']['relation'] = 'OR';
 				$q_vars['meta_query'][]           = array(
-					'key'     => Learndash_Transaction_Model::$meta_key_gateway_name,
+					'key'     => Transaction::$meta_key_gateway_name,
 					'compare' => '=',
 					'value'   => $selector['selected'],
 				);
 				$q_vars['meta_query'][]           = array(
-					'key'     => Learndash_Transaction_Model::$meta_key_gateway_name,
+					'key'     => Transaction::$meta_key_gateway_name,
 					'compare' => '=',
 					'value'   => 'paypal',
 				);
@@ -187,7 +196,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			} elseif ( Learndash_Stripe_Gateway::get_name() === $selector['selected'] ) {
 				$q_vars['meta_query']['relation'] = 'OR';
 				$q_vars['meta_query'][]           = array(
-					'key'     => Learndash_Transaction_Model::$meta_key_gateway_name,
+					'key'     => Transaction::$meta_key_gateway_name,
 					'compare' => '=',
 					'value'   => $selector['selected'],
 				);
@@ -198,7 +207,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 				);
 			} elseif ( Learndash_Razorpay_Gateway::get_name() === $selector['selected'] ) {
 				$q_vars['meta_query'][] = array(
-					'key'     => Learndash_Transaction_Model::$meta_key_gateway_name,
+					'key'     => Transaction::$meta_key_gateway_name,
 					'compare' => '=',
 					'value'   => $selector['selected'],
 				);
@@ -269,7 +278,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			} elseif ( 'razorpay_paynow' === $selector['selected'] ) {
 				$q_vars['meta_query'][] = array(
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_gateway_name,
+						'key'   => Transaction::$meta_key_gateway_name,
 						'value' => Learndash_Razorpay_Gateway::get_name(),
 					),
 					array(
@@ -280,15 +289,15 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			} elseif ( 'razorpay_subscribe' === $selector['selected'] ) {
 				$q_vars['meta_query'][] = array(
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_gateway_name,
+						'key'   => Transaction::$meta_key_gateway_name,
 						'value' => Learndash_Razorpay_Gateway::get_name(),
 					),
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_price_type,
+						'key'   => Transaction::$meta_key_price_type,
 						'value' => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
 					),
 					array(
-						'key'     => Learndash_Transaction_Model::$meta_key_has_trial,
+						'key'     => Transaction::$meta_key_has_trial,
 						'compare' => '!=',
 						'value'   => 1,
 					),
@@ -296,26 +305,26 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			} elseif ( 'razorpay_subscribe_paid_trial' === $selector['selected'] ) {
 				$q_vars['meta_query'][] = array(
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_gateway_name,
+						'key'   => Transaction::$meta_key_gateway_name,
 						'value' => Learndash_Razorpay_Gateway::get_name(),
 					),
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_has_trial,
+						'key'   => Transaction::$meta_key_has_trial,
 						'value' => 1,
 					),
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_has_free_trial,
+						'key'   => Transaction::$meta_key_has_free_trial,
 						'value' => 0,
 					),
 				);
 			} elseif ( 'razorpay_subscribe_free_trial' === $selector['selected'] ) {
 				$q_vars['meta_query'][] = array(
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_gateway_name,
+						'key'   => Transaction::$meta_key_gateway_name,
 						'value' => Learndash_Razorpay_Gateway::get_name(),
 					),
 					array(
-						'key'   => Learndash_Transaction_Model::$meta_key_has_free_trial,
+						'key'   => Transaction::$meta_key_has_free_trial,
 						'value' => 1,
 					),
 				);
@@ -344,7 +353,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			}
 
 			$q_vars['meta_query']['relation'] = 'OR';
-			foreach ( Learndash_Transaction_Model::$product_id_meta_keys as $meta_key ) {
+			foreach ( Transaction::$product_id_meta_keys as $meta_key ) {
 				$q_vars['meta_query'][] = array(
 					'key'   => $meta_key,
 					'value' => (int) $selector['selected'],
@@ -364,7 +373,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_gateway( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction ) {
 				return;
@@ -403,7 +412,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_info( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction ) {
 				return;
@@ -512,7 +521,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_coupon( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction || $transaction->is_parent() ) {
 				return;
@@ -571,7 +580,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_product( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction ) {
 				return;
@@ -661,7 +670,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_access( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction ) {
 				return;
@@ -674,14 +683,18 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 			$user    = $transaction->get_user();
 			$product = $transaction->get_product();
 
-			$user_has_access = $product && $product->user_has_access( $user );
+			if ( ! $product || ! $user->exists() ) {
+				return;
+			}
 
-			$user_has_access
+			$user_has_access = $product->user_has_access( $user );
+
+			if ( $product->is_pre_ordered( $user ) ) {
+				esc_html_e( 'Pre-order', 'learndash' );
+			} else {
+				$user_has_access
 				? esc_html_e( 'Yes', 'learndash' )
 				: esc_html_e( 'No', 'learndash' );
-
-			if ( ! $product || 0 === $user->ID ) {
-				return;
 			}
 
 			if ( $user_has_access ) {
@@ -745,7 +758,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 		 * @return void
 		 */
 		protected function show_column_user( int $post_id ): void {
-			$transaction = Learndash_Transaction_Model::find( $post_id );
+			$transaction = Transaction::find( $post_id );
 
 			if ( ! $transaction ) {
 				return;
@@ -850,7 +863,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 				return;
 			}
 
-			$transactions = Learndash_Transaction_Model::find_many(
+			$transactions = Transaction::find_many(
 				wp_parse_id_list( wp_unslash( $_REQUEST['post'] ) )
 			);
 

@@ -3,7 +3,7 @@
  * Plugin Name: LearnDash LMS
  * Plugin URI: http://www.learndash.com
  * Description: LearnDash LMS Plugin - Turn your WordPress site into a learning management system.
- * Version: 4.5.3
+ * Version: 4.7.0
  * Author: LearnDash
  * Author URI: http://www.learndash.com
  * Text Domain: learndash
@@ -21,7 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-prefixed/autoload.php';
 
+use LearnDash\Core\App;
+use LearnDash\Core\Autoloader;
 use LearnDash\Core\Container;
+use StellarWP\Learndash\lucatume\DI52\ContainerException;
 use StellarWP\Learndash\StellarWP\Telemetry\Config;
 use StellarWP\Learndash\StellarWP\Telemetry\Core as Telemetry;
 use StellarWP\Learndash\StellarWP\DB\DB;
@@ -35,7 +38,7 @@ use StellarWP\Learndash\StellarWP\DB\DB;
 *
 * @internal Will be set by LearnDash LMS. Semantic versioning is used.
 */
-define( 'LEARNDASH_VERSION', '4.5.3' );
+define( 'LEARNDASH_VERSION', '4.7.0' );
 
 if ( ! defined( 'LEARNDASH_LMS_PLUGIN_DIR' ) ) {
 	/**
@@ -102,7 +105,8 @@ add_action(
 			? LEARNDASH_TELEMETRY_URL
 			: 'https://telemetry.stellarwp.com/api/v1';
 
-		Config::set_container( new Container() );
+		App::set_container( new Container() );
+		Config::set_container( App::container() );
 		Config::set_server_url( $telemetry_server_url );
 		Config::set_hook_prefix( 'learndash' );
 		Config::set_stellar_slug( 'learndash' );
@@ -130,9 +134,18 @@ add_action(
 add_action(
 	'plugins_loaded',
 	static function() {
+		learndash_extra_autoloading();
 		require_once __DIR__ . '/learndash-includes.php';
 		require_once __DIR__ . '/learndash-constants.php';
 		require_once __DIR__ . '/learndash-globals.php';
+		require_once __DIR__ . '/learndash-features-constants.php';
+
+		/**
+		 * Fires after LearnDash plugin files are included.
+		 *
+		 * @since 4.6.0
+		 */
+		do_action( 'learndash_files_included' );
 	},
 	0
 );
@@ -167,4 +180,37 @@ function learndash_deactivated() {
 	 * @since 2.1.0
 	 */
 	do_action( 'learndash_deactivated' );
+}
+
+/**
+ * Registers a LearnDash service provider implementation.
+ *
+ * @since 4.6.0
+ *
+ * @param string $service_provider_class The fully-qualified Service Provider class name.
+ * @param string ...$alias               A list of aliases the provider should be registered with.
+ *
+ * @throws ContainerException If the Service Provider is not correctly configured or there's an issue reflecting on it.
+ *
+ * @return void
+ */
+function learndash_register_provider( string $service_provider_class, string ...$alias ): void {
+	App::register( $service_provider_class, ...$alias );
+}
+
+/**
+ * Setup the autoloader for extra classes, which are not in the src/Core directory.
+ *
+ * @since 4.6.0
+ *
+ * @return void
+ */
+function learndash_extra_autoloading(): void {
+	$autoloader = Autoloader::instance();
+
+	foreach ( (array) glob( LEARNDASH_LMS_PLUGIN_DIR . 'src/deprecated/*.php' ) as $file ) {
+		$autoloader->register_class( basename( (string) $file, '.php' ), (string) $file );
+	}
+
+	$autoloader->register_autoloader();
 }

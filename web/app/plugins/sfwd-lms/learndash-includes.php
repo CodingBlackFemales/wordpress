@@ -242,11 +242,6 @@ require_once dirname( __FILE__ ) . '/includes/payments/ld-payments-functions.php
 require_once dirname( __FILE__ ) . '/includes/payments/ld-transaction-functions.php';
 
 /**
- * LearnDash Models.
- */
-require_once dirname( __FILE__ ) . '/includes/models/init.php';
-
-/**
  * LearnDash Loggers.
  */
 require_once dirname( __FILE__ ) . '/includes/loggers/init.php';

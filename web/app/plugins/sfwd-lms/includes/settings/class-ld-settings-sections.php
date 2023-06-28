@@ -18,7 +18,6 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 	 * @since 2.4.0
 	 */
 	class LearnDash_Settings_Section {
-
 		/**
 		 * Static array of section instances.
 		 *
@@ -260,6 +259,17 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 					}
 				}
 			}
+		}
+
+		/**
+		 * Returns the placeholder text for keys.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return string
+		 */
+		protected static function get_placeholder_for_keys(): string {
+			return esc_attr__( 'This key is stored secretly.', 'learndash' );
 		}
 
 		/**
@@ -594,6 +604,17 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 
 			if ( ! (bool) $this->verify_metabox_nonce_field() ) {
 				return $old_value;
+			}
+
+			if ( is_array( $value ) ) {
+				foreach ( $value as $key => $val ) {
+					if (
+						'password' === ( $this->setting_option_fields[ $key ]['type'] ?? '' )
+						&& $val === self::get_placeholder_for_keys()
+					) {
+						$value[ $key ] = $old_value[ $key ];
+					}
+				}
 			}
 
 			/**

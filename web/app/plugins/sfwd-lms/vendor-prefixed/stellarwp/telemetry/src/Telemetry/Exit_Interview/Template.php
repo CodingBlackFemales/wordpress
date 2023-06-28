@@ -7,7 +7,7 @@
  * @package StellarWP\Telemetry
  *
  * @license GPL-2.0-or-later
- * Modified by learndash on 13-April-2023 using Strauss.
+ * Modified by learndash on 21-June-2023 using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 
