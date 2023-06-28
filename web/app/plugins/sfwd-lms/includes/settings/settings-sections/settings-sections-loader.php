@@ -103,6 +103,7 @@ if ( ( defined( 'LEARNDASH_REST_API_ENABLED' ) ) && ( true === LEARNDASH_REST_AP
 	require_once __DIR__ . '/class-ld-settings-section-general-rest-api.php';
 }
 require_once __DIR__ . '/class-ld-settings-section-telemetry.php';
+require_once __DIR__ . '/class-ld-settings-section-ai-integrations.php';
 
 // Assignments.
 require_once __DIR__ . '/class-ld-settings-section-assignments-cpt.php';
