@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+
 // cspell:ignore childen .
 
 /**
@@ -121,6 +123,11 @@ function sfwd_lms_has_access_fn( $post_id, $user_id = null ) {
 		return true;
 	}
 
+	/**
+	 * Post meta of the course.
+	 *
+	 * @var array<string, mixed> $meta Post meta of the course.
+	 */
 	$meta = learndash_get_setting( $course_id );
 
 	if ( ( isset( $meta['course_price_type'] ) ) && ( $meta['course_price_type'] === 'open' ) ) {
@@ -156,14 +163,40 @@ function sfwd_lms_has_access_fn( $post_id, $user_id = null ) {
 		}
 	} else {
 		$course_user_meta = get_user_meta( $user_id, 'course_' . $course_id . '_access_from', true );
-		if ( ( ! empty( $course_user_meta ) ) || ( learndash_user_group_enrolled_to_course( $user_id, $course_id ) ) ) {
-			$expired = ld_course_access_expired( $course_id, $user_id );
-			return ! $expired; // True if not expired.
-		} else {
+		$access_by_group  = learndash_user_group_enrolled_to_course( $user_id, $course_id );
+		if (
+			empty( $course_user_meta ) &&
+			! $access_by_group
+		) {
 			return false;
 		}
-	}
 
+		// Prevent access before the start date and after the end date.
+
+		if ( ! $access_by_group ) {
+			/**
+			 * Product object.
+			 *
+			 * @var Product|null $product
+			 */
+			$product = Product::find( (int) $course_id );
+
+			if (
+				$product
+				&& (
+					! $product->has_started()
+					|| $product->has_ended()
+				)
+			) {
+				return false;
+			}
+		}
+
+		// Check access expiration.
+
+		$expired = ld_course_access_expired( $course_id, $user_id );
+		return ! $expired; // True if not expired.
+	}
 }
 
 /**
@@ -354,14 +387,19 @@ function ld_course_access_expires_on( $course_id, $user_id ) {
 }
 
 /**
- * Gets the amount of time when the lesson becomes available to a user.
+ * Returns the course enrollment date for a regular user in no-open courses.
+ *
+ * It can return a future date if the course has not started yet (course with a start date).
+ * Admin users don't have an enrollment date even if they have access to the course.
+ *
+ * Open courses don't have an enrollment date too unless the user is enrolled in a group. In that case, the enrollment date is the group enrollment date.
  *
  * @since 2.1.0
  *
  * @param int $course_id Optional. Course ID to check. Default 0.
  * @param int $user_id   Optional. User ID to check. Default 0.
  *
- * @return int The timestamp of when the course can be accessed from.
+ * @return int|bool The timestamp of when the course can be accessed from or false if the meta value does not exist.
  */
 function ld_course_access_from( $course_id = 0, $user_id = 0 ) {
 	static $courses = array();
@@ -369,7 +407,7 @@ function ld_course_access_from( $course_id = 0, $user_id = 0 ) {
 	$course_id = absint( $course_id );
 	$user_id   = absint( $user_id );
 
-	// If Shared Steps enabled we need to ensure both Course ID and User ID and not empty.
+	// If Shared Steps is enabled we need to ensure both Course ID and User ID are not empty.
 	if ( 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) ) {
 		if ( ( empty( $course_id ) ) || ( empty( $user_id ) ) ) {
 			return false;
@@ -494,6 +532,13 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ): bool 
 	$course_id          = absint( $course_id );
 	$course_access_list = null;
 
+	/**
+	 * Product object.
+	 *
+	 * @var Product|null $product
+	 */
+	$product = Product::find( $course_id );
+
 	if ( ( empty( $user_id ) ) || ( empty( $course_id ) ) ) {
 		return false;
 	}
@@ -518,7 +563,10 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ): bool 
 	if ( empty( $remove ) ) {
 		$user_course_access_time = get_user_meta( $user_id, 'course_' . $course_id . '_access_from', true );
 		if ( empty( $user_course_access_time ) ) {
-			$user_course_access_time = time();
+			// set the course access time to the course start date if it exists to avoid issues with content dripping.
+			$start_date              = $product ? $product->get_start_date() : null;
+			$user_course_access_time = ! is_null( $start_date ) ? $start_date : time();
+
 			update_user_meta( $user_id, 'course_' . $course_id . '_access_from', $user_course_access_time );
 			$action_success = true;
 		}
@@ -624,7 +672,7 @@ function ld_lesson_access_from( $lesson_id, $user_id, $course_id = null, $bypass
 	if ( $visible_after > 0 ) {
 
 		// Adjust the Course access from by the number of days. Use abs() to ensure no negative days.
-		$lesson_access_from = $courses_access_from + abs( $visible_after ) * 24 * 60 * 60;
+		$lesson_access_from = intval( $courses_access_from ) + abs( $visible_after ) * 24 * 60 * 60;
 		/**
 		 * Filters the timestamp of when lesson will be visible after.
 		 *
