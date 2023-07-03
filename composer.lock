@@ -8942,15 +8942,15 @@
         },
         {
             "name": "wpackagist-theme/onepress",
-            "version": "2.3.4",
+            "version": "2.3.5",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/onepress/",
-                "reference": "2.3.4"
+                "reference": "2.3.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/onepress.2.3.4.zip"
+                "url": "https://downloads.wordpress.org/theme/onepress.2.3.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
