@@ -32,6 +32,11 @@ class LearnDash {
 	 * @since 2.3.0
 	 */
 	protected static function set_report_headers() {
+		self::$data_headers['activity_id']   = array(
+			'label'   => esc_html__( 'activity_id', 'learndash' ),
+			'default' => '',
+			'display' => array( 'CodingBlackFemales\Multisite\Customizations\LearnDash', 'report_column' ),
+		);
 		self::$data_headers['user_id']   = array(
 			'label'   => esc_html__( 'user_id', 'learndash' ),
 			'default' => '',
@@ -280,6 +285,17 @@ class LearnDash {
 					$course_id = intval( $report_item->activity_course_id );
 					if ( ! empty( $course_id ) ) {
 						$column_value = get_the_title( $course_id );
+					} else {
+						$column_value = '';
+					}
+				}
+				break;
+
+			case 'activity_id':
+				if ( property_exists( $report_item, 'activity_id' ) ) {
+					$activity_id = intval( $report_item->activity_id );
+					if ( ! empty( $activity_id ) ) {
+						$column_value = $activity_id;
 					} else {
 						$column_value = '';
 					}
