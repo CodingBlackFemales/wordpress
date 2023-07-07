@@ -213,7 +213,7 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 						'user_id'   => $user_id,
 						'course_id' => $course_id,
 						'lesson'    => $lesson,
-						'context'   => 'lesson',
+					    'context'   => 'lesson',
 					),
 					true
 				);

@@ -4,12 +4,8 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd730a451f94cc25f2b07894a84530089
+class ComposerStaticInit74032015bf284ed577abe906daa5c11c
 {
-    public static $files = array (
-        '877aa62ef7bb84390b9ed4124d954939' => __DIR__ . '/..' . '/lucatume/di52/aliases.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'l' => 
         array (
@@ -20,6 +16,7 @@ class ComposerStaticInitd730a451f94cc25f2b07894a84530089
             'StellarWP\\Telemetry\\Views_Dir\\' => 30,
             'StellarWP\\Telemetry\\Assets_Dir\\' => 31,
             'StellarWP\\Telemetry\\' => 20,
+            'StellarWP\\Models\\' => 17,
             'StellarWP\\DB\\' => 13,
             'StellarWP\\ContainerContract\\' => 28,
         ),
@@ -50,6 +47,10 @@ class ComposerStaticInitd730a451f94cc25f2b07894a84530089
         array (
             0 => __DIR__ . '/..' . '/stellarwp/telemetry/src/Telemetry',
         ),
+        'StellarWP\\Models\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stellarwp/models/src/Models',
+        ),
         'StellarWP\\DB\\' => 
         array (
             0 => __DIR__ . '/..' . '/stellarwp/db/src/DB',
@@ -70,7 +71,71 @@ class ComposerStaticInitd730a451f94cc25f2b07894a84530089
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'LearnDash\\Core\\App' => __DIR__ . '/../..' . '/src/Core/App.php',
+        'LearnDash\\Core\\Autoloader' => __DIR__ . '/../..' . '/src/Core/Autoloader.php',
+        'LearnDash\\Core\\Collection' => __DIR__ . '/../..' . '/src/Core/Collection.php',
         'LearnDash\\Core\\Container' => __DIR__ . '/../..' . '/src/Core/Container.php',
+        'LearnDash\\Core\\Factories\\Model_Factory' => __DIR__ . '/../..' . '/src/Core/Factories/Model_Factory.php',
+        'LearnDash\\Core\\Factories\\Step_Mapper_Factory' => __DIR__ . '/../..' . '/src/Core/Factories/Step_Mapper_Factory.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Course' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Course.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Group' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Group.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Lesson' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Lesson.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Mapper' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Mapper.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Quiz' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Quiz.php',
+        'LearnDash\\Core\\Mappers\\Steps\\Topic' => __DIR__ . '/../..' . '/src/Core/Mappers/Steps/Topic.php',
+        'LearnDash\\Core\\Models\\Course' => __DIR__ . '/../..' . '/src/Core/Models/Course.php',
+        'LearnDash\\Core\\Models\\Exam' => __DIR__ . '/../..' . '/src/Core/Models/Exam.php',
+        'LearnDash\\Core\\Models\\Group' => __DIR__ . '/../..' . '/src/Core/Models/Group.php',
+        'LearnDash\\Core\\Models\\Instructor' => __DIR__ . '/../..' . '/src/Core/Models/Instructor.php',
+        'LearnDash\\Core\\Models\\Interfaces\\Course_Step' => __DIR__ . '/../..' . '/src/Core/Models/Interfaces/Course_Step.php',
+        'LearnDash\\Core\\Models\\Interfaces\\Product' => __DIR__ . '/../..' . '/src/Core/Models/Interfaces/Product.php',
+        'LearnDash\\Core\\Models\\Lesson' => __DIR__ . '/../..' . '/src/Core/Models/Lesson.php',
+        'LearnDash\\Core\\Models\\Model' => __DIR__ . '/../..' . '/src/Core/Models/Model.php',
+        'LearnDash\\Core\\Models\\Post' => __DIR__ . '/../..' . '/src/Core/Models/Post.php',
+        'LearnDash\\Core\\Models\\Product' => __DIR__ . '/../..' . '/src/Core/Models/Product.php',
+        'LearnDash\\Core\\Models\\Quiz' => __DIR__ . '/../..' . '/src/Core/Models/Quiz.php',
+        'LearnDash\\Core\\Models\\Topic' => __DIR__ . '/../..' . '/src/Core/Models/Topic.php',
+        'LearnDash\\Core\\Models\\Traits\\Has_Course' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Course.php',
+        'LearnDash\\Core\\Models\\Traits\\Has_Lesson' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Lesson.php',
+        'LearnDash\\Core\\Models\\Traits\\Has_Materials' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Materials.php',
+        'LearnDash\\Core\\Models\\Traits\\Has_Quizzes' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Quizzes.php',
+        'LearnDash\\Core\\Models\\Traits\\Supports_Timer' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Supports_Timer.php',
+        'LearnDash\\Core\\Models\\Traits\\Supports_Video_Progression' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Supports_Video_Progression.php',
+        'LearnDash\\Core\\Models\\Transaction' => __DIR__ . '/../..' . '/src/Core/Models/Transaction.php',
+        'LearnDash\\Core\\Models\\User' => __DIR__ . '/../..' . '/src/Core/Models/User.php',
+        'LearnDash\\Core\\Modules\\AI\\Course_Outline' => __DIR__ . '/../..' . '/src/Core/Modules/AI/Course_Outline.php',
+        'LearnDash\\Core\\Modules\\AI\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/AI/Provider.php',
+        'LearnDash\\Core\\Payments\\Provider' => __DIR__ . '/../..' . '/src/Core/Payments/Provider.php',
+        'LearnDash\\Core\\Payments\\Stripe\\Provider' => __DIR__ . '/../..' . '/src/Core/Payments/Stripe/Provider.php',
+        'LearnDash\\Core\\Payments\\Stripe\\Webhook_Setup_Validator' => __DIR__ . '/../..' . '/src/Core/Payments/Stripe/Webhook_Setup_Validator.php',
+        'LearnDash\\Core\\Provider' => __DIR__ . '/../..' . '/src/Core/Provider.php',
+        'LearnDash\\Core\\Services\\ChatGPT' => __DIR__ . '/../..' . '/src/Core/Services/ChatGPT.php',
+        'LearnDash\\Core\\Shortcodes\\Overrides\\Quiz' => __DIR__ . '/../..' . '/src/Core/Shortcodes/Overrides/Quiz.php',
+        'LearnDash\\Core\\Shortcodes\\Provider' => __DIR__ . '/../..' . '/src/Core/Shortcodes/Provider.php',
+        'LearnDash\\Core\\Template\\Breadcrumbs\\Breadcrumb' => __DIR__ . '/../..' . '/src/Core/Template/Breadcrumbs/Breadcrumb.php',
+        'LearnDash\\Core\\Template\\Breadcrumbs\\Breadcrumbs' => __DIR__ . '/../..' . '/src/Core/Template/Breadcrumbs/Breadcrumbs.php',
+        'LearnDash\\Core\\Template\\Steps\\Loader' => __DIR__ . '/../..' . '/src/Core/Template/Steps/Loader.php',
+        'LearnDash\\Core\\Template\\Steps\\Step' => __DIR__ . '/../..' . '/src/Core/Template/Steps/Step.php',
+        'LearnDash\\Core\\Template\\Steps\\Steps' => __DIR__ . '/../..' . '/src/Core/Template/Steps/Steps.php',
+        'LearnDash\\Core\\Template\\Steps\\Walker' => __DIR__ . '/../..' . '/src/Core/Template/Steps/Walker.php',
+        'LearnDash\\Core\\Template\\Tabs\\Tab' => __DIR__ . '/../..' . '/src/Core/Template/Tabs/Tab.php',
+        'LearnDash\\Core\\Template\\Tabs\\Tabs' => __DIR__ . '/../..' . '/src/Core/Template/Tabs/Tabs.php',
+        'LearnDash\\Core\\Template\\Template' => __DIR__ . '/../..' . '/src/Core/Template/Template.php',
+        'LearnDash\\Core\\Template\\Views\\Course' => __DIR__ . '/../..' . '/src/Core/Template/Views/Course.php',
+        'LearnDash\\Core\\Template\\Views\\Exam' => __DIR__ . '/../..' . '/src/Core/Template/Views/Exam.php',
+        'LearnDash\\Core\\Template\\Views\\Group' => __DIR__ . '/../..' . '/src/Core/Template/Views/Group.php',
+        'LearnDash\\Core\\Template\\Views\\Interfaces\\Has_Steps' => __DIR__ . '/../..' . '/src/Core/Template/Views/Interfaces/Has_Steps.php',
+        'LearnDash\\Core\\Template\\Views\\Lesson' => __DIR__ . '/../..' . '/src/Core/Template/Views/Lesson.php',
+        'LearnDash\\Core\\Template\\Views\\Quiz' => __DIR__ . '/../..' . '/src/Core/Template/Views/Quiz.php',
+        'LearnDash\\Core\\Template\\Views\\Topic' => __DIR__ . '/../..' . '/src/Core/Template/Views/Topic.php',
+        'LearnDash\\Core\\Template\\Views\\Traits\\Has_Steps' => __DIR__ . '/../..' . '/src/Core/Template/Views/Traits/Has_Steps.php',
+        'LearnDash\\Core\\Template\\Views\\Traits\\Supports_Steps_Context' => __DIR__ . '/../..' . '/src/Core/Template/Views/Traits/Supports_Steps_Context.php',
+        'LearnDash\\Core\\Template\\Views\\View' => __DIR__ . '/../..' . '/src/Core/Template/Views/View.php',
+        'LearnDash\\Core\\Themes\\Breezy' => __DIR__ . '/../..' . '/src/Core/Themes/Breezy.php',
+        'LearnDash\\Core\\Themes\\Provider' => __DIR__ . '/../..' . '/src/Core/Themes/Provider.php',
+        'LearnDash\\Core\\Traits\\Memoizable' => __DIR__ . '/../..' . '/src/Core/Traits/Memoizable.php',
+        'LearnDash\\Core\\Utilities\\Cast' => __DIR__ . '/../..' . '/src/Core/Utilities/Cast.php',
+        'LearnDash\\Core\\Utilities\\Str' => __DIR__ . '/../..' . '/src/Core/Utilities/Str.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
@@ -79,9 +144,9 @@ class ComposerStaticInitd730a451f94cc25f2b07894a84530089
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd730a451f94cc25f2b07894a84530089::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd730a451f94cc25f2b07894a84530089::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitd730a451f94cc25f2b07894a84530089::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit74032015bf284ed577abe906daa5c11c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit74032015bf284ed577abe906daa5c11c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit74032015bf284ed577abe906daa5c11c::$classMap;
 
         }, null, ClassLoader::class);
     }

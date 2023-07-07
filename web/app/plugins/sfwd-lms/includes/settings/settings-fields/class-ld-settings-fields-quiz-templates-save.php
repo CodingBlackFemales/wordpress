@@ -127,7 +127,7 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 		public function validate_section_field( $val, $key, $args = array() ) {
 			if ( ( isset( $args['field']['type'] ) ) && ( $args['field']['type'] === $this->field_type ) ) {
 				if ( ! empty( $val ) ) {
-					$val = wp_check_invalid_utf8( $val );
+					$val = wp_check_invalid_utf8( strval( $val ) );
 					if ( ! empty( $val ) ) {
 						$val = sanitize_post_field( 'post_content', $val, 0, 'db' );
 					}

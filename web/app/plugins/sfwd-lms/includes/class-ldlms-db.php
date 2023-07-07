@@ -590,6 +590,52 @@ if ( ! class_exists( 'LDLMS_DB' ) ) {
 			return array();
 		}
 
+		/**
+		 * Escape an array, supposed to be a numeric array, to be used in a SQL IN() clause.
+		 *
+		 * @since 4.5.3.1
+		 *
+		 * @param array<mixed> $array Array of items to process.
+		 *
+		 * @return array<int>
+		 */
+		public static function escape_numeric_array( $array ): array {
+			if ( empty( $array ) ) {
+				return [];
+			}
+
+			return array_map(
+				function( $item ) {
+					$item = trim( strval( $item ), "'\"" );
+
+					return intval( $item );
+				},
+				$array
+			);
+		}
+
+		/**
+		 * Escape a string array to be used in a SQL IN() clause.
+		 *
+		 * @since 4.5.3.1
+		 *
+		 * @param array<mixed> $array Array of items to process.
+		 *
+		 * @return array<string>
+		 */
+		public static function escape_string_array( $array ): array {
+			if ( empty( $array ) ) {
+				return [];
+			}
+
+			return array_map(
+				function( $item ) {
+					return sanitize_text_field( strval( $item ) );
+				},
+				$array
+			);
+		}
+
 		// End of functions.
 	}
 }

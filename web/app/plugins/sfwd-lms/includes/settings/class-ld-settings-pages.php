@@ -857,35 +857,39 @@ function learndash_admin_settings_page_assets() {
 
 		$script_data = array();
 
-		if ( ! isset( $script_data['ajaxurl'] ) ) {
-			$script_data['ajaxurl'] = admin_url( 'admin-ajax.php' );
-		}
-		if ( ! isset( $script_data['admin_notice_settings_fields_errors'] ) ) {
-			$script_data['admin_notice_settings_fields_errors_container'] = '<div id="learndash-settings-fields-notice-errors" class="learndash-settings-fields-notice-errors notice notice-error"><p class="errors-header">' . esc_html__( 'You have errors on the following settings', 'learndash' ) . '</p><ul class="errors-list"></ul></div>';
+		$script_data['themes_inheriting_settings'] = array();
+
+		foreach ( LearnDash_Theme_Register::get_themes() as $theme ) {
+			$theme_instance = LearnDash_Theme_Register::get_theme_instance( $theme['theme_key'] );
+
+			if ( ! $theme_instance ) {
+				continue;
+			}
+
+			foreach ( $theme_instance->get_themes_inheriting_settings() as $child_theme_key ) {
+				$script_data['themes_inheriting_settings'][ $child_theme_key ] = $theme['theme_key'];
+			}
 		}
 
-		if ( ! isset( $script_data['selec2_language'] ) ) {
-			$script_data['selec2_language'] = array(
-				'loadingMore'    => esc_html__( 'Loading more results…', 'learndash' ),
-				'noResults'      => esc_html__( 'No results found', 'learndash' ),
-				'searching'      => esc_html__( 'Searching…', 'learndash' ),
-				'removeAllItems' => esc_html__( 'Remove all items', 'learndash' ),
-				'removeItem'     => esc_html__( 'Remove item', 'learndash' ),
-			);
-		}
-
-		if ( ! isset( $script_data['settings_fields_errors'] ) ) {
-			$script_data['settings_fields_errors'] = array(
-				'number' => array(
-					'invalid'  => esc_html__( 'Entered value is invalid.', 'learndash' ),
-					'empty'    => esc_html__( 'Value cannot be empty.', 'learndash' ),
-					'negative' => esc_html__( 'Entered value cannot be negative.', 'learndash' ),
-					'decimal'  => esc_html__( 'Entered value cannot contain decimal.', 'learndash' ),
-					'minimum'  => esc_html__( 'Entered value less than minimum.', 'learndash' ),
-					'maximum'  => esc_html__( 'Entered value greater than maximum.', 'learndash' ),
-				),
-			);
-		}
+		$script_data['ajaxurl']                                       = admin_url( 'admin-ajax.php' );
+		$script_data['admin_notice_settings_fields_errors_container'] = '<div id="learndash-settings-fields-notice-errors" class="learndash-settings-fields-notice-errors notice notice-error"><p class="errors-header">' . esc_html__( 'You have errors on the following settings', 'learndash' ) . '</p><ul class="errors-list"></ul></div>';
+		$script_data['selec2_language']                               = array(
+			'loadingMore'    => esc_html__( 'Loading more results…', 'learndash' ),
+			'noResults'      => esc_html__( 'No results found', 'learndash' ),
+			'searching'      => esc_html__( 'Searching…', 'learndash' ),
+			'removeAllItems' => esc_html__( 'Remove all items', 'learndash' ),
+			'removeItem'     => esc_html__( 'Remove item', 'learndash' ),
+		);
+		$script_data['settings_fields_errors']                        = array(
+			'number' => array(
+				'invalid'  => esc_html__( 'Entered value is invalid.', 'learndash' ),
+				'empty'    => esc_html__( 'Value cannot be empty.', 'learndash' ),
+				'negative' => esc_html__( 'Entered value cannot be negative.', 'learndash' ),
+				'decimal'  => esc_html__( 'Entered value cannot contain decimal.', 'learndash' ),
+				'minimum'  => esc_html__( 'Entered value less than minimum.', 'learndash' ),
+				'maximum'  => esc_html__( 'Entered value greater than maximum.', 'learndash' ),
+			),
+		);
 
 		/**
 		 * Filters admin settings script data.
