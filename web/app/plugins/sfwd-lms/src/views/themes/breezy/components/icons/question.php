@@ -1,0 +1,34 @@
+<?php
+/**
+ * View: Question icon.
+ *
+ * @since 4.6.0
+ * @version 4.6.0
+ *
+ * @var array<int, string>|null $classes     List of classes to add to the icon.
+ * @var bool|null               $aria_hidden Whether to hide the icon from screen readers.
+ * @var Template                $this        The template instance.
+ *
+ * @package LearnDash\Core
+ */
+
+/** NOTICE: This code is currently under development and may not be stable.
+ *  Its functionality, behavior, and interfaces may change at any time without notice.
+ *  Please refrain from using it in production or other critical systems.
+ *  By using this code, you assume all risks and liabilities associated with its use.
+ *  Thank you for your understanding and cooperation.
+ **/
+
+use LearnDash\Core\Template\Template;
+
+$icon_classes = [ 'ld-icon', 'ld-icon--question' ];
+
+if ( ! empty( $classes ) ) {
+	$icon_classes = array_merge( $icon_classes, $classes );
+}
+
+$aria_hidden = $aria_hidden ?? true;
+?>
+<?php $this->template( 'components/icons/icon/start', compact( 'icon_classes', 'aria_hidden' ) ); ?>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.88235 12C5.88235 8.62132 8.62132 5.88235 12 5.88235C15.3787 5.88235 18.1176 8.62132 18.1176 12C18.1176 15.3787 15.3787 18.1176 12 18.1176C8.62132 18.1176 5.88235 15.3787 5.88235 12ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM11.0924 13.4348V13.5642H12.4993V13.4348C12.5017 13.1862 12.5327 12.9768 12.5921 12.8069C12.6539 12.6369 12.7467 12.4872 12.8705 12.3578C12.9967 12.2284 13.1575 12.104 13.353 11.9848C13.5856 11.8427 13.7873 11.6841 13.9581 11.509C14.1288 11.3314 14.2612 11.1284 14.3552 10.9001C14.4517 10.6692 14.5 10.4053 14.5 10.1085C14.5 9.66445 14.3924 9.28513 14.1771 8.9705C13.9618 8.65588 13.6648 8.41611 13.2862 8.25119C12.9076 8.08373 12.472 8 11.9796 8C11.5317 8 11.1221 8.08246 10.7509 8.24738C10.3797 8.40977 10.0815 8.65715 9.85635 8.98953C9.63116 9.31938 9.51237 9.73803 9.5 10.2455H11.0145C11.0219 10.0374 11.0714 9.86362 11.163 9.72407C11.2545 9.58199 11.3721 9.47542 11.5156 9.40438C11.6591 9.3308 11.8113 9.29401 11.9722 9.29401C12.138 9.29401 12.2889 9.32953 12.425 9.40057C12.5636 9.47161 12.6737 9.5731 12.7554 9.70504C12.837 9.83698 12.8779 9.99049 12.8779 10.1656C12.8779 10.3305 12.842 10.4802 12.7702 10.6147C12.6985 10.7466 12.602 10.8671 12.4807 10.9762C12.3594 11.0853 12.2221 11.1906 12.0687 11.2921C11.8633 11.424 11.6876 11.5712 11.5416 11.7336C11.3956 11.896 11.2842 12.1091 11.2075 12.373C11.1333 12.6369 11.0949 12.9908 11.0924 13.4348ZM11.1927 15.7336C11.3683 15.9112 11.5799 16 11.8274 16C11.9858 16 12.1318 15.9594 12.2654 15.8782C12.399 15.7945 12.5067 15.6841 12.5883 15.5471C12.6725 15.4075 12.7158 15.254 12.7183 15.0866C12.7158 14.8379 12.6255 14.6248 12.4473 14.4472C12.2691 14.2696 12.0625 14.1808 11.8274 14.1808C11.5799 14.1808 11.3683 14.2696 11.1927 14.4472C11.0194 14.6248 10.9341 14.8379 10.9365 15.0866C10.9341 15.3378 11.0194 15.5534 11.1927 15.7336Z" fill="currentColor"/>
+<?php $this->template( 'components/icons/icon/end' ); ?>

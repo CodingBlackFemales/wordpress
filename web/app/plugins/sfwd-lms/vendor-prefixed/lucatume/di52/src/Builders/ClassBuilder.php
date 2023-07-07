@@ -5,7 +5,7 @@
  * @package lucatume\DI52
  *
  * @license GPL-3.0
- * Modified by learndash on 13-April-2023 using Strauss.
+ * Modified by learndash on 21-June-2023 using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 
@@ -59,6 +59,14 @@ class ClassBuilder implements BuilderInterface, ReinitializableBuilderInterface
     protected $resolver;
 
     /**
+     * Whether the $className is an implementation of $id
+     * and $id is an interface.
+     *
+     * @var bool
+     */
+    protected $isInterface = false;
+
+    /**
      * ClassBuilder constructor.
      *
      * @param string             $id                The identifier associated with this builder.
@@ -77,6 +85,13 @@ class ClassBuilder implements BuilderInterface, ReinitializableBuilderInterface
                 "nothing is bound to the '{$className}' id and it's not an existing or instantiable class."
             );
         }
+
+        $interfaces = class_implements($className);
+
+        if ($interfaces && isset($interfaces[$id])) {
+            $this->isInterface = true;
+        }
+
         $this->id = $id;
         $this->className = $className;
         $this->afterBuildMethods = $afterBuildMethods;
@@ -198,21 +213,22 @@ class ClassBuilder implements BuilderInterface, ReinitializableBuilderInterface
 
         if ($paramClass) {
             $parameterImplementation = $this->resolver->whenNeedsGive($this->id, $paramClass);
-            $resolved = $parameterImplementation instanceof BuilderInterface ?
-                $parameterImplementation->build()
-                : $this->resolver->resolve($parameterImplementation);
+        } elseif ($this->isInterface) {
+            $name = $parameter->getName();
+            // If an interface was requested, resolve the underlying concrete class instead.
+            $parameterImplementation = $this->resolver->whenNeedsGive($this->className, "\$$name");
         } else {
             $name = $parameter->getName();
             $parameterImplementation = $this->resolver->whenNeedsGive($this->id, "\$$name");
-            try {
-                $resolved = $parameterImplementation instanceof BuilderInterface ?
-                    $parameterImplementation->build()
-                    : $this->resolver->resolve($parameterImplementation);
-            } catch (NotFoundException $e) {
-                $resolved = $parameter->getDefaultValueOrFail();
-            }
         }
-        return $resolved;
+
+        try {
+            return $parameterImplementation instanceof BuilderInterface ?
+                $parameterImplementation->build()
+                : $this->resolver->resolve($parameterImplementation);
+        } catch (NotFoundException $e) {
+            return $parameter->getDefaultValueOrFail();
+        }
     }
 
     /**

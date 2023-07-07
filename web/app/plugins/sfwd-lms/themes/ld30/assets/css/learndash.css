@@ -456,6 +456,18 @@
   color: white;
 }
 
+.learndash-wrapper .btn-join.btn-disabled,
+.learndash-wrapper #btn-join.btn-disabled {
+  cursor: default;
+  background-color: #728188;
+}
+
+.learndash-wrapper .btn-join.btn-disabled:hover,
+.learndash-wrapper #btn-join.btn-disabled:hover {
+  background-color: #728188;
+  opacity: 1;
+}
+
 .learndash-wrapper .ld-button {
   margin: 0;
   border-radius: 20px;
@@ -3647,7 +3659,7 @@
 }
 
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem span.wpProQuiz_cloze {
-  margin: 0 5px;
+  margin: 2px 5px;
 }
 
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_questionListItem label {
@@ -5936,7 +5948,7 @@
   }
   .learndash-wrapper .ld-focus.ld-focus-position-right .ld-focus-main .ld-focus-content,
   .learndash-wrapper .ld-focus.ld-focus-position-rtl-left .ld-focus-main .ld-focus-content {
-    padding-left: inherit;
+    padding-left: 3em;
     padding-right: 3em;
   }
 }

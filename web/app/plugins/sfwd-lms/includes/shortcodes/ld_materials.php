@@ -68,7 +68,7 @@ function learndash_materials_shortcode_function( $atts = array(), $content = '',
 		$materials = learndash_get_setting( $atts['post_id'] );
 		if ( isset( $materials[ $context . '_materials_enabled' ] ) && 'on' === $materials[ $context . '_materials_enabled' ] ) {
 			if ( ( isset( $materials[ $context . '_materials' ] ) ) && ( ! empty( $materials[ $context . '_materials' ] ) ) ) {
-				$materials_out = wp_specialchars_decode( $materials[ $context . '_materials' ], ENT_QUOTES );
+				$materials_out = wp_specialchars_decode( strval( $materials[ $context . '_materials' ] ), ENT_QUOTES );
 				if ( 'true' === $atts['autop'] ) {
 					$materials_out = wpautop( $materials_out );
 				}
