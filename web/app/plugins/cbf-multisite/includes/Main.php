@@ -10,6 +10,7 @@ namespace CodingBlackFemales\Multisite;
 
 use CodingBlackFemales\Multisite\Admin\Main as Admin;
 use CodingBlackFemales\Multisite\Front\Main as Front;
+use CodingBlackFemales\Multisite\Customizations\WP_CLI_Command as WP_CLI_Command;
 
 
 /**
@@ -79,6 +80,10 @@ final class Main {
 
 		if ( Utils::is_request( 'frontend' ) ) {
 			Front::hooks();
+		}
+
+		if ( Utils::is_request( 'cli' ) ) {
+			WP_CLI_Command::hooks();
 		}
 
 		// Common includes.
