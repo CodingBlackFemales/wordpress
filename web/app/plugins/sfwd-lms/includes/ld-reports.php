@@ -664,6 +664,7 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 		'activity_types'              => '',
 
 		// An array of activity_status values to filter. Possible values 'NOT_STARTED' , 'IN_PROGRESS', 'COMPLETED'.
+		// This field is converted into a boolean value later (line 796).
 		'activity_status'             => '',
 
 		// controls number of items to return for request. Pass 0 for ALL items.
@@ -721,31 +722,37 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 	$query_args_org = $query_args;
 
 	// Clean the group_ids arg.
-	if ( '' != $query_args['group_ids'] ) {
+	if ( '' !== $query_args['group_ids'] ) {
 		if ( ! is_array( $query_args['group_ids'] ) ) {
 			$query_args['group_ids'] = explode( ',', $query_args['group_ids'] );
 		}
 		$query_args['group_ids'] = array_map( 'trim', $query_args['group_ids'] );
+	} else {
+		$query_args['group_ids'] = array();
 	}
 
 	// Clean the course_ids arg.
-	if ( '' != $query_args['course_ids'] ) {
+	if ( '' !== $query_args['course_ids'] ) {
 		if ( ! is_array( $query_args['course_ids'] ) ) {
 			$query_args['course_ids'] = explode( ',', $query_args['course_ids'] );
 		}
 		$query_args['course_ids'] = array_map( 'trim', $query_args['course_ids'] );
+	} else {
+		$query_args['course_ids'] = array();
 	}
 
 	// Clean the post_ids arg.
-	if ( '' != $query_args['post_ids'] ) {
+	if ( '' !== $query_args['post_ids'] ) {
 		if ( ! is_array( $query_args['post_ids'] ) ) {
 			$query_args['post_ids'] = explode( ',', $query_args['post_ids'] );
 		}
 		$query_args['post_ids'] = array_map( 'trim', $query_args['post_ids'] );
+	} else {
+		$query_args['post_ids'] = array();
 	}
 
 	// Clean the post_types arg.
-	if ( '' != $query_args['post_types'] ) {
+	if ( '' !== $query_args['post_types'] ) {
 		if ( is_string( $query_args['post_types'] ) ) {
 			$query_args['post_types'] = explode( ',', $query_args['post_types'] );
 		}
@@ -763,24 +770,30 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 			$query_args['post_status'] = explode( ',', $query_args['post_status'] );
 		}
 		$query_args['post_status'] = array_map( 'trim', $query_args['post_status'] );
+	} else {
+		$query_args['post_status'] = array();
 	}
 
 	// Clean the user_ids arg.
-	if ( '' != $query_args['user_ids'] ) {
+	if ( '' !== $query_args['user_ids'] ) {
 		if ( ! is_array( $query_args['user_ids'] ) ) {
 			$query_args['user_ids'] = explode( ',', $query_args['user_ids'] );
 		}
 		$query_args['user_ids'] = array_map( 'trim', $query_args['user_ids'] );
+	} else {
+		$query_args['user_ids'] = array();
 	}
 
-	if ( '' != $query_args['activity_types'] ) {
+	if ( '' !== $query_args['activity_types'] ) {
 		if ( is_string( $query_args['activity_types'] ) ) {
 			$query_args['activity_types'] = explode( ',', $query_args['activity_types'] );
 		}
 		$query_args['activity_types'] = array_map( 'trim', $query_args['activity_types'] );
+	} else {
+		$query_args['activity_types'] = array();
 	}
 
-	if ( '' != $query_args['activity_status'] ) {
+	if ( '' !== $query_args['activity_status'] ) {
 		if ( is_string( $query_args['activity_status'] ) ) {
 			$query_args['activity_status'] = explode( ',', $query_args['activity_status'] );
 		}
@@ -799,9 +812,22 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 				$query_args['activity_status'][ $idx ] = '0';
 			}
 		}
+	} else {
+		$query_args['activity_status'] = array();
 	}
 
-	if ( ( '' == $query_args['group_ids'] ) && ( '' == $query_args['post_ids'] ) && ( '' == $query_args['user_ids'] ) ) {
+	// Sanitize values.
+
+	$query_args['user_ids']        = array_unique( LDLMS_DB::escape_numeric_array( $query_args['user_ids'] ) );
+	$query_args['post_ids']        = array_unique( LDLMS_DB::escape_numeric_array( $query_args['post_ids'] ) );
+	$query_args['group_ids']       = array_unique( LDLMS_DB::escape_numeric_array( $query_args['group_ids'] ) );
+	$query_args['course_ids']      = array_unique( LDLMS_DB::escape_numeric_array( $query_args['course_ids'] ) );
+	$query_args['post_status']     = array_unique( LDLMS_DB::escape_string_array( $query_args['post_status'] ) );
+	$query_args['post_types']      = array_unique( LDLMS_DB::escape_string_array( $query_args['post_types'] ) );
+	$query_args['activity_status'] = array_unique( LDLMS_DB::escape_numeric_array( $query_args['activity_status'] ) );
+	$query_args['activity_types']  = array_unique( LDLMS_DB::escape_string_array( $query_args['activity_types'] ) );
+
+	if ( empty( $query_args['group_ids'] ) && empty( $query_args['post_ids'] ) && empty( $query_args['user_ids'] ) ) {
 		// If no filters were provided.
 		// If the view user is a group leader we just return all the activity for all the managed users.
 		if ( learndash_is_group_leader_user( $current_user_id ) ) {
@@ -811,7 +837,7 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 		if ( ! learndash_is_group_leader_user( $current_user_id ) ) {
 			if ( learndash_is_admin_user( $current_user_id ) ) {
 				// If the group_ids parameter is passed in we need to determine the course_ids contains in the group_ids.
-				if ( '' != $query_args['group_ids'] ) {
+				if ( ! empty( $query_args['group_ids'] ) ) {
 					$query_args['post_ids'] = learndash_get_groups_courses_ids( $current_user_id, $query_args['group_ids'] );
 				}
 			} else {
@@ -932,7 +958,6 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 	}
 
 	if ( true !== $activity_status_has_null ) {
-
 		if ( ! empty( $query_args['activity_types'] ) ) {
 			$sql_str_where .= ' AND ld_user_activity.activity_type IN (' . "'" . implode( "','", $query_args['activity_types'] ) . "'" . ') ';
 		}
@@ -941,7 +966,6 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 			$sql_str_where .= ' AND ld_user_activity.activity_status IN (' . implode( ',', $query_args['activity_status'] ) . ') ';
 		}
 	} else {
-
 		if ( ! empty( $query_args['activity_status'] ) ) {
 			$sql_str_where .= ' AND (ld_user_activity.activity_status IS NULL OR ld_user_activity.activity_status IN (' . "'" . implode( "','", $query_args['activity_status'] ) . "'" . ') ) ';
 		} else {
@@ -955,6 +979,8 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 
 	if ( ( isset( $query_args['time_start_gmt_timestamp'] ) ) && ( ! empty( $query_args['time_start_gmt_timestamp'] ) ) && ( isset( $query_args['time_end_gmt_timestamp'] ) ) && ( ! empty( $query_args['time_end_gmt_timestamp'] ) ) ) {
 		$sql_str_where .= ' AND ( ';
+
+		// This is an old code. We will never get here. activity_status is converted to boolean before this. See line 795.
 
 		if ( array_intersect( array( 'NOT_STARTED', 'IN_PROGRESS' ), $query_args_org['activity_status'] ) || empty( $query_args_org['activity_status'] ) ) {
 			$sql_str_where .= '(ld_user_activity.activity_started BETWEEN ' . $query_args['time_start_gmt_timestamp'] . ' AND ' . $query_args['time_end_gmt_timestamp'] . ') ';
@@ -974,6 +1000,8 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 	} elseif ( ( isset( $query_args['time_start_gmt_timestamp'] ) ) && ( ! empty( $query_args['time_start_gmt_timestamp'] ) ) ) {
 		$sql_str_where .= ' AND ( ';
 
+		// This is an old code. We will never get here. activity_status is converted to boolean before this. See line 795.
+
 		if ( array_intersect( array( 'NOT_STARTED', 'IN_PROGRESS' ), $query_args_org['activity_status'] ) || empty( $query_args_org['activity_status'] ) ) {
 			$sql_str_where .= 'ld_user_activity.activity_started >= ' . $query_args['time_start_gmt_timestamp'] . ' OR ld_user_activity.activity_updated >= ' . $query_args['time_start_gmt_timestamp'];
 		}
@@ -989,6 +1017,8 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 		$sql_str_where .= ' ) ';
 	} elseif ( ( isset( $query_args['time_end_gmt_timestamp'] ) ) && ( ! empty( $query_args['time_end_gmt_timestamp'] ) ) ) {
 		$sql_str_where .= ' AND ( ';
+
+		// This is an old code. We will never get here. activity_status is converted to boolean before this. See line 795.
 
 		if ( array_intersect( array( 'NOT_STARTED', 'IN_PROGRESS' ), $query_args_org['activity_status'] ) || empty( $query_args_org['activity_status'] ) ) {
 			$sql_str_where .= '(ld_user_activity.activity_started > 0 AND ld_user_activity.activity_started <= ' . $query_args['time_end_gmt_timestamp'] . ') OR ( ld_user_activity.activity_updated > 0 AND ld_user_activity.activity_updated <= ' . $query_args['time_end_gmt_timestamp'] . ')';

@@ -7,6 +7,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Models\Product;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -45,6 +47,27 @@ function learndash_quiz_shortcode( $atts = array(), $content = '', $show_materia
  * @return string The `ld_quiz` shortcode output.
  */
 function learndash_quiz_shortcode_function( $atts = array(), $content = '', $shortcode_slug = 'ld_quiz' ) {
+	/**
+	 * Should quiz output be overridden?
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param boolean $override_quiz_output Whether to override quiz output.
+	 * @param array   $atts                 Array of shortcode attributes.
+	 */
+	$should_override = apply_filters( 'learndash_quiz_shortcode_override_output', false, $atts );
+
+	if ( $should_override ) {
+		/**
+		 * Filter quiz output.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param string $output Quiz output.
+		 * @param array  $atts   Array of shortcode attributes.
+		 */
+		return apply_filters( 'learndash_quiz_shortcode_output', '', $atts );
+	}
 
 	global $learndash_shortcode_used, $learndash_shortcode_atts;
 
@@ -237,7 +260,7 @@ function learndash_quiz_shortcode_function( $atts = array(), $content = '', $sho
 				}
 
 				if ( ( 'on' === $quiz_settings['quiz_materials_enabled'] ) && ( ! empty( $quiz_settings['quiz_materials'] ) ) ) {
-					$materials = wp_specialchars_decode( $quiz_settings['quiz_materials'], ENT_QUOTES );
+					$materials = wp_specialchars_decode( strval( $quiz_settings['quiz_materials'] ), ENT_QUOTES );
 					if ( ! empty( $materials ) ) {
 						$materials = do_shortcode( $materials );
 						$materials = wpautop( $materials );
@@ -292,14 +315,80 @@ function learndash_quiz_shortcode_function( $atts = array(), $content = '', $sho
 			$quiz_content = apply_filters( 'learndash_quiz_content', $quiz_content, $quiz_post );
 		}
 
-		$level = ob_get_level();
-		ob_start();
-		$template_file = SFWD_LMS::get_template( 'quiz', null, null, true );
-		if ( ! empty( $template_file ) ) {
-			include $template_file;
-		}
+		if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+			// TODO: This $show_content mapping was inside a template file. I would prefer us to review the logic.
+			$show_content         = true;
+			$last_incomplete_step = null;
 
-		$content = learndash_ob_get_clean( $level );
+			if ( ! empty( $lesson_progression_enabled ) && $user_id > 0 ) {
+				if ( ! learndash_user_progress_is_step_complete( $user_id, $course_id, $quiz_post->ID ) ) {
+					if ( $bypass_course_limits_admin_users ) {
+						remove_filter( 'learndash_content', 'lesson_visible_after', 1 );
+					} else {
+						$previous_step_post_id = learndash_user_progress_get_parent_incomplete_step( $user_id, $course_id, $quiz_post->ID );
+						if ( ! empty( $previous_step_post_id ) && $previous_step_post_id !== $quiz_post->ID ) {
+							$show_content = false;
+
+							$last_incomplete_step = get_post( $previous_step_post_id );
+						} else {
+							$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $quiz_post->ID );
+
+							if ( ! empty( $previous_step_post_id ) && $previous_step_post_id !== $quiz_post->ID ) {
+								$show_content = false;
+
+								$last_incomplete_step = get_post( $previous_step_post_id );
+							}
+						}
+
+						// This filter is documented in themes/ld30/templates/quiz.php.
+						$show_content = apply_filters( 'learndash_previous_step_completed', $show_content, $quiz_post->ID, $user_id );
+					}
+				}
+
+				if ( learndash_is_sample( $quiz_post ) ) {
+					$show_content = true;
+				} elseif ( $last_incomplete_step instanceof WP_Post ) {
+					$show_content = false;
+				}
+			}
+
+			$content = SFWD_LMS::get_template(
+				'quiz',
+				// TODO: Refactor arguments.
+				array(
+					'show_content'         => $show_content,
+					'content'              => $quiz_content,
+					'post'                 => $quiz_post,
+					'course_model'         => Product::find( $course_id ),
+					'attempts_left_number' => $attempts_left,
+					'attempts_made_number' => $attempts_count,
+					'tabs'                 => array(
+						array(
+							'id'      => 'content',
+							'icon'    => 'ld-icon-content',
+							'label'   => LearnDash_Custom_Label::get_label( 'quiz' ),
+							'content' => $content,
+						),
+						array(
+							'id'        => 'materials',
+							'icon'      => 'ld-icon-materials',
+							'label'     => __( 'Materials', 'learndash' ),
+							'content'   => $materials,
+							'condition' => ! empty( $materials ),
+						),
+					),
+				)
+			);
+		} else {
+			$level = ob_get_level();
+			ob_start();
+			$template_file = SFWD_LMS::get_template( 'quiz', null, null, true );
+			if ( ! empty( $template_file ) ) {
+				include $template_file;
+			}
+
+			$content = learndash_ob_get_clean( $level );
+		}
 
 		// Added this defined wrap in v2.1.8 as it was effecting <pre></pre>, <code></code> and other formatting of the content.
 		// See https://www.wrike.com/open.htm?id=77352698 as to why this define exists.

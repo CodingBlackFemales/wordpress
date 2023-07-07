@@ -80,7 +80,6 @@ if ( ! class_exists( 'Learndash_DTO' ) ) {
 					$property_type = $this->cast[ $property->getName() ];
 
 					if (
-						is_string( $this->cast[ $property->getName() ] ) &&
 						in_array(
 							$property_type,
 							array( 'bool', 'boolean', 'int', 'integer', 'float', 'double', 'string', 'array', 'object', 'null' ),

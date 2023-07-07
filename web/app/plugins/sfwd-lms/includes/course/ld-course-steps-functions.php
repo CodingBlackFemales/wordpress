@@ -382,7 +382,7 @@ function learndash_course_get_single_parent_step( $course_id = 0, $step_id = 0, 
 		}
 	}
 
-	return $parent_step_id;
+	return intval( $parent_step_id );
 }
 
 /**
