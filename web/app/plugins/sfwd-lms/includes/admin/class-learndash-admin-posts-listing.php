@@ -2379,7 +2379,7 @@ if ( ! class_exists( 'Learndash_Admin_Posts_Listing' ) ) {
 								$course_lessons_ids = array();
 								$course_lessons     = learndash_get_lesson_list( $course_selector['selected'] );
 								if ( ! empty( $course_lessons ) ) {
-									$course_lessons_ids = wp_list_pluck( $course_lessons, 'ID' );
+									$course_lessons_ids = wp_list_pluck( (array) $course_lessons, 'ID' );
 								}
 
 								if ( ( ! empty( $course_lessons_ids ) ) && ( in_array( $selector['selected'], $course_lessons_ids, true ) ) ) {

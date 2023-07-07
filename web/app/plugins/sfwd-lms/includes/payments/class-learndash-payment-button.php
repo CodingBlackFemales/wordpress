@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+
 if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 	/**
 	 * Class for mapping payment button HTML markup.
@@ -20,6 +22,15 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 	class Learndash_Payment_Button {
 		private const BUTTON_CLASS = 'btn-join';
 		private const BUTTON_ID    = 'btn-join';
+
+		/**
+		 * Current product.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @var Product|null
+		 */
+		protected $product;
 
 		/**
 		 * Current post.
@@ -41,6 +52,7 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 
 		/**
 		 * Default payment button params for filters.
+		 * They are here with these keys for backward compatibility.
 		 *
 		 * @since 4.5.0
 		 *
@@ -85,7 +97,7 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 *
 		 * @var string
 		 */
-		private $button_label;
+		private $button_label = '';
 
 		/**
 		 * Construct.
@@ -103,6 +115,14 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 				$this->post = get_post( $post );
 			} else {
 				$this->post = get_post();
+			}
+
+			if ( $this->post instanceof WP_Post ) {
+				try {
+					$this->product = Product::create_from_post( $this->post );
+				} catch ( Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+					// We don't want to throw an error in templates.
+				}
 			}
 
 			$this->current_user = wp_get_current_user();
@@ -124,13 +144,22 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		public static function map_button_class_name( string $additional_class = '' ): string {
-			$result = self::BUTTON_CLASS;
+			$classes = self::BUTTON_CLASS;
 
 			if ( ! empty( $additional_class ) ) {
-				$result .= " $additional_class";
+				$classes .= " $additional_class";
 			}
 
-			return $result;
+			/**
+			 * Filters the payment button classes.
+			 *
+			 * @since 4.6.0
+			 *
+			 * @param string $classes Payment button classes.
+			 *
+			 * @return string Payment button classes.
+			 */
+			return (string) apply_filters( 'learndash_payment_button_classes', $classes );
 		}
 
 		/**
@@ -160,56 +189,84 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		public function map(): string {
-			if ( ! $this->post instanceof WP_Post ) {
+			if (
+				! $this->post instanceof WP_Post
+				|| ! $this->product instanceof Product
+			) {
 				return '';
 			}
 
-			try {
-				$product = Learndash_Product_Model::create_from_post( $this->post );
-			} catch ( Exception $e ) {
+			if ( $this->product->user_has_access( $this->current_user ) ) {
 				return '';
 			}
 
-			if ( $product->user_has_access( $this->current_user ) ) {
-				return '';
-			}
-
-			try {
-				$product_pricing = $product->get_pricing( $this->current_user );
-			} catch ( Learndash_DTO_Validation_Exception $e ) {
-				return '';
-			}
-
-			$product_pricing_type = $product->get_pricing_type();
+			$product_pricing = $this->product->get_pricing( $this->current_user );
 
 			$this->default_payment_params = array(
-				'type'  => $product_pricing_type,
+				'type'  => $this->product->get_pricing_type(),
 				'price' => $product_pricing->price,
 			);
 
-			switch ( $product_pricing_type ) {
-				case LEARNDASH_PRICE_TYPE_OPEN:
-					return $this->button_open();
-
-				case LEARNDASH_PRICE_TYPE_CLOSED:
-					return $this->button_closed();
-
-				case LEARNDASH_PRICE_TYPE_FREE:
-					return $this->button_free();
-
-				case LEARNDASH_PRICE_TYPE_PAYNOW:
-				case LEARNDASH_PRICE_TYPE_SUBSCRIBE:
-					if ( empty( $product_pricing->price ) ) {
-						return '';
-					} elseif ( $this->registration_page_is_set && ! $this->is_on_registration_page ) {
-						return $this->button_registration_page_link();
-					} else {
-						return $this->button_paid();
-					}
-
-				default:
-					return '';
+			if ( $this->product->is_price_type_open() ) {
+				return $this->button_open();
 			}
+
+			if ( ! $this->product->can_be_purchased() ) {
+				return $this->button_disabled();
+			}
+
+			if ( $this->product->is_price_type_closed() ) {
+				return $this->button_closed();
+			}
+
+			if ( $this->product->is_price_type_free() ) {
+				return $this->button_free();
+			}
+
+			if (
+				$this->product->is_price_type_paynow()
+				|| $this->product->is_price_type_subscribe()
+			) {
+				if ( empty( $product_pricing->price ) ) {
+					return '';
+				}
+
+				if ( $this->registration_page_is_set && ! $this->is_on_registration_page ) {
+					return $this->button_registration_page_link();
+				}
+
+				return $this->button_paid();
+			}
+
+			return '';
+		}
+
+		/**
+		 * Returns a disabled button that does not react.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @return string
+		 */
+		protected function button_disabled(): string {
+			$button = sprintf(
+				'<span class="%s" id="%s">%s</span>',
+				esc_attr( $this->map_button_class_name( 'btn-disabled' ) ),
+				esc_attr( $this->map_button_id() ),
+				esc_html( $this->button_label )
+			);
+
+			/**
+			 * Filters disabled payment button HTML markup.
+			 *
+			 * @since 4.7.0
+			 *
+			 * @param string                                $button Disabled payment button HTML markup.
+			 * @param array{ type?: string, price?: float } $params Payment parameters.
+			 *
+			 * @return string Payment button HTML markup.
+			 */
+			return (string) apply_filters( 'learndash_payment_button_disabled', $button, $this->default_payment_params );
 		}
 
 		/**
@@ -464,15 +521,23 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		private function map_label(): string {
-			if ( learndash_is_course_post( $this->post ) ) {
-				$label_key = LearnDash_Custom_Label::$button_take_course;
-			} elseif ( learndash_is_group_post( $this->post ) ) {
-				$label_key = LearnDash_Custom_Label::$button_take_group;
-			} else {
+			if (
+				! $this->post instanceof WP_Post
+				|| ! $this->product instanceof Product
+			) {
 				return '';
 			}
 
-			return LearnDash_Custom_Label::get_label( $label_key );
+			if ( learndash_is_group_post( $this->post ) ) {
+				$label = $this->map_group_label();
+			} elseif ( learndash_is_course_post( $this->post ) ) {
+				$label = $this->map_course_label();
+			} else {
+				$label = '';
+			}
+
+			/* This filter is documented in includes/payments/gateways/class-learndash-payment-gateway.php */
+			return (string) apply_filters( 'learndash_payment_button_label', $label, '' );
 		}
 
 		/**
@@ -540,6 +605,58 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			}
 
 			return (int) get_the_ID() === $this->registration_page_id;
+		}
+
+		/**
+		 * Maps the group payment button label.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @return string
+		 */
+		protected function map_group_label(): string {
+			return LearnDash_Custom_Label::get_label(
+				LearnDash_Custom_Label::$button_take_group
+			);
+		}
+
+		/**
+		 * Maps the course payment button label.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @return string
+		 */
+		protected function map_course_label(): string {
+			if ( ! $this->product ) {
+				return '';
+			}
+
+			if ( $this->product->has_ended() ) {
+				return sprintf(
+					// translators: placeholder: Course label.
+					esc_html_x( '%s ended', 'placeholder: Course label', 'learndash' ),
+					LearnDash_Custom_Label::get_label( 'course' )
+				);
+			}
+
+			if ( $this->product->is_pre_ordered( $this->current_user ) ) {
+				return sprintf(
+					// translators: placeholder: Course label.
+					esc_html_x( '%s pre-ordered', 'placeholder: Course label', 'learndash' ),
+					LearnDash_Custom_Label::get_label( 'course' )
+				);
+			}
+
+			if ( $this->product->get_seats_available() === 0 ) {
+				return sprintf(
+					// translators: placeholder: Course label.
+					esc_html_x( '%s is full', 'placeholder: Course label', 'learndash' ),
+					LearnDash_Custom_Label::get_label( 'course' )
+				);
+			}
+
+			return LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_course );
 		}
 	}
 }

@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "lucatume/di52",
-            "version": "3.1.1",
-            "version_normalized": "3.1.1.0",
+            "version": "3.3.3",
+            "version_normalized": "3.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/di52.git",
-                "reference": "6d1e3641d02995c78027a565e8d205d9b6e73eca"
+                "reference": "4185e21be2ac6c96bb1bb03970258352b6876bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/di52/zipball/6d1e3641d02995c78027a565e8d205d9b6e73eca",
-                "reference": "6d1e3641d02995c78027a565e8d205d9b6e73eca",
+                "url": "https://api.github.com/repos/lucatume/di52/zipball/4185e21be2ac6c96bb1bb03970258352b6876bb2",
+                "reference": "4185e21be2ac6c96bb1bb03970258352b6876bb2",
                 "shasum": ""
             },
             "require": {
@@ -21,15 +21,12 @@
                 "psr/container": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "<10.0"
             },
-            "time": "2023-02-16T16:19:29+00:00",
+            "time": "2023-04-28T07:39:10+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
-                "files": [
-                    "aliases.php"
-                ],
                 "psr-4": {
                     "lucatume\\DI52\\": "src/"
                 }
@@ -47,7 +44,7 @@
             "description": "A PHP 5.6 compatible dependency injection container.",
             "support": {
                 "issues": "https://github.com/lucatume/di52/issues",
-                "source": "https://github.com/lucatume/di52/tree/3.1.1"
+                "source": "https://github.com/lucatume/di52/tree/3.3.3"
             },
             "install-path": "../lucatume/di52"
         },
@@ -154,17 +151,17 @@
         },
         {
             "name": "stellarwp/db",
-            "version": "1.0.3",
-            "version_normalized": "1.0.3.0",
+            "version": "1.0.4",
+            "version_normalized": "1.0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/db.git",
-                "reference": "782daf58b6160478059baeb7e7d84d6127726067"
+                "reference": "728ef079b67092b4510ea26fd47eac86ef8fa1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/db/zipball/782daf58b6160478059baeb7e7d84d6127726067",
-                "reference": "782daf58b6160478059baeb7e7d84d6127726067",
+                "url": "https://api.github.com/repos/stellarwp/db/zipball/728ef079b67092b4510ea26fd47eac86ef8fa1f2",
+                "reference": "728ef079b67092b4510ea26fd47eac86ef8fa1f2",
                 "shasum": ""
             },
             "require-dev": {
@@ -182,7 +179,7 @@
                 "symfony/string": "^5.4",
                 "szepeviktor/phpstan-wordpress": "^1.1"
             },
-            "time": "2022-11-22T21:32:56+00:00",
+            "time": "2023-06-06T17:22:51+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -207,9 +204,69 @@
             "description": "A WPDB wrapper and query builder library.",
             "support": {
                 "issues": "https://github.com/stellarwp/db/issues",
-                "source": "https://github.com/stellarwp/db/tree/1.0.3"
+                "source": "https://github.com/stellarwp/db/tree/1.0.4"
             },
             "install-path": "../stellarwp/db"
+        },
+        {
+            "name": "stellarwp/models",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/models.git",
+                "reference": "a04aeb0898524d6538d0722629b6f04ff5018418"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/models/zipball/a04aeb0898524d6538d0722629b6f04ff5018418",
+                "reference": "a04aeb0898524d6538d0722629b6f04ff5018418",
+                "shasum": ""
+            },
+            "require": {
+                "stellarwp/db": "^1.0.3"
+            },
+            "require-dev": {
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-cli": "^1.0",
+                "codeception/module-db": "^1.0",
+                "codeception/module-filesystem": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^1.0",
+                "codeception/module-webdriver": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "lucatume/wp-browser": "^3.0.14",
+                "phpunit/phpunit": "~6.0"
+            },
+            "time": "2023-03-16T20:45:27+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Models\\": "src/Models/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "StellarWP",
+                    "homepage": "https://github.com/stellarwp"
+                }
+            ],
+            "description": "A library for a simple model structure.",
+            "homepage": "https://github.com/stellarwp/models",
+            "keywords": [
+                "stellarwp"
+            ],
+            "support": {
+                "issues": "https://github.com/stellarwp/models/issues",
+                "source": "https://github.com/stellarwp/models/tree/main"
+            },
+            "install-path": "../stellarwp/models"
         },
         {
             "name": "stellarwp/telemetry",

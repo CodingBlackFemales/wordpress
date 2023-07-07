@@ -208,7 +208,7 @@ if ( ( ! class_exists( 'LD_REST_Posts_Controller_V1' ) ) && ( class_exists( 'WP_
 
 					switch ( $field_name ) {
 						case 'course_materials':
-							$field_value = wp_specialchars_decode( $field_value, ENT_QUOTES );
+							$field_value = wp_specialchars_decode( strval( $field_value ), ENT_QUOTES );
 							if ( ! empty( $field_value ) ) {
 								$field_value = do_shortcode( $field_value );
 							}
