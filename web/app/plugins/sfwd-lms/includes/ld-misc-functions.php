@@ -1885,15 +1885,7 @@ function learndash_use_select2_lib_ajax_fetch() {
  */
 function learndash_put_directory_index_file( $index_filename = '' ) {
 	if ( ! empty( $index_filename ) ) {
-		global $wp_filesystem;
-
-		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
-		}
-
-		$wp_filesystem->put_contents( $index_filename, '//LearnDash is THE Best LMS', FS_CHMOD_FILE );
+		file_put_contents( $index_filename, '//LearnDash is THE Best LMS' );
 	}
 }
 
@@ -2061,17 +2053,15 @@ add_filter( 'the_title', 'learndash_get_post_title_filter', 99, 2 );
  */
 function learndash_stripe_addon_deprecation_notice() {
 	$class   = 'notice notice-warning is-dismissible';
-	$title   = 'LearnDash Stripe Addon Deprecation';
+	$title   = __( 'LearnDash Stripe Addon Deprecation', 'learndash' );
 	$message = __( 'As of June 13, 2023 the Stripe plugin will no longer receive feature updates. We encourage you to switch over to Stripe Connect, however you can continue to utilize the plugin without upgrading. ', 'learndash' );
 	$links   = __( '<a href="admin.php?page=learndash_lms_payments&section-payment=settings_stripe_connection">Setup Stripe Connect</a> - <a href="https://www.learndash.com/support/docs/core/settings/stripe-add-on-deprecation-faq/">Stripe Deprecation FAQ</a>', 'learndash' );
-
-	$user = wp_get_current_user();
 
 	if ( ! function_exists( 'is_plugin_active' ) ) {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
-	if ( is_plugin_active( 'learndash-stripe/learndash-stripe.php' ) && in_array( 'administrator', $user->roles ) ) {
+	if ( is_plugin_active( 'learndash-stripe/learndash-stripe.php' ) && current_user_can( 'administrator' ) ) {
 		printf(
 			'<div class="%1$s">
 				<p><strong>%2$s</strong></p>
@@ -2087,3 +2077,33 @@ function learndash_stripe_addon_deprecation_notice() {
 }
 
 add_action( 'admin_notices', 'learndash_stripe_addon_deprecation_notice' );
+
+/**
+ * Shows admin notice warning if Licensing & Management plugin is not activated.
+ *
+ * @since 4.6.0
+ *
+ * @return void
+ */
+function learndash_hub_deactivated_notice() {
+	$class   = 'notice notice-warning is-dismissible';
+	$title   = __( 'LearnDash Licensing & Management', 'learndash' );
+	$message = __( 'Important! The LearnDash Licensing & Management plugin is missing. Please install and/or activate the plugin to ensure your LearnDash license works correctly. ', 'learndash' );
+	$links   = __( '<a href="https://www.learndash.com/support/docs/core/learndash-licensing-and-management/">LearnDash Licensing Guide</a>', 'learndash' );
+
+	if ( ! learndash_is_learndash_hub_active() && current_user_can( 'administrator' ) ) {
+		printf(
+			'<div class="%1$s">
+				<p><strong>%2$s</strong></p>
+				<p>%3$s</p>
+				<p>%4$s</p>
+			</div>',
+			esc_attr( $class ),
+			esc_html( $title ),
+			esc_html( $message ),
+			wp_kses_post( $links )
+		);
+	}
+}
+
+add_action( 'admin_notices', 'learndash_hub_deactivated_notice' );

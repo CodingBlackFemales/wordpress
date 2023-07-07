@@ -2,7 +2,7 @@
 /**
  * @license GPL-2.0
  *
- * Modified by learndash on 13-April-2023 using Strauss.
+ * Modified by learndash on 21-June-2023 using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 
@@ -178,7 +178,7 @@ class DB {
 	/**
 	 * Create QueryBuilder instance
 	 *
-	 * @param string $table
+	 * @param string|RawSQL $table
 	 * @param null|string $alias
 	 *
 	 * @return QueryBuilder

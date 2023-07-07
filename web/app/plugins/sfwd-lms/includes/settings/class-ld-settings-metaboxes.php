@@ -524,18 +524,39 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 		/**
 		 * Save Settings Metabox
 		 *
-		 * @param integer $post_id $Post ID is post being saved.
-		 * @param object  $saved_post WP_Post object being saved.
-		 * @param boolean $update If update true, otherwise false.
-		 * @param array   $settings_field_updates array of settings fields to update.
+		 * @param int          $post_id                The post ID.
+		 * @param WP_Post|null $saved_post             WP_Post object being saved.
+		 * @param boolean      $update                 If update true, otherwise false.
+		 * @param array        $settings_field_updates Array of settings fields to update.
+		 *
+		 * @return void
 		 */
 		public function save_post_meta_box( $post_id = 0, $saved_post = null, $update = null, $settings_field_updates = null ) {
+			if ( ! $post_id || ! $saved_post ) {
+				return;
+			}
+
 			if ( is_null( $settings_field_updates ) ) {
 				$settings_field_updates = $this->get_post_settings_field_updates( $post_id, $saved_post, $update );
 			}
+
 			if ( ( ! empty( $settings_field_updates ) ) && ( is_array( $settings_field_updates ) ) ) {
 				foreach ( $settings_field_updates as $_key => $_val ) {
+					$old_value = $this->setting_option_values[ $_key ] ?? null;
+
 					learndash_update_setting( $saved_post, $_key, $_val );
+
+					/**
+					 * Fires after a settings field is updated.
+					 *
+					 * @since 4.7.0
+					 *
+					 * @param WP_Post $post        WP_Post object being saved.
+					 * @param string  $setting_key Setting key updated.
+					 * @param mixed   $new_value   New value of the field.
+					 * @param mixed   $old_value   Old value of the field.
+					 */
+					do_action( 'learndash_metabox_updated_field', $saved_post, $_key, $_val, $old_value );
 				}
 			}
 		}

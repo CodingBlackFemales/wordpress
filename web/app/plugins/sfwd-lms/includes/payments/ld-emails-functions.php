@@ -6,6 +6,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -59,7 +61,7 @@ function learndash_send_purchase_success_email( int $user_id = 0, int $post_id =
 		'{post_title}'   => get_the_title( $post->ID ),
 		'{post_url}'     => get_permalink( $post->ID ),
 
-		'{site_title}'   => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
+		'{site_title}'   => wp_specialchars_decode( strval( get_option( 'blogname' ) ), ENT_QUOTES ),
 		'{site_url}'     => wp_parse_url( home_url(), PHP_URL_HOST ),
 	);
 
@@ -247,7 +249,7 @@ add_action(
 			return;
 		}
 
-		$transaction = Learndash_Transaction_Model::find( $transaction_id );
+		$transaction = Transaction::find( $transaction_id );
 
 		if ( ! $transaction ) {
 			return;
@@ -329,7 +331,7 @@ add_action(
 add_action(
 	'learndash_transaction_created',
 	function ( int $transaction_id ): void {
-		$transaction = Learndash_Transaction_Model::find( $transaction_id );
+		$transaction = Transaction::find( $transaction_id );
 
 		if ( ! $transaction ) {
 			return;
