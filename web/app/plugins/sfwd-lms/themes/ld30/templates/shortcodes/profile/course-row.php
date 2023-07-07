@@ -11,8 +11,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+
 $course      = get_post( $course_id );
 $course_link = get_permalink( $course_id );
+
+/**
+ * Product object.
+ *
+ * @var Product $ld_product
+ */
+$ld_product = Product::create_from_post( $course );
+
+$ld_user = get_user_by( 'id', $user_id );
 
 $progress = learndash_course_progress(
 	array(
@@ -50,6 +61,22 @@ $course_class = apply_filters(
 			<?php learndash_status_icon( $status, get_post_type(), null, true ); ?>
 			<span class="ld-course-title"><?php echo esc_html( get_the_title( $course_id ) ); ?></span>
 		</a> <!--/.ld-course-name-->
+
+		<?php
+		// add badge according to course Start/End Date.
+		$ld_badge_text = '';
+		if ( $ld_product->has_ended() ) {
+			$ld_badge_text = __( 'Ended', 'learndash' );
+		} elseif ( $ld_product->is_pre_ordered( $ld_user ) ) {
+			$ld_badge_text = __( 'Pre-ordered', 'learndash' );
+		}
+		?>
+
+		<?php if ( ! empty( $ld_badge_text ) ) : ?>
+			<span class="ld-status">
+				<?php echo esc_html( $ld_badge_text ); ?>
+			</span>
+		<?php endif; ?>
 
 		<div class="ld-item-details">
 

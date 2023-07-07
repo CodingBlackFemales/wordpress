@@ -1,8 +1,10 @@
 <?php
 /**
- * LearnDash models.
+ * Deprecated file.
+ * It used to include models before.
  *
  * @since 4.5.0
+ * @deprecated 4.6.0
  *
  * @package LearnDash
  */
@@ -11,6 +13,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/models/class-learndash-model.php';
-require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/models/class-learndash-transaction-model.php';
-require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/models/class-learndash-product-model.php';
+_deprecated_file( __FILE__, '4.6.0' );

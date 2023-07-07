@@ -142,21 +142,31 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 
 				$themes = LearnDash_Theme_Register::get_themes();
 				if ( ! empty( $themes ) ) {
-					global $wp_settings_sections;
 					global $wp_settings_fields;
 
 					$active_theme_key = LearnDash_Theme_Register::get_active_theme_key();
 
 					foreach ( $themes as $theme ) {
-						$theme_instance          = LearnDash_Theme_Register::get_theme_instance( $theme['theme_key'] );
+						$theme_instance = LearnDash_Theme_Register::get_theme_instance( $theme['theme_key'] );
+
+						if ( ! $theme_instance ) {
+							continue;
+						}
+
 						$theme_settings_sections = $theme_instance->get_theme_settings_sections();
+
 						if ( ! empty( $theme_settings_sections ) ) {
 							foreach ( $theme_settings_sections as $section_key => $section_instance ) {
 								if ( isset( $wp_settings_fields[ $section_instance->settings_page_id ][ $section_key ] ) ) {
-									$theme_state = 'closed';
-									if ( $active_theme_key === $theme_instance->get_theme_key() ) {
+									if (
+										$active_theme_key === $theme_instance->get_theme_key()
+										|| in_array( $active_theme_key, $theme_instance->get_themes_inheriting_settings(), true )
+									) {
 										$theme_state = 'open';
+									} else {
+										$theme_state = 'closed';
 									}
+
 									echo '<div id="learndash_theme_settings_section_' . esc_attr( $theme_instance->get_theme_key() ) . '" class="ld-theme-settings-section ld-theme-settings-section-' . esc_attr( $theme_instance->get_theme_key() ) . ' ld-theme-settings-section-state-' . esc_attr( $theme_state ) . '">';
 									$section_instance->show_settings_section_nonce_field();
 									$this->show_settings_section_fields( $section_instance->settings_page_id, $section_key );

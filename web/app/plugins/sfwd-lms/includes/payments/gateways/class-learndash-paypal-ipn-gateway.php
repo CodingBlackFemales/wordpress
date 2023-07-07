@@ -8,6 +8,9 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -126,7 +129,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 		 *
 		 * @since 4.5.0
 		 *
-		 * @var Learndash_Product_Model[]
+		 * @var Product[]
 		 */
 		private $products;
 
@@ -340,7 +343,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 				 * The post_id will be changed later to posts_ids that holds
 				 * multiple post_id values after cart system update.
 				 */
-				$this->products = Learndash_Product_Model::find_many( array( $this->transaction_data['post_id'] ) );
+				$this->products = Product::find_many( array( $this->transaction_data['post_id'] ) );
 			}
 
 			// Set parent transaction ID according to payment type.
@@ -356,7 +359,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 						break;
 
 					case 'subscr_payment':
-						$transactions = Learndash_Transaction_Model::find_many_by_meta(
+						$transactions = Transaction::find_many_by_meta(
 							array(
 								'user_id'   => $user_id,
 								'post_id'   => $post_id,
@@ -417,7 +420,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 		 */
 		protected function map_payment_button_markup( array $params, WP_Post $post ): string {
 			try {
-				$product = Learndash_Product_Model::create_from_post( $post );
+				$product = Product::create_from_post( $post );
 				$pricing = $product->get_pricing( $this->user );
 			} catch ( Exception $e ) {
 				return '';
@@ -446,9 +449,9 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 
 			include_once LEARNDASH_LMS_LIBRARY_DIR . '/paypal/enhanced-paypal-shortcodes.php';
 
-			if ( LEARNDASH_PRICE_TYPE_PAYNOW === $product->get_pricing_type() ) {
+			if ( $product->is_price_type_paynow() ) {
 				$shortcode_content = do_shortcode( '[paypal type="paynow" button_label="' . $button_label . '"  amount="' . $price . '" sandbox="' . $is_test_mode . '" email="' . $this->settings['paypal_email'] . '" itemno="' . $product->get_id() . '" name="' . $post_title_filtered . '" noshipping="1" nonote="1" qty="1" currencycode="' . $this->currency_code . '" rm="2" notifyurl="' . $this->settings['paypal_notifyurl'] . '" returnurl="' . $this->settings['paypal_returnurl'] . '" cancelurl="' . $this->settings['paypal_cancelurl'] . '" imagewidth="100px" pagestyle="paypal" lc="' . $this->settings['paypal_country'] . '" cbt="' . esc_html__( 'Complete Your Purchase', 'learndash' ) . '" custom="' . $user_id . '"]' );
-			} elseif ( LEARNDASH_PRICE_TYPE_SUBSCRIBE === $product->get_pricing_type() ) {
+			} elseif ( $product->is_price_type_subscribe() ) {
 				$shortcode_content = do_shortcode( '[paypal type="subscribe" button_label="' . $button_label . '" a1="' . $pricing->trial_price . '" p1="' . $pricing->trial_duration_value . '" t1="' . $pricing->trial_duration_length . '" a3="' . $price . '" p3="' . $pricing->duration_value . '" t3="' . $pricing->duration_length . '" sandbox="' . $is_test_mode . '" email="' . $this->settings['paypal_email'] . '" itemno="' . $product->get_id() . '" name="' . $post_title_filtered . '" noshipping="1" nonote="1" qty="1" currencycode="' . $this->currency_code . '" rm="2" notifyurl="' . $this->settings['paypal_notifyurl'] . '" cancelurl="' . $this->settings['paypal_cancelurl'] . '" returnurl="' . $this->settings['paypal_returnurl'] . '" imagewidth="100px" pagestyle="paypal" lc="' . $this->settings['paypal_country'] . '" cbt="' . esc_html__( 'Complete Your Purchase', 'learndash' ) . '" custom="' . $user_id . '" srt="' . $pricing->recurring_times . '"]' );
 			} else {
 				return ''; // For phpstan only. Really it will never happen as this filter is called with the types above only.
@@ -479,7 +482,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 					'product_id' => $product_id,
 					'time'       => time(),
 					'nonce'      => $hash_nonce,
-					Learndash_Transaction_Model::$meta_key_pricing_info => $product_pricing->to_array(),
+					Transaction::$meta_key_pricing_info => $product_pricing->to_array(),
 				),
 				self::TRANSIENT_STORAGE_PERIOD
 			);
@@ -606,7 +609,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 						 * The post_id will be changed later to posts_ids that holds
 						 * multiple post_id values after cart system update.
 						 */
-						$this->products = Learndash_Product_Model::find_many( array( $product_id ) );
+						$this->products = Product::find_many( array( $product_id ) );
 					}
 
 					if ( ! empty( $this->user_hash['user_id'] ) ) {
@@ -632,7 +635,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 					$this->grant_access();
 
 					if ( empty( $this->products ) ) {
-						$this->products = Learndash_Product_Model::find_many( array( $item_number ) );
+						$this->products = Product::find_many( array( $item_number ) );
 					}
 
 					$redirect_url = $this->get_url_success( $this->products, $this->settings['paypal_returnurl'] ?? '' );
@@ -646,7 +649,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 					if ( isset( $this->user_hash['product_id'] ) ) {
 						$product_id = absint( $this->user_hash['product_id'] );
 
-						$this->products = Learndash_Product_Model::find_many( array( $product_id ) );
+						$this->products = Product::find_many( array( $product_id ) );
 					}
 
 					$redirect_url = $this->get_url_fail( $this->products, $this->settings['paypal_cancelurl'] );
@@ -673,7 +676,7 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 						$query_args['subscr_id'] = $this->transaction_data['subscr_id'];
 					}
 
-					$transactions = Learndash_Transaction_Model::find_many_by_meta( $query_args );
+					$transactions = Transaction::find_many_by_meta( $query_args );
 
 					/**
 					 * When we support recurring payment transaction record, we
@@ -1156,14 +1159,14 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array<mixed>            $data    Data.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param array<mixed> $data    Data.
+		 * @param Product      $product Product.
 		 *
 		 * @throws Learndash_DTO_Validation_Exception Transaction data validation exception.
 		 *
 		 * @return Learndash_Transaction_Meta_DTO
 		 */
-		protected function map_transaction_meta( $data, Learndash_Product_Model $product ): Learndash_Transaction_Meta_DTO {
+		protected function map_transaction_meta( $data, Product $product ): Learndash_Transaction_Meta_DTO {
 			// @phpstan-ignore-line Parent method doesn't have parameter type for $data.
 			// We need to build PayPal IPN transaction DTO here as PayPal IPN doesn't support event metadata.
 			$is_subscription_event = ! empty( $data['subscr_id'] );
@@ -1176,22 +1179,22 @@ if ( ! class_exists( 'Learndash_Paypal_IPN_Gateway' ) && class_exists( 'Learndas
 			 */
 			$pricing_array = $pricing->to_array();
 
-			$pricing_info = ! empty( $this->user_hash[ Learndash_Transaction_Model::$meta_key_pricing_info ] ) ?
+			$pricing_info = ! empty( $this->user_hash[ Transaction::$meta_key_pricing_info ] ) ?
 				Learndash_Pricing_DTO::create(
 					// @phpstan-ignore-next-line -- Variable array key name.
-					$this->user_hash[ Learndash_Transaction_Model::$meta_key_pricing_info ]
+					$this->user_hash[ Transaction::$meta_key_pricing_info ]
 				) :
 				Learndash_Pricing_DTO::create(
 					$pricing_array
 				);
 
 			$meta = array(
-				Learndash_Transaction_Model::$meta_key_gateway_name => $this::get_name(),
-				Learndash_Transaction_Model::$meta_key_price_type => ! $is_subscription_event ? LEARNDASH_PRICE_TYPE_PAYNOW : LEARNDASH_PRICE_TYPE_SUBSCRIBE,
-				Learndash_Transaction_Model::$meta_key_pricing_info => $pricing_info,
-				Learndash_Transaction_Model::$meta_key_has_trial => $is_subscription_event && ! empty( $data['period1'] ),
-				Learndash_Transaction_Model::$meta_key_has_free_trial => $is_subscription_event && ! empty( $data['period1'] ) && isset( $data['mc_amount1'] ) && ( '0.00' === strval( $data['mc_amount1'] ) || '0' === strval( $data['mc_amount1'] ) ),
-				Learndash_Transaction_Model::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
+				Transaction::$meta_key_gateway_name => $this::get_name(),
+				Transaction::$meta_key_price_type => ! $is_subscription_event ? LEARNDASH_PRICE_TYPE_PAYNOW : LEARNDASH_PRICE_TYPE_SUBSCRIBE,
+				Transaction::$meta_key_pricing_info => $pricing_info,
+				Transaction::$meta_key_has_trial => $is_subscription_event && ! empty( $data['period1'] ),
+				Transaction::$meta_key_has_free_trial => $is_subscription_event && ! empty( $data['period1'] ) && isset( $data['mc_amount1'] ) && ( '0.00' === strval( $data['mc_amount1'] ) || '0' === strval( $data['mc_amount1'] ) ),
+				Transaction::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
 					array(
 						'id'    => $is_subscription_event ? $data['subscr_id'] : $data['txn_id'],
 						'event' => $data,

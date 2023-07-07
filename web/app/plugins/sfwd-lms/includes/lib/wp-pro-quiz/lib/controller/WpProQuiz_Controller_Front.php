@@ -2,6 +2,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use LearnDash\Core\Template\Views;
+
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
 class WpProQuiz_Controller_Front {
 
@@ -163,6 +166,15 @@ class WpProQuiz_Controller_Front {
 	}
 
 	public function handleShortCode( $atts = array() ) {
+		/** This filter is documented in includes/shortcodes/ld_quiz.php */
+		$should_override = apply_filters( 'learndash_quiz_shortcode_override_output', false, $atts, $this );
+
+		if ( $should_override ) {
+			/** This filter is documented in includes/shortcodes/ld_quiz.php */
+			echo apply_filters( 'learndash_quiz_shortcode_output', '', $atts, $this );
+			return;
+		}
+
 		$atts = shortcode_atts(
 			array(
 				'quiz_id'     => 0,

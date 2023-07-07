@@ -9,7 +9,7 @@
  * @since 3.2.3
  * @deprecated 4.5.0
  *
- * @package LearnDash
+ * @package LearnDash\Deprecated
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +21,7 @@ if ( ! defined( 'LEARNDASH_VERSION' ) ) {
 }
 
 _deprecated_file(
-	basename( __FILE__ ),
+	__FILE__,
 	'4.5.0',
 	esc_html( LEARNDASH_LMS_PLUGIN_DIR . '/includes/payments/gateways/class-learndash-paypal-ipn-gateway.php' )
 );
