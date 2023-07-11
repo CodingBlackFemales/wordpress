@@ -151,7 +151,7 @@ class LearnDash {
 
 			case 'quiz_id':
 				if ( property_exists( $report_item, 'post_id' ) ) {
-					$column_value = $report_item->post_id;
+					$column_value = intval( $report_item->post_id );
 				}
 				break;
 
@@ -173,9 +173,9 @@ class LearnDash {
 			case 'quiz_score':
 				if ( ( property_exists( $report_item, 'activity_meta' ) ) && ( ! empty( $report_item->activity_meta ) ) ) {
 					if ( ( isset( $report_item->activity_meta['score'] ) ) && ( ! empty( $report_item->activity_meta['score'] ) ) ) {
-						$column_value = $report_item->activity_meta['score'];
+						$column_value = intval( $report_item->activity_meta['score'] );
 					} else {
-						$column_value = '0';
+						$column_value = 0;
 					}
 				}
 				break;
@@ -183,9 +183,9 @@ class LearnDash {
 			case 'quiz_total':
 				if ( ( property_exists( $report_item, 'activity_meta' ) ) && ( ! empty( $report_item->activity_meta ) ) ) {
 					if ( ( isset( $report_item->activity_meta['question_show_count'] ) ) && ( ! empty( $report_item->activity_meta['question_show_count'] ) ) ) {
-						$column_value = $report_item->activity_meta['question_show_count'];
+						$column_value = intval( $report_item->activity_meta['question_show_count'] );
 					} elseif ( ( isset( $report_item->activity_meta['count'] ) ) && ( ! empty( $report_item->activity_meta['count'] ) ) ) {
-						$column_value = $report_item->activity_meta['count'];
+						$column_value = intval( $report_item->activity_meta['count'] );
 					}
 				}
 				break;
@@ -199,7 +199,7 @@ class LearnDash {
 			case 'quiz_points':
 				if ( ( property_exists( $report_item, 'activity_meta' ) ) && ( ! empty( $report_item->activity_meta ) ) ) {
 					if ( ( isset( $report_item->activity_meta['points'] ) ) && ( ! empty( $report_item->activity_meta['points'] ) ) ) {
-						$column_value = $report_item->activity_meta['points'];
+						$column_value = intval( $report_item->activity_meta['points'] );
 					}
 				}
 				break;
@@ -207,7 +207,7 @@ class LearnDash {
 			case 'quiz_points_total':
 				if ( ( property_exists( $report_item, 'activity_meta' ) ) && ( ! empty( $report_item->activity_meta ) ) ) {
 					if ( ( isset( $report_item->activity_meta['total_points'] ) ) && ( ! empty( $report_item->activity_meta['total_points'] ) ) ) {
-						$column_value = $report_item->activity_meta['total_points'];
+						$column_value = intval( $report_item->activity_meta['total_points'] );
 					}
 				}
 				break;
@@ -215,7 +215,7 @@ class LearnDash {
 			case 'quiz_percentage':
 				if ( ( property_exists( $report_item, 'activity_meta' ) ) && ( ! empty( $report_item->activity_meta ) ) ) {
 					if ( ( isset( $report_item->activity_meta['percentage'] ) ) && ( ! empty( $report_item->activity_meta['percentage'] ) ) ) {
-						$column_value = number_format( round( floatval( $report_item->activity_meta['percentage'] ), 2 ), 2 );
+						$column_value = round( floatval( $report_item->activity_meta['percentage'] ), 2 );
 					}
 				}
 				break;
