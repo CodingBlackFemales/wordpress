@@ -125,6 +125,14 @@ Config::define( 'WP_POST_REVISIONS', env( 'WP_POST_REVISIONS' ) ?? true );
 Config::define( 'WP_MEMORY_LIMIT', env( 'WP_MEMORY_LIMIT' ) ?? '256M' );
 
 /**
+ * Airtable Settings
+ */
+Config::define( 'AIRTABLE_API_KEY', env( 'AIRTABLE_API_KEY' ) ?? '' );
+Config::define( 'AIRTABLE_BATCH_SIZE', env( 'AIRTABLE_BATCH_SIZE' ) ?? 10 );
+Config::define( 'AIRTABLE_REPORTS_BASE', env( 'AIRTABLE_REPORTS_BASE' ) ?? '' );
+Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Skills Check Log' );
+
+/**
  * Debugging Settings
  */
 Config::define( 'WP_DEBUG_DISPLAY', false );
