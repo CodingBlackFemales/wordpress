@@ -24,16 +24,34 @@ class WP_CLI_Command extends \WP_CLI_Command {
 	 * Exports quiz results to Airtable.
 	 * ## OPTIONS
 	 *
-	 * [--wponly]
-	 * : Shows only WP version info, omitting the plugin one.
+	 * [--verbose]
+	 * : Shows verbose output.
 	 */
 	public function export_quiz_results( $args, $assoc_args ) {
+		$verbose = array_key_exists( 'verbose', $assoc_args );
+
 		if ( ! empty( $args ) ) {
 			WP_CLI::error( 'Command syntax: wp cbf export-quiz-results' );
 		} else {
-			$courses = LearnDash::get_results();
+			$results = LearnDash::get_results();
 
-			WP_CLI::line( implode( ',', $courses[0] ) );
+			if ( $verbose ) {
+				foreach ( $results as $result ) {
+					WP_CLI::line( print_r( $result ) );
+				}
+			}
+
+			WP_CLI::line( 'Retrieved ' . count( $results ) . ' quiz activities from Learndash.' );
+
+			$responses = Airtable::insert_quiz_activities( $results );
+
+			if ( $verbose ) {
+				foreach ( $responses as $response ) {
+					WP_CLI::line( print_r( $response ) );
+				}
+			}
+
+			WP_CLI::line( 'Inserted ' . count( $responses ) . ' quiz activities to Airtable.' );
 		}
 	}
 
