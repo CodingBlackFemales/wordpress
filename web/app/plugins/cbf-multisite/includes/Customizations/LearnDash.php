@@ -309,6 +309,31 @@ class LearnDash {
 		return $column_value;
 	}
 
+	/**
+	 * Sorts an array of associative arrays by a specified key.
+	 *
+	 * @param array $array The array to be sorted.
+	 * @param string     $key   The associative array key to be sorted against.
+	 *
+	 * @return array $array;
+	 */
+	protected static function sort_nested_array( $array, $key ) {
+		usort(
+			$array,
+			function( $a, $b ) use ( $key ) {
+				// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_spaceshipFound
+				return $a[ $key ] <=> $b[ $key ];
+			}
+		);
+
+		return $array;
+	}
+
+	/**
+	 * Returns all quiz activity results.
+	 *
+	 * @return array $array;
+	 */
 	// phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
 	public static function get_results() {
 		$course_progress_data = array();
@@ -401,6 +426,6 @@ class LearnDash {
 			}
 		}
 
-		return $course_progress_data;
+		return self::sort_nested_array( $course_progress_data, 'activity_id' );
 	}
 }
