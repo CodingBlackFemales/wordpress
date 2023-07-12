@@ -133,6 +133,11 @@ Config::define( 'AIRTABLE_REPORTS_BASE', env( 'AIRTABLE_REPORTS_BASE' ) ?? '' );
 Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Skills Check Log' );
 
 /**
+ * CBF Settings
+ */
+Config::define( 'ENABLE_CBF_SCHEDULED_EXPORT', env( 'ENABLE_CBF_SCHEDULED_EXPORT' ) ?? WP_ENV === 'production' );
+
+/**
  * Debugging Settings
  */
 Config::define( 'WP_DEBUG_DISPLAY', false );
