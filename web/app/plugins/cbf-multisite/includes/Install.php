@@ -9,8 +9,6 @@
 
 namespace CodingBlackFemales\Multisite;
 
-use CodingBlackFemales\Multisite\Customizations\WP_Cron as WP_Cron;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -19,13 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Install class
  */
 final class Install {
-
-	/**
-	 * Deactivation action.
-	 */
-	public static function deactivate() {
-		wp_clear_scheduled_hook( WP_Cron::EXPORT_EVENT_NAME );
-	}
 
 	/**
 	 * Install action.
