@@ -15,6 +15,8 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 
 	/**
 	 * Class to create the settings section.
+	 *
+	 * @since 3.0.0
 	 */
 	class LearnDash_Theme_Register {
 
@@ -22,32 +24,34 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme Key.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_key = null;
 
 		/**
-		 * Is theme selectable. Controls if it shows in the Setting selector.
+		 * Is theme selectable. Controls if it shows in the Setting selector. Default true.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_selectable = true;
 
 		/**
-		 * Theme Base URL.
-		 * Relative to LearnDash plugin directory.
+		 * Theme Base URL. Relative to LearnDash plugin directory.
 		 *
 		 * @since 4.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_base_url = null;
 
 		/**
-		 * Theme Base Directory.
-		 * Relative to LearnDash plugin directory.
+		 * Theme Base Directory. Relative to LearnDash plugin directory.
 		 *
 		 * @since 4.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_base_dir = null;
@@ -56,6 +60,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme Template URL.
 		 *
 		 * @since 4.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_template_url = null;
@@ -64,6 +69,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme Template Directory.
 		 *
 		 * @since 4.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_template_dir = null;
@@ -72,6 +78,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme Name.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_name = null;
@@ -80,6 +87,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme Directory.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_dir = null;
@@ -88,6 +96,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Theme URL.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var string
 		 */
 		protected $theme_url = null;
@@ -96,14 +105,16 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Array to hold all field type instances.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var array
 		 */
 		protected static $_instances = array(); // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 		/**
-		 * Boolean to indicate when init has or has not been called.
+		 * Boolean to indicate when init has or has not been called. Default false.
 		 *
 		 * @since 3.0.0
+		 *
 		 * @var boolean
 		 */
 		protected static $_init_called = false; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
@@ -112,9 +123,19 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Array of theme settings sections.
 		 *
 		 * @since 4.0.0
+		 *
 		 * @var array
 		 */
 		protected $theme_settings_sections = array();
+
+		/**
+		 * Indicates if the theme supports views.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @var bool
+		 */
+		protected $supports_views = true;
 
 		/**
 		 * Protected constructor for class
@@ -531,6 +552,28 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 				return $this->theme_settings_sections;
 			}
 
+			return array();
+		}
+
+		/**
+		 * Returns a flag that indicates if the theme supports views.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return bool
+		 */
+		public function supports_views(): bool {
+			return $this->supports_views;
+		}
+
+		/**
+		 * Returns an array of theme keys that inherit settings from this theme. Defaults to an empty array.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return string[]
+		 */
+		public function get_themes_inheriting_settings(): array {
 			return array();
 		}
 

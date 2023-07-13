@@ -43,7 +43,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return void
 		 */
-		private function __construct() {
+		public function __construct() {
 			add_filter( 'debug_information', array( $this, 'add_site_health_info' ) );
 		}
 
@@ -324,7 +324,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return int
 		 */
-		private function count_by_post_type( string $post_type_key ): int {
+		protected function count_by_post_type( string $post_type_key ): int {
 			$post_type = LDLMS_Post_Types::get_post_type_slug( $post_type_key );
 
 			return wp_count_posts( $post_type )->publish;
@@ -341,7 +341,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return int
 		 */
-		private function count_by_post_type_and_setting( string $post_type_key, string $setting_key, string $setting_value = '' ): int {
+		protected function count_by_post_type_and_setting( string $post_type_key, string $setting_key, string $setting_value = '' ): int {
 			$query_args = array(
 				'post_type'    => LDLMS_Post_Types::get_post_type_slug( $post_type_key ),
 				'post_status'  => 'publish',
@@ -364,7 +364,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return int
 		 */
-		private function get_enrolled_user_count(): int {
+		protected function get_enrolled_user_count(): int {
 			// Get course IDs for courses with a price type "open".
 			$open_course_query = new WP_Query(
 				array(
@@ -430,7 +430,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return string
 		 */
-		private function bool_to_on_off_string( bool $value ): string {
+		protected function bool_to_on_off_string( bool $value ): string {
 			return $value ? __( 'On', 'learndash' ) : __( 'Off', 'learndash' );
 		}
 
@@ -443,7 +443,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return string
 		 */
-		private function bool_to_yes_no_string( bool $value ): string {
+		protected function bool_to_yes_no_string( bool $value ): string {
 			return $value ? __( 'Yes', 'learndash' ) : __( 'No', 'learndash' );
 		}
 
@@ -455,7 +455,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 * @return bool
 		 */
 		private function focus_mode_is_enabled(): bool {
-			if ( ! learndash_is_active_theme( 'ld30' ) ) {
+			if ( learndash_is_active_theme( 'legacy' ) ) {
 				return false;
 			}
 
@@ -475,7 +475,7 @@ if ( ! class_exists( 'Learndash_Site_Health' ) ) {
 		 *
 		 * @return string
 		 */
-		private function map_meta_value_from_setting( string $setting_key, string $setting_value ): string {
+		protected function map_meta_value_from_setting( string $setting_key, string $setting_value ): string {
 			// Regular expressions are explained in includes/admin/classes-filters/class-learndash-admin-filter-meta.php.
 			$regexp_part = '' !== $setting_value
 				? '";.:[^;]*:?"?' . $setting_value . '"?;'

@@ -1,0 +1,274 @@
+@import "mixins";
+
+
+.widefat {
+
+	td.column-featured_resume {
+		width: 46px;
+		text-align: left;
+		padding-left: 11px;
+	}
+
+	th.column-featured_resume,
+	th.column-resume_status {
+		width: 1em;
+
+		span {
+			display: block;
+			width: 1em;
+			height: 1em;
+			line-height: 1em;
+			padding: 1px 0 0 0;
+			overflow: hidden;
+
+			&::before {
+
+				@include jm-dash-icon();
+				content: "\f155";
+			}
+		}
+	}
+
+	th.column-resume_status {
+
+		span {
+
+			&::before {
+				content: "\f348";
+			}
+		}
+	}
+
+	td.column-resume_status {
+
+		span {
+			position: relative;
+			font-size: 1em;
+			line-height: 1.5em;
+			width: 1em;
+			height: 0;
+			padding: 2em 0 0 0;
+			overflow: hidden;
+			display: block;
+		}
+
+		span::before {
+
+			@include jm-dash-icon();
+
+			position: absolute;
+			top: 0;
+			left: 0;
+			line-height: 1.5em;
+			vertical-align: middle;
+			color: #999;
+			content: "\f227";
+		}
+
+		.status-trash::before {
+			content: "\f182";
+			color: #a00;
+		}
+
+		.status-pending::before {
+			content: "\f469";
+			color: #ffba00;
+		}
+
+		.status-publish::before {
+			content: "\f12a";
+			color: #73a724;
+		}
+
+		.status-expired::before {
+			content: "\f153";
+			color: #a00;
+		}
+	}
+
+	.column-resume_posted {
+
+		strong {
+			display: block;
+			margin-bottom: 0.2em;
+		}
+
+		span {
+			display: block;
+			padding-top: 2px;
+		}
+	}
+
+	.column-resume_posted,
+	.column-resume_expires {
+		width: 11%;
+	}
+
+	th.column-candidate {
+		width: 20%;
+	}
+
+	td.column-candidate {
+		padding-right: 50px !important;
+		height: 34px;
+		position: relative;
+
+		a.candidate_name {
+			font-weight: bold;
+		}
+
+		img {
+			width: 32px;
+			height: 32px;
+			position: absolute;
+			right: 7px;
+			top: 4px;
+
+			@include border_radius( 50% );
+			@include box_shadow( 0, 1px, 0, 1px, rgba( 0,0,0,0.1 ) );
+			border: 1px solid #fff;
+		}
+
+		.candidate_title {
+			margin-top: 0.2em;
+			display: block;
+			padding-top: 2px;
+			color: #bbb;
+		}
+	}
+
+	.column-candidate_location {
+		width: 11%;
+	}
+
+	.column-candidate_email {
+		width: 9%;
+	}
+
+	.column-resume_actions {
+		text-align: right;
+		width: 160px;
+
+		strong {
+			display: block;
+			margin-bottom: 0.2em;
+		}
+
+		.actions {
+			padding-top: 2px;
+		}
+
+		a.button {
+			display: inline-block;
+			margin: 0 0 2px 4px;
+			cursor: pointer;
+			padding: 0 !important;
+			height: 2em !important;
+			width: 2em !important;
+			font-size: 1em !important;
+			line-height: 2em !important;
+			overflow: hidden;
+
+			&::before {
+
+				@include jm-dash-icon();
+
+				float: left;
+				width: 1.8em !important;
+				line-height: 2em;
+				font-size: 14px;
+			}
+		}
+
+		.icon-view::before {
+			content: "\f177";
+		}
+
+		.icon-edit::before {
+			content: "\f464";
+		}
+
+		.icon-delete::before {
+			content: "\f182";
+		}
+
+		.icon-approve::before {
+			content: "\f147";
+		}
+
+		.icon-email::before {
+			content: "\f465";
+		}
+	}
+}
+
+table.wc-job-manager-resumes-repeated-rows {
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+	margin: 0;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	border-collapse: separate;
+	border-spacing: 0;
+
+	thead {
+
+		th {
+			padding: 5px 8px 8px;
+			background-color: #f1f1f1;
+		}
+	}
+
+	tbody {
+
+		td.left {
+			width: 38%;
+		}
+
+		td.sort-column {
+			cursor: move;
+			color: #ccc;
+
+			&::before {
+				content: "\f333";
+				font-family: dashicons;
+			}
+		}
+
+		td {
+			padding: 8px 0 0 8px;
+			vertical-align: middle;
+
+			input,
+			textarea {
+				width: 100%;
+			}
+
+			&:last-child {
+				padding-right: 8px;
+			}
+
+			label {
+				display: none;
+			}
+
+			p {
+				margin: 0;
+			}
+		}
+	}
+
+	tfoot {
+
+		.submit {
+			border: 0 none;
+			float: none !important;
+			padding: 8px !important;
+		}
+	}
+}
+
+th.sortable a, th.sorted a {
+	width: 100px;
+}

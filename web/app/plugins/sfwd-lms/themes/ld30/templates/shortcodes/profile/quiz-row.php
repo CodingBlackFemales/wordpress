@@ -52,7 +52,7 @@ endif;
 
 // Quiz title and link...
 // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-$quiz_title = ! empty( $quiz_attempt['post']->post_title ) ? apply_filters( 'the_title', $quiz_attempt['post']->post_title, $quiz_attempt['post']->post_titleID ) : @$quiz_attempt['quiz_title'];
+$quiz_title = ! empty( $quiz_attempt['post']->post_title ) ? apply_filters( 'the_title', $quiz_attempt['post']->post_title, $quiz_attempt['post']->ID ) : get_the_title( $quiz_attempt['quiz'] );
 
 
 $quiz_link = ! empty( $quiz_attempt['post']->ID ) ? learndash_get_step_permalink( intval( $quiz_attempt['post']->ID ), $course_id ) : '#'; ?>

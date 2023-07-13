@@ -858,6 +858,7 @@ if ( ! defined( 'LEARNDASH_DISABLE_TEMPLATE_CONTENT_OUTSIDE_LOOP' ) ) {
 if ( ! defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) {
 	/**
 	 * Define LearnDash LMS - Controls the method the template content is rendered.
+	 * Supported by LD30 theme only.
 	 *
 	 * @since 4.0.0
 	 *
