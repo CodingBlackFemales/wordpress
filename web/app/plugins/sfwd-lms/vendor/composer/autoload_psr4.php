@@ -10,6 +10,7 @@ return array(
     'StellarWP\\Telemetry\\Views_Dir\\' => array($vendorDir . '/stellarwp/telemetry/src/views'),
     'StellarWP\\Telemetry\\Assets_Dir\\' => array($vendorDir . '/stellarwp/telemetry/src/resources'),
     'StellarWP\\Telemetry\\' => array($vendorDir . '/stellarwp/telemetry/src/Telemetry'),
+    'StellarWP\\Models\\' => array($vendorDir . '/stellarwp/models/src/Models'),
     'StellarWP\\DB\\' => array($vendorDir . '/stellarwp/db/src/DB'),
     'StellarWP\\ContainerContract\\' => array($vendorDir . '/stellarwp/container-contract/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),

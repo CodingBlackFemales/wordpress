@@ -6,6 +6,8 @@
  * @package \LearnDash\Settings\Sections
  */
 
+use LearnDash\Core\Payments\Stripe\Webhook_Setup_Validator;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -67,7 +69,7 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			if ( ! isset( $this->setting_option_values['payment_methods'] ) ) {
+			if ( empty( $this->setting_option_values['payment_methods'] ) ) {
 				$this->setting_option_values['payment_methods'] = array( 'card' );
 			}
 
@@ -81,10 +83,12 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 *
 		 * @return string
 		 */
-		public static function get_default_stripe_webhook_url() {
+		public static function get_default_stripe_webhook_url(): string {
 			return add_query_arg(
 				array( 'learndash-integration' => 'stripe_connect' ),
-				esc_url_raw( get_site_url() )
+				esc_url_raw(
+					trailingslashit( get_site_url() )
+				)
 			);
 		}
 
@@ -92,13 +96,13 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 * Get the stripe webhook URL.
 		 *
 		 * @since 4.0.0
+		 *
+		 * @return string
 		 */
-		private function get_stripe_webhook_url() {
-			if ( isset( $this->setting_option_values['webhook_url'] ) && ! empty( $this->setting_option_values['webhook_url'] ) ) {
-				return $this->setting_option_values['webhook_url'];
-			}
-
-			return self::get_default_stripe_webhook_url();
+		private function get_stripe_webhook_url(): string {
+			return ! empty( $this->setting_option_values['webhook_url'] )
+				? $this->setting_option_values['webhook_url']
+				: self::get_default_stripe_webhook_url();
 		}
 
 		/**
@@ -206,6 +210,13 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 							'disable'  => 'disable',
 						),
 				),
+				'webhook_validation_button'    => array(
+					'name'             => 'webhook_validation_button',
+					'type'             => 'text',
+					'label'            => '',
+					'value'            => null,
+					'display_callback' => array( $this, 'webhook_validation_button' ),
+				),
 			);
 
 			/** This filter is documented in includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php */
@@ -272,7 +283,6 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			}
 
 			// Show Stripe connection success and endpoint webhook requirement.
-			// TODO: Add webhook url via API (it's not possible now due to Stripe limitations. Maybe in the future).
 			if (
 				isset( $_GET['ld_stripe_connected'] ) && self::STRIPE_RETURNED_AND_PROCESSED_SUCCESS === intval( $_GET['ld_stripe_connected'] ) && // phpcs:ignore
 				$this->account_is_connected()
@@ -324,6 +334,50 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 				</div>
 				<?php
 			}
+			?>
+			<div id="learndash-stripe-webhook-validation-success" class="notice notice-success is-dismissible" style="display: none">
+				<h1>
+					<?php esc_html_e( 'Stripe webhook was received!', 'learndash' ); ?>
+				</h1>
+				<p>
+					<?php esc_html_e( 'You are ready to accept Stripe payments.', 'learndash' ); ?>
+				</p>
+			</div>
+
+			<div id="learndash-stripe-webhook-validation-error" class="notice notice-error is-dismissible" style="display: none">
+				<h1>
+					<?php esc_html_e( 'Important!', 'learndash' ); ?>
+				</h1>
+				<p>
+					<?php esc_html_e( 'Payments will not work for your LearnDash instance because of a missing webhook.', 'learndash' ); ?>
+				</p>
+				<p>
+					<?php
+					echo sprintf(
+						// translators: %1$s: webhook url.
+						__( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							'Add the following webhook <b>%1$s</b> to your Stripe account.',
+							'learndash'
+						),
+						$this->get_stripe_webhook_url() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					);
+					?>
+				</p>
+				<p>
+					<?php
+					echo sprintf(
+						// translators: %1$s: webhook url.
+						__( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							'Read our <a href="%1$s" target="blank">complete guide on setting up Stripe for LearnDash</a>.',
+							'learndash'
+						),
+						'https://www.learndash.com/support/docs/core/settings/stripe-connect/'
+					);
+					?>
+				</p>
+			</div>
+
+			<?php
 		}
 
 		/**
@@ -366,6 +420,33 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		}
 
 		/**
+		 * Shows Stripe webhook validation button.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return void
+		 */
+		public function webhook_validation_button(): void {
+			if ( ! $this->account_is_connected() ) {
+				return;
+			}
+			?>
+			<button
+				id="learndash-validate-stripe-webhook"
+				class="button"
+				data-nonce="<?php echo esc_attr( wp_create_nonce( Webhook_Setup_Validator::$ajax_action ) ); ?>"
+			>
+				<span class="learndash-validate-stripe-webhook-text-default">
+					<?php esc_html_e( 'Validate Webhook Setup', 'learndash' ); ?>
+				</span>
+				<span class="learndash-validate-stripe-webhook-text-loading" style="display: none;">
+					<?php esc_html_e( 'Validating Webhook Setup...', 'learndash' ); ?>
+				</span>
+			</button>
+			<?php
+		}
+
+		/**
 		 * Checks if account is already connected.
 		 *
 		 * @return bool
@@ -391,9 +472,15 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 * @return string
 		 */
 		public static function generate_connect_url( $return_url = '' ): string {
+			if ( empty( $return_url ) ) {
+				// remove any subfolder from the home url, if present.
+				$url_parsed = wp_parse_url( home_url() );
+				$return_url = $url_parsed['scheme'] . '://' . $url_parsed['host'] . add_query_arg( array() ); // @phpstan-ignore-line -- home url is safe.
+			}
+
 			$args = array(
 				'stripe_action' => 'connect',
-				'return_url'    => rawurlencode( empty( $return_url ) ? home_url() . add_query_arg( array() ) : $return_url ),
+				'return_url'    => rawurlencode( $return_url ),
 			);
 
 			return add_query_arg(
@@ -408,10 +495,14 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 * @return string
 		 */
 		private function generate_disconnect_url(): string {
+			// remove any subfolder from the home url, if present.
+			$url_parsed = wp_parse_url( home_url() );
+			$return_url = $url_parsed['scheme'] . '://' . $url_parsed['host'] . add_query_arg( array() ); // @phpstan-ignore-line -- home url is safe.
+
 			$args = array(
 				'stripe_action'  => 'disconnect',
 				'stripe_user_id' => $this->setting_option_values['account_id'],
-				'return_url'     => rawurlencode( home_url() . add_query_arg( array() ) ),
+				'return_url'     => rawurlencode( $return_url ),
 			);
 
 			return add_query_arg(
@@ -439,26 +530,33 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 */
 		private function handle_connection_request(): void {
 			if (
-				current_user_can( 'manage_options' ) &&
-			  	isset( $_GET['ld_stripe_connected'] ) && self::STRIPE_RETURNED_SUCCESS === intval( $_GET['ld_stripe_connected'] ) // phpcs:ignore
+				current_user_can( 'manage_options' )
+				&& isset( $_GET['ld_stripe_connected'] )
+				&& self::STRIPE_RETURNED_SUCCESS === intval( $_GET['ld_stripe_connected'] ) // phpcs:ignore
 			) {
 				$this->load_settings_values();
 
 				// check if account connected is same of last time.
-				$old_account_id = isset( $this->setting_option_values['last_account_id'] ) ? $this->setting_option_values['last_account_id'] : '';
+
+				$old_account_id = $this->setting_option_values['last_account_id'] ?? '';
 				$new_account_id = isset( $_GET['stripe_user_id'] ) ? sanitize_text_field( wp_unslash( $_GET['stripe_user_id'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
 				if ( $old_account_id !== $new_account_id ) {
-					// clear customer_id metadata from users.
-					$this->cleanup_stripe_connect_customer_id();
+					$this->cleanup_stripe_connect_customer_id(); // clear customer_id metadata from users.
 				}
 
-				$this->setting_option_values['account_id']           = sanitize_text_field( $_GET['stripe_user_id'] ); // phpcs:ignore
+				// Update settings.
+
+				$this->setting_option_values['enabled']              = 'yes';
+				$this->setting_option_values['account_id']           = $new_account_id;
 				$this->setting_option_values['secret_key_live']      = sanitize_text_field( $_GET['stripe_access_token'] ); // phpcs:ignore
 				$this->setting_option_values['secret_key_test']      = sanitize_text_field( $_GET['stripe_access_token_test'] ); // phpcs:ignore
 				$this->setting_option_values['publishable_key_live'] = sanitize_text_field( $_GET['stripe_publishable_key'] ); // phpcs:ignore
 				$this->setting_option_values['publishable_key_test'] = sanitize_text_field( $_GET['stripe_publishable_key_test'] ); // phpcs:ignore
 
 				$this->save_settings_values();
+
+				// Redirect to the same page to remove query args.
 
 				$reload_url = remove_query_arg(
 					array( 'ld_stripe_connected', 'ld_stripe_disconnected', 'stripe_user_id', 'stripe_access_token', 'stripe_access_token_test', 'stripe_publishable_key', 'stripe_publishable_key_test', 'ld_stripe_error', 'error_code', 'error_message' )
