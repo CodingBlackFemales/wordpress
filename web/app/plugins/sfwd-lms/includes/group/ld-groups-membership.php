@@ -1142,4 +1142,3 @@ function learndash_set_post_group_membership_groups( $post_id = 0, $groups_new =
 		}
 	}
 }
-

@@ -426,6 +426,11 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 
 	public function cleanup( $is_cron = false ){
 
+        $nonce = (!empty($_REQUEST['_wpnonce'])) ? $_REQUEST['_wpnonce'] : '';
+        if ( ! wp_verify_nonce( $nonce, '_wpnonce-cleanup_logs' ) ) {
+            die( __('Security check', 'wp_all_import_plugin') );
+        }
+
 		$removedFiles = 0;
 
 		$wp_uploads = wp_upload_dir();
@@ -722,6 +727,10 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 
 		$notice = false;
 
+        $bundle_xpath = false;
+
+        $template = false;
+
 		// declare gravity form title variable
 		$gravity_form_title = null;
 
@@ -763,6 +772,8 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 					$post_type = $upload_result['post_type'];
 					$taxonomy_type = $upload_result['taxonomy_type'];
 					$gravity_form_title = $upload_result['gravity_form_title'];
+                    $bundle_xpath = $upload_result['bundle_xpath'];
+                    $template = $upload_result['template'];
 					switch ( $post_type ) {
 						case 'shop_order':
 							if ( ! class_exists('WooCommerce') ) {
@@ -795,7 +806,7 @@ class PMXI_Admin_Settings extends PMXI_Controller_Admin {
 
 				if ( ! empty($upload_result['is_empty_bundle_file'])) {
 					// Return JSON-RPC response
-					exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $upload_result['filePath'], "post_type" => $post_type, "taxonomy_type" => $taxonomy_type, "gravity_form_title" => $gravity_form_title, "notice" => $notice, "template" => $upload_result['template'], "url_bundle" => true)));
+					exit(json_encode(array("jsonrpc" => "2.0", "error" => null, "result" => null, "id" => "id", "name" => $upload_result['filePath'], "post_type" => $post_type, "taxonomy_type" => $taxonomy_type, "gravity_form_title" => $gravity_form_title, "notice" => $notice, "template" => $template, "bundle_xpath" => $bundle_xpath, "url_bundle" => true)));
 				}
 				else {
 

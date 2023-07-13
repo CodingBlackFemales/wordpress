@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // cspell:ignore i18nize .
 
+use LearnDash\Core\App;
+use LearnDash\Core\Provider;
+
+
 if ( ! class_exists( 'SFWD_LMS' ) ) {
 
 	/**
@@ -218,9 +222,15 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 				}
 			}
 
-			add_action( 'wp_ajax_select_a_lesson', array( $this, 'select_a_lesson_ajax' ) );
-			add_action( 'wp_ajax_select_a_lesson_or_topic', array( $this, 'select_a_lesson_or_topic_ajax' ) );
-			add_action( 'wp_ajax_select_a_quiz', array( $this, 'select_a_quiz_ajax' ) );
+			add_action( 'wp_ajax_select_a_lesson', [ $this, 'select_a_lesson_ajax' ] );
+			add_action( 'wp_ajax_select_a_lesson_or_topic', [ $this, 'select_a_lesson_or_topic_ajax' ] );
+			add_action( 'wp_ajax_select_a_quiz', [ $this, 'select_a_quiz_ajax' ] );
+			add_action(
+				'learndash_files_included',
+				function() {
+					App::register( Provider::class );
+				}
+			);
 		}
 
 		/**
@@ -3019,7 +3029,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 					} elseif ( ! is_null( $atts['quiz_filter_quiz'] ) ) {
 						$quiz_ids = $atts['quiz_filter_quiz'];
 					} else {
-						$quiz_ids = wp_list_pluck( $quizzes, 'quiz' );
+						$quiz_ids = wp_list_pluck( (array) $quizzes, 'quiz' );
 					}
 
 					if ( ! empty( $quiz_ids ) ) {
@@ -4710,6 +4720,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 			$template_paths     = array();
 
 			$active_template_key = LearnDash_Theme_Register::get_active_theme_key();
+			$active_template_dir = LearnDash_Theme_Register::get_active_theme_template_dir();
 			$file_pathinfo       = pathinfo( $filename );
 
 			if ( ! isset( $file_pathinfo['dirname'] ) ) {
@@ -4737,7 +4748,16 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 
 				$template_filenames[] = $file_pathinfo['dirname'] . $file_pathinfo['filename'] . '.min.' . $file_pathinfo['extension'];
 			} else {
-				$template_filenames[] = $file_pathinfo['dirname'] . $file_pathinfo['filename'] . '.' . $file_pathinfo['extension'];
+				// add index suffix to filename.
+				$template_file_name = $file_pathinfo['dirname'] . $file_pathinfo['filename'] . '.' . $file_pathinfo['extension'];
+				if ( ! is_file( trailingslashit( $active_template_dir ) . $template_file_name ) ) {
+					$template_file_dir = $file_pathinfo['dirname'] . $file_pathinfo['filename'];
+					if ( is_dir( trailingslashit( $active_template_dir ) . $template_file_dir ) ) {
+						$template_file_name = $file_pathinfo['dirname'] . $file_pathinfo['filename'] . '/index.' . $file_pathinfo['extension'];
+					}
+				}
+
+				$template_filenames[] = $template_file_name;
 			}
 
 			$template_paths['theme'] = array();
@@ -4745,7 +4765,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 				$template_paths['theme'][] = 'learndash/' . $active_template_key . '/' . $template_filename;
 			}
 
-			if ( 'legacy' === $active_template_key ) {
+			if ( LEARNDASH_LEGACY_THEME === $active_template_key ) {
 				foreach ( $template_filenames as $template_filename ) {
 					$template_paths['theme'][] = 'learndash/' . $template_filename;
 				}
@@ -4764,7 +4784,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 				if ( 'learndash_template_functions.php' === $file_pathinfo['filename'] ) {
 					$template_paths['templates'][] = $template_dir . $active_template_key . '/functions.php';
 				}
-				if ( 'legacy' === $active_template_key ) {
+				if ( LEARNDASH_LEGACY_THEME === $active_template_key ) {
 					foreach ( $template_filenames as $template_filename ) {
 						$template_paths['templates'][] = $template_dir . $template_filename;
 					}
@@ -4774,22 +4794,26 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 				}
 			}
 
-			$active_template_dir = LearnDash_Theme_Register::get_active_theme_template_dir();
 			if ( ! empty( $active_template_dir ) ) {
 				foreach ( $template_filenames as $template_filename ) {
-					$template_paths['templates'][] = $active_template_dir . '/' . $template_filename;
+					$template_paths['templates'][] = trailingslashit( $active_template_dir ) . $template_filename;
 				}
 			}
 
 			if ( LEARNDASH_LEGACY_THEME !== $active_template_key ) {
 				$legacy_theme_instance = LearnDash_Theme_Register::get_theme_instance( LEARNDASH_LEGACY_THEME );
-				$legacy_theme_dir      = $legacy_theme_instance->get_theme_template_dir();
-				if ( ! empty( $legacy_theme_dir ) ) {
-					foreach ( $template_filenames as $template_filename ) {
-						$template_paths['templates'][] = $legacy_theme_dir . '/' . $template_filename;
+
+				if ( ! empty( $legacy_theme_instance ) ) {
+					$legacy_theme_dir = $legacy_theme_instance->get_theme_template_dir();
+
+					if ( ! empty( $legacy_theme_dir ) ) {
+						foreach ( $template_filenames as $template_filename ) {
+							$template_paths['templates'][] = $legacy_theme_dir . '/' . $template_filename;
+						}
 					}
 				}
 			}
+
 			return $template_paths;
 		}
 
@@ -4801,10 +4825,10 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param  string       $name             template name.
-		 * @param  array|null   $args             data for template.
-		 * @param  boolean|null $echo             echo or return.
-		 * @param  boolean      $return_file_path return just file path instead of output.
+		 * @param  string     $name             Template name.
+		 * @param  array|null $args             Data for template.
+		 * @param  bool|null  $echo             echo or return.
+		 * @param  bool       $return_file_path Return just file path instead of output.
 		 */
 		public static function get_template( $name, $args, $echo = false, $return_file_path = false ) {
 			$template_paths = array();
@@ -4822,11 +4846,11 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 			 *
 			 * @since 3.0.0
 			 *
-			 * @param string  $template_filename Template file name.
-			 * @param string  $name             Template name.
-			 * @param array   $args             Template data.
-			 * @param boolean $echo             Whether to echo the template output or not.
-			 * @param boolean $return_file_path  Whether to return file or path or not.
+			 * @param string     $template_filename Template file name.
+			 * @param string     $name              Template name.
+			 * @param array|null $args              Template data.
+			 * @param bool|null  $echo              Whether to echo the template output or not.
+			 * @param bool       $return_file_path  Whether to return file or path or not.
 			 */
 			$template_filename = apply_filters( 'learndash_template_filename', $template_filename, $name, $args, $echo, $return_file_path );
 
@@ -4858,11 +4882,11 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 			 * @since 2.1.0
 			 * @since 3.0.3 - Allow override of empty or other checks.
 			 *
-			 * @param string  $filepath         Template file path.
-			 * @param string  $name             Template name.
-			 * @param array   $args             Template data.
-			 * @param boolean $echo             Whether to echo the template output or not.
-			 * @param boolean $return_file_path Whether to return file or path or not.
+			 * @param string     $filepath         Template file path.
+			 * @param string     $name             Template name.
+			 * @param array|null $args             Template data.
+			 * @param bool|null  $echo             Whether to echo the template output or not.
+			 * @param bool       $return_file_path Whether to return file or path or not.
 			 */
 			$filepath = apply_filters( 'learndash_template', $filepath, $name, $args, $echo, $return_file_path );
 			if ( ! $filepath ) {
@@ -4881,9 +4905,9 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 				 *
 				 * The dynamic part of the hook refers to the name of the template.
 				 *
-				 * @param array   $args             Template data.
-				 * @param string  $filepath          Template file path.
-				 * @param boolean $echo             Whether to echo the template output or not.
+				 * @param array|null $args     Template data.
+				 * @param string     $filepath Template file path.
+				 * @param bool|null  $echo     Whether to echo the template output or not.
 				 */
 				$args = apply_filters( 'ld_template_args_' . $name, $args, $filepath, $echo );
 				if ( ( ! empty( $args ) ) && ( is_array( $args ) ) ) {
@@ -4898,7 +4922,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 					return $contents;
 				}
 
-				echo $contents;
+				echo $contents; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in template.
 			}
 		}
 
@@ -4915,6 +4939,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 		 */
 		public static function get_view( string $name, array $args = array(), bool $echo = false ) {
 			extract( $args ); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- Bad idea, but better keep it for now.
+
 			$template = LEARNDASH_LMS_PLUGIN_DIR . '/includes/views/' . $name . '.php';
 
 			if ( file_exists( $template ) ) {

@@ -9,7 +9,7 @@
  * $user_id          : (int) ID of User
  * $quizzes			 : (array) Quizzes
  * $context		     : (string) Context of the usage. Either 'lesson' or 'topic'.
- * 
+ *
  * @since 3.0.0
  *
  * @package LearnDash\Templates\LD30

@@ -434,7 +434,8 @@
 	});
 
 	function get_delete_missing_notice_type() {
-		if (!$('input[name="is_delete_missing"]').is(':checked')) {
+		let $is_delete_missing = $('input#is_delete_missing');
+		if (!$is_delete_missing.is(':checked') || $is_delete_missing.data('backups-prompt') === 'disabled') {
 			return 0;
 		}
 		if ($('input[name="delete_missing_logic"]:checked').val() == 'import' && $('input[name="delete_missing_action"]:checked').val() == 'keep' && $('input[name="is_send_removed_to_trash"]').is(':checked')) {
