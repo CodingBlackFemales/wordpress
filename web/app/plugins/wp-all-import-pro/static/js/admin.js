@@ -343,12 +343,6 @@
 			$('.wpallimport-url-icon').removeClass('focus');
 			$(this).removeClass('focus');
 		}
-	}).on('focus', function(){
-		if ($(this).val() == 'Enter a web address to download the file from...')
-			$(this).val('');
-	}).on('blur', function(){
-		if($(this).val() == '')
-			$(this).val('Enter a web address to download the file from...');
 	});
 
 	$('#taxonomy_to_import').ddslick({
@@ -739,6 +733,22 @@
 	    });
 	};
 
+	// add expander
+	$(document).on('click', '.xml-expander', function () {
+		var method;
+		if ('-' == $(this).text()) {
+			$(this).text('+');
+			method = 'addClass';
+		} else {
+			$(this).text('-');
+			method = 'removeClass';
+		}
+		// for nested representation based on div
+		$(this).parent().find('> .xml-content')[method]('collapsed');
+		// for nested representation based on tr
+		var $tr = $(this).parent().parent().filter('tr.xml-element').next()[method]('collapsed');
+	});
+
 	// [xml representation dynamic]
 	$.fn.xml = function (opt) {
 		if ( ! this.length) return this;
@@ -755,21 +765,6 @@
 
 		if (action.init) {
 			this.data('initialized', true);
-			// add expander
-			$(document).on('click', '.xml-expander', function () {
-				var method;
-				if ('-' == $(this).text()) {
-					$(this).text('+');
-					method = 'addClass';
-				} else {
-					$(this).text('-');
-					method = 'removeClass';
-				}
-				// for nested representation based on div
-				$(this).parent().find('> .xml-content')[method]('collapsed');
-				// for nested representation based on tr
-				var $tr = $(this).parent().parent().filter('tr.xml-element').next()[method]('collapsed');
-			});
 		}
 		if (action.dragable) { // drag & drop
 			var _w; var _dbl = 0;
@@ -1399,6 +1394,7 @@
 		$form.find('.wpallimport-dismiss-cf-welcome').on('click', function(){
 			$('.cf_welcome, .cf_detect_result').slideUp();
 		});
+
 	});
 
 	// options form: highlight options of selected post type
@@ -1569,153 +1565,10 @@
 			}
 		});
 
-		/* Advanced Filtering */
-
-		$('.filtering_rules').pmxi_nestedSortable({
-	        handle: 'div',
-	        items: 'li',
-	        toleranceElement: '> div',
-	        update: function () {
-	        	$('.filtering_rules').find('.condition').show();
-	        	$('.filtering_rules').find('.condition:last').hide();
-		    }
-	    });
-
-	    $('#pmxi_add_rule').on('click', function(){
-
-	    	var $el = $('#pmxi_xml_element');
-	    	var $rule = $('#pmxi_rule');
-	    	var $val = $('#pmxi_value');
-
-	    	if ($el.val() == "" || $rule.val() == "") return;
-
-	    	if ($rule.val() != 'is_empty' && $rule.val() != "is_not_empty" && $val.val() == "") return;
-
-	    	var relunumber = $('.filtering_rules').find('li').length + "_" + $.now();
-
-	    	var html = '<li><div class="drag-element">';
-	    		html += '<input type="hidden" value="'+ $el.val() +'" class="pmxi_xml_element"/>';
-	    		html += '<input type="hidden" value="'+ $rule.val() +'" class="pmxi_rule"/>';
-	    		html += '<input type="hidden" value="'+ $val.val() +'" class="pmxi_value"/>';
-				html += '<span class="rule_element">' + $el.val() + '</span><span class="rule_as_is">' + $rule.find('option:selected').html() + '</span><span class="rule_condition_value">"' + $val.val() +'"</span>';
-	    		html += '<span class="condition"> <label for="rule_and_'+relunumber+'">AND</label><input id="rule_and_'+relunumber+'" type="radio" value="and" name="rule_'+relunumber+'" checked="checked" class="rule_condition"/><label for="rule_or_'+relunumber+'">OR</label><input id="rule_or_'+relunumber+'" type="radio" value="or" name="rule_'+relunumber+'" class="rule_condition"/> </span>';
-	    		html += '</div><a href="javascript:void(0);" class="icon-item remove-ico"></a></li>';
-
-	    	$('#wpallimport-filters, #apply_filters').show();
-	    	$('#filtering_rules').find('p').hide();
-
-	    	$('.filtering_rules').append(html);
-
-	    	$('.filtering_rules').find('.condition').show();
-	        $('.filtering_rules').find('.condition:last').hide();
-
-	    	$el.prop('selectedIndex',0);
-	    	$rule.prop('selectedIndex',0);
-	    	$val.val('');
-	    	$('#pmxi_value').show();
-
-	    });
-
-		$(document).on('click', '.filtering_rules li a.remove-ico', function() {
-			$(this).parents('li:first').remove();
-			$('.filtering_rules').find('li:last div span.condition').hide();
-			if (!$('.filtering_rules').find('li').length){
-				$('#apply_filters').hide();
-	    		$('#filtering_rules').find('p').show();
-			}
-		});
-
-		$('#pmxi_rule').on('change', function(){
-			if ($(this).val() == 'is_empty' || $(this).val() == 'is_not_empty') {
-				$('#pmxi_value').hide();
-			} else {
-				$('#pmxi_value').show();
-			}
-		});
-
-		var filter = '[';
-
-		var xpath_builder = function(rules_box, lvl){
-
-			var rules = rules_box.children('li');
-
-			var root_element = $('#root_element').val();
-
-			if (lvl && rules.length > 1) filter += ' (';
-
-			rules.each(function(){
-
-				var node = $(this).children('.drag-element').find('.pmxi_xml_element').val();
-				var condition = $(this).children('.drag-element').find('.pmxi_rule').val();
-				var value = $(this).children('.drag-element').find('.pmxi_value').val();
-
-				var clause = ($(this).children('.drag-element').find('.condition').is(':visible')) ? $(this).children('.drag-element').find('input.rule_condition:checked').val() : false;
-
-				var is_attr = false;
-
-				if (node.indexOf('@') != -1){
-					is_attr = true;
-					node_name = node.split('@')[0];
-					attr_name = node.split('@')[1];
-				}
-
-				if (is_attr) {
-					filter += (node_name == root_element) ? '' : node_name.replace(/->/g, '/');
-				} else {
-					filter += node.replace(/->/g, '/');
-				}
-
-				if (is_attr) filter += '@' + attr_name;
-
-				switch (condition){
-					case 'equals':
-						filter += ' = "%s"';
-						break;
-					case 'not_equals':
-						filter += ' != "%s"';
-						break;
-					case 'greater':
-						filter += ' > %s';
-						break;
-					case 'equals_or_greater':
-						filter += ' >= %s';
-						break;
-					case 'less':
-						filter += ' < %s';
-						break;
-					case 'equals_or_less':
-						filter += ' <= %s';
-						break;
-					case 'contains':
-						filter += '[contains(.,"%s")]';
-						break;
-					case 'not_contains':
-						filter += '[not(contains(.,"%s"))]';
-						break;
-					case 'is_empty':
-						filter += '[not(string())]';
-						break;
-					case 'is_not_empty':
-						filter += '[string()]';
-						break;
-				}
-
-				filter = filter.replace('%s', value);
-
-				if (clause) filter += ' ' + clause + ' ';
-
-				if ($(this).children('ol').length){
-					$(this).children('ol').each(function(){
-						if ($(this).children('li').length) xpath_builder($(this), 1);
-					});
-				}
-			});
-			if (lvl && rules.length > 1) filter += ') ';
-		}
-
 		$('#apply_filters').on('click', function(){
 
-			var xpath = $('input[name=xpath]').val();
+			var $input = $('input[name="xpath"]');
+			var xpath = $input.val();
 
 			filter = '[';
 			xpath_builder($('.filtering_rules'), 0);
@@ -1725,8 +1578,165 @@
 			$input.data('checkedValue', '');
 			$goto_element.val(1);
 			xpathChanged(true);
+			if ($('.filtering_rules').html().length) {
+				$('.filtering-output').val(window.JSON.stringify($('.filtering_rules').html()));
+			} else {
+				$('.filtering-output').val('');
+			}
 		});
 	});
+
+	/* Advanced Filtering */
+
+	$('.filtering_rules').pmxi_nestedSortable({
+		handle: 'div',
+		items: 'li',
+		toleranceElement: '> div',
+		update: function () {
+			$('.filtering_rules').find('.condition').show();
+			$('.filtering_rules').find('.condition:last').hide();
+		}
+	});
+
+	$('#pmxi_add_rule').on('click', function(){
+
+		var $el = $('#pmxi_xml_element');
+		var $rule = $('#pmxi_rule');
+		var $val = $('#pmxi_value');
+
+		if ($el.val() == "" || $rule.val() == "") return;
+
+		if ($rule.val() != 'is_empty' && $rule.val() != "is_not_empty" && $val.val() == "") return;
+
+		var relunumber = $('.filtering_rules').find('li').length + "_" + $.now();
+
+		var html = '<li><div class="drag-element">';
+		html += '<input type="hidden" value="'+ $el.val() +'" class="pmxi_xml_element"/>';
+		html += '<input type="hidden" value="'+ $rule.val() +'" class="pmxi_rule"/>';
+		html += '<input type="hidden" value="'+ $val.val() +'" class="pmxi_value"/>';
+		html += '<span class="rule_element">' + $el.val() + '</span><span class="rule_as_is">' + $rule.find('option:selected').html() + '</span><span class="rule_condition_value">"' + $val.val() +'"</span>';
+		html += '<span class="condition"> <label for="rule_and_'+relunumber+'">AND</label><input id="rule_and_'+relunumber+'" type="radio" value="and" name="rule_'+relunumber+'" checked="checked" class="rule_condition"/><label for="rule_or_'+relunumber+'">OR</label><input id="rule_or_'+relunumber+'" type="radio" value="or" name="rule_'+relunumber+'" class="rule_condition"/> </span>';
+		html += '</div><a href="javascript:void(0);" class="icon-item remove-ico"></a></li>';
+
+		$('#wpallimport-filters, #apply_filters').show();
+		$('#filtering_rules').find('p').hide();
+
+		$('.filtering_rules').append(html);
+
+		$('.filtering_rules').find('.condition').show();
+		$('.filtering_rules').find('.condition:last').hide();
+
+		$el.prop('selectedIndex',0);
+		$rule.prop('selectedIndex',0);
+		$val.val('');
+		$('#pmxi_value').show();
+		fix_tag_position();
+
+	});
+
+	$(document).on('change', '.rule_condition', function() {
+		$('input[name=' + $(this).attr('name') + ']').removeAttr('checked');
+		$(this).prop('checked', true).attr('checked', 'checked');
+	});
+
+	$(document).on('click', '.filtering_rules li a.remove-ico', function() {
+		$(this).parents('li:first').remove();
+		$('.filtering_rules').find('li:last div span.condition').hide();
+		if (!$('.filtering_rules').find('li').length){
+			$('#apply_filters').hide().trigger('click');
+			$('#filtering_rules').find('p').show();
+		}
+		fix_tag_position();
+	});
+
+	$('#pmxi_rule').on('change', function(){
+		if ($(this).val() == 'is_empty' || $(this).val() == 'is_not_empty') {
+			$('#pmxi_value').hide();
+		} else {
+			$('#pmxi_value').show();
+		}
+	});
+
+	var filter = '[';
+
+	var xpath_builder = function(rules_box, lvl){
+
+		var rules = rules_box.children('li');
+
+		var root_element = $('#root_element').val();
+
+		if (lvl && rules.length > 1) filter += ' (';
+
+		rules.each(function(){
+
+			var node = $(this).children('.drag-element').find('.pmxi_xml_element').val();
+			var condition = $(this).children('.drag-element').find('.pmxi_rule').val();
+			var value = $(this).children('.drag-element').find('.pmxi_value').val();
+
+			var clause = ($(this).children('.drag-element').find('.condition').is(':visible')) ? $(this).children('.drag-element').find('input.rule_condition:checked').val() : false;
+
+			var is_attr = false;
+
+			if (node.indexOf('@') != -1){
+				is_attr = true;
+				node_name = node.split('@')[0];
+				attr_name = node.split('@')[1];
+			}
+
+			if (is_attr) {
+				filter += (node_name == root_element) ? '' : node_name.replace(/->/g, '/');
+			} else {
+				filter += node.replace(/->/g, '/');
+			}
+
+			if (is_attr) filter += '@' + attr_name;
+
+			switch (condition){
+				case 'equals':
+					filter += ' = "%s"';
+					break;
+				case 'not_equals':
+					filter += ' != "%s"';
+					break;
+				case 'greater':
+					filter += ' > %s';
+					break;
+				case 'equals_or_greater':
+					filter += ' >= %s';
+					break;
+				case 'less':
+					filter += ' < %s';
+					break;
+				case 'equals_or_less':
+					filter += ' <= %s';
+					break;
+				case 'contains':
+					filter += '[contains(.,"%s")]';
+					break;
+				case 'not_contains':
+					filter += '[not(contains(.,"%s"))]';
+					break;
+				case 'is_empty':
+					filter += '[not(string())]';
+					break;
+				case 'is_not_empty':
+					filter += '[string()]';
+					break;
+			}
+
+			filter = filter.replace('%s', value);
+
+			if (clause) filter += ' ' + clause + ' ';
+
+			if ($(this).children('ol').length){
+				$(this).children('ol').each(function(){
+					if ($(this).children('li').length) xpath_builder($(this), 1);
+				});
+			}
+		});
+		if (lvl && rules.length > 1) filter += ') ';
+
+	}
 
 	$('form.wpallimport-choose-elements').find('input[type="submit"]').on('click', function(e){
 		e.preventDefault();
@@ -1781,7 +1791,7 @@
 				tagno = (parseInt($(this).val()) > parseInt($tag.find('.pmxi_count').html())) ? $tag.find('.pmxi_count').html() : ( (parseInt($(this).val())) ? $(this).val() : 1 );
 				$(this).val(tagno);
 				$tag.addClass('loading').css('opacity', 0.7);
-				$.post($tagURL, {tagno: tagno, import_action: import_action, security: wp_all_import_security}, function (data) {
+				$.post($tagURL, {tagno: tagno, import_action: import_action, xpath: $('input[name="xpath"]').val(), security: wp_all_import_security}, function (data) {
 					var $indicator = $('<span />').insertBefore($tag);
 					$tag.replaceWith(data.html);
 					fix_tag_position();
@@ -1916,6 +1926,49 @@
 
 	$('ol.sortable').each(function(){
 		if ( ! $(this).children('li').not('.template').length ) $(this).next('.add-new-ico').trigger('click');
+	});
+
+	$('form.wpallimport-template.edit').each(function() {
+
+		var $input = $('input[name="xpath"]');
+
+		$input.on('change', function(){
+			$('.tagno').trigger('change');
+			// console.log('XPath changed - ', $(this).val());
+			// $.post('admin.php?page=pmxi-admin-import&action=evaluate', {xpath: $(this).val(), show_element: 1, root_element:$('#root_element').val(), is_csv: $('input[name="is_csv"]').length, delimiter:$('input[name="is_csv"]').val(), security: wp_all_import_security}, function (response) {
+			// 	console.log('Rsponse - ', response);
+			// 	if (response.result){
+			// 		$('.tagno').trigger('change');
+			// 	}
+			// }, "json").fail(function() {
+			//
+			// });
+		}).trigger('change');
+		$input.on('keyup', function (e) {
+			if (13 == e.keyCode) $(this).trigger('change');
+		});
+
+		$('#apply_filters').on('click', function(){
+
+			filter = '';
+			if ($('.filtering_rules').children('li').length) {
+				filter = '[';
+				xpath_builder($('.filtering_rules'), 0);
+				filter += ']';
+			}
+
+			$input.val( $input.val().split('[')[0] + filter);
+			$input.data('checkedValue', '');
+			$input.trigger('change');
+			if ($('.filtering_rules').html().length) {
+				$('.filtering-output').val(window.JSON.stringify($('.filtering_rules').html()));
+			} else {
+				$('.filtering-output').val('');
+			}
+
+			// $goto_element.val(1);
+			// xpathChanged(true);
+		});
 	});
 
 	$('form.wpallimport-template').find('input[type=submit]').on('click', function(e){
@@ -2299,7 +2352,7 @@
 			});
 		} else {
 			$parent.addClass('closed');
-			$parent.find('.wpallimport-collapsed-content:first').slideUp();
+			$parent.find('.wpallimport-collapsed-content:first').slideUp(400);
 		}
 	});
 
@@ -2384,7 +2437,8 @@
     // [\ Delete Import]
 
 	let get_delete_missing_notice_type = function() {
-		if (!$('input[name="is_delete_missing"]').is(':checked')) {
+		let $is_delete_missing = $('input#is_delete_missing');
+		if (!$is_delete_missing.is(':checked') || $is_delete_missing.data('backups-prompt') === 'disabled') {
 			return 0;
 		}
 		if ($('input[name="delete_missing_logic"]:checked').val() == 'import' && $('input[name="delete_missing_action"]:checked').val() == 'keep' && $('input[name="is_send_removed_to_trash"]').is(':checked')) {
@@ -2488,19 +2542,20 @@
 
 	var fix_tag_position = function(){
 		if ($('.wpallimport-layout').length && $('.tag').length && $('.wpallimport-content-section').length){
-			var offset_top = $('.wpallimport-content-section').first().offset().top;
-			var position_top = offset_top - $(document).scrollTop();
-			var wordpress_adminbar_height = $('#wpadminbar').height();
+			let offset_top = $('.wpallimport-content-section').eq(0).offset().top;
+			if ($('.xpath_filtering').length) {
+				offset_top = $('.wpallimport-content-section').eq(2).offset().top;
+			}
+			let wordpress_adminbar_height = $('#wpadminbar').height();
+			let position_top = $(document).scrollTop() + wordpress_adminbar_height + 20;
 
-			$('.tag').css({'top': offset_top});
 			$('.tag').css('margin-top', '0');
 
-	        if ($(document).scrollTop() + wordpress_adminbar_height > offset_top){
-	            $('.tag').css({'top':'50px'});
-	            $('.wpallimport-xml').css({'max-height': ($(window).height() - 147) + 'px' });
+	        if (position_top > offset_top){
+				$('.tag').css({'top': position_top - offset_top});
 	        } else {
-				$('.tag').css({'top': position_top + 'px' });
-	        	$('.wpallimport-xml').css({'max-height': ($(window).height() - 220) + 'px' });
+				$('.tag').css({'top': '0' });
+				$('.wpallimport-xml').css({'max-height': ($(window).height() - 220) + 'px' });
 	        }
 	    }
 	}

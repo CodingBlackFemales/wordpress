@@ -17,10 +17,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
 /**
  * Error Boundary component (React 16)
  */
-
 class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   /**
    * Constructor
@@ -33,28 +33,27 @@ class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       hasError: false
     };
   }
+
   /**
    * To catch errors
    *
    * @param {Object} error
    * @param {Object} info
    */
-
-
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({
       hasError: true,
       error,
       info
-    }); // You can also log the error to an error reporting service
+    });
+    // You can also log the error to an error reporting service
     // console.log( error, info );
   }
+
   /**
    * Render child error message or components
    */
-
-
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
@@ -62,25 +61,22 @@ class ErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         className: this.props.className
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, this.props.message));
     }
-
     return this.props.children;
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 ErrorBoundary.propTypes = {
   children: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().node.isRequired),
   message: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string.isRequired),
   className: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
 };
+
 /**
  * When a prop is not passed down by the parent component.
  */
-
 ErrorBoundary.defaultProps = {
   message: `${LearnDashData.i18n.error}`,
   className: ''
@@ -105,6 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
 /**
  * Displays SVG Icon
  *
@@ -112,13 +109,11 @@ __webpack_require__.r(__webpack_exports__);
  * @param {string} props.icon
  * @param {string} props.stroke
  */
-
 const Icon = _ref => {
   let {
     icon,
     stroke
   } = _ref;
-
   if ('plus' === icon) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
       width: "256",
@@ -229,14 +224,12 @@ const Icon = _ref => {
       d: "M538.5,386.199L356.5,70.8c-16.4-28.4-46.7-45.9-79.501-45.9c-32.8,0-63.1,17.5-79.5,45.9L12.3,391.6 c-16.4,28.4-16.4,63.4,0,91.8C28.7,511.8,59,529.3,91.8,529.3H462.2c0.101,0,0.2,0,0.2,0c50.7,0,91.8-41.101,91.8-91.8 C554.2,418.5,548.4,400.8,538.5,386.199z M316.3,416.899c0,21.7-16.7,38.3-39.2,38.3s-39.2-16.6-39.2-38.3V416 c0-21.601,16.7-38.301,39.2-38.301S316.3,394.3,316.3,416V416.899z M317.2,158.7L297.8,328.1c-1.3,12.2-9.4,19.8-20.7,19.8 s-19.4-7.7-20.7-19.8L237,158.6c-1.3-13.1,5.801-23,18-23H299.1C311.3,135.7,318.5,145.6,317.2,158.7z"
     }));
   }
-
   return null;
 };
+
 /**
  * Valid props
  */
-
-
 Icon.propTypes = {
   icon: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string),
   stroke: (prop_types__WEBPACK_IMPORTED_MODULE_1___default().string)
@@ -266,8 +259,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // If in post editor screen
 
+
+// If in post editor screen
 if (document.location.href.includes('post.php') || document.location.href.includes('post-new.php')) {
   // Hook into Gutenberg Middleware
   if (wp.apiFetch) {
@@ -277,48 +271,39 @@ if (document.location.href.includes('post.php') || document.location.href.includ
       const uri = window.location.href;
       const match = uri.match(re);
       const course_id = match && match[0] && match[0].substring(11);
-
       if (course_id && options && options.data) {
         // Pass course_id to POST data
         options.data.course_id = course_id;
       }
-
       const result = next(options);
       return result;
     });
   }
 }
+
 /**
  * Display top level header on the page.
  *
  * @param {Object} props
  * @param {string} props.el
  */
-
-
 const GlobalHeader = _ref => {
   let {
     el
   } = _ref;
-
   if (document.getElementById(el)) {
     let post_type = null;
-
     if (LearnDashData.post_data) {
       post_type = LearnDashData.post_data.builder_post_type;
     }
-
     let url = `${LearnDashData.adminurl}?post_type=${post_type}`;
     let title = `${LearnDashData.i18n.back_to} ${LearnDashData.labels[post_type]}`;
-
     if (LearnDashData.back_to_title) {
       title = LearnDashData.back_to_title;
     }
-
     if (LearnDashData.back_to_url) {
       url = LearnDashData.back_to_url;
     }
-
     return /*#__PURE__*/react_dom__WEBPACK_IMPORTED_MODULE_1__.createPortal( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ld-global-header edit-post-header"
     }, LearnDashData.post_data && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -328,14 +313,12 @@ const GlobalHeader = _ref => {
       className: "ld-back-link"
     }, "\u2190 ", title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_post_title__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_tabs__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById(el));
   }
-
   return null;
 };
+
 /**
  * Valid props
  */
-
-
 GlobalHeader.propTypes = {
   el: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().string)
 };
@@ -356,10 +339,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
+
 /**
  * Render post title in the Entity Header
  */
-
 class PostTitle extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -368,29 +351,26 @@ class PostTitle extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
    */
   constructor(props) {
     super(props);
+
     /**
      * Post title data
      */
-
     this.state = {
       original_post_title: LearnDashData.post_data ? LearnDashData.post_data.builder_post_title : '',
       post_title: LearnDashData.post_data ? LearnDashData.post_data.builder_post_title : ''
     };
   }
+
   /**
    * Update header title when updating title in Gutenberg or classic editor
    */
-
-
   componentDidMount() {
-    const self = this; // Look for changes in #editor in Gutenberg
-
+    const self = this;
+    // Look for changes in #editor in Gutenberg
     const editorContainer = document.getElementById('editor');
-
     if (editorContainer) {
       const observer = new MutationObserver(() => {
         const titleField = editorContainer.querySelector('.editor-post-title__input');
-
         if (titleField) {
           titleField.addEventListener('input', function (e) {
             const {
@@ -412,7 +392,6 @@ class PostTitle extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       observer.observe(editorContainer, observerConfig);
     } else {
       const titleFieldClassic = document.getElementById('title');
-
       if (titleFieldClassic) {
         titleFieldClassic.addEventListener('input', function (e) {
           self.setState({
@@ -422,11 +401,10 @@ class PostTitle extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }
     }
   }
+
   /**
    * Render the post title component
    */
-
-
   render() {
     const {
       original_post_title,
@@ -438,9 +416,7 @@ class PostTitle extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }
     });
   }
-
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PostTitle);
 
 /***/ }),
@@ -462,12 +438,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _common_icon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../common/icon */ "./src/components/common/icon/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* eslint-disable @wordpress/no-global-event-listener */
+
 
 
 
@@ -475,7 +451,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Render tabs in the Entity Header
  */
-
 class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
   /**
    * Constructor
@@ -483,10 +458,10 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
    * @param {Object} props
    */
   constructor(props) {
-    super(props); // If there is a currentTab defined, use the currentTab ID, if not, use the first tab.
+    super(props);
 
+    // If there is a currentTab defined, use the currentTab ID, if not, use the first tab.
     let activeTab;
-
     if ('' === this.props.data.currentTab) {
       if (0 < this.props.data.tabs.length) {
         activeTab = this.props.data.tabs[0].id;
@@ -496,11 +471,10 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     } else {
       activeTab = this.props.data.currentTab;
     }
+
     /**
      * Tabs data
      */
-
-
     this.state = {
       currentTab: activeTab,
       tabs: this.props.data.tabs || [],
@@ -513,37 +487,33 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.showMetaboxesDocumentSidebar = this.showMetaboxesDocumentSidebar.bind(this);
   }
+
   /**
    * Hide all tabs except the first
    * Add mousedown event
    */
-
-
   componentDidMount() {
     const {
       tabs,
       currentTab,
       addNewEntityButton
     } = this.state;
-
     if (addNewEntityButton === null) {
       this.setState({
         addNewEntityButton: document.querySelector('.page-title-action')
       });
-    } // The page has tabs, add a class to body to push down Gutenberg if needed
+    }
 
-
+    // The page has tabs, add a class to body to push down Gutenberg if needed
     if (0 !== tabs.length) {
       document.body.classList.add('ld-header-has-tabs');
-    } // Look for changes in #editor in Gutenberg
+    }
 
-
+    // Look for changes in #editor in Gutenberg
     const editorContainer = document.getElementById('editor');
-
     if (editorContainer) {
       const observer = new MutationObserver(() => {
         const editor = document.querySelector('.edit-post-visual-editor');
-
         if (editor) {
           editor.id = 'post-body-content';
           editor.classList.add('tab-content');
@@ -556,45 +526,43 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
         characterData: false
       };
       observer.observe(editorContainer, observerConfig);
-    } // Add necessary class to Gutenberg editor
+    }
 
-
+    // Add necessary class to Gutenberg editor
     window.addEventListener('load', () => {
       tabs.forEach(tab => {
         const tabEl = document.querySelector('#' + tab.id);
-
         if (tabEl) {
-          tabEl.classList.add('tab-content'); // Hide all tabs except the current tab
-
+          tabEl.classList.add('tab-content');
+          // Hide all tabs except the current tab
           if (tab.id !== currentTab) {
             tabEl.setAttribute('aria-hidden', true);
           }
         }
       });
-      document.body.classList.add('ld-tabs-ready'); // Initialize Metaboxes
+      document.body.classList.add('ld-tabs-ready');
 
+      // Initialize Metaboxes
       this.showMetaboxesDocumentSidebar(currentTab);
-    }); // Set active tab data
+    });
 
+    // Set active tab data
     if ('' !== currentTab) {
       document.body.setAttribute('data-active-tab', currentTab);
     }
-
     document.addEventListener('mousedown', this.handleClickOutside);
   }
+
   /**
    * Remove mousedown event
    */
-
-
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
   }
+
   /**
    * Handle Actions click
    */
-
-
   handleActions() {
     this.setState(_ref => {
       let {
@@ -605,13 +573,12 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       };
     });
   }
+
   /**
    * Handle clicking on DOM
    *
    * @param {handleClickOutside} e
    */
-
-
   handleClickOutside(e) {
     if (this.dropdownRef.current && !this.dropdownRef.current.contains(e.target)) {
       this.setState(() => ({
@@ -619,13 +586,12 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }));
     }
   }
+
   /**
    * Switch tab on button click
    *
    * @param {handleTabClick} e
    */
-
-
   handleTabClick(e) {
     e.preventDefault();
     const {
@@ -635,25 +601,20 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       target
     } = e;
     const controlledTab = target.getAttribute('aria-controls');
-
     if (controlledTab) {
       document.body.setAttribute('data-active-tab', controlledTab);
-
       if (document.querySelector('button[data-label="Document"]')) {
         document.querySelector('button[data-label="Document"]').click();
       }
-
       this.showMetaboxesDocumentSidebar(controlledTab);
     } else {
       document.body.removeAttribute('data-active-tab');
     }
-
     this.setState({
       currentTab: controlledTab
     });
     tabs.forEach(tab => {
       const tabEl = document.querySelector('#' + tab.id);
-
       if (tabEl) {
         if (tab.id !== controlledTab) {
           tabEl.setAttribute('aria-hidden', true);
@@ -661,27 +622,31 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
           tabEl.setAttribute('aria-hidden', false);
         }
       }
-    }); // Get last bit of URL including query strings.
+    });
 
-    const lastPartOfUrl = window.location.href.substr(window.location.href.lastIndexOf('/') + 1); // Get currentTab if it isn't the first tab (index 0)
+    // Get last bit of URL including query strings.
+    const lastPartOfUrl = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
 
+    // Get currentTab if it isn't the first tab (index 0)
     let selectedTab = this.state.tabs && this.state.tabs.filter((tab, index) => controlledTab === tab.id && 0 !== index);
-    selectedTab = selectedTab[0] ? selectedTab[0].id : null; // Set the URL with currentTab. Refreshing will preserve the current tab.
+    selectedTab = selectedTab[0] ? selectedTab[0].id : null;
+
+    // Set the URL with currentTab. Refreshing will preserve the current tab.
     // replaceState() modifies the current history entry instead of creating a new one.
+    window.history.replaceState({}, '', this.updateQueryStringParameter(lastPartOfUrl, 'currentTab', selectedTab));
 
-    window.history.replaceState({}, '', this.updateQueryStringParameter(lastPartOfUrl, 'currentTab', selectedTab)); // Set the selectedTab value to ld_post_edit_current_tab input field
-
+    // Set the selectedTab value to ld_post_edit_current_tab input field
     const ld_post_edit_current_tab = document.getElementById('ld_post_edit_current_tab');
-
     if (ld_post_edit_current_tab) {
       ld_post_edit_current_tab.value = selectedTab;
     }
-
     try {
       window.scrollTo(0, 0);
-    } catch (e) {// unsupported browser
+    } catch (e) {
+      // unsupported browser
     }
   }
+
   /**
    * Update or Add a Query String Param
    *
@@ -689,62 +654,56 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
    * @param {string} key
    * @param {string} value
    */
-
-
   updateQueryStringParameter(uri, key, value) {
     const re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
     const separator = -1 !== uri.indexOf('?') ? '&' : '?';
-
     if (uri.match(re)) {
       if (value) {
         return uri.replace(re, '$1' + key + '=' + value + '$2');
       }
-
       return uri.replace(re, '');
     }
-
     return uri + separator + key + '=' + value;
   }
+
   /**
    * Hide all existing Metaboxes and only show the ones that are needed on a particular tab
    * Show the Document Sidebar only when needed
    *
    * @param {number} controlledTab
    */
-
-
   showMetaboxesDocumentSidebar(controlledTab) {
     // Only run code on post edit screens - because these pages don't reload when changing tabs
     if (document.location.href.includes('post.php') || document.location.href.includes('post-new.php')) {
       // Get all known metaboxes via the LearnDashData var onto an array
       let allKnownMetaboxes = [];
-
       if (LearnDashData.tabs) {
         LearnDashData.tabs.forEach(tab => {
           if (tab.metaboxes) {
             allKnownMetaboxes = [...allKnownMetaboxes, ...tab.metaboxes];
           }
         });
-      } // Get Metabox containers in WordPress
+      }
 
+      // Get Metabox containers in WordPress
+      const metaboxesParents = document.querySelectorAll('#normal-sortables,#advanced-sortables');
 
-      const metaboxesParents = document.querySelectorAll('#normal-sortables,#advanced-sortables'); // Loop through the two Metabox containers
-
+      // Loop through the two Metabox containers
       for (const parent of metaboxesParents) {
         // Hide all existing Metaboxes in the screen
-        let currentMetaboxes = parent.querySelectorAll('.postbox:not(.tab-content)'); // Converting NodeList to Array to make it work on IE
+        let currentMetaboxes = parent.querySelectorAll('.postbox:not(.tab-content)');
 
+        // Converting NodeList to Array to make it work on IE
         currentMetaboxes = currentMetaboxes && Array.from(currentMetaboxes);
-
         if (currentMetaboxes) {
           currentMetaboxes.forEach(metabox => {
             metabox.style.display = 'none';
           });
         }
-
         let firstTab = this.state.tabs && this.state.tabs.filter((tab, index) => 0 === index);
-        firstTab = firstTab[0] ? firstTab[0].id : null; // If selected tab is the 'Courses page' tab
+        firstTab = firstTab[0] ? firstTab[0].id : null;
 
+        // If selected tab is the 'Courses page' tab
         if (firstTab === controlledTab) {
           if (currentMetaboxes) {
             currentMetaboxes.forEach(metabox => {
@@ -754,56 +713,50 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
           }
         }
       }
-    } // Show only relevant Metaboxes and hide Document Sidebar when not needed
+    }
 
-
+    // Show only relevant Metaboxes and hide Document Sidebar when not needed
     this.state.tabs.forEach(tab => {
       if (controlledTab === tab.id) {
         if (tab.metaboxes) {
           tab.metaboxes.forEach(metabox => {
             const selectedMetabox = document.getElementById(metabox);
-
             if (selectedMetabox) {
               selectedMetabox.style.display = 'block';
             }
           });
-        } // Get reference to .edit-post-sidebar and .edit-post-layout__content elements
+        }
 
-
+        // Get reference to .edit-post-sidebar and .edit-post-layout__content elements
         const documentSidebar = document.querySelector('.edit-post-sidebar');
         const documentLayoutContent = document.querySelector('.edit-post-layout__content');
         const gearIcon = document.querySelector('.components-button.components-icon-button[aria-label="Settings"]');
-        const noticeList = document.querySelector('.edit-post-layout.is-sidebar-opened .components-notice-list'); // If elements exist and if sidebar is to be hidden
+        const noticeList = document.querySelector('.edit-post-layout.is-sidebar-opened .components-notice-list');
 
+        // If elements exist and if sidebar is to be hidden
         if (documentSidebar && documentLayoutContent && tab.showDocumentSidebar && 'false' === tab.showDocumentSidebar) {
           documentSidebar.style.display = 'none';
-
           if (window.isRtl) {
             documentLayoutContent.style.marginLeft = 0;
           } else {
             documentLayoutContent.style.marginRight = 0;
           }
-
           if (gearIcon) {
             gearIcon.style.display = 'none';
           }
-
           if (noticeList) {
             noticeList.style.right = 0;
           }
         } else if (documentSidebar && documentLayoutContent) {
           documentSidebar.style.display = 'block';
-
           if (window.isRtl) {
             documentLayoutContent.style.marginLeft = null;
           } else {
             documentLayoutContent.style.marginRight = null;
           }
-
           if (gearIcon) {
             gearIcon.style.display = null;
           }
-
           if (noticeList) {
             noticeList.style.right = null;
           }
@@ -811,14 +764,13 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
       }
     });
   }
+
   /**
    * Render the tabs component
    *
    * @event handleClickOutside
    * @event handleTabClick
    */
-
-
   render() {
     const {
       tabs,
@@ -828,12 +780,10 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     } = this.state;
     const currentTabObject = tabs.filter(tab => currentTab === tab.id)[0] || tabs[0];
     const hasActions = currentTabObject && 'actions' in currentTabObject && 0 !== currentTabObject.actions.length;
-
     if (0 !== tabs.length) {
       if (addNewEntityButton) {
         addNewEntityButton.remove();
       }
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "ld-global-header-new-settings"
       }, addNewEntityButton && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
@@ -893,32 +843,27 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
         }
       }))));
     }
-
     return null;
   }
-
 }
+
 /**
  * Valid props
  */
-
-
 Tabs.propTypes = {
   data: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().object)
 };
+
 /**
  *
  * @param {*} state
  */
-
 const mapStateToProps = state => _objectSpread({}, state);
+
 /**
  *
  */
-
-
 const mapDispatchToProps = () => ({});
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(Tabs));
 
 /***/ }),
@@ -1031,14 +976,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util */ "./src/util/index.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
- // Default state for the data
-
+// Default state for the data
 const defaultState = {
   currentTab: LearnDashData.currentTab && LearnDashData.currentTab,
   tabs: LearnDashData.tabs && LearnDashData.tabs || '',
@@ -1050,17 +995,16 @@ const defaultState = {
   labels: LearnDashData.labels && LearnDashData.labels,
   questions: LearnDashData.questions && LearnDashData.questions || ''
 };
+
 /**
  * Initial raw data
  *
  * @param {*} state
  * @param {*} action
  */
-
 const data = function () {
   let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
   let action = arguments.length > 1 ? arguments[1] : undefined;
-
   switch (action.type) {
     // Sets the data for each entity.
     case _constants__WEBPACK_IMPORTED_MODULE_1__.INIT_DATA:
@@ -1069,8 +1013,8 @@ const data = function () {
           [action.payload.field]: action.payload.data
         });
       }
-    // Adds a new lesson entity in the raw data
 
+    // Adds a new lesson entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_LESSON:
       {
         const lessons = Object.values(state.lessons);
@@ -1079,8 +1023,8 @@ const data = function () {
           lessons
         });
       }
-    // Adds a new topic entity in the raw data
 
+    // Adds a new topic entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_TOPIC:
       {
         const topics = Object.values(state.topics);
@@ -1089,8 +1033,8 @@ const data = function () {
           topics
         });
       }
-    // Adds a new quiz entity in the raw data
 
+    // Adds a new quiz entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUIZ:
       {
         const quizzes = Object.values(state.quizzes);
@@ -1099,8 +1043,8 @@ const data = function () {
           quizzes
         });
       }
-    // Adds a new question entity in the raw data
 
+    // Adds a new question entity in the raw data
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUESTION:
     case _constants__WEBPACK_IMPORTED_MODULE_1__.ADD_QUESTION_ENTITY:
       {
@@ -1110,8 +1054,8 @@ const data = function () {
           questions
         });
       }
-    // Updates the title for a node
 
+    // Updates the title for a node
     case _constants__WEBPACK_IMPORTED_MODULE_1__.UPDATE_NODE_TITLE:
       {
         if (action.payload.ID && action.payload.post_title) {
@@ -1127,11 +1071,9 @@ const data = function () {
           };
           const stateObject = Object.values(state[nodeMap[action.payload.type]]);
           const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(stateObject, action.payload.ID);
-
           if (node) {
             node.post_title = action.payload.post_title;
           }
-
           if ('lesson' === action.payload.type) {
             return _objectSpread(_objectSpread({}, state), {}, {
               lessons: stateObject
@@ -1150,10 +1092,8 @@ const data = function () {
             });
           }
         }
-
         return state;
       }
-
     default:
       return state;
   }
@@ -1201,12 +1141,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_undo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-undo */ "./node_modules/redux-undo/lib/index.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/constants/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* eslint-disable @wordpress/no-unused-vars-before-return */
+
 
 
 
@@ -1214,7 +1154,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  * Initial state of the app
  */
-
 const initialState = {
   disabledDrop: false,
   currentDraggableEntity: null,
@@ -1229,14 +1168,13 @@ const initialState = {
   expandAll: false,
   expandedItems: [],
   refresh: null // which data we need to refresh
+};
 
-}; // Check if we have existing lessons/questions, set the first entity as the active one.
-
+// Check if we have existing lessons/questions, set the first entity as the active one.
 if (LearnDashData.post_data && 'sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
   if (LearnDashData.outline && LearnDashData.outline.lessons && LearnDashData.outline.lessons.length) {
     // get index of first lesson (skip section heading)
     const firstLesson = LearnDashData.outline.lessons.findIndex(node => 'sfwd-lessons' === node.type);
-
     if (LearnDashData.outline.lessons[firstLesson]) {
       initialState.activeLesson = LearnDashData.outline.lessons[firstLesson].ID;
     }
@@ -1245,25 +1183,23 @@ if (LearnDashData.post_data && 'sfwd-quiz' !== LearnDashData.post_data.builder_p
   initialState.activeLesson = LearnDashData.outline.questions[0].ID;
   LearnDashData.outline.questions[0].expanded = true;
 }
+
 /**
  * Workspace related actions here.
  *
  * @param {*} state
  * @param {*} action
  */
-
-
 const workspaceReducer = function () {
   let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   let action = arguments.length > 1 ? arguments[1] : undefined;
-  const immutableLessons = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.lessons); // Final quizzes, which are separate from lessons (which can contain topics and quizzes)
-
-  const immutableQuizzes = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.quizzes); // Questions
-
-  const immutableQuestions = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.questions); // Sections
-
+  const immutableLessons = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.lessons);
+  // Final quizzes, which are separate from lessons (which can contain topics and quizzes)
+  const immutableQuizzes = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.quizzes);
+  // Questions
+  const immutableQuestions = (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.questions);
+  // Sections
   const immutableSections = state.sections ? (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)(state.sections) : (0,immutable__WEBPACK_IMPORTED_MODULE_3__.fromJS)([]);
-
   switch (action.type) {
     /**
      * Update the lessons field in the store.
@@ -1278,7 +1214,6 @@ const workspaceReducer = function () {
     /**
      * Update the sections field in the store.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_SECTION_HEADINGS:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1289,16 +1224,16 @@ const workspaceReducer = function () {
     /**
      * Adds a new lesson within the workspace at a specific position
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON_ENTITY:
       {
-        let index = action.payload.index; // Check if we have a valid index.
+        let index = action.payload.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.lessons.length;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const lessons = immutableLessons.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -1308,10 +1243,12 @@ const workspaceReducer = function () {
           expanded: false,
           type: 'sfwd-lessons',
           post_status: action.payload.post_status
-        }).toJS(); // Set the active lesson which is the newly added one.
+        }).toJS();
 
-        const activeLesson = action.payload.ID; // which data we need to refresh
+        // Set the active lesson which is the newly added one.
+        const activeLesson = action.payload.ID;
 
+        // which data we need to refresh
         const refresh = 'lesson';
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
@@ -1324,23 +1261,22 @@ const workspaceReducer = function () {
      * Adds a new section heading within the workspace at a specific position
      * Adds to workspace lesson but also to workspace sections
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_SECTION_HEADING_ENTITY:
       {
         let index = action.payload.index;
-        let lessonIndex = 0; // Check if we have a valid index.
+        let lessonIndex = 0;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.lessons.length;
         }
-
         if (state.activeLesson) {
           lessonIndex = immutableLessons.findIndex(node => node.get('ID') === state.activeLesson);
         } else {
           lessonIndex = index;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const lessons = immutableLessons.insert(parseInt(lessonIndex + 1, 10), {
           order: action.payload.order,
           ID: action.payload.ID,
@@ -1360,8 +1296,9 @@ const workspaceReducer = function () {
           tree: [],
           expanded: false,
           type: 'section-heading'
-        }).toJS(); // which data we need to refresh
+        }).toJS();
 
+        // which data we need to refresh
         const refresh = 'lesson';
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
@@ -1373,7 +1310,6 @@ const workspaceReducer = function () {
     /**
      * Sets the active lesson in the workspace.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1384,30 +1320,29 @@ const workspaceReducer = function () {
     /**
      * Adds a new topic to a lesson
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_TOPIC_ENTITY:
       {
         let topicDestinationIndex = 0;
         let lessonIndex = null;
-        let activeLesson = state.activeLesson; // We are passing a parent to which the topic will be added to.
+        let activeLesson = state.activeLesson;
 
+        // We are passing a parent to which the topic will be added to.
         if (action.parent) {
           // get parent node
-          lessonIndex = immutableLessons.findIndex(node => node.get('ID') === action.parent); // If we found the parent node.
+          lessonIndex = immutableLessons.findIndex(node => node.get('ID') === action.parent);
 
+          // If we found the parent node.
           if (-1 !== lessonIndex) {
             // Get the tree
             const parentNode = immutableLessons.get(lessonIndex);
             const parentNodeTree = parentNode.get('tree');
             topicDestinationIndex = action.destinationIndex;
             activeLesson = action.parent;
-
             if (0 < topicDestinationIndex || null === topicDestinationIndex) {
               // if we are trying to drop before a quiz, find the first quiz index and insert topic at that index
               const firstQuizIndex = parentNodeTree.findIndex(el => {
                 return 'quiz' === el.get('type') || 'sfwd-quiz' === el.get('type');
               });
-
               if (-1 !== firstQuizIndex) {
                 topicDestinationIndex = firstQuizIndex;
               } else {
@@ -1418,36 +1353,36 @@ const workspaceReducer = function () {
         } else if (state.activeLesson) {
           // Get the active lesson
           lessonIndex = immutableLessons.findIndex(node => node.get('ID') === state.activeLesson);
-
           if (-1 !== lessonIndex) {
             const activeLessonNode = immutableLessons.get(lessonIndex);
             const activeLessonTree = activeLessonNode.get('tree');
             topicDestinationIndex = activeLessonTree.size;
-
             if (undefined === action.payload.destinationIndex) {
               // if we are trying to drop before a quiz, find the first quiz index and insert topic at that index
               const firstQuizIndex = activeLessonTree.findIndex(el => {
                 return 'quiz' === el.get('type') || 'sfwd-quiz' === el.get('type');
               });
-
               if (-1 !== firstQuizIndex) {
                 topicDestinationIndex = firstQuizIndex;
               }
             }
           }
-        } // Add extra information.
+        }
 
-
+        // Add extra information.
         action.payload.type = 'sfwd-topic';
         action.payload.tree = [];
-        action.payload.expanded = false; // Make the update
+        action.payload.expanded = false;
 
+        // Make the update
         const lessons = immutableLessons.updateIn([lessonIndex, 'tree'], tree => {
           return tree.insert(topicDestinationIndex, action.payload);
-        }).toJS(); // which data we need to refresh
+        }).toJS();
 
-        const refresh = 'topic'; // Return with updated values if any.
+        // which data we need to refresh
+        const refresh = 'topic';
 
+        // Return with updated values if any.
         return _objectSpread(_objectSpread({}, state), {}, {
           lessons,
           activeLesson,
@@ -1458,42 +1393,42 @@ const workspaceReducer = function () {
     /**
      * Adds a new quiz entity to the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_QUIZ_ENTITY:
       {
         // Default values
         let nodePath = -1;
-        let activeLesson = state.activeLesson; // add some extra data.
+        let activeLesson = state.activeLesson;
 
+        // add some extra data.
         action.payload.type = 'sfwd-quiz';
         action.payload.expanded = false;
-
         if (action.parent) {
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.lessons, action.parent, true);
           activeLesson = action.parent;
         } else if (state.activeLesson) {
           // Adds quiz to the current active lesson. Get the active lesson first.
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.lessons, state.activeLesson, true);
-        } // If we have a path
+        }
 
-
+        // If we have a path
         if (-1 !== nodePath) {
           // Make the update.
           const lessons = immutableLessons.updateIn(nodePath, tree => {
             return tree.push(action.payload);
-          }).toJS(); // which data we need to refresh
+          }).toJS();
 
+          // which data we need to refresh
           const refresh = 'quiz';
           return _objectSpread(_objectSpread({}, state), {}, {
             lessons,
             activeLesson,
             refresh
           });
-        } // there is no active lesson, add to final quizzes
+        }
+        // there is no active lesson, add to final quizzes
+        const index = state.quizzes.length;
 
-
-        const index = state.quizzes.length; // Use the insert method to add the new object.
-
+        // Use the insert method to add the new object.
         const quizzes = immutableQuizzes.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -1511,7 +1446,6 @@ const workspaceReducer = function () {
     /**
      * Update the questions field in the store.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTIONS:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1522,17 +1456,17 @@ const workspaceReducer = function () {
     /**
      * Adds a new question within the workspace at a specific position
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_QUESTION_ENTITY:
       {
-        let index = action.payload.index; // Check if we have a valid index.
+        let index = action.payload.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.questions.length;
-        } // answers objects when none are provided.
+        }
+
+        // answers objects when none are provided.
         // this need to match backend defaults
-
-
         const newAnswerObject = {
           answer: '',
           correct: false,
@@ -1553,8 +1487,9 @@ const workspaceReducer = function () {
           free_answer: [newAnswerObject],
           matrix_sort_answer: [newAnswerObject],
           sort_answer: [newAnswerObject]
-        }; // Use the insert method to add the new object.
+        };
 
+        // Use the insert method to add the new object.
         const questions = immutableQuestions.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -1567,10 +1502,12 @@ const workspaceReducer = function () {
           expanded: false,
           type: 'sfwd-question',
           post_status: action.payload.post_status
-        }).toJS(); // Set the active lesson which is the newly added one.
+        }).toJS();
 
-        const activeLesson = action.payload.ID; // which data we need to refresh
+        // Set the active lesson which is the newly added one.
+        const activeLesson = action.payload.ID;
 
+        // which data we need to refresh
         const refresh = 'question';
         return _objectSpread(_objectSpread({}, state), {}, {
           questions,
@@ -1582,7 +1519,6 @@ const workspaceReducer = function () {
     /**
      * Adds a new answer within the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_ANSWER_ENTITY:
       {
         let questions = state.questions;
@@ -1590,7 +1526,6 @@ const workspaceReducer = function () {
         const parentIndex = immutableQuestions.findIndex(node => node.get('ID') === action.parent.ID);
         const index = state.questions[parentIndex].answers[answerType].length + 1;
         const nodePath = [parentIndex, 'answers', answerType, action.payload.index];
-
         if (nodePath.length) {
           // we need to update a tree
           const treePath = nodePath.slice(0, nodePath.length - 1);
@@ -1601,21 +1536,18 @@ const workspaceReducer = function () {
             questions
           });
         }
-
         return state;
       }
 
     /**
      * Removes an answer within the workspace
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_ANSWER_ENTITY:
       {
         let questions = state.questions;
         const answerType = LearnDashData.questions_types_map[action.parent.question_type];
         const parentIndex = immutableQuestions.findIndex(node => node.get('ID') === action.parent.ID);
         const nodePath = [parentIndex, 'answers', answerType, action.payload];
-
         if (nodePath.length) {
           // we need to update a tree
           const treePath = nodePath.slice(0, nodePath.length - 1);
@@ -1626,14 +1558,12 @@ const workspaceReducer = function () {
             questions
           });
         }
-
         return state;
       }
 
     /**
      * Updates a node title.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_WORKSPACE_NODE_TITLE:
       {
         if (action.payload.ID && action.payload.post_title) {
@@ -1642,53 +1572,47 @@ const workspaceReducer = function () {
             lessons: state.lessons,
             questions: state.questions
           };
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
           } else {
             type = 'lessons';
           }
-
           const entityObject = Object.values(entities[type]);
           const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(entityObject, action.payload.ID);
-
           if (node) {
             node.post_title = action.payload.post_title;
             return _objectSpread(_objectSpread({}, state), {}, {
               [type]: entities[type]
             });
-          } // try to look into the quizzes
+          }
 
-
+          // try to look into the quizzes
           const quizzes = Object.values(state.quizzes);
           const quizNode = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(quizzes, action.payload.ID);
-
           if (quizNode) {
             quizNode.post_title = action.payload.post_title;
             return _objectSpread(_objectSpread({}, state), {}, {
               quizzes
             });
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Adds a quiz to the final quizzes section.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_FINAL_QUIZ_ENTITY:
       {
-        let index = action.index; // Check if we have a valid index.
+        let index = action.index;
 
+        // Check if we have a valid index.
         if (undefined === index || isNaN(index)) {
           index = state.quizzes.length;
-        } // Use the insert method to add the new object.
+        }
 
-
+        // Use the insert method to add the new object.
         const quizzes = immutableQuizzes.insert(index, {
           ID: action.payload.ID,
           post_title: action.payload.post_title,
@@ -1706,7 +1630,6 @@ const workspaceReducer = function () {
     /**
      * Used when sorting quizzes.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SORT_FINAL_QUIZZES_OUTLINE:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1717,7 +1640,6 @@ const workspaceReducer = function () {
     /**
      * Remove any entity from the workspace based on the entity ID
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY:
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_SECTION_HEADING_ENTITY:
     case _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_ENTITY:
@@ -1731,66 +1653,59 @@ const workspaceReducer = function () {
             questions: state.questions
           };
           let immutableEntities = null;
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
             immutableEntities = immutableQuestions;
           } else {
             type = 'lessons';
             immutableEntities = immutableLessons;
-          } // Whether we found the node.
+          }
+          // Whether we found the node.
+          let found = false;
 
-
-          let found = false; // Look if we need to remove a lesson.
-
+          // Look if we need to remove a lesson.
           const nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(entities[type], action.payload.ID);
-
           if (-1 !== nodePath) {
             entities[type] = immutableEntities.deleteIn(nodePath).toJS();
             found = true;
-            const activeLesson = 0 < entities[type].length ? entities[type][0].ID : null; // Found, return updated entities.
+            const activeLesson = 0 < entities[type].length ? entities[type][0].ID : null;
 
+            // Found, return updated entities.
             return _objectSpread(_objectSpread({}, state), {}, {
               [type]: entities[type],
               activeLesson
             });
           }
-
           if ('sfwd-quiz' !== LearnDashData.post_data.builder_post_type) {
             // if node has not been found in lessons, look into final quizzes
             if (!found) {
               const quizNodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(state.quizzes, action.payload.ID);
-
               if (-1 !== quizNodePath) {
                 quizzes = immutableQuizzes.deleteIn(quizNodePath).toJS();
               }
-
               return _objectSpread(_objectSpread({}, state), {}, {
                 quizzes
               });
             }
-          } // Return everything now.
+          }
 
-
+          // Return everything now.
           return _objectSpread(_objectSpread({}, state), {}, {
             [type]: entities[type],
             quizzes
           });
         }
-
         return state;
       }
 
     /**
      * Moves an entity up or down
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.MOVE_ENTITY:
       {
         if (!action.payload) {
           return state;
         }
-
         let type = '';
         let nodePath = [];
         const entities = {
@@ -1798,7 +1713,6 @@ const workspaceReducer = function () {
           lessons: state.lessons
         };
         let immutableEntities = null;
-
         if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
           type = 'questions';
           immutableEntities = immutableQuestions;
@@ -1806,26 +1720,24 @@ const workspaceReducer = function () {
           type = 'lessons';
           immutableEntities = immutableLessons;
         }
-
         if ('answer' === action.payload.type) {
           const parentIndex = immutableEntities.findIndex(node => node.get('ID') === action.payload.parentID);
           nodePath = [parentIndex, 'answers', action.payload.answerType, action.payload.index];
         } else {
           nodePath = (0,_util__WEBPACK_IMPORTED_MODULE_0__.getNodePath)(entities[type], action.payload.ID, false);
         }
-
         if (nodePath.length) {
           // Get the index of the node which is the last element in the array.
           const currentIndex = nodePath[nodePath.length - 1];
-          const currentNode = immutableEntities.getIn(nodePath); // set the new index depending on the direction.
+          const currentNode = immutableEntities.getIn(nodePath);
 
+          // set the new index depending on the direction.
           let newIndex = currentIndex + 1;
-
           if ('up' === action.direction) {
             newIndex = currentIndex - 1;
-          } // We are at the top level
+          }
 
-
+          // We are at the top level
           if (1 === nodePath.length) {
             entities[type] = immutableEntities.deleteIn(nodePath).insert(newIndex, currentNode).toJS();
           } else {
@@ -1835,19 +1747,16 @@ const workspaceReducer = function () {
               return tree.delete(currentIndex).insert(newIndex, currentNode);
             }).toJS();
           }
-
           return _objectSpread(_objectSpread({}, state), {}, {
             [type]: entities[type]
           });
         }
-
         return state;
       }
 
     /**
      * Sets the draggable and droppable entities.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1859,7 +1768,6 @@ const workspaceReducer = function () {
     /**
      * Sets the is drop disabled value
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON:
       {
         return _objectSpread(_objectSpread({}, state), {}, {
@@ -1871,7 +1779,6 @@ const workspaceReducer = function () {
      * Used for the global expand/collapse all
      * Only affects top level items (lessons in course builder or questions in quiz builder)
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL:
       {
         let type = '';
@@ -1879,25 +1786,24 @@ const workspaceReducer = function () {
           questions: state.questions,
           lessons: state.lessons
         };
-
         if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
           type = 'questions';
         } else {
           type = 'lessons';
-        } // Get all the top level items (ignore section headings)
+        }
 
+        // Get all the top level items (ignore section headings)
+        const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type);
 
-        const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type); // Everything was already expanded, so collapse all
-
+        // Everything was already expanded, so collapse all
         if (state.expandAll) {
           return _objectSpread(_objectSpread({}, state), {}, {
             expandedItems: [],
             expandAll: false
           });
-        } // Everything was collapsed, so expand all
+        }
+        // Everything was collapsed, so expand all
         // Add all top level items IDs in expandedItems
-
-
         return _objectSpread(_objectSpread({}, state), {}, {
           expandedItems: realBuilderItems.map(item => item.ID),
           expandAll: true
@@ -1907,7 +1813,6 @@ const workspaceReducer = function () {
     /**
      * Used for the entity expand/collapse
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY:
       {
         if (action.payload.ID) {
@@ -1917,20 +1822,21 @@ const workspaceReducer = function () {
             questions: state.questions,
             lessons: state.lessons
           };
-
           if ('sfwd-quiz' === LearnDashData.post_data.builder_post_type) {
             type = 'questions';
           } else {
             type = 'lessons';
-          } // Get all the top level items (ignore section headings)
+          }
 
+          // Get all the top level items (ignore section headings)
+          const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type);
 
-          const realBuilderItems = entities[type].filter(node => 'sfwd-lessons' === node.type || 'sfwd-question' === node.type); // Expand/Collapse lessons or questions
-
+          // Expand/Collapse lessons or questions
           if ('sfwd-lessons' === action.payload.type || 'sfwd-question' === action.payload.type) {
-            const isExpanded = -1 !== state.expandedItems.indexOf(action.payload.ID); // If the item is not expanded, add it to expandedItems
-            // If the item is already expanded, remove it
+            const isExpanded = -1 !== state.expandedItems.indexOf(action.payload.ID);
 
+            // If the item is not expanded, add it to expandedItems
+            // If the item is already expanded, remove it
             const newExpandedItems = !isExpanded ? [...state.expandedItems, action.payload.ID] : state.expandedItems.filter(item => item !== action.payload.ID);
             return _objectSpread(_objectSpread({}, state), {}, {
               expandedItems: newExpandedItems,
@@ -1938,9 +1844,9 @@ const workspaceReducer = function () {
             });
           } else if ('sfwd-topic' === action.payload.type) {
             // Expand/Collapse topics
+
             entityObject = Object.values(entities[type][action.parent].tree);
             const node = _util__WEBPACK_IMPORTED_MODULE_0__.treeNodeUtils.getNodeByKey(entityObject, action.payload.ID);
-
             if (node) {
               node.expanded = !action.payload.expanded;
               return _objectSpread(_objectSpread({}, state), {}, {
@@ -1948,44 +1854,36 @@ const workspaceReducer = function () {
               });
             }
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Updates a question type.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_TYPE:
       {
         if (action.payload.ID) {
           const nodeIndex = immutableQuestions.findIndex(node => node.get('ID') === action.payload.ID);
-
           if (-1 !== nodeIndex) {
             const questions = immutableQuestions.update(nodeIndex, node => node.set('question_type', action.payload.question_type).set('points', action.payload.points).set('post_content', action.payload.post_content)).toJS();
             return _objectSpread(_objectSpread({}, state), {}, {
               questions
             });
           }
-
           return state;
         }
-
         return state;
       }
 
     /**
      * Updates the answers for a question. Used mainly when selecting the correct answer to refresh everything.
      */
-
     case _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_ANSWERS:
       {
         if (action.question.ID) {
           const nodeIndex = immutableQuestions.findIndex(node => node.get('ID') === action.question.ID);
-
           if (-1 !== nodeIndex) {
             const questions = immutableQuestions.update(nodeIndex, node => node.setIn(['answers', LearnDashData.questions_types_map[action.question.question_type]], action.answers)).toJS();
             return _objectSpread(_objectSpread({}, state), {}, {
@@ -1993,19 +1891,17 @@ const workspaceReducer = function () {
             });
           }
         }
-
         return state;
       }
-
     default:
       {
         return state;
       }
   }
 };
-
 const workspace = (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__["default"])(workspaceReducer, {
-  filter: (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__.excludeAction)([_constants__WEBPACK_IMPORTED_MODULE_2__.INIT_DATA, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY, // used when moving things.
+  filter: (0,redux_undo__WEBPACK_IMPORTED_MODULE_1__.excludeAction)([_constants__WEBPACK_IMPORTED_MODULE_2__.INIT_DATA, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_DRAGGABLE_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_ACTIVE_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.SET_IS_DROP_DISABLED_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_LESSON, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ALL, _constants__WEBPACK_IMPORTED_MODULE_2__.TOGGLE_EXPAND_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_EXISTING_ENTITY,
+  // used when moving things.
   _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_QUESTION_TYPE, _constants__WEBPACK_IMPORTED_MODULE_2__.ADD_SECTION_HEADING_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.REMOVE_SECTION_HEADING_ENTITY, _constants__WEBPACK_IMPORTED_MODULE_2__.UPDATE_SECTION_HEADINGS])
 });
 
@@ -2036,7 +1932,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Format the answer data to use in the API
  * Adds _ before key name
@@ -2051,21 +1946,19 @@ const formattedAnswersForAPI = answers => {
   });
   return formatted;
 };
+
 /**
  * Calculate the points for answers
  *
  * @param {Object} answers
  */
-
 const calculatePoints = answers => {
   const answerObject = answers[0];
   let points = 1,
-      maxPoints = 0;
-
+    maxPoints = 0;
   if (answerObject) {
     if ('assessment_answer' === answerObject.answerType) {
       const items = answerObject.answer.match(/{(.*?)}/im);
-
       if (items && 0 !== items.length && items[1]) {
         points = items[1].match(/\[([^|\]]+)(?:\|(\d+))?\]/gim).length;
         maxPoints = Math.max(maxPoints, points);
@@ -2074,35 +1967,35 @@ const calculatePoints = answers => {
       points = answerObject.points;
     }
   }
-
   return {
     points,
     maxPoints
   };
-}; // Tree utils
+};
 
+// Tree utils
 const treeConfig = {
   childrenField: 'tree',
   keyField: 'ID'
 };
 const treeNodeUtils = new (tree_node_utils__WEBPACK_IMPORTED_MODULE_1___default())(treeConfig);
+
 /**
  * Concatenates 2 arrays without any duplicates, based on the ID attribute.
  *
  * @param {Array} nodes
  * @param {Array} newNodes
  */
-
 const mergeUniqueItems = (nodes, newNodes) => {
   newNodes.forEach(data => {
     const existingElement = nodes.findIndex(node => node.ID === data.ID);
-
     if (-1 === existingElement) {
       nodes = [...nodes, data];
     }
   });
   return nodes;
 };
+
 /**
  * Get the parent path for a node, provide the ID.
  *
@@ -2112,30 +2005,24 @@ const mergeUniqueItems = (nodes, newNodes) => {
  *
  * @return {Array} to be used with immutable JS
  */
-
 const getNodePath = function (data, ID) {
   let appendTree = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   const immutableData = (0,immutable__WEBPACK_IMPORTED_MODULE_2__.fromJS)(data);
   const parentIndex = immutableData.findIndex(node => node.get('ID') === ID);
   let path = -1;
-
   if (-1 === parentIndex) {
     // look into child now
     immutableData.forEach((parent, index) => {
       const parentTree = parent.get('tree');
-
       if (parentTree.size) {
         const childIndex = parentTree.findIndex(node => node.get('ID') === ID);
-
         if (-1 !== childIndex) {
           path = [index, 'tree', childIndex];
         } else {
           parent.get('tree').forEach((child, childIndex) => {
             const childTree = child.get('tree');
-
             if (childTree && childTree.size) {
               const grandChildIndex = childTree.findIndex(node => node.get('ID') === ID);
-
               if (-1 !== grandChildIndex) {
                 path = [index, 'tree', childIndex, 'tree', grandChildIndex];
               }
@@ -2147,13 +2034,12 @@ const getNodePath = function (data, ID) {
   } else {
     path = [parentIndex];
   }
-
   if (-1 !== path && appendTree) {
     path.push('tree');
   }
-
   return path;
 };
+
 /**
  * Debounce callback
  * Replaces lodash.debounce
@@ -2162,14 +2048,12 @@ const getNodePath = function (data, ID) {
  * @param {callback} callback    Callback to be debounced
  * @param {number}   wait        Time to wait before execution
  */
-
 const debounce = (callback, wait) => {
   let timeout;
   return function () {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       callback.apply(this, args);
@@ -2308,6 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Map": () => (/* binding */ Map),
 /* harmony export */   "OrderedMap": () => (/* binding */ OrderedMap),
 /* harmony export */   "OrderedSet": () => (/* binding */ OrderedSet),
+/* harmony export */   "PairSorting": () => (/* binding */ PairSorting),
 /* harmony export */   "Range": () => (/* binding */ Range),
 /* harmony export */   "Record": () => (/* binding */ Record),
 /* harmony export */   "Repeat": () => (/* binding */ Repeat),
@@ -3760,6 +3645,18 @@ function groupByFactory(collection, grouper, context) {
   });
   var coerce = collectionClass(collection);
   return groups.map(function (arr) { return reify(collection, coerce(arr)); }).asImmutable();
+}
+
+function partitionFactory(collection, predicate, context) {
+  var isKeyedIter = isKeyed(collection);
+  var groups = [[], []];
+  collection.__iterate(function (v, k) {
+    groups[predicate.call(context, v, k, collection) ? 1 : 0].push(
+      isKeyedIter ? [k, v] : v
+    );
+  });
+  var coerce = collectionClass(collection);
+  return groups.map(function (arr) { return reify(collection, coerce(arr)); });
 }
 
 function sliceFactory(collection, begin, end, useKeys) {
@@ -6759,7 +6656,11 @@ var Set = /*@__PURE__*/(function (SetCollection) {
     }
     return this.withMutations(function (set) {
       for (var ii = 0; ii < iters.length; ii++) {
-        SetCollection(iters[ii]).forEach(function (value) { return set.add(value); });
+        if (typeof iters[ii] === 'string') {
+          set.add(iters[ii]);
+        } else {
+          SetCollection(iters[ii]).forEach(function (value) { return set.add(value); });
+        }
       }
     });
   };
@@ -7194,6 +7095,10 @@ mixin(Collection, {
 
   filter: function filter(predicate, context) {
     return reify(this, filterFactory(this, predicate, context, true));
+  },
+
+  partition: function partition(predicate, context) {
+    return partitionFactory(this, predicate, context);
   },
 
   find: function find(predicate, context, notSetValue) {
@@ -7836,6 +7741,11 @@ function emptyOrderedSet() {
   );
 }
 
+var PairSorting = {
+  LeftThenRight: -1,
+  RightThenLeft: +1,
+};
+
 function throwOnInvalidDefaultValues(defaultValues) {
   if (isRecord(defaultValues)) {
     throw new Error(
@@ -8218,7 +8128,7 @@ function defaultConverter(k, v) {
   return isIndexed(v) ? v.toList() : isKeyed(v) ? v.toMap() : v.toSet();
 }
 
-var version = "4.1.0";
+var version = "4.3.0";
 
 var Immutable = {
   version: version,
@@ -8234,6 +8144,7 @@ var Immutable = {
   Stack: Stack,
   Set: Set,
   OrderedSet: OrderedSet,
+  PairSorting: PairSorting,
 
   Record: Record,
   Range: Range,
@@ -38821,7 +38732,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
-const ReactReduxContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
+const ReactReduxContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(null);
 
 if (true) {
   ReactReduxContext.displayName = 'ReactRedux';
@@ -39516,7 +39427,7 @@ function pureFinalPropsSelectorFactory(mapStateToProps, mapDispatchToProps, merg
 
   function handleSubsequentCalls(nextState, nextOwnProps) {
     const propsChanged = !areOwnPropsEqual(nextOwnProps, ownProps);
-    const stateChanged = !areStatesEqual(nextState, state);
+    const stateChanged = !areStatesEqual(nextState, state, nextOwnProps, ownProps);
     state = nextState;
     ownProps = nextOwnProps;
     if (propsChanged && stateChanged) return handleNewPropsAndNewState();
@@ -43967,17 +43878,6 @@ function applyMiddleware() {
   };
 }
 
-/*
- * This is a dummy function to check if the function name has been altered by minification.
- * If the function has been minified and NODE_ENV !== 'production', warn the user.
- */
-
-function isCrushed() {}
-
-if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
-}
-
 
 
 
@@ -46084,7 +45984,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ _defineProperty)
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -46095,7 +45998,6 @@ function _defineProperty(obj, key, value) {
   } else {
     obj[key] = value;
   }
-
   return obj;
 }
 
@@ -46116,14 +46018,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -46144,20 +46044,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _defineProperty_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty.js */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
-
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
     enumerableOnly && (symbols = symbols.filter(function (sym) {
       return Object.getOwnPropertyDescriptor(object, sym).enumerable;
     })), keys.push.apply(keys, symbols);
   }
-
   return keys;
 }
-
 function _objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {};
@@ -46167,7 +46063,6 @@ function _objectSpread2(target) {
       Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
     });
   }
-
   return target;
 }
 
@@ -46189,14 +46084,83 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   var target = {};
   var sourceKeys = Object.keys(source);
   var key, i;
-
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
   }
-
   return target;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function _toPrimitive(input, hint) {
+  if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function _toPropertyKey(arg) {
+  var key = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arg, "string");
+  return (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === "symbol" ? key : String(key);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
 }
 
 /***/ })

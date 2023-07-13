@@ -5,7 +5,7 @@
  * @package lucatume\DI52
  *
  * @license GPL-3.0
- * Modified by learndash on 13-April-2023 using Strauss.
+ * Modified by learndash on 21-June-2023 using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 
@@ -42,7 +42,7 @@ class App
 
         return static::$container;
     }
-
+    
     /**
      * Sets the container instance the Application should use as a Service Locator.
      *
@@ -58,8 +58,8 @@ class App
     {
         static::$container = $container;
     }
-
-    /**
+    
+        /**
      * Sets a variable on the container.
      *
      * @param string $key   The alias the container will use to reference the variable.
@@ -452,7 +452,7 @@ class App
      * @param string        $method           The method that should be called on the resolved implementation with the
      *                                        specified array arguments.
      *
-     * @return mixed The called method return value.
+     * @return callable The callback function.
      *
      * @throws ContainerException If the id is not a bound implementation or valid class name.
      */
@@ -522,5 +522,17 @@ class App
     public static function isBound($id)
     {
         return static::container()->isBound($id);
+    }
+
+    /**
+     * Sets the mask for the throwables that should be caught and re-thrown as container exceptions.
+     *
+     * @param int $maskThrowables The mask for the throwables that should be caught and re-thrown as container
+     *
+     * @return void
+     */
+    public static function setExceptionMask($maskThrowables)
+    {
+        static::container()->setExceptionMask($maskThrowables);
     }
 }
