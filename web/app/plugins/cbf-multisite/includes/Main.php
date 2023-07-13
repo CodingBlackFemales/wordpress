@@ -10,9 +10,6 @@ namespace CodingBlackFemales\Multisite;
 
 use CodingBlackFemales\Multisite\Admin\Main as Admin;
 use CodingBlackFemales\Multisite\Front\Main as Front;
-use CodingBlackFemales\Multisite\Customizations\Universal as Universal;
-use CodingBlackFemales\Multisite\Customizations\WP_CLI_Command as WP_CLI_Command;
-use CodingBlackFemales\Multisite\Customizations\WP_Cron as WP_Cron;
 
 
 /**
@@ -35,7 +32,6 @@ final class Main {
 	public static function bootstrap() {
 
 		register_activation_hook( PLUGIN_FILE, array( Install::class, 'install' ) );
-		register_deactivation_hook( PLUGIN_FILE, array( Install::class, 'deactivate' ) );
 
 		add_action( 'plugins_loaded', array( __CLASS__, 'load' ) );
 
@@ -77,18 +73,12 @@ final class Main {
 			return;
 		}
 
-		WP_Cron::hooks();
-
 		if ( Utils::is_request( 'admin' ) ) {
 			Admin::hooks();
 		}
 
 		if ( Utils::is_request( 'frontend' ) ) {
 			Front::hooks();
-		}
-
-		if ( Utils::is_request( 'cli' ) ) {
-			WP_CLI_Command::hooks();
 		}
 
 		// Common includes.
