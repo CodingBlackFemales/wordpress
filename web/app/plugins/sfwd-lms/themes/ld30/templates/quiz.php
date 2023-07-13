@@ -99,7 +99,7 @@ if ( ( ! isset( $quiz_post ) ) || ( ! is_a( $quiz_post, 'WP_Post' ) ) ) {
 							$previous_lesson_completed = false;
 
 							$last_incomplete_step = get_post( $previous_step_post_id );
-						}						
+						}
 					}
 
 					/**
@@ -142,7 +142,7 @@ if ( ( ! isset( $quiz_post ) ) || ( ! is_a( $quiz_post, 'WP_Post' ) ) ) {
 				 */
 				do_action( 'learndash-quiz-progression-before', $quiz_post->ID, $course_id, $user_id );
 
-					learndash_get_template_part(
+				learndash_get_template_part(
 						'modules/messages/lesson-progression.php',
 						array(
 							'previous_item' => $last_incomplete_step,

@@ -167,7 +167,7 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 				}
 			}
 		} else {
-		
+
 			?>
 
 			<div class="ld-item-list ld-lesson-list">

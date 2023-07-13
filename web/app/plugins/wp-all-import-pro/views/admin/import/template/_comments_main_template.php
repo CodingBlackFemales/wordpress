@@ -23,7 +23,7 @@ switch ($post_type){
 	<div class="wpallimport-content-section" style="overflow: hidden; padding-bottom: 0;">
 		<div class="wpallimport-collapsed-header" style="margin-bottom: 15px;">
             <h3><?php printf(__('%s Content',PMXI_Plugin::LANGUAGE_DOMAIN), $custom_type->labels->singular_name);?></h3>
-		</div>		
+		</div>
 		<div class="wpallimport-collapsed-content" style="padding: 0;">
 			<div class="wpallimport-collapsed-content-inner wpallimport-user-data">
 				<div class="comments-import-fields">
@@ -82,7 +82,7 @@ switch ($post_type){
                                     <div class="input">
                                         <input type="radio" id="date_type_random" class="switcher" name="date_type" value="random" <?php echo 'random' == $post['date_type'] ? 'checked="checked"' : '' ?> />
                                         <label for="date_type_random">
-                                            <?php _e('Random dates', PMXI_Plugin::LANGUAGE_DOMAIN) ?><a href="#help" class="wpallimport-help" style="position:relative; top: -1px;" title="<?php printf(__('%s will be randomly assigned dates in this range. WordPress ensures %s with dates in the future will not appear until their date has been reached.', PMXI_Plugin::LANGUAGE_DOMAIN), $custom_type->labels->plural_name, $custom_type->labels->plural_name ); ?>">?</a>
+                                            <?php _e('Random dates', PMXI_Plugin::LANGUAGE_DOMAIN) ?><a href="#help" class="wpallimport-help" style="position:relative; top: -1px;" title="<?php printf(__('%s will be randomly assigned dates in this range.', PMXI_Plugin::LANGUAGE_DOMAIN), $custom_type->labels->plural_name ); ?>">?</a>
                                         </label>
                                         <div class="switcher-target-date_type_random" style="vertical-align:middle; margin-top:5px;">
                                             <input type="text" class="datepicker" name="date_start" value="<?php echo esc_attr($post['date_start']) ?>" />

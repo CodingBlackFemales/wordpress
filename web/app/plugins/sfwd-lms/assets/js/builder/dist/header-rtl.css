@@ -37,8 +37,8 @@
 
 @media (min-width: 600px) {
   .branch-5-1.block-editor-page #sfwd-header,
-.branch-5-2.block-editor-page #sfwd-header,
-.branch-5-3.block-editor-page #sfwd-header {
+  .branch-5-2.block-editor-page #sfwd-header,
+  .branch-5-3.block-editor-page #sfwd-header {
     top: 0;
   }
 }
@@ -232,7 +232,7 @@ body:not(.block-editor-page) .learndash-settings-page-wrap #sfwd-header {
 }
 @media (min-width: 782px) {
   .ld-header-has-tabs.is-fullscreen-mode .edit-post-sidebar,
-.ld-header-has-tabs .edit-post-sidebar {
+  .ld-header-has-tabs .edit-post-sidebar {
     top: 214px;
   }
 }

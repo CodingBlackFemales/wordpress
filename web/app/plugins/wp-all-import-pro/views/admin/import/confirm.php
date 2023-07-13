@@ -255,7 +255,7 @@
                                             <?php if ( $post['is_update_comment_status']): ?>
                                                 <li> <?php _e('comment status', 'wp_all_import_plugin'); ?></li>
                                             <?php endif; ?>
-                                            <?php if ( $post['is_update_post_format']): ?>
+                                            <?php if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post['custom_type'], 'post-formats' ) && $post['is_update_post_format']): ?>
                                                 <li> <?php _e('post format', 'wp_all_import_plugin'); ?></li>
                                             <?php endif; ?>
                                             <?php if ( $post['is_update_excerpt'] && 'taxonomies' != $post['custom_type'] && 'comments' != $post['custom_type']): ?>

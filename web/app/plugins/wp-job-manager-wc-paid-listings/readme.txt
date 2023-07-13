@@ -1,9 +1,9 @@
 === WC Paid Listings ===
 Contributors: mikejolley, kraftbj, donncha, jakeom
-Requires at least: 5.7
-Tested up to: 5.9
-Stable tag: 2.9.8
-Requires PHP: 7.0
+Requires at least: 6.0
+Tested up to: 6.2
+Stable tag: 2.9.9
+Requires PHP: 7.4
 License: GNU General Public License v3.0
 
 Add paid listing functionality via WooCommerce. Create 'job packages' as products with their own price, listing duration, listing limit, and job featured status and either sell them via your store or during the job submission process.
@@ -30,6 +30,9 @@ If you need help with customisation you will need to find and hire a developer c
 To install this plugin, please refer to the guide here: [http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
 
 == Changelog ==
+
+= 2.9.9 =
+* Fix - Update plugin headers
 
 = 2.9.8 =
 * Fix - Stop using deprecated WC subscriptions function. #192
