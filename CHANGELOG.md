@@ -2,6 +2,58 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.12](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.11...v0.1.12) (2023-06-09)
+
+## [0.1.11](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.10...v0.1.11) (2023-06-08)
+
+## [0.1.10](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.9...v0.1.10) (2023-06-08)
+
+## [0.1.9](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.8...v0.1.9) (2023-06-08)
+
+## [0.1.8](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.7...v0.1.8) (2023-06-06)
+
+
+### Bug Fixes
+
+* correctly enable unfiltered HTML capability ([3674837](https://github.com/CodingBlackFemales/wordpress/commit/3674837084ee74fc986e63276bf3a8c011496deb))
+
+## [0.1.7](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.6...v0.1.7) (2023-06-06)
+
+
+### Bug Fixes
+
+* restore unfiltered_html capability for admins ([19f08df](https://github.com/CodingBlackFemales/wordpress/commit/19f08df3cc739048ae045d4efa4406d820c640b7))
+
+## [0.1.6](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.5...v0.1.6) (2023-06-05)
+
+
+### Bug Fixes
+
+* **academy:** prevent 404 errors from plugin assets ([ef37985](https://github.com/CodingBlackFemales/wordpress/commit/ef3798529e41e0a750aee9c20ab0e6f067124c4b))
+* **jobs:** prevent 404 errors from plugin assets ([8d04b4e](https://github.com/CodingBlackFemales/wordpress/commit/8d04b4e6a2152c71b1e45ac8f176cbe240292dbf))
+* restore BuddyPages access for site admins ([759971f](https://github.com/CodingBlackFemales/wordpress/commit/759971f88c7413c8c9956ea1bdedbf14fb67954e))
+
+## [0.1.5](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.4...v0.1.5) (2023-06-02)
+
+
+### Bug Fixes
+
+* prevent PHP memory exhaustion ([33fb18d](https://github.com/CodingBlackFemales/wordpress/commit/33fb18d75bd6419a5b7d71f04a453147a4e379ec))
+
+## [0.1.4](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.3...v0.1.4) (2023-06-02)
+
+
+### Bug Fixes
+
+* restore admin ability to login as user ([c8886e6](https://github.com/CodingBlackFemales/wordpress/commit/c8886e6efb55d6365940ed5f48c16179887fd934))
+
+## [0.1.3](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.2...v0.1.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* prevent broken web font files ([2b393f7](https://github.com/CodingBlackFemales/wordpress/commit/2b393f74cc31db8b211f5a1ac7e376c57699527f))
+
 ## [0.1.2](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.1...v0.1.2) (2023-05-31)
 
 ## 0.1.1 (2023-05-31)
