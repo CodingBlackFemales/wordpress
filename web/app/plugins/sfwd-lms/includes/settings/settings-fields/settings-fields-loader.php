@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // All known LD setting field type (for now).
 require_once __DIR__ . '/class-ld-settings-fields-text.php';
 require_once __DIR__ . '/class-ld-settings-fields-email.php';
+require_once __DIR__ . '/class-ld-settings-fields-password.php';
 require_once __DIR__ . '/class-ld-settings-fields-html.php';
 require_once __DIR__ . '/class-ld-settings-fields-number.php';
 require_once __DIR__ . '/class-ld-settings-fields-hidden.php';

@@ -5,6 +5,57 @@ to [Semantic Versioning](http://semver.org/).
 
 ## [unreleased] Unreleased
 
+## [3.3.3] 2023-04-28;
+
+### Fixed
+
+- Return value of the `App::callback` method to be `callable` (thanks @estevao90).
+
+## [3.3.2] 2023-04-07;
+
+### Fixed
+
+- Set the correct return type for the `Container::callback` function (thanks @estevao90).
+
+## [3.3.1] 2023-03-17;
+
+### Fixed
+
+- Allow bound interfaces to properly resolve their concrete class when the concrete class has contextual bindings (thanks @defunctl). e.g. the following will now work properly:
+
+```php
+$container = new \lucatume\DI52\Container();
+$container->bind(SomeInterface::class, SomeClass::class);
+$container->when(Someclass:class)
+    ->needs('$num')
+    ->give(20);
+
+// This now works, properly resolving SomeClass::class.
+$instance = $container->get(SomeInterface::class);
+```
+
+## [3.3.0] 2023-02-28;
+
+### Breaking change
+
+- Removed the `aliases.php` file from the package autoloading. Take a look at the README.md file to see how to gracefully upgrade to version 3.3
+
+## [3.2.1] 2023-02-28;
+
+### Fixed
+
+- Correctly resolve unbound parameters to default value when available.
+
+## [3.2.0] 2023-02-27;
+
+### Changed
+
+- Allow customization of rethrown exceptions catpured during container resolution; alter message, file and line by default.
+
+### Fixed
+
+- Some `App` generated methods signatures.
+
 ## [3.1.1] 2023-02-16;
 
 ### Changed
@@ -450,4 +501,10 @@ org/psr/psr-11/)
 [3.0.3]: https://github.com/lucatume/di52/compare/3.0.2...3.0.3
 [3.1.0]: https://github.com/lucatume/di52/compare/3.0.3...3.1.0
 [3.1.1]: https://github.com/lucatume/di52/compare/3.1.0...3.1.1
-[unreleased]: https://github.com/lucatume/di52/compare/3.1.1...HEAD
+[3.2.0]: https://github.com/lucatume/di52/compare/3.1.1...3.2.0
+[3.2.1]: https://github.com/lucatume/di52/compare/3.2.0...3.2.1
+[3.3.0]: https://github.com/lucatume/di52/compare/3.2.1...3.3.0
+[3.3.1]: https://github.com/lucatume/di52/compare/3.3.0...3.3.1
+[3.3.2]: https://github.com/lucatume/di52/compare/3.3.1...3.3.2
+[3.3.3]: https://github.com/lucatume/di52/compare/3.3.2...3.3.3
+[unreleased]: https://github.com/lucatume/di52/compare/3.3.3...HEAD

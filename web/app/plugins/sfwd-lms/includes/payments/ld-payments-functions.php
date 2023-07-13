@@ -396,24 +396,31 @@ function learndash_get_group_price( $group = null, int $user_id = 0 ): array {
  * @since 3.6.0
  * @since 4.5.0   $interval must be integer.
  *
- * @param int    $interval  Number of payment intervals.
- * @param string $frequency A symbol for day, week, month or year.
+ * @param int    $interval      Number of payment intervals.
+ * @param string $frequency     A symbol for day, week, month or year.
+ * @param bool   $short_version Whether to return the short version of the label.
  *
  * @return string
  */
-function learndash_get_grammatical_number_label_for_interval( int $interval, string $frequency ): string {
+function learndash_get_grammatical_number_label_for_interval( int $interval, string $frequency, bool $short_version = false ): string {
 	switch ( $frequency ) {
 		case ( 'D' ):
 			return _n( 'day', 'days', $interval, 'learndash' );
 
 		case ( 'W' ):
-			return _n( 'week', 'weeks', $interval, 'learndash' );
+			return $short_version
+				? _n( 'wk', 'wks', $interval, 'learndash' )
+				: _n( 'week', 'weeks', $interval, 'learndash' );
 
 		case ( 'M' ):
-			return _n( 'month', 'months', $interval, 'learndash' );
+			return $short_version
+				? _n( 'mo', 'mos', $interval, 'learndash' )
+				: _n( 'month', 'months', $interval, 'learndash' );
 
 		case ( 'Y' ):
-			return _n( 'year', 'years', $interval, 'learndash' );
+			return $short_version
+				? _n( 'yr', 'yrs', $interval, 'learndash' )
+				: _n( 'year', 'years', $interval, 'learndash' );
 
 		default:
 			return '';
@@ -469,14 +476,14 @@ function learndash_currency_codes_list(): array {
 	unset( $currency_codes_array[0] );
 
 	foreach ( $currency_codes_array as $code ) {
-		list(
+		[
 			$country,
 			$currency,
 			$currency_code,
 			$numeric_code,
 			$minor_unit,
 			$withdrawal_date,
-		) = $code;
+		] = $code;
 
 		$currency_codes[] = array(
 			'currency_code' => $currency_code,

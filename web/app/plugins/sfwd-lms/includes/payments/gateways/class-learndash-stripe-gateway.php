@@ -6,11 +6,15 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Models\Transaction;
+use LearnDash\Core\App;
+use LearnDash\Core\Payments;
+use StellarWP\Learndash\lucatume\DI52\ContainerException;
 use Stripe\Customer;
 use Stripe\Event;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Invoice;
-use Stripe\Product;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 use Stripe\Subscription;
@@ -41,6 +45,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		private const EVENT_INVOICE_PAYMENT_SUCCEEDED     = 'invoice.payment_succeeded';
 		private const EVENT_INVOICE_PAYMENT_FAILED        = 'invoice.payment_failed';
 		private const EVENT_CUSTOMER_SUBSCRIPTION_DELETED = 'customer.subscription.deleted';
+		private const EVENT_COUPON_DELETED = 'coupon.deleted';
 
 		/**
 		 * Stripe secret key.
@@ -182,7 +187,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 				);
 			}
 
-			$product = Learndash_Product_Model::find( (int) $_POST['post_id'] );
+			$product = Product::find( (int) $_POST['post_id'] );
 
 			if ( ! $product ) {
 				wp_send_json_error(
@@ -401,6 +406,35 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		}
 
 		/**
+		 * Returns the coupon ID.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return string
+		 */
+		public function create_fake_coupon_for_webhook_test(): string {
+			$coupon_id = uniqid();
+
+			try {
+				// Create a coupon to test the webhook and delete it immediately.
+				$this->api->coupons
+					->create(
+						[
+							'id'              => $coupon_id, // Create a unique key to avoid guessing by brute forcing during that second.
+							'redeem_by'       => time() + 1, // Limit the coupon to one second. In a second, the coupon will be expired.
+							'max_redemptions' => 1, // Limit the coupon to one use.
+							'percent_off'     => 1, // Limit the coupon to one percent.
+						]
+					)
+					->delete();
+			} catch ( ApiErrorException $e ) {
+				return $coupon_id;
+			}
+
+			return $coupon_id;
+		}
+
+		/**
 		 * Handles the webhook.
 		 *
 		 * @since 4.5.0
@@ -436,9 +470,9 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Event                     $event    Event.
-		 * @param Learndash_Product_Model[] $products Products.
-		 * @param WP_User                   $user     User.
+		 * @param Event     $event    Event.
+		 * @param Product[] $products Products.
+		 * @param WP_User   $user     User.
 		 *
 		 * @return void
 		 */
@@ -495,7 +529,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 					$this->log_info( 'Subscription ID: ' . $subscription->id . '; Status: ' . $subscription->status );
 
 					$subscription_meta = $subscription->metadata->toArray();
-					if ( ! isset( $subscription_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] ) ) {
+					if ( ! isset( $subscription_meta[ Transaction::$meta_key_pricing_info ] ) ) {
 						$this->log_error( 'No pricing info found in the Stripe subscription data.' );
 
 						wp_send_json_error(
@@ -504,8 +538,8 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 						);
 					}
 
-					$subscription_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = json_decode(
-						$subscription_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ],
+					$subscription_meta[ Transaction::$meta_key_pricing_info ] = json_decode(
+						$subscription_meta[ Transaction::$meta_key_pricing_info ],
 						true
 					);
 
@@ -613,7 +647,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Learndash_Product_Model $product Product.
+		 * @param Product $product Product.
 		 *
 		 * @throws InvalidArgumentException Should not be thrown because we process all product types.
 		 *
@@ -626,7 +660,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *     trial_duration_length: string,
 		 * } Subscription parameters.
 		 */
-		private function get_legacy_subscription_params( Learndash_Product_Model $product ): array {
+		private function get_legacy_subscription_params( Product $product ): array {
 			$product_post = $product->get_post();
 
 			switch ( $product_post->post_type ) {
@@ -663,11 +697,11 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Invoice|Subscription    $entity                Entity.
-		 * @param array<mixed>            $event_meta            Event meta.
-		 * @param bool                    $is_subscription_event True if event contains subscription.
-		 * @param string                  $learndash_version     LearnDash version that was used to create the event. Can be empty for older versions.
-		 * @param Learndash_Product_Model $product               Product.
+		 * @param Invoice|Subscription $entity                Entity.
+		 * @param array<mixed>         $event_meta            Event meta.
+		 * @param bool                 $is_subscription_event True if event contains subscription.
+		 * @param string               $learndash_version     LearnDash version that was used to create the event. Can be empty for older versions.
+		 * @param Product              $product               Product.
 		 *
 		 * @return array<mixed>
 		 */
@@ -676,21 +710,21 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 			array $event_meta,
 			bool $is_subscription_event,
 			string $learndash_version,
-			Learndash_Product_Model $product
+			Product $product
 		): array {
 			if ( empty( $learndash_version ) ) {
-				if ( ! isset( $event_meta[ Learndash_Transaction_Model::$meta_key_gateway_name ] ) ) {
-					$event_meta[ Learndash_Transaction_Model::$meta_key_gateway_name ] = self::get_name();
+				if ( ! isset( $event_meta[ Transaction::$meta_key_gateway_name ] ) ) {
+					$event_meta[ Transaction::$meta_key_gateway_name ] = self::get_name();
 				}
 
-				if ( ! isset( $event_meta[ Learndash_Transaction_Model::$meta_key_price_type ] ) ) {
-					$event_meta[ Learndash_Transaction_Model::$meta_key_price_type ] = $is_subscription_event
+				if ( ! isset( $event_meta[ Transaction::$meta_key_price_type ] ) ) {
+					$event_meta[ Transaction::$meta_key_price_type ] = $is_subscription_event
 						? LEARNDASH_PRICE_TYPE_SUBSCRIBE
 						: LEARNDASH_PRICE_TYPE_PAYNOW;
 				}
 
-				if ( ! isset( $event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] ) ) {
-					$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = array(
+				if ( ! isset( $event_meta[ Transaction::$meta_key_pricing_info ] ) ) {
+					$event_meta[ Transaction::$meta_key_pricing_info ] = array(
 						'currency' => $entity['currency'] ?? '',
 						'price'    => $entity['amount_total'] ?? '',
 					);
@@ -698,8 +732,8 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 					if ( $is_subscription_event ) {
 						$legacy_subscription_params = $this->get_legacy_subscription_params( $product );
 
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = array_merge(
-							$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ],
+						$event_meta[ Transaction::$meta_key_pricing_info ] = array_merge(
+							$event_meta[ Transaction::$meta_key_pricing_info ],
 							$legacy_subscription_params
 						);
 
@@ -713,13 +747,13 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 						$has_trial      = $trial_duration_in_days > 0;
 						$has_free_trial = $has_trial && 0. === learndash_get_price_as_float( $legacy_subscription_params['trial_price'] );
 
-						$event_meta[ Learndash_Transaction_Model::$meta_key_has_trial ]      = $has_trial;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_has_free_trial ] = $has_free_trial;
+						$event_meta[ Transaction::$meta_key_has_trial ]      = $has_trial;
+						$event_meta[ Transaction::$meta_key_has_free_trial ] = $has_free_trial;
 					}
 
 					// Encode to decode later, just for compatibility with the new code.
-					$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = wp_json_encode(
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]
+					$event_meta[ Transaction::$meta_key_pricing_info ] = wp_json_encode(
+						$event_meta[ Transaction::$meta_key_pricing_info ]
 					);
 				}
 			}
@@ -813,7 +847,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @param Invoice|Subscription $entity The Stripe object.
 		 *
-		 * @return Learndash_Product_Model[]
+		 * @return Product[]
 		 */
 		private function setup_products_or_fail( $entity ): array {
 			$products = array();
@@ -826,13 +860,13 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 					$post_ids[] = (int) ( $item->metadata[ $product_meta_key ] ?? $this->get_post_id_by_plan_id( $item->plan->id ?? '' ) );
 				}
 
-				$products = Learndash_Product_Model::find_many(
+				$products = Product::find_many(
 					array_filter( $post_ids )
 				);
 			} else {
 				$post_id    = (int) ( $entity->metadata[ $product_meta_key ] ?? 0 );
 				$post_ids[] = $post_id;
-				$product    = Learndash_Product_Model::find( $post_id );
+				$product    = Product::find( $post_id );
 
 				if ( $product ) {
 					$products = array( $product );
@@ -855,7 +889,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 			$this->log_info(
 				'Products IDs: ' . array_reduce(
 					$products,
-					function ( string $carry, Learndash_Product_Model $product ): string {
+					function ( string $carry, Product $product ): string {
 						return $carry . $product->get_id() . ', ';
 					},
 					''
@@ -930,6 +964,28 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 				);
 			}
 
+			if ( self::EVENT_COUPON_DELETED === $event->type ) {
+				try {
+					/**
+					 * Webhook setup validator.
+					 *
+					 * @var Payments\Stripe\Webhook_Setup_Validator $webhook_setup_validator Webhook setup validator.
+					 */
+					$webhook_setup_validator = App::get( Payments\Stripe\Webhook_Setup_Validator::class );
+
+					// @phpstan-ignore-next-line -- Property access via magic method.
+					$marked = $webhook_setup_validator->mark_successful( $event->data->object->id );
+
+					if ( $marked ) {
+						$this->log_info( 'Webhook setup validated.' );
+
+						$this->finish_webhook_processing( $event->toArray(), true );
+					}
+				} catch ( ContainerException $e ) {
+					$this->log_info( 'Webhook setup could not be validated because Webhook_Setup_Validator could not be initiated.' );
+				}
+			}
+
 			return $event;
 		}
 
@@ -991,20 +1047,20 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Invoice|Subscription    $entity  Transaction data.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param Invoice|Subscription $entity  Transaction data.
+		 * @param Product              $product Product.
 		 *
 		 * @throws Learndash_DTO_Validation_Exception Transaction data validation exception.
 		 *
 		 * @return Learndash_Transaction_Meta_DTO
 		 */
-		protected function map_transaction_meta( $entity, Learndash_Product_Model $product ): Learndash_Transaction_Meta_DTO {
+		protected function map_transaction_meta( $entity, Product $product ): Learndash_Transaction_Meta_DTO {
 			$is_subscription = 'subscription' === $entity->mode; // @phpstan-ignore-line -- Property access via magic method.
 
 			$meta = array_merge(
 				$entity->metadata ? $entity->metadata->toArray() : array(),
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
+					Transaction::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
 						array(
 							'id'    => $is_subscription ? $entity->subscription : $entity->payment_intent, // @phpstan-ignore-line -- Property access via magic method.
 							'event' => $entity,
@@ -1022,9 +1078,9 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 			);
 
 			// It was encoded to allow arrays in the metadata.
-			if ( is_string( $meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] ) ) {
-				$meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = json_decode(
-					$meta[ Learndash_Transaction_Model::$meta_key_pricing_info ],
+			if ( is_string( $meta[ Transaction::$meta_key_pricing_info ] ) ) {
+				$meta[ Transaction::$meta_key_pricing_info ] = json_decode(
+					$meta[ Transaction::$meta_key_pricing_info ],
 					true
 				);
 			}
@@ -1134,19 +1190,19 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param float                   $amount Amount.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param float   $amount  Amount.
+		 * @param Product $product Product.
 		 *
 		 * @throws Learndash_DTO_Validation_Exception If order creation fails.
 		 *
 		 * @return array{metadata: array<mixed>, items: array<mixed>, payment_data: array<mixed>}
 		 */
-		private function get_order_data( float $amount, Learndash_Product_Model $product ): array {
+		private function get_order_data( float $amount, Product $product ): array {
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_name => $this::get_name(),
-					Learndash_Transaction_Model::$meta_key_price_type   => LEARNDASH_PRICE_TYPE_PAYNOW,
-					Learndash_Transaction_Model::$meta_key_pricing_info => Learndash_Pricing_DTO::create(
+					Transaction::$meta_key_gateway_name => $this::get_name(),
+					Transaction::$meta_key_price_type   => LEARNDASH_PRICE_TYPE_PAYNOW,
+					Transaction::$meta_key_pricing_info => Learndash_Pricing_DTO::create(
 						array(
 							'currency' => mb_strtoupper( $this->currency_code ),
 							'price'    => $amount,
@@ -1185,6 +1241,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 				array(
 					'metadata'      => $metadata,
 					'receipt_email' => ! empty( $this->user->user_email ) ? $this->user->user_email : null,
+					'description'   => $this->map_description( array( $product ) ),
 				)
 			);
 
@@ -1200,15 +1257,15 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param float                   $amount  Amount.
-		 * @param Learndash_Pricing_DTO   $pricing Pricing DTO.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param float                 $amount  Amount.
+		 * @param Learndash_Pricing_DTO $pricing Pricing DTO.
+		 * @param Product               $product Product.
 		 *
 		 * @throws Exception Exception.
 		 *
 		 * @return array{metadata: array<mixed>, items: array<mixed>|null, payment_data: array<mixed>}
 		 */
-		private function get_subscription_data( float $amount, Learndash_Pricing_DTO $pricing, Learndash_Product_Model $product ): array {
+		private function get_subscription_data( float $amount, Learndash_Pricing_DTO $pricing, Product $product ): array {
 			if ( empty( $pricing->duration_length ) ) {
 				throw new Exception( __( 'The Billing Cycle Interval value must be set.', 'learndash' ) );
 			} elseif ( 0 === $pricing->duration_value ) {
@@ -1225,11 +1282,11 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_name   => $this::get_name(),
-					Learndash_Transaction_Model::$meta_key_price_type     => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
-					Learndash_Transaction_Model::$meta_key_pricing_info   => $pricing,
-					Learndash_Transaction_Model::$meta_key_has_trial      => $has_trial,
-					Learndash_Transaction_Model::$meta_key_has_free_trial => $has_trial && 0. === $course_trial_price,
+					Transaction::$meta_key_gateway_name   => $this::get_name(),
+					Transaction::$meta_key_price_type     => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
+					Transaction::$meta_key_pricing_info   => $pricing,
+					Transaction::$meta_key_has_trial      => $has_trial,
+					Transaction::$meta_key_has_free_trial => $has_trial && 0. === $course_trial_price,
 				)
 			);
 
@@ -1273,6 +1330,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 						),
 					),
 					'trial_period_days' => $trial_duration_in_days > 0 ? $trial_duration_in_days : null,
+					'description'       => $this->map_description( array( $product ) ),
 				)
 			);
 
@@ -1288,13 +1346,13 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Learndash_Product_Model $product Product.
+		 * @param Product $product Product.
 		 *
 		 * @throws Learndash_DTO_Validation_Exception|ApiErrorException|InvalidArgumentException Invalid pricing or validation or API error.
 		 *
 		 * @return string Stripe session ID.
 		 */
-		private function create_payment_session( Learndash_Product_Model $product ): string {
+		private function create_payment_session( Product $product ): string {
 			$product_pricing = $product->get_pricing( $this->user );
 
 			/**
@@ -1311,11 +1369,9 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 			$payment_intent_data = null;
 			$subscription_data   = null;
 
-			$product_pricing_type = $product->get_pricing_type();
-
-			if ( LEARNDASH_PRICE_TYPE_PAYNOW === $product_pricing_type ) {
+			if ( $product->is_price_type_paynow() ) {
 				$payment_intent_data = $this->get_order_data( $course_price, $product );
-			} elseif ( LEARNDASH_PRICE_TYPE_SUBSCRIBE === $product_pricing_type ) {
+			} elseif ( $product->is_price_type_subscribe() ) {
 				$subscription_data = $this->get_subscription_data( $course_price, $product_pricing, $product );
 			}
 
@@ -1364,15 +1420,15 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param float                   $amount  Amount.
-		 * @param Learndash_Pricing_DTO   $pricing Pricing DTO.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param float                 $amount  Amount.
+		 * @param Learndash_Pricing_DTO $pricing Pricing DTO.
+		 * @param Product               $product Product.
 		 *
 		 * @throws ApiErrorException If plan could not be created.
 		 *
 		 * @return string
 		 */
-		private function get_plan_id( float $amount, Learndash_Pricing_DTO $pricing, Learndash_Product_Model $product ): string {
+		private function get_plan_id( float $amount, Learndash_Pricing_DTO $pricing, Product $product ): string {
 			$plan_ids = (array) get_post_meta( $product->get_id(), self::PLANS_META_KEY );
 			$plan_id  = strval( end( $plan_ids ) );
 
@@ -1410,7 +1466,7 @@ if ( ! class_exists( 'Learndash_Stripe_Gateway' ) && class_exists( 'Learndash_Pa
 					mb_strtolower( $plan->currency ) !== mb_strtolower( $this->currency_code ) ||
 					$plan->id !== $plan_id ||
 					$plan->interval !== self::PERIOD_HASH[ $pricing->duration_length ] ||
-					! ( $plan->product instanceof Product ) ||
+					! $plan->product instanceof \Stripe\Product ||
 					$plan->product->name !== $product_name ||
 					$plan->interval_count !== $pricing->duration_value
 				) {
