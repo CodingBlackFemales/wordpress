@@ -35,8 +35,6 @@ final class Utils {
 				return defined( 'DOING_CRON' ) && DOING_CRON;
 			case 'frontend':
 				return ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) && ( ! defined( 'DOING_CRON' ) || ! DOING_CRON );
-			case 'cli':
-				return defined( 'WP_CLI' ) && WP_CLI;
 		}
 	}
 
