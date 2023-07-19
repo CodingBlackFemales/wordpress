@@ -8910,15 +8910,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-job-manager",
-            "version": "1.40.2",
+            "version": "1.41.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-job-manager/",
-                "reference": "tags/1.40.2"
+                "reference": "tags/1.41.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.1.40.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.1.41.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
