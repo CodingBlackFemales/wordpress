@@ -72,7 +72,7 @@
     "wpackagist-plugin/import-users-from-csv": "^1.1",
     "wpackagist-plugin/jetpack": "^12.0",
     "wpackagist-plugin/login-as-user": "^1.4",
-    "wpackagist-plugin/mailchimp-for-woocommerce": "^2.8",
+    "wpackagist-plugin/mailchimp-for-woocommerce": "^3.0",
     "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online": "^2.7",
     "wpackagist-plugin/optimole-wp": "^3.7",
     "wpackagist-plugin/otter-blocks": "^2.3",
