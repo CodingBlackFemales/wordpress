@@ -43,7 +43,7 @@ web/.htaccess
 !vendor/.gitkeep
 
 # WP-CLI
-wp-cli.local.yml
+wp-cli*.yml
 
 # macOS
 **/.DS_Store
