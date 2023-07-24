@@ -156,7 +156,7 @@
     "post-install-cmd": [
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
-      "if [ ! -e wp_cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
+      "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
       "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
     ],
     "post-update-cmd": [
