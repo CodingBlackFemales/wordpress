@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.14](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.13...v0.1.14) (2023-07-24)
+
+
+### Features
+
+* **academy:** enable scheduled quiz report upload ([#93](https://github.com/CodingBlackFemales/wordpress/issues/93)) ([87c9fb9](https://github.com/CodingBlackFemales/wordpress/commit/87c9fb98f05e095e1f53b409aba8c5d527217be2))
+
 ## [0.1.13](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.12...v0.1.13) (2023-07-13)
 
 
