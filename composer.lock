@@ -8532,15 +8532,15 @@
         },
         {
             "name": "wpackagist-plugin/import-meetup-events",
-            "version": "1.5.8",
+            "version": "1.5.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/import-meetup-events/",
-                "reference": "tags/1.5.8"
+                "reference": "tags/1.5.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.5.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.5.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
