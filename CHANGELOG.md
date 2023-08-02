@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.18](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.17...v0.1.18) (2023-08-02)
+
+## [0.1.17](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.16...v0.1.17) (2023-08-02)
+
+## [0.1.16](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.15...v0.1.16) (2023-08-02)
+
+## [0.1.15](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.14...v0.1.15) (2023-08-02)
+
+## [0.1.14](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.13...v0.1.14) (2023-07-24)
+
+
+### Features
+
+* **academy:** enable scheduled quiz report upload ([#93](https://github.com/CodingBlackFemales/wordpress/issues/93)) ([87c9fb9](https://github.com/CodingBlackFemales/wordpress/commit/87c9fb98f05e095e1f53b409aba8c5d527217be2))
+
+## [0.1.13](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.12...v0.1.13) (2023-07-13)
+
+
+### Features
+
+* **academy:** display course dates when defined ([434c41d](https://github.com/CodingBlackFemales/wordpress/commit/434c41d7407bceacfcc7ff563713b3edb937dfe5))
+* **academy:** enable scheduled quiz report upload ([#90](https://github.com/CodingBlackFemales/wordpress/issues/90)) ([dd7fc7b](https://github.com/CodingBlackFemales/wordpress/commit/dd7fc7b0c9aee2909393e97e114a138cb195373d))
+
 ## [0.1.12](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.11...v0.1.12) (2023-06-09)
 
 ## [0.1.11](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.10...v0.1.11) (2023-06-08)
