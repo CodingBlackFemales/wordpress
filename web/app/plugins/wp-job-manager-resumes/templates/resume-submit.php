@@ -17,13 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 wp_enqueue_script( 'wp-resume-manager-resume-submission' );
 ?>
-<form action="<?php echo $action; ?>" method="post" id="submit-resume-form" class="job-manager-form" enctype="multipart/form-data">
+<form action="<?php echo esc_url( $action ); ?>" method="post" id="submit-resume-form" class="job-manager-form" enctype="multipart/form-data">
 
 	<?php do_action( 'submit_resume_form_start' ); ?>
 
 	<?php if ( apply_filters( 'submit_resume_form_show_signin', true ) ) : ?>
 
-		<?php get_job_manager_template( 'account-signin.php', [ 'class' => $class ], 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
+		<?php get_job_manager_template( 'account-signin.php', array( 'class' => $class ), 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
 
 	<?php endif; ?>
 
@@ -33,8 +33,8 @@ wp_enqueue_script( 'wp-resume-manager-resume-submission' );
 		<?php do_action( 'submit_resume_form_resume_fields_start' ); ?>
 
 		<?php foreach ( $resume_fields as $key => $field ) : ?>
-			<fieldset class="fieldset-<?php esc_attr_e( $key ); ?>">
-				<label for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . apply_filters( 'submit_resume_form_required_label', $field['required'] ? '' : ' <small>' . __( '(optional)', 'wp-job-manager-resumes' ) . '</small>', $field ); ?></label>
+			<fieldset class="fieldset-<?php echo esc_attr( $key ); ?>">
+				<label for="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $field['label'] ) . apply_filters( 'submit_resume_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'wp-job-manager-resumes' ) . '</small>', $field ); ?></label>
 				<div class="field">
 					<?php $class->get_field_template( $key, $field ); ?>
 				</div>
@@ -44,11 +44,11 @@ wp_enqueue_script( 'wp-resume-manager-resume-submission' );
 		<?php do_action( 'submit_resume_form_resume_fields_end' ); ?>
 
 		<p>
-			<input type="hidden" name="resume_manager_form" value="<?php echo $form; ?>" />
+			<input type="hidden" name="resume_manager_form" value="<?php echo esc_attr( $form ); ?>" />
 			<input type="hidden" name="resume_id" value="<?php echo esc_attr( $resume_id ); ?>" />
 			<input type="hidden" name="job_id" value="<?php echo esc_attr( $job_id ); ?>" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $step ); ?>" />
-			<input type="submit" name="submit_resume" class="button" value="<?php esc_attr_e( $submit_button_text ); ?>" />
+			<input type="submit" name="submit_resume" class="button" value="<?php echo esc_attr( $submit_button_text ); ?>" />
 		</p>
 
 	<?php else : ?>

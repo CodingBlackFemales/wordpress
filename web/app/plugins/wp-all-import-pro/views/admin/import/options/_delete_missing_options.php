@@ -10,10 +10,11 @@
     if (!isset($hidden_delete_missing_options)) {
         $hidden_delete_missing_options = [];
     }
+    $backups_prompt = PMXI_Plugin::getInstance()->getOption('backups_prompt');
 ?>
 <div class="input">
     <input type="hidden" name="is_delete_missing" value="0" />
-    <input type="checkbox" id="is_delete_missing" name="is_delete_missing" value="1" <?php echo $post['is_delete_missing'] ? 'checked="checked"': '' ?> class="switcher"/>
+    <input type="checkbox" id="is_delete_missing" name="is_delete_missing" value="1" <?php echo $post['is_delete_missing'] ? 'checked="checked"': '' ?> class="switcher" data-backups-prompt="<?php if (empty($backups_prompt)): ?>disabled<?php else: ?>enabled<?php endif?>"/>
     <label for="is_delete_missing"><?php printf(__('Remove or modify %s that are not present in this import file', 'wp_all_import_plugin'), $cpt_name) ?></label> <a href="https://www.youtube.com/watch?v=djC1IvYtDDY&ab_channel=WPAllImport" target="_blank" class="video-embed" style="position: relative; top: -2px;"></a>
 </div>
 <div class="switcher-target-is_delete_missing" style="padding-left:17px;">
@@ -100,7 +101,6 @@
                         if (isset($post['update_missing_cf_value']) && !is_array($post['update_missing_cf_value'])) {
                             $post['update_missing_cf_value'] = [$post['update_missing_cf_value']];
                         }
-                        $post['update_missing_cf_value'] = array_filter($post['update_missing_cf_value']);
                     ?>
                     <table class="form-table custom-params" style="max-width:none; border:none; width:350px; margin-left:9px;">
                         <thead>
@@ -162,7 +162,7 @@
                 </div>
             </div>
         <?php endif; ?>
-        <?php if ( $post_type == 'product' && $post['wizard_type'] == 'new'): ?>
+        <?php if ( $post_type == 'product' ): ?>
             <div class="input">
                 <input type="hidden" name="missing_records_stock_status" value="0" />
                 <input type="checkbox" id="missing_records_stock_status" name="missing_records_stock_status" value="1" <?php echo $post['missing_records_stock_status'] ? 'checked="checked"': '' ?>/>
@@ -219,6 +219,7 @@
         <div class="confirmation-modal-1">
             <p><?php printf(__(' When this import is re-run in the future, %s created or updated by this import and no longer present in the import file will be sent to the trash.', 'wp_all_import_plugin'), $cpt_name);?></p>
             <p><?php _e('We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin'); ?></p>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>
@@ -228,6 +229,7 @@
         <div class="confirmation-modal-2">
             <p><?php printf(__(' When this import is re-run in the future, %s created or updated by this import and no longer present in the import file will be sent to <span class="status_of_removed">draft</span>.', 'wp_all_import_plugin'), $cpt_name);?></p>
             <p><?php _e('We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin'); ?></p>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>
@@ -241,6 +243,7 @@
             <?php else: ?>
                 <p><?php _e('Consider testing this import by setting a custom field instead of deletion to make sure that the import is configured correctly and that the record matching settings are working as expected. We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin');?></p>
             <?php endif; ?>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>
@@ -250,6 +253,7 @@
         <div class="confirmation-modal-4">
             <p><?php printf(__(' This import can affect all %s on this site, even those not created by this import. During import, all %s not present in this import file will be moved to the trash.', 'wp_all_import_plugin'), $cpt_name, $cpt_name); ?></p>
             <p><?php _e('We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin'); ?></p>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>
@@ -259,6 +263,7 @@
         <div class="confirmation-modal-5">
             <p><?php printf(__(' This import can affect all %s on this site, even those not created by this import. During import, all %s not present in this import file will be moved to <span class="status_of_removed">draft</span>.', 'wp_all_import_plugin'), $cpt_name, $cpt_name); ?></p>
             <p><?php _e('We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin'); ?></p>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>
@@ -272,6 +277,7 @@
             <?php else: ?>
                 <p><?php _e('Consider testing this import by setting a custom field instead of deletion to make sure that the import is configured correctly and that the record matching settings are working as expected. We highly recommend running this import in a staging environment first and creating site backups before running in production.', 'wp_all_import_plugin');?></p>
             <?php endif; ?>
+            <p><?php printf(__('This prompt can be disabled at <a href="%s" target="_blank">WP All Import settings page</a>.', 'wp_all_import_plugin'), esc_url(add_query_arg(array('page' => 'pmxi-admin-settings'), $this->baseUrl))); ?></p>
             <div class="input">
                 <p><?php _e('Please type the text below to confirm import settings:');?></p>
                 <p>I HAVE BACKUPS</p>

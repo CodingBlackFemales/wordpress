@@ -51,7 +51,7 @@ class Scheduling
     {
         $response = $this->schedulingApi->getSchedules($elementId, Config::TYPE);
 
-        return count($response);
+        return !empty($response);
     }
 
     /**
@@ -62,7 +62,7 @@ class Scheduling
     {
         $response = $this->schedulingApi->getSchedules($elementId, Config::TYPE);
 
-        if (count($response)) {
+        if (!empty($response)) {
             return $response[0];
         } else {
             return false;

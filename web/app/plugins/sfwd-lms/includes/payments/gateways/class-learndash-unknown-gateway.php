@@ -7,6 +7,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Product;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -151,14 +153,14 @@ if ( ! class_exists( 'Learndash_Unknown_Gateway' ) && class_exists( 'Learndash_P
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param mixed                   $data    Data.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param mixed   $data    Data.
+		 * @param Product $product Product.
 		 *
 		 * @throws Learndash_DTO_Validation_Exception Exception.
 		 *
 		 * @return Learndash_Transaction_Meta_DTO
 		 */
-		protected function map_transaction_meta( $data, Learndash_Product_Model $product ): Learndash_Transaction_Meta_DTO {
+		protected function map_transaction_meta( $data, Product $product ): Learndash_Transaction_Meta_DTO {
 			return Learndash_Transaction_Meta_DTO::create();
 		}
 

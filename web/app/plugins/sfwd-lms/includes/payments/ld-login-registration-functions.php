@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+
 /**
  * LearnDash LD30 Shows registration form for user registration
  *
@@ -19,7 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param array $attr Array of attributes for shortcode.
  */
 function learndash_registration_output( $attr = array() ) {
-
 	$attr_defaults = array(
 		'width' => 0,
 	);
@@ -68,12 +69,24 @@ function learndash_registration_output( $attr = array() ) {
 
 		$post_type = get_post_type( $register_id );
 
+		/**
+		 * Product object.
+		 *
+		 * @var Product|null $product
+		 */
+		$product = Product::find( $register_id );
+
 		if ( LDLMS_Post_Types::get_post_type_slug( 'course' ) === $post_type ) {
 			$course_pricing = learndash_get_course_price( $register_id );
 		} elseif ( learndash_get_post_type_slug( 'group' ) === $post_type ) {
 			$course_pricing = learndash_get_group_price( $register_id );
 		} else {
 			esc_html_e( 'Invalid Course or Group', 'learndash' );
+			return;
+		}
+
+		if ( ! $product ) {
+			esc_html_e( 'Invalid product', 'learndash' );
 			return;
 		}
 
@@ -197,7 +210,7 @@ function learndash_registration_output( $attr = array() ) {
 				</div>
 
 				<?php if ( 'paynow' === $course_pricing['type'] && is_user_logged_in() ) : ?>
-					<?php if ( learndash_active_coupons_exist() ) : ?>
+					<?php if ( learndash_active_coupons_exist() && $product->can_be_purchased() ) : ?>
 						<form
 							class="coupon-form"
 							id="apply-coupon-form"
@@ -1340,13 +1353,33 @@ function learndash_reset_password_output( $attr = array() ): void {
 			$status['action']  = 'prevent_reset';
 		}
 	}
-	if ( isset( $_POST['user_login'] ) ) {
+	if (
+		isset( $_POST['user_login'] )
+		&& ! empty( $_POST['learndash-reset-password-form-nonce'] )
+		&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['learndash-reset-password-form-nonce'] ) ), 'learndash-reset-password-form-nonce' )
+		&& ! isset( $_POST['reset_password'] )
+	) {
 		$status = learndash_reset_password_email_send();
 	}
-	if ( isset( $_POST['user_login'] ) && isset( $_POST['reset_password'] ) ) {
+	if (
+		isset( $_POST['user_login'] )
+		&& isset( $_POST['reset_password'] )
+		&& ! empty( $_POST['learndash-reset-password-form-post-nonce'] )
+		&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['learndash-reset-password-form-post-nonce'] ) ), 'learndash-reset-password-form-post-nonce' )
+	) {
 		$new_password = sanitize_text_field( wp_unslash( $_POST['reset_password'] ) );
 		$user         = get_user_by( 'login', sanitize_text_field( wp_unslash( $_POST['user_login'] ) ) );
-		learndash_reset_password_set_user_new_password( $user, $new_password );
+
+		if ( $user ) {
+			$key = sanitize_text_field( wp_unslash( $_GET['key'] ?? '' ) );
+
+			if ( ! learndash_reset_password_verification( $user, $key ) instanceof WP_Error ) {
+				learndash_reset_password_set_user_new_password( $user, $new_password );
+			} else {
+				$status['message'] = esc_html__( 'Invalid user, please check your reset password link and try again.', 'learndash' );
+				$status['type']    = 'warning';
+			}
+		}
 	}
 	if ( isset( $_GET['password_reset'] ) && 'true' === $_GET['password_reset'] && ! isset( $_POST['user_login'] ) && ! isset( $_GET['login'] ) ) {
 		$status['message'] = esc_html__( 'Password reset, please log into your account.', 'learndash' );
@@ -1376,6 +1409,9 @@ function learndash_reset_password_output( $attr = array() ): void {
 				<label for="reset_password"><?php esc_html_e( 'Set new password', 'learndash' ); ?></label>
 				<input type="password" name="reset_password" id="user_new_password" />
 				<input type="hidden" name="user_login" id="user_login" value="<?php echo ( isset( $_GET['login'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) : '' ); ?>" />
+				<?php
+					wp_nonce_field( 'learndash-reset-password-form-post-nonce', 'learndash-reset-password-form-post-nonce' );
+				?>
 			</p>
 			<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
 		</form>
@@ -1395,6 +1431,9 @@ function learndash_reset_password_output( $attr = array() ): void {
 			<p>
 				<label for="reset_password"><?php esc_html_e( 'Username or Email Address', 'learndash' ); ?></label>
 				<input type="text" name="user_login" id="user_login" autocapitalize="off" autocomplete="off" />
+				<?php
+					wp_nonce_field( 'learndash-reset-password-form-nonce', 'learndash-reset-password-form-nonce' );
+				?>
 			</p>
 			<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
 		</form>
