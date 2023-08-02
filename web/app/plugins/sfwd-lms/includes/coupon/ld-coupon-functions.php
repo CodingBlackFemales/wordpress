@@ -7,6 +7,9 @@
  * @package LearnDash\Coupons
  */
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -496,7 +499,7 @@ function learndash_apply_coupon(): void {
 		);
 	}
 
-	$product = Learndash_Product_Model::find( (int) $_POST['post_id'] );
+	$product = Product::find( (int) $_POST['post_id'] );
 
 	if ( ! $product ) {
 		wp_send_json_error(
@@ -520,9 +523,9 @@ function learndash_apply_coupon(): void {
 		);
 	}
 
-	// Check if we are processing the "buy now" pricing.
+	// Check if we are processing the "subscribe" pricing.
 
-	if ( LEARNDASH_PRICE_TYPE_PAYNOW !== $product->get_pricing_type() ) {
+	if ( $product->is_price_type_subscribe() ) {
 		wp_send_json_error(
 			array(
 				'message' => __( 'Subscriptions are not supported for now.', 'learndash' ),
@@ -593,7 +596,7 @@ function learndash_remove_coupon(): void {
 
 	// Check if we are processing a course/group.
 
-	$product = Learndash_Product_Model::find( (int) $_POST['post_id'] );
+	$product = Product::find( (int) $_POST['post_id'] );
 
 	if ( ! $product ) {
 		wp_send_json_error(
@@ -645,7 +648,7 @@ function learndash_remove_coupon(): void {
  * @return void
  */
 function learndash_process_coupon_after_transaction( int $transaction_id ): void {
-	$transaction = Learndash_Transaction_Model::find( $transaction_id );
+	$transaction = Transaction::find( $transaction_id );
 
 	if ( ! $transaction ) {
 		return;
@@ -677,7 +680,7 @@ function learndash_process_coupon_after_transaction( int $transaction_id ): void
 
 		update_post_meta(
 			$transaction_id,
-			Learndash_Transaction_Model::$meta_key_pricing_info,
+			Transaction::$meta_key_pricing_info,
 			Learndash_Pricing_DTO::create( $coupon_data->to_array() )->to_array()
 		);
 	} catch ( Learndash_DTO_Validation_Exception $e ) {
@@ -746,12 +749,20 @@ function learndash_enroll_with_zero_price(): void {
 
 	// Check if we are processing a course/group.
 
-	$product = Learndash_Product_Model::find( (int) $_POST['post_id'] );
+	$product = Product::find( (int) $_POST['post_id'] );
 
 	if ( ! $product ) {
 		wp_send_json_error(
 			array(
 				'message' => __( 'Product not found.', 'learndash' ),
+			)
+		);
+	}
+
+	if ( ! $product->can_be_purchased() ) {
+		wp_send_json_error(
+			array(
+				'message' => __( 'Product can not be purchased.', 'learndash' ),
 			)
 		);
 	}
@@ -797,13 +808,13 @@ function learndash_enroll_with_zero_price(): void {
 
 	$transaction_id = learndash_transaction_create(
 		array(
-			Learndash_Transaction_Model::$meta_key_is_free => true,
+			Transaction::$meta_key_is_free => true,
 		),
 		$product->get_post(),
 		$user
 	);
 
-	$transaction = Learndash_Transaction_Model::find( $transaction_id );
+	$transaction = Transaction::find( $transaction_id );
 
 	if ( ! $transaction ) {
 		wp_send_json_error(

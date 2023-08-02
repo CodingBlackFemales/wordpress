@@ -1,7 +1,48 @@
+= [4.7.0] =
+
+* Feature - Course pre-selling.
+* Feature - Course student limit.
+* Feature - Course start and end dates.
+* Fix - Add left padding to content area in Focus Mode when using right sidebar on mobile screens.
+* Fix - Prevent group_leader role being removed from users on profile update.
+* Fix - Undefined array key warning in `ld_profile` shortcode when displaying a quiz with no title.
+* Tweak - Added actions: `learndash_metabox_updated_field`.
+* Tweak - Added filters: `learndash_payment_button_disabled`, `learndash_model_product_can_be_purchased`, `learndash_model_product_has_started`, `learndash_model_product_has_ended`, `learndash_model_product_start_date`, `learndash_model_product_end_date`, `learndash_model_product_pre_ordered`, `learndash_model_product_seats_limit`, `learndash_model_product_seats_used`, `learndash_model_product_seats_available`.
+* Tweak - Updated functions: `sfwd_lms_has_access_fn`, `ld_update_course_access`.
+
+= [4.6.0.1] =
+
+* Fix - Duplicate status bubbles when using the `learndash_status_bubble` function.
+* Security - Tightened security around the reset password shortcode.
+
+= [4.6.0] =
+
+* Feature - Course Outline AI module.
+* Fix - Display free trial in course/group infobar if trial price set to 0 or empty.
+* Fix - learndash_process_user_course_progress_update function was not processing the progress correctly in some cases.
+* Fix - Prevent duplicate password reset email after password reset.
+* Fix - Set product name as description for Stripe Connect buy now products.
+* Fix - Undefined FS_CHMOD_FILE error.
+* Fix - Updated method to required files in helpers.php file.
+* Tweak - Added actions: `learndash_files_included`.
+* Tweak - Added filters: `learndash_payment_button_classes`, `learndash_model_product_display_price`, `learndash_model_product_display_trial_price`, `learndash_service_chatgpt_send_command_data`.
+* Tweak - Added functions: `learndash_register_provider`, `learndash_extra_autoloading`.
+* Tweak - AI Integrations settings page under advanced settings tab.
+* Tweak - Deprecated functions: `learndash_the_breadcrumbs`.
+* Tweak - Deprecated models classes (replaced with LearnDash\Core\Models): `Learndash_Model`, `Learndash_Product_Model`, `Learndash_Transaction_Model`.
+
+= [4.5.3.2] =
+
+* Fix - learndash_reports_get_activity function did not return correct results in some cases (which has been affected by a fix in 4.5.3.1).
+
+= [4.5.3.1] =
+
+* Security - Tightened security around the courseinfo shortcode.
+
 = [4.5.3] =
 
-* Updated - RazorPay library to 2.8.5.
 * Fix - The default color is not displayed in the theme settings color picker.
+* Update - RazorPay library to 2.8.5.
 
 = [4.5.2.1] =
 
@@ -9,13 +50,13 @@
 
 = [4.5.2] =
 
-* Added - Show deprecation notice if using Stripe addon plugin.
-* Update - TCPDF to version 6.6.2.
-* Update - Change documentation in LearnDash LMS > Setup page.
-* Fix - Display correct pricing interval values in purchase invoice.
-* Fix - learndash_reports_get_activity() returns results outside of date range if activity status combination is set.
-* Fix - Incorrect decimal pricing on Stripe & Razorpay checkout.
 * Fix - 'Click here to visit' translatable text on checkout form.
+* Fix - Display correct pricing interval values in purchase invoice.
+* Fix - Incorrect decimal pricing on Stripe & Razorpay checkout.
+* Fix - learndash_reports_get_activity() returns results outside of date range if activity status combination is set.
+* Tweak - Show deprecation notice if using Stripe addon plugin.
+* Update - Change documentation in LearnDash LMS > Setup page.
+* Update - TCPDF to version 6.6.2.
 
 = [4.5.1.2] =
 
@@ -28,23 +69,23 @@
 
 = [4.5.1] =
 
-* Added - Confirm dialog when setting up template in Design Wizard.
-* Fix - Posts and authors were not connected on import when users were being imported.
-* Fix - learndash_user_get_course_completed_date function did not calculate the correct date in some cases.
-* Fix - Process shortcode placeholders in purchase invoice email message.
-* Fix - Hide continue button on failed quiz shortcode unless filtered
-* Fix - Keep the old slugs for imported posts where possible.
-* Fix - Display Telemetry modal on LD admin pages.
 * Fix - Add ; to Content-Type email header.
+* Fix - Display Telemetry modal on LD admin pages.
+* Fix - Hide continue button on failed quiz shortcode unless filtered
 * Fix - Issues with pagination, minimum global pagination value is 1 now.
-* Tweak - Add validation error to the course access period field, when the value is less than 1.
+* Fix - Keep the old slugs for imported posts where possible.
+* Fix - learndash_user_get_course_completed_date function did not calculate the correct date in some cases.
+* Fix - Posts and authors were not connected on import when users were being imported.
+* Fix - Process shortcode placeholders in purchase invoice email message.
 * Tweak - Add better validation messages on import.
+* Tweak - Add validation error to the course access period field, when the value is less than 1.
+* Tweak - Confirm dialog when setting up template in Design Wizard.
 
 = [4.5.0.3] =
 
-* Fix - Stripe Connect does not allow purchase for a logged-out user if Registration page not set.
 * Fix - Increase timeout period for Action Scheduler
 * Fix - Prices containing commas were not being passed to payment gateways correctly.
+* Fix - Stripe Connect does not allow purchase for a logged-out user if Registration page not set.
 * Tweak - Removed a non-circulating currency CLF.
 
 = [4.5.0.2] =
@@ -53,10 +94,10 @@
 
 = [4.5.0.1] =
 
+* Fix - Compatibility with PHP 7.2, 7.3.
+* Fix - Conflict with a list of plugins.
 * Fix - Mobile sidebar menu and materials tab not opening.
 * Fix - Move scalar constants out of the `plugins_loaded` hook.
-* Fix - Conflict with a list of plugins.
-* Fix - Compatibility with PHP 7.2, 7.3.
 
 = [4.5.0] =
 

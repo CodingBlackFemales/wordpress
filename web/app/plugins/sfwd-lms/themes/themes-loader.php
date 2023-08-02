@@ -12,7 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/class-ld-themes-register.php';
+require_once __DIR__ . '/helpers.php';
 
 // Register your themes.
 require_once __DIR__ . '/legacy/index.php';
 require_once __DIR__ . '/ld30/index.php';
+
