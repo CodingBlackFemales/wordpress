@@ -19,6 +19,7 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/wp-job-manager-stats
 !web/app/plugins/wp-job-manager-wc-paid-listings
 web/app/mu-plugins/*
+!web/app/mu-plugins/cbf-custom-constants.php
 web/app/themes/onepress/
 web/app/themes/twentytwentythree/
 web/app/upgrade
@@ -43,7 +44,7 @@ web/.htaccess
 !vendor/.gitkeep
 
 # WP-CLI
-wp-cli.local.yml
+wp-cli*.yml
 
 # macOS
 **/.DS_Store
