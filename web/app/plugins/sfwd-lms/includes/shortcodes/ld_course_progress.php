@@ -53,18 +53,25 @@ function learndash_course_progress( $atts = array(), $content = '', $shortcode_s
 	}
 
 	if ( ( empty( $atts['user_id'] ) ) || ( empty( $atts['course_id'] ) ) ) {
-		return '';
+		if ( $atts['array'] ) {
+			return array(
+				'percentage' => 0,
+				'completed'  => 0,
+				'total'      => 0,
+			);
+		} else {
+			return '';
+		}
 	}
 
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$atts = apply_filters( 'learndash_shortcode_atts', $atts, $shortcode_slug );
 
-	$completed = 0;
-	$total     = 0;
+	$completed  = 0;
+	$total      = 0;
+	$percentage = 0;
 
 	$course_progress = learndash_user_get_course_progress( $atts['user_id'], $atts['course_id'] );
-	$percentage      = 0;
-	$message         = '';
 
 	if ( isset( $course_progress['completed'] ) ) {
 		$completed = absint( $course_progress['completed'] );
@@ -81,8 +88,6 @@ function learndash_course_progress( $atts = array(), $content = '', $shortcode_s
 	if ( $total > 0 ) {
 		$percentage = intval( $completed * 100 / $total );
 		$percentage = ( $percentage > 100 ) ? 100 : $percentage;
-	} else {
-		$percentage = 0;
 	}
 
 	// translators: placeholders: completed steps, total steps.
@@ -90,9 +95,9 @@ function learndash_course_progress( $atts = array(), $content = '', $shortcode_s
 
 	if ( $atts['array'] ) {
 		return array(
-			'percentage' => isset( $percentage ) ? $percentage : 0,
-			'completed'  => isset( $completed ) ? $completed : 0,
-			'total'      => isset( $total ) ? $total : 0,
+			'percentage' => $percentage,
+			'completed'  => $completed,
+			'total'      => $total,
 		);
 	}
 
@@ -102,9 +107,9 @@ function learndash_course_progress( $atts = array(), $content = '', $shortcode_s
 			'user_id'    => $atts['user_id'],
 			'course_id'  => $atts['course_id'],
 			'message'    => $message,
-			'percentage' => isset( $percentage ) ? $percentage : 0,
-			'completed'  => isset( $completed ) ? $completed : 0,
-			'total'      => isset( $total ) ? $total : 0,
+			'percentage' => $percentage,
+			'completed'  => $completed,
+			'total'      => $total,
 		)
 	);
 }
