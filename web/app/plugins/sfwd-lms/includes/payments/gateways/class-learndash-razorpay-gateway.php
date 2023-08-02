@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Models\Transaction;
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 
@@ -208,7 +210,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				);
 			}
 
-			$product = Learndash_Product_Model::find( (int) $_POST['post_id'] );
+			$product = Product::find( (int) $_POST['post_id'] );
 
 			if ( ! $product ) {
 				wp_send_json_error(
@@ -295,7 +297,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param Learndash_Product_Model $product Product.
+		 * @param Product $product Product.
 		 *
 		 * @throws InvalidArgumentException|Exception Throws if not valid arguments passed or something went wrong during API request.
 		 *
@@ -316,7 +318,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *     subscription_id?: string,
 		 * }
 		 */
-		private function map_payment_options( Learndash_Product_Model $product ): array {
+		private function map_payment_options( Product $product ): array {
 			// Create a customer entity if needed.
 
 			$customer_id = $this->user->ID > 0 ? $this->find_or_create_customer_id() : null;
@@ -359,11 +361,9 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				)
 			);
 
-			$product_pricing_type = $product->get_pricing_type();
-
-			if ( LEARNDASH_PRICE_TYPE_SUBSCRIBE === $product_pricing_type ) {
+			if ( $product->is_price_type_subscribe() ) {
 				$options['subscription_id'] = $this->create_subscription_id( $price_in_subunits, $pricing, $product, $required_notes );
-			} elseif ( LEARNDASH_PRICE_TYPE_PAYNOW === $product_pricing_type ) {
+			} elseif ( $product->is_price_type_paynow() ) {
 				if ( ! is_null( $customer_id ) ) {
 					$options['customer_id'] = $customer_id;
 				}
@@ -686,9 +686,9 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		private function create_order_id( int $amount, array $required_notes ): string {
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_name => $this::get_name(),
-					Learndash_Transaction_Model::$meta_key_price_type   => LEARNDASH_PRICE_TYPE_PAYNOW,
-					Learndash_Transaction_Model::$meta_key_pricing_info => Learndash_Pricing_DTO::create(
+					Transaction::$meta_key_gateway_name => $this::get_name(),
+					Transaction::$meta_key_price_type   => LEARNDASH_PRICE_TYPE_PAYNOW,
+					Transaction::$meta_key_pricing_info => Learndash_Pricing_DTO::create(
 						array(
 							'currency' => $this->currency_code,
 							'price'    => number_format( $amount / 100, 2, '.', '' ),
@@ -722,10 +722,10 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param int                     $price_in_subunits Price.
-		 * @param Learndash_Pricing_DTO   $pricing           Pricing DTO.
-		 * @param Learndash_Product_Model $product           Product.
-		 * @param array<string,mixed>     $required_notes    Required notes.
+		 * @param int                   $price_in_subunits Price.
+		 * @param Learndash_Pricing_DTO $pricing           Pricing DTO.
+		 * @param Product               $product           Product.
+		 * @param array<string,mixed>   $required_notes    Required notes.
 		 *
 		 * @throws Exception Exception.
 		 *
@@ -734,7 +734,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		private function create_subscription_id(
 			int $price_in_subunits,
 			Learndash_Pricing_DTO $pricing,
-			Learndash_Product_Model $product,
+			Product $product,
 			array $required_notes
 		): string {
 			if ( 0 === $pricing->recurring_times ) {
@@ -751,11 +751,11 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_name   => $this::get_name(),
-					Learndash_Transaction_Model::$meta_key_price_type     => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
-					Learndash_Transaction_Model::$meta_key_pricing_info   => $pricing,
-					Learndash_Transaction_Model::$meta_key_has_trial      => $has_trial,
-					Learndash_Transaction_Model::$meta_key_has_free_trial => $has_trial && 0.0 === $pricing->trial_price,
+					Transaction::$meta_key_gateway_name   => $this::get_name(),
+					Transaction::$meta_key_price_type     => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
+					Transaction::$meta_key_pricing_info   => $pricing,
+					Transaction::$meta_key_has_trial      => $has_trial,
+					Transaction::$meta_key_has_free_trial => $has_trial && 0.0 === $pricing->trial_price,
 				)
 			);
 
@@ -803,14 +803,14 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param int                     $amount   Amount.
-		 * @param int                     $interval Interval.
-		 * @param string                  $period   Period.
-		 * @param Learndash_Product_Model $product  Product.
+		 * @param int     $amount   Amount.
+		 * @param int     $interval Interval.
+		 * @param string  $period   Period.
+		 * @param Product $product  Product.
 		 *
 		 * @return string Plan ID.
 		 */
-		private function find_or_create_plan_id( int $amount, int $interval, string $period, Learndash_Product_Model $product ): string {
+		private function find_or_create_plan_id( int $amount, int $interval, string $period, Product $product ): string {
 			$plan_options = array(
 				'period'   => self::PERIOD_HASH[ $period ],
 				'interval' => $interval,
@@ -868,8 +868,8 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array                   $data    Event.
-		 * @param Learndash_Product_Model $product Product.
+		 * @param array   $data    Event.
+		 * @param Product $product Product.
 		 *
 		 * @phpstan-param array{
 		 *     event: string,
@@ -881,14 +881,14 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @return Learndash_Transaction_Meta_DTO
 		 */
-		protected function map_transaction_meta( $data, Learndash_Product_Model $product ): Learndash_Transaction_Meta_DTO {
+		protected function map_transaction_meta( $data, Product $product ): Learndash_Transaction_Meta_DTO {
 			$is_subscription_event = $this->event_contains_subscription( $data );
 			$entity                = $this->get_main_entity_from_event( $data );
 
 			$meta = array_merge(
 				$entity['notes'], // @phpstan-ignore-line -- It was checked before.
 				array(
-					Learndash_Transaction_Model::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
+					Transaction::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
 						array(
 							'id'    => $entity['id'], // @phpstan-ignore-line -- It was checked before.
 							'event' => $data,
@@ -903,9 +903,9 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				$entity['notes']['learndash_version'] ?? ''
 			);
 
-			if ( is_string( $meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] ) ) {
-				$meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = json_decode(
-					$meta[ Learndash_Transaction_Model::$meta_key_pricing_info ],
+			if ( is_string( $meta[ Transaction::$meta_key_pricing_info ] ) ) {
+				$meta[ Transaction::$meta_key_pricing_info ] = json_decode(
+					$meta[ Transaction::$meta_key_pricing_info ],
 					true
 				);
 			}
@@ -930,12 +930,12 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			string $learndash_version
 		): array {
 			if ( empty( $learndash_version ) ) {
-				if ( ! isset( $event_meta[ Learndash_Transaction_Model::$meta_key_gateway_name ] ) ) {
-					$event_meta[ Learndash_Transaction_Model::$meta_key_gateway_name ] = self::get_name();
+				if ( ! isset( $event_meta[ Transaction::$meta_key_gateway_name ] ) ) {
+					$event_meta[ Transaction::$meta_key_gateway_name ] = self::get_name();
 				}
 
-				if ( ! isset( $event_meta[ Learndash_Transaction_Model::$meta_key_price_type ] ) ) {
-					$event_meta[ Learndash_Transaction_Model::$meta_key_price_type ] = $is_subscription_event
+				if ( ! isset( $event_meta[ Transaction::$meta_key_price_type ] ) ) {
+					$event_meta[ Transaction::$meta_key_price_type ] = $is_subscription_event
 						? LEARNDASH_PRICE_TYPE_SUBSCRIBE
 						: LEARNDASH_PRICE_TYPE_PAYNOW;
 				}
@@ -953,20 +953,20 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 					}
 
 					if ( $is_subscription_event ) {
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]                          = $legacy_pricing;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['recurring_times']       = $legacy_pricing['no_of_cycles'] ?? 0;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['duration_value']        = $legacy_pricing['pricing_billing_p3'] ?? 0;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['duration_length']       = $legacy_pricing['pricing_billing_t3'] ?? '';
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['trial_price']           = $legacy_pricing['trial_price'] ?? 0;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['trial_duration_value']  = $legacy_pricing['trial_duration_p1'] ?? 0;
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]['trial_duration_length'] = $legacy_pricing['trial_duration_t1'] ?? '';
+						$event_meta[ Transaction::$meta_key_pricing_info ]                          = $legacy_pricing;
+						$event_meta[ Transaction::$meta_key_pricing_info ]['recurring_times']       = $legacy_pricing['no_of_cycles'] ?? 0;
+						$event_meta[ Transaction::$meta_key_pricing_info ]['duration_value']        = $legacy_pricing['pricing_billing_p3'] ?? 0;
+						$event_meta[ Transaction::$meta_key_pricing_info ]['duration_length']       = $legacy_pricing['pricing_billing_t3'] ?? '';
+						$event_meta[ Transaction::$meta_key_pricing_info ]['trial_price']           = $legacy_pricing['trial_price'] ?? 0;
+						$event_meta[ Transaction::$meta_key_pricing_info ]['trial_duration_value']  = $legacy_pricing['trial_duration_p1'] ?? 0;
+						$event_meta[ Transaction::$meta_key_pricing_info ]['trial_duration_length'] = $legacy_pricing['trial_duration_t1'] ?? '';
 					} else {
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = $legacy_pricing;
+						$event_meta[ Transaction::$meta_key_pricing_info ] = $legacy_pricing;
 					}
 
 					// Encode to decode later, just for compatibility with the new code.
-					$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ] = wp_json_encode(
-						$event_meta[ Learndash_Transaction_Model::$meta_key_pricing_info ]
+					$event_meta[ Transaction::$meta_key_pricing_info ] = wp_json_encode(
+						$event_meta[ Transaction::$meta_key_pricing_info ]
 					);
 
 					unset( $event_meta['pricing'] );
@@ -1039,7 +1039,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @param int $post_id Post ID.
 		 *
-		 * @return Learndash_Product_Model[]
+		 * @return Product[]
 		 */
 		private function setup_products_or_fail( int $post_id ): array {
 			if ( $post_id <= 0 ) {
@@ -1054,7 +1054,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				);
 			}
 
-			$products = Learndash_Product_Model::find_many( array( $post_id ) );
+			$products = Product::find_many( array( $post_id ) );
 
 			if ( empty( $products ) ) {
 				$this->log_error( 'No related products found.' );
@@ -1072,7 +1072,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			$this->log_info(
 				'Products IDs: ' . array_reduce(
 					$products,
-					function ( string $carry, Learndash_Product_Model $product ): string {
+					function ( string $carry, Product $product ): string {
 						return $carry . $product->get_id() . ', ';
 					},
 					''
@@ -1087,9 +1087,9 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array                     $event    Event.
-		 * @param Learndash_Product_Model[] $products Products.
-		 * @param WP_User                   $user     User.
+		 * @param array     $event    Event.
+		 * @param Product[] $products Products.
+		 * @param WP_User   $user     User.
 		 *
 		 * @phpstan-param array{
 		 *     event: string,

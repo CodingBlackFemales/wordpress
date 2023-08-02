@@ -753,6 +753,8 @@ function learndash_user_progress_get_previous_incomplete_step( $user_id = 0, $co
 			}
 		}
 	}
+
+	return false;
 }
 
 /**

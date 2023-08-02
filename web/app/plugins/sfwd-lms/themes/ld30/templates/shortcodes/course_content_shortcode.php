@@ -118,7 +118,7 @@ if ( $has_course_content ) :
 			 * ('listing.php');
 			 */
 
-			learndash_get_template_part(
+			 learndash_get_template_part(
 				'course/listing.php',
 				array(
 					'course_id'                  => $course_id,
