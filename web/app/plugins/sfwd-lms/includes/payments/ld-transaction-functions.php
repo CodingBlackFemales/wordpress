@@ -7,6 +7,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -65,7 +67,7 @@ function learndash_transaction_create( array $meta_fields, WP_Post $post, WP_Use
 			)
 		);
 
-		update_post_meta( $parent_transaction_id, Learndash_Transaction_Model::$meta_key_is_parent, true );
+		update_post_meta( $parent_transaction_id, Transaction::$meta_key_is_parent, true );
 		foreach ( $common_meta_fields as $key => $value ) {
 			update_post_meta( $parent_transaction_id, $key, $value );
 		}

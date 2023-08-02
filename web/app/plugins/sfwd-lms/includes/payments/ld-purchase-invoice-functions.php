@@ -6,6 +6,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Transaction;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
@@ -530,7 +532,7 @@ if ( ! function_exists( 'learndash_purchase_invoice_pdf' ) ) {
 			$purchase_invoice_args['pdf_keywords'] = implode( ' ', $tags_array );
 		}
 
-		$transaction = Learndash_Transaction_Model::find( $transaction_id );
+		$transaction = Transaction::find( $transaction_id );
 		if ( ! $transaction ) {
 			wp_die( esc_html__( 'Transaction now found.', 'learndash' ) );
 		}

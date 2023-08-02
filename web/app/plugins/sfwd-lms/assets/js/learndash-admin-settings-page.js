@@ -1241,7 +1241,12 @@ jQuery(function () {
 			'.sfwd_options select#learndash_settings_courses_themes_active_theme'
 		).each(function (idx, item) {
 			jQuery(item).on('change', function (e) {
-				const select_theme_val = jQuery(e.currentTarget).val();
+				let select_theme_val = jQuery(e.currentTarget).val();
+
+				// If a theme inherits settings from another theme then we need to change the select value to the parent theme.
+				if ( learndash_admin_settings_data.themes_inheriting_settings[ select_theme_val ] !== undefined ) {
+					select_theme_val = learndash_admin_settings_data.themes_inheriting_settings[ select_theme_val ];
+				}
 
 				jQuery(
 					'.sfwd_options .ld-theme-settings-section-state-open'
@@ -2583,5 +2588,65 @@ jQuery(function ($) {
 
 			button.attr('disabled', false).text(defaultButtonLabel);
 		});
+	});
+
+	function learndashValidateStripeWebhook(callIndex = 1) {
+		const $button = $('#learndash-validate-stripe-webhook');
+
+		$button.attr('disabled', true);
+		$button.find('.learndash-validate-stripe-webhook-text-default').hide();
+		$button.find('.learndash-validate-stripe-webhook-text-loading').show();
+
+		$.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'learndash_validate_stripe_webhook',
+				nonce: $button.data('nonce'),
+				call_index: callIndex,
+			},
+		}).done(function (response) {
+			if (response.success) {
+				if (response.data.success) {
+					$button.attr('disabled', false);
+					$button
+						.find('.learndash-validate-stripe-webhook-text-loading')
+						.hide();
+					$button
+						.find('.learndash-validate-stripe-webhook-text-default')
+						.show();
+
+					$('#learndash-stripe-webhook-validation-success').show();
+				} else if (response.data.fail) {
+					$button.attr('disabled', false);
+					$button
+						.find('.learndash-validate-stripe-webhook-text-loading')
+						.hide();
+					$button
+						.find('.learndash-validate-stripe-webhook-text-default')
+						.show();
+
+					$('#learndash-stripe-webhook-validation-error').show();
+				} else if (response.data.progress) {
+					callIndex++;
+
+					setTimeout(function () {
+						learndashValidateStripeWebhook(callIndex);
+					}, 5000);
+				}
+			} else {
+				alert(response.data.message);
+			}
+		});
+	}
+
+	$('#learndash-validate-stripe-webhook').on('click', function (e) {
+		e.preventDefault();
+
+		$('#learndash-stripe-webhook-validation-success').hide();
+		$('#learndash-stripe-webhook-validation-error').hide();
+
+		learndashValidateStripeWebhook();
 	});
 });

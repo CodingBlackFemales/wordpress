@@ -9,10 +9,6 @@
 
 namespace LearnDash\Core;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 use StellarWP\Learndash\lucatume\DI52\Container as DI52Container;
 use StellarWP\Learndash\lucatume\DI52\ContainerException;
 use StellarWP\Learndash\StellarWP\ContainerContract\ContainerInterface;
@@ -21,6 +17,8 @@ use StellarWP\Learndash\StellarWP\ContainerContract\ContainerInterface;
  * LearnDash Container class.
  *
  * @since 4.5.0
+ *
+ * @method void register( $serviceProviderClass, ...$alias ) Registers a service provider implementation.
  */
 class Container implements ContainerInterface {
 	/**

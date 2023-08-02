@@ -50,7 +50,7 @@ function ld_quiz_list( $attr = array(), $content = '', $shortcode_slug = 'ld_qui
 			if ( ! empty( $attr['lesson_id'] ) ) {
 				$course_steps = learndash_get_lesson_quiz_list( $attr['lesson_id'], null, $attr['course_id'] );
 				if ( ! empty( $course_steps ) ) {
-					$course_steps = wp_list_pluck( $course_steps, 'post' );
+					$course_steps = wp_list_pluck( (array) $course_steps, 'post' );
 					$course_steps = wp_list_pluck( $course_steps, 'ID' );
 				}
 			} else {
