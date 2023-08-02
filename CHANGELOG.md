@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.19](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.18...v0.1.19) (2023-08-02)
+
+
+### Bug Fixes
+
+* prevent duplicate quiz display ([ff7261f](https://github.com/CodingBlackFemales/wordpress/commit/ff7261f903fd7b5d884486a68b13386e2aab7005))
+
 ## [0.1.18](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.17...v0.1.18) (2023-08-02)
 
 ## [0.1.17](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.16...v0.1.17) (2023-08-02)
