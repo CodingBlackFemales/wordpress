@@ -1,17 +1,17 @@
-# Copyright (C) 2022 Automattic
+# Copyright (C) 2023 Automattic
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Job Manager - WooCommerce Paid Listings 2.9.8\n"
+"Project-Id-Version: WP Job Manager - WooCommerce Paid Listings 2.9.9\n"
 "Report-Msgid-Bugs-To: https://wpjobmanager.com/support/\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-04-08T12:53:18-03:00\n"
+"POT-Creation-Date: 2023-05-05T15:23:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: wp-job-manager-wc-paid-listings\n"
 
 #. Plugin Name of the plugin
@@ -196,15 +196,15 @@ msgstr ""
 msgid "Resume Package Subscription"
 msgstr ""
 
-#: includes/class-wc-paid-listings-cart.php:143
-#: includes/class-wc-paid-listings-cart.php:168
-#: includes/class-wc-paid-listings-cart.php:191
+#: includes/class-wc-paid-listings-cart.php:150
+#: includes/class-wc-paid-listings-cart.php:175
+#: includes/class-wc-paid-listings-cart.php:198
 msgid "Job Listing"
 msgstr ""
 
-#: includes/class-wc-paid-listings-cart.php:149
-#: includes/class-wc-paid-listings-cart.php:174
-#: includes/class-wc-paid-listings-cart.php:199
+#: includes/class-wc-paid-listings-cart.php:156
+#: includes/class-wc-paid-listings-cart.php:181
+#: includes/class-wc-paid-listings-cart.php:206
 msgid "Resume"
 msgstr ""
 
@@ -471,75 +471,75 @@ msgid_plural "%1$s to post %2$s resumes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-job-manager-wc-paid-listings.php:146
+#: wp-job-manager-wc-paid-listings.php:148
 msgid "<em>WP Job Manager - WC Paid Listings</em> requires WP Job Manager to be installed and activated."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:160
+#: wp-job-manager-wc-paid-listings.php:162
 msgid "<em>WP Job Manager - WC Paid Listings</em> requires WP Job Manager %s (you are using %s)."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:168
+#: wp-job-manager-wc-paid-listings.php:170
 msgid "<em>WP Job Manager - WC Paid Listings</em> requires WooCommerce to be installed and activated."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:170
+#: wp-job-manager-wc-paid-listings.php:172
 msgid "<em>WP Job Manager - WC Paid Listings</em> requires WooCommerce %s (you are using %s)."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:186
+#: wp-job-manager-wc-paid-listings.php:188
 msgid "Please note that activating both <em>WP Job Manager - WC Paid Listings</em> and <em>WP Job Manager - Simple Paid Listings</em> will result in unexpected behaviour."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:193
+#: wp-job-manager-wc-paid-listings.php:195
 msgid "We recommend that you only use one of these plugins to sell job listings."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:220
+#: wp-job-manager-wc-paid-listings.php:222
 msgid "WC Paid Listings requires Resume Manager 1.11.0 and above. Please upgrade to continue using paid listings functionality for resumes."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:229
+#: wp-job-manager-wc-paid-listings.php:231
 msgid "WC Paid Listings requires WooCommerce Subscriptions 2.0 and above. Please upgrade as soon as possible!"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:250
+#: wp-job-manager-wc-paid-listings.php:252
 msgctxt "job_listing"
 msgid "Pending Payment"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:255
+#: wp-job-manager-wc-paid-listings.php:257
 msgid "Pending Payment <span class=\"count\">(%s)</span>"
 msgid_plural "Pending Payment <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wp-job-manager-wc-paid-listings.php:270
+#: wp-job-manager-wc-paid-listings.php:272
 msgid "Pending Payment"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:312
-#: wp-job-manager-wc-paid-listings.php:333
+#: wp-job-manager-wc-paid-listings.php:314
+#: wp-job-manager-wc-paid-listings.php:335
 msgid "Paid Listings Flow"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:313
-#: wp-job-manager-wc-paid-listings.php:334
+#: wp-job-manager-wc-paid-listings.php:315
+#: wp-job-manager-wc-paid-listings.php:336
 msgid "Define when the user should choose a package for submission."
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:316
+#: wp-job-manager-wc-paid-listings.php:318
 msgid "Choose a package after entering job details"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:317
+#: wp-job-manager-wc-paid-listings.php:319
 msgid "Choose a package before entering job details"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:337
+#: wp-job-manager-wc-paid-listings.php:339
 msgid "Choose a package after entering resume details"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:338
+#: wp-job-manager-wc-paid-listings.php:340
 msgid "Choose a package before entering resume details"
 msgstr ""

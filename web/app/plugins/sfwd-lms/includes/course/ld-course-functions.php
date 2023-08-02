@@ -91,6 +91,10 @@ function learndash_get_course_id( $id = null, $bypass_cb = false ) {
 		}
 	}
 
+	if ( learndash_get_post_type_slug( LDLMS_Post_Types::EXAM ) === $p->post_type ) {
+		return (int) get_post_meta( intval( $id ), 'exam_challenge_course_show', true );
+	}
+
 	return (int) get_post_meta( $id, 'course_id', true );
 }
 
@@ -1172,7 +1176,7 @@ function learndash_get_course_topics_per_page( $course_id = 0, $lesson_id = 0 ) 
 	$course_topics_per_page = 0;
 
 	// From the WP > Settings > Reading > Posts per page.
-	$course_topics_per_page = (int) get_option( 'posts_per_page' );
+	$course_topics_per_page = intval( get_option( 'posts_per_page' ) );
 
 	// From the LearnDash > Settings > General > Global Pagination Settings > Shortcodes & Widgets per page.
 	$course_topics_per_page = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'per_page', $course_topics_per_page );

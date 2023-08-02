@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\StellarWP\DB\DB;
+
 if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'LearnDash_Settings_Metabox_Course_Access_Settings' ) ) ) {
 	/**
 	 * Class LearnDash Settings Metabox for Course Access Settings.
@@ -46,6 +49,8 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 			add_filter( 'learndash_metabox_save_fields_' . $this->settings_metabox_key, array( $this, 'filter_saved_fields' ), 30, 3 );
 			add_filter( 'learndash_admin_settings_data', array( $this, 'learndash_admin_settings_data' ), 30, 1 );
 
+			add_action( 'learndash_metabox_updated_field', [ $this, 'process_course_access_update' ], 10, 4 );
+
 			// Map internal settings field ID to legacy field ID.
 			$this->settings_fields_map = array(
 				// New fields.
@@ -55,6 +60,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 				'course_trial_duration_t1'                => 'course_trial_duration_t1',
 				'course_trial_duration_p1'                => 'course_trial_duration_p1',
+
+				'course_start_date'                       => 'course_start_date',
+				'course_end_date'                         => 'course_end_date',
+				'course_seats_limit'                      => 'course_seats_limit',
 
 				// Legacy fields.
 				'course_price_type'                       => 'course_price_type',
@@ -903,6 +912,54 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						),
 					),
 				),
+				'course_start_date'             => array(
+					'name'      => 'course_start_date',
+					'label'     => esc_html__( 'Start Date', 'learndash' ),
+					'value'     => $this->setting_option_values['course_start_date'] ?? '',
+					'type'      => 'date-entry',
+					'class'     => 'learndash-datepicker-field',
+					'help_text' => sprintf(
+					// translators: placeholder: course, courses.
+						esc_html_x( 'When does the %1$s start? It does not affect open %2$s.', 'placeholder: course, courses', 'learndash' ),
+						learndash_get_custom_label_lower( 'course' ),
+						learndash_get_custom_label_lower( 'courses' )
+					),
+				),
+				'course_end_date'               => array(
+					'name'      => 'course_end_date',
+					'label'     => esc_html__( 'End Date', 'learndash' ),
+					'value'     => $this->setting_option_values['course_end_date'] ?? '',
+					'type'      => 'date-entry',
+					'class'     => 'learndash-datepicker-field',
+					'help_text' => sprintf(
+					// translators: placeholder: course, courses.
+						esc_html_x( 'When does the %1$s end? It does not affect open %2$s.', 'placeholder: course, courses', 'learndash' ),
+						learndash_get_custom_label_lower( 'course' ),
+						learndash_get_custom_label_lower( 'courses' )
+					),
+				),
+				'course_seats_limit'            => array(
+					'name'      => 'course_seats_limit',
+					'label'     => esc_html__( 'Student Limit', 'learndash' ),
+					'value'     => $this->setting_option_values['course_seats_limit'] ?? '',
+					'type'      => 'number',
+					'class'     => 'small-text',
+					'attrs'     => array(
+						'step' => 1,
+						'min'  => 0,
+					),
+					'help_text' => sprintf(
+					// translators: placeholder: course, course, courses.
+						esc_html_x(
+							'Limits the number of students who can take your %1$s. When the limit is reached the %2$s can no longer be purchased or enrolled in. Admins can enroll students even if the limit is reached. It does not affect open %3$s.',
+							'placeholder: course, course, courses',
+							'learndash'
+						),
+						learndash_get_custom_label_lower( 'course' ),
+						learndash_get_custom_label_lower( 'course' ),
+						learndash_get_custom_label_lower( 'courses' )
+					),
+				),
 				'course_access_list_enabled'    => array(
 					'name'                => 'course_access_list_enabled',
 					'label'               => sprintf(
@@ -1079,7 +1136,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 		 */
 		public function filter_saved_fields( $settings_values = array(), $settings_metabox_key = '', $settings_screen_id = '' ) {
 			if ( ( $settings_screen_id === $this->settings_screen_id ) && ( $settings_metabox_key === $this->settings_metabox_key ) ) {
-
 				if ( ! isset( $settings_values['course_price_type'] ) ) {
 					$settings_values['course_price_type'] = '';
 				}
@@ -1207,6 +1263,39 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 			}
 
 			return $settings_values;
+		}
+
+		/**
+		 *
+		 * Update related settings after course access updating.
+		 *
+		 * @param WP_Post $post      The WP_Post object.
+		 * @param string  $key       The setting key.
+		 * @param mixed   $new_value The new value.
+		 * @param mixed   $old_value The old value.
+		 *
+		 * @return void
+		 */
+		public function process_course_access_update( WP_Post $post, string $key, $new_value, $old_value ): void {
+			// bail if it's the same value.
+			if ( $old_value === $new_value ) {
+				return;
+			}
+
+			switch ( $key ) {
+				case 'course_start_date':
+					if ( empty( $new_value ) && empty( $old_value ) ) {
+						return;
+					}
+
+					$new_enrollment_date = ! empty( $new_value ) ? Cast::to_int( $new_value ) : time();
+
+					DB::table( 'usermeta' )
+						->where( 'meta_key', 'course_' . $post->ID . '_access_from' )
+						->update( [ 'meta_value' => $new_enrollment_date ] );
+
+					break;
+			}
 		}
 
 		// End of functions.

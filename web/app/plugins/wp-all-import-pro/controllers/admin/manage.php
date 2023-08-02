@@ -246,10 +246,11 @@ class PMXI_Admin_Manage extends PMXI_Controller_Admin {
 			}
 			$tpl_data = array(
 				'name' => $tpl_name,
+                'bundle_xpath' => $import->xpath,
 				'is_keep_linebreaks' => 0,
 				'is_leave_html' => 0,
 				'fix_characters' => 0,
-				'options' => $import->options
+				'options' => $import->options,
 			);
 
 			$template_data = array($tpl_data);

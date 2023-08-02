@@ -1,8 +1,8 @@
 === Resume Manager ===
 Contributors: mikejolley, kraftbj, tripflex, danjjohnson, aheckler, bryceadams, fitoussi, jakeom, alexsanford1, onubrooks
 Requires at least: 5.0
-Tested up to: 5.8
-Stable tag: 1.18.6
+Tested up to: 6.2
+Stable tag: 1.19.0
 License: GNU General Public License v3.0
 
 Manage candidate resumes from the WordPress admin panel, and allow candidates to post their resumes directly to your site.
@@ -28,6 +28,18 @@ If you need help with customisation you will need to find and hire a developer c
 To install this plugin, please refer to the guide here: [http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation)
 
 == Changelog ==
+
+= 1.19.0 =
+- Dev: Added author support for the Post Type just like WPJM core
+- Fix: Fixed a typo in the installation text
+- Fix: Fix phpcs dependency issues
+- Fix: Template security improvements
+- Dev: Add language pack deploy command
+- Fix: Remove unused jQuery dependencies
+- Fix: Update jQuery deprecated functions
+- Dev: Add action to save resume skills to postmeta
+- Fix: Fix extra whitespace in 'Apply with Resume' textarea
+- Fix: Add user login to correct method call
 
 = 1.18.6 =
 - Fix: Ajax search check isset() like core for search fields

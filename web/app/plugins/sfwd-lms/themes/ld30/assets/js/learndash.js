@@ -1328,6 +1328,11 @@ jQuery(function ($) {
 	}
 
 	$('.btn-join').on('click', function (e) {
+		if ($(this).hasClass('btn-disabled')) {
+			e.preventDefault();
+			return false;
+		}
+
 		const total = parseFloat($('#total-row').attr('data-total'));
 
 		if (0 === total) {

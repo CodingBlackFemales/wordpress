@@ -6,7 +6,7 @@
  * @since 4.2.0
  * @deprecated 4.5.0
  *
- * @package LearnDash
+ * @package LearnDash\Deprecated
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 _deprecated_file(
-	basename( __FILE__ ),
+	__FILE__,
 	'4.5.0',
 	esc_html( LEARNDASH_LMS_PLUGIN_DIR . '/includes/payments/gateways/class-learndash-payment-gateway.php' )
 );
