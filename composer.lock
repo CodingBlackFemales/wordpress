@@ -8640,15 +8640,15 @@
         },
         {
             "name": "wpackagist-plugin/optimole-wp",
-            "version": "3.9.1",
+            "version": "3.9.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/3.9.1"
+                "reference": "tags/3.9.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.9.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.9.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
