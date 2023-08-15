@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'WP_CLI' ) ) {
 /**
  * Just a few sample commands to learn how WP-CLI works
  */
-class WP_CLI_Command extends \WP_CLI_Command {
+class Quiz_Results_Command extends \WP_CLI_Command {
 	/**
 	 * Exports quiz results to Airtable.
 	 * ## OPTIONS
@@ -27,7 +27,7 @@ class WP_CLI_Command extends \WP_CLI_Command {
 	 * [--verbose]
 	 * : Shows verbose output.
 	 */
-	public function export_quiz_results( $args, $assoc_args ) {
+	public function export( $args, $assoc_args ) {
 		$verbose = array_key_exists( 'verbose', $assoc_args );
 
 		if ( ! empty( $args ) ) {
@@ -60,7 +60,7 @@ class WP_CLI_Command extends \WP_CLI_Command {
 	 */
 	public static function hooks() {
 		if ( function_exists( 'learndash_get_report_user_ids' ) ) {
-			WP_CLI::add_command( 'cbf', 'CodingBlackFemales\Multisite\Customizations\WP_CLI_Command' );
+			WP_CLI::add_command( 'cbf quiz_results', self::class );
 		}
 	}
 }
