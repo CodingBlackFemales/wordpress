@@ -24,6 +24,7 @@ class WP_Cron {
 	public static function export_quiz_activity() {
 		// Only attempt if Learndash is installed
 		if ( defined( 'LEARNDASH_VERSION' ) ) {
+			error_log( 'Exported quiz results' );
 			$results = LearnDash::get_results();
 			Airtable::insert_quiz_activities( $results );
 		}
