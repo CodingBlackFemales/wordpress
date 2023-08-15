@@ -339,7 +339,8 @@ class LearnDash {
 		$course_progress_data = array();
 		$transient_data = array();
 		$transient_data['posts_ids'] = '';
-		$transient_data['users_ids'] = learndash_get_report_user_ids();
+		// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
+		$transient_data['users_ids'] = learndash_get_report_user_ids() ?? array();
 		$transient_data['total_users'] = count( $transient_data['users_ids'] );
 		$activity_query_args = array(
 			'post_types'      => 'sfwd-quiz',
