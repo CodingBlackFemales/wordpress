@@ -6,6 +6,8 @@
  * A good default policy is to deviate from the production config as little as
  * possible. Try to define as much of your configuration in this file as you
  * can.
+ *
+ * phpcs:disable PHPCompatibility.Operators.NewOperators.t_coalesceFound, Universal.Operators.DisallowShortTernary.Found
  */
 
 use Roots\WPConfig\Config;
@@ -136,6 +138,7 @@ Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Sk
  * CBF Settings
  */
 Config::define( 'ENABLE_CBF_SCHEDULED_EXPORT', env( 'ENABLE_CBF_SCHEDULED_EXPORT' ) ?? WP_ENV === 'production' );
+Config::define( 'CBF_AUTH_USER_ID', env( 'CBF_AUTH_USER_ID' ) ?? 1 );
 
 /**
  * Debugging Settings
@@ -166,6 +169,9 @@ Config::define( 'DOMAIN_CURRENT_SITE', $_SERVER['HTTP_HOST'] ?? env( 'DOMAIN_CUR
 Config::define( 'PATH_CURRENT_SITE', env( 'PATH_CURRENT_SITE' ) ?? '/' );
 Config::define( 'SITE_ID_CURRENT_SITE', env( 'SITE_ID_CURRENT_SITE' ) ?? 1 );
 Config::define( 'BLOG_ID_CURRENT_SITE', env( 'BLOG_ID_CURRENT_SITE' ) ?? 1 );
+Config::define( 'MAIN_SITE_ID', 1 );
+Config::define( 'ACADEMY_SITE_ID', 2 );
+Config::define( 'JOBS_SITE_ID', 3 );
 Config::define( 'WP_DEFAULT_THEME', 'twentytwentythree' );
 Config::define( 'COOKIE_DOMAIN', false );
 Config::define( 'COOKIEPATH', '/' );
