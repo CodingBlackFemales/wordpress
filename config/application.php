@@ -6,6 +6,8 @@
  * A good default policy is to deviate from the production config as little as
  * possible. Try to define as much of your configuration in this file as you
  * can.
+ *
+ * phpcs:disable PHPCompatibility.Operators.NewOperators.t_coalesceFound, Universal.Operators.DisallowShortTernary.Found
  */
 
 use Roots\WPConfig\Config;
@@ -136,6 +138,7 @@ Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Sk
  * CBF Settings
  */
 Config::define( 'ENABLE_CBF_SCHEDULED_EXPORT', env( 'ENABLE_CBF_SCHEDULED_EXPORT' ) ?? WP_ENV === 'production' );
+Config::define( 'CBF_AUTH_USER_ID', env( 'CBF_AUTH_USER_ID' ) ?? 1 );
 
 /**
  * Debugging Settings
