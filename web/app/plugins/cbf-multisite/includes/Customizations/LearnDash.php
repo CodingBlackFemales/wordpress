@@ -336,94 +336,107 @@ class LearnDash {
 	 */
 	// phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
 	public static function get_results() {
-		$course_progress_data = array();
-		$transient_data = array();
-		$transient_data['posts_ids'] = '';
-		// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
-		$transient_data['users_ids'] = learndash_get_report_user_ids() ?? array();
-		$transient_data['total_users'] = count( $transient_data['users_ids'] );
-		$activity_query_args = array(
-			'post_types'      => 'sfwd-quiz',
-			'activity_types'  => 'quiz',
-			'activity_status' => array( 'IN_PROGRESS', 'COMPLETED' ),
-			'orderby_order'   => 'users.display_name, posts.post_title ASC',
-			'date_format'     => 'F j, Y H:i:s',
-			'per_page'        => '',
-			'time_start'      => '',
-			'time_end'        => '',
-		);
+		$logout_user = false;
 
-		if ( empty( self::$data_headers ) ) {
-			self::set_report_headers();
+		if ( ! is_user_logged_in() ) {
+			wp_set_current_user( CBF_AUTH_USER_ID );
+			$logout_user = true;
 		}
 
-		foreach ( $transient_data['users_ids'] as $user_id_idx => $user_id ) {
-			unset( $transient_data['users_ids'][ $user_id_idx ] );
-			$report_user = get_user_by( 'id', $user_id );
+		try {
+			$course_progress_data = array();
+			$transient_data = array();
+			$transient_data['posts_ids'] = '';
+			// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_coalesceFound
+			$transient_data['users_ids'] = learndash_get_report_user_ids( get_current_user_id() ) ?? array();
+			$transient_data['total_users'] = count( $transient_data['users_ids'] );
+			$activity_query_args = array(
+				'post_types'      => 'sfwd-quiz',
+				'activity_types'  => 'quiz',
+				'activity_status' => array( 'IN_PROGRESS', 'COMPLETED' ),
+				'orderby_order'   => 'users.display_name, posts.post_title ASC',
+				'date_format'     => 'F j, Y H:i:s',
+				'per_page'        => '',
+				'time_start'      => '',
+				'time_end'        => '',
+			);
 
-			if ( $report_user !== false ) {
-				$activity_query_args['user_ids'] = array( $user_id );
+			if ( empty( self::$data_headers ) ) {
+				self::set_report_headers();
+			}
 
-				if ( ( isset( $transient_data['posts_ids'] ) ) && ( ! empty( $transient_data['posts_ids'] ) ) ) {
-					$post_ids                        = $transient_data['posts_ids'];
-					$activity_query_args['post_ids'] = $post_ids;
-				}
+			foreach ( $transient_data['users_ids'] as $user_id_idx => $user_id ) {
+				unset( $transient_data['users_ids'][ $user_id_idx ] );
+				$report_user = get_user_by( 'id', $user_id );
 
-				if ( ( isset( $transient_data['course_ids'] ) ) && ( ! empty( $transient_data['course_ids'] ) ) ) {
-					$activity_query_args['course_ids'] = $transient_data['course_ids'];
-				}
+				if ( $report_user !== false ) {
+					$activity_query_args['user_ids'] = array( $user_id );
 
-				if ( ( isset( $transient_data['time_start'] ) ) && ( ! empty( $transient_data['time_start'] ) ) ) {
-					$activity_query_args['time_start'] = esc_attr( $transient_data['time_start'] );
-				}
+					if ( ( isset( $transient_data['posts_ids'] ) ) && ( ! empty( $transient_data['posts_ids'] ) ) ) {
+						$post_ids                        = $transient_data['posts_ids'];
+						$activity_query_args['post_ids'] = $post_ids;
+					}
 
-				if ( ( isset( $transient_data['time_end'] ) ) && ( ! empty( $transient_data['time_end'] ) ) ) {
-					$activity_query_args['time_end'] = esc_attr( $transient_data['time_end'] );
-				}
+					if ( ( isset( $transient_data['course_ids'] ) ) && ( ! empty( $transient_data['course_ids'] ) ) ) {
+						$activity_query_args['course_ids'] = $transient_data['course_ids'];
+					}
 
-				$user_courses_reports = learndash_reports_get_activity( $activity_query_args );
-				if ( ! empty( $user_courses_reports['results'] ) ) {
-					foreach ( $user_courses_reports['results'] as $result ) {
+					if ( ( isset( $transient_data['time_start'] ) ) && ( ! empty( $transient_data['time_start'] ) ) ) {
+						$activity_query_args['time_start'] = esc_attr( $transient_data['time_start'] );
+					}
 
-						/**
-						 * Added LD 3.2.0 - PP-204
-						 * Missing Activity meta data. As a secondary pull from the user quiz meta.
-						 */
-						if ( ( ( ! property_exists( $result, 'activity_meta' ) ) || ( empty( $result->activity_meta ) ) ) && ! empty( $user_quiz_meta ) ) {
-							foreach ( $user_quiz_meta as $user_meta_item ) {
-								if ( ( absint( $result->post_id ) === absint( $user_meta_item['quiz'] ) ) && ( absint( $result->activity_updated ) === absint( $user_meta_item['time'] ) ) && ( absint( $result->activity_started ) === absint( $user_meta_item['started'] ) ) ) {
-									$result->activity_meta = $user_meta_item;
-									break;
+					if ( ( isset( $transient_data['time_end'] ) ) && ( ! empty( $transient_data['time_end'] ) ) ) {
+						$activity_query_args['time_end'] = esc_attr( $transient_data['time_end'] );
+					}
+
+					$user_courses_reports = learndash_reports_get_activity( $activity_query_args );
+					if ( ! empty( $user_courses_reports['results'] ) ) {
+						foreach ( $user_courses_reports['results'] as $result ) {
+
+							/**
+							 * Added LD 3.2.0 - PP-204
+							 * Missing Activity meta data. As a secondary pull from the user quiz meta.
+							 */
+							if ( ( ( ! property_exists( $result, 'activity_meta' ) ) || ( empty( $result->activity_meta ) ) ) && ! empty( $user_quiz_meta ) ) {
+								foreach ( $user_quiz_meta as $user_meta_item ) {
+									if ( ( absint( $result->post_id ) === absint( $user_meta_item['quiz'] ) ) && ( absint( $result->activity_updated ) === absint( $user_meta_item['time'] ) ) && ( absint( $result->activity_started ) === absint( $user_meta_item['started'] ) ) ) {
+										$result->activity_meta = $user_meta_item;
+										break;
+									}
 								}
+							}
+
+							$row = array();
+
+							foreach ( self::$data_headers as $header_key => $header_data ) {
+
+								if ( ( isset( $header_data['display'] ) ) && ( ! empty( $header_data['display'] ) ) && ( is_callable( $header_data['display'] ) ) ) {
+									$row[ $header_key ] = call_user_func_array(
+										$header_data['display'],
+										array(
+											$header_data['default'],
+											$header_key,
+											$result,
+											$report_user,
+										)
+									);
+								} elseif ( ( isset( $header_data['default'] ) ) && ( ! empty( $header_data['default'] ) ) ) {
+									$row[ $header_key ] = $header_data['default'];
+								} else {
+									$row[ $header_key ] = '';
+								}
+							}
+
+							if ( ! empty( $row ) ) {
+								$course_progress_data[] = $row;
 							}
 						}
 					}
-
-					$row = array();
-
-					foreach ( self::$data_headers as $header_key => $header_data ) {
-
-						if ( ( isset( $header_data['display'] ) ) && ( ! empty( $header_data['display'] ) ) && ( is_callable( $header_data['display'] ) ) ) {
-							$row[ $header_key ] = call_user_func_array(
-								$header_data['display'],
-								array(
-									$header_data['default'],
-									$header_key,
-									$result,
-									$report_user,
-								)
-							);
-						} elseif ( ( isset( $header_data['default'] ) ) && ( ! empty( $header_data['default'] ) ) ) {
-							$row[ $header_key ] = $header_data['default'];
-						} else {
-							$row[ $header_key ] = '';
-						}
-					}
-
-					if ( ! empty( $row ) ) {
-						$course_progress_data[] = $row;
-					}
 				}
+			}
+		} finally {
+			if ( $logout_user ) {
+				wp_logout();
 			}
 		}
 
