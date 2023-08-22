@@ -8604,15 +8604,15 @@
         },
         {
             "name": "wpackagist-plugin/mailchimp-for-woocommerce",
-            "version": "3.1",
+            "version": "3.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce/",
-                "reference": "tags/3.1"
+                "reference": "tags/3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.3.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.3.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
