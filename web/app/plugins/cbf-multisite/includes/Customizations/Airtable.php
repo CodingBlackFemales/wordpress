@@ -71,11 +71,11 @@ class Airtable {
 	 *
 	 * @param array $activities The array of all quiz activities.
 	 *
-	 * @return array $responses;
+	 * @return array $inserted_records;
 	 */
 	public static function insert_quiz_activities( $activities ) {
 		$api = self::get_api();
-		$responses = array();
+		$inserted_records = array();
 		$latest_activity_id = self::get_latest_quiz_activity();
 
 		// filter out activities that have already been inserted
@@ -91,9 +91,13 @@ class Airtable {
 		for ( $i = 0; $i < count( $new_activities ); $i += AIRTABLE_BATCH_SIZE ) {
 			$sub_array = array_slice( $new_activities, $i, AIRTABLE_BATCH_SIZE );
 			// Save to Airtable
-			$responses[] = $api->saveContent( AIRTABLE_REPORTS_TABLE, $sub_array );
+			$records = $api->saveContent( AIRTABLE_REPORTS_TABLE, $sub_array )['records'];
+
+			if ( isset( $records ) && is_array( $records ) ) {
+				$inserted_records = array_merge( $inserted_records, $records );
+			}
 		}
 
-		return $responses;
+		return $inserted_records;
 	}
 }
