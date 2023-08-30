@@ -320,7 +320,7 @@ class LearnDash {
 	protected static function sort_nested_array( $array, $key ) {
 		usort(
 			$array,
-			function( $a, $b ) use ( $key ) {
+			function ( $a, $b ) use ( $key ) {
 				// phpcs:ignore PHPCompatibility.Operators.NewOperators.t_spaceshipFound
 				return $a[ $key ] <=> $b[ $key ];
 			}
