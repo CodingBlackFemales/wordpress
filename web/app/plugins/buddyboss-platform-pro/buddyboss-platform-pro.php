@@ -9,7 +9,7 @@
  * Description: Adds premium features to BuddyBoss Platform.
  * Author:      BuddyBoss
  * Author URI:  https://buddyboss.com/
- * Version:     2.3.2
+ * Version:     2.4.00
  * Text Domain: buddyboss-pro
  * Domain Path: /languages/
  * License:     GPLv2 or later (license.txt)
@@ -23,21 +23,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
-	require dirname( __FILE__ ) . '/vendor/autoload.php';
-}
-
-// load main class file.
-require_once 'class-bb-platform-pro.php';
-
-/**
- * Returns the main instance of BB_Platform_Pro to prevent the need to use globals.
- *
- * @since  1.0.0
- * @return BB_Platform_Pro
- */
-function bb_platform_pro() {
-	return BB_Platform_Pro::instance();
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
 }
 
 /**
@@ -75,12 +62,18 @@ function bb_platform_pro_init() {
 	if ( ! defined( 'BP_PLATFORM_VERSION' ) ) {
 		add_action( 'admin_notices', 'bb_platform_pro_install_bb_platform_notice' );
 		add_action( 'network_admin_notices', 'bb_platform_pro_install_bb_platform_notice' );
+
 		return;
 	} elseif ( version_compare( BP_PLATFORM_VERSION, '1.3.4', '<' ) ) {
 		add_action( 'admin_notices', 'bb_platform_pro_update_bb_platform_notice' );
 		add_action( 'network_admin_notices', 'bb_platform_pro_update_bb_platform_notice' );
+
 		return;
-	} else {
+	} elseif ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+
+		// load main class file.
+		require_once 'class-bb-platform-pro.php';
+
 		bb_platform_pro();
 	}
 }

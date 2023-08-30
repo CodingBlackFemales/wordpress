@@ -9,7 +9,7 @@
 
 namespace CodingBlackFemales\Multisite;
 
-use CodingBlackFemales\Multisite\Customizations\WP_Cron as WP_Cron;
+use CodingBlackFemales\Multisite\Customizations\WP_Cron;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

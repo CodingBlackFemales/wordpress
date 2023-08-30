@@ -54,15 +54,14 @@ window.bp = window.bp || {};
 			$( document ).on( 'change', '#bb-onesignal-enable-soft-prompt', this.validateSoftPrompt.bind( this ) );
 			$( document ).on( 'change', '#bb-onesignal-request-permission', this.validateRequestPermission.bind( this ) );
 			$( document ).on( 'change', '#bb-onesignal-enabled-web-push', this.enableWebPush.bind( this ) );
-			$( document ).on( 'change', '#bb-onesignal-connected-app', this.updateAppName.bind( this ) );
 
 			$( document ).on( 'click', '.bb-onesignal-enable-soft-prompt .bb-learn-more', this.softPromptLearnMore.bind( this ) );
-			$( document ).on( 'click', '#bb-onesignal-create-new-app', this.createNewApp.bind( this ) );
 
 			$( document ).on( 'keyup', '#bb-onesignal-enable-soft-prompt-message', this.updateSoftPromptMessage.bind( this ) );
 
 			$( document ).on( 'keyup', '#bb-onesignal-enable-soft-prompt-allow-button', this.updateSoftPromptAllowButton.bind( this ) );
 			$( document ).on( 'keyup', '#bb-onesignal-enable-soft-prompt-cancel-button', this.updateSoftPromptCancelButton.bind( this ) );
+			$( document ).on( 'click', '.bb-hide-pw', this.TogglePasswordField.bind( this ) );
 
 		},
 
@@ -88,11 +87,6 @@ window.bp = window.bp || {};
 
 		enableWebPush: function() {
 			bp.OneSignal_Common.validateWebPush();
-		},
-
-		updateAppName: function( event ) {
-			var app_name = $( event.currentTarget ).find( 'option:selected' ).attr( 'data-name' );
-			$( document ).find( 'input[name="bb-onesignal-connected-app-name"]' ).val( app_name );
 		},
 
 		validateWebPush: function() {
@@ -131,11 +125,6 @@ window.bp = window.bp || {};
 			$( '.bb-onesignal-enable-soft-prompt .small-text' ).addClass( 'bp-hide' );
 			$( '.bb-onesignal-enable-soft-prompt .full-text' ).removeClass( 'bp-hide' );
 			return false;
-		},
-
-		createNewApp: function () {
-			$( document ).find( '#bb-onesignal-new-app' ).val( '1' );
-			$( document ).find( '#bb-onesignal-create-new-app' ).addClass( 'loading' );
 		},
 
 		updateSoftPromptMessage: function ( event ) {
@@ -225,10 +214,7 @@ window.bp = window.bp || {};
 						settings.hasOwnProperty( 'data' ) &&
 						'string' === typeof settings.data &&
 						settings.data.search( 'action=bp_avatar_set' ) > 0 &&
-						(
-							settings.data.search( 'object=notification' ) > 0 ||
-							settings.data.search( 'object=prompt' ) > 0
-						)
+						settings.data.search( 'object=notification' )
 					) {
 
 						var response = JSON.parse( xhr.responseText );
@@ -258,10 +244,7 @@ window.bp = window.bp || {};
 						settings.hasOwnProperty( 'data' ) &&
 						'string' === typeof settings.data &&
 						settings.data.search( 'action=bp_avatar_set' ) > 0 &&
-						(
-							settings.data.search( 'object=notification' ) > 0 ||
-							settings.data.search( 'object=prompt' ) > 0
-						)
+						settings.data.search( 'object=notification' )
 					) {
 						$( event.currentTarget.activeElement ).find( '#TB_closeWindowButton' ).trigger( 'click' );
 						upload_button.html( upload_button.data( 'upload' ) );
@@ -275,10 +258,7 @@ window.bp = window.bp || {};
 						settings.hasOwnProperty( 'data' ) &&
 						'string' === typeof settings.data &&
 						settings.data.search( 'action=bp_avatar_set' ) > 0 &&
-						(
-							settings.data.search( 'object=notification' ) > 0 ||
-							settings.data.search( 'object=prompt' ) > 0
-						)
+						settings.data.search( 'object=notification' )
 					) {
 						$( document ).find( '#TB_closeWindowButton' ).trigger( 'click' );
 						upload_button.html( upload_button.data( 'uploading' ) );
@@ -292,25 +272,15 @@ window.bp = window.bp || {};
 						changes.forEach(
 							function ( change ) {
 								if ( change.attributeName.includes( 'src' ) ) {
-									var attr_src          = $( change.target ).attr( 'src' );
-									var preview_box_image = $( '.soft-prompt-box-wrapper-preview .soft-prompt-image img' );
-
+									var attr_src = $(change.target).attr('src');
 									if ( '' === attr_src ) {
 										$( change.target ).addClass( 'bp-hide' );
 										$( change.target ).next( '.bb-default-custom-avatar-field' ).val( '' );
 										$( change.target ).parents( '.bbpro-upload-attachment' ).find( '.bbpro-img-remove-button' ).addClass( 'bp-hide' );
-
-										if ( $( change.target ).hasClass( 'prompt-0-avatar' ) ) {
-											preview_box_image.attr( 'src', preview_box_image.data( 'default' ) );
-										}
 									} else {
 										$( change.target ).removeClass( 'bp-hide' );
 										$( change.target ).next( '.bb-default-custom-avatar-field' ).val( attr_src );
 										$( change.target ).parents( '.bbpro-upload-attachment' ).find( '.bbpro-img-remove-button' ).removeClass( 'bp-hide' );
-
-										if ( $( change.target ).hasClass( 'prompt-0-avatar' ) ) {
-											preview_box_image.attr( 'src', attr_src );
-										}
 									}
 								}
 							}
@@ -407,6 +377,17 @@ window.bp = window.bp || {};
 				$current.parent().find( '.description:not(.soft_prompt_label_header)' ).removeClass( 'bp-hide' );
 			}
 		},
+
+		TogglePasswordField: function( event ) {
+			var current_item = $( event.currentTarget ),
+				pass_field   = current_item.parent( '.password-toggle' ).find( 'input' );
+
+			if ( 'password' === pass_field.attr( 'type' ) ) {
+				pass_field.attr( 'type', 'text' );
+			} else {
+				pass_field.attr( 'type', 'password' );
+			}
+		}
 
 	};
 

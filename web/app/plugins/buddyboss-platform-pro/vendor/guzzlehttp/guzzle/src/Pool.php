@@ -6,7 +6,7 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise as P;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\EachPromise;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromisorInterface;
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * Sends an iterator of requests concurrently using a capped pool size.

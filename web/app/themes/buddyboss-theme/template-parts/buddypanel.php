@@ -14,19 +14,19 @@
 		<?php
 	}
 	if (
-		3 === $header &&
+		$header === 3 &&
 		! buddypanel_is_learndash_inner() &&
 		$buddypanel_logo
 	) {
 		get_template_part( 'template-parts/site-logo' );
 
 	} elseif (
-		3 !== $header &&
+		$header !== 3 &&
 		$buddypanel_logo
 	) {
 		get_template_part( 'template-parts/site-logo' );
 
-	} elseif ( 3 === $header && buddypanel_is_learndash_inner() && $buddypanel_logo ) {
+	} elseif ( $header === 3 && buddypanel_is_learndash_inner() && $buddypanel_logo ) {
 		if ( buddyboss_is_learndash_brand_logo() && buddyboss_theme_ld_focus_mode() ) {
 			?>
 			<div class="site-branding ld-brand-logo">
@@ -42,7 +42,7 @@
 	if ( ! empty( $site_icon_url ) ) {
 		?>
 		<div class="buddypanel-site-icon <?php echo esc_attr( $site_icon_class ); ?>">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="buddypanel-site-icon-link">
+			<a href="<?php echo esc_url( bb_get_theme_header_logo_link() ); ?>" class="buddypanel-site-icon-link">
 				<img src="<?php echo esc_url( $site_icon_url ); ?>" class="buddypanel-site-icon-src"/>
 			</a>
 		</div>
