@@ -15,7 +15,7 @@ if ( ! function_exists( 'buddyboss_theme_get_theme_sudharo' ) ) {
 		);
 
 		foreach ( $whitelist_domain as $domain ) {
-			if ( isset( $_SERVER ) && isset( $_SERVER['SERVER_NAME'] ) && false !== strpos( $_SERVER['SERVER_NAME'], $domain ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			if ( isset( $_SERVER ) && isset( $_SERVER['SERVER_NAME'] ) && strpos( $_SERVER['SERVER_NAME'], $domain ) !== false ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 				return false;
 			}
 		}
@@ -80,7 +80,7 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
 		// Loop through menu order and do some rearranging.
 		foreach ( $menu_order as $index => $item ) {
 
-			if ( 'buddyboss-settings' === $item ) {
+			if ( $item === 'buddyboss-settings' ) {
 				$buddyboss_menu_order[] = 'separator-buddyboss-theme';
 				$buddyboss_menu_order[] = $item;
 				unset( $menu_order[ $buddyboss_separator ] );
@@ -115,7 +115,7 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
 		// Loop through menu order and do some rearranging.
 		foreach ( $menu_order as $index => $item ) {
 
-			if ( 'plugins.php' === $item ) {
+			if ( $item === 'plugins.php' ) {
 				$plugins_menu_order[] = 'separator-plugins';
 				$plugins_menu_order[] = $item;
 				unset( $menu_order[ $plugins_separator ] );
@@ -139,22 +139,22 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
  * Load customizer helper - MUST be loaded before your options are set.
  * Override customizer value fixed here.
  */
-if ( file_exists( dirname( __FILE__ ) . '/customizer-helper/bb-customizer-helper-init.php' ) ) {
-	require_once dirname( __FILE__ ) . '/customizer-helper/bb-customizer-helper-init.php';
+if ( file_exists( __DIR__ . '/customizer-helper/bb-customizer-helper-init.php' ) ) {
+	require_once __DIR__ . '/customizer-helper/bb-customizer-helper-init.php';
 }
 
 /**
  * Load extensions - MUST be loaded before your options are set
  */
-if ( file_exists( dirname( __FILE__ ) . '/buddyboss-extensions/extensions-init.php' ) ) {
-	require_once dirname( __FILE__ ) . '/buddyboss-extensions/extensions-init.php';
+if ( file_exists( __DIR__ . '/buddyboss-extensions/extensions-init.php' ) ) {
+	require_once __DIR__ . '/buddyboss-extensions/extensions-init.php';
 }
 
 /**
  * Load redux
  */
-if ( ! class_exists( 'ReduxFramework' ) && file_exists( dirname( __FILE__ ) . '/framework/redux-core/framework.php' ) ) {
-	require_once dirname( __FILE__ ) . '/framework/redux-core/framework.php';
+if ( ! class_exists( 'ReduxFramework' ) && file_exists( __DIR__ . '/framework/redux-core/framework.php' ) ) {
+	require_once __DIR__ . '/framework/redux-core/framework.php';
 }
 
 /**
@@ -163,11 +163,11 @@ if ( ! class_exists( 'ReduxFramework' ) && file_exists( dirname( __FILE__ ) . '/
 if ( ! function_exists( 'load_boss_theme_options' ) ) {
 
 	function load_boss_theme_options() {
-		if ( file_exists( dirname( __FILE__ ) . '/options-init.php' ) ) {
-			require_once dirname( __FILE__ ) . '/options-init.php';
+		if ( file_exists( __DIR__ . '/options-init.php' ) ) {
+			require_once __DIR__ . '/options-init.php';
 		}
-		if ( file_exists( dirname( __FILE__ ) . '/plugin-support.php' ) ) {
-			require_once dirname( __FILE__ ) . '/plugin-support.php';
+		if ( file_exists( __DIR__ . '/plugin-support.php' ) ) {
+			require_once __DIR__ . '/plugin-support.php';
 		}
 	}
 
@@ -236,10 +236,16 @@ if ( ! function_exists( 'boss_custom_panel_styles_scripts' ) ) {
 
 	function boss_custom_panel_styles_scripts() {
 
-		wp_register_style( 'redux-custom-panel', get_template_directory_uri() . '/inc/admin/assets/css/redux-custom-panel.css', array( 'redux-admin-css' ), time(), 'all' );
+		$minified_css = buddyboss_theme_get_option( 'boss_minified_css' );
+		$mincss       = $minified_css ? '.min' : '';
+
+		$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
+		$minjs       = $minified_js ? '.min' : '';
+
+		wp_register_style( 'redux-custom-panel', get_template_directory_uri() . '/inc/admin/assets/css/redux-custom-panel' . $mincss . '.css', array( 'redux-admin-css' ), time(), 'all' );
 		wp_enqueue_style( 'redux-custom-panel' );
 
-		wp_register_script( 'redux-custom-script', get_template_directory_uri() . '/inc/admin/assets/js/boss-custom-admin.js', array( 'wp-i18n' ) );
+		wp_register_script( 'redux-custom-script', get_template_directory_uri() . '/inc/admin/assets/js/boss-custom-admin' . $minjs . '.js', array( 'wp-i18n' ) );
 		wp_enqueue_script( 'redux-custom-script' );
 
 		wp_localize_script(
@@ -349,7 +355,6 @@ if ( ! function_exists( 'redux_options_buddyboss_theme_saved' ) ) {
 		) ) {
 			buddyboss_theme_compressed_transient_delete();
 		}
-
 	}
 
 	add_action( 'redux/options/buddyboss_theme_options/saved', 'redux_options_buddyboss_theme_saved' );
@@ -498,7 +503,7 @@ if ( ! function_exists( 'buddyboss_page_padding_meta_box' ) ) {
 if ( ! function_exists( 'buddyboss_theme_activation_redirect' ) ) {
 	function buddyboss_theme_activation_redirect() {
 		global $pagenow;
-		if ( 'themes.php' == $pagenow && is_admin() && isset( $_GET['activated'] ) ) {
+		if ( $pagenow == 'themes.php' && is_admin() && isset( $_GET['activated'] ) ) {
 			wp_redirect( esc_url_raw( add_query_arg( 'hello', 'theme', admin_url() ) ) );
 		}
 	}
@@ -510,7 +515,7 @@ if ( ! function_exists( 'buddyboss_theme_activation_redirect' ) ) {
  */
 if ( ! function_exists( 'about_theme_screen' ) ) {
 	function about_theme_screen() {
-		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
+		if ( strpos( get_current_screen()->id, 'dashboard' ) !== 0 || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
 			return;
 		}
 
@@ -529,7 +534,7 @@ if ( ! function_exists( 'buddyboss_theme_hello_theme_custom_wp_admin_style' ) ) 
 		$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
 		$minjs       = $minified_js ? '.min' : '';
 
-		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
+		if ( strpos( get_current_screen()->id, 'dashboard' ) !== 0 || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
 
 		} else {
 			wp_register_style( 'buddyboss-theme-hello-css', get_template_directory_uri() . '/assets/css' . $rtl_css . '/hello-theme' . $mincss . '.css', '', buddyboss_theme()->version() );

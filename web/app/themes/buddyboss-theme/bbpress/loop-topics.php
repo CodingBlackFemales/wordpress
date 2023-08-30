@@ -33,9 +33,9 @@
 					wp_kses_post( $bbp_topic_tag )
 				);
 			} else {
-				if ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && 'popular' === bbpress()->current_view_id ) {
+				if ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && bbpress()->current_view_id === 'popular' ) {
 					esc_html_e( 'Popular Discussions', 'buddyboss-theme' );
-				} elseif ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && 'no-replies' === bbpress()->current_view_id ) {
+				} elseif ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && bbpress()->current_view_id === 'no-replies' ) {
 					esc_html_e( 'Unanswered Discussions', 'buddyboss-theme' );
 				} else {
 					esc_html_e( 'All Discussions', 'buddyboss-theme' );
@@ -45,7 +45,26 @@
 			</h2>
 			<div class="bbp-forum-buttons-wrap">
 				<?php
-				if ( ( ! is_active_sidebar( 'forums' ) || bp_is_groups_component() ) && bbp_is_single_forum() && ! bbp_is_forum_category() && ( bbp_current_user_can_access_create_topic_form() || bbp_current_user_can_access_anonymous_user_form() ) ) {
+				global $post;
+
+				$has_bbp_single_forum_shortcode = false;
+				if ( ! empty( $post->post_content ) && has_shortcode( $post->post_content, 'bbp-single-forum' ) ) {
+					$has_bbp_single_forum_shortcode = true;
+				}
+
+				if (
+					(
+						! is_active_sidebar( 'forums' ) ||
+						$has_bbp_single_forum_shortcode ||
+						bp_is_groups_component()
+					) &&
+					bbp_is_single_forum() &&
+					! bbp_is_forum_category() &&
+					(
+						bbp_current_user_can_access_create_topic_form() ||
+						bbp_current_user_can_access_anonymous_user_form()
+					)
+				) {
 
 					// Remove subscription link if forum assigned to the group.
 					if ( ! function_exists( 'bb_is_forum_group_forum' ) || ! bb_is_forum_group_forum( bbp_get_forum_id() ) ) {

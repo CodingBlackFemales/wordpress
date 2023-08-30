@@ -9,9 +9,25 @@
  * @version 3.0.0
  */
 
-bp_nouveau_activity_hook( 'before', 'entry' ); ?>
+bp_nouveau_activity_hook( 'before', 'entry' );
 
-<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" data-bp-activity="<?php ( function_exists('bp_nouveau_edit_activity_data') ) ? bp_nouveau_edit_activity_data() : ''; ?>">
+$link_preview_string = '';
+$link_url            = '';
+
+$link_preview_data = bp_activity_get_meta( bp_get_activity_id(), '_link_preview_data', true );
+if ( ! empty( $link_preview_data ) && count( $link_preview_data ) ) {
+	$link_preview_string = wp_json_encode( $link_preview_data );
+	$link_url            = ! empty( $link_preview_data['url'] ) ? $link_preview_data['url'] : '';
+}
+
+$link_embed = bp_activity_get_meta( bp_get_activity_id(), '_link_embed', true );
+if ( ! empty( $link_embed ) ) {
+	$link_url = $link_embed;
+}
+
+?>
+
+<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" data-bp-activity="<?php ( function_exists( 'bp_nouveau_edit_activity_data' ) ) ? bp_nouveau_edit_activity_data() : ''; ?>" data-link-preview='<?php echo $link_preview_string; ?>' data-link-url='<?php echo $link_url; ?>'>
 
 	<?php
 	if ( function_exists( 'bb_nouveau_activity_entry_bubble_buttons' ) ) {
@@ -27,42 +43,42 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 		<div class="activity-header">
 			<?php bp_activity_action(); ?>
 			<p class="activity-date">
-                <a href="<?php echo esc_url( bp_activity_get_permalink( bp_get_activity_id() ) ); ?>"><?php echo bp_core_time_since( bp_get_activity_date_recorded() ); ?></a>
+				<a href="<?php echo esc_url( bp_activity_get_permalink( bp_get_activity_id() ) ); ?>"><?php echo bp_core_time_since( bp_get_activity_date_recorded() ); ?></a>
 				<?php
-				if ( function_exists( 'bp_nouveau_activity_is_edited' ) ){
+				if ( function_exists( 'bp_nouveau_activity_is_edited' ) ) {
 					bp_nouveau_activity_is_edited();
 				}
 				?>
-            </p>
+			</p>
 			<?php
-            if ( function_exists( 'bp_nouveau_activity_privacy' ) ) {
-	            bp_nouveau_activity_privacy();
-            }
-            ?>
+			if ( function_exists( 'bp_nouveau_activity_privacy' ) ) {
+				bp_nouveau_activity_privacy();
+			}
+			?>
 
 		</div>
 	</div>
 
 	<?php bp_nouveau_activity_hook( 'before', 'activity_content' ); ?>
 
-	<div class="activity-content <?php ( function_exists('bp_activity_entry_css_class') ) ? bp_activity_entry_css_class(): ''; ?>">
+	<div class="activity-content <?php ( function_exists( 'bp_activity_entry_css_class' ) ) ? bp_activity_entry_css_class() : ''; ?>">
 		<?php if ( bp_nouveau_activity_has_content() ) : ?>
 			<div class="activity-inner <?php echo ( function_exists( 'bp_activity_has_content' ) && empty( bp_activity_has_content() ) ) ? esc_attr( 'bb-empty-content' ) : esc_attr( '' ); ?>">
 				<?php
 					bp_nouveau_activity_content();
 
-					if ( function_exists( 'bb_nouveau_activity_inner_buttons' ) ) {
-						bb_nouveau_activity_inner_buttons();
-					}
+				if ( function_exists( 'bb_nouveau_activity_inner_buttons' ) ) {
+					bb_nouveau_activity_inner_buttons();
+				}
 				?>
 			</div>
 		<?php endif; ?>
 
 		<?php
-        if ( function_exists( 'bp_nouveau_activity_state' ) ) {
-            bp_nouveau_activity_state();
-        }
-        ?>
+		if ( function_exists( 'bp_nouveau_activity_state' ) ) {
+			bp_nouveau_activity_state();
+		}
+		?>
 	</div>
 
 	<?php bp_nouveau_activity_hook( 'after', 'activity_content' ); ?>

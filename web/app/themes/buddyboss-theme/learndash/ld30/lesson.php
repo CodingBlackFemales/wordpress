@@ -81,7 +81,7 @@ if ( empty( $course ) ) {
 						if ( $les->ID == $post->ID ) {
 							break;
 						}
-						$lesson_no ++;
+						$lesson_no++;
 					}
 					?>
 
@@ -102,15 +102,25 @@ if ( empty( $course ) ) {
 						<div id="learndash-course-header" class="bb-lms-header">
 							<div class="bb-ld-info-bar">
 								<?php
-								learndash_get_template_part(
-									'modules/infobar.php',
-									array(
-										'context'   => 'lesson',
-										'course_id' => $course_id,
-										'user_id'   => $user_id,
-									),
-									true
-								);
+								if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
+									$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
+									if ( strstr( $content, $shown_content_key ) === false ) {
+										$shortcode_out = do_shortcode( '[ld_infobar course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
+										if ( ! empty( $shortcode_out ) ) {
+											echo $shortcode_out;
+										}
+									}
+								} else {
+									learndash_get_template_part(
+										'modules/infobar.php',
+										array(
+											'context'   => 'lesson',
+											'course_id' => $course_id,
+											'user_id'   => $user_id,
+										),
+										true
+									);
+								}
 								?>
 							</div>
 							<div class="flex bb-position">
@@ -182,19 +192,23 @@ if ( empty( $course ) ) {
 							/**
 							 * If the user needs to complete the previous lesson display an alert
 							 */
-							if ( ( ! learndash_is_sample( $post ) ) && @$lesson_progression_enabled && ! @$previous_lesson_completed ) :
-								$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-								learndash_get_template_part(
-									'modules/messages/lesson-progression.php',
-									array(
-										'previous_item' => get_post( $previous_item_id ),
-										'course_id'     => $course_id,
-										'context'       => 'topic',
-										'user_id'       => $user_id,
-									),
-									true
-								);
-							endif;
+							if ( ( isset( $lesson_progression_enabled ) ) && ( (bool) $lesson_progression_enabled === true ) && ( isset( $previous_lesson_completed ) ) && ( $previous_lesson_completed !== true ) ) {
+								if ( ( ! learndash_is_sample( $post ) ) || ( learndash_is_sample( $post ) && (bool) $has_access === true ) ) {
+									$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
+									if ( ! empty( $previous_item_id ) ) {
+										learndash_get_template_part(
+											'modules/messages/lesson-progression.php',
+											array(
+												'previous_item' => get_post( $previous_item_id ),
+												'course_id'     => $course_id,
+												'context'       => 'lesson',
+												'user_id'       => $user_id,
+											),
+											true
+										);
+									}
+								}
+							}
 							if ( $show_content ) :
 
 								/**
@@ -213,15 +227,63 @@ if ( empty( $course ) ) {
 									true
 								);
 
-								/**
-								 * Display Lesson Assignments
-								 */
-								$bypass_course_limits_admin_users = learndash_can_user_bypass( $user_id, 'learndash_lesson_assignment' );
-								if ( learndash_lesson_hasassignments( $post ) && ! empty( $user_id ) ) :
-									if ( ( learndash_lesson_progression_enabled() && learndash_lesson_topics_completed( $post->ID ) ) || ! learndash_lesson_progression_enabled() || $bypass_course_limits_admin_users ) :
+								if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
+									$shown_content_key = 'learndash-shortcode-wrap-course_content-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
+									if ( strstr( $content, $shown_content_key ) === false ) {
+										$shortcode_out = do_shortcode( '[course_content course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
+										if ( ! empty( $shortcode_out ) ) {
+											echo $shortcode_out;
+										}
+									}
+								} else {
+									/**
+									 * Display Lesson Assignments
+									 */
+									if ( learndash_lesson_hasassignments( $post ) && ! empty( $user_id ) ) : // cspell:disable-line.
+										$bypass_course_limits_admin_users = learndash_can_user_bypass( $user_id, 'learndash_lesson_assignment' );
+										$course_children_steps_completed  = learndash_user_is_course_children_progress_complete( $user_id, $course_id, $post->ID );
 
+										if ( ( learndash_lesson_progression_enabled() && $course_children_steps_completed ) || ! learndash_lesson_progression_enabled() || $bypass_course_limits_admin_users ) :
+
+											/**
+											 * Fires before the lesson assignment.
+											 *
+											 * @since 3.0.0
+											 *
+											 * @param int $post_id   Post ID.
+											 * @param int $course_id Course ID.
+											 * @param int $user_id   User ID.
+											 */
+											do_action( 'learndash-lesson-assignment-before', get_the_ID(), $course_id, $user_id );
+
+											learndash_get_template_part(
+												'assignment/listing.php',
+												array(
+													'course_step_post' => $post,
+													'user_id'          => $user_id,
+													'course_id'        => $course_id,
+												),
+												true
+											);
+											/**
+											 * Fires after the lesson assignment.
+											 *
+											 * @since 3.0.0
+											 *
+											 * @param int $post_id   Post ID.
+											 * @param int $course_id Course ID.
+											 * @param int $user_id   User ID.
+											 */
+											do_action( 'learndash-lesson-assignment-after', get_the_ID(), $course_id, $user_id );
+										endif;
+									endif;
+
+									/**
+									 * Lesson Topics or Quizzes
+									 */
+									if ( ! empty( $topics ) || ! empty( $quizzes ) ) :
 										/**
-										 * Fires before the lesson assignment.
+										 * Fires before the course certificate link
 										 *
 										 * @since 3.0.0
 										 *
@@ -229,19 +291,24 @@ if ( empty( $course ) ) {
 										 * @param int $course_id Course ID.
 										 * @param int $user_id   User ID.
 										 */
-										do_action( 'learndash-lesson-assignment-before', get_the_ID(), $course_id, $user_id );
-
+										do_action( 'learndash-lesson-content-list-before', get_the_ID(), $course_id, $user_id );
+										global $post;
+										$lesson = array(
+											'post' => $post,
+										);
 										learndash_get_template_part(
-											'assignment/listing.php',
+											'lesson/listing.php',
 											array(
-												'course_step_post' => $post,
-												'user_id' => $user_id,
 												'course_id' => $course_id,
+												'lesson'    => $lesson,
+												'topics'    => $topics,
+												'quizzes'   => $quizzes,
+												'user_id'   => $user_id,
 											),
 											true
 										);
 										/**
-										 * Fires after the lesson assignment.
+										 * Fires before the course certificate link
 										 *
 										 * @since 3.0.0
 										 *
@@ -249,83 +316,56 @@ if ( empty( $course ) ) {
 										 * @param int $course_id Course ID.
 										 * @param int $user_id   User ID.
 										 */
-										do_action( 'learndash-lesson-assignment-after', get_the_ID(), $course_id, $user_id );
+										do_action( 'learndash-lesson-content-list-after', get_the_ID(), $course_id, $user_id );
 									endif;
-								endif;
-
-								/**
-								 * Lesson Topics or Quizzes
-								 */
-								if ( ! empty( $topics ) || ! empty( $quizzes ) ) :
-									/**
-									 * Fires before the course certificate link
-									 *
-									 * @since 3.0.0
-									 *
-									 * @param int $post_id   Post ID.
-									 * @param int $course_id Course ID.
-									 * @param int $user_id   User ID.
-									 */
-									do_action( 'learndash-lesson-content-list-before', get_the_ID(), $course_id, $user_id );
-									global $post;
-									$lesson = array(
-										'post' => $post,
-									);
-									learndash_get_template_part(
-										'lesson/listing.php',
-										array(
-											'course_id' => $course_id,
-											'lesson'    => $lesson,
-											'topics'    => $topics,
-											'quizzes'   => $quizzes,
-											'user_id'   => $user_id,
-										),
-										true
-									);
-									/**
-									 * Fires before the course certificate link
-									 *
-									 * @since 3.0.0
-									 *
-									 * @param int $post_id   Post ID.
-									 * @param int $course_id Course ID.
-									 * @param int $user_id   User ID.
-									 */
-									do_action( 'learndash-lesson-content-list-after', get_the_ID(), $course_id, $user_id );
-								endif;
+								}
 							endif; // end $show_content.
 
-							/**
-							 * Set a variable to switch the next button to complete button
-							 *
-							 * @var $can_complete [bool] - can the user complete this or not?
-							 */
-							$can_complete = false;
-							if ( $all_quizzes_completed && $logged_in && ! empty( $course_id ) ) :
+							if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
+								$shown_content_key = 'learndash-shortcode-wrap-ld_navigation-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
+								if ( strstr( $content, $shown_content_key ) === false ) {
+									$shortcode_out = do_shortcode( '[ld_navigation course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
+									if ( ! empty( $shortcode_out ) ) {
+										echo $shortcode_out;
+									}
+								}
+							} else {
+
 								/**
-								 * Filters whether a user can complete the lesson or not.
+								 * Set a variable to switch the next button to complete button
 								 *
-								 * @since 3.0.0
-								 *
-								 * @param boolean $can_complete Whether user can complete lesson or not.
-								 * @param int     $post_id      Lesson ID/Topic ID.
-								 * @param int     $course_id    Course ID.
-								 * @param int     $user_id      User ID.
+								 * @var $can_complete [bool] - can the user complete this or not?
 								 */
-								$can_complete = apply_filters( 'learndash-lesson-can-complete', true, get_the_ID(), $course_id, $user_id );
-							endif;
-							learndash_get_template_part(
-								'modules/course-steps.php',
-								array(
-									'course_id'        => $course_id,
-									'course_step_post' => $post,
-									'user_id'          => $user_id,
-									'course_settings'  => isset( $course_settings ) ? $course_settings : array(),
-									'can_complete'     => $can_complete,
-									'context'          => 'lesson',
-								),
-								true
-							);
+								$can_complete = false;
+								if ( $all_quizzes_completed && $logged_in && ! empty( $course_id ) ) :
+									$can_complete = $previous_lesson_completed;
+
+									/**
+									 * Filters whether a user can complete the lesson or not.
+									 *
+									 * @since 3.0.0
+									 *
+									 * @param boolean $can_complete Whether user can complete lesson or not.
+									 * @param int     $post_id      Lesson ID/Topic ID.
+									 * @param int     $course_id    Course ID.
+									 * @param int     $user_id      User ID.
+									 */
+									$can_complete = apply_filters( 'learndash-lesson-can-complete', true, get_the_ID(), $course_id, $user_id );
+								endif;
+								learndash_get_template_part(
+									'modules/course-steps.php',
+									array(
+										'course_id'        => $course_id,
+										'course_step_post' => $post,
+										'user_id'          => $user_id,
+										'course_settings'  => isset( $course_settings ) ? $course_settings : array(),
+										'can_complete'     => $can_complete,
+										'context'          => 'lesson',
+									),
+									true
+								);
+							}
+
 							/**
 							 * Fires after the lesson
 							 *
@@ -342,7 +382,7 @@ if ( empty( $course ) ) {
 							$focus_mode         = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 							$post_type          = get_post_type( $post->ID );
 							$post_type_comments = learndash_post_type_supports_comments( $post_type );
-							if ( is_user_logged_in() && 'yes' === $focus_mode && comments_open() ) {
+							if ( is_user_logged_in() && $focus_mode === 'yes' && comments_open() ) {
 								learndash_get_template_part(
 									'focus/comments.php',
 									array(
@@ -352,7 +392,7 @@ if ( empty( $course ) ) {
 									),
 									true
 								);
-							} elseif ( true === $post_type_comments ) {
+							} elseif ( $post_type_comments === true ) {
 								if ( comments_open() ) :
 									comments_template();
 								endif;

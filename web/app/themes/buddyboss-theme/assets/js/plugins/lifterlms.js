@@ -495,7 +495,7 @@
                 window.BBLMS.fetchCoursesPagination();
             } );
 
-            $( document ).on( 'click', '#bb-courses-directory-form .component-navigation a', function ( e ) {
+            $( document ).on( 'click', '#bb-courses-directory-form .component-navigation a:not(.more-button)', function ( e ) {
                 e.preventDefault();
 
                 $(this).closest( '.component-navigation').find( '> li' ).removeClass('selected');

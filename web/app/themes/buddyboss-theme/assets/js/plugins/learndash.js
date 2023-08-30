@@ -1,5 +1,5 @@
 // import learndash_sidebar from "./learndash-sidebar";
-
+/* global bs_data, BBGetUrlParameter */
 ( function ( $ ) {
 
 	"use strict";
@@ -25,6 +25,7 @@
 			this.singleTopic();
 			this.singleQuiz();
 			this.showMoreParticipants();
+			this.inforBarStatus();
 		},
 
 		switchLdGridList: function() {
@@ -58,7 +59,7 @@
 				'.grid-filters .layout-view-course',
 				function(e) {
 					e.preventDefault();
-					courseLoopSelector = $( e.target ).closest('form').find( '.bb-course-items:not(.is-cover)' );
+					courseLoopSelector = $( e.target ).closest( 'form' ).find( '.bb-course-items:not(.is-cover)' );
 					if ( $( this ).hasClass( 'layout-list-view' ) ) {
 						if ( window.sessionStorage ) {
 							sessionStorage.setItem( 'course-view', 'list' );
@@ -259,7 +260,7 @@
 			if ( typeof target !== 'undefined' && $( target ).length > 0 ) {
 				$form = $( target ).closest( 'form.bb-courses-directory' );
 			}
-			var data  = $form.serialize();
+			var data = $form.serialize();
 
 			// update url.
 			var new_url = $form.attr( 'action' );
@@ -463,16 +464,12 @@
 
 			$( document ).on(
 				'click',
-				'#bb-courses-directory-form .component-navigation a',
+				'#bb-courses-directory-form .component-navigation a:not(.more-button)',
 				function ( e ) {
 					e.preventDefault();
 
 					$( this ).closest( '.component-navigation' ).find( '> li' ).removeClass( 'selected' );
-					$( this ).closest( '.component-navigation' ).find( '> li a span' ).hide();
-					$( this ).closest( '.component-navigation' ).find( '> li a span' ).text( '' );
 					$( this ).closest( 'li' ).addClass( 'selected' ).append( '<i class="bb-icon-loader animate-spin"></i>' );
-					$( this ).closest( 'li' ).find( '> a span' ).text( '' );
-					$( this ).closest( 'li' ).find( '> a span' ).show();
 
 					var type = BBGetUrlParameter( $( this ).attr( 'href' ), 'type' );
 					$( this ).closest( 'form' ).find( '[name="type"]' ).val( type );
@@ -972,7 +969,7 @@
 
 				if ( $( window ).width() > 820 && $( '.bb-ld-sticky-sidebar .ld-sidebar-widgets' ).length == 0 ) {
 					$( '.bb-ld-sticky-sidebar' ).stick_in_parent( {offset_top: bbHeaderHeight + 45} );
-	
+
 					var adminBarHeight = 0;
 					if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
 						adminBarHeight = 32;
@@ -987,7 +984,7 @@
 						}
 						$('.lms-topic-sidebar-data').css({'max-height': 'calc(100vh - '+ ( bbHeaderHeight + adminBarHeight ) +'px', 'top': ( bbHeaderHeight + adminBarHeight ) +'px' });
 					}*/
-	
+
 				} else {
 					$( '.bb-ld-sticky-sidebar' ).trigger( "sticky_kit:detach" );
 					// $('.lms-topic-sidebar-data').trigger("sticky_kit:detach");
@@ -1103,7 +1100,41 @@
 				lsPageContent.closest( 'div' ).show();
 				lsPageContent.parents().closest( 'li' ).removeClass( 'lms-lesson-turnover' );
 			}
-		}
+			if ( $( window ).width() > 768 && $( '.wpProQuiz_quiz #bbpress-forums .bs-topic-sidebar-inner' ).length > 0 ) {
+				// https://developers.learndash.com/snippet/hook-into-quiz-start-button-logic/
+				var triggerElements = [
+					'.wpProQuiz_content input.wpProQuiz_button[name="startQuiz"]',
+					'.wpProQuiz_content .wpProQuiz_QuestionButton[value="Next"]',
+					'.wpProQuiz_content .wpProQuiz_QuestionButton[value="Back"]' ];
+				triggerElements.forEach(
+					function ( el ) {
+						$( el ).click(
+							function () {
+								setTimeout(
+									function () {
+										// Trigger scroll to initiate sidebar stick_in_parent script.
+										$( window ).trigger( 'scroll' );
+									},
+									0
+								);
+							}
+						);
+					}
+				);
+			}
+		},
+
+		inforBarStatus: function () {
+			if ( $( '.ld-course-status-segment' ).length ) {
+				$( '.ld-course-status-segment' ).each(
+					function () {
+						if ( $( this ).find( '.ld-course-status-label' ).text().trim() == '' ) {
+							$( this ).find( '.ld-course-status-label' ).addClass( 'no-label' );
+						}
+					}
+				);
+			}
+		},
 
 	};
 

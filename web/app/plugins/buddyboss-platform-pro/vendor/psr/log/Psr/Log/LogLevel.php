@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Log;
+namespace BuddyBoss\PlatformPro\Vendor\Psr\Log;
 
 /**
  * Describes log levels.
