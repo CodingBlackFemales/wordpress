@@ -10,8 +10,8 @@ namespace CodingBlackFemales\Multisite;
 
 use CodingBlackFemales\Multisite\Admin\Main as Admin;
 use CodingBlackFemales\Multisite\Front\Main as Front;
-use CodingBlackFemales\Multisite\Customizations\Quiz_Results_Command as Quiz_Results_Command;
-use CodingBlackFemales\Multisite\Customizations\WP_Cron as WP_Cron;
+use CodingBlackFemales\Multisite\Customizations\Quiz_Results_Command;
+use CodingBlackFemales\Multisite\Customizations\WP_Cron;
 
 
 /**
@@ -147,7 +147,7 @@ final class Main {
 
 			add_action(
 				'admin_notices',
-				function() use ( $errors ) {
+				function () use ( $errors ) {
 					?>
 					<div class="notice notice-error">
 						<?php
