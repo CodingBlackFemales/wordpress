@@ -47,6 +47,8 @@ var bb_player_id = '';
 		 * @return {[type]} [description]
 		 */
 		setupGlobals: function () {
+			// Define global variables.
+			bp.OneSignal_FrontCommon.is_updated_device_info = false;
 
 			window.OneSignal.push(
 				function () {
@@ -86,7 +88,9 @@ var bb_player_id = '';
 
 							window.OneSignal.getUserId(
 								function ( userId ) {
-									bb_player_id = userId;
+									bp.OneSignal_FrontCommon.is_updated_device_info = true;
+									bb_player_id 									= userId;
+
 									if ( isEnabled ) {
 										window.OneSignal.push( [ 'setSubscription', true ] );
 										bp.OneSignal_FrontCommon.updateDeviceInfo(
@@ -186,7 +190,7 @@ var bb_player_id = '';
 		addListeners: function () {
 			$( document ).on( 'change', '.notification-toggle', this.toggleNotifcationOnOff.bind( this ) );
 			$( document ).on( 'click', 'body .mfp-inline-holder', this.disableMagificPopupBackgroundClick.bind( this ) );
-			$( document ).on( 'click', 'body .mfp-close', this.enableMagificPopupBackgroundClick.bind( this ) );
+			$( document ).on( 'click', '.mfp-close', this.enableMagificPopupBackgroundClick.bind( this ) );
 			$( document ).on(
 				'click',
 				'#onesignal-slidedown-cancel-button',
@@ -194,6 +198,7 @@ var bb_player_id = '';
 					$( 'body .notification-toggle' ).prop( 'checked', false );
 				}
 			);
+			$( window ).on( 'load', this.handleNotificationToggle.bind( this ) );
 		},
 
 		disableMagificPopupBackgroundClick: function () {
@@ -204,7 +209,7 @@ var bb_player_id = '';
 		},
 
 		enableMagificPopupBackgroundClick: function () {
-			$( 'body, html' ).removeAttr( 'style' );
+			$( 'body, html' ).css( 'overflow', 'inherit' );
 		},
 
 		toggleNotifcationOnOff: function ( e ) {
@@ -445,6 +450,21 @@ var bb_player_id = '';
 			date.setTime( date.getTime() + (expDays * 24 * 60 * 60 * 1000) );
 			var expires     = 'expires=' + date.toUTCString();
 			document.cookie = cname + '=' + cvalue + '; ' + expires + '; path=/';
+		},
+
+		handleNotificationToggle: function () {
+			setTimeout(
+				function () {
+					if ( ! bp.OneSignal_FrontCommon.is_updated_device_info ) {
+						bp.OneSignal_FrontCommon.updateDeviceInfo(
+							'',
+							false,
+							false
+						);
+					}
+				},
+				1000
+			);
 		},
 
 	};

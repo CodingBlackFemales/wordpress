@@ -5,9 +5,9 @@ namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\BadResponseException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\TooManyRedirectsException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Request redirect middleware.

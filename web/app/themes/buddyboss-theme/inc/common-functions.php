@@ -68,7 +68,6 @@ function bb_theme_get_404_svg_code( $version = 1 ) {
 	}
 
 	return $svg_code;
-
 }
 
 /**
@@ -167,6 +166,67 @@ if ( ! function_exists( 'bb_theme_filter_input_string' ) ) {
 		}
 
 		return $string;
+	}
+}
 
+if ( ! function_exists( 'bb_theme_get_published_pages' ) ) {
+	/**
+	 * Get the published page list.
+	 *
+	 * @since 2.3.60
+	 *
+	 * @return array Associative array of page id and page title of pages.
+	 */
+	function bb_theme_get_published_pages() {
+		static $published_pages = array();
+
+		if ( ! empty( $published_pages ) ) {
+			return $published_pages;
+		}
+
+		$pages = get_pages(
+			array(
+				'post_status' => 'publish',
+			)
+		);
+
+		foreach ( $pages as $page ) {
+			$published_pages[ $page->ID ] = $page->post_title;
+		}
+
+		return $published_pages;
+	}
+}
+
+if ( ! function_exists( 'bb_get_theme_header_logo_link' ) ) {
+	/**
+	 * Get the logo destination link.
+	 *
+	 * @since 2.3.60
+	 *
+	 * @return string Logo destination link.
+	 */
+	function bb_get_theme_header_logo_link() {
+
+		$logo_destination = is_user_logged_in()
+			? buddyboss_theme_get_option( 'header_logo_loggedin_link' )
+			: buddyboss_theme_get_option( 'header_logo_loggedout_link' );
+
+		$logo_destination_url = '';
+
+		if (
+			! empty( $logo_destination ) &&
+			is_numeric( $logo_destination ) &&
+			get_post_status( $logo_destination ) === 'publish'
+		) {
+			$logo_destination_url = get_permalink( $logo_destination );
+		}
+
+		// Default value if $logo_destination type is default.
+		if ( empty( $logo_destination_url ) ) {
+			$logo_destination_url = home_url( '/' );
+		}
+
+		return $logo_destination_url;
 	}
 }

@@ -16,6 +16,7 @@
   padding-left: 0;
   padding-right: 0;
 }
+
 .elementor-template-full-width #content > .container,
 [class*="template-elementor_header_footer"] #content > .container {
   max-width: 100%;
@@ -33,6 +34,7 @@ body:not(.register) .elementor-header + #content {
 
 /* Elementor Fixes */
 @media (min-width: 800px) {
+
   body.bb-buddypanel:not(.elementor-template-canvas) .elementor-section-stretched[style*="width"],
   body.bb-buddypanel:not(.elementor-template-canvas) .elementor-section-boxed[style*="width"],
   body.bb-buddypanel:not(.elementor-template-canvas) .elementor-section-full_width[style*="width"] {
@@ -41,6 +43,7 @@ body:not(.register) .elementor-header + #content {
 }
 
 @media (min-width: 800px) {
+
   body.bb-buddypanel.buddypanel-open:not(.elementor-template-canvas) .elementor-section-stretched[style*="width"],
   body.bb-buddypanel.buddypanel-open:not(.elementor-template-canvas) .elementor-section-boxed[style*="width"],
   body.bb-buddypanel.buddypanel-open:not(.elementor-template-canvas) .elementor-section-full_width[style*="width"] {
@@ -62,6 +65,7 @@ body:not(.register) .elementor-header + #content {
 .elementor-widget-container ul.elementor-nav-menu {
   z-index: initial;
 }
+
 .elementor-widget-container ul.elementor-nav-menu ul.sub-menu.elementor-nav-menu--dropdown {
   z-index: 5;
 }
@@ -92,6 +96,7 @@ body:not(.register) .elementor-header + #content {
   display: -ms-flexbox;
   display: flex;
 }
+
 #content .elementor-widget-container li.product:hover,
 #content .wp-block-woocommerce-handpicked-products li.product:hover,
 #content .wp-block-woocommerce-product-category li.product:hover,
@@ -102,6 +107,7 @@ body:not(.register) .elementor-header + #content {
 #content .wp-block-woocommerce-product-best-sellers li.product:hover {
   box-shadow: 0 6px 24px 0 rgba(18, 43, 70, 0.12);
 }
+
 #content .elementor-widget-container .woocommerce-loop-product__title,
 #content .elementor-widget-container .woocommerce-loop-category__title,
 #content .wp-block-woocommerce-handpicked-products .woocommerce-loop-product__title,
@@ -122,6 +128,7 @@ body:not(.register) .elementor-header + #content {
   font-size: 16px;
   line-height: 24px;
 }
+
 #content .elementor-widget-container li.product .price,
 #content .wp-block-woocommerce-handpicked-products li.product .price,
 #content .wp-block-woocommerce-product-category li.product .price,
@@ -134,6 +141,7 @@ body:not(.register) .elementor-header + #content {
   font-weight: 500;
   text-align: center;
 }
+
 #content .elementor-widget-container li.product .price del,
 #content .wp-block-woocommerce-handpicked-products li.product .price del,
 #content .wp-block-woocommerce-product-category li.product .price del,
@@ -146,6 +154,7 @@ body:not(.register) .elementor-header + #content {
   font-weight: 400;
   opacity: 1;
 }
+
 #content .elementor-widget-container ul.products li.product .onsale,
 #content .wp-block-woocommerce-handpicked-products ul.products li.product .onsale,
 #content .wp-block-woocommerce-product-category ul.products li.product .onsale,
@@ -169,6 +178,7 @@ body:not(.register) .elementor-header + #content {
   text-transform: uppercase;
   font-size: 12px;
 }
+
 #content .elementor-widget-container li.product .button,
 #content .wp-block-woocommerce-handpicked-products li.product .button,
 #content .wp-block-woocommerce-product-category li.product .button,
@@ -182,6 +192,7 @@ body:not(.register) .elementor-header + #content {
   padding: 0.618em 1em;
   margin-top: auto;
 }
+
 #content .elementor-widget-container li.product .button .add_to_cart_button.added,
 #content .wp-block-woocommerce-handpicked-products li.product .button .add_to_cart_button.added,
 #content .wp-block-woocommerce-product-category li.product .button .add_to_cart_button.added,
@@ -193,6 +204,7 @@ body:not(.register) .elementor-header + #content {
   width: 50%;
   border-right: 1px solid var(--bb-content-border-color);
 }
+
 #content .elementor-widget-container li.product .button .added_to_cart.wc-forward,
 #content .wp-block-woocommerce-handpicked-products li.product .button .added_to_cart.wc-forward,
 #content .wp-block-woocommerce-product-category li.product .button .added_to_cart.wc-forward,
@@ -203,6 +215,7 @@ body:not(.register) .elementor-header + #content {
 #content .wp-block-woocommerce-product-best-sellers li.product .button .added_to_cart.wc-forward {
   border-right: 0;
 }
+
 #content .elementor-widget-container li.product .button:hover,
 #content .wp-block-woocommerce-handpicked-products li.product .button:hover,
 #content .wp-block-woocommerce-product-category li.product .button:hover,
@@ -213,6 +226,7 @@ body:not(.register) .elementor-header + #content {
 #content .wp-block-woocommerce-product-best-sellers li.product .button:hover {
   color: #fff;
 }
+
 #content .elementor-widget-container .star-rating,
 #content .wp-block-woocommerce-handpicked-products .star-rating,
 #content .wp-block-woocommerce-product-category .star-rating,
@@ -223,6 +237,7 @@ body:not(.register) .elementor-header + #content {
 #content .wp-block-woocommerce-product-best-sellers .star-rating {
   margin: 0 auto 10px;
 }
+
 #content .elementor-widget-container .woocommerce-placeholder,
 #content .wp-block-woocommerce-handpicked-products .woocommerce-placeholder,
 #content .wp-block-woocommerce-product-category .woocommerce-placeholder,
@@ -239,6 +254,7 @@ body:not(.register) .elementor-header + #content {
   list-style: none;
   margin: 0;
 }
+
 .elementor-widget-container .product_list_widget li {
   background-color: var(--bb-content-background-color);
   border-radius: var(--bb-block-radius);
@@ -250,9 +266,11 @@ body:not(.register) .elementor-header + #content {
       flex-flow: column;
   margin-bottom: 20px;
 }
+
 .elementor-widget-container .product_list_widget li:hover {
   box-shadow: 0 6px 24px 0 rgba(18, 43, 70, 0.12);
 }
+
 .elementor-widget-container .product_list_widget img {
   width: 100%;
   height: auto;
@@ -260,6 +278,7 @@ body:not(.register) .elementor-header + #content {
   margin: 0 0 1em;
   box-shadow: none;
 }
+
 .elementor-widget-container .product_list_widget .product-title {
   color: var(--bb-headings-color);
   display: block;
@@ -268,6 +287,7 @@ body:not(.register) .elementor-header + #content {
   margin-bottom: 15px;
   text-align: center;
 }
+
 .elementor-widget-container .product_list_widget .amount {
   color: var(--bb-primary-color);
   display: block;
@@ -276,10 +296,12 @@ body:not(.register) .elementor-header + #content {
   margin-bottom: 15px;
   text-align: center;
 }
+
 .elementor-widget-container .product_list_widget del .amount {
   color: var(--bb-alternate-text-color);
   margin-bottom: 10px;
 }
+
 .elementor-widget-container .product_list_widget .star-rating {
   font-size: 12px;
 }
@@ -288,27 +310,33 @@ body:not(.register) .elementor-header + #content {
   list-style: none;
   margin: 0;
 }
+
 .elementor-widget-wrap #groups-list .item-avatar {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 40px;
           flex: 0 0 40px;
   margin-right: 12px;
 }
+
 .elementor-widget-wrap #groups-list .item-avatar img {
   border-radius: 3px;
 }
+
 .elementor-widget-wrap #groups-list .item {
   line-height: 1;
 }
+
 .elementor-widget-wrap #groups-list .item-title {
   margin-bottom: 3px;
 }
+
 .elementor-widget-wrap #groups-list .item-title a {
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--bb-headings-color);
   letter-spacing: -0.24px;
 }
+
 .elementor-widget-wrap #groups-list span.activity {
   color: var(--bb-alternate-text-color);
   font-size: 12px;
@@ -319,11 +347,13 @@ body:not(.register) .elementor-header + #content {
 .elementor-widget-wp-widget-bp_latest_activities .activity-list {
   padding: 0;
 }
+
 .elementor-widget-wp-widget-bp_latest_activities .update-item {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
+
 .elementor-widget-wp-widget-bp_latest_activities .update-item cite {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 40px;
@@ -331,12 +361,15 @@ body:not(.register) .elementor-header + #content {
   min-width: 0;
   margin-right: 10px;
 }
+
 .elementor-widget-wp-widget-bp_latest_activities .update-item {
   font-size: 14px;
 }
+
 .elementor-widget-wp-widget-bp_latest_activities .avatar {
   border-radius: 50%;
 }
+
 .elementor-widget-wp-widget-bp_latest_activities .view.activity-time-since {
   line-height: 1;
   margin: 0;
@@ -347,9 +380,11 @@ body:not(.register) .elementor-header + #content {
   font-size: 0.875rem;
   line-height: 1.35;
 }
+
 .elementor-widget-wp-widget-bp_core_members_widget #members-list li {
   margin-bottom: 10px;
 }
+
 .elementor-widget-wp-widget-bp_core_members_widget ul.item-list li .item-avatar {
   margin-right: 12px;
   -webkit-box-flex: 0;
@@ -357,12 +392,15 @@ body:not(.register) .elementor-header + #content {
           flex: 0 0 40px;
   padding: 0;
 }
+
 .elementor-widget-wp-widget-bp_core_members_widget .item-title a {
   font-size: 14px;
 }
+
 .elementor-widget-wp-widget-bp_core_members_widget .item-meta {
   display: none;
 }
+
 .elementor-widget-wp-widget-bp_core_members_widget #members-list.item-list .item-avatar img {
   max-width: 100%;
 }
@@ -386,6 +424,7 @@ body:not(.register) .elementor-header + #content {
   margin: 0 !important;
   width: auto;
 }
+
 .uael-subscribe-bar .fluid-width-video-wrapper iframe {
   height: auto;
   position: static;
@@ -397,23 +436,28 @@ body:not(.register) .elementor-header + #content {
   max-width: inherit;
   width: inherit;
 }
+
 .elementor-element.elementor-products-grid .woocommerce ul.products li.product .onsale.onsale {
   padding: 10px;
 }
+
 .elementor-element.elementor-products-grid .woocommerce ul.products li.product h2.woocommerce-loop-category__title {
   text-align: center;
 }
+
 .elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a:hover {
   color: var(--bb-body-background-color);
 }
+
 .elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.next,
 .elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.prev {
   font-size: 0;
   color: var(--bb-body-text-color);
   padding: 0;
 }
-.elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.next:before,
-.elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.prev:before {
+
+.elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.next::before,
+.elementor-element.elementor-products-grid .woocommerce .woocommerce-pagination a.prev::before {
   line-height: 28px;
   display: inline-block;
   width: 28px;
@@ -424,6 +468,7 @@ body:not(.register) .elementor-header + #content {
       -ms-flex: 0 0 100%;
           flex: 0 0 100%;
 }
+
 .site-content-grid > .woocommerce-notices-wrapper:empty {
   display: none;
 }
@@ -469,16 +514,19 @@ nav.elementor-pagination {
 }
 
 @media (max-width: 1024px) {
+
   #content .elementor-element.elementor-products-grid ul.products.products {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 @media screen and (min-width: 800px) {
+
   .bb-buddypanel.bb-sfwd-aside .site-header.site-header--elementor {
     width: auto;
   }
 }
 @media (max-width: 768px) {
+
   #content .elementor-element.elementor-products-grid ul.products.products {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -493,14 +541,17 @@ nav.elementor-pagination {
   }
 }
 @media (max-width: 480px) {
+
   #content .elementor-element.elementor-products-grid ul.products.products {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
 /** common */
 .bb-block-header {
   margin: 0 0 22px;
 }
+
 .bb-block-header h3 {
   margin: 0;
   font-weight: 500;
@@ -526,6 +577,7 @@ body.rtl .bb-block-header__extra a.count-more i {
   overflow-y: auto;
   padding: 0 20px;
 }
+
 .bb-members .bbel-list-flow {
   max-height: 850px;
 }
@@ -542,25 +594,31 @@ body.rtl .bb-block-header__extra a.count-more i {
           transform: translate(-50%, -50%);
   width: 100%;
 }
+
 .bb-no-data img.bb-no-data__image {
   max-width: 50%;
   margin: 0 0 25px;
 }
+
 .bb-no-data .bp-feedback.info .bp-icon {
   display: none;
 }
+
 .bb-no-data .bp-feedback {
   box-shadow: none;
   margin: 0;
   padding: 0 10%;
 }
+
 .bb-no-data .bp-feedback p {
   width: 100%;
   padding: 0;
 }
+
 .bb-no-data .bp-messages {
   border: 0;
 }
+
 .bb-no-data .bb-no-data__link {
   display: inline-block;
   font-size: 14px;
@@ -579,27 +637,32 @@ body.rtl .bb-block-header__extra a.count-more i {
 }
 
 @media screen and (max-width: 1200px) {
+
   .elementor-section.elementor-section-boxed > .elementor-container {
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 @media screen and (max-width: 800px) {
+
   .elementor-section.elementor-section-boxed > .elementor-container {
     padding-left: 10px;
     padding-right: 10px;
   }
 }
 @media screen and (max-width: 544px) {
+
   .elementor-section.elementor-section-boxed > .elementor-container {
     padding-left: 0;
     padding-right: 0;
   }
 }
+
 .elementor-button {
   background-color: var(--bb-primary-color);
   border-radius: var(--bb-button-radius);
 }
+
 .elementor-button.elementor-size-xs, .elementor-button.elementor-size-md, .elementor-button.elementor-size-lg, .elementor-button.elementor-size-xl {
   border-radius: var(--bb-button-radius);
 }
@@ -628,6 +691,7 @@ body.rtl .bb-block-header__extra a.count-more i {
 .elementor-post__title a {
   color: var(--bb-headings-color);
 }
+
 .elementor-post__title a:hover {
   color: var(--bb-primary-color);
 }
@@ -752,6 +816,7 @@ div.elementor-price-table__ribbon-inner {
 .header-mini-cart {
   overflow: hidden;
 }
+
 .header-mini-cart .elementor-menu-cart__product {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -762,6 +827,7 @@ div.elementor-price-table__ribbon-inner {
   padding: 15px 20px;
   border-bottom: 1px solid var(--bb-content-border-color);
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-image img {
   max-width: 36px;
   width: 36px;
@@ -770,47 +836,58 @@ div.elementor-price-table__ribbon-inner {
   margin-left: 0;
   float: none;
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-name {
   max-width: 240px;
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-name a {
   color: var(--bb-headings-color);
   font-size: 14px;
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-name a:hover {
   color: var(--bb-primary-color);
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-price {
   margin-left: auto;
   font-size: 13px;
   color: var(--bb-alternate-text-color);
 }
+
 .header-mini-cart .elementor-menu-cart__product .elementor-menu-cart__product-price .quantity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
+
 .header-mini-cart .elementor-menu-cart__subtotal {
   margin: 15px 0 15px 20px;
   font-size: 14px;
   color: var(--bb-alternate-text-color);
   float: left;
 }
+
 .header-mini-cart .elementor-menu-cart__subtotal strong {
-  font-weight: normal;
+  font-weight: 400;
 }
+
 .header-mini-cart .elementor-menu-cart__footer-buttons {
   margin: 15px 20px 15px 0;
   float: right;
 }
+
 .header-mini-cart .elementor-menu-cart__footer-buttons .elementor-button {
   background-color: transparent;
   font-size: 14px;
   margin-left: 5px;
 }
+
 .bb-template-v2 .header-mini-cart .elementor-menu-cart__product {
   border-bottom: 0;
 }
+
 .bb-template-v2 .header-mini-cart .elementor-menu-cart__products {
   border-bottom: 1px solid var(--bb-content-border-color);
 }
@@ -819,6 +896,7 @@ div.elementor-price-table__ribbon-inner {
   -webkit-transition: padding-left 0.3s ease-in-out;
           transition: padding-left 0.3s ease-in-out;
 }
+
 .bb-sfwd-aside .site > .elementor-location-header .elementor-section.elementor-section-stretched {
   left: inherit !important;
 }
@@ -826,12 +904,14 @@ div.elementor-price-table__ribbon-inner {
 .bb-sfwd-aside:not(.lms-side-panel-close) .site > .elementor-location-header {
   padding: 0 0 0 370px;
 }
+
 .bb-sfwd-aside:not(.lms-side-panel-close) .site > .elementor-location-header .elementor-section.elementor-section-stretched {
   width: 100% !important;
   left: inherit !important;
   padding: 0 !important;
 }
 @media screen and (max-width: 767px) {
+
   .bb-sfwd-aside:not(.lms-side-panel-close) .site > .elementor-location-header {
     padding: 0;
   }
@@ -847,6 +927,7 @@ div.elementor-price-table__ribbon-inner {
   margin-bottom: -1px;
   color: var(--bb-headings-color);
 }
+
 .elementor-element-edit-mode .elementor-widget-wp-widget-bp_core_whos_online_widget #boss_whos_online_widget_connections {
   display: none;
 }
@@ -854,9 +935,11 @@ div.elementor-price-table__ribbon-inner {
 .elementor-widget.elementor-widget-wp-widget-bp_core_friends_widget ul a {
   font-size: 14px;
 }
+
 .elementor-widget.elementor-widget-wp-widget-bp_core_friends_widget .item-meta {
   display: none;
 }
+
 .elementor-widget.elementor-widget-wp-widget-bp_core_friends_widget .item-list .item-avatar {
   margin-right: 12px;
 }
@@ -911,24 +994,29 @@ body.bp-search .site-header.site-header--elementor {
 .site-header--elementor .course-toggle-view {
   display: none;
 }
+
 .site-header--elementor.site-header--align-right .header-aside {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
 }
+
 .site-header--elementor.site-header--align-left .header-aside {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
+
 .site-header--elementor.site-header--align-center .header-aside {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
+
 .site-header--elementor .bb-header-buttons {
   white-space: nowrap;
 }
+
 .site-header--elementor .user-mention .bp-suggestions-mention {
   padding: 0;
   margin: 0;
@@ -942,19 +1030,24 @@ body.bp-search .site-header.site-header--elementor {
 .site-header--elementor .user-link img, .site-header--elementor.avatar-none .user-link img {
   border-style: none;
 }
+
 .site-header--elementor.avatar-solid .user-link img {
   border-style: solid;
 }
+
 .site-header--elementor.avatar-dotted .user-link img {
   border-style: dotted;
 }
+
 .site-header--elementor.avatar-dashed .user-link img {
   border-style: dashed;
 }
+
 .site-header--elementor.avatar-double .user-link img {
   border-style: double;
 }
-.site-header--elementor .primary-menu.bb-primary-overflow .menu-item-has-children:after {
+
+.site-header--elementor .primary-menu.bb-primary-overflow .menu-item-has-children::after {
   opacity: 1;
 }
 
@@ -967,16 +1060,20 @@ body.bp-search .site-header.site-header--elementor {
       flex-flow: row;
   margin-bottom: 0;
 }
+
 .elementor-widget-container .site-header--elementor .product_list_widget li:hover {
   box-shadow: none;
 }
+
 .elementor-widget-container .site-header--elementor .product_list_widget img {
   margin: 0 10px 0 0;
 }
+
 .elementor-widget-container .site-header--elementor .product_list_widget .amount {
   margin-bottom: 0;
   color: inherit;
 }
+
 .elementor-widget-container .site-header--elementor .header-mini-cart ul.cart_list li.mini_cart_item > a:not(.remove) {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1004,15 +1101,18 @@ body.bp-search .site-header.site-header--elementor {
           transition: all linear 0.2s;
   z-index: 2;
 }
+
 .search-visible-el .header-search-wrap--elementor {
   opacity: 1;
   visibility: visible;
 }
+
 .header-search-wrap--elementor .container {
   padding: 0;
   position: relative;
   width: 100%;
 }
+
 .header-search-wrap--elementor .search-form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1024,12 +1124,14 @@ body.bp-search .site-header.site-header--elementor {
           align-items: center;
   max-width: 100%;
 }
+
 .header-search-wrap--elementor .search-form label {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   margin: 0;
 }
+
 .header-search-wrap--elementor input.search-field,
 .header-search-wrap--elementor .search-field-top {
   border: 0;
@@ -1045,6 +1147,7 @@ body.bp-search .site-header.site-header--elementor {
   text-overflow: ellipsis;
   background-color: var(--bb-header-background);
 }
+
 .header-search-wrap--elementor input.search-submit {
   position: absolute;
   width: 30px;
@@ -1053,6 +1156,7 @@ body.bp-search .site-header.site-header--elementor {
   padding: 0;
   opacity: 0;
 }
+
 .header-search-wrap--elementor a.close-search {
   display: inline-block;
   line-height: 1;
@@ -1061,9 +1165,11 @@ body.bp-search .site-header.site-header--elementor {
   top: calc(50% - 11px);
   right: 15px;
 }
+
 .header-search-wrap--elementor a.close-search i {
   font-size: 22px;
 }
+
 .header-search-wrap--elementor input[type="search"] {
   background-position: left 15px center;
 }
@@ -1086,15 +1192,18 @@ body.bp-search .site-header.site-header--elementor {
 }
 
 @media (max-width: 799px) {
+
   .site-header--elementor .site-header-container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
+
   .site-header--elementor.site-header--is-logo.site-header--is-nav .site-header-container {
     display: none;
   }
 }
+
 .elementor-widget-header-bar.is-active {
   z-index: 12;
 }
@@ -1105,6 +1214,7 @@ body.bp-search .site-header.site-header--elementor {
           order: 1;
   width: 40%;
 }
+
 .elementor-element--logo-position-right .site-header-container #site-logo {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -1119,6 +1229,7 @@ body.bp-search .site-header.site-header--elementor {
           order: 1;
   width: 40%;
 }
+
 .elementor-element--logo-position-full-center .site-header-container #site-logo {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -1126,6 +1237,7 @@ body.bp-search .site-header.site-header--elementor {
   margin: auto;
   padding: 0 20px;
 }
+
 .elementor-element--logo-position-full-center .site-header-container #header-aside {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
@@ -1139,6 +1251,7 @@ body.bp-search .site-header.site-header--elementor {
           order: 1;
   width: 40%;
 }
+
 .elementor-element--logo-position-full-right .site-header-container #site-logo {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
@@ -1146,6 +1259,7 @@ body.bp-search .site-header.site-header--elementor {
   margin: auto;
   padding: 0 20px;
 }
+
 .elementor-element--logo-position-full-right .site-header-container #header-aside {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
@@ -1154,58 +1268,71 @@ body.bp-search .site-header.site-header--elementor {
 }
 
 /* Support Font Awesome icons */
-.elementor-widget-container .fab:before {
+.elementor-widget-container .fab::before {
   font-family: "Font Awesome 5 Brands";
 }
-.elementor-widget-container .far:before {
+
+.elementor-widget-container .far::before {
   font-family: "Font Awesome 5 Free";
 }
-.elementor-widget-container .fa:before,
-.elementor-widget-container .fas:before {
+
+.elementor-widget-container .fa::before,
+.elementor-widget-container .fas::before {
   font-family: "Font Awesome 5 Free";
 }
 
 @media (max-width: 768px) {
+
   .site-header--elementor .user-wrap > a.user-link .user-name,
   .site-header--elementor .user-wrap > a.user-link i.bb-icon-angle-down {
     display: none;
   }
+
   .site-header--elementor .user-wrap > .sub-menu {
     right: -54px;
   }
+
   .site-header--elementor .header-aside-inner > .bb-separator {
     margin: 0;
     opacity: 0;
   }
 }
 @media (max-width: 500px) {
+
   .site-header--elementor .user-wrap > .sub-menu {
     right: -94px;
   }
-  .site-header--elementor .user-wrap-container > .sub-menu:before {
+
+  .site-header--elementor .user-wrap-container > .sub-menu::before {
     right: 118px;
   }
+
   .site-header--elementor .user-wrap > .sub-menu {
     min-width: 150px;
   }
+
   .site-header--elementor .user-wrap > .sub-menu .wrapper .sub-menu-inner {
     width: 150px;
   }
+
   .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper {
     width: 140px;
     left: -140px;
   }
 }
 @media (max-width: 420px) {
+
   .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper {
     width: 130px;
     left: -130px;
   }
 }
 @media (max-width: 380px) {
+
   .site-header--elementor .user-wrap > .sub-menu .menupop.parent {
     position: relative !important;
   }
+
   .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper {
     position: relative;
     width: 100%;
@@ -1214,16 +1341,19 @@ body.bp-search .site-header.site-header--elementor {
     left: 0;
     top: 0 !important;
   }
+
   .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper .ab-submenu {
     box-shadow: none;
     background-color: var(--bb-body-background-color);
     display: none;
   }
+
   .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper .ab-submenu a {
     font-size: 12px;
     padding: 0.3125rem 0.9375rem 0.3125rem 1.25rem;
   }
-  .site-header--elementor .user-wrap > .sub-menu .menupop.parent .ab-sub-wrapper:before {
+
+  .site-header--elementor .user-wrap > .sub-menu .menupop.parent .ab-sub-wrapper::before {
     content: "\e826";
     font-family: bb-icons;
     width: 20px;
@@ -1244,16 +1374,19 @@ body.bp-search .site-header.site-header--elementor {
     box-shadow: none;
     background-color: transparent !important;
   }
-  .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper:before {
+
+  .site-header--elementor .user-wrap > .sub-menu .ab-sub-wrapper::before {
     display: none;
   }
 }
+
 /** bb profile completion widget */
 .profile_bit {
   position: relative;
   display: inline-block;
   text-align: left;
 }
+
 .profile_bit .progress_container {
   text-align: center;
 }
@@ -1263,9 +1396,11 @@ body.bp-search .site-header.site-header--elementor {
   min-height: 110px;
   width: 100%;
 }
+
 .profile_bit_wrapper.profile_bit_wrapper--blank {
   min-height: auto;
 }
+
 .profile_bit_wrapper.has-profile-button {
   min-height: 180px;
 }
@@ -1287,6 +1422,7 @@ body.bp-search .site-header.site-header--elementor {
   right: 0;
 }
 @media (max-width: 768px) {
+
   .elementor-cta--completion-right .profile_bit.skin-linear {
     right: 0;
     left: 0;
@@ -1330,12 +1466,14 @@ body.bp-search .site-header.site-header--elementor {
 }
 
 @media (max-width: 768px) {
+
   .elementor-cta--completion-right,
   .elementor-cta--completion-left,
   .elementor-cta--completion-center {
     text-align: center;
   }
 }
+
 .progress_bit {
   position: relative;
   display: inline-block;
@@ -1358,6 +1496,7 @@ body.bp-search .site-header.site-header--elementor {
 .profile_bit.skin-linear .progress_bit_graph {
   display: none;
 }
+
 .profile_bit.skin-linear .progress_bit__data {
   position: relative;
   display: block;
@@ -1369,12 +1508,14 @@ body.bp-search .site-header.site-header--elementor {
 .profile_bit.skin-semicircle {
   width: 100%;
 }
+
 .profile_bit.skin-linear .progress_bit,
 .profile_bit.skin-semicircle .progress_bit {
   width: 100%;
   padding: 20px 20px 0;
   cursor: pointer;
 }
+
 .profile_bit.skin-linear .progress_container,
 .profile_bit.skin-semicircle .progress_container {
   background-color: #fff;
@@ -1383,15 +1524,18 @@ body.bp-search .site-header.site-header--elementor {
   border-width: 1px;
   padding-bottom: 20px;
 }
+
 .profile_bit.skin-linear .profile_bit_action,
 .profile_bit.skin-semicircle .profile_bit_action {
   text-align: left;
   padding: 0 15px;
 }
+
 .profile_bit.skin-linear.active .progress_container,
 .profile_bit.skin-semicircle.active .progress_container {
   border-radius: 10px 10px 0 0;
 }
+
 .profile_bit.skin-linear .profile_bit__details,
 .profile_bit.skin-semicircle .profile_bit__details {
   top: 0;
@@ -1406,6 +1550,7 @@ body.bp-search .site-header.site-header--elementor {
   padding-top: 0;
   border-width: 1px;
 }
+
 .profile_bit.skin-linear .profile_bit__details .profile_bit__heading,
 .profile_bit.skin-semicircle .profile_bit__details .profile_bit__heading {
   display: none;
@@ -1415,6 +1560,7 @@ body.bp-search .site-header.site-header--elementor {
   position: absolute;
   top: 100%;
 }
+
 .profile_bit.skin-semicircle .profile_bit_action__link {
   text-align: center;
 }
@@ -1424,26 +1570,31 @@ body.bp-search .site-header.site-header--elementor {
 .profile_bit.skin-semicircle.border-solid .profile_bit__details {
   border-style: solid;
 }
+
 .profile_bit.skin-linear.border-dashed .progress_container, .profile_bit.skin-linear.border-dashed .profile_bit__details,
 .profile_bit.skin-semicircle.border-dashed .progress_container,
 .profile_bit.skin-semicircle.border-dashed .profile_bit__details {
   border-style: dashed;
 }
+
 .profile_bit.skin-linear.border-dotted .progress_container, .profile_bit.skin-linear.border-dotted .profile_bit__details,
 .profile_bit.skin-semicircle.border-dotted .progress_container,
 .profile_bit.skin-semicircle.border-dotted .profile_bit__details {
   border-style: dotted;
 }
+
 .profile_bit.skin-linear.border-none .progress_container, .profile_bit.skin-linear.border-none .profile_bit__details,
 .profile_bit.skin-semicircle.border-none .progress_container,
 .profile_bit.skin-semicircle.border-none .profile_bit__details {
   border-style: none;
 }
+
 .profile_bit.skin-linear.border-double .progress_container, .profile_bit.skin-linear.border-double .profile_bit__details,
 .profile_bit.skin-semicircle.border-double .progress_container,
 .profile_bit.skin-semicircle.border-double .profile_bit__details {
   border-style: double;
 }
+
 .profile_bit.skin-linear .profile_bit__details,
 .profile_bit.skin-semicircle .profile_bit__details {
   border-top-width: 0;
@@ -1458,15 +1609,17 @@ body.bp-search .site-header.site-header--elementor {
           align-items: center;
   margin: 0 0 15px;
 }
+
 .skin-semicircle .progress_bit__heading i {
   margin-left: auto;
   -webkit-transition: all 0.5s ease;
           transition: all 0.5s ease;
   color: var(--bb-headings-color);
 }
+
 .skin-semicircle .progress_bit__heading h3 {
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 13px;
   margin: 0;
 }
@@ -1476,6 +1629,7 @@ body.bp-search .site-header.site-header--elementor {
   width: 100%;
   text-align: left;
 }
+
 .skin-linear .progress_bit_linear .progress_bit__heading {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1485,15 +1639,17 @@ body.bp-search .site-header.site-header--elementor {
           align-items: center;
   margin: 0 0 15px;
 }
+
 .skin-linear .progress_bit_linear .progress_bit__heading i {
   margin-left: auto;
   -webkit-transition: all 0.5s ease;
           transition: all 0.5s ease;
   color: var(--bb-headings-color);
 }
+
 .skin-linear .progress_bit_linear .progress_bit__heading h3 {
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 13px;
   margin: 0;
 }
@@ -1541,19 +1697,23 @@ body.bp-search .site-header.site-header--elementor {
   box-shadow: none;
   position: relative;
 }
-.progress-bit__ring:after {
+
+.progress-bit__ring::after {
   content: "";
+
   /* width: 100%;
   height: 100%; */
   width: 98px;
   height: 98px;
   border-radius: 50%;
+
   /* border: $border-width solid $color-lightgray; */
   border: 4px solid #dedfe2;
   position: absolute;
   top: 1px;
   left: 1px;
 }
+
 .progress-bit__ring > span {
   width: 50%;
   height: 100%;
@@ -1562,9 +1722,11 @@ body.bp-search .site-header.site-header--elementor {
   top: 0;
   z-index: 1;
 }
+
 .progress-bit__ring .progress-bit__left {
   left: 0;
 }
+
 .progress-bit__ring .progress-bit__disc {
   width: 100%;
   height: 100%;
@@ -1575,6 +1737,7 @@ body.bp-search .site-header.site-header--elementor {
   top: 0;
   border-color: #dedfe2;
 }
+
 .progress-bit__ring .progress-bit__left .progress-bit__disc {
   left: 100%;
   border-top-right-radius: 50px;
@@ -1586,9 +1749,11 @@ body.bp-search .site-header.site-header--elementor {
   -webkit-animation: loading-2 1.5s linear forwards 1.8s;
           animation: loading-2 1.5s linear forwards 1.8s;
 }
+
 .progress-bit__ring .progress-bit__right {
   right: 0;
 }
+
 .progress-bit__ring .progress-bit__right .progress-bit__disc {
   left: -100%;
   border-top-left-radius: 50px;
@@ -1600,6 +1765,7 @@ body.bp-search .site-header.site-header--elementor {
   -webkit-animation: loading-1 1.8s linear forwards;
           animation: loading-1 1.8s linear forwards;
 }
+
 .progress-bit__ring .bb-progress-value {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1617,9 +1783,11 @@ body.bp-search .site-header.site-header--elementor {
   height: 100%;
   font-weight: 300;
 }
+
 .progress-bit__ring .bb-progress-value div {
   margin-top: 10px;
 }
+
 .progress-bit__ring .bb-progress-value span {
   font-size: 12px;
   text-transform: uppercase;
@@ -1631,23 +1799,28 @@ body.bp-search .site-header.site-header--elementor {
   height: 46px;
   line-height: 46px;
 }
-.progress_bit_graph--sm .progress-bit__ring:after {
+
+.progress_bit_graph--sm .progress-bit__ring::after {
   border-width: 4px;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
 }
+
 .progress_bit_graph--sm .progress-bit__disc {
   border-width: 4px;
 }
+
 .progress_bit_graph--sm .progress-bit__left .progress-bit__disc {
   border-top-right-radius: 23px;
   border-bottom-right-radius: 23px;
 }
+
 .progress_bit_graph--sm .progress-bit__right {
   right: 0;
 }
+
 .progress_bit_graph--sm .progress-bit__right .progress-bit__disc {
   border-top-left-radius: 23px;
   border-bottom-left-radius: 23px;
@@ -1688,6 +1861,7 @@ body.bp-search .site-header.site-header--elementor {
   font-weight: 500;
   color: var(--bb-headings-color);
 }
+
 .progress_bit__data-num > span {
   font-size: 12px;
   color: var(--bb-alternate-text-color);
@@ -1698,17 +1872,21 @@ body.bp-search .site-header.site-header--elementor {
   font-size: 36px;
   font-weight: 600;
 }
+
 .skin-semicircle .progress_bit__data-num > span {
   font-size: 14px;
 }
+
 .skin-semicircle .progress_bit__data-remark {
   font-size: 14px;
   line-height: 1.3;
 }
+
 .skin-semicircle .progress_bit__data {
   top: unset;
   bottom: 20px;
 }
+
 .skin-semicircle .pc_progress_wrap {
   margin: 0 0 10px;
 }
@@ -1725,6 +1903,7 @@ body.bp-search .site-header.site-header--elementor {
   font-size: 13px;
   color: var(--bb-alternate-text-color);
 }
+
 .profile_bit.skin-linear .progress_bit__data-num > span {
   vertical-align: initial;
 }
@@ -1743,6 +1922,7 @@ body.bp-search .site-header.site-header--elementor {
 }
 
 @media (max-width: 768px) {
+
   .profile_bit.skin-circle .profile_bit__details {
     top: 100px;
     left: 50%;
@@ -1763,7 +1943,8 @@ ul.profile_bit__list li .section_number {
   line-height: 1;
   position: relative;
 }
-ul.profile_bit__list li .section_number:before {
+
+ul.profile_bit__list li .section_number::before {
   content: "";
   border: 2px solid #dedfe2;
   margin-right: 10px;
@@ -1773,7 +1954,8 @@ ul.profile_bit__list li .section_number:before {
   width: 22px;
   border-radius: 50%;
 }
-ul.profile_bit__list li.completed .section_number:before {
+
+ul.profile_bit__list li.completed .section_number::before {
   content: "";
   content: "\e876";
   font-family: bb-icons;
@@ -1801,19 +1983,24 @@ ul.profile_bit__list li {
           align-items: center;
   position: relative;
 }
+
 ul.profile_bit__list li .progress {
   margin-left: auto;
 }
+
 ul.profile_bit__list li .section_name {
   margin-right: 15px;
 }
+
 ul.profile_bit__list li .section_name a {
   color: #939597;
   font-size: 15px;
 }
+
 ul.profile_bit__list li:last-of-type {
   margin-bottom: 0;
 }
+
 ul.profile_bit__list li .completed_staus {
   display: inline-block;
   padding: 3px 0;
@@ -1823,12 +2010,15 @@ ul.profile_bit__list li .completed_staus {
   font-weight: 600;
   text-align: center;
 }
+
 ul.profile_bit__list li.completed .completed_staus {
   color: var(--bb-success-color);
 }
+
 ul.profile_bit__list li.incomplete .completed_staus {
   color: var(--bb-danger-color);
 }
+
 ul.profile_bit__list li.incomplete .section_name a {
   color: var(--bb-danger-color);
 }
@@ -1846,21 +2036,26 @@ ul.profile_bit__list li.incomplete .section_name a {
   margin: 0 0 15px;
   font-size: 14px;
 }
+
 .profile_bit__heading .progress-num {
   color: var(--bb-headings-color);
 }
+
 .profile_bit__heading .progress-label {
   text-align: right;
   color: var(--bb-headings-color);
 }
+
 .profile_bit__heading > span {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 33.333%;
           flex: 0 0 33.333%;
 }
+
 .profile_bit__heading .progress-figure {
   position: relative;
 }
+
 .profile_bit__heading .progress_bit_graph--sm {
   position: absolute;
   top: -23px;
@@ -1868,6 +2063,7 @@ ul.profile_bit__list li.incomplete .section_name a {
   left: 0;
   right: 0;
 }
+
 .profile_bit__heading .progress_bit_graph--sm .progress-bit__ring {
   border: 3px solid #fff;
   background-color: #fff;
@@ -1882,6 +2078,7 @@ ul.profile_bit__list li.incomplete .section_name a {
 .profile_bit_action {
   margin: 10px 0 0;
 }
+
 .profile_bit_action a.profile_bit_action__link {
   font-size: 13px;
   display: inline-block;
@@ -1891,9 +2088,11 @@ ul.profile_bit__list li.incomplete .section_name a {
   border: 1px solid #9ea8b2;
   cursor: pointer;
 }
+
 .profile_bit_action a.profile_bit_action__link:hover {
   color: var(--bb-primary-color);
 }
+
 .profile_bit_action a.profile_bit_action__link i {
   font-size: 20px;
   position: relative;
@@ -1914,6 +2113,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-1 1.5s linear forwards;
           animation: loading-1 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="1"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1923,6 +2123,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-2 1.5s linear forwards;
           animation: loading-2 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="2"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1932,6 +2133,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-3 1.5s linear forwards;
           animation: loading-3 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="3"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1941,6 +2143,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-4 1.5s linear forwards;
           animation: loading-4 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="4"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1950,6 +2153,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-5 1.5s linear forwards;
           animation: loading-5 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="5"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1959,6 +2163,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-6 1.5s linear forwards;
           animation: loading-6 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="6"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1968,6 +2173,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-7 1.5s linear forwards;
           animation: loading-7 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="7"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1977,6 +2183,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-8 1.5s linear forwards;
           animation: loading-8 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="8"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1986,6 +2193,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-9 1.5s linear forwards;
           animation: loading-9 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="9"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -1995,6 +2203,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-10 1.5s linear forwards;
           animation: loading-10 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="10"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2004,6 +2213,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-11 1.5s linear forwards;
           animation: loading-11 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="11"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2013,6 +2223,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-12 1.5s linear forwards;
           animation: loading-12 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="12"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2022,6 +2233,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-13 1.5s linear forwards;
           animation: loading-13 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="13"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2031,6 +2243,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-14 1.5s linear forwards;
           animation: loading-14 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="14"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2040,6 +2253,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-15 1.5s linear forwards;
           animation: loading-15 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="15"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2049,6 +2263,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-16 1.5s linear forwards;
           animation: loading-16 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="16"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2058,6 +2273,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-17 1.5s linear forwards;
           animation: loading-17 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="17"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2067,6 +2283,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-18 1.5s linear forwards;
           animation: loading-18 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="18"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2076,6 +2293,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-19 1.5s linear forwards;
           animation: loading-19 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="19"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2085,6 +2303,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-20 1.5s linear forwards;
           animation: loading-20 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="20"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2094,6 +2313,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-21 1.5s linear forwards;
           animation: loading-21 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="21"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2103,6 +2323,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-22 1.5s linear forwards;
           animation: loading-22 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="22"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2112,6 +2333,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-23 1.5s linear forwards;
           animation: loading-23 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="23"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2121,6 +2343,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-24 1.5s linear forwards;
           animation: loading-24 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="24"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2130,6 +2353,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-25 1.5s linear forwards;
           animation: loading-25 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="25"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2139,6 +2363,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-26 1.5s linear forwards;
           animation: loading-26 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="26"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2148,6 +2373,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-27 1.5s linear forwards;
           animation: loading-27 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="27"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2157,6 +2383,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-28 1.5s linear forwards;
           animation: loading-28 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="28"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2166,6 +2393,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-29 1.5s linear forwards;
           animation: loading-29 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="29"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2175,6 +2403,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-30 1.5s linear forwards;
           animation: loading-30 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="30"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2184,6 +2413,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-31 1.5s linear forwards;
           animation: loading-31 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="31"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2193,6 +2423,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-32 1.5s linear forwards;
           animation: loading-32 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="32"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2202,6 +2433,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-33 1.5s linear forwards;
           animation: loading-33 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="33"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2211,6 +2443,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-34 1.5s linear forwards;
           animation: loading-34 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="34"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2220,6 +2453,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-35 1.5s linear forwards;
           animation: loading-35 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="35"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2229,6 +2463,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-36 1.5s linear forwards;
           animation: loading-36 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="36"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2238,6 +2473,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-37 1.5s linear forwards;
           animation: loading-37 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="37"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2247,6 +2483,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-38 1.5s linear forwards;
           animation: loading-38 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="38"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2256,6 +2493,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-39 1.5s linear forwards;
           animation: loading-39 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="39"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2265,6 +2503,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-40 1.5s linear forwards;
           animation: loading-40 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="40"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2274,6 +2513,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-41 1.5s linear forwards;
           animation: loading-41 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="41"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2283,6 +2523,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-42 1.5s linear forwards;
           animation: loading-42 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="42"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2292,6 +2533,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-43 1.5s linear forwards;
           animation: loading-43 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="43"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2301,6 +2543,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-44 1.5s linear forwards;
           animation: loading-44 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="44"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2310,6 +2553,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-45 1.5s linear forwards;
           animation: loading-45 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="45"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2319,6 +2563,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-46 1.5s linear forwards;
           animation: loading-46 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="46"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2328,6 +2573,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-47 1.5s linear forwards;
           animation: loading-47 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="47"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2337,6 +2583,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-48 1.5s linear forwards;
           animation: loading-48 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="48"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2346,6 +2593,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-49 1.5s linear forwards;
           animation: loading-49 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="49"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2355,6 +2603,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="50"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: 0;
           animation: 0;
@@ -2364,6 +2613,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="51"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-1 1.5s linear forwards 1.5s;
           animation: loading-1 1.5s linear forwards 1.5s;
@@ -2373,6 +2623,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="52"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-2 1.5s linear forwards 1.5s;
           animation: loading-2 1.5s linear forwards 1.5s;
@@ -2382,6 +2633,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="53"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-3 1.5s linear forwards 1.5s;
           animation: loading-3 1.5s linear forwards 1.5s;
@@ -2391,6 +2643,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="54"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-4 1.5s linear forwards 1.5s;
           animation: loading-4 1.5s linear forwards 1.5s;
@@ -2400,6 +2653,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="55"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-5 1.5s linear forwards 1.5s;
           animation: loading-5 1.5s linear forwards 1.5s;
@@ -2409,6 +2663,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="56"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-6 1.5s linear forwards 1.5s;
           animation: loading-6 1.5s linear forwards 1.5s;
@@ -2418,6 +2673,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="57"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-7 1.5s linear forwards 1.5s;
           animation: loading-7 1.5s linear forwards 1.5s;
@@ -2427,6 +2683,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="58"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-8 1.5s linear forwards 1.5s;
           animation: loading-8 1.5s linear forwards 1.5s;
@@ -2436,6 +2693,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="59"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-9 1.5s linear forwards 1.5s;
           animation: loading-9 1.5s linear forwards 1.5s;
@@ -2445,6 +2703,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="60"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-10 1.5s linear forwards 1.5s;
           animation: loading-10 1.5s linear forwards 1.5s;
@@ -2454,6 +2713,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="61"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-11 1.5s linear forwards 1.5s;
           animation: loading-11 1.5s linear forwards 1.5s;
@@ -2463,6 +2723,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="62"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-12 1.5s linear forwards 1.5s;
           animation: loading-12 1.5s linear forwards 1.5s;
@@ -2472,6 +2733,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="63"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-13 1.5s linear forwards 1.5s;
           animation: loading-13 1.5s linear forwards 1.5s;
@@ -2481,6 +2743,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="64"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-14 1.5s linear forwards 1.5s;
           animation: loading-14 1.5s linear forwards 1.5s;
@@ -2490,6 +2753,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="65"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-15 1.5s linear forwards 1.5s;
           animation: loading-15 1.5s linear forwards 1.5s;
@@ -2499,6 +2763,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="66"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-16 1.5s linear forwards 1.5s;
           animation: loading-16 1.5s linear forwards 1.5s;
@@ -2508,6 +2773,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="67"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-17 1.5s linear forwards 1.5s;
           animation: loading-17 1.5s linear forwards 1.5s;
@@ -2517,6 +2783,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="68"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-18 1.5s linear forwards 1.5s;
           animation: loading-18 1.5s linear forwards 1.5s;
@@ -2526,6 +2793,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="69"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-19 1.5s linear forwards 1.5s;
           animation: loading-19 1.5s linear forwards 1.5s;
@@ -2535,6 +2803,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="70"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-20 1.5s linear forwards 1.5s;
           animation: loading-20 1.5s linear forwards 1.5s;
@@ -2544,6 +2813,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="71"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-21 1.5s linear forwards 1.5s;
           animation: loading-21 1.5s linear forwards 1.5s;
@@ -2553,6 +2823,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="72"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-22 1.5s linear forwards 1.5s;
           animation: loading-22 1.5s linear forwards 1.5s;
@@ -2562,6 +2833,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="73"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-23 1.5s linear forwards 1.5s;
           animation: loading-23 1.5s linear forwards 1.5s;
@@ -2571,6 +2843,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="74"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-24 1.5s linear forwards 1.5s;
           animation: loading-24 1.5s linear forwards 1.5s;
@@ -2580,6 +2853,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="75"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-25 1.5s linear forwards 1.5s;
           animation: loading-25 1.5s linear forwards 1.5s;
@@ -2589,6 +2863,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="76"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-26 1.5s linear forwards 1.5s;
           animation: loading-26 1.5s linear forwards 1.5s;
@@ -2598,6 +2873,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="77"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-27 1.5s linear forwards 1.5s;
           animation: loading-27 1.5s linear forwards 1.5s;
@@ -2607,6 +2883,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="78"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-28 1.5s linear forwards 1.5s;
           animation: loading-28 1.5s linear forwards 1.5s;
@@ -2616,6 +2893,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="79"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-29 1.5s linear forwards 1.5s;
           animation: loading-29 1.5s linear forwards 1.5s;
@@ -2625,6 +2903,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="80"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-30 1.5s linear forwards 1.5s;
           animation: loading-30 1.5s linear forwards 1.5s;
@@ -2634,6 +2913,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="81"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-31 1.5s linear forwards 1.5s;
           animation: loading-31 1.5s linear forwards 1.5s;
@@ -2643,6 +2923,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="82"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-32 1.5s linear forwards 1.5s;
           animation: loading-32 1.5s linear forwards 1.5s;
@@ -2652,6 +2933,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="83"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-33 1.5s linear forwards 1.5s;
           animation: loading-33 1.5s linear forwards 1.5s;
@@ -2661,6 +2943,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="84"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-34 1.5s linear forwards 1.5s;
           animation: loading-34 1.5s linear forwards 1.5s;
@@ -2670,6 +2953,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="85"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-35 1.5s linear forwards 1.5s;
           animation: loading-35 1.5s linear forwards 1.5s;
@@ -2679,6 +2963,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="86"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-36 1.5s linear forwards 1.5s;
           animation: loading-36 1.5s linear forwards 1.5s;
@@ -2688,6 +2973,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="87"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-37 1.5s linear forwards 1.5s;
           animation: loading-37 1.5s linear forwards 1.5s;
@@ -2697,6 +2983,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="88"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-38 1.5s linear forwards 1.5s;
           animation: loading-38 1.5s linear forwards 1.5s;
@@ -2706,6 +2993,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="89"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-39 1.5s linear forwards 1.5s;
           animation: loading-39 1.5s linear forwards 1.5s;
@@ -2715,6 +3003,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="90"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-40 1.5s linear forwards 1.5s;
           animation: loading-40 1.5s linear forwards 1.5s;
@@ -2724,6 +3013,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="91"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-41 1.5s linear forwards 1.5s;
           animation: loading-41 1.5s linear forwards 1.5s;
@@ -2733,6 +3023,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="92"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-42 1.5s linear forwards 1.5s;
           animation: loading-42 1.5s linear forwards 1.5s;
@@ -2742,6 +3033,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="93"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-43 1.5s linear forwards 1.5s;
           animation: loading-43 1.5s linear forwards 1.5s;
@@ -2751,6 +3043,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="94"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-44 1.5s linear forwards 1.5s;
           animation: loading-44 1.5s linear forwards 1.5s;
@@ -2760,6 +3053,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="95"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-45 1.5s linear forwards 1.5s;
           animation: loading-45 1.5s linear forwards 1.5s;
@@ -2769,6 +3063,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="96"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-46 1.5s linear forwards 1.5s;
           animation: loading-46 1.5s linear forwards 1.5s;
@@ -2778,6 +3073,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="97"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-47 1.5s linear forwards 1.5s;
           animation: loading-47 1.5s linear forwards 1.5s;
@@ -2787,6 +3083,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="98"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-48 1.5s linear forwards 1.5s;
           animation: loading-48 1.5s linear forwards 1.5s;
@@ -2796,6 +3093,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="99"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-49 1.5s linear forwards 1.5s;
           animation: loading-49 1.5s linear forwards 1.5s;
@@ -2805,16 +3103,19 @@ Due to the split circle of progress-left and progress right, we must use the ani
   -webkit-animation: loading-50 1.5s linear forwards;
           animation: loading-50 1.5s linear forwards;
 }
+
 .progress-bit__ring[data-percentage="100"] .progress-bit__left .progress-bit__disc {
   -webkit-animation: loading-50 1.5s linear forwards 1.5s;
           animation: loading-50 1.5s linear forwards 1.5s;
 }
 
 @-webkit-keyframes loading-1 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(3.6deg);
             transform: rotate(3.6deg);
@@ -2822,1002 +3123,1203 @@ Due to the split circle of progress-left and progress right, we must use the ani
 }
 
 @keyframes loading-1 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(3.6deg);
             transform: rotate(3.6deg);
   }
 }
 @-webkit-keyframes loading-2 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(7.2deg);
             transform: rotate(7.2deg);
   }
 }
 @keyframes loading-2 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(7.2deg);
             transform: rotate(7.2deg);
   }
 }
 @-webkit-keyframes loading-3 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(10.8deg);
             transform: rotate(10.8deg);
   }
 }
 @keyframes loading-3 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(10.8deg);
             transform: rotate(10.8deg);
   }
 }
 @-webkit-keyframes loading-4 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(14.4deg);
             transform: rotate(14.4deg);
   }
 }
 @keyframes loading-4 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(14.4deg);
             transform: rotate(14.4deg);
   }
 }
 @-webkit-keyframes loading-5 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(18deg);
             transform: rotate(18deg);
   }
 }
 @keyframes loading-5 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(18deg);
             transform: rotate(18deg);
   }
 }
 @-webkit-keyframes loading-6 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(21.6deg);
             transform: rotate(21.6deg);
   }
 }
 @keyframes loading-6 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(21.6deg);
             transform: rotate(21.6deg);
   }
 }
 @-webkit-keyframes loading-7 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(25.2deg);
             transform: rotate(25.2deg);
   }
 }
 @keyframes loading-7 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(25.2deg);
             transform: rotate(25.2deg);
   }
 }
 @-webkit-keyframes loading-8 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(28.8deg);
             transform: rotate(28.8deg);
   }
 }
 @keyframes loading-8 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(28.8deg);
             transform: rotate(28.8deg);
   }
 }
 @-webkit-keyframes loading-9 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(32.4deg);
             transform: rotate(32.4deg);
   }
 }
 @keyframes loading-9 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(32.4deg);
             transform: rotate(32.4deg);
   }
 }
 @-webkit-keyframes loading-10 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(36deg);
             transform: rotate(36deg);
   }
 }
 @keyframes loading-10 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(36deg);
             transform: rotate(36deg);
   }
 }
 @-webkit-keyframes loading-11 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(39.6deg);
             transform: rotate(39.6deg);
   }
 }
 @keyframes loading-11 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(39.6deg);
             transform: rotate(39.6deg);
   }
 }
 @-webkit-keyframes loading-12 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(43.2deg);
             transform: rotate(43.2deg);
   }
 }
 @keyframes loading-12 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(43.2deg);
             transform: rotate(43.2deg);
   }
 }
 @-webkit-keyframes loading-13 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(46.8deg);
             transform: rotate(46.8deg);
   }
 }
 @keyframes loading-13 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(46.8deg);
             transform: rotate(46.8deg);
   }
 }
 @-webkit-keyframes loading-14 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(50.4deg);
             transform: rotate(50.4deg);
   }
 }
 @keyframes loading-14 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(50.4deg);
             transform: rotate(50.4deg);
   }
 }
 @-webkit-keyframes loading-15 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(54deg);
             transform: rotate(54deg);
   }
 }
 @keyframes loading-15 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(54deg);
             transform: rotate(54deg);
   }
 }
 @-webkit-keyframes loading-16 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(57.6deg);
             transform: rotate(57.6deg);
   }
 }
 @keyframes loading-16 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(57.6deg);
             transform: rotate(57.6deg);
   }
 }
 @-webkit-keyframes loading-17 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(61.2deg);
             transform: rotate(61.2deg);
   }
 }
 @keyframes loading-17 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(61.2deg);
             transform: rotate(61.2deg);
   }
 }
 @-webkit-keyframes loading-18 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(64.8deg);
             transform: rotate(64.8deg);
   }
 }
 @keyframes loading-18 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(64.8deg);
             transform: rotate(64.8deg);
   }
 }
 @-webkit-keyframes loading-19 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(68.4deg);
             transform: rotate(68.4deg);
   }
 }
 @keyframes loading-19 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(68.4deg);
             transform: rotate(68.4deg);
   }
 }
 @-webkit-keyframes loading-20 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(72deg);
             transform: rotate(72deg);
   }
 }
 @keyframes loading-20 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(72deg);
             transform: rotate(72deg);
   }
 }
 @-webkit-keyframes loading-21 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(75.6deg);
             transform: rotate(75.6deg);
   }
 }
 @keyframes loading-21 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(75.6deg);
             transform: rotate(75.6deg);
   }
 }
 @-webkit-keyframes loading-22 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(79.2deg);
             transform: rotate(79.2deg);
   }
 }
 @keyframes loading-22 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(79.2deg);
             transform: rotate(79.2deg);
   }
 }
 @-webkit-keyframes loading-23 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(82.8deg);
             transform: rotate(82.8deg);
   }
 }
 @keyframes loading-23 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(82.8deg);
             transform: rotate(82.8deg);
   }
 }
 @-webkit-keyframes loading-24 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(86.4deg);
             transform: rotate(86.4deg);
   }
 }
 @keyframes loading-24 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(86.4deg);
             transform: rotate(86.4deg);
   }
 }
 @-webkit-keyframes loading-25 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg);
   }
 }
 @keyframes loading-25 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(90deg);
             transform: rotate(90deg);
   }
 }
 @-webkit-keyframes loading-26 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(93.6deg);
             transform: rotate(93.6deg);
   }
 }
 @keyframes loading-26 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(93.6deg);
             transform: rotate(93.6deg);
   }
 }
 @-webkit-keyframes loading-27 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(97.2deg);
             transform: rotate(97.2deg);
   }
 }
 @keyframes loading-27 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(97.2deg);
             transform: rotate(97.2deg);
   }
 }
 @-webkit-keyframes loading-28 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(100.8deg);
             transform: rotate(100.8deg);
   }
 }
 @keyframes loading-28 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(100.8deg);
             transform: rotate(100.8deg);
   }
 }
 @-webkit-keyframes loading-29 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(104.4deg);
             transform: rotate(104.4deg);
   }
 }
 @keyframes loading-29 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(104.4deg);
             transform: rotate(104.4deg);
   }
 }
 @-webkit-keyframes loading-30 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(108deg);
             transform: rotate(108deg);
   }
 }
 @keyframes loading-30 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(108deg);
             transform: rotate(108deg);
   }
 }
 @-webkit-keyframes loading-31 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(111.6deg);
             transform: rotate(111.6deg);
   }
 }
 @keyframes loading-31 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(111.6deg);
             transform: rotate(111.6deg);
   }
 }
 @-webkit-keyframes loading-32 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(115.2deg);
             transform: rotate(115.2deg);
   }
 }
 @keyframes loading-32 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(115.2deg);
             transform: rotate(115.2deg);
   }
 }
 @-webkit-keyframes loading-33 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(118.8deg);
             transform: rotate(118.8deg);
   }
 }
 @keyframes loading-33 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(118.8deg);
             transform: rotate(118.8deg);
   }
 }
 @-webkit-keyframes loading-34 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(122.4deg);
             transform: rotate(122.4deg);
   }
 }
 @keyframes loading-34 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(122.4deg);
             transform: rotate(122.4deg);
   }
 }
 @-webkit-keyframes loading-35 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(126deg);
             transform: rotate(126deg);
   }
 }
 @keyframes loading-35 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(126deg);
             transform: rotate(126deg);
   }
 }
 @-webkit-keyframes loading-36 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(129.6deg);
             transform: rotate(129.6deg);
   }
 }
 @keyframes loading-36 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(129.6deg);
             transform: rotate(129.6deg);
   }
 }
 @-webkit-keyframes loading-37 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(133.2deg);
             transform: rotate(133.2deg);
   }
 }
 @keyframes loading-37 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(133.2deg);
             transform: rotate(133.2deg);
   }
 }
 @-webkit-keyframes loading-38 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(136.8deg);
             transform: rotate(136.8deg);
   }
 }
 @keyframes loading-38 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(136.8deg);
             transform: rotate(136.8deg);
   }
 }
 @-webkit-keyframes loading-39 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(140.4deg);
             transform: rotate(140.4deg);
   }
 }
 @keyframes loading-39 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(140.4deg);
             transform: rotate(140.4deg);
   }
 }
 @-webkit-keyframes loading-40 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(144deg);
             transform: rotate(144deg);
   }
 }
 @keyframes loading-40 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(144deg);
             transform: rotate(144deg);
   }
 }
 @-webkit-keyframes loading-41 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(147.6deg);
             transform: rotate(147.6deg);
   }
 }
 @keyframes loading-41 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(147.6deg);
             transform: rotate(147.6deg);
   }
 }
 @-webkit-keyframes loading-42 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(151.2deg);
             transform: rotate(151.2deg);
   }
 }
 @keyframes loading-42 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(151.2deg);
             transform: rotate(151.2deg);
   }
 }
 @-webkit-keyframes loading-43 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(154.8deg);
             transform: rotate(154.8deg);
   }
 }
 @keyframes loading-43 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(154.8deg);
             transform: rotate(154.8deg);
   }
 }
 @-webkit-keyframes loading-44 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(158.4deg);
             transform: rotate(158.4deg);
   }
 }
 @keyframes loading-44 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(158.4deg);
             transform: rotate(158.4deg);
   }
 }
 @-webkit-keyframes loading-45 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(162deg);
             transform: rotate(162deg);
   }
 }
 @keyframes loading-45 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(162deg);
             transform: rotate(162deg);
   }
 }
 @-webkit-keyframes loading-46 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(165.6deg);
             transform: rotate(165.6deg);
   }
 }
 @keyframes loading-46 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(165.6deg);
             transform: rotate(165.6deg);
   }
 }
 @-webkit-keyframes loading-47 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(169.2deg);
             transform: rotate(169.2deg);
   }
 }
 @keyframes loading-47 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(169.2deg);
             transform: rotate(169.2deg);
   }
 }
 @-webkit-keyframes loading-48 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(172.8deg);
             transform: rotate(172.8deg);
   }
 }
 @keyframes loading-48 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(172.8deg);
             transform: rotate(172.8deg);
   }
 }
 @-webkit-keyframes loading-49 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(176.4deg);
             transform: rotate(176.4deg);
   }
 }
 @keyframes loading-49 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(176.4deg);
             transform: rotate(176.4deg);
   }
 }
 @-webkit-keyframes loading-50 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
   }
 }
 @keyframes loading-50 {
+
   0% {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
   }
 }
+
 /** bb learndash activity widget */
 .bb-lms-progress-wrap--ld-activity {
   position: relative;
 }
+
 .bb-lms-progress-wrap--ld-activity .bb-progress .bb-progress-circle {
   border-width: 3px;
 }
+
 .bb-lms-progress-wrap--ld-activity .bb-progress__value {
   position: absolute;
   top: 50%;
@@ -3828,18 +4330,22 @@ Due to the split circle of progress-left and progress right, we must use the ani
   font-size: 11px;
   color: #fff;
 }
+
 .bb-lms-progress-wrap--ld-activity .bb-progress {
   width: 36px;
   height: 36px;
   line-height: 36px;
 }
-.bb-lms-progress-wrap--ld-activity .bb-progress:after {
+
+.bb-lms-progress-wrap--ld-activity .bb-progress::after {
   border: 3px solid #dedfe2;
 }
+
 .bb-lms-progress-wrap--ld-activity .bb-progress .bb-progress-left .bb-progress-circle {
   border-top-right-radius: 18px;
   border-bottom-right-radius: 18px;
 }
+
 .bb-lms-progress-wrap--ld-activity .bb-progress .bb-progress-right .bb-progress-circle {
   left: -100%;
   border-top-left-radius: 18px;
@@ -3853,7 +4359,8 @@ Due to the split circle of progress-left and progress right, we must use the ani
 .bb-la-composer.bb-la--isslick.bb-la__overlap {
   margin-right: 10px;
 }
-.bb-la-composer.bb-la--isslick.bb-la__overlap:after {
+
+.bb-la-composer.bb-la--isslick.bb-la__overlap::after {
   content: "";
   position: absolute;
   top: 4%;
@@ -3867,10 +4374,12 @@ Due to the split circle of progress-left and progress right, we must use the ani
   opacity: 0.6;
 }
 @media (max-width: 544px) {
+
   .bb-la-composer.bb-la--isslick.bb-la__overlap {
     margin-right: 0;
   }
-  .bb-la-composer.bb-la--isslick.bb-la__overlap:after {
+
+  .bb-la-composer.bb-la--isslick.bb-la__overlap::after {
     display: none;
   }
 }
@@ -3880,15 +4389,18 @@ Due to the split circle of progress-left and progress right, we must use the ani
 }
 
 @media (min-width: 768px) {
+
   .elementor-widget-ld-activity, .elementor-widget-ld-activity .elementor-widget-container, .bb-ldactivity {
     height: 100%;
   }
+
   .elementor-column[data-col="100"] .elementor-widget-ld-activity, .elementor-col-100 .elementor-widget-ld-activity,
   .elementor-column[data-col="100"] .elementor-widget-ld-activity .elementor-widget-container, .elementor-col-100 .elementor-widget-ld-activity .elementor-widget-container,
   .elementor-column[data-col="100"] .bb-ldactivity, .elementor-col-100 .bb-ldactivity {
     height: auto;
   }
 }
+
 .bb-la.bb-la-composer,
 .bb-la-slide,
 .bb-la-block {
@@ -3913,6 +4425,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   text-align: left;
 }
 @media screen and (max-width: 540px) {
+
   .dots--align-left .bb-ldactivity ul.slick-dots {
     text-align: center;
   }
@@ -3922,6 +4435,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   text-align: right;
 }
 @media screen and (max-width: 540px) {
+
   .dots--align-right .bb-ldactivity ul.slick-dots {
     text-align: center;
   }
@@ -3930,12 +4444,14 @@ Due to the split circle of progress-left and progress right, we must use the ani
 .bb-ldactivity .slick-dotted .bb-la__body {
   padding: 20px 15px 35px;
 }
+
 .bb-ldactivity .bb-la__body {
   padding: 20px 15px;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
 }
+
 .bb-ldactivity ul.slick-dots {
   left: -webkit-calc(50% + 30px);
   left: calc(50% + 30px);
@@ -3943,18 +4459,23 @@ Due to the split circle of progress-left and progress right, we must use the ani
   text-align: left;
   margin-right: 40px;
 }
+
 .bb-ldactivity ul.slick-dots li:first-child button {
   border-radius: 10px 0 0 10px;
 }
+
 .bb-ldactivity ul.slick-dots li:last-child button {
   border-radius: 0 10px 10px 0;
 }
+
 .bb-ldactivity ul.slick-dots li.slick-active button {
   background-color: var(--bb-primary-color);
 }
+
 .bb-ldactivity ul.slick-dots li:not(.slick-active) button {
   background-color: #eef0f3;
 }
+
 .bb-ldactivity ul.slick-dots button {
   font-size: 0;
   padding: 1px 0;
@@ -3962,6 +4483,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   width: 30px;
 }
 @media screen and (max-width: 540px) {
+
   .bb-ldactivity ul.slick-dots {
     margin: 0 auto;
     left: 0;
@@ -3969,10 +4491,12 @@ Due to the split circle of progress-left and progress right, we must use the ani
     text-align: center;
   }
 }
+
 .bb-ldactivity .bb-la__thumb {
   height: 100%;
 }
-.bb-ldactivity .bb-la__media:after {
+
+.bb-ldactivity .bb-la__media::after {
   content: "";
   display: inline-block;
   width: 100%;
@@ -3984,10 +4508,12 @@ Due to the split circle of progress-left and progress right, we must use the ani
   border-radius: 8px 0 0 8px;
 }
 @media (max-width: 544px) {
-  .bb-ldactivity .bb-la__media:after {
+
+  .bb-ldactivity .bb-la__media::after {
     border-radius: 8px 8px 0 0;
   }
 }
+
 .bb-ldactivity .thumbnail-container {
   position: relative;
   overflow: hidden;
@@ -3997,6 +4523,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   z-index: 3;
   padding-bottom: 56.25%;
 }
+
 .bb-ldactivity .thumbnail-container img {
   position: absolute;
   top: 0;
@@ -4043,6 +4570,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   position: relative;
 }
 @media (max-width: 544px) {
+
   .bb-la__media {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -4054,12 +4582,14 @@ Due to the split circle of progress-left and progress right, we must use the ani
 .bb-la-block {
   position: relative;
 }
+
 .bb-la-block .bb-la__progress {
   position: absolute;
   top: 20px;
   z-index: 10;
 }
 @media (max-width: 544px) {
+
   .bb-la-block {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -4107,6 +4637,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   display: flex;
   margin-bottom: 10px;
 }
+
 .bb-la__link a {
   display: inline-block;
   font-size: 14px;
@@ -4131,18 +4662,21 @@ Due to the split circle of progress-left and progress right, we must use the ani
 .bb-la .slick-arrow {
   background-color: #fff;
 }
+
 .bb-la .slick-arrow i {
   color: var(--bb-primary-color);
 }
+
 .bb-la .slick-arrow.bb-slide-next {
   right: -21px;
 }
+
 .bb-la .slick-arrow.bb-slide-prev {
   left: -21px;
 }
 
-.bb-la__notooltip [data-balloon]:after,
-.bb-la__notooltip [data-balloon]:before {
+.bb-la__notooltip [data-balloon]::after,
+.bb-la__notooltip [data-balloon]::before {
   display: none;
 }
 
@@ -4150,6 +4684,7 @@ Due to the split circle of progress-left and progress right, we must use the ani
   text-align: right;
   right: 0;
 }
+
 .elementor-cta--la-my-align-right .bb-la-activity-btn.bb-la-activity-btn--isslick {
   right: 8px;
 }
@@ -4171,15 +4706,18 @@ Due to the split circle of progress-left and progress right, we must use the ani
 }
 
 @media (max-width: 768px) {
+
   .bb-ldactivity--ismy {
     margin-top: 50px;
   }
 }
+
 .bb-la-activity-btn {
   text-align: right;
   position: absolute;
   top: -50px;
 }
+
 .bb-la-activity-btn a.bb-la-activity-btn__link {
   font-size: 13px;
   display: inline-block;
@@ -4189,9 +4727,11 @@ Due to the split circle of progress-left and progress right, we must use the ani
   border: 1px solid #9ea8b2;
   cursor: pointer;
 }
+
 .bb-la-activity-btn a.bb-la-activity-btn__link:hover {
   color: var(--bb-primary-color);
 }
+
 .bb-la-activity-btn a.bb-la-activity-btn__link i {
   font-size: 20px;
   position: relative;
@@ -4203,6 +4743,7 @@ body.rtl .bb-ldactivity .slick-arrow.bb-slide-next {
   left: -21px !important;
   right: unset !important;
 }
+
 body.rtl .bb-la-activity-btn__link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4210,6 +4751,7 @@ body.rtl .bb-la-activity-btn__link {
   -ms-flex-flow: row-reverse;
       flex-flow: row-reverse;
 }
+
 body.rtl .bb-la-activity-btn__link i {
   -webkit-transform: scaleX(-1);
       -ms-transform: scaleX(-1);
@@ -4218,11 +4760,13 @@ body.rtl .bb-la-activity-btn__link i {
 
 /** Content Animation **/
 @-webkit-keyframes fade-in-ld-slide {
+
   0% {
     opacity: 0;
     -webkit-transform: translateY(100px);
             transform: translateY(100px);
   }
+
   100% {
     opacity: 1;
     -webkit-transform: none;
@@ -4230,11 +4774,13 @@ body.rtl .bb-la-activity-btn__link i {
   }
 }
 @keyframes fade-in-ld-slide {
+
   0% {
     opacity: 0;
     -webkit-transform: translateY(100px);
             transform: translateY(100px);
   }
+
   100% {
     opacity: 1;
     -webkit-transform: none;
@@ -4242,17 +4788,20 @@ body.rtl .bb-la-activity-btn__link i {
   }
 }
 @keyframes fade-in-ld-slide {
+
   0% {
     opacity: 0;
     -webkit-transform: translateY(100px);
             transform: translateY(100px);
   }
+
   100% {
     opacity: 1;
     -webkit-transform: none;
             transform: none;
   }
 }
+
 .fade-in-ld-slide {
   -webkit-animation-name: fade-in-ld-slide;
           animation-name: fade-in-ld-slide;
@@ -4268,8 +4817,10 @@ body.rtl .bb-la-activity-btn__link i {
 }
 
 /* Animation End **/
+
 /* Fix for floating buttons in "Learndash Activity" */
 @media (min-width: 768px) {
+
   .elementor-max-50 .elementor-heading-title {
     max-width: 50%;
   }
@@ -4282,45 +4833,55 @@ body.rtl .bb-la-activity-btn__link i {
     padding-top: 0;
   }
 }
+
 /** ld courses widget */
 .learndash-course-list--elementor .grid-box-solid .bb-course-items .bb-cover-list-item {
   border-style: solid;
 }
+
 .learndash-course-list--elementor .grid-box-dotted .bb-course-items .bb-cover-list-item {
   border-style: dotted;
 }
+
 .learndash-course-list--elementor .grid-box-dashed .bb-course-items .bb-cover-list-item {
   border-style: dashed;
 }
+
 .learndash-course-list--elementor .grid-box-double .bb-course-items .bb-cover-list-item {
   border-style: double;
 }
+
 .learndash-course-list--elementor .grid-box-none .bb-course-items .bb-cover-list-item {
   border-style: none;
 }
+
 .learndash-course-list--elementor .columns-1 .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 100%;
           flex: 0 0 100%;
 }
+
 .learndash-course-list--elementor .columns-2 .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50%;
           flex: 0 0 50%;
 }
 @media screen and (max-width: 480px) {
+
   .learndash-course-list--elementor .columns-2 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
   }
 }
+
 .learndash-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 33.333%;
           flex: 0 0 33.333%;
 }
 @media screen and (max-width: 820px) {
+
   .learndash-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 50%;
@@ -4328,12 +4889,14 @@ body.rtl .bb-la-activity-btn__link i {
   }
 }
 @media screen and (max-width: 480px) {
+
   .learndash-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
   }
 }
+
 .learndash-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
 .learndash-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
@@ -4341,6 +4904,7 @@ body.rtl .bb-la-activity-btn__link i {
           flex: 0 0 25%;
 }
 @media screen and (max-width: 1200px) {
+
   .learndash-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .learndash-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -4349,6 +4913,7 @@ body.rtl .bb-la-activity-btn__link i {
   }
 }
 @media screen and (max-width: 820px) {
+
   .learndash-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .learndash-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -4357,6 +4922,7 @@ body.rtl .bb-la-activity-btn__link i {
   }
 }
 @media screen and (max-width: 480px) {
+
   .learndash-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .learndash-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -4364,33 +4930,43 @@ body.rtl .bb-la-activity-btn__link i {
             flex: 0 0 100%;
   }
 }
+
 .learndash-course-list--elementor .course-dir-list--hidestatus .bb-cover-list-item .ld-status {
   display: none;
 }
+
 .learndash-course-list--elementor .course-dir-list--hidemedia .bb-course-items .bb-course-cover .bb-cover-wrap img {
   display: none;
 }
+
 .learndash-course-list--elementor.noMeta .bb-course-meta {
   display: none;
 }
+
 .learndash-course-list--elementor.noExcerpt .bb-course-excerpt {
   display: none;
 }
+
 .learndash-course-list--elementor.noPrice .bb-course-footer.bb-course-pay {
   display: none;
 }
+
 .learndash-course-list--elementor.noProgress .course-progress-wrap {
   display: none;
 }
+
 .learndash-course-list--elementor.noTitle .bb-courses-header > .bb-title {
   display: none;
 }
+
 .learndash-course-list--elementor.noSearch .bb-courses-header > #courses-dir-search {
   display: none;
 }
+
 .learndash-course-list--elementor.noCourseNavigation.learndash-course-list .courses-type-navs {
   display: none;
 }
+
 .learndash-course-list--elementor.noPagination .course-dir-list .bb-lms-pagination {
   display: none;
 }
@@ -4402,28 +4978,34 @@ body.rtl .bb-la-activity-btn__link i {
 .learndash-course-list--cover .bb-courses-directory .grid-filters {
   display: none;
 }
+
 .learndash-course-list--cover .bb-courses-directory .sfwd-courses-filters .select-wrap:last-of-type select {
   margin-right: 0;
 }
+
 .learndash-course-list--cover.learndash-course-list--featured .bb-course-items.grid-view .bb-course-item-wrap:nth-child(1),
 .learndash-course-list--cover.learndash-course-list--featured .bb-course-items.grid-view .bb-course-item-wrap:nth-child(2) {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50%;
           flex: 0 0 50%;
 }
+
 .learndash-course-list--cover .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 33.33%;
           flex: 0 0 33.33%;
 }
+
 .learndash-course-list--cover .bb-course-items.list-view,
 .learndash-course-list--cover .bb-course-items.list-view.hide {
   display: none !important;
 }
+
 .learndash-course-list--cover .bb-course-items .bb-cover-wrap {
   position: relative;
 }
-.learndash-course-list--cover .bb-course-items .bb-cover-wrap:after {
+
+.learndash-course-list--cover .bb-course-items .bb-cover-wrap::after {
   content: "";
   display: inline-block;
   position: absolute;
@@ -4432,21 +5014,26 @@ body.rtl .bb-la-activity-btn__link i {
   background-color: rgba(0, 0, 0, 0.3);
   background-image: none;
 }
+
 .learndash-course-list--cover .bb-cover-list-item {
   position: relative;
 }
+
 .learndash-course-list--cover .bb-course-items .bb-cover-list-item.bb-course-paid {
   padding-bottom: 0;
 }
+
 .learndash-course-list--cover .bb-course-items .bb-cover-wrap {
   border-radius: 4px;
 }
+
 .learndash-course-list--cover .bb-course-cover {
   position: absolute;
   z-index: 9;
   height: 100%;
   width: 100%;
 }
+
 .learndash-course-list--cover .bb-card-course-details {
   position: relative;
   z-index: 15;
@@ -4459,51 +5046,62 @@ body.rtl .bb-la-activity-btn__link i {
           flex-direction: column;
   height: 100%;
 }
+
 .learndash-course-list--cover .bb-card-course-details .course-lesson-count {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
 }
+
 .learndash-course-list--cover .bb-card-course-details .bb-course-title {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
 }
+
 .learndash-course-list--cover .bb-card-course-details .bb-course-excerpt {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
           order: 3;
 }
+
 .learndash-course-list--cover .bb-card-course-details .course-progress-wrap {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
           order: 3;
 }
+
 .learndash-course-list--cover .bb-card-course-details .bb-course-meta {
   -webkit-box-ordinal-group: 5;
       -ms-flex-order: 4;
           order: 4;
 }
+
 .learndash-course-list--cover .bb-card-course-details .bb-course-footer {
   -webkit-box-ordinal-group: 6;
       -ms-flex-order: 5;
           order: 5;
   display: none;
 }
+
 .learndash-course-list--cover .bb-course-items .bb-cover-wrap {
   height: 100%;
   padding-top: 0;
 }
+
 .learndash-course-list--cover .bb-cover-list-item .ld-status,
 .learndash-course-list--cover .course-lesson-count {
   display: none;
 }
+
 .learndash-course-list--cover .bb-course-title a {
   color: #fff;
 }
+
 .learndash-course-list--cover .bb-course-items .bb-course-excerpt {
   color: #fff;
 }
+
 .learndash-course-list--cover .bb-course-meta strong a {
   color: #fff;
 }
@@ -4568,6 +5166,7 @@ body.rtl .bb-la-activity-btn__link i {
   display: inline-block;
   text-align: center;
 }
+
 .learndash-course-list--elementor .bb-lms-pagination.noPrevNext a.next,
 .learndash-course-list--elementor .bb-lms-pagination.noPrevNext a.prev {
   display: none;
@@ -4579,18 +5178,22 @@ body.rtl .bb-la-activity-btn__link i {
 }
 
 @media screen and (max-width: 767px) {
+
   .elementor div.elementor-element .elementor-widget-ld-activity .bb-la .slick-arrow.bb-slide-next {
     right: 2px;
     margin-top: 20px;
   }
+
   .elementor div.elementor-element .elementor-widget-ld-activity .bb-la .slick-arrow.bb-slide-prev {
     left: 2px;
     margin-top: 20px;
   }
+
   .elementor div.elementor-element .elementor-widget-ld-activity .bb-la-slide .bb-la__body {
     padding: 40px 50px;
   }
 }
+
 /** bb tabs widget */
 .tabs-wrapper {
   -webkit-box-orient: vertical;
@@ -4598,6 +5201,7 @@ body.rtl .bb-la-activity-btn__link i {
       -ms-flex-direction: column;
           flex-direction: column;
 }
+
 .tabs-wrapper.tabs-wrapper--style1.bb-is-dotted {
   padding-bottom: 30px;
 }
@@ -4614,6 +5218,7 @@ body.rtl .bb-la-activity-btn__link i {
 .bb-tabs__run ul.slick-dots {
   bottom: -30px;
 }
+
 .bb-tabs__run ul.slick-dots button {
   font-size: 0;
   background-color: var(--bb-alternate-text-color);
@@ -4621,32 +5226,40 @@ body.rtl .bb-la-activity-btn__link i {
   padding: 1px 30px;
   border: 0;
 }
+
 .bb-tabs__run ul.slick-dots .slick-active button {
   background-color: var(--bb-primary-color);
   border-radius: 3px;
 }
+
 .bb-tabs__run ul.slick-dots li:first-child button {
   border-radius: 3px 0 0 3px;
 }
+
 .bb-tabs__run ul.slick-dots li:last-child button {
   border-radius: 0 3px 3px 0;
 }
+
 .bb-tabs__run .slick-arrow.bb-slide-prev {
   left: -15px;
   -webkit-transform: none;
       -ms-transform: none;
           transform: none;
 }
+
 .bb-tabs__run .slick-arrow.bb-slide-next {
   right: -15px;
 }
+
 .bb-tabs__run .slick-arrow:hover {
   background-color: var(--bb-primary-color);
 }
+
 .bb-tabs__run .slick-arrow i {
   font-size: 14px;
 }
-.bb-tabs__run .slick-arrow i:before {
+
+.bb-tabs__run .slick-arrow i::before {
   position: relative;
   top: 1px;
 }
@@ -4655,6 +5268,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-prev {
   right: 10px !important;
   left: unset !important;
 }
+
 body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   left: -15px !important;
   right: unset !important;
@@ -4678,6 +5292,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   height: 100%;
   z-index: 3;
 }
+
 .bb-tabs__image .media-container img {
   position: absolute;
   top: 0;
@@ -4717,6 +5332,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
           flex-direction: row-reverse;
 }
 @media (max-width: 800px) {
+
   .elementor-cta--meadia-align-left .tabs-wrapper--style1 .bb-tabs__block {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -4732,6 +5348,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
           flex-direction: row;
 }
 @media (max-width: 800px) {
+
   .elementor-cta--meadia-align-right .tabs-wrapper--style1 .bb-tabs__block {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -4743,10 +5360,12 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
 .tabs-wrapper--style1 .bb-tabs__nav-item {
   margin: 0 10px;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav-index,
 .tabs-wrapper--style1 .bb-tabs__subtitle {
   display: none;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav .slick-track {
   width: 100% !important;
   display: -webkit-box !important;
@@ -4761,22 +5380,27 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
       -ms-transform: none !important;
           transform: none !important;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav {
   margin: 0 0 40px;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav .slick-slide {
   float: none;
   margin-bottom: 10px;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav .bb-tabs__nav-title {
   display: inline-block;
   padding: 5px 20px;
   cursor: pointer;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav.bb-tabs__active-outline .slick-current .bb-tabs__nav-title {
   border: 1px solid var(--bb-primary-color);
   border-radius: 30px;
 }
+
 .tabs-wrapper--style1 .bb-tabs__nav.bb-tabs__active-underline .slick-current .bb-tabs__nav-title {
   border-left-width: 0 !important;
   border-top-width: 0 !important;
@@ -4784,25 +5408,30 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   border-bottom: 1px solid var(--bb-primary-color);
   border-radius: 0;
 }
+
 .tabs-wrapper--style1 .bb-tabs__block {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+
 .tabs-wrapper--style1 .bb-tabs__body {
   background-color: #f6f8fa;
   padding: 50px 40px;
   width: 100%;
 }
+
 .tabs-wrapper--style1 .bb-tabs__ismedia .bb-tabs__body {
   margin-right: 2%;
 }
+
 .tabs-wrapper--style1 .bb-tabs__ismedia .bb-tabs__image {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 49%;
           flex: 0 0 49%;
 }
 @media (max-width: 800px) {
+
   .tabs-wrapper--style1 .bb-tabs__ismedia .bb-tabs__image {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -4810,6 +5439,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
     max-width: 100%;
   }
 }
+
 .tabs-wrapper--style1 a.bb-tabs__link {
   background-color: var(--bb-primary-color);
   color: #fff;
@@ -4858,6 +5488,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
           flex-direction: row-reverse;
 }
 @media (max-width: 800px) {
+
   .elementor-cta--meadia-align-left .tabs-wrapper--style2 .bb-tabs__block {
     /* stylelint-disable declaration-block-no-shorthand-property-overrides */
     -webkit-box-orient: vertical;
@@ -4877,6 +5508,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
           flex-direction: row;
 }
 @media (max-width: 800px) {
+
   .elementor-cta--meadia-align-right .tabs-wrapper--style2 .bb-tabs__block {
     /* stylelint-disable declaration-block-no-shorthand-property-overrides */
     -webkit-box-orient: vertical;
@@ -4916,21 +5548,26 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
       -ms-flex-align: center;
           align-items: center;
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50px;
           flex: 0 0 50px;
   max-width: 50px;
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav .slick-track {
   width: 100% !important;
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav .slick-slide {
   float: none;
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav-item {
   text-align: center;
 }
+
 .tabs-wrapper--style2 .bb-tabs__run {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 calc(100% - 50px);
@@ -4939,9 +5576,11 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   max-width: -webkit-calc(100% - 50px);
   max-width: calc(100% - 50px);
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav-item {
   margin: 10px 0;
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav-index {
   display: inline-block;
   width: 28px;
@@ -4952,12 +5591,15 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   text-align: center;
   cursor: pointer;
 }
+
 .tabs-wrapper--style2 .slick-current .bb-tabs__nav-index {
   border: 1px solid var(--bb-primary-color);
 }
+
 .tabs-wrapper--style2 .bb-tabs__nav-title {
   display: none;
 }
+
 .tabs-wrapper--style2 .bb-tabs__block {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
@@ -4967,16 +5609,19 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
       -ms-flex-align: center;
           align-items: center;
 }
+
 .tabs-wrapper--style2 .bb-tabs__body {
   padding: 40px;
   width: 100%;
 }
+
 .tabs-wrapper--style2 .bb-tabs__ismedia .bb-tabs__image {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50%;
           flex: 0 0 50%;
 }
 @media (max-width: 800px) {
+
   .tabs-wrapper--style2 .bb-tabs__ismedia .bb-tabs__image {
     -webkit-box-flex: 0 !important;
         -ms-flex: 0 0 100% !important;
@@ -4984,10 +5629,12 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
     max-width: 100%;
   }
 }
+
 .tabs-wrapper--style2 .bb-tabs__subtitle h6 {
   font-weight: 600;
   margin-bottom: 5px;
 }
+
 .tabs-wrapper--style2 a.bb-tabs__link {
   background-color: transparent;
   padding: 2px 0;
@@ -5001,31 +5648,38 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
 }
 
 @media screen and (max-width: 767px) {
+
   .elementor div.elementor-element .elementor-widget-bb-tabs .slick-arrow.bb-slide-next {
     right: 5px;
     margin-top: 20px;
   }
+
   .elementor div.elementor-element .elementor-widget-bb-tabs .slick-arrow.bb-slide-prev {
     left: 5px;
     margin-top: 20px;
   }
 }
+
 /** bb review widget */
 .bb-review__media {
   margin: 0 0 15px;
 }
+
 .bb-review__media .bb-review__image {
   margin-left: auto;
   margin-right: auto;
 }
+
 .bb-review__media .media-container {
   text-align: center;
 }
+
 .bb-review__media.media-square .media-container {
   position: relative;
   overflow: hidden;
   padding-bottom: 100%;
 }
+
 .bb-review__media.media-square .media-container img {
   position: absolute;
   width: 100%;
@@ -5043,6 +5697,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   height: 100%;
   z-index: 3;
 }
+
 .bb-review__media:not(.media-video, .media-square) .media-container img {
   position: absolute;
   top: 0;
@@ -5081,6 +5736,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   max-width: 50px;
   margin: 0 10px 0 0;
 }
+
 .bb-review__avatar img {
   border-radius: 100%;
   width: 50px;
@@ -5113,7 +5769,7 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   font-family: bb-icons;
 }
 
-.bb-review .elementor-star-rating i:before {
+.bb-review .elementor-star-rating i::before {
   content: "\ef32";
   font-weight: 300;
 }
@@ -5123,12 +5779,14 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   font-family: bb-icons;
   display: inline-block;
 }
+
 .bb-star-rating > span {
   padding: 4px;
   border-radius: 4px;
   margin: 0 3px 0 0;
   background-color: var(--bb-success-color);
 }
+
 .bb-star-rating i {
   display: inline-block;
   position: relative;
@@ -5137,7 +5795,8 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   font-size: 15px;
   line-height: 1;
 }
-.bb-star-rating i:before {
+
+.bb-star-rating i::before {
   content: "\ef32";
   display: block;
   font-size: inherit;
@@ -5150,35 +5809,43 @@ body.rtl .bb-tabs__run .slick-arrow.bb-slide-next {
   left: 0;
 }
 
-i.bb-star-blank:before {
+i.bb-star-blank::before {
   display: none;
 }
 
-.bb-star-rating .bb-star-1:before {
+.bb-star-rating .bb-star-1::before {
   width: 10%;
 }
-.bb-star-rating .bb-star-2:before {
+
+.bb-star-rating .bb-star-2::before {
   width: 20%;
 }
-.bb-star-rating .bb-star-3:before {
+
+.bb-star-rating .bb-star-3::before {
   width: 30%;
 }
-.bb-star-rating .bb-star-4:before {
+
+.bb-star-rating .bb-star-4::before {
   width: 40%;
 }
-.bb-star-rating .bb-star-5:before {
+
+.bb-star-rating .bb-star-5::before {
   width: 50%;
 }
-.bb-star-rating .bb-star-6:before {
+
+.bb-star-rating .bb-star-6::before {
   width: 60%;
 }
-.bb-star-rating .bb-star-7:before {
+
+.bb-star-rating .bb-star-7::before {
   width: 70%;
 }
-.bb-star-rating .bb-star-8:before {
+
+.bb-star-rating .bb-star-8::before {
   width: 80%;
 }
-.bb-star-rating .bb-star-9:before {
+
+.bb-star-rating .bb-star-9::before {
   width: 90%;
 }
 
@@ -5189,6 +5856,7 @@ i.bb-star-blank:before {
           flex-direction: row-reverse;
   text-align: right;
 }
+
 .elementor-cta--footer-align-right .bb-review__avatar {
   margin-right: 0;
   margin-left: 10px;
@@ -5217,6 +5885,7 @@ i.bb-star-blank:before {
   z-index: 9;
   cursor: pointer;
 }
+
 .bb-review__image-overlay .media-ctrl {
   position: absolute;
   z-index: 15;
@@ -5235,6 +5904,7 @@ i.bb-star-blank:before {
           align-items: center;
   font-weight: 600;
 }
+
 .bb-review__image-overlay .media-ctrl i {
   font-size: 20px;
   line-height: 1;
@@ -5264,6 +5934,7 @@ i.bb-star-blank:before {
 .bb-gallery__image.is-video {
   z-index: 9;
 }
+
 .bb-gallery__image.is-video .media-container {
   position: relative;
   z-index: 9;
@@ -5289,7 +5960,8 @@ i.bb-star-blank:before {
   display: -ms-flexbox;
   display: flex;
 }
-.bb-gallery__image.is-video:not(.is-active) .bb-gallery__play:after {
+
+.bb-gallery__image.is-video:not(.is-active) .bb-gallery__play::after {
   content: "";
   display: inline-block;
   position: relative;
@@ -5356,10 +6028,13 @@ i.bb-star-blank:before {
 }
 
 @-webkit-keyframes fade-in-dfy {
+
   0% {
     opacity: 0;
+
     /* transform: translateY(100px); */
   }
+
   100% {
     opacity: 1;
     -webkit-transform: none;
@@ -5368,10 +6043,13 @@ i.bb-star-blank:before {
 }
 
 @keyframes fade-in-dfy {
+
   0% {
     opacity: 0;
+
     /* transform: translateY(100px); */
   }
+
   100% {
     opacity: 1;
     -webkit-transform: none;
@@ -5379,48 +6057,59 @@ i.bb-star-blank:before {
   }
 }
 @-webkit-keyframes slide-up-dfy {
+
   0% {
     -webkit-transform: translateY(100px);
             transform: translateY(100px);
   }
+
   100% {
     -webkit-transform: none;
             transform: none;
   }
 }
 @keyframes slide-up-dfy {
+
   0% {
     -webkit-transform: translateY(100px);
             transform: translateY(100px);
   }
+
   100% {
     -webkit-transform: none;
             transform: none;
   }
 }
+
 .bb-gallery .slick-track {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
 }
+
 .bb-gallery .slick-slide {
   height: 500px !important;
   margin: 0 10px;
 }
+
 .bb-gallery .bb-gallery__body {
   opacity: 0;
   width: 100%;
   text-align: center;
 }
+
 .bb-gallery .bb-gallery__body.gallery-center {
   text-align: center;
 }
+
 .bb-gallery .bb-gallery__body.gallery-left {
   text-align: left;
 }
+
 .bb-gallery .bb-gallery__body.gallery-right {
   text-align: right;
 }
+
 .bb-gallery .slick-slide.slick-current .bb-gallery__body {
   -webkit-animation-name: fade-in-dfy;
           animation-name: fade-in-dfy;
@@ -5428,6 +6117,7 @@ i.bb-star-blank:before {
           animation-duration: 1s;
   opacity: 1;
 }
+
 .bb-gallery .slick-slide.slick-current .bb-gallery__excerpt {
   -webkit-animation-name: fade-in-dfy;
           animation-name: fade-in-dfy;
@@ -5435,20 +6125,25 @@ i.bb-star-blank:before {
           animation-duration: 1.5s;
   opacity: 1;
 }
+
 .bb-gallery .media-container {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
 }
+
 .bb-gallery .slick-current .media-container--cover {
   background-size: cover;
 }
+
 .bb-gallery .slick-current .media-container--contain {
   background-size: contain;
 }
+
 .bb-gallery .slick-current .media-container--auto {
   background-size: auto;
 }
+
 .bb-gallery .slick-slide > div,
 .bb-gallery .bb-gallery__slide,
 .bb-gallery .bb-gallery__block,
@@ -5456,18 +6151,23 @@ i.bb-star-blank:before {
 .bb-gallery .media-container {
   height: 100%;
 }
+
 .bb-gallery ul.slick-dots li {
   margin: 0;
 }
+
 .bb-gallery ul.slick-dots li:first-child button {
   border-radius: 4px 0 0 4px;
 }
+
 .bb-gallery ul.slick-dots li:last-child button {
   border-radius: 0 4px 4px 0;
 }
+
 .bb-gallery ul.slick-dots li.slick-active button {
   background-color: var(--bb-primary-color);
 }
+
 .bb-gallery ul.slick-dots li button {
   font-size: 0;
   border-radius: 0;
@@ -5476,6 +6176,7 @@ i.bb-star-blank:before {
 }
 
 @media (max-width: 768px) {
+
   .bb-gallery .slick-arrow.bb-slide-prev {
     left: 0 !important;
   }
@@ -5484,13 +6185,16 @@ i.bb-star-blank:before {
     right: 0 !important;
   }
 }
+
 body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   right: unset !important;
 }
 @media (max-width: 768px) {
+
   body.rtl .bb-gallery .slick-arrow.bb-slide-prev {
     right: 0 !important;
   }
+
   body.rtl .bb-gallery .slick-arrow.bb-slide-next {
     left: 0 !important;
   }
@@ -5521,16 +6225,19 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   position: relative;
   padding: 20px 0;
 }
+
 .bb-dash-grid__block .bb-dash-grid__link {
   display: inline-block;
   height: 100%;
 }
+
 .bb-dash-grid__block:hover {
   box-shadow: 0 3px 34px 0 rgba(18, 43, 70, 0.12);
   background-color: #fff;
 }
 @media (min-width: 544px) {
-  .bb-dash-grid__block:hover:after {
+
+  .bb-dash-grid__block:hover::after {
     content: "";
     display: inline-block;
     width: 1px;
@@ -5540,7 +6247,8 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
     right: 0;
     top: 0;
   }
-  .bb-dash-grid__block:hover:before {
+
+  .bb-dash-grid__block:hover::before {
     content: "";
     display: inline-block;
     width: 1px;
@@ -5552,14 +6260,16 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   }
 }
 
-.bb-dash-grid__frame .bb-dash-grid__block:first-of-type:hover:before {
+.bb-dash-grid__frame .bb-dash-grid__block:first-of-type:hover::before {
   display: none;
 }
-.bb-dash-grid__frame .bb-dash-grid__block:last-of-type:hover:after {
+
+.bb-dash-grid__frame .bb-dash-grid__block:last-of-type:hover::after {
   display: none;
 }
 
 @media (max-width: 992px) {
+
   .bb-dash-grid__cols-5 .bb-dash-grid__block {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 50%;
@@ -5777,6 +6487,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   }
 }
 @media (max-width: 800px) {
+
   .bb-dash-grid__frame {
     -ms-flex-flow: wrap;
         flex-flow: wrap;
@@ -5787,19 +6498,24 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
   }
+
   .bb-dash-grid__cols-3 .bb-dash-grid__block.bb-dash-grid__sep {
     border-bottom: 1px solid var(--bb-content-border-color);
   }
+
   .bb-dash-grid__cols-3 .bb-dash-grid__block.bb-dash-grid__sep:last-of-type {
     border-bottom: 0;
   }
+
   .bb-dash-grid__cols-3 .bb-dash-grid__block .bb-dash-grid__inner.is-sep {
     border-right: 0;
   }
-  .bb-dash-grid__cols-3 .bb-dash-grid__block .bb-dash-grid__block:hover:before {
+
+  .bb-dash-grid__cols-3 .bb-dash-grid__block .bb-dash-grid__block:hover::before {
     display: none;
   }
-  .bb-dash-grid__cols-3 .bb-dash-grid__block .bb-dash-grid__block:hover:after {
+
+  .bb-dash-grid__cols-3 .bb-dash-grid__block .bb-dash-grid__block:hover::after {
     display: none;
   }
 
@@ -6028,6 +6744,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   .bb-dash-grid__cols-4 .bb-dash-grid__block:nth-child(2) .bb-dash-grid__inner.is-sep {
     border-right: 0;
   }
+
   .bb-dash-grid__cols-4 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(1), .bb-dash-grid__cols-4 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(2) {
     border-bottom: 1px solid var(--bb-content-border-color);
   }
@@ -6035,24 +6752,29 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   .bb-dash-grid__cols-5 .bb-dash-grid__block.bb-dash-grid__sep {
     border-bottom: 1px solid var(--bb-content-border-color);
   }
+
   .bb-dash-grid__cols-5 .bb-dash-grid__block.bb-dash-grid__sep:last-of-type {
     border-bottom: 0;
   }
-  .bb-dash-grid__cols-5 .bb-dash-grid__block .bb-dash-grid__block:hover:before {
+
+  .bb-dash-grid__cols-5 .bb-dash-grid__block .bb-dash-grid__block:hover::before {
     display: none;
   }
-  .bb-dash-grid__cols-5 .bb-dash-grid__block .bb-dash-grid__block:hover:after {
+
+  .bb-dash-grid__cols-5 .bb-dash-grid__block .bb-dash-grid__block:hover::after {
     display: none;
   }
 
   .bb-dash-grid__cols-6 .bb-dash-grid__block:nth-child(2) .bb-dash-grid__inner.is-sep, .bb-dash-grid__cols-6 .bb-dash-grid__block:nth-child(4) .bb-dash-grid__inner.is-sep, .bb-dash-grid__cols-6 .bb-dash-grid__block:nth-child(6) .bb-dash-grid__inner.is-sep {
     border-right: 0;
   }
+
   .bb-dash-grid__cols-6 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(1), .bb-dash-grid__cols-6 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(2), .bb-dash-grid__cols-6 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(3), .bb-dash-grid__cols-6 .bb-dash-grid__block.bb-dash-grid__sep:nth-child(4) {
     border-bottom: 1px solid var(--bb-content-border-color);
   }
 }
 @media (max-width: 544px) {
+
   .bb-dash-grid__cols-4 .bb-dash-grid__block {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -6278,6 +7000,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   .bb-dash-grid__block.bb-dash-grid__sep {
     border-bottom: 1px solid var(--bb-content-border-color);
   }
+
   .bb-dash-grid__block.bb-dash-grid__sep:last-of-type {
     border-bottom: 0;
   }
@@ -6290,11 +7013,12 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
     border-right: 0;
   }
 
-  .bb-dash-grid__block:hover:before {
+  .bb-dash-grid__block:hover::before {
     display: none;
   }
 }
 @media (min-width: 800px) {
+
   .bb-dash-grid__cols-1 .bb-dash-grid__block {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
@@ -6320,6 +7044,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   }
 }
 @media (min-width: 992px) {
+
   .bb-dash-grid__cols-5 .bb-dash-grid__block {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 20%;
@@ -6332,11 +7057,13 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
             flex: 0 0 16.666%;
   }
 }
+
 .bb-dash-grid__info {
   font-size: 14px;
   line-height: 1.4;
   color: var(--bb-body-text-color);
 }
+
 .bb-dash-grid__info p {
   margin: 0;
 }
@@ -6361,17 +7088,17 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   height: 100%;
 }
 
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]:after,
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]:after {
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]::after,
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]::after {
   width: 96%;
   padding: 15px;
   border-radius: 6px;
 }
 
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]:after,
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]:after,
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]:before,
-.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]:before {
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]::after,
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]::after,
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"][data-balloon-visible]::before,
+.bb-dash-grid__inner[data-balloon][data-balloon-pos="up"]::before {
   bottom: 100%;
 }
 
@@ -6404,7 +7131,8 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   color: var(--bb-primary-color);
   text-align: center;
 }
-.bb-dash-grid__body .bb-dash-grid__ico i:before {
+
+.bb-dash-grid__body .bb-dash-grid__ico i::before {
   position: relative;
   top: -4px;
 }
@@ -6413,12 +7141,14 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   border-radius: 50%;
   margin-top: 15px;
 }
+
 .bb-dash-grid__block .bb-dash-grid__image.square img {
   max-width: 100px;
   width: 100px;
   height: 100px;
   object-fit: cover;
 }
+
 .bb-dash-grid__block .bb-dash-grid__image.rectangular {
   position: relative;
   overflow: hidden;
@@ -6426,6 +7156,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   display: block;
   background: transparent;
 }
+
 .bb-dash-grid__block .bb-dash-grid__image.rectangular img {
   position: absolute;
   top: 0;
@@ -6440,7 +7171,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   object-fit: cover;
 }
 
-.bb-dash-grid [data-balloon]:after {
+.bb-dash-grid [data-balloon]::after {
   white-space: normal;
   text-align: left;
   width: 100%;
@@ -6458,9 +7189,11 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
       -ms-flex-direction: column;
           flex-direction: column;
 }
+
 .elementor-cta--dash-grid-above .bb-dash-grid__body .bb-dash-grid__info {
   margin-bottom: auto;
 }
+
 .elementor-cta--dash-grid-above .bb-dash-grid__body .bb-dash-grid__ico {
   margin-top: auto;
 }
@@ -6474,9 +7207,11 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
 .elementor-cta--dash-grid-left .bb-dash-grid__body {
   text-align: left;
 }
+
 .elementor-cta--dash-grid-left .bb-dash-grid__block .bb-dash-grid__image img {
   margin-top: 0;
 }
@@ -6490,9 +7225,11 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
 .elementor-cta--dash-grid-right .bb-dash-grid__body {
   text-align: right;
 }
+
 .elementor-cta--dash-grid-right .bb-dash-grid__block .bb-dash-grid__image img {
   margin-top: 0;
 }
@@ -6525,9 +7262,11 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
       -ms-flex-pack: center;
           justify-content: center;
 }
+
 .elementor-cta--dash-intro-above .bb-dash__avatar {
   margin-bottom: 15px;
 }
+
 .elementor-cta--dash-intro-above .bb-dash__intro {
   text-align: center;
 }
@@ -6535,17 +7274,20 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
 .elementor-cta--dash-intro-right .bb-dash__avatar {
   margin-left: 15px;
 }
+
 .elementor-cta--dash-intro-right .bb-dash > .flex {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
       -ms-flex-direction: row-reverse;
           flex-direction: row-reverse;
 }
+
 .elementor-cta--dash-intro-right .bb-dash__intro {
   text-align: right;
 }
 
 @media (max-width: 768px) {
+
   .elementor-cta--dash-intro-left .bb-dash > .flex,
   .elementor-cta--dash-intro-right .bb-dash > .flex {
     -webkit-box-orient: vertical;
@@ -6556,20 +7298,24 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
         -ms-flex-pack: center;
             justify-content: center;
   }
+
   .elementor-cta--dash-intro-left .bb-dash__avatar,
   .elementor-cta--dash-intro-right .bb-dash__avatar {
     margin-bottom: 15px;
     margin-right: 0 !important;
   }
+
   .elementor-cta--dash-intro-left .bb-dash__intro,
   .elementor-cta--dash-intro-right .bb-dash__intro {
     text-align: center;
   }
 }
+
 /** bb activity widget */
 .elementor-widget-bbp-activity, .elementor-widget-bbp-activity .elementor-widget-container, .bb-activity {
   height: 100%;
 }
+
 .elementor-column[data-col="100"] .elementor-widget-bbp-activity, .elementor-col-100 .elementor-widget-bbp-activity,
 .elementor-column[data-col="100"] .elementor-widget-bbp-activity .elementor-widget-container, .elementor-col-100 .elementor-widget-bbp-activity .elementor-widget-container,
 .elementor-column[data-col="100"] .bb-activity, .elementor-col-100 .bb-activity {
@@ -6582,50 +7328,64 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   background-color: #fff;
   position: relative;
 }
+
 .bb-activity .activity-list.item-list {
   padding: 0;
 }
-.bb-activity .activity-list.item-list .activity-item .document-action-wrap .document-action_more[data-balloon][data-balloon-pos="up"]:before {
+
+.bb-activity .activity-list.item-list .activity-item .document-action-wrap .document-action_more[data-balloon][data-balloon-pos="up"]::before {
   right: 0;
 }
-.bb-activity .activity-list.item-list .activity-item .document-action-wrap .document-action_more[data-balloon][data-balloon-pos="up"]:after {
+
+.bb-activity .activity-list.item-list .activity-item .document-action-wrap .document-action_more[data-balloon][data-balloon-pos="up"]::after {
   left: -15px;
 }
+
 .bb-activity .activity-update p {
   margin-bottom: 0;
 }
+
 .bb-activity .update-item {
   color: var(--bb-alternate-text-color);
   font-size: 14px;
 }
+
 .bb-activity .update-item a {
   color: var(--bb-headings-color);
   font-weight: 500;
 }
+
 .bb-activity .update-item .activity-time-since {
   display: block;
 }
+
 .bb-activity .update-item p img {
   max-width: 15px;
   vertical-align: text-bottom;
   margin-right: 5px;
   margin-left: 2px;
 }
+
 .bb-activity .update-item > p {
   line-height: 1.5;
 }
+
 .bb-activity img.avatar {
   border-radius: 100%;
 }
+
 .bb-activity .bp-activity-head .activity-header a {
-  font-weight: normal;
+  font-weight: 400;
 }
+
 .bb-activity .bp-activity-head .activity-header > p:first-of-type > a:first-of-type {
   font-weight: 500;
 }
+
 .bb-activity .bb-activity-media-wrap {
   margin: 0;
 }
+
 .bb-activity .activity-list .activity-item .activity-content .activity-inner {
   overflow: initial;
 }
@@ -6633,6 +7393,7 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
 html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid {
   display: block;
 }
+
 html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li {
   width: 100%;
   max-width: initial;
@@ -6640,6 +7401,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
       -ms-flex: initial;
           flex: initial;
 }
+
 html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li .item-avatar img.avatar {
   width: auto;
 }
@@ -6648,7 +7410,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   min-height: 300px;
 }
 
-.bb-activity [data-bp-tooltip]:after {
+.bb-activity [data-bp-tooltip]::after {
   font-style: normal;
 }
 
@@ -6656,9 +7418,11 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   padding: 0;
   font-size: 14px;
 }
+
 .bb-activity .activity-content.no-media .bb-activity-media-wrap {
   display: none;
 }
+
 .bb-activity .activity-content .activity-read-more {
   display: block;
   margin: 3px 0 7px;
@@ -6682,23 +7446,29 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   margin: 0 0 15px;
   border-bottom: 1px solid var(--bb-content-border-color);
 }
+
 .bb-activity-extra.border-dotted {
   border-bottom-style: dotted;
 }
+
 .bb-activity-extra.border-dashed {
   border-bottom-style: dashed;
 }
+
 .bb-activity-extra.border-solid {
   border-bottom-style: solid;
 }
+
 .bb-activity-extra.border-double {
   border-bottom-style: double;
 }
+
 .bb-activity-extra.border-none {
   border-bottom-style: none;
 }
 
 .bb-activity .activity-content > p:first-of-type {
+
   /* line-height: 1.6; */
 }
 
@@ -6706,6 +7476,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   margin: 0;
   padding: 0;
 }
+
 .bb-activity #buddypress .activity-lists.bp-list .activity-item {
   padding: 0 0 15px;
   border: 0;
@@ -6714,22 +7485,28 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   border-radius: 0;
   margin: 0 0 15px;
 }
+
 .bb-activity #buddypress .activity-lists.bp-list .activity-item:last-of-type {
   border-bottom: 0;
   margin-bottom: 0;
 }
+
 .bb-activity .bb-activity-media-wrap .bb-activity-media-elem.document-activity .document-detail-wrap .document-helper-text {
   height: 0;
 }
+
 .bb-activity .bb-activity-media-wrap .bb-activity-media-elem.document-activity:hover .document-detail-wrap .document-helper-text {
   height: auto;
 }
+
 .bb-activity .activity-content .activity-state a.activity-state-likes .like-text {
   color: var(--bb-alternate-text-color);
 }
+
 .bb-activity #buddypress .bp-list.bp-list .bp-generic-meta .generic-button {
   margin-bottom: 0;
 }
+
 .bb-activity #buddypress .activity-lists.bp-list .activity-item,
 .bb-activity .bb-activity-media-wrap .bb-activity-media-elem.document-activity,
 .bb-activity .bb-activity-media-wrap .bb-activity-media-elem.document-activity .document-description-wrap {
@@ -6739,27 +7516,35 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .bb-activity #buddypress .activity-actions {
   display: none;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show {
   display: block;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show .generic-button {
   margin: 0 !important;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show .generic-button a {
   margin-right: 15px !important;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show .generic-button a {
   display: none;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--fav .generic-button a.fav {
   display: inline-block;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--comment .generic-button a.acomment-reply {
   display: inline-block;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--edit .generic-button a.edit-activity {
   display: inline-block;
 }
+
 .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--delete .generic-button a.delete-activity {
   display: inline-block;
 }
@@ -6767,6 +7552,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .bb-activity .activity-list .activity-item .activity-content .do-state:not(.is-activity-comments) .activity-state.has-comments a.activity-state-comments {
   display: none;
 }
+
 .bb-activity .activity-list .activity-item .activity-content .do-state.is-activity-comments .activity-state.has-comments a.activity-state-comments {
   display: inline-block;
 }
@@ -6774,6 +7560,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .bb-activity .buddypress-wrap .activity-comments ul ul .acomment-content {
   margin-left: 51px;
 }
+
 .bb-activity #buddypress .bp-list .comment-item .comment-item .action {
   margin-left: 51px;
 }
@@ -6782,34 +7569,44 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments .acomment-meta {
   font-size: 13px;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-state a {
   color: #555;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments > ul > li > ul {
   margin-left: 51px;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments ul li ul {
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments ul {
   margin: 15px 0 0;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments > ul {
   margin: 0 -15px;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments ul li ul li {
   padding-bottom: 0;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments .acomment-content {
   margin-left: 51px;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments ul ul .acomment-content {
   margin-left: 43px;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments .acomment-content p {
   margin-bottom: 0;
 }
+
 .elementor-widget-bbp-activity .bb-media-info-section .activity-comments ul li ul li:first-child {
   margin-top: 15px;
 }
@@ -6818,7 +7615,8 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   left: -70px;
   min-width: 185px;
 }
-.bb-media-privacy-wrap.bb-media-privacy-wrap--el-activity .activity-privacy:before {
+
+.bb-media-privacy-wrap.bb-media-privacy-wrap--el-activity .activity-privacy::before {
   left: 85px;
 }
 
@@ -6829,23 +7627,29 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
       -ms-flex-align: start;
           align-items: flex-start;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .zoom-meeting-block-right {
   margin: 10px 0 0;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .bp_zoom_countdown .position {
   height: 50px;
   width: 18px;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .bp_zoom_countdown span.digit {
   font-size: 18px;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .bp_zoom_countdown .countdown_label {
   font-size: 11px;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .bp_zoom_countdown > span {
   max-width: 58px;
   margin: 0;
 }
+
 .elementor-column[class*="elementor-col-"]:not(.elementor-col-100) .bb-activity .bp_zoom_countdown > span.countDays {
   max-width: 66px;
 }
@@ -6854,10 +7658,66 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .elementor-widget-bbp-members, .elementor-widget-bbp-members .elementor-widget-container, .bb-members {
   height: 100%;
 }
+
 .elementor-column[data-col="100"] .elementor-widget-bbp-members, .elementor-col-100 .elementor-widget-bbp-members,
 .elementor-column[data-col="100"] .elementor-widget-bbp-members .elementor-widget-container, .elementor-col-100 .elementor-widget-bbp-members .elementor-widget-container,
 .elementor-column[data-col="100"] .bb-members, .elementor-col-100 .bb-members {
   height: auto;
+}
+
+.elementor-widget-bbp-members .bb-members-list .bb-members-list__item {
+  position: relative;
+}
+
+.elementor-widget-bbp-members .bb-members-list .bb-members-list__avatar {
+  position: relative;
+}
+
+.elementor-widget-bbp-members .bb-members-list .member-status.online {
+  position: absolute;
+  left: 30px;
+  top: 3px;
+  right: inherit;
+}
+
+.elementor-widget-bbp-members .item-options a {
+  color: var(--bb-body-text-color);
+  font-size: 0.875rem;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-right: 1.25rem;
+  margin-top: 10px;
+  -webkit-animation: unset !important;
+          animation: unset !important;
+}
+
+.elementor-widget-bbp-members .item-options a:hover {
+  color: var(--bb-primary-color);
+}
+
+.elementor-widget-bbp-members .item-options a.selected {
+  border-bottom: 1px solid var(--bb-primary-color);
+  color: var(--bb-primary-color);
+  margin-bottom: -1px;
+}
+
+.bb-template-v2 .elementor-widget-bbp-members .item-options a {
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 700;
+  padding-bottom: 5px;
+  color: var(--bb-alternate-text-color);
+}
+
+.bb-template-v2 .elementor-widget-bbp-members .item-options a.selected {
+  color: var(--bb-headings-color);
+  font-weight: 700;
+}
+
+.bb-template-v2 .elementor-widget-bbp-members .item-options {
+  border-bottom: 0;
+  margin-bottom: 18px;
 }
 
 .bb-members {
@@ -6865,9 +7725,11 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   padding: 20px;
   background-color: #fff;
 }
+
 .bb-members .bb-members-list:not(.active) {
   display: none;
 }
+
 .bb-members .bb-members__tab {
   text-transform: capitalize;
 }
@@ -6889,18 +7751,23 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .bb-members div.item-options.border-solid {
   border-bottom-style: solid;
 }
+
 .bb-members div.item-options.border-dashed {
   border-bottom-style: dashed;
 }
+
 .bb-members div.item-options.border-dotted {
   border-bottom-style: dotted;
 }
+
 .bb-members div.item-options.border-double {
   border-bottom-style: double;
 }
+
 .bb-members div.item-options.border-none {
   border-bottom-style: none;
 }
+
 .bb-members div.item-options.border-none .selected {
   border-bottom-style: none;
 }
@@ -6921,6 +7788,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
+
 .bb-members-list--align-left .bb-members-list__item .bb-members-list__avatar {
   margin-right: 15px;
 }
@@ -6938,10 +7806,12 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   -ms-flex-flow: row-reverse;
       flex-flow: row-reverse;
 }
+
 .bb-members-list--align-right .bb-members-list__item .bb-members-list__avatar {
   margin-left: 15px;
   margin-right: 0;
 }
+
 .bb-members-list--align-right .bb-members-list__item .member-status.online {
   margin-right: auto;
   margin-left: 0;
@@ -6950,6 +7820,7 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 .bb-members-list__avatar a {
   display: inline-block;
 }
+
 .bb-members-list__avatar .avatar {
   border-radius: 100%;
 }
@@ -6984,6 +7855,7 @@ div.item-options .bb-members__tab.selected {
 .elementor-widget-bbp-forums, .elementor-widget-bbp-forums .elementor-widget-container, .bb-forums {
   height: 100%;
 }
+
 .elementor-column[data-col="100"] .elementor-widget-bbp-forums, .elementor-col-100 .elementor-widget-bbp-forums,
 .elementor-column[data-col="100"] .elementor-widget-bbp-forums .elementor-widget-container, .elementor-col-100 .elementor-widget-bbp-forums .elementor-widget-container,
 .elementor-column[data-col="100"] .bb-forums, .elementor-col-100 .bb-forums {
@@ -6996,45 +7868,58 @@ div.item-options .bb-members__tab.selected {
   background-color: #fff;
   position: relative;
 }
+
 .bb-forums .bbel-list-flow .bb-forums__item .item {
   width: 100%;
 }
+
 .bb-forums .item-title a {
   font-size: 14px;
 }
+
 .bb-forums .bb-forums__list .bb-forums__item .item-meta .bs-replied > a:hover {
   color: var(--bb-primary-color);
 }
+
 .bb-forums .bb-forums__list .bb-forums__item .item-title > a:hover {
   color: var(--bb-primary-color);
 }
+
 .bb-forums .bb-forums__avatar + .item .bs-last-reply {
   padding-left: 0;
 }
+
 .bb-forums .bb-forums__avatar + .item .bs-last-reply a.bbp-reply-to-link {
   left: -32px;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__last-reply {
   margin-top: 0;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__last-reply .bs-last-reply {
   padding-left: 25px;
   margin-top: 0;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__last-reply .bs-last-reply a.bbp-reply-to-link {
   left: 0;
   top: -3px;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__ww + .bb-forums__last-reply {
   margin-top: 10px;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__ww + .bb-forums__last-reply .bs-last-reply {
   padding-left: 0;
 }
+
 .bb-forums .bb-forums__avatar + .item .bb-forums__ww + .bb-forums__last-reply .bs-last-reply a.bbp-reply-to-link {
   left: -32px;
   top: -4px;
 }
+
 .bb-forums .bs-last-reply {
   display: block;
   color: var(--bb-body-text-color);
@@ -7043,16 +7928,20 @@ div.item-options .bb-members__tab.selected {
   line-height: 1.4;
   padding-left: 35px;
 }
+
 .bb-forums .bs-last-reply.is-empty {
   margin: 0;
 }
+
 .bb-forums .bs-last-reply.is-empty i {
   display: none;
 }
+
 .bb-forums .bs-last-reply i {
   font-size: 24px;
   opacity: 0.5;
 }
+
 .bb-forums .bs-last-reply a.bbp-reply-to-link {
   color: #939597;
   display: inline-block;
@@ -7060,6 +7949,7 @@ div.item-options .bb-members__tab.selected {
   left: 0;
   top: -4px;
 }
+
 .bb-forums .bs-forums-items .item-meta.bb-reply-meta {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -7071,6 +7961,7 @@ div.item-options .bb-members__tab.selected {
   border-bottom: 1px solid var(--bb-content-border-color);
   padding-bottom: 20px;
 }
+
 .bb-forums__list > li:last-of-type {
   border-bottom: 0;
   padding-bottom: 0;
@@ -7100,19 +7991,24 @@ div.item-options .bb-members__tab.selected {
 .bb-forums__item .bb-forums__ww .bs-replied > a.bbp-author-link {
   font-size: 0;
 }
+
 .bb-forums__item .bb-forums__ww .bs-replied > a.bbp-author-link span {
   font-size: 13px;
 }
+
 .bb-forums__item .bb-forums__last-reply {
   margin-top: 10px;
 }
+
 .bb-forums__item .bb-forums__ww + .bb-forums__last-reply {
   margin-top: 0;
 }
+
 .bb-forums__item .item-title {
   line-height: 1.2;
   margin-bottom: 3px;
 }
+
 .bb-forums__item .item-title > a {
   line-height: 1.5;
 }
@@ -7121,9 +8017,11 @@ div.item-options .bb-members__tab.selected {
   padding: 10px 0 3px;
   display: block;
 }
+
 .bb-forums__ww .bs-replied a {
   color: var(--bb-headings-color);
 }
+
 .bb-forums__ww .bs-replied a:hover {
   color: var(--bb-primary-color);
 }
@@ -7136,18 +8034,23 @@ div.item-options .bb-members__tab.selected {
   margin: 0 0 15px;
   border-bottom: 1px solid var(--bb-content-border-color);
 }
+
 .bb-forums-extra.border-dotted {
   border-bottom-style: dotted;
 }
+
 .bb-forums-extra.border-dashed {
   border-bottom-style: dashed;
 }
+
 .bb-forums-extra.border-solid {
   border-bottom-style: solid;
 }
+
 .bb-forums-extra.border-double {
   border-bottom-style: double;
 }
+
 .bb-forums-extra.border-none {
   border-bottom-style: none;
 }
@@ -7159,9 +8062,11 @@ body.rtl .bb-forums__avatar {
 
 /** bb forums activity widget */
 @media (min-width: 768px) {
+
   .elementor-widget-bbp-forums-activity, .elementor-widget-bbp-forums-activity .elementor-widget-container, .bb-forums-activity, .bb-forums-activity-wrapper {
     height: 100%;
   }
+
   .elementor-column[data-col="100"] .elementor-widget-bbp-forums-activity, .elementor-col-100 .elementor-widget-bbp-forums-activity,
   .elementor-column[data-col="100"] .elementor-widget-bbp-forums-activity .elementor-widget-container, .elementor-col-100 .elementor-widget-bbp-forums-activity .elementor-widget-container,
   .elementor-column[data-col="100"] .bb-forums-activity, .elementor-col-100 .bb-forums-activity,
@@ -7169,6 +8074,7 @@ body.rtl .bb-forums__avatar {
     height: auto;
   }
 }
+
 .bb-forums-activity {
   border: 1px solid var(--bb-content-border-color);
   padding: 20px;
@@ -7194,6 +8100,7 @@ body.rtl .bb-forums__avatar {
   line-height: 1;
   margin: 0 0 20px;
 }
+
 .bb-fa__meta span {
   color: var(--bb-alternate-text-color);
   font-size: 13px;
@@ -7211,13 +8118,16 @@ body.rtl .bb-forums__avatar {
           align-items: flex-start;
   position: relative;
 }
+
 .bb-fa__excerpt.no-link {
   margin-left: 0;
 }
+
 .bb-fa__excerpt a.bbp-reply-to-link i {
   font-size: 24px;
   opacity: 0.5;
 }
+
 .bb-fa__excerpt a.bbp-reply-to-link {
   color: #939597;
   display: inline-block;
@@ -7225,9 +8135,11 @@ body.rtl .bb-forums__avatar {
   left: -32px;
   top: -3px;
 }
+
 .bb-fa__excerpt.is-empty {
   margin: 0;
 }
+
 .bb-fa__excerpt.is-empty a.bbp-reply-to-link {
   display: none;
 }
@@ -7237,6 +8149,7 @@ body.rtl .bb-forums__avatar {
   display: -ms-flexbox;
   display: flex;
 }
+
 .bb-fa__link a {
   display: inline-block;
   font-size: 14px;
@@ -7277,6 +8190,7 @@ body.rtl .bb-forums__avatar {
 
 /* Fix for floating buttons in "Forum Activity" */
 @media (min-width: 768px) {
+
   .elementor-max-50 .elementor-heading-title {
     max-width: 50%;
   }
@@ -7289,21 +8203,25 @@ body.rtl .bb-forums__avatar {
     padding-top: 0;
   }
 }
+
 .bb-forums-activity-wrapper {
   position: relative;
   min-height: 250px;
 }
 
 @media (max-width: 768px) {
+
   .bb-forums-activity-wrapper--ismy {
     margin-top: 50px;
   }
 }
+
 .bb-forums-activity-btn {
   text-align: right;
   position: absolute;
   top: -50px;
 }
+
 .bb-forums-activity-btn a.bb-forums-activity-btn__link {
   font-size: 13px;
   display: inline-block;
@@ -7313,9 +8231,11 @@ body.rtl .bb-forums__avatar {
   border: 1px solid #9ea8b2;
   cursor: pointer;
 }
+
 .bb-forums-activity-btn a.bb-forums-activity-btn__link:hover {
   color: var(--bb-primary-color);
 }
+
 .bb-forums-activity-btn a.bb-forums-activity-btn__link i {
   font-size: 20px;
   position: relative;
@@ -7335,24 +8255,28 @@ body.rtl .bb-forums-activity-btn__link i {
       -ms-flex: 0 0 100%;
           flex: 0 0 100%;
 }
+
 .lifterlms-course-list--elementor .columns-2 .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50%;
           flex: 0 0 50%;
 }
 @media screen and (max-width: 480px) {
+
   .lifterlms-course-list--elementor .columns-2 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
   }
 }
+
 .lifterlms-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 33.333%;
           flex: 0 0 33.333%;
 }
 @media screen and (max-width: 820px) {
+
   .lifterlms-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 50%;
@@ -7360,12 +8284,14 @@ body.rtl .bb-forums-activity-btn__link i {
   }
 }
 @media screen and (max-width: 480px) {
+
   .lifterlms-course-list--elementor .columns-3 .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
             flex: 0 0 100%;
   }
 }
+
 .lifterlms-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
 .lifterlms-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
@@ -7373,6 +8299,7 @@ body.rtl .bb-forums-activity-btn__link i {
           flex: 0 0 25%;
 }
 @media screen and (max-width: 1200px) {
+
   .lifterlms-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .lifterlms-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -7381,6 +8308,7 @@ body.rtl .bb-forums-activity-btn__link i {
   }
 }
 @media screen and (max-width: 820px) {
+
   .lifterlms-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .lifterlms-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -7389,6 +8317,7 @@ body.rtl .bb-forums-activity-btn__link i {
   }
 }
 @media screen and (max-width: 480px) {
+
   .lifterlms-course-list--elementor .columns-4 .bb-course-items.grid-view .bb-course-item-wrap,
   .lifterlms-course-list--elementor .columns-default .bb-course-items.grid-view .bb-course-item-wrap {
     -webkit-box-flex: 0;
@@ -7396,33 +8325,43 @@ body.rtl .bb-forums-activity-btn__link i {
             flex: 0 0 100%;
   }
 }
+
 .lifterlms-course-list--elementor .course-dir-list--hidestatus .bb-cover-list-item .ld-status {
   display: none;
 }
+
 .lifterlms-course-list--elementor .course-dir-list--hidemedia .bb-course-items .bb-course-cover .bb-cover-wrap img {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noProgress .llms-progress {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noPrice .llms-meta-aplans .llms-meta-aplans__price {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noEnroll .llms-meta-aplans .llms-meta-aplans__btn {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noTimestamp .llms-meta-aplans.llms-meta-aplans--enrolled {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noTitle .bb-courses-header > .bb-title {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noSearch .bb-courses-header > #courses-dir-search {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noCourseNavigation.lifterlms-course-list .courses-type-navs {
   display: none;
 }
+
 .lifterlms-course-list--elementor.noPagination .course-dir-list .bb-lms-pagination {
   display: none;
 }
@@ -7431,6 +8370,7 @@ body.rtl .bb-forums-activity-btn__link i {
   display: inline-block;
   text-align: center;
 }
+
 .lifterlms-course-list--elementor .bb-lms-pagination.noPrevNext a.next,
 .lifterlms-course-list--elementor .bb-lms-pagination.noPrevNext a.prev {
   display: none;
@@ -7444,28 +8384,34 @@ body.rtl .bb-forums-activity-btn__link i {
 .lifterlms-course-list--cover .bb-courses-directory .grid-filters {
   display: none;
 }
+
 .lifterlms-course-list--cover .bb-courses-directory .sfwd-courses-filters .select-wrap:last-of-type select {
   margin-right: 0;
 }
+
 .lifterlms-course-list--cover.lifterlms-course-list--featured .bb-course-items.grid-view .bb-course-item-wrap:nth-child(1),
 .lifterlms-course-list--cover.lifterlms-course-list--featured .bb-course-items.grid-view .bb-course-item-wrap:nth-child(2) {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 50%;
           flex: 0 0 50%;
 }
+
 .lifterlms-course-list--cover .bb-course-items.grid-view .bb-course-item-wrap {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 33.33%;
           flex: 0 0 33.33%;
 }
+
 .lifterlms-course-list--cover .bb-course-items.list-view,
 .lifterlms-course-list--cover .bb-course-items.list-view.hide {
   display: none !important;
 }
+
 .lifterlms-course-list--cover .bb-course-items .bb-cover-wrap {
   position: relative;
 }
-.lifterlms-course-list--cover .bb-course-items .bb-cover-wrap:after {
+
+.lifterlms-course-list--cover .bb-course-items .bb-cover-wrap::after {
   content: "";
   display: inline-block;
   position: absolute;
@@ -7474,21 +8420,26 @@ body.rtl .bb-forums-activity-btn__link i {
   background-color: rgba(0, 0, 0, 0.3);
   background-image: none;
 }
+
 .lifterlms-course-list--cover .bb-cover-list-item {
   position: relative;
 }
+
 .lifterlms-course-list--cover .bb-course-items .bb-cover-list-item.bb-course-paid {
   padding-bottom: 0;
 }
+
 .lifterlms-course-list--cover .bb-course-items .bb-cover-wrap {
   border-radius: 4px;
 }
+
 .lifterlms-course-list--cover .bb-course-cover {
   position: absolute;
   z-index: 9;
   height: 100%;
   width: 100%;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details {
   position: relative;
   z-index: 15;
@@ -7501,51 +8452,62 @@ body.rtl .bb-forums-activity-btn__link i {
           flex-direction: column;
   height: 100%;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .course-lesson-count {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .bb-course-title {
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .bb-course-excerpt {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
           order: 3;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .course-progress-wrap {
   -webkit-box-ordinal-group: 4;
       -ms-flex-order: 3;
           order: 3;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .bb-course-meta {
   -webkit-box-ordinal-group: 5;
       -ms-flex-order: 4;
           order: 4;
 }
+
 .lifterlms-course-list--cover .bb-card-course-details .bb-course-footer {
   -webkit-box-ordinal-group: 6;
       -ms-flex-order: 5;
           order: 5;
   display: none;
 }
+
 .lifterlms-course-list--cover .bb-course-items .bb-cover-wrap {
   height: 100%;
   padding-top: 0;
 }
+
 .lifterlms-course-list--cover .bb-cover-list-item .ld-status,
 .lifterlms-course-list--cover .course-lesson-count {
   display: none;
 }
+
 .lifterlms-course-list--cover .bb-course-title a {
   color: #fff;
 }
+
 .lifterlms-course-list--cover .bb-course-items .bb-course-excerpt {
   color: #fff;
 }
+
 .lifterlms-course-list--cover .bb-course-meta strong a {
   color: #fff;
 }
@@ -7553,11 +8515,13 @@ body.rtl .bb-forums-activity-btn__link i {
 .lifterlms-course-list--cover .course-details-verbose {
   padding-bottom: 10px;
 }
+
 .lifterlms-course-list--cover .lifterlms-price,
 .lifterlms-course-list--cover .llms-meta-aplans__inDate,
 .lifterlms-course-list--cover .llms-meta-aplans__btn a {
   color: #fff;
 }
+
 .lifterlms-course-list--cover.lifterlms-course-list .bb-cover-list-item .llms-meta-aplans {
   position: static;
   min-height: auto;
@@ -7599,16 +8563,20 @@ body.rtl .bb-forums-activity-btn__link i {
   padding: 20px;
   background-color: #fff;
 }
+
 .bb-groups .bb-groups-list:not(.active) {
   display: none;
 }
+
 .bb-groups .bb-groups__tab {
   text-transform: capitalize;
 }
+
 .bb-groups #groups-list .item-avatar img {
   border-color: var(--bb-content-border-color);
   border-width: 1px;
 }
+
 .bb-groups #groups-list .item-avatar a {
   border: 0;
   box-shadow: none;

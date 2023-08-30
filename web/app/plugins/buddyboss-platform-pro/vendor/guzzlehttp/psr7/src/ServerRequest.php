@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UploadedFileInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ServerRequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UploadedFileInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Server-side HTTP request
@@ -144,10 +144,10 @@ class ServerRequest extends Request implements ServerRequestInterface
         foreach (array_keys($files['tmp_name']) as $key) {
             $spec = [
                 'tmp_name' => $files['tmp_name'][$key],
-                'size'     => $files['size'][$key],
-                'error'    => $files['error'][$key],
-                'name'     => $files['name'][$key],
-                'type'     => $files['type'][$key],
+                'size'     => $files['size'][$key] ?? null,
+                'error'    => $files['error'][$key] ?? null,
+                'name'     => $files['name'][$key] ?? null,
+                'type'     => $files['type'][$key] ?? null,
             ];
             $normalizedFiles[$key] = self::createUploadedFileFromSpec($spec);
         }

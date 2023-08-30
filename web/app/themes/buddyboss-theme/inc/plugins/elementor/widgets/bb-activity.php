@@ -235,7 +235,6 @@ class BBP_Activity extends Widget_Base {
 			)
 		);
 
-
 		$this->add_control(
 			'switch_delete',
 			array(
@@ -253,41 +252,41 @@ class BBP_Activity extends Widget_Base {
 
 		$this->start_controls_section(
 			'section_content',
-			[
+			array(
 				'label' => __( 'Content', 'buddyboss-theme' ),
 				'tab' => Controls_Manager::TAB_CONTENT,
-			]
+			)
 		);
 
 		$this->add_control(
 			'heading_text',
-			[
+			array(
 				'label' => __( 'Heading Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'Activity', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter heading text', 'buddyboss-theme' ),
-				'label_block' => true
-			]
+				'label_block' => true,
+			)
 		);
 
 		$this->add_control(
 			'activity_link_text',
-			[
+			array(
 				'label' => __( 'Activity Link Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'All Activity', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter activity link text', 'buddyboss-theme' ),
 				'label_block' => true,
-				'condition' => [
+				'condition' => array(
 					'switch_more' => 'yes',
-				]
-			]
+				),
+			)
 		);
 
 		$this->end_controls_section();
@@ -497,12 +496,11 @@ class BBP_Activity extends Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	public function bb_theme_elementor_activity_default_scope( $scope = 'all', $user_id = 0, $group_id = 0 ) {
 		$new_scope = array();
-		if ( bp_loggedin_user_id() && ( 'all' === $scope || empty( $scope ) ) ) {
+		if ( bp_loggedin_user_id() && ( $scope === 'all' || empty( $scope ) ) ) {
 			$new_scope[] = 'public';
 			if ( bp_is_active( 'group' ) && ! empty( $group_id ) ) {
 				$new_scope[] = 'groups';
@@ -528,7 +526,7 @@ class BBP_Activity extends Widget_Base {
 					$new_scope[] = 'document';
 				}
 			}
-		} elseif ( ! bp_loggedin_user_id() && ( 'all' === $scope || empty( $scope ) ) ) {
+		} elseif ( ! bp_loggedin_user_id() && ( $scope === 'all' || empty( $scope ) ) ) {
 			$new_scope[] = 'public';
 		}
 		$new_scope = array_unique( $new_scope );
@@ -552,7 +550,7 @@ class BBP_Activity extends Widget_Base {
 	 * @access protected
 	 */
 	protected function render() {
-	    global $bb_theme_elementor_activity;
+		global $bb_theme_elementor_activity;
 
 		$settings = $this->get_settings_for_display();
 
@@ -648,6 +646,11 @@ class BBP_Activity extends Widget_Base {
 		}
 
 		$bb_theme_elementor_activity = true;
+
+		$buddypress_id = 'buddypress';
+		if ( function_exists( 'bp_is_user' ) && bp_is_user() ) {
+			$buddypress_id = 'buddypress-elementor';
+		}
 		?>
 		<div class="bb-activity <?php echo ( ! $has_activity ) ? 'bb-forums--blank' : ''; ?>">
 
@@ -657,7 +660,7 @@ class BBP_Activity extends Widget_Base {
 					<div class="bb-block-header__title"><h3><?php echo esc_html( $settings['heading_text'] ); ?></h3></div>
 					<?php if ( $settings['switch_more'] ) : ?>
 						<div class="bb-block-header__extra push-right">
-							<?php if( '' != $settings['activity_link_text'] ) { ?>
+							<?php if ( $settings['activity_link_text'] != '' ) { ?>
 								<a href="<?php bp_activity_directory_permalink(); ?>" class="count-more"><?php echo esc_html( $settings['activity_link_text'] ); ?><i class="bb-icon-l bb-icon-angle-right"></i></a>
 							<?php } ?>
 						</div>
@@ -666,15 +669,18 @@ class BBP_Activity extends Widget_Base {
 
 				<div class="bbel-list-flow">
 					<div class="activity-list item-list">
-						<div id="buddypress" class="buddypress-wrap">
+						<div id="<?php echo esc_attr( $buddypress_id ); ?>" class="buddypress-wrap">
 							<div class="screen-content">
 								<div id="activity-stream" class="activity" data-ajax="false" data-bp-list="activity">
-									<ul class="activity-lists item-list bp-list elementor-activity-widget">
-										<?php while ( bp_activities() ) : bp_the_activity(); ?>
-											<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" data-bp-activity="<?php ( function_exists('bp_nouveau_edit_activity_data') ) ? bp_nouveau_edit_activity_data() : ''; ?>" >
+									<ul class="activity-list item-list bp-list elementor-activity-widget">
+										<?php
+										while ( bp_activities() ) :
+											bp_the_activity();
+											?>
+											<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>" data-bp-activity="<?php ( function_exists( 'bp_nouveau_edit_activity_data' ) ) ? bp_nouveau_edit_activity_data() : ''; ?>" >
 
 												<div class="bp-activity-head">
-													<?php if ($settings['switch_avatar']) : ?>
+													<?php if ( $settings['switch_avatar'] ) : ?>
 														<div class="activity-avatar item-avatar">
 															<a href="<?php bp_activity_user_link(); ?>">
 																<?php bp_activity_avatar( array( 'type' => 'full' ) ); ?>
@@ -684,14 +690,14 @@ class BBP_Activity extends Widget_Base {
 													<div class="activity-header">
 														<?php bp_activity_action(); ?>
 														<p class="activity-date">
-                                                            <a href="<?php echo esc_url( bp_activity_get_permalink( bp_get_activity_id() ) ); ?>"><?php echo bp_core_time_since( bp_get_activity_date_recorded() ); ?></a>
+															<a href="<?php echo esc_url( bp_activity_get_permalink( bp_get_activity_id() ) ); ?>"><?php echo bp_core_time_since( bp_get_activity_date_recorded() ); ?></a>
 															<?php
-															if ( function_exists( 'bp_nouveau_activity_is_edited' ) ){
+															if ( function_exists( 'bp_nouveau_activity_is_edited' ) ) {
 																bp_nouveau_activity_is_edited();
 															}
 															?>
-                                                        </p>
-                                                        <?php
+														</p>
+														<?php
 														if ( function_exists( 'bb_theme_elementor_bp_nouveau_activity_privacy' ) ) {
 															bb_theme_elementor_bp_nouveau_activity_privacy();
 														}
@@ -706,10 +712,10 @@ class BBP_Activity extends Widget_Base {
 															<div class="activity-inner"><?php bp_nouveau_activity_content(); ?></div>
 														<?php endif; ?>
 														<?php bp_nouveau_activity_hook( 'after', 'activity_content' ); ?>
-														<div <?php echo $this->get_render_attribute_string('do-state'); ?>>
+														<div <?php echo $this->get_render_attribute_string( 'do-state' ); ?>>
 															<?php bp_nouveau_activity_state(); ?>
 														</div>
-														<div <?php echo $this->get_render_attribute_string('actions'); ?>>
+														<div <?php echo $this->get_render_attribute_string( 'actions' ); ?>>
 															<?php bp_nouveau_activity_entry_buttons(); ?>
 														</div>
 													</div>

@@ -12,9 +12,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see 	https://docs.woocommerce.com/document/template-structure/
+ * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.2.0
+ * @version 7.8.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,7 +26,7 @@ $has_downloads = (bool) $downloads;
 ?>
 
 <div class="wc-MyAccount-sub-heading">
-    <h2><?php _e( 'Downloads', 'buddyboss-theme' ); ?></h2>
+	<h2><?php esc_html_e( 'Downloads', 'buddyboss-theme' ); ?></h2>
 </div>
 
 <div class="wc-MyAccount-inner-content">
@@ -45,7 +45,7 @@ $has_downloads = (bool) $downloads;
 			<div class="wc-MyAccount-sub-icon"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/svg/cart.svg" alt="Shop cart" /></div>
 			<div class="wc-MyAccount-sub-tagline"><?php esc_html_e( 'No downloads available yet.', 'buddyboss-theme' ); ?></div>
 			<a class="woocommerce-Button button" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
-				<?php esc_html_e( 'Go shop', 'buddyboss-theme' ) ?>
+				<?php esc_html_e( 'Go shop', 'buddyboss-theme' ); ?>
 			</a>
 		</div>
 	<?php endif; ?>

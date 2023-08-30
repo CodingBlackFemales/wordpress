@@ -59,7 +59,7 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 		$header                   = (int) buddyboss_theme_get_option( 'buddyboss_header' );
 
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( 3 === $header ) {
+		if ( $header === 3 ) {
 			$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position_h3' );
 		} else {
 			$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position' );
@@ -71,7 +71,7 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 				$classes[] = 'bb-buddypanel';
 
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				if ( $buddypanel_side && 'right' == $buddypanel_side ) {
+				if ( $buddypanel_side && $buddypanel_side == 'right' ) {
 					$classes[] = 'bb-buddypanel-right';
 				} else {
 					$classes[] = 'bb-buddypanel-left';
@@ -81,10 +81,10 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 				if (
 					(
 						isset( $_COOKIE['buddypanel'] ) &&
-						'open' === $_COOKIE['buddypanel']
+						$_COOKIE['buddypanel'] === 'open'
 					) ||
 					(
-						'open' === $buddypanel_default_state &&
+						$buddypanel_default_state === 'open' &&
 						! isset( $_COOKIE['buddypanel'] )
 					)
 				) {
@@ -96,12 +96,12 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 			if (
 				has_nav_menu( $menu ) &&
 				$show_buddypanel &&
-				3 === $header
+				$header === 3
 			) {
 				$classes[] = 'bb-buddypanel';
 
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				if ( $buddypanel_side && 'right' == $buddypanel_side ) {
+				if ( $buddypanel_side && $buddypanel_side == 'right' ) {
 					$classes[] = 'bb-buddypanel-right';
 				}
 			}
@@ -111,8 +111,8 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 				has_nav_menu( $menu ) &&
 				! buddyboss_is_learndash_inner() &&
 				$show_buddypanel &&
-				'open' === $buddypanel_default_state &&
-				3 === $header
+				$buddypanel_default_state === 'open' &&
+				$header === 3
 			) {
 				$classes[] = 'buddypanel-header'; // buddypanel-open.
 			}
@@ -133,7 +133,7 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 				$classes[] = 'bb-sfwd-aside';
 
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				if ( 3 === $header ) {
+				if ( $header === 3 ) {
 					$classes[] = 'buddypanel-header';
 				}
 			}
@@ -186,10 +186,6 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 		} elseif ( is_active_sidebar( 'learndash_sidebar' ) && buddyboss_is_learndash() ) {
 			// LearnDash sidebar.
 			$sidebar   = ' sidebar-' . buddyboss_theme_get_option( 'learndash' );
-			$classes[] = 'has-sidebar sfwd-sidebar' . $sidebar;
-		} elseif ( is_active_sidebar( 'learndash_lesson_sidebar' ) && buddyboss_is_learndash_inner() ) {
-			// LearnDash lesson sidebar
-			$sidebar   = ' sfwd-single-sidebar-' . buddyboss_theme_get_option( 'learndash_single_sidebar' );
 			$classes[] = 'has-sidebar sfwd-sidebar' . $sidebar;
 		} elseif ( buddyboss_is_lifterlms() ) {
 			// LifterLMS class.
@@ -271,7 +267,7 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 				$classes[] = 'mepr-login-page';
 
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison, WordPress.Security.NonceVerification.Recommended
-				if ( isset( $_GET['action'] ) && 'forgot_password' == $_GET['action'] ) {
+				if ( isset( $_GET['action'] ) && $_GET['action'] == 'forgot_password' ) {
 					$classes[] = 'mepr-forgot-password-page';
 				}
 			}
@@ -296,12 +292,18 @@ if ( ! function_exists( 'buddyboss_theme_body_classes' ) ) {
 		}
 
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( ( isset( $_COOKIE['lessonpanel'] ) && 'closed' == $_COOKIE['lessonpanel'] && buddyboss_is_learndash_inner() ) ) {
+		if ( ( isset( $_COOKIE['lessonpanel'] ) && $_COOKIE['lessonpanel'] == 'closed' && buddyboss_is_learndash_inner() ) ) {
 			$classes[] = 'lms-side-panel-close';
 		}
 
-		if ( ( buddyboss_is_learndash_inner() && buddyboss_is_learndash_brand_logo() && buddyboss_theme_ld_focus_mode() ) ) {
-			$classes[] = 'bb-custom-ld-logo-enabled';
+		if ( buddyboss_is_learndash_inner() ) {
+			// LearnDash lesson sidebar
+			$sidebar   = ' sfwd-single-sidebar-' . buddyboss_theme_get_option( 'learndash_single_sidebar' );
+			$classes[] = 'has-sidebar sfwd-sidebar' . $sidebar;
+
+			if ( buddyboss_is_learndash_brand_logo() && buddyboss_theme_ld_focus_mode() ) {
+				$classes[] = 'bb-custom-ld-logo-enabled';
+			}
 		}
 
 		return $classes;
@@ -358,9 +360,9 @@ if ( ! function_exists( 'buddyboss_theme_entry_header' ) ) {
 		}
 
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( empty( $content ) && 'image' == $args['fallback'] ) {
+		if ( empty( $content ) && $args['fallback'] == 'image' ) {
 			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-			if ( '' != $args['type'] && 'image' != $args['type'] ) {
+			if ( $args['type'] != '' && $args['type'] != 'image' ) {
 				$content = buddyboss_theme_entry_header_thumbnail( $post, $args );
 			}
 		}
@@ -633,7 +635,6 @@ if ( ! function_exists( 'buddyboss_theme_header' ) ) {
 
 		$header = (int) buddyboss_theme_get_option( 'buddyboss_header' );
 		get_template_part( 'template-parts/header', apply_filters( 'buddyboss_header', $header ) );
-
 	}
 
 	add_action( THEME_HOOK_PREFIX . 'header', 'buddyboss_theme_header' );
@@ -773,7 +774,7 @@ if ( ! function_exists( 'buddypanel_position_right' ) ) {
 		$header            = (int) buddyboss_theme_get_option( 'buddyboss_header' );
 		$buddypanel_toggle = buddyboss_theme_get_option( 'buddypanel_toggle' );
 
-		if ( 3 === $header ) {
+		if ( $header === 3 ) {
 			$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position_h3' );
 		} else {
 			$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position' );
@@ -788,7 +789,7 @@ if ( ! function_exists( 'buddypanel_position_right' ) ) {
 		}
 
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( ( $show_buddypanel || 3 === $header ) && $buddypanel_side && 'right' === $buddypanel_side && $buddypanel_toggle ) {
+		if ( ( $show_buddypanel || $header === 3 ) && $buddypanel_side && $buddypanel_side === 'right' && $buddypanel_toggle ) {
 			$toggle_panel = '<a href="#" class="bb-toggle-panel"><i class="bb-icon-l bb-icon-sidebar"></i></a>';
 			return $toggle_panel;
 		}
@@ -826,7 +827,7 @@ if ( ! function_exists( 'buddyboss_comment' ) ) {
 
 	function buddyboss_comment( $comment, $args, $depth ) {
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( 'div' == $args['style'] ) {
+		if ( $args['style'] == 'div' ) {
 			$tag       = 'div';
 			$add_below = 'comment';
 		} else {
@@ -840,7 +841,7 @@ if ( ! function_exists( 'buddyboss_comment' ) ) {
 	<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 
 			<?php
-			if ( 0 != $args['avatar_size'] ) {
+			if ( $args['avatar_size'] != 0 ) {
 				$platform_author_link = buddyboss_theme_get_option( 'blog_platform_author_link' );
 				if ( function_exists( 'bp_core_get_user_domain' ) && $platform_author_link ) {
 					$user_link = bp_core_get_user_domain( $comment->user_id );
@@ -880,7 +881,7 @@ if ( ! function_exists( 'buddyboss_comment' ) ) {
 				</a>
 			</div>
 
-			<?php if ( '0' == $comment->comment_approved ) { ?>
+			<?php if ( $comment->comment_approved == '0' ) { ?>
 				<p>
 					<em class="comment-awaiting-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'buddyboss-theme' ); ?></em>
 				</p>
@@ -997,10 +998,10 @@ if ( ! function_exists( 'bb_set_row_post_class' ) ) {
 			return $classes;
 		}
 
-		if ( 'masonry' === $blog_type ) {
-			$classes[] = ( 0 === $wp_query->current_post && 1 == $paged ) ? 'bb-grid-2-3 first' : ''; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		} elseif ( ( 'grid' === $blog_type ) && ( ( is_archive() ) || ( is_search() ) || ( is_author() ) || ( is_category() ) || ( is_home() ) || ( is_tag() ) ) ) {
-			$classes[] = ( 0 === $wp_query->current_post && 1 == $paged ) ? 'lg-grid-2-3 md-grid-1-1 sm-grid-1-1 bb-grid-cell first' : 'lg-grid-1-3 md-grid-1-2 bb-grid-cell sm-grid-1-1'; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		if ( $blog_type === 'masonry' ) {
+			$classes[] = ( $wp_query->current_post === 0 && $paged == 1 ) ? 'bb-grid-2-3 first' : ''; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+		} elseif ( ( $blog_type === 'grid' ) && ( ( is_archive() ) || ( is_search() ) || ( is_author() ) || ( is_category() ) || ( is_home() ) || ( is_tag() ) ) ) {
+			$classes[] = ( $wp_query->current_post === 0 && $paged == 1 ) ? 'lg-grid-2-3 md-grid-1-1 sm-grid-1-1 bb-grid-cell first' : 'lg-grid-1-3 md-grid-1-2 bb-grid-cell sm-grid-1-1'; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 		} elseif ( ( is_related_posts() ) ) {
 			$classes[] = 'lg-grid-1-3 md-grid-1-2 bb-grid-cell sm-grid-1-1';
 		}
@@ -1132,7 +1133,7 @@ if ( ! function_exists( 'buddyboss_is_learndash' ) ) {
 		if ( class_exists( 'SFWD_LMS' ) ) {
 			if ( is_object( $post ) ) {
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				return ( ( 'sfwd-courses' == $post->post_type ) || ( 'sfwd-topic' == $post->post_type ) || ( 'sfwd-lessons' == $post->post_type ) || ( 'sfwd-quiz' == $post->post_type ) );
+				return ( ( $post->post_type == 'sfwd-courses' ) || ( $post->post_type == 'sfwd-topic' ) || ( $post->post_type == 'sfwd-lessons' ) || ( $post->post_type == 'sfwd-quiz' ) );
 			}
 		}
 	}
@@ -1156,7 +1157,7 @@ if ( ! function_exists( 'buddyboss_is_learndash_inner' ) ) {
 		if ( class_exists( 'SFWD_LMS' ) ) {
 			if ( is_object( $post ) ) {
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				return ( ( 'sfwd-topic' == $post->post_type ) || ( 'sfwd-lessons' == $post->post_type ) || ( 'sfwd-quiz' == $post->post_type ) );
+				return ( ( $post->post_type == 'sfwd-topic' ) || ( $post->post_type == 'sfwd-lessons' ) || ( $post->post_type == 'sfwd-quiz' ) );
 			}
 		}
 	}
@@ -1173,20 +1174,19 @@ if ( ! function_exists( 'ld_30_focus_mode_enable' ) ) {
 		if ( class_exists( 'SFWD_LMS' ) ) {
 			$focus_mode = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 
-			$post_types = [
+			$post_types = array(
 				'sfwd-lessons',
 				'sfwd-topic',
 				'sfwd-assignment',
 				'sfwd-quiz',
-			];
+			);
 
 			if ( in_array( get_post_type(), $post_types ) ) {
-				if ( 'yes' === $focus_mode ) {
+				if ( $focus_mode === 'yes' ) {
 					return true;
 				}
-			}	
+			}
 		}
-
 	}
 }
 
@@ -1202,7 +1202,6 @@ if ( ! function_exists( 'buddyboss_is_lifterlms_inner' ) ) {
 		if ( class_exists( 'LifterLMS' ) ) {
 			return ( is_singular( 'lesson' ) || is_singular( 'llms_quiz' ) || is_singular( 'llms_assignment' ) );
 		}
-
 	}
 }
 
@@ -1224,7 +1223,6 @@ if ( ! function_exists( 'buddyboss_is_learndash_brand_logo' ) ) {
 
 			}
 		}
-
 	}
 }
 
@@ -1240,7 +1238,7 @@ if ( ! function_exists( 'buddyboss_theme_ld_focus_mode' ) ) {
 		if ( class_exists( 'SFWD_LMS' ) ) {
 			$focus_mode = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 
-			if ( 'yes' === $focus_mode ) {
+			if ( $focus_mode === 'yes' ) {
 				return true;
 			} else {
 				return false;
@@ -1257,17 +1255,17 @@ if ( ! function_exists( 'buddyboss_theme_ld_focus_style' ) ) {
 			$focus_mode               = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 			$focus_mode_content_width = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_content_width' );
 			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-			if ( 'default' == $focus_mode_content_width ) {
+			if ( $focus_mode_content_width == 'default' ) {
 				$focus_mode_content_width = '960px';
 			}
 
-			if ( 'yes' === $focus_mode ) {
+			if ( $focus_mode === 'yes' ) {
 				echo '<style id="learndash-focus-mode-style">';
 				echo '.ld-in-focus-mode .learndash-wrapper .learndash_content_wrap{max-width: ' . $focus_mode_content_width . '}'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo '.ld-in-focus-mode .learndash-wrapper .bb-lms-header .lms-header-title, .ld-in-focus-mode .learndash-wrapper .bb-lms-header .lms-header-instructor{max-width: ' . $focus_mode_content_width . '}'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 				// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				if ( 'inherit' == $focus_mode_content_width || '1600px' == $focus_mode_content_width ) {
+				if ( $focus_mode_content_width == 'inherit' || $focus_mode_content_width == '1600px' ) {
 					echo '.ld-in-focus-mode.single #learndash-course-header{max-width: ' . $focus_mode_content_width . '}'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 				echo '</style>';
@@ -1292,7 +1290,6 @@ if ( ! function_exists( 'buddyboss_is_lifterlms' ) ) {
 		if ( class_exists( 'LifterLMS' ) ) {
 			return ( is_course() || is_courses() || is_lesson() || is_quiz() || is_singular( 'llms_assignment' ) || is_membership() || is_memberships() || is_membership_category() || is_membership_tag() || is_membership_taxonomy() || is_llms_account_page() || is_llms_checkout() );
 		}
-
 	}
 }
 
@@ -1370,14 +1367,14 @@ if ( ! function_exists( 'buddyboss_theme_cover_image_callback' ) ) {
 		// Profile Cover Image.
 		$profile_cover = buddyboss_theme_get_option( 'buddyboss_profile_cover_default', 'url' );
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( ! empty( $profile_cover ) && empty( $params['cover_image'] ) && 'xprofile' == $params['component'] ) {
+		if ( ! empty( $profile_cover ) && empty( $params['cover_image'] ) && $params['component'] == 'xprofile' ) {
 			$params['cover_image'] = $profile_cover;
 		}
 
 		// Group Cover Image.
 		$group_cover = buddyboss_theme_get_option( 'buddyboss_group_cover_default', 'url' );
 		// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-		if ( ! empty( $group_cover ) && empty( $params['cover_image'] ) && 'groups' == $params['component'] ) {
+		if ( ! empty( $group_cover ) && empty( $params['cover_image'] ) && $params['component'] == 'groups' ) {
 			$params['cover_image'] = $group_cover;
 		}
 
@@ -1416,7 +1413,7 @@ if ( ! function_exists( 'buddyboss_theme_bp_get_add_follow_button' ) ) {
 	 */
 	function buddyboss_theme_bp_get_add_follow_button( $button ) {
 
-		if ( 'follow-button following' === $button['wrapper_class'] ) {
+		if ( $button['wrapper_class'] === 'follow-button following' ) {
 			$button['link_class'] .= ' small';
 		} else {
 			$button['link_class'] .= ' small outline';
@@ -1456,7 +1453,7 @@ if ( ! function_exists( 'buddypanel_is_learndash_inner' ) ) {
 
 		if ( class_exists( 'SFWD_LMS' ) ) {
 			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-			return ( ( isset( $post->post_type ) && 'sfwd-topic' == $post->post_type ) || ( isset( $post->post_type ) && 'sfwd-lessons' == $post->post_type ) || ( isset( $post->post_type ) && 'sfwd-quiz' == $post->post_type ) );
+			return ( ( isset( $post->post_type ) && $post->post_type == 'sfwd-topic' ) || ( isset( $post->post_type ) && $post->post_type == 'sfwd-lessons' ) || ( isset( $post->post_type ) && $post->post_type == 'sfwd-quiz' ) );
 		}
 	}
 }
@@ -1471,7 +1468,7 @@ if ( ! function_exists( 'buddypanel_is_lifterlms_inner' ) ) {
 
 		if ( class_exists( 'LifterLMS' ) ) {
 			// phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-			return ( ( isset( $post->post_type ) && 'lesson' == $post->post_type ) || ( isset( $post->post_type ) && 'llms_quiz' == $post->post_type ) || ( isset( $post->post_type ) && 'llms_assignment' == $post->post_type ) );
+			return ( ( isset( $post->post_type ) && $post->post_type == 'lesson' ) || ( isset( $post->post_type ) && $post->post_type == 'llms_quiz' ) || ( isset( $post->post_type ) && $post->post_type == 'llms_assignment' ) );
 		}
 	}
 }
@@ -1714,7 +1711,7 @@ if ( ! function_exists( 'bb_is_elementor_header_footer_template' ) ) {
 			$id = $wp_query->post->ID;
 		}
 
-		if ( 'elementor_header_footer' === get_post_meta( $id, '_wp_page_template', true ) ) {
+		if ( get_post_meta( $id, '_wp_page_template', true ) === 'elementor_header_footer' ) {
 			return true;
 		}
 	}
@@ -1818,7 +1815,7 @@ if ( ! function_exists( 'buddyboss_theme_sudharo_tapas' ) ) {
 			foreach ( $saved_licenses as $package_id => $license_details ) {
 				if ( ! empty( $license_details['license_key'] ) && ! empty( $license_details['product_keys'] ) && is_array( $license_details['product_keys'] ) && in_array( 'BB_THEME', $license_details['product_keys'], true ) ) {
 					$license_is_there = true;
-					if ( ! empty( $license_details['message'] ) && false !== strpos( strtolower( $license_details['message'] ), 'expired' ) ) {
+					if ( ! empty( $license_details['message'] ) && strpos( strtolower( $license_details['message'] ), 'expired' ) !== false ) {
 						$expired_license = true;
 					}
 				}
@@ -1925,15 +1922,15 @@ if ( ! function_exists( 'bb_set_unread_notification' ) ) {
 		}
 
 		$notif_id = bb_theme_filter_input_string( INPUT_POST, 'notification_id' );
-		if ( 'all' !== $notif_id ) {
+		if ( $notif_id !== 'all' ) {
 			$notif_id = filter_input( INPUT_POST, 'notification_id', FILTER_SANITIZE_NUMBER_INT );
 		}
-		if ( ! empty( $notif_id ) && 'all' !== $notif_id ) {
+		if ( ! empty( $notif_id ) && $notif_id !== 'all' ) {
 			BP_Notifications_Notification::update(
 				array( 'is_new' => 0 ),
 				array( 'id' => $notif_id )
 			);
-		} elseif ( 'all' === $notif_id ) {
+		} elseif ( $notif_id === 'all' ) {
 			$user_id          = bp_loggedin_user_id();
 			$notification_ids = BP_Notifications_Notification::get(
 				array(
@@ -2046,7 +2043,7 @@ if ( ! function_exists( 'bb_theme_elementor_topic_link_attribute_change' ) ) {
  */
 function bb_theme_elementor_activity_edit_button( $buttons, $activity_id ) {
 	global $bb_theme_elementor_activity;
-	if ( isset( $buttons['activity_edit'] ) && true === $bb_theme_elementor_activity ) {
+	if ( isset( $buttons['activity_edit'] ) && $bb_theme_elementor_activity === true ) {
 		$activity = new BP_Activity_Activity( $activity_id );
 
 		if ( ! empty( $activity->id ) ) {
@@ -2083,8 +2080,8 @@ if ( ! function_exists( 'bb_theme_elementor_bp_nouveau_activity_privacy' ) ) {
 			}
 
 			$privacy                   = bp_get_activity_privacy();
-			$media_activity            = ( 'media' === $privacy || ( isset( $_REQUEST['action'] ) && 'media_get_activity' === $_REQUEST['action'] ) );
-			$document_activity         = ( 'document' === $privacy || ( isset( $_REQUEST['action'] ) && 'document_get_activity' === $_REQUEST['action'] ) );
+			$media_activity            = ( $privacy === 'media' || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'media_get_activity' ) );
+			$document_activity         = ( $privacy === 'document' || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'document_get_activity' ) );
 			$parent_activity_id        = false;
 			$parent_activity_permalink = false;
 			$group_id                  = false;
@@ -2238,8 +2235,11 @@ if ( ! function_exists( 'bb_theme_elementor_bp_nouveau_activity_privacy' ) ) {
  * @return bool True if enabled message button otherwise false.
  */
 function buddyboss_theme_bb_member_loop_show_message_button( $enabled_message_action, $member_id, $current_user_id ) {
+	if ( function_exists( 'bb_messages_user_can_send_message' ) ) {
+		return $enabled_message_action;
+	}
 
-	return (bool) ( $enabled_message_action && 'yes' === buddyboss_theme()->buddypress_helper()->buddyboss_theme_show_private_message_button( $member_id, $current_user_id ) );
+	return (bool) ( $enabled_message_action && buddyboss_theme()->buddypress_helper()->buddyboss_theme_show_private_message_button( $member_id, $current_user_id ) === 'yes' );
 }
 add_filter( 'bb_member_loop_show_message_button', 'buddyboss_theme_bb_member_loop_show_message_button', 10, 3 );
 
@@ -2294,4 +2294,3 @@ function buddyboss_theme_add_blog_comment_reply_link( $submit_button, $args ) {
 	return $cancel_reply_link . $submit_button;
 }
 add_action( 'comment_form_submit_button', 'buddyboss_theme_add_blog_comment_reply_link', 99, 2 );
-
