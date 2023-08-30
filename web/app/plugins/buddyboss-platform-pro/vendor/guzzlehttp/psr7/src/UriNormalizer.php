@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Provides methods to normalize and compare URIs.

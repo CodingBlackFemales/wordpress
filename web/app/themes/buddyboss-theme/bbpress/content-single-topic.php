@@ -12,9 +12,9 @@ $query_page = get_query_var( 'paged' );
 
 $topic_reply_count = 0;
 if ( bbp_show_lead_topic() ) {
-	$topic_reply_count = (int) bbp_get_topic_reply_count( $topic_id );
+	$topic_reply_count = bbp_get_topic_reply_count( $topic_id );
 } else {
-	$topic_reply_count = (int) bbp_get_topic_post_count( $topic_id );
+	$topic_reply_count = bbp_get_topic_post_count( $topic_id );
 }
 
 
@@ -45,7 +45,6 @@ if ( bbp_show_lead_topic() ) {
 				<?php
 				if ( bbp_has_replies() ) :
 					// bbp_get_template_part( 'pagination', 'replies' );
-
 					bbp_get_template_part( 'loop', 'replies' );
 
 					bbp_get_template_part( 'pagination', 'replies' );
@@ -126,17 +125,15 @@ if ( bbp_show_lead_topic() ) {
 				if ( property_exists( $bbp->reply_query, 'total_items_per_page' ) ) {
 
 					if ( $bbp->reply_query->offset > 0 ) {
-						$start_num = $bbp->reply_query->offset + 1;
+						$from_num = $bbp->reply_query->offset + 1;
 					} else {
-						$start_num = intval( ( $bbp->reply_query->paged - 1 ) * $bbp->reply_query->total_items_per_page ) + 1;
+						$from_num = intval( ( $bbp->reply_query->paged - 1 ) * $bbp->reply_query->total_items_per_page ) + 1;
 					}
 
-					$from_num = bbp_number_format( $start_num );
-					$to_num   = bbp_number_format( ( $start_num + ( $bbp->reply_query->total_items_per_page - 1 ) > $bbp->reply_query->found_posts ) ? $bbp->reply_query->found_posts : $start_num + ( $bbp->reply_query->total_items_per_page - 1 ) );
+					$to_num = intval( $from_num + ( $bbp->reply_query->total_items_per_page - 1 ) > $bbp->reply_query->found_posts ) ? $bbp->reply_query->found_posts : $from_num + ( $bbp->reply_query->total_items_per_page - 1 );
 				} else {
-					$start_num = intval( ( $bbp->reply_query->paged - 1 ) * $bbp->reply_query->posts_per_page ) + 1;
-					$from_num  = bbp_number_format( $start_num );
-					$to_num    = bbp_number_format( ( $start_num + ( $bbp->reply_query->posts_per_page - 1 ) > $bbp->reply_query->found_posts ) ? $bbp->reply_query->found_posts : $start_num + ( $bbp->reply_query->posts_per_page - 1 ) );
+					$from_num = intval( ( $bbp->reply_query->paged - 1 ) * $bbp->reply_query->posts_per_page ) + 1;
+					$to_num   = intval( $from_num + ( $bbp->reply_query->posts_per_page - 1 ) > $bbp->reply_query->found_posts ) ? $bbp->reply_query->found_posts : $from_num + ( $bbp->reply_query->posts_per_page - 1 );
 				}
 				?>
 				<div class="scrubber light" id="scrubber" data-key="<?php echo esc_attr( buddyboss_unique_id( 'forums_scrubber_' ) ); ?>" data-total-item="<?php echo esc_attr( $topic_reply_count ); ?>" data-total-page="<?php echo esc_attr( $bbp->reply_query->total_pages ); ?>" data-current-page="<?php echo esc_attr( $bbp->reply_query->paged ); ?>" data-from="<?php echo esc_attr( $from_num ); ?>" data-to="<?php echo esc_attr( $to_num ); ?>">

@@ -6,9 +6,9 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Cookie\CookieJarInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\RequestException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise as P;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Functions used to create and wrap handlers with handler middleware.

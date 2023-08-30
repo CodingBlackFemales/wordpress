@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestFactoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UploadedFileFactoryInterface;
-use Psr\Http\Message\UploadedFileInterface;
-use Psr\Http\Message\UriFactoryInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ServerRequestFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ServerRequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UploadedFileFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UploadedFileInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriFactoryInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Implements all of the PSR-17 interfaces.

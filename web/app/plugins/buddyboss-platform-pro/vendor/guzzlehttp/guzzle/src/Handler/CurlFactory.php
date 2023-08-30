@@ -10,7 +10,7 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7\LazyOpenStream;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\TransferStats;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Utils;
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * Creates curl resources from a request
@@ -443,7 +443,9 @@ class CurlFactory implements CurlFactoryInterface
                 $scheme = $easy->request->getUri()->getScheme();
                 if (isset($options['proxy'][$scheme])) {
                     $host = $easy->request->getUri()->getHost();
-                    if (!isset($options['proxy']['no']) || !Utils::isHostInNoProxy($host, $options['proxy']['no'])) {
+                    if (isset($options['proxy']['no']) && Utils::isHostInNoProxy($host, $options['proxy']['no'])) {
+                        unset($conf[\CURLOPT_PROXY]);
+                    } else {
                         $conf[\CURLOPT_PROXY] = $options['proxy'][$scheme];
                     }
                 }
