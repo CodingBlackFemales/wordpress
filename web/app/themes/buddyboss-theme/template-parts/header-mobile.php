@@ -31,7 +31,7 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 
 			<<?php echo $elem; ?> class="site-title">
 
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+				<a href="<?php echo esc_url( bb_get_theme_header_logo_link() ); ?>" rel="home">
 					<?php
 					if ( buddyboss_is_learndash_inner() && buddyboss_theme_ld_focus_mode() ) {
 						if ( buddyboss_is_learndash_brand_logo() ) {
@@ -71,12 +71,16 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 					</a>
 					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
 					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
-				<?php } else {
-					if ( $show_search ) : ?>
+					<?php
+				} else {
+					if ( $show_search ) :
+						?>
 						<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
 						<span class="search-separator bb-separator"></span>
-					<?php endif;
-					if ( $show_shopping_cart && class_exists( 'WooCommerce' ) ) : ?>
+						<?php
+					endif;
+					if ( $show_shopping_cart && class_exists( 'WooCommerce' ) ) :
+						?>
 						<?php get_template_part( 'template-parts/cart-dropdown' ); ?>
 					<?php endif; ?>
 
@@ -85,11 +89,13 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 					<?php
 				}
 			} else {
-				if ( $show_search ) : ?>
+				if ( $show_search ) :
+					?>
 					<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
 					<?php if ( $show_messages && function_exists( 'bp_is_active' ) && bp_is_active( 'messages' ) || $show_notifications && function_exists( 'bp_is_active' ) && bp_is_active( 'notifications' ) || $show_shopping_cart && class_exists( 'WooCommerce' ) ) : ?>
 						<span class="search-separator bb-separator"></span>
-					<?php endif;
+						<?php
+					endif;
 				endif;
 
 				if ( $show_messages && function_exists( 'bp_is_active' ) && bp_is_active( 'messages' ) ) :

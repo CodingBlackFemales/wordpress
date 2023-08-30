@@ -5,6 +5,7 @@
 if ( ! function_exists( 'boss_generate_option_css' ) ) {
 
 	function boss_generate_option_css() {
+		global $color_schemes;
 
 		$custom_css = array();
 		if ( is_customize_preview() ) {
@@ -20,69 +21,71 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 			return false;
 		}
 
-		$primary_color                                  = buddyboss_theme_get_option( 'accent_color' );
-		$body_background                                = buddyboss_theme_get_option( 'body_background' );
-		$body_blocks                                    = buddyboss_theme_get_option( 'body_blocks' );
-		$light_background_blocks                        = buddyboss_theme_get_option( 'light_background_blocks' );
-		$body_blocks_border                             = buddyboss_theme_get_option( 'body_blocks_border' );
-		$buddyboss_theme_group_cover_bg                 = buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' );
-		$heading_text_color                             = buddyboss_theme_get_option( 'heading_text_color' );
-		$body_text_color                                = buddyboss_theme_get_option( 'body_text_color' );
-		$alternate_text_color                           = buddyboss_theme_get_option( 'alternate_text_color' );
-		$primary_button_background_regular              = buddyboss_theme_get_option( 'primary_button_background' )['regular'];
-		$primary_button_background_hover                = buddyboss_theme_get_option( 'primary_button_background' )['hover'];
-		$primary_button_border_regular                  = buddyboss_theme_get_option( 'primary_button_border' )['regular'];
-		$primary_button_border_hover                    = buddyboss_theme_get_option( 'primary_button_border' )['hover'];
-		$primary_button_text_color_regular              = buddyboss_theme_get_option( 'primary_button_text_color' )['regular'];
-		$primary_button_text_color_hover                = buddyboss_theme_get_option( 'primary_button_text_color' )['hover'];
-		$secondary_button_background_regular            = buddyboss_theme_get_option( 'secondary_button_background' )['regular'];
-		$secondary_button_background_hover              = buddyboss_theme_get_option( 'secondary_button_background' )['hover'];
-		$secondary_button_border_regular                = buddyboss_theme_get_option( 'secondary_button_border' )['regular'];
-		$secondary_button_border_hover                  = buddyboss_theme_get_option( 'secondary_button_border' )['hover'];
-		$secondary_button_text_color_regular            = buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'];
-		$secondary_button_text_color_hover              = buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'];
-		$header_background                              = buddyboss_theme_get_option( 'header_background' );
-		$header_alternate_background                    = buddyboss_theme_get_option( 'header_alternate_background' );
-		$header_links                                   = buddyboss_theme_get_option( 'header_links' );
-		$header_links_hover                             = buddyboss_theme_get_option( 'header_links_hover' );
-		$sidenav_background                             = buddyboss_theme_get_option( 'sidenav_background' );
-		$sidenav_text_color_regular                     = buddyboss_theme_get_option( 'sidenav_text_color' )['regular'];
-		$sidenav_text_color_hover                       = buddyboss_theme_get_option( 'sidenav_text_color' )['hover'];
-		$sidenav_text_color_active                      = buddyboss_theme_get_option( 'sidenav_text_color' )['active'];
-		$sidenav_menu_background_color_regular          = buddyboss_theme_get_option( 'sidenav_menu_background_color' )['regular'];
-		$sidenav_menu_background_color_hover            = buddyboss_theme_get_option( 'sidenav_menu_background_color' )['hover'];
-		$sidenav_menu_background_color_active           = buddyboss_theme_get_option( 'sidenav_menu_background_color' )['active'];
-		$sidenav_count_text_color_regular               = buddyboss_theme_get_option( 'sidenav_count_text_color' )['regular'];
-		$sidenav_count_text_color_hover                 = buddyboss_theme_get_option( 'sidenav_count_text_color' )['hover'];
-		$sidenav_count_text_color_active                = buddyboss_theme_get_option( 'sidenav_count_text_color' )['active'];
-		$sidenav_count_background_color_regular         = buddyboss_theme_get_option( 'sidenav_count_background_color' )['regular'];
-		$sidenav_count_background_color_hover           = buddyboss_theme_get_option( 'sidenav_count_background_color' )['hover'];
-		$sidenav_count_background_color_active          = buddyboss_theme_get_option( 'sidenav_count_background_color' )['active'];
-		$footer_background                              = buddyboss_theme_get_option( 'footer_background' );
-		$footer_widget_background                       = buddyboss_theme_get_option( 'footer_widget_background' );
-		$footer_text_color                              = buddyboss_theme_get_option( 'footer_text_color' );
-		$footer_menu_link_color_regular                 = buddyboss_theme_get_option( 'footer_menu_link_color' )['regular'];
-		$footer_menu_link_color_hover                   = buddyboss_theme_get_option( 'footer_menu_link_color' )['hover'];
-		$footer_menu_link_color_active                  = buddyboss_theme_get_option( 'footer_menu_link_color' )['active'];
-		$admin_screen_bgr_color                         = buddyboss_theme_get_option( 'admin_screen_bgr_color' );
-		$admin_screen_txt_color                         = buddyboss_theme_get_option( 'admin_screen_txt_color' );
-		$login_register_link_color_regular              = buddyboss_theme_get_option( 'login_register_link_color' )['regular'];
-		$login_register_link_color_hover                = buddyboss_theme_get_option( 'login_register_link_color' )['hover'];
-		$login_register_button_background_color_regular = buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'];
-		$login_register_button_background_color_hover   = buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'];
-		$login_register_button_border_color_regular     = buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'];
-		$login_register_button_border_color_hover       = buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'];
-		$login_register_button_text_color_regular       = buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'];
-		$login_register_button_text_color_hover         = buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'];
-		$label_background_color                         = buddyboss_theme_get_option( 'label_background_color' );
-		$label_text_color                               = buddyboss_theme_get_option( 'label_text_color' );
-		$tooltip_background                             = buddyboss_theme_get_option( 'tooltip_background' );
-		$tooltip_color                                  = buddyboss_theme_get_option( 'tooltip_color' );
-		$default_notice_color                           = buddyboss_theme_get_option( 'default_notice_bg_color' );
-		$success_color                                  = buddyboss_theme_get_option( 'success_notice_bg_color' );
-		$warning_color                                  = buddyboss_theme_get_option( 'warning_notice_bg_color' );
-		$danger_color                                   = buddyboss_theme_get_option( 'error_notice_bg_color' );
-		$admin_login_heading_color                      = buddyboss_theme_get_option( 'admin_login_heading_color' );
+		$color_presets = $color_schemes['default']['presets'];
+
+		$primary_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'accent_color' ) ) ? buddyboss_theme_get_option( 'accent_color' ) : $color_presets['accent_color'];
+		$body_background                                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_background' ) ) ? buddyboss_theme_get_option( 'body_background' ) : $color_presets['body_background'];
+		$body_blocks                                    = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks' ) ) ? buddyboss_theme_get_option( 'body_blocks' ) : $color_presets['body_blocks'];
+		$light_background_blocks                        = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'light_background_blocks' ) ) ? buddyboss_theme_get_option( 'light_background_blocks' ) : $color_presets['light_background_blocks'];
+		$body_blocks_border                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks_border' ) ) ? buddyboss_theme_get_option( 'body_blocks_border' ) : $color_presets['body_blocks_border'];
+		$buddyboss_theme_group_cover_bg                 = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' ) ) ? buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' ) : $color_presets['buddyboss_theme_group_cover_bg'];
+		$heading_text_color                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'heading_text_color' ) ) ? buddyboss_theme_get_option( 'heading_text_color' ) : $color_presets['heading_text_color'];
+		$body_text_color                                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_text_color' ) ) ? buddyboss_theme_get_option( 'body_text_color' ) : $color_presets['body_text_color'];
+		$alternate_text_color                           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'alternate_text_color' ) ) ? buddyboss_theme_get_option( 'alternate_text_color' ) : $color_presets['alternate_text_color'];
+		$primary_button_background_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_background' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_background' )['regular'] : $color_presets['primary_button_background']['regular'];
+		$primary_button_border_regular                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_border' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_border' )['regular'] : $color_presets['primary_button_border']['regular'];
+		$primary_button_border_hover                    = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_border' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_border' )['hover'] : $color_presets['primary_button_border']['hover'];
+		$primary_button_text_color_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_text_color' )['regular'] : $color_presets['primary_button_text_color']['regular'];
+		$primary_button_background_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_background' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_background' )['hover'] : $color_presets['primary_button_background']['hover'];
+		$primary_button_text_color_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_text_color' )['hover'] : $color_presets['primary_button_text_color']['hover'];
+		$secondary_button_background_regular            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_background' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_background' )['regular'] : $color_presets['secondary_button_background']['regular'];
+		$secondary_button_background_hover              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_background' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_background' )['hover'] : $color_presets['secondary_button_background']['hover'];
+		$secondary_button_border_regular                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_border' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_border' )['regular'] : $color_presets['secondary_button_border']['regular'];
+		$secondary_button_border_hover                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_border' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_border' )['hover'] : $color_presets['secondary_button_border']['hover'];
+		$secondary_button_text_color_regular            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'] : $color_presets['secondary_button_text_color']['regular'];
+		$secondary_button_text_color_hover              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'] : $color_presets['secondary_button_text_color']['hover'];
+		$header_background                              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'header_background' ) ) ? buddyboss_theme_get_option( 'header_background' ) : $color_presets['header_background'];
+		$header_alternate_background                    = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'header_alternate_background' ) ) ? buddyboss_theme_get_option( 'header_alternate_background' ) : $color_presets['header_alternate_background'];
+		$header_links                                   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'header_links' ) ) ? buddyboss_theme_get_option( 'header_links' ) : $color_presets['header_links'];
+		$header_links_hover                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'header_links_hover' ) ) ? buddyboss_theme_get_option( 'header_links_hover' ) : $color_presets['header_links_hover'];
+		$sidenav_background                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_background' ) ) ? buddyboss_theme_get_option( 'sidenav_background' ) : $color_presets['sidenav_background'];
+		$sidenav_text_color_regular                     = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'sidenav_text_color' )['regular'] : $color_presets['sidenav_text_color']['regular'];
+		$sidenav_text_color_hover                       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'sidenav_text_color' )['hover'] : $color_presets['sidenav_text_color']['hover'];
+		$sidenav_text_color_active                      = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_text_color' )['active'] ) ? buddyboss_theme_get_option( 'sidenav_text_color' )['active'] : $color_presets['sidenav_text_color']['active'];
+		$sidenav_menu_background_color_regular          = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_menu_background_color' )['regular'] ) ? buddyboss_theme_get_option( 'sidenav_menu_background_color' )['regular'] : $color_presets['sidenav_menu_background_color']['regular'];
+		$sidenav_menu_background_color_hover            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_menu_background_color' )['hover'] ) ? buddyboss_theme_get_option( 'sidenav_menu_background_color' )['hover'] : $color_presets['sidenav_menu_background_color']['hover'];
+		$sidenav_menu_background_color_active           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_menu_background_color' )['active'] ) ? buddyboss_theme_get_option( 'sidenav_menu_background_color' )['active'] : $color_presets['sidenav_menu_background_color']['active'];
+		$sidenav_count_text_color_regular               = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'sidenav_count_text_color' )['regular'] : $color_presets['sidenav_count_text_color']['regular'];
+		$sidenav_count_text_color_hover                 = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'sidenav_count_text_color' )['hover'] : $color_presets['sidenav_count_text_color']['hover'];
+		$sidenav_count_text_color_active                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_text_color' )['active'] ) ? buddyboss_theme_get_option( 'sidenav_count_text_color' )['active'] : $color_presets['sidenav_count_text_color']['active'];
+		$sidenav_count_background_color_regular         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_background_color' )['regular'] ) ? buddyboss_theme_get_option( 'sidenav_count_background_color' )['regular'] : $color_presets['sidenav_count_background_color']['regular'];
+		$sidenav_count_background_color_hover           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_background_color' )['hover'] ) ? buddyboss_theme_get_option( 'sidenav_count_background_color' )['hover'] : $color_presets['sidenav_count_background_color']['hover'];
+		$sidenav_count_background_color_active          = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'sidenav_count_background_color' )['active'] ) ? buddyboss_theme_get_option( 'sidenav_count_background_color' )['active'] : $color_presets['sidenav_count_background_color']['active'];
+		$footer_background                              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_background' ) ) ? buddyboss_theme_get_option( 'footer_background' ) : $color_presets['footer_background'];
+		$footer_widget_background                       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_widget_background' ) ) ? buddyboss_theme_get_option( 'footer_widget_background' ) : $color_presets['footer_widget_background'];
+		$footer_text_color                              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_text_color' ) ) ? buddyboss_theme_get_option( 'footer_text_color' ) : $color_presets['footer_text_color'];
+		$footer_menu_link_color_regular                 = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_menu_link_color' )['regular'] ) ? buddyboss_theme_get_option( 'footer_menu_link_color' )['regular'] : $color_presets['footer_menu_link_color']['regular'];
+		$footer_menu_link_color_hover                   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_menu_link_color' )['hover'] ) ? buddyboss_theme_get_option( 'footer_menu_link_color' )['hover'] : $color_presets['footer_menu_link_color']['hover'];
+		$footer_menu_link_color_active                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'footer_menu_link_color' )['active'] ) ? buddyboss_theme_get_option( 'footer_menu_link_color' )['active'] : $color_presets['footer_menu_link_color']['active'];
+		$admin_screen_bgr_color                         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'admin_screen_bgr_color' ) ) ? buddyboss_theme_get_option( 'admin_screen_bgr_color' ) : $color_presets['admin_screen_bgr_color'];
+		$admin_screen_txt_color                         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'admin_screen_txt_color' ) ) ? buddyboss_theme_get_option( 'admin_screen_txt_color' ) : $color_presets['admin_screen_txt_color'];
+		$login_register_link_color_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_link_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_link_color' )['regular'] : $color_presets['login_register_link_color']['regular'];
+		$login_register_link_color_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_link_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_link_color' )['hover'] : $color_presets['login_register_link_color']['hover'];
+		$login_register_button_background_color_regular = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'] : $color_presets['login_register_button_background_color']['regular'];
+		$login_register_button_background_color_hover   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'] : $color_presets['login_register_button_background_color']['hover'];
+		$login_register_button_border_color_regular     = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'] : $color_presets['login_register_button_border_color']['regular'];
+		$login_register_button_border_color_hover       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'] : $color_presets['login_register_button_border_color']['hover'];
+		$login_register_button_text_color_regular       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'] : $color_presets['login_register_button_text_color']['regular'];
+		$login_register_button_text_color_hover         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'] : $color_presets['login_register_button_text_color']['hover'];
+		$label_background_color                         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'label_background_color' ) ) ? buddyboss_theme_get_option( 'label_background_color' ) : $color_presets['label_background_color'];
+		$label_text_color                               = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'label_text_color' ) ) ? buddyboss_theme_get_option( 'label_text_color' ) : $color_presets['label_text_color'];
+		$tooltip_background                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'tooltip_background' ) ) ? buddyboss_theme_get_option( 'tooltip_background' ) : $color_presets['tooltip_background'];
+		$tooltip_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'tooltip_color' ) ) ? buddyboss_theme_get_option( 'tooltip_color' ) : $color_presets['tooltip_color'];
+		$default_notice_color                           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'default_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'default_notice_bg_color' ) : $color_presets['default_notice_bg_color'];
+		$success_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'success_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'success_notice_bg_color' ) : $color_presets['success_notice_bg_color'];
+		$warning_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'warning_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'warning_notice_bg_color' ) : $color_presets['warning_notice_bg_color'];
+		$danger_color                                   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'error_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'error_notice_bg_color' ) : $color_presets['error_notice_bg_color'];
+		$admin_login_heading_color                      = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'admin_login_heading_color' ) ) ? buddyboss_theme_get_option( 'admin_login_heading_color' ) : $color_presets['admin_login_heading_color'];
 		$header_height                                  = buddyboss_theme_get_option( 'header_height' );
 		$header_shadow                                  = buddyboss_theme_get_option( 'header_shadow' );
 		$header_sticky                                  = buddyboss_theme_get_option( 'header_sticky' );
@@ -90,6 +93,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 		$button_radius                                  = buddyboss_theme_get_option( 'button_default_radius' );
 		$mobile_logo_size                               = buddyboss_theme_get_option( 'mobile_logo_size' );
 		$theme_style                                    = buddyboss_theme_get_option( 'theme_template' );
+		$custom_typography                              = buddyboss_theme_get_option( 'custom_typography' );
 
 		?>
 		<style id="buddyboss_theme-style">
@@ -198,7 +202,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 				}
 				?>
 
-				<?php if ( '1' === $theme_style ) { ?>
+				<?php if ( $theme_style === '1' ) { ?>
 					--bb-block-radius: 4px;
 					--bb-option-radius: 3px;
 					--bb-block-radius-inner: 4px;
@@ -218,9 +222,9 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 					--bb-input-radius: 6px;
 					--bb-label-type-radius: 6px;
 					--bb-checkbox-radius: 5.4px;
-					--bb-primary-button-focus-shadow: 0px 0px 0px 2px rgba(var(--bb-primary-button-border-hover-rgb), 0.1);
-					--bb-secondary-button-focus-shadow: 0px 0px 0px 2px rgba(var(--bb-secondary-button-border-hover-rgb), 0.1);
-					--bb-outline-button-focus-shadow: 0px 0px 0px 2px rgba(var(--bb-content-border-color-rgb), 0.1);
+					--bb-primary-button-focus-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px 0px 0px 2px rgba(0, 0, 0, 0.08);
+					--bb-secondary-button-focus-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px 0px 0px 2px rgba(0, 0, 0, 0.08);
+					--bb-outline-button-focus-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.05), inset 0px 0px 0px 2px rgba(0, 0, 0, 0.08);
 					--bb-input-focus-shadow: 0px 0px 0px 2px rgba(var(--bb-primary-color-rgb), 0.1);
 					--bb-input-focus-border-color: var(--bb-primary-color);
 					--bb-widget-title-text-transform: none;
@@ -229,6 +233,28 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 			}
 
 			<?php // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+			<?php
+			// Custom Typography heading tags line height.
+			if ( $custom_typography ) {
+				$headings = array(
+					'h1' => buddyboss_theme_get_option( 'boss_h1_font_options' )['font-size'],
+					'h2' => buddyboss_theme_get_option( 'boss_h2_font_options' )['font-size'],
+					'h3' => buddyboss_theme_get_option( 'boss_h3_font_options' )['font-size'],
+					'h4' => buddyboss_theme_get_option( 'boss_h4_font_options' )['font-size'],
+					'h5' => buddyboss_theme_get_option( 'boss_h5_font_options' )['font-size'],
+					'h6' => buddyboss_theme_get_option( 'boss_h6_font_options' )['font-size'],
+				);
+
+				foreach ( $headings as $heading_tag => $font_size ) {
+					if ( $font_size ) {
+						$size_int    = (int) preg_replace( '/[^0-9]/', '', $font_size );
+						$line_height = $size_int > 22 ? 1.2 : 1.4;
+						echo esc_attr( $heading_tag ) . ' { line-height: ' . esc_attr( $line_height ) . '; }';
+					}
+				}
+			}
+			?>
 
 			.bb-style-primary-bgr-color {
 				background-color: <?php echo $primary_color; ?>;
@@ -412,7 +438,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 					height: calc(90vh - <?php echo $header_height; ?>px);
 				}
 			}
-			
+
 			/* Tooltips */
 
 			[data-balloon]:after,
@@ -446,7 +472,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 				background-size: 100% auto;
 			}
 
-        <?php
+		<?php
 
 		$css = ob_get_contents();
 		// Remove comments
@@ -472,7 +498,6 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_custom_css', $custom_css );
-
 	}
 
 	/* Add Action */
@@ -529,7 +554,8 @@ if ( ! function_exists( 'boss_generate_option_bp_css' ) ) {
 				}
 				<?php
 			}
-			?>				
+			?>
+							
 
 			<?php
 			if ( $admin_login_background_switch ) {
@@ -587,7 +613,6 @@ if ( ! function_exists( 'boss_generate_option_bp_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_bp_custom_css', $custom_css );
-
 	}
 
 	/* Add Action */
@@ -656,7 +681,6 @@ if ( ! function_exists( 'boss_generate_option_forums_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_forums_custom_css', $custom_css );
-
 	}
 
 	/* Add Action */
@@ -686,6 +710,7 @@ if ( ! function_exists( 'boss_generate_option_learndash_css' ) ) {
 
 		}
 
+		$button_radius = buddyboss_theme_get_option( 'button_default_radius' );
 		$header_height = buddyboss_theme_get_option( 'header_height' );
 		$is_admin_bar  = is_admin_bar_showing() ? 32 : 0;
 		?>
@@ -733,7 +758,6 @@ if ( ! function_exists( 'boss_generate_option_learndash_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_learndash_custom_css', $custom_css );
-
 	}
 
 	/* Add Action */
@@ -792,7 +816,6 @@ if ( ! function_exists( 'boss_generate_option_custom_css' ) ) {
 
 		</style>
 		<?php
-
 	}
 
 	/* Add Action */
@@ -859,7 +882,6 @@ if ( ! function_exists( 'boss_generate_option_lifterLMS_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_lifterLMS_custom_css', $custom_css );
-
 	}
 
 	/* Add Action */

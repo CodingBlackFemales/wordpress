@@ -14,7 +14,7 @@ $elem       = ( is_front_page() && is_home() ) ? 'h1' : 'div';
 $logo_class = $buddypanel ? $buddypanel_logo ? 'buddypanel_logo_display_on' : 'buddypanel_logo_display_off' : '';
 
 // Show Logo in header if buddypanel does not have menu to show
-if ( 'buddypanel_logo_display_on' === $logo_class ) {
+if ( $logo_class === 'buddypanel_logo_display_on' ) {
 
 	$menu = is_user_logged_in() ? 'buddypanel-loggedin' : 'buddypanel-loggedout';
 
@@ -28,8 +28,11 @@ if ( 'buddypanel_logo_display_on' === $logo_class ) {
 
 <div id="site-logo" class="site-branding <?php echo esc_attr( $logo_class ); ?>">
 	<<?php echo $elem; ?> class="site-title">
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-			<?php echo $logo; echo $logo_dark;?>
+		<a href="<?php echo esc_url( bb_get_theme_header_logo_link() ); ?>" rel="home">
+			<?php
+			echo $logo;
+			echo $logo_dark;
+			?>
 		</a>
 	</<?php echo $elem; ?>>
 </div>

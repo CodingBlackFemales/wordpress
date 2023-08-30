@@ -33,7 +33,7 @@ function buddyboss_login_enqueue_scripts() {
 
 	wp_enqueue_style( 'buddyboss-theme-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css', '', buddyboss_theme()->version() );
 
-	if ( '0' === $enable_private_network ) {
+	if ( $enable_private_network === '0' ) {
 		wp_enqueue_style( 'buddyboss-theme-login-magnific-popup', get_template_directory_uri() . '/assets/css/vendors/magnific-popup.min.css', '', buddyboss_theme()->version() );
 	}
 	// wp_enqueue_script( 'buddyboss-theme-login-js', get_template_directory_uri() . '/assets/js/login.js', array( 'jquery' ), buddyboss_theme()->version(), true );
@@ -92,7 +92,7 @@ function buddyboss_redirect_previous_page( $redirect_to, $request, $user ) {
 		if ( isset( $path['query'] ) && ! empty( $path['query'] ) ) {
 			parse_str( $path['query'], $output );
 
-			$redirect_to = ( isset( $output ) && isset( $output['redirect_to'] ) && '' !== $output['redirect_to'] ) ? $output['redirect_to'] : $redirect_to;
+			$redirect_to = ( isset( $output ) && isset( $output['redirect_to'] ) && $output['redirect_to'] !== '' ) ? $output['redirect_to'] : $redirect_to;
 			return $redirect_to;
 		}
 	}
@@ -106,7 +106,7 @@ function buddyboss_redirect_previous_page( $redirect_to, $request, $user ) {
 
 		if ( isset( $url_query_string['query'] ) && ! empty( $url_query_string['query'] ) ) {
 			parse_str( $url_query_string['query'], $url_arr );
-			$redirect_to = ( isset( $url_arr ) && isset( $url_arr['redirect_to'] ) && '' !== $url_arr['redirect_to'] ) ? $url_arr['redirect_to'] : $redirect_to;
+			$redirect_to = ( isset( $url_arr ) && isset( $url_arr['redirect_to'] ) && $url_arr['redirect_to'] !== '' ) ? $url_arr['redirect_to'] : $redirect_to;
 
 			return $redirect_to;
 		} else {
@@ -189,17 +189,17 @@ function buddyboss_login_scripts() {
 			jQuery( '#resetpassform #pass1' ).attr( 'placeholder', jQuery( '<div/>' ).html( resetpassform_pass1 ).text() );
 			jQuery( '#resetpassform #bs-pass2' ).attr( 'placeholder', jQuery( '<div/>' ).html( resetpassform_pass2 ).text() );
 
-            jQuery( '.login.bb-login p.message.reset-pass' ).text( "<?php esc_html_e( 'Reset Password', 'buddyboss-theme' ); ?>" );
-            jQuery( '.login.login-action-lostpassword.bb-login #login > p.message' ).html( '<?php echo sprintf( '<div>%1$s</div><p class="message">%2$s</p>', esc_html__( 'Forgot your password?', 'buddyboss-theme' ), esc_html__( 'Please enter your email address. You will receive an email with instructions on how to reset your password.', 'buddyboss-theme' ) ); ?>' );
+			jQuery( '.login.bb-login p.message.reset-pass' ).text( "<?php esc_html_e( 'Reset Password', 'buddyboss-theme' ); ?>" );
+			jQuery( '.login.login-action-lostpassword.bb-login #login > p.message' ).html( '<?php echo sprintf( '<div>%1$s</div><p class="message">%2$s</p>', esc_html__( 'Forgot your password?', 'buddyboss-theme' ), esc_html__( 'Please enter your email address. You will receive an email with instructions on how to reset your password.', 'buddyboss-theme' ) ); ?>' );
 
-            jQuery( '.login.login-action-lostpassword.bb-login #lostpasswordform input#wp-submit' ).attr( 'value', '<?php esc_html_e( 'Request reset link', 'buddyboss-theme' ); ?>' );
-            jQuery( '.login.login-action-rp.bb-login #resetpassform input#wp-submit' ).attr( 'value', '<?php esc_html_e( 'Save', 'buddyboss-theme' ); ?>' );
-            if(!jQuery('#resetpassform').length) {
-                jQuery( '.login.login-action-resetpass.bb-login p#backtoblog' ).prepend( "<span class='bs-pass-update-msg'><?php esc_html_e( 'Password has been updated', 'buddyboss-theme' ); ?></span>" );
-            }
+			jQuery( '.login.login-action-lostpassword.bb-login #lostpasswordform input#wp-submit' ).attr( 'value', '<?php esc_html_e( 'Request reset link', 'buddyboss-theme' ); ?>' );
+			jQuery( '.login.login-action-rp.bb-login #resetpassform input#wp-submit' ).attr( 'value', '<?php esc_html_e( 'Save', 'buddyboss-theme' ); ?>' );
+			if(!jQuery('#resetpassform').length) {
+				jQuery( '.login.login-action-resetpass.bb-login p#backtoblog' ).prepend( "<span class='bs-pass-update-msg'><?php esc_html_e( 'Password has been updated', 'buddyboss-theme' ); ?></span>" );
+			}
 
-            var $signIn = jQuery( '.login.login-action-lostpassword.bb-login #login > p#nav > a' ).first().addClass( 'bs-sign-in' ).text( `<?php _e( 'Back to sign in', 'buddyboss-theme' ); ?>` );
-            jQuery( 'form#lostpasswordform' ).append( $signIn );
+			var $signIn = jQuery( '.login.login-action-lostpassword.bb-login #login > p#nav > a' ).first().addClass( 'bs-sign-in' ).text( `<?php _e( 'Back to sign in', 'buddyboss-theme' ); ?>` );
+			jQuery( 'form#lostpasswordform' ).append( $signIn );
 
 			jQuery( '.login #loginform label#pass_label' ).append( "<span class='label-switch'></span>" );
 
@@ -260,7 +260,7 @@ function buddyboss_login_scripts() {
 					<?php
 					if ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
 						$enable_private_network = bp_get_option( 'bp-enable-private-network' );
-						if ( '0' === $enable_private_network ) {
+						if ( $enable_private_network === '0' ) {
 							?>
 							$this.append( '<img class="bs-cs-login-logo private-on" src="' + bgLogo + '" />' );
 							jQuery('#login h1 a img').unwrap();
@@ -285,7 +285,7 @@ function buddyboss_login_scripts() {
 					<?php
 					if ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
 						$enable_private_network = bp_get_option( 'bp-enable-private-network' );
-						if ( '0' === $enable_private_network ) {
+						if ( $enable_private_network === '0' ) {
 							?>
 							$this.addClass('bb-login-title').append( '<span class="bs-cs-login-title private-on"><?php echo $rx_title; ?></span>' );
 							jQuery('#login h1 a span').unwrap();
@@ -356,7 +356,7 @@ function change_wp_login_url() {
 	if ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
 		$enable_private_network = bp_get_option( 'bp-enable-private-network' );
 
-		if ( '0' === $enable_private_network ) {
+		if ( $enable_private_network === '0' ) {
 			return '#';
 		}
 	}
@@ -448,6 +448,9 @@ if ( ! function_exists( 'custom_login_classes' ) ) {
 if ( ! function_exists( 'login_custom_head' ) ) {
 
 	function login_custom_head() {
+		global $color_schemes;
+
+		$color_presets                      = $color_schemes['default']['presets'];
 		$rx_admin_login_background_switch   = buddyboss_theme_get_option( 'admin_login_background_switch' );
 		$rx_admin_login_background_text     = buddyboss_theme_get_option( 'admin_login_background_text' );
 		$rx_admin_login_background_textarea = buddyboss_theme_get_option( 'admin_login_background_textarea' );
@@ -472,50 +475,50 @@ if ( ! function_exists( 'login_custom_head' ) ) {
 		$rx_logoimg                                     = buddyboss_theme_get_option( 'admin_logo_media' );
 		$rx_logowidth                                   = buddyboss_theme_get_option( 'admin_logo_width' );
 		$rx_login_background_media                      = buddyboss_theme_get_option( 'admin_login_background_media' );
-		$rx_success_color                               = buddyboss_theme_get_option( 'success_notice_bg_color' );
-		$rx_warning_color                               = buddyboss_theme_get_option( 'warning_notice_bg_color' );
+		$rx_success_color                               = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'success_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'success_notice_bg_color' ) : $color_presets['success_notice_bg_color'];
+		$rx_warning_color                               = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'warning_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'warning_notice_bg_color' ) : $color_presets['warning_notice_bg_color'];
 		$buddyboss_custom_font                          = buddyboss_theme_get_option( 'custom_typography' );
 		$buddyboss_body_font                            = buddyboss_theme_get_option( 'boss_body_font_family' );
 		$buddyboss_h1_font                              = buddyboss_theme_get_option( 'boss_h1_font_options' );
 		$buddyboss_h2_font                              = buddyboss_theme_get_option( 'boss_h2_font_options' );
-		$primary_color                                  = buddyboss_theme_get_option( 'accent_color' );
-		$body_background                                = buddyboss_theme_get_option( 'body_background' );
-		$body_blocks                                    = buddyboss_theme_get_option( 'body_blocks' );
-		$light_background_blocks                        = buddyboss_theme_get_option( 'light_background_blocks' );
-		$body_blocks_border                             = buddyboss_theme_get_option( 'body_blocks_border' );
-		$buddyboss_theme_group_cover_bg                 = buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' );
-		$heading_text_color                             = buddyboss_theme_get_option( 'heading_text_color' );
-		$body_text_color                                = buddyboss_theme_get_option( 'body_text_color' );
-		$alternate_text_color                           = buddyboss_theme_get_option( 'alternate_text_color' );
-		$admin_screen_bgr_color                         = buddyboss_theme_get_option( 'admin_screen_bgr_color' );
-		$admin_screen_txt_color                         = buddyboss_theme_get_option( 'admin_screen_txt_color' );
+		$primary_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'accent_color' ) ) ? buddyboss_theme_get_option( 'accent_color' ) : $color_presets['accent_color'];
+		$body_background                                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_background' ) ) ? buddyboss_theme_get_option( 'body_background' ) : $color_presets['body_background'];
+		$body_blocks                                    = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks' ) ) ? buddyboss_theme_get_option( 'body_blocks' ) : $color_presets['body_blocks'];
+		$light_background_blocks                        = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'light_background_blocks' ) ) ? buddyboss_theme_get_option( 'light_background_blocks' ) : $color_presets['light_background_blocks'];
+		$body_blocks_border                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks_border' ) ) ? buddyboss_theme_get_option( 'body_blocks_border' ) : $color_presets['body_blocks_border'];
+		$buddyboss_theme_group_cover_bg                 = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' ) ) ? buddyboss_theme_get_option( 'buddyboss_theme_group_cover_bg' ) : $color_presets['buddyboss_theme_group_cover_bg'];
+		$heading_text_color                             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'heading_text_color' ) ) ? buddyboss_theme_get_option( 'heading_text_color' ) : $color_presets['heading_text_color'];
+		$body_text_color                                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_text_color' ) ) ? buddyboss_theme_get_option( 'body_text_color' ) : $color_presets['body_text_color'];
+		$alternate_text_color                           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'alternate_text_color' ) ) ? buddyboss_theme_get_option( 'alternate_text_color' ) : $color_presets['alternate_text_color'];
+		$admin_screen_bgr_color                         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'admin_screen_bgr_color' ) ) ? buddyboss_theme_get_option( 'admin_screen_bgr_color' ) : $color_presets['admin_screen_bgr_color'];
+		$admin_screen_txt_color                         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'admin_screen_txt_color' ) ) ? buddyboss_theme_get_option( 'admin_screen_txt_color' ) : $color_presets['admin_screen_txt_color'];
 
-		$primary_button_background_regular              = buddyboss_theme_get_option( 'primary_button_background' )['regular'];
-		$primary_button_background_hover                = buddyboss_theme_get_option( 'primary_button_background' )['hover'];
-		$primary_button_border_regular                  = buddyboss_theme_get_option( 'primary_button_border' )['regular'];
-		$primary_button_border_hover                    = buddyboss_theme_get_option( 'primary_button_border' )['hover'];
-		$primary_button_text_color_regular              = buddyboss_theme_get_option( 'primary_button_text_color' )['regular'];
-		$primary_button_text_color_hover                = buddyboss_theme_get_option( 'primary_button_text_color' )['hover'];
-		$secondary_button_background_regular            = buddyboss_theme_get_option( 'secondary_button_background' )['regular'];
-		$secondary_button_background_hover              = buddyboss_theme_get_option( 'secondary_button_background' )['hover'];
-		$secondary_button_border_regular                = buddyboss_theme_get_option( 'secondary_button_border' )['regular'];
-		$secondary_button_border_hover                  = buddyboss_theme_get_option( 'secondary_button_border' )['hover'];
-		$secondary_button_text_color_regular            = buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'];
-		$secondary_button_text_color_hover              = buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'];
+		$primary_button_background_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_background' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_background' )['regular'] : $color_presets['primary_button_background']['regular'];
+		$primary_button_background_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_background' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_background' )['hover'] : $color_presets['primary_button_background']['hover'];
+		$primary_button_border_regular                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_border' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_border' )['regular'] : $color_presets['primary_button_border']['regular'];
+		$primary_button_border_hover                    = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_border' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_border' )['hover'] : $color_presets['primary_button_border']['hover'];
+		$primary_button_text_color_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'primary_button_text_color' )['regular'] : $color_presets['primary_button_text_color']['regular'];
+		$primary_button_text_color_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'primary_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'primary_button_text_color' )['hover'] : $color_presets['primary_button_text_color']['hover'];
+		$secondary_button_background_regular            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_background' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_background' )['regular'] : $color_presets['secondary_button_background']['regular'];
+		$secondary_button_background_hover              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_background' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_background' )['hover'] : $color_presets['secondary_button_background']['hover'];
+		$secondary_button_border_regular                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_border' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_border' )['regular'] : $color_presets['secondary_button_border']['regular'];
+		$secondary_button_border_hover                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_border' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_border' )['hover'] : $color_presets['secondary_button_border']['hover'];
+		$secondary_button_text_color_regular            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'secondary_button_text_color' )['regular'] : $color_presets['secondary_button_text_color']['regular'];
+		$secondary_button_text_color_hover              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'secondary_button_text_color' )['hover'] : $color_presets['secondary_button_text_color']['hover'];
 
-		$login_register_link_color_regular              = buddyboss_theme_get_option( 'login_register_link_color' )['regular'];
-		$login_register_link_color_hover                = buddyboss_theme_get_option( 'login_register_link_color' )['hover'];
-		$login_register_button_background_color_regular = buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'];
-		$login_register_button_background_color_hover   = buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'];
-		$login_register_button_border_color_regular     = buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'];
-		$login_register_button_border_color_hover       = buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'];
-		$login_register_button_text_color_regular       = buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'];
-		$login_register_button_text_color_hover         = buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'];
+		$login_register_link_color_regular              = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_link_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_link_color' )['regular'] : $color_presets['login_register_link_color']['regular'];
+		$login_register_link_color_hover                = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_link_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_link_color' )['hover'] : $color_presets['login_register_link_color']['hover'];
+		$login_register_button_background_color_regular = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_background_color' )['regular'] : $color_presets['login_register_button_background_color']['regular'];
+		$login_register_button_background_color_hover   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_background_color' )['hover'] : $color_presets['login_register_button_background_color']['hover'];
+		$login_register_button_border_color_regular     = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_border_color' )['regular'] : $color_presets['login_register_button_border_color']['regular'];
+		$login_register_button_border_color_hover       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_border_color' )['hover'] : $color_presets['login_register_button_border_color']['hover'];
+		$login_register_button_text_color_regular       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'] ) ? buddyboss_theme_get_option( 'login_register_button_text_color' )['regular'] : $color_presets['login_register_button_text_color']['regular'];
+		$login_register_button_text_color_hover         = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'] ) ? buddyboss_theme_get_option( 'login_register_button_text_color' )['hover'] : $color_presets['login_register_button_text_color']['hover'];
 
-		$default_notice_color                           = buddyboss_theme_get_option( 'default_notice_bg_color' );
-		$success_color                                  = buddyboss_theme_get_option( 'success_notice_bg_color' );
-		$warning_color                                  = buddyboss_theme_get_option( 'warning_notice_bg_color' );
-		$danger_color                                   = buddyboss_theme_get_option( 'error_notice_bg_color' );
+		$default_notice_color                           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'default_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'default_notice_bg_color' ) : $color_presets['default_notice_bg_color'];
+		$success_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'success_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'success_notice_bg_color' ) : $color_presets['success_notice_bg_color'];
+		$warning_color                                  = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'warning_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'warning_notice_bg_color' ) : $color_presets['warning_notice_bg_color'];
+		$danger_color                                   = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'error_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'error_notice_bg_color' ) : $color_presets['error_notice_bg_color'];
 
 		$button_radius                                  = buddyboss_theme_get_option( 'button_default_radius' );
 		$theme_style                                    = buddyboss_theme_get_option( 'theme_template' );
@@ -583,7 +586,7 @@ if ( ! function_exists( 'login_custom_head' ) ) {
 			}
 			?>
 
-			<?php if ( '1' === $theme_style ) { ?>
+			<?php if ( $theme_style === '1' ) { ?>
 				--bb-block-radius: 4px;
 				--bb-block-radius-inner: 4px;
 				--bb-input-radius: 4px;
@@ -606,7 +609,7 @@ if ( ! function_exists( 'login_custom_head' ) ) {
 			<?php } ?>
 		}
 		<?php
-		if ( '1' == $buddyboss_custom_font ) {
+		if ( $buddyboss_custom_font == '1' ) {
 			if ( ! empty( $buddyboss_body_font['font-family'] ) ) {
 				?>
 				body, body.rtl {
@@ -711,7 +714,7 @@ if ( ! function_exists( 'login_custom_form' ) ) {
 
 		if ( $rx_custom_login ) {
 			?>
-			<p class="lostmenot"><a href="<?php echo wp_lostpassword_url(); ?>"><?php esc_html_e('Forgot Password?', 'buddyboss-theme'); ?></a></p>
+			<p class="lostmenot"><a href="<?php echo wp_lostpassword_url(); ?>"><?php esc_html_e( 'Forgot Password?', 'buddyboss-theme' ); ?></a></p>
 			<?php
 		}
 	}
@@ -728,27 +731,39 @@ function buddyboss_theme_login_load() {
 		/**
 		 * Confirm New Login Password
 		 */
-		add_action( 'resetpass_form', function( $user )
-		{ ?> <div class="user-bs-pass2-wrap">
-            <p><label for="bs-pass2"><?php esc_html_e( 'Retype new password', 'buddyboss-theme' ) ?></label></p>
-            <input type="password" name="bs-pass2" id="bs-pass2" class="input"
-                   size="20" value="" autocomplete="off" />
-        </div> <?php
-		} );
+		add_action(
+			'resetpass_form',
+			function ( $user ) {
 
-		add_action( 'validate_password_reset', function( $errors )
-		{
-			if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['bs-pass2'] )
-				$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.', 'buddyboss-theme' ) );
-		} );
-
-		add_action( 'login_enqueue_scripts', function ()
-		{
-			if ( ! wp_script_is( 'jquery', 'done' ) ) {
-				wp_enqueue_script( 'jquery' );
+				?>
+		 <div class="user-bs-pass2-wrap">
+			<p><label for="bs-pass2"><?php esc_html_e( 'Retype new password', 'buddyboss-theme' ); ?></label></p>
+			<input type="password" name="bs-pass2" id="bs-pass2" class="input"
+				   size="20" value="" autocomplete="off" />
+		</div> 
+				<?php
 			}
-			wp_add_inline_script( 'jquery-migrate', 'jQuery(document).ready(function(){ jQuery( "#pass1" ).data( "reveal", 0 ); });' );
-		}, 1 );
+		);
+
+		add_action(
+			'validate_password_reset',
+			function ( $errors ) {
+				if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['bs-pass2'] ) {
+					$errors->add( 'password_reset_mismatch', __( 'The passwords do not match.', 'buddyboss-theme' ) );
+				}
+			}
+		);
+
+		add_action(
+			'login_enqueue_scripts',
+			function () {
+				if ( ! wp_script_is( 'jquery', 'done' ) ) {
+					wp_enqueue_script( 'jquery' );
+				}
+				wp_add_inline_script( 'jquery-migrate', 'jQuery(document).ready(function(){ jQuery( "#pass1" ).data( "reveal", 0 ); });' );
+			},
+			1
+		);
 	}
 }
 add_action( 'init', 'buddyboss_theme_login_load' );
