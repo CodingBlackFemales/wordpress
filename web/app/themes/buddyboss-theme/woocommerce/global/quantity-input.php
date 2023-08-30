@@ -11,8 +11,11 @@
  * the readme will list any important changes.
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 7.2.1
+ * @package WooCommerce\Templates
+ * @version 7.8.0
+ *
+ * @var bool   $readonly If the input should be set to readonly mode.
+ * @var string $type     The input type attribute.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +37,7 @@ if ( $max_value && $min_value === $max_value ) {
 	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $label ); ?></label>
 	<div class="bs-quantity">
 		<div class="qty-nav">
-			<div class="quantity-button quantity-down <?php echo ( $input_value === $min_value ? esc_attr( 'limit' ) : '' ) ?>">-</div>
+			<div class="quantity-button quantity-down <?php echo ( $input_value === $min_value ? esc_attr( 'limit' ) : '' ); ?>">-</div>
 		</div>
 		<input
 			type="<?php echo $is_readonly ? 'text' : 'number'; ?>"
@@ -47,14 +50,15 @@ if ( $max_value && $min_value === $max_value ) {
 			size="4"
 			min="<?php echo esc_attr( $min_value ); ?>"
 			max="<?php echo esc_attr( 0 < $max_value ? $max_value : '' ); ?>"
-			<?php if ( ! $is_readonly ): ?>
+			<?php if ( ! $is_readonly ) : ?>
 				step="<?php echo esc_attr( $step ); ?>"
+				placeholder="<?php echo esc_attr( $placeholder ); ?>"
 				inputmode="<?php echo esc_attr( $inputmode ); ?>"
 				autocomplete="<?php echo esc_attr( isset( $autocomplete ) ? $autocomplete : 'on' ); ?>"
 			<?php endif; ?>
 		/>
 		<div class="qty-nav">
-			<div class="quantity-button quantity-up <?php echo ( 0 < $max_value && $input_value === $max_value ? esc_attr( 'limit' ) : '' ) ?>">+</div>
+			<div class="quantity-button quantity-up <?php echo ( 0 < $max_value && $input_value === $max_value ? esc_attr( 'limit' ) : '' ); ?>">+</div>
 		</div>
 	</div>
 	<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>

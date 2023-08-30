@@ -2,8 +2,8 @@
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Cookie;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
 
 /**
  * Stores HTTP cookies.

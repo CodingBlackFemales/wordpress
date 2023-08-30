@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Added logic to only load the modal template once.
  */
 global $login_model_load_once;
-if ( true === (bool) $login_model_load_once ) {
+if ( (bool) $login_model_load_once === true ) {
 	return false;
 }
 $login_model_load_once = true;
@@ -28,12 +28,7 @@ if ( is_multisite() ) {
 
 ?>
 
-<div class="ld-modal ld-login-modal
-<?php
-if ( $can_register ) {
-	echo esc_attr( 'ld-can-register' );}
-?>
-">
+<div class="ld-modal ld-login-modal<?php echo esc_attr( $can_register ? ' ld-can-register' : '' ); ?>">
 
 	<span class="ld-modal-closer ld-icon ld-icon-delete"></span>
 
@@ -87,7 +82,7 @@ if ( $can_register ) {
 			 */
 			do_action( 'learndash-login-modal-text-after' );
 
-			if ( isset( $_GET['login'] ) && 'failed' === $_GET['login'] ) :
+			if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) :
 
 				learndash_get_template_part(
 					'modules/alert.php',
@@ -99,14 +94,14 @@ if ( $can_register ) {
 					true
 				);
 
-					/**
-					 * Action to add custom content after the modal alert
-					 *
-					 * @since 3.0
-					 */
-					do_action( 'learndash-login-modal-alert-after' );
+				/**
+				 * Fires after the modal alert.
+				 *
+				 * @since 3.0.0
+				 */
+				do_action( 'learndash-login-modal-alert-after' );
 
-			elseif ( isset( $_GET['ld-resetpw'] ) && 'true' === $_GET['ld-resetpw'] ) :
+			elseif ( isset( $_GET['ld-resetpw'] ) && $_GET['ld-resetpw'] === 'true' ) :
 
 				learndash_get_template_part(
 					'modules/alert.php',
@@ -127,9 +122,9 @@ if ( $can_register ) {
 
 				<?php
 				/**
-				 * Action to add custom content before the modal form
+				 * Fires before the modal form.
 				 *
-				 * @since 3.0
+				 * @since 3.0.0
 				 */
 				do_action( 'learndash-login-modal-form-before' );
 
@@ -169,8 +164,10 @@ if ( $can_register ) {
 				$lost_password_url = add_query_arg( 'ld-resetpw', 'true', $lost_password_url );
 				$lost_password_url = learndash_add_login_hash( $lost_password_url );
 				$lost_password_url = wp_lostpassword_url( $lost_password_url );
+				if ( learndash_reset_password_is_enabled() ) {
+					$lost_password_url = get_permalink( learndash_get_reset_password_page_id() );
+				}
 				?>
-
 				<a class="ld-forgot-password-link" href="<?php echo esc_url( $lost_password_url ); ?>"><?php esc_html_e( 'Lost Your Password?', 'buddyboss-theme' ); ?></a>
 
 				<?php
@@ -190,14 +187,35 @@ if ( $can_register ) {
 	<?php
 	if ( $can_register ) :
 
+		// Set the default register_url to show the inline registration form.
+		$register_url = '#ld-user-register';
+
+		// New since LD 3.6.0 are we using the new Registration page?
+		if ( ! is_multisite() ) {
+			$ld_registration_page_id = (int) LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Registration_Pages', 'registration' );
+
+			if ( ! empty( $ld_registration_page_id ) ) {
+				$register_url = get_permalink( $ld_registration_page_id );
+				if ( in_array( get_post_type(), learndash_get_post_type_slug( array( 'course', 'group' ) ), true ) ) {
+					// If we are showing on a Course or Group we inlcude the 'ld_register_id' query string param.
+					$register_url = add_query_arg( 'ld_register_id', get_the_ID(), $register_url );
+				} elseif ( get_the_ID() === $ld_registration_page_id ) {
+					// If we are showing on the new Registration page we make sure to include the query argument.
+					if ( isset( $_GET['ld_register_id'] ) ) {
+						$register_url = add_query_arg( 'ld_register_id', absint( $_GET['ld_register_id'] ), $register_url );
+					}
+				}
+			}
+		}
+
 		/**
 		 * Filters the LearnDash login modal registration URL.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string $registration_url    Login modal registration url.
+		 * @param string $register_url Login modal registration url.
 		 */
-		$register_url = apply_filters( 'learndash_login_model_register_url', '#ld-user-register' );
+		$register_url = apply_filters( 'learndash_login_model_register_url', $register_url );
 		/**
 		 * Filters the LearnDash login modal registration header text.
 		 *
@@ -215,7 +233,6 @@ if ( $can_register ) {
 		 */
 		$register_text     = apply_filters( 'learndash_login_model_register_text', esc_html__( 'Don\'t have an account? Register one!', 'buddyboss-theme' ) );
 		$errors_conditions = learndash_login_error_conditions();
-
 		?>
 		<div class="ld-login-modal-register">
 			<div class="ld-login-modal-wrapper">
@@ -239,9 +256,8 @@ if ( $can_register ) {
 					 */
 					do_action( 'learndash-register-modal-heading-after' );
 					?>
-					<div class="ld-modal-text">
-						<?php echo esc_html( $register_text ); ?>
-					</div>
+
+					<div class="ld-modal-text"><?php echo esc_html( $register_text ); ?></div>
 					<?php
 					/**
 					 * Fires after the register modal heading.
@@ -277,7 +293,6 @@ if ( $can_register ) {
 
 
 					if ( $errors['has_errors'] ) :
-
 						learndash_get_template_part(
 							'modules/alert.php',
 							array(
@@ -297,7 +312,7 @@ if ( $can_register ) {
 						 */
 						do_action( 'learndash-register-modal-errors-after', $errors );
 
-					elseif ( isset( $_GET['ld-registered'] ) && 'true' === $_GET['ld-registered'] ) :
+					elseif ( isset( $_GET['ld-registered'] ) && $_GET['ld-registered'] === 'true' ) :
 
 						learndash_get_template_part(
 							'modules/alert.php',
@@ -320,7 +335,7 @@ if ( $can_register ) {
 
 					endif;
 
-					if ( '#ld-user-register' === $register_url ) {
+					if ( $register_url === '#ld-user-register' ) {
 						/**
 						 * Filters the LearnDash Login modal register button CSS class.
 						 *
@@ -352,13 +367,13 @@ if ( $can_register ) {
 				/**
 				 * Only if we are showing the LD register form.
 				 */
-				if ( '#ld-user-register' === $register_url ) {
+				if ( $register_url === '#ld-user-register' ) {
 					?>
 					<div id="ld-user-register" class="ld-hide">
 					<?php
 					if ( has_action( 'learndash_register_modal_register_form_override' ) ) {
 						/**
-						 * Allow for replacement of the defaut LEarnDash Registration form
+						 * Allow for replacement of the default LearnDash Registration form
 						 *
 						 * @since 3.2.0
 						 */

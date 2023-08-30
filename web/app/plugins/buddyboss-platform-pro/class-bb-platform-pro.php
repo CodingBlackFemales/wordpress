@@ -116,8 +116,8 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 1.0.0
 		 */
 		private function setup_globals() {
-			$this->version        = '2.3.2';
-			$this->db_version     = 265;
+			$this->version        = '2.4.00';
+			$this->db_version     = 285;
 			$this->db_version_raw = (int) bp_get_option( '_bbp_pro_db_version' );
 
 			// root directory.
@@ -161,8 +161,8 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 			$locale = apply_filters( 'plugin_locale', $locale, 'buddyboss-pro' );
 
 			unload_textdomain( 'buddyboss-pro' );
-			load_textdomain( 'buddyboss-pro', WP_LANG_DIR . '/' . plugin_basename( dirname( __FILE__ ) ) . '/' . plugin_basename( dirname( __FILE__ ) ) . '-' . $locale . '.mo' );
-			load_plugin_textdomain( 'buddyboss-pro', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+			load_textdomain( 'buddyboss-pro', WP_LANG_DIR . '/' . plugin_basename( __DIR__ ) . '/' . plugin_basename( __DIR__ ) . '-' . $locale . '.mo' );
+			load_plugin_textdomain( 'buddyboss-pro', false, plugin_basename( __DIR__ ) . '/languages' );
 		}
 
 		/**
@@ -175,7 +175,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function autoload( $class ) {
 			$class_parts = explode( '_', strtolower( $class ) );
 
-			if ( 'bp' !== $class_parts[0] && 'bb' !== $class_parts[0] ) {
+			if ( $class_parts[0] !== 'bp' && $class_parts[0] !== 'bb' ) {
 				return;
 			}
 
@@ -251,6 +251,17 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 				)
 			);
 
+			wp_enqueue_script( 'bb-pro-admin-script', $this->plugin_url . 'assets/js/bb-pro-admin' . $min . '.js', false, bb_platform_pro()->version, true );
+			wp_localize_script(
+				'bb-pro-admin-script',
+				'BB_PRO_ADMIN',
+				apply_filters(
+					'bb_pro_admin_localize_options',
+					array(
+						'ajax_url' => admin_url( 'admin-ajax.php' ),
+					)
+				)
+			);
 		}
 
 		/**
@@ -265,7 +276,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function bb_pro_modify_plugin_action_links( $links, $file ) {
 
 			// Return normal links if not BuddyPress.
-			if ( 'buddyboss-platform-pro/buddyboss-platform-pro.php' !== $file ) {
+			if ( $file !== 'buddyboss-platform-pro/buddyboss-platform-pro.php' ) {
 				return $links;
 			}
 
@@ -284,12 +295,22 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 2.1.7
 		 */
 		public function bb_pro_display_update_plugin_information() {
-			if ( 0 !== strpos( get_current_screen()->id, 'plugins' ) ) {
+			if ( strpos( get_current_screen()->id, 'plugins' ) !== 0 ) {
 				return;
 			}
 			// Check the transient to see if we've just updated the plugin.
 			include trailingslashit( BB_PLATFORM_PRO_PLUGIN_DIR ) . 'includes/bb-pro-update-buddyboss.php';
 			delete_option( '_bb_pro_is_update' );
 		}
+	}
+
+	/**
+	 * Returns the main instance of BB_Platform_Pro to prevent the need to use globals.
+	 *
+	 * @since  1.0.0
+	 * @return BB_Platform_Pro
+	 */
+	function bb_platform_pro() {
+		return BB_Platform_Pro::instance();
 	}
 }

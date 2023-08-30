@@ -598,7 +598,10 @@ function colorNameToHex ( colour ) {
 			'change',
 			'.redux-field input, .redux-field textarea, .redux-field select',
 			function () {
-				if ( $( '.redux-container-typography select' ).hasClass( 'ignore-change' ) ) {
+				if (
+					$( '.redux-container-typography select' ).hasClass( 'ignore-change' ) ||
+					$( '.redux-container-bb_typography select' ).hasClass( 'ignore-change' )
+				) {
 					return;
 				}
 				if ( !$( this ).hasClass( 'noUpdate' ) && !$( this ).hasClass( 'no-update' ) ) {
@@ -1397,7 +1400,7 @@ function redux_change ( variable ) {
 					th.find( '.redux-menu-warning:first' ).text( warningsLeft );
 				}
 				
-				rContainer.find( '.redux-field-warning span' ).text( warningCount );
+				rContainer.find( '.redux-field-warnings span' ).text( warningCount );
 			}
 			
 			if ( 0 !== subParent.length ) {

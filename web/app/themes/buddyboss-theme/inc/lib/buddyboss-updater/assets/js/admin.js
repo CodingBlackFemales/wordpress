@@ -30,6 +30,19 @@ jQuery( document ).ready( function( $ ){
         jQuery(this).hide();
     });
 
+    jQuery( '.bb-theme .bb-hide-pw' ).on( 'click', function ( e ) {
+        e.preventDefault();
+        var $this  = $( this );
+        var $input = $this.closest( '.password-toggle' ).find( 'input' );
+        var $default_type = $input.data( 'type' ) ? $input.data( 'type' ) : 'text';
+        $this.toggleClass( 'bb-show-pass' );
+        if ( $this.hasClass( 'bb-show-pass' ) ) {
+            $input.attr( 'type', $default_type );
+        } else {
+            $input.attr( 'type', 'password' );
+        }
+    } );
+
     BBOSS_UPDATER_ADMIN.bb_connect.init();
 } );
 

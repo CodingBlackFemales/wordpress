@@ -17,10 +17,10 @@ $filepath = locate_template(
 );
 
 $view              = get_option( 'bb_theme_learndash_grid_list', 'grid' );
-$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
-$class_list_active = ( 'list' === $view ) ? 'active' : '';
-$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
+$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
+$class_list_active = ( $view === 'list' ) ? 'active' : '';
+$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
 
 if ( ! empty( $filepath ) ) {
 	wp_enqueue_script( 'learndash_template_script_js', str_replace( ABSPATH, '/', $filepath ), array( 'jquery' ), LEARNDASH_VERSION, true );
@@ -49,7 +49,7 @@ $defaults = array(
 );
 $atts     = apply_filters( 'bp_learndash_user_courses_atts', $defaults );
 $atts     = wp_parse_args( $atts, $defaults );
-if ( false === $atts['per_page'] ) {
+if ( $atts['per_page'] === false ) {
 	$atts['per_page'] = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'per_page' );
 	$atts['quiz_num'] = $atts['per_page'];
 } else {
@@ -138,49 +138,25 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 							$post = $_post;
 						endif;
 
-
-						$page                = (int) $profile_pager['paged'];
-						$num_results_on_page = (int) $atts['per_page'];
 						$total_pages         = (int) $profile_pager['total_pages'];
-						$pagination_url      = trailingslashit( $current_url ) . 'page/';
 
 						if ( 1 < $total_pages ) {
 							?>
 							<div class="bb-lms-pagination">
 								<?php
-								if ( 1 < $page ) {
-									$j = $page - 1;
 
-									echo sprintf(
-										'<a class="prev page-numbers" id="page_a_link" href="%1$s">%2$s</a>',
-										esc_url( $pagination_url . $j ),
-										esc_html__( '« Previous', 'buddyboss-theme' )
+									$big        = 999999999; // need an unlikely integer
+									$translated = __( 'Page', 'buddyboss-theme' ); // Supply translatable string
+
+									echo paginate_links(
+										array(
+											'base'    => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+											'format'  => '?paged=%#%',
+											'current' => max( 1, get_query_var( 'paged' ) ),
+											'total'   => $total_pages,
+											'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
+										)
 									);
-								}
-
-								for ( $i = 1; $i <= $total_pages; $i ++ ) {
-									if ( $i !== $page ) {
-										echo sprintf(
-											'<span><a class="page-numbers" id="page_a_link" href="%1$s">%2$s</a></span>',
-											esc_url( $pagination_url . $i ),
-											esc_attr( $i )
-										);
-									} else {
-										echo sprintf(
-											'<span class="current page-numbers" id="page_a_link" style="font-weight: bold;">%1$s</a></span>',
-											esc_attr( $i )
-										);
-									}
-								}
-
-								if ( $page !== $total_pages ) {
-									$j = $page + 1;
-									echo sprintf(
-										'<a class="next page-numbers" id="page_a_link" href="%1$s">%2$s</a>',
-										esc_url( $pagination_url . $j ),
-										esc_html__( 'Next »', 'buddyboss-theme' )
-									);
-								}
 								?>
 							</div>
 							<?php
@@ -188,6 +164,7 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 						?>
 					</div>
 				</div>
+				<input type="hidden" name="type" value="my-courses">
 			</form>
 			<?php
 		} else {
