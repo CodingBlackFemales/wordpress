@@ -7,13 +7,13 @@
  */
 
 ?>
-<div class="meeting-item-container" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>>
+<div class="meeting-item-container" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>>
 	<div class="bb-title-wrap">
 		<a href="#" class="bp-back-to-meeting-list"><span class="bb-icon-l bb-icon-angle-left"></span></a>
 		<div>
 			<h2 class="bb-title">
 				<?php bp_zoom_meeting_title(); ?>
-				<?php if ( 8 === bp_get_zoom_meeting_type() ) : ?>
+				<?php if ( bp_get_zoom_meeting_type() === 8 ) : ?>
 					<span class="recurring-meeting-label"><?php esc_html_e( 'Recurring', 'buddyboss-pro' ); ?></span>
 				<?php endif; ?>
 			</h2>
@@ -21,7 +21,7 @@
 				<?php
 				$utc_date_time = bp_get_zoom_meeting_start_date_utc();
 				$time_zone     = bp_get_zoom_meeting_timezone();
-				$date          = wp_date( bp_core_date_format( false, true ), strtotime( $utc_date_time ), new DateTimeZone( $time_zone ) ) . __( ' at ', 'buddyboss-pro' ) . wp_date( bp_core_date_format( true, false ), strtotime( $utc_date_time ), new DateTimeZone( $time_zone ) );
+				$date          = wp_date( bp_core_date_format(), strtotime( $utc_date_time ), new DateTimeZone( $time_zone ) ) . __( ' at ', 'buddyboss-pro' ) . wp_date( bp_core_date_format( true, false ), strtotime( $utc_date_time ), new DateTimeZone( $time_zone ) );
 				echo esc_html( $date ) . ( ! empty( $time_zone ) ? ' (' . esc_html( bp_zoom_get_timezone_label( $time_zone ) ) . ')' : '' );
 				?>
 			</div>
@@ -33,9 +33,9 @@
 				</a>
 				<div class="meeting-actions-list">
 					<ul>
-						<?php if ( true !== bp_get_zoom_meeting_is_past() ) : ?>
+						<?php if ( bp_get_zoom_meeting_is_past() !== true ) : ?>
 							<li class="bp-zoom-meeting-edit">
-								<?php if ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ) : ?>
+								<?php if ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' ) : ?>
 									<a role="button" id="bp-zoom-meeting-occurrence-edit-button" class="edit-meeting" href="#" data-id="bp-meeting-edit">
 										<i class="bb-icon-l bb-icon-edit"></i><?php esc_html_e( 'Edit this Meeting', 'buddyboss-pro' ); ?>
 									</a>
@@ -49,8 +49,8 @@
 										</div>
 
 										<footer class="bb-zm-model-footer">
-											<a href="#" id="bp-zoom-all-meeting-edit" class="button outline small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'All occurrences', 'buddyboss-pro' ); ?></a>
-											<a href="#" id="bp-zoom-only-this-meeting-edit" class="button small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Only this meeting', 'buddyboss-pro' ); ?></a>
+											<a href="#" id="bp-zoom-all-meeting-edit" class="button outline small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'All occurrences', 'buddyboss-pro' ); ?></a>
+											<a href="#" id="bp-zoom-only-this-meeting-edit" class="button small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Only this meeting', 'buddyboss-pro' ); ?></a>
 <!--                                            <a href="javascript:$.magnificPopup.close();"><?php esc_html_e( 'Cancel', 'buddyboss-pro' ); ?></a>-->
 										</footer>
 									</div>
@@ -62,7 +62,7 @@
 							</li>
 						<?php endif; ?>
 						<li class="bp-zoom-meeting-delete">
-							<?php if ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ) : ?>
+							<?php if ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' ) : ?>
 								<a role="button" id="bp-zoom-meeting-occurrence-delete-button" class="delete" href="#">
 									<i class="bb-icon-l bb-icon-trash"></i><?php esc_html_e( 'Delete this Meeting', 'buddyboss-pro' ); ?>
 								</a>
@@ -77,8 +77,8 @@
 									</div>
 
 									<footer class="bb-zm-model-footer">
-										<a href="#" id="bp-zoom-only-this-meeting-delete" class="button small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete This Occurrence', 'buddyboss-pro' ); ?></a>
-										<a href="#" id="bp-zoom-all-meeting-delete"  class="button outline small error" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
+										<a href="#" id="bp-zoom-only-this-meeting-delete" class="button small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete This Occurrence', 'buddyboss-pro' ); ?></a>
+										<a href="#" id="bp-zoom-all-meeting-delete"  class="button outline small error" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
 									</footer>
 								</div>
 							<?php else : ?>
@@ -96,7 +96,7 @@
 			<div class="meeting-item-head"><?php esc_html_e( 'Meeting ID', 'buddyboss-pro' ); ?></div>
 			<div class="meeting-item-col">
 				<span class="meeting-id"><?php bp_zoom_meeting_zoom_meeting_id(); ?></span>
-				<?php if ( bp_get_zoom_meeting_recurring() || 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ) : ?>
+				<?php if ( bp_get_zoom_meeting_recurring() || bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' ) : ?>
 					<div class="bb-meeting-occurrence"><?php echo esc_html( bp_zoom_get_recurrence_label( bp_get_zoom_meeting_id() ) ); ?></div>
 				<?php endif; ?>
 			</div>
@@ -110,10 +110,10 @@
 		<?php endif; ?>
 
 		<?php
-		if ( true !== bp_get_zoom_meeting_is_past() ) {
+		if ( bp_get_zoom_meeting_is_past() !== true ) {
 			$duration = bp_get_zoom_meeting_duration();
-			$hours    = ( ( 0 !== $duration ) ? floor( $duration / 60 ) : 0 );
-			$minutes  = ( ( 0 !== $duration ) ? ( $duration % 60 ) : 0 );
+			$hours    = ( ( $duration !== 0 ) ? floor( $duration / 60 ) : 0 );
+			$minutes  = ( ( $duration !== 0 ) ? ( $duration % 60 ) : 0 );
 			?>
 			<div class="single-meeting-item">
 				<div class="meeting-item-head"><?php esc_html_e( 'Duration', 'buddyboss-pro' ); ?></div>
@@ -134,7 +134,7 @@
 		}
 
 		$alert = bp_get_zoom_meeting_alert();
-		if ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ) {
+		if ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' ) {
 			$meeting_parent = BP_Zoom_Meeting::get_meeting_by_meeting_id( bp_get_zoom_meeting_parent() );
 
 			if ( ! empty( $meeting_parent ) ) {
@@ -202,27 +202,27 @@
 		$join_url = bp_get_zoom_meeting_zoom_join_url();
 		if ( ! empty( $join_url ) ) {
 			?>
-		<div class="single-meeting-item">
-			<div class="meeting-item-head"><?php esc_html_e( 'Meeting Link', 'buddyboss-pro' ); ?></div>
-			<div class="meeting-item-col">
-				<div class="copy-link-wrap">
-					<a class="bb-invitation-url" <?php echo ! bp_zoom_is_zoom_hide_urls_enabled() ? 'target="_blank"' : ''; ?> href="<?php echo esc_url( bp_zoom_get_meeting_rewrite_url( $join_url, bp_get_zoom_meeting_id() ) ); ?>"><?php echo esc_url( bp_zoom_get_meeting_rewrite_url( $join_url, bp_get_zoom_meeting_id() ) ); ?></a>
-					<a id="copy-invitation-link" class="edit copy-invitation-link" href="#copy-invitation-popup" role="button" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>"><span class="bb-icon bb-icon-l bb-icon-eye"></span><?php esc_html_e( 'View Invitation', 'buddyboss-pro' ); ?></a>
+			<div class="single-meeting-item">
+				<div class="meeting-item-head"><?php esc_html_e( 'Meeting Link', 'buddyboss-pro' ); ?></div>
+				<div class="meeting-item-col">
+					<div class="copy-link-wrap">
+						<a class="bb-invitation-url" <?php echo ! bb_zoom_is_meeting_hide_urls_enabled() ? 'target="_blank"' : ''; ?> href="<?php echo esc_url( bp_zoom_get_meeting_rewrite_url( $join_url, bp_get_zoom_meeting_id() ) ); ?>"><?php echo esc_url( bp_zoom_get_meeting_rewrite_url( $join_url, bp_get_zoom_meeting_id() ) ); ?></a>
+						<a id="copy-invitation-link" class="edit copy-invitation-link" href="#copy-invitation-popup" role="button" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>"><span class="bb-icon bb-icon-l bb-icon-eye"></span><?php esc_html_e( 'View Invitation', 'buddyboss-pro' ); ?></a>
 
-					<div id="copy-invitation-popup" class="bzm-white-popup copy-invitation-popup mfp-hide">
-						<header class="bb-zm-model-header"><?php esc_html_e( 'View Invitation', 'buddyboss-pro' ); ?></header>
+						<div id="copy-invitation-popup" class="bzm-white-popup copy-invitation-popup mfp-hide">
+							<header class="bb-zm-model-header"><?php esc_html_e( 'View Invitation', 'buddyboss-pro' ); ?></header>
 
-						<div id="meeting-invitation-container">
-							<textarea id="meeting-invitation" readonly="readonly"><?php echo esc_html( bp_get_zoom_meeting_invitation( bp_get_zoom_meeting_zoom_meeting_id() ) ); ?></textarea>
+							<div id="meeting-invitation-container">
+								<textarea id="meeting-invitation" readonly="readonly"><?php echo esc_html( bp_get_zoom_meeting_invitation( bp_get_zoom_meeting_zoom_meeting_id() ) ); ?></textarea>
+							</div>
+
+							<footer class="bb-zm-model-footer">
+								<a href="#" id="copy-invitation-details" class="button small" data-copied="<?php esc_attr_e( 'Copied to clipboard', 'buddyboss-pro' ); ?>"><?php esc_html_e( 'Copy Meeting Invitation', 'buddyboss-pro' ); ?></a>
+							</footer>
 						</div>
-
-						<footer class="bb-zm-model-footer">
-							<a href="#" id="copy-invitation-details" class="button small" data-copied="<?php esc_attr_e( 'Copied to clipboard', 'buddyboss-pro' ); ?>"><?php esc_html_e( 'Copy Meeting Invitation', 'buddyboss-pro' ); ?></a>
-						</footer>
 					</div>
 				</div>
 			</div>
-		</div>
 		<?php } ?>
 		<div class="single-meeting-item">
 			<div class="meeting-item-head"><?php esc_html_e( 'Video', 'buddyboss-pro' ); ?></div>
@@ -267,9 +267,9 @@
 					<i class="<?php echo in_array( bp_get_zoom_meeting_auto_recording(), array( 'cloud', 'local' ), true ) ? esc_html( 'bb-icon-l bb-icon-check' ) : esc_html( 'bb-icon-l bb-icon-times' ); ?>"></i>
 					<span>
 						<?php
-						if ( 'cloud' === bp_get_zoom_meeting_auto_recording() ) {
+						if ( bp_get_zoom_meeting_auto_recording() === 'cloud' ) {
 							esc_html_e( 'Record the meeting automatically in the cloud', 'buddyboss-pro' );
-						} elseif ( 'local' === bp_get_zoom_meeting_auto_recording() ) {
+						} elseif ( bp_get_zoom_meeting_auto_recording() === 'local' ) {
 							esc_html_e( 'Record the meeting automatically in the local computer', 'buddyboss-pro' );
 						} else {
 							esc_html_e( 'Do not record the meeting.', 'buddyboss-pro' );
@@ -282,19 +282,22 @@
 
 		<?php
 		$occurrence_date_unix     = wp_date( 'U', strtotime( bp_get_zoom_meeting_start_date_utc() ), new DateTimeZone( 'UTC' ) );
-		$meeting_is_started       = ( $occurrence_date_unix > wp_date( 'U', strtotime( 'now' ), new DateTimeZone( 'UTC' ) ) ) ? false : true;
-		$show_join_meeting_button = ( $occurrence_date_unix > wp_date( 'U', strtotime( '+10 minutes' ), new DateTimeZone( 'UTC' ) ) ) ? false : true;
+		$meeting_is_started       = ! ( ( $occurrence_date_unix > wp_date( 'U', strtotime( 'now' ), new DateTimeZone( 'UTC' ) ) ) );
+		$show_join_meeting_button = ! ( ( $occurrence_date_unix > wp_date( 'U', strtotime( '+10 minutes' ), new DateTimeZone( 'UTC' ) ) ) );
 
 		$current_date     = wp_date( 'U' );
 		$meeting_date_obj = new DateTime( bp_get_zoom_meeting_start_date_utc(), new DateTimeZone( 'UTC' ) );
 		$meeting_date_obj->modify( '+' . bp_get_zoom_meeting_duration() . ' minutes' );
-		$meeting_date_unix = $meeting_date_obj->format( 'U' );
-		$meeting_number    = esc_attr( bp_get_zoom_meeting_zoom_meeting_id() );
-		$api_key           = bb_zoom_group_api_key( bp_get_zoom_meeting_group_id() );
-		$api_secret        = bb_zoom_group_api_secret( bp_get_zoom_meeting_group_id() );
-		$role              = bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ? 1 : 0; // phpcs:ignore
-		$sign              = bb_get_meeting_signature( $api_key, $api_secret, $meeting_number, $role );
-
+		$meeting_date_unix  = $meeting_date_obj->format( 'U' );
+		$meeting_number     = esc_attr( bp_get_zoom_meeting_zoom_meeting_id() );
+		$role               = bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ? 1 : 0; // phpcs:ignore
+		$browser_credential = bb_zoom_group_generate_browser_credential(
+			array(
+				'group_id'       => bp_get_zoom_meeting_group_id(),
+				'meeting_number' => $meeting_number,
+				'role'           => $role,
+			)
+		);
 		?>
 
 		<?php if ( ! $meeting_is_started ) : ?>
@@ -308,21 +311,30 @@
 		<?php endif; ?>
 
 		<div class="single-meeting-item last-col meeting-buttons-wrap">
-			<div class="meeting-item-col meeting-action last-col full text-right <?php echo ( 'started' === bp_get_zoom_meeting_current_status() || ( $show_join_meeting_button && $current_date < $meeting_date_unix ) ) ? '' : 'bp-hide'; ?>">
-				<a href="#" data-meeting-id="<?php echo esc_attr( bp_get_zoom_meeting_zoom_meeting_id() ); ?>"
-				data-meeting-pwd="<?php echo esc_attr( bp_get_zoom_meeting_password() ); ?>"
-				data-is-host="<?php echo bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ? esc_attr( '1' ) : esc_attr( '0' ); ?>"
-				data-meeting-sign="<?php echo esc_attr( $sign ); ?>"
-				class="button outline small join-meeting-in-browser">
-					<?php
-					if ( bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ) {
-						esc_html_e( 'Host Meeting in Browser', 'buddyboss-pro' );
-					} else {
-						esc_html_e( 'Join Meeting in Browser', 'buddyboss-pro' );
-					}
+			<div class="meeting-item-col meeting-action last-col full text-right <?php echo ( bp_get_zoom_meeting_current_status() === 'started' || ( $show_join_meeting_button && $current_date < $meeting_date_unix ) ) ? '' : 'bp-hide'; ?>">
+
+				<?php
+				if (
+					bb_zoom_group_show_join_browser_button( bp_get_current_group_id() ) &&
+					! empty( $browser_credential['sign'] )
+				) {
 					?>
-				</a>
-				<?php if ( ! bp_zoom_is_zoom_hide_urls_enabled() ) : ?>
+					<a href="#" data-meeting-id="<?php echo esc_attr( bp_get_zoom_meeting_zoom_meeting_id() ); ?>"
+					data-meeting-pwd="<?php echo esc_attr( bp_get_zoom_meeting_password() ); ?>"
+					data-is-host="<?php echo bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ? esc_attr( '1' ) : esc_attr( '0' ); ?>"
+					data-meeting-sign="<?php echo esc_attr( $browser_credential['sign'] ); ?>" data-meeting-sdk="<?php echo esc_attr( $browser_credential['sdk_client_id'] ); ?>"
+					class="button outline small join-meeting-in-browser">
+						<?php
+						if ( bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ) {
+							esc_html_e( 'Host Meeting in Browser', 'buddyboss-pro' );
+						} else {
+							esc_html_e( 'Join Meeting in Browser', 'buddyboss-pro' );
+						}
+						?>
+					</a>
+				<?php } ?>
+
+				<?php if ( ! bb_zoom_is_meeting_hide_urls_enabled() ) : ?>
 					<a type="button" class="button primary small join-meeting-in-app" target="_blank" href="<?php echo bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ? esc_url( bp_get_zoom_meeting_zoom_start_url() ) : esc_url( bp_get_zoom_meeting_zoom_join_url() ); ?>">
 					<?php
 					if ( bp_zoom_can_current_user_start_meeting( bp_get_zoom_meeting_id() ) ) {
@@ -345,7 +357,7 @@
 						} else {
 							set_query_var( 'recording_fetch', 'no' );
 						}
-						if ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ) {
+						if ( bp_get_zoom_meeting_zoom_type() === 'meeting_occurrence' ) {
 							set_query_var( 'occurrence_id', bp_get_zoom_meeting_occurrence_id() );
 						}
 						?>

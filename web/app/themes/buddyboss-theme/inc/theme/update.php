@@ -39,12 +39,16 @@ if ( ! function_exists( 'buddyboss_theme_update' ) ) {
 				bb_theme_update_2_2_6();
 			}
 
+			// Set default logo destination url.
+			if ( version_compare( $current_version, '2.3.40', '>' ) && function_exists( 'bb_theme_update_2_3_60' ) ) {
+				bb_theme_update_2_3_60();
+			}
+
 			// update not to run twice.
 			update_option( 'buddyboss_theme_version', $current_version );
 		}
 
 		bb_theme_setup_updater();
-
 	}
 
 	add_action( 'after_setup_theme', 'buddyboss_theme_update' );
@@ -194,11 +198,29 @@ function bb_theme_setup_updater() {
 function bb_theme_is_update() {
 
 	// Current DB version of this site (per site in a multisite network).
-	$current_db   = bb_theme_get_db_version();
-	$current_live = bb_theme_get_db_version_raw();
+	$current_db   = (int) get_option( '_bb_theme_db_version' );
+	$current_live = (int) bb_theme_get_db_version();
 
-	// Compare versions (cast as int and bool to be safe).
-	$is_update = (bool) ( (int) $current_db < (int) $current_live );
+	// Theme version history.
+	bb_theme_version_bump();
+	$bb_theme_version_history = (array) get_option( 'bb_theme_version_history', array() );
+	$initial_version_data     = ! empty( $bb_theme_version_history ) ? end( $bb_theme_version_history ) : array();
+	$bb_version_exists        = ! empty( $initial_version_data ) && ! empty( $initial_version_data['version'] ) && (string) buddyboss_theme()->version() === (string) $initial_version_data['version'];
+	if ( ! $bb_version_exists || $current_live !== $current_db ) {
+		$current_date               = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$bb_latest_theme_version    = array(
+			'db_version' => $current_live,
+			'date'       => $current_date->format( 'Y-m-d H:i:s' ),
+			'version'    => buddyboss_theme()->version(),
+		);
+		$bb_theme_version_history[] = $bb_latest_theme_version;
+		update_option( 'bb_theme_version_history', array_filter( $bb_theme_version_history ) );
+	}
+
+	$is_update = false;
+	if ( $current_live !== $current_db ) {
+		$is_update = true;
+	}
 
 	// Return the product of version comparison.
 	return $is_update;
@@ -214,8 +236,11 @@ function bb_theme_is_update() {
  * @since 1.8.7
  */
 function bb_theme_version_updater() {
+
+	// Get current DB version.
+	$current_db = (int) get_option( '_bb_theme_db_version' );
 	// Get the raw database version.
-	$raw_db_version = (int) bb_theme_get_db_version();
+	$raw_db_version = (int) bb_theme_get_db_version_raw();
 
 	/* All done! *************************************************************/
 
@@ -236,8 +261,9 @@ function bb_theme_version_updater() {
 		bb_theme_update_2_2_1_2();
 	}
 
-	// Bump the version.
-	bb_theme_version_bump();
+	if ( $raw_db_version !== $current_db ) {
+		// @todo - Write only data manipulate migration here. ( This is not for DB structure change ).
+	}
 }
 
 /**
@@ -246,7 +272,7 @@ function bb_theme_version_updater() {
  * @since 1.8.7
  */
 function bb_theme_version_bump() {
-	update_option( '_bb_theme_db_version', bb_theme_get_db_version_raw() );
+	update_option( '_bb_theme_db_version', bb_theme_get_db_version() );
 }
 
 /**
@@ -265,7 +291,7 @@ function bb_theme_db_version() {
  * @return string The BuddyBoss Theme database version.
  */
 function bb_theme_get_db_version() {
-	return get_option( '_bb_theme_db_version', 0 );
+	return buddyboss_theme()->bb_theme_db_version;
 }
 
 /**
@@ -285,7 +311,7 @@ function bb_theme_db_version_raw() {
  * @return string The BuddyBoss Theme version direct from the database.
  */
 function bb_theme_get_db_version_raw() {
-	return ! empty( buddyboss_theme()->bb_theme_db_version ) ? buddyboss_theme()->bb_theme_db_version : 0;
+	return ! empty( buddyboss_theme()->bb_theme_db_version_raw ) ? buddyboss_theme()->bb_theme_db_version_raw : 0;
 }
 
 /**
@@ -299,6 +325,17 @@ function bb_theme_migrate_components_options() {
 	/* Check if options are set */
 	if ( ! isset( $buddyboss_theme_options ) ) {
 		$buddyboss_theme_options = get_option( 'buddyboss_theme_options', array() );
+	}
+
+	// Set default styling option to theme 1.0 when updating the theme.
+	// Set default logo on for header 3 style.
+	if (
+		! empty( $buddyboss_theme_options ) &&
+		! isset( $buddyboss_theme_options['theme_template'] )
+	) {
+		$buddyboss_theme_options['theme_template'] = '1';
+	} else {
+		$buddyboss_theme_options['theme_template'] = '2';
 	}
 
 	if ( isset( $buddyboss_theme_options ) && isset( $buddyboss_theme_options['mobile_header_search'] ) ) {
@@ -333,15 +370,9 @@ function bb_theme_migrate_components_options() {
 		$buddyboss_theme_options['desktop_component_opt_multi_checkbox']['desktop_notifications'] = buddyboss_theme_get_option( 'notifications' );
 	}
 
-	// Set default styling option to theme 1.0 when updating the theme.
-	// Set default logo on for header 3 style.
-	if ( ! isset( $buddyboss_theme_options['theme_template'] ) ) {
-		$buddyboss_theme_options['theme_template'] = '1';
-	}
-
 	if (
 		isset( $buddyboss_theme_options['buddyboss_header'] ) &&
-		'3' === $buddyboss_theme_options['buddyboss_header']
+		$buddyboss_theme_options['buddyboss_header'] === '3'
 	) {
 		$buddyboss_theme_options['buddypanel_show_logo'] = '1';
 	}
@@ -412,7 +443,7 @@ function icon_picker_backward_compatibility() {
 		$nav_menu_items = wp_list_pluck( $nav_menu_items, 'ID' );
 		foreach ( $nav_menu_items as $single ) {
 			$menu_icons = get_post_meta( $single, 'menu-icons', true );
-			if ( isset( $menu_icons['type'] ) && 'buddyboss' === $menu_icons['type'] ) {
+			if ( isset( $menu_icons['type'] ) && $menu_icons['type'] === 'buddyboss' ) {
 				$menu_icons['type'] = 'buddyboss_legacy';
 				update_post_meta( $single, 'menu-icons', $menu_icons );
 			}
@@ -451,7 +482,6 @@ function bb_theme_update_2_0_0() {
 	if ( function_exists( 'buddyboss_theme_compressed_transient_delete' ) ) {
 		buddyboss_theme_compressed_transient_delete();
 	}
-
 }
 
 /**
@@ -604,4 +634,26 @@ function bb_theme_update_2_2_6() {
 			$releated_post_class->crp_create_index();
 		}
 	}
+}
+
+/**
+ * Save the default logo destination to db.
+ *
+ * @since 2.3.60
+ *
+ * @return void
+ */
+function bb_theme_update_2_3_60() {
+
+	$bb_theme_options = get_option( 'buddyboss_theme_options', array() );
+
+	if ( empty( $bb_theme_options['header_logo_loggedin_link'] ) ) {
+		$bb_theme_options['header_logo_loggedin_link'] = 'default';
+	}
+
+	if ( empty( $bb_theme_options['header_logo_loggedout_link'] ) ) {
+		$bb_theme_options['header_logo_loggedout_link'] = 'default';
+	}
+
+	update_option( 'buddyboss_theme_options', $bb_theme_options );
 }

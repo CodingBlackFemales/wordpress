@@ -6,7 +6,7 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise as P;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\Promise;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Utils;
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * Returns an asynchronous response using curl_multi_* functions.

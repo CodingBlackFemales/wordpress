@@ -58,7 +58,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 	 * @return mixed|void
 	 */
 	public function load() {
-		if ( ! bbp_pro_is_license_valid() || ! bp_is_active( 'groups' ) || ! bp_zoom_is_zoom_enabled() || ! bp_zoom_is_zoom_groups_enabled() ) {
+		if ( ! bbp_pro_is_license_valid() || ! bp_is_active( 'groups' ) || ! bp_zoom_is_zoom_groups_enabled() ) {
 			return;
 		}
 
@@ -181,7 +181,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 		$is_created = bp_notifications_get_meta( $notification_id, 'is_created' );
 
 		// Check the type of zoom like is webinar or meeting.
-		if ( 'meeting' === $type ) {
+		if ( $type === 'meeting' ) {
 			$meeting = new BP_Zoom_Meeting( $secondary_item_id );
 		} else {
 			$meeting = new BP_Zoom_Webinar( $secondary_item_id );
@@ -192,8 +192,8 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 			$start_date = $start_date->format( 'd-m-Y' );
 		}
 
-		if ( 'web_push' === $screen ) {
-			if ( 'meeting' === $type ) {
+		if ( $screen === 'web_push' ) {
+			if ( $type === 'meeting' ) {
 				if ( ! empty( $start_date ) ) {
 					if ( $is_created ) {
 						$text = sprintf(
@@ -227,7 +227,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 					),
 					'bp_mark_meeting_' . $item_id
 				);
-			} elseif ( 'webinar' === $type ) {
+			} elseif ( $type === 'webinar' ) {
 				if ( ! empty( $start_date ) ) {
 					if ( $is_created ) {
 						$text = sprintf(
@@ -265,7 +265,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 		} else {
 			if ( (int) $total_items > 1 ) {
 
-				if ( 'meeting' === $type ) {
+				if ( $type === 'meeting' ) {
 					$text = sprintf(
 					/* translators: total number of groups. */
 						esc_html__( 'You have %1$d new Zoom meetings in groups', 'buddyboss-pro' ),
@@ -282,7 +282,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 			} else {
-				if ( 'meeting' === $type ) {
+				if ( $type === 'meeting' ) {
 					if ( ! empty( $start_date ) ) {
 						if ( $is_created ) {
 							if ( ! empty( $group_name ) ) {
@@ -350,7 +350,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 						),
 						'bp_mark_meeting_' . $item_id
 					);
-				} elseif ( 'webinar' === $type ) {
+				} elseif ( $type === 'webinar' ) {
 					if ( ! empty( $start_date ) ) {
 						if ( $is_created ) {
 							if ( ! empty( $group_name ) ) {
@@ -444,7 +444,7 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 			isset( $content['text'] ) &&
 			isset( $content['link'] )
 		) {
-			if ( 'string' === $format ) {
+			if ( $format === 'string' ) {
 				if ( empty( $content['link'] ) ) {
 					$content = esc_html( $content['text'] );
 				} else {
@@ -462,5 +462,4 @@ class BP_Zoom_Groups_Notification extends BP_Core_Notification_Abstract {
 
 		return $content;
 	}
-
 }

@@ -12,7 +12,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 4.6.0
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,14 +84,14 @@ if ( $show_downloads ) {
 		<table class="woocommerce-table woocommerce-table--order-details shop_table order_details order_details_total">
 			<tfoot>
 				<?php
-					foreach ( $order->get_order_item_totals() as $key => $total ) {
-						?>
+				foreach ( $order->get_order_item_totals() as $key => $total ) {
+					?>
 						<tr>
 							<th scope="row"><?php echo esc_html( $total['label'] ); ?></th>
-							<td><?php echo ( 'payment_method' === $key ) ? esc_html( $total['value'] ) : wp_kses_post( $total['value'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
+							<td><?php echo ( $key === 'payment_method' ) ? esc_html( $total['value'] ) : wp_kses_post( $total['value'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 						</tr>
 						<?php
-					}
+				}
 				?>
 			</tfoot>
 		</table>
@@ -111,6 +111,14 @@ if ( $show_downloads ) {
 	</section>
 
 	<?php
+	/**
+	 * Action hook fired after the order details.
+	 *
+	 * @since 4.4.0
+	 * @param WC_Order $order Order data.
+	 */
+	do_action( 'woocommerce_after_order_details', $order );
+
 	if ( $show_customer_details ) {
 		wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) );
 	}
