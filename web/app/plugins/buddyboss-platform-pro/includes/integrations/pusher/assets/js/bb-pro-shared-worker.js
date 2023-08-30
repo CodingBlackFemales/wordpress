@@ -3,6 +3,7 @@ var clients         = [];
 var pusher          = false;
 var channels        = [];
 var current_user_id = 0;
+var try_reconnect   = false;
 
 /**
  * Receive all messages from client.
@@ -21,6 +22,15 @@ function onMessage( e ) {
 		case 'pusher_send_event':
 			pusherChannelTrigger( e.data );
 			break;
+		case 'pusher_signin':
+			pusherSignIn();
+			break;
+		case 'pusher_connect':
+			pusherConnect();
+			break;
+		case 'pusher_reconnect':
+			pusherReconnect( e.data );
+			break;
 
 		default:
 			sendMessages( e.data.type, e.data );
@@ -36,17 +46,46 @@ function onMessage( e ) {
 function pusherInit( d ) {
 	var options = d.data.options;
 
-	if ( ! pusher || current_user_id !== d.loggedin_user_id ) {
+	if ( ! pusher || current_user_id !== d.current_user_id ) {
 		current_user_id = d.current_user_id;
-		importScripts( 'https://js.pusher.com/7.0/pusher.worker.min.js' ); // jshint ignore:line
+		importScripts( 'https://js.pusher.com/8.0.2/pusher.worker.min.js' ); // jshint ignore:line
 		importScripts( options.authorizer ); // jshint ignore:line
 		options.authorizer = PusherBatchAuthorizer; // jshint ignore:line
 		pusher             = new Pusher( d.data.app_key, options ); // jshint ignore:line
 		sendMessages( 'pusher_init_first', { success: true } );
 	}
 	sendMessages( 'pusher_init', { success: true } );
+	pusherSignIn();
 	send_channels();
+	bind_connections();
 	return pusher;
+}
+
+/**
+ * Signin to pusher.
+ */
+function pusherSignIn() {
+	if ( pusher ) {
+		pusher.signin();
+	}
+}
+
+/**
+ * Connect to pusher.
+ */
+function pusherConnect() {
+	if ( pusher ) {
+		pusher.connect();
+	}
+}
+
+/**
+ * Reconnect to pusher.
+ *
+ * @param d
+ */
+function pusherReconnect( d ) {
+	try_reconnect = d.data.try_reconnect;
 }
 
 /**
@@ -55,7 +94,33 @@ function pusherInit( d ) {
  * It will be used in the bb-shared-worker-wrapper.js
  */
 function send_channels() {
-	sendMessages( 'pusher_channels', { channels: pusher.channels } );
+	sendMessages( 'pusher_channels', { channels: Object.keys(pusher.channels.channels ) } );
+}
+
+/**
+ * Bind pusher connection events.
+ */
+function bind_connections() {
+	if ( pusher ) {
+		pusher.connection.bind(
+			'disconnected',
+			function () {
+				sendMessages( 'pusher_disconnected', {} );
+				if ( true === try_reconnect ) {
+					pusherConnect();
+				}
+			}
+		);
+
+		pusher.connection.bind(
+			'connected',
+			function () {
+				if ( true === try_reconnect ) {
+					try_reconnect = false;
+				}
+			}
+		);
+	}
 }
 
 /**
@@ -70,7 +135,14 @@ function pusherSubscribe( d ) {
 		return;
 	}
 
-	if ( 'undefined' === typeof channels[d.data.channel_name] ) {
+	if (
+		'undefined' === typeof channels[d.data.channel_name] ||
+		(
+			'undefined' !== typeof channels[d.data.channel_name] &&
+			'undefined' !== typeof channels[d.data.channel_name].subscribed &&
+			false === channels[d.data.channel_name].subscribed
+		)
+	) {
 		channels[d.data.channel_name] = pusher.subscribe( d.data.channel_name );
 		// Bind Global Events in This Channel.
 		channels[d.data.channel_name].bind_global(

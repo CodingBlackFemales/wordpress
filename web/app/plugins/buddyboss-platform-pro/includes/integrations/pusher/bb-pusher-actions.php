@@ -92,6 +92,9 @@ add_action( 'groups_demote_member', 'bb_pro_pusher_group_messages_member_demoted
 
 add_action( 'wp_ajax_bb_pusher_update_current_thread_unread_count', 'bb_pusher_update_current_thread_unread_count' );
 
+// Fire an event after profile type allow messaging setting changed.
+add_action( 'update_option_bp_member_types_allowed_messaging_without_connection', 'bb_pro_pusher_member_type_allow_messaging_update', 10, 2 );
+
 /**
  * Enqueue scripts and styles.
  *
@@ -119,18 +122,18 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 		! $is_msg_dropdown &&
 		! bp_is_user_messages() &&
 		! isset( $_COOKIE['bb-message-component-disabled'] ) &&
-		true !== bb_pusher_is_feature_enabled( 'live-messaging' )
+		bb_pusher_is_feature_enabled( 'live-messaging' ) !== true
 	) {
 		return;
 	}
 
 	$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-	wp_enqueue_script( 'bb-pro-pusher-js-lib', 'https://js.pusher.com/7.0/pusher-with-encryption.min.js', array(), bb_platform_pro()->version, false );
+	wp_enqueue_script( 'bb-pro-pusher-js-lib', 'https://js.pusher.com/8.0.2/pusher-with-encryption.min.js', array(), bb_platform_pro()->version, false );
 	wp_enqueue_script( 'bb-pro-deparam-js', trailingslashit( bb_platform_pro()->plugin_url ) . 'assets/js/vendor/jquery-deparam.js', array(), bb_platform_pro()->version, false );
 	wp_enqueue_script( 'bb-pro-pusher-auth-js', bb_pusher_integration_url( '/assets/js/pusher-auth.js' ), array( 'wp-i18n', 'bb-pro-deparam-js' ), bb_platform_pro()->version, false );
 	wp_enqueue_script( 'bb-shared-worker-wrapper', bb_pusher_integration_url( '/assets/js/bb-shared-worker-wrapper' . $min . '.js' ), array( 'wp-i18n', 'bb-pro-deparam-js' ), bb_platform_pro()->version, false );
-    wp_enqueue_script( 'bb-pro-core-pusher', bb_pusher_integration_url( '/assets/js/bb-pro-core-pusher' . $min . '.js' ), array( 'wp-i18n', 'bb-pro-deparam-js', 'bb-shared-worker-wrapper' ), bb_platform_pro()->version, false );
-    wp_set_script_translations( 'bb-pro-core-pusher', 'buddyboss-pro' );
+	wp_enqueue_script( 'bb-pro-core-pusher', bb_pusher_integration_url( '/assets/js/bb-pro-core-pusher' . $min . '.js' ), array( 'wp-i18n', 'bb-pro-deparam-js', 'bb-shared-worker-wrapper' ), bb_platform_pro()->version, false );
+	wp_set_script_translations( 'bb-pro-core-pusher', 'buddyboss-pro' );
 
 	$user_id   = bp_loggedin_user_id();
 	$user_hash = bb_pusher_get_user_hash( $user_id );
@@ -174,7 +177,7 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 	$tz_offset = (float) get_option( 'gmt_offset' );
 	$tz_string = get_option( 'timezone_string' );
 	if ( ! empty( $tz_string ) && is_string( $tz_string ) ) {
-		if ( 'UTC' === substr( $tz_string, 0, 3 ) ) {
+		if ( substr( $tz_string, 0, 3 ) === 'UTC' ) {
 			$tz_string = str_replace( array( ':15', ':30', ':45' ), array( '.25', '.5', '.75' ), $tz_string );
 			$tz_offset = floatval( substr( $tz_string, 3 ) );
 		} else {
@@ -215,7 +218,7 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 		'app_cluster'                     => bb_pusher_cluster(),
 		'global_private'                  => 'private-bb-pro-global',
 		'bb_pro_user_friends'             => ( bp_is_active( 'friends' ) ? bp_get_friend_ids( $user_id ) : '' ),
-		'is_live_messaging_enabled'       => ( false === bb_pusher_is_feature_enabled( 'live-messaging' ) ? 'off' : 'on' ),
+		'is_live_messaging_enabled'       => ( bb_pusher_is_feature_enabled( 'live-messaging' ) === false ? 'off' : 'on' ),
 		'bb_pro_pusher_thread_ids'        => $user_thread_ids,
 		'cancel_text'                     => __( 'Cancel', 'buddyboss-pro' ),
 		'not_delivered_text'              => __( 'Not delivered', 'buddyboss-pro' ),
@@ -247,7 +250,9 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 		'presence_thread'                 => '',
 		'content_size_limit'              => bb_pusher_get_content_size_limit(),
 		'group_threads'                   => array(),
-        'wp_offset'                       => (float) $tz_offset,
+		'wp_offset'                       => (float) $tz_offset,
+		'user_auth_endpoint'              => get_home_url() . '/wp-json/' . bp_rest_namespace() . '/' . bp_rest_version() . '/pusher/user-auth',
+		'try_reconnect'                   => false,
 	);
 
 	if ( bp_is_active( 'messages' ) && bp_is_user_messages() ) {
@@ -256,7 +261,7 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 		$data['thread_channel']    = 'private-bb-message-thread-' . $data['current_thread_id'];
 	}
 
-	if ( bp_is_active( 'messages' ) && bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && true === bp_disable_group_messages() ) {
+	if ( bp_is_active( 'messages' ) && bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && bp_disable_group_messages() === true ) {
 		// Determine groups of user.
 		$groups = groups_get_groups(
 			array(
@@ -292,7 +297,7 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 
 	}
 
-	if ( bp_is_active( 'groups' ) && bp_is_group_single() && bp_is_group_messages() && 'public-message' === bb_get_group_current_messages_tab() ) {
+	if ( bp_is_active( 'groups' ) && bp_is_group_single() && bp_is_group_messages() && bb_get_group_current_messages_tab() === 'public-message' ) {
 		$data['current_thread_id'] = groups_get_groupmeta( (int) bp_get_current_group_id(), 'group_message_thread' );
 	}
 
@@ -360,8 +365,8 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 			);
 		}
 
-		$data['suspended_avatar']       = bb_moderation_is_suspended_avatar();
-		$data['suspended_user_name']    = bb_moderation_is_suspended_label();
+		$data['suspended_avatar']    = bb_moderation_is_suspended_avatar();
+		$data['suspended_user_name'] = bb_moderation_is_suspended_label();
 		if ( bp_is_active( 'messages' ) && bp_is_user_messages() ) {
 			$data['suspended_message_text'] = bb_moderation_is_suspended_message( '', BP_Moderation_Message::$moderation_type, $data['current_thread_id'] );
 			if ( ! empty( $data['suspended_message_text'] ) ) {
@@ -405,7 +410,6 @@ function bb_pro_pusher_enqueue_scripts_and_styles() {
 		'bb_pusher_vars',
 		$data
 	);
-
 }
 
 /**
@@ -471,7 +475,7 @@ function bb_pro_pusher_message_delete_thread( $thread_id ) {
 		'recipients' => $recipients,
 	);
 
-	if ( true === (bool) $is_group_message_thread && bp_is_active( 'groups' ) ) {
+	if ( (bool) $is_group_message_thread === true && bp_is_active( 'groups' ) ) {
 		$first_message    = BP_Messages_Thread::get_first_message( $thread_id );
 		$first_message_id = ( ! empty( $first_message ) ? $first_message->id : false );
 		$group_id         = ( isset( $first_message_id ) ) ? (int) bp_messages_get_meta( $first_message_id, 'group_id', true ) : 0;
@@ -481,7 +485,7 @@ function bb_pro_pusher_message_delete_thread( $thread_id ) {
 	}
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, 'private-bb-message-thread-' . $thread_id, 'client-bb-pro-thread-delete', $event_data );
 	}
 }
@@ -538,7 +542,7 @@ function bb_pro_pusher_user_suspended( $user_id ) {
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-member-suspended', $event_data );
 		}
 	}
@@ -596,7 +600,7 @@ function bb_pro_pusher_user_unsuspended( $user_id ) {
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-member-unsuspended', $event_data );
 		}
 	}
@@ -621,7 +625,7 @@ function bb_pro_pusher_moderation_after_save( $moderation ) {
 		return;
 	}
 
-	if ( 'user' === $moderation->item_type ) {
+	if ( $moderation->item_type === 'user' ) {
 		$creator_id = $moderation->user_id;
 		$blocked_id = $moderation->item_id;
 
@@ -655,7 +659,7 @@ function bb_pro_pusher_moderation_after_save( $moderation ) {
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-member-blocked', $event_data );
 		}
 	}
@@ -679,7 +683,7 @@ function bb_pro_pusher_moderation_after_delete( $moderation ) {
 		return;
 	}
 
-	if ( 'user' === $moderation->item_type ) {
+	if ( $moderation->item_type === 'user' ) {
 		$creator_id   = $moderation->user_id;
 		$unblocked_id = $moderation->item_id;
 
@@ -713,7 +717,7 @@ function bb_pro_pusher_moderation_after_delete( $moderation ) {
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-member-unblocked', $event_data );
 		}
 	}
@@ -745,7 +749,7 @@ function bb_pro_pusher_member_connection_after_update( $old_value, $new_value ) 
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-message-is-connected', $event_data );
 		}
 	}
@@ -778,7 +782,6 @@ function bb_pro_pusher_member_connection_requested( $friendship_id, $initiator_u
 
 	$channel = 'private-bb-user-' . $initiator_user_id;
 	bb_pro_comman_connection_triggers( $friend_user_id, $initiator_user_id, $friend_user_id, $channel, $event_name );
-
 }
 
 /**
@@ -876,7 +879,6 @@ function bb_pro_pusher_member_rejected_friendship( $friendship_id, $friendship )
 		bb_pro_comman_connection_triggers( $initiator_user_id, $friend_user_id, $initiator_user_id, $channel, $event_name );
 
 	}
-
 }
 
 /**
@@ -929,7 +931,7 @@ function bb_pro_pusher_message_access_control_after_update( $old_value, $new_val
 		$event_data = array();
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, $event_name, $event_data );
 		}
 	}
@@ -969,7 +971,7 @@ function bb_pro_pusher_active_components( $old_value, $value, $option ) {
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, 'private-bb-pro-global', 'client-bb-pro-active-components', $event_data );
 	}
 }
@@ -999,7 +1001,7 @@ function bb_pro_pusher_disabled_group_messages( $old_value, $value, $option ) {
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, 'private-bb-pro-global', $event_name, $event_data );
 	}
 }
@@ -1023,7 +1025,7 @@ function bb_pro_pusher_group_settings_update( $meta_id, $object_id, $meta_key, $
 		return;
 	}
 
-	if ( 'message_status' !== $meta_key ) {
+	if ( $meta_key !== 'message_status' ) {
 		return;
 	}
 
@@ -1059,7 +1061,7 @@ function bb_pro_pusher_group_settings_update( $meta_id, $object_id, $meta_key, $
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-group-setting-update', $event_data );
 	}
 }
@@ -1105,7 +1107,7 @@ function bb_pro_pusher_on_user_delete( $user_id ) {
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-member-deleted', $event_data );
 	}
 }
@@ -1146,10 +1148,9 @@ function bb_pro_pusher_messages_message_new_thread_save( $message ) {
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher && ! empty( $channels ) ) {
+	if ( $bb_pusher !== null && ! empty( $channels ) ) {
 		bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-new-thread-create', $event_data );
 	}
-
 }
 
 /**
@@ -1173,8 +1174,8 @@ function bb_pro_pusher_messages_message_new_message_save( $message ) {
 	$message_action = bp_messages_get_meta( $message->id, 'thread_action', true ); // group.
 
 	if (
-		'group' !== $message_from ||
-		'messages_send_reply' === $message_action ||
+		$message_from !== 'group' ||
+		$message_action === 'messages_send_reply' ||
 		did_action( 'groups_join_group' ) ||
 		did_action( 'groups_accept_invite' ) ||
 		did_action( 'groups_banned_member' ) ||
@@ -1214,20 +1215,19 @@ function bb_pro_pusher_messages_message_new_message_save( $message ) {
 			'recipients' => $recipients,
 		);
 
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-new-group-message', $event_data );
 		}
 	} else {
 		$response = bb_get_message_response_object( $message );
 
-		if ( ! empty( $response['thread_id'] ) && (int) $response['thread_id'] > 0 && null !== $bb_pusher && bp_is_active( 'messages' ) ) {
+		if ( ! empty( $response['thread_id'] ) && (int) $response['thread_id'] > 0 && $bb_pusher !== null && bp_is_active( 'messages' ) ) {
 
 			$notify_data = $response['messages'][0];
 			bb_pro_pusher_trigger_chunked_event( $bb_pusher, 'private-bb-message-thread-' . $response['thread_id'], 'client-bb-pro-before-message-ajax-send', $notify_data );
 
 		}
 	}
-
 }
 
 /**
@@ -1252,7 +1252,7 @@ function bb_pro_pusher_groups_before_delete_group( $group_id ) {
 				);
 
 				$bb_pusher = bb_pusher();
-				if ( null !== $bb_pusher ) {
+				if ( $bb_pusher !== null ) {
 					bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-group-thread-deleted', $event_data );
 				}
 			},
@@ -1318,8 +1318,10 @@ function bb_pro_pusher_group_messages_banned_member( $thread_id, $user_id, $grou
 		'sender_id' => (int) $user_id,
 	);
 
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-group-message-group-update-notify', $event_data );
+		bb_pusher_trigger_event( $bb_pusher, 'private-bb-user-' . $user_id, 'client-bb-pro-reconnect', array() );
+		$bb_pusher->terminateUserConnections( $user_id );
 	}
 }
 
@@ -1352,7 +1354,7 @@ function bb_pro_pusher_group_messages_unbanned_member( $thread_id, $user_id, $gr
 		'sender_id' => (int) $user_id,
 	);
 
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-group-message-group-update-notify', $event_data );
 	}
 }
@@ -1389,11 +1391,10 @@ function bb_pro_pusher_group_messages_member_joined( $group_id, $user_id ) {
 			'sender_id' => (int) $user_id,
 		);
 
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-group-message-group-update-notify', $event_data );
 		}
 	}
-
 }
 
 /**
@@ -1416,7 +1417,7 @@ function bb_pro_pusher_group_messages_member_left( $group_id, $user_id ) {
 	}
 
 	$action = 'group_message_group_left';
-	if ( 'groups_remove_member' === current_filter() ) {
+	if ( current_filter() === 'groups_remove_member' ) {
 		$action = 'groups_remove_member';
 	}
 
@@ -1433,11 +1434,13 @@ function bb_pro_pusher_group_messages_member_left( $group_id, $user_id ) {
 			'sender_id' => (int) $user_id,
 		);
 
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-group-message-group-update-notify', $event_data );
+			bb_pusher_trigger_event( $bb_pusher, 'private-bb-user-' . $user_id, 'client-bb-pro-reconnect', array() );
+			$bb_pusher->terminateUserConnections( $user_id );
+
 		}
 	}
-
 }
 
 /**
@@ -1479,10 +1482,9 @@ function bb_pro_comman_connection_triggers( $user_id, $friend_user_id, $initiato
 	);
 
 	$bb_pusher = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channel, $event_name, $event_data );
 	}
-
 }
 
 /**
@@ -1513,7 +1515,7 @@ function bb_pusher_rest_create_message( $thread, $response, $request, $message )
 	$data      = $response->get_data();
 	$hash      = $request->get_param( 'hash' );
 
-	if ( ! empty( $thread ) && (int) $thread->thread_id > 0 && null !== $bb_pusher && bp_is_active( 'messages' ) ) {
+	if ( ! empty( $thread ) && (int) $thread->thread_id > 0 && $bb_pusher !== null && bp_is_active( 'messages' ) ) {
 
 		$last_message_id = $message->id;
 
@@ -1606,7 +1608,7 @@ function bb_pro_pusher_disabled_pusher_settings( $old_value, $value, $option ) {
 		);
 
 		$bb_pusher = bb_pusher();
-		if ( null !== $bb_pusher ) {
+		if ( $bb_pusher !== null ) {
 			bb_pusher_trigger_event( $bb_pusher, $channel, $event_name, $event_data );
 		}
 	}
@@ -1670,7 +1672,7 @@ function bb_pro_pusher_deleted_thread_messages( $thread_id ) {
 		'thread_exists' => messages_is_valid_thread( $thread_id ),
 	);
 	$bb_pusher  = bb_pusher();
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, 'private-bb-message-thread-' . $thread_id, 'client-bb-pro-thread-delete-message', $event_data );
 	}
 }
@@ -1713,7 +1715,7 @@ function bb_pro_pusher_group_messages_member_promoted( $group_id, $user_id ) {
 		'sender_id' => (int) $user_id,
 	);
 
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-group-message-group-update-notify', $event_data );
 	}
 }
@@ -1756,7 +1758,7 @@ function bb_pro_pusher_group_messages_member_demoted( $group_id, $user_id ) {
 		'sender_id' => (int) $user_id,
 	);
 
-	if ( null !== $bb_pusher ) {
+	if ( $bb_pusher !== null ) {
 		bb_pusher_trigger_event( $bb_pusher, $channels, 'client-bb-pro-group-message-group-update-notify', $event_data );
 	}
 }
@@ -1801,5 +1803,37 @@ function bb_pusher_update_current_thread_unread_count() {
 			'type'     => 'success',
 		)
 	);
+}
 
+/**
+ * Fire a pusher event when the member type allow messaging without connection setting updated to refresh.
+ *
+ * @param mixed $old_value The old option value.
+ * @param mixed $new_value The new option value.
+ *
+ * @since 2.3.80
+ *
+ * @return void
+ */
+function bb_pro_pusher_member_type_allow_messaging_update( $old_value, $new_value ) {
+
+	if (
+		! bbp_pro_is_license_valid() ||
+		! bb_pusher_is_enabled() ||
+		! bb_pusher_is_feature_enabled( 'live-messaging' )
+	) {
+		return;
+	}
+
+	if ( $old_value !== $new_value ) {
+		$channel    = 'private-bb-pro-global';
+		$event_data = array(
+			'is_force_friendship_to_message' => bp_force_friendship_to_message(),
+		);
+
+		$bb_pusher = bb_pusher();
+		if ( $bb_pusher !== null ) {
+			bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-message-is-connected', $event_data );
+		}
+	}
 }

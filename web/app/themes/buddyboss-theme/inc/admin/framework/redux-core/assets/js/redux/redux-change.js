@@ -119,7 +119,7 @@ function redux_change( variable ) {
 					th.find( '.redux-menu-warning:first' ).text( warningsLeft );
 				}
 
-				rContainer.find( '.redux-field-warning span' ).text( warningCount );
+				rContainer.find( '.redux-field-warnings span' ).text( warningCount );
 			}
 
 			if ( 0 !== subParent.length ) {

@@ -1,10 +1,8 @@
 <?php
 
-global $course, $post;
+global $post;
 
-if ( empty( $course ) ) {
-	$course = new LLMS_Course( get_the_ID() );
-}
+$course = new LLMS_Course( get_the_ID() );
 
 $llms_product             = new LLMS_Product( get_the_ID() );
 $is_enrolled              = llms_is_user_enrolled( get_current_user_id(), $llms_product->get( 'id' ) );
@@ -57,7 +55,7 @@ if ( $is_enrolled ) {
 	$progress     = $course->get_percent_complete( $user_id );
 	$llms_status  = __( 'Complete', 'buddyboss-theme' );
 	$status_class = ' ld-status-complete';
-	if ( is_nan( $progress ) || ( 0 === $progress ) ) {
+	if ( is_nan( $progress ) || ( $progress === 0 ) ) {
 		$llms_status  = __( 'Start Course', 'buddyboss-theme' );
 		$status_class = ' ld-status-progress';
 	} else {
@@ -71,8 +69,8 @@ if ( $is_enrolled ) {
 	$status_class = ' ld-status-progress ';
 }
 
-if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
-	if ( 'yes' === $course->get( 'tile_featured_video' ) ) {
+if ( ! empty( $post->post_type ) && $post->post_type === 'course' ) {
+	if ( $course->get( 'tile_featured_video' ) === 'yes' ) {
 		$video = $course->get_video();
 		if ( $video ) {
 			$course_video_tile = 'bb-course-cover--videoTile';
@@ -83,8 +81,8 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 <li class="bb-course-item-wrap">
 	<div class="bb-cover-list-item">
 		<?php
-		if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
-			if ( 'yes' === $course->get( 'tile_featured_video' ) && $video ) {
+		if ( ! empty( $post->post_type ) && $post->post_type === 'course' ) {
+			if ( $course->get( 'tile_featured_video' ) === 'yes' && $video ) {
 				echo '<div class="bb-course-cover bb-course-cover--videoTile">' . $video . '</div>';
 			} else {
 				?>
@@ -134,7 +132,7 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 
 				<?php
 
-				if ( isset( $lifter_lms_course_author ) && ( 1 === $lifter_lms_course_author ) ) :
+				if ( isset( $lifter_lms_course_author ) && ( $lifter_lms_course_author === 1 ) ) :
 					$author_id = ( ! empty( $instructors ) ? current( $instructors )['id'] : 0 );
 					$img       = get_avatar( $author_id, 28 );
 					?>
@@ -170,7 +168,7 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 					foreach ( $plans as $plan ) {
 						$price_key = $plan->is_on_sale() ? 'sale_price' : 'price';
 						$price     = $plan->get_price( $price_key, array(), 'float' );
-						if ( 0.0 === $price ) {
+						if ( $price === 0.0 ) {
 							$price = $plan->get_price( $price_key, array(), 'html' );
 							$break = true;
 							break;
@@ -217,7 +215,7 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 				<div class="llms-meta-aplans llms-meta-aplans--enrolled flex align-items-center">
 					<?php
 
-					if ( '' !== $product_enrollment_date ) {
+					if ( $product_enrollment_date !== '' ) {
 						?>
 						<div class="llms-meta-aplans__in">
 							<div class="llms-meta-aplans__smTag"><?php esc_html_e( 'Enrolled on', 'buddyboss-theme' ); ?></div>
@@ -226,7 +224,7 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 						<?php
 					}
 
-					if ( '' !== $product_expiry_date ) {
+					if ( $product_expiry_date !== '' ) {
 						?>
 						<div class="llms-meta-aplans__in push-right">
 							<div class="llms-meta-aplans__smTag"><?php esc_html_e( 'Expires on', 'buddyboss-theme' ); ?></div>
