@@ -3,7 +3,7 @@
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * HTTP handler that uses cURL easy handles as a transport layer.

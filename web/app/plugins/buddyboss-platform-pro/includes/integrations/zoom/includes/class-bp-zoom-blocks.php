@@ -21,7 +21,14 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 		 * @since 1.0.0
 		 */
 		public function __construct() {
-			if ( ! bbp_pro_is_license_valid() || ! bp_zoom_is_zoom_enabled() || ! bp_zoom_is_zoom_setup() ) {
+			if ( ! bbp_pro_is_license_valid() ) {
+				return;
+			}
+
+			// Webhook for blocks.
+			add_action( 'bp_init', array( $this, 'bb_zoom_block_webhook' ), 10 );
+
+			if ( ! bp_zoom_is_zoom_setup() ) {
 				return;
 			}
 
@@ -64,6 +71,9 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				add_action( 'wp_ajax_zoom_webinar_sync', array( $this, 'zoom_webinar_sync' ) );
 				add_shortcode( 'zoom_webinar', array( $this, 'render_webinar_shortcode' ) );
 			}
+
+			// Webhook for blocks.
+			add_action( 'bp_init', array( $this, 'bb_zoom_block_webhook' ), 10 );
 		}
 
 		/**
@@ -150,9 +160,11 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				}
 			}
 
-			$host_user_type = 1;
-			$api_host_user  = bp_zoom_api_host_user();
-			if ( ! empty( $api_host_user ) && 2 === (int) $api_host_user->type ) {
+			$host_user_type  = 1;
+			$default_host_id = bb_zoom_get_account_email();
+			$api_host_user   = bb_zoom_get_api_host_user();
+
+			if ( ! empty( $api_host_user ) && (int) $api_host_user->type === 2 ) {
 				$host_user_type = 2;
 			}
 
@@ -163,14 +175,14 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 					'timezones'                     => $timezones_val,
 					'wp_timezone'                   => $selected_time_zone,
 					'wp_date_time'                  => wp_date( 'Y-m-d\TH:i:s', strtotime( 'now' ) ),
-					'default_host_id'               => bp_zoom_api_email(),
+					'default_host_id'               => $default_host_id,
 					'default_host_user'             => bp_zoom_api_host_show(),
 					'default_host_user_type'        => $host_user_type,
 					'bp_zoom_meeting_nonce'         => wp_create_nonce( 'bp_zoom_meeting' ),
 					'bp_zoom_webinar_nonce'         => wp_create_nonce( 'bp_zoom_webinar' ),
 					'delete_occurrence_confirm_str' => __( 'Are you sure you want to delete this occurrence?', 'buddyboss-pro' ),
 					'webinar_enabled'               => bp_zoom_is_zoom_webinar_enabled(),
-					'private_webinar'               => bp_zoom_is_zoom_hide_webinar_urls_enabled(),
+					'private_webinar'               => bb_zoom_is_webinar_hide_urls_enabled(),
 					'block_zoom_meeting'            => __( 'Zoom Meeting', 'buddyboss-pro' ),
 					'block_create_add_zoom'         => __( 'Create meeting or add existing meeting.', 'buddyboss-pro' ),
 					'block_create_zoom_meeting'     => __( 'Create Meeting', 'buddyboss-pro' ),
@@ -188,79 +200,79 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 					'block_zoom_when'               => __( 'When', 'buddyboss-pro' ),
 					'block_zoom_timezone'           => __( 'Timezone', 'buddyboss-pro' ),
 					'block_zoom_search_timezone'    => __( 'Search timezone', 'buddyboss-pro' ),
-					'block_zoom_no_results'		    => __( 'No results found', 'buddyboss-pro' ),
+					'block_zoom_no_results'         => __( 'No results found', 'buddyboss-pro' ),
 					'block_zoom_auto_recording'     => __( 'Auto Recording', 'buddyboss-pro' ),
 					'block_zoom_no_recordings'      => __( 'No Recordings', 'buddyboss-pro' ),
 					'block_zoom_local'              => __( 'Local', 'buddyboss-pro' ),
 					'block_zoom_cloud'              => __( 'Cloud', 'buddyboss-pro' ),
-					'block_zoom_save_meeting'		=> __( 'Save Meeting', 'buddyboss-pro' ),
-					'block_zoom_delete'				=> __( 'Delete', 'buddyboss-pro' ),
-					'block_zoom_sunday'				=> __( 'Sunday', 'buddyboss-pro' ),
-					'block_zoom_monday'				=> __( 'Monday', 'buddyboss-pro' ),
-					'block_zoom_tuesday'			=> __( 'Tuesday', 'buddyboss-pro' ),
-					'block_zoom_wednesday'			=> __( 'Wednesday', 'buddyboss-pro' ),
-					'block_zoom_thursday'			=> __( 'Thursday', 'buddyboss-pro' ),
-					'block_zoom_friday'				=> __( 'Friday', 'buddyboss-pro' ),
-					'block_zoom_saturday'			=> __( 'Saturday', 'buddyboss-pro' ),
-					'block_zoom_day'				=> __( 'Day', 'buddyboss-pro' ),
-					'block_zoom_days'				=> __( 'Days', 'buddyboss-pro' ),
-					'block_zoom_occures'			=> __( 'Occures on', 'buddyboss-pro' ),
-					'block_zoom_day_month'			=> __( 'Day of the month', 'buddyboss-pro' ),
-					'block_zoom_week_month'			=> __( 'Week of the month', 'buddyboss-pro' ),
-					'block_zoom_week_daily'			=> __( 'Daily', 'buddyboss-pro' ),
-					'block_zoom_week_weekly'		=> __( 'Weekly', 'buddyboss-pro' ),
-					'block_zoom_week_monthly'		=> __( 'Monthly', 'buddyboss-pro' ),
-					'block_zoom_of_month'			=> __( 'of the month', 'buddyboss-pro' ),
-					'block_zoom_first'				=> __( 'First', 'buddyboss-pro' ),
-					'block_zoom_second'				=> __( 'Second', 'buddyboss-pro' ),
-					'block_zoom_third'				=> __( 'Third', 'buddyboss-pro' ),
-					'block_zoom_fourth'				=> __( 'Fourth', 'buddyboss-pro' ),
-					'block_zoom_last'				=> __( 'Last', 'buddyboss-pro' ),
-					'block_zoom_occures_on'			=> __( 'Occures on', 'buddyboss-pro' ),
-					'block_zoom_occurrences'		=> __( 'Occurrences', 'buddyboss-pro' ),
-					'block_zoom_occurrences_low'	=> __( 'occurences', 'buddyboss-pro' ),
-					'block_zoom_occurrence_del'		=> __( 'Occurrence Deleted.', 'buddyboss-pro' ),
-					'block_zoom_edit'				=> __( 'Edit', 'buddyboss-pro' ),
-					'block_zoom_date'				=> __( 'Date', 'buddyboss-pro' ),
-					'block_zoom_end_by'				=> __( 'End by', 'buddyboss-pro' ),
-					'block_zoom_end_after'			=> __( 'End After', 'buddyboss-pro' ),
-					'block_zoom_webinar'			=> __( 'Zoom Webinar', 'buddyboss-pro' ),
-					'block_zoom_create_webinar'		=> __( 'Create webinar in Zoom', 'buddyboss-pro' ),
-					'block_zoom_create_add_webinar'	=> __( 'Create webinar or add existing webinar.', 'buddyboss-pro' ),
-					'block_create_webinar'			=> __( 'Create Webinar', 'buddyboss-pro' ),
-					'block_existing_webinar'		=> __( 'Existing Webinar', 'buddyboss-pro' ),
-					'block_add_webinar'				=> __( 'Add Existing Webinar', 'buddyboss-pro' ),
-					'block_webinar_id'				=> __( 'Webinar ID', 'buddyboss-pro' ),
-					'block_enter_webinar_id'		=> __( 'Enter webinar ID without spaces…', 'buddyboss-pro' ),
-					'block_webinar_sync'			=> __( 'Webinar Synced.', 'buddyboss-pro' ),
-					'block_webinar_deleted'			=> __( 'Webinar Deleted.', 'buddyboss-pro' ),
-					'block_webinar_updated'			=> __( 'Webinar Updated.', 'buddyboss-pro' ),
-					'block_webinar_save'			=> __( 'Save Webinar', 'buddyboss-pro' ),
-					'block_zoom_duration'			=> __( 'Duration (minutes)', 'buddyboss-pro' ),
-					'block_zoom_settings'			=> __( 'Settings', 'buddyboss-pro' ),
-					'block_zoom_description'		=> __( 'Description (optional)', 'buddyboss-pro' ),
-					'block_zoom_passcode'			=> __( 'Passcode (optional)', 'buddyboss-pro' ),
-					'block_zoom_default_host'		=> __( 'Default Host', 'buddyboss-pro' ),
-					'block_zoom_alt_hosts'			=> __( 'Alternative Hosts', 'buddyboss-pro' ),
-					'block_zoom_example'			=> __( 'Example: mary@company.com', 'buddyboss-pro' ),
-					'block_zoom_email_enter'		=> __( 'Entered by email, comma separated. Each email added needs to match with a user in your Zoom account.', 'buddyboss-pro' ),
-					'block_zoom_start_video'		=> __( 'Start video when host joins', 'buddyboss-pro' ),
-					'block_zoom_start_video_par'	=> __( 'Start video when participants join', 'buddyboss-pro' ),
-					'block_zoom_require_reg'		=> __( 'Require Registration', 'buddyboss-pro' ),
-					'block_enable_practice_session'	=> __( 'Enable practice session', 'buddyboss-pro' ),
-					'block_only_auth'				=> __( 'Only authenticated users can join', 'buddyboss-pro' ),
-					'block_enable_wait_room'		=> __( 'Enable waiting room', 'buddyboss-pro' ),
-					'block_mute_part'				=> __( 'Mute participants upon entry', 'buddyboss-pro' ),
-					'block_enable_join_before'		=> __( 'Enable join before host', 'buddyboss-pro' ),
-					'block_recurring_options'		=> __( 'Recurring Options', 'buddyboss-pro' ),
-					'block_recurring_webinar'		=> __( 'Recurring Webinar', 'buddyboss-pro' ),
-					'block_recurrence'				=> __( 'Recurrence', 'buddyboss-pro' ),
-					'block_recurring_meeting'		=> __( 'Recurring Meeting', 'buddyboss-pro' ),
-					'block_repeat_every'			=> __( 'Repeat every', 'buddyboss-pro' ),
-					'block_att_any'					=> __( 'Attendees register once and can attend any of the occurrences', 'buddyboss-pro' ),
-					'block_att_each'				=> __( 'Attendees need to register for each occurrence to attend', 'buddyboss-pro' ),
-					'block_att_choose'				=> __( 'Attendees register once and can choose one or more occurrences to attend', 'buddyboss-pro' ),
-					'block_meeting_deleted'			=> __( 'Meeting Deleted.', 'buddyboss-pro' ),
+					'block_zoom_save_meeting'       => __( 'Save Meeting', 'buddyboss-pro' ),
+					'block_zoom_delete'             => __( 'Delete', 'buddyboss-pro' ),
+					'block_zoom_sunday'             => __( 'Sunday', 'buddyboss-pro' ),
+					'block_zoom_monday'             => __( 'Monday', 'buddyboss-pro' ),
+					'block_zoom_tuesday'            => __( 'Tuesday', 'buddyboss-pro' ),
+					'block_zoom_wednesday'          => __( 'Wednesday', 'buddyboss-pro' ),
+					'block_zoom_thursday'           => __( 'Thursday', 'buddyboss-pro' ),
+					'block_zoom_friday'             => __( 'Friday', 'buddyboss-pro' ),
+					'block_zoom_saturday'           => __( 'Saturday', 'buddyboss-pro' ),
+					'block_zoom_day'                => __( 'Day', 'buddyboss-pro' ),
+					'block_zoom_days'               => __( 'Days', 'buddyboss-pro' ),
+					'block_zoom_occures'            => __( 'Occures on', 'buddyboss-pro' ),
+					'block_zoom_day_month'          => __( 'Day of the month', 'buddyboss-pro' ),
+					'block_zoom_week_month'         => __( 'Week of the month', 'buddyboss-pro' ),
+					'block_zoom_week_daily'         => __( 'Daily', 'buddyboss-pro' ),
+					'block_zoom_week_weekly'        => __( 'Weekly', 'buddyboss-pro' ),
+					'block_zoom_week_monthly'       => __( 'Monthly', 'buddyboss-pro' ),
+					'block_zoom_of_month'           => __( 'of the month', 'buddyboss-pro' ),
+					'block_zoom_first'              => __( 'First', 'buddyboss-pro' ),
+					'block_zoom_second'             => __( 'Second', 'buddyboss-pro' ),
+					'block_zoom_third'              => __( 'Third', 'buddyboss-pro' ),
+					'block_zoom_fourth'             => __( 'Fourth', 'buddyboss-pro' ),
+					'block_zoom_last'               => __( 'Last', 'buddyboss-pro' ),
+					'block_zoom_occures_on'         => __( 'Occures on', 'buddyboss-pro' ),
+					'block_zoom_occurrences'        => __( 'Occurrences', 'buddyboss-pro' ),
+					'block_zoom_occurrences_low'    => __( 'occurences', 'buddyboss-pro' ),
+					'block_zoom_occurrence_del'     => __( 'Occurrence Deleted.', 'buddyboss-pro' ),
+					'block_zoom_edit'               => __( 'Edit', 'buddyboss-pro' ),
+					'block_zoom_date'               => __( 'Date', 'buddyboss-pro' ),
+					'block_zoom_end_by'             => __( 'End by', 'buddyboss-pro' ),
+					'block_zoom_end_after'          => __( 'End After', 'buddyboss-pro' ),
+					'block_zoom_webinar'            => __( 'Zoom Webinar', 'buddyboss-pro' ),
+					'block_zoom_create_webinar'     => __( 'Create webinar in Zoom', 'buddyboss-pro' ),
+					'block_zoom_create_add_webinar' => __( 'Create webinar or add existing webinar.', 'buddyboss-pro' ),
+					'block_create_webinar'          => __( 'Create Webinar', 'buddyboss-pro' ),
+					'block_existing_webinar'        => __( 'Existing Webinar', 'buddyboss-pro' ),
+					'block_add_webinar'             => __( 'Add Existing Webinar', 'buddyboss-pro' ),
+					'block_webinar_id'              => __( 'Webinar ID', 'buddyboss-pro' ),
+					'block_enter_webinar_id'        => __( 'Enter webinar ID without spaces…', 'buddyboss-pro' ),
+					'block_webinar_sync'            => __( 'Webinar Synced.', 'buddyboss-pro' ),
+					'block_webinar_deleted'         => __( 'Webinar Deleted.', 'buddyboss-pro' ),
+					'block_webinar_updated'         => __( 'Webinar Updated.', 'buddyboss-pro' ),
+					'block_webinar_save'            => __( 'Save Webinar', 'buddyboss-pro' ),
+					'block_zoom_duration'           => __( 'Duration (minutes)', 'buddyboss-pro' ),
+					'block_zoom_settings'           => __( 'Settings', 'buddyboss-pro' ),
+					'block_zoom_description'        => __( 'Description (optional)', 'buddyboss-pro' ),
+					'block_zoom_passcode'           => __( 'Passcode (optional)', 'buddyboss-pro' ),
+					'block_zoom_default_host'       => __( 'Default Host', 'buddyboss-pro' ),
+					'block_zoom_alt_hosts'          => __( 'Alternative Hosts', 'buddyboss-pro' ),
+					'block_zoom_example'            => __( 'Example: mary@company.com', 'buddyboss-pro' ),
+					'block_zoom_email_enter'        => __( 'Entered by email, comma separated. Each email added needs to match with a user in your Zoom account.', 'buddyboss-pro' ),
+					'block_zoom_start_video'        => __( 'Start video when host joins', 'buddyboss-pro' ),
+					'block_zoom_start_video_par'    => __( 'Start video when participants join', 'buddyboss-pro' ),
+					'block_zoom_require_reg'        => __( 'Require Registration', 'buddyboss-pro' ),
+					'block_enable_practice_session' => __( 'Enable practice session', 'buddyboss-pro' ),
+					'block_only_auth'               => __( 'Only authenticated users can join', 'buddyboss-pro' ),
+					'block_enable_wait_room'        => __( 'Enable waiting room', 'buddyboss-pro' ),
+					'block_mute_part'               => __( 'Mute participants upon entry', 'buddyboss-pro' ),
+					'block_enable_join_before'      => __( 'Enable join before host', 'buddyboss-pro' ),
+					'block_recurring_options'       => __( 'Recurring Options', 'buddyboss-pro' ),
+					'block_recurring_webinar'       => __( 'Recurring Webinar', 'buddyboss-pro' ),
+					'block_recurrence'              => __( 'Recurrence', 'buddyboss-pro' ),
+					'block_recurring_meeting'       => __( 'Recurring Meeting', 'buddyboss-pro' ),
+					'block_repeat_every'            => __( 'Repeat every', 'buddyboss-pro' ),
+					'block_att_any'                 => __( 'Attendees register once and can attend any of the occurrences', 'buddyboss-pro' ),
+					'block_att_each'                => __( 'Attendees need to register for each occurrence to attend', 'buddyboss-pro' ),
+					'block_att_choose'              => __( 'Attendees register once and can choose one or more occurrences to attend', 'buddyboss-pro' ),
+					'block_meeting_deleted'         => __( 'Meeting Deleted.', 'buddyboss-pro' ),
 				)
 			);
 		}
@@ -279,7 +291,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				foreach ( $post_types as $slug => $post_type ) {
 
 					// Ignore attachment post type.
-					if ( 'attachment' === $slug ) {
+					if ( $slug === 'attachment' ) {
 						continue;
 					}
 
@@ -330,20 +342,16 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				return $content;
 			}
 
-			$meeting_info = get_transient( 'bp_zoom_meeting_block_' . $attributes['meetingId'] );
+			$meeting_id            = $attributes['meetingId'];
+			$bp_zoom_meeting_block = bb_zoom_get_meeting_block( $meeting_id, true );
 
-			if ( empty( $meeting_info ) ) {
-				$meeting_info = bp_zoom_conference()->get_meeting_info( $attributes['meetingId'] );
-
-				if ( ! empty( $meeting_info['code'] ) && 200 === $meeting_info['code'] && ! empty( $meeting_info['response'] ) ) {
-					$bp_zoom_meeting_block = $meeting_info['response'];
-					set_transient( 'bp_zoom_meeting_block_' . $attributes['meetingId'], wp_json_encode( $bp_zoom_meeting_block ), MINUTE_IN_SECONDS );
+			if ( ! empty( $bp_zoom_meeting_block ) ) {
+				if ( empty( $bp_zoom_meeting_block ) ) {
+					return $content;
 				}
-			} else {
-				$bp_zoom_meeting_block = json_decode( $meeting_info );
-			}
 
-			$bp_zoom_meeting_block->block_class_name = isset( $attributes['className'] ) ? $attributes['className'] : '';
+				$bp_zoom_meeting_block->block_class_name = isset( $attributes['className'] ) ? $attributes['className'] : '';
+			}
 
 			ob_start();
 			bp_get_template_part( 'zoom/blocks/meeting-block' );
@@ -376,18 +384,8 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				return false;
 			}
 
-			$meeting_info = get_transient( 'bp_zoom_meeting_block_' . $args['id'] );
-
-			if ( empty( $meeting_info ) ) {
-				$meeting_info = bp_zoom_conference()->get_meeting_info( $args['id'] );
-
-				if ( ! empty( $meeting_info['code'] ) && 200 === $meeting_info['code'] && ! empty( $meeting_info['response'] ) ) {
-					$bp_zoom_meeting_block = $meeting_info['response'];
-					set_transient( 'bp_zoom_meeting_block_' . $args['id'], wp_json_encode( $bp_zoom_meeting_block ), MINUTE_IN_SECONDS );
-				}
-			} else {
-				$bp_zoom_meeting_block = json_decode( $meeting_info );
-			}
+			$meeting_id            = $args['id'];
+			$bp_zoom_meeting_block = bb_zoom_get_meeting_block( $meeting_id );
 
 			ob_start();
 			bp_get_template_part( 'zoom/blocks/meeting-block' );
@@ -413,7 +411,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -425,7 +423,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$meeting_deleted = bp_zoom_conference()->delete_meeting( $meeting_id, $occurrence_id );
 
-			if ( isset( $meeting_deleted['code'] ) && 204 === $meeting_deleted['code'] ) {
+			if ( isset( $meeting_deleted['code'] ) && $meeting_deleted['code'] === 204 ) {
 				delete_transient( 'bp_zoom_meeting_block_' . $meeting_id );
 				delete_transient( 'bp_zoom_meeting_invitation_' . $meeting_id );
 				wp_send_json_success(
@@ -466,7 +464,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -475,9 +473,17 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$meeting_id = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-zoom-id' );
 
+			if ( bb_zoom_is_meeting_deleted( $meeting_id ) ) {
+				wp_send_json_success(
+					array(
+						'deleted' => true,
+					)
+				);
+			}
+
 			$meeting_deleted = bp_zoom_conference()->delete_meeting( $meeting_id );
 
-			if ( isset( $meeting_deleted['code'] ) && 204 === $meeting_deleted['code'] ) {
+			if ( isset( $meeting_deleted['code'] ) && $meeting_deleted['code'] === 204 ) {
 				delete_transient( 'bp_zoom_meeting_block_' . $meeting_id );
 				delete_transient( 'bp_zoom_meeting_invitation_' . $meeting_id );
 				wp_send_json_success(
@@ -518,7 +524,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -601,7 +607,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( $response_error );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -610,8 +616,8 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$auto_recording       = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-recording' );
 			$alternative_host_ids = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-alt-host-ids' );
-			$title                = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-title' );
-			$description          = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-description' );
+			$title                = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-title', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
+			$description          = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-description', array( FILTER_FLAG_NO_ENCODE_QUOTES ) );
 			$meeting_id           = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-zoom-id' );
 			$start_date           = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-start-date' );
 			$duration             = filter_input( INPUT_POST, 'bp-zoom-meeting-duration', FILTER_VALIDATE_INT );
@@ -643,7 +649,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			$data = array(
 				'host_id'                => $host_id,
 				'start_date_utc'         => $start_date,
-				'timezone'               => $timezone,
+				'timezone'               => bb_zoom_get_remote_allowed_timezone( $timezone ),
 				'duration'               => $duration,
 				'password'               => $password,
 				'registration'           => $approval_type,
@@ -660,31 +666,31 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			);
 
 			$recurrence_obj = array();
-			if ( 8 === $type ) {
+			if ( $type === 8 ) {
 				$recurrence_obj['type'] = $recurrence;
 				$repeat_interval        = filter_input( INPUT_POST, 'bp-zoom-meeting-repeat-interval', FILTER_VALIDATE_INT );
 
-				if ( 1 === $recurrence ) {
+				if ( $recurrence === 1 ) {
 					if ( 90 < $repeat_interval ) {
 						$repeat_interval = 90;
 					}
-				} elseif ( 2 === $recurrence ) {
+				} elseif ( $recurrence === 2 ) {
 					if ( 12 < $repeat_interval ) {
 						$repeat_interval = 12;
 					}
 
 					$weekly_days                   = filter_input( INPUT_POST, 'bp-zoom-meeting-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 					$recurrence_obj['weekly_days'] = implode( ',', $weekly_days );
-				} elseif ( 3 === $recurrence ) {
+				} elseif ( $recurrence === 3 ) {
 					if ( 3 < $repeat_interval ) {
 						$repeat_interval = 3;
 					}
 					$monthly_occurs_on = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-monthly-occurs-on' );
 
-					if ( 'day' === $monthly_occurs_on ) {
+					if ( $monthly_occurs_on === 'day' ) {
 						$monthly_day                   = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-day', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_day'] = $monthly_day;
-					} elseif ( 'week' === $monthly_occurs_on ) {
+					} elseif ( $monthly_occurs_on === 'week' ) {
 						$monthly_week_day                   = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-week-day', FILTER_VALIDATE_INT );
 						$monthly_week                       = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-week', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_week_day'] = $monthly_week_day;
@@ -692,7 +698,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 					}
 				}
 
-				if ( 'date' === $end_time_select ) {
+				if ( $end_time_select === 'date' ) {
 					$end_date_time = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-end-date-time' );
 					$end_date_time = new DateTime( $end_date_time, new DateTimeZone( $timezone ) );
 					$end_date_time = $end_date_time->format( 'Y-m-d' );
@@ -728,7 +734,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			}
 
 			if ( ! empty( $zoom_meeting['code'] ) && in_array( $zoom_meeting['code'], array( 201, 204 ), true ) ) {
-				if ( ! empty( $zoom_meeting['response'] ) && null !== $zoom_meeting['response'] ) {
+				if ( ! empty( $zoom_meeting['response'] ) && $zoom_meeting['response'] !== null ) {
 					delete_transient( 'bp_zoom_meeting_block_' . $zoom_meeting['response']->id );
 					delete_transient( 'bp_zoom_meeting_invitation_' . $zoom_meeting['response']->id );
 
@@ -812,14 +818,14 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$meeting_info = bp_zoom_conference()->get_meeting_info( $meeting_id );
 
-			if ( ! empty( $meeting_info['code'] ) && 200 === $meeting_info['code'] && ! empty( $meeting_info['response'] ) ) {
+			if ( ! empty( $meeting_info['code'] ) && $meeting_info['code'] === 200 && ! empty( $meeting_info['response'] ) ) {
 				$host_id = $meeting_info['response']->host_id;
 
 				$user_info = bp_zoom_conference()->get_user_info( $host_id );
 
 				$host_name  = '';
 				$host_email = '';
-				if ( 200 === $user_info['code'] && ! empty( $user_info['response'] ) ) {
+				if ( $user_info['code'] === 200 && ! empty( $user_info['response'] ) ) {
 					if ( ! empty( $user_info['response']->first_name ) ) {
 						$host_name .= $user_info['response']->first_name;
 					}
@@ -847,7 +853,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 						$meeting_info['response']->occurrences[ $o_key ]->start_time = bp_zoom_convert_date_time( $occurrence->start_time, $timezone, true );
 					}
 					foreach ( $meeting_info['response']->occurrences as $occurrence ) {
-						if ( 'deleted' !== $occurrence->status ) {
+						if ( $occurrence->status !== 'deleted' ) {
 							$start_time = $occurrence->start_time;
 							break;
 						}
@@ -855,6 +861,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				}
 
 				$meeting_info['response']->start_time = $start_time;
+				$meeting_info['response']->timezone   = bb_zoom_get_server_allowed_timezone( $timezone );
 
 				if ( ! empty( $meeting_info['response']->recurrence->end_date_time ) ) {
 					$meeting_info['response']->recurrence->end_date_time = bp_zoom_convert_date_time( $meeting_info['response']->recurrence->end_date_time, $timezone, true );
@@ -895,20 +902,16 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				return $content;
 			}
 
-			$webinar_info = get_transient( 'bp_zoom_webinar_block_' . $attributes['webinarId'] );
+			$webinar_id            = $attributes['webinarId'];
+			$bp_zoom_webinar_block = bb_zoom_get_webinar_block( $webinar_id );
 
-			if ( empty( $webinar_info ) ) {
-				$webinar_info = bp_zoom_conference()->get_webinar_info( $attributes['webinarId'] );
-
-				if ( ! empty( $webinar_info['code'] ) && 200 === $webinar_info['code'] && ! empty( $webinar_info['response'] ) ) {
-					$bp_zoom_webinar_block = $webinar_info['response'];
-					set_transient( 'bp_zoom_webinar_block_' . $attributes['webinarId'], wp_json_encode( $bp_zoom_webinar_block ), MINUTE_IN_SECONDS );
+			if ( ! empty( $bp_zoom_webinar_block ) ) {
+				if ( empty( $bp_zoom_webinar_block ) ) {
+					return $content;
 				}
-			} else {
-				$bp_zoom_webinar_block = json_decode( $webinar_info );
-			}
 
-			$bp_zoom_webinar_block->block_class_name = isset( $attributes['className'] ) ? $attributes['className'] : '';
+				$bp_zoom_webinar_block->block_class_name = isset( $attributes['className'] ) ? $attributes['className'] : '';
+			}
 
 			ob_start();
 			bp_get_template_part( 'zoom/blocks/webinar-block' );
@@ -941,18 +944,8 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				return false;
 			}
 
-			$webinar_info = get_transient( 'bp_zoom_webinar_block_' . $args['id'] );
-
-			if ( empty( $webinar_info ) ) {
-				$webinar_info = bp_zoom_conference()->get_webinar_info( $args['id'] );
-
-				if ( ! empty( $webinar_info['code'] ) && 200 === $webinar_info['code'] && ! empty( $webinar_info['response'] ) ) {
-					$bp_zoom_webinar_block = $webinar_info['response'];
-					set_transient( 'bp_zoom_webinar_block_' . $args['id'], wp_json_encode( $bp_zoom_webinar_block ), MINUTE_IN_SECONDS );
-				}
-			} else {
-				$bp_zoom_webinar_block = json_decode( $webinar_info );
-			}
+			$webinar_id            = $args['id'];
+			$bp_zoom_webinar_block = bb_zoom_get_webinar_block( $webinar_id );
 
 			ob_start();
 			bp_get_template_part( 'zoom/blocks/webinar-block' );
@@ -978,7 +971,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -990,7 +983,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$webinar_deleted = bp_zoom_conference()->delete_webinar( $webinar_id, $occurrence_id );
 
-			if ( isset( $webinar_deleted['code'] ) && 204 === $webinar_deleted['code'] ) {
+			if ( isset( $webinar_deleted['code'] ) && $webinar_deleted['code'] === 204 ) {
 				delete_transient( 'bp_zoom_webinar_block_' . $webinar_id );
 				wp_send_json_success(
 					array(
@@ -1030,7 +1023,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -1039,9 +1032,17 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$webinar_id = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-zoom-id' );
 
+			if ( bb_zoom_is_webinar_deleted( $webinar_id ) ) {
+				wp_send_json_success(
+					array(
+						'deleted' => true,
+					)
+				);
+			}
+
 			$webinar_deleted = bp_zoom_conference()->delete_webinar( $webinar_id );
 
-			if ( isset( $webinar_deleted['code'] ) && 204 === $webinar_deleted['code'] ) {
+			if ( isset( $webinar_deleted['code'] ) && $webinar_deleted['code'] === 204 ) {
 				delete_transient( 'bp_zoom_webinar_block_' . $webinar_id );
 				wp_send_json_success(
 					array(
@@ -1081,7 +1082,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -1161,7 +1162,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				wp_send_json_error( $response_error );
 			}
 
-			$host_id = bp_zoom_api_email();
+			$host_id = bb_zoom_get_account_email();
 
 			// check user host.
 			if ( empty( $host_id ) ) {
@@ -1202,7 +1203,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			$data = array(
 				'host_id'                => $host_id,
 				'start_date_utc'         => $start_date,
-				'timezone'               => $timezone,
+				'timezone'               => bb_zoom_get_remote_allowed_timezone( $timezone ),
 				'duration'               => $duration,
 				'password'               => $password,
 				'registration'           => $approval_type,
@@ -1219,31 +1220,31 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			);
 
 			$recurrence_obj = array();
-			if ( 9 === $type ) {
+			if ( $type === 9 ) {
 				$recurrence_obj['type'] = $recurrence;
 				$repeat_interval        = filter_input( INPUT_POST, 'bp-zoom-webinar-repeat-interval', FILTER_VALIDATE_INT );
 
-				if ( 1 === $recurrence ) {
+				if ( $recurrence === 1 ) {
 					if ( 90 < $repeat_interval ) {
 						$repeat_interval = 90;
 					}
-				} elseif ( 2 === $recurrence ) {
+				} elseif ( $recurrence === 2 ) {
 					if ( 12 < $repeat_interval ) {
 						$repeat_interval = 12;
 					}
 
 					$weekly_days                   = filter_input( INPUT_POST, 'bp-zoom-webinar-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 					$recurrence_obj['weekly_days'] = implode( ',', $weekly_days );
-				} elseif ( 3 === $recurrence ) {
+				} elseif ( $recurrence === 3 ) {
 					if ( 3 < $repeat_interval ) {
 						$repeat_interval = 3;
 					}
 					$monthly_occurs_on = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-monthly-occurs-on' );
 
-					if ( 'day' === $monthly_occurs_on ) {
+					if ( $monthly_occurs_on === 'day' ) {
 						$monthly_day                   = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-day', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_day'] = $monthly_day;
-					} elseif ( 'week' === $monthly_occurs_on ) {
+					} elseif ( $monthly_occurs_on === 'week' ) {
 						$monthly_week_day                   = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-week-day', FILTER_VALIDATE_INT );
 						$monthly_week                       = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-week', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_week_day'] = $monthly_week_day;
@@ -1251,7 +1252,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 					}
 				}
 
-				if ( 'date' === $end_time_select ) {
+				if ( $end_time_select === 'date' ) {
 					$end_date_time = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-end-date-time' );
 					$end_date_time = new DateTime( $end_date_time, new DateTimeZone( $timezone ) );
 					$end_date_time = $end_date_time->format( 'Y-m-d' );
@@ -1281,7 +1282,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 			}
 
 			if ( ! empty( $zoom_webinar['code'] ) && in_array( $zoom_webinar['code'], array( 201, 204 ), true ) ) {
-				if ( ! empty( $zoom_webinar['response'] ) && null !== $zoom_webinar['response'] ) {
+				if ( ! empty( $zoom_webinar['response'] ) && $zoom_webinar['response'] !== null ) {
 					delete_transient( 'bp_zoom_webinar_block_' . $zoom_webinar['response']->id );
 
 					if ( ! empty( $zoom_webinar['response']->occurrences ) ) {
@@ -1363,14 +1364,14 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			$webinar_info = bp_zoom_conference()->get_webinar_info( $webinar_id, false, true );
 
-			if ( ! empty( $webinar_info['code'] ) && 200 === $webinar_info['code'] && ! empty( $webinar_info['response'] ) ) {
+			if ( ! empty( $webinar_info['code'] ) && $webinar_info['code'] === 200 && ! empty( $webinar_info['response'] ) ) {
 				$host_id = $webinar_info['response']->host_id;
 
 				$user_info = bp_zoom_conference()->get_user_info( $host_id );
 
 				$host_name  = '';
 				$host_email = '';
-				if ( 200 === $user_info['code'] && ! empty( $user_info['response'] ) ) {
+				if ( $user_info['code'] === 200 && ! empty( $user_info['response'] ) ) {
 					if ( ! empty( $user_info['response']->first_name ) ) {
 						$host_name .= $user_info['response']->first_name;
 					}
@@ -1398,7 +1399,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 						$webinar_info['response']->occurrences[ $o_key ]->start_time = bp_zoom_convert_date_time( $occurrence->start_time, $timezone, true );
 					}
 					foreach ( $webinar_info['response']->occurrences as $occurrence ) {
-						if ( 'deleted' !== $occurrence->status ) {
+						if ( $occurrence->status !== 'deleted' ) {
 							$start_time = $occurrence->start_time;
 							break;
 						}
@@ -1406,6 +1407,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				}
 
 				$webinar_info['response']->start_time = $start_time;
+				$webinar_info['response']->timezone   = bb_zoom_get_server_allowed_timezone( $timezone );
 
 				if ( ! empty( $webinar_info['response']->recurrence->end_date_time ) ) {
 					$webinar_info['response']->recurrence->end_date_time = bp_zoom_convert_date_time( $webinar_info['response']->recurrence->end_date_time, $timezone, true );
@@ -1429,6 +1431,23 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 
 			wp_send_json_error( array( 'error' => __( 'Something went wrong. If passcode is entered then please make sure it matches Zoom Passcode requirements and try again.', 'buddyboss-pro' ) ) );
 		}
+
+		/**
+		 * Zoom webhook handler for blocks.
+		 *
+		 * @since 2.3.91
+		 */
+		public function bb_zoom_block_webhook() {
+			$zoom_webhook = filter_input( INPUT_GET, 'zoom_webhook', FILTER_VALIDATE_INT );
+			$group_id     = filter_input( INPUT_GET, 'group_id', FILTER_VALIDATE_INT );
+
+			if ( ! empty( $zoom_webhook ) && $zoom_webhook === 1 && empty( $group_id ) ) {
+				$content = file_get_contents( 'php://input' );
+				$json    = json_decode( $content, true );
+
+				// Validate zoom webhook for blocks.
+				BP_Zoom_Conference_Api::zoom_webhook_callback( $json );
+			}
+		}
 	}
 }
-

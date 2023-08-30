@@ -4,9 +4,9 @@ namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7\Response;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Utils;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
 
 /**
  * Represents a cURL easy handle and the data it populates.

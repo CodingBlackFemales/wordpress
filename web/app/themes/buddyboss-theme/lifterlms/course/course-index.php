@@ -1,33 +1,31 @@
 <?php
 
 $view              = get_option( 'bb_theme_lifter_course_grid_list', 'grid' );
-$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
-$class_list_active = ( 'list' === $view ) ? 'active' : '';
-$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
-$search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
+$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
+$class_list_active = ( $view === 'list' ) ? 'active' : '';
+$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
+$search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 
 ?>
 <div id="lifterlms-content" class="lifterlms-course-list">
-    <form id="bb-courses-directory-form" class="bb-courses-directory" method="get" action="">
+	<form id="bb-courses-directory-form" class="bb-courses-directory" method="get" action="">
 		<?php $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; ?>
-        <input type="hidden" name="current_page" value="<?php echo esc_attr( $paged ); ?>">
-        <div class="flex align-items-center bb-courses-header">
-            <h1 class="page-title"><?php lifterlms_page_title(); ?></h1>
-            <div id="courses-dir-search" class="bs-dir-search" role="search">
-                <div id="search-members-form" class="bs-search-form">
-                    <label for="bs_members_search" class="bp-screen-reader-text">
+		<input type="hidden" name="current_page" value="<?php echo esc_attr( $paged ); ?>">
+		<div class="flex align-items-center bb-courses-header">
+			<h1 class="page-title"><?php lifterlms_page_title(); ?></h1>
+			<div id="courses-dir-search" class="bs-dir-search" role="search">
+				<div id="search-members-form" class="bs-search-form">
+					<label for="bs_members_search" class="bp-screen-reader-text">
 						<?php _e( 'Search', 'buddyboss-theme' ); ?>
-                    </label>
-                    <input type="text" name="search" id="bs_members_search"
-                           value="<?php echo ! empty( $_GET['search'] ) ? $_GET['search'] : ''; ?>"
-                           placeholder="<?php _e( 'Search Courses...', 'buddyboss-theme' ); ?>">
-                </div>
-            </div>
-        </div>
+					</label>
+					<input type="text" name="search" id="bs_members_search" value="<?php echo ! empty( $_GET['search'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['search'] ) ) ) : ''; ?>" placeholder="<?php _e( 'Search Courses...', 'buddyboss-theme' ); ?>">
+				</div>
+			</div>
+		</div>
 
-        <nav class="courses-type-navs main-navs bp-navs dir-navs bp-subnavs">
-            <ul class="component-navigation courses-nav">
+		<nav class="courses-type-navs main-navs bp-navs dir-navs bp-subnavs">
+		<ul class="component-navigation courses-nav">
 				<?php
 				$navs = array(
 					'all' => '<div class="bb-component-nav-item-point">' . esc_html__( 'All Courses', 'buddyboss-theme' ) . '</div>' . ' ' . '<span class="count">' . buddyboss_theme()->lifterlms_helper()->get_all_courses_count() . '</span>',
@@ -114,7 +112,7 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 					$base_url    = get_post_type_archive_link( 'course' );
 					foreach ( $navs as $nav => $text ) {
 						$selected_class = $nav == $current_nav ? 'selected' : '';
-						$url            = 'all' != $nav ? add_query_arg(
+						$url            = $nav != 'all' ? add_query_arg(
 							array( 'type' => $nav ),
 							$base_url
 						) : $base_url;
@@ -129,64 +127,62 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 				}
 				?>
 
-            </ul>
-        </nav>
+			</ul>
+		</nav>
 
-        <input type="hidden" name="type" value="<?php echo esc_attr( $current_nav ); ?>">
+		<input type="hidden" name="type" value="<?php echo esc_attr( $current_nav ); ?>">
 
-        <div class="ld-secondary-header ld-secondary-header--llms">
+		<div class="ld-secondary-header ld-secondary-header--llms">
+			<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
 
-            <div class="bb-secondary-list-tabs flex align-items-center" id="subnav"
-                 aria-label="Members directory secondary navigation" role="navigation">
+				<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? $_GET['order'] : 'desc'; ?>"/>
 
-                <input type="hidden" id="course-order" name="order"
-                       value="<?php echo ! empty( $_GET['order'] ) ? $_GET['order'] : 'desc'; ?>"/>
-
-                <div class="sfwd-courses-filters flex push-right">
-                    <div class="select-wrap">
-                        <select id="sfwd_prs-order-by" name="orderby">
+				<div class="sfwd-courses-filters flex push-right">
+					<div class="select-wrap">
+						<select id="sfwd_prs-order-by" name="orderby">
 							<?php echo buddyboss_theme()->lifterlms_helper()->print_sorting_options(); ?>
-                        </select>
-                    </div>
+						</select>
+					</div>
 
 					<?php if ( buddyboss_theme_get_option( 'lifterlms_course_index_show_categories_filter' ) ) : ?>
-                        <div class="select-wrap">
+						<div class="select-wrap">
 							<?php
 							$category = get_queried_object();
-							if ( '' !== trim( buddyboss_theme()->lifterlms_helper()->print_categories_options() ) && is_post_type_archive( 'course' ) ) { ?>
-                                <select id="sfwd_cats-order-by" name="filter-categories">
+							if ( trim( buddyboss_theme()->lifterlms_helper()->print_categories_options() ) !== '' && is_post_type_archive( 'course' ) ) {
+								?>
+								<select id="sfwd_cats-order-by" name="filter-categories">
 									<?php echo buddyboss_theme()->lifterlms_helper()->print_categories_options(); ?>
-                                </select>
+								</select>
 								<?php
-							} ?>
-                        </div>
+							}
+							?>
+						</div>
 					<?php endif; ?>
 
 					<?php if ( buddyboss_theme_get_option( 'lifterlms_course_index_show_instructors_filter' ) ) : ?>
-                        <div class="select-wrap">
-                            <select id="sfwd_instructors-order-by" name="filter-instructors">
+						<div class="select-wrap">
+							<select id="sfwd_instructors-order-by" name="filter-instructors">
 								<?php echo buddyboss_theme()->lifterlms_helper()->print_instructors_options(); ?>
-                            </select>
-                        </div>
+							</select>
+						</div>
 					<?php endif; ?>
-                </div>
+				</div>
 
-                <div class="grid-filters" data-view="llms-course">
-                    <a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>"><i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
-                    </a>
+				<div class="grid-filters" data-view="llms-course">
+					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>"><i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
+					</a>
 
-                    <a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>"><i class="dashicons dashicons-menu" aria-hidden="true"></i>
-                    </a>
-                </div>
+					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>"><i class="dashicons dashicons-menu" aria-hidden="true"></i>
+					</a>
+				</div>
 
-            </div>
-        </div>
+			</div>
+		</div>
 
-        <div class="grid-view bb-grid">
-
-            <div id="course-dir-list" class="course-dir-list bs-dir-list">
+		<div class="grid-view bb-grid">
+			<div id="course-dir-list" class="course-dir-list bs-dir-list">
 				<?php
-				if ( isset( $_GET['type'] ) && 'my-courses' === $_GET['type'] ) {
+				if ( isset( $_GET['type'] ) && $_GET['type'] === 'my-courses' ) {
 
 					$user_id  = get_current_user_id();
 					$paged    = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
@@ -266,10 +262,11 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 					if ( $all_query->have_posts() ) {
 
 						?>
-                        <ul class="bb-course-items <?php echo esc_attr( $class_grid_show . $class_list_show ); ?>" aria-live="assertive" aria-relevant="all">
+						<ul class="bb-course-items <?php echo esc_attr( $class_grid_show . $class_list_show ); ?>" aria-live="assertive" aria-relevant="all">
 							<?php
 							/* Start the Loop */
-							while ( $all_query->have_posts() ) : $all_query->the_post();
+							while ( $all_query->have_posts() ) :
+								$all_query->the_post();
 
 								/*
 								 * Include the Post-Format-specific template for the content.
@@ -280,9 +277,9 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 								llms_get_template( 'course/course-index-loop.php' );
 							endwhile;
 							?>
-                        </ul>
+						</ul>
 
-                        <div class="bb-lms-pagination mine">
+						<div class="bb-lms-pagination mine">
 							<?php
 							global $wp_query;
 							$big        = 999999999; // need an unlikely integer
@@ -298,22 +295,21 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 								)
 							);
 							?>
-                        </div>
+						</div>
 						<?php
 
 					} else {
 						?>
-                        <aside class="bp-feedback bp-template-notice ld-feedback info">
-                            <span class="bp-icon" aria-hidden="true"></span>
-                            <p><?php _e( 'Sorry, no courses were found.', 'buddyboss-theme' ); ?></p>
-                        </aside>
+						<aside class="bp-feedback bp-template-notice ld-feedback info">
+							<span class="bp-icon" aria-hidden="true"></span>
+							<p><?php _e( 'Sorry, no courses were found.', 'buddyboss-theme' ); ?></p>
+						</aside>
 						<?php
 					}
-
 				} else {
 					if ( have_posts() ) {
 						?>
-                        <ul class="bb-course-items <?php echo esc_attr( $class_grid_show . $class_list_show ); ?>" aria-live="assertive" aria-relevant="all">
+						<ul class="bb-course-items <?php echo esc_attr( $class_grid_show . $class_list_show ); ?>" aria-live="assertive" aria-relevant="all">
 							<?php
 							/* Start the Loop */
 							while ( have_posts() ) :
@@ -328,9 +324,9 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 								llms_get_template( 'course/course-index-loop.php' );
 							endwhile;
 							?>
-                        </ul>
+						</ul>
 
-                        <div class="bb-lms-pagination all">
+						<div class="bb-lms-pagination all">
 							<?php
 							global $wp_query;
 							$big        = 999999999; // need an unlikely integer
@@ -346,19 +342,19 @@ $search            = isset( $_GET['search'] ) ? $_GET['search'] : '';
 								)
 							);
 							?>
-                        </div>
+						</div>
 						<?php
 					} else {
 						?>
-                        <aside class="bp-feedback bp-template-notice ld-feedback info">
-                            <span class="bp-icon" aria-hidden="true"></span>
-                            <p><?php _e( 'Sorry, no courses were found.', 'buddyboss-theme' ); ?></p>
-                        </aside>
+						<aside class="bp-feedback bp-template-notice ld-feedback info">
+							<span class="bp-icon" aria-hidden="true"></span>
+							<p><?php _e( 'Sorry, no courses were found.', 'buddyboss-theme' ); ?></p>
+						</aside>
 						<?php
 					}
 				}
 				?>
-            </div>
-        </div>
-    </form>
+			</div>
+		</div>
+	</form>
 </div>

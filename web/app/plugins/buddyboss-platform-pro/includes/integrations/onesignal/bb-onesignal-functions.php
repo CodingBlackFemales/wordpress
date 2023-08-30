@@ -32,19 +32,6 @@ function bb_onesignal_integration_url( $path = '' ) {
 }
 
 /**
- * Checks if OneSignal is enabled.
- *
- * @since 2.0.3
- *
- * @param int $default Default option for OneSignal enable or not.
- *
- * @return bool Is OneSignal enabled or not.
- */
-function bb_onesignal_is_enabled( $default = 1 ) {
-	return (bool) apply_filters( 'bb_onesignal_is_enabled', (bool) bp_get_option( 'bb-onesignal-enable', $default ) );
-}
-
-/**
  * Link to OneSignal Settings tutorial.
  *
  * @since 2.0.3
@@ -72,45 +59,6 @@ function bb_onesignal_settings_tutorial() {
 }
 
 /**
- * Get OneSignal Auth Key.
- *
- * @since 2.0.3
- *
- * @param string $default Default option for auth key.
- *
- * @return mixed|void OneSignal Auth Key.
- */
-function bb_onesignal_auth_key( $default = '' ) {
-	return apply_filters( 'bb_onesignal_auth_key', bp_get_option( 'bb-onesignal-auth-key', $default ) );
-}
-
-/**
- * Get OneSignal account apps.
- *
- * @since 2.0.3
- *
- * @param array $default Default option apps.
- *
- * @return mixed|void OneSignal apps.
- */
-function bb_onesignal_account_apps( $default = array() ) {
-	return apply_filters( 'bb_onesignal_account_apps', bp_get_option( 'bb-onesignal-account-apps', $default ) );
-}
-
-/**
- * Get OneSignal connected app.
- *
- * @since 2.0.3
- *
- * @param string $default Default connected app.
- *
- * @return mixed|void OneSignal connected app id.
- */
-function bb_onesignal_connected_app( $default = '' ) {
-	return apply_filters( 'bb_onesignal_connected_app', bp_get_option( 'bb-onesignal-connected-app', $default ) );
-}
-
-/**
  * Get OneSignal connected app name.
  *
  * @since 2.0.3
@@ -120,7 +68,7 @@ function bb_onesignal_connected_app( $default = '' ) {
  * @return mixed|void OneSignal connected app name.
  */
 function bb_onesignal_connected_app_name( $default = '' ) {
-	return apply_filters( 'bb_onesignal_connected_app_name', bp_get_option( 'bb-onesignal-connected-app-name', $default ) );
+	return apply_filters( 'bb_onesignal_connected_app_name', bb_onesignal_get_settings( 'app_name', $default ) );
 }
 
 /**
@@ -133,20 +81,7 @@ function bb_onesignal_connected_app_name( $default = '' ) {
  * @return mixed|void OneSignal connected app details.
  */
 function bb_onesignal_connected_app_details( $default = array() ) {
-	return apply_filters( 'bb_onesignal_connected_app_details', bp_get_option( 'bb-onesignal-connected-app-details', $default ) );
-}
-
-/**
- * Get oneSignal app rest api key.
- *
- * @since 2.0.3
- *
- * @return mixed|string
- */
-function bb_onesignal_connected_app_rest_api_key() {
-	$settings = bb_onesignal_connected_app_details();
-
-	return isset( $settings['basic_auth_key'] ) ? $settings['basic_auth_key'] : '';
+	return apply_filters( 'bb_onesignal_connected_app_details', bb_onesignal_get_settings( 'app_details', $default ) );
 }
 
 /**
@@ -157,17 +92,17 @@ function bb_onesignal_connected_app_rest_api_key() {
  * @return void
  */
 function bb_onesignal_update_app_details() {
-	$auth_key = bb_onesignal_auth_key();
-	$app_id   = bb_onesignal_connected_app();
+	$auth_key = bb_onesignal_rest_api_key();
+	$app_id   = bb_onesignal_app_id();
 
 	if ( ! empty( $auth_key ) && ! empty( $app_id ) ) {
-		$args = array(
+		$settings = array();
+		$args     = array(
 			'sslverify' => false,
 			'headers'   => array( 'Authorization' => 'Basic ' . $auth_key ),
 		);
 
-		$url     = bb_onesignal_api_endpoint() . 'apps/' . $app_id;
-		$request = bbpro_remote_get( $url, $args );
+		$request = bbpro_remote_get( bb_onesignal_view_app_endpoint( $app_id ), $args );
 
 		$web_url  = wp_parse_url( site_url() );
 		$site_url = ( isset( $web_url['scheme'] ) && $web_url['host'] ) ? $web_url['scheme'] . '://' . $web_url['host'] : site_url();
@@ -176,44 +111,54 @@ function bb_onesignal_update_app_details() {
 		$response      = json_decode( $response, true );
 		$response_code = wp_remote_retrieve_response_code( $request );
 
-		if ( 200 === $response_code && ! empty( $response ) ) {
-			if ( ! empty( $web_url['scheme'] ) && 'http' === $web_url['scheme'] && empty( $response['chrome_web_sub_domain'] ) ) {
-				$error = sprintf(
+		if ( $response_code === 200 && ! empty( $response ) ) {
+			if ( ! empty( $web_url['scheme'] ) && $web_url['scheme'] === 'http' && empty( $response['chrome_web_sub_domain'] ) ) {
+				$settings['warnings']['only_ssl'] = sprintf(
 					/* translators: 1. App name 2. App configuration URL */
 					__( 'The %1$s app is currently set to only support secure (HTTPS) sites. Please update this app\'s %2$s in OneSignal or create a new app for this site.', 'buddyboss-pro' ),
 					'<strong>' . $response['name'] . ' </strong>',
 					'<a href="' . esc_url( 'https://app.onesignal.com/apps/' . $response['id'] . '/settings/webpush/configure' ) . '" target="_blank">' . __( 'configuration', 'buddyboss-pro' ) . '</a>'
 				);
-				set_transient( 'bb_onesignal_warning', $error, HOUR_IN_SECONDS );
-				bp_update_option( 'bb-onesignal-connected-app', $response['id'] );
-				bp_update_option( 'bb-onesignal-connected-app-name', $response['name'] );
-				bp_delete_option( 'bb-onesignal-connected-app-details' );
 			} elseif (
 				empty( $response['safari_site_origin'] ) ||
 				empty( $response['chrome_web_origin'] ) ||
 				untrailingslashit( $response['safari_site_origin'] ) !== untrailingslashit( $site_url ) ||
 				untrailingslashit( $response['chrome_web_origin'] ) !== untrailingslashit( $site_url )
 			) {
-				$error = sprintf(
+				$settings['warnings']['url_not_matched'] = sprintf(
 					/* translators: 1. App name 2. App configuration URL */
 					__( 'The Site URL for the %1$s app does not match this site\'s url. Please update this app\'s %2$s in OneSignal or create a new app for this site.', 'buddyboss-pro' ),
 					'<strong>' . $response['name'] . ' </strong>',
 					'<a href="' . esc_url( 'https://app.onesignal.com/apps/' . $response['id'] . '/settings/webpush/configure' ) . '" target="_blank">' . __( 'configuration', 'buddyboss-pro' ) . '</a>'
 				);
-				set_transient( 'bb_onesignal_warning', $error, HOUR_IN_SECONDS );
-				bp_update_option( 'bb-onesignal-connected-app', $response['id'] );
-				bp_update_option( 'bb-onesignal-connected-app-name', $response['name'] );
-				bp_delete_option( 'bb-onesignal-connected-app-details' );
-			} else {
-				bp_update_option( 'bb-onesignal-connected-app', $response['id'] );
-				bp_update_option( 'bb-onesignal-connected-app-name', $response['name'] );
-				bp_update_option( 'bb-onesignal-connected-app-details', $response );
+			}
+
+			$settings['is_connected']    = true;
+			$settings['app_name']        = $response['name'];
+			$settings['app_details']     = $response;
+			$settings['sidewide_errors'] = array();
+
+			// Update soft prompt image.
+			if ( isset( $response['chrome_web_default_notification_icon'] ) ) {
+				bp_update_option( 'bb-onesignal-soft-prompt-image', $response['chrome_web_default_notification_icon'] );
 			}
 		} else {
-			bp_delete_option( 'bb-onesignal-connected-app' );
-			bp_delete_option( 'bb-onesignal-connected-app-name' );
-			bp_delete_option( 'bb-onesignal-connected-app-details' );
+
+			$response_errors = '';
+			if ( ! empty( $response['errors'] ) ) {
+				$response_errors = implode( ', ', $response['errors'] );
+			}
+
+			$settings['errors']['invalid_app_id_or_rest_api_key'] = sprintf(
+				/* translators: Error from response. */
+				__( 'There was a problem connecting to your OneSignal account %s', 'buddyboss-pro' ),
+				! empty( $response_errors ) ? ': ' . $response_errors : ''
+			);
+			$settings['is_connected']    = false;
+			$settings['sidewide_errors'] = array();
 		}
+
+		bb_onesignal_update_settings( $settings );
 	}
 }
 
@@ -267,28 +212,6 @@ function bb_onesignal_view_notification_endpoint( $notification_id, $app_id ) {
 }
 
 /**
- * OneSignal validate auth.
- *
- * @since 2.0.3
- *
- * @return boolean
- */
-function bb_onesignal_validate_auth_key() {
-	return (bool) ( ! empty( bb_onesignal_auth_key() ) && ! empty( bb_onesignal_account_apps() ) );
-}
-
-/**
- * OneSignal validate app.
- *
- * @since 2.0.3
- *
- * @return boolean
- */
-function bb_onesignal_validate_app() {
-	return (bool) bb_onesignal_validate_auth_key() && ! empty( bb_onesignal_connected_app() ) && ! empty( bb_onesignal_connected_app_name() );
-}
-
-/**
  * OneSignal Web Push enabled or not.
  *
  * @since 2.0.3
@@ -298,7 +221,7 @@ function bb_onesignal_validate_app() {
  * @return bool
  */
 function bb_onesignal_enabled_web_push( $default = 0 ) {
-	return (bool) bb_onesignal_validate_app() && apply_filters( 'bb_onesignal_enabled_web_push', bp_get_option( 'bb-onesignal-enabled-web-push', $default ) );
+	return (bool) bb_onesignal_app_is_connected() && apply_filters( 'bb_onesignal_enabled_web_push', bp_get_option( 'bb-onesignal-enabled-web-push', $default ) );
 }
 
 /**
@@ -431,7 +354,7 @@ function bb_onesignal_soft_prompt_message_placeholder_text() {
  */
 function bb_onesignal_soft_prompt_image( $default = '', $size = 'full' ) {
 
-	$custom_avatar_url = bp_get_option( 'bb-onesignal-enable-soft-prompt-image', $default );
+	$custom_avatar_url = bp_get_option( 'bb-onesignal-soft-prompt-image', $default );
 
 	/**
 	 * Filters to change default custom upload avatar image.
@@ -452,10 +375,11 @@ function bb_onesignal_soft_prompt_image( $default = '', $size = 'full' ) {
  * @return void
  */
 function bb_onesignal_admin_setting_callback_push_notification_fields() {
-	$validate_auth = ! bb_onesignal_validate_auth_key();
-	$invalid_app   = ! bb_onesignal_validate_app();
+	$settings = bb_onesignal_get_settings();
+	$app_id   = ! bb_onesignal_app_id();
+	$rest_api = ! bb_onesignal_rest_api_key();
 
-	$disabled = $validate_auth || $invalid_app;
+	$disabled = $app_id || $rest_api || ! empty( $settings['errors'] );
 	$checked  = bb_onesignal_enabled_web_push();
 	?>
 	<input id="bb-onesignal-enabled-web-push" name="bb-onesignal-enabled-web-push" type="checkbox" value="1"
@@ -468,7 +392,7 @@ function bb_onesignal_admin_setting_callback_push_notification_fields() {
 	<p class="description"><?php esc_html_e( 'Once enabled, members will be able to opt-in to receive all BuddyBoss Notifications as push notifications through their web browser.', 'buddyboss-pro' ); ?></p>
 	<?php
 
-	if ( $validate_auth ) {
+	if ( $disabled ) {
 		?>
 		<div class="bp-messages-feedback">
 			<div class="bp-feedback warning">
@@ -480,39 +404,7 @@ function bb_onesignal_admin_setting_callback_push_notification_fields() {
 						/* translators: 1. OneSignal error type. 2. Admin integration url. */
 							__( 'Please enter a valid %1$s in the %2$s settings.', 'buddyboss-pro' )
 						),
-						'<strong>' . esc_html__( 'OneSignal Auth Key', 'buddyboss-pro' ) . '</strong>',
-						'<a href="' .
-						esc_url(
-							bp_get_admin_url(
-								add_query_arg(
-									array(
-										'page' => 'bp-integrations',
-										'tab'  => 'bb-onesignal',
-									),
-									'admin.php'
-								)
-							)
-						)
-						. '">' . esc_html__( 'Integration', 'buddyboss-pro' ) . '</a>'
-					);
-					?>
-				</p>
-			</div>
-		</div>
-		<?php
-	} elseif ( $invalid_app ) {
-		?>
-		<div class="bp-messages-feedback">
-			<div class="bp-feedback warning">
-				<span class="bp-icon" aria-hidden="true"></span>
-				<p>
-					<?php
-					printf(
-						wp_kses_post(
-						/* translators: 1. OneSignal error type. 2. Admin integration url. */
-							__( 'Please select a valid %1$s in the %2$s settings.', 'buddyboss-pro' )
-						),
-						'<strong>' . esc_html__( 'OneSignal App', 'buddyboss-pro' ) . '</strong>',
+						'<strong>' . esc_html__( 'OneSignal App ID and Rest API Key', 'buddyboss-pro' ) . '</strong>',
 						'<a href="' .
 						esc_url(
 							bp_get_admin_url(
@@ -689,28 +581,36 @@ function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_message()
  * @return void
  */
 function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_image() {
-	$hide_show_style           = 'bp-inline-block';
-	$default_soft_prompt_image = bb_onesignal_soft_prompt_image();
-
-	if ( ! $default_soft_prompt_image ) {
-		$hide_show_style = 'bp-hide';
-	}
 	?>
-
-	<div class="bb-default-custom-upload-file bbpro-upload-attachment" data-object="prompt">
+	<div class="bb-default-custom-upload-file">
 		<p class="description soft_prompt_label_header"><?php esc_html_e( 'Image', 'buddyboss-pro' ); ?></p>
-		<div class="bb-upload-container bbpro-attachment-upload-container">
-			<img src="<?php echo esc_url( $default_soft_prompt_image ); ?>" class="bb-upload-preview prompt-0-avatar <?php echo esc_attr( $hide_show_style ); ?>" >
-			<input type="hidden" name="bb-onesignal-enable-soft-prompt-image" class="bb-default-custom-avatar-field" value="<?php echo esc_url( $default_soft_prompt_image ); ?>">
-		</div>
-		<div class="bb-img-button-wrap">
-			<a href="#TB_inline?width=800px&height=400px&inlineId=bbpro-notification-icon-editor" class="button button-large thickbox bb-attachment-user-edit" data-uploading="<?php esc_html_e( 'Uploading...', 'buddyboss-pro' ); ?>" data-upload="<?php esc_html_e( 'Upload', 'buddyboss-pro' ); ?>"><?php esc_html_e( 'Upload', 'buddyboss-pro' ); ?></a>
-			<a href="#" class="delete button button-large bbpro-img-remove-button  <?php echo esc_attr( $hide_show_style ); ?>" data-removing="<?php esc_html_e( 'Removing...', 'buddyboss-pro' ); ?>" data-remove="<?php esc_html_e( 'Remove', 'buddyboss-pro' ); ?>"><?php esc_html_e( 'Remove', 'buddyboss-pro' ); ?></a>
-		</div>
-		<div class="bp-messages-feedback admin-notice bbpro-attachment-status" style="display: none;">
-			<div class="bp-feedback">
-				<p class="bbpro-attachment-upload-feedback"></p>
-			</div>
+		<div class="description">
+			<p>
+				<?php
+				printf(
+					wp_kses_post(
+					/* translators: 1. Field name, 2. Learn more link . */
+						__( 'To change the image used in your prompt, enter the URL of the image into the %1$s field in your OneSignal app’s settings. %2$s', 'buddyboss-pro' )
+					),
+					'<strong>' . esc_html__( 'Default Icon Url', 'buddyboss-pro' ) . '</strong>',
+					sprintf(
+						'<a href="%s">%s</a>',
+						esc_url(
+							bp_get_admin_url(
+								add_query_arg(
+									array(
+										'page'    => 'bp-help',
+										'article' => 126368,
+									),
+									'admin.php'
+								)
+							)
+						),
+						esc_html__( 'Learn More', 'buddyboss-pro' )
+					)
+				);
+				?>
+			</p>
 		</div>
 	</div>
 	<?php
@@ -753,6 +653,8 @@ function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_buttons()
  * @return void
  */
 function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_preview_box() {
+	// Call this function to get latest soft prompt image.
+	bb_onesignal_update_app_details();
 
 	$default_icon              = "data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg clip-path='url(%23clip0)'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M33.232 28.434a2.5 2.5 0 001.768.733 1.667 1.667 0 010 3.333H5a1.667 1.667 0 110-3.333 2.5 2.5 0 002.5-2.5v-8.104A13.262 13.262 0 0118.333 5.122V1.667a1.666 1.666 0 113.334 0v3.455A13.262 13.262 0 0132.5 18.563v8.104a2.5 2.5 0 00.732 1.767zM16.273 35h7.454a.413.413 0 01.413.37 4.167 4.167 0 11-8.28 0 .417.417 0 01.413-.37z' fill='%23BDC4CB'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0'%3E%3Cpath fill='%23fff' d='M0 0h40v40H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E";
 	$default_soft_prompt_image = bb_onesignal_soft_prompt_image();
@@ -794,7 +696,6 @@ function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_preview_b
 		</div>
 	</div>
 	<?php
-
 }
 
 /**
@@ -835,8 +736,8 @@ function bb_get_browser_name( $user_agent ) {
  */
 function bb_onesingnal_send_notification( $data ) {
 
-	$rest_api_key = bb_onesignal_connected_app_rest_api_key();
-	$app_id       = bb_onesignal_connected_app();
+	$rest_api_key = bb_onesignal_rest_api_key();
+	$app_id       = bb_onesignal_app_id();
 
 	if ( empty( $rest_api_key ) || empty( $app_id ) ) {
 		return;
@@ -893,7 +794,6 @@ function bb_onesingnal_send_notification( $data ) {
 
 	$args['body'] = wp_json_encode( $fields );
 	bbpro_remote_post( bb_onesignal_notification_endpoint(), $args );
-
 }
 
 /**
@@ -952,7 +852,7 @@ function bb_pro_onesignal_user_presence_check( $retval, $notification ) {
 	$args = array(
 		'skip_active_user' => bb_onesignal_web_push_skip_active_members(),
 	);
-	
+
 	$excluded_actions = bb_onesignal_excluded_web_notification_message_actions();
 
 	if (
@@ -973,7 +873,7 @@ function bb_pro_onesignal_user_presence_check( $retval, $notification ) {
  * @return void
  */
 function bb_onesignal_admin_setting_callback_web_push_skip_active_members() {
-	$checked  = bb_onesignal_web_push_skip_active_members();
+	$checked = bb_onesignal_web_push_skip_active_members();
 	?>
 	<input id="bb_web_push_skip_active_members" name="bb_web_push_skip_active_members" type="checkbox" value="1"
 		<?php
@@ -996,4 +896,88 @@ function bb_onesignal_admin_setting_callback_web_push_skip_active_members() {
  */
 function bb_onesignal_web_push_skip_active_members( $default = false ) {
 	return (bool) apply_filters( 'bb_onesignal_web_push_skip_active_members', bp_get_option( 'bb_web_push_skip_active_members', $default ) );
+}
+
+/**
+ * Get OneSignal settings.
+ *
+ * @since 2.3.40
+ *
+ * @param string $key     Optional. Get setting by key.
+ * @param string $default Optional. Default value if value or setting not avaialble.
+ *
+ * @return array|string
+ */
+function bb_onesignal_get_settings( $key = '', $default = '' ) {
+	$settings = bp_get_option( 'bb-onesignal', array() );
+
+	if ( ! empty( $key ) ) {
+		$settings = isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
+	}
+
+	return apply_filters( 'bb_onesignal_get_settings', $settings, $key, $default );
+}
+
+/**
+ * Get OneSignal Rest API Key.
+ *
+ * @since 2.3.40
+ *
+ * @param array $settings Default option for Rest API Key.
+ *
+ * @return mixed|void OneSignal Rest API Key.
+ */
+function bb_onesignal_update_settings( $settings = array() ) {
+	$defaults = array(
+		'app_id'          => bb_onesignal_app_id(),
+		'rest_api_key'    => bb_onesignal_rest_api_key(),
+		'is_connected'    => bb_onesignal_app_is_connected(),
+		'warnings'        => array(),
+		'errors'          => array(),
+		'sidewide_errors' => array(),
+		'app_name'        => bb_onesignal_connected_app_name(),
+		'app_details'     => bb_onesignal_connected_app_details(),
+	);
+
+	$settings = bp_parse_args( $settings, $defaults );
+	bp_update_option( 'bb-onesignal', $settings );
+}
+
+/**
+ * Get OneSignal App ID.
+ *
+ * @since 2.3.40
+ *
+ * @param string $default Default option for app ID.
+ *
+ * @return mixed|void OneSignal App ID.
+ */
+function bb_onesignal_app_id( $default = '' ) {
+	return apply_filters( 'bb_onesignal_app_id', bb_onesignal_get_settings( 'app_id', $default ) );
+}
+
+/**
+ * Get OneSignal Rest API Key.
+ *
+ * @since 2.3.40
+ *
+ * @param string $default Default option for Rest API Key.
+ *
+ * @return mixed|void OneSignal Rest API Key.
+ */
+function bb_onesignal_rest_api_key( $default = '' ) {
+	return apply_filters( 'bb_onesignal_rest_api_key', bb_onesignal_get_settings( 'rest_api_key', $default ) );
+}
+
+/**
+ * Check the OneSignal App is connected or not?
+ *
+ * @since 2.3.40
+ *
+ * @param string $default Default false.
+ *
+ * @return bool.
+ */
+function bb_onesignal_app_is_connected( $default = false ) {
+	return (bool) apply_filters( 'bb_onesignal_app_is_connected', bb_onesignal_get_settings( 'is_connected', $default ) );
 }

@@ -7,7 +7,9 @@ use Elementor\Group_Control_Typography;
 use Elementor\Core\Schemes;
 use Elementor\Group_Control_Border;
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
 
 /**
  * @since 1.1.0
@@ -68,7 +70,7 @@ class BBP_Forums_Activity extends Widget_Base {
 	 * @return array Widget categories.
 	 */
 	public function get_categories() {
-		return [ 'buddyboss-elements' ];
+		return array( 'buddyboss-elements' );
 	}
 
 	/**
@@ -84,229 +86,229 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->start_controls_section(
 			'section_content_layout',
-			[
+			array(
 				'label'     => esc_html__( 'Layout', 'buddyboss-theme' ),
-			]
+			)
 		);
 
 		$this->add_control(
 			'switch_forum_title',
-			[
+			array(
 				'label'   => esc_html__( 'Show Forum Title', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-			]
+			)
 		);
 
 		$this->add_control(
 			'switch_meta',
-			[
+			array(
 				'label'   => esc_html__( 'Show Meta Data', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-			]
+			)
 		);
 
 		$this->add_control(
 			'switch_excerpt',
-			[
+			array(
 				'label'   => esc_html__( 'Show Excerpt', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-			]
+			)
 		);
 
 		$this->add_control(
 			'switch_excerpt_icon',
-			[
+			array(
 				'label'   => esc_html__( 'Show Reply Icon', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-				'condition' => [
+				'condition' => array(
 					'switch_excerpt' => 'yes',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'switch_link',
-			[
+			array(
 				'label'   => esc_html__( 'Show Link', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'button_text',
-			[
+			array(
 				'label' => __( 'Button Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'View Discussion', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter button text', 'buddyboss-theme' ),
 				'label_block' => true,
-				'condition' => [
+				'condition' => array(
 					'switch_link' => 'yes',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'switch_my_discussions',
-			[
+			array(
 				'label'   => esc_html__( 'My Discussions Button', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SWITCHER,
 				'default' => 'yes',
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'my_discussions_button_text',
-			[
+			array(
 				'label' => __( 'Button Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'View My Discussions', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter button text', 'buddyboss-theme' ),
 				'label_block' => true,
-				'condition' => [
+				'condition' => array(
 					'switch_my_discussions' => 'yes',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'no_forums_paragraph_text',
-			[
+			array(
 				'label' => __( 'No Forums Paragraph Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'You don\'t have any discussions yet.', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter no forums paragraph text', 'buddyboss-theme' ),
 				'label_block' => true,
-				'separator' => 'before'
-			]
+				'separator' => 'before',
+			)
 		);
 
 		$this->add_control(
 			'no_forums_button_text',
-			[
+			array(
 				'label' => __( 'No Forums Button Text', 'buddyboss-theme' ),
 				'type' => Controls_Manager::TEXT,
-				'dynamic' => [
+				'dynamic' => array(
 					'active' => true,
-				],
+				),
 				'default' => __( 'Explore Forums', 'buddyboss-theme' ),
 				'placeholder' => __( 'Enter no forums button text', 'buddyboss-theme' ),
-				'label_block' => true
-			]
+				'label_block' => true,
+			)
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_style_box',
-			[
+			array(
 				'label'     => esc_html__( 'Box', 'buddyboss-theme' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-			]
+			)
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
-			[
+			array(
 				'name'        => 'box_border',
 				'label'       => __( 'Border', 'buddyboss-theme' ),
 				'placeholder' => '1px',
 				'default'     => '1px',
 				'selector'    => '{{WRAPPER}} .bb-forums-activity',
 				'separator'   => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'box_border_radius',
-			[
+			array(
 				'label'      => __( 'Border Radius', 'buddyboss-theme' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'default' => [
+				'size_units' => array( 'px', '%' ),
+				'default' => array(
 					'top' => '4',
 					'right' => '4',
 					'bottom' => '4',
 					'left' => '4',
-				],
-				'selectors'  => [
+				),
+				'selectors'  => array(
 					'{{WRAPPER}} .bb-forums-activity' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
 			\Elementor\Group_Control_Background::get_type(),
-			[
+			array(
 				'name' => 'background_color',
 				'label' => __( 'Background', 'buddyboss-theme' ),
-				'types' => [ 'classic', 'gradient' ],
+				'types' => array( 'classic', 'gradient' ),
 				'selector' => '{{WRAPPER}} .bb-forums-activity',
-			]
+			)
 		);
 
 		$this->add_control(
 			'box_padding',
-			[
+			array(
 				'label'      => __( 'Padding', 'buddyboss-theme' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'default' => [
+				'size_units' => array( 'px', '%' ),
+				'default' => array(
 					'top' => '20',
 					'right' => '20',
 					'bottom' => '20',
 					'left' => '20',
-				],
-				'selectors'  => [
+				),
+				'selectors'  => array(
 					'{{WRAPPER}} .bb-forums-activity' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_style_content',
-			[
+			array(
 				'label'     => __( 'Content', 'buddyboss-theme' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-			]
+			)
 		);
 
 		$this->add_control(
 			'separator_forum_title',
-			[
+			array(
 				'label'     => __( 'Forum Title', 'buddyboss-theme' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'forum_title_color',
-			[
+			array(
 				'label'     => __( 'Color', 'buddyboss-theme' ),
 				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__forum-title' => 'color: {{VALUE}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
@@ -320,43 +322,43 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_control(
 			'forum_title_spacing',
-			[
+			array(
 				'label'   => __( 'Spacing', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SLIDER,
-				'default' => [
+				'default' => array(
 					'size' => 0,
-				],
-				'range' => [
-					'px' => [
+				),
+				'range' => array(
+					'px' => array(
 						'min'  => 0,
 						'max'  => 50,
 						'step' => 1,
-					],
-				],
-				'selectors' => [
+					),
+				),
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__forum-title' => 'margin-bottom: {{SIZE}}px;',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'separator_topic_title',
-			[
+			array(
 				'label'     => __( 'Topic Title', 'buddyboss-theme' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'topic_title_color',
-			[
+			array(
 				'label'     => __( 'Color', 'buddyboss-theme' ),
 				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__topic-title h2' => 'color: {{VALUE}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
@@ -370,43 +372,43 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_control(
 			'topic_title_spacing',
-			[
+			array(
 				'label'   => __( 'Spacing', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SLIDER,
-				'default' => [
+				'default' => array(
 					'size' => 10,
-				],
-				'range' => [
-					'px' => [
+				),
+				'range' => array(
+					'px' => array(
 						'min'  => 0,
 						'max'  => 50,
 						'step' => 1,
-					],
-				],
-				'selectors' => [
+					),
+				),
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__topic-title h2' => 'margin-bottom: {{SIZE}}px;',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'separator_meta',
-			[
+			array(
 				'label'     => __( 'Meta Data', 'buddyboss-theme' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'meta_color',
-			[
+			array(
 				'label'     => __( 'Color', 'buddyboss-theme' ),
 				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__meta span' => 'color: {{VALUE}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
@@ -420,43 +422,43 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_control(
 			'meta_spacing',
-			[
+			array(
 				'label'   => __( 'Spacing', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SLIDER,
-				'default' => [
+				'default' => array(
 					'size' => 20,
-				],
-				'range' => [
-					'px' => [
+				),
+				'range' => array(
+					'px' => array(
 						'min'  => 0,
 						'max'  => 50,
 						'step' => 1,
-					],
-				],
-				'selectors' => [
+					),
+				),
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__meta' => 'margin-bottom: {{SIZE}}px;',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_control(
 			'separator_excerpt',
-			[
+			array(
 				'label'     => __( 'Excerpt', 'buddyboss-theme' ),
 				'type'      => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'excerpt_color',
-			[
+			array(
 				'label'     => __( 'Color', 'buddyboss-theme' ),
 				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__excerpt' => 'color: {{VALUE}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
@@ -470,36 +472,36 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_control(
 			'excerpt_spacing',
-			[
+			array(
 				'label'   => __( 'Spacing', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SLIDER,
-				'default' => [
+				'default' => array(
 					'size' => 20,
-				],
-				'range' => [
-					'px' => [
+				),
+				'range' => array(
+					'px' => array(
 						'min'  => 0,
 						'max'  => 50,
 						'step' => 1,
-					],
-				],
-				'selectors' => [
+					),
+				),
+				'selectors' => array(
 					'{{WRAPPER}} .bb-fa__excerpt' => 'margin-bottom: {{SIZE}}px;',
-				],
-			]
+				),
+			)
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_style_button',
-			[
+			array(
 				'label'     => __( 'Button', 'buddyboss-theme' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition' => [
+				'condition' => array(
 					'switch_link' => 'yes',
-				],
-			]
+				),
+			)
 		);
 
 		$this->start_controls_tabs(
@@ -603,95 +605,95 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_responsive_control(
 			'alignment',
-			[
+			array(
 				'label' => __( 'Button Alignment', 'buddyboss-theme' ),
 				'type' => Controls_Manager::CHOOSE,
 				'label_block' => false,
-				'options' => [
-					'left' => [
+				'options' => array(
+					'left' => array(
 						'title' => __( 'Left', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-left',
-					],
-					'center' => [
+					),
+					'center' => array(
 						'title' => __( 'Center', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-center',
-					],
-					'right' => [
+					),
+					'right' => array(
 						'title' => __( 'Right', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-right',
-					],
-				],
+					),
+				),
 				'default' => 'right',
 				'prefix_class' => 'elementor-cta-%s-falign-',
-			]
+			)
 		);
 
 		$this->add_control(
 			'button_padding',
-			[
+			array(
 				'label'      => __( 'Button Padding', 'buddyboss-theme' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'default' => [
+				'size_units' => array( 'px', '%' ),
+				'default' => array(
 					'top' => '4',
 					'right' => '20',
 					'bottom' => '4',
 					'left' => '20',
-				],
-				'selectors'  => [
+				),
+				'selectors'  => array(
 					'{{WRAPPER}} .bb-fa__link a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
-			[
+			array(
 				'name'        => 'button_border',
 				'label'       => __( 'Button Border', 'buddyboss-theme' ),
 				'placeholder' => '1px',
 				'default'     => '1px',
 				'selector'    => '{{WRAPPER}} .bb-fa__link a',
 				'separator'   => 'before',
-			]
+			)
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
 			'section_style_my_discussions',
-			[
+			array(
 				'label'     => esc_html__( 'My Discussions Button', 'buddyboss-theme' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition' => [
+				'condition' => array(
 					'switch_my_discussions' => 'yes',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_responsive_control(
 			'my_alignment',
-			[
+			array(
 				'label' => __( 'Button Alignment', 'buddyboss-theme' ),
 				'type' => Controls_Manager::CHOOSE,
 				'label_block' => false,
-				'options' => [
-					'left' => [
+				'options' => array(
+					'left' => array(
 						'title' => __( 'Left', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-left',
-					],
-					'center' => [
+					),
+					'center' => array(
 						'title' => __( 'Center', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-center',
-					],
-					'right' => [
+					),
+					'right' => array(
 						'title' => __( 'Right', 'buddyboss-theme' ),
 						'icon' => 'eicon-h-align-right',
-					],
-				],
+					),
+				),
 				'default' => 'right',
 				'prefix_class' => 'elementor-cta-%s-fa-my-align-',
-			]
+			)
 		);
 
 		$this->start_controls_tabs(
@@ -795,57 +797,56 @@ class BBP_Forums_Activity extends Widget_Base {
 
 		$this->add_control(
 			'button_my_padding',
-			[
+			array(
 				'label'      => __( 'Button Padding', 'buddyboss-theme' ),
 				'type'       => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%' ],
-				'default' => [
+				'size_units' => array( 'px', '%' ),
+				'default' => array(
 					'top' => '2',
 					'right' => '15',
 					'bottom' => '2',
 					'left' => '15',
-				],
-				'selectors'  => [
+				),
+				'selectors'  => array(
 					'{{WRAPPER}} .bb-forums-activity-btn a.bb-forums-activity-btn__link' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
+				),
+			)
 		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
-			[
+			array(
 				'name'        => 'button_my_border',
 				'label'       => __( 'Button Border', 'buddyboss-theme' ),
 				'placeholder' => '1px',
 				'default'     => '1px',
 				'selector'    => '{{WRAPPER}} .bb-forums-activity-btn a.bb-forums-activity-btn__link',
 				'separator'   => 'before',
-			]
+			)
 		);
 
 		$this->add_control(
 			'button_my_spacing',
-			[
+			array(
 				'label'   => __( 'Spacing', 'buddyboss-theme' ),
 				'type'    => Controls_Manager::SLIDER,
-				'default' => [
+				'default' => array(
 					'size' => 50,
-				],
-				'range' => [
-					'px' => [
+				),
+				'range' => array(
+					'px' => array(
 						'min'  => 30,
 						'max'  => 100,
 						'step' => 1,
-					],
-				],
-				'selectors' => [
+					),
+				),
+				'selectors' => array(
 					'{{WRAPPER}} .bb-forums-activity-btn' => 'top: -{{SIZE}}px;',
-				],
-			]
+				),
+			)
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	/**
@@ -859,8 +860,10 @@ class BBP_Forums_Activity extends Widget_Base {
 	 */
 	protected function render() {
 
-		$settings = $this->get_settings_for_display();
-		$my_discussions_link = trailingslashit( bp_loggedin_user_domain() . bbp_maybe_get_root_slug() );
+		$settings            = $this->get_settings_for_display();
+		$forums_link         = trailingslashit( bp_loggedin_user_domain() . BP_FORUMS_SLUG );
+		$my_discussions_link = trailingslashit( $forums_link . bbp_get_topic_archive_slug() );
+
 		?>
 
 
@@ -889,7 +892,6 @@ class BBP_Forums_Activity extends Widget_Base {
 
 				if ( $query ) {
 
-
 					// Determine user to use
 					if ( bp_displayed_user_id() ) {
 						$user_domain = bp_displayed_user_domain();
@@ -913,76 +915,82 @@ class BBP_Forums_Activity extends Widget_Base {
 						$get_discussion_link        = bbp_get_topic_permalink( bbp_get_topic_id() );
 						$get_last_reply_excerpt     = bbp_get_reply_excerpt( $get_last_reply_id, 50 );
 
-
 						?>
 						<div class="bb-fa bb-fa--item">
 
-							<?php if ($settings['switch_forum_title']) : ?>
+							<?php if ( $settings['switch_forum_title'] ) : ?>
 								<div class="bb-fa__forum-title"><?php echo $forum_title; ?></div>
 							<?php endif; ?>
 							<div class="bb-fa__topic-title"><h2><?php echo $topic_title; ?></h2></div>
-							<?php if ($settings['switch_meta']) : ?>
+							<?php if ( $settings['switch_meta'] ) : ?>
 								<div class="bb-fa__meta">
-									<span class="bb-fa__meta-count"><?php echo $topic_reply_count; ?> <?php _e( 'repl' . ($topic_reply_count != 1 ? 'ies' : 'y'), 'buddyboss-theme' ); ?> </span>
+									<span class="bb-fa__meta-count"><?php echo $topic_reply_count; ?> <?php _e( 'repl' . ( $topic_reply_count != 1 ? 'ies' : 'y' ), 'buddyboss-theme' ); ?> </span>
 									<span class="bs-separator">·</span>
 									<span class="bb-fa__meta-who"><?php echo $get_last_reply_author_name; ?> <?php _e( 'replied', 'buddyboss-theme' ); ?> </span>
 									<span class="bb-fa__meta-when"><?php echo $get_last_reply_since; ?></span>
 								</div>
 							<?php endif; ?>
-							<?php if ($settings['switch_excerpt']) : ?>
-								<div class="bb-fa__excerpt <?php echo (!empty($get_last_reply_excerpt)) ? 'is-excerpt' : 'is-empty'; ?> <?php echo ( $settings['switch_excerpt_icon'] ) ? 'is-link' : 'no-link'; ?>">
+							<?php if ( $settings['switch_excerpt'] ) : ?>
+								<div class="bb-fa__excerpt <?php echo ( ! empty( $get_last_reply_excerpt ) ) ? 'is-excerpt' : 'is-empty'; ?> <?php echo ( $settings['switch_excerpt_icon'] ) ? 'is-link' : 'no-link'; ?>">
 									<?php
-                                    if ($settings['switch_excerpt_icon']) :
-	                                    $get_last_reply_id = bbp_get_topic_last_reply_id( bbp_get_topic_id() );
-	                                    if ( bbp_is_topic( $get_last_reply_id ) ) {
-		                                    add_filter( 'bbp_get_topic_reply_link', 'bb_theme_elementor_topic_link_attribute_change', 9999, 3 );
-		                                    echo bbp_get_topic_reply_link( array(
-			                                    'id' => $get_last_reply_id,
-			                                    'reply_text' => ''
-		                                    ));
-		                                    remove_filter( 'bbp_get_topic_reply_link', 'bb_theme_elementor_topic_link_attribute_change', 9999, 3 );
-		                                    // If post is a reply, print the reply admin links instead.
-	                                    } else {
-		                                    add_filter( 'bbp_get_reply_to_link', 'bb_theme_elementor_reply_link_attribute_change', 9999, 3 );
-		                                    echo bbp_get_reply_to_link( array(
-			                                    'id' => $get_last_reply_id,
-			                                    'reply_text' => ''
-		                                    ));
-		                                    remove_filter( 'bbp_get_reply_to_link', 'bb_theme_elementor_reply_link_attribute_change', 9999, 3 );
-	                                    }
-                                    endif; ?>
+									if ( $settings['switch_excerpt_icon'] ) :
+										$get_last_reply_id = bbp_get_topic_last_reply_id( bbp_get_topic_id() );
+										if ( bbp_is_topic( $get_last_reply_id ) ) {
+											add_filter( 'bbp_get_topic_reply_link', 'bb_theme_elementor_topic_link_attribute_change', 9999, 3 );
+											echo bbp_get_topic_reply_link(
+												array(
+													'id' => $get_last_reply_id,
+													'reply_text' => '',
+												)
+											);
+											remove_filter( 'bbp_get_topic_reply_link', 'bb_theme_elementor_topic_link_attribute_change', 9999, 3 );
+											// If post is a reply, print the reply admin links instead.
+										} else {
+											add_filter( 'bbp_get_reply_to_link', 'bb_theme_elementor_reply_link_attribute_change', 9999, 3 );
+											echo bbp_get_reply_to_link(
+												array(
+													'id' => $get_last_reply_id,
+													'reply_text' => '',
+												)
+											);
+											remove_filter( 'bbp_get_reply_to_link', 'bb_theme_elementor_reply_link_attribute_change', 9999, 3 );
+										}
+									endif;
+									?>
 									<?php echo $get_last_reply_excerpt; ?>
 								</div>
 							<?php endif; ?>
-							<?php if ($settings['switch_link']) : ?>
+							<?php if ( $settings['switch_link'] ) : ?>
 								<div class="bb-fa__link"><a href="<?php echo $get_discussion_link; ?>"><?php echo $settings['button_text']; ?></a></div>
 							<?php endif; ?>
 
 						</div>
 
-					<?php
+						<?php
 
 					endwhile;
 
-				} else { ?>
+				} else {
+					?>
 
 					<div class="bb-no-data bb-no-data--fa-activity">
 						<img class="bb-no-data__image" src="<?php echo get_template_directory_uri(); ?>/assets/images/svg/dfy-no-data-icon03.svg" alt="Forums Activity" />
 						<div class="bb-no-data__msg"><?php echo esc_html( $settings['no_forums_paragraph_text'] ); ?></div>
-						<?php if( '' !== $settings['no_forums_button_text']) { ?>
-							<a href="<?php echo home_url(bbp_get_root_slug()); ?>" class="bb-no-data__link"><?php echo esc_html( $settings['no_forums_button_text'] ); ?></a>
+						<?php if ( $settings['no_forums_button_text'] !== '' ) { ?>
+							<a href="<?php echo home_url( bbp_get_root_slug() ); ?>" class="bb-no-data__link"><?php echo esc_html( $settings['no_forums_button_text'] ); ?></a>
 						<?php } ?>
 					</div>
 
-				<?php }
-
-			} else { ?>
+					<?php
+				}
+			} else {
+				?>
 
 				<div class="bb-no-data bb-no-data--fa-activity">
 					<img class="bb-no-data__image" src="<?php echo get_template_directory_uri(); ?>/assets/images/svg/dfy-no-data-icon03.svg" alt="Forums Activity" />
 					<div class="bb-no-data__msg"><?php _e( 'You are not logged in.', 'buddyboss-theme' ); ?></div>
-					<?php if( '' !== $settings['no_forums_button_text']) { ?>
-						<a href="<?php echo home_url(bbp_get_root_slug()); ?>" class="bb-no-data__link"><?php echo $settings['no_forums_button_text']; ?></a>
+					<?php if ( $settings['no_forums_button_text'] !== '' ) { ?>
+						<a href="<?php echo home_url( bbp_get_root_slug() ); ?>" class="bb-no-data__link"><?php echo $settings['no_forums_button_text']; ?></a>
 					<?php } ?>
 				</div>
 

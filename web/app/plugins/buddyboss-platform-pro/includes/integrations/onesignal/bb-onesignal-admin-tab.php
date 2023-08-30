@@ -34,6 +34,8 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		$this->intro_template  = $this->root_path . '/templates/admin/integration-tab-intro.php';
 
 		add_filter( 'bb_admin_icons', array( $this, 'admin_setting_icons' ), 10, 2 );
+		add_action( 'admin_notices', array( $this, 'bb_onesignal_site_notice' ) );
+		add_filter( 'bb_pro_admin_localize_options', array( $this, 'bb_onesignal_admin_localize_options' ), 10, 1 );
 	}
 
 	/**
@@ -71,115 +73,25 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function settings_save() {
 		parent::settings_save();
 
-		$bb_onesignal_auth_key = bb_pro_filter_input_string( INPUT_POST, 'bb-onesignal-auth-key' );
-		$bb_onesignal_app_name = bb_pro_filter_input_string( INPUT_POST, 'bb-onesignal-connected-app-name' );
-		$bb_onesignal_new_app  = filter_input( INPUT_POST, 'bb-onesignal-new-app', FILTER_VALIDATE_INT );
+		$bb_onesignal_app_id       = bb_pro_filter_input_string( INPUT_POST, 'bb-onesignal-app-id' );
+		$bb_onesignal_rest_api_key = bb_pro_filter_input_string( INPUT_POST, 'bb-onesignal-rest-api' );
 
-		bp_update_option( 'bb-onesignal-connected-app-name', $bb_onesignal_app_name );
+		bb_onesignal_update_settings(
+			array(
+				'app_id'          => $bb_onesignal_app_id,
+				'rest_api_key'    => $bb_onesignal_rest_api_key,
+				'is_connected'    => false,
+				'app_name'        => '',
+				'app_details'     => array(),
+				'warnings'        => array(),
+				'errors'          => array(),
+				'sidewide_errors' => array(),
+			)
+		);
 
-		if ( ! empty( $bb_onesignal_auth_key ) ) {
-
-			$args = array(
-				'sslverify' => false,
-				'headers'   => array( 'Authorization' => 'Basic ' . $bb_onesignal_auth_key ),
-			);
-
-			$request       = bbpro_remote_get( bb_onesignal_api_endpoint() . 'apps', $args );
-			$response      = wp_remote_retrieve_body( $request );
-			$response      = json_decode( $response, true );
-			$response_code = wp_remote_retrieve_response_code( $request );
-
-			if ( 200 === $response_code ) {
-				bp_update_option( 'bb-onesignal-account-apps', $response );
-				bp_update_option( 'bb-onesignal-authenticated', true );
-			} elseif ( isset( $response['errors'] ) ) {
-				$error = sprintf(
-					/* translators: Error Message. */
-					__( 'There was a problem connecting to your OneSignal account: %s', 'buddyboss-pro' ),
-					'[' . ( is_array( $response['errors'] ) ? esc_html( implode( '<br/>', $response['errors'] ) ) : $response['errors'] ) . ']'
-				);
-
-				set_transient( 'bb_onesignal_error', $error, HOUR_IN_SECONDS );
-				bp_delete_option( 'bb-onesignal-connected-app' );
-				bp_delete_option( 'bb-onesignal-connected-app-name' );
-				bp_delete_option( 'bb-onesignal-connected-app-details' );
-				bp_update_option( 'bb-onesignal-account-apps', array() );
-				bp_update_option( 'bb-onesignal-authenticated', false );
-			} else {
-				bp_delete_option( 'bb-onesignal-connected-app' );
-				bp_delete_option( 'bb-onesignal-connected-app-name' );
-				bp_delete_option( 'bb-onesignal-connected-app-details' );
-				bp_update_option( 'bb-onesignal-account-apps', array() );
-				bp_update_option( 'bb-onesignal-authenticated', false );
-			}
-
-			if ( ! empty( $bb_onesignal_new_app ) ) {
-
-				$url      = wp_parse_url( site_url() );
-				$site_url = ( isset( $url['scheme'] ) && $url['host'] ) ? $url['scheme'] . '://' . $url['host'] : site_url();
-
-				$fields = array(
-					'name'               => get_bloginfo( 'name' ),
-					'site_name'          => str_replace( ' ', '_', get_bloginfo( 'name' ) ),
-					'chrome_web_origin'  => $site_url,
-					'safari_site_origin' => $site_url,
-				);
-
-				if ( bb_onesignal_soft_prompt_image() ) {
-					$fields['chrome_web_default_notification_icon'] = bb_onesignal_soft_prompt_image();
-				}
-
-				$args['body']  = $fields;
-				$request       = bbpro_remote_post( bb_onesignal_api_endpoint() . 'apps', $args );
-				$response      = wp_remote_retrieve_body( $request );
-				$response      = json_decode( $response, true );
-				$response_code = wp_remote_retrieve_response_code( $request );
-
-				if ( 200 === $response_code ) {
-
-					$fetch_apps_request       = bbpro_remote_get( bb_onesignal_api_endpoint() . 'apps', $args );
-					$fetch_apps_response      = wp_remote_retrieve_body( $fetch_apps_request );
-					$fetch_apps_response      = json_decode( $fetch_apps_response, true );
-					$fetch_apps_response_code = wp_remote_retrieve_response_code( $fetch_apps_request );
-
-					if ( 200 === $fetch_apps_response_code && ! empty( $fetch_apps_response ) ) {
-						bp_update_option( 'bb-onesignal-account-apps', $fetch_apps_response );
-					} else {
-						bp_update_option( 'bb-onesignal-account-apps', array( $response ) );
-					}
-
-					bp_update_option( 'bb-onesignal-connected-app', $response['id'] );
-					bp_update_option( 'bb-onesignal-connected-app-details', $response );
-					bp_update_option( 'bb-onesignal-connected-app-name', $response['name'] );
-				} elseif ( isset( $response['errors'] ) ) {
-					$error = sprintf(
-					/* translators: Error Message. */
-						__( 'There was a problem creating a OneSignal app: %s', 'buddyboss-pro' ),
-						'[' . ( is_array( $response['errors'] ) ? esc_html( implode( '<br/>', $response['errors'] ) ) : $response['errors'] ) . ']'
-					);
-					set_transient( 'bb_onesignal_error', $error, HOUR_IN_SECONDS );
-					bp_delete_option( 'bb-onesignal-connected-app' );
-					bp_delete_option( 'bb-onesignal-connected-app-name' );
-					bp_delete_option( 'bb-onesignal-connected-app-details' );
-					bp_update_option( 'bb-onesignal-account-apps', array() );
-				} else {
-					bp_delete_option( 'bb-onesignal-connected-app' );
-					bp_delete_option( 'bb-onesignal-connected-app-name' );
-					bp_delete_option( 'bb-onesignal-connected-app-details' );
-					bp_update_option( 'bb-onesignal-account-apps', array() );
-				}
-			}
-
+		if ( ! empty( $bb_onesignal_app_id ) && ! empty( $bb_onesignal_rest_api_key ) ) {
 			bb_onesignal_update_app_details();
-
-		} else {
-			bp_delete_option( 'bb-onesignal-connected-app' );
-			bp_delete_option( 'bb-onesignal-connected-app-name' );
-			bp_delete_option( 'bb-onesignal-account-apps' );
-			bp_delete_option( 'bb-onesignal-connected-app-details' );
-			bp_update_option( 'bb-onesignal-authenticated', false );
 		}
-
 	}
 
 	/**
@@ -191,16 +103,16 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 		$active_tab = bp_core_get_admin_active_tab();
 
-		if ( 'bp-notifications' === $active_tab || 'bb-onesignal' === $active_tab ) {
+		if ( $active_tab === 'bp-notifications' || $active_tab === 'bb-onesignal' ) {
 			$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			wp_enqueue_script( 'bb-onesignal-notification-settings', bb_onesignal_integration_url( '/assets/js/bb-onesignal-notification-settings' . $min . '.js' ), array( 'jquery' ), bb_platform_pro()->version, true );
 			wp_localize_script(
 				'bb-onesignal-notification-settings',
 				'bpOneSignalCommonVars',
 				array(
-					'ajax_url'          => admin_url( 'admin-ajax.php' ),
-					'are_you_sure'      => __( 'Are you sure?', 'buddyboss-pro' ),
-					'soft_prompt_image' => array(
+					'ajax_url'             => admin_url( 'admin-ajax.php' ),
+					'are_you_sure'         => __( 'Are you sure?', 'buddyboss-pro' ),
+					'soft_prompt_image'    => array(
 						'select_file'       => esc_js( esc_html__( 'No file was uploaded.', 'buddyboss-pro' ) ),
 						'file_upload_error' => esc_js( esc_html__( 'There was a problem uploading the soft prompt photo.', 'buddyboss-pro' ) ),
 						'feedback_messages' => array(
@@ -227,7 +139,6 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		}
 
 		parent::register_admin_script();
-
 	}
 
 	/**
@@ -279,47 +190,32 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 		$html = '';
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( bbp_pro_is_license_valid() && bp_core_get_admin_active_tab() === 'bb-onesignal' ) {
 			$status      = 'not-connected';
 			$status_text = __( 'Not Connected', 'buddyboss-pro' );
 
+			$settings = bb_onesignal_get_settings();
+
 			if (
-				'bb-onesignal' === bp_core_get_admin_active_tab() &&
-				bb_onesignal_auth_key() &&
-				bb_onesignal_account_apps() &&
-				bb_onesignal_connected_app() &&
-				bb_onesignal_connected_app_name()
+				bb_onesignal_app_id() &&
+				bb_onesignal_rest_api_key() &&
+				! empty( $settings['warnings'] )
 			) {
 				bb_onesignal_update_app_details();
 			}
 
-			if ( ! empty( bb_onesignal_auth_key() ) ) {
+			if ( ! empty( $settings['errors'] ) ) {
 				$status      = 'error-connected';
 				$status_text = __( 'Not Connected', 'buddyboss-pro' );
-			}
+			} elseif ( bb_onesignal_app_is_connected() ) {
 
-			if (
-				bb_onesignal_auth_key() &&
-				bb_onesignal_account_apps() &&
-				bb_onesignal_connected_app() &&
-				bb_onesignal_connected_app_name() &&
-				! empty( bb_onesignal_connected_app_details() )
-			) {
-				$status      = 'connected';
 				$status_text = __( 'Connected', 'buddyboss-pro' );
-				delete_transient( 'bb_onesignal_error' );
-				delete_transient( 'bb_onesignal_warning' );
-			} elseif (
-				bb_onesignal_auth_key() &&
-				true === (bool) bp_get_option( 'bb-onesignal-authenticated', false ) &&
-				(
-					! bb_onesignal_connected_app() ||
-					! bb_onesignal_connected_app_name() ||
-					empty( bb_onesignal_connected_app_details() )
-				)
-			) {
-				$status      = 'warn-connected';
-				$status_text = __( 'Connected', 'buddyboss-pro' );
+
+				if ( ! empty( $settings['warnings'] ) ) {
+					$status = 'warn-connected';
+				} else {
+					$status = 'connected';
+				}
 			}
 
 			$html .= '<div class="bbpro-onesignal-status">';
@@ -377,25 +273,19 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 				'callback' => array( $this, 'settings_callback_error_handle' ),
 				'args'     => array( 'class' => 'hidden-header' ),
 			),
-			'bb-onesignal-auth-key'      => array(
-				'title'             => __( 'OneSignal Auth Key', 'buddyboss-pro' ),
-				'callback'          => array( $this, 'settings_callback_auth_key_field' ),
+			'bb-onesignal-app-id'        => array(
+				'title'             => __( 'OneSignal App ID', 'buddyboss-pro' ),
+				'callback'          => array( $this, 'settings_callback_app_id_field' ),
+				'sanitize_callback' => 'string',
+				'args'              => array(),
+			),
+			'bb-onesignal-rest-api'      => array(
+				'title'             => __( 'Rest API Key', 'buddyboss-pro' ),
+				'callback'          => array( $this, 'settings_callback_reset_api_field' ),
 				'sanitize_callback' => 'string',
 				'args'              => array(),
 			),
 		);
-
-		if (
-			! empty( bb_onesignal_auth_key() ) &&
-			true === (bool) bp_get_option( 'bb-onesignal-authenticated', false )
-		) {
-			$fields['bb_onesignal_settings_section']['bb-onesignal-connected-app'] = array(
-				'title'             => __( 'Select App', 'buddyboss-pro' ),
-				'callback'          => array( $this, 'settings_callback_connected_app' ),
-				'sanitize_callback' => 'string',
-				'args'              => array(),
-			);
-		}
 
 		return $fields;
 	}
@@ -411,7 +301,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 * @return mixed|string
 	 */
 	public function admin_setting_icons( $meta_icon, $id = '' ) {
-		if ( 'bb_onesignal_settings_section' === $id ) {
+		if ( $id === 'bb_onesignal_settings_section' ) {
 			$meta_icon = 'bb-icon-bf  bb-icon-brand-onesignal';
 		}
 
@@ -427,75 +317,96 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function settings_callback_error_handle() {
 
-		$errors  = get_transient( 'bb_onesignal_error' );
-		$warning = get_transient( 'bb_onesignal_warning' );
-		if ( ! empty( $errors ) ) {
+		/* translators: %s is the BuddyBoss marketplace link. */ ?>
+		<div class="full-with-content"><?php printf( esc_html__( 'To use %1$s for web push notifications, create an app in your account and enter the API credentials from the settings below.', 'buddyboss-pro' ), '<a href="https://app.onesignal.com/" target="_blank">' . esc_html__( 'OneSignal', 'buddyboss-pro' ) . '</a>' ); ?></div>
+
+		<?php
+		$settings = bb_onesignal_get_settings();
+
+		if ( ! empty( $settings['errors'] ) ) {
 			echo '<div class="bbpro-onesignal-errors bb-error-section">' .
-				( is_array( $errors ) ? esc_html( implode( '<br/>', $errors ) ) : $errors ) .
+				( is_array( $settings['errors'] ) ? wp_kses_post( implode( '<br/>', $settings['errors'] ) ) : $settings['errors'] ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'</div>';
-
-			delete_transient( 'bb_onesignal_error' );
 		}
-		if ( ! empty( $warning ) ) {
+		if ( ! empty( $settings['warnings'] ) ) {
 			echo '<div class="bbpro-onesignal-warning bb-warning-section">' .
-				( is_array( $warning ) ? esc_html( implode( '<br/>', $warning ) ) : $warning ) .
+				( is_array( $settings['warnings'] ) ? wp_kses_post( implode( '<br/>', $settings['warnings'] ) ) : $settings['warnings'] ) . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'</div>';
-
-			delete_transient( 'bb_onesignal_warning' );
 		}
 	}
 
 	/**
-	 * Callback function for auth key in OneSignal integration.
+	 * Callback function for app ID in OneSignal integration.
 	 *
-	 * @since 2.0.3
+	 * @since 2.3.40
 	 */
-	public function settings_callback_auth_key_field() {
+	public function settings_callback_app_id_field() {
 		?>
-		<input name="bb-onesignal-auth-key" id="bb-onesignal-auth-key" type="text" value="<?php echo esc_attr( bb_onesignal_auth_key() ); ?>" aria-label="<?php esc_html_e( 'OneSignal Auth Key', 'buddyboss-pro' ); ?>"/>
-		<?php /* translators: %s is the BuddyBoss marketplace link. */ ?>
-		<p class="description"><?php printf( esc_html__( 'To use OneSignal for web push notifications, enter the %1$s from your %2$s. After saving, an app will be automatically configured in your OneSignal account.', 'buddyboss-pro' ), '<b>' . esc_html__( 'Auth Key', 'buddyboss-pro' ) . '</b>', '<a href="https://app.onesignal.com/" target="_blank">' . esc_html__( 'OneSignal account', 'buddyboss-pro' ) . '</a>' ); ?></p>
+		<div class="password-toggle">
+			<input name="bb-onesignal-app-id" id="bb-onesignal-app-id" type="password" value="<?php echo esc_attr( bb_onesignal_app_id() ); ?>" aria-label="<?php esc_html_e( 'OneSignal Auth Key', 'buddyboss-pro' ); ?>" required />
+			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
+				<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
+			</button>
+		</div>
 		<?php
 	}
 
 	/**
-	 * Callback function for APIs in OneSignal integration.
+	 * Callback function for Rest API key in OneSignal integration.
 	 *
-	 * @since 2.0.3
+	 * @since 2.3.40
 	 */
-	public function settings_callback_connected_app() {
-		$apps      = bb_onesignal_account_apps();
-		$connected = bb_onesignal_connected_app();
-		$app_name  = bb_onesignal_connected_app_name();
-
+	public function settings_callback_reset_api_field() {
 		?>
-		<select name="bb-onesignal-connected-app" id="bb-onesignal-connected-app" <?php disabled( empty( $apps ) ); ?>>
-			<?php
-			if ( ! empty( $apps ) ) {
-				echo '<option data-name="" value="">' . esc_html__( '-- Select App --', 'buddyboss-pro' ) . '</option>';
-				foreach ( $apps as $app ) {
-					echo '<option data-name="' . esc_attr( $app['name'] ) . '" value="' . esc_attr( $app['id'] ) . '" ' . selected( $connected, $app['id'], false ) . '>' . esc_html( $app['name'] ) . '</option>';
-				}
-			} else {
-				echo '<option data-name="" value="">' . esc_html__( 'No Apps Found', 'buddyboss-pro' ) . '</option>';
-			}
-			?>
-		</select>
-		<input type="hidden" name="bb-onesignal-connected-app-name" value="<?php echo esc_attr( ( empty( $app_name ) && ! empty( $apps ) ) ? current( $apps )['name'] : $app_name ); ?>"/>
+		<div class="password-toggle">
+			<input name="bb-onesignal-rest-api" id="bb-onesignal-rest-api" type="password" value="<?php echo esc_attr( bb_onesignal_rest_api_key() ); ?>" aria-label="<?php esc_html_e( 'Rest API Key', 'buddyboss-pro' ); ?>" required />
+			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0">
+				<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
+			</button>
+		</div>
 		<?php
+	}
 
-		if ( ! empty( $connected ) && ! empty( $app_name ) ) {
-			echo '<a target="_blank" class="bbpro-onesignal-app-link button button-secondary" href="' . esc_url( 'https://app.onesignal.com/apps/' . $connected ) . '">' . esc_html__( 'View App', 'buddyboss-pro' ) . '</a>';
+	/**
+	 * Function to display site wise notice for onesignal.
+	 *
+	 * @since 2.3.40
+	 */
+	public function bb_onesignal_site_notice() {
+		$settings = bb_onesignal_get_settings();
+
+		if (
+			! empty( $settings['sidewide_errors'] ) &&
+			in_array( 'upgrade_to_rest_api_key', $settings['sidewide_errors'], true ) &&
+			empty( $settings['hide_sidewide_errors'] )
+		) {
+			printf(
+				'<div class="notice notice-info is-dismissible bb-onsignal-dismiss-site-notice"><p>%s</p></div>',
+				sprintf(
+				/* translators: Onesignal setting page link */
+					esc_html__( 'Due to a change by OneSignal, you\'ll need to enter new %s in order to resume sending web push notifications', 'buddyboss-pro' ),
+					sprintf(
+						'<a href="%1$s">%2$s</a>',
+						esc_url( admin_url( 'admin.php?page=bp-integrations&tab=bb-onesignal' ) ),
+						esc_html__( 'API keys', 'buddyboss-pro' )
+					)
+				)
+			);
 		}
-		?>
-		<p class="description">
-			<?php printf( esc_html__( 'Select the app from your OneSignal app to use for sending web push notifications. To create a new app with the required settings pre-defined, click %s.', 'buddyboss-pro' ), '<strong>' . esc_html__( 'Create New App', 'buddyboss-pro' ) . '</strong>' ); ?>
-		</p>
+	}
 
-		<p class="bb-onesignal-new-app-wrap">
-			<input type="hidden" name="bb-onesignal-new-app" value="0" id="bb-onesignal-new-app"/>
-			<button type="submit" id="bb-onesignal-create-new-app" name="submit" class="button button-secondary"><?php esc_html_e( 'Create New App', 'buddyboss-pro' ); ?></button>
-		</p>
-		<?php
+	/**
+	 * Function to add localize variable for OneSignal.
+	 *
+	 * @since 2.3.41
+	 *
+	 * @param array $args Array of localize options.
+	 *
+	 * @return array
+	 */
+	public function bb_onesignal_admin_localize_options( $args ) {
+		$args['dismiss_notice_nonce'] = wp_create_nonce( 'bb-pro-onesignal-dismiss-notice' );
+
+		return $args;
 	}
 }

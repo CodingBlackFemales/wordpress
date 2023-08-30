@@ -25,7 +25,7 @@ global $course_pager_results;
 $lesson_progress = learndash_lesson_progress( $lesson['post'], $course_id );
 $has_pagination  = ( isset( $course_pager_results[ $lesson['post']->ID ]['pager'] ) ? true : false );
 $is_sample       = learndash_is_sample( $lesson['post']->ID );
-$table_class     = 'ld-table-list ld-topic-list' . ( true === $is_sample ? ' is_sample' : '' ) . ( ! $has_pagination ? ' ld-no-pagination' : '' );
+$table_class     = 'ld-table-list ld-topic-list' . ( $is_sample === true ? ' is_sample' : '' ) . ( ! $has_pagination ? ' ld-no-pagination' : '' );
 
 /**
  * Fires before the topic list.
@@ -51,7 +51,7 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 			?>
 			" id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>">
 
-	<div class="ld-table-list-header ld-primary-background">
+	<div class="ld-table-list-header">
 
 		<?php
 		/**
@@ -101,7 +101,7 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 				 * @param int     $course_id     Course ID
 				 * @param int     $user_id       User ID
 				 */
-				if ( true === (bool) apply_filters( 'learndash_show_lesson_list_progress', true, $lesson['post']->ID, $course_id, $user_id ) ) {
+				if ( (bool) apply_filters( 'learndash_show_lesson_list_progress', true, $lesson['post']->ID, $course_id, $user_id ) === true ) {
 					?>
 					<span class="ld-lesson-list-progress">
 						<?php
@@ -125,7 +125,7 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 				 * @param int     $course_id  Course ID
 				 * @param int     $user_id    User ID
 				 */
-				if ( true === (bool) apply_filters( 'learndash_show_lesson_list_steps', true, $lesson['post']->ID, $course_id, $user_id ) ) {
+				if ( (bool) apply_filters( 'learndash_show_lesson_list_steps', true, $lesson['post']->ID, $course_id, $user_id ) === true ) {
 					?>
 					<span class="ld-lesson-list-steps">
 					<?php
@@ -152,7 +152,7 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 				 */
 				do_action( 'learndash-topic-list-progress-after', $lesson['post']->ID, $course_id, $user_id );
 
-			if ( 'sfwd-lesson' === get_post_type() ) :
+			if ( get_post_type() === 'sfwd-lesson' ) :
 				?>
 					<span class="ld-expand-button" data-ld-expands="<?php echo esc_attr( 'ld-topic-list-' . $lesson['post']->ID ); ?>">
 						<span class="icon-simple-arrow-down ld-icon">

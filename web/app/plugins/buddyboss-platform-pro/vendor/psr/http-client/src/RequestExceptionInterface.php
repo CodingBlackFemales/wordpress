@@ -1,8 +1,8 @@
 <?php
 
-namespace Psr\Http\Client;
+namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Client;
 
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * Exception for when a request failed.
