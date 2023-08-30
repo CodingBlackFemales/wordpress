@@ -4,10 +4,10 @@ namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\BodySummarizer;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\BodySummarizerInterface;
-use Psr\Http\Client\RequestExceptionInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Client\RequestExceptionInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * HTTP Request exception

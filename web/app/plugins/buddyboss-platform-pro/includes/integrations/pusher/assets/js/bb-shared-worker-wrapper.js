@@ -92,6 +92,12 @@ window.Backbone = window.Backbone || [];
 				case 'onCancelRemoveMessage':
 					bp.bb_pusher_shared.onCancelRemoveMessage( data );
 					break;
+				case 'updateReconnect':
+					bp.bb_pusher_shared.updateReconnect( data.data );
+					break;
+				case 'pusher_disconnected':
+					bp.bb_pusher_shared.onDisconnected();
+					break;
 			}
 
 		},
@@ -104,6 +110,28 @@ window.Backbone = window.Backbone || [];
 		 */
 		updateChannels: function( d ) {
 			this.channels = d.data.channels;
+		},
+
+		/**
+		 * Update Reconnect.
+		 *
+		 * @param {array} d
+		 */
+		updateReconnect: function( d ) {
+			bp.bb_pusher_shared.sendMessage(
+				'pusher_reconnect',
+				{
+					try_reconnect: d.data.try_reconnect,
+				}
+			);
+		},
+
+		/**
+		 * Remove channel from channels variable.
+		 * It will remove the channel from channels variable.
+		 */
+		onDisconnected: function () {
+			bp.Pusher_FrontCommon.removed_channels();
 		},
 
 		/**
@@ -228,7 +256,30 @@ window.Backbone = window.Backbone || [];
 					loggedin_user_id: bb_pusher_vars.loggedin_user_id,
 				}
 			);
-		}
+		},
+
+		/**
+		 * Responsible for user authentication.
+		 */
+		signin: function() {
+			// Send Message.
+			bp.bb_pusher_shared.sendMessage(
+				'pusher_signin',
+				{}
+			);
+		},
+
+		/**
+		 * Connect to pusher.
+		 */
+		connect: function() {
+			// Send Message.
+			bp.bb_pusher_shared.sendMessage(
+				'pusher_connect',
+				{}
+			);
+		},
+
 	};
 
 })( bp, jQuery );
