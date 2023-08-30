@@ -26,7 +26,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		const LMS_CATEGORY_SLUG = 'course_cat';
 		const LMS_TAG_SLUG = 'course_tag';
 
-		protected $_my_course_progress = [];
+		protected $_my_course_progress = array();
 
 		/**
 		 * Constructor
@@ -37,23 +37,23 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			remove_action( 'llms_single_assignment_before_summary', 'llms_assignments_template_return_to_lesson_link', 10 );
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_author', 10 );
 
-			add_filter( 'body_class', [ $this, 'body_class' ] );
-			add_filter( 'buddyboss-theme-main-js-data', [ $this, 'js_l10n' ] );
+			add_filter( 'body_class', array( $this, 'body_class' ) );
+			add_filter( 'buddyboss-theme-main-js-data', array( $this, 'js_l10n' ) );
 
 			/*****************
 			 * Course Index
 			 ******************/
-			add_action( 'wp_ajax_buddyboss_lms_get_courses', [ $this, 'ajax_get_courses' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_courses', [ $this, 'ajax_get_courses' ] );
+			add_action( 'wp_ajax_buddyboss_lms_get_courses', array( $this, 'ajax_get_courses' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_courses', array( $this, 'ajax_get_courses' ) );
 
-			add_action( 'admin_init', [ $this, 'cover_course_photo' ] );
-			add_action( 'after_setup_theme', [ $this, 'my_llms_theme_support' ] );
-			add_filter( 'llms_get_theme_default_sidebar', [ $this, 'my_llms_sidebar_function' ] );
+			add_action( 'admin_init', array( $this, 'cover_course_photo' ) );
+			add_action( 'after_setup_theme', array( $this, 'my_llms_theme_support' ) );
+			add_filter( 'llms_get_theme_default_sidebar', array( $this, 'my_llms_sidebar_function' ) );
 
 			// Course loop
 			remove_action( 'lifterlms_archive_description', 'lifterlms_archive_description', 10 );
 			remove_action( 'lifterlms_loop', 'lifterlms_loop', 10 );
-			add_action( 'lifterlms_loop', [ $this, 'boss_lifterlms_loop' ], 10 );
+			add_action( 'lifterlms_loop', array( $this, 'boss_lifterlms_loop' ), 10 );
 
 			$lifterlms_course_author = buddyboss_theme_get_option( 'lifterlms_course_author' );
 			if ( isset( $lifterlms_course_author ) && ( $lifterlms_course_author == 1 ) ) {
@@ -64,10 +64,14 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			// Course review
 			remove_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
-			add_action( 'lifterlms_single_course_after_summary', [
-				$this,
-				'lifterlms_template_single_reviews_course',
-			], 100 );
+			add_action(
+				'lifterlms_single_course_after_summary',
+				array(
+					$this,
+					'lifterlms_template_single_reviews_course',
+				),
+				100
+			);
 
 			// Course page main title.
 			add_filter( 'lifterlms_show_page_title', '__return_false' );
@@ -78,24 +82,32 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			// Lifter LMS courses sidebar
 			remove_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
-			add_action( 'lifterlms_sidebar', [ $this, 'theme_lifterlms_get_sidebar' ], 10 );
+			add_action( 'lifterlms_sidebar', array( $this, 'theme_lifterlms_get_sidebar' ), 10 );
 
-			add_filter( 'llms_certificates_loop_columns', [ $this, 'bb_llms_certificate_loop_cols' ] );
-			add_filter( 'llms_achievement_loop_columns', [ $this, 'bb_llms_achievements_loop_cols' ] );
+			add_filter( 'llms_certificates_loop_columns', array( $this, 'bb_llms_certificate_loop_cols' ) );
+			add_filter( 'llms_achievement_loop_columns', array( $this, 'bb_llms_achievements_loop_cols' ) );
 
 			// Hide dashboard page title.
-			add_filter( 'body_class', [ $this, 'bb_llms_is_dashboard_page_class' ] );
+			add_filter( 'body_class', array( $this, 'bb_llms_is_dashboard_page_class' ) );
 
-			add_action( 'lifterlms_single_membership_before_summary', [
-				$this,
-				'bb_llms_single_membership_before_summary',
-			], 10 );
+			add_action(
+				'lifterlms_single_membership_before_summary',
+				array(
+					$this,
+					'bb_llms_single_membership_before_summary',
+				),
+				10
+			);
 
 			remove_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
-			add_action( 'lifterlms_after_student_dashboard', [
-				$this,
-				'bb_lifterlms_template_student_dashboard_wrapper_close',
-			], 12 );
+			add_action(
+				'lifterlms_after_student_dashboard',
+				array(
+					$this,
+					'bb_lifterlms_template_student_dashboard_wrapper_close',
+				),
+				12
+			);
 
 			// Pricing Tables
 			remove_action( 'llms_before_access_plan', 'llms_template_access_plan_feature', 10 );
@@ -110,30 +122,45 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			remove_action( 'llms_acces_plan_footer', 'llms_template_access_plan_button', 20 );
 			add_action( 'llms_acces_plan_content', 'llms_template_access_plan_button', 50 );
 
-			add_action( 'wp_ajax_buddyboss_llms_get_course_participants', [
-				$this,
-				'buddyboss_llms_get_course_participants',
-			] );
-			add_action( 'wp_ajax_nopriv_buddyboss_llms_get_course_participants', [
-				$this,
-				'buddyboss_llms_get_course_participants',
-			] );
+			add_action(
+				'wp_ajax_buddyboss_llms_get_course_participants',
+				array(
+					$this,
+					'buddyboss_llms_get_course_participants',
+				)
+			);
+			add_action(
+				'wp_ajax_nopriv_buddyboss_llms_get_course_participants',
+				array(
+					$this,
+					'buddyboss_llms_get_course_participants',
+				)
+			);
 
-			add_action( 'wp_ajax_buddyboss_llms_save_view', [ $this, 'buddyboss_llms_save_view' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_llms_save_view', [ $this, 'buddyboss_llms_save_view' ] );
+			add_action( 'wp_ajax_buddyboss_llms_save_view', array( $this, 'buddyboss_llms_save_view' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_llms_save_view', array( $this, 'buddyboss_llms_save_view' ) );
 
+			add_action( 'wp_ajax_buddyboss_lms_get_memberships', array( $this, 'ajax_get_memberships' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_memberships', array( $this, 'ajax_get_memberships' ) );
 
-			add_action( 'wp_ajax_buddyboss_lms_get_memberships', [ $this, 'ajax_get_memberships' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_memberships', [ $this, 'ajax_get_memberships' ] );
+			add_filter(
+				'llms_get_product_schedule_details',
+				array(
+					$this,
+					'buddyboss_llms_add_space_before_schedule_details',
+				),
+				9999,
+				2
+			);
 
-			add_filter( 'llms_get_product_schedule_details', [
-				$this,
-				'buddyboss_llms_add_space_before_schedule_details',
-			], 9999, 2 );
+			add_action( 'parse_query', array( $this, 'buddyboss_llms_prepare_course_archive_page_query' ) );
+			add_action( 'pre_get_posts', array( $this, 'buddyboss_llms_course_archive_page_query' ), 999 );
+			add_action( 'bb_llms_display_certificate', array( $this, 'bb_llms_certificate_content' ), 50 );
+			add_action( 'bb_llms_display_certificate', array( $this, 'bb_llms_certificate_actions' ), 60 );
 
-			add_action( 'bb_llms_display_certificate', [ $this, 'bb_llms_certificate_content' ], 50 );
-			add_action( 'bb_llms_display_certificate', [ $this, 'bb_llms_certificate_actions' ], 60 );
-
+			add_action( 'llms_user_enrolled_in_course', array( $this, 'bb_flush_llms_mycourse_ids_cache_user_id' ), 9999, 1 );
+			add_action( 'llms_user_removed_from_course', array( $this, 'bb_flush_llms_mycourse_ids_cache_user_id' ), 9999, 1 );
+			add_action( 'llms_user_enrollment_deleted', array( $this, 'bb_flush_llms_mycourse_ids_cache_user_id' ), 9999, 1 );
 		}
 
 		/**
@@ -195,7 +222,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$period = '&nbsp;' . $period;
 
 			return apply_filters( 'buddyboss_llms_add_space_before_schedule_details', $period, $data );
-
 		}
 
 		public function buddyboss_llms_save_view() {
@@ -206,14 +232,14 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification
 			$option_value = isset( $_REQUEST['type'] ) ? $_REQUEST['type'] : '';
 
-			if ( '' !== $option_name ) {
+			if ( $option_name !== '' ) {
 				update_option( $option_name, $option_value );
 			}
 
 			wp_send_json_success(
-				[
+				array(
 					'html' => 'success',
-				]
+				)
 			);
 			wp_die();
 		}
@@ -232,7 +258,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$data = buddyboss_theme()->lifterlms_helper()->bb_theme_llms_get_users_for_course( $course_id, $page, $users_per_page );
 
 			$show_more = 'false';
-			if ( true === $data['has_more'] ) {
+			if ( $data['has_more'] === true ) {
 				$show_more = 'true';
 			}
 
@@ -241,33 +267,38 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			ob_start();
 
-			if ( isset( $data['data'] ) && '' !== $data['data'] ) {
+			if ( isset( $data['data'] ) && $data['data'] !== '' ) {
 				foreach ( $data['data'] as $k => $course_member ) {
 					?>
-                    <li>
+					<li>
 						<?php
-						if ( class_exists( 'BuddyPress' ) ) { ?>
-                        <a href="<?php echo bp_core_get_user_domain( (int) $course_member->user_id ); ?>">
+						if ( class_exists( 'BuddyPress' ) ) {
+							?>
+						<a href="<?php echo bp_core_get_user_domain( (int) $course_member->user_id ); ?>">
 							<?php
-							} ?>
-                            <img class="round"
-                                 src="<?php echo get_avatar_url( (int) $course_member->user_id, [ 'size' => 96 ] ); ?>"
-                                 alt=""/>
+						}
+						?>
+							<img class="round"
+								 src="<?php echo get_avatar_url( (int) $course_member->user_id, array( 'size' => 96 ) ); ?>"
+								 alt=""/>
 							<?php
-							if ( class_exists( 'BuddyPress' ) ) { ?>
-                                <span><?php echo bp_core_get_user_displayname( (int) $course_member->user_id ); ?></span>
+							if ( class_exists( 'BuddyPress' ) ) {
+								?>
+								<span><?php echo bp_core_get_user_displayname( (int) $course_member->user_id ); ?></span>
 								<?php
 							} else {
 								$course_member = get_userdata( (int) $course_member->user_id );
 								?>
-                                <span><?php echo $course_member->display_name; ?></span>
+								<span><?php echo $course_member->display_name; ?></span>
 								<?php
 							}
-							if ( class_exists( 'BuddyPress' ) ) { ?>
-                        </a>
-					<?php
-					} ?>
-                    </li>
+							if ( class_exists( 'BuddyPress' ) ) {
+								?>
+						</a>
+								<?php
+							}
+							?>
+					</li>
 					<?php
 				}
 			}
@@ -275,45 +306,81 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$html = ob_get_contents();
 			ob_end_clean();
 			wp_send_json_success(
-				[
+				array(
 					'html'      => $html,
 					'show_more' => $show_more,
 					'page'      => $page,
-				]
+				)
 			);
 			die();
 		}
 
+		/**
+		 * Get course participants.
+		 *
+		 * @param integer $course_id Course ID.
+		 * @param integer $page      Page number.
+		 * @param integer $per_page  Number of participants per page.
+		 *
+		 * @return array
+		 */
 		public function bb_theme_llms_get_users_for_course( $course_id, $page = 1, $per_page = 6 ) {
-			global $wpdb;
 
-			$offset                  = ( $page - 1 ) * $per_page;
-			$table_name              = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$response                = [];
-			$data                    = $wpdb->get_results( $wpdb->prepare( 'SELECT p.user_id, p.post_id, MAX(IF(pa.meta_key = "_start_date", pa.updated_date, NULL)) AS enrolled_date, MAX(IF(pa.meta_key = "_status", pa.meta_value, NULL)) AS status from ' . $table_name . ' p left join ' . $table_name . ' pa on p.user_id = pa.user_id and p.post_id = pa.post_id where p.post_id = %s group by p.user_id LIMIT %d, %d', $course_id, $offset, $per_page ) ); // WPCS: db call ok, cache ok.
-			$data_total              = $wpdb->get_results( $wpdb->prepare( 'SELECT p.user_id, p.post_id, MAX(IF(pa.meta_key = "_start_date", pa.updated_date, NULL)) AS enrolled_date, MAX(IF(pa.meta_key = "_status", pa.meta_value, NULL)) AS status from ' . $table_name . ' p left join ' . $table_name . ' pa on p.user_id = pa.user_id and p.post_id = pa.post_id where p.post_id = %s group by p.user_id', $course_id ) ); // WPCS: db call ok, cache ok.
-			$total_users             = $wpdb->get_var( 'SELECT FOUND_ROWS()' ); // WPCS: db call ok, cache ok.
-			$total_pages             = ceil( $total_users / $per_page );
-			$response['total']       = (int) $total_users;
-			$response['total_pages'] = (int) $total_pages;
-			$response['data']        = $data;
-			$response['has_more']    = ( $page === (int) $total_pages ) ? false : true;
+			$query_args = array(
+				'page'     => $page,
+				'post_id'  => $course_id,
+				'per_page' => $per_page,
+				'sort'     => array(
+					'date'       => 'ASC',
+					'last_name'  => 'ASC',
+					'first_name' => 'ASC',
+					'id'         => 'ASC',
+				),
+				'statuses' => array( 'enrolled' ),
+			);
+
+			$query          = new \LLMS_Student_Query( $query_args );
+			$data           = $query->get_results();
+			$modified_array = array();
+
+			if ( ! empty( $data ) ) {
+				$modified_array = array_map(
+					function ( $object ) use ( $course_id ) {
+						$object->user_id       = $object->id;
+						$object->post_id       = $course_id;
+						$object->enrolled_date = $object->date;
+
+						unset( $object->id );
+						unset( $object->date );
+						unset( $object->last_name );
+						unset( $object->first_name );
+
+						return $object;
+					},
+					$data
+				);
+			}
+
+			$response                = array();
+			$response['total']       = (int) $query->get_found_results();
+			$response['data']        = $modified_array;
+			$response['total_pages'] = (int) $query->get_max_pages();
+			$response['has_more']    = ( (int) $page >= (int) $query->get_max_pages() ) ? false : true;
 
 			return $response;
-
 		}
 
 		public function bb_theme_llms_get_author( $args ) {
 
 			$args = wp_parse_args(
 				$args,
-				[
+				array(
 					'avatar'      => true,
 					'avatar_size' => 96,
 					'bio'         => false,
 					'label'       => '',
 					'user_id'     => get_the_author_meta( 'ID' ),
-				]
+				)
 			);
 
 			$name = get_the_author_meta( 'display_name', $args['user_id'] );
@@ -335,27 +402,26 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			ob_start();
 			?>
-            <div class="llms-author flex">
-                <a href="<?php echo esc_url( $user_link ); ?>">
+			<div class="llms-author flex">
+				<a href="<?php echo esc_url( $user_link ); ?>">
 					<?php echo $img; ?>
-                </a>
-                <div class="llms-author__verbose">
-                    <a href="<?php echo esc_url( $user_link ); ?>">
-                        <span class="llms-author-info name"><?php echo $name; ?></span>
-                    </a>
+				</a>
+				<div class="llms-author__verbose">
+					<a href="<?php echo esc_url( $user_link ); ?>">
+						<span class="llms-author-info name"><?php echo $name; ?></span>
+					</a>
 					<?php if ( $args['label'] ) : ?>
-                        <span class="llms-author-info label"><?php echo $args['label']; ?></span>
+						<span class="llms-author-info label"><?php echo $args['label']; ?></span>
 					<?php endif; ?>
 					<?php if ( $desc ) : ?>
-                        <p class="llms-author-info bio"><?php echo $desc; ?></p>
+						<p class="llms-author-info bio"><?php echo $desc; ?></p>
 					<?php endif; ?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 			$html = ob_get_clean();
 
 			return apply_filters( 'bb_theme_llms_get_author', $html, $args );
-
 		}
 
 		/**
@@ -377,7 +443,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			return $classes;
-
 		}
 
 		/**
@@ -390,55 +455,55 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			$terms = wp_list_pluck(
 				get_terms(
-					[
+					array(
 						'taxonomy'   => 'llms_product_visibility',
 						'hide_empty' => false,
-					]
+					)
 				),
 				'term_taxonomy_id',
 				'name'
 			);
 
-			$not_in = [ $terms['hidden'], $terms['search'] ];
+			$not_in = array( $terms['hidden'], $terms['search'] );
 
 			$category = get_queried_object();
 			if ( isset( $category->term_id ) && $category->term_id ) {
 
 				$courses = new WP_Query(
-					[
+					array(
 						'post_type'   => 'course',
 						'post_status' => 'publish',
-						'tax_query'   => [
+						'tax_query'   => array(
 							'relation' => 'AND',
-							[
+							array(
 								'taxonomy' => "$category->taxonomy",
 								'field'    => 'id',
-								'terms'    => [ $category->term_id ],
-							],
-							[
+								'terms'    => array( $category->term_id ),
+							),
+							array(
 								'field'    => 'term_taxonomy_id',
 								'operator' => 'NOT IN',
 								'taxonomy' => 'llms_product_visibility',
 								'terms'    => $not_in,
-							],
-						],
-					]
+							),
+						),
+					)
 				);
 			} else {
 				$courses = new WP_Query(
-					[
+					array(
 						'post_type'   => 'course',
 						'post_status' => 'publish',
-						'tax_query'   => [
+						'tax_query'   => array(
 							'relation' => 'AND',
-							[
+							array(
 								'field'    => 'term_taxonomy_id',
 								'operator' => 'NOT IN',
 								'taxonomy' => 'llms_product_visibility',
 								'terms'    => $not_in,
-							],
-						],
-					]
+							),
+						),
+					)
 				);
 			}
 
@@ -465,9 +530,13 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			$courses = $student->get_courses(
-				apply_filters( 'llms_my_courses_loop_courses_query_args', array(
-					'limit' => 1
-				), $student )
+				apply_filters(
+					'llms_my_courses_loop_courses_query_args',
+					array(
+						'limit' => 1,
+					),
+					$student
+				)
 			);
 
 			return $courses['found'];
@@ -487,9 +556,9 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function print_sorting_options( $args = '' ) {
 
-			$defaults = [
+			$defaults = array(
 				'selected' => false,
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -523,10 +592,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		protected function _get_orderby_options() {
 
-			$order_by_options = [
+			$order_by_options = array(
 				'alphabetical' => __( 'Alphabetical', 'buddyboss-theme' ),
 				'recent'       => __( 'Newly Created', 'buddyboss-theme' ),
-			];
+			);
 
 			if ( is_user_logged_in() ) {
 				$order_by_options['my-progress'] = __( 'My Progress', 'buddyboss-theme' );
@@ -548,10 +617,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function print_instructors_options( $args = '' ) {
 
-			$defaults = [
+			$defaults = array(
 				'selected'   => false,
 				'option_all' => __( 'All Instructors', 'buddyboss-theme' ),
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -562,13 +631,28 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			echo "<option value='all'>{$args['option_all']}</option>";
 
 			global $wpdb;
+			$query = $wpdb->get_col( "SELECT pm.meta_value FROM {$wpdb->posts} AS p JOIN {$wpdb->postmeta} AS pm ON pm.post_id = p.ID WHERE p.post_type = 'course' AND p.post_status = 'publish' AND pm.meta_key = '_llms_instructors';" );
+
+			$instructor_ids = array();
+
+			if ( ! is_wp_error( $query ) && ! empty( $query ) ) {
+				foreach ( $query as $ids ) {
+					$ids = maybe_unserialize( $ids );
+					$ids = wp_list_pluck( $ids, 'id' );
+
+					if ( ! empty( $ids ) ) {
+						$instructor_ids = array_unique( array_merge( $instructor_ids, $ids ) );
+					}
+				}
+			}
+
 			$query = get_users(
-				[
-					'fields'   => [ 'ID', 'display_name' ],
+				array(
+					'fields'   => array( 'ID', 'display_name' ),
 					'meta_key' => 'last_name',
 					'orderby'  => 'meta_value',
-					'role__in' => [ 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ],
-				]
+					'include'  => $instructor_ids,
+				)
 			);
 
 			$author_ids = wp_list_pluck( $query, 'display_name', 'ID' );
@@ -576,7 +660,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$author_ids = apply_filters( THEME_HOOK_PREFIX . 'lifterlms_instructors_options', $author_ids, $args );
 
 			if ( ! empty( $author_ids ) ) {
-				$authors = [];
+				$authors = array();
 				foreach ( $author_ids as $k => $value ) {
 					$authors[ $k ] = $value;
 				}
@@ -625,7 +709,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function body_class( $classes ) {
 
-			if ( ( isset( $_COOKIE['bbtheme'] ) && 'dark' == $_COOKIE['bbtheme'] && is_user_logged_in() ) && ( is_singular( 'lesson' ) || is_singular( 'llms_assignment' ) || is_singular( 'llms_quiz' ) ) ) {
+			if ( ( isset( $_COOKIE['bbtheme'] ) && $_COOKIE['bbtheme'] == 'dark' && is_user_logged_in() ) && ( is_singular( 'lesson' ) || is_singular( 'llms_assignment' ) || is_singular( 'llms_quiz' ) ) ) {
 				$classes[] = 'bb-dark-theme';
 			}
 
@@ -647,7 +731,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			$category = get_queried_object();
 
-			$data['lifterlms'] = [
+			$data['lifterlms'] = array(
 				'nonce_get_courses'     => wp_create_nonce( 'buddyboss_llms_get_courses' ),
 				'nonce_get_memberships' => wp_create_nonce( 'buddyboss_llms_get_memberships' ),
 				'course_archive_url'    => trailingslashit( get_post_type_archive_link( 'course' ) ),
@@ -656,7 +740,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				'is_course_category'    => ( isset( $category->term_id ) && $category->term_id ) ? 1 : 0,
 				'course_category_id'    => ( isset( $category->term_id ) && $category->term_id ) ? $category->term_id : 0,
 				'course_category_name'  => ( isset( $category->taxonomy ) && $category->taxonomy ) ? $category->taxonomy : '',
-			];
+			);
 
 			return $data;
 		}
@@ -668,13 +752,13 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			check_ajax_referer( 'buddyboss_llms_get_courses' );
 
-			$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+			$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : 'alphabetical';
 
-			if ( 'my-progress' === $order_by_current ) {
+			if ( $order_by_current === 'my-progress' ) {
 				$this->_my_course_progress = $this->get_courses_progress( get_current_user_id() );
 			}
 
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
 			$posts_per_page = 0;
 
@@ -697,26 +781,26 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$category = isset( $_GET['course_category_id'] ) ? (int) $_GET['course_category_id'] : 0;
 			$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
 			if ( $category ) {
-				$args = [
+				$args = array(
 					'post_status'    => 'publish',
 					'posts_per_page' => $posts_per_page,
 					'post_type'      => 'course',
 					'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
-					'tax_query'      => [
-						[
+					'tax_query'      => array(
+						array(
 							'taxonomy' => "$taxonomy",
 							'field'    => 'id',
-							'terms'    => [ $category ],
-						],
-					],
-				];
+							'terms'    => array( $category ),
+						),
+					),
+				);
 			} else {
-				$args = [
+				$args = array(
 					'post_status'    => 'publish',
 					'posts_per_page' => $posts_per_page,
 					'post_type'      => 'course',
 					'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
-				];
+				);
 			}
 
 			$args = apply_filters( THEME_HOOK_PREFIX . 'llms_ajax_get_courses_args', $args );
@@ -726,7 +810,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				$pagination_url = urldecode_deep( $_GET['request_url'] );
 
 				// Validate the requested URL.
-				if ( false === strpos( $pagination_url, get_site_url() ) ) {
+				if ( strpos( $pagination_url, get_site_url() ) === false ) {
 					$pagination_url = '';
 				}
 			}
@@ -739,10 +823,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			if ( $c_q->have_posts() ) {
 
-				$courses_list = [
-					'list-view' => [],
-					'grid-view' => [],
-				];
+				$courses_list = array(
+					'list-view' => array(),
+					'grid-view' => array(),
+				);
 
 				while ( $c_q->have_posts() ) {
 					$c_q->the_post();
@@ -756,18 +840,21 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 					$courses_list['list-view'][] = ob_get_clean();
 				}
 
-				$view = isset( $_GET['view'] ) && in_array( $_GET['view'], [
-					'list',
-					'grid',
-				] ) ? $_GET['view'] : 'grid'; // WPCS: loose comparison ok.
+				$view = isset( $_GET['view'] ) && in_array(
+					$_GET['view'],
+					array(
+						'list',
+						'grid',
+					)
+				) ? $_GET['view'] : 'grid'; // WPCS: loose comparison ok.
 
-				$html = '<ul class="bb-course-list bb-course-items bb-grid list-view ' . ( 'list' != $view ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">' . implode(
-						'',
-						$courses_list['list-view']
-					) . '</ul>' . '<ul class="bb-card-list bb-course-items grid-view bb-grid ' . ( 'grid' != $view ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">' . implode(
-					        '',
-					        $courses_list['grid-view']
-				        ) . '</ul>';
+				$html = '<ul class="bb-course-list bb-course-items bb-grid list-view ' . ( $view != 'list' ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">' . implode(
+					'',
+					$courses_list['list-view']
+				) . '</ul>' . '<ul class="bb-card-list bb-course-items grid-view bb-grid ' . ( $view != 'grid' ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">' . implode(
+					'',
+					$courses_list['grid-view']
+				) . '</ul>';
 
 				$html .= '<div class="bb-lms-pagination">';
 
@@ -775,23 +862,23 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 				if ( $category ) {
 					$html .= paginate_links(
-						[
+						array(
 							'base'               => trailingslashit( $pagination_url ) . 'page/%#%/',
 							'format'             => '?paged=%#%',
 							'current'            => ( isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1 ),
 							'total'              => $c_q->max_num_pages,
 							'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
-						]
+						)
 					);
 				} else {
 					$html .= paginate_links(
-						[
+						array(
 							'base'               => trailingslashit( $pagination_url ) . 'page/%#%/',
 							'format'             => '?paged=%#%',
 							'current'            => ( isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1 ),
 							'total'              => $c_q->max_num_pages,
 							'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
-						]
+						)
 					);
 				}
 
@@ -806,14 +893,14 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			$total = $c_q->found_posts;
 
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
 			wp_send_json_success(
-				[
+				array(
 					'html'   => $html,
 					'count'  => $total,
 					'scopes' => $this->get_course_query_scope( $c_q->query_vars ),
-				]
+				)
 			);
 			die();
 		}
@@ -822,7 +909,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			check_ajax_referer( 'buddyboss_llms_get_memberships' );
 
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_memberships' ], 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_memberships' ), 999 );
 
 			$posts_per_page = 0;
 
@@ -837,16 +924,16 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				}
 			}
 
-			$args = [
+			$args = array(
 				'post_status'    => 'publish',
 				'posts_per_page' => $posts_per_page,
 				'post_type'      => 'llms_membership',
 				'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
-			];
+			);
 
 			$view            = get_option( 'bb_theme_lifter_membership_grid_list', 'grid' );
-			$class_grid_show = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
-			$class_list_show = ( 'list' === $view ) ? 'list-view bb-list' : '';
+			$class_grid_show = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
+			$class_list_show = ( $view === 'list' ) ? 'list-view bb-list' : '';
 
 			$args = apply_filters( THEME_HOOK_PREFIX . 'llms_ajax_get_memberships', $args );
 
@@ -854,10 +941,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			if ( $c_q->have_posts() ) {
 
-				$courses_list = [
-					'list-view' => [],
-					'grid-view' => [],
-				];
+				$courses_list = array(
+					'list-view' => array(),
+					'grid-view' => array(),
+				);
 
 				while ( $c_q->have_posts() ) {
 					$c_q->the_post();
@@ -868,22 +955,22 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				}
 
 				$html = '<ul class="bb-course-list bb-course-items ' . esc_attr( $class_grid_show . $class_list_show ) . ' " aria-live="assertive" aria-relevant="all">' . implode(
-						'',
-						$courses_list['grid-view']
-					) . '</ul>';
+					'',
+					$courses_list['grid-view']
+				) . '</ul>';
 
 				$html .= '<div class="bb-lms-pagination">';
 
 				$translated = __( 'Page', 'buddyboss-theme' ); // Supply translatable string
 
 				$html .= paginate_links(
-					[
+					array(
 						'base'               => trailingslashit( get_post_type_archive_link( 'llms_membership' ) ) . 'page/%#%/',
 						'format'             => '?paged=%#%',
 						'current'            => ( isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1 ),
 						'total'              => $c_q->max_num_pages,
 						'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
-					]
+					)
 				);
 
 				$html .= '</div><!-- .bb-lms-pagination -->';
@@ -898,10 +985,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$total = $c_q->found_posts;
 
 			wp_send_json_success(
-				[
+				array(
 					'html'  => $html,
 					'count' => $total,
-				]
+				)
 			);
 			die();
 		}
@@ -912,12 +999,12 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 * @param $query object query object
 		 */
 		public function filter_query_ajax_get_courses( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 			$query = $this->course_archive_query_params( $query );
 		}
 
 		public function filter_query_ajax_get_memberships( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_memberships' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_memberships' ), 999 );
 			$query = $this->membership_archive_query_params( $query );
 		}
 
@@ -929,7 +1016,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		protected function course_archive_query_params( $query ) {
 			// search
 			if ( ! empty( $_GET['search'] ) ) {
-				$query->set( 's', $_GET['search'] );
+				$query->set( 's', sanitize_text_field( wp_unslash( $_GET['search'] ) ) );
 			}
 
 			// my courses
@@ -953,7 +1040,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		protected function membership_archive_query_params( $query ) {
 			// search
 			if ( ! empty( $_GET['search'] ) ) {
-				$query->set( 's', $_GET['search'] );
+				$query->set( 's', sanitize_text_field( wp_unslash( $_GET['search'] ) ) );
 			}
 
 			// visibility
@@ -990,11 +1077,15 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 					$query_order_by = 'date';
 					$query_order    = 'desc';// doesn't matter
 
-					add_filter( 'posts_clauses', [ $this, 'alter_query_parts' ], 10, 2 );
+					add_filter( 'posts_clauses', array( $this, 'alter_query_parts' ), 10, 2 );
 					break;
-				default:
+				case 'recent':
 					$query_order_by = 'date';
 					$query_order    = 'desc';
+					break;
+				default:
+					$query_order_by = 'title';
+					$query_order    = 'asc';
 					break;
 			}
 
@@ -1014,7 +1105,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function alter_query_parts( $clauses, $query ) {
 
-			remove_filter( 'posts_clauses', [ $this, 'alter_query_parts' ], 10, 2 );
+			remove_filter( 'posts_clauses', array( $this, 'alter_query_parts' ), 10, 2 );
 
 			$my_course_progress = $this->_my_course_progress;
 
@@ -1046,23 +1137,21 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$tax_query = $query->get( 'tax_query' );
 
 			if ( empty( $tax_query ) ) {
-				$tax_query = [];
+				$tax_query = array();
 			}
 
 			// Query Depend on theme setting
-			if ( ! empty( $_GET[ "filter-categories" ] ) && 'all' != $_GET['filter-categories'] ) {
-
-				$archive_category_taxonomy = 'course_cat';
+			if ( ! empty( $_GET['filter-categories'] ) && $_GET['filter-categories'] != 'all' ) {
 
 				$tax_query[] = array(
-					'taxonomy'         => $archive_category_taxonomy,
+					'taxonomy'         => self::LMS_CATEGORY_SLUG,
 					'field'            => 'slug',
-					'terms'            => $_GET["filter-categories"],
+					'terms'            => $_GET['filter-categories'],
 					'include_children' => false,
 				);
 			}
 
-			if ( ! empty( $_GET["filter-block-categories"] ) || ! empty( $_GET["filter-block-tags"] ) ) {
+			if ( ! empty( $_GET['filter-block-categories'] ) || ! empty( $_GET['filter-block-tags'] ) ) {
 				$tax_blog_query = array(
 					'relation' => 'AND',
 				);
@@ -1071,11 +1160,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				 * Without interact with theme setting. Filter course by course categories
 				 * Used by Elementor widgets like Course grid
 				 */
-				if ( ! empty( $_GET["filter-block-categories"] ) ) {
+				if ( ! empty( $_GET['filter-block-categories'] ) ) {
 					$tax_blog_query[] = array(
 						'taxonomy'         => self::LMS_CATEGORY_SLUG,
 						'field'            => 'id',
-						'terms'            => wp_parse_id_list( $_GET["filter-block-categories"] ),
+						'terms'            => wp_parse_id_list( $_GET['filter-block-categories'] ),
 						'include_children' => false,
 					);
 
@@ -1085,11 +1174,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				 * Without interact with theme setting. Filter course by course tags
 				 * Used by Elementor widgets like Course grid
 				 */
-				if ( ! empty( $_GET["filter-block-tags"] ) ) {
+				if ( ! empty( $_GET['filter-block-tags'] ) ) {
 					$tax_blog_query[] = array(
 						'taxonomy'         => self::LMS_TAG_SLUG,
 						'field'            => 'id',
-						'terms'            => wp_parse_id_list( $_GET["filter-block-tags"] ),
+						'terms'            => wp_parse_id_list( $_GET['filter-block-tags'] ),
 						'include_children' => false,
 					);
 
@@ -1099,7 +1188,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			if ( ! empty( $tax_query ) ) {
-				$query->set('tax_query' , $tax_query );
+				$query->set( 'tax_query', $tax_query );
 			}
 
 			return $query;
@@ -1110,35 +1199,38 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$tax_query = $query->get( 'tax_query' );
 
 			if ( ! is_array( $tax_query ) ) {
-				$tax_query = [
+				$tax_query = array(
 					'relation' => 'AND',
-				];
+				);
 			}
 
 			$terms = wp_list_pluck(
 				get_terms(
-					[
+					array(
 						'taxonomy'   => 'llms_product_visibility',
 						'hide_empty' => false,
-					]
+					)
 				),
 				'term_taxonomy_id',
 				'name'
 			);
 
 			if ( ! empty( $_GET['search'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-				$not_in = [ $terms['hidden'], $terms['catalog'] ];
+				$not_in = array( $terms['hidden'], $terms['catalog'] );
 			} else {
-				$not_in = [ $terms['hidden'], $terms['search'] ];
+				$not_in = array( $terms['hidden'], $terms['search'] );
 			}
 
-
-			$tax_query[] = [
+			$visibility_tax_query = array(
 				'field'    => 'term_taxonomy_id',
 				'operator' => 'NOT IN',
 				'taxonomy' => 'llms_product_visibility',
 				'terms'    => $not_in,
-			];
+			);
+
+			if ( ! in_array( $visibility_tax_query, $tax_query ) ) {
+				$tax_query[] = $visibility_tax_query;
+			}
 
 			$query->set( 'tax_query', $tax_query );
 
@@ -1153,7 +1245,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		protected function _archive_only_my_courses( $query ) {
 
 			// phpcs:ignore WordPress.Security.NonceVerification
-			if ( ! isset( $_GET['type'] ) || 'my-courses' !== $_GET['type'] ) {
+			if ( ! isset( $_GET['type'] ) || $_GET['type'] !== 'my-courses' ) {
 				return $query;
 			}
 
@@ -1164,7 +1256,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				if ( ! $course_ids ) {
 					$student_data    = new LLMS_Student();
 					$student_courses = $student_data->get_courses();
-					$course_ids      = ( ! empty( $student_courses['results'] ) ) ? $student_courses['results'] : [ - 1 ];
+					$course_ids      = ( ! empty( $student_courses['results'] ) ) ? $student_courses['results'] : array( - 1 );
 					wp_cache_set( $user_id, $course_ids, 'llms_mycourse_ids' );
 				}
 
@@ -1173,7 +1265,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification
 				$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
 				if ( $category > 0 ) {
-					$in = [];
+					$in = array();
 					foreach ( $course_ids as $course ) {
 						$cats     = wp_get_object_terms( $course, $taxonomy );
 						$term_ids = wp_list_pluck( $cats, 'term_id' );
@@ -1196,18 +1288,18 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 * @param $query object query object
 		 */
 		protected function _archive_filterby_instructors( $query ) {
-			if ( ! empty( $_GET['filter-instructors'] ) && 'all' != $_GET['filter-instructors'] ) {
+			if ( ! empty( $_GET['filter-instructors'] ) && $_GET['filter-instructors'] != 'all' ) {
 				$authors = $_GET['filter-instructors'];
 				$authors = wp_parse_id_list( $authors );
 
 				if ( ! empty( $authors ) ) {
 					$meta_query['relation'] = 'OR';
 					foreach ( $authors as $author ) {
-						$meta_query[] = [
+						$meta_query[] = array(
 							'compare' => 'LIKE',
 							'key'     => '_llms_instructors',
 							'value'   => 's:2:"id";i:' . $author . ';',
-						];
+						);
 					}
 				}
 
@@ -1237,14 +1329,14 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function print_categories_options( $args = '' ) {
 
-			$defaults = [
+			$defaults = array(
 				'selected'   => false,
 				'orderby'    => 'name',
 				'order'      => 'ASC',
 				'option_all' => __( 'All Categories', 'buddyboss-theme' ),
-			];
+			);
 
-			$buddyboss_theme_options = get_option( 'buddyboss_theme_options', [] );
+			$buddyboss_theme_options = get_option( 'buddyboss_theme_options', array() );
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -1254,12 +1346,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			$all_cate = "<option value='all'>{$args['option_all']}</option>";
 
-
-			if ( 'llms_course_category' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			if ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_category' ) {
 				$taxonomy = 'course_cat';
-			} elseif ( 'llms_course_tag' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			} elseif ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_tag' ) {
 				$taxonomy = 'course_difficulty';
-			} elseif ( 'llms_course_tag' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			} elseif ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_tag' ) {
 				$taxonomy = 'course_tag';
 			} else {
 				$taxonomy = 'course_track';
@@ -1269,19 +1360,19 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			if ( isset( $category->term_id ) && $category->term_id ) {
 				$categories = get_terms(
-					[
+					array(
 						'taxonomy' => "$category->taxonomy",
 						'orderby'  => $args['orderby'],
 						'order'    => $args['order'],
-					]
+					)
 				);
 			} else {
 				$categories = get_terms(
-					[
+					array(
 						'taxonomy' => "$taxonomy",
 						'orderby'  => $args['orderby'],
 						'order'    => $args['order'],
-					]
+					)
 				);
 			}
 
@@ -1292,29 +1383,29 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				}
 			}
 
-			if ( '' !== $html ) {
+			if ( $html !== '' ) {
 				return $all_cate . $html;
 			}
 		}
 
 		public function get_course_category() {
 
-			$buddyboss_theme_options = get_option( 'buddyboss_theme_options', [] );
+			$buddyboss_theme_options = get_option( 'buddyboss_theme_options', array() );
 
-			if ( 'llms_course_category' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			if ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_category' ) {
 				$taxonomy = 'course_cat';
-			} elseif ( 'llms_course_tag' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			} elseif ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_tag' ) {
 				$taxonomy = 'course_difficulty';
-			} elseif ( 'llms_course_tag' === $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] ) {
+			} elseif ( $buddyboss_theme_options['lifterlms_course_index_categories_filter_taxonomy'] === 'llms_course_tag' ) {
 				$taxonomy = 'course_tag';
 			} else {
 				$taxonomy = 'course_track';
 			}
 
 			$categories = get_terms(
-				[
+				array(
 					'taxonomy' => "$taxonomy",
-				]
+				)
 			);
 
 			if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
@@ -1340,7 +1431,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 				$student                      = new LLMS_Student();
 				$courses                      = $student->get_courses();
-				$course_completion_percentage = [];
+				$course_completion_percentage = array();
 
 				if ( ! empty( $courses['results'] ) && is_array( $courses['results'] ) ) {
 					foreach ( $courses['results'] as $course_id ) {
@@ -1355,11 +1446,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			}
 
-			$course_completion_percentage = ( 'empty' !== $course_completion_percentage ) ? $course_completion_percentage : [];
+			$course_completion_percentage = ( $course_completion_percentage !== 'empty' ) ? $course_completion_percentage : array();
 
 			if ( ! empty( $course_completion_percentage ) ) {
 				// Sort.
-				if ( 'asc' === $sort_order ) {
+				if ( $sort_order === 'asc' ) {
 					asort( $course_completion_percentage );
 				} else {
 					arsort( $course_completion_percentage );
@@ -1370,11 +1461,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		}
 
 		public function filter_query_ajax_do_all_courses_counts( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_all_courses_counts' ], 9999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_all_courses_counts' ), 9999 );
 			$query->set( 'posts_per_page', 1 );
 			$query->set( 'paged', 1 );
 			$query->set( 'fields', 'ids' );
-			$query->set( 'post__in', [] );
+			$query->set( 'post__in', array() );
 		}
 
 		/**
@@ -1386,71 +1477,72 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		protected function get_course_query_scope( $query_vars ) {
 
-			$return = [
+			$return = array(
 				'all'        => 0,
 				'my-courses' => 0,
-			];
+			);
 
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_all_courses_counts' ), 9999 );
 
 			$terms = wp_list_pluck(
 				get_terms(
-					[
+					array(
 						'taxonomy'   => 'llms_product_visibility',
 						'hide_empty' => false,
-					]
+					)
 				),
 				'term_taxonomy_id',
 				'name'
 			);
 
 			if ( ! empty( $_GET['search'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-				$not_in = [ $terms['hidden'], $terms['catalog'] ];
+				$not_in = array( $terms['hidden'], $terms['catalog'] );
 			} else {
-				$not_in = [ $terms['hidden'], $terms['search'] ];
+				$not_in = array( $terms['hidden'], $terms['search'] );
 			}
 
 			$category = isset( $_GET['course_category_id'] ) ? (int) $_GET['course_category_id'] : 0;
 			$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
-			$search   = isset( $_GET['search'] ) ? $_GET['search'] : '';
+			$search   = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 			if ( $category && $category > 0 ) {
 				$all_query = new WP_Query(
-					[
+					array(
 						's'           => $search,
 						'post_type'   => 'course',
 						'post_status' => 'publish',
-						'tax_query'   => [
+						'tax_query'   => array(
 							'relation' => 'AND',
-							[
+							array(
 								'taxonomy' => "$taxonomy",
 								'field'    => 'id',
-								'terms'    => [ $category ],
-							],
-							[
+								'terms'    => array( $category ),
+							),
+							array(
 								'field'    => 'term_taxonomy_id',
 								'operator' => 'NOT IN',
 								'taxonomy' => 'llms_product_visibility',
 								'terms'    => $not_in,
-							],
-						],
-					]
+							),
+						),
+					)
 				);
 			} else {
 				$all_query = new WP_Query(
-					[
+					array(
 						's'           => $search,
 						'post_type'   => 'course',
 						'post_status' => 'publish',
-						'tax_query'   => [
+						'tax_query'   => array(
 							'relation' => 'AND',
-							[
+							array(
 								'field'    => 'term_taxonomy_id',
 								'operator' => 'NOT IN',
 								'taxonomy' => 'llms_product_visibility',
 								'terms'    => $not_in,
-							],
-						],
-					]
+							),
+						),
+					)
 				);
 			}
 
@@ -1463,7 +1555,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				if ( ! $course_ids = wp_cache_get( $user_id, 'llms_mycourse_ids' ) ) {
 					$student_data    = new LLMS_Student();
 					$student_courses = $student_data->get_courses();
-					$course_ids      = ( ! empty( $student_courses['results'] ) ) ? $student_courses['results'] : [ - 1 ];
+					$course_ids      = ( ! empty( $student_courses['results'] ) ) ? $student_courses['results'] : array( - 1 );
 					wp_cache_set( $user_id, $course_ids, 'llms_mycourse_ids' );
 				}
 
@@ -1472,7 +1564,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification
 				$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
 				if ( $category && isset( $category ) && $category > 0 ) {
-					$in = [];
+					$in = array();
 					foreach ( $course_ids as $course ) {
 						$cats     = wp_get_object_terms( $course, $taxonomy );
 						$term_ids = wp_list_pluck( $cats, 'term_id' );
@@ -1481,46 +1573,46 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 						}
 					}
 					$all_query = new WP_Query(
-						[
+						array(
 							's'              => $search,
 							'post_type'      => 'course',
 							'post_status'    => 'publish',
 							'posts_per_page' => - 1,
 							'post__in'       => $in,
-							'tax_query'      => [
+							'tax_query'      => array(
 								'relation' => 'AND',
-								[
+								array(
 									'taxonomy' => "$taxonomy",
 									'field'    => 'id',
-									'terms'    => [ $category ],
-								],
-								[
+									'terms'    => array( $category ),
+								),
+								array(
 									'field'    => 'term_taxonomy_id',
 									'operator' => 'NOT IN',
 									'taxonomy' => 'llms_product_visibility',
 									'terms'    => $not_in,
-								],
-							],
-						]
+								),
+							),
+						)
 					);
 				} else {
 					$all_query = new WP_Query(
-						[
+						array(
 							's'              => $search,
 							'post_type'      => 'course',
 							'post_status'    => 'publish',
 							'post__in'       => $course_ids,
 							'posts_per_page' => - 1,
-							'tax_query'      => [
+							'tax_query'      => array(
 								'relation' => 'AND',
-								[
+								array(
 									'field'    => 'term_taxonomy_id',
 									'operator' => 'NOT IN',
 									'taxonomy' => 'llms_product_visibility',
 									'terms'    => $not_in,
-								],
-							],
-						]
+								),
+							),
+						)
 					);
 				}
 
@@ -1529,7 +1621,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				$return['my-courses'] = $count;
 			}
 
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
 			return $return;
 		}
@@ -1540,11 +1632,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		public function cover_course_photo() {
 			if ( class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 				new \BuddyBossTheme\BuddyBossMultiPostThumbnails(
-					[
+					array(
 						'label'     => __( 'Cover Photo', 'buddyboss-theme' ),
 						'id'        => 'cover-course-image',
 						'post_type' => 'course',
-					]
+					)
 				);
 			}
 		}
@@ -1594,11 +1686,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$course_id      = get_the_ID();
 			$status_class   = ' ';
 
-			if ( 'lesson' === $post_type ) {
+			if ( $post_type === 'lesson' ) {
 				$lesson    = new LLMS_Lesson( $post );
 			}
 
-			if ( 'quiz' === $post_type ) {
+			if ( $post_type === 'quiz' ) {
 				$quiz           = llms_get_post( $post );
 				$quiz_lesson_id = $quiz->get( 'lesson_id' );
 				$post_object    = get_post( $quiz_lesson_id );
@@ -1612,10 +1704,10 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			if ( is_user_logged_in() ) {
 				$student       = new LLMS_Student( get_current_user_id() );
 				$last_activity = $student->get_events(
-					[
+					array(
 						'per_page' => 1,
 						'post_id'  => $course_id,
-					]
+					)
 				);
 			}
 
@@ -1634,7 +1726,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 					foreach ( $lessons as $lesson ) {
 						$is_lesson_complete = ! empty( $student ) ? $student->is_complete( $lesson, 'lesson' ) : false;
 						if ( $is_lesson_complete ) {
-							$completed_lesson_count ++;
+							$completed_lesson_count++;
 						}
 					}
 				} // End if().
@@ -1644,7 +1736,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			$temp_percentage = $percentage;
-			if ( 0 === $percentage ) {
+			if ( $percentage === 0 ) {
 				$temp_percentage = '0%';
 			} else {
 				$temp_percentage = $temp_percentage . '%';
@@ -1659,7 +1751,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			if ( is_singular( 'course' ) && is_user_logged_in() ) :
 
-				if ( 100 === $percentage ) {
+				if ( $percentage === 100 ) {
 					$status       = __( 'Complete', 'buddyboss-theme' );
 					$status_class = ' status-complete';
 				} else {
@@ -1716,7 +1808,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function boss_lifterlms_before_loop_item_title() {
 			?>
-            <div class="llms-loop-item-after-image">
+			<div class="llms-loop-item-after-image">
 			<?php
 		}
 
@@ -1725,7 +1817,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 */
 		public function boss_lifterlms_after_loop_item() {
 			?>
-            </div>
+			</div>
 			<?php
 		}
 
@@ -1736,21 +1828,21 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			 */
 			if ( get_post_meta( get_the_ID(), '_llms_display_reviews', true ) ) {
 
-				$args        = [
+				$args        = array(
 					'posts_per_page'   => get_post_meta( get_the_ID(), '_llms_num_reviews', true ),
 					'post_type'        => 'llms_review',
 					'post_status'      => 'publish',
 					'post_parent'      => get_the_ID(),
 					'suppress_filters' => true,
-				];
+				);
 				$posts_array = get_posts( $args );
 
-				$styles = [
+				$styles = array(
 					'background-color' => '#EFEFEF',
 					'title-color'      => 'inherit',
 					'text-color'       => 'inherit',
 					'custom-css'       => '',
-				];
+				);
 
 				if ( has_filter( 'llms_review_custom_styles' ) ) {
 					$styles = apply_filters( 'llms_review_custom_styles', $styles );
@@ -1758,16 +1850,16 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 				if ( count( $posts_array ) > 0 ) :
 					?>
-                    <div id="old_reviews" class='old_reviews--revoke'><h3>
+					<div id="old_reviews" class='old_reviews--revoke'><h3>
 					<?php
 					echo apply_filters(
 						'lifterlms_reviews_section_title',
 						__( 'What Others Have Said', 'buddyboss-theme' )
 					);
 					?>
-                </h3>
+				</h3>
 
-				<?php
+					<?php
 				endif;
 
 				foreach ( $posts_array as $post ) {
@@ -1775,19 +1867,19 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 					?>
 
-                    <div class="llms_review"
-                         style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
+					<div class="llms_review"
+						 style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
 						<?php
 						$user_link = buddyboss_theme()->lifterlms_helper()->bb_llms_get_user_link( get_post_field( 'post_author', $post->ID ) );
 						?>
-                        <div class="review_avatar_image">
-                            <a href="<?php echo $user_link; ?>">
+						<div class="review_avatar_image">
+							<a href="<?php echo $user_link; ?>">
 								<?php echo get_avatar( get_post_field( 'post_author', $post->ID ), 52 ); ?>
-                            </a>
-                        </div>
-                        <div class="review_content">
-                            <a href="<?php echo $user_link; ?>">
-                                <div class="review_author">
+							</a>
+						</div>
+						<div class="review_content">
+							<a href="<?php echo $user_link; ?>">
+								<div class="review_author">
 									<?php
 									echo sprintf(
 										__( '%s', 'buddyboss-theme' ),
@@ -1797,24 +1889,24 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 										)
 									);
 									?>
-                                </div>
-                            </a>
+								</div>
+							</a>
 
-                            <div class="review_date">
+							<div class="review_date">
 								<?php echo date( 'M j, Y', strtotime( $post->post_date ) ); ?>
-                            </div>
+							</div>
 
-                            <h5 class="review_content__title"><?php echo get_the_title( $post->ID ); ?></h5>
-                            <p class="review_content__description"><?php echo get_post_field( 'post_content', $post->ID ); ?></p>
-                        </div>
-                    </div>
+							<h5 class="review_content__title"><?php echo get_the_title( $post->ID ); ?></h5>
+							<p class="review_content__description"><?php echo get_post_field( 'post_content', $post->ID ); ?></p>
+						</div>
+					</div>
 					<?php
 				}
 
 				if ( count( $posts_array ) > 0 ) :
 					?>
-                    </div>
-				<?php
+					</div>
+					<?php
 				endif;
 			}// End if().
 
@@ -1827,14 +1919,14 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				 *
 				 * @var array
 				 */
-				$args        = [
+				$args        = array(
 					'posts_per_page'   => 1,
 					'post_type'        => 'llms_review',
 					'post_status'      => 'publish',
 					'post_parent'      => get_the_ID(),
 					'author'           => get_current_user_id(),
 					'suppress_filters' => true,
-				];
+				);
 				$posts_array = get_posts( $args );
 
 				/**
@@ -1843,30 +1935,30 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				 */
 				if ( get_post_meta( get_the_ID(), '_llms_multiple_reviews_disabled', true ) && $posts_array ) {
 					?>
-                    <div id="thank_you_box">
-                        <h2>
+					<div id="thank_you_box">
+						<h2>
 							<?php
 							echo apply_filters(
 								'llms_review_thank_you_text',
 								__( 'Thank you for your review!', 'buddyboss-theme' )
 							);
 							?>
-                        </h2>
-                    </div>
+						</h2>
+					</div>
 					<?php
 				} else {
 					?>
 
-                    <h3 class="review_title"><?php _e( 'Write a Review', 'buddyboss-theme' ); ?></h3>
-                    <div class="review_box" id="review_box">
-                        <!--<form method="post" name="review_form" id="review_form">-->
+					<h3 class="review_title"><?php _e( 'Write a Review', 'buddyboss-theme' ); ?></h3>
+					<div class="review_box" id="review_box">
+						<!--<form method="post" name="review_form" id="review_form">-->
 						<?php
 						$current_user_link = $user_link = buddyboss_theme()->lifterlms_helper()->bb_llms_get_user_link( get_current_user_id() );
 						?>
-                        <div class="current_user_avatar">
-                            <a href="<?php echo $current_user_link; ?>">
+						<div class="current_user_avatar">
+							<a href="<?php echo $current_user_link; ?>">
 								<?php echo get_avatar( get_current_user_id(), 52 ); ?>
-                                <span class="current_user_avatar_name">
+								<span class="current_user_avatar_name">
 								<?php
 								echo sprintf(
 									__(
@@ -1877,37 +1969,37 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 								);
 								?>
 								</span>
-                            </a>
-                        </div>
-                        <input style="margin:10px 0px" type="text" name="review_title"
-                               placeholder="<?php _e( 'Review Title', 'buddyboss-theme' ); ?>" id="review_title">
-                        <h5 style="color:red; display:none" id="review_title_error">
+							</a>
+						</div>
+						<input style="margin:10px 0px" type="text" name="review_title"
+							   placeholder="<?php _e( 'Review Title', 'buddyboss-theme' ); ?>" id="review_title">
+						<h5 style="color:red; display:none" id="review_title_error">
 							<?php _e( 'Review Title is required.', 'buddyboss-theme' ); ?>
-                        </h5>
-                        <textarea name="review_text" placeholder="<?php _e( 'Review Text', 'buddyboss-theme' ); ?>"
-                                  id="review_text"></textarea>
-                        <h5 style="color:red; display:none" id="review_text_error">
+						</h5>
+						<textarea name="review_text" placeholder="<?php _e( 'Review Text', 'buddyboss-theme' ); ?>"
+								  id="review_text"></textarea>
+						<h5 style="color:red; display:none" id="review_text_error">
 							<?php _e( 'Review Text is required.', 'buddyboss-theme' ); ?>
-                        </h5>
+						</h5>
 						<?php wp_nonce_field( 'submit_review', 'submit_review_nonce_code' ); ?>
-                        <input name="action" value="submit_review" type="hidden">
-                        <input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
-                        <span class="review_leave">
-					   	<input type="submit" class="button" value="<?php _e( 'Leave Review', 'buddyboss-theme' ); ?>"
-                               id="llms_review_submit_button">
+						<input name="action" value="submit_review" type="hidden">
+						<input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
+						<span class="review_leave">
+						   <input type="submit" class="button" value="<?php _e( 'Leave Review', 'buddyboss-theme' ); ?>"
+							   id="llms_review_submit_button">
 					</span>
-                        <!--</form>	-->
-                    </div>
-                    <div id="thank_you_box" style="display:none;">
-                        <h2>
+						<!--</form>	-->
+					</div>
+					<div id="thank_you_box" style="display:none;">
+						<h2>
 							<?php
 							echo apply_filters(
 								'llms_review_thank_you_text',
 								__( 'Thank you for your review!', 'buddyboss-theme' )
 							);
 							?>
-                        </h2>
-                    </div>
+						</h2>
+					</div>
 					<?php
 				}
 			}// End if().
@@ -1920,12 +2012,11 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			if ( is_active_sidebar( 'lifter_sidebar' ) ) {
 				?>
-                <div id="secondary" class="widget-area sm-grid-1-1">
+				<div id="secondary" class="widget-area sm-grid-1-1">
 					<?php dynamic_sidebar( 'lifter_sidebar' ); ?>
-                </div>
+				</div>
 				<?php
 			}
-
 		}
 
 		/**
@@ -1942,7 +2033,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		public function bb_llms_certificate_loop_cols( $cols ) {
 
 			return 3;
-
 		}
 
 		/**
@@ -1959,7 +2049,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		public function bb_llms_achievements_loop_cols( $cols ) {
 
 			return 3;
-
 		}
 
 		public function bb_llms_get_user_link( $author_id ) {
@@ -1973,7 +2062,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			return $user_link;
-
 		}
 
 		public function bb_llms_single_membership_before_summary() {
@@ -1996,21 +2084,21 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 * @return array
 		 */
 		public function last_courses_actions( $limit = 5 ) {
-			$courses = [];
+			$courses = array();
 
 			if ( is_user_logged_in() ) {
-				$args = [
+				$args = array(
 					'orderby' => 'date',
 					'order'   => 'DESC',
 					'status'  => 'enrolled',
 					'limit'   => $limit,
-				];
+				);
 
 				$student_data = new LLMS_Student();
 				$courses      = $student_data->get_courses( $args );
 			}
 
-			return ( ! empty( $courses ) && ! empty( $courses['found'] ) ) ? $courses : [];
+			return ( ! empty( $courses ) && ! empty( $courses['found'] ) ) ? $courses : array();
 		}
 
 		/**
@@ -2039,7 +2127,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		}
 
 		/** Return the lessons ids of given course id.
-         *
+		 *
 		 * @param int $course_id Course ID.
 		 *
 		 * @return array
@@ -2073,7 +2161,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 							array(
 								'key'     => '_llms_parent_section',
 								'value'   => $section_ids,
-								'compare' => 'IN'
+								'compare' => 'IN',
 							),
 						),
 						'order'          => 'ASC',
@@ -2086,8 +2174,6 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			return $lessons_ids;
-
-
 		}
 
 		/**
@@ -2099,7 +2185,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 		 * @return void
 		 */
 		public function bb_llms_certificate_content( $certificate ) {
-			$template = 1 === $certificate->get_template_version() ? 'content-legacy' : 'content';
+			$template = $certificate->get_template_version() === 1 ? 'content-legacy' : 'content';
 			llms_get_template(
 				"certificates/{$template}.php",
 				compact( 'certificate' )
@@ -2126,13 +2212,57 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$back_link = $cert_ep_enabled ? llms_get_endpoint_url( 'view-certificates', '', $dashboard_url ) : $dashboard_url;
 			$back_text = $cert_ep_enabled ? __( 'All certificates', 'buddyboss-theme' ) : __( 'Dashboard', 'buddyboss-theme' );
 
-			$is_template        = 'llms_certificate' === $certificate->get( 'type' );
+			$is_template        = $certificate->get( 'type' ) === 'llms_certificate';
 			$is_sharing_enabled = $certificate->is_sharing_enabled();
 			llms_get_template(
 				'certificates/actions.php',
 				compact( 'certificate', 'back_link', 'back_text', 'is_sharing_enabled', 'is_template' )
 			);
+		}
 
+		/**
+		 * Prefetch user's course progress, if required.
+		 * We can't do that on the fly as it involves its own wp_query and hence it'll mess up the global wp query
+		 * leading to unexpected results.
+		 *
+		 * @since 2.3.2
+		 *
+		 * @param object $query The WP_Query instance (passed by reference).
+		 */
+		public function buddyboss_llms_prepare_course_archive_page_query( $query ) {
+			if ( ! is_user_logged_in() ) {
+				return;
+			}
+
+			$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+			if ( $order_by_current === 'my-progress' && $query->is_post_type_archive && $query->query_vars['post_type'] === 'course' ) {
+				$this->_my_course_progress = $this->get_courses_progress( get_current_user_id() );
+			}
+		}
+
+		/**
+		 * Modify lifter lms course archive page query.
+		 *
+		 * @since 2.3.2
+		 *
+		 * @param object $query The WP_Query instance (passed by reference).
+		 */
+		public function buddyboss_llms_course_archive_page_query( $query ) {
+			if ( ! is_admin() && $query->is_main_query() && $query->is_post_type_archive && $query->query_vars['post_type'] === 'course' ) {
+				$query = $this->course_archive_query_params( $query );
+			}
+		}
+
+		/**
+		 * Reset object cache for accessible lifter course accessible by user.
+		 *
+		 * @since 2.3.60
+		 *
+		 * @param int $user_id User Id.
+		 */
+		public function bb_flush_llms_mycourse_ids_cache_user_id( $user_id ) {
+			// Remove the cached course IDs.
+			wp_cache_delete( $user_id, 'llms_mycourse_ids' );
 		}
 	}
 }

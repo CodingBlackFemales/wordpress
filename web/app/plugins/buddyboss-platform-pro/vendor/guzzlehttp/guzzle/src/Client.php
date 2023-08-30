@@ -7,14 +7,14 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\GuzzleException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\InvalidArgumentException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise as P;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * @final
  */
-class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
+class Client implements ClientInterface, \BuddyBoss\PlatformPro\Vendor\Psr\Http\Client\ClientInterface
 {
     use ClientTrait;
 

@@ -18,7 +18,7 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 <div class="bb-members">
 
 	<?php
-	if ( ( '' != $settings['member_link_text'] ) || ( '' != $settings['heading_text'] ) ) {
+	if ( ( $settings['member_link_text'] != '' ) || ( $settings['heading_text'] != '' ) ) {
 		?>
 		<div class="bb-block-header flex align-items-center">
 			<div class="bb-block-header__title"><h3><?php echo esc_html( $settings['heading_text'] ); ?></h3></div>
@@ -27,7 +27,7 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 				?>
 				<div class="bb-block-header__extra push-right">
 					<?php
-					if ( '' !== $settings['member_link_text'] ) {
+					if ( $settings['member_link_text'] !== '' ) {
 						?>
 						<a href="<?php bp_members_directory_permalink(); ?>" class="count-more"><?php echo esc_html( $settings['member_link_text'] ); ?><i class="bb-icon-l bb-icon-angle-right"></i></a>
 						<?php
@@ -94,13 +94,15 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 
 						<div <?php echo $this->get_render_attribute_string( 'bb-member' ); ?>>
 							<?php if ( $settings['switch_avatar'] ) : ?>
-								<div class="bb-members-list__avatar"
-									 <?php
-										if ( $settings['switch_tooltips'] == 'yes' ) {
+								<div class="bb-members-list__avatar">
+									<a href="<?php bp_member_permalink(); ?>"
+										<?php
+										if ( $settings['switch_tooltips'] === 'yes' ) {
 											?>
-											data-balloon-pos="<?php echo ( $settings['alignment'] == 'left' ) ? esc_attr( 'right' ) : esc_attr( 'left' ); ?>"
-									 data-balloon="<?php echo bp_get_member_last_active(); ?>"<?php } ?>>
-									<a href="<?php bp_member_permalink(); ?>">
+											 data-balloon-pos="<?php echo ( $settings['alignment'] === 'left' ) ? esc_attr( 'right' ) : esc_attr( 'left' ); ?>"
+											 data-balloon="<?php echo bp_get_member_last_active(); ?>"
+										<?php } ?>
+									>
 										<?php bp_member_avatar( $avatar ); ?>
 									</a>
 								</div>
@@ -111,15 +113,15 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 											href="<?php bp_member_permalink(); ?>"><?php bp_member_name(); ?></a></div>
 							<?php endif; ?>
 							<?php
-                            if ( function_exists( 'bb_user_presence_html') ) {
-	                            bb_user_presence_html( bp_get_member_user_id() );
-                            } else {
-	                            $current_time = current_time( 'mysql', 1 );
-	                            $diff         = strtotime( $current_time ) - strtotime( $members_template->member->last_activity );
-	                            if ( $diff < 300 && $settings['switch_status'] ) { // 5 minutes  =  5 * 60
-		                            echo wp_kses_post( apply_filters( 'bb_user_online_html', '<span class="member-status online"></span>', bp_get_member_user_id() ) );
-	                            }
-                            }
+							if ( function_exists( 'bb_user_presence_html' ) ) {
+								bb_user_presence_html( bp_get_member_user_id() );
+							} else {
+								$current_time = current_time( 'mysql', 1 );
+								$diff         = strtotime( $current_time ) - strtotime( $members_template->member->last_activity );
+								if ( $diff < 300 && $settings['switch_status'] ) { // 5 minutes  =  5 * 60
+									echo wp_kses_post( apply_filters( 'bb_user_online_html', '<span class="member-status online"></span>', bp_get_member_user_id() ) );
+								}
+							}
 							?>
 						</div>
 

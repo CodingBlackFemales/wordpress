@@ -47,8 +47,18 @@ do_action( 'learndash-' . $context . '-progress-bar-before', $course_id, $user_i
  *
  * @var [type]
  */
-if ( 'topic' !== $context ) {
+if ( $context !== 'topic' ) {
 
+	/**
+	 * Filters LearnDash progress arguments.
+	 * This filter will not be called if the context is `topic`.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $progress_args An array of progress arguments.
+	 * @param int   $course_id     Course ID.
+	 * @param int   $user_id       User ID.
+	 */
 	$progress_args = apply_filters(
 		'learndash_progress_args',
 		array(
@@ -81,7 +91,7 @@ if ( 'topic' !== $context ) {
 		);
 	}
 } else {
-	global $post;
+	// global $post;
 
 	/** This filter is documented in themes/ld30/templates/modules/progress.php */
 	$progress = apply_filters( 'learndash-' . $context . '-progress-stats', learndash_lesson_progress( $post, $course_id ) );
@@ -91,20 +101,16 @@ if ( $progress ) :
 	/**
 	 * This is just here for reference
 	 */ ?>
-	<div class="ld-progress
-	<?php
-	if ( 'course' === $context ) :
-		?>
-		 ld-progress-inline<?php endif; ?>">
-		<?php if ( 'focus' === $context ) : ?>
+	<div class="ld-progress <?php echo ( $context === 'course' ) ? esc_attr( 'ld-progress-inline' ) : ''; ?>">
+		<?php if ( $context === 'focus' ) : ?>
 			<div class="ld-progress-wrap">
 		<?php endif; ?>
 			<div class="ld-progress-heading">
-				<?php if ( 'topic' === $context ) : ?>
+				<?php if ( $context === 'topic' ) : ?>
 					<div class="ld-progress-label">
 						<?php
 						echo sprintf(
-							// translators: placeholder: Lesson Progress
+							/* translators: placeholder: Lesson Progress. */
 							esc_html_x( '%s Progress', 'Placeholder: Lesson Progress', 'buddyboss-theme' ),
 							LearnDash_Custom_Label::get_label( 'lesson' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
 						);
@@ -120,7 +126,7 @@ if ( $progress ) :
 				<div class="ld-progress-percentage ld-secondary-color course-completion-rate">
 					<?php
 					echo sprintf(
-						// translators: placeholder: Progress percentage
+						/* translators: placeholder: Progress percentage. */
 						esc_html_x( '%s%% Complete', 'placeholder: Progress percentage', 'buddyboss-theme' ),
 						esc_html( $progress['percentage'] )
 					);
@@ -129,7 +135,7 @@ if ( $progress ) :
 				</div>
 				<div class="ld-progress-steps">
 					<?php
-					if ( 'course' === $context || 'focus' === $context ) :
+					if ( $context === 'course' || $context === 'focus' ) :
 						$course_args     = array(
 							'course_id'     => $course_id,
 							'user_id'       => $user_id,
@@ -137,35 +143,26 @@ if ( $progress ) :
 							'activity_type' => 'course',
 						);
 						$course_activity = learndash_get_user_activity( $course_args );
-						if ( ! empty( $course_activity->activity_updated ) && get_post_type() === 'sfwd-courses' ) {
-							$last_activity     = ! empty( $course_activity->activity_updated ) ? $course_activity->activity_updated : $course_activity->activity_started;
-							$date_time_display = get_date_from_gmt( date( 'Y-m-d H:i:s', $last_activity ), 'Y-m-d H:i:s' );
+
+						if ( ! empty( $course_activity->activity_updated ) && $context === 'course' ) :
 							echo sprintf(
-									// translators: Last activity date in infobar.
+								/* translators: Last activity date in infobar. */
 								esc_html_x( 'Last activity on %s', 'Last activity date in infobar', 'buddyboss-theme' ),
-								date_i18n( get_option( 'date_format' ), strtotime( $date_time_display ) )
+								esc_html( learndash_adjust_date_time_display( $course_activity->activity_updated ) )
 							);
-						} else {
-							echo '<span class="ld-progress-steps-total"><span>' .
-							     sprintf(
-							         // translators: placeholders: completed steps.
-								     esc_html_x( '%d', 'placeholders: completed steps', 'buddyboss-theme' ),
-								     esc_html( $progress['completed'] )
-							     ) .
-							     '</span>/<span>' .
-							     sprintf(
-							         // translators: placeholders:  total steps.
-								     esc_html_x( '%d', 'placeholders: total steps', 'buddyboss-theme' ),
-								     esc_html( $progress['total'] )
-							     ) .
-							     '</span></span> ' .
-							     __( 'Steps', 'buddyboss-theme' );
-						}
+						else :
+							echo sprintf(
+								/* translators: placeholders: completed steps, total steps. */
+								esc_html_x( '%1$d/%2$d Steps', 'placeholders: completed steps, total steps', 'buddyboss-theme' ),
+								esc_html( $progress['completed'] ),
+								esc_html( $progress['total'] )
+							);
+						endif;
 					endif;
 					?>
 				</div>
 			</div> <!--/.ld-progress-stats-->
-			<?php if ( 'focus' === $context ) : ?>
+			<?php if ( $context === 'focus' ) : ?>
 				</div> <!--/.ld-progress-wrap-->
 			<?php endif; ?>
 	</div> <!--/.ld-progress-->
