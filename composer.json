@@ -154,14 +154,17 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
+      "@configure-bp",
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
       "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
     ],
     "post-update-cmd": [
+      "@configure-bp",
       "@configure-ssp"
     ],
+    "configure-bp": "cd web/app/plugins/buddyboss-platform;composer install;cd ../../../..",
     "configure-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
