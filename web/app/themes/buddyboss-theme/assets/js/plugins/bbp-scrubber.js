@@ -23,14 +23,14 @@
 					scrolltimer: null,
 					handleani: null, // keep handle any end event.
 					draggie: null,
-					total_item: parseInt( $( scrubber ).data( 'total-item' ), 10 ),
+					total_item: $( scrubber ).data( 'total-item' ),
 					total_page: parseInt( $( scrubber ).data( 'total-page' ), 10 ),
 					current_page: parseInt( $( scrubber ).data( 'current-page' ), 10 ),
 					from: parseInt( $( scrubber ).data( 'from' ), 10 ),
 					to: parseInt( $( scrubber ).data( 'to' ), 10 ),
 				};
 
-				if ( self.scrubbers[ scrubber_key ].total >= 10 || self.scrubbers[ scrubber_key ].current_page > 1 ) {
+				if ( self.scrubbers[ scrubber_key ].total >= 10 ) {
 					$( scrubber ).removeClass( 'light' );
 				}
 
@@ -101,7 +101,7 @@
 
 			var list = [];
 			for ( var i = self.scrubbers[ scrubber_key ].from; i <= self.scrubbers[ scrubber_key ].to; i++ ) {
-				list.push( i );
+				list.push( i.toLocaleString( 'en-US' ) );
 			}
 
 			if ( self.scrubbers[ scrubber_key ].total_page > 1 ) {

@@ -36,11 +36,29 @@ function bbp_pro_is_install() {
 function bbp_pro_is_update() {
 
 	// Current DB version of this site (per site in a multisite network).
-	$current_db   = bp_get_option( '_bbp_pro_db_version' );
-	$current_live = bbp_pro_get_db_version();
+	$current_db   = (int) bp_get_option( '_bbp_pro_db_version' );
+	$current_live = (int) bbp_pro_get_db_version();
 
-	// Compare versions (cast as int and bool to be safe).
-	$is_update = (bool) ( (int) $current_db < (int) $current_live );
+	// Pro plugin version history.
+	bbp_pro_version_bump();
+	$bb_plugin_version_history = (array) bp_get_option( 'bb_pro_plugin_version_history', array() );
+	$initial_version_data      = ! empty( $bb_plugin_version_history ) ? end( $bb_plugin_version_history ) : array();
+	$bb_version_exists         = ! empty( $initial_version_data ) && ! empty( $initial_version_data['version'] ) && (string) bb_platform_pro()->version === (string) $initial_version_data['version'];
+	if ( ! $bb_version_exists || $current_live !== $current_db ) {
+		$current_date                = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$bb_latest_plugin_version    = array(
+			'db_version' => $current_live,
+			'date'       => $current_date->format( 'Y-m-d H:i:s' ),
+			'version'    => bb_platform_pro()->version,
+		);
+		$bb_plugin_version_history[] = $bb_latest_plugin_version;
+		bp_update_option( 'bb_pro_plugin_version_history', array_filter( $bb_plugin_version_history ) );
+	}
+
+	$is_update = false;
+	if ( $current_live !== $current_db ) {
+		$is_update = true;
+	}
 
 	// Return the product of version comparison.
 	return $is_update;
@@ -84,6 +102,8 @@ function bbp_pro_setup_updater() {
  */
 function bbp_pro_version_updater() {
 
+	// Get current DB version.
+	$current_db = (int) bp_get_option( '_bbp_pro_db_version' );
 	// Get the raw database version.
 	$raw_db_version = (int) bbp_pro_get_db_version_raw();
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -146,12 +166,28 @@ function bbp_pro_version_updater() {
 		if ( $raw_db_version < 265 ) {
 			bbp_pro_update_to_2_3_0();
 		}
+
+		// Version 2.3.40.
+		if ( $raw_db_version < 275 ) {
+			bbp_pro_update_to_2_3_40();
+		}
+
+		// Version 2.3.41.
+		if ( $raw_db_version < 280 ) {
+			bbp_pro_update_to_2_3_41();
+		}
+
+		// Version 2.3.91.
+		if ( $raw_db_version < 285 ) {
+			bbp_pro_update_to_2_3_42();
+		}
+
+		if ( $raw_db_version !== $current_db ) {
+			// @todo - Write only data manipulate migration here. ( This is not for DB structure change ).
+		}
 	}
 
 	/* All done! *************************************************************/
-
-	// Bump the version.
-	bbp_pro_version_bump();
 
 	if ( $switched_to_root_blog ) {
 		restore_current_blog();
@@ -231,12 +267,13 @@ function bbp_pro_update_to_2_3_0() {
 
 	$groupmeta_table_exists = (bool) $wpdb->get_results( "DESCRIBE {$group_meta_table};" ); // phpcs:ignore
 
-	if ( true === $groupmeta_table_exists ) {
+	if ( $groupmeta_table_exists === true ) {
 
 		// get all group ids with meta key exists.
 		$group_ids = array_column(
 			// phpcs:ignore
 			$wpdb->get_results(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$wpdb->prepare( "SELECT DISTINCT group_id FROM {$group_meta_table} WHERE `meta_key` = %s", 'bp-group-zoom-api-webhook-token' )
 			),
 			'group_id'
@@ -250,5 +287,191 @@ function bbp_pro_update_to_2_3_0() {
 			bp_groups_update_meta_cache( $group_ids );
 		}
 	}
+}
 
+/**
+ * Update migration for version 2.3.40.
+ *
+ * @since 2.3.40
+ */
+function bbp_pro_update_to_2_3_40() {
+	$settings = array(
+		'warnings'        => array(),
+		'errors'          => array(),
+		'sidewide_errors' => array(),
+	);
+
+	$connected_app_id      = bp_get_option( 'bb-onesignal-connected-app' );
+	$connected_app_details = bp_get_option( 'bb-onesignal-connected-app-details' );
+
+	if ( ! empty( $connected_app_id ) ) {
+		$settings['app_id'] = $connected_app_id;
+	}
+
+	if ( ! empty( $connected_app_details ) ) {
+		$settings['app_details'] = $connected_app_details;
+		$settings['app_name']    = $connected_app_details['name'];
+	}
+
+	if (
+		! empty( $connected_app_id ) &&
+		! empty( $connected_app_details ) &&
+		! empty( $connected_app_details['basic_auth_key'] )
+	) {
+		$settings['rest_api_key'] = $connected_app_details['basic_auth_key'];
+		$settings['is_connected'] = true;
+		bb_onesignal_update_settings( $settings );
+		bb_onesignal_update_app_details();
+	} else {
+		if ( ! empty( $settings['app_id'] ) ) {
+			$settings['sidewide_errors'] = array( 'upgrade_to_rest_api_key' );
+		}
+		bb_onesignal_update_settings( $settings );
+	}
+
+	// Delete all other options.
+	bp_delete_option( 'bb-onesignal-connected-app' );
+	bp_delete_option( 'bb-onesignal-connected-app-details' );
+	bp_delete_option( 'bb-onesignal-connected-app-name' );
+	bp_delete_option( 'bb-onesignal-authenticated' );
+	bp_delete_option( 'bb-onesignal-account-apps' );
+}
+
+/**
+ * Update migration for version 2.3.41.
+ *
+ * @since 2.3.41
+ */
+function bbp_pro_update_to_2_3_41() {
+	$bb_onesignal = bb_onesignal_get_settings();
+
+	if (
+		! empty( $bb_onesignal ) &&
+		(
+			empty( $bb_onesignal['app_id'] ) ||
+			(
+				! empty( $bb_onesignal['app_id'] ) &&
+				! empty( $bb_onesignal['rest_api_key'] )
+			)
+		)
+	) {
+		$bb_onesignal['sidewide_errors'] = array();
+		bb_onesignal_update_settings( $bb_onesignal );
+	}
+}
+
+/**
+ * Update migration for version 2.3.91.
+ *
+ * @since 2.3.91
+ */
+function bbp_pro_update_to_2_3_42() {
+	global $wpdb, $bp;
+
+	$settings = bp_get_option( 'bb-zoom', array() );
+
+	if ( empty( $settings ) ) {
+		$settings = array();
+	}
+
+	// Migrate zoom account email.
+	if ( empty( $settings['account-email'] ) ) {
+		$settings['account-email'] = bp_get_option( 'bp-zoom-api-email' );
+	}
+
+	// Migrate zoom/webinar hide url options.
+	if ( empty( $settings['meeting-hide-zoom-urls'] ) ) {
+		$hide_zoom_urls_enabled    = bp_get_option( 'bp-zoom-hide-zoom-urls' );
+		$hide_webinar_urls_enabled = bp_get_option( 'bp-zoom-hide-zoom-webinar-urls' );
+
+		$enabled_for = array();
+
+		if ( $hide_zoom_urls_enabled ) {
+			$enabled_for[] = 'meetings';
+		}
+
+		if ( $hide_webinar_urls_enabled ) {
+			$enabled_for[] = 'webinar';
+		}
+
+		$enabled_for = ! empty( $enabled_for ) ? implode( '-', $enabled_for ) : 'none';
+
+		$settings['meeting-hide-zoom-urls'] = $enabled_for;
+	}
+
+	// Check if JWT configured in Block then enabled the site-wide notice.
+	if (
+		! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
+		! empty( bp_get_option( 'bp-zoom-api-secret' ) )
+	) {
+		$settings = bp_parse_args(
+			array(
+				'sidewide_errors'       => array(
+					'upgrade_jwt_to_s2s',
+				),
+				'zoom_sdk_warning'      => array(
+					'upgrade_sdk_jwt_to_s2s',
+				),
+				'zoom_is_connected'     => true,
+				'zoom_sdk_is_connected' => true,
+			),
+			$settings
+		);
+
+		// To show JWT settings in the backend.
+		bp_update_option( 'bb-zoom-show-jwt-settings', true );
+	}
+
+	bp_update_option( 'bb-zoom', $settings );
+
+	if (
+		function_exists( 'bp_is_active' ) &&
+		bp_is_active( 'groups' )
+	) {
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$group_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT DISTINCT group_id FROM {$bp->groups->table_name_groupmeta} WHERE ( meta_key = %s AND meta_value != '' ) ORDER BY group_id DESC",
+				'bp-group-zoom-api-key'
+			)
+		);
+
+		if ( ! empty( $group_ids ) ) {
+			foreach ( $group_ids as $group_id ) {
+
+				$group_zoom_settings = groups_get_groupmeta( $group_id, 'bb-group-zoom' );
+				$api_key             = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-key' );
+				$api_secret          = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-secret' );
+				$api_email           = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email' );
+
+				if ( empty( $group_zoom_settings ) ) {
+					$group_zoom_settings = array();
+				}
+
+				if (
+					! empty( $api_key ) &&
+					! empty( $api_secret )
+				) {
+					$group_zoom_settings = bp_parse_args(
+						array(
+							'sidewide_errors' => array(
+								'upgrade_jwt_to_s2s',
+							),
+						),
+						$group_zoom_settings
+					);
+					groups_update_groupmeta( $group_id, 'bb-group-zoom', $group_zoom_settings );
+
+					// To show JWT settings in the zoom manage screen.
+					groups_update_groupmeta( $group_id, 'bb-group-zoom-show-jwt-settings', true );
+				}
+
+				$s2s_group_api_email = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-api-email' );
+				if ( empty( $s2s_group_api_email ) ) {
+					groups_update_groupmeta( $group_id, 'bb-group-zoom-s2s-api-email', $api_email );
+				}
+			}
+		}
+	}
 }

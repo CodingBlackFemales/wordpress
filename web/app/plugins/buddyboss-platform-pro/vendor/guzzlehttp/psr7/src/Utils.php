@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ServerRequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 final class Utils
 {

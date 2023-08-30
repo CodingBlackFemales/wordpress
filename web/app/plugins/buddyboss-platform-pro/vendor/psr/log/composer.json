@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Psr\\Log\\": "Psr/Log/"
+            "BuddyBoss\\PlatformPro\\Vendor\\Psr\\Log\\": "Psr/Log/"
         }
     },
     "extra": {

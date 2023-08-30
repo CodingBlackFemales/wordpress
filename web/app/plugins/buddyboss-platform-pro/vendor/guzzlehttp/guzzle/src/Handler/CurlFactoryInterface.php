@@ -2,7 +2,7 @@
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler;
 
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 interface CurlFactoryInterface
 {

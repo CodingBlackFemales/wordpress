@@ -6,7 +6,6 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 
 	class BaseTheme {
 		// --------- Constants ------------------
-
 		const VERSION = '0.1';
 		const NAME    = 'BuddyBoss Theme';
 
@@ -51,7 +50,19 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		public $lang_domain = 'buddyboss-theme';
 
 		// ---------- Properties ------------------
+		/**
+		 * Return the current db version.
+		 *
+		 * @return init
+		 */
 		public $bb_theme_db_version;
+
+		/**
+		 * Return the exists db version.
+		 *
+		 * @return string
+		 */
+		public $bb_theme_db_version_raw;
 
 		/**
 		 * Return the template directory path.
@@ -205,7 +216,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		public static function instance() {
 			static $instance = null;
 
-			if ( null === $instance ) {
+			if ( $instance === null ) {
 				$instance = new \BuddyBossTheme\BaseTheme();
 			}
 
@@ -239,7 +250,8 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		 */
 		private function _setup_globals() {
 
-			$this->bb_theme_db_version = 435;
+			$this->bb_theme_db_version     = 435;
+			$this->bb_theme_db_version_raw = (int) get_option( '_bb_theme_db_version' );
 
 			// Get theme path.
 			$this->_tpl_dir = get_template_directory();
@@ -442,7 +454,6 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 
 			return $new_version;
 		}
-
 	}
 
 }

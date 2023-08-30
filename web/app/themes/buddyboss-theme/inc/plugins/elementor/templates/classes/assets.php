@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // No access of directly access.
 
 if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
-	
+
 	/**
 	 * BB Elementor Sections Templates Assets.
 	 *
@@ -16,7 +16,7 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 	 * @since 1.4.7
 	 */
 	class BB_Elementor_Templates_Assets {
-		
+
 		/**
 		 * Instance of the class.
 		 *
@@ -24,7 +24,7 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access private
 		 */
 		private static $instance = null;
-		
+
 		/**
 		 * BB_Elementor_Templates_Assets constructor.
 		 *
@@ -34,17 +34,16 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function __construct() {
-			
+
 			add_action( 'elementor/preview/enqueue_styles', array( $this, 'enqueue_preview_styles' ) );
-			
+
 			add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'editor_scripts' ), 0 );
-			
+
 			add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'editor_styles' ) );
-			
+
 			add_action( 'elementor/editor/footer', array( $this, 'load_footer_scripts' ) );
-			
 		}
-		
+
 		/**
 		 * Preview Styles.
 		 *
@@ -54,9 +53,9 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function enqueue_preview_styles() {
-			
+
 			$is_rtl = is_rtl() ? '-rtl' : '';
-			
+
 			wp_enqueue_style(
 				'buddyboss-elementor-sections-editor-style',
 				get_template_directory_uri() . '/inc/plugins/elementor/assets/editor/templates/css/preview' . $is_rtl . '.css',
@@ -64,9 +63,8 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 				1.0,
 				'all'
 			);
-			
 		}
-		
+
 		/**
 		 * Editor Styles
 		 *
@@ -76,9 +74,9 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function editor_styles() {
-			
+
 			$is_rtl = is_rtl() ? '-rtl' : '';
-			
+
 			wp_enqueue_style(
 				'buddyboss-elementor-sections-editor-style',
 				get_template_directory_uri() . '/inc/plugins/elementor/assets/editor/templates/css/editor' . $is_rtl . '.css',
@@ -86,9 +84,8 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 				1.0,
 				'all'
 			);
-			
 		}
-		
+
 		/**
 		 * Editor Scripts.
 		 *
@@ -98,21 +95,26 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function editor_scripts() {
+			$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
+			$minjs       = $minified_js ? '.min' : '';
+
 			wp_enqueue_script(
 				'buddyboss-elementor-sections-temps-editor',
-				get_template_directory_uri() . '/inc/plugins/elementor/assets/editor/templates/js/editor.js',
+				get_template_directory_uri() . '/inc/plugins/elementor/assets/editor/templates/js/editor' . $minjs . '.js',
 				array(
 					'jquery',
 					'underscore',
-					'backbone-marionette'
+					'backbone-marionette',
 				),
 				1.0,
 				true
 			);
 
 			wp_localize_script(
-				'buddyboss-elementor-sections-temps-editor', 'BBElementorSectionsData',
-				apply_filters( 'buddyboss-elementor-sections-templates-core/assets/editor/localize',
+				'buddyboss-elementor-sections-temps-editor',
+				'BBElementorSectionsData',
+				apply_filters(
+					'buddyboss-elementor-sections-templates-core/assets/editor/localize',
 					array(
 						'modalRegions'      => $this->get_modal_region(),
 						'Elementor_Version' => ELEMENTOR_VERSION,
@@ -120,9 +122,8 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 					)
 				)
 			);
-
 		}
-		
+
 		/**
 		 * Get Modal Region.
 		 *
@@ -132,14 +133,13 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function get_modal_region() {
-			
+
 			return array(
 				'modalHeader'  => '.dialog-header',
 				'modalContent' => '.dialog-message',
 			);
-			
 		}
-		
+
 		/**
 		 * Add Templates Scripts.
 		 *
@@ -149,18 +149,19 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @access public
 		 */
 		public function load_footer_scripts() {
-			
+
 			$scripts = glob( ELEMENTOR_BB__DIR__ . '/templates/scripts/*.php' );
-			array_map( function ( $file ) {
-				$name = basename( $file, '.php' );
-				ob_start();
-				include $file;
-				printf( '<script type="text/html" id="tmpl-bbelementor-%1$s">%2$s</script>', $name, ob_get_clean() );
-				
-			}, $scripts );
-			
+			array_map(
+				function ( $file ) {
+					$name = basename( $file, '.php' );
+					ob_start();
+					include $file;
+					printf( '<script type="text/html" id="tmpl-bbelementor-%1$s">%2$s</script>', $name, ob_get_clean() );
+				},
+				$scripts
+			);
 		}
-		
+
 		/**
 		 * Get Instance.
 		 *
@@ -172,17 +173,15 @@ if ( ! class_exists( 'BB_Elementor_Templates_Assets' ) ) {
 		 * @return object
 		 */
 		public static function get_instance() {
-			
-			if ( null === self::$instance ) {
-				
-				self::$instance = new self;
-				
+
+			if ( self::$instance === null ) {
+
+				self::$instance = new self();
+
 			}
-			
+
 			return self::$instance;
-			
 		}
-		
 	}
-	
+
 }
