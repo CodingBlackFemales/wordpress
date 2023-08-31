@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'mepr-above-checkout-form', $product->ID ); ?>
 
 <div class="mp_wrapper">
-	<form class="mepr-signup-form mepr-form" method="post" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) . '#mepr_jump'; ?>" novalidate>
+	<form class="mepr-signup-form mepr-form" method="post" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ) . '#mepr_jump'; ?>" enctype="multipart/form-data" novalidate>
 		<input type="hidden" id="mepr_process_signup_form" name="mepr_process_signup_form" value="<?php echo esc_attr( 'Y' ); ?>"/>
 		<input type="hidden" id="mepr_product_id" name="mepr_product_id" value="<?php echo esc_attr( $product->ID ); ?>"/>
 

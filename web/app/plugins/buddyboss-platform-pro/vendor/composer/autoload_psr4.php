@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Pusher\\' => array($vendorDir . '/pusher/pusher-php-server/src'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
-    'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
+    'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
+    'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),

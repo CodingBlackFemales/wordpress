@@ -7,7 +7,7 @@ use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler\CurlHandler;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler\CurlMultiHandler;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler\Proxy;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler\StreamHandler;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 final class Utils
 {

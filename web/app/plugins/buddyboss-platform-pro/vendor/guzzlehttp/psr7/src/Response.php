@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
 
 /**
  * PSR-7 response implementation.
