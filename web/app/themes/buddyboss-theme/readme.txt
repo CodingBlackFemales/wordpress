@@ -1,8 +1,8 @@
 === BuddyBoss Theme ===
 Contributors: BuddyBoss
 Requires at least: 4.9.1
-Tested up to: 6.1.1
-Version: 2.3.1
+Tested up to: 6.2.2
+Version: 2.4.00
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,6 +18,143 @@ BuddyBoss Theme is a community theme for the BuddyBoss Platform.
 4. Upload the file 'buddyboss-theme-child.zip'
 
 == Changelog ==
+
+= 2.4.00 =
+* Enhancement: LearnDash - Added LearnDash 4.7.0 support for Challenge Exams, Course Student Limits and Start/End enrolment restrictions
+* Bug: Core - Removed the unnecessary "!important" tags in the Theme
+* Bug: GamiPress - Points displayed on the Members listing caused the Members Elementor block to not style correctly
+* Bug: LearnDash - Emojiarea in lesson sidebar caused UI issues when forum forms were used in the widget areas
+* Bug: LearnDash - Logo was not showing for light mode when Focus Mode was enabled
+* Bug: LearnDash - Removed the unnecessary "!important" tags
+* Bug: LifterLMS - Removed the unnecessary "!important" tags
+* Bug: Media - Updated upload error handling to show consistent message across all media types
+* Bug: MemberPress - Unauthorized excerpt contents caused layout issues when used in full width
+* Bug: Menus - Custom Profile dropdown menu caused incorrect dynamic links on the admin bar
+* Bug: Menus - Allow all sub menus to be expandable and collapsible on small screens
+
+= 2.3.91 =
+* Enhancement: Zoom - Updated integration to provide support for a Server-to-Server OAuth app with Social Groups
+
+= 2.3.90 =
+* Enhancement: Core - Improved the handling of data migration when switching between release versions
+* Bug: Elementor - Scroll Snap setting was not being applied to sections
+* Bug: Forums - Reply button not appearing when used as a shortcode for discussions
+* Bug: Forums - Shortcode compatibility when using multiple Forums, Topics, and Replies on a single page
+* Bug: GamiPress - Shortcode was not applying to columns correctly
+* Bug: LearnDash - Compatibility fix for the newer 3.6 LearnDash registration template.
+* Bug: LearnDash - Courses shown on the user profile displayed all courses when any pagination was clicked
+* Bug: LifterLMS - Optimized the LifterLMS function call for the participant listing
+* Bug: WooCommerce - Primary button font color and theme options were mismatched
+
+= 2.3.80 =
+* New Feature! Allow specific profiles types to send messages without being connected
+* Bug: Activity - Username font weight was not consistent on the activity, group, and timeline feeds
+* Bug: Blog - Author box formatting updated to show styling correctly on the frontend.
+* Bug: Core - Footer menu state when active had the incorrect styling
+* Bug: Core - Icons were showing placeholders in footer menu when no icon was selected
+* Bug: Core - Unnecessary use of "!important" tag in message component
+* Bug: Core - Unnecessary use of "!important" tag in theme related to social groups component
+* Bug: Forums - Could not add a hyperlink to text that began with italic/bold formatting
+* Bug: Forums - Forum creation shortcode with Elementor was not not showing proper formatting
+* Bug: Forums - Reply modal pop-up containing the excerpt was incorrectly formatted
+* Bug: GamiPress - Achievement badge and member active icon was overlapping on the Who’s Online widget
+* Bug: Header - Header is missing on the 404 page if the footer is created using Elementor
+* Bug: LearnDash - Featured image UI fixed on the course page
+* Bug: LearnDash - Course directory tabs alignment fixed and 2.0 styling applied correctly when configured
+* Bug: LearnDash - Course Grid add-on templates updated
+* Bug: LearnDash - Elementor Course Activity widget was not working when Shared Course Steps is enabled
+* Bug: LearnDash - Lesson list had issues with scrolling down when used on specific iPad devices
+* Bug: LearnDash - Search bar on the Courses page was not filtering incorrect characters
+* Bug: LearnDash - Search was not returning correct results when Network Search was disabled and search was configured to only return LearnDash results
+* Bug: LearnDash - UI issue fixed for Restart Quiz button when using long custom labels
+* Bug: MemberPress - Upload file now compatible when using custom registration or checkout forms
+* Bug: Profiles - Border radius UI fixed when viewing User Profile > Forum > Replies
+* Bug: Zoom - Border radius fixed on the Zoom tab
+* Bug: Zoom - Buttons were using incorrect styling whenever Theme 1.0 styling was selected
+
+= 2.3.70 =
+* Bug: Blog - Articles comment sections check box was not aligned with text
+* Bug: BuddyPanel - When increasing menu icon size to bigger size, the menu height was also impacted, causing overlap onto the menu
+* Bug: Forums - New discussion popup was not showing when the new discussion button was in the sidebar and along with any widgets placed at "Forums directory & single"
+* Bug: Groups - Users were unable to fully scroll down in Group forum discussion
+* Bug: Gutenberg - Separator and Page Break blocks had incorrect spacing on top
+* Bug: LearnDash - Duplicated info-bar was displayed on "Free" courses incorrectly
+* Bug: LearnDash - Focus Mode's sidebar not displaying on right side when configured from LearnDash
+* Bug: LifterLMS - Deleting an user who is a Course Participant did not remove the user from Participants list
+* Bug: Menus - Mobile menu did not auto close after selecting a tab on the menu when a menu anchor was used
+* Bug: Theme Options - Incorrect notice "Settings have changed, you should save them!" whenever the Typography tab was clicked without making changes
+* Bug: Widgets - "My Discussion" link was displaying 404 error when using Elementor ‘Forum Activity’ widget if the forums page slug was updated
+* Bug: Widgets - Using the forum shortcode in sidebar no longer caused UI issues including new discussion popup being blocked
+* Bug: WooCommerce - Templates updated for Woocommerce 7.8.0
+
+= 2.3.60 =
+* New Feature! You can now select a separate homepage for logged-in and logged-out users when clicking the Site Logo.
+* Bug: Core - Code refactoring of the Activity and Forums by removing unnecessary !important tags
+* Bug: Forums - Using forum shortcodes whilst having a forum widget on the sidebar removed the ability to subscribe or create new discussions
+* Bug: Groups - Long group names did not line break appropriately when displayed on mobile devices
+* Bug: Widgets - Fixed UI issues with GamiPress and Elementor widgets
+* Bug: Elementor - Activity block comment UI styling has been updated
+* Bug: LearnDash - Whilst using Free Form courses, the Mark Complete button was incorrectly shown even if sub-topics were not complete
+* Bug: LifterLMS - My Courses tab and Archive page listing not displaying accurate details when object caching was enabled
+
+= 2.3.50 =
+* Theme Options - Resolved a UI issue with the heading font size, preventing text overlap and ensuring proper readability
+* Forums - Added styling for link preview support for forum discussions and replies
+* Forums - Addressed a UI issue with the 'Recent Replies' widget
+* Forums - Resolved an issue where discussions were associated with the wrong forum when multiple forum shortcodes were used on the same page
+* Forums - Addressed various UI issues related to editing discussions or replies
+* Gutenberg - Provided support for the More, Page Break, Separator, and Spacer blocks
+* Profiles - Handled a UI issue with portrait-sized gravatars in the profile
+* Media - Handled a UI issue with the documents directory dropdown
+* Zoom - Fixed an issue where the loading icon was not displayed following the 2.0 theme style
+* Core - Added styling to support displaying a loading icon when a search form is submitted or reset
+* Core - Improved the user experience of the Theme License option in the dashboard by hiding sensitive text. Users can now toggle the visibility of sensitive content with an eye icon
+* Core - Addressed a critical issue related to the use of icon ASCII codes in the theme customizer
+* Core - Optimized the JS code to improve performance specific to event listeners
+* LearnDash - Fixed an error with the 'LearnDash Topic List' widget
+* LearnDash - Handled a few UI issues with button radius on a single lesson and quiz screens
+* GamiPress - Addressed a UI issue with achievements and badges not displaying text or images properly with members avatars
+* LifterLMS - Resolved a UI issue with the course sidebar lessons list
+* Events Calendar Pro - Addressed a styling issue with the 'Upcoming Events' section
+* Compatibility - Resolved a conflict with the Elementor templates shortcode and 'BuddyPress User Profile Tabs Creator Pro' plugin
+
+= 2.3.40 =
+* Theme Options - Updated the default 'Theme style' to version 2.0
+* BuddyPanel - Fixed an issue where no icons were added to the Buddypanel when created from WP customizer
+* Forums - Enhanced the create discussion UX by not displaying validation UI when content is empty
+* Forums - Resolved template errors that occurred on non-English language sites
+* Gutenberg - Addressed a margin issue with the image block that occurred when no caption was added
+* Activity - Addressed a small UX and styling issue related to @mention functionality
+* Moderation - Updated discussion reply template for forums moderation related updates
+* Network Search - Resolved a UI issue with the search results photos section
+* Core - Improvement by loading minified JS and CSS for third-party libraries
+* LearnDash - Handled a styling issue with the single course info bar block
+* LearnDash - Fixed an issue where the courses directory screen would display incorrect enrolled courses when object caching enabled
+* WooCommerce - Handled and updated outdated templates after WooCommerce latest update
+* GamiPress - Improvement to show badge tooltip on all members widgets
+
+= 2.3.3 =
+* Profiles - Improved the order of the profile search section in the responsive view
+* Forums - Resolved the issue where the single discussion screen scrubber was displaying an incorrect count of replies
+* Forums - Addressed the styling issues of the [bbp-reply-form] shortcode
+* Forums - Fixed the issue where profile pictures were not showing in the 'Recent Replies' widget on the single group screen
+* Activity - Fixed the formatting problem with highlighted text when applying a link
+* Core - Resolved the problem with page scrolling when using the buddypanel in a responsive view
+
+= 2.3.2 =
+* Theme Options - Handled critical issue when color option saved with invalid hex code
+* Theme Options - Small improvement by adding validation for the color options
+* Forums - Handled forum discussion and reply tags suggestion dropdown UI issues
+* Forums - Handled create discussion and reply formatting issues when an option is disabled from the settings
+* Forums - Resolved broken UI issues on the single forum reply screen
+* Messages - Handled messages dropdown specific performance issues by refactoring code
+* Core - Style improvement for clear search option provided across the network
+* Core - Small security improvement by updating the 'jquery-validate' library
+* LearnDash - Handled duplicate quizzes issue when nested under topics
+* LearnDash - Handled course continue button not working issue when the course has more than 20 lessons
+* Elementor - Handled elementor H5 style not working issue
+* LifterLMS - Handled course directory screen instructor filter dropdown issue that shows all authors instead of relevant ones
+* LifterLMS - Handled course directory screen course sorting not working issue
 
 = 2.3.1 =
 * Theme Options - Handled 'import_export' notice showing issue

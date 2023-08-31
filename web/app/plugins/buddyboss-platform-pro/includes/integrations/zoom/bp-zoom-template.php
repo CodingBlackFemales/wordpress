@@ -71,11 +71,11 @@ function bp_has_zoom_meetings( $args = '' ) {
 	$sort      = 'ASC';
 	$since     = wp_date( 'Y-m-d H:i:s', time(), new DateTimeZone( 'UTC' ) );
 	$from      = false;
-	if ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_meeting ) && true === $bp_zoom_current_meeting->is_past && false === $bp_zoom_current_meeting->is_live ) || ( 'past-meetings' === bp_zoom_group_current_meeting_tab() ) ) ) {
+	if ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_meeting ) && $bp_zoom_current_meeting->is_past === true && $bp_zoom_current_meeting->is_live === false ) || ( bp_zoom_group_current_meeting_tab() === 'past-meetings' ) ) ) {
 		$from  = wp_date( 'Y-m-d H:i:s', time(), new DateTimeZone( 'UTC' ) );
 		$since = false;
 		$sort  = 'DESC';
-	} elseif ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_webinar ) && true === $bp_zoom_current_webinar->is_past && false === $bp_zoom_current_webinar->is_live ) || ( 'past-webinars' === bp_zoom_group_current_meeting_tab() ) ) ) {
+	} elseif ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_webinar ) && $bp_zoom_current_webinar->is_past === true && $bp_zoom_current_webinar->is_live === false ) || ( bp_zoom_group_current_meeting_tab() === 'past-webinars' ) ) ) {
 		$from  = wp_date( 'Y-m-d H:i:s', time(), new DateTimeZone( 'UTC' ) );
 		$since = false;
 		$sort  = 'DESC';
@@ -1505,11 +1505,8 @@ function bp_get_zoom_meeting_invitation( $meeting_id = 0, $id = 0, $join_url = '
 		}
 
 		if ( ! empty( $meeting->group_id ) ) {
-			$api_key    = groups_get_groupmeta( $meeting->group_id, 'bp-group-zoom-api-key', true );
-			$api_secret = groups_get_groupmeta( $meeting->group_id, 'bp-group-zoom-api-secret', true );
-
-			bp_zoom_conference()->zoom_api_key    = ! empty( $api_key ) ? $api_key : '';
-			bp_zoom_conference()->zoom_api_secret = ! empty( $api_secret ) ? $api_secret : '';
+			// Connect to Zoom.
+			bb_zoom_group_connect_api( $meeting->group_id );
 		}
 
 		$invitation_response = get_transient( 'bp_zoom_meeting_invitation_' . $meeting_id );
@@ -1517,7 +1514,7 @@ function bp_get_zoom_meeting_invitation( $meeting_id = 0, $id = 0, $join_url = '
 		if ( empty( $invitation_response ) ) {
 			$invitation_response = bp_zoom_conference()->meeting_invitation( $meeting_id );
 
-			if ( 200 === $invitation_response['code'] && ! empty( $invitation_response['response'] ) ) {
+			if ( $invitation_response['code'] === 200 && ! empty( $invitation_response['response'] ) ) {
 				$invitation = $invitation_response['response']->invitation;
 
 				set_transient( 'bp_zoom_meeting_invitation_' . $meeting_id, $invitation, 2 * HOUR_IN_SECONDS );
@@ -1563,9 +1560,9 @@ function bp_zoom_meeting_group_classes( $classes = array() ) {
 	if ( bp_zoom_is_groups_zoom() ) {
 		if ( bp_zoom_is_single_meeting() ) {
 			if ( ! empty( $bp_zoom_current_meeting ) ) {
-				if ( true === $bp_zoom_current_meeting->is_past ) {
+				if ( $bp_zoom_current_meeting->is_past === true ) {
 					$classes[] = 'bp-past-meeting';
-				} elseif ( false === $bp_zoom_current_meeting->is_past ) {
+				} elseif ( $bp_zoom_current_meeting->is_past === false ) {
 					$classes[] = 'bp-future-meeting';
 				}
 			}
@@ -1695,7 +1692,7 @@ function bp_has_zoom_webinars( $args = '' ) {
 	$sort      = 'ASC';
 	$since     = wp_date( 'Y-m-d H:i:s', time(), new DateTimeZone( 'UTC' ) );
 	$from      = false;
-	if ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_webinar ) && true === $bp_zoom_current_webinar->is_past && false === $bp_zoom_current_webinar->is_live ) || ( 'past-webinars' === bp_zoom_group_current_tab() ) ) ) {
+	if ( bp_is_current_action( 'zoom' ) && ( ( ! empty( $bp_zoom_current_webinar ) && $bp_zoom_current_webinar->is_past === true && $bp_zoom_current_webinar->is_live === false ) || ( bp_zoom_group_current_tab() === 'past-webinars' ) ) ) {
 		$from  = wp_date( 'Y-m-d H:i:s', time(), new DateTimeZone( 'UTC' ) );
 		$since = false;
 		$sort  = 'DESC';
@@ -3084,9 +3081,9 @@ function bp_zoom_webinar_group_classes( $classes = array() ) {
 	if ( bp_zoom_is_groups_zoom() ) {
 		if ( bp_zoom_is_single_webinar() ) {
 			if ( ! empty( $bp_zoom_current_webinar ) ) {
-				if ( true === $bp_zoom_current_webinar->is_past ) {
+				if ( $bp_zoom_current_webinar->is_past === true ) {
 					$classes[] = 'bp-past-webinar';
-				} elseif ( false === $bp_zoom_current_webinar->is_past ) {
+				} elseif ( $bp_zoom_current_webinar->is_past === false ) {
 					$classes[] = 'bp-future-webinar';
 				}
 			}

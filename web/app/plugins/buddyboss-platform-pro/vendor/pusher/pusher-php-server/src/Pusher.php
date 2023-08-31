@@ -5,10 +5,10 @@ namespace Pusher;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\ClientInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\ConnectException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\GuzzleException;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LoggerAwareInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LoggerAwareTrait;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LoggerInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LogLevel;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7\Request;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
 
@@ -19,7 +19,7 @@ class Pusher implements LoggerAwareInterface, PusherInterface
     /**
      * @var string Version
      */
-    public static $VERSION = '7.2.1';
+    public static $VERSION = '7.2.2';
 
     /**
      * @var null|PusherCrypto

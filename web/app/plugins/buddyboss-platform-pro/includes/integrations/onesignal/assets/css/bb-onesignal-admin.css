@@ -199,6 +199,64 @@
 	margin-left: 5px;
 }
 
+.hidden-header .full-with-content {
+	margin-left: -210px;
+	word-break: break-word;
+}
+
+#bb_onesignal_settings_section .password-toggle {
+	position: relative;
+	display: inline-block;
+	width: 50%;
+}
+
+#bb_onesignal_settings_section .password-toggle > input {
+	min-width: 50%;
+}
+
+@media (max-width: 782px) {
+	#bb_onesignal_settings_section .password-toggle {
+		width: 100%;
+	}
+}
+
+#bb_onesignal_settings_section .password-toggle .bb-hide-pw {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 30px;
+	border: 0;
+	padding: 0;
+	background: none;
+	box-shadow: none;
+}
+
+#bb_onesignal_settings_section .password-toggle .bb-hide-pw .bb-icon {
+	font-size: 16px;
+	line-height: 1;
+}
+
+#bb_onesignal_settings_section .password-toggle input[type="text"],
+#bb_onesignal_settings_section .password-toggle input[type="password"] {
+	padding-right: 30px;
+	width: 100%;
+	min-width: 50%;
+}
+
+#bb_onesignal_settings_section .password-toggle input[type="text"] + .bb-hide-pw .bb-icon::before {
+	content: "\ee6a";
+}
+
+#bb_onesignal_settings_section .full-with-content {
+	margin-bottom: 15px;
+}
+
+#bb_onesignal_settings_section .full-with-content + .bbpro-onesignal-warning,
+#bb_onesignal_settings_section .full-with-content + .bbpro-onesignal-errors {
+	margin-bottom: 10px;
+}
+
 @-moz-keyframes spin {
 	0% {
 		transform: rotate(0deg);

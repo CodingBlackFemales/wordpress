@@ -1,9 +1,9 @@
 === BuddyBoss Platform Pro ===
 Contributors: buddyboss
 Requires at least: 4.9.1
-Tested up to: 6.1.1
+Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.3.2
+Stable tag: 2.4.00
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,60 @@ To run BuddyBoss Platform Pro, we recommend your host supports:
 5. Activate 'BuddyBoss Platform Pro' from your Plugins page.
 
 == Changelog ==
+
+= 2.4.00 =
+* Bug: LearnDash - Group Users could not send private messages to the LearnDash Group Leaders
+
+= 2.3.91 =
+* Enhancement: Zoom - Updated integration to provide support for a Server-to-Server OAuth app with Social Groups
+* Enhancement: Zoom - Updated integration to provide Server-to-Server OAuth support for the Zoom Gutenberg blocks
+* Bug: Zoom - Fixed time out error when a participant joins a Zoom meeting join link through the browser
+
+= 2.3.90 =
+* Enhancement: Core - Improved the handling of data migration when switching between release versions
+
+= 2.3.81 =
+* Bug: Member Access Controls - Members directory and related pages were not loading for subscribers when Messages Access was enabled.
+
+= 2.3.80 =
+* New Feature! Allow specific profiles types to send messages without being connected
+* Bug: Zoom - Buttons were using incorrect styling whenever Theme 1.0 styling was selected
+* Bug: Zoom - Conflict resolved for countdown timers when using BuddyBoss and TutorLMS together with Zoom enabled
+* Bug: Zoom - Meeting block showed fatal error if the event was removed from the Zoom account
+* Bug: Zoom - Notification email template were not using branding configured from the WordPress customizer
+* Bug: Zoom - Recording replays were not playing correctly if paused multiple times
+* Bug: Zoom - Updated Zoom translation strings for "Meeting has not started" and other related messaging
+
+= 2.3.70 =
+* Bug: OneSignal - Loader continually spun when a connection was failed, this has been improved with a new error message
+* Bug: Zoom - Email Body was not formatted correctly whenever the meeting description is long
+* Bug: Zoom - Show validation error when the day is not selected on a weekly recurring meeting or webinar
+
+= 2.3.60 =
+* Bug: WP Job Manager - Scrolling became unresponsive after applying for a job with the Resume Manager add-on
+* Bug: Zoom - Show recordings button alignment has been fixed in the Zoom block
+* Bug: Zoom - Updated meetings to use the same timezone name configured in WP Admin if the Zoom meeting has an alternative zone name
+
+= 2.3.50 =
+* Pusher - Improved the security of group message threads when Pusher is configured
+* Zoom - Added a notice in the dashboard for JWT app type status
+* Zoom - Handled a critical conflict between server and Zoom timezone lists regarding timezone names
+* Core - Improved the user experience of the OneSignal, Zoom, and Product License options in the dashboard by hiding sensitive text. Users can now toggle the visibility of sensitive content with an eye icon
+* Core - Resolved a critical conflict with the 'BuddyBoss App' plugin build screen
+
+= 2.3.41 =
+* OneSignal - Handled irrelevant sitewide notice issue in the dashboard for non-configured OneSignal setup
+
+= 2.3.40 =
+* OneSignal - Updated the OneSignal workflow to now provide an option to configure the OneSignal app directly
+* Core - Handled a PSR composer library conflict with the 'BuddyBoss App' Plugin
+
+= 2.3.31 =
+* Zoom - Updated Zoom Client WebSDK to 2.6.0 to handle Join Meeting in browser not working issue
+
+= 2.3.3 =
+* Pusher - Small performance and security improvement by updating the Pusher library
+* Messages - Handled message screen and dropdown 'sent a video' label inconsistency
 
 = 2.3.2 =
 * Member Access Controls - Handled group message permission issue when access control is configured

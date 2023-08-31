@@ -18,7 +18,7 @@ if ( ! $is_buddyboss_bbpress && ! bbp_is_single_user() ) {
 <?php
 $sidebar_position = buddyboss_theme_get_option( 'forums' );
 
-if ( ! function_exists( 'buddyboss_bbpress' ) && 'left' == $sidebar_position ) {
+if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'left' ) {
 	get_sidebar( 'bbpress' );
 }
 ?>
@@ -34,10 +34,14 @@ if ( ! function_exists( 'buddyboss_bbpress' ) && 'left' == $sidebar_position ) {
 
 			<?php if ( bbp_allow_search() ) : ?>
 				<div id="forums-dir-search" role="search" class="bs-dir-search bs-forums-search">
-					<form class="bs-search-form" role="search" method="get" id="bbp-search-form" action="<?php bbp_search_url(); ?>">
+					<form class="bs-search-form search-form-has-reset" role="search" method="get" id="bbp-search-form" action="<?php bbp_search_url(); ?>">
 						<input type="hidden" name="action" value="bbp-search-request"/>
 						<input tabindex="<?php bbp_tab_index(); ?>" type="text" value="<?php echo esc_attr( bbp_get_search_terms() ); ?>" name="bbp_search" id="bbp_search" placeholder="<?php esc_attr_e( 'Search forums...', 'buddyboss-theme' ); ?>"/>
-						<input tabindex="<?php bbp_tab_index(); ?>" class="button hide" type="submit" id="bbp_search_submit" value="<?php esc_attr_e( 'Search', 'buddyboss-theme' ); ?>"/>
+						<input tabindex="<?php bbp_tab_index(); ?>" class="button hide search-form_submit" type="submit" id="bbp_search_submit" value="<?php esc_attr_e( 'Search', 'buddyboss-theme' ); ?>"/>
+						<button type="reset" class="search-form_reset">
+							<span class="bb-icon-rf bb-icon-times" aria-hidden="true"></span>
+							<span class="bp-screen-reader-text"><?php esc_html_e( 'Reset', 'buddyboss-theme' ); ?></span>
+						</button>
 					</form>
 				</div>
 			<?php endif; ?>
@@ -66,7 +70,6 @@ if ( ! function_exists( 'buddyboss_bbpress' ) && 'left' == $sidebar_position ) {
 
 			<?php
 			// buddyboss_pagination();
-
 		else :
 			get_template_part( 'template-parts/content', 'none' );
 			?>
@@ -77,7 +80,7 @@ if ( ! function_exists( 'buddyboss_bbpress' ) && 'left' == $sidebar_position ) {
 </div><!-- #primary -->
 
 <?php
-if ( ! function_exists( 'buddyboss_bbpress' ) && 'right' == $sidebar_position ) {
+if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'right' ) {
 	get_sidebar( 'bbpress' );
 }
 ?>
