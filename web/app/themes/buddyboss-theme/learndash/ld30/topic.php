@@ -84,7 +84,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						if ( $les->ID === (int) $lesson_id ) {
 							break;
 						}
-						$lesson_no ++;
+						$lesson_no++;
 					}
 
 					$topic_no = 1;
@@ -92,7 +92,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						if ( $topic->ID === $post->ID ) {
 							break;
 						}
-						$topic_no ++;
+						$topic_no++;
 					}
 					?>
 
@@ -110,9 +110,9 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						 <div id="learndash-course-header" class="bb-lms-header">
 							<div class="bb-ld-info-bar">
 								<?php
-								if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD ) ) {
+								if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
 									$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
-									if ( false === strstr( $content, $shown_content_key ) ) {
+									if ( strstr( $content, $shown_content_key ) === false ) {
 										$shortcode_out = do_shortcode( '[ld_infobar course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
 										if ( ! empty( $shortcode_out ) ) {
 											echo $shortcode_out;
@@ -218,9 +218,9 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						if ( ( $lesson_progression_enabled ) && ( ! learndash_user_progress_is_step_complete( $user_id, $course_id, $post->ID ) ) ) {
 							$previous_item = learndash_get_previous( $post );
 							if ( ( ! $previous_topic_completed ) || ( empty( $previous_item ) ) ) {
-								if ( 'on' === learndash_get_setting( $lesson_post->ID, 'lesson_video_enabled' ) ) {
+								if ( learndash_get_setting( $lesson_post->ID, 'lesson_video_enabled' ) === 'on' ) {
 									if ( ! empty( learndash_get_setting( $lesson_post->ID, 'lesson_video_url' ) ) ) {
-										if ( 'BEFORE' === learndash_get_setting( $lesson_post->ID, 'lesson_video_shown' ) ) {
+										if ( learndash_get_setting( $lesson_post->ID, 'lesson_video_shown' ) === 'BEFORE' ) {
 											if ( ! learndash_video_complete_for_step( $lesson_post->ID, $course_id, $user_id ) ) {
 												$sub_context = 'video_progression';
 											}
@@ -232,7 +232,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 
 						if ( ( ! learndash_is_sample( $post ) ) && ( $lesson_progression_enabled ) && ( ! empty( $sub_context ) || ! $previous_topic_completed || ! $previous_lesson_completed ) ) :
 
-							if ( 'video_progression' === $sub_context ) {
+							if ( $sub_context === 'video_progression' ) {
 								$previous_item = $lesson_post;
 							} else {
 								$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
@@ -271,24 +271,9 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 								true
 							);
 
-							if ( ! empty( $quizzes ) ) :
-
-								learndash_get_template_part(
-									'quiz/listing.php',
-									array(
-										'user_id'   => $user_id,
-										'course_id' => $course_id,
-										'lesson_id' => $lesson_id,
-										'quizzes'   => $quizzes,
-										'context'   => 'topic',
-									),
-									true
-								);
-							endif;
-
-							if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD ) ) {
+							if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
 								$shown_content_key = 'learndash-shortcode-wrap-course_content-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
-								if ( false === strstr( $content, $shown_content_key ) ) {
+								if ( strstr( $content, $shown_content_key ) === false ) {
 									$shortcode_out = do_shortcode( '[course_content course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
 									if ( ! empty( $shortcode_out ) ) {
 										echo $shortcode_out;
@@ -342,9 +327,9 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						endif; // $show_content
 
 
-						if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD ) ) {
+						if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' ) ) {
 							$shown_content_key = 'learndash-shortcode-wrap-ld_navigation-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
-							if ( false === strstr( $content, $shown_content_key ) ) {
+							if ( strstr( $content, $shown_content_key ) === false ) {
 								$shortcode_out = do_shortcode( '[ld_navigation course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
 								if ( ! empty( $shortcode_out ) ) {
 									echo $shortcode_out;
@@ -388,7 +373,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 						$post_type          = get_post_type( $post->ID );
 						$post_type_comments = learndash_post_type_supports_comments( $post_type );
 
-						if ( is_user_logged_in() && 'yes' === $focus_mode && comments_open() ) {
+						if ( is_user_logged_in() && $focus_mode === 'yes' && comments_open() ) {
 
 							learndash_get_template_part(
 								'focus/comments.php',
@@ -400,7 +385,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 								true
 							);
 
-						} elseif ( true === $post_type_comments ) {
+						} elseif ( $post_type_comments === true ) {
 							if ( comments_open() ) :
 								comments_template();
 							endif;

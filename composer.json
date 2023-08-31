@@ -72,7 +72,7 @@
     "wpackagist-plugin/import-users-from-csv": "^1.1",
     "wpackagist-plugin/jetpack": "^12.0",
     "wpackagist-plugin/login-as-user": "^1.4",
-    "wpackagist-plugin/mailchimp-for-woocommerce": "^2.8",
+    "wpackagist-plugin/mailchimp-for-woocommerce": "^3.1",
     "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online": "^2.7",
     "wpackagist-plugin/optimole-wp": "^3.7",
     "wpackagist-plugin/otter-blocks": "^2.3",
@@ -83,7 +83,7 @@
     "wpackagist-plugin/remove-dashboard-access-for-non-admins": "^1.1",
     "wpackagist-plugin/social-login-lite-for-woocommerce": "^1.6",
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4",
-    "wpackagist-plugin/woocommerce": "^7.5",
+    "wpackagist-plugin/woocommerce": "^8.0",
     "wpackagist-plugin/woocommerce-gateway-stripe": "^7.2",
     "wpackagist-plugin/woocommerce-paypal-payments": "^2.0",
     "wpackagist-plugin/woocommerce-services": "^2.2",
@@ -154,14 +154,17 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
+      "@configure-bp",
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
       "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
     ],
     "post-update-cmd": [
+      "@configure-bp",
       "@configure-ssp"
     ],
+    "configure-bp": "cd web/app/plugins/buddyboss-platform;composer install;cd ../../../..",
     "configure-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",

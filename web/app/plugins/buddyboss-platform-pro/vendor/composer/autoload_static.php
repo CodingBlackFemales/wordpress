@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204
+class ComposerStaticInit073bf9fce332b11aea0f9980fdfe5bd0
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
@@ -18,12 +18,12 @@ class ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204
         'P' => 
         array (
             'Pusher\\' => 7,
-            'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Http\\Client\\' => 16,
         ),
         'B' => 
         array (
+            'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Log\\' => 37,
+            'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Message\\' => 46,
+            'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Client\\' => 45,
             'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Psr7\\' => 45,
             'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Promise\\' => 48,
             'BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\' => 40,
@@ -35,16 +35,16 @@ class ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204
         array (
             0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
         ),
-        'Psr\\Log\\' => 
+        'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' => 
+        'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' => 
+        'BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
@@ -69,9 +69,9 @@ class ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4f792e8fb62aaf1b102a28c908a42204::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit073bf9fce332b11aea0f9980fdfe5bd0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit073bf9fce332b11aea0f9980fdfe5bd0::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit073bf9fce332b11aea0f9980fdfe5bd0::$classMap;
 
         }, null, ClassLoader::class);
     }

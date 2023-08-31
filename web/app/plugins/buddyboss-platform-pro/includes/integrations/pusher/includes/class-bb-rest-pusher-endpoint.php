@@ -66,6 +66,25 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 				),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/user-auth',
+			array(
+				'args' => array(
+					'socket_id'    => array(
+						'required'    => true,
+						'type'        => 'string',
+						'description' => __( 'Socket ID', 'buddyboss-pro' ),
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'user_authenticate' ),
+					'permission_callback' => array( $this, 'user_authenticate_permissions_check' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -131,7 +150,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 				);
 			}
 
-			if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && true === bp_disable_group_messages() ) {
+			if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && bp_disable_group_messages() === true ) {
 				// Determine groups of user.
 				$groups = groups_get_groups(
 					array(
@@ -427,7 +446,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 
 		switch ( $channel_type ) {
 			case 'private':
-				if ( 0 !== $current_user_id ) {
+				if ( $current_user_id !== 0 ) {
 					if ( strpos( $channel_name, 'private-bb-message-thread-' ) !== false ) {
 						$channel_thread_id = (int) str_replace( 'private-bb-message-thread-', '', $channel_name );
 						if ( ! messages_check_thread_access( $channel_thread_id, (int) $current_user_id ) ) {
@@ -470,5 +489,72 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 					return new \WP_Error( 'rest_pusher_invalid_auth', $error->getMessage(), array( 'status' => $error->getCode() ) );
 				}
 		}
+	}
+
+	/**
+	 * Authenticate user for the pusher.
+	 *
+	 * @since 2.3.50
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response | WP_Error
+	 *
+	 * @api {POST} /wp-json/buddyboss/v1/pusher/user-auth Pusher data.
+	 */
+	public function user_authenticate( $request ) {
+		$socket_id = $request->get_param( 'socket_id' );
+		$user_id   = bp_loggedin_user_id();
+
+		if ( empty( $user_id ) ) {
+			return new WP_Error(
+				'rest_pusher_invalid_auth',
+				__( 'There is an error while authorizing the user.', 'buddyboss-pro' ),
+				array(
+					'status' => rest_authorization_required_code(),
+				)
+			);
+		}
+
+		try {
+			$pusher          = bb_pusher();
+			$user_info       = array();
+			$user_info['id'] = (string) $user_id;
+
+			echo $pusher->authenticateUser( $socket_id, $user_info );
+			exit;
+		} catch ( Exception $error ) {
+			return new WP_Error(
+				'rest_pusher_invalid_auth',
+				__( 'There is an error while authorizing the user.', 'buddyboss-pro' ),
+				array(
+					'status' => rest_authorization_required_code(),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Check if a given request has access to pusher user-auth.
+	 *
+	 * @since 2.3.50
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 *
+	 * @return bool|WP_Error
+	 */
+	public function user_authenticate_permissions_check( $request ) {
+
+		$retval = true;
+
+		/**
+		 * Filter the pusher user auth permissions check.
+		 *
+		 * @since 2.3.50
+		 *
+		 * @param bool|WP_Error   $retval  Returned value.
+		 * @param WP_REST_Request $request The request sent to the API.
+		 */
+		return apply_filters( 'bb_rest_pusher_user_authenticate_permissions_check', $retval, $request );
 	}
 }

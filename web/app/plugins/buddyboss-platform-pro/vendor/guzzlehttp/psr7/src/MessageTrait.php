@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
-use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\StreamInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\MessageInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\StreamInterface;
 
 /**
  * Trait implementing functionality common to requests and responses.
@@ -224,12 +224,9 @@ trait MessageTrait
             ));
         }
 
-        if (! preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $header)) {
+        if (! preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/D', $header)) {
             throw new \InvalidArgumentException(
-                sprintf(
-                    '"%s" is not valid header name',
-                    $header
-                )
+                sprintf('"%s" is not valid header name.', $header)
             );
         }
     }
@@ -257,8 +254,10 @@ trait MessageTrait
         // Clients must not send a request with line folding and a server sending folded headers is
         // likely very rare. Line folding is a fairly obscure feature of HTTP/1.1 and thus not accepting
         // folding is not likely to break any legitimate use case.
-        if (! preg_match('/^[\x20\x09\x21-\x7E\x80-\xFF]*$/', $value)) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not valid header value', $value));
+        if (! preg_match('/^[\x20\x09\x21-\x7E\x80-\xFF]*$/D', $value)) {
+            throw new \InvalidArgumentException(
+                sprintf('"%s" is not valid header value.', $value)
+            );
         }
     }
 }

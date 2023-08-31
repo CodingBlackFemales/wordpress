@@ -10,9 +10,8 @@ namespace CodingBlackFemales\Multisite;
 
 use CodingBlackFemales\Multisite\Admin\Main as Admin;
 use CodingBlackFemales\Multisite\Front\Main as Front;
-use CodingBlackFemales\Multisite\Customizations\Universal as Universal;
-use CodingBlackFemales\Multisite\Customizations\WP_CLI_Command as WP_CLI_Command;
-use CodingBlackFemales\Multisite\Customizations\WP_Cron as WP_Cron;
+use CodingBlackFemales\Multisite\Customizations\Quiz_Results_Command;
+use CodingBlackFemales\Multisite\Customizations\WP_Cron;
 
 
 /**
@@ -88,7 +87,7 @@ final class Main {
 		}
 
 		if ( Utils::is_request( 'cli' ) ) {
-			WP_CLI_Command::hooks();
+			Quiz_Results_Command::hooks();
 		}
 
 		// Common includes.
@@ -148,7 +147,7 @@ final class Main {
 
 			add_action(
 				'admin_notices',
-				function() use ( $errors ) {
+				function () use ( $errors ) {
 					?>
 					<div class="notice notice-error">
 						<?php

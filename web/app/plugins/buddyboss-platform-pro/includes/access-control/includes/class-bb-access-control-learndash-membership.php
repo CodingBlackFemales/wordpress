@@ -67,7 +67,7 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 	 */
 	public static function instance() {
 
-		if ( null === self::$instance ) {
+		if ( self::$instance === null ) {
 			$class_name           = __CLASS__;
 			self::$instance       = new $class_name();
 			self::$instance->slug = 'learndash';
@@ -92,7 +92,6 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 		$results = bb_access_control_get_posts( 'groups' );
 
 		return apply_filters( 'learndash_access_control_get_level_lists', $results );
-
 	}
 
 	/**
@@ -118,7 +117,8 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 
 		if ( $threaded ) {
 			foreach ( $settings_data['access-control-options'] as $level_id ) {
-				$plan = learndash_is_user_in_group( bp_loggedin_user_id(), $level_id );
+				// If the sender is a member or the leader of the group
+				$plan = learndash_is_user_in_group( bp_loggedin_user_id(), $level_id ) || learndash_is_group_leader_of_user( bp_loggedin_user_id(), $user_id );
 				if ( $plan ) {
 					$arr_key = 'access-control-' . $level_id . '-options';
 					if ( empty( $settings_data[ $arr_key ] ) ) {
@@ -130,7 +130,8 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 						break;
 					}
 					foreach ( $settings_data[ $arr_key ] as $level ) {
-						$plan = learndash_is_user_in_group( $user_id, $level );
+						// If the reciever is a member or the leader of the group
+						$plan = learndash_is_user_in_group( $user_id, $level ) || learndash_is_group_leader_of_user( $user_id, bp_loggedin_user_id() );
 						if ( $plan ) {
 							$has_access = true;
 							break;
@@ -158,6 +159,5 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 		}
 
 		return apply_filters( 'bb_access_control_' . $this->slug . '_has_access', $has_access );
-
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp;
 
-use Psr\Http\Message\MessageInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\MessageInterface;
 
 final class BodySummarizer implements BodySummarizerInterface
 {

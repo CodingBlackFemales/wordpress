@@ -42,7 +42,7 @@
             //Vertical nav condition
             function checkVerticalMenu() {
 
-                if( $( window ).width() > 748 && $elem.parent().hasClass( 'vertical' ) ) {
+                if( $( window ).width() > 738 && $elem.parent().hasClass( 'vertical' ) ) {
 
                     if( $elem.find( 'li.hideshow' ).length ) {
 
