@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.20](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.19...v0.1.20) (2023-08-31)
+
+
+### Features
+
+* adds `list` subcommand ([1da0c78](https://github.com/CodingBlackFemales/wordpress/commit/1da0c78a4bf7d3471018e4f179892dc5147b1c28))
+* adds `list` subcommand ([3f8e217](https://github.com/CodingBlackFemales/wordpress/commit/3f8e217139608aa91c9096f78db327a3f543bb53))
+
+
+### Bug Fixes
+
+* display the correct number of inserted results ([fe5ea5f](https://github.com/CodingBlackFemales/wordpress/commit/fe5ea5f3117086748cb754b90fdbc7aed5131d28))
+* fixes Learndash quiz export ([3e0585b](https://github.com/CodingBlackFemales/wordpress/commit/3e0585b078c4fd55ef009804edfb0b6cad682d70))
+* limit Airtable export scheduling to academy ([5e2516a](https://github.com/CodingBlackFemales/wordpress/commit/5e2516ad6debe0f1360317a78a1a0c1491a664a9))
+* limit Airtable export scheduling to academy ([bdcdeb9](https://github.com/CodingBlackFemales/wordpress/commit/bdcdeb936fcf644807a2f96ef92131669a887a3b))
+* prevent error from null array result ([499cff5](https://github.com/CodingBlackFemales/wordpress/commit/499cff5d454ce92a6e10dbce2129347a944c668c))
+* prevent error from null array result ([804eff5](https://github.com/CodingBlackFemales/wordpress/commit/804eff587117013d237e6d9db74cd11f9b364835))
+
 ## [0.1.19](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.18...v0.1.19) (2023-08-02)
 
 
