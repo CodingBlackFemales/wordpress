@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodingBlackFemales/buddyboss-platform.git",
-                "reference": "bda5e39b014a73d614558cccb775d4d999465471"
+                "reference": "ec7ed1ae56e2848a6bc450988de7e5b2bb5b024c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/bda5e39b014a73d614558cccb775d4d999465471",
-                "reference": "bda5e39b014a73d614558cccb775d4d999465471",
+                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/ec7ed1ae56e2848a6bc450988de7e5b2bb5b024c",
+                "reference": "ec7ed1ae56e2848a6bc450988de7e5b2bb5b024c",
                 "shasum": ""
             },
             "require": {
@@ -59,6 +59,15 @@
                     "@lint-php",
                     "@lint-js",
                     "@lint-css"
+                ],
+                "update-src": [
+                    "cd src && composer install && cd .."
+                ],
+                "post-install-cmd": [
+                    "@update-src"
+                ],
+                "post-update-cmd": [
+                    "@update-src"
                 ]
             },
             "license": [
@@ -90,7 +99,7 @@
                 "source": "https://github.com/buddyboss/buddyboss-platform",
                 "wiki": "https://www.buddyboss.com/resources/docs/"
             },
-            "time": "2023-08-30T16:12:28+00:00"
+            "time": "2023-08-30T23:05:20+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -9784,12 +9793,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "05cbd34d3f34203a5be403e69e1fc9fef70d546a"
+                "reference": "3a677ef3f90ef5ac5280ee470272a162878f3998"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/05cbd34d3f34203a5be403e69e1fc9fef70d546a",
-                "reference": "05cbd34d3f34203a5be403e69e1fc9fef70d546a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/3a677ef3f90ef5ac5280ee470272a162878f3998",
+                "reference": "3a677ef3f90ef5ac5280ee470272a162878f3998",
                 "shasum": ""
             },
             "conflict": {
@@ -10080,6 +10089,7 @@
                 "mobiledetect/mobiledetectlib": "<2.8.32",
                 "modx/revolution": "<=2.8.3.0-patch",
                 "mojo42/jirafeau": "<4.4",
+                "mongodb/mongodb": ">=1,<1.9.2",
                 "monolog/monolog": ">=1.8,<1.12",
                 "moodle/moodle": "<4.2.0.0-RC2-dev|==4.2",
                 "movim/moxl": ">=0.8,<=0.10",
@@ -10440,7 +10450,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-29T19:04:20+00:00"
+            "time": "2023-08-30T22:04:36+00:00"
         },
         {
             "name": "slevomat/coding-standard",
