@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7\Exception\MalformedUriException;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * PSR-7 URI implementation.

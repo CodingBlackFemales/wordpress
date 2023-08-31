@@ -241,7 +241,11 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 			wp_enqueue_media();
 			$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
 			$minjs       = $minified_js ? '.min' : '';
-			wp_enqueue_style( 'buddyboss-admin-css', get_template_directory_uri() . '/inc/admin/assets/css/boss-custom-fonts.css' );
+
+			$minified_css = buddyboss_theme_get_option( 'boss_minified_css' );
+			$mincss       = $minified_css ? '.min' : '';
+
+			wp_enqueue_style( 'buddyboss-admin-css', get_template_directory_uri() . '/inc/admin/assets/css/boss-custom-fonts' . $mincss . '.css' );
 			wp_enqueue_script( 'buddyboss-admin-js', get_template_directory_uri() . '/assets/js/admin' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version() );
 			$js_id = 'buddyboss_repeater_' . dechex( rand() );
 
@@ -492,7 +496,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 		 * open a redux group tab based on url GET param tab
 		 */
 		public function open_theme_options_tab() {
-			if ( ! empty( $_GET['page'] ) && 'buddyboss_theme_options' === sanitize_text_field( $_GET['page'] ) && ! empty( $_GET['tab'] ) ) {
+			if ( ! empty( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'buddyboss_theme_options' && ! empty( $_GET['tab'] ) ) {
 				?>
 				<script>
 					jQuery(document).ready(function(){

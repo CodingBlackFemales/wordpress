@@ -1,6 +1,6 @@
 <?php
 
-namespace Psr\Http\Message;
+namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Message;
 
 interface RequestFactoryInterface
 {
