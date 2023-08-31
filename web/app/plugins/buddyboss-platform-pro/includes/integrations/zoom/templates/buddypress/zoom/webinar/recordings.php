@@ -29,7 +29,7 @@ if ( ! empty( $zoom_webinar_template->webinar->id ) ) {
 
 if ( ! empty( $w_id ) && ! empty( $webinar_id ) ) {
 	$webinar_obj = new BP_Zoom_Webinar( $w_id );
-	if ( ! empty( $webinar_obj ) && 'webinar_occurrence' === $webinar_obj->zoom_type ) {
+	if ( ! empty( $webinar_obj ) && $webinar_obj->zoom_type === 'webinar_occurrence' ) {
 		$w_id = false;
 	}
 }
@@ -48,7 +48,7 @@ if ( ! empty( $w_id ) ) {
 	}
 }
 
-if ( isset( $recording_fetch ) && 'yes' === $recording_fetch ) {
+if ( isset( $recording_fetch ) && $recording_fetch === 'yes' ) {
 	bp_zoom_webinar_fetch_recordings( $webinar_id );
 }
 
@@ -73,7 +73,7 @@ if ( ! empty( $occurrence_id ) ) {
 
 			if ( $occurrence_id === $occurrence->webinar_id ) {
 
-				if ( 1 === $occurrence_index ) {
+				if ( $occurrence_index === 1 ) {
 					if ( isset( $occurrences['webinars'][ $occurrence_index ]->start_date_utc ) ) {
 						$occurrence_date     = new DateTime( $occurrence->start_date_utc, new DateTimeZone( 'UTC' ) );
 						$occurrence_date_max = new DateTime( $occurrences['webinars'][ $occurrence_index ]->start_date_utc, new DateTimeZone( 'UTC' ) );
@@ -118,7 +118,7 @@ $recordings = bp_zoom_webinar_recording_get(
 if ( ! empty( $w_id ) && empty( $occurrence_id ) ) {
 	bp_zoom_webinar_update_meta( $w_id, 'zoom_recording_count', count( $recordings ) );
 } elseif ( ! empty( $w_id ) && ! empty( $occurrence_id ) ) {
-	$occurrence_obj = BP_Zoom_Webinar::get_webinar_by_webinar_id( $occurrence_id );
+	$occurrence_obj = BP_Zoom_Webinar::get_webinar_by_webinar_id( $occurrence_id, $webinar_id );
 	if ( ! empty( $occurrence_obj->id ) ) {
 		bp_zoom_webinar_update_meta( $occurrence_obj->id, 'zoom_recording_count', count( $recordings ) );
 	}
@@ -185,7 +185,7 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 					$recording_type      = isset( $recording_file->recording_type ) ? $recording_file->recording_type : '';
 					$recording_file_size = isset( $recording_file->file_size ) ? $recording_file->file_size : false;
 
-					if ( 'TIMELINE' === $recording_file->file_type ) {
+					if ( $recording_file->file_type === 'TIMELINE' ) {
 						continue;
 					}
 
@@ -193,29 +193,29 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 						$datetime1     = date_create( $recording_file->recording_start );
 						$datetime2     = date_create( $recording_file->recording_end );
 						$interval      = date_diff( $datetime1, $datetime2 );
-						$recorded_time = $interval->format( '%H:%i:%s' );
+						$recorded_time = $interval->format( '%H:%I:%S' );
 					}
 					?>
 
 					<div class="recording-list-row" data-recording-id="<?php echo esc_attr( $recording->id ); ?>">
 						<div class="recording-preview-img">
-							<span class="<?php echo ( 'MP4' === $recording_file->file_type || 'M4A' === $recording_file->file_type ) ? 'bb-icon-l bb-icon-play triangle-play-icon' : ''; ?> <?php echo esc_attr( $recording_type ); ?>"></span>
+							<span class="<?php echo ( $recording_file->file_type === 'MP4' || $recording_file->file_type === 'M4A' ) ? 'bb-icon-l bb-icon-play triangle-play-icon' : ''; ?> <?php echo esc_attr( $recording_type ); ?>"></span>
 							<?php if ( in_array( $recording_type, array( 'shared_screen_with_speaker_view', 'shared_screen_with_gallery_view', 'active_speaker', 'shared_screen', 'shared_screen_with_speaker_view(CC)', 'gallery_view' ), true ) ) : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-video.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
-							<?php elseif ( 'audio_only' === $recording_type ) : ?>
+							<?php elseif ( $recording_type === 'audio_only' ) : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-audio-only.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
-							<?php elseif ( 'audio_transcript' === $recording_type ) : ?>
+							<?php elseif ( $recording_type === 'audio_transcript' ) : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-audio-transcript.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
-							<?php elseif ( 'chat_file' === $recording_type ) : ?>
+							<?php elseif ( $recording_type === 'chat_file' ) : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-chat-file.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
-							<?php elseif ( 'TIMELINE' === $recording_type || 'TIMELINE' === $recording_file->file_type ) : ?>
+							<?php elseif ( $recording_type === 'TIMELINE' || $recording_file->file_type === 'TIMELINE' ) : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-timeline.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
 							<?php else : ?>
 								<img src="<?php echo esc_url( bp_zoom_integration_url( '/assets/images/recording-audio-only.png' ) ); ?>" alt="<?php echo esc_attr( $recording_type ); ?>"/>
 							<?php endif; ?>
 
 							<?php
-							if ( ! empty( $recorded_time ) && ( 'MP4' === $recording_file->file_type || 'M4A' === $recording_file->file_type ) ) {
+							if ( ! empty( $recorded_time ) && ( $recording_file->file_type === 'MP4' || $recording_file->file_type === 'M4A' ) ) {
 								echo '<span class="bb-video-time">' . esc_html( $recorded_time ) . '</span>';
 							}
 							?>
@@ -232,13 +232,13 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 									<?php
 									if ( in_array( $recording_type, array( 'shared_screen_with_speaker_view', 'shared_screen_with_gallery_view', 'active_speaker', 'shared_screen', 'shared_screen_with_speaker_view(CC)', 'gallery_view' ), true ) ) {
 										esc_html_e( 'Video Recording', 'buddyboss-pro' );
-									} elseif ( 'audio_only' === $recording_type ) {
+									} elseif ( $recording_type === 'audio_only' ) {
 										esc_html_e( 'Audio Recording', 'buddyboss-pro' );
-									} elseif ( 'chat_file' === $recording_type ) {
+									} elseif ( $recording_type === 'chat_file' ) {
 										esc_html_e( 'Chat File', 'buddyboss-pro' );
-									} elseif ( 'audio_transcript' === $recording_type ) {
+									} elseif ( $recording_type === 'audio_transcript' ) {
 										esc_html_e( 'Audio Transcript', 'buddyboss-pro' );
-									} elseif ( 'TIMELINE' === $recording_type || 'TIMELINE' === $recording_file->file_type ) {
+									} elseif ( $recording_type === 'TIMELINE' || $recording_file->file_type === 'TIMELINE' ) {
 										esc_html_e( 'Timeline', 'buddyboss-pro' );
 									}
 									?>
@@ -269,7 +269,7 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 							<?php endif; ?>
 						</div>
 
-						<?php if ( 'MP4' === $recording_file->file_type || 'M4A' === $recording_file->file_type ) : ?>
+						<?php if ( $recording_file->file_type === 'MP4' || $recording_file->file_type === 'M4A' ) : ?>
 							<div class="bb-media-model-wrapper bb-internal-model" style="display: none;">
 
 								<a data-balloon-pos="left" data-balloon="<?php esc_attr_e( 'Close', 'buddyboss-pro' ); ?>" class="bb-close-media-theatre bb-close-model" href="#">
@@ -281,14 +281,14 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 								<div class="bb-media-model-container">
 									<div class="bb-media-model-inner">
 										<div class="bb-media-section">
-											<?php if ( 'MP4' === $recording_file->file_type ) : ?>
+											<?php if ( $recording_file->file_type === 'MP4' ) : ?>
 												<video controls>
 													<source src="<?php echo esc_url( $recording_file->download_url . '/?access_token=' . bp_zoom_conference()->generate_jwt_key() ); ?>"
 															type="video/mp4">
 													<p><?php esc_html_e( 'Your browser does not support HTML5 video.', 'buddyboss-pro' ); ?></p>
 												</video>
 											<?php endif; ?>
-											<?php if ( 'M4A' === $recording_file->file_type ) : ?>
+											<?php if ( $recording_file->file_type === 'M4A' ) : ?>
 												<audio controls>
 													<source src="<?php echo esc_url( $recording_file->download_url . '/?access_token=' . bp_zoom_conference()->generate_jwt_key() ); ?>"
 															type="audio/mp4">

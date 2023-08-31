@@ -4,7 +4,7 @@ namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Handler;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\RequestOptions;
-use Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
 
 /**
  * Provides basic proxies for handlers.

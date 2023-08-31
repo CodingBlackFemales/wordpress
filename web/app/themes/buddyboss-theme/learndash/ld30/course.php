@@ -59,11 +59,12 @@ $template_args = array(
 	'lesson_progression_enabled' => $lesson_progression_enabled,
 	'has_topics'                 => $has_topics,
 	'lesson_topics'              => $lesson_topics,
+	'post'                       => $post,
 );
 
 $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?>
 
- <div class="<?php echo esc_attr( learndash_the_wrapper_class() ); ?>">
+<div class="<?php echo esc_attr( learndash_the_wrapper_class() ); ?>">
 
 	<?php
 	global $course_pager_results;
@@ -109,24 +110,36 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 			 * Certificate link
 			 */
 
-			if ( isset( $course_certficate_link ) && $course_certficate_link && ! empty( $course_certficate_link ) ) :
-
-				learndash_get_template_part(
-					'modules/alert.php',
-					array(
-						'type'    => 'success ld-alert-certificate',
-						'icon'    => 'certificate',
-						'message' => __( 'You\'ve earned a certificate!', 'buddyboss-theme' ),
-						'button'  => array(
-							'url'   => $course_certficate_link,
-							'icon'  => 'download',
-							'label' => __( 'Download Certificate', 'buddyboss-theme' ),
+			if (
+				( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
+				( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+			) {
+				$shown_content_key = 'learndash-shortcode-wrap-ld_certificate-' . absint( $course_id ) . '_' . absint( $user_id );
+				if ( strstr( $content, $shown_content_key ) === false ) {
+					$shortcode_out = do_shortcode( '[ld_certificate course_id="' . $course_id . '" user_id="' . $user_id . '" display_as="banner"]' );
+					if ( ! empty( $shortcode_out ) ) {
+						echo $shortcode_out;
+					}
+				}
+			} else {
+				if ( ! empty( $course_certficate_link ) ) :
+					learndash_get_template_part(
+						'modules/alert.php',
+						array(
+							'type'    => 'success ld-alert-certificate',
+							'icon'    => 'certificate',
+							'message' => __( 'You\'ve earned a certificate!', 'buddyboss-theme' ),
+							'button'  => array(
+								'url'    => $course_certficate_link,
+								'icon'   => 'download',
+								'label'  => __( 'Download Certificate', 'buddyboss-theme' ),
+								'target' => '_new',
+							),
 						),
-					),
-					true
-				);
-
-			endif;
+						true
+					);
+				endif;
+			}
 
 			/**
 			 * Fires after the course certificate link.
@@ -136,24 +149,37 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 			 * @param int $course_id Course ID.
 			 * @param int $user_id   User ID.
 			 */
-			 do_action( 'learndash-course-certificate-link-after', $course_id, $user_id );
+			do_action( 'learndash-course-certificate-link-after', $course_id, $user_id );
 
 
-			/**
-			 * Course info bar
-			 */
-			learndash_get_template_part(
-				'modules/infobar.php',
-				array(
-					'context'       => 'course',
-					'course_id'     => $course_id,
-					'user_id'       => $user_id,
-					'has_access'    => $has_access,
-					'course_status' => $course_status,
-					'post'          => $post,
-				),
-				true
-			);
+			if (
+				( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
+				( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+			) {
+				$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
+				if ( strstr( $content, $shown_content_key ) === false ) {
+					$shortcode_out = do_shortcode( '[ld_infobar course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
+					if ( ! empty( $shortcode_out ) ) {
+						echo $shortcode_out;
+					}
+				}
+			} else {
+				/**
+				 * Course info bar
+				 */
+				learndash_get_template_part(
+					'modules/infobar.php',
+					array(
+						'context'       => 'course',
+						'course_id'     => $course_id,
+						'user_id'       => $user_id,
+						'has_access'    => $has_access,
+						'course_status' => $course_status,
+						'post'          => $post,
+					),
+					true
+				);
+			}
 
 			/** This filter is documented in themes/legacy/templates/course.php */
 			echo apply_filters( 'ld_after_course_status_template_container', '', learndash_course_status_idx( $course_status ), $course_id, $user_id );
@@ -175,161 +201,177 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 				),
 				true
 			);
-			 echo '</div>';
+			echo '</div>';
 
 			/**
 			 * Identify if we should show the course content listing
 			 *
 			 * @var $show_course_content [bool]
 			 */
-			$show_course_content = ( ! $has_access && 'on' === $course_meta['sfwd-courses_course_disable_content_table'] ? false : true );
+			$show_course_content = ( ! $has_access && $course_meta['sfwd-courses_course_disable_content_table'] === 'on' ? false : true );
 
 			if ( $has_course_content && $show_course_content ) :
-				?>
 
-				<div class="ld-item-list ld-lesson-list">
-					<div class="ld-section-heading">
-
-						<?php
-						/**
-						 * Fires before the course heading.
-						 *
-						 * @since 3.0.0
-						 *
-						 * @param int $course_id Course ID.
-						 * @param int $user_id   User ID.
-						 */
-						do_action( 'learndash-course-heading-before', $course_id, $user_id );
-						?>
-
-						<h2>
-							<?php
-							printf(
-								// translators: placeholder: Course.
-								esc_html_x( '%s Content', 'placeholder: Course', 'buddyboss-theme' ),
-								LearnDash_Custom_Label::get_label( 'course' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
-							);
-							?>
-						</h2>
-
-						<?php
-						/**
-						 * Fires after the course heading.
-						 *
-						 * @since 3.0.0
-						 *
-						 * @param int $course_id Course ID.
-						 * @param int $user_id   User ID.
-						 */
-						do_action( 'learndash-course-heading-after', $course_id, $user_id );
-						?>
-
-						<div class="ld-item-list-actions" data-ld-expand-list="true">
-
-							<?php
-							/**
-							 * Fires before the course expand.
-							 *
-							 * @since 3.0.0
-							 *
-							 * @param int $course_id Course ID.
-							 * @param int $user_id   User ID.
-							 */
-							do_action( 'learndash-course-expand-before', $course_id, $user_id );
-							?>
-
-							<?php
-							// Only display if there is something to expand.
-							if ( $has_topics || $has_lesson_quizzes ) :
-								?>
-								<div class="ld-expand-button ld-primary-background" id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>" data-ld-expands="<?php echo esc_attr( 'ld-item-list-' . $course_id ); ?>" data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'buddyboss-theme' ); ?>" data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'buddyboss-theme' ); ?>">
-									<span class="ld-icon-arrow-down ld-icon"></span>
-									<span class="ld-text"><?php echo esc_html_e( 'Expand All', 'buddyboss-theme' ); ?></span>
-								</div> <!--/.ld-expand-button-->
-								<?php
-								// TODO @37designs Need to test this
-								/**
-								 * Filters whether to expand all course steps by default. Default is false.
-								 *
-								 * @since 2.5.0
-								 *
-								 * @param boolean $expand_all Whether to expand all course steps.
-								 * @param int     $course_id  Course ID.
-								 * @param string  $context    The context where course is expanded.
-								 */
-								if ( apply_filters( 'learndash_course_steps_expand_all', false, $course_id, 'course_lessons_listing_main' ) ) :
-									?>
-									<script>
-										jQuery(document).ready(function(){
-											jQuery("<?php echo '#ld-expand-button-' . $course_id; ?>").click();
-										});
-									</script>
-									<?php
-								endif;
-
-							endif;
-
-							/**
-							 * Fires after the course content expand button.
-							 *
-							 * @since 3.0.0
-							 *
-							 * @param int $course_id Course ID.
-							 * @param int $user_id   User ID.
-							 */
-							do_action( 'learndash-course-expand-after', $course_id, $user_id );
-							?>
-
-						</div> <!--/.ld-item-list-actions-->
-					</div> <!--/.ld-section-heading-->
-
-					<?php
-					/**
-					 * Fires before the course content listing
-					 *
-					 * @since 3.0.0
-					 *
-					 * @param int $course_id Course ID.
-					 * @param int $user_id   User ID.
-					 */
-					do_action( 'learndash-course-content-list-before', $course_id, $user_id );
-
-					/**
-					 * Content listing
-					 *
-					 * @since 3.0.0
-					 *
-					 * ('listing.php');
-					 */
-					learndash_get_template_part(
-						'course/listing.php',
-						array(
-							'course_id'                  => $course_id,
-							'user_id'                    => $user_id,
-							'lessons'                    => $lessons,
-							'lesson_topics'              => @$lesson_topics,
-							'quizzes'                    => $quizzes,
-							'has_access'                 => $has_access,
-							'course_pager_results'       => $course_pager_results,
-							'lesson_progression_enabled' => $lesson_progression_enabled,
-						),
-						true
-					);
-
-					/**
-					 * Fires before the course content listing.
-					 *
-					 * @since 3.0.0
-					 *
-					 * @param int $course_id Course ID.
-					 * @param int $user_id   User ID.
-					 */
-					do_action( 'learndash-course-content-list-after', $course_id, $user_id );
+				if (
+					( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
+					( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+				) {
+					$shown_content_key = 'learndash-shortcode-wrap-course_content-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
+					if ( strstr( $content, $shown_content_key ) === false ) {
+						$shortcode_out = do_shortcode( '[course_content course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
+						if ( ! empty( $shortcode_out ) ) {
+							echo $shortcode_out;
+						}
+					}
+				} else {
 					?>
 
-				</div> <!--/.ld-item-list-->
+					<div class="ld-item-list ld-lesson-list">
+						<div class="ld-section-heading">
 
-				<?php
+							<?php
+							/**
+							 * Fires before the course heading.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param int $course_id Course ID.
+							 * @param int $user_id   User ID.
+							 */
+							do_action( 'learndash-course-heading-before', $course_id, $user_id );
+							?>
+
+							<h2>
+								<?php
+								printf(
+								// translators: placeholder: Course.
+									esc_html_x( '%s Content', 'placeholder: Course', 'buddyboss-theme' ),
+									LearnDash_Custom_Label::get_label( 'course' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
+								);
+								?>
+							</h2>
+
+							<?php
+							/**
+							 * Fires after the course heading.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param int $course_id Course ID.
+							 * @param int $user_id   User ID.
+							 */
+							do_action( 'learndash-course-heading-after', $course_id, $user_id );
+							?>
+
+							<div class="ld-item-list-actions" data-ld-expand-list="true">
+
+								<?php
+								/**
+								 * Fires before the course expand.
+								 *
+								 * @since 3.0.0
+								 *
+								 * @param int $course_id Course ID.
+								 * @param int $user_id   User ID.
+								 */
+								do_action( 'learndash-course-expand-before', $course_id, $user_id );
+								?>
+
+								<?php
+								// Only display if there is something to expand.
+								if ( $has_topics || $has_lesson_quizzes ) :
+									?>
+									<div class="ld-expand-button ld-primary-background" id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>" data-ld-expands="<?php echo esc_attr( 'ld-item-list-' . $course_id ); ?>" data-ld-expand-text="<?php echo esc_attr__( 'Expand All', 'buddyboss-theme' ); ?>" data-ld-collapse-text="<?php echo esc_attr__( 'Collapse All', 'buddyboss-theme' ); ?>">
+										<span class="ld-icon-arrow-down ld-icon"></span>
+										<span class="ld-text"><?php echo esc_attr__( 'Expand All', 'buddyboss-theme' ); ?></span>
+									</div> <!--/.ld-expand-button-->
+									<?php
+
+									/**
+									 * Filters whether to expand all course steps by default. Default is false.
+									 *
+									 * @since 2.5.0
+									 *
+									 * @param boolean $expand_all Whether to expand all course steps.
+									 * @param int     $course_id  Course ID.
+									 * @param string  $context    The context where course is expanded.
+									 */
+									if ( apply_filters( 'learndash_course_steps_expand_all', false, $course_id, 'course_lessons_listing_main' ) ) :
+										?>
+										<script>
+											jQuery( function(){
+												setTimeout(function(){
+													jQuery("<?php echo esc_attr( '#ld-expand-button-' . $course_id ); ?>").trigger('click');
+												}, 1000);
+											});
+										</script>
+										<?php
+									endif;
+
+								endif;
+
+								/**
+								 * Fires after the course content expand button.
+								 *
+								 * @since 3.0.0
+								 *
+								 * @param int $course_id Course ID.
+								 * @param int $user_id   User ID.
+								 */
+								do_action( 'learndash-course-expand-after', $course_id, $user_id );
+								?>
+
+							</div> <!--/.ld-item-list-actions-->
+						</div> <!--/.ld-section-heading-->
+
+						<?php
+						/**
+						 * Fires before the course content listing
+						 *
+						 * @since 3.0.0
+						 *
+						 * @param int $course_id Course ID.
+						 * @param int $user_id   User ID.
+						 */
+						do_action( 'learndash-course-content-list-before', $course_id, $user_id );
+
+						/**
+						 * Content listing
+						 *
+						 * @since 3.0.0
+						 *
+						 * ('listing.php');
+						 */
+						learndash_get_template_part(
+							'course/listing.php',
+							array(
+								'course_id'                  => $course_id,
+								'user_id'                    => $user_id,
+								'lessons'                    => $lessons,
+								'lesson_topics'              => @$lesson_topics,
+								'quizzes'                    => $quizzes,
+								'has_access'                 => $has_access,
+								'course_pager_results'       => $course_pager_results,
+								'lesson_progression_enabled' => $lesson_progression_enabled,
+							),
+							true
+						);
+
+						/**
+						 * Fires before the course content listing.
+						 *
+						 * @since 3.0.0
+						 *
+						 * @param int $course_id Course ID.
+						 * @param int $user_id   User ID.
+						 */
+						do_action( 'learndash-course-content-list-after', $course_id, $user_id );
+						?>
+
+					</div> <!--/.ld-item-list-->
+
+					<?php
+				}
 			endif;
 
 			learndash_get_template_part(

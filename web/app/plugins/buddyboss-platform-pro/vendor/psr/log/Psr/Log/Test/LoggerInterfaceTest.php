@@ -1,9 +1,9 @@
 <?php
 
-namespace Psr\Log\Test;
+namespace BuddyBoss\PlatformPro\Vendor\Psr\Log\Test;
 
-use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LoggerInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Log\LogLevel;
 use PHPUnit\Framework\TestCase;
 
 /**

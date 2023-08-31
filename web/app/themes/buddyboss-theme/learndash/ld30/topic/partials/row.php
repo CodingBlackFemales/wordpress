@@ -23,8 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var [type]
  */
-$topic_id = ( isset( $_GET['widget_instance']['widget_instance']['current_step_id'] ) ? intval( $_GET['widget_instance']['widget_instance']['current_step_id'] ) : $topic->ID );
-$post_id  = ( isset( $_GET['widget_instance']['widget_instance']['current_step_id'] ) ? $topic->ID : get_the_ID() );
+$topic_id  = (int) ( isset( $_GET['widget_instance']['widget_instance']['current_step_id'] ) ? $_GET['widget_instance']['widget_instance']['current_step_id'] : $topic->ID );
+$post_id   = (int) ( isset( $_GET['widget_instance']['widget_instance']['current_step_id'] ) ? $topic->ID : get_the_ID() );
+$course_id = (int) $course_id;
 
 /**
  * Filters topic row CSS class. Used while listing a topic row.
