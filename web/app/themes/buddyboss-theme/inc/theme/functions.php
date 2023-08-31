@@ -116,10 +116,9 @@ if ( ! function_exists( 'buddyboss_theme_setup' ) ) {
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 		/*
-		 * Gutenberg - Cover block (Adding wide option) 
+		 * Gutenberg - Cover block (Adding wide option)
 		 */
-		add_theme_support( 'align-wide' ); 
-		
+		add_theme_support( 'align-wide' );
 	}
 
 	add_action( 'after_setup_theme', 'buddyboss_theme_setup' );
@@ -149,19 +148,15 @@ function buddyboss_theme_content_width() {
 add_action( 'after_setup_theme', 'buddyboss_theme_content_width', 0 );
 
 /**
- * Enqueue scripts and styles.
+ * Enqueue fonts scripts and styles.
+ *
+ * @since 2.3.2
  */
-function buddyboss_theme_scripts() {
-
-	$rtl_css      = is_rtl() ? '-rtl' : '';
-	$minified_css = buddyboss_theme_get_option( 'boss_minified_css' );
-	$mincss       = $minified_css ? '.min' : '';
-	$minified_js  = buddyboss_theme_get_option( 'boss_minified_js' );
-	$minjs        = $minified_js ? '.min' : '';
+function buddyboss_theme_fonts_scripts() {
 
 	// Theme default font.
 	$custom_font = buddyboss_theme_get_option( 'custom_typography' );
-	if ( '1' == $custom_font ) {
+	if ( $custom_font == '1' ) {
 		$boss_site_title_font_family = buddyboss_theme_get_option( 'boss_site_title_font_family' );
 		$boss_body_font_family       = buddyboss_theme_get_option( 'boss_body_font_family' );
 		$boss_h1_font_options        = buddyboss_theme_get_option( 'boss_h1_font_options' );
@@ -186,6 +181,22 @@ function buddyboss_theme_scripts() {
 	} else {
 		wp_enqueue_style( 'buddyboss-theme-fonts', get_template_directory_uri() . '/assets/fonts/fonts.css', '', buddyboss_theme()->version() );
 	}
+}
+
+add_action( 'wp_enqueue_scripts', 'buddyboss_theme_fonts_scripts', 10 );
+
+/**
+ * Enqueue scripts and styles.
+ *
+ * @since 2.3.2
+ */
+function buddyboss_theme_scripts() {
+
+	$rtl_css      = is_rtl() ? '-rtl' : '';
+	$minified_css = buddyboss_theme_get_option( 'boss_minified_css' );
+	$mincss       = $minified_css ? '.min' : '';
+	$minified_js  = buddyboss_theme_get_option( 'boss_minified_js' );
+	$minjs        = $minified_js ? '.min' : '';
 
 	/* Styles */
 	$template_type = '1';
@@ -246,9 +257,9 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_style( 'buddyboss-theme-beaver-builder', get_template_directory_uri() . '/assets/css' . $rtl_css . '/beaver-builder' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
 
-	// Divi Builder
-    if ( class_exists( 'ET_Builder_Plugin' ) ) {
-        wp_enqueue_style( 'buddyboss-theme-divi-builder', get_template_directory_uri() . '/assets/css' . $rtl_css . '/divi' . $mincss . '.css', '', buddyboss_theme()->version() );
+	// Divi Builder.
+	if ( class_exists( 'ET_Builder_Plugin' ) ) {
+		wp_enqueue_style( 'buddyboss-theme-divi-builder', get_template_directory_uri() . '/assets/css' . $rtl_css . '/divi' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
 
 	// Tribe Events Main.
@@ -308,7 +319,7 @@ function buddyboss_theme_scripts() {
 	wp_enqueue_script( 'boss-panelslider-js', get_template_directory_uri() . '/assets/js/vendors/panelslider.min.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	wp_enqueue_script( 'boss-sticky-js', get_template_directory_uri() . '/assets/js/vendors/sticky-kit.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	wp_enqueue_script( 'boss-jssocials-js', get_template_directory_uri() . '/assets/js/vendors/jssocials.min.js', array( 'jquery' ), buddyboss_theme()->version(), true );
-	wp_enqueue_script( 'buddyboss-theme-main-js', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), buddyboss_theme()->version(), true );
+	wp_enqueue_script( 'buddyboss-theme-main-js', get_template_directory_uri() . '/assets/js/main' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	wp_enqueue_script( 'boss-validate-js', get_template_directory_uri() . '/assets/js/vendors/validate.min.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 
 	if ( ! wp_script_is( 'bp-nouveau-magnific-popup' ) ) {
@@ -343,7 +354,7 @@ function buddyboss_theme_scripts() {
 		$video   = '';
 		if ( is_singular( array( 'sfwd-lessons', 'sfwd-topic' ) ) && function_exists( 'learndash_get_setting' ) ) {
 			$lesson = learndash_get_setting( get_the_ID() );
-			if ( isset( $lesson ) && isset( $lesson['lesson_video_enabled'] ) && 'on' === $lesson['lesson_video_enabled'] ) {
+			if ( isset( $lesson ) && isset( $lesson['lesson_video_enabled'] ) && $lesson['lesson_video_enabled'] === 'on' ) {
 				$default = 'on';
 				if ( isset( $lesson['lesson_video_url'] ) && strpos( $lesson['lesson_video_url'], 'vimeo.com' ) !== false ) {
 					$video = 'vimeo';
@@ -388,7 +399,7 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	if ( function_exists( 'bbpress' ) && ( function_exists( 'bp_is_active' ) && bp_is_active( 'forums' ) ) && ( ( function_exists( 'buddypress' ) && 'forum' == buddypress()->current_action ) || bbp_is_single_topic() || bp_current_action() == get_option( '_bbp_forum_slug' ) ) ) {
+	if ( function_exists( 'bbpress' ) && ( function_exists( 'bp_is_active' ) && bp_is_active( 'forums' ) ) && ( ( function_exists( 'buddypress' ) && buddypress()->current_action == 'forum' ) || bbp_is_single_topic() || bp_current_action() == get_option( '_bbp_forum_slug' ) ) ) {
 		wp_enqueue_script( 'draggabilly-js', get_template_directory_uri() . '/assets/js/vendors/draggabilly.min.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 		wp_enqueue_script( 'buddyboss-theme-bbp-scrubber-js', get_template_directory_uri() . '/assets/js/plugins/bbp-scrubber' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	}
@@ -412,7 +423,9 @@ function buddyboss_theme_scripts() {
 					'comment_posted'      => esc_html__( 'Your comment has been posted.', 'buddyboss-theme' ),
 					'comment_btn_loading' => esc_html__( 'Please Wait...', 'buddyboss-theme' ),
 					'choose_a_file_label' => esc_html__( 'Choose a file', 'buddyboss-theme' ),
+					'email_validation'    => esc_html__( 'Please enter a valid email address.', 'buddyboss-theme' ),
 				),
+				'gamipress_badge_label'      => __( 'Badge', 'buddyboss-theme' ),
 			)
 		)
 	);
@@ -562,14 +575,14 @@ if ( ! function_exists( 'bb_buddypanel_menu_atts' ) ) {
 		if (
 			isset( $args->theme_location ) &&
 			(
-				'buddypanel-loggedin' === $args->theme_location ||
-				'buddypanel-loggedout' === $args->theme_location
+				$args->theme_location === 'buddypanel-loggedin' ||
+				$args->theme_location === 'buddypanel-loggedout'
 			)
 		) {
 			$atts['class'] = 'bb-menu-item';
 
 			$header = (int) buddyboss_theme_get_option( 'buddyboss_header' );
-			if ( 3 === $header ) {
+			if ( $header === 3 ) {
 				$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position_h3' );
 			} else {
 				$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position' );
@@ -701,9 +714,9 @@ function buddyboss_panel_menu_counters( $args, $item ) {
 		is_user_logged_in() &&
 		! empty( $args->theme_location ) &&
 		(
-			'buddypanel-loggedin' === $args->theme_location ||
-			'header-my-account' === $args->theme_location ||
-			'mobile-menu-logged-in' === $args->theme_location
+			$args->theme_location === 'buddypanel-loggedin' ||
+			$args->theme_location === 'header-my-account' ||
+			$args->theme_location === 'mobile-menu-logged-in'
 		)
 	) {
 		$count = 0;
@@ -748,7 +761,7 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+		if ( isset( $args->item_spacing ) && $args->item_spacing === 'discard' ) {
 			$t = '';
 			$n = '';
 		} else {
@@ -761,12 +774,12 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		// Buddypanel section.
-		if ( isset( $item->post_content ) && 'bb-theme-section' === $item->post_content ) {
+		if ( isset( $item->post_content ) && $item->post_content === 'bb-theme-section' ) {
 			$classes[] = 'bb-menu-section';
 		}
 
 		// Stick to bottom of the menu.
-		if ( isset( $item->stick_to_bottom ) && '1' == $item->stick_to_bottom ) {
+		if ( isset( $item->stick_to_bottom ) && $item->stick_to_bottom == '1' ) {
 			$classes[] = 'bp-menu-item-at-bottom';
 		}
 
@@ -851,7 +864,7 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
 			if ( ! empty( $value ) ) {
-				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+				$value       = ( $attr === 'href' ) ? esc_url( $value ) : esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 			}
 		}
@@ -872,7 +885,46 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		}
 
 		if ( ! $icon ) {
-			$item->title = "<i class='bb-icon-l bb-icon-file bb-custom-icon'></i><span class='link-text'>{$item->title}</span>";
+			if ( in_array( 'bp-menu', $item->classes ) ) {
+				if ( $item->classes[1] === 'bp-profile-nav' ) {
+					$icon = 'bb-icon-user';
+				} elseif ( $item->classes[1] === 'bp-settings-nav' ) {
+					$icon = 'bb-icon-cog';
+				} elseif ( $item->classes[1] === 'bp-activity-nav' ) {
+					$icon = 'bb-icon-activity';
+				} elseif ( $item->classes[1] === 'bp-notifications-nav' ) {
+					$icon = 'bb-icon-bell';
+				} elseif ( $item->classes[1] === 'bp-messages-nav' ) {
+					$icon = 'bb-icon-inbox';
+				} elseif ( $item->classes[1] === 'bp-friends-nav' || $item->classes[1] === 'bp-friends-sub-nav' ) {
+					$icon = 'bb-icon-user-friends';
+				} elseif ( $item->classes[1] === 'bp-groups-nav' || $item->classes[1] === 'bp-groups-sub-nav' ) {
+					$icon = 'bb-icon-users';
+				} elseif ( $item->classes[1] === 'bp-forums-nav' ) {
+					$icon = 'bb-icon-comments-square';
+				} elseif ( $item->classes[1] === 'bp-videos-nav' ) {
+					$icon = 'bb-icon-video';
+				} elseif ( $item->classes[1] === 'bp-documents-nav' ) {
+					$icon = 'bb-icon-folder-alt';
+				} elseif ( $item->classes[1] === 'bp-photos-nav' ) {
+					$icon = 'bb-icon-image';
+				} elseif ( $item->classes[1] === 'bp-invites-nav' ) {
+					$icon = 'bb-icon-envelope';
+				} elseif ( $item->classes[1] === 'bp-logout-nav' ) {
+					$icon = 'bb-icon-sign-out';
+				} elseif ( $item->classes[1] === 'bp-login-nav' ) {
+					$icon = 'bb-icon-sign-in';
+				} elseif ( $item->classes[1] === 'bp-register-nav' ) {
+					$icon = 'bb-icon-clipboard';
+				} elseif ( $item->classes[1] === 'bp-courses-nav' ) {
+					$icon = 'bb-icon-graduation-cap';
+				}
+			}
+			if ( ! $icon ) {
+				$item->title = "<i class='bb-icon-file'></i><span class='link-text'>{$item->title}</span>";
+			} else {
+				$item->title = "<i class='_mi _before buddyboss bb-icon-l " . $icon . "'></i><span class='link-text'>{$item->title}</span>";
+			}
 		}
 
 		/** This filter is documented in wp-includes/post-template.php */
@@ -939,7 +991,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 	 * @param int      $id     Current item ID.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+		if ( isset( $args->item_spacing ) && $args->item_spacing === 'discard' ) {
 			$t = '';
 			$n = '';
 		} else {
@@ -952,7 +1004,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		// Buddypanel section.
-		if ( isset( $item->post_content ) && 'bb-theme-section' === $item->post_content ) {
+		if ( isset( $item->post_content ) && $item->post_content === 'bb-theme-section' ) {
 			$classes[] = 'bb-menu-section';
 		}
 
@@ -1031,7 +1083,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$data_balloon_title = ! empty( $item->title ) ? $item->title : '';
 		$data_ballon        = '';
 
-		if ( 'tab_bar' === $menu_style ) {
+		if ( $menu_style === 'tab_bar' ) {
 			$data_ballon = 'data-balloon-pos="down" data-balloon="' . esc_attr( wp_strip_all_tags( $data_balloon_title ) ) . '"';
 		}
 
@@ -1040,7 +1092,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$atts           = array();
 		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
 		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-		if ( '_blank' === $item->target && empty( $item->xfn ) ) {
+		if ( $item->target === '_blank' && empty( $item->xfn ) ) {
 			$atts['rel'] = 'noopener noreferrer';
 		} else {
 			$atts['rel'] = $item->xfn;
@@ -1071,8 +1123,8 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
-			if ( is_scalar( $value ) && '' !== $value && false !== $value ) {
-				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+			if ( is_scalar( $value ) && $value !== '' && $value !== false ) {
+				$value       = ( $attr === 'href' ) ? esc_url( $value ) : esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 			}
 		}
@@ -1301,10 +1353,10 @@ function RGB_2_HSV( $R, $G, $B ) {
 		}
 
 		if ( $H < 0 ) {
-			$H ++;
+			$H++;
 		}
 		if ( $H > 1 ) {
-			$H --;
+			$H--;
 		}
 	}
 
@@ -1477,7 +1529,7 @@ if ( ! function_exists( 'buddyboss_theme_hide_stick_to_bottom_field' ) ) {
 	function buddyboss_theme_hide_stick_to_bottom_field() {
 		global $pagenow;
 
-		if ( ! is_admin() || 'nav-menus.php' != $pagenow ) {
+		if ( ! is_admin() || $pagenow != 'nav-menus.php' ) {
 			return false;
 		}
 
@@ -1558,7 +1610,6 @@ function buddyboss_theme_add_logout_admin_menus() {
 	);
 }
 // add_action( 'admin_bar_menu', 'buddyboss_theme_add_logout_admin_menus', PHP_INT_MAX );
-
 function buddyboss_theme_add_admin_menus() {
 
 	global $wp_admin_bar;
@@ -1595,7 +1646,7 @@ function buddyboss_theme_add_admin_menus() {
 
 		$menu3 = wp_get_nav_menu_object( $locations[ $menu_name3 ] );
 
-		if ( false != $menu3 ) {
+		if ( $menu3 != false ) {
 
 			$menu_items = wp_get_nav_menu_items( $menu3->term_id );
 
@@ -1605,6 +1656,19 @@ function buddyboss_theme_add_admin_menus() {
 				if ( class_exists( 'BuddyPress' ) ) {
 					if ( bp_loggedin_user_domain() !== bp_displayed_user_domain() ) {
 						$menu_item->url = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $menu_item->url );
+					}
+
+					if ( is_admin() ) {
+
+						// Replace the user domain with the current user backend urls if mismatch found with and without user switching.
+						$path_info = pathinfo( $menu_item->url );
+						if ( ! empty( $path_info['dirname'] ) ) {
+							$old_user_domain = trailingslashit( $path_info['dirname'] );
+							$new_user_domain = trailingslashit( bp_core_get_user_domain( bp_loggedin_user_id() ) );
+							if ( $old_user_domain !== $new_user_domain ) {
+								$menu_item->url = str_replace( $old_user_domain, $new_user_domain, $menu_item->url );
+							}
+						}
 					}
 				}
 
@@ -1652,7 +1716,6 @@ function buddyboss_theme_add_admin_menus() {
 			} // end foreach
 		} // end if
 	}
-
 }
 add_action( 'admin_bar_menu', 'buddyboss_theme_add_admin_menus' );
 
@@ -1673,13 +1736,11 @@ function buddyboss_theme_platform_remove_toolbar_menu() {
 	);
 
 	// $wp_admin_bar->remove_menu('logout');
-
 	if ( empty( $menu ) ) {
 		return;
 	}
 
 	$wp_admin_bar->remove_menu( 'my-account-courses' );
-
 }
 add_action( 'wp_before_admin_bar_render', 'buddyboss_theme_platform_remove_toolbar_menu', 999 );
 
@@ -1713,7 +1774,7 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 			if ( isset( $item->classes ) && is_array( $item->classes ) ) {
 				foreach ( $item->classes as $item_class ) {
 
-					if ( bp_disable_cover_image_uploads() && 'bp-change-cover-image-nav' === $item_class ) {
+					if ( bp_disable_cover_image_uploads() && $item_class === 'bp-change-cover-image-nav' ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1723,7 +1784,7 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 						continue;
 					}
 
-					if ( bp_disable_avatar_uploads() && 'bp-change-avatar-nav' === $item_class ) {
+					if ( bp_disable_avatar_uploads() && $item_class === 'bp-change-avatar-nav' ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1758,26 +1819,26 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 					} elseif ( ! bp_is_active( 'media' ) && in_array( $item_class, $documents_array, true ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'groups' ) && function_exists( 'bp_restrict_group_creation' ) && true === bp_restrict_group_creation() && 'bp-groups-create-nav' === $item_class ) {
+					} elseif ( bp_is_active( 'groups' ) && function_exists( 'bp_restrict_group_creation' ) && bp_restrict_group_creation() === true && $item_class === 'bp-groups-create-nav' ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bb_is_enabled_subscription' ) && ( ! bb_is_enabled_subscription( 'forum' ) && ! bb_is_enabled_subscription( 'topic' ) ) && 'bp-subscriptions-nav' === $item_class ) {
+					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bb_is_enabled_subscription' ) && ( ! bb_is_enabled_subscription( 'forum' ) && ! bb_is_enabled_subscription( 'topic' ) ) && $item_class === 'bp-subscriptions-nav' ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_media_support_enabled' ) && ! bp_is_profile_media_support_enabled() && ( 'bp-photos-nav' === $item_class || 'bp-my-media-nav' === $item_class ) ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_media_support_enabled' ) && ! bp_is_profile_media_support_enabled() && ( $item_class === 'bp-photos-nav' || $item_class === 'bp-my-media-nav' ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_albums_support_enabled' ) && ! bp_is_profile_albums_support_enabled() && 'bp-albums-nav' === $item_class ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_albums_support_enabled' ) && ! bp_is_profile_albums_support_enabled() && $item_class === 'bp-albums-nav' ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_document_support_enabled' ) && ! bp_is_profile_document_support_enabled() && ( 'bp-documents-nav' === $item_class || 'bp-my-document-nav' === $item_class ) ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_document_support_enabled' ) && ! bp_is_profile_document_support_enabled() && ( $item_class === 'bp-documents-nav' || $item_class === 'bp-my-document-nav' ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bbp_is_favorites_active' ) && ! bbp_is_favorites_active() && 'bp-favorites-nav' === $item_class ) {
+					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bbp_is_favorites_active' ) && ! bbp_is_favorites_active() && $item_class === 'bp-favorites-nav' ) {
 						$item->_invalid = 1;
 						continue;
 					}
-					if ( bp_disable_account_deletion() && 'bp-delete-account-nav' === $item_class ) {
+					if ( bp_disable_account_deletion() && $item_class === 'bp-delete-account-nav' ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1787,7 +1848,6 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 	}
 
 	return apply_filters( 'buddyboss_theme_platform_user_profile_dropdown_menu', $items, $menu, $args );
-
 }
 
 add_filter( 'wp_nav_menu_objects', 'buddyboss_theme_profile_dropdown_delete_account_remove', 10, 2 );
@@ -1860,5 +1920,28 @@ if ( ! function_exists( 'bb_icon_font_map' ) ) {
 		include get_template_directory() . '/assets/icons/font-map.php';
 
 		return ! empty( $key ) ? ( isset( $bb_icons[ $key ] ) ? $bb_icons[ $key ] : false ) : $bb_icons;
+	}
+}
+
+if ( ! function_exists( 'bb_theme_is_valid_hex_color' ) ) {
+	/**
+	 * Check for valid hex code.
+	 *
+	 * @since BuddyBoss 2.3.2
+	 *
+	 * @param string $hex_code Hex color code.
+	 *
+	 * @return bool
+	 */
+	function bb_theme_is_valid_hex_color( $hex_code ) {
+
+		if ( empty( $hex_code ) ) {
+			return false;
+		}
+
+		// Match 3 or 6 characters, starting with a "#" symbol, followed by hex code.
+		$pattern = '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/';
+
+		return preg_match( $pattern, $hex_code );
 	}
 }

@@ -20,14 +20,14 @@ pre-commit:
   parallel: true
   commands:
     lintjs:
-      glob: "*.js"
+      glob: "web/app/{themes,plugins}/cbf-*/**/*.js"
       run: npm run lint:js -- --fix {staged_files}
       stage_fixed: true
     lintcss:
-      glob: "*.{css,scss}"
+      glob: "web/app/{themes,plugins}/cbf-*/**/*.{css,scss}"
       run: npm run lint:css -- --fix {staged_files}
       stage_fixed: true
     lintphp:
-      glob: "*.php"
+      glob: "web/app/{themes,plugins}/cbf-*/**/*.php"
       run: ./.phpcbf {staged_files}
       stage_fixed: true

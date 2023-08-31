@@ -23,253 +23,296 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 		protected $_is_active = false;
 
-		protected $_my_course_progress = [];
+		protected $_my_course_progress = array();
 
 		/**
 		 * Constructor
 		 */
 		public function __construct() {
-			add_action( 'learndash_init', [ $this, 'set_active' ] );
+			add_action( 'learndash_init', array( $this, 'set_active' ) );
 
-			add_action( 'admin_init', [ $this, 'course_cover_photo' ] );
+			add_action( 'admin_init', array( $this, 'course_cover_photo' ) );
 
-			add_action( 'wp_ajax_buddyboss_lms_toggle_theme_color', [ $this, 'toggle_theme_color' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_lms_toggle_theme_color', [ $this, 'toggle_theme_color' ] );
-			add_filter( 'body_class', [ $this, 'body_class' ] );
+			add_action( 'wp_ajax_buddyboss_lms_toggle_theme_color', array( $this, 'toggle_theme_color' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_lms_toggle_theme_color', array( $this, 'toggle_theme_color' ) );
+			add_filter( 'body_class', array( $this, 'body_class' ) );
 
-			add_action( 'add_meta_boxes', [ $this, 'add_meta_boxes' ], 30 );
-			add_action( 'save_post', [ $this, 'course_save_price_box_data' ] );
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
+			add_action( 'save_post', array( $this, 'course_save_price_box_data' ) );
 			//add_action( 'save_post', array( $this, 'course_cover_photo_save' ) );
+			add_filter( 'learndash_profile_shortcode_atts', array( $this, 'user_courses_atts' ) );
+			add_filter( 'bp_learndash_user_courses_atts', array( $this, 'user_courses_atts' ) );
 
-			add_filter( 'learndash_profile_shortcode_atts', [ $this, 'user_courses_atts' ] );
-			add_filter( 'bp_learndash_user_courses_atts', [ $this, 'user_courses_atts' ] );
+			add_action( 'wp_ajax_buddyboss_lms_get_courses', array( $this, 'ajax_get_courses' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_courses', array( $this, 'ajax_get_courses' ) );
 
-			add_action( 'wp_ajax_buddyboss_lms_get_courses', [ $this, 'ajax_get_courses' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_lms_get_courses', [ $this, 'ajax_get_courses' ] );
+			add_action( 'parse_query', array( $this, 'prepare_course_archive_page_query' ) );
+			add_action( 'pre_get_posts', array( $this, 'course_archive_page_query' ), 999 );
 
-			add_action( 'parse_query', [ $this, 'prepare_course_archive_page_query' ] );
-			add_action( 'pre_get_posts', [ $this, 'course_archive_page_query' ], 999 );
+			add_filter( 'bp_learndash_courses_page_title', array( $this, 'remove_course_title' ) );
 
-			add_filter( 'bp_learndash_courses_page_title', [ $this, 'remove_course_title' ] );
+			add_filter( 'buddyboss-theme-main-js-data', array( $this, 'js_l10n' ) );
 
-			add_filter( 'buddyboss-theme-main-js-data', [ $this, 'js_l10n' ] );
-
-			add_action( 'wp_head', [ $this, 'boss_theme_find_last_known_learndash_page' ] );
+			add_action( 'wp_head', array( $this, 'boss_theme_find_last_known_learndash_page' ) );
 
 			// Convert Social Learner Video Metabox to LD Video Progression.
-			add_action( 'init', [ $this, 'boss_theme_convert_social_learner_video_to_ld_video_progression' ] );
-			add_action( 'template_redirect', [
-				$this,
-				'boss_theme_convert_social_learner_video_to_ld_video_progression',
-			] );
+			add_action( 'init', array( $this, 'boss_theme_convert_social_learner_video_to_ld_video_progression' ) );
+			add_action(
+				'template_redirect',
+				array(
+					$this,
+					'boss_theme_convert_social_learner_video_to_ld_video_progression',
+				)
+			);
 
 			// Remove the <div class="ld-video"> div from the content if video enabled.
 			//add_filter( 'learndash_content', array( $this, 'buddyboss_theme_ld_remove_video_from_content' ), 999, 2 );
-
 			// Remove the Take course button if price not added.
-			add_filter( 'learndash_payment_button', [ $this, 'buddyboss_theme_ld_payment_buttons' ], 999, 2 );
+			add_filter( 'learndash_payment_button', array( $this, 'buddyboss_theme_ld_payment_buttons' ), 999, 2 );
 
 			if ( function_exists( 'learndash_is_active_theme' ) && learndash_is_active_theme( 'ld30' ) ) {
 
-				add_action( 'template_redirect', [ $this, 'ld_30_template_override' ] );
+				add_action( 'template_redirect', array( $this, 'ld_30_template_override' ) );
 
-				add_filter( 'learndash_30_get_template_part', [ $this, 'ld_30_get_template_part' ], 10, 2 );
+				add_filter( 'learndash_30_get_template_part', array( $this, 'ld_30_get_template_part' ), 10, 2 );
 
 				// Filter for set always No to focus_mode_enabled.
 				//add_action('update_option_learndash_settings_theme_ld30', array( $this, 'ld_30_focus_mode_set_disable' ), 9999, 3);
-
-				add_action( 'wp_enqueue_scripts', [ $this, 'bb_learndash_30_custom_colors' ], 999, 2 );
+				add_action( 'wp_enqueue_scripts', array( $this, 'bb_learndash_30_custom_colors' ), 999, 2 );
 
 				// Set the default template for the lessons, topic, assignment and quiz single pages.
-				add_filter( 'template_include', [ $this, 'ld_30_focus_mode_template' ], 999, 1 );
+				add_filter( 'template_include', array( $this, 'ld_30_focus_mode_template' ), 999, 1 );
 
 				// Add custom class if focus mode enabled.
-				add_filter( 'body_class', [ $this, 'ld_30_custom_body_classes' ], 999, 1 );
+				add_filter( 'body_class', array( $this, 'ld_30_custom_body_classes' ), 999, 1 );
 
 				// Add filter for [ld_course_list] shortcode
-				add_filter( 'ld_course_list', [ $this, 'add_grid_list_filter_on_shortcode' ], 9999, 3 );
+				add_filter( 'ld_course_list', array( $this, 'add_grid_list_filter_on_shortcode' ), 9999, 3 );
 
 			}
 
 			if ( buddyboss_theme_get_option( 'learndash_course_participants', null, true ) ) {
-				add_action( 'learndash_update_course_access', [
-					$this,
-					'buddyboss_theme_refresh_ld_course_enrolled_users_total',
-				], 9999, 4 );
+				add_action(
+					'learndash_update_course_access',
+					array(
+						$this,
+						'buddyboss_theme_refresh_ld_course_enrolled_users_total',
+					),
+					9999,
+					4
+				);
 
-				add_action( 'ld_group_postdata_updated', [
-					$this,
-					'buddyboss_theme_refresh_ld_group_enrolled_users_total',
-				], 9999, 1 );
+				add_action(
+					'ld_group_postdata_updated',
+					array(
+						$this,
+						'buddyboss_theme_refresh_ld_group_enrolled_users_total',
+					),
+					9999,
+					1
+				);
 
-				add_action( 'ld_removed_group_access', [
-					$this,
-					'buddyboss_theme_refresh_ld_group_access_users_total',
-				], 9999, 2 );
+				add_action(
+					'ld_removed_group_access',
+					array(
+						$this,
+						'buddyboss_theme_refresh_ld_group_access_users_total',
+					),
+					9999,
+					2
+				);
 
-				add_action( 'ld_added_group_access', [
-					$this,
-					'buddyboss_theme_refresh_ld_group_access_users_total',
-				], 9999, 2 );
+				add_action(
+					'ld_added_group_access',
+					array(
+						$this,
+						'buddyboss_theme_refresh_ld_group_access_users_total',
+					),
+					9999,
+					2
+				);
 
-				add_action( 'wp_ajax_buddyboss_lms_get_course_participants', [
-					$this,
-					'buddyboss_lms_get_course_participants',
-				] );
-				add_action( 'wp_ajax_nopriv_buddyboss_lms_get_course_participants', [
-					$this,
-					'buddyboss_lms_get_course_participants',
-				] );
+				add_action(
+					'wp_ajax_buddyboss_lms_get_course_participants',
+					array(
+						$this,
+						'buddyboss_lms_get_course_participants',
+					)
+				);
+				add_action(
+					'wp_ajax_nopriv_buddyboss_lms_get_course_participants',
+					array(
+						$this,
+						'buddyboss_lms_get_course_participants',
+					)
+				);
 			}
 
-			add_action( 'wp_ajax_buddyboss_lms_save_view', [ $this, 'buddyboss_lms_save_view' ] );
-			add_action( 'wp_ajax_nopriv_buddyboss_lms_save_view', [ $this, 'buddyboss_lms_save_view' ] );
+			add_action( 'wp_ajax_buddyboss_lms_save_view', array( $this, 'buddyboss_lms_save_view' ) );
+			add_action( 'wp_ajax_nopriv_buddyboss_lms_save_view', array( $this, 'buddyboss_lms_save_view' ) );
+
+			// Hook into the user enrolled course or remove from course
+			add_action( 'learndash_update_course_access', array( $this, 'bb_flush_ld_mycourse_ids_cache_user_id' ), 9999, 1 );
+			add_action( 'save_post_groups', array( $this, 'bb_flush_ld_mycourse_ids_cache_group' ), 9999, 1 );
+			add_action( 'ld_added_group_access', array( $this, 'bb_flush_ld_mycourse_ids_cache_user_id' ), 9999, 1 );
+			add_action( 'ld_removed_group_access', array( $this, 'bb_flush_ld_mycourse_ids_cache_user_id' ), 9999, 1 );
+
+			// Hook for open course type.
+			add_action( 'pre_post_update', array( $this, 'bb_flush_ld_mycourse_ids_update_course_helper' ), 9999, 1 );
+			add_action( 'save_post_sfwd-courses', array( $this, 'bb_flush_ld_mycourse_ids_save_course_helper' ), 9999, 3 );
+
+			add_action( 'learndash_update_user_activity', array( $this, 'bb_flush_ld_courses_progress_cache' ), 9999, 1 );
+			add_action( 'update_option', array( $this, 'bb_onupdate_learndash_settings_admin_user' ), 9999, 1 );
+
+			add_action( 'learndash-content-tabs-after', array( $this, 'buddyboss_lms_support_page_break_block' ), 20 );
 		}
 
 		public function bb_learndash_30_custom_colors() {
 
 			$colors = apply_filters(
 				'bb_learndash_30_custom_colors',
-				[
+				array(
 					'primary'   => LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'color_primary' ),
 					'secondary' => LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'color_secondary' ),
 					'tertiary'  => LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'color_tertiary' ),
-				]
+				)
 			);
 
 			ob_start();
 			?>
 
-            <style id="bb_learndash_30_custom_colors">
+			<style id="bb_learndash_30_custom_colors">
 
-                <?php
-				if ( ( isset( $colors['primary'] ) ) && ( ! empty( $colors['primary'] ) ) && ( LD_30_COLOR_PRIMARY != $colors['primary'] ) ) { ?>
+				<?php
+				if ( ( isset( $colors['primary'] ) ) && ( ! empty( $colors['primary'] ) ) && ( $colors['primary'] != LD_30_COLOR_PRIMARY ) ) {
+					?>
 
-                .learndash-wrapper .bb-single-course-sidebar .ld-status.ld-primary-background {
-                    background-color: #e2e7ed !important;
-                    color: inherit !important;
-                }
+				.learndash-wrapper .bb-single-course-sidebar .ld-status.ld-primary-background {
+					background-color: #e2e7ed !important;
+					color: inherit !important;
+				}
 
-                .learndash-wrapper .ld-course-status .ld-status.ld-status-progress.ld-primary-background {
-                    background-color: #ebe9e6 !important;
-                    color: inherit !important;
-                }
+				.learndash-wrapper .ld-course-status .ld-status.ld-status-progress.ld-primary-background {
+					background-color: #ebe9e6 !important;
+					color: inherit !important;
+				}
 
-                .learndash-wrapper .learndash_content_wrap .wpProQuiz_content .wpProQuiz_button_reShowQuestion:hover {
-                    background-color: #fff !important;
-                }
+				.learndash-wrapper .learndash_content_wrap .wpProQuiz_content .wpProQuiz_button_reShowQuestion:hover {
+					background-color: #fff !important;
+				}
 
-                .learndash-wrapper .learndash_content_wrap .wpProQuiz_content .wpProQuiz_toplistTable th {
-                    background-color: transparent !important;
-                }
+				.learndash-wrapper .learndash_content_wrap .wpProQuiz_content .wpProQuiz_toplistTable th {
+					background-color: transparent !important;
+				}
 
-                .learndash-wrapper .wpProQuiz_content .wpProQuiz_button:not(.wpProQuiz_button_reShowQuestion):not(.wpProQuiz_button_restartQuiz) {
-                    color: #fff !important;
-                }
+				.learndash-wrapper .wpProQuiz_content .wpProQuiz_button:not(.wpProQuiz_button_reShowQuestion):not(.wpProQuiz_button_restartQuiz) {
+					color: #fff !important;
+				}
 
-                .learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz {
-                    color: #fff !important;
-                }
+				.learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz {
+					color: #fff !important;
+				}
 
-                .wpProQuiz_content .wpProQuiz_results > div > .wpProQuiz_button,
-                .learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item a.ld-item-name:hover,
-                .learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item .ld-item-list-item-preview:hover a.ld-item-name .ld-item-title,
-                .learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item .ld-item-list-item-preview:hover .ld-expand-button .ld-icon-arrow-down,
-                .lms-topic-sidebar-wrapper .lms-lessions-list > ol li a.bb-lesson-head:hover,
-                .learndash-wrapper .bb-learndash-content-wrap .ld-primary-color-hover:hover,
-                .learndash-wrapper .learndash_content_wrap .ld-table-list-item-quiz .ld-primary-color-hover:hover .ld-item-title,
-                .learndash-wrapper .ld-item-list-item-expanded .ld-table-list-items .ld-table-list-item .ld-table-list-item-quiz .ld-primary-color-hover:hover .ld-item-title,
-                .learndash-wrapper .ld-table-list .ld-table-list-items div.ld-table-list-item a.ld-table-list-item-preview:hover .ld-topic-title,
-                .lms-lesson-content .bb-type-list li a:hover,
-                .lms-lesson-content .lms-quiz-list li a:hover,
-                .learndash-wrapper .ld-expand-button.ld-button-alternate:hover .ld-icon-arrow-down,
-                .learndash-wrapper .ld-table-list .ld-table-list-items div.ld-table-list-item a.ld-table-list-item-preview:hover .ld-topic-title:before,
-                .bb-lessons-list .lms-toggle-lesson i:hover,
-                .lms-topic-sidebar-wrapper .lms-course-quizzes-list > ul li a:hover,
-                .lms-topic-sidebar-wrapper .lms-course-members-list .course-members-list a:hover,
-                .lms-topic-sidebar-wrapper .lms-course-members-list .bb-course-member-wrap > .list-members-extra,
-                .lms-topic-sidebar-wrapper .lms-course-members-list .bb-course-member-wrap > .list-members-extra:hover,
-                .learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-list-item-preview .ld-item-name .ld-item-title .ld-item-components span,
-                .bb-about-instructor h5 a:hover,
-                .learndash_content_wrap .comment-respond .comment-author:hover,
-                .single-sfwd-courses .comment-respond .comment-author:hover {
-                    color: <?php echo $colors['primary']; ?> !important;
-                }
+				.wpProQuiz_content .wpProQuiz_results > div > .wpProQuiz_button,
+				.learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item a.ld-item-name:hover,
+				.learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item .ld-item-list-item-preview:hover a.ld-item-name .ld-item-title,
+				.learndash-wrapper .bb-learndash-content-wrap .ld-item-list .ld-item-list-item .ld-item-list-item-preview:hover .ld-expand-button .ld-icon-arrow-down,
+				.lms-topic-sidebar-wrapper .lms-lessions-list > ol li a.bb-lesson-head:hover,
+				.learndash-wrapper .bb-learndash-content-wrap .ld-primary-color-hover:hover,
+				.learndash-wrapper .learndash_content_wrap .ld-table-list-item-quiz .ld-primary-color-hover:hover .ld-item-title,
+				.learndash-wrapper .ld-item-list-item-expanded .ld-table-list-items .ld-table-list-item .ld-table-list-item-quiz .ld-primary-color-hover:hover .ld-item-title,
+				.learndash-wrapper .ld-table-list .ld-table-list-items div.ld-table-list-item a.ld-table-list-item-preview:hover .ld-topic-title,
+				.lms-lesson-content .bb-type-list li a:hover,
+				.lms-lesson-content .lms-quiz-list li a:hover,
+				.learndash-wrapper .ld-expand-button.ld-button-alternate:hover .ld-icon-arrow-down,
+				.learndash-wrapper .ld-table-list .ld-table-list-items div.ld-table-list-item a.ld-table-list-item-preview:hover .ld-topic-title:before,
+				.bb-lessons-list .lms-toggle-lesson i:hover,
+				.lms-topic-sidebar-wrapper .lms-course-quizzes-list > ul li a:hover,
+				.lms-topic-sidebar-wrapper .lms-course-members-list .course-members-list a:hover,
+				.lms-topic-sidebar-wrapper .lms-course-members-list .bb-course-member-wrap > .list-members-extra,
+				.lms-topic-sidebar-wrapper .lms-course-members-list .bb-course-member-wrap > .list-members-extra:hover,
+				.learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-list-item-preview .ld-item-name .ld-item-title .ld-item-components span,
+				.bb-about-instructor h5 a:hover,
+				.learndash_content_wrap .comment-respond .comment-author:hover,
+				.single-sfwd-courses .comment-respond .comment-author:hover {
+					color: <?php echo $colors['primary']; ?> !important;
+				}
 
-                .learndash-wrapper .learndash_content_wrap #quiz_continue_link,
-                .learndash-wrapper .learndash_content_wrap .learndash_mark_complete_button,
-                .learndash-wrapper .learndash_content_wrap #learndash_mark_complete_button,
-                .learndash-wrapper .learndash_content_wrap .ld-status-complete,
-                .learndash-wrapper .learndash_content_wrap .ld-alert-success .ld-button,
-                .learndash-wrapper .learndash_content_wrap .ld-alert-success .ld-alert-icon,
-                .wpProQuiz_questionList[data-type="assessment_answer"] .wpProQuiz_questionListItem label.is-selected:before,
-                .wpProQuiz_questionList[data-type="single"] .wpProQuiz_questionListItem label.is-selected:before,
-                .wpProQuiz_questionList[data-type="multiple"] .wpProQuiz_questionListItem label.is-selected:before {
-                    background-color: <?php echo $colors['primary']; ?> !important;
-                }
+				.learndash-wrapper .learndash_content_wrap #quiz_continue_link,
+				.learndash-wrapper .learndash_content_wrap .learndash_mark_complete_button,
+				.learndash-wrapper .learndash_content_wrap #learndash_mark_complete_button,
+				.learndash-wrapper .learndash_content_wrap .ld-status-complete,
+				.learndash-wrapper .learndash_content_wrap .ld-alert-success .ld-button,
+				.learndash-wrapper .learndash_content_wrap .ld-alert-success .ld-alert-icon,
+				.wpProQuiz_questionList[data-type="assessment_answer"] .wpProQuiz_questionListItem label.is-selected:before,
+				.wpProQuiz_questionList[data-type="single"] .wpProQuiz_questionListItem label.is-selected:before,
+				.wpProQuiz_questionList[data-type="multiple"] .wpProQuiz_questionListItem label.is-selected:before {
+					background-color: <?php echo $colors['primary']; ?> !important;
+				}
 
-                .wpProQuiz_content .wpProQuiz_results > div > .wpProQuiz_button,
-                .wpProQuiz_questionList[data-type="multiple"] .wpProQuiz_questionListItem label.is-selected:before {
-                    border-color: <?php echo $colors['primary']; ?> !important;
-                }
+				.wpProQuiz_content .wpProQuiz_results > div > .wpProQuiz_button,
+				.wpProQuiz_questionList[data-type="multiple"] .wpProQuiz_questionListItem label.is-selected:before {
+					border-color: <?php echo $colors['primary']; ?> !important;
+				}
 
-                .learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz,
-                .learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz:hover,
-                #learndash-page-content .sfwd-course-nav .learndash_next_prev_link a:hover,
-                .bb-cover-list-item .ld-primary-background {
-                    background-color: <?php echo $colors['primary']; ?> !important;
-                }
+				.learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz,
+				.learndash-wrapper .wpProQuiz_content .wpProQuiz_button.wpProQuiz_button_restartQuiz:hover,
+				#learndash-page-content .sfwd-course-nav .learndash_next_prev_link a:hover,
+				.bb-cover-list-item .ld-primary-background {
+					background-color: <?php echo $colors['primary']; ?> !important;
+				}
 
-                <?php } ?>
+				<?php } ?>
 
-                <?php
-				if ( ( isset( $colors['secondary'] ) ) && ( ! empty( $colors['secondary'] ) ) && ( LD_30_COLOR_SECONDARY != $colors['secondary'] ) ) { ?>
+				<?php
+				if ( ( isset( $colors['secondary'] ) ) && ( ! empty( $colors['secondary'] ) ) && ( $colors['secondary'] != LD_30_COLOR_SECONDARY ) ) {
+					?>
 
-                .lms-topic-sidebar-wrapper .ld-secondary-background,
-                .i-progress.i-progress-completed,
-                .bb-cover-list-item .ld-secondary-background,
-                .learndash-wrapper .ld-status-icon.ld-status-complete.ld-secondary-background,
-                .learndash-wrapper .ld-status-icon.ld-quiz-complete,
-                .ld-progress-bar .ld-progress-bar-percentage.ld-secondary-background {
-                    background-color: <?php echo $colors['secondary']; ?> !important;
-                }
+				.lms-topic-sidebar-wrapper .ld-secondary-background,
+				.i-progress.i-progress-completed,
+				.bb-cover-list-item .ld-secondary-background,
+				.learndash-wrapper .ld-status-icon.ld-status-complete.ld-secondary-background,
+				.learndash-wrapper .ld-status-icon.ld-quiz-complete,
+				.ld-progress-bar .ld-progress-bar-percentage.ld-secondary-background {
+					background-color: <?php echo $colors['secondary']; ?> !important;
+				}
 
-                .bb-progress .bb-progress-circle {
-                    border-color: <?php echo $colors['secondary']; ?> !important;
-                }
+				.bb-progress .bb-progress-circle {
+					border-color: <?php echo $colors['secondary']; ?> !important;
+				}
 
-                .learndash-wrapper .ld-alert-success {
-                    border-color: #DCDFE3 !important;
-                }
+				.learndash-wrapper .ld-alert-success {
+					border-color: #DCDFE3 !important;
+				}
 
-                .learndash-wrapper .ld-secondary-in-progress-icon {
-                    color: <?php echo $colors['secondary']; ?> !important;
-                }
+				.learndash-wrapper .ld-secondary-in-progress-icon {
+					color: <?php echo $colors['secondary']; ?> !important;
+				}
 
-                .learndash-wrapper .bb-learndash-content-wrap .ld-secondary-in-progress-icon {
-                    border-left-color: #DEDFE2 !important;
-                    border-top-color: #DEDFE2 !important;
-                }
+				.learndash-wrapper .bb-learndash-content-wrap .ld-secondary-in-progress-icon {
+					border-left-color: #DEDFE2 !important;
+					border-top-color: #DEDFE2 !important;
+				}
 
-                <?php } ?>
+				<?php } ?>
 
-                <?php
-				if ( ( isset( $colors['tertiary'] ) ) && ( ! empty( $colors['tertiary'] ) ) && ( LD_30_COLOR_SECONDARY != $colors['tertiary'] ) ) { ?>
+				<?php
+				if ( ( isset( $colors['tertiary'] ) ) && ( ! empty( $colors['tertiary'] ) ) && ( $colors['tertiary'] != LD_30_COLOR_SECONDARY ) ) {
+					?>
 
-                .learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-name .ld-item-title .ld-item-components span.ld-status-waiting,
-                .learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-name .ld-item-title .ld-item-components span.ld-status-waiting span.ld-icon,
-                .learndash-wrapper .ld-status-waiting {
-                    background-color: <?php echo $colors['tertiary']; ?> !important;
-                }
+				.learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-name .ld-item-title .ld-item-components span.ld-status-waiting,
+				.learndash-wrapper .ld-item-list .ld-item-list-item.ld-item-lesson-item .ld-item-name .ld-item-title .ld-item-components span.ld-status-waiting span.ld-icon,
+				.learndash-wrapper .ld-status-waiting {
+					background-color: <?php echo $colors['tertiary']; ?> !important;
+				}
 
-                <?php } ?>
+				<?php } ?>
 
-            </style>
+			</style>
 
 			<?php
 			$custom_css = ob_get_clean();
 			echo $custom_css;
-
 		}
 
 		public function buddyboss_lms_save_view() {
@@ -280,17 +323,16 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			// phpcs:ignore WordPress.Security.NonceVerification
 			$option_value = isset( $_REQUEST['type'] ) ? $_REQUEST['type'] : '';
 
-			if ( '' !== $option_name ) {
+			if ( $option_name !== '' ) {
 				update_option( $option_name, $option_value );
 			}
 
 			wp_send_json_success(
-				[
+				array(
 					'html' => 'success',
-				]
+				)
 			);
 			wp_die();
-
 		}
 
 		public function buddyboss_lms_get_course_participants() {
@@ -309,9 +351,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$offset      = $users_per_page * ( $page - 1 );
 			$total_pages = ceil( $total_users / $users_per_page );
 
-			$members_arr = learndash_get_users_for_course( $course_id,
-				[ 'number' => $users_per_page, 'offset' => $offset ],
-				false );
+			$members_arr = learndash_get_users_for_course(
+				$course_id,
+				array(
+					'number' => $users_per_page,
+					'offset' => $offset,
+				),
+				false
+			);
 
 			$show_more = 'false';
 			if ( $page < $total_pages ) {
@@ -328,21 +375,30 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 				foreach ( $course_members as $k => $course_member ) {
 					?>
-                    <li>
+					<li>
 						<?php if ( class_exists( 'BuddyPress' ) ) { ?>
-                        <a href="<?php echo bp_core_get_user_domain( (int) $course_member ); ?>">
+						<a href="<?php echo bp_core_get_user_domain( (int) $course_member ); ?>">
 							<?php } ?>
-                            <img class="round" src="<?php echo get_avatar_url( (int) $course_member,
-								[ 'size' => 96 ] ); ?>" alt=""/>
+							<img class="round" src="
+							<?php
+							echo get_avatar_url(
+								(int) $course_member,
+								array( 'size' => 96 )
+							);
+							?>
+								" alt=""/>
 							<?php if ( class_exists( 'BuddyPress' ) ) { ?>
-                                <span><?php echo bp_core_get_user_displayname( (int) $course_member ); ?></span>
-							<?php } else { ?><?php $course_member = get_userdata( (int) $course_member ); ?>
-                                <span><?php echo $course_member->display_name; ?></span>
+								<span><?php echo bp_core_get_user_displayname( (int) $course_member ); ?></span>
+								<?php
+							} else {
+								?>
+								<?php $course_member = get_userdata( (int) $course_member ); ?>
+								<span><?php echo $course_member->display_name; ?></span>
 							<?php } ?>
 							<?php if ( class_exists( 'BuddyPress' ) ) { ?>
-                        </a>
+						</a>
 					<?php } ?>
-                    </li>
+					</li>
 					<?php
 				}
 			}
@@ -350,11 +406,13 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$html = ob_get_contents();
 			ob_end_clean();
 
-			wp_send_json_success( [
-				'html'      => $html,
-				'show_more' => $show_more,
-				'page'      => $page,
-			] );
+			wp_send_json_success(
+				array(
+					'html'      => $html,
+					'show_more' => $show_more,
+					'page'      => $page,
+				)
+			);
 
 			die();
 		}
@@ -366,7 +424,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		public function add_grid_list_filter_on_shortcode( $content, $atts, $filter ) {
 
 			$html = '';
-			if ( isset( $_POST ) && isset( $_POST['action'] ) && 'ld_course_list_shortcode_pager' === $_POST['action'] ) {
+			if ( isset( $_POST ) && isset( $_POST['action'] ) && $_POST['action'] === 'ld_course_list_shortcode_pager' ) {
 				return $content;
 			}
 			if ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'learndash-course-grid/learndash_course_grid.php' ) ) {
@@ -390,7 +448,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			return $content;
-
 		}
 
 		/**
@@ -398,13 +455,13 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 */
 		public function boss_theme_convert_social_learner_video_to_ld_video_progression() {
-			if ( is_singular( [ 'sfwd-lessons', 'sfwd-topic' ] ) ) {
+			if ( is_singular( array( 'sfwd-lessons', 'sfwd-topic' ) ) ) {
 				global $post;
 				$value            = get_post_meta( $post->ID, '_boss_edu_post_video', true );
 				$is_video_migrate = get_post_meta( $post->ID, 'is_boss_edu_post_video_migrate', true );
 				$lesson_settings  = learndash_get_setting( $post->ID );
-				if ( $value && false === $is_video_migrate ) {
-					if ( ( isset( $lesson_settings['lesson_video_enabled'] ) ) && ( 'on' === $lesson_settings['lesson_video_enabled'] ) ) {
+				if ( $value && $is_video_migrate === false ) {
+					if ( ( isset( $lesson_settings['lesson_video_enabled'] ) ) && ( $lesson_settings['lesson_video_enabled'] === 'on' ) ) {
 					} else {
 						learndash_update_setting( $post->ID, 'lesson_video_enabled', 'on' );
 						learndash_update_setting( $post->ID, 'lesson_video_url', $value );
@@ -416,11 +473,11 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				}
 			}
 
-			if ( is_singular( [ 'sfwd-courses' ] ) ) {
+			if ( is_singular( array( 'sfwd-courses' ) ) ) {
 				global $post;
 				$value            = get_post_meta( $post->ID, '_boss_edu_post_video', true );
 				$is_video_migrate = get_post_meta( $post->ID, 'is_boss_edu_post_video_migrate', true );
-				if ( $value && false === $is_video_migrate ) {
+				if ( $value && $is_video_migrate === false ) {
 					update_post_meta( $post->ID, '_buddyboss_lms_course_video', $value );
 					update_post_meta( $post->ID, 'is_boss_edu_post_video_migrate', true );
 				}
@@ -429,7 +486,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 		public function ld_30_template_override() {
 			remove_filter( 'learndash_template', 'learndash_30_template_routes', 1000, 5 );
-			add_filter( 'learndash_template', [ $this, 'ld_30_template_routes' ], 1000, 5 );
+			add_filter( 'learndash_template', array( $this, 'ld_30_template_routes' ), 1000, 5 );
 		}
 
 		public function set_active() {
@@ -441,7 +498,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		public function body_class( $classes ) {
-			if ( isset( $_COOKIE['bbtheme'] ) && 'dark' == $_COOKIE['bbtheme'] && function_exists( 'buddyboss_is_learndash_inner' ) && buddyboss_is_learndash_inner() && is_user_logged_in() ) {
+			if ( isset( $_COOKIE['bbtheme'] ) && $_COOKIE['bbtheme'] == 'dark' && function_exists( 'buddyboss_is_learndash_inner' ) && buddyboss_is_learndash_inner() && is_user_logged_in() ) {
 				$classes[] = 'bb-dark-theme';
 			}
 
@@ -449,9 +506,9 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		public function toggle_theme_color() {
-			$cookie_name  = "bbtheme";
+			$cookie_name  = 'bbtheme';
 			$cookie_value = ! empty( $_POST['color'] ) ? $_POST['color'] : '';
-			setcookie( $cookie_name, $cookie_value, time() + ( 86400 * 30 ), "/" ); // 86400 = 1 day
+			setcookie( $cookie_name, $cookie_value, time() + ( 86400 * 30 ), '/' ); // 86400 = 1 day
 			die();
 		}
 
@@ -464,25 +521,25 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$course_progress = get_user_meta( $user_id, '_sfwd-course_progress', true );
 
-			$topics  = learndash_get_topic_list( $lesson_id ) ?: [];
-			$quizzes = learndash_get_lesson_quiz_list( $lesson_id ) ?: [];
+			$topics  = learndash_get_topic_list( $lesson_id ) ?: array();
+			$quizzes = learndash_get_lesson_quiz_list( $lesson_id ) ?: array();
 
 			$total     = sizeof( $topics ) + sizeof( $quizzes );
 			$completed = 0;
 
-			if ( ! empty( $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) && 1 === $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) {
+			if ( ! empty( $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) && $course_progress[ $course_id ]['lessons'][ $lesson_id ] === 1 ) {
 				$completed += 1;
 			}
 
 			foreach ( $topics as $topic ) {
-				if ( ( ! empty( $course_progress[ $course_id ]['topics'][ $lesson_id ][ $topic->ID ] ) && 1 === $course_progress[ $course_id ]['topics'][ $lesson_id ][ $topic->ID ] ) ) {
-					$completed ++;
+				if ( ( ! empty( $course_progress[ $course_id ]['topics'][ $lesson_id ][ $topic->ID ] ) && $course_progress[ $course_id ]['topics'][ $lesson_id ][ $topic->ID ] === 1 ) ) {
+					$completed++;
 				}
 			}
 
 			foreach ( $quizzes as $quiz ) {
 				if ( learndash_is_quiz_complete( $user_id, $quiz['post']->ID, $course_id ) ) {
-					$completed ++;
+					$completed++;
 				}
 			}
 
@@ -490,15 +547,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			if ( $total != 0 ) {
 				$percentage = intVal( $completed * 100 / $total );
 				$percentage = ( $percentage > 100 ) ? 100 : $percentage;
-			} elseif ( $total == 0 && ! empty( $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) && 1 === $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) {
+			} elseif ( $total == 0 && ! empty( $course_progress[ $course_id ]['lessons'][ $lesson_id ] ) && $course_progress[ $course_id ]['lessons'][ $lesson_id ] === 1 ) {
 				$percentage = 100;
 			}
 
-			return [
+			return array(
 				'total'      => $total,
 				'completed'  => $completed,
 				'percentage' => $percentage,
-			];
+			);
 		}
 
 		public function get_icon_by_file_extension( $file_ext ) {
@@ -508,7 +565,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			// Loop through and find the file extension icon.
 			foreach ( $mimes as $type => $mime ) {
-				if ( false !== strpos( $type, $file_ext ) ) {
+				if ( strpos( $type, $file_ext ) !== false ) {
 					return wp_mime_type_icon( $mime );
 				}
 			}
@@ -516,25 +573,39 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 		public function add_meta_boxes() {
 
-			add_meta_box( 'postexcerpt', __( 'Course Short Description', 'buddyboss-theme' ), [
-				$this,
-				'course_short_description_output',
-			], 'sfwd-courses', 'normal', 'high' );
+			add_meta_box(
+				'postexcerpt',
+				__( 'Course Short Description', 'buddyboss-theme' ),
+				array(
+					$this,
+					'course_short_description_output',
+				),
+				'sfwd-courses',
+				'normal',
+				'high'
+			);
 
-			add_meta_box( 'post_price_box', __( 'Course Video Preview', 'buddyboss-theme' ), [
-				$this,
-				'course_price_box_output',
-			], 'sfwd-courses', 'normal', 'low' );
+			add_meta_box(
+				'post_price_box',
+				__( 'Course Video Preview', 'buddyboss-theme' ),
+				array(
+					$this,
+					'course_price_box_output',
+				),
+				'sfwd-courses',
+				'normal',
+				'low'
+			);
 		}
 
 		public function course_cover_photo() {
 			if ( class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 				new \BuddyBossTheme\BuddyBossMultiPostThumbnails(
-					[
+					array(
 						'label'     => __( 'Cover Photo', 'buddyboss-theme' ),
 						'id'        => 'course-cover-image',
 						'post_type' => 'sfwd-courses',
-					]
+					)
 				);
 			}
 		}
@@ -546,22 +617,30 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			wp_nonce_field( 'buddyboss_lms_course_cover_photo_box', 'buddyboss_lms_course_cover_photo_box_nonce' );
 			$course_cover_photo_meta = get_post_meta( $post->ID );
 			?>
-            <div class="editor-post-featured-image"><?php
-				if ( isset ( $course_cover_photo_meta['course-cover-image'] ) ) { ?>
-                    <img src="<?php echo $course_cover_photo_meta['course-cover-image'][0]; ?>" id="preview-cover-photo"
-                         alt="" style="width: 100%; max-width: 640px;" /><?php
-				} ?>
-            </div>
-            <input type="hidden" name="course-cover-image" id="course-cover-image"
-                   value="<?php if ( isset ( $course_cover_photo_meta['course-cover-image'] ) ) {
-				       echo $course_cover_photo_meta['course-cover-image'][0];
-			       } ?>"/>
-            <p><a id="remove-cover-photo" href="#"
-                  class="components-button is-link is-destructive"><?php _e( 'Remove cover photo', 'buddyboss-theme' ) ?></a>
-            </p>
-            <div><input type="button" id="meta-image-button"
-                        class="components-button editor-post-featured-image__toggle"
-                        value="<?php _e( 'Set cover photo', 'buddyboss-theme' ) ?>"/></div>
+			<div class="editor-post-featured-image">
+			<?php
+			if ( isset( $course_cover_photo_meta['course-cover-image'] ) ) {
+				?>
+					<img src="<?php echo $course_cover_photo_meta['course-cover-image'][0]; ?>" id="preview-cover-photo"
+						 alt="" style="width: 100%; max-width: 640px;" />
+						 <?php
+			}
+			?>
+			</div>
+			<input type="hidden" name="course-cover-image" id="course-cover-image"
+				   value="
+				   <?php
+					if ( isset( $course_cover_photo_meta['course-cover-image'] ) ) {
+						echo $course_cover_photo_meta['course-cover-image'][0];
+					}
+					?>
+				   "/>
+			<p><a id="remove-cover-photo" href="#"
+				  class="components-button is-link is-destructive"><?php _e( 'Remove cover photo', 'buddyboss-theme' ); ?></a>
+			</p>
+			<div><input type="button" id="meta-image-button"
+						class="components-button editor-post-featured-image__toggle"
+						value="<?php _e( 'Set cover photo', 'buddyboss-theme' ); ?>"/></div>
 			<?php
 		}
 
@@ -584,56 +663,57 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			if ( isset( $_POST['course-cover-image'] ) ) {
 				update_post_meta( $post_id, 'course-cover-image', $_POST['course-cover-image'] );
 			}
-
 		}
 
 		public function course_short_description_output( $post ) {
-			$settings = [
+			$settings = array(
 				'textarea_name' => 'excerpt',
-				'quicktags'     => [ 'buttons' => 'em,strong,link' ],
-				'tinymce'       => [
+				'quicktags'     => array( 'buttons' => 'em,strong,link' ),
+				'tinymce'       => array(
 					'theme_advanced_buttons1' => 'bold,italic,strikethrough,separator,bullist,numlist,separator,blockquote,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,separator,undo,redo,separator',
 					'theme_advanced_buttons2' => '',
-				],
+				),
 				'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:175px; width:100%;}</style>',
-			];
+			);
 
 			wp_editor( htmlspecialchars_decode( $post->post_excerpt, ENT_QUOTES ), 'excerpt', $settings );
 		}
 
-		public function course_price_box_output( $post ) { ?>
-            <div class="sfwd sfwd_options sfwd-courses_settings">
-                <div class="sfwd_input">
-                    <span class="sfwd_option_label">
-                        <a class="sfwd_help_text_link" style="cursor:pointer;"
-                           title="<?php _e( 'Click for Help!', 'buddyboss-theme' ) ?>"
-                           onclick="toggleVisibility('sfwd-courses_course_video_url_tip');">
-                            <img alt="" src="<?php echo get_template_directory_uri(); ?>/assets/images/question.png"/>
-        				    <label for="buddyboss_lms_course_video"
-                                   class="sfwd_label buddyboss_lms_course_video_label"><?php echo __( 'Preview Video URL', 'buddyboss-theme' ); ?></label>
-                        </a>
-        			</span>
-                    <span class="sfwd_option_input">
-                        <div class="sfwd_option_div">
-                            <?php
-                            // Add a nonce field so we can check for it later.
-                            wp_nonce_field( 'buddyboss_lms_course_video_meta_box', 'buddyboss_lms_course_video_meta_box_nonce' );
+		public function course_price_box_output( $post ) {
 
-                            /*
+			?>
+			<div class="sfwd sfwd_options sfwd-courses_settings">
+				<div class="sfwd_input">
+					<span class="sfwd_option_label">
+						<a class="sfwd_help_text_link" style="cursor:pointer;"
+						   title="<?php _e( 'Click for Help!', 'buddyboss-theme' ); ?>"
+						   onclick="toggleVisibility('sfwd-courses_course_video_url_tip');">
+							<img alt="" src="<?php echo get_template_directory_uri(); ?>/assets/images/question.png"/>
+							<label for="buddyboss_lms_course_video"
+								   class="sfwd_label buddyboss_lms_course_video_label"><?php echo __( 'Preview Video URL', 'buddyboss-theme' ); ?></label>
+						</a>
+					</span>
+					<span class="sfwd_option_input">
+						<div class="sfwd_option_div">
+							<?php
+							// Add a nonce field so we can check for it later.
+							wp_nonce_field( 'buddyboss_lms_course_video_meta_box', 'buddyboss_lms_course_video_meta_box_nonce' );
+
+							/*
 							 * Use get_post_meta() to retrieve an existing value
 							 * from the database and use the value for the form.
 							 */
-                            $value = get_post_meta( $post->ID, '_buddyboss_lms_course_video', true );
-                            echo '<textarea id="buddyboss_lms_course_video" name="buddyboss_lms_course_video" rows="2" style="width:100%;">' . esc_attr( $value ) . '</textarea>';
-                            ?>
-                        </div>
-                        <div class="sfwd_help_text_div" style="display:none"
-                             id="sfwd-courses_course_video_url_tip"><label
-                                    class="sfwd_help_text"><?php echo __( 'Enter preview video URL for the course. The video will be added on single course price box.', 'buddyboss-theme' ); ?></label></div>
-                    </span>
-                    <p style="clear:left"></p>
-                </div>
-            </div>
+							$value = get_post_meta( $post->ID, '_buddyboss_lms_course_video', true );
+							echo '<textarea id="buddyboss_lms_course_video" name="buddyboss_lms_course_video" rows="2" style="width:100%;">' . esc_attr( $value ) . '</textarea>';
+							?>
+						</div>
+						<div class="sfwd_help_text_div" style="display:none"
+							 id="sfwd-courses_course_video_url_tip"><label
+									class="sfwd_help_text"><?php echo __( 'Enter preview video URL for the course. The video will be added on single course price box.', 'buddyboss-theme' ); ?></label></div>
+					</span>
+					<p style="clear:left"></p>
+				</div>
+			</div>
 			<?php
 		}
 
@@ -665,12 +745,11 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			// Check the user's permissions.
-			if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
+			if ( isset( $_POST['post_type'] ) && $_POST['post_type'] == 'page' ) {
 
 				if ( ! current_user_can( 'edit_page', $post_id ) ) {
 					return;
 				}
-
 			} else {
 
 				if ( ! current_user_can( 'edit_post', $post_id ) ) {
@@ -702,7 +781,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$atts['order'] = strtoupper( $_GET['order'] );
 			}
 
-			if ( ! empty( $_GET['orderby'] ) && 'price' == $_GET['orderby'] ) {
+			if ( ! empty( $_GET['orderby'] ) && $_GET['orderby'] == 'price' ) {
 				$atts['orderby']  = 'meta_value_num';
 				$atts['meta_key'] = 'bb_course_price';
 			}
@@ -713,7 +792,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		public function ajax_get_courses() {
 			check_ajax_referer( 'buddyboss_lms_get_courses' );
 
-			$order_by_current = isset ( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+			$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
 
 			$pagination_url = '';
 			if ( isset( $_GET['request_url'] ) && ! empty( $_GET['request_url'] ) ) {
@@ -721,7 +800,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$pagination_url = urldecode_deep( $_GET['request_url'] );
 
 				// Validate the requested URL.
-				if ( false === strpos( $pagination_url, get_site_url() ) ) {
+				if ( strpos( $pagination_url, get_site_url() ) === false ) {
 					$pagination_url = '';
 				}
 			}
@@ -730,11 +809,11 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$pagination_url = get_post_type_archive_link( 'sfwd-courses' );
 			}
 
-			if ( 'my-progress' === $order_by_current ) {
+			if ( $order_by_current === 'my-progress' ) {
 				$this->_my_course_progress = $this->get_courses_progress( get_current_user_id() );
 			}
 
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
 			$posts_per_page = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'per_page' );
 
@@ -750,15 +829,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$posts_per_page = absint( $_GET['posts_per_page'] );
 			}
 
-			$args = [
+			$args = array(
 				'post_status'    => 'publish',
 				'posts_per_page' => $posts_per_page,
 				'post_type'      => 'sfwd-courses',
 				'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
-			];
+			);
 
 			if ( current_user_can( 'manage_options' ) ) {
-				$args['post_status'] = [ 'publish', 'private' ];
+				$args['post_status'] = array( 'publish', 'private' );
 			}
 
 			$args = apply_filters( THEME_HOOK_PREFIX . 'lms_ajax_get_courses_args', $args );
@@ -770,7 +849,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$if_theme_ld30 = ( function_exists( 'learndash_is_active_theme' ) && learndash_is_active_theme( 'ld30' ) ) ? 'learndash/ld30/template-course-item' : 'learndash/template-course-item';
 
 			if ( $c_q->have_posts() ) {
-				$courses_list = [ 'list-view' => [], 'grid-view' => [] ];
+				$courses_list = array(
+					'list-view' => array(),
+					'grid-view' => array(),
+				);
 
 				while ( $c_q->have_posts() ) {
 					$c_q->the_post();
@@ -784,31 +866,36 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					$courses_list['grid-view'][] = ob_get_clean();
 				}
 
-				$view = isset( $_GET['view'] ) && in_array( $_GET['view'], [
-					'list',
-					'grid',
-				] ) ? $_GET['view'] : 'grid';
+				$view = isset( $_GET['view'] ) && in_array(
+					$_GET['view'],
+					array(
+						'list',
+						'grid',
+					)
+				) ? $_GET['view'] : 'grid';
 
-				$html = '<ul class="bb-course-list bb-course-items bb-grid list-view ' . ( 'list' != $view ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">'
-				        . implode( '', $courses_list['list-view'] )
-				        . '</ul>'
-				        . '<ul class="bb-card-list bb-course-items grid-view bb-grid ' . ( 'grid' != $view ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">'
-				        . implode( '', $courses_list['grid-view'] )
-				        . '</ul>';
+				$html = '<ul class="bb-course-list bb-course-items bb-grid list-view ' . ( $view != 'list' ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">'
+						. implode( '', $courses_list['list-view'] )
+						. '</ul>'
+						. '<ul class="bb-card-list bb-course-items grid-view bb-grid ' . ( $view != 'grid' ? 'hide' : '' ) . '" aria-live="assertive" aria-relevant="all">'
+						. implode( '', $courses_list['grid-view'] )
+						. '</ul>';
 
 				$html .= '<div class="bb-lms-pagination">';
 
 				$translated = __( 'Page', 'buddyboss-theme' ); // Supply translatable string
 
-				$html .= paginate_links( [
-					'base'               => trailingslashit( $pagination_url ) . 'page/%#%/',
-					'format'             => '?paged=%#%',
-					'current'            => ( isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1 ),
-					'total'              => $c_q->max_num_pages,
-					'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
-				] );
+				$html .= paginate_links(
+					array(
+						'base'               => trailingslashit( $pagination_url ) . 'page/%#%/',
+						'format'             => '?paged=%#%',
+						'current'            => ( isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1 ),
+						'total'              => $c_q->max_num_pages,
+						'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
+					)
+				);
 
-				$html .= "</div><!-- .bb-lms-pagination -->";
+				$html .= '</div><!-- .bb-lms-pagination -->';
 			} else {
 				$html = '<aside class="bp-feedback bp-template-notice ld-feedback info"><span class="bp-icon" aria-hidden="true"></span><p>';
 				$html .= __( 'Sorry, no courses were found.', 'buddyboss-theme' );
@@ -818,16 +905,18 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			wp_reset_postdata();
 
 			$total = $c_q->found_posts;
-			wp_send_json_success( [
-				'html'   => $html,
-				'count'  => $total,
-				'scopes' => $this->get_course_query_scope( $c_q->query_vars ),
-			] );
+			wp_send_json_success(
+				array(
+					'html'   => $html,
+					'count'  => $total,
+					'scopes' => $this->get_course_query_scope( $c_q->query_vars ),
+				)
+			);
 			die();
 		}
 
 		public function filter_query_ajax_get_courses( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 			$query = $this->_course_archive_query_params( $query );
 		}
 
@@ -841,16 +930,16 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 * @return type
 		 */
 		public function prepare_course_archive_page_query( $query ) {
-			remove_action( 'parse_query', [ $this, 'prepare_course_archive_page_query' ] );
+			remove_action( 'parse_query', array( $this, 'prepare_course_archive_page_query' ) );
 
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
 
-			$order_by_current = isset ( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+			$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
 
-			if ( 'my-progress' === $order_by_current ) {
-				if ( $query->is_post_type_archive && 'sfwd-courses' == $query->query_vars['post_type'] ) {
+			if ( $order_by_current === 'my-progress' ) {
+				if ( $query->is_post_type_archive && $query->query_vars['post_type'] == 'sfwd-courses' ) {
 					$this->_my_course_progress = $this->get_courses_progress( get_current_user_id() );
 				}
 			}
@@ -866,7 +955,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				return;
 			}
 
-			remove_action( 'pre_get_posts', [ $this, 'course_archive_page_query' ], 999 );
+			remove_action( 'pre_get_posts', array( $this, 'course_archive_page_query' ), 999 );
 
 			$query = $this->_course_archive_query_params( $query );
 		}
@@ -874,7 +963,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		protected function _course_archive_query_params( $query ) {
 			// search
 			if ( ! empty( $_GET['search'] ) ) {
-				$query->set( 's', $_GET['search'] );
+				$query->set( 's', sanitize_text_field( wp_unslash( $_GET['search'] ) ) );
 			}
 
 			// my courses
@@ -893,29 +982,29 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		protected function get_course_query_scope( $query_vars ) {
-			$return = [
+			$return = array(
 				'all'        => 0,
 				'my-courses' => 0,
-			];
+			);
 
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
-			add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_all_courses_counts' ], 9999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
+			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_all_courses_counts' ), 9999 );
 
-			$args = [
+			$args = array(
 				'post_type'   => 'sfwd-courses',
 				'post_status' => 'publish',
-			];
+			);
 
 			if ( current_user_can( 'manage_options' ) ) {
-				$args['post_status'] = [ 'publish', 'private' ];
+				$args['post_status'] = array( 'publish', 'private' );
 			}
 
 			$all_query     = new \WP_Query( $args );
 			$return['all'] = $all_query->found_posts;
 
 			if ( is_user_logged_in() ) {
-				add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_get_courses' ], 999 );
-				add_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_personal_courses_counts' ], 9999 );
+				add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
+				add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_personal_courses_counts' ), 9999 );
 				$my_query             = new \WP_Query( $args );
 				$return['my-courses'] = $my_query->found_posts;
 			}
@@ -924,15 +1013,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		public function filter_query_ajax_do_all_courses_counts( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_all_courses_counts' ], 9999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_all_courses_counts' ), 9999 );
 			$query->set( 'posts_per_page', 1 );
 			$query->set( 'paged', 1 );
 			$query->set( 'fields', 'ids' );
-			$query->set( 'post__in', [] );
+			$query->set( 'post__in', array() );
 		}
 
 		public function filter_query_ajax_do_personal_courses_counts( $query ) {
-			remove_action( 'pre_get_posts', [ $this, 'filter_query_ajax_do_personal_courses_counts' ], 9999 );
+			remove_action( 'pre_get_posts', array( $this, 'filter_query_ajax_do_personal_courses_counts' ), 9999 );
 			$query->set( 'posts_per_page', 1 );
 			$query->set( 'paged', 1 );
 			$query->set( 'fields', 'ids' );
@@ -944,28 +1033,28 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$_GET = $_temp_GET;
 		}
 
-		public function get_more_courses( $cats = [], $tags = [], $exclude = [] ) {
-			$args      = [
+		public function get_more_courses( $cats = array(), $tags = array(), $exclude = array() ) {
+			$args      = array(
 				'post_type' => 'sfwd-courses',
-			];
-			$tax_query = [
+			);
+			$tax_query = array(
 				'relation' => 'OR',
-			];
+			);
 			if ( ! empty( $cats ) ) {
-				$tax_query[] = [
+				$tax_query[] = array(
 					'taxonomy'         => 'ld_course_category',
 					'terms'            => $cats,
 					'field'            => 'term_id',
 					'include_children' => true,
-				];
+				);
 			}
 			if ( ! empty( $tags ) ) {
-				$tax_query[] = [
+				$tax_query[] = array(
 					'taxonomy'         => 'ld_course_tag',
 					'terms'            => $tags,
 					'field'            => 'term_id',
 					'include_children' => true,
-				];
+				);
 			}
 			$args['tax_query'] = $tax_query;
 			if ( ! empty( $exclude ) ) {
@@ -990,13 +1079,13 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			// Added hook so on page load of course archive page shows course count correctly when filters applied to courses.
 			add_action( 'pre_get_posts', array( $this, 'filter_query_ajax_get_courses' ), 999 );
 
-			$args = [
+			$args = array(
 				'post_type'   => 'sfwd-courses',
 				'post_status' => 'publish',
-			];
+			);
 
 			if ( current_user_can( 'manage_options' ) ) {
-				$args['post_status'] = [ 'publish', 'private' ];
+				$args['post_status'] = array( 'publish', 'private' );
 			}
 
 			$courses = new \WP_Query( $args );
@@ -1057,17 +1146,17 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 */
 		public function print_categories_options( $args = '' ) {
-			$defaults = [
+			$defaults = array(
 				'selected'   => false,
 				'orderby'    => 'name',
 				'order'      => 'ASC',
 				'option_all' => __( 'All Categories', 'buddyboss-theme' ),
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
 			if ( empty( $args['selected'] ) ) {
-				$args['selected'] = isset ( $_GET['filter-categories'] ) && ! empty ( $_GET['filter-categories'] ) ? $_GET['filter-categories'] : '';
+				$args['selected'] = isset( $_GET['filter-categories'] ) && ! empty( $_GET['filter-categories'] ) ? $_GET['filter-categories'] : '';
 			}
 
 			$all_cate = "<option value='all'>{$args['option_all']}</option>";
@@ -1077,11 +1166,13 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$archive_category_taxonomy = 'ld_course_category';
 			}
 
-			$categories = get_terms( [
-				'taxonomy' => $archive_category_taxonomy,
-				'orderby'  => $args['orderby'],
-				'order'    => $args['order'],
-			] );
+			$categories = get_terms(
+				array(
+					'taxonomy' => $archive_category_taxonomy,
+					'orderby'  => $args['orderby'],
+					'order'    => $args['order'],
+				)
+			);
 
 			$html = '';
 			if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
@@ -1090,7 +1181,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				}
 			}
 
-			if ( '' !== $html ) {
+			if ( $html !== '' ) {
 				return $all_cate . $html;
 			}
 		}
@@ -1104,29 +1195,30 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			if ( ! empty( $category_taxonomy ) ) {
 				$archive_category_taxonomy = $category_taxonomy;
-            }
+			}
 
-			$categories = get_terms( [
-				'taxonomy' => $archive_category_taxonomy,
-			] );
+			$categories = get_terms(
+				array(
+					'taxonomy' => $archive_category_taxonomy,
+				)
+			);
 
 			if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
 				return $categories;
 			} else {
 				return '';
 			}
-
 		}
 
-		protected function _archive_filterby_tax ( $query ) {
+		protected function _archive_filterby_tax( $query ) {
 			$tax_query = $query->get( 'tax_query' );
 
 			if ( empty( $tax_query ) ) {
-				$tax_query = [];
+				$tax_query = array();
 			}
 
 			// Query Depend on theme setting
-			if ( ! empty( $_GET[ "filter-categories" ] ) && 'all' != $_GET['filter-categories'] ) {
+			if ( ! empty( $_GET['filter-categories'] ) && $_GET['filter-categories'] != 'all' ) {
 				$archive_category_taxonomy = buddyboss_theme_get_option( 'learndash_course_index_categories_filter_taxonomy' );
 				if ( empty( $archive_category_taxonomy ) ) {
 					$archive_category_taxonomy = 'ld_course_category';
@@ -1135,25 +1227,25 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				$tax_query[] = array(
 					'taxonomy'         => $archive_category_taxonomy,
 					'field'            => 'slug',
-					'terms'            => $_GET["filter-categories"],
+					'terms'            => $_GET['filter-categories'],
 					'include_children' => false,
 				);
 			}
 
-			if ( ! empty( $_GET["filter-block-categories"] ) || ! empty( $_GET["filter-block-tags"] ) ) {
+			if ( ! empty( $_GET['filter-block-categories'] ) || ! empty( $_GET['filter-block-tags'] ) ) {
 				$tax_blog_query = array(
 					'relation' => 'AND',
-                );
+				);
 
 				/**
 				 * Without interact with theme setting. Filter course by course categories
 				 * Used by Elementor widgets like Course grid
 				 */
-				if ( ! empty( $_GET["filter-block-categories"] ) ) {
+				if ( ! empty( $_GET['filter-block-categories'] ) ) {
 					$tax_blog_query[] = array(
 						'taxonomy'         => self::LMS_CATEGORY_SLUG,
 						'field'            => 'id',
-						'terms'            => wp_parse_id_list( $_GET["filter-block-categories"] ),
+						'terms'            => wp_parse_id_list( $_GET['filter-block-categories'] ),
 						'include_children' => false,
 					);
 
@@ -1163,11 +1255,11 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				 * Without interact with theme setting. Filter course by course tags
 				 * Used by Elementor widgets like Course grid
 				 */
-				if ( ! empty( $_GET["filter-block-tags"] ) ) {
+				if ( ! empty( $_GET['filter-block-tags'] ) ) {
 					$tax_blog_query[] = array(
 						'taxonomy'         => self::LMS_TAG_SLUG,
 						'field'            => 'id',
-						'terms'            => wp_parse_id_list( $_GET["filter-block-tags"] ),
+						'terms'            => wp_parse_id_list( $_GET['filter-block-tags'] ),
 						'include_children' => false,
 					);
 
@@ -1177,8 +1269,8 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			if ( ! empty( $tax_query ) ) {
-				$query->set('tax_query' , $tax_query );
-            }
+				$query->set( 'tax_query', $tax_query );
+			}
 
 			return $query;
 		}
@@ -1196,15 +1288,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 */
 		public function print_instructors_options( $args = '' ) {
-			$defaults = [
+			$defaults = array(
 				'selected'   => false,
 				'option_all' => __( 'All Instructors', 'buddyboss-theme' ),
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
 			if ( empty( $args['selected'] ) ) {
-				$args['selected'] = isset ( $_GET['filter-instructors'] ) && ! empty ( $_GET['filter-instructors'] ) ? $_GET['filter-instructors'] : '';
+				$args['selected'] = isset( $_GET['filter-instructors'] ) && ! empty( $_GET['filter-instructors'] ) ? $_GET['filter-instructors'] : '';
 			}
 
 			echo "<option value='all'>{$args['option_all']}</option>";
@@ -1220,7 +1312,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$author_ids = apply_filters( THEME_HOOK_PREFIX . 'learndash_instructors_options', $author_ids, $args );
 
 			if ( ! empty( $author_ids ) ) {
-				$authors = [];
+				$authors = array();
 				foreach ( $author_ids as $author_id ) {
 					$authors[ $author_id ] = get_the_author_meta( 'display_name', $author_id );
 				}
@@ -1235,8 +1327,8 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		protected function _archive_filterby_instructors( $query ) {
-			if ( ! empty( $_GET["filter-instructors"] ) && 'all' != $_GET['filter-instructors'] ) {
-				$authors = $_GET["filter-instructors"];
+			if ( ! empty( $_GET['filter-instructors'] ) && $_GET['filter-instructors'] != 'all' ) {
+				$authors = $_GET['filter-instructors'];
 				if ( is_array( $authors ) ) {
 					$authors = implode( ',', $authors );
 				}
@@ -1251,7 +1343,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		protected function _archive_only_my_courses( $query ) {
-			if ( ! isset( $_GET['type'] ) || 'my-courses' != $_GET['type'] ) {
+			if ( ! isset( $_GET['type'] ) || $_GET['type'] != 'my-courses' ) {
 				return $query;
 			}
 
@@ -1261,13 +1353,20 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				if ( ! $course_ids = wp_cache_get( $user_id, 'ld_mycourse_ids' ) ) {
 					// Filter to remove author__in argument which is set by instructor role plugin.
 					add_filter( 'ir_filter_instructor_query', array( $this, 'remove_author_set_by_instructor' ), 9999 );
-					$course_ids = ld_get_mycourses( $user_id, [] );
+
+					if ( class_exists( 'LDLMS_Transients' ) ) {
+
+						// Remove Learndash Transient/Object cache.
+						\LDLMS_Transients::delete( 'learndash_open_courses' );
+						\LDLMS_Transients::delete( 'learndash_user_courses_' . absint( $user_id ) );
+					}
+					$course_ids = ld_get_mycourses( $user_id, array() );
 					wp_cache_set( $user_id, $course_ids, 'ld_mycourse_ids' );
 					remove_filter( 'ir_filter_instructor_query', array( $this, 'remove_author_set_by_instructor' ), 9999 );
 				}
 
 				if ( empty( $course_ids ) ) {
-					$course_ids = [ - 1 ];//an unlikely post id, to ensure that query doesn't return any courses.
+					$course_ids = array( - 1 );//an unlikely post id, to ensure that query doesn't return any courses.
 				}
 
 				$query->set( 'post__in', $course_ids );
@@ -1293,10 +1392,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		protected function _get_orderby_options() {
-			$order_by_options = [
+			$order_by_options = array(
 				'alphabetical' => __( 'Alphabetical', 'buddyboss-theme' ),
 				'recent'       => __( 'Newly Created', 'buddyboss-theme' ),
-			];
+			);
 
 			if ( is_user_logged_in() ) {
 				$order_by_options['my-progress'] = __( 'My Progress', 'buddyboss-theme' );
@@ -1319,9 +1418,9 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 */
 		public function print_sorting_options( $args = '' ) {
-			$defaults = [
+			$defaults = array(
 				'selected' => false,
-			];
+			);
 
 			$args = wp_parse_args( $args, $defaults );
 
@@ -1336,7 +1435,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					}
 				}
 
-				$order_by_current = isset ( $_GET['orderby'] ) ? $_GET['orderby'] : $default;
+				$order_by_current = isset( $_GET['orderby'] ) ? $_GET['orderby'] : $default;
 				$order_by_current = isset( $order_by_options[ $order_by_current ] ) ? $order_by_current : $default;
 				$args['selected'] = $order_by_current;
 			}
@@ -1366,7 +1465,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					$query_order_by = 'date';
 					$query_order    = 'desc';//doesn't matter
 
-					add_filter( 'posts_clauses', [ $this, 'alter_query_parts' ], 10, 2 );
+					add_filter( 'posts_clauses', array( $this, 'alter_query_parts' ), 10, 2 );
 					break;
 				default:
 					$query_order_by = isset( $_GET['orderby'] ) ? $_GET['orderby'] : 'date';
@@ -1374,14 +1473,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					break;
 			}
 
-            $query->set( 'orderby', $query_order_by );
+			$query->set( 'orderby', $query_order_by );
 			$query->set( 'order', $query_order );
 
 			return $query;
 		}
 
 		public function get_courses_progress( $user_id, $sort_order = 'desc' ) {
-			$course_completion_percentage = [];
+			$course_completion_percentage = array();
 
 			if ( ! $course_completion_percentage = wp_cache_get( $user_id, 'ld_courses_progress' ) ) {
 				$course_progress = get_user_meta( $user_id, '_sfwd-course_progress', true );
@@ -1429,11 +1528,11 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				wp_cache_set( $user_id, $course_completion_percentage, 'ld_courses_progress' );
 			}
 
-			$course_completion_percentage = 'empty' !== $course_completion_percentage ? $course_completion_percentage : [];
+			$course_completion_percentage = $course_completion_percentage !== 'empty' ? $course_completion_percentage : array();
 
 			if ( ! empty( $course_completion_percentage ) ) {
 				// Sort.
-				if ( 'asc' == $sort_order ) {
+				if ( $sort_order == 'asc' ) {
 					asort( $course_completion_percentage );
 				} else {
 					arsort( $course_completion_percentage );
@@ -1444,7 +1543,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		public function alter_query_parts( $clauses, $query ) {
-			remove_filter( 'posts_clauses', [ $this, 'alter_query_parts' ], 10, 2 );
+			remove_filter( 'posts_clauses', array( $this, 'alter_query_parts' ), 10, 2 );
 
 			$my_course_progress = $this->_my_course_progress;
 
@@ -1467,10 +1566,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		}
 
 		public function js_l10n( $data ) {
-			$data['learndash'] = [
+			$data['learndash'] = array(
 				'nonce_get_courses'  => wp_create_nonce( 'buddyboss_lms_get_courses' ),
 				'course_archive_url' => trailingslashit( get_post_type_archive_link( 'sfwd-courses' ) ),
-			];
+			);
 
 			return $data;
 		}
@@ -1519,7 +1618,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			// If $total is still false we calculate the total from course steps.
-			if ( false === $total ) {
+			if ( $total === false ) {
 				$total = learndash_get_course_steps_count( $course_id );
 			}
 
@@ -1531,7 +1630,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			return $percentage;
-
 		}
 
 
@@ -1543,18 +1641,18 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					$step_course_id = $course_id;
 					$course         = get_post( $step_course_id );
 
-					$lession_list = learndash_get_course_lessons_list( $course_id );
+					$lession_list = learndash_get_course_lessons_list( $course_id, $user->ID, array( 'num' => - 1 ) );
 					$lession_list = array_column( $lession_list, 'post' );
 					$url          = buddyboss_theme()->learndash_helper()->buddyboss_theme_ld_custom_continue_url_arr( $course_id, $lession_list );
 
-					if ( isset( $course ) && 'sfwd-courses' === $course->post_type ) {
+					if ( isset( $course ) && $course->post_type === 'sfwd-courses' ) {
 						//$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id, true );
 						$last_know_step = '';
 
 						// User has not hit a LD module yet
 						if ( empty( $last_know_step ) ) {
 
-							if ( isset( $url ) && '' !== $url ) {
+							if ( isset( $url ) && $url !== '' ) {
 								return $url;
 							} else {
 								return '';
@@ -1566,7 +1664,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 						if ( absint( $last_know_step ) ) {
 							$step_id = $last_know_step;
 						} else {
-							if ( isset( $url ) && '' !== $url ) {
+							if ( isset( $url ) && $url !== '' ) {
 								return $url;
 							} else {
 								return '';
@@ -1579,7 +1677,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 						// if $last_know_page_id returns '' then get post will return current pages post object
 						// so we need to make sure first that the $last_know_page_id is returning something and
 						// that the something is a valid post
-						if ( null !== $last_know_post_object ) {
+						if ( $last_know_post_object !== null ) {
 
 							$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
 							$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
@@ -1627,14 +1725,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				/* Limit the plugin to LearnDash specific post types */
 				$learn_dash_post_types = apply_filters(
 					' boss_theme_find_last_known_learndash_post_types',
-					[
+					array(
 						'sfwd-courses',
 						'sfwd-lessons',
 						'sfwd-topic',
 						'sfwd-quiz',
 						'sfwd-certificates',
 						'sfwd-assignment',
-					]
+					)
 				);
 
 				$step_id        = $post->ID;
@@ -1646,11 +1744,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 				if ( is_singular( $learn_dash_post_types ) ) {
 					update_user_meta( $user->ID, 'learndash_last_known_page', $step_id . ',' . $step_course_id );
-					if ( 'sfwd-courses' !== $post->post_type ) {
+					if ( $post->post_type !== 'sfwd-courses' ) {
 						update_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id, $step_id );
 					}
 				}
-
 			}
 		}
 
@@ -1687,7 +1784,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		public function buddyboss_theme_ld_custom_pagination( $course_id, $lession_list, $course_quizzes_list = '' ) {
 			global $post;
 
-			$navigation_urls = [];
+			$navigation_urls = array();
 			if ( ! empty( $lession_list ) ) :
 
 				foreach ( $lession_list as $lesson ) {
@@ -1729,7 +1826,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				}
 			endif;
 
-
 			return $navigation_urls;
 		}
 
@@ -1755,7 +1851,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				}
 			}
 
-			$navigation_urls = [];
+			$navigation_urls = array();
 			if ( ! empty( $lession_list ) ) :
 
 				foreach ( $lession_list as $lesson ) {
@@ -1763,31 +1859,31 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					$lesson_topics = learndash_get_topic_list( $lesson->ID );
 
 					$course_progress = get_user_meta( get_current_user_id(), '_sfwd-course_progress', true );
-					$completed       = ! empty( $course_progress[ $course_id ]['lessons'][ $lesson->ID ] ) && 1 === $course_progress[ $course_id ]['lessons'][ $lesson->ID ];
+					$completed       = ! empty( $course_progress[ $course_id ]['lessons'][ $lesson->ID ] ) && $course_progress[ $course_id ]['lessons'][ $lesson->ID ] === 1;
 
-					$navigation_urls[] = [
+					$navigation_urls[] = array(
 						'url'      => learndash_get_step_permalink( $lesson->ID, $course_id ),
 						'complete' => $completed ? 'yes' : 'no',
-					];
+					);
 
 					if ( ! empty( $lesson_topics ) ) :
 						foreach ( $lesson_topics as $lesson_topic ) {
 
-							$completed = ! empty( $course_progress[ $course_id ]['topics'][ $lesson->ID ][ $lesson_topic->ID ] ) && 1 === $course_progress[ $course_id ]['topics'][ $lesson->ID ][ $lesson_topic->ID ];
+							$completed = ! empty( $course_progress[ $course_id ]['topics'][ $lesson->ID ][ $lesson_topic->ID ] ) && $course_progress[ $course_id ]['topics'][ $lesson->ID ][ $lesson_topic->ID ] === 1;
 
-							$navigation_urls[] = [
+							$navigation_urls[] = array(
 								'url'      => learndash_get_step_permalink( $lesson_topic->ID, $course_id ),
 								'complete' => $completed ? 'yes' : 'no',
-							];
+							);
 
 							$topic_quizzes = learndash_get_lesson_quiz_list( $lesson_topic->ID );
 
 							if ( ! empty( $topic_quizzes ) ) :
 								foreach ( $topic_quizzes as $topic_quiz ) {
-									$navigation_urls[] = [
+									$navigation_urls[] = array(
 										'url'      => learndash_get_step_permalink( $topic_quiz['post']->ID, $course_id ),
 										'complete' => learndash_is_quiz_complete( get_current_user_id(), $topic_quiz['post']->ID, $course_id ) ? 'yes' : 'no',
-									];
+									);
 								}
 							endif;
 
@@ -1798,10 +1894,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 					if ( ! empty( $lesson_quizzes ) ) :
 						foreach ( $lesson_quizzes as $lesson_quiz ) {
-							$navigation_urls[] = [
+							$navigation_urls[] = array(
 								'url'      => learndash_get_step_permalink( $lesson_quiz['post']->ID, $course_id ),
 								'complete' => learndash_is_quiz_complete( get_current_user_id(), $lesson_quiz['post']->ID, $course_id ) ? 'yes' : 'no',
-							];
+							);
 						}
 					endif;
 				}
@@ -1811,15 +1907,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$course_quizzes = learndash_get_course_quiz_list( $course_id );
 			if ( ! empty( $course_quizzes ) ) :
 				foreach ( $course_quizzes as $course_quiz ) {
-					$navigation_urls[] = [
+					$navigation_urls[] = array(
 						'url'      => learndash_get_step_permalink( $course_quiz['post']->ID, $course_id ),
 						'complete' => learndash_is_quiz_complete( get_current_user_id(), $course_quiz['post']->ID, $course_id ) ? 'yes' : 'no',
-					];
+					);
 				}
 			endif;
 
 			$key = array_search( 'no', array_column( $navigation_urls, 'complete' ) );
-			if ( '' !== $key && isset( $navigation_urls[ $key ] ) ) {
+			if ( $key !== '' && isset( $navigation_urls[ $key ] ) ) {
 				return $navigation_urls[ $key ]['url'];
 			}
 
@@ -1834,14 +1930,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 * @return array|string
 		 */
-		public function buddyboss_theme_custom_next_prev_url( $url_arr = [], $current_url = '' ) {
+		public function buddyboss_theme_custom_next_prev_url( $url_arr = array(), $current_url = '' ) {
 
 			if ( empty( $url_arr ) ) {
 				return;
 			}
 
 			// Protocol
-			$url = ( is_ssl() ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+			$url = ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 			// Get current URL
 			$current_url = trailingslashit( $url );
@@ -1851,8 +1947,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$key = array_search( urldecode( $current_url ), $url_arr );
 
-
-			$url = [];
+			$url = array();
 
 			$next = current( array_slice( $url_arr, array_search( $key, array_keys( $url_arr ) ) + 1, 1 ) );
 			$prev = current( array_slice( $url_arr, array_search( $key, array_keys( $url_arr ) ) - 1, 1 ) );
@@ -1861,7 +1956,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$url['next'] = ( isset( $next ) && $last_element != $current_url ) ? '<a href="' . $next . '" class="next-link" rel="next">' . esc_html__( 'Next', 'buddyboss-theme' ) . '<span class="meta-nav" data-balloon-pos="up" data-balloon="' . esc_attr__( 'Next', 'buddyboss-theme' ) . '">&rarr;</span></a>' : '';
 			$url['prev'] = ( isset( $prev ) && $last_element != $prev ) ? '<a href="' . $prev . '" class="prev-link" rel="prev"><span class="meta-nav" data-balloon-pos="up" data-balloon="' . esc_attr__( 'Previous', 'buddyboss-theme' ) . '">&larr;</span> ' . esc_html__( 'Previous', 'buddyboss-theme' ) . '</a>' : '';
-
 
 			return $url;
 		}
@@ -1878,7 +1972,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		public function buddyboss_theme_ld_custom_quiz_count( $course_id, $lession_list, $course_quizzes_list = '' ) {
 			global $post;
 
-			$quiz_urls = [];
+			$quiz_urls = array();
 			if ( ! empty( $lession_list ) ) :
 
 				foreach ( $lession_list as $lesson ) {
@@ -1917,7 +2011,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 				}
 			endif;
 
-
 			return $quiz_urls;
 		}
 
@@ -1929,10 +2022,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 *
 		 * @return false|int|string
 		 */
-		public function buddyboss_theme_ld_custom_quiz_key( $url_arr = [], $current_url = '' ) {
+		public function buddyboss_theme_ld_custom_quiz_key( $url_arr = array(), $current_url = '' ) {
 
 			// Protocol
-			$url = ( is_ssl() ? 'https' : 'http') . '://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+			$url = ( is_ssl() ? 'https' : 'http' ) . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 			// Get current URL
 			$current_url = trailingslashit( $url );
@@ -1952,7 +2045,7 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 */
 		public function buddyboss_theme_ld_payment_buttons( $join_button, $payment_params ) {
 			if (
-				'0' === $payment_params['price']
+				$payment_params['price'] === '0'
 				&& (
 					isset( $payment_params['course_price_type'] )
 					&& $payment_params['course_price_type'] != 'free'
@@ -1978,34 +2071,37 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$LD_30_TEMPLATE_DIR_PARENT = get_template_directory() . '/learndash/ld30/';
 			$over_ride_template        = '';
 
-			$routes = apply_filters( 'learndash_30_template_routes', [
-				'core'       => [
-					'course',
-					'lesson',
-					'topic',
-					'quiz',
-				],
-				'shortcodes' => [
-					'profile',
-					'ld_course_list',
-					'course_list_template',
-					'ld_topic_list',
-					'user_groups_shortcode',
-					'course_content_shortcode',
-				],
-				'widgets'    => [
-					'course_navigation_widget' => 'course-navigation',
-					'course_progress_widget'   => 'course-progress',
-				],
-				'messages'   => [
-					'learndash_course_prerequisites_message' => 'prerequisites',
-					'learndash_course_points_access_message' => 'course-points',
-					'learndash_course_lesson_not_available'  => 'lesson-not-available',
-				],
-				'modules'    => [
-					'learndash_lesson_video' => 'lesson-video',
-				],
-			] );
+			$routes = apply_filters(
+				'learndash_30_template_routes',
+				array(
+					'core'       => array(
+						'course',
+						'lesson',
+						'topic',
+						'quiz',
+					),
+					'shortcodes' => array(
+						'profile',
+						'ld_course_list',
+						'course_list_template',
+						'ld_topic_list',
+						'user_groups_shortcode',
+						'course_content_shortcode',
+					),
+					'widgets'    => array(
+						'course_navigation_widget' => 'course-navigation',
+						'course_progress_widget'   => 'course-progress',
+					),
+					'messages'   => array(
+						'learndash_course_prerequisites_message' => 'prerequisites',
+						'learndash_course_points_access_message' => 'course-points',
+						'learndash_course_lesson_not_available'  => 'lesson-not-available',
+					),
+					'modules'    => array(
+						'learndash_lesson_video' => 'lesson-video',
+					),
+				)
+			);
 
 			if ( in_array( $name, $routes['core'] ) ) {
 				$over_ride_template = $LD_30_TEMPLATE_DIR . $name . '.php';
@@ -2089,7 +2185,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 					} else {
 						return LD_30_TEMPLATE_DIR . 'modules/messages/' . $path . '.php';
 					}
-
 				}
 			}
 
@@ -2202,11 +2297,10 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 		 */
 		public function ld_30_focus_mode_set_disable( $old_value, $value ) {
 
-			if ( isset( $value['focus_mode_enabled'] ) && '' !== $value['focus_mode_enabled'] ) {
+			if ( isset( $value['focus_mode_enabled'] ) && $value['focus_mode_enabled'] !== '' ) {
 				unset( $value['focus_mode_enabled'] );
 			}
 			update_option( 'learndash_settings_theme_ld30', $value );
-
 		}
 
 		/**
@@ -2220,15 +2314,15 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$focus_mode = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 
-			$post_types = [
+			$post_types = array(
 				'sfwd-lessons',
 				'sfwd-topic',
 				'sfwd-assignment',
 				'sfwd-quiz',
-			];
+			);
 
 			if ( in_array( get_post_type(), $post_types ) ) {
-				if ( 'yes' === $focus_mode ) {
+				if ( $focus_mode === 'yes' && ! is_search() ) {
 					$template = get_single_template();
 
 					return $template;
@@ -2236,7 +2330,6 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			return $template;
-
 		}
 
 		/**
@@ -2250,14 +2343,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$focus_mode = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
 
-			$post_types = [
+			$post_types = array(
 				'sfwd-lessons',
 				'sfwd-topic',
 				'sfwd-quiz',
 				'sfwd-assignment',
-			];
+			);
 
-			if ( 'yes' === $focus_mode && in_array( get_post_type(), $post_types ) ) {
+			if ( $focus_mode === 'yes' && in_array( get_post_type(), $post_types ) ) {
 				$classes[] = 'bb-custom-ld-focus-mode-enabled';
 			}
 
@@ -2266,19 +2359,17 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			}
 
 			return $classes;
-
 		}
 
 		public function ld_30_get_course_id( $id ) {
 
 			global $wpdb;
 
-			$sql_str   = $wpdb->prepare( "SELECT meta_value as post_id FROM " . $wpdb->postmeta . " WHERE meta_key LIKE %s AND post_id = %d", '%ld_course_%', $id );
+			$sql_str   = $wpdb->prepare( 'SELECT meta_value as post_id FROM ' . $wpdb->postmeta . ' WHERE meta_key LIKE %s AND post_id = %d', '%ld_course_%', $id );
 			$course_id = $wpdb->get_col( $sql_str );
 			$course_id = (int) isset( $course_id[0] ) ? $course_id[0] : 0;
 
 			return $course_id;
-
 		}
 
 		public function buddyboss_theme_refresh_ld_course_enrolled_users_total( $user_id, $course_id, $course_access_list, $remove ) {
@@ -2335,14 +2426,14 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 			$course_enrolled_users_list = get_transient( 'buddyboss_theme_ld_course_enrolled_users_count_' . $course_id );
 
 			// If nothing is found, build the object.
-			if ( true === $force_refresh || false === $course_enrolled_users_list ) {
+			if ( $force_refresh === true || $course_enrolled_users_list === false ) {
 
-				$members_arr = learndash_get_users_for_course( $course_id, [], false );
+				$members_arr = learndash_get_users_for_course( $course_id, array(), false );
 
 				if ( ( $members_arr instanceof \WP_User_Query ) && ( property_exists( $members_arr, 'results' ) ) && ( ! empty( $members_arr->results ) ) ) {
 					$course_enrolled_users_list = $members_arr->get_results();
 				} else {
-					$course_enrolled_users_list = [];
+					$course_enrolled_users_list = array();
 				}
 
 				$course_enrolled_users_list = count( $course_enrolled_users_list );
@@ -2382,14 +2473,185 @@ if ( ! class_exists( '\BuddyBossTheme\LearndashHelper' ) ) {
 
 			$activity_table = \LDLMS_DB::get_table_name( 'user_activity' );
 
-			return $wpdb->get_var( $wpdb->prepare(
-				"SELECT post_id FROM {$activity_table} WHERE user_id = %d AND course_id = %d AND activity_type != %s AND activity_status = %d ORDER BY activity_updated DESC LIMIT %d",
-				get_current_user_id(),
-				$course,
-				'course',
-				0,
-				1
-			) );
+			return $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT post_id FROM {$activity_table} WHERE user_id = %d AND course_id = %d AND activity_type != %s AND activity_status = %d ORDER BY activity_updated DESC LIMIT %d",
+					get_current_user_id(),
+					$course,
+					'course',
+					0,
+					1
+				)
+			);
+		}
+
+		/**
+		 * Reset object cache for accessible learndash course accessible by user.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param int $user_id User Id.
+		 */
+		public function bb_flush_ld_mycourse_ids_cache_user_id( $user_id ) {
+			// Remove the cached course IDs.
+			wp_cache_delete( $user_id, 'ld_mycourse_ids' );
+		}
+
+		/**
+		 * Reset object cache for ld_mycourse_ids group.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param int $group_id Learndash group id.
+		 */
+		public function bb_flush_ld_mycourse_ids_cache_group( $group_id ) {
+			if ( ! empty( $_POST ) && isset( $_POST['learndash_group_users'] ) ) {
+				if (
+					function_exists( 'wp_cache_flush_group' ) &&
+					function_exists( 'wp_cache_supports' ) &&
+					wp_cache_supports( 'flush_group' )
+				) {
+					wp_cache_flush_group( 'ld_mycourse_ids' );
+				} elseif ( isset( $_POST['learndash_group_users'][ $group_id ] ) ) {
+					$group_user_ids = (array) json_decode( stripslashes( $_POST['learndash_group_users'][ $group_id ] ) );
+					foreach ( $group_user_ids as $user_id ) {
+						wp_cache_delete( absint( $user_id ), 'ld_mycourse_ids' );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Reset object cache for ld_courses_progress.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param array $args Details of the learndash activity.
+		 */
+		public function bb_flush_ld_courses_progress_cache( $args ) {
+			if ( ! empty( $args['user_id'] ) ) {
+				wp_cache_delete( absint( $args['user_id'] ), 'ld_courses_progress' );
+			}
+		}
+
+		/**
+		 * Helper function to reset object cache for ld_mycourse_ids on course update.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param int $post_id Post id.
+		 */
+		public function bb_flush_ld_mycourse_ids_update_course_helper( $post_id ) {
+			$post_type = get_post_type( $post_id );
+			if ( $post_type === 'sfwd-courses' && ! empty( $_POST ) ) {
+				$course_price_type     = isset( $_POST['learndash-course-access-settings']['course_price_type'] ) ? sanitize_text_field( $_POST['learndash-course-access-settings']['course_price_type'] ) : '';
+				$old_course_price_type = learndash_get_course_price( $post_id );
+				$old_course_price_type = isset( $old_course_price_type['type'] ) ? $old_course_price_type['type'] : '';
+
+				// Check if open price type before update or if the price type is updated.
+				if (
+					! empty( $old_course_price_type ) &&
+					$course_price_type !== $old_course_price_type &&
+					( $course_price_type === 'open' || $old_course_price_type === 'open' )
+				) {
+
+					// Change in the course type.
+					$this->bb_flush_ld_mycourse_ids_cache_for_all_users();
+				}
+			}
+		}
+
+		/**
+		 * Helper function to reset object cache for ld_mycourse_ids on new open course.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param int     $post_id    Post ID.
+		 * @param WP_Post $saved_post WP Post object.
+		 * @param bool    $update     Whether this is an existing post.
+		 */
+		public function bb_flush_ld_mycourse_ids_save_course_helper( $post_id, $saved_post, $update = null ) {
+			if (
+				! $update &&
+				! empty( $_POST ) &&
+				isset( $_POST['learndash-course-access-settings'] )
+			) {
+				$course_price_type = isset( $_POST['learndash-course-access-settings']['course_price_type'] ) ? sanitize_text_field( $_POST['learndash-course-access-settings']['course_price_type'] ) : '';
+				if ( $course_price_type === 'open' ) {
+					$this->bb_flush_ld_mycourse_ids_cache_for_all_users();
+				}
+			}
+		}
+
+		/**
+		 * Reset object cache for ld_mycourse_ids for all users on course save or update.
+		 *
+		 * @since 2.3.40
+		 */
+		public function bb_flush_ld_mycourse_ids_cache_for_all_users() {
+
+			// Flush cache for the open courses.
+			if (
+				function_exists( 'wp_cache_flush_group' ) &&
+				function_exists( 'wp_cache_supports' ) &&
+				wp_cache_supports( 'flush_group' )
+			) {
+				wp_cache_flush_group( 'ld_mycourse_ids' );
+			} else {
+
+				// Get wp users.
+				$paged          = 1;
+				$users_per_page = 1000;
+
+				$args = array(
+					'fields' => 'ids',
+					'number' => $users_per_page,
+					'paged'  => $paged,
+				);
+
+				$users_query = new \WP_User_Query( $args );
+				$user_ids    = $users_query->get_results();
+
+				while ( ! empty( $user_ids ) ) {
+					foreach ( $user_ids as $user_id ) {
+						wp_cache_delete( absint( $user_id ), 'ld_mycourse_ids' );
+					}
+					$paged++;
+					$args['paged'] = $paged;
+
+					$users_query = new \WP_User_Query( $args );
+					$user_ids    = $users_query->get_results();
+				}
+			}
+		}
+
+		/**
+		 * Reset object cache for ld_mycourse_ids for update in autoenrollment settings for admin.
+		 *
+		 * @since 2.3.40
+		 *
+		 * @param string $option_name Option name( i.e - learndash_settings_admin_user ).
+		 */
+		public function bb_onupdate_learndash_settings_admin_user( $option_name ) {
+			if ( $option_name === 'learndash_settings_admin_user' ) {
+				$this->bb_flush_ld_mycourse_ids_cache_for_all_users();
+			}
+		}
+
+		/**
+		 * Add pagination to support page break block.
+		 *
+		 * @since BuddyBoss 2.3.50
+		 *
+		 * @return void
+		 */
+		public function buddyboss_lms_support_page_break_block() {
+			wp_link_pages(
+				array(
+					'before' => '<div class="page-links bp-pagination-links">' . __( 'Pages:', 'buddyboss-theme' ),
+					'after'  => '</div>',
+				)
+			);
 		}
 	}
 }

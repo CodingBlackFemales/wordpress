@@ -14,6 +14,11 @@ add_filter( 'bp_email_set_tokens', 'bp_zoom_set_email_tokens', 99, 3 );
 
 add_filter( 'bp_rest_account_settings_notifications_groups', 'bb_zoom_rest_account_settings_notifications', 99 );
 
+add_filter( 'bp_zoom_meeting_timezone_before_save', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
+add_filter( 'bp_zoom_webinar_timezone_before_save', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
+add_filter( 'bp_get_zoom_meeting_timezone', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
+add_filter( 'bp_get_zoom_webinar_timezone', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
+
 /**
  * Install or upgrade zoom integration.
  *
@@ -162,7 +167,7 @@ function bp_zoom_set_email_tokens( $formatted_tokens, $tokens, $bp_email ) {
 		$email_content_html      = $bp_email->get_content_html();
 		$email_content_plaintext = $bp_email->get_content_plaintext();
 
-		if ( false !== strpos( $email_content_html, 'zoom_meeting' ) || false !== strpos( $email_content_plaintext, 'zoom_meeting' ) ) {
+		if ( strpos( $email_content_html, 'zoom_meeting' ) !== false || strpos( $email_content_plaintext, 'zoom_meeting' ) !== false ) {
 			$token_output = call_user_func( 'bp_zoom_meeting_email_token_zoom_meeting', $bp_email, $formatted_tokens, $tokens );
 			$formatted_tokens[ sanitize_text_field( 'zoom_meeting' ) ] = $token_output;
 		}
@@ -172,7 +177,7 @@ function bp_zoom_set_email_tokens( $formatted_tokens, $tokens, $bp_email ) {
 		$email_content_html      = $bp_email->get_content_html();
 		$email_content_plaintext = $bp_email->get_content_plaintext();
 
-		if ( false !== strpos( $email_content_html, 'zoom_webinar' ) || false !== strpos( $email_content_plaintext, 'zoom_webinar' ) ) {
+		if ( strpos( $email_content_html, 'zoom_webinar' ) !== false || strpos( $email_content_plaintext, 'zoom_webinar' ) !== false ) {
 			$token_output = call_user_func( 'bp_zoom_webinar_email_token_zoom_webinar', $bp_email, $formatted_tokens, $tokens );
 			$formatted_tokens[ sanitize_text_field( 'zoom_webinar' ) ] = $token_output;
 		}

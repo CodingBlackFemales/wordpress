@@ -2,8 +2,8 @@
 
 namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
 
 /**
  * Exception when an HTTP error occurs (4xx or 5xx error)

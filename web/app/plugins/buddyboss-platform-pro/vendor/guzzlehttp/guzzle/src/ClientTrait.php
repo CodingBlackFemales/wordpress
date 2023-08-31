@@ -4,8 +4,8 @@ namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp;
 
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\GuzzleException;
 use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
+use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\UriInterface;
 
 /**
  * Client interface for sending HTTP requests.
