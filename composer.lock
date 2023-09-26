@@ -8973,15 +8973,15 @@
         },
         {
             "name": "wpackagist-plugin/prime-mover",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/prime-mover/",
-                "reference": "tags/1.9.0"
+                "reference": "tags/1.9.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/prime-mover.1.9.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/prime-mover.1.9.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
