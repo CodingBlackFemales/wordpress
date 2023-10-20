@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d19e0e75fad3736bb1b68e508ce475b0",
+    "content-hash": "ace7ec1086a8f01e91b376aa1b81bafe",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -8936,6 +8936,24 @@
             "homepage": "https://wordpress.org/plugins/pdf-viewer-block/"
         },
         {
+            "name": "wpackagist-plugin/pods",
+            "version": "3.0.7",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/pods/",
+                "reference": "tags/3.0.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/pods.3.0.7.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/pods/"
+        },
+        {
             "name": "wpackagist-plugin/post-type-switcher",
             "version": "3.2.1",
             "source": {
@@ -8952,24 +8970,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/post-type-switcher/"
-        },
-        {
-            "name": "wpackagist-plugin/prime-mover",
-            "version": "1.9.1",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/prime-mover/",
-                "reference": "tags/1.9.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/prime-mover.1.9.1.zip"
-            },
-            "require": {
-                "composer/installers": "^1.0 || ^2.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/prime-mover/"
         },
         {
             "name": "wpackagist-plugin/remove-dashboard-access-for-non-admins",
