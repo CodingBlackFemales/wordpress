@@ -67,7 +67,6 @@
     "wpackagist-plugin/crisp": "^0.43.0",
     "wpackagist-plugin/drip": "^1.1",
     "wpackagist-plugin/facebook-for-woocommerce": "^3.0",
-    "wpackagist-plugin/hotjar": "^1.0",
     "wpackagist-plugin/import-meetup-events": "^1.5",
     "wpackagist-plugin/import-users-from-csv": "^1.1",
     "wpackagist-plugin/jetpack": "^12.0",
