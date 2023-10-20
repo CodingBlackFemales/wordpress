@@ -79,7 +79,7 @@
     "wpackagist-plugin/pdf-embedder": "^4.6",
     "wpackagist-plugin/pdf-viewer-block": "^1.1",
     "wpackagist-plugin/post-type-switcher": "^3.2",
-    "wpackagist-plugin/prime-mover": "^1.8",
+    "wpackagist-plugin/pods": "^3.0",
     "wpackagist-plugin/remove-dashboard-access-for-non-admins": "^1.1",
     "wpackagist-plugin/social-login-lite-for-woocommerce": "^1.6",
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4",
