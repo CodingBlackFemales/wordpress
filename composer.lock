@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ace7ec1086a8f01e91b376aa1b81bafe",
+    "content-hash": "d88ed004aeae7f4c4a071b6636bfdaca",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -8937,15 +8937,15 @@
         },
         {
             "name": "wpackagist-plugin/pods",
-            "version": "3.0.7",
+            "version": "3.0.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/pods/",
-                "reference": "tags/3.0.7"
+                "reference": "tags/3.0.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/pods.3.0.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/pods.3.0.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
