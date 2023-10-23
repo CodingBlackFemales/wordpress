@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ace7ec1086a8f01e91b376aa1b81bafe",
+    "content-hash": "d88ed004aeae7f4c4a071b6636bfdaca",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -8793,7 +8793,7 @@
         },
         {
             "name": "wpackagist-plugin/login-as-user",
-            "version": "1.4.7",
+            "version": "1.4.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/login-as-user/",
@@ -8801,7 +8801,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/login-as-user.zip?timestamp=1690418004"
+                "url": "https://downloads.wordpress.org/plugin/login-as-user.zip?timestamp=1698010831"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
