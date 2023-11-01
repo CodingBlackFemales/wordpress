@@ -9207,15 +9207,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-rest-api-authentication",
-            "version": "2.9.0",
+            "version": "2.9.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-rest-api-authentication/",
-                "reference": "tags/2.9.0"
+                "reference": "tags/2.9.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.2.9.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.2.9.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -10781,5 +10781,5 @@
         "php": ">=8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
