@@ -9099,15 +9099,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-all-export",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-all-export/",
-                "reference": "tags/1.4.0"
+                "reference": "tags/1.4.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-all-export.1.4.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-all-export.1.4.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
