@@ -8883,15 +8883,15 @@
         },
         {
             "name": "wpackagist-plugin/otter-blocks",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/2.4.1"
+                "reference": "tags/2.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.5.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
