@@ -9045,15 +9045,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-gateway-stripe",
-            "version": "7.6.2",
+            "version": "7.7.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/7.6.2"
+                "reference": "tags/7.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.7.6.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.7.7.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
