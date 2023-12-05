@@ -9027,15 +9027,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce",
-            "version": "8.2.2",
+            "version": "8.3.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/8.2.2"
+                "reference": "tags/8.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.2.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.8.3.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
