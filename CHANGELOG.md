@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.22](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.21...v0.1.22) (2024-01-02)
+
 ## [0.1.21](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.20...v0.1.21) (2023-09-26)
 
 ## [0.1.20](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.19...v0.1.20) (2023-08-31)
