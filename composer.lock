@@ -9209,15 +9209,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-maintenance-mode",
-            "version": "2.6.8",
+            "version": "2.6.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.6.8"
+                "reference": "tags/2.6.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
