@@ -64,7 +64,7 @@
     "wpackagist-plugin/akismet": "^5.1",
     "wpackagist-plugin/breadcrumb-navxt": "^7.2",
     "wpackagist-plugin/conditional-blocks": "^3.0",
-    "wpackagist-plugin/crisp": "^0.43.0",
+    "wpackagist-plugin/crisp": "^0.44",
     "wpackagist-plugin/drip": "^1.1",
     "wpackagist-plugin/facebook-for-woocommerce": "^3.0",
     "wpackagist-plugin/import-meetup-events": "^1.5",
