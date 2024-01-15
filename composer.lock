@@ -8975,7 +8975,7 @@
         },
         {
             "name": "wpackagist-plugin/post-type-switcher",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/post-type-switcher/",
@@ -8983,7 +8983,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.zip?timestamp=1668590647"
+                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.zip?timestamp=1705234732"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
