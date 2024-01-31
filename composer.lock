@@ -1311,12 +1311,13 @@
         },
         {
             "name": "koodimonni-language/en_gb",
-            "version": "6.4.2",
+            "version": "6.4.3",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/6.4.2/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/core/6.4.3/en_GB.zip"
             },
             "require": {
+                "koodimonni-plugin-language/admin-color-schemer-en_gb": "*",
                 "koodimonni-plugin-language/akismet-en_gb": "*",
                 "koodimonni-plugin-language/bbpress-en_gb": "*",
                 "koodimonni-plugin-language/buddypress-en_gb": "*",
@@ -1363,11 +1364,30 @@
             ]
         },
         {
-            "name": "koodimonni-plugin-language/akismet-en_gb",
-            "version": "5.3",
+            "name": "koodimonni-plugin-language/admin-color-schemer-en_gb",
+            "version": "1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/akismet/5.3/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/admin-color-schemer/1.1/en_GB.zip"
+            },
+            "require": {
+                "koodimonni/composer-dropin-installer": ">=0.2.3"
+            },
+            "type": "wordpress-language",
+            "description": "WordPress admin-color-schemer translations for English (UK) - en_gb",
+            "keywords": [
+                "Translation",
+                "WordPress",
+                "admin-color-schemer",
+                "en_gb"
+            ]
+        },
+        {
+            "name": "koodimonni-plugin-language/akismet-en_gb",
+            "version": "5.3.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/translation/plugin/akismet/5.3.1/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1573,10 +1593,10 @@
         },
         {
             "name": "koodimonni-plugin-language/performant-translations-en_gb",
-            "version": "1.0.7",
+            "version": "1.0.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/performant-translations/1.0.7/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/performant-translations/1.0.9/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1592,10 +1612,10 @@
         },
         {
             "name": "koodimonni-plugin-language/rss-importer-en_gb",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/rss-importer/0.3.1/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/rss-importer/0.3.2/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1649,10 +1669,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-en_gb",
-            "version": "8.3.1",
+            "version": "8.5.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/8.3.1/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/8.5.2/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1820,10 +1840,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyseventeen-en_gb",
-            "version": "3.4",
+            "version": "3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyseventeen/3.4/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyseventeen/3.5/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1915,10 +1935,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwenty-en_gb",
-            "version": "2.4",
+            "version": "2.5",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwenty/2.4/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwenty/2.5/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
