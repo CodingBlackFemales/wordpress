@@ -8887,15 +8887,15 @@
         },
         {
             "name": "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online",
-            "version": "2.8.1",
+            "version": "2.9.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/myworks-woo-sync-for-quickbooks-online/",
-                "reference": "tags/2.8.1"
+                "reference": "tags/2.9.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/myworks-woo-sync-for-quickbooks-online.2.8.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/myworks-woo-sync-for-quickbooks-online.2.9.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
