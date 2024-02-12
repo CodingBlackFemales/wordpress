@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adac0685bf7b7c485d0fae77f9e02a15",
+    "content-hash": "692d773c3084450e8af9a46729f6e025",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -9021,15 +9021,15 @@
         },
         {
             "name": "wpackagist-plugin/jetpack",
-            "version": "12.9.3",
+            "version": "13.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/12.9.3"
+                "reference": "tags/13.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.12.9.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.13.1.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
