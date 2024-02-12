@@ -8895,15 +8895,15 @@
         },
         {
             "name": "wpackagist-plugin/breadcrumb-navxt",
-            "version": "7.2.0",
+            "version": "7.3.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/breadcrumb-navxt/",
-                "reference": "tags/7.2.0"
+                "reference": "tags/7.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.2.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.3.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
