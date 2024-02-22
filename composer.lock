@@ -9183,15 +9183,15 @@
         },
         {
             "name": "wpackagist-plugin/pods",
-            "version": "3.0.10",
+            "version": "3.1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/pods/",
-                "reference": "tags/3.0.10"
+                "reference": "tags/3.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/pods.3.0.10.zip"
+                "url": "https://downloads.wordpress.org/plugin/pods.3.1.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
