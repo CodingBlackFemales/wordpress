@@ -8913,15 +8913,15 @@
         },
         {
             "name": "wpackagist-plugin/conditional-blocks",
-            "version": "3.0.7",
+            "version": "3.1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/conditional-blocks/",
-                "reference": "tags/3.0.7"
+                "reference": "tags/3.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/conditional-blocks.3.0.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/conditional-blocks.3.1.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
