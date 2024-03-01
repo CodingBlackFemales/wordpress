@@ -2,7 +2,7 @@ name: codingblackfemales
 recipe: wordpress
 config:
   database: mariadb
-  php: '8.1'
+  php: '8.2'
   via: apache
   webroot: web
   xdebug: true
@@ -20,7 +20,17 @@ services:
   appserver:
     composer_version: 2-latest
     build_as_root:
-      - curl -sL https://deb.nodesource.com/setup_20.x | bash -
+      # Installation instructions adapted from: https://github.com/nodesource/distributions/blob/69a45587cd87bd8c700e40bb8a8160e0c28d71d8/README.md#installation-instructions
+      # Download and install the Nodesource GPG key
+      - apt-get update
+      - apt-get install -y ca-certificates curl gnupg
+      - mkdir -p /etc/apt/keyrings
+      - curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+      # Create deb repository
+      # NODE_MAJOR=20 # Doesn't work here, set in environment overrides below
+      - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+      # Run update and install
+      - apt-get update
       - apt-get install -y nodejs
       - a2enmod headers
     run:
@@ -32,6 +42,7 @@ services:
       environment:
         XDEBUG_MODE:
         PHP_IDE_CONFIG: "serverName=appserver"
+        NODE_MAJOR: 20
   database:
     portforward: 3307
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
