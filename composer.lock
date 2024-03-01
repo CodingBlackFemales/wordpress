@@ -9489,15 +9489,15 @@
         },
         {
             "name": "wpackagist-plugin/zapier",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/zapier/",
-                "reference": "tags/1.0.4"
+                "reference": "tags/1.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/zapier.1.0.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/zapier.1.0.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
