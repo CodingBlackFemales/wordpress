@@ -18,6 +18,7 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/wp-job-manager-resumes
 !web/app/plugins/wp-job-manager-stats
 !web/app/plugins/wp-job-manager-wc-paid-listings
+!web/app/plugins/wpforms
 web/app/mu-plugins/*
 !web/app/mu-plugins/cbf-custom-constants.php
 web/app/themes/onepress/
