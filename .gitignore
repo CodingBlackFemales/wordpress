@@ -42,6 +42,7 @@ web/.htaccess
 
 # Composer
 **/vendor/*
+!web/app/plugins/wpforms/vendor/*
 !vendor/.gitkeep
 
 # WP-CLI
