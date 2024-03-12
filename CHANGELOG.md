@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.25](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.24...v0.1.25) (2024-03-12)
+
+
+### Bug Fixes
+
+* restore missing files in WPForms plugin ([a0b40dc](https://github.com/CodingBlackFemales/wordpress/commit/a0b40dc8c49b13482e803be0b9cafbbda480cbe9))
+
 ## [0.1.24](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.23...v0.1.24) (2024-03-12)
 
 
