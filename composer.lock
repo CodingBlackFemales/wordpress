@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8dbb272ba51b5ed1ea7ca176a2f4442",
+    "content-hash": "520de781c525edbcdb807e1d7a1d68ca",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -9063,15 +9063,15 @@
         },
         {
             "name": "wpackagist-plugin/otter-blocks",
-            "version": "2.6.4",
+            "version": "2.6.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/2.6.4"
+                "reference": "tags/2.6.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.5.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
