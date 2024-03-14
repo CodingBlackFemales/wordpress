@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "520de781c525edbcdb807e1d7a1d68ca",
+    "content-hash": "d8e33726acdb47b252301f3999a22ce9",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -9315,15 +9315,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-job-manager",
-            "version": "1.42.0",
+            "version": "2.2.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-job-manager/",
-                "reference": "tags/1.42.0"
+                "reference": "tags/2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.1.42.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.2.2.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
