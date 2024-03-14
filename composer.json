@@ -91,7 +91,7 @@
     "wpackagist-plugin/wp-graphql": "^1.14",
     "wpackagist-plugin/wp-job-manager": "^1.39",
     "wpackagist-plugin/wp-job-manager-xml-csv-listings-import": "^1.2",
-    "wpackagist-plugin/wp-mail-smtp": "^3.7",
+    "wpackagist-plugin/wp-mail-smtp": "^4.0",
     "wpackagist-plugin/wp-maintenance-mode": "^2.6",
     "wpackagist-plugin/wp-rest-api-authentication": "^2.6",
     "wpackagist-plugin/wpjm-extra-fields": "^1.3",
