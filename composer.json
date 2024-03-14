@@ -84,7 +84,7 @@
     "wpackagist-plugin/social-login-lite-for-woocommerce": "^1.6",
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4",
     "wpackagist-plugin/woocommerce": "^8.0",
-    "wpackagist-plugin/woocommerce-gateway-stripe": "^7.2",
+    "wpackagist-plugin/woocommerce-gateway-stripe": "^8.0",
     "wpackagist-plugin/woocommerce-paypal-payments": "^2.0",
     "wpackagist-plugin/woocommerce-services": "^2.2",
     "wpackagist-plugin/wp-all-export": "^1.3",

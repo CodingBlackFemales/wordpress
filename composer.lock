@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "520de781c525edbcdb807e1d7a1d68ca",
+    "content-hash": "e256bc45b8d94415e5b96759635c52cb",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -9225,15 +9225,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-gateway-stripe",
-            "version": "7.9.3",
+            "version": "8.0.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/7.9.3"
+                "reference": "tags/8.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.7.9.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.8.0.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
