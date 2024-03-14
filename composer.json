@@ -116,6 +116,9 @@
       "roots/wordpress-core-installer": true,
       "koodimonni/composer-dropin-installer": true,
       "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.2"
     }
   },
   "minimum-stability": "dev",
