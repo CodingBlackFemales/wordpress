@@ -20,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <p>
 	<?php esc_html_e( 'Contact using webmail: ', 'wp-job-manager-resumes' ); ?>
 
-	<a href="<?php echo esc_url( 'https://mail.google.com/mail/?view=cm&fs=1&to=' . esc_attr( $email ) . '&su=' . urlencode( $subject ) ); ?>" target="_blank" class="job_application_email">Gmail</a> /
+	<a href="<?php echo esc_url('https://mail.google.com/mail/?view=cm&fs=1&to=' . esc_attr( $email ) . '&su=' . urlencode( $subject )) ?>" target="_blank" class="job_application_email">Gmail</a> /
 
-	<a href="<?php echo esc_url( 'https://mail.aol.com/Mail/ComposeMessage.aspx?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject ) ); ?>" target="_blank" class="job_application_email">AOL</a> /
+	<a href="<?php echo esc_url('https://mail.aol.com/Mail/ComposeMessage.aspx?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject )) ?>" target="_blank" class="job_application_email">AOL</a> /
 
-	<a href="<?php echo esc_url( 'https://compose.mail.yahoo.com/?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject ) ); ?>" target="_blank" class="job_application_email">Yahoo</a> /
+	<a href="<?php echo esc_url('https://compose.mail.yahoo.com/?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject )) ?>" target="_blank" class="job_application_email">Yahoo</a> /
 
-	<a href="<?php echo esc_url( 'https://outlook.live.com/mail/0/deeplink/compose?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject ) ); ?>" target="_blank" class="job_application_email">Outlook</a> /
+	<a href="<?php echo esc_url('https://outlook.live.com/mail/0/deeplink/compose?to=' . esc_attr( $email ) . '&subject=' . urlencode( $subject )) ?>" target="_blank" class="job_application_email">Outlook</a> /
 </p>

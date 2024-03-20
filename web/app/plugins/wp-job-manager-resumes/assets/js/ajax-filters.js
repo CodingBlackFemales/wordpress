@@ -229,6 +229,13 @@ jQuery( document ).ready( function ( $ ) {
 
 		target.triggerHandler( 'update_results', [ page, false ] );
 
+		$( 'html' ).animate(
+			{
+				scrollTop: target.offset().top - 32,
+			},
+			600
+		);
+
 		return false;
 	} );
 
