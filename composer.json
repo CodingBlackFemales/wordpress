@@ -44,11 +44,16 @@
     {
       "type": "vcs",
       "url": "https://github.com/codingblackfemales/buddyboss-platform.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/codingblackfemales/wp-graphql-autodescription.git"
     }
   ],
   "require": {
     "php": ">=8.0",
     "buddyboss/buddyboss-platform": "dev-release",
+    "codingblackfemales/wp-graphql-autodescription": "^1.0",
     "composer/installers": "^2.2",
     "koodimonni-language/en_gb": "*",
     "oscarotero/env": "^2.1",
@@ -62,6 +67,7 @@
     "vlucas/phpdotenv": "^5.5",
     "wp-cli/wp-cli-bundle": "~2.10.0",
     "wpackagist-plugin/akismet": "^5.1",
+    "wpackagist-plugin/autodescription": "^5.0",
     "wpackagist-plugin/breadcrumb-navxt": "^7.2",
     "wpackagist-plugin/conditional-blocks": "^3.0",
     "wpackagist-plugin/crisp": "^0.45",
