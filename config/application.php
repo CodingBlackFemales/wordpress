@@ -139,6 +139,7 @@ Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Sk
  */
 Config::define( 'ENABLE_CBF_SCHEDULED_EXPORT', env( 'ENABLE_CBF_SCHEDULED_EXPORT' ) ?? WP_ENV === 'production' );
 Config::define( 'CBF_AUTH_USER_ID', env( 'CBF_AUTH_USER_ID' ) ?? 1 );
+Config::define( 'CBF_FRONTEND_URL', env( 'CBF_FRONTEND_URL' ) ?? 'http://localhost:3000' );
 
 /**
  * Debugging Settings
