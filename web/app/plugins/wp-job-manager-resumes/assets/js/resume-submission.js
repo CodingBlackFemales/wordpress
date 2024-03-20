@@ -15,6 +15,12 @@ jQuery( document ).ready( function ( $ ) {
 			.data( 'row' )
 			.replace( /%%repeated-row-index%%/g, max_index + 1 );
 		$( this ).before( html );
+
+		$( this )
+			.prev()
+			.find( 'input.job-manager-datepicker' )
+			.trigger( 'wpJobManagerFieldAdded' );
+
 		return false;
 	} );
 	$( '#submit-resume-form' ).on(

@@ -14,7 +14,6 @@ class WC_Product_Job_Package extends WP_Job_Manager_WCPL_Package_Product {
 	 * @param int|WC_Product|object $product Product ID, post object, or product object
 	 */
 	public function __construct( $product ) {
-		$this->product_type = 'job_package';
 		parent::__construct( $product );
 	}
 

@@ -68,7 +68,9 @@ function wc_paid_listings_give_user_package( $user_id, $product_id, $order_id = 
 	}
 
 	if ( $check_existing ) {
-		$id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wcpl_user_packages WHERE
+		$id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT id FROM {$wpdb->prefix}wcpl_user_packages WHERE
 			user_id = %d
 			AND product_id = %d
 			AND order_id = %d
@@ -76,13 +78,15 @@ function wc_paid_listings_give_user_package( $user_id, $product_id, $order_id = 
 			AND package_limit = %d
 			AND package_featured = %d
 			AND package_type = %d",
-			$user_id,
-			$product_id,
-			$order_id,
-			$package->get_duration(),
-			$package->get_limit(),
-			$is_featured ? 1 : 0,
-			$package->is_type( [ 'resume_package', 'resume_package_subscription' ] ) ? 'resume' : 'job_listing' ) );
+				$user_id,
+				$product_id,
+				$order_id,
+				$package->get_duration(),
+				$package->get_limit(),
+				$is_featured ? 1 : 0,
+				$package->is_type( [ 'resume_package', 'resume_package_subscription' ] ) ? 'resume' : 'job_listing'
+			)
+		);
 
 		if ( $id ) {
 			return $id;
@@ -175,10 +179,12 @@ function increase_job_package_job_count( $user_id, $package_id ) {
 function wc_paid_listings_get_listings_for_package( $user_package_id ) {
 	global $wpdb;
 
-	return $wpdb->get_col( $wpdb->prepare(
-		"SELECT post_id FROM {$wpdb->postmeta} " .
-		"LEFT JOIN {$wpdb->posts} ON {$wpdb->postmeta}.post_id = {$wpdb->posts}.ID " .
-		"WHERE meta_key = '_user_package_id' " .
-		'AND meta_value = %s;'
-	, $user_package_id ) );
+	return $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->postmeta} " .
+			"WHERE meta_key = '_user_package_id' " .
+			'AND meta_value = %s;',
+			$user_package_id
+		)
+	);
 }
