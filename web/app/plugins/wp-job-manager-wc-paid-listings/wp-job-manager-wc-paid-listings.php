@@ -3,30 +3,30 @@
  * Plugin Name: WP Job Manager - WooCommerce Paid Listings
  * Plugin URI: https://wpjobmanager.com/add-ons/wc-paid-listings/
  * Description: Add paid listing functionality via WooCommerce. Create 'job packages' as products with their own price, listing duration, listing limit, and job featured status and either sell them via your store or during the job submission process. A user's packages are shown on their account page and can be used to post future jobs if they allow more than 1 job listing. Also allows 'resume packages' if using the resumes add-on.
- * Version: 2.9.9
+ * Version: 3.0.2
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 6.0
- * Tested up to: 6.2
+ * Requires at least: 6.1
+ * Tested up to: 6.4
  * Requires PHP: 7.4
  * Text Domain: wp-job-manager-wc-paid-listings
  * Domain Path: /languages/
  * WC requires at least: 4.0
- * WC tested up to: 7.6
+ * WC tested up to: 8.3
  *
  * WPJM-Product: wp-job-manager-wc-paid-listings
  *
  * Copyright: 2022 Automattic
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
-*/
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 // Define constants
-define( 'JOB_MANAGER_WCPL_VERSION', '2.9.9' );
+define( 'JOB_MANAGER_WCPL_VERSION', '3.0.2' );
 define( 'JOB_MANAGER_WCPL_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'JOB_MANAGER_WCPL_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 define( 'JOB_MANAGER_WCPL_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/' );
@@ -36,7 +36,7 @@ define( 'JOB_MANAGER_WCPL_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __
  */
 class WC_Paid_Listings {
 	const JOB_MANAGER_CORE_MIN_VERSION = '1.29.0';
-	const WOOCOMMERCE_MIN_VERSION = '3.0.0';
+	const WOOCOMMERCE_MIN_VERSION      = '3.0.0';
 
 	/** @var object Class Instance */
 	private static $instance;
@@ -45,7 +45,7 @@ class WC_Paid_Listings {
 	 * Get the class instance
 	 */
 	public static function get_instance() {
-		return self::$instance === null ? ( self::$instance = new self() ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -77,19 +77,19 @@ class WC_Paid_Listings {
 		add_filter( 'resume_manager_settings', array( $this, 'resume_manager_settings' ) );
 
 		// Includes
-		include_once __DIR__ . '/includes/class-wc-paid-listings-package-product.php';
-		include_once __DIR__ . '/includes/class-wc-product-job-package.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-admin.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-cart.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-orders.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-subscriptions.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-package.php';
-		include_once __DIR__ . '/includes/class-wc-paid-listings-submit-job-form.php';
-		include_once __DIR__ . '/includes/user-functions.php';
-		include_once __DIR__ . '/includes/package-functions.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-package-product.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-product-job-package.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-admin.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-cart.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-orders.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-subscriptions.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-package.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-submit-job-form.php';
+		include_once dirname( __FILE__ ) . '/includes/user-functions.php';
+		include_once dirname( __FILE__ ) . '/includes/package-functions.php';
 
 		// Load 3rd party customizations
-		require_once __DIR__ . '/includes/3rd-party/3rd-party.php';
+		require_once dirname( __FILE__ ) . '/includes/3rd-party/3rd-party.php';
 
 		// Checks if WP_Job_Manager_Simple_Paid_Listings is active and show a conflict message
 		if ( class_exists( 'WP_Job_Manager_Simple_Paid_Listings' ) ) {
@@ -100,17 +100,17 @@ class WC_Paid_Listings {
 			if ( version_compare( RESUME_MANAGER_VERSION, '1.11.0', '<' ) ) {
 				add_filter( 'admin_notices', array( $this, 'resume_update_required' ) );
 			} else {
-				include_once __DIR__ . '/includes/class-wc-product-resume-package.php';
-				include_once __DIR__ . '/includes/class-wc-paid-listings-submit-resume-form.php';
+				include_once dirname( __FILE__ ) . '/includes/class-wc-product-resume-package.php';
+				include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-submit-resume-form.php';
 			}
 		}
 
 		if ( class_exists( 'WC_Product_Subscription' ) ) {
-			include_once __DIR__ . '/includes/class-wc-paid-listings-subscription-product.php';
-			include_once __DIR__ . '/includes/class-wc-product-job-package-subscription.php';
+			include_once dirname( __FILE__ ) . '/includes/class-wc-paid-listings-subscription-product.php';
+			include_once dirname( __FILE__ ) . '/includes/class-wc-product-job-package-subscription.php';
 
 			if ( class_exists( 'WP_Resume_Manager' ) ) {
-				include_once __DIR__ . '/includes/class-wc-product-resume-package-subscription.php';
+				include_once dirname( __FILE__ ) . '/includes/class-wc-product-resume-package-subscription.php';
 			}
 		}
 
@@ -122,6 +122,7 @@ class WC_Paid_Listings {
 		if ( class_exists( 'WC_Subscriptions' ) && version_compare( WC_Subscriptions::$version, '2.0', '<' ) ) {
 			add_filter( 'admin_notices', array( $this, 'subscriptions_update_required' ) );
 		}
+
 	}
 
 	/**
@@ -132,7 +133,7 @@ class WC_Paid_Listings {
 	 */
 	private function check_current_screen( $screens ) {
 		$screen = get_current_screen();
-		if ( $screen !== null && in_array( $screen->id, $screens, true ) ) {
+		if ( null !== $screen && in_array( $screen->id, $screens, true ) ) {
 			return true;
 		}
 		return false;
@@ -316,13 +317,13 @@ class WC_Paid_Listings {
 	 */
 	public function job_manager_settings( $settings = array() ) {
 		$settings['job_submission'][1][] = array(
-			'name'      => 'job_manager_paid_listings_flow',
-			'std'       => '',
-			'label'     => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
-			'desc'      => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
-			'type'      => 'select',
-			'options'   => array(
-				'' => __( 'Choose a package after entering job details', 'wp-job-manager-wc-paid-listings' ),
+			'name'    => 'job_manager_paid_listings_flow',
+			'std'     => '',
+			'label'   => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
+			'desc'    => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
+			'type'    => 'select',
+			'options' => array(
+				''       => __( 'Choose a package after entering job details', 'wp-job-manager-wc-paid-listings' ),
 				'before' => __( 'Choose a package before entering job details', 'wp-job-manager-wc-paid-listings' ),
 			),
 		);
@@ -337,13 +338,13 @@ class WC_Paid_Listings {
 	 */
 	public function resume_manager_settings( $settings = array() ) {
 		$settings['resume_submission'][1][] = array(
-			'name'      => 'resume_manager_paid_listings_flow',
-			'std'       => '',
-			'label'     => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
-			'desc'      => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
-			'type'      => 'select',
-			'options'   => array(
-				'' => __( 'Choose a package after entering resume details', 'wp-job-manager-wc-paid-listings' ),
+			'name'    => 'resume_manager_paid_listings_flow',
+			'std'     => '',
+			'label'   => __( 'Paid Listings Flow', 'wp-job-manager-wc-paid-listings' ),
+			'desc'    => __( 'Define when the user should choose a package for submission.', 'wp-job-manager-wc-paid-listings' ),
+			'type'    => 'select',
+			'options' => array(
+				''       => __( 'Choose a package after entering resume details', 'wp-job-manager-wc-paid-listings' ),
 				'before' => __( 'Choose a package before entering resume details', 'wp-job-manager-wc-paid-listings' ),
 			),
 		);

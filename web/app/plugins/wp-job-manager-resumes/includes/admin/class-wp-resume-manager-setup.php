@@ -21,10 +21,10 @@ class WP_Resume_Manager_Setup {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
-		add_action( 'admin_head', array( $this, 'admin_head' ) );
-		add_action( 'admin_init', array( $this, 'redirect' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 12 );
+		add_action( 'admin_menu', [ $this, 'admin_menu' ], 12 );
+		add_action( 'admin_head', [ $this, 'admin_head' ] );
+		add_action( 'admin_init', [ $this, 'redirect' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ], 12 );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WP_Resume_Manager_Setup {
 	 * @return void
 	 */
 	public function admin_menu() {
-		add_dashboard_page( __( 'Setup', 'wp-job-manager-resumes' ), __( 'Setup', 'wp-job-manager-resumes' ), 'manage_options', 'resume-manager-setup', array( $this, 'output' ) );
+		add_dashboard_page( __( 'Setup', 'wp-job-manager-resumes' ), __( 'Setup', 'wp-job-manager-resumes' ), 'manage_options', 'resume-manager-setup', [ $this, 'output' ] );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class WP_Resume_Manager_Setup {
 			return;
 		}
 
-		if ( ( isset( $_GET['action'] ) && $_GET['action'] == 'upgrade-plugin' ) && ( isset( $_GET['plugin'] ) && strstr( $_GET['plugin'], 'wp-job-manager-resumes.php' ) ) ) {
+		if ( ( isset( $_GET['action'] ) && 'upgrade-plugin' == $_GET['action'] ) && ( isset( $_GET['plugin'] ) && strstr( $_GET['plugin'], 'wp-job-manager-resumes.php' ) ) ) {
 			return;
 		}
 
@@ -80,7 +80,7 @@ class WP_Resume_Manager_Setup {
 	 * Enqueue scripts for setup page
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_style( 'resume_manager_setup_css', RESUME_MANAGER_PLUGIN_URL . '/assets/dist/css/setup.css', array( 'dashicons' ), RESUME_MANAGER_VERSION );
+		wp_enqueue_style( 'resume_manager_setup_css', RESUME_MANAGER_PLUGIN_URL . '/assets/dist/css/setup.css', [ 'dashicons' ], RESUME_MANAGER_VERSION );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class WP_Resume_Manager_Setup {
 	 * @param  string $option
 	 */
 	public function create_page( $title, $content, $option ) {
-		$page_data = array(
+		$page_data = [
 			'post_status'    => 'publish',
 			'post_type'      => 'page',
 			'post_author'    => 1,
@@ -100,7 +100,7 @@ class WP_Resume_Manager_Setup {
 			'post_content'   => $content,
 			'post_parent'    => 0,
 			'comment_status' => 'closed',
-		);
+		];
 		$page_id   = wp_insert_post( $page_data );
 
 		if ( $option ) {
@@ -114,14 +114,14 @@ class WP_Resume_Manager_Setup {
 	public function output() {
 		$step = ! empty( $_GET['step'] ) ? absint( $_GET['step'] ) : 1;
 
-		if ( $step === 3 && ! empty( $_POST ) ) {
-			$create_pages    = isset( $_POST['wp-resume-manager-create-page'] ) ? $_POST['wp-resume-manager-create-page'] : array();
+		if ( 3 === $step && ! empty( $_POST ) ) {
+			$create_pages    = isset( $_POST['wp-resume-manager-create-page'] ) ? $_POST['wp-resume-manager-create-page'] : [];
 			$page_titles     = $_POST['wp-resume-manager-page-title'];
-			$pages_to_create = array(
+			$pages_to_create = [
 				'submit_resume_form'  => '[submit_resume_form]',
 				'candidate_dashboard' => '[candidate_dashboard]',
 				'resumes'             => '[resumes]',
-			);
+			];
 
 			foreach ( $pages_to_create as $page => $content ) {
 				if ( ! isset( $create_pages[ $page ] ) || empty( $page_titles[ $page ] ) ) {
@@ -155,7 +155,7 @@ class WP_Resume_Manager_Setup {
 				"><?php _e( '3. Done', 'wp-job-manager-resumes' ); ?></li>
 			</ul>
 
-			<?php if ( $step === 1 ) : ?>
+			<?php if ( 1 === $step ) : ?>
 
 				<h3><?php _e( 'Setup Wizard Introduction', 'wp-job-manager-resumes' ); ?></h3>
 
@@ -169,7 +169,7 @@ class WP_Resume_Manager_Setup {
 				</p>
 
 			<?php endif; ?>
-			<?php if ( $step === 2 ) : ?>
+			<?php if ( 2 === $step ) : ?>
 
 				<h3><?php _e( 'Page Setup', 'wp-job-manager-resumes' ); ?></h3>
 
@@ -225,7 +225,7 @@ class WP_Resume_Manager_Setup {
 				</form>
 
 			<?php endif; ?>
-			<?php if ( $step === 3 ) : ?>
+			<?php if ( 3 === $step ) : ?>
 
 				<h3><?php _e( 'All Done!', 'wp-job-manager-resumes' ); ?></h3>
 
