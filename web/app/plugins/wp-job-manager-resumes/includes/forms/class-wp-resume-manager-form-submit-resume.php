@@ -330,13 +330,13 @@ class WP_Resume_Manager_Form_Submit_Resume extends WP_Job_Manager_Form {
 						'priority'      => 11,
 						'fields'        => [
 							'location'      => [
-								'label'       => __( 'School name', 'wp-job-manager-resumes' ),
+								'label'       => __( 'Institution', 'wp-job-manager-resumes' ),
 								'type'        => 'text',
 								'required'    => true,
 								'placeholder' => '',
 							],
 							'qualification' => [
-								'label'       => __( 'Qualification(s)', 'wp-job-manager-resumes' ),
+								'label'       => __( 'Certification(s)', 'wp-job-manager-resumes' ),
 								'type'        => 'text',
 								'required'    => true,
 								'placeholder' => '',

@@ -36,8 +36,7 @@ if ( is_user_logged_in() && count( $resumes ) ) : ?>
 		</p>
 		<p>
 			<label><?php esc_html_e( 'Message', 'wp-job-manager-resumes' ); ?>:</label>
-			<textarea name="application_message" cols="20" rows="4" required>
-			<?php
+			<textarea name="application_message" cols="20" rows="4" required><?php
 			if ( isset( $_POST['application_message'] ) ) {
 				echo esc_textarea( stripslashes( $_POST['application_message'] ) );
 			} else {
@@ -47,8 +46,7 @@ if ( is_user_logged_in() && count( $resumes ) ) : ?>
 
 				echo "\n\n" . _x( 'Thank you for your consideration.', 'default cover letter', 'wp-job-manager-resumes' );
 			}
-			?>
-			</textarea>
+			?></textarea>
 		</p>
 		<p>
 			<input type="submit" name="wp_job_manager_resumes_apply_with_resume" value="<?php esc_attr_e( 'Send Application', 'wp-job-manager-resumes' ); ?>" />

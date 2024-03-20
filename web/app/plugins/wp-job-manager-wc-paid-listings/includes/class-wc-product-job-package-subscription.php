@@ -15,7 +15,6 @@ class WC_Product_Job_Package_Subscription extends WP_Job_Manager_WCPL_Subscripti
 	 */
 	public function __construct( $product ) {
 		parent::__construct( $product );
-		$this->product_type = 'job_package_subscription';
 	}
 
 	/**

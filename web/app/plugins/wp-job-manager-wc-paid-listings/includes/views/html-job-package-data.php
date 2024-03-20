@@ -1,58 +1,76 @@
 <div class="options_group show_if_job_package show_if_job_package_subscription">
-	<?php woocommerce_wp_select( array(
-		'id' => '_job_listing_package_subscription_type',
-		'wrapper_class' => 'hide_if_job_package show_if_job_package_subscription',
-		'label' => __( 'Subscription Type', 'wp-job-manager-wc-paid-listings' ),
-		'description' => __( 'Choose how subscriptions affect this package', 'wp-job-manager-wc-paid-listings' ),
-		'value' => get_post_meta( $post_id, '_package_subscription_type', true ),
-		'desc_tip' => true,
-		'options' => array(
-			'package' => __( 'Link the subscription to the package (renew listing limit every subscription term)', 'wp-job-manager-wc-paid-listings' ),
-			'listing' => __( 'Link the subscription to posted listings (renew posted listings every subscription term)', 'wp-job-manager-wc-paid-listings' ),
-		),
-	) ); ?>
+	<?php woocommerce_wp_select(
+		array(
+			'id'            => '_job_listing_package_subscription_type',
+			'wrapper_class' => 'hide_if_job_package show_if_job_package_subscription',
+			'label'         => __( 'Subscription Type', 'wp-job-manager-wc-paid-listings' ),
+			'description'   => __( 'Choose how subscriptions affect this package', 'wp-job-manager-wc-paid-listings' ),
+			'value'         => get_post_meta( $post_id, '_package_subscription_type', true ),
+			'desc_tip'      => true,
+			'options'       => array(
+				'package' => __( 'Link the subscription to the package (renew listing limit every subscription term)', 'wp-job-manager-wc-paid-listings' ),
+				'listing' => __( 'Link the subscription to posted listings (renew posted listings every subscription term)', 'wp-job-manager-wc-paid-listings' ),
+			),
+		)
+	); ?>
 
-	<?php woocommerce_wp_text_input( array(
-		'id' => '_job_listing_limit',
-		'label' => __( 'Job listing limit', 'wp-job-manager-wc-paid-listings' ),
-		'description' => __( 'The number of job listings a user can post with this package.', 'wp-job-manager-wc-paid-listings' ),
-		'value' => ( $limit = get_post_meta( $post_id, '_job_listing_limit', true ) ) ? $limit : '',
-		'placeholder' => __( 'Unlimited', 'wp-job-manager-wc-paid-listings' ),
-		'type' => 'number',
-		'desc_tip' => true,
-		'custom_attributes' => array(
-		'min'   => '',
-		'step' 	=> '1',
-		),
-	) ); ?>
+	<?php
+	woocommerce_wp_text_input(
+		array(
+			'id'                => '_job_listing_limit',
+			'label'             => __( 'Job listing limit', 'wp-job-manager-wc-paid-listings' ),
+			'description'       => __( 'The number of job listings a user can post with this package.', 'wp-job-manager-wc-paid-listings' ),
+			'value'             => ( $limit = get_post_meta( $post_id, '_job_listing_limit', true ) ) ? $limit : '',
+			'placeholder'       => __( 'Unlimited', 'wp-job-manager-wc-paid-listings' ),
+			'type'              => 'number',
+			'desc_tip'          => true,
+			'custom_attributes' => array(
+				'min'  => '',
+				'step' => '1',
+			),
+		)
+	);
+	?>
 
-	<?php woocommerce_wp_text_input( array(
-		'id' => '_job_listing_duration',
-		'label' => __( 'Job listing duration', 'wp-job-manager-wc-paid-listings' ),
-		'description' => __( 'The number of days that the job listing will be active.', 'wp-job-manager-wc-paid-listings' ),
-		'value' => get_post_meta( $post_id, '_job_listing_duration', true ),
-		'placeholder' => get_option( 'job_manager_submission_duration' ),
-		'desc_tip' => true,
-		'type' => 'number',
-		'custom_attributes' => array(
-		'min'   => '',
-		'step' 	=> '1',
-		),
-	) ); ?>
+	<?php
+	woocommerce_wp_text_input(
+		array(
+			'id'                => '_job_listing_duration',
+			'label'             => __( 'Job listing duration', 'wp-job-manager-wc-paid-listings' ),
+			'description'       => __( 'The number of days that the job listing will be active.', 'wp-job-manager-wc-paid-listings' ),
+			'value'             => get_post_meta( $post_id, '_job_listing_duration', true ),
+			'placeholder'       => get_option( 'job_manager_submission_duration' ),
+			'desc_tip'          => true,
+			'type'              => 'number',
+			'custom_attributes' => array(
+				'min'  => '',
+				'step' => '1',
+			),
+		)
+	);
+	?>
 
-	<?php woocommerce_wp_checkbox( array(
-		'id' => '_job_listing_featured',
-		'label' => __( 'Feature Listings?', 'wp-job-manager-wc-paid-listings' ),
-		'description' => __( 'Feature this job listing - it will be styled differently and sticky.', 'wp-job-manager-wc-paid-listings' ),
-		'value' => get_post_meta( $post_id, '_job_listing_featured', true ),
-	) ); ?>
+	<?php
+	woocommerce_wp_checkbox(
+		array(
+			'id'          => '_job_listing_featured',
+			'label'       => __( 'Feature Listings?', 'wp-job-manager-wc-paid-listings' ),
+			'description' => __( 'Feature this job listing - it will be styled differently and sticky.', 'wp-job-manager-wc-paid-listings' ),
+			'value'       => get_post_meta( $post_id, '_job_listing_featured', true ),
+		)
+	);
+	?>
 
-	<?php woocommerce_wp_checkbox( [
-		'id'          => '_wcpl_disable_repurchase',
-		'label'       => esc_html__( 'Disable repeat purchase?', 'wp-job-manager-wc-paid-listings' ),
-		'description' => esc_html__( 'This package can only be bought once per user if checked. (Useful for free job listing packages)', 'wp-job-manager-wc-paid-listings' ),
-		'value'       => get_post_meta( $post->ID, '_wcpl_disable_repurchase', true ),
-	] ); ?>
+	<?php
+	woocommerce_wp_checkbox(
+		[
+			'id'          => '_wcpl_disable_repurchase',
+			'label'       => esc_html__( 'Disable repeat purchase?', 'wp-job-manager-wc-paid-listings' ),
+			'description' => esc_html__( 'This package can only be bought once per user if checked. (Useful for free job listing packages)', 'wp-job-manager-wc-paid-listings' ),
+			'value'       => get_post_meta( $post->ID, '_wcpl_disable_repurchase', true ),
+		]
+	);
+	?>
 
 	<script type="text/javascript">
 		jQuery(function(){
