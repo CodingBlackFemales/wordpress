@@ -39,7 +39,10 @@ if ( resume_manager_discourage_resume_search_indexing() ) {
  * @return array The remaining graph pieces.
  */
 function remove_webpage_from_schema( $pieces, $context ) {
-	return array_filter( $pieces, function( $piece ) {
-		return ! $piece instanceof \Yoast\WP\SEO\Generators\Schema\WebPage;
-	} );
+	return array_filter(
+		$pieces,
+		function( $piece ) {
+			return ! $piece instanceof \Yoast\WP\SEO\Generators\Schema\WebPage;
+		}
+	);
 }

@@ -17,7 +17,7 @@ class WC_Paid_Listings_Cart {
 	 * @return static
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -44,7 +44,7 @@ class WC_Paid_Listings_Cart {
 		}
 		add_filter( 'woocommerce_get_item_data', array( $this, 'get_item_data' ), 10, 2 );
 
-		add_filter( 'woocommerce_cart_id', [ $this, 'remove_job_data_from_cart_id'], 10, 5 );
+		add_filter( 'woocommerce_cart_id', [ $this, 'remove_job_data_from_cart_id' ], 10, 5 );
 
 		// Force reg during checkout process
 		add_filter( 'option_woocommerce_enable_signup_and_login_from_checkout', array( $this, 'enable_signup_and_login_from_checkout' ) );
@@ -173,13 +173,13 @@ class WC_Paid_Listings_Cart {
 			$job = get_post( absint( $cart_item_data['job_id'] ) );
 
 			$order_item->update_meta_data( __( 'Job Listing', 'wp-job-manager-wc-paid-listings' ), $job->post_title );
-			$order_item->update_meta_data( '_job_id', $cart_item_data['job_id']  );
+			$order_item->update_meta_data( '_job_id', $cart_item_data['job_id'] );
 		}
 		if ( isset( $cart_item_data['resume_id'] ) ) {
 			$resume = get_post( absint( $cart_item_data['resume_id'] ) );
 
 			$order_item->update_meta_data( __( 'Resume', 'wp-job-manager-wc-paid-listings' ), $resume->post_title );
-			$order_item->update_meta_data( '_resume_id', $cart_item_data['resume_id']  );
+			$order_item->update_meta_data( '_resume_id', $cart_item_data['resume_id'] );
 		}
 	}
 

@@ -496,7 +496,6 @@ class WP_Resume_Manager_Shortcodes {
 		 * Get current output buffer contents ( ob_get_clean() )
 		 *
 		 * @since 1.18.5
-		 *
 		 */
 		$resume_listings_output = apply_filters( 'job_manager_resume_listings_output', ob_get_clean() );
 
