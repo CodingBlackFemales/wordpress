@@ -25,10 +25,37 @@ function headless_redirect_theme_setup() {
  */
 function headless_redirect_all_requests() {
 	if ( ! is_admin() ) { // Make sure we don't redirect admin area requests
-		wp_redirect( CBF_FRONTEND_URL, 301 ); // Redirect with a 301 Moved Permanently HTTP status code
+		$redirect_url = CBF_FRONTEND_URL;
+
+		if ( is_page() ) {
+			$post = get_post();
+			$redirect_url = build_url( CBF_FRONTEND_URL, $post->post_name );
+		}
+
+		wp_redirect( $redirect_url, 301 );
 
 		exit;
 	}
+}
+
+function build_url( $parts ) {
+	if ( ! is_array( $parts ) ) {
+		$parts = func_get_args();
+
+		if ( count( $parts ) < 2 ) {
+			throw new \RuntimeException( 'build_url() should take array as a single argument or more than one argument' );
+		}
+	} elseif ( count( $parts ) == 0 ) {
+		return '';
+	} elseif ( count( $parts ) == 1 ) {
+		return $parts[0];
+	}
+
+	foreach ( $parts as $path ) {
+		$url[] = rtrim( $path, '/' );
+	}
+
+	return implode( '/', $url );
 }
 
 add_action( 'after_setup_theme', 'headless_redirect_theme_setup' );
