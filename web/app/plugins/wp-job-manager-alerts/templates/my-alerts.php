@@ -8,199 +8,122 @@
  * @author      Automattic
  * @package     WP Job Manager - Alerts
  * @category    Template
- * @version     1.5.0
+ * @version     3.1.0
+ *
+ * @var WP_User $user
+ * @var WP_Post[] $alerts
  */
+
+use WP_Job_Manager\UI\Notice;
+use WP_Job_Manager_Alerts\Alert;
+use WP_Job_Manager_Alerts\Post_Types;
+use WP_Job_Manager_Alerts\Shortcodes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div id="job-manager-alerts">
-	<p><?php printf( __( 'Your job alerts are shown in the table below and will be emailed to %s.', 'wp-job-manager-alerts' ), $user->user_email ); ?></p>
-	<table class="job-manager-alerts">
-		<thead>
-			<tr>
-				<th><?php _e( 'Alert Name', 'wp-job-manager-alerts' ); ?></th>
-				<th><?php _e( 'Keywords', 'wp-job-manager-alerts' ); ?></th>
-				<?php if ( get_option( 'job_manager_enable_categories' ) && wp_count_terms( 'job_listing_category' ) > 0 ) : ?>
-					<th><?php _e( 'Categories', 'wp-job-manager-alerts' ); ?></th>
-				<?php endif; ?>
-				<?php if ( taxonomy_exists( 'job_listing_tag' ) ) : ?>
-					<th><?php _e( 'Tags', 'wp-job-manager-alerts' ); ?></th>
-				<?php endif; ?>
-				<?php if ( get_option( 'job_manager_enable_types' ) && wp_count_terms( 'job_listing_types' ) > 0 ) : ?>
-					<th><?php _e( 'Types', 'wp-job-manager-alerts' ); ?></th>
-				<?php endif; ?>
-				<th><?php _e( 'Location', 'wp-job-manager-alerts' ); ?></th>
-				<th><?php _e( 'Frequency', 'wp-job-manager-alerts' ); ?></th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="6">
-					<a href="<?php echo esc_url( add_query_arg( 'action', 'add_alert', get_permalink() ) ); ?>"><?php _e( 'Add alert', 'wp-job-manager-alerts' ); ?></a>
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php foreach ( $alerts as $alert ) : ?>
-				<?php
-				$search_terms = WP_Job_Manager_Alerts_Post_Types::get_alert_search_terms( $alert->ID );
-				?>
-				<tr class="alert-<?php echo $alert->post_status === 'draft' ? 'disabled' : 'enabled'; ?>">
-					<td>
-						<?php echo esc_html( $alert->post_title ); ?>
-						<ul class="job-alert-actions">
-							<?php
-								$actions = apply_filters(
-									'job_manager_alert_actions',
-									array(
-										'view' => array(
-											'label' => __( 'Results', 'wp-job-manager-alerts' ),
-											'nonce' => false,
-										),
-										'email' => array(
-											'label' => __( 'Send&nbsp;Now', 'wp-job-manager-alerts' ),
-											'nonce' => true,
-										),
-										'edit' => array(
-											'label' => __( 'Edit', 'wp-job-manager-alerts' ),
-											'nonce' => false,
-										),
-										'toggle_status' => array(
-											'label' => $alert->post_status == 'draft' ? __( 'Enable', 'wp-job-manager-alerts' ) : __( 'Disable', 'wp-job-manager-alerts' ),
-											'nonce' => true,
-										),
-										'delete' => array(
-											'label' => __( 'Delete', 'wp-job-manager-alerts' ),
-											'nonce' => true,
-										),
-									),
-									$alert
-								);
 
-							foreach ( $actions as $action => $value ) {
-								$action_url = remove_query_arg(
-									'updated',
-									add_query_arg(
-										array(
-											'action' => $action,
-											'alert_id' => $alert->ID,
-										)
-									)
-								);
+<div id="job-manager-alerts" class="jm-alerts__my-alerts">
+	<div class="jm-alerts__my-alerts__email-info">
+		<p><?php printf( __( 'Your job alerts are shown in the list below and will be emailed to %s.', 'wp-job-manager-alerts' ), $user->user_email ); ?></p>
+	</div>
+	<div class="jm-alerts__alert-list">
+		<?php foreach ( $alerts as $alert_post ) : ?>
+			<?php
+			$alert = Alert::load( $alert_post->ID );
 
-								if ( $value['nonce'] ) {
-									$action_url = wp_nonce_url( $action_url, 'job_manager_alert_actions' );
-								}
+			$search_terms = $alert->get_search_terms();
+			$disabled     = ! $alert->is_enabled();
+			?>
+			<div class="jm-alert alert-<?php echo $disabled ? 'disabled' : 'enabled'; ?>">
+				<div class="jm-alert__header">
+					<h3 class="jm-alert__title"><?php echo esc_html( $alert->get_name() ); ?></h3>
 
-								echo '<li><a href="' . esc_url( $action_url ) . '" class="job-alerts-action-' . esc_attr( $action ) . '">' . esc_html( $value['label'] ) . '</a></li>';
+					<?php if ( $disabled ) : ?>
+						<div class="jm-alert__disabled"><?php _e( 'Disabled', 'wp-job-manager-alerts' ); ?></div>
+					<?php else: ?>
+
+						<div class="jm-alert__frequency alert_frequency"><?php
+
+							$frequency = $alert->get_schedule();
+
+							$next_scheduled = $alert->get_next_scheduled();
+							if ( ! empty( $next_scheduled ) ) {
+
+								echo ' <span class="jm-alert__frequency__next">';
+								// translators: First placeholder is the alert frequency, second is the date and time of the next email.
+								echo sprintf( __( '%1s (Next: %2s)', 'wp-job-manager-alerts' ), $frequency['display'] ?? '', $next_scheduled );
+								echo '</span>';
 							}
+
 							?>
-						</ul>
-					</td>
-					<td class="alert_keyword">
-					<?php
-					if ( $value = get_post_meta( $alert->ID, 'alert_keyword', true ) ) {
-						echo esc_html( $value );
-					} else {
-						echo '&ndash;';
-					}
-					?>
-					</td>
-					<?php if ( get_option( 'job_manager_enable_categories' ) && wp_count_terms( 'job_listing_category' ) > 0 ) : ?>
-						<td class="alert_category">
-						<?php
-							$term_ids = ! empty( $search_terms['categories'] ) ? $search_terms['categories'] : array();
-							$terms = array();
-						if ( ! empty( $term_ids ) ) {
-							$terms = get_terms(
-								array(
-									'taxonomy'         => 'job_listing_category',
-									'fields'           => 'names',
-									'include'          => $term_ids,
-									'hide_empty'       => false,
-								)
-							);
-						}
-							echo $terms ? esc_html( implode( ', ', $terms ) ) : '&ndash;';
-						?>
-						</td>
+						</div>
 					<?php endif; ?>
-					<?php if ( taxonomy_exists( 'job_listing_tag' ) ) : ?>
-						<td class="alert_tag">
-						<?php
-							$term_ids = ! empty( $search_terms['tags'] ) ? $search_terms['tags'] : array();
-							$terms = array();
-						if ( ! empty( $term_ids ) ) {
-							$terms = get_terms(
-								array(
-									'taxonomy'         => 'job_listing_tag',
-									'fields'           => 'names',
-									'include'          => $term_ids,
-									'hide_empty'       => false,
-								)
-							);
-						}
-							echo $terms ? esc_html( implode( ', ', $terms ) ) : '&ndash;';
-						?>
-						</td>
-					<?php endif; ?>
-					<?php if ( get_option( 'job_manager_enable_types' ) && wp_count_terms( 'job_listing_types' ) > 0 ) : ?>
-						<td class="alert_types">
-						<?php
-							$term_ids = ! empty( $search_terms['types'] ) ? $search_terms['types'] : array();
-							$terms = array();
-						if ( ! empty( $term_ids ) ) {
-							$terms = get_terms(
-								array(
-									'taxonomy'         => 'job_listing_type',
-									'fields'           => 'names',
-									'include'          => $term_ids,
-									'hide_empty'       => false,
-								)
-							);
-						}
-							echo $terms ? esc_html( implode( ', ', $terms ) ) : '&ndash;';
-						?>
-						</td>
-					<?php endif; ?>
-					<td class="alert_location">
-					<?php
-					if ( taxonomy_exists( 'job_listing_region' ) && wp_count_terms( 'job_listing_region' ) > 0 ) {
-						$term_ids = ! empty( $search_terms['regions'] ) ? $search_terms['regions'] : array();
-						$terms = array();
-						if ( ! empty( $term_ids ) ) {
-							$terms = get_terms(
-								array(
-									'taxonomy'         => 'job_listing_region',
-									'fields'           => 'names',
-									'include'          => $term_ids,
-									'hide_empty'       => false,
-								)
-							);
-						}
-						echo $terms ? esc_html( implode( ', ', $terms ) ) : '&ndash;';
-					} else {
-						$value = get_post_meta( $alert->ID, 'alert_location', true );
-						echo $value ? esc_html( $value ) : '&ndash;';
-					}
-					?>
-					</td>
-					<td class="alert_frequency">
-					<?php
-						$schedules = WP_Job_Manager_Alerts_Notifier::get_alert_schedules();
-						$freq      = get_post_meta( $alert->ID, 'alert_frequency', true );
+				</div>
 
-					if ( ! empty( $schedules[ $freq ] ) ) {
-						echo esc_html( $schedules[ $freq ]['display'] );
-					}
+				<?php
+				$term_rows = Post_Types::get_search_fields();
 
-						echo '<small>' . sprintf( __( 'Next: %1$s at %2$s', 'wp-job-manager-alerts' ), date_i18n( get_option( 'date_format' ), wp_next_scheduled( 'job-manager-alert', array( $alert->ID ) ) ), date_i18n( get_option( 'time_format' ), wp_next_scheduled( 'job-manager-alert', array( $alert->ID ) ) ) ) . '</small>';
+				foreach ( $term_rows as $term => $row ) :
+					$terms = $search_terms[ $term ] ?? [];
+					if ( empty( $terms ) ) {
+						continue;
+					}
 					?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+					<div class="jm-alert__terms alert_<?php echo $term; ?>">
+						<span class="jm-alert__term-label"><?php echo esc_html( $row['label'] ) ?>:</span>
+						<span class="jm-alert__term-list"><?php foreach ( $terms as $i => $term_value ) : ?>
+								<span class="jm-alert__term"><?php echo esc_html( $term_value ); ?></span><?php
+								if ( array_key_last( $terms ) !== $i ) {
+									echo '<span class="jm-alert__term-separator">, </span>';
+								}
+								?>
+							<?php endforeach; ?>
+						</span>
+					</div>
+				<?php
+				endforeach;
+				?>
+
+				<div class="jm-alert__actions job-alert-actions">
+					<ul>
+						<?php
+						$actions = Shortcodes::get_alert_actions( $alert );
+
+						foreach ( $actions as $action => ['url' => $url, 'label' => $label] ) {
+
+							echo '<li><a href="' . esc_url( $url ) . '" class="jm-alert__action job-alerts-action-' . esc_attr( $action ) . '">' . esc_html( $label ) . '</a></li>';
+						}
+						?>
+					</ul>
+				</div>
+			</div>
+		<?php endforeach; ?>
+		<?php if ( empty( $alerts ) ) : ?>
+			<div class="jm-alerts__no-alerts">
+				<?php echo Notice::dialog( __( 'No job alerts found.', 'wp-job-manager-alerts' ) ); ?>
+			</div>
+		<?php endif; ?>
+		<?php
+		$query_args = [
+			'action'         => 'add_alert',
+			'updated'        => null,
+			'alert_name'     => false,
+			'alert_job_type' => false,
+			'alert_location' => false,
+			'alert_cats'     => false,
+			'alert_keyword'  => false,
+			'alert_regions'  => false,
+			'alert_id'       => false,
+			'user_id'        => false,
+			'token'          => false,
+		];
+		?>
+		<div class="jm-alerts__add-new">
+			<a href="<?php echo esc_url( add_query_arg( $query_args ) ); ?>">
+				<?php _e( 'Add alert', 'wp-job-manager-alerts' ); ?>
+			</a>
+		</div>
+	</div>
 </div>

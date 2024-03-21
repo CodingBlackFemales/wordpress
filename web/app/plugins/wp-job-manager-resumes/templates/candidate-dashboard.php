@@ -38,73 +38,73 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 					<tr>
 						<?php foreach ( $candidate_dashboard_columns as $key => $column ) : ?>
 							<td class="<?php echo esc_attr( $key ); ?>">
-								<?php if ( $key === 'resume-title' ) : ?>
-									<?php if ( $resume->post_status == 'publish' ) : ?>
+								<?php if ( 'resume-title' === $key ) : ?>
+									<?php if ( 'publish' == $resume->post_status ) : ?>
 										<a href="<?php echo get_permalink( $resume->ID ); ?>"><?php echo esc_html( $resume->post_title ); ?></a>
 									<?php else : ?>
 										<?php echo esc_html( $resume->post_title ); ?> <small>(<?php the_resume_status( $resume ); ?>)</small>
 									<?php endif; ?>
 									<ul class="candidate-dashboard-actions">
 										<?php
-											$actions = array();
+											$actions = [];
 
 										switch ( $resume->post_status ) {
 											case 'publish':
 												if ( resume_manager_user_can_edit_published_submissions() ) {
-													$actions['edit'] = array(
+													$actions['edit'] = [
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													);
+													];
 												}
-												$actions['hide'] = array(
+												$actions['hide'] = [
 													'label' => __( 'Hide', 'wp-job-manager-resumes' ),
 													'nonce' => true,
-												);
+												];
 												break;
 											case 'hidden':
 												if ( resume_manager_user_can_edit_published_submissions() ) {
-													$actions['edit'] = array(
+													$actions['edit'] = [
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													);
+													];
 												}
-												$actions['publish'] = array(
+												$actions['publish'] = [
 													'label' => __( 'Publish', 'wp-job-manager-resumes' ),
 													'nonce' => true,
-												);
+												];
 												break;
-											case 'pending_payment':
-											case 'pending':
+											case 'pending_payment' :
+											case 'pending' :
 												if ( resume_manager_user_can_edit_pending_submissions() ) {
-													$actions['edit'] = array(
+													$actions['edit'] = [
 														'label' => __( 'Edit', 'wp-job-manager-resumes' ),
 														'nonce' => false,
-													);
+													];
 												}
 												break;
 											case 'expired':
 												if ( get_option( 'resume_manager_submit_resume_form_page_id' ) ) {
-													$actions['relist'] = array(
+													$actions['relist'] = [
 														'label' => __( 'Relist', 'wp-job-manager-resumes' ),
 														'nonce' => true,
-													);
+													];
 												}
 												break;
 										}
 
-											$actions['delete'] = array(
+											$actions['delete'] = [
 												'label' => __( 'Delete', 'wp-job-manager-resumes' ),
 												'nonce' => true,
-											);
+											];
 
 											$actions = apply_filters( 'resume_manager_my_resume_actions', $actions, $resume );
 
 											foreach ( $actions as $action => $value ) {
 												$action_url = add_query_arg(
-													array(
+													[
 														'action' => $action,
 														'resume_id' => $resume->ID,
-													)
+													]
 												);
 												if ( $value['nonce'] ) {
 													$action_url = wp_nonce_url( $action_url, 'resume_manager_my_resume_actions' );
@@ -113,15 +113,15 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 											}
 											?>
 									</ul>
-								<?php elseif ( $key === 'candidate-title' ) : ?>
+								<?php elseif ( 'candidate-title' === $key ) : ?>
 									<?php the_candidate_title( '', '', true, $resume ); ?>
-								<?php elseif ( $key === 'candidate-location' ) : ?>
+								<?php elseif ( 'candidate-location' === $key ) : ?>
 									<?php the_candidate_location( false, $resume ); ?></td>
-								<?php elseif ( $key === 'resume-category' ) : ?>
+								<?php elseif ( 'resume-category' === $key ) : ?>
 									<?php the_resume_category( $resume ); ?>
-								<?php elseif ( $key === 'status' ) : ?>
+								<?php elseif ( 'status' === $key ) : ?>
 									<?php the_resume_status( $resume ); ?>
-								<?php elseif ( $key === 'date' ) : ?>
+								<?php elseif ( 'date' === $key ) : ?>
 									<?php
 									if ( ! empty( $resume->_resume_expires ) && strtotime( $resume->_resume_expires ) > current_time( 'timestamp' ) ) {
 										printf( __( 'Expires %s', 'wp-job-manager-resumes' ), date_i18n( get_option( 'date_format' ), strtotime( $resume->_resume_expires ) ) );
@@ -148,5 +148,5 @@ $submit_resume_form_page_id = get_option( 'resume_manager_submit_resume_form_pag
 			</tfoot>
 		<?php endif; ?>
 	</table>
-	<?php get_job_manager_template( 'pagination.php', array( 'max_num_pages' => $max_num_pages ) ); ?>
+	<?php get_job_manager_template( 'pagination.php', [ 'max_num_pages' => $max_num_pages ] ); ?>
 </div>

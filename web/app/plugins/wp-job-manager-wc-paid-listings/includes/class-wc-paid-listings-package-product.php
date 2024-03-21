@@ -52,7 +52,7 @@ class WP_Job_Manager_WCPL_Package_Product extends WC_Product {
 		 * Set to false if a package has been purchased and has "Disable repeat purchase?" enabled.
 		 *
 		 * @since @@version
-		 * 
+		 *
 		 * @param bool $wcpl_package_is_purchasable
 		 * @param int  $this
 		 */
