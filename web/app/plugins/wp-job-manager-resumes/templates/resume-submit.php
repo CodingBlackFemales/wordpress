@@ -23,7 +23,7 @@ wp_enqueue_script( 'wp-resume-manager-resume-submission' );
 
 	<?php if ( apply_filters( 'submit_resume_form_show_signin', true ) ) : ?>
 
-		<?php get_job_manager_template( 'account-signin.php', array( 'class' => $class ), 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
+		<?php get_job_manager_template( 'account-signin.php', [ 'class' => $class ], 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' ); ?>
 
 	<?php endif; ?>
 

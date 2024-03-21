@@ -244,7 +244,7 @@ final class WP_Resume_Manager_Email_Notifications {
 				// translators: Placeholder is date of education experience.
 				$resume_education_str .= sprintf( __( 'Date: %s', 'wp-job-manager-resumes' ), $item['date'] ) . PHP_EOL;
 				// translators: Placeholder is qualifications/degrees of education experience.
-				$resume_education_str .= sprintf( __( 'Qualification: %s', 'wp-job-manager-resumes' ), $item['qualification'] ) . PHP_EOL;
+				$resume_education_str .= sprintf( __( 'Certification: %s', 'wp-job-manager-resumes' ), $item['qualification'] ) . PHP_EOL;
 				// translators: Placeholder is notes for education experience.
 				$resume_education_str .= sprintf( __( 'Notes: %s', 'wp-job-manager-resumes' ), $item['notes'] ) . PHP_EOL;
 				$resume_education_str .= PHP_EOL;
