@@ -223,7 +223,7 @@ function get_the_resume_category( $post = null ) {
 		return '';
 	}
 
-	$categories = wp_get_object_terms( $post->ID, 'resume_category', array( 'fields' => 'names' ) );
+	$categories = wp_get_object_terms( $post->ID, 'resume_category', [ 'fields' => 'names' ] );
 
 	if ( is_wp_error( $categories ) ) {
 		return '';
@@ -279,33 +279,33 @@ function resume_manager_get_registration_fields() {
 	$use_standard_password_setup_email = resume_manager_use_standard_password_setup_email();
 	$account_required                  = resume_manager_user_requires_account();
 
-	$registration_fields = array();
+	$registration_fields = [];
 	if ( resume_manager_enable_registration() ) {
 		if ( ! $generate_username_from_email ) {
-			$registration_fields['create_account_username'] = array(
+			$registration_fields['create_account_username'] = [
 				'type'     => 'text',
 				'label'    => esc_html__( 'Username', 'wp-job-manager-resumes' ),
 				'required' => $account_required,
 				'value'    => isset( $_POST['create_account_username'] ) ? $_POST['create_account_username'] : '',
-			);
+			];
 		}
 		if ( ! $use_standard_password_setup_email ) {
-			$registration_fields['create_account_password'] = array(
+			$registration_fields['create_account_password'] = [
 				'type'         => 'password',
 				'label'        => esc_html__( 'Password', 'wp-job-manager-resumes' ),
 				'autocomplete' => false,
 				'required'     => $account_required,
-			);
+			];
 			$password_hint                                  = wpjm_get_password_rules_hint();
 			if ( $password_hint ) {
 				$registration_fields['create_account_password']['description'] = $password_hint;
 			}
-			$registration_fields['create_account_password_verify'] = array(
+			$registration_fields['create_account_password_verify'] = [
 				'type'         => 'password',
 				'label'        => esc_html__( 'Verify Password', 'wp-job-manager-resumes' ),
 				'autocomplete' => false,
 				'required'     => $account_required,
-			);
+			];
 		}
 	}
 
@@ -383,10 +383,10 @@ function resume_class( $class = '', $post_id = null ) {
 function get_resume_class( $class = '', $post_id = null ) {
 	$post = get_post( $post_id );
 	if ( $post->post_type !== 'resume' ) {
-		return array();
+		return [];
 	}
 
-	$classes = array();
+	$classes = [];
 
 	if ( empty( $post ) ) {
 		return $classes;
@@ -418,7 +418,7 @@ function the_resume_permalink( $post = null ) {
  */
 function the_resume_links( $post = null ) {
 	$post = get_post( $post );
-	get_job_manager_template( 'resume-links.php', array( 'post' => $post ), 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' );
+	get_job_manager_template( 'resume-links.php', [ 'post' => $post ], 'wp-job-manager-resumes', RESUME_MANAGER_PLUGIN_DIR . '/templates/' );
 }
 
 /**
@@ -475,9 +475,9 @@ function get_resume_files( $post = null ) {
 	$post  = get_post( $post );
 	$files = get_post_meta( $post->ID, '_resume_file', true );
 	if ( empty( $files ) ) {
-		return array();
+		return [];
 	}
-	$files = is_array( $files ) ? $files : array( $files );
+	$files = is_array( $files ) ? $files : [ $files ];
 	return $files;
 }
 
@@ -489,7 +489,7 @@ function get_resume_files( $post = null ) {
 function get_resume_attachments( $post = null ) {
 	$post  = get_post( $post );
 	$files = get_post_meta( $post->ID, '_resume_file', true );
-	$files = is_array( $files ) ? $files : array( $files );
+	$files = is_array( $files ) ? $files : [ $files ];
 
 	foreach ( $files as $id => $file_path ) {
 		if ( ! is_multisite() ) {
@@ -522,20 +522,24 @@ function get_resume_attachments( $post = null ) {
 			// Now try to replace upload URL
 			$file_path = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
 		}
-		$file_path = realpath( $file_path );
+
+		if ( ! empty( $file_path ) ) {
+			$file_path = realpath( $file_path );
+		}
+
 		if ( $file_path ) {
 			$attachments[ $id ] = $file_path;
 		} else {
 			unset( $files[ $id ] );
 		}
 	}
-	if ( isset( $attachments ) == false ) {
+	if ( ! isset( $attachments ) ) {
 		$attachments = false;
 	}
-	return array(
+	return [
 		'files'       => $files,
 		'attachments' => $attachments,
-	);
+	];
 }
 
 /**
@@ -562,10 +566,10 @@ function get_resume_file( $post = null ) {
 function get_resume_file_download_url( $post = null, $key = 0, $url = false ) {
 	$post = get_post( $post );
 	return add_query_arg(
-		array(
+		[
 			'download-resume' => $post->ID,
 			'file-id'         => $key,
-		),
+		],
 		$url
 	);
 }
@@ -591,7 +595,7 @@ function the_candidate_video( $post = null ) {
 	$filetype = wp_check_filetype( $video );
 
 	if ( ! empty( $filetype['ext'] ) ) {
-		$video_embed = wp_video_shortcode( array( 'src' => $video ) );
+		$video_embed = wp_video_shortcode( [ 'src' => $video ] );
 	} else {
 		$video_embed = ! empty( $video ) ? wp_oembed_get( $video ) : false;
 	}

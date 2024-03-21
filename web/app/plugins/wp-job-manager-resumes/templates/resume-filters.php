@@ -34,10 +34,12 @@ do_action( 'resume_manager_resume_filters_before', $atts );
 			<input type="text" name="search_location" id="search_location" placeholder="<?php esc_html_e( 'Any Location', 'wp-job-manager-resumes' ); ?>" value="<?php echo esc_attr( $location ); ?>" />
 		</div>
 
-		<div class="search_skills resume-filter">
-			<label for="search_skills"><?php esc_html_e( 'Skills', 'wp-job-manager-resumes' ); ?></label>
-			<input type="text" name="search_skills" id="search_skills" placeholder="<?php esc_html_e( 'Any Skills', 'wp-job-manager-resumes' ); ?>" value="<?php echo esc_attr( $skills ); ?>" />
-		</div>
+		<?php if ( get_option( 'resume_manager_enable_skills' ) ) : ?>
+			<div class="search_skills resume-filter">
+				<label for="search_skills"><?php esc_html_e( 'Skills', 'wp-job-manager-resumes' ); ?></label>
+				<input type="text" name="search_skills" id="search_skills" placeholder="<?php esc_html_e( 'Any Skills', 'wp-job-manager-resumes' ); ?>" value="<?php echo esc_attr( $skills ); ?>" />
+			</div>
+		<?php endif; ?>
 
 		<?php if ( $categories ) : ?>
 			<?php foreach ( $categories as $category ) : ?>
@@ -49,27 +51,27 @@ do_action( 'resume_manager_resume_filters_before', $atts );
 				<?php if ( $show_category_multiselect ) : ?>
 					<?php
 					job_manager_dropdown_categories(
-						array(
+						[
 							'taxonomy'     => 'resume_category',
 							'hierarchical' => 1,
 							'name'         => 'search_categories',
 							'orderby'      => 'name',
 							'selected'     => $selected_category,
 							'hide_empty'   => false,
-						)
+						]
 					);
 					?>
 				<?php else : ?>
 					<?php
 					wp_dropdown_categories(
-						array(
+						[
 							'taxonomy'        => 'resume_category',
 							'hierarchical'    => 1,
 							'show_option_all' => __( 'Any category', 'wp-job-manager-resumes' ),
 							'name'            => 'search_categories',
 							'orderby'         => 'name',
 							'selected'        => $selected_category,
-						)
+						]
 					);
 					?>
 				<?php endif; ?>
