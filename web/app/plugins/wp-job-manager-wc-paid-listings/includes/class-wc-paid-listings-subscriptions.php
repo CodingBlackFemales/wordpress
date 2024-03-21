@@ -17,7 +17,7 @@ class WC_Paid_Listings_Subscriptions {
 	 * @return static
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -54,6 +54,8 @@ class WC_Paid_Listings_Subscriptions {
 		// On renewal
 		add_action( 'woocommerce_subscription_renewal_payment_complete', array( $this, 'subscription_renewed' ) ); // When the subscription is renewed
 
+		add_filter( 'woocommerce_add_to_cart_form_action', array( $this, 'add_switch_query_arg_cart_action' ), 20 );
+
 		// Subscription is switched
 		add_action( 'woocommerce_subscriptions_switched_item', array( $this, 'subscription_switched' ), 10, 3 ); // When the subscription is switched and a new subscription is created
 		add_action( 'woocommerce_subscription_item_switched', array( $this, 'subscription_item_switched' ), 10, 4 ); // When the subscription is switched and only the item is changed
@@ -69,8 +71,8 @@ class WC_Paid_Listings_Subscriptions {
 	 */
 	public function updated_post_meta( $meta_id, $object_id, $meta_key, $meta_value ) {
 		if ( false !== $this->get_listing_subscription_order_id( $object_id )
-		     && '' !== $meta_value
-		     && '_job_expires' === $meta_key
+			 && '' !== $meta_value
+			 && '_job_expires' === $meta_key
 		) {
 			update_post_meta( $object_id, '_job_expires', '' ); // Never expire automatically
 		}
@@ -84,12 +86,12 @@ class WC_Paid_Listings_Subscriptions {
 	 * @return array
 	 */
 	public function filter_job_manager_job_listing_data_fields( $fields, $job_id = false ) {
-		if ( empty( $job_id) ) {
+		if ( empty( $job_id ) ) {
 			return $fields;
 		}
 		$subscription_order_id = $this->get_listing_subscription_order_id( $job_id );
 		if ( isset( $fields['_job_expires'] ) && false !== $subscription_order_id ) {
-			$fields['_job_expires']['type'] = 'hidden';
+			$fields['_job_expires']['type']        = 'hidden';
 			$fields['_job_expires']['placeholder'] = __( 'Inherited from subscription', 'wp-job-manager-wc-paid-listings' );
 			$fields['_job_expires']['information'] = sprintf( __( 'Job listing expires with its <a href="%s">associated subscription</a>.', 'wp-job-manager-wc-paid-listings' ), admin_url( 'post.php?post=' . absint( $subscription_order_id ) . '&action=edit' ) );
 		}
@@ -110,10 +112,10 @@ class WC_Paid_Listings_Subscriptions {
 			$package_id      = get_post_meta( $job_id, '_package_id', true );
 			$package         = wc_get_product( $package_id );
 			if ( $user_package
-			     && $user_package->has_package()
+				 && $user_package->has_package()
 				 && ( $package instanceof WC_Product_Job_Package_Subscription
-			          || $package instanceof WC_Product_Resume_Package_Subscription )
-			     && 'listing' === $package->get_package_subscription_type()
+					  || $package instanceof WC_Product_Resume_Package_Subscription )
+				 && 'listing' === $package->get_package_subscription_type()
 			) {
 				return $user_package->get_order_id();
 			}
@@ -170,7 +172,7 @@ class WC_Paid_Listings_Subscriptions {
 					$wpdb->update(
 						"{$wpdb->prefix}wcpl_user_packages",
 						array(
-							'package_count'  => max( 0, $new_count ),
+							'package_count' => max( 0, $new_count ),
 						),
 						array(
 							'id' => $package_id,
@@ -211,7 +213,7 @@ class WC_Paid_Listings_Subscriptions {
 						$wpdb->update(
 							"{$wpdb->prefix}wcpl_user_packages",
 							array(
-								'package_count'  => max( 0, $new_count ),
+								'package_count' => max( 0, $new_count ),
 							),
 							array(
 								'id' => $package_id,
@@ -243,13 +245,13 @@ class WC_Paid_Listings_Subscriptions {
 					$subscription_type = $this->get_package_subscription_type( $package_product_id );
 
 					if ( 'listing' === $subscription_type ) {
-						$package  = $wpdb->get_row( $wpdb->prepare( "SELECT package_count, package_limit FROM {$wpdb->prefix}wcpl_user_packages WHERE id = %d;", $package_id ) );
+						$package   = $wpdb->get_row( $wpdb->prepare( "SELECT package_count, package_limit FROM {$wpdb->prefix}wcpl_user_packages WHERE id = %d;", $package_id ) );
 						$new_count = $package->package_count + 1;
 
 						$wpdb->update(
 							"{$wpdb->prefix}wcpl_user_packages",
 							array(
-								'package_count'  => min( $package->package_limit, $new_count ),
+								'package_count' => min( $package->package_limit, $new_count ),
 							),
 							array(
 								'id' => $package_id,
@@ -284,10 +286,10 @@ class WC_Paid_Listings_Subscriptions {
 			/**
 			 * @var WC_Order $parent
 			 */
-			$parent            = $subscription->get_parent();
-			$parent_id         = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
-			$legacy_id         = isset( $parent_id ) ? $parent_id : wc_paid_listings_get_order_id( $subscription );
-			$user_package      = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages WHERE order_id IN ( %d, %d ) AND product_id = %d;", wc_paid_listings_get_order_id( $subscription ), $legacy_id, $item['product_id'] ) );
+			$parent       = $subscription->get_parent();
+			$parent_id    = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
+			$legacy_id    = isset( $parent_id ) ? $parent_id : wc_paid_listings_get_order_id( $subscription );
+			$user_package = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages WHERE order_id IN ( %d, %d ) AND product_id = %d;", wc_paid_listings_get_order_id( $subscription ), $legacy_id, $item['product_id'] ) );
 
 			if ( $user_package ) {
 				// Delete the package
@@ -310,7 +312,7 @@ class WC_Paid_Listings_Subscriptions {
 							delete_post_meta( $listing_id, '_post_status_before_package_pause' );
 						}
 						$listing = array(
-							'ID' => $listing_id,
+							'ID'          => $listing_id,
 							'post_status' => 'expired',
 						);
 						wp_update_post( $listing );
@@ -338,22 +340,28 @@ class WC_Paid_Listings_Subscriptions {
 		}
 
 		// Remove any old packages for this subscription
-		$parent            = $subscription->get_parent();
-		$parent_id         = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
-		$legacy_id         = isset( $parent_id ) ? $parent_id : wc_paid_listings_get_order_id( $subscription );
-		$wpdb->delete( "{$wpdb->prefix}wcpl_user_packages", array(
-			'order_id' => $legacy_id,
-		) );
-		$wpdb->delete( "{$wpdb->prefix}wcpl_user_packages", array(
-			'order_id' => wc_paid_listings_get_order_id( $subscription ),
-		) );
+		$parent    = $subscription->get_parent();
+		$parent_id = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
+		$legacy_id = isset( $parent_id ) ? $parent_id : wc_paid_listings_get_order_id( $subscription );
+		$wpdb->delete(
+			"{$wpdb->prefix}wcpl_user_packages",
+			array(
+				'order_id' => $legacy_id,
+			)
+		);
+		$wpdb->delete(
+			"{$wpdb->prefix}wcpl_user_packages",
+			array(
+				'order_id' => wc_paid_listings_get_order_id( $subscription ),
+			)
+		);
 
 		foreach ( $subscription->get_items() as $item ) {
 			$product           = wc_get_product( $item['product_id'] );
 			$subscription_type = $this->get_package_subscription_type( $item['product_id'] );
 
 			// Give user packages for this subscription
-			if ( $product->is_type( array( 'job_package_subscription', 'resume_package_subscription' ) ) && $subscription->get_user_id() && ! isset( $item['switched_subscription_item_id'] ) ) {
+			if ( $product->is_type( array( 'job_package_subscription', 'resume_package_subscription' ) ) && $subscription->get_user_id() ) {
 
 				// Give packages to user
 				for ( $i = 0; $i < $item['qty']; $i ++ ) {
@@ -388,6 +396,13 @@ class WC_Paid_Listings_Subscriptions {
 						wc_paid_listings_approve_listing_with_package( $listing_id, $subscription->get_user_id(), $user_package_id, $product->get_id() );
 						delete_post_meta( $listing_id, '_expired_subscription_id' );
 					}
+
+					foreach ( get_post_meta( $listing_id, '_renewal_pending_product_id' ) as $renewal_product_id ) {
+						if ( (int) $renewal_product_id === $item['product_id'] ) {
+							wc_paid_listings_handle_listing_renewal( $item['product_id'], $user_package_id, $listing_id, 'listing' === $subscription_type );
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -415,7 +430,7 @@ class WC_Paid_Listings_Subscriptions {
 				if ( ! $wpdb->update(
 					"{$wpdb->prefix}wcpl_user_packages",
 					array(
-						'package_count'  => 0,
+						'package_count' => 0,
 					),
 					array(
 						'order_id'   => wc_paid_listings_get_order_id( $subscription ),
@@ -520,10 +535,10 @@ class WC_Paid_Listings_Subscriptions {
 		/**
 		 * @var null|WC_Subscription $parent
 		 */
-		$parent            = isset( $old_subscription->subscription ) ? $old_subscription->subscription->get_parent() : null;
-		$parent_id         = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
-		$legacy_id         = isset( $parent_id ) ? $parent_id : $old_subscription->id;
-		$user_package      = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages WHERE order_id IN ( %d, %d ) AND product_id = %d;", $old_subscription->id, $legacy_id, $old_subscription->product_id ) );
+		$parent       = isset( $old_subscription->subscription ) ? $old_subscription->subscription->get_parent() : null;
+		$parent_id    = ! empty( $parent ) ? wc_paid_listings_get_order_id( $parent ) : null;
+		$legacy_id    = isset( $parent_id ) ? $parent_id : $old_subscription->id;
+		$user_package = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages WHERE order_id IN ( %d, %d ) AND product_id = %d;", $old_subscription->id, $legacy_id, $old_subscription->product_id ) );
 
 		if ( $user_package ) {
 			// If invalid, abort
@@ -538,9 +553,12 @@ class WC_Paid_Listings_Subscriptions {
 			$is_upgrade = ( 0 === $new_subscription->product->get_limit() || $new_subscription->product->get_limit() >= $user_package->package_count );
 
 			// Delete the old package
-			$wpdb->delete( "{$wpdb->prefix}wcpl_user_packages", array(
-				'id' => $user_package->id,
-			) );
+			$wpdb->delete(
+				"{$wpdb->prefix}wcpl_user_packages",
+				array(
+					'id' => $user_package->id,
+				)
+			);
 
 			$does_new_subscription_feature_listings = false;
 			if ( $new_subscription->product instanceof WC_Product_Job_Package_Subscription ) {
@@ -557,7 +575,7 @@ class WC_Paid_Listings_Subscriptions {
 					// If we are not upgrading, expire the old listing
 					if ( ! $is_upgrade ) {
 						$listing = array(
-							'ID' => $listing_id,
+							'ID'          => $listing_id,
 							'post_status' => 'expired',
 						);
 						wp_update_post( $listing );
@@ -578,7 +596,54 @@ class WC_Paid_Listings_Subscriptions {
 					do_action( 'wc_paid_listings_switched_subscription', $listing_id, $user_package );
 				}
 			}
-		}// End if().
+		}
+	}
+
+	/**
+	 * Adds the switch argument for job packages.
+	 *
+	 * @param string $permalink The permalink of the product.
+	 *
+	 * @return string modified string with the query arg present
+	 */
+	public static function add_switch_query_arg_cart_action( $permalink ) {
+		$post = get_post();
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Input is used safely.
+		if ( ! isset( $_GET['switch-subscription'], $_GET['item'] ) || empty( $post ) || 'product' !== get_post_type( $post ) ) {
+			return $permalink;
+		}
+
+		$product = wc_get_product( $post );
+		$type    = $product->get_type();
+
+		$has_job_package_subscription = 'job_package_subscription' === $type;
+
+		if ( 'grouped' === $type ) {
+			$children = $product->get_children();
+
+			foreach ( $children as $child ) {
+				$child_product = wc_get_product( $child );
+				if ( 'job_package_subscription' === $child_product->get_type() ) {
+					$has_job_package_subscription = true;
+					break;
+				}
+			}
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Input is used safely.
+		if ( $has_job_package_subscription ) {
+			$query_args = [
+				'switch-subscription' => (int) $_GET['switch-subscription'],
+				'item'                => (int) $_GET['item'],
+				'_wcsnonce'           => wp_create_nonce( 'wcs_switch_request' ),
+			];
+
+			$permalink = add_query_arg( $query_args, $permalink );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		return $permalink;
 	}
 }
 WC_Paid_Listings_Subscriptions::get_instance();

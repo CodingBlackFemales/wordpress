@@ -7,11 +7,11 @@ add_filter( 'job_manager_job_listing_affects_package_count', 'wpjm_wcpl_wpml_che
  * @since 2.7.3
  *
  * @param bool $job_listing_affects_package_count
- * @param int $listing_id
+ * @param int  $listing_id
  *
  * @return bool
  */
-function wpjm_wcpl_wpml_check_job_listing_for_package_count( $job_listing_affects_package_count, $listing_id) {
+function wpjm_wcpl_wpml_check_job_listing_for_package_count( $job_listing_affects_package_count, $listing_id ) {
 	$trid = apply_filters( 'wpml_element_trid', null, $listing_id, 'post_job_listing' );
 	if ( $trid ) {
 		$translations = apply_filters( 'wpml_get_element_translations', null, $trid, 'post_job_listing' );

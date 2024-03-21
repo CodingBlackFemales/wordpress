@@ -17,7 +17,7 @@ class WC_Paid_Listings_Admin {
 	 * @return static
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -56,16 +56,19 @@ class WC_Paid_Listings_Admin {
 	 */
 	public function add_screen_ids( $ids ) {
 		$wc_screen_id = sanitize_title( __( 'WooCommerce', 'woocommerce' ) );
-		return array_merge( $ids, array(
-			'users_page_wc_paid_listings_packages'
-		) );
+		return array_merge(
+			$ids,
+			array(
+				'users_page_wc_paid_listings_packages',
+			)
+		);
 	}
 
 	/**
 	 * Add menu items
 	 */
 	public function admin_menu() {
-		add_submenu_page( 'users.php', __( 'Listing Packages', 'wp-job-manager-wc-paid-listings' ), __( 'Listing Packages', 'wp-job-manager-wc-paid-listings' ), 'manage_options', 'wc_paid_listings_packages' , array( $this, 'packages_page' ) );
+		add_submenu_page( 'users.php', __( 'Listing Packages', 'wp-job-manager-wc-paid-listings' ), __( 'Listing Packages', 'wp-job-manager-wc-paid-listings' ), 'manage_options', 'wc_paid_listings_packages', array( $this, 'packages_page' ) );
 	}
 
 	/**
@@ -78,20 +81,26 @@ class WC_Paid_Listings_Admin {
 
 		if ( 'delete' === $action && ! empty( $_GET['delete_nonce'] ) && wp_verify_nonce( $_GET['delete_nonce'], 'delete' ) ) {
 			$package_id = absint( $_REQUEST['package_id'] );
-			$wpdb->delete( "{$wpdb->prefix}wcpl_user_packages", array(
-				'id' => $package_id,
-			) );
-			$wpdb->delete( $wpdb->postmeta, array(
-				'meta_key' => '_user_package_id',
-				'meta_value' => $package_id,
-			) );
+			$wpdb->delete(
+				"{$wpdb->prefix}wcpl_user_packages",
+				array(
+					'id' => $package_id,
+				)
+			);
+			$wpdb->delete(
+				$wpdb->postmeta,
+				array(
+					'meta_key'   => '_user_package_id',
+					'meta_value' => $package_id,
+				)
+			);
 			echo sprintf( '<div class="updated"><p>%s</p></div>', __( 'Package successfully deleted', 'wp-job-manager-wc-paid-listings' ) );
 		}
 
 		if ( 'add' === $action || 'edit' === $action ) {
 			$this->add_package_page();
 		} else {
-			include_once( dirname( __FILE__ ) . '/class-wc-paid-listings-admin-packages.php' );
+			include_once dirname( __FILE__ ) . '/class-wc-paid-listings-admin-packages.php';
 			$table = new WP_Job_Manager_WCPL_Admin_Packages();
 			$table->prepare_items();
 			?>
@@ -99,7 +108,7 @@ class WC_Paid_Listings_Admin {
 				<h2><?php _e( 'Listing Packages', 'wp-job-manager-wc-paid-listings' ); ?> <a href="<?php echo esc_url( add_query_arg( 'action', 'add', admin_url( 'users.php?page=wc_paid_listings_packages' ) ) ); ?>" class="add-new-h2"><?php _e( 'Add User Package', 'wp-job-manager-wc-paid-listings' ); ?></a></h2>
 				<form id="package-management" method="post">
 					<input type="hidden" name="page" value="wc_paid_listings_packages" />
-					<?php $table->display() ?>
+					<?php $table->display(); ?>
 					<?php wp_nonce_field( 'save', 'wc_paid_listings_packages_nonce' ); ?>
 				</form>
 			</div>
@@ -111,14 +120,14 @@ class WC_Paid_Listings_Admin {
 	 * Add package
 	 */
 	public function add_package_page() {
-		include_once( dirname( __FILE__ ) . '/class-wc-paid-listings-admin-add-package.php' );
+		include_once dirname( __FILE__ ) . '/class-wc-paid-listings-admin-add-package.php';
 		$add_package = new WC_Paid_Listings_Admin_Add_Package();
 		?>
 		<div class="woocommerce wrap">
 			<h2><?php _e( 'Add User Package', 'wp-plugin-licencing' ); ?></h2>
 			<form id="package-add-form" method="post">
 				<input type="hidden" name="page" value="wc_paid_listings_packages" />
-				<?php $add_package->form() ?>
+				<?php $add_package->form(); ?>
 				<?php wp_nonce_field( 'save', 'wc_paid_listings_packages_nonce' ); ?>
 			</form>
 		</div>
@@ -163,8 +172,8 @@ class WC_Paid_Listings_Admin {
 	public function product_data() {
 		global $post;
 		$post_id = $post->ID;
-		include( 'views/html-job-package-data.php' );
-		include( 'views/html-resume-package-data.php' );
+		include 'views/html-job-package-data.php';
+		include 'views/html-resume-package-data.php';
 	}
 
 	/**
@@ -177,28 +186,28 @@ class WC_Paid_Listings_Admin {
 
 		// Save meta
 		$meta_to_save = array(
-			'_job_listing_duration'             => '',
-			'_job_listing_limit'                => 'int',
-			'_job_listing_featured'             => 'yesno',
-			'_resume_duration'                  => '',
-			'_resume_limit'                     => '',
-			'_resume_featured'                  => 'yesno',
-			'_wcpl_disable_repurchase'          => 'yesno',
+			'_job_listing_duration'    => '',
+			'_job_listing_limit'       => 'int',
+			'_job_listing_featured'    => 'yesno',
+			'_resume_duration'         => '',
+			'_resume_limit'            => '',
+			'_resume_featured'         => 'yesno',
+			'_wcpl_disable_repurchase' => 'yesno',
 		);
 
 		foreach ( $meta_to_save as $meta_key => $sanitize ) {
 			$value = ! empty( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : '';
 			switch ( $sanitize ) {
-				case 'int' :
+				case 'int':
 					$value = absint( $value );
 					break;
-				case 'float' :
+				case 'float':
 					$value = floatval( $value );
 					break;
-				case 'yesno' :
+				case 'yesno':
 					$value = $value == 'yes' ? 'yes' : 'no';
 					break;
-				default :
+				default:
 					$value = sanitize_text_field( $value );
 			}
 			update_post_meta( $post_id, $meta_key, $value );
@@ -218,28 +227,28 @@ class WC_Paid_Listings_Admin {
 
 		// Save meta
 		$meta_to_save = array(
-			'_job_listing_duration'             => '',
-			'_job_listing_limit'                => 'int',
-			'_job_listing_featured'             => 'yesno',
-			'_resume_duration'                  => '',
-			'_resume_limit'                     => '',
-			'_resume_featured'                  => 'yesno',
-			'_wcpl_disable_repurchase'          => 'yesno',
+			'_job_listing_duration'    => '',
+			'_job_listing_limit'       => 'int',
+			'_job_listing_featured'    => 'yesno',
+			'_resume_duration'         => '',
+			'_resume_limit'            => '',
+			'_resume_featured'         => 'yesno',
+			'_wcpl_disable_repurchase' => 'yesno',
 		);
 
 		foreach ( $meta_to_save as $meta_key => $sanitize ) {
 			$value = ! empty( $_POST[ $meta_key ] ) ? $_POST[ $meta_key ] : '';
 			switch ( $sanitize ) {
-				case 'int' :
+				case 'int':
 					$value = absint( $value );
 					break;
-				case 'float' :
+				case 'float':
 					$value = floatval( $value );
 					break;
-				case 'yesno' :
+				case 'yesno':
 					$value = $value == 'yes' ? 'yes' : 'no';
 					break;
-				default :
+				default:
 					$value = sanitize_text_field( $value );
 			}
 			update_post_meta( $post_id, $meta_key, $value );
