@@ -96,7 +96,6 @@ class WP_Resume_Manager_Writepanels extends WP_Job_Manager_Writepanels {
 			$fields[ $meta_key ] = $field;
 		}
 
-
 		/**
 		 * Filters resume data fields shown in WP admin.
 		 *
@@ -313,14 +312,14 @@ class WP_Resume_Manager_Writepanels extends WP_Job_Manager_Writepanels {
 			'resume_manager_resume_education_fields',
 			[
 				'location'      => [
-					'label'       => __( 'School name', 'wp-job-manager-resumes' ),
+					'label'       => __( 'Institution', 'wp-job-manager-resumes' ),
 					'name'        => 'resume_education_location[]',
 					'placeholder' => '',
 					'description' => '',
 					'required'    => true,
 				],
 				'qualification' => [
-					'label'       => __( 'Qualification(s)', 'wp-job-manager-resumes' ),
+					'label'       => __( 'Certification(s)', 'wp-job-manager-resumes' ),
 					'name'        => 'resume_education_qualification[]',
 					'placeholder' => '',
 					'description' => '',

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -18,11 +18,13 @@ class WP_Job_Manager_WCPL_Admin_Packages extends WP_List_Table {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( array(
-			'singular' => 'package',
-			'plural'   => 'packages',
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => 'package',
+				'plural'   => 'packages',
+				'ajax'     => false,
+			)
+		);
 	}
 
 
@@ -37,11 +39,11 @@ class WP_Job_Manager_WCPL_Admin_Packages extends WP_List_Table {
 		global $wpdb;
 
 		switch ( $column_name ) {
-			case 'product_id' :
+			case 'product_id':
 				$product = wc_get_product( $item->product_id );
 
 				return $product ? '<a href="' . admin_url( 'post.php?post=' . absint( $product->get_id() ) . '&action=edit' ) . '">' . esc_html( $product->get_title() ) . '</a>' : __( 'n/a', 'wp-job-manager-wc-paid-listings' );
-			case 'user_id' :
+			case 'user_id':
 				$user = get_user_by( 'id', $item->user_id );
 
 				if ( $item->user_id && $user ) {
@@ -49,25 +51,37 @@ class WP_Job_Manager_WCPL_Admin_Packages extends WP_List_Table {
 				} else {
 					return __( 'n/a', 'wp-job-manager-wc-paid-listings' );
 				}
-			case 'order_id' :
+			case 'order_id':
 				return $item->order_id > 0 ? '<a href="' . admin_url( 'post.php?post=' . absint( $item->order_id ) . '&action=edit' ) . '">#' . absint( $item->order_id ) . ' &rarr;</a>' : __( 'n/a', 'wp-job-manager-wc-paid-listings' );
-			case 'featured_job' :
+			case 'featured_job':
 				return $item->package_featured ? '&#10004;' : '&ndash;';
-			case 'duration' :
+			case 'duration':
 				return $item->package_duration ? sprintf( __( '%d Days', 'wp-job-manager-wc-paid-listings' ), absint( $item->package_duration ) ) : '&ndash;';
-			case 'limit' :
+			case 'limit':
 				return '<a href="' . esc_url( admin_url( 'edit.php?post_type=' . ( 'resume' === $item->package_type ? 'resume' : 'job_listing' ) . '&package=' . absint( $item->id ) ) ) . '">' . ( $item->package_limit ? sprintf( __( '%s Posted', 'wp-job-manager-wc-paid-listings' ), absint( $item->package_count ) . ' / ' . absint( $item->package_limit ) ) : __( 'Unlimited', 'wp-job-manager-wc-paid-listings' ) ) . '</a>';
-			case 'package_type' :
+			case 'package_type':
 				return 'resume' === $item->package_type ? __( 'Resume Package', 'wp-job-manager-wc-paid-listings' ) : __( 'Job Package', 'wp-job-manager-wc-paid-listings' );
-			case 'job_actions' :
-				$edit_url = esc_url( add_query_arg( array(
-					'action' => 'edit',
-					'package_id' => $item->id,
-				), admin_url( 'users.php?page=wc_paid_listings_packages' ) ) );
-				$delete_url = wp_nonce_url( add_query_arg( array(
-						'action' => 'delete',
-						'package_id' => $item->id,
-				), admin_url( 'users.php?page=wc_paid_listings_packages' ) ), 'delete', 'delete_nonce' );
+			case 'job_actions':
+				$edit_url   = esc_url(
+					add_query_arg(
+						array(
+							'action'     => 'edit',
+							'package_id' => $item->id,
+						),
+						admin_url( 'users.php?page=wc_paid_listings_packages' )
+					)
+				);
+				$delete_url = wp_nonce_url(
+					add_query_arg(
+						array(
+							'action'     => 'delete',
+							'package_id' => $item->id,
+						),
+						admin_url( 'users.php?page=wc_paid_listings_packages' )
+					),
+					'delete',
+					'delete_nonce'
+				);
 
 				return '<div class="actions">' .
 					'<a class="button button-icon icon-edit" href="' . $edit_url . '">' . __( 'Edit', 'wp-job-manager-wc-paid-listings' ) . '</a>' .
@@ -162,10 +176,12 @@ class WP_Job_Manager_WCPL_Admin_Packages extends WP_List_Table {
 		$max         = $wpdb->get_var( "SELECT COUNT(id) FROM {$wpdb->prefix}wcpl_user_packages $where;" );
 		$this->items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcpl_user_packages $where ORDER BY `{$orderby}` {$order} LIMIT %d, %d", ( $current_page - 1 ) * $per_page, $per_page ) );
 
-		$this->set_pagination_args( array(
-			'total_items' => $max,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $max / $per_page ),
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => $max,
+				'per_page'    => $per_page,
+				'total_pages' => ceil( $max / $per_page ),
+			)
+		);
 	}
 }

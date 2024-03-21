@@ -8,7 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WP_Job_Manager_WCPL_Submit_Job_Form {
 
-	private static $package_id      = 0;
+	/**
+	 * This is either the product id if the user selected to purchase a product or the package id if the user selected
+	 * a pre-purchased package.
+	 *
+	 * @var int
+	 */
+	private static $package_id = 0;
+
+	/**
+	 * A flag that marks if the $package_id variable contains a user package or a product id.
+	 *
+	 * @var bool
+	 */
 	private static $is_user_package = false;
 
 	/**
@@ -18,9 +30,13 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 		add_filter( 'the_title', array( __CLASS__, 'append_package_name' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'styles' ) );
 		add_filter( 'submit_job_steps', array( __CLASS__, 'submit_job_steps' ), 20 );
+		// listing renewal feature.
+		add_filter( 'renew_job_steps', array( __CLASS__, 'renew_job_steps' ), 20 );
 
 		// Posted Data
 		if ( ! empty( $_POST['job_package'] ) ) {
+			// If the job_package is numeric it refers to the product id. Otherwise, it refers to an already purchased
+			// package with the format 'user-' . <user package id>.
 			if ( is_numeric( $_POST['job_package'] ) ) {
 				self::$package_id      = absint( $_POST['job_package'] );
 				self::$is_user_package = false;
@@ -44,7 +60,7 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 		if ( ! empty( $_POST ) && ! is_admin() && is_main_query() && in_the_loop() && is_page( get_option( 'job_manager_submit_job_form_page_id' ) ) && self::$package_id && 'before' === get_option( 'job_manager_paid_listings_flow' ) && apply_filters( 'wcpl_append_package_name', true ) ) {
 			if ( self::$is_user_package ) {
 				$package = wc_paid_listings_get_user_package( self::$package_id );
-				$title .= ' &ndash; ' . $package->get_title();
+				$title  .= ' &ndash; ' . $package->get_title();
 			} else {
 				$post = get_post( self::$package_id );
 				if ( $post ) {
@@ -81,13 +97,13 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 	 */
 	public static function submit_job_post_status( $status, $job ) {
 		switch ( $job->post_status ) {
-			case 'preview' :
+			case 'preview':
 				return 'pending_payment';
 			break;
-			case 'expired' :
+			case 'expired':
 				return 'expired';
 			break;
-			default :
+			default:
 				return $status;
 			break;
 		}
@@ -100,24 +116,31 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 	 * @return array
 	 */
 	public static function get_packages( $post__in = array() ) {
-		return get_posts( apply_filters( 'wcpl_get_job_packages_args', array(
-			'post_type'        => 'product',
-			'posts_per_page'   => -1,
-			'post__in'         => $post__in,
-			'order'            => 'asc',
-			'orderby'          => 'menu_order',
-			'suppress_filters' => false,
-			'tax_query'        => WC()->query->get_tax_query( array(
-				'relation' => 'AND',
+		return get_posts(
+			apply_filters(
+				'wcpl_get_job_packages_args',
 				array(
-					'taxonomy' => 'product_type',
-					'field'    => 'slug',
-					'terms'    => array( 'job_package', 'job_package_subscription' ),
-					'operator' => 'IN',
-				),
-			) ),
-			'meta_query'       => WC()->query->get_meta_query(),
-		) ) );
+					'post_type'        => 'product',
+					'posts_per_page'   => -1,
+					'post__in'         => $post__in,
+					'order'            => 'asc',
+					'orderby'          => 'menu_order',
+					'suppress_filters' => false,
+					'tax_query'        => WC()->query->get_tax_query(
+						array(
+							'relation' => 'AND',
+							array(
+								'taxonomy' => 'product_type',
+								'field'    => 'slug',
+								'terms'    => array( 'job_package', 'job_package_subscription' ),
+								'operator' => 'IN',
+							),
+						)
+					),
+					'meta_query'       => WC()->query->get_meta_query(),
+				)
+			)
+		);
 	}
 
 	/**
@@ -140,7 +163,7 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 			// If we instead want to show the package selection FIRST, change the priority and add a new handler.
 			if ( 'before' === get_option( 'job_manager_paid_listings_flow' ) ) {
 				$steps['wc-choose-package']['priority'] = 5;
-				$steps['wc-process-package'] = array(
+				$steps['wc-process-package']            = array(
 					'name'     => '',
 					'view'     => false,
 					'handler'  => array( __CLASS__, 'choose_package_handler' ),
@@ -154,6 +177,24 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 			// We should make sure new jobs are pending payment and not published or pending.
 			add_filter( 'submit_job_post_status', array( __CLASS__, 'submit_job_post_status' ), 10, 2 );
 		}
+		return $steps;
+	}
+
+	/**
+	 * Remove preview step for renewal since WC paid listings will handle it.
+	 *
+	 * @param  array $steps
+	 * @return array
+	 */
+	public static function renew_job_steps( $steps ) {
+		$steps['preview']['handler'] = static function () {
+			WP_Job_Manager_Form_Submit_Job::instance()->check_preview_form_nonce_field();
+
+			if ( ! empty( $_POST['continue'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Input is used safely.
+				WP_Job_Manager_Form_Submit_Job::instance()->next_step();
+			}
+		};
+
 		return $steps;
 	}
 
@@ -177,10 +218,10 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 	 * @param array $atts
 	 */
 	public static function choose_package( $atts = array() ) {
-		$form      = WP_Job_Manager_Form_Submit_Job::instance();
-		$job_id    = $form->get_job_id();
-		$step      = $form->get_step();
-		$form_name = $form->form_name;
+		$form          = WP_Job_Manager_Form_Submit_Job::instance();
+		$job_id        = $form->get_job_id();
+		$step          = $form->get_step();
+		$form_name     = $form->form_name;
 		$packages      = self::get_packages( isset( $atts['packages'] ) ? explode( ',', $atts['packages'] ) : array() );
 		$user_packages = wc_paid_listings_get_user_packages( get_current_user_id(), 'job_listing' );
 		$button_text   = 'before' !== get_option( 'job_manager_paid_listings_flow' ) ? __( 'Submit &rarr;', 'wp-job-manager-wc-paid-listings' ) : __( 'Listing Details &rarr;', 'wp-job-manager-wc-paid-listings' );
@@ -194,10 +235,17 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 				<h2><?php _e( 'Choose a package', 'wp-job-manager-wc-paid-listings' ); ?></h2>
 			</div>
 			<div class="job_listing_packages">
-				<?php get_job_manager_template( 'package-selection.php', array(
-					'packages' => $packages,
-					'user_packages' => $user_packages,
-				), 'wc-paid-listings', JOB_MANAGER_WCPL_PLUGIN_DIR . '/templates/' ); ?>
+				<?php
+				get_job_manager_template(
+					'package-selection.php',
+					array(
+						'packages'      => $packages,
+						'user_packages' => $user_packages,
+					),
+					'wc-paid-listings',
+					JOB_MANAGER_WCPL_PLUGIN_DIR . '/templates/'
+				);
+				?>
 			</div>
 		</form>
 		<?php
@@ -247,7 +295,7 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 	 * @param  int        $job_id
 	 * @return bool Did it work or not?
 	 */
-	private static function process_package( $package_id, $is_user_package, $job_id ) {
+	private static function assign_package_to_listing( $package_id, $is_user_package, $job_id ) {
 		// Make sure the job has the correct status
 		if ( 'preview' === get_post_status( $job_id ) ) {
 			// Update job listing
@@ -260,62 +308,17 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 			wp_update_post( $update_job );
 		}
 
+		$is_renewal = isset( $_GET['action'] ) && 'renew' === $_GET['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Input is used for comparison.
+
 		if ( $is_user_package ) {
-			$user_package = wc_paid_listings_get_user_package( $package_id );
-			$package      = wc_get_product( $user_package->get_product_id() );
+			return self::assign_user_package_to_listing( $package_id, $job_id, $is_renewal );
+		}
 
-			// Give job the package attributes
-			update_post_meta( $job_id, '_job_duration', $user_package->get_duration() );
-			update_post_meta( $job_id, '_featured', $user_package->is_featured() ? 1 : 0 );
-			update_post_meta( $job_id, '_package_id', $user_package->get_product_id() );
-			update_post_meta( $job_id, '_user_package_id', $package_id );
+		if ( $package_id ) {
+			self::assign_product_to_listing( $package_id, $job_id, $is_renewal );
+		}
 
-			if ( $package && $package instanceof WC_Product_Job_Package_Subscription && 'listing' === $package->get_package_subscription_type() ) {
-				update_post_meta( $job_id, '_job_expires', '' ); // Never expire automatically
-			}
-
-			// Approve the job
-			if ( in_array( get_post_status( $job_id ), array( 'pending_payment', 'expired' ) ) ) {
-				wc_paid_listings_approve_job_listing_with_package( $job_id, get_current_user_id(), $package_id );
-			}
-
-			do_action( 'wcpl_process_package_for_job_listing', $package_id, $is_user_package, $job_id );
-
-			return true;
-		} elseif ( $package_id ) {
-			$package = wc_get_product( $package_id );
-
-			$is_featured = false;
-			if ( $package instanceof WC_Product_Job_Package || $package instanceof WC_Product_Job_Package_Subscription ) {
-				$is_featured = $package->is_job_listing_featured();
-			}
-
-			// Give job the package attributes
-			update_post_meta( $job_id, '_job_duration', $package->get_duration() );
-			update_post_meta( $job_id, '_featured', $is_featured ? 1 : 0 );
-			update_post_meta( $job_id, '_package_id', $package_id );
-
-			if ( $package instanceof WC_Product_Job_Package_Subscription && 'listing' === $package->get_package_subscription_type() ) {
-				update_post_meta( $job_id, '_job_expires', '' ); // Never expire automatically
-			}
-
-			// Add package to the cart
-			WC()->cart->add_to_cart( $package_id, 1, '', '', array(
-				'job_id' => $job_id,
-			) );
-
-			wc_add_to_cart_message( $package_id );
-
-			// Clear cookie
-			wc_setcookie( 'chosen_package_id', '', time() - HOUR_IN_SECONDS );
-			wc_setcookie( 'chosen_package_is_user_package', '', time() - HOUR_IN_SECONDS );
-
-			do_action( 'wcpl_process_package_for_job_listing', $package_id, $is_user_package, $job_id );
-
-			// Redirect to checkout page
-			wp_redirect( get_permalink( wc_get_page_id( 'checkout' ) ) );
-			exit;
-		}// End if().
+		return false;
 	}
 
 	/**
@@ -343,12 +346,116 @@ class WP_Job_Manager_WCPL_Submit_Job_Form {
 		// Process the package unless we're doing this before a job is submitted
 		if ( 'before' !== get_option( 'job_manager_paid_listings_flow' ) || 'wc-process-package' === $form->get_step_key() ) {
 			// Product the package
-			if ( self::process_package( self::$package_id, self::$is_user_package, $form->get_job_id() ) ) {
+			if ( self::assign_package_to_listing( self::$package_id, self::$is_user_package, $form->get_job_id() ) ) {
 				$form->next_step();
 			}
 		} else {
 			$form->next_step();
 		}
+	}
+
+	/**
+	 * Assigns a pre-purchased user package to a job listing.
+	 *
+	 * @param int  $user_package_id The user package id.
+	 * @param int  $job_id          The job id.
+	 * @param bool $is_renewal      Whether this is a renewal.
+	 *
+	 * @return bool True on success.
+	 */
+	private static function assign_user_package_to_listing( $user_package_id, int $job_id, bool $is_renewal ): bool {
+		$user_package = wc_paid_listings_get_user_package( $user_package_id );
+		$package      = wc_get_product( $user_package->get_product_id() );
+
+		// Give job the package attributes
+		update_post_meta( $job_id, '_job_duration', $user_package->get_duration() );
+		update_post_meta( $job_id, '_featured', $user_package->is_featured() ? 1 : 0 );
+		update_post_meta( $job_id, '_package_id', $user_package->get_product_id() );
+		update_post_meta( $job_id, '_user_package_id', $user_package_id );
+
+		if ( $is_renewal ) {
+			wc_paid_listings_handle_listing_renewal( $user_package->get_product_id(), $user_package_id, $job_id );
+		}
+
+		if ( $package instanceof WC_Product_Job_Package_Subscription && 'listing' === $package->get_package_subscription_type() ) {
+			update_post_meta( $job_id, '_job_expires', '' ); // Never expire automatically
+		}
+
+		// Approve the job
+		if ( in_array( get_post_status( $job_id ), array( 'pending_payment', 'expired' ), true ) ) {
+			wc_paid_listings_approve_job_listing_with_package( $job_id, get_current_user_id(), $user_package_id );
+		}
+
+		/**
+		 * This is documented in assign_product_to_listing.
+		 */
+		do_action( 'wcpl_process_package_for_job_listing', $user_package_id, true, $job_id );
+
+		return true;
+	}
+
+	/**
+	 * Links a product with a listing and redirects to cart.
+	 *
+	 * @param int  $product_id The product id.
+	 * @param int  $job_id The job id.
+	 * @param bool $is_renewal Whether this is a renewal.
+	 *
+	 * @return void
+	 * @throws Exception Possibly thrown when adding the product to cart.
+	 */
+	private static function assign_product_to_listing( int $product_id, int $job_id, bool $is_renewal ): void {
+		$package = wc_get_product( $product_id );
+
+		$is_featured = false;
+		if ( $package instanceof WC_Product_Job_Package || $package instanceof WC_Product_Job_Package_Subscription ) {
+			$is_featured = $package->is_job_listing_featured();
+		}
+
+		// Give job the package attributes
+		update_post_meta( $job_id, '_job_duration', $package->get_duration() );
+		update_post_meta( $job_id, '_featured', $is_featured ? 1 : 0 );
+		update_post_meta( $job_id, '_package_id', $product_id );
+
+		if ( $package instanceof WC_Product_Job_Package_Subscription && 'listing' === $package->get_package_subscription_type() && 'publish' !== get_post_status( $job_id ) ) {
+			update_post_meta( $job_id, '_job_expires', '' ); // Never expire automatically
+		}
+
+		if ( $is_renewal ) {
+			// Employers might initiate the renewal flow many times with different products. We store all products and
+			// then check when the order is completed if a renewal was initiated with the product that was bought.
+			add_post_meta( $job_id, '_renewal_pending_product_id', $product_id );
+		}
+
+		// Add package to the cart
+		WC()->cart->add_to_cart(
+			$product_id,
+			1,
+			'',
+			'',
+			array(
+				'job_id' => $job_id,
+			)
+		);
+
+		wc_add_to_cart_message( $product_id );
+
+		// Clear cookie
+		wc_setcookie( 'chosen_package_id', '', time() - HOUR_IN_SECONDS );
+		wc_setcookie( 'chosen_package_is_user_package', '', time() - HOUR_IN_SECONDS );
+
+		/**
+		 * Triggered when either a package or a product is linked to the listing.
+		 *
+		 * @param int  $product_id      Contains either the user package id or the product id.
+		 * @param bool $is_user_package True if the previous argument has the user package.
+		 * @param int  $job_id          The job id.
+		 */
+		do_action( 'wcpl_process_package_for_job_listing', $product_id, false, $job_id );
+
+		// Redirect to checkout page.
+		wp_safe_redirect( get_permalink( wc_get_page_id( 'checkout' ) ) );
+		exit;
 	}
 }
 

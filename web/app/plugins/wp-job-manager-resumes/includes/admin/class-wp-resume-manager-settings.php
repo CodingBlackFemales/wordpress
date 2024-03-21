@@ -536,4 +536,16 @@ class WP_Resume_Manager_Settings extends WP_Job_Manager_Settings {
 		return $capabilities_and_roles;
 	}
 
+
+	/**
+	 * Get the logo for the page.
+	 *
+	 * @return string
+	 */
+	protected function get_logo(): string {
+		return '<img class="job-manager-settings-logo"
+					src="' . esc_url( RESUME_MANAGER_PLUGIN_URL . '/assets/images/settings-logo.png' ) . '"
+					alt="' . esc_attr__( 'Job Manager', 'wp-job-manager' ) . '" />';
+	}
+
 }

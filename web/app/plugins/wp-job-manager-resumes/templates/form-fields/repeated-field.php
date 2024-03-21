@@ -8,7 +8,7 @@
  * @author      Automattic
  * @package     wp-job-manager-resumes
  * @category    Template
- * @version     1.13.1
+ * @version     1.19.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,15 +20,16 @@ if ( ! empty( $field['value'] ) && is_array( $field['value'] ) ) : ?>
 		<div class="resume-manager-data-row">
 			<input type="hidden" class="repeated-row-index" name="repeated-row-<?php echo esc_attr( $key ); ?>[]" value="<?php echo absint( $index ); ?>" />
 			<a href="#" class="resume-manager-remove-row"><?php _e( 'Remove', 'wp-job-manager-resumes' ); ?></a>
-			<?php foreach ( $field['fields'] as $subkey => $subfield ) : ?>
+			<?php foreach ( $field['fields'] as $subkey => $subfield ) :
+				$subkey_id = $key . '_' . $subkey  . '_' . $index; ?>
 				<fieldset class="fieldset-<?php esc_attr_e( $subkey ); ?>">
-					<label for="<?php esc_attr_e( $subkey ); ?>"><?php echo $subfield['label'] . ( $subfield['required'] ? '' : ' <small>' . __( '(optional)', 'wp-job-manager-resumes' ) . '</small>' ); ?></label>
+					<label for="<?php esc_attr_e( $subkey_id ); ?>"><?php echo $subfield['label'] . ( $subfield['required'] ? '' : ' <small>' . __( '(optional)', 'wp-job-manager-resumes' ) . '</small>' ); ?></label>
 					<div class="field">
 						<?php
 							// Get name and value
-							$subfield['name']  = $key . '_' . $subkey . '_' . $index;
+							$subfield['name']  = $subkey_id;
 							$subfield['value'] = $value[ $subkey ];
-							$class->get_field_template( $subkey, $subfield );
+							$class->get_field_template( $subkey_id, $subfield );
 						?>
 					</div>
 				</fieldset>
@@ -45,13 +46,14 @@ if ( ! empty( $field['value'] ) && is_array( $field['value'] ) ) : ?>
 		<div class="resume-manager-data-row">
 			<input type="hidden" class="repeated-row-index" name="repeated-row-<?php echo esc_attr( $key ); ?>[]" value="%%repeated-row-index%%" />
 			<a href="#" class="resume-manager-remove-row"><?php _e( 'Remove', 'wp-job-manager-resumes' ); ?></a>
-			<?php foreach ( $field['fields'] as $subkey => $subfield ) : ?>
+			<?php foreach ( $field['fields'] as $subkey => $subfield ) :
+				$subkey_id = $key . '_' . $subkey . '_%%repeated-row-index%%'; ?>
 				<fieldset class="fieldset-<?php esc_attr_e( $subkey ); ?>">
-					<label for="<?php esc_attr_e( $subkey ); ?>"><?php echo $subfield['label'] . ( $subfield['required'] ? '' : ' <small>' . __( '(optional)', 'wp-job-manager-resumes' ) . '</small>' ); ?></label>
+					<label for="<?php esc_attr_e( $subkey_id ); ?>"><?php echo $subfield['label'] . ( $subfield['required'] ? '' : ' <small>' . __( '(optional)', 'wp-job-manager-resumes' ) . '</small>' ); ?></label>
 					<div class="field">
 						<?php
-							$subfield['name'] = $key . '_' . $subkey . '_%%repeated-row-index%%';
-							$class->get_field_template( $subkey, $subfield );
+							$subfield['name'] = $subkey_id;
+							$class->get_field_template( $subkey_id, $subfield );
 						?>
 					</div>
 				</fieldset>
