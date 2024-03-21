@@ -23,8 +23,8 @@ function wc_paid_listings_approve_listing_with_package( $listing_id, $user_id, $
 		$resumed_post_status = get_post_meta( $listing_id, '_post_status_before_package_pause', true );
 		if ( ! empty( $resumed_post_status ) ) {
 			$listing = array(
-				'ID'            => $listing_id,
-				'post_status'   => $resumed_post_status,
+				'ID'          => $listing_id,
+				'post_status' => $resumed_post_status,
 			);
 			delete_post_meta( $listing_id, '_post_status_before_package_pause' );
 		} else {
@@ -35,11 +35,11 @@ function wc_paid_listings_approve_listing_with_package( $listing_id, $user_id, $
 			);
 
 			switch ( get_post_type( $listing_id ) ) {
-				case 'job_listing' :
-					$listing[ 'post_status' ] = get_option( 'job_manager_submission_requires_approval' ) ? 'pending' : 'publish';
+				case 'job_listing':
+					$listing['post_status'] = get_option( 'job_manager_submission_requires_approval' ) ? 'pending' : 'publish';
 					break;
-				case 'resume' :
-					$listing[ 'post_status' ] = get_option( 'resume_manager_submission_requires_approval' ) ? 'pending' : 'publish';
+				case 'resume':
+					$listing['post_status'] = get_option( 'resume_manager_submission_requires_approval' ) ? 'pending' : 'publish';
 					break;
 			}
 		}
@@ -179,4 +179,36 @@ function wc_paid_listings_decrease_package_count( $user_id, $package_id ) {
 		array( '%d' ),
 		array( '%d', '%d' )
 	);
+}
+
+/**
+ * Renew paid listings.
+ *
+ * @param int  $product_id Product ID that was bought for this renewal.
+ * @param int  $user_package_id User package id.
+ * @param int  $job_id Job listing ID.
+ * @param bool $is_listing_subscription Whether the product is a subscription that is linked to the listing.
+ *
+ * @return void
+ */
+function wc_paid_listings_handle_listing_renewal( $product_id, $user_package_id, $job_id, $is_listing_subscription = false ) {
+	if ( ! class_exists( 'WP_Job_Manager_Helper_Renewals' ) ) {
+		return;
+	}
+
+	if ( $is_listing_subscription || WP_Job_Manager_Helper_Renewals::job_can_be_renewed( $job_id ) ) {
+		WP_Job_Manager_Helper_Renewals::renew_job_listing( get_post( $job_id ) );
+
+		update_post_meta( $job_id, '_user_package_id', $user_package_id );
+		update_post_meta( $job_id, '_package_id', $product_id );
+		delete_post_meta( $job_id, '_renewal_pending_product_id', $product_id );
+		update_post_meta( $job_id, '_renewal_completed_product_id', $product_id );
+
+		/**
+		 * This filter is documented in wc_paid_listings_approve_listing_with_package.
+		 */
+		if ( apply_filters( 'job_manager_job_listing_affects_package_count', true, $job_id ) ) {
+			wc_paid_listings_increase_package_count( get_current_user_id(), $user_package_id );
+		}
+	}
 }

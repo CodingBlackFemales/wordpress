@@ -17,7 +17,7 @@ class WC_Paid_Listings_Orders {
 	 * @return static
 	 */
 	public static function get_instance() {
-		return null === self::$instance ? ( self::$instance = new self ) : self::$instance;
+		return null === self::$instance ? ( self::$instance = new self() ) : self::$instance;
 	}
 
 	/**
@@ -58,43 +58,34 @@ class WC_Paid_Listings_Orders {
 
 		foreach ( $order->get_items() as $item ) {
 			if ( isset( $item['job_id'] ) && 'publish' === get_post_status( $item['job_id'] ) ) {
-				switch ( get_post_status( $item['job_id'] ) ) {
-					case 'pending' :
-						echo wpautop( sprintf( __( '%s has been submitted successfully and will be visible once approved.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['job_id'] ) ) );
-					break;
-					case 'pending_payment' :
-					case 'expired' :
-						echo wpautop( sprintf( __( '%s has been submitted successfully and will be visible once payment has been confirmed.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['job_id'] ) ) );
-					break;
-					default :
-						echo wpautop( sprintf( __( '%s has been submitted successfully.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['job_id'] ) ) );
-					break;
+
+				foreach ( get_post_meta( $item['job_id'], '_renewal_completed_product_id' ) as $renewal_product_id ) {
+					if ( (int) $renewal_product_id === $item['product_id'] ) {
+						return;
+					}
 				}
 
-				echo '<p class="job-manager-submitted-paid-listing-actions">';
+				// translators: %s is the job title.
+				$message  = wpautop( sprintf( __( '%s has been submitted successfully.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['job_id'] ) ) );
+				$message .= '<p class="job-manager-submitted-paid-listing-actions">
+					<a class="button" href="' . get_permalink( $item['job_id'] ) . '">' . __( 'View Listing', 'wp-job-manager-wc-paid-listings' ) . '</a>
+				</p>';
 
-				if ( 'publish' === get_post_status( $item['job_id'] ) ) {
-					echo '<a class="button" href="' . get_permalink( $item['job_id'] ) . '">' . __( 'View Listing', 'wp-job-manager-wc-paid-listings' ) . '</a> ';
-				} elseif ( get_option( 'job_manager_job_dashboard_page_id' ) ) {
-					echo '<a class="button" href="' . get_permalink( get_option( 'job_manager_job_dashboard_page_id' ) ) . '">' . __( 'View Dashboard', 'wp-job-manager-wc-paid-listings' ) . '</a> ';
-				}
-
-				echo '</p>';
-
+				echo wp_kses_post( $message );
 			} elseif ( isset( $item['resume_id'] ) ) {
 				$resume = get_post( $item['resume_id'] );
 
 				switch ( get_post_status( $item['resume_id'] ) ) {
-					case 'pending' :
+					case 'pending':
 						echo wpautop( sprintf( __( '%s has been submitted successfully and will be visible once approved.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['resume_id'] ) ) );
-					break;
-					case 'pending_payment' :
-					case 'expired' :
+						break;
+					case 'pending_payment':
+					case 'expired':
 						echo wpautop( sprintf( __( '%s has been submitted successfully and will be visible once payment has been confirmed.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['resume_id'] ) ) );
-					break;
-					default :
+						break;
+					default:
 						echo wpautop( sprintf( __( '%s has been submitted successfully.', 'wp-job-manager-wc-paid-listings' ), get_the_title( $item['resume_id'] ) ) );
-					break;
+						break;
 				}
 
 				echo '<p class="job-manager-submitted-paid-listing-actions">';
@@ -110,8 +101,8 @@ class WC_Paid_Listings_Orders {
 				}
 
 				echo '</p>';
-			}// End if().
-		}// End foreach().
+			}
+		}
 	}
 
 	/**
@@ -119,16 +110,26 @@ class WC_Paid_Listings_Orders {
 	 */
 	public function my_packages() {
 		if ( ( $packages = wc_paid_listings_get_user_packages( get_current_user_id(), 'job_listing' ) ) && is_array( $packages ) && sizeof( $packages ) > 0 ) {
-			wc_get_template( 'my-packages.php', array(
-				'packages' => $packages,
-				'type' => 'job_listing',
-			), 'wc-paid-listings/', JOB_MANAGER_WCPL_TEMPLATE_PATH );
+			wc_get_template(
+				'my-packages.php',
+				array(
+					'packages' => $packages,
+					'type'     => 'job_listing',
+				),
+				'wc-paid-listings/',
+				JOB_MANAGER_WCPL_TEMPLATE_PATH
+			);
 		}
 		if ( ( $packages = wc_paid_listings_get_user_packages( get_current_user_id(), 'resume' ) ) && is_array( $packages ) && sizeof( $packages ) > 0 ) {
-			wc_get_template( 'my-packages.php', array(
-				'packages' => $packages,
-				'type' => 'resume',
-			), 'wc-paid-listings/', JOB_MANAGER_WCPL_TEMPLATE_PATH );
+			wc_get_template(
+				'my-packages.php',
+				array(
+					'packages' => $packages,
+					'type'     => 'resume',
+				),
+				'wc-paid-listings/',
+				JOB_MANAGER_WCPL_TEMPLATE_PATH
+			);
 		}
 	}
 
@@ -140,6 +141,19 @@ class WC_Paid_Listings_Orders {
 	public function order_paid( $order_id ) {
 		// Get the order
 		$order = wc_get_order( $order_id );
+
+		/**
+		 * Filters whether to approve/publish orders with the 'processing' status.
+		 * This is useful if you want only completed orders to be published or for other payment methods.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param bool $approve Whether to approve orders with the processing status.
+		 * @param WC_Order $order The order object that was processed.
+		 */
+		if ( $order->get_status() === 'processing' && ! apply_filters( 'wcpl_approve_processing_orders', true, $order ) ) {
+			return;
+		}
 
 		if ( get_post_meta( $order_id, 'wc_paid_listings_packages_processed', true ) ) {
 			return;
@@ -205,11 +219,11 @@ class WC_Paid_Listings_Orders {
 	 * @param int $post_id
 	 */
 	public function untrash_wpjm_post( $post_id ) {
-		$product_id = get_post_meta( $post_id, '_package_id', true );
+		$product_id      = get_post_meta( $post_id, '_package_id', true );
 		$user_package_id = get_post_meta( $post_id, '_user_package_id', true );
-		$product = wc_get_product( $product_id );
-		$user_package = wc_paid_listings_get_user_package( $user_package_id );
-		$order = false;
+		$product         = wc_get_product( $product_id );
+		$user_package    = wc_paid_listings_get_user_package( $user_package_id );
+		$order           = false;
 		if ( $user_package && $user_package->has_package() ) {
 			$order = wc_get_order( $user_package->get_order_id() );
 		}
@@ -227,7 +241,7 @@ class WC_Paid_Listings_Orders {
 	 * @param int $order_id
 	 */
 	public function untrash_shop_order( $order_id ) {
-		$order  = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
 		if ( ! $order ) {
 			return;
 		}
@@ -250,20 +264,28 @@ class WC_Paid_Listings_Orders {
 	/**
 	 * Attached listings to the user package.
 	 *
-	 * @param array    $item
-	 * @param WC_Order $order
-	 * @param int      $user_package_id
+	 * @param WC_Order_Item $item
+	 * @param WC_Order      $order
+	 * @param int           $user_package_id
 	 */
 	private function attach_package_listings( $item, $order, $user_package_id ) {
 		global $wpdb;
-		$listing_ids = (array) $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key=%s AND meta_value=%s", '_cancelled_package_order_id', wc_paid_listings_get_order_id( $order ) ) );
-		$listing_ids[] = isset( $item[ 'job_id' ] ) ? $item[ 'job_id' ] : '';
-		$listing_ids[] = isset( $item[ 'resume_id' ] ) ? $item[ 'resume_id' ] : '';
+
+		$listing_ids   = (array) $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key=%s AND meta_value=%s", '_cancelled_package_order_id', wc_paid_listings_get_order_id( $order ) ) );
+		$listing_ids[] = $item['job_id'] ?? '';
+		$listing_ids[] = $item['resume_id'] ?? '';
 		$listing_ids   = array_unique( array_filter( array_map( 'absint', $listing_ids ) ) );
 		foreach ( $listing_ids as $listing_id ) {
-			if ( in_array( get_post_status( $listing_id ), array( 'pending_payment', 'expired' ) ) ) {
+			if ( in_array( get_post_status( $listing_id ), array( 'pending_payment', 'expired' ), true ) ) {
 				wc_paid_listings_approve_listing_with_package( $listing_id, $order->get_user_id(), $user_package_id );
 				delete_post_meta( $listing_id, '_cancelled_package_order_id' );
+			}
+
+			foreach ( get_post_meta( $listing_id, '_renewal_pending_product_id' ) as $renewal_product_id ) {
+				if ( (int) $renewal_product_id === $item['product_id'] ) {
+					wc_paid_listings_handle_listing_renewal( $item['product_id'], $user_package_id, $listing_id );
+					break;
+				}
 			}
 		}
 	}
@@ -293,11 +315,11 @@ class WC_Paid_Listings_Orders {
 	 * @param int $post_id
 	 */
 	public function trash_wpjm_post( $post_id ) {
-		$product_id = get_post_meta( $post_id, '_package_id', true );
+		$product_id      = get_post_meta( $post_id, '_package_id', true );
 		$user_package_id = get_post_meta( $post_id, '_user_package_id', true );
-		$product = wc_get_product( $product_id );
-		$user_package = wc_paid_listings_get_user_package( $user_package_id );
-		$order = false;
+		$product         = wc_get_product( $product_id );
+		$user_package    = wc_paid_listings_get_user_package( $user_package_id );
+		$order           = false;
 		if ( $user_package && $user_package->has_package() ) {
 			$order = wc_get_order( $user_package->get_order_id() );
 		}
@@ -315,7 +337,7 @@ class WC_Paid_Listings_Orders {
 	 * @param int $order_id
 	 */
 	public function trash_shop_order( $order_id ) {
-		$order  = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
 		if ( ! $order ) {
 			return;
 		}
@@ -375,7 +397,7 @@ class WC_Paid_Listings_Orders {
 	 * @param $order_id
 	 */
 	public function package_cancelled( $order_id ) {
-		$order     = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
 		foreach ( $order->get_items() as $item ) {
 			$product = $item->get_product();
 			if ( ! $product->is_type( array( 'job_package', 'resume_package' ) ) ) {
@@ -407,8 +429,8 @@ class WC_Paid_Listings_Orders {
 			$listing_ids = wc_paid_listings_get_listings_for_package( $user_package->id );
 			foreach ( $listing_ids as $listing_id ) {
 				$original_status = get_post_status( $listing_id );
-				$listing = array(
-					'ID' => $listing_id,
+				$listing         = array(
+					'ID'          => $listing_id,
 					'post_status' => 'expired',
 				);
 				wp_update_post( $listing );
@@ -428,19 +450,19 @@ class WC_Paid_Listings_Orders {
 	 * @return void
 	 */
 	public function disable_repeat_purchase( $purchasable, $product ) {
-	    if ( ! $product->is_type( array( 'job_package', 'resume_package' ) ) ) {
-	        return $purchasable;
-	    }
+		if ( ! $product->is_type( array( 'job_package', 'resume_package' ) ) ) {
+			return $purchasable;
+		}
 
-	    if ( $product->get_meta( '_wcpl_disable_repurchase' ) !== 'yes' ) {
-	        return $purchasable;
-	    }
+		if ( $product->get_meta( '_wcpl_disable_repurchase' ) !== 'yes' ) {
+			return $purchasable;
+		}
 
-	    if ( wc_customer_bought_product( wp_get_current_user()->user_email, get_current_user_id(), $product->get_id() ) ) {
-	        $purchasable = false;
-	    }
+		if ( wc_customer_bought_product( wp_get_current_user()->user_email, get_current_user_id(), $product->get_id() ) ) {
+			$purchasable = false;
+		}
 
-	    return $purchasable;
+		return $purchasable;
 	}
 
 	/**
@@ -449,22 +471,22 @@ class WC_Paid_Listings_Orders {
 	 * @return void
 	 */
 	public function purchase_disabled_message() {
-	    global $product;
+		global $product;
 
-	    if ( ! $product->is_type( array( 'job_package', 'resume_package' ) ) ) {
-	        return false;
-	    }
+		if ( ! $product->is_type( array( 'job_package', 'resume_package' ) ) ) {
+			return false;
+		}
 
-	    if ( $product->get_meta( '_wcpl_disable_repurchase' ) !== 'yes' ) {
-	        return false;
-	    }
+		if ( $product->get_meta( '_wcpl_disable_repurchase' ) !== 'yes' ) {
+			return false;
+		}
 
-	    if ( wc_customer_bought_product( wp_get_current_user()->user_email, get_current_user_id(), $product->get_id() ) ) {
-	    	printf(
-	    		'<div class="woocommerce"><div class="woocommerce-info wc-nonpurchasable-message">%s</div></div>',
-	    		esc_html__( 'You\'ve already purchased this product! It can only be purchased once.', 'wp-job-manager-wc-paid-listings' )
-	    	);
-	    }
+		if ( wc_customer_bought_product( wp_get_current_user()->user_email, get_current_user_id(), $product->get_id() ) ) {
+			printf(
+				'<div class="woocommerce"><div class="woocommerce-info wc-nonpurchasable-message">%s</div></div>',
+				esc_html__( 'You\'ve already purchased this product! It can only be purchased once.', 'wp-job-manager-wc-paid-listings' )
+			);
+		}
 	}
 }
 WC_Paid_Listings_Orders::get_instance();

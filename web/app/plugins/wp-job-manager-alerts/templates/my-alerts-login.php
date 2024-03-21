@@ -8,14 +8,43 @@
  * @author      Automattic
  * @package     WP Job Manager - Alerts
  * @category    Template
- * @version     1.5.6
+ * @version     3.0.0
  */
+
+use WP_Job_Manager\Guest_Session;
+use WP_Job_Manager\UI\Notice;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-?>
 
-<div id="job-manager-job-alerts">
-	<p class="account-sign-in"><?php esc_html_e( 'You need to be signed in to manage your alerts.', 'wp-job-manager-alerts' ); ?> <a class="button" href="<?php echo esc_url( apply_filters( 'job_manager_alerts_login_url', wp_login_url( get_permalink() ) ) ); ?>"><?php esc_html_e( 'Sign in', 'wp-job-manager-alerts' ); ?></a></p>
-</div>
+if ( Guest_Session::current_guest_has_account() ) {
+	echo Notice::hint( [
+		'message' => __( 'Sign in to manage your alerts.', 'wp-job-manager-alerts' ),
+		'buttons' => [
+			[
+				'url'   => apply_filters( 'job_manager_alerts_login_url', wp_login_url( get_permalink() ) ),
+				'label' => __( 'Sign in', 'wp-job-manager-alerts' ),
+				'class' => [],
+			],
+		],
+	] );
+} else {
+	echo Notice::dialog( [
+		'message' => __( 'Sign in or create an account to manage your alerts.', 'wp-job-manager-alerts' ),
+		'buttons' => [
+			[
+				'url'   => apply_filters( 'job_manager_alerts_login_url', wp_login_url( get_permalink() ) ),
+				'label' => __( 'Sign in', 'wp-job-manager-alerts' ),
+				'class' => [],
+			],
+			[
+				'url'   => apply_filters( 'job_manager_alerts_register_url', wp_registration_url() ),
+				'label' => __( 'Create Account', 'wp-job-manager-alerts' ),
+				'class' => [],
+			],
+		],
+	] );
+}
+
+?>
