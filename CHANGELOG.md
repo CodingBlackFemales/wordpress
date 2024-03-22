@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.26](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.25...v0.1.26) (2024-03-22)
+
+
+### Bug Fixes
+
+* removes preview step from CV submission process ([77b8abc](https://github.com/CodingBlackFemales/wordpress/commit/77b8abc148f4048db63d9a1e34e57d0557410ce2))
+
 ## [0.1.25](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.24...v0.1.25) (2024-03-12)
 
 
