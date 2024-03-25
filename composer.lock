@@ -9051,15 +9051,15 @@
         },
         {
             "name": "wpackagist-plugin/optimole-wp",
-            "version": "3.12.5",
+            "version": "3.12.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/3.12.5"
+                "reference": "tags/3.12.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.12.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.12.6.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
