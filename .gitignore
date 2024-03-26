@@ -70,6 +70,8 @@ node_modules
 
 # MySQL
 data
+!web/app/plugins/wp-rocket/inc/Dependencies/Minify/data
+!web/app/plugins/wp-rocket/inc/Engine/Media/Lazyload/CSS/Data
 
 # Lando
 .lando.local.yml
