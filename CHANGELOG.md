@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.26](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.25...v0.1.26) (2024-03-22)
+
+
+### Bug Fixes
+
+* removes preview step from CV submission process ([77b8abc](https://github.com/CodingBlackFemales/wordpress/commit/77b8abc148f4048db63d9a1e34e57d0557410ce2))
+
+## [0.1.25](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.24...v0.1.25) (2024-03-12)
+
+
+### Bug Fixes
+
+* restore missing files in WPForms plugin ([a0b40dc](https://github.com/CodingBlackFemales/wordpress/commit/a0b40dc8c49b13482e803be0b9cafbbda480cbe9))
+
+## [0.1.24](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.23...v0.1.24) (2024-03-12)
+
+
+### Bug Fixes
+
+* restores WPForms plugin ([420c0f2](https://github.com/CodingBlackFemales/wordpress/commit/420c0f259a32ca8c2f45c6a8cdee832248b698a1))
+
+## [0.1.23](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.22...v0.1.23) (2024-03-05)
+
 ## [0.1.22](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.21...v0.1.22) (2024-01-02)
 
 ## [0.1.21](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.20...v0.1.21) (2023-09-26)
