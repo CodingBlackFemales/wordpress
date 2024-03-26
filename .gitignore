@@ -32,6 +32,10 @@ web/app/cache/*
 web/wp
 web/.htaccess
 
+# WP Rocket
+web/app/wp-rocket-config
+web/app/cache/wp-rocket
+
 # Logs
 *.log
 
