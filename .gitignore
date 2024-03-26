@@ -13,11 +13,11 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/learndash-zapier
 !web/app/plugins/sfwd-lms
 !web/app/plugins/woocommerce-give-products
-!web/app/plugins/wp-all-import-pro
 !web/app/plugins/wp-job-manager-alerts
 !web/app/plugins/wp-job-manager-resumes
 !web/app/plugins/wp-job-manager-stats
 !web/app/plugins/wp-job-manager-wc-paid-listings
+!web/app/plugins/wp-rocket
 !web/app/plugins/wpforms
 web/app/mu-plugins/*
 !web/app/mu-plugins/cbf-custom-constants.php
@@ -31,6 +31,10 @@ web/app/cache/*
 # WordPress
 web/wp
 web/.htaccess
+
+# WP Rocket
+web/app/wp-rocket-config
+web/app/cache/wp-rocket
 
 # Logs
 *.log
