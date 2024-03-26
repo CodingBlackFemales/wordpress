@@ -1,17 +1,17 @@
-# Copyright (C) 2023 Automattic
+# Copyright (C) 2024 Automattic
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Job Manager - Resume Manager 1.19.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/resumes\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Project-Id-Version: WP Job Manager - Resume Manager 2.1.0\n"
+"Report-Msgid-Bugs-To: https://wpjobmanager.com/support/\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-03T14:19:06+00:00\n"
+"POT-Creation-Date: 2024-01-30T11:22:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-job-manager-resumes\n"
 
 #. Plugin Name of the plugin
@@ -36,7 +36,7 @@ msgstr ""
 msgid "https://wpjobmanager.com"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-admin.php:74
+#: includes/admin/class-wp-resume-manager-admin.php:89
 msgid "Settings"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgid "Posted"
 msgstr ""
 
 #: includes/admin/class-wp-resume-manager-cpt.php:276
-#: includes/class-wp-resume-manager-post-types.php:834
+#: includes/class-wp-resume-manager-post-types.php:846
 msgid "Expires"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 #: includes/admin/class-wp-resume-manager-settings.php:101
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:290
 #: templates/content-single-resume.php:37
-#: templates/resume-filters.php:38
+#: templates/resume-filters.php:39
 msgid "Skills"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgid "Email Candidate"
 msgstr ""
 
 #: includes/admin/class-wp-resume-manager-cpt.php:492
-#: includes/class-wp-resume-manager-post-types.php:236
+#: includes/class-wp-resume-manager-post-types.php:243
 #: templates/candidate-dashboard.php:55
 #: templates/candidate-dashboard.php:67
 #: templates/candidate-dashboard.php:80
@@ -778,25 +778,25 @@ msgstr ""
 msgid "Posted by"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:136
+#: includes/admin/class-wp-resume-manager-writepanels.php:135
 msgid "Candidate Data"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:137
+#: includes/admin/class-wp-resume-manager-writepanels.php:136
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:298
 msgid "URL(s)"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:138
-#: includes/admin/class-wp-resume-manager-writepanels.php:402
+#: includes/admin/class-wp-resume-manager-writepanels.php:137
+#: includes/admin/class-wp-resume-manager-writepanels.php:401
 #: includes/class-wp-resume-manager-email-notifications.php:254
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:325
 #: templates/content-single-resume.php:44
 msgid "Education"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:139
-#: includes/admin/class-wp-resume-manager-writepanels.php:412
+#: includes/admin/class-wp-resume-manager-writepanels.php:138
+#: includes/admin/class-wp-resume-manager-writepanels.php:411
 #: includes/class-wp-resume-manager-email-notifications.php:275
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:360
 #: templates/content-single-resume.php:65
@@ -804,66 +804,66 @@ msgid "Experience"
 msgstr ""
 
 #. translators: %1$s placeholder is the object type singular name; %2$s is the relative date the resume was edited.
-#: includes/admin/class-wp-resume-manager-writepanels.php:197
+#: includes/admin/class-wp-resume-manager-writepanels.php:196
 msgid "%1$s was last modified by the user on %2$s."
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:227
-#: includes/class-wp-resume-manager-post-types.php:235
+#: includes/admin/class-wp-resume-manager-writepanels.php:226
+#: includes/class-wp-resume-manager-post-types.php:242
 msgid "Add %s"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:289
+#: includes/admin/class-wp-resume-manager-writepanels.php:288
 #: includes/class-wp-resume-manager-shortcodes.php:290
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:307
 msgid "Name"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:291
+#: includes/admin/class-wp-resume-manager-writepanels.php:290
 msgid "Your site"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:296
-#: includes/admin/class-wp-resume-manager-writepanels.php:392
+#: includes/admin/class-wp-resume-manager-writepanels.php:295
+#: includes/admin/class-wp-resume-manager-writepanels.php:391
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:314
 msgid "URL"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:316
+#: includes/admin/class-wp-resume-manager-writepanels.php:315
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:333
-msgid "School name"
+msgid "Institution"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:323
+#: includes/admin/class-wp-resume-manager-writepanels.php:322
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:339
-msgid "Qualification(s)"
+msgid "Certification(s)"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:329
-#: includes/admin/class-wp-resume-manager-writepanels.php:368
+#: includes/admin/class-wp-resume-manager-writepanels.php:328
+#: includes/admin/class-wp-resume-manager-writepanels.php:367
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:345
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:380
 msgid "Start/end date"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:335
-#: includes/admin/class-wp-resume-manager-writepanels.php:374
+#: includes/admin/class-wp-resume-manager-writepanels.php:334
+#: includes/admin/class-wp-resume-manager-writepanels.php:373
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:351
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:386
 msgid "Notes"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:355
+#: includes/admin/class-wp-resume-manager-writepanels.php:354
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:368
 msgid "Employer"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:362
+#: includes/admin/class-wp-resume-manager-writepanels.php:361
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:374
 msgid "Job Title"
 msgstr ""
 
-#: includes/admin/class-wp-resume-manager-writepanels.php:390
+#: includes/admin/class-wp-resume-manager-writepanels.php:389
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:303
 msgid "Optionally provide links to any of your websites or social network profiles."
 msgstr ""
@@ -947,7 +947,7 @@ msgstr ""
 
 #. translators: Placeholder is qualifications/degrees of education experience.
 #: includes/class-wp-resume-manager-email-notifications.php:247
-msgid "Qualification: %s"
+msgid "Certification: %s"
 msgstr ""
 
 #. translators: Placeholder is notes for education experience.
@@ -975,209 +975,209 @@ msgstr ""
 msgid "Job Title: %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:110
+#: includes/class-wp-resume-manager-post-types.php:117
 msgid "Resume Category"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:111
+#: includes/class-wp-resume-manager-post-types.php:118
 msgid "Resume Categories"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:115
+#: includes/class-wp-resume-manager-post-types.php:122
 msgctxt "Resume category slug - resave permalinks after changing this"
 msgid "resume-category"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:133
-#: includes/class-wp-resume-manager-post-types.php:181
-#: includes/class-wp-resume-manager-post-types.php:241
+#: includes/class-wp-resume-manager-post-types.php:140
+#: includes/class-wp-resume-manager-post-types.php:188
+#: includes/class-wp-resume-manager-post-types.php:248
 msgid "Search %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:134
-#: includes/class-wp-resume-manager-post-types.php:182
-#: includes/class-wp-resume-manager-post-types.php:233
+#: includes/class-wp-resume-manager-post-types.php:141
+#: includes/class-wp-resume-manager-post-types.php:189
+#: includes/class-wp-resume-manager-post-types.php:240
 msgid "All %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:135
-#: includes/class-wp-resume-manager-post-types.php:183
-#: includes/class-wp-resume-manager-post-types.php:244
+#: includes/class-wp-resume-manager-post-types.php:142
+#: includes/class-wp-resume-manager-post-types.php:190
+#: includes/class-wp-resume-manager-post-types.php:251
 msgid "Parent %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:136
-#: includes/class-wp-resume-manager-post-types.php:184
+#: includes/class-wp-resume-manager-post-types.php:143
+#: includes/class-wp-resume-manager-post-types.php:191
 msgid "Parent %s:"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:137
-#: includes/class-wp-resume-manager-post-types.php:185
-#: includes/class-wp-resume-manager-post-types.php:237
+#: includes/class-wp-resume-manager-post-types.php:144
+#: includes/class-wp-resume-manager-post-types.php:192
+#: includes/class-wp-resume-manager-post-types.php:244
 msgid "Edit %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:138
-#: includes/class-wp-resume-manager-post-types.php:186
+#: includes/class-wp-resume-manager-post-types.php:145
+#: includes/class-wp-resume-manager-post-types.php:193
 msgid "Update %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:139
-#: includes/class-wp-resume-manager-post-types.php:187
+#: includes/class-wp-resume-manager-post-types.php:146
+#: includes/class-wp-resume-manager-post-types.php:194
 msgid "Add New %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:140
-#: includes/class-wp-resume-manager-post-types.php:188
+#: includes/class-wp-resume-manager-post-types.php:147
+#: includes/class-wp-resume-manager-post-types.php:195
 msgid "New %s Name"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:158
+#: includes/class-wp-resume-manager-post-types.php:165
 msgid "Candidate Skill"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:159
+#: includes/class-wp-resume-manager-post-types.php:166
 msgid "Candidate Skills"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:163
+#: includes/class-wp-resume-manager-post-types.php:170
 msgctxt "Resume skill slug - resave permalinks after changing this"
 msgid "resume-skill"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:208
+#: includes/class-wp-resume-manager-post-types.php:215
 msgid "Resume"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:209
-#: includes/class-wp-resume-manager-post-types.php:450
+#: includes/class-wp-resume-manager-post-types.php:216
+#: includes/class-wp-resume-manager-post-types.php:463
 #: includes/class-wp-resume-manager-privacy.php:81
-#: tests/php/tests/includes/test_class.wp-resume-manager-privacy.php:291
+#: tests/php/tests/includes/test_class.wp-resume-manager-privacy.php:296
 msgid "Resumes"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:212
+#: includes/class-wp-resume-manager-post-types.php:219
 msgctxt "Post type archive slug - resave permalinks after changing this"
 msgid "resumes"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:218
+#: includes/class-wp-resume-manager-post-types.php:225
 msgctxt "Resume permalink - resave permalinks after changing this"
 msgid "resume"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:234
+#: includes/class-wp-resume-manager-post-types.php:241
 msgid "Add New"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:238
+#: includes/class-wp-resume-manager-post-types.php:245
 msgid "New %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:239
-#: includes/class-wp-resume-manager-post-types.php:240
+#: includes/class-wp-resume-manager-post-types.php:246
+#: includes/class-wp-resume-manager-post-types.php:247
 msgid "View %s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:242
+#: includes/class-wp-resume-manager-post-types.php:249
 msgid "No %s found"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:243
+#: includes/class-wp-resume-manager-post-types.php:250
 msgid "No %s found in trash"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:246
+#: includes/class-wp-resume-manager-post-types.php:253
 msgid "This is where you can create and manage user resumes."
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:284
+#: includes/class-wp-resume-manager-post-types.php:291
 #: includes/wp-resume-manager-functions.php:615
 msgctxt "post status"
 msgid "Hidden"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:289
+#: includes/class-wp-resume-manager-post-types.php:296
 msgid "Hidden <span class=\"count\">(%s)</span>"
 msgid_plural "Hidden <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wp-resume-manager-post-types.php:383
+#: includes/class-wp-resume-manager-post-types.php:396
 msgid "File not found"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:383
+#: includes/class-wp-resume-manager-post-types.php:396
 msgid "Go to homepage"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:534
+#: includes/class-wp-resume-manager-post-types.php:547
 msgid "Contact via the resume for \"%1$s\" on %2$s"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:769
+#: includes/class-wp-resume-manager-post-types.php:781
 msgid "Professional Title"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:778
+#: includes/class-wp-resume-manager-post-types.php:790
 msgid "Contact Email"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:779
+#: includes/class-wp-resume-manager-post-types.php:791
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:229
 msgid "you@yourdomain.com"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:787
+#: includes/class-wp-resume-manager-post-types.php:799
 msgid "Candidate Location"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:788
+#: includes/class-wp-resume-manager-post-types.php:800
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:245
 msgid "e.g. \"London, UK\", \"New York\", \"Houston, TX\""
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:796
+#: includes/class-wp-resume-manager-post-types.php:808
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:250
 msgid "Photo"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:797
+#: includes/class-wp-resume-manager-post-types.php:809
 msgid "URL to the candidate photo"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:805
+#: includes/class-wp-resume-manager-post-types.php:817
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:265
 msgid "Video"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:806
+#: includes/class-wp-resume-manager-post-types.php:818
 msgid "URL to the candidate video"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:815
+#: includes/class-wp-resume-manager-post-types.php:827
 msgid "Resume File"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:816
+#: includes/class-wp-resume-manager-post-types.php:828
 msgid "URL to the candidate's resume file"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:824
+#: includes/class-wp-resume-manager-post-types.php:836
 msgid "Feature this Resume?"
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:826
+#: includes/class-wp-resume-manager-post-types.php:838
 msgid "Featured resumes will be sticky during searches, and can be styled differently."
 msgstr ""
 
-#: includes/class-wp-resume-manager-post-types.php:835
+#: includes/class-wp-resume-manager-post-types.php:847
 msgid "yyyy-mm-dd"
 msgstr ""
 
 #. translators: The placeholder %s is a list of qualifications someone obtained at a particular education institution.
 #: includes/class-wp-resume-manager-privacy.php:251
-msgid "Qualifications: %s"
+msgid "Certifications: %s"
 msgstr ""
 
 #. translators: Placeholder %d is the post ID for the resume that couldn't be removed.
@@ -1208,7 +1208,7 @@ msgid "Title"
 msgstr ""
 
 #: includes/class-wp-resume-manager-shortcodes.php:293
-#: templates/resume-filters.php:48
+#: templates/resume-filters.php:50
 msgid "Category"
 msgstr ""
 
@@ -1401,7 +1401,7 @@ msgid "Comma separate a list of relevant skills"
 msgstr ""
 
 #: includes/forms/class-wp-resume-manager-form-submit-resume.php:299
-#: templates/form-fields/repeated-field.php:64
+#: templates/form-fields/repeated-field.php:66
 msgid "Add URL"
 msgstr ""
 
@@ -1587,8 +1587,8 @@ msgid "You must sign in to submit a resume."
 msgstr ""
 
 #: templates/account-signin.php:61
-#: templates/form-fields/repeated-field.php:25
-#: templates/form-fields/repeated-field.php:50
+#: templates/form-fields/repeated-field.php:26
+#: templates/form-fields/repeated-field.php:52
 #: templates/resume-submit.php:37
 msgid "(optional)"
 msgstr ""
@@ -1764,7 +1764,7 @@ msgid "Submit Resume"
 msgstr ""
 
 #: templates/form-fields/repeated-field.php:22
-#: templates/form-fields/repeated-field.php:47
+#: templates/form-fields/repeated-field.php:48
 msgid "Remove"
 msgstr ""
 
@@ -1780,11 +1780,11 @@ msgstr ""
 msgid "Any Location"
 msgstr ""
 
-#: templates/resume-filters.php:39
+#: templates/resume-filters.php:40
 msgid "Any Skills"
 msgstr ""
 
-#: templates/resume-filters.php:68
+#: templates/resume-filters.php:70
 msgid "Any category"
 msgstr ""
 
@@ -1819,27 +1819,27 @@ msgstr ""
 msgid " You will be able to apply for <a href=\"%1$s\">%2$s</a> once your resume has been approved."
 msgstr ""
 
-#: wp-job-manager-resumes.php:120
+#: wp-job-manager-resumes.php:141
 msgid "<em>WP Job Manager - Resume Manager</em> requires WP Job Manager to be installed and activated."
 msgstr ""
 
 #. translators:  %1$s is the version that is required; %2$s is the current version of WPJM.
-#: wp-job-manager-resumes.php:135
+#: wp-job-manager-resumes.php:156
 msgid "<em>WP Job Manager - Resume Manager</em> requires WP Job Manager %1$s (you are using %2$s)."
 msgstr ""
 
-#: wp-job-manager-resumes.php:265
+#: wp-job-manager-resumes.php:286
 msgid "If you wish to edit the posted details use the \"edit resume\" button instead, otherwise changes may be lost."
 msgstr ""
 
-#: wp-job-manager-resumes.php:266
+#: wp-job-manager-resumes.php:287
 msgid "Are you sure you want to remove this item?"
 msgstr ""
 
-#: wp-job-manager-resumes.php:267
+#: wp-job-manager-resumes.php:288
 msgid "remove"
 msgstr ""
 
-#: wp-job-manager-resumes.php:282
+#: wp-job-manager-resumes.php:303
 msgid "Are you sure you want to delete this resume?"
 msgstr ""

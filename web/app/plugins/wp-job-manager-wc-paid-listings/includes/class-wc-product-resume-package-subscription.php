@@ -15,7 +15,6 @@ class WC_Product_Resume_Package_Subscription extends WP_Job_Manager_WCPL_Subscri
 	 */
 	public function __construct( $product ) {
 		parent::__construct( $product );
-		$this->product_type = 'resume_package_subscription';
 	}
 
 	/**

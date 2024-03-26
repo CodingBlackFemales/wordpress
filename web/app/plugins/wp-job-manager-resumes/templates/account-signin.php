@@ -39,7 +39,7 @@ else :
 	<fieldset>
 		<label><?php _e( 'Have an account?', 'wp-job-manager-resumes' ); ?></label>
 		<div class="field account-sign-in">
-			<a class="button" href="<?php echo apply_filters( 'submit_resume_form_login_url', wp_login_url( add_query_arg( array( 'job_id' => $class->get_job_id() ), get_permalink() ) ) ); ?>"><?php _e( 'Sign in', 'wp-job-manager-resumes' ); ?></a>
+			<a class="button" href="<?php echo apply_filters( 'submit_resume_form_login_url', wp_login_url( add_query_arg( [ 'job_id' => $class->get_job_id() ], get_permalink() ) ) ); ?>"><?php _e( 'Sign in', 'wp-job-manager-resumes' ); ?></a>
 
 			<?php if ( $registration_enabled ) : ?>
 
@@ -63,10 +63,10 @@ else :
 					<?php
 					get_job_manager_template(
 						'form-fields/' . $field['type'] . '-field.php',
-						array(
+						[
 							'key'   => $key,
 							'field' => $field,
-						)
+						]
 					);
 					?>
 				</div>
