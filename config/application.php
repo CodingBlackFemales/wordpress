@@ -127,6 +127,11 @@ Config::define( 'WP_POST_REVISIONS', env( 'WP_POST_REVISIONS' ) ?? true );
 Config::define( 'WP_MEMORY_LIMIT', env( 'WP_MEMORY_LIMIT' ) ?? '256M' );
 
 /**
+ * WP Rocket settings
+ */
+Config::define( 'WP_CACHE', true );
+
+/**
  * Airtable Settings
  */
 Config::define( 'AIRTABLE_API_KEY', env( 'AIRTABLE_API_KEY' ) ?? '' );
