@@ -69,7 +69,7 @@ class WC_Paid_Listings_Admin_Add_Package {
 			<tr>
 				<th>
 					<label for="package_limit"><?php _e( 'Listing Limit', 'wp-job-manager-wc-paid-listings' ); ?></label>
-					<img class="help_tip tips" data-tip="<?php _e( 'How many listings should this package allow the user to post?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url() ?>/assets/images/help.png" height="16" width="16">
+					<img class="help_tip tips" data-tip="<?php _e( 'How many listings should this package allow the user to post?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16">
 				</th>
 				<td>
 					<input type="number" step="1" name="package_limit" id="package_limit" class="input-text regular-text" placeholder="<?php _e( 'Unlimited', 'wp-job-manager-wc-paid-listings' ); ?>" value="<?php echo esc_attr( $package_limit ); ?>" />
@@ -78,7 +78,7 @@ class WC_Paid_Listings_Admin_Add_Package {
 			<tr>
 				<th>
 					<label for="package_count"><?php _e( 'Listing Count', 'wp-job-manager-wc-paid-listings' ); ?></label>
-					<img class="help_tip tips" data-tip="<?php _e( 'How many listings has the user already posted with this package?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url() ?>/assets/images/help.png" height="16" width="16">
+					<img class="help_tip tips" data-tip="<?php _e( 'How many listings has the user already posted with this package?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16">
 				</th>
 				<td>
 					<input type="number" step="1" name="package_count" id="package_count" value="<?php echo esc_attr( $package_count ); ?>" class="input-text regular-text" placeholder="0" />
@@ -87,7 +87,7 @@ class WC_Paid_Listings_Admin_Add_Package {
 			<tr>
 				<th>
 					<label for="package_duration"><?php _e( 'Listing Duration', 'wp-job-manager-wc-paid-listings' ); ?></label>
-					<img class="help_tip tips" data-tip="<?php _e( 'How many days should listings posted with this package be active?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url() ?>/assets/images/help.png" height="16" width="16">
+					<img class="help_tip tips" data-tip="<?php _e( 'How many days should listings posted with this package be active?', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16">
 				</th>
 				<td>
 					<input type="number" step="1" name="package_duration" id="package_duration" value="<?php echo esc_attr( $package_duration ); ?>" class="input-text regular-text" placeholder="<?php _e( 'Default', 'wp-job-manager-wc-paid-listings' ); ?>" />
@@ -120,10 +120,10 @@ class WC_Paid_Listings_Admin_Add_Package {
 			<tr>
 				<th>
 					<label for="product_id"><?php _e( 'Product', 'wp-job-manager-wc-paid-listings' ); ?></label>
-					<img class="help_tip tips" data-tip="<?php _e( 'Optionally link this package to a product.', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url() ?>/assets/images/help.png" height="16" width="16">
+					<img class="help_tip tips" data-tip="<?php _e( 'Optionally link this package to a product.', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16">
 				</th>
 				<td>
-					<select name="product_id" class="wc-enhanced-select" data-allow_clear="true" data-placeholder="<?php _e( 'Choose a product&hellip;', 'wp-job-manager-wc-paid-listings' ) ?>" style="width:25em">
+					<select name="product_id" class="wc-enhanced-select" data-allow_clear="true" data-placeholder="<?php _e( 'Choose a product&hellip;', 'wp-job-manager-wc-paid-listings' ); ?>" style="width:25em">
 						<?php
 						echo '<option value=""></option>';
 						$find_terms                  = array();
@@ -159,7 +159,7 @@ class WC_Paid_Listings_Admin_Add_Package {
 			<tr>
 				<th>
 					<label for="order_id"><?php _e( 'Order ID', 'wp-job-manager-wc-paid-listings' ); ?></label>
-					<img class="help_tip tips" data-tip="<?php _e( 'Optionally link this package to an order.', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url() ?>/assets/images/help.png" height="16" width="16">
+					<img class="help_tip tips" data-tip="<?php _e( 'Optionally link this package to an order.', 'wp-job-manager-wc-paid-listings' ); ?>" src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16">
 				</th>
 				<td>
 					<input type="number" step="1" name="order_id" id="order_id" value="<?php echo esc_attr( $order_id ); ?>" class="input-text regular-text" placeholder="<?php _e( 'N/A', 'wp-job-manager-wc-paid-listings' ); ?>" />

@@ -1,0 +1,60 @@
+
+/**
+ * WP Job Manager Alerts — Optional styles.
+ * These provide a default experience if the theme does not provide its own styles.
+ *
+ * Themes can opt out of this with `add_theme_support( 'job_manager_alert_styles' );`
+ */
+
+.jm-alert {
+	& {
+		padding: 24px;
+		border: 1px solid color-mix(in srgb, transparent, currentColor 40%);
+		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+	}
+
+	&.alert-disabled {
+		.jm-alert__header *, .jm-alert__terms {
+			color: #aaa;
+		}
+	}
+
+	&__title.jm-alert__title {
+		margin: unset;
+		font-size: 130%;
+	}
+
+	&__term {
+		font-weight: 600;
+		padding: 2px 6px;
+		border: 1.5px solid color-mix(in srgb, transparent, currentColor 10%);
+		border-radius: 2px;
+		font-size: 90%;
+	}
+	&__term-separator {
+		display: none;
+	}
+
+	&__actions {
+		margin-top: 2em;
+	}
+
+	@media (min-width: 600px) {
+		&__header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+	}
+
+}
+
+.jm-alerts__add-new a {
+	display: block;
+	padding: 12px 24px;
+	border: 1px solid currentColor;
+	text-align: center;
+}
+

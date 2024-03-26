@@ -57,7 +57,7 @@ class WP_Resume_Manager_Ajax {
 			$args['post__not_in'] = array_map( 'absint', $_POST['exclude_ids'] );
 		}
 
-		if ( ! in_array( $_POST['orderby'], ['rand', 'rand_featured'], true ) ) {
+		if ( ! in_array( $_POST['orderby'], [ 'rand', 'rand_featured' ], true ) ) {
 			$args['offset'] = ( absint( $_POST['page'] ) - 1 ) * absint( $_POST['per_page'] );
 		}
 
