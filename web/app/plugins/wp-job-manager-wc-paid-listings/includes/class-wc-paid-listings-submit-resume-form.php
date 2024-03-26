@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WP_Job_Manager_WCPL_Submit_Resume_Form {
 
-	private static $package_id = 0;
+	private static $package_id      = 0;
 	private static $is_user_package = false;
 
 	/**
@@ -44,7 +44,7 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 		if ( ! empty( $_POST ) && ! is_admin() && is_main_query() && in_the_loop() && is_page( get_option( 'resume_manager_submit_resume_form_page_id' ) ) && self::$package_id && 'before' === get_option( 'job_manager_paid_listings_flow' ) && apply_filters( 'wcpl_append_package_name', true ) ) {
 			if ( self::$is_user_package ) {
 				$package = wc_paid_listings_get_user_package( self::$package_id );
-				$title .= ' &ndash; ' . $package->get_title();
+				$title  .= ' &ndash; ' . $package->get_title();
 			} else {
 				$post = get_post( self::$package_id );
 				if ( $post ) {
@@ -79,13 +79,13 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 	 */
 	public static function submit_resume_post_status( $status, $resume ) {
 		switch ( $resume->post_status ) {
-			case 'preview' :
+			case 'preview':
 				return 'pending_payment';
 			break;
-			case 'expired' :
+			case 'expired':
 				return 'expired';
 			break;
-			default :
+			default:
 				return $status;
 			break;
 		}
@@ -97,23 +97,30 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 	 * @return array
 	 */
 	public static function get_packages() {
-		return get_posts( apply_filters( 'wcpl_get_resume_packages_args', array(
-			'post_type'        => 'product',
-			'posts_per_page'   => -1,
-			'order'            => 'asc',
-			'orderby'          => 'menu_order',
-			'suppress_filters' => false,
-			'tax_query'        => WC()->query->get_tax_query( array(
-				'relation' => 'AND',
+		return get_posts(
+			apply_filters(
+				'wcpl_get_resume_packages_args',
 				array(
-					'taxonomy' => 'product_type',
-					'field'    => 'slug',
-					'terms'    => array( 'resume_package', 'resume_package_subscription' ),
-					'operator' => 'IN',
-				),
-			) ),
-			'meta_query'       => WC()->query->get_meta_query(),
-		) ) );
+					'post_type'        => 'product',
+					'posts_per_page'   => -1,
+					'order'            => 'asc',
+					'orderby'          => 'menu_order',
+					'suppress_filters' => false,
+					'tax_query'        => WC()->query->get_tax_query(
+						array(
+							'relation' => 'AND',
+							array(
+								'taxonomy' => 'product_type',
+								'field'    => 'slug',
+								'terms'    => array( 'resume_package', 'resume_package_subscription' ),
+								'operator' => 'IN',
+							),
+						)
+					),
+					'meta_query'       => WC()->query->get_meta_query(),
+				)
+			)
+		);
 	}
 
 	/**
@@ -136,7 +143,7 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 			// If we instead want to show the package selection FIRST, change the priority and add a new handler.
 			if ( 'before' === get_option( 'resume_manager_paid_listings_flow' ) ) {
 				$steps['wc-choose-package']['priority'] = 5;
-				$steps['wc-process-package'] = array(
+				$steps['wc-process-package']            = array(
 					'name'     => '',
 					'view'     => false,
 					'handler'  => array( __CLASS__, 'choose_package_handler' ),
@@ -170,11 +177,11 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 	 * Choose package form
 	 */
 	public static function choose_package() {
-		$form      = WP_Resume_Manager_Form_Submit_Resume::instance();
-		$resume_id = $form->get_resume_id();
-		$job_id    = $form->get_job_id();
-		$step      = $form->get_step();
-		$form_name = $form->form_name;
+		$form          = WP_Resume_Manager_Form_Submit_Resume::instance();
+		$resume_id     = $form->get_resume_id();
+		$job_id        = $form->get_job_id();
+		$step          = $form->get_step();
+		$form_name     = $form->form_name;
 		$packages      = self::get_packages();
 		$user_packages = wc_paid_listings_get_user_packages( get_current_user_id(), 'resume' );
 		$button_text   = 'before' !== get_option( 'resume_manager_paid_listings_flow' ) ? __( 'Submit &rarr;', 'wp-job-manager-wc-paid-listings' ) : __( 'Listing Details &rarr;', 'wp-job-manager-wc-paid-listings' );
@@ -189,10 +196,17 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 				<h2><?php _e( 'Choose a package', 'wp-job-manager-wc-paid-listings' ); ?></h2>
 			</div>
 			<div class="job_listing_packages">
-				<?php get_job_manager_template( 'resume-package-selection.php', array(
-					'packages' => $packages,
-					'user_packages' => $user_packages,
-				), 'wc-paid-listings', JOB_MANAGER_WCPL_PLUGIN_DIR . '/templates/' ); ?>
+				<?php
+				get_job_manager_template(
+					'resume-package-selection.php',
+					array(
+						'packages'      => $packages,
+						'user_packages' => $user_packages,
+					),
+					'wc-paid-listings',
+					JOB_MANAGER_WCPL_PLUGIN_DIR . '/templates/'
+				);
+				?>
 			</div>
 		</form>
 		<?php
@@ -286,9 +300,15 @@ class WP_Job_Manager_WCPL_Submit_Resume_Form {
 			update_post_meta( $resume_id, '_package_id', $package->get_product_id() );
 
 			// Add package to the cart
-			WC()->cart->add_to_cart( $package_id, 1, '', '', array(
-				'resume_id' => $resume_id,
-			) );
+			WC()->cart->add_to_cart(
+				$package_id,
+				1,
+				'',
+				'',
+				array(
+					'resume_id' => $resume_id,
+				)
+			);
 
 			wc_add_to_cart_message( $package_id );
 

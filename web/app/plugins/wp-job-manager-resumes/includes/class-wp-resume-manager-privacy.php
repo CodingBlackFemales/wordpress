@@ -248,7 +248,7 @@ class WP_Resume_Manager_Privacy {
 				// translators: The placeholder %s is the date (range) someone attended a particular educational institution.
 				$education_str_parts[] = sprintf( __( 'Date: %s', 'wp-job-manager-resumes' ), esc_html( $item['date'] ) );
 				// translators: The placeholder %s is a list of qualifications someone obtained at a particular education institution.
-				$education_str_parts[] = sprintf( __( 'Qualifications: %s', 'wp-job-manager-resumes' ), esc_html( $item['qualification'] ) );
+				$education_str_parts[] = sprintf( __( 'Certifications: %s', 'wp-job-manager-resumes' ), esc_html( $item['qualification'] ) );
 				// translators: The placeholder %s are the notes regarding an education listing on their resume.
 				$education_str_parts[] = sprintf( __( 'Notes: %s', 'wp-job-manager-resumes' ), esc_html( $item['notes'] ) );
 				$education[]           = implode( '<br />', $education_str_parts );
