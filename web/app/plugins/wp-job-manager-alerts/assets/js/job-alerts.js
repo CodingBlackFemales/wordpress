@@ -21,8 +21,58 @@ jQuery( document ).ready( function ( $ ) {
 		// eslint-disable-next-line no-alert
 		const answer = confirm( job_manager_alerts.i18n_confirm_delete );
 
-		if ( answer ) return true;
+		if ( answer ) {
+			return true;
+		}
 
 		return false;
 	} );
 } );
+
+window.job_manager_alerts = window.job_manager_alerts || {};
+
+/**
+ * Open the Add Alert modal and apply the search terms for the alert to be added.
+ *
+ * @param {HTMLDialogElement} modal
+ * @param {HTMLAnchorElement} link
+ * @param {Event}             event
+ */
+window.job_manager_alerts.open_add_alert_modal = function (
+	modal,
+	link,
+	event
+) {
+	if ( ! modal ) {
+		return true;
+	}
+
+	event.preventDefault();
+
+	modal.showModal();
+	const alertForm = modal.querySelector( 'form' );
+	const searchInputs = document.querySelector( '.job-alert-search-terms' );
+
+	if ( ! alertForm || ! searchInputs ) {
+		return;
+	}
+
+	searchInputs.querySelectorAll( '*' ).forEach( ( input ) => input.remove() );
+
+	const alertData = new URL( link?.href )?.searchParams;
+
+	for ( const [ name, value ] of alertData ) {
+		const input = Object.assign( document.createElement( 'input' ), {
+			type: 'hidden',
+			name,
+			value,
+		} );
+		searchInputs.appendChild( input );
+	}
+
+	const alertName = alertData?.get( 'alert_name' )?.toString();
+	const keywordEl = alertForm.querySelector( '.job-alert-keyword' );
+	if ( keywordEl ) {
+		keywordEl.innerText = alertName ?? '';
+	}
+};

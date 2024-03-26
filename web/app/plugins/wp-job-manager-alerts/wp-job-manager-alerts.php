@@ -3,11 +3,11 @@
  * Plugin Name: WP Job Manager - Alerts
  * Plugin URI: https://wpjobmanager.com/add-ons/job-alerts/
  * Description: Allow users to subscribe to job alerts for their searches. Once registered, users can access a 'My Alerts' page which you can create with the shortcode [job_alerts].
- * Version: 1.6.0
+ * Version: 3.1.1
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 5.8
- * Tested up to: 6.2
+ * Requires at least: 6.1
+ * Tested up to: 6.4
  * Requires PHP: 7.4
  * Text Domain: wp-job-manager-alerts
  * Domain Path: /languages/
@@ -17,9 +17,15 @@
  * Copyright: 2020 Automattic
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * @package wp-job-manager-alerts
  */
 
-// Exit if accessed directly
+namespace WP_Job_Manager_Alerts;
+
+use WP_Job_Manager\Guest_Session;
+
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -28,87 +34,128 @@ if ( ! defined( 'ABSPATH' ) ) {
  * WP_Job_Manager_Alerts class.
  */
 class WP_Job_Manager_Alerts {
-	const JOB_MANAGER_CORE_MIN_VERSION = '1.29.0';
+
+	/**
+	 * Minimum required version of the WP Job Manager plugin.
+	 */
+	public const JOB_MANAGER_CORE_MIN_VERSION = '2.2.0';
+
+	/**
+	 * Post types class.
+	 *
+	 * @var Post_Types
+	 */
+	public Post_Types $post_types;
+
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var self
+	 */
+	private static $instance = null;
+
+	/**
+	 * Allows for accessing single instance of class. Class should only be constructed once per call.
+	 *
+	 * @since 3.0.0
+	 * @static
+	 * @return self Main instance.
+	 */
+	public static function instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * __construct function.
 	 */
 	public function __construct() {
 		// Define constants
-		define( 'JOB_MANAGER_ALERTS_VERSION', '1.6.0' );
+		define( 'JOB_MANAGER_ALERTS_VERSION', '3.1.1' );
 		define( 'JOB_MANAGER_ALERTS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'JOB_MANAGER_ALERTS_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 
+		spl_autoload_register( [ $this, 'autoload' ] );
+
+		class_alias( '\\WP_Job_Manager_Alerts\\Admin', 'WP_Job_Manager_Alerts_Admin' );
+		class_alias( '\\WP_Job_Manager_Alerts\\Notifier', 'WP_Job_Manager_Alerts_Notifier' );
+		class_alias( '\\WP_Job_Manager_Alerts\\Post_Types', 'WP_Job_Manager_Alerts_Post_Types' );
+		class_alias( '\\WP_Job_Manager_Alerts\\Shortcodes', 'WP_Job_Manager_Alerts_Shortcodes' );
+
 		// Set up startup actions
-		add_action( 'plugins_loaded', array( $this, 'load_text_domain' ), 12 );
-		add_action( 'plugins_loaded', array( $this, 'init_plugin' ), 13 );
-		add_action( 'admin_notices', array( $this, 'version_check' ) );
+		add_action( 'plugins_loaded', [ $this, 'load_text_domain' ], 12 );
+		add_action( 'plugins_loaded', [ $this, 'init_plugin' ], 13 );
+		add_action( 'admin_notices', [ $this, 'version_check' ] );
+		add_action( 'admin_init', [ $this, 'updater' ] );
+		add_action( 'admin_init', [ $this, 'add_privacy_policy_content' ] );
+
+		register_activation_hook(
+			basename( __DIR__ ) . '/' . basename( __FILE__ ),
+			[ $this, 'on_plugin_activation' ]
+		);
 	}
 
 	/**
 	 * Initializes plugin.
 	 */
 	public function init_plugin() {
-		if ( ! class_exists( 'WP_Job_Manager' ) ) {
+		if ( ! self::check_core_installed() || ! self::check_core_version( true ) ) {
 			return;
 		}
 
-		// Includes
-		include 'includes/class-wp-job-manager-alerts-shortcodes.php';
-		include 'includes/class-wp-job-manager-alerts-post-types.php';
-		include 'includes/class-wp-job-manager-alerts-notifier.php';
+		$this->post_types = Post_Types::instance();
 
-		// Init classes
-		$this->post_types = new WP_Job_Manager_Alerts_Post_Types();
+		Admin::instance();
+		Notifier::instance();
+		Shortcodes::instance();
+		Add_Alert::instance();
 
 		// Add actions
-		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-		add_filter( 'job_manager_enhanced_select_enabled', array( $this, 'use_enhanced_select' ) );
-		add_filter( 'job_manager_enqueue_frontend_style', array( $this, 'use_wpjm_core_frontend_style' ) );
-		add_filter( 'job_manager_settings', array( $this, 'settings' ) );
-		add_filter( 'job_manager_job_filters_showing_jobs_links', array( $this, 'alert_link' ), 10, 2 );
-		add_action( 'single_job_listing_end', array( $this, 'single_alert_link' ) );
-		add_action( 'job-manager-alert-check-reschedule', array( $this, 'check_reschedule_events' ) );
-		if ( wp_next_scheduled( 'job-manager-alert-check-reschedule' ) === false ) {
-			wp_schedule_event( time(), 'daily', 'job-manager-alert-check-reschedule' );
-		}
+		add_action( 'wp_enqueue_scripts', [ $this, 'frontend_scripts' ] );
+		add_filter( 'job_manager_enhanced_select_enabled', [ $this, 'use_enhanced_select' ] );
+		add_filter( 'job_manager_enqueue_frontend_style', [ $this, 'use_wpjm_core_frontend_style' ] );
+		add_action( 'pre_update_option_job_manager_alerts_email_template', [ $this, 'update_email_template' ], 10, 2 );
 
 		// Update legacy options
-		if ( get_option( 'job_manager_alerts_page_id', false ) === false && get_option( 'job_manager_alerts_page_slug' ) ) {
+		if ( false === get_option( 'job_manager_alerts_page_id', false ) && get_option( 'job_manager_alerts_page_slug' ) ) {
 			$page_id = get_page_by_path( get_option( 'job_manager_alerts_page_slug' ) )->ID;
 			update_option( 'job_manager_alerts_page_id', $page_id );
 		}
 	}
 
 	/**
+	 * Hook on plugin activation.
+	 */
+	public function on_plugin_activation() {
+		if ( $this->is_new_install() && false === get_option( Settings::OPTION_ACCOUNT_REQUIRED, false ) ) {
+			// For new installs, set alerts account required to false
+			update_option( Settings::OPTION_ACCOUNT_REQUIRED, '0' );
+		}
+		self::update_email_template_on_plugin_update();
+
+		update_option( 'wp_job_manager_alerts_version', JOB_MANAGER_ALERTS_VERSION );
+	}
+
+	/**
+	 * Check if it's a new plugin install.
+	 *
+	 * @return bool
+	 */
+	private function is_new_install() {
+		return false === get_option( Settings::OPTION_ALERTS_PLUGIN_VERSION, false ) && false === get_option( 'job_manager_alerts_page_id', false );
+	}
+
+	/**
 	 * Checks alerts for their corresponding scheduled event and reschedules if missing.
+	 *
+	 * @deprecated 3.0.0 Moved to Notifier class.
 	 */
 	public function check_reschedule_events() {
-		$alert_posts = new WP_Query(
-			array(
-				'post_type' => 'job_alert',
-				'posts_per_page' => -1,
-				'post_status' => 'publish',
-			)
-		);
-
-		$schedules = WP_Job_Manager_Alerts_Notifier::get_alert_schedules();
-		foreach ( $alert_posts->posts as $post ) {
-			if ( wp_next_scheduled( 'job-manager-alert', array( $post->ID ) ) === false ) {
-				$alert_frequency = get_post_meta( $post->ID, 'alert_frequency', true );
-
-				$next = strtotime( '+1 day' );
-				if ( ! empty( $schedules[ $alert_frequency ] ) ) {
-					$next = strtotime( '+' . $schedules[ $alert_frequency ]['interval'] . ' seconds' );
-				}
-
-				// Use the created time to distribute the events again, starting tomorrow.
-				$created = strtotime( $post->post_date );
-				$next = strtotime( date( 'Y-m-d', strtotime( '+1 day' ) ) . ' ' . date( 'G:i:s', $created ) );
-
-				wp_schedule_event( $next, $alert_frequency, 'job-manager-alert', array( $post->ID ) );
-			}
-		}
+		_deprecated_function( __METHOD__, '3.0.0', 'WP_Job_Manager_Alerts\Notifier::check_reschedule_events' );
+		Notifier::instance()->check_reschedule_events();
 	}
 
 	/**
@@ -127,25 +174,71 @@ class WP_Job_Manager_Alerts {
 	 * Checks WPJM core version.
 	 */
 	public function version_check() {
-		if ( ! class_exists( 'WP_Job_Manager' ) || ! defined( 'JOB_MANAGER_VERSION' ) ) {
+		if ( ! self::check_core_installed() ) {
 			$screen = get_current_screen();
-			if ( $screen !== null && $screen->id === 'plugins' ) {
+			if ( null !== $screen && 'plugins' === $screen->id ) {
 				$this->display_error( __( '<em>WP Job Manager - Alerts</em> requires WP Job Manager to be installed and activated.', 'wp-job-manager-alerts' ) );
 			}
-		} elseif (
-			/**
-			 * Filters if WPJM core's version should be checked.
-			 *
-			 * @since 1.5.0
-			 *
-			 * @param bool   $do_check                       True if the add-on should do a core version check.
-			 * @param string $minimum_required_core_version  Minimum version the plugin is reporting it requires.
-			 */
-			apply_filters( 'job_manager_addon_core_version_check', true, self::JOB_MANAGER_CORE_MIN_VERSION )
-			&& version_compare( JOB_MANAGER_VERSION, self::JOB_MANAGER_CORE_MIN_VERSION, '<' )
-		) {
+		} elseif ( ! self::check_core_version() ) {
+			// Translators: first placeholder is required WP Job Manager plugin version, second placeholder is current WP Job Manager plugin version.
 			$this->display_error( sprintf( __( '<em>WP Job Manager - Alerts</em> requires WP Job Manager %1$s (you are using %2$s).', 'wp-job-manager-alerts' ), self::JOB_MANAGER_CORE_MIN_VERSION, JOB_MANAGER_VERSION ) );
 		}
+	}
+
+	/**
+	 * Checks if the WPJM Core is installed.
+	 *
+	 * @return bool True if the WPJM Core is installed. False otherwise.
+	 */
+	public static function check_core_installed() {
+		return class_exists( 'WP_Job_Manager' ) && defined( 'JOB_MANAGER_VERSION' );
+	}
+
+	/**
+	 * Check if the minimum requirement for the WPJM Core version is met.
+	 *
+	 * @param bool $skip_check Whether the version check can be skipped or not.
+	 * @return bool True if the minimum requirement for the WPJM Core version is met. False otherwise.
+	 */
+	public static function check_core_version( $skip_check = false ) {
+		return ! ( ( $skip_check ||
+				/**
+				 * Filters if WPJM core's version should be checked.
+				 *
+				 * @param bool $do_check True if the add-on should do a core version check.
+				 * @param string $minimum_required_core_version Minimum version the plugin is reporting it requires.
+				 * @since 1.5.0
+				 */
+				apply_filters( 'job_manager_addon_core_version_check', true, self::JOB_MANAGER_CORE_MIN_VERSION )
+			)
+			&& version_compare( JOB_MANAGER_VERSION, self::JOB_MANAGER_CORE_MIN_VERSION, '<' ) );
+	}
+
+	/**
+	 * Handles tasks after plugin is updated.
+	 */
+	public function updater() {
+		if ( version_compare( JOB_MANAGER_ALERTS_VERSION, get_option( 'wp_job_manager_alerts_version' ), '>' ) ) {
+			self::update_email_template_on_plugin_update();
+			update_option( 'wp_job_manager_alerts_version', JOB_MANAGER_ALERTS_VERSION );
+		}
+	}
+
+	/**
+	 * Adds Privacy Policy suggested content.
+	 */
+	public function add_privacy_policy_content() {
+		if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) {
+			return;
+		}
+		$content = __(
+			'When you subscribe to a job alert on this site we store the details you enter to send you alerts matching the criteria you selected.',
+			'wp-job-manager-alerts'
+		);
+		wp_add_privacy_policy_content(
+			__( 'WP Job Manager - Alerts', 'wp-job-manager-alerts' ),
+			wp_kses_post( wpautop( $content, false ) )
+		);
 	}
 
 	/**
@@ -155,29 +248,33 @@ class WP_Job_Manager_Alerts {
 	 */
 	private function display_error( $message ) {
 		echo '<div class="error">';
-		echo '<p>' . $message . '</p>';
+		echo '<p>' . wp_kses_post( $message ) . '</p>';
 		echo '</div>';
 	}
 
 	/**
-	 * frontend_scripts function.
+	 * Frontend scripts and styles function.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function frontend_scripts() {
-		wp_register_script( 'job-alerts', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/js/job-alerts.js', array( 'jquery', 'select2' ), JOB_MANAGER_ALERTS_VERSION, true );
+		wp_register_script( 'job-alerts', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/js/job-alerts.js', [ 'jquery', 'select2' ], JOB_MANAGER_ALERTS_VERSION, true );
 
 		wp_localize_script(
 			'job-alerts',
 			'job_manager_alerts',
-			array(
+			[
 				'i18n_confirm_delete' => __( 'Are you sure you want to delete this alert?', 'wp-job-manager-alerts' ),
-				'is_rtl' => is_rtl(),
-			)
+				'is_rtl'              => is_rtl(),
+			]
 		);
 
-		wp_enqueue_style( 'job-alerts-frontend', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/css/frontend.css' );
+		wp_enqueue_style( 'job-alerts-frontend', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/css/frontend.css', [], JOB_MANAGER_ALERTS_VERSION );
+
+		if ( ! current_theme_supports( 'job_manager_alert_styles' ) ) {
+			wp_enqueue_style( 'job-alerts-frontend-default', JOB_MANAGER_ALERTS_PLUGIN_URL . '/assets/dist/css/frontend.default.css', [ 'job-alerts-frontend' ], JOB_MANAGER_ALERTS_VERSION );
+		}
 	}
 
 	/**
@@ -219,166 +316,71 @@ class WP_Job_Manager_Alerts {
 			$content = $post->post_content;
 		}
 
-		return has_shortcode( $content, 'job_alerts' );
+		return ! is_null( $content ) && has_shortcode( $content, 'job_alerts' );
+	}
+
+	/**
+	 * Check if there is a user logged in or if account creation is not required.
+	 *
+	 * @return bool
+	 */
+	public function can_user_add_alert() : bool {
+		// Logged-in users are always allowed to add alerts.
+		if ( is_user_logged_in() ) {
+			return true;
+		}
+
+		// If an account is required, guest users cannot add an alert.
+		if ( Settings::instance()->is_account_required() ) {
+			return false;
+		}
+
+		// Do not allow users that have an account to add alert as guests.
+		return ! Guest_Session::current_guest_has_account();
 	}
 
 	/**
 	 * Return the default email content for alerts
+	 *
+	 * @deprecated 3.0.0
 	 */
 	public function get_default_email() {
-		return __(
-			'Hello {display_name},
+		_deprecated_function( __METHOD__, '3.0.0', 'Settings::instance->get_default_email()' );
 
-The following jobs were found matching your "{alert_name}" job alert.
-
-================================================================================
-{jobs}
-Your next alert for this search will be sent {alert_next_date}.
-
-{alert_expiry}
-
-—
-You are receiving this email because you created the "{alert_name}" job alert.
-To manage your alerts please login and visit your alerts page here: {alert_page_url}
-Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
-			'wp-job-manager-alerts'
-		);
+		return Settings::instance()->get_default_email();
 	}
 
 	/**
-	 * Add Settings
-	 * @param  array $settings
-	 * @return array
-	 */
-	public function settings( $settings = array() ) {
-		if ( ! get_option( 'job_manager_alerts_email_template' ) ) {
-			delete_option( 'job_manager_alerts_email_template' );
-		}
-
-		$settings['job_alerts'] = array(
-			__( 'Job Alerts', 'wp-job-manager-alerts' ),
-			apply_filters(
-				'wp_job_manager_alerts_settings',
-				array(
-					array(
-						'name'      => 'job_manager_alerts_email_template',
-						'std'       => $this->get_default_email(),
-						'label'     => __( 'Alert Email Content', 'wp-job-manager-alerts' ),
-						'desc'      => __( 'Enter the content for your email alerts or leave it blank to use the default message. The following tags can be used to insert data dynamically:', 'wp-job-manager-alerts' ) . '<br/>' . '<br/>' .
-							'<code>{display_name}</code>' . ' - ' . __( 'The user WordPress username', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{alert_name}</code>' . ' - ' . __( 'The name of the alert being sent', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{alert_expiry}</code>' . ' - ' . __( 'When will this job alert automatically stop being sent', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{alert_next_date}</code>' . ' - ' . __( 'The next date this alert will be sent', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{alert_page_url}</code>' . ' - ' . __( 'The url to your alerts page', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{jobs}</code>' . ' - ' . __( 'The jobs found matching your alert', 'wp-job-manager-alerts' ) . '<br/>' .
-							'<code>{alert_unsubscribe_url}</code>' . ' - ' . __( 'The URL to unsubscribe the alert', 'wp-job-manager-alerts' ) . '<br/>' .
-							'',
-						'type'      => 'textarea',
-						'required'  => true,
-					),
-					array(
-						'name'      => 'job_manager_alerts_auto_disable',
-						'std'       => '90',
-						'label'     => __( 'Alert Duration', 'wp-job-manager-alerts' ),
-						'desc'      => __( 'Enter the number of days before alerts are automatically disabled, or leave blank to disable this feature. By default, alerts will be turned off for a search after 90 days.', 'wp-job-manager-alerts' ),
-						'type'      => 'input',
-					),
-					array(
-						'name'      => 'job_manager_alerts_matches_only',
-						'std'       => '0',
-						'label'     => __( 'Alert Matches', 'wp-job-manager-alerts' ),
-						'cb_label'  => __( 'Send alerts with matches only', 'wp-job-manager-alerts' ),
-						'desc'      => __( 'Only send an alert when jobs are found matching its criteria. When disabled, an alert is sent regardless.', 'wp-job-manager-alerts' ),
-						'type'      => 'checkbox',
-					),
-					array(
-						'name'      => 'job_manager_alerts_page_id',
-						'std'       => '',
-						'label'     => __( 'Alerts Page ID', 'wp-job-manager-alerts' ),
-						'desc'      => __( 'So that the plugin knows where to link users to view their alerts, you must select the page where you have placed the [job_alerts] shortcode.', 'wp-job-manager-alerts' ),
-						'type'      => 'page',
-					),
-					array(
-						'name'      => 'job_manager_permission_checkbox',
-						'std'       => '0',
-						'label'     => __( 'Emails Permission Checkbox', 'wp-job-manager-alerts' ),
-						'cb_label'  => __( 'Add a permission checkbox to the alert form', 'wp-job-manager-alerts' ),
-						'desc'      => __( 'User will be able to create alerts only after authorizing to receive emails.', 'wp-job-manager-alerts' ),
-						'type'      => 'checkbox',
-					),
-				)
-			),
-		);
-		return $settings;
-	}
-
-	/**
-	 * Add the alert link
+	 * Add the alert link to job search.
+	 *
+	 * @deprecated 3.0.0 - Moved to Add_Alert.
+	 *
+	 * @param array $links Existing links.
+	 * @param array $args Search terms.
+	 *
+	 * @return array Links.
 	 */
 	public function alert_link( $links, $args ) {
-		if ( is_user_logged_in() && get_option( 'job_manager_alerts_page_id' ) ) {
-			if ( isset( $_POST['form_data'] ) ) {
-				parse_str( $_POST['form_data'], $params );
-				$alert_regions = isset( $params['search_region'] ) ? absint( $params['search_region'] ) : '';
-			} else {
-				$alert_regions = '';
-			}
+		_deprecated_function( __METHOD__, '3.0.0', 'WP_Job_Manager_Alerts\Add_Alert::instance()->alert_link()' );
 
-			$links['alert'] = array(
-				'name' => __( 'Add alert', 'wp-job-manager-alerts' ),
-				'url'  => add_query_arg(
-					array(
-						'action'         => 'add_alert',
-						'alert_job_type' => $args['filter_job_types'],
-						'alert_location' => urlencode( $args['search_location'] ),
-						'alert_cats'     => $args['search_categories'],
-						'alert_keyword'  => urlencode( $args['search_keywords'] ),
-						'alert_regions'  => $alert_regions,
-					),
-					get_permalink( get_option( 'job_manager_alerts_page_id' ) )
-				),
-			);
-		}
-
-		return $links;
+		return Add_Alert::instance()->alert_link( $links, $args );
 	}
 
 	/**
-	 * Single listing alert link
+	 * Single listing alert link - Moved to Add_Alert.
+	 *
+	 * @deprecated 3.0.0
 	 */
 	public function single_alert_link() {
-		global $post, $job_preview;
+		_deprecated_function( __METHOD__, '3.0.0', 'WP_Job_Manager_Alerts\Add_Alert::instance()->single_alert_link()' );
 
-		if ( ! empty( $job_preview ) ) {
-			return;
-		}
-
-		if ( is_user_logged_in() && get_option( 'job_manager_alerts_page_id' ) ) {
-			$job_types = wpjm_get_the_job_types( $post );
-			$args = array(
-				'action'         => 'add_alert',
-				'alert_name'     => urlencode( $post->post_title ),
-				'alert_job_type' => wp_list_pluck( $job_types, 'slug' ),
-				'alert_location' => urlencode( strip_tags( get_the_job_location( $post ) ) ),
-				'alert_cats'     => taxonomy_exists( 'job_listing_category' ) ? wp_get_post_terms( $post->ID, 'job_listing_category', array( 'fields' => 'ids' ) ) : '',
-				'alert_keyword'  => urlencode( $post->post_title ),
-				'alert_regions'  => taxonomy_exists( 'job_listing_region' ) ? current( wp_get_post_terms( $post->ID, 'job_listing_region', array( 'fields' => 'ids' ) ) ) : '',
-			);
-			/**
-			 * Filter the link arguments for creating an alert based on a single listing.
-			 *
-			 * @since 1.5.0
-			 *
-			 * @param array $args Arguments for alert
-			 */
-			$args = apply_filters( 'job_manager_alerts_single_listing_link', $args );
-			$link     = add_query_arg( $args, get_permalink( get_option( 'job_manager_alerts_page_id' ) ) );
-			echo '<p class="job-manager-single-alert-link"><a href="' . esc_url( $link ) . '">' . __( 'Alert me to jobs like this', 'wp-job-manager-alerts' ) . '</a></p>';
-		}
+		Add_Alert::instance()->single_alert_link();
 	}
 
 	/**
 	 * Get alert token.
+	 *
+	 * @deprecated 3.0.0
 	 *
 	 * @param int $alert_id Alert ID.
 	 * @param int $user_id  User ID.
@@ -386,7 +388,9 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
 	 * @return string Alert token.
 	 */
 	public function get_alert_token( $alert_id, $user_id ) {
-		$alert_token = wp_json_encode( array( $user_id, $alert_id ) );
+		_deprecated_function( __METHOD__, '3.0.0', 'Access_Token::create()' );
+
+		$alert_token = wp_json_encode( [ $user_id, $alert_id ] );
 		$alert_token = crypt( $alert_token, $this->get_user_secret_key( $user_id ) );
 
 		return $alert_token;
@@ -395,6 +399,8 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
 	/**
 	 * Verify alert token.
 	 *
+	 * @deprecated 3.0.0 Access_Token::verify() should be used instead. This method should be removed once the new implementation was published for enough time.
+	 *
 	 * @param string $token    Token to verify.
 	 * @param int    $alert_id Alert ID.
 	 * @param int    $user_id  User ID.
@@ -402,8 +408,16 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
 	 * @return boolean Whether token is valid.
 	 */
 	public function verify_alert_token( $token, $alert_id, $user_id ) {
+		if ( ( new \WP_Job_Manager\Access_Token( [ $alert_id, $user_id ] ) )->verify( $token ) ) {
+			return true;
+		}
+
+		// Check if the token was created with get_alert_token.
+		$correct_token = wp_json_encode( [ $user_id, $alert_id ] );
+		$correct_token = crypt( $correct_token, $this->get_user_secret_key( $user_id ) );
+
 		return hash_equals(
-			$this->get_alert_token( $alert_id, $user_id ),
+			$correct_token,
 			$token
 		);
 	}
@@ -411,6 +425,8 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
 	/**
 	 * Get a user secret key.
 	 * It generates the secret key if it's being requested for the first time.
+	 *
+	 * @deprecated 3.0.0
 	 *
 	 * @param int $user_id User ID.
 	 *
@@ -422,12 +438,141 @@ Unsubscribe from this alert through the link: {alert_unsubscribe_url}',
 		$secret_key = get_user_meta( $user_id, $meta_key, true );
 
 		if ( empty( $secret_key ) ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode,WordPress.WP.AlternativeFunctions.rand_mt_rand -- Legacy random key generation.
 			$secret_key = substr( str_replace( '+', '.', base64_encode( pack( 'N4', mt_rand(), mt_rand(), mt_rand(), mt_rand() ) ) ), 0, 22 );
 			update_user_meta( $user_id, $meta_key, $secret_key );
 		}
 
 		return $secret_key;
 	}
+
+	/**
+	 * Load and render a template, and return it's content.
+	 *
+	 * @param string $name Template file name.
+	 * @param array  $args Variables for the template.
+	 *
+	 * @return false|string
+	 */
+	public static function get_template( $name, $args ) {
+
+		ob_start();
+
+		get_job_manager_template(
+			$name,
+			$args,
+			'wp-job-manager-alerts',
+			JOB_MANAGER_ALERTS_PLUGIN_DIR . '/templates/'
+		);
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Autoload plugin classes.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $class_name Class name.
+	 */
+	public function autoload( $class_name ) {
+
+		$prefix = __NAMESPACE__ . '\\';
+
+		if ( str_starts_with( $class_name, $prefix ) ) {
+
+			$file_name = substr( $class_name, strlen( $prefix ) );
+			$file_name = strtolower( $file_name );
+			$dirs      = explode( '\\', $file_name );
+			$file_name = array_pop( $dirs );
+			$file_name = str_replace( '_', '-', $file_name );
+
+			$file_dir = implode( '/', [ JOB_MANAGER_ALERTS_PLUGIN_DIR, 'includes', ...$dirs ] );
+
+			$file_paths = [
+				'class-' . $file_name . '.php',
+				'trait-' . $file_name . '.php',
+			];
+
+			foreach ( $file_paths as $file_path ) {
+				$file_path = $file_dir . '/' . $file_path;
+				if ( file_exists( $file_path ) ) {
+					require $file_path;
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks if the given email template value is a legacy template.
+	 *
+	 * @param string $value The email template value to check.
+	 * @return bool True if the email template is a legacy template, false otherwise.
+	 */
+	public function check_if_email_template_is_legacy( $value ) {
+		$legacy_option_value = 'Hello {display_name},
+
+		The following jobs were found matching your "{alert_name}" job alert.
+
+		================================================================================
+		{jobs}
+		Your next alert for this search will be sent {alert_next_date}.
+
+		{alert_expiry}
+
+		—
+		You are receiving this email because you created the "{alert_name}" job alert.
+		To manage your alerts please login and visit your alerts page here: {alert_page_url}
+		Unsubscribe from this alert through the link: {alert_unsubscribe_url}';
+
+		$new_value_normalized           = trim( preg_replace( '/\s+/', ' ', $value ) );
+		$legacy_option_value_normalized = trim( preg_replace( '/\s+/', ' ', $legacy_option_value ) );
+
+		// Check if new value and legacy value are the same
+		if ( $new_value_normalized === $legacy_option_value_normalized ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Updates the email template value.
+	 *
+	 * If site has legacy template value, update to new value.
+	 *
+	 * @param string $new_value The new value of the email template.
+	 * @param string $old_value The old value of the email template.
+	 * @return string The updated email template value.
+	 */
+	public function update_email_template( $new_value, $old_value ) {
+		$new_value_normalized     = trim( preg_replace( '/\s+/', ' ', $new_value ) );
+		$default_value_normalized = trim( preg_replace( '/\s+/', ' ', Settings::instance()->get_default_email() ) );
+
+		if ( $new_value_normalized === $default_value_normalized ) {
+			update_option( 'job_manager_alerts_email_template_value', '' );
+			return '';
+		}
+		update_option( 'job_manager_alerts_email_template_value', $new_value );
+		return $new_value;
+	}
+
+	/**
+	 * Updates the email template on plugin update.
+	 *
+	 * If the email template is the legacy value, update to the new default value.
+	 */
+	public function update_email_template_on_plugin_update() {
+		$email_template = get_option( 'job_manager_alerts_email_template' );
+		$is_legacy      = self::check_if_email_template_is_legacy( $email_template );
+
+		if ( true === $is_legacy ) {
+			update_option( 'job_manager_alerts_email_template', Settings::instance()->get_default_email() );
+			update_option( 'job_manager_alerts_email_template_value', '' );
+		}
+	}
 }
 
-$GLOBALS['job_manager_alerts'] = new WP_Job_Manager_Alerts();
+class_alias( '\\WP_Job_Manager_Alerts\\WP_Job_Manager_Alerts', 'WP_Job_Manager_Alerts' );
+
+$GLOBALS['job_manager_alerts'] = WP_Job_Manager_Alerts::instance();
