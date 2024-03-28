@@ -8907,15 +8907,15 @@
         },
         {
             "name": "wpackagist-plugin/facebook-for-woocommerce",
-            "version": "3.1.12",
+            "version": "3.1.13",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.1.12"
+                "reference": "tags/3.1.13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.1.12.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.1.13.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -9069,15 +9069,15 @@
         },
         {
             "name": "wpackagist-plugin/otter-blocks",
-            "version": "2.6.5",
+            "version": "2.6.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/2.6.5"
+                "reference": "tags/2.6.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.6.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -9411,15 +9411,15 @@
         },
         {
             "name": "wpackagist-theme/onepress",
-            "version": "2.3.7",
+            "version": "2.3.8",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/onepress/",
-                "reference": "2.3.7"
+                "reference": "2.3.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/onepress.2.3.7.zip"
+                "url": "https://downloads.wordpress.org/theme/onepress.2.3.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
