@@ -18,6 +18,8 @@ proxy:
     - cms.codingblackfemales.lndo.site
 services:
   appserver:
+    # type: php:custom
+    # via: cli
     composer_version: 2-latest
     build_as_root:
       # Installation instructions adapted from: https://github.com/nodesource/distributions/blob/69a45587cd87bd8c700e40bb8a8160e0c28d71d8/README.md#installation-instructions
@@ -31,6 +33,10 @@ services:
       - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
       # Run update and install
       - apt-get update
+      # Datadog APM setup
+      - mkdir -p /opt/datadog/apm
+      - chmod 755 /opt/datadog/apm
+      - curl -sL https://deb.nodesource.com/setup_20.x | bash -
       - apt-get install -y nodejs
       - a2enmod headers
     run:
@@ -39,12 +45,37 @@ services:
     run_as_root:
       - .lando/scripts/xdebug.sh develop,debug
     overrides:
+      # image:  lando/php:8.1-apache-with-datadog
       environment:
         XDEBUG_MODE:
         PHP_IDE_CONFIG: "serverName=appserver"
         NODE_MAJOR: 20
+      # build:
+      #   context: ./
+      #   dockerfile: Dockerfile.datadog
   database:
     portforward: 3307
+  dd-agent:
+    type: compose
+    services:
+      image: gcr.io/datadoghq/agent:7
+      environment:
+        DD_API_KEY: "YOUR_API_KEY"
+        DD_SITE: "datadoghq.eu"
+        DD_ENV: "dev"
+        DD_APM_ENABLED: "true"
+        DD_APM_NON_LOCAL_TRAFFIC: "true"
+        DD_APM_RECEIVER_SOCKET: "/opt/datadog/apm/inject/run/apm.socket"
+        DD_DOGSTATSD_SOCKET: "/opt/datadog/apm/inject/run/dsd.socket"
+        DD_DOGSTATSD_NON_LOCAL_TRAFFIC: "true"
+      volumes:
+        - "/opt/datadog/apm:/opt/datadog/apm"
+        - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        - "/proc/:/host/proc/:ro"
+        - "/sys/fs/cgroup/:/host/sys/fs/cgroup:ro"
+        - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+      ports:
+        - "8126:8126"
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
 # events:
 #   pre-wp:
@@ -61,4 +92,9 @@ tooling:
     description: Loads XDebug in the selected mode.
     cmd:
       - appserver: /app/.lando/scripts/xdebug.sh
+    user: root
+  datadog-setup:
+    service: appserver
+    description: Setup Datadog APM
+    cmd: php /app/scripts/datadog-setup.php --php-bin=all
     user: root
