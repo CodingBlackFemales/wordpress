@@ -1,0 +1,17 @@
+# Use the base image provided by Lando for PHP
+FROM devwithlando/php:8.1-apache-4
+
+# Run the Datadog Docker Injection install script
+RUN bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_docker_injection.sh)"
+
+# Set environment variables for Datadog Agent
+ENV DD_API_KEY="699828bc21c80e1dde96577d45c90016"
+ENV DD_SITE="datadoghq.eu"
+ENV DD_ENV="dev"
+ENV DD_APM_ENABLED="true"
+ENV DD_APM_NON_LOCAL_TRAFFIC="true"
+ENV DD_APM_RECEIVER_SOCKET="/opt/datadog/apm/inject/run/apm.socket"
+ENV DD_DOGSTATSD_SOCKET="/opt/datadog/apm/inject/run/dsd.socket"
+
+# Expose the necessary port
+EXPOSE 8126

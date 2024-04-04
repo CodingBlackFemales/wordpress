@@ -75,3 +75,6 @@ data
 
 # Lando
 .lando.local.yml
+
+# Datadog
+ddagent-install.log
