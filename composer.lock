@@ -9069,15 +9069,15 @@
         },
         {
             "name": "wpackagist-plugin/otter-blocks",
-            "version": "2.6.9",
+            "version": "2.6.10",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/2.6.9"
+                "reference": "tags/2.6.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.9.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.2.6.10.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
