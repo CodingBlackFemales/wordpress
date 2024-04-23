@@ -95,7 +95,6 @@ hr.bb-sep-line {
 }
 
 @media only screen and (max-width: 768px) {
-
 	.bp-admin-card.section-bp_zoom_gutenberg_section input[type="text"],
 	.bp-admin-card.section-bp_zoom_gutenberg_section input[type="email"],
 	.bp-admin-card.section-bp_zoom_gutenberg_section input[type="password"] {
@@ -104,20 +103,16 @@ hr.bb-sep-line {
 }
 
 @media only screen and (max-width: 600px) {
-
 	.bp-group-zoom-settings label.group-setting-label,
 	.bp-group-zoom-settings .bp-input-wrap {
 		flex: 0 0 100%;
 	}
-
 	.bp-group-zoom-settings label.group-setting-label {
 		margin-bottom: 8px;
 	}
-
 	.bp-group-zoom-settings .bp-input-wrap input {
 		min-width: 100%;
 	}
-
 	.bb-description-info .bb-url-text {
 		max-width: 90%;
 	}
@@ -199,7 +194,6 @@ hr.bb-sep-line {
 }
 
 /* SelectDropdown Component */
-
 /* Admin Zoom Integration Tab */
 [class*="section-bp_zoom_"] .hidden-header > th {
 	display: none;
@@ -238,7 +232,7 @@ hr.bb-sep-line {
 	display: none;
 }
 
-[class*="section-bp_zoom_"] .bb-zoom_account-email .bb-icon-spinner::before {
+[class*="section-bp_zoom_"] .bb-zoom_account-email .bb-icon-spinner:before {
 	content: "";
 	display: inline-block;
 	margin: 0;
@@ -287,7 +281,6 @@ hr.bb-sep-line {
 }
 
 @media screen and (max-width: 768px) {
-
 	.copy-toggle {
 		width: 100%;
 	}

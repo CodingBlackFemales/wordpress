@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '895b53e1fbd45b75399b80729291a010282bcc8c',
+        'reference' => 'bede0873a152e04e633f4b601dfea307bd648f93',
         'name' => 'buddyboss-platform/buddyboss-platform-pro',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '895b53e1fbd45b75399b80729291a010282bcc8c',
+            'reference' => 'bede0873a152e04e633f4b601dfea307bd648f93',
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
