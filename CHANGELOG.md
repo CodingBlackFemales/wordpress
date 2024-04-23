@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.28](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.27...v0.1.28) (2024-04-04)
+
+## [0.1.27](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.26...v0.1.27) (2024-03-26)
+
+
+### Bug Fixes
+
+* commits erroneously ignored files ([e6fad3d](https://github.com/CodingBlackFemales/wordpress/commit/e6fad3d58b4806024ddc192b801709782d40b27a))
+* commits more ignored files ([d355943](https://github.com/CodingBlackFemales/wordpress/commit/d355943a95bb93be4aade15a14479a618b6e91f0))
+* remove preview step from CV submission process ([5e15cb1](https://github.com/CodingBlackFemales/wordpress/commit/5e15cb1521819e28025969d56ae73e065eb92e57))
+* resolves Node installation warning in Lando environment ([eea885e](https://github.com/CodingBlackFemales/wordpress/commit/eea885ecd53ab9f4a3e45ccfd96da0a72ec1aea7))
+* restore missing files in WPForms plugin ([f595c46](https://github.com/CodingBlackFemales/wordpress/commit/f595c4695e6e0fcd5762e3bd481ca58691027837))
+* restores WPForms plugin ([f6360de](https://github.com/CodingBlackFemales/wordpress/commit/f6360de347780d9a40814bb1033573c6c62caf7c))
+
 ## [0.1.26](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.25...v0.1.26) (2024-03-22)
 
 
