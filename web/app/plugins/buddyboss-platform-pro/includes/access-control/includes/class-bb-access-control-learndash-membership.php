@@ -67,7 +67,7 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 	 */
 	public static function instance() {
 
-		if ( self::$instance === null ) {
+		if ( null === self::$instance ) {
 			$class_name           = __CLASS__;
 			self::$instance       = new $class_name();
 			self::$instance->slug = 'learndash';
@@ -92,6 +92,7 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 		$results = bb_access_control_get_posts( 'groups' );
 
 		return apply_filters( 'learndash_access_control_get_level_lists', $results );
+
 	}
 
 	/**
@@ -159,5 +160,6 @@ class BB_Access_Control_Learndash_Membership extends BB_Access_Control_Abstract 
 		}
 
 		return apply_filters( 'bb_access_control_' . $this->slug . '_has_access', $has_access );
+
 	}
 }
