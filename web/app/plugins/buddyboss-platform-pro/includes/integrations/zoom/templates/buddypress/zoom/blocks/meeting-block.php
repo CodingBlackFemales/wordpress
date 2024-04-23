@@ -33,7 +33,7 @@ $meeting_authentication = ! empty( $bp_zoom_meeting_block->settings->meeting_aut
 $auto_recording         = ! empty( $bp_zoom_meeting_block->settings->auto_recording ) ? $bp_zoom_meeting_block->settings->auto_recording : 'none';
 $can_start_meeting      = false;
 $occurrences            = ! empty( $bp_zoom_meeting_block->occurrences ) ? $bp_zoom_meeting_block->occurrences : array();
-$recurring              = isset( $bp_zoom_meeting_block->type ) && $bp_zoom_meeting_block->type === 8;
+$recurring              = isset( $bp_zoom_meeting_block->type ) && 8 === $bp_zoom_meeting_block->type;
 $recurrence             = ! empty( $bp_zoom_meeting_block->recurrence ) ? $bp_zoom_meeting_block->recurrence : false;
 $meeting_status         = ! empty( $bp_zoom_meeting_block->status ) ? $bp_zoom_meeting_block->status : '';
 $block_class_name       = isset( $bp_zoom_meeting_block->block_class_name ) ? $bp_zoom_meeting_block->block_class_name : '';
@@ -43,7 +43,7 @@ if ( is_user_logged_in() ) {
 	$current_userdata = get_userdata( get_current_user_id() );
 
 	if ( ! empty( $current_userdata ) ) {
-		$api_email = bb_zoom_get_account_email();
+		$api_email = bb_zoom_account_email();
 		if ( $api_email === $current_userdata->user_email ) {
 			$can_start_meeting = true;
 		} elseif ( in_array( $current_userdata->user_email, explode( ',', $alt_hosts ), true ) ) {
@@ -53,7 +53,7 @@ if ( is_user_logged_in() ) {
 
 			if ( empty( $userinfo ) ) {
 				$userinfo = bp_zoom_conference()->get_user_info( $host_id );
-				if ( $userinfo['code'] === 200 && ! empty( $userinfo['response'] ) ) {
+				if ( 200 === $userinfo['code'] && ! empty( $userinfo['response'] ) ) {
 					set_transient( 'bp_zoom_user_info_' . $host_id, wp_json_encode( $userinfo['response'] ), HOUR_IN_SECONDS );
 					$userinfo = $userinfo['response'];
 				}
@@ -73,22 +73,16 @@ $role           = $can_start_meeting ? 1 : 0; // phpcs:ignore
 
 $api_key       = '';
 $api_secret    = '';
-$sdk_type      = '';
 $sdk_client_id = '';
 $sign          = '';
 if ( bb_zoom_is_meeting_sdk() ) {
 	$api_key       = bb_zoom_sdk_client_id();
 	$api_secret    = bb_zoom_sdk_client_secret();
-	$sdk_type      = 'SDK';
 	$sdk_client_id = $api_key;
-} elseif ( bb_zoom_is_jwt_connected() ) {
-	$api_key    = bp_zoom_api_key();
-	$api_secret = bp_zoom_api_secret();
-	$sdk_type   = 'JWT';
 }
 
-if ( ! empty( $api_key ) && ! empty( $api_secret ) && ! empty( $sdk_type ) ) {
-	$sign = bb_get_meeting_signature( $api_key, $api_secret, $meeting_number, $role, $sdk_type );
+if ( ! empty( $api_key ) && ! empty( $api_secret ) && ! empty( $meeting_number ) ) {
+	$sign = bb_get_meeting_signature( $api_key, $api_secret, $meeting_number, $role );
 }
 
 $meeting_date_raw   = false;
@@ -97,7 +91,7 @@ $current_meeting    = false;
 
 if ( $recurring && ! empty( $occurrences ) ) {
 	foreach ( $occurrences as $occurrence_key => $occurrence ) {
-		if ( $occurrence->status === 'deleted' ) {
+		if ( 'deleted' === $occurrence->status ) {
 			continue;
 		}
 
@@ -133,7 +127,7 @@ $date              = wp_date( bp_core_date_format( false, true ), strtotime( $st
 			<?php if ( $recurring ) : ?>
 				<span class="recurring-meeting-label"><?php esc_html_e( 'Recurring', 'buddyboss-pro' ); ?></span>
 			<?php endif; ?>
-			<?php if ( $meeting_status === 'started' ) : ?>
+			<?php if ( 'started' === $meeting_status ) : ?>
 				<span class="live-meeting-label"><?php esc_html_e( 'Live', 'buddyboss-pro' ); ?></span>
 			<?php endif; ?>
 		</h2>
@@ -178,8 +172,8 @@ $date              = wp_date( bp_core_date_format( false, true ), strtotime( $st
 					</div>
 					<?php
 				}
-				$hours   = ( ( $duration !== 0 ) ? floor( $duration / 60 ) : 0 );
-				$minutes = ( ( $duration !== 0 ) ? ( $duration % 60 ) : 0 );
+				$hours   = ( ( 0 !== $duration ) ? floor( $duration / 60 ) : 0 );
+				$minutes = ( ( 0 !== $duration ) ? ( $duration % 60 ) : 0 );
 				?>
 				<div class="single-meeting-item">
 					<div class="meeting-item-head"><?php esc_html_e( 'Duration', 'buddyboss-pro' ); ?></div>
@@ -313,9 +307,9 @@ $date              = wp_date( bp_core_date_format( false, true ), strtotime( $st
 							<i class="<?php echo in_array( $auto_recording, array( 'cloud', 'local' ), true ) ? 'bb-icon-l bb-icon-check' : 'bb-icon-l bb-icon-times'; ?>"></i>
 							<span>
 								<?php
-								if ( $auto_recording === 'cloud' ) {
+								if ( 'cloud' === $auto_recording ) {
 									esc_html_e( 'Record the meeting automatically in the cloud', 'buddyboss-pro' );
-								} elseif ( $auto_recording === 'local' ) {
+								} elseif ( 'local' === $auto_recording ) {
 									esc_html_e( 'Record the meeting automatically in the local computer', 'buddyboss-pro' );
 								} else {
 									esc_html_e( 'Do not record the meeting.', 'buddyboss-pro' );
@@ -353,11 +347,9 @@ $date              = wp_date( bp_core_date_format( false, true ), strtotime( $st
 						<?php esc_html_e( 'Join Meeting in Browser', 'buddyboss-pro' ); ?>
 					<?php endif; ?>
 				</a>
-				<?php
-			}
+			<?php }
 
-			if ( ! bb_zoom_is_meeting_hide_urls_enabled() ) :
-				?>
+			if ( ! bb_zoom_is_meeting_hide_urls_enabled() ) : ?>
 				<a class="button small primary join-meeting-in-app" target="_blank" href="<?php echo $can_start_meeting ? esc_url( $start_url ) : esc_url( $join_url ); ?>">
 					<?php if ( $can_start_meeting ) : ?>
 						<?php esc_html_e( 'Host Meeting in Zoom', 'buddyboss-pro' ); ?>

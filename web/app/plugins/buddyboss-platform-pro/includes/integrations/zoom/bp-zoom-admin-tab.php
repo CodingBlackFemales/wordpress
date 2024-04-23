@@ -36,7 +36,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		// Add zoom settings metabox icons.
 		add_filter( 'bb_admin_icons', array( $this, 'bb_zoom_admin_settings_icons' ), 10, 2 );
 
-		add_action( 'admin_notices', array( $this, 'bb_zoom_site_notice' ) );
 		add_filter( 'bb_pro_admin_localize_options', array( $this, 'bb_zoom_admin_localize_options' ), 10, 1 );
 	}
 
@@ -72,7 +71,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 * @since 1.0.0
 	 */
 	public function register_admin_script() {
-		if ( $this->tab_name === 'bp-zoom' ) {
+		if ( 'bp-zoom' === $this->tab_name ) {
 			$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			wp_enqueue_script( 'bp-zoom-meeting-common', bp_zoom_integration_url( '/assets/js/bp-zoom-meeting-common' . $min . '.js' ), array( 'jquery' ), bb_platform_pro()->version, true );
 			wp_localize_script(
@@ -94,64 +93,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function settings_save() {
 
-		// Added support for JWT until 1st September 2023.
-		if ( strtotime( 'now' ) < 1693526400 ) {
-
-			$bp_zoom_api_key    = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-api-key' );
-			$bp_zoom_api_secret = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-api-secret' );
-			$bp_zoom_api_email  = filter_input( INPUT_POST, 'bp-zoom-api-email', FILTER_VALIDATE_EMAIL );
-
-			bp_update_option( 'bp-zoom-api-key', $bp_zoom_api_key );
-			bp_update_option( 'bp-zoom-api-secret', $bp_zoom_api_secret );
-			bp_update_option( 'bp-zoom-api-email', $bp_zoom_api_email );
-
-			$bp_zoom_api_errors       = array();
-			$bp_zoom_api_warnings     = array();
-			$bp_zoom_api_is_connected = false;
-			if ( ! empty( $bp_zoom_api_secret ) && ! empty( $bp_zoom_api_key ) && ! empty( $bp_zoom_api_email ) ) {
-				BP_Zoom_Conference_Api::$is_jwt_auth  = true;
-				bp_zoom_conference()->zoom_api_key    = $bp_zoom_api_key;
-				bp_zoom_conference()->zoom_api_secret = $bp_zoom_api_secret;
-
-				$user_info = bp_zoom_conference()->get_user_info( $bp_zoom_api_email );
-
-				if ( $user_info['code'] !== 200 ) {
-					unset( $_POST['bp-zoom-api-email'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-					bp_delete_option( 'bp-zoom-api-email' );
-					bp_delete_option( 'bp-zoom-api-host' );
-					bp_delete_option( 'bp-zoom-api-host-user' );
-					bp_delete_option( 'bp-zoom-api-host-user-settings' );
-
-					$bp_zoom_api_errors[] = ( ! empty( $user_info['response']->message ) ) ? new WP_Error( 'api_error', $user_info['response']->message ) : new WP_Error( 'api_error', __( 'Invalid credentials.', 'buddyboss-pro' ) );
-				} else {
-					bp_update_option( 'bp-zoom-api-host', $user_info['response']->id );
-					bp_update_option( 'bp-zoom-api-host-user', wp_json_encode( $user_info['response'] ) );
-					$bp_zoom_api_is_connected = true;
-
-					// Get user settings of host user.
-					$user_settings = bp_zoom_conference()->get_user_settings( $user_info['response']->id );
-
-					// Save user settings into group meta.
-					if ( $user_settings['code'] === 200 && ! empty( $user_settings['response'] ) ) {
-						bp_update_option( 'bp-zoom-api-host-user-settings', wp_json_encode( $user_settings['response'] ) );
-
-						if ( isset( $user_settings['response']->feature->webinar ) && $user_settings['response']->feature->webinar === true ) {
-							bp_update_option( 'bp-zoom-enable-webinar', true );
-						} else {
-							bp_delete_option( 'bp-zoom-enable-webinar' );
-						}
-					} else {
-						bp_delete_option( 'bp-zoom-api-host-user-settings' );
-						bp_delete_option( 'bp-zoom-enable-webinar' );
-						$bp_zoom_api_warnings[] = ( ! empty( $user_info['response']->message ) ) ? new WP_Error( 'api_error', $user_info['response']->message ) : new WP_Error( 'api_error', __( 'Invalid credentials.', 'buddyboss-pro' ) );
-					}
-				}
-			}
-			bp_update_option( 'bp-zoom-api-errors', $bp_zoom_api_errors );
-			bp_update_option( 'bp-zoom-api-warnings', $bp_zoom_api_warnings );
-			bp_update_option( 'bp-zoom-api-is-connected', $bp_zoom_api_is_connected );
-		}
-
 		$bb_zoom = isset( $_POST['bb-zoom'] ) ? map_deep( wp_unslash( $_POST['bb-zoom'] ), 'sanitize_text_field' ) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		if ( ! empty( $bb_zoom ) ) {
@@ -161,20 +102,21 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 			$settings = bb_get_zoom_block_settings();
 
+			// Defined null default.
+			$bb_zoom['zoom_errors']                = array();
+			$bb_zoom['zoom_warnings']              = array();
+			$bb_zoom['sidewide_errors']            = array();
+			$bb_zoom['account_host']               = '';
+			$bb_zoom['account_host_user']          = array();
+			$bb_zoom['account_host_user_settings'] = array();
+			$bb_zoom['zoom_is_connected']          = false;
+
 			// Validate and save S2S settings.
 			if (
 				! empty( $bb_zoom['s2s-account-id'] ) &&
 				! empty( $bb_zoom['s2s-client-id'] ) &&
 				! empty( $bb_zoom['s2s-client-secret'] )
 			) {
-				$bb_zoom['zoom_errors']                = array();
-				$bb_zoom['zoom_warnings']              = array();
-				$bb_zoom['sidewide_errors']            = array();
-				$bb_zoom['account_host']               = '';
-				$bb_zoom['account_host_user']          = array();
-				$bb_zoom['account_host_user_settings'] = array();
-				$bb_zoom['zoom_is_connected']          = false;
-
 				$account_email = ! empty( $bb_zoom['account-email'] ) ? $bb_zoom['account-email'] : '';
 
 				$fetch_data = bb_zoom_fetch_account_emails(
@@ -204,7 +146,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 					$is_webinar_enabled                    = get_transient( 'bp_zoom_is_webinar_enabled' );
 
 					// Check webinar is enabled or not.
-					if ( $is_webinar_enabled === true ) {
+					if ( true === $is_webinar_enabled ) {
 						bp_update_option( 'bp-zoom-enable-webinar', true );
 					} else {
 						bp_delete_option( 'bp-zoom-enable-webinar' );
@@ -224,12 +166,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 						bb_zoom_group_update_site_connection_group_meetings( $bb_zoom['account-email'], $settings['account-email'] );
 					}
 				}
-			} else if (
-				! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-				! empty( bp_get_option( 'bp-zoom-api-secret' ) ) &&
-				bp_get_option( 'bp-zoom-api-is-connected' )
-			) {
-				$bb_zoom['zoom_is_connected'] = true;
 			} else {
 
 				$all_s2s_blank = false;
@@ -263,7 +199,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 			) {
 				$validate = bp_zoom_conference()->bb_zoom_validate_meeting_sdk( $bb_zoom['meeting-sdk-client-id'], $bb_zoom['meeting-sdk-client-secret'] );
 
-				if ( $validate === true ) {
+				if ( true === $validate ) {
 					$bb_zoom['zoom_sdk_is_connected'] = true;
 				} else {
 					$bb_zoom['zoom_sdk_is_connected'] = false;
@@ -272,14 +208,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 					}
 				}
 				delete_transient( 'bb-zoom-meeting-sdk-validate' );
-			} else if (
-				! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-				! empty( bp_get_option( 'bp-zoom-api-secret' ) )
-			) {
-				$bb_zoom['zoom_sdk_is_connected'] = true;
-				$bb_zoom['zoom_sdk_warning']      = array(
-					'upgrade_sdk_jwt_to_s2s',
-				);
 			}
 
 			$settings = bp_parse_args( $bb_zoom, $settings );
@@ -339,7 +267,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		$zoom_api_html = '';
 		$zoom_sdk_html = '';
 
-		if ( bp_core_get_admin_active_tab() === 'bp-zoom' ) {
+		if ( 'bp-zoom' === bp_core_get_admin_active_tab() ) {
 			$zoom_api_html = $this->get_connection_label( 's2s' );
 			$zoom_sdk_html = $this->get_connection_label( 'sdk' );
 		}
@@ -449,20 +377,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function settings_saved() {
 		$this->db_install_zoom_meetings();
-
-		$bb_active_tab = bb_pro_filter_input_string( INPUT_POST, 'bb-zoom-tab' );
-		$bb_active_tab = ! empty( $bb_active_tab ) ? $bb_active_tab : 's2s';
-		$bb_active_tab = bb_zoom_is_hide_jwt_settings() ? 's2s' : $bb_active_tab;
-
-		bp_core_redirect(
-			bp_core_admin_integrations_url(
-				$this->tab_name,
-				array(
-					'updated' => 'true',
-					'type'    => $bb_active_tab,
-				)
-			)
-		);
+		parent::settings_saved();
 	}
 
 	/**
@@ -493,11 +408,11 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function bb_zoom_admin_settings_icons( $meta_icon, $id ) {
 		$bb_icon_bf = 'bb-icon-bf';
 
-		if ( $id === 'bp_zoom_settings_section' ) {
+		if ( 'bp_zoom_settings_section' === $id ) {
 			$meta_icon = $bb_icon_bf . ' bb-icon-brand-buddyboss';
 		} elseif (
-			$id === 'bp_zoom_gutenberg_section' ||
-			$id === 'bp_zoom_browser_section'
+			'bp_zoom_gutenberg_section' === $id ||
+			'bp_zoom_browser_section' === $id
 		) {
 			$meta_icon = $bb_icon_bf . ' bb-icon-brand-zoom';
 		}
@@ -539,13 +454,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 					} else {
 						$status = 'connected';
 					}
-				} elseif (
-					! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-					! empty( bp_get_option( 'bp-zoom-api-secret' ) ) &&
-					! empty( $settings['zoom_is_connected'] )
-				) {
-					$status_text = __( 'Connected', 'buddyboss-pro' );
-					$status      = 'warn-connected';
 				}
 				break;
 
@@ -559,14 +467,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 				) {
 					$status_text = __( 'Connected', 'buddyboss-pro' );
 					$status      = 'connected';
-				} elseif (
-					! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-					! empty( bp_get_option( 'bp-zoom-api-secret' ) ) &&
-					! empty( $settings['zoom_sdk_is_connected'] ) &&
-					! empty( $settings['zoom_sdk_warning'] )
-				) {
-					$status_text = __( 'Connected', 'buddyboss-pro' );
-					$status      = 'warn-connected';
 				}
 				break;
 		}
@@ -576,44 +476,6 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		$html .= '</div>';
 
 		return $html;
-	}
-
-	/**
-	 * Function to display site-wise notice for Zoom.
-	 *
-	 * @since 2.3.40
-	 */
-	public function bb_zoom_site_notice() {
-		$settings = bb_get_zoom_block_settings();
-
-		if (
-			! empty( $settings['sidewide_errors'] ) &&
-			is_array( $settings['sidewide_errors'] ) &&
-			in_array( 'upgrade_jwt_to_s2s', $settings['sidewide_errors'], true )
-		) {
-			printf(
-				'<div class="notice notice-warning is-dismissible bb-zoom-dismiss-site-notice"><p>%s</p></div>',
-				sprintf(
-					/* translators: Zoom setting page link */
-					esc_html__( 'Zoom will block access using JWT credentials using from September 1, 2023. To keep your site and social groups connected to Zoom, please reconnect the accounts by following these new %s.', 'buddyboss-pro' ),
-					sprintf(
-						'<a href="%1$s">%2$s</a>',
-						esc_url(
-							bp_get_admin_url(
-								add_query_arg(
-									array(
-										'page'    => 'bp-help',
-										'article' => 118925,
-									),
-									'admin.php'
-								)
-							)
-						),
-						esc_html__( 'setup instructions', 'buddyboss-pro' )
-					)
-				)
-			);
-		}
 	}
 
 	/**

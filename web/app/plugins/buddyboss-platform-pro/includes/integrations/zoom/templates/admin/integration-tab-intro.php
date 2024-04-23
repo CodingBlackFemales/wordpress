@@ -9,7 +9,7 @@
 <div class="wrap">
 
 	<div class="bp-admin-card section-bp_zoom_settings_section">
-		<h2><?php echo wp_kses_post( 'Zoom <span>&mdash; requires license</span>', 'buddyboss-pro' ); ?></h2>
+		<h2><?php echo wp_kses_post( __( 'Zoom <span>&mdash; requires license</span>', 'buddyboss-pro' ) ); ?></h2>
 		<p>
 			<?php
 			printf(
