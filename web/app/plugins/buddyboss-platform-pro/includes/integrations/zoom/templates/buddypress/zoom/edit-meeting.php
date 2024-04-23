@@ -46,7 +46,7 @@ if ( 1 === $recurrence_type ) {
 $disable_registration = false;
 $disable_recording    = false;
 $disable_alt_host     = false;
-$host_type            = groups_get_groupmeta( bp_get_zoom_meeting_group_id(), 'bp-group-zoom-api-host-type', true );
+$host_type            = bb_zoom_group_get_host_type( bp_get_zoom_meeting_group_id() );
 if ( 1 === (int) $host_type ) {
 	$disable_registration = true;
 	$disable_recording    = true;
