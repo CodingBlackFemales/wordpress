@@ -46,6 +46,7 @@ web/app/cache/wp-rocket
 
 # Composer
 **/vendor/*
+!web/app/plugins/buddyboss-platform-pro/vendor/*
 !web/app/plugins/wp-rocket/vendor/*
 !web/app/plugins/wpforms/vendor/*
 !vendor/.gitkeep
