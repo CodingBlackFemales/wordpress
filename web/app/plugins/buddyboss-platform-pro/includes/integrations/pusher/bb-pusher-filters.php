@@ -51,6 +51,7 @@ function bb_pro_pusher_thread_recipient_inbox_unread_counts( $data, $recipients_
 	$data = array_merge( $data, $inbox_unread_cnt );
 
 	return $data;
+
 }
 
 /**
@@ -67,7 +68,7 @@ function bb_pro_pusher_thread_recipient_inbox_unread_counts( $data, $recipients_
  * @return null|bool
  */
 function bb_pro_pusher_group_events( $check, $object_id, $meta_key, $meta_value, $prev_value ) {
-	if ( $check === null ) {
+	if ( null === $check ) {
 
 		// Compare existing value to new value if no prev value given and the key exists only once.
 		if ( empty( $prev_value ) ) {
@@ -97,7 +98,7 @@ function bb_pro_pusher_group_events( $check, $object_id, $meta_key, $meta_value,
 					'sender_id' => (int) $message->sender_id,
 				);
 
-				if ( $bb_pusher !== null ) {
+				if ( null !== $bb_pusher ) {
 					bb_pusher_trigger_event( $bb_pusher, $channel, 'client-bb-pro-group-message-group-update-notify', $event_data );
 
 					if (
@@ -265,7 +266,7 @@ function bb_pro_pusher_receive_heartbeat( array $response, array $data ) {
 			}
 		}
 
-		if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && bp_disable_group_messages() === true ) {
+		if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && true === bp_disable_group_messages() ) {
 			// Determine groups of user.
 			$groups = groups_get_groups(
 				array(
@@ -336,6 +337,7 @@ function bb_pro_pusher_on_screen_notification_query_string( $query_string ) {
 	}
 
 	return http_build_query( $query_string );
+
 }
 
 /**
@@ -358,7 +360,7 @@ function bb_pro_pusher_bb_nouveau_ajax_messages_send_reply_success( $response ) 
 
 	$bb_pusher = bb_pusher();
 
-	if ( ! empty( $response['thread_id'] ) && (int) $response['thread_id'] > 0 && $bb_pusher !== null && bp_is_active( 'messages' ) ) {
+	if ( ! empty( $response['thread_id'] ) && (int) $response['thread_id'] > 0 && null !== $bb_pusher && bp_is_active( 'messages' ) ) {
 
 		$notify_data = array(
 			'hash'                          => $response['hash'],

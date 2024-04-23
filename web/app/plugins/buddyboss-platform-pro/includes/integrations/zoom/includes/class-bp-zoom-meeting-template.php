@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  */
+#[\AllowDynamicProperties]
 class BP_Zoom_Meeting_Template {
 
 	/**
@@ -96,6 +97,14 @@ class BP_Zoom_Meeting_Template {
 	 * @var string
 	 */
 	public $pag_links;
+
+	/**
+	 * More meeting items to be shown.
+	 *
+	 * @since 2.4.30
+	 * @var string
+	 */
+	public $has_more_items;
 
 	/**
 	 * Constructor method.

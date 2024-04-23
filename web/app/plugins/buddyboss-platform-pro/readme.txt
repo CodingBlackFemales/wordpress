@@ -1,9 +1,9 @@
 === BuddyBoss Platform Pro ===
 Contributors: buddyboss
 Requires at least: 4.9.1
-Tested up to: 6.2.2
+Tested up to: 6.4.3
 Requires PHP: 5.6.20
-Stable tag: 2.4.00
+Stable tag: 2.5.00
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,47 @@ To run BuddyBoss Platform Pro, we recommend your host supports:
 5. Activate 'BuddyBoss Platform Pro' from your Plugins page.
 
 == Changelog ==
+
+= 2.5.00 =
+* Bug: TutorLMS - Unable to edit a group from the backend when TutorLMS group sync was unchecked
+
+= 2.4.90 =
+* Enhancement: Core - Performance improvement by introducing a Batch REST API endpoint that will allow the App to request multiple endpoints in a single REST API request
+* Bug: Core - Code refactored to check object length before flushing it
+* Bug: OneSignal - OneSignal external id was not updating when user logged out
+
+= 2.4.80 =
+* Enhancements: Core - Updates and code refactoring for the Activity structure to provide scalability to upcoming features
+* Bug: Tutor LMS - Private Courses from Tutor LMS Integration was not allowing to be added within Buddyboss groups
+
+= 2.4.70 =
+* Bug: Styling - When adding new emotion and searching the emotions in the editor, SVG’s were not loaded properly which made the interface appear broken
+
+= 2.4.60 =
+* Enhancement: Core - Name changed in Reactions emotions selectors from ‘Emotions’ to ‘Emojis’
+* Bug: Core - Removed Reactions lower icon upload limit of 200px to allow for smaller icons to be uploaded
+* Bug: Core - When switching languages in WordPress some words were not translated from backend to frontend due to translation path issues
+
+= 2.4.50 =
+* New Feature! - Introducing reaction into the platform, where your members will now have the ability to react with different emotions to posts, comments and replies. As an added feature you will be able to customise your emotions to suite your brand.
+* Enhancement: Core - Reactions settings updated to include REST API’s
+
+= 2.4.41 =
+* Bug: TutorLMS - Updated many frontend and backend TutorLMS integrated issues
+
+= 2.4.40 =
+* New Feature! - TutorLMS settings added to BuddyBoss integration page for adding courses to groups and choosing course activity posts into group feeds depending in user interactions
+
+= 2.4.30 =
+* Bug: Core - Issues with message preview when using Pusher integration
+* Bug: Core - When debug log was enabled in PHP 8.2 this then caused an error
+* Bug: Notifications - Web push notifications were not being receiving on Android devices and also browser icon was not displaying on the notification user received.
+
+= 2.4.20 =
+* Enhancement: Zoom - Remove Reference to Zoom JWT depreciation and any warnings, tabs and configuration
+
+= 2.4.10 =
+* Enhancement: Core - The Background Process working when suspending and un-suspending users got stuck creating an infinite loop
 
 = 2.4.00 =
 * Bug: LearnDash - Group Users could not send private messages to the LearnDash Group Leaders

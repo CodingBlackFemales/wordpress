@@ -162,11 +162,6 @@ function bbp_pro_version_updater() {
 			bbp_pro_update_to_2_2_1_2();
 		}
 
-		// Version 2.3.0.
-		if ( $raw_db_version < 265 ) {
-			bbp_pro_update_to_2_3_0();
-		}
-
 		// Version 2.3.40.
 		if ( $raw_db_version < 275 ) {
 			bbp_pro_update_to_2_3_40();
@@ -183,7 +178,9 @@ function bbp_pro_version_updater() {
 		}
 
 		if ( $raw_db_version !== $current_db ) {
-			// @todo - Write only data manipulate migration here. ( This is not for DB structure change ).
+			if ( function_exists( 'bb_pro_reaction_migration' ) ) {
+				bb_pro_reaction_migration();
+			}
 		}
 	}
 
@@ -253,40 +250,6 @@ function bbp_pro_update_to_2_2_1_2() {
 	delete_site_transient( 'bb_updates_bp-loader' );
 	delete_site_transient( 'bb_updates_buddyboss-theme' );
 	delete_site_transient( 'bb_updates_buddyboss-platform-pro' );
-}
-
-/**
- * Update migration for version 2.3.0
- *
- * @since 2.3.0
- */
-function bbp_pro_update_to_2_3_0() {
-	global $wpdb;
-
-	$group_meta_table = $wpdb->base_prefix . 'bp_groups_groupmeta';
-
-	$groupmeta_table_exists = (bool) $wpdb->get_results( "DESCRIBE {$group_meta_table};" ); // phpcs:ignore
-
-	if ( $groupmeta_table_exists === true ) {
-
-		// get all group ids with meta key exists.
-		$group_ids = array_column(
-			// phpcs:ignore
-			$wpdb->get_results(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$wpdb->prepare( "SELECT DISTINCT group_id FROM {$group_meta_table} WHERE `meta_key` = %s", 'bp-group-zoom-api-webhook-token' )
-			),
-			'group_id'
-		);
-
-		// Delete mata key that not used anymore.
-		$wpdb->query( "DELETE FROM {$group_meta_table} WHERE `meta_key` = 'bp-group-zoom-api-webhook-token'" ); // phpcs:ignore
-
-		// Update group cache data.
-		if ( function_exists( 'bp_groups_update_meta_cache' ) && ! empty( $group_ids ) ) {
-			bp_groups_update_meta_cache( $group_ids );
-		}
-	}
 }
 
 /**
@@ -399,29 +362,6 @@ function bbp_pro_update_to_2_3_42() {
 		$settings['meeting-hide-zoom-urls'] = $enabled_for;
 	}
 
-	// Check if JWT configured in Block then enabled the site-wide notice.
-	if (
-		! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-		! empty( bp_get_option( 'bp-zoom-api-secret' ) )
-	) {
-		$settings = bp_parse_args(
-			array(
-				'sidewide_errors'       => array(
-					'upgrade_jwt_to_s2s',
-				),
-				'zoom_sdk_warning'      => array(
-					'upgrade_sdk_jwt_to_s2s',
-				),
-				'zoom_is_connected'     => true,
-				'zoom_sdk_is_connected' => true,
-			),
-			$settings
-		);
-
-		// To show JWT settings in the backend.
-		bp_update_option( 'bb-zoom-show-jwt-settings', true );
-	}
-
 	bp_update_option( 'bb-zoom', $settings );
 
 	if (
@@ -431,7 +371,7 @@ function bbp_pro_update_to_2_3_42() {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$group_ids = $wpdb->get_col(
 			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				"SELECT DISTINCT group_id FROM {$bp->groups->table_name_groupmeta} WHERE ( meta_key = %s AND meta_value != '' ) ORDER BY group_id DESC",
 				'bp-group-zoom-api-key'
 			)
@@ -439,34 +379,7 @@ function bbp_pro_update_to_2_3_42() {
 
 		if ( ! empty( $group_ids ) ) {
 			foreach ( $group_ids as $group_id ) {
-
-				$group_zoom_settings = groups_get_groupmeta( $group_id, 'bb-group-zoom' );
-				$api_key             = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-key' );
-				$api_secret          = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-secret' );
 				$api_email           = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email' );
-
-				if ( empty( $group_zoom_settings ) ) {
-					$group_zoom_settings = array();
-				}
-
-				if (
-					! empty( $api_key ) &&
-					! empty( $api_secret )
-				) {
-					$group_zoom_settings = bp_parse_args(
-						array(
-							'sidewide_errors' => array(
-								'upgrade_jwt_to_s2s',
-							),
-						),
-						$group_zoom_settings
-					);
-					groups_update_groupmeta( $group_id, 'bb-group-zoom', $group_zoom_settings );
-
-					// To show JWT settings in the zoom manage screen.
-					groups_update_groupmeta( $group_id, 'bb-group-zoom-show-jwt-settings', true );
-				}
-
 				$s2s_group_api_email = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-api-email' );
 				if ( empty( $s2s_group_api_email ) ) {
 					groups_update_groupmeta( $group_id, 'bb-group-zoom-s2s-api-email', $api_email );
