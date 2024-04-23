@@ -59,7 +59,7 @@ function bb_access_control_rest_before_get_group_members( $args, $request ) {
 	 */
 	add_filter(
 		'bp_group_member_query_group_member_ids',
-		function ( $group_member_ids, $group_member_query_object ) use ( $show_all ) {
+		function( $group_member_ids, $group_member_query_object ) use ( $show_all ) {
 
 			if ( bp_is_active( 'groups' ) && empty( $show_all ) ) {
 
@@ -129,10 +129,10 @@ function bb_access_control_rest_activity_item_permissions( $retval, $request ) {
 	}
 
 	if (
-		$retval === true &&
+		true === $retval &&
 		function_exists( 'bb_user_can_create_activity' ) &&
 		! bb_user_can_create_activity() &&
-		$component !== 'groups'
+		'groups' !== $component
 	) {
 		$url = $request->get_route();
 
@@ -173,11 +173,11 @@ function bb_access_control_rest_activity_item_single_permissions( $retval, $requ
 	}
 
 	if (
-		$retval === true &&
+		true === $retval &&
 		function_exists( 'bb_user_can_create_activity' ) &&
 		! bb_user_can_create_activity() &&
 		isset( $activity->component ) &&
-		$activity->component !== 'groups'
+		'groups' !== $activity->component
 	) {
 
 		$method = $request->get_method();
@@ -185,7 +185,7 @@ function bb_access_control_rest_activity_item_single_permissions( $retval, $requ
 
 		$message = __( 'Sorry, You don\'t have enough access to update this activity.', 'buddyboss-pro' );
 
-		if ( $method === WP_REST_Server::DELETABLE ) {
+		if ( WP_REST_Server::DELETABLE === $method ) {
 			$message = __( 'Sorry, you are not allowed to delete this activity.', 'buddyboss-pro' );
 		}
 
@@ -220,14 +220,14 @@ function bb_access_control_rest_activity_prepare_value( $response, $request, $ac
 	if (
 		! is_user_logged_in() ||
 		! function_exists( 'bb_user_can_create_activity' ) ||
-		$activity->component === 'groups'
+		'groups' === $activity->component
 	) {
 		return $response;
 	}
 
-	if ( $activity->type === 'activity_comment' && ! empty( $activity->item_id ) ) {
+	if ( 'activity_comment' === $activity->type && ! empty( $activity->item_id ) ) {
 		$parent_activity = new BP_Activity_Activity( $activity->item_id );
-		if ( ! empty( $parent_activity->id ) && $parent_activity->component === 'groups' ) {
+		if ( ! empty( $parent_activity->id ) && 'groups' === $parent_activity->component ) {
 			return $response;
 		}
 	}
@@ -238,7 +238,7 @@ function bb_access_control_rest_activity_prepare_value( $response, $request, $ac
 	$data['can_edit']   = ( ! empty( $user_can ) && ! empty( $data['can_edit'] ) ) ? $data['can_edit'] : false;
 	$data['can_delete'] = ( ! empty( $user_can ) && bp_activity_user_can_delete( $activity ) ) ? bp_activity_user_can_delete( $activity ) : false;
 
-	if ( isset( $data['activity_data']['can_edit_privacy'] ) || $data['activity_data']['can_edit_privacy'] === true ) {
+	if ( isset( $data['activity_data']['can_edit_privacy'] ) || true === $data['activity_data']['can_edit_privacy'] ) {
 		$data['activity_data']['can_edit_privacy'] = $user_can;
 	}
 
@@ -261,7 +261,7 @@ function bb_access_control_rest_activity_prepare_value( $response, $request, $ac
 function bb_access_control_rest_groups_prepare_value( $response, $request, $group ) {
 	$data = $response->get_data();
 
-	if ( isset( $data['can_join'] ) && $data['can_join'] === true ) {
+	if ( isset( $data['can_join'] ) && true === $data['can_join'] ) {
 		$data['can_join'] = bb_access_control_check_user_can_join_group( $data['can_join'] );
 	}
 
@@ -281,7 +281,7 @@ function bb_access_control_rest_groups_prepare_value( $response, $request, $grou
  * @return bool|WP_Error
  */
 function bb_access_control_rest_group_access_control_create_check( $retval, $request ) {
-	if ( $retval !== true ) {
+	if ( true !== $retval ) {
 		return $retval;
 	}
 
@@ -330,7 +330,7 @@ function bb_access_control_rest_group_access_control_create_check( $retval, $req
  * @return bool|WP_Error
  */
 function bb_access_control_rest_group_access_control_update_check( $retval, $request ) {
-	if ( $retval !== true ) {
+	if ( true !== $retval ) {
 		return $retval;
 	}
 
@@ -368,7 +368,7 @@ function bb_access_control_rest_user_can_join_group( $retval, $user_id ) {
 	$join_group_settings = bb_access_control_join_group_settings();
 
 	if (
-		$retval === false ||
+		false === $retval ||
 		empty( $join_group_settings ) ||
 		empty( $user_id ) ||
 		(
@@ -435,7 +435,7 @@ function bb_access_control_rest_messages_create_permissions_check( $retval, $req
 	}
 
 	if (
-		$retval !== true ||
+		true !== $retval ||
 		empty( $message_settings ) ||
 		(
 			isset( $message_settings['access-control-type'] ) &&
@@ -506,7 +506,7 @@ function bb_access_control_rest_group_messages_create_permissions_check( $retval
 	$message_settings = bb_access_control_send_messages_settings();
 
 	if (
-		$retval !== true ||
+		true !== $retval ||
 		empty( $message_settings ) ||
 		(
 			isset( $message_settings['access-control-type'] ) &&
@@ -518,7 +518,7 @@ function bb_access_control_rest_group_messages_create_permissions_check( $retval
 
 	$message_users = $request->get_param( 'users' );
 
-	if ( $message_users === 'all' ) {
+	if ( 'all' === $message_users ) {
 		return $retval;
 	}
 
@@ -619,7 +619,7 @@ function bb_access_control_rest_friends_permissions_check( $retval, $request ) {
 	$friend_settings = bb_access_control_friends_settings();
 
 	if (
-		$retval !== true ||
+		true !== $retval ||
 		empty( $friend_settings ) ||
 		(
 			isset( $friend_settings['access-control-type'] ) &&

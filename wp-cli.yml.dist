@@ -1,3 +1,13 @@
 path: web/wp
+
+"@development":
+  path: web/wp
+
+"@staging":
+  ssh: # Staging SSH details here
+
+"@production":
+  ssh: # Production SSH details here
+
 server:
   docroot: web
