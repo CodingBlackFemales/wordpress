@@ -111,8 +111,8 @@ function bb_onesignal_update_app_details() {
 		$response      = json_decode( $response, true );
 		$response_code = wp_remote_retrieve_response_code( $request );
 
-		if ( $response_code === 200 && ! empty( $response ) ) {
-			if ( ! empty( $web_url['scheme'] ) && $web_url['scheme'] === 'http' && empty( $response['chrome_web_sub_domain'] ) ) {
+		if ( 200 === $response_code && ! empty( $response ) ) {
+			if ( ! empty( $web_url['scheme'] ) && 'http' === $web_url['scheme'] && empty( $response['chrome_web_sub_domain'] ) ) {
 				$settings['warnings']['only_ssl'] = sprintf(
 					/* translators: 1. App name 2. App configuration URL */
 					__( 'The %1$s app is currently set to only support secure (HTTPS) sites. Please update this app\'s %2$s in OneSignal or create a new app for this site.', 'buddyboss-pro' ),
@@ -696,6 +696,7 @@ function bb_onesignal_admin_setting_callback_enable_soft_prompt_fields_preview_b
 		</div>
 	</div>
 	<?php
+
 }
 
 /**
@@ -788,12 +789,12 @@ function bb_onesingnal_send_notification( $data ) {
 
 	if ( isset( $data['image'] ) && ! empty( $data['image'] ) ) {
 		$fields['chrome_web_icon']  = esc_url( $data['image'] );
-		$fields['chrome_web_badge'] = esc_url( $data['image'] );
 		$fields['firefox_icon']     = esc_url( $data['image'] );
 	}
 
 	$args['body'] = wp_json_encode( $fields );
 	bbpro_remote_post( bb_onesignal_notification_endpoint(), $args );
+
 }
 
 /**

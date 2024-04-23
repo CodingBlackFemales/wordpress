@@ -32,4 +32,5 @@ function bb_pro_plugin_upgrade_function_callback( $upgrader_object, $options ) {
 		}
 	}
 }
+
 add_action( 'upgrader_process_complete', 'bb_pro_plugin_upgrade_function_callback', 10, 2 );

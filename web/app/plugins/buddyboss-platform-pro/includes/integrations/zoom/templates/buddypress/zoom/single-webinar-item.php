@@ -7,13 +7,13 @@
  */
 
 ?>
-<div class="webinar-item-container" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>>
+<div class="webinar-item-container" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>>
 	<div class="bb-title-wrap">
 		<a href="#" class="bp-back-to-webinar-list"><span class="bb-icon-l bb-icon-angle-left"></span></a>
 		<div>
 			<h2 class="bb-title">
 				<?php bp_zoom_webinar_title(); ?>
-				<?php if ( bp_get_zoom_webinar_type() === 9 ) : ?>
+				<?php if ( 9 === bp_get_zoom_webinar_type() ) : ?>
 					<span class="recurring-webinar-label"><?php esc_html_e( 'Recurring', 'buddyboss-pro' ); ?></span>
 				<?php endif; ?>
 			</h2>
@@ -33,9 +33,9 @@
 				</a>
 				<div class="webinar-actions-list">
 					<ul>
-						<?php if ( bp_get_zoom_webinar_is_past() !== true ) : ?>
+						<?php if ( true !== bp_get_zoom_webinar_is_past() ) : ?>
 							<li class="bp-zoom-webinar-edit">
-								<?php if ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' ) : ?>
+								<?php if ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ) : ?>
 									<a role="button" id="bp-zoom-webinar-occurrence-edit-button" class="edit-webinar" href="#" data-id="bp-webinar-edit">
 										<i class="bb-icon-l bb-icon-edit"></i><?php esc_html_e( 'Edit this Webinar', 'buddyboss-pro' ); ?>
 									</a>
@@ -49,8 +49,8 @@
 										</div>
 
 										<footer class="bb-zm-model-footer">
-											<a href="#" id="bp-zoom-all-webinar-edit" class="button outline small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'All occurrences', 'buddyboss-pro' ); ?></a>
-											<a href="#" id="bp-zoom-only-this-webinar-edit" class="button small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Only this webinar', 'buddyboss-pro' ); ?></a>
+											<a href="#" id="bp-zoom-all-webinar-edit" class="button outline small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'All occurrences', 'buddyboss-pro' ); ?></a>
+											<a href="#" id="bp-zoom-only-this-webinar-edit" class="button small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Only this webinar', 'buddyboss-pro' ); ?></a>
 <!--                                            <a href="javascript:$.magnificPopup.close();"><?php esc_html_e( 'Cancel', 'buddyboss-pro' ); ?></a>-->
 										</footer>
 									</div>
@@ -62,7 +62,7 @@
 							</li>
 						<?php endif; ?>
 						<li class="bp-zoom-webinar-delete">
-							<?php if ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' ) : ?>
+							<?php if ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ) : ?>
 								<a role="button" id="bp-zoom-webinar-occurrence-delete-button" class="delete" href="#">
 									<i class="bb-icon-l bb-icon-trash"></i><?php esc_html_e( 'Delete this Webinar', 'buddyboss-pro' ); ?>
 								</a>
@@ -77,8 +77,8 @@
 									</div>
 
 									<footer class="bb-zm-model-footer">
-										<a href="#" id="bp-zoom-only-this-webinar-delete" class="button small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete This Occurrence', 'buddyboss-pro' ); ?></a>
-										<a href="#" id="bp-zoom-all-webinar-delete"  class="button outline small error" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
+										<a href="#" id="bp-zoom-only-this-webinar-delete" class="button small" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete This Occurrence', 'buddyboss-pro' ); ?></a>
+										<a href="#" id="bp-zoom-all-webinar-delete"  class="button outline small error" data-id="<?php bp_zoom_webinar_id(); ?>" data-webinar-id="<?php bp_zoom_webinar_zoom_webinar_id(); ?>" data-is-recurring="<?php echo ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() || bp_get_zoom_webinar_recurring() ) ? '1' : '0'; ?>" <?php echo 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_webinar_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
 									</footer>
 								</div>
 							<?php else : ?>
@@ -96,7 +96,7 @@
 			<div class="webinar-item-head"><?php esc_html_e( 'Webinar ID', 'buddyboss-pro' ); ?></div>
 			<div class="webinar-item-col">
 				<span class="webinar-id"><?php bp_zoom_webinar_zoom_webinar_id(); ?></span>
-				<?php if ( bp_get_zoom_webinar_recurring() || bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' ) : ?>
+				<?php if ( bp_get_zoom_webinar_recurring() || 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ) : ?>
 					<div class="bb-webinar-occurrence"><?php echo esc_html( bp_zoom_get_webinar_recurrence_label( bp_get_zoom_webinar_id() ) ); ?></div>
 				<?php endif; ?>
 			</div>
@@ -110,10 +110,10 @@
 		<?php endif; ?>
 
 		<?php
-		if ( bp_get_zoom_webinar_is_past() !== true ) {
+		if ( true !== bp_get_zoom_webinar_is_past() ) {
 			$duration = bp_get_zoom_webinar_duration();
-			$hours    = ( ( $duration !== 0 ) ? floor( $duration / 60 ) : 0 );
-			$minutes  = ( ( $duration !== 0 ) ? ( $duration % 60 ) : 0 );
+			$hours    = ( ( 0 !== $duration ) ? floor( $duration / 60 ) : 0 );
+			$minutes  = ( ( 0 !== $duration ) ? ( $duration % 60 ) : 0 );
 			?>
 			<div class="single-webinar-item">
 				<div class="webinar-item-head"><?php esc_html_e( 'Duration', 'buddyboss-pro' ); ?></div>
@@ -134,7 +134,7 @@
 		}
 
 		$alert = bp_get_zoom_webinar_alert();
-		if ( bp_get_zoom_webinar_zoom_type() === 'webinar_occurrence' ) {
+		if ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ) {
 			$webinar_parent = BP_Zoom_Webinar::get_webinar_by_webinar_id( bp_get_zoom_webinar_parent() );
 
 			if ( ! empty( $webinar_parent ) ) {
@@ -244,9 +244,9 @@
 					<i class="<?php echo in_array( bp_get_zoom_webinar_auto_recording(), array( 'cloud', 'local' ), true ) ? esc_html( 'bb-icon-l bb-icon-check' ) : esc_html( 'bb-icon-l bb-icon-times' ); ?>"></i>
 					<span>
 						<?php
-						if ( bp_get_zoom_webinar_auto_recording() === 'cloud' ) {
+						if ( 'cloud' === bp_get_zoom_webinar_auto_recording() ) {
 							esc_html_e( 'Record the webinar automatically in the cloud', 'buddyboss-pro' );
-						} elseif ( bp_get_zoom_webinar_auto_recording() === 'local' ) {
+						} elseif ( 'local' === bp_get_zoom_webinar_auto_recording() ) {
 							esc_html_e( 'Record the webinar automatically in the local computer', 'buddyboss-pro' );
 						} else {
 							esc_html_e( 'Do not record the webinar.', 'buddyboss-pro' );
@@ -303,13 +303,12 @@
 					</div>
 				</div>
 			<?php endif; ?>
-			<?php if ( bp_get_zoom_webinar_current_status() === 'started' || ( $show_join_webinar_button && $current_date < $webinar_date_unix ) ) : ?>
+			<?php if ( 'started' === bp_get_zoom_webinar_current_status() || ( $show_join_webinar_button && $current_date < $webinar_date_unix ) ) : ?>
 				<div class="webinar-item-col webinar-action last-col full text-right">
 					<?php
 					$can_host = bp_zoom_can_current_user_start_webinar( bp_get_zoom_webinar_id() );
 
 					if (
-						bb_zoom_group_show_join_browser_button( bp_get_zoom_webinar_group_id() ) &&
 						! empty( $browser_credential['sign'] ) &&
 						! $can_host &&
 						! bp_get_zoom_webinar_authentication() &&

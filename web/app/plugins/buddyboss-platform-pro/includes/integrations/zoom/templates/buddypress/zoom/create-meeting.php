@@ -43,12 +43,12 @@ if ( empty( $current_user_data ) ) {
 	return false;
 }
 
-$default_group_host_email = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email', true );
+$default_group_host_email = bb_zoom_group_get_email_account( $group_id );
 
 $disable_registration = false;
 $disable_recording    = false;
 $disable_alt_host     = false;
-$host_type            = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-host-type', true );
+$host_type            = bb_zoom_group_get_host_type( $group_id );
 if ( 1 === (int) $host_type ) {
 	$disable_registration = true;
 	$disable_recording    = true;

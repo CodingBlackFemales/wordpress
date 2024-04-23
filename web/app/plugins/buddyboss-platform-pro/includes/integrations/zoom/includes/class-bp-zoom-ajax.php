@@ -160,7 +160,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$start_time = '12:00';
 			} else {
 				$explode_start_time = explode( ':', $start_time );
-				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || $explode_start_time[0] === '00' ) {
+				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || '00' === $explode_start_time[0] ) {
 					$explode_start_time[0] = '12';
 				}
 				$start_time = implode( ':', $explode_start_time );
@@ -192,7 +192,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$auto_recording        = filter_input( INPUT_POST, 'bp-zoom-meeting-auto-recording', FILTER_VALIDATE_BOOLEAN );
 			$auto_recording_option = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-recording' );
 
-			if ( (int) $host_type === 1 && $auto_recording ) {
+			if ( 1 === (int) $host_type && $auto_recording ) {
 				$auto_recording = 'local';
 			} else {
 				if ( $auto_recording ) {
@@ -239,7 +239,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				wp_send_json_error( $response_error );
 			}
 
-			if ( ! empty( $zoom_meeting['code'] ) && $zoom_meeting['code'] === 204 ) {
+			if ( ! empty( $zoom_meeting['code'] ) && 204 === $zoom_meeting['code'] ) {
 				$meeting                     = new BP_Zoom_Meeting( $id );
 				$meeting->description        = $data['description'];
 				$meeting->duration           = $data['duration'];
@@ -258,7 +258,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				// update parent meeting details.
 				if ( ! empty( $parent_meeting->id ) ) {
 					$updated_meeting = bp_zoom_conference()->get_meeting_info( $meeting_id, false, true );
-					if ( ! empty( $updated_meeting['code'] ) && $updated_meeting['code'] === 200 && ! empty( $updated_meeting['response'] ) ) {
+					if ( ! empty( $updated_meeting['code'] ) && 200 === $updated_meeting['code'] && ! empty( $updated_meeting['response'] ) ) {
 						bp_zoom_meeting_update_meta( $parent_meeting->id, 'zoom_details', wp_json_encode( $updated_meeting['response'] ) );
 					}
 				}
@@ -354,7 +354,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$start_time = '12:00';
 			} else {
 				$explode_start_time = explode( ':', $start_time );
-				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || $explode_start_time[0] === '00' ) {
+				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || '00' === $explode_start_time[0] ) {
 					$explode_start_time[0] = '12';
 				}
 				$start_time = implode( ':', $explode_start_time );
@@ -389,7 +389,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			// If recurring weekly meeting then week day should not be empty.
 			if (
 				$recurring &&
-				filter_input( INPUT_POST, 'bp-zoom-meeting-recurrence', FILTER_VALIDATE_INT ) === 2 &&
+				2 === filter_input( INPUT_POST, 'bp-zoom-meeting-recurrence', FILTER_VALIDATE_INT ) &&
 				empty( filter_input( INPUT_POST, 'bp-zoom-meeting-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) )
 			) {
 				wp_send_json_error( array( 'error' => __( 'Please select the meeting week day.', 'buddyboss-pro' ) ) );
@@ -415,10 +415,10 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$alert                  = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-alert' );
 			$notification           = filter_input( INPUT_POST, 'bp-zoom-meeting-notification', FILTER_VALIDATE_BOOLEAN );
 
-			$alternative_host_ids = str_replace( ' ', '', $alternative_host_ids );
-			$alternative_host_ids = explode( ',', $alternative_host_ids );
+			$alternative_host_ids = ! empty( $alternative_host_ids ) ? str_replace( ' ', '', $alternative_host_ids ) : '';
+			$alternative_host_ids = ! empty( $alternative_host_ids ) ? explode( ',', $alternative_host_ids ) : array();
 
-			if ( (int) $host_type === 1 && $auto_recording ) {
+			if ( 1 === (int) $host_type && $auto_recording ) {
 				$auto_recording = 'local';
 			} else {
 				if ( $auto_recording ) {
@@ -430,10 +430,10 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 
 			$type = 2;
 			if ( $recurring ) {
-				if ( $recurrence === 1 || $recurrence === 2 || $recurrence === 3 ) {
+				if ( 1 === $recurrence || 2 === $recurrence || 3 === $recurrence ) {
 					$type = 8;
 				}
-				if ( $recurrence === - 1 ) {
+				if ( - 1 === $recurrence ) {
 					$type = 3;
 				}
 			}
@@ -462,32 +462,32 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			);
 
 			$recurrence_obj = array();
-			if ( $recurring && $type === 8 ) {
+			if ( $recurring && 8 === $type ) {
 				$recurrence_obj['type'] = $recurrence;
 				$repeat_interval        = filter_input( INPUT_POST, 'bp-zoom-meeting-repeat-interval', FILTER_VALIDATE_INT );
 				$end_time_select        = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-end-time-select' );
 
-				if ( $recurrence === 1 ) {
+				if ( 1 === $recurrence ) {
 					if ( 90 < $repeat_interval ) {
 						$repeat_interval = 90;
 					}
-				} elseif ( $recurrence === 2 ) {
+				} elseif ( 2 === $recurrence ) {
 					if ( 12 < $repeat_interval ) {
 						$repeat_interval = 12;
 					}
 
 					$weekly_days                   = filter_input( INPUT_POST, 'bp-zoom-meeting-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 					$recurrence_obj['weekly_days'] = implode( ',', $weekly_days );
-				} elseif ( $recurrence === 3 ) {
+				} elseif ( 3 === $recurrence ) {
 					if ( 3 < $repeat_interval ) {
 						$repeat_interval = 3;
 					}
 					$monthly_occurs_on = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-monthly-occurs-on' );
 
-					if ( $monthly_occurs_on === 'day' ) {
+					if ( 'day' === $monthly_occurs_on ) {
 						$monthly_day                   = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-day', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_day'] = $monthly_day;
-					} elseif ( $monthly_occurs_on === 'week' ) {
+					} elseif ( 'week' === $monthly_occurs_on ) {
 						$monthly_week_day                   = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-week-day', FILTER_VALIDATE_INT );
 						$monthly_week                       = filter_input( INPUT_POST, 'bp-zoom-meeting-monthly-week', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_week_day'] = $monthly_week_day;
@@ -495,7 +495,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					}
 				}
 
-				if ( $end_time_select === 'date' ) {
+				if ( 'date' === $end_time_select ) {
 					$end_date_time = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-meeting-end-date-time' );
 					$end_date_time = new DateTime( $end_date_time . ' ' . $start_time . ' ' . $start_meridian, new DateTimeZone( $timezone ) );
 					$end_date_time->setTimezone( new DateTimeZone( 'UTC' ) );
@@ -567,7 +567,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				}
 
 				// Hide main recurring meeting.
-				if ( $recurring && $type === 8 ) {
+				if ( $recurring && 8 === $type ) {
 					$data['hide_sitewide'] = true;
 				}
 
@@ -592,7 +592,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					$occurrence_id = bp_zoom_meeting_get_meta( $id, 'zoom_meeting_occurrence_id', true );
 
 					// if recurring meeting update then reload the page.
-					if ( $recurring && $type === 8 && ! empty( $occurrence_id ) ) {
+					if ( $recurring && 8 === $type && ! empty( $occurrence_id ) ) {
 						bp_zoom_meeting_delete_meta( $id, 'zoom_meeting_occurrence_id' );
 						$redirect_url = trailingslashit( $group_link . 'zoom/meetings/' . $occurrence_id );
 					}
@@ -663,7 +663,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$is_past = $meeting->is_past;
 
 			// empty occurrence then parent meeting edit load.
-			if ( empty( $occurrence_id ) && ! empty( $meeting_id ) && ! empty( $meeting->zoom_type ) && $meeting->zoom_type === 'meeting_occurrence' && ! empty( $parent_meeting->id ) ) {
+			if ( empty( $occurrence_id ) && ! empty( $meeting_id ) && ! empty( $meeting->zoom_type ) && 'meeting_occurrence' === $meeting->zoom_type && ! empty( $parent_meeting->id ) ) {
 				$id = $parent_meeting->id;
 			}
 
@@ -686,7 +686,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$meeting_deleted = bp_zoom_conference()->delete_meeting( $meeting_id, $occurrence_id );
 			}
 
-			if ( isset( $meeting_deleted['code'] ) && $meeting_deleted['code'] === 204 && bp_zoom_meeting_delete( array( 'id' => $id ) ) ) {
+			if ( isset( $meeting_deleted['code'] ) && 204 === $meeting_deleted['code'] && bp_zoom_meeting_delete( array( 'id' => $id ) ) ) {
 
 				// Remove all occurrences and recordings.
 				if ( $meeting->recurring && empty( $occurrence_id ) ) {
@@ -699,7 +699,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					$parent_meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting_id );
 					if ( ! empty( $parent_meeting->id ) ) {
 						$updated_meeting = bp_zoom_conference()->get_meeting_info( $meeting_id );
-						if ( ! empty( $updated_meeting['code'] ) && $updated_meeting['code'] === 200 && ! empty( $updated_meeting['response'] ) ) {
+						if ( ! empty( $updated_meeting['code'] ) && 200 === $updated_meeting['code'] && ! empty( $updated_meeting['response'] ) ) {
 							bp_zoom_meeting_update_meta( $parent_meeting->id, 'zoom_details', wp_json_encode( $updated_meeting['response'] ) );
 						}
 					}
@@ -760,7 +760,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 
 			$invitation_response = bp_zoom_conference()->meeting_invitation( $meeting_id );
 
-			if ( $invitation_response['code'] === 200 && ! empty( $invitation_response['response'] ) ) {
+			if ( 200 === $invitation_response['code'] && ! empty( $invitation_response['response'] ) ) {
 				$invitation = $invitation_response['response']->invitation;
 
 				wp_send_json_success( array( 'invitation' => $invitation ) );
@@ -921,7 +921,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			// empty occurrence then parent meeting edit load.
 			if ( empty( $occurrence_id ) && ! empty( $meeting_id ) ) {
 				$meeting_obj = new BP_Zoom_Meeting( $id );
-				if ( ! empty( $meeting_obj->zoom_type ) && $meeting_obj->zoom_type === 'meeting_occurrence' ) {
+				if ( ! empty( $meeting_obj->zoom_type ) && 'meeting_occurrence' === $meeting_obj->zoom_type ) {
 					$meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting_obj->parent );
 					if ( ! empty( $meeting ) ) {
 						$id            = $meeting->id;
@@ -993,7 +993,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					// save the meeting.
 					$meeting->save();
 
-					$offset++;
+					$offset ++;
 				}
 
 				/* translators: %s total meetings */
@@ -1101,7 +1101,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 
 				$host_email      = bb_zoom_group_get_email_account( $group_id );
 				$host_type       = bb_zoom_group_get_host_type( $group_id );
-				$webinar_enabled = groups_get_groupmeta( $group_id, 'bp-group-zoom-enable-webinar', true );
+				$webinar_enabled = bp_zoom_groups_is_webinars_enabled( $group_id );
 
 				if ( empty( $webinar_enabled ) ) {
 					wp_send_json_error( array( 'error' => __( 'Webinars not allowed in this group.', 'buddyboss-pro' ) ) );
@@ -1139,7 +1139,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$start_time = '12:00';
 			} else {
 				$explode_start_time = explode( ':', $start_time );
-				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || $explode_start_time[0] === '00' ) {
+				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || '00' === $explode_start_time[0] ) {
 					$explode_start_time[0] = '12';
 				}
 				$start_time = implode( ':', $explode_start_time );
@@ -1174,7 +1174,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			// If recurring weekly webinar then week day should not be empty.
 			if (
 				$recurring &&
-				filter_input( INPUT_POST, 'bp-zoom-webinar-recurrence', FILTER_VALIDATE_INT ) === 2 &&
+				2 === filter_input( INPUT_POST, 'bp-zoom-webinar-recurrence', FILTER_VALIDATE_INT ) &&
 				empty( filter_input( INPUT_POST, 'bp-zoom-webinar-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) )
 			) {
 				wp_send_json_error( array( 'error' => __( 'Please select the webinar week day.', 'buddyboss-pro' ) ) );
@@ -1202,7 +1202,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$alternative_host_ids = str_replace( ' ', '', $alternative_host_ids );
 			$alternative_host_ids = explode( ',', $alternative_host_ids );
 
-			if ( (int) $host_type === 1 && $auto_recording ) {
+			if ( 1 === (int) $host_type && $auto_recording ) {
 				$auto_recording = 'local';
 			} else {
 				if ( $auto_recording ) {
@@ -1214,10 +1214,10 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 
 			$type = 5;
 			if ( $recurring ) {
-				if ( $recurrence === 1 || $recurrence === 2 || $recurrence === 3 ) {
+				if ( 1 === $recurrence || 2 === $recurrence || 3 === $recurrence ) {
 					$type = 9;
 				}
-				if ( $recurrence === - 1 ) {
+				if ( - 1 === $recurrence ) {
 					$type = 6;
 				}
 			}
@@ -1245,32 +1245,32 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			);
 
 			$recurrence_obj = array();
-			if ( $recurring && $type === 9 ) {
+			if ( $recurring && 9 === $type ) {
 				$recurrence_obj['type'] = $recurrence;
 				$repeat_interval        = filter_input( INPUT_POST, 'bp-zoom-webinar-repeat-interval', FILTER_VALIDATE_INT );
 				$end_time_select        = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-end-time-select' );
 
-				if ( $recurrence === 1 ) {
+				if ( 1 === $recurrence ) {
 					if ( 90 < $repeat_interval ) {
 						$repeat_interval = 90;
 					}
-				} elseif ( $recurrence === 2 ) {
+				} elseif ( 2 === $recurrence ) {
 					if ( 12 < $repeat_interval ) {
 						$repeat_interval = 12;
 					}
 
 					$weekly_days                   = filter_input( INPUT_POST, 'bp-zoom-webinar-weekly-days', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 					$recurrence_obj['weekly_days'] = implode( ',', $weekly_days );
-				} elseif ( $recurrence === 3 ) {
+				} elseif ( 3 === $recurrence ) {
 					if ( 3 < $repeat_interval ) {
 						$repeat_interval = 3;
 					}
 					$monthly_occurs_on = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-monthly-occurs-on' );
 
-					if ( $monthly_occurs_on === 'day' ) {
+					if ( 'day' === $monthly_occurs_on ) {
 						$monthly_day                   = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-day', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_day'] = $monthly_day;
-					} elseif ( $monthly_occurs_on === 'week' ) {
+					} elseif ( 'week' === $monthly_occurs_on ) {
 						$monthly_week_day                   = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-week-day', FILTER_VALIDATE_INT );
 						$monthly_week                       = filter_input( INPUT_POST, 'bp-zoom-webinar-monthly-week', FILTER_VALIDATE_INT );
 						$recurrence_obj['monthly_week_day'] = $monthly_week_day;
@@ -1278,7 +1278,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					}
 				}
 
-				if ( $end_time_select === 'date' ) {
+				if ( 'date' === $end_time_select ) {
 					$end_date_time = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-end-date-time' );
 					$end_date_time = new DateTime( $end_date_time . ' ' . $start_time . ' ' . $start_meridian, new DateTimeZone( $timezone ) );
 					$end_date_time->setTimezone( new DateTimeZone( 'UTC' ) );
@@ -1344,7 +1344,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				}
 
 				// Hide main recurring webinar.
-				if ( $recurring && $type === 9 ) {
+				if ( $recurring && 9 === $type ) {
 					$data['hide_sitewide'] = true;
 				}
 
@@ -1364,7 +1364,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					$occurrence_id = bp_zoom_webinar_get_meta( $id, 'zoom_webinar_occurrence_id', true );
 
 					// if recurring webinar update then reload the page.
-					if ( $recurring && $type === 9 && ! empty( $occurrence_id ) ) {
+					if ( $recurring && 9 === $type && ! empty( $occurrence_id ) ) {
 						bp_zoom_webinar_delete_meta( $id, 'zoom_webinar_occurrence_id' );
 						$redirect_url = trailingslashit( $group_link . 'zoom/webinars/' . $occurrence_id );
 					}
@@ -1489,7 +1489,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			// empty occurrence then parent webinar edit load.
 			if ( empty( $occurrence_id ) && ! empty( $webinar_id ) ) {
 				$webinar_obj = new BP_Zoom_Webinar( $id );
-				if ( ! empty( $webinar_obj->zoom_type ) && $webinar_obj->zoom_type === 'webinar_occurrence' ) {
+				if ( ! empty( $webinar_obj->zoom_type ) && 'webinar_occurrence' === $webinar_obj->zoom_type ) {
 					$webinar = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar_obj->parent );
 					if ( ! empty( $webinar ) ) {
 						$id            = $webinar->id;
@@ -1566,7 +1566,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$is_past = $webinar->is_past;
 
 			// empty occurrence then parent webinar edit load.
-			if ( empty( $occurrence_id ) && ! empty( $webinar_id ) && ! empty( $webinar->zoom_type ) && $webinar->zoom_type === 'webinar_occurrence' && ! empty( $parent_webinar->id ) ) {
+			if ( empty( $occurrence_id ) && ! empty( $webinar_id ) && ! empty( $webinar->zoom_type ) && 'webinar_occurrence' === $webinar->zoom_type && ! empty( $parent_webinar->id ) ) {
 				$id = $parent_webinar->id;
 			}
 
@@ -1589,7 +1589,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$webinar_deleted = bp_zoom_conference()->delete_webinar( $webinar_id, $occurrence_id );
 			}
 
-			if ( isset( $webinar_deleted['code'] ) && $webinar_deleted['code'] === 204 && bp_zoom_webinar_delete( array( 'id' => $id ) ) ) {
+			if ( isset( $webinar_deleted['code'] ) && 204 === $webinar_deleted['code'] && bp_zoom_webinar_delete( array( 'id' => $id ) ) ) {
 
 				// Remove all occurrences and recordings.
 				if ( $webinar->recurring && empty( $occurrence_id ) ) {
@@ -1602,7 +1602,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					$parent_webinar = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar_id );
 					if ( ! empty( $parent_webinar->id ) ) {
 						$updated_webinar = bp_zoom_conference()->get_webinar_info( $webinar_id );
-						if ( ! empty( $updated_webinar['code'] ) && $updated_webinar['code'] === 200 && ! empty( $updated_webinar['response'] ) ) {
+						if ( ! empty( $updated_webinar['code'] ) && 200 === $updated_webinar['code'] && ! empty( $updated_webinar['response'] ) ) {
 							bp_zoom_webinar_update_meta( $parent_webinar->id, 'zoom_details', wp_json_encode( $updated_webinar['response'] ) );
 						}
 					}
@@ -1743,7 +1743,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				$start_time = '12:00';
 			} else {
 				$explode_start_time = explode( ':', $start_time );
-				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || $explode_start_time[0] === '00' ) {
+				if ( ! isset( $explode_start_time[0] ) || empty( $explode_start_time[0] ) || '00' === $explode_start_time[0] ) {
 					$explode_start_time[0] = '12';
 				}
 				$start_time = implode( ':', $explode_start_time );
@@ -1772,7 +1772,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			$auto_recording        = filter_input( INPUT_POST, 'bp-zoom-webinar-auto-recording', FILTER_VALIDATE_BOOLEAN );
 			$auto_recording_option = bb_pro_filter_input_string( INPUT_POST, 'bp-zoom-webinar-recording' );
 
-			if ( (int) $host_type === 1 && $auto_recording ) {
+			if ( 1 === (int) $host_type && $auto_recording ) {
 				$auto_recording = 'local';
 			} else {
 				if ( $auto_recording ) {
@@ -1816,7 +1816,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				wp_send_json_error( $response_error );
 			}
 
-			if ( ! empty( $zoom_webinar['code'] ) && $zoom_webinar['code'] === 204 ) {
+			if ( ! empty( $zoom_webinar['code'] ) && 204 === $zoom_webinar['code'] ) {
 				$webinar                  = new BP_Zoom_Webinar( $id );
 				$webinar->description     = $data['description'];
 				$webinar->duration        = $data['duration'];
@@ -1832,7 +1832,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 				// update parent webinar details.
 				if ( ! empty( $parent_webinar->id ) ) {
 					$updated_webinar = bp_zoom_conference()->get_webinar_info( $webinar_id, false, true );
-					if ( ! empty( $updated_webinar['code'] ) && $updated_webinar['code'] === 200 && ! empty( $updated_webinar['response'] ) ) {
+					if ( ! empty( $updated_webinar['code'] ) && 200 === $updated_webinar['code'] && ! empty( $updated_webinar['response'] ) ) {
 						bp_zoom_webinar_update_meta( $parent_webinar->id, 'zoom_details', wp_json_encode( $updated_webinar['response'] ) );
 					}
 				}
@@ -1940,7 +1940,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 					// save the meeting.
 					$webinar->save();
 
-					$offset++;
+					$offset ++;
 				}
 
 				/* translators: %s total meetings */
@@ -2086,7 +2086,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			}
 
 			$connection_type = bb_zoom_group_get_connection_type( $group_id );
-			if ( $connection_type !== 'group' ) {
+			if ( 'group' !== $connection_type ) {
 				wp_send_json_error(
 					array( 'error' => __( 'The group is not connected with group zoom.', 'buddyboss-pro' ) )
 				);
@@ -2135,7 +2135,6 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 						'account_email' => $account_email,
 						'secret_token'  => groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-secret-token' ),
 						'group_id'      => $group_id,
-						'old_api_email' => groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email' ),
 					)
 				);
 
