@@ -43,14 +43,14 @@ if ( empty( $current_user_data ) ) {
 	return false;
 }
 
-$default_group_host_email = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email', true );
+$default_group_host_email = bb_zoom_group_get_email_account( $group_id );
 
 $disable_registration            = false;
 $disable_recording               = false;
 $disable_alt_host                = false;
 $disable_authentication_settings = false;
-$host_type                       = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-host-type', true );
-if ( (int) $host_type === 1 ) {
+$host_type                       = bb_zoom_group_get_host_type( $group_id );
+if ( 1 === (int) $host_type ) {
 	$disable_registration = true;
 	$disable_recording    = true;
 	$disable_alt_host     = true;
@@ -120,7 +120,7 @@ if ( (int) $host_type === 1 ) {
 					<div class="bb-field-wrap">
 						<select id="bp-zoom-webinar-duration-hr" name="bp-zoom-webinar-duration-hr">
 							<?php
-							for ( $hr = 0; $hr <= 24; $hr++ ) {
+							for ( $hr = 0; $hr <= 24; $hr ++ ) {
 								echo '<option value="' . esc_attr( $hr ) . '">' . esc_attr( $hr ) . '</option>';
 							}
 							?>
@@ -132,7 +132,7 @@ if ( (int) $host_type === 1 ) {
 							<?php
 							$min = 0;
 							while ( $min <= 45 ) {
-								$selected = ( $min === 30 ) ? 'selected="selected"' : '';
+								$selected = ( 30 === $min ) ? 'selected="selected"' : '';
 								echo '<option value="' . esc_attr( $min ) . '" ' . esc_attr( $selected ) . '>' . esc_html( $min ) . '</option>';
 								$min = $min + 15;
 							}

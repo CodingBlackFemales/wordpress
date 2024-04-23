@@ -27,6 +27,13 @@ function bbp_pro_is_license_valid() {
 		'.local',
 	);
 
+	if (
+		defined( 'WP_TESTS_DOMAIN' ) &&
+		WP_TESTS_DOMAIN === $server_name
+	) {
+		return true;
+	}
+
 	foreach ( $whitelist_domain as $domain ) {
 		if ( false !== strpos( $server_name, $domain ) ) {
 			return true;
@@ -323,5 +330,18 @@ if ( ! function_exists( 'bb_pro_filter_input_string' ) ) {
 
 		return $string;
 
+	}
+}
+
+if ( ! function_exists( 'bb_pro_is_heartbeat' ) ) {
+	/**
+	 * Check if the request is heartbeat.
+	 *
+	 * @since 2.4.50
+	 *
+	 * @return bool
+	 */
+	function bb_pro_is_heartbeat() {
+		return isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'];
 	}
 }
