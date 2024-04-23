@@ -103,7 +103,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 		$active_tab = bp_core_get_admin_active_tab();
 
-		if ( $active_tab === 'bp-notifications' || $active_tab === 'bb-onesignal' ) {
+		if ( 'bp-notifications' === $active_tab || 'bb-onesignal' === $active_tab ) {
 			$min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 			wp_enqueue_script( 'bb-onesignal-notification-settings', bb_onesignal_integration_url( '/assets/js/bb-onesignal-notification-settings' . $min . '.js' ), array( 'jquery' ), bb_platform_pro()->version, true );
 			wp_localize_script(
@@ -139,6 +139,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		}
 
 		parent::register_admin_script();
+
 	}
 
 	/**
@@ -190,7 +191,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 		$html = '';
 
-		if ( bbp_pro_is_license_valid() && bp_core_get_admin_active_tab() === 'bb-onesignal' ) {
+		if ( bbp_pro_is_license_valid() && 'bb-onesignal' === bp_core_get_admin_active_tab() ) {
 			$status      = 'not-connected';
 			$status_text = __( 'Not Connected', 'buddyboss-pro' );
 
@@ -301,7 +302,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 * @return mixed|string
 	 */
 	public function admin_setting_icons( $meta_icon, $id = '' ) {
-		if ( $id === 'bb_onesignal_settings_section' ) {
+		if ( 'bb_onesignal_settings_section' === $id ) {
 			$meta_icon = 'bb-icon-bf  bb-icon-brand-onesignal';
 		}
 

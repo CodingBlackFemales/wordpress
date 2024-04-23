@@ -50,7 +50,7 @@ add_action( 'bp_after_group_request_membership_content', 'bb_access_control_afte
  */
 function bb_access_control_bp_group_member_query_group_member_ids( $group_member_ids, $group_member_query_object ) {
 
-	if ( bp_is_active( 'groups' ) && bp_is_group_single() && bp_is_group_messages() && bb_get_group_current_messages_tab() === 'private-message' ) {
+	if ( bp_is_active( 'groups' ) && bp_is_group_single() && bp_is_group_messages() && 'private-message' === bb_get_group_current_messages_tab() ) {
 
 		$can_send_arr  = array();
 		$cant_send_arr = array();
@@ -234,7 +234,7 @@ function bb_access_control_user_can_create_activity_comment( $can_comment, $comm
 	if (
 		bp_is_group_single() ||
 		bp_is_group_activity() ||
-		( ! empty( $activities_template->activity->component ) && $activities_template->activity->component === 'groups' )
+		( ! empty( $activities_template->activity->component ) && 'groups' === $activities_template->activity->component )
 	) {
 		return $can_comment;
 	}
@@ -278,7 +278,7 @@ function bb_access_control_group_accept_access_control_access( $buttons, $group,
 	$join_group_settings = bb_access_control_join_group_settings();
 	$has_access          = $buttons;
 	$user_id             = bp_loggedin_user_id();
-	if ( $type === 'request' ) {
+	if ( 'request' === $type ) {
 		$user_id = $requests_template->request->user_id;
 	}
 
@@ -340,6 +340,7 @@ function bb_access_control_has_create_group_access( $can_create, $restricted ) {
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_has_create_group_access', $has_access, $restricted );
+
 }
 
 /**
@@ -387,6 +388,7 @@ function bb_access_control_has_join_group_access( $button, $group ) {
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_has_join_group_access', $has_access, $group );
+
 }
 
 /**
@@ -405,13 +407,13 @@ function bb_access_control_has_join_group_access( $button, $group ) {
 function bb_access_control_has_access( $user_id, $access_controls, $option_access_controls, $settings, $threaded = false ) {
 
 	$can_create = true;
-	if ( $option_access_controls === 'membership' ) {
+	if ( 'membership' === $option_access_controls ) {
 		$plugin_lists           = $access_controls[ $option_access_controls ]['class']::instance()->bb_get_access_control_plugins_lists();
 		$option_access_controls = $settings['plugin-access-control-type'];
 		if ( isset( $plugin_lists ) && isset( $plugin_lists[ $option_access_controls ] ) && $plugin_lists[ $option_access_controls ]['is_enabled'] ) {
 			$can_create = $plugin_lists[ $option_access_controls ]['class']::instance()->has_access( $user_id, $settings, $threaded );
 		}
-	} elseif ( $option_access_controls === 'gamipress' ) {
+	} elseif ( 'gamipress' === $option_access_controls ) {
 		$gamipress_lists        = $access_controls[ $option_access_controls ]['class']::instance()->bb_get_access_control_gamipress_lists();
 		$option_access_controls = $settings['gamipress-access-control-type'];
 		if ( isset( $gamipress_lists ) && isset( $gamipress_lists[ $option_access_controls ] ) && $gamipress_lists[ $option_access_controls ]['is_enabled'] ) {
@@ -459,6 +461,7 @@ function bb_access_control_has_join_group_request_access_control_access( $can_se
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_has_join_group_request_access_control_access', $has_access, $group_object );
+
 }
 
 /**
@@ -522,7 +525,7 @@ function bb_access_control_user_can_send_friend_request( $button ) {
 		return $button;
 	}
 
-	if ( is_array( $button ) && isset( $button['id'] ) && $button['id'] !== 'not_friends' ) {
+	if ( is_array( $button ) && isset( $button['id'] ) && 'not_friends' !== $button['id'] ) {
 		return $button;
 	}
 
@@ -545,6 +548,7 @@ function bb_access_control_user_can_send_friend_request( $button ) {
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_user_can_send_friend_request', $has_access );
+
 }
 
 /**
@@ -564,7 +568,7 @@ function bb_access_control_member_header_user_can_send_friend_request( $buttons 
 		return $buttons;
 	}
 
-	if ( is_array( $buttons ) && isset( $buttons['member_friendship'] ) && isset( $buttons['member_friendship']['key'] ) && $buttons['member_friendship']['key'] !== 'not_friends' ) {
+	if ( is_array( $buttons ) && isset( $buttons['member_friendship'] ) && isset( $buttons['member_friendship']['key'] ) && 'not_friends' !== $buttons['member_friendship']['key'] ) {
 		return $buttons;
 	}
 
@@ -590,6 +594,7 @@ function bb_access_control_member_header_user_can_send_friend_request( $buttons 
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_member_header_user_can_send_friend_request', $hac_access );
+
 }
 
 /**
@@ -618,7 +623,7 @@ function bb_access_control_member_header_user_can_send_message_request( $buttons
 		return $buttons;
 	}
 
-	if ( is_array( $buttons ) && isset( $buttons['private_message'] ) && isset( $buttons['private_message']['key'] ) && $buttons['private_message']['id'] !== 'private_message' ) {
+	if ( is_array( $buttons ) && isset( $buttons['private_message'] ) && isset( $buttons['private_message']['key'] ) && 'private_message' !== $buttons['private_message']['id'] ) {
 		return $buttons;
 	}
 
@@ -646,6 +651,7 @@ function bb_access_control_member_header_user_can_send_message_request( $buttons
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_member_header_user_can_send_message_request', $has_access );
+
 }
 
 /**
@@ -664,9 +670,9 @@ function bb_access_control_member_can_send_message( $thread, $recipients, $error
 	$message_settings = bb_access_control_send_messages_settings();
 
 	if ( empty( $message_settings ) || ( isset( $message_settings['access-control-type'] ) && empty( $message_settings['access-control-type'] ) ) ) {
-		if ( $error_type === '' ) {
+		if ( '' === $error_type ) {
 			return $thread;
-		} elseif ( $error_type === 'wp_error' ) {
+		} elseif ( 'wp_error' === $error_type ) {
 			return '';
 		}
 	} elseif ( is_array( $message_settings ) && isset( $message_settings['access-control-type'] ) && ! empty( $message_settings['access-control-type'] ) ) {
@@ -683,7 +689,7 @@ function bb_access_control_member_can_send_message( $thread, $recipients, $error
 
 		foreach ( $recipients as $recipient ) {
 			$user_id = (int) ( is_int( $recipient ) ? $recipient : ( $recipient->user_id ?? 0 ) );
-			if ( bp_loggedin_user_id() !== $user_id && $user_id !== 0 ) {
+			if ( bp_loggedin_user_id() !== $user_id && 0 !== $user_id ) {
 				$can_create = bb_access_control_has_access( $user_id, $access_controls, $option_access_controls, $message_settings, true );
 				if ( ! $can_create ) {
 					$un_access_users[] = bp_core_get_user_displayname( $user_id );
@@ -692,9 +698,9 @@ function bb_access_control_member_can_send_message( $thread, $recipients, $error
 		}
 
 		if ( empty( $un_access_users ) ) {
-			if ( $error_type === '' ) {
+			if ( '' === $error_type ) {
 				return $thread;
-			} elseif ( $error_type === 'wp_error' ) {
+			} elseif ( 'wp_error' === $error_type ) {
 				return '';
 			}
 		} else {
@@ -705,8 +711,8 @@ function bb_access_control_member_can_send_message( $thread, $recipients, $error
 					$error = __( 'You are restricted from sending new messages to these members: ', 'buddyboss-pro' ) . implode( ', ', array_slice( $un_access_users, -3 ) ) . __( '...', 'buddyboss-pro' );
 				}
 			}
-			if ( $error_type === '' ) {
-				if ( gettype( $thread ) !== 'boolean' ) {
+			if ( '' === $error_type ) {
+				if ( 'boolean' !== gettype( $thread ) ) {
 					$thread->feedback_error = array(
 						'feedback' => $error,
 						'type'     => 'info',
@@ -715,7 +721,7 @@ function bb_access_control_member_can_send_message( $thread, $recipients, $error
 				}
 
 				return $thread;
-			} elseif ( $error_type === 'wp_error' ) {
+			} elseif ( 'wp_error' === $error_type ) {
 				return new WP_Error( 'message_generic_error', $error );
 			}
 		}
@@ -853,7 +859,7 @@ function bb_access_control_member_can_see_send_message( $button_contents, $args,
 		return $button_contents;
 	}
 
-	if ( is_object( $button ) && isset( $button->id ) && $button->id !== 'private_message' ) {
+	if ( is_object( $button ) && isset( $button->id ) && 'private_message' !== $button->id ) {
 		return $button_contents;
 	}
 
@@ -878,6 +884,7 @@ function bb_access_control_member_can_see_send_message( $button_contents, $args,
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_member_can_see_send_message', $has_access, $args, $button );
+
 }
 
 /**
@@ -895,12 +902,12 @@ function bb_access_control_member_can_edit_activity( $buttons, $activity_id ) {
 	if (
 		bp_is_group_single() ||
 		bp_is_group_activity() ||
-		( bp_is_single_activity() && ! empty( $activities_template->activity->component ) && $activities_template->activity->component === 'groups' )
+		( bp_is_single_activity() && ! empty( $activities_template->activity->component ) && 'groups' === $activities_template->activity->component )
 	) {
 		return $buttons;
 	}
 
-	if ( $activities_template->activity->component === 'groups' ) {
+	if ( 'groups' === $activities_template->activity->component ) {
 		return $buttons;
 	}
 
@@ -918,7 +925,7 @@ function bb_access_control_member_can_edit_activity( $buttons, $activity_id ) {
 			unset( $buttons['activity_edit'] );
 			if (
 				empty( $activities_template->activity->component ) ||
-				$activities_template->activity->component !== 'groups'
+				'groups' !== $activities_template->activity->component
 			) {
 				unset( $buttons['activity_delete'] );
 			}
@@ -932,6 +939,7 @@ function bb_access_control_member_can_edit_activity( $buttons, $activity_id ) {
 	 * @since 1.1.0
 	 */
 	return apply_filters( 'bb_access_control_member_can_edit_activity', $has_access, $activity_id );
+
 }
 
 /**
@@ -957,9 +965,9 @@ function bb_access_control_groups_potential_invites( $requests ) {
 		$access_controls        = BB_Access_Control::bb_get_access_control_lists();
 		$option_access_controls = $join_group_settings['access-control-type'];
 
-		if ( $option_access_controls === 'membership' && ! empty( $join_group_settings['access-control-options'] ) ) {
+		if ( 'membership' === $option_access_controls && ! empty( $join_group_settings['access-control-options'] ) ) {
 
-			if ( $join_group_settings['plugin-access-control-type'] === 'memberpress' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			if ( 'memberpress' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 
 					$access_control_id = (int) $level;
@@ -1101,7 +1109,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'memberium' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			} elseif ( 'memberium' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				if ( class_exists( 'm4is_cf4q' ) ) {
 					$m4is_spk  = MEMBERIUM_DB_CONTACTS;
 					$m4is_lc7m = m4is_cf4q::m4is_kmvn( 'appname' );
@@ -1157,7 +1165,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 				}
 
 				return $requests;
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'pm-pro-membership' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			} elseif ( 'pm-pro-membership' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 
 					$sql_query =
@@ -1217,7 +1225,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'restrict-content-pro' && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'rcp_get_memberships' ) ) {
+			} elseif ( 'restrict-content-pro' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'rcp_get_memberships' ) ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 					$args    = array(
 						'number'    => PHP_INT_MAX,
@@ -1256,7 +1264,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'lifter' && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'llms_is_user_enrolled' ) ) {
+			} elseif ( 'lifter' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'llms_is_user_enrolled' ) ) {
 
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 					$membership_id = (int) $level;
@@ -1292,7 +1300,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'learndash' && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'learndash_is_user_in_group' ) ) {
+			} elseif ( 'learndash' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] && function_exists( 'learndash_is_user_in_group' ) ) {
 
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 					$user_ids[] = learndash_get_groups_user_ids( $level );
@@ -1324,7 +1332,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 's2member' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			} elseif ( 's2member' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 
 					$args = array(
@@ -1340,7 +1348,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 
 					$args['meta_query'][] = array(
 						'key'     => $wpdb->get_blog_prefix() . 'capabilities',
-						'value'   => (int) $level === 0 ? '"subscriber"' : '"s2member_level' . $level . '"',
+						'value'   => 0 === (int) $level ? '"subscriber"' : '"s2member_level' . $level . '"',
 						'compare' => 'LIKE',
 					);
 
@@ -1379,7 +1387,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'woo-membership' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			} elseif ( 'woo-membership' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 					$results = $wpdb->get_results( "SELECT DISTINCT um.user_id, u.user_email, u.display_name, p2.post_title, p2.post_type FROM {$wpdb->prefix}posts AS p LEFT JOIN {$wpdb->prefix}posts AS p2 ON p2.ID = p.post_parent LEFT JOIN {$wpdb->prefix}users AS u ON u.id = p.post_author LEFT JOIN {$wpdb->prefix}usermeta AS um ON u.id = um.user_id WHERE p.post_type = 'wc_user_membership' AND p.post_status IN ('wcm-active') AND p2.post_type = 'wc_membership_plan' AND p.post_parent = {$level}" ); // phpcs:ignore
 					if ( $results ) {
@@ -1414,7 +1422,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 						'include' => PHP_INT_MAX,
 					)
 				);
-			} elseif ( $join_group_settings['plugin-access-control-type'] === 'wishlist-member' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+			} elseif ( 'wishlist-member' === $join_group_settings['plugin-access-control-type'] && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
 					global $WishListMemberInstance; // phpcs:ignore
 					if ( $WishListMemberInstance ) { // phpcs:ignore
@@ -1452,10 +1460,10 @@ function bb_access_control_groups_potential_invites( $requests ) {
 					);
 				}
 			}
-		} elseif ( $option_access_controls === 'gamipress' && $access_controls[ $option_access_controls ]['is_enabled'] ) {
+		} elseif ( 'gamipress' === $option_access_controls && $access_controls[ $option_access_controls ]['is_enabled'] ) {
 			if ( ! empty( $join_group_settings['access-control-options'] ) ) {
 				foreach ( $join_group_settings['access-control-options'] as $level ) {
-					if ( $join_group_settings['gamipress-access-control-type'] === 'achievement' ) {
+					if ( 'achievement' === $join_group_settings['gamipress-access-control-type'] ) {
 						$get_earners = gamipress_get_achievement_earners( $level );
 					} else {
 						$get_earners = gamipress_get_rank_earners( $level );
@@ -1494,7 +1502,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 			}
 		} else {
 			if ( isset( $access_controls ) && isset( $access_controls[ $option_access_controls ] ) && $access_controls[ $option_access_controls ]['is_enabled'] && ! empty( $join_group_settings['access-control-options'] ) ) {
-				if ( $option_access_controls === 'wp_role' ) {
+				if ( 'wp_role' === $option_access_controls ) {
 					$args    = array(
 						'fields'   => array( 'ID' ),
 						'role__in' => $join_group_settings['access-control-options'],
@@ -1503,7 +1511,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 					if ( $user_id ) {
 						$user_ids[] = wp_list_pluck( $user_id, 'ID' );
 					}
-				} elseif ( $option_access_controls === 'gender' ) {
+				} elseif ( 'gender' === $option_access_controls ) {
 					$get_gender_field_id = bp_get_xprofile_gender_type_field_id();
 					if ( $get_gender_field_id ) {
 						foreach ( $join_group_settings['access-control-options'] as $option ) {
@@ -1513,7 +1521,7 @@ function bb_access_control_groups_potential_invites( $requests ) {
 							}
 						}
 					}
-				} elseif ( $option_access_controls === 'bp_member_type' ) {
+				} elseif ( 'bp_member_type' === $option_access_controls ) {
 					return wp_parse_args(
 						$requests,
 						array(
