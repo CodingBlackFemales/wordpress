@@ -498,12 +498,12 @@ function bp_zoom_meeting_fetch_recordings( $meeting_id ) {
 	$instances = bp_zoom_conference()->meeting_instances( $meeting_id );
 
 	// Meeting instances found.
-	if ( ! empty( $instances['code'] ) && $instances['code'] === 200 && ! empty( $instances['response']->meetings ) ) {
+	if ( ! empty( $instances['code'] ) && 200 === $instances['code'] && ! empty( $instances['response']->meetings ) ) {
 		foreach ( $instances['response']->meetings as $response_meeting ) {
 
 			$uuid = $response_meeting->uuid;
 			// Add comma for slashed uuids.
-			if ( strpos( $response_meeting->uuid, '/' ) !== false || strpos( $response_meeting->uuid, '//' ) !== false ) {
+			if ( false !== strpos( $response_meeting->uuid, '/' ) || false !== strpos( $response_meeting->uuid, '//' ) ) {
 				$uuid = '"' . $response_meeting->uuid . '"';
 			}
 
@@ -511,7 +511,7 @@ function bp_zoom_meeting_fetch_recordings( $meeting_id ) {
 			$uuid_recordings_response = bp_zoom_conference()->recordings_by_meeting( $uuid );
 
 			// Check uuid response.
-			if ( ! empty( $uuid_recordings_response['code'] ) && $uuid_recordings_response['code'] === 200 && ! empty( $uuid_recordings_response['response'] ) ) {
+			if ( ! empty( $uuid_recordings_response['code'] ) && 200 === $uuid_recordings_response['code'] && ! empty( $uuid_recordings_response['response'] ) ) {
 				$uuid_recordings_response = $uuid_recordings_response['response'];
 
 				// Check recording files found or not.
@@ -520,7 +520,7 @@ function bp_zoom_meeting_fetch_recordings( $meeting_id ) {
 
 					// Get recording settings by uuid.
 					$recording_settings = bp_zoom_conference()->recording_settings( $uuid );
-					if ( ! empty( $recording_settings['code'] ) && $recording_settings['code'] !== 404 ) {
+					if ( ! empty( $recording_settings['code'] ) && 404 !== $recording_settings['code'] ) {
 						$recording_settings = $recording_settings['response'];
 					} else {
 						$recording_settings = false;
@@ -572,11 +572,11 @@ function bp_zoom_meeting_fetch_recordings( $meeting_id ) {
 	}
 
 	// When instances not found or no recordings found in instances.
-	if ( ( ! empty( $instances['code'] ) && $instances['code'] === 200 && ( empty( $instances['response']->meetings ) || $instances['response']->meetings ) ) || ! $recordings ) {
+	if ( ( ! empty( $instances['code'] ) && 200 === $instances['code'] && ( empty( $instances['response']->meetings ) || $instances['response']->meetings ) ) || ! $recordings ) {
 
 		// Get recordings by uuid.
 		$uuid_recordings_response = bp_zoom_conference()->recordings_by_meeting( $meeting_id );
-		if ( ! empty( $uuid_recordings_response['code'] ) && $uuid_recordings_response['code'] === 200 && ! empty( $uuid_recordings_response['response'] ) ) {
+		if ( ! empty( $uuid_recordings_response['code'] ) && 200 === $uuid_recordings_response['code'] && ! empty( $uuid_recordings_response['response'] ) ) {
 			$uuid_recordings_response = $uuid_recordings_response['response'];
 
 			// Check recording files found or not.
@@ -584,7 +584,7 @@ function bp_zoom_meeting_fetch_recordings( $meeting_id ) {
 
 				// Get recording settings by uuid.
 				$recording_settings = bp_zoom_conference()->recording_settings( $uuid_recordings_response->uuid );
-				if ( ! empty( $recording_settings['code'] ) && $recording_settings['code'] !== 404 ) {
+				if ( ! empty( $recording_settings['code'] ) && 404 !== $recording_settings['code'] ) {
 					$recording_settings = $recording_settings['response'];
 				} else {
 					$recording_settings = false;
@@ -1191,12 +1191,12 @@ function bp_zoom_webinar_fetch_recordings( $webinar_id ) {
 	$instances = bp_zoom_conference()->webinar_instances( $webinar_id );
 
 	// Webinar instances found.
-	if ( ! empty( $instances['code'] ) && $instances['code'] === 200 && ! empty( $instances['response']->meetings ) ) {
+	if ( ! empty( $instances['code'] ) && 200 === $instances['code'] && ! empty( $instances['response']->meetings ) ) {
 		foreach ( $instances['response']->meetings as $response_webinar ) {
 
 			$uuid = $response_webinar->uuid;
 			// Add comma for slashed uuids.
-			if ( strpos( $response_webinar->uuid, '/' ) !== false || strpos( $response_webinar->uuid, '//' ) !== false ) {
+			if ( false !== strpos( $response_webinar->uuid, '/' ) || false !== strpos( $response_webinar->uuid, '//' ) ) {
 				$uuid = '"' . $response_webinar->uuid . '"';
 			}
 
@@ -1204,7 +1204,7 @@ function bp_zoom_webinar_fetch_recordings( $webinar_id ) {
 			$uuid_recordings_response = bp_zoom_conference()->recordings_by_webinar( $uuid );
 
 			// Check uuid response.
-			if ( ! empty( $uuid_recordings_response['code'] ) && $uuid_recordings_response['code'] === 200 && ! empty( $uuid_recordings_response['response'] ) ) {
+			if ( ! empty( $uuid_recordings_response['code'] ) && 200 === $uuid_recordings_response['code'] && ! empty( $uuid_recordings_response['response'] ) ) {
 				$uuid_recordings_response = $uuid_recordings_response['response'];
 
 				// Check recording files found or not.
@@ -1213,7 +1213,7 @@ function bp_zoom_webinar_fetch_recordings( $webinar_id ) {
 
 					// Get recording settings by uuid.
 					$recording_settings = bp_zoom_conference()->recording_settings( $uuid );
-					if ( ! empty( $recording_settings['code'] ) && $recording_settings['code'] !== 404 ) {
+					if ( ! empty( $recording_settings['code'] ) && 404 !== $recording_settings['code'] ) {
 						$recording_settings = $recording_settings['response'];
 					} else {
 						$recording_settings = false;
@@ -1265,11 +1265,11 @@ function bp_zoom_webinar_fetch_recordings( $webinar_id ) {
 	}
 
 	// When instances not found or no recordings found in instances.
-	if ( ( ! empty( $instances['code'] ) && $instances['code'] === 200 && ( empty( $instances['response']->meetings ) || $instances['response']->meetings ) ) || ! $recordings ) {
+	if ( ( ! empty( $instances['code'] ) && 200 === $instances['code'] && ( empty( $instances['response']->meetings ) || $instances['response']->meetings ) ) || ! $recordings ) {
 
 		// Get recordings by uuid.
 		$uuid_recordings_response = bp_zoom_conference()->recordings_by_webinar( $webinar_id );
-		if ( ! empty( $uuid_recordings_response['code'] ) && $uuid_recordings_response['code'] === 200 && ! empty( $uuid_recordings_response['response'] ) ) {
+		if ( ! empty( $uuid_recordings_response['code'] ) && 200 === $uuid_recordings_response['code'] && ! empty( $uuid_recordings_response['response'] ) ) {
 			$uuid_recordings_response = $uuid_recordings_response['response'];
 
 			// Check recording files found or not.
@@ -1277,7 +1277,7 @@ function bp_zoom_webinar_fetch_recordings( $webinar_id ) {
 
 				// Get recording settings by uuid.
 				$recording_settings = bp_zoom_conference()->recording_settings( $uuid_recordings_response->uuid );
-				if ( ! empty( $recording_settings['code'] ) && $recording_settings['code'] !== 404 ) {
+				if ( ! empty( $recording_settings['code'] ) && 404 !== $recording_settings['code'] ) {
 					$recording_settings = $recording_settings['response'];
 				} else {
 					$recording_settings = false;

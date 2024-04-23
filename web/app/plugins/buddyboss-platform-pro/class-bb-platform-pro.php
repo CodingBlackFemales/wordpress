@@ -116,8 +116,8 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 1.0.0
 		 */
 		private function setup_globals() {
-			$this->version        = '2.4.00';
-			$this->db_version     = 285;
+			$this->version        = '2.5.00';
+			$this->db_version     = 295;
 			$this->db_version_raw = (int) bp_get_option( '_bbp_pro_db_version' );
 
 			// root directory.
@@ -133,6 +133,10 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 			// Access Control.
 			$this->access_control_dir = $this->plugin_dir . 'includes/access-control';
 			$this->access_control_url = $this->plugin_url . 'includes/access-control';
+
+			// Reactions.
+			$this->reactions_dir = $this->plugin_dir . 'includes/reactions';
+			$this->reactions_url = $this->plugin_url . 'includes/reactions';
 
 			// Platform Settings.
 			$this->platform_settings_dir = $this->plugin_dir . 'includes/platform-settings';
@@ -157,12 +161,13 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
 		 */
 		public function load_plugin_textdomain() {
+			$domain = 'buddyboss-pro';
 			$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
-			$locale = apply_filters( 'plugin_locale', $locale, 'buddyboss-pro' );
+			$locale = apply_filters( 'plugin_locale', $locale, $domain );
 
 			unload_textdomain( 'buddyboss-pro' );
-			load_textdomain( 'buddyboss-pro', WP_LANG_DIR . '/' . plugin_basename( __DIR__ ) . '/' . plugin_basename( __DIR__ ) . '-' . $locale . '.mo' );
-			load_plugin_textdomain( 'buddyboss-pro', false, plugin_basename( __DIR__ ) . '/languages' );
+			load_textdomain( 'buddyboss-pro', WP_LANG_DIR . '/' . plugin_basename( dirname( __FILE__ ) ) . '/' . $domain . '-' . $locale . '.mo' );
+			load_plugin_textdomain( 'buddyboss-pro', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 		}
 
 		/**
@@ -175,7 +180,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function autoload( $class ) {
 			$class_parts = explode( '_', strtolower( $class ) );
 
-			if ( $class_parts[0] !== 'bp' && $class_parts[0] !== 'bb' ) {
+			if ( 'bp' !== $class_parts[0] && 'bb' !== $class_parts[0] ) {
 				return;
 			}
 
@@ -186,7 +191,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 
 				$this->plugin_dir . "/includes/classes/class-{$class}.php",
 				$this->plugin_dir . "/includes/access-control/includes/class-{$class}.php",
-
+				$this->plugin_dir . "/includes/reactions/includes/class-{$class}.php",
 			);
 
 			$integration_dir = $this->integration_dir;
@@ -262,6 +267,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 					)
 				)
 			);
+
 		}
 
 		/**
@@ -276,7 +282,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function bb_pro_modify_plugin_action_links( $links, $file ) {
 
 			// Return normal links if not BuddyPress.
-			if ( $file !== 'buddyboss-platform-pro/buddyboss-platform-pro.php' ) {
+			if ( 'buddyboss-platform-pro/buddyboss-platform-pro.php' !== $file ) {
 				return $links;
 			}
 
@@ -295,7 +301,7 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 2.1.7
 		 */
 		public function bb_pro_display_update_plugin_information() {
-			if ( strpos( get_current_screen()->id, 'plugins' ) !== 0 ) {
+			if ( 0 !== strpos( get_current_screen()->id, 'plugins' ) ) {
 				return;
 			}
 			// Check the transient to see if we've just updated the plugin.

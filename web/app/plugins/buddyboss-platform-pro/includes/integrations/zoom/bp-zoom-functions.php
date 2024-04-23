@@ -62,7 +62,6 @@ function bp_zoom_enqueue_scripts_and_styles() {
 	$webinars_url      = '';
 	$past_webinars_url = '';
 	$group_id          = false;
-	$api_key           = bp_zoom_api_key();
 	if ( bp_is_group() ) {
 		$group_id          = bp_get_current_group_id();
 		$current_group     = groups_get_current_group();
@@ -71,7 +70,6 @@ function bp_zoom_enqueue_scripts_and_styles() {
 		$past_meetings_url = trailingslashit( $group_link . 'zoom/past-meetings' );
 		$webinars_url      = trailingslashit( $group_link . 'zoom/webinars' );
 		$past_webinars_url = trailingslashit( $group_link . 'zoom/past-webinars' );
-		$api_key           = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-key', true );
 	}
 
 	$scripts = array(
@@ -85,8 +83,6 @@ function bp_zoom_enqueue_scripts_and_styles() {
 
 	if ( bb_zoom_is_meeting_sdk() ) {
 		$scripts[] = bp_zoom_integration_url( '/assets/js/zoom-web-sdk/zoom-meeting-2.14.0.min.js' );
-	} elseif ( bb_zoom_is_jwt_connected() || bb_zoom_group_is_any_group_connected_jwt() ) {
-		$scripts[] = bp_zoom_integration_url( '/assets/js/zoom-web-sdk/zoom-meeting-2.6.0.min.js' );
 	}
 
 	wp_localize_script(
@@ -102,8 +98,6 @@ function bp_zoom_enqueue_scripts_and_styles() {
 			'group_meetings_past_url' => $past_meetings_url,
 			'group_webinars_url'      => $webinars_url,
 			'group_webinar_past_url'  => $past_webinars_url,
-			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-			'bp_staple'               => base64_encode( $api_key ), // Zoom API Key.
 			'meeting_delete_nonce'    => wp_create_nonce( 'bp_zoom_meeting_delete' ),
 			'meeting_confirm_msg'     => __( 'Are you sure you want to delete this meeting?', 'buddyboss-pro' ),
 			'webinar_delete_nonce'    => wp_create_nonce( 'bp_zoom_webinar_delete' ),
@@ -123,7 +117,7 @@ function bp_zoom_enqueue_scripts_and_styles() {
 				'week'  => esc_html__( 'week', 'buddyboss-pro' ),
 			),
 			'lang'                    => get_bloginfo( 'language' ),
-			'is_zoom_sdk'             => bb_zoom_is_meeting_sdk(),
+			'is_zoom_sdk'             => (bool) bb_zoom_is_meeting_sdk(),
 		)
 	);
 }
@@ -370,9 +364,9 @@ function bp_zoom_meeting_add( $args = '' ) {
 	// save meeting.
 	$save = $meeting->save();
 
-	if ( $r['error_type'] === 'wp_error' && is_wp_error( $save ) ) {
+	if ( 'wp_error' === $r['error_type'] && is_wp_error( $save ) ) {
 		return $save;
-	} elseif ( $r['error_type'] === 'bool' && $save === false ) {
+	} elseif ( 'bool' === $r['error_type'] && false === $save ) {
 		return false;
 	}
 
@@ -818,9 +812,9 @@ function bp_zoom_webinar_add( $args = '' ) {
 	// save meeting.
 	$save = $webinar->save();
 
-	if ( $r['error_type'] === 'wp_error' && is_wp_error( $save ) ) {
+	if ( 'wp_error' === $r['error_type'] && is_wp_error( $save ) ) {
 		return $save;
-	} elseif ( $r['error_type'] === 'bool' && $save === false ) {
+	} elseif ( 'bool' === $r['error_type'] && false === $save ) {
 		return false;
 	}
 
@@ -1058,7 +1052,7 @@ function bp_zoom_meeting_update_recordings_data( $meeting_id, $meeting = false )
 	// check if checked first.
 	$recording_checked = bp_zoom_meeting_get_meta( $meeting_id, 'zoom_recording_checked', true );
 
-	if ( $recording_checked === '1' ) {
+	if ( '1' === $recording_checked ) {
 		return false;
 	}
 
@@ -1083,7 +1077,7 @@ function bp_zoom_meeting_update_recordings_data( $meeting_id, $meeting = false )
 		bp_zoom_meeting_update_meta( $meeting_id, 'zoom_recording_checked', '1' );
 	}
 
-	return true;
+    return true;
 }
 
 /**
@@ -1109,58 +1103,9 @@ function bp_zoom_is_zoom_enabled( $default = 1 ) {
 function bp_zoom_is_zoom_setup() {
 	if ( bb_zoom_is_s2s_connected() ) {
 		return true;
-	} elseif ( bb_zoom_is_jwt_connected() ) {
-		return true;
 	}
 
 	return false;
-}
-
-/**
- * Get Zoom API Key
- *
- * @since 1.0.0
- * @param string $default Default option for zoom api key.
- *
- * @return mixed|void Zoom API Key.
- */
-function bp_zoom_api_key( $default = '' ) {
-	return apply_filters( 'bp_zoom_api_key', bp_get_option( 'bp-zoom-api-key', $default ) );
-}
-
-/**
- * Get Zoom API Secret
- *
- * @since 1.0.0
- * @param string $default Default option for zoom api secret.
- *
- * @return mixed|void Zoom API secret.
- */
-function bp_zoom_api_secret( $default = '' ) {
-	return apply_filters( 'bp_zoom_api_secret', bp_get_option( 'bp-zoom-api-secret', $default ) );
-}
-
-/**
- * Get Zoom Account Email
- *
- * @since 1.0.0
- * @param string $default Default option for zoom api email.
- *
- * @return mixed|void Zoom Account Email.
- */
-function bp_zoom_api_email( $default = '' ) {
-	return apply_filters( 'bp_zoom_api_email', bp_get_option( 'bp-zoom-api-email', $default ) );
-}
-
-/**
- * Callback function for api host in zoom integration.
- *
- * @since 1.0.0
- */
-function bp_zoom_settings_callback_api_host_field() {
-	?>
-	<input name="bp-zoom-api-host" id="bp-zoom-api-host" type="hidden" value="<?php echo esc_attr( bp_zoom_api_host() ); ?>"/>
-	<?php
 }
 
 /**
@@ -1170,12 +1115,7 @@ function bp_zoom_settings_callback_api_host_field() {
  */
 function bp_zoom_settings_callback_groups_enable_field() {
 	?>
-	<input name="bp-zoom-enable-groups" id="bp-zoom-enable-groups" type="checkbox" value="1" 
-	<?php
-	checked( bp_zoom_is_zoom_groups_enabled() );
-	disabled( ! bp_is_active( 'groups' ) );
-	?>
-	/>
+	<input name="bp-zoom-enable-groups" id="bp-zoom-enable-groups" type="checkbox" value="1" <?php checked( bp_zoom_is_zoom_groups_enabled() ); disabled( ! bp_is_active( 'groups' ) ); ?>/>
 	<label for="bp-zoom-enable-groups">
 		<?php esc_html_e( 'Allow Zoom meetings in social groups', 'buddyboss-pro' ); ?>
 	</label>
@@ -1311,30 +1251,6 @@ function bp_zoom_is_zoom_recordings_links_enabled( $default = 1 ) {
 }
 
 /**
- * Get Zoom API Host
- *
- * @since 1.0.0
- * @param string $default default zoom api host.
- *
- * @return mixed|void Zoom API Host
- */
-function bp_zoom_api_host( $default = '' ) {
-	return apply_filters( 'bp_zoom_api_host', bp_get_option( 'bp-zoom-api-host', $default ) );
-}
-
-/**
- * Get Zoom API Host User
- *
- * @since 1.0.0
- * @param string $default default zoom api host user.
- *
- * @return mixed|void Zoom API Host User
- */
-function bp_zoom_api_host_user( $default = '' ) {
-	return apply_filters( 'bp_zoom_api_host_user', json_decode( bp_get_option( 'bp-zoom-api-host-user', $default ) ) );
-}
-
-/**
  * Get default group host's display data.
  *
  * @return string
@@ -1345,7 +1261,7 @@ function bp_zoom_api_host_show() {
 		return '';
 	}
 
-	$api_host_user = bb_zoom_get_api_host_user();
+	$api_host_user = bb_zoom_get_host_user();
 
 	if ( ! empty( $api_host_user ) ) {
 
@@ -1486,44 +1402,44 @@ function bp_zoom_nouveau_group_secondary_nav_selected_classes( $classes_str, $cl
 	if ( bp_is_current_action( 'zoom' ) ) {
 
 		if ( ! empty( $bp_zoom_current_meeting ) ) {
-			if ( $bp_zoom_current_meeting->is_past === true && $bp_zoom_current_meeting->is_live === false ) {
-				if ( $nav_item->slug === 'past-meetings' ) {
+			if ( true === $bp_zoom_current_meeting->is_past && false === $bp_zoom_current_meeting->is_live ) {
+				if ( 'past-meetings' === $nav_item->slug ) {
 					$classes = array_merge( $classes, array( 'current', 'selected' ) );
 				}
-			} elseif ( $nav_item->slug === 'meetings' ) {
+			} elseif ( 'meetings' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
 			}
 		} elseif ( ! empty( $bp_zoom_current_webinar ) ) {
-			if ( $bp_zoom_current_webinar->is_past === true && $bp_zoom_current_webinar->is_live === false ) {
-				if ( $nav_item->slug === 'past-webinars' ) {
+			if ( true === $bp_zoom_current_webinar->is_past && false === $bp_zoom_current_webinar->is_live ) {
+				if ( 'past-webinars' === $nav_item->slug ) {
 					$classes = array_merge( $classes, array( 'current', 'selected' ) );
 				}
-			} elseif ( $nav_item->slug === 'webinars' ) {
+			} elseif ( 'webinars' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
 			}
 		} else {
-			if ( bp_zoom_is_meetings() && $nav_item->slug === 'meetings' ) {
+			if ( bp_zoom_is_meetings() && 'meetings' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
-			} elseif ( bp_zoom_is_create_meeting() && $nav_item->slug === 'create-meeting' ) {
+			} elseif ( bp_zoom_is_create_meeting() && 'create-meeting' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
-			} elseif ( bp_zoom_is_past_meetings() && $nav_item->slug === 'past-meetings' ) {
+			} elseif ( bp_zoom_is_past_meetings() && 'past-meetings' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
-			} elseif ( bp_zoom_is_webinars() && $nav_item->slug === 'webinars' ) {
+			} elseif ( bp_zoom_is_webinars() && 'webinars' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
-			} elseif ( bp_zoom_is_create_webinar() && $nav_item->slug === 'create-webinar' ) {
+			} elseif ( bp_zoom_is_create_webinar() && 'create-webinar' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
-			} elseif ( bp_zoom_is_past_webinars() && $nav_item->slug === 'past-webinars' ) {
+			} elseif ( bp_zoom_is_past_webinars() && 'past-webinars' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
 			}
 		}
 
-		if ( $nav_item->slug === 'create-meeting' || $nav_item->slug === 'create-webinar' ) {
+		if ( 'create-meeting' === $nav_item->slug || 'create-webinar' === $nav_item->slug ) {
 			$classes = array_merge( $classes, array( 'bp-hide' ) );
 		}
 
-		if ( bp_zoom_is_create_meeting() && $nav_item->slug === 'meetings' ) {
+		if ( bp_zoom_is_create_meeting() && 'meetings' === $nav_item->slug ) {
 			$classes = array_merge( $classes, array( 'current', 'selected' ) );
-		} elseif ( bp_zoom_is_create_webinar() && $nav_item->slug === 'webinars' ) {
+		} elseif ( bp_zoom_is_create_webinar() && 'webinars' === $nav_item->slug ) {
 			$classes = array_merge( $classes, array( 'current', 'selected' ) );
 		}
 
@@ -1535,16 +1451,16 @@ function bp_zoom_nouveau_group_secondary_nav_selected_classes( $classes_str, $cl
 			$classes = array_merge( $classes, array( 'bp-hide' ) );
 		}
 
-		if ( ( ( bp_zoom_is_meetings() || bp_zoom_is_past_meetings() ) && ( $nav_item->slug === 'webinars' || $nav_item->slug === 'past-webinars' ) ) || ( ( bp_zoom_is_webinars() || bp_zoom_is_past_webinars() ) && ( $nav_item->slug === 'meetings' || $nav_item->slug === 'past-meetings' ) ) ) {
+		if ( ( ( bp_zoom_is_meetings() || bp_zoom_is_past_meetings() ) && ( 'webinars' === $nav_item->slug || 'past-webinars' === $nav_item->slug ) ) || ( ( bp_zoom_is_webinars() || bp_zoom_is_past_webinars() ) && ( 'meetings' === $nav_item->slug || 'past-meetings' === $nav_item->slug ) ) ) {
 			$classes = array_merge( $classes, array( 'bp-hide' ) );
 		}
 
 		if ( bp_zoom_is_groups_zoom() && ! bp_zoom_is_meetings() && ! bp_zoom_is_past_meetings() && ! bp_zoom_is_webinars() && ! bp_zoom_is_past_webinars() && ! bp_zoom_is_create_meeting() && ! bp_zoom_is_create_webinar() ) {
-			if ( $nav_item->slug === 'webinars' || $nav_item->slug === 'create-webinar' || $nav_item->slug === 'past-webinars' ) {
+			if ( 'webinars' === $nav_item->slug || 'create-webinar' === $nav_item->slug || 'past-webinars' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'bp-hide' ) );
 			}
 
-			if ( $nav_item->slug === 'meetings' ) {
+			if ( 'meetings' === $nav_item->slug ) {
 				$classes = array_merge( $classes, array( 'current', 'selected' ) );
 			}
 		}
@@ -1773,7 +1689,7 @@ function bp_zoom_get_timezone_label( $timezone = '' ) {
 
 		if ( ! empty( $timezones ) ) {
 			$search_found = array_search( $wp_timezone_str, array_flip( $timezones ), true );
-			if ( $search_found !== false ) {
+			if ( false !== $search_found ) {
 				$selected_time_zone = array_flip( $timezones )[ $search_found ];
 			}
 		}
@@ -1836,7 +1752,7 @@ function bp_zoom_group_is_zoom_enabled( $group_id ) {
 function bp_zoom_is_group_setup( $group_id ) {
 	if (
 		! bp_is_active( 'groups' ) ||
-		! groups_get_groupmeta( $group_id, 'bp-group-zoom' ) ||
+		! bp_zoom_group_is_zoom_enabled( $group_id ) ||
 		! bp_zoom_is_zoom_groups_enabled()
 	) {
 		return false;
@@ -1847,44 +1763,7 @@ function bp_zoom_is_group_setup( $group_id ) {
 		return true;
 	}
 
-	// If JWT connected, then return.
-	if ( bb_zoom_group_is_jwt_connected( $group_id ) ) {
-		return true;
-	}
-
 	return false;
-}
-
-/**
- * Get default group api key.
- *
- * @param int $group_id Group ID.
- * @since 1.1.4
- * @return string API key string.
- */
-function bb_zoom_group_api_key( $group_id ) {
-	if ( empty( $group_id ) || ! bp_zoom_is_group_setup( $group_id ) ) {
-		return '';
-	}
-	$api_key = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-key', true );
-
-	return $api_key;
-}
-
-/**
- * Get default group api secret.
- *
- * @param int $group_id Group ID.
- * @since 1.1.4
- * @return string API secret string.
- */
-function bb_zoom_group_api_secret( $group_id ) {
-	if ( empty( $group_id ) || ! bp_zoom_is_group_setup( $group_id ) ) {
-		return '';
-	}
-	$api_key = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-secret', true );
-
-	return $api_key;
 }
 
 /**
@@ -1896,26 +1775,10 @@ function bb_zoom_group_api_secret( $group_id ) {
  * @param string $api_secret     Secret.
  * @param int    $meeting_number Meeting ID.
  * @param int    $role           Role ID.
- * @param string $signature_type Generate signature for JWT or Meeting SDK.
  *
  * @return string API signature string.
  */
-function bb_get_meeting_signature( $api_key, $api_secret, $meeting_number, $role, $signature_type = 'JWT' ) {
-
-	if ( $signature_type === 'JWT' ) {
-		$time = time() * 1000 - 30000; // time in milliseconds (or close enough).
-
-		$data = base64_encode( $api_key . $meeting_number . $time . $role ); // phpcs:ignore
-
-		$hash = hash_hmac( 'sha256', $data, $api_secret, true );
-
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		$_sig = $api_key . '.' . $meeting_number . '.' . $time . '.' . $role . '.' . base64_encode( $hash );
-
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		return rtrim( strtr( base64_encode( $_sig ), '+/', '-_' ), '=' );
-	}
-
+function bb_get_meeting_signature( $api_key, $api_secret, $meeting_number, $role ) {
 	return bp_zoom_conference()->generate_sdk_signature( $api_key, $api_secret, $meeting_number, $role );
 }
 
@@ -2047,11 +1910,11 @@ function bp_zoom_groups_can_user_manage_zoom( $user_id, $group_id ) {
 	$is_admin = groups_is_user_admin( $user_id, $group_id );
 	$is_mod   = groups_is_user_mod( $user_id, $group_id );
 
-	if ( $manager === 'members' ) {
+	if ( 'members' === $manager ) {
 		$is_allowed = true;
-	} elseif ( $manager === 'mods' && ( $is_mod || $is_admin ) ) {
+	} elseif ( 'mods' === $manager && ( $is_mod || $is_admin ) ) {
 		$is_allowed = true;
-	} elseif ( $manager === 'admins' && $is_admin ) {
+	} elseif ( 'admins' === $manager && $is_admin ) {
 		$is_allowed = true;
 	}
 
@@ -2093,9 +1956,9 @@ function bp_zoom_groups_can_user_manage_meeting( $meeting_id ) {
 	$is_admin = groups_is_user_admin( $user_id, $group_id );
 	$is_mod   = groups_is_user_mod( $user_id, $group_id );
 
-	if ( $manager === 'mods' && ( $is_mod || $is_admin ) ) {
+	if ( 'mods' === $manager && ( $is_mod || $is_admin ) ) {
 		return true;
-	} elseif ( $manager === 'admins' && $is_admin ) {
+	} elseif ( 'admins' === $manager && $is_admin ) {
 		return true;
 	}
 
@@ -2141,9 +2004,9 @@ function bp_zoom_groups_can_user_manage_webinar( $webinar_id ) {
 	$is_admin = groups_is_user_admin( $user_id, $group_id );
 	$is_mod   = groups_is_user_mod( $user_id, $group_id );
 
-	if ( $manager === 'mods' && ( $is_mod || $is_admin ) ) {
+	if ( 'mods' === $manager && ( $is_mod || $is_admin ) ) {
 		return true;
-	} elseif ( $manager === 'admins' && $is_admin ) {
+	} elseif ( 'admins' === $manager && $is_admin ) {
 		return true;
 	}
 
@@ -2205,7 +2068,7 @@ function bp_zoom_get_groups_webinars_url( $group = false ) {
  * @return bool true if meetings page otherwise false.
  */
 function bp_zoom_is_meetings() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'meetings';
+	return bp_zoom_is_groups_zoom() && 'meetings' === bp_action_variable( 0 );
 }
 
 /**
@@ -2215,7 +2078,7 @@ function bp_zoom_is_meetings() {
  * @return bool true if past meetings page otherwise false.
  */
 function bp_zoom_is_past_meetings() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'past-meetings';
+	return bp_zoom_is_groups_zoom() && 'past-meetings' === bp_action_variable( 0 );
 }
 
 /**
@@ -2225,7 +2088,7 @@ function bp_zoom_is_past_meetings() {
  * @return bool true if single meeting page otherwise false.
  */
 function bp_zoom_is_single_meeting() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'meetings' && is_numeric( bp_action_variable( 1 ) );
+	return bp_zoom_is_groups_zoom() && 'meetings' === bp_action_variable( 0 ) && is_numeric( bp_action_variable( 1 ) );
 }
 
 /**
@@ -2234,7 +2097,7 @@ function bp_zoom_is_single_meeting() {
  * @since 1.0.0
  */
 function bp_zoom_is_create_meeting() {
-	if ( bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'create-meeting' ) {
+	if ( bp_zoom_is_groups_zoom() && 'create-meeting' === bp_action_variable( 0 ) ) {
 		return true;
 	}
 	return false;
@@ -2246,7 +2109,7 @@ function bp_zoom_is_create_meeting() {
  * @since 1.0.0
  */
 function bp_zoom_is_edit_meeting() {
-	if ( bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'meetings' && bp_action_variable( 1 ) === 'edit' ) {
+	if ( bp_zoom_is_groups_zoom() && 'meetings' === bp_action_variable( 0 ) && 'edit' === bp_action_variable( 1 ) ) {
 		return true;
 	}
 	return false;
@@ -2341,10 +2204,9 @@ function bp_zoom_can_current_user_start_meeting( $meeting_id ) {
 	$current_userdata = get_userdata( get_current_user_id() );
 
 	if ( ! empty( $current_userdata ) ) {
-		$userinfo = groups_get_groupmeta( $meeting->group_id, 'bp-group-zoom-api-host-user', true );
+		$userinfo = bb_zoom_group_get_api_host_user( $meeting->group_id );
 
 		if ( ! empty( $userinfo ) ) {
-			$userinfo = json_decode( $userinfo );
 			if ( $current_userdata->user_email === $userinfo->email ) {
 				return true;
 			}
@@ -2384,10 +2246,9 @@ function bp_zoom_can_current_user_start_webinar( $webinar_id ) {
 	$current_userdata = get_userdata( get_current_user_id() );
 
 	if ( ! empty( $current_userdata ) ) {
-		$userinfo = groups_get_groupmeta( $webinar->group_id, 'bp-group-zoom-api-host-user', true );
+		$userinfo = bb_zoom_group_get_api_host_user( $webinar->group_id );
 
 		if ( ! empty( $userinfo ) ) {
-			$userinfo = json_decode( $userinfo );
 			if ( $current_userdata->user_email === $userinfo->email ) {
 				return true;
 			}
@@ -2412,7 +2273,7 @@ function bp_zoom_can_current_user_start_webinar( $webinar_id ) {
 function bp_zoom_group_current_meeting_tab() {
 	$tab = false;
 	if ( bp_is_groups_component() && bp_is_current_action( 'zoom' ) ) {
-		if ( bp_action_variable( 0 ) !== false ) {
+		if ( false !== bp_action_variable( 0 ) ) {
 			$tab = bp_action_variable( 0 );
 		} else {
 			$tab = 'zoom';
@@ -2439,7 +2300,7 @@ function bp_zoom_group_current_meeting_tab() {
 function bp_zoom_group_current_tab() {
 	$tab = false;
 	if ( bp_is_groups_component() && bp_is_current_action( 'zoom' ) ) {
-		if ( bp_action_variable( 0 ) !== false ) {
+		if ( false !== bp_action_variable( 0 ) ) {
 			$tab = bp_action_variable( 0 );
 		} else {
 			$tab = 'zoom';
@@ -2464,12 +2325,15 @@ function bp_zoom_group_current_tab() {
  * @return bool true if webinars enabled otherwise false.
  */
 function bp_zoom_groups_is_webinars_enabled( $group_id ) {
-	if ( bp_zoom_is_zoom_webinar_enabled() ) {
-		$webinar_enabled = groups_get_groupmeta( $group_id, 'bp-group-zoom-enable-webinar', true );
+	$connection_type = bb_zoom_group_get_connection_type( $group_id );
+	if ( 'site' === $connection_type ) {
+		$webinar_enabled = bp_get_option( 'bp-zoom-enable-webinar' );
+	} else {
+		$webinar_enabled = groups_get_groupmeta( $group_id, 'bp-group-zoom-enable-webinar' );
+	}
 
-		if ( ! empty( $webinar_enabled ) ) {
-			return true;
-		}
+	if ( ! empty( $webinar_enabled ) ) {
+		return true;
 	}
 
 	return false;
@@ -2482,7 +2346,7 @@ function bp_zoom_groups_is_webinars_enabled( $group_id ) {
  * @return bool true if webinars page otherwise false.
  */
 function bp_zoom_is_webinars() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'webinars';
+	return bp_zoom_is_groups_zoom() && 'webinars' === bp_action_variable( 0 );
 }
 
 /**
@@ -2492,7 +2356,7 @@ function bp_zoom_is_webinars() {
  * @return bool true if past webinars page otherwise false.
  */
 function bp_zoom_is_past_webinars() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'past-webinars';
+	return bp_zoom_is_groups_zoom() && 'past-webinars' === bp_action_variable( 0 );
 }
 
 /**
@@ -2502,7 +2366,7 @@ function bp_zoom_is_past_webinars() {
  * @return bool true if single webinar page otherwise false.
  */
 function bp_zoom_is_single_webinar() {
-	return bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'webinars' && is_numeric( bp_action_variable( 1 ) );
+	return bp_zoom_is_groups_zoom() && 'webinars' === bp_action_variable( 0 ) && is_numeric( bp_action_variable( 1 ) );
 }
 
 /**
@@ -2511,7 +2375,7 @@ function bp_zoom_is_single_webinar() {
  * @since 1.0.8
  */
 function bp_zoom_is_create_webinar() {
-	if ( bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'create-webinar' ) {
+	if ( bp_zoom_is_groups_zoom() && 'create-webinar' === bp_action_variable( 0 ) ) {
 		return true;
 	}
 	return false;
@@ -2523,7 +2387,7 @@ function bp_zoom_is_create_webinar() {
  * @since 1.0.8
  */
 function bp_zoom_is_edit_webinar() {
-	if ( bp_zoom_is_groups_zoom() && bp_action_variable( 0 ) === 'webinars' && bp_action_variable( 1 ) === 'edit' ) {
+	if ( bp_zoom_is_groups_zoom() && 'webinars' === bp_action_variable( 0 ) && 'edit' === bp_action_variable( 1 ) ) {
 		return true;
 	}
 	return false;
@@ -2646,7 +2510,7 @@ function bp_zoom_get_recurrence_label( $meeting_id, $meeting_details = false ) {
 	if ( ! empty( $meeting_id ) && empty( $meeting_details ) ) {
 
 		$meeting = new BP_Zoom_Meeting( $meeting_id );
-		if ( $meeting->zoom_type === 'meeting_occurrence' ) {
+		if ( 'meeting_occurrence' === $meeting->zoom_type ) {
 			$parent_meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting->parent );
 			if ( ! empty( $parent_meeting ) ) {
 				$meeting_id = $parent_meeting->id;
@@ -2677,7 +2541,7 @@ function bp_zoom_get_recurrence_label( $meeting_id, $meeting_details = false ) {
 	}
 
 	foreach ( $occurrences as $occurrence_key => $occurrence ) {
-		if ( $occurrence->status === 'deleted' ) {
+		if ( 'deleted' === $occurrence->status ) {
 			unset( $occurrences[ $occurrence_key ] );
 		}
 	}
@@ -2786,40 +2650,40 @@ function bp_zoom_get_recurrence_label( $meeting_id, $meeting_details = false ) {
 
 			if ( ! empty( $recurrence->monthly_week ) ) {
 				$return .= ' ';
-				if ( $recurrence->monthly_week === 1 ) {
+				if ( 1 === $recurrence->monthly_week ) {
 					$return .= __( 'First', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 2 ) {
+				} elseif ( 2 === $recurrence->monthly_week ) {
 					$return .= __( 'Second', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 3 ) {
+				} elseif ( 3 === $recurrence->monthly_week ) {
 					$return .= __( 'Third', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 4 ) {
+				} elseif ( 4 === $recurrence->monthly_week ) {
 					$return .= __( 'Fourth', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === - 1 ) {
+				} elseif ( - 1 === $recurrence->monthly_week ) {
 					$return .= __( 'Last', 'buddyboss-pro' );
 				}
 			}
 
 			if ( ! empty( $recurrence->monthly_week_day ) ) {
 				$return .= ' ';
-				if ( $recurrence->monthly_week_day === 1 ) {
+				if ( 1 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Sun', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 2 ) {
+				if ( 2 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Mon', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 3 ) {
+				if ( 3 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Tue', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 4 ) {
+				if ( 4 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Wed', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 5 ) {
+				if ( 5 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Thu', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 6 ) {
+				if ( 6 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Fri', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 7 ) {
+				if ( 7 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Sat', 'buddyboss-pro' );
 				}
 			}
@@ -2860,7 +2724,7 @@ function bp_zoom_get_webinar_recurrence_label( $webinar_id, $webinar_details = f
 	if ( ! empty( $webinar_id ) && empty( $webinar_details ) ) {
 
 		$webinar = new BP_Zoom_Webinar( $webinar_id );
-		if ( $webinar->zoom_type === 'webinar_occurrence' ) {
+		if ( 'webinar_occurrence' === $webinar->zoom_type ) {
 			$parent_webinar = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar->parent );
 			if ( ! empty( $parent_webinar ) ) {
 				$webinar_id = $parent_webinar->id;
@@ -2891,7 +2755,7 @@ function bp_zoom_get_webinar_recurrence_label( $webinar_id, $webinar_details = f
 	}
 
 	foreach ( $occurrences as $occurrence_key => $occurrence ) {
-		if ( $occurrence->status === 'deleted' ) {
+		if ( 'deleted' === $occurrence->status ) {
 			unset( $occurrences[ $occurrence_key ] );
 		}
 	}
@@ -3000,40 +2864,40 @@ function bp_zoom_get_webinar_recurrence_label( $webinar_id, $webinar_details = f
 
 			if ( ! empty( $recurrence->monthly_week ) ) {
 				$return .= ' ';
-				if ( $recurrence->monthly_week === 1 ) {
+				if ( 1 === $recurrence->monthly_week ) {
 					$return .= __( 'First', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 2 ) {
+				} elseif ( 2 === $recurrence->monthly_week ) {
 					$return .= __( 'Second', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 3 ) {
+				} elseif ( 3 === $recurrence->monthly_week ) {
 					$return .= __( 'Third', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === 4 ) {
+				} elseif ( 4 === $recurrence->monthly_week ) {
 					$return .= __( 'Fourth', 'buddyboss-pro' );
-				} elseif ( $recurrence->monthly_week === - 1 ) {
+				} elseif ( - 1 === $recurrence->monthly_week ) {
 					$return .= __( 'Last', 'buddyboss-pro' );
 				}
 			}
 
 			if ( ! empty( $recurrence->monthly_week_day ) ) {
 				$return .= ' ';
-				if ( $recurrence->monthly_week_day === 1 ) {
+				if ( 1 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Sun', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 2 ) {
+				if ( 2 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Mon', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 3 ) {
+				if ( 3 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Tue', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 4 ) {
+				if ( 4 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Wed', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 5 ) {
+				if ( 5 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Thu', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 6 ) {
+				if ( 6 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Fri', 'buddyboss-pro' );
 				}
-				if ( $recurrence->monthly_week_day === 7 ) {
+				if ( 7 === $recurrence->monthly_week_day ) {
 					$return .= __( 'Sat', 'buddyboss-pro' );
 				}
 			}
@@ -3074,7 +2938,7 @@ function bp_zoom_get_first_occurrence_date_utc( $meeting_id, $meeting_details = 
 	if ( ! empty( $meeting_id ) && empty( $meeting_details ) ) {
 
 		$meeting = new BP_Zoom_Meeting( $meeting_id );
-		if ( $meeting->zoom_type === 'meeting_occurrence' ) {
+		if ( 'meeting_occurrence' === $meeting->zoom_type ) {
 			$parent_meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting->parent );
 			if ( ! empty( $parent_meeting ) ) {
 				$meeting_id = $parent_meeting->id;
@@ -3098,7 +2962,7 @@ function bp_zoom_get_first_occurrence_date_utc( $meeting_id, $meeting_details = 
 	}
 
 	foreach ( $occurrences as $occurrence_key => $occurrence ) {
-		if ( $occurrence->status === 'deleted' ) {
+		if ( 'deleted' === $occurrence->status ) {
 			unset( $occurrences[ $occurrence_key ] );
 		}
 	}
@@ -3138,7 +3002,7 @@ function bp_zoom_get_webinar_first_occurrence_date_utc( $webinar_id, $webinar_de
 	if ( ! empty( $webinar_id ) && empty( $webinar_details ) ) {
 
 		$webinar = new BP_Zoom_Webinar( $webinar_id );
-		if ( $webinar->zoom_type === 'webinar_occurrence' ) {
+		if ( 'webinar_occurrence' === $webinar->zoom_type ) {
 			$parent_webinar = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar->parent );
 			if ( ! empty( $parent_webinar ) ) {
 				$webinar_id = $parent_webinar->id;
@@ -3162,7 +3026,7 @@ function bp_zoom_get_webinar_first_occurrence_date_utc( $webinar_id, $webinar_de
 	}
 
 	foreach ( $occurrences as $occurrence_key => $occurrence ) {
-		if ( $occurrence->status === 'deleted' ) {
+		if ( 'deleted' === $occurrence->status ) {
 			unset( $occurrences[ $occurrence_key ] );
 		}
 	}
@@ -3300,7 +3164,7 @@ function bp_zoom_meeting_alerts() {
 			$alert = $meeting->alert;
 
 			// Check if occurrence meeting then find parent alert settings.
-			if ( $meeting->zoom_type === 'meeting_occurrence' ) {
+			if ( 'meeting_occurrence' === $meeting->zoom_type ) {
 				$parent = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting->parent );
 
 				if ( ! empty( $parent->id ) ) {
@@ -3394,7 +3258,7 @@ function bp_zoom_webinar_alerts() {
 			$alert = $webinar->alert;
 
 			// Check if occurrence webinar then find parent alert settings.
-			if ( $webinar->zoom_type === 'webinar_occurrence' ) {
+			if ( 'webinar_occurrence' === $webinar->zoom_type ) {
 				$parent = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar->parent );
 
 				if ( ! empty( $parent->id ) ) {
@@ -3469,7 +3333,7 @@ function bp_get_zoom_meeting_current_status( $id = 0 ) {
 		$meeting_status = bp_zoom_meeting_get_meta( $id, 'meeting_status', true );
 
 		// if meeting occurrence, find parent and status.
-		if ( empty( $meeting_status ) && ! empty( $meeting->id ) && $meeting->zoom_type === 'meeting_occurrence' ) {
+		if ( empty( $meeting_status ) && ! empty( $meeting->id ) && 'meeting_occurrence' === $meeting->zoom_type ) {
 			$parent_meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting->parent );
 			if ( ! empty( $parent_meeting ) ) {
 				$id             = $parent_meeting->id;
@@ -3512,7 +3376,7 @@ function bp_get_zoom_webinar_current_status( $id = 0 ) {
 		$webinar_status = bp_zoom_webinar_get_meta( $id, 'webinar_status', true );
 
 		// if webinar occurrence, find parent and status.
-		if ( empty( $webinar_status ) && ! empty( $webinar->id ) && $webinar->zoom_type === 'webinar_occurrence' ) {
+		if ( empty( $webinar_status ) && ! empty( $webinar->id ) && 'webinar_occurrence' === $webinar->zoom_type ) {
 			$parent_webinar = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar->parent );
 			if ( ! empty( $parent_webinar ) ) {
 				$id             = $parent_webinar->id;
@@ -3573,7 +3437,7 @@ function bp_zoom_get_meeting_rewrite_url( $original_url, $id = 0, $meeting_id = 
 			$group_link = bp_get_group_permalink( $group );
 
 			$meeting_id = $meeting->meeting_id;
-			if ( $meeting->zoom_type === 'meeting_occurrence' ) {
+			if ( 'meeting_occurrence' === $meeting->zoom_type ) {
 				$parent = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting->parent );
 
 				if ( ! empty( $parent->meeting_id ) ) {
@@ -3630,7 +3494,7 @@ function bp_zoom_get_webinar_rewrite_url( $original_url, $id = 0, $webinar_id = 
 			$group_link = bp_get_group_permalink( $group );
 
 			$webinar_id = $webinar->webinar_id;
-			if ( $webinar->zoom_type === 'webinar_occurrence' ) {
+			if ( 'webinar_occurrence' === $webinar->zoom_type ) {
 				$parent = BP_Zoom_Webinar::get_webinar_by_webinar_id( $webinar->parent );
 
 				if ( ! empty( $parent->webinar_id ) ) {
@@ -3722,7 +3586,7 @@ function bp_zoom_meeting_email_token_zoom_meeting( $bp_email, $formatted_tokens,
 						<td>
 							<p style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: <?php echo esc_attr( $settings['body_secondary_text_color'] ); ?>;letter-spacing: 0.24px;line-height: 19px;margin: 0 0 15px 0;font-weight: bold;"><?php echo esc_attr( $zoom_meeting_id ); ?>
 								<?php
-								if ( ! empty( $meeting->recurring ) || $meeting->zoom_type === 'meeting_occurrence' ) {
+								if ( ! empty( $meeting->recurring ) || 'meeting_occurrence' === $meeting->zoom_type ) {
 									?>
 									<br/><span style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: <?php echo esc_attr( $settings['body_text_color'] ); ?>;"><?php echo esc_html( bp_zoom_get_recurrence_label( $meeting->id ) ); ?></span>
 								<?php } ?>
@@ -3745,8 +3609,8 @@ function bp_zoom_meeting_email_token_zoom_meeting( $bp_email, $formatted_tokens,
 							<p style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: <?php echo esc_attr( $settings['body_secondary_text_color'] ); ?>;letter-spacing: 0.24px;line-height: 19px;margin: 0 0 15px 0;font-weight: bold;">
 								<?php
 								$duration = $meeting->duration;
-								$hours    = ( ( $duration !== 0 ) ? floor( $duration / 60 ) : 0 );
-								$minutes  = ( ( $duration !== 0 ) ? ( $duration % 60 ) : 0 );
+								$hours    = ( ( 0 !== $duration ) ? floor( $duration / 60 ) : 0 );
+								$minutes  = ( ( 0 !== $duration ) ? ( $duration % 60 ) : 0 );
 								if ( 0 < $hours ) {
 									/* translators: %d number of hours */
 									echo ' ' . sprintf( _n( '%d hour', '%d hours', $hours, 'buddyboss-pro' ), $hours ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -3868,7 +3732,7 @@ function bp_zoom_webinar_email_token_zoom_webinar( $bp_email, $formatted_tokens,
 						<td>
 							<p style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: <?php echo esc_attr( $settings['body_secondary_text_color'] ); ?>;letter-spacing: 0.24px;line-height: 19px;margin: 0 0 15px 0;font-weight: bold;"><?php echo esc_attr( $zoom_webinar_id ); ?>
 								<?php
-								if ( ! empty( $webinar->recurring ) || $webinar->zoom_type === 'webinar_occurrence' ) {
+								if ( ! empty( $webinar->recurring ) || 'webinar_occurrence' === $webinar->zoom_type ) {
 									?>
 									<br/><span style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: #7F868F;"><?php echo esc_html( bp_zoom_get_recurrence_label( $webinar->id ) ); ?></span>
 								<?php } ?>
@@ -3891,8 +3755,8 @@ function bp_zoom_webinar_email_token_zoom_webinar( $bp_email, $formatted_tokens,
 							<p style="font-size: <?php echo esc_attr( $settings['body_text_size'] . 'px' ); ?>;color: <?php echo esc_attr( $settings['body_secondary_text_color'] ); ?>;letter-spacing: 0.24px;line-height: 19px;margin: 0 0 15px 0;font-weight: bold;">
 								<?php
 								$duration = $webinar->duration;
-								$hours    = ( ( $duration !== 0 ) ? floor( $duration / 60 ) : 0 );
-								$minutes  = ( ( $duration !== 0 ) ? ( $duration % 60 ) : 0 );
+								$hours    = ( ( 0 !== $duration ) ? floor( $duration / 60 ) : 0 );
+								$minutes  = ( ( 0 !== $duration ) ? ( $duration % 60 ) : 0 );
 								if ( 0 < $hours ) {
 									/* translators: %d number of hours */
 									echo ' ' . sprintf( _n( '%d hour', '%d hours', $hours, 'buddyboss-pro' ), $hours ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -4098,7 +3962,7 @@ function bb_zoom_mismatched_timezones() {
  * @return string
  */
 function bb_zoom_convert_offset_to_gmt( $current_offset = 0 ) {
-	if ( $current_offset === 0 ) {
+	if ( 0 === $current_offset ) {
 		$tzstring = 'UTC+0';
 	} else {
 		$current_offset = $current_offset * 3600;
@@ -4132,7 +3996,7 @@ function bb_zoom_get_meeting_block( $meeting_id, $force_refresh = false ) {
 	if ( empty( $meeting_info ) || $force_refresh ) {
 		$meeting_info = bp_zoom_conference()->get_meeting_info( $meeting_id );
 
-		if ( ! empty( $meeting_info['code'] ) && $meeting_info['code'] === 200 && ! empty( $meeting_info['response'] ) ) {
+		if ( ! empty( $meeting_info['code'] ) && 200 === $meeting_info['code'] && ! empty( $meeting_info['response'] ) ) {
 			$bp_zoom_meeting_block = $meeting_info['response'];
 			set_transient( 'bp_zoom_meeting_block_' . $meeting_id, wp_json_encode( $bp_zoom_meeting_block ), MINUTE_IN_SECONDS );
 		}
@@ -4160,7 +4024,7 @@ function bb_zoom_get_webinar_block( $webinar_id, $force_refresh = false ) {
 	if ( empty( $webinar_info ) || $force_refresh ) {
 		$webinar_info = bp_zoom_conference()->get_webinar_info( $webinar_id );
 
-		if ( ! empty( $webinar_info['code'] ) && $webinar_info['code'] === 200 && ! empty( $webinar_info['response'] ) ) {
+		if ( ! empty( $webinar_info['code'] ) && 200 === $webinar_info['code'] && ! empty( $webinar_info['response'] ) ) {
 			$bp_zoom_webinar_block = $webinar_info['response'];
 			set_transient( 'bp_zoom_webinar_block_' . $webinar_id, wp_json_encode( $bp_zoom_webinar_block ), MINUTE_IN_SECONDS );
 		}
@@ -4183,7 +4047,7 @@ function bb_zoom_get_webinar_block( $webinar_id, $force_refresh = false ) {
 function bb_zoom_is_meeting_deleted( $meeting_id ) {
 	$meeting_info = bp_zoom_conference()->get_meeting_info( $meeting_id );
 
-	return ! empty( $meeting_info['code'] ) && ( $meeting_info['code'] === 404 ) && ! empty( $meeting_info['body']->code ) && ( $meeting_info['body']->code === 3001 );
+	return ! empty( $meeting_info['code'] ) && ( 404 === $meeting_info['code'] ) && ! empty( $meeting_info['body']->code ) && ( 3001 === $meeting_info['body']->code );
 }
 
 /**
@@ -4198,7 +4062,7 @@ function bb_zoom_is_meeting_deleted( $meeting_id ) {
 function bb_zoom_is_webinar_deleted( $webinar_id ) {
 	$webinar_info = bp_zoom_conference()->get_webinar_info( $webinar_id );
 
-	return ! empty( $webinar_info['code'] ) && ( $webinar_info['code'] === 404 ) && ! empty( $webinar_info['body']->code ) && ( $webinar_info['body']->code === 3001 );
+	return ! empty( $webinar_info['code'] ) && ( 404 === $webinar_info['code'] ) && ! empty( $webinar_info['body']->code ) && ( 3001 === $webinar_info['body']->code );
 }
 
 /**
@@ -4234,7 +4098,7 @@ function bb_zoom_update_occurrence_meeting_recording( $parent_meeting_id ) {
 		foreach ( $occurrences['meetings'] as $occurrence ) {
 			$occurrence_index++;
 
-			if ( $occurrence_index === 1 ) {
+			if ( 1 === $occurrence_index ) {
 				if ( isset( $occurrences['meetings'][ $occurrence_index ]->start_date_utc ) ) {
 					$occurrence_date     = new DateTime( $occurrence->start_date_utc, new DateTimeZone( 'UTC' ) );
 					$occurrence_date_max = new DateTime( $occurrences['meetings'][ $occurrence_index ]->start_date_utc, new DateTimeZone( 'UTC' ) );
@@ -4310,9 +4174,9 @@ function bb_zoom_update_occurrence_webinar_recording( $parent_webinar_id ) {
 
 		$occurrence_index = 0;
 		foreach ( $occurrences['webinars'] as $occurrence ) {
-			$occurrence_index++;
+			$occurrence_index ++;
 
-			if ( $occurrence_index === 1 ) {
+			if ( 1 === $occurrence_index ) {
 				if ( isset( $occurrences['webinars'][ $occurrence_index ]->start_date_utc ) ) {
 					$occurrence_date     = new DateTime( $occurrence->start_date_utc, new DateTimeZone( 'UTC' ) );
 					$occurrence_date_max = new DateTime( $occurrences['webinars'][ $occurrence_index ]->start_date_utc, new DateTimeZone( 'UTC' ) );
@@ -4384,36 +4248,6 @@ function bp_zoom_browser_settings_tutorial() {
 }
 
 /**
- * Function to check the zoom JWT is connected or not.
- *
- * @since 2.3.91
- *
- * @return bool
- */
-function bb_zoom_is_jwt_connected() {
-	static $cache = null;
-
-	if ( $cache !== null ) {
-		return $cache;
-	}
-
-	$result = false;
-	if (
-		! empty( bp_zoom_api_key() ) &&
-		! empty( bp_zoom_api_secret() ) &&
-		! empty( bp_zoom_api_email() ) &&
-		! empty( bp_zoom_api_host() ) &&
-		strtotime( 'now' ) < 1693526400
-	) {
-		$result = true;
-	}
-
-	$cache = $result;
-
-	return $result;
-}
-
-/**
  * Function to check the zoom S2S is connected or not.
  *
  * @since 2.3.91
@@ -4423,7 +4257,7 @@ function bb_zoom_is_jwt_connected() {
 function bb_zoom_is_s2s_connected() {
 	static $cache = null;
 
-	if ( $cache !== null ) {
+	if ( null !== $cache ) {
 		return $cache;
 	}
 
@@ -4453,7 +4287,7 @@ function bb_zoom_is_s2s_connected() {
 function bb_zoom_is_meeting_sdk() {
 	static $cache = null;
 
-	if ( $cache !== null ) {
+	if ( null !== $cache ) {
 		return $cache;
 	}
 
@@ -4469,30 +4303,6 @@ function bb_zoom_is_meeting_sdk() {
 	$cache = $result;
 
 	return $result;
-}
-
-/**
- * Function to check the JWT is outdated.
- *
- * @since 2.3.91
- *
- * @return bool
- */
-function bb_zoom_is_hide_jwt_settings() {
-	if (
-		(
-			(
-				! empty( bp_zoom_api_key() ) &&
-				! empty( bp_zoom_api_secret() )
-			) ||
-			(bool) bp_get_option( 'bb-zoom-show-jwt-settings', false ) === true
-		) &&
-		strtotime( 'now' ) < 1693526400
-	) {
-		return false;
-	}
-
-	return true;
 }
 
 /**
@@ -4522,7 +4332,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 	$options  = array();
 	$group_id = (int) $r['group_id'];
 
-	if ( (bool) $r['force_api'] !== true ) {
+	if ( true !== (bool) $r['force_api'] ) {
 		if ( ! empty( $group_id ) ) {
 			$options = groups_get_groupmeta( $group_id, 'bb-zoom-account-emails' );
 		} else {
@@ -4531,7 +4341,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 
 		// Defined array with error if it's empty.
 		if ( empty( $options ) ) {
-			if ( $r['error_type'] !== 'wp_error' ) {
+			if ( 'wp_error' !== $r['error_type'] ) {
 				return false;
 			} else {
 				return new WP_Error( 'no_zoom_account', __( 'No Zoom account found', 'buddyboss-pro' ) );
@@ -4543,7 +4353,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 
 	// Bail if no account ID.
 	if ( empty( $r['account_id'] ) ) {
-		if ( $r['error_type'] !== 'wp_error' ) {
+		if ( 'wp_error' !== $r['error_type'] ) {
 			return false;
 		} else {
 			return new WP_Error( 'no_zoom_account_id', __( 'The Account ID is required.', 'buddyboss-pro' ) );
@@ -4552,7 +4362,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 
 	// Bail if no client ID.
 	if ( empty( $r['client_id'] ) ) {
-		if ( $r['error_type'] !== 'wp_error' ) {
+		if ( 'wp_error' !== $r['error_type'] ) {
 			return false;
 		} else {
 			return new WP_Error( 'no_zoom_client_id', __( 'The Client ID is required.', 'buddyboss-pro' ) );
@@ -4561,7 +4371,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 
 	// Bail if no client secret.
 	if ( empty( $r['client_secret'] ) ) {
-		if ( $r['error_type'] !== 'wp_error' ) {
+		if ( 'wp_error' !== $r['error_type'] ) {
 			return false;
 		} else {
 			return new WP_Error( 'no_zoom_client_secret', __( 'The Client Secret is required.', 'buddyboss-pro' ) );
@@ -4571,8 +4381,6 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 	$account_host_user          = new StdClass();
 	$account_host_user_settings = new StdClass();
 	$is_webinar_enabled         = false;
-
-	BP_Zoom_Conference_Api::$is_jwt_auth = false;
 
 	if ( ! empty( $group_id ) ) {
 		BP_Zoom_Conference_Api::$group_id = $group_id;
@@ -4585,7 +4393,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 	// Get a list of users account.
 	$user_list = bp_zoom_conference()->list_users();
 
-	if ( $user_list['code'] === 200 && ! empty( $user_list['response'] ) ) {
+	if ( 200 === $user_list['code'] && ! empty( $user_list['response'] ) ) {
 
 		$account_emails = array();
 		if ( ! empty( $user_list['response']->users ) ) {
@@ -4596,7 +4404,7 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 
 			// Get current user info.
 			$user_info = bp_zoom_conference()->get_user_info( 'me' );
-			if ( $user_info['code'] === 200 && ! empty( $user_info['response'] ) ) {
+			if ( 200 === $user_info['code'] && ! empty( $user_info['response'] ) ) {
 				$default_email = ! empty( $user_info['response']->email ) ? $user_info['response']->email : '';
 
 				foreach ( $account_emails as $email ) {
@@ -4612,22 +4420,22 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 					// Get select account email information.
 					$selected_user_info = bp_zoom_conference()->get_user_info( $r['account_email'] );
 
-					if ( $selected_user_info['code'] === 200 ) {
+					if ( 200 === $selected_user_info['code'] ) {
 						$account_host_user = $selected_user_info['response'];
 
 						// Get user settings of host user.
 						$user_settings = bp_zoom_conference()->get_user_settings( $selected_user_info['response']->id );
-						if ( $user_settings['code'] === 200 && ! empty( $user_settings['response'] ) ) {
+						if ( 200 === $user_settings['code'] && ! empty( $user_settings['response'] ) ) {
 							$account_host_user_settings = $user_settings['response'];
 
-							if ( isset( $user_settings['response']->feature->webinar ) && $user_settings['response']->feature->webinar === true ) {
+							if ( isset( $user_settings['response']->feature->webinar ) && true === $user_settings['response']->feature->webinar ) {
 								$is_webinar_enabled = true;
 							}
 						}
 					}
 				}
 			} else {
-				if ( $r['error_type'] !== 'wp_error' ) {
+				if ( 'wp_error' !== $r['error_type'] ) {
 					return false;
 				} else {
 					if ( ! empty( $user_info['response']->message ) ) {
@@ -4638,14 +4446,14 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
 				}
 			}
 		} else {
-			if ( $r['error_type'] !== 'wp_error' ) {
+			if ( 'wp_error' !== $r['error_type'] ) {
 				return false;
 			} else {
 				return new WP_Error( 'no_zoom_account', __( 'No Zoom account found', 'buddyboss-pro' ) );
 			}
 		}
 	} else {
-		if ( $r['error_type'] !== 'wp_error' ) {
+		if ( 'wp_error' !== $r['error_type'] ) {
 			return false;
 		} else {
 			if ( ! empty( $user_list['response']->message ) ) {
@@ -4677,69 +4485,15 @@ function bb_zoom_fetch_account_emails( $args = array() ) {
  * @since 2.3.91
  */
 function bb_zoom_gutenberg_settings_callback() {
-	$is_hide_jwt_settings = bb_zoom_is_hide_jwt_settings();
-	$options              = bb_get_zoom_block_settings();
-
-	// phpcs:ignore
-	$current_tab = isset( $_GET['type'] ) ? $_GET['type'] : 's2s';
+	$options = bb_get_zoom_block_settings();
 	?>
 	<table class="form-table">
 		<tbody>
 		<tr>
 			<td>
-				<?php
-				if (
-					(
-						empty( $options['s2s-account-id'] ) ||
-						empty( $options['s2s-client-id'] ) ||
-						empty( $options['s2s-client-secret'] )
-					) &&
-					! empty( bp_get_option( 'bp-zoom-api-key' ) ) &&
-					! empty( bp_get_option( 'bp-zoom-api-secret' ) ) &&
-					! empty( $options['zoom_is_connected'] )
-				) {
-					?>
-					<div class="show-full-width bb-warning-section">
-						<?php
-						echo sprintf(
-							/* translators: follow step with link. */
-							esc_html__( 'Zoom will depreciate JWT authentication on September 1, 2023. To maintain your Zoom integration after this date, you and your group organizers will need to %s to connect your Zoom accounts to this site.', 'buddyboss-pro' ),
-							sprintf(
-								'<strong>%s</strong>',
-								sprintf(
-									'<a href="%1$s" target="_blank">%2$s</a>',
-									esc_url(
-										bp_get_admin_url(
-											add_query_arg(
-												array(
-													'page'    => 'bp-help',
-													'article' => 126805,
-												),
-												'admin.php'
-											)
-										)
-									),
-									esc_html__( 'follow these steps', 'buddyboss-pro' )
-								)
-							),
-						);
-						?>
-					</div>
-				<?php } ?>
 				<div class="bb-pro-tabs">
-					<?php if ( ! $is_hide_jwt_settings ) { ?>
-						<input type="hidden" name="bb-zoom-tab" value="<?php echo esc_attr( $current_tab ); ?>">
-						<ul class="bb-pro-tabs-list">
-							<li id="ss-oauth" class="<?php echo ( $current_tab === 's2s' ) ? esc_attr( 'selected' ) : ''; ?>" tabindex="0" role="tab" aria-controls="ss-oauth-content" aria-selected="<?php echo esc_attr( ( $current_tab === 's2s' ) ); ?>" data-value="s2s">
-								<?php esc_html_e( 'Server-to-Server OAuth', 'buddyboss-pro' ); ?>
-							</li>
-							<li id="jwt-oauth" class="<?php echo ( $current_tab === 'jwt' ) ? esc_attr( 'selected' ) : ''; ?>" tabindex="0" role="tab" aria-controls="jwt-oauth-content" aria-selected="<?php echo esc_attr( ( $current_tab === 'jwt' ) ); ?>" data-value="jwt">
-								<?php esc_html_e( 'JWT Authentication', 'buddyboss-pro' ); ?>
-							</li>
-						</ul>
-					<?php } ?>
 					<div class="bb-pro-tabs-content">
-						<div id="ss-oauth-content" class="bb-pro-tabs-content-parts <?php echo ( $current_tab !== 's2s' ) ? esc_attr( 'bp-hide' ) : ''; ?>" role="tabpanel" aria-labelledby="ss-oauth" aria-hidden="<?php echo esc_attr( ! ( $current_tab === 's2s' ) ); ?>">
+						<div id="ss-oauth-content" class="bb-pro-tabs-content-parts" role="tabpanel" aria-labelledby="ss-oauth" aria-hidden="false">
 							<table class="form-table">
 								<tbody>
 								<tr class="no-padding">
@@ -4882,75 +4636,6 @@ function bb_zoom_gutenberg_settings_callback() {
 								</tbody>
 							</table>
 						</div>
-						<?php if ( ! $is_hide_jwt_settings ) { ?>
-							<div id="jwt-oauth-content" class="bb-pro-tabs-content-parts <?php echo ( $current_tab !== 'jwt' ) ? esc_attr( 'bp-hide' ) : ''; ?>" role="tabpanel" aria-labelledby="jwt-oauth" aria-hidden="<?php echo esc_attr( ! ( $current_tab === 'jwt' ) ); ?>">
-								<table class="form-table">
-									<tbody>
-									<tr class="no-padding">
-										<td colspan="2">
-											<div class="show-full-width">
-												<?php
-
-												$errors   = bp_get_option( 'bp-zoom-api-errors', array() );
-												$warnings = bp_get_option( 'bp-zoom-api-warnings', array() );
-
-												if ( ! empty( $errors ) ) {
-													$error_message = array();
-													foreach ( $errors as $error ) {
-														$error_message[] = esc_html( $error->get_error_message() );
-													}
-
-													echo '<div class="bbpro-zoom-errors show-full-width bb-error-section">' .
-														( is_array( $error_message ) ? implode( '<br/>', $error_message ) : esc_html( $error_message ) ) .
-													'</div>';
-												}
-
-												if ( ! empty( $warnings ) ) {
-													$warning_message = array();
-													foreach ( $warnings as $warning ) {
-														$warning_message[] = $warning->get_error_message();
-													}
-
-													echo '<div class="bbpro-zoom-warning show-full-width bb-warning-section">' .
-														( is_array( $warning_message ) ? esc_html( implode( '<br/>', $warning_message ) ) : esc_html( $warning_message ) ) .
-													'</div>';
-												}
-												?>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row"><?php esc_html_e( 'Zoom API Key', 'buddyboss-pro' ); ?></th>
-										<td>
-											<div class="password-toggle">
-												<input name="bp-zoom-api-key" id="bp-zoom-api-key" type="password" value="<?php echo esc_html( bp_zoom_api_key() ); ?>" placeholder="<?php esc_html_e( 'Zoom API Key', 'buddyboss-pro' ); ?>" aria-label="<?php esc_html_e( 'Zoom API Key', 'buddyboss-pro' ); ?>"/>
-												<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
-													<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
-												</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row"><?php esc_html_e( 'Zoom API Secret', 'buddyboss-pro' ); ?></th>
-										<td>
-											<div class="password-toggle">
-												<input name="bp-zoom-api-secret" id="bp-zoom-api-secret" type="password" value="<?php echo esc_html( bp_zoom_api_secret() ); ?>" placeholder="<?php esc_html_e( 'Zoom API Secret', 'buddyboss-pro' ); ?>" aria-label="<?php esc_html_e( 'Zoom API Secret', 'buddyboss-pro' ); ?>"/>
-												<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
-													<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
-												</button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row"><?php esc_html_e( 'Zoom Account Email', 'buddyboss-pro' ); ?></th>
-										<td>
-											<input name="bp-zoom-api-email" id="bp-zoom-api-email" type="text" data-type="email" value="<?php echo esc_html( bp_zoom_api_email() ); ?>" placeholder="<?php esc_attr_e( 'Zoom Account Email', 'buddyboss-pro' ); ?>"/>
-										</td>
-									</tr>
-									</tbody>
-								</table>
-							</div>
-						<?php } ?>
 					</div>
 				</div>
 
@@ -4996,18 +4681,6 @@ function bb_zoom_browser_settings_callback() {
 												'</div>';
 
 												$options['zoom_sdk_errors'] = array();
-											}
-
-											if (
-												! empty( $warnings ) &&
-												is_array( $warnings ) &&
-												in_array( 'upgrade_sdk_jwt_to_s2s', $warnings, true )
-											) {
-												echo '<div class="show-full-width bb-warning-section">';
-													echo sprintf(
-														esc_html__( 'Zoom will require connecting a Meeting SDK app in order to host meetings and webinars on your site after September 1, 2023. Until then, your JWT credentials will allow you to use in-browsers meetings.', 'buddyboss-pro' )
-													);
-												echo '</div>';
 											}
 
 											if ( ! empty( $errors ) ) {
@@ -5088,6 +4761,8 @@ function bb_get_zoom_block_settings( $key = '', $default = '' ) {
 
 	if ( ! empty( $key ) ) {
 		$settings = isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
+	} elseif ( empty( $settings ) ) {
+		$settings = array();
 	}
 
 	return apply_filters( 'bb_get_zoom_block_settings', $settings, $key, $default );
@@ -5322,42 +4997,6 @@ function bb_zoom_is_sdk_connected( $default = false ) {
 }
 
 /**
- * Function to get account email from connected API.
- *
- * @since 2.3.91
- *
- * @return string
- */
-function bb_zoom_get_account_email() {
-	$api_email = '';
-	if ( bb_zoom_is_s2s_connected() ) {
-		$api_email = bb_zoom_account_email();
-	} elseif ( bb_zoom_is_jwt_connected() ) {
-		$api_email = bp_zoom_api_email();
-	}
-
-	return $api_email;
-}
-
-/**
- * Function to get host user from connected API.
- *
- * @since 2.3.91
- *
- * @return string|object
- */
-function bb_zoom_get_api_host_user() {
-	$api_host_user = '';
-	if ( bb_zoom_is_s2s_connected() ) {
-		$api_host_user = bb_zoom_get_host_user();
-	} elseif ( bb_zoom_is_jwt_connected() ) {
-		$api_host_user = bp_zoom_api_host_user();
-	}
-
-	return $api_host_user;
-}
-
-/**
  * Output the 'checked' value, if needed, for a given status on the group admin screen.
  *
  * @since 2.3.91
@@ -5415,48 +5054,12 @@ function bb_zoom_group_get_connection_type( $group_id = false, $default = 'group
 	// Validate if a default set group does not connect block s2s connection then.
 	if (
 		! bb_zoom_is_s2s_connected() &&
-		$connection_type === 'site'
+		'site' === $connection_type
 	) {
 		$connection_type = 'group';
 	}
 
 	return apply_filters( 'bb_zoom_group_get_connection_type', $connection_type, $group_id );
-}
-
-/**
- * Function to check any group is connected with zoom JWT or not.
- *
- * @since 2.3.91
- *
- * @return bool
- */
-function bb_zoom_group_is_any_group_connected_jwt() {
-	static $cache = null;
-
-	if ( $cache !== null ) {
-		return $cache;
-	}
-
-	global $wpdb, $bp;
-
-	$group_ids = array();
-	if (
-		bp_is_active( 'groups' ) &&
-		bp_zoom_is_zoom_groups_enabled()
-	) {
-        // phpcs:ignore
-		$group_ids = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT DISTINCT group_id FROM {$bp->groups->table_name_groupmeta} WHERE ( meta_key = %s AND meta_value != '' ) ORDER BY group_id DESC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				'bp-group-zoom-api-key'
-			)
-		);
-	}
-
-	$result = ! empty( $group_ids );
-	$cache  = $result;
-
-	return $result;
 }
 
 /**
@@ -5471,9 +5074,9 @@ function bb_zoom_group_is_any_group_connected_jwt() {
 function bb_zoom_group_is_zoom_connected( $group_id ) {
 	$bb_group_zoom   = array();
 	$connection_type = bb_zoom_group_get_connection_type( $group_id );
-	if ( $connection_type === 'site' ) {
+	if ( 'site' === $connection_type ) {
 		$bb_group_zoom = bb_get_zoom_block_settings();
-	} elseif ( $connection_type === 'group' ) {
+	} elseif ( 'group' === $connection_type ) {
 		$bb_group_zoom = groups_get_groupmeta( $group_id, 'bb-group-zoom' );
 	}
 
@@ -5492,7 +5095,7 @@ function bb_zoom_group_is_zoom_connected( $group_id ) {
 function bb_zoom_group_is_s2s_connected( $group_id ) {
 	static $cache = null;
 
-	if ( $cache !== null ) {
+	if ( null !== $cache ) {
 		return $cache;
 	}
 
@@ -5500,13 +5103,13 @@ function bb_zoom_group_is_s2s_connected( $group_id ) {
 	if (
 		bp_is_active( 'groups' ) &&
 		bp_zoom_is_zoom_groups_enabled() &&
-		groups_get_groupmeta( $group_id, 'bp-group-zoom' )
+		bp_zoom_group_is_zoom_enabled( $group_id )
 	) {
 
 		$connection_type = bb_zoom_group_get_connection_type( $group_id );
-		if ( $connection_type === 'site' ) {
+		if ( 'site' === $connection_type ) {
 			$result = bb_zoom_is_s2s_connected();
-		} elseif ( $connection_type === 'group' && bb_zoom_group_is_zoom_connected( $group_id ) ) {
+		} elseif ( 'group' === $connection_type && bb_zoom_group_is_zoom_connected( $group_id ) ) {
 			$account_id    = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-account-id' );
 			$client_id     = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-client-id' );
 			$client_secret = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-client-secret' );
@@ -5525,97 +5128,6 @@ function bb_zoom_group_is_s2s_connected( $group_id ) {
 	$cache = $result;
 
 	return $result;
-}
-
-/**
- * Function to check the group zoom JWT connected or not.
- *
- * @since 2.3.91
- *
- * @param int $group_id ID of a group.
- *
- * @return bool
- */
-function bb_zoom_group_is_jwt_connected( $group_id ) {
-	static $cache = null;
-
-	if ( $cache !== null ) {
-		return $cache;
-	}
-
-	$result = false;
-	if (
-		bp_is_active( 'groups' ) &&
-		bp_zoom_is_zoom_groups_enabled() &&
-		groups_get_groupmeta( $group_id, 'bp-group-zoom' ) &&
-		strtotime( 'now' ) < 1693526400
-	) {
-		$api_key    = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-key' );
-		$api_secret = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-secret' );
-		$api_email  = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-email' );
-		$api_host   = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-host', true );
-
-		if (
-			! empty( $api_key ) &&
-			! empty( $api_secret ) &&
-			! empty( $api_email ) &&
-			! empty( $api_host )
-		) {
-			$result = true;
-		}
-	}
-
-	$cache = $result;
-
-	return $result;
-}
-
-/**
- * Function to check the JWT is outdated.
- *
- * @since 2.3.91
- *
- * @param int $group_id ID of a group.
- *
- * @return bool
- */
-function bb_zoom_group_is_hide_jwt_settings( $group_id ) {
-	if (
-		bp_is_active( 'groups' ) &&
-		bp_zoom_is_zoom_groups_enabled() &&
-		strtotime( 'now' ) < 1693526400 &&
-		(
-			(
-				! empty( bb_zoom_group_api_key( $group_id ) ) &&
-				! empty( bb_zoom_group_api_secret( $group_id ) )
-			) ||
-			(bool) groups_get_groupmeta( $group_id, 'bb-group-zoom-show-jwt-settings' ) === true
-		)
-	) {
-		return false;
-	}
-
-	return true;
-}
-
-/**
- * Function to check the Join in Browser button display or not based on connection.
- *
- * @since 2.3.91
- *
- * @param int $group_id ID of a group.
- *
- * @return bool
- */
-function bb_zoom_group_show_join_browser_button( $group_id ) {
-	$show = false;
-	if ( bb_zoom_group_is_s2s_connected( $group_id ) && bb_zoom_is_meeting_sdk() ) {
-		$show = true;
-	} elseif ( bb_zoom_group_is_jwt_connected( $group_id ) ) {
-		$show = true;
-	}
-
-	return $show;
 }
 
 /**
@@ -5652,4 +5164,47 @@ function bb_zoom_group_update_site_connection_group_meetings( $new_email = '', $
 			}
 		}
 	}
+}
+
+/**
+ * Generate/Get access token to view meeting/webinar recordings.
+ *
+ * @since 2.4.20
+ *
+ * @param string $meeting_id Meeting/Webinar ID.
+ * @param string $type       Type of meeting.
+ *
+ * @return string
+ */
+function bb_zoom_recording_get_access_token( $meeting_id, $type = 'meeting' ) {
+
+	if ( empty( $meeting_id ) ) {
+		return '';
+	}
+
+	if ( 'webinar' === $type ) {
+		$meeting = BP_Zoom_Webinar::get_webinar_by_webinar_id( $meeting_id );
+	} else {
+		$meeting = BP_Zoom_Meeting::get_meeting_by_meeting_id( $meeting_id );
+	}
+
+	$group_id        = 0;
+	$connection_type = '';
+
+	if ( ! empty( $meeting->group_id ) && bp_is_active( 'groups' ) ) {
+		$group_id        = $meeting->group_id;
+		$connection_type = bb_zoom_group_get_connection_type( $group_id );
+	}
+
+	if ( 'group' === $connection_type ) {
+		$zoom_api_account_id    = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-account-id' );
+		$zoom_api_client_id     = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-client-id' );
+		$zoom_api_client_secret = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-client-secret' );
+	} else {
+		$zoom_api_account_id    = bb_zoom_account_id();
+		$zoom_api_client_id     = bb_zoom_client_id();
+		$zoom_api_client_secret = bb_zoom_client_secret();
+	}
+
+	return bp_zoom_conference()->get_access_token( $zoom_api_account_id, $zoom_api_client_id, $zoom_api_client_secret, $group_id );
 }

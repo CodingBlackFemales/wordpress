@@ -16,6 +16,13 @@ defined( 'ABSPATH' ) || exit;
 class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 
 	/**
+	 * Allow batch.
+	 *
+	 * @var true[] $allow_batch
+	 */
+	protected $allow_batch = array( 'v1' => true );
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.1.6
@@ -40,6 +47,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
+				'allow_batch' => $this->allow_batch,
 			)
 		);
 
@@ -47,7 +55,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 			$this->namespace,
 			'/' . $this->rest_base . '/auth',
 			array(
-				'args' => array(
+				'args'        => array(
 					'channel_name' => array(
 						'required'    => true,
 						'type'        => array( 'array', 'string' ),
@@ -64,6 +72,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 					'callback'            => array( $this, 'create_items' ),
 					'permission_callback' => array( $this, 'create_items_permissions_check' ),
 				),
+				'allow_batch' => $this->allow_batch,
 			)
 		);
 
@@ -83,6 +92,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 					'callback'            => array( $this, 'user_authenticate' ),
 					'permission_callback' => array( $this, 'user_authenticate_permissions_check' ),
 				),
+				'allow_batch' => $this->allow_batch,
 			)
 		);
 	}
@@ -150,7 +160,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 				);
 			}
 
-			if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && bp_disable_group_messages() === true ) {
+			if ( bp_is_active( 'groups' ) && function_exists( 'bp_disable_group_messages' ) && true === bp_disable_group_messages() ) {
 				// Determine groups of user.
 				$groups = groups_get_groups(
 					array(
@@ -446,7 +456,7 @@ class BB_REST_Pusher_Endpoint extends WP_REST_Controller {
 
 		switch ( $channel_type ) {
 			case 'private':
-				if ( $current_user_id !== 0 ) {
+				if ( 0 !== $current_user_id ) {
 					if ( strpos( $channel_name, 'private-bb-message-thread-' ) !== false ) {
 						$channel_thread_id = (int) str_replace( 'private-bb-message-thread-', '', $channel_name );
 						if ( ! messages_check_thread_access( $channel_thread_id, (int) $current_user_id ) ) {

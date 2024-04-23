@@ -38,6 +38,9 @@ class BB_Platform_Pro_Core {
 		// Load Access Control.
 		$this->load_access_control();
 
+		// Load Reactions.
+		$this->load_reactions();
+
 		// Load Platform Settings.
 		$this->load_platform_settings();
 
@@ -125,6 +128,27 @@ class BB_Platform_Pro_Core {
 		 * @since 1.1.0
 		 */
 		do_action( 'bb_platform_pro_core_access_control_included' );
+	}
+
+	/**
+	 * Load reactions files.
+	 *
+	 * @since 2.4.50
+	 */
+	private function load_reactions() {
+		$bb_platform_pro = bb_platform_pro();
+
+		$file = "{$bb_platform_pro->reactions_dir}/bb-reactions-loader.php";
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+
+		/**
+		 * Fires after the loading reactions.
+		 *
+		 * @since 2.4.50
+		 */
+		do_action( 'bb_platform_pro_core_reactions_included' );
 	}
 
 	/**
