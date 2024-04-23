@@ -1,5 +1,5 @@
 /* jshint browser: true */
-/* global bp, BB_PRO_ADMIN */
+/* global bp, BB_PRO_ADMIN, bbReactionAdminVars */
 /* @version 1.0.0 */
 
 /**
@@ -42,6 +42,12 @@ window.bp = window.bp || {};
 			$( document ).on( 'click', '.bb-zoom-dismiss-site-notice .notice-dismiss', this.dismissZoomNotice.bind( this ) );
 			$( document ).on( 'click', '.bb-pro-tabs-list li', this.toggleTabs.bind( this ) );
 			$( document ).on( 'click', '.bb-copy-button', this.copyContent.bind( this ) );
+			// Dismiss site-wide notice.
+			$( document ).on( 'click', '.buddyboss_page_bp-settings #bb-pro-reaction-global-notice .notice-dismiss', this.dismissReactionNotice );
+		},
+
+		getNumberFormat: function ( number ) {
+			return Number( number ).toLocaleString( 'en' );
 		},
 
 		dismissNotice: function( e ) {
@@ -66,7 +72,10 @@ window.bp = window.bp || {};
 		dismissZoomNotice: function( e ) {
 			e.preventDefault();
 
-			if ( 'undefined' === typeof BB_PRO_ADMIN.zoom_dismiss_notice_nonce ) {
+			if (
+				'undefined' === typeof BB_PRO_ADMIN ||
+				'undefined' === typeof BB_PRO_ADMIN.zoom_dismiss_notice_nonce
+			) {
 				return;
 			}
 
@@ -100,19 +109,44 @@ window.bp = window.bp || {};
 		copyContent: function ( e ) {
 			e.preventDefault();
 
-			var $clickedButton 		= $( e.currentTarget );
-			var $clickedButtonText	= $( e.currentTarget ).text();
-			var $parent        		= $clickedButton.closest( '.copy-toggle' );
+			var $clickedButton 	   = $( e.currentTarget ),
+				$clickedButtonText = $( e.currentTarget ).text(),
+				$parent        	   = $clickedButton.closest( '.copy-toggle' );
 
 			var $content = $parent.find( '.bb-copy-value' );
 			$content.select();
 			document.execCommand( 'copy' );
 			$content.blur();
 			$clickedButton.text( $clickedButton.data( 'copied-text' ) );
-			setTimeout( function() {
-				$clickedButton.text( $clickedButtonText );
-			}, 2000 );
-		}
+			setTimeout(
+				function() {
+					$clickedButton.text( $clickedButtonText );
+				},
+				2000
+			);
+		},
+
+		dismissReactionNotice: function ( e ) {
+			e.preventDefault();
+
+			if (
+				'undefined' === typeof bbReactionAdminVars ||
+				'undefined' === typeof bbReactionAdminVars.nonce.dismiss_migration_notice
+			) {
+				return;
+			}
+
+			$.ajax(
+				{
+					type: 'POST',
+					url: bbReactionAdminVars.ajax_url,
+					data: {
+						'action': 'bb_pro_reaction_dismiss_migration_notice',
+						'nonce': bbReactionAdminVars.nonce.dismiss_migration_notice,
+					},
+				}
+			);
+		},
 
 	};
 
