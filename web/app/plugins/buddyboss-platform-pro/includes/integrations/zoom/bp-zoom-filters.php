@@ -167,7 +167,7 @@ function bp_zoom_set_email_tokens( $formatted_tokens, $tokens, $bp_email ) {
 		$email_content_html      = $bp_email->get_content_html();
 		$email_content_plaintext = $bp_email->get_content_plaintext();
 
-		if ( strpos( $email_content_html, 'zoom_meeting' ) !== false || strpos( $email_content_plaintext, 'zoom_meeting' ) !== false ) {
+		if ( false !== strpos( $email_content_html, 'zoom_meeting' ) || false !== strpos( $email_content_plaintext, 'zoom_meeting' ) ) {
 			$token_output = call_user_func( 'bp_zoom_meeting_email_token_zoom_meeting', $bp_email, $formatted_tokens, $tokens );
 			$formatted_tokens[ sanitize_text_field( 'zoom_meeting' ) ] = $token_output;
 		}
@@ -177,7 +177,7 @@ function bp_zoom_set_email_tokens( $formatted_tokens, $tokens, $bp_email ) {
 		$email_content_html      = $bp_email->get_content_html();
 		$email_content_plaintext = $bp_email->get_content_plaintext();
 
-		if ( strpos( $email_content_html, 'zoom_webinar' ) !== false || strpos( $email_content_plaintext, 'zoom_webinar' ) !== false ) {
+		if ( false !== strpos( $email_content_html, 'zoom_webinar' ) || false !== strpos( $email_content_plaintext, 'zoom_webinar' ) ) {
 			$token_output = call_user_func( 'bp_zoom_webinar_email_token_zoom_webinar', $bp_email, $formatted_tokens, $tokens );
 			$formatted_tokens[ sanitize_text_field( 'zoom_webinar' ) ] = $token_output;
 		}

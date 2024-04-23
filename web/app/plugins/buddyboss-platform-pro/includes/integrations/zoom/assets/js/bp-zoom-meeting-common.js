@@ -64,7 +64,6 @@ window.bp = window.bp || {};
 			// Admin group zoom settings.
 			$( document ).on( 'change', '#s2s-account-id, #s2s-client-id, #s2s-client-secret', this.fetchZoomAccounts.bind( this ) );
 			$( document ).on( 'change', '.postbox-container #bp-edit-group-zoom', this.toggleAdminGroupSettings.bind( this ) );
-			$( document ).on( 'change', '.postbox-container input[name="bp-group-zoom-connection-type"]', this.toggleAdminGroupJWTNotice.bind( this ) );
 
 			// Group wizard popup.
 			$( document ).on( 'change', '#bb-group-zoom-s2s-secret-token-popup', this.updateGroupSecretToken.bind( this ) );
@@ -237,16 +236,6 @@ window.bp = window.bp || {};
 				$( '#bp-group-zoom-settings-connection-type, #bp-group-zoom-settings-additional' ).removeClass( 'bp-hide' );
 			} else {
 				$( '#bp-group-zoom-settings-connection-type, #bp-group-zoom-settings-additional' ).addClass( 'bp-hide' );
-			}
-		},
-
-		toggleAdminGroupJWTNotice: function ( e ) {
-			e.preventDefault();
-
-			if ( 'group' === $( 'input[name="bp-group-zoom-connection-type"]:checked' ).val() ) {
-				$( '#bb-zoom-group-admin-jwt-notice' ).removeClass( 'bp-hide' );
-			} else {
-				$( '#bb-zoom-group-admin-jwt-notice' ).addClass( 'bp-hide' );
 			}
 		},
 
