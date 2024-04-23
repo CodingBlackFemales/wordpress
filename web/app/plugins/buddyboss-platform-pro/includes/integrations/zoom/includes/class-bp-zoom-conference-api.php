@@ -5,7 +5,7 @@
  * @package BuddyBossPro/Integration/Zoom
  */
 
-use BuddyBoss\Zoom\Firebase\JWT\JWT;
+use \BuddyBoss\Zoom\Firebase\JWT\JWT;
 
 /**
  * Class Connecting Zoom API
@@ -18,20 +18,6 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 	 * Class BP_Zoom_Conference_Api
 	 */
 	class BP_Zoom_Conference_Api {
-
-		/**
-		 * Zoom API Key
-		 *
-		 * @var string
-		 */
-		public $zoom_api_key;
-
-		/**
-		 * Zoom API Secret
-		 *
-		 * @var string
-		 */
-		public $zoom_api_secret;
 
 		/**
 		 * Instance of BP_Zoom_Conference_Api
@@ -74,13 +60,6 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 		 * @var string
 		 */
 		public $zoom_api_client_secret;
-
-		/**
-		 * Zoom API JWT Auth Type.
-		 *
-		 * @var bool
-		 */
-		public static $is_jwt_auth;
 
 		/**
 		 * Zoom meeting SDK Client ID.
@@ -126,12 +105,14 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 		/**
 		 * BP_Zoom_Conference_Api constructor.
 		 *
-		 * @param string $zoom_api_key    Zoom API Key.
-		 * @param string $zoom_api_secret Zoom API Secret.
+		 * @param string $account_id    Zoom account ID.
+		 * @param string $client_id     Zoom API client ID.
+		 * @param string $client_secret Zoom client secret.
 		 */
-		public function __construct( $zoom_api_key = '', $zoom_api_secret = '' ) {
-			$this->zoom_api_key    = $zoom_api_key;
-			$this->zoom_api_secret = $zoom_api_secret;
+		public function __construct( $account_id = '', $client_id = '', $client_secret = '' ) {
+			$this->zoom_api_account_id    = $account_id;
+			$this->zoom_api_client_id     = $client_id;
+			$this->zoom_api_client_secret = $client_secret;
 		}
 
 		/**
@@ -146,11 +127,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 		protected function send_request( $called_function, $data, $request = 'GET' ) {
 			$request_url = $this->api_url . $called_function;
 
-			if ( self::$is_jwt_auth ) {
-				$token = $this->generate_jwt_key();
-			} else {
-				$token = $this->get_access_token( $this->zoom_api_account_id, $this->zoom_api_client_id, $this->zoom_api_client_secret, self::$group_id );
-			}
+			$token = $this->get_access_token( $this->zoom_api_account_id, $this->zoom_api_client_id, $this->zoom_api_client_secret, self::$group_id );
 
 			$args = array(
 				'headers' => array(
@@ -159,15 +136,15 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				),
 			);
 
-			if ( $request === 'POST' ) {
+			if ( 'POST' === $request ) {
 				$args['body']   = ! empty( $data ) ? wp_json_encode( $data ) : array();
 				$args['method'] = 'POST';
 				$response       = wp_remote_post( $request_url, $args );
-			} elseif ( $request === 'DELETE' ) {
+			} elseif ( 'DELETE' === $request ) {
 				$args['body']   = ! empty( $data ) ? wp_json_encode( $data ) : array();
 				$args['method'] = 'DELETE';
 				$response       = wp_remote_request( $request_url, $args );
-			} elseif ( $request === 'PATCH' ) {
+			} elseif ( 'PATCH' === $request ) {
 				$args['body']   = ! empty( $data ) ? wp_json_encode( $data ) : array();
 				$args['method'] = 'PATCH';
 				$response       = wp_remote_request( $request_url, $args );
@@ -180,25 +157,15 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$response      = wp_remote_retrieve_body( $response );
 			$response_body = in_array( $response_code, array( 400, 401 ), true ) && $this->is_xml( $response ) ? simplexml_load_string( $response ) : json_decode( $response );
 			if ( self::$is_validate && in_array( $response_code, array( 400, 401 ), true ) ) {
-				if ( self::$is_jwt_auth ) {
-					$this->validate_jwt_settings(
-						array(
-							'zoom_api_key'    => $this->zoom_api_key,
-							'zoom_api_secret' => $this->zoom_api_secret,
-							'group_id'        => self::$group_id,
-						)
-					);
-				} else {
-					$this->validate_s2s_settings(
-						array(
-							'account_id'    => $this->zoom_api_account_id,
-							'client_id'     => $this->zoom_api_client_id,
-							'client_secret' => $this->zoom_api_client_secret,
-							'response'      => $response,
-							'group_id'      => self::$group_id,
-						)
-					);
-				}
+				$this->validate_s2s_settings(
+					array(
+						'account_id'    => $this->zoom_api_account_id,
+						'client_id'     => $this->zoom_api_client_id,
+						'client_secret' => $this->zoom_api_client_secret,
+						'response'      => $response,
+						'group_id'      => self::$group_id,
+					)
+				);
 			}
 
 			// Reset the variable.
@@ -209,24 +176,6 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				'code'     => $response_code,
 				'body'     => $response_body,
 			);
-		}
-
-		/**
-		 * Generate JWT Key
-		 *
-		 * @since 1.0.0
-		 * @return string JWT key
-		 */
-		public function generate_jwt_key() {
-			$key    = $this->zoom_api_key;
-			$secret = $this->zoom_api_secret;
-
-			$token = array(
-				'iss' => $key,
-				'exp' => time() + 3600, // 60 seconds as suggested
-			);
-
-			return JWT::encode( $token, $secret );
 		}
 
 		/**
@@ -932,7 +881,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$response_message      = wp_remote_retrieve_response_message( $response );
 			$decoded_response_body = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( $response_code === 200 ) {
+			if ( 200 === $response_code ) {
 				if ( ! empty( $decoded_response_body->access_token ) ) {
 					$result = $decoded_response_body;
 				} elseif ( ! empty( $decoded_response_body->errorCode ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
@@ -978,7 +927,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$token = get_transient( $transient_key );
 
 			// If token available then return.
-			if ( $token !== false ) {
+			if ( false !== $token ) {
 				return $token;
 			}
 
@@ -1015,7 +964,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				$sdk_secret_key = $this->zoom_meeting_sdk_client_secret;
 			}
 
-			if ( empty( $sdk_secret_key ) ) {
+			if ( empty( $sdk_client_key ) || empty( $sdk_secret_key ) ) {
 				return false;
 			}
 
@@ -1023,10 +972,10 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$is_validation_exists = get_transient( 'bb-zoom-meeting-sdk-validate' );
 
 			// If validation is not available.
-			if ( $is_validation_exists === false ) {
+			if ( false === $is_validation_exists ) {
 				$is_validate = $this->bb_zoom_validate_meeting_sdk( $sdk_client_key, $sdk_secret_key );
 				set_transient( 'bb-zoom-meeting-sdk-validate', $is_validate, MINUTE_IN_SECONDS * 30 );
-				if ( $is_validate !== true ) {
+				if ( true !== $is_validate ) {
 					// Get settings.
 					$settings = bb_get_zoom_block_settings();
 
@@ -1081,7 +1030,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$token_object = $this->generate_access_token( $settings['account_id'], $settings['client_id'], $settings['client_secret'] );
 
 			if ( is_wp_error( $token_object ) ) {
-				if ( ! empty( $settings['group_id'] ) && bb_zoom_group_get_connection_type( $settings['group_id'] ) === 'group' ) {
+				if ( ! empty( $settings['group_id'] ) && 'group' === bb_zoom_group_get_connection_type( $settings['group_id'] ) ) {
 					$app_settings = groups_get_groupmeta( $settings['group_id'], 'bb-group-zoom' );
 				} else {
 					$app_settings = bb_get_zoom_block_settings();
@@ -1102,7 +1051,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				}
 
 				// Update the settings.
-				if ( ! empty( $settings['group_id'] ) && bb_zoom_group_get_connection_type( $settings['group_id'] ) === 'group' ) {
+				if ( ! empty( $settings['group_id'] ) && 'group' === bb_zoom_group_get_connection_type( $settings['group_id'] ) ) {
 					groups_update_groupmeta( $settings['group_id'], 'bb-group-zoom', $app_settings );
 					groups_delete_groupmeta( $settings['group_id'], 'bb-zoom-account-emails' );
 					groups_delete_groupmeta( $settings['group_id'], 'bb-group-zoom-s2s-api-email' );
@@ -1122,59 +1071,6 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 
 				// Delete token from transient.
 				delete_transient( $transient_key );
-			}
-		}
-
-		/**
-		 * Validate the JWT credential when updated the settings from the Zoom account.
-		 *
-		 * @since 2.3.91
-		 *
-		 * @param array $args Array of JWT credentials.
-		 */
-		private function validate_jwt_settings( $args = array() ) {
-			$settings = bp_parse_args(
-				$args,
-				array(
-					'zoom_api_key'    => $this->zoom_api_key,
-					'zoom_api_secret' => $this->zoom_api_secret,
-					'group_id'        => self::$group_id,
-				)
-			);
-
-			$account_email = ( ! empty( $settings['group_id'] ) ) ? groups_get_groupmeta( $settings['group_id'], 'bp-group-zoom-api-email' ) : bp_get_option( 'bp-zoom-api-email' );
-
-			if ( ! empty( $account_email ) ) {
-
-				// Do not validate again and avoid going to infinite loop.
-				self::$is_validate = false;
-
-				bp_zoom_conference()->zoom_api_key    = $settings['zoom_api_key'];
-				bp_zoom_conference()->zoom_api_secret = $settings['zoom_api_secret'];
-				self::$is_jwt_auth                    = true;
-				self::$group_id                       = $settings['group_id'];
-
-				// Get user information to validate JWT.
-				$user_info = $this->get_user_info( $account_email );
-				if ( $user_info['code'] !== 200 ) {
-					$errors[] = ( ! empty( $user_info['response']->message ) ) ? new WP_Error( 'api_error', $user_info['response']->message ) : new WP_Error( 'api_error', __( 'Invalid credentials.', 'buddyboss-pro' ) );
-
-					if ( ! empty( $settings['group_id'] ) ) {
-						groups_update_groupmeta( $settings['group_id'], 'bp-group-zoom-api-errors', $errors );
-						groups_update_groupmeta( $settings['group_id'], 'bp-group-zoom-api-is-connected', false );
-						groups_delete_groupmeta( $settings['group_id'], 'bp-group-zoom-api-host' );
-						groups_delete_groupmeta( $settings['group_id'], 'bp-group-zoom-api-host-user' );
-						groups_delete_groupmeta( $settings['group_id'], 'bp-group-zoom-api-host-user-settings' );
-						groups_delete_groupmeta( $settings['group_id'], 'bp-group-zoom-enable-webinar' );
-					} else {
-						bp_update_option( 'bp-zoom-api-errors', $errors );
-						bp_update_option( 'bp-zoom-api-is-connected', false );
-						bp_delete_option( 'bp-zoom-api-host' );
-						bp_delete_option( 'bp-zoom-api-host-user' );
-						bp_delete_option( 'bp-zoom-api-host-user-settings' );
-						bp_delete_option( 'bp-zoom-enable-webinar' );
-					}
-				}
 			}
 		}
 
@@ -1206,10 +1102,10 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				$group_token     = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-secret-token' );
 				$connection_type = bb_zoom_group_get_connection_type( $group_id );
 				if ( empty( $group_token ) ) {
-					if ( $connection_type === 'site' ) {
+					if ( 'site' === $connection_type ) {
 						$group_token = bb_zoom_secret_token();
 					} else {
-						$group_token = groups_get_groupmeta( $group_id, 'bp-group-zoom-api-webhook-token' );
+						$group_token = groups_get_groupmeta( $group_id, 'bb-group-zoom-s2s-secret-token' );
 					}
 				}
 
@@ -1217,7 +1113,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 					self::forbid( 'No token detected' );
 				}
 
-				if ( $event === 'endpoint.url_validation' && ! empty( $json['payload']['plainToken'] ) ) {
+				if ( 'endpoint.url_validation' === $event && ! empty( $json['payload']['plainToken'] ) ) {
 					self::zoom_url_validate( $json, $group_token );
 				}
 
@@ -1264,7 +1160,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 							bp_zoom_meeting_update_meta( $meeting->id, 'meeting_status', 'started' );
 
 							// Recurring meeting than check occurrences dates and update those as well and remove parent's status.
-							if ( $meeting->type === 8 ) {
+							if ( 8 === $meeting->type ) {
 								$occurrences = bp_zoom_meeting_get(
 									array(
 										'parent' => $meeting->meeting_id,
@@ -1290,7 +1186,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 							bp_zoom_meeting_update_meta( $meeting->id, 'meeting_status', 'ended' );
 
 							// Recurring meeting than check occurrences and remove their status.
-							if ( $meeting->type === 8 ) {
+							if ( 8 === $meeting->type ) {
 								$occurrences = bp_zoom_meeting_get(
 									array(
 										'parent' => $meeting->meeting_id,
@@ -1395,7 +1291,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 							bp_zoom_webinar_update_meta( $webinar->id, 'webinar_status', 'started' );
 
 							// Recurring webinar than check occurrences dates and update those as well and remove parent's status.
-							if ( $webinar->type === 9 ) {
+							if ( 9 === $webinar->type ) {
 								$occurrences = bp_zoom_webinar_get(
 									array(
 										'parent' => $webinar->webinar_id,
@@ -1421,7 +1317,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 							bp_zoom_webinar_update_meta( $webinar->id, 'webinar_status', 'ended' );
 
 							// Recurring webinar than check occurrences and remove their status.
-							if ( $webinar->type === 8 ) {
+							if ( 8 === $webinar->type ) {
 								$occurrences = bp_zoom_webinar_get(
 									array(
 										'parent' => $webinar->webinar_id,
@@ -1494,7 +1390,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 				}
 
 				if (
-					$event === 'endpoint.url_validation' &&
+					'endpoint.url_validation' === $event &&
 					! empty( $json['payload']['plainToken'] )
 				) {
 					self::zoom_url_validate( $json, $token );
@@ -1590,7 +1486,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$text_to_search    = 'wp:bp-zoom-meeting/create-meeting';
 			$block_name        = 'bp-zoom-meeting/create-meeting';
 			$attribute_id_name = 'meetingId';
-			if ( $type !== 'meeting' ) {
+			if ( 'meeting' !== $type ) {
 				$text_to_search    = 'wp:bp-zoom-meeting/create-webinar';
 				$block_name        = 'bp-zoom-meeting/create-webinar';
 				$attribute_id_name = 'webinarId';
@@ -1620,7 +1516,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 								! empty( $block['attrs'][ $attribute_id_name ] ) &&
 								$meeting_id === $block['attrs'][ $attribute_id_name ]
 							) {
-								if ( $type === 'meeting' ) {
+								if ( 'meeting' === $type ) {
 									$manipulated_blocks[] = self::bb_zoom_sync_zoom_meeting_block( $block, $meeting_id );
 								} else {
 									$manipulated_blocks[] = self::bb_zoom_sync_zoom_webinar_block( $block, $meeting_id );
@@ -1683,7 +1579,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 
 			$meeting_info = bp_zoom_conference()->get_meeting_info( $meeting_id );
 
-			if ( isset( $meeting_info['code'] ) && $meeting_info['code'] === 200 ) {
+			if ( isset( $meeting_info['code'] ) && 200 === $meeting_info['code'] ) {
 				$meeting   = $meeting_info['response'];
 				$form_type = $block['attrs']['meetingFormType'];
 
@@ -1696,20 +1592,20 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 
 				foreach ( $map_fields as $res_field => $block_field ) {
 					if ( isset( $meeting->$res_field ) ) {
-						if ( $res_field === 'duration' ) {
+						if ( 'duration' === $res_field ) {
 							$block['attrs'][ $block_field ] = "{$meeting->$res_field}";
-						} elseif ( $res_field === 'settings' ) {
+						} elseif ( 'settings' === $res_field ) {
 							foreach ( $block_field as $setting_res_field => $setting_block_field ) {
 								if ( isset( $meeting->$res_field->$setting_res_field ) ) {
 
 									if (
-										$setting_res_field === 'approval_type' &&
-										$meeting->$res_field->$setting_res_field === 0
+										'approval_type' === $setting_res_field &&
+										0 === $meeting->$res_field->$setting_res_field
 									) {
 										$block['attrs'][ $setting_block_field ] = true;
 									} elseif (
-										$setting_res_field === 'auto_recording' &&
-										$meeting->$res_field->$setting_res_field !== 'none'
+										'auto_recording' === $setting_res_field &&
+										'none' !== $meeting->$res_field->$setting_res_field
 									) {
 										$block['attrs'][ $setting_block_field ] = $meeting->$res_field->$setting_res_field;
 									} else {
@@ -1778,7 +1674,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 						}
 
 						foreach ( $meeting->occurrences as $o_meeting ) {
-							if ( $o_meeting->status !== 'deleted' ) {
+							if ( 'deleted' !== $o_meeting->status ) {
 								$start_time                 = $o_meeting->start_time;
 								$block['attrs']['duration'] = "{$o_meeting->duration}";
 								break;
@@ -1828,7 +1724,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 
 			$webinar_info = bp_zoom_conference()->get_webinar_info( $webinar_id );
 
-			if ( isset( $webinar_info['code'] ) && $webinar_info['code'] === 200 ) {
+			if ( isset( $webinar_info['code'] ) && 200 === $webinar_info['code'] ) {
 				$webinar   = $webinar_info['response'];
 				$form_type = $block['attrs']['webinarFormType'];
 
@@ -1841,15 +1737,15 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 
 				foreach ( $map_fields as $res_field => $block_field ) {
 					if ( isset( $webinar->$res_field ) ) {
-						if ( $res_field === 'duration' ) {
+						if ( 'duration' === $res_field ) {
 							$block['attrs'][ $block_field ] = "{$webinar->$res_field}";
-						} elseif ( $res_field === 'settings' ) {
+						} elseif ( 'settings' === $res_field ) {
 							foreach ( $block_field as $setting_res_field => $setting_block_field ) {
 								if ( isset( $webinar->$res_field->$setting_res_field ) ) {
 
 									if (
-										$setting_res_field === 'auto_recording' &&
-										$webinar->$res_field->$setting_res_field !== 'none'
+										'auto_recording' === $setting_res_field &&
+										'none' !== $webinar->$res_field->$setting_res_field
 									) {
 										$block['attrs'][ $setting_block_field ] = $webinar->$res_field->$setting_res_field;
 									} else {
@@ -1918,7 +1814,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 						}
 
 						foreach ( $webinar->occurrences as $o_meeting ) {
-							if ( $o_meeting->status !== 'deleted' ) {
+							if ( 'deleted' !== $o_meeting->status ) {
 								$start_time                 = $o_meeting->start_time;
 								$block['attrs']['duration'] = "{$o_meeting->duration}";
 								break;
@@ -1974,7 +1870,7 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 			$response_code         = wp_remote_retrieve_response_code( $response );
 			$decoded_response_body = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( $response_code === 200 && ! empty( $decoded_response_body->access_token ) ) {
+			if ( 200 === $response_code && ! empty( $decoded_response_body->access_token ) ) {
 				return true;
 			} else {
 				$error  = ! empty( $decoded_response_body->error ) ? $decoded_response_body->error : '';
@@ -2021,10 +1917,5 @@ if ( ! class_exists( 'BP_Zoom_Conference_Api' ) ) {
 		bp_zoom_conference()->zoom_api_account_id    = bb_zoom_account_id();
 		bp_zoom_conference()->zoom_api_client_id     = bb_zoom_client_id();
 		bp_zoom_conference()->zoom_api_client_secret = bb_zoom_client_secret();
-		BP_Zoom_Conference_Api::$is_jwt_auth         = false;
-	} elseif ( bb_zoom_is_jwt_connected() ) {
-		bp_zoom_conference()->zoom_api_key    = bp_zoom_api_key();
-		bp_zoom_conference()->zoom_api_secret = bp_zoom_api_secret();
-		BP_Zoom_Conference_Api::$is_jwt_auth  = true;
 	}
 }

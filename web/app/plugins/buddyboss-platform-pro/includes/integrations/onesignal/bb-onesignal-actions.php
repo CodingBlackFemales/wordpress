@@ -48,7 +48,7 @@ function bb_onesignal_notification_attachment_uploaded( $item_id, $type, $args )
 	if (
 		! empty( $args['object'] ) &&
 		! empty( $args['avatar'] ) &&
-		$args['object'] === 'notification'
+		'notification' === $args['object']
 	) {
 		bp_update_option( 'bb-onesignal-default-notification-icon', $args['avatar'] );
 	}
@@ -64,7 +64,7 @@ function bb_onesignal_notification_attachment_uploaded( $item_id, $type, $args )
 function bb_onesignal_delete_notification_attachment_uploaded( $args ) {
 	if (
 		! empty( $args['object'] ) &&
-		$args['object'] === 'notification'
+		'notification' === $args['object']
 	) {
 		bp_delete_option( 'bb-onesignal-default-notification-icon' );
 	}
@@ -131,7 +131,7 @@ function bb_pro_onesignal_enqueue_scripts_and_styles() {
 		'subDomainName'                  => ( ! empty( bb_onesignal_connected_app_details() ) ? bb_onesignal_connected_app_details()['chrome_web_sub_domain'] : '' ),
 	);
 
-	if ( bb_onesignal_enable_soft_prompt() === true ) {
+	if ( true === bb_onesignal_enable_soft_prompt() ) {
 		$data['actionMessage']    = esc_html( bb_onesignal_soft_prompt_message_text() );
 		$data['acceptButtonText'] = esc_html( bb_onesignal_soft_prompt_allow_btn_text() );
 		$data['cancelButtonText'] = esc_html( bb_onesignal_soft_prompt_cancel_btn_text() );
@@ -152,6 +152,7 @@ function bb_pro_onesignal_enqueue_scripts_and_styles() {
 		'bb_onesignal_vars',
 		$data
 	);
+
 }
 
 /**
@@ -230,11 +231,11 @@ function bb_onesignal_add_web_notification_toggle( $player_id = '', $browser = '
 		__( 'Refresh this page', 'buddyboss-pro' ),
 	);
 
-	if ( $browser === 'Opera' ) {
+	if ( 'Opera' === $browser ) {
 		$browser_text = esc_html__( 'Enable Opera Notifications', 'buddyboss-pro' );
-	} elseif ( $browser === 'Chrome' ) {
+	} elseif ( 'Chrome' === $browser ) {
 		$browser_text = esc_html__( 'Enable Chrome Notifications', 'buddyboss-pro' );
-	} elseif ( $browser === 'Safari' ) {
+	} elseif ( 'Safari' === $browser ) {
 		$browser_text             = esc_html__( 'Enable Safari Notifications', 'buddyboss-pro' );
 		$enable_instruction_steps = array(
 			__( 'Open the Safari settings', 'buddyboss-pro' ),
@@ -251,7 +252,7 @@ function bb_onesignal_add_web_notification_toggle( $player_id = '', $browser = '
 			__( 'Close the settings', 'buddyboss-pro' ),
 			__( 'Refresh this page', 'buddyboss-pro' ),
 		);
-	} elseif ( $browser === 'Firefox' ) {
+	} elseif ( 'Firefox' === $browser ) {
 		$browser_text             = esc_html__( 'Enable Firefox Notifications', 'buddyboss-pro' );
 		$enable_instruction_steps = array(
 			__( 'Open the Firefox settings', 'buddyboss-pro' ),
@@ -268,9 +269,9 @@ function bb_onesignal_add_web_notification_toggle( $player_id = '', $browser = '
 			__( 'Click Save Changes and close the settings', 'buddyboss-pro' ),
 			__( 'Refresh this page', 'buddyboss-pro' ),
 		);
-	} elseif ( $browser === 'Edge' ) {
+	} elseif ( 'Edge' === $browser ) {
 		$browser_text = esc_html__( 'Enable Edge Notifications', 'buddyboss-pro' );
-	} elseif ( $browser === 'IE' ) {
+	} elseif ( 'IE' === $browser ) {
 		$browser_text = esc_html__( 'Enable IE Notifications', 'buddyboss-pro' );
 	} else {
 		$browser_text = esc_html__( 'Enable Browser Notifications', 'buddyboss-pro' );
@@ -290,7 +291,7 @@ function bb_onesignal_add_web_notification_toggle( $player_id = '', $browser = '
 				<p><?php esc_html_e( 'Receive web notifications through this browser, even when you\'re not on this site.', 'buddyboss-pro' ); ?></p>
 			</div>
 			<div class="web-notification-field">
-				<?php if ( $loader === true ) { ?>
+				<?php if ( true === $loader ) { ?>
 					<i class="bb-icons bb-icon-spinner animate-spin"></i>
 				<?php } else { ?>
 					<label class="switch" for="<?php echo esc_attr( $browser_name ); ?>">
@@ -351,6 +352,7 @@ function bb_onesignal_add_web_notification_toggle( $player_id = '', $browser = '
 	</div>
 	<?php
 	return ob_get_clean();
+
 }
 
 /**
@@ -402,6 +404,7 @@ function bb_pro_onesignal_update_device_info() {
 			'browser_box' => bb_onesignal_add_web_notification_toggle( $player_id, bb_get_browser_name( $_SERVER['HTTP_USER_AGENT'] ), $active ),
 		)
 	);
+
 }
 
 /**
@@ -429,13 +432,14 @@ function bb_logout_clear_player_cookie() {
 
 			$fields = array(
 				'app_id'           => $app_id,
-				'external_user_id' => 0,
+				'external_user_id' => '',
 			);
 
 			$args_remote['body'] = $fields;
 			bbpro_remote_post( bb_onesignal_api_endpoint() . 'players/' . $player_id, $args_remote );
 		}
 	}
+
 }
 
 /**
@@ -477,11 +481,11 @@ function bb_pro_onesignal_notification_after_save( $notification ) {
 
 	if (
 		isset( $notification->inserted ) &&
-		$notification->inserted === true &&
+		true === $notification->inserted &&
 		bp_can_send_notification( $notification->user_id, $notification->component_name, $notification->component_action, 'web' )
 	) {
 
-		if ( (bool) apply_filters( 'bb_pro_onesignal_notification_fire', bb_pro_onesignal_user_presence_check( true, $notification ), $notification ) !== true ) {
+		if ( true !== (bool) apply_filters( 'bb_pro_onesignal_notification_fire', bb_pro_onesignal_user_presence_check( true, $notification ), $notification ) ) {
 			return;
 		}
 
