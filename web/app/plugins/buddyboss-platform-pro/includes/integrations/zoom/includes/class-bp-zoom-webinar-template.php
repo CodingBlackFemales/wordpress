@@ -98,6 +98,14 @@ class BP_Zoom_Webinar_Template {
 	public $pag_links;
 
 	/**
+	 * More webinar items to be shown.
+	 *
+	 * @since 2.4.30
+	 * @var string
+	 */
+	public $has_more_items;
+
+	/**
 	 * Constructor method.
 	 *
 	 * The arguments passed to this class constructor are of the same
