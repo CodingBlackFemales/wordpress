@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.29](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.28...v0.1.29) (2024-04-23)
+
+
+### Bug Fixes
+
+* prevents CORS errors for .woff2 fonts ([bf21394](https://github.com/CodingBlackFemales/wordpress/commit/bf213948b528ac7f25b1a4351c76c8d9c49ed7ad))
+
 ## [0.1.28](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.27...v0.1.28) (2024-04-04)
 
 ## [0.1.27](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.26...v0.1.27) (2024-03-26)
