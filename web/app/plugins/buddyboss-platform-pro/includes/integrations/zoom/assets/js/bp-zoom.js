@@ -1821,7 +1821,13 @@ window.bp = window.bp || {};
 
 			e.preventDefault();
 
-			if ( typeof bp_zoom_vars.scripts === 'undefined' && bp_zoom_vars.scripts.length == 0 ) {
+			if (
+				(
+					typeof bp_zoom_vars.scripts === 'undefined' &&
+					0 === bp_zoom_vars.scripts.length
+				) ||
+				! bp_zoom_vars.is_zoom_sdk
+			) {
 				return false;
 			}
 
@@ -1909,7 +1915,6 @@ window.bp = window.bp || {};
 
 						$( '#zmmtg-root' ).addClass( 'active' );
 						var meetConfig = {
-							apiKey: atob( bp_zoom_vars.bp_staple ),
 							meetingNumber: _this.data( 'meeting-id' ),
 							userName: bp_zoom_vars.user.name,
 							passWord: _this.data( 'meeting-pwd' ),
@@ -1925,41 +1930,22 @@ window.bp = window.bp || {};
 								leaveUrl: meetConfig.leaveUrl,
 								isSupportAV: true,
 								success: function () {
-									if ( bp_zoom_vars.is_zoom_sdk ) {
-										ZoomMtg.join(
-											{
-												sdkKey: sdkKey,
-												signature: signature,
-												meetingNumber: meetConfig.meetingNumber,
-												passWord: meetConfig.passWord,
-												userName: meetConfig.userName,
-												success: function (res) {
-													console.log( res );
-													console.log( 'join meeting success' );
-												},
-												error: function (res) {
-													console.log( res );
-												}
+									ZoomMtg.join(
+										{
+											sdkKey: sdkKey,
+											signature: signature,
+											meetingNumber: meetConfig.meetingNumber,
+											passWord: meetConfig.passWord,
+											userName: meetConfig.userName,
+											success: function (res) {
+												console.log( res );
+												console.log( 'join meeting success' );
+											},
+											error: function (res) {
+												console.log( res );
 											}
-										);
-									} else {
-										ZoomMtg.join(
-											{
-												apiKey: meetConfig.apiKey,
-												signature: signature,
-												meetingNumber: meetConfig.meetingNumber,
-												passWord: meetConfig.passWord,
-												userName: meetConfig.userName,
-												success: function (res) {
-													console.log( res );
-													console.log( 'join meeting success' );
-												},
-												error: function (res) {
-													console.log( res );
-												}
-											}
-										);
-									}
+										}
+									);
 								},
 								error: function (res) {
 									console.log( res );
@@ -2656,7 +2642,13 @@ window.bp = window.bp || {};
 
 			e.preventDefault();
 
-			if ( typeof bp_zoom_vars.scripts === 'undefined' && bp_zoom_vars.scripts.length == 0 ) {
+			if (
+				(
+					typeof bp_zoom_vars.scripts === 'undefined' &&
+					0 === bp_zoom_vars.scripts.length
+				) ||
+				! bp_zoom_vars.is_zoom_sdk
+			) {
 				return false;
 			}
 
@@ -2744,7 +2736,6 @@ window.bp = window.bp || {};
 
 						$( '#zmmtg-root' ).addClass( 'active' );
 						var meetConfig = {
-							apiKey: atob( bp_zoom_vars.bp_staple ),
 							meetingNumber: _this.data( 'webinar-id' ),
 							userName: bp_zoom_vars.user.name,
 							passWord: _this.data( 'webinar-pwd' ),
@@ -2761,43 +2752,23 @@ window.bp = window.bp || {};
 								leaveUrl: meetConfig.leaveUrl,
 								isSupportAV: true,
 								success: function () {
-									if ( bp_zoom_vars.is_zoom_sdk ) {
-										ZoomMtg.join(
-											{
-												meetingNumber: meetConfig.meetingNumber,
-												userName: meetConfig.userName,
-												signature: signature,
-												sdkKey: sdkKey,
-												passWord: meetConfig.passWord,
-												userEmail: bp_zoom_vars.user.email, // required.
-												success: function (res) {
-													console.log( res );
-													console.log( 'join webinar success' );
-												},
-												error: function (res) {
-													console.log( res );
-												}
+									ZoomMtg.join(
+										{
+											meetingNumber: meetConfig.meetingNumber,
+											userName: meetConfig.userName,
+											signature: signature,
+											sdkKey: sdkKey,
+											passWord: meetConfig.passWord,
+											userEmail: bp_zoom_vars.user.email, // required.
+											success: function (res) {
+												console.log( res );
+												console.log( 'join webinar success' );
+											},
+											error: function (res) {
+												console.log( res );
 											}
-										);
-									} else {
-										ZoomMtg.join(
-											{
-												meetingNumber: meetConfig.meetingNumber,
-												userName: meetConfig.userName,
-												signature: signature,
-												apiKey: meetConfig.apiKey,
-												passWord: meetConfig.passWord,
-												userEmail: bp_zoom_vars.user.email, // required.
-												success: function (res) {
-													console.log( res );
-													console.log( 'join webinar success' );
-												},
-												error: function (res) {
-													console.log( res );
-												}
-											}
-										);
-									}
+										}
+									);
 								},
 								error: function (res) {
 									console.log( res );

@@ -176,7 +176,7 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			$request_args = array(
 				'id'      => $this->plugin_id,
 				'slug'    => $this->plugin_slug,
-				'version' => $transient->checked[ $this->plugin_path ],
+				'version' => $current_version,
 			);
 
 			if ( empty( $this->license_key ) ) {
