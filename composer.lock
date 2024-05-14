@@ -9269,15 +9269,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-services",
-            "version": "2.5.6",
+            "version": "2.5.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-services/",
-                "reference": "tags/2.5.6"
+                "reference": "tags/2.5.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.2.5.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.2.5.7.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
