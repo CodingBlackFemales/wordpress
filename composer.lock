@@ -9251,15 +9251,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-paypal-payments",
-            "version": "2.7.0",
+            "version": "2.7.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments/",
-                "reference": "tags/2.7.0"
+                "reference": "tags/2.7.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.2.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.2.7.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
