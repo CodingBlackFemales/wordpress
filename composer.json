@@ -82,7 +82,6 @@
     "wpackagist-plugin/pods": "^3.0",
     "wpackagist-plugin/remove-dashboard-access-for-non-admins": "^1.1",
     "wpackagist-plugin/social-login-lite-for-woocommerce": "^1.6",
-    "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4",
     "wpackagist-plugin/woocommerce": "^8.0",
     "wpackagist-plugin/woocommerce-gateway-stripe": "^8.0",
     "wpackagist-plugin/woocommerce-paypal-payments": "^2.0",
