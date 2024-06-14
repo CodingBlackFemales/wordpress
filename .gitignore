@@ -76,3 +76,6 @@ data
 
 # Lando
 .lando.local.yml
+
+# Scripts
+sync.sh
