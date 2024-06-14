@@ -8999,15 +8999,15 @@
         },
         {
             "name": "wpackagist-plugin/header-footer-code-manager",
-            "version": "1.1.37",
+            "version": "1.1.38",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/header-footer-code-manager/",
-                "reference": "tags/1.1.37"
+                "reference": "tags/1.1.38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/header-footer-code-manager.1.1.37.zip"
+                "url": "https://downloads.wordpress.org/plugin/header-footer-code-manager.1.1.38.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
