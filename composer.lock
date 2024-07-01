@@ -9054,15 +9054,15 @@
         },
         {
             "name": "wpackagist-plugin/login-as-user",
-            "version": "1.5.0",
+            "version": "1.5.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/login-as-user/",
-                "reference": "trunk"
+                "reference": "tags/1.5.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/login-as-user.zip?timestamp=1714091669"
+                "url": "https://downloads.wordpress.org/plugin/login-as-user.1.5.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
