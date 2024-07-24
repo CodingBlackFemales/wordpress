@@ -1400,10 +1400,10 @@
         },
         {
             "name": "koodimonni-language/en_gb",
-            "version": "6.6",
+            "version": "6.6.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/6.6/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/core/6.6.1/en_GB.zip"
             },
             "require": {
                 "koodimonni-plugin-language/admin-color-schemer-en_gb": "*",
@@ -1530,10 +1530,10 @@
         },
         {
             "name": "koodimonni-plugin-language/classic-editor-en_gb",
-            "version": "1.6.3",
+            "version": "1.6.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/classic-editor/1.6.3/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/classic-editor/1.6.4/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
