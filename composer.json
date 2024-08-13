@@ -60,7 +60,7 @@
     "roots/wp-password-bcrypt": "1.1.0",
     "sleiman/airtable-php": "^3.0",
     "vlucas/phpdotenv": "^5.5",
-    "wp-cli/wp-cli-bundle": "~2.10.0",
+    "wp-cli/wp-cli-bundle": "~2.11.0",
     "wpackagist-plugin/akismet": "^5.1",
     "wpackagist-plugin/breadcrumb-navxt": "^7.2",
     "wpackagist-plugin/conditional-blocks": "^3.0",
