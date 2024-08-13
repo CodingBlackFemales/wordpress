@@ -9350,15 +9350,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-paypal-payments",
-            "version": "2.8.2",
+            "version": "2.8.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments/",
-                "reference": "tags/2.8.2"
+                "reference": "tags/2.8.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.2.8.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.2.8.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
