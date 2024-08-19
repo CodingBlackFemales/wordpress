@@ -44,39 +44,55 @@ jobs:
   version:
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(github.event.head_commit.author.name, 'GitHub Action') }}
     needs: [ setup ]
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Map a step output to a job output
     outputs:
       executed: ${{ steps.tag_release.outputs.executed }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
 
-      # Bumps version, updates changelog and creates tag. Adds [skip ci] to commit message to prevent infinite workflow loop
-      - name: Tag release
+      - name: Install GitHub CLI
+        run: |
+          type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+          && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+          && sudo apt update \
+          && sudo apt install gh -y
+
+      - name: Create release branch and pull request
         id: tag_release
+        env:
+          GH_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
         run: |
           git fetch --unshallow --tags
           git config --global user.email "${{github.event.pusher.email}}"
           git config --global user.name "${{github.event.pusher.name}}"
+          
+          # Create a new branch for the release
+          git checkout -b release-$(date +'%Y%m%d%H%M%S')
+          
+          # Run version bump and changelog update
           npx --yes commit-and-tag-version
-          message=`git log -1 --pretty=format:%B | cat`
-          git commit --amend -m "$message
-          [skip ci]"
-          tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-          git tag -f $tag
-          git push --atomic --no-verify origin main $tag
+          
+          # Get the new version
+          new_version=$(git describe --tags --abbrev=0)
+          
+          # Push the new branch and tag
+          git push --set-upstream origin HEAD
+          git push origin $new_version
+          
+          # Create a pull request
+          gh pr create --title "Release $new_version" --body "This PR contains version bump and changelog updates for release $new_version" --base main
+          
           echo 'executed=true' >> $GITHUB_OUTPUT
 
   deploy:
