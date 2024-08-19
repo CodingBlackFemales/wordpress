@@ -76,23 +76,23 @@ jobs:
           git fetch --unshallow --tags
           git config --global user.email "${{github.event.pusher.email}}"
           git config --global user.name "${{github.event.pusher.name}}"
-          
+
           # Create a new branch for the release
           git checkout -b release-$(date +'%Y%m%d%H%M%S')
-          
+
           # Run version bump and changelog update
           npx --yes commit-and-tag-version
-          
+
           # Get the new version
           new_version=$(git describe --tags --abbrev=0)
-          
+
           # Push the new branch and tag
           git push --set-upstream origin HEAD
           git push origin $new_version
-          
+
           # Create a pull request
-          gh pr create --title "Release $new_version" --body "This PR contains version bump and changelog updates for release $new_version" --base main
-          
+          gh pr create --title "Release $new_version" --body "This PR contains version bump and changelog updates for release $new_version" --base develop
+
           echo 'executed=true' >> $GITHUB_OUTPUT
 
   deploy:
