@@ -9386,15 +9386,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-graphql",
-            "version": "1.28.0",
+            "version": "1.28.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/1.28.0"
+                "reference": "tags/1.28.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.1.28.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.1.28.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
