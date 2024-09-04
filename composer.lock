@@ -9008,15 +9008,15 @@
         },
         {
             "name": "wpackagist-plugin/facebook-for-woocommerce",
-            "version": "3.2.7",
+            "version": "3.2.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.2.7"
+                "reference": "tags/3.2.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.2.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.2.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
