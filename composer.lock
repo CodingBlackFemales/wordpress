@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e05258314940e1d104ab715c542ca8c7",
+    "content-hash": "3bf09b5ed5e9112ef8e38b40d8b571ed",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7246,7 +7246,7 @@
         },
         {
             "name": "wpackagist-plugin/crisp",
-            "version": "0.46",
+            "version": "0.47",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/crisp/",
@@ -7254,7 +7254,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/crisp.zip?timestamp=1719483233"
+                "url": "https://downloads.wordpress.org/plugin/crisp.zip?timestamp=1727183694"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
