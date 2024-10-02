@@ -25,6 +25,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require WPFORMS_PLUGIN_DIR . 'assets/css/emails/partials/classic_media_queries.css';
 
+// Reuse border-color.
+$border_color_dark = wpforms_generate_contrasting_color( $email_text_color_dark, 86, 72 );
+
 ?>
 
 @media (prefers-color-scheme: dark) {
@@ -60,11 +63,19 @@ require WPFORMS_PLUGIN_DIR . 'assets/css/emails/partials/classic_media_queries.c
 	}
 
 	.content .field-value {
-		border-bottom: 1px solid <?php echo sanitize_hex_color( wpforms_generate_contrasting_color( $email_text_color_dark, 86, 72 ) ); ?> !important;
+		border-bottom: 1px solid <?php echo sanitize_hex_color( $border_color_dark ); ?> !important;
 	}
 
 	.footer, .footer a {
 		color: <?php echo sanitize_hex_color( wpforms_generate_contrasting_color( $email_text_color_dark, 50, 45 ) ); ?> !important;
+	}
+
+	table.wpforms-order-summary-preview {
+		border: 1px solid <?php echo sanitize_hex_color( $border_color_dark ); ?> !important;
+	}
+
+	table.wpforms-order-summary-preview td {
+		border-top: 1px solid <?php echo sanitize_hex_color( $border_color_dark ); ?> !important;
 	}
 
 	<?php if ( ! empty( $header_image_max_width_dark ) && ! empty( $header_image_max_height_dark ) ) : ?>

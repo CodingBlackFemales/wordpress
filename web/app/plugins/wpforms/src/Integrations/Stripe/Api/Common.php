@@ -176,21 +176,33 @@ abstract class Common {
 	 *
 	 * @since 1.8.2
 	 * @since 1.8.6 Added customer name argument and allow empty email.
+	 * @since 1.8.8 Added customer billing address argument.
 	 *
-	 * @param string $email Email to fetch an existing customer.
-	 * @param string $name Customer name.
+	 * @param string $email   Email to fetch an existing customer.
+	 * @param string $name    Customer name.
+	 * @param array  $address Customer billing address.
 	 */
-	protected function set_customer( $email = '', $name = '' ) {
+	protected function set_customer( string $email = '', string $name = '', array $address = [] ) {
 
-		if ( ! $email && ! $name  ) {
+		if ( ! $email && ! $name ) {
 			return;
+		}
+
+		$args = [];
+
+		if ( $name ) {
+			$args['name'] = $name;
+		}
+
+		if ( $address ) {
+			$args['address'] = $address;
 		}
 
 		// Create a customer with name only if email is empty.
 		if ( ! $email ) {
 
 			try {
-				$customer = Customer::create( [ 'name' => $name ], Helpers::get_auth_opts() );
+				$customer = Customer::create( $args, Helpers::get_auth_opts() );
 			} catch ( \Exception $e ) {
 				$customer = null;
 			}
@@ -219,9 +231,7 @@ abstract class Common {
 				try {
 					$this->customer = Customer::update(
 						$this->customer->id,
-						[
-							'name' => $name,
-						],
+						$args,
 						Helpers::get_auth_opts()
 					);
 				} catch ( \Exception $e ) {
@@ -239,11 +249,7 @@ abstract class Common {
 		}
 
 		try {
-			$args = [ 'email' => $email ];
-
-			if ( ! empty( $name ) ) {
-				$args['name'] = $name;
-			}
+			$args['email'] = $email;
 
 			$customer = Customer::create( $args, Helpers::get_auth_opts() );
 		} catch ( \Exception $e ) {
@@ -394,6 +400,17 @@ abstract class Common {
 			$args['amount'],
 			$period['desc']
 		);
+
+		/**
+		 * Allow to filter Stripe subscription plan name.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param string $name   Plan name.
+		 * @param array  $period Subscription period data.
+		 * @param array  $args   Additional arguments.
+		 */
+		$name = (string) apply_filters( 'wpforms_integrations_stripe_api_common_create_plan_name', $name, $period, $args );
 
 		$plan_args = [
 			'amount'         => $args['amount'],

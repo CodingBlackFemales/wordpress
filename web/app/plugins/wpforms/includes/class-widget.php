@@ -21,7 +21,7 @@ class WPForms_Widget extends WP_Widget {
 	protected $defaults;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.2
 	 */
@@ -42,7 +42,7 @@ class WPForms_Widget extends WP_Widget {
 		$widget_ops = [
 			'classname'             => $widget_slug,
 			'description'           => esc_html_x( 'Display a form.', 'Widget', 'wpforms-lite' ),
-			'show_instance_in_rest' => true,
+			'show_instance_in_rest' => false,
 		];
 
 		// Widget controls.
@@ -71,12 +71,12 @@ class WPForms_Widget extends WP_Widget {
 
 		// Title.
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $args['after_title']; // phpcs:ignore
 		}
 
 		// Form.
 		if ( ! empty( $instance['form_id'] ) ) {
-			wpforms()->get( 'frontend' )->output( absint( $instance['form_id'] ), $instance['show_title'], $instance['show_desc'] );
+			wpforms()->obj( 'frontend' )->output( absint( $instance['form_id'] ), $instance['show_title'], $instance['show_desc'] );
 		}
 
 		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -119,20 +119,15 @@ class WPForms_Widget extends WP_Widget {
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
 				<?php echo esc_html( _x( 'Title:', 'Widget', 'wpforms-lite' ) ); ?>
 			</label>
-			<input type="text"
-			       id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
-			       name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
-			       value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat"/>
+			<input type="text" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat"/>
 		</p>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>">
 				<?php echo esc_html( _x( 'Form:', 'Widget', 'wpforms-lite' ) ); ?>
 			</label>
-			<select class="widefat"
-					id="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>"
-					name="<?php echo esc_attr( $this->get_field_name( 'form_id' ) ); ?>">
+			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'form_id' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'form_id' ) ); ?>">
 				<?php
-				$forms = wpforms()->get( 'form' )->get();
+				$forms = wpforms()->obj( 'form' )->get();
 
 				if ( ! empty( $forms ) ) {
 					echo '<option value="" selected disabled>' . esc_html_x( 'Select your form', 'Widget', 'wpforms-lite' ) . '</option>';
@@ -147,14 +142,12 @@ class WPForms_Widget extends WP_Widget {
 			</select>
 		</p>
 		<p>
-			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_title' ) ); ?>"
-			       name="<?php echo esc_attr( $this->get_field_name( 'show_title' ) ); ?>" <?php checked( '1', $instance['show_title'] ); ?>>
+			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_title' ) ); ?>" <?php checked( '1', $instance['show_title'] ); ?>>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'show_title' ) ); ?>">
 				<?php echo esc_html( _x( 'Display form name', 'Widget', 'wpforms-lite' ) ); ?>
 			</label>
 			<br>
-			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_desc' ) ); ?>"
-					name="<?php echo esc_attr( $this->get_field_name( 'show_desc' ) ); ?>" <?php checked( '1', $instance['show_desc'] ); ?>>
+			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_desc' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_desc' ) ); ?>" <?php checked( '1', $instance['show_desc'] ); ?>>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'show_desc' ) ); ?>">
 				<?php echo esc_html( _x( 'Display form description', 'Widget', 'wpforms-lite' ) ); ?>
 			</label>
@@ -164,9 +157,25 @@ class WPForms_Widget extends WP_Widget {
 }
 
 /**
- * Register WPForms plugin widgets.
+ * Register the WPForms widget.
+ *
+ * @since 1.0.2
  */
-function wpforms_register_widgets() {
+function wpforms_register_widgets() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+	// Hide legacy widget. This filter is available from WP 5.8.
+	// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName, WPForms.Comments.PHPDocHooks.RequiredHookDocumentation
+	add_filter(
+	'widget_types_to_hide_from_legacy_widget_block',
+		static function ( $widget_types ) {
+
+			$widget_types[] = 'wpforms-widget';
+
+			return $widget_types;
+		}
+	);
+	// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName, WPForms.Comments.PHPDocHooks.RequiredHookDocumentation
+
 	register_widget( 'WPForms_Widget' );
 }
 

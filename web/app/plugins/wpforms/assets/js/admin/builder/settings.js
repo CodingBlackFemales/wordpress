@@ -84,14 +84,27 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 */
-		events: function() {
-
+		events() {
 			el.$panel
 				.on( 'keydown', '#wpforms-panel-field-settings-form_tags-wrap input', app.addCustomTagInput )
-				.on( 'removeItem', '#wpforms-panel-field-settings-form_tags-wrap select', app.editTagsRemoveItem );
+				.on( 'removeItem', '#wpforms-panel-field-settings-form_tags-wrap select', app.editTagsRemoveItem )
+				.on( 'change', '#wpforms-panel-field-settings-antispam_v3', app.enableAntispamV3 );
 
 			el.$selectTags
 				.on( 'change', app.changeTags );
+		},
+
+		/**
+		 * Enable Anti spam v3 toggle change event.
+		 *
+		 * @since 1.9.0
+		 */
+		enableAntispamV3() {
+			// Hide and disable old anti-spam.
+			$( '#wpforms-panel-field-settings-antispam' )
+				.prop( 'checked', false )
+				.closest( '.wpforms-panel-field' )
+				.toggleClass( 'wpforms-hidden' );
 		},
 
 		/**

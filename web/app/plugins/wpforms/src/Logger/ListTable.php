@@ -118,7 +118,7 @@ class ListTable extends WP_List_Table {
 			[
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => (int) ceil( $total_items / $per_page ),
 			]
 		);
 	}
@@ -542,11 +542,12 @@ class ListTable extends WP_List_Table {
 
 		$this->prepare_column_headers();
 		$this->prepare_items();
+
 		echo '<div class="wpforms-list-table wpforms-list-table--logs">';
-		echo '<form id="' . esc_attr( $this->_args['plural'] ) . '-filter" method="get">';
-		$this->header();
-		$this->display();
-		echo '</form>';
+			echo '<form id="' . esc_attr( $this->_args['plural'] ) . '-filter" method="get">';
+				$this->header();
+				$this->display();
+			echo '</form>';
 		echo '</div>';
 	}
 

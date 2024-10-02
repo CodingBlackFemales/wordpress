@@ -58,6 +58,15 @@ class WebhooksAutoConfigurationTask extends Task {
 	private $webhooks_manager;
 
 	/**
+	 * Log title.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @var string
+	 */
+	protected $log_title = 'Migration';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.8.4
@@ -92,7 +101,7 @@ class WebhooksAutoConfigurationTask extends Task {
 		// Register hooks.
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {
@@ -121,22 +130,10 @@ class WebhooksAutoConfigurationTask extends Task {
 
 		// If the Stripe account is connected, then try to configure webhooks.
 		if ( Helpers::has_stripe_keys() && $this->webhooks_manager->connect() ) {
-			$this->log( 'Webhooks configured during migration to WPForms 1.8.4.' );
+			$this->log( 'Stripe Payments: Webhooks configured during migration to WPForms 1.8.4.' );
 		}
 
 		// Mark that the task is completed.
 		update_option( self::STATUS, self::COMPLETED );
-	}
-
-	/**
-	 * Log message.
-	 *
-	 * @since 1.8.4
-	 *
-	 * @param string $message Message to log.
-	 */
-	private function log( $message ) {
-
-		wpforms_log( 'Migration', 'Stripe Payments: ' . $message, [ 'type' => 'log' ] );
 	}
 }

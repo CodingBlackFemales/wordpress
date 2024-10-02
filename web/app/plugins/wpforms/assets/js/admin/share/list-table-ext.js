@@ -268,13 +268,13 @@ const WPFormsAdminListTableExt = window.WPFormsAdminListTableExt || ( function( 
 			}
 
 			const width = el.$tableScroll.outerWidth(),
-				scrollLeft = el.$tableScroll.get( 0 ).scrollLeft,
+				scrollLeft = Math.abs( el.$tableScroll.get( 0 ).scrollLeft ),
 				scrollWidth = el.$tableScroll.get( 0 ).scrollWidth;
 
 			// Conditionally Add shadow to the sticky columns.
 			el.$tableScroll
 				.find( '.wpforms-table-cell-sticky.left' )
-				.toggleClass( 'shadow', scrollLeft > 0 );
+				.toggleClass( 'shadow', scrollLeft > 1 ); // 1px is fix for the RTL mode.
 
 			el.$tableScroll
 				.find( '.wpforms-table-cell-sticky.right' )

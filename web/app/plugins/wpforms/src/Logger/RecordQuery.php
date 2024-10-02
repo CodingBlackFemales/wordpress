@@ -1,5 +1,8 @@
 <?php
 
+// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
 namespace WPForms\Logger;
 
 /**
@@ -24,13 +27,11 @@ class RecordQuery {
 	public function get( $limit, $offset = 0, $search = '', $type = '' ) {
 
 		global $wpdb;
-		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return (array) $wpdb->get_results(
 			$this->build_query( $limit, $offset, $search, $type )
 		);
-		//phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		//phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	/**

@@ -397,13 +397,13 @@ class Translations implements IntegrationInterface {
 	 *
 	 * @since 1.6.5
 	 *
-	 * @param object $value Value of the `update_plugins` transient option.
+	 * @param object|mixed $value Value of the `update_plugins` transient option.
 	 *
 	 * @return stdClass
 	 */
 	public function register_t15s_translations( $value ) {
 
-		if ( ! $value ) {
+		if ( ! is_object( $value ) ) {
 			$value = new stdClass();
 		}
 

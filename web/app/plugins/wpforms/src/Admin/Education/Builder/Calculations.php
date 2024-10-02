@@ -104,14 +104,10 @@ class Calculations extends AddonsItemBase {
 		printf(
 			'<div class="wpforms-alert-info wpforms-alert wpforms-educational-alert wpforms-calculations wpforms-dismiss-container">
 				<button type="button" class="wpforms-dismiss-button" title="%1$s" data-section="%2$s"></button>
-				<span class="wpforms-educational-badge wpforms-educational-badge-green">%3$s</span>
-				<h4>%4$s</h4>
-				<p>%5$s</p>
+				<p>%3$s</p>
 			</div>',
 			esc_html__( 'Dismiss this notice.', 'wpforms-lite' ),
 			esc_attr( $dismiss_section ),
-			esc_html__( 'New feature', 'wpforms-lite' ),
-			esc_html__( 'Calculations Are Here!', 'wpforms-lite' ),
 			$notice // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		);
 	}
@@ -185,7 +181,7 @@ class Calculations extends AddonsItemBase {
 						'action' => 'activate',
 						'name'   => sprintf( /* translators: %s - addon name. */
 							esc_html__( '%s addon', 'wpforms-lite' ),
-							$addon['title']
+							$addon['name']
 						),
 						'path'   => $addon['path'],
 						'nonce'  => wp_create_nonce( 'wpforms-admin' ),

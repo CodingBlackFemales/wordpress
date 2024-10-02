@@ -87,7 +87,7 @@ class Notifications {
 	 */
 	public function has_access() {
 
-		$has_access = ! wpforms_setting( 'hide-announcements' );
+		$has_access = ! wpforms_setting( 'hide-announcements', false );
 
 		if ( ! wp_doing_cron() && ! wpforms_doing_wp_cli() ) {
 			$has_access = $has_access && wpforms_current_user_can( 'view_forms' );
@@ -251,7 +251,7 @@ class Notifications {
 		// Update notifications using async task.
 		if ( empty( $option['update'] ) || time() > $option['update'] + DAY_IN_SECONDS ) {
 
-			$tasks = wpforms()->get( 'tasks' );
+			$tasks = wpforms()->obj( 'tasks' );
 
 			if ( ! $tasks->is_scheduled( 'wpforms_admin_notifications_update' ) !== false ) {
 				$tasks
@@ -436,11 +436,7 @@ class Notifications {
 
 		$data['update'] = time();
 
-		// Flush the cache after the option has been updated
-		// for the case when it earlier returns an old value without the new data from DB.
-		if ( update_option( 'wpforms_notifications', $data ) ) {
-			wp_cache_flush();
-		}
+		update_option( 'wpforms_notifications', $data );
 	}
 
 	/**
@@ -518,6 +514,11 @@ class Notifications {
 	 */
 	public function output() {
 
+		// Leave early if there are no forms.
+		if ( ! wpforms()->obj( 'form' )->forms_exist() ) {
+			return;
+		}
+
 		$notifications = $this->get();
 
 		if ( empty( $notifications ) ) {
@@ -526,23 +527,7 @@ class Notifications {
 
 		$notifications_html   = '';
 		$current_class        = ' current';
-		$content_allowed_tags = [
-			'br'     => [],
-			'em'     => [],
-			'strong' => [],
-			'span'   => [
-				'style' => [],
-			],
-			'p'      => [
-				'id'    => [],
-				'class' => [],
-			],
-			'a'      => [
-				'href'   => [],
-				'target' => [],
-				'rel'    => [],
-			],
-		];
+		$content_allowed_tags = $this->get_allowed_tags();
 
 		foreach ( $notifications as $notification ) {
 
@@ -594,6 +579,34 @@ class Notifications {
 			],
 			true
 		);
+	}
+
+	/**
+	 * Get the allowed HTML tags and their attributes.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return array
+	 */
+	public function get_allowed_tags(): array {
+
+		return [
+			'br'     => [],
+			'em'     => [],
+			'strong' => [],
+			'span'   => [
+				'style' => [],
+			],
+			'p'      => [
+				'id'    => [],
+				'class' => [],
+			],
+			'a'      => [
+				'href'   => [],
+				'target' => [],
+				'rel'    => [],
+			],
+		];
 	}
 
 	/**

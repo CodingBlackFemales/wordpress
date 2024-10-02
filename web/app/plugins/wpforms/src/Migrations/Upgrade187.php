@@ -58,7 +58,7 @@ class Upgrade187 extends UpgradeBase {
 	 */
 	private function maybe_create_logs_table(): bool {
 
-		$log = wpforms()->get( 'log' );
+		$log = wpforms()->obj( 'log' );
 
 		if ( ! $log ) {
 			return false;

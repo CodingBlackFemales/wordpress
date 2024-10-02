@@ -104,7 +104,7 @@ class WebhooksHealthCheck {
 		 */
 		$is_canceled = (bool) apply_filters( 'wpforms_integrations_stripe_webhooks_health_check_cancel', false );
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Bail early in some instances.
 		if (
@@ -184,7 +184,7 @@ class WebhooksHealthCheck {
 	 */
 	private function get_last_stripe_payment(): array {
 
-		$payment = wpforms()->get( 'payment' )->get_payments(
+		$payment = wpforms()->obj( 'payment' )->get_payments(
 			[
 				'gateway' => 'stripe',
 				'mode'    => 'any',

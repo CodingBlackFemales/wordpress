@@ -206,7 +206,7 @@ function wpforms_get_capability_manage_options() {
  */
 function wpforms_current_user_can( $caps = [], $id = 0 ) {
 
-	$access = wpforms()->get( 'access' );
+	$access = wpforms()->obj( 'access' );
 
 	if ( ! method_exists( $access, 'current_user_can' ) ) {
 		return false;
@@ -303,7 +303,7 @@ function wpforms_search_posts( $search_term = '', $args = [] ) {
 		'(' . $capability_policy_where . ')' .
 		' )';
 
-	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$posts = $wpdb->get_results(
 		$wpdb->prepare(
 			"SELECT ID, post_title, post_author

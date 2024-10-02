@@ -41,7 +41,7 @@ class EntryEmailsMetaCleanupTask extends Task {
 		// Register the action handler.
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		$email_async = wpforms_setting( 'email-async' );
 

@@ -63,6 +63,8 @@ class PrintPreview {
 			exit;
 		}
 
+		$this->entries_single->form_data = $this->form_data;
+
 		$this->hooks();
 	}
 
@@ -119,14 +121,14 @@ class PrintPreview {
 		$entry_ids = array_map( 'absint', explode( ',', wp_unslash( $_GET['entry_id'] ) ) );
 
 		foreach ( $entry_ids as $entry_id ) {
-			$_entry = wpforms()->get( 'entry' )->get( $entry_id );
+			$_entry = wpforms()->obj( 'entry' )->get( $entry_id );
 
 			// Filter entries to ensure the current user can access their details.
 			if ( ! is_object( $_entry ) ) {
 				continue;
 			}
 
-			$_entry->entry_notes = wpforms()->get( 'entry_meta' )->get_meta(
+			$_entry->entry_notes = wpforms()->obj( 'entry_meta' )->get_meta(
 				[
 					'type'     => 'note',
 					'entry_id' => $entry_id,
@@ -143,9 +145,11 @@ class PrintPreview {
 		// Continue store a first entry for backward compatibility.
 		$this->entry = $this->entries[0];
 
+		wpforms()->obj( 'process' )->fields = wpforms_decode( $this->entry->fields );
+
 		// Fetch the current form data with "content_only" flag.
 		// Note that form-id and data will be the same across all entries.
-		$this->form_data = wpforms()->get( 'form' )->get(
+		$this->form_data = wpforms()->obj( 'form' )->get(
 			$this->entry->form_id,
 			[
 				'content_only' => true,
@@ -167,6 +171,15 @@ class PrintPreview {
 	 * @since 1.8.1 Rewrite to templates.
 	 */
 	public function print_html() {
+		/**
+		 * Modify entry print preview form data.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param array $form_data Form data and settings.
+		 * @param array $entry     Entry data.
+		 */
+		$this->form_data = apply_filters( 'wpforms_pro_admin_entries_print_preview_form_data', $this->form_data, $this->entry );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo wpforms_render(
@@ -368,7 +381,7 @@ class PrintPreview {
 			! empty( $this->form_data['fields'][ $field['id'] ]['choices'] )
 			&& in_array( $field['type'], [ 'radio', 'checkbox', 'payment-checkbox', 'payment-multiple' ], true )
 		) {
-			$field_value = $this->get_choices_field_value( $field, $field_value );
+			$field_value = $this->get_choices_field_value( $field );
 		}
 
 		/**
@@ -386,8 +399,8 @@ class PrintPreview {
 		 *
 		 * @since 1.7.9
 		 *
-		 * @param bool  $use   Boolean value flagging if field should use nl2br function.
-		 * @param array $field Field data.
+		 * @param bool  $use_nl2br Boolean value flagging if field should use nl2br function.
+		 * @param array $field     Field data.
 		 */
 		return apply_filters( 'wpforms_pro_admin_entries_print_preview_field_value_use_nl2br', true, $field ) ? nl2br( $field_value ) : $field_value;
 	}
@@ -397,12 +410,11 @@ class PrintPreview {
 	 *
 	 * @since 1.8.1
 	 *
-	 * @param array  $field       Entry field.
-	 * @param string $field_value HTML markup for the field.
+	 * @param array $field Entry field.
 	 *
 	 * @return string
 	 */
-	private function get_choices_field_value( $field, $field_value ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+	private function get_choices_field_value( $field ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$choices_html    = '';
 		$choices         = $this->form_data['fields'][ $field['id'] ]['choices'];
@@ -410,6 +422,12 @@ class PrintPreview {
 		$is_image_choice = ! empty( $this->form_data['fields'][ $field['id'] ]['choices_images'] );
 		$template_name   = $is_image_choice ? 'image-choice' : 'choice';
 		$is_dynamic      = ! empty( $field['dynamic'] );
+
+		$value = ! empty( $is_dynamic ) ? $field['value'] : wpforms_get_choices_value( $field, $this->form_data );
+		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+		/** This filter is documented in src/SmartTags/SmartTag/FieldHtmlId.php.*/
+		$value = apply_filters( 'wpforms_html_field_value', wp_strip_all_tags( $value ), $field, $this->form_data, 'entry-single' );
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
 		if ( $is_dynamic ) {
 			$field_id   = $field['id'];
@@ -441,7 +459,7 @@ class PrintPreview {
 
 		return sprintf(
 			'<div class="field-value-default-mode">%1$s</div><div class="field-value-choices-mode">%2$s</div>',
-			wpforms_is_empty_string( $field_value ) ? esc_html__( 'Empty', 'wpforms' ) : $field_value,
+			wpforms_is_empty_string( $value ) ? esc_html__( 'Empty', 'wpforms' ) : $value,
 			wpforms_esc_unselected_choices( $choices_html )
 		);
 	}
@@ -460,14 +478,13 @@ class PrintPreview {
 	 */
 	private function is_checked_choice( $field, $choice, $key, $is_dynamic ) {
 
-		$is_payment  = strpos( $field['type'], 'payment-' ) === 0;
-		$separator   = $is_payment || $is_dynamic ? ',' : "\n";
-		$show_values = ! empty( $this->form_data['fields'][ $field['id'] ]['show_values'] );
-		$value       = $field['value_raw'] ?? ( $field['value'] ?? '' );
+		$is_payment = strpos( $field['type'], 'payment-' ) === 0;
+		$separator  = $is_payment || $is_dynamic ? ',' : "\n";
+		$value      = wpforms_get_choices_value( $field, $this->form_data );
 
-		// Case when field is using custom values, see 'wpforms_fields_show_options_setting' filter.
-		if ( $show_values && ! $is_dynamic ) {
-			$value = $field['value'] ?? '';
+		// Payments Choices have different logic for selected field.
+		if ( $is_payment ) {
+			$value = $field['value_raw'] ?? ( $field['value'] ?? '' );
 		}
 
 		$active_choices = explode( $separator, $value );
@@ -484,10 +501,14 @@ class PrintPreview {
 			return in_array( $key, $active_choices, true );
 		}
 
-		$label = ! isset( $choice['label'] ) || wpforms_is_empty_string( $choice['label'] )
+		// Determine if Show Values is enabled.
+		$show_values      = $this->form_data['fields'][ $field['id'] ]['show_values'] ?? false;
+		$choice_value_key = ! wpforms_is_empty_string( $field['value_raw'] ) && $show_values ? 'value' : 'label';
+
+		$label = wpforms_is_empty_string( $choice[ $choice_value_key ] )
 			/* translators: %s - choice number. */
 			? sprintf( esc_html__( 'Choice %s', 'wpforms' ), $key )
-			: sanitize_text_field( $choice['label'] );
+			: sanitize_text_field( $choice[ $choice_value_key ] );
 
 		return in_array( $label, $active_choices, true );
 	}

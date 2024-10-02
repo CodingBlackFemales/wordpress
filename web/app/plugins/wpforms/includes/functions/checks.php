@@ -5,6 +5,11 @@
  * @since 1.8.0
  */
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpUndefinedNamespaceInspection */
+/** @noinspection PhpUndefinedClassInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 use WPForms\Vendor\TrueBV\Punycode;
 
 /**
@@ -16,8 +21,10 @@ use WPForms\Vendor\TrueBV\Punycode;
  * @param string $url Input URL.
  *
  * @return bool
+ * @noinspection RegExpUnnecessaryNonCapturingGroup
+ * @noinspection RegExpRedundantEscape
  */
-function wpforms_is_url( $url ) {
+function wpforms_is_url( $url ): bool {
 
 	// The pattern taken from https://gist.github.com/dperini/729294.
 	// It is the best choice according to the https://mathiasbynens.be/demo/url-regex.
@@ -42,11 +49,11 @@ function wpforms_is_url( $url ) {
  *
  * @return string|false Returns a valid email address on success, false on failure.
  */
-function wpforms_is_email( $email ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+function wpforms_is_email( $email ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh, Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 	static $punycode;
 
-	// Do not allow callables, arrays and objects.
+	// Do not allow callables, arrays, and objects.
 	if ( ! is_scalar( $email ) ) {
 		return false;
 	}
@@ -116,15 +123,15 @@ function wpforms_is_email( $email ) { // phpcs:ignore Generic.Metrics.Cyclomatic
  *
  * @since 1.7.5
  *
- * @param string $string A string.
+ * @param string $value A string.
  *
  * @return bool
  */
-function wpforms_is_json( $string ) {
+function wpforms_is_json( $value ): bool {
 
 	return (
-		is_string( $string ) &&
-		is_array( json_decode( $string, true ) ) &&
+		is_string( $value ) &&
+		is_array( json_decode( $value, true ) ) &&
 		json_last_error() === JSON_ERROR_NONE
 	);
 }
@@ -139,16 +146,12 @@ function wpforms_is_json( $string ) {
  *
  * @return bool
  */
-function wpforms_is_amp( $check_theme_support = true ) {
+function wpforms_is_amp( $check_theme_support = true ): bool {
 
 	$is_amp = false;
 
-	if (
-		// AMP by Automattic; ampforwp.
-		( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) ||
-		// Better AMP.
-		( function_exists( 'is_better_amp' ) && is_better_amp() )
-	) {
+	// Check for AMP by AMP Project Contributors.
+	if ( function_exists( 'amp_is_request' ) && amp_is_request() ) {
 		$is_amp = true;
 	}
 
@@ -156,7 +159,16 @@ function wpforms_is_amp( $check_theme_support = true ) {
 		$is_amp = current_theme_supports( 'amp' );
 	}
 
-	return apply_filters( 'wpforms_is_amp', $is_amp );
+	/**
+	 * Filters AMP flag.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @param bool $is_amp Current page AMP status.
+	 *
+	 * @return bool
+	 */
+	return (bool) apply_filters( 'wpforms_is_amp', $is_amp );
 }
 
 /**
@@ -165,7 +177,7 @@ function wpforms_is_amp( $check_theme_support = true ) {
  * Here we determine if the current administration page is owned/created by
  * WPForms. This is done in compliance with WordPress best practices for
  * development, so that we only load required WPForms CSS and JS files on pages
- * we create. As a result we do not load our assets admin wide, where they might
+ * we create. As a result, we do not load our assets admin wide, where they might
  * conflict with other plugins needlessly, also leading to a better, faster user
  * experience for our users.
  *
@@ -176,15 +188,15 @@ function wpforms_is_amp( $check_theme_support = true ) {
  *
  * @return bool
  */
-function wpforms_is_admin_page( $slug = '', $view = '' ) {
+function wpforms_is_admin_page( $slug = '', $view = '' ): bool {
 
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	// Check against basic requirements.
 	if (
-		! is_admin() ||
 		empty( $_REQUEST['page'] ) ||
-		strpos( $_REQUEST['page'], 'wpforms' ) === false
+		strpos( $_REQUEST['page'], 'wpforms' ) === false ||
+		! is_admin()
 	) {
 		return false;
 	}
@@ -215,38 +227,91 @@ function wpforms_is_admin_page( $slug = '', $view = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $string String to test.
+ * @param string $value String to test.
  *
  * @return bool
  */
-function wpforms_is_empty_string( $string ) {
+function wpforms_is_empty_string( $value ): bool {
+	// phpcs:ignore WPForms.Formatting.EmptyLineBeforeReturn.RemoveEmptyLineBeforeReturnStatement
+	return $value === '';
+}
 
-	return is_string( $string ) && $string === '';
+/**
+ * Determine if the request is a rest API call.
+ *
+ * NOTE: The function shouldn't be used before the `rest_api_init` action.
+ *
+ * @since 1.8.8
+ *
+ * @return bool|null True if the request is a REST API call, null if the function is called incorrectly.
+ */
+function wpforms_is_rest() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+
+	// The function is not available, means that `wpforms_is_rest` is called incorrectly.
+	// The possible reason is that the function is called too early, before the `rest-api.php` is loaded.
+	// In this case, we should not proceed with the check.
+	if ( ! function_exists( 'rest_url' ) ) {
+		return null;
+	}
+
+	// We can replace `wpforms_is_rest` with `wp_is_rest_endpoint` function when the minimum WP version is bumped to 6.5.
+	if ( function_exists( 'wp_is_rest_endpoint' ) ) {
+		return wp_is_rest_endpoint();
+	}
+
+	$rest_url         = wp_parse_url( trailingslashit( rest_url() ) );
+	$current_url      = wp_parse_url( trailingslashit( wpforms_current_url() ) );
+	$rest_url['path'] = $rest_url['path'] ?? '';
+
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	$is_rest_plain    = $rest_url['path'] === '/index.php' && ! empty( $_GET['rest_route'] );
+	$is_rest_postname = strpos( $rest_url['path'], '/wp-json/' ) !== false;
+
+	if ( $is_rest_plain ) {
+		$rest_route = sanitize_text_field( wp_unslash( $_GET['rest_route'] ) );
+
+		return strpos( $rest_route, '/wpforms/' ) !== false;
+	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+	if ( $is_rest_postname ) {
+		return strpos( $current_url['path'] ?? '', '/wpforms/' ) !== false;
+	}
+
+	return false;
 }
 
 /**
  * Determine if the request is WPForms AJAX.
  *
  * @since 1.8.0
+ * @since 1.9.1 Added an optional parameter to check for a specific action.
+ *
+ * @param string $action Certain AJAX action to check. Optional. Default is empty.
  *
  * @return bool
  */
-function wpforms_is_ajax() {
+function wpforms_is_ajax( string $action = '' ): bool {
 
 	if ( ! wp_doing_ajax() ) {
 		return false;
 	}
 
-	// Make sure the request targets admin-ajax.php.
+	// Make sure the request target is admin-ajax.php.
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	if ( isset( $_SERVER['SCRIPT_FILENAME'] ) && basename( sanitize_text_field( wp_normalize_path( $_SERVER['SCRIPT_FILENAME'] ) ) ) !== 'admin-ajax.php' ) {
 		return false;
 	}
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	$action = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : '';
+	$request_action    = isset( $_REQUEST['action'] ) ? sanitize_key( $_REQUEST['action'] ) : '';
+	$is_wpforms_action = strpos( $request_action, 'wpforms_' ) === 0;
 
-	return strpos( $action, 'wpforms_' ) === 0;
+	if ( empty( $action ) ) {
+		return $is_wpforms_action;
+	}
+
+	return $is_wpforms_action && $action === $request_action;
 }
 
 /**
@@ -259,7 +324,7 @@ function wpforms_is_ajax() {
  *
  * @return bool
  */
-function wpforms_is_frontend_ajax() {
+function wpforms_is_frontend_ajax(): bool {
 
 	if ( wpforms_is_ajax() && ! wpforms_is_admin_ajax() ) {
 		return true;
@@ -293,7 +358,7 @@ function wpforms_is_frontend_ajax() {
 	 * Allow modifying the list of frontend AJAX actions.
 	 *
 	 * This filter may be running as early as `plugins_loaded` hook.
-	 * Please mind the hooks order when using it.
+	 * Please mind the hook order when using it.
 	 *
 	 * @since 1.6.5
 	 *
@@ -311,7 +376,7 @@ function wpforms_is_frontend_ajax() {
  *
  * @return bool
  */
-function wpforms_is_admin_ajax() {
+function wpforms_is_admin_ajax(): bool {
 
 	if ( ! wpforms_is_ajax() ) {
 		return false;
@@ -360,7 +425,7 @@ function wpforms_is_gutenberg_active(): bool {
  *
  * @return bool
  */
-function wpforms_doing_wp_cli() {
+function wpforms_doing_wp_cli(): bool {
 
 	return defined( 'WP_CLI' ) && WP_CLI;
 }
@@ -374,14 +439,71 @@ function wpforms_doing_wp_cli() {
  *
  * @return string
  */
-function wpforms_choices_js_is_search_enabled( $data ) {
+function wpforms_choices_js_is_search_enabled( $data ): string {
 
 	/**
-	 * Filter max amount of items at which no search box is displayed.
+	 * Filter max number of items at which no search box is displayed.
 	 *
 	 * @since 1.8.3
 	 *
 	 * @param int $count Max items count.
 	 */
 	return count( $data ) >= apply_filters( 'wpforms_choices_js_is_search_enabled_max_limit', 20 ) ? 'true' : 'false';
+}
+
+/**
+ * Check if a form is a template.
+ *
+ * @since 1.8.8
+ *
+ * @param int|WP_Post $form Form ID or object.
+ *
+ * @return bool True if the form is a template.
+ */
+function wpforms_is_form_template( $form ): bool {
+
+	$template_post_type = 'wpforms-template';
+
+	if ( $form instanceof WP_Post ) {
+		return $form->post_type === $template_post_type;
+	}
+
+	return $template_post_type === get_post_type( $form );
+}
+
+/**
+ * Checks if the current screen is using the block editor.
+ *
+ * @since 1.8.8
+ *
+ * @return bool True if the current screen is using the block editor, false otherwise.
+ */
+function wpforms_is_block_editor(): bool {
+
+	$screen = get_current_screen();
+
+	return $screen && method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor();
+}
+
+/**
+ * Check for the editor page.
+ *
+ * @since 1.9.0
+ *
+ * @return bool True if the page is in the editor, false otherwise.
+ */
+function wpforms_is_editor_page(): bool {
+
+	// phpcs:disable WordPress.Security.NonceVerification
+	$rest_request = defined( 'REST_REQUEST' ) && REST_REQUEST;
+	$context      = isset( $_REQUEST['context'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['context'] ) ) : '';
+	$post_action  = isset( $_POST['action'] ) ? sanitize_text_field( wp_unslash( $_POST['action'] ) ) : '';
+	$get_action   = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : '';
+
+	$is_gutenberg = $rest_request && $context === 'edit';
+	$is_elementor = $post_action === 'elementor_ajax' || $get_action === 'elementor';
+	$is_divi      = ! empty( $_GET['et_fb'] ) || $post_action === 'wpforms_divi_preview';
+	// phpcs:enable WordPress.Security.NonceVerification
+
+	return $is_gutenberg || $is_elementor || $is_divi;
 }

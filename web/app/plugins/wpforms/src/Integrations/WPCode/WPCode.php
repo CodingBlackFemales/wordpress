@@ -223,7 +223,8 @@ class WPCode implements IntegrationInterface {
 			'listjs',
 			WPFORMS_PLUGIN_URL . 'assets/lib/list.min.js',
 			[ 'jquery' ],
-			'1.5.0'
+			'1.5.0',
+			false
 		);
 
 		wp_enqueue_script(

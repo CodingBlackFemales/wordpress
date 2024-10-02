@@ -204,7 +204,7 @@ class Notifications implements IntegrationInterface {
 		}
 
 		$address_match_text = sprintf( /* translators: %1$s - WordPress site domain. */
-			__( 'Alternately, try using a From Address that matches your website domain (no-reply@%1$s).', 'wpforms-lite' ),
+			__( 'Alternately, try using a From Address that matches your website domain (admin@%1$s).', 'wpforms-lite' ),
 			esc_html( $site_domain )
 		);
 

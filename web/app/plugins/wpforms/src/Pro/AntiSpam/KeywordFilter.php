@@ -153,7 +153,7 @@ class KeywordFilter {
 		if ( $this->is_blocked_submission( $fields ) ) {
 			$form_id = ! empty( $form_data['id'] ) ? $form_data['id'] : 0;
 
-			wpforms()->get( 'process' )->errors[ $form_id ]['footer'] = $this->get_error_message( $form_data );
+			wpforms()->obj( 'process' )->errors[ $form_id ]['footer'] = $this->get_error_message( $form_data );
 		}
 
 		return $fields;
@@ -253,7 +253,7 @@ class KeywordFilter {
 	 *
 	 * @return array
 	 */
-	protected function get_keywords() {
+	public function get_keywords(): array {
 
 		$keywords = (array) json_decode( get_option( self::OPTION_NAME, '' ), true );
 
@@ -262,7 +262,7 @@ class KeywordFilter {
 		 *
 		 * @since 1.7.8
 		 *
-		 * @param string $keywords Keywords List.
+		 * @param array $keywords Keywords List.
 		 */
 		return (array) apply_filters( 'wpforms_pro_anti_spam_keyword_filter_get_keywords', $keywords );
 	}

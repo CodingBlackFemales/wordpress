@@ -51,9 +51,9 @@ abstract class WPForms_Provider {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var mixed
+	 * @var array
 	 */
-	public $api = false;
+	public $api = [];
 
 	/**
 	 * Service icon.
@@ -383,7 +383,7 @@ abstract class WPForms_Provider {
 		if ( is_object( $form ) ) {
 			$form = wpforms_decode( $form->post_content );
 		} elseif ( is_numeric( $form ) ) {
-			$form = wpforms()->get( 'form' )->get(
+			$form = wpforms()->obj( 'form' )->get(
 				$form,
 				[
 					'content_only' => true,
@@ -1002,7 +1002,7 @@ abstract class WPForms_Provider {
 			return;
 		}
 
-		$revisions = wpforms()->get( 'revisions' );
+		$revisions = wpforms()->obj( 'revisions' );
 		$revision  = $revisions ? $revisions->get_revision() : null;
 
 		if ( $revision ) {
@@ -1013,7 +1013,7 @@ abstract class WPForms_Provider {
 		}
 
 		// Setup form data based on the ID.
-		$form = wpforms()->get( 'form' );
+		$form = wpforms()->obj( 'form' );
 
 		if ( ! $form ) {
 			return;
@@ -1037,15 +1037,13 @@ abstract class WPForms_Provider {
 		$providers = wpforms_get_providers_options();
 
 		if ( ! empty( $form_data['providers'][ $this->slug ] ) && ! empty( $providers[ $this->slug ] ) ) {
-
 			foreach ( $form_data['providers'][ $this->slug ] as $connection_id => $connection ) {
-
 				foreach ( $providers[ $this->slug ] as $account_id => $connections ) {
-
 					if (
 						! empty( $connection['account_id'] ) &&
 						$connection['account_id'] === $account_id
 					) {
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo $this->output_connection( $connection_id, $connection, $form_data );
 					}
 				}
@@ -1241,7 +1239,10 @@ abstract class WPForms_Provider {
 			);
 		}
 
-		if ( empty( $_POST['data'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		$args = $_POST['data'] ?? [];
+
+		if ( empty( $args ) ) {
 			wp_send_json_error(
 				[
 					'error' => esc_html__( 'Missing data', 'wpforms-lite' ),
@@ -1249,7 +1250,7 @@ abstract class WPForms_Provider {
 			);
 		}
 
-		$data = wp_parse_args( $_POST['data'], [] );
+		$data = wp_parse_args( $args );
 		$auth = $this->api_auth( $data, '' );
 
 		if ( is_wp_error( $auth ) ) {
@@ -1331,7 +1332,10 @@ abstract class WPForms_Provider {
 						);
 						?>
 					</p>
-					<span class="connected-indicator green"><i class="fa fa-check-circle-o"></i>&nbsp;<?php esc_html_e( 'Connected', 'wpforms-lite' ); ?></span>
+					<span class="connected-indicator green">
+						<i class="fa fa-check-circle-o"></i>
+						<span><?php esc_html_e( 'Connected', 'wpforms-lite' ); ?></span>
+					</span>
 				</div>
 
 			</div>
@@ -1343,7 +1347,7 @@ abstract class WPForms_Provider {
 						<?php
 						if ( ! empty( $accounts ) ) {
 							foreach ( $accounts as $key => $account ) {
-								echo '<li class="wpforms-clear">';
+								echo '<li>';
 								echo '<span class="label">' . esc_html( $account['label'] ) . '</span>';
 								echo '<span class="date">';
 								echo esc_html(

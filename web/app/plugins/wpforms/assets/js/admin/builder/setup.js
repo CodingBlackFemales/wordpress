@@ -80,6 +80,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 			app.setupTitleFocus();
 			app.setTriggerBlankLink();
 			app.setSelectedTemplate();
+			app.setSelectedCategories();
 			app.events();
 
 			el.$builder.trigger( 'wpformsBuilderSetupReady' );
@@ -107,6 +108,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 				$formName: $( '#wpforms-setup-name' ),
 				$panel: $( '#wpforms-panel-setup' ),
 				$categories: $( '#wpforms-panel-setup .wpforms-setup-templates-categories' ),
+				$subcategories: $( '#wpforms-panel-setup .wpforms-setup-templates-subcategories' ),
 			};
 
 			// Other values.
@@ -147,6 +149,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 				.on( 'click', '.wpforms-setup-templates-subcategories li', WPFormsFormTemplates.selectSubCategory )
 				.on( 'click', '.wpforms-template-select', app.selectTemplate )
 				.on( 'click', '.wpforms-trigger-blank', app.selectBlankTemplate );
+
+			el.$builder
+				.on( 'wpformsBuilderReady wpformsBuilderPanelLoaded', app.filterTemplatesBySelectedCategory );
 		},
 
 		/**
@@ -165,6 +170,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 			app.setup();
 			WPFormsFormTemplates.setup();
 			app.setSelectedTemplate();
+			app.setSelectedCategories();
 
 			app.panelEvents();
 		},
@@ -242,8 +248,65 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 			// Remove existing badge.
 			$template.find( '.wpforms-badge' ).remove();
 
-			// Add "Selected" badge.
-			$template.find( '.wpforms-template-favorite' ).after( wpforms_builder.template_selected_badge );
+			// Remove edit and delete action buttons from current user template.
+			if ( $template.hasClass( 'wpforms-user-template' ) ) {
+				$template.find( '.wpforms-template-edit, .wpforms-template-remove' ).remove();
+			}
+		},
+
+		/**
+		 * Set category and/or subcategory active if its template was selected.
+		 *
+		 * @since 1.8.9
+		 */
+		setSelectedCategories() {
+			if ( ! el.$panel.length || ! wpforms_builder.form_meta?.category ) {
+				return;
+			}
+
+			const $category = el.$categories.find( `li[data-category="${ wpforms_builder.form_meta.category }"]` );
+
+			if ( ! $category.length ) {
+				return;
+			}
+
+			el.$categories.find( 'li' ).removeClass( 'active opened' );
+			$category.addClass( 'active opened' );
+
+			const $subcategory = el.$subcategories.find( `li[data-subcategory="${ wpforms_builder.form_meta.subcategory }"]` );
+
+			if ( ! $subcategory.length ) {
+				return;
+			}
+
+			el.$subcategories.find( 'li' ).removeClass( 'active' );
+			$subcategory.addClass( 'active' );
+		},
+
+		/**
+		 * Filter templates by selected category and subcategory.
+		 *
+		 * @since 1.8.9
+		 */
+		filterTemplatesBySelectedCategory() {
+
+			const $subCategory = el.$subcategories.find( 'li.active' );
+
+			// If subcategory is available, trigger its click it will update and category also.
+			if ( $subCategory.length ) {
+				$subCategory.trigger( 'click' );
+			}
+
+			const $category = el.$categories.find( '> li.active' );
+
+			// In another case, click on the category.
+			if (
+				! $subCategory.length &&
+				$category.length &&
+				$category.data( 'category' ) !== 'all'
+			) {
+				$category.find( 'div' ).trigger( 'click' );
+			}
 		},
 
 		/**
@@ -301,18 +364,23 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} event Event object.
 		 */
-		selectTemplate: function( e ) {
+		selectTemplate( event ) {
+			event.preventDefault();
 
-			e.preventDefault();
-
-			var $button  = $( this ),
-				template = $button.data( 'template' ),
-				formName = app.getFormName( $button );
+			const $button = $( this );
 
 			// Don't do anything for templates that trigger education modal OR addons-modal.
 			if ( $button.hasClass( 'education-modal' ) ) {
+				return;
+			}
+
+			const template = $button.data( 'template' );
+
+			// User templates are applied differently for new forms.
+			if ( ! vars.formID && template.match( /wpforms-user-template-(\d+)/ ) && $button.data( 'create-url' ) ) {
+				window.location.href = $button.data( 'create-url' );
 				return;
 			}
 
@@ -324,6 +392,8 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 			// Display loading indicator.
 			$button.html( vars.spinner + wpforms_builder.loading );
+
+			const formName = app.getFormName( $button );
 
 			app.applyTemplate( formName, template, $button );
 		},
@@ -478,19 +548,32 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 			WPFormsBuilder.showLoadingOverlay();
 
-			var data = {
+			const data = {
 				title: formName,
 				action: vars.formID ? 'wpforms_update_form_template' : 'wpforms_new_form',
-				template: template,
+				template,
 				form_id: vars.formID, // eslint-disable-line camelcase
 				nonce: wpforms_builder.nonce,
 			};
 
+			const category = $( '.wpforms-setup-templates-categories li.active' ).data( 'category' );
+			const subcategory = $( '.wpforms-setup-templates-subcategories li.active' ).data( 'subcategory' );
+
+			if ( category ) {
+				data.category = category;
+			}
+
+			if ( subcategory ) {
+				data.subcategory = subcategory;
+			}
+
+			if ( category === 'all' ) {
+				data.subcategory = 'all';
+			}
+
 			$.post( wpforms_builder.ajax_url, data )
 				.done( function( res ) {
-
 					if ( res.success ) {
-
 						// We have already warned the user that unsaved changes will be ignored.
 						WPFormsBuilder.setCloseConfirmation( false );
 
@@ -524,31 +607,27 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 * @since 1.7.5.3
 		 *
 		 * @param {string} errorMessage Error message.
-		 * @param {string}  formName  Name of the form.
+		 * @param {string} formName     Name of the form.
 		 */
-		selectTemplateProcessInvalidTemplateError: function( errorMessage, formName ) {
-
+		selectTemplateProcessInvalidTemplateError( errorMessage, formName ) {
 			$.alert( {
 				title: wpforms_builder.heads_up,
 				content: errorMessage,
 				icon: 'fa fa-exclamation-circle',
 				type: 'orange',
-				boxWidth: '600px',
 				buttons: {
 					confirm: {
-						text: wpforms_builder.use_simple_contact_form,
+						text: wpforms_builder.use_default_template,
 						btnClass: 'btn-confirm',
 						keys: [ 'enter' ],
-						action: function() {
-
+						action() {
 							app.selectTemplateProcessAjax( formName, 'simple-contact-form-template' );
 							WPFormsBuilder.hideLoadingOverlay();
 						},
 					},
 					cancel: {
 						text: wpforms_builder.cancel,
-						action: function() {
-
+						action() {
 							WPFormsFormTemplates.selectTemplateCancel();
 							WPFormsBuilder.hideLoadingOverlay();
 						},
@@ -561,16 +640,14 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 * Select template AJAX call error modal.
 		 *
 		 * @since 1.6.8
+		 * @since 1.8.8 Replaced error message with error title.
 		 *
-		 * @param {string} error Error message.
+		 * @param {string} errorTitle Error title.
 		 */
-		selectTemplateProcessError: function( error ) {
-
-			var content = error && error.length ? '<p>' + error + '</p>' : '';
-
+		selectTemplateProcessError( errorTitle ) {
 			$.alert( {
-				title: wpforms_builder.heads_up,
-				content: wpforms_builder.error_select_template + content,
+				title: errorTitle,
+				content: wpforms_builder.error_select_template,
 				icon: 'fa fa-exclamation-circle',
 				type: 'orange',
 				buttons: {
@@ -578,8 +655,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 						text: wpforms_builder.ok,
 						btnClass: 'btn-confirm',
 						keys: [ 'enter' ],
-						action: function() {
-
+						action() {
 							WPFormsFormTemplates.selectTemplateCancel();
 							WPFormsBuilder.hideLoadingOverlay();
 						},
