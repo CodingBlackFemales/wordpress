@@ -111,8 +111,8 @@ class Migration175Task extends Task {
 
 		global $wpdb;
 
-		$this->entry_handler      = wpforms()->get( 'entry' );
-		$this->entry_meta_handler = wpforms()->get( 'entry_meta' );
+		$this->entry_handler      = wpforms()->obj( 'entry' );
+		$this->entry_meta_handler = wpforms()->obj( 'entry_meta' );
 		$this->temp_table_name    = "{$wpdb->prefix}wpforms_temp_entry_ids";
 
 		if ( ! $this->entry_handler || ! $this->entry_meta_handler ) {
@@ -149,7 +149,7 @@ class Migration175Task extends Task {
 
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( "ALTER TABLE {$this->entry_meta_handler->table_name} MODIFY type VARCHAR(255)" );
 	}
 
@@ -169,7 +169,7 @@ class Migration175Task extends Task {
 		global $wpdb;
 
 		// Check id index already exists.
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->get_var(
 			"SELECT COUNT(1) IndexIsThere
 					FROM INFORMATION_SCHEMA.STATISTICS
@@ -182,12 +182,12 @@ class Migration175Task extends Task {
 			return;
 		}
 
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		// Change the column length for the wp_wpforms_entry_meta.type column to 255 and add an index.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query( "CREATE INDEX $index_name ON $table_name ( $key_part )" );
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -233,7 +233,7 @@ class Migration175Task extends Task {
 			],
 		];
 
-		// We create indexes in the background as it could take significant time on big database.
+		// We create indexes in the background as it could take significant time on a big database.
 		if ( array_key_exists( $action_index, $db_indexes ) ) {
 			$this->add_index(
 				$db_indexes[ $action_index ]['table_name'],
@@ -244,11 +244,11 @@ class Migration175Task extends Task {
 			return;
 		}
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		// The query length in migrate_payment_data() is about 500 chars for 1 entry (7 metas).
 		// The length of the query is defined by MAX_ALLOWED_PACKET variable, which defaults to 4 MB on MySQL 5.7.
-		// We increase MAX_ALLOWED_PACKET variable to fit number of entries specified in self::CHUNK_SIZE.
+		// We increase MAX_ALLOWED_PACKET variable to fit the number of entries specified in self::CHUNK_SIZE.
 		$new_max_allowed_packet = 500 * self::CHUNK_SIZE;
 		$max_allowed_packet     = (int) $wpdb->get_var( "SHOW VARIABLES LIKE 'MAX_ALLOWED_PACKET'", 1 );
 
@@ -282,7 +282,7 @@ class Migration175Task extends Task {
 		if ( $new_max_allowed_packet > $max_allowed_packet ) {
 			$wpdb->query( "SET MAX_ALLOWED_PACKET = $max_allowed_packet" );
 		}
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Migration175Task extends Task {
 	 */
 	public function after_process_queue() {
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		if ( ! $tasks || $tasks->is_scheduled( self::ACTION ) ) {
 			return;
@@ -309,6 +309,7 @@ class Migration175Task extends Task {
 	 * Init migration.
 	 *
 	 * @since 1.7.5
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	private function init_migration() {
 
@@ -323,7 +324,7 @@ class Migration175Task extends Task {
 		$index = - 3;
 
 		while ( $index < $count ) {
-			// We do not use Task class here as we do not need meta. So, we reduce number of DB requests.
+			// We do not use Task class here as we do not need meta. So, we reduce the number of DB requests.
 			as_enqueue_async_action(
 				self::ACTION,
 				[ $index ],
@@ -345,13 +346,13 @@ class Migration175Task extends Task {
 
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			"SELECT entry_id, form_id, user_id, status, meta, date
 					FROM {$this->entry_handler->table_name}
 					WHERE entry_id IN ( $entry_ids_list )"
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		$values = [];
 
@@ -369,7 +370,7 @@ class Migration175Task extends Task {
 				// We do not use $wpdb->prepare here, as it is 5 times slower.
 				// Prepare takes 1.3 sec to prepare 1000 entries (6000 meta records).
 				// It is incomparable with the two queries here.
-				// With sprintf, total processing time of this method is 0.15 sec for 1000 entries.
+				// With sprintf, the total processing time of this method is 0.15 sec for 1000 entries.
 				$values[] = sprintf(
 					"( %d, %d, %d, '%s', '%s', '%s', '%s' )",
 					$entry->entry_id,
@@ -383,7 +384,7 @@ class Migration175Task extends Task {
 			}
 		}
 
-		// Bail out if there are no found payment meta.
+		// Bail out if there is no found payment meta.
 		if ( empty( $values ) ) {
 			return;
 		}
@@ -392,13 +393,13 @@ class Migration175Task extends Task {
 
 		// The following query length is about 500 chars for 1 entry (7 metas).
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			"INSERT INTO {$this->entry_meta_handler->table_name}
 						( entry_id, form_id, user_id, status, type, data, date )
 						VALUES $values"
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -415,7 +416,7 @@ class Migration175Task extends Task {
 
 		$this->drop_temp_table();
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query(
 			"CREATE TABLE $this->temp_table_name
 				(
@@ -433,11 +434,13 @@ class Migration175Task extends Task {
 				      (SELECT entry_id FROM {$this->entry_meta_handler->table_name} WHERE type LIKE 'payment_%')"
 		);
 
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 		return $wpdb->rows_affected;
 	}
 
 	/**
-	 * Drop temporary table.
+	 * Drop a temporary table.
 	 *
 	 * @since 1.7.5
 	 */
@@ -445,6 +448,7 @@ class Migration175Task extends Task {
 
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,  WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.SchemaChange
 		$wpdb->query( "DROP TABLE IF EXISTS $this->temp_table_name" );
 	}
 }

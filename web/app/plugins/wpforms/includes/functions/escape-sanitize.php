@@ -188,6 +188,7 @@ function wpforms_sanitize_richtext_field( $value ) {
  * Escaping for Rich Text field values.
  *
  * @since 1.7.0
+ * @since 1.9.1 Removed new lines after adding paragraphs and breaks tags.
  *
  * @param string $value Text to escape.
  *
@@ -195,7 +196,9 @@ function wpforms_sanitize_richtext_field( $value ) {
  */
 function wpforms_esc_richtext_field( $value ) {
 
-	return wpautop( wpforms_sanitize_richtext_field( $value ) );
+	$value = wpautop( wpforms_sanitize_richtext_field( $value ) );
+
+	return trim( str_replace( [ "\r\n", "\r", "\n" ], '', $value ) );
 }
 
 /**

@@ -256,20 +256,27 @@ class Datepicker {
 	 * 2. End date object in the given (original) timezone.
 	 *
 	 * @since 1.8.2
+	 * @since 1.8.8 Added $days_diff optional parameter.
 	 *
 	 * @param DateTimeImmutable $start_date Start date for the timespan.
 	 * @param DateTimeImmutable $end_date   End date for the timespan.
+	 * @param null|int          $days_diff  Optional. Number of days in the timespan. If provided, it won't be calculated.
 	 *
 	 * @return bool|array
 	 */
-	public static function get_prev_timespan_dates( $start_date, $end_date ) {
+	public static function get_prev_timespan_dates( $start_date, $end_date, $days_diff = null ) {
 
 		if ( ! ( $start_date instanceof DateTimeImmutable ) || ! ( $end_date instanceof DateTimeImmutable ) ) {
 			return false;
 		}
 
-		$days_diff     = $end_date->diff( $start_date )->format( '%a' );
-		$days_modifier = (int) $days_diff <= 0 ? '1' : (string) $days_diff;
+		// Calculate $days_diff if not provided.
+		if ( ! is_numeric( $days_diff ) ) {
+			$days_diff = $end_date->diff( $start_date )->format( '%a' );
+		}
+
+		// If $days_diff is non-positive, set $days_modifier to 1; otherwise, use $days_diff.
+		$days_modifier = max( (int) $days_diff, 1 );
 
 		return [
 			$start_date->modify( "-{$days_modifier} day" ),

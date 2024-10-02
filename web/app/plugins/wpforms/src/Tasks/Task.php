@@ -96,6 +96,15 @@ class Task {
 	private $meta;
 
 	/**
+	 * Log title.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @var string
+	 */
+	protected $log_title = 'Task';
+
+	/**
 	 * Task constructor.
 	 *
 	 * @since 1.5.9
@@ -196,7 +205,7 @@ class Task {
 		$action_id = null;
 
 		// No processing if ActionScheduler is not usable.
-		if ( ! wpforms()->get( 'tasks' )->is_usable() ) {
+		if ( ! wpforms()->obj( 'tasks' )->is_usable() ) {
 			return $action_id;
 		}
 
@@ -329,5 +338,19 @@ class Task {
 		}
 
 		return as_unschedule_action( $this->action, [ 'tasks_meta_id' => $this->meta_id ], Tasks::GROUP );
+	}
+
+
+
+	/**
+	 * Log message to WPForms logger and standard debug.log file.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @param string $message The error message that should be logged.
+	 */
+	protected function log( $message ) {
+
+		wpforms_log( $this->log_title, $message, [ 'type' => 'log' ] );
 	}
 }

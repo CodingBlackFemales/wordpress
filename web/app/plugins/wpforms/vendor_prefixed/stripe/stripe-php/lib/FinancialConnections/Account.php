@@ -29,8 +29,6 @@ namespace WPForms\Vendor\Stripe\FinancialConnections;
 class Account extends \WPForms\Vendor\Stripe\ApiResource
 {
     const OBJECT_NAME = 'financial_connections.account';
-    use \WPForms\Vendor\Stripe\ApiOperations\All;
-    use \WPForms\Vendor\Stripe\ApiOperations\Retrieve;
     const CATEGORY_CASH = 'cash';
     const CATEGORY_CREDIT = 'credit';
     const CATEGORY_INVESTMENT = 'investment';
@@ -44,6 +42,38 @@ class Account extends \WPForms\Vendor\Stripe\ApiResource
     const SUBCATEGORY_MORTGAGE = 'mortgage';
     const SUBCATEGORY_OTHER = 'other';
     const SUBCATEGORY_SAVINGS = 'savings';
+    /**
+     * Returns a list of Financial Connections <code>Account</code> objects.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\FinancialConnections\Account> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+        return static::_requestPage($url, \WPForms\Vendor\Stripe\Collection::class, $params, $opts);
+    }
+    /**
+     * Retrieves the details of an Financial Connections <code>Account</code>.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\FinancialConnections\Account
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \WPForms\Vendor\Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+        return $instance;
+    }
     /**
      * @param null|array $params
      * @param null|array|string $opts

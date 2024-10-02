@@ -32,7 +32,7 @@ class Queries extends Payment {
 		$query[] = "AND $column != ( $subquery )";
 		$query[] = 'LIMIT 1';
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_var( implode( ' ', $query ) );
 
 		return ! empty( $result );
@@ -104,7 +104,7 @@ class Queries extends Payment {
 		// Close the subquery.
 		$query[] = ') AS counts;';
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return (int) $wpdb->get_var( implode( ' ', $query ) );
 	}
 
@@ -154,7 +154,7 @@ class Queries extends Payment {
 		 */
 		$query[] = apply_filters( 'wpforms_db_payments_queries_count_if_exists_after_where', '', $args );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return (bool) $wpdb->get_var( implode( ' ', $query ) );
 	}
 
@@ -182,7 +182,7 @@ class Queries extends Payment {
 		$query[] = $this->add_secondary_where_conditions( $args );
 		$query[] = "ORDER BY $this->primary_key LIMIT 1";
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_row( implode( ' ', $query ) );
 	}
 
@@ -210,7 +210,7 @@ class Queries extends Payment {
 		$query[] = $this->add_secondary_where_conditions( $args );
 		$query[] = "ORDER BY $this->primary_key DESC LIMIT 1";
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_row( implode( ' ', $query ) );
 	}
 
@@ -238,7 +238,7 @@ class Queries extends Payment {
 		$query[] = $this->add_secondary_where_conditions( $args );
 		$query[] = "ORDER BY $this->primary_key ASC";
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (int) $wpdb->get_var( implode( ' ', $query ) );
 	}
 
@@ -278,7 +278,7 @@ class Queries extends Payment {
 
 		// Construct the query using a prepared statement.
 		// Execute the query and fetch the results.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$this->table_name}
@@ -287,7 +287,7 @@ class Queries extends Payment {
 				$subscription_id
 			)
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Search for the subscription object in the "$results" array.
 		foreach ( $results as $key => $result ) {
@@ -335,7 +335,7 @@ class Queries extends Payment {
 		$query[] = "AND r.type = 'renewal'";
 		$query[] = ')';
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		return (bool) $wpdb->get_var( $wpdb->prepare( implode( ' ', $query ), $subscription_id ) );
 	}
 
@@ -356,7 +356,7 @@ class Queries extends Payment {
 		$query[] = "WHERE subscription_id = %s AND type = 'subscription'";
 		$query[] = 'ORDER BY id DESC LIMIT 1';
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		return $wpdb->get_row( $wpdb->prepare( implode( ' ', $query ), $subscription_id ) );
 	}
 
@@ -373,14 +373,14 @@ class Queries extends Payment {
 
 		global $wpdb;
 
-		$meta_table_name = wpforms()->get( 'payment_meta' )->table_name;
+		$meta_table_name = wpforms()->obj( 'payment_meta' )->table_name;
 
 		$query[] = "SELECT p.* FROM {$this->table_name} as p";
 		$query[] = "INNER JOIN {$meta_table_name} as pm ON p.id = pm.payment_id";
 		$query[] = "WHERE pm.meta_key = 'invoice_id' AND pm.meta_value = %s";
 		$query[] = 'ORDER BY p.id DESC LIMIT 1';
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		return $wpdb->get_row( $wpdb->prepare( implode( ' ', $query ), $invoice_id ) );
 	}
 }

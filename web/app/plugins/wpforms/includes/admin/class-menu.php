@@ -36,7 +36,7 @@ class WPForms_Admin_Menu {
 	public function register_menus() {
 
 		$manage_cap = wpforms_get_capability_manage_options();
-		$access     = wpforms()->get( 'access' );
+		$access     = wpforms()->obj( 'access' );
 
 		if ( ! method_exists( $access, 'get_menu_cap' ) ) {
 			return;
@@ -287,7 +287,7 @@ class WPForms_Admin_Menu {
 
 		global $submenu;
 
-		// Bail if plugin menu is not registered.
+		// Bail if a plugin menu is not registered.
 		if ( ! isset( $submenu['wpforms-overview'] ) ) {
 			return;
 		}
@@ -297,7 +297,7 @@ class WPForms_Admin_Menu {
 				$submenu['wpforms-overview'],
 				static function( $item ) {
 
-					return strpos( $item[2], 'https://wpforms.com/lite-upgrade' ) !== false;
+					return strpos( urldecode( $item[2] ), 'wpforms.com/lite-upgrade' ) !== false;
 				}
 			)
 		);
@@ -421,7 +421,7 @@ class WPForms_Admin_Menu {
 	 */
 	public function admin_menu_styles() {
 
-		$styles = '#adminmenu .wpforms-menu-new { color: #f18500; vertical-align: super; font-size: 9px; font-weight: 600; padding-left: 2px; }';
+		$styles = '#adminmenu .wpforms-menu-new { display: inline-block; color: #f18500; vertical-align: super; font-size: 9px; font-weight: 600; padding-inline-start: 2px; }';
 
 		if ( ! wpforms()->is_pro() ) {
 			$styles .= 'a.wpforms-sidebar-upgrade-pro { background-color: #00a32a !important; color: #fff !important; font-weight: 600 !important; }';

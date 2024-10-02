@@ -12,15 +12,6 @@ use WPForms\Helpers\Transient;
 class ModernMarkup {
 
 	/**
-	 * Settings array.
-	 *
-	 * @since 1.8.1
-	 *
-	 * @var array
-	 */
-	private $settings;
-
-	/**
 	 * Initialize class.
 	 *
 	 * @since 1.8.1
@@ -55,18 +46,20 @@ class ModernMarkup {
 	 *
 	 * @since 1.8.1
 	 *
-	 * @param array $settings Settings data.
+	 * @param array|mixed $settings Settings data.
 	 *
 	 * @return array
+	 * @noinspection HtmlUnknownTarget
+	 * @noinspection NullPointerExceptionInspection
 	 */
-	public function register_field( $settings ) {
+	public function register_field( $settings ): array {
 
 		/**
 		 * Allows to show/hide the Modern Markup setting field on the Settings page.
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param mixed $is_disabled Whether the setting must be hidden.
+		 * @param mixed $is_hidden Whether the setting must be hidden.
 		 */
 		$is_hidden = apply_filters(
 			'wpforms_admin_settings_modern_markup_register_field_is_hidden',
@@ -77,12 +70,13 @@ class ModernMarkup {
 			return $settings;
 		}
 
+		$settings      = (array) $settings;
 		$modern_markup = [
 			'id'     => 'modern-markup',
 			'name'   => esc_html__( 'Use Modern Markup', 'wpforms-lite' ),
 			'desc'   => sprintf(
 				wp_kses( /* translators: %s - WPForms.com form markup setting URL. */
-					__( 'Use modern markup, which has increased accessibility and allows you to easily customize your forms in the block editor. <a href="%s" target="_blank" rel="noopener noreferrer" class="wpforms-learn-more">Learn More</a>', 'wpforms-lite' ),
+					__( 'Check this option to use modern markup, which has increased accessibility and allows you to easily customize your forms in the block editor. <a href="%s" target="_blank" rel="noopener noreferrer">Read our form markup documentation</a> to learn more.', 'wpforms-lite' ),
 					[
 						'a' => [
 							'href'   => [],
@@ -102,7 +96,7 @@ class ModernMarkup {
 
 		// Transient doesn't set or expired.
 		if ( $is_disabled_transient === false ) {
-			$forms                 = wpforms()->get( 'form' )->get( '', [ 'post_status' => 'publish' ] );
+			$forms                 = wpforms()->obj( 'form' )->get( '', [ 'post_status' => 'publish' ] );
 			$is_disabled_transient = ( ! empty( $forms ) && wpforms_has_field_type( 'credit-card', $forms, true ) ) ? '1' : '0';
 
 			// Re-check all the forms for the CC field once per day.
@@ -110,7 +104,7 @@ class ModernMarkup {
 		}
 
 		/**
-		 * Allows to enable/disable the Modern Markup setting field on the Settings page.
+		 * Allows enabling/disabling the Modern Markup setting field on the Settings page.
 		 *
 		 * @since 1.8.1
 		 *
@@ -123,7 +117,7 @@ class ModernMarkup {
 
 		$current_value = wpforms_setting( 'modern-markup' );
 
-		// In the case it is disabled because of the legacy CC field, add corresponding description.
+		// In the case, when it is disabled because of the legacy CC field, add the corresponding description.
 		if ( $is_disabled && ! empty( $is_disabled_transient ) && empty( $current_value ) ) {
 			$modern_markup['disabled']      = true;
 			$modern_markup['disabled_desc'] = sprintf(
@@ -153,7 +147,7 @@ class ModernMarkup {
 
 	/**
 	 * Clear transient in the case when the form is created/saved/deleted.
-	 * So, next time when the user will open the Settings page,
+	 * So, next time when the user opens the Settings page,
 	 * the Modern Markup setting will check for the legacy Credit Card field in all the forms again.
 	 *
 	 * @since 1.8.1

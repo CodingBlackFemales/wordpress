@@ -21,5 +21,5 @@ printf( /* translators: %s - link to the site. */
 echo "\n";
 printf( /* translators: %s - link to the documentation. */
 	esc_html__( 'Learn how to disable: %s.', 'wpforms-lite' ),
-	'https://wpforms.com/docs/how-to-use-email-summaries/#faq'
+	'https://wpforms.com/docs/how-to-use-email-summaries/#disable-email-summaries'
 );

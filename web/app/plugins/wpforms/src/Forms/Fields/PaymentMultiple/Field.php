@@ -88,8 +88,8 @@ class Field extends \WPForms_Field {
 		$field_id = absint( $field['id'] );
 		$choices  = $field['choices'];
 
-		// Remove primary input.
-		unset( $properties['inputs']['primary'] );
+		// Remove primary input, unset for attribute for label.
+		unset( $properties['inputs']['primary'], $properties['label']['attr']['for'] );
 
 		// Set input container (ul) properties.
 		$properties['input_container'] = [
@@ -154,7 +154,7 @@ class Field extends \WPForms_Field {
 				}
 			}
 		} elseif ( ! empty( $field['choices_icons'] ) ) {
-			$properties = wpforms()->get( 'icon_choices' )->field_properties( $properties, $field );
+			$properties = wpforms()->obj( 'icon_choices' )->field_properties( $properties, $field );
 		}
 
 		// Add selected class for choices with defaults.
@@ -418,9 +418,8 @@ class Field extends \WPForms_Field {
 						echo '</label>';
 
 					} elseif ( empty( $field['dynamic_choices'] ) && ! empty( $field['choices_icons'] ) ) {
-
 						// Icon Choices.
-						wpforms()->get( 'icon_choices' )->field_display( $field, $choice, 'radio', $label );
+						wpforms()->obj( 'icon_choices' )->field_display( $field, $choice, 'radio', $label );
 
 					} else {
 
@@ -451,7 +450,7 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.2
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Submitted form data.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -459,12 +458,12 @@ class Field extends \WPForms_Field {
 		// Basic required check - If field is marked as required, check for entry data.
 		if ( ! empty( $form_data['fields'][ $field_id ]['required'] ) && empty( $field_submit ) ) {
 
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
 		}
 
 		// Validate that the option selected is real.
 		if ( ! empty( $field_submit ) && empty( $form_data['fields'][ $field_id ]['choices'][ $field_submit ] ) ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Invalid payment option.', 'wpforms-lite' );
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Invalid payment option.', 'wpforms-lite' );
 		}
 	}
 
@@ -501,7 +500,7 @@ class Field extends \WPForms_Field {
 			}
 		}
 
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'         => $name,
 			'value'        => $value,
 			'value_choice' => $choice_label,

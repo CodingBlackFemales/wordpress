@@ -229,15 +229,26 @@ class Ajax {
 		}
 
 		// Count total entries.
-		$count = wpforms()->get( 'entry' )->get_entries( $db_args, true );
+		$count = wpforms()->obj( 'entry' )->get_entries( $db_args, true );
 
 		// Retrieve form data.
-		$form_data = wpforms()->get( 'form' )->get(
+		$form_data = wpforms()->obj( 'form' )->get(
 			$args['form_id'],
 			[
 				'content_only' => true,
 			]
 		);
+
+		/**
+		 * Filter the form data before exporting.
+		 *
+		 * @since 1.8.8
+		 * @since 1.8.9 Added the $entry_id parameter.
+		 *
+		 * @param array $form_data Form data.
+		 * @param int   $entry_id  Entry ID.
+		 */
+		$form_data = apply_filters( 'wpforms_pro_admin_entries_export_ajax_form_data', $form_data, $args['entry_id'] );
 
 		// Prepare get entries args for further steps.
 		unset( $db_args['select'] );
@@ -421,7 +432,7 @@ class Ajax {
 
 			foreach ( $this->request_data['columns_row'] as $col_id => $col_label ) {
 
-				if ( is_numeric( $col_id ) ) {
+				if ( is_numeric( $col_id ) || wpforms_is_repeater_child_field( $col_id ) ) {
 					$row[ $col_id ] = isset( $fields[ $col_id ]['value'] ) ? $fields[ $col_id ]['value'] : '';
 				} elseif ( strpos( $col_id, 'del_field_' ) !== false ) {
 					$f_id           = str_replace( 'del_field_', '', $col_id );
@@ -499,6 +510,10 @@ class Ajax {
 		// The First element is field id.
 		$multiple_field_id = $multiple_key[0];
 
+		if ( wpforms_is_repeater_child_field( $id ) && count( $multiple_key ) > 2 ) {
+			$multiple_field_id .= '_' . $multiple_key[1];
+		}
+
 		// Second element is value id.
 		$multiple_value_id = (int) end( $multiple_key );
 
@@ -519,25 +534,6 @@ class Ajax {
 			$this->request_data['form_data'],
 			$this->request_data['dynamic_columns']
 		);
-
-		/**
-		 * If field has only one choice, set label to 'Checked'.
-		 *
-		 * See field_properties method.
-		 * includes/fields/class-checkbox.php
-		 * src/Forms/Fields/PaymentCheckbox/Field.php
-		 */
-		if ( count( $choices ) === 1 ) {
-			$choices = array_map(
-				static function ( $choice ) {
-
-					$choice['label'] = __( 'Checked', 'wpforms' );
-
-					return $choice;
-				},
-				$choices
-			);
-		}
 
 		// Make sure that values array has the same length as choices array.
 		$values = array_pad( $values, count( $choices ), '' );
@@ -597,6 +593,17 @@ class Ajax {
 
 			// Set value.
 			if ( isset( $choices[ $value_index ] ) ) {
+				/**
+				 * If field has only one choice, set label to 'Checked'.
+				 *
+				 * See field_properties method.
+				 * includes/fields/class-checkbox.php
+				 * src/Forms/Fields/PaymentCheckbox/Field.php
+				 */
+				if ( count( $choices ) === 1 ) {
+					$choices[ $value_index ]['label'] = __( 'Checked', 'wpforms' );
+				}
+
 				$row_value = $choices[ $value_index ]['label'];
 
 				if ( $field['type'] === 'payment-checkbox' ) {
@@ -858,7 +865,7 @@ class Ajax {
 	 */
 	public function get_additional_info_notes_value( $entry ) {
 
-		$entry_meta_obj = wpforms()->get( 'entry_meta' );
+		$entry_meta_obj = wpforms()->obj( 'entry_meta' );
 		$entry_notes    = $entry_meta_obj ?
 			$entry_meta_obj->get_meta(
 				[
@@ -919,7 +926,7 @@ class Ajax {
 	 */
 	public function get_additional_info_geodata_value( $entry ) {
 
-		$entry_meta_obj = wpforms()->get( 'entry_meta' );
+		$entry_meta_obj = wpforms()->obj( 'entry_meta' );
 		$location       = $entry_meta_obj ?
 			$entry_meta_obj->get_meta(
 				[
@@ -1033,7 +1040,7 @@ class Ajax {
 		}
 
 		// Maybe get payment status from payments table.
-		$payment = wpforms()->get( 'payment' )->get_by( 'entry_id', $entry['entry_id'] );
+		$payment = wpforms()->obj( 'payment' )->get_by( 'entry_id', $entry['entry_id'] );
 
 		if ( ! isset( $payment->status ) ) {
 			return esc_html__( 'N/A', 'wpforms' );
@@ -1054,7 +1061,7 @@ class Ajax {
 	public function get_additional_info_pginfo_value( $entry ) {
 
 		// Maybe get payment status from payments table.
-		$payment_table_data = wpforms()->get( 'payment' )->get_by( 'entry_id', $entry['entry_id'] );
+		$payment_table_data = wpforms()->obj( 'payment' )->get_by( 'entry_id', $entry['entry_id'] );
 
 		if ( empty( $payment_table_data ) ) {
 			return '';
@@ -1077,19 +1084,27 @@ class Ajax {
 
 		global $wpdb;
 
-		$table_name = wpforms()->get( 'entry_fields' )->table_name;
+		$table_name = wpforms()->obj( 'entry_fields' )->table_name;
+
+		$field_ids        = wp_list_pluck( $existing_fields, 'id' );
+		$quoted_field_ids = array_map(
+			function ( $id ) {
+				return "'" . esc_sql( $id ) . "'";
+			},
+			$field_ids
+		);
+		$ids_string       = implode( ',', $quoted_field_ids );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		$sql = $wpdb->prepare(
-			"SELECT DISTINCT field_id FROM $table_name WHERE `form_id` = %d AND `field_id` NOT IN ( " .
-			implode( ',', wp_list_pluck( $existing_fields, 'id' ) ) . ' )',
+			"SELECT DISTINCT field_id FROM $table_name WHERE `form_id` = %d AND `field_id` NOT IN ( $ids_string )",
 			(int) $request_data['db_args']['form_id']
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 
 		$deleted_fields_columns = [];
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$db_result = $wpdb->get_col( $sql );
 
 		foreach ( $db_result as $id ) {
@@ -1226,7 +1241,7 @@ class Ajax {
 		];
 
 		// Get meta data for payment.
-		$meta = wpforms()->get( 'payment_meta' )->get_all( $payment_table_data->id );
+		$meta = wpforms()->obj( 'payment_meta' )->get_all( $payment_table_data->id );
 
 		if ( empty( $meta ) ) {
 			return $value;
@@ -1517,13 +1532,13 @@ class Ajax {
 	 *
 	 * @since 1.8.5
 	 *
-	 * @param int    $form_id  Form ID.
-	 * @param int    $field_id Field ID.
-	 * @param string $type     Field type.
+	 * @param int        $form_id  Form ID.
+	 * @param int|string $field_id Field ID.
+	 * @param string     $type     Field type.
 	 *
 	 * @return array Choices.
 	 */
-	private function get_all_existing_choices( int $form_id, int $field_id, string $type ): array {
+	private function get_all_existing_choices( int $form_id, $field_id, string $type ): array {
 
 		if ( isset( $this->values[ $field_id ] ) ) {
 			return $this->values[ $field_id ];
@@ -1579,7 +1594,7 @@ class Ajax {
 			$entry_id = $row_value['entry_id'];
 
 			// Get entry for current Payment Checkbox field value.
-			$entry = wpforms()->get( 'entry' )->get( $entry_id );
+			$entry = wpforms()->obj( 'entry' )->get( $entry_id );
 
 			// Get field values for current entry.
 			$entry_fields_data = $this->get_entry_fields_data( $entry );
@@ -1677,19 +1692,19 @@ class Ajax {
 
 		global $wpdb;
 
-		$table_name = wpforms()->get( 'entry_fields' )->table_name;
+		$table_name = wpforms()->obj( 'entry_fields' )->table_name;
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		$sql = $wpdb->prepare(
-			"SELECT DISTINCT `value`, `entry_id` FROM $table_name WHERE `form_id` = %d AND `field_id` = %d",
+			"SELECT DISTINCT `value`, `entry_id` FROM $table_name WHERE `form_id` = %d AND `field_id` = %s",
 			$form_id,
 			$field_id
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_results( $sql, ARRAY_A );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	/**

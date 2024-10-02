@@ -22,16 +22,22 @@ class AuthorId extends SmartTag {
 	 */
 	public function get_value( $form_data, $fields = [], $entry_id = '' ) {
 
-		$form_id = $form_data['id'] ?? 0;
+		$author_id = $this->get_author_meta( $entry_id, 'ID' );
 
-		$author = $this->get_author( $form_id );
-
-		$id = $author->ID ?? '';
-
-		if ( empty( $id ) && ! empty( $_POST['wpforms']['author'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$id = get_the_author_meta( 'ID', absint( $_POST['wpforms']['author'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $author_id ) ) {
+			return absint( $author_id );
 		}
 
-		return absint( $id );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST['page_id'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$author_id = get_post_field( 'post_author', absint( $_POST['page_id'] ) );
+
+			return $author_id ? absint( $author_id ) : '';
+		}
+
+		$author_id = get_the_author_meta( 'ID' );
+
+		return $author_id ? absint( $author_id ) : '';
 	}
 }

@@ -208,6 +208,12 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 		 * @return {Object} Scriptable options as a function which is called for each data.
 		 */
 		get settings() { /* eslint max-lines-per-function: ["error", 100] */
+			/**
+			 * Check if the site is RTL.
+			 *
+			 * @since 1.9.1
+			 */
+			const isRTL = $( 'body' ).hasClass( 'rtl' );
 
 			return {
 
@@ -250,6 +256,7 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 								},
 								distribution: 'series',
 								ticks: {
+									reverse: isRTL,
 									beginAtZero: true,
 									padding: 10,
 									fontColor: '#787c82',
@@ -306,6 +313,7 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 					},
 					tooltips: {
 						displayColors: false,
+						rtl: isRTL,
 					},
 					responsiveAnimationDuration: 0,
 					maintainAspectRatio: false,

@@ -4,6 +4,7 @@ namespace WPForms\Pro\Admin\Entries\Overview;
 
 use WPForms\Admin\Helpers\Datepicker;
 use WP_Post;
+use WPForms\Admin\Traits\HasScreenOptions;
 
 /**
  * "Entries" overview page inside the admin, which lists all forms.
@@ -12,6 +13,8 @@ use WP_Post;
  * @since 1.8.2
  */
 class Page {
+
+	use HasScreenOptions;
 
 	/**
 	 * Array of start and end dates
@@ -41,12 +44,48 @@ class Page {
 	 */
 	public function init() {
 
-		// Bail early, if the class is not permitted to load.
-		if ( ! $this->is_allowed() ) {
-			return;
-		}
+		$this->screen_options_id = 'wpforms_entries_overview_screen_options';
 
-		$this->hooks();
+		// Define screen options config.
+		$this->screen_options = [
+			'pagination' => [
+				'heading' => esc_html__( 'Pagination', 'wpforms' ),
+				'options' => [
+					[
+						'label'   => esc_html__( 'Number of forms per page:', 'wpforms' ),
+						'option'  => 'per_page',
+						'default' => wpforms()->obj( 'entry' )->get_count_per_page(),
+						'type'    => 'number',
+						'args'    => [
+							'min'       => 1,
+							'max'       => 999,
+							'step'      => 1,
+							'maxlength' => 3,
+						],
+					],
+				],
+			],
+			'view'       => [
+				'heading' => esc_html__( 'View', 'wpforms' ),
+				'options' => [
+					[
+						'label'   => esc_html__( 'Show form templates', 'wpforms' ),
+						'option'  => 'show_form_templates',
+						'default' => true,
+						'type'    => 'checkbox',
+						'checked' => true,
+					],
+				],
+			],
+		];
+
+		$allow = $this->is_allowed();
+
+		$this->init_screen_options( $allow );
+
+		if ( $allow ) {
+			$this->hooks();
+		}
 	}
 
 	/**
@@ -75,6 +114,20 @@ class Page {
 		add_action( 'wpforms_admin_page', [ $this, 'output' ] );
 		add_action( 'wpforms_pro_admin_entries_overview_page_output_before', [ $this, 'output_top_bar' ] );
 		add_action( 'wpforms_pro_admin_entries_overview_page_output_before', [ $this, 'output_chart' ] );
+
+		add_filter( 'wpforms_entries_per_page', [ $this, 'get_per_page_option' ] );
+	}
+
+	/**
+	 * Get the "per_page" option for the overview page.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return int
+	 */
+	public function get_per_page_option() {
+
+		return get_user_option( $this->screen_options_id . '_pagination_per_page' );
 	}
 
 	/**
@@ -294,6 +347,18 @@ class Page {
 	}
 
 	/**
+	 * Get the user's preference for showing form templates.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return bool
+	 */
+	public function overview_show_form_templates() {
+
+		return get_user_option( $this->screen_options_id . '_view_show_form_templates' );
+	}
+
+	/**
 	 * Get the user’s preferences for displaying of the graph.
 	 *
 	 * @since 1.8.2
@@ -306,7 +371,7 @@ class Page {
 		$graph_style    = get_user_meta( $user_id, 'wpforms_dash_widget_graph_style', true );
 		$color_scheme   = get_user_meta( $user_id, 'wpforms_dash_widget_color_scheme', true );
 		$active_form_id = get_user_meta( $user_id, 'wpforms_dash_widget_active_form_id', true );
-		$active_form    = empty( $active_form_id ) ? false : wpforms()->get( 'form' )->get( $active_form_id );
+		$active_form    = empty( $active_form_id ) ? false : wpforms()->obj( 'form' )->get( $active_form_id );
 
 		return [
 			'active_form_id' => $active_form instanceof WP_Post && $active_form->post_status === 'publish' ? $active_form->ID : '',

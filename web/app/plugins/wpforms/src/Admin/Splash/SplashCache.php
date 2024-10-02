@@ -20,7 +20,7 @@ class SplashCache extends CacheBase {
 	 *
 	 * @var string
 	 */
-	const REMOTE_SOURCE = 'https://plugin.wpforms.com/wp-content/whatsnew.json';
+	const REMOTE_SOURCE = 'https://plugin.wpforms.com/wp-content/splash.json';
 
 	/**
 	 * Determine if the class is allowed to load.
@@ -117,8 +117,13 @@ class SplashCache extends CacheBase {
 
 		$latest_version = $this->get_latest_splash_version();
 
-		// If latest version is bigger than current or empty - set latest version to current.
-		$latest_version = version_compare( $latest_version, $version, '>' ) || empty( $latest_version ) ? $version : $latest_version;
+		// If the latest version is empty - set the latest version to the previous WPForms version.
+		// This is needed for the first update from the version without the "What's New?" feature.
+		$latest_version = empty( $latest_version ) ? $this->get_previous_plugin_version() : $latest_version;
+
+		// If the latest version is bigger than the current - set latest version to current.
+		$latest_version = version_compare( $latest_version, $version, '>' ) ? $version : $latest_version;
+		$latest_version = $this->get_major_version( $latest_version );
 
 		// Filter data by plugin version.
 		$blocks = array_filter(
@@ -127,12 +132,12 @@ class SplashCache extends CacheBase {
 
 				$block_version = $block['version'] ?? '';
 
-				// If version is latest - return only blocks with current version.
+				// If the version is latest - return only blocks with the current version.
 				if ( $version === $latest_version ) {
 					return version_compare( $block_version, $version, '=' );
 				}
 
-				// If version is not latest - return only blocks between latest and current versions.
+				// If the version is not latest - return only blocks between latest and current versions.
 				return version_compare( $block_version, $latest_version, '>' ) && version_compare( $block_version, $version, '<=' );
 			}
 		);
@@ -141,7 +146,7 @@ class SplashCache extends CacheBase {
 		$blocks = array_values( $blocks );
 
 		return array_map(
-			function ( $block, $index ) {
+			function ( $block, $index ) { //phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
 				// Prepare buttons URLs.
 				$block['buttons'] = $this->prepare_buttons( $block['btns'] ?? [] );

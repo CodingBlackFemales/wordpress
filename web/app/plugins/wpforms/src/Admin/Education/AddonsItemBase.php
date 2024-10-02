@@ -58,10 +58,10 @@ abstract class AddonsItemBase implements EducationInterface {
 		}
 
 		// Store the instance of the Education core class.
-		$this->education = wpforms()->get( 'education' );
+		$this->education = wpforms()->obj( 'education' );
 
 		// Store the instance of the Education\Addons class.
-		$this->addons = wpforms()->get( 'addons' );
+		$this->addons = wpforms()->obj( 'addons' );
 
 		// Define hooks.
 		$this->hooks();

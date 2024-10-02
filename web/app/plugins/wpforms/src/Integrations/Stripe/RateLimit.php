@@ -181,6 +181,7 @@ final class RateLimit {
 			$this->create_file( $file );
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable
 		if ( ! is_writable( $file ) ) {
 			return 'transient';
 		}
@@ -256,11 +257,12 @@ final class RateLimit {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 		if ( file_put_contents( $file, '' ) === false ) {
 			return false;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_chmod
 		chmod( $file, 0664 );
 
 		return true;
@@ -281,6 +283,7 @@ final class RateLimit {
 			return [];
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$contents = file_get_contents( $file );
 		$contents = json_decode( $contents, true );
 
@@ -304,6 +307,7 @@ final class RateLimit {
 
 		$file = $this->get_file_path();
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable
 		if ( ! is_writable( $file ) ) {
 			return false;
 		}

@@ -184,6 +184,8 @@ WPForms.Admin.Builder.Providers = WPForms.Admin.Builder.Providers || ( function(
 
 						if ( 'success' === textStatus ) {
 							$lock.val( 0 );
+							// Update the cache when the provider data is unlocked.
+							wpf.savedState = wpf.getFormState( '#wpforms-builder-form' );
 						}
 					} );
 			},
@@ -702,6 +704,11 @@ WPForms.Admin.Builder.Providers = WPForms.Admin.Builder.Providers || ( function(
 
 					$this.removeClass( 'wpforms-error' );
 				} );
+
+				// Remove the checked icon near the provider title if all its connections are removed.
+				app.panelHolder.on( 'connectionDeleted', function( $connection ) {
+					app.ui.updateStatus( $connection );
+				} );
 			},
 
 			/**
@@ -794,6 +801,20 @@ WPForms.Admin.Builder.Providers = WPForms.Admin.Builder.Providers || ( function(
 						},
 					},
 				} );
+			},
+
+			/**
+			 * Update the check icon of the provider in the sidebar.
+			 *
+			 * @since 1.9.0
+			 *
+			 * @param {Object} $connection jQuery DOM element for a connection.
+			 */
+			updateStatus( $connection ) {
+				const $section = $connection.target.closest( '.wpforms-panel-content-section' ),
+					$sidebarItem = $( '.wpforms-panel-sidebar-section-' + $connection.target.dataset.provider );
+
+				$sidebarItem.find( '.fa-check-circle-o' ).toggleClass( 'wpforms-hidden', $( $section ).find( '.wpforms-builder-provider-connection' ).length <= 0 );
 			},
 
 			/**

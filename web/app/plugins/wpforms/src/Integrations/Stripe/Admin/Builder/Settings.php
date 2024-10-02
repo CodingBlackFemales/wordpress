@@ -185,7 +185,7 @@ class Settings {
 			return [];
 		}
 
-		$form_data = wpforms()->get( 'form' )->get(
+		$form_data = wpforms()->obj( 'form' )->get(
 			$form_id,
 			[
 				'content_only' => true,
@@ -262,7 +262,7 @@ class Settings {
 	 */
 	private function get_conditional_logic_section_data() {
 
-		$addon = wpforms()->get( 'addons' )->get_addon( 'stripe' );
+		$addon = wpforms()->obj( 'addons' )->get_addon( 'stripe' );
 
 		if (
 			empty( $addon ) ||

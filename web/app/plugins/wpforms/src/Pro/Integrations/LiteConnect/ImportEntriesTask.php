@@ -51,7 +51,7 @@ class ImportEntriesTask {
 	 */
 	public function create( $last_import_id = null ) {
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Creates the task to import entries.
 		$action_id = $tasks->create( self::LITE_CONNECT_IMPORT_TASK )

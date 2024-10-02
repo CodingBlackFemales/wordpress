@@ -143,7 +143,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 	 */
 	public function display_page_indicator( $form_data ) {
 
-		$top = ! empty( wpforms()->get( 'frontend' )->pages['top'] ) ? wpforms()->get( 'frontend' )->pages['top'] : false;
+		$top = ! empty( wpforms()->obj( 'frontend' )->pages['top'] ) ? wpforms()->obj( 'frontend' )->pages['top'] : false;
 
 		if ( empty( $top['indicator'] ) ) {
 			return;
@@ -152,7 +152,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 		$pagebreak = [
 			'indicator' => sanitize_html_class( $top['indicator'] ),
 			'color'     => wpforms_sanitize_hex_color( $top['indicator_color'] ),
-			'pages'     => array_merge( [ wpforms()->get( 'frontend' )->pages['top'] ], wpforms()->get( 'frontend' )->pages['pages'] ),
+			'pages'     => array_merge( [ wpforms()->obj( 'frontend' )->pages['top'] ], wpforms()->obj( 'frontend' )->pages['pages'] ),
 			'scroll'    => empty( $top['scroll_disabled'] ),
 		];
 		$p         = 1;
@@ -264,7 +264,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 	public function display_fields_before( $form_data ) {
 
 		// Check if we have an opening pagebreak, if not then bail.
-		$field = ! empty( wpforms()->get( 'frontend' )->pages['top'] ) ? wpforms()->get( 'frontend' )->pages['top'] : false;
+		$field = ! empty( wpforms()->obj( 'frontend' )->pages['top'] ) ? wpforms()->obj( 'frontend' )->pages['top'] : false;
 
 		if ( ! $field ) {
 			return;
@@ -294,13 +294,13 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 	 */
 	public function display_fields_after( $form_data ) {
 
-		if ( empty( wpforms()->get( 'frontend' )->pages ) ) {
+		if ( empty( wpforms()->obj( 'frontend' )->pages ) ) {
 			return;
 		}
 
 		// If we don't have a bottom pagebreak, the form is pre-v1.2.1 and
 		// this is for backwards compatibility.
-		$bottom = ! empty( wpforms()->get( 'frontend' )->pages['bottom'] ) ? wpforms()->get( 'frontend' )->pages['top'] : false;
+		$bottom = ! empty( wpforms()->obj( 'frontend' )->pages['bottom'] ) ? wpforms()->obj( 'frontend' )->pages['top'] : false;
 
 		if ( ! $bottom ) {
 
@@ -309,14 +309,14 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 			echo '<div class="wpforms-field wpforms-field-pagebreak">';
 			printf(
 				'<button class="wpforms-page-button wpforms-page-prev" data-action="prev" data-page="%d" data-formid="%d">%s</button>',
-				absint( wpforms()->get( 'frontend' )->pages['current'] + 1 ),
+				absint( wpforms()->obj( 'frontend' )->pages['current'] + 1 ),
 				absint( $form_data['id'] ),
 				esc_html( $prev )
 			);
 			echo '</div>';
 		}
 
-		$field = ! empty( wpforms()->get( 'frontend' )->pages['bottom'] ) ? wpforms()->get( 'frontend' )->pages['bottom'] : $bottom;
+		$field = ! empty( wpforms()->obj( 'frontend' )->pages['bottom'] ) ? wpforms()->obj( 'frontend' )->pages['bottom'] : $bottom;
 
 		/**
 		 * Fires after all fields on the page.
@@ -345,8 +345,8 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 			return;
 		}
 
-		$total   = wpforms()->get( 'frontend' )->pages['total'];
-		$current = wpforms()->get( 'frontend' )->pages['current'];
+		$total   = wpforms()->obj( 'frontend' )->pages['total'];
+		$current = wpforms()->obj( 'frontend' )->pages['current'];
 
 		if ( ( empty( $field['position'] ) || $field['position'] !== 'top' ) && $current !== $total ) {
 
@@ -382,7 +382,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 			do_action( 'wpforms_field_page_break_page_fields_before', $field, $form_data );
 
 			// Increase count for next page.
-			wpforms()->get( 'frontend' )->pages['current'] ++;
+			wpforms()->obj( 'frontend' )->pages['current']++;
 		}
 	}
 
@@ -706,7 +706,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 
 		if ( 'top' !== $position ) {
 			if ( empty( $this->form_data ) ) {
-				$this->form_data = wpforms()->get( 'form' )->get(
+				$this->form_data = wpforms()->obj( 'form' )->get(
 					$this->form_id,
 					[
 						'content_only' => true,
@@ -814,9 +814,9 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 		$filtered_field = apply_filters( 'wpforms_pagedivider_field_display', $field, $field_atts, $form_data );
 		$field          = wpforms_list_intersect_key( (array) $filtered_field, $field );
 
-		$total   = wpforms()->get( 'frontend' )->pages['total'];
-		$current = wpforms()->get( 'frontend' )->pages['current'];
-		$top     = wpforms()->get( 'frontend' )->pages['top'];
+		$total   = wpforms()->obj( 'frontend' )->pages['total'];
+		$current = wpforms()->obj( 'frontend' )->pages['current'];
+		$top     = wpforms()->obj( 'frontend' )->pages['top'];
 		$next    = ! empty( $field['next'] ) ? $field['next'] : '';
 		$prev    = ! empty( $field['prev'] ) ? $field['prev'] : '';
 		$align   = 'wpforms-pagebreak-center';

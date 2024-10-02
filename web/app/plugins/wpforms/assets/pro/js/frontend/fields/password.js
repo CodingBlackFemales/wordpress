@@ -18,15 +18,23 @@ window.WPFormsPasswordField = window.WPFormsPasswordField || ( function( documen
 		 * @since 1.6.7
 		 *
 		 * @param {string} value   Password value.
-		 * @param {object} element Password field.
+		 * @param {Object} element Password field.
 		 *
-		 * @returns {number} Strength result.
+		 * @return {number} Strength result.
 		 */
-		passwordStrength: function( value, element ) {
-
+		// eslint-disable-next-line complexity
+		passwordStrength( value, element ) {
 			const $input = $( element );
 			const $field = $input.closest( '.wpforms-field' );
 			let $strengthResult = $field.find( '.wpforms-pass-strength-result' );
+
+			// Don't check the password strength for empty fields which is set as not required.
+			if ( $input.val().trim() === '' && ! $input.hasClass( 'wpforms-field-required' ) ) {
+				$strengthResult.remove();
+				$input.removeClass( 'wpforms-error-pass-strength' );
+
+				return 0;
+			}
 
 			if ( ! $strengthResult.length ) {
 				$strengthResult = $( '<div class="wpforms-pass-strength-result"></div>' );
@@ -42,11 +50,11 @@ window.WPFormsPasswordField = window.WPFormsPasswordField || ( function( documen
 				return 0;
 			}
 
-			const disallowedList = Object.prototype.hasOwnProperty.call( wp.passwordStrength, 'userInputDisallowedList' ) ?
-				wp.passwordStrength.userInputDisallowedList() :
-				wp.passwordStrength.userInputBlacklist();
+			const disallowedList = Object.prototype.hasOwnProperty.call( wp.passwordStrength, 'userInputDisallowedList' )
+				? wp.passwordStrength.userInputDisallowedList()
+				: wp.passwordStrength.userInputBlacklist();
 
-			var strength = wp.passwordStrength.meter( value, disallowedList, value );
+			const strength = wp.passwordStrength.meter( value, disallowedList, value );
 
 			$strengthResult = app.updateStrengthResultEl( $strengthResult, strength );
 

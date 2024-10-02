@@ -25,9 +25,12 @@ $classes = [
 <section class="<?php echo wpforms_sanitize_classes( $classes, true ); ?>">
 	<div class="wpforms-splash-section-content">
 		<?php
-			if ( ! empty( $new ) ) {
-				printf( '<span class="wpforms-splash-badge">%s</span>', esc_html( __( 'New Feature', 'wpforms-lite' ) ) );
-			}
+		if ( ! empty( $new ) ) {
+			printf(
+				'<span class="wpforms-splash-badge">%s</span>',
+				esc_html__( 'New Feature', 'wpforms-lite' )
+			);
+		}
 		?>
 		<h3><?php echo esc_html( $title ); ?></h3>
 		<p><?php echo wp_kses_post( $content ); ?></p>
@@ -35,11 +38,16 @@ $classes = [
 		<?php if ( ! empty( $buttons ) ) : ?>
 			<div class="wpforms-splash-section-buttons">
 				<?php
-					foreach ( $buttons as $button_type => $button ) {
-						$button_class = $button_type === 'main' ? 'wpforms-btn-orange' : 'wpforms-btn-bordered';
+				foreach ( $buttons as $button_type => $button ) {
+					$button_class = $button_type === 'main' ? 'wpforms-btn-orange' : 'wpforms-btn-bordered';
 
-						printf( '<a href="%1$s" class="wpforms-btn %3$s">%2$s</a>', esc_url( $button['url'] ), esc_html( $button['text'] ), esc_attr( $button_class ) );
-					}
+					printf(
+						'<a href="%1$s" class="wpforms-btn %3$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+						esc_url( $button['url'] ),
+						esc_html( $button['text'] ),
+						esc_attr( $button_class )
+					);
+				}
 				?>
 			</div>
 		<?php endif; ?>

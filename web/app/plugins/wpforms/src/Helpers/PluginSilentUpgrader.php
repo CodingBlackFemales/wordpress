@@ -361,6 +361,7 @@ class PluginSilentUpgrader extends \Plugin_Upgrader {
 
 		// Once extracted, delete the package if required.
 		if ( $delete_package ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 			unlink( $package );
 		}
 

@@ -36,7 +36,7 @@ class Templates {
 			return;
 		}
 
-		$this->addons_obj = wpforms()->get( 'addons' );
+		$this->addons_obj = wpforms()->obj( 'addons' );
 
 		$this->hooks();
 	}

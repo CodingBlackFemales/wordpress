@@ -133,6 +133,9 @@ class WPForms_Field_Divider extends WPForms_Field {
 		$primary = $field['properties']['inputs']['primary'];
 		$label   = $field['properties']['label'];
 
+		// H3 element should not have name attribute.
+		unset( $primary['attr']['name'] );
+
 		// Primary field.
 		if ( ! empty( $label['value'] ) ) {
 			printf(

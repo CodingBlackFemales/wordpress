@@ -1,16 +1,42 @@
 /* global wpforms_education, WPFormsBuilder, wpf */
+
 /**
  * WPForms Education Core.
  *
  * @since 1.6.6
  */
 
-'use strict';
+// noinspection ES6ConvertVarToLetConst
+/**
+ * @param wpforms_education.activate_confirm
+ * @param wpforms_education.activate_prompt
+ * @param wpforms_education.activating
+ * @param wpforms_education.addon_activated
+ * @param wpforms_education.addon_error
+ * @param wpforms_education.ajax_url
+ * @param wpforms_education.can_activate_addons
+ * @param wpforms_education.can_install_addons
+ * @param wpforms_education.cancel
+ * @param wpforms_education.close
+ * @param wpforms_education.install_confirm
+ * @param wpforms_education.install_prompt
+ * @param wpforms_education.installing
+ * @param wpforms_education.nonce
+ * @param wpforms_education.ok
+ * @param wpforms_education.plugin_activated
+ * @param wpforms_education.save_confirm
+ * @param wpforms_education.save_prompt
+ * @param wpforms_education.saving
+ * @param wpforms_education.thanks_for_interest
+ * @param wpforms_education.upgrade
+ * @param wpforms_education.upgrade.modal
+ * @param wpforms_education.upgrade.url
+ * @param wpforms_education.upgrade.url_template
+ */
 
-var WPFormsEducation = window.WPFormsEducation || {};
+var WPFormsEducation = window.WPFormsEducation || {}; // eslint-disable-line no-var
 
 WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, window, $ ) {
-
 	/**
 	 * Spinner markup.
 	 *
@@ -18,24 +44,23 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 	 *
 	 * @type {string}
 	 */
-	var spinner = '<i class="wpforms-loading-spinner wpforms-loading-white wpforms-loading-inline"></i>';
+	const spinner = '<i class="wpforms-loading-spinner wpforms-loading-white wpforms-loading-inline"></i>';
 
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.6.6
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var app = {
+	const app = {
 
 		/**
 		 * Start the engine.
 		 *
 		 * @since 1.6.6
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -44,8 +69,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.6.6
 		 */
-		ready: function() {
-
+		ready() {
 			app.events();
 		},
 
@@ -54,8 +78,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.6.6
 		 */
-		events: function() {
-
+		events() {
 			app.dismissEvents();
 			app.openModalButtonClick();
 			app.setDykColspan();
@@ -67,8 +90,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.7.0
 		 */
-		openModalButtonClick: function() {
-
+		openModalButtonClick() {
 			$( document )
 				.on( 'click', '.education-modal:not(.wpforms-add-fields-button)', app.openModalButtonHandler )
 				.on( 'mousedown', '.education-modal.wpforms-add-fields-button', app.openModalButtonHandler );
@@ -81,8 +103,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {Event} event Event.
 		 */
-		openModalButtonHandler: function( event ) {
-
+		openModalButtonHandler( event ) {
 			event.preventDefault();
 
 			const $this = $( this );
@@ -102,19 +123,17 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.6.6
 		 */
-		dismissEvents: function() {
-
-			$( document ).on( 'click', '.wpforms-dismiss-container .wpforms-dismiss-button', function( e ) {
-
-				var $this = $( this ),
+		dismissEvents() {
+			$( document ).on( 'click', '.wpforms-dismiss-container .wpforms-dismiss-button', function() {
+				const $this = $( this ),
 					$cont = $this.closest( '.wpforms-dismiss-container' ),
-					$out = $cont.find( '.wpforms-dismiss-out' ),
 					data = {
 						action: 'wpforms_education_dismiss',
 						nonce: wpforms_education.nonce,
 						section: $this.data( 'section' ),
 						page: typeof window.pagenow === 'string' ? window.pagenow : '',
 					};
+				let $out = $cont.find( '.wpforms-dismiss-out' );
 
 				if ( $cont.hasClass( 'wpforms-dismiss-out' ) ) {
 					$out = $cont;
@@ -141,18 +160,15 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.7.3
 		 */
-		setDykColspan: function() {
-
+		setDykColspan() {
 			$( '#adv-settings' ).on(
 				'change',
 				'input.hide-column-tog',
-				function( event ) {
-
-					var $dykCell  = $( '.wpforms-dyk td' ),
-						colCount  = $( '.wp-list-table thead .manage-column' ).not( '.hidden' ).length;
+				function() {
+					const $dykCell = $( '.wpforms-dyk td' ),
+						colCount = $( '.wp-list-table thead .manage-column' ).not( '.hidden' ).length;
 
 					$dykCell.attr( 'colspan', colCount );
-
 				}
 			);
 		},
@@ -196,12 +212,12 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 
 			// UTM content for Templates.
 			if ( $el.hasClass( 'wpforms-template-select' ) ) {
-				return app.slugToUTMcontent( $el.data( 'slug' ) );
+				return app.slugToUTMContent( $el.data( 'slug' ) );
 			}
 
 			// UTM content for Addons (sidebar).
 			if ( $el.hasClass( 'wpforms-panel-sidebar-section' ) ) {
-				return app.slugToUTMcontent( $el.data( 'slug' ) ) + ' Addon';
+				return app.slugToUTMContent( $el.data( 'slug' ) ) + ' Addon';
 			}
 
 			// UTM content by default with fallback `data-name`.
@@ -215,10 +231,9 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {string} slug Slug.
 		 *
-		 * @returns {string} UTM content string.
+		 * @return {string} UTM content string.
 		 */
-		slugToUTMcontent: function( slug ) {
-
+		slugToUTMContent( slug ) {
 			if ( ! slug ) {
 				return '';
 			}
@@ -242,18 +257,17 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 * @param {string} utmContent UTM content.
 		 * @param {string} type       Feature license type: pro or elite.
 		 *
-		 * @returns {string} Upgrade URL.
+		 * @return {string} Upgrade URL.
 		 */
-		getUpgradeURL: function( utmContent, type ) {
-
-			var	baseURL = wpforms_education.upgrade[ type ].url;
+		getUpgradeURL( utmContent, type ) {
+			let baseURL = wpforms_education.upgrade[ type ].url;
 
 			if ( utmContent.toLowerCase().indexOf( 'template' ) > -1 ) {
 				baseURL = wpforms_education.upgrade[ type ].url_template;
 			}
 
 			// Test if the base URL already contains `?`.
-			var appendChar = /(\?)/.test( baseURL ) ? '&' : '?';
+			let appendChar = /(\?)/.test( baseURL ) ? '&' : '?';
 
 			// If the upgrade link is changed by partners, appendChar has to be encoded.
 			if ( baseURL.indexOf( 'https://wpforms.com' ) === -1 ) {
@@ -264,14 +278,37 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		},
 
 		/**
+		 * Upgrade modal second state.
+		 *
+		 * @since 1.6.6
+		 *
+		 * @param {string} type Feature license type: pro or elite.
+		 */
+		upgradeModalThankYou: ( type ) => {
+			$.alert( {
+				title: wpforms_education.thanks_for_interest,
+				content: wpforms_education.upgrade[ type ].modal,
+				icon: 'fa fa-info-circle',
+				type: 'blue',
+				boxWidth: '565px',
+				buttons: {
+					confirm: {
+						text: wpforms_education.ok,
+						btnClass: 'btn-confirm',
+						keys: [ 'enter' ],
+					},
+				},
+			} );
+		},
+
+		/**
 		 * Get spinner markup.
 		 *
 		 * @since 1.7.6
 		 *
-		 * @returns {string} Spinner markup.
+		 * @return {string} Spinner markup.
 		 */
-		getSpinner: function() {
-
+		getSpinner: () => {
 			return spinner;
 		},
 
@@ -282,26 +319,24 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {jQuery} $button jQuery button element.
 		 */
-		activateModal: function( $button  ) {
-
-			var feature = $button.data( 'name' ),
+		activateModal( $button ) {
+			const feature = $button.data( 'name' ),
 				message = $button.data( 'message' );
 
 			const canActivateAddons = wpforms_education.can_activate_addons;
 
 			$.alert( {
-				title  : false,
+				title: false,
 				content: message ? message : wpforms_education.activate_prompt.replace( /%name%/g, feature ),
-				icon   : 'fa fa-info-circle',
-				type   : 'blue',
+				icon: 'fa fa-info-circle',
+				type: 'blue',
 				buttons: {
 					confirm: {
-						text    : wpforms_education.activate_confirm,
+						text: wpforms_education.activate_confirm,
 						btnClass: 'btn-confirm' + ( ! canActivateAddons ? ' hidden' : '' ),
-						keys    : [ 'enter' ],
+						keys: [ 'enter' ],
 						isHidden: ! canActivateAddons,
-						action  : function() {
-
+						action() {
 							this.$$confirm
 								.prop( 'disabled', true )
 								.html( spinner + wpforms_education.activating );
@@ -314,7 +349,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 							return false;
 						},
 					},
-					cancel : {
+					cancel: {
 						text: wpforms_education.cancel,
 					},
 				},
@@ -327,11 +362,10 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 * @since 1.7.0
 		 *
 		 * @param {jQuery} $button       jQuery button element.
-		 * @param {object} previousModal Previous modal instance.
+		 * @param {Object} previousModal Previous modal instance.
 		 */
-		activateAddon: function( $button, previousModal ) {
-
-			var path = $button.data( 'path' ),
+		activateAddon( $button, previousModal ) {
+			const path = $button.data( 'path' ),
 				pluginType = $button.data( 'type' ),
 				nonce = $button.data( 'nonce' ),
 				hideOnSuccess = $button.data( 'hide-on-success' );
@@ -340,12 +374,11 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				wpforms_education.ajax_url,
 				{
 					action: 'wpforms_activate_addon',
-					nonce : nonce,
+					nonce,
 					plugin: path,
-					type  : pluginType,
+					type: pluginType,
 				},
 				function( res ) {
-
 					previousModal.close();
 
 					if ( res.success ) {
@@ -356,15 +389,15 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 						app.saveModal( pluginType === 'plugin' ? wpforms_education.plugin_activated : wpforms_education.addon_activated );
 					} else {
 						$.alert( {
-							title  : false,
+							title: false,
 							content: res.data,
-							icon   : 'fa fa-exclamation-circle',
-							type   : 'orange',
+							icon: 'fa fa-exclamation-circle',
+							type: 'orange',
 							buttons: {
 								confirm: {
-									text    : wpforms_education.close,
+									text: wpforms_education.close,
 									btnClass: 'btn-confirm',
-									keys    : [ 'enter' ],
+									keys: [ 'enter' ],
 								},
 							},
 						} );
@@ -378,26 +411,24 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param {string}      title   Modal title.
-		 * @param {string|bool} content Modal content.
+		 * @param {string}         title   Modal title.
+		 * @param {string|boolean} content Modal content.
 		 */
-		saveModal: function( title, content ) {
-
+		saveModal( title, content = false ) {
 			title = title || wpforms_education.addon_activated;
 			content = content || wpforms_education.save_prompt;
 
 			$.alert( {
-				title  : title.replace( /\.$/, '' ), // Remove a dot in the title end.
-				content: content,
-				icon   : 'fa fa-check-circle',
-				type   : 'green',
+				title: title.replace( /\.$/, '' ), // Remove a dot in the title end.
+				content,
+				icon: 'fa fa-check-circle',
+				type: 'green',
 				buttons: {
 					confirm: {
-						text    : wpforms_education.save_confirm,
+						text: wpforms_education.save_confirm,
 						btnClass: 'btn-confirm',
-						keys    : [ 'enter' ],
-						action  : function() {
-
+						keys: [ 'enter' ],
+						action() {
 							if ( typeof WPFormsBuilder === 'undefined' ) {
 								location.reload();
 
@@ -417,7 +448,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 								return;
 							}
 
-							const saveForm = WPFormsBuilder.formSave();
+							const saveForm = WPFormsBuilder.formSave( false );
 
 							if ( ! saveForm ) {
 								return true;
@@ -430,7 +461,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 							return false;
 						},
 					},
-					cancel : {
+					cancel: {
 						text: wpforms_education.close,
 					},
 				},
@@ -457,16 +488,16 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				message = $button.data( 'message' );
 
 			$.alert( {
-				title   : false,
-				content : message ? message : wpforms_education.install_prompt.replace( /%name%/g, feature ),
-				icon    : 'fa fa-info-circle',
-				type    : 'blue',
+				title: false,
+				content: message ? message : wpforms_education.install_prompt.replace( /%name%/g, feature ),
+				icon: 'fa fa-info-circle',
+				type: 'blue',
 				boxWidth: '425px',
-				buttons : {
+				buttons: {
 					confirm: {
-						text    : wpforms_education.install_confirm,
+						text: wpforms_education.install_confirm,
 						btnClass: 'btn-confirm' + ( ! canInstallAddons ? ' hidden' : '' ),
-						keys    : [ 'enter' ],
+						keys: [ 'enter' ],
 						isHidden: ! canInstallAddons,
 						action() {
 							this.$$confirm.prop( 'disabled', true )
@@ -480,7 +511,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 							return false;
 						},
 					},
-					cancel : {
+					cancel: {
 						text: wpforms_education.cancel,
 					},
 				},
@@ -493,11 +524,10 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 * @since 1.7.0
 		 *
 		 * @param {jQuery} $button       Button object.
-		 * @param {object} previousModal Previous modal instance.
+		 * @param {Object} previousModal Previous modal instance.
 		 */
-		installAddon: function( $button, previousModal ) {
-
-			var url = $button.data( 'url' ),
+		installAddon( $button, previousModal ) {
+			const url = $button.data( 'url' ),
 				pluginType = $button.data( 'type' ),
 				nonce = $button.data( 'nonce' ),
 				hideOnSuccess = $button.data( 'hide-on-success' );
@@ -506,12 +536,11 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				wpforms_education.ajax_url,
 				{
 					action: 'wpforms_install_addon',
-					nonce : nonce,
+					nonce,
 					plugin: url,
-					type  : pluginType,
+					type: pluginType,
 				},
 				function( res ) {
-
 					previousModal.close();
 
 					if ( res.success ) {
@@ -519,25 +548,24 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 							$button.hide();
 						}
 
-						app.saveModal( res.data.msg, false );
-
+						app.saveModal( res.data.msg );
 					} else {
-						var message = res.data;
+						let message = res.data;
 
 						if ( 'object' === typeof res.data ) {
 							message = wpforms_education.addon_error;
 						}
 
 						$.alert( {
-							title  : false,
+							title: false,
 							content: message,
-							icon   : 'fa fa-exclamation-circle',
-							type   : 'orange',
+							icon: 'fa fa-exclamation-circle',
+							type: 'orange',
 							buttons: {
 								confirm: {
-									text    : wpforms_education.close,
+									text: wpforms_education.close,
 									btnClass: 'btn-confirm',
-									keys    : [ 'enter' ],
+									keys: [ 'enter' ],
 								},
 							},
 						} );
@@ -551,13 +579,12 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @since 1.7.3
 		 *
-		 * @param {boolean} isVideoModal Upgrade modal type (with video or not).
+		 * @param {boolean} isVideoModal Upgrade a modal type (with video or not).
 		 *
-		 * @returns {string} Modal width in pixels.
+		 * @return {string} Modal width in pixels.
 		 */
-		getUpgradeModalWidth: function( isVideoModal ) {
-
-			var windowWidth = $( window ).width();
+		getUpgradeModalWidth( isVideoModal ) {
+			const windowWidth = $( window ).width();
 
 			if ( windowWidth <= 300 ) {
 				return '250px';
@@ -582,18 +609,17 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 * @param {string} title   Modal title.
 		 * @param {string} content Modal content.
 		 */
-		errorModal: function( title, content ) {
-
+		errorModal( title, content ) {
 			$.alert( {
-				title  : title || false,
-				content: content,
-				icon   : 'fa fa-exclamation-circle',
-				type   : 'orange',
+				title: title || false,
+				content,
+				icon: 'fa fa-exclamation-circle',
+				type: 'orange',
 				buttons: {
 					confirm: {
-						text    : wpforms_education.close,
+						text: wpforms_education.close,
 						btnClass: 'btn-confirm',
-						keys    : [ 'enter' ],
+						keys: [ 'enter' ],
 					},
 				},
 			} );
@@ -602,7 +628,6 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 WPFormsEducation.core.init();

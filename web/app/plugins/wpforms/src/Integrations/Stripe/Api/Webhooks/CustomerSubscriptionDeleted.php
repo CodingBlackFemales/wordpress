@@ -23,7 +23,7 @@ class CustomerSubscriptionDeleted extends Base {
 	 */
 	public function handle() {
 
-		$payment = wpforms()->get( 'payment' )->get_by( 'subscription_id', $this->data->id );
+		$payment = wpforms()->obj( 'payment' )->get_by( 'subscription_id', $this->data->id );
 
 		if ( ! $payment ) {
 			return false;

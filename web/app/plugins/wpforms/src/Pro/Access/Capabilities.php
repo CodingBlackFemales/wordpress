@@ -225,10 +225,12 @@ class Capabilities {
 			return $caps;
 		}
 
-		$form_id = isset( $args[0] ) ? \absint( $args[0] ) : 0;
+		$form_id = isset( $args[0] ) ? absint( $args[0] ) : 0;
 		$form_id = $this->map_meta_cap_id( $form_id, $cap );
 
-		$form = wpforms()->get( 'form' )->get( $form_id, [ 'cap' => false ] );
+		$form_handler = wpforms()->obj( 'form' );
+
+		$form = $form_handler->get( $form_id, [ 'cap' => false ] );
 
 		if ( ! $form ) {
 			return $caps;
@@ -238,7 +240,9 @@ class Capabilities {
 			return $caps;
 		}
 
-		if ( 'wpforms' !== $form->post_type ) {
+		$allowed_post_types = $form_handler::POST_TYPES;
+
+		if ( ! in_array( $form->post_type, $allowed_post_types, true ) ) {
 			return $caps;
 		}
 
@@ -268,19 +272,19 @@ class Capabilities {
 			return $id;
 		}
 
-		$entry = wpforms()->get( 'entry' )->get( $id, [ 'cap' => false ] );
+		$entry = wpforms()->obj( 'entry' )->get( $id, [ 'cap' => false ] );
 
 		return empty( $entry->form_id ) ? $id : $entry->form_id;
 	}
 
 	/**
-	 * Filter wpforms()->get( 'form' )->get_multiple() arguments to fetch the same results
+	 * Filter wpforms()->obj( 'form' )->get_multiple() arguments to fetch the same results
 	 * as if a full list of forms was filtered using a meta capability.
 	 * Save the resources by making the filtering upfront.
 	 *
 	 * @since 1.5.8
 	 *
-	 * @param array $args Array of wpforms()->get( 'form' )->get() arguments.
+	 * @param array $args Array of wpforms()->obj( 'form' )->get() arguments.
 	 *
 	 * @return array
 	 */
@@ -343,14 +347,14 @@ class Capabilities {
 	}
 
 	/**
-	 * Filter wpforms()->get( 'entry_fields' )->get_fields()
+	 * Filter wpforms()->obj( 'entry_fields' )->get_fields()
 	 * arguments to fetch the same results as if a full list of entries was filtered using a meta capability.
 	 * Save the resources by making the filtering upfront.
 	 *
 	 * @since 1.6.0
 	 *
 	 * @param array $where Array of 'where' clauses.
-	 * @param array $args  Array of wpforms()->get( 'entry_fields' )->get_fields() arguments.
+	 * @param array $args  Array of wpforms()->obj( 'entry_fields' )->get_fields() arguments.
 	 *
 	 * @return array
 	 */
@@ -360,30 +364,30 @@ class Capabilities {
 	}
 
 	/**
-	 * Filter wpforms()->get( 'entry' )->get_entries()
+	 * Filter wpforms()->obj( 'entry' )->get_entries()
 	 * arguments to fetch the same results as if a full list of entries was filtered using a meta capability.
 	 * Save the resources by making the filtering upfront.
 	 *
 	 * @since 1.6.0
 	 *
 	 * @param array $where Array of 'where' clauses.
-	 * @param array $args  Array of wpforms()->get( 'entry' )->get_entries() arguments.
+	 * @param array $args  Array of wpforms()->obj( 'entry' )->get_entries() arguments.
 	 *
 	 * @return array
 	 */
 	public function filter_get_entries_where( $where, $args ) {
 
-		return $this->get_allowed_form_ids_where( $where, $args, wpforms()->get( 'entry' )->table_name );
+		return $this->get_allowed_form_ids_where( $where, $args, wpforms()->obj( 'entry' )->table_name );
 	}
 
 	/**
-	 * Get a set of WHERE clauses for wpforms()->get( 'entry_fields' )->get_fields() or wpforms()->get( 'entry' )->get_entries()
+	 * Get a set of WHERE clauses for wpforms()->obj( 'entry_fields' )->get_fields() or wpforms()->obj( 'entry' )->get_entries()
 	 * filtering a result by the allowed form ids.
 	 *
 	 * @since 1.6.0
 	 *
 	 * @param array  $where Array of 'where' clauses.
-	 * @param array  $args  Array of wpforms()->get( 'entry_fields' )->get_fields() or wpforms()->get( 'entry' )->get_entries() arguments.
+	 * @param array  $args  Array of wpforms()->obj( 'entry_fields' )->get_fields() or wpforms()->obj( 'entry' )->get_entries() arguments.
 	 * @param string $table DB table to use in the "form_id IN" part of the query.
 	 *
 	 * @return array
@@ -410,11 +414,14 @@ class Capabilities {
 			return $this->current_user_can( $args['cap'] ) ? $where : $empty_where;
 		}
 
-		$allowed_forms = wpforms()->get( 'form' )->get(
+		$form_handler = wpforms()->obj( 'form' );
+
+		$allowed_forms = $form_handler->get(
 			'',
 			[
-				'fields' => 'ids',
-				'cap'    => $args['cap'],
+				'fields'    => 'ids',
+				'post_type' => $form_handler::POST_TYPES,
+				'cap'       => $args['cap'],
 			]
 		);
 
