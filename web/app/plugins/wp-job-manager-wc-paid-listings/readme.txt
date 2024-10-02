@@ -2,7 +2,7 @@
 Contributors: mikejolley, kraftbj, donncha, jakeom
 Requires at least: 6.1
 Tested up to: 6.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 Requires PHP: 7.4
 License: GNU General Public License v3.0
 
@@ -31,22 +31,21 @@ To install this plugin, please refer to the guide here: [http://codex.wordpress.
 
 == Changelog ==
 
-= 3.0.1 =
-* Fix - Do not check if a subscription was switched on activation #105
-* Fix - Allow job subscriptions to be switched #103
-* Fix - Fix package counts for renewals #102 
+2024-04-29 - version 3.0.3
+* Fix: Fix compatibility with scheduled job listings
 
-= 3.0.0 =
-* Enhancement - Add support for listing renewals #71
-* Change - Add filter for processing orders #79
-* Fix - Fix PHP 8.2 deprecations #81
+2023-11-17 - version 3.0.2
+* Fix: Add the preview step for renewals (#137)
 
-= 2.9.9 =
-* Fix - Update plugin headers
+2023-08-24 - version 3.0.1
+* Fix: Do not check if a subscription was switched on activation #105
+* Fix: Allow job subscriptions to be switched #103
+* Fix: Fix package counts for renewals #102 
 
-= 2.9.8 =
-* Fix - Stop using deprecated WC subscriptions function. #192
+2023-06-10 - version 3.0.0
+* Enhancement: Add support for listing renewals #71
+* Change: Add filter for processing orders #79
+* Fix: Fix PHP 8.2 deprecations #81
 
-= 2.9.7 =
-* Enhancement - One time package purchase option. #178
-
+2022-05-08 - version 2.9.9
+Fix: Update plugin headers

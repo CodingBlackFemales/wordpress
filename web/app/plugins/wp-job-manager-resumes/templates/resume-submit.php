@@ -16,8 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 wp_enqueue_script( 'wp-resume-manager-resume-submission' );
+
+$captcha_version = ( class_exists('WP_Job_Manager\WP_Job_Manager_Recaptcha') && get_option( 'resume_manager_enable_recaptcha_resume_submission' ) )
+    ? WP_Job_Manager\WP_Job_Manager_Recaptcha::instance()->get_recaptcha_version()
+    : null;
+
 ?>
-<form action="<?php echo esc_url( $action ); ?>" method="post" id="submit-resume-form" class="job-manager-form" enctype="multipart/form-data">
+<form action="<?php echo esc_url( $action ); ?>" method="post" id="submit-resume-form" class="job-manager-form" enctype="multipart/form-data" <?php if ( 'v3' === $captcha_version ) echo "onsubmit='return jm_job_submit_click(event)'" ?> >
 
 	<?php do_action( 'submit_resume_form_start' ); ?>
 
@@ -48,7 +53,9 @@ wp_enqueue_script( 'wp-resume-manager-resume-submission' );
 			<input type="hidden" name="resume_id" value="<?php echo esc_attr( $resume_id ); ?>" />
 			<input type="hidden" name="job_id" value="<?php echo esc_attr( $job_id ); ?>" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $step ); ?>" />
-			<input type="submit" name="submit_resume" class="button" value="<?php echo esc_attr( $submit_button_text ); ?>" />
+			<input type="submit" name="submit_resume" class="button"
+			value="<?php esc_attr_e( $submit_button_text ); ?>" />
+
 		</p>
 
 	<?php else : ?>

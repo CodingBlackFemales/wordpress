@@ -184,29 +184,13 @@ class Add_Alert {
 	 * @return string
 	 */
 	private function logged_out_message(): string {
-		$message = Notice::render(
-			[
-				'title'   => __( 'Add Alert', 'wp-job-manager-alerts' ),
-				'message' => __( 'Sign in or create an account to continue.', 'wp-job-manager-alerts' ),
-				'buttons' => [
-					[
-						'url'   => apply_filters( 'job_manager_alerts_login_url', wp_login_url( get_permalink() ) ),
-						'label' => __( 'Sign in', 'wp-job-manager-alerts' ),
-						'class' => [],
-					],
-					[
-						'url'   => apply_filters( 'job_manager_alerts_register_url', wp_registration_url() ),
-						'label' => __( 'Create Account', 'wp-job-manager-alerts' ),
-						'class' => [],
-					],
-				],
-			]
-		);
+
+		$template = WP_Job_Manager_Alerts::get_template( 'add-alert-modal-login.php', [] );
 
 		/**
 		 * Filter the logged out notice in the 'Add Alert' modal.
 		 */
-		return apply_filters( 'job_manager_alerts_modal_logged_out_message', $message );
+		return apply_filters( 'job_manager_alerts_modal_logged_out_message', $template );
 	}
 
 
