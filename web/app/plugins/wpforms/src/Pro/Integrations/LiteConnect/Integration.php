@@ -197,7 +197,7 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 			return false;
 		}
 
-		$entry_id = wpforms()->get( 'entry' )->add( $entry_args );
+		$entry_id = wpforms()->obj( 'entry' )->add( $entry_args );
 
 		if ( ! $entry_id ) {
 			return false;
@@ -205,7 +205,7 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 
 		// Update the Entry ID for a corresponding payment.
 		if ( isset( $entry_args['payment_id'] ) ) {
-			wpforms()->get( 'payment' )->update( $entry_args['payment_id'], [ 'entry_id' => $entry_id ], '', '', [ 'cap' => false ] );
+			wpforms()->obj( 'payment' )->update( $entry_args['payment_id'], [ 'entry_id' => $entry_id ], '', '', [ 'cap' => false ] );
 		}
 
 		$status = isset( $entry_args['status'] ) ? $entry_args['status'] : '';
@@ -214,7 +214,7 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 			$spam_reason = isset( $entry_args['form_data']['spam_reason'] ) ? $entry_args['form_data']['spam_reason'] : '';
 
 			// Add spam_reason to meta.
-			wpforms()->get( 'entry_meta' )->add(
+			wpforms()->obj( 'entry_meta' )->add(
 				[
 					'entry_id' => $entry_id,
 					'form_id'  => $entry_args['form_id'],
@@ -226,13 +226,13 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 		}
 
 		$fields     = json_decode( $entry_args['fields'], true );
-		$submission = wpforms()->get( 'submission' );
+		$submission = wpforms()->obj( 'submission' );
 
 		$submission->register( $fields, [], $entry_args['form_id'], $entry_args['form_data'] );
 		$submission->create_fields( $entry_id );
 
 		// Add the ID of the entry on Firestore as an entry meta.
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => $entry_id,
 				'form_id'  => $entry_args['form_id'],
@@ -272,9 +272,9 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 				continue;
 			}
 
-			wpforms()->get( 'entry' )->delete_where_in( 'entry_id', $entry_id );
-			wpforms()->get( 'entry_meta' )->delete_where_in( 'entry_id', $entry_id );
-			wpforms()->get( 'entry_fields' )->delete_where_in( 'entry_id', $entry_id );
+			wpforms()->obj( 'entry' )->delete_where_in( 'entry_id', $entry_id );
+			wpforms()->obj( 'entry_meta' )->delete_where_in( 'entry_id', $entry_id );
+			wpforms()->obj( 'entry_fields' )->delete_where_in( 'entry_id', $entry_id );
 		}
 	}
 
@@ -438,7 +438,7 @@ class Integration extends \WPForms\Integrations\LiteConnect\Integration {
 	 */
 	private function backup_id_exists( $backup_id ) {
 
-		$entry_id = wpforms()->get( 'entry_meta' )->get_meta(
+		$entry_id = wpforms()->obj( 'entry_meta' )->get_meta(
 			[
 				'type' => 'backup_id',
 				'data' => $backup_id,

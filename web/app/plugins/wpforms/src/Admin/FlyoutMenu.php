@@ -25,7 +25,7 @@ class FlyoutMenu {
 		}
 
 		// Check if WPForms Challenge can be displayed.
-		if ( wpforms()->get( 'challenge' )->challenge_can_start() ) {
+		if ( wpforms()->obj( 'challenge' )->challenge_can_start() ) {
 			return;
 		}
 

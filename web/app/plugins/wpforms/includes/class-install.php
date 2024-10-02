@@ -1,7 +1,11 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 use WPForms\Helpers\DB;
-use WPForms\Helpers\Transient;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -25,6 +29,18 @@ class WPForms_Install {
 		register_activation_hook( WPFORMS_PLUGIN_FILE, [ $this, 'install' ] );
 		register_deactivation_hook( WPFORMS_PLUGIN_FILE, [ $this, 'deactivate' ] );
 
+		$this->hooks();
+	}
+
+	/**
+	 * Hooks.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return void
+	 */
+	private function hooks() {
+
 		// Watch for new multisite blogs.
 		add_action( 'wp_initialize_site', [ $this, 'new_multisite_blog' ], 10, 2 );
 
@@ -39,11 +55,13 @@ class WPForms_Install {
 	 *
 	 * @param bool $network_wide Whether to enable the plugin for all sites in the network
 	 *                           or just the current site. Multisite only. Default is false.
+	 *
+	 * @noinspection DisconnectedForeachInstructionInspection
 	 */
 	public function install( $network_wide = false ) {
 
 		// Check if we are on multisite and network activating.
-		if ( is_multisite() && $network_wide ) {
+		if ( $network_wide && is_multisite() ) {
 
 			// Multisite - go through each subsite and run the installer.
 			$sites = get_sites(
@@ -66,7 +84,7 @@ class WPForms_Install {
 
 		set_transient( 'wpforms_just_activated', wpforms()->is_pro() ? 'pro' : 'lite', 60 );
 
-		// Abort so we only set the transient for single site installs.
+		// Abort, so we only set the transient for single site installs.
 		if ( isset( $_GET['activate-multi'] ) || is_network_admin() ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
@@ -99,10 +117,19 @@ class WPForms_Install {
 	public function deactivate() {
 
 		// Unschedule all ActionScheduler actions by group.
-		wpforms()->get( 'tasks' )->cancel_all();
+		wpforms()->obj( 'tasks' )->cancel_all();
 
 		// Remove plugin cron jobs.
 		wp_clear_scheduled_hook( 'wpforms_email_summaries_cron' );
+
+		// Check if the event is scheduled before attempting to clear it.
+		// This event is only registered for the Lite edition of the plugin.
+		// It's advisable to verify if the CRON event is scheduled using `wp_next_scheduled`.
+		// This precaution ensures that you are not attempting to clear a scheduled
+		// hook that may not exist, which could result in unexpected behavior.
+		if ( wp_next_scheduled( 'wpforms_weekly_entries_count_cron' ) ) {
+			wp_clear_scheduled_hook( 'wpforms_weekly_entries_count_cron' );
+		}
 	}
 
 	/**
@@ -138,10 +165,15 @@ class WPForms_Install {
 		$this->maybe_create_tables();
 
 		// Hook for Pro users.
+		/**
+		 * Fires before WPForms plugin installation is performed.
+		 *
+		 * @since 1.3.0
+		 */
 		do_action( 'wpforms_install' );
 
 		/*
-		 * Set current version, to be referenced in future updates.
+		 * Set the current version to be referenced in future updates.
 		 */
 		// Used by Pro migrations.
 		update_option( 'wpforms_version', WPFORMS_VERSION );
@@ -165,14 +197,15 @@ class WPForms_Install {
 	 *
 	 * @since 1.3.0
 	 * @since 1.8.4 Added $new_site and $args parameters and removed $blog_id, $user_id, $domain, $path, $site_id,
-	 *        $meta parameters.
+	 *              and $meta parameters.
 	 *
 	 * @param WP_Site $new_site New site object.
 	 * @param array   $args     Arguments for the initialization.
 	 *
 	 * @noinspection PhpUnusedParameterInspection
+	 * @noinspection PhpMissingParamTypeInspection
 	 */
-	public function new_multisite_blog( $new_site, $args ) {
+	public function new_multisite_blog( $new_site, $args ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
 		if ( is_plugin_active_for_network( plugin_basename( WPFORMS_PLUGIN_FILE ) ) ) {
 			switch_to_blog( $new_site->blog_id );
@@ -189,28 +222,7 @@ class WPForms_Install {
 	 */
 	private function maybe_create_tables() {
 
-		Transient::delete( DB::EXISTING_TABLES_TRANSIENT_NAME );
-
-		array_map(
-			static function ( $handler ) {
-
-				if ( ! method_exists( $handler, 'table_exists' ) ) {
-					return;
-				}
-
-				if ( $handler->table_exists() ) {
-					return;
-				}
-
-				$handler->create_table();
-			},
-			[
-				wpforms()->get( 'tasks_meta' ),
-				wpforms()->get( 'payment' ),
-				wpforms()->get( 'payment_meta' ),
-				wpforms()->get( 'log' ),
-			]
-		);
+		DB::create_custom_tables( true );
 	}
 }
 

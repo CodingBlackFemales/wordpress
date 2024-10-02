@@ -128,7 +128,7 @@ trait ResetNotices {
 		}
 
 		// Get the payment meta with the specified coupon ID.
-		$payment_meta = wpforms()->get( 'payment_meta' )->get_all_by_meta(
+		$payment_meta = wpforms()->obj( 'payment_meta' )->get_all_by_meta(
 			'coupon_id',
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended
 			absint( $_GET['coupon_id'] )
@@ -165,7 +165,7 @@ trait ResetNotices {
 		}
 
 		// Retrieve the form with the specified ID.
-		$form = wpforms()->get( 'form' )->get( absint( $_GET['form_id'] ) );
+		$form = wpforms()->obj( 'form' )->get( absint( $_GET['form_id'] ) );
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// If the form is not found or not published, exit the function.

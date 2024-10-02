@@ -12,7 +12,7 @@ use WPForms\Helpers\DB;
  * DB class.
  *
  * This handy class originated from Pippin's Easy Digital Downloads.
- * https://github.com/easydigitaldownloads/easy-digital-downloads/blob/master/includes/class-edd-db.php
+ * See https://github.com/easydigitaldownloads/easy-digital-downloads/blob/master/includes/class-edd-db.php
  *
  * Subclasses should define $table_name, $version, and $primary_key in __construct() method.
  *
@@ -30,6 +30,13 @@ abstract class WPForms_DB {
 	 * @since 1.8.2
 	 */
 	const MAX_INDEX_LENGTH = 191;
+
+	/**
+	 * The dedicated cache key to store the All Keys array.
+	 *
+	 * @since 1.9.0
+	 */
+	const ALL_KEYS = '_all_keys';
 
 	/**
 	 * Database table name.
@@ -68,6 +75,49 @@ abstract class WPForms_DB {
 	public $type;
 
 	/**
+	 * Cache group.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @var string
+	 */
+	private $cache_group;
+
+	/**
+	 * Cache disabled.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @var bool
+	 */
+	private $cache_disabled;
+
+	/**
+	 * WPForms_DB constructor.
+	 *
+	 * @since 1.9.0
+	 */
+	public function __construct() {
+
+		$this->cache_group    = static::class . '_cache';
+		$this->cache_disabled = defined( 'WPFORMS_DISABLE_DB_CACHE' ) && WPFORMS_DISABLE_DB_CACHE;
+
+		$this->hooks();
+	}
+
+	/**
+	 * Query filter.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return void
+	 */
+	private function hooks() {
+
+		add_filter( 'query', [ $this, 'query_filter' ] );
+	}
+
+	/**
 	 * Retrieve the list of columns for the database table.
 	 * Subclasses should define an array of columns here.
 	 *
@@ -94,6 +144,32 @@ abstract class WPForms_DB {
 	}
 
 	/**
+	 * Filter the query.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param string|mixed $query Query.
+	 *
+	 * @return string
+	 */
+	public function query_filter( $query ): string {
+
+		$query = (string) $query;
+
+		if ( strpos( $query, $this->table_name ) === false ) {
+			// Not a query for our table, bail out.
+			return $query;
+		}
+
+		if ( ! $this->is_select( $query ) ) {
+			// Flush cache on non-SELECT queries.
+			$this->cache_flush_group();
+		}
+
+		return $query;
+	}
+
+	/**
 	 * Retrieve a row from the database based on a given row ID.
 	 *
 	 * @since 1.1.6
@@ -106,13 +182,24 @@ abstract class WPForms_DB {
 
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
-		return $wpdb->get_row(
+		$key = md5( __METHOD__ . $row_id );
+		$row = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $row;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM $this->table_name WHERE $this->primary_key = %d LIMIT 1;", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				(int) $row_id
 			)
 		);
+
+		$this->cache_set( $key, $row );
+
+		return $row;
 	}
 
 	/**
@@ -136,13 +223,24 @@ abstract class WPForms_DB {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
-		return $wpdb->get_row(
+		$key = md5( __METHOD__ . $column . $value );
+		$row = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $row;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM $this->table_name WHERE $column = %s LIMIT 1;", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$value
 			)
 		);
+
+		$this->cache_set( $key, $row );
+
+		return $row;
 	}
 
 	/**
@@ -164,13 +262,24 @@ abstract class WPForms_DB {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
-		return $wpdb->get_var(
+		$key = md5( __METHOD__ . $column . $row_id );
+		$var = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $var;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$var = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT $column FROM $this->table_name WHERE $this->primary_key = %d LIMIT 1;", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				(int) $row_id
 			)
 		);
+
+		$this->cache_set( $key, $var );
+
+		return $var;
 	}
 
 	/**
@@ -199,13 +308,170 @@ abstract class WPForms_DB {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
-		return $wpdb->get_var(
+		$key = md5( __METHOD__ . $column . $column_where . $column_value );
+		$var = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $var;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$var = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT $column FROM $this->table_name WHERE $column_where = %s LIMIT 1;", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$column_value
 			)
 		);
+
+		$this->cache_set( $key, $var );
+
+		return $var;
+	}
+
+	/**
+	 *  Clone of $wpdb->query() with caching.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param string $query Database query.
+	 *
+	 * @return int|bool Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. Number of rows
+	 *                  affected/selected for all other queries. Boolean false on error.
+	 *
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	public function query( $query ) {
+
+		global $wpdb;
+
+		if ( ! $this->is_select( $query ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->query( $query );
+		}
+
+		$key     = md5( __METHOD__ . $query );
+		$results = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $results;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$results = $wpdb->query( $query );
+
+		$this->cache_set( $key, $results );
+
+		return $results;
+	}
+
+	/**
+	 * Clone of $wpdb->get_results() with caching.
+	 *
+	 * @since        1.9.0
+	 *
+	 * @param string|null $query  SQL query.
+	 * @param string      $output Any of ARRAY_A | ARRAY_N | OBJECT | OBJECT_K constants.
+	 *
+	 * @return array|object|null Database query results.
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	public function get_results( $query = null, $output = OBJECT ) {
+
+		global $wpdb;
+
+		if ( ! $this->is_select( $query ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->get_results( $query, $output );
+		}
+
+		$key     = md5( __METHOD__ . $query . $output );
+		$results = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $results;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$results = $wpdb->get_results( $query, $output );
+
+		$this->cache_set( $key, $results );
+
+		return $results;
+	}
+
+	/**
+	 * Clone of $wpdb->get_row() with caching.
+	 *
+	 * @since        1.9.0
+	 *
+	 * @param string|null $query  SQL query.
+	 * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
+	 *                            correspond to an stdClass object, an associative array, or a numeric array,
+	 *                            respectively. Default OBJECT.
+	 * @param int         $y      Optional. Row to return. Indexed from 0. Default 0.
+	 *
+	 * @return array|int|object|stdClass|null Database query result in format specified by $output or null on failure.
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
+
+		global $wpdb;
+
+		if ( ! $query ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->get_row( $query, $output, $y );
+		}
+
+		$key = md5( __METHOD__ . $query . $output . $y );
+		$row = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $row;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$row = $wpdb->get_row( $query, $output, $y );
+
+		$this->cache_set( $key, $row );
+
+		return $row;
+	}
+
+	/**
+	 * Clone of $wpdb->get_var() with caching.
+	 *
+	 * @since        1.9.0
+	 *
+	 * @param string|null $query Optional. SQL query. Defaults to null, use the result from the previous query.
+	 * @param int         $x     Optional. Column of value to return. Indexed from 0. Default 0.
+	 * @param int         $y     Optional. Row of value to return. Indexed from 0. Default 0.
+	 *
+	 * @return string|null Database query result (as string), or null on failure.
+	 *
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	public function get_var( $query = null, $x = 0, $y = 0 ) {
+
+		global $wpdb;
+
+		if ( ! $query ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			return $wpdb->get_var( $query, $x, $y );
+		}
+
+		$key = md5( __METHOD__ . $query . $x . $y );
+		$var = $this->cache_get( $key, $found );
+
+		if ( $found ) {
+			return $var;
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		$var = $wpdb->get_var( $query, $x, $y );
+
+		$this->cache_set( $key, $var );
+
+		return $var;
 	}
 
 	/**
@@ -240,6 +506,7 @@ abstract class WPForms_DB {
 		$data_keys      = array_keys( $data );
 		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->insert( $this->table_name, $data, $column_formats );
 
 		do_action( 'wpforms_post_insert_' . $type, $wpdb->insert_id, $data );
@@ -306,7 +573,7 @@ abstract class WPForms_DB {
 		$data_keys      = array_keys( $data );
 		$column_formats = array_merge( array_flip( $data_keys ), $column_formats );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		if ( $wpdb->update( $this->table_name, $data, [ $where => $row_id ], $column_formats ) === false ) {
 			return false;
 		}
@@ -325,7 +592,7 @@ abstract class WPForms_DB {
 	 *
 	 * @return bool False if the record could not be deleted, true otherwise.
 	 */
-	public function delete( $row_id = 0 ) {
+	public function delete( $row_id = 0 ): bool {
 
 		global $wpdb;
 
@@ -356,7 +623,7 @@ abstract class WPForms_DB {
 		 */
 		do_action( 'wpforms_pre_delete_' . $this->type, $row_id, $this->primary_key );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM $this->table_name WHERE $this->primary_key = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -402,7 +669,7 @@ abstract class WPForms_DB {
 		// This action is documented in includes/class-db.php method delete().
 		do_action( 'wpforms_pre_delete_' . $this->type, $column_value, $column );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM $this->table_name WHERE $column = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -458,7 +725,7 @@ abstract class WPForms_DB {
 		$placeholders = isset( $placeholders ) ? implode( ',', $placeholders ) : '';
 		$sql          = "DELETE FROM $this->table_name WHERE $column IN ( $placeholders )";
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->query( $wpdb->prepare( $sql, $values ) );
 	}
 
@@ -509,5 +776,121 @@ abstract class WPForms_DB {
 		}
 
 		return $where;
+	}
+
+	/**
+	 * WP Cache Get wrapper.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param int|string $key   Cache key.
+	 * @param bool|null  $found Whether the key was found in the cache.
+	 *
+	 * @return false|mixed
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	private function cache_get( $key, &$found ) {
+
+		if ( $this->cache_disabled ) {
+			$found = false;
+
+			return false;
+		}
+
+		$all_keys = wp_cache_get( self::ALL_KEYS, $this->cache_group, false, $found );
+		$all_keys = $found ? (array) $all_keys : [];
+
+		if ( ! in_array( $key, $all_keys, true ) ) {
+			$found = false;
+
+			return false;
+		}
+
+		$data = wp_cache_get( $key, $this->cache_group, false, $found );
+
+		return $found ? $data : false;
+	}
+
+	/**
+	 * WP Cache Set wrapper.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param string $key  Cache key.
+	 * @param mixed  $data Cache data.
+	 *
+	 * @return bool
+	 * @noinspection PhpReturnValueOfMethodIsNeverUsedInspection
+	 */
+	private function cache_set( string $key, $data ): bool {
+
+		if ( $this->cache_disabled ) {
+			return false;
+		}
+
+		$all_keys = wp_cache_get( self::ALL_KEYS, $this->cache_group, false, $found );
+		$all_keys = $found ? array_unique( array_merge( (array) $all_keys, [ $key ] ) ) : [ $key ];
+
+		return (
+			wp_cache_set( $key, $data, $this->cache_group ) &&
+			wp_cache_set( self::ALL_KEYS, $all_keys, $this->cache_group )
+		);
+	}
+
+	/**
+	 * Flush the cache group.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return bool
+	 * @noinspection PhpReturnValueOfMethodIsNeverUsedInspection
+	 */
+	private function cache_flush_group(): bool {
+
+		if ( $this->cache_disabled ) {
+			return false;
+		}
+
+		$all_keys = wp_cache_get( self::ALL_KEYS, $this->cache_group, false, $found );
+
+		if ( ! $found ) {
+			return true;
+		}
+
+		$result = wp_cache_delete( self::ALL_KEYS, $this->cache_group );
+
+		foreach ( (array) $all_keys as $key ) {
+			$result = wp_cache_delete( $key, $this->cache_group ) && $result;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Check if the query is a SELECT query.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param string|null $query SQL query.
+	 *
+	 * @return bool
+	 * @noinspection PhpMissingParamTypeInspection
+	 */
+	private function is_select( $query ): bool {
+
+		return stripos( trim( (string) $query ), 'SELECT' ) === 0;
+	}
+
+	/**
+	 * Get an instance of the current class.
+	 * Used to reload the class while going through the blogs of multisite.
+	 *
+	 * @see WPForms_Install::maybe_create_tables()
+	 *
+	 * @since 1.8.9
+	 */
+	public static function get_instance(): WPForms_DB {
+
+		return new static();
 	}
 }

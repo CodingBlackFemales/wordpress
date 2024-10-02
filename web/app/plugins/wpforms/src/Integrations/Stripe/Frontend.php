@@ -125,23 +125,37 @@ class Frontend {
 	 */
 	public function enqueue_assets() {
 
+		$min = wpforms_get_min_suffix();
+
 		if ( ! Helpers::has_stripe_keys() ) {
 			return;
 		}
 
-		$config = $this->api->get_config();
+		$config    = $this->api->get_config();
+		$in_footer = ! wpforms_is_frontend_js_header_force_load();
+
+		wp_enqueue_script(
+			'wpforms-generic-utils',
+			WPFORMS_PLUGIN_URL . "assets/js/share/utils{$min}.js",
+			[ 'jquery' ],
+			WPFORMS_VERSION,
+			$in_footer
+		);
 
 		wp_enqueue_script(
 			'stripe-js',
 			$config['remote_js_url'],
-			[ 'jquery' ]
+			[ 'jquery' ],
+			null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			$in_footer
 		);
 
 		wp_enqueue_script(
 			self::HANDLE,
 			$config['local_js_url'],
-			[ 'jquery', 'stripe-js' ],
-			WPFORMS_VERSION
+			[ 'jquery', 'stripe-js', 'wpforms-generic-utils' ],
+			WPFORMS_VERSION,
+			$in_footer
 		);
 
 		wp_localize_script(
@@ -171,7 +185,7 @@ class Frontend {
 	 */
 	public function register_block_type_args( $args, $block_type ) {
 
-		if ( $block_type !== 'wpforms/form-selector' ) {
+		if ( $block_type !== 'wpforms/form-selector' || ! is_admin() ) {
 			return $args;
 		}
 
@@ -220,23 +234,11 @@ class Frontend {
 			return;
 		}
 
-		$config = $this->api->get_config();
-		$min    = wpforms_get_min_suffix();
+		$min = wpforms_get_min_suffix();
 
 		wp_enqueue_style(
 			self::HANDLE,
 			WPFORMS_PLUGIN_URL . "assets/css/integrations/stripe/wpforms-stripe{$min}.css",
-			[],
-			WPFORMS_VERSION
-		);
-
-		if ( ! isset( $config['local_css_url'] ) ) {
-			return;
-		}
-
-		wp_enqueue_style(
-			'wpforms-stripe',
-			$config['local_css_url'],
 			[],
 			WPFORMS_VERSION
 		);

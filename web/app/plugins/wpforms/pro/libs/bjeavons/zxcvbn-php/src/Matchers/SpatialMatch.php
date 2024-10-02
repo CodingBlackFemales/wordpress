@@ -122,8 +122,14 @@ class SpatialMatch extends BaseMatch
                 if ($j < $passwordLength) {
                     $curChar = mb_substr($password, $j, 1);
                     foreach ($adjacents as $adj) {
-                        $curDirection += 1;
-                        $curCharPos = static::indexOf($adj, $curChar);
+	                    ++$curDirection; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+
+						if ( $adj === null ) {
+		                    continue;
+	                    }
+
+	                    $curCharPos = static::indexOf( $adj, $curChar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+
                         if ($adj !== null && $curCharPos !== -1) {
                             $found = true;
                             $foundDirection = $curDirection;

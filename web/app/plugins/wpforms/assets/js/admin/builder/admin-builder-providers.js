@@ -143,9 +143,15 @@
 						keys: [ 'enter' ],
 						action: function() {
 
-							var $section = $this.closest( '.wpforms-panel-content-section' );
+							const $section = $this.closest( '.wpforms-panel-content-section' );
 
 							$this.closest( '.wpforms-provider-connection' ).remove();
+
+							// Update sidebar icon near the provider.
+							const provider = $this.closest( '.wpforms-provider-connection' ).data( 'provider' ),
+								$sidebarItem = $( '.wpforms-panel-sidebar-section-' + provider );
+
+							$sidebarItem.find( '.fa-check-circle-o' ).toggleClass( 'wpforms-hidden', $( $section ).find( '.wpforms-provider-connection' ).length <= 0 );
 
 							if ( ! $section.find( '.wpforms-provider-connection' ).length ) {
 								$section.find( '.wpforms-builder-provider-connections-default' ).removeClass( 'wpforms-hidden' );

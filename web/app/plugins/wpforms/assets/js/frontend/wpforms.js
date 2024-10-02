@@ -1,11 +1,26 @@
-/* global wpforms_settings, grecaptcha, hcaptcha, turnstile, wpformsRecaptchaCallback, wpformsRecaptchaV3Execute, wpforms_validate, wpforms_datepicker, wpforms_timepicker, Mailcheck, Choices, WPFormsPasswordField, WPFormsEntryPreview, punycode, tinyMCE, WPFormsUtils */
+/* global wpforms_settings, grecaptcha, hcaptcha, turnstile, wpformsRecaptchaCallback, wpformsRecaptchaV3Execute, wpforms_validate, wpforms_datepicker, wpforms_timepicker, Mailcheck, Choices, WPFormsPasswordField, WPFormsEntryPreview, punycode, tinyMCE, WPFormsUtils, JQueryDeferred, JQueryXHR, WPFormsRepeaterField */
 
-'use strict';
+/* eslint-disable no-unused-expressions, no-shadow, no-unused-vars */
 
-var wpforms = window.wpforms || ( function( document, window, $ ) {
+/**
+ * @param wpforms_settings.hn_data
+ */
 
-	var app = {
-
+// noinspection ES6ConvertVarToLetConst
+/**
+ * WPForms object.
+ *
+ * @since 1.4.0
+ */
+var wpforms = window.wpforms || ( function( document, window, $ ) { // eslint-disable-line no-var
+	/**
+	 * Public functions and properties.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @type {Object}
+	 */
+	const app = {
 		/**
 		 * Cache.
 		 *
@@ -14,18 +29,23 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		cache: {},
 
 		/**
+		 * Is updating token via ajax flag.
+		 *
+		 * @since 1.8.8
+		 */
+		isUpdatingToken: false,
+
+		/**
 		 * Start the engine.
 		 *
 		 * @since 1.2.3
 		 */
-		init: function() {
-
+		init() {
 			// Document ready.
 			$( app.ready );
 
 			// Page load.
 			$( window ).on( 'load', function() {
-
 				// In the case of jQuery 3.+, we need to wait for a ready event first.
 				if ( typeof $.ready.then === 'function' ) {
 					$.ready.then( app.load );
@@ -43,15 +63,15 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.2.3
 		 */
-		ready: function() {
-
+		ready() {
 			// Clear URL - remove wpforms_form_id.
 			app.clearUrlQuery();
 
 			// Set user identifier.
-			app.setUserIndentifier();
+			app.setUserIdentifier();
 
 			app.loadValidation();
+			app.loadHoneypot();
 			app.loadDatePicker();
 			app.loadTimePicker();
 			app.loadInputMask();
@@ -59,18 +79,27 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			app.loadPayments();
 			app.loadMailcheck();
 			app.loadChoicesJS();
+			app.initTokenUpdater();
+			app.restoreSubmitButtonOnEventPersisted();
+
+			app.bindSmartPhoneField();
+			app.bindChoicesJS();
 
 			// Randomize elements.
 			$( '.wpforms-randomize' ).each( function() {
-				var $list      = $( this ),
+				const $list = $( this ),
 					$listItems = $list.children();
+
 				while ( $listItems.length ) {
-					$list.append( $listItems.splice( Math.floor( Math.random() * $listItems.length ), 1 )[0] );
+					$list.append( $listItems.splice( Math.floor( Math.random() * $listItems.length ), 1 )[ 0 ] );
 				}
 			} );
 
 			// Unlock pagebreak navigation.
 			$( '.wpforms-page-button' ).prop( 'disabled', false );
+
+			// Init forms' start timestamp.
+			app.initFormsStartTime();
 
 			$( document ).trigger( 'wpformsReady' );
 
@@ -86,7 +115,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.2.3
 		 */
-		load: function() {
+		load() {
 		},
 
 		//--------------------------------------------------------------------//
@@ -98,9 +127,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.2
 		 */
-		clearUrlQuery: function() {
-			var loc   = window.location,
-				query = loc.search;
+		clearUrlQuery() {
+			const loc = window.location;
+			let query = loc.search;
 
 			if ( query.indexOf( 'wpforms_form_id=' ) !== -1 ) {
 				query = query.replace( /([&?]wpforms_form_id=[0-9]*$|wpforms_form_id=[0-9]*&|[?&]wpforms_form_id=[0-9]*(?=#))/, '' );
@@ -109,28 +138,129 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
+		 * Load honeypot v2 field.
+		 *
+		 * @since 1.9.0
+		 */
+		loadHoneypot() {
+			$( '.wpforms-form' ).each( function() {
+				const $form = $( this ),
+					formId = $form.data( 'formid' ),
+					fieldIds = [],
+					fieldLabels = [];
+
+				// Bail early if honeypot protection is disabled for the form.
+				if ( wpforms_settings.hn_data[ formId ] === undefined ) {
+					return;
+				}
+
+				// Collect all field IDs and labels.
+				$( `#wpforms-form-${ formId } .wpforms-field` ).each( function() {
+					const $field = $( this );
+
+					fieldIds.push( $field.data( 'field-id' ) );
+					fieldLabels.push( $field.find( '.wpforms-field-label' ).text() );
+				} );
+
+				const label = app.getHoneypotRandomLabel( fieldLabels.join( ' ' ).split( ' ' ) ),
+					honeypotFieldId = app.getHoneypotFieldId( fieldIds );
+
+				// Insert the honeypot field before a random field.
+				const insertBeforeId = fieldIds[ Math.floor( Math.random() * fieldIds.length ) ],
+					honeypotIdAttr = `wpforms-${ formId }-field_${ honeypotFieldId }`,
+					$insertBeforeField = $( `#wpforms-${ formId }-field_${ insertBeforeId }-container`, $form ),
+					inlineStyles = 'position: absolute !important; overflow: hidden !important; display: inline !important; height: 1px !important; width: 1px !important; z-index: -1000 !important; padding: 0 !important;',
+					labelInlineStyles = 'counter-increment: none;',
+					fieldHTML = `
+						<div id="${ honeypotIdAttr }-container" class="wpforms-field wpforms-field-text" data-field-type="text" data-field-id="${ honeypotFieldId }" style="${ inlineStyles }">
+							<label class="wpforms-field-label" for="${ honeypotIdAttr }" aria-hidden="true" style="${ labelInlineStyles }">${ label }</label>
+							<input type="text" id="${ honeypotIdAttr }" class="wpforms-field-medium" name="wpforms[fields][${ honeypotFieldId }]" aria-hidden="true" style="visibility: hidden;" tabindex="-1">
+						</div>`;
+
+				$insertBeforeField.before( fieldHTML );
+
+				// Add inline properties for honeypot field on the form.
+				const $fieldContainer = $( `#wpforms-${ formId }-field_${ wpforms_settings.hn_data[ formId ] }-container`, $form );
+
+				$fieldContainer.find( 'input' ).attr( {
+					tabindex: '-1',
+					'aria-hidden': 'true',
+				} );
+
+				$fieldContainer.find( 'label' ).attr( 'aria-hidden', 'true' );
+			} );
+		},
+
+		/**
+		 * Generate random Honeypot label.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Array} words List of words.
+		 *
+		 * @return {string} Honeypot label.
+		 */
+		getHoneypotRandomLabel( words ) {
+			let label = '';
+
+			for ( let i = 0; i < 3; i++ ) {
+				label += words[ Math.floor( Math.random() * words.length ) ] + ' ';
+			}
+
+			return label.trim();
+		},
+
+		/**
+		 * Get Honeypot field ID.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Array} fieldIds List of the form field IDs.
+		 *
+		 * @return {number} Honeypot field ID.
+		 */
+		getHoneypotFieldId( fieldIds ) {
+			const maxId = Math.max( ...fieldIds );
+
+			let honeypotFieldId = 0;
+
+			// Find the first available field ID.
+			for ( let i = 1; i < maxId; i++ ) {
+				if ( ! fieldIds.includes( i ) ) {
+					honeypotFieldId = i;
+					break;
+				}
+			}
+
+			// If no available field ID found, use the max ID + 1.
+			if ( ! honeypotFieldId ) {
+				honeypotFieldId = maxId + 1;
+			}
+
+			return honeypotFieldId;
+		},
+
+		/**
 		 * Load jQuery Validation.
 		 *
 		 * @since 1.2.3
 		 */
-		loadValidation: function() { // eslint-disable-line max-lines-per-function
-
+		loadValidation() { // eslint-disable-line max-lines-per-function
 			// Only load if jQuery validation library exists.
 			if ( typeof $.fn.validate !== 'undefined' ) {
-
 				// jQuery Validation library will not correctly validate
 				// fields that do not have a name attribute, so we use the
 				// `wpforms-input-temp-name` class to add a temporary name
 				// attribute before validation is initialized, then remove it
 				// before the form submits.
 				$( '.wpforms-input-temp-name' ).each( function( index, el ) {
-					var random = Math.floor( Math.random() * 9999 ) + 1;
+					const random = Math.floor( Math.random() * 9999 ) + 1;
 					$( this ).attr( 'name', 'wpf-temp-' + random );
 				} );
 
 				// Prepend URL field contents with https:// if user input doesn't contain a schema.
 				$( document ).on( 'change', '.wpforms-validate input[type=url]', function() {
-					var url = $( this ).val();
+					const url = $( this ).val();
 					if ( ! url ) {
 						return false;
 					}
@@ -140,16 +270,15 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				} );
 
 				$.validator.messages.required = wpforms_settings.val_required;
-				$.validator.messages.url      = wpforms_settings.val_url;
-				$.validator.messages.email    = wpforms_settings.val_email;
-				$.validator.messages.number   = wpforms_settings.val_number;
+				$.validator.messages.url = wpforms_settings.val_url;
+				$.validator.messages.email = wpforms_settings.val_email;
+				$.validator.messages.number = wpforms_settings.val_number;
 
 				// Payments: Validate method for Credit Card Number.
 				if ( typeof $.fn.payment !== 'undefined' ) {
 					$.validator.addMethod( 'creditcard', function( value, element ) {
-
 						//var type  = $.payment.cardType(value);
-						var valid = $.payment.validateCardNumber( value );
+						const valid = $.payment.validateCardNumber( value );
 						return this.optional( element ) || valid;
 					}, wpforms_settings.val_creditcard );
 
@@ -164,38 +293,38 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate method for file size.
 				$.validator.addMethod( 'maxsize', function( value, element, param ) {
-					var maxSize = param,
-						optionalValue = this.optional( element ),
-						i, len, file;
+					const maxSize = param,
+						optionalValue = this.optional( element );
+					let i, len, file;
+
 					if ( optionalValue ) {
 						return optionalValue;
 					}
+
 					if ( element.files && element.files.length ) {
 						i = 0;
 						len = element.files.length;
 						for ( ; i < len; i++ ) {
-							file = element.files[i];
+							file = element.files[ i ];
 							if ( file.size > maxSize ) {
 								return false;
 							}
 						}
 					}
+
 					return true;
 				}, wpforms_settings.val_filesize );
 
 				$.validator.addMethod( 'step', function( value, element, param ) {
-
 					const decimalPlaces = function( num ) {
-
 						if ( Math.floor( num ) === num ) {
 							return 0;
 						}
 
-						return num.toString().split( '.' )[1].length || 0;
+						return num.toString().split( '.' )[ 1 ].length || 0;
 					};
 					const decimals = decimalPlaces( param );
 					const decimalToInt = function( num ) {
-
 						return Math.round( num * Math.pow( 10, decimals ) );
 					};
 					const min = decimalToInt( $( element ).attr( 'min' ) );
@@ -207,7 +336,6 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate email addresses.
 				$.validator.methods.email = function( value, element ) {
-
 					/**
 					 * This function combines is_email() from WordPress core
 					 * and wpforms_is_email() to validate email addresses.
@@ -217,16 +345,15 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 					 *
 					 * @param {string} value The email address to validate.
 					 *
-					 * @returns {boolean}    True if the email address is valid, false otherwise.
+					 * @return {boolean} True if the email address is valid, false otherwise.
 					 */
 					const isEmail = function( value ) { // eslint-disable-line complexity
-
-						// Do not allow callables, arrays, and objects.
-						if  ( typeof value !== 'string' ) {
+						if ( typeof value !== 'string' ) {
+							// Do not allow callables, arrays, and objects.
 							return false;
 						}
 
-						// Check length and position of the @ character.
+						// Check the length and position of the @ character.
 						const atIndex = value.indexOf( '@', 1 );
 						if ( value.length < 6 || value.length > 254 || atIndex === -1 ) {
 							return false;
@@ -266,7 +393,6 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 						// Check domain label for length, leading and trailing periods, and whitespace.
 						const domainLabelRegex = /^[a-z0-9-]+$/i;
 						for ( const domainLabel of domainArr ) {
-
 							if (
 								domainLabel.length > 63 ||
 								domainLabel.trim( ' \t\n\r\0\x0B-' ) !== domainLabel ||
@@ -320,12 +446,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate 12-hour time.
 				$.validator.addMethod( 'time12h', function( value, element ) {
-					return this.optional( element ) || /^((0?[1-9]|1[012])(:[0-5]\d){1,2}(\ ?[AP]M))$/i.test( value );
+					// noinspection RegExpRedundantEscape
+					return this.optional( element ) || /^((0?[1-9]|1[012])(:[0-5]\d){1,2}(\ ?[AP]M))$/i.test( value ); // eslint-disable-line no-useless-escape
 				}, wpforms_settings.val_time12h );
 
 				// Validate 24-hour time.
 				$.validator.addMethod( 'time24h', function( value, element ) {
-					return this.optional( element ) || /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(\ ?[AP]M)?$/i.test( value );
+					// noinspection RegExpRedundantEscape
+					return this.optional( element ) || /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(\ ?[AP]M)?$/i.test( value ); // eslint-disable-line no-useless-escape
 				}, wpforms_settings.val_time24h );
 
 				// Validate Turnstile captcha.
@@ -335,39 +463,38 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate time limits.
 				$.validator.addMethod( 'time-limit', function( value, element ) { // eslint-disable-line complexity
-
-					var $input = $( element ),
+					const $input = $( element ),
 						minTime = $input.data( 'min-time' ),
-						maxTime = $input.data( 'max-time' ),
-						isRequired = $input.prop( 'required' ),
 						isLimited = typeof minTime !== 'undefined';
 
 					if ( ! isLimited ) {
 						return true;
 					}
 
+					const isRequired = $input.prop( 'required' );
+
 					if ( ! isRequired && app.empty( value ) ) {
 						return true;
 					}
+
+					const maxTime = $input.data( 'max-time' );
 
 					if ( app.compareTimesGreaterThan( maxTime, minTime ) ) {
 						return app.compareTimesGreaterThan( value, minTime ) && app.compareTimesGreaterThan( maxTime, value );
 					}
 
 					return ( app.compareTimesGreaterThan( value, minTime ) && app.compareTimesGreaterThan( value, maxTime ) ) ||
-						( app.compareTimesGreaterThan( minTime, value ) && app.compareTimesGreaterThan( maxTime, value  ) );
-
+						( app.compareTimesGreaterThan( minTime, value ) && app.compareTimesGreaterThan( maxTime, value ) );
 				}, function( params, element ) {
-
-					var $input = $( element ),
-						minTime = $input.data( 'min-time' ),
+					const $input = $( element );
+					let minTime = $input.data( 'min-time' ),
 						maxTime = $input.data( 'max-time' );
 
 					// Replace `00:**pm` with `12:**pm`.
 					minTime = minTime.replace( /^00:([0-9]{2})pm$/, '12:$1pm' );
 					maxTime = maxTime.replace( /^00:([0-9]{2})pm$/, '12:$1pm' );
 
-					// Properly format time: add space before AM/PM, make uppercase.
+					// Proper format time: add space before AM/PM, make uppercase.
 					minTime = minTime.replace( /(am|pm)/g, ' $1' ).toUpperCase();
 					maxTime = maxTime.replace( /(am|pm)/g, ' $1' ).toUpperCase();
 
@@ -378,26 +505,32 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate checkbox choice limit.
 				$.validator.addMethod( 'check-limit', function( value, element ) {
-					var $ul = $( element ).closest( 'ul' ),
-						$checked = $ul.find( 'input[type="checkbox"]:checked' ),
+					const $ul = $( element ).closest( 'ul' ),
 						choiceLimit = parseInt( $ul.attr( 'data-choice-limit' ) || 0, 10 );
 
 					if ( 0 === choiceLimit ) {
 						return true;
 					}
+
+					const $checked = $ul.find( 'input[type="checkbox"]:checked' );
+
 					return $checked.length <= choiceLimit;
 				}, function( params, element ) {
-					var	choiceLimit = parseInt( $( element ).closest( 'ul' ).attr( 'data-choice-limit' ) || 0, 10 );
+					const	choiceLimit = parseInt( $( element ).closest( 'ul' ).attr( 'data-choice-limit' ) || 0, 10 );
 					return wpforms_settings.val_checklimit.replace( '{#}', choiceLimit );
 				} );
 
-				// Validate Smart Phone Field.
-				if ( typeof $.fn.intlTelInput !== 'undefined' ) {
+				// Validate Smartphone Field.
+				if ( typeof window.intlTelInput !== 'undefined' ) {
 					$.validator.addMethod( 'smart-phone-field', function( value, element ) {
 						if ( value.match( /[^\d()\-+\s]/ ) ) {
 							return false;
 						}
-						return this.optional( element ) || $( element ).intlTelInput( 'isValidNumber' );
+
+						const iti = window.intlTelInputGlobals?.getInstance( element );
+						const result = $( element ).triggerHandler( 'validate' );
+
+						return this.optional( element ) || iti?.isValidNumberPrecise() || result;
 					}, wpforms_settings.val_phone );
 				}
 
@@ -411,7 +544,6 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate Payment item value on zero.
 				$.validator.addMethod( 'required-positive-number', function( value, element ) {
-
 					return app.amountSanitize( value ) > 0;
 				}, wpforms_settings.val_number_positive );
 
@@ -427,8 +559,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 					 * The validation is passed in the following cases:
 					 * 1) if a field is not filled in and not required.
 					 * 2) if the minimum required price is equal to or less than the typed value.
+					 * Note: since the param is returned in decimal format at all times, we need to format the value to compare it.
 					 */
-					return ( value === '' && ! $el.hasClass( 'wpforms-field-required' ) ) || Number( app.amountSanitize( param ) ) <= Number( app.amountSanitize( value ) );
+					return ( value === '' && ! $el.hasClass( 'wpforms-field-required' ) ) || Number( app.amountSanitize( app.amountFormat( param ) ) ) <= Number( app.amountSanitize( value ) );
 				}, wpforms_settings.val_minimum_price );
 
 				// Validate US Phone Field.
@@ -449,23 +582,28 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 				// Validate password strength.
 				$.validator.addMethod( 'password-strength', function( value, element ) {
+					const $el = $( element );
 
-					var $el = $( element );
+					// Need to check if the password strength to remove the error message.
+					const strength = WPFormsPasswordField.passwordStrength( value, element );
 
-					return $el.val().trim() === '' && ! $el.hasClass( 'wpforms-field-required' ) || // Don't check the password strength for empty fields which is set as not required.
-						WPFormsPasswordField.passwordStrength( value, element ) >= Number( $el.data( 'password-strength-level' ) );
+					/**
+					 * The validation is passed in the following cases:
+					 * 1) if a field is not filled in and not required.
+					 * 2) if the password strength is equal to or greater than the specified level.
+					 */
+					return ( value === '' && ! $el.hasClass( 'wpforms-field-required' ) ) || strength >= Number( $el.data( 'password-strength-level' ) );
 				}, wpforms_settings.val_password_strength );
 
-				// Finally load jQuery Validation library for our forms.
-				$( '.wpforms-validate' ).each( function() {
-
-					var form   = $( this ),
-						formID = form.data( 'formid' ),
-						properties;
+				// Finally, load jQuery Validation library for our forms.
+				$( '.wpforms-validate' ).each( function() { // eslint-disable-line max-lines-per-function
+					const form = $( this ),
+						formID = form.data( 'formid' );
+					let	properties;
 
 					// TODO: cleanup this BC with wpforms_validate.
-					if ( typeof window['wpforms_' + formID] !== 'undefined' && window['wpforms_' + formID].hasOwnProperty( 'validate' ) ) {
-						properties = window['wpforms_' + formID].validate;
+					if ( typeof window[ 'wpforms_' + formID ] !== 'undefined' && window[ 'wpforms_' + formID ].hasOwnProperty( 'validate' ) ) {
+						properties = window[ 'wpforms_' + formID ].validate;
 					} else if ( typeof wpforms_validate !== 'undefined' ) {
 						properties = wpforms_validate;
 					} else {
@@ -477,9 +615,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 							ignoreTitle: true,
 							errorPlacement( error, element ) { // eslint-disable-line complexity
 								if ( app.isLikertScaleField( element ) ) {
-									element.closest( 'table' ).hasClass( 'single-row' ) ?
-										element.closest( '.wpforms-field' ).append( error ) :
-										element.closest( 'tr' ).find( 'th' ).append( error );
+									element.closest( 'table' ).hasClass( 'single-row' )
+										? element.closest( '.wpforms-field' ).append( error )
+										: element.closest( 'tr' ).find( 'th' ).append( error );
 								} else if ( app.isWrappedField( element ) ) {
 									element.closest( '.wpforms-field' ).append( error );
 								} else if ( app.isDateTimeField( element ) ) {
@@ -498,16 +636,15 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 								if ( app.isModernMarkupEnabled() ) {
 									error.attr( {
-										'role': 'alert',
+										role: 'alert',
 										'aria-label': wpforms_settings.errorMessagePrefix,
-										'for': '',
+										for: '',
 									} );
 								}
 							},
-							highlight: function( element, errorClass, validClass ) {
-
-								var $element  = $( element ),
-									$field    = $element.closest( '.wpforms-field' ),
+							highlight( element, errorClass, validClass ) { // eslint-disable-line complexity
+								const $element = $( element ),
+									$field = $element.closest( '.wpforms-field' ),
 									inputName = $element.attr( 'name' );
 
 								if ( 'radio' === $element.attr( 'type' ) || 'checkbox' === $element.attr( 'type' ) ) {
@@ -529,10 +666,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 								$field.addClass( 'wpforms-has-error' );
 							},
-							unhighlight: function( element, errorClass, validClass ) {
-
-								var $element  = $( element ),
-									$field    = $element.closest( '.wpforms-field' ),
+							unhighlight( element, errorClass, validClass ) {
+								const $element = $( element ),
+									$field = $element.closest( '.wpforms-field' ),
 									inputName = $element.attr( 'name' );
 
 								if ( 'radio' === $element.attr( 'type' ) || 'checkbox' === $element.attr( 'type' ) ) {
@@ -541,18 +677,17 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 									$element.addClass( validClass ).removeClass( errorClass );
 								}
 
-								// Remove the error class from the field container if there are no subfields errors.
+								// Remove the error class from the field container if there are no subfield errors.
 								if ( ! $field.find( ':input.wpforms-error,[data-dz-errormessage]:not(:empty)' ).length ) {
 									$field.removeClass( 'wpforms-has-error' );
 								}
 
-								// Remove error message to be sure the next time the `errorPlacement` method will be executed.
+								// Remove an error message to be sure the next time the `errorPlacement` method will be executed.
 								if ( app.isModernMarkupEnabled() ) {
 									$element.parent().find( 'em.wpforms-error' ).remove();
 								}
 							},
-							submitHandler: function( form ) {
-
+							submitHandler( form ) {
 								/**
 								 * Captcha error handler.
 								 *
@@ -612,7 +747,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 									}
 
 									if ( ! app.empty( recaptchaID ) || recaptchaID === 0 ) {
-										// Form contains invisible reCAPTCHA.
+										// The Form contains invisible reCAPTCHA.
 										grecaptcha.execute( recaptchaID ).then( null, function() {
 											if ( grecaptcha.getResponse() ) {
 												return;
@@ -630,22 +765,20 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 								};
 
 								// In the case of active Google reCAPTCHA v3, first, we should call `grecaptcha.execute`.
-								// This is needed to obtain proper grecaptcha token before submitting the form.
+								// This is needed to get a proper grecaptcha token before submitting the form.
 								if ( typeof wpformsRecaptchaV3Execute === 'function' ) {
 									return wpformsRecaptchaV3Execute( submitHandlerRoutine );
 								}
 
 								return submitHandlerRoutine();
 							},
-							invalidHandler: function( event, validator ) {
-
-								if ( typeof validator.errorList[0] !== 'undefined' ) {
-									app.scrollToError( $( validator.errorList[0].element ) );
+							invalidHandler( event, validator ) {
+								if ( typeof validator.errorList[ 0 ] !== 'undefined' ) {
+									app.scrollToError( $( validator.errorList[ 0 ].element ) );
 								}
 							},
 							onkeyup: WPFormsUtils.debounce( // eslint-disable-next-line complexity
 								function( element, event ) {
-
 									// This code is copied from JQuery Validate 'onkeyup' method with only one change: 'wpforms-novalidate-onkeyup' class check.
 									const excludedKeys = [ 16, 17, 18, 20, 35, 36, 37, 38, 39, 40, 45, 144, 225 ];
 
@@ -653,18 +786,17 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 										return; // Disable onkeyup validation for some elements (e.g. remote calls).
 									}
 
+									// eslint-disable-next-line no-mixed-operators
 									if ( event.which === 9 && this.elementValue( element ) === '' || $.inArray( event.keyCode, excludedKeys ) !== -1 ) {
-										return;
 									} else if ( element.name in this.submitted || element.name in this.invalid ) {
 										this.element( element );
 									}
 								},
 								1000
 							),
-							onfocusout: function( element ) {
-
+							onfocusout: function( element ) { // eslint-disable-line complexity, object-shorthand
 								// This code is copied from JQuery Validate 'onfocusout' method with only one change: 'wpforms-novalidate-onkeyup' class check.
-								var validate = false;
+								let validate = false;
 
 								if ( $( element ).hasClass( 'wpforms-novalidate-onkeyup' ) && ! element.value ) {
 									validate = true; // Empty value error handling for elements with onkeyup validation disabled.
@@ -674,14 +806,20 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 									validate = true;
 								}
 
+								// If the error comes from server validation, we don't need to validate it again,
+								// because it will clean the error message too early.
+								if ( $( element ).data( 'server-error' ) ) {
+									validate = false;
+								}
+
 								if ( validate ) {
 									this.element( element );
 								}
 							},
-							onclick: function( element ) {
-								var validate = false,
-									type = ( element || {} ).type,
-									$el = $( element );
+							onclick( element ) {
+								let validate = false;
+								const type = ( element || {} ).type;
+								let $el = $( element );
 
 								if ( [ 'checkbox', 'radio' ].indexOf( type ) > -1 ) {
 									if ( $el.hasClass( 'wpforms-likert-scale-option' ) ) {
@@ -777,10 +915,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} element current form element.
 		 *
-		 * @returns {boolean} true/false.
+		 * @return {boolean} true/false.
 		 */
-		isFieldHasHint: function( element ) {
-
+		isFieldHasHint( element ) {
 			return element
 				.nextAll( '.wpforms-field-sublabel, .wpforms-field-description, .wpforms-field-limit-text, .wpforms-pass-strength-result' )
 				.length > 0;
@@ -793,26 +930,24 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} element current form element.
 		 *
-		 * @returns {boolean} true/false.
+		 * @return {boolean} true/false.
 		 */
-		isDateTimeField: function( element ) {
-
+		isDateTimeField( element ) {
 			return element.hasClass( 'wpforms-timepicker' ) ||
 				element.hasClass( 'wpforms-datepicker' ) ||
 				( element.is( 'select' ) && element.attr( 'class' ).match( /date-month|date-day|date-year/ ) );
 		},
 
 		/**
-		 * Is field wrapped in some container.
+		 * Is a field wrapped in some container.
 		 *
 		 * @since 1.6.3
 		 *
 		 * @param {jQuery} element current form element.
 		 *
-		 * @returns {boolean} true/false.
+		 * @return {boolean} true/false.
 		 */
-		isWrappedField: function( element ) { // eslint-disable-line complexity
-
+		isWrappedField( element ) { // eslint-disable-line complexity
 			return 'checkbox' === element.attr( 'type' ) ||
 			'radio' === element.attr( 'type' ) ||
 			'range' === element.attr( 'type' ) ||
@@ -845,10 +980,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} element current form element.
 		 *
-		 * @returns {boolean} true/false.
+		 * @return {boolean} true/false.
 		 */
-		isLeadFormsSelect: function( element ) {
-
+		isLeadFormsSelect( element ) {
 			return element.parent().hasClass( 'wpforms-lead-forms-select' );
 		},
 
@@ -875,11 +1009,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @since 1.6.3
 		 *
 		 * @param {jQuery} element current form element.
-		 * @param {string} error Error message.
+		 * @param {string} error   Error message.
 		 */
-		dateTimeErrorPlacement: function( element, error ) {
-
-			var $wrapper = element.closest( '.wpforms-field-row-block, .wpforms-field-date-time' );
+		dateTimeErrorPlacement( element, error ) {
+			const $wrapper = element.closest( '.wpforms-field-row-block, .wpforms-field-date-time' );
 			if ( $wrapper.length ) {
 				if ( ! $wrapper.find( 'label.wpforms-error, em.wpforms-error' ).length ) {
 					$wrapper.append( error );
@@ -893,133 +1026,168 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * Load jQuery Date Picker.
 		 *
 		 * @since 1.2.3
+		 * @since 1.8.9 Added the `$context` parameter.
+		 *
+		 * @param {jQuery} $context Container to search for datepicker elements.
 		 */
-		loadDatePicker: function() {
-
+		loadDatePicker( $context ) { // eslint-disable-line max-lines-per-function
 			// Only load if jQuery datepicker library exists.
-			if ( typeof $.fn.flatpickr !== 'undefined' ) {
-				$( '.wpforms-datepicker-wrap' ).each( function() {
-
-					var element = $( this ),
-						$input  = element.find( 'input' ),
-						form    = element.closest( '.wpforms-form' ),
-						formID  = form.data( 'formid' ),
-						fieldID = element.closest( '.wpforms-field' ).data( 'field-id' ),
-						properties;
-
-					if ( typeof window['wpforms_' + formID + '_' + fieldID] !== 'undefined' && window['wpforms_' + formID + '_' + fieldID].hasOwnProperty( 'datepicker' ) ) {
-						properties = window['wpforms_' + formID + '_' + fieldID].datepicker;
-					} else if ( typeof window['wpforms_' + formID] !== 'undefined' && window['wpforms_' + formID].hasOwnProperty( 'datepicker' ) ) {
-						properties = window['wpforms_' + formID].datepicker;
-					} else if ( typeof wpforms_datepicker !== 'undefined' ) {
-						properties = wpforms_datepicker;
-					} else {
-						properties = {
-							disableMobile: true,
-						};
-					}
-
-					// Redefine locale only if user doesn't do that manually, and we have the locale.
-					if (
-						! properties.hasOwnProperty( 'locale' ) &&
-						typeof wpforms_settings !== 'undefined' &&
-						wpforms_settings.hasOwnProperty( 'locale' )
-					) {
-						properties.locale = wpforms_settings.locale;
-					}
-
-					properties.wrap = true;
-					properties.dateFormat = $input.data( 'date-format' );
-					if ( $input.data( 'disable-past-dates' ) === 1 ) {
-						properties.minDate = 'today';
-					}
-
-					var limitDays = $input.data( 'limit-days' ),
-						weekDays = [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
-
-					if ( limitDays && limitDays !== '' ) {
-						limitDays = limitDays.split( ',' );
-
-						properties.disable = [ function( date ) {
-
-							var limitDay;
-							for ( var i in limitDays ) {
-								limitDay = weekDays.indexOf( limitDays[ i ] );
-								if ( limitDay === date.getDay() ) {
-									return false;
-								}
-							}
-
-							return true;
-						} ];
-					}
-
-					// Toggle clear date icon.
-					properties.onChange = function( selectedDates, dateStr, instance ) {
-
-						var display = dateStr === '' ? 'none' : 'block';
-						element.find( '.wpforms-datepicker-clear' ).css( 'display', display );
-					};
-
-					element.flatpickr( properties );
-				} );
+			if ( typeof $.fn.flatpickr === 'undefined' ) {
+				return;
 			}
+
+			$context = $context?.length ? $context : $( document );
+
+			$context.find( '.wpforms-datepicker-wrap' ).each( function() { // eslint-disable-line complexity, max-lines-per-function
+				const element = $( this ),
+					$input = element.find( 'input' ),
+					form = element.closest( '.wpforms-form' ),
+					formID = form.data( 'formid' ),
+					fieldID = element.closest( '.wpforms-field' ).data( 'field-id' );
+
+				let properties;
+
+				if ( typeof window[ 'wpforms_' + formID + '_' + fieldID ] !== 'undefined' && window[ 'wpforms_' + formID + '_' + fieldID ].hasOwnProperty( 'datepicker' ) ) {
+					properties = window[ 'wpforms_' + formID + '_' + fieldID ].datepicker;
+				} else if ( typeof window[ 'wpforms_' + formID ] !== 'undefined' && window[ 'wpforms_' + formID ].hasOwnProperty( 'datepicker' ) ) {
+					properties = window[ 'wpforms_' + formID ].datepicker;
+				} else if ( typeof wpforms_datepicker !== 'undefined' ) {
+					properties = wpforms_datepicker;
+				} else {
+					properties = {
+						disableMobile: true,
+					};
+				}
+
+				// Redefine locale only if user doesn't do that manually, and we have the locale.
+				if (
+					! properties.hasOwnProperty( 'locale' ) &&
+					typeof wpforms_settings !== 'undefined' &&
+					wpforms_settings.hasOwnProperty( 'locale' )
+				) {
+					properties.locale = wpforms_settings.locale;
+				}
+
+				properties.wrap = true;
+				properties.dateFormat = $input.data( 'date-format' );
+
+				if ( $input.data( 'disable-past-dates' ) === 1 ) {
+					properties.minDate = 'today';
+
+					if ( $input.data( 'disable-todays-date' ) === 1 ) {
+						const date = new Date();
+						properties.minDate = date.setDate( date.getDate() + 1 );
+					}
+				}
+
+				let limitDays = $input.data( 'limit-days' );
+				const weekDays = [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
+
+				if ( limitDays && limitDays !== '' ) {
+					limitDays = limitDays.split( ',' );
+
+					properties.disable = [ function( date ) {
+						let limitDay = null;
+
+						for ( const i in limitDays ) {
+							limitDay = weekDays.indexOf( limitDays[ i ] );
+
+							if ( limitDay === date.getDay() ) {
+								return false;
+							}
+						}
+
+						return true;
+					} ];
+				}
+
+				// Toggle clear date icon.
+				properties.onChange = function( selectedDates, dateStr, instance ) { // eslint-disable-line no-unused-vars
+					element.find( '.wpforms-datepicker-clear' )
+						.css( 'display', dateStr === '' ? 'none' : 'block' );
+				};
+
+				element.flatpickr( properties );
+			} );
 		},
 
 		/**
 		 * Load jQuery Time Picker.
 		 *
 		 * @since 1.2.3
+		 * @since 1.8.9 Added the `$context` parameter.
+		 *
+		 * @param {jQuery} $context Container to search for datepicker elements.
 		 */
-		loadTimePicker: function() {
-
+		loadTimePicker( $context ) {
 			// Only load if jQuery timepicker library exists.
-			if ( typeof $.fn.timepicker !== 'undefined' ) {
-				$( '.wpforms-timepicker' ).each( function() {
-					var element = $( this ),
-						form    = element.closest( '.wpforms-form' ),
-						formID  = form.data( 'formid' ),
-						fieldID = element.closest( '.wpforms-field' ).data( 'field-id' ),
-						properties;
-
-					if (
-						typeof window['wpforms_' + formID + '_' + fieldID] !== 'undefined' &&
-						window['wpforms_' + formID + '_' + fieldID].hasOwnProperty( 'timepicker' )
-					) {
-						properties = window['wpforms_' + formID + '_' + fieldID].timepicker;
-					} else if (
-						typeof window['wpforms_' + formID] !== 'undefined' &&
-						window['wpforms_' + formID].hasOwnProperty( 'timepicker' )
-					) {
-						properties = window['wpforms_' + formID].timepicker;
-					} else if ( typeof wpforms_timepicker !== 'undefined' ) {
-						properties = wpforms_timepicker;
-					} else {
-						properties = {
-							scrollDefault: 'now',
-							forceRoundTime: true,
-						};
-					}
-
-					element.timepicker( properties );
-				} );
+			if ( typeof $.fn.timepicker === 'undefined' ) {
+				return;
 			}
+
+			$context = $context?.length ? $context : $( document );
+
+			$context.find( '.wpforms-timepicker' ).each( function() { // eslint-disable-line complexity
+				const element = $( this ),
+					form = element.closest( '.wpforms-form' ),
+					formID = form.data( 'formid' ),
+					fieldID = element.closest( '.wpforms-field' ).data( 'field-id' );
+
+				let properties;
+
+				if (
+					typeof window[ 'wpforms_' + formID + '_' + fieldID ] !== 'undefined' &&
+					window[ 'wpforms_' + formID + '_' + fieldID ].hasOwnProperty( 'timepicker' )
+				) {
+					properties = window[ 'wpforms_' + formID + '_' + fieldID ].timepicker;
+				} else if (
+					typeof window[ 'wpforms_' + formID ] !== 'undefined' &&
+					window[ 'wpforms_' + formID ].hasOwnProperty( 'timepicker' )
+				) {
+					properties = window[ 'wpforms_' + formID ].timepicker;
+				} else if ( typeof wpforms_timepicker !== 'undefined' ) {
+					properties = wpforms_timepicker;
+				} else {
+					properties = {
+						scrollDefault: 'now',
+						forceRoundTime: true,
+					};
+				}
+
+				// Retrieve the value from the input element.
+				const inputValue = element.val();
+
+				element.timepicker( properties );
+
+				// Check if a value is available.
+				if ( inputValue ) {
+					// Set the input element's value to the retrieved value.
+					element.val( inputValue );
+
+					// Trigger the 'changeTime' event to update the timepicker after programmatically setting the value.
+					element.trigger( 'changeTime' );
+				}
+			} );
 		},
 
 		/**
 		 * Load jQuery input masks.
 		 *
 		 * @since 1.2.3
+		 * @since 1.8.9 Added the `$context` parameter.
+		 *
+		 * @param {jQuery} $context Container to search for datepicker elements.
 		 */
-		loadInputMask: function() {
-
+		loadInputMask( $context ) {
 			// Only load if jQuery input mask library exists.
 			if ( typeof $.fn.inputmask === 'undefined' ) {
 				return;
 			}
 
+			$context = $context?.length ? $context : $( document );
+
 			// This setting has no effect when switching to the "RTL" mode.
-			$( '.wpforms-masked-input' ).inputmask( { rightAlign: false } );
+			$context.find( '.wpforms-masked-input' ).inputmask( { rightAlign: false } );
 		},
 
 		/**
@@ -1042,11 +1210,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 					return;
 				}
 
-				$field.intlTelInput( 'destroy' );
+				const insta = window.intlTelInputGlobals.getInstance( $field[ 0 ] );
+				insta.destroy();
+
 				options.initialCountry = options.initialCountry.toLowerCase();
 				options.onlyCountries = options.onlyCountries.map( ( v ) => v.toLowerCase() );
 				options.preferredCountries = options.preferredCountries.map( ( v ) => v.toLowerCase() );
-				$field.intlTelInput( options );
+				window.intlTelInput( $field[ 0 ], options );
 				$field.siblings( 'input[type="hidden"]' ).each( function() {
 					const $hiddenInput = $( this );
 					$hiddenInput.attr( 'name', $hiddenInput.attr( 'name' ).replace( 'wpf-temp-', '' ) );
@@ -1055,14 +1225,16 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
-		 * Load Smart Phone field.
+		 * Load Smartphone field.
 		 *
 		 * @since 1.5.2
+		 * @since 1.8.9 Added the `$context` parameter.
+		 *
+		 * @param {jQuery} $context Context to search for smartphone elements.
 		 */
-		loadSmartPhoneField: function() {
-
-			// Only load if library exists.
-			if ( typeof $.fn.intlTelInput === 'undefined' ) {
+		loadSmartPhoneField( $context ) { // eslint-disable-line complexity
+			if ( typeof window.intlTelInput === 'undefined' ) {
+				// Only load if a library exists.
 				return;
 			}
 
@@ -1070,7 +1242,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				countrySearch: false,
 				fixDropdownWidth: false,
 				preferredCountries: [ 'us', 'gb' ],
+				countryListAriaLabel: wpforms_settings.country_list_label,
 			};
+			let countryCode;
 
 			// Determine the country by IP if no GDPR restrictions enabled.
 			if ( ! wpforms_settings.gdpr ) {
@@ -1079,13 +1253,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Try to kick in an alternative solution if GDPR restrictions are enabled.
 			if ( wpforms_settings.gdpr ) {
-				var lang = this.getFirstBrowserLanguage(),
-					countryCode = lang.indexOf( '-' ) > -1 ? lang.split( '-' ).pop() : '';
+				const lang = app.mapLanguageToIso( this.getFirstBrowserLanguage() );
+
+				countryCode = lang.indexOf( '-' ) > -1 ? lang.split( '-' ).pop() : lang;
 			}
 
 			// Make sure the library recognizes browser country code to avoid console error.
 			if ( countryCode ) {
-				var countryData = window.intlTelInputGlobals.getCountryData();
+				let countryData = window.intlTelInputGlobals.getCountryData();
 
 				countryData = countryData.filter( function( country ) {
 					return country.iso2 === countryCode.toLowerCase();
@@ -1094,50 +1269,104 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			}
 
 			// Set default country.
-			inputOptions.initialCountry = wpforms_settings.gdpr && countryCode ? countryCode : 'auto';
+			inputOptions.initialCountry = wpforms_settings.gdpr && countryCode ? countryCode.toLowerCase() : 'auto';
 
-			$( '.wpforms-smart-phone-field' ).each( function( i, el ) {
+			$context = $context?.length ? $context : $( document );
+
+			$context.find( '.wpforms-smart-phone-field' ).each( function( i, el ) {
 				const $el = $( el );
+
+				// Prevent initialization if the popup is hidden.
+				if ( $el.parents( '.elementor-location-popup' ).is( ':hidden' ) ) {
+					return false;
+				}
+
+				if ( typeof $el.data( 'plugin_intlTelInput' ) === 'object' ) {
+					// Skip if it was already initialized.
+					return;
+				}
 
 				// Hidden input allows to include country code into submitted data.
 				inputOptions.hiddenInput = function( telInputName ) {
-					return telInputName;
+					return {
+						phone: telInputName,
+					};
 				};
-				inputOptions.utilsScript = wpforms_settings.wpforms_plugin_url + 'assets/pro/lib/intl-tel-input/jquery.intl-tel-input-utils.min.js';
+				inputOptions.utilsScript = wpforms_settings.wpforms_plugin_url + 'assets/pro/lib/intl-tel-input/module.intl-tel-input-utils.min.js';
 
-				$el.intlTelInput( inputOptions );
+				let iti = window.intlTelInput(
+					$el.get( 0 ),
+					inputOptions
+				);
+
+				$el.on( 'validate', function() {
+					// Validate the field.
+					return iti.isValidNumber( iti.getNumber() );
+				} );
+
+				$el.data( 'plugin_intlTelInput', iti );
+
+				// Backward compatibility,
+				// make compatible with snippet from
+				// @see: https://wpforms.com/developers/how-to-set-a-default-flag-on-smart-phone-field-with-gdpr/
+				// without a need to change the snippet.
+				$.fn.extend( {
+					intlTelInput( inputOptions ) {
+						const $el = $( this );
+
+						if ( inputOptions === 'destroy' ) {
+							const insta = window.intlTelInputGlobals.getInstance( $el[ 0 ] );
+
+							insta.destroy();
+							return;
+						}
+
+						return window.intlTelInput(
+							$el.get( 0 ),
+							inputOptions
+						);
+					},
+				} );
 
 				// For proper validation, we should preserve the name attribute of the input field.
-				// But we need to modify original input name not to interfere with a hidden input.
+				// But we need to modify the original input name not to interfere with a hidden input.
 				$el.attr( 'name', 'wpf-temp-' + $el.attr( 'name' ) );
 
 				// Add special class to remove name attribute before submitting.
 				// So, only the hidden input value will be submitted.
 				$el.addClass( 'wpforms-input-temp-name' );
 
-				// Instantly update a hidden form input with a correct data.
+				// Instantly update a hidden form input.
+				// Validation is done separately, so we shouldn't worry about it.
 				// Previously "blur" only was used, which is broken in case Enter was used to submit the form.
 				$el.on( 'blur input', function() {
-					if ( $el.intlTelInput( 'isValidNumber' ) || ! app.empty( window.WPFormsEditEntry ) ) {
-						$el.siblings( 'input[type="hidden"]' ).val( $el.intlTelInput( 'getNumber' ) );
-					}
+					// We need to be sure that we are using the latest instance of the library attached to this element.
+					// For example if library was reinit by custom snippet.
+					iti = window.intlTelInputGlobals.getInstance( $el[ 0 ] );
+
+					$el.siblings( 'input[type="hidden"]' ).val( iti.getNumber() );
 				} );
 			} );
+		},
 
+		/**
+		 * Bind Smartphone field event.
+		 *
+		 * @since 1.8.9
+		 */
+		bindSmartPhoneField() {
 			// Update hidden input of the `Smart` phone field to be sure the latest value will be submitted.
 			$( '.wpforms-form' ).on( 'wpformsBeforeFormSubmit', function() {
-
 				$( this ).find( '.wpforms-smart-phone-field' ).trigger( 'input' );
 			} );
 		},
 
 		/**
-		 * Payments: Do various payment-related tasks on load.
+		 * Payments: Do various payment-related tasks on a load.
 		 *
 		 * @since 1.2.6
 		 */
-		loadPayments: function() {
-
+		loadPayments() {
 			// Update Total field(s) with the latest calculation.
 			$( '.wpforms-payment-total' ).each( function( index, el ) {
 				app.amountTotal( this );
@@ -1161,7 +1390,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				return;
 			}
 
-			// Only load if library exists.
+			// Only load if a library exists.
 			if ( typeof $.fn.mailcheck === 'undefined' ) {
 				return;
 			}
@@ -1213,7 +1442,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				} );
 			} );
 
-			// Apply Mailcheck suggestion.
+			// Apply a Mailcheck suggestion.
 			$( document ).on( 'click', '.wpforms-field-email .mailcheck-suggestion', function( e ) {
 				const $suggestion = $( this ),
 					$field = $suggestion.closest( '.wpforms-field' ),
@@ -1229,17 +1458,35 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * Load Choices.js library for all Modern style Dropdown fields (<select>).
 		 *
 		 * @since 1.6.1
+		 * @since 1.8.9 Added the `$context` parameter.
+		 *
+		 * @param {jQuery} $context Container to search for ChoicesJS elements.
 		 */
-		loadChoicesJS: function() {
-
+		loadChoicesJS( $context ) { // eslint-disable-line max-lines-per-function
 			// Loads if function exists.
 			if ( typeof window.Choices !== 'function' ) {
 				return;
 			}
 
-			$( '.wpforms-field-select-style-modern .choicesjs-select, .wpforms-field-payment-select .choicesjs-select' ).each( function( idx, el ) {
+			$context = $context?.length ? $context : $( document );
 
+			// eslint-disable-next-line max-lines-per-function, complexity
+			$context.find( '.wpforms-field-select-style-modern .choicesjs-select, .wpforms-field-payment-select .choicesjs-select' ).each( function( idx, el ) {
 				if ( $( el ).data( 'choicesjs' ) ) {
+					return;
+				}
+
+				/**
+				 * Trigger before form element choices initialization.
+				 *
+				 * @since 1.9.0
+				 *
+				 * @param {jQuery} el Form element.
+				 */
+				const event = WPFormsUtils.triggerEvent( $context, 'wpformsBeforeLoadElementChoices', [ el ] );
+
+				// Allow callbacks on `wpformsBeforeLoadElementChoices` to cancel choices initialization by triggering `event.preventDefault()`.
+				if ( event.isDefaultPrevented() ) {
 					return;
 				}
 
@@ -1250,6 +1497,11 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				args.searchEnabled = 'undefined' !== typeof searchEnabled ? searchEnabled : true;
 				args.removeItems = 'undefined' !== typeof removeItems ? removeItems : true;
 				args.removeItemButton = args.removeItems;
+				args.searchEnabled = 'undefined' !== typeof searchEnabled ? searchEnabled : true;
+
+				// We can safely allow HTML in the choices since they are sanitized before rendering.
+				// Allowing HTML in the choices is necessary for support allowed HTML entities, such as `&`.
+				args.allowHTML = true;
 
 				args.callbackOnInit = function() {
 					const self = this,
@@ -1270,31 +1522,30 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 					/**
 					 * If a multiple select has selected choices - hide a placeholder text.
-					 * In case if select is empty - we return placeholder text back.
+					 * In case if select is empty - we return placeholder text.
 					 */
 					if ( $element.prop( 'multiple' ) ) {
-
 						// On init event.
-						$input.data( 'placeholder', $input.attr( 'placeholder' ) );
+						$input.data( 'placeholder', $input.attr( 'placeholder' ) ).css( 'width', 'auto' );
 
 						if ( self.getValue( true ).length ) {
 							$input.removeAttr( 'placeholder' );
 						}
+
+						$input.css( 'width', '1ch' );
 					}
 
 					// On change event.
 					$element.on( 'change', function() {
-
-						var validator;
-
 						// Listen if multiple select has choices.
 						if ( $element.prop( 'multiple' ) ) {
-							self.getValue( true ).length ?
-								$input.removeAttr( 'placeholder' ) :
-								$input.attr( 'placeholder', $input.data( 'placeholder' ) );
+							// eslint-disable-next-line no-unused-expressions
+							self.getValue( true ).length
+								? $input.removeAttr( 'placeholder' )
+								: $input.attr( 'placeholder', $input.data( 'placeholder' ) ).css( 'width', 'auto' );
 						}
 
-						validator = $element.closest( 'form' ).data( 'validator' );
+						const validator = $element.closest( 'form' ).data( 'validator' );
 
 						if ( ! validator ) {
 							return;
@@ -1305,16 +1556,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				};
 
 				args.callbackOnCreateTemplates = function() {
-
-					var self      = this,
-						$element  = $( self.passedElement.element );
+					const self = this,
+						$element = $( self.passedElement.element );
 
 					return {
-
 						// Change default template for option.
-						option: function( item ) {
-
-							var opt = Choices.defaults.templates.option.call( this, item );
+						option( item ) {
+							const opt = Choices.defaults.templates.option.call( this, item );
 
 							// Add a `.placeholder` class for placeholder option - it needs for WPForm CL.
 							if ( 'undefined' !== typeof item.placeholder && true === item.placeholder ) {
@@ -1335,11 +1583,17 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				// Save choicesjs instance for future access.
 				$( el ).data( 'choicesjs', new Choices( el, args ) );
 			} );
+		},
 
+		/**
+		 * Bind ChoicesJS' events.
+		 *
+		 * @since 1.8.9
+		 */
+		bindChoicesJS() {
 			// Add the ability to close the drop-down menu on the frontend.
 			$( document ).on( 'click', '.choices', function( e ) {
-
-				var $choices =  $( this ),
+				const $choices = $( this ),
 					choicesObj = $choices.find( 'select' ).data( 'choicesjs' );
 
 				if (
@@ -1364,8 +1618,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.2.3
 		 */
-		bindUIActions: function() {
-
+		bindUIActions() { // eslint-disable-line max-lines-per-function
 			const $document = $( document );
 
 			// Pagebreak navigation.
@@ -1394,14 +1647,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Payments: Sanitize/format user input amounts.
 			$document.on( 'focusout', '.wpforms-payment-user-input', function() {
-				var $this  = $( this ),
+				const $this = $( this ),
 					amount = $this.val();
 
 				if ( ! amount ) {
 					return amount;
 				}
 
-				var sanitized = app.amountSanitize( amount ),
+				const sanitized = app.amountSanitize( amount ),
 					formatted = app.amountFormat( sanitized );
 
 				$this.val( formatted );
@@ -1428,8 +1681,8 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Rating field: toggle selected state.
 			$( document ).on( 'change', '.wpforms-field-rating-item input', function() {
-				var $this  = $( this ),
-					$wrap  = $this.closest( '.wpforms-field-rating-items' ),
+				const $this = $( this ),
+					$wrap = $this.closest( '.wpforms-field-rating-items' ),
 					$items = $wrap.find( '.wpforms-field-rating-item' );
 				$this.focus(); // Enable keyboard navigation.
 				$items.removeClass( 'hover selected' );
@@ -1443,8 +1696,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Checkbox/Radio/Payment checkbox: make labels keyboard-accessible.
 			$document.on( 'keydown', '.wpforms-image-choices-item label', function( event ) {
-
-				const $label  = $( this ),
+				const $label = $( this ),
 					$field = $label.closest( '.wpforms-field' );
 
 				if ( $field.hasClass( 'wpforms-conditional-hide' ) ) {
@@ -1464,14 +1716,12 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			// IE: Click on the `image choice` image should trigger the click event on the input (checkbox or radio) field.
 			if ( window.document.documentMode ) {
 				$document.on( 'click', '.wpforms-image-choices-item img', function() {
-
 					$( this ).closest( 'label' ).find( 'input' ).trigger( 'click' );
 				} );
 			}
 
 			$document.on( 'change', '.wpforms-field-checkbox input, .wpforms-field-radio input, .wpforms-field-payment-multiple input, .wpforms-field-payment-checkbox input, .wpforms-field-gdpr-checkbox input', function( event ) {
-
-				var $this  = $( this ),
+				const $this = $( this ),
 					$field = $this.closest( '.wpforms-field' );
 
 				if ( $field.hasClass( 'wpforms-conditional-hide' ) ) {
@@ -1501,37 +1751,36 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Upload fields: Check combined file size.
 			$document.on( 'input', '.wpforms-field-file-upload', function() {
-
-				var $this       = $( this ),
-					$uploads    = $this.closest( 'form.wpforms-form' ).find( '.wpforms-field-file-upload input:not(".dropzone-input")' ),
-					totalSize   = 0,
+				const $this = $( this ),
+					$uploads = $this.closest( 'form.wpforms-form' ).find( '.wpforms-field-file-upload input:not(".dropzone-input")' );
+				let totalSize = 0,
 					postMaxSize = Number( wpforms_settings.post_max_size ),
-					errorMsg    = '<div class="wpforms-error-container-post_max_size">' + wpforms_settings.val_post_max_size + '</div>',
-					errorCntTpl = '<div class="wpforms-error-container">{errorMsg}</div>',
-					$submitCnt  = $this.closest( 'form.wpforms-form' ).find( '.wpforms-submit-container' ),
-					$submitBtn  = $submitCnt.find( 'button.wpforms-submit' ),
-					$errorCnt   = $submitCnt.prev(),
-					$form       = $submitBtn.closest( 'form' ),
-					$btnNext    = $form.find( '.wpforms-page-next:visible' );
+					errorMsg = '<div class="wpforms-error-container-post_max_size">' + wpforms_settings.val_post_max_size + '</div>';
+				const errorCntTpl = '<div class="wpforms-error-container">{errorMsg}</div>';
+				const $submitCnt = $this.closest( 'form.wpforms-form' ).find( '.wpforms-submit-container' );
+				let $submitBtn = $submitCnt.find( 'button.wpforms-submit' ),
+					$errorCnt = $submitCnt.prev();
+				const $form = $submitBtn.closest( 'form' ),
+					$btnNext = $form.find( '.wpforms-page-next:visible' );
 
-				// For multi-pages layout, use the "Next" button instead of the primary submit button.
+				// For multi-pages layout, use the "Next" button instead of the primary "Submit" button.
 				if ( $form.find( '.wpforms-page-indicator' ).length !== 0 && $btnNext.length !== 0 ) {
 					$submitBtn = $btnNext;
 				}
 
 				// Calculating totalSize.
 				$uploads.each( function() {
-					var $upload = $( this ),
-						i = 0,
-						len = $upload[0].files.length;
+					const $upload = $( this );
+					let i = 0;
+					const len = $upload[ 0 ].files.length;
+
 					for ( ; i < len; i++ ) {
-						totalSize += $upload[0].files[i].size;
+						totalSize += $upload[ 0 ].files[ i ].size;
 					}
 				} );
 
 				// Checking totalSize.
 				if ( totalSize < postMaxSize ) {
-
 					// Remove error and release submit button.
 					$errorCnt.find( '.wpforms-error-container-post_max_size' ).remove();
 
@@ -1569,19 +1818,18 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Number Slider field: update hints.
 			$document.on( 'change input', '.wpforms-field-number-slider input[type=range]', function( event ) {
-				var hintEl = $( event.target ).siblings( '.wpforms-field-number-slider-hint' );
+				const hintEl = $( event.target ).siblings( '.wpforms-field-number-slider-hint' );
 
-				hintEl.html( hintEl.data( 'hint' ).replace( '{value}', '<b>' + event.target.value + '</b>' ) );
+				hintEl.html( hintEl.data( 'hint' ).replaceAll( '{value}', '<b>' + event.target.value + '</b>' ) );
 			} );
 
 			// Enter key event.
 			$document.on( 'keydown', '.wpforms-form input', function( e ) {
-
 				if ( e.keyCode !== 13 ) {
 					return;
 				}
 
-				var $t = $( this ),
+				const $t = $( this ),
 					$page = $t.closest( '.wpforms-page' );
 
 				if ( $page.length === 0 ) {
@@ -1608,7 +1856,6 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Allow only numbers, minus and decimal point to be entered into the Numbers field.
 			$document.on( 'keypress', '.wpforms-field-number input', function( e ) {
-
 				return /^[-0-9.]+$/.test( String.fromCharCode( e.keyCode || e.which ) );
 			} );
 
@@ -1691,7 +1938,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
-		 * Check is target page is empty.
+		 * Check the target page is empty.
 		 *
 		 * @since 1.8.5
 		 *
@@ -1708,7 +1955,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			const $currentPage = $form.find( '.wpforms-page-' + page );
 
-			// The last page has the submit button, so it's always non-empty.
+			// The last page has the "Submit" button, so it's always non-empty.
 			if ( $currentPage.hasClass( 'last' ) ) {
 				return false;
 			}
@@ -1723,10 +1970,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.8.3
 		 *
-		 * @param {object} event Event object.
+		 * @param {Object} event Event object.
 		 */
-		formChanged: function( event ) {
-
+		formChanged( event ) {
 			const $form = $( this ).closest( '.wpforms-form' );
 
 			app.maybeSetStartTime( $form );
@@ -1737,18 +1983,27 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.8.3
 		 *
-		 * @param {object} event    Event object.
-		 * @param {object} mutation Mutation object.
-		 * @param {object} editor   Editor object.
+		 * @param {Object} event    Event object.
+		 * @param {Object} mutation Mutation object.
+		 * @param {Object} editor   Editor object.
 		 */
-		richTextContentChanged: function( event, mutation, editor ) {
-
+		richTextContentChanged( event, mutation, editor ) {
 			const container = editor.getContainer();
 
 			const $form = $( container ).closest( '.wpforms-form' );
 
 			app.maybeSetStartTime( $form );
+		},
 
+		/**
+		 * Initialize the start timestamp for each form on the page.
+		 *
+		 * @since 1.9.0
+		 */
+		initFormsStartTime() {
+			$( '.wpforms-form' ).each( function() {
+				app.maybeSetStartTime( $( this ) );
+			} );
 		},
 
 		/**
@@ -1758,18 +2013,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		maybeSetStartTime: function( $form ) {
-
-			if ( $form.data( 'timestamp' ) ) {
-				return;
+		maybeSetStartTime( $form ) {
+			if ( ! $form.data( 'start_timestamp' ) ) {
+				$form.data( 'start_timestamp', Date.now() );
 			}
-
-			if ( $form.hasClass( 'wpforms-ajax-form' ) && typeof FormData !== 'undefined' ) {
-				$form.data( 'timestamp', Date.now() );
-				return;
-			}
-
-			$form.append( '<input type="hidden" name="start_timestamp" value="' + Date.now() + '">' );
 		},
 
 		/**
@@ -1779,11 +2026,11 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @deprecated 1.7.0
 		 *
 		 * @param {Event}  event       Event.
-		 * @param {int}    currentPage Current page.
+		 * @param {number} currentPage Current page.
 		 * @param {jQuery} $form       Current form.
 		 */
-		entryPreviewFieldPageChange: function( event, currentPage, $form ) {
-
+		entryPreviewFieldPageChange( event, currentPage, $form ) {
+			// eslint-disable-next-line no-console
 			console.warn( 'WARNING! Obsolete function called. Function wpforms.entryPreviewFieldPageChange has been deprecated, please use the WPFormsEntryPreview.pageChange function instead!' );
 			WPFormsEntryPreview.pageChange( event, currentPage, $form );
 		},
@@ -1794,11 +2041,11 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @since 1.6.9
 		 * @deprecated 1.7.0
 		 *
-		 * @param {int}    currentPage Current page.
+		 * @param {number} currentPage Current page.
 		 * @param {jQuery} $form       Current form.
 		 */
-		entryPreviewFieldUpdate: function( currentPage, $form ) {
-
+		entryPreviewFieldUpdate( currentPage, $form ) {
+			// eslint-disable-next-line no-console
 			console.warn( 'WARNING! Obsolete function called. Function wpforms.entryPreviewFieldUpdate has been deprecated, please use the WPFormsEntryPreview.update function instead!' );
 			WPFormsEntryPreview.update( currentPage, $form );
 		},
@@ -1810,14 +2057,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $el Form, container or input element jQuery object.
 		 */
-		scrollToError: function( $el ) {
-
+		scrollToError( $el ) {
 			if ( $el.length === 0 ) {
 				return;
 			}
 
 			// Look for a field with an error inside an $el.
-			var $field = $el.find( '.wpforms-field.wpforms-has-error' );
+			let $field = $el.find( '.wpforms-field.wpforms-has-error' );
 
 			// Look outside in not found inside.
 			if ( $field.length === 0 ) {
@@ -1828,14 +2074,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				return;
 			}
 
-			var offset = $field.offset();
+			const offset = $field.offset();
 
 			if ( typeof offset === 'undefined' ) {
 				return;
 			}
 
 			app.animateScrollTop( offset.top - 75, 750 ).done( function() {
-				var $error = $field.find( '.wpforms-error' ).first();
+				const $error = $field.find( '.wpforms-error' ).first();
 				if ( typeof $error.focus === 'function' ) {
 					$error.trigger( 'focus' );
 				}
@@ -1849,12 +2095,12 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} el jQuery element object.
 		 */
-		pagebreakNav: function( el ) {
+		pagebreakNav( el ) {
 			const $this = $( el ),
-				action  = $this.data( 'action' ),
-				page    = $this.data( 'page' ),
-				$form   = $this.closest( '.wpforms-form' ),
-				$page   = $form.find( '.wpforms-page-' + page );
+				action = $this.data( 'action' ),
+				page = $this.data( 'page' ),
+				$form = $this.closest( '.wpforms-form' ),
+				$page = $form.find( '.wpforms-page-' + page );
 
 			app.saveTinyMCE();
 
@@ -1879,7 +2125,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @param {jQuery}   $page    Current page element object in page break context.
 		 * @param {Function} callback Callback to run when all fields are valid.
 		 */
-		checkForInvalidFields: function( $form, $page, callback ) {
+		checkForInvalidFields( $form, $page, callback ) {
 			const validator = $form.data( 'validator' );
 			if ( ! validator ) {
 				return;
@@ -1904,7 +2150,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				}
 
 				// Skip validation for some fields.
-				// E.g. applied coupon hidden field.
+				// E.g., applied coupon hidden field.
 				if ( $el.hasClass( 'wpforms-field-skip-validation' ) ) {
 					return;
 				}
@@ -1928,12 +2174,11 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $this  jQuery element of the next / prev nav button.
 		 * @param {string} action The navigation action.
-		 * @param {int}    page   Current page number.
+		 * @param {number} page   Current page number.
 		 * @param {jQuery} $form  WPForms element object.
 		 * @param {jQuery} $page  Current page element object in page break context.
 		 */
-		navigateToPage: function( $this, action, page, $form, $page ) {
-
+		navigateToPage( $this, action, page, $form, $page ) {
 			if ( $this.hasClass( 'wpforms-disabled' ) ) {
 				return;
 			}
@@ -1946,7 +2191,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				nextPage -= 1;
 			}
 
-			let event = WPFormsUtils.triggerEvent( $this, 'wpformsBeforePageChange', [ nextPage, $form, action ] );
+			const event = WPFormsUtils.triggerEvent( $this, 'wpformsBeforePageChange', [ nextPage, $form, action ] );
 
 			// Allow callbacks on `wpformsBeforePageChange` to cancel page changing by triggering `event.preventDefault()`.
 			if ( event.isDefaultPrevented() ) {
@@ -1955,10 +2200,11 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			$form.find( '.wpforms-page' ).hide();
 
-			let $destinationPage = $form.find( '.wpforms-page-' + nextPage );
+			const $destinationPage = $form.find( '.wpforms-page-' + nextPage );
 			$destinationPage.show();
 
 			app.toggleReCaptchaAndSubmitDisplay( $form, action, $destinationPage );
+			app.checkTurnstileVisibility( $form );
 
 			const pageScroll = app.getPageScroll( $form );
 			if ( pageScroll ) {
@@ -1979,8 +2225,8 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @param {string} action           The navigation action.
 		 * @param {jQuery} $destinationPage Destination Page element object.
 		 */
-		toggleReCaptchaAndSubmitDisplay: function( $form, action, $destinationPage ) {
-			const $submit  = $form.find( '.wpforms-submit-container' ),
+		toggleReCaptchaAndSubmitDisplay( $form, action, $destinationPage ) {
+			const $submit = $form.find( '.wpforms-submit-container' ),
 				$reCAPTCHA = $form.find( '.wpforms-recaptcha-container' );
 
 			if ( 'next' === action && $destinationPage.hasClass( 'last' ) ) {
@@ -1993,15 +2239,37 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
+		 * Update Turnstile container class if invisible mode is chosen.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {jQuery} $form WPForms element object.
+		 */
+		checkTurnstileVisibility( $form ) {
+			const $turnstile = $form.find( '.wpforms-recaptcha-container' );
+
+			// Check if Turnstile captcha is enabled.
+			if ( ! $turnstile.hasClass( 'wpforms-is-turnstile' ) ) {
+				return;
+			}
+
+			const iframeWrapperHeight = $turnstile.find( '.g-recaptcha' ).height();
+
+			parseInt( iframeWrapperHeight, 10 ) === 0
+				? $turnstile.addClass( 'wpforms-is-turnstile-invisible' )
+				: $turnstile.removeClass( 'wpforms-is-turnstile-invisible' );
+		},
+
+		/**
 		 * Get the page scroll position.
 		 *
 		 * @since 1.7.6
 		 *
 		 * @param {jQuery} $form WPForms element object.
-		 * @returns {number|boolean} Returns a number if position to page scroll is found.
-		 * Otherwise, returns `false` if position isn't found.
+		 * @return {number|boolean} Returns a number if position to page scroll is found.
+		 * Otherwise, return `false` if position isn't found.
 		 */
-		getPageScroll: function( $form ) {
+		getPageScroll( $form ) {
 			if ( false === window.wpforms_pageScroll ) {
 				return false;
 			}
@@ -2019,10 +2287,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.7.6
 		 *
-		 * @param {int} nextPage The next's / destination's page number.
-		 * @param {jQuery} $form WPForms element object.
+		 * @param {number} nextPage The next's / destination's page number.
+		 * @param {jQuery} $form    WPForms element object.
 		 */
-		manipulateIndicator: function( nextPage, $form ) {
+		manipulateIndicator( nextPage, $form ) {
 			const $indicator = $form.find( '.wpforms-page-indicator' );
 
 			if ( ! $indicator ) {
@@ -2048,9 +2316,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $indicator The indicator jQuery element object.
 		 * @param {string} theme      Indicator theme.
-		 * @param {int}    nextPage   The next's / destination's page number.
+		 * @param {number} nextPage   The next's / destination's page number.
 		 */
-		manipulateConnectorAndCirclesIndicator: function( $indicator, theme, nextPage ) {
+		manipulateConnectorAndCirclesIndicator( $indicator, theme, nextPage ) {
 			const color = $indicator.data( 'indicator-color' );
 
 			$indicator.find( '.wpforms-page-indicator-page' ).removeClass( 'active' );
@@ -2071,13 +2339,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $indicator The indicator jQuery element object.
 		 * @param {jQuery} $form      WPForms element object.
-		 * @param {int}    nextPage   The next's / destination's page number.
+		 * @param {number} nextPage   The next's / destination's page number.
 		 */
-		manipulateProgressIndicator: function( $indicator, $form, nextPage ) {
-			let $pageTitle = $indicator.find( '.wpforms-page-indicator-page-title' ),
-				$pageSep   = $indicator.find( '.wpforms-page-indicator-page-title-sep' ),
+		manipulateProgressIndicator( $indicator, $form, nextPage ) {
+			const $pageTitle = $indicator.find( '.wpforms-page-indicator-page-title' ),
+				$pageSep = $indicator.find( '.wpforms-page-indicator-page-title-sep' ),
 				totalPages = $form.find( '.wpforms-page' ).length,
-				width      = ( nextPage / totalPages ) * 100;
+				width = ( nextPage / totalPages ) * 100;
 
 			$indicator.find( '.wpforms-page-indicator-page-progress' ).css( 'width', width + '%' );
 			$indicator.find( '.wpforms-page-indicator-steps-current' ).text( nextPage );
@@ -2099,18 +2367,29 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.0
 		 */
-		bindOptinMonster: function() {
-
+		bindOptinMonster() {
 			// OM v5.
 			document.addEventListener( 'om.Campaign.load', function( event ) {
 				app.ready();
 				app.optinMonsterRecaptchaReset( event.detail.Campaign.data.id );
 			} );
 
+			document.addEventListener( 'om.Campaign.afterShow', function( event ) {
+				// Init Repeater fields.
+				if ( 'undefined' !== typeof WPFormsRepeaterField ) {
+					WPFormsRepeaterField.ready();
+				}
+			} );
+
 			// OM Legacy.
 			$( document ).on( 'OptinMonsterOnShow', function( event, data, object ) {
 				app.ready();
 				app.optinMonsterRecaptchaReset( data.optin );
+
+				// Init Repeater fields.
+				if ( 'undefined' !== typeof WPFormsRepeaterField ) {
+					WPFormsRepeaterField.ready();
+				}
 			} );
 		},
 
@@ -2122,17 +2401,15 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {string} optinId OptinMonster ID.
 		 */
-		optinMonsterRecaptchaReset: function( optinId ) {
-
-			var $form             = $( '#om-' + optinId ).find( '.wpforms-form' ),
+		optinMonsterRecaptchaReset( optinId ) {
+			const $form = $( '#om-' + optinId ).find( '.wpforms-form' ),
 				$captchaContainer = $form.find( '.wpforms-recaptcha-container' ),
-				$captcha          = $form.find( '.g-recaptcha' );
+				$captcha = $form.find( '.g-recaptcha' );
 
 			if ( $form.length && $captcha.length ) {
-
-				var captchaSiteKey = $captcha.attr( 'data-sitekey' ),
-					captchaID      = 'recaptcha-' + Date.now(),
-					apiVar         = $captchaContainer.hasClass( 'wpforms-is-hcaptcha' ) ? hcaptcha : grecaptcha;
+				const captchaSiteKey = $captcha.attr( 'data-sitekey' ),
+					captchaID = 'recaptcha-' + Date.now(),
+					apiVar = $captchaContainer.hasClass( 'wpforms-is-hcaptcha' ) ? hcaptcha : grecaptcha;
 
 				$captcha.remove();
 				$captchaContainer.prepend( '<div class="g-recaptcha" id="' + captchaID + '" data-sitekey="' + captchaSiteKey + '"></div>' );
@@ -2141,7 +2418,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 					captchaID,
 					{
 						sitekey: captchaSiteKey,
-						callback: function() {
+						callback() {
 							wpformsRecaptchaCallback( $( '#' + captchaID ) );
 						},
 					}
@@ -2200,16 +2477,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 					$summary.find( '.wpforms-order-summary-preview-total .wpforms-order-summary-item-price' ).text( total );
 				}
 
-				if ( $paymentField.hasClass( 'wpforms-payment-total' ) ) {
-					// Update each payment field price in case it was changed while total calculation.
-					$form.find( '.wpforms-payment-price' ).each( function() {
-						app.updateOrderSummaryItem( $( this ), $summary );
-					} );
-
-					return;
-				}
-
-				app.updateOrderSummaryItem( $paymentField, $summary );
+				$form.find( '.wpforms-payment-price' ).each( function() {
+					app.updateOrderSummaryItem( $( this ), $summary );
+				} );
 			} );
 		},
 
@@ -2229,31 +2499,25 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			const $field = $paymentField.closest( '.wpforms-field' ),
 				fieldId = $field.data( 'field-id' ),
-				type = $paymentField.prop( 'type' );
+				type = $paymentField.prop( 'type' ),
+				isFieldVisible = $field.is( ':visible' );
 
 			if ( type === 'checkbox' || type === 'radio' || type === 'select-one' ) {
-				const choiceId = $paymentField.val(),
-					$item = $summary.find( `tr[data-field="${ fieldId }"][data-choice="${ choiceId }"]` );
+				// Show only selected items.
+				$summary.find( `tr[data-field="${ fieldId }"]` ).each( function() {
+					const choiceID = $( this ).data( 'choice' );
+					const isChoiceChecked = type === 'select-one'
+						? choiceID === parseInt( $field.find( 'select' ).val(), 10 )
+						: $field.find( `input[value="${ choiceID }"]` ).is( ':checked' );
 
-				// Hide previously selected items.
-				if ( type !== 'checkbox' ) {
-					$summary.find( `tr[data-field="${ fieldId }"]` ).each( function() {
-						$( this ).hide();
-					} );
-				}
-
-				if ( type === 'select-one' ) {
-					$item.show();
-				} else {
-					$item.toggle( $paymentField.is( ':checked' ) );
-				}
+					$( this ).toggle( isFieldVisible && isChoiceChecked );
+				} );
 			} else {
 				const $item = $summary.find( `tr[data-field="${ fieldId }"]` ),
 					amount = $paymentField.val();
 
-				$item.find( '.wpforms-order-summary-item-price' ).text( app.amountFormatSymbol( amount ) );
-
-				$item.toggle( $field.is( ':visible' ) );
+				$item.find( '.wpforms-order-summary-item-price' ).text( app.amountFormatSymbol( app.amountSanitize( amount ) ) );
+				$item.toggle( isFieldVisible );
 			}
 
 			if ( ! $field.hasClass( 'wpforms-payment-quantities-enabled' ) ) {
@@ -2377,7 +2641,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			 *
 			 * @since 1.8.2.2
 			 *
-			 * @param {object} data Form element and total.
+			 * @param {Object} data Form element and total.
 			 */
 			const event = WPFormsUtils.triggerEvent( $document, 'wpformsAmountTotalCalculate', [ $form, total ] );
 
@@ -2388,7 +2652,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			 *
 			 * @since 1.8.0.2
 			 *
-			 * @param {object} data Form element and total.
+			 * @param {Object} data Form element and total.
 			 */
 			WPFormsUtils.triggerEvent( $document, 'wpformsAmountTotalCalculated', [ $form, total ] );
 
@@ -2456,7 +2720,8 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		amountSanitize( amount ) {
 			const currency = app.getCurrency();
 
-			amount = amount.toString().replace( /[^0-9.,]/g, '' );
+			// Convert to string, remove a currency symbol, and allow only numbers, dots, and commas.
+			amount = amount.toString().replace( currency.symbol, '' ).replace( /[^0-9.,]/g, '' );
 
 			if ( currency.decimal_sep === ',' ) {
 				if ( currency.thousands_sep === '.' && amount.indexOf( currency.thousands_sep ) !== -1 ) {
@@ -2468,6 +2733,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			} else if ( currency.thousands_sep === ',' && ( amount.indexOf( currency.thousands_sep ) !== -1 ) ) {
 				amount = amount.replace( new RegExp( '\\' + currency.thousands_sep, 'g' ), '' );
 			}
+
 			return app.numberFormat( amount, currency.decimals, '.', '' );
 		},
 
@@ -2493,7 +2759,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				amount = whole + '.' + part;
 			}
 
-			// Strip , from the amount (if set as the thousand separator)
+			// Strip "," from the amount (if set as thousands separator)
 			if ( ',' === currency.thousands_sep && ( amount.indexOf( currency.thousands_sep ) !== -1 ) ) {
 				amount = amount.replace( /,/g, '' );
 			}
@@ -2577,30 +2843,31 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @param {string} decimalSep   What is the decimal separator.
 		 * @param {string} thousandsSep What is the thousand separator.
 		 *
-		 * @returns {string} Formatted number.
+		 * @return {string} Formatted number.
 		 */
-		numberFormat: function( number, decimals, decimalSep, thousandsSep ) {
-
+		numberFormat( number, decimals, decimalSep, thousandsSep ) { // eslint-disable-line complexity
 			number = ( number + '' ).replace( /[^0-9+\-Ee.]/g, '' );
-			var n = ! isFinite( +number ) ? 0 : +number;
-			var prec = ! isFinite( +decimals ) ? 0 : Math.abs( decimals );
-			var sep = ( 'undefined' === typeof thousandsSep ) ? ',' : thousandsSep;
-			var dec = ( 'undefined' === typeof decimalSep ) ? '.' : decimalSep;
-			var s;
 
-			var toFixedFix = function( n, prec ) {
-				var k = Math.pow( 10, prec );
+			const n = ! isFinite( +number ) ? 0 : +number;
+			const precision = ! isFinite( +decimals ) ? 0 : Math.abs( decimals );
+			const sep = ( 'undefined' === typeof thousandsSep ) ? ',' : thousandsSep;
+			const dec = ( 'undefined' === typeof decimalSep ) ? '.' : decimalSep;
+
+			const toFixedFix = function( n, prec ) {
+				const k = Math.pow( 10, prec );
 				return '' + ( Math.round( n * k ) / k ).toFixed( prec );
 			};
 
 			// @todo: for IE parseFloat(0.55).toFixed(0) = 0;
-			s = ( prec ? toFixedFix( n, prec ) : '' + Math.round( n ) ).split( '.' );
-			if ( s[0].length > 3 ) {
-				s[0] = s[0].replace( /\B(?=(?:\d{3})+(?!\d))/g, sep );
+			const s = ( precision ? toFixedFix( n, precision ) : '' + Math.round( n ) ).split( '.' );
+
+			if ( s[ 0 ].length > 3 ) {
+				s[ 0 ] = s[ 0 ].replace( /\B(?=(?:\d{3})+(?!\d))/g, sep );
 			}
-			if ( ( s[1] || '' ).length < prec ) {
-				s[1] = s[1] || '';
-				s[1] += new Array( prec - s[1].length + 1 ).join( '0' );
+
+			if ( ( s[ 1 ] || '' ).length < precision ) {
+				s[ 1 ] = s[ 1 ] || '';
+				s[ 1 ] += new Array( precision - s[ 1 ].length + 1 ).join( '0' );
 			}
 
 			return s.join( dec );
@@ -2613,20 +2880,19 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.2.6
 		 *
-		 * @param {mixed} mixedVar Variable to check.
+		 * @param {any} mixedVar Variable to check.
 		 *
-		 * @returns {boolean} Whether the var is empty or not.
+		 * @return {boolean} Whether the var is empty or not.
 		 */
-		empty: function( mixedVar ) {
-
-			var undef;
-			var key;
-			var i;
-			var len;
-			var emptyValues = [ undef, null, false, 0, '', '0' ];
+		empty( mixedVar ) {
+			let undef;
+			let key;
+			let i;
+			let len;
+			const emptyValues = [ undef, null, false, 0, '', '0' ];
 
 			for ( i = 0, len = emptyValues.length; i < len; i++ ) {
-				if ( mixedVar === emptyValues[i] ) {
+				if ( mixedVar === emptyValues[ i ] ) {
 					return true;
 				}
 			}
@@ -2648,23 +2914,23 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.3.3
 		 */
-		setUserIndentifier: function() {
-
+		setUserIdentifier() { // eslint-disable-line complexity
 			if ( ( ( ! window.hasRequiredConsent && typeof wpforms_settings !== 'undefined' && wpforms_settings.uuid_cookie ) || ( window.hasRequiredConsent && window.hasRequiredConsent() ) ) && ! app.getCookie( '_wpfuuid' ) ) {
-
 				// Generate UUID - http://stackoverflow.com/a/873856/1489528
-				var s         = new Array( 36 ),
-					hexDigits = '0123456789abcdef',
-					uuid;
+				const s = new Array( 36 ),
+					hexDigits = '0123456789abcdef';
 
-				for ( var i = 0; i < 36; i++ ) {
-					s[i] = hexDigits.substr( Math.floor( Math.random() * 0x10 ), 1 );
+				for ( let i = 0; i < 36; i++ ) {
+					s[ i ] = hexDigits.substr( Math.floor( Math.random() * 0x10 ), 1 );
 				}
-				s[14] = '4';
-				s[19] = hexDigits.substr( ( s[19] & 0x3 ) | 0x8, 1 );
-				s[8]  = s[13] = s[18] = s[23] = '-';
 
-				uuid = s.join( '' );
+				s[ 14 ] = '4';
+
+				// eslint-disable-next-line no-bitwise
+				s[ 19 ] = hexDigits.substr( ( s[ 19 ] & 0x3 ) | 0x8, 1 );
+				s[ 8 ] = s[ 13 ] = s[ 18 ] = s[ 23 ] = '-';
+
+				const uuid = s.join( '' );
 
 				app.createCookie( '_wpfuuid', uuid, 3999 );
 			}
@@ -2677,25 +2943,23 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {string} name  Cookie name.
 		 * @param {string} value Cookie value.
-		 * @param {string} days  Whether it should expire and when.
+		 * @param {number} days  Whether it should expire and when.
 		 */
-		createCookie: function( name, value, days ) {
-
-			var expires = '';
-			var secure = '';
+		createCookie( name, value, days ) {
+			let expires = '';
+			let secure = '';
 
 			if ( wpforms_settings.is_ssl ) {
 				secure = ';secure';
 			}
 
-			// If we have a days value, set it in the expiry of the cookie.
+			// If we have a "days" value, set it in the expiry of the cookie.
 			if ( days ) {
-
 				// If -1 is our value, set a session-based cookie instead of a persistent cookie.
-				if ( '-1' === days ) {
+				if ( -1 === days ) {
 					expires = '';
 				} else {
-					var date = new Date();
+					const date = new Date();
 					date.setTime( date.getTime() + ( days * 24 * 60 * 60 * 1000 ) );
 					expires = ';expires=' + date.toGMTString();
 				}
@@ -2714,15 +2978,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {string} name Cookie name.
 		 *
-		 * @returns {string|null} Cookie value or null when it doesn't exist.
+		 * @return {string|null} Cookie value or null when it doesn't exist.
 		 */
-		getCookie: function( name ) {
+		getCookie( name ) {
+			const nameEQ = name + '=',
+				ca = document.cookie.split( ';' );
 
-			var nameEQ = name + '=',
-				ca     = document.cookie.split( ';' );
-
-			for ( var i = 0; i < ca.length; i++ ) {
-				var c = ca[i];
+			for ( let i = 0; i < ca.length; i++ ) {
+				let c = ca[ i ];
 				while ( ' ' === c.charAt( 0 ) ) {
 					c = c.substring( 1, c.length );
 				}
@@ -2741,8 +3004,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {string} name Cookie name.
 		 */
-		removeCookie: function( name ) {
-
+		removeCookie( name ) {
 			app.createCookie( name, '', -1 );
 		},
 
@@ -2751,12 +3013,12 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.2
 		 *
-		 * @returns {string} Language code.
+		 * @return {string} Language code.
 		 */
-		getFirstBrowserLanguage: function() {
-			var nav = window.navigator,
-				browserLanguagePropertyKeys = [ 'language', 'browserLanguage', 'systemLanguage', 'userLanguage' ],
-				i,
+		getFirstBrowserLanguage() { // eslint-disable-line complexity
+			const nav = window.navigator,
+				browserLanguagePropertyKeys = [ 'language', 'browserLanguage', 'systemLanguage', 'userLanguage' ];
+			let i,
 				language;
 
 			// Support for HTML 5.1 "navigator.languages".
@@ -2769,7 +3031,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				}
 			}
 
-			// Support for other well known properties in browsers.
+			// Support for other well-known properties in browsers.
 			for ( i = 0; i < browserLanguagePropertyKeys.length; i++ ) {
 				language = nav[ browserLanguagePropertyKeys[ i ] ];
 				if ( language && language.length ) {
@@ -2781,6 +3043,59 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
+		 * Function maps lang code like `el` to `el-GR`.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {string} lang Language code.
+		 *
+		 * @return {string} Language code with ISO.
+		 */
+		mapLanguageToIso( lang ) {
+			const langMap = {
+				ar: 'ar-SA',
+				bg: 'bg-BG',
+				ca: 'ca-ES',
+				cs: 'cs-CZ',
+				da: 'da-DK',
+				de: 'de-DE',
+				el: 'el-GR',
+				en: 'en-US',
+				es: 'es-ES',
+				fi: 'fi-FI',
+				fr: 'fr-FR',
+				he: 'he-IL',
+				hi: 'hi-IN',
+				hr: 'hr-HR',
+				hu: 'hu-HU',
+				id: 'id-ID',
+				it: 'it-IT',
+				ja: 'ja-JP',
+				ko: 'ko-KR',
+				lt: 'lt-LT',
+				lv: 'lv-LV',
+				ms: 'ms-MY',
+				nl: 'nl-NL',
+				no: 'nb-NO',
+				pl: 'pl-PL',
+				pt: 'pt-PT',
+				ro: 'ro-RO',
+				ru: 'ru-RU',
+				sk: 'sk-SK',
+				sl: 'sl-SI',
+				sr: 'sr-RS',
+				sv: 'sv-SE',
+				th: 'th-TH',
+				tr: 'tr-TR',
+				uk: 'uk-UA',
+				vi: 'vi-VN',
+				zh: 'zh-CN',
+			};
+
+			return langMap[ lang ] || lang;
+		},
+
+		/**
 		 * Asynchronously fetches country code using current IP
 		 * and executes a callback provided with a country code parameter.
 		 *
@@ -2788,17 +3103,23 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {Function} callback Executes once the fetch is completed.
 		 */
-		currentIpToCountry: function( callback ) {
+		currentIpToCountry( callback ) {
 
-			var fallback = function() {
+			if ( wpforms_settings.country ) {
+				callback( wpforms_settings.country );
+				return;
+			}
 
+			const fallback = function() {
 				$.get( 'https://ipapi.co/jsonp', function() {}, 'jsonp' )
 					.always( function( resp ) {
-						var countryCode = ( resp && resp.country ) ? resp.country : '';
+						let countryCode = resp?.country ? resp.country : '';
+
 						if ( ! countryCode ) {
-							var lang = app.getFirstBrowserLanguage();
+							const lang = app.getFirstBrowserLanguage();
 							countryCode = lang.indexOf( '-' ) > -1 ? lang.split( '-' ).pop() : '';
 						}
+
 						callback( countryCode );
 					} );
 			};
@@ -2824,8 +3145,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		formSubmit: function( $form ) {
-
+		formSubmit( $form ) {
 			// Form element was passed from vanilla JavaScript.
 			if ( ! ( $form instanceof jQuery ) ) {
 				$form = $( $form );
@@ -2833,7 +3153,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			app.saveTinyMCE();
 
-			let event = WPFormsUtils.triggerEvent( $form, 'wpformsBeforeFormSubmit', [ $form ] );
+			const event = WPFormsUtils.triggerEvent( $form, 'wpformsBeforeFormSubmit', [ $form ] );
 
 			// Allow callbacks on `wpformsBeforeFormSubmit` to cancel form submission by triggering `event.preventDefault()`.
 			if ( event.isDefaultPrevented() ) {
@@ -2857,10 +3177,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @param {jQuery} $form      Form element.
 		 * @param {jQuery} $container Form container.
 		 */
-		restoreSubmitButton: function( $form, $container ) {
-
-			let $submit     = $form.find( '.wpforms-submit' ),
-				submitText  = $submit.data( 'submit-text' );
+		restoreSubmitButton( $form, $container ) {
+			const $submit = $form.find( '.wpforms-submit' ),
+				submitText = $submit.data( 'submit-text' );
 
 			if ( submitText ) {
 				$submit.text( submitText );
@@ -2875,25 +3194,25 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		},
 
 		/**
-		 * Normal form submit with page reload.
+		 * Normal submit of a form with page reload.
 		 *
 		 * @since 1.5.3
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		formSubmitNormal: function( $form ) {
-
+		formSubmitNormal( $form ) {
 			if ( ! $form.length ) {
 				return;
 			}
 
-			var $submit     = $form.find( '.wpforms-submit' ),
+			const $submit = $form.find( '.wpforms-submit' ),
 				recaptchaID = $submit.get( 0 ).recaptchaID;
 
 			if ( ! app.empty( recaptchaID ) || recaptchaID === 0 ) {
 				$submit.get( 0 ).recaptchaID = false;
 			}
 
+			$form.append( '<input type="hidden" name="start_timestamp" value="' + $form.data( 'start_timestamp' ) + '">' );
 			$form.append( '<input type="hidden" name="end_timestamp" value="' + Date.now() + '">' );
 
 			$form.get( 0 ).submit();
@@ -2906,10 +3225,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 *
-		 * @returns {boolean} True when the form has a captcha.
+		 * @return {boolean} True when the form has a captcha.
 		 */
-		formHasCaptcha: function( $form ) {
-
+		formHasCaptcha( $form ) {
 			if ( ! $form || ! $form.length ) {
 				return false;
 			}
@@ -2931,14 +3249,13 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		resetFormRecaptcha: function( $form ) {
-
+		resetFormRecaptcha( $form ) { // eslint-disable-line complexity
 			if ( ! app.formHasCaptcha( $form ) ) {
 				return;
 			}
 
-			var $captchaContainer = $form.find( '.wpforms-recaptcha-container' ),
-				apiVar,
+			const $captchaContainer = $form.find( '.wpforms-recaptcha-container' );
+			let apiVar,
 				recaptchaID;
 
 			if ( $captchaContainer.hasClass( 'wpforms-is-hcaptcha' ) ) {
@@ -2970,8 +3287,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {string} error Error text (optional).
 		 */
-		consoleLogAjaxError: function( error ) {
-
+		consoleLogAjaxError( error ) {
 			if ( error ) {
 				console.error( 'WPForms AJAX submit error:\n%s', error ); // eslint-disable-line no-console
 			} else {
@@ -2984,11 +3300,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.3
 		 *
-		 * @param {jQuery} $form Form element.
-		 * @param {object} errors Errors in format { general: { generalErrors }, field: { fieldErrors } }.
+		 * @param {jQuery} $form  Form element.
+		 * @param {Object} errors Errors in format { general: { generalErrors }, field: { fieldErrors } }.
 		 */
-		displayFormAjaxErrors: function( $form, errors ) {
-
+		displayFormAjaxErrors( $form, errors ) { // eslint-disable-line complexity
 			if ( 'string' === typeof errors ) {
 				app.displayFormAjaxGeneralErrors( $form, errors );
 				return;
@@ -3015,11 +3330,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.3
 		 *
-		 * @param {jQuery} $form Form element.
-		 * @param {object} errors Errors in format { errorType: errorText }.
+		 * @param {jQuery} $form  Form element.
+		 * @param {Object} errors Errors in format { errorType: errorText }.
 		 */
-		displayFormAjaxGeneralErrors: function( $form, errors ) {
-
+		displayFormAjaxGeneralErrors( $form, errors ) { // eslint-disable-line complexity
 			if ( ! $form || ! $form.length ) {
 				return;
 			}
@@ -3027,8 +3341,6 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			if ( app.empty( errors ) ) {
 				return;
 			}
-
-			const formId = $form.data( 'formid' );
 
 			if ( app.isModernMarkupEnabled() ) {
 				$form.attr( {
@@ -3039,18 +3351,19 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 
 			// Safety net for random errors thrown by a third-party code. Should never be used intentionally.
 			if ( 'string' === typeof errors ) {
-
 				const roleAttr = app.isModernMarkupEnabled() ? ' role="alert"' : '',
-					errPrefix = app.isModernMarkupEnabled() ? `<span class="wpforms-hidden">${wpforms_settings.formErrorMessagePrefix}</span>` : '';
+					errPrefix = app.isModernMarkupEnabled() ? `<span class="wpforms-hidden">${ wpforms_settings.formErrorMessagePrefix }</span>` : '';
 
 				$form
 					.find( '.wpforms-submit-container' )
-					.before( `<div class="wpforms-error-container"${roleAttr}>${errPrefix}${errors}</div>` );
+					.before( `<div class="wpforms-error-container"${ roleAttr }>${ errPrefix }${ errors }</div>` );
 
 				app.setCurrentPage( $form, {} );
 
 				return;
 			}
+
+			const formId = $form.data( 'formid' );
 
 			app.printGeneralErrors( $form, errors, formId );
 		},
@@ -3135,8 +3448,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		clearFormAjaxGeneralErrors: function( $form ) {
-
+		clearFormAjaxGeneralErrors( $form ) {
 			$form.find( '.wpforms-error-container' ).remove();
 			$form.find( '#wpforms-field_recaptcha-error' ).remove();
 
@@ -3154,11 +3466,10 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.3
 		 *
-		 * @param {jQuery} $form Form element.
-		 * @param {object} errors Errors in format { fieldName: errorText }.
+		 * @param {jQuery} $form  Form element.
+		 * @param {Object} errors Errors in format { fieldName: errorText }.
 		 */
-		displayFormAjaxFieldErrors: function( $form, errors ) {
-
+		displayFormAjaxFieldErrors( $form, errors ) {
 			if ( ! $form || ! $form.length ) {
 				return;
 			}
@@ -3167,17 +3478,57 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				return;
 			}
 
-			var validator = $form.data( 'validator' );
+			const validator = $form.data( 'validator' );
 
 			if ( ! validator ) {
 				return;
 			}
+
+			errors = app.splitFieldErrors( errors );
+
+			// Set data attribute for each field with server error.
+			$.each( errors, function( field, message ) {
+				$( '[name="' + field + '"]', $form ).attr( 'data-server-error', message );
+			} );
 
 			validator.showErrors( errors );
 
 			if ( ! app.formHasCaptcha( $form ) ) {
 				validator.focusInvalid();
 			}
+		},
+
+		/**
+		 * Split field errors.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param {Object} errors Errors.
+		 *
+		 * @return {Object} Errors.
+		 */
+		splitFieldErrors: ( errors ) => {
+			$.each( errors, function( field, message ) {
+				if ( 'string' === typeof message ) {
+					return;
+				}
+
+				// If errors an object consisting of { subfield: errorMessage }, then iterate each to display error.
+				$.each( message, function( subfield, errorMessage ) {
+					// Get the last part of the field (in []) and check if it is the same as subfield.
+					const lastPart = field.split( '[' ).pop().replace( ']', '' );
+					// Get from the `field` name all except what we caught in `lastPart`.
+					const fieldNameBase = field.replace( '[' + lastPart + ']', '' );
+
+					if ( lastPart === subfield ) {
+						errors[ field ] = errorMessage;
+					} else if ( 'string' === typeof subfield && isNaN( subfield ) ) {
+						errors[ fieldNameBase + '[' + subfield + ']' ] = errorMessage;
+					}
+				} );
+			} );
+
+			return errors;
 		},
 
 		/**
@@ -3188,34 +3539,29 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @param {jQuery} $form Form element.
 		 *
-		 * @returns {JQueryXHR|JQueryDeferred} Promise like object for async callbacks.
+		 * @return {JQueryXHR|JQueryDeferred} Promise like an object for async callbacks.
 		 */
-		formSubmitAjax: function( $form ) {
-
+		formSubmitAjax: ( $form ) => { // eslint-disable-line max-lines-per-function
 			if ( ! $form.length ) {
 				return $.Deferred().reject(); // eslint-disable-line new-cap
 			}
 
-			var $container = $form.closest( '.wpforms-container' ),
-				$spinner = $form.find( '.wpforms-submit-spinner' ),
-				$confirmationScroll,
-				formData,
-				args;
+			const $container = $form.closest( '.wpforms-container' ),
+				$spinner = $form.find( '.wpforms-submit-spinner' );
+			let $confirmationScroll;
 
 			$container.css( 'opacity', 0.6 );
 			$spinner.show();
 
 			app.clearFormAjaxGeneralErrors( $form );
 
-			formData = new FormData( $form.get( 0 ) );
+			const formData = new FormData( $form.get( 0 ) );
+
 			formData.append( 'action', 'wpforms_submit' );
-			formData.append( 'page_url', window.location.href );
-			formData.append( 'page_title', wpforms_settings.page_title );
-			formData.append( 'page_id', wpforms_settings.page_id );
-			formData.append( 'start_timestamp', $form.data( 'timestamp' ) );
+			formData.append( 'start_timestamp', $form.data( 'start_timestamp' ) );
 			formData.append( 'end_timestamp', Date.now() );
 
-			args = {
+			const args = {
 				type       : 'post',
 				dataType   : 'json',
 				url        : wpforms_settings.ajaxurl,
@@ -3225,8 +3571,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				processData: false,
 			};
 
-			args.success = function( json ) {
-
+			args.success = function( json ) { // eslint-disable-line complexity
 				if ( ! json ) {
 					app.consoleLogAjaxError();
 					return;
@@ -3270,16 +3615,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			};
 
 			args.error = function( jqHXR, textStatus, error ) {
-
 				app.consoleLogAjaxError( error );
 
 				$form.trigger( 'wpformsAjaxSubmitError', [ jqHXR, textStatus, error ] );
 			};
 
 			args.complete = function( jqHXR, textStatus ) {
-
 				/*
-				 * Do not make form active if the action is required or
+				 * Do not make form active if the action is required, or
 				 * if the ajax request was successful and the form has a redirect.
 				 */
 				if (
@@ -3298,7 +3641,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				$form.trigger( 'wpformsAjaxSubmitCompleted', [ jqHXR, textStatus ] );
 			};
 
-			let event = WPFormsUtils.triggerEvent( $form, 'wpformsAjaxBeforeSubmit', [ $form ] );
+			const event = WPFormsUtils.triggerEvent( $form, 'wpformsAjaxBeforeSubmit', [ $form ] );
 
 			// Allow callbacks on `wpformsAjaxBeforeSubmit` to cancel Ajax form submission by triggering `event.preventDefault()`.
 			if ( event.isDefaultPrevented() ) {
@@ -3316,10 +3659,9 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @since 1.7.9
 		 *
 		 * @param {jQuery} $form Form element.
-		 * @param {object} $json Error json.
+		 * @param {Object} $json Error json.
 		 */
-		setCurrentPage: function( $form, $json ) {
-
+		setCurrentPage( $form, $json ) { // eslint-disable-line complexity
 			// Return for one-page forms.
 			if ( $form.find( '.wpforms-page-indicator' ).length === 0 ) {
 				return;
@@ -3328,9 +3670,7 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 			const $errorPages = [];
 
 			$form.find( '.wpforms-page' ).each( function( index, el ) {
-
 				if ( $( el ).find( '.wpforms-has-error' ).length >= 1 ) {
-
 					return $errorPages.push( $( el ) );
 				}
 			} );
@@ -3346,18 +3686,18 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 				return;
 			}
 
-			// Get first page with error.
+			// Get the first page with error.
 			const $currentPage = $errorPages.length > 0 ? $errorPages[ 0 ] : $form.find( '.wpforms-page-1' );
 			const currentPage = $currentPage.data( 'page' );
 
 			let $page,
 				action = 'prev';
 
-			// If error is on the first page, or we have general errors among others, go to first page.
+			// If error is on the first page, or we have general errors among others, go to the first page.
 			if ( currentPage === 1 || ( $json.errors !== undefined && $json.errors.general.footer !== undefined ) ) {
 				$page = $form.find( '.wpforms-page-1' ).next();
 			} else {
-				$page  = $currentPage.next().length !== 0 ? $currentPage.next() : $currentPage.prev();
+				$page = $currentPage.next().length !== 0 ? $currentPage.next() : $currentPage.prev();
 				action = $currentPage.next().length !== 0 ? 'prev' : 'next';
 			}
 
@@ -3374,17 +3714,16 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.5.3
 		 *
-		 * @param {number} position Position (in pixels) to scroll to,
-		 * @param {number} duration Animation duration.
+		 * @param {number}   position Position (in pixels) to scroll to,
+		 * @param {number}   duration Animation duration.
 		 * @param {Function} complete Function to execute after animation is complete.
 		 *
-		 * @returns {JQueryPromise} Promise object for async callbacks.
+		 * @return {Promise} A promise object for async callbacks.
 		 */
-		animateScrollTop: function( position, duration, complete ) {
-
+		animateScrollTop( position, duration, complete ) {
 			duration = duration || 1000;
 			complete = typeof complete === 'function' ? complete : function() {};
-			return $( 'html, body' ).animate( { scrollTop: parseInt( position, 10 ) }, { duration: duration, complete: complete } ).promise();
+			return $( 'html, body' ).animate( { scrollTop: parseInt( position, 10 ) }, { duration, complete } ).promise();
 		},
 
 		/**
@@ -3392,26 +3731,24 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.7.0
 		 */
-		saveTinyMCE: function() {
-
+		saveTinyMCE() {
 			if ( typeof tinyMCE !== 'undefined' ) {
 				tinyMCE.triggerSave();
 			}
 		},
 
 		/**
-		 * Check if object is a function.
+		 * Check if an object is a function.
 		 *
 		 * @deprecated 1.6.7
 		 *
 		 * @since 1.5.8
 		 *
-		 * @param {mixed} object Object to check if it is function.
+		 * @param {any} object Object to check if it is a function.
 		 *
-		 * @returns {boolean} True if object is a function.
+		 * @return {boolean} True if an object is a function.
 		 */
-		isFunction: function( object ) {
-
+		isFunction( object ) {
 			return !! ( object && object.constructor && object.call && object.apply );
 		},
 
@@ -3423,15 +3760,14 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 * @param {string} time1 Time 1.
 		 * @param {string} time2 Time 2.
 		 *
-		 * @returns {boolean} True if time1 is greater than time2.
+		 * @return {boolean} True if time1 is greater than time2.
 		 */
-		compareTimesGreaterThan: function( time1, time2 ) {
-
-			// Properly format time: add space before AM/PM, make uppercase.
+		compareTimesGreaterThan( time1, time2 ) {
+			// Proper format time: add space before AM/PM, make uppercase.
 			time1 = time1.replace( /(am|pm)/g, ' $1' ).toUpperCase();
 			time2 = time2.replace( /(am|pm)/g, ' $1' ).toUpperCase();
 
-			var time1Date = Date.parse( '01 Jan 2021 ' + time1 ),
+			const time1Date = Date.parse( '01 Jan 2021 ' + time1 ),
 				time2Date = Date.parse( '01 Jan 2021 ' + time2 );
 
 			return time1Date >= time2Date;
@@ -3442,11 +3778,111 @@ var wpforms = window.wpforms || ( function( document, window, $ ) {
 		 *
 		 * @since 1.8.1
 		 *
-		 * @returns {boolean} True if modern markup is enabled.
+		 * @return {boolean} True if modern markup is enabled.
 		 */
-		isModernMarkupEnabled: function() {
-
+		isModernMarkupEnabled() {
 			return !! wpforms_settings.isModernMarkupEnabled;
+		},
+
+		/**
+		 * Initialize token updater.
+		 *
+		 * Maybe update token via AJAX if it looks like outdated.
+		 *
+		 * @since 1.8.8
+		 */
+		initTokenUpdater() {
+			// Attach event handler to all forms with class `wpforms-form`
+			$( '.wpforms-form' ).on( 'focusin', function( event ) {
+				const $form = $( event.target.closest( 'form' ) );
+				const timestamp = Date.now();
+				if ( ! this.needsTokenUpdate( timestamp, $form ) ) {
+					return;
+				}
+
+				this.updateToken( timestamp, $form, event );
+			}.bind( this ) ); // Bind `this` to maintain context inside the function
+		},
+
+		/**
+		 * Check if the form needs a new token.
+		 *
+		 * @param {number} timestamp Timestamp.
+		 * @param {jQuery} $form     Form.
+		 *
+		 * @return {boolean} Whether token needs update or not.
+		 *
+		 * @since 1.8.9
+		 */
+		needsTokenUpdate( timestamp, $form ) {
+			const tokenTime = $form.attr( 'data-token-time' ) || 0;
+			const diff = timestamp - ( tokenTime * 1000 );
+
+			// Check if the token is expired.
+			return diff >= wpforms_settings.token_cache_lifetime * 1000 && ! this.isUpdatingToken;
+		},
+
+		/**
+		 * Update the token for the form.
+		 *
+		 * @param {number} timestamp Timestamp.
+		 * @param {jQuery} $form     Form.
+		 * @param {Event}  event     Event.
+		 *
+		 * @since 1.8.9
+		 */
+		updateToken( timestamp, $form, event ) {
+			const formId = $form.data( 'formid' );
+			const $submitBtn = $form.find( '.wpforms-submit' );
+
+			this.isUpdatingToken = true;
+			$submitBtn.prop( 'disabled', true );
+
+			$.post( wpforms_settings.ajaxurl, {
+				action: 'wpforms_get_token',
+				formId,
+			} ).done( function( response ) {
+				if ( response.success ) {
+					$form.attr( 'data-token-time', timestamp );
+					$form.attr( 'data-token', response.data.token );
+
+					// Re-enable the 'submit' button.
+					$submitBtn.prop( 'disabled', false );
+
+					// Trigger form submission if the focus was on the 'submit' button.
+					if ( event.target === $submitBtn[ 0 ] ) {
+						$submitBtn.trigger( 'click' );
+					}
+				} else {
+					// eslint-disable-next-line no-console
+					console.error( 'Failed to update token: ', response );
+				}
+			} ).fail( function( jqXHR, textStatus, errorThrown ) {
+				// eslint-disable-next-line no-console
+				console.error( 'AJAX request failed: ', textStatus, errorThrown );
+			} ).always( function() {
+				this.isUpdatingToken = false;
+
+				// Re-enable the 'submit' button.
+				$submitBtn.prop( 'disabled', false );
+			}.bind( this ) );
+		},
+
+		/**
+		 * Restore Submit button on Mobile.
+		 *
+		 * @since 1.8.9
+		 */
+		restoreSubmitButtonOnEventPersisted() {
+			window.onpageshow = function( event ) {
+				// If back/forward button has been clicked, restore submit button for all forms on the page.
+				if ( event.persisted ) {
+					$( '.wpforms-form' ).each( function() {
+						const $form = $( this );
+						app.restoreSubmitButton( $form, $form.closest( '.wpforms-container' ) );
+					} );
+				}
+			};
 		},
 	};
 

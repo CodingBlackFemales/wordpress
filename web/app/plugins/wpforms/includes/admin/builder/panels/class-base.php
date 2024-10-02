@@ -98,12 +98,12 @@ abstract class WPForms_Builder_Panel {
 		// Load form if found.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$form_id    = isset( $_GET['form_id'] ) ? absint( $_GET['form_id'] ) : false;
-		$this->form = wpforms()->get( 'form' )->get( $form_id );
+		$this->form = wpforms()->obj( 'form' )->get( $form_id );
 
 		$this->form_data = $this->form ? wpforms_decode( $this->form->post_content ) : false;
 
 		// Get current revision, if available.
-		$revision = wpforms()->get( 'revisions' )->get_revision();
+		$revision = wpforms()->obj( 'revisions' )->get_revision();
 
 		// If we're viewing a valid revision, replace the form data so the Form Builder shows correct state.
 		if ( $revision && isset( $revision->post_content ) ) {
@@ -199,7 +199,7 @@ abstract class WPForms_Builder_Panel {
 		$active = $view === $this->slug ? 'active' : '';
 		?>
 
-		<button class="wpforms-panel-<?php echo esc_attr( $this->slug ); ?>-button <?php echo $active; ?>" data-panel="<?php echo esc_attr( $this->slug ); ?>">
+		<button class="wpforms-panel-<?php echo esc_attr( $this->slug ); ?>-button <?php echo esc_attr( $active ); ?>" data-panel="<?php echo esc_attr( $this->slug ); ?>">
 			<i class="fa <?php echo esc_attr( $this->icon ); ?>"></i>
 			<span><?php echo esc_html( $this->name ); ?></span>
 		</button>
@@ -230,7 +230,7 @@ abstract class WPForms_Builder_Panel {
 
 		printf( '<div class="%s" id="wpforms-panel-%s">', wpforms_sanitize_classes( $classes, true ), esc_attr( $this->slug ) );
 
-		printf( '<div class="%s">', $wrap );
+		printf( '<div class="%s">', esc_attr( $wrap ) );
 
 		if ( true === $this->sidebar ) {
 

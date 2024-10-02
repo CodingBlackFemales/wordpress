@@ -172,7 +172,7 @@ class Addons extends \WPForms\Admin\Addons\Addons {
 	 */
 	protected function get_remote_urls() {
 
-		$addons = wpforms()->get( 'license' )->get_addons();
+		$addons = wpforms()->obj( 'license' )->get_addons();
 
 		// If there was an API error, set transient for only 10 minutes.
 		if ( empty( $addons ) ) {

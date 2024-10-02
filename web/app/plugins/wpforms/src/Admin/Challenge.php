@@ -363,7 +363,8 @@ class Challenge {
 	 */
 	public function website_has_forms() {
 
-		return (bool) wpforms()->get( 'form' )->get(
+		// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
+		return (bool) wpforms()->obj( 'form' )->get(
 			'',
 			[
 				'numberposts'            => 1,
@@ -372,7 +373,7 @@ class Challenge {
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
-				'suppress_filters'       => true,
+				'suppress_filters'       => true, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.SuppressFilters_suppress_filters
 			]
 		);
 	}
@@ -477,18 +478,28 @@ class Challenge {
 			$can_start = false;
 		}
 
-		// Challenge is only available for WPForms admin pages.
+		// Challenge is only available on WPForms admin pages or Builder page.
 		if ( ! wpforms_is_admin_page() && ! wpforms_is_admin_page( 'builder' ) ) {
 			$can_start = false;
 
-			return $can_start;
+			// No need to check something else in this case.
+			return false;
 		}
 
+		// The challenge should not start if this is the Forms' Overview page.
+		if ( wpforms_is_admin_page( 'overview' ) ) {
+			$can_start = false;
+
+			// No need to check something else in this case.
+			return false;
+		}
+
+		// Force start the Challenge.
 		if ( $this->challenge_force_start() && ! $this->is_builder_page() && ! $this->is_form_embed_page() ) {
 			$can_start = true;
 
 			// No need to check something else in this case.
-			return $can_start;
+			return true;
 		}
 
 		if ( $this->challenge_finished() ) {

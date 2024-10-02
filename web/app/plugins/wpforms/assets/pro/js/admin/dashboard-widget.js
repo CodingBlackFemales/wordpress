@@ -68,6 +68,13 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 	const colorScheme = wpforms_dashboard_widget.color_scheme === 'wp' ? wpColors : wpformsColors;
 
 	/**
+	 * Check if the site is RTL.
+	 *
+	 * @since 1.9.1
+	 */
+	const isRTL = $( 'body' ).hasClass( 'rtl' );
+
+	/**
 	 * Chart.js functions and properties.
 	 *
 	 * @since 1.5.0
@@ -112,6 +119,7 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 						},
 						distribution: 'series',
 						ticks       : {
+							reverse: isRTL,
 							beginAtZero: true,
 							source     : 'labels',
 							padding    : 10,
@@ -160,6 +168,7 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 				},
 				tooltips                   : {
 					displayColors: false,
+					rtl: isRTL,
 				},
 				responsiveAnimationDuration: 0,
 			},

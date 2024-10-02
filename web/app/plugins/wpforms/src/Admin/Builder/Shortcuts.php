@@ -53,7 +53,7 @@ class Shortcuts {
 			],
 			'right' => [
 				'ctrl h' => __( 'Open Help', 'wpforms-lite' ),
-				'ctrl t' => __( 'Toggle Sidebar', 'wpforms-lite' ),
+				'ctrl t' => __( 'Toggle Sidebar', 'wpforms-lite' ), // It is 'alt s' on Windows/Linux, dynamically changed in the modal in admin-builder.js openKeyboardShortcutsModal().
 				'ctrl e' => __( 'View Entries', 'wpforms-lite' ),
 				'ctrl q' => __( 'Close Builder', 'wpforms-lite' ),
 			],
@@ -100,7 +100,7 @@ class Shortcuts {
 					printf(
 						'<li>
 							%1$s
-							<span>
+							<span class="shortcut-key shortcut-key-%2$s-%3$s">
 								<i>%2$s</i><i>%3$s</i>
 							</span>
 						</li>',

@@ -6,6 +6,7 @@ namespace WPForms\Vendor\Stripe\Service\TestHelpers;
 /**
  * Service factory class for API resources in the TestHelpers namespace.
  *
+ * @property ConfirmationTokenService $confirmationTokens
  * @property CustomerService $customers
  * @property Issuing\IssuingServiceFactory $issuing
  * @property RefundService $refunds
@@ -18,7 +19,7 @@ class TestHelpersServiceFactory extends \WPForms\Vendor\Stripe\Service\AbstractS
     /**
      * @var array<string, string>
      */
-    private static $classMap = ['customers' => CustomerService::class, 'issuing' => Issuing\IssuingServiceFactory::class, 'refunds' => RefundService::class, 'terminal' => Terminal\TerminalServiceFactory::class, 'testClocks' => TestClockService::class, 'treasury' => Treasury\TreasuryServiceFactory::class];
+    private static $classMap = ['confirmationTokens' => ConfirmationTokenService::class, 'customers' => CustomerService::class, 'issuing' => Issuing\IssuingServiceFactory::class, 'refunds' => RefundService::class, 'terminal' => Terminal\TerminalServiceFactory::class, 'testClocks' => TestClockService::class, 'treasury' => Treasury\TreasuryServiceFactory::class];
     protected function getServiceClass($name)
     {
         return \array_key_exists($name, self::$classMap) ? self::$classMap[$name] : null;

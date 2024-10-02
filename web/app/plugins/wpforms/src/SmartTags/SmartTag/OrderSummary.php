@@ -27,7 +27,7 @@ class OrderSummary extends SmartTag {
 		}
 
 		if ( empty( $fields ) ) {
-			$entry  = wpforms()->get( 'entry' )->get( $entry_id );
+			$entry  = wpforms()->obj( 'entry' )->get( $entry_id );
 			$fields = isset( $entry->fields ) ? (array) wpforms_decode( $entry->fields ) : [];
 		}
 
@@ -93,7 +93,8 @@ class OrderSummary extends SmartTag {
 			'class'    => 'wpforms-order-summary-preview-total',
 		];
 
-		$total_width = max( $total_width, strlen( html_entity_decode( $total, ENT_COMPAT, 'UTF-8' ) ) + 3 );
+		// Adding 1 extra character to account for symbols that may occupy more than 1ch. For example: €.
+		$total_width = max( $total_width, mb_strlen( html_entity_decode( $total, ENT_COMPAT, 'UTF-8' ) ) + 1 );
 
 		return [ $items, $foot, $total_width ];
 	}
@@ -158,11 +159,12 @@ class OrderSummary extends SmartTag {
 		foreach ( $value_choices as $value_choice ) {
 
 			$choice_data = explode( ' - ', $value_choice );
+			$labels      = array_slice( $choice_data, 0, -1 );
 
 			$items[] = [
-				'label'    => $field['name'] . ' - ' . $choice_data[0],
+				'label'    => $field['name'] . ' - ' . implode( ' - ', $labels ),
 				'quantity' => $quantity,
-				'amount'   => $choice_data[1],
+				'amount'   => end( $choice_data ),
 			];
 		}
 

@@ -28,7 +28,7 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 		$this->order     = 5;
 		$this->on_demand = true;
 
-		$this->addons_obj = wpforms()->get( 'addons' );
+		$this->addons_obj = wpforms()->obj( 'addons' );
 	}
 
 	/**

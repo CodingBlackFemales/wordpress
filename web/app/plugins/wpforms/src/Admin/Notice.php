@@ -72,6 +72,18 @@ class Notice {
 	const DISMISS_USER = 2;
 
 	/**
+	 * Order of notices by type.
+	 *
+	 * @since 1.9.1
+	 */
+	const ORDER = [
+		'error',
+		'warning',
+		'info',
+		'success',
+	];
+
+	/**
 	 * Added notices.
 	 *
 	 * @since 1.6.7.1
@@ -138,14 +150,10 @@ class Notice {
 		$dismissed_notices = get_user_meta( get_current_user_id(), 'wpforms_admin_notices', true );
 		$dismissed_notices = is_array( $dismissed_notices ) ? $dismissed_notices : [];
 		$dismissed_notices = array_merge( $dismissed_notices, (array) get_option( 'wpforms_admin_notices', [] ) );
+		$dismissed_notices = array_filter( wp_list_pluck( $dismissed_notices, 'dismissed' ) );
+		$this->notices     = array_diff_key( $this->notices, $dismissed_notices );
 
-		foreach ( $this->notices as $slug => $notice ) {
-			if ( isset( $dismissed_notices[ $slug ] ) && ! empty( $dismissed_notices[ $slug ]['dismissed'] ) ) {
-				unset( $this->notices[ $slug ] );
-			}
-		}
-
-		$output = implode( '', $this->notices );
+		$output = implode( '', array_column( $this->sort_notices(), 'data' ) );
 
 		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -153,6 +161,31 @@ class Notice {
 		if ( strpos( $output, 'is-dismissible' ) !== false ) {
 			$this->enqueues();
 		}
+	}
+
+	/**
+	 * Sort notices by type.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @return array Notices.
+	 */
+	private function sort_notices(): array {
+
+		$ordered_notices = [];
+
+		foreach ( self::ORDER as $order ) {
+			foreach ( $this->notices as $key => $notice ) {
+				if ( $notice['type'] === $order ) {
+					$ordered_notices[ $key ] = $notice;
+
+					unset( $this->notices[ $key ] );
+				}
+			}
+		}
+
+		// Notices that are not in the self::ORDER array merged to the end of array.
+		return array_merge( $ordered_notices, $this->notices );
 	}
 
 	/**
@@ -188,12 +221,16 @@ class Notice {
 
 		$uniq_id += ( $uniq_id === (int) $slug ) ? 1 : 0;
 
-		$id      = 'wpforms-notice-' . $global;
-		$id     .= empty( $slug ) ? $uniq_id : $slug;
-		$type    = ! empty( $type ) ? 'notice-' . esc_attr( sanitize_key( $type ) ) : '';
-		$class   = empty( $args['class'] ) ? $class : $class . ' ' . esc_attr( sanitize_key( $args['class'] ) );
-		$message = $args['autop'] ? wpautop( $message ) : $message;
-		$notice  = sprintf(
+		$notice = [
+			'type' => $type,
+		];
+
+		$id             = 'wpforms-notice-' . $global;
+		$id            .= empty( $slug ) ? $uniq_id : $slug;
+		$type           = ! empty( $type ) ? 'notice-' . esc_attr( sanitize_key( $type ) ) : '';
+		$class          = empty( $args['class'] ) ? $class : $class . ' ' . esc_attr( sanitize_key( $args['class'] ) );
+		$message        = $args['autop'] ? wpautop( $message ) : $message;
+		$notice['data'] = sprintf(
 			'<div class="notice wpforms-notice %s%s" id="%s">%s</div>',
 			esc_attr( $type ),
 			esc_attr( $class ),
@@ -202,9 +239,9 @@ class Notice {
 		);
 
 		if ( empty( $slug ) ) {
-			wpforms()->get( 'notice' )->notices[] = $notice;
+			wpforms()->obj( 'notice' )->notices[] = $notice;
 		} else {
-			wpforms()->get( 'notice' )->notices[ $slug ] = $notice;
+			wpforms()->obj( 'notice' )->notices[ $slug ] = $notice;
 		}
 	}
 

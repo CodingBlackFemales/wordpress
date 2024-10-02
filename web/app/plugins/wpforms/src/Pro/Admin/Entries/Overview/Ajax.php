@@ -69,8 +69,8 @@ class Ajax {
 		// WHERE clause for items query statement.
 		list( $form_name, $where_clause ) = $this->get_form_where_clause( $form_id );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$table_name = wpforms()->get( 'entry' )->table_name;
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$table_name = wpforms()->obj( 'entry' )->table_name;
 		$results    = (array) $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT date as day, COUNT(entry_id) as count
@@ -88,7 +88,7 @@ class Ajax {
 			),
 			ARRAY_A
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// In case the database's results were empty, leave early.
 		if ( empty( $results ) ) {
@@ -165,8 +165,13 @@ class Ajax {
 
 		global $wpdb;
 
+		$args = [
+			'fields'    => 'ids',
+			'post_type' => wpforms()->obj( 'entries_overview' )->overview_show_form_templates() ? wpforms()->obj( 'form' )::POST_TYPES : 'wpforms',
+		];
+
 		// Retrieve all forms from which a user can access their entries when no form id is specified.
-		$form = wpforms()->get( 'form' )->get( $form_id, [ 'fields' => 'ids' ] );
+		$form = wpforms()->obj( 'form' )->get( $form_id, $args );
 
 		// A single form object could be returned, so check that.
 		if ( $form instanceof WP_Post && $form->post_status === 'publish' ) {
@@ -182,7 +187,7 @@ class Ajax {
 			return [ $form_name, $where_clause ];
 		}
 
-		$form = wpforms()->get( 'access' )->filter_forms_by_current_user_capability( $form, 'view_entries_form_single' );
+		$form = wpforms()->obj( 'access' )->filter_forms_by_current_user_capability( $form, 'view_entries_form_single' );
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnquotedComplexPlaceholder
 		$where_clause = $wpdb->prepare( 'form_id IN ( %1$s ) AND', implode( ',', $form ) );
 

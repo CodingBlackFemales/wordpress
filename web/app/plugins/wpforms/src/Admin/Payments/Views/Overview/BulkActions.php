@@ -137,7 +137,7 @@ class BulkActions {
 	 */
 	private function process_action_trash( $id ) {
 
-		return wpforms()->get( 'payment' )->update( $id, [ 'is_published' => 0 ] );
+		return wpforms()->obj( 'payment' )->update( $id, [ 'is_published' => 0 ] );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class BulkActions {
 	 */
 	private function process_action_restore( $id ) {
 
-		return wpforms()->get( 'payment' )->update( $id, [ 'is_published' => 1 ] );
+		return wpforms()->obj( 'payment' )->update( $id, [ 'is_published' => 1 ] );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class BulkActions {
 	 */
 	private function process_action_delete( $id ) {
 
-		return wpforms()->get( 'payment' )->delete( $id );
+		return wpforms()->obj( 'payment' )->delete( $id );
 	}
 
 	/**

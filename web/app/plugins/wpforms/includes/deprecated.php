@@ -263,6 +263,13 @@ namespace {
 		 * @since 1.8.6
 		 */
 		class_alias( '\WPForms\Pro\Admin\Entries\ListTable', '\WPForms_Entries_Table' );
+
+		/**
+		 * This alias is a safeguard to those developers who use our internal class \WPForms_Field_Layout, which we deleted.
+		 *
+		 * @since 1.8.9
+		 */
+		class_alias( '\WPForms\Pro\Forms\Fields\Layout\Field', '\WPForms_Field_Layout' );
 	}
 
 	/**

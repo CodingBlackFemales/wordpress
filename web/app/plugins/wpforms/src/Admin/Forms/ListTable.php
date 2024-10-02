@@ -68,7 +68,7 @@ class ListTable extends WP_List_Table {
 		$this->hooks();
 
 		// Determine the current view.
-		$this->view = wpforms()->get( 'forms_views' )->get_current_view();
+		$this->view = wpforms()->obj( 'forms_views' )->get_current_view();
 
 		/**
 		 * Filters the default number of forms to show per page.
@@ -151,6 +151,10 @@ class ListTable extends WP_List_Table {
 
 			case 'shortcode':
 				$value = '[wpforms id="' . $form->ID . '"]';
+
+				if ( wpforms_is_form_template( $form->ID ) ) {
+					$value = __( 'N/A', 'wpforms-lite' );
+				}
 				break;
 
 			// This slug is not changed to 'date' for backward compatibility.
@@ -262,8 +266,14 @@ class ListTable extends WP_List_Table {
 	 */
 	public function column_name( $form ) {
 
+		$title = $this->get_column_name_title( $form );
+
+		$states = _post_states( $form, false );
+
+		$actions = $this->get_column_name_row_actions( $form );
+
 		// Build the row action links and return the value.
-		return $this->get_column_name_title( $form ) . $this->get_column_name_row_actions( $form );
+		return $title . $states . $actions;
 	}
 
 	/**
@@ -277,7 +287,7 @@ class ListTable extends WP_List_Table {
 	 */
 	public function column_tags( $form ) {
 
-		return wpforms()->get( 'forms_tags' )->column_tags( $form );
+		return wpforms()->obj( 'forms_tags' )->column_tags( $form );
 	}
 
 	/**
@@ -380,7 +390,7 @@ class ListTable extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 
-		return wpforms()->get( 'forms_bulk_actions' )->get_dropdown_items();
+		return wpforms()->obj( 'forms_bulk_actions' )->get_dropdown_items();
 	}
 
 	/**
@@ -426,8 +436,8 @@ class ListTable extends WP_List_Table {
 	 */
 	protected function extra_tablenav( $which ) {
 
-		wpforms()->get( 'forms_tags' )->extra_tablenav( $which, $this );
-		wpforms()->get( 'forms_views' )->extra_tablenav( $which );
+		wpforms()->obj( 'forms_tags' )->extra_tablenav( $which, $this );
+		wpforms()->obj( 'forms_views' )->extra_tablenav( $which );
 	}
 
 	/**
@@ -437,7 +447,9 @@ class ListTable extends WP_List_Table {
 	 */
 	public function no_items() {
 
-		esc_html_e( 'No forms found.', 'wpforms-lite' );
+		wpforms()->obj( 'forms_views' )->get_current_view() === 'templates' ?
+			esc_html_e( 'No form templates found.', 'wpforms-lite' ) :
+			esc_html_e( 'No forms found.', 'wpforms-lite' );
 	}
 
 	/**
@@ -498,7 +510,7 @@ class ListTable extends WP_List_Table {
 		$args = (array) apply_filters( 'wpforms_overview_table_prepare_items_args', $args ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 		// Giddy up.
-		$this->items = wpforms()->get( 'form' )->get( '', $args );
+		$this->items = wpforms()->obj( 'form' )->get( '', $args );
 		$per_page    = $args['posts_per_page'] ?? $this->get_items_per_page( 'wpforms_forms_per_page', $this->per_page );
 
 		$this->update_count( $args );
@@ -510,7 +522,7 @@ class ListTable extends WP_List_Table {
 			[
 				'total_items' => $count_current_view,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $count_current_view / $per_page ),
+				'total_pages' => (int) ceil( $count_current_view / $per_page ),
 			]
 		);
 	}
@@ -621,7 +633,7 @@ class ListTable extends WP_List_Table {
 	 */
 	public function search_box( $text, $input_id ) {
 
-		wpforms()->get( 'forms_search' )->search_box( $text, $input_id );
+		wpforms()->obj( 'forms_search' )->search_box( $text, $input_id );
 	}
 
 	/**
@@ -631,6 +643,6 @@ class ListTable extends WP_List_Table {
 	 */
 	protected function get_views() {
 
-		return wpforms()->get( 'forms_views' )->get_views();
+		return wpforms()->obj( 'forms_views' )->get_views();
 	}
 }

@@ -43,7 +43,7 @@ class InvoicePaymentSucceeded extends Base {
 		$currency = strtoupper( $this->data->currency );
 		$amount   = $this->data->amount_paid / Helpers::get_decimals_amount( $currency );
 
-		wpforms()->get( 'payment' )->update(
+		wpforms()->obj( 'payment' )->update(
 			$db_renewal->id,
 			[
 				'total_amount'    => $amount,
@@ -55,7 +55,7 @@ class InvoicePaymentSucceeded extends Base {
 
 		$this->copy_meta_from_payment_intent( $db_renewal->id );
 
-		wpforms()->get( 'payment_meta' )->add_log(
+		wpforms()->obj( 'payment_meta' )->add_log(
 			$db_renewal->id,
 			sprintf(
 				'Stripe renewal was successfully paid. (Payment Intent ID: %1$s)',

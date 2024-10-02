@@ -55,7 +55,7 @@ trait FormTemplates {
 	 */
 	private function output_templates_content() {
 
-		$templates_hash        = wpforms()->get( 'builder_templates' )->get_hash();
+		$templates_hash        = wpforms()->obj( 'builder_templates' )->get_hash();
 		$templates_hash_option = get_option( Templates::TEMPLATES_HASH_OPTION, '' );
 
 		// Compare the current hash and the previous one to detect changes in the templates list.
@@ -64,11 +64,11 @@ trait FormTemplates {
 			update_option( Templates::TEMPLATES_HASH_OPTION, $templates_hash );
 
 			// Wipe both caches - for the admin page and for the Form Builder.
-			wpforms()->get( 'builder_templates_cache' )->wipe_content_cache();
+			wpforms()->obj( 'builder_templates_cache' )->wipe_content_cache();
 		}
 
 		// Attempt to get cached content.
-		$content = wpforms()->get( 'builder_templates_cache' )->get_content_cache();
+		$content = wpforms()->obj( 'builder_templates_cache' )->get_content_cache();
 
 		if ( empty( $content ) ) {
 			$content = $this->generate_templates_content_cache();
@@ -117,13 +117,16 @@ trait FormTemplates {
 						<?php esc_html_e( 'Sorry, we didn\'t find any templates that match your criteria.', 'wpforms-lite' ); ?>
 					</p>
 				</div>
+				<div class="wpforms-user-templates-empty-state wpforms-hidden">
+					<?php $this->user_template_empty_state(); ?>
+				</div>
 			</div>
 		</div>
 		<?php
 
 		$content = ob_get_clean();
 
-		wpforms()->get( 'builder_templates_cache' )->save_content_cache( $content );
+		wpforms()->obj( 'builder_templates_cache' )->save_content_cache( $content );
 
 		return $content;
 	}
@@ -135,13 +138,13 @@ trait FormTemplates {
 	 */
 	private function prepare_templates_data() {
 
-		$templates = wpforms()->get( 'builder_templates' )->get_templates();
+		$templates = wpforms()->obj( 'builder_templates' )->get_templates();
 
 		if ( empty( $templates ) ) {
 			return;
 		}
 
-		wpforms()->get( 'builder_templates' )->update_favorites_list();
+		wpforms()->obj( 'builder_templates' )->update_favorites_list();
 
 		// Loop through each available template.
 		foreach ( $templates as $id => $template ) {
@@ -169,6 +172,7 @@ trait FormTemplates {
 
 		$generic_categories['favorites'] = esc_html__( 'Favorite Templates', 'wpforms-lite' );
 		$generic_categories['new']       = esc_html__( 'New Templates', 'wpforms-lite' );
+		$generic_categories['user']      = esc_html__( 'My Templates', 'wpforms-lite' );
 
 		$this->output_categories( $generic_categories, $templates_count );
 
@@ -186,7 +190,7 @@ trait FormTemplates {
 
 		$categories = array_merge(
 			$common_categories,
-			wpforms()->get( 'builder_templates' )->get_categories()
+			wpforms()->obj( 'builder_templates' )->get_categories()
 		);
 
 		$this->output_categories( $categories, $templates_count );
@@ -202,7 +206,7 @@ trait FormTemplates {
 	 */
 	private function output_categories( $categories, $templates_count ) {
 
-		$all_subcategories = wpforms()->get( 'builder_templates' )->get_subcategories();
+		$all_subcategories = wpforms()->obj( 'builder_templates' )->get_subcategories();
 
 		foreach ( $categories as $slug => $name ) {
 
@@ -210,14 +214,14 @@ trait FormTemplates {
 
 			if ( $slug === 'all' ) {
 				$class = ' class="active"';
-			} elseif ( empty( $templates_count[ $slug ] ) ) {
+			} elseif ( empty( $templates_count[ $slug ] ) && $slug !== 'user' ) { // WPForms user templates are always available.
 				$class = ' class="wpforms-hidden"';
 			}
 
-			$count = isset( $templates_count[ $slug ] ) ? $templates_count[ $slug ] : '0';
+			$count = $templates_count[ $slug ] ?? '0';
 
 			printf(
-				'<li data-category="%1$s"%2$s><div>%3$s<span>%4$s</span><i class="fa fa-chevron-down chevron"></i></div>%5$s</li>',
+				'<li data-category="%1$s"%2$s data-count="%4$s"><div>%3$s<span>%4$s</span><i class="fa fa-chevron-down chevron"></i></div>%5$s</li>',
 				esc_attr( $slug ),
 				$class, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				esc_html( $name ),
@@ -287,6 +291,17 @@ trait FormTemplates {
 	}
 
 	/**
+	 * Output user templates empty state.
+	 *
+	 * @since 1.8.8
+	 */
+	private function user_template_empty_state() {
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wpforms_render( 'admin/empty-states/no-user-templates' );
+	}
+
+	/**
 	 * Prepare arguments for rendering template item.
 	 *
 	 * @since 1.7.7
@@ -297,11 +312,11 @@ trait FormTemplates {
 	 */
 	private function prepare_template_render_arguments( $template ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
-		$template['plugin_dir'] = isset( $template['plugin_dir'] ) ? $template['plugin_dir'] : '';
+		$template['plugin_dir'] = $template['plugin_dir'] ?? '';
 		$template['source']     = $this->get_template_source( $template );
 		$template['url']        = ! empty( $template['url'] ) ? $template['url'] : '';
 		$template['has_access'] = ! empty( $template['license'] ) ? $template['has_access'] : true;
-		$template['favorite']   = isset( $template['favorite'] ) ? $template['favorite'] : wpforms()->get( 'builder_templates' )->is_favorite( $template['slug'] );
+		$template['favorite']   = $template['favorite'] ?? wpforms()->obj( 'builder_templates' )->is_favorite( $template['slug'] );
 
 		$args = [];
 
@@ -341,6 +356,31 @@ trait FormTemplates {
 			$this->is_custom_templates_available = true;
 		}
 
+		$args['create_url']       = '';
+		$args['edit_url']         = '';
+		$args['edit_action_text'] = '';
+		$args['is_open']          = false;
+
+		$args['can_create'] = wpforms_current_user_can( 'create_forms' );
+		$args['can_edit']   = wpforms_current_user_can( 'edit_forms' );
+		$args['can_delete'] = wpforms_current_user_can( 'delete_forms' );
+		$args['post_id']    = ! empty( $template['post_id'] ) ? $template['post_id'] : '';
+
+		if ( $template['source'] === 'wpforms-user-template' ) {
+
+			$args['create_url']       = esc_url( $template['create_url'] );
+			$args['edit_url']         = esc_url( $template['edit_url'] );
+			$args['edit_action_text'] = $template['edit_action_text'];
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$args['is_open'] = wpforms_is_admin_page( 'builder' ) && isset( $_GET['form_id'] ) && (int) $_GET['form_id'] === $template['post_id'];
+
+			$ownership = get_current_user_id() === (int) get_post_field( 'post_author', $args['post_id'] ) ? 'own' : 'others';
+
+			$args['can_edit']   = wpforms_current_user_can( "edit_{$ownership}_forms", $args['post_id'] );
+			$args['can_delete'] = wpforms_current_user_can( "delete_{$ownership}_forms", $args['post_id'] );
+		}
+
 		$args['action_text'] = $this->get_action_button_text( $template );
 
 		if ( empty( $template['has_access'] ) ) {
@@ -357,10 +397,8 @@ trait FormTemplates {
 		$args['addons_attributes'] = $this->prepare_addons_attributes( $template );
 
 		$args['selected']    = ! empty( $this->form_data['meta']['template'] ) && $this->form_data['meta']['template'] === $args['template_id'];
-		$args['badge_text']  = $args['selected'] ? esc_html__( 'Selected', 'wpforms-lite' ) : $args['badge_text'];
 		$args['badge_class'] = ! empty( $args['badge_text'] ) ? ' badge' : '';
 		$args['template']    = $template;
-		$args['can_create']  = wpforms_current_user_can( 'create_forms' );
 
 		return $args;
 	}
@@ -375,6 +413,10 @@ trait FormTemplates {
 	 * @return string
 	 */
 	private function get_action_button_text( $template ) {
+
+		if ( ! empty( $template['action_text'] ) ) {
+			return $template['action_text'];
+		}
 
 		if ( $template['slug'] === 'blank' ) {
 			return __( 'Create Blank Form', 'wpforms-lite' );
@@ -400,6 +442,7 @@ trait FormTemplates {
 
 		$addons_attributes = '';
 		$required_addons   = false;
+		$already_installed = [];
 
 		if ( ! empty( $template['addons'] ) && is_array( $template['addons'] ) ) {
 			$required_addons = $this->addons_obj->get_by_slugs( $template['addons'] );
@@ -411,17 +454,23 @@ trait FormTemplates {
 				) {
 					unset( $required_addons[ $i ] );
 				}
+
+				if ( $addon['action'] === 'activate' ) {
+					$already_installed[] = $addon['slug'];
+				}
 			}
 		}
 
 		if ( ! empty( $required_addons ) ) {
-			$addons_names = implode( ', ', wp_list_pluck( $required_addons, 'title' ) );
-			$addons_slugs = implode( ',', wp_list_pluck( $required_addons, 'slug' ) );
+			$addons_names    = implode( ', ', wp_list_pluck( $required_addons, 'title' ) );
+			$addons_slugs    = implode( ',', wp_list_pluck( $required_addons, 'slug' ) );
+			$installed_slugs = implode( ',', $already_installed );
 
 			$addons_attributes = sprintf(
-				' data-addons-names="%1$s" data-addons="%2$s"',
+				' data-addons-names="%1$s" data-addons="%2$s" data-installed="%3$s"',
 				esc_attr( $addons_names ),
-				esc_attr( $addons_slugs )
+				esc_attr( $addons_slugs ),
+				esc_attr( $installed_slugs )
 			);
 		}
 
@@ -545,6 +594,7 @@ trait FormTemplates {
 		$all_categories            = [];
 		$available_templates_count = 0;
 		$favorites_templates_count = 0;
+		$user_templates_count      = 0;
 
 		foreach ( $this->prepared_templates as $template_data ) {
 
@@ -552,11 +602,15 @@ trait FormTemplates {
 			$categories = explode( ',', $template_data['categories'] );
 
 			if ( $template['has_access'] ) {
-				$available_templates_count ++;
+				++$available_templates_count;
 			}
 
 			if ( $template['favorite'] ) {
-				$favorites_templates_count++;
+				++$favorites_templates_count;
+			}
+
+			if ( $template['source'] === 'wpforms-user-template' ) {
+				++$user_templates_count;
 			}
 
 			if ( is_array( $categories ) ) {
@@ -571,6 +625,7 @@ trait FormTemplates {
 		$categories_count['all']           = count( $this->prepared_templates );
 		$categories_count['available']     = $available_templates_count;
 		$categories_count['favorites']     = $favorites_templates_count;
+		$categories_count['user']          = $user_templates_count;
 		$categories_count['subcategories'] = $this->get_count_in_subcategories();
 
 		return $categories_count;

@@ -76,7 +76,6 @@ class WPForms_Fields {
 			'number-slider',
 			'richtext',
 			'internal-information',
-			'layout',
 		];
 
 		// Include GDPR Checkbox field if GDPR enhancements are enabled.

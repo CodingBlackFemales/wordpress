@@ -54,7 +54,7 @@ class SendUsageTask extends Task {
 		// Register the action handler.
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {

@@ -3,13 +3,17 @@
 // File generated from our OpenAPI spec
 namespace WPForms\Vendor\Stripe\Service;
 
+/**
+ * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ */
 class WebhookEndpointService extends \WPForms\Vendor\Stripe\Service\AbstractService
 {
     /**
      * Returns a list of your webhook endpoints.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -31,7 +35,7 @@ class WebhookEndpointService extends \WPForms\Vendor\Stripe\Service\AbstractServ
      * section of the Dashboard.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -48,7 +52,7 @@ class WebhookEndpointService extends \WPForms\Vendor\Stripe\Service\AbstractServ
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -63,7 +67,7 @@ class WebhookEndpointService extends \WPForms\Vendor\Stripe\Service\AbstractServ
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -79,7 +83,7 @@ class WebhookEndpointService extends \WPForms\Vendor\Stripe\Service\AbstractServ
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *

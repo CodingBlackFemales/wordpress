@@ -1,14 +1,23 @@
-/* global Stripe, wpforms, wpforms_stripe, WPForms */
+/* global Stripe, wpforms, wpforms_stripe, WPForms, WPFormsUtils */
 
+/**
+ * @param window.wpformsStripePaymentElementAppearance
+ * @param wpforms_stripe.data.element_appearance
+ * @param wpforms_stripe.data.element_locale
+ * @param wpforms_stripe.i18n.element_load_error
+ * @param wpforms_stripe.i18n.empty_details
+ * @param wpforms_stripe.publishable_key
+ */
+
+// noinspection ES6ConvertVarToLetConst
 /**
  * WPForms Stripe Payment Element function.
  *
  * @since 1.8.2
  */
-'use strict';
 
+// eslint-disable-next-line no-var
 var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( function( document, window, $ ) {
-
 	/**
 	 * Original Submit Handler.
 	 *
@@ -18,21 +27,23 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 	 */
 	let originalSubmitHandler;
 
+	// noinspection JSUnusedLocalSymbols
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.8.2
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	let app = {
+	const app = {
 
 		/**
 		 * Stripe object.
 		 *
 		 * @since 1.8.2
 		 *
-		 * @type {object}
+		 * @type {Object}
+		 * @property {Function} confirmPayment Payment confirmation.
 		 */
 		stripe: null,
 
@@ -41,7 +52,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @type {object}
+		 * @type {Object}
 		 */
 		forms: {},
 
@@ -50,19 +61,16 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 */
-		init: function() {
-
+		init() {
 			app.stripe = Stripe( // eslint-disable-line new-cap
 				wpforms_stripe.publishable_key,
 				{
-					'locale': wpforms_stripe.data.element_locale,
-					'betas': [ 'elements_enable_deferred_intent_beta_1' ],
+					locale: wpforms_stripe.data.element_locale,
+					betas: [ 'elements_enable_deferred_intent_beta_1' ],
 				}
 			);
 
 			$( document ).on( 'wpformsReady', function() {
-
-				app.initializeFormsDefaultObject();
 
 				$( '.wpforms-stripe form' )
 					.each( app.setupStripeForm )
@@ -81,26 +89,37 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 * Initialize forms default object.
 		 *
 		 * @since 1.8.2
+		 * @deprecated 1.8.9
 		 */
-		initializeFormsDefaultObject: function() {
+		initializeFormsDefaultObject() {
+			// eslint-disable-next-line no-console
+			console.warn( 'WARNING! Function "WPFormsStripePaymentElement.initializeFormsDefaultObject()" has been deprecated, please use the "WPFormsStripePaymentElement.initializeFormDefaultObject( formId )" function instead!' );
 
 			$( '.wpforms-stripe form' ).each( function() {
-
-				let	formId = $( this ).data( 'formid' );
-
-				app.forms[ formId ] = {
-					elements : null,
-					paymentElement: null,
-					elementsModified: false,
-					linkElement: null,
-					linkEmail: '',
-					linkDestroyed: false,
-					paymentType: '',
-					lockedPageToSwitch: 0,
-					paymentMethodId: '',
-					total: '',
-				};
+				app.initializeFormDefaultObject( $( this ).data( 'formid' ) );
 			} );
+		},
+
+		/**
+		 * Initialize form default object.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param {string} formId Form ID.
+		 */
+		initializeFormDefaultObject( formId ) {
+			app.forms[ formId ] = {
+				elements: null,
+				paymentElement: null,
+				elementsModified: false,
+				linkElement: null,
+				linkEmail: '',
+				linkDestroyed: false,
+				paymentType: '',
+				lockedPageToSwitch: 0,
+				paymentMethodId: '',
+				total: '',
+			};
 		},
 
 		/**
@@ -108,16 +127,24 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 */
-		setupStripeForm: function() {
-
+		setupStripeForm() {
 			const $form = $( this ),
-				$stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' );
+				formId = $form.data( 'formid' );
+
+			// Bail early if form was already setup.
+			if ( typeof app.forms[ formId ] !== 'undefined' ) {
+				return;
+			}
+
+			app.initializeFormDefaultObject( formId );
+
+			const $stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' );
 
 			if ( ! $stripeDiv.find( '.wpforms-field-row' ).length ) {
 				return;
 			}
 
-			let	validator = $form.data( 'validator' );
+			const validator = $form.data( 'validator' );
 
 			if ( ! validator ) {
 				return;
@@ -141,20 +168,22 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		/**
 		 * Handle confirm payment server response.
 		 *
-		 * @param {object} e Event object.
-		 * @param {object} json Data returned form a server.
+		 * @param {Object}  e                                      Event object.
+		 * @param {Object}  json                                   Json returned from a server.
+		 * @param {boolean} json.data.action_required              Whether action is required.
+		 * @param {string}  json.data.payment_intent_client_secret Payment intent client secret.
+		 * @param {boolean} json.success                           Success.
 		 *
 		 * @since 1.8.2
 		 */
-		confirmPaymentActionCallback: async function( e, json ) {
-
+		async confirmPaymentActionCallback( e, json ) {
 			if ( ! json.success || ! json.data.action_required ) {
 				return;
 			}
 
 			const $form = $( this );
 
-			let redirectUrl = new URL( window.location.href ),
+			const redirectUrl = new URL( window.location.href ),
 				formId = $form.data( 'formid' );
 
 			await app.stripe.confirmPayment(
@@ -167,7 +196,6 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					redirect: 'if_required',
 				}
 			).then( function( result ) {
-
 				app.handleConfirmPayment( $form, result );
 			} );
 		},
@@ -175,24 +203,23 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		/**
 		 * Callback for Stripe 'confirmPayment' method.
 		 *
-		 * @param {jQuery} $form Form element.
-		 * @param {object} result Data returned by 'handleCardPayment'.
+		 * @param {jQuery} $form                Form element.
+		 * @param {Object} result               Data returned by 'handleCardPayment'.
+		 * @param {Object} result.error         Error.
+		 * @param {Object} result.paymentIntent Payment intent.
 		 *
 		 * @since 1.8.2
 		 */
-		handleConfirmPayment: function( $form, result ) {
-
+		handleConfirmPayment( $form, result ) {
 			if ( result.error ) {
-
 				app.displayStripeError( $form, result.error.message );
 
 				return;
 			}
 
-			let formId = $form.data( 'formid' );
+			const formId = $form.data( 'formid' );
 
 			if ( result.paymentIntent && result.paymentIntent.status === 'succeeded' ) {
-
 				$form.find( '.wpforms-stripe-payment-method-id' ).remove();
 				$form.find( '.wpforms-stripe-payment-intent-id' ).remove();
 				$form.append( '<input type="hidden" class="wpforms-stripe-payment-intent-id" name="wpforms[payment_intent_id]" value="' + result.paymentIntent.id + '">' );
@@ -212,12 +239,11 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		setupPaymentElement: function( $form ) {
-
-			let	formId = $form.data( 'formid' );
+		setupPaymentElement( $form ) {
+			const formId = $form.data( 'formid' );
 
 			if ( $.isEmptyObject( app.forms ) ) {
-				app.initializeFormsDefaultObject();
+				app.initializeFormDefaultObject( formId );
 			}
 
 			if ( app.forms[ formId ].paymentElement ) {
@@ -230,7 +256,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					mode: 'payment',
 					// eslint-disable-next-line
 					// See min amount for different currencies https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts.
-					amount: 77777,
+					amount: 7777777,
 					loader: 'always',
 					locale: wpforms_stripe.data.element_locale,
 					appearance: app.getElementAppearanceOptions( $form ),
@@ -240,11 +266,13 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 			app.linkEmailMappedFieldTriggers( $form );
 
-			// Update total amount in case of fixed price.
+			// Update the total amount in case of fixed price.
 			wpforms.amountTotalCalc( $form );
 
 			// Update styles in Modern Markup mode.
 			app.updatePaymentElementStylesModern( $form );
+
+			WPFormsUtils.triggerEvent( $( document ), 'wpformsStripePaymentElementInitialized', [ $form, app.forms ] );
 		},
 
 		/**
@@ -252,13 +280,12 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {string} formID  Form ID.
-		 * @param {string} fieldID Field ID.
-		 * @param {bool}   pass    Pass logic.
-		 * @param {string} action  Action to execute.
+		 * @param {string}  formID  Form ID.
+		 * @param {string}  fieldID Field ID.
+		 * @param {boolean} pass    Pass logic.
+		 * @param {string}  action  Action to execute.
 		 */
-		processConditionalsField: function( formID, fieldID, pass, action ) { // eslint-disable-line complexity
-
+		processConditionalsField( formID, fieldID, pass, action ) { // eslint-disable-line complexity
 			const $form = $( '#wpforms-form-' + formID ),
 				$stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' ),
 				isHidden = ( pass && action === 'hide' ) || ( ! pass && action !== 'hide' );
@@ -282,10 +309,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 *
-		 * @returns {object} Appearance options.
+		 * @return {Object} Appearance options.
 		 */
-		getElementAppearanceOptions: function( $form ) { // eslint-disable-line max-lines-per-function
-
+		getElementAppearanceOptions( $form ) { // eslint-disable-line complexity, max-lines-per-function
 			const customAppearanceOptions = app.getCustomAppearanceOptions();
 
 			if ( ! $.isEmptyObject( customAppearanceOptions ) ) {
@@ -295,7 +321,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 			const $hiddenInput = $form.find( '.wpforms-stripe-credit-card-hidden-input' ),
 				$fieldRow = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' );
 
-			let	labelHide = ! $fieldRow.hasClass( 'wpforms-sublabel-hide' );
+			const labelHide = ! $fieldRow.hasClass( 'wpforms-sublabel-hide' );
 
 			const inputStyle = {
 				borderColor: app.getCssPropertyValue( $hiddenInput, '--field-border' ) || app.getCssPropertyValue( $hiddenInput, 'border-color' ),
@@ -303,10 +329,11 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 				fontSize: app.getCssPropertyValue( $hiddenInput, 'font-size' ),
 				colorPrimary: app.getCssPropertyValue( $hiddenInput, '--primary-color' ) || app.getCssPropertyValue( $hiddenInput, 'color' ),
 				colorText: app.getCssPropertyValue( $hiddenInput, '--secondary-color' ) || app.getCssPropertyValue( $hiddenInput, 'color' ),
-				colorTextPlaceholder: app.getCssPropertyValue( $hiddenInput, '--secondary-color-50' ) || app.getCssPropertyValue( $hiddenInput, 'color' ),
+				colorTextPlaceholder: app.getCssPropertyValue( $hiddenInput, '--secondary-color-50' ) || WPFormsUtils.cssColorsUtils.getColorWithOpacity( app.getCssPropertyValue( $hiddenInput, 'color' ), '0.5' ),
 				colorBackground: app.getCssPropertyValue( $hiddenInput, '--background-color' ) || app.getCssPropertyValue( $hiddenInput, 'background-color' ),
 				fontFamily: app.getCssPropertyValue( $hiddenInput, 'font-family' ),
 				focusColor: app.getCssPropertyValue( $hiddenInput, '--accent-color' ) || app.getCssPropertyValue( $hiddenInput, 'color' ),
+				errorColor: '#990000',
 			};
 
 			if ( window.WPForms && WPForms.FrontendModern ) {
@@ -321,7 +348,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					colorPrimary: inputStyle.colorPrimary,
 					colorBackground: inputStyle.colorBackground,
 					colorText: inputStyle.colorText,
-					colorDanger: '#990000',
+					colorDanger: inputStyle.errorColor,
 					fontFamily: inputStyle.fontFamily,
 					spacingUnit: '4px',
 					spacingGridRow: '8px',
@@ -330,6 +357,8 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 					borderRadius: inputStyle.borderRadius,
 					colorTextPlaceholder: inputStyle.colorTextPlaceholder,
 					colorIcon: inputStyle.colorText,
+					focusColor: inputStyle.focusColor,
+					borderColorWithOpacity: WPFormsUtils.cssColorsUtils.getColorWithOpacity( inputStyle.colorPrimary, '0.1' ),
 				},
 				rules: {
 					'.Input--invalid': {
@@ -385,7 +414,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 						backgroundColor: 'transparent',
 					},
 					'.Error, .RedirectText': {
-						color: inputStyle.colorText,
+						color: inputStyle.errorColor,
 					},
 					'.TabIcon--selected': {
 						fill: inputStyle.colorText,
@@ -415,7 +444,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 		/**
 		 * Get CSS property value.
-		 * In case of exception return empty string.
+		 * In case of exception, return empty string.
 		 *
 		 * @since 1.8.4
 		 *
@@ -440,28 +469,25 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 * @param {jQuery} $form Form element.
 		 * @param {string} email Email address.
 		 */
-		initializePaymentElement: function( $form, email = '' ) {
-
+		initializePaymentElement( $form, email = '' ) {
 			const $fieldRow = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' );
 
-			let	formId = $form.data( 'formid' );
+			const formId = $form.data( 'formid' );
 
 			if ( app.forms[ formId ].paymentElement ) {
 				app.forms[ formId ].paymentElement.destroy();
 			}
 
-			app.forms[ formId ].paymentElement = app.forms[ formId ].elements.create( 'payment', { defaultValues : { billingDetails: { email: email } } } );
+			app.forms[ formId ].paymentElement = app.forms[ formId ].elements.create( 'payment', { defaultValues : { billingDetails: { email } } } );
 
 			app.mountPaymentElement( $form );
 
 			// eslint-disable-next-line complexity
 			app.forms[ formId ].paymentElement.on( 'change', function( event ) {
-
 				app.forms[ formId ].paymentType = event.value.type;
 
-				// Destroy link element as it's not required for Google and Apple pay.
+				// Destroy a link element as it's not required for Google and Apple Pay.
 				if ( ! $fieldRow.data( 'link-email' ) ) {
-
 					if ( event.value.type === 'google_pay' || event.value.type === 'apple_pay' ) {
 						app.forms[ formId ].linkElement.destroy();
 
@@ -497,7 +523,6 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 			} );
 
 			app.forms[ formId ].paymentElement.on( 'loaderror', function( event ) {
-
 				app.displayStripeLoadError( $form, event.error.message );
 			} );
 		},
@@ -509,10 +534,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		mountPaymentElement: function( $form ) {
-
-			let	formId = $form.data( 'formid' ),
-				paymentRowId = `#wpforms-field-stripe-payment-element-${formId}`;
+		mountPaymentElement( $form ) {
+			const formId = $form.data( 'formid' ),
+				paymentRowId = `#wpforms-field-stripe-payment-element-${ formId }`;
 
 			app.forms[ formId ].paymentElement.mount( paymentRowId );
 		},
@@ -524,15 +548,12 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		linkEmailMappedFieldTriggers: function( $form ) {
-
+		linkEmailMappedFieldTriggers( $form ) {
 			const $fieldRow = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' );
 
-			let	linkEmailMappedField = app.getMappedLinkEmailField( $form ),
-				formId = $form.data( 'formid' );
+			const linkEmailMappedField = app.getMappedLinkEmailField( $form );
 
 			if ( ! linkEmailMappedField ) {
-
 				$fieldRow.data( 'linkCompleted', false );
 
 				app.initializeLinkAuthenticationElement( $form );
@@ -540,8 +561,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 				return;
 			}
 
-			linkEmailMappedField.on( 'change', function() {
+			const formId = $form.data( 'formid' );
 
+			linkEmailMappedField.on( 'change', function() {
 				app.forms[ formId ].linkEmail = $( this ).val();
 
 				if ( $fieldRow.data( 'completed' ) ) {
@@ -560,18 +582,18 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 *
-		 * @returns {jQuery} Linked email field.
+		 * @return {jQuery} Linked email field.
 		 */
 		getMappedLinkEmailField( $form ) {
-
-			let	formId = $form.data( 'formid' ),
-				linkEmailMappedFieldId = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' ).data( 'link-email' );
+			const linkEmailMappedFieldId = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' ).data( 'link-email' );
 
 			if ( ! linkEmailMappedFieldId ) {
 				return null;
 			}
 
-			return $( `#wpforms-${formId}-field_${linkEmailMappedFieldId}` );
+			const formId = $form.data( 'formid' );
+
+			return $( `#wpforms-${ formId }-field_${ linkEmailMappedFieldId }` );
 		},
 
 		/**
@@ -581,20 +603,17 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		initializeLinkAuthenticationElement: function( $form ) {
-
+		initializeLinkAuthenticationElement( $form ) {
 			const $fieldRow = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' );
 
-			let	formId = $form.data( 'formid' );
+			const formId = $form.data( 'formid' );
 
 			app.forms[ formId ].linkElement = app.forms[ formId ].elements.create( 'linkAuthentication' );
 
 			app.mountLinkElement( $form );
 
 			app.forms[ formId ].linkElement.on( 'change', function( event ) {
-
 				if ( event.empty ) {
-
 					return;
 				}
 
@@ -616,7 +635,6 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 			} );
 
 			app.forms[ formId ].linkElement.on( 'loaderror', function( event ) {
-
 				app.displayStripeLoadError( $form, event.error.message );
 			} );
 		},
@@ -628,10 +646,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		mountLinkElement: function( $form ) {
-
-			let	formId = $form.data( 'formid' ),
-				linkRowId = `#wpforms-field-stripe-link-element-${formId}`;
+		mountLinkElement( $form ) {
+			const formId = $form.data( 'formid' ),
+				linkRowId = `#wpforms-field-stripe-link-element-${ formId }`;
 
 			app.forms[ formId ].linkElement.mount( linkRowId );
 		},
@@ -641,20 +658,20 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} form JS form element.
+		 * @param {Object} form JS form element.
 		 */
 		// eslint-disable-next-line complexity
-		submitHandler: function( form ) {
-
+		submitHandler( form ) {
 			const $form = $( form ),
 				$stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' ),
 				$stripeRow = $stripeDiv.find( '.wpforms-field-row' );
 
-			let	valid = $form.validate().form(),
+			const valid = $form.validate().form(),
 				formId = $form.data( 'formid' ),
 				ccRequired = $stripeRow.data( 'required' ),
-				cardFilled = ( ! $stripeRow.data( 'link-email' ) && app.forms[ formId ].elementsModified ) || $stripeRow.data( 'completed' ),
-				processCard = false;
+				mobilePayment = [ 'google_pay', 'apple_pay' ].indexOf( app.forms[ formId ].paymentType ) !== -1,
+				cardFilled = ( ! $stripeRow.data( 'link-email' ) && app.forms[ formId ].elementsModified ) || $stripeRow.data( 'completed' ) || mobilePayment;
+			let	processCard = false;
 
 			if ( ! $stripeDiv.hasClass( 'wpforms-conditional-hide' ) ) {
 				processCard = ccRequired || ( cardFilled && ! ccRequired );
@@ -684,24 +701,24 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e     Event object.
 		 * @param {jQuery} $form Form element.
 		 * @param {string} total Form total amount.
 		 */
-		updateElementsTotalAmount: function( e, $form, total ) {
-
+		updateElementsTotalAmount( e, $form, total ) {
 			if ( ! total ) {
 				return;
 			}
 
-			let currency = wpforms.getCurrency(),
-				formId = $form.data( 'formid' );
+			const formId = $form.data( 'formid' );
 
 			// Check if Stripe Elements exist on the form.
 			// Can be in a multiple-step form or when the field is hidden by conditional logic.
 			if ( ! app.forms[ formId ] || ! app.forms[ formId ].elements ) {
 				return;
 			}
+
+			const currency = wpforms.getCurrency();
 
 			// Save total to variable to avoid calling `amountTotalCalc` again in SubmitHandler.
 			app.forms[ formId ].total = total;
@@ -714,9 +731,8 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		createPaymentMethod: async function( $form ) {
-
-			let	formId = $form.data( 'formid' );
+		async createPaymentMethod( $form ) {
+			const formId = $form.data( 'formid' );
 
 			if ( ! app.forms[ formId ].total ) {
 				originalSubmitHandler( $form );
@@ -727,10 +743,9 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 			await app.stripe.createPaymentMethod( {
 				elements: app.forms[ formId ].elements,
 			} ).then( function( result ) {
-
 				if ( result.error ) {
-
-					let basicErrors = [
+					// eslint-disable-next-line prefer-const
+					const basicErrors = [
 							'incomplete_email',
 							'email_invalid',
 							'incomplete_number',
@@ -742,6 +757,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 							'incomplete_name',
 							'incomplete_phone_number',
 							'empty_phone_number',
+							'invalid_postal_code',
 						],
 						message = basicErrors.includes( result.error.code ) ? '' : result.error.message;
 
@@ -765,11 +781,10 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @param {jQuery} $form Form element.
 		 */
-		formAjaxUnblock: function( $form ) {
-
+		formAjaxUnblock( $form ) {
 			const $submit = $form.find( '.wpforms-submit' );
 
-			let submitText = $submit.data( 'submit-text' );
+			const submitText = $submit.data( 'submit-text' );
 
 			if ( submitText ) {
 				$submit.text( submitText );
@@ -784,13 +799,12 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		/**
 		 * Display a generic Stripe Errors.
 		 *
-		 * @param {jQuery} $form Form element.
+		 * @param {jQuery} $form   Form element.
 		 * @param {string} message Error message.
 		 *
 		 * @since 1.8.2
 		 */
-		displayStripeError: function( $form, message ) {
-
+		displayStripeError( $form, message ) {
 			wpforms.clearFormAjaxGeneralErrors( $form );
 
 			wpforms.displayFormAjaxErrors( $form, message );
@@ -801,19 +815,18 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		/**
 		 * Display a field error using jQuery Validate library.
 		 *
-		 * @param {jQuery} $form Form element.
+		 * @param {jQuery} $form   Form element.
 		 * @param {string} message Error message.
 		 *
 		 * @since 1.8.2
 		 */
-		displayStripeFieldError: function( $form, message ) {
-
-			let fieldName = $form.find( '.wpforms-stripe-credit-card-hidden-input' ).attr( 'name' ),
+		displayStripeFieldError( $form, message ) {
+			const fieldName = $form.find( '.wpforms-stripe-credit-card-hidden-input' ).attr( 'name' ),
 				$stripeDiv = $form.find( '.wpforms-field-stripe-credit-card' ),
 				errors = {};
 
 			if ( message ) {
-				errors[fieldName] = message;
+				errors[ fieldName ] = message;
 			}
 
 			wpforms.displayFormAjaxFieldErrors( $form, errors );
@@ -836,8 +849,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2.3
 		 */
-		hideStripeFieldError: function( $form ) {
-
+		hideStripeFieldError( $form ) {
 			$form.find( '.wpforms-field-stripe-credit-card .wpforms-error' ).hide();
 		},
 
@@ -849,8 +861,7 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 * @param {jQuery} $form   Form element.
 		 * @param {string} message Error message.
 		 */
-		displayStripeLoadError: function( $form, message ) {
-
+		displayStripeLoadError( $form, message ) {
 			message = wpforms_stripe.i18n.element_load_error + '<br /> ' + message;
 
 			app.displayStripeError( $form, message );
@@ -862,15 +873,14 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 * @since 1.8.2
 		 *
 		 * @param {Event}  event       Event.
-		 * @param {int}    currentPage Current page.
+		 * @param {number} currentPage Current page.
 		 * @param {jQuery} $form       Current form.
 		 * @param {string} action      The navigation action.
 		 */
-		pageChange: function( event, currentPage, $form, action ) { // eslint-disable-line complexity
-
+		pageChange( event, currentPage, $form, action ) { // eslint-disable-line complexity
 			const $stripeDiv = $form.find( '.wpforms-field-stripe-credit-card .wpforms-field-row' );
 
-			let	formId = $form.data( 'formid' );
+			const formId = $form.data( 'formid' );
 
 			if ( ! $stripeDiv.length || [ 'card', 'link' ].indexOf( app.forms[ formId ].paymentType ) === -1 ) {
 				return;
@@ -915,11 +925,10 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {Event} event  Event.
-		 * @param {object} field CF field object.
+		 * @param {Event}  event Event.
+		 * @param {Object} field CF field object.
 		 */
-		convFormsFieldActivationAfter: function( event, field ) {
-
+		convFormsFieldActivationAfter( event, field ) {
 			app.setupPaymentElement( field.$el.closest( 'form' ) );
 		},
 
@@ -927,21 +936,19 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 * Get CSS variable value.
 		 *
 		 * @since 1.8.2
+		 * @deprecated 1.8.8
 		 *
-		 * @param {object} style   Computed style object.
+		 * @param {Object} style   Computed style object.
 		 * @param {string} varName Style custom property name.
 		 *
-		 * @returns {string} CSS variable value;
+		 * @return {string} CSS variable value;
 		 */
-		getCssVar: function( style, varName ) {
+		// eslint-disable-next-line no-unused-vars
+		getCssVar( style, varName ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'WARNING! Function "WPFormsStripePaymentElement.getCssVar()" has been deprecated, please use the "WPForms.FrontendModern.getCssVar()" function instead!' );
 
-			let value = style.getPropertyValue( varName ).trim();
-
-			if ( varName.includes( 'color' ) ) {
-				value = value.replace( /\s/g, '' );
-			}
-
-			return value;
+			return WPForms?.FrontendModern?.getCssVar();
 		},
 
 		/**
@@ -984,143 +991,156 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {object} formElements Form payment elements.
-		 * @param {object} cssVars      CSS variables data.
+		 * @param {Object}   formElements                Form payment elements.
+		 * @param {Object}   formElements._commonOptions Form payment elements common options.
+		 * @param {Function} formElements.update         Form payment elements common options.
+		 * @param {Object}   cssVars                     CSS variables data.
 		 */
-		updateFormElementsAppearance: function( formElements, cssVars ) { // eslint-disable-line max-lines-per-function
-
+		updateFormElementsAppearance( formElements, cssVars ) { // eslint-disable-line max-lines-per-function
 			if ( ! formElements || ! formElements._commonOptions ) {
 				return;
 			}
 
 			// Get existing appearance options.
-			let appearance = formElements._commonOptions.appearance;
+			const appearance = formElements._commonOptions.appearance;
 
 			// Need to perform vertical padding calculation.
-			cssVars['field-size-padding-v'] = ( parseInt( cssVars['field-size-input-height'], 10 ) - parseInt( cssVars['field-size-font-size'], 10 ) - 6 ) / 2 + 'px';
+			cssVars[ 'field-size-padding-v' ] = ( ( parseInt( cssVars[ 'field-size-input-height' ], 10 ) - parseInt( cssVars[ 'field-size-font-size' ], 10 ) - 6 ) / 2 ) + 'px';
 
 			// Update variables.
-			appearance.variables.spacingGridRow = cssVars['field-size-input-spacing'];
+			appearance.variables.spacingGridRow = cssVars[ 'field-size-input-spacing' ];
 			appearance.variables.spacingGridColumn = '20px';
 			appearance.variables.spacingTab = '10px';
-			appearance.variables.colorText = WPForms.FrontendModern.getSolidColor( cssVars['field-text-color'] );
+			appearance.variables.colorText = WPForms.FrontendModern.getSolidColor( cssVars[ 'field-text-color' ] );
+
+			let maybeMenuBgColor = ! WPFormsUtils.cssColorsUtils.isTransparentColor( cssVars[ 'field-background-color' ] ) ? cssVars[ 'field-background-color' ] : cssVars[ 'field-menu-color' ];
+
+			maybeMenuBgColor = WPForms.FrontendModern.getSolidColor( maybeMenuBgColor );
 
 			// Update rules.
 			appearance.rules = {
 				'.Input': {
-					border: '1px solid ' + cssVars['field-border-color'],
-					borderRadius: cssVars['field-border-radius'],
-					padding: `${cssVars['field-size-padding-v']} ${cssVars['field-size-padding-h']}`,
-					fontSize: cssVars['field-size-font-size'],
-					lineHeight: cssVars['field-size-font-size'],
-					backgroundColor: cssVars['field-background-color'],
+					border: cssVars[ 'field-border-size' ] + ' ' + cssVars[ 'field-border-style' ] + ' ' + cssVars[ 'field-border-color' ],
+					borderRadius: cssVars[ 'field-border-radius' ],
+					padding: `${ cssVars[ 'field-size-padding-v' ] } ${ cssVars[ 'field-size-padding-h' ] }`,
+					fontSize: cssVars[ 'field-size-font-size' ],
+					lineHeight: cssVars[ 'field-size-font-size' ],
+					backgroundColor: cssVars[ 'field-background-color' ],
 					boxShadow: 'none',
 					outline: 'none',
 				},
 				'.Input:focus': {
-					borderColor: cssVars['button-background-color'],
-					boxShadow: '0 0 0 1px ' + cssVars['button-background-color'],
+					backgroundColor: maybeMenuBgColor,
+					borderColor: cssVars[ 'button-background-color' ],
+					borderStyle: 'solid',
+					boxShadow: '0 0 0 1px ' + cssVars[ 'button-background-color' ],
 					outline: 'none',
 				},
 				'.Input--invalid': {
-					borderColor: cssVars['label-error-color'],
+					borderColor: cssVars[ 'label-error-color' ],
 					boxShadow: 'none',
 					color: appearance.variables.colorText,
 					outline: 'none',
 				},
 				'.Input--invalid:focus': {
-					borderColor: cssVars['label-error-color'],
-					boxShadow: '0 0 0 1px ' + cssVars['label-error-color'],
+					borderColor: cssVars[ 'label-error-color' ],
+					boxShadow: '0 0 0 1px ' + cssVars[ 'label-error-color' ],
 					outline: 'none',
 				},
 				'.Input::placeholder': {
-					color: WPForms.FrontendModern.getColorWithOpacity( cssVars['field-text-color'], '0.5' ),
-					fontSize: cssVars['field-size-font-size'],
+					color: WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-text-color' ], '0.5' ),
+					fontSize: cssVars[ 'field-size-font-size' ],
 				},
 				'.CheckboxInput': {
-					border: '1px solid ' + cssVars['field-border-color'],
-					backgroundColor: cssVars['field-background-color'],
+					border: '1px solid ' + cssVars[ 'field-border-color' ],
+					backgroundColor: cssVars[ 'field-background-color' ],
 				},
 				'.CheckboxInput--checked': {
-					borderColor: cssVars['button-background-color'],
-					backgroundColor: cssVars['button-background-color'],
+					borderColor: cssVars[ 'button-background-color' ],
+					backgroundColor: cssVars[ 'button-background-color' ],
 				},
 				'.CodeInput': {
-					border: '1px solid ' + cssVars['field-border-color'],
+					border: '1px solid ' + cssVars[ 'field-text-color' ],
+					backgroundColor: maybeMenuBgColor,
 				},
 				'.CodeInput:focus': {
-					borderColor: cssVars['button-background-color'],
-					boxShadow: '0 0 0 1px ' + cssVars['button-background-color'],
+					borderWidth: '2px',
+					boxShadow: '0 0 0 1px ' + cssVars[ 'button-background-color' ],
 					outline: 'none',
 				},
 				'.CodeInput:disabled': {
-					borderColor: WPForms.FrontendModern.getColorWithOpacity( cssVars['field-border-color'], '0.5' ),
-					color: WPForms.FrontendModern.getColorWithOpacity( cssVars['field-text-color'], '0.5' ),
+					borderColor: WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-border-color' ], '0.5' ),
+					color: WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-text-color' ], '0.5' ),
 				},
 				'.Label': {
-					fontSize: cssVars['label-size-sublabel-font-size'],
-					margin: `0 0 ${cssVars['field-size-sublabel-spacing']} 0`,
-					color: cssVars['label-sublabel-color'],
+					fontSize: cssVars[ 'label-size-sublabel-font-size' ],
+					margin: `0 0 ${ cssVars[ 'field-size-sublabel-spacing' ] } 0`,
+					color: cssVars[ 'label-sublabel-color' ],
 					opacity: Number( Boolean( appearance?.sublabelHide ) ),
-					lineHeight : appearance?.sublabelHide ? 'inherit' : '0',
+					lineHeight: appearance?.sublabelHide ? 'inherit' : '0',
 				},
 				'.Error': {
-					fontSize: cssVars['label-size-sublabel-font-size'],
-					margin: `${cssVars['field-size-sublabel-spacing']} 0 0 0`,
-					color: cssVars['label-error-color'],
+					fontSize: cssVars[ 'label-size-sublabel-font-size' ],
+					margin: `${ cssVars[ 'field-size-sublabel-spacing' ] } 0 0 0`,
+					color: cssVars[ 'label-error-color' ],
 				},
 				'.Tab': {
-					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars['field-border-color'], '0.5' ),
-					borderRadius: cssVars['field-border-radius'],
+					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-border-color' ], '0.5' ),
+					borderRadius: cssVars[ 'field-border-radius' ],
 					backgroundColor: 'transparent',
 					boxShadow: 'none',
 					marginTop: '0',
 				},
 				'.Tab:focus': {
-					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars['button-background-color'], '0.5' ),
-					boxShadow: `0 0 0 3px ${WPForms.FrontendModern.getColorWithOpacity( cssVars['button-background-color'], '0.25' )}`,
+					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'button-background-color' ], '0.5' ),
+					boxShadow: `0 0 0 3px ${ WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'button-background-color' ], '0.25' ) }`,
 					outline: 'none',
 				},
 				'.Tab:hover': {
-					border: `1px solid ${cssVars['field-border-color']}`,
+					border: `1px solid ${ cssVars[ 'field-border-color' ] }`,
 				},
 				'.Tab--selected': {
-					borderColor: cssVars['button-background-color'],
-					boxShadow: `0 0 0 1px ${cssVars['button-background-color']}`,
-					backgroundColor: cssVars['field-background-color'],
+					borderColor: cssVars[ 'button-background-color' ],
+					boxShadow: `0 0 0 1px ${ cssVars[ 'button-background-color' ] }`,
+					backgroundColor: cssVars[ 'field-background-color' ],
 				},
 				'.Tab--selected:hover': {
-					borderColor: cssVars['button-background-color'],
+					borderColor: cssVars[ 'button-background-color' ],
 				},
 				'.Tab--selected:focus': {
-					borderColor: cssVars['button-background-color'],
-					boxShadow: `0 0 0 1px ${cssVars['button-background-color']}`,
+					borderColor: cssVars[ 'button-background-color' ],
+					boxShadow: `0 0 0 1px ${ cssVars[ 'button-background-color' ] }`,
 				},
 				'.TabLabel': {
-					color: cssVars['field-text-color'],
+					color: cssVars[ 'field-text-color' ],
 				},
 				'.TabIcon': {
-					fill:  WPForms.FrontendModern.getColorWithOpacity( cssVars['field-text-color'], '0.75' ),
+					fill: WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-text-color' ], '0.75' ),
 				},
 				'.TabIcon--selected': {
-					fill:  cssVars['field-text-color'],
+					fill: cssVars[ 'field-text-color' ],
 				},
 				'.TabIcon:hover': {
-					color: cssVars['field-text-color'],
-					fill: cssVars['field-text-color'],
+					color: cssVars[ 'field-text-color' ],
+					fill: cssVars[ 'field-text-color' ],
 				},
 				'.TabLabel--selected': {
-					color: cssVars['button-background-color'],
+					color: cssVars[ 'button-background-color' ],
 				},
 				'.Block': {
-					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars['field-border-color'], '0.5' ),
-					borderRadius: cssVars['field-border-radius'],
+					border: '1px solid ' + WPForms.FrontendModern.getColorWithOpacity( cssVars[ 'field-border-color' ], '0.5' ),
+					backgroundColor: maybeMenuBgColor,
+					borderRadius: cssVars[ 'field-border-radius' ],
 					boxShadow: 'none',
 				},
 				'.AccordionItem': {
+					backgroundColor: maybeMenuBgColor,
 					paddingLeft: 0,
 					paddingRight: 0,
 					color: cssVars[ 'field-text-color' ],
+				},
+				'.PickerItem,': {
+					backgroundColor: maybeMenuBgColor,
 				},
 			};
 
@@ -1130,7 +1150,6 @@ var WPFormsStripePaymentElement = window.WPFormsStripePaymentElement || ( functi
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

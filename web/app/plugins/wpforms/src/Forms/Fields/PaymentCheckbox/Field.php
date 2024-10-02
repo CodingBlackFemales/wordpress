@@ -88,8 +88,8 @@ class Field extends \WPForms_Field {
 		$field_id = absint( $field['id'] );
 		$choices  = $field['choices'];
 
-		// Remove primary input.
-		unset( $properties['inputs']['primary'] );
+		// Remove primary input, unset for attribute for label.
+		unset( $properties['inputs']['primary'], $properties['label']['attr']['for'] );
 
 		// Set input container (ul) properties.
 		$properties['input_container'] = [
@@ -167,7 +167,7 @@ class Field extends \WPForms_Field {
 				}
 			}
 		} elseif ( ! empty( $field['choices_icons'] ) ) {
-			$properties = wpforms()->get( 'icon_choices' )->field_properties( $properties, $field );
+			$properties = wpforms()->obj( 'icon_choices' )->field_properties( $properties, $field );
 		}
 
 		// Add selected class for choices with defaults.
@@ -431,9 +431,8 @@ class Field extends \WPForms_Field {
 						echo '</label>';
 
 					} elseif ( empty( $field['dynamic_choices'] ) && ! empty( $field['choices_icons'] ) ) {
-
 						// Icon Choices.
-						wpforms()->get( 'icon_choices' )->field_display( $field, $choice, 'checkbox', $label );
+						wpforms()->obj( 'icon_choices' )->field_display( $field, $choice, 'checkbox', $label );
 
 					} else {
 
@@ -464,7 +463,7 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.2
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Array of selected choice IDs.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -488,7 +487,7 @@ class Field extends \WPForms_Field {
 		}
 
 		if ( ! empty( $error ) ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = $error;
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = $error;
 		}
 	}
 
@@ -546,7 +545,7 @@ class Field extends \WPForms_Field {
 			}
 		}
 
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'         => $name,
 			'value'        => implode( "\r\n", $choice_values ),
 			'value_choice' => implode( "\r\n", $choice_labels ),
