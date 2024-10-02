@@ -1,6 +1,6 @@
 <?php
 /**
- * Form used when creating a new job listing alert.
+ * Content of the modal dialog when adding an alert from the jobs search page.
  *
  * This template can be overridden by copying it to yourtheme/wp-job-manager-alerts/alert-form.php.
  *

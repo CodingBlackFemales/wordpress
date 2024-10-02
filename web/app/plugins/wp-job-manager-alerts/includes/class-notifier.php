@@ -7,6 +7,7 @@
 
 namespace WP_Job_Manager_Alerts;
 
+use WP_Job_Manager\Stats;
 use WP_Job_Manager_Alerts\Emails\Job_Alert_Email;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -166,6 +167,8 @@ class Notifier {
 		}
 
 		Emails\Job_Alert_Email::send( $alert, $jobs, $user );
+
+		Alert_Stats::log_jobs_sent( $jobs );
 	}
 
 	/**

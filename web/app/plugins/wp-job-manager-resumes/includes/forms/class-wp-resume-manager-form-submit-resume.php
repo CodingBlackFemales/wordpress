@@ -65,9 +65,17 @@ class WP_Resume_Manager_Form_Submit_Resume extends WP_Job_Manager_Form {
 			add_filter( 'submit_resume_form_validate_fields', [ $this, 'validate_agreement_checkbox' ] );
 		}
 
-		if ( $this->use_recaptcha_field() ) {
+		if ( class_exists( 'WP_Job_Manager\WP_Job_Manager_Recaptcha' ) ) {
+			WP_Job_Manager\WP_Job_Manager_Recaptcha::instance()->maybe_enable_recaptcha(
+				'resume_manager_enable_recaptcha_resume_submission',
+				[ 'submit_resume_form_resume_fields_end' ],
+				[ 'submit_resume_form_validate_fields' ]
+			);
+		} else {
+			// This path will be followed for WPJM versions pre-2.2.0.
 			add_action( 'submit_resume_form_resume_fields_end', [ $this, 'display_recaptcha_field' ] );
 			add_action( 'submit_resume_form_validate_fields', [ $this, 'validate_recaptcha_field' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		}
 
 		$this->steps = (array) apply_filters(
@@ -500,12 +508,18 @@ class WP_Resume_Manager_Form_Submit_Resume extends WP_Job_Manager_Form {
 	/**
 	 * Use reCAPTCHA field on the form?
 	 *
+	 * @deprecated This method should now be used only by WPJM versions pre-2.2.0. After 2.2.0
+	 *             all functionality moved to WP_Job_Manager_Recaptcha.
+	 *
 	 * @return bool
 	 */
 	public function use_recaptcha_field() {
-		if ( ! method_exists( $this, 'is_recaptcha_available' ) || ! $this->is_recaptcha_available() ) {
+		$recaptcha_available = $this->is_recaptcha_available();
+
+		if ( ! $recaptcha_available ) {
 			return false;
 		}
+
 		return 1 === absint( get_option( 'resume_manager_enable_recaptcha_resume_submission' ) );
 	}
 
