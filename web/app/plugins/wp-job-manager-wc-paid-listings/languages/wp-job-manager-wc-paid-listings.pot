@@ -1,36 +1,41 @@
-# Copyright (C) 2023 Automattic
+# Copyright (C) 2024 Automattic
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Job Manager - WooCommerce Paid Listings 3.0.2\n"
+"Project-Id-Version: WP Job Manager - WooCommerce Paid Listings 3.0.3\n"
 "Report-Msgid-Bugs-To: https://wpjobmanager.com/support/\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-17T14:18:15+00:00\n"
+"POT-Creation-Date: 2024-04-24T12:50:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-job-manager-wc-paid-listings\n"
 
 #. Plugin Name of the plugin
+#: wp-job-manager-wc-paid-listings.php
 msgid "WP Job Manager - WooCommerce Paid Listings"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: wp-job-manager-wc-paid-listings.php
 msgid "https://wpjobmanager.com/add-ons/wc-paid-listings/"
 msgstr ""
 
 #. Description of the plugin
+#: wp-job-manager-wc-paid-listings.php
 msgid "Add paid listing functionality via WooCommerce. Create 'job packages' as products with their own price, listing duration, listing limit, and job featured status and either sell them via your store or during the job submission process. A user's packages are shown on their account page and can be used to post future jobs if they allow more than 1 job listing. Also allows 'resume packages' if using the resumes add-on."
 msgstr ""
 
 #. Author of the plugin
+#: wp-job-manager-wc-paid-listings.php
 msgid "Automattic"
 msgstr ""
 
 #. Author URI of the plugin
+#: wp-job-manager-wc-paid-listings.php
 msgid "https://wpjobmanager.com"
 msgstr ""
 
@@ -517,12 +522,12 @@ msgid "Pending Payment"
 msgstr ""
 
 #: wp-job-manager-wc-paid-listings.php:322
-#: wp-job-manager-wc-paid-listings.php:343
+#: wp-job-manager-wc-paid-listings.php:344
 msgid "Paid Listings Flow"
 msgstr ""
 
 #: wp-job-manager-wc-paid-listings.php:323
-#: wp-job-manager-wc-paid-listings.php:344
+#: wp-job-manager-wc-paid-listings.php:345
 msgid "Define when the user should choose a package for submission."
 msgstr ""
 
@@ -534,10 +539,10 @@ msgstr ""
 msgid "Choose a package before entering job details"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:347
+#: wp-job-manager-wc-paid-listings.php:348
 msgid "Choose a package after entering resume details"
 msgstr ""
 
-#: wp-job-manager-wc-paid-listings.php:348
+#: wp-job-manager-wc-paid-listings.php:349
 msgid "Choose a package before entering resume details"
 msgstr ""
