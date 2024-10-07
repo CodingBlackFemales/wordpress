@@ -1,12 +1,19 @@
 /* global wpforms_builder, WPFormsUtils */
 
-;
-var wpf = {
+/**
+ * @param window.DOMPurify
+ * @param wpforms_builder.currency_decimal
+ * @param wpforms_builder.currency_decimals
+ * @param wpforms_builder.currency_symbol
+ * @param wpforms_builder.currency_symbol_pos
+ * @param wpforms_builder.currency_thousands
+ */
+const wpf = {
 
 	cachedFields: {},
 	savedState: false,
 	initialSave: true,
-	orders:  {
+	orders: {
 		fields: [],
 		choices: {},
 	},
@@ -18,8 +25,7 @@ var wpf = {
 	 *
 	 * @since 1.0.1
 	 */
-	init: function() {
-
+	init() {
 		wpf.bindUIActions();
 
 		// Init Radio Group for Checkboxes.
@@ -33,8 +39,7 @@ var wpf = {
 	 *
 	 * @since 1.0.1
 	 */
-	ready: function() {
-
+	ready() {
 		// Load initial form saved state.
 		wpf.savedState = wpf.getFormState( '#wpforms-builder-form' );
 
@@ -48,8 +53,7 @@ var wpf = {
 	 *
 	 * @since 1.0.1
 	 */
-	bindUIActions: function() {
-
+	bindUIActions() {
 		// The following items should all trigger the fieldUpdate trigger.
 		jQuery( document ).on( 'wpformsFieldAdd', wpf.setFieldOrders );
 		jQuery( document ).on( 'wpformsFieldDelete', wpf.setFieldOrders );
@@ -74,8 +78,7 @@ var wpf = {
 	 *
 	 * @since 1.4.5
 	 */
-	setFieldOrders: function() {
-
+	setFieldOrders() {
 		wpf.orders.fields = [];
 
 		jQuery( '.wpforms-field-option' ).each( function() {
@@ -88,13 +91,14 @@ var wpf = {
 	 *
 	 * @since 1.4.5
 	 */
-	setChoicesOrders: function() {
-
+	setChoicesOrders() {
 		wpf.orders.choices = {};
 
 		jQuery( '.choices-list' ).each( function() {
-			var fieldID = jQuery( this ).data( 'field-id' );
+			const fieldID = jQuery( this ).data( 'field-id' );
+
 			wpf.orders.choices[ 'field_' + fieldID ] = [];
+
 			jQuery( this ).find( 'li' ).each( function() {
 				wpf.orders.choices[ 'field_' + fieldID ].push( jQuery( this ).data( 'key' ) );
 			} );
@@ -106,13 +110,12 @@ var wpf = {
 	 *
 	 * @since 1.4.5
 	 *
-	 * @param int id Field ID.
+	 * @param {number|string} id Field ID.
 	 *
-	 * @return array
+	 * @return {Array} Choices.
 	 */
-	getChoicesOrder: function( id ) {
-
-		var choices = [];
+	getChoicesOrder( id ) {
+		const choices = [];
 
 		jQuery( '#wpforms-field-option-' + id ).find( '.choices-list li' ).each( function() {
 			choices.push( jQuery( this ).data( 'key' ) );
@@ -124,21 +127,21 @@ var wpf = {
 	/**
 	 * Maintain multiselect dropdown with search.
 	 * If a multiple select has selected choices - hide a placeholder text.
-	 * In case if select is empty - we return placeholder text back.
+	 * In case if select is empty - we return placeholder text.
 	 *
 	 * @since 1.7.6
 	 *
-	 * @param {object} self Current object.
+	 * @param {Object} self Current object.
 	 */
-	initMultipleSelectWithSearch: function( self ) {
-
+	initMultipleSelectWithSearch( self ) {
 		const $element = jQuery( self.passedElement.element ),
-			$input   = jQuery( self.input.element );
+			$input = jQuery( self.input.element );
 
 		if ( $element.prop( 'multiple' ) ) {
-
 			// On init event.
 			$input.data( 'placeholder', $input.attr( 'placeholder' ) );
+			// We need to save the style attribute to restore it later and make placeholder visible.
+			$input.data( 'style', $input.attr( 'style' ) );
 
 			if ( self.getValue( true ).length ) {
 				$input.removeAttr( 'placeholder' );
@@ -146,12 +149,67 @@ var wpf = {
 
 			// On change event.
 			$element.on( 'change', function() {
-
-				self.getValue( true ).length ?
-					$input.removeAttr( 'placeholder' ) :
-					$input.attr( 'placeholder', $input.data( 'placeholder' ) );
+				// eslint-disable-next-line no-unused-expressions
+				self.getValue( true ).length
+					? $input.removeAttr( 'placeholder' )
+					: $input.attr( 'placeholder', $input.data( 'placeholder' ) ).attr( 'style', $input.data( 'style' ) );
 			} );
 		}
+	},
+
+	/**
+	 * Display/hide show more icon inside multiselect dropdown.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param {string} container Container element.
+	 */
+	showMoreButtonForChoices( container ) {
+		if ( jQuery( container ).data( 'type' ) === 'select-one' ) {
+			return;
+		}
+
+		const first = jQuery( container ).find( '.choices__list--multiple .choices__item' ).first(),
+			last = jQuery( container ).find( '.choices__list--multiple .choices__item' ).last();
+
+		jQuery( container ).removeClass( 'choices__show-more' );
+
+		if ( first.length > 0 && last.length > 0 && first.position().top !== last.position().top ) {
+			jQuery( container ).addClass( 'choices__show-more' );
+		}
+	},
+
+	/**
+	 * Initialize event handlers for choices.
+	 *
+	 * @since 1.9.0
+	 */
+	initializeChoicesEventHandlers() {
+		// Show more button for choices.
+		jQuery( document ).on( 'addItem removeItem', '.choices:not(.is-disabled)', function() {
+			wpf.showMoreButtonForChoices( this );
+		} );
+
+		// Remove focus from input when dropdown is hidden.
+		jQuery( document ).on( 'hideDropdown', '.choices:not(.is-disabled)', function() {
+			jQuery( this ).find( '.choices__inner input.choices__input' ).trigger( 'blur' );
+		} );
+	},
+
+	/**
+	 * Reinitialize show more choices.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param {Object} container Container element.
+	 */
+	reInitShowMoreChoices( container ) {
+		setTimeout( () => {
+			container.find( '.choices select' ).each( function() {
+				const $choiceInstance = jQuery( this ).data( 'choicesjs' );
+				wpf.showMoreButtonForChoices( $choiceInstance.containerOuter.element );
+			} );
+		}, 100 );
 	},
 
 	/**
@@ -159,9 +217,8 @@ var wpf = {
 	 *
 	 * @since 1.0.1
 	 */
-	fieldUpdate: function() {
-
-		var fields = wpf.getFields();
+	fieldUpdate() {
+		const fields = wpf.getFields();
 
 		jQuery( document ).trigger( 'wpformsFieldUpdate', [ fields ] );
 
@@ -172,46 +229,69 @@ var wpf = {
 	 * Dynamically get the fields from the current form state.
 	 *
 	 * @since 1.0.1
-	 * @param array allowedFields
-	 * @param bool useCache
-	 * @return object
+	 * @since 1.8.9 Added `allowedFields` parameter.
+	 *
+	 * @param {Array|boolean|undefined} allowedFields           Allowed fields.
+	 * @param {boolean|undefined}       useCache                Use cache.
+	 * @param {boolean|undefined}       isAllowedRepeaterFields Is repeater fields allowed?
+	 * @param {Object|undefined}        fieldsToExclude         Fields to exclude.
+	 *
+	 * @return {Object} Fields.
 	 */
-	getFields: function( allowedFields, useCache ) {
-
+	getFields( allowedFields = undefined, useCache = undefined, isAllowedRepeaterFields = undefined, fieldsToExclude = undefined ) { // eslint-disable-line complexity, max-lines-per-function
 		useCache = useCache || false;
 
-		if ( useCache && ! jQuery.isEmptyObject( wpf.cachedFields ) ) {
+		let fields;
 
+		if ( useCache && ! jQuery.isEmptyObject( wpf.cachedFields ) ) {
 			// Use cache if told and cache is primed.
-			var fields = jQuery.extend( {}, wpf.cachedFields );
+			fields = jQuery.extend( {}, wpf.cachedFields );
 
 			wpf.debug( 'getFields triggered (cached)' );
-
 		} else {
-
 			// Normal processing, get fields from builder and prime cache.
-			var formData       = wpf.formObject( '#wpforms-field-options' ),
-				fields         = formData.fields,
-				fieldBlockList = [
-					'captcha',
-					'content',
-					'divider',
-					'entry-preview',
-					'html',
-					'internal-information',
-					'layout',
-					'pagebreak',
-				];
+			const formData = wpf.formObject( '#wpforms-field-options' );
+
+			fields = formData.fields;
+
+			const fieldBlockList = [
+				'captcha',
+				'content',
+				'divider',
+				'entry-preview',
+				'html',
+				'internal-information',
+				'pagebreak',
+				'layout',
+			];
 
 			if ( ! fields ) {
 				return false;
 			}
 
-			for ( var key in fields ) {
-				if ( ! fields[key].type || jQuery.inArray( fields[key].type, fieldBlockList ) > -1 ) {
-					delete fields[key];
+			for ( const key in fields ) {
+				if ( ! fields[ key ].type || jQuery.inArray( fields[ key ].type, fieldBlockList ) > -1 ) {
+					delete fields[ key ];
+				}
+
+				if ( fields[ key ]?.type === 'repeater' ) {
+					Object.values( fields[ key ][ 'columns-json' ] ?? {} ).forEach( ( column ) => {
+						Object.values( column?.fields ?? [] ).forEach( ( field ) => {
+							if ( ! fields[ field ] ) {
+								return;
+							}
+
+							fields[ field ].label += ' (' + fields[ key ].label + ')';
+							fields[ field ].isRepeater = true;
+						} );
+					} );
+
+					delete fields[ key ];
 				}
 			}
+
+			// Add additional fields to the fields object.
+			wpf.addAdditionalFields( fields );
 
 			// Cache the all the fields now that they have been ordered and initially processed.
 			wpf.cachedFields = jQuery.extend( {}, fields );
@@ -219,12 +299,78 @@ var wpf = {
 			wpf.debug( 'getFields triggered' );
 		}
 
+		if ( ! isAllowedRepeaterFields ) {
+			for ( const key in fields ) {
+				if ( fields[ key ]?.isRepeater ) {
+					delete fields[ key ];
+				}
+			}
+		}
+
+		if ( fieldsToExclude ) {
+			for ( const key in fieldsToExclude ) {
+				delete fields[ key ];
+			}
+		}
+
 		// If we should only return specific field types, remove the others.
 		if ( allowedFields && allowedFields.constructor === Array ) {
-			for ( var key in fields ) {
-				if ( jQuery.inArray( fields[key].type, allowedFields ) === -1 ) {
-					delete fields[key];
+			for ( const key in fields ) {
+				if ( jQuery.inArray( fields[ key ].type, allowedFields ) === -1 ) {
+					delete fields[ key ];
 				}
+			}
+		}
+
+		if ( Object.keys( fields ).length === 0 ) {
+			return false;
+		}
+
+		const orderedFields = [];
+
+		for ( const fieldKey in wpf.orders.fields ) {
+			const fieldId = wpf.orders.fields[ fieldKey ];
+
+			if ( ! fields[ fieldId ] ) {
+				continue;
+			}
+
+			orderedFields.push( fields[ fieldId ] );
+		}
+
+		return Object.assign( {}, orderedFields );
+	},
+
+	/**
+	 * Add additional fields to the fields object.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param {Object} fields Fields object.
+	 *
+	 * @return {Object} Fields object with additional fields.
+	 */
+	addAdditionalFields( fields ) {
+		for ( const key in fields ) {
+			if ( [ 'name', 'date-time' ].includes( fields[ key ]?.type ) ) {
+				// Get the name format and split it into an array.
+				const nameFormat = fields[ key ].format;
+
+				// Add the name fields to the fields object
+				fields[ key ].additional = nameFormat.split( '-' );
+			}
+
+			if ( fields[ key ]?.type === 'address' ) {
+				// Get all keys with "_placeholder" in the name (address1_placeholder, address2_placeholder, etc.)
+				const addressFields = Object.keys( fields[ key ] ).filter( ( fieldKey ) => fieldKey.includes( '_placeholder' ) );
+
+				// Remove "_placeholder" from the keys
+				addressFields.forEach( ( fieldKey, index ) => {
+					addressFields[ index ] = fieldKey.replace( '_placeholder', '' );
+				} );
+
+				// Add the address fields to the fields object
+				fields[ key ].additional = addressFields;
 			}
 		}
 
@@ -232,19 +378,22 @@ var wpf = {
 	},
 
 	/**
-	 * Get field settings object.
+	 * Get a field settings object.
 	 *
 	 * @since 1.4.5
 	 *
-	 * @param int id Field ID.
+	 * @param {number|string} id Field ID.
 	 *
-	 * @return object
+	 * @return {Object} Field settings.
 	 */
-	getField: function( id ) {
+	getField( id ) {
+		const field = wpf.formObject( '#wpforms-field-option-' + id );
 
-		var field = wpf.formObject( '#wpforms-field-option-' + id );
+		if ( ! Object.keys( field ).length ) {
+			return {};
+		}
 
-		return field.fields[ Object.keys( field.fields )[0] ];
+		return field.fields[ Object.keys( field.fields )[ 0 ] ];
 	},
 
 	/**
@@ -252,16 +401,15 @@ var wpf = {
 	 *
 	 * @since 1.2.8
 	 *
-	 * @param {mixed}   option jQuery object, or DOM element selector.
-	 * @param {boolean} unload True if you need to unload spinner, and vice versa.
+	 * @param {string|Element} option jQuery object, or DOM element selector.
+	 * @param {boolean}        unload True if you need to unload spinner, and vice versa.
 	 */
-	fieldOptionLoading: function( option, unload ) {
-
-		var $option = jQuery( option ),
-			$label  = $option.find( 'label' ),
+	fieldOptionLoading( option, unload ) {
+		const $option = jQuery( option ),
+			$label = $option.find( 'label' ),
 			spinner = '<i class="wpforms-loading-spinner wpforms-loading-inline"></i>';
 
-		unload  = typeof unload !== 'undefined';
+		unload = typeof unload !== 'undefined';
 
 		if ( unload ) {
 			$label.find( '.wpforms-loading-spinner' ).remove();
@@ -278,12 +426,13 @@ var wpf = {
 	 * Get form state.
 	 *
 	 * @since 1.3.8
-	 * @param object el
+	 *
+	 * @param {Object} el Element.
+	 *
+	 * @return {string} Form state.
 	 */
-	getFormState: function( el ) {
-
-		// Serialize tested the most performant string we can use for
-		// comparisons.
+	getFormState( el ) {
+		// Serialize tested the most performant string we can use for comparisons.
 		return jQuery( el ).serialize();
 	},
 
@@ -291,16 +440,17 @@ var wpf = {
 	 * Remove items from an array.
 	 *
 	 * @since 1.0.1
-	 * @param array array
-	 * @param mixed item index/key
-	 * @return array
+	 *
+	 * @param {Array} array An array.
+	 * @param {any}   item  Array item.
+	 *
+	 * @return {number} Count of removed items.
 	 */
-	removeArrayItem: function( array, item ) {
+	removeArrayItem( array, item ) {
+		let removeCounter = 0;
 
-		var removeCounter = 0;
-
-		for ( var index = 0; index < array.length; index++ ) {
-			if ( array[index] === item ) {
+		for ( let index = 0; index < array.length; index++ ) {
+			if ( array[ index ] === item ) {
 				array.splice( index, 1 );
 				removeCounter++;
 				index--;
@@ -318,13 +468,13 @@ var wpf = {
 	 *
 	 * @param {string} str String to sanitize.
 	 *
-	 * @returns {string} String after sanitization.
+	 * @return {string} String after sanitization.
 	 */
-	sanitizeString: function( str ) {
-
+	sanitizeString( str ) {
 		if ( typeof str === 'string' || str instanceof String ) {
 			return str.trim();
 		}
+
 		return str;
 	},
 
@@ -382,12 +532,12 @@ var wpf = {
 	 *
 	 * @param {string} name The name of the parameter to be removed.
 	 */
-	removeQueryParam: function( name ) {
-
+	removeQueryParam( name ) {
 		if ( wpf.getQueryString( name ) ) {
-			var replace = '[\\?&]' + name + '=[^&]+',
-				re      = new RegExp( replace );
+			const replace = '[\\?&]' + name + '=[^&]+',
+				re = new RegExp( replace );
 
+			// eslint-disable-next-line no-unused-expressions
 			history.replaceState && history.replaceState(
 				null, '', location.pathname + location.search.replace( re, '' ).replace( /^&/, '?' ) + location.hash
 			);
@@ -401,9 +551,9 @@ var wpf = {
 	 *
 	 * @param {number|string} n Number to check.
 	 *
-	 * @returns {boolean} Whether this is a number.
+	 * @return {boolean} Whether this is a number.
 	 */
-	isNumber: function( n ) {
+	isNumber( n ) {
 		return ! isNaN( parseFloat( n ) ) && isFinite( n );
 	},
 
@@ -414,12 +564,11 @@ var wpf = {
 	 *
 	 * @param {string} amount Price amount to sanitize.
 	 *
-	 * @returns {string} Sanitized amount.
+	 * @return {string} Sanitized amount.
 	 */
-	amountSanitize: function( amount ) {
-
-		// Convert to string and allow only numbers, dots and commas.
-		amount = String( amount ).replace( /[^0-9.,]/g, '' );
+	amountSanitize( amount ) { // eslint-disable-line complexity
+		// Convert to string, remove a currency symbol, and allow only numbers, dots, and commas.
+		amount = String( amount ).replace( wpforms_builder.currency_symbol, '' ).replace( /[^0-9.,]/g, '' );
 
 		if ( wpforms_builder.currency_decimal === ',' ) {
 			if ( wpforms_builder.currency_thousands === '.' && amount.indexOf( wpforms_builder.currency_thousands ) !== -1 ) {
@@ -442,26 +591,25 @@ var wpf = {
 	 *
 	 * @param {string} amount Price amount to format.
 	 *
-	 * @returns {string} Formatted amount.
+	 * @return {string} Formatted amount.
 	 */
-	amountFormat: function( amount ) {
-
+	amountFormat( amount ) {
 		amount = String( amount );
 
 		// Format the amount
 		if ( wpforms_builder.currency_decimal === ',' && ( amount.indexOf( wpforms_builder.currency_decimal ) !== -1 ) ) {
-			var sepFound = amount.indexOf( wpforms_builder.currency_decimal );
+			const sepFound = amount.indexOf( wpforms_builder.currency_decimal );
 
 			amount = amount.substr( 0, sepFound ) + '.' + amount.substr( sepFound + 1, amount.length - 1 );
 		}
 
-		// Strip , from the amount (if set as the thousand separator)
+		// Strip "," from the amount (if set as the thousand separators)
 		if ( wpforms_builder.currency_thousands === ',' && ( amount.indexOf( wpforms_builder.currency_thousands ) !== -1 ) ) {
 			amount = amount.replace( /,/g, '' );
 		}
 
 		if ( wpf.empty( amount ) ) {
-			amount = 0;
+			amount = '0';
 		}
 
 		return wpf.numberFormat( amount, wpforms_builder.currency_decimals, wpforms_builder.currency_decimal, wpforms_builder.currency_thousands );
@@ -503,30 +651,29 @@ var wpf = {
 	 * @param {string} decimalSep   What is the decimal separator.
 	 * @param {string} thousandsSep What is the thousand separator.
 	 *
-	 * @returns {string} Formatted number.
+	 * @return {string} Formatted number.
 	 */
-	numberFormat: function( number, decimals, decimalSep, thousandsSep ) {
-
+	numberFormat( number, decimals, decimalSep, thousandsSep ) { // eslint-disable-line complexity
 		number = ( number + '' ).replace( /[^0-9+\-Ee.]/g, '' );
-		var n = ! isFinite( +number ) ? 0 : +number;
-		var prec = ! isFinite( +decimals ) ? 0 : Math.abs( decimals );
-		var sep = ( typeof thousandsSep === 'undefined' ) ? ',' : thousandsSep;
-		var dec = ( typeof decimalSep === 'undefined' ) ? '.' : decimalSep;
-		var s = '';
+		const n = ! isFinite( +number ) ? 0 : +number;
+		const precision = ! isFinite( +decimals ) ? 0 : Math.abs( decimals );
+		const sep = ( typeof thousandsSep === 'undefined' ) ? ',' : thousandsSep;
+		const dec = ( typeof decimalSep === 'undefined' ) ? '.' : decimalSep;
+		let s = '';
 
-		var toFixedFix = function( n, prec ) {
-			var k = Math.pow( 10, prec );
-			return '' + ( Math.round( n * k ) / k ).toFixed( prec );
+		const toFixedFix = function( fixedN, fixedPrecision ) {
+			const k = Math.pow( 10, fixedPrecision );
+			return '' + ( Math.round( fixedN * k ) / k ).toFixed( fixedPrecision );
 		};
 
 		// @todo: for IE parseFloat(0.55).toFixed(0) = 0;
-		s = ( prec ? toFixedFix( n, prec ) : '' + Math.round( n ) ).split( '.' );
+		s = ( precision ? toFixedFix( n, precision ) : '' + Math.round( n ) ).split( '.' );
 		if ( s[ 0 ].length > 3 ) {
 			s[ 0 ] = s[ 0 ].replace( /\B(?=(?:\d{3})+(?!\d))/g, sep );
 		}
-		if ( ( s[ 1 ] || '' ).length < prec ) {
+		if ( ( s[ 1 ] || '' ).length < precision ) {
 			s[ 1 ] = s[ 1 ] || '';
-			s[ 1 ] += new Array( prec - s[ 1 ].length + 1 ).join( '0' );
+			s[ 1 ] += new Array( precision - s[ 1 ].length + 1 ).join( '0' );
 		}
 
 		return s.join( dec );
@@ -534,20 +681,23 @@ var wpf = {
 
 	/**
 	 * Empty check similar to PHP.
+	 * {@link http://locutus.io/php/empty}.
 	 *
-	 * @link http://locutus.io/php/empty/
 	 * @since 1.2.6
+	 *
+	 * @param {any} mixedVar A variable to check.
+	 *
+	 * @return {boolean} True if the variable is empty.
 	 */
-	empty: function( mixedVar ) {
-
-		var undef;
-		var key;
-		var i;
-		var len;
-		var emptyValues = [ undef, null, false, 0, '', '0' ];
+	empty( mixedVar ) {
+		let undef;
+		let key;
+		let i;
+		let len;
+		const emptyValues = [ undef, null, false, 0, '', '0' ];
 
 		for ( i = 0, len = emptyValues.length; i < len; i++ ) {
-			if ( mixedVar === emptyValues[i] ) {
+			if ( mixedVar === emptyValues[ i ] ) {
 				return true;
 			}
 		}
@@ -569,14 +719,14 @@ var wpf = {
 	 *
 	 * @since 1.3.8
 	 *
-	 * @param {string|integer|boolean|Array|object} msg Debug message (any data).
+	 * @param {string|number|boolean|Array|Object} msg Debug message (any data).
 	 */
-	debug: function( ...msg ) {
-
+	debug( ...msg ) {
 		if ( ! wpf.isDebug() ) {
 			return;
 		}
 
+		// eslint-disable-next-line no-console
 		console.log( '%cWPForms Debug: ', 'color: #cd6622;', ...msg );
 	},
 
@@ -584,8 +734,10 @@ var wpf = {
 	 * Is debug mode.
 	 *
 	 * @since 1.3.8
+	 *
+	 * @return {boolean} True if debug mode is enabled.
 	 */
-	isDebug: function() {
+	isDebug() {
 		return ( ( window.location.hash && '#wpformsdebug' === window.location.hash ) || wpforms_builder.debug );
 	},
 
@@ -593,10 +745,14 @@ var wpf = {
 	 * Focus the input/textarea and put the caret at the end of the text.
 	 *
 	 * @since 1.4.1
+	 *
+	 * @param {jQuery} el Element.
 	 */
-	focusCaretToEnd: function( el ) {
+	focusCaretToEnd( el ) {
 		el.trigger( 'focus' );
-		var $thisVal = el.val();
+
+		const $thisVal = el.val();
+
 		el.val( '' ).val( $thisVal );
 	},
 
@@ -604,38 +760,47 @@ var wpf = {
 	 * Creates a object from form elements.
 	 *
 	 * @since 1.4.5
+	 *
+	 * @param {jQuery|string} el Element.
+	 *
+	 * @return {Object} Object.
 	 */
-	formObject: function( el ) {
+	formObject( el ) { // eslint-disable-line max-lines-per-function, complexity
+		const form = jQuery( el ),
+			fields = form.find( '[name]' ),
+			json = {},
+			arrayNames = {};
 
-		var form         = jQuery( el ),
-			fields       = form.find( '[name]' ),
-			json         = {},
-			arraynames   = {};
-
-		for ( var v = 0; v < fields.length; v++ ) {
-
-			var field     = jQuery( fields[v] ),
-				name      = field.prop( 'name' ).replace( /\]/gi, '' ).split( '[' ),
-				value     = field.val(),
-				lineconf  = {};
+		/* eslint-disable max-depth */
+		for ( let v = 0; v < fields.length; v++ ) {
+			const field = jQuery( fields[ v ] ),
+				name = field.prop( 'name' ).replace( /\]/gi, '' ).split( '[' );
+			let value = field.val(),
+				lineConf = {};
 
 			if ( ( field.is( ':radio' ) || field.is( ':checkbox' ) ) && ! field.is( ':checked' ) ) {
 				continue;
 			}
-			for ( var i = name.length - 1; i >= 0; i-- ) {
-				var nestname = name[i];
-				if ( typeof nestname === 'undefined' ) {
-					nestname = '';
+
+			for ( let i = name.length - 1; i >= 0; i-- ) {
+				let nestName = name[ i ];
+
+				if ( typeof nestName === 'undefined' ) {
+					nestName = '';
 				}
-				if ( nestname.length === 0 ){
-					lineconf = [];
-					if ( typeof arraynames[name[i - 1]] === 'undefined' )  {
-						arraynames[name[i - 1]] = 0;
+
+				if ( nestName.length === 0 ) {
+					lineConf = [];
+
+					if ( typeof arrayNames[ name[ i - 1 ] ] === 'undefined' ) {
+						arrayNames[ name[ i - 1 ] ] = 0;
 					} else {
-						arraynames[name[i - 1]] += 1;
+						arrayNames[ name[ i - 1 ] ] += 1;
 					}
-					nestname = arraynames[name[i - 1]];
+
+					nestName = arrayNames[ name[ i - 1 ] ];
 				}
+
 				if ( i === name.length - 1 ) {
 					if ( value ) {
 						if ( value === 'true' ) {
@@ -647,24 +812,30 @@ var wpf = {
 						} else if ( typeof value === 'string' && ( value.substr( 0, 1 ) === '{' || value.substr( 0, 1 ) === '[' ) ) {
 							try {
 								value = JSON.parse( value );
-							} catch ( e ) {}
-						} else if ( typeof value === 'object' && value.length && field.is( 'select' ) ) {
-							var newValue = {};
-							for ( var i = 0; i < value.length; i++ ) {
-								newValue[ 'n' + i ] = value[ i ];
+							} catch ( e ) {
 							}
+						} else if ( typeof value === 'object' && value.length && field.is( 'select' ) ) {
+							const newValue = {};
+
+							for ( let j = 0; j < value.length; j++ ) {
+								newValue[ 'n' + j ] = value[ j ];
+							}
+
 							value = newValue;
 						}
 					}
-					lineconf[nestname] = value;
+
+					lineConf[ nestName ] = value;
 				} else {
-					var newobj = lineconf;
-					lineconf = {};
-					lineconf[nestname] = newobj;
+					const newObj = lineConf;
+					lineConf = {};
+					lineConf[ nestName ] = newObj;
 				}
 			}
-			jQuery.extend( true, json, lineconf );
+
+			jQuery.extend( true, json, lineConf );
 		}
+		/* eslint-enable max-depth */
 
 		return json;
 	},
@@ -674,20 +845,27 @@ var wpf = {
 	 *
 	 * @since 1.4.8
 	 */
-	initTooltips: function() {
-
+	initTooltips() {
 		if ( typeof jQuery.fn.tooltipster === 'undefined' ) {
 			return;
 		}
 
-		jQuery( '.wpforms-help-tooltip' ).tooltipster( {
-			contentAsHTML: true,
-			position: 'right',
-			maxWidth: 300,
-			multiple: true,
-			interactive: true,
-			debug: false,
-			IEmin: 11,
+		const isRTL = jQuery( 'body' ).hasClass( 'rtl' );
+		const position = isRTL ? 'left' : 'right';
+
+		jQuery( '.wpforms-help-tooltip' ).each( function() {
+			const $this = jQuery( this );
+
+			$this.tooltipster( {
+				contentAsHTML: true,
+				position: $this.data( 'tooltip-position' ) || position,
+				maxWidth: 300,
+				multiple: true,
+				interactive: true,
+				debug: false,
+				IEmin: 11,
+				zIndex: 99999999,
+			} );
 		} );
 	},
 
@@ -696,15 +874,14 @@ var wpf = {
 	 *
 	 * @since 1.6.5
 	 *
-	 * @param {mixed} $scope Searching scope.
+	 * @param {jQuery|undefined} $scope Searching scope.
 	 */
-	restoreTooltips: function( $scope ) {
-
+	restoreTooltips( $scope ) {
 		$scope = typeof $scope !== 'undefined' && $scope && $scope.length > 0 ? $scope.find( '.wpforms-help-tooltip' ) : jQuery( '.wpforms-help-tooltip' );
-		$scope.each( function() {
-			var $this = jQuery( this );
-			if ( jQuery.tooltipster.instances( this ).length !== 0 ) {
 
+		$scope.each( function() {
+			const $this = jQuery( this );
+			if ( jQuery.tooltipster.instances( this ).length !== 0 ) {
 				// Restoring title.
 				$this.attr( 'title', $this.tooltipster( 'content' ) );
 			}
@@ -719,38 +896,39 @@ var wpf = {
 	 *
 	 * @param {string} url URL for checking.
 	 *
-	 * @returns {boolean} True if `url` is a valid URL.
+	 * @return {boolean} True if `url` is a valid URL.
 	 */
-	isURL: function( url ) {
-
+	isURL( url ) {
+		// noinspection RegExpUnnecessaryNonCapturingGroup
 		/**
 		 * RegExps.
 		 * A URL must match #1 and then at least one of #2/#3.
 		 * Use two levels of REs to avoid REDOS.
 		 */
-		var protocolAndDomainRE  = /^(?:http(?:s?):)?\/\/(\S+)/;
-		var localhostDomainRE    = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
-		var nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+		const protocolAndDomainRE = /^(?:http(?:s?):)?\/\/(\S+)/;
+		/* eslint-disable no-useless-escape */
+		// noinspection RegExpRedundantEscape
+		const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+		// noinspection RegExpRedundantEscape
+		const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+		/* eslint-enable no-useless-escape */
 
 		if ( typeof url !== 'string' ) {
 			return false;
 		}
 
-		var match = url.match( protocolAndDomainRE );
+		const match = url.match( protocolAndDomainRE );
+
 		if ( ! match ) {
 			return false;
 		}
 
-		var everythingAfterProtocol = match[1];
+		const everythingAfterProtocol = match[ 1 ];
 		if ( ! everythingAfterProtocol ) {
 			return false;
 		}
 
-		if ( localhostDomainRE.test( everythingAfterProtocol ) || nonLocalhostDomainRE.test( everythingAfterProtocol ) ) {
-			return true;
-		}
-
-		return false;
+		return localhostDomainRE.test( everythingAfterProtocol ) || nonLocalhostDomainRE.test( everythingAfterProtocol );
 	},
 
 	/**
@@ -760,14 +938,13 @@ var wpf = {
 	 * @since 1.5.9
 	 * @since 1.7.8 Introduced optional allowed parameter.
 	 *
-	 * @param {string}           string  HTML to sanitize.
-	 * @param {undefined|Array}  allowed Array of allowed HTML tags.
+	 * @param {string|undefined} string  HTML to sanitize.
+	 * @param {Array|undefined}  allowed Array of allowed HTML tags.
 	 *
-	 * @returns {string} Sanitized HTML.
+	 * @return {string} Sanitized HTML.
 	 */
-	sanitizeHTML: function( string, allowed ) {
-
-		var purify = window.DOMPurify;
+	sanitizeHTML( string = undefined, allowed = undefined ) {
+		const purify = window.DOMPurify;
 
 		if ( typeof purify === 'undefined' || typeof string === 'undefined' ) {
 			return string;
@@ -796,18 +973,53 @@ var wpf = {
 	 *
 	 * @param {string} string HTML to sanitize.
 	 *
-	 * @returns {string} String with encoded HTML entities.
+	 * @return {string} String with encoded HTML entities.
 	 */
-	encodeHTMLEntities: function( string ) {
-
+	encodeHTMLEntities( string ) {
 		if ( typeof string !== 'string' ) {
 			string = string.toString();
 		}
 
 		return string.replace( /[\u00A0-\u9999<>&]/gim, function( i ) {
-
 			return '&#' + i.charCodeAt( 0 ) + ';';
 		} );
+	},
+
+	/**
+	 * Decode allowed HTML entities.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param {string} string String to decode.
+	 *
+	 * @return {string} String with decoded allowed HTML entities.
+	 */
+	decodeAllowedHTMLEntities( string ) {
+		if ( typeof string !== 'string' ) {
+			string = string.toString();
+		}
+
+		/**
+		 * Filter: `wpforms.allowedHTMLEntities`.
+		 * Allow developers to add or remove allowed HTML entities.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Object} allowedEntities List of allowed HTML entities.
+		 */
+		const allowedEntities = wp.hooks.applyFilters(
+			'wpforms.allowedHTMLEntities',
+			{
+				'&amp;': '&',
+				'&nbsp;': ' ',
+			}
+		);
+
+		for ( const entity in allowedEntities ) {
+			string = string.replaceAll( entity, allowedEntities[ entity ] );
+		}
+
+		return string;
 	},
 
 	/**
@@ -815,25 +1027,22 @@ var wpf = {
 	 *
 	 * @since 1.6.6
 	 */
-	initRadioGroupForCheckboxes: function() {
-
-		var $ = jQuery;
+	initRadioGroupForCheckboxes() {
+		const $ = jQuery;
 
 		$( document ).on( 'change', 'input[type="checkbox"].wpforms-radio-group', function() {
-
-			var $input  = $( this ),
-				inputId = $input.attr( 'id' );
+			const $input = $( this );
 
 			if ( ! $input.prop( 'checked' ) ) {
 				return;
 			}
 
-			var groupName = $input.data( 'radio-group' ),
-				$group    = $( '.wpforms-radio-group-' + groupName ),
-				$item;
+			const groupName = $input.data( 'radio-group' ),
+				$group = $( '.wpforms-radio-group-' + groupName ),
+				inputId = $input.attr( 'id' );
+			let $item;
 
 			$group.each( function() {
-
 				$item = $( this );
 				if ( $item.attr( 'id' ) !== inputId ) {
 					$item.prop( 'checked', false );
@@ -852,12 +1061,10 @@ var wpf = {
 	 * @param {Array}  arr    Array of objects.
 	 * @param {string} column Column.
 	 *
-	 * @returns {Array} Array with extracted column values.
+	 * @return {Array} Array with extracted column values.
 	 */
-	listPluck: function( arr, column ) {
-
+	listPluck( arr, column ) {
 		return arr.map( function( x ) {
-
 			if ( typeof x !== 'undefined' ) {
 				return x[ column ];
 			}
@@ -877,10 +1084,10 @@ var wpf = {
 	 * @param {jQuery} $element  Element to trigger event on.
 	 * @param {string} eventName Event name to trigger (custom or native).
 	 *
-	 * @returns {Event} Event object.
+	 * @return {Event} Event object.
 	 */
-	triggerEvent: function( $element, eventName ) {
-
+	triggerEvent( $element, eventName ) {
+		// eslint-disable-next-line no-console
 		console.warn( 'WARNING! Function "wpf.triggerEvent( $element, eventName )" has been deprecated, please use the new "WPFormsUtils.triggerEvent( $element, eventName, args )" function instead!' );
 
 		return WPFormsUtils.triggerEvent( $element, eventName );
@@ -895,17 +1102,15 @@ var wpf = {
 	 *
 	 * @since 1.7.7
 	 *
-	 * @param {string} pee Text to be replaced.
-	 * @param {boolean} br Whether remaining \n characters should be replaced with <br />.
+	 * @param {string}  pee Text to be replaced.
+	 * @param {boolean} br  Whether remaining \n characters should be replaced with <br />.
 	 *
-	 * @returns {string} Text with replaced paragraphs.
+	 * @return {string} Text with replaced paragraphs.
 	 */
-	wpautop: function( pee, br = true ) { // eslint-disable-line max-lines-per-function, complexity
-
-		let preTags = new Map();
-		let _autopNewlinePreservationHelper = function( matches ) {
-
-			return matches[0].replace( '\n', '<WPPreserveNewline />' );
+	wpautop( pee, br = true ) { // eslint-disable-line max-lines-per-function, complexity
+		const preTags = new Map();
+		const _autopNewlinePreservationHelper = function( matches ) {
+			return matches[ 0 ].replace( '\n', '<WPPreserveNewline />' );
 		};
 
 		if ( ( typeof pee ) !== 'string' && ! ( pee instanceof String ) ) {
@@ -919,14 +1124,13 @@ var wpf = {
 		pee = pee + '\n'; // Just to make things a little easier, pad the end.
 
 		if ( pee.indexOf( '<pre' ) > -1 ) {
-			let peeParts = pee.split( '</pre>' ),
-				lastPee  = peeParts.pop();
+			const peeParts = pee.split( '</pre>' ),
+				lastPee = peeParts.pop();
 
 			pee = '';
 
 			peeParts.forEach(
 				function( peePart, index ) {
-
 					const start = peePart.indexOf( '<pre' );
 
 					// Malformed html?
@@ -935,10 +1139,9 @@ var wpf = {
 						return;
 					}
 
-					let name      = '<pre wp-pre-tag-' + index + '></pre>';
-					preTags[name] = peePart.substring( start ) + '</pre>';
-					pee          += peePart.substring( 0, start ) + name;
-
+					const name = '<pre wp-pre-tag-' + index + '></pre>';
+					preTags[ name ] = peePart.substring( start ) + '</pre>';
+					pee += peePart.substring( 0, start ) + name;
 				}
 			);
 
@@ -948,10 +1151,10 @@ var wpf = {
 		pee = pee.replace( /<br \/>\s*<br \/>/, '\n\n' );
 
 		// Space things out a little.
-		let allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
+		const allBlocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
 
-		pee = pee.replace( new RegExp( '(<' + allblocks + '[^>]*>)', 'gmi' ), '\n$1' );
-		pee = pee.replace( new RegExp( '(</' + allblocks + '>)', 'gmi' ), '$1\n\n' );
+		pee = pee.replace( new RegExp( '(<' + allBlocks + '[^>]*>)', 'gmi' ), '\n$1' );
+		pee = pee.replace( new RegExp( '(</' + allBlocks + '>)', 'gmi' ), '$1\n\n' );
 		pee = pee.replace( /\r\n|\r/, '\n' ); // cross-platform newlines.
 
 		if ( pee.indexOf( '\n' ) === 0 ) {
@@ -959,14 +1162,12 @@ var wpf = {
 		}
 
 		if ( pee.indexOf( '<option' ) > -1 ) {
-
 			// no P/BR around option.
 			pee = pee.replace( /(?=(\s*))\2<option'/gmi, '<option' );
 			pee = pee.replace( /<\/option>\s*/gmi, '</option>' );
 		}
 
 		if ( pee.indexOf( '</object>' ) > -1 ) {
-
 			// no P/BR around param and embed.
 			pee = pee.replace( /(<object[^>]*>)\s*/gmi, '$1' );
 			pee = pee.replace( /(?=(\s*))\2<\/object>/gmi, '</object>' );
@@ -976,7 +1177,6 @@ var wpf = {
 		/* eslint-disable no-useless-escape */
 
 		if ( pee.indexOf( '<source' ) > -1 || pee.indexOf( '<track' ) > -1 ) {
-
 			// no P/BR around source and track.
 			pee = pee.replace( /([<\[](?:audio|video)[^>\]]*[>\]])\s*/gmi, '$1' );
 			pee = pee.replace( /(?=(\s*))\2([<\[]\/(?:audio|video)[>\]])/gmi, '$1' );
@@ -986,7 +1186,7 @@ var wpf = {
 		pee = pee.replace( /\n\n+/gmi, '\n\n' ); // take care of duplicates.
 
 		// make paragraphs, including one at the end.
-		let pees = pee.split( /\n\s*\n/ );
+		const pees = pee.split( /\n\s*\n/ );
 
 		pee = '';
 
@@ -996,14 +1196,14 @@ var wpf = {
 			}
 		);
 
-		pee = pee.replace( /<p>\s*<\/p>/gmi, '' ); // under certain strange conditions it could create a P of entirely whitespace.
+		pee = pee.replace( /<p>\s*<\/p>/gmi, '' ); // Under certain strange conditions, it could create a P of entire whitespace.
 		pee = pee.replace( /<p>([^<]+)<\/(div|address|form)>/gmi, '<p>$1</p></$2>' );
-		pee = pee.replace( new RegExp( '<p>\s*(</?' + allblocks + '[^>]*>)\s*</p>', 'gmi' ), '$1', pee ); // don't pee all over a tag.
+		pee = pee.replace( new RegExp( '<p>\s*(</?' + allBlocks + '[^>]*>)\s*</p>', 'gmi' ), '$1', pee ); // don't pee all over a tag.
 		pee = pee.replace( /<p>(<li.+?)<\/p>/gmi, '$1' ); // problem with nested lists.
 		pee = pee.replace( /<p><blockquote([^>]*)>/gmi, '<blockquote$1><p>' );
 		pee = pee.replace( /<\/blockquote><\/p>/gmi, '</p></blockquote>' );
-		pee = pee.replace( new RegExp( '<p>\s*(</?' + allblocks + '[^>]*>)', 'gmi' ), '$1' );
-		pee = pee.replace( new RegExp( '(</?' + allblocks + '[^>]*>)\s*</p>', 'gmi' ), '$1' );
+		pee = pee.replace( new RegExp( '<p>\s*(</?' + allBlocks + '[^>]*>)', 'gmi' ), '$1' );
+		pee = pee.replace( new RegExp( '(</?' + allBlocks + '[^>]*>)\s*</p>', 'gmi' ), '$1' );
 
 		if ( br ) {
 			pee = pee.replace( /<(script|style)(?:.|\n)*?<\/\\1>/gmi, _autopNewlinePreservationHelper ); // /s modifier from php PCRE regexp replaced with (?:.|\n).
@@ -1011,17 +1211,17 @@ var wpf = {
 			pee = pee.replace( '<WPPreserveNewline />', '\n' );
 		}
 
-		pee = pee.replace( new RegExp( '(</?' + allblocks + '[^>]*>)\s*<br />', 'gmi' ), '$1' );
+		pee = pee.replace( new RegExp( '(</?' + allBlocks + '[^>]*>)\s*<br />', 'gmi' ), '$1' );
 		pee = pee.replace( /<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/gmi, '$1' );
 		pee = pee.replace( /\n<\/p>$/gmi, '</p>' );
 
-		/* esline-enable */
+		/* eslint-enable */
 
 		if ( Object.keys( preTags ).length ) {
 			pee = pee.replace(
 				new RegExp( Object.keys( preTags ).join( '|' ), 'gi' ),
 				function( matched ) {
-					return preTags[matched];
+					return preTags[ matched ];
 				}
 			);
 		}
@@ -1065,6 +1265,26 @@ var wpf = {
 		} );
 
 		return mediaFrame;
+	},
+
+	/**
+	 * Determine whether an element is visible in the viewport.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param {jQuery} $element DOM element.
+	 *
+	 * @return {boolean} true if an element is visible in the viewport.
+	 */
+	isInViewport( $element ) {
+		const rect = $element[ 0 ].getBoundingClientRect();
+
+		return (
+			rect.top >= 0 &&
+			rect.left >= 0 &&
+			rect.bottom <= ( window.innerHeight || document.documentElement.clientHeight ) &&
+			rect.right <= ( window.innerWidth || document.documentElement.clientWidth )
+		);
 	},
 };
 

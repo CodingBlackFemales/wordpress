@@ -12,6 +12,15 @@ use WPForms\Helpers\CacheBase;
 class AddonsCache extends CacheBase {
 
 	/**
+	 * Remote source URL.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @var string
+	 */
+	const REMOTE_SOURCE = 'https://wpforms.com/wp-content/addons.json';
+
+	/**
 	 * Determine if the class is allowed to load.
 	 *
 	 * @since 1.6.8
@@ -42,7 +51,7 @@ class AddonsCache extends CacheBase {
 		return [
 
 			// Remote source URL.
-			'remote_source' => 'https://wpforms.com/wp-content/addons.json',
+			'remote_source' => $this->get_remote_source(),
 
 			// Addons cache file name.
 			'cache_file'    => 'addons.json',
@@ -62,6 +71,18 @@ class AddonsCache extends CacheBase {
 			// Scheduled update action.
 			'update_action' => 'wpforms_admin_addons_cache_update',
 		];
+	}
+
+	/**
+	 * Get remote source URL.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @return string
+	 */
+	protected function get_remote_source(): string {
+
+		return defined( 'WPFORMS_ADDONS_REMOTE_SOURCE' ) ? WPFORMS_ADDONS_REMOTE_SOURCE : self::REMOTE_SOURCE;
 	}
 
 	/**

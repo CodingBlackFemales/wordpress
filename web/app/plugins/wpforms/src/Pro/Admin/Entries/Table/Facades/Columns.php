@@ -79,6 +79,7 @@ class Columns extends ColumnsBase {
 		$default_forbidden_fields = [
 			'divider',
 			'layout',
+			'repeater',
 			'pagebreak',
 			'internal-information',
 			'html',
@@ -212,7 +213,7 @@ class Columns extends ColumnsBase {
 			return [];
 		}
 
-		$form_obj = wpforms()->get( 'form' );
+		$form_obj = wpforms()->obj( 'form' );
 
 		if ( ! $form_obj ) {
 			return [];
@@ -323,7 +324,7 @@ class Columns extends ColumnsBase {
 		$columns_keys = array_map( [ __CLASS__, 'sanitize_column_key' ], $columns_keys );
 		$columns_keys = array_filter( $columns_keys, [ __CLASS__, 'validate_column_key' ] );
 
-		$form_obj = wpforms()->get( 'form' );
+		$form_obj = wpforms()->obj( 'form' );
 
 		if ( ! $form_obj ) {
 			return false;
@@ -378,7 +379,7 @@ class Columns extends ColumnsBase {
 			return [];
 		}
 
-		$form_obj = wpforms()->get( 'form' );
+		$form_obj = wpforms()->obj( 'form' );
 
 		if ( ! $form_obj ) {
 			return [];

@@ -57,6 +57,7 @@ class ErrorHandler {
 			WPFORMS_PLUGIN_DIR . 'vendor_prefixed/',
 			WP_PLUGIN_DIR . '/wpforms-activecampaign/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-authorize-net/vendor/',
+			WP_PLUGIN_DIR . '/wpforms-aweber/deprecated/',
 			WP_PLUGIN_DIR . '/wpforms-aweber/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-calculations/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-campaign-monitor/vendor/',
@@ -142,6 +143,7 @@ class ErrorHandler {
 	 * @param int    $line    Line number.
 	 *
 	 * @return bool
+	 * @noinspection PhpTernaryExpressionCanBeReplacedWithConditionInspection
 	 */
 	public function error_handler( int $level, string $message, string $file, int $line ): bool { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 

@@ -64,11 +64,12 @@ class WPForms_Admin_Notice {
 	 */
 	public function display() {
 
-		// At least one WPForms capability is needed to see admin notices.
+		// At least one WPForms capability is necessary to see admin notices.
 		if ( ! wpforms_current_user_can( 'any' ) ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo implode( ' ', $this->notices );
 	}
 

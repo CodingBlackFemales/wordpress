@@ -257,10 +257,8 @@ class Page implements PaymentsViewsInterface {
 
 		static $mode;
 
-		$default_mode = 'live';
-
 		if ( ! wpforms_is_admin_ajax() && ! wpforms_is_admin_page( 'payments' ) && ! wpforms_is_admin_page( 'entries' ) ) {
-			return $default_mode;
+			return 'live';
 		}
 
 		if ( $mode ) {
@@ -280,7 +278,11 @@ class Page implements PaymentsViewsInterface {
 
 		$mode = get_user_meta( $user_id, $meta_key, true );
 
-		return ! empty( $mode ) ? $mode : $default_mode;
+		if ( empty( $mode ) || ! Helpers::is_test_payment_exists() ) {
+			$mode = 'live';
+		}
+
+		return $mode;
 	}
 
 	/**
@@ -382,7 +384,7 @@ class Page implements PaymentsViewsInterface {
 		}
 
 		$has_any_mode_payment = count(
-			wpforms()->get( 'payment' )->get_payments(
+			wpforms()->obj( 'payment' )->get_payments(
 				[
 					'mode'   => 'any',
 					'number' => 1,
@@ -393,7 +395,7 @@ class Page implements PaymentsViewsInterface {
 		// Check on trashed payments.
 		if ( ! $has_any_mode_payment ) {
 			$has_any_mode_payment = count(
-				wpforms()->get( 'payment' )->get_payments(
+				wpforms()->obj( 'payment' )->get_payments(
 					[
 						'mode'         => 'any',
 						'number'       => 1,

@@ -70,6 +70,9 @@ class WPForms_Rating_Text extends WPForms_Field {
 
 		$properties['inputs']['primary']['rating']['size'] = $this->get_icon_size_css( $icon_size );
 
+		// Null 'for' value for label as there no input for it.
+		unset( $properties['label']['attr']['for'] );
+
 		// Rating icon SVG image.
 		$properties['inputs']['primary']['rating']['svg'] = '<svg width="" height="" style="" fill="" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z"/></svg>';
 
@@ -365,12 +368,11 @@ class WPForms_Rating_Text extends WPForms_Field {
 	public function field_preview( $field ) {
 
 		// Define data.
-		$scale         = ! empty( $field['scale'] ) ? esc_attr( $field['scale'] ) : 5;
-		$icon          = ! empty( $field['icon'] ) ? esc_attr( $field['icon'] ) : 'star';
-		$icon_size     = ! empty( $field['icon_size'] ) ? esc_attr( $field['icon_size'] ) : 'medium';
-		$icon_color    = ! empty( $field['icon_color'] ) ? esc_attr( $field['icon_color'] ) : $this->get_default_icon_color();
-		$icon_class    = '';
-		$icon_size_css = '';
+		$scale      = ! empty( $field['scale'] ) ? esc_attr( $field['scale'] ) : 5;
+		$icon       = ! empty( $field['icon'] ) ? esc_attr( $field['icon'] ) : 'star';
+		$icon_size  = ! empty( $field['icon_size'] ) ? esc_attr( $field['icon_size'] ) : 'medium';
+		$icon_color = ! empty( $field['icon_color'] ) ? esc_attr( $field['icon_color'] ) : $this->get_default_icon_color();
+		$icon_class = '';
 
 		// Set icon class.
 		switch ( $icon ) {
@@ -401,11 +403,11 @@ class WPForms_Rating_Text extends WPForms_Field {
 		for ( $i = 1; $i <= 10; $i++ ) {
 			printf(
 				'<i class="fa %s %s rating-icon" aria-hidden="true" style="margin-right:5px; color:%s; display:%s; font-size:%dpx;"></i>',
-				$icon_class,
-				$icon_size,
-				$icon_color,
+				esc_attr( $icon_class ),
+				esc_attr( $icon_size ),
+				esc_attr( $icon_color ),
 				$i <= $scale ? 'inline-block' : 'none',
-				$icon_size_css
+				esc_attr( $icon_size_css )
 			);
 		}
 
@@ -462,10 +464,21 @@ class WPForms_Rating_Text extends WPForms_Field {
 		$scale   = ! empty( $rating['scale'] ) ? absint( $rating['scale'] ) : 5;
 
 		// Apply our customizations to the SVG.
-		$svg = str_replace( 'width=""', 'width="' . absint( $rating['size'] ) . '"', $svg );
-		$svg = str_replace( 'height=""', 'height="' . absint( $rating['size'] ) . '"', $svg );
-		$svg = str_replace( 'style=""', 'style="height:' . absint( $rating['size'] ) . 'px;width:' . absint( $rating['size'] ) . 'px;"', $svg );
-		$svg = str_replace( 'fill=""', 'fill="currentColor" color="' . wpforms_sanitize_hex_color( $rating['color'] ) . '"', $svg );
+		$svg = str_replace(
+			[
+				'width=""',
+				'height=""',
+				'style=""',
+				'fill=""',
+			],
+			[
+				'width="' . absint( $rating['size'] ) . '"',
+				'height="' . absint( $rating['size'] ) . '"',
+				'style="height:' . absint( $rating['size'] ) . 'px;width:' . absint( $rating['size'] ) . 'px;"',
+				'fill="currentColor" color="' . wpforms_sanitize_hex_color( $rating['color'] ) . '"',
+			],
+			$svg
+		);
 
 		echo '<div class="wpforms-field-rating-items">';
 
@@ -473,25 +486,29 @@ class WPForms_Rating_Text extends WPForms_Field {
 		for ( $i = 1; $i <= $scale; $i++ ) {
 
 			printf(
-				'<label class="wpforms-field-rating-item choice-%d" for="wpforms-%d-field_%d_%d">',
-				$i,
+				'<label class="wpforms-field-rating-item choice-%1$d" for="wpforms-%2$d-field_%3$s_%1$d">',
+				(int) $i,
 				absint( $form_data['id'] ),
-				$field['id'],
-				$i
+				wpforms_validate_field_id( $field['id'] )
 			);
 
 				// Hidden label for screen readers.
 				echo '<span class="wpforms-screen-reader-element">';
+
+				printf(
 					/* translators: %1$s - rating value, %2$s - rating scale. */
-					printf( esc_html__( 'Rate %1$d out of %2$d', 'wpforms' ), $i, $scale );
+					esc_html__( 'Rate %1$d out of %2$d','wpforms' ),
+					(int) $i,
+					(int) $scale
+				);
 				echo '</span>';
 
 				// Primary field.
 				$primary['id'] = sprintf(
-					'wpforms-%d-field_%d_%d',
+					'wpforms-%1$d-field_%2$s_%3$d',
 					absint( $form_data['id'] ),
-					$field['id'],
-					$i
+					wpforms_validate_field_id( $field['id'] ),
+					(int) $i
 				);
 
 				$primary['attr']['value'] = $i;
@@ -505,11 +522,11 @@ class WPForms_Rating_Text extends WPForms_Field {
 				printf(
 					'<input type="radio" %s %s>',
 					wpforms_html_attributes( $primary['id'], $primary['class'], $primary['data'], $primary['attr'] ),
-					$primary['required']
+					esc_html( $primary['required'] )
 				);
 
 				// SVG image.
-				echo $svg;
+				echo $svg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 			echo '</label>';
 		}
@@ -552,10 +569,10 @@ class WPForms_Rating_Text extends WPForms_Field {
 		}
 
 		// Set final field details.
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'  => sanitize_text_field( $name ),
 			'value' => sanitize_text_field( $value ),
-			'id'    => absint( $field_id ),
+			'id'    => wpforms_validate_field_id( $field_id ),
 			'type'  => $this->type,
 			'scale' => sanitize_text_field( $scale ),
 			'icon'  => sanitize_text_field( $form_data['fields'][ $field_id ]['icon'] ),

@@ -55,38 +55,38 @@ abstract class UpgradeBase {
 	abstract public function run();
 
 	/**
-	 * Run the async upgrade via Action Scheduler (AS) task.
+	 * Run the async upgrade via an Action Scheduler (AS) task.
 	 * The AS task has to support STATUS option with START, IN_PROGRESS, and COMPLETED values.
 	 * Also, the AS task must have the init() method.
 	 *
 	 * @since 1.7.5
 	 *
-	 * @param string $class Classname of async AS task.
+	 * @param string $classname Classname of an async AS task.
 	 *
 	 * @return bool|null Upgrade result:
 	 *                   true  - the upgrade completed successfully,
 	 *                   false - in the case of failure,
 	 *                   null  - upgrade started but not yet finished (background task).
 	 */
-	protected function run_async( $class ) { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	protected function run_async( string $classname ) { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
-		$status = get_option( $class::STATUS );
+		$status = get_option( $classname::STATUS );
 
-		if ( $status === $class::COMPLETED ) {
-			delete_option( $class::STATUS );
+		if ( $status === $classname::COMPLETED ) {
+			delete_option( $classname::STATUS );
 
 			return true;
 		}
 
 		if ( ! $status ) {
-			update_option( $class::STATUS, $class::START );
+			update_option( $classname::STATUS, $classname::START );
 		}
 
 		// Class Tasks does not exist at this point, so we have to add an action on init.
 		add_action(
 			'init',
-			static function () use ( $class ) {
-				( new $class() )->init();
+			static function () use ( $classname ) {
+				( new $classname() )->init();
 			},
 			PHP_INT_MAX
 		);

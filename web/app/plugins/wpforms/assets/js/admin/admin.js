@@ -1,7 +1,11 @@
 /* global wpforms_admin, jconfirm, wpCookies, Choices, List, wpf */
 
-;( function( $ ) {
+/**
+ * @param wpforms_admin.recreating
+ * @param wpforms_admin.testing
+ */
 
+( function( $ ) {
 	'use strict';
 
 	// Global settings access.
@@ -52,6 +56,9 @@
 
 			// Upgrades (Tools view).
 			WPFormsAdmin.initUpgrades();
+
+			// Tab menu.
+			WPFormsAdmin.initScrollableMenu();
 		},
 
 		/**
@@ -216,6 +223,9 @@
 				// Remove "Press to select" text.
 				args.itemSelectText = '';
 
+				// Render HTML in Choices.js.
+				args.allowHTML = true;
+
 				// Function to run once Choices initialises.
 				// We need to reproduce a behaviour like on public-facing area for "Edit Entry" page.
 				args.callbackOnInit = function() {
@@ -229,15 +239,15 @@
 					}
 
 					wpf.initMultipleSelectWithSearch( this );
+					wpf.showMoreButtonForChoices( self.containerOuter.element );
 				};
 
-				$this.data( 'choicesjs', new Choices( $this[0], args ) );
+				$this.data( 'choicesjs', new Choices( $this[ 0 ], args ) );
 			} );
 
 			// Add ability to close the drop-down menu.
 			$( document ).on( 'click', '.choices', function( e ) {
-
-				var $choices =  $( this ),
+				const $choices = $( this ),
 					choicesObj = $choices.find( 'select' ).data( 'choicesjs' );
 
 				if (
@@ -251,6 +261,8 @@
 					choicesObj.hideDropdown();
 				}
 			} );
+
+			wpf.initializeChoicesEventHandlers();
 		},
 
 		/**
@@ -806,10 +818,9 @@
 
 			// Open modal and play How To video.
 			$( document ).on( 'click', '#wpforms-welcome .play-video', function( event ) {
-
 				event.preventDefault();
 
-				var video = '<div class="video-container"><iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/o2nE1P74WxQ?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe></div>';
+				const video = '<div class="video-container"><iframe width="1280" height="720" src="https://www.youtube-nocookie.com/embed/SQ9kV9SKz5k?rel=0&amp;showinfo=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe></div>';
 
 				$.dialog( {
 					title: false,
@@ -1315,7 +1326,6 @@
 		//--------------------------------------------------------------------//
 		// Settings.
 		//--------------------------------------------------------------------//
-
 		/**
 		 * Element bindings for Settings page.
 		 *
@@ -2093,6 +2103,12 @@
 				WPFormsAdmin.verifySSLConnection();
 			} );
 
+			// Recreate database tables.
+			$( document ).on( 'click', '#wpforms-recreate-tables', function( event ) {
+				event.preventDefault();
+				WPFormsAdmin.recreateTables();
+			} );
+
 			// Run import for a specific provider.
 			$( document ).on( 'click', '#wpforms-importer-forms-submit', function( event ) {
 				event.preventDefault();
@@ -2185,6 +2201,48 @@
 					$btn.before( '<div class="wpforms-ssl-error pre-error">' + res.data.debug + '</div>' );
 				}
 
+				$btn.css( 'width', btnWidth ).prop( 'disabled', false ).text( btnLabel );
+			} );
+		},
+
+		/**
+		 * Recreate custom tables.
+		 *
+		 * @since 1.9.0
+		 */
+		recreateTables() {
+			const $btn = $( '#wpforms-recreate-tables' );
+			const btnLabel = $btn.text();
+			const btnWidth = $btn.outerWidth();
+			const $settings = $btn.parent();
+
+			$btn.css( 'width', btnWidth ).prop( 'disabled', true ).text( wpforms_admin.recreating );
+
+			const data = {
+				action: 'wpforms_recreate_tables',
+				nonce:   wpforms_admin.nonce,
+			};
+
+			// Trigger AJAX to recreate tables.
+			$.post( wpforms_admin.ajax_url, data, function( res ) {
+				WPFormsAdmin.debug( res );
+
+				// Remove any previous alerts.
+				$settings.find( '.wpforms-notice' ).remove();
+
+				if ( res.success ) {
+					$btn.before( '<div class="notice wpforms-notice notice-success">' + res.data.msg + '</div>' );
+					$btn.hide();
+				}
+
+				if ( ! res.success && res.data.msg ) {
+					$btn.before( '<div class="notice wpforms-notice notice-error">' + res.data.msg + '</div>' );
+				}
+
+				if ( ! res.success && res.data.debug ) {
+					$btn.before( '<div class="wpforms-ssl-error pre-error">' + res.data.debug + '</div>' );
+				}
+			} ).always( function() {
 				$btn.css( 'width', btnWidth ).prop( 'disabled', false ).text( btnLabel );
 			} );
 		},
@@ -2612,8 +2670,8 @@
 		 * @return {Object} Notice Data object.
 		 */
 		getDeleteAllNoticeData: ( type = '' ) => {
-			// if is trash page show delete data.
-			if ( 'trash' === type ) {
+			// Define delete data for spam or trash.
+			if ( [ 'spam', 'trash' ].includes( type ) ) {
 				return {
 					contentAll : wpforms_admin.entry_delete_all_confirm,
 					content : wpforms_admin.entry_delete_n_confirm,
@@ -2621,12 +2679,39 @@
 				};
 			}
 
-			// If not return trash data.
+			// Otherwise define trash data.
 			return {
 				contentAll : wpforms_admin.entry_trash_all_confirm,
 				content : wpforms_admin.entry_trash_n_confirm,
 				action : 'trash',
 			};
+		},
+
+		/**
+		 * Show/hide the right arrow for the scrollable menu on mobile devices.
+		 *
+		 * @since 1.8.8
+		 */
+		initScrollableMenu() {
+			$( document ).on( 'wpformsReady', function() {
+				const $menu = $( '.wpforms-admin-tabs' );
+
+				if ( ! $menu.length ) {
+					return;
+				}
+
+				const $lastMenuItem = $menu.find( 'li:last-child' );
+
+				// The last item of the menu is not visible - show the right arrow as an indicator of a scrollable menu.
+				if ( ! wpf.isInViewport( $lastMenuItem ) ) {
+					$menu.addClass( 'wpforms-admin-tabs--scrollable' );
+				}
+
+				// Listen to `scroll` event in order to hide the right arrow when the last item is visible.
+				$menu.on( 'scroll', function() {
+					$menu.toggleClass( 'wpforms-admin-tabs--scrollable', ! wpf.isInViewport( $lastMenuItem ) );
+				} );
+			} );
 		},
 	};
 
@@ -2634,4 +2719,4 @@
 
 	window.WPFormsAdmin = WPFormsAdmin;
 
-} )( jQuery );
+}( jQuery ) );

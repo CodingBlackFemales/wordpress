@@ -3,6 +3,7 @@
 namespace WPForms\Admin\Forms;
 
 use WPForms\Admin\Forms\Table\Facades\Columns;
+use WPForms\Admin\Traits\HasScreenOptions;
 
 /**
  * Primary overview page inside the admin which lists all forms.
@@ -10,6 +11,8 @@ use WPForms\Admin\Forms\Table\Facades\Columns;
  * @since 1.8.6
  */
 class Page {
+
+	use HasScreenOptions;
 
 	/**
 	 * Overview Table instance.
@@ -27,6 +30,42 @@ class Page {
 	 */
 	public function __construct() {
 
+		$this->screen_options_id = 'wpforms_forms_overview_screen_options';
+
+		$this->screen_options = [
+			'pagination' => [
+				'heading' => esc_html__( 'Pagination', 'wpforms-lite' ),
+				'options' => [
+					[
+						'label'   => esc_html__( 'Number of forms per page:', 'wpforms-lite' ),
+						'option'  => 'per_page',
+						'default' => wpforms()->obj( 'form' )->get_count_per_page(),
+						'type'    => 'number',
+						'args'    => [
+							'min'       => 1,
+							'max'       => 999,
+							'step'      => 1,
+							'maxlength' => 3,
+						],
+					],
+				],
+			],
+			'view'       => [
+				'heading' => esc_html__( 'View', 'wpforms-lite' ),
+				'options' => [
+					[
+						'label'   => esc_html__( 'Show form templates', 'wpforms-lite' ),
+						'option'  => 'show_form_templates',
+						'default' => true,
+						'type'    => 'checkbox',
+						'checked' => true,
+					],
+				],
+			],
+		];
+
+		$this->init_screen_options( wpforms_is_admin_page( 'overview' ) );
+
 		$this->hooks();
 	}
 
@@ -37,11 +76,35 @@ class Page {
 	 */
 	private function hooks() {
 
-		// Setup screen options. Needs to be here as admin_init hook it too late.
-		add_action( 'load-toplevel_page_wpforms-overview', [ $this, 'screen_options' ] );
-		add_filter( 'set-screen-option', [ $this, 'screen_options_set' ], 10, 3 );
-		add_filter( 'set_screen_option_wpforms_forms_per_page', [ $this, 'screen_options_set' ], 10, 3 );
+		// Reset columns settings.
 		add_filter( 'manage_toplevel_page_wpforms-overview_columns', [ $this, 'screen_settings_columns' ] );
+
+		// Rewrite forms per page value from Form Overview page screen options.
+		add_filter( 'wpforms_forms_per_page', [ $this, 'get_wpforms_forms_per_page' ] );
+	}
+
+	/**
+	 * Check if the template visibility option is enabled.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return bool
+	 */
+	public function overview_show_form_templates() {
+
+		return get_user_option( $this->screen_options_id . '_view_show_form_templates' );
+	}
+
+	/**
+	 * Get forms per page value from Form Overview page screen options.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return int
+	 */
+	public function get_wpforms_forms_per_page() {
+
+		return get_user_option( $this->screen_options_id . '_pagination_per_page' );
 	}
 
 	/**
@@ -99,54 +162,12 @@ class Page {
 	 * Add per-page screen option to the Forms table.
 	 *
 	 * @since 1.8.6
+	 *
+	 * @depecated 1.8.8 Use HasScreenOptions trait instead.
 	 */
 	public function screen_options() {
 
-		$screen = get_current_screen();
-
-		if ( $screen === null || $screen->id !== 'toplevel_page_wpforms-overview' ) {
-			return;
-		}
-
-		/**
-		 * Filters forms per page default value.
-		 *
-		 * @since 1.8.6
-		 *
-		 * @param int $per_page Forms per page default value.
-		 *
-		 * @return int
-		 */
-		$default = apply_filters( 'wpforms_overview_per_page', 20 ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
-
-		add_screen_option(
-			'per_page',
-			[
-				'label'   => esc_html__( 'Number of forms per page:', 'wpforms-lite' ),
-				'option'  => 'wpforms_forms_per_page',
-				'default' => $default,
-			]
-		);
-	}
-
-	/**
-	 * Form table per-page screen option value.
-	 *
-	 * @since 1.8.6
-	 *
-	 * @param bool   $keep   Whether to save or skip saving the screen option value. Default false.
-	 * @param string $option The option name.
-	 * @param int    $value  The number of rows to use.
-	 *
-	 * @return mixed
-	 */
-	public function screen_options_set( $keep, $option, $value ) {
-
-		if ( $option === 'wpforms_forms_per_page' ) {
-			return $value;
-		}
-
-		return $keep;
+		_deprecated_function( __METHOD__, '1.8.8 of the WPForms plugin' );
 	}
 
 	/**
@@ -216,7 +237,7 @@ class Page {
 			! isset( $_GET['search']['term'] ) &&
 			! isset( $_GET['status'] ) &&
 			! isset( $_GET['tags'] ) &&
-			array_sum( wpforms()->get( 'forms_views' )->get_count() ) === 0;
+			array_sum( wpforms()->obj( 'forms_views' )->get_count() ) === 0;
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
@@ -289,9 +310,9 @@ class Page {
 	 */
 	public function notices() {
 
-		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->get( 'forms_bulk_actions' )->notices()" );
+		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->obj( 'forms_bulk_actions' )->notices()" );
 
-		wpforms()->get( 'forms_bulk_actions' )->notices();
+		wpforms()->obj( 'forms_bulk_actions' )->notices();
 	}
 
 	/**
@@ -302,9 +323,9 @@ class Page {
 	 */
 	public function process_bulk_actions() {
 
-		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->get( 'forms_bulk_actions' )->process()" );
+		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->obj( 'forms_bulk_actions' )->process()" );
 
-		wpforms()->get( 'forms_bulk_actions' )->process();
+		wpforms()->obj( 'forms_bulk_actions' )->process();
 	}
 
 	/**
@@ -319,9 +340,9 @@ class Page {
 	 */
 	public function removable_query_args( $removable_query_args ) {
 
-		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->get( 'forms_bulk_actions' )->removable_query_args()" );
+		_deprecated_function( __METHOD__, '1.7.3 of the WPForms', "wpforms()->obj( 'forms_bulk_actions' )->removable_query_args()" );
 
-		return wpforms()->get( 'forms_bulk_actions' )->removable_query_args( $removable_query_args );
+		return wpforms()->obj( 'forms_bulk_actions' )->removable_query_args( $removable_query_args );
 	}
 
 	/**

@@ -47,6 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <input
 		type="text"
 		autocomplete="off"
+		readonly
 		class="dropzone-input"
 		style="position:absolute!important;clip:rect(0,0,0,0)!important;height:1px!important;width:1px!important;border:0!important;overflow:hidden!important;padding:0!important;margin:0!important;"
 		id="wpforms-<?php echo absint( $form_id ); ?>-field_<?php echo absint( $field_id ); ?>"

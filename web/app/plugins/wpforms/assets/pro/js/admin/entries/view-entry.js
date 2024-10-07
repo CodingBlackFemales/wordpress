@@ -5,27 +5,23 @@
  *
  * @since 1.7.0
  */
-
-'use strict';
-
-var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, $ ) { // eslint-disable-line no-unused-vars
-
+// eslint-disable-next-line no-var
+var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.7.0
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var app = {
+	var app = { // eslint-disable-line no-var
 
 		/**
 		 * Start the engine.
 		 *
 		 * @since 1.7.0
 		 */
-		init: function() {
-
+		init() {
 			// Document ready.
 			$( app.ready );
 		},
@@ -35,8 +31,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.7.0
 		 */
-		ready: function() {
-
+		ready() {
 			app.loadAllRichTextFields();
 			app.bindSettingsToggle();
 			app.addAlternateStyles();
@@ -48,8 +43,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.8.3
 		 */
-		saveData: function() {
-
+		saveData() {
 			// Ajax call to save settings.
 			const checked = [];
 
@@ -83,8 +77,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showFieldDescriptions: function( isActive ) {
-
+			showFieldDescriptions( isActive ) {
 				app.updateSettings.$container.find( '.wpforms-entry-field-description' ).toggleClass( 'wpforms-hide', ! isActive );
 			},
 
@@ -95,8 +88,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showEmptyFields: function( isActive ) {
-
+			showEmptyFields( isActive ) {
 				app.updateSettings.$container.find( '.empty' ).toggleClass( 'wpforms-hide', ! isActive );
 			},
 
@@ -107,10 +99,8 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showSectionDividers: function( isActive ) {
-
-				const property = isActive ? 'flex' : 'none';
-				app.updateSettings.$container.find( '.wpforms-field-entry-divider' ).css( 'display', property );
+			showSectionDividers( isActive ) {
+				app.updateSettings.$container.find( '.wpforms-field-entry-divider' ).toggleClass( 'wpforms-hide', ! isActive );
 			},
 
 			/**
@@ -120,10 +110,8 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showPageBreaks: function( isActive ) {
-
-				const property = isActive ? 'flex' : 'none';
-				app.updateSettings.$container.find( '.wpforms-field-entry-pagebreak' ).css( 'display', property );
+			showPageBreaks( isActive ) {
+				app.updateSettings.$container.find( '.wpforms-field-entry-pagebreak' ).toggleClass( 'wpforms-hide', ! isActive );
 			},
 
 			/**
@@ -133,8 +121,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showUnselectedChoices: function( isActive ) {
-
+			showUnselectedChoices( isActive ) {
 				app.updateSettings.$container.find( '.wpforms-field-entry-toggle' ).find( '.wpforms-entry-field-value-is-choice' ).toggleClass( 'wpforms-hide', ! isActive );
 				app.updateSettings.$container.find( '.wpforms-field-entry-toggle' ).find( '.wpforms-entry-field-value' ).toggleClass( 'wpforms-hide', isActive );
 			},
@@ -146,8 +133,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			showHtmlFields: function( isActive ) {
-
+			showHtmlFields( isActive ) {
 				app.updateSettings.$container.find( '.wpforms-field-entry-html' ).toggle( isActive );
 				app.updateSettings.$container.find( '.wpforms-field-entry-content' ).toggle( isActive );
 			},
@@ -160,8 +146,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 * @param {boolean} isActive Is the option active or not?
 			 * @since 1.8.3
 			 */
-			maintainLayouts: function( isActive ) {
-
+			maintainLayouts( isActive ) {
 				app.updateSettings.$layoutWrapper.toggleClass( 'wpforms-entry-maintain-layout', isActive );
 				app.updateSettings.$layoutWrapper.removeClass( 'wpforms-entry-compact-layout' );
 				$( '#wpforms-entry-setting-compact_view' ).prop( 'checked', false );
@@ -174,8 +159,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			 *
 			 * @param {boolean} isActive Is the option active or not?
 			 */
-			compactView: function( isActive ) {
-
+			compactView( isActive ) {
 				app.updateSettings.$layoutWrapper.toggleClass( 'wpforms-entry-compact-layout', isActive );
 				app.updateSettings.$layoutWrapper.removeClass( 'wpforms-entry-maintain-layout' );
 				$( '#wpforms-entry-setting-maintain_layouts' ).prop( 'checked', false );
@@ -187,15 +171,12 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.7.0
 		 */
-		loadAllRichTextFields: function() {
-
+		loadAllRichTextFields() {
 			$( '.wpforms-entry-field-value-richtext' ).each( function() {
-
-				var iframe = this,
-					$iframe = $( this );
+				const iframe = this;
+				const $iframe = $( this );
 
 				$iframe.on( 'load', function() {
-
 					app.loadRichTextField( iframe );
 				} );
 
@@ -228,21 +209,20 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param {object} obj Iframe element.
+		 * @param {Object} obj Iframe element.
 		 */
-		resizeRichTextField: function( obj ) {
-
+		resizeRichTextField( obj ) {
 			if ( ! obj || ! obj.contentWindow ) {
 				return;
 			}
 
-			var doc = obj.contentWindow.document.documentElement || false;
+			const doc = obj.contentWindow.document.documentElement || false;
 
 			if ( ! doc ) {
 				return;
 			}
 
-			var height = doc.scrollHeight;
+			let height = doc.scrollHeight;
 
 			height += doc.scrollWidth > doc.clientWidth ? 20 : 0;
 
@@ -254,13 +234,11 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param {object} obj Iframe element.
+		 * @param {Object} obj Iframe element.
 		 */
-		addLinksAttr: function( obj ) {
-
+		addLinksAttr( obj ) {
 			$( obj ).contents().find( 'a' ).each( function() {
-
-				var $this = $( this );
+				let $this = $( this ); // eslint-disable-line prefer-const
 
 				$this.attr( 'rel', 'noopener' );
 
@@ -275,48 +253,39 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.8.3
 		 */
-		bindSettingsToggle: function() {
-
+		bindSettingsToggle() {
 			$( '#wpforms-entries-settings-button' ).on( 'click', function( event ) {
-
 				event.preventDefault();
 				event.stopPropagation();
 
 				// Toggle the visibility of the matched element.
 				$( '.wpforms-entries-settings-menu' ).toggle( 0, function() {
-
 					const $menu = $( this );
 
 					// When the dropdown is open, aria-expended="true".
 					$menu.attr( 'aria-expanded', $menu.is( ':visible' ) );
 				} );
-
 			} );
 
 			$( '.wpforms-entries-settings-menu-items input' ).on( 'change', app.toggleMode );
-
 		},
 
 		/**
 		 * Hide dropdown when clicking outside of it.
 		 *
 		 * @since 1.8.3
-		 *
 		 */
-		hideDropdown: function() {
-
+		hideDropdown() {
 			// This will hide the dropdown when clicking outside of it.
 			$( document ).on( 'click', function( event ) {
-
 				// The dropdown container
-				const $target      = $( '.wpforms-entries-settings-menu' );
+				const $target = $( '.wpforms-entries-settings-menu' );
 				const $targetClass = '.wpforms-entries-settings-menu';
 
 				// Check if the clicked element is not the dropdown container or a child of it.
-				if ( ! $( event.target ).closest( `${$targetClass}:visible` ).length  ) {
+				if ( ! $( event.target ).closest( `${ $targetClass }:visible` ).length ) {
 					$target.attr( 'aria-expanded', 'false' ).hide();
 				}
-
 			} );
 		},
 
@@ -325,15 +294,15 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.8.3
 		 */
-		toggleMode: function() {
-
+		toggleMode() {
 			const $this = $( this );
 			const isActive = $this.is( ':checked' );
+			// eslint-disable-next-line prefer-const
 			let setting = $this.attr( 'name' )
-				.replace( /([-_][a-z])/g, group => group.toUpperCase() )
+				.replace( /([-_][a-z])/g, group => group.toUpperCase() ) // eslint-disable-line arrow-parens
 				.replaceAll( '_', '' );
 
-			app.updateSettings[setting]( isActive );
+			app.updateSettings[ setting ]( isActive );
 
 			app.saveData();
 		},
@@ -343,8 +312,7 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 		 *
 		 * @since 1.8.3
 		 */
-		addAlternateStyles: function() {
-
+		addAlternateStyles() {
 			$( '.wpforms-field-entry-fields' ).each( function( index ) {
 				if ( index % 2 !== 0 ) {
 					$( this ).addClass( 'wpforms-entry-field-row-alt' );
@@ -356,7 +324,6 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 WPFormsViewEntry.init();

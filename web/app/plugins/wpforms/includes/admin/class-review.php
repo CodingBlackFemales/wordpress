@@ -99,7 +99,7 @@ class WPForms_Review {
 	public function review() {
 
 		// Fetch total entries.
-		$entries = wpforms()->get( 'entry' )->get_entries( [ 'number' => 50 ], true );
+		$entries = wpforms()->obj( 'entry' )->get_entries( [ 'number' => 50 ], true );
 
 		// Only show review request if the site has collected at least 50 entries.
 		if ( empty( $entries ) || $entries < 50 ) {
@@ -129,8 +129,13 @@ class WPForms_Review {
 	 */
 	public function review_lite() {
 
+		// Do not show the review request on Entries pages.
+		if ( wpforms_is_admin_page( 'entries' ) ) {
+			return;
+		}
+
 		// Fetch when plugin was initially installed.
-		$activated = get_option( 'wpforms_activated', [] );
+		$activated = (array) get_option( 'wpforms_activated', [] );
 
 		if ( ! empty( $activated['lite'] ) ) {
 			// Only continue if plugin has been installed for at least 14 days.

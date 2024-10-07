@@ -48,6 +48,15 @@ class Views {
 	private $base_url;
 
 	/**
+	 * Show form templates.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @var bool
+	 */
+	private $show_form_templates;
+
+	/**
 	 * Views configuration.
 	 *
 	 * @since 1.7.3
@@ -69,8 +78,39 @@ class Views {
 				'title'         => __( 'Trash', 'wpforms-lite' ),
 				'get_var'       => 'status',
 				'get_var_value' => 'trash',
+				'args'          => [
+					'post_status' => 'trash',
+				],
 			],
 		];
+
+		$this->show_form_templates = wpforms()->obj( 'forms_overview' )->overview_show_form_templates();
+
+		// Add Forms and Templates views if Show Templates setting is enabled.
+		if ( $this->show_form_templates ) {
+			$views = wpforms_array_insert(
+				$views,
+				[
+					'forms'     => [
+						'title'         => __( 'Forms', 'wpforms-lite' ),
+						'get_var'       => 'type',
+						'get_var_value' => 'wpforms',
+						'args'          => [
+							'post_type' => 'wpforms',
+						],
+					],
+					'templates' => [
+						'title'         => __( 'Templates', 'wpforms-lite' ),
+						'get_var'       => 'type',
+						'get_var_value' => 'wpforms-template',
+						'args'          => [
+							'post_type' => 'wpforms-template',
+						],
+					],
+				],
+				'all'
+			);
+		}
 
 		// phpcs:disable WPForms.Comments.ParamTagHooks.InvalidParamTagsQuantity
 
@@ -88,6 +128,7 @@ class Views {
 		 *        @param string $title         View title.
 		 *        @param string $get_var       URL query variable name.
 		 *        @param string $get_var_value URL query variable value.
+		 *        @param array $args           Additional arguments to be passed to `wpforms()->obj( 'form' )->get()` method.
 		 *    }
 		 *    ...
 		 * }
@@ -104,7 +145,7 @@ class Views {
 	 *
 	 * @return bool
 	 */
-	private function allow_load() {
+	private function allow_load(): bool {
 
 		// Load only on the `All Forms` admin page.
 		return wpforms_is_admin_page( 'overview' );
@@ -136,7 +177,7 @@ class Views {
 
 		add_filter( 'wpforms_overview_table_update_count', [ $this, 'update_count' ], 10, 2 );
 		add_filter( 'wpforms_overview_table_update_count_all', [ $this, 'update_count' ], 10, 2 );
-		add_filter( 'wpforms_overview_table_prepare_items_args', [ $this, 'prepare_items_trash' ], 100 );
+		add_filter( 'wpforms_overview_table_prepare_items_args', [ $this, 'prepare_items_args' ], 100 );
 		add_filter( 'wpforms_overview_row_actions', [ $this, 'row_actions_all' ], 9, 2 );
 		add_filter( 'wpforms_overview_row_actions', [ $this, 'row_actions_trash' ], PHP_INT_MAX, 2 );
 		add_filter( 'wpforms_admin_forms_search_search_reset_block_message', [ $this, 'search_reset_message' ], 10, 4 );
@@ -190,6 +231,7 @@ class Views {
 				'restored',
 				'deleted',
 				'duplicated',
+				'type',
 			]
 		);
 
@@ -203,7 +245,7 @@ class Views {
 	 *
 	 * @return string
 	 */
-	public function get_current_view() {
+	public function get_current_view(): string {
 
 		return $this->current_view;
 	}
@@ -215,7 +257,7 @@ class Views {
 	 *
 	 * @return string
 	 */
-	public function get_base_url() {
+	public function get_base_url(): string {
 
 		return $this->base_url;
 	}
@@ -229,9 +271,9 @@ class Views {
 	 *
 	 * @return array
 	 */
-	public function get_view_by_slug( $slug ) {
+	public function get_view_by_slug( string $slug ): array {
 
-		return isset( $this->views[ $slug ] ) ? $this->views[ $slug ] : [];
+		return $this->views[ $slug ] ?? []; // phpcs:ignore WPForms.Formatting.EmptyLineBeforeReturn.RemoveEmptyLineBeforeReturnStatement
 	}
 
 	/**
@@ -246,32 +288,115 @@ class Views {
 	 */
 	public function update_count( $count, $args ) {
 
-		// Count forms in Trash.
-		// We should perform the search of the trashed forms without paging and then count the results.
-		$args = array_merge(
-			$args,
-			[
-				'nopaging'               => true,
-				'no_found_rows'          => true,
-				'update_post_meta_cache' => false,
-				'update_post_term_cache' => false,
-				'fields'                 => 'ids',
-				'post_status'            => 'trash',
-			]
-		);
+		$defaults = [
+			'nopaging'               => true,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+			'fields'                 => 'ids',
+			'post_status'            => 'publish',
+			'post_type'              => wpforms()->obj( 'form' )::POST_TYPES,
+		];
 
-		$forms          = wpforms()->get( 'form' )->get( '', $args );
-		$count['trash'] = is_array( $forms ) ? count( $forms ) : 0;
+		$args = array_merge( $args, $defaults );
 
-		// Count all published forms.
-		$args['post_status'] = 'publish';
-		$forms               = wpforms()->get( 'form' )->get( '', $args );
-		$count['all']        = is_array( $forms ) ? count( $forms ) : 0;
+		$count['all']   = $this->get_all_items_count( $args );
+		$count['trash'] = $this->get_trashed_forms_count( $args );
+
+		// Count forms and templates separately only if Show Templates screen setting is enabled.
+		if ( $this->show_form_templates ) {
+			$count['forms']     = $this->get_forms_count( $args );
+			$count['templates'] = $this->get_form_templates_count( $args );
+		}
 
 		// Store in class property for further use.
 		$this->count = $count;
 
 		return $count;
+	}
+
+	/**
+	 * Get count of all items.
+	 *
+	 * May include only forms or both forms and form templates, depending on the
+	 * Screen Options settings whether to show form templates or not.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $args Get forms arguments.
+	 *
+	 * @return int Number of forms and templates.
+	 */
+	private function get_all_items_count( array $args ): int {
+
+		if ( ! $this->show_form_templates ) {
+			$args['post_type'] = 'wpforms';
+		}
+
+		$all_items = wpforms()->obj( 'form' )->get( '', $args );
+
+		return is_array( $all_items ) ? count( $all_items ) : 0;
+	}
+
+	/**
+	 * Get count of forms.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $args Get forms arguments.
+	 *
+	 * @return int Number of published forms.
+	 */
+	private function get_forms_count( array $args ): int {
+
+		$args['post_type'] = 'wpforms';
+
+		$forms = wpforms()->obj( 'form' )->get( '', $args );
+
+		return is_array( $forms ) ? count( $forms ) : 0;
+	}
+
+	/**
+	 * Get count of form templates.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $args Get forms arguments.
+	 *
+	 * @return int Number of published templates.
+	 */
+	private function get_form_templates_count( array $args ): int {
+
+		$args['post_type'] = 'wpforms-template';
+
+		$templates = wpforms()->obj( 'form' )->get( '', $args );
+
+		return is_array( $templates ) ? count( $templates ) : 0;
+	}
+
+	/**
+	 * Get count of trashed items.
+	 *
+	 * May include only forms or both forms and form templates, depending on the
+	 * Screen Options settings whether to show form templates or not.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $args Get forms arguments.
+	 *
+	 * @return int Number of trashed forms.
+	 */
+	private function get_trashed_forms_count( array $args ): int {
+
+		if ( ! $this->show_form_templates ) {
+			$args['post_type'] = 'wpforms';
+		}
+
+		$args['post_status'] = 'trash';
+
+		$forms = wpforms()->obj( 'form' )->get( '', $args );
+
+		return is_array( $forms ) ? count( $forms ) : 0;
 	}
 
 	/**
@@ -281,9 +406,29 @@ class Views {
 	 *
 	 * @return array
 	 */
-	public function get_count() {
+	public function get_count(): array {
 
 		return $this->count;
+	}
+
+	/**
+	 * Prepare items arguments for list table.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $args Get multiple forms arguments.
+	 *
+	 * @return array
+	 */
+	public function prepare_items_args( $args ): array {
+
+		$view_args = $this->views[ $this->current_view ]['args'] ?? [];
+
+		if ( ! empty( $view_args ) ) {
+			$args = array_merge( $args, $view_args );
+		}
+
+		return $args;
 	}
 
 	/**
@@ -291,16 +436,15 @@ class Views {
 	 *
 	 * @since 1.7.3
 	 *
+	 * @depecated 1.8.8 The `prepare_items_args()` now handles all cases, uses `$this->views`.
+	 *
 	 * @param array $args Get multiple forms arguments.
 	 *
 	 * @return array
 	 */
 	public function prepare_items_trash( $args ) {
 
-		// Update arguments of \WPForms_Form_Handler::get_multiple() in order to get forms in Trash.
-		if ( $this->current_view === 'trash' ) {
-			$args['post_status'] = 'trash';
-		}
+		_deprecated_function( __METHOD__, '1.8.8 of the WPForms plugin' );
 
 		return $args;
 	}
@@ -312,7 +456,7 @@ class Views {
 	 *
 	 * @return array
 	 */
-	public function get_views() {
+	public function get_views(): array {
 
 		if ( ! is_array( $this->views ) ) {
 			return [];
@@ -353,7 +497,7 @@ class Views {
 	 *
 	 * @return string
 	 */
-	private function get_view_markup( $slug ) {
+	private function get_view_markup( string $slug ): string {
 
 		if ( empty( $this->views[ $slug ] ) ) {
 			return '';
@@ -371,7 +515,7 @@ class Views {
 	}
 
 	/**
-	 * Row actions for view "All".
+	 * Row actions for views "All", "Forms", "Templates".
 	 *
 	 * @since 1.7.3
 	 *
@@ -382,11 +526,15 @@ class Views {
 	 */
 	public function row_actions_all( $row_actions, $form ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		if ( $this->current_view !== 'all' ) {
+		// Modify row actions only for these views.
+		$allowed_views = [ 'all', 'forms', 'templates' ];
+
+		if ( ! in_array( $this->current_view, $allowed_views, true ) ) {
 			return $row_actions;
 		}
 
-		$row_actions = [];
+		$is_form_template = wpforms_is_form_template( $form );
+		$row_actions      = [];
 
 		// Edit.
 		if ( wpforms_current_user_can( 'edit_form_single', $form->ID ) ) {
@@ -401,7 +549,7 @@ class Views {
 						admin_url( 'admin.php?page=wpforms-builder' )
 					)
 				),
-				esc_attr__( 'Edit This Form', 'wpforms-lite' ),
+				$is_form_template ? esc_attr__( 'Edit this template', 'wpforms-lite' ) : esc_attr__( 'Edit this form', 'wpforms-lite' ),
 				esc_html__( 'Edit', 'wpforms-lite' )
 			);
 		}
@@ -427,7 +575,7 @@ class Views {
 		// Payments.
 		if (
 			wpforms_current_user_can( wpforms_get_capability_manage_options(), $form->ID ) &&
-			wpforms()->get( 'payment' )->get_by( 'form_id', $form->ID )
+			wpforms()->obj( 'payment' )->get_by( 'form_id', $form->ID )
 		) {
 			$row_actions['payments'] = sprintf(
 				'<a href="%s" title="%s">%s</a>',
@@ -458,7 +606,7 @@ class Views {
 		// Duplicate.
 		if ( wpforms_current_user_can( 'create_forms' ) && wpforms_current_user_can( 'view_form_single', $form->ID ) ) {
 			$row_actions['duplicate'] = sprintf(
-				'<a href="%s" title="%s">%s</a>',
+				'<a href="%1$s" title="%2$s" data-type="%3$s">%4$s</a>',
 				esc_url(
 					wp_nonce_url(
 						add_query_arg(
@@ -471,28 +619,32 @@ class Views {
 						'wpforms_duplicate_form_nonce'
 					)
 				),
-				esc_attr__( 'Duplicate this form', 'wpforms-lite' ),
+				$is_form_template ? esc_attr__( 'Duplicate this template', 'wpforms-lite' ) : esc_attr__( 'Duplicate this form', 'wpforms-lite' ),
+				$is_form_template ? 'template' : 'form',
 				esc_html__( 'Duplicate', 'wpforms-lite' )
 			);
 		}
 
 		// Trash.
 		if ( wpforms_current_user_can( 'delete_form_single', $form->ID ) ) {
+			$query_arg = [
+				'action'  => 'trash',
+				'form_id' => $form->ID,
+			];
+
+			if ( $this->current_view !== 'all' ) {
+				$query_arg['type'] = $this->current_view === 'templates' ? 'wpforms-template' : 'wpforms';
+			}
+
 			$row_actions['trash'] = sprintf(
 				'<a href="%s" title="%s">%s</a>',
 				esc_url(
 					wp_nonce_url(
-						add_query_arg(
-							[
-								'action'  => 'trash',
-								'form_id' => $form->ID,
-							],
-							$this->base_url
-						),
+						add_query_arg( $query_arg, $this->base_url ),
 						'wpforms_trash_form_nonce'
 					)
 				),
-				esc_attr__( 'Move this form to trash', 'wpforms-lite' ),
+				$is_form_template ? esc_attr__( 'Move this form template to trash', 'wpforms-lite' ) : esc_attr__( 'Move this form to trash', 'wpforms-lite' ),
 				esc_html__( 'Trash', 'wpforms-lite' )
 			);
 		}
@@ -519,7 +671,8 @@ class Views {
 			return $row_actions;
 		}
 
-		$row_actions = [];
+		$is_form_template = wpforms_is_form_template( $form );
+		$row_actions      = [];
 
 		// Restore form.
 		$row_actions['restore'] = sprintf(
@@ -537,13 +690,13 @@ class Views {
 					'wpforms_restore_form_nonce'
 				)
 			),
-			esc_attr__( 'Restore this form', 'wpforms-lite' ),
+			$is_form_template ? esc_attr__( 'Restore this template', 'wpforms-lite' ) : esc_attr__( 'Restore this form', 'wpforms-lite' ),
 			esc_html__( 'Restore', 'wpforms-lite' )
 		);
 
 		// Delete permanently.
 		$row_actions['delete'] = sprintf(
-			'<a href="%s" title="%s">%s</a>',
+			'<a href="%1$s" title="%2$s" data-type="%3$s">%4$s</a>',
 			esc_url(
 				wp_nonce_url(
 					add_query_arg(
@@ -557,7 +710,8 @@ class Views {
 					'wpforms_delete_form_nonce'
 				)
 			),
-			esc_attr__( 'Delete this form permanently', 'wpforms-lite' ),
+			$is_form_template ? esc_attr__( 'Delete this template permanently', 'wpforms-lite' ) : esc_attr__( 'Delete this form permanently', 'wpforms-lite' ),
+			$is_form_template ? 'template' : 'form',
 			esc_html__( 'Delete Permanently', 'wpforms-lite' )
 		);
 

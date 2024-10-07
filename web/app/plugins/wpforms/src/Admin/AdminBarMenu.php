@@ -71,7 +71,7 @@ class AdminBarMenu {
 	 */
 	public function has_notifications() {
 
-		return wpforms()->get( 'notifications' )->get_count();
+		return wpforms()->obj( 'notifications' )->get_count();
 	}
 
 	/**
@@ -382,7 +382,7 @@ class AdminBarMenu {
 				);
 			}
 
-			$has_payments = wpforms()->get( 'payment' )->get_by( 'form_id', $form_id );
+			$has_payments = wpforms()->obj( 'payment' )->get_by( 'form_id', $form_id );
 
 			$data['forms'][] = apply_filters(
 				'wpforms_admin_adminbarmenu_get_form_data',

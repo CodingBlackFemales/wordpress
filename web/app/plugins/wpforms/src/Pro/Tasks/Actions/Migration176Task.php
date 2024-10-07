@@ -84,7 +84,7 @@ class Migration176Task extends Task {
 	 */
 	public function init() {
 
-		$this->entry_fields_handler = wpforms()->get( 'entry_fields' );
+		$this->entry_fields_handler = wpforms()->obj( 'entry_fields' );
 
 		if ( ! $this->entry_fields_handler ) {
 			return;
@@ -102,7 +102,7 @@ class Migration176Task extends Task {
 
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {
@@ -197,7 +197,7 @@ class Migration176Task extends Task {
 		}
 
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			$wpdb->prepare(
 				'DELETE FROM ' . esc_sql( $this->entry_fields_handler->table_name ) .
@@ -218,6 +218,7 @@ class Migration176Task extends Task {
 	 * Set status as completed.
 	 *
 	 * @since 1.7.6
+	 * @noinspection PhpUndefinedFunctionInspection
 	 */
 	public function after_process_queue() {
 
@@ -271,9 +272,9 @@ class Migration176Task extends Task {
 
 		global $wpdb;
 
-		$entry_fields = wpforms()->get( 'entry_fields' );
+		$entry_fields = wpforms()->obj( 'entry_fields' );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$duplicated_fields = $wpdb->get_results(
 			'SELECT form_id, field_id, entry_id, COUNT(*) as count
 			FROM ' . esc_sql( $entry_fields->table_name ) . '

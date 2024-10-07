@@ -74,7 +74,7 @@ class DomainHealthCheck {
 		 */
 		$is_canceled = (bool) apply_filters( 'wpforms_integrations_stripe_domain_health_check_cancel', false );
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Bail early in some instances.
 		if (

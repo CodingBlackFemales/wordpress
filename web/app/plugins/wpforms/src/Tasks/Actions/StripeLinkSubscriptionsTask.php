@@ -65,6 +65,15 @@ class StripeLinkSubscriptionsTask extends Task {
 	private $api;
 
 	/**
+	 * Log title.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @var string
+	 */
+	protected $log_title = 'Migration';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @since 1.8.7
@@ -99,7 +108,7 @@ class StripeLinkSubscriptionsTask extends Task {
 		// Register hooks.
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {
@@ -183,7 +192,7 @@ class StripeLinkSubscriptionsTask extends Task {
 
 			// Log failed subscription payment id.
 			if ( empty( $intent ) ) {
-				$this->log( 'Failed ' . $subscription->id );
+				$this->log( 'Stripe Link Subscriptions: Failed ' . $subscription->id );
 			}
 		}
 	}
@@ -212,8 +221,8 @@ class StripeLinkSubscriptionsTask extends Task {
 		global $wpdb;
 
 		$latest_payment    = (int) get_option( self::LATEST_PROCESSED_OPTION, 0 );
-		$payments_table    = wpforms()->get( 'payment' )->table_name;
-		$paymentmeta_table = wpforms()->get( 'payment_meta' )->table_name;
+		$payments_table    = wpforms()->obj( 'payment' )->table_name;
+		$paymentmeta_table = wpforms()->obj( 'payment_meta' )->table_name;
 
 		$query[] = "SELECT p.* FROM {$payments_table} as p";
 		$query[] = "INNER JOIN {$paymentmeta_table} as pm ON p.id = pm.payment_id";
@@ -223,7 +232,7 @@ class StripeLinkSubscriptionsTask extends Task {
 		// and 25 operations per second for each in test mode.
 		$query[] = 'ORDER BY p.id LIMIT 20';
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 		return $wpdb->get_results( $wpdb->prepare( implode( ' ', $query ), $latest_payment ), OBJECT_K );
 	}
 
@@ -254,7 +263,7 @@ class StripeLinkSubscriptionsTask extends Task {
 		// Prepare default data in case mandate is not available.
 		if ( empty( $mandate ) ) {
 
-			$subscription_meta = wpforms()->get( 'payment_meta' )->get_all( $subscription->id );
+			$subscription_meta = wpforms()->obj( 'payment_meta' )->get_all( $subscription->id );
 
 			$data['mandate_data'] = [
 				'customer_acceptance' => [
@@ -294,20 +303,8 @@ class StripeLinkSubscriptionsTask extends Task {
 	 */
 	public function complete() {
 
-		$this->log( 'Completed' );
+		$this->log( 'Stripe Link Subscriptions: Completed' );
 
 		update_option( self::STATUS, self::COMPLETED );
-	}
-
-	/**
-	 * Log message.
-	 *
-	 * @since 1.8.7
-	 *
-	 * @param string $message Message to log.
-	 */
-	private function log( string $message ) {
-
-		wpforms_log( 'Migration', 'Stripe Link Subscriptions: ' . $message, [ 'type' => 'log' ] );
 	}
 }

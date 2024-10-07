@@ -83,6 +83,52 @@ class Helpers {
 	}
 
 	/**
+	 * Get addon badge HTML.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param array $addon Addon data.
+	 *
+	 * @return string
+	 */
+	public static function get_addon_badge( array $addon ): string {
+
+		// List of possible badges.
+		$badges = [
+			'recommended' => [
+				'text'  => esc_html__( 'Recommended', 'wpforms-lite' ),
+				'color' => 'green',
+				'icon'  => 'fa-star',
+			],
+			'new'         => [
+				'text'  => esc_html__( 'New', 'wpforms-lite' ),
+				'color' => 'blue',
+			],
+			'featured'    => [
+				'text'  => esc_html__( 'Featured', 'wpforms-lite' ),
+				'color' => 'orange',
+			],
+		];
+
+		$badge = [];
+
+		// Get first badge that exists.
+		foreach ( $badges as $key => $value ) {
+			if ( ! empty( $addon[ $key ] ) ) {
+				$badge = $value;
+
+				break;
+			}
+		}
+
+		if ( empty( $badge ) ) {
+			return '';
+		}
+
+		return self::get_badge( $badge['text'], 'sm', 'inline', $badge['color'], 'rounded', $badge['icon'] ?? '' );
+	}
+
+	/**
 	 * Get inline icon HTML.
 	 *
 	 * @since 1.8.6

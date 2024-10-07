@@ -27,8 +27,6 @@ namespace WPForms\Vendor\Stripe;
 class Review extends ApiResource
 {
     const OBJECT_NAME = 'review';
-    use ApiOperations\All;
-    use ApiOperations\Retrieve;
     const CLOSED_REASON_APPROVED = 'approved';
     const CLOSED_REASON_DISPUTED = 'disputed';
     const CLOSED_REASON_REDACTED = 'redacted';
@@ -36,6 +34,40 @@ class Review extends ApiResource
     const CLOSED_REASON_REFUNDED_AS_FRAUD = 'refunded_as_fraud';
     const OPENED_REASON_MANUAL = 'manual';
     const OPENED_REASON_RULE = 'rule';
+    /**
+     * Returns a list of <code>Review</code> objects that have <code>open</code> set to
+     * <code>true</code>. The objects are sorted in descending order by creation date,
+     * with the most recently created object appearing first.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Review> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+        return static::_requestPage($url, \WPForms\Vendor\Stripe\Collection::class, $params, $opts);
+    }
+    /**
+     * Retrieves a <code>Review</code> object.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Review
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \WPForms\Vendor\Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+        return $instance;
+    }
     /**
      * Possible string representations of the current, the opening or the closure reason of the review.
      * Not all of these enumeration apply to all of the ´reason´ fields. Please consult the Review object to

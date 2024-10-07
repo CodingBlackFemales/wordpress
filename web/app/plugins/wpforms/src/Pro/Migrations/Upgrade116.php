@@ -25,7 +25,7 @@ class Upgrade116 extends UpgradeBase {
 	 */
 	public function run() {
 
-		$entry_meta_handler = wpforms()->get( 'entry_meta' );
+		$entry_meta_handler = wpforms()->obj( 'entry_meta' );
 
 		if ( ! $entry_meta_handler ) {
 			return false;

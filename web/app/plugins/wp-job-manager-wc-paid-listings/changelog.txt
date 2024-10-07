@@ -1,5 +1,8 @@
 *** WordPress Job Manager WooCommerce paid listings changelog ***
 
+2024-04-29 - version 3.0.3
+* Fix: Fix compatibility with scheduled job listings
+
 2023-11-17 - version 3.0.2
 * Fix: Add the preview step for renewals (#137)
 

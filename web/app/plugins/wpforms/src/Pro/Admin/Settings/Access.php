@@ -69,7 +69,7 @@ class Access {
 			'wpforms_settings_access',
 			[
 				'labels' => [
-					'caps'  => wpforms()->get( 'access' )->get_caps(),
+					'caps'  => wpforms()->obj( 'access' )->get_caps(),
 					'roles' => wp_list_pluck( get_editable_roles(), 'name' ),
 				],
 				'l10n'   => [
@@ -278,6 +278,7 @@ class Access {
 	 * @param array $settings Settings sections.
 	 *
 	 * @return array
+	 * @noinspection PhpCastIsUnnecessaryInspection
 	 */
 	public function add_section( $settings ) {
 
@@ -303,19 +304,22 @@ class Access {
 			'class'    => [ 'section-heading' ],
 		];
 
-		$roles      = get_editable_roles();
-		$caps       = wpforms()->get( 'access' )->get_caps();
+		$roles      = (array) get_editable_roles();
+		$caps       = (array) wpforms()->obj( 'access' )->get_caps();
 		$master_cap = wpforms_get_capability_manage_options();
 		$options    = [];
 		$role_caps  = [];
 
 		// Get a list of assigned capabilities for every role.
 		foreach ( $roles as $role => $details ) {
-			if ( $role === $master_cap || ! empty( $details['capabilities'][ $master_cap ] ) ) {
+			$capabilities = (array) ( $details['capabilities'] ?? [] );
+
+			if ( $role === $master_cap || ! empty( $capabilities[ $master_cap ] ) ) {
 				continue;
 			}
+
 			$options[ $role ]   = $details['name'];
-			$role_caps[ $role ] = array_intersect_key( $caps, array_filter( $details['capabilities'] ) );
+			$role_caps[ $role ] = array_intersect_key( $caps, array_filter( $capabilities ) );
 		}
 
 		$forms_section   = $this->get_forms_section( $role_caps, $caps, $options );

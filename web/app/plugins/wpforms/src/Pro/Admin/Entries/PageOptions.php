@@ -41,6 +41,10 @@ class PageOptions {
 	 */
 	public function screen_options() {
 
+		if ( ! wpforms_is_admin_page( 'entries', 'list' ) ) {
+			return;
+		}
+
 		$screen = get_current_screen();
 
 		if ( $screen === null || $screen->id !== 'wpforms_page_wpforms-entries' ) {
@@ -59,7 +63,7 @@ class PageOptions {
 			[
 				'label'   => esc_html__( 'Number of entries per page:', 'wpforms' ),
 				'option'  => 'wpforms_entries_per_page',
-				'default' => wpforms()->get( 'entry' )->get_count_per_page(),
+				'default' => wpforms()->obj( 'entry' )->get_count_per_page(),
 			]
 		);
 

@@ -269,10 +269,7 @@ class Helpers {
 	 */
 	public static function is_application_fee_supported() {
 
-		$mode    = self::get_stripe_mode();
-		$country = get_option( "wpforms_stripe_{$mode}_account_country", '' );
-
-		return ! in_array( $country, [ 'br', 'in', 'mx' ], true );
+		return ! in_array( self::get_account_country(), [ 'br', 'in', 'mx' ], true );
 	}
 
 	/**
@@ -469,5 +466,33 @@ class Helpers {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Determine whether the Link is supported.
+	 *
+	 * @link https://docs.stripe.com/payments/payment-methods/integration-options#payment-method-availability
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return bool
+	 */
+	public static function is_link_supported(): bool {
+
+		return ! in_array( self::get_account_country(), [ 'br', 'in', 'id', 'th' ], true );
+	}
+
+	/**
+	 * Get account country.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return string
+	 */
+	private static function get_account_country(): string {
+
+		$mode = self::get_stripe_mode();
+
+		return get_option( "wpforms_stripe_{$mode}_account_country", '' );
 	}
 }

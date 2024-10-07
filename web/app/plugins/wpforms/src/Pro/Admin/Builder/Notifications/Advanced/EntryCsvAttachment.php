@@ -275,7 +275,7 @@ class EntryCsvAttachment {
 	private function get_entry_information_other_tags() {
 
 		$included_tags = array_diff_key(
-			wpforms()->get( 'smart_tags' )->builder(),
+			wpforms()->obj( 'smart_tags' )->builder(),
 			$this->get_entry_information_excluded_tags()
 		);
 
@@ -692,13 +692,14 @@ class EntryCsvAttachment {
 		$csv_file = wp_normalize_path( $this->get_csv_dir_path() . '/' . "{$file_name}.csv" );
 
 		// Open a stream.
-		$fp = fopen( $csv_file, 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+		$fp = fopen( $csv_file, 'w' );
 
 		if ( ! $fp ) {
 			throw new Exception(
 				sprintf(
 					'Unable to create the CSV file: %s',
-					str_replace( wpforms_upload_dir()['path'], '', $csv_file )
+					esc_html( str_replace( wpforms_upload_dir()['path'] , '', $csv_file ) )
 				)
 			);
 		}
@@ -707,7 +708,8 @@ class EntryCsvAttachment {
 			fputcsv( $fp, $csv_fields );
 		}
 
-		fclose( $fp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+		fclose( $fp );
 
 		return $csv_file;
 	}

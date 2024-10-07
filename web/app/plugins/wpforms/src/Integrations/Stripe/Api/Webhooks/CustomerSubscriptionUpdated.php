@@ -32,7 +32,7 @@ class CustomerSubscriptionUpdated extends Base {
 			return false;
 		}
 
-		$payment = wpforms()->get( 'payment' )->get_by( 'subscription_id', $this->data->id );
+		$payment = wpforms()->obj( 'payment' )->get_by( 'subscription_id', $this->data->id );
 
 		if ( ! $payment ) {
 			return false;
@@ -45,11 +45,11 @@ class CustomerSubscriptionUpdated extends Base {
 			return true;
 		}
 
-		if ( ! wpforms()->get( 'payment' )->update( $payment->id, [ 'subscription_status' => $this->data->status ] ) ) {
+		if ( ! wpforms()->obj( 'payment' )->update( $payment->id, [ 'subscription_status' => $this->data->status ] ) ) {
 			throw new RuntimeException( 'Payment not updated' );
 		}
 
-		wpforms()->get( 'payment_meta' )->add_log(
+		wpforms()->obj( 'payment_meta' )->add_log(
 			$payment->id,
 			sprintf( 'Stripe subscription was set to %1$s.', $this->data->status )
 		);

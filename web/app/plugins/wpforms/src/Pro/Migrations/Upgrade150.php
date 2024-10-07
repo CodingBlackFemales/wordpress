@@ -25,7 +25,7 @@ class Upgrade150 extends UpgradeBase {
 	 */
 	public function run() {
 
-		$form_handler = wpforms()->get( 'form' );
+		$form_handler = wpforms()->obj( 'form' );
 
 		if ( ! $form_handler ) {
 			return false;

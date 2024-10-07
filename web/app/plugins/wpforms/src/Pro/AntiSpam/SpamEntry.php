@@ -58,6 +58,7 @@ class SpamEntry {
 		add_action( 'admin_notices', [ $this, 'entry_notices' ] );
 		add_action( 'wpforms_process_entry_saved', [ $this, 'add_meta_data' ], 20, 4 );
 		add_filter( 'wpforms_entries_table_process_actions_entries_list', [ $this, 'filter_process_actions_entries_list' ], 10, 2 );
+		add_filter( 'wpforms_entry_details_sidebar_actions_link', [ $this, 'add_spam_action_link' ], 10, 2 );
 
 		add_filter( 'wpforms_entry_email' , [ $this, 'disable_entry_email' ], 10, 4 );
 
@@ -66,6 +67,12 @@ class SpamEntry {
 
 		// Enable storing spam entries for new setup.
 		add_filter( 'wpforms_create_form_args', [ $this, 'enable_store_spam_entries' ], 15 );
+
+		// Akismet submit ham.
+		add_action( 'wpforms_pro_anti_spam_entry_set_as_not_spam', [ $this, 'maybe_akismet_submit_ham' ], 10, 2 );
+
+		// Akismet submit spam.
+		add_action( 'wpforms_pro_anti_spam_entry_marked_as_spam', [ $this, 'maybe_akismet_submit_spam' ], 10, 2 );
 	}
 
 	/**
@@ -105,7 +112,7 @@ class SpamEntry {
 			return;
 		}
 
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => absint( $entry_id ),
 				'form_id'  => absint( $form_data['id'] ),
@@ -115,7 +122,7 @@ class SpamEntry {
 			'entry_meta'
 		);
 
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => absint( $entry_id ),
 				'form_id'  => absint( $form_data['id'] ),
@@ -137,7 +144,7 @@ class SpamEntry {
 	 */
 	private function get_spam_reason( $entry_id ) {
 
-		$reason = wpforms()->get( 'entry_meta' )->get_meta(
+		$reason = wpforms()->obj( 'entry_meta' )->get_meta(
 			[
 				'entry_id' => absint( $entry_id ),
 				'type'     => 'spam',
@@ -159,7 +166,7 @@ class SpamEntry {
 	 */
 	private function get_entry_post_data_raw( $entry_id ) {
 
-		$post_data_raw = wpforms()->get( 'entry_meta' )->get_meta(
+		$post_data_raw = wpforms()->obj( 'entry_meta' )->get_meta(
 			[
 				'entry_id' => absint( $entry_id ),
 				'type'     => 'post_data_raw',
@@ -202,7 +209,7 @@ class SpamEntry {
 	 */
 	private function send_entry_email( $entry_id, $fields, $form_data ) {
 
-		wpforms()->get( 'process' )->entry_email( $fields, [], $form_data, $entry_id, 'entry' );
+		wpforms()->obj( 'process' )->entry_email( $fields, [], $form_data, $entry_id, 'entry' );
 	}
 
 	/**
@@ -214,7 +221,7 @@ class SpamEntry {
 	 */
 	private function delete_spam_reason( $entry_id ) {
 
-		wpforms()->get( 'entry_meta' )->delete(
+		wpforms()->obj( 'entry_meta' )->delete(
 			[
 				'entry_id' => absint( $entry_id ),
 				'type'     => 'spam',
@@ -277,6 +284,8 @@ class SpamEntry {
 		$this->maybe_display_success_message();
 
 		$this->maybe_display_error_message();
+
+		$this->display_purge_notice();
 	}
 
 	/**
@@ -288,9 +297,10 @@ class SpamEntry {
 
 		// Show a success message after marking entry as not spam.
 		$message = ! empty( $_GET['message'] ) ? sanitize_text_field( wp_unslash( $_GET['message'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$action  = ! empty( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 
-		if ( $message === 'unspam' ) {
-			wpforms()->get( 'notice' )->success( esc_html__( 'Entry successfully unmarked as spam.', 'wpforms' ) );
+		if ( $message === 'unspam' && $action !== 'spam' ) {
+			wpforms()->obj( 'notice' )->success( esc_html__( 'Entry successfully unmarked as spam.', 'wpforms' ) );
 		}
 	}
 
@@ -330,7 +340,7 @@ class SpamEntry {
 		);
 
 		// Show error message if entry is spam.
-		wpforms()->get( 'notice' )->error(
+		wpforms()->obj( 'notice' )->error(
 			sprintf(
 				'%s %s',
 				sprintf(
@@ -344,6 +354,47 @@ class SpamEntry {
 				'class' => 'wpforms-notice-spam',
 			]
 		);
+	}
+
+	/**
+	 * Display purge notice.
+	 *
+	 * The notice should be displayed over the Spam Entries list informing the user
+	 * that the entries will be purged automatically.
+	 *
+	 * @since 1.9.1
+	 **/
+	private function display_purge_notice() {
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET['status'] ) || $_GET['status'] !== self::ENTRY_STATUS ) {
+			return;
+		}
+
+		$days = Helpers::get_delete_spam_entries_days();
+
+		if ( $days === false ) {
+			return;
+		}
+
+		/* translators: %d - number of days. */
+		$days_text = sprintf( esc_html__( '%d days', 'wpforms' ), $days );
+
+		$link = defined( 'WPFORMS_DELETE_SPAM_ENTRIES' ) ?
+			$days_text :
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpforms-settings&view=misc' ) ) . '">' . $days_text . '</a>';
+
+		$message = sprintf(
+			'<p>%s</p>',
+			sprintf(
+				/* translators: %s - number of days wrapped in the link to the settings page. */
+				esc_html__( 'Spam entries older than %s are automatically deleted.', 'wpforms' ),
+				$link
+			)
+		);
+
+		// Display the notice.
+		wpforms()->obj( 'notice' )->info( $message );
 	}
 
 	/**
@@ -364,6 +415,10 @@ class SpamEntry {
 		if ( $action === 'mark_not_spam' ) {
 			$this->action_mark_not_spam();
 		}
+
+		if ( $action === 'spam' ) {
+			$this->action_mark_spam();
+		}
 	}
 
 	/**
@@ -380,7 +435,7 @@ class SpamEntry {
 		}
 
 		// Prepare entry data to use in post-processing.
-		$entry = wpforms()->get( 'entry' )->get( $entry_id );
+		$entry = wpforms()->obj( 'entry' )->get( $entry_id );
 
 		if ( ! $entry ) {
 			return;
@@ -390,6 +445,26 @@ class SpamEntry {
 		$this->set_as_not_spam( $entry );
 
 		$this->process_complete( $entry );
+	}
+
+	/**
+	 * Mark entry as spam action.
+	 *
+	 * @since 1.8.9
+	 */
+	private function action_mark_spam() {
+
+		$entry_id = $this->get_current_entry_id();
+
+		if ( $this->is_spam_entry( $entry_id ) ) {
+			return;
+		}
+
+		$form_id = $this->get_current_form_id();
+
+		$user = get_user_by( 'id', get_current_user_id() );
+
+		$this->set_as_spam( $entry_id, $form_id, $user->display_name );
 	}
 
 	/**
@@ -405,7 +480,7 @@ class SpamEntry {
 		$form_id  = $entry->form_id;
 
 		$fields    = wpforms_decode( $entry->fields );
-		$form_data = wpforms()->get( 'form' )->get(
+		$form_data = wpforms()->obj( 'form' )->get(
 			$form_id,
 			[
 				'content_only' => true,
@@ -414,12 +489,14 @@ class SpamEntry {
 
 		$form_data['post_data_raw'] = $this->get_entry_post_data_raw( $entry_id );
 
-		wpforms()->get( 'process' )->process_complete( $form_id, $form_data, $fields, [], $entry_id );
+		wpforms()->obj( 'process' )->process_complete( $form_id, $form_data, $fields, [], $entry_id );
 
 		// Send email notification.
 		$this->send_entry_email( $entry_id, $fields, $form_data );
 
-		wp_safe_redirect( add_query_arg( 'message', 'unspam', wp_get_referer() ) );
+		$url = remove_query_arg( [ 'action', '_wpnonce' ], wp_get_referer() );
+
+		wp_safe_redirect( add_query_arg( 'message', 'unspam', $url ) );
 		exit;
 	}
 
@@ -447,10 +524,40 @@ class SpamEntry {
 		 */
 		if ( $this->is_spam_entry( $ids[0] ) ) {
 			$args['status'] = self::ENTRY_STATUS;
-			$entries_list   = (array) wpforms()->get( 'entry' )->get_entries( $args );
+			$entries_list   = (array) wpforms()->obj( 'entry' )->get_entries( $args );
 		}
 
 		return $entries_list;
+	}
+
+	/**
+	 * Add spam action link to the entry details sidebar.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param array  $action_links Action links.
+	 * @param object $entry        Entry data.
+	 *
+	 * @return array
+	 */
+	public function add_spam_action_link( array $action_links, $entry ): array {
+
+		$action_links['spam'] = [
+			'label' => esc_html__( 'Mark as Spam', 'wpforms' ),
+			'icon'  => 'dashicons-shield',
+			'url'   => wp_nonce_url(
+				add_query_arg(
+					[
+						'action'   => 'spam',
+						'entry_id' => $entry->entry_id,
+						'form_id'  => $entry->form_id,
+					]
+				),
+				'edit-entry'
+			),
+		];
+
+		return $action_links;
 	}
 
 	/**
@@ -460,12 +567,12 @@ class SpamEntry {
 	 *
 	 * @param object $entry Entry data.
 	 */
-	private function set_as_not_spam( $entry ) {
+	public function set_as_not_spam( $entry ) {
 
-		wpforms()->get( 'entry' )->update( $entry->entry_id, [ 'status' => '' ] );
+		wpforms()->obj( 'entry' )->update( $entry->entry_id, [ 'status' => '' ] );
 
 		// Add record to entry meta.
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => (int) $entry->entry_id,
 				'form_id'  => (int) $entry->form_id,
@@ -475,6 +582,16 @@ class SpamEntry {
 			],
 			'entry_meta'
 		);
+
+		/**
+		 * Fires after the entry is set as not spam.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param int $entry_id Entry ID.
+		 * @param int $form_id  Form ID.
+		 */
+		do_action( 'wpforms_pro_anti_spam_entry_set_as_not_spam', $entry->entry_id, $entry->form_id );
 
 		$this->delete_spam_reason( $entry->entry_id );
 	}
@@ -506,6 +623,10 @@ class SpamEntry {
 	 */
 	public function filter_entry_actions( $actions, $entry ) {
 
+		if ( ! wpforms_current_user_can( 'edit_entries_form_single', $entry->form_id ) ) {
+			return $actions;
+		}
+
 		if ( $this->is_spam_entry( $entry->entry_id ) ) {
 
 			$args = [
@@ -522,6 +643,32 @@ class SpamEntry {
 				esc_attr__( 'Mark as Not Spam', 'wpforms' ),
 				esc_html__( 'Not Spam', 'wpforms' )
 			);
+		}
+
+		if ( ! $this->is_spam_entry( $entry->entry_id ) ) {
+
+			$action = [
+				'spam' => sprintf(
+					'<a href="%s" title="%s" class="mark-spam">%s</a>',
+					esc_url(
+						wp_nonce_url(
+							add_query_arg(
+								[
+									'view'     => 'list',
+									'action'   => 'spam',
+									'form_id'  => $entry->form_id,
+									'entry_id' => $entry->entry_id,
+								]
+							),
+							'edit-entry'
+						)
+					),
+					esc_attr__( 'Mark as Spam', 'wpforms' ),
+					esc_html__( 'Spam', 'wpforms' )
+				),
+			];
+
+			$actions = wpforms_list_insert_before( $actions, 'trash', $action );
 		}
 
 		return $actions;
@@ -560,7 +707,20 @@ class SpamEntry {
 			return;
 		}
 
-		submit_button( esc_html__( 'Empty Spam', 'wpforms' ), 'apply', 'empty_spam', false );
+		$base = add_query_arg(
+			[
+				'page'    => 'wpforms-entries',
+				'view'    => 'list',
+				'form_id' => absint( $form_id ),
+			],
+			admin_url( 'admin.php' )
+		);
+
+		printf(
+			'<a href="%1$s" class="button delete-all form-details-actions-removeall" data-page="spam">%2$s</a>',
+			esc_url( wp_nonce_url( $base, 'bulk-entries' ) ),
+			esc_html__( 'Empty Spam', 'wpforms' )
+		);
 	}
 
 	/**
@@ -574,6 +734,10 @@ class SpamEntry {
 	 */
 	public function filter_bulk_actions( $actions ) {
 
+		if ( ! $this->is_spam_list() ) {
+			unset( $actions['unspam'] );
+		}
+
 		if ( $this->is_spam_list() ) {
 			$allowed_actions = [
 				'read',
@@ -581,6 +745,7 @@ class SpamEntry {
 				'null',
 				'trash',
 				'delete',
+				'unspam',
 			];
 
 			$actions = array_intersect_key( $actions, array_flip( $allowed_actions ) );
@@ -643,7 +808,8 @@ class SpamEntry {
 		if ( ! empty( $post_content ) ) {
 			$post_content = json_decode( wp_unslash( $post_content ), true );
 
-			$post_content['settings']['store_spam_entries'] = 1;
+			// New forms created from templates may explicitly set it to 0|false, we must respect that.
+			$post_content['settings']['store_spam_entries'] = $post_content['settings']['store_spam_entries'] ?? 1;
 
 			$args['post_content'] = wpforms_encode( $post_content );
 		}
@@ -672,6 +838,175 @@ class SpamEntry {
 	}
 
 	/**
+	 * Submit Akismet ham (false positives) after marking entry as not spam.
+	 *
+	 * This call is intended for the submission of false positives –
+	 * items that were incorrectly classified as spam by Akismet.
+	 *
+	 * See docs: https://akismet.com/developers/detailed-docs/submit-ham-false-positives/
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param int $entry_id Entry ID.
+	 * @param int $form_id  Form ID.
+	 */
+	public function maybe_akismet_submit_ham( $entry_id, $form_id ) {
+
+		$this->submit_akismet( $entry_id, $form_id, 'ham' );
+	}
+
+	/**
+	 * Submit Akismet spam after marking entry as spam.
+	 *
+	 * This call is intended for the submission of missed spam –
+	 * items that were incorrectly classified as ham by Akismet.
+	 *
+	 * See docs: https://akismet.com/developers/detailed-docs/submit-spam/
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int $entry_id Entry ID.
+	 * @param int $form_id  Form ID.
+	 */
+	public function maybe_akismet_submit_spam( $entry_id, $form_id ) {
+
+		$this->submit_akismet( $entry_id, $form_id, 'spam' );
+	}
+
+	/**
+	 * Submit entry to Akismet.
+	 * This method is used to submit the entry as spam or ham in Akismet.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int    $entry_id Entry ID.
+	 * @param int    $form_id  Form ID.
+	 * @param string $type     Type of submission (spam or ham).
+	 */
+	private function submit_akismet( $entry_id, $form_id, $type ) {
+
+		$form_data = $this->get_form_data( $form_id );
+
+		if ( ! $this->is_akismet_allowed( $form_data ) ) {
+			return;
+		}
+
+		$entry_data = $this->get_entry_data( $entry_id );
+
+		if ( $type === 'spam' ) {
+			// Submit the entry as spam in Akismet.
+			wpforms()->obj( 'akismet' )->submit_missed_spam( $form_data, $entry_data );
+		}
+
+		if ( $type === 'ham' ) {
+			// Submit the entry as not spam in Akismet.
+			wpforms()->obj( 'akismet' )->set_entry_not_spam( $form_data, $entry_data );
+		}
+	}
+
+	/**
+	 * Check if Akismet is allowed for the form.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return bool
+	 */
+	private function is_akismet_allowed( array $form_data ): bool {
+
+		// Check if Akismet is enabled for the form.
+		if ( empty( $form_data['settings']['akismet'] ) ) {
+			return false;
+		}
+
+		// Check if Akismet is configured.
+		if ( ! wpforms()->obj( 'akismet' )::is_configured() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Set entry as spam.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int    $entry_id Entry ID.
+	 * @param int    $form_id  Form ID.
+	 * @param string $reason   Reason for marking as spam.
+	 */
+	public function set_as_spam( $entry_id, $form_id, $reason ) {
+
+		wpforms()->obj( 'entry' )->update( $entry_id, [ 'status' => self::ENTRY_STATUS ] );
+
+		wpforms()->obj( 'entry_meta' )->add(
+			[
+				'entry_id' => (int) $entry_id,
+				'form_id'  => (int) $form_id,
+				'type'     => 'spam',
+				'data'     => sanitize_text_field( $reason ),
+			],
+			'entry_meta'
+		);
+
+		/**
+		 * Fires after the entry is marked as spam.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param int $entry_id Entry ID.
+		 * @param int $form_id  Form ID.
+		 */
+		do_action( 'wpforms_pro_anti_spam_entry_marked_as_spam', $entry_id, $form_id );
+	}
+
+	/**
+	 * Get the form data.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int $form_id Form ID.
+	 *
+	 * @return array
+	 */
+	private function get_form_data( $form_id ) {
+
+		return wpforms()->obj( 'form' )->get(
+			$form_id,
+			[
+				'content_only' => true,
+			]
+		);
+	}
+
+	/**
+	 * Get the entry data.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int $entry_id Entry ID.
+	 *
+	 * @return array
+	 */
+	private function get_entry_data( $entry_id ) {
+
+		$entry = wpforms()->obj( 'entry' )->get( $entry_id );
+
+		if ( ! $entry ) {
+			return [];
+		}
+
+		$entry_fields = wpforms_decode( $entry->fields );
+
+		return [
+			'entry_id' => $entry_id,
+			'fields'   => $entry_fields,
+		];
+	}
+
+	/**
 	 * Check if entry is spam.
 	 *
 	 * @since 1.8.3
@@ -682,7 +1017,7 @@ class SpamEntry {
 	 */
 	private function is_spam_entry( $entry_id ) {
 
-		$entry = wpforms()->get( 'entry' )->get( $entry_id );
+		$entry = wpforms()->obj( 'entry' )->get( $entry_id );
 
 		if ( ! $entry ) {
 			return false;
@@ -712,7 +1047,7 @@ class SpamEntry {
 	 *
 	 * @return bool
 	 */
-	private function is_spam_list() {
+	public function is_spam_list() {
 
 		$status = ! empty( $_GET['status'] ) ? sanitize_text_field( wp_unslash( $_GET['status'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
@@ -730,7 +1065,7 @@ class SpamEntry {
 	 */
 	private function get_spam_entries_count( $form_id ) {
 
-		return wpforms()->get( 'entry' )->get_entries(
+		return wpforms()->obj( 'entry' )->get_entries(
 			[
 				'form_id' => $form_id,
 				'status'  => self::ENTRY_STATUS,

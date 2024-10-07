@@ -3,13 +3,17 @@
 // File generated from our OpenAPI spec
 namespace WPForms\Vendor\Stripe\Service\TestHelpers\Issuing;
 
+/**
+ * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ */
 class TransactionService extends \WPForms\Vendor\Stripe\Service\AbstractService
 {
     /**
      * Allows the user to capture an arbitrary amount, also known as a forced capture.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -23,7 +27,7 @@ class TransactionService extends \WPForms\Vendor\Stripe\Service\AbstractService
      * Allows the user to refund an arbitrary amount, also known as a unlinked refund.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -38,7 +42,7 @@ class TransactionService extends \WPForms\Vendor\Stripe\Service\AbstractService
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *

@@ -127,13 +127,21 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 			$document.on( 'click', '.switch-tmce', function( e ) {
 
+				// Prevent the default action of the click event
+				e.preventDefault();
+
 				const $wrap = $( this ).closest( '.wp-editor-wrap' ),
 					textareaId = $wrap.find( '.wp-editor-area' ).attr( 'id' );
 
 				const editor = tinyMCE.get( textareaId );
 
 				if ( editor ) {
-					editor.focus();
+					$wrap.addClass( 'wpforms-focused' );
+
+					// Focus on editor without causing the jump effect.
+					setTimeout( () => {
+						editor.focus( false );
+					}, 0 );
 				}
 			} );
 
@@ -292,9 +300,8 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 				return;
 			}
 
-			$( '.wpforms-field-richtext-media-enabled .mce-toolbar .mce-btn' ).on( 'click', function( e ) {
-
-				var $this = $( e.target );
+			$( '.wpforms-field-richtext-media-enabled .mce-toolbar .mce-btn' ).on( 'click touchstart', function( e ) {
+				const $this = $( e.target );
 
 				if ( ! $this.hasClass( 'dashicons-admin-media' ) && $this.find( '.dashicons-admin-media' ).length === 0 ) {
 					return;
@@ -374,14 +381,15 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 		 *
 		 * @param {jQuery} $form Form container.
 		 */
-		reInitRichTextFields: function( $form ) {
+		reInitRichTextFields( $form ) {
+			if ( typeof tinyMCEPreInit === 'undefined' || typeof tinymce === 'undefined' ) {
+				return;
+			}
 
 			$form.find( '.wp-editor-area' ).each( function() {
-
-				var id = $( this ).attr( 'id' );
+				const id = $( this ).attr( 'id' );
 
 				if ( tinymce.get( id ) ) {
-
 					// Remove existing editor.
 					tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 				}
