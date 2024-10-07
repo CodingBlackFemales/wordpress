@@ -139,7 +139,7 @@ class Classic {
 	public function field_container_open( $field, $form_data ) {
 
 		$container                     = $field['properties']['container'];
-		$container['data']['field-id'] = absint( $field['id'] );
+		$container['data']['field-id'] = wpforms_validate_field_id( $field['id'] );
 
 		printf(
 			'<div %s>',

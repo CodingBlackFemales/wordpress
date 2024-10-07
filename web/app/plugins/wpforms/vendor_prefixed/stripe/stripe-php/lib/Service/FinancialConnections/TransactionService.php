@@ -3,13 +3,17 @@
 // File generated from our OpenAPI spec
 namespace WPForms\Vendor\Stripe\Service\FinancialConnections;
 
+/**
+ * @phpstan-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ * @psalm-import-type RequestOptionsArray from \Stripe\Util\RequestOptions
+ */
 class TransactionService extends \WPForms\Vendor\Stripe\Service\AbstractService
 {
     /**
      * Returns a list of Financial Connections <code>Transaction</code> objects.
      *
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
@@ -24,7 +28,7 @@ class TransactionService extends \WPForms\Vendor\Stripe\Service\AbstractService
      *
      * @param string $id
      * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
+     * @param null|RequestOptionsArray|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *

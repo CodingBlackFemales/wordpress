@@ -1,7 +1,8 @@
 <?php
-
-// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
 /** @noinspection AutoloadingIssuesInspection */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
 
 /**
  * Entry meta DB class.
@@ -18,6 +19,8 @@ class WPForms_Entry_Meta_Handler extends WPForms_DB {
 	public function __construct() {
 
 		global $wpdb;
+
+		parent::__construct();
 
 		$this->table_name  = $wpdb->prefix . 'wpforms_entry_meta';
 		$this->primary_key = 'id';
@@ -57,7 +60,7 @@ class WPForms_Entry_Meta_Handler extends WPForms_DB {
 			'type'     => '',
 			'status'   => '',
 			'data'     => '',
-			'date'     => date( 'Y-m-d H:i:s' ),
+			'date'     => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		];
 	}
 
@@ -72,8 +75,6 @@ class WPForms_Entry_Meta_Handler extends WPForms_DB {
 	 * @return array|int
 	 */
 	public function get_meta( $args = [], $count = false ) {
-
-		global $wpdb;
 
 		$args = $this->prepare_args( $args );
 
@@ -94,11 +95,11 @@ class WPForms_Entry_Meta_Handler extends WPForms_DB {
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( (bool) $count === true ) {
-			return absint( $wpdb->get_var( "SELECT COUNT( $this->primary_key ) FROM $this->table_name $where;" ) );
+			return absint( $this->get_var( "SELECT COUNT( $this->primary_key ) FROM $this->table_name $where" ) );
 		}
 
-		return $wpdb->get_results(
-			"SELECT * FROM $this->table_name $where ORDER BY {$args['orderby']} {$args['order']} LIMIT {$args['offset']}, {$args['number']};"
+		return $this->get_results(
+			"SELECT * FROM $this->table_name $where ORDER BY {$args['orderby']} {$args['order']} LIMIT {$args['offset']}, {$args['number']}"
 		);
 		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
@@ -116,7 +117,7 @@ class WPForms_Entry_Meta_Handler extends WPForms_DB {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE IF NOT EXISTS {$this->table_name} (
+		$sql = "CREATE TABLE {$this->table_name} (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			entry_id bigint(20) NOT NULL,
 			form_id bigint(20) NOT NULL,

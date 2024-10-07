@@ -1,26 +1,28 @@
 /* global wpforms_builder, WPFormsBuilder, WPFormsUtils */
 
 /**
+ * @param wpforms_builder.field_cannot_be_reordered
+ */
+
+// noinspection ES6ConvertVarToLetConst
+/**
  * Form Builder Fields Drag-n-Drop module.
  *
  * @since 1.7.7
  */
 
-'use strict';
-
-var WPForms = window.WPForms || {};
+var WPForms = window.WPForms || {}; // eslint-disable-line no-var
 
 WPForms.Admin = WPForms.Admin || {};
 WPForms.Admin.Builder = WPForms.Admin.Builder || {};
 
 WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( function( document, window, $ ) {
-
 	/**
 	 * Elements holder.
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	let el = {};
 
@@ -29,25 +31,25 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	let vars = {};
+	const vars = {};
 
 	/**
 	 * Layout field functions wrapper.
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	let fieldLayout;
+	let fieldLayout; // eslint-disable-line prefer-const
 
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const app = {
 
@@ -56,8 +58,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -66,8 +67,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		ready: function() {
-
+		ready() {
 			app.setup();
 			app.initSortableFields();
 
@@ -79,8 +79,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		setup: function() {
-
+		setup() {
 			// Cache DOM elements.
 			el = {
 				$builder:            $( '#wpforms-builder' ),
@@ -94,8 +93,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		events: function() {
-
+		events() {
 			el.$builder
 				.on( 'wpformsFieldDragToggle', app.fieldDragToggleEvent );
 		},
@@ -106,8 +104,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 * @since 1.7.1
 		 * @since 1.7.7 Moved from admin-builder.js.
 		 */
-		disableDragAndDrop: function() {
-
+		disableDragAndDrop() {
 			el.$addFieldsButtons.filter( '.ui-draggable' ).draggable( 'disable' );
 			el.$sortableFieldsWrap.sortable( 'disable' );
 			el.$sortableFieldsWrap.find( '.wpforms-layout-column.ui-sortable' ).sortable( 'disable' );
@@ -119,8 +116,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 * @since 1.7.1
 		 * @since 1.7.7 Moved from admin-builder.js.
 		 */
-		enableDragAndDrop: function() {
-
+		enableDragAndDrop() {
 			el.$addFieldsButtons.filter( '.ui-draggable' ).draggable( 'enable' );
 			el.$sortableFieldsWrap.sortable( 'enable' );
 			el.$sortableFieldsWrap.find( '.wpforms-layout-column.ui-sortable' ).sortable( 'enable' );
@@ -135,9 +131,9 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 * @param {jQuery}  $field    A field or list of fields.
 		 * @param {boolean} showPopUp Whether the pop-up should be displayed on dragging attempt.
 		 */
-		fieldDragDisable: function( $field, showPopUp = true ) {
-
+		fieldDragDisable( $field, showPopUp = true ) {
 			if ( $field.hasClass( 'ui-draggable-disabled' ) ) {
+				// noinspection JSUnresolvedReference
 				$field.draggable( 'enable' );
 
 				return;
@@ -145,20 +141,18 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 			let startTopPosition;
 
+			// noinspection JSUnresolvedReference
 			$field.draggable( {
 				revert: true,
 				axis: 'y',
 				delay: 100,
-				opacity: 0.75,
+				opacity: 1,
 				cursor: 'move',
-				start: function( event, ui ) {
-
+				start( event, ui ) {
 					startTopPosition = ui.position.top;
 				},
-				drag: function( event, ui ) {
-
+				drag( event, ui ) {
 					if ( Math.abs( ui.position.top ) - Math.abs( startTopPosition ) > 15 ) {
-
 						if ( showPopUp ) {
 							app.youCantReorderFieldPopup();
 						}
@@ -177,12 +171,12 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @param {jQuery} $field A field or list of fields.
 		 */
-		fieldDragEnable: function( $field ) {
-
+		fieldDragEnable( $field ) {
 			if ( $field.hasClass( 'ui-draggable' ) ) {
 				return;
 			}
 
+			// noinspection JSUnresolvedReference
 			$field.draggable( 'disable' );
 		},
 
@@ -192,8 +186,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 * @since 1.7.1
 		 * @since 1.7.7 Moved from admin-builder.js.
 		 */
-		youCantReorderFieldPopup: function() {
-
+		youCantReorderFieldPopup() {
 			$.confirm( {
 				title: wpforms_builder.heads_up,
 				content: wpforms_builder.field_cannot_be_reordered,
@@ -214,12 +207,11 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param {object}  e  Event object.
-		 * @param {numeric} id Field ID.
+		 * @param {Object}        e  Event object.
+		 * @param {number|string} id Field ID.
 		 */
-		fieldDragToggleEvent: function( e, id ) {
-
-			const $field = $( `#wpforms-field-${id}` );
+		fieldDragToggleEvent( e, id ) {
+			const $field = $( `#wpforms-field-${ id }` );
 
 			if (
 				$field.hasClass( 'wpforms-field-not-draggable' ) ||
@@ -238,8 +230,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		initSortableFields: function() {
-
+		initSortableFields() {
 			app.initSortableContainer( el.$sortableFieldsWrap );
 
 			el.$builder.find( '.wpforms-layout-column' ).each( function() {
@@ -257,9 +248,9 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @param {jQuery} $sortable Container to make sortable.
 		 */
-		initSortableContainer: function( $sortable ) { // eslint-disable-line max-lines-per-function
-
+		initSortableContainer( $sortable ) { // eslint-disable-line max-lines-per-function
 			const $fieldOptions = $( '#wpforms-field-options' );
+			const $scrollContainer = $( '#wpforms-panel-fields .wpforms-panel-content-wrap' );
 
 			let fieldId,
 				fieldType,
@@ -267,14 +258,14 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 				$fieldOption,
 				$prevFieldOption,
 				prevFieldId,
-				$scrollContainer = $( '#wpforms-panel-fields .wpforms-panel-content-wrap' ),
 				currentlyScrolling = false;
 
+			// noinspection JSUnresolvedReference
 			$sortable.sortable( {
 				items: '> .wpforms-field:not(.wpforms-field-stick):not(.no-fields-preview)',
 				connectWith: '.wpforms-field-wrap, .wpforms-layout-column',
 				delay: 100,
-				opacity: 0.75,
+				opacity: 1,
 				cursor: 'move',
 				cancel: '.wpforms-field-not-draggable',
 				placeholder: 'wpforms-field-drag-placeholder',
@@ -282,8 +273,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 				zindex: 10000,
 				tolerance: 'pointer',
 				distance: 1,
-				start: function( e, ui ) {
-
+				start( e, ui ) {
 					fieldId = ui.item.data( 'field-id' );
 					fieldType = ui.item.data( 'field-type' );
 					isNewField = typeof fieldId === 'undefined';
@@ -293,20 +283,20 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 					vars.fieldRejected = false;
 					vars.$sortableStart = $sortable;
 					vars.startPosition = ui.item.first().index();
-				},
-				beforeStop: function( e, ui ) {
 
+					el.$builder.trigger( 'wpformsFieldDragStart', [ fieldId ] );
+				},
+				beforeStop( e, ui ) {
 					if ( ! vars.glitchChange ) {
 						return;
 					}
 
-					// Before processing in the `stop` method we need to perform the last check.
-					if ( ! fieldLayout.isFieldAllowedInColum( fieldType ) ) {
+					// Before processing in the `stop` method, we need to perform the last check.
+					if ( ! fieldLayout.isFieldAllowedInColum( fieldType, ui.item.first().parent() ) ) {
 						vars.fieldRejected = true;
 					}
 				},
-				stop: function( e, ui ) {
-
+				stop( e, ui ) { // eslint-disable-line complexity
 					const $field = ui.item.first();
 
 					ui.placeholder.removeClass( 'wpforms-field-drag-not-allowed' );
@@ -314,15 +304,16 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 					// Reject not allowed fields.
 					if ( vars.fieldRejected ) {
-						app.revertMoveFieldToColumn( $field );
+						const $targetColumn = isNewField ? $sortable : $field.parent();
 
-						el.$builder.trigger( 'wpformsFieldMoveRejected', [ $field, ui ] );
+						app.revertMoveFieldToColumn( $field );
+						el.$builder.trigger( 'wpformsFieldMoveRejected', [ $field, ui, $targetColumn ] );
 
 						return;
 					}
 
 					prevFieldId = $field.prev( '.wpforms-field, .wpforms-alert' ).data( 'field-id' );
-					$prevFieldOption = $( `#wpforms-field-option-${prevFieldId}` );
+					$prevFieldOption = $( `#wpforms-field-option-${ prevFieldId }` );
 
 					if ( $prevFieldOption.length > 0 ) {
 						$prevFieldOption.after( $fieldOption );
@@ -330,7 +321,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						$fieldOptions.prepend( $fieldOption );
 					}
 
-					// In the case of changing fields order inside the same column,
+					// In the case of changing fields' order inside the same column,
 					// we just need to change the position of the field.
 					if ( ! isNewField && $field.closest( '.wpforms-layout-column' ).is( $sortable ) ) {
 						fieldLayout.positionFieldInColumn(
@@ -340,7 +331,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						);
 					}
 
-					const $layoutField = $field.closest( '.wpforms-field-layout' );
+					const $layoutField = $field.closest( '.wpforms-field-layout, .wpforms-field-repeater' );
 
 					fieldLayout.fieldOptionsUpdate( null, fieldId );
 					fieldLayout.reorderLayoutFieldsOptions( $layoutField );
@@ -357,8 +348,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 					vars.fieldReceived = false;
 				},
-				over: function( e, ui ) { // eslint-disable-line complexity
-
+				over( e, ui ) { // eslint-disable-line complexity
 					const $field = ui.item.first(),
 						$target = $( e.target ),
 						$placeholder = $target.find( '.wpforms-field-drag-placeholder' ),
@@ -382,27 +372,32 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 					// Adjust helper size according to the placeholder size.
 					$field
-						.addClass( 'wpforms-field-dragging' + targetClass )
-						.css( {
-							'width': isColumn ? helper.width - 5 : helper.width,
-							'height': 'auto',
-						} );
+						.addClass( 'wpforms-field-dragging' + targetClass );
+
+					if ( ! isColumn || ! fieldLayout.isLayoutBasedField( fieldType ) ) {
+						$field
+							.css( {
+								width: isColumn ? helper.width - 5 : helper.width,
+								height: 'auto',
+							} );
+					}
+
+					const placeholderHeight = isColumn ? 90 : helper.height;
 
 					// Adjust placeholder height according to the height of the helper.
 					$placeholder
 						.removeClass( 'wpforms-field-drag-not-allowed' )
 						.css( {
-							'height': isNewField ? helper.height + 18 : helper.height,
+							height: isNewField ? placeholderHeight + 18 : helper.height,
 						} );
 
 					// Drop to this place is not allowed.
-					if (
-						! fieldLayout.isFieldAllowedInColum( fieldType ) &&
-						isColumn
-					) {
+					if ( isColumn && ! fieldLayout.isFieldAllowedInColum( fieldType, $target ) ) {
 						$placeholder.addClass( 'wpforms-field-drag-not-allowed' );
 						$field.addClass( 'wpforms-field-drag-not-allowed' );
 					}
+
+					el.$builder.trigger( 'wpformsFieldDragOver', [ fieldId, $target ] );
 
 					// Skip if it is the existing field.
 					if ( ! isNewField ) {
@@ -413,10 +408,11 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						.addClass( 'wpforms-field-drag-over' )
 						.removeClass( 'wpforms-field-drag-out' );
 				},
-				out: function( e, ui ) {
-
+				out( e, ui ) {
 					const $field = ui.item.first(),
+						// eslint-disable-next-line no-shadow
 						fieldId = $field.data( 'field-id' ),
+						// eslint-disable-next-line no-shadow
 						isNewField = typeof fieldId === 'undefined';
 
 					$field
@@ -434,12 +430,11 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 					// Skip if it is the existing field.
 					if ( ! isNewField ) {
-
 						// Remove extra class from the parent layout field.
 						// Fixes disappearing of duplicate/delete field icons
 						// after moving the field outside the layout field.
 						$( ui.sender )
-							.closest( '.wpforms-field-layout' )
+							.closest( '.wpforms-field-layout, .wpforms-field-repeater' )
 							.removeClass( 'wpforms-field-child-hovered' );
 
 						return;
@@ -449,20 +444,20 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						.addClass( 'wpforms-field-drag-out' )
 						.removeClass( 'wpforms-field-drag-over' );
 				},
-				receive: function( e, ui ) { // eslint-disable-line complexity
-
+				receive( e, ui ) { // eslint-disable-line complexity
 					const $field = $( ui.helper || ui.item );
 
 					fieldId = $field.data( 'field-id' );
 					fieldType = $field.data( 'field-type' ) || vars.fieldType;
 
+					// eslint-disable-next-line no-shadow
 					const isNewField = typeof fieldId === 'undefined',
 						isColumn = $sortable.hasClass( 'wpforms-layout-column' );
 
 					// Drop to this place is not allowed.
 					if (
-						! fieldLayout.isFieldAllowedInColum( fieldType ) &&
-						isColumn
+						isColumn &&
+						! fieldLayout.isFieldAllowedInColum( fieldType, $sortable )
 					) {
 						vars.fieldRejected = true;
 
@@ -485,7 +480,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 					}
 
 					// Add new field.
-					let position = $sortable.data( 'ui-sortable' ).currentItem.index();
+					const position = $sortable.data( 'ui-sortable' ).currentItem.index();
 
 					$field
 						.addClass( 'wpforms-field-drag-over wpforms-field-drag-pending' )
@@ -500,15 +495,15 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 						{
 							position: isColumn ? position - 1 : position,
 							placeholder: $field,
-							$sortable: $sortable,
+							$sortable,
 						}
 					);
 
 					vars.fieldType = undefined;
 				},
-				change: function( e, ui ) {
-
+				change( e, ui ) {
 					const $placeholderSortable = ui.placeholder.parent();
+					const $targetSortable = $( e.target );
 
 					vars.glitchChange = false;
 
@@ -521,9 +516,10 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 					) {
 						vars.glitchChange = true;
 					}
-				},
-				sort: function( e, ui ) {
 
+					el.$builder.trigger( 'wpformsFieldDragChange', [ fieldId, $targetSortable ] );
+				},
+				sort( e ) {
 					if ( currentlyScrolling ) {
 						return;
 					}
@@ -554,7 +550,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 
 					$scrollContainer.animate(
 						{
-							scrollTop: operator + containerHeight / 3 + 'px',
+							scrollTop: operator + ( containerHeight / 3 ) + 'px',
 						},
 						800,
 						function() {
@@ -570,16 +566,16 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 */
-		initDraggableFields: function() {
-
+		initDraggableFields() {
 			el.$addFieldsButtons.draggable( {
 				connectToSortable: '.wpforms-field-wrap, .wpforms-layout-column',
 				delay: 200,
 				cancel: false,
 				scroll: false,
-				opacity: 0.75,
+				opacity: 1,
 				appendTo: '#wpforms-panel-fields',
 				zindex: 10000,
+
 				helper() {
 					const $this = $( this );
 					const $el = $( '<div class="wpforms-field-drag-out wpforms-field-drag">' );
@@ -626,12 +622,10 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @param {jQuery} $field Field object.
 		 */
-		revertMoveFieldToColumn: function( $field ) {
-
+		revertMoveFieldToColumn( $field ) {
 			const isNewField = $field.data( 'field-id' ) === undefined;
 
 			if ( isNewField ) {
-
 				// Remove the field.
 				$field.remove();
 
@@ -665,7 +659,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	fieldLayout = {
 
@@ -674,12 +668,11 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param {number} fieldId   Field Id.
+		 * @param {number} fieldId   Field ID.
 		 * @param {number} position  The new position of the field inside the column.
 		 * @param {jQuery} $sortable Sortable column container.
-		 **/
-		positionFieldInColumn: function( fieldId, position, $sortable ) {
-
+		 */
+		positionFieldInColumn( fieldId, position, $sortable ) {
 			if ( ! WPForms.Admin.Builder.FieldLayout ) {
 				return;
 			}
@@ -692,12 +685,11 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param {number} fieldId   Field Id.
+		 * @param {number} fieldId   Field ID.
 		 * @param {number} position  Field position inside the column.
 		 * @param {jQuery} $sortable Sortable column container.
-		 **/
-		receiveFieldToColumn: function( fieldId, position, $sortable ) {
-
+		 */
+		receiveFieldToColumn( fieldId, position, $sortable ) {
 			if ( ! WPForms.Admin.Builder.FieldLayout ) {
 				return;
 			}
@@ -712,10 +704,9 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 * @since 1.7.7
 		 *
 		 * @param {Event}  e       Event.
-		 * @param {int}    fieldId Field id.
+		 * @param {number} fieldId Field id.
 		 */
-		fieldOptionsUpdate: function( e, fieldId ) {
-
+		fieldOptionsUpdate( e, fieldId ) {
 			if ( ! WPForms.Admin.Builder.FieldLayout ) {
 				return;
 			}
@@ -731,8 +722,7 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @param {jQuery} $layoutField Layout field object.
 		 */
-		reorderLayoutFieldsOptions: function( $layoutField ) {
-
+		reorderLayoutFieldsOptions( $layoutField ) {
 			if ( ! WPForms.Admin.Builder.FieldLayout ) {
 				return;
 			}
@@ -745,23 +735,52 @@ WPForms.Admin.Builder.DragFields = WPForms.Admin.Builder.DragFields || ( functio
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param {string} fieldType Field ty to check.
+		 * @param {string} fieldType     Field type to check.
+		 * @param {jQuery} $targetColumn Target column element.
 		 *
-		 * @returns {boolean} True if allowed.
+		 * @return {boolean} True if allowed.
 		 */
-		isFieldAllowedInColum: function( fieldType ) {
-
+		isFieldAllowedInColum( fieldType, $targetColumn ) {
 			if ( ! WPForms.Admin.Builder.FieldLayout ) {
 				return true;
 			}
 
-			return WPForms.Admin.Builder.FieldLayout.isFieldAllowedInColum( fieldType );
+			const isAllowed = WPForms.Admin.Builder.FieldLayout.isFieldAllowedInColum( fieldType, $targetColumn );
+
+			/**
+			 * Allows developers to determine whether the field is allowed to be dragged in column.
+			 *
+			 * @since 1.8.9
+			 *
+			 * @param {boolean} isAllowed     Whether the field is allowed to be placed in the column.
+			 * @param {string}  fieldType     Field type.
+			 * @param {jQuery}  $targetColumn Target column element.
+			 *
+			 * @return {boolean} True if allowed.
+			 */
+			return wp.hooks.applyFilters( 'wpforms.LayoutField.isFieldAllowedDragInColumn', isAllowed, fieldType, $targetColumn );
+		},
+
+		/**
+		 * Determine whether the field type is a layout-based field.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param {string} fieldType Field type to check.
+		 *
+		 * @return {boolean} True if it is the Layout-based field.
+		 */
+		isLayoutBasedField( fieldType ) {
+			if ( ! WPForms.Admin.Builder.FieldLayout ) {
+				return false;
+			}
+
+			return WPForms.Admin.Builder.FieldLayout.isLayoutBasedField( fieldType );
 		},
 	};
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

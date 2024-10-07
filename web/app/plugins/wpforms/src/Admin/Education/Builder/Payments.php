@@ -43,23 +43,7 @@ class Payments extends Education\Builder\Panel {
 	 */
 	protected function get_addons() {
 
-		$addons = $this->addons->get_by_category( $this->get_name() );
-
-		// Make Stripe at the top of the list.
-		foreach ( $addons as $key => $addon ) {
-
-			if ( $addon['slug'] !== 'wpforms-stripe' ) {
-				continue;
-			}
-
-			$addon['recommended'] = true;
-
-			unset( $addons[ $key ] );
-			array_unshift( $addons, $addon );
-			break;
-		}
-
-		return $addons;
+		return $this->addons->get_by_category( $this->get_name() );
 	}
 
 	/**

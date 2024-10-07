@@ -90,7 +90,7 @@ class Education implements PaymentsViewsInterface {
 			return false;
 		}
 
-		$this->addon = wpforms()->get( 'addons' )->get_addon( 'coupons' );
+		$this->addon = wpforms()->obj( 'addons' )->get_addon( 'coupons' );
 
 		if (
 			empty( $this->addon ) ||

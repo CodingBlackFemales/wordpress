@@ -1,5 +1,9 @@
 *** WordPress Job Manager alerts changelog ***
 
+2024-04-29 - version 3.2.0
+* New: Add job statistics about how many times the job was sent out in alert e-mails
+* Dev: Add alert modal logged out version as template
+
 2024-03-14 - version 3.1.1
 * Fix jobs not being filtered by date for alert e-mails (#467)
 * Fix: Update alert e-mail schedule when alert is edited in the admin screen (#469)

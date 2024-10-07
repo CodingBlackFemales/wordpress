@@ -84,4 +84,16 @@ class ActionSchedulerList extends ActionScheduler_ListTable {
 			<?php
 		}
 	}
+
+	/**
+	 * Return the sortable column specified for this request to order the results by, if any.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @return string[]
+	 */
+	protected function get_request_query_args_to_persist() {
+
+		return array_merge( parent::get_request_query_args_to_persist(), [ 'view' ] );
+	}
 }

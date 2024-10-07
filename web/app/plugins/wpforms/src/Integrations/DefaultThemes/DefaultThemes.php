@@ -26,6 +26,13 @@ class DefaultThemes implements IntegrationInterface {
 	const TT1 = 'twentytwentyone';
 
 	/**
+	 * OceanWP theme name.
+	 *
+	 * @since 1.9.1
+	 */
+	const OCEANWP = 'oceanwp';
+
+	/**
 	 * Current theme name.
 	 *
 	 * @since 1.6.6
@@ -43,7 +50,7 @@ class DefaultThemes implements IntegrationInterface {
 	 */
 	private function get_current_default_theme() {
 
-		$allowed_themes = [ self::TT, self::TT1 ];
+		$allowed_themes = [ self::TT, self::TT1, self::OCEANWP ];
 		$theme          = wp_get_theme();
 		$theme_name     = $theme->get_template();
 		$theme_parent   = $theme->parent();
@@ -84,6 +91,10 @@ class DefaultThemes implements IntegrationInterface {
 
 			return;
 		}
+
+		if ( $this->current_theme === self::OCEANWP ) {
+			$this->ocean_hooks();
+		}
 	}
 
 	/**
@@ -91,19 +102,19 @@ class DefaultThemes implements IntegrationInterface {
 	 *
 	 * @since 1.6.6
 	 */
-	private function tt_hooks() { // phpcs:disable WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	private function tt_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'tt_iframe_fix' ], 11 );
 
 		add_action( 'wpforms_frontend_css', [ $this, 'tt_dropdown_fix' ] );
-	} // phpcs:enable WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	}
 
 	/**
 	 * Hooks for the Twenty Twenty-One theme.
 	 *
 	 * @since 1.6.6
 	 */
-	private function tt1_hooks() { // phpcs:disable WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	private function tt1_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		if ( wpforms_get_render_engine() === 'modern' ) {
 			return;
@@ -119,7 +130,61 @@ class DefaultThemes implements IntegrationInterface {
 		if ( $form_styling === '2' ) {
 			add_action( 'wp_enqueue_scripts', [ $this, 'tt1_base_style_fix' ], 11 );
 		}
-	} // phpcs:enable WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+	}
+
+	/**
+	 * Hooks for the OceanWP theme.
+	 *
+	 * @since 1.9.1
+	 */
+	private function ocean_hooks() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+		add_action( 'wp_enqueue_scripts', [ $this, 'ocean_button_hover' ], 100 );
+	}
+
+	/**
+	 * Apply button hover fix for OceanWP theme.
+	 *
+	 * @since 1.9.1
+	 */
+	public function ocean_button_hover() {
+
+		// Only full styles are supported.
+		if ( (int) wpforms_setting( 'disable-css', 1 ) !== 1 ) {
+			return;
+		}
+
+		$styles = wpforms_get_render_engine() === 'modern' ?
+			/** @lang CSS */
+			'body div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			body div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			body div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			body div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			body div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			body div.wpforms-container-full .wpforms-form .wpforms-page-button:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			body .wp-core-ui div.wpforms-container-full .wpforms-form .wpforms-page-button:active {
+					background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), var(--wpforms-button-background-color-alt, var(--wpforms-button-background-color)) !important;
+			}' :
+			/** @lang CSS */
+			'div.wpforms-container-full .wpforms-form input[type=submit]:hover,
+			div.wpforms-container-full .wpforms-form input[type=submit]:focus,
+			div.wpforms-container-full .wpforms-form input[type=submit]:active,
+			div.wpforms-container-full .wpforms-form button[type=submit]:hover,
+			div.wpforms-container-full .wpforms-form button[type=submit]:focus,
+			div.wpforms-container-full .wpforms-form button[type=submit]:active,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:hover,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:active,
+			div.wpforms-container-full .wpforms-form .wpforms-page-button:focus {
+				border: none;
+			}';
+
+		wp_add_inline_style( 'oceanwp-style', $styles );
+	}
 
 	/**
 	 * Apply fix for Checkboxes and Radio fields in the Twenty Twenty-One theme.
@@ -245,4 +310,5 @@ class DefaultThemes implements IntegrationInterface {
 
 		$fixed = true;
 	}
+
 }

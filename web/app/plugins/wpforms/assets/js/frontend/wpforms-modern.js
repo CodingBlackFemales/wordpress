@@ -1,27 +1,34 @@
-/* global wpforms_settings */
+/* global wpforms_settings, WPFormsUtils */
 
-'use strict';
+/**
+ * @param wpforms_settings.css_vars
+ * @param wpforms_settings.formErrorMessagePrefix
+ * @param wpforms_settings.indicatorStepsPattern
+ * @param wpforms_settings.submitBtnDisabled
+ */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Modern Frontend.
  *
  * @since 1.8.1
  */
+// eslint-disable-next-line no-var
 var WPForms = window.WPForms || {};
 
 WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window, $ ) {
-
-	let app = {
+	// noinspection JSUnusedLocalSymbols,JSUnusedGlobalSymbols
+	const app = {
 
 		/**
 		 * Start the engine.
 		 *
 		 * @since 1.8.1
 		 */
-		init: function() {
-
+		init() {
 			// Document ready.
 			$( app.ready );
+			app.bindOptinMonster();
 		},
 
 		/**
@@ -29,10 +36,10 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 */
-		ready: function() {
-
+		ready() {
 			app.updateGBBlockAccentColors();
 			app.initPageBreakButtons();
+			app.initButtonStyle();
 			app.events();
 		},
 
@@ -41,8 +48,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 */
-		events: function() {
-
+		events() {
 			$( document )
 				.on( 'wpforms_elementor_form_fields_initialized', app.initPageBreakButtons );
 
@@ -54,6 +60,110 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 
 			$( 'form.wpforms-form .wpforms-submit' )
 				.on( 'keydown click', app.disabledButtonPress );
+
+			// Add styling to timepicker dropdown.
+			$( document )
+				.on( 'focus', '.wpforms-render-modern .wpforms-timepicker', app.updateTimepickerDropdown );
+
+			// Reset timepicker dropdown styles.
+			$( document )
+				.on( 'focusout', '.wpforms-render-modern .wpforms-timepicker', app.resetTimepickerDropdown );
+		},
+
+		/**
+		 * OptinMonster compatibility.
+		 *
+		 * Re-initialize after OptinMonster loads to accommodate changes that
+		 * have occurred to the DOM.
+		 *
+		 * @since 1.9.0
+		 */
+		bindOptinMonster() {
+			// OM v5.
+			document.addEventListener( 'om.Campaign.load', function() {
+				app.ready();
+			} );
+
+			// OM Legacy.
+			$( document ).on( 'OptinMonsterOnShow', function() {
+				app.ready();
+			} );
+		},
+
+		/**
+		 * Add styling to timepicker dropdown.
+		 *
+		 * @since 1.8.8
+		 */
+		updateTimepickerDropdown() {
+			const cssVars = app.getCssVars( $( this ) );
+
+			setTimeout(
+				function() {
+					const $list = $( '.ui-timepicker-wrapper .ui-timepicker-list' );
+
+					$list.css( 'background', cssVars[ 'field-menu-color' ] );
+					$list.find( 'li' ).css( 'color', cssVars[ 'field-text-color' ] );
+					$list.find( '.ui-timepicker-selected' )
+						.css( 'background', cssVars[ 'button-background-color' ] )
+						.css( 'color', cssVars[ 'button-text-color' ] );
+				},
+				0
+			);
+		},
+
+		/**
+		 * Reset timepicker dropdown styles.
+		 *
+		 * @since 1.8.9.5
+		 */
+		resetTimepickerDropdown() {
+			setTimeout(
+				function() {
+					const $list = $( '.ui-timepicker-wrapper .ui-timepicker-list' );
+
+					$list.find( ':not(.ui-timepicker-selected)' ).attr( 'style', '' );
+				},
+				0
+			);
+		},
+
+		/**
+		 * Update accent colors of some fields in GB block in Modern Markup mode.
+		 *
+		 * @since 1.8.8
+		 */
+		initButtonStyle() {
+			// Loop through all the GB blocks on the page.
+			$( '.wpforms-block.wpforms-container-full, .elementor-widget-wpforms .wpforms-container-full' ).each( function() {
+				const $form = $( this );
+				const contStyle = getComputedStyle( $form.get( 0 ) );
+				const btnBgColor = app.getCssVar( contStyle, '--wpforms-button-background-color-alt' );
+
+				if ( app.isTransparentColor( btnBgColor ) ) {
+					$form.find( 'button.wpforms-submit' ).addClass( 'wpforms-opacity-hover' );
+				}
+			} );
+		},
+
+		/**
+		 * Checks if the provided color has transparency.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param {string} color The color to check.
+		 *
+		 * @return {boolean} Returns true if the color is transparent.
+		 */
+		isTransparentColor( color ) {
+			const rgba = app.getColorAsRGBArray( color );
+
+			// The max opacity value of the color that is considered as transparent.
+			const opacityThreshold = 0.33;
+			const opacity = Number( rgba?.[ 3 ] );
+
+			// Compare the opacity value with the threshold.
+			return opacity <= opacityThreshold;
 		},
 
 		/**
@@ -61,11 +171,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 */
-		updateGBBlockAccentColors: function() {
-
+		updateGBBlockAccentColors() {
 			// Loop through all the GB blocks on the page.
 			$( '.wpforms-block.wpforms-container-full, .elementor-widget-wpforms .wpforms-container-full' ).each( function() {
-
 				const $form = $( this );
 
 				app.updateGBBlockPageIndicatorColor( $form );
@@ -81,8 +189,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {jQuery} $form Form container.
 		 */
-		updateGBBlockPageIndicatorColor: function( $form ) {
-
+		updateGBBlockPageIndicatorColor( $form ) {
 			const $indicator = $form.find( '.wpforms-page-indicator' ),
 				$indicatorPage = $indicator.find( '.wpforms-page-indicator-page-progress, .wpforms-page-indicator-page.active .wpforms-page-indicator-page-number' ),
 				$indicatorTriangle = $indicatorPage.find( '.wpforms-page-indicator-page-triangle' );
@@ -91,30 +198,6 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 			$indicatorPage.css( 'background-color', 'var( --wpforms-page-break-color )' );
 			$indicatorTriangle.css( 'border-top-color', 'var( --wpforms-page-break-color )' );
 		},
-
-		/**
-		 * Update accent color of Page Indicator.
-		 *
-		 * @since 1.8.1
-		 *
-		 * @param {Element} form Form container DOM element.
-		 */
-		updateGBBlockPageIndicatorColorF: function( form ) {
-
-			const indicator = form.querySelector( '.wpforms-page-indicator' );
-
-			if ( ! indicator ) {
-				return;
-			}
-
-			const indicatorPage = indicator.querySelector( '.wpforms-page-indicator-page-progress, .wpforms-page-indicator-page.active .wpforms-page-indicator-page-number' ),
-				indicatorTriangle = indicatorPage.querySelector( '.wpforms-page-indicator-page-triangle' );
-
-			indicator.dataset.indicatorColor = 'var( --wpforms-button-background-color )';
-			indicatorPage && indicatorPage.style.setProperty( 'background-color', 'var( --wpforms-button-background-color )' );
-			indicatorTriangle && indicatorTriangle.style.setProperty( 'border-top-color', 'var( --wpforms-button-background-color )' );
-		},
-
 		/**
 		 * Update accent color of Icon Choices.
 		 *
@@ -122,8 +205,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {jQuery} $form Form container.
 		 */
-		updateGBBlockIconChoicesColor: function( $form ) {
-
+		updateGBBlockIconChoicesColor( $form ) {
 			$form
 				.find( '.wpforms-icon-choices' )
 				.css( '--wpforms-icon-choices-color', 'var( --wpforms-button-background-color )' );
@@ -136,11 +218,10 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {jQuery} $form Form container.
 		 */
-		updateGBBlockRatingColor: function( $form ) {
-
+		updateGBBlockRatingColor( $form ) {
 			$form
 				.find( '.wpforms-field-rating-item svg' )
-				.css( 'color', 'var( --wpforms-button-background-color )' );
+				.css( 'color', 'var( --wpforms-page-break-color, var( --wpforms-button-background-color ) )' );
 		},
 
 		/**
@@ -161,30 +242,29 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object} e         Event object.
+		 * @param {Object} e         Event object.
 		 * @param {jQuery} $form     Form object.
 		 * @param {jQuery} $errorCnt Error container object.
 		 */
-		combinedUploadsSizeError: function( e, $form, $errorCnt ) {
-
+		combinedUploadsSizeError( e, $form, $errorCnt ) {
 			const formId = $form.data( 'formid' ),
 				errormessage = $form.attr( 'aria-errormessage' ) || '',
-				errorCntId = `wpforms-${formId}-footer-error`,
+				errorCntId = `wpforms-${ formId }-footer-error`,
 				$submitBtn = $form.find( '.wpforms-submit' );
 
 			$form.attr( {
 				'aria-invalid': 'true',
-				'aria-errormessage': `${errormessage} ${errorCntId}`,
+				'aria-errormessage': `${ errormessage } ${ errorCntId }`,
 			} );
 
 			$errorCnt.attr( {
-				'role': 'alert',
-				'id': errorCntId,
+				role: 'alert',
+				id: errorCntId,
 			} );
 
 			// Add error message prefix.
 			$errorCnt.find( '> .wpforms-hidden:first-child' ).remove();
-			$errorCnt.prepend( `<span class="wpforms-hidden">${wpforms_settings.formErrorMessagePrefix}</span>` );
+			$errorCnt.prepend( `<span class="wpforms-hidden">${ wpforms_settings.formErrorMessagePrefix }</span>` );
 
 			// Instead of set the `disabled` property,
 			// we must use `aria-disabled` and `aria-describedby` attributes in conduction with `wpforms-disabled` class.
@@ -197,12 +277,13 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 * @since 1.8.1
 		 * @deprecated 1.8.3
 		 *
-		 * @param {object} e         Event object.
+		 * @param {Object} e         Event object.
 		 * @param {jQuery} $form     Form object.
 		 * @param {jQuery} $errorCnt Error container object.
 		 */
-		combinedUploadsSizeOk: function( e, $form, $errorCnt ) {
-
+		// eslint-disable-next-line no-unused-vars
+		combinedUploadsSizeOk( e, $form, $errorCnt ) {
+			// eslint-disable-next-line no-console
 			console.warn( 'WARNING! Function "WPForms.FrontendModern( e, $form, $errorCnt )" has been deprecated, please use the new "formSubmitButtonDisable: function( e, $form, $submitBtn )" function instead!' );
 
 			const $submitBtn = $form.find( '.wpforms-submit' );
@@ -219,15 +300,14 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object} e          Event object.
+		 * @param {Object} e          Event object.
 		 * @param {jQuery} $form      Form object.
-		 * @param {jQuery} $submitBtn Submit button object.
+		 * @param {jQuery} $submitBtn Submit a button object.
 		 */
-		formSubmitButtonDisable: function( e, $form, $submitBtn ) {
-
+		formSubmitButtonDisable( e, $form, $submitBtn ) {
 			const disabledBtnDescId = $form.attr( 'id' ) + '-submit-btn-disabled';
 
-			$submitBtn.before( `<div class="wpforms-hidden" id="${disabledBtnDescId}">${wpforms_settings.submitBtnDisabled}</div>` );
+			$submitBtn.before( `<div class="wpforms-hidden" id="${ disabledBtnDescId }">${ wpforms_settings.submitBtnDisabled }</div>` );
 
 			$submitBtn
 				.prop( 'disabled', false )
@@ -241,12 +321,11 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object} e          Event object.
+		 * @param {Object} e          Event object.
 		 * @param {jQuery} $form      Form object.
-		 * @param {jQuery} $submitBtn Submit button object.
+		 * @param {jQuery} $submitBtn Submit a button object.
 		 */
-		formSubmitButtonRestore: function( e, $form, $submitBtn ) {
-
+		formSubmitButtonRestore( e, $form, $submitBtn ) {
 			const disabledBtnDescId = $form.attr( 'id' ) + '-submit-btn-disabled';
 
 			$form.find( '#' + disabledBtnDescId ).remove();
@@ -262,10 +341,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		disabledButtonPress: function( e ) {
-
+		disabledButtonPress( e ) {
 			const $submitBtn = $( this );
 
 			if ( ! $submitBtn.hasClass( 'wpforms-disabled' ) ) {
@@ -283,12 +361,11 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object}  e        Event object.
-		 * @param {integer} nextPage The next page number.
-		 * @param {jQuery}  $form    Current form.
+		 * @param {Object} e        Event object.
+		 * @param {number} nextPage The next page number.
+		 * @param {jQuery} $form    Current form.
 		 */
-		pageChange: function( e, nextPage, $form ) {
-
+		pageChange( e, nextPage, $form ) {
 			const $pageIndicator = $form.find( '.wpforms-page-indicator' );
 
 			if ( ! wpforms_settings.indicatorStepsPattern || ! $pageIndicator.length ) {
@@ -302,9 +379,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 			msg = msg.replace( '{current}', nextPage ).replace( '{total}', totalPages );
 
 			if ( $pageIndicator.hasClass( 'progress' ) ) {
-				pageTitle = $pageIndicator.find( '.wpforms-page-indicator-page-title' ).data( `page-${nextPage}-title` );
+				pageTitle = $pageIndicator.find( '.wpforms-page-indicator-page-title' ).data( `page-${ nextPage }-title` );
 			} else {
-				pageTitle = $pageIndicator.find( `.wpforms-page-indicator-page-${nextPage} .wpforms-page-indicator-page-title` ).text();
+				pageTitle = $pageIndicator.find( `.wpforms-page-indicator-page-${ nextPage } .wpforms-page-indicator-page-title` ).text();
 			}
 
 			msg = pageTitle ? pageTitle + '. ' + msg : msg;
@@ -321,8 +398,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 * @param {string} text     The message to be vocalised
 		 * @param {string} priority Aria-live priority. "polite" (by default) or "assertive".
 		 */
-		screenReaderAnnounce: function( text, priority ) {
-
+		screenReaderAnnounce( text, priority ) {
 			const el = document.createElement( 'div' );
 			const id = 'wpforms-screen-reader-announce-' + Date.now();
 
@@ -330,7 +406,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 			el.setAttribute( 'aria-live', priority || 'polite' );
 			el.classList.add( 'wpforms-screen-reader-announce' );
 
-			let node = document.body.appendChild( el );
+			const node = document.body.appendChild( el );
 
 			setTimeout( function() {
 				node.innerHTML = text;
@@ -352,28 +428,11 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 * @param {string} color   Color.
 		 * @param {string} opacity Opacity.
 		 *
-		 * @returns {string} Color in RGBA format with added alpha channel according to given opacity.
+		 * @return {string} Color in RGBA format with an added alpha channel according to given opacity.
 		 */
-		getColorWithOpacity: function( color, opacity ) {
-
-			color = color.trim();
-
-			const rgbArray = app.getColorAsRGBArray( color );
-
-			if ( ! rgbArray ) {
-				return color;
-			}
-
-			// Default opacity is 1.
-			opacity = ! opacity || opacity.length === 0 ? '1' : opacity.toString();
-
-			let alpha = rgbArray.length === 4 ? parseFloat( rgbArray[3] ) : 1;
-
-			// Calculate new alpha value.
-			let newAlpha = parseFloat( opacity ) * alpha;
-
-			// Combine and return the RGBA color.
-			return `rgba(${rgbArray[0]},${rgbArray[1]},${rgbArray[2]},${newAlpha})`.replace( /\s+/g, '' );
+		getColorWithOpacity( color, opacity ) {
+			// Moved to ../share/utils.js
+			return WPFormsUtils.cssColorsUtils.getColorWithOpacity( color, opacity );
 		},
 
 		/**
@@ -384,10 +443,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {string} color Color.
 		 *
-		 * @returns {string} Color in RGB format.
+		 * @return {string} Color in RGB format.
 		 */
-		getSolidColor: function( color ) {
-
+		getSolidColor( color ) {
 			color = color.trim();
 
 			const rgbArray = app.getColorAsRGBArray( color );
@@ -397,7 +455,7 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 			}
 
 			// Combine and return the RGB color.
-			return `rgb(${rgbArray[0]},${rgbArray[1]},${rgbArray[2]})`;
+			return `rgb(${ rgbArray[ 0 ] },${ rgbArray[ 1 ] },${ rgbArray[ 2 ] })`;
 		},
 
 		/**
@@ -407,17 +465,11 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {string} color Color.
 		 *
-		 * @returns {boolean} True if the given color is a valid CSS color.
+		 * @return {boolean} True if the given color is a valid CSS color.
 		 */
-		isValidColor: function( color ) {
-
-			// Create temporary DOM element and use `style` property.
-			const s = new Option().style;
-
-			s.color = color;
-
-			// Invalid color leads to the empty color property of DOM element style.
-			return s.color !== '';
+		isValidColor( color ) {
+			// Moved to ../share/utils.js
+			return WPFormsUtils.cssColorsUtils.isValidColor( color );
 		},
 
 		/**
@@ -427,35 +479,11 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {string} color Color.
 		 *
-		 * @returns {Array|boolean} Color as an array of RGBA values. False on error.
+		 * @return {Array|boolean} Color as an array of RGBA values. False on error.
 		 */
-		getColorAsRGBArray: function( color ) {
-
-			// Check if the given color is a valid CSS color.
-			if ( ! app.isValidColor( color ) ) {
-				return false;
-			}
-
-			// Remove # from the beginning of the string.
-			color = color.replace( /^#/, '' );
-
-			let rgba = color;
-			let rgbArray;
-
-			// Check if color is in HEX(A) format.
-			let isHex = rgba.match( /[0-9a-f]{6,8}$/ig );
-
-			if ( isHex ) {
-
-				// Search and split HEX(A) color into an array of couples of chars.
-				rgbArray    = rgba.match( /\w\w/g ).map( x => parseInt( x, 16 ) );
-				rgbArray[3] = rgbArray[3] ? ( rgbArray[3] / 255 ).toFixed( 2 ) : 1;
-
-			} else {
-				rgbArray = rgba.split( '(' )[1].split( ')' )[0].split( ',' );
-			}
-
-			return rgbArray;
+		getColorAsRGBArray( color ) {
+			// Moved to ../share/utils.js
+			return WPFormsUtils.cssColorsUtils.getColorAsRGBArray( color );
 		},
 
 		/**
@@ -463,13 +491,12 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @since 1.8.1
 		 *
-		 * @param {object} style   Computed style object.
+		 * @param {Object} style   Computed style object.
 		 * @param {string} varName Style custom property name.
 		 *
-		 * @returns {string|null} CSS variable value;
+		 * @return {string|null} CSS variable value;
 		 */
-		getCssVar: function( style, varName ) {
-
+		getCssVar( style, varName ) {
 			if ( ! style || typeof style.getPropertyValue !== 'function' ) {
 				return null;
 			}
@@ -490,10 +517,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 		 *
 		 * @param {jQuery} $form Form OR any element inside the form.
 		 *
-		 * @returns {object} CSS variables;
+		 * @return {Object} CSS variables;
 		 */
-		getCssVars: function( $form ) {
-
+		getCssVars( $form ) {
 			if ( ! $form || ! $form.length ) {
 				return null;
 			}
@@ -501,9 +527,9 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 			const $cont = $form.hasClass( 'wpforms-container' ) ? $form : $form.closest( '.wpforms-container' );
 			const contStyle = getComputedStyle( $cont.get( 0 ) );
 			const cssVars = wpforms_settings.css_vars;
-			let vars = {};
+			const vars = {};
 
-			for ( var i = 0; i < cssVars.length; i++ ) {
+			for ( let i = 0; i < cssVars.length; i++ ) {
 				vars[ cssVars[ i ] ] = app.getCssVar( contStyle, '--wpforms-' + cssVars[ i ] );
 			}
 
@@ -512,7 +538,6 @@ WPForms.FrontendModern = WPForms.FrontendModern || ( function( document, window,
 	};
 
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

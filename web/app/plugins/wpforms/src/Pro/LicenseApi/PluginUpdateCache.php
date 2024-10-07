@@ -19,6 +19,13 @@ class PluginUpdateCache extends LicenseApiCache {
 	const ENCRYPT = true;
 
 	/**
+	 * A class id or array of cache class ids to sync updates with.
+	 *
+	 * @since 1.8.9
+	 */
+	const SYNC_WITH = 'license_api_plugin_info_cache';
+
+	/**
 	 * Expirable URL key.
 	 *
 	 * @since 1.8.7

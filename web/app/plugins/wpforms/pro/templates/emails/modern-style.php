@@ -21,6 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require WPFORMS_PLUGIN_DIR . '/assets/pro/css/emails/modern.min.css';
 
+// Reuse border-color.
+$border_color = wpforms_generate_contrasting_color( $email_text_color, 86, 72 );
+
 ?>
 
 body, .body {
@@ -55,6 +58,14 @@ h6 a, h6 a:visited {
 
 .footer, .footer a {
 	color: <?php echo sanitize_hex_color( wpforms_generate_contrasting_color( $email_text_color, 50, 45 ) ); ?>;
+}
+
+table.wpforms-order-summary-preview {
+	border: 1px solid <?php echo sanitize_hex_color( $border_color ); ?>;
+}
+
+table.wpforms-order-summary-preview td {
+	border-top: 1px solid <?php echo sanitize_hex_color( $border_color ); ?>;
 }
 
 <?php if ( ! empty( $header_image_max_width ) && ! empty( $header_image_max_height ) ) : ?>

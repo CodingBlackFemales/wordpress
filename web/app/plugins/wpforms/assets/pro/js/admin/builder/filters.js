@@ -108,7 +108,7 @@ WPForms.Admin.Builder.Filters = WPForms.Admin.Builder.Filters || ( function( doc
 				.on( 'click', '.wpforms-btn-keyword-filter-reformat', app.reformatKeywords )
 				.on( 'change keyup paste cut', '.wpforms-panel-field-keyword-keywords textarea', app.updateKeywordsCount )
 				.on( 'paste keyup', '.wpforms-panel-field-keyword-keywords textarea', app.showReformatWarning )
-				.on( 'change', '#wpforms-panel-field-anti_spam-country_filter-country_codes',  app.changeCountryCodes )
+				.on( 'change', '#wpforms-panel-field-anti_spam-country_filter-country_codes', app.changeCountryCodes )
 				.on( 'wpformsSaved', app.saveKeywords );
 		},
 
@@ -142,14 +142,15 @@ WPForms.Admin.Builder.Filters = WPForms.Admin.Builder.Filters || ( function( doc
 
 			el.$countryCodes.data( 'choicesjs', new Choices( el.$countryCodes[0], {
 				shouldSort: false,
+				allowHTML: false, // TODO: Remove after next Choices.js release.
 				removeItemButton: true,
-				fuseOptions:{
-					'threshold':  0.1,
-					'distance': 1000,
+				fuseOptions: {
+					threshold: 0.1,
+					distance: 1000,
 				},
-				callbackOnInit: function() {
-
+				callbackOnInit() {
 					wpf.initMultipleSelectWithSearch( this );
+					wpf.showMoreButtonForChoices( this.containerOuter.element );
 				},
 			} ) );
 

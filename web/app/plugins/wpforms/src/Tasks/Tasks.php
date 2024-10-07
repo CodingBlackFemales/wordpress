@@ -8,6 +8,7 @@ use WPForms\Tasks\Actions\EntryEmailsMetaCleanupTask;
 use WPForms\Tasks\Actions\EntryEmailsTask;
 use WPForms\Tasks\Actions\FormsLocatorScanTask;
 use WPForms\Tasks\Actions\AsyncRequestTask;
+use WPForms\Tasks\Actions\PurgeSpamTask;
 
 /**
  * Class Tasks manages the tasks queue and provides API to work with it.
@@ -108,6 +109,7 @@ class Tasks {
 			EntryEmailsMetaCleanupTask::class,
 			FormsLocatorScanTask::class,
 			AsyncRequestTask::class,
+			PurgeSpamTask::class,
 		];
 
 		/**
@@ -139,7 +141,7 @@ class Tasks {
 	 * from the plugin runtime before they can be scheduled.
 	 *
 	 * Example:
-	 *     wpforms()->get( 'tasks' )
+	 *     wpforms()->obj( 'tasks' )
 	 *              ->create( 'i_am_the_dude' )
 	 *              ->async()
 	 *              ->params( 'The Big Lebowski', 1998 )
@@ -239,11 +241,9 @@ class Tasks {
 					JOIN {$wpdb->prefix}actionscheduler_groups g ON g.group_id = a.group_id
 					WHERE g.slug = '$group' AND a.status IN ( 'in-progress', 'pending' )";
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$results = $wpdb->get_results( $sql, 'ARRAY_N' );
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
-		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 
 		return $results ? array_merge( ...$results ) : [];
 	}

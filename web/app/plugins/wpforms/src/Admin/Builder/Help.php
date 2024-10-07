@@ -30,7 +30,7 @@ class Help {
 			return;
 		}
 
-		$builder_help_cache = wpforms()->get( 'builder_help_cache' );
+		$builder_help_cache = wpforms()->obj( 'builder_help_cache' );
 		$this->docs         = $builder_help_cache ? $builder_help_cache->get() : [];
 
 		$this->hooks();
@@ -101,9 +101,9 @@ class Help {
 	 */
 	public function get_docs() {
 
-		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->get( \'builder_help_cache\' )->get()' );
+		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->obj( \'builder_help_cache\' )->get()' );
 
-		return wpforms()->get( 'builder_help_cache' )->get();
+		return wpforms()->obj( 'builder_help_cache' )->get();
 	}
 
 	/**
@@ -117,9 +117,9 @@ class Help {
 	 */
 	public function update_docs() {
 
-		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->get( \'builder_help_cache\' )->get()' );
+		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', 'wpforms()->obj( \'builder_help_cache\' )->get()' );
 
-		return wpforms()->get( 'builder_help_cache' )->get();
+		return wpforms()->obj( 'builder_help_cache' )->get();
 	}
 
 	/**
@@ -138,21 +138,23 @@ class Help {
 	/**
 	 * Get categories.
 	 *
+	 * @return array Categories data.
 	 * @since 1.6.3
 	 *
-	 * @return array Categories data.
 	 */
 	public function get_categories() {
 
 		return [
-			'getting-started' => esc_html__( 'Getting Started', 'wpforms-lite' ),
-			'functionality'   => esc_html__( 'Functionality', 'wpforms-lite' ),
-			'fields'          => esc_html__( 'Fields', 'wpforms-lite' ),
-			'addons'          => esc_html__( 'Addons', 'wpforms-lite' ),
-			'payments'        => esc_html__( 'Payments', 'wpforms-lite' ),
-			'entries'         => esc_html__( 'Entries', 'wpforms-lite' ),
-			'styling'         => esc_html__( 'Styling', 'wpforms-lite' ),
-			'extending'       => esc_html__( 'Extending', 'wpforms-lite' ),
+			'getting-started'              => esc_html__( 'Getting Started', 'wpforms-lite' ),
+			'form-creation'                => esc_html__( 'Form Creation', 'wpforms-lite' ),
+			'entry-management'             => esc_html__( 'Entry Management', 'wpforms-lite' ),
+			'form-management'              => esc_html__( 'Form Management', 'wpforms-lite' ),
+			'marketing-integrations'       => esc_html__( 'Marketing Integrations', 'wpforms-lite' ),
+			'payment-forms'                => esc_html__( 'Payment Forms', 'wpforms-lite' ),
+			'payment-processing'           => esc_html__( 'Payment Processing', 'wpforms-lite' ),
+			'spam-prevention-and-security' => esc_html__( 'Spam Prevention and Security', 'wpforms-lite' ),
+			'extending-functionality'      => esc_html__( 'Extending Functionality', 'wpforms-lite' ),
+			'troubleshooting-and-support'  => esc_html__( 'Troubleshooting and Support', 'wpforms-lite' ),
 		];
 	}
 
@@ -209,6 +211,7 @@ class Help {
 			'fields/field_options/signature'          => 'signature',
 			'fields/field_options/net_promoter_score' => 'net promoter score',
 			'fields/field_options/payment-coupon'     => 'coupon',
+			'fields/field_options/repeater'           => 'repeater',
 			'settings/general'                        => 'settings',
 			'settings/anti_spam'                      => 'spam',
 			'settings/notifications'                  => 'notification emails',
@@ -363,18 +366,21 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'select'                    => [
 				'/docs/how-to-allow-multiple-selections-to-a-dropdown-field-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'multiple options'          => [
 				'/docs/how-to-allow-multiple-selections-to-a-dropdown-field-in-wpforms/',
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'bulk add'                  => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -405,6 +411,7 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'radio'                     => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -415,6 +422,7 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'checkboxes'                => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -426,6 +434,7 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'checkbox'                  => [
 				'/docs/how-to-bulk-add-choices-for-multiple-choice-checkbox-and-dropdown-fields/',
@@ -437,6 +446,7 @@ class Help {
 				'/docs/how-to-customize-form-field-options/',
 				'/docs/how-to-use-conditional-logic-with-wpforms/',
 				'/docs/how-to-customize-the-style-of-individual-form-fields/',
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 			'gdpr'                      => [
 				'/docs/how-to-create-gdpr-compliant-forms/',
@@ -562,18 +572,32 @@ class Help {
 			],
 			'two columns'               => [
 				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
 			],
 			'three columns'             => [
 				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
 			],
 			'four columns'              => [
 				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
 			],
 			'fields horizontally'       => [
 				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
 			],
 			'fields in a row'           => [
 				'/docs/how-to-use-the-layout-field-in-wpforms/',
+				'/docs/using-the-repeater-field/',
+			],
+			'repeater'                  => [
+				'/docs/using-the-repeater-field/',
+			],
+			'repeatable'                => [
+				'/docs/using-the-repeater-field/',
+			],
+			'replicate fields'          => [
+				'/docs/using-the-repeater-field/',
 			],
 			'page break'                => [
 				'/docs/how-to-create-multi-page-forms-in-wpforms/',
@@ -1228,6 +1252,9 @@ class Help {
 			],
 			'revisions'                 => [
 				'/docs/how-to-use-form-revisions-in-wpforms/',
+			],
+			'ai'                        => [
+				'/docs/generating-form-choices-with-wpforms-ai/',
 			],
 		];
 	}

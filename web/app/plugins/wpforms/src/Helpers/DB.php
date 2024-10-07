@@ -1,6 +1,14 @@
 <?php
 
+// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
 namespace WPForms\Helpers;
+
+// phpcs:ignore WPForms.PHP.UseStatement.UnusedUseStatement
+use WPForms_DB;
+use WPForms_Lite;
+use WPForms_Pro;
 
 /**
  * DB helpers.
@@ -13,10 +21,11 @@ class DB {
 	 * Existing tables transient name.
 	 *
 	 * @since 1.8.7
+	 * @since 1.9.0 Changed from 'wpforms_existing_tables' to 'existing_tables'
 	 *
 	 * @var string
 	 */
-	const EXISTING_TABLES_TRANSIENT_NAME = 'wpforms_existing_tables';
+	const EXISTING_TABLES_TRANSIENT_NAME = 'existing_tables';
 
 	/**
 	 * Existing tables transient expiration, sec.
@@ -70,12 +79,12 @@ class DB {
 			return $tables;
 		}
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$tables = $wpdb->get_results(
 			$wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ),
 			'ARRAY_N'
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		$tables = ! empty( $tables ) ? wp_list_pluck( $tables, 0 ) : [];
 
@@ -178,6 +187,20 @@ class DB {
 	}
 
 	/**
+	 * Flush existing tables cache.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return void
+	 */
+	public static function flush_existing_tables_cache() {
+
+		self::$existing_tables = [];
+
+		Transient::delete( self::EXISTING_TABLES_TRANSIENT_NAME );
+	}
+
+	/**
 	 * Wildcard match.
 	 * Works as MySQL LIKE match.
 	 *
@@ -197,5 +220,72 @@ class DB {
 		);
 
 		return preg_match( '/^' . $regex . '$/is', $subject );
+	}
+
+	/**
+	 * Check if all custom tables exist.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return bool True if all custom tables exist. False if any is missing.
+	 */
+	public static function custom_tables_exist(): bool {
+
+		global $wpdb;
+
+		$existing_tables = self::get_existing_custom_tables();
+		$custom_tables   = wpforms()->is_pro() ? WPForms_Pro::CUSTOM_TABLES : WPForms_Lite::CUSTOM_TABLES;
+
+		foreach ( $custom_tables as $table_name => $handler_class ) {
+			if ( ! in_array( $wpdb->prefix . $table_name, $existing_tables, true ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Create all custom DB tables.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param bool $flush_cache Clear existing custom tables cache.
+	 *
+	 * @noinspection PhpPossiblePolymorphicInvocationInspection
+	 */
+	public static function create_custom_tables( bool $flush_cache = false ) {
+
+		global $wpdb;
+
+		if ( $flush_cache ) {
+			self::flush_existing_tables_cache();
+		}
+
+		$existing_tables = self::get_existing_custom_tables();
+		$custom_tables   = wpforms()->is_pro() ? WPForms_Pro::CUSTOM_TABLES : WPForms_Lite::CUSTOM_TABLES;
+		$created         = false;
+
+		foreach ( $custom_tables as $table_name => $handler_class ) {
+			if ( in_array( $wpdb->prefix . $table_name, $existing_tables, true ) ) {
+				continue;
+			}
+
+			/**
+			 * Child class of WPForms_DB.
+			 *
+			 * @var $handler WPForms_DB
+			 */
+			$handler = new $handler_class();
+
+			// Create a table.
+			$handler->create_table();
+
+			$created = true;
+		}
+
+		if ( $created ) {
+			Transient::delete( self::EXISTING_TABLES_TRANSIENT_NAME );
+		}
 	}
 }

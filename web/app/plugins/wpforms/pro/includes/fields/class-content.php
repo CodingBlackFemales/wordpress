@@ -1,8 +1,15 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use WPForms\Pro\Forms\Fields\Traits\ContentInput;
 
 /**
  * Class WPForms_Field_Content.
@@ -11,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPForms_Field_Content extends WPForms_Field {
 
-	use \WPForms\Admin\Builder\Traits\ContentInput;
+	use ContentInput;
 
 	/**
 	 * Class initialization method.
@@ -25,7 +32,7 @@ class WPForms_Field_Content extends WPForms_Field {
 		$this->keywords = esc_html__( 'image, text, table, list, heading, wysiwyg, visual', 'wpforms' );
 		$this->type     = 'content';
 		$this->icon     = 'fa-file-image-o';
-		$this->order    = 181;
+		$this->order    = 180;
 		$this->group    = 'fancy';
 
 		$this->hooks();
@@ -47,7 +54,7 @@ class WPForms_Field_Content extends WPForms_Field {
 	}
 
 	/**
-	 * Show field options in builder left panel.
+	 * Show field options in the builder left panel.
 	 *
 	 * @since 1.7.8
 	 *
@@ -128,16 +135,17 @@ class WPForms_Field_Content extends WPForms_Field {
 	}
 
 	/**
-	 * Hide column from the entries list table.
+	 * Hide column from the entry list table.
 	 *
 	 * @since 1.7.8
 	 *
-	 * @param array $disallowed Table columns.
+	 * @param array|mixed $disallowed Table columns.
 	 *
 	 * @return array
 	 */
-	public function hide_column_in_entries_table( $disallowed ) {
+	public function hide_column_in_entries_table( $disallowed ): array {
 
+		$disallowed   = (array) $disallowed;
 		$disallowed[] = $this->type;
 
 		return $disallowed;
@@ -153,13 +161,21 @@ class WPForms_Field_Content extends WPForms_Field {
 	 *
 	 * @return string
 	 */
-	public function print_preview_field_value( $value, $field ) {
+	public function print_preview_field_value( $value, $field ): string {
 
 		if ( $field['type'] !== $this->type ) {
 			return $value;
 		}
 
-		return wp_kses( sprintf( '%s<div class="wpforms-field-content-preview-end"></div>', $this->do_caption_shortcode( $value ) ), $this->get_allowed_html_tags() );
+		return (
+		wp_kses(
+			sprintf(
+				'%s<div class="wpforms-field-content-preview-end"></div>',
+				$this->do_caption_shortcode( $value )
+			),
+			$this->get_allowed_html_tags()
+		)
+		);
 	}
 
 	/**
@@ -167,14 +183,16 @@ class WPForms_Field_Content extends WPForms_Field {
 	 *
 	 * @since 1.7.9
 	 *
-	 * @param bool  $use   Boolean value flagging if field should use nl2br function.
-	 * @param array $field Field data.
+	 * @param bool|mixed $use_nl2br Boolean value flagging if field should use the 'nl2br' function.
+	 * @param array      $field     Field data.
 	 *
 	 * @return bool
 	 */
-	public function print_preview_use_nl2br( $use, $field ) {
+	public function print_preview_use_nl2br( $use_nl2br, $field ): bool {
 
-		return $field['type'] === $this->type ? false : $use;
+		$use_nl2br = (bool) $use_nl2br;
+
+		return $field['type'] === $this->type ? false : $use_nl2br;
 	}
 
 	/**
@@ -185,15 +203,18 @@ class WPForms_Field_Content extends WPForms_Field {
 	 * @since 1.7.8
 	 *
 	 * @param array $forms Forms on the current page.
+	 *
+	 * @noinspection NotOptimalIfConditionsInspection
+	 * @noinspection NullPointerExceptionInspection
 	 */
 	public function frontend_css( $forms ) {
 		/*
 		 * If it is NOT set to enqueue CSS globally
-		 * and form does not have content field or for is not set to enqueue CSS
+		 * and form does not have a content field or for is not set to enqueue CSS,
 		 * then bail out.
 		 */
 		if (
-			! wpforms()->get( 'frontend' )->assets_global()
+			! wpforms()->obj( 'frontend' )->assets_global()
 			&& ( ! wpforms_has_field_type( $this->type, $forms, true ) || (int) wpforms_setting( 'disable-css', '1' ) !== 1 )
 		) {
 			return;
@@ -221,7 +242,7 @@ class WPForms_Field_Content extends WPForms_Field {
 	}
 
 	/**
-	 * Whether current field can be populated dynamically.
+	 * Whether the current field can be populated dynamically.
 	 *
 	 * @since 1.7.8
 	 *
@@ -230,13 +251,13 @@ class WPForms_Field_Content extends WPForms_Field {
 	 *
 	 * @return false
 	 */
-	public function is_dynamic_population_allowed( $properties, $field ) {
+	public function is_dynamic_population_allowed( $properties, $field ): bool {
 
 		return false;
 	}
 
 	/**
-	 * Whether current field can be populated dynamically.
+	 * Whether the current field can be populated dynamically.
 	 *
 	 * @since 1.7.8
 	 *
@@ -245,17 +266,19 @@ class WPForms_Field_Content extends WPForms_Field {
 	 *
 	 * @return false
 	 */
-	public function is_fallback_population_allowed( $properties, $field ) {
+	public function is_fallback_population_allowed( $properties, $field ): bool {
 
 		return false;
 	}
 
 	/**
-	 * Show field display on front-end.
+	 * Show field display on the front-end.
 	 *
 	 * @since 1.7.8
 	 *
 	 * @param array $field Field data.
+	 *
+	 * @noinspection HtmlUnknownAttribute
 	 */
 	private function content_input_display( $field ) {
 
@@ -271,8 +294,9 @@ class WPForms_Field_Content extends WPForms_Field {
 		}
 
 		// Define data.
-		$primary            = $field['properties']['inputs']['primary'];
-		$primary['class'][] = 'wpforms-field-row';
+		$primary                 = $field['properties']['inputs']['primary'];
+		$primary['class'][]      = 'wpforms-field-row';
+		$primary['attr']['name'] = '';
 
 		printf(
 			'<div %s>%s<div class="wpforms-field-content-display-frontend-clear"></div></div>',

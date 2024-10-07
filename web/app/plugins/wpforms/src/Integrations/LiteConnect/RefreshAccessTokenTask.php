@@ -48,7 +48,7 @@ class RefreshAccessTokenTask extends Integration {
 	 */
 	public function create() {
 
-		$action_id = wpforms()->get( 'tasks' )
+		$action_id = wpforms()->obj( 'tasks' )
 			->create( self::LITE_CONNECT_TASK )
 			->once( time() + 6 * DAY_IN_SECONDS )
 			->register();

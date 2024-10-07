@@ -29,6 +29,9 @@ class Token {
 	public function hooks() {
 
 		add_filter( 'wpforms_frontend_form_atts', [ $this, 'add_token_to_form_atts' ], 10, 2 );
+		add_filter( 'wpforms_frontend_strings', [ $this, 'add_frontend_strings' ] );
+		add_action( 'wp_ajax_nopriv_wpforms_get_token', [ $this, 'ajax_get_token' ] );
+		add_action( 'wp_ajax_wpforms_get_token', [ $this, 'ajax_get_token' ] );
 	}
 
 	/**
@@ -84,14 +87,20 @@ class Token {
 
 		$current_date = time();
 
+		$valid_token_times_before = [];
+
+		$days_in_5_years = 5 * 365;
+
+		// Create an array of 5 years worth of days.
+		for ( $i = 1; $i <= $days_in_5_years; $i++ ) {
+			$valid_token_times_before[] = $i * DAY_IN_SECONDS;
+		}
+
 		// Create our array of times to check before today. A user with a longer
 		// cache time can extend this. A user with a shorter cache time can remove times.
 		$valid_token_times_before = apply_filters(
 			'wpforms_form_token_check_before_today',
-			[
-				( 2 * DAY_IN_SECONDS ), // Two days ago.
-				( 1 * DAY_IN_SECONDS ), // One day ago.
-			]
+			$valid_token_times_before
 		);
 
 		// Mostly to catch edge cases like the form page loading and submitting on two different days.
@@ -137,7 +146,7 @@ class Token {
 	 *
 	 * @return bool Whether the token is valid or not.
 	 */
-	public function verify( $token, $form_data = [] ) {
+	public function verify( string $token, array $form_data = [] ): bool {
 
 		// Check to see if our token is inside the valid tokens.
 		return in_array( $token, $this->get_valid_tokens( $form_data ), true );
@@ -156,7 +165,8 @@ class Token {
 	 */
 	public function add_token_to_form_atts( array $attrs, array $form_data ) {
 
-		$attrs['atts']['data-token'] = $this->get( true, $form_data );
+		$attrs['atts']['data-token']      = $this->get( true, $form_data );
+		$attrs['atts']['data-token-time'] = time();
 
 		return $attrs;
 	}
@@ -172,7 +182,7 @@ class Token {
 	 *
 	 * @return bool|string True or a string with the error.
 	 */
-	public function validate( array $form_data, array $fields, array $entry ) {
+	public function validate( array $form_data, array $fields, array $entry ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		// Bail out if we don't have the antispam setting.
 		if ( empty( $form_data['settings']['antispam'] ) ) {
@@ -184,14 +194,44 @@ class Token {
 			return true;
 		}
 
-		$valid = isset( $entry['token'] ) && $this->verify( $entry['token'], $form_data );
-		$valid = $this->process_antispam_filter_wrapper( $valid, $fields, $entry, $form_data );
+		$is_valid_token = isset( $entry['token'] ) && $this->verify( (string) $entry['token'], $form_data );
 
-		if ( ! $valid ) {
-			return $this->get_missing_token_message();
+		if ( $this->process_antispam_filter_wrapper( $is_valid_token, $fields, $entry, $form_data ) ) {
+			return true;
 		}
 
-		return true;
+		// Prepare the log data.
+		$form_title = $form_data['settings']['form_title'] ?? '';
+		$form_id    = $form_data['id'] ?? 'unknown';
+
+		if ( $is_valid_token ) {
+			// Token is OK, but antispam filter is not passed.
+			$log_message   = 'Filter is not passed';
+			$error_message = $this->get_antispam_filter_message();
+		} else {
+			// Invalid token.
+			$log_message   = 'Token is invalid';
+			$error_message = $this->get_invalid_token_message();
+		}
+
+		wpforms_log(
+			'Antispam: ' . $log_message,
+			[
+				'message'    => $error_message,
+				'referer'    => esc_url_raw( (string) wp_get_referer() ),
+				'form'       => ! empty( $form_title ) ? $form_title . ' (ID: ' . $form_id . ')' : 'ID: ' . $form_id,
+				'token'      => $entry['token'] ?? '',
+				'user_ip'    => wpforms_get_ip(),
+				'entry_data' => ! wpforms_setting( 'gdpr' ) ? $entry : 'Not logged',
+			],
+			[
+				'type'    => [ 'spam', 'error' ],
+				'form_id' => $form_data['id'],
+				'force'   => true,
+			]
+		);
+
+		return $error_message;
 	}
 
 	/**
@@ -206,21 +246,19 @@ class Token {
 	 *
 	 * @return bool Is valid or not.
 	 */
-	public function process_antispam_filter_wrapper( $is_valid_not_spam, array $fields, array $entry, array $form_data ) {
+	public function process_antispam_filter_wrapper( bool $is_valid_not_spam, array $fields, array $entry, array $form_data ): bool {
 
-		return apply_filters( 'wpforms_process_antispam', $is_valid_not_spam, $fields, $entry, $form_data );
-	}
-
-	/**
-	 * Helper to get the missing token message.
-	 *
-	 * @since 1.6.2.1
-	 *
-	 * @return string missing token message.
-	 */
-	private function get_missing_token_message() {
-
-		return $this->get_error_message( esc_html__( 'This page isn\'t loading JavaScript properly, and the form will not be able to submit.', 'wpforms-lite' ) );
+		/**
+		 * Allows developers to filter the antispam check result.
+		 *
+		 * @since 1.6.2
+		 *
+		 * @param bool  $is_valid_not_spam True if entry valid, false otherwise.
+		 * @param array $fields            Fields data.
+		 * @param array $entry             Entry data.
+		 * @param array $form_data         Form data.
+		 */
+		return (bool) apply_filters( 'wpforms_process_antispam', $is_valid_not_spam, $fields, $entry, $form_data ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -230,9 +268,21 @@ class Token {
 	 *
 	 * @return string Invalid token message.
 	 */
-	private function get_invalid_token_message() {
+	private function get_invalid_token_message(): string {
 
-		return $this->get_error_message( esc_html__( 'Form token is invalid. Please refresh the page.', 'wpforms-lite' ) );
+		return $this->get_error_message( esc_html__( 'Antispam token is invalid.', 'wpforms-lite' ) );
+	}
+
+	/**
+	 * Helper to get the antispam filter error message.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @return string Missing token message.
+	 */
+	private function get_antispam_filter_message(): string {
+
+		return $this->get_error_message( esc_html__( 'Antispam filter did not allow your data to pass through.', 'wpforms-lite' ) );
 	}
 
 	/**
@@ -244,21 +294,11 @@ class Token {
 	 *
 	 * @return string
 	 */
-	private function get_error_message( $text ) {
+	private function get_error_message( string $text ): string {
 
-		return wpforms_current_user_can() ? $text . $this->maybe_get_support_text() : $this->get_non_logged_user_error_message();
-	}
+		$text .= ' ' . esc_html__( 'Please reload the page and try submitting the form again.', 'wpforms-lite' );
 
-	/**
-	 * Non logged user error message.
-	 *
-	 * @since 1.6.4.1
-	 *
-	 * @return string
-	 */
-	private function get_non_logged_user_error_message() {
-
-		return esc_html__( 'The form was unable to submit. Please contact the site administrator.', 'wpforms-lite' );
+		return wpforms_current_user_can() ? $text . $this->maybe_get_support_text() : $text;
 	}
 
 	/**
@@ -268,21 +308,74 @@ class Token {
 	 *
 	 * @return string Support text if super admin, empty string if not.
 	 */
-	private function maybe_get_support_text() {
+	private function maybe_get_support_text(): string {
 
-		// If user isn't a super admin, don't return any text.
+		// If a user isn't a super admin, don't return any text.
 		if ( ! is_super_admin() ) {
 			return '';
 		}
 
 		// If the user is an admin, return text with a link to support.
-		// We add a space here to separate the sentences, but outside of the localized
-		// text to avoid it being removed.
+		// We add a space here to separate the sentences, but outside the localized text to avoid it being removed.
 		return ' ' . sprintf(
-			// translators: placeholders are links.
+			/* translators: placeholders are links. */
 			esc_html__( 'Please check out our %1$stroubleshooting guide%2$s for details on resolving this issue.', 'wpforms-lite' ),
 			'<a href="https://wpforms.com/docs/getting-support-wpforms/">',
 			'</a>'
 		);
+	}
+
+	/**
+	 * Add token related strings to the frontend.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array|mixed $strings Frontend strings.
+	 *
+	 * @return array Frontend strings.
+	 */
+	public function add_frontend_strings( $strings ): array {
+
+		$strings = (array) $strings;
+
+		$strings['error_updating_token'] = esc_html__(
+			'Error updating token. Please try again or contact support if the issue persists.',
+			'wpforms-lite'
+		);
+		$strings['network_error']        = esc_html__(
+			'Network error or server is unreachable. Check your connection or try again later.',
+			'wpforms-lite'
+		);
+
+		// Default token lifetime is 24 hours in seconds.
+		$token_lifetime = DAY_IN_SECONDS;
+
+		/**
+		 * Filter token cache lifetime in seconds.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param integer $token_lifetime Token lifetime in seconds.
+		 */
+		$strings['token_cache_lifetime'] = apply_filters( 'wpforms_forms_token_cache_lifetime', $token_lifetime );
+
+		return $strings;
+	}
+
+	/**
+	 * Update token via ajax handler.
+	 *
+	 * @since 1.8.8
+	 */
+	public function ajax_get_token() {
+
+		$form_data       = [];
+		$form_data['id'] = filter_input( INPUT_POST, 'formId', FILTER_VALIDATE_INT );
+
+		$response = [
+			'token' => $this->get( true, $form_data ),
+		];
+
+		wp_send_json_success( $response );
 	}
 }

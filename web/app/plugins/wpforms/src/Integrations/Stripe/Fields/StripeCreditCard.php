@@ -35,7 +35,7 @@ class StripeCreditCard extends WPForms_Field {
 	 */
 	public function field_properties( $properties, $field, $form_data ) {
 
-		unset( $properties['inputs']['primary'] );
+		unset( $properties['inputs']['primary'], $properties['label']['attr']['for'] );
 
 		$form_id  = absint( $form_data['id'] );
 		$field_id = absint( $field['id'] );
@@ -188,7 +188,7 @@ class StripeCreditCard extends WPForms_Field {
 			return;
 		}
 
-		if ( $this->is_block_editor() ) {
+		if ( wpforms_is_editor_page() ) {
 			$this->block_editor_field_display( $field );
 
 			return;

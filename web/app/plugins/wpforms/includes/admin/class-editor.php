@@ -45,7 +45,7 @@ class WPForms_Admin_Editor {
 		$icon = '<span class="wp-media-buttons-icon wpforms-menu-icon" style="font-size:16px;margin-top:-2px;"><svg width="18" height="18" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M643 911v128h-252v-128h252zm0-255v127h-252v-127h252zm758 511v128h-341v-128h341zm0-256v128h-672v-128h672zm0-255v127h-672v-127h672zm135 860v-1240q0-8-6-14t-14-6h-32l-378 256-210-171-210 171-378-256h-32q-8 0-14 6t-6 14v1240q0 8 6 14t14 6h1240q8 0 14-6t6-14zm-855-1110l185-150h-406zm430 0l221-150h-406zm553-130v1240q0 62-43 105t-105 43h-1240q-62 0-105-43t-43-105v-1240q0-62 43-105t105-43h1240q62 0 105 43t43 105z" fill="#82878c"/></svg></span>';
 
 		printf(
-			'<button class="button wpforms-insert-form-button" data-editor="%s">%s %s</button>',
+			'<button type="button" class="button wpforms-insert-form-button" data-editor="%s">%s %s</button>',
 			esc_attr( $editor_id ),
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$icon,
@@ -127,13 +127,13 @@ class WPForms_Admin_Editor {
 						);
 						echo '</p>';
 						$args  = apply_filters( 'wpforms_modal_select', [] );
-						$forms = wpforms()->get( 'form' )->get( '', $args );
+						$forms = wpforms()->obj( 'form' )->get( '', $args );
 
 						if ( ! empty( $forms ) ) {
 							printf( '<p><label for="wpforms-modal-select-form">%s</label></p>', esc_html__( 'Select a form below to insert', 'wpforms-lite' ) );
 							echo '<select id="wpforms-modal-select-form">';
 							foreach ( $forms as $form ) {
-								printf( '<option value="%d">%s</option>', $form->ID, esc_html( $form->post_title ) );
+								printf( '<option value="%d">%s</option>', esc_html( $form->ID ), esc_html( $form->post_title ) );
 							}
 							echo '</select><br>';
 							printf( '<p class="wpforms-modal-inline"><input type="checkbox" id="wpforms-modal-checkbox-title"><label for="wpforms-modal-checkbox-title">%s</label></p>', esc_html__( 'Show form name', 'wpforms-lite' ) );
@@ -150,7 +150,7 @@ class WPForms_Admin_Editor {
 										],
 									]
 								),
-								admin_url( 'admin.php?page=wpforms-builder' )
+								esc_url( admin_url( 'admin.php?page=wpforms-builder' ) )
 							);
 							echo '</p>';
 						}

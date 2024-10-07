@@ -5,14 +5,15 @@
  *
  * @since 1.6.7
  *
- * @var string $image             Image URL.
- * @var array  $addon             Addon data.
- * @var string $url               Addon page URL.
- * @var string $button            Button HTML.
- * @var bool   $recommended       Flag for recommended addons.
- * @var bool   $has_settings_link Flag for addons with settings link.
- * @var string $settings_url      Addon settings link.
- * @var bool   $has_cap           Check is user has capability to manage addon.
+ * @var string $image                 Image URL.
+ * @var array  $addon                 Addon data.
+ * @var string $url                   Addon page URL.
+ * @var string $button                Button HTML.
+ * @var bool   $has_settings_link     Flag for addons with settings link.
+ * @var string $settings_url          Addon settings link.
+ * @var string $is_version_compatible Is addon version compatible with WPForms version.
+ * @var string $upgrade_url           Addon upgrade URL.
+ * @var bool   $has_cap               Check is user has capability to manage addon.
  */
 
 use WPForms\Admin\Education\Helpers;
@@ -30,8 +31,16 @@ $image_alt                = sprintf( /* translators: %s - addon title. */
 	__( '%s logo', 'wpforms' ),
 	$addon['title']
 );
+
+$badge = Helpers::get_addon_badge( $addon );
+
+$item_classes = [
+	'wpforms-addons-list-item',
+	! empty( $badge ) ? 'has-badge' : '',
+];
+
 ?>
-<div class="wpforms-addons-list-item">
+<div class="<?php echo wpforms_sanitize_classes( $item_classes, true ); ?>">
 	<div class="wpforms-addons-list-item-header">
 		<img src="<?php echo esc_url( WPFORMS_PLUGIN_URL . 'assets/images/' . $addon['icon'] ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>">
 
@@ -46,9 +55,7 @@ $image_alt                = sprintf( /* translators: %s - addon title. */
 				);
 				?>
 
-				<?php if ( ! empty( $addon['recommended'] ) ) : ?>
-					<?php Helpers::print_badge( esc_html__( 'Recommended', 'wpforms' ), 'sm', 'inline', 'green', 'rounded', 'fa-star' ); ?>
-				<?php endif; ?>
+				<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 
 			<div class="wpforms-addons-list-item-header-meta-excerpt">
@@ -67,6 +74,12 @@ $image_alt                = sprintf( /* translators: %s - addon title. */
 				<?php if ( $has_settings_link && $addon['action'] !== 'upgrade' ) : ?>
 					<a href="<?php echo esc_url( $settings_url ); ?>" class="wpforms-addons-list-item-footer-settings-link">
 						<?php esc_html_e( 'Settings', 'wpforms' ); ?>
+					</a>
+				<?php endif; ?>
+
+				<?php if ( ! $is_version_compatible && $addon['action'] === 'activate' ) : ?>
+					<a href="<?php echo esc_url( $upgrade_url ); ?>" class="wpforms-addons-list-item-footer-upgrade-link">
+						<?php esc_html_e( 'Update Required', 'wpforms' ); ?>
 					</a>
 				<?php endif; ?>
 			</div>

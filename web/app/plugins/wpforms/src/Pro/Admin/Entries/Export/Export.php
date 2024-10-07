@@ -36,6 +36,7 @@ class Export {
 			'internal-information',
 			'content',
 			'layout',
+			'repeater',
 		],
 	];
 
@@ -427,7 +428,7 @@ class Export {
 	 */
 	protected function init_form_data() {
 
-		$form = wpforms()->get( 'form' );
+		$form = wpforms()->obj( 'form' );
 		$data = $form ?
 			$form->get(
 				$this->data['get_args']['form_id'],

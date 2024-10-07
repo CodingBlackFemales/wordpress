@@ -115,6 +115,10 @@ class WP_Resume_Manager_Setup {
 		$step = ! empty( $_GET['step'] ) ? absint( $_GET['step'] ) : 1;
 
 		if ( 3 === $step && ! empty( $_POST ) ) {
+			if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'wpjm_resumes_setup_wizard' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Nonce should not be modified and used safely.
+				wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'wp-job-manager-resumes' ) );
+			}
+
 			$create_pages    = isset( $_POST['wp-resume-manager-create-page'] ) ? $_POST['wp-resume-manager-create-page'] : [];
 			$page_titles     = $_POST['wp-resume-manager-page-title'];
 			$pages_to_create = [
@@ -222,6 +226,7 @@ class WP_Resume_Manager_Setup {
 							</tr>
 						</tfoot>
 					</table>
+					<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'wpjm_resumes_setup_wizard' ) ); ?>" />
 				</form>
 
 			<?php endif; ?>

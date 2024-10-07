@@ -20,6 +20,36 @@ namespace WPForms\Vendor\Stripe\Climate;
 class Product extends \WPForms\Vendor\Stripe\ApiResource
 {
     const OBJECT_NAME = 'climate.product';
-    use \WPForms\Vendor\Stripe\ApiOperations\All;
-    use \WPForms\Vendor\Stripe\ApiOperations\Retrieve;
+    /**
+     * Lists all available Climate product objects.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Climate\Product> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+        return static::_requestPage($url, \WPForms\Vendor\Stripe\Collection::class, $params, $opts);
+    }
+    /**
+     * Retrieves the details of a Climate product with the given ID.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Climate\Product
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \WPForms\Vendor\Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+        return $instance;
+    }
 }

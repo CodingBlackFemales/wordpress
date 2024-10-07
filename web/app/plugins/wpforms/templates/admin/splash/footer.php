@@ -20,5 +20,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<h2><?php echo esc_html( $title ); ?></h2>
 		<p><?php echo esc_html( $description ); ?></p>
 	</div>
-	<a href="<?php echo esc_url( $upgrade['url'] ); ?>" class="wpforms-btn wpforms-btn-green"><?php echo esc_html( $upgrade['text'] ); ?></a>
+	<a href="<?php echo esc_url( $upgrade['url'] ); ?>" class="wpforms-btn wpforms-btn-green" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $upgrade['text'] ); ?></a>
 </footer>

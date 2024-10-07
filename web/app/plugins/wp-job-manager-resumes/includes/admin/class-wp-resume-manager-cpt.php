@@ -72,6 +72,10 @@ class WP_Resume_Manager_CPT {
 			case 'approve_resumes':
 				check_admin_referer( 'bulk-posts' );
 
+				if ( ! current_user_can( 'manage_resumes' ) ) {
+					return;
+				}
+
 				$post_ids         = array_map( 'absint', array_filter( (array) $_GET['post'] ) );
 				$approved_resumes = [];
 
@@ -95,17 +99,15 @@ class WP_Resume_Manager_CPT {
 
 				wp_redirect( remove_query_arg( 'approve_resumes', add_query_arg( 'approved_resumes', $approved_resumes, admin_url( 'edit.php?post_type=resume' ) ) ) );
 				exit;
-			break;
 		}
-
-		return;
 	}
 
 	/**
 	 * Approve a single resume
 	 */
 	public function approve_resume() {
-		if ( ! empty( $_GET['approve_resume'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'approve_resume' ) && current_user_can( 'edit_post', $_GET['approve_resume'] ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Data used safely and nonce should not be modified.
+		if ( ! empty( $_GET['approve_resume'] ) && ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ), 'approve_resume' ) && current_user_can( 'manage_resumes' ) ) {
 			$post_id         = absint( $_GET['approve_resume'] );
 			$new_post_status = get_post_meta( $post_id, '_resume_edited_original_status', true );
 			delete_post_meta( $post_id, '_resume_edited_original_status' );

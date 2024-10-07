@@ -18,6 +18,8 @@ class Meta extends WPForms_DB {
 	 */
 	public function __construct() {
 
+		parent::__construct();
+
 		$this->table_name  = self::get_table_name();
 		$this->primary_key = 'id';
 		$this->type        = 'payment_meta';
@@ -137,13 +139,13 @@ class Meta extends WPForms_DB {
 
 		$values = implode( ', ', $values );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			"INSERT INTO $this->table_name
 			( payment_id, meta_key, meta_value )
 			VALUES $values"
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -220,7 +222,7 @@ class Meta extends WPForms_DB {
 
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$meta_value = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT meta_value FROM $this->table_name
@@ -229,7 +231,7 @@ class Meta extends WPForms_DB {
 				$meta_key
 			)
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		return maybe_unserialize( $meta_value );
 	}
@@ -247,7 +249,7 @@ class Meta extends WPForms_DB {
 
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_key, meta_value as value FROM $this->table_name
@@ -256,7 +258,7 @@ class Meta extends WPForms_DB {
 			),
 			OBJECT_K
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -277,7 +279,7 @@ class Meta extends WPForms_DB {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_value as value FROM $this->table_name WHERE payment_id = %d AND meta_key = %s ORDER BY id DESC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -307,12 +309,12 @@ class Meta extends WPForms_DB {
 		// Retrieve the global database instance.
 		global $wpdb;
 
-		$payment_handler        = wpforms()->get( 'payment' );
+		$payment_handler        = wpforms()->obj( 'payment' );
 		$payment_table_name     = $payment_handler->table_name;
 		$secondary_where_clause = $payment_handler->add_secondary_where_conditions();
 
 		// Prepare and execute the SQL query to check if there are valid entries with the given meta key.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (bool) $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT 1 FROM {$this->table_name} AS pm
@@ -322,6 +324,7 @@ class Meta extends WPForms_DB {
 				$meta_key
 			)
 		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 	}
 
 	/**
@@ -345,7 +348,7 @@ class Meta extends WPForms_DB {
 		global $wpdb;
 
 		// Prepare and execute the SQL query to check if the given meta key and value exist in the payment meta table.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return (bool) $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT EXISTS( SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND meta_value = %s )",
@@ -353,6 +356,7 @@ class Meta extends WPForms_DB {
 				$meta_value
 			)
 		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**
@@ -376,7 +380,7 @@ class Meta extends WPForms_DB {
 		global $wpdb;
 
 		// Prepare and execute the SQL query to retrieve payment meta data based on the given meta key and value.
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_key, meta_value AS value FROM {$this->table_name}
@@ -387,6 +391,7 @@ class Meta extends WPForms_DB {
 			),
 			OBJECT_K
 		);
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**
@@ -403,7 +408,7 @@ class Meta extends WPForms_DB {
 
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM $this->table_name
@@ -413,6 +418,6 @@ class Meta extends WPForms_DB {
 				$meta_key
 			)
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 	}
 }

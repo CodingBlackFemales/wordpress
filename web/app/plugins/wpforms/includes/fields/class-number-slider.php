@@ -398,8 +398,7 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 		$primary = $field['properties']['inputs']['primary'];
 
 		$value_display = isset( $field['value_display'] ) ? esc_attr( $field['value_display'] ) : esc_html__( 'Selected Value: {value}', 'wpforms-lite' );
-		$default_value = ! empty( $field['default_value'] ) ? (float) $field['default_value'] : 0;
-		$hint_value    = ! empty( $primary['attr']['value'] ) ? (float) $primary['attr']['value'] : $default_value;
+		$hint_value    = ! empty( $primary['attr']['value'] ) ? (float) $primary['attr']['value'] : 0;
 
 		$hint = str_replace( '{value}', '<b>' . $hint_value . '</b>', $value_display );
 
@@ -410,7 +409,6 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 				'atts'          => $primary['attr'],
 				'class'         => $primary['class'],
 				'datas'         => $primary['data'],
-				'default_value' => $default_value,
 				'id'            => $primary['id'],
 				'max'           => isset( $field['max'] ) && is_numeric( $field['max'] ) ? (float) $field['max'] : self::SLIDER_MAX,
 				'min'           => isset( $field['min'] ) && is_numeric( $field['min'] ) ? (float) $field['min'] : self::SLIDER_MIN,
@@ -429,7 +427,7 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 	 * @since 1.5.7
 	 *
 	 * @param int              $field_id     Field ID.
-	 * @param int|float|string $field_submit Submitted field value.
+	 * @param int|float|string $field_submit Submitted field value (raw data).
 	 * @param array            $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -444,7 +442,7 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 			empty( $field_submit ) &&
 			(string) $field_submit !== '0'
 		) {
-			wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] = wpforms_get_required_label();
+			wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] = wpforms_get_required_label();
 		}
 
 		// Check if value is numeric.
@@ -456,7 +454,7 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 			 *
 			 * @param string $message Error message.
 			 */
-			wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] = apply_filters( 'wpforms_valid_number_label', esc_html__( 'Please provide a valid value.', 'wpforms-lite' ) ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+			wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] = apply_filters( 'wpforms_valid_number_label', esc_html__( 'Please provide a valid value.', 'wpforms-lite' ) ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 		}
 	}
 
@@ -483,11 +481,11 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 		];
 
 		// Set final field details.
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'      => sanitize_text_field( $name ),
 			'value'     => $value,
 			'value_raw' => $value_raw,
-			'id'        => absint( $field_id ),
+			'id'        => wpforms_validate_field_id( $field_id ),
 			'type'      => $this->type,
 		];
 	}
@@ -507,8 +505,15 @@ class WPForms_Field_Number_Slider extends WPForms_Field {
 		// with the num input, which then trips the is_numeric validation below.
 		// To get around this we remove all chars that are not expected.
 		$signed_value = preg_replace( '/[^-0-9.]/', '', $value );
-		$abs_value    = abs( $signed_value );
-		$value        = strpos( $signed_value, '-' ) === 0 ? '-' . $abs_value : $abs_value;
+
+		// If there's no number on the signed value we return zero.
+		// We have to do that because since PHP 8.0, the abs() function is allowed an argument with int|float type.
+		if ( ! is_numeric( $signed_value ) ) {
+			return 0;
+		}
+
+		$abs_value = abs( $signed_value );
+		$value     = strpos( $signed_value, '-' ) === 0 ? '-' . $abs_value : $abs_value;
 
 		return $value;
 	}

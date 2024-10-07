@@ -265,6 +265,13 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 		 * @return {Object} Scriptable options as a function which is called for the chart instances.
 		 */
 		get settings() { /* eslint max-lines-per-function: ["error", 200] */
+			/**
+			 * Check if the site is RTL.
+			 *
+			 * @since 1.9.1
+			 */
+			const isRTL = $( 'body' ).hasClass( 'rtl' );
+
 			return {
 
 				type: this.type,
@@ -308,7 +315,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 								},
 								distribution: 'series',
 								ticks: {
-									reverse: $( 'body' ).hasClass( 'rtl' ),
+									reverse: isRTL,
 									beginAtZero: true,
 									padding: 10,
 									fontColor: '#a7aaad',
@@ -370,6 +377,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 					},
 					tooltips: {
 						displayColors: false,
+						rtl: isRTL,
 						callbacks: {
 							label: ( { yLabel: value } ) => {
 								let label = `${ this.datasetLabel } `;
@@ -437,6 +445,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 			el.$filterBtn = $( '#wpforms-datepicker-popover-button' );
 			el.$datepicker = $( '#wpforms-payments-overview-datepicker' );
 			el.$filterForm = $( '.wpforms-overview-top-bar-filter-form' );
+			el.$activeStat = el.$filterForm.find( 'input[name="statcard"]' );
 			el.$table = $( '.wpforms-table-list' );
 			el.$notice = $( '.wpforms-overview-chart-notice' );
 			el.$reports = $( '.wpforms-payments-overview-reports' );
@@ -721,6 +730,18 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 
 			el.$reports.find( 'button' ).removeClass( vars.classNames.selected );
 			$this.addClass( vars.classNames.selected );
+
+			// If the `statcard` field is not present, create it.
+			if ( ! el.$activeStat.length ) {
+				// Append a hidden input field for the statcard.
+				el.$filterForm.append( '<input type="hidden" name="statcard">' );
+
+				// Update the reference to the activeStat element.
+				el.$activeStat = el.$filterForm.find( 'input[name="statcard"]' );
+			}
+
+			// Update the value of the statcard field with the selected report.
+			el.$activeStat.val( vars.report );
 
 			// Update the chart stats with consideration to possible form stats being viewed.
 			app.updateChartByReport();

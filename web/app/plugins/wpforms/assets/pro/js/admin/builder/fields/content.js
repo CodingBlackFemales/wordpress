@@ -107,6 +107,7 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 				.on( 'wpformsBeforeSave', app.onWpformsBeforeSave )
 				.on( 'click', '.wpforms-content-button-update-preview.update-preview', app.updatePreview )
 				.on( 'click', '.wpforms-content-button-expand-editor.expand-editor', app.expandEditor )
+				.on( 'click', '.wpforms-panel-sidebar-toggle:not(.wpforms-panel-sidebar-closed)', app.collapseExpandedEditor )
 				.on( 'wpformsLayoutAfterReceiveFieldToColumn', app.onWpformsLayoutAfterReceiveFieldToColumn )
 				.on( 'wpformsLayoutAfterUpdateColumnsData', app.layoutChanged )
 				.on( 'click', '.wpforms-expandable-editor .insert-media', app.onInsertMediaButtonClicked )
@@ -393,8 +394,8 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 
 			// Make action button wrapper same width as sidebar width.
 			if ( $this.hasClass( className ) ) {
-				$actionButtons.width( $sidebarWrapper.width() );
-				$editorClear.css( 'margin-bottom', `${editorHeight}px` );
+				$actionButtons.width( $sidebarWrapper.width() || 360 );
+				$editorClear.css( 'margin-bottom', `${ editorHeight }px` );
 			} else {
 				$editorClear.css( 'margin-bottom', 0 );
 			}
@@ -417,6 +418,15 @@ WPForms.Admin.Builder.ContentField = WPForms.Admin.Builder.ContentField || ( fun
 					);
 				}
 			);
+		},
+
+		/**
+		 * Collapse editor when sidebar is closed.
+		 *
+		 * @since 1.8.8
+		 */
+		collapseExpandedEditor() {
+			$( '.wpforms-content-button-expand-editor.wpforms-content-editor-expanded' ).trigger( 'click' );
 		},
 
 		/**

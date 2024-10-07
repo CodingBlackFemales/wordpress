@@ -60,11 +60,12 @@ class AntiSpam {
 		$antispam = wpforms_panel_field(
 			'toggle',
 			'settings',
-			'antispam',
+			'antispam_v3',
 			$this->form_data,
-			__( 'Enable anti-spam protection', 'wpforms-lite' ),
+			__( 'Enable modern anti-spam protection', 'wpforms-lite' ),
 			[
-				'tooltip' => __( 'Turn on invisible spam protection.', 'wpforms-lite' ),
+				'value'   => (int) ! empty( $this->form_data['settings']['antispam_v3'] ),
+				'tooltip' => __( 'Turn on invisible modern spam protection.', 'wpforms-lite' ),
 			],
 			false
 		);
@@ -77,7 +78,20 @@ class AntiSpam {
 			]
 		);
 
-		if ( ! empty( $this->form_data['settings']['honeypot'] ) ) {
+		if ( ! empty( $this->form_data['settings']['antispam'] ) && empty( $this->form_data['settings']['antispam_v3'] ) ) {
+			wpforms_panel_field(
+				'toggle',
+				'settings',
+				'antispam',
+				$this->form_data,
+				__( 'Enable anti-spam protection', 'wpforms-lite' ),
+				[
+					'tooltip' => __( 'Turn on invisible spam protection.', 'wpforms-lite' ),
+				]
+			);
+		}
+
+		if ( ! empty( $this->form_data['settings']['honeypot'] ) && empty( $this->form_data['settings']['antispam_v3'] ) ) {
 			wpforms_panel_field(
 				'toggle',
 				'settings',
@@ -124,12 +138,19 @@ class AntiSpam {
 
 		$captcha_settings = wpforms_get_captcha_settings();
 
+		if ( empty( $captcha_settings['provider'] ) || $captcha_settings['provider'] === 'none' ) {
+			return;
+		}
+
 		if (
-			empty( $captcha_settings['provider'] ) ||
-			$captcha_settings['provider'] === 'none' ||
-			empty( $captcha_settings['site_key'] ) ||
-			empty( $captcha_settings['secret_key'] )
+			$captcha_settings['provider'] !== 'hcaptcha' && (
+				empty( $captcha_settings['site_key'] ) || empty( $captcha_settings['secret_key'] )
+			)
 		) {
+			return;
+		}
+
+		if ( $captcha_settings['provider'] === 'hcaptcha' && empty( $captcha_settings['site_key'] ) ) {
 			return;
 		}
 
@@ -231,7 +252,7 @@ class AntiSpam {
 				'subsection' => 'time_limit',
 				'type'       => 'number',
 				'min'        => 1,
-				'default'    => 3,
+				'default'    => 2,
 				'after'      => sprintf( '<span class="wpforms-panel-field-after">%s</span>', __( 'seconds', 'wpforms-lite' ) ),
 			]
 		);

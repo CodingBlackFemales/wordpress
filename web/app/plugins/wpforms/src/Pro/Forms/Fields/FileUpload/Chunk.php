@@ -170,6 +170,7 @@ class Chunk {
 
 		$field_name = $field->get_input_name();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_FILES[ $field_name ]['name'] ) ) {
 			// The current upload has a file attached to it. We should check that DropZone
 			// included the following required information about this current upload.
@@ -198,8 +199,6 @@ class Chunk {
 				'name'            => 'file_user_name',
 			];
 
-			// phpcs:disable WordPress.Security.NonceVerification.Missing
-
 			if ( isset( $_POST['name'] ) ) {
 				$settings = [
 					'name'           => sanitize_file_name( wp_unslash( $_POST['name'] ) ),
@@ -210,9 +209,8 @@ class Chunk {
 			if ( ! empty( $_POST['dztotalchunkcount'] ) ) {
 				$settings['chunk_total'] = absint( $_POST['dztotalchunkcount'] );
 			}
-
-			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 
 		foreach ( $required as $field_name => $alias ) {
 			if ( ! array_key_exists( $field_name, $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
@@ -254,10 +252,11 @@ class Chunk {
 
 		$this->metadata = array_merge(
 			$this->metadata,
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			json_decode( file_get_contents( $this->get_metadata_file_path() ), true )
 		);
 
-		// When the upload is initialized the total chunks count is unknown yet and the default value is 0.
+		// When the upload is initialized, the total chunks count is unknown yet and the default value is 0.
 		// We need to make sure we update the count when it's available.
 		if ( $chunk_total ) {
 			$this->metadata['chunk_total'] = $chunk_total;
@@ -281,9 +280,11 @@ class Chunk {
 		$tmp                          = $this->path . '-' . uniqid();
 		$this->metadata['chunk_size'] = $this->field->get_chunk_size();
 
-		file_put_contents( $tmp, wp_json_encode( $this->metadata ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		file_put_contents( $tmp, wp_json_encode( $this->metadata ) );
 
-		return @rename( $tmp, $this->get_metadata_file_path() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.rename_rename
+		return @rename( $tmp, $this->get_metadata_file_path() );
 	}
 
 	/**
@@ -297,9 +298,11 @@ class Chunk {
 
 		$field_name = $this->field->get_input_name();
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		return isset( $_FILES[ $field_name ]['tmp_name'] ) && is_readable( $_FILES[ $field_name ]['tmp_name'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			? $_FILES[ $field_name ] // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			: false;
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**
@@ -371,6 +374,7 @@ class Chunk {
 	public function write() {
 
 		$file = $this->get_file_upload_array();
+
 		if ( ! $file || ! $this->verify_chunk_size_and_offset() ) {
 			return false;
 		}
@@ -378,7 +382,8 @@ class Chunk {
 		$path_to   = $this->path . $this->offset . '.chunk';
 		$path_from = $file['tmp_name'];
 
-		return @move_uploaded_file( $path_from, $path_to ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, Generic.PHP.ForbiddenFunctions.Found
+		return @move_uploaded_file( $path_from, $path_to );
 	}
 
 	/**
@@ -477,11 +482,13 @@ class Chunk {
 	protected function delete_temporary_files() {
 
 		foreach ( $this->get_chunks() as $chunk ) {
-			@unlink( $chunk['file'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.unlink_unlink
+			@unlink( $chunk['file'] );
 		}
 
 		$this->chunks = [];
-		@unlink( $this->get_metadata_file_path() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.unlink_unlink
+		@unlink( $this->get_metadata_file_path() );
 	}
 
 	/**
@@ -504,11 +511,11 @@ class Chunk {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 		$dest = @fopen( $path, 'w+b' );
 
 		foreach ( $this->get_chunks() as $chunk ) {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fopen
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 			$source = @fopen( $chunk['file'], 'rb' );
 
 			$bytes = stream_copy_to_stream( $source, $dest );
@@ -519,11 +526,11 @@ class Chunk {
 				return false;
 			}
 
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fclose
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			@fclose( $source );
 		}
 
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_read_fclose
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 		@fclose( $dest );
 
 		$this->delete_temporary_files();

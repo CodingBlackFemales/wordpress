@@ -5,6 +5,7 @@ namespace WPForms\Admin\Payments\Views;
 use WPForms\Admin\Payments\ScreenOptions;
 use WPForms\Admin\Payments\Views\Overview\Helpers;
 use WPForms\Db\Payments\ValueValidator;
+use WPForms_Field_Layout;
 
 /**
  * Payments Overview Page class.
@@ -172,7 +173,7 @@ class Single implements PaymentsViewsInterface {
 			return;
 		}
 
-		$this->payment = wpforms()->get( 'payment' )->get( $payment_id );
+		$this->payment = wpforms()->obj( 'payment' )->get( $payment_id );
 
 		// No payment was found.
 		if ( empty( $this->payment ) ) {
@@ -190,15 +191,15 @@ class Single implements PaymentsViewsInterface {
 			return;
 		}
 
-		$this->payment_meta = wpforms()->get( 'payment_meta' )->get_all( $payment_id );
+		$this->payment_meta = wpforms()->obj( 'payment_meta' )->get_all( $payment_id );
 
 		// Retrieve the subscription renewal payments, if applicable.
 		if ( ! empty( $this->payment->subscription_id ) ) {
 			// Assign renewals to reduce queries and reuse later.
-			list( $this->subscription, $this->renewals ) = wpforms()->get( 'payment_queries' )->get_subscription_payment_history( $this->payment->subscription_id, $this->payment->currency );
+			list( $this->subscription, $this->renewals ) = wpforms()->obj( 'payment_queries' )->get_subscription_payment_history( $this->payment->subscription_id, $this->payment->currency );
 
 			if ( ! empty( $this->subscription ) ) {
-				$this->subscription_meta = wpforms()->get( 'payment_meta' )->get_all( $this->subscription->id );
+				$this->subscription_meta = wpforms()->obj( 'payment_meta' )->get_all( $this->subscription->id );
 			}
 		}
 	}
@@ -226,8 +227,8 @@ class Single implements PaymentsViewsInterface {
 			return;
 		}
 
-		$payment_prev = wpforms()->get( 'payment_queries' )->get_prev( $this->payment->id, [ 'mode' => $this->payment->mode ] );
-		$payment_next = wpforms()->get( 'payment_queries' )->get_next( $this->payment->id, [ 'mode' => $this->payment->mode ] );
+		$payment_prev = wpforms()->obj( 'payment_queries' )->get_prev( $this->payment->id, [ 'mode' => $this->payment->mode ] );
+		$payment_next = wpforms()->obj( 'payment_queries' )->get_next( $this->payment->id, [ 'mode' => $this->payment->mode ] );
 		$prev_url     = ! empty( $payment_prev ) ? add_query_arg(
 			[
 				'page'       => 'wpforms-payments',
@@ -249,8 +250,8 @@ class Single implements PaymentsViewsInterface {
 		echo wpforms_render(
 			'admin/payments/single/heading-navigation',
 			[
-				'count'        => (int) wpforms()->get( 'payment_queries' )->count_all( [ 'mode' => $this->payment->mode ] ),
-				'prev_count'   => (int) wpforms()->get( 'payment_queries' )->get_prev_count( $this->payment->id, [ 'mode' => $this->payment->mode ] ),
+				'count'        => (int) wpforms()->obj( 'payment_queries' )->count_all( [ 'mode' => $this->payment->mode ] ),
+				'prev_count'   => (int) wpforms()->obj( 'payment_queries' )->get_prev_count( $this->payment->id, [ 'mode' => $this->payment->mode ] ),
 				'prev_url'     => $prev_url,
 				'prev_class'   => empty( $payment_prev ) ? 'inactive' : '',
 				'next_url'     => $next_url,
@@ -804,7 +805,7 @@ class Single implements PaymentsViewsInterface {
 
 		// Grab submitted values from the entry if it exists.
 		if ( ! empty( $this->payment->entry_id ) && wpforms()->is_pro() ) {
-			$entry = wpforms()->get( 'entry' )->get( $this->payment->entry_id );
+			$entry = wpforms()->obj( 'entry' )->get( $this->payment->entry_id );
 
 			if ( $entry ) {
 				$fields          = wpforms_decode( $entry->fields );
@@ -823,14 +824,40 @@ class Single implements PaymentsViewsInterface {
 			return;
 		}
 
-		$form_data = wpforms()->get( 'form' )->get( $this->payment->form_id, [ 'content_only' => true ] );
+		/**
+		 * Allow modifying the form data before rendering the entry details.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param array $form_data Form data.
+		 * @param array $fields    Entry fields.
+		 */
+		$form_data = apply_filters(
+			'wpforms_admin_payments_views_single_form_data',
+			wpforms()->obj( 'form' )->get( $this->payment->form_id, [ 'content_only' => true ] ),
+			$fields
+		);
 
 		add_filter( 'wp_kses_allowed_html', [ $this, 'modify_allowed_tags_payment_field_value' ], 10, 2 );
+
+		/**
+		 * Allow modifying the entry fields before rendering the entry details.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param array $entry_fields Entry fields.
+		 * @param array $form_data    Form data.
+		 */
+		$entry_fields = apply_filters(
+			'wpforms_admin_payments_views_single_fields',
+			$this->prepare_entry_fields( $fields, $form_data ),
+			$form_data
+		);
 
 		$entry_output = wpforms_render(
 			'admin/payments/single/entry-details',
 			[
-				'entry_fields'   => $this->prepare_entry_fields( $fields, $form_data ),
+				'entry_fields'   => $entry_fields,
 				'form_data'      => $form_data,
 				'entry_id_title' => $entry_id_title,
 				'entry_id'       => $this->payment->entry_id,
@@ -865,20 +892,33 @@ class Single implements PaymentsViewsInterface {
 	 */
 	private function prepare_entry_fields( $fields, $form_data ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		if ( empty( $fields ) ) {
+		if ( empty( $form_data['fields'] ) || empty( $fields ) ) {
 			return [];
 		}
 
 		$prepared_fields = [];
 
 		// Display the fields and their values.
-		foreach ( $fields as $key => $field ) {
+		foreach ( $form_data['fields'] as $key => $field_data ) {
 
-			if ( empty( $field['type'] ) ) {
+			if ( empty( $field_data['type'] ) ) {
 				continue;
 			}
 
-			$field_type = $field['type'];
+			$field_type = $field_data['type'];
+
+			// Add repeater fields as is.
+			if ( $field_type === 'repeater' && wpforms()->is_pro() ) {
+				$prepared_fields[ $key ] = $field_data;
+
+				continue;
+			}
+
+			$field = $fields[ $field_data['id'] ] ?? [];
+
+			if ( empty( $field ) || ! isset( $field['id'] ) ) {
+				continue;
+			}
 
 			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 			/** This filter is documented in /src/Pro/Admin/Entries/Edit.php */
@@ -892,6 +932,8 @@ class Single implements PaymentsViewsInterface {
 			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
 			$prepared_fields[ $key ]['field_class'] = sanitize_html_class( 'wpforms-field-' . $field_type );
+			$prepared_fields[ $key ]['type']        = $field_type;
+			$prepared_fields[ $key ]['id']          = $field_data['id'];
 			$prepared_fields[ $key ]['field_name']  = ! empty( $field['name'] )
 				? $field['name']
 				: sprintf( /* translators: %d - field ID. */
@@ -989,7 +1031,7 @@ class Single implements PaymentsViewsInterface {
 		echo wpforms_render(
 			'admin/payments/single/log',
 			[
-				'logs' => wpforms()->get( 'payment_meta' )->get_all_by( 'log', $this->payment->id ),
+				'logs' => wpforms()->obj( 'payment_meta' )->get_all_by( 'log', $this->payment->id ),
 			],
 			true
 		);
@@ -1178,7 +1220,7 @@ class Single implements PaymentsViewsInterface {
 				break;
 
 			case 'square':
-				$link = $is_test_mode ? 'https://squareupsandbox.com/dashboard/' : 'https://squareup.com/dashboard/';
+				$link = $is_test_mode ? 'https://squareupsandbox.com/dashboard/' : 'https://squareup.com/t/cmtp_performance/pr_developers/d_partnerships/p_WPForms/?route=dashboard/';
 				break;
 
 			default:
@@ -1280,7 +1322,7 @@ class Single implements PaymentsViewsInterface {
 			return '';
 		}
 
-		$form = wpforms()->get( 'form' )->get( $this->payment->form_id );
+		$form = wpforms()->obj( 'form' )->get( $this->payment->form_id );
 
 		// Leave early if form is no longer available.
 		if ( ! $form || $form->post_status !== 'publish' ) {

@@ -47,6 +47,15 @@ class IconChoicesFontAwesomeUpgradeTask extends Task {
 	const COMPLETED = 'completed';
 
 	/**
+	 * Log title.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @var string
+	 */
+	protected $log_title = 'Migration';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.8.3
@@ -78,7 +87,7 @@ class IconChoicesFontAwesomeUpgradeTask extends Task {
 
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {
@@ -105,19 +114,17 @@ class IconChoicesFontAwesomeUpgradeTask extends Task {
 	 */
 	public function upgrade() {
 
-		$icon_choices    = wpforms()->get( 'icon_choices' );
-		$icons_data_file = $icon_choices->get_icons_data_file();
+		$upload_dir      = wpforms_upload_dir();
+		$tmp_base_path   = $upload_dir['path'] . '/icon-choices-tmp';
+		$cache_base_path = $upload_dir['path'] . '/icon-choices';
+		$icons_data_file = $cache_base_path . '/icons.json';
 
 		if ( ! file_exists( $icons_data_file ) ) {
-			$this->log( 'Library is not present, nothing to upgrade.' );
+			$this->log( 'Font Awesome Upgrade: Font Awesome Upgrade: Library is not present, nothing to upgrade.' );
 			update_option( self::STATUS, self::COMPLETED );
 
 			return;
 		}
-
-		$upload_dir      = wpforms_upload_dir();
-		$tmp_base_path   = $upload_dir['path'] . '/icon-choices-tmp';
-		$cache_base_path = $upload_dir['path'] . '/icon-choices';
 
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 
@@ -126,36 +133,24 @@ class IconChoicesFontAwesomeUpgradeTask extends Task {
 		global $wp_filesystem;
 
 		$wp_filesystem->rmdir( $tmp_base_path, true );
-		$icon_choices->run_install( $tmp_base_path );
+		wpforms()->obj( 'icon_choices' )->run_install( $tmp_base_path );
 
 		if ( is_dir( $tmp_base_path ) ) {
 			// Remove old cache.
-			$this->log( 'Removing existing instance of the library.' );
+			$this->log( 'Font Awesome Upgrade: Removing existing instance of the library.' );
 			$wp_filesystem->rmdir( $cache_base_path, true );
 
 			// Rename temporary directory.
-			$this->log( 'Renaming temporary directory.' );
+			$this->log( 'Font Awesome Upgrade: Renaming temporary directory.' );
 			$wp_filesystem->move( $tmp_base_path, $cache_base_path );
 
 			// Mark that migration is finished.
-			$this->log( 'Finished upgrading.' );
+			$this->log( 'Font Awesome Upgrade: Finished upgrading.' );
 			update_option( self::STATUS, self::COMPLETED );
 
 			return;
 		}
 
-		$this->log( 'Something went wrong, library was not upgraded.' );
-	}
-
-	/**
-	 * Add log record.
-	 *
-	 * @since 1.8.3
-	 *
-	 * @param string $message Error message.
-	 */
-	private function log( $message ) {
-
-		wpforms_log( 'Migration', 'Font Awesome Upgrade: ' . $message, [ 'type' => 'log' ] );
+		$this->log( 'Font Awesome Upgrade: Something went wrong, library was not upgraded.' );
 	}
 }

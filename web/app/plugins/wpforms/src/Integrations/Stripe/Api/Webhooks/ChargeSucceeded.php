@@ -65,7 +65,7 @@ class ChargeSucceeded extends Base {
 			return false;
 		}
 
-		$updated_payment = wpforms()->get( 'payment' )->update(
+		$updated_payment = wpforms()->obj( 'payment' )->update(
 			$this->db_payment->id,
 			[
 				'status'           => 'completed',
@@ -77,7 +77,7 @@ class ChargeSucceeded extends Base {
 			throw new RuntimeException( 'Payment not updated' );
 		}
 
-		wpforms()->get( 'payment_meta' )->add_log(
+		wpforms()->obj( 'payment_meta' )->add_log(
 			$this->db_payment->id,
 			'Stripe payment was completed.'
 		);

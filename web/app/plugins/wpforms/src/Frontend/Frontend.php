@@ -12,6 +12,13 @@ use WP_Post;
 class Frontend {
 
 	/**
+	 * Field format.
+	 *
+	 * @since 1.8.9
+	 */
+	const FIELD_FORMAT = 'wpforms-%d-field_%s';
+
+	/**
 	 * Render engine setting value.
 	 *
 	 * @since 1.8.1
@@ -50,9 +57,8 @@ class Frontend {
 	/**
 	 * Store information for multi-page forms.
 	 *
-	 * Forms that do not contain pages return false, otherwise returns an array
-	 * that contains the number of total pages and page counter used when
-	 * displaying pagebreak fields.
+	 * False for forms that do not contain pages, otherwise an array that contains the number of total pages
+	 * and page counter used when displaying pagebreak fields.
 	 *
 	 * @since 1.8.1
 	 *
@@ -97,7 +103,7 @@ class Frontend {
 	public function init() {
 
 		$this->forms   = [];
-		$this->amp_obj = wpforms()->get( 'amp' );
+		$this->amp_obj = wpforms()->obj( 'amp' );
 
 		$this->init_render_engine( wpforms_get_render_engine() );
 		$this->hooks();
@@ -143,7 +149,7 @@ class Frontend {
 	public function init_render_engine( $engine ) {
 
 		$this->render_engine = $engine;
-		$this->render_obj    = wpforms()->get( "frontend_{$this->render_engine}" );
+		$this->render_obj    = wpforms()->obj( "frontend_{$this->render_engine}" );
 
 		$this->render_obj->hooks();
 	}
@@ -192,15 +198,23 @@ class Frontend {
 			return;
 		}
 
-		// Grab the form data, if not found then we bail.
+		// Grab the form data, if not found, then we bail.
 		$form = $this->get_form( $id );
 
-		if ( $form === null ) {
+		if ( $form === null || empty( $form->post_content ) ) {
 			return;
 		}
 
 		// We should display only the published form.
 		if ( ! empty( $form->post_status ) && $form->post_status !== 'publish' ) {
+			return;
+		}
+
+		// Decode the form data.
+		$form_data = wpforms_decode( $form->post_content );
+
+		// Skip if the form data is empty.
+		if ( empty( $form_data ) ) {
 			return;
 		}
 
@@ -212,10 +226,10 @@ class Frontend {
 		 *
 		 * @param array $form_data Form data.
 		 */
-		$form_data    = apply_filters( 'wpforms_frontend_form_data', wpforms_decode( $form->post_content ) );
+		$form_data    = (array) apply_filters( 'wpforms_frontend_form_data', $form_data );
 		$form_id      = absint( $form->ID );
 		$this->action = esc_url_raw( remove_query_arg( 'wpforms' ) );
-		$errors       = empty( wpforms()->get( 'process' )->errors[ $form_id ] ) ? [] : wpforms()->get( 'process' )->errors[ $form_id ];
+		$errors       = empty( wpforms()->obj( 'process' )->errors[ $form_id ] ) ? [] : wpforms()->obj( 'process' )->errors[ $form_id ];
 		$title        = filter_var( $title, FILTER_VALIDATE_BOOLEAN );
 		$description  = filter_var( $description, FILTER_VALIDATE_BOOLEAN );
 
@@ -343,8 +357,8 @@ class Frontend {
 			return null;
 		}
 
-		// Grab the form data, if not found then we bail.
-		$form = wpforms()->get( 'form' )->get( (int) $id );
+		// Grab the form data, if not found, then we bail.
+		$form = wpforms()->obj( 'form' )->get( (int) $id );
 
 		if ( empty( $form ) ) {
 			return null;
@@ -368,17 +382,17 @@ class Frontend {
 	 *
 	 * @return bool
 	 */
-	private function stop_output( $form, $form_data ) {
+	private function stop_output( $form, $form_data ): bool {
 
 		$form_id = absint( $form->ID );
 
 		/**
-		 * Is the form is empty?
+		 * Is the form empty?
 		 * Check before output the form on the frontend.
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param bool  $form_is_empty Is the form is empty?
+		 * @param bool  $form_is_empty Is the form empty?
 		 * @param array $form_data     Form data.
 		 */
 		$form_is_empty = apply_filters( 'wpforms_frontend_output_form_is_empty', empty( $form_data['fields'] ), $form_data );
@@ -473,10 +487,10 @@ class Frontend {
 	 *
 	 * @return bool
 	 */
-	private function output_success( $form, $form_data ) {
+	private function output_success( $form, $form_data ): bool {
 
 		$form_id = absint( $form->ID );
-		$process = wpforms()->get( 'process' );
+		$process = wpforms()->obj( 'process' );
 		$errors  = empty( $process->errors[ $form_id ] ) ? [] : $process->errors[ $form_id ];
 
 		// Check for return hash.
@@ -557,7 +571,7 @@ class Frontend {
 
 		list( $fields, $entry_id ) = $this->prepare_confirmation_args( $fields, $entry_id );
 
-		$process              = wpforms()->get( 'process' );
+		$process              = wpforms()->obj( 'process' );
 		$confirmation         = $process->get_current_confirmation();
 		$confirmation_message = $process->get_confirmation_message( $form_data, $fields, $entry_id );
 
@@ -566,7 +580,7 @@ class Frontend {
 			return;
 		}
 
-		// Load confirmation specific assets.
+		// Load confirmation-specific assets.
 		$this->assets_confirmation( $form_data );
 
 		/**
@@ -609,8 +623,10 @@ class Frontend {
 	 *
 	 * @param array $fields   Sanitized field data.
 	 * @param int   $entry_id Entry id.
+	 *
+	 * @return array
 	 */
-	private function prepare_confirmation_args( $fields = [], $entry_id = 0 ) {
+	private function prepare_confirmation_args( $fields = [], $entry_id = 0 ): array {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
@@ -636,7 +652,7 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function get_container_classes( $form_data ) {
+	private function get_container_classes( $form_data ): array {
 
 		$classes = (int) wpforms_setting( 'disable-css', '1' ) === 1 ? [ 'wpforms-container-full' ] : [];
 
@@ -648,7 +664,7 @@ class Frontend {
 		 * @param array $classes   Classes.
 		 * @param array $form_data Form data and settings.
 		 */
-		$classes = apply_filters( 'wpforms_frontend_container_class', $classes, $form_data );
+		$classes = (array) apply_filters( 'wpforms_frontend_container_class', $classes, $form_data );
 
 		if ( ! empty( $form_data['settings']['form_class'] ) ) {
 			$classes = array_merge( $classes, explode( ' ', $form_data['settings']['form_class'] ) );
@@ -762,9 +778,9 @@ class Frontend {
 	 *
 	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function fields( $form_data, $deprecated, $title, $description, $errors ) {
+	public function fields( $form_data, $deprecated, $title, $description, $errors ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
-		// Obviously we need to have form fields to proceed.
+		// We need to have form fields to proceed.
 		if ( empty( $form_data['fields'] ) ) {
 			return;
 		}
@@ -822,19 +838,19 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	public function get_field_attributes( $field, $form_data ) {
+	public function get_field_attributes( $field, $form_data ): array {
 
 		$form_id    = absint( $form_data['id'] );
-		$field_id   = absint( $field['id'] );
+		$field_id   = wpforms_validate_field_id( $field['id'] );
 		$attributes = [
 			'field_class'       => [ 'wpforms-field', 'wpforms-field-' . sanitize_html_class( $field['type'] ) ],
-			'field_id'          => [ sprintf( 'wpforms-%d-field_%d-container', $form_id, $field_id ) ],
+			'field_id'          => [ sprintf( 'wpforms-%d-field_%s-container', $form_id, $field_id ) ],
 			'field_style'       => '',
 			'label_class'       => [ 'wpforms-field-label' ],
 			'label_id'          => '',
 			'description_class' => [ 'wpforms-field-description' ],
 			'description_id'    => [],
-			'input_id'          => [ sprintf( 'wpforms-%d-field_%d', $form_id, $field_id ) ],
+			'input_id'          => [ sprintf( self::FIELD_FORMAT, $form_id, $field_id ) ],
 			'input_class'       => [],
 			'input_data'        => [],
 		];
@@ -863,7 +879,7 @@ class Frontend {
 		}
 
 		// Check if there are errors.
-		if ( ! empty( wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] ) ) {
+		if ( ! empty( wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] ) ) {
 			$attributes['input_class'][] = 'wpforms-error';
 		}
 
@@ -877,7 +893,7 @@ class Frontend {
 		 * @param array $field      Field data and settings.
 		 * @param array $form_data  Form data and settings.
 		 */
-		return apply_filters( 'wpforms_field_atts', $attributes, $field, $form_data ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+		return (array) apply_filters( 'wpforms_field_atts', $attributes, $field, $form_data ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -890,7 +906,7 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function check_input_columns( $field, $attributes ) {
+	private function check_input_columns( array $field, array $attributes ): array {
 
 		if ( ! empty( $field['input_columns'] ) ) {
 			if ( $field['input_columns'] === '2' ) {
@@ -916,12 +932,12 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	public function get_field_properties( $field, $form_data, $attributes = [] ) {
+	public function get_field_properties( $field, $form_data, $attributes = [] ): array {
 
 		list( $field, $attributes, $error ) = $this->prepare_get_field_properties( $field, $form_data, $attributes );
 
 		$form_id  = absint( $form_data['id'] );
-		$field_id = absint( $field['id'] );
+		$field_id = wpforms_validate_field_id( $field['id'] );
 
 		$properties = [
 			'container'   => [
@@ -934,7 +950,7 @@ class Frontend {
 			],
 			'label'       => [
 				'attr'     => [
-					'for' => sprintf( 'wpforms-%d-field_%d', $form_id, $field_id ),
+					'for' => sprintf( self::FIELD_FORMAT, $form_id, $field_id ),
 				],
 				'class'    => $attributes['label_class'],
 				'data'     => [],
@@ -949,7 +965,7 @@ class Frontend {
 					'attr'     => [
 						'name'        => "wpforms[fields][{$field_id}]",
 						'value'       => isset( $field['default_value'] ) ? wpforms_process_smart_tags( $field['default_value'], $form_data ) : '',
-						'placeholder' => isset( $field['placeholder'] ) ? $field['placeholder'] : '',
+						'placeholder' => $field['placeholder'] ?? '',
 					],
 					'class'    => $attributes['input_class'],
 					'data'     => $attributes['input_data'],
@@ -959,7 +975,7 @@ class Frontend {
 			],
 			'error'       => [
 				'attr'  => [
-					'for' => sprintf( 'wpforms-%d-field_%d', $form_id, $field_id ),
+					'for' => sprintf( self::FIELD_FORMAT, $form_id, $field_id ),
 				],
 				'class' => [ 'wpforms-error' ],
 				'data'  => [],
@@ -986,7 +1002,7 @@ class Frontend {
 		 * @param array $field      Field data and settings.
 		 * @param array $form_data  Form data and settings.
 		 */
-		$properties = apply_filters( "wpforms_field_properties_{$field['type']}", $properties, $field, $form_data );
+		$properties = (array) apply_filters( "wpforms_field_properties_{$field['type']}", $properties, $field, $form_data );
 
 		/**
 		 * Filters properties.
@@ -997,7 +1013,7 @@ class Frontend {
 		 * @param array $field      Field data and settings.
 		 * @param array $form_data  Form data and settings.
 		 */
-		return apply_filters( 'wpforms_field_properties', $properties, $field, $form_data );
+		return (array) apply_filters( 'wpforms_field_properties', $properties, $field, $form_data );
 		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
@@ -1012,13 +1028,13 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function prepare_get_field_properties( $field, $form_data, $attributes ) {
+	private function prepare_get_field_properties( $field, $form_data, $attributes ): array {
 
 		$attributes = empty( $attributes ) ? $this->get_field_attributes( $field, $form_data ) : $attributes;
 		$field      = $this->filter_field( $field, $form_data, $attributes );
 		$form_id    = absint( $form_data['id'] );
-		$field_id   = absint( $field['id'] );
-		$error      = ! empty( wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] ) ? wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] : '';
+		$field_id   = wpforms_validate_field_id( $field['id'] );
+		$error      = ! empty( wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] ) ? wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] : '';
 
 		return [ $field, $attributes, $error ];
 	}
@@ -1034,7 +1050,7 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function filter_field( $field, $form_data, $attributes ) {
+	private function filter_field( $field, $form_data, $attributes ): array {
 
 		// This filter is for backwards compatibility purposes.
 		$types = [ 'text', 'textarea', 'name', 'number', 'email', 'hidden', 'url', 'html', 'divider', 'password', 'phone', 'address', 'select', 'checkbox', 'radio' ];
@@ -1083,7 +1099,7 @@ class Frontend {
 			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 		}
 
-		return $field;
+		return (array) $field;
 	}
 
 	/**
@@ -1150,7 +1166,7 @@ class Frontend {
 
 		$label = $field['properties']['label'];
 
-		// If the label is empty or disabled don't proceed.
+		// If the label is empty or disabled, don't proceed.
 		if ( empty( $label['value'] ) || $label['disabled'] ) {
 			return;
 		}
@@ -1170,7 +1186,7 @@ class Frontend {
 
 		$error = $field['properties']['error'];
 
-		// If there are no errors don't proceed.
+		// If there are no errors, don't proceed.
 		// Advanced fields with multiple inputs (address, name, etc.) errors
 		// will be an array and are handled within the respective field class.
 		if ( empty( $error['value'] ) || is_array( $error['value'] ) ) {
@@ -1196,7 +1212,7 @@ class Frontend {
 		$action      = current_action();
 		$description = $field['properties']['description'];
 
-		// If the description is empty don't proceed.
+		// If the description is empty, don't proceed.
 		if ( empty( $description['value'] ) ) {
 			return;
 		}
@@ -1230,7 +1246,7 @@ class Frontend {
 	 *
 	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function honeypot( $form_data, $deprecated, $title, $description, $errors ) {
+	public function honeypot( $form_data, $deprecated, $title, $description, $errors ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
 		if (
 			empty( $form_data['settings']['honeypot'] ) ||
@@ -1273,7 +1289,7 @@ class Frontend {
 		$settings = $form_data['settings'];
 
 		/**
-		 * Filter form submit button text.
+		 * Filter the form submit button text.
 		 *
 		 * @since 1.0.0
 		 *
@@ -1289,7 +1305,7 @@ class Frontend {
 		$data_attrs = [];
 
 		/**
-		 * Filter form submit button classes.
+		 * Filter the form submit button classes.
 		 *
 		 * @since 1.7.5.3
 		 *
@@ -1326,9 +1342,13 @@ class Frontend {
 			<?php
 		}
 
-		echo '<input type="hidden" name="wpforms[author]" value="' . absint( get_the_author_meta( 'ID' ) ) . '">';
+		echo '<input type="hidden" name="page_title" value="' . esc_attr( wpforms_process_smart_tags( '{page_title}', [], [], '' ) ) . '">';
+		echo '<input type="hidden" name="page_url" value="' . esc_url( wpforms_process_smart_tags( '{page_url}', [], [], '' ) ) . '">';
 
 		if ( is_singular() ) {
+			// The field is used for some smart tags determination.
+			echo '<input type="hidden" name="page_id" value="' . absint( get_the_ID() ) . '">';
+			// The field is used for setting global $post during AJAX submissions.
 			echo '<input type="hidden" name="wpforms[post_id]" value="' . absint( get_the_ID() ) . '">';
 		}
 
@@ -1411,7 +1431,7 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function check_submit_settings( $settings, $form_id, $submit, $attrs, $data_attrs, $classes ) {
+	private function check_submit_settings( $settings, $form_id, $submit, $attrs, $data_attrs, $classes ): array {
 
 		// Check for submit button alt-text.
 		if ( ! empty( $settings['submit_text_processing'] ) ) {
@@ -1457,14 +1477,14 @@ class Frontend {
 
 	/**
 	 * Determine if we should load assets globally.
-	 * If false assets will load conditionally (default).
+	 * If false, assets will load conditionally (default).
 	 *
 	 * @since 1.2.4
 	 *
 	 * @return bool
 	 */
-	public function assets_global() {
-
+	public function assets_global(): bool {
+		// phpcs:ignore WPForms.Formatting.EmptyLineBeforeReturn.RemoveEmptyLineBeforeReturnStatement
 		/**
 		 * Filters global assets.
 		 *
@@ -1472,28 +1492,34 @@ class Frontend {
 		 *
 		 * @param bool $are_assets_global Global assets.
 		 */
-		return apply_filters( 'wpforms_global_assets', wpforms_setting( 'global-assets', false ) ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+		return (bool) apply_filters( 'wpforms_global_assets', wpforms_setting( 'global-assets' ) ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
-	 * Load the necessary CSS for single pages/posts earlier if possible.
+	 * Load the necessary assets for single pages/posts earlier if possible.
 	 *
 	 * If we are viewing a singular page, then we can check the content early
 	 * to see if the shortcode was used. If not, we fall back and load the assets
-	 * later on during the page (widgets, archives, etc).
+	 * later on during the page (widgets, archives, etc.).
 	 *
 	 * @since 1.0.0
+	 * @since 1.9.0 Added load JS assets.
 	 */
 	public function assets_header() {
+
+		// Force loading JS assets in the header.
+		if ( ! $this->load_script_in_footer() ) {
+			$this->assets_js();
+		}
 
 		/**
 		 * Allow loading assets in header on various pages.
 		 *
 		 * By default, assets are loaded only on singular pages if WPForms shortcode or editor block is present.
 		 * However, if a form is added as a sidebar widget, in a template or somewhere else outside the Loop,
-		 * we will discover that too late for assets to be included in the header. In this case we will
-		 * include all required assets in the footer instead. This may lead to a brief FOUC (Flash
-		 * Of Unstyled Content).
+		 * we will discover that too late for assets to be included in the header.
+		 * In this case, we will include all required assets in the footer instead.
+		 * This may lead to a brief FOUC (Flash Of Unstyled Content).
 		 *
 		 * Returning `true` from this filter on a particular page that matches your criteria
 		 * is useful if you need to load assets in header on archive pages or any other
@@ -1504,9 +1530,9 @@ class Frontend {
 		 *
 		 * @param bool $force_load Force loading assets in header, default `false`.
 		 */
-		$force_load = (bool) apply_filters( 'wpforms_frontend_assets_header_force_load', false );
+		$force_load_css = (bool) apply_filters( 'wpforms_frontend_assets_header_force_load', false );
 
-		if ( $force_load ) {
+		if ( $force_load_css ) {
 			$this->assets_css();
 
 			return;
@@ -1579,15 +1605,16 @@ class Frontend {
 		 */
 		do_action( 'wpforms_frontend_js', $this->forms );
 
-		$min = wpforms_get_min_suffix();
+		$min       = wpforms_get_min_suffix();
+		$in_footer = $this->load_script_in_footer();
 
 		// Load jQuery validation library - https://jqueryvalidation.org/.
 		wp_enqueue_script(
 			'wpforms-validation',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.validate.min.js',
 			[ 'jquery' ],
-			'1.19.5',
-			true
+			'1.20.1',
+			$in_footer
 		);
 
 		// Load jQuery input mask library - https://github.com/RobinHerbots/jquery.inputmask.
@@ -1600,8 +1627,8 @@ class Frontend {
 				'wpforms-maskedinput',
 				WPFORMS_PLUGIN_URL . 'assets/lib/jquery.inputmask.min.js',
 				[ 'jquery' ],
-				'5.0.7-beta.29',
-				true
+				'5.0.9',
+				$in_footer
 			);
 		}
 
@@ -1615,7 +1642,7 @@ class Frontend {
 				WPFORMS_PLUGIN_URL . 'assets/lib/mailcheck.min.js',
 				false,
 				'1.1.2',
-				true
+				$in_footer
 			);
 
 			wp_enqueue_script(
@@ -1623,7 +1650,7 @@ class Frontend {
 				WPFORMS_PLUGIN_URL . 'assets/lib/punycode.min.js',
 				[],
 				'1.0.0',
-				true
+				$in_footer
 			);
 		}
 
@@ -1632,7 +1659,7 @@ class Frontend {
 			WPFORMS_PLUGIN_URL . "assets/js/share/utils{$min}.js",
 			[ 'jquery' ],
 			WPFORMS_VERSION,
-			true
+			$in_footer
 		);
 
 		// Load base JS.
@@ -1641,7 +1668,7 @@ class Frontend {
 			WPFORMS_PLUGIN_URL . "assets/js/frontend/wpforms{$min}.js",
 			[ 'jquery' ],
 			WPFORMS_VERSION,
-			true
+			$in_footer
 		);
 
 		// Load JS additions needed in the Modern Markup mode.
@@ -1651,7 +1678,7 @@ class Frontend {
 				WPFORMS_PLUGIN_URL . "assets/js/frontend/wpforms-modern{$min}.js",
 				[ 'wpforms' ],
 				WPFORMS_VERSION,
-				true
+				$in_footer
 			);
 		}
 	}
@@ -1669,8 +1696,12 @@ class Frontend {
 	 * @param array $captcha_settings The CAPTCHA settings.
 	 *
 	 * @return string
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpMissingReturnTypeInspection
+	 * @noinspection ReturnTypeCanBeDeclaredInspection
+	 * @noinspection PhpUnusedParameterInspection
 	 */
-	protected function get_captcha_inline_script( $captcha_settings ) {
+	protected function get_captcha_inline_script( $captcha_settings ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		_deprecated_function( __METHOD__, '1.8.2 of the WPForms plugin', '\WPForms\Frontend\Captcha::get_captcha_inline_script' );
 
@@ -1683,12 +1714,14 @@ class Frontend {
 	 * @since 1.8.0
 	 *
 	 * @param string $tag    HTML for the script tag.
-	 * @param string $handle Handle of script.
-	 * @param string $src    Src of script.
+	 * @param string $handle Handle of a script.
+	 * @param string $src    Src of a script.
 	 *
 	 * @return string
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function set_defer_attribute( $tag, $handle, $src ) {
+	public function set_defer_attribute( $tag, $handle, $src ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
 		$captcha_settings = wpforms_get_captcha_settings();
 
@@ -1715,6 +1748,7 @@ class Frontend {
 
 		$form_data = (array) $form_data;
 		$min       = wpforms_get_min_suffix();
+		$in_footer = $this->load_script_in_footer();
 
 		// Base CSS only.
 		if ( (int) wpforms_setting( 'disable-css', '1' ) === 1 ) {
@@ -1733,7 +1767,7 @@ class Frontend {
 				WPFORMS_PLUGIN_URL . "assets/js/frontend/wpforms-confirmation{$min}.js",
 				[ 'jquery' ],
 				WPFORMS_VERSION,
-				true
+				$in_footer
 			);
 		}
 
@@ -1749,7 +1783,7 @@ class Frontend {
 	}
 
 	/**
-	 * Load the assets in footer if needed (archives, widgets, etc).
+	 * Load the assets in footer if needed (archives, widgets, etc.).
 	 *
 	 * @since 1.0.0
 	 */
@@ -1779,7 +1813,7 @@ class Frontend {
 	 *
 	 * @return array Array of strings to localize.
 	 */
-	public function get_strings() {
+	public function get_strings(): array {
 
 		// Define base strings.
 		$strings = [
@@ -1820,9 +1854,24 @@ class Frontend {
 			'val_inputmask_incomplete'   => wpforms_setting( 'validation-inputmask-incomplete', esc_html__( 'Please fill out the field in required format.', 'wpforms-lite' ) ),
 			'uuid_cookie'                => false,
 			'locale'                     => wpforms_get_language_code(),
+
+			/**
+			 * Filters the user's country code.
+			 *
+			 * Leave empty for most cases, it will be auto-detected.
+			 * If set it will make country recognition in wpforms.js frontend skipped.
+			 * Allows to test Phone Smart field with different countries.
+			 *
+			 * @since 1.9.0
+			 *
+			 * @param string|false $country Country code.
+			 */
+			'country'                    => apply_filters( 'wpforms_frontend_get_user_country_code', false ),
+			'country_list_label'         => esc_html__( 'Country list', 'wpforms-lite' ),
 			'wpforms_plugin_url'         => WPFORMS_PLUGIN_URL,
 			'gdpr'                       => wpforms_setting( 'gdpr' ),
 			'ajaxurl'                    => admin_url( 'admin-ajax.php' ),
+
 			/**
 			 * Filters mail check enabled flag.
 			 *
@@ -1831,6 +1880,7 @@ class Frontend {
 			 * @param bool $flag Enabled flag.
 			 */
 			'mailcheck_enabled'          => (bool) apply_filters( 'wpforms_mailcheck_enabled', true ), // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
 			/**
 			 * Filters mail check domains.
 			 *
@@ -1839,8 +1889,9 @@ class Frontend {
 			 * @param array $domains Domains to check.
 			 */
 			'mailcheck_domains'          => array_map( 'sanitize_text_field', (array) apply_filters( 'wpforms_mailcheck_domains', [] ) ), // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
 			/**
-			 * Filters mail check toplevel domains.
+			 * Filters toplevel domains for mail check.
 			 *
 			 * @since 1.5.4.2
 			 *
@@ -1848,8 +1899,6 @@ class Frontend {
 			 */
 			'mailcheck_toplevel_domains' => array_map( 'sanitize_text_field', (array) apply_filters( 'wpforms_mailcheck_toplevel_domains', [ 'dev' ] ) ), // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 			'is_ssl'                     => is_ssl(),
-			'page_title'                 => wpforms_process_smart_tags( '{page_title}', [], [], '' ),
-			'page_id'                    => wpforms_process_smart_tags( '{page_id}', [], [], '' ),
 		];
 
 		// Include payment related strings if needed.
@@ -1865,9 +1914,9 @@ class Frontend {
 		 *
 		 * @param array $strings Frontend strings.
 		 */
-		$strings = apply_filters( 'wpforms_frontend_strings', $strings );
+		$strings = (array) apply_filters( 'wpforms_frontend_strings', $strings );
 
-		foreach ( (array) $strings as $key => $value ) {
+		foreach ( $strings as $key => $value ) {
 
 			if ( ! is_scalar( $value ) ) {
 				continue;
@@ -1888,17 +1937,17 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function get_payment_strings( $strings ) {
+	private function get_payment_strings( array $strings ): array {
 
 		if ( function_exists( 'wpforms_get_currencies' ) ) {
 			$currency                       = wpforms_get_currency();
 			$currencies                     = wpforms_get_currencies();
 			$strings['currency_code']       = $currency;
-			$strings['currency_thousands']  = isset( $currencies[ $currency ]['thousands_separator'] ) ? $currencies[ $currency ]['thousands_separator'] : ',';
+			$strings['currency_thousands']  = $currencies[ $currency ]['thousands_separator'] ?? ',';
 			$strings['currency_decimals']   = wpforms_get_currency_decimals( $currencies[ $currency ] );
-			$strings['currency_decimal']    = isset( $currencies[ $currency ]['decimal_separator'] ) ? $currencies[ $currency ]['decimal_separator'] : '.';
-			$strings['currency_symbol']     = isset( $currencies[ $currency ]['symbol'] ) ? $currencies[ $currency ]['symbol'] : '$';
-			$strings['currency_symbol_pos'] = isset( $currencies[ $currency ]['symbol_pos'] ) ? $currencies[ $currency ]['symbol_pos'] : 'left';
+			$strings['currency_decimal']    = $currencies[ $currency ]['decimal_separator'] ?? '.';
+			$strings['currency_symbol']     = $currencies[ $currency ]['symbol'] ?? '$';
+			$strings['currency_symbol_pos'] = $currencies[ $currency ]['symbol_pos'] ?? 'left';
 		}
 
 		$strings['val_requiredpayment'] = wpforms_setting( 'validation-requiredpayment', esc_html__( 'Payment is required.', 'wpforms-lite' ) );
@@ -1916,13 +1965,13 @@ class Frontend {
 	 *
 	 * @return array
 	 */
-	private function get_css_vars_strings( $strings ) {
+	private function get_css_vars_strings( array $strings ): array {
 
 		if ( wpforms_get_render_engine() !== 'modern' ) {
 			return $strings;
 		}
 
-		$css_vars_obj = wpforms()->get( 'css_vars' );
+		$css_vars_obj = wpforms()->obj( 'css_vars' );
 
 		if ( empty( $css_vars_obj ) ) {
 			return $strings;
@@ -1976,12 +2025,13 @@ class Frontend {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $atts Shortcode attributes provided by a user.
+	 * @param array|mixed $atts Shortcode attributes provided by a user.
 	 *
 	 * @return string
 	 */
-	public function shortcode( $atts ) {
+	public function shortcode( $atts ): string {
 
+		$atts     = (array) $atts;
 		$defaults = [
 			'id'          => false,
 			'title'       => false,
@@ -1994,7 +2044,7 @@ class Frontend {
 
 		$this->output( $atts['id'], $atts['title'], $atts['description'] );
 
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -2036,7 +2086,7 @@ class Frontend {
 	 *
 	 * @return string
 	 */
-	private function get_missing_assets_error_script() {
+	private function get_missing_assets_error_script(): string {
 
 		return "<script>
 				( function() {
@@ -2059,7 +2109,6 @@ class Frontend {
 						error.innerHTML = '%s';
 
 						forms.forEach( function( form ) {
-
 							if ( form.querySelector( '.wpforms-error-container' ) ) {
 								return;
 							}
@@ -2085,14 +2134,14 @@ class Frontend {
 	}
 
 	/**
-	 * Get missing assets error message.
+	 * Get a missing assets error message.
 	 *
 	 * @since 1.6.4.1
 	 *
 	 * @return string
 	 * @noinspection HtmlUnknownTarget
 	 */
-	private function get_missing_assets_error_message() {
+	private function get_missing_assets_error_message(): string {
 
 		$message = sprintf(
 			wp_kses( /* translators: %s - URL to the troubleshooting guide. */
@@ -2184,7 +2233,7 @@ class Frontend {
 		 * 3          Field error messages.
 		 * 5          Field description (depending on position).
 		 * 15         Field closing container markup.
-		 * 20         Pagebreak markup (close previous page, open next).
+		 * 20         Pagebreak markups (close previous page, open next).
 		 *
 		 * @since 1.3.7
 		 *
@@ -2192,5 +2241,17 @@ class Frontend {
 		 * @param array $form_data Form data.
 		 */
 		do_action( 'wpforms_display_field_after', $field, $form_data ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+	}
+
+	/**
+	 * Whether to print the script in the footer.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return bool
+	 */
+	protected function load_script_in_footer(): bool {
+
+		return ! wpforms_is_frontend_js_header_force_load();
 	}
 }

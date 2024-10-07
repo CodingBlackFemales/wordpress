@@ -75,7 +75,7 @@ class Tags {
 		// Set tags to each form.
 		$this->set_tags_to_forms( $data['forms'], $tags_ids, $tags_labels );
 
-		$tags_obj  = wpforms()->get( 'forms_tags' );
+		$tags_obj  = wpforms()->obj( 'forms_tags' );
 		$terms     = get_the_terms( array_pop( $data['forms'] ), WPForms_Form_Handler::TAGS_TAXONOMY );
 		$tags_data = $tags_obj->get_tags_data( $terms );
 
@@ -93,7 +93,7 @@ class Tags {
 	 */
 	public function delete_tags() {
 
-		$form_obj = wpforms()->get( 'form' );
+		$form_obj = wpforms()->obj( 'form' );
 		$data     = $this->get_prepared_data( 'delete' );
 		$deleted  = 0;
 		$labels   = [];
@@ -259,7 +259,7 @@ class Tags {
 	 */
 	private function set_tags_to_forms( $forms_ids, $tags_ids, $tags_labels ) {
 
-		$form_obj = wpforms()->get( 'form' );
+		$form_obj = wpforms()->obj( 'form' );
 
 		foreach ( $forms_ids as $form_id ) {
 			wp_set_post_terms(
