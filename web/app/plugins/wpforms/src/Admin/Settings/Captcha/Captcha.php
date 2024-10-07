@@ -114,6 +114,7 @@ abstract class Captcha {
 		$provider_name = $this->settings['provider'];
 		$handle        = "wpforms-settings-{$provider_name}";
 
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		wp_enqueue_script( $handle, $api_url, [ 'jquery' ], null, true );
 		wp_add_inline_script( $handle, $this->get_inline_script() );
 	}

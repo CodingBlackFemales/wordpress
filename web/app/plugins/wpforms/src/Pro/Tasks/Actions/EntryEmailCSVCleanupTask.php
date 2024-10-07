@@ -118,7 +118,7 @@ class EntryEmailCSVCleanupTask extends Task {
 	 */
 	public function scan() {
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		if ( ! $tasks ) {
 			return;
@@ -243,6 +243,7 @@ class EntryEmailCSVCleanupTask extends Task {
 		}
 
 		// Delete the file.
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 		if ( ! unlink( $file ) ) {
 			$this->log(
 				sprintf(
@@ -254,6 +255,7 @@ class EntryEmailCSVCleanupTask extends Task {
 			return;
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
 		if ( ! rmdir( $path_info['dirname'] ) ) {
 			$this->log(
 				sprintf(
@@ -271,7 +273,7 @@ class EntryEmailCSVCleanupTask extends Task {
 	 */
 	public function after_process_queue() {
 
-		if ( wpforms()->get( 'tasks' )->is_scheduled( self::CLEANUP_ACTION ) ) {
+		if ( wpforms()->obj( 'tasks' )->is_scheduled( self::CLEANUP_ACTION ) ) {
 			return;
 		}
 
@@ -289,7 +291,7 @@ class EntryEmailCSVCleanupTask extends Task {
 	 *
 	 * @param string $message The error message that should be logged.
 	 */
-	private function log( $message ) {
+	protected function log( $message ) {
 
 		if ( defined( 'WPFORMS_DEBUG' ) && WPFORMS_DEBUG ) {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
@@ -307,7 +309,7 @@ class EntryEmailCSVCleanupTask extends Task {
 	 */
 	public function create_cleanup_task( $email_data ) {
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		if ( $tasks->is_scheduled( self::SCAN_ACTION ) ) {
 			return;

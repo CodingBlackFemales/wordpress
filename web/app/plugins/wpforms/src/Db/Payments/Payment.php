@@ -18,6 +18,8 @@ class Payment extends WPForms_DB {
 	 */
 	public function __construct() {
 
+		parent::__construct();
+
 		$this->table_name  = self::get_table_name();
 		$this->primary_key = 'id';
 		$this->type        = 'payment';
@@ -110,7 +112,7 @@ class Payment extends WPForms_DB {
 	 * @param array  $data Column data.
 	 * @param string $type Optional. Data type context.
 	 *
-	 * @return int ID for the newly inserted payment. 0 otherwise.
+	 * @return int ID for the newly inserted payment. Zero otherwise.
 	 */
 	public function add( $data, $type = '' ) {
 
@@ -138,7 +140,7 @@ class Payment extends WPForms_DB {
 	 */
 	public function get( $payment_id, $args = [] ) {
 
-		if ( ! $this->current_user_can( $payment_id, $args ) && wpforms()->get( 'access' )->init_allowed() ) {
+		if ( ! $this->current_user_can( $payment_id, $args ) && wpforms()->obj( 'access' )->init_allowed() ) {
 			return null;
 		}
 
@@ -228,14 +230,14 @@ class Payment extends WPForms_DB {
 	 *
 	 * @return bool False if the payment and meta could not be deleted, true otherwise.
 	 */
-	public function delete( $payment_id = 0, $args = [] ) {
+	public function delete( $payment_id = 0, $args = [] ): bool {
 
 		if ( ! $this->current_user_can( $payment_id, $args ) ) {
 			return false;
 		}
 
 		$is_payment_deleted = parent::delete( $payment_id );
-		$is_meta_deleted    = wpforms()->get( 'payment_meta' )->delete_by( 'payment_id', $payment_id );
+		$is_meta_deleted    = wpforms()->obj( 'payment_meta' )->delete_by( 'payment_id', $payment_id );
 
 		return $is_payment_deleted && $is_meta_deleted;
 	}
@@ -298,7 +300,7 @@ class Payment extends WPForms_DB {
 		// Limit.
 		$query[] = $wpdb->prepare( 'LIMIT %d, %d', $args['offset'], $args['number'] );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$result = $wpdb->get_results( implode( ' ', $query ), ARRAY_A );
 
 		// Get results.
@@ -317,7 +319,7 @@ class Payment extends WPForms_DB {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		/**
-		 * To avoid any possible issues during migration from entries to payments table,
+		 * To avoid any possible issues during migration from entries to payments' table,
 		 * all data types are preserved.
 		 *
 		 * Note: there must be two spaces between the words PRIMARY KEY and the definition of primary key.
@@ -361,7 +363,7 @@ class Payment extends WPForms_DB {
 	}
 
 	/**
-	 * Check if current user has capabilities to manage payments.
+	 * Check if the current user has capabilities to manage payments.
 	 *
 	 * @since 1.8.2
 	 *
@@ -369,6 +371,7 @@ class Payment extends WPForms_DB {
 	 * @param array $args       Additional arguments.
 	 *
 	 * @return bool
+	 * @noinspection IfReturnReturnSimplificationInspection
 	 */
 	private function current_user_can( $payment_id, $args = [] ) {
 

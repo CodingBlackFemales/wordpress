@@ -28,6 +28,22 @@ abstract class CacheBase {
 	const REQUEST_LOCK_TIME = 15;
 
 	/**
+	 * A class id or array of cache class ids to sync updates with.
+	 *
+	 * @since 1.8.9
+	 */
+	const SYNC_WITH = [];
+
+	/**
+	 * The current class is syncing updates now.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @var bool
+	 */
+	private $syncing_updates = false;
+
+	/**
 	 * Indicates whether the cache was updated during the current run.
 	 *
 	 * @since 1.6.8
@@ -126,6 +142,35 @@ abstract class CacheBase {
 		// Schedule recurring updates.
 		add_action( 'admin_init', [ $this, 'schedule_update_cache' ] );
 		add_action( $this->settings['update_action'], [ $this, 'update' ] );
+
+		// Sync cache updates.
+		add_action( 'wpforms_helpers_cache_base_sync_updates', [ $this, 'sync_updates' ] );
+	}
+
+	/**
+	 * Sync cache updates.
+	 *
+	 * If one update has been done, run the update for other caches.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @noinspection PhpCastIsUnnecessaryInspection
+	 * @noinspection UnnecessaryCastingInspection
+	 */
+	public function sync_updates() {
+
+		// Prevent infinite loop.
+		if ( $this->syncing_updates ) {
+			foreach ( (array) static::SYNC_WITH as $classname ) {
+				$cache = wpforms()->obj( $classname );
+
+				if ( ! $cache instanceof self ) {
+					continue;
+				}
+
+				$cache->update( true );
+			}
+		}
 	}
 
 	/**
@@ -295,6 +340,17 @@ abstract class CacheBase {
 			return false;
 		}
 
+		if ( ! $this->syncing_updates ) {
+			$this->syncing_updates = true;
+
+			/**
+			 * Action hook after the cache has been updated.
+			 *
+			 * @since 1.8.9
+			 */
+			do_action( 'wpforms_helpers_cache_base_sync_updates' );
+		}
+
 		$this->updated = true;
 
 		return true;
@@ -341,7 +397,7 @@ abstract class CacheBase {
 	 *
 	 * @return array
 	 */
-	private function perform_remote_request(): array {
+	private function perform_remote_request(): array { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$wpforms_key = wpforms()->is_pro() ? wpforms_get_license_key() : 'lite';
 
@@ -350,25 +406,104 @@ abstract class CacheBase {
 			$this->settings['query_args'] ?? []
 		);
 
-		$request = wp_remote_get(
-			add_query_arg( $query_args, $this->settings['remote_source'] ),
+		$request_url = add_query_arg( $query_args, $this->settings['remote_source'] );
+		$user_agent  = wpforms_get_default_user_agent();
+		$request     = wp_remote_get(
+			$request_url,
 			[
 				'timeout'    => 10,
-				'user-agent' => wpforms_get_default_user_agent(),
+				'user-agent' => $user_agent,
 			]
 		);
 
+		$request_url_log = remove_query_arg( [ 'tgm-updater-key' ], $request_url );
+
+		// Log if the request failed.
 		if ( is_wp_error( $request ) ) {
+			$this->add_log(
+				'Cached data: HTTP request error',
+				[
+					'class'       => static::class,
+					'request_url' => $request_url_log,
+					'error'       => $request->get_error_message(),
+					'error_data'  => $request->get_error_data(),
+				],
+				'error'
+			);
+
 			return [];
 		}
 
-		$json = wp_remote_retrieve_body( $request );
+		$response_code     = wp_remote_retrieve_response_code( $request );
+		$raw_headers       = wp_remote_retrieve_headers( $request );
+		$response_headers  = is_object( $raw_headers ) ? $raw_headers->getAll() : (array) $raw_headers;
+		$response_body     = wp_remote_retrieve_body( $request );
+		$response_body_len = strlen( $response_body );
+		$response_body_log = $response_body_len > 1024 ? "(First 1 kB):\n" . substr( trim( $response_body ), 0, 1024 ) . '...' : trim( $response_body );
+		$response_body_log = esc_html( $response_body_log );
 
-		if ( empty( $json ) ) {
+		$log_data = [
+			'class'          => static::class,
+			'request_url'    => $request_url_log,
+			'code'           => $response_code,
+			'headers'        => $response_headers,
+			'content_length' => $response_body_len,
+			'body'           => $response_body_log,
+		];
+
+		// Log the response details in debug mode.
+		if ( wpforms_debug() ) {
+			$this->add_log( 'Cached data: Response details', $log_data );
+		}
+
+		// Log the error if the response code is not 2xx or 3xx.
+		if ( $response_code > 399 ) {
+			$this->add_log( 'Cached data: HTTP request error', $log_data, 'error' );
+
 			return [];
 		}
 
-		return $this->prepare_cache_data( json_decode( $json, true ) );
+		$json = trim( $response_body );
+		$data = json_decode( $json, true );
+
+		if ( empty( $data ) ) {
+			$message = $data === null ? 'Invalid JSON' : 'Empty JSON';
+
+			$log_data = array_merge(
+				$log_data,
+				[
+					'json_result'   => $message,
+					'cache_file'    => $this->settings['cache_file'],
+					'remote_source' => $this->settings['remote_source'],
+				]
+			);
+
+			$this->add_log( 'Cached data: ' . $message, $log_data, 'error' );
+
+			return [];
+		}
+
+		return $this->prepare_cache_data( $data );
+	}
+
+	/**
+	 * Add log.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param string $title Log title.
+	 * @param array  $data  Log data.
+	 * @param string $type  Log type.
+	 */
+	private function add_log( string $title, array $data, string $type = 'log' ) {
+
+		wpforms_log(
+			$title,
+			$data,
+			[
+				'type' => [ $type ],
+			]
+		);
 	}
 
 	/**
@@ -383,7 +518,7 @@ abstract class CacheBase {
 			return;
 		}
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		if (
 			! $tasks instanceof Tasks ||

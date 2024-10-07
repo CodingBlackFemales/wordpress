@@ -31,7 +31,7 @@ class Upgrade168 extends UpgradeBase {
 		}
 
 		// We don't want users to report to us if they already previously used the builder by creating a form.
-		$form_handler = wpforms()->get( 'form' );
+		$form_handler = wpforms()->obj( 'form' );
 
 		if ( ! $form_handler ) {
 			return false;

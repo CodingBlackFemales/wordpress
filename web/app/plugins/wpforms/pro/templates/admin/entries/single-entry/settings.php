@@ -2,7 +2,7 @@
 /**
  * Single entries setting block.
  *
- * @since {version}
+ * @since 1.8.3
  *
  * @var array $entry_view_settings Display settings for the single entry page.
  */

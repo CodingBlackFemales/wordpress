@@ -16,6 +16,10 @@ class ApiRequestor
      */
     private $_apiBase;
     /**
+     * @var null|array
+     */
+    private $_appInfo;
+    /**
      * @var HttpClient\ClientInterface
      */
     private static $_httpClient;
@@ -33,14 +37,16 @@ class ApiRequestor
      *
      * @param null|string $apiKey
      * @param null|string $apiBase
+     * @param null|array $appInfo
      */
-    public function __construct($apiKey = null, $apiBase = null)
+    public function __construct($apiKey = null, $apiBase = null, $appInfo = null)
     {
         $this->_apiKey = $apiKey;
         if (!$apiBase) {
             $apiBase = Stripe::$apiBase;
         }
         $this->_apiBase = $apiBase;
+        $this->_appInfo = $appInfo;
     }
     /**
      * Creates a telemetry json blob for use in 'X-Stripe-Client-Telemetry' headers.
@@ -240,10 +246,10 @@ class ApiRequestor
     {
         if (null !== $appInfo) {
             $string = $appInfo['name'];
-            if (null !== $appInfo['version']) {
+            if (\array_key_exists('version', $appInfo) && null !== $appInfo['version']) {
                 $string .= '/' . $appInfo['version'];
             }
-            if (null !== $appInfo['url']) {
+            if (\array_key_exists('url', $appInfo) && null !== $appInfo['url']) {
                 $string .= ' (' . $appInfo['url'] . ')';
             }
             return $string;
@@ -271,18 +277,20 @@ class ApiRequestor
     /**
      * @static
      *
-     * @param string $apiKey
-     * @param null   $clientInfo
+     * @param string     $apiKey the Stripe API key, to be used in regular API requests
+     * @param null       $clientInfo client user agent information
+     * @param null       $appInfo information to identify a plugin that integrates Stripe using this library
      *
      * @return array
      */
-    private static function _defaultHeaders($apiKey, $clientInfo = null)
+    private static function _defaultHeaders($apiKey, $clientInfo = null, $appInfo = null)
     {
         $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
         $langVersion = \PHP_VERSION;
         $uname_disabled = self::_isDisabled(\ini_get('disable_functions'), 'php_uname');
         $uname = $uname_disabled ? '(disabled)' : \php_uname();
-        $appInfo = Stripe::getAppInfo();
+        // Fallback to global configuration to maintain backwards compatibility.
+        $appInfo = $appInfo ?: Stripe::getAppInfo();
         $ua = ['bindings_version' => Stripe::VERSION, 'lang' => 'php', 'lang_version' => $langVersion, 'publisher' => 'stripe', 'uname' => $uname];
         if ($clientInfo) {
             $ua = \array_merge($clientInfo, $ua);
@@ -321,7 +329,7 @@ class ApiRequestor
         }
         $absUrl = $this->_apiBase . $url;
         $params = self::_encodeObjects($params);
-        $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo);
+        $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo, $this->_appInfo);
         if (Stripe::$accountId) {
             $defaultHeaders['Stripe-Account'] = Stripe::$accountId;
         }

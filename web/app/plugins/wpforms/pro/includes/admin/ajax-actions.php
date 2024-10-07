@@ -33,7 +33,7 @@ function wpforms_entry_list_star() {
 	$is_success = false;
 
 	if ( 'star' === $task ) {
-		$is_success = wpforms()->get( 'entry' )->update(
+		$is_success = wpforms()->obj( 'entry' )->update(
 			$entry_id,
 			[
 				'starred' => '1',
@@ -43,7 +43,7 @@ function wpforms_entry_list_star() {
 		$note_data = esc_html__( 'Entry starred.', 'wpforms' );
 
 	} elseif ( 'unstar' === $task ) {
-		$is_success = wpforms()->get( 'entry' )->update(
+		$is_success = wpforms()->obj( 'entry' )->update(
 			$entry_id,
 			[
 				'starred' => '0',
@@ -56,7 +56,7 @@ function wpforms_entry_list_star() {
 	if ( $is_success ) {
 
 		// Add an entry note about Star/Unstar action.
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => $entry_id,
 				'form_id'  => $form_id,
@@ -103,7 +103,7 @@ function wpforms_entry_list_read() {
 	$note_data  = '';
 
 	if ( 'read' === $task ) {
-		$is_success = wpforms()->get( 'entry' )->update(
+		$is_success = wpforms()->obj( 'entry' )->update(
 			$entry_id,
 			[
 				'viewed' => '1',
@@ -113,7 +113,7 @@ function wpforms_entry_list_read() {
 		$note_data = esc_html__( 'Entry read.', 'wpforms' );
 
 	} elseif ( 'unread' === $task ) {
-		$is_success = wpforms()->get( 'entry' )->update(
+		$is_success = wpforms()->obj( 'entry' )->update(
 			$entry_id,
 			[
 				'viewed' => '0',
@@ -126,7 +126,7 @@ function wpforms_entry_list_read() {
 	if ( $is_success && ! empty( $note_data ) ) {
 
 		// Add an entry note about Star/Unstar action.
-		wpforms()->get( 'entry_meta' )->add(
+		wpforms()->obj( 'entry_meta' )->add(
 			[
 				'entry_id' => $entry_id,
 				'form_id'  => $form_id,
@@ -165,7 +165,7 @@ function wpforms_verify_license() {
 		wp_send_json_error( esc_html__( 'Please enter a license key.', 'wpforms' ) );
 	}
 
-	wpforms()->get( 'license' )->verify_key( sanitize_text_field( wp_unslash( $_POST['license'] ) ), true );
+	wpforms()->obj( 'license' )->verify_key( sanitize_text_field( wp_unslash( $_POST['license'] ) ), true );
 }
 add_action( 'wp_ajax_wpforms_verify_license', 'wpforms_verify_license' );
 
@@ -184,7 +184,7 @@ function wpforms_deactivate_license() {
 		wp_send_json_error();
 	}
 
-	wpforms()->get( 'license' )->deactivate_key( true );
+	wpforms()->obj( 'license' )->deactivate_key( true );
 }
 
 add_action( 'wp_ajax_wpforms_deactivate_license', 'wpforms_deactivate_license' );
@@ -210,7 +210,7 @@ function wpforms_refresh_license() {
 	}
 
 	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	wpforms()->get( 'license' )->validate_key( $_POST['license'], true, true );
+	wpforms()->obj( 'license' )->validate_key( $_POST['license'], true, true );
 }
 
 add_action( 'wp_ajax_wpforms_refresh_license', 'wpforms_refresh_license' );

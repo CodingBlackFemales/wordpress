@@ -94,7 +94,7 @@ class Tags {
 	 */
 	private function update_view_vars() {
 
-		$views_object       = wpforms()->get( 'forms_views' );
+		$views_object       = wpforms()->obj( 'forms_views' );
 		$this->current_view = $views_object->get_current_view();
 		$view_config        = $views_object->get_view_by_slug( $this->current_view );
 		$this->base_url     = remove_query_arg(
@@ -150,7 +150,7 @@ class Tags {
 			'wpforms-admin-forms-overview-choicesjs',
 			WPFORMS_PLUGIN_URL . 'assets/lib/choices.min.js',
 			[],
-			'9.0.1',
+			'10.2.0',
 			true
 		);
 
@@ -185,6 +185,7 @@ class Tags {
 			'searchFloor'       => 1,
 			'searchResultLimit' => 100,
 			'searchFields'      => [ 'label' ],
+			'allowHTML'         => true,
 			// These `fuseOptions` options enable the search of chars not only from the beginning of the tags.
 			'fuseOptions'       => [
 				'threshold' => 0.1,

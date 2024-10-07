@@ -2,6 +2,7 @@
 
 namespace WPForms\Integrations\Stripe\Admin;
 
+use WPForms\Integrations\Stripe\Api\PaymentIntents;
 use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Admin\Notice;
 
@@ -85,14 +86,39 @@ class Settings {
 	 */
 	public function not_supported_currency_notice() {
 
+		if ( ! Helpers::has_stripe_keys() ) {
+			return;
+		}
+
 		$account = $this->connect->get_connected_account();
 
-		if ( ! isset( $account->currencies_supported ) || in_array( strtolower( wpforms_get_currency() ), $account->currencies_supported, true ) ) {
+		if ( is_null( $account ) ) {
+			return;
+		}
+
+		$selected_currency = strtolower( wpforms_get_currency() );
+
+		if ( $selected_currency === $account->default_currency ) {
+			return;
+		}
+
+		$country_specs = ( new PaymentIntents() )->get_country_specs( $account->country );
+
+		if ( ! $country_specs || in_array( $selected_currency, $country_specs->supported_payment_currencies, true ) ) {
 			return;
 		}
 
 		Notice::error(
-			esc_html__( 'The connected Stripe account does not support the selected currency. Please connect a different account or change the currency.', 'wpforms-lite' )
+			sprintf(
+				wp_kses( /* translators: %1$s - Selected currency on the WPForms Settings admin page. */
+					__( '<strong>Payments Cannot Be Processed</strong><br>The currency you have set (%1$s) is not supported by Stripe. Please choose a different currency.', 'wpforms-lite' ),
+					[
+						'strong' => [],
+						'br'     => [],
+					]
+				),
+				esc_html( wpforms_get_currency() )
+			)
 		);
 	}
 

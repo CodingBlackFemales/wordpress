@@ -84,12 +84,12 @@ class WPForms_Field_Radio extends WPForms_Field {
 	 */
 	public function field_properties( $properties, $field, $form_data ) {
 
-		// Remove primary input.
-		unset( $properties['inputs']['primary'] );
+		// Remove primary input, unset for attribute for label.
+		unset( $properties['inputs']['primary'], $properties['label']['attr']['for'] );
 
 		// Define data.
 		$form_id  = absint( $form_data['id'] );
-		$field_id = absint( $field['id'] );
+		$field_id = wpforms_validate_field_id( $field['id'] );
 		$choices  = $field['choices'];
 		$dynamic  = wpforms_get_field_dynamic_choices( $field, $form_id, $form_data );
 
@@ -166,7 +166,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 				}
 			}
 		} elseif ( ! $dynamic && ! empty( $field['choices_icons'] ) ) {
-			$properties = wpforms()->get( 'icon_choices' )->field_properties( $properties, $field );
+			$properties = wpforms()->obj( 'icon_choices' )->field_properties( $properties, $field );
 		}
 
 		// Add selected class for choices with defaults.
@@ -205,6 +205,16 @@ class WPForms_Field_Radio extends WPForms_Field {
 
 		// Choices.
 		$this->field_option( 'choices', $field );
+
+		// AI Feature.
+		$this->field_option(
+			'ai_modal_button',
+			$field,
+			[
+				'value' => esc_html__( 'Generate Choices', 'wpforms-lite' ),
+				'type'  => 'choices',
+			]
+		);
 
 		// Choices Images.
 		$this->field_option( 'choices_images', $field );
@@ -397,7 +407,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 		);
 
 			foreach ( $choices as $key => $choice ) {
-				$label = $this->get_choices_label( $choice['label']['text'] ?? '', $key );
+				$label = $this->get_choices_label( $choice['label']['text'] ?? '', $key, $field );
 
 				if ( wpforms_is_amp() && ( $using_image_choices || $using_icon_choices ) ) {
 					$choice['container']['attr']['[class]'] = sprintf(
@@ -424,6 +434,10 @@ class WPForms_Field_Radio extends WPForms_Field {
 								wp_json_encode( [ $amp_state_id => $choice['attr']['value'] ] )
 							);
 							$choice['label']['attr']['role'] = 'button';
+						}
+
+						if ( is_array( $choice['label']['class'] ) && wpforms_is_empty_string( $label ) ) {
+							$choice['label']['class'][] = 'wpforms-field-label-inline-empty';
 						}
 
 						// Image choices.
@@ -481,7 +495,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 						}
 
 						// Icon Choices.
-						wpforms()->get( 'icon_choices' )->field_display( $field, $choice, 'radio' );
+						wpforms()->obj( 'icon_choices' )->field_display( $field, $choice, 'radio' );
 
 					} else {
 						// Normal display.
@@ -511,7 +525,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 	 * @since 1.8.2
 	 *
 	 * @param int          $field_id     Field ID.
-	 * @param string|array $field_submit Submitted field value (selected option).
+	 * @param string|array $field_submit Submitted field value (raw data).
 	 * @param array        $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -546,7 +560,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			'name'      => $name,
 			'value'     => '',
 			'value_raw' => $value_raw,
-			'id'        => absint( $field_id ),
+			'id'        => wpforms_validate_field_id( $field_id ),
 			'type'      => $this->type,
 		];
 
@@ -582,7 +596,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 			// the choice key.
 			if ( ! empty( $field['show_values'] ) ) {
 				foreach ( $field['choices'] as $key => $choice ) {
-					if ( $choice['value'] === $field_submit ) {
+					if ( ! empty( $field_submit ) && $choice['value'] === $field_submit ) {
 						$data['value'] = sanitize_text_field( $choice['label'] );
 						$choice_key    = $key;
 						break;
@@ -611,7 +625,7 @@ class WPForms_Field_Radio extends WPForms_Field {
 		}
 
 		// Push field details to be saved.
-		wpforms()->get( 'process' )->fields[ $field_id ] = $data;
+		wpforms()->obj( 'process' )->fields[ $field_id ] = $data;
 	}
 }
 

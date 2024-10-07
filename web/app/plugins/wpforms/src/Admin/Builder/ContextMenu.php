@@ -56,6 +56,6 @@ class ContextMenu {
 	public function output() {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo wpforms_render( 'builder/context-menu' );
+		echo wpforms_render( 'builder/field-context-menu' );
 	}
 }

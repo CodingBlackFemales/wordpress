@@ -29,23 +29,23 @@ class WPForms_Template_Simple_Contact_Form extends WPForms_Template {
 		$this->thumbnail   = esc_url( WPFORMS_PLUGIN_URL . 'assets/images/thumbnail-simple-contact-form-template.jpg' );
 		$this->data        = [
 			'fields'   => [
-				'0' => [
-					'id'       => '0',
+				'1' => [
+					'id'       => '1',
 					'type'     => 'name',
 					'format'   => 'first-last',
 					'label'    => esc_html__( 'Name', 'wpforms-lite' ),
 					'required' => '1',
 					'size'     => 'medium',
 				],
-				'1' => [
-					'id'       => '1',
+				'2' => [
+					'id'       => '2',
 					'type'     => 'email',
 					'label'    => esc_html__( 'Email', 'wpforms-lite' ),
 					'required' => '1',
 					'size'     => 'medium',
 				],
-				'2' => [
-					'id'          => '2',
+				'3' => [
+					'id'          => '3',
 					'type'        => 'textarea',
 					'label'       => esc_html__( 'Comment or Message', 'wpforms-lite' ),
 					'size'        => 'medium',
@@ -53,17 +53,17 @@ class WPForms_Template_Simple_Contact_Form extends WPForms_Template {
 					'css'         => '',
 				],
 			],
-			'field_id' => 3,
+			'field_id' => 4,
 			'settings' => [
 				'form_desc'              => '',
 				'submit_text'            => esc_html__( 'Submit', 'wpforms-lite' ),
 				'submit_text_processing' => esc_html__( 'Sending...', 'wpforms-lite' ),
-				'antispam'               => '1',
+				'antispam_v3'            => '1',
 				'notification_enable'    => '1',
 				'notifications'          => [
 					'1' => [
 						'email'   => '{admin_email}',
-						'replyto' => '{field_id="1"}',
+						'replyto' => '{field_id="2"}',
 						'message' => '{all_fields}',
 					],
 				],

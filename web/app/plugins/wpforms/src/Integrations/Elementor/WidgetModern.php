@@ -65,7 +65,7 @@ class WidgetModern extends Widget {
 			'medium' => esc_html__( 'Medium', 'wpforms-lite' ),
 			'large'  => esc_html__( 'Large', 'wpforms-lite' ),
 		];
-		$this->css_vars_obj = wpforms()->get( 'css_vars' );
+		$this->css_vars_obj = wpforms()->obj( 'css_vars' );
 	}
 
 	/**

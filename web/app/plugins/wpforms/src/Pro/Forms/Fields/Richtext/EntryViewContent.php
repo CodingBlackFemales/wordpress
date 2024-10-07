@@ -43,13 +43,14 @@ class EntryViewContent {
 	 *
 	 * @return bool
 	 */
-	private function allow_load() {
+	private function allow_load(): bool { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		if ( ! wpforms_is_admin_page( 'entries', 'details' ) && ! wpforms_is_admin_page( 'entries', 'print' ) ) {
 			return false;
 		}
 
-		$this->field_id = isset( $_GET['richtext_field_id'] ) ? absint( $_GET['richtext_field_id'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification
+		 // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$this->field_id = isset( $_GET['richtext_field_id'] ) ? wpforms_validate_field_id( wp_unslash( $_GET['richtext_field_id'] ) ) : 0;
 
 		if ( empty( $this->field_id ) ) {
 			return false;
@@ -81,10 +82,10 @@ class EntryViewContent {
 		}
 
 		// Find the entry.
-		$entry = wpforms()->get( 'entry' )->get( $this->entry_id );
+		$entry = wpforms()->obj( 'entry' )->get( $this->entry_id );
 
 		// Find the form information.
-		$form_data = wpforms()->get( 'form' )->get(
+		$form_data = wpforms()->obj( 'form' )->get(
 			$entry->form_id,
 			[
 				'cap'          => 'view_entries_form_single',

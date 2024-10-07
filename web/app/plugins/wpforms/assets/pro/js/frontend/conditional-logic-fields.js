@@ -98,7 +98,7 @@
 
 				editor.on( 'keyup', function() {
 
-					WPFormsConditionals.processConditionals( $( '#' + editor.id ), true );
+					WPFormsConditionals.processConditionals( $( `#${ editor.id }` ), true );
 				} );
 			} );
 
@@ -149,7 +149,7 @@
 						}
 
 						if ( $field.is( ':checked' ) ) {
-							$field.prop( 'checked', false ).trigger( 'change' );
+							$field.prop( 'checked', false ).triggerHandler( 'change' );
 						}
 						break;
 					case 'select':
@@ -181,7 +181,8 @@
 
 			$form.find( '.wpforms-field-richtext.wpforms-conditional-hide' ).each( function() {
 
-				var editor = tinyMCE.get( 'wpforms-' + $( this ).closest( '.wpforms-form' ).data( 'formid' ) + '-field_' + $( this ).data( 'field-id' ) );
+				const $this = $( this );
+				const editor = tinyMCE.get( `wpforms-${ $this.closest( '.wpforms-form' ).data( 'formid' ) }-field_${ $this.data( 'field-id' ) }` );
 
 				if ( ! editor ) {
 					return '';
@@ -251,7 +252,7 @@
 				// Remove all selected choices or items.
 				if ( selectedChoices && selectedChoices.length ) {
 					choicesjsInstance.removeActiveItems();
-					this.$field.trigger( 'change' );
+					this.$field.triggerHandler( 'change' );
 				}
 
 				// Show a placeholder input for a modern multiple select.
@@ -282,7 +283,7 @@
 					selectedIndex = placeholder.length ? 0 : -1; // The value -1 indicates that no element is selected.
 
 				if ( selectedIndex !== this.$field.prop( 'selectedIndex' ) ) {
-					this.$field.prop( 'selectedIndex', selectedIndex ).trigger( 'change' );
+					this.$field.prop( 'selectedIndex', selectedIndex ).triggerHandler( 'change' );
 				}
 			},
 		},
@@ -320,7 +321,7 @@
 					case 'radio':
 						if ( defval === 'checked' ) {
 							$field.prop( 'checked', true ).closest( 'li' ).addClass( 'wpforms-selected' );
-							$field.trigger( 'change' );
+							$field.triggerHandler( 'change' );
 						}
 						break;
 					case 'select':
@@ -331,7 +332,7 @@
 						// Determine if it modern select.
 						if ( ! choicesjsInstance ) {
 							if ( $field.val() !== defval ) {
-								$field.val( defval ).trigger( 'change' );
+								$field.val( defval ).triggerHandler( 'change' );
 							}
 
 						} else {
@@ -343,7 +344,7 @@
 
 							if ( choicesjsInstance.getValue( true ) !== defval ) {
 								choicesjsInstance.setChoiceByValue( defval );
-								$field.trigger( 'change' );
+								$field.triggerHandler( 'change' );
 							}
 						}
 						break;
@@ -483,10 +484,10 @@
 				}
 
 				if ( window.location.hash && '#wpformsdebug' === window.location.hash ) {
-					console.log( 'Result: ' + pass );
+					console.log( 'Result: ' + pass ); // eslint-disable-line no-console
 				}
 
-				const $fieldContainer     = $form.find( '#wpforms-' + formID + '-field_' + fieldID + '-container' );
+				const $fieldContainer = $( `#wpforms-${ formID }-field_${ fieldID }-container`, $form );
 				const $closestLayoutField = $fieldContainer.closest( '.wpforms-field-layout' );
 
 				if ( ( pass && action === 'hide' ) || ( ! pass && action !== 'hide' ) ) {
@@ -551,23 +552,16 @@
 		 *
 		 * @since 1.6.1
 		 *
-		 * @param {object} rule  Rule for checking.
-		 * @param {object} $form Current form.
+		 * @param {Object} rule  Rule for checking.
+		 * @param {Object} $form Current form.
 		 *
-		 * @returns {boolean|string} Element value.
+		 * @return {boolean|string} Element value.
 		 */
-		getElementValueByRule: function( rule, $form ) {
-			var value = '';
-			var field = $form.find( '#wpforms-' + $form.data( 'formid' ) + '-field_' + rule.field );
-
-			// If we have the modern select enabled, we trim the rule value to match the trim that happens.
-			if ( field.data( 'choicesjs' ) ) {
-				rule.value = rule.value.toString().trim();
-			}
+		getElementValueByRule( rule, $form ) {
+			let value = '';
 
 			if ( rule.operator === 'e' || rule.operator === '!e' ) {
 				value = WPFormsConditionals.getElementValueByEmptyTypeRules( rule, $form );
-
 			} else {
 				value = WPFormsConditionals.getElementValueByOtherTypeRules( rule, $form );
 			}
@@ -602,7 +596,7 @@
 				'net_promoter_score',
 			].indexOf( rule.type ) > -1 ) {
 				activeSelector = ( 'select' === rule.type ) ? 'option:selected:not(.placeholder)' : 'input:checked';
-				$check = $form.find( '#wpforms-' + formID + '-field_' + rule.field + '-container ' + activeSelector );
+				$check = $( `#wpforms-${ formID }-field_${ rule.field }-container ${ activeSelector }`, $form );
 
 				if ( $check.length ) {
 					val = true;
@@ -610,7 +604,7 @@
 			} else if ( rule.type === 'richtext' ) {
 				return WPFormsConditionals.getRichTextValue( $form, formID, rule.field );
 			} else {
-				val = $form.find( '#wpforms-' + formID + '-field_' + rule.field ).val();
+				val = $( `#wpforms-${ formID }-field_${ rule.field }`, $form ).val();
 
 				if ( ! val ) {
 					val = '';
@@ -625,14 +619,14 @@
 		 *
 		 * @since 1.6.1
 		 *
-		 * @param {object} rule  Rule for checking.
-		 * @param {object} $form Current form.
+		 * @param {Object} rule  Rule for checking.
+		 * @param {Object} $form Current form.
 		 *
-		 * @returns {boolean|string} Element value.
+		 * @return {boolean|string} Element value.
 		 */
-		getElementValueByOtherTypeRules: function( rule, $form ) {
-			var formID = $form.data( 'formid' ),
-				val    = '',
+		getElementValueByOtherTypeRules( rule, $form ) {
+			const formID = $form.data( 'formid' );
+			let val = '',
 				$check, activeSelector;
 
 			if ( [
@@ -645,10 +639,10 @@
 				'net_promoter_score',
 			].indexOf( rule.type ) > -1 ) {
 				activeSelector = ( 'select' === rule.type ) ? 'option:selected:not(.placeholder)' : 'input:checked';
-				$check = $form.find( '#wpforms-' + formID + '-field_' + rule.field + '-container ' + activeSelector );
+				$check = $( `#wpforms-${ formID }-field_${ rule.field }-container ${ activeSelector }`, $form );
 
 				if ( $check.length ) {
-					var escapeVal;
+					let escapeVal;
 
 					$.each( $check, function() {
 						escapeVal = WPFormsConditionals.escapeText( $( this ).val() );
@@ -666,8 +660,7 @@
 			} else if ( rule.type === 'richtext' ) {
 				return WPFormsConditionals.getRichTextValue( $form, formID, rule.field );
 			} else { // text, textarea, number.
-
-				val = $form.find( '#wpforms-' + formID + '-field_' + rule.field ).val();
+				val = $( `#wpforms-${ formID }-field_${ rule.field }`, $form ).val();
 
 				if ( [ 'payment-select' ].indexOf( rule.type ) > -1 ) {
 					val = WPFormsConditionals.escapeText( val );
@@ -682,19 +675,18 @@
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param {object} $form   The form DOM element.
+		 * @param {Object} $form   The form DOM element.
 		 * @param {string} formID  Form ID.
 		 * @param {string} fieldID Field ID.
 		 *
-		 * @returns {string} Rich Text field value.
+		 * @return {string} Rich Text field value.
 		 */
-		getRichTextValue: function( $form, formID, fieldID ) {
-
-			if ( $form.find( '#wpforms-' + formID + '-field_' + fieldID + '-container .wp-editor-wrap' ).hasClass( 'html-active' ) ) {
-				return $form.find( '#wpforms-' + formID + '-field_' + fieldID ).val();
+		getRichTextValue( $form, formID, fieldID ) {
+			if ( $( `#wpforms-${ formID }-field_${ fieldID }-container .wp-editor-wrap`, $form ).hasClass( 'html-active' ) ) {
+				return $( `#wpforms-${ formID }-field_${ fieldID }`, $form ).val();
 			}
 
-			var editor = tinyMCE.get( 'wpforms-' + formID + '-field_' + fieldID );
+			const editor = tinyMCE.get( `wpforms-${ formID }-field_${ fieldID }` );
 
 			if ( ! editor ) {
 				return '';

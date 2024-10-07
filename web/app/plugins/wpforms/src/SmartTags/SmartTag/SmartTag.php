@@ -104,17 +104,31 @@ abstract class SmartTag {
 	 */
 	public function get_user( $entry_id ) {
 
-		if ( is_user_logged_in() ) {
-			return wp_get_current_user();
+		$user = $this->get_entry_user( $entry_id );
+
+		if ( ! empty( $user ) ) {
+			return $user;
 		}
+
+		return is_user_logged_in() ? wp_get_current_user() : '';
+	}
+
+	/**
+	 * Get user from the entry.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string|int $entry_id Entry ID.
+	 *
+	 * @return WP_User|string
+	 */
+	private function get_entry_user( $entry_id ) {
 
 		if ( empty( $entry_id ) ) {
 			return '';
 		}
 
-		// If user is not logged in, try to get the user from the entry.
-		// Needed if we try to get the user during cron.
-		$entry = wpforms()->get( 'entry' );
+		$entry = wpforms()->obj( 'entry' );
 
 		if ( empty( $entry ) ) {
 			return '';
@@ -140,15 +154,46 @@ abstract class SmartTag {
 	 *
 	 * @since 1.8.7
 	 *
-	 * @param int $form_id Form ID.
+	 * @param int $post_id Submitted post ID.
 	 *
 	 * @return WP_User|false WP_User object on success, false on failure.
 	 */
-	public function get_author( $form_id ) {
+	public function get_author( $post_id ) {
 
-		$author_id = get_post_field( 'post_author', $form_id );
+		$author_id = get_post_field( 'post_author', $post_id );
 
 		return get_user_by( 'id', $author_id );
+	}
+
+	/**
+	 * Get author property.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param int|string $entry_id Entry ID.
+	 * @param string     $meta_key User property.
+	 *
+	 * @return string
+	 */
+	protected function get_author_meta( $entry_id, string $meta_key ): string {
+
+		if ( empty( $entry_id ) ) {
+			return '';
+		}
+
+		$page_id = $this->get_meta( $entry_id, 'page_id' );
+
+		if ( empty( $page_id ) ) {
+			return '';
+		}
+
+		$author = $this->get_author( $page_id );
+
+		if ( ! $author ) {
+			return '';
+		}
+
+		return $author->{$meta_key} ?? '';
 	}
 
 	/**
@@ -167,7 +212,7 @@ abstract class SmartTag {
 			return '';
 		}
 
-		$entry_meta = wpforms()->get( 'entry_meta' );
+		$entry_meta = wpforms()->obj( 'entry_meta' );
 
 		if ( empty( $entry_meta ) ) {
 			return '';
@@ -182,5 +227,74 @@ abstract class SmartTag {
 		);
 
 		return $meta[0]->data ?? '';
+	}
+
+	/**
+	 * Get formatted field value.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param int    $field_id  Field ID.
+	 * @param array  $fields    List of fields.
+	 * @param string $field_key Field key to get value from.
+	 *
+	 * @return mixed|string
+	 */
+	protected function get_formatted_field_value( int $field_id, array $fields, string $field_key ) {
+
+		$value = $fields[ $field_id ][ $field_key ] ?? '';
+
+		/**
+		 * Allow modifying the formatted field value.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param string $value     Field value.
+		 * @param int    $field_id  Field ID.
+		 * @param array  $fields    List of fields.
+		 * @param string $field_key Field key to get value from.
+		 *
+		 * @return string
+		 */
+		$value = (string) apply_filters( 'wpforms_smart_tags_formatted_field_value', $value, $field_id, $fields, $field_key ); //phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+
+		if ( ! wpforms_is_repeated_field( $field_id, $fields ) ) {
+			return $value;
+		}
+
+		return $this->get_repeated_field_value( $value, $field_id, $fields, $field_key );
+	}
+
+	/**
+	 * Get repeated fields value.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param string $value     Field value.
+	 * @param int    $field_id  Field ID.
+	 * @param array  $fields    List of fields.
+	 * @param string $field_key Field key to get value from.
+	 *
+	 * @return string
+	 */
+	private function get_repeated_field_value( string $value, int $field_id, array $fields, string $field_key ): string {
+
+		$comma_separated_contexts = [ 'notification-send-to-email', 'notification-carboncopy' ];
+		$prefix                   = $field_id . '_';
+		$separator                = in_array( $this->context, $comma_separated_contexts, true ) ? ',' : "\n";
+
+		foreach ( $fields as $key => $field ) {
+			if ( strpos( $key, $prefix ) !== 0 ) {
+				continue;
+			}
+
+			if ( ! isset( $field[ $field_key ] ) ) {
+				continue;
+			}
+
+			$value .= $separator . $field[ $field_key ];
+		}
+
+		return $value;
 	}
 }

@@ -12,6 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 
 	/**
+	 * Panel title.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @var string
+	 */
+	private $title;
+
+	/**
 	 * All systems go.
 	 *
 	 * @since 1.7.3
@@ -24,6 +33,10 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 		$this->icon    = 'fa-history';
 		$this->order   = 10;
 		$this->sidebar = true;
+
+		$this->title = $this->form && $this->form->post_type === 'wpforms-template' ?
+			__( 'Form Template Revisions', 'wpforms-lite' ) :
+			__( 'Form Revisions', 'wpforms-lite' );
 
 		$this->hooks();
 	}
@@ -57,7 +70,7 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 
 		$badge = '';
 
-		if ( $this->form && ! wp_revisions_enabled( $this->form ) && ! wpforms()->get( 'revisions' )->panel_viewed() ) {
+		if ( $this->form && ! wp_revisions_enabled( $this->form ) && ! wpforms()->obj( 'revisions' )->panel_viewed() ) {
 			$badge = '
 				<span class="badge-exclamation">
 					<svg width="4" height="10" fill="none">
@@ -79,7 +92,7 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 			$badge,
 			esc_attr( $this->icon ),
 			esc_html( $this->name ),
-			esc_html__( 'Form Revisions', 'wpforms-lite' )
+			esc_html( $this->title )
 		);
 	}
 
@@ -100,13 +113,13 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 				<h3>%s</h3>
 				<p>%s</p>
 			</div>',
-			esc_html__( 'Form Revisions', 'wpforms-lite' ),
+			esc_html( $this->title ),
 			esc_html__( 'Select a revision to roll back to that version. All changes, including settings, will be reverted.', 'wpforms-lite' )
 		);
 
 		// Render a list of form revisions, including current version. All data is safe, escaped in the template.
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo wpforms()->get( 'revisions' )->render_revisions_list();
+		echo wpforms()->obj( 'revisions' )->render_revisions_list();
 
 		$revisions_to_keep = wp_revisions_to_keep( $this->form );
 
@@ -136,7 +149,7 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 	 */
 	public function panel_notice() {
 
-		$revision = wpforms()->get( 'revisions' )->get_revision();
+		$revision = wpforms()->obj( 'revisions' )->get_revision();
 
 		if ( ! $revision ) {
 			return;
@@ -146,7 +159,7 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 			'<a href="%1$s">%2$s</a>',
 			esc_url(
 				wp_nonce_url(
-					wpforms()->get( 'revisions' )->get_url(
+					wpforms()->obj( 'revisions' )->get_url(
 						[
 							'revision_id' => $revision->ID,
 							'action'      => 'restore_revision',
@@ -161,14 +174,14 @@ class WPForms_Builder_Panel_Revisions extends WPForms_Builder_Panel {
 
 		$back_link = sprintf(
 			'<a href="%1$s">%2$s</a>',
-			esc_url( wpforms()->get( 'revisions' )->get_url() ),
+			esc_url( wpforms()->obj( 'revisions' )->get_url() ),
 			__( 'go back to the current version', 'wpforms-lite' )
 		);
 
 		$message = sprintf( /* translators: %1$s - revision date, %2$s - revision time, %3$s - "Restore this revision" link, %4$s - "go back to the current version" link. */
 			__( 'You’re currently viewing a form revision from %1$s at %2$s. %3$s or %4$s.', 'wpforms-lite' ),
-			wpforms()->get( 'revisions' )->get_formatted_datetime( $revision->post_modified_gmt ),
-			wpforms()->get( 'revisions' )->get_formatted_datetime( $revision->post_modified_gmt, 'time' ),
+			wpforms()->obj( 'revisions' )->get_formatted_datetime( $revision->post_modified_gmt ),
+			wpforms()->obj( 'revisions' )->get_formatted_datetime( $revision->post_modified_gmt, 'time' ),
 			$restore_link,
 			$back_link
 		);

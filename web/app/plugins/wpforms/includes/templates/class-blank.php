@@ -32,7 +32,7 @@ class WPForms_Template_Blank extends WPForms_Template {
 			'field_id' => '1',
 			'fields'   => [],
 			'settings' => [
-				'antispam'                    => '1',
+				'antispam_v3'                 => '1',
 				'ajax_submit'                 => '1',
 				'confirmation_message_scroll' => '1',
 				'submit_text_processing'      => esc_html__( 'Sending...', 'wpforms-lite' ),

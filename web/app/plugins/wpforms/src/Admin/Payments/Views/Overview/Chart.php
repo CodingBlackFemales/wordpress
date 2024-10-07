@@ -107,6 +107,7 @@ class Chart {
 						'chosen_filter' => $chosen_filter,
 						'choices'       => $choices,
 						'value'         => $value,
+						'hidden_fields' => [ 'statcard' ],
 					],
 					true
 				);
@@ -173,10 +174,7 @@ class Chart {
 
 		echo wpforms_render(
 			'admin/payments/reports',
-			[
-				'current'   => self::ACTIVE_REPORT,
-				'statcards' => self::stat_cards(),
-			],
+			$this->get_reports_template_args(),
 			true
 		);
 
@@ -244,7 +242,7 @@ class Chart {
 			],
 			'total_subscription'         => [
 				'label'          => esc_html__( 'New Subscriptions', 'wpforms-lite' ),
-				'condition'      => wpforms()->get( 'payment_queries' )->has_subscription(),
+				'condition'      => wpforms()->obj( 'payment_queries' )->has_subscription(),
 				'has_count'      => true,
 				'funnel'         => [
 					'in'     => [
@@ -261,7 +259,7 @@ class Chart {
 			],
 			'total_renewal_subscription' => [
 				'label'          => esc_html__( 'Subscription Renewals', 'wpforms-lite' ),
-				'condition'      => wpforms()->get( 'payment_queries' )->has_subscription(),
+				'condition'      => wpforms()->obj( 'payment_queries' )->has_subscription(),
 				'has_count'      => true,
 				'funnel'         => [
 					'in'     => [
@@ -290,5 +288,49 @@ class Chart {
 				],
 			],
 		];
+	}
+
+	/**
+	 * Retrieves the arguments for the reports template.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return array
+	 */
+	private function get_reports_template_args(): array {
+
+		// Retrieve the stat cards.
+		$stat_cards = self::stat_cards();
+
+		// Set default arguments.
+		$args = [
+			'current'   => self::ACTIVE_REPORT,
+			'statcards' => $stat_cards,
+		];
+
+		// Check if the statcard is set in the URL.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['statcard'] ) ) {
+			return $args;
+		}
+
+		// Sanitize and retrieve the tab value from the URL.
+		$active_report = sanitize_text_field( wp_unslash( $_GET['statcard'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		// If the statcard is not valid, return default arguments.
+		if ( ! isset( $stat_cards[ $active_report ] ) ) {
+			return $args;
+		}
+
+		// If the statcard is not going to be displayed, return default arguments.
+		if ( isset( $stat_cards[ $active_report ]['condition'] ) && ! $stat_cards[ $active_report ]['condition'] ) {
+			return $args;
+		}
+
+		// Set the current statcard.
+		$args['current'] = $active_report;
+
+		return $args;
 	}
 }

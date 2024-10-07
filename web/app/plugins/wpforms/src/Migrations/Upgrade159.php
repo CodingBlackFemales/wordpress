@@ -23,7 +23,7 @@ class Upgrade159 extends UpgradeBase {
 	 */
 	public function run() {
 
-		$meta = wpforms()->get( 'tasks_meta' );
+		$meta = wpforms()->obj( 'tasks_meta' );
 
 		if ( ! $meta ) {
 			return false;

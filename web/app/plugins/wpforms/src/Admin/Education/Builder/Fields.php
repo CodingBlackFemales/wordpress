@@ -42,6 +42,6 @@ abstract class Fields extends AddonsItemBase {
 		parent::init();
 
 		// Store the instance of the Education\Fields class.
-		$this->fields = wpforms()->get( 'education_fields' );
+		$this->fields = wpforms()->obj( 'education_fields' );
 	}
 }

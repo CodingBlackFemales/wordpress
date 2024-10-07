@@ -3,11 +3,11 @@
  * Plugin Name: WP Job Manager - WooCommerce Paid Listings
  * Plugin URI: https://wpjobmanager.com/add-ons/wc-paid-listings/
  * Description: Add paid listing functionality via WooCommerce. Create 'job packages' as products with their own price, listing duration, listing limit, and job featured status and either sell them via your store or during the job submission process. A user's packages are shown on their account page and can be used to post future jobs if they allow more than 1 job listing. Also allows 'resume packages' if using the resumes add-on.
- * Version: 3.0.2
+ * Version: 3.0.3
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 6.1
- * Tested up to: 6.4
+ * Requires at least: 6.2
+ * Tested up to: 6.5
  * Requires PHP: 7.4
  * Text Domain: wp-job-manager-wc-paid-listings
  * Domain Path: /languages/
@@ -16,7 +16,7 @@
  *
  * WPJM-Product: wp-job-manager-wc-paid-listings
  *
- * Copyright: 2022 Automattic
+ * Copyright: 2024 Automattic
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants
-define( 'JOB_MANAGER_WCPL_VERSION', '3.0.2' );
+define( 'JOB_MANAGER_WCPL_VERSION', '3.0.3' );
 define( 'JOB_MANAGER_WCPL_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'JOB_MANAGER_WCPL_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 define( 'JOB_MANAGER_WCPL_TEMPLATE_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) . '/templates/' );
@@ -326,6 +326,7 @@ class WC_Paid_Listings {
 				''       => __( 'Choose a package after entering job details', 'wp-job-manager-wc-paid-listings' ),
 				'before' => __( 'Choose a package before entering job details', 'wp-job-manager-wc-paid-listings' ),
 			),
+			'track'   => 'value',
 		);
 		return $settings;
 	}
@@ -347,6 +348,7 @@ class WC_Paid_Listings {
 				''       => __( 'Choose a package after entering resume details', 'wp-job-manager-wc-paid-listings' ),
 				'before' => __( 'Choose a package before entering resume details', 'wp-job-manager-wc-paid-listings' ),
 			),
+			'track'   => 'value',
 		);
 		return $settings;
 	}

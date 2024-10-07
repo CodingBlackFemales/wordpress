@@ -1,10 +1,14 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 namespace WPForms\Migrations;
 
 use ReflectionClass;
 use WPForms\Helpers\DB;
-use WPForms\Helpers\Transient;
 
 /**
  * Class Migrations handles both Lite and Pro plugin upgrade routines.
@@ -30,6 +34,20 @@ abstract class Base {
 	const CURRENT_VERSION = WPFORMS_VERSION;
 
 	/**
+	 * WP option name to store the upgraded from version number.
+	 *
+	 * @since 1.8.8
+	 */
+	const UPGRADED_FROM_OPTION_NAME = 'wpforms_version_upgraded_from';
+
+	/**
+	 * WP option name to store the previous plugin version.
+	 *
+	 * @since 1.8.8
+	 */
+	const PREVIOUS_CORE_VERSION_OPTION_NAME = 'wpforms_version_previous';
+
+	/**
 	 * Name of the core plugin used in log messages.
 	 *
 	 * @since 1.7.5
@@ -42,13 +60,6 @@ abstract class Base {
 	 * @since 1.7.5
 	 */
 	const UPGRADE_CLASSES = [];
-
-	/**
-	 * Custom table handler classes.
-	 *
-	 * @since 1.7.6
-	 */
-	const CUSTOM_TABLE_HANDLER_CLASSES = [];
 
 	/**
 	 * Migration started status.
@@ -143,7 +154,7 @@ abstract class Base {
 	 *
 	 * @noinspection NotOptimalIfConditionsInspection
 	 */
-	public function migrate() {
+	public function migrate() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$classes   = $this->get_upgrade_classes();
 		$namespace = $this->reflector->getNamespaceName() . '\\';
@@ -185,6 +196,35 @@ abstract class Base {
 	}
 
 	/**
+	 * Runs when the core plugin has been upgraded.
+	 *
+	 * @since 1.8.8
+	 */
+	private function core_upgraded() {
+
+		if ( ! $this->is_core_plugin() ) {
+			return;
+		}
+
+		// Store the previous version from which the core plugin was upgraded.
+		$upgraded_from = get_option( static::UPGRADED_FROM_OPTION_NAME, '' );
+
+		// Store the previous core version in the option.
+		update_option( static::PREVIOUS_CORE_VERSION_OPTION_NAME, $upgraded_from );
+
+		/**
+		 * Fires after the core plugin has been upgraded.
+		 * Please note: some of the migrations that run via Active Scheduler can be not completed yet.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param string $upgraded_from The version from which the core plugin was upgraded.
+		 * @param Base   $migration_obj The migration class instance.
+		 */
+		do_action( 'wpforms_migrations_base_core_upgraded', $upgraded_from, $this );
+	}
+
+	/**
 	 * If upgrade has occurred, update versions option in the database.
 	 *
 	 * @since 1.7.5
@@ -201,8 +241,8 @@ abstract class Base {
 		 */
 		$migrated[ static::CURRENT_VERSION ] = $migrated[ static::CURRENT_VERSION ] ?? time();
 
-		ksort( $last_migrated );
-		ksort( $migrated );
+		uksort( $last_migrated, 'version_compare' );
+		uksort( $migrated, 'version_compare' );
 
 		if ( $migrated === $last_migrated ) {
 			return;
@@ -244,7 +284,10 @@ abstract class Base {
 			return;
 		}
 
-		update_option( 'wpforms_version_upgraded_from', $this->get_max_version( $last_completed ) );
+		// Store the current core version in the option.
+		update_option( static::UPGRADED_FROM_OPTION_NAME, $this->get_max_version( $last_completed ) );
+
+		$this->core_upgraded();
 	}
 
 	/**
@@ -272,14 +315,22 @@ abstract class Base {
 	 *
 	 * @return string
 	 */
-	protected function get_upgrade_version( string $class_name ): string {
+	public function get_upgrade_version( string $class_name ): string {
 
-		// Find only the digits to get version number.
-		if ( ! preg_match( '/\d+/', $class_name, $matches ) ) {
+		// Find only the digits and underscores to get version number.
+		if ( ! preg_match( '/(\d_?)+/', $class_name, $matches ) ) {
 			return '';
 		}
 
-		return implode( '.', str_split( $matches[0] ) );
+		$raw_version = $matches[0];
+
+		if ( strpos( $raw_version, '_' ) ) {
+			// Modern notation: 1_10_0_3 means 1.10.0.3 version.
+			return str_replace( '_', '.', $raw_version );
+		}
+
+		// Legacy notation, with 1-digit subversion numbers: 1751 means 1.7.5.1 version.
+		return implode( '.', str_split( $raw_version ) );
 	}
 
 	/**
@@ -298,22 +349,22 @@ abstract class Base {
 	}
 
 	/**
-	 * Log message to WPForms logger and standard debug.log file.
+	 * Force log message to WPForms logger.
 	 *
 	 * @since 1.7.5
 	 *
 	 * @param string $message The error message that should be logged.
-	 *
-	 * @noinspection ForgottenDebugOutputInspection
-	 * @noinspection PhpUndefinedConstantInspection
 	 */
 	protected function log( string $message ) {
 
-		if ( defined( 'WPFORMS_DEBUG' ) && WPFORMS_DEBUG ) {
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			error_log( $message );
-			wpforms_log( 'Migration', $message, [ 'type' => 'log' ] );
-		}
+		wpforms_log(
+			'Migration',
+			$message,
+			[
+				'type'  => 'log',
+				'force' => true,
+			]
+		);
 	}
 
 	/**
@@ -347,22 +398,7 @@ abstract class Base {
 			return;
 		}
 
-		// We need actual information about existing tables, so drop the cache.
-		Transient::delete( DB::EXISTING_TABLES_TRANSIENT_NAME );
-
-		$custom_tables = DB::get_existing_custom_tables();
-
-		foreach ( static::CUSTOM_TABLE_HANDLER_CLASSES as $custom_table_handler_class ) {
-			if ( ! class_exists( $custom_table_handler_class ) ) {
-				continue;
-			}
-
-			$custom_table_handler = new $custom_table_handler_class();
-
-			if ( ! in_array( $custom_table_handler->table_name, $custom_tables, true ) ) {
-				$custom_table_handler->create_table();
-			}
-		}
+		DB::create_custom_tables( true );
 
 		$this->tables_check_done = true;
 	}

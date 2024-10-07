@@ -1,5 +1,10 @@
 *** WordPress Job Manager Resumes changelog ***
 
+2024-04-29 - version 2.2.0
+* New: Add support for reCAPTCHA v3
+* Security Fix: Check if the user can manage resumes before bulk-approving
+* Security Fix: Add a nonce check to the resume page setup wizard
+
 2024-02-02 - version 2.1.0
 * Update the 'School' string to 'Institution' and 'Qualification' to 'Certification'
 * Fix: Do not return current directory when there are no resumes attached

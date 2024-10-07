@@ -29,20 +29,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 	<div class="inside">
-
-		<?php foreach ( $entry_fields as $key => $field ) : ?>
-
-			<div class="wpforms-payment-entry-field <?php echo wpforms_sanitize_classes( $field['field_class'] ); ?>" >
-
-				<p class="wpforms-payment-entry-field-name">
-					<?php echo esc_html( wp_strip_all_tags( $field['field_name'] ) ); ?>
-				</p>
-
-				<div class="wpforms-payment-entry-field-value">
-					<?php echo wp_kses_post( nl2br( make_clickable( $field['field_value'] ) ) ); ?>
-				</div>
-			</div>
-		<?php endforeach; ?>
+		<?php
+		foreach ( $entry_fields as $key => $field ) {
+			if ( $field['type'] === 'repeater' && wpforms()->is_pro() ) {
+				echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'admin/payments/single/repeater',
+					[
+						'field'        => $field,
+						'form_data'    => $form_data,
+						'entry_fields' => $entry_fields,
+					],
+					true
+				);
+			} else {
+				echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'admin/payments/single/field',
+					[
+						'field' => $field,
+					],
+					true
+				);
+			}
+		}
+		?>
 	</div>
 
 	<?php if ( $entry_id_title && $entry_status !== 'trash' ) : ?>

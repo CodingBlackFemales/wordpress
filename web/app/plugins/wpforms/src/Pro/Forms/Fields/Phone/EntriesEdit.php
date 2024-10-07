@@ -41,8 +41,8 @@ class EntriesEdit extends \WPForms\Pro\Forms\Fields\Base\EntriesEdit {
 		// Load International Telephone Input library - https://github.com/jackocnr/intl-tel-input.
 		wp_enqueue_script(
 			'wpforms-smart-phone-field',
-			WPFORMS_PLUGIN_URL . 'assets/pro/lib/intl-tel-input/jquery.intl-tel-input.min.js',
-			[ 'jquery' ],
+			WPFORMS_PLUGIN_URL . 'assets/pro/lib/intl-tel-input/module.intl-tel-input.min.js',
+			[],
 			WPForms_Field_Phone::INTL_VERSION,
 			true
 		);
@@ -52,7 +52,7 @@ class EntriesEdit extends \WPForms\Pro\Forms\Fields\Base\EntriesEdit {
 			'wpforms-maskedinput',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.inputmask.min.js',
 			[ 'jquery' ],
-			'5.0.7-beta.29',
+			'5.0.9',
 			true
 		);
 	}

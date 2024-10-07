@@ -25,8 +25,6 @@ namespace WPForms\Vendor\Stripe\Treasury;
 class Transaction extends \WPForms\Vendor\Stripe\ApiResource
 {
     const OBJECT_NAME = 'treasury.transaction';
-    use \WPForms\Vendor\Stripe\ApiOperations\All;
-    use \WPForms\Vendor\Stripe\ApiOperations\Retrieve;
     const FLOW_TYPE_CREDIT_REVERSAL = 'credit_reversal';
     const FLOW_TYPE_DEBIT_REVERSAL = 'debit_reversal';
     const FLOW_TYPE_INBOUND_TRANSFER = 'inbound_transfer';
@@ -39,4 +37,36 @@ class Transaction extends \WPForms\Vendor\Stripe\ApiResource
     const STATUS_OPEN = 'open';
     const STATUS_POSTED = 'posted';
     const STATUS_VOID = 'void';
+    /**
+     * Retrieves a list of Transaction objects.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Treasury\Transaction> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+        return static::_requestPage($url, \WPForms\Vendor\Stripe\Collection::class, $params, $opts);
+    }
+    /**
+     * Retrieves the details of an existing Transaction.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Treasury\Transaction
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \WPForms\Vendor\Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+        return $instance;
+    }
 }

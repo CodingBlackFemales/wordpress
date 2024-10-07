@@ -185,26 +185,49 @@ class SmartTags {
 		foreach ( $smart_tags as $smart_tag => $tag_name ) {
 			$class_name       = $this->get_smart_tag_class_name( $tag_name );
 			$smart_tag_object = new $class_name( $smart_tag, $context );
+			$value            = $smart_tag_object->get_value( $form_data, $fields, $entry_id );
+			$field_id         = $smart_tag_object->get_attributes()['field_id'] ?? 0;
+			$field_id         = (int) explode( '|', $field_id )[0];
+
+			if (
+				$context === 'confirmation_redirect' &&
+				$field_id > 0 &&
+				in_array(
+					$fields[ $field_id ]['type'],
+					wpforms_get_multi_fields(),
+					true
+				)
+			) {
+				// Protect from the case where user already placed a pipe in the value.
+				$value = str_replace(
+					[ "\r\n", "\r", "\n", '|' ],
+					[ rawurlencode( '|' ), '|', '|', '|' ],
+					$value
+				);
+			}
 
 			/**
 			 * Modify the smart tag value.
 			 *
 			 * @since 1.6.7
 			 * @since 1.6.7.1 Added the 5th argument.
+			 * @since 1.9.0 Added the 6th argument.
 			 *
 			 * @param scalar|null $value            Smart Tag value.
 			 * @param array       $form_data        Form data.
 			 * @param string      $fields           List of fields.
 			 * @param int         $entry_id         Entry ID.
 			 * @param SmartTag    $smart_tag_object The smart tag object or the Generic object for those cases when class unregistered.
+			 * @param string      $context          Context.
 			 */
-			$value = apply_filters(
+			$value = apply_filters( // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 				"wpforms_smarttags_process_{$tag_name}_value",
-				$smart_tag_object->get_value( $form_data, $fields, $entry_id ),
+				$value,
 				$form_data,
 				$fields,
 				$entry_id,
-				$smart_tag_object
+				$smart_tag_object,
+				$context
 			);
 
 			/**

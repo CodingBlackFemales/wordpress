@@ -85,14 +85,14 @@ var WPFormsPagesSMTP = window.WPFormsPagesSMTP || ( function( document, window, 
 		 */
 		stepInstallClick: function() {
 
-			var $btn = $( this ),
-				action = $btn.attr( 'data-action' ),
-				plugin = $btn.attr( 'data-plugin' ),
-				ajaxAction = '';
+			const $btn = $( this );
 
 			if ( $btn.hasClass( 'disabled' ) ) {
 				return;
 			}
+
+			const action = $btn.attr( 'data-action' );
+			let ajaxAction = '';
 
 			switch ( action ) {
 				case 'activate':
@@ -116,12 +116,17 @@ var WPFormsPagesSMTP = window.WPFormsPagesSMTP || ( function( document, window, 
 			$btn.addClass( 'disabled' );
 			app.showSpinner( el.$stepInstallNum );
 
-			var data = {
+			const plugin = $btn.attr( 'data-plugin' ),
+				source = $btn.attr( 'data-source' );
+
+			const data = {
 				action: ajaxAction,
-				nonce : wpforms_admin.nonce,
-				plugin: plugin,
-				type  : 'plugin',
+				nonce: wpforms_admin.nonce,
+				plugin,
+				type: 'plugin',
+				source,
 			};
+
 			$.post( wpforms_admin.ajax_url, data )
 				.done( function( res ) {
 					app.stepInstallDone( res, $btn, action );
