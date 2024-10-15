@@ -7714,15 +7714,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-maintenance-mode",
-            "version": "2.6.12",
+            "version": "2.6.13",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.6.12"
+                "reference": "tags/2.6.13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.12.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.13.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
