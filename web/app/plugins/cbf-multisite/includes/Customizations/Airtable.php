@@ -53,9 +53,7 @@ class Airtable {
 			'pageSize' => 1,
 		);
 		$request = $api->getContent( AIRTABLE_REPORTS_TABLE, $params );
-		$latest_activity_id = 0;
-
-		// TODO: add error handling
+		$latest_activity_id = PHP_INT_MAX;
 		$response = $request->getResponse();
 		$results = $response['records'];
 
