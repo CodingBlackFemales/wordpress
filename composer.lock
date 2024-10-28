@@ -7264,15 +7264,15 @@
         },
         {
             "name": "wpackagist-plugin/drip",
-            "version": "1.1.7",
+            "version": "1.1.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/drip/",
-                "reference": "tags/1.1.7"
+                "reference": "tags/1.1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/drip.1.1.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/drip.1.1.8.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
