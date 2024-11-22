@@ -1,13 +1,43 @@
 path: web/wp
 
-"@development":
+"@dev":
   path: web/wp
 
-"@staging":
-  ssh: # Staging SSH details here
+"@dev-academy":
+  path: web/wp
+  url: https://academy.codingblackfemales.lndo.site
 
-"@production":
-  ssh: # Production SSH details here
+"@dev-jobs":
+  path: web/wp
+  url: https://jobs.codingblackfemales.lndo.site
+
+"@staging":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+
+"@staging-academy":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+  url: https://staging.codingblackfemales.com/academy
+
+"@staging-jobs":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+  url: https://staging.codingblackfemales.com/jobs
+
+"@prod":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+
+"@prod-academy":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+  url: https://academy.codingblackfemales.com
+
+"@prod-jobs":
+  ssh: # user@server
+  path: # /path/to/wordpress/web/wp
+  url: https://jobs.codingblackfemales.com
 
 server:
   docroot: web
