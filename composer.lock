@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1c22fff5e48b5790550693656f9636d",
+    "content-hash": "eed896f4453fbc5bdd24b69dbd71c34a",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7719,6 +7719,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-job-manager/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-job-manager-xml-csv-listings-import",
+            "version": "1.2.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-job-manager-xml-csv-listings-import/",
+                "reference": "tags/1.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-job-manager-xml-csv-listings-import.1.2.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-job-manager-xml-csv-listings-import/"
         },
         {
             "name": "wpackagist-plugin/wp-mail-smtp",
