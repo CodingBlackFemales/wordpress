@@ -1,0 +1,405 @@
+.pmxi-addon-group {
+  --border-color: rgb(229, 231, 235);
+  --primary-color: #425e99;
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(17, 24, 39, 0.05);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.pmxi-addon-group .postbox-title {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 18px;
+  color: var(--primary-color);
+}
+
+.pmxi-addon-groups-output {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.pmxi-addon-preloader {
+  background: url("../img/preloader.png");
+  width: 80px;
+  height: 10px;
+  margin: 20px auto;
+}
+
+.pxmi-progress-bar {
+  display: block;
+  height: 4px;
+  background-color: rgba(5, 114, 206, 0.2);
+  width: 100%;
+  overflow: hidden;
+}
+
+.pxmi-progress-bar::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(5, 114, 206);
+  animation: pmxi-indeterminate-animation 1s infinite linear;
+  transform-origin: 0% 50%;
+}
+
+@keyframes pmxi-indeterminate-animation {
+  0% {
+    transform: translateX(0) scaleX(0);
+  }
+
+  40% {
+    transform: translateX(0) scaleX(0.4);
+  }
+
+  100% {
+    transform: translateX(100%) scaleX(0.5);
+  }
+}
+
+.pmxi-no-fields {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/*---------------------------------------------------------------------------------------------
+*
+*  Basic Field Styles
+*
+*---------------------------------------------------------------------------------------------*/
+
+.pmxi-addon-group .field {
+  display: block;
+  top: 0;
+  padding: 10px 18px 13px;
+  background-color: #fff;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  width: auto;
+  height: auto;
+  border-radius: 0;
+}
+
+.pmxi-addon-group .field::before {
+  display: none;
+}
+
+.pmxi-addon-group .field input[type="text"],
+.pmxi-addon-group .field input[type="number"],
+.pmxi-addon-group .field input[type="password"],
+.pmxi-addon-group .field input[type="email"],
+.pmxi-addon-group .field textarea {
+  width: 100%;
+  padding: 0 8px;
+  resize: none;
+  margin: 0;
+  height: 40px;
+  box-shadow: 0 0 0 transparent;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #2c3338;
+  font-size: 12px;
+}
+
+.pmxi-addon-group .field input[type="text"]::placeholder,
+.pmxi-addon-group .field input[type="number"]::placeholder,
+.pmxi-addon-group .field input[type="password"]::placeholder,
+.pmxi-addon-group .field input[type="email"]::placeholder,
+.pmxi-addon-group .field textarea::placeholder {
+  color: #ccc;
+}
+
+.pmxi-addon-group .field.field-type-time input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 512 512'%3E%3Cpath d='M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z'/%3E%3C/svg%3E");
+}
+
+.pmxi-addon-group .field.field-type-date input,
+.pmxi-addon-group .field.field-type-datetime input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='1em' viewBox='0 0 448 512'%3E%3Cpath d='M152 24V0H104V24 64H0v80 48V464v48H48 400h48V464 192 144 64H344V24 0H296V24 64H152V24zM48 192h80v56H48V192zm0 104h80v64H48V296zm128 0h96v64H176V296zm144 0h80v64H320V296zm80-48H320V192h80v56zm0 160v56H320V408h80zm-128 0v56H176V408h96zm-144 0v56H48V408h80zM272 248H176V192h96v56z'/%3E%3C/svg%3E");
+}
+
+.pmxi-addon-group .field.field-type-time input,
+.pmxi-addon-group .field.field-type-date input,
+.pmxi-addon-group .field.field-type-datetime input {
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  padding-left: 35px;
+}
+
+.pmxi-addon-group .field input.small {
+  height: 20px;
+  margin: 10px;
+  margin-top: 0;
+}
+
+.pmxi-addon-group .field textarea {
+  resize: vertical;
+  min-height: 150px;
+  padding: 8px;
+}
+
+.pmxi-addon-group .field select {
+  width: 100%;
+  padding: 8px;
+  resize: none;
+  border-radius: 4px;
+  height: 40px;
+}
+
+.pmxi-addon-group .field select optgroup {
+  padding: 5px;
+  background: #fff;
+}
+
+.pmxi-addon-group .field select option {
+  padding: 3px;
+}
+
+.pmxi-addon-group .field select optgroup option {
+  padding-left: 5px;
+}
+
+.pmxi-addon-group .field select optgroup:nth-child(2n) {
+  background: #f9f9f9;
+}
+
+.pmxi-addon-group .sub_input {
+  max-width: 330px;
+}
+
+.pmxi-addon-input-wrap {
+  padding-bottom: 3px;
+}
+
+.pmxi-addon-subfields {
+  margin-top: 10px;
+}
+
+.pmxi-addon-input-wrap div.input:nth-of-type(1) {
+  margin-top: 0;
+  margin-right: 0;
+}
+
+/* Choices */
+
+.pmxi-addon-checkbox-list {
+  display: block;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pmxi-addon-checkbox-list li {
+  margin: 0;
+}
+
+/* Switcher */
+
+.pmxi-switcher-radio-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.pmxi-switcher-radio-item {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 0.7em 0.6em 0.6em 0.3em;
+  font-weight: 500;
+}
+
+.pmxi-switcher-radio-item.active {
+  color: #1e3a8a;
+  border-color: #bfdbfe;
+  background-color: #eff6ff;
+}
+
+.pmxi-switcher-radio-item.active input[type="radio"] {
+  border-color: #2563eb;
+}
+
+.pmxi-switcher-radio-item.active input[type="radio"]:checked::before {
+  background-color: #2563eb;
+}
+
+.pmxi-switcher-target {
+  max-width: 25rem;
+}
+
+.pmxi-switcher-target--expanded {
+  max-width: none;
+}
+
+/* Toggle */
+
+.pxmi-addon-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  background-color: #e5e7eb;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pxmi-addon-toggle:has(:checked) {
+  background-color: #4caf50;
+}
+
+.pxmi-addon-toggle__input {
+  display: none !important;
+}
+
+.pxmi-addon-toggle__bullet {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.pxmi-addon-toggle__input:checked + .pxmi-addon-toggle__bullet {
+  transform: translateX(20px);
+}
+
+/* Repeaters */
+
+.pmxi-repeater {
+  background-color: #fafafa;
+  padding: 25px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  margin-top: 10px;
+}
+
+.pmxi-repeater-mode .pmxi-switcher-target {
+  max-width: none;
+}
+
+.pmxi-repeater-foreach {
+  width: 50% !important;
+  margin: 10px !important;
+  margin-top: 0!important;
+}
+
+.pmxi-repeater-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pmxi-repeater-row {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.pmxi-repeater-row-header {
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+  padding: 15px;
+}
+
+.pmxi-repeater-remove-row {
+  display: none;
+}
+
+.pmxi-repeater-remove-row svg {
+  pointer-events: none;
+}
+
+.pmxi-repeater-remove-row:hover svg {
+  fill: #e53935;
+}
+
+.pmxi-repeater-actions {
+  display: none;
+  text-align: right;
+  margin-top: 20px;
+}
+
+.is-fixed :where(.pmxi-repeater-remove-row, .pmxi-repeater-actions) {
+  display: block;
+}
+
+/* Separator */
+
+.pmxi-addon-separator {
+  border-top: 1px solid var(--border-color);
+  padding: 18px;
+  background: #fafafa;
+}
+
+.pmxi-addon-separator-content {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.pmxi-addon-separator__title {
+  padding: 0 10px;
+  font-size: 14px;
+  color: var(--primary-color);
+}
+
+/* Helpers */
+.pmxi-addon-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Map Field */
+
+.is-switcher-jetengine_location_manual .pmxi-addon-map-settings {
+  display: none;
+}
+
+.pmxi-addon-map-settings {
+  max-width: 25rem;
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.pmxi-addon-map-settings-header {
+  > label {
+    color: #40acad!important;
+    font-size: 12px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0!important;
+    padding: 8px 13px 6px;
+    background: url('../../../static/img/ui_4.0/collapser.png') no-repeat 98% -30px;
+    box-sizing: border-box;
+    height: 30px;
+    line-height: 1;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked + label {
+    background-position-y: 0;
+  }
+}
+
+.pmxi-addon-map-settings-content {
+  padding: 0 13px 13px;
+  background-color: #fff;
+}
