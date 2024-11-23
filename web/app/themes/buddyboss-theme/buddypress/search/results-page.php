@@ -7,7 +7,5 @@
 ?>
 
 <div id="buddypress">
-
 	<?php bp_get_template_part("search/results-page-content"); ?>
-
 </div>

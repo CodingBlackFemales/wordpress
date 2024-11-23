@@ -12,10 +12,11 @@ if ( ! function_exists( 'buddyboss_theme_get_theme_sudharo' ) ) {
 			'staging.',
 			'localhost',
 			'.local',
+			'.rapydapps.cloud',
 		);
 
 		foreach ( $whitelist_domain as $domain ) {
-			if ( isset( $_SERVER ) && isset( $_SERVER['SERVER_NAME'] ) && strpos( $_SERVER['SERVER_NAME'], $domain ) !== false ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			if ( isset( $_SERVER ) && isset( $_SERVER['SERVER_NAME'] ) && false !== strpos( $_SERVER['SERVER_NAME'], $domain ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 				return false;
 			}
 		}
@@ -80,7 +81,7 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
 		// Loop through menu order and do some rearranging.
 		foreach ( $menu_order as $index => $item ) {
 
-			if ( $item === 'buddyboss-settings' ) {
+			if ( 'buddyboss-settings' === $item ) {
 				$buddyboss_menu_order[] = 'separator-buddyboss-theme';
 				$buddyboss_menu_order[] = $item;
 				unset( $menu_order[ $buddyboss_separator ] );
@@ -115,7 +116,7 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
 		// Loop through menu order and do some rearranging.
 		foreach ( $menu_order as $index => $item ) {
 
-			if ( $item === 'plugins.php' ) {
+			if ( 'plugins.php' === $item ) {
 				$plugins_menu_order[] = 'separator-plugins';
 				$plugins_menu_order[] = $item;
 				unset( $menu_order[ $plugins_separator ] );
@@ -139,22 +140,22 @@ if ( ! function_exists( 'register_buddyboss_menu_page' ) ) {
  * Load customizer helper - MUST be loaded before your options are set.
  * Override customizer value fixed here.
  */
-if ( file_exists( __DIR__ . '/customizer-helper/bb-customizer-helper-init.php' ) ) {
-	require_once __DIR__ . '/customizer-helper/bb-customizer-helper-init.php';
+if ( file_exists( dirname( __FILE__ ) . '/customizer-helper/bb-customizer-helper-init.php' ) ) {
+	require_once dirname( __FILE__ ) . '/customizer-helper/bb-customizer-helper-init.php';
 }
 
 /**
  * Load extensions - MUST be loaded before your options are set
  */
-if ( file_exists( __DIR__ . '/buddyboss-extensions/extensions-init.php' ) ) {
-	require_once __DIR__ . '/buddyboss-extensions/extensions-init.php';
+if ( file_exists( dirname( __FILE__ ) . '/buddyboss-extensions/extensions-init.php' ) ) {
+	require_once dirname( __FILE__ ) . '/buddyboss-extensions/extensions-init.php';
 }
 
 /**
  * Load redux
  */
-if ( ! class_exists( 'ReduxFramework' ) && file_exists( __DIR__ . '/framework/redux-core/framework.php' ) ) {
-	require_once __DIR__ . '/framework/redux-core/framework.php';
+if ( ! class_exists( 'ReduxFramework' ) && file_exists( dirname( __FILE__ ) . '/framework/redux-core/framework.php' ) ) {
+	require_once dirname( __FILE__ ) . '/framework/redux-core/framework.php';
 }
 
 /**
@@ -163,11 +164,11 @@ if ( ! class_exists( 'ReduxFramework' ) && file_exists( __DIR__ . '/framework/re
 if ( ! function_exists( 'load_boss_theme_options' ) ) {
 
 	function load_boss_theme_options() {
-		if ( file_exists( __DIR__ . '/options-init.php' ) ) {
-			require_once __DIR__ . '/options-init.php';
+		if ( file_exists( dirname( __FILE__ ) . '/options-init.php' ) ) {
+			require_once dirname( __FILE__ ) . '/options-init.php';
 		}
-		if ( file_exists( __DIR__ . '/plugin-support.php' ) ) {
-			require_once __DIR__ . '/plugin-support.php';
+		if ( file_exists( dirname( __FILE__ ) . '/plugin-support.php' ) ) {
+			require_once dirname( __FILE__ ) . '/plugin-support.php';
 		}
 	}
 
@@ -258,7 +259,7 @@ if ( ! function_exists( 'boss_custom_panel_styles_scripts' ) ) {
 		);
 
 		// Modified css because its not displaying like same as before update redux framework.
-		wp_deregister_style( 'redux-admin-theme-css' );
+		wp_deregister_style( 'redux-admin-theme' );
 		wp_deregister_style( 'redux-admin-css' );
 		wp_enqueue_style(
 			'redux-admin-css',
@@ -355,6 +356,7 @@ if ( ! function_exists( 'redux_options_buddyboss_theme_saved' ) ) {
 		) ) {
 			buddyboss_theme_compressed_transient_delete();
 		}
+
 	}
 
 	add_action( 'redux/options/buddyboss_theme_options/saved', 'redux_options_buddyboss_theme_saved' );
@@ -497,34 +499,6 @@ if ( ! function_exists( 'buddyboss_page_padding_meta_box' ) ) {
 	}
 }
 
-/**
- * Display Hello Screen
- */
-if ( ! function_exists( 'buddyboss_theme_activation_redirect' ) ) {
-	function buddyboss_theme_activation_redirect() {
-		global $pagenow;
-		if ( $pagenow == 'themes.php' && is_admin() && isset( $_GET['activated'] ) ) {
-			wp_redirect( esc_url_raw( add_query_arg( 'hello', 'theme', admin_url() ) ) );
-		}
-	}
-	add_action( 'admin_init', 'buddyboss_theme_activation_redirect' );
-}
-
-/**
- * Display About Screen
- */
-if ( ! function_exists( 'about_theme_screen' ) ) {
-	function about_theme_screen() {
-		if ( strpos( get_current_screen()->id, 'dashboard' ) !== 0 || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
-			return;
-		}
-
-		include get_template_directory() . '/template-parts/admin-hello-theme-popup.php';
-	}
-	// Hello Theme.
-	add_action( 'admin_footer', 'about_theme_screen' );
-}
-
 if ( ! function_exists( 'buddyboss_theme_hello_theme_custom_wp_admin_style' ) ) {
 	function buddyboss_theme_hello_theme_custom_wp_admin_style() {
 		$rtl_css      = is_rtl() ? '-rtl' : '';
@@ -534,7 +508,7 @@ if ( ! function_exists( 'buddyboss_theme_hello_theme_custom_wp_admin_style' ) ) 
 		$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
 		$minjs       = $minified_js ? '.min' : '';
 
-		if ( strpos( get_current_screen()->id, 'dashboard' ) !== 0 || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
+		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'theme' ) {
 
 		} else {
 			wp_register_style( 'buddyboss-theme-hello-css', get_template_directory_uri() . '/assets/css' . $rtl_css . '/hello-theme' . $mincss . '.css', '', buddyboss_theme()->version() );
@@ -554,7 +528,7 @@ if ( ! function_exists( 'buddyboss_theme_hello_theme_custom_wp_admin_style' ) ) 
 if ( ! function_exists( 'buddyboss_theme_ld_30_admin_notice' ) ) {
 	function buddyboss_theme_ld_30_admin_notice() {
 
-		if ( in_array( 'sfwd-lms/sfwd_lms.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'sfwd-lms/sfwd_lms.php', apply_filters( 'active_plugins', (array) get_option( 'active_plugins', array() ) ), true ) ) {
 
 			$plugin_data    = get_plugin_data( trailingslashit( WP_PLUGIN_DIR ) . 'sfwd-lms/sfwd_lms.php' );
 			$plugin_version = ! empty( $plugin_data['Version'] ) ? $plugin_data['Version'] : 0;

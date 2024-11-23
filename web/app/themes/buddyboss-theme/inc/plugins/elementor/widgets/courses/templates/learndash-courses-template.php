@@ -25,17 +25,17 @@ if ( ! defined( 'BB_LMS_WIDGET' ) ) {
 
 $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 ?>
-<div id="<?php echo $nameLower; ?>-content" <?php echo $this->get_render_attribute_string( 'ld-switch' ); ?>>
+<div id="<?php echo $nameLower ?>-content" <?php echo $this->get_render_attribute_string( 'ld-switch' ); ?>>
 	<form data-current_page_url="<?php echo esc_url( $current_page_url ); ?>" id="bb-courses-directory-form" class="bb-elementor-widget bb-courses-directory" method="get" action="">
 
 
 		<?php $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; ?>
 			<input type="hidden" name="current_page" value="<?php echo esc_attr( $paged ); ?>">
 			<div class="flex align-items-center bb-courses-header">
-			<?php if ( ! empty( $settings['switch_heading'] ) && $settings['switch_heading'] === 'yes' ) : ?>
+			<?php if ( ! empty( $settings['switch_heading'] ) && 'yes' === $settings['switch_heading'] ) : ?>
 				<h4 class="bb-title"><?php echo LearnDash_Custom_Label::get_label( 'courses' ); ?></h4>
 			<?php endif; ?>
-			<?php if ( ! empty( $settings['switch_search'] ) && $settings['switch_search'] === 'yes' ) : ?>
+			<?php if ( ! empty( $settings['switch_search'] ) && 'yes' === $settings['switch_search'] ) : ?>
 				<div id="courses-dir-search" class="bs-dir-search" role="search">
 					<div id="search-members-form" class="bs-search-form">
 						<label for="bs_members_search" class="bp-screen-reader-text"><?php _e( 'Search', 'buddyboss-theme' ); ?></label>
@@ -44,7 +44,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if ( ! empty( $settings['switch_courses_nav'] ) && $settings['switch_courses_nav'] === 'yes' ) : ?>
+		<?php if ( ! empty( $settings['switch_courses_nav'] ) && 'yes' === $settings['switch_courses_nav'] ) : ?>
 			<nav class="courses-type-navs main-navs bp-navs dir-navs bp-subnavs">
 				<ul class="component-navigation courses-nav">
 					<?php
@@ -63,7 +63,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 						$base_url    = get_post_type_archive_link( 'sfwd-courses' );
 						foreach ( $navs as $nav => $text ) {
 							$selected_class = $nav == $current_nav ? 'selected' : '';
-							$url            = $nav != 'all' ? add_query_arg( array( 'type' => $nav ), $base_url ) : $base_url;
+							$url            = 'all' != $nav ? add_query_arg( array( 'type' => $nav ), $base_url ) : $base_url;
 							printf( "<li id='courses-{$nav}' class='{$selected_class}'><a href='%s'>%s</a></li>", $url, $text );
 						}
 					} else {
@@ -83,51 +83,90 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 				<input type="hidden" id="current-page" name="current_page" value="<?php echo $current_page; ?>"/>
 
 				<div class="sfwd-courses-filters flex push-right">
-					<div class="select-wrap <?php echo ! empty( $settings['orderby_filter'] ) && $settings['orderby_filter'] === 'on' ? 'active' : 'hide'; ?>">
+					<div class="select-wrap <?php echo ! empty( $settings['orderby_filter'] ) && 'on' === $settings['orderby_filter'] ? 'active' : 'hide'; ?>">
 						<select id="sfwd_prs-order-by" name="orderby">
 							<?php echo $helper->print_sorting_options(); ?>
 						</select>
 					</div>
 
-					<?php if ( ! empty( $category ) || ! empty( $tags ) ) { ?>
+					<?php
+					$archive_category_taxonomy = buddyboss_theme_get_option( 'learndash_course_index_categories_filter_taxonomy' );
+					if ( empty( $archive_category_taxonomy ) ) {
+						$archive_category_taxonomy = 'ld_course_category';
+					}
 
+					$tags_array = ! empty( $tags ) ? $tags : array();
+					if (
+						'ld_course_tag' !== $archive_category_taxonomy &&
+						! empty( $tags_array )
+					) {
+						$tags_str = is_array( $tags_array ) ? implode( ',', $tags_array ) : $tags_array;
+						?>
+						<input type="hidden" name="filter-block-tags" value="<?php echo $tags_str; ?>"/>
 						<?php
-						if ( ! empty( $category ) ) {
-							$category_str = is_array( $category ) ? implode( ',', $category ) : $category;
-							?>
-							<input type="hidden" name="filter-block-categories" value="<?php echo $category_str; ?>"/>
-						<?php } ?>
-
-						<?php
-						if ( ! empty( $tags ) ) {
-							$tags_str = is_array( $tags ) ? implode( ',', $tags ) : $tags;
+					} elseif( 'ld_course_tag' === $archive_category_taxonomy ) {
+						if ( 1 === count( $tags_array ) ) {
+							$tags_str = is_array( $tags_array ) ? implode( ',', $tags_array ) : $tags_array;
 							?>
 							<input type="hidden" name="filter-block-tags" value="<?php echo $tags_str; ?>"/>
-						<?php } ?>
+							<?php
+						} else {
+							$category_dropdown = buddyboss_theme()->learndash_helper()->print_categories_options( array( 'include' => $tags_array ) );
+							?>
+							<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && 'on' === $settings['category_filter'] ? 'active' : 'hide'; ?>">
+								<?php if ( '' !== trim( $category_dropdown ) ) { ?>
+									<select id="sfwd_cats-order-by" name="filter-categories">
+										<?php echo $category_dropdown; ?>
+									</select>
+								<?php } ?>
+							</div>
+							<?php
+						}
+					}
 
-					<?php } else { ?>
-						<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && $settings['category_filter'] === 'on' ? 'active' : 'hide'; ?>">
-							<?php if ( trim( buddyboss_theme()->learndash_helper()->print_categories_options() ) !== '' ) { ?>
-								<select id="sfwd_cats-order-by" name="filter-categories">
-									<?php echo buddyboss_theme()->learndash_helper()->print_categories_options(); ?>
-								</select>
-							<?php } ?>
-						</div>
-					<?php } ?>
+					$category_array = ! empty( $category ) ? $category : array();
+					if (
+						'ld_course_category' !== $archive_category_taxonomy &&
+						! empty( $category_array )
+					) {
+						$category_str = is_array( $category_array ) ? implode( ',', $category_array ) : $category_array;
+						?>
+						<input type="hidden" name="filter-block-categories" value="<?php echo $category_str; ?>"/>
+						<?php
+					} elseif ( 'ld_course_category' === $archive_category_taxonomy ) {
+						if ( 1 === count( $category_array ) ) {
+							$category_str = is_array( $category_array ) ? implode( ',', $category_array ) : $category_array;
+							?>
+							<input type="hidden" name="filter-block-categories" value="<?php echo $category_str; ?>"/>
+							<?php
+						} else {
+							$category_dropdown = buddyboss_theme()->learndash_helper()->print_categories_options( array( 'include' => $category_array ) );
+							?>
+							<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && 'on' === $settings['category_filter'] ? 'active' : 'hide'; ?>">
+								<?php if ( '' !== trim( $category_dropdown ) ) { ?>
+									<select id="sfwd_cats-order-by" name="filter-categories">
+										<?php echo $category_dropdown; ?>
+									</select>
+								<?php } ?>
+							</div>
+							<?php
+						}
+					}
+					?>
 
-					<div class="select-wrap <?php echo ! empty( $settings['instructors_filter'] ) && $settings['instructors_filter'] === 'on' ? 'active' : 'hide'; ?>">
+					<div class="select-wrap <?php echo ! empty( $settings['instructors_filter'] ) && 'on' === $settings['instructors_filter'] ? 'active' : 'hide'; ?>">
 						<select id="sfwd_instructors-order-by" name="filter-instructors">
 							<?php echo $helper->print_instructors_options(); ?>
 						</select>
 					</div>
 				</div>
 
-				<div class="grid-filters <?php echo ! empty( $settings['grid_filter'] ) && $settings['grid_filter'] === 'on' ? 'active' : 'hide'; ?>" data-view="ld-course">
-					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ( $view === 'grid' ) ? esc_attr( 'active' ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
+				<div class="grid-filters <?php echo ! empty( $settings['grid_filter'] ) && 'on' === $settings['grid_filter'] ? 'active' : 'hide'; ?>" data-view="ld-course">
+					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ( 'grid' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 					</a>
 
-					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ( $view === 'list' ) ? esc_attr( 'active' ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ( 'list' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 					</a>
 				</div>
@@ -140,7 +179,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 				<?php
 				if ( $query->have_posts() ) {
 					?>
-					<ul class="bb-card-list bb-course-items list-view bb-list <?php echo ( $view === 'list' ) ? '' : esc_attr( 'hide' ); ?> <?php echo ( $settings_skin == 'cover' ) ? esc_attr( 'is-cover' ) : ''; ?>" aria-live="assertive" aria-relevant="all">
+					<ul class="bb-card-list bb-course-items list-view bb-list <?php echo ( 'list' === $view ) ? '' : esc_attr( 'hide' ); ?> <?php echo ( $settings_skin == 'cover' ) ? esc_attr( 'is-cover' ) : ''; ?>" aria-live="assertive" aria-relevant="all">
 						<?php
 						/* Start the Loop */
 						while ( $query->have_posts() ) :
@@ -157,7 +196,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 						?>
 					</ul>
 
-					<ul class="bb-card-list bb-course-items grid-view bb-grid <?php echo ( $view === 'grid' || $settings_skin == 'cover' ) ? '' : esc_attr( 'hide' ); ?> <?php echo ( $settings_skin == 'cover' ) ? esc_attr( 'is-cover' ) : ''; ?>" aria-live="assertive" aria-relevant="all">
+					<ul class="bb-card-list bb-course-items grid-view bb-grid <?php echo ( 'grid' === $view || $settings_skin == 'cover' ) ? '' : esc_attr( 'hide' ); ?> <?php echo ( $settings_skin == 'cover' ) ? esc_attr( 'is-cover' ) : ''; ?>" aria-live="assertive" aria-relevant="all">
 						<?php
 						/* Start the Loop */
 						while ( $query->have_posts() ) :
@@ -175,7 +214,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 						wp_reset_postdata();
 						?>
 					</ul>
-					<?php if ( ! empty( $settings['switch_pagination'] ) && $settings['switch_pagination'] === 'yes' ) : ?>
+					<?php if ( ! empty( $settings['switch_pagination'] ) && 'yes' === $settings['switch_pagination'] ) : ?>
 						<div <?php echo $this->get_render_attribute_string( 'ld-pagination-switch' ); ?>>
 							<?php
 							$big        = 999999999; // need an unlikely integer

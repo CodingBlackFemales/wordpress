@@ -53,7 +53,7 @@ if ( $footer_widgets ) {
 }
 ?>
 
-<?php if ( ( $footer_copyright ) && ( ! is_singular( 'lesson' ) ) && ( ! is_singular( 'llms_quiz' ) ) && ( ! is_singular( 'llms_assignment' ) ) && ( ! is_singular( 'llms_my_certificate' ) ) ) { ?>
+<?php if ( ( $footer_copyright ) && ( ! is_singular( 'lesson' ) ) && ( ! is_singular( 'llms_quiz' ) ) && ( ! is_singular( 'llms_assignment' ) ) && ( ! is_singular( 'llms_my_certificate' ) ) && ( ! is_singular( 'tutor_quiz' ) ) && ( ! is_singular( 'tutor_assignments' ) ) && ( ! is_singular( 'tutor-google-meet' ) ) && ( ! is_singular( 'tutor_zoom_meeting' ) ) ) { ?>
 	<footer class="footer-bottom bb-footer style-<?php echo esc_attr( buddyboss_theme_get_option( 'footer_style' ) ); ?>">
 		<div class="container flex">
 			<?php

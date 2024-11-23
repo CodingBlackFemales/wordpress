@@ -669,6 +669,7 @@ if ( ! class_exists( 'BuddyBoss_Updater_Admin' ) ):
 								$valid_license_key = array(
 									'key'   => $license_details['license_key'],
 									'email' => $license_details['activation_email'],
+									'token' => $license_details['token'] ?? '',
 								);
 							} else {
 								$valid_license_key = $license_details['license_key'];

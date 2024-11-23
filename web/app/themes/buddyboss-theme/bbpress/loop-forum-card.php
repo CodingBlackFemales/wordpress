@@ -28,9 +28,15 @@
 			</div>
 
 			<div class="bb-forum-content-wrap">
-				<?php do_action( 'bbp_theme_before_forum_description' ); ?>
-				<div class="bb-forum-content"><?php echo wp_trim_words( bbp_get_forum_content(bbp_get_forum_id()), 18, '&hellip;' ); ?></div>
-				<?php do_action( 'bbp_theme_after_forum_description' ); ?>
+				<?php
+					do_action( 'bbp_theme_before_forum_description' );
+					remove_filter( 'bbp_get_forum_content', 'wpautop' );
+				?>
+				<div class="bb-forum-content"><?php echo bbp_get_forum_content_excerpt_view_more( bbp_get_forum_id(), 150, '&hellip;' ); ?></div>
+				<?php
+					add_filter( 'bbp_get_forum_content', 'wpautop' );
+					do_action( 'bbp_theme_after_forum_description' );
+				?>
 			</div>
 
 			<div class="forums-meta bb-forums-meta"><?php

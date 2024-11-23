@@ -112,10 +112,10 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 
 			if (
 				( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
-				( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+				( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD )
 			) {
 				$shown_content_key = 'learndash-shortcode-wrap-ld_certificate-' . absint( $course_id ) . '_' . absint( $user_id );
-				if ( strstr( $content, $shown_content_key ) === false ) {
+				if ( false === strstr( $content, $shown_content_key ) ) {
 					$shortcode_out = do_shortcode( '[ld_certificate course_id="' . $course_id . '" user_id="' . $user_id . '" display_as="banner"]' );
 					if ( ! empty( $shortcode_out ) ) {
 						echo $shortcode_out;
@@ -154,10 +154,10 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 
 			if (
 				( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
-				( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+				( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD )
 			) {
 				$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
-				if ( strstr( $content, $shown_content_key ) === false ) {
+				if ( false === strstr( $content, $shown_content_key ) ) {
 					$shortcode_out = do_shortcode( '[ld_infobar course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
 					if ( ! empty( $shortcode_out ) ) {
 						echo $shortcode_out;
@@ -208,16 +208,16 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 			 *
 			 * @var $show_course_content [bool]
 			 */
-			$show_course_content = ( ! $has_access && $course_meta['sfwd-courses_course_disable_content_table'] === 'on' ? false : true );
+			$show_course_content = ( ! $has_access && 'on' === $course_meta['sfwd-courses_course_disable_content_table'] ? false : true );
 
 			if ( $has_course_content && $show_course_content ) :
 
 				if (
 					( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) &&
-					( LEARNDASH_TEMPLATE_CONTENT_METHOD === 'shortcode' )
+					( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD )
 				) {
 					$shown_content_key = 'learndash-shortcode-wrap-course_content-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
-					if ( strstr( $content, $shown_content_key ) === false ) {
+					if ( false === strstr( $content, $shown_content_key ) ) {
 						$shortcode_out = do_shortcode( '[course_content course_id="' . $course_id . '" user_id="' . $user_id . '" post_id="' . get_the_ID() . '"]' );
 						if ( ! empty( $shortcode_out ) ) {
 							echo $shortcode_out;

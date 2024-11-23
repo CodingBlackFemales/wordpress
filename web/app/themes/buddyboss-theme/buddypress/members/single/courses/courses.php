@@ -16,11 +16,11 @@ $filepath = locate_template(
 	)
 );
 
-$view              = get_option( 'bb_theme_learndash_grid_list', 'grid' );
-$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
-$class_list_active = ( $view === 'list' ) ? 'active' : '';
-$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
+$view              = bb_theme_get_directory_layout_preference( 'ld-course' );
+$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
+$class_list_active = ( 'list' === $view ) ? 'active' : '';
+$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
 
 if ( ! empty( $filepath ) ) {
 	wp_enqueue_script( 'learndash_template_script_js', str_replace( ABSPATH, '/', $filepath ), array( 'jquery' ), LEARNDASH_VERSION, true );
@@ -49,7 +49,7 @@ $defaults = array(
 );
 $atts     = apply_filters( 'bp_learndash_user_courses_atts', $defaults );
 $atts     = wp_parse_args( $atts, $defaults );
-if ( $atts['per_page'] === false ) {
+if ( false === $atts['per_page'] ) {
 	$atts['per_page'] = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'per_page' );
 	$atts['quiz_num'] = $atts['per_page'];
 } else {
@@ -152,7 +152,7 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 										array(
 											'base'    => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
 											'format'  => '?paged=%#%',
-											'current' => max( 1, get_query_var( 'paged' ) ),
+											'current' => max( 1, (int) $profile_pager['paged'] ),
 											'total'   => $total_pages,
 											'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
 										)

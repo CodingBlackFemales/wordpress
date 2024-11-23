@@ -21,7 +21,9 @@ $logo_dark    = ( $show && $show_dark && $logo_dark_id ) ? wp_get_attachment_ima
         <?php } else {
             get_template_part( 'template-parts/site-logo' );   
         }
-    } elseif ( !buddyboss_is_learndash_inner() ) {
+    } elseif ( buddyboss_theme_is_tutorlms_inner() && buddyboss_theme_is_tutorlms_spotlight_mode() ) {
+        get_template_part( 'template-parts/site-logo' );
+    } elseif ( ! buddyboss_is_learndash_inner() ) {
         get_template_part( 'template-parts/site-logo' );
         get_template_part( 'template-parts/site-navigation' );
     }

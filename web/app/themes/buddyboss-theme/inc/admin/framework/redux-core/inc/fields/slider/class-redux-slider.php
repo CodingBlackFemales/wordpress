@@ -47,6 +47,13 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 		private $display_select = 3;
 
 		/**
+		 * Select2 options.
+		 *
+		 * @var string
+		 */
+		private $select2_data = '';
+
+		/**
 		 * Set field and value defaults.
 		 */
 		public function set_defaults() {
@@ -93,15 +100,15 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 		/**
 		 * Sanitize value.
 		 *
-		 * @param mixed $var Value to sanitize.
+		 * @param mixed $val Value to sanitize.
 		 *
 		 * @return float|int
 		 */
-		private function clean_val( $var ) {
-			if ( is_float( $var ) ) {
-				$clear_var = floatval( $var );
+		private function clean_val( $val ) {
+			if ( is_float( $val ) ) {
+				$clear_var = floatval( $val );
 			} else {
-				$clear_var = intval( $var );
+				$clear_var = intval( $val );
 			}
 
 			return $clear_var;
@@ -227,17 +234,17 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 		public function enqueue() {
 			$min = Redux_Functions::is_min();
 
-			wp_enqueue_style( 'select2-css' );
+			wp_enqueue_style( 'select2-js' );
 
 			wp_enqueue_style(
-				'redux-nouislider-css',
+				'redux-nouislider',
 				Redux_Core::$url . "assets/css/vendor/nouislider$min.css",
 				array(),
 				'5.0.0'
 			);
 
 			wp_register_script(
-				'redux-nouislider-js',
+				'redux-nouislider',
 				Redux_Core::$url . 'assets/js/vendor/nouislider/redux.jquery.nouislider' . $min . '.js',
 				array( 'jquery' ),
 				'5.0.0',
@@ -245,16 +252,16 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 			);
 
 			wp_enqueue_script(
-				'redux-field-slider-js',
+				'redux-field-slider',
 				Redux_Core::$url . 'inc/fields/slider/redux-slider' . $min . '.js',
-				array( 'jquery', 'redux-nouislider-js', 'redux-js', 'select2-js' ),
+				array( 'jquery', 'redux-nouislider', 'redux-js', 'select2-js' ),
 				$this->timestamp,
 				true
 			);
 
 			if ( $this->parent->args['dev_mode'] ) {
 				wp_enqueue_style(
-					'redux-field-slider-css',
+					'redux-field-slider',
 					Redux_Core::$url . 'inc/fields/slider/redux-slider.css',
 					array(),
 					$this->timestamp
@@ -343,12 +350,12 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 
 				$this->field['select2'] = Redux_Functions::sanitize_camel_case_array_keys( $this->field['select2'] );
 
-				$select2_data = Redux_Functions::create_data_string( $this->field['select2'] );
+				$this->select2_data = Redux_Functions::create_data_string( $this->field['select2'] );
 
 				echo '<select
 						class="redux-slider-select-one redux-slider-select-one-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
                         name="' . esc_attr( $name_one ) . '"
-                        id="' . esc_attr( $id_one ) . '" ' . esc_attr( $select2_data ) . '></select>';
+                        id="' . esc_attr( $id_one ) . '" ' . esc_attr( $this->select2_data ) . '></select>';
 			}
 
 			// DIV output.
@@ -392,7 +399,7 @@ if ( ! class_exists( 'Redux_Slider', false ) ) {
 					echo '<select
 								class="redux-slider-select-two redux-slider-select-two-' . esc_attr( $field_id ) . ' ' . esc_attr( $this->field['class'] ) . '"
                                 name="' . esc_attr( $name_two ) . '"
-                                id="' . esc_attr( $id_two ) . '" ' . esc_attr( $select2_data ) . '></select>';
+                                id="' . esc_attr( $id_two ) . '" ' . esc_attr( $this->select2_data ) . '></select>';
 				}
 			}
 

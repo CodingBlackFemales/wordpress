@@ -10,11 +10,11 @@ global $wp_query;
 
 get_header();
 
-$view              = get_option( 'bb_theme_learndash_grid_list', 'grid' );
-$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
-$class_list_active = ( $view === 'list' ) ? 'active' : '';
-$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
+$view              = bb_theme_get_directory_layout_preference( 'ld-course' );
+$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
+$class_list_active = ( 'list' === $view ) ? 'active' : '';
+$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
 $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 ?>
 	<div id="primary" class="content-area">
@@ -50,7 +50,7 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 								$base_url    = get_post_type_archive_link( 'sfwd-courses' );
 								foreach ( $navs as $nav => $text ) {
 									$selected_class = $nav == $current_nav ? 'selected' : '';
-									$url            = $nav != 'all' ? add_query_arg( array( 'type' => $nav ), $base_url ) : $base_url;
+									$url            = 'all' != $nav ? add_query_arg( array( 'type' => $nav ), $base_url ) : $base_url;
 									printf( "<li id='courses-{$nav}' class='{$selected_class}'><a href='%s'>%s</a></li>", $url, $text );
 								}
 							} else {
@@ -71,7 +71,7 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 								</div>
 								<?php if ( buddyboss_theme_get_option( 'learndash_course_index_show_categories_filter' ) ) : ?>
 									<div class="select-wrap">
-										<?php if ( trim( buddyboss_theme()->learndash_helper()->print_categories_options() ) !== '' ) { ?>
+										<?php if ( '' !== trim( buddyboss_theme()->learndash_helper()->print_categories_options() ) ) { ?>
 											<select id="sfwd_cats-order-by" name="filter-categories">
 												<?php echo buddyboss_theme()->learndash_helper()->print_categories_options(); ?>
 											</select>

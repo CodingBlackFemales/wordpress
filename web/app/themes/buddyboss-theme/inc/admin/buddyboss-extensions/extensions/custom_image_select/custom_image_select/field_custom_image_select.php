@@ -53,7 +53,7 @@ if ( ! class_exists( 'ReduxFramework_custom_image_select' ) ) {
 			}
 
 			// Set default args for this field to avoid bad indexes. Change this to anything you use.
-			$defaults    = array(
+			$defaults = array(
 				'options'          => array(),
 				'stylesheet'       => '',
 				'output'           => true,

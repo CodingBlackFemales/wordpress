@@ -4,8 +4,10 @@ namespace BuddyBossTheme;
 
 if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 
+	#[\AllowDynamicProperties]
 	class BaseTheme {
 		// --------- Constants ------------------
+
 		const VERSION = '0.1';
 		const NAME    = 'BuddyBoss Theme';
 
@@ -41,6 +43,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		protected $_beaver_themer_helper = false;
 		protected $_admin                = false;
 		protected $_bb_theme_update      = false;
+		protected $_tutorlms_helper      = false;
 
 		/**
 		 * Text Domain of Plugin Scope
@@ -173,6 +176,17 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		}
 
 		/**
+		 * Get the instance of TutorLMS helper class
+		 *
+		 * @since 2.4.90
+		 * 
+		 * @return bool|object
+		 */
+		public function tutorlms_helper() {
+			return $this->_tutorlms_helper;
+		}
+
+		/**
 		 * Update theme modal.
 		 *
 		 * @since 1.8.7
@@ -216,7 +230,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		public static function instance() {
 			static $instance = null;
 
-			if ( $instance === null ) {
+			if ( null === $instance ) {
 				$instance = new \BuddyBossTheme\BaseTheme();
 			}
 
@@ -250,7 +264,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		 */
 		private function _setup_globals() {
 
-			$this->bb_theme_db_version     = 435;
+			$this->bb_theme_db_version     = 445;
 			$this->bb_theme_db_version_raw = (int) get_option( '_bb_theme_db_version' );
 
 			// Get theme path.
@@ -348,7 +362,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 
 			// Beaver Theme compatibility requires PHP 5.3 for anonymus functions.
 			if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-				if ( class_exists( 'FLThemeBuilderLoader' ) || class_exists( 'FLThemeBuilderLayoutData' ) ) {
+				if ( class_exists( 'FLThemeBuilderLoader' ) && class_exists( 'FLThemeBuilderLayoutData' ) ) {
 					require_once $this->_inc_dir . '/plugins/beaver-themer-helper.php';
 					$this->_beaver_themer_helper = new \BuddyBossTheme\BeaverThemerHelper();
 				}
@@ -376,6 +390,16 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 			if ( class_exists( 'Tribe__Events__Main' ) ) {
 				require_once $this->_inc_dir . '/plugins/events-calendar.php';
 				$this->_tribe_events_helper = new \BuddyBossTheme\EventsCalendarHelper();
+			}
+
+			if ( 
+				function_exists( 'bb_theme_enable_tutorlms_override' ) &&
+				bb_theme_enable_tutorlms_override()
+			) {
+
+				// Tutorlms Helper.
+				require_once $this->_inc_dir . '/plugins/tutorlms-helper.php';
+				$this->_tutorlms_helper = new \BuddyBossTheme\TutorLMSHelper();
 			}
 
 			// The Events Calendar.
@@ -454,6 +478,7 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 
 			return $new_version;
 		}
+
 	}
 
 }

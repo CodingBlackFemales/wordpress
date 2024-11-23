@@ -40,6 +40,8 @@ function bb_elementor_load() {
 	
 	// Require templates.
 	require ELEMENTOR_BB__DIR__ . '/templates/templates.php';
+
+	add_filter( 'elementor/widget/render_content', 'bb_theme_elementor_widget_render_content', 999, 2 );
 }
 
 add_action( 'init', 'bb_elementor_load', -999 );
@@ -57,4 +59,67 @@ function bb_elementor_fail_load_out_of_date() {
 	$message     .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $upgrade_link, __( 'Update Elementor Now', 'buddyboss-theme' ) ) . '</p>';
 
 	echo '<div class="error">' . $message . '</div>';
+}
+
+/**
+ * Filters the widget content before it's rendered.
+ *
+ * @since 2.5.21
+ *
+ * @param string      $widget_content The content of the widget.
+ * @param Widget_Base $widget         The widget.
+ *
+ * @return string
+ */
+function bb_theme_elementor_widget_render_content( $widget_content, $widget ) {
+	if ( 'text-editor' !== $widget->get_name() ) {
+		return $widget_content;
+	}
+
+	$settings = $widget->get_settings_for_display();
+	$classes  = array();
+
+	if (
+		(
+			! empty( $settings['__globals__'] ) &&
+			! empty( $settings['__globals__']['text_color'] )
+		) ||
+		! empty( $settings['text_color'] )
+	) {
+		$classes[] = 'bb-elementor-custom-color';
+	}
+
+	if ( ! empty( $settings['typography_font_family'] ) ) {
+		$classes[] = 'bb-elementor-custom-family';
+	}
+
+	if ( ! empty( $settings['typography_font_size'] ) && ! empty( $settings['typography_font_size']['size'] ) ) {
+		$classes[] = 'bb-elementor-custom-size';
+	}
+
+	if ( ! empty( $settings['typography_font_size_tablet'] ) && ! empty( $settings['typography_font_size_tablet']['size'] ) ) {
+		$classes[] = 'bb-elementor-tablet-custom-size';
+	}
+
+	if ( ! empty( $settings['typography_font_size_mobile'] ) && ! empty( $settings['typography_font_size_mobile']['size'] ) ) {
+		$classes[] = 'bb-elementor-mobile-custom-size';
+	}
+
+	if ( ! empty( $settings['typography_line_height'] ) && ! empty( $settings['typography_line_height']['size'] ) ) {
+		$classes[] = 'bb-elementor-custom-line-height';
+	}
+
+	if ( ! empty( $settings['typography_line_height_tablet'] ) && ! empty( $settings['typography_line_height_tablet']['size'] ) ) {
+		$classes[] = 'bb-elementor-tablet-custom-line-height';
+	}
+
+	if ( ! empty( $settings['typography_line_height_mobile'] ) && ! empty( $settings['typography_line_height_mobile']['size'] ) ) {
+		$classes[] = 'bb-elementor-mobile-custom-line-height';
+	}
+
+	if ( ! empty( $classes ) ) {
+		return '<div class="bb-theme-elementor-wrap ' . implode( ' ', $classes ) . '">' . $widget_content . '</div>';
+	}
+
+	return $widget_content;
 }

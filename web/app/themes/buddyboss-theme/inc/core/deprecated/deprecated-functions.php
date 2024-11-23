@@ -11,9 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Remove Header/Footer for AppBoss
  */
 if ( ! function_exists( 'bb_theme_remove_header_footer_for_appboss' ) ) {
-
 	function bb_theme_remove_header_footer_for_appboss() {
-
 		_deprecated_function( __FUNCTION__, '1.6.4', 'bb_theme_remove_header_footer_for_buddyboss_app()' );
 		bb_theme_remove_header_footer_for_buddyboss_app();
 	}
@@ -148,5 +146,38 @@ if ( ! function_exists( 'buddyboss_notification_avatar' ) ) {
 
 		bb_notification_avatar();
 
+	}
+}
+
+if ( ! function_exists( 'buddyboss_theme_get_header_notifications' ) ) {
+
+	/**
+	 * Prepare header notification for user.
+	 *
+	 * @since 2.5.70
+	 *
+	 * @return void
+	 */
+	function buddyboss_theme_get_header_notifications() {
+		_deprecated_function( __FUNCTION__, '2.5.70' );
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_success(
+				array(
+					'message' => __( 'You need to be loggedin.', 'buddyboss-theme' ),
+				)
+			);
+		}
+
+		$response = array();
+
+		ob_start();
+
+		get_template_part( 'template-parts/unread-notifications' );
+
+		$response['contents']            = ob_get_clean();
+		$response['total_notifications'] = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
+
+		wp_send_json_success( $response );
 	}
 }

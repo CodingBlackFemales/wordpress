@@ -1,11 +1,20 @@
 <?php
+/**
+ * Template part for displaying header aside.
+ *
+ * @package BuddyBoss_Theme
+ */
 $show_search        = buddyboss_theme_get_option( 'desktop_component_opt_multi_checkbox', 'desktop_header_search' );
 $show_messages      = buddyboss_theme_get_option( 'desktop_component_opt_multi_checkbox', 'desktop_messages' ) && is_user_logged_in();
 $show_notifications = buddyboss_theme_get_option( 'desktop_component_opt_multi_checkbox', 'desktop_notifications' ) && is_user_logged_in();
 $show_shopping_cart = buddyboss_theme_get_option( 'desktop_component_opt_multi_checkbox', 'desktop_shopping_cart' );
 $header_style       = (int) buddyboss_theme_get_option( 'buddyboss_header' );
 $profile_dropdown   = buddyboss_theme_get_option( 'profile_dropdown' );
-$is_lms_inner       = ( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inner() ) || ( class_exists( 'LifterLMS' ) && buddypanel_is_lifterlms_inner() );
+$is_lms_inner       = (
+	( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inner() ) ||
+	( class_exists( 'LifterLMS' ) && buddypanel_is_lifterlms_inner() ) ||
+	( function_exists( 'tutor' ) && buddyboss_is_tutorlms_inner() )
+);
 ?>
 
 <div id="header-aside" class="header-aside <?php echo esc_attr( $profile_dropdown ); ?>">
@@ -25,7 +34,7 @@ $is_lms_inner       = ( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inn
 		elseif ( is_user_logged_in() ) :
 			if ( $show_search && 4 !== $header_style ) :
 				?>
-				<a href="#" class="header-search-link" data-balloon-pos="down" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-search"></i></a>
+				<a href="#" class="header-search-link" data-balloon-pos="down" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-search"></i></a>
 				<span class="bb-separator"></span>
 				<?php
 			endif;
@@ -53,7 +62,7 @@ $is_lms_inner       = ( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inn
 					$display_name = function_exists( 'bp_core_get_user_displayname' ) ? bp_core_get_user_displayname( $current_user->ID ) : $current_user->display_name;
 					?>
 
-					<a class="user-link" href="<?php echo esc_url( $user_link ); ?>">
+					<a class="user-link" href="<?php echo esc_url( $user_link ); ?>" <?php echo bb_elementor_pro_disable_page_transition(); ?>>
 						<?php
 						if ( 'name_and_avatar' === $profile_dropdown ) {
 							?>
@@ -68,7 +77,7 @@ $is_lms_inner       = ( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inn
 						<div class="wrapper">
 							<ul class="sub-menu-inner">
 								<li>
-									<a class="user-link" href="<?php echo esc_url( $user_link ); ?>">
+									<a class="user-link" href="<?php echo esc_url( $user_link ); ?>" <?php echo bb_elementor_pro_disable_page_transition(); ?>>
 										<?php echo get_avatar( get_current_user_id(), 100 ); ?>
 										<span>
 											<span class="user-name"><?php echo esc_html( $display_name ); ?></span>
@@ -131,7 +140,7 @@ $is_lms_inner       = ( class_exists( 'SFWD_LMS' ) && buddyboss_is_learndash_inn
 			?>
 
 			<?php if ( $show_search && 4 !== $header_style && !$is_lms_inner ) : ?>
-				<a href="#" class="header-search-link" data-balloon-pos="down" data-balloon="<?php esc_attr_e( 'Search', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-search"></i></a>
+				<a href="#" class="header-search-link" data-balloon-pos="down" data-balloon="<?php esc_attr_e( 'Search', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Search', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-search"></i></a>
 				<span class="search-separator bb-separator"></span>
 				<?php
 			endif;

@@ -87,7 +87,7 @@ class Boss_Widget_Recent_Posts extends WP_Widget {
 					?>
 					<li>
 						<?php if ( $show_image && has_post_thumbnail() ) { ?>
-							<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'buddyboss-theme' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="entry-media entry-img">
+							<a href="<?php the_permalink(); ?>" class="entry-media entry-img">
 								<?php the_post_thumbnail(); ?>
 							</a>
 						<?php } ?>
@@ -214,6 +214,8 @@ class Boss_Follow_Us extends WP_Widget {
 		$youtube   = ( ! empty( $instance['youtube'] ) ) ? $instance['youtube'] : '';
 		$instagram = ( ! empty( $instance['instagram'] ) ) ? $instance['instagram'] : '';
 		$linkedin  = ( ! empty( $instance['linkedin'] ) ) ? $instance['linkedin'] : '';
+		$x         = ( ! empty( $instance['x'] ) ) ? $instance['x'] : '';
+		$tiktok    = ( ! empty( $instance['tiktok'] ) ) ? $instance['tiktok'] : '';
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
@@ -250,6 +252,14 @@ class Boss_Follow_Us extends WP_Widget {
 			echo '<a href="' . esc_url( $linkedin ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-linkedin"></i></a>';
 		}
 
+		if ( ! empty( $x ) ) {
+			echo '<a href="' . esc_url( $x ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-x"></i></a>';
+		}
+
+		if ( ! empty( $tiktok ) ) {
+			echo '<a href="' . esc_url( $tiktok ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-tiktok"></i></a>';
+		}
+
 		echo '</div>';
 
 		echo $args['after_widget'];
@@ -275,6 +285,9 @@ class Boss_Follow_Us extends WP_Widget {
 		$instance['youtube']   = esc_url_raw( $new_instance['youtube'] );
 		$instance['instagram'] = esc_url_raw( $new_instance['instagram'] );
 		$instance['linkedin']  = esc_url_raw( $new_instance['linkedin'] );
+		$instance['x']         = esc_url_raw( $new_instance['x'] );
+		$instance['tiktok']    = esc_url_raw( $new_instance['tiktok'] );
+
 		return $instance;
 	}
 
@@ -294,6 +307,9 @@ class Boss_Follow_Us extends WP_Widget {
 		$youtube   = isset( $instance['youtube'] ) ? esc_url( $instance['youtube'] ) : '';
 		$instagram = isset( $instance['instagram'] ) ? esc_url( $instance['instagram'] ) : '';
 		$linkedin  = isset( $instance['linkedin'] ) ? esc_url( $instance['linkedin'] ) : '';
+		$x         = isset( $instance['x'] ) ? esc_url( $instance['x'] ) : '';
+		$tiktok    = isset( $instance['tiktok'] ) ? esc_url( $instance['tiktok'] ) : '';
+
 		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'buddyboss-theme' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
@@ -309,6 +325,14 @@ class Boss_Follow_Us extends WP_Widget {
 			<input class="widefat" id="<?php echo $this->get_field_id( 'instagram' ); ?>" name="<?php echo $this->get_field_name( 'instagram' ); ?>" type="url" value="<?php echo $instagram; ?>" /></p>
 		<p><label for="<?php echo $this->get_field_id( 'linkedin' ); ?>"><?php _e( 'LinkedIn Link:', 'buddyboss-theme' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'linkedin' ); ?>" name="<?php echo $this->get_field_name( 'linkedin' ); ?>" type="url" value="<?php echo $linkedin; ?>" /></p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'x' ); ?>"><?php _e( 'X Link:', 'buddyboss-theme' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'x' ); ?>" name="<?php echo $this->get_field_name( 'x' ); ?>" type="url" value="<?php echo $x; ?>" />
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'tiktok' ) ); ?>"><?php esc_html_e( 'TikTok Link:', 'buddyboss-theme' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'tiktok' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'tiktok' ) ); ?>" type="url" value="<?php echo esc_attr( $tiktok ); ?>" />
+		</p>
 		<?php
 	}
 

@@ -40,21 +40,28 @@ $memberships = $student->get_membership_levels();
 			</h3>
 		<?php endif; ?>
 
-		<?php if ( $more && 'my_courses' === $action && $courses['results'] ) { ?>
+		<?php if ( $more && 'my_courses' === $action ) { ?>
 			<footer class="llms-sd-section-footer push-right">
 				<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>">
 					<?php esc_html_e( 'View All', 'buddyboss-theme' ); ?>
 					<i class="bb-icon-l bb-icon-angle-right"></i>
 				</a>
 			</footer>
-		<?php } elseif ( $more && 'my_achievements' === $action && $achievements ) { ?>
+		<?php } elseif ( $more && 'my_achievements' === $action ) { ?>
 			<footer class="llms-sd-section-footer push-right">
 				<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>">
 					<?php esc_html_e( 'View All', 'buddyboss-theme' ); ?>
 					<i class="bb-icon-l bb-icon-angle-right"></i>
 				</a>
 			</footer>
-		<?php } elseif ( $more && 'my_certificates' === $action && $certificates ) { ?>
+		<?php } elseif ( $more && 'my_certificates' === $action ) { ?>
+			<footer class="llms-sd-section-footer push-right">
+				<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>">
+					<?php esc_html_e( 'View All', 'buddyboss-theme' ); ?>
+					<i class="bb-icon-l bb-icon-angle-right"></i>
+				</a>
+			</footer>
+		<?php } elseif ( $more && 'my_memberships' === $action ) { ?>
 			<footer class="llms-sd-section-footer push-right">
 				<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>">
 					<?php esc_html_e( 'View All', 'buddyboss-theme' ); ?>

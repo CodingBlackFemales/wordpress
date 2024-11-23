@@ -65,9 +65,11 @@
 						<a href="#" class="bb_more_options_action">
 							<i class="bb-icon-menu-dots-h"></i>
 						</a>
-						<div class="bb_more_options_list">
+						<div class="bb_more_options_list bb_more_dropdown">
+							<?php get_template_part( 'template-parts/more-options-view' ); ?>
 							<?php bbp_forum_report_link( array( 'id' => $post->ID ) ); ?>
 						</div>
+						<div class="bb_more_dropdown_overlay"></div>
 					</div><!-- .bb_more_options -->
 
 					<?php

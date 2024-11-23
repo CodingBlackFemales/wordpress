@@ -12,7 +12,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				return;
 			}
 			// This is needed. Bah WordPress bugs.
-			if ( apply_filters( 'buddyboss_theme_redux_is_theme', (bool) Redux_Helpers::isTheme( __FILE__ ) ) === true ) {
+			if ( true === apply_filters( 'buddyboss_theme_redux_is_theme', (bool) Redux_Helpers::isTheme( __FILE__ ) ) ) {
 				$this->initSettings();
 			} else {
 				add_action( 'plugins_loaded', array( $this, 'initSettings' ), 10 );
@@ -121,7 +121,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 			$desktop_logo_dark_switch = array();
 			$mobile_logo_dark_switch  = array();
 
-			if ( class_exists( 'SFWD_LMS' ) || class_exists( 'LifterLMS' ) ) {
+			if ( class_exists( 'SFWD_LMS' ) || class_exists( 'LifterLMS' ) || function_exists( 'tutor' ) ) {
 				$desktop_logo_dark_info   = array(
 					'slug'     => 'desktop_logo_dark_options_info',
 					'id'       => 'desktop_logo_dark_info',
@@ -211,7 +211,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 
 			// Pages List.
 			$page_items['default'] = esc_html__( 'Home', 'buddyboss-theme' );
-			$published_pages       = bb_theme_get_published_pages();
+			$published_pages       = ( isset( $_GET['page'] ) && 'buddyboss_theme_options' === $_GET['page'] ) ? bb_theme_get_published_pages() : array();
 			$page_items            = $page_items + $published_pages;
 
 			// Logo Settings.
@@ -844,22 +844,22 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'header_links'                           => '#1E2132',
 						'header_links_hover'                     => '#385DFF',
 						'sidenav_background'                     => '#ffffff',
-						'sidenav_text_color'                     => array(
+						'sidenav_text_color' 					 => array(
 							'regular' => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links' ) ? buddyboss_theme_get_option( 'sidenav_links' ) : '#1E2132',
 							'hover'   => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links' ) ? buddyboss_theme_get_option( 'sidenav_links' ) : '#1E2132',
 							'active'  => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_background' ) ? buddyboss_theme_get_option( 'sidenav_background' ) : '#FFFFFF',
 						),
-						'sidenav_menu_background_color'          => array(
+						'sidenav_menu_background_color' 		 => array(
 							'regular' => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_background' ) ? buddyboss_theme_get_option( 'sidenav_background' ) : '#FFFFFF',
 							'hover'   => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_alt_background' ) ? buddyboss_theme_get_option( 'sidenav_alt_background' ) : '#F2F4F5',
 							'active'  => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links_hover' ) ? buddyboss_theme_get_option( 'sidenav_links_hover' ) : '#385DFF',
 						),
-						'sidenav_count_text_color'               => array(
+						'sidenav_count_text_color' 				 => array(
 							'regular' => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links' ) ? buddyboss_theme_get_option( 'sidenav_links' ) : '#1E2132',
 							'hover'   => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_background' ) ? buddyboss_theme_get_option( 'sidenav_background' ) : '#FFFFFF',
 							'active'  => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links_hover' ) ? buddyboss_theme_get_option( 'sidenav_links_hover' ) : '#385DFF',
 						),
-						'sidenav_count_background_color'         => array(
+						'sidenav_count_background_color' 		 => array(
 							'regular' => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_alt_background' ) ? buddyboss_theme_get_option( 'sidenav_alt_background' ) : '#F2F4F5',
 							'hover'   => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_links_hover' ) ? buddyboss_theme_get_option( 'sidenav_links_hover' ) : '#385DFF',
 							'active'  => function_exists( 'buddyboss_theme_get_option' ) && buddyboss_theme_get_option( 'sidenav_background' ) ? buddyboss_theme_get_option( 'sidenav_background' ) : '#FFFFFF',
@@ -937,7 +937,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				),
 			);
 			foreach ( $color_scheme_elements as $elem ) {
-				if ( $elem['type'] === 'color' ) {
+				if ( 'color' === $elem['type'] ) {
 					$style_fields[] = array(
 						'id'          => $elem['slug'],
 						'type'        => $elem['type'],
@@ -948,7 +948,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'transparent' => false,
 						'validate'   => 'color',
 					);
-				} elseif ( $elem['type'] === 'link_color' ) {
+				} elseif ( 'link_color' === $elem['type'] ) {
 					$style_fields[] = array(
 						'id'          => $elem['slug'],
 						'type'        => $elem['type'],
@@ -959,7 +959,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'transparent' => false,
 						'validate'   => 'color',
 					);
-				} elseif ( $elem['type'] === 'slider' ) {
+				} elseif ( 'slider' === $elem['type'] ) {
 					$style_fields[] = array(
 						'id'            => $elem['slug'],
 						'type'          => $elem['type'],
@@ -972,13 +972,13 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'max'           => $elem['max'],
 						'display_value' => $elem['display_value'],
 					);
-				} elseif ( $elem['type'] === 'info' ) {
+				} elseif ( 'info' === $elem['type'] ) {
 					$style_fields[] = array(
 						'id'   => $elem['slug'],
 						'type' => 'info',
 						'desc' => $elem['desc'],
 					);
-				} elseif ( $elem['type'] == 'preset' ) {
+				} elseif ( 'preset' == $elem['type'] ) {
 					$style_fields[] = array(
 						'id'         => $elem['slug'],
 						'type'       => 'custom_image_select',
@@ -1713,30 +1713,30 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 
 			// Prepare array of social options for Footer section.
 			$social_options = array(
-				'clubhouse'   => '',
-				'dribbble'    => '',
-				'email'       => '',
-				'facebook'    => '',
-				'flickr'      => '',
-				'github'      => '',
-				'google-plus' => '',
-				'instagram'   => '',
-				'linkedin'    => '',
-				'medium'      => '',
-				'meetup'      => '',
-				'pinterest'   => '',
-				'quora'       => '',
-				'reddit'      => '',
-				'rss'         => '',
-				'skype'       => '',
-				'telegram'    => '',
-				'tiktok'      => '',
-				'tumblr'      => '',
-				'twitter'     => '',
-				'vimeo'       => '',
-				'vk'          => '',
-				'xing'        => '',
-				'youtube'     => '',
+				'clubhouse' => '',
+				'dribbble'  => '',
+				'email'     => '',
+				'facebook'  => '',
+				'flickr'    => '',
+				'github'    => '',
+				'instagram' => '',
+				'linkedin'  => '',
+				'medium'    => '',
+				'meetup'    => '',
+				'pinterest' => '',
+				'quora'     => '',
+				'reddit'    => '',
+				'rss'       => '',
+				'skype'     => '',
+				'telegram'  => '',
+				'tiktok'    => '',
+				'tumblr'    => '',
+				'twitter'   => '',
+				'vimeo'     => '',
+				'vk'        => '',
+				'xing'      => '',
+				'youtube'   => '',
+				'x'         => '',
 			);
 			// Social link options.
 			$social_options = apply_filters( 'buddyboss_social_options', $social_options );
@@ -1788,12 +1788,12 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 							'</em>',
 						),
 						'options'  => array(
-							'1' => __( '1 Column', 'buddyboss-theme' ),
-							'2' => __( '2 Column', 'buddyboss-theme' ),
-							'3' => __( '3 Column', 'buddyboss-theme' ),
-							'4' => __( '4 Column', 'buddyboss-theme' ),
-							'5' => __( '5 Column', 'buddyboss-theme' ),
-							'6' => __( '6 Column', 'buddyboss-theme' ),
+							'1' => __('1 Column', 'buddyboss-theme' ),
+							'2' => __('2 Column', 'buddyboss-theme' ),
+							'3' => __('3 Column', 'buddyboss-theme' ),
+							'4' => __('4 Column', 'buddyboss-theme' ),
+							'5' => __('5 Column', 'buddyboss-theme' ),
+							'6' => __('6 Column', 'buddyboss-theme' ),
 						),
 						'default'  => '4',
 						'required' => array( 'footer_widgets', 'equals', '1' ),
@@ -2070,19 +2070,19 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'default'    => 'standard',
 						'options'    => array(
 							'standard' => array(
-								'alt'   => 'List',
+								'alt' 	=> 'List',
 								'title' => esc_html__( 'List', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-standard.png' ),
+								'img' 	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-standard.png' ),
 							),
 							'masonry'  => array(
-								'alt'   => 'Masonry',
-								'title' => esc_html__( 'Masonry', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-masonry.png' ),
+								'alt' 	=> 'Masonry',
+								'title'	=> esc_html__( 'Masonry', 'buddyboss-theme' ),
+								'img'	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-masonry.png' ),
 							),
 							'grid'     => array(
-								'alt'   => 'Grid',
-								'title' => esc_html__( 'Grid', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-grid.png' ),
+								'alt'	=> 'Grid',
+								'title'	=> esc_html__( 'Grid', 'buddyboss-theme' ),
+								'img'	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-grid.png' ),
 							),
 						),
 					),
@@ -2104,19 +2104,19 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'default'    => 'default-fi',
 						'options'    => array(
 							'default-fi'     => array(
-								'alt'   => 'Default',
+								'alt'	=> 'Default',
 								'title' => esc_html__( 'Standard', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/featured-img-default.png' ),
+								'img'	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/featured-img-default.png' ),
 							),
 							'full-fi'        => array(
-								'alt'   => 'Fullwidth',
-								'title' => esc_html__( 'Full Width (Below Title)', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-title-top.png' ),
+								'alt'	=> 'Fullwidth',
+								'title'	=> esc_html__( 'Full Width (Below Title)', 'buddyboss-theme' ),
+								'img'	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-title-top.png' ),
 							),
 							'full-fi-invert' => array(
-								'alt'   => 'Fullwidth (Title below)',
-								'title' => esc_html__( 'Full Width (Above Title)', 'buddyboss-theme' ),
-								'img'   => esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-title-bottom.png' ),
+								'alt'	=> 'Fullwidth (Title below)',
+								'title'	=> esc_html__( 'Full Width (Above Title)', 'buddyboss-theme' ),
+								'img'	=> esc_url( get_template_directory_uri() . '/inc/admin/assets/images/blog/blog-title-bottom.png' ),
 							),
 						),
 					),
@@ -2366,7 +2366,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 								'ld_course_category' => esc_html__( 'Course Categories', 'buddyboss-theme' ),
 								'ld_course_tag'      => esc_html__( 'Course Tags', 'buddyboss-theme' ),
 							),
-							'default'  => 'ld_couse_category',
+							'default'  => 'ld_course_category',
 							'required' => array( 'learndash_course_index_show_categories_filter', 'equals', '1' ),
 						),
 						array(
@@ -2544,7 +2544,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'title'        => esc_html__( 'Page Description', 'buddyboss-theme' ),
 						'subtitle'     => esc_html__( 'Enter a description for your 404 page.', 'buddyboss-theme' ),
 						'validate'     => 'html_custom',
-						'default'      => esc_html__( "We couldn't find the page you were looking for.", 'buddyboss-theme' ),
+						'default'      => __( "We couldn't find the page you were looking for.", 'buddyboss-theme' ),
 						'allowed_html' => array(
 							'a'      => array(
 								'href'  => array(),
@@ -2830,7 +2830,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'id'       => 'custom_css',
 						'type'     => 'switch',
 						'title'    => esc_html__( 'CSS', 'buddyboss-theme' ),
-						'subtitle' => esc_html__( 'Quickly add some CSS here to make design adjustments. It is a much better solution then manually editing the theme. You may also consider using a child theme.', 'buddyboss-theme' ),
+						'subtitle' => esc_html__( 'Quickly add some CSS here to make design adjustments. It is a much better solution than manually editing the theme. You may also consider using a child theme.', 'buddyboss-theme' ),
 						'default'  => '0',
 						'on'       => esc_html__( 'On', 'buddyboss-theme' ),
 						'off'      => esc_html__( 'Off', 'buddyboss-theme' ),
@@ -2848,7 +2848,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'id'       => 'custom_js',
 						'type'     => 'switch',
 						'title'    => esc_html__( 'JavaScript', 'buddyboss-theme' ),
-						'subtitle' => esc_html__( 'Quickly add some JavaScript code here. It is a much better solution then manually editing the theme. You may also consider using a child theme.', 'buddyboss-theme' ),
+						'subtitle' => esc_html__( 'Quickly add some JavaScript code here. It is a much better solution than manually editing the theme. You may also consider using a child theme.', 'buddyboss-theme' ),
 						'default'  => '0',
 						'on'       => esc_html__( 'On', 'buddyboss-theme' ),
 						'off'      => esc_html__( 'Off', 'buddyboss-theme' ),
@@ -2930,9 +2930,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				// Show the sections below the admin menu item or not.
 				'menu_title'           => __( 'Theme Options', 'buddyboss-theme' ),
 				'page_title'           => __( 'BuddyBoss Theme', 'buddyboss-theme' ),
-				'google_api_key'       => 'AIzaSyARjtGd3aZFBZ_8kJty6BwgRsCurPFvFeg',
 				// https://console.developers.google.com/project/ Must be defined to add google fonts to the typography module.
-				'google_update_weekly' => true,
 				// Set to keep your google fonts updated weekly.
 				'async_typography'     => false,
 				// Use a asynchronous font on the front end or font string.
@@ -2941,7 +2939,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				// Show the panel pages on the admin bar.
 				'global_variable'      => '',
 				// Set a different name for your global variable other than the opt_name.
-				'dev_mode'             => defined( 'WP_DEBUG' ) && WP_DEBUG === true ? true : false,
+				'dev_mode'             => defined( 'WP_DEBUG' ) && true === WP_DEBUG ? true : false,
 				// Show the time the page took to load, etc.
 				'customizer'           => true,
 				// Enable basic customizer support.
@@ -2977,9 +2975,10 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				// Disable the footer credit of Redux. Please leave if you can help it.
 				'output_location'      => array( 'frontend', 'login' ),
 				// For enqueue font and css for front side and login.
+
 				// Updated template path to perform translation.
 				// @todo Update the template path here when update the redux core.
-				'templates_path'       => __DIR__ . '/redux-templates/panel/',
+				'templates_path'       => dirname( __FILE__ ) . '/redux-templates/panel/'
 			);
 			// SOCIAL ICONS -> Setup custom links in the footer for quick links in your panel footer icons.
 			$this->args['share_icons'][] = array(
@@ -3009,6 +3008,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 				$this->args['intro_text'] = __( '<p>This text is displayed above the options panel. It isn\'t required, but more info is always better! The intro_text field accepts all HTML.</p>', 'buddyboss-theme' );
 			}
 		}
+
 	}
 
 	global $reduxConfig;

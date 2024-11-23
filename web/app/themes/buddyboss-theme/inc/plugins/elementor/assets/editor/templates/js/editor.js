@@ -739,7 +739,7 @@
 							categories: categories,
 						};
 
-						self.layout.showTemplatesView(templates, categories );
+						self.layout.showTemplatesView( templates, categories );
 
 					},
 					error: function (err) {

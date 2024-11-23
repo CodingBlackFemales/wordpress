@@ -351,7 +351,11 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyPressHelper' ) ) {
 		 * @return string
 		 */
 		function filter_search_default_avatar_group( $url ) {
-			return get_template_directory_uri() . '/assets/images/svg/groups.svg';
+			if ( empty( $url ) ) {
+				$url = get_template_directory_uri() . '/assets/images/svg/groups.svg';
+			}
+
+			return $url;
 		}
 
 		/**
@@ -362,7 +366,11 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyPressHelper' ) ) {
 		 * @return string
 		 */
 		function filter_search_default_avatar_member( $url ) {
-			return get_template_directory_uri() . '/assets/images/svg/members.svg';
+			if ( empty( $url ) ) {
+				$url = get_template_directory_uri() . '/assets/images/svg/members.svg';
+			}
+
+			return $url;
 		}
 
 		/**

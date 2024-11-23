@@ -12,6 +12,7 @@
 /**
  * Form Fields
  */
+#[\AllowDynamicProperties]
 abstract class Kucrut_Form_Field {
 
 	/**
