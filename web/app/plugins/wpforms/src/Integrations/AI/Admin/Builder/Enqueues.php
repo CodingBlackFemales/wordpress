@@ -1,5 +1,10 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 namespace WPForms\Integrations\AI\Admin\Builder;
 
 /**
@@ -35,6 +40,9 @@ class Enqueues {
 	 * @since 1.9.1
 	 *
 	 * @param string|null $view Current view (panel).
+	 *
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpUnusedParameterInspection
 	 */
 	public function enqueues( $view ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
@@ -94,20 +102,20 @@ class Enqueues {
 		wp_localize_script(
 			'wpforms-ai-chat-element',
 			'wpforms_ai_chat_element',
-			$this->get_localize_data()
+			$this->get_localize_chat_data()
 		);
 	}
 
 	/**
-	 * Get choices data.
+	 * Get chat localize data.
 	 *
 	 * @since 1.9.1
 	 *
 	 * @return array
 	 */
-	private function get_localize_data(): array {
+	private function get_localize_chat_data(): array {
 
-		return [
+		$strings = [
 			'ajaxurl'   => admin_url( 'admin-ajax.php' ),
 			'nonce'     => wp_create_nonce( 'wpforms-ai-nonce' ),
 			'min'       => wpforms_get_min_suffix(),
@@ -124,26 +132,42 @@ class Enqueues {
 				'network' => esc_html__( 'There appears to be a network error.', 'wpforms-lite' ),
 				'empty'   => esc_html__( 'I\'m not sure what to do with that.', 'wpforms-lite' ),
 			],
-			'reasons'   => [
-				'default' => esc_html__( 'Please try again.', 'wpforms-lite' ),
-				'empty'   => esc_html__( 'Please try a different prompt. You might need to be more descriptive.', 'wpforms-lite' ),
+			'warnings'  => [
+				'prohibited_code' => esc_html__( 'Prohibited code has been removed.', 'wpforms-lite' ),
 			],
-			'choices'   => $this->get_choices_data(),
+			'reasons'   => [
+				'default'         => esc_html__( 'Please try again.', 'wpforms-lite' ),
+				'empty'           => esc_html__( 'Please try a different prompt. You might need to be more descriptive.', 'wpforms-lite' ),
+				'prohibited_code' => esc_html__( 'Only basic styling tags are permitted. All other code deemed unsafe has been removed.', 'wpforms-lite' ),
+			],
+			'choices'   => $this->get_choices_chat_data(),
 		];
+
+		/**
+		 * Filters the AI chat localize strings.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param array $strings Localize strings.
+		 */
+		return apply_filters( 'wpforms_integrations_ai_admin_builder_enqueues_localize_chat_strings', $strings );
 	}
 
 	/**
-	 * Get choices data.
+	 * Get choices chat data.
 	 *
 	 * @since 1.9.1
 	 *
 	 * @return array
+	 * @noinspection HtmlUnknownTarget
+	 * @noinspection PackedHashtableOptimizationInspection
 	 */
-	private function get_choices_data(): array {
+	private function get_choices_chat_data(): array {
 
 		return [
 			'title'         => esc_html__( 'Generate Choices', 'wpforms-lite' ),
 			'description'   => esc_html__( 'Describe the choices you would like to create or use one of the examples below to get started.', 'wpforms-lite' ),
+			'descrEndDot'   => '.',
 			'footer'        => wp_kses(
 				__( '<strong>What do you think of these choices?</strong> If you’re happy with them, you can insert these choices, or make changes by entering additional prompts.', 'wpforms-lite' ), // phpcs:ignore WordPress.WP.I18n.NoHtmlWrappedStrings
 				[
@@ -174,6 +198,9 @@ class Enqueues {
 					),
 					wpforms_utm_link( 'https://wpforms.com/account/support/', 'AI Feature' )
 				),
+			],
+			'warnings'      => [
+				'prohibited_code' => esc_html__( 'Prohibited code has been removed from your choices.', 'wpforms-lite' ),
 			],
 			'samplePrompts' => [
 				[

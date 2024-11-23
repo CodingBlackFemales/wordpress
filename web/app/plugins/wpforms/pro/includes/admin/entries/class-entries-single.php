@@ -547,6 +547,18 @@ class WPForms_Entries_Single {
 		$fields    = wpforms_decode( $this->entry->fields );
 		$form_data = wpforms_decode( $this->form->post_content );
 
+		/**
+		 * Filters the form data for the entry before processing notifications.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param array  $fields    Entry fields.
+		 * @param array  $form_data Form data.
+		 *
+		 * @return array
+		 */
+		$form_data = apply_filters( 'wpforms_entries_single_process_notifications_form_data',  $form_data, $this->entry );
+
 		wpforms()->obj( 'process' )->entry_email( $fields, [], $form_data, $this->entry->entry_id );
 
 		$this->alerts[] = [

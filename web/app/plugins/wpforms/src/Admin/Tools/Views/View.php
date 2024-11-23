@@ -102,9 +102,12 @@ abstract class View {
 	 *
 	 * @since 1.6.6
 	 */
-	public function verify_nonce() {
+	public function verify_nonce(): bool {
 
-		return ! empty( $_POST[ 'wpforms-tools-' . $this->slug . '-nonce' ] ) && wp_verify_nonce( sanitize_key( $_POST[ 'wpforms-tools-' . $this->slug . '-nonce' ] ), 'wpforms_' . $this->slug . '_nonce' );
+		$nonce_name = 'wpforms-tools-' . $this->slug . '-nonce';
+		$nonce      = isset( $_POST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( $_POST[ $nonce_name ] ) ) : '';
+
+		return (bool) wp_verify_nonce( $nonce, 'wpforms_' . $this->slug . '_nonce' );
 	}
 
 	/**

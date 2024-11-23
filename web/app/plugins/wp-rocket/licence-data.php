@@ -9,10 +9,10 @@ defined( 'ABSPATH' ) || exit;
 
 // Your license KEY.
 if ( ! defined( 'WP_ROCKET_KEY' ) ) {
-	define( 'WP_ROCKET_KEY', 'f6450eb8');
+	define( 'WP_ROCKET_KEY', 'edc4fa80');
 }
 
 // Your email, the one you used for the purchase.
 if ( ! defined( 'WP_ROCKET_EMAIL' ) ) {
-	define( 'WP_ROCKET_EMAIL', 'mail@ingenyus.com' );
+	define( 'WP_ROCKET_EMAIL', 'tech@codingblackfemales.com' );
 }

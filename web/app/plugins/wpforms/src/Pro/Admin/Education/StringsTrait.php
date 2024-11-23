@@ -69,12 +69,13 @@ trait StringsTrait {
 				),
 				esc_url( wpforms_utm_link( 'https://wpforms.com/account/licenses/', 'Builder Modal Activate License', '~utm-content~ Field' ) )
 			),
-			'success_title' => esc_html__( 'All set', 'wpforms' ),
-			'success_part1' => esc_html__( 'Your license was activated! All fields will be available once the form builder is refreshed.', 'wpforms' ),
-			'success_part2' => esc_html__( 'Would you like to save and refresh the form builder?', 'wpforms' ),
+			'success_title' => esc_html__( 'Your license was activated', 'wpforms' ),
+			'success_part1' => esc_html__( 'All templates and fields will be available once the form builder is reloaded.', 'wpforms' ),
+			'success_part2' => esc_html__( 'Would you like to save and reload now?', 'wpforms' ),
 			'placeholder'   => esc_html__( 'Enter License Key', 'wpforms' ),
 			'button'        => esc_html__( 'Activate License', 'wpforms' ),
 			'enter_key'     => esc_html__( 'Please enter a license key.', 'wpforms' ),
+			'save_confirm'  => esc_html__( 'Yes, Save and Reload', 'wpforms' ),
 		];
 
 		$license = (array) get_option( 'wpforms_license', [] );

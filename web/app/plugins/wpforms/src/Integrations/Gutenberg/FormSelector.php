@@ -67,7 +67,6 @@ abstract class FormSelector implements IntegrationInterface {
 		'containerShadowSize'   => CSSVars::CONTAINER_SHADOW_SIZE['none']['box-shadow'],
 		'customCss'             => '',
 		'copyPasteJsonValue'    => '',
-		'pageTitle'             => '',
 	];
 
 	/**
@@ -356,9 +355,6 @@ abstract class FormSelector implements IntegrationInterface {
 				'type' => 'string',
 			],
 			'copyPasteJsonValue'    => [
-				'type' => 'string',
-			],
-			'pageTitle'             => [
 				'type' => 'string',
 			],
 		];

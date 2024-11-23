@@ -2661,7 +2661,7 @@ abstract class WPForms_Field {
 						);
 
 						$label  = $this->get_choices_label( $value['label'] ?? '', $key + 1, $field );
-						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $value['value'] ), true ) : '';
+						$label .= ! empty( $field['show_price_after_labels'] ) && isset( $value['value'] ) ? $this->get_price_after_label( $value['value'] ) : '';
 
 						if ( $with_images ) {
 
@@ -3069,9 +3069,9 @@ abstract class WPForms_Field {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int   $field_id     Field ID.
-	 * @param mixed $field_submit Submitted field value (raw data).
-	 * @param array $form_data    Form data and settings.
+	 * @param string|int $field_id     Field ID as a numeric string.
+	 * @param mixed      $field_submit Submitted field value (raw data).
+	 * @param array      $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
 
@@ -3725,5 +3725,19 @@ abstract class WPForms_Field {
 	protected function load_script_in_footer(): bool {
 
 		return ! wpforms_is_frontend_js_header_force_load();
+	}
+
+	/**
+	 * Get formatted price after label.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param float $amount Amount.
+	 *
+	 * @return string
+	 */
+	protected function get_price_after_label( $amount ): string {
+
+		return sprintf( ' - <span class="wpforms-currency-symbol">%s</span>', wpforms_format_amount( wpforms_sanitize_amount( $amount ), true ) );
 	}
 }

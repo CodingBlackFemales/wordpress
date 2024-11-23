@@ -1,23 +1,4 @@
-/* global wpforms_ai_chat_element, WPFormsAIModal, wpf */
-
-// Dynamic modules import.
-Promise.all( [
-	import( `./modules/api${ wpforms_ai_chat_element.min }.js` ),
-	import( `./modules/helpers-text${ wpforms_ai_chat_element.min }.js` ),
-	import( `./modules/helpers-choices${ wpforms_ai_chat_element.min }.js` ),
-] )
-	.then( ( [ apiModule, helpersText, helpersChoices ] ) => {
-		window.WPFormsAi = {
-			api: apiModule.default(),
-			helpers: {
-				text: helpersText.default,
-				choices: helpersChoices.default,
-			},
-		};
-
-		// Register the custom HTML element.
-		customElements.define( 'wpforms-ai-chat', WPFormsAIChatHTMLElement ); // eslint-disable-line no-use-before-define
-	} );
+/* global wpforms_ai_chat_element, WPFormsAIModal, wpforms_builder, wpf */
 
 /**
  * @param this.modeStrings.learnMore
@@ -25,7 +6,41 @@ Promise.all( [
  * @param wpforms_ai_chat_element.refresh
  * @param wpforms_ai_chat_element.confirm.refreshTitle
  * @param wpforms_ai_chat_element.confirm.refreshMessage
+ * @param this.modeStrings.samplePrompts
+ * @param this.modeStrings.errors.rate_limit
+ * @param this.modeStrings.reasons.rate_limit
+ * @param this.modeStrings.descrEndDot
  */
+
+/**
+ * The `WPFormsAIChatHTMLElement` element loader.
+ *
+ * @since 1.9.2
+ */
+( function() {
+	const min = wpforms_ai_chat_element.min;
+
+	// Dynamic modules import.
+	Promise.all( [
+		import( `./modules/api${ min }.js` ),
+		import( `./modules/helpers-text${ min }.js` ),
+		import( `./modules/helpers-choices${ min }.js` ),
+		wpforms_builder.pro ? import( `../../../pro/js/integrations/ai/form-generator/modules/chat-helpers-forms${ min }.js` ) : null,
+	] )
+		.then( ( [ apiModule, helpersText, helpersChoices, helpersForms ] ) => {
+			window.WPFormsAi = {
+				api: apiModule.default(),
+				helpers: {
+					text: helpersText.default,
+					choices: helpersChoices.default,
+					forms: helpersForms?.default,
+				},
+			};
+
+			// Register the custom HTML element.
+			customElements.define( 'wpforms-ai-chat', WPFormsAIChatHTMLElement ); // eslint-disable-line no-use-before-define
+		} );
+}() );
 
 /**
  * The WPForms AI chat.
@@ -50,7 +65,7 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	 *
 	 * @since 1.9.1
 	 */
-	connectedCallback() {
+	connectedCallback() { // eslint-disable-line complexity
 		// Init chat properties.
 		this.chatMode = this.getAttribute( 'mode' ) ?? 'text';
 		this.fieldId = this.getAttribute( 'field-id' ) ?? '';
@@ -68,22 +83,37 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 		}
 
 		// Render chat HTML.
-		this.innerHTML = this.getInnerHTML();
+		if ( ! this.innerHTML.trim() ) {
+			this.innerHTML = this.getInnerHTML();
+		}
 
 		// Get chat elements.
 		this.wrapper = this.querySelector( '.wpforms-ai-chat' );
-		this.input = this.querySelector( '.wpforms-ai-chat-message-input input' );
+		this.input = this.querySelector( '.wpforms-ai-chat-message-input input, .wpforms-ai-chat-message-input textarea' );
 		this.welcomeScreenSamplePrompts = this.querySelector( '.wpforms-ai-chat-welcome-screen-sample-prompts' );
 		this.sendButton = this.querySelector( '.wpforms-ai-chat-send' );
 		this.stopButton = this.querySelector( '.wpforms-ai-chat-stop' );
 		this.messageList = this.querySelector( '.wpforms-ai-chat-message-list' );
+
+		// Flags.
+		this.isTextarea = this.input.tagName === 'TEXTAREA';
+		this.preventResizeInput = false;
 
 		// Compact scrollbar for non-Mac devices.
 		if ( ! navigator.userAgent.includes( 'Macintosh' ) ) {
 			this.messageList.classList.add( 'wpforms-scrollbar-compact' );
 		}
 
+		// Bind events.
 		this.events();
+
+		// Init answers.
+		this.initAnswers();
+
+		// Init mode.
+		if ( typeof this.modeHelpers.init === 'function' ) {
+			this.modeHelpers.init();
+		}
 	}
 
 	/**
@@ -94,13 +124,17 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	 * @return {string} The inner HTML markup.
 	 */
 	getInnerHTML() {
+		if ( this.modeStrings.chatHtml ) {
+			return this.decodeHTMLEntities( this.modeStrings.chatHtml );
+		}
+
 		return `
 			<div class="wpforms-ai-chat">
 				<div class="wpforms-ai-chat-message-list">
 					${ this.getWelcomeScreen() }
 				</div>
 				<div class="wpforms-ai-chat-message-input">
-					<input type="text" placeholder="${ this.modeStrings.placeholder }" />
+					${ this.getMessageInputField() }
 					<button type="button" class="wpforms-ai-chat-send"></button>
 					<button type="button" class="wpforms-ai-chat-stop wpforms-hidden"></button>
 				</div>
@@ -109,34 +143,50 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	}
 
 	/**
+	 * Get the message input field HTML.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @return {string} The message input field markup.
+	 */
+	getMessageInputField() {
+		if ( typeof this.modeHelpers.getMessageInputField === 'function' ) {
+			return this.modeHelpers.getMessageInputField();
+		}
+
+		return `<input type="text" placeholder="${ this.modeStrings.placeholder }">`;
+	}
+
+	/**
 	 * Get the Welcome screen HTML markup.
 	 *
 	 * @since 1.9.1
 	 *
-	 * @return {string} The spinner SVG markup.
+	 * @return {string} The Welcome screen markup.
 	 */
 	getWelcomeScreen() {
 		const samplePrompts = this.modeStrings.samplePrompts;
 		const li = [];
-		let content = '';
+		let content;
 
 		if ( this.modeHelpers.isWelcomeScreen() ) {
 			// Render sample prompts.
 			for ( const i in samplePrompts ) {
 				li.push( `
-				<li>
-					<i class="${ samplePrompts[ i ].icon }"></i>
-					<a href="#">${ samplePrompts[ i ].title }</a>
-				</li>
-			` );
+					<li>
+						<i class="${ samplePrompts[ i ].icon }"></i>
+						<a href="#">${ samplePrompts[ i ].title }</a>
+					</li>
+				` );
 			}
 
-			content = `<ul class="wpforms-ai-chat-welcome-screen-sample-prompts">
-						${ li.join( '' ) }
-					</ul>`;
+			content = `
+				<ul class="wpforms-ai-chat-welcome-screen-sample-prompts">
+					${ li.join( '' ) }
+				</ul>
+			`;
 		} else {
 			this.messagePreAdded = true;
-
 			content = this.modeHelpers.getWarningMessage();
 		}
 
@@ -146,7 +196,7 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 					<div class="wpforms-ai-chat-header">
 						<h3 class="wpforms-ai-chat-header-title">${ this.modeStrings.title }</h3>
 						<span class="wpforms-ai-chat-header-description">${ this.modeStrings.description }
-							<a href="${ this.modeStrings.learnMoreUrl }" target="_blank" rel="noopener noreferrer">${ this.modeStrings.learnMore }</a>.
+							<a href="${ this.modeStrings.learnMoreUrl }" target="_blank" rel="noopener noreferrer">${ this.modeStrings.learnMore }</a>${ this.modeStrings.descrEndDot }
 						</span>
 					</div>
 					${ content }
@@ -163,8 +213,9 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	 * @return {string} The spinner SVG markup.
 	 */
 	getSpinnerSvg() {
-		return `<svg class="wpforms-ai-chat-spinner-dots" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_S1WN{animation:spinner_MGfb .8s linear infinite;animation-delay:-.8s; fill: #999;}.spinner_Km9P{animation-delay:-.65s}.spinner_JApP{animation-delay:-.5s}@keyframes spinner_MGfb{93.75%,100%{opacity:.2}}</style><circle class="spinner_S1WN" cx="4" cy="12" r="3"/><circle class="spinner_S1WN spinner_Km9P" cx="12" cy="12" r="3"/><circle class="spinner_S1WN spinner_JApP" cx="20" cy="12" r="3"/></svg>`;
+		return `<svg class="wpforms-ai-chat-spinner-dots" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_S1WN{animation:spinner_MGfb .8s linear infinite;animation-delay:-.8s; fill: currentColor;}.spinner_Km9P{animation-delay:-.65s}.spinner_JApP{animation-delay:-.5s}@keyframes spinner_MGfb{93.75%,100%{opacity:.2}}</style><circle class="spinner_S1WN" cx="4" cy="12" r="3"/><circle class="spinner_S1WN spinner_Km9P" cx="12" cy="12" r="3"/><circle class="spinner_S1WN spinner_JApP" cx="20" cy="12" r="3"/></svg>`;
 	}
+
 	/**
 	 * Add event listeners.
 	 *
@@ -201,26 +252,59 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	}
 
 	/**
+	 * Init all answers.
+	 *
+	 * @since 1.9.2
+	 */
+	initAnswers() {
+		if ( ! this.modeStrings.chatHtml ) {
+			return;
+		}
+
+		this.wpformsAiApi = this.getAiApi();
+
+		this.messageList.querySelectorAll( '.wpforms-chat-item-answer' ).forEach( ( answer ) => {
+			this.initAnswer( answer );
+		} );
+	}
+
+	/**
 	 * Keyboard `keyUp` event handler.
 	 *
 	 * @since 1.9.1
 	 *
 	 * @param {KeyboardEvent} e The keyboard event.
 	 */
-	keyUp( e ) {
+	keyUp( e ) { // eslint-disable-line complexity
 		switch ( e.code ) {
 			case 'Enter':
-				e.preventDefault();
-				this.sendMessage();
+				// Send a message on `Enter` key press.
+				// In the case of textarea, `Shift + Enter` adds a new line.
+				if ( ! this.isTextarea || ( this.isTextarea && ! e.shiftKey ) ) {
+					e.preventDefault();
+					this.sendMessage();
+				}
+
 				break;
 
 			case 'ArrowUp':
-				this.arrowUp();
+				// Navigate through the chat history.
+				// In the case of textarea, `Ctrl + Up` is used.
+				if ( ! this.isTextarea || ( this.isTextarea && e.ctrlKey ) ) {
+					e.preventDefault();
+					this.arrowUp();
+				}
 				break;
 
 			case 'ArrowDown':
-				this.arrowDown();
+				// Navigate through the chat history.
+				// In the case of textarea, `Ctrl + Down` is used.
+				if ( ! this.isTextarea || ( this.isTextarea && e.ctrlKey ) ) {
+					e.preventDefault();
+					this.arrowDown();
+				}
 				break;
+
 			default:
 				// Update the chat history.
 				this.history.update( { question: this.input.value } );
@@ -244,7 +328,8 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 
 		this.addFirstMessagePre();
 		this.welcomeScreenSamplePrompts?.remove();
-		this.input.value = '';
+
+		this.resetInput();
 		this.addMessage( message, true );
 		this.startLoading();
 
@@ -254,37 +339,45 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 			return;
 		}
 
-		this
-			.getAiApi()
+		this.getAiApi()
 			.prompt( message, this.sessionId )
-			.then( ( response ) => {
-				this.addAnswer( response );
-			} )
-			// eslint-disable-next-line complexity
-			.catch( ( error ) => {
-				// Handle the rate limit error.
-				if ( error.cause === 429 ) {
-					this.addError(
-						this.modeStrings.errors.rate_limit || wpforms_ai_chat_element.errors.rate_limit,
-						this.modeStrings.reasons.rate_limit || wpforms_ai_chat_element.reasons.rate_limit
-					);
+			.then( this.addAnswer.bind( this ) )
+			.catch( this.apiResponseError.bind( this ) );
+	}
 
-					return;
-				}
+	/**
+	 * AI API error handler.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {Object|string} error The error object or string.
+	 */
+	apiResponseError( error ) { // eslint-disable-line complexity
+		const cause	= error?.cause ?? null;
 
-				// Handle the Internal Server Error.
-				if ( error.cause === 500 ) {
-					this.addEmptyResultsError();
+		// Handle the rate limit error.
+		if ( cause === 429 ) {
+			this.addError(
+				this.modeStrings.errors.rate_limit || wpforms_ai_chat_element.errors.rate_limit,
+				this.modeStrings.reasons.rate_limit || wpforms_ai_chat_element.reasons.rate_limit
+			);
 
-					return;
-				}
+			return;
+		}
 
-				this.addError(
-					error || this.modeStrings.errors.default || wpforms_ai_chat_element.errors.default,
-					this.modeStrings.reasons.default || wpforms_ai_chat_element.reasons.default
-				);
-				console.log( 'WPFormsAI error: ' + error ); // eslint-disable-line no-console
-			} );
+		// Handle the Internal Server Error.
+		if ( cause === 500 ) {
+			this.addEmptyResultsError();
+
+			return;
+		}
+
+		this.addError(
+			error.message || this.modeStrings.errors.default || wpforms_ai_chat_element.errors.default,
+			this.modeStrings.reasons.default || wpforms_ai_chat_element.reasons.default
+		);
+
+		wpf.debug( 'WPFormsAI error: ', error );
 	}
 
 	/**
@@ -316,11 +409,17 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 		const li = e.target.nodeName === 'LI' ? e.target : e.target.closest( 'li' );
 		const message = li.querySelector( 'a' )?.textContent;
 
+		e.preventDefault();
+
 		if ( ! message ) {
 			return;
 		}
 
 		this.input.value = message;
+
+		// Update the chat history.
+		this.history.push( { question: message } );
+
 		this.sendMessage();
 	}
 
@@ -457,7 +556,7 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 		}
 
 		// Attempt to get the session ID from the element attribute OR the data attribute.
-		// It is needed to restore the session ID after restoring the chat element.
+		// It is necessary to restore the session ID after restoring the chat element.
 		this.sessionId = this.wrapper.getAttribute( 'data-session-id' ) || null;
 
 		// Create a new AI API object instance.
@@ -532,8 +631,12 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 			// Remove the waiting spinner.
 			messageList.querySelector( '.wpforms-chat-item-answer-waiting' )?.remove();
 
+			// Remove the active class from the previous answer.
+			this.messageList.querySelector( '.wpforms-chat-item-answer.active' )?.classList.remove( 'active' );
+
 			// Update element classes and attributes.
 			element.classList.add( 'wpforms-chat-item-answer' );
+			element.classList.add( 'active' );
 			element.classList.add( 'wpforms-chat-item-typing' );
 			element.classList.add( 'wpforms-chat-item-' + this.chatMode );
 			element.setAttribute( 'data-response-id', response?.responseId ?? '' );
@@ -559,6 +662,31 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	 * @param {string} errorReason The error title.
 	 */
 	addError( errorTitle, errorReason ) {
+		this.addNotice( errorTitle, errorReason );
+	}
+
+	/**
+	 * Add a warning to the chat.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {string} warningTitle  The warning title.
+	 * @param {string} warningReason The warning reason.
+	 */
+	addWarning( warningTitle, warningReason ) {
+		this.addNotice( warningTitle, warningReason, 'warning' );
+	}
+
+	/**
+	 * Add a notice to the chat.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {string} title  The notice title.
+	 * @param {string} reason The notice reason.
+	 * @param {string} type   The notice type.
+	 */
+	addNotice( title, reason, type = 'error' ) {
 		let content = ``;
 
 		// Bail if loading was stopped.
@@ -566,19 +694,19 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 			return;
 		}
 
-		if ( errorTitle ) {
-			content += `<h4>${ errorTitle }</h4>`;
+		if ( title ) {
+			content += `<h4>${ title }</h4>`;
 		}
 
-		if ( errorReason ) {
-			content += `<span>${ errorReason }</span>`;
+		if ( reason ) {
+			content += `<span>${ reason }</span>`;
 		}
 
 		const chatItem = document.createElement( 'div' );
 		const itemContent = document.createElement( 'div' );
 
 		chatItem.classList.add( 'wpforms-chat-item' );
-		chatItem.classList.add( 'wpforms-chat-item-error' );
+		chatItem.classList.add( 'wpforms-chat-item-' + type );
 		itemContent.classList.add( 'wpforms-chat-item-content' );
 		chatItem.appendChild( itemContent );
 
@@ -594,11 +722,25 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 
 	/**
 	 * Add an empty results error to the chat.
+	 *
+	 * @since 1.9.1
 	 */
 	addEmptyResultsError() {
 		this.addError(
 			this.modeStrings.errors.empty || wpforms_ai_chat_element.errors.empty,
 			this.modeStrings.reasons.empty || wpforms_ai_chat_element.reasons.empty
+		);
+	}
+
+	/**
+	 * Add a prohibited code warning to the chat.
+	 *
+	 * @since 1.9.2
+	 */
+	addProhibitedCodeWarning() {
+		this.addWarning(
+			this.modeStrings.warnings.prohibited_code || wpforms_ai_chat_element.warnings.prohibited_code,
+			this.modeStrings.reasons.prohibited_code || wpforms_ai_chat_element.reasons.prohibited_code
 		);
 	}
 
@@ -615,7 +757,21 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 			return;
 		}
 
-		const answerHTML = this.modeHelpers.getAnswer( response );
+		// Output processing time to console if available.
+		if ( response.processingData ) {
+			wpf.debug( 'WPFormsAI processing data:', response.processingData );
+		}
+
+		// Sanitize response.
+		const sanitizedResponse = this.sanitizeResponse( { ...response } );
+
+		if ( this.hasProhibitedCode( response, sanitizedResponse ) ) {
+			this.addProhibitedCodeWarning();
+
+			return;
+		}
+
+		const answerHTML = this.modeHelpers.getAnswer( sanitizedResponse );
 
 		if ( ! answerHTML ) {
 			this.addEmptyResultsError();
@@ -629,8 +785,46 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 		// Set the session ID to the chat wrapper data attribute.
 		this.wrapper.setAttribute( 'data-session-id', this.sessionId );
 
+		// Fire the event before adding the answer to the chat.
+		this.triggerEvent( 'wpformsAIChatBeforeAddAnswer', { chat: this, response: sanitizedResponse } );
+
 		// Add the answer to the chat.
-		this.addMessage( answerHTML, false, response );
+		this.addMessage( answerHTML, false, sanitizedResponse );
+	}
+
+	/**
+	 * Check if the response has a prohibited code.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {Object} response          The response data.
+	 * @param {Array}  sanitizedResponse The sanitized response data.
+	 *
+	 * @return {boolean} Whether the answer has a prohibited code.
+	 */
+	hasProhibitedCode( response, sanitizedResponse ) {
+		if ( typeof this.modeHelpers.hasProhibitedCode === 'function' ) {
+			return this.modeHelpers.hasProhibitedCode( response, sanitizedResponse );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sanitize response.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {Object} response The response data to sanitize.
+	 *
+	 * @return {Object} The sanitized response.
+	 */
+	sanitizeResponse( response ) {
+		if ( typeof this.modeHelpers.sanitizeResponse === 'function' ) {
+			return this.modeHelpers.sanitizeResponse( response );
+		}
+
+		return response;
 	}
 
 	/**
@@ -645,19 +839,81 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 		element.innerHTML += this.getAnswerButtons();
 		element.parentElement.classList.remove( 'wpforms-chat-item-typing' );
 
-		wpf.initTooltips();
-
 		this.stopLoading();
+		this.initAnswer( element );
 
-		// Add event listeners to the answer buttons.
+		// Added answer callback.
+		this.modeHelpers.addedAnswer( element );
+
+		// Fire the event when the answer added to the chat.
+		this.triggerEvent( 'wpformsAIChatAddedAnswer', { chat: this, element } );
+	}
+
+	/**
+	 * Init answer.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {HTMLElement} element The answer element.
+	 */
+	initAnswer( element ) {
+		if ( ! element ) {
+			return;
+		}
+
+		// Prepare answer buttons and init the tooltips.
+		element.querySelectorAll( '.wpforms-help-tooltip' ).forEach( ( icon ) => {
+			let title = icon.getAttribute( 'title' );
+
+			if ( ! title ) {
+				title =	icon.classList.contains( 'dislike' ) ? wpforms_ai_chat_element.dislike : '';
+				title = icon.classList.contains( 'refresh' ) ? wpforms_ai_chat_element.refresh : title;
+
+				icon.setAttribute( 'title', title );
+			}
+
+			icon.classList.remove( 'tooltipstered' );
+		} );
+
+		wpf.initTooltips( element );
+
+		// Add event listeners.
+		element.addEventListener( 'click', this.setActiveAnswer.bind( this ) );
+
 		element.querySelector( '.wpforms-ai-chat-answer-button.dislike' )
 			?.addEventListener( 'click', this.clickDislikeButton.bind( this ) );
 
 		element.querySelector( '.wpforms-ai-chat-answer-button.refresh' )
 			?.addEventListener( 'click', this.clickRefreshButton.bind( this ) );
+	}
 
-		// Added answer callback.
-		this.modeHelpers.addedAnswer( element );
+	/**
+	 * Set active answer.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {Event} e The event object.
+	 */
+	setActiveAnswer( e ) {
+		let answer = e.target.closest( '.wpforms-chat-item-answer' );
+
+		answer = answer || e.target;
+
+		if ( answer.classList.contains( 'active' ) ) {
+			return;
+		}
+
+		this.messageList.querySelector( '.wpforms-chat-item-answer.active' )?.classList.remove( 'active' );
+		answer.classList.add( 'active' );
+
+		const responseId = answer.getAttribute( 'data-response-id' );
+
+		if ( this.modeHelpers.setActiveAnswer ) {
+			this.modeHelpers.setActiveAnswer( answer );
+		}
+
+		// Trigger the event.
+		this.triggerEvent( 'wpformsAIChatSetActiveAnswer', { chat: this, responseId } );
 	}
 
 	/**
@@ -739,6 +995,19 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	}
 
 	/**
+	 * Reset the message input field.
+	 *
+	 * @since 1.9.2
+	 */
+	resetInput() {
+		this.input.value = '';
+
+		if ( this.modeHelpers.resetInput ) {
+			this.modeHelpers.resetInput();
+		}
+	}
+
+	/**
 	 * Escape HTML special characters.
 	 *
 	 * @since 1.9.1
@@ -749,6 +1018,23 @@ class WPFormsAIChatHTMLElement extends HTMLElement {
 	 */
 	htmlSpecialChars( html ) {
 		return html.replace( /[<>]/g, ( x ) => '&#0' + x.charCodeAt( 0 ) + ';' );
+	}
+
+	/**
+	 * Decode HTML entities.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param {string} html Encoded HTML string.
+	 *
+	 * @return {string} Decoded HTML string.
+	 */
+	decodeHTMLEntities( html ) {
+		const txt = document.createElement( 'textarea' );
+
+		txt.innerHTML = html;
+
+		return txt.value;
 	}
 
 	/**

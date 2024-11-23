@@ -120,7 +120,7 @@ function wpforms_get_currencies() {
 			'decimals'            => 2,
 		],
 		'INR' => [
-			'name'                => esc_html__( 'Indian Rupiah', 'wpforms-lite' ),
+			'name'                => esc_html__( 'Indian Rupee', 'wpforms-lite' ),
 			'symbol'              => '&#8377;',
 			'symbol_pos'          => 'left',
 			'thousands_separator' => ',',

@@ -1,4 +1,4 @@
-/* global WPFormsAIChatHTMLElement, WPFormsBuilder */
+/* global WPFormsAIChatHTMLElement, WPFormsBuilder, wpf, wpforms_builder */
 
 /**
  * The WPForms AI chat element.
@@ -9,7 +9,7 @@
  *
  * @param {WPFormsAIChatHTMLElement} chat The chat element.
  *
- * @return {Function} The app cloning function.
+ * @return {Object} The choices' helpers object.
  */
 export default function( chat ) { // eslint-disable-line max-lines-per-function
 	/**
@@ -66,7 +66,7 @@ export default function( chat ) { // eslint-disable-line max-lines-per-function
 		 */
 		getAnswerButtonsPre() {
 			return `
-				<button type="button" class="wpforms-ai-chat-choices-insert wpforms-btn-sm wpforms-btn-orange" >
+				<button type="button" class="wpforms-ai-chat-choices-insert wpforms-ai-chat-answer-action wpforms-btn-sm wpforms-btn-orange" >
 					<span>${ chat.modeStrings.insert }</span>
 				</button>
 			`;
@@ -84,8 +84,8 @@ export default function( chat ) { // eslint-disable-line max-lines-per-function
 			chat.triggerEvent( 'wpformsAIModalBeforeWarningMessageInsert', { fieldId: chat.fieldId } );
 
 			return `<div class="wpforms-ai-chat-divider"></div>
-					<div class="wpforms-chat-item-warning">
-						<div class="wpforms-chat-item-warning-content">
+					<div class="wpforms-chat-item-notice">
+						<div class="wpforms-chat-item-notice-content">
 							<span>${ chat.modeStrings.warning }</span>
 						</div>
 					</div>`;
@@ -133,6 +133,50 @@ export default function( chat ) { // eslint-disable-line max-lines-per-function
 
 			// Listen to the button click event.
 			button?.addEventListener( 'click', this.insertButtonClick.bind( this ) );
+		},
+
+		/**
+		 * Sanitize response.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {Object} response The response data to sanitize.
+		 *
+		 * @return {Object} The sanitized response.
+		 */
+		sanitizeResponse( response ) {
+			if ( ! Array.isArray( response?.choices ) ) {
+				return response;
+			}
+
+			let choices = response.choices;
+
+			// Sanitize choices.
+			choices = choices.map( ( choice ) => {
+				return wpf.sanitizeHTML( choice, wpforms_builder.allowed_label_html_tags );
+			} );
+
+			// Remove empty choices.
+			response.choices = choices.filter( ( choice ) => {
+				return choice.trim() !== '';
+			} );
+
+			return response;
+		},
+
+		/**
+		 * Check if the response has a prohibited code.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {Object} response          The response data.
+		 * @param {Array}  sanitizedResponse The sanitized response data.
+		 *
+		 * @return {boolean} Whether the answer has a prohibited code.
+		 */
+		hasProhibitedCode( response, sanitizedResponse ) {
+			// If the number of choices has changed after sanitization, it means that the answer contains prohibited code.
+			return sanitizedResponse?.choices?.length !== response?.choices?.length;
 		},
 
 		/**
@@ -229,8 +273,8 @@ export default function( chat ) { // eslint-disable-line max-lines-per-function
 			// Update choice item inputs name attributes.
 			li.innerHTML = li.innerHTML.replaceAll( '{{key}}', key );
 
-			// Escape HTML special characters.
-			choice = chat.htmlSpecialChars( choice );
+			// Sanitize choice before set.
+			choice = wpf.sanitizeHTML( choice );
 
 			const inputDefault = li.querySelector( 'input.default' );
 

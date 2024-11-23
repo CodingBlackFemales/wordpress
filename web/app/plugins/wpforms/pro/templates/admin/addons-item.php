@@ -77,7 +77,7 @@ $item_classes = [
 					</a>
 				<?php endif; ?>
 
-				<?php if ( ! $is_version_compatible && $addon['action'] === 'activate' ) : ?>
+				<?php if ( ! $is_version_compatible && in_array( $addon['action'], [ 'active', 'incompatible' ], true ) ) : ?>
 					<a href="<?php echo esc_url( $upgrade_url ); ?>" class="wpforms-addons-list-item-footer-upgrade-link">
 						<?php esc_html_e( 'Update Required', 'wpforms' ); ?>
 					</a>

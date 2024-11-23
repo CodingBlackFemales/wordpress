@@ -37,9 +37,11 @@ class Choices extends API {
 		$response = $this->request->post( $endpoint, $args );
 
 		if ( $response->has_errors() ) {
-			Helpers::log_error( $response->get_response_message(), $endpoint, $args );
+			$error_data = $response->get_error_data();
 
-			return $response->get_error_data();
+			Helpers::log_error( $response->get_log_message( $error_data ), $endpoint, $args );
+
+			return $error_data;
 		}
 
 		$result = $response->get_body();

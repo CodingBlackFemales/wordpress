@@ -50,7 +50,7 @@ class AntiSpam {
 	 */
 	public function panel_content( $instance ) {
 
-		$this->form_data = $instance->form_data;
+		$this->form_data = $this->update_settings_form_data( $instance->form_data );
 
 		echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-anti_spam">';
 		echo '<div class="wpforms-panel-content-section-title">';
@@ -106,6 +106,20 @@ class AntiSpam {
 		$this->time_limit_settings();
 		$this->captcha_settings();
 
+		// Hidden setting to store blocked entries by filtering as a spam.
+		// This setting is needed to keep backward compatibility with old forms.
+		wpforms_panel_field(
+			'checkbox',
+			'anti_spam',
+			'filtering_store_spam',
+			$this->form_data,
+			'',
+			[
+				'parent' => 'settings',
+				'class'  => 'wpforms-hidden',
+			]
+		);
+
 		/**
 		 * Fires once in the end of content panel before Also Available section.
 		 *
@@ -127,6 +141,34 @@ class AntiSpam {
 		);
 
 		echo '</div>';
+	}
+
+	/**
+	 * Update the form data on the builder settings panel.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $form_data Form data.
+	 *
+	 * @return array
+	 */
+	private function update_settings_form_data( array $form_data ): array {
+
+		if ( ! $form_data ) {
+			return $form_data;
+		}
+
+		// Update `Filtering` store spam entries behaviour.
+		// Enable for new forms and old forms without any `Filtering` setting enabled.
+		if (
+			empty( $form_data['settings']['anti_spam']['filtering_store_spam'] ) &&
+			empty( $form_data['settings']['anti_spam']['country_filter']['enable'] ) &&
+			empty( $form_data['settings']['anti_spam']['keyword_filter']['enable'] )
+		) {
+			$form_data['settings']['anti_spam']['filtering_store_spam'] = true;
+		}
+
+		return $form_data;
 	}
 
 	/**

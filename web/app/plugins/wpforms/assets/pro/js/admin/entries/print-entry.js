@@ -236,8 +236,10 @@ const WPFormsPrintEntryPage = window.WPFormsPrintEntryPage || ( function( docume
 			$iframe.on( 'load', function() {
 
 				app.iframeStyles( iframe );
-				app.updateRichTextIframeSize( iframe );
 				app.modifyRichTextLinks( iframe );
+				app.updateRichTextTableClasses( iframe );
+				// apply height after all css manipulations
+				app.updateRichTextIframeSize( iframe );
 			} );
 
 			$iframe.attr( 'src', $iframe.data( 'src' ) );
@@ -280,6 +282,17 @@ const WPFormsPrintEntryPage = window.WPFormsPrintEntryPage || ( function( docume
 				'target': '_blank',
 				'rel': 'noopener',
 			} );
+		},
+
+		/**
+		 * Add 'mce-item-table' css-class to all tables inside iframe.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {HTMLElement} iframe RichText iframe.
+		 */
+		updateRichTextTableClasses( iframe ) {
+			$( iframe ).contents().find( 'table' ).addClass( 'mce-item-table' );
 		},
 
 		/**

@@ -312,12 +312,12 @@ class Addons {
 		$should_display = false;
 
 		if ( $section === 'activated' ) {
-			$allowed_statuses     = [ 'active' ];
+			$allowed_statuses     = [ 'active', 'incompatible' ];
 			$current_license_type = wpforms_get_license_type();
 
 			$should_display = in_array( $addon['status'], $allowed_statuses, true ) && in_array( $current_license_type, $addon['license'], true );
 		} elseif ( $section === 'all' ) {
-			$allowed_statuses = [ 'active', 'installed', 'missing' ];
+			$allowed_statuses = [ 'active', 'incompatible', 'installed', 'missing' ];
 
 			$should_display = in_array( $addon['status'], $allowed_statuses, true );
 		}
@@ -342,7 +342,7 @@ class Addons {
 				'utm_medium'   => 'addons',
 				'utm_content'  => $addon['title'],
 			],
-			! empty( $addon['status'] ) && $addon['status'] === 'active' && $addon['plugin_allow'] ? $addon['doc_url'] : $addon['page_url']
+			! empty( $addon['status'] ) && in_array( $addon['status'], [ 'active', 'incompatible' ], true ) && $addon['plugin_allow'] ? $addon['doc_url'] : $addon['page_url']
 		);
 
 		echo wpforms_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -387,13 +387,14 @@ class Addons {
 		}
 
 		$is_version_compatible = wpforms()->obj( 'plugin_list' )::is_wpforms_version_compatible( $addon['required_versions']['wpforms'] ?? '' );
+		$is_active             = in_array( $addon['status'], [ 'active', 'incompatible' ], true );
 
 		ob_start();
 
 		?>
 			<span class="wpforms-toggle-control">
 				<label for="wpforms-addons-toggle-<?php echo esc_attr( $addon['slug'] ); ?>" class="wpforms-toggle-control-status" data-on="<?php esc_attr_e( 'Activated', 'wpforms' ); ?>" data-off="<?php esc_attr_e( 'Deactivated', 'wpforms' ); ?>">
-					<?php if ( $addon['status'] === 'active' ) : ?>
+					<?php if ( $is_active ) : ?>
 						<?php esc_html_e( 'Activated', 'wpforms' ); ?>
 					<?php else : ?>
 						<?php esc_html_e( 'Deactivated', 'wpforms' ); ?>
@@ -404,8 +405,8 @@ class Addons {
 					id="wpforms-addons-toggle-<?php echo esc_attr( $addon['slug'] ); ?>"
 					name="wpforms-addons-toggle"
 					value="1"
-					<?php echo checked( $addon['status'] === 'active' ); ?>
-					<?php echo $addon['status'] === 'active' ? '' : disabled( ! $is_version_compatible ); ?>
+					<?php echo checked( $is_active ); ?>
+					<?php echo $is_active ? '' : disabled( ! $is_version_compatible ); ?>
 				>
 				<label class="wpforms-toggle-control-icon" for="wpforms-addons-toggle-<?php echo esc_attr( $addon['slug'] ); ?>"></label>
 			</span>

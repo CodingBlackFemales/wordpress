@@ -259,6 +259,15 @@ namespace WPForms {
 				]
 			);
 
+			$this->register(
+				[
+					'name'      => 'Integrations\SolidCentral\SolidCentral',
+					'hook'      => 'plugins_loaded',
+					'priority'  => 0,
+					'condition' => ! empty( $_GET['ithemes-sync-request'] ), // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				]
+			);
+
 			/*
 			 * Load admin components. Exclude from frontend.
 			 */

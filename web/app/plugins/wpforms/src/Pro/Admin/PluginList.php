@@ -238,6 +238,15 @@ class PluginList {
 
 		$addons = $this->addons_cache_obj ? $this->addons_cache_obj->get() : [];
 
+		/**
+		 * Filter the addons list cache.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param array $addons Addons list cache.
+		 */
+		$addons = apply_filters( 'wpforms_pro_admin_list_addons_cache', $addons );
+
 		foreach ( get_plugins() as $name => $plugin ) {
 			$slug = explode( '/', $name )[0];
 
@@ -348,7 +357,15 @@ class PluginList {
 		$plugin_name   = wp_kses( $plugin_data['Name'], $plugins_allowed_tags );
 		$plugin_chunks = explode( '/', $file );
 		$plugin_slug   = $plugin_chunks[0] ?? $response->id;
-		$details_url   = add_query_arg(
+
+		// We need to remove wordpress.com filter to get proper self_admin_url here.
+		$wp_com_priority = has_filter( 'self_admin_url', 'wpcomsh_update_plugin_link_destination' );
+
+		if ( $wp_com_priority ) {
+			remove_filter( 'self_admin_url', 'wpcomsh_update_plugin_link_destination' );
+		}
+
+		$details_url = add_query_arg(
 			[
 				'tab'       => 'plugin-information',
 				'plugin'    => $plugin_slug,
@@ -359,6 +376,12 @@ class PluginList {
 			],
 			self_admin_url( 'plugin-install.php' )
 		);
+
+		// Restore wordpress.com filter.
+		if ( $wp_com_priority ) {
+			add_filter( 'self_admin_url', 'wpcomsh_update_plugin_link_destination', $wp_com_priority, 2 );
+		}
+
 		/**
 		 * WP List Table.
 		 *
@@ -710,9 +733,9 @@ class PluginList {
 		// We use it to get the latest version of WPForms Pro.
 		// We have a hook on `pre_set_site_transient_update_plugins` in the `WPForms_Updater` class
 		// that checks the remote API and adds the update for WPForms Pro to this transient.
-		$option = get_site_option( '_site_transient_update_plugins' );
+		$transient = get_site_transient( 'update_plugins' );
 
-		$this->remote_latest_version = $option->response[ $this->plugin_path ]->new_version ?? WPFORMS_VERSION;
+		$this->remote_latest_version = $transient->response[ $this->plugin_path ]->new_version ?? WPFORMS_VERSION;
 
 		return $this->remote_latest_version;
 	}
@@ -862,7 +885,7 @@ class PluginList {
 				sprintf(
 					'class="update-link" aria-label="%s"',
 					/* translators: %s: Plugin name. */
-					esc_attr( sprintf( _x( 'Update %s now', 'wpforms' ), $plugin_name ) )
+					esc_attr( sprintf( __( 'Update %s now', 'wpforms' ), $plugin_name ) )
 				)
 			);
 		}

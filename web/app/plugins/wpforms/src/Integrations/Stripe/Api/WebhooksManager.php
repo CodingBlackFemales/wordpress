@@ -45,7 +45,7 @@ class WebhooksManager {
 			! $webhook ||
 			$webhook->status !== 'enabled' ||
 			$webhook->url !== Helpers::get_webhook_url() ||
-			! empty( array_diff( $webhook->enabled_events, WebhookRoute::get_webhooks_events_list() ) ) // Has different events enabled.
+			! empty( array_diff( WebhookRoute::get_webhooks_events_list(), $webhook->enabled_events ) ) // Has unconfigured events.
 		) {
 			return false;
 		}

@@ -160,12 +160,12 @@ class WebhooksHealthCheck {
 			return;
 		}
 
-		// If a last Stripe payment has processed status and connection is valid,
+		// If a last Stripe payment has processed status and webhooks are not valid,
 		// most likely there is issue with webhooks.
 		if (
 			$last_payment['status'] === 'processed' &&
 			time() > strtotime( $last_payment['date_created_gmt'] ) + 15 * MINUTE_IN_SECONDS &&
-			$this->webhooks_manager->is_valid()
+			! $this->webhooks_manager->is_valid()
 		) {
 			self::save_status( self::ENDPOINT_OPTION, self::STATUS_ERROR );
 

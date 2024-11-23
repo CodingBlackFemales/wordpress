@@ -38,12 +38,6 @@ class PageTitle extends SmartTag {
 			return wp_kses_post( is_page() ? get_the_title( get_the_ID() ) : get_bloginfo( 'name' ) );
 		}
 
-		$title = $this->get_gutenberg_page_title();
-
-		if ( $title ) {
-			return wp_kses_post( $title );
-		}
-
 		return wp_kses_post( $this->get_wp_title() );
 	}
 
@@ -85,18 +79,5 @@ class PageTitle extends SmartTag {
 		}
 
 		return $title;
-	}
-
-	/**
-	 * Retrieve title in Gutenberg editor.
-	 *
-	 * @since 1.9.0
-	 *
-	 * @return string
-	 */
-	private function get_gutenberg_page_title(): string {
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		return wp_kses_post( sanitize_text_field( wp_unslash( $_GET['attributes']['pageTitle'] ?? '' ) ) );
 	}
 }

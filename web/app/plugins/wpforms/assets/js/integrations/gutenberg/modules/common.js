@@ -189,10 +189,6 @@ export default ( function( document, window, $ ) {
 			type: 'string',
 			default: defaultStyleSettings.copyPasteJsonValue,
 		},
-		pageTitle: {
-			type: 'string',
-			default: defaultStyleSettings.pageTitle,
-		},
 	};
 
 	/**
@@ -891,8 +887,6 @@ export default ( function( document, window, $ ) {
 			 */
 			getBlockFormContent( props ) {
 				if ( triggerServerRender ) {
-					props.attributes.pageTitle = app.getPageTitle();
-
 					return (
 						<ServerSideRender
 							key="wpforms-gutenberg-form-selector-server-side-renderer"
@@ -1635,21 +1629,7 @@ export default ( function( document, window, $ ) {
 		 * @return {Object} Block attributes.
 		 */
 		getBlockAttributes() {
-			// Update pageTitle attribute.
-			commonAttributes.pageTitle.default = app.getPageTitle();
-
 			return commonAttributes;
-		},
-
-		/**
-		 * Get the current page title.
-		 *
-		 * @since 1.9.0
-		 *
-		 * @return {string} Current page title.
-		 */
-		getPageTitle() {
-			return document.querySelector( '.editor-post-title__input' )?.textContent ?? document.title;
 		},
 
 		/**

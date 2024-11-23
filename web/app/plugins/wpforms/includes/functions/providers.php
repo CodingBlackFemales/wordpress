@@ -32,8 +32,8 @@ function wpforms_get_providers_options( $provider = '' ) {
 	$provider = sanitize_key( $provider );
 	$data     = $options;
 
-	if ( ! empty( $provider ) && isset( $options[ $provider ] ) ) {
-		$data = $options[ $provider ];
+	if ( ! empty( $provider ) ) {
+		$data = $options[ $provider ] ?? [];
 	}
 
 	return (array) apply_filters( 'wpforms_get_providers_options', $data, $provider );

@@ -1,14 +1,15 @@
 /* eslint-disable camelcase */
 /* global wpforms_builder_email_template */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Script for manipulating DOM events in the "Builder" settings page.
  * This script will be accessible in the "WPForms" → "Builder" → "Notifications" tab/page.
  *
  * @since 1.8.5
  */
-
-const WPFormsBuilderEmailTemplate = window.WPFormsBuilderEmailTemplate || ( function( document, window, $, l10n ) {
+// eslint-disable-next-line no-var
+var WPFormsBuilderEmailTemplate = window.WPFormsBuilderEmailTemplate || ( function( document, window, $, l10n ) {
 	/**
 	 * Elements holder.
 	 *

@@ -1,8 +1,15 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use WPForms\Integrations\AI\Helpers as AIHelpers;
 
 /**
  * Form builder that contains magic.
@@ -93,13 +100,13 @@ class WPForms_Builder {
 	 *
 	 * @return WPForms_Builder
 	 */
-	public static function instance() {
+	public static function instance() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WPForms_Builder ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
-			self::$instance = new WPForms_Builder();
+			self::$instance = new self();
 
-			add_action( 'admin_init', [ self::$instance, 'init' ], 10 );
+			add_action( 'admin_init', [ self::$instance, 'init' ] );
 			add_action( 'admin_init', [ self::$instance, 'deregister_common_wp_admin_styles' ], PHP_INT_MAX );
 			add_action( 'load-wpforms_page_wpforms-builder', [ self::$instance, 'process_actions' ] );
 		}
@@ -112,7 +119,7 @@ class WPForms_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks, Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		// Only load if we are actually on the builder.
 		if ( ! wpforms_is_admin_page( 'builder' ) ) {
@@ -132,7 +139,7 @@ class WPForms_Builder {
 			$this->view = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'fields'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		} else {
-			// Default view for new form is the setup panel.
+			// The default view for new form is the setup panel.
 			$this->view = isset( $_GET['view'] ) ? sanitize_key( $_GET['view'] ) : 'setup'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		}
@@ -164,7 +171,7 @@ class WPForms_Builder {
 		/**
 		 * Active form template data filter.
 		 *
-		 * Allows developers to modify fields structure and form settings in the template of the current form.
+		 * Allows developers to modify fields' structure and form settings in the template of the current form.
 		 *
 		 * @since 1.6.8
 		 *
@@ -217,13 +224,13 @@ class WPForms_Builder {
 		}
 
 		/**
-		 * Filters the allowed common wp-admin styles.
+		 * Filter the allowed common wp-admin styles.
 		 *
 		 * @since 1.6.8
 		 *
 		 * @param array $allowed_styles Styles allowed in the Form Builder.
 		 */
-		$allowed_styles = (array) apply_filters(
+		$allowed_styles = (array) apply_filters( // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 			'wpforms_admin_builder_allowed_common_wp_admin_styles',
 			[
 				'wp-editor',
@@ -297,9 +304,13 @@ class WPForms_Builder {
 	 * @param int    $form_id Form ID.
 	 * @param string $action  Action name.
 	 */
-	private function process_action( int $form_id, string $action ) {
+	private function process_action( int $form_id, string $action ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		$form_handler = wpforms()->obj( 'form' );
+
+		if ( ! $form_handler ) {
+			return;
+		}
 
 		$id = false;
 
@@ -356,8 +367,10 @@ class WPForms_Builder {
 	 * @param array $buttons List of default buttons.
 	 *
 	 * @return array
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function tinymce_buttons( $buttons ) {
+	public function tinymce_buttons( $buttons ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		return [ 'colorpicker', 'lists', 'wordpress', 'wpeditimage', 'wplink' ];
 	}
@@ -413,7 +426,7 @@ class WPForms_Builder {
 	 */
 	public function admin_head() {
 
-		// Force hide admin side menu.
+		// Force hide an admin side menu.
 		echo '<style>#adminmenumain { display: none !important }</style>';
 
 		do_action( 'wpforms_builder_admin_head', $this->view );
@@ -561,7 +574,7 @@ class WPForms_Builder {
 			'dom-purify',
 			WPFORMS_PLUGIN_URL . 'assets/lib/purify.min.js',
 			[],
-			'3.1.6',
+			'3.1.7',
 			false
 		);
 
@@ -666,8 +679,9 @@ class WPForms_Builder {
 	 * @since 1.6.8
 	 *
 	 * @return array
+	 * @noinspection HtmlUnknownTarget
 	 */
-	private function get_localized_strings() {
+	private function get_localized_strings(): array { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		/**
 		 * Smart Tags.
@@ -676,7 +690,7 @@ class WPForms_Builder {
 		 *
 		 * @param array $smart_tags Array of smart tags.
 		 */
-		$smart_tags = apply_filters( 'wpforms_builder_enqueues_smart_tags', wpforms()->obj( 'smart_tags' )->get_smart_tags() );
+		$smart_tags = (array) apply_filters( 'wpforms_builder_enqueues_smart_tags', wpforms()->obj( 'smart_tags' )->get_smart_tags() );
 
 		$image_extensions = wpforms_chain( get_allowed_mime_types() )
 			->map(
@@ -795,7 +809,7 @@ class WPForms_Builder {
 			'payments_on_entries_off'                 => esc_html__( 'This form is currently accepting payments. Entry storage is required to accept payments. To disable entry storage, please first disable payments.', 'wpforms-lite' ),
 			'previous'                                => esc_html__( 'Previous', 'wpforms-lite' ),
 			'provider_required_flds'                  => sprintf( /* translators: %s - marketing integration name. */
-				esc_html__( "In order to complete your form's %s integration, please check that the dropdowns for all required (*) List Fields have been filled out.", 'wpforms-lite' ),
+				esc_html__( 'In order to complete your form\'s %s integration, please check that all required (*) fields have been filled out.', 'wpforms-lite' ),
 				'{provider}'
 			),
 			'rule_create'                             => esc_html__( 'Create new rule', 'wpforms-lite' ),
@@ -829,11 +843,17 @@ class WPForms_Builder {
 			'error_save_form'                         => esc_html__( 'Something went wrong while saving the form. Please reload the page and try again.', 'wpforms-lite' ),
 			'error_contact_support'                   => esc_html__( 'Please contact the plugin support team if this behavior persists.', 'wpforms-lite' ),
 			'error_select_template'                   => esc_html__( 'Something went wrong while applying the form template. Please try again. If the error persists, contact our support team.', 'wpforms-lite' ),
-			'error_load_templates'                    => esc_html__( 'Couldn\'t load the Setup panel.', 'wpforms-lite' ),
+			'error_load_templates'                    => esc_html__( "Couldn't load the Setup panel.", 'wpforms-lite' ),
 			'blank_form'                              => esc_html__( 'Blank Form', 'wpforms-lite' ),
 			'something_went_wrong'                    => esc_html__( 'Something went wrong', 'wpforms-lite' ),
 			'field_cannot_be_reordered'               => esc_html__( 'This field cannot be moved.', 'wpforms-lite' ),
 			'empty_label'                             => esc_html__( 'Empty Label', 'wpforms-lite' ),
+			'name_field_formats'                      => [
+				'full'   => esc_html__( 'Full', 'wpforms-lite' ),
+				'first'  => esc_html__( 'First', 'wpforms-lite' ),
+				'middle' => esc_html__( 'Middle', 'wpforms-lite' ),
+				'last'   => esc_html__( 'Last', 'wpforms-lite' ),
+			],
 			'no_pages_found'                          => esc_html__( 'No results found', 'wpforms-lite' ),
 			'number_slider_error_valid_default_value' => sprintf( /* translators: %1$s - from value %2$s - to value. */
 				esc_html__( 'Please enter a valid value or change the Increment. The nearest valid values are %1$s and %2$s.', 'wpforms-lite' ),
@@ -842,6 +862,7 @@ class WPForms_Builder {
 			),
 			'form_meta'                               => $this->form_data['meta'] ?? [],
 			'scrollbars_css_url'                      => WPFORMS_PLUGIN_URL . 'assets/css/builder/builder-scrollbars.css',
+			'is_ai_disabled'                          => AIHelpers::is_disabled(),
 		];
 
 		$strings = $this->add_localized_currencies( $strings );
@@ -929,7 +950,15 @@ class WPForms_Builder {
 			)
 		);
 
-		$strings = apply_filters( 'wpforms_builder_strings', $strings, $this->form );
+		/**
+		 * Form Builder localized strings filter.
+		 *
+		 * @since 1.8.0
+		 *
+		 * @param array   $strings Localized strings.
+		 * @param WP_Post $form    Form object.
+		 */
+		$strings = (array) apply_filters( 'wpforms_builder_strings', $strings, $this->form );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['form_id'] ) ) {
@@ -986,9 +1015,9 @@ class WPForms_Builder {
 
 		// phpcs:disable WPForms.Comments.ParamTagHooks.InvalidParamTagsQuantity
 		/**
-		 * Choices presets array filter.
+		 * Choices preset array filter.
 		 *
-		 * Allows developers to edit the choices presets used in all choices-based fields.
+		 * Allows developers to edit the choices preset used in all choices-based fields.
 		 *
 		 * @since 1.3.7
 		 *
@@ -1017,7 +1046,7 @@ class WPForms_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function output() {
+	public function output() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		if ( $this->abort ) {
 			return;
@@ -1030,7 +1059,7 @@ class WPForms_Builder {
 		 *
 		 * @param bool $is_enabled Is builder output enabled? Defaults to `true`.
 		 */
-		if ( ! (bool) apply_filters( 'wpforms_builder_output', true ) ) {
+		if ( ! apply_filters( 'wpforms_builder_output', true ) ) {
 			return;
 		}
 
@@ -1059,7 +1088,7 @@ class WPForms_Builder {
 		}
 
 		/**
-		 * Allow to modify builder container classes.
+		 * Allow modifying builder container classes.
 		 *
 		 * @since 1.7.9
 		 *
@@ -1125,7 +1154,7 @@ class WPForms_Builder {
 							</span>
 
 							<span class="wpforms-center-form-name wpforms-form-name">
-								<?php echo esc_html( isset( $this->form_data['settings']['form_title'] ) ? $this->form_data['settings']['form_title'] : $this->form->post_title ); ?>
+								<?php echo esc_html( $this->form_data['settings']['form_title'] ?? $this->form->post_title ); ?>
 							</span>
 
 							<?php if ( $this->form->post_type === 'wpforms-template' ) : ?>
@@ -1242,7 +1271,7 @@ class WPForms_Builder {
 	}
 
 	/**
-	 * Display abort message using empty state page.
+	 * Display an abort message using empty state page.
 	 *
 	 * @since 1.7.3
 	 */
@@ -1268,18 +1297,18 @@ class WPForms_Builder {
 	 *
 	 * @since 1.7.8
 	 *
-	 * @param string $value Default meta viewport tag value.
+	 * @param string|mixed $value Default meta viewport tag value.
 	 *
 	 * @return string
 	 */
-	public function viewport_meta( $value ) {
+	public function viewport_meta( $value ): string {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['force_desktop_view'] ) ) {
 			return 'width=1024, initial-scale=1';
 		}
 
-		return $value;
+		return (string) $value;
 	}
 
 	/**
@@ -1291,7 +1320,7 @@ class WPForms_Builder {
 	 *
 	 * @return array
 	 */
-	private function add_localized_currencies( array $strings ) {
+	private function add_localized_currencies( array $strings ): array {
 
 		$currency   = wpforms_get_currency();
 		$currencies = wpforms_get_currencies();

@@ -99,6 +99,13 @@ class Classic {
 				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 				break;
 
+			case 'header_styled':
+			case 'footer_styled':
+				// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo '<div class="wpforms-error-container wpforms-error-styled-container"><div class="wpforms-error">' . wpautop( wpforms_sanitize_error( $error ) ) . '</div></div>';
+				// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
+				break;
+
 			case 'recaptcha':
 				echo '<label id="wpforms-field_recaptcha-error" class="wpforms-error">' . wpforms_sanitize_error( $error ) . '</label>';
 				break;

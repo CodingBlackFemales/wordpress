@@ -158,6 +158,11 @@ class WPForms_Field_Password extends WPForms_Field {
 			$properties['inputs']['secondary']['class'][] = 'wpforms-field-required';
 		}
 
+		// Remove reference to an input element to prevent duplication.
+		if ( empty( $field['sublabel_hide'] ) ) {
+			unset( $properties['label']['attr']['for'] );
+		}
+
 		return $properties;
 	}
 

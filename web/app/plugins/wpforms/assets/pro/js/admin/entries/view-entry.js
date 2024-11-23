@@ -199,6 +199,8 @@ var WPFormsViewEntry = window.WPFormsViewEntry || ( function( document, window, 
 			// Adjust list styles.
 			$contents.find( 'ul, ol' ).css( 'padding-inline-start', '30px' );
 			$contents.find( 'li' ).css( 'list-style-position', 'outside' );
+			// Add a class for tables to inherit styles
+			$contents.find( 'table' ).addClass( 'mce-item-table' );
 
 			app.resizeRichTextField( obj );
 			app.addLinksAttr( obj );

@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WPForms\Pro\Helpers\Upload;
+use WPForms\Pro\Forms\Fields\Helpers as FieldsHelpers;
 
 /**
  * Rich Text field.
@@ -109,7 +110,7 @@ class WPForms_Field_Richtext extends WPForms_Field {
 		// Define additional field properties.
 		add_filter( 'wpforms_field_properties_richtext', [ $this, 'field_properties' ], 5, 3 );
 
-		add_filter( 'wpforms_html_field_value', [ $this, 'allow_tags_for_richtext_entry_view' ], 7, 4 );
+		add_filter( 'wpforms_html_field_value', [ $this, 'html_field_value' ], 7, 4 );
 
 		add_filter( 'wpforms_smart_tags_formatted_field_value', [ $this, 'smart_tags_formatted_field_value' ], 7, 4 );
 
@@ -568,6 +569,9 @@ class WPForms_Field_Richtext extends WPForms_Field {
 			WPFORMS_VERSION,
 			$this->load_script_in_footer()
 		);
+
+		// Enqueue `wpforms-iframe` script.
+		FieldsHelpers::enqueue_iframe_script();
 	}
 
 	/**
@@ -1174,6 +1178,39 @@ class WPForms_Field_Richtext extends WPForms_Field {
 	}
 
 	/**
+	 * Filter field value for HTML display.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param string $field_value Entry text.
+	 * @param array  $field       Field data.
+	 * @param array  $form_data   Form data and settings.
+	 * @param string $context     Value display context.
+	 *
+	 * @return string Field value HTML.
+     */
+	public function html_field_value( $field_value, $field, $form_data, $context ) {
+
+		if ( empty( $field['value'] ) || ! $this->is_richtext_field( $field ) ) {
+			return $field_value;
+		}
+
+		switch ( $context ) {
+			case 'email-html':
+				// For the Legacy template compatibility.
+				$field_value = $this->get_escaped_value_in_div( $field['value'] );
+				break;
+
+			default:
+				// For other contexts, use deprecated callback.
+				$field_value = $this->allow_tags_for_richtext_entry_view( $field_value, $field, $form_data, $context );
+				break;
+		}
+
+		return $field_value;
+	}
+
+	/**
 	 * Helper to easily check if a request is for the Rich Text field media, as we
 	 * modify the post ID in the request for our actions.
 	 *
@@ -1581,7 +1618,7 @@ class WPForms_Field_Richtext extends WPForms_Field {
 	 */
 	public function entry_preview( $value, $field, $form_data ) {
 
-		return sprintf( '<div class="wpforms-iframe">%s</div>', wpforms_esc_richtext_field( $value ) );
+		return $this->get_escaped_value_in_div( $value );
 	}
 
 	/**
@@ -1702,7 +1739,21 @@ class WPForms_Field_Richtext extends WPForms_Field {
 			return $value;
 		}
 
-		return wpforms_esc_richtext_field( $value );
+		return $this->get_escaped_value_in_div( $value );
+	}
+
+	/**
+	 * Returns escaped Rich text content inside `div.wpforms-iframe` element.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param string $value Rich text content.
+	 *
+	 * @return string HTML string.
+	 */
+	private function get_escaped_value_in_div( $value ): string {
+
+		return sprintf( '<div class="wpforms-iframe">%s</div>', wpforms_esc_richtext_field( $value ) );
 	}
 }
 new WPForms_Field_RichText();

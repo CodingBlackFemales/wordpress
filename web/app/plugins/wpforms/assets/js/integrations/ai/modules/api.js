@@ -41,6 +41,7 @@ export default function() { // eslint-disable-line no-unused-vars, max-lines-per
 		actions: {
 			rate: 'wpforms_rate_ai_response',
 			choices: 'wpforms_get_ai_choices',
+			forms: 'wpforms_get_ai_form',
 		},
 
 		/**
@@ -77,11 +78,11 @@ export default function() { // eslint-disable-line no-unused-vars, max-lines-per
 
 			const result = await response.json();
 
-			if ( ! result.success || result.data.error ) {
+			if ( ! result.success || result.data?.error ) {
 				throw new Error(
-					result.data.error ?? wpforms_ai_chat_element.errors.default,
+					result.data?.error ?? wpforms_ai_chat_element.errors.default,
 					{
-						cause: result.data.code ?? 400,
+						cause: result.data?.code ?? 400,
 					} );
 			}
 

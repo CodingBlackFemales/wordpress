@@ -32,6 +32,19 @@ class KeywordFilter {
 	];
 
 	/**
+	 * List of default keywords.
+	 *
+	 * @since 1.9.2
+	 */
+	const DEFAULT_KEYWORDS = [
+		'earn extra cash',
+		'free membership',
+		'search engine optimization',
+		'more internet traffic',
+		'click to download',
+	];
+
+	/**
 	 * Init class.
 	 *
 	 * @since 1.7.8
@@ -123,7 +136,7 @@ class KeywordFilter {
 					'subsection' => 'keyword_filter',
 					'tooltip'    => __( 'Displayed if a visitor tries to submit an entry that contains a blocked keyword.', 'wpforms' ),
 					'default'    => $this->get_default_error_message( $form_data ),
-					'class'      => 'wpforms-panel-field-keyword-filter-message',
+					'class'      => 'wpforms-panel-field-keyword-filter-message ' . Helpers::get_filtering_message_classes( $form_data ),
 				]
 			);
 			?>
@@ -146,17 +159,40 @@ class KeywordFilter {
 	 */
 	public function process( $fields, $entry, $form_data ) {
 
-		if ( ! $this->is_enabled( $form_data ) ) {
+		// If the form is set to store spam entries detected by filtering, we do not need to display the error message.
+		if ( Helpers::is_store_filtering_spam( $form_data ) ) {
 			return $fields;
 		}
 
-		if ( $this->is_blocked_submission( $fields ) ) {
+		if ( ! $this->is_valid( $form_data, $fields ) ) {
 			$form_id = ! empty( $form_data['id'] ) ? $form_data['id'] : 0;
 
 			wpforms()->obj( 'process' )->errors[ $form_id ]['footer'] = $this->get_error_message( $form_data );
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Check if form submission is valid.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $form_data Form data and settings.
+	 * @param array $fields    Fields data.
+	 *
+	 * @return bool
+	 */
+	public function is_valid( array $form_data, array $fields ): bool {
+
+		if (
+			! $this->is_enabled( $form_data ) ||
+			! $this->is_blocked_submission( $fields )
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -250,12 +286,14 @@ class KeywordFilter {
 	 * Format blocked phrases before search.
 	 *
 	 * @since 1.7.8
+	 * @since 1.9.2 Added default keywords.
 	 *
 	 * @return array
 	 */
 	public function get_keywords(): array {
 
-		$keywords = (array) json_decode( get_option( self::OPTION_NAME, '' ), true );
+		$defaults = wp_json_encode( self::DEFAULT_KEYWORDS );
+		$keywords = (array) json_decode( get_option( self::OPTION_NAME, $defaults ), true );
 
 		/**
 		 * Filter keywords list.
@@ -348,12 +386,13 @@ class KeywordFilter {
 	 * Get error message.
 	 *
 	 * @since 1.7.8
+	 * @since 1.9.2 Changed method visibility.
 	 *
 	 * @param array $form_data Form data and settings.
 	 *
 	 * @return string
 	 */
-	protected function get_error_message( $form_data ) {
+	public function get_error_message( $form_data ) {
 
 		return ! empty( $form_data['settings']['anti_spam']['keyword_filter']['message'] ) ?
 			$form_data['settings']['anti_spam']['keyword_filter']['message'] :

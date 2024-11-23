@@ -178,9 +178,6 @@ registerBlockType( 'wpforms/form-selector', {
 		preview: {
 			type: 'boolean',
 		},
-		pageTitle: {
-			type: 'string',
-		},
 	},
 	example: {
 		attributes: {
@@ -350,8 +347,6 @@ registerBlockType( 'wpforms/form-selector', {
 		];
 
 		if ( formId ) {
-			props.setAttributes( { pageTitle: document.querySelector( '.editor-post-title__input' )?.textContent ?? '' } );
-
 			jsx.push(
 				<ServerSideRender
 					key="wpforms-gutenberg-form-selector-server-side-renderer"

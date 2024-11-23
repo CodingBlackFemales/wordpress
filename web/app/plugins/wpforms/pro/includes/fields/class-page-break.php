@@ -178,7 +178,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 					absint( $p )
 				);
 				if ( ! empty( $page['title'] ) ) {
-					printf( '<span class="wpforms-page-indicator-page-title">%s<span>', esc_html( $page['title'] ) );
+					printf( '<span class="wpforms-page-indicator-page-title">%s</span>', esc_html( $page['title'] ) );
 				}
 				echo '</div>';
 				$p ++;
@@ -208,7 +208,7 @@ class WPForms_Field_Page_Break extends WPForms_Field {
 					$is_first && ! empty( $color ) ? ' style="border-top-color:' . sanitize_hex_color( $color ) . '"' : ''
 				);
 				if ( ! empty( $page['title'] ) ) {
-					printf( '<span class="wpforms-page-indicator-page-title">%s<span>', esc_html( $page['title'] ) );
+					printf( '<span class="wpforms-page-indicator-page-title">%s</span>', esc_html( $page['title'] ) );
 				}
 				echo '</div>';
 				$p ++;

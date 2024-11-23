@@ -404,7 +404,7 @@ const wpf = {
 	 * @param {string|Element} option jQuery object, or DOM element selector.
 	 * @param {boolean}        unload True if you need to unload spinner, and vice versa.
 	 */
-	fieldOptionLoading( option, unload ) {
+	fieldOptionLoading( option, unload = undefined ) {
 		const $option = jQuery( option ),
 			$label = $option.find( 'label' ),
 			spinner = '<i class="wpforms-loading-spinner wpforms-loading-inline"></i>';
@@ -738,7 +738,7 @@ const wpf = {
 	 * @return {boolean} True if debug mode is enabled.
 	 */
 	isDebug() {
-		return ( ( window.location.hash && '#wpformsdebug' === window.location.hash ) || wpforms_builder.debug );
+		return ( ( window.location.hash && '#wpformsdebug' === window.location.hash ) || window.wpforms_builder?.debug );
 	},
 
 	/**
@@ -844,8 +844,11 @@ const wpf = {
 	 * Initialize WPForms admin area tooltips.
 	 *
 	 * @since 1.4.8
+	 * @since 1.6.5 Introduced optional $scope parameter.
+	 *
+	 * @param {jQuery|HTMLElement|null} $scope Searching scope.
 	 */
-	initTooltips() {
+	initTooltips( $scope = null ) {
 		if ( typeof jQuery.fn.tooltipster === 'undefined' ) {
 			return;
 		}
@@ -853,7 +856,9 @@ const wpf = {
 		const isRTL = jQuery( 'body' ).hasClass( 'rtl' );
 		const position = isRTL ? 'left' : 'right';
 
-		jQuery( '.wpforms-help-tooltip' ).each( function() {
+		const $tooltips = ! $scope ? jQuery( '.wpforms-help-tooltip' ) : jQuery( $scope ).find( '.wpforms-help-tooltip' );
+
+		$tooltips.each( function() {
 			const $this = jQuery( this );
 
 			$this.tooltipster( {

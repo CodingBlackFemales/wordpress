@@ -70,6 +70,24 @@ class Addons {
 	private $addons;
 
 	/**
+	 * WPForms addons text domains.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @var array
+	 */
+	private $addons_text_domains = [];
+
+	/**
+	 * WPForms addons titles.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @var array
+	 */
+	private $addons_titles = [];
+
+	/**
 	 * Determine if the class is allowed to load.
 	 *
 	 * @since 1.6.6
@@ -112,6 +130,7 @@ class Addons {
 
 		$this->addons = $this->cache->get();
 
+		$this->populate_addons_data();
 		$this->hooks();
 	}
 
@@ -122,12 +141,19 @@ class Addons {
 	 */
 	protected function hooks() {
 
+		global $pagenow;
+
 		/**
 		 * Fire before admin addons init.
 		 *
 		 * @since 1.6.7
 		 */
 		do_action( 'wpforms_admin_addons_init' );
+
+		// Filter Gettext only on Plugin list and Updates pages.
+		if ( $pagenow === 'update-core.php' || $pagenow === 'plugins.php' ) {
+			add_action( 'gettext', [ $this, 'filter_gettext' ], 10, 3 );
+		}
 	}
 
 	/**
@@ -507,5 +533,52 @@ class Addons {
 		}
 
 		return $addon[ $key ] ?? '';
+	}
+
+	/**
+	 * Populate addons data.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @return void
+	 */
+	private function populate_addons_data() {
+
+		foreach ( $this->addons as $addon ) {
+			$this->addons_text_domains[] = $addon['slug'];
+			$this->addons_titles[]       = 'WPForms ' . str_replace( ' Addon', '', $addon['title'] );
+		}
+	}
+
+	/**
+	 * Filter Gettext.
+	 *
+	 * This filter allows us to prevent empty translations from being returned
+	 * on the `plugins` page for addon name and description.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param string|mixed $translation Translated text.
+	 * @param string|mixed $text        Text to translate.
+	 * @param string|mixed $domain      Text domain.
+	 *
+	 * @return string Translated text.
+	 */
+	public function filter_gettext( $translation, $text, $domain ): string {
+
+		$translation = (string) $translation;
+		$text        = (string) $text;
+		$domain      = (string) $domain;
+
+		if ( ! in_array( $domain, $this->addons_text_domains, true ) ) {
+			return $translation;
+		}
+
+		// Prevent empty translations from being returned and don't translate addon names.
+		if ( ! trim( $translation ) || in_array( $text, $this->addons_titles, true ) ) {
+			$translation = $text;
+		}
+
+		return $translation;
 	}
 }

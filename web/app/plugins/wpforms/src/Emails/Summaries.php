@@ -1,6 +1,8 @@
 <?php
 namespace WPForms\Emails;
 
+use Exception;
+
 /**
  * Email Summaries main class.
  *
@@ -211,12 +213,13 @@ class Summaries {
 	 *
 	 * @return int
 	 */
-	private function get_next_launch_time(): int {
+	protected function get_next_launch_time(): int {
 
-		$datetime = date_create( 'now', wp_timezone() );
+		$datetime      = date_create( 'now', wp_timezone() );
+		$now_plus_week = time() + constant( 'WEEK_IN_SECONDS' );
 
 		if ( ! $datetime ) {
-			return time() + WEEK_IN_SECONDS;
+			return $now_plus_week;
 		}
 
 		$hours = 14;
@@ -225,15 +228,20 @@ class Summaries {
 		// we can launch the cron for today.
 		if (
 			(int) $datetime->format( 'N' ) !== 1 ||
-			(int) $datetime->format( 'H' ) > $hours ||
-			( (int) $datetime->format( 'H' ) === $hours && (int) $datetime->format( 'i' ) !== 0 )
+			(int) $datetime->format( 'H' ) >= $hours
 		) {
-			$datetime->modify( 'next monday' );
+			try {
+				$datetime->modify( 'next monday' );
+			} catch ( Exception $e ) {
+				return $now_plus_week;
+			}
 		}
 
 		$datetime->setTime( $hours, 0 );
 
-		return absint( $datetime->getTimestamp() );
+		$timestamp = $datetime->getTimestamp();
+
+		return $timestamp > 0 ? $timestamp : $now_plus_week;
 	}
 
 	/**

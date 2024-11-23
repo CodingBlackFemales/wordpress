@@ -7,9 +7,9 @@
  * Requires PHP:      7.0
  * Author:            WPForms
  * Author URI:        https://wpforms.com
- * Version:           1.9.1.3
+ * Version:           1.9.2.2
  * Text Domain:       wpforms-lite
- * Domain Path:       assets/languages
+ * Domain Path:       /assets/languages
  *
  * WPForms is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ if ( ! defined( 'WPFORMS_VERSION' ) ) {
 	 *
 	 * @since 1.0.0
 	 */
-	define( 'WPFORMS_VERSION', '1.9.1.3' );
+	define( 'WPFORMS_VERSION', '1.9.2.2' );
 }
 
 // Plugin Folder Path.

@@ -1,45 +1,46 @@
 /* global wpforms_builder_settings, Choices, wpf */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Form Builder Settings Panel module.
  *
  * @since 1.7.5
  */
 
-'use strict';
-
+// eslint-disable-next-line no-var
 var WPForms = window.WPForms || {};
 
 WPForms.Admin = WPForms.Admin || {};
 WPForms.Admin.Builder = WPForms.Admin.Builder || {};
 
 WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( document, window, $ ) {
-
 	/**
 	 * Elements holder.
 	 *
 	 * @since 1.7.5
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var el = {};
+	let el = {};
 
 	/**
 	 * Runtime variables.
 	 *
 	 * @since 1.7.5
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var vars = {};
+	const vars = {};
 
+	// noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.7.5
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
+	// eslint-disable-next-line no-var
 	var app = {
 
 		/**
@@ -47,8 +48,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -57,8 +57,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 */
-		ready: function() {
-
+		ready() {
 			app.setup();
 			app.initTags();
 			app.events();
@@ -69,8 +68,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 */
-		setup: function() {
-
+		setup() {
 			// Cache DOM elements.
 			el = {
 				$builder:    $( '#wpforms-builder' ),
@@ -88,7 +86,9 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 			el.$panel
 				.on( 'keydown', '#wpforms-panel-field-settings-form_tags-wrap input', app.addCustomTagInput )
 				.on( 'removeItem', '#wpforms-panel-field-settings-form_tags-wrap select', app.editTagsRemoveItem )
-				.on( 'change', '#wpforms-panel-field-settings-antispam_v3', app.enableAntispamV3 );
+				.on( 'change', '#wpforms-panel-field-settings-antispam_v3', app.enableAntispamV3 )
+				.on( 'change', '#wpforms-panel-field-settings-disable_entries', app.disableEntries )
+				.on( 'change', '#wpforms-panel-field-settings-store_spam_entries', app.storeSpamEntries );
 
 			el.$selectTags
 				.on( 'change', app.changeTags );
@@ -108,25 +108,64 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		},
 
 		/**
-		 * Init Choices.js on the Tags select input element.
+		 * Disable Entries toggle change event.
 		 *
+		 * @since 1.9.2
+		 */
+		disableEntries() {
+			app.toggleFilteringMessages( ! $( this ).prop( 'checked' ) && $( '#wpforms-panel-field-settings-store_spam_entries' ).prop( 'checked' ) );
+		},
+
+		/**
+		 * Store Spam Entries toggle change event.
+		 *
+		 * @since 1.9.2
+		 */
+		storeSpamEntries() {
+			app.toggleFilteringMessages( $( this ).prop( 'checked' ) );
+		},
+
+		/**
+		 * Toggle Filtering Messages.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {boolean} $hide Whether to hide or show messages.
+		 */
+		toggleFilteringMessages( $hide ) {
+			if ( ! $( '#wpforms-panel-field-anti_spam-filtering_store_spam' ).is( ':checked' ) ) {
+				return;
+			}
+
+			// Toggle Country Filter Message.
+			$( '#wpforms-panel-field-anti_spam-country_filter-message-wrap' ).toggleClass( 'wpforms-hidden', $hide );
+
+			// Toggle Keyywords Filter Message.
+			$( '#wpforms-panel-field-anti_spam-keyword_filter-message-wrap' ).toggleClass( 'wpforms-hidden', $hide );
+		},
+
+		/**
+		 * Init Choices.js on the Tags select an input element.
+		 *
+		 * @param {Object} $el Element.
 		 * @since 1.7.5
 		 */
-		initTags: function() {
+		initTags( $el = null ) {
+			$el = $el?.length ? $el : el.$selectTags;
 
 			// Skip in certain cases.
 			if (
-				! el.$selectTags.length ||
+				! $el.length ||
 				typeof window.Choices !== 'function'
 			) {
 				return;
 			}
 
 			// Init Choices.js object instance.
-			vars.tagsChoicesObj = new Choices( el.$selectTags[0], wpforms_builder_settings.choicesjs_config );
+			vars.tagsChoicesObj = new Choices( $el[ 0 ], wpforms_builder_settings.choicesjs_config );
 
 			// Backup current value.
-			var	currentValue = vars.tagsChoicesObj.getValue( true );
+			const	currentValue = vars.tagsChoicesObj.getValue( true );
 
 			// Update all tags choices.
 			vars.tagsChoicesObj
@@ -139,7 +178,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 				)
 				.setChoiceByValue( currentValue );
 
-			el.$selectTags.data( 'choicesjs', vars.tagsChoicesObj );
+			$el.data( 'choicesjs', vars.tagsChoicesObj );
 
 			app.initTagsHiddenInput();
 		},
@@ -149,8 +188,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 */
-		initTagsHiddenInput: function() {
-
+		initTagsHiddenInput() {
 			// Create additional hidden input.
 			el.$selectTagsHiddenInput = $( '<input type="hidden" name="settings[form_tags_json]">' );
 			el.$selectTags
@@ -161,7 +199,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 			app.changeTags( null );
 
 			// Update form state when hidden input initialized.
-			// This will prevent a please-save-prompt to appear, when switching from revisions without doing any changes anywhere.
+			// This will prevent a please-save-prompt to appear when switching from revisions without doing any changes anywhere.
 			if ( wpf.initialSave === true ) {
 				wpf.savedState = wpf.getFormState( '#wpforms-builder-form' );
 			}
@@ -172,10 +210,9 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 *
-		 * @param {object} event Event object.
+		 * @param {Object} event Event object.
 		 */
-		addCustomTagInput: function( event ) {
-
+		addCustomTagInput( event ) {
 			if ( [ 'Enter', ',' ].indexOf( event.key ) < 0 ) {
 				return;
 			}
@@ -187,7 +224,7 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 				return;
 			}
 
-			var	tagLabel = _.escape( event.target.value ).trim(),
+			const tagLabel = _.escape( event.target.value ).trim(),
 				labels = _.map( vars.tagsChoicesObj.getValue(), 'label' ).map( function( label ) {
 					return label.toLowerCase().trim();
 				} );
@@ -207,18 +244,17 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 *
-		 * @param {object} event Event object.
+		 * @param {Object} event Event object.
 		 */
-		editTagsRemoveItem: function( event ) {
-
-			var	allValues = _.map( wpforms_builder_settings.all_tags_choices, 'value' );
+		editTagsRemoveItem( event ) {
+			const allValues = _.map( wpforms_builder_settings.all_tags_choices, 'value' );
 
 			if ( allValues.indexOf( event.detail.value ) >= 0 ) {
 				return;
 			}
 
 			// We should remove new tag from the list of choices.
-			var choicesObj = $( event.target ).data( 'choicesjs' ),
+			const choicesObj = $( event.target ).data( 'choicesjs' ),
 				currentValue = choicesObj.getValue( true ),
 				choices = _.filter( choicesObj._currentState.choices, function( item ) {
 					return item.value !== event.detail.value;
@@ -235,11 +271,10 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 *
-		 * @param {object} tagLabel Event object.
+		 * @param {Object} tagLabel Event object.
 		 */
-		addCustomTagInputCreate: function( tagLabel ) {
-
-			var tag = _.find( wpforms_builder_settings.all_tags_choices, { label: tagLabel } );
+		addCustomTagInputCreate( tagLabel ) {
+			const tag = _.find( wpforms_builder_settings.all_tags_choices, { label: tagLabel } );
 
 			if ( tag && tag.value ) {
 				vars.tagsChoicesObj.setChoiceByValue( tag.value );
@@ -266,14 +301,14 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 		 *
 		 * @since 1.7.5
 		 *
-		 * @param {object} event Event object.
+		 * @param {Object} event Event object.
 		 */
-		changeTags: function( event ) {
-
-			var tagsValue = vars.tagsChoicesObj.getValue(),
+		// eslint-disable-next-line no-unused-vars
+		changeTags( event ) {
+			const tagsValue = vars.tagsChoicesObj.getValue(),
 				tags = [];
 
-			for ( var i = 0; i < tagsValue.length; i++ ) {
+			for ( let i = 0; i < tagsValue.length; i++ ) {
 				tags.push( {
 					value: tagsValue[ i ].value,
 					label: tagsValue[ i ].label,
@@ -289,7 +324,6 @@ WPForms.Admin.Builder.Settings = WPForms.Admin.Builder.Settings || ( function( d
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

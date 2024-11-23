@@ -147,6 +147,7 @@ class CountryFilter {
 					'subsection' => 'country_filter',
 					'default'    => $this->get_default_error_message( $form_data ),
 					'tooltip'    => __( 'Displayed if a visitor from a restricted country tries to submit your form.', 'wpforms' ),
+					'class'      => Helpers::get_filtering_message_classes( $form_data ),
 				]
 			);
 			?>
@@ -171,36 +172,52 @@ class CountryFilter {
 	 * @param array $errors    Form submit errors.
 	 * @param array $form_data Form data and settings.
 	 *
-	 * @uses is_allow_submission, is_deny_submission
-	 *
 	 * @return array
 	 */
 	public function process( $errors, $form_data ) {
-
-		if ( ! $this->is_enabled( $form_data ) ) {
+		// If the form is set to store spam entries detected by filtering, we do not need to display the error message.
+		if ( Helpers::is_store_filtering_spam( $form_data ) ) {
 			return $errors;
 		}
 
-		// Stop processing for local environment.
-		if ( $this->is_local() ) {
-			return $errors;
+		if ( ! $this->is_valid( $form_data ) ) {
+			$form_id                      = ! empty( $form_data['id'] ) ? $form_data['id'] : 0;
+			$errors[ $form_id ]['footer'] = $this->get_error_message( $form_data );
 		}
 
-		// Stop processing when country code field is empty.
-		if ( empty( $this->get_selected_countries( $form_data ) ) ) {
-			return $errors;
+		return $errors;
+	}
+
+	/**
+	 * Check if form submission is valid.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @uses is_allow_submission, is_deny_submission
+	 *
+	 * @return bool
+	 */
+	public function is_valid( array $form_data ): bool {
+
+		if (
+			! $this->is_enabled( $form_data ) ||
+			$this->is_local() ||
+			empty( $this->get_selected_countries( $form_data ) )
+		) {
+			return true;
 		}
 
 		$action = $this->get_selected_action( $form_data );
 
 		$method = "is_{$action}_submission";
 
-		if ( ! $this->$method( $form_data ) ) {
-			$form_id                      = ! empty( $form_data['id'] ) ? $form_data['id'] : 0;
-			$errors[ $form_id ]['footer'] = $this->get_error_message( $form_data );
+		if ( $this->$method( $form_data ) ) {
+			return true;
 		}
 
-		return $errors;
+		return false;
 	}
 
 	/**
@@ -482,12 +499,13 @@ class CountryFilter {
 	 * Get error message.
 	 *
 	 * @since 1.7.8
+	 * @since 1.9.2 Changed method visibility.
 	 *
 	 * @param array $form_data Form data and settings.
 	 *
 	 * @return string
 	 */
-	private function get_error_message( $form_data ) {
+	public function get_error_message( $form_data ) {
 
 		return ! empty( $form_data['settings']['anti_spam']['country_filter']['message'] ) ?
 			$form_data['settings']['anti_spam']['country_filter']['message'] :

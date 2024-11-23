@@ -1,7 +1,83 @@
 # Changelog
 All notable changes to this project will be documented in this file and formatted via [this recommendation](https://keepachangelog.com/).
 
+## [1.9.2.2] - 2024-11-18
+### Fixed
+- Fixed _load_textdomain_just_in_time notice with WordPress 6.7.
+- Some translations were empty with WordPress 6.5+.
+
+## [1.9.2.1] - 2024-11-06
+### Fixed
+- A fatal error occurred on the plugins admin page with some third-party plugins.
+
+## [1.9.2] - 2024-11-05
+### Added
+- Form generation with AI.
+- The Settings section in the WPForms admin bar menu.
+- Toggle allowing to turn specific notifications on or off.
+- Update Stripe payments status after canceling a refund in the Stripe dashboard.
+- Open the URL in the new tab for Confirmations.
+- Repeater fields support for the Entry CSV Attachment settings.
+- New `$row_id` parameter to the `wpforms_pre_update_{$type}` and `wpforms_post_update_{$type}` actions.
+- AI chat warning messages if prohibited code has been removed.
+- Default values for the Spam Protection and Security > Keyword Filter List on the Builder screen.
+
+### Changed
+- Addons not passing the requirements are not deactivated now.
+- Updated jquery.validate library to 1.21.0.
+- Updated stripe/stripe-php library to 16.1.0.
+- Updated DOMPurify library to 3.1.7.
+- Updated woocommerce/action-scheduler library to 3.8.2.
+- Updated Chart.js library to v4.4.4.
+- Smart tags are no longer processed in WordPress builders, such as Gutenberg, Elementor, Divi Builder, etc.
+- Spam entries flagged through the Country & Keyword filters are now stored.
+- Improved handling of duplicate stripe webhooks.
+
+### Fixed
+- Cloned Repeater fields were not visible in form confirmations when Ajax form submission was disabled.
+- The country code was incorrect when the default flag was set in the Smart Phone Field with GDPR.
+- RTL layout of the Repeater field on the front end.
+- RTL layout of the Layout and Repeater fields in the builder.
+- There was unnecessary space in the value of the HTML field on the Entry Print Preview screen.
+- The Smart Phone field entry value was wrong in some cases.
+- There was a potential infinite recursion in error handling.
+- Improved performance on the Templates page in the Form Builder.
+- Field labels were printed in the Order Summary table when the Hide Label option was enabled.
+- The Likert scale field values were not exported if column names contained numbers.
+- The update notice did not appear on the plugins page on WordPress.com.
+- Order summary ignored some payment fields on multi-page forms.
+- Resolved W3C errors and warnings reported for the Fancy fields.
+- In some cases, adding a new account in Form Builder did not load the account data correctly.
+- The currency symbol sometimes moved to the second line when the amount was too long.
+- Table styles were broken in the Rich Text field smart tag.
+- Improved translation handling for addon names and descriptions.
+- Order Summary performance issue on large forms containing numerous payment conditional logic fields.
+- Repeater cloned fields were not added to Resend Notifications.
+- Warning for unsaved changes appeared upon visiting the Marketing tab when no changes were made.
+- Form fields were lost when saving a form with addon fields when the addon was deactivated.
+- Mapped First/Last Name sub-fields were replaced by another after the initial field was deleted.
+- An extra field was displayed when WPForms were embedded using a shortcode in the Footer.
+- Country selector was missed for the preview of the Phone field in the builder.
+- The non-Latin characters were not supported for the AI Choices prompt.
+
+## [1.9.1.6] - 2024-10-28
+### Fixed
+- The Dropdown field placeholder was disabled on the Divi Builder preview screen.
+- When sending a form with an incorrect nonce field, no error was displayed.
+- An extra field was displayed when a form was embedded using a shortcode in the Footer.
+
+## [1.9.1.5] - 2024-10-23
+### Fixed
+- Order Summary table ignored some payment fields on multi-page forms.
+- Update notice did not appear on the plugins page on WordPress.com sites.
+- PHP warnings appeared with WordPress widgets.
+
+## [1.9.1.4] - 2024-10-17
+### Fixed
+- Multiple sending of weekly summary emails.
+
 ## [1.9.1.3] - 2024-10-02
+### Fixed
 - The Repeater field had a drag-and-drop issue in the form builder.
 - HTML tags didn't work in an agreement text of the GDPR field when a field's label was hidden.
 - HTML tags in choices of the Checkboxes, Multiple Choice, and Dropdown fields were escaped and didn't work as expected.
