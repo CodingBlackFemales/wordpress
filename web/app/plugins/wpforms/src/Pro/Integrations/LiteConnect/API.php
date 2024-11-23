@@ -30,10 +30,19 @@ class API extends \WPForms\Integrations\LiteConnect\API {
 	 */
 	public function retrieve_site_entries( $access_token, $last_import_id = null ) {
 
+		/**
+		 * Allow to filter batch size for retrieving site entries from the Lite Connect API.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param int $batch_size Batch size.
+		 */
+		$batch_size = (int) apply_filters( 'wpforms_pro_integrations_lite_connect_api_batch_size', self::LITE_CONNECT_BATCH_SIZE );
+
 		$body = [
 			'domain'  => $this->domain,
 			'site_id' => $this->site_id,
-			'size'    => self::LITE_CONNECT_BATCH_SIZE,
+			'size'    => $batch_size,
 		];
 
 		if ( $last_import_id ) {

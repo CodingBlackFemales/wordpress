@@ -40,7 +40,7 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 				'right'  => '',
 				'bottom' => '',
 				'left'   => '',
-				'units'  => '',
+				'units'  => 'px',
 			);
 
 			$this->value = wp_parse_args( $this->value, $defaults );
@@ -74,7 +74,7 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 			}
 
 			if ( false === $this->field['units'] ) {
-				'' === $this->value['units'];
+				$this->value['units'] = '';
 			}
 
 			if ( ! in_array( $this->field['mode'], array( 'margin', 'padding' ), true ) ) {
@@ -316,7 +316,7 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 			wp_enqueue_style( 'select2-css' );
 
 			wp_enqueue_script(
-				'redux-field-spacing-js',
+				'redux-field-spacing',
 				Redux_Core::$url . 'inc/fields/spacing/redux-spacing' . Redux_Functions::is_min() . '.js',
 				array( 'jquery', 'select2-js', 'redux-js' ),
 				$this->timestamp,
@@ -325,7 +325,7 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 
 			if ( $this->parent->args['dev_mode'] ) {
 				wp_enqueue_style(
-					'redux-field-spacing-css',
+					'redux-field-spacing',
 					Redux_Core::$url . 'inc/fields/spacing/redux-spacing.css',
 					array(),
 					$this->timestamp
@@ -342,6 +342,9 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 		 */
 		public function css_style( $data ) {
 			$style = '';
+
+			$data = (array) $data;
+
 			if ( ! isset( $this->field ) ) {
 				return;
 			}
@@ -350,7 +353,6 @@ if ( ! class_exists( 'Redux_Spacing', false ) ) {
 				$this->field['mode'] = 'padding';
 			}
 
-			$mode  = ( 'absolute' !== $this->field['mode'] ) ? $this->field['mode'] : '';
 			$units = $data['units'] ?? '';
 
 			foreach ( $data as $key => $value ) {

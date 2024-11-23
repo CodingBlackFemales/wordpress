@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<meta name="color-scheme" content="light dark">
 	<title><?php echo esc_html( $title ); ?></title>
 </head>
-<body <?php echo is_rtl() ? 'rightmargin' : 'leftmargin'; ?>="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" bgcolor="#e9eaec">
+<body <?php echo is_rtl() ? 'rightmargin' : 'leftmargin'; ?>="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" bgcolor="#e9eaec" class="<?php echo is_rtl() ? 'rtl' : 'ltr'; ?>">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%" class="body" role="presentation">
 	<tr>
 		<td><!-- Deliberately empty to support consistent sizing and layout across multiple email clients. --></td>

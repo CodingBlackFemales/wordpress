@@ -77,18 +77,31 @@ if ( ! class_exists( 'BB_Elementor_Templates_Manager' ) ) {
 		 *
 		 * @return array $data
 		 */
-		public function localize_tabs( $data ) {
-			
-			$tabs    = $this->get_template_tabs();
-			$ids     = array_keys( $tabs );
-			$default = $ids[0];
-			
-			$data['tabs']       = $this->get_template_tabs();
-			$data['defaultTab'] = $default;
-			
-			return $data;
-			
-		}
+        public function localize_tabs( $data ) {
+
+            $tabs    = $this->get_template_tabs();
+            $ids     = array_keys( $tabs );
+            $default = $ids[0];
+
+            $data['tabs']       = $this->get_template_tabs();
+            $data['defaultTab'] = $default;
+
+            /* Pass activated plugins and components as localize to check dependency for templates. */
+            $active_plugins = (array) get_option( 'active_plugins', array() );
+
+            if ( is_multisite() ) {
+                $network_activated_plugins = array_keys( get_site_option( 'active_sitewide_plugins', array() ) );
+                $active_plugins            = array_merge( $active_plugins, $network_activated_plugins );
+            }
+            $data['active_plugins'] = $active_plugins;
+
+            if ( defined( 'BP_PLATFORM_VERSION' ) ) {
+                $active_components         = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+                $data['active_components'] = $active_components;
+            }
+
+            return $data;
+        }
 		
 		/**
 		 * Register sources.

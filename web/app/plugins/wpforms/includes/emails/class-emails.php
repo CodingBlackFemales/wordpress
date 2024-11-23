@@ -246,6 +246,10 @@ class WPForms_WP_Emails {
 	 */
 	public function get_cc() {
 
+		if ( is_array( $this->cc ) ) {
+			$this->cc = implode( ',', $this->cc );
+		}
+
 		if ( ! empty( $this->cc ) ) {
 
 			$this->cc = $this->process_tag( $this->cc );
@@ -420,7 +424,7 @@ class WPForms_WP_Emails {
 			$this
 		);
 
-		$entry_obj = wpforms()->get( 'entry' );
+		$entry_obj = wpforms()->obj( 'entry' );
 
 		// phpcs:ignore WPForms.Comments.PHPDocHooks.RequiredHookDocumentation, WPForms.PHP.ValidateHooks.InvalidHookName
 		$send_same_process = apply_filters(
@@ -579,7 +583,16 @@ class WPForms_WP_Emails {
 				// field data, then it's a non-input based field, "other fields".
 				if ( empty( $this->fields[ $field_id ] ) ) {
 
-					if ( empty( $other_fields ) || ! in_array( $field['type'], $other_fields, true ) ) {
+					// Check if the field type is in $other_fields, otherwise skip.
+					// Skip if the field is conditionally hidden.
+					if (
+						empty( $other_fields ) ||
+						! in_array( $field['type'], $other_fields, true ) ||
+						(
+							wpforms()->is_pro() &&
+							wpforms_conditional_logic_fields()->field_is_hidden( $this->form_data, $field_id )
+						)
+					) {
 						continue;
 					}
 
@@ -594,17 +607,9 @@ class WPForms_WP_Emails {
 						$field_name = str_repeat( '&mdash;', 6 ) . ' ' . $title . ' ' . str_repeat( '&mdash;', 6 );
 					} elseif ( $field['type'] === 'html' ) {
 
-						if ( $this->is_field_conditionally_hidden( $field['id'] ) ) {
-							continue;
-						}
-
 						$field_name = ! empty( $field['name'] ) ? $field['name'] : esc_html__( 'HTML / Code Block', 'wpforms-lite' );
 						$field_val  = $field['code'];
 					} elseif ( $field['type'] === 'content' ) {
-
-						if ( $this->is_field_conditionally_hidden( $field['id'] ) ) {
-							continue;
-						}
 
 						$field_name = esc_html__( 'Content', 'wpforms-lite' );
 						$field_val  = $field['content'];
@@ -638,8 +643,8 @@ class WPForms_WP_Emails {
 
 				if ( empty( $field_name ) && null !== $field_name ) {
 					$field_name = sprintf( /* translators: %d - field ID. */
-						esc_html__( 'Field ID #%d', 'wpforms-lite' ),
-						absint( $field['id'] )
+						esc_html__( 'Field ID #%s', 'wpforms-lite' ),
+						wpforms_validate_field_id( $field['id'] )
 					);
 				}
 
@@ -648,6 +653,25 @@ class WPForms_WP_Emails {
 				if ( 1 === $x ) {
 					$field_item = str_replace( 'border-top:1px solid #dddddd;', '', $field_item );
 				}
+
+				/**
+				 * Filter the field name before it is added to the email message.
+				 *
+				 * @since 1.9.1
+				 *
+				 * @param string $field_name Field name.
+				 * @param array  $field      Field data.
+				 * @param array  $form_data  Form data and settings.
+				 * @param string $context    Context of the field name.
+				 */
+				$field_name = apply_filters( // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+					'wpforms_html_field_name',
+					$field_name,
+					$this->fields[ $field_id ] ?? $field,
+					$this->form_data,
+					'email-html'
+				);
+
 				$field_item = str_replace( '{field_name}', $field_name, $field_item );
 				$field_item = str_replace(
 					'{field_value}',
@@ -683,8 +707,8 @@ class WPForms_WP_Emails {
 
 				if ( empty( $field_name ) ) {
 					$field_name = sprintf( /* translators: %d - field ID. */
-						esc_html__( 'Field ID #%d', 'wpforms-lite' ),
-						absint( $field['id'] )
+						esc_html__( 'Field ID #%s', 'wpforms-lite' ),
+						wpforms_validate_field_id( $field['id'] )
 					);
 				}
 
@@ -853,19 +877,5 @@ class WPForms_WP_Emails {
 		$subject = trim( str_replace( [ "\r\n", "\r", "\n" ], ' ', $subject ) );
 
 		return wpforms_decode_string( $subject );
-	}
-
-	/**
-	 * If CL is enabled and the field is conditionally hidden, hide it from message.
-	 *
-	 * @since 1.7.9
-	 *
-	 * @param int $field_id Field ID.
-	 *
-	 * @return bool
-	 */
-	private function is_field_conditionally_hidden( $field_id ) {
-
-		return ! empty( $this->form_data['fields'][ $field_id ]['conditionals'] ) && ! wpforms_conditional_logic_fields()->field_is_visible( $this->form_data, $field_id );
 	}
 }

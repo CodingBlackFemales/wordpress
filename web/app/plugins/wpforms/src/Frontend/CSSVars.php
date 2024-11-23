@@ -10,6 +10,15 @@ namespace WPForms\Frontend;
 class CSSVars {
 
 	/**
+	 * White color.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @var string
+	 */
+	const WHITE = '#ffffff';
+
+	/**
 	 * Root vars and values.
 	 *
 	 * @since 1.8.1
@@ -18,19 +27,62 @@ class CSSVars {
 	 */
 	const ROOT_VARS = [
 		'field-border-radius'     => '3px',
-		'field-background-color'  => '#ffffff',
+		'field-border-style'      => 'solid',
+		'field-border-size'       => '1px',
+		'field-background-color'  => self::WHITE,
 		'field-border-color'      => 'rgba( 0, 0, 0, 0.25 )',
 		'field-text-color'        => 'rgba( 0, 0, 0, 0.7 )',
+		'field-menu-color'        => self::WHITE,
 
 		'label-color'             => 'rgba( 0, 0, 0, 0.85 )',
 		'label-sublabel-color'    => 'rgba( 0, 0, 0, 0.55 )',
 		'label-error-color'       => '#d63637',
 
 		'button-border-radius'    => '3px',
+		'button-border-style'     => 'none',
+		'button-border-size'      => '1px',
 		'button-background-color' => '#066aab',
-		'button-text-color'       => '#ffffff',
+		'button-border-color'     => '#066aab',
+		'button-text-color'       => self::WHITE,
 
 		'page-break-color'        => '#066aab',
+
+		'background-image'        => 'none',
+		'background-position'     => 'center center',
+		'background-repeat'       => 'no-repeat',
+		'background-size'         => 'cover',
+		'background-width'        => '100px',
+		'background-height'       => '100px',
+		'background-color'        => 'rgba( 0, 0, 0, 0 )',
+		'background-url'          => 'url()',
+
+		'container-padding'       => '0px',
+		'container-border-style'  => 'none',
+		'container-border-width'  => '1px',
+		'container-border-color'  => '#000000',
+		'container-border-radius' => '3px',
+	];
+
+	/**
+	 * Container shadow vars and values.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @var array
+	 */
+	const CONTAINER_SHADOW_SIZE = [
+		'none'   => [
+			'box-shadow' => 'none',
+		],
+		'small'  => [
+			'box-shadow' => '0px 3px 5px 0px rgba(0, 0, 0, 0.1)',
+		],
+		'medium' => [
+			'box-shadow' => '0px 10px 20px 0px rgba(0, 0, 0, 0.1)',
+		],
+		'large'  => [
+			'box-shadow' => '0px 30px 50px -10px rgba(0, 0, 0, 0.15)',
+		],
 	];
 
 	/**
@@ -130,6 +182,15 @@ class CSSVars {
 	];
 
 	/**
+	 * Spare variables.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @var array
+	 */
+	const SPARE_VARS = [ 'field-border-color' ];
+
+	/**
 	 * Render engine.
 	 *
 	 * @since 1.8.1
@@ -190,7 +251,8 @@ class CSSVars {
 			self::ROOT_VARS,
 			$this->get_complex_vars( 'field-size', self::FIELD_SIZE['medium'] ),
 			$this->get_complex_vars( 'label-size', self::LABEL_SIZE['medium'] ),
-			$this->get_complex_vars( 'button-size', self::BUTTON_SIZE['medium'] )
+			$this->get_complex_vars( 'button-size', self::BUTTON_SIZE['medium'] ),
+			$this->get_complex_vars( 'container-shadow-size', self::CONTAINER_SHADOW_SIZE['none'] )
 		);
 
 		/**
@@ -213,7 +275,7 @@ class CSSVars {
 	 * @param string $prefix CSS variable prefix.
 	 * @param array  $values Values.
 	 */
-	public function get_complex_vars( $prefix, $values ) {
+	public function get_complex_vars( $prefix, $values ): array {
 
 		$vars = [];
 
@@ -233,7 +295,7 @@ class CSSVars {
 	 *
 	 * @return array
 	 */
-	public function get_vars( $selector ) {
+	public function get_vars( $selector ): array {
 
 		if ( empty( $selector ) ) {
 			$selector = ':root';
@@ -270,11 +332,12 @@ class CSSVars {
 	 *
 	 * @since 1.8.1
 	 *
-	 * @param string $selector Selector.
-	 * @param array  $vars     Variables data.
-	 * @param string $style_id Style tag Id attribute. Optional. Defaults to empty string.
+	 * @param string     $selector Selector.
+	 * @param array      $vars     Variables data.
+	 * @param string     $style_id Style tag ID attribute. Optional. Default is empty string.
+	 * @param string|int $form_id  Form ID. Optional. Default is empty string.
 	 */
-	public function output_selector_vars( $selector, $vars, $style_id = '' ) {
+	public function output_selector_vars( $selector, $vars, $style_id = '', $form_id = '' ) {
 
 		if ( empty( $this->render_engine ) ) {
 			$this->render_engine = wpforms_get_render_engine();
@@ -294,8 +357,36 @@ class CSSVars {
 			</style>',
 			sanitize_key( $style_id ),
 			$selector, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
- 			esc_html( $this->get_vars_css( $vars ) )
+ 			esc_html( $this->get_vars_css( $vars, $form_id ) )
 		);
+	}
+
+	/**
+	 * Pre print vars filter.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array      $vars    Variables data.
+	 * @param string|int $form_id Form ID. Optional. Default is empty string.
+	 *
+	 * @return array
+	 */
+	private function get_pre_print_vars( array $vars, $form_id = '' ): array {
+
+		// Normalize the `background-url` variable.
+		if ( isset( $vars['background-url'] ) ) {
+			$vars['background-url'] = $vars['background-url'] === 'url()' ? 'none' : $vars['background-url'];
+		}
+
+		/**
+		 * Filter CSS variables right before printing the CSS.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param array $vars    CSS variables.
+		 * @param int   $form_id Form ID. Optional. Default is empty string.
+		 */
+		return (array) apply_filters( 'wpforms_frontend_css_vars_pre_print_filter', $vars, $form_id );
 	}
 
 	/**
@@ -303,14 +394,24 @@ class CSSVars {
 	 *
 	 * @since 1.8.1
 	 *
-	 * @param array $vars Variables data.
+	 * @param array      $vars    Variables data.
+	 * @param string|int $form_id Form ID. Optional. Default is empty string.
 	 */
-	private function get_vars_css( $vars ) {
+	private function get_vars_css( $vars, $form_id = '' ): string {
 
+		$vars   = $this->get_pre_print_vars( (array) $vars, $form_id );
 		$result = '';
 
 		foreach ( $vars as $name => $value ) {
+			if ( $value === '0' ) {
+				$value = '0px';
+			}
+
 			$result .= "--wpforms-{$name}: {$value};\n";
+
+			if ( in_array( $name, self::SPARE_VARS, true ) ) {
+				$result .= "--wpforms-{$name}-spare: {$value};\n";
+			}
 		}
 
 		return $result;
@@ -325,7 +426,7 @@ class CSSVars {
 	 *
 	 * @return array
 	 */
-	public function get_customized_css_vars( $attr ) {
+	public function get_customized_css_vars( $attr ): array { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		$root_css_vars = $this->get_vars( ':root' );
 		$css_vars      = [];
@@ -342,41 +443,160 @@ class CSSVars {
 			$css_vars[ $var_name ] = $value;
 		}
 
-		$css_vars = array_merge(
-			$css_vars,
-			$this->get_size_css_vars( $attr, $css_vars )
-		);
+		// Reset border size in case of border style is `none`.
+		if ( isset( $css_vars['field-border-style'] ) && $css_vars['field-border-style'] === 'none' ) {
+			$css_vars['field-border-size'] = '0px';
+		}
 
-		return $css_vars;
+		if ( isset( $css_vars['button-border-style'] ) && $css_vars['button-border-style'] === 'none' ) {
+			$css_vars['button-border-size'] = '0px';
+		}
+
+		// Set the button alternative background color and use border color for accent in case of transparent color.
+		$button_bg_color = $css_vars['button-background-color'] ?? $root_css_vars['button-background-color'];
+
+		if ( $this->is_transparent_color( $button_bg_color ) ) {
+			$css_vars['button-background-color-alt'] = $button_bg_color;
+
+			$border_color = $css_vars['button-border-color'] ?? $root_css_vars['button-border-color'];
+
+			$css_vars['button-background-color'] = $this->is_transparent_color( $border_color ) ? $root_css_vars['button-background-color'] : $border_color;
+			$button_bg_color                     = $css_vars['button-background-color'];
+		}
+
+		$button_bg_color = strtolower( $button_bg_color );
+
+		// Set the button alternative text color in case if the background and text color are identical.
+		$button_text_color = strtolower( $css_vars['button-text-color'] ?? $root_css_vars['button-text-color'] );
+
+		if ( $button_bg_color === $button_text_color || $this->is_transparent_color( $button_text_color ) ) {
+			$css_vars['button-text-color-alt'] = $this->get_contrast_color( $button_bg_color );
+		}
+
+		$size_css_vars = $this->get_size_css_vars( $attr );
+
+		return array_merge( $css_vars, $size_css_vars );
+	}
+
+	/**
+	 * Checks if the provided color has transparency.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string $color The color to check.
+	 *
+	 * @return bool
+	 */
+	private function is_transparent_color( $color ): bool {
+
+		$rgba = $this->get_color_as_rgb_array( $color );
+
+		$opacity_threshold = 0.33;
+		$opacity           = $rgba[3] ?? 1;
+
+		return $opacity < $opacity_threshold;
+	}
+
+	/**
+	 * Get contrast color relative to given color.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string|array $color The color.
+	 *
+	 * @return string
+	 */
+	private function get_contrast_color( $color ): string {
+
+		$rgba = is_array( $color ) ? $color : $this->get_color_as_rgb_array( $color );
+		$avg  = (int) ( ( ( array_sum( $rgba ) ) / 3 ) * ( $rgba[3] ?? 1 ) );
+
+		return $avg < 128 ? '#ffffff' : '#000000';
 	}
 
 	/**
 	 * Get size CSS vars.
 	 *
 	 * @since 1.8.3
+	 * @since 1.8.8 Removed $css_vars argument.
 	 *
-	 * @param array $attr     Attributes passed by integration.
-	 * @param array $css_vars Current CSS vars.
+	 * @param array $attr Attributes passed by integration.
 	 *
 	 * @return array
 	 */
-	private function get_size_css_vars( $attr, $css_vars ) {
+	private function get_size_css_vars( array $attr ): array {
 
-		$size_items = [ 'field', 'label', 'button' ];
+		$size_items    = [ 'field', 'label', 'button', 'container-shadow' ];
+		$size_css_vars = [];
 
 		foreach ( $size_items as $item ) {
 
-			$item_attr     = $item . 'Size';
+			$item_attr = preg_replace_callback(
+				'/-(\w)/',
+				static function ( $matches ) {
+
+					return strtoupper( $matches[1] );
+				},
+				$item
+			);
+
+			$item_attr .= 'Size';
+
 			$item_key      = $item . '-size';
-			$item_constant = 'self::' . strtoupper( $item ) . '_SIZE';
+			$item_constant = 'self::' . str_replace( '-', '_', strtoupper( $item ) ) . '_SIZE';
 
 			if ( empty( $attr[ $item_attr ] ) ) {
 				continue;
 			}
 
-			$css_vars += $this->get_complex_vars( $item_key, constant( $item_constant )[ $attr[ $item_attr ] ] );
+			$size_css_vars[] = $this->get_complex_vars( $item_key, constant( $item_constant )[ $attr[ $item_attr ] ] );
 		}
 
-		return $css_vars;
+		return empty( $size_css_vars ) ? [] : array_merge( ...$size_css_vars );
+	}
+
+	/**
+	 * Get color as an array of RGB(A) values.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string $color Color.
+	 *
+	 * @return array|bool Color as an array of RGBA values. False on error.
+	 */
+	private function get_color_as_rgb_array( $color ) {
+
+		// Remove # from the beginning of the string and remove whitespaces.
+		$color = preg_replace( '/^#/', '', strtolower( trim( $color ) ) );
+		$color = str_replace( ' ', '', $color );
+
+		if ( $color === 'transparent' ) {
+			$color = 'rgba(0,0,0,0)';
+		}
+
+		$rgba      = $color;
+		$rgb_array = [];
+
+		// Check if color is in HEX(A) format.
+		$is_hex = preg_match( '/[0-9a-f]{6,8}$/', $rgba );
+
+		if ( $is_hex ) {
+			// Search and split HEX(A) color into an array of couples of chars.
+			preg_match_all( '/\w\w/', $rgba, $rgb_array );
+
+			$rgb_array    = array_map(
+				static function ( $value ) {
+
+					return hexdec( '0x' . $value );
+				},
+				$rgb_array[0] ?? []
+			);
+			$rgb_array[3] = ( $rgb_array[3] ?? 255 ) / 255;
+		} else {
+			$rgba      = preg_replace( '/[^\d,.]/', '', $rgba );
+			$rgb_array = explode( ',', $rgba );
+		}
+
+		return $rgb_array;
 	}
 }

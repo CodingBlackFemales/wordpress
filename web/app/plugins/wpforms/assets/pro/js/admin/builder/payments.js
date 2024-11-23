@@ -1,4 +1,4 @@
-/* global wpf, wpforms_builder */
+/* global wpf, wpforms_builder, wpforms_builder_stripe */
 
 'use strict';
 
@@ -292,6 +292,10 @@ var WPFormsBuilderPayments = window.WPFormsBuilderPayments || ( function( docume
 			var $input = $( this ),
 				$wrapper = app.getProviderSection( $input ),
 				$plan = $input.closest( '.wpforms-panel-content-section-payment-plan' );
+
+			if ( $wrapper.data( 'provider' ) === 'stripe' && ! wpforms_builder_stripe.is_pro ) {
+				return;
+			}
 
 			$.alert( {
 				title: wpforms_builder.heads_up,

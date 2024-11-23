@@ -50,7 +50,7 @@ class InvoiceCreated extends Base {
 
 		$this->insert_renewal_meta( $renewal_id, $original_subscription );
 
-		wpforms()->get( 'payment_meta' )->add_log(
+		wpforms()->obj( 'payment_meta' )->add_log(
 			$renewal_id,
 			sprintf(
 				'Stripe renewal was created (Invoice ID: %1$s).',
@@ -74,12 +74,10 @@ class InvoiceCreated extends Base {
 	 */
 	private function insert_renewal( $original_subscription ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		$currency       = strtoupper( $this->data->currency );
-		$amount         = $this->data->amount_due / Helpers::get_decimals_amount( $currency );
-		$customer_name  = isset( $this->data->customer_name ) ? $this->data->customer_name : '';
-		$customer_email = isset( $this->data->customer_email ) ? $this->data->customer_email : '';
+		$currency = strtoupper( $this->data->currency );
+		$amount   = $this->data->amount_due / Helpers::get_decimals_amount( $currency );
 
-		return wpforms()->get( 'payment' )->add(
+		return wpforms()->obj( 'payment' )->add(
 			[
 				'mode'             => $original_subscription->mode,
 				'form_id'          => isset( $original_subscription->form_id ) ? $original_subscription->form_id : 0,
@@ -87,7 +85,7 @@ class InvoiceCreated extends Base {
 				'status'           => 'pending',
 				'type'             => 'renewal',
 				'gateway'          => 'stripe',
-				'title'            => $customer_name ? $customer_name : $customer_email,
+				'title'            => $original_subscription->title,
 				'subtotal_amount'  => $amount,
 				'total_amount'     => $amount,
 				'currency'         => $currency,
@@ -115,7 +113,7 @@ class InvoiceCreated extends Base {
 		$meta['invoice_id']     = $this->data->id;
 		$meta['customer_email'] = isset( $this->data->customer_email ) ? $this->data->customer_email : '';
 
-		wpforms()->get( 'payment_meta' )->bulk_add( $renewal_id, $meta );
+		wpforms()->obj( 'payment_meta' )->bulk_add( $renewal_id, $meta );
 	}
 
 	/**
@@ -129,7 +127,7 @@ class InvoiceCreated extends Base {
 	 */
 	private function copy_meta_from_db( $original_subscription_id ) {
 
-		$all_meta     = wpforms()->get( 'payment_meta' )->get_all( $original_subscription_id );
+		$all_meta     = wpforms()->obj( 'payment_meta' )->get_all( $original_subscription_id );
 		$db_meta_keys = [
 			'fields',
 			'subscription_period',
@@ -161,12 +159,12 @@ class InvoiceCreated extends Base {
 			$invoice = new Invoice();
 			$invoice = $invoice->retrieve( $this->data->id, Helpers::get_auth_opts() );
 
-			if ( $invoice->finalized_at === null ) {
+			if ( empty( $invoice->finalized_at ) ) {
 				$invoice->finalizeInvoice();
 			}
 		} catch ( Exception $e ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			throw new RuntimeException( $e->getMessage() );
+			throw new RuntimeException( esc_html( $e->getMessage() ) );
 		}
 	}
 }

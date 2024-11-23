@@ -23,9 +23,9 @@ class Submission extends \WPForms\Forms\Submission {
 		}
 
 		// Save entry fields.
-		wpforms()->get( 'entry_fields' )->save( $this->fields, $this->form_data, $entry_id );
+		wpforms()->obj( 'entry_fields' )->save( $this->fields, $this->form_data, $entry_id );
 
 		// Save entry ID.
-		wpforms()->get( 'process' )->entry_id = $entry_id;
+		wpforms()->obj( 'process' )->entry_id = $entry_id;
 	}
 }

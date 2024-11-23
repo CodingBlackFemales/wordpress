@@ -2,6 +2,8 @@
 
 namespace WPForms\Admin\Splash;
 
+use WPForms\Migrations\Base as MigrationsBase;
+
 /**
  * Splash upgrader.
  *
@@ -40,18 +42,21 @@ class SplashUpgrader {
 	 */
 	private function hooks() {
 
-		// Update splash data after plugin update. Not run for new installs.
-		add_action( 'upgrader_process_complete', [ $this, 'update_splash_data' ] );
+		// Update splash data after plugin update.
+		add_action( 'wpforms_migrations_base_core_upgraded', [ $this, 'update_splash_data_on_migration' ], 10, 2 );
 	}
 
 	/**
 	 * Update splash modal data.
 	 *
 	 * @since 1.8.7
+	 * @deprecated 1.8.8
 	 *
 	 * @param object $upgrader Upgrader object.
 	 */
 	public function update_splash_data( $upgrader ) {
+
+		_deprecated_function( __METHOD__, '1.8.8 of the WPForms plugin', '\WPForms\Admin\Splash\SplashUpgrader::update_splash_data_on_migration()' );
 
 		$result = $upgrader->result ?? null;
 
@@ -86,10 +91,43 @@ class SplashUpgrader {
 		$this->update_splash_data_version( $version );
 
 		// Force update splash data cache.
-		wpforms()->get( 'splash_cache' )->update( true );
+		wpforms()->obj( 'splash_cache' )->update( true );
 
 		// Reset hide_welcome_block widget meta for all users.
 		$this->remove_hide_welcome_block_widget_meta();
+	}
+
+	/**
+	 * Update splash modal data on migration.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string|mixed   $previous_version Previous plugin version.
+	 * @param MigrationsBase $migrations_obj   Migrations object.
+	 */
+	public function update_splash_data_on_migration( $previous_version, MigrationsBase $migrations_obj ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+
+		$plugin_version   = $this->get_major_version( WPFORMS_VERSION );
+		$data_version     = $this->get_major_version( $this->get_splash_data_version() );
+		$previous_version = $this->get_major_version( $previous_version );
+
+		// Skip if when the splash data is already updated.
+		// It is possible when the plugin was downgraded.
+		if (
+			version_compare( $previous_version, '1.8.7', '>' ) &&
+			version_compare( $plugin_version, $data_version, '<' )
+		) {
+			return;
+		}
+
+		// Force update splash data cache.
+		wpforms()->obj( 'splash_cache' )->update( true );
+
+		// Reset hide_welcome_block widget meta for all users.
+		$this->remove_hide_welcome_block_widget_meta();
+
+		// Store updated plugin major version.
+		$this->update_splash_data_version( $plugin_version );
 	}
 
 	/**

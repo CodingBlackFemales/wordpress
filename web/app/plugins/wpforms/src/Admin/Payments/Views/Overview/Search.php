@@ -191,7 +191,7 @@ class Search {
 			return $this->select_from_any( $operator, $word, $n );
 		}
 
-		$payment_table = wpforms()->get( 'payment' )->table_name;
+		$payment_table = wpforms()->obj( 'payment' )->table_name;
 
 		$query = "SELECT id FROM {$payment_table} 
 					WHERE {$payment_table}.{$column} {$operator} {$word}";
@@ -296,8 +296,8 @@ class Search {
 
 		global $wpdb;
 
-		$payment_table = wpforms()->get( 'payment' )->table_name;
-		$meta_table    = wpforms()->get( 'payment_meta' )->table_name;
+		$payment_table = wpforms()->obj( 'payment' )->table_name;
+		$meta_table    = wpforms()->obj( 'payment_meta' )->table_name;
 		$meta_key      = $wpdb->prepare( '%s', $meta_key );
 
 		$query = "SELECT id FROM $payment_table
@@ -323,8 +323,8 @@ class Search {
 	 */
 	private function select_from_any( $operator, $word, $n ) {
 
-		$payment_table = wpforms()->get( 'payment' )->table_name;
-		$meta_table    = wpforms()->get( 'payment_meta' )->table_name;
+		$payment_table = wpforms()->obj( 'payment' )->table_name;
+		$meta_table    = wpforms()->obj( 'payment_meta' )->table_name;
 
 		$query = sprintf(
 			"SELECT id FROM {$payment_table}

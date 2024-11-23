@@ -216,7 +216,7 @@ abstract class WPForms_Payment {
 	public function builder_form_data() {
 
 		// Get current revision, if available.
-		$revision = wpforms()->get( 'revisions' )->get_revision();
+		$revision = wpforms()->obj( 'revisions' )->get_revision();
 
 		// If we're viewing a valid revision, set the form data so the Form Builder shows correct state.
 		if ( $revision && isset( $revision->post_content ) ) {
@@ -228,7 +228,7 @@ abstract class WPForms_Payment {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$form_id = isset( $_GET['form_id'] ) ? absint( $_GET['form_id'] ) : false;
 
-		$this->form_data = wpforms()->get( 'form' )->get(
+		$this->form_data = wpforms()->obj( 'form' )->get(
 			$form_id,
 			[ 'content_only' => true ]
 		);

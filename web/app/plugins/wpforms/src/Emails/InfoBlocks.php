@@ -30,6 +30,7 @@ class InfoBlocks {
 			return $this->fetch_all();
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$contents = file_get_contents( $cache_file );
 		$contents = json_decode( $contents, true );
 
@@ -121,7 +122,9 @@ class InfoBlocks {
 			return $filtered;
 		}
 
-		$license_type = \wpforms_setting( 'type', false, 'wpforms_license' );
+		// When there is no license, we assume it's a Lite version.
+		// This is needed to show blocks for Lite users, as they don't have a license type.
+		$license_type = wpforms_setting( 'type', 'lite', 'wpforms_license' );
 
 		foreach ( $data as $key => $item ) {
 
@@ -272,6 +275,7 @@ class InfoBlocks {
 
 		$info_blocks = $this->fetch_all();
 
-		file_put_contents( $file_path, wp_json_encode( $info_blocks ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+		file_put_contents( $file_path, wp_json_encode( $info_blocks ) );
 	}
 }

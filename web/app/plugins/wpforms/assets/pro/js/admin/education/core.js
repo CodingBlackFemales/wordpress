@@ -56,23 +56,22 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 		 *
 		 * @since 1.6.6
 		 */
-		openModalButtonClick: function() {
-
+		openModalButtonClick() {
 			$( document ).on(
 				'click',
 				'.education-modal',
 				function( event ) {
+					const $this = $( this );
+					const action = $this.data( 'action' );
 
-					var $this = $( this );
-
-					if ( ! $this.data( 'action' ) || [ 'activate', 'install' ].includes( $this.data( 'action' ) ) ) {
+					if ( ! action || [ 'activate', 'install' ].includes( action ) ) {
 						return;
 					}
 
 					event.preventDefault();
 					event.stopImmediatePropagation();
 
-					switch ( $this.data( 'action' ) ) {
+					switch ( action ) {
 						case 'upgrade':
 							app.upgradeModal(
 								$this.data( 'name' ),
@@ -86,7 +85,8 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 							app.licenseModal(
 								$this.data( 'name' ),
 								$this.data( 'field-name' ),
-								WPFormsEducation.core.getUTMContentValue( $this )
+								WPFormsEducation.core.getUTMContentValue( $this ),
+								$this.data( 'redirect-url' )
 							);
 							break;
 					}
@@ -131,7 +131,9 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 						if ( res.success ) {
 							location.reload();
 						} else {
-							$form.append( '<div class="msg error" style="display: none;">' + wpforms_admin[ pluginType + '_error' ] + '</div>' );
+							const errorMessage = typeof res.data === 'object' ? wpforms_admin[ pluginType + '_error' ] : res.data;
+
+							$form.append( '<div class="msg error" style="display: none;">' + errorMessage + '</div>' );
 							$form.find( '.msg' ).slideDown();
 						}
 						$button.text( buttonText );
@@ -226,45 +228,44 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 		 *
 		 * @since 1.6.6
 		 *
-		 * @param {string} feature    Feature name.
-		 * @param {string} fieldName  Field name.
-		 * @param {string} utmContent UTM content.
+		 * @param {string} feature     Feature name.
+		 * @param {string} fieldName   Field name.
+		 * @param {string} utmContent  UTM content.
+		 * @param {string} redirectUrl Redirect URL.
 		 */
-		licenseModal: function( feature, fieldName, utmContent ) {
-
-			var name = fieldName || feature,
-				content = wpforms_education.license.prompt,
-				button = wpforms_education.license.button,
+		licenseModal( feature, fieldName, utmContent, redirectUrl = undefined ) {
+			const name = fieldName || feature,
 				isActivateModal = wpforms_education.license.is_empty && typeof WPFormsBuilder !== 'undefined';
+
+			let content = wpforms_education.license.prompt,
+				button = wpforms_education.license.button;
 
 			if ( isActivateModal ) {
 				content = `
-					<p>${wpforms_education.activate_license.prompt_part1}</p>
-					<p>${wpforms_education.activate_license.prompt_part2}</p>
-					<input type="password" id="wpforms-edu-modal-license-key" value="" placeholder="${wpforms_education.activate_license.placeholder}">
+					<p>${ wpforms_education.activate_license.prompt_part1 }</p>
+					<p>${ wpforms_education.activate_license.prompt_part2 }</p>
+					<input type="password" id="wpforms-edu-modal-license-key" value="" placeholder="${ wpforms_education.activate_license.placeholder }">
 				`;
 				button = wpforms_education.activate_license.button;
 			}
 
 			$.alert( {
-				title  : wpforms_education.license.title,
-				content: content.replace( /%name%/g, `<strong>${name}</strong>` ).replace( /~utm-content~/g, utmContent ),
-				icon   : 'fa fa-exclamation-circle',
-				type   : 'orange',
+				title: wpforms_education.license.title,
+				content: content.replace( /%name%/g, `<strong>${ name }</strong>` ).replace( /~utm-content~/g, utmContent ),
+				icon: 'fa fa-exclamation-circle',
+				type: 'orange',
 				buttons: {
 					confirm: {
-						text    : button,
+						text: button,
 						btnClass: 'btn-confirm',
-						keys    : [ 'enter' ],
-						action  : function() {
-
+						keys: [ 'enter' ],
+						action() {
 							if ( isActivateModal ) {
-
 								this.$$confirm
 									.prop( 'disabled', true )
 									.html( WPFormsEducation.core.getSpinner() + wpforms_education.activating );
 
-								app.activateLicense( this );
+								app.activateLicense( this, redirectUrl );
 
 								return false;
 							}
@@ -275,7 +276,7 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 							);
 						},
 					},
-					cancel : {
+					cancel: {
 						text: wpforms_education.cancel,
 					},
 				},
@@ -287,11 +288,11 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 		 *
 		 * @since 1.7.6
 		 *
-		 * @param {object} previousModal Previous modal instance.
+		 * @param {Object} previousModal Previous modal instance.
+		 * @param {string} redirectUrl   Redirect URL.
 		 */
-		activateLicense: function( previousModal ) {
-
-			var key = $( '#wpforms-edu-modal-license-key' ).val();
+		activateLicense( previousModal, redirectUrl = undefined ) {
+			const key = $( '#wpforms-edu-modal-license-key' ).val();
 
 			if ( key.length === 0 ) {
 				previousModal.close();
@@ -304,20 +305,20 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 				wpforms_education.ajax_url,
 				{
 					action: 'wpforms_verify_license',
-					nonce : typeof wpforms_builder !== 'undefined' ? wpforms_builder.admin_nonce : wpforms_admin.nonce,
+					nonce: typeof wpforms_builder !== 'undefined' ? wpforms_builder.admin_nonce : wpforms_admin.nonce,
 					license: key,
 				},
 				function( res ) {
-
 					previousModal.close();
 
 					if ( res.success ) {
 						WPFormsEducation.core.saveModal(
 							wpforms_education.activate_license.success_title,
-							`
-								<p>${wpforms_education.activate_license.success_part1}</p>
-								<p>${wpforms_education.activate_license.success_part2}</p>
-							`
+							`<p>${ wpforms_education.activate_license.success_part1 } ${ wpforms_education.activate_license.success_part2 }</p>`,
+							{
+								redirectUrl,
+								saveConfirm: wpforms_education.activate_license.save_confirm,
+							},
 						);
 
 						return;
@@ -335,7 +336,6 @@ WPFormsEducation.proCore = window.WPFormsEducation.proCore || ( function( docume
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

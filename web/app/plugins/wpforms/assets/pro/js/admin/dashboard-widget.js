@@ -68,6 +68,13 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 	const colorScheme = wpforms_dashboard_widget.color_scheme === 'wp' ? wpColors : wpformsColors;
 
 	/**
+	 * Check if the site is RTL.
+	 *
+	 * @since 1.9.1
+	 */
+	const isRTL = $( 'body' ).hasClass( 'rtl' );
+
+	/**
 	 * Chart.js functions and properties.
 	 *
 	 * @since 1.5.0
@@ -102,19 +109,17 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 				} ],
 			},
 			options: {
-				maintainAspectRatio        : false,
-				scales                     : {
-					xAxes: [ {
-						type        : 'time',
-						time        : {
-							unit: 'day',
+				maintainAspectRatio: false,
+				scales: {
+					x: {
+						type: 'timeseries',
+						time: {
 							tooltipFormat: wpforms_dashboard_widget.date_format,
 						},
-						distribution: 'series',
-						ticks       : {
-							beginAtZero: true,
-							source     : 'labels',
-							padding    : 10,
+						reverse: isRTL,
+						ticks: {
+							source: 'labels',
+							padding: 10,
 							minRotation: 25,
 							maxRotation: 25,
 							callback( value, index, values ) {
@@ -122,19 +127,19 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 								const gap = Math.floor( values.length / 7 );
 
 								if ( gap < 1 ) {
-									return value;
+									return moment( value ).format( 'MMM D' );
 								}
 								if ( ( values.length - index - 1 ) % gap === 0 ) {
-									return value;
+									return moment( value ).format( 'MMM D' );
 								}
 							},
 						},
-					} ],
-					yAxes: [ {
+					},
+					y: {
+						beginAtZero: true,
 						ticks: {
-							beginAtZero  : true,
 							maxTicksLimit: 6,
-							padding      : 20,
+							padding: 20,
 							callback( value ) {
 								// Make sure the tick value has no decimals.
 								if ( Math.floor( value ) === value ) {
@@ -142,26 +147,25 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 								}
 							},
 						},
-					} ],
-				},
-				elements                   : {
-					line: {
-						tension: 0,
 					},
 				},
-				animation                  : {
-					duration: 0,
+				elements: {
+					line: {
+						tension: 0,
+						fill: true,
+					},
 				},
-				hover                      : {
-					animationDuration: 0,
+				animation: false,
+				plugins: {
+					legend: {
+						display: false,
+					},
+					tooltip: {
+						enabled: true,
+						displayColors: false,
+						rtl: isRTL,
+					},
 				},
-				legend                     : {
-					display: false,
-				},
-				tooltips                   : {
-					displayColors: false,
-				},
-				responsiveAnimationDuration: 0,
 			},
 		},
 
@@ -263,7 +267,7 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 
 				chart.settings.data.labels.push( date );
 				chart.settings.data.datasets[ 0 ].data.push( {
-					t: date,
+					x: date,
 					y: value.count,
 				} );
 			} );
@@ -292,7 +296,7 @@ const WPFormsDashboardWidget = window.WPFormsDashboardWidget || ( function( docu
 
 				chart.settings.data.labels.push( date );
 				chart.settings.data.datasets[ 0 ].data.push( {
-					t: date,
+					x: date,
 					y: Math.floor( Math.random() * ( maxY - minY + 1 ) ) + minY,
 				} );
 			}

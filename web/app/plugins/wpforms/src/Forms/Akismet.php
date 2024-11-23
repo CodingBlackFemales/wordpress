@@ -122,14 +122,15 @@ class Akismet {
 	 * Get field content.
 	 *
 	 * @since 1.8.5
+	 * @since 1.8.9.3 Changed $field_id type from string to int|string.
 	 *
-	 * @param array $field    Field data.
-	 * @param array $entry    Entry data.
-	 * @param int   $field_id Field ID.
+	 * @param array      $field    Field data.
+	 * @param array      $entry    Entry data.
+	 * @param int|string $field_id Field ID.
 	 *
 	 * @return string
 	 */
-	private function get_field_content( array $field, array $entry, int $field_id ): string {
+	private function get_field_content( array $field, array $entry, $field_id ): string {
 
 		if ( ! isset( $entry['fields'][ $field_id ] ) ) {
 			return '';
@@ -158,25 +159,7 @@ class Akismet {
 	 */
 	private function entry_is_spam( array $form_data, array $entry ): bool { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-		$entry_data = $this->get_entry_data( $form_data['fields'], $entry );
-		$request    = [
-			'blog'                 => get_option( 'home' ),
-			'blog_lang'            => get_locale(),
-			'blog_charset'         => get_bloginfo( 'charset' ),
-			'permalink'            => wpforms_current_url(),
-			'user_ip'              => wpforms_is_collecting_ip_allowed( $form_data ) ? wpforms_get_ip() : null,
-			'user_id'              => get_current_user_id(),
-			'user_role'            => AkismetPlugin::get_user_roles( get_current_user_id() ),
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			'user_agent'           => isset( $_SERVER['HTTP_USER_AGENT'] ) ? wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) : null,
-			'referrer'             => wp_get_referer() ? wp_get_referer() : null,
-			'comment_type'         => 'contact-form',
-			'comment_author'       => $entry_data['name'] ?? '',
-			'comment_author_email' => $entry_data['email'] ?? '',
-			'comment_author_url'   => $entry_data['url'] ?? '',
-			'comment_content'      => $entry_data['content'] ?? '',
-			'honeypot_field_name'  => 'wpforms[hp]',
-		];
+		$request = $this->get_request_args( $form_data, $entry );
 
 		// Tell Akismet to not use the submission for training if we're on the Preview page and the user is
 		// an administrator. Checking for both the preview page and the administrator role prevents
@@ -191,12 +174,126 @@ class Akismet {
 			$request['is_test'] = true;
 		}
 
+		$response = $this->http_post( $request, 'comment-check' );
+
+		return ! empty( $response ) && isset( $response[1] ) && 'true' === trim( $response[1] );
+	}
+
+	/**
+	 * Mark the entry as not spam in Akismet.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $form_data Form data for the current form.
+	 * @param array $entry     Entry data for the current entry.
+	 *
+	 * @return bool
+	 */
+	public function set_entry_not_spam( array $form_data, array $entry ) {
+
+		if ( ! self::is_configured() ) {
+			return false;
+		}
+
+		$request = $this->get_request_args( $form_data, $entry );
+
+		$response = $this->http_post( $request, 'submit-ham' );
+
+		// Yes, Akismet returns "Thanks for making the web a better place." as the response.
+		return ! empty( $response ) && isset( $response[1] ) && 'Thanks for making the web a better place.' === trim( $response[1] );
+	}
+
+	/**
+	 * Mark the entry as spam in Akismet.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param array $form_data Form data for the current form.
+	 * @param array $entry     Entry data for the current entry.
+	 *
+	 * @return bool
+	 */
+	public function submit_missed_spam( array $form_data, array $entry ) {
+
+		if ( ! self::is_configured() ) {
+			return false;
+		}
+
+		$request = $this->get_request_args( $form_data, $entry );
+
+		$response = $this->http_post( $request, 'submit-spam' );
+
+		// Yes, Akismet returns "Thanks for making the web a better place." as the response.
+		return ! empty( $response ) && isset( $response[1] ) && 'Thanks for making the web a better place.' === trim( $response[1] );
+	}
+
+	/**
+	 * Get the request arguments to be sent to Akismet.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array $form_data Form data for the current form.
+	 * @param array $entry     Entry data for the current entry.
+	 *
+	 * @return array $request_args Request arguments to be sent to Akismet.
+	 */
+	private function get_request_args( $form_data, $entry ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+
+		$entry_data = $this->get_entry_data( $form_data['fields'], $entry );
+
+		$entry_id = $entry['entry_id'] ?? null;
+
+		// We can't use certain real-time functions when the entry is marked as not spam.
+		// In this case, we need to use the smart tag value.
+		if ( ! empty( $entry_id ) ) {
+			$page_url    = wpforms_process_smart_tags( '{page_url}', $form_data, [], $entry_id );
+			$url_referer = wpforms_process_smart_tags( '{url_referer}', $form_data, [], $entry_id );
+			$user_id     = wpforms_process_smart_tags( '{user_id}', $form_data, [], $entry_id );
+			$user_ip     = wpforms_process_smart_tags( '{user_ip}', $form_data, [], $entry_id );
+			$user_agent  = '';
+		} else {
+			$page_url    = wpforms_current_url();
+			$url_referer = wp_get_referer();
+			$user_id     = get_current_user_id();
+			$user_ip     = wpforms_get_ip();
+			$user_agent  = isset( $_SERVER['HTTP_USER_AGENT'] ) ? wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		}
+
+		return [
+			'blog'                 => get_option( 'home' ),
+			'blog_lang'            => get_locale(),
+			'blog_charset'         => get_bloginfo( 'charset' ),
+			'permalink'            => $page_url,
+			'user_ip'              => wpforms_is_collecting_ip_allowed( $form_data ) ? $user_ip : '',
+			'user_id'              => $user_id,
+			'user_role'            => AkismetPlugin::get_user_roles( $user_id ),
+			'user_agent'           => $user_agent,
+			'referrer'             => $url_referer ? $url_referer : '',
+			'comment_type'         => 'contact-form',
+			'comment_author'       => $entry_data['name'] ?? '',
+			'comment_author_email' => $entry_data['email'] ?? '',
+			'comment_author_url'   => $entry_data['url'] ?? '',
+			'comment_content'      => $entry_data['content'] ?? '',
+			'honeypot_field_name'  => 'wpforms[hp]',
+		];
+	}
+
+	/**
+	 * Send a POST request to the Akismet API.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param array  $request Request arguments to be sent to Akismet.
+	 * @param string $path    API path.
+	 *
+	 * @return array
+	 */
+	private function http_post( $request, $path ) {
+
 		// build_query() does not urlencode the values, but API explicitly requires it.
 		$request = array_map( 'urlencode', $request );
 
-		$response = AkismetPlugin::http_post( build_query( $request ), 'comment-check' );
-
-		return ! empty( $response ) && isset( $response[1] ) && 'true' === trim( $response[1] );
+		return AkismetPlugin::http_post( build_query( $request ), $path );
 	}
 
 	/**

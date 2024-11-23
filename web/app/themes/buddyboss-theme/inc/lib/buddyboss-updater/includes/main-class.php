@@ -90,10 +90,12 @@ if ( ! class_exists( 'BuddyBoss_Updater__Plugin' ) ):
 				$this->load_admin();
 			}
 
+			add_action( 'admin_init', array( $this, 'buddyboss_updater_create_schedule_daily' ) );
+
 			//check if any license is expiring soon, and if so, put the message as an info to be displayed later.
 			//hooked into our daily cron
 			//add_action( 'buddyboss_updater_daily_schedule', array( $this, 'generate_notice_license_expiry' ) );
-			add_action( 'buddyboss_updater_schedule_4hours', array( $this, 'cron_update_licenses' ) );
+			add_action( 'buddyboss_updater_schedule_daily', array( $this, 'cron_update_licenses' ) );
 
 			add_action( 'wp_ajax_delete_notice_license_expiry', array( $this, 'ajax_delete_notice_license_expiry' ) );
 		}
@@ -118,6 +120,8 @@ if ( ! class_exists( 'BuddyBoss_Updater__Plugin' ) ):
 
 			$saved_licenses = $this->network_activated ? get_site_option( 'bboss_updater_saved_licenses' ) : get_option( 'bboss_updater_saved_licenses' );
 			if ( empty( $saved_licenses ) ) {
+				$this->clear_cron_schedule();
+
 				return;
 			}
 
@@ -126,47 +130,59 @@ if ( ! class_exists( 'BuddyBoss_Updater__Plugin' ) ):
 			foreach ( $saved_licenses as $package_id => $license_details ) {
 				if ( ! isset( $packages[ $package_id ] ) ) {
 					continue;
-				}//only the currently installed packages, to remove clutter in db
+				} // Only the currently installed packages, to remove clutter in db.
 
-				$licenses_to_check[] = array( 'license_key'      => $license_details['license_key'],
-				                              'activation_email' => $license_details['activation_email']
-				);
+				if ( ! empty( $license_details['token'] ) ) {
+					list( $header, $payload, $signature ) = explode( '.', $license_details['token'] );
+
+					$payload = json_decode( base64_decode( $payload ), true );
+					$exp     = $payload['licence_exp'];
+
+					if ( ! empty( $exp ) && strtotime( $exp ) > time() ) {
+						$licenses_to_check[] = array(
+							'license_key'      => $license_details['license_key'],
+							'activation_email' => $license_details['activation_email'],
+						);
+					}
+				}
 			}
 
-			$obj      = new BBoss_License_Helper( false );
-			$response = $obj->refetch_licenses( $licenses_to_check );
+			if ( ! empty( $licenses_to_check ) ) {
+				$obj      = new BBoss_License_Helper( false );
+				$response = $obj->refetch_licenses( $licenses_to_check );
 
-			if ( isset( $response['status'] ) && $response['status'] ) {
-				$returned_licenses = $response['licenses'];
-				$licenses_updated  = array();
+				if ( isset( $response['status'] ) && $response['status'] ) {
+					$returned_licenses = $response['licenses'];
+					$licenses_updated  = array();
+					$is_any_expired    = false;
 
-				$is_any_expired = false;
+					foreach ( $saved_licenses as $package_id => $license_details ) {
+						foreach ( $returned_licenses as $returned_license_details ) {
+							if ( is_object( $returned_license_details ) ) {
+								$returned_license_details = get_object_vars( $returned_license_details );
+							}
 
-				foreach ( $saved_licenses as $package_id => $license_details ) {
-					foreach ( $returned_licenses as $returned_license_details ) {
-						if ( is_object( $returned_license_details ) ) {
-							$returned_license_details = get_object_vars( $returned_license_details );
-						}
+							if ( $license_details['license_key'] === $returned_license_details['license_key'] ) {
+								// Match!
+								$licenses_updated[ $package_id ] = $returned_license_details;
 
-						if ( $license_details['license_key'] == $returned_license_details['license_key'] ) {
-							//match!
-							$licenses_updated[ $package_id ] = $returned_license_details;
-
-
-							if ( ! $licenses_updated['is_active'] ) {
-								$is_any_expired = true;
+								if ( ! $licenses_updated['is_active'] ) {
+									$is_any_expired = true;
+								}
 							}
 						}
 					}
-				}
 
-				if ( $this->network_activated ) {
-					update_site_option( 'bboss_updater_saved_licenses', $licenses_updated );
-					update_site_option( 'bboss_expiry_notices', $is_any_expired );
-				} else {
-					update_option( 'bboss_updater_saved_licenses', $licenses_updated );
-					update_option( 'bboss_expiry_notices', $is_any_expired );
+					if ( $this->network_activated ) {
+						update_site_option( 'bboss_updater_saved_licenses', $licenses_updated );
+						update_site_option( 'bboss_expiry_notices', $is_any_expired );
+					} else {
+						update_option( 'bboss_updater_saved_licenses', $licenses_updated );
+						update_option( 'bboss_expiry_notices', $is_any_expired );
+					}
 				}
+			} else {
+				$this->clear_cron_schedule();
 			}
 		}
 
@@ -231,6 +247,45 @@ if ( ! class_exists( 'BuddyBoss_Updater__Plugin' ) ):
 				delete_option( 'bboss_expiry_notices' );
 			}
 			die( 'ok' );
+		}
+
+		/**
+		 * Create schedule event to check licenses daily.
+		 *
+		 * @since 2.6.90
+		 *
+		 * @return void
+		 */
+		public function buddyboss_updater_create_schedule_daily() {
+			$saved_licenses = $this->network_activated ? get_site_option( 'bboss_updater_saved_licenses' ) : get_option( 'bboss_updater_saved_licenses' );
+			if ( empty( $saved_licenses ) ) {
+				$this->clear_cron_schedule();
+
+				return;
+			}
+
+			$timestamp = wp_next_scheduled( 'buddyboss_updater_schedule_daily' );
+
+			if ( false === $timestamp ) {
+				wp_schedule_event( time(), 'daily', 'buddyboss_updater_schedule_daily' );
+			}
+		}
+
+		/**
+		 * Clear cron schedule.
+		 *
+		 * @since 2.6.90
+		 *
+		 * @return void
+		 */
+		public function clear_cron_schedule() {
+			$timestamp = wp_next_scheduled( 'buddyboss_updater_schedule_daily' );
+			if ( $timestamp ) {
+				wp_unschedule_event( $timestamp, 'buddyboss_updater_schedule_daily' );
+
+				delete_transient( 'bb_updates_buddyboss-platform-pro' );
+				delete_transient( 'bb_updates_buddyboss-theme' );
+			}
 		}
 	}// End class BuddyBoss_Updater__Plugin
 

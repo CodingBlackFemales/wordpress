@@ -4,7 +4,7 @@ $menu_link            = trailingslashit( bp_loggedin_user_domain() . bp_get_mess
 $unread_message_count = messages_get_unread_count();
 ?>
 <div id="header-messages-dropdown-elem" class="dropdown-passive dropdown-right notification-wrap messages-wrap bb-message-dropdown-notification menu-item-has-children">
-	<a href="<?php echo esc_url( $menu_link ); ?>" ref="notification_bell" class="notification-link">
+	<a href="<?php echo esc_url( $menu_link ); ?>" ref="notification_bell" class="notification-link" <?php echo bb_elementor_pro_disable_page_transition(); ?> aria-label="<?php esc_html_e( 'Messages', 'buddyboss-theme' ); ?>">
 		<span data-balloon-pos="down" data-balloon="<?php esc_html_e( 'Messages', 'buddyboss-theme' ); ?>" class="bb-member-unread-count-span-<?php echo esc_attr( bp_loggedin_user_id() ); ?>">
 			<i class="bb-icon-l bb-icon-inbox"></i>
 			<?php if ( $unread_message_count > 0 ) : ?>
@@ -18,7 +18,7 @@ $unread_message_count = messages_get_unread_count();
 		</header>
 
 		<ul class="notification-list">
-			<p class="bb-header-loader"><i class="bb-icon-l bb-icon-spinner animate-spin"></i></p>
+			<?php get_template_part( 'template-parts/unread-messages' ); ?>
 		</ul>
 
 		<footer class="notification-footer">

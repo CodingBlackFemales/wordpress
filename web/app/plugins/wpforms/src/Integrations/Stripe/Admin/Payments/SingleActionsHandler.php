@@ -95,17 +95,28 @@ class SingleActionsHandler {
 			wp_send_json_error( [ 'message' => esc_html__( 'Missing payment ID.', 'wpforms-lite' ) ] );
 		}
 
+		if ( ! wpforms_current_user_can( wpforms_get_capability_manage_options() ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to perform this action.', 'wpforms-lite' ) ] );
+		}
+
 		$this->check_payment_collection_type();
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
 		$payment_id = (int) $_POST['payment_id'];
-		$payment_db = wpforms()->get( 'payment' )->get( $payment_id );
+		$payment_db = wpforms()->obj( 'payment' )->get( $payment_id );
 
 		if ( empty( $payment_db ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Payment not found in the database.', 'wpforms-lite' ) ] );
 		}
 
-		$refund = $this->payment_intents->refund_payment( $payment_db->transaction_id );
+		$args = [
+			'metadata' => [
+				'refunded_by' => 'wpforms_dashboard',
+			],
+			'reason'   => 'requested_by_customer',
+		];
+
+		$refund = $this->payment_intents->refund_payment( $payment_db->transaction_id, $args );
 
 		if ( ! $refund ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Refund failed.', 'wpforms-lite' ) ] );
@@ -113,7 +124,7 @@ class SingleActionsHandler {
 
 		if ( $payment_db->status === 'partrefund' ) {
 
-			$already_refunded = wpforms()->get( 'payment_meta' )->get_single( $payment_db->id, 'refunded_amount' );
+			$already_refunded = wpforms()->obj( 'payment_meta' )->get_single( $payment_db->id, 'refunded_amount' );
 			$amount_to_log    = $payment_db->total_amount - $already_refunded;
 		} else {
 			$amount_to_log = $payment_db->total_amount;
@@ -144,11 +155,15 @@ class SingleActionsHandler {
 			wp_send_json_error( [ 'message' => esc_html__( 'Payment ID not provided.', 'wpforms-lite' ) ] );
 		}
 
+		if ( ! wpforms_current_user_can( wpforms_get_capability_manage_options() ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to perform this action.', 'wpforms-lite' ) ] );
+		}
+
 		$this->check_payment_collection_type();
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
 		$payment_id = (int) $_POST['payment_id'];
-		$payment_db = wpforms()->get( 'payment' )->get( $payment_id );
+		$payment_db = wpforms()->obj( 'payment' )->get( $payment_id );
 
 		if ( empty( $payment_db ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Subscription not found in the database.', 'wpforms-lite' ) ] );
@@ -183,7 +198,7 @@ class SingleActionsHandler {
 
 		$message = sprintf(
 			wp_kses( /* translators: %s - Payments settings page URL. */
-				__( "The used Stripe payment collection type doesn't support this action.<br><br> Please <a href='%s'>update your payment collection type</a> to continue processing payments successfully." ),
+				__( "The used Stripe payment collection type doesn't support this action.<br><br> Please <a href='%s'>update your payment collection type</a> to continue processing payments successfully.", 'wpforms-lite' ),
 				[
 					'br' => [],
 					'a'  => [

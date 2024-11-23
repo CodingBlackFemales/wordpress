@@ -1,50 +1,83 @@
 <?php
 bp_nouveau_member_hook( 'before', 'invites_sent_template' );
 
-$email = trim ( bb_theme_filter_input_string( INPUT_GET, 'email' ) );
-if ( isset( $email ) && '' !== $email ) {
+$email = bb_theme_filter_input_string( INPUT_GET, 'email' );
+$email = ! empty( $email ) ? trim( $email ) : '';
+if ( '' !== $email ) {
 	?>
-    <aside class="bp-feedback bp-send-invites bp-template-notice success">
-        <span class="bp-icon" aria-hidden="true"></span>
-        <p>
+	<aside class="bp-feedback bp-send-invites bp-template-notice success">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>
 			<?php
 			$text = __( 'Invitations were sent successfully to the following email addresses:', 'buddyboss-theme' );
-			echo trim ($text.' '. $email );
+			echo trim( $text.' '. $email );
 			?>
-        </p>
-    </aside>
+		</p>
+	</aside>
 	<?php
 }
 
-$failed = trim ( bb_theme_filter_input_string( INPUT_GET, 'failed' ) );
-if ( isset( $failed ) && '' !== $failed ) {
+$failed = bb_theme_filter_input_string( INPUT_GET, 'failed' );
+$failed = ! empty( $failed ) ? trim( $failed ) : '';
+if ( '' !== $failed ) {
 	?>
-    <aside class="bp-feedback bp-send-invites bp-template-notice error">
-        <span class="bp-icon" aria-hidden="true"></span>
-        <p>
+	<aside class="bp-feedback bp-send-invites bp-template-notice error">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>
 			<?php
 			$text = __( 'Invitations did not send as the following email addresses are invalid:', 'buddyboss-theme' );
-			echo trim ($text.' '. $failed );
+			echo trim( $text.' '. $failed );
 			?>
-        </p>
-
-    </aside>
+		</p>
+	</aside>
 	<?php
 }
 
-$exists = trim ( bb_theme_filter_input_string( INPUT_GET, 'exists' ) );
-if ( isset( $exists ) && '' !== $exists ) {
+$exists = bb_theme_filter_input_string( INPUT_GET, 'exists' );
+$exists = ! empty( $exists ) ? trim( $exists ) : '';
+if ( '' !== $exists ) {
 	?>
-    <aside class="bp-feedback bp-send-invites bp-template-notice error">
-        <span class="bp-icon" aria-hidden="true"></span>
-        <p>
+	<aside class="bp-feedback bp-send-invites bp-template-notice error">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>
 			<?php
 			$text = __( 'Invitations did not send to the following email addresses, because they are already members:', 'buddyboss-theme' );
-			echo trim ($text.' '. $exists );
+			echo trim( $text.' '. $exists );
 			?>
-        </p>
+		</p>
+	</aside>
+	<?php
+}
 
-    </aside>
+$duplicates = trim( bb_filter_input_string( INPUT_GET, 'duplicates' ) );
+if ( isset( $duplicates ) && '' !== $duplicates ) {
+	?>
+	<aside class="bp-feedback bp-send-invites bp-template-notice error">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>
+			<?php
+			$text = __( 'Invitations did not send to the following email addresses, because they are already invited:', 'buddyboss-theme' );
+			echo esc_html( trim( $text . ' ' . $duplicates ) );
+			?>
+		</p>
+
+	</aside>
+	<?php
+}
+
+$restricted = bb_filter_input_string( INPUT_GET, 'restricted' );
+$restricted = ! empty( $restricted ) ? trim( $restricted ) : '';
+if ( '' !== $restricted ) {
+	?>
+	<aside class="bp-feedback bp-send-invites bp-template-notice error">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>
+			<?php
+			$text = __( 'Invitations did not send to the following email addresses, because the address or domain has been blacklisted:', 'buddyboss-theme' );
+			echo trim( $text.' '. $restricted );
+			?>
+		</p>
+	</aside>
 	<?php
 }
 ?>
@@ -82,40 +115,42 @@ if ( isset( $exists ) && '' !== $exists ) {
 		);
 		$the_query = new WP_Query( $args );
 
-		if($the_query->have_posts()) {
+		if ( $the_query->have_posts() ) {
 
 			while ( $the_query->have_posts() ) : $the_query->the_post();
+				$invitee_post_id = get_the_ID();
 				?>
 				<tr>
 					<td class="field-name">
-						<span><?php echo get_post_meta( get_the_ID(), '_bp_invitee_name', true ); ?></span>
+						<span><?php echo get_post_meta( $invitee_post_id, '_bp_invitee_name', true ); ?></span>
 					</td>
 					<td class="field-email">
-						<span><?php echo get_post_meta( get_the_ID(), '_bp_invitee_email', true ); ?></span>
+						<span><?php echo get_post_meta( $invitee_post_id, '_bp_invitee_email', true ); ?></span>
 					</td>
 					<td class="field-email">
 						<span>
 							<?php
-							$date = get_the_date( '',get_the_ID() );
+							$date = get_the_date( '',$invitee_post_id );
 							echo $date;
 							?>
 						</span>
 					</td>
 					<td class="field-email">
 						<?php
+						$bp_invitee_status         = get_post_meta( $invitee_post_id, '_bp_invitee_status', true );
 						$allow_custom_registration = bp_allow_custom_registration();
 						if ( $allow_custom_registration && '' !== bp_custom_register_page_url() ) {
-							$class         = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? 'registered' : 'registered';
+							$class         = ( '1' === $bp_invitee_status ) ? 'registered' : 'registered';
 							$revoke_link   = '';
-							$title         = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Invited', 'buddyboss-theme' );
-							$alert_message = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Are you sure you want to revoke this invitation?', 'buddyboss-theme' );
-							$icon          = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? 'bb-icon-l bb-icon-check' : 'bb-icon-l bb-icon-user-clock';
+							$title         = ( '1' === $bp_invitee_status ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Invited', 'buddyboss-theme' );
+							$alert_message = ( '1' === $bp_invitee_status ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Are you sure you want to revoke this invitation?', 'buddyboss-theme' );
+							$icon          = ( '1' === $bp_invitee_status ) ? 'bb-icon-l bb-icon-check' : 'bb-icon-l bb-icon-user-clock';
 						} else {
-							$class         = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? 'registered' : 'revoked-access';
+							$class         = ( '1' === $bp_invitee_status ) ? 'registered' : 'revoked-access';
 							$revoke_link   = bp_core_get_user_domain( bp_loggedin_user_id() ) . bp_get_invites_slug() . '/revoke-invite';
-							$title         = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Revoke Invite', 'buddyboss-theme' );
-							$alert_message = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Are you sure you want to revoke this invitation?', 'buddyboss-theme' );
-							$icon          = ( '1' === get_post_meta( get_the_ID(), '_bp_invitee_status', true ) ) ? 'bb-icon-l bb-icon-check' : 'bb-icon-rl bb-icon-times';
+							$title         = ( '1' === $bp_invitee_status ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Revoke Invite', 'buddyboss-theme' );
+							$alert_message = ( '1' === $bp_invitee_status ) ? __( 'Registered', 'buddyboss-theme' ) : __( 'Are you sure you want to revoke this invitation?', 'buddyboss-theme' );
+							$icon          = ( '1' === $bp_invitee_status ) ? 'bb-icon-l bb-icon-check' : 'bb-icon-rl bb-icon-times';
 						}
 
 						if ( $allow_custom_registration && '' !== bp_custom_register_page_url() ) {
@@ -123,7 +158,7 @@ if ( isset( $exists ) && '' !== $exists ) {
 							<span class="bp-invitee-status">
 								<span class="<?php echo esc_attr( $icon ); ?>"></span><?php echo $title; ?>
 							</span>
-						<?php
+							<?php
 						} else {
 							?>
 							<span class="bp-invitee-status">
@@ -134,7 +169,7 @@ if ( isset( $exists ) && '' !== $exists ) {
 									<?php
 								} else {
 									?>
-									<a data-revoke-access="<?php echo esc_url( $revoke_link ); ?>" data-name="<?php echo esc_attr( $alert_message ); ?>" id="<?php echo esc_attr( get_the_ID() ); ?>" class="<?php echo esc_attr( $class ); ?>" href="javascript:void(0);">
+									<a data-revoke-access="<?php echo esc_url( $revoke_link ); ?>" data-name="<?php echo esc_attr( $alert_message ); ?>" id="<?php echo esc_attr( $invitee_post_id ); ?>" class="<?php echo esc_attr( $class ); ?>" href="javascript:void(0);">
 										<span class="<?php echo esc_attr( $icon ); ?>"></span><?php echo $title; ?>
 									</a>
 									<?php
@@ -160,19 +195,18 @@ if ( isset( $exists ) && '' !== $exists ) {
 		}
 
 		$total_pages = $the_query->max_num_pages;
-
-		if ( $total_pages > 1 ){
-
+		if ( $total_pages > 1 ) {
 			$current_page = max(1, get_query_var('paged'));
-
-			echo paginate_links( array(
-				'base'      => add_query_arg( 'paged', '%#%' ),
-				'format'    => '',
-				'current'   => $current_page,
-				'total'     => $total_pages,
-				'prev_text' => __( '« Prev', 'buddyboss-theme' ),
-				'next_text' => __( 'Next »', 'buddyboss-theme' ),
-			) );
+			echo paginate_links(
+				array(
+					'base'      => add_query_arg( 'paged', '%#%' ),
+					'format'    => '',
+					'current'   => $current_page,
+					'total'     => $total_pages,
+					'prev_text' => __( '« Prev', 'buddyboss-theme' ),
+					'next_text' => __( 'Next »', 'buddyboss-theme' ),
+				)
+			);
 		}
 
 		wp_reset_postdata();

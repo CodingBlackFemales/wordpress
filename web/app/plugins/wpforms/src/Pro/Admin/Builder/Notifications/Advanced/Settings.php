@@ -249,7 +249,7 @@ class Settings {
 				? esc_html( $form_data['fields'][ $field_id ]['label'] )
 				: sprintf( /* translators: %d - field ID. */
 					esc_html__( 'Field #%d', 'wpforms' ),
-					absint( $field_id )
+					wpforms_validate_field_id( $field_id )
 				);
 		}
 

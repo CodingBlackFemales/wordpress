@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 2.6.0
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 9.3.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,6 +71,15 @@ $col    = 1;
 					echo $address ? wp_kses_post( $address ) : esc_html_e( 'You have not set up this type of address yet.', 'buddyboss-theme' );
 				?></address>
 				<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address', $name ) ); ?>" class="edit"><?php echo $address ? esc_html__( 'Edit', 'buddyboss-theme' ) : esc_html__( 'Add', 'buddyboss-theme' ); ?></a>
+				<?php
+				/**
+				 * Used to output content after core address fields.
+				 *
+				 * @param string $name Address type.
+				 * @since 8.7.0
+				 */
+				do_action( 'woocommerce_my_account_after_my_address', $name );
+				?>
 			</div>
 
 		<?php endforeach; ?>

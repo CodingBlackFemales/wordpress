@@ -15,7 +15,7 @@ $background_color = wpforms_setting( 'email-background-color', '#e9eaec' );
 $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 ?>
 <!doctype html>
-<html dir="<?php echo $text_direction; ?>" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html dir="<?php echo esc_attr( $text_direction ); ?>" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
 	<!--[if gte mso 15]>
 	<xml>
@@ -28,7 +28,7 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?php echo get_bloginfo( 'name' ); ?></title>
+	<title><?php echo esc_html( get_bloginfo( 'name' ) ); ?></title>
 	<style type="text/css">
 		p{
 			margin:10px 0;
@@ -115,7 +115,7 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 		/***** Make theme edits below if needed *****/
 		/* Page - Background Style */
 		body,#bodyTable{
-			background-color:<?php echo $background_color; ?>;
+			background-color:<?php echo esc_attr( $background_color ); ?>;
 		}
 		/* Page - Heading 1 */
 		h1{
@@ -190,7 +190,7 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 		}
 		/* Footer - Footer Style */
 		#templateFooter{
-			background-color:<?php echo $background_color; ?>;
+			background-color:<?php echo esc_attr( $background_color ); ?>;
 			border-top:0;
 			border-bottom:0;
 			padding-top:12px;
@@ -240,11 +240,6 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 			}
 		}
 		/* Rich Text compatibility - image alignment. */
-		.mcnTextContentContainer table tbody,
-		.mcnTextContentContainer table tbody tr,
-		.mcnTextContentContainer table tbody td {
-			display: block;
-		}
 		.mcnTextContentContainer p::after {
 			content: "";
 			clear: both;
@@ -266,6 +261,13 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 			margin-left: 16px;
 			margin-top: 8px;
 			margin-bottom: 8px;
+		}
+		/* Rich text compatibility - table */
+		.wpforms-iframe table,
+		.wpforms-iframe table th,
+		.wpforms-iframe table td {
+			border: 1px solid currentColor;
+			padding: 5px;
 		}
 		/* styling lists */
 		.mcnTextContentContainer li {
@@ -341,10 +343,10 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 		}
 	</style>
 </head>
-<body style="height: 100%;margin: 0;padding: 0;width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: <?php echo $background_color; ?>;">
+<body style="height: 100%;margin: 0;padding: 0;width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: <?php echo esc_attr( $background_color ); ?>;">
 	<!-- Don't forget to run final template through http://templates.mailchimp.com/resources/inline-css/ -->
 	<center>
-		<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;height: 100%;margin: 0;padding: 0;width: 100%;background-color: <?php echo $background_color; ?>;">
+		<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;height: 100%;margin: 0;padding: 0;width: 100%;background-color: <?php echo esc_attr( $background_color ); ?>;">
 			<tr>
 				<td align="center" valign="top" id="bodyCell" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;height: 100%;margin: 0;padding: 50px 50px;width: 100%;">
 					<!-- BEGIN TEMPLATE // -->

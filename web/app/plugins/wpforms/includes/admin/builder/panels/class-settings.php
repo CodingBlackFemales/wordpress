@@ -1,11 +1,15 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 use WPForms\Admin\Forms\Tags;
-use WPForms\Forms\Akismet;
 
 /**
  * Settings management panel.
@@ -27,6 +31,15 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 		$this->icon    = 'fa-sliders';
 		$this->order   = 10;
 		$this->sidebar = true;
+
+		/**
+		 * Filters the form data for the form builder.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param array $form_data Form data.
+		 */
+		$this->form_data = apply_filters( 'wpforms_builder_panel_settings_init_form_data', $this->form_data );
 	}
 
 	/**
@@ -44,10 +57,22 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 		$sections = [
 			'general'       => esc_html__( 'General', 'wpforms-lite' ),
 			'anti_spam'     => esc_html__( 'Spam Protection and Security', 'wpforms-lite' ),
+			'themes'        => esc_html__( 'Themes', 'wpforms-lite' ),
 			'notifications' => esc_html__( 'Notifications', 'wpforms-lite' ),
 			'confirmation'  => esc_html__( 'Confirmations', 'wpforms-lite' ),
 		];
-		$sections = apply_filters( 'wpforms_builder_settings_sections', $sections, $this->form_data );
+
+		/**
+		 * Filters builder settings sections.
+		 *
+		 * @since 1.1.9
+		 *
+		 * @param array $sections  Sections.
+		 * @param array $form_data Form data.
+		 *
+		 * @return array
+		 */
+		$sections = (array) apply_filters( 'wpforms_builder_settings_sections', $sections, $this->form_data ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 		foreach ( $sections as $slug => $section ) {
 			$this->panel_sidebar_section( $section, $slug );
@@ -88,7 +113,7 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 	 *
 	 * @return array
 	 */
-	private function get_choicesjs_config() {
+	private function get_choicesjs_config(): array {
 
 		$config = Tags::get_choicesjs_config();
 
@@ -145,8 +170,24 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 				'settings',
 				'form_desc',
 				$this->form_data,
-				esc_html__( 'Form Description', 'wpforms-lite' )
+				esc_html__( 'Form Description', 'wpforms-lite' ),
+				[
+					'tooltip' => esc_html__( 'Enter descriptive text or instructions to help your users understand the requirements of your form.', 'wpforms-lite' ),
+				]
 			);
+
+			if ( $this->form->post_type === 'wpforms-template' ) {
+				wpforms_panel_field(
+					'textarea',
+					'settings',
+					'template_description',
+					$this->form_data,
+					esc_html__( 'Template Description', 'wpforms-lite' ),
+					[
+						'tooltip' => esc_html__( 'Describe the use case for your template. Only displayed internally.', 'wpforms-lite' ),
+					]
+				);
+			}
 
 			$this->general_setting_tags();
 
@@ -180,7 +221,14 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 		 */
 		echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-notifications" data-panel="notifications">';
 
-			do_action( 'wpforms_form_settings_notifications', $this );
+		/**
+		 * Output notifications.
+		 *
+		 * @since 1.6.7.3
+		 *
+		 * @param WPForms_Builder_Panel_Settings $settings Current settings.
+		 */
+		do_action( 'wpforms_form_settings_notifications', $this ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 		echo '</div>';
 
@@ -189,14 +237,25 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 		 */
 		echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-confirmation" data-panel="confirmations">';
 
-			do_action( 'wpforms_form_settings_confirmations', $this );
+		/**
+		 * Output confirmations.
+		 *
+		 * @since 1.6.7.3
+		 *
+		 * @param WPForms_Builder_Panel_Settings $settings Current settings.
+		 */
+		do_action( 'wpforms_form_settings_confirmations', $this ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 		echo '</div>';
 
-		/*
-		 * Custom panels can be added below.
+		/**
+		 * Output custom panels.
+		 *
+		 * @since 1.6.7.3
+		 *
+		 * @param WPForms_Builder_Panel_Settings $settings Current settings.
 		 */
-		do_action( 'wpforms_form_settings_panel_content', $this );
+		do_action( 'wpforms_form_settings_panel_content', $this ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -241,6 +300,8 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 	 * Output the *CAPTCHA settings.
 	 *
 	 * @since 1.6.8
+	 *
+	 * @noinspection HtmlUnknownTarget
 	 */
 	private function general_setting_advanced() {
 
@@ -294,7 +355,14 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 			]
 		);
 
-		do_action( 'wpforms_form_settings_general', $this );
+		/**
+		 * Fires after general settings.
+		 *
+		 * @since 1.0.2
+		 *
+		 * @param WPForms_Builder_Panel_Settings $settings Current settings.
+		 */
+		do_action( 'wpforms_form_settings_general', $this ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 
 		// Wrap advanced settings to the unfoldable group.
 		wpforms_panel_fields_group(
@@ -304,8 +372,7 @@ class WPForms_Builder_Panel_Settings extends WPForms_Builder_Panel {
 				'unfoldable' => true,
 				'group'      => 'settings_advanced',
 				'title'      => esc_html__( 'Advanced', 'wpforms-lite' ),
-			],
-			true
+			]
 		);
 	}
 }

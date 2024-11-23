@@ -13,7 +13,7 @@ if ( bbp_is_single_forum() && bbp_has_forums() ) {
 	$class = 'single-with-sub-forum ';
 }
 
-$forum_cover_photo = wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) );
+$forum_cover_photo = isset( $post->ID ) ? wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) ) : '';
 ?>
 
 <div id="bbpress-forums" class="<?php echo esc_attr( $class ); ?>">
@@ -61,6 +61,10 @@ $forum_cover_photo = wp_get_attachment_url( get_post_thumbnail_id( $post->ID ) )
 			<?php bbp_get_template_part( 'feedback', 'no-topics' ); ?>
 
 			<?php bbp_get_template_part( 'form', 'topic' ); ?>
+
+		<?php elseif ( bbp_is_forum_category() ) : ?>
+
+			<?php bbp_get_template_part( 'feedback', 'forum-category' ); ?>
 
 		<?php endif; ?>
 

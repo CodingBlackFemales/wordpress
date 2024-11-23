@@ -3,18 +3,18 @@
  * Plugin Name: WP Job Manager - Alerts
  * Plugin URI: https://wpjobmanager.com/add-ons/job-alerts/
  * Description: Allow users to subscribe to job alerts for their searches. Once registered, users can access a 'My Alerts' page which you can create with the shortcode [job_alerts].
- * Version: 3.1.1
+ * Version: 3.2.0
  * Author: Automattic
  * Author URI: https://wpjobmanager.com
- * Requires at least: 6.1
- * Tested up to: 6.4
+ * Requires at least: 6.2
+ * Tested up to: 6.5
  * Requires PHP: 7.4
  * Text Domain: wp-job-manager-alerts
  * Domain Path: /languages/
  *
  * WPJM-Product: wp-job-manager-alerts
  *
- * Copyright: 2020 Automattic
+ * Copyright: 2024 Automattic
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
@@ -74,7 +74,7 @@ class WP_Job_Manager_Alerts {
 	 */
 	public function __construct() {
 		// Define constants
-		define( 'JOB_MANAGER_ALERTS_VERSION', '3.1.1' );
+		define( 'JOB_MANAGER_ALERTS_VERSION', '3.2.0' );
 		define( 'JOB_MANAGER_ALERTS_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'JOB_MANAGER_ALERTS_PLUGIN_URL', untrailingslashit( plugins_url( '', ( __FILE__ ) ) ) );
 
@@ -112,6 +112,7 @@ class WP_Job_Manager_Alerts {
 		Notifier::instance();
 		Shortcodes::instance();
 		Add_Alert::instance();
+		Alert_Stats::instance();
 
 		// Add actions
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontend_scripts' ] );

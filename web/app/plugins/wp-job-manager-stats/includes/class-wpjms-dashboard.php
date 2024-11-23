@@ -354,7 +354,7 @@ class WPJMS_Dashboard {
 		<div class="wpjms-date-range-field">
 			<input type="text" name="chart-date-range" autocomplete="off" value="<?php echo sprintf( __( 'Date range: Last %s days', 'wp-job-manager-stats' ), $days ); ?>">
 
-			<input type="hidden" name="chart-date_from" autocomplete="off" value="<?php echo date_i18n( 'Y-m-d', strtotime( '-' . $days + 1 . 'days' ) ); ?>">
+			<input type="hidden" name="chart-date_from" autocomplete="off" value="<?php echo date_i18n( 'Y-m-d', strtotime( ('-') . ($days + 1) . ('days') ) ); ?>">
 			<input type="hidden" name="chart-date_to" autocomplete="off" value="<?php echo date_i18n( 'Y-m-d' ); ?>">
 		</div><!-- .wpjms-date-range-field -->
 		<?php

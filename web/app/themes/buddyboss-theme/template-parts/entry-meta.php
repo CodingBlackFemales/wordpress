@@ -3,11 +3,12 @@
  * Get the Author link for the Post
  */
 $platform_author_link = buddyboss_theme_get_option( 'blog_platform_author_link' );
+$author_name = get_the_author_meta( 'user_nicename' );
 
 if ( function_exists( 'bp_core_get_user_domain' ) && $platform_author_link ) {
-    $author_link = bp_core_get_user_domain( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) );
+    $author_link = bp_core_get_user_domain( get_the_author_meta( 'ID' ), $author_name );
 } else {
-    $author_link = get_author_posts_url( get_the_author_meta( 'ID' ), get_the_author_meta( 'user_nicename' ) );
+    $author_link = get_author_posts_url( get_the_author_meta( 'ID' ), $author_name );
 }
 
 $author_link = esc_url( $author_link );
@@ -17,7 +18,7 @@ $author_link = esc_url( $author_link );
 	<div class="bb-user-avatar-wrap">
 		<div class="avatar-wrap">
 			<a href="<?php echo $author_link; ?>">
-				<?php echo get_avatar( get_the_author_meta( 'ID' ), 80 ); ?>
+				<?php echo get_avatar( get_the_author_meta( 'ID' ), 80, '', $author_name ); ?>
 			</a>
 		</div>
 		<div class="meta-wrap">

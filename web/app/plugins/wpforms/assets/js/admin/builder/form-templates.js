@@ -1,5 +1,18 @@
-/* global List, wpforms_form_templates, wpforms_addons, wpf */
+/* global List, wpforms_form_templates, wpforms_addons, wpf, WPFormsUtils */
 
+/**
+ * @param wpforms_form_templates.admin_nonce
+ * @param wpforms_form_templates.delete_template
+ * @param wpforms_form_templates.delete_template_content
+ * @param wpforms_form_templates.delete_template_title
+ * @param wpforms_form_templates.template_addon_activate
+ * @param wpforms_form_templates.template_addon_prompt
+ * @param wpforms_form_templates.template_addons_error
+ * @param wpforms_form_templates.template_addons_prompt
+ * @param wpforms_form_templates.use_template
+ */
+
+// noinspection ES6ConvertVarToLetConst
 /**
  * Form Templates function.
  *
@@ -34,7 +47,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		init() {
 			$( app.ready );
 			$( window ).on( 'load', function() {
-				// in case of jQuery 3.+ we need to wait for an `ready` event first.
+				// in the case of jQuery 3.+ we need to wait for the `ready` event first.
 				if ( typeof $.ready.then === 'function' ) {
 					$.ready.then( app.load );
 				} else {
@@ -49,7 +62,6 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 * @since 1.7.7
 		 */
 		ready() {
-			app.setup();
 			app.events();
 		},
 
@@ -68,6 +80,9 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 * @since 1.7.7
 		 */
 		setup() {
+			// Trigger event before initializing the template list.
+			WPFormsUtils.triggerEvent( $( document ), 'wpformsSetupPanelBeforeInitTemplatesList' );
+
 			// Template list object.
 			vars.templateList = new List( 'wpforms-setup-templates-list', {
 				valueNames: [
@@ -108,7 +123,8 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 */
 		events() {
 			$( document )
-				.on( 'click', '#wpforms-setup-templates-list .wpforms-template-favorite i', app.selectFavorite );
+				.on( 'click', '#wpforms-setup-templates-list .wpforms-template-favorite i', app.selectFavorite )
+				.on( 'click', '#wpforms-setup-templates-list .wpforms-template-remove i', app.removeTemplate );
 		},
 
 		/**
@@ -191,6 +207,82 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		},
 
 		/**
+		 * Remove Template.
+		 *
+		 * @since 1.8.8
+		 */
+		removeTemplate() {
+			const $trashIcon = $( this ),
+				$template = $trashIcon.closest( '.wpforms-template-remove' ),
+				$templateId = $template.data( 'template' );
+
+			$.alert( {
+				title: wpforms_form_templates.delete_template_title,
+				content: wpforms_form_templates.delete_template_content,
+				icon: 'fa fa-exclamation-circle',
+				type: 'red',
+				buttons: {
+					confirm: {
+						text: wpforms_form_templates.delete_template,
+						btnClass: 'btn-confirm',
+						keys: [ 'enter' ],
+						action() {
+							app.removeUserTemplate( $templateId );
+						},
+					},
+					cancel: {
+						text: wpforms_form_templates.cancel,
+					},
+				},
+			} );
+		},
+
+		/**
+		 * Remove User Template.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param {number} templateId Template ID.
+		 */
+		removeUserTemplate( templateId ) {
+			vars.templateList.remove( 'slug', 'wpforms-user-template-' + templateId );
+
+			$.post( wpforms_form_templates.ajaxurl, {
+				action: 'wpforms_user_template_remove',
+				template: templateId,
+				nonce: wpforms_form_templates.nonce,
+			}, function( res ) {
+				if ( res.success ) {
+					$( '#wpforms-template-wpforms-user-template-' + templateId ).remove();
+
+					app.updateCategoryCount( 'all' );
+					app.updateCategoryCount( 'user' );
+				}
+			} );
+		},
+
+		/**
+		 * Update category count.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param {string} category Category name.
+		 */
+		updateCategoryCount( category ) {
+			const categoriesList = $( '.wpforms-setup-templates-categories' ),
+				$category = categoriesList.find( `[data-category='${ category }']` ),
+				$count = $category.find( 'span' ),
+				count = parseInt( $count.html(), 10 );
+
+			$count.html( count - 1 );
+			$category.data( 'count', count - 1 );
+
+			if ( count - 1 === 0 && category === 'user' && $category.hasClass( 'active' ) ) {
+				$( '.wpforms-user-templates-empty-state' ).removeClass( 'wpforms-hidden' );
+			}
+		},
+
+		/**
 		 * Maybe hide favorites category if there are no templates.
 		 *
 		 * @since 1.7.7
@@ -267,7 +359,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 			$activeSubcategory.removeClass( 'active' );
 			$activeCategory.removeClass( 'active' );
 
-			// Add active class to the parent category and  current subcategory.
+			// Add active class to the parent category and current subcategory.
 			$item.parents( 'li' ).addClass( 'active' );
 			$item.addClass( 'active' );
 
@@ -295,6 +387,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 			const $item = $( this ).parent(),
 				$active = $item.closest( 'ul' ).find( '.active' ),
 				category = $item.data( 'category' ),
+				count = $item.data( 'count' ),
 				searchQuery = $( '#wpforms-setup-template-search' ).val();
 
 			$active.removeClass( 'active' );
@@ -312,6 +405,9 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 				return category === 'all' || item.values().categories.split( ',' ).indexOf( category ) > -1;
 			} );
 
+			// Display/hide User Templates empty state message.
+			$( '.wpforms-user-templates-empty-state' ).toggleClass( 'wpforms-hidden', category !== 'user' || count !== 0 );
+
 			if ( searchQuery !== '' ) {
 				app.performSearch( searchQuery );
 			}
@@ -320,7 +416,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		},
 
 		/**
-		 * Show/hide the subcategories list by clicking on chevron icon.
+		 * Show/hide the subcategory list by clicking on the chevron icon.
 		 *
 		 * @since 1.8.7
 		 *
@@ -348,7 +444,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		},
 
 		/**
-		 * Show upgrade banner if licence type is less than Pro.
+		 * Show upgrade banner if a license type is less than Pro.
 		 *
 		 * @since 1.7.7
 		 */
@@ -381,7 +477,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 *
 		 * @param {string}   formName Name of the form.
 		 * @param {string}   template Template slug.
-		 * @param {jQuery}   $button  Use template button object.
+		 * @param {jQuery}   $button  Use a template button object.
 		 * @param {Function} callback The function to set the template.
 		 */
 		selectTemplateProcess( formName, template, $button, callback ) {
@@ -401,15 +497,32 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 *
 		 * @param {string}   formName Name of the form.
 		 * @param {string}   template Template slug.
-		 * @param {jQuery}   $button  Use template button object.
+		 * @param {jQuery}   $button  Use a template button object.
 		 * @param {Function} callback The function to set the template.
 		 */
 		addonsModal( formName, template, $button, callback ) {
 			const templateName = $button.data( 'template-name-raw' );
 			const addonsNames = $button.data( 'addons-names' );
 			const addonsSlugs = $button.data( 'addons' );
+			const installedSlugs = $button.data( 'installed' );
 			const addons = addonsSlugs.split( ',' );
-			let prompt = addons.length > 1 ? wpforms_form_templates.template_addons_prompt : wpforms_form_templates.template_addon_prompt;
+
+			let prompt;
+
+			switch ( app.action( addons, installedSlugs ) ) {
+				case 'multiple':
+					prompt = wpforms_form_templates.template_addons_prompt;
+					break;
+				case 'activate':
+					prompt = wpforms_form_templates.template_addon_activate;
+					break;
+				case 'install':
+					prompt = wpforms_form_templates.template_addon_prompt;
+					break;
+				default:
+					prompt = wpforms_form_templates.template_addons_prompt;
+					break;
+			}
 
 			prompt = prompt.replace( /%template%/g, templateName ).replace( /%addons%/g, addonsNames );
 
@@ -423,7 +536,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 				return;
 			}
 
-			app.userCanInstallAddonsModal( formName, template, addons, prompt, callback );
+			app.userCanInstallAddonsModal( formName, template, addons, prompt, callback, installedSlugs );
 		},
 
 		/**
@@ -431,14 +544,30 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 *
 		 * @since 1.8.2
 		 *
-		 * @param {string}   formName Name of the form.
-		 * @param {string}   template Template slug.
-		 * @param {Array}    addons   Array of addon slugs.
-		 * @param {string}   prompt   Modal content.
-		 * @param {Function} callback The function to set the template.
+		 * @param {string}   formName       Name of the form.
+		 * @param {string}   template       Template slug.
+		 * @param {Array}    addons         Array of addon slugs.
+		 * @param {string}   prompt         Modal content.
+		 * @param {Function} callback       The function to set the template.
+		 * @param {string}   installedSlugs Installed slug.
 		 */
-		userCanInstallAddonsModal( formName, template, addons, prompt, callback ) {
+		userCanInstallAddonsModal( formName, template, addons, prompt, callback, installedSlugs = '' ) {
 			const spinner = '<i class="wpforms-loading-spinner wpforms-loading-white wpforms-loading-inline"></i>';
+
+			let confirm;
+
+			switch ( app.action( addons, installedSlugs ) ) {
+				case 'multiple':
+				case 'install':
+					confirm = wpforms_form_templates.install_confirm;
+					break;
+				case 'activate':
+					confirm = wpforms_form_templates.activate_confirm;
+					break;
+				default:
+					confirm = wpforms_form_templates.install_confirm;
+					break;
+			}
 
 			$.confirm( {
 				title: wpforms_form_templates.heads_up,
@@ -447,7 +576,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 				type: 'orange',
 				buttons: {
 					confirm: {
-						text: wpforms_form_templates.install_confirm,
+						text: confirm,
 						btnClass: 'btn-confirm',
 						keys: [ 'enter' ],
 						action() {
@@ -471,6 +600,28 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 					},
 				},
 			} );
+		},
+
+		/**
+		 * Get the action for the addons.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Array}  addons    Addons slugs.
+		 * @param {string} installed Installed addon slug.
+		 *
+		 * @return {string} Action.
+		 */
+		action( addons, installed = '' ) {
+			if ( addons.length > 1 ) {
+				return 'multiple';
+			}
+
+			if ( installed.split( ',' ).indexOf( addons[ 0 ] ) > -1 ) {
+				return 'activate';
+			}
+
+			return 'install';
 		},
 
 		/**
@@ -515,7 +666,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 			const ajaxErrors = [];
 			let promiseChain = false;
 
-			// Put each of the ajax call promise to the chain.
+			// Put each of the ajax call promises to the chain.
 			addons.forEach( function( addon ) {
 				if ( typeof promiseChain.done !== 'function' ) {
 					promiseChain = app.installActivateAddonAjax( addon );

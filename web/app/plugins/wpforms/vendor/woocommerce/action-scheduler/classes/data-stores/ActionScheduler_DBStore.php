@@ -77,7 +77,7 @@ class ActionScheduler_DBStore extends ActionScheduler_Store {
 	 * @param bool                   $unique Whether the action should be unique.
 	 *
 	 * @return int Action ID.
-	 * @throws RuntimeException     Throws exception when saving the action fails.
+	 * @throws \RuntimeException     Throws exception when saving the action fails.
 	 */
 	private function save_action_to_db( ActionScheduler_Action $action, DateTime $date = null, $unique = false ) {
 		global $wpdb;
@@ -146,7 +146,7 @@ class ActionScheduler_DBStore extends ActionScheduler_Store {
 		$column_sql      = '`' . implode( '`, `', $columns ) . '`';
 		$placeholder_sql = implode( ', ', $placeholders );
 		$where_clause    = $this->build_where_clause_for_insert( $data, $table_name, $unique );
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $column_sql and $where_clause are already prepared. $placeholder_sql is hardcoded.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare	 -- $column_sql and $where_clause are already prepared. $placeholder_sql is hardcoded.
 		$insert_query    = $wpdb->prepare(
 			"
 INSERT INTO $table_name ( $column_sql )
@@ -181,7 +181,7 @@ WHERE ( $where_clause ) IS NULL",
 		);
 		$pending_status_placeholders = implode( ', ', array_fill( 0, count( $pending_statuses ), '%s' ) );
 
-		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $pending_status_placeholders is hardcoded.
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $pending_status_placeholders is hardcoded.
 		$where_clause = $wpdb->prepare(
 			"
 SELECT action_id FROM $table_name
@@ -388,7 +388,8 @@ AND `group_id` = %d
 	 * @param string $select_or_count  Whether the SQL should select and return the IDs or just the row count.
 	 *
 	 * @return string SQL statement already properly escaped.
-	 * @throws InvalidArgumentException If the query is invalid.
+	 * @throws \InvalidArgumentException If the query is invalid.
+	 * @throws \RuntimeException When "unknown partial args matching value".
 	 */
 	protected function get_query_actions_sql( array $query, $select_or_count = 'select' ) {
 
@@ -399,7 +400,7 @@ AND `group_id` = %d
 		$query = wp_parse_args( $query, array(
 			'hook'                  => '',
 			'args'                  => null,
-			'partial_args_matching' => 'off', // can be 'like' or 'json'
+			'partial_args_matching' => 'off', // can be 'like' or 'json'.
 			'date'                  => null,
 			'date_compare'          => '<=',
 			'modified'              => null,
@@ -435,15 +436,15 @@ AND `group_id` = %d
 			$sql .= " LEFT JOIN {$wpdb->actionscheduler_groups} g ON g.group_id=a.group_id";
 		}
 
-		$sql .= " WHERE 1=1";
+		$sql .= ' WHERE 1=1';
 
 		if ( ! empty( $query['group'] ) ) {
-			$sql          .= " AND g.slug=%s";
+			$sql          .= ' AND g.slug=%s';
 			$sql_params[] = $query['group'];
 		}
 
 		if ( ! empty( $query['hook'] ) ) {
-			$sql          .= " AND a.hook=%s";
+			$sql          .= ' AND a.hook=%s';
 			$sql_params[] = $query['hook'];
 		}
 
@@ -472,20 +473,20 @@ AND `group_id` = %d
 								$value_type
 							) );
 						}
-						$sql          .= ' AND JSON_EXTRACT(a.args, %s)='.$placeholder;
-						$sql_params[] = '$.'.$key;
+						$sql          .= ' AND JSON_EXTRACT(a.args, %s)=' . $placeholder;
+						$sql_params[] = '$.' . $key;
 						$sql_params[] = $value;
 					}
 					break;
 				case 'like':
 					foreach ( $query['args'] as $key => $value ) {
 						$sql          .= ' AND a.args LIKE %s';
-						$json_partial = $wpdb->esc_like( trim( json_encode( array( $key => $value ) ), '{}' ) );
+						$json_partial = $wpdb->esc_like( trim( wp_json_encode( array( $key => $value ) ), '{}' ) );
 						$sql_params[] = "%{$json_partial}%";
 					}
 					break;
 				case 'off':
-					$sql          .= " AND a.args=%s";
+					$sql          .= ' AND a.args=%s';
 					$sql_params[] = $this->get_args_for_query( $query['args'] );
 					break;
 				default:
@@ -650,7 +651,7 @@ AND `group_id` = %d
 		);
 		if ( false === $updated ) {
 			/* translators: %s: action ID */
-			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s', 'action-scheduler' ), $action_id ) );
+			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s: we were unable to cancel this action. It may may have been deleted by another process.', 'action-scheduler' ), $action_id ) );
 		}
 		do_action( 'action_scheduler_canceled_action', $action_id );
 	}
@@ -742,7 +743,8 @@ AND `group_id` = %d
 		global $wpdb;
 		$deleted = $wpdb->delete( $wpdb->actionscheduler_actions, array( 'action_id' => $action_id ), array( '%d' ) );
 		if ( empty( $deleted ) ) {
-			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s', 'action-scheduler' ), $action_id ) ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			/* translators: %s is the action ID */
+			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s: we were unable to delete this action. It may may have been deleted by another process.', 'action-scheduler' ), $action_id ) );
 		}
 		do_action( 'action_scheduler_deleted_action', $action_id );
 	}
@@ -773,7 +775,8 @@ AND `group_id` = %d
 		global $wpdb;
 		$record = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->actionscheduler_actions} WHERE action_id=%d", $action_id ) );
 		if ( empty( $record ) ) {
-			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s', 'action-scheduler' ), $action_id ) ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			/* translators: %s is the action ID */
+			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s: we were unable to determine the date of this action. It may may have been deleted by another process.', 'action-scheduler' ), $action_id ) );
 		}
 		if ( self::STATUS_PENDING === $record->status ) {
 			return as_get_datetime_object( $record->scheduled_date_gmt );
@@ -821,7 +824,7 @@ AND `group_id` = %d
 	 * Set a claim filter.
 	 *
 	 * @param string $filter_name Claim filter name.
-	 * @param mixed $filter_values Values to filter.
+	 * @param mixed  $filter_values Values to filter.
 	 * @return void
 	 */
 	public function set_claim_filter( $filter_name, $filter_values ) {
@@ -1015,6 +1018,7 @@ AND `group_id` = %d
 	 * Release actions from a claim and delete the claim.
 	 *
 	 * @param ActionScheduler_ActionClaim $claim Claim object.
+	 * @throws \RuntimeException When unable to release actions from claim.
 	 */
 	public function release_claim( ActionScheduler_ActionClaim $claim ) {
 		/** @var \wpdb $wpdb */
@@ -1031,7 +1035,7 @@ AND `group_id` = %d
 		$row_updates = 0;
 		if ( count( $action_ids ) > 0 ) {
 			$action_id_string = implode( ',', array_map( 'absint', $action_ids ) );
-			$row_updates = $wpdb->query( "UPDATE {$wpdb->actionscheduler_actions} SET claim_id = 0 WHERE action_id IN ({$action_id_string})" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$row_updates      = $wpdb->query( "UPDATE {$wpdb->actionscheduler_actions} SET claim_id = 0 WHERE action_id IN ({$action_id_string})" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		}
 
 		$wpdb->delete( $wpdb->actionscheduler_claims, array( 'claim_id' => $claim->get_id() ), array( '%d' ) );
@@ -1039,6 +1043,7 @@ AND `group_id` = %d
 		if ( $row_updates < count( $action_ids ) ) {
 			throw new RuntimeException(
 				sprintf(
+					// translators: %d is an id.
 					__( 'Unable to release actions from claim id %d.', 'action-scheduler' ),
 					$claim->get_id()
 				)
@@ -1082,7 +1087,8 @@ AND `group_id` = %d
 			array( '%d' )
 		);
 		if ( empty( $updated ) ) {
-			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s', 'action-scheduler' ), $action_id ) ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			/* translators: %s is the action ID */
+			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s: we were unable to mark this action as having failed. It may may have been deleted by another process.', 'action-scheduler' ), $action_id ) );
 		}
 	}
 
@@ -1140,7 +1146,8 @@ AND `group_id` = %d
 			array( '%d' )
 		);
 		if ( empty( $updated ) ) {
-			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s', 'action-scheduler' ), $action_id ) ); //phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+			/* translators: %s is the action ID */
+			throw new \InvalidArgumentException( sprintf( __( 'Unidentified action %s: we were unable to mark this action as having completed. It may may have been deleted by another process.', 'action-scheduler' ), $action_id ) );
 		}
 
 		/**

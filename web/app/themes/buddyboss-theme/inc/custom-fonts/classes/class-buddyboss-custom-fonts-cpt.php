@@ -496,7 +496,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 		 * open a redux group tab based on url GET param tab
 		 */
 		public function open_theme_options_tab() {
-			if ( ! empty( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) === 'buddyboss_theme_options' && ! empty( $_GET['tab'] ) ) {
+			if ( ! empty( $_GET['page'] ) && 'buddyboss_theme_options' === sanitize_text_field( $_GET['page'] ) && ! empty( $_GET['tab'] ) ) {
 				?>
 				<script>
 					jQuery(document).ready(function(){

@@ -12,7 +12,9 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/learndash-hub
 !web/app/plugins/learndash-zapier
 !web/app/plugins/sfwd-lms
+!web/app/plugins/woo-update-manager
 !web/app/plugins/woocommerce-give-products
+!web/app/plugins/wp-all-import-pro
 !web/app/plugins/wp-job-manager-alerts
 !web/app/plugins/wp-job-manager-resumes
 !web/app/plugins/wp-job-manager-stats
@@ -47,6 +49,7 @@ web/app/cache/wp-rocket
 # Composer
 **/vendor/*
 !web/app/plugins/buddyboss-platform-pro/vendor/*
+!web/app/plugins/wp-all-import-pro/vendor/*
 !web/app/plugins/wp-rocket/vendor/*
 !web/app/plugins/wpforms/vendor/*
 !vendor/.gitkeep

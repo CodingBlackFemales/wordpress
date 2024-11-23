@@ -1320,28 +1320,50 @@ class Locator {
 			return [];
 		}
 
+		// Form templates should not have any locations.
+		if ( get_post_type( $form_id ) === 'wpforms-template' ) {
+			return [];
+		}
+
 		foreach ( self::STANDALONE_LOCATION_TYPES as $location_type ) {
 			if ( empty( $form_data['settings'][ "{$location_type}_enable" ] ) ) {
 				continue;
 			}
 
-			$title_key = "{$location_type}_title";
-			$slug_key  = "{$location_type}_page_slug";
-			$title     = $form_data['settings'][ $title_key ] ?? '';
-			$slug      = $form_data['settings'][ $slug_key ] ?? '';
-
-			// Return the location array.
-			return [
-				'type'    => $location_type,
-				'title'   => $title,
-				'form_id' => (int) $form_data['id'],
-				'id'      => $form_id,
-				'status'  => $status,
-				'url'     => '/' . $slug . '/',
-			];
+			return $this->build_standalone_location_type( $location_type, $form_id, $form_data, $status );
 		}
 
 		return [];
+	}
+
+	/**
+	 * Build a standalone location.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param string $location_type Standalone location type.
+	 * @param int    $form_id       The form ID.
+	 * @param array  $form_data     Form data.
+	 * @param string $status        Form status.
+	 *
+	 * @return array Location.
+	 */
+	private function build_standalone_location_type( string $location_type, int $form_id, array $form_data, string $status ): array {
+
+		$title_key = "{$location_type}_title";
+		$slug_key  = "{$location_type}_page_slug";
+		$title     = $form_data['settings'][ $title_key ] ?? '';
+		$slug      = $form_data['settings'][ $slug_key ] ?? '';
+
+		// Return the location array.
+		return [
+			'type'    => $location_type,
+			'title'   => $title,
+			'form_id' => (int) $form_data['id'],
+			'id'      => $form_id,
+			'status'  => $status,
+			'url'     => '/' . $slug . '/',
+		];
 	}
 
 	/**

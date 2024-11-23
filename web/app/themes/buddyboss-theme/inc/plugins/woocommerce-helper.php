@@ -64,6 +64,9 @@ if ( !class_exists( '\BuddyBossTheme\WooCommerceHelper' ) ) {
 			// Add sidebar on single product page
 			add_action( 'woocommerce_sidebar', array( $this, 'woocommerce_sidebar' ) );
 
+			// Customize stripe payment form
+			add_action( 'wc_stripe_upe_params', array( $this, 'woocommerce_stripe_payment_styles' ) );
+
         }
 
 	    /**
@@ -192,6 +195,70 @@ if ( !class_exists( '\BuddyBossTheme\WooCommerceHelper' ) ) {
 		    get_template_part( 'template-parts/cart-dropdown' );
 		    $fragments['div.header-cart-link-wrap'] = ob_get_clean();
 		    return $fragments;
+	    }
+
+		/**
+	     * Customize stripe payment form
+	     *
+	     */
+	    public function woocommerce_stripe_payment_styles( $stripe_params ) {
+
+			$border_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks_border' ) ) ? buddyboss_theme_get_option( 'body_blocks_border' ) : $color_presets['body_blocks_border'];
+			$input_background_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks' ) ) ? buddyboss_theme_get_option( 'body_blocks' ) : $color_presets['body_blocks'];
+			$text_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_text_color' ) ) ? buddyboss_theme_get_option( 'body_text_color' ) : $color_presets['body_text_color'];
+			$error_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'error_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'error_notice_bg_color' ) : $color_presets['error_notice_bg_color'];
+
+			$stripe_params['appearance'] = (object) [
+				'theme' => 'flat',
+				'variables' => (object) [
+					'borderRadius'  => '6px',
+				],
+				'rules' => (object) [
+					'.Input' => (object) [
+						'backgroundColor' => $input_background_color,
+						'border'          => '1px solid ' . $border_color,
+						'borderRadius'    => 'var(--borderRadius)',
+						'padding'    	  => '12px',
+					],
+					'.Label' => (object) [
+						'color' 		  => $text_color,
+					],
+					'.Input--invalid' => (object) [
+						'color' 		  => $error_color,
+						'boxShadow' 	  => '0 0 0 2px ' . $error_color,
+					],
+					'.Error' => (object) [
+						'color' 		  => $error_color,
+					]
+				],
+			];
+	
+			$stripe_params['blocksAppearance'] = (object) [
+				'theme'     => 'flat',
+				'variables' => (object) [
+					'borderRadius'  => '6px',
+				],
+				'rules' => (object) [
+					'.Input' => (object) [
+						'backgroundColor' => $input_background_color,
+						'border'          => '1px solid ' . $border_color,
+						'borderRadius'    => 'var(--borderRadius)',
+						'padding'    	  => '12px',
+					],
+					'.Label' => (object) [
+						'color' 		  => $text_color,
+					],
+					'.Input--invalid' => (object) [
+						'color' 		  => $error_color,
+						'boxShadow' 	  => '0 0 0 2px ' . $error_color,
+					],
+					'.Error' => (object) [
+						'color' 		  => $error_color,
+					]
+				],
+			];
+	
+			return $stripe_params;
 	    }
 
     }

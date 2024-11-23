@@ -177,9 +177,10 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			}
 
 			$request_args = array(
-				'id'      => $this->plugin_id,
-				'slug'    => $this->plugin_slug,
-				'version' => $transient->checked[ $this->plugin_path ],
+				'id'            => $this->plugin_id,
+				'slug'          => $this->plugin_slug,
+				'version'       => $current_version,
+				'licence_stats' => bb_theme_get_license_stats( $this->plugin_path ),
 			);
 
 			if ( empty( $this->license_key ) ) {
@@ -191,15 +192,19 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			if ( ! empty( $this->license_key['key'] ) && ! empty( $this->license_key['email'] ) ) {
 				$request_args['license_key']      = $this->license_key['key'];
 				$request_args['activation_email'] = $this->license_key['email'];
+				$request_args['token']            = $this->license_key['token'] ?? '';
 				$request_args['instance']         = $this->_site_domain;
 			}
 
-			$request_string = $this->prepare_request( 'theme_update', $request_args );
-
-			$raw_response = wp_remote_post( $this->api_url, $request_string );
+			$raw_response = '';
+			$request_args = $this->bb_validate_token_updated( $request_args );
+			if ( ! empty( $request_args['token'] ) ) {
+				$request_string = $this->prepare_request( 'theme_update', $request_args );
+				$raw_response   = wp_remote_post( $this->api_url, $request_string );
+			}
 
 			$response = null;
-			if ( ! is_wp_error( $raw_response ) && ( $raw_response['response']['code'] == 200 ) ) {
+			if ( ! empty( $raw_response ) && ! is_wp_error( $raw_response ) && ( 200 === $raw_response['response']['code'] ) ) {
 				if ( empty( $raw_response['body'] ) ) {
 					$theme_data = wp_get_theme( $this->plugin_path );
 					// If we have no update then we store response in $transient->no_update variable.
@@ -211,11 +216,16 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 					set_transient( $this->transient_name, $no_update_response, $this->transient_time );
 				}
 				$response = unserialize( $raw_response['body'] );
+			} else {
+				if ( isset( $transient->response[ $this->plugin_path ] ) ) {
+					unset( $transient->response[ $this->plugin_path ] );
+				}
+				delete_transient( $this->transient_name );
 			}
 
 			// Feed the candy !
 			if ( is_array( $response ) && ! empty( $response ) ) {
-				// add license keys info into download url
+				// add license keys info into download url.
 				$args = array( 'domain' => $this->_site_domain );
 
 				if ( ! empty( $this->license_key['key'] ) && ! empty( $this->license_key['email'] ) ) {
@@ -289,9 +299,10 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			}
 
 			$request_args = array(
-				'id'      => $this->plugin_id,
-				'slug'    => $this->plugin_slug,
-				'version' => $current_version,
+				'id'            => $this->plugin_id,
+				'slug'          => $this->plugin_slug,
+				'version'       => $current_version,
+				'licence_stats' => bb_theme_get_license_stats( $this->plugin_path ),
 			);
 
 			if ( empty( $this->license_key ) ) {
@@ -303,14 +314,16 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			if ( ! empty( $this->license_key['key'] ) && ! empty( $this->license_key['email'] ) ) {
 				$request_args['license_key']      = $this->license_key['key'];
 				$request_args['activation_email'] = $this->license_key['email'];
+				$request_args['token']            = $this->license_key['token'] ?? '';
 				$request_args['instance']         = $this->_site_domain;
 			}
 
+			$request_args   = $this->bb_validate_token_updated( $request_args );
 			$request_string = $this->prepare_request( 'update_check', $request_args );
 			$raw_response   = wp_remote_post( $this->api_url, $request_string );
 
 			$response = null;
-			if ( ! is_wp_error( $raw_response ) && ( $raw_response['response']['code'] == 200 ) ) {
+			if ( ! empty( $raw_response ) && ! is_wp_error( $raw_response ) && ( $raw_response['response']['code'] == 200 ) ) {
 				if ( empty( $raw_response['body'] ) ) {
 					// If we have no update then we store response in $transient->no_update variable.
 					$no_update_response                         = new stdClass();
@@ -323,6 +336,11 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 					set_transient( $this->transient_name, $no_update_response, $this->transient_time );
 				}
 				$response = unserialize( $raw_response['body'] );
+			} else {
+				if ( isset( $transient->response[ $this->plugin_path ] ) ) {
+					unset( $transient->response[ $this->plugin_path ] );
+				}
+				delete_transient( $this->transient_name );
 			}
 
 			if ( is_object( $response ) && ! empty( $response ) ) {
@@ -366,10 +384,10 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 
 			$plugin_info  = get_site_transient( 'update_plugins' );
 			$request_args = array(
-				'id'      => $this->plugin_id,
-				'slug'    => $this->plugin_slug,
-				'version' => ( isset( $plugin_info->checked ) ) ? $plugin_info->checked[ $this->plugin_path ] : 0,
-				// Current version
+				'id'            => $this->plugin_id,
+				'slug'          => $this->plugin_slug,
+				'version'       => ( isset( $plugin_info->checked ) ) ? $plugin_info->checked[ $this->plugin_path ] : 0, // Current version
+				'licence_stats' => bb_theme_get_license_stats( $this->plugin_path ),
 			);
 
 			if ( empty( $this->license_key ) ) {
@@ -380,18 +398,21 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			if ( ! empty( $this->license_key['key'] ) && ! empty( $this->license_key['email'] ) ) {
 				$request_args['license_key']      = $this->license_key['key'];
 				$request_args['activation_email'] = $this->license_key['email'];
+				$request_args['token']            = $this->license_key['token'] ?? '';
 				$request_args['instance']         = $this->_site_domain;
 			}
 
+			$request_args   = $this->bb_validate_token_updated( $request_args );
 			$request_string = $this->prepare_request( $action, $request_args );
 			$raw_response   = wp_remote_post( $this->api_url, $request_string );
 
-			if ( is_wp_error( $raw_response ) ) {
+			if ( ! empty( $raw_response ) && is_wp_error( $raw_response ) ) {
 				$res = new WP_Error( 'plugins_api_failed', __( 'An Unexpected HTTP Error occurred during the API request.</p> <p><a href="?" onclick="document.location.reload(); return false;">Try again</a>', 'buddyboss-theme' ), $raw_response->get_error_message() );
 			} else {
-				$res = unserialize( $raw_response['body'] );
-				if ( $res === false ) {
-					$res = new WP_Error( 'plugins_api_failed', __( 'An unknown error occurred', 'buddyboss-theme' ), $raw_response['body'] );
+				$res = ! empty( $raw_response ) ? unserialize( $raw_response['body'] ) : false;
+				if ( false === $res ) {
+					$error_message = ! empty( $raw_response ) ? $raw_response['body'] : __( 'An unknown error occurred', 'buddyboss-theme' );
+					$res           = new WP_Error( 'plugins_api_failed', __( 'An unknown error occurred', 'buddyboss-theme' ), $error_message );
 				}
 			}
 
@@ -400,6 +421,42 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 
 		function prepare_request( $action, $args ) {
 			global $wp_version;
+
+			if ( ! empty( $args['license_key'] ) ) {
+				$get_token_obj = new BBoss_License_Helper();
+
+				$updated_token = false;
+				if ( empty( $args['token'] ) ) {
+					$args['token'] = $get_token_obj->bb_fetch_token( $args['license_key'] );
+					$updated_token = true;
+				} else {
+					$validate_token_exp = $get_token_obj->bb_validate_token_expiry( $args['token'] );
+					if ( $validate_token_exp ) {
+						$args['token'] = $args['token'];
+					} else {
+						$args['token'] = $get_token_obj->bb_fetch_token( $args['license_key'] );
+						$updated_token = true;
+					}
+				}
+
+				if ( $updated_token ) {
+					$instance   = BuddyBoss_Updater_Admin::instance();
+					$reflection = new ReflectionClass( $instance );
+					$method     = $reflection->getMethod( '_get_saved_licenses' );
+					$method->setAccessible( true );
+					$result = $method->invoke( $instance );
+					if ( ! empty( $result ) ) {
+						foreach ( $result as $package_id => $package_data ) {
+							if ( empty( $package_data['token'] ) ) {
+								$result[ $package_id ]['token'] = $args['token'];
+							}
+						}
+						$update_method = $reflection->getMethod( '_update_saved_licenses' );
+						$update_method->setAccessible( true );
+						$update_method->invoke( $instance, $result );
+					}
+				}
+			}
 
 			$retval = array(
 				'body'       => array(
@@ -450,6 +507,56 @@ if ( ! class_exists( 'BBoss_Updates_Helper' ) ) {
 			$home_url = str_replace( array( 'http://', 'https://', 'www.' ), array( '', '', '' ), $home_url );
 
 			return $home_url;
+		}
+
+		/**
+		 * Function will validate token and update in DB.
+		 *
+		 * @since 2.6.90
+		 *
+		 * @param array $args Argument of args.
+		 *
+		 * @throws ReflectionException
+		 * @return mixed
+		 */
+		function bb_validate_token_updated( $args ) {
+			if ( ! empty( $args['license_key'] ) ) {
+				$get_token_obj = new BBoss_License_Helper();
+
+				$updated_token = false;
+				if ( empty( $args['token'] ) ) {
+					$args['token'] = $get_token_obj->bb_fetch_token( $args['license_key'] );
+					$updated_token = true;
+				} else {
+					$validate_token_exp = $get_token_obj->bb_validate_token_expiry( $args['token'] );
+					if ( $validate_token_exp ) {
+						$args['token'] = $args['token'];
+					} else {
+						$args['token'] = $get_token_obj->bb_fetch_token( $args['license_key'] );
+						$updated_token = true;
+					}
+				}
+
+				if ( $updated_token ) {
+					$instance   = BuddyBoss_Updater_Admin::instance();
+					$reflection = new ReflectionClass( $instance );
+					$method     = $reflection->getMethod( '_get_saved_licenses' );
+					$method->setAccessible( true );
+					$result = $method->invoke( $instance );
+					if ( ! empty( $result ) ) {
+						foreach ( $result as $package_id => $package_data ) {
+							if ( empty( $package_data['token'] ) ) {
+								$result[ $package_id ]['token'] = $args['token'];
+							}
+						}
+						$update_method = $reflection->getMethod( '_update_saved_licenses' );
+						$update_method->setAccessible( true );
+						$update_method->invoke( $instance, $result );
+					}
+				}
+			}
+
+			return $args;
 		}
 
 	}
