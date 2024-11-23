@@ -611,7 +611,7 @@ class Field extends \WPForms_Field {
 		$field_amount = ! empty( $field['price'] ) ? wpforms_sanitize_amount( $field['price'] ) * $quantity : 0;
 
 		$fields[] = [
-			'label'     => $field['label'],
+			'label'     => ! empty( $field['label_hide'] ) ? '' : $field['label'],
 			'quantity'  => $this->get_payment_field_min_quantity( $field ),
 			'amount'    => wpforms_format_amount( $field_amount, true ),
 			'is_hidden' => ! $quantity,
@@ -648,7 +648,7 @@ class Field extends \WPForms_Field {
 			$is_default    = ! empty( $choice['default'] ) || ( isset( $default_choice_key ) && (int) $key === $default_choice_key );
 
 			$fields[] = [
-				'label'     => $field['label'] . ' - ' . $choice['label'],
+				'label'     => ! empty( $field['label_hide'] ) ? $choice['label'] : $field['label'] . ' - ' . $choice['label'],
 				'quantity'  => $quantity,
 				'amount'    => wpforms_format_amount( $choice_amount, true ),
 				'is_hidden' => ! $is_default || ! $quantity,

@@ -154,7 +154,7 @@ class WPForms_Welcome {
 
 					<div class="block">
 
-						<h6><?php esc_html_e( 'WPForms makes it easy to create forms in WordPress. You can watch the video tutorial or read our guide on how create your first form.', 'wpforms-lite' ); ?></h6>
+						<h6><?php esc_html_e( 'WPForms makes it easy to create forms in WordPress. You can watch the video tutorial or read our guide on how to create your first form.', 'wpforms-lite' ); ?></h6>
 
 						<div class="button-wrap wpforms-clear">
 							<div class="left">

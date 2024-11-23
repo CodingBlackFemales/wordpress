@@ -1771,7 +1771,7 @@ class WPForms_Field_File_Upload extends WPForms_Field {
 		$tmp_path       = wp_normalize_path( $tmp_dir . '/' . $tmp_name );
 		$file_new       = pathinfo( $tmp_path, PATHINFO_FILENAME ) . '.' . pathinfo( $tmp_path, PATHINFO_EXTENSION );
 
-		if ( ! $handler->finalize( $tmp_path ) ) {
+		if ( ! $handler->finalize( $tmp_path, $file_name ) ) {
 			wp_send_json_error( $default_error, 403 );
 		}
 

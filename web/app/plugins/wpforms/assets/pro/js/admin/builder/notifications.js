@@ -708,7 +708,7 @@ WPForms.Admin.Builder.Notifications = WPForms.Admin.Builder.Notifications || ( f
 			getFormFields( allowed, exclude = [] ) {
 				const availableFields = [];
 
-				const fields = wpf.getFields( allowed, true );
+				const fields = wpf.getFields( allowed, true, true );
 
 				if ( ! fields ) {
 					return [];

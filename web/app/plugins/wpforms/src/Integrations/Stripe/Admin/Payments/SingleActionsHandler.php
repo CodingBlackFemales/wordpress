@@ -95,6 +95,10 @@ class SingleActionsHandler {
 			wp_send_json_error( [ 'message' => esc_html__( 'Missing payment ID.', 'wpforms-lite' ) ] );
 		}
 
+		if ( ! wpforms_current_user_can( wpforms_get_capability_manage_options() ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to perform this action.', 'wpforms-lite' ) ] );
+		}
+
 		$this->check_payment_collection_type();
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
@@ -151,6 +155,10 @@ class SingleActionsHandler {
 			wp_send_json_error( [ 'message' => esc_html__( 'Payment ID not provided.', 'wpforms-lite' ) ] );
 		}
 
+		if ( ! wpforms_current_user_can( wpforms_get_capability_manage_options() ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'You are not allowed to perform this action.', 'wpforms-lite' ) ] );
+		}
+
 		$this->check_payment_collection_type();
 		check_ajax_referer( 'wpforms-admin', 'nonce' );
 
@@ -190,7 +198,7 @@ class SingleActionsHandler {
 
 		$message = sprintf(
 			wp_kses( /* translators: %s - Payments settings page URL. */
-				__( "The used Stripe payment collection type doesn't support this action.<br><br> Please <a href='%s'>update your payment collection type</a> to continue processing payments successfully." ),
+				__( "The used Stripe payment collection type doesn't support this action.<br><br> Please <a href='%s'>update your payment collection type</a> to continue processing payments successfully.", 'wpforms-lite' ),
 				[
 					'br' => [],
 					'a'  => [

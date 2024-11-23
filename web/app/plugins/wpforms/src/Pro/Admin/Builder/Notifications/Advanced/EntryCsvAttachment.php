@@ -551,15 +551,10 @@ class EntryCsvAttachment {
 		foreach ( $filtered as $field ) {
 
 			if ( ! empty( $entry_fields[ $field ] ) ) {
-				$entry_field = $entry_fields[ $field ];
+				$entry_field = $this->get_field( $field, $entry_fields, $form_data, $include_hidden );
 
-				if ( ! $include_hidden && $this->is_field_hidden( $entry_field ) ) {
+				if ( empty( $entry_field ) ) {
 					continue;
-				}
-
-				// Add quantity for the field.
-				if ( wpforms_payment_has_quantity( $entry_field, $form_data ) ) {
-					$entry_field['value'] = wpforms_payment_format_quantity( $entry_field );
 				}
 
 				$output['header'][] = $this->csv->escape_value( $entry_field['name'] );
@@ -579,6 +574,44 @@ class EntryCsvAttachment {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get field.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param int   $field_id       Field ID.
+	 * @param array $entry_fields   Entry data.
+	 * @param array $form_data      Form data.
+	 * @param bool  $include_hidden Whether to include hidden entry field.
+	 *
+	 * @return array
+	 */
+	private function get_field( int $field_id, array $entry_fields, array $form_data, bool $include_hidden ): array {
+
+		$entry_field = $entry_fields[ $field_id ];
+
+		if ( ! $include_hidden && $this->is_field_hidden( $entry_field ) ) {
+			return [];
+		}
+
+		// Add quantity for the field.
+		if ( wpforms_payment_has_quantity( $entry_field, $form_data ) ) {
+			$entry_field['value'] = wpforms_payment_format_quantity( $entry_field );
+
+			return $entry_field;
+		}
+
+		if ( ! wpforms_is_repeated_field( $field_id, $form_data['fields'] ) ) {
+			return $entry_field;
+		}
+
+		$field_smart_tag = '{field_id="' . $field_id . '"}';
+
+		$entry_field['value'] = wpforms_process_smart_tags( $field_smart_tag, $form_data, $entry_fields, $field_id );
+
+		return $entry_field;
 	}
 
 	/**
@@ -609,10 +642,13 @@ class EntryCsvAttachment {
 			return $filtered;
 		}
 
+		// We should exclude repeater fields. We process them separately via smart tags.
+		$processed_field_ids = array_filter( array_keys( $form_data_fields ), 'is_numeric' );
+
 		// Add all the Form Field IDs after the 'all_fields'.
 		return wpforms_array_insert(
 			$filtered,
-			array_keys( $form_data_fields ),
+			$processed_field_ids,
 			array_search( 'all_fields', $filtered, true )
 		);
 	}

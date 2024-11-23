@@ -1,26 +1,25 @@
 /* global wpforms_edit_post_education */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * WPForms Edit Post Education function.
  *
  * @since 1.8.1
  */
 
-'use strict';
-
-const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( document, window, $ ) {
-
+// eslint-disable-next-line no-var, no-unused-vars
+var WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.8.1
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const app = {
 
 		/**
-		 * Determine if the notice was showed before.
+		 * Determine if the notice was shown before.
 		 *
 		 * @since 1.8.1
 		 */
@@ -31,10 +30,8 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		init: function() {
-
+		init() {
 			$( window ).on( 'load', function() {
-
 				// In the case of jQuery 3.+, we need to wait for a ready event first.
 				if ( typeof $.ready.then === 'function' ) {
 					$.ready.then( app.load );
@@ -49,8 +46,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		load: function() {
-
+		load() {
 			if ( ! app.isGutenbergEditor() ) {
 				app.maybeShowClassicNotice();
 				app.bindClassicEvents();
@@ -59,7 +55,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 			}
 
 			const blockLoadedInterval = setInterval( function() {
-
 				if ( ! document.querySelector( '.editor-post-title__input, iframe[name="editor-canvas"]' ) ) {
 					return;
 				}
@@ -67,7 +62,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 				clearInterval( blockLoadedInterval );
 
 				if ( ! app.isFse() ) {
-
 					app.maybeShowGutenbergNotice();
 					app.bindGutenbergEvents();
 
@@ -76,7 +70,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 
 				const iframe = document.querySelector( 'iframe[name="editor-canvas"]' );
 				const observer = new MutationObserver( function() {
-
 					const iframeDocument = iframe.contentDocument || iframe.contentWindow.document || {};
 
 					if ( iframeDocument.readyState === 'complete' && iframeDocument.querySelector( '.editor-post-title__input' ) ) {
@@ -95,8 +88,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		bindClassicEvents: function() {
-
+		bindClassicEvents() {
 			const $document = $( document );
 
 			if ( ! app.isNoticeVisible ) {
@@ -111,8 +103,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		bindGutenbergEvents: function() {
-
+		bindGutenbergEvents() {
 			const $document = $( document );
 
 			$document
@@ -132,8 +123,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		bindFseEvents: function() {
-
+		bindFseEvents() {
 			const $iframe = $( 'iframe[name="editor-canvas"]' );
 
 			$( document )
@@ -148,10 +138,9 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 *
-		 * @returns {boolean} True if the editor is Gutenberg.
+		 * @return {boolean} True if the editor is Gutenberg.
 		 */
-		isGutenbergEditor: function() {
-
+		isGutenbergEditor() {
 			return typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined';
 		},
 
@@ -160,10 +149,9 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 *
-		 * @returns {boolean} True if the Gutenberg editor in FSE mode.
+		 * @return {boolean} True if the Gutenberg editor in FSE mode.
 		 */
-		isFse: function() {
-
+		isFse() {
 			return Boolean( $( 'iframe[name="editor-canvas"]' ).length );
 		},
 
@@ -181,7 +169,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 			// The notice component doesn't have a way to add HTML id or class to the notice.
 			// Also, the notice became visible with a delay on old Gutenberg versions.
 			const hasNotice = setInterval( function() {
-
 				const noticeBody = $( '.wpforms-edit-post-education-notice-body' );
 				if ( ! noticeBody.length ) {
 					return;
@@ -208,10 +195,9 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 *
-		 * @returns {object} Notice settings.
+		 * @return {Object} Notice settings.
 		 */
-		getGutenbergNoticeSettings: function() {
-
+		getGutenbergNoticeSettings() {
 			const pluginName = 'wpforms-edit-post-product-education-guide';
 			const noticeSettings = {
 				id: pluginName,
@@ -228,8 +214,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 			};
 
 			if ( ! wpforms_edit_post_education.gutenberg_guide ) {
-
-				noticeSettings.actions[0].url = wpforms_edit_post_education.gutenberg_notice.url;
+				noticeSettings.actions[ 0 ].url = wpforms_edit_post_education.gutenberg_notice.url;
 
 				return noticeSettings;
 			}
@@ -239,7 +224,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 			const registerPlugin = wp.plugins.registerPlugin;
 			const unregisterPlugin = wp.plugins.unregisterPlugin;
 			const GutenbergTutorial = function() {
-
 				const [ isOpen, setIsOpen ] = useState( true );
 
 				if ( ! isOpen ) {
@@ -259,7 +243,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 				);
 			};
 
-			noticeSettings.actions[0].onClick = () => registerPlugin( pluginName, { render: GutenbergTutorial } );
+			noticeSettings.actions[ 0 ].onClick = () => registerPlugin( pluginName, { render: GutenbergTutorial } );
 
 			return noticeSettings;
 		},
@@ -269,10 +253,9 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 *
-		 * @returns {Array} Guide Pages.
+		 * @return {Array} Guide Pages.
 		 */
-		getGuidePages: function() {
-
+		getGuidePages() {
 			const pages = [];
 
 			wpforms_edit_post_education.gutenberg_guide.forEach( function( page ) {
@@ -299,8 +282,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		maybeShowClassicNotice: function() {
-
+		maybeShowClassicNotice() {
 			if ( app.isNoticeVisible ) {
 				return;
 			}
@@ -317,15 +299,14 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		maybeShowGutenbergNotice: function() {
-
+		maybeShowGutenbergNotice() {
 			if ( app.isNoticeVisible ) {
 				return;
 			}
 
-			const $postTitle = app.isFse() ?
-				$( 'iframe[name="editor-canvas"]' ).contents().find( '.editor-post-title__input' ) :
-				$( '.editor-post-title__input' );
+			const $postTitle = app.isFse()
+				? $( 'iframe[name="editor-canvas"]' ).contents().find( '.editor-post-title__input' )
+				: $( '.editor-post-title__input' );
 			const tagName = $postTitle.prop( 'tagName' );
 			const title = tagName === 'TEXTAREA' ? $postTitle.val() : $postTitle.text();
 
@@ -341,8 +322,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1.2
 		 */
-		distractionFreeModeToggle: function() {
-
+		distractionFreeModeToggle() {
 			if ( ! app.isNoticeVisible ) {
 				return;
 			}
@@ -373,10 +353,9 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @param {string} titleValue Page title value.
 		 *
-		 * @returns {boolean} True if the title matches some keywords.
+		 * @return {boolean} True if the title matches some keywords.
 		 */
-		isTitleMatchKeywords: function( titleValue ) {
-
+		isTitleMatchKeywords( titleValue ) {
 			const expectedTitleRegex = new RegExp( /\b(contact|form)\b/i );
 
 			return expectedTitleRegex.test( titleValue );
@@ -387,8 +366,7 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 *
 		 * @since 1.8.1
 		 */
-		closeNotice: function() {
-
+		closeNotice() {
 			$( this ).closest( '.wpforms-edit-post-education-notice' ).remove();
 
 			app.updateUserMeta();
@@ -400,7 +378,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 		 * @since 1.8.1
 		 */
 		updateUserMeta() {
-
 			$.post(
 				wpforms_edit_post_education.ajax_url,
 				{
@@ -413,7 +390,6 @@ const WPFormsEditPostEducation = window.WPFormsEditPostEducation || ( function( 
 	};
 
 	return app;
-
 }( document, window, jQuery ) );
 
 WPFormsEditPostEducation.init();

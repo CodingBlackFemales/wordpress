@@ -1,37 +1,44 @@
-/* global List, wpforms_builder, wpf, WPFormsBuilder, WPFormsFormTemplates */
+/* global wpforms_builder, wpf, WPFormsBuilder, WPFormsFormTemplates */
+/* eslint-disable no-console */
 
+/**
+ * @param wpforms_builder.blank_form
+ * @param wpforms_builder.error_select_template
+ * @param wpforms_builder.form_meta
+ * @param wpforms_builder.template_confirm
+ * @param wpforms_builder.use_default_template
+ */
+
+// noinspection ES6ConvertVarToLetConst
 /**
  * Form Builder Setup Panel module.
  *
  * @since 1.6.8
  */
 
-'use strict';
-
-var WPForms = window.WPForms || {};
+var WPForms = window.WPForms || {}; // eslint-disable-line no-var
 
 WPForms.Admin = WPForms.Admin || {};
 WPForms.Admin.Builder = WPForms.Admin.Builder || {};
 
 WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( document, window, $ ) {
-
 	/**
 	 * Elements holder.
 	 *
 	 * @since 1.6.8
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var el = {};
+	const el = {};
 
 	/**
 	 * Runtime variables.
 	 *
 	 * @since 1.6.8
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var vars = {};
+	const vars = {};
 
 	/**
 	 * Active template name.
@@ -45,9 +52,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 	 *
 	 * @since 1.6.8
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	var app = {
+	const app = {
 
 		/**
 		 * Start the engine.
@@ -59,7 +66,6 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 			// Page load.
 			$( window ).on( 'load', function() {
-
 				// In the case of jQuery 3.+, we need to wait for a ready event first.
 				if ( typeof $.ready.then === 'function' ) {
 					$.ready.then( app.load );
@@ -79,9 +85,12 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 			app.setPanelsToggleState();
 			app.setupTitleFocus();
 			app.setTriggerBlankLink();
-			app.setSelectedTemplate();
-			app.setSelectedCategories();
 			app.events();
+
+			// Trigger `wpformsBuilderPanelLoaded` event only when the panel is available in DOM.
+			if ( el.$panel.length ) {
+				el.$builder.trigger( 'wpformsBuilderPanelLoaded', [ 'setup' ] );
+			}
 
 			el.$builder.trigger( 'wpformsBuilderSetupReady' );
 		},
@@ -102,14 +111,12 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 */
 		setup() {
 			// Cache DOM elements.
-			el = {
-				$builder: $( '#wpforms-builder' ),
-				$form: $( '#wpforms-builder-form' ),
-				$formName: $( '#wpforms-setup-name' ),
-				$panel: $( '#wpforms-panel-setup' ),
-				$categories: $( '#wpforms-panel-setup .wpforms-setup-templates-categories' ),
-				$subcategories: $( '#wpforms-panel-setup .wpforms-setup-templates-subcategories' ),
-			};
+			el.$builder = $( '#wpforms-builder' );
+			el.$form = $( '#wpforms-builder-form' );
+			el.$formName = $( '#wpforms-setup-name' );
+			el.$panel = $( '#wpforms-panel-setup' );
+			el.$categories = $( '#wpforms-panel-setup .wpforms-setup-templates-categories' );
+			el.$subcategories = $( '#wpforms-panel-setup .wpforms-setup-templates-subcategories' );
 
 			// Other values.
 			vars.spinner = '<i class="wpforms-loading-spinner wpforms-loading-white wpforms-loading-inline"></i>';
@@ -124,9 +131,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		events() {
 			el.$builder.on( 'wpformsBuilderPanelLoaded', app.panelLoaded );
 
-			app.panelEvents();
-
-			// Focus on the form title field when displaying setup panel.
+			// Focus on the form title field when displaying a setup panel.
 			el.$builder
 				.on( 'wpformsPanelSwitched', app.setupTitleFocus );
 
@@ -167,11 +172,10 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 				return;
 			}
 
-			app.setup();
 			WPFormsFormTemplates.setup();
+			app.setup();
 			app.setSelectedTemplate();
 			app.setSelectedCategories();
-
 			app.panelEvents();
 		},
 
@@ -180,8 +184,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 */
-		setPanelsToggleState: function() {
-
+		setPanelsToggleState() {
 			el.$builder
 				.find( '#wpforms-panels-toggle button:not(.active)' )
 				.toggleClass( 'wpforms-disabled', vars.formID === '' );
@@ -192,8 +195,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 */
-		setTriggerBlankLink: function() {
-
+		setTriggerBlankLink() {
 			el.$builder
 				.find( '.wpforms-trigger-blank' )
 				.attr( {
@@ -207,10 +209,10 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 *
-		 * @param {Object} e    Event object.
-		 * @param {string} view Current view.
+		 * @param {Object|null} e    Event object.
+		 * @param {string|null} view Current view.
 		 */
-		setupTitleFocus( e, view ) {
+		setupTitleFocus( e = null, view = null ) { // eslint-disable-line no-unused-vars
 			view = view || wpf.getQueryString( 'view' );
 
 			if ( view !== 'setup' ) {
@@ -289,7 +291,6 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 * @since 1.8.9
 		 */
 		filterTemplatesBySelectedCategory() {
-
 			const $subCategory = el.$subcategories.find( 'li.active' );
 
 			// If subcategory is available, trigger its click it will update and category also.
@@ -314,10 +315,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		syncTitle: function( e ) {
-
+		syncTitle( e ) {
 			if ( e.target.id === 'wpforms-setup-name' ) {
 				$( '#wpforms-panel-field-settings-form_title' ).val( e.target.value );
 			} else {
@@ -333,10 +333,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @deprecated Use `WPFormsFormTemplates.searchTemplate` instead.
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		searchTemplate: function( e ) {
-
+		searchTemplate( e ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.searchTemplate( e )" has been deprecated, please use the new "WPFormsFormTemplates.searchTemplate( e )" function instead!' );
 
 			WPFormsFormTemplates.searchTemplate( e );
@@ -350,10 +349,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @deprecated Use `WPFormsFormTemplates.selectCategory` instead.
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		selectCategory: function( e ) {
-
+		selectCategory( e ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.selectCategory( e )" has been deprecated, please use the new "WPFormsFormTemplates.selectCategory( e )" function instead!' );
 
 			WPFormsFormTemplates.selectCategory( e );
@@ -387,7 +385,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 			el.$panel.find( '.wpforms-template' ).removeClass( 'active' );
 			$button.closest( '.wpforms-template' ).addClass( 'active' );
 
-			// Save original label.
+			// Save the original label.
 			$button.data( 'labelOriginal', $button.html() );
 
 			// Display loading indicator.
@@ -405,10 +403,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @param {jQuery} $button Pressed template button.
 		 *
-		 * @returns {string} A new form name.
+		 * @return {string} A new form name.
 		 */
-		getFormName: function( $button ) {
-
+		getFormName( $button ) {
 			const templateName = $button.data( 'template-name-raw' );
 			const formName = el.$formName.val();
 
@@ -428,22 +425,17 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @param {string} formName Name of the form.
 		 * @param {string} template Template slug.
-		 * @param {jQuery} $button  Use template button object.
+		 * @param {jQuery} $button  Use a template button object.
 		 */
-		applyTemplate: function( formName, template, $button ) {
-
+		applyTemplate( formName, template, $button ) {
 			el.$builder.trigger( 'wpformsTemplateSelect', template );
 
 			if ( vars.formID ) {
-
 				// Existing form.
 				app.selectTemplateExistingForm( formName, template, $button );
-
 			} else {
-
 				// Create a new form.
 				WPFormsFormTemplates.selectTemplateProcess( formName, template, $button, app.selectTemplateProcessAjax );
-
 			}
 		},
 
@@ -452,13 +444,12 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		selectBlankTemplate: function( e ) {
-
+		selectBlankTemplate( e ) {
 			e.preventDefault();
 
-			var $button  = $( e.target ),
+			const $button = $( e.target ),
 				formName = el.$formName.val() || wpforms_builder.blank_form,
 				template = 'blank';
 
@@ -472,10 +463,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @param {string} formName Name of the form.
 		 * @param {string} template Template slug.
-		 * @param {jQuery} $button  Use template button object.
+		 * @param {jQuery} $button  Use a template button object.
 		 */
-		selectTemplateExistingForm: function( formName, template, $button ) {
-
+		selectTemplateExistingForm( formName, template, $button ) {
 			$.confirm( {
 				title: wpforms_builder.heads_up,
 				content: wpforms_builder.template_confirm,
@@ -486,15 +476,13 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 						text: wpforms_builder.ok,
 						btnClass: 'btn-confirm',
 						keys: [ 'enter' ],
-						action: function() {
-
+						action() {
 							WPFormsFormTemplates.selectTemplateProcess( formName, template, $button, app.selectTemplateProcessAjax );
 						},
 					},
 					cancel: {
 						text: wpforms_builder.cancel,
-						action: function() {
-
+						action() {
 							WPFormsFormTemplates.selectTemplateCancel();
 						},
 					},
@@ -510,12 +498,11 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @deprecated Use `WPFormsFormTemplates.selectTemplateProcess` instead.
 		 *
-		 * @param {string}  formName  Name of the form.
-		 * @param {string}  template  Template slug.
-		 * @param {jQuery}  $button   Use template button object.
+		 * @param {string} formName Name of the form.
+		 * @param {string} template Template slug.
+		 * @param {jQuery} $button  Use a template button object.
 		 */
-		selectTemplateProcess: function( formName, template, $button ) {
-
+		selectTemplateProcess( formName, template, $button ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.selectTemplateProcess( formName, template, $button )" has been deprecated, please use the new "WPFormsFormTemplates.selectTemplateProcess( formName, template, $button, callback )" function instead!' );
 
 			WPFormsFormTemplates.selectTemplateProcess( formName, template, $button, app.selectTemplateProcessAjax );
@@ -529,8 +516,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @deprecated Use `WPFormsFormTemplates.selectTemplateCancel` instead.
 		 */
-		selectTemplateCancel: function( ) {
-
+		selectTemplateCancel( ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.selectTemplateCancel" has been deprecated, please use the new "WPFormsFormTemplates.selectTemplateCancel" function instead!' );
 
 			WPFormsFormTemplates.selectTemplateCancel();
@@ -541,11 +527,10 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 *
-		 * @param {string}  formName  Name of the form.
-		 * @param {string}  template  Template slug.
+		 * @param {string} formName Name of the form.
+		 * @param {string} template Template slug.
 		 */
-		selectTemplateProcessAjax: function( formName, template ) {
-
+		selectTemplateProcessAjax( formName, template ) {
 			WPFormsBuilder.showLoadingOverlay();
 
 			const data = {
@@ -577,9 +562,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 						// We have already warned the user that unsaved changes will be ignored.
 						WPFormsBuilder.setCloseConfirmation( false );
 
-						window.location.href = wpf.getQueryString( 'force_desktop_view' ) ?
-							wpf.updateQueryString( 'force_desktop_view', 1, res.data.redirect ) :
-							res.data.redirect;
+						window.location.href = wpf.getQueryString( 'force_desktop_view' )
+							? wpf.updateQueryString( 'force_desktop_view', '1', res.data.redirect )
+							: res.data.redirect;
 
 						return;
 					}
@@ -594,8 +579,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 					app.selectTemplateProcessError( res.data.message );
 				} )
-				.fail( function( xhr, textStatus, e ) {
-
+				.fail( function( xhr, textStatus ) {
 					wpf.debug( xhr.responseText || textStatus || '' );
 					app.selectTemplateProcessError( '' );
 				} );
@@ -674,10 +658,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @param {string} formName Name of the form.
 		 * @param {string} template Template slug.
-		 * @param {jQuery} $button  Use template button object.
+		 * @param {jQuery} $button  Use a template button object.
 		 */
-		addonsModal: function( formName, template, $button ) {
-
+		addonsModal( formName, template, $button ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.addonsModal( formName, template, $button )" has been deprecated, please use the new "WPFormsFormTemplates.addonsModal( formName, template, $button, callback )" function instead!' );
 
 			WPFormsFormTemplates.addonsModal( formName, template, $button, app.selectTemplateProcessAjax );
@@ -692,12 +675,11 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 * @deprecated Use `WPFormsFormTemplates.installActivateAddons` instead.
 		 *
 		 * @param {Array}  addons        Addons slugs.
-		 * @param {object} previousModal Previous modal instance.
+		 * @param {Object} previousModal Previous modal instance.
 		 * @param {string} formName      Name of the form.
 		 * @param {string} template      Template slug.
 		 */
-		installActivateAddons: function( addons, previousModal, formName, template ) {
-
+		installActivateAddons( addons, previousModal, formName, template ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.installActivateAddons( addons, previousModal, formName, template )" has been deprecated, please use the new "WPFormsFormTemplates.installActivateAddons( addons, previousModal, formName, template, callback )" function instead!' );
 
 			WPFormsFormTemplates.installActivateAddons( addons, previousModal, formName, template, app.selectTemplateProcessAjax );
@@ -714,8 +696,7 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 * @param {string} formName Name of the form.
 		 * @param {string} template Template slug.
 		 */
-		installActivateAddonsError: function( formName, template ) {
-
+		installActivateAddonsError( formName, template ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.installActivateAddonsError( formName, template )" has been deprecated, please use the new "WPFormsFormTemplates.installActivateAddonsError( formName, template, callback )" function instead!' );
 
 			WPFormsFormTemplates.installActivateAddonsError( formName, template, app.selectTemplateProcessAjax );
@@ -731,10 +712,9 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @param {string} addon Addon slug.
 		 *
-		 * @returns {Promise} jQuery ajax call promise.
+		 * @return {Promise} jQuery ajax call promise.
 		 */
-		installActivateAddonAjax: function( addon ) {
-
+		installActivateAddonAjax( addon ) {
 			console.warn( 'WARNING! Function "WPForms.Admin.Builder.Setup.installActivateAddonAjax( addon )" has been deprecated, please use the new "WPFormsFormTemplates.installActivateAddonAjax( addon )" function instead!' );
 
 			return WPFormsFormTemplates.installActivateAddonAjax( addon );
@@ -745,9 +725,8 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 		 *
 		 * @since 1.6.8
 		 */
-		applyTemplateOnRequest: function() {
-
-			var urlParams = new URLSearchParams( window.location.search ),
+		applyTemplateOnRequest() {
+			const urlParams = new URLSearchParams( window.location.search ),
 				templateId = urlParams.get( 'template_id' );
 
 			if (
@@ -764,7 +743,6 @@ WPForms.Admin.Builder.Setup = WPForms.Admin.Builder.Setup || ( function( documen
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

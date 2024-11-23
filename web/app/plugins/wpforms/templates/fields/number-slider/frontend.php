@@ -31,6 +31,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	step="<?php echo esc_attr( $step ); ?>">
 
 <div class="wpforms-field-number-slider-hint"
-	data-hint="<?php echo esc_attr( wp_kses_post( $value_display ) ); ?>">
-	<?php echo wp_kses_post( $value_hint ); ?>
+	data-hint="<?php echo esc_attr( wp_kses_post( html_entity_decode( $value_display ) ) ); ?>">
+	<?php echo wp_kses_post( html_entity_decode( $value_hint ) ); ?>
 </div>

@@ -219,7 +219,7 @@ class Helpers {
 	 */
 	public static function is_addon_active() {
 
-		return function_exists( 'wpforms_stripe' );
+		return wpforms_is_addon_initialized( 'stripe' );
 	}
 
 	/**

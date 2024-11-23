@@ -245,6 +245,7 @@ class WPForms_Field_Date_Time extends WPForms_Field {
 			case 'time':
 				$properties['inputs']['time']            = $default_time;
 				$properties['inputs']['time']['class'][] = $field_size_cls;
+				$properties['label']['attr']['for']     .= '-time';
 				break;
 		}
 
@@ -258,6 +259,16 @@ class WPForms_Field_Date_Time extends WPForms_Field {
 				'data'  => [],
 				'id'    => '',
 			];
+		}
+
+		// Remove reference to an input element ...
+		if (
+			// ... as there is no single id for it.
+			( $date_type === 'dropdown' && $field_format !== 'time' ) ||
+			// ... to prevent duplication.
+			( $date_type === 'datepicker' && $field_format === 'date-time' && empty( $field['sublabel_hide'] ) )
+		) {
+			unset( $properties['label']['attr']['for'] );
 		}
 
 		return $properties;

@@ -56,6 +56,10 @@ class Process {
 		// Form data: payment entry.
 		add_filter( 'wpforms_admin_payments_views_single_form_data', [ $this, 'add_repeater_child_fields_to_form_data' ], 10, 2 );
 		add_filter( 'wpforms_admin_payments_views_single_form_data', [ $this, 'move_child_fields_to_repeater_field' ], 20 );
+
+		// Form data: before send email on entry view page.
+		add_filter( 'wpforms_entries_single_process_notifications_form_data', [ $this, 'add_repeater_child_fields_to_form_data' ], 10, 2 );
+		add_filter( 'wpforms_entries_single_process_notifications_form_data', [ $this, 'move_child_fields_to_repeater_field' ], 20 );
 	}
 
 	/**

@@ -387,7 +387,7 @@ class Field extends \WPForms_Field {
 				$label = isset( $choice['label']['text'] ) ? $choice['label']['text'] : '';
 				/* translators: %s - item number. */
 				$label  = $label !== '' ? $label : sprintf( esc_html__( 'Item %s', 'wpforms-lite' ), $key );
-				$label .= ! empty( $field['show_price_after_labels'] ) && isset( $choice['data']['amount'] ) ? ' - ' . wpforms_format_amount( wpforms_sanitize_amount( $choice['data']['amount'] ), true ) : '';
+				$label .= ! empty( $field['show_price_after_labels'] ) && isset( $choice['data']['amount'] ) ? $this->get_price_after_label( $choice['data']['amount'] ) : '';
 
 				printf(
 					'<li %s>',

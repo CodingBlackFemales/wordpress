@@ -535,8 +535,7 @@ class Ajax {
 			$this->request_data['dynamic_columns']
 		);
 
-		// Make sure that values array has the same length as choices array.
-		$values = array_pad( $values, count( $choices ), '' );
+		$values = $this->adjust_values_number( $values, $choices );
 
 		// Add each value to the separate column in the row.
 		foreach ( $values as $index => $value ) {
@@ -564,7 +563,7 @@ class Ajax {
 
 			// For Likert Scale field search value index by key.
 			if ( $type === 'likert_scale' ) {
-				$value_index = array_search( $index, array_column( $choices, 'label' ), true );
+				$value_index = array_search( (string) $index, array_column( $choices, 'label' ), true );
 
 				// Try to find modified value index.
 				if ( $value_index === false ) {
@@ -622,6 +621,31 @@ class Ajax {
 		}
 
 		return (string) $row_value;
+	}
+
+	/**
+	 * Adjust values number.
+	 *
+	 * Make sure that values array has the same length as choices array.
+	 * If values array is shorter than choices array, add empty values to it.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $values  Values.
+	 * @param array $choices Choices.
+	 *
+	 * @return array Adjusted values.
+	 */
+	private function adjust_values_number( array $values, array $choices ): array {
+
+		$count         = count( $values );
+		$count_choices = count( $choices );
+
+		for ( $i = $count + 1; $i <= $count_choices; $i++ ) {
+			$values[] = '';
+		}
+
+		return $values;
 	}
 
 	/**
@@ -839,7 +863,7 @@ class Ajax {
 				break;
 
 			default:
-				$val = $entry[ $col_id ];
+				$val = $entry[ $col_id ] ?? '';
 		}
 
 		/**

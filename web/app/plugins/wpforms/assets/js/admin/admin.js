@@ -995,6 +995,7 @@
 			const classes = {
 				active: 'wpforms-addons-list-item-footer-active',
 				activating: 'wpforms-addons-list-item-footer-activating',
+				incompatible: 'wpforms-addons-list-item-footer-incompatible',
 				installed: 'wpforms-addons-list-item-footer-installed',
 				missing: 'wpforms-addons-list-item-footer-missing',
 				goToUrl: 'wpforms-addons-list-item-footer-go-to-url',
@@ -1069,7 +1070,7 @@
 					checked = false;
 				}
 
-				$footer.removeClass( classes.active + ' ' + classes.installed + ' ' + classes.missing ).addClass( cssClass );
+				$footer.removeClass( classes.active + ' ' + classes.incompatible + ' ' + classes.installed + ' ' + classes.missing ).addClass( cssClass );
 			}
 
 			WPFormsAdmin.setAddonState( plugin, state, pluginType, function( res ) {
@@ -1127,18 +1128,20 @@
 		 * @return {string} State.
 		 */
 		getAddonState( $footer, classes, $button ) {
-			let state;
-
-			if ( $footer.hasClass( classes.active ) ) {
-				state = 'deactivate';
-			} else if ( $footer.hasClass( classes.installed ) ) {
-				state = 'activate';
-			} else if ( $footer.hasClass( classes.missing ) ) {
-				WPFormsAdmin.addSpinnerToButton( $button );
-				state = 'install';
+			if ( $footer.hasClass( classes.active ) || $footer.hasClass( classes.incompatible ) ) {
+				return 'deactivate';
 			}
 
-			return state;
+			if ( $footer.hasClass( classes.installed ) ) {
+				return 'activate';
+			}
+
+			if ( $footer.hasClass( classes.missing ) ) {
+				WPFormsAdmin.addSpinnerToButton( $button );
+				return 'install';
+			}
+
+			return '';
 		},
 
 		/**

@@ -424,7 +424,7 @@ class Frontend {
 		 */
 		do_action( 'wpforms_frontend_output_before', $form_data, $form );
 
-		if ( $this->output_success( $form, $form_data ) ) {
+		if ( $this->output_success( $form ) ) {
 			return true;
 		}
 
@@ -482,23 +482,28 @@ class Frontend {
 	 *
 	 * @since 1.8.1
 	 *
-	 * @param WP_Post $form      Form.
-	 * @param array   $form_data Form data.
+	 * @param WP_Post $form Form.
 	 *
 	 * @return bool
 	 */
-	private function output_success( $form, $form_data ): bool {
+	private function output_success( $form ): bool {
 
 		$form_id = absint( $form->ID );
 		$process = wpforms()->obj( 'process' );
-		$errors  = empty( $process->errors[ $form_id ] ) ? [] : $process->errors[ $form_id ];
+
+		if ( ! $process ) {
+			return false;
+		}
+
+		$form_data = $process->form_data;
+		$errors    = empty( $process->errors[ $form_id ] ) ? [] : $process->errors[ $form_id ];
 
 		// Check for return hash.
 		if (
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			! empty( $_GET['wpforms_return'] ) &&
 			$process->valid_hash &&
-			(int) $process->form_data['id'] === $form_id
+			(int) $form_data['id'] === $form_id
 		) {
 			$this->form_container_open( $form_data, $form );
 
@@ -511,7 +516,7 @@ class Frontend {
 			 * @param array $fields    Form fields.
 			 * @param int   $entry_id  Form ID.
 			 */
-			do_action( 'wpforms_frontend_output_success', $process->form_data, $process->fields, $process->entry_id );
+			do_action( 'wpforms_frontend_output_success', $form_data, $process->fields, $process->entry_id );
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			wpforms_debug_data( $_POST );
@@ -530,19 +535,13 @@ class Frontend {
 			(int) $_POST['wpforms']['id'] === $form_id
 			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		) {
-			$is_ajax = wp_doing_ajax();
-
 			// There is no need for a container wrapper when a form is submitted through AJAX.
-			if ( ! $is_ajax ) {
-				$this->form_container_open( $form_data, $form );
-			}
+			$this->form_container_open( $form_data, $form );
 
 			/** This action is documented in the same method, several lines above. */
-			do_action( 'wpforms_frontend_output_success', $form_data, false, false );
+			do_action( 'wpforms_frontend_output_success', $form_data, $process->fields, $process->entry_id );
 
-			if ( ! $is_ajax ) {
-				$this->form_container_close( $form_data, $form );
-			}
+			$this->form_container_close( $form_data, $form );
 
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			wpforms_debug_data( $_POST );
@@ -1613,7 +1612,7 @@ class Frontend {
 			'wpforms-validation',
 			WPFORMS_PLUGIN_URL . 'assets/lib/jquery.validate.min.js',
 			[ 'jquery' ],
-			'1.20.1',
+			'1.21.0',
 			$in_footer
 		);
 
@@ -1922,7 +1921,8 @@ class Frontend {
 				continue;
 			}
 
-			$strings[ $key ] = html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' );
+			$strings[ $key ] = esc_html( html_entity_decode( (string) $value, ENT_QUOTES, 'UTF-8' ) );
+
 		}
 
 		return $strings;

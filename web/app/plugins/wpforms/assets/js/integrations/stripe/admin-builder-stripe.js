@@ -1,12 +1,13 @@
 /* global wpforms_builder, wpforms_builder_stripe */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Stripe builder function.
  *
  * @since 1.8.2
  */
-
-const WPFormsStripe = window.WPFormsStripe || ( function( document, window, $ ) {
+// eslint-disable-next-line no-var
+var WPFormsStripe = window.WPFormsStripe || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
@@ -57,8 +58,8 @@ const WPFormsStripe = window.WPFormsStripe || ( function( document, window, $ ) 
 		/**
 		 * Toggles visibility of the Stripe settings.
 		 *
-		 * If a credit card field has been added then reveal the settings,
-		 * otherwise hide them.
+		 * If a credit card field has been added, then reveal the settings.
+		 * Otherwise, hide them.
 		 *
 		 * @since 1.8.2
 		 */

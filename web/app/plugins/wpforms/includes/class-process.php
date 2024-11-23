@@ -106,6 +106,7 @@ class WPForms_Process {
 		add_action( 'wp', [ $this, 'listen' ] );
 		add_action( 'wp_ajax_wpforms_submit', [ $this, 'ajax_submit' ] );
 		add_action( 'wp_ajax_nopriv_wpforms_submit', [ $this, 'ajax_submit' ] );
+		add_filter( 'wpforms_ajax_submit_redirect', [ $this, 'maybe_open_in_new_tab' ] );
 	}
 
 	/**
@@ -318,9 +319,9 @@ class WPForms_Process {
 			 *
 			 * @since 1.4.0
 			 *
-			 * @param int   $field_id     Field ID.
-			 * @param mixed $field_submit Submitted field value (raw data).
-			 * @param array $form_data    Form data.
+			 * @param string|int $field_id     Field ID as a numeric string.
+			 * @param mixed      $field_submit Submitted field value (raw data).
+			 * @param array      $form_data    Form data.
 			 */
 			do_action( "wpforms_process_validate_{$field_type}", $field_id, $field_submit, $this->form_data );
 		}
@@ -417,7 +418,8 @@ class WPForms_Process {
 				]
 			);
 
-			// Fail silently.
+			$this->errors[ $this->form_data['id'] ]['footer_styled'] = esc_html__( 'The form could not be submitted due to a security issue.', 'wpforms-lite' );
+
 			return;
 		}
 
@@ -515,7 +517,14 @@ class WPForms_Process {
 		// Detect direct POST requests when the AJAX submission is enabled.
 		$this->direct_post_request_check( $entry );
 
+		$is_pro = wpforms()->is_pro();
+
 		if ( ! $this->is_bypass_spam_check( $entry ) ) {
+			// Store spam entries detected by filtering.
+			if ( $is_pro && ! empty( $this->form_data['settings']['anti_spam']['filtering_store_spam'] ) ) {
+				$this->country_filter_check( $entry, $form_id );
+				$this->keyword_filter_check( $entry, $form_id );
+			}
 
 			// Check if the form was submitted too quickly.
 			$this->time_limit_check();
@@ -603,7 +612,7 @@ class WPForms_Process {
 		$_POST['wpforms']['entry_id'] = $this->entry_id;
 
 		// Logs entry depending on log levels set.
-		if ( wpforms()->is_pro() ) {
+		if ( $is_pro ) {
 			wpforms_log(
 				$this->entry_id ? "Entry {$this->entry_id}" : 'Entry',
 				$this->fields,
@@ -727,6 +736,72 @@ class WPForms_Process {
 		$this->log_spam_entry(
 			$entry,
 			'Direct POST request form submission'
+		);
+	}
+
+	/**
+	 * Run Country filter check.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $entry   Form submission raw data ($_POST).
+	 * @param int   $form_id Form ID.
+	 */
+	private function country_filter_check( array $entry, int $form_id ) {
+
+		// Skip if spam was already detected.
+		if ( $this->spam_reason ) {
+			return;
+		}
+
+		$country_filter = wpforms()->obj( 'antispam_country_filter' );
+
+		// Skip if the Country check was passed.
+		if ( $country_filter->is_valid( $this->form_data ) ) {
+			return;
+		}
+
+		$this->spam_errors[ $form_id ]['footer'] = $country_filter->get_error_message( $this->form_data );
+
+		$this->spam_reason = 'Country Filter';
+
+		// Log the spam entry depending on log levels set.
+		$this->log_spam_entry(
+			$entry,
+			'Country filter verification was failed.'
+		);
+	}
+
+	/**
+	 * Run Keyword filter check.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $entry   Form submission raw data ($_POST).
+	 * @param int   $form_id Form ID.
+	 */
+	private function keyword_filter_check( array $entry, int $form_id ) {
+
+		// Skip if spam was already detected.
+		if ( $this->spam_reason ) {
+			return;
+		}
+
+		$keyword_filter = wpforms()->obj( 'antispam_keyword_filter' );
+
+		// Skip if the Keyword check was passed.
+		if ( $keyword_filter->is_valid( $this->form_data, $this->fields ) ) {
+			return;
+		}
+
+		$this->spam_errors[ $form_id ]['footer'] = $keyword_filter->get_error_message( $this->form_data );
+
+		$this->spam_reason = 'Keyword Filter';
+
+		// Log the spam entry depending on log levels set.
+		$this->log_spam_entry(
+			$entry,
+			'Keyword filter verification was failed.'
 		);
 	}
 
@@ -1308,37 +1383,9 @@ class WPForms_Process {
 		// Reverse sort confirmations by id to process newer ones first.
 		krsort( $confirmations );
 
-		$default_confirmation_key = min( array_keys( $confirmations ) );
+		$confirmation_id = $this->get_confirmation_id( $confirmations );
 
-		foreach ( $confirmations as $confirmation_id => $confirmation ) {
-			// Last confirmation should execute in any case.
-			if ( $default_confirmation_key === $confirmation_id ) {
-				break;
-			}
-
-			if ( ! $this->is_valid_confirmation( $confirmation ) ) {
-				continue;
-			}
-
-			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
-
-			/**
-			 * Process confirmation filter.
-			 *
-			 * @since 1.4.8
-			 *
-			 * @param bool  $process   Whether to process the logic or not.
-			 * @param array $fields    List of submitted fields.
-			 * @param array $form_data Form data and settings.
-			 * @param int   $id        Confirmation ID.
-			 */
-			$process_confirmation = apply_filters( 'wpforms_entry_confirmation_process', true, $this->fields, $this->form_data, $confirmation_id );
-			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
-
-			if ( $process_confirmation ) {
-				break;
-			}
-		}
+		$this->confirmation = $confirmations[ $confirmation_id ] ?? [];
 
 		$url = '';
 		// Redirect if needed, to either a page or URL, after form processing.
@@ -1391,13 +1438,60 @@ class WPForms_Process {
 
 		// Pass a message to a frontend if no redirection happened.
 		if ( ! empty( $confirmations[ $confirmation_id ]['type'] ) && 'message' === $confirmations[ $confirmation_id ]['type'] ) {
-			$this->confirmation         = $confirmations[ $confirmation_id ];
 			$this->confirmation_message = $confirmations[ $confirmation_id ]['message'];
 
 			if ( ! empty( $confirmations[ $confirmation_id ]['message_scroll'] ) ) {
 				wpforms()->obj( 'frontend' )->confirmation_message_scroll = true;
 			}
 		}
+	}
+
+	/**
+	 * Determine which confirmation to process.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $confirmations List of confirmations.
+	 *
+	 * @return int Confirmation ID.
+	 */
+	private function get_confirmation_id( array $confirmations ) {
+
+		$default_confirmation_key = min( array_keys( $confirmations ) );
+
+		$confirmation_id = 0;
+
+		foreach ( $confirmations as $confirmation_id => $confirmation ) {
+			// Last confirmation should execute in any case.
+			if ( $default_confirmation_key === $confirmation_id ) {
+				break;
+			}
+
+			if ( ! $this->is_valid_confirmation( $confirmation ) ) {
+				continue;
+			}
+
+			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
+
+			/**
+			 * Process confirmation filter.
+			 *
+			 * @since 1.4.8
+			 *
+			 * @param bool  $process   Whether to process the logic or not.
+			 * @param array $fields    List of submitted fields.
+			 * @param array $form_data Form data and settings.
+			 * @param int   $id        Confirmation ID.
+			 */
+			$process_confirmation = apply_filters( 'wpforms_entry_confirmation_process', true, $this->fields, $this->form_data, $confirmation_id );
+			// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+
+			if ( $process_confirmation ) {
+				break;
+			}
+		}
+
+		return $confirmation_id;
 	}
 
 	/**
@@ -1532,9 +1626,19 @@ class WPForms_Process {
 			$notifications = $form_data['settings']['notifications'];
 		}
 
+		$notifications_count = count( $notifications );
+		$is_pro              = wpforms()->is_pro();
+
 		foreach ( $notifications as $notification_id => $notification ) :
 
 			if ( empty( $notification['email'] ) ) {
+				continue;
+			}
+
+			// You can disable the email notification for a specific notification only if there are more than one notification.
+			// BC: The notification should be enabled even when the `enabled` key doesn't exist.
+			// The key is missed for old forms or forms created using the Lite version.
+			if ( $is_pro && $notifications_count > 1 && isset( $notification['enable'] ) && (int) $notification['enable'] === 0 ) {
 				continue;
 			}
 
@@ -1803,7 +1907,7 @@ class WPForms_Process {
 		}
 
 		// General errors are errors that cannot be populated with jQuery Validate plugin.
-		$general_errors = array_intersect_key( $errors, array_flip( [ 'header', 'footer', 'recaptcha' ] ) );
+		$general_errors = array_intersect_key( $errors, array_flip( [ 'header', 'footer', 'header_styled', 'footer_styled', 'recaptcha' ] ) );
 
 		foreach ( $general_errors as $key => $error ) {
 			ob_start();
@@ -1899,5 +2003,25 @@ class WPForms_Process {
 		do_action( 'wpforms_ajax_submit_completed', $form_id, $response );
 
 		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Conditionally add a new_tab key to the AJAX response.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $response AJAX response.
+	 *
+	 * @return array AJAX response.
+	 */
+	public function maybe_open_in_new_tab( array $response ): array {
+
+		$open_in_new_tab = $this->confirmation['redirect_new_tab'] ?? false;
+
+		if ( $open_in_new_tab ) {
+			$response['new_tab'] = true;
+		}
+
+		return $response;
 	}
 }

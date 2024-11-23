@@ -72,13 +72,14 @@ class Helpers {
 	 * @since 1.9.1
 	 *
 	 * @return bool
+	 * @noinspection PhpUndefinedConstantInspection
 	 */
 	public static function is_disabled_by_rule(): bool {
 
 		$is_disabled = defined( 'WPFORMS_DISABLE_AI_FEATURES' ) && WPFORMS_DISABLE_AI_FEATURES;
 
 		/**
-		 * Allow to modify whether AI integration is disabled in WPForms.
+		 * Allow modifying whether AI integration is disabled in WPForms.
 		 *
 		 * @since 1.9.1
 		 *
@@ -100,11 +101,13 @@ class Helpers {
 
 		wpforms_log(
 			'AI Integration Error',
-			$message,
 			[
-				'type'     => [ 'ai', 'error' ],
+				'error'    => $message,
 				'endpoint' => $endpoint,
 				'args'     => $args,
+			],
+			[
+				'type' => [ 'ai', 'error' ],
 			]
 		);
 	}

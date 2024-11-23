@@ -85,7 +85,7 @@ class ReCaptcha extends Captcha {
 			'recaptcha-v3-threshold' => [
 				'id'      => 'recaptcha-v3-threshold',
 				'name'    => esc_html__( 'Score Threshold', 'wpforms-lite' ),
-				'desc'    => esc_html__( 'reCAPTCHA v3 returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot). If the score less than or equal to this threshold, the form submission will be blocked and the message above will be displayed.', 'wpforms-lite' ),
+				'desc'    => esc_html__( 'reCAPTCHA v3 returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot). If the score is less than or equal to this threshold, the form submission will be blocked and the message above will be displayed.', 'wpforms-lite' ),
 				'type'    => 'number',
 				'attr'    => [
 					'step' => '0.1',

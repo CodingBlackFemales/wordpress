@@ -1,4 +1,4 @@
-/* global wpforms, wpforms_settings */
+/* global wpforms, wpforms_settings, WPFormsIframe */
 
 'use strict';
 
@@ -125,127 +125,58 @@ var WPFormsEntryPreview = window.WPFormsEntryPreview || ( function( document, wi
 		 * Create an iframe from a div inside the entry preview.
 		 *
 		 * @since 1.7.0
+		 * @since 1.9.2 Method body was moved to the WPFormsIframe.update method.
 		 */
 		updateIframe: function() {
+			const color = $( '.wpforms-entry-preview-wrapper' ).is( ':visible' ) ? $( '.wpforms-entry-preview-value' ).css( 'color' ) : 'inherit'; // add color on entry preview field.
 
-			var wrapper = this,
-				iframe = document.createElement( 'iframe' );
-
-			iframe.onload = function() {
-
-				app.iframeStyles( iframe );
-				app.iframeBody( iframe, wrapper.innerHTML );
-				app.iframeFullHeight( iframe );
-
-				wrapper.remove();
-			};
-
-			wrapper.after( iframe );
+			WPFormsIframe.update.call( this, { color } );
 		},
 
 		/**
 		 * Add styles to an iframe.
 		 *
 		 * @since 1.7.0
+		 * @deprecated 1.9.2
 		 *
 		 * @param {HTMLIFrameElement} iframe Iframe element.
 		 */
 		iframeStyles: function( iframe ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'WARNING! Function "WPFormsEntryPreview.iframeStyles( iframe )" has been deprecated, please use the new "WPFormsIframe.iframeStyles( iframe, options )" function instead!' );
 
-			var doc = iframe.contentWindow.document,
-				head = doc.querySelector( 'head' ),
-				style = doc.createElement( 'style' ),
-				font = $( 'body' ).css( 'font-family' ),
-				color = $( '.wpforms-entry-preview-wrapper' ).is( ':visible' ) ? $( '.wpforms-entry-preview-value' ).css( 'color' ) : 'inherit'; // add color on entry preview field.
-
-			style.setAttribute( 'type', 'text/css' );
-			style.innerHTML = 'body.mce-content-body {' +
-				'	margin: 0 !important;' +
-				'	background-color: transparent !important;' +
-				'	font-family: ' + font + ';' +
-				'	color: ' + color + ';' +
-				'}' +
-				'*:first-child {' +
-				'	margin-top: 0' +
-				'}' +
-				'*:last-child {' +
-				'	margin-bottom: 0' +
-				'}' +
-				'pre {' +
-				'	white-space: pre !important;' +
-				'	overflow-x: auto !important;' +
-				'}' +
-				'a,' +
-				'img {' +
-				'	display: inline-block;' +
-				'}';
-
-			head.appendChild( style );
-
-			if ( ! wpforms_settings.entry_preview_iframe_styles ) {
-				return;
-			}
-
-			wpforms_settings.entry_preview_iframe_styles.forEach( function( src ) {
-
-				var link = doc.createElement( 'link' );
-
-				link.setAttribute( 'rel', 'stylesheet' );
-				link.setAttribute( 'href', src );
-				link.onload = function() {
-
-					app.iframeFullHeight( iframe );
-				};
-				head.appendChild( link );
-			} );
+			WPFormsIframe.iframeStyles( iframe );
 		},
 
 		/**
 		 * Add HTML elements to an iframe.
 		 *
 		 * @since 1.7.0
+		 * @deprecated 1.9.2
 		 *
 		 * @param {HTMLIFrameElement} iframe Iframe element.
 		 * @param {string}            html   HTML.
 		 */
 		iframeBody: function( iframe, html ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'WARNING! Function "WPFormsEntryPreview.iframeBody( iframe, html )" has been deprecated, please use the new "WPFormsIframe.iframeBody( iframe, html )" function instead!' );
 
-			var doc = iframe.contentWindow.document,
-				body = doc.querySelector( 'body' ),
-				wrapper = doc.createElement( 'div' );
-
-			wrapper.classList.add( 'wpforms-iframe-wrapper' );
-			body.append( wrapper );
-			wrapper.innerHTML = html;
-			body.classList.add( 'mce-content-body' );
-
-			body.querySelectorAll( 'a' ).forEach( function( el ) {
-
-				el.setAttribute( 'rel', 'noopener' );
-
-				if ( ! el.hasAttribute( 'target' ) ) {
-					el.setAttribute( 'target', '_top' );
-				}
-			} );
+			WPFormsIframe.iframeBody( iframe, html );
 		},
 
 		/**
 		 * Set full height for an iframe.
 		 *
 		 * @since 1.7.0
+		 * @deprecated 1.9.2
 		 *
 		 * @param {HTMLIFrameElement} iframe Iframe element.
 		 */
 		iframeFullHeight: function( iframe ) {
+			// eslint-disable-next-line no-console
+			console.warn( 'WARNING! Function "WPFormsEntryPreview.iframeFullHeight( iframe )" has been deprecated, please use the new "WPFormsIframe.iframeFullHeight( iframe )" function instead!' );
 
-			if ( ! iframe.contentWindow || ! iframe.contentWindow.document ) {
-				return;
-			}
-
-			var doc = iframe.contentWindow.document,
-				wrapper = doc.querySelector( '.wpforms-iframe-wrapper' );
-
-			iframe.style.height = wrapper.scrollHeight + 'px';
+			WPFormsIframe.iframeFullHeight( iframe );
 		},
 	};
 

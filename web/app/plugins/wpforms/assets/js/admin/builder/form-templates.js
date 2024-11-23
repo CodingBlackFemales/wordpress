@@ -1,11 +1,18 @@
-/* global List, wpforms_form_templates, wpforms_addons, wpf */
+/* global List, wpforms_form_templates, wpforms_addons, wpf, WPFormsUtils */
 
 /**
+ * @param wpforms_form_templates.admin_nonce
+ * @param wpforms_form_templates.delete_template
+ * @param wpforms_form_templates.delete_template_content
+ * @param wpforms_form_templates.delete_template_title
  * @param wpforms_form_templates.template_addon_activate
  * @param wpforms_form_templates.template_addon_prompt
+ * @param wpforms_form_templates.template_addons_error
  * @param wpforms_form_templates.template_addons_prompt
+ * @param wpforms_form_templates.use_template
  */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Form Templates function.
  *
@@ -40,7 +47,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		init() {
 			$( app.ready );
 			$( window ).on( 'load', function() {
-				// in case of jQuery 3.+ we need to wait for an `ready` event first.
+				// in the case of jQuery 3.+ we need to wait for the `ready` event first.
 				if ( typeof $.ready.then === 'function' ) {
 					$.ready.then( app.load );
 				} else {
@@ -55,7 +62,6 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 * @since 1.7.7
 		 */
 		ready() {
-			app.setup();
 			app.events();
 		},
 
@@ -74,6 +80,9 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 * @since 1.7.7
 		 */
 		setup() {
+			// Trigger event before initializing the template list.
+			WPFormsUtils.triggerEvent( $( document ), 'wpformsSetupPanelBeforeInitTemplatesList' );
+
 			// Template list object.
 			vars.templateList = new List( 'wpforms-setup-templates-list', {
 				valueNames: [
@@ -350,7 +359,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 			$activeSubcategory.removeClass( 'active' );
 			$activeCategory.removeClass( 'active' );
 
-			// Add active class to the parent category and  current subcategory.
+			// Add active class to the parent category and current subcategory.
 			$item.parents( 'li' ).addClass( 'active' );
 			$item.addClass( 'active' );
 
@@ -407,7 +416,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		},
 
 		/**
-		 * Show/hide the subcategories list by clicking on chevron icon.
+		 * Show/hide the subcategory list by clicking on the chevron icon.
 		 *
 		 * @since 1.8.7
 		 *
@@ -435,7 +444,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		},
 
 		/**
-		 * Show upgrade banner if licence type is less than Pro.
+		 * Show upgrade banner if a license type is less than Pro.
 		 *
 		 * @since 1.7.7
 		 */
@@ -468,7 +477,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 		 *
 		 * @param {string}   formName Name of the form.
 		 * @param {string}   template Template slug.
-		 * @param {jQuery}   $button  Use template button object.
+		 * @param {jQuery}   $button  Use a template button object.
 		 * @param {Function} callback The function to set the template.
 		 */
 		selectTemplateProcess( formName, template, $button, callback ) {
@@ -657,7 +666,7 @@ var WPFormsFormTemplates = window.WPFormsFormTemplates || ( function( document, 
 			const ajaxErrors = [];
 			let promiseChain = false;
 
-			// Put each of the ajax call promise to the chain.
+			// Put each of the ajax call promises to the chain.
 			addons.forEach( function( addon ) {
 				if ( typeof promiseChain.done !== 'function' ) {
 					promiseChain = app.installActivateAddonAjax( addon );

@@ -552,6 +552,9 @@ class Loader {
 			],
 			[
 				'name' => 'Admin\Builder\Ajax\PanelLoader',
+			],
+			[
+				'name' => 'Admin\Builder\Addons',
 			]
 		);
 	}
@@ -782,6 +785,7 @@ class Loader {
 			$this->classes,
 			[
 				'name' => 'AntiSpam\CountryFilter',
+				'id'   => 'antispam_country_filter',
 				'hook' => 'init',
 			],
 			[

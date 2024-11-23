@@ -1,11 +1,13 @@
 /* global wpforms_builder, wpforms_builder_stripe */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Stripe builder function.
  *
  * @since 1.8.4
  */
-const WPFormsStripeModernBuilder = window.WPFormsStripeModernBuilder || ( function( document, window, $ ) {
+// eslint-disable-next-line no-var
+var WPFormsStripeModernBuilder = window.WPFormsStripeModernBuilder || ( function( document, window, $ ) {
 	/**
 	 * Elements holder.
 	 *
@@ -195,7 +197,7 @@ const WPFormsStripeModernBuilder = window.WPFormsStripeModernBuilder || ( functi
 		},
 
 		/**
-		 * Determine if field type is Stripe credit card.
+		 * Determine if a field type is Stripe credit card.
 		 *
 		 * @since 1.8.4
 		 *
@@ -292,7 +294,7 @@ const WPFormsStripeModernBuilder = window.WPFormsStripeModernBuilder || ( functi
 		 * @since 1.8.4
 		 */
 		deletePlan() {
-			// Trigger a warning modal when trying to delete single plan without pro addon.
+			// Trigger a warning modal when trying to delete a single plan without pro addon.
 			$( '.wpforms-panel-content-section-stripe .wpforms-panel-content-section-payment-button-add-plan' ).click();
 		},
 
