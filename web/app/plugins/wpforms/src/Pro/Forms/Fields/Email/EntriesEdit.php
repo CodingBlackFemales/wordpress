@@ -72,8 +72,8 @@ class EntriesEdit extends \WPForms\Pro\Forms\Fields\Base\EntriesEdit {
 		$this->field_object->validate( $field_id, $field_submit, $form_data );
 
 		// Tweak error for the email fields without confirmation.
-		if ( empty( $form_data['fields'][ $field_id ]['confirmation'] ) && ! empty( wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ]['primary'] ) ) {
-			wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ] = wpforms()->get( 'process' )->errors[ $form_id ][ $field_id ]['primary'];
+		if ( empty( $form_data['fields'][ $field_id ]['confirmation'] ) && ! empty( wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ]['primary'] ) ) {
+			wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ] = wpforms()->obj( 'process' )->errors[ $form_id ][ $field_id ]['primary'];
 		}
 	}
 }

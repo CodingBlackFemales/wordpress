@@ -1,0 +1,129 @@
+/* stylelint-disable scss/no-duplicate-mixins */
+/* stylelint-enable */
+:root {
+  --academy-primary-font: inherit !important;
+  --academy-secondary-font: inherit !important;
+}
+
+body[class*="academy"] a:focus {
+  box-shadow: none;
+}
+body[class*="academy"].page-template-academy-canvas-php {
+  height: auto;
+}
+
+.buddyboss-theme .media-frame .media-toolbar input[type="search"],
+.buddyboss-theme .media-frame .media-toolbar select.attachment-filters {
+  height: auto;
+}
+.buddyboss-theme .media-frame .media-toolbar input[type="search"] {
+  padding-left: 35px;
+}
+
+.academy-editor__content-texteditor .interface-complementary-area .components-panel__header.edit-post-sidebar__panel-tabs ul,
+.academy-editor__content-texteditor .interface-complementary-area .components-panel__header.edit-post-sidebar__panel-tabs ul li {
+  margin: 0;
+}
+.academy-editor__content-texteditor .interface-complementary-area .components-button:focus {
+  color: inherit;
+  background-color: inherit;
+}
+
+.academy-editor__content-meta .meta-field__body input[type="radio"],
+.academy-react-modal input[type="radio"],
+.academy-radio-options input[type="radio"] {
+  min-height: 1rem;
+}
+
+.academy-list-wrap input[type="checkbox"],
+.academy-react-modal input[type="checkbox"] {
+  min-height: 1rem;
+  position: relative;
+}
+.academy-list-wrap input[type="checkbox"]:checked::before,
+.academy-react-modal input[type="checkbox"]:checked::before {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.academy-list-wrap .academy-bulk-actions .academy-select .academy-react-select__control .academy-react-select__value-container {
+  padding-bottom: 0;
+}
+
+.academy-react-select__control input {
+  height: auto;
+}
+.academy-react-select__control input:focus {
+  box-shadow: none;
+}
+
+.academy-calendar button {
+  color: inherit;
+}
+.academy-calendar button:disabled {
+  cursor: default;
+}
+
+.academyFrontendDashWrap .academy-topbar {
+  border-color: var(--bb-content-border-color);
+}
+.academyFrontendDashWrap .academy-dashboard-entry-content .academy-dashboard-data .academy-analytics-cards--card .academy-analytics-card--data {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.academyFrontendDashWrap .academy-list-wrap .rdt_Pagination select {
+  padding-right: 30px;
+}
+.academyFrontendDashWrap .academy-list-wrap .rdt_Pagination select + svg {
+  display: none;
+}
+.academyFrontendDashWrap .academy-list-wrap .academy-table-item-control {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+.academyFrontendDashWrap .academy-dashboard-sidebar ul.academy-dashboard-menu li ul {
+  margin-bottom: 0;
+}
+
+.academy-dashboard__content .academy-editor__content > .entry-left {
+  width: 75%;
+}
+.academy-dashboard__content .academy-editor__content > .entry-right {
+  width: 25%;
+}
+.academy-dashboard__content .academy-editor__title-textfield {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.academy-dashboard__content .academy-editor__title-submit {
+  width: auto;
+}
+
+.academy-block-editor .components-panel__header.edit-post-sidebar__panel-tabs ul {
+  margin: 0;
+}
+.academy-block-editor .components-panel__header.edit-post-sidebar__panel-tabs ul li {
+  margin: 0;
+}
+
+.academy-courses__sidebar .academy-archive-course-search {
+  width: 100%;
+}
+
+@media only screen and (min-width: 990px) {
+  .academy-courses__header .academy-courses__header-filter > .academy-courses__header-ordering {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+    padding-left: 25px;
+  }
+  .academy-courses__header .academy-courses__header-filter > .academy-courses__header-ordering .academy-courses__header-orderby {
+    width: 100%;
+  }
+}

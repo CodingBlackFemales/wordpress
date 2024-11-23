@@ -118,7 +118,7 @@ class ListTable extends WP_List_Table {
 			[
 				'total_items' => $total_items,
 				'per_page'    => $per_page,
-				'total_pages' => ceil( $total_items / $per_page ),
+				'total_pages' => (int) ceil( $total_items / $per_page ),
 			]
 		);
 	}
@@ -385,25 +385,30 @@ class ListTable extends WP_List_Table {
 	 */
 	public function process_admin_ui() {
 
+		$nonce = isset( $_REQUEST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ) : '';
+
+		if ( ! wp_verify_nonce( $nonce, 'wpforms-table-' . $this->_args['plural'] ) ) {
+			return;
+		}
+
+		if ( empty( $_REQUEST['_wp_http_referer'] ) && empty( $_REQUEST['clear-all'] ) ) {
+			return;
+		}
+
+		if ( ! empty( $_REQUEST['clear-all'] ) ) {
+			$this->repository->clear_all();
+		}
+
 		$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( ! empty( $_REQUEST['_wp_http_referer'] ) || ! empty( $_REQUEST['clear-all'] ) ) {
+		wp_safe_redirect(
+			remove_query_arg(
+				[ '_wp_http_referer', '_wpnonce', 'clear-all' ],
+				$uri
+			)
+		);
 
-			if ( ! empty( $_REQUEST['clear-all'] ) ) {
-				$this->repository->clear_all();
-			}
-
-			wp_safe_redirect(
-				remove_query_arg(
-					[ '_wp_http_referer', '_wpnonce', 'clear-all' ],
-					$uri
-				)
-			);
-
-			exit;
-		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		exit;
 	}
 
 	/**
@@ -542,11 +547,15 @@ class ListTable extends WP_List_Table {
 
 		$this->prepare_column_headers();
 		$this->prepare_items();
+
+		$slug = $this->_args['plural'];
+
 		echo '<div class="wpforms-list-table wpforms-list-table--logs">';
-		echo '<form id="' . esc_attr( $this->_args['plural'] ) . '-filter" method="get">';
-		$this->header();
-		$this->display();
-		echo '</form>';
+			echo '<form id="' . esc_attr( $slug ) . '-filter" method="get">';
+				wp_nonce_field( 'wpforms-table-' . $slug );
+				$this->header();
+				$this->display();
+			echo '</form>';
 		echo '</div>';
 	}
 

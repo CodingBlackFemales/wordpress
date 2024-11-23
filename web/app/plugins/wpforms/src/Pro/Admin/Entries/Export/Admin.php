@@ -148,7 +148,7 @@ class Admin {
 	public function display_form_selection_block() {
 
 		// Retrieve available forms.
-		$forms = wpforms()->get( 'form' )->get(
+		$forms = wpforms()->obj( 'form' )->get(
 			'',
 			[
 				'orderby' => 'title',

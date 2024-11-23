@@ -9,7 +9,7 @@
 
 $col   = empty( $shortcode_atts['col'] ) ? LEARNDASH_COURSE_GRID_COLUMNS : intval( $shortcode_atts['col'] );
 $col   = $col > 6 ? 6 : $col;
-$smcol = $col === 1 ? 1 : $col / 2;
+$smcol = 1 === $col ? 1 : $col / 2;
 $col   = 12 / $col;
 $smcol = intval( ceil( 12 / $smcol ) );
 $col   = is_float( $col ) ? number_format( $col, 1 ) : $col;
@@ -69,9 +69,9 @@ $course_price_type = '';
 
 // For LD >= 3.0.
 if ( function_exists( 'learndash_get_course_price' ) && function_exists( 'learndash_get_group_price' ) ) {
-	if ( $post->post_type === 'sfwd-courses' ) {
+	if ( 'sfwd-courses' === $post->post_type ) {
 		$price_args = learndash_get_course_price( $post->ID );
-	} elseif ( $post->post_type === 'groups' ) {
+	} elseif ( 'groups' === $post->post_type ) {
 		$price_args = learndash_get_group_price( $post->ID );
 	}
 
@@ -88,7 +88,7 @@ if ( function_exists( 'learndash_get_course_price' ) && function_exists( 'learnd
 			$price_text = __( 'Free', 'buddyboss-theme' );
 		}
 
-		if ( $course_price_type === 'subscribe' ) {
+		if ( 'subscribe' === $course_price_type ) {
 			$trial_price = $price_args['trial_price'] ?? false;
 
 			$trial_duration = isset( $price_args['trial_interval'] ) && isset( $price_args['trial_frequency'] ) ? $price_args['trial_interval'] . ' ' . $price_args['trial_frequency'] : false;
@@ -106,7 +106,7 @@ if ( function_exists( 'learndash_get_course_price' ) && function_exists( 'learnd
 }
 
 $legacy_short_description = '';
-if ( $course_type === 'sfwd-courses' ) {
+if ( 'sfwd-courses' === $course_type ) {
 	$legacy_short_description = isset( $course_options['sfwd-courses_course_short_description'] ) ? $course_options['sfwd-courses_course_short_description'] : '';
 }
 
@@ -132,24 +132,24 @@ $grid_class = apply_filters( 'learndash_course_grid_class', '', $post->ID, $cour
 $is_completed = false;
 $has_access   = false;
 
-if ( $post->post_type === 'sfwd-courses' ) {
+if ( 'sfwd-courses' === $post->post_type ) {
 	$has_access   = sfwd_lms_has_access( $post->ID, $user_id );
 	$is_completed = learndash_course_completed( $user_id, $post->ID );
-} elseif ( $post->post_type === 'groups' ) {
+} elseif ( 'groups' === $post->post_type ) {
 	$has_access   = learndash_is_user_in_group( $user_id, $post->ID );
 	$is_completed = learndash_get_user_group_completed_timestamp( $post->ID, $user_id );
-} elseif ( $post->post_type === 'sfwd-lessons' || $post->post_type === 'sfwd-topic' ) {
+} elseif ( 'sfwd-lessons' === $post->post_type || 'sfwd-topic' === $post->post_type ) {
 	$parent_course_id = learndash_get_course_id( $post->ID );
 	$has_access   = is_user_logged_in() && ! empty( $parent_course_id ) ? sfwd_lms_has_access( $post->ID, $user_id ) : false;
-	if ( $post->post_type === 'sfwd-lessons' ) {
+	if ( 'sfwd-lessons' === $post->post_type ) {
 		$is_completed = learndash_is_lesson_complete( $user_id, $post->ID, $parent_course_id );
-	} elseif ( $post->post_type === 'sfwd-topic' ) {
+	} elseif ( 'sfwd-topic' === $post->post_type ) {
 		$is_completed = learndash_is_topic_complete( $user_id, $post->ID, $parent_course_id );
 	}
 }
 
 if ( in_array( $post->post_type, array( 'sfwd-courses', 'groups' ), true ) ) {
-	if ( $course_price_type !== 'open' ) {
+	if ( 'open' !== $course_price_type ) {
 		if ( $has_access && ! $is_completed ) {
 			$ribbon_class .= ' ld-primary-background';
 			$ribbon_text   = __( 'Enrolled', 'buddyboss-theme' );
@@ -159,7 +159,7 @@ if ( in_array( $post->post_type, array( 'sfwd-courses', 'groups' ), true ) ) {
 		} elseif ( is_numeric( $course_price ) ) {
 			$ribbon_class .= ' ld-third-background';
 			$ribbon_text   = $price_text;
-		} elseif ( $course_price_type === 'free' ) {
+		} elseif ( 'free' === $course_price_type ) {
 			$ribbon_class .= ' free ld-third-background';
 			$ribbon_text   = __( 'Free', 'buddyboss-theme' );
 		} elseif ( ! $has_access ) {
@@ -169,7 +169,7 @@ if ( in_array( $post->post_type, array( 'sfwd-courses', 'groups' ), true ) ) {
 			$ribbon_class .= ' ld-third-background';
 			$ribbon_text   = __( 'Not Completed', 'buddyboss-theme' );
 		}
-	} elseif ( $course_price_type === 'open' ) {
+	} elseif ( 'open' === $course_price_type ) {
 		if ( is_user_logged_in() && ! $is_completed ) {
 			$ribbon_class .= ' ld-primary-background';
 			$ribbon_text   = __( 'Enrolled', 'buddyboss-theme' );
@@ -184,9 +184,9 @@ if ( in_array( $post->post_type, array( 'sfwd-courses', 'groups' ), true ) ) {
 } elseif ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic' ), true ) ) {
 	$has_started = false;
 
-	if ( $post->post_type === 'sfwd-lessons' ) {
+	if ( 'sfwd-lessons' === $post->post_type ) {
 		$activity_type = 'lesson';
-	} elseif ( $post->post_type === 'sfwd-topic' ) {
+	} elseif ( 'sfwd-topic' === $post->post_type ) {
 		$activity_type = 'topic';
 	}
 
@@ -227,11 +227,11 @@ $class_price_type = '';
 if (
 	! empty( $course_price ) &&
 	(
-		$course_price_type === 'paynow' ||
-		$course_price_type === 'subscribe' ||
-		$course_price_type === 'closed'
+		'paynow' === $course_price_type ||
+		'subscribe' === $course_price_type ||
+		'closed' === $course_price_type
 	) &&
-	( $shortcode_atts['show_content'] === 'true' )
+	( 'true' === $shortcode_atts['show_content'] )
 ) {
 	$class_price_type = 'bb-course-paid';
 }
@@ -240,7 +240,7 @@ if (
  * Display class if course has content disabled
  */
 $class_content_type = '';
-if ( $shortcode_atts['show_content'] !== 'true' ) {
+if ( 'true' !== $shortcode_atts['show_content'] ) {
 	$class_content_type = 'bb-course-no-content';
 }
 
@@ -253,7 +253,7 @@ if ( $shortcode_atts['show_content'] !== 'true' ) {
  */
 $ribbon_text = apply_filters( 'learndash_course_grid_ribbon_text', $ribbon_text, $post->ID, $course_price_type );
 
-if ( $ribbon_text === '' ) {
+if ( '' === $ribbon_text ) {
 	$ribbon_class = '';
 }
 
@@ -276,7 +276,7 @@ $class_price_type = '';
 if (
 	! empty( $course_price ) &&
 	in_array( $course_price_type, array( 'closed', 'paynow', 'subscribe' ), true ) &&
-	( $shortcode_atts['show_content'] === 'true' )
+	( 'true' === $shortcode_atts['show_content'] )
 ) {
 	$class_price_type = 'bb-course-paid';
 }
@@ -285,7 +285,7 @@ if (
  * Display class if course has content disabled
  */
 $class_content_type = '';
-if ( $shortcode_atts['show_content'] !== 'true' ) {
+if ( 'true' !== $shortcode_atts['show_content'] ) {
 	$class_content_type = 'bb-course-no-content';
 }
 
@@ -307,44 +307,44 @@ $types_array = array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-assignmen
 <div class="ld_course_grid col-sm-<?php echo esc_attr( $smcol ); ?> col-md-<?php echo esc_attr( $col ); ?> <?php echo esc_attr( $grid_class ); ?> bb-course-item-wrap">
 
 	<div class="bb-cover-list-item <?php echo esc_attr( $class_price_type ); ?> <?php echo esc_attr( $class_content_type ); ?>">
-		<?php if ( (bool) $shortcode_atts['show_thumbnail'] === true ) : ?>
+		<?php if ( true === (bool) $shortcode_atts['show_thumbnail'] ) : ?>
 
-				<div class="bb-course-cover <?php echo ( $enable_video === true && ! empty( $embed_code ) ) ? 'has-video-cover' : ''; ?>">
+				<div class="bb-course-cover <?php echo ( true === $enable_video && ! empty( $embed_code ) ) ? 'has-video-cover' : ''; ?>">
 				<?php
 
-				if ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-courses', 'groups', 'sfwd-quiz', 'sfwd-assignment' ), true ) ) {
-					if ( isset( $ribbon_text ) && ! empty( $ribbon_text ) ) {
-						echo '<div class="ld-status ' . esc_attr( $ribbon_class ) . '">' . esc_html( $ribbon_text ) . '</div>';
+					if ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-courses', 'groups', 'sfwd-quiz', 'sfwd-assignment' ), true ) ) {
+						if ( isset( $ribbon_text ) && ! empty( $ribbon_text ) ) {
+							echo '<div class="ld-status ' . esc_attr( $ribbon_class ) . '">' . esc_html( $ribbon_text ) . '</div>';
+						}
 					}
-				}
 
-				if ( $enable_video === true && ! empty( $embed_code ) ) {
-					?>
+					if ( true === $enable_video && ! empty( $embed_code ) ) {
+						?>
 						<div class="ld_course_grid_video_embed">
-						<?php echo $embed_code; ?>
+							<?php echo $embed_code; ?>
 						</div>
 						<?php
-				} else {
-					?>
+					} else 	{
+						?>
 						<a title="<?php the_title_attribute(); ?>" href="<?php echo $button_link; ?>" class="bb-cover-wrap">
-						<?php
-						if ( has_post_thumbnail() ) {
-							the_post_thumbnail();
-						} elseif ( defined( 'LEARNDASH_COURSE_GRID_PLUGIN_ASSET_URL' ) ) {
-							?>
+							<?php
+							if ( has_post_thumbnail() ) {
+								the_post_thumbnail();
+							} elseif( defined( 'LEARNDASH_COURSE_GRID_PLUGIN_ASSET_URL' ) ) {
+								?>
 								<img alt="" src="<?php echo LEARNDASH_COURSE_GRID_PLUGIN_ASSET_URL . 'img/thumbnail.jpg'; ?>"/>
 								<?php
-						}
-						?>
+							}
+							?>
 						</a>
 						<?php
-				}
+					}
 				?>
 				</div>
 
 		<?php endif; ?>
 
-		<?php if ( $shortcode_atts['show_content'] !== 'true' ) : ?>
+		<?php if ( 'true' !== $shortcode_atts['show_content'] ) : ?>
 			<style type="text/css">
 				.bb-card-course-details {
 					display: none !important;
@@ -354,15 +354,15 @@ $types_array = array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-assignmen
 
 		<div class="bb-card-course-details">
 			<?php
-			if ( $course_type === 'sfwd-courses' || $course_type === 'sfwd-lessons' ) {
+			if ( 'sfwd-courses' === $course_type || 'sfwd-lessons' === $course_type ) {
 
-				if ( get_post_type() === 'sfwd-courses' ) {
+				if ( 'sfwd-courses' === get_post_type() ) {
 					$lessons_arr = learndash_get_lesson_list( get_the_ID(), array( 'num' => - 1 ) );
 					$lessons_arr = $lessons_arr ? $lessons_arr : array();
 					$_count      = count( $lessons_arr );
 					$p_lable     = 'lessons';
 					$s_lable     = 'lesson';
-				} elseif ( get_post_type() === 'sfwd-lessons' ) {
+				} elseif ( 'sfwd-lessons' === get_post_type() ) {
 					$topic_arr = learndash_get_topic_list( get_the_ID(), $course_id );
 					$topic_arr = $topic_arr ? $topic_arr : array();
 					$_count    = count( $topic_arr );
@@ -396,9 +396,9 @@ $types_array = array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-assignmen
 			}
 
 			if (
-				$post->post_type === 'sfwd-courses' &&
+				'sfwd-courses' === $post->post_type &&
 				isset( $shortcode_atts['progress_bar'] ) &&
-				(bool) $shortcode_atts['progress_bar'] === true
+				true === (bool) $shortcode_atts['progress_bar']
 			) {
 				?>
 				<div class="course-progress-wrap">
@@ -418,7 +418,7 @@ $types_array = array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-assignmen
 			}
 			if ( isset( $button_text ) && ! empty( $button_text ) ) {
 				?>
-				<p class="ld_course_grid_button"><a class="btn btn-primary" role="button" href="<?php echo esc_url( $button_link ); ?>" rel="bookmark"><?php echo esc_attr( $button_text ); ?></a></p>
+                <p class="ld_course_grid_button"><a class="btn btn-primary" role="button" href="<?php echo esc_url( $button_link ); ?>" rel="bookmark"><?php echo esc_attr( $button_text ); ?></a></p>
 				<?php
 			}
 

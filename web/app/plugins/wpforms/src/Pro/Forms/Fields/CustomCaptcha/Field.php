@@ -530,7 +530,7 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.7
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Submitted field value.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -553,7 +553,7 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.7
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Submitted field value.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	private function validate_qa( $field_id, $field_submit, $form_data ) {
@@ -569,13 +569,13 @@ class Field extends \WPForms_Field {
 				$field_submit['a'] !== '0'
 			)
 		) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
 
 			return;
 		}
 
 		if ( strtolower( trim( $field_submit['a'] ) ) !== strtolower( trim( $form_data['fields'][ $field_id ]['questions'][ $field_submit['q'] ]['answer'] ) ) ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect answer', 'wpforms' );
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect answer', 'wpforms' );
 		}
 	}
 
@@ -585,7 +585,7 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.7
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Submitted field value.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	private function validate_math( $field_id, $field_submit, $form_data ) {
@@ -597,18 +597,18 @@ class Field extends \WPForms_Field {
 			empty( $field_submit['cal'] ) ||
 			empty( $field_submit['n2'] )
 		) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = wpforms_get_required_label();
 
 			return;
 		}
 
-		$number_1 = $field_submit['n1'];
+		$number_1 = absint( $field_submit['n1'] );
+		$number_2 = absint( $field_submit['n2'] );
 		$operator = $field_submit['cal'];
-		$number_2 = $field_submit['n2'];
 		$answer   = (int) trim( $field_submit['a'] );
 
 		if ( ! in_array( $operator, [ '-', '+', '*' ], true ) ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect operation', 'wpforms' );
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect operation', 'wpforms' );
 
 			return;
 		}
@@ -628,7 +628,7 @@ class Field extends \WPForms_Field {
 		$calculated = $operations[ $operator ]( $number_1, $number_2 );
 
 		if ( $calculated !== $answer ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect answer', 'wpforms' );
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Incorrect answer', 'wpforms' );
 		}
 	}
 

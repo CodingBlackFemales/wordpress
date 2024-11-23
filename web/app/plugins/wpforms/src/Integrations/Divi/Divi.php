@@ -257,17 +257,16 @@ class Divi implements IntegrationInterface {
 	 *
 	 * @since 1.6.3
 	 */
-	public function preview() {
+	public function preview() { // phpcs:ignore WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
 
 		check_ajax_referer( 'wpforms_divi_builder', 'nonce' );
 
-		$form_id    = absint( filter_input( INPUT_POST, 'form_id', FILTER_SANITIZE_NUMBER_INT ) );
-		$show_title = 'on' === filter_input( INPUT_POST, 'show_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$show_desc  = 'on' === filter_input( INPUT_POST, 'show_desc', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		// Disable Anti Spam v3 honeypot.
+		add_filter( 'wpforms_forms_anti_spam_v3_is_honeypot_enabled', '__return_false' );
 
 		add_filter(
 			'wpforms_frontend_container_class',
-			function( $classes ) {
+			static function ( $classes ) {
 
 				$classes[] = 'wpforms-gutenberg-form-selector';
 				$classes[] = 'wpforms-container-full';
@@ -278,7 +277,7 @@ class Divi implements IntegrationInterface {
 
 		add_action(
 			'wpforms_frontend_output',
-			function() {
+			static function () {
 
 				echo '<fieldset disabled>';
 			},
@@ -287,7 +286,7 @@ class Divi implements IntegrationInterface {
 
 		add_action(
 			'wpforms_frontend_output',
-			function() {
+			static function () {
 
 				echo '</fieldset>';
 
@@ -302,13 +301,43 @@ class Divi implements IntegrationInterface {
 			30
 		);
 
+		$form_id = absint( filter_input( INPUT_POST, 'form_id', FILTER_SANITIZE_NUMBER_INT ) );
+
+		/**
+		 * Allows to show/hide form title and description.
+		 *
+		 * @since 1.6.3.1
+		 *
+		 * @param bool $show_title Show form title.
+		 * @param int  $form_id    Form ID.
+		 */
+		$show_title = (bool) apply_filters( // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+			'wpforms_divi_builder_form_title',
+			'on' === filter_input( INPUT_POST, 'show_title', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+			$form_id
+		);
+
+		/**
+		 * Allows to show/hide form description.
+		 *
+		 * @since 1.6.3.1
+		 *
+		 * @param bool $show_desc Show form description.
+		 * @param int  $form_id   Form ID.
+		 */
+		$show_desc = (bool) apply_filters( // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
+			'wpforms_divi_builder_form_desc',
+			'on' === filter_input( INPUT_POST, 'show_desc', FILTER_SANITIZE_FULL_SPECIAL_CHARS ),
+			$form_id
+		);
+
 		wp_send_json_success(
 			do_shortcode(
 				sprintf(
-					'[wpforms id="%1$s" title="%2$s" description="%3$s"]',
-					absint( $form_id ),
-					(bool) apply_filters( 'wpforms_divi_builder_form_title', $show_title, $form_id ),
-					(bool) apply_filters( 'wpforms_divi_builder_form_desc', $show_desc, $form_id )
+					'[wpforms id="%1$d" title="%2$s" description="%3$s"]',
+					$form_id,
+					$show_title,
+					$show_desc
 				)
 			)
 		);

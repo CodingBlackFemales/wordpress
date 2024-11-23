@@ -24,17 +24,17 @@ class CustomerSubscriptionCreated extends Base {
 
 		$this->delay();
 
-		$payment = wpforms()->get( 'payment' )->get_by( 'subscription_id', $this->data->id );
+		$payment = wpforms()->obj( 'payment' )->get_by( 'subscription_id', $this->data->id );
 
 		if ( ! $payment ) {
 			return false;
 		}
 
-		if ( ! wpforms()->get( 'payment' )->update( $payment->id, [ 'subscription_status' => 'active' ] ) ) {
+		if ( ! wpforms()->obj( 'payment' )->update( $payment->id, [ 'subscription_status' => 'active' ] ) ) {
 			throw new RuntimeException( 'Payment not updated' );
 		}
 
-		wpforms()->get( 'payment_meta' )->add_log(
+		wpforms()->obj( 'payment_meta' )->add_log(
 			$payment->id,
 			'Stripe subscription was set to active.'
 		);

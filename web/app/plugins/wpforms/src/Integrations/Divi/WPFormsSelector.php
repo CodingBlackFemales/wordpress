@@ -44,7 +44,7 @@ class WPFormsSelector extends ET_Builder_Module {
 	 */
 	public function get_fields(): array {
 
-		$forms         = wpforms()->get( 'form' )->get( '', [ 'order' => 'DESC' ] );
+		$forms         = wpforms()->obj( 'form' )->get( '', [ 'order' => 'DESC' ] );
 		$default_value = '';
 
 		if ( ! empty( $forms ) ) {

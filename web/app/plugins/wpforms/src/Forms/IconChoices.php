@@ -362,6 +362,10 @@ class IconChoices {
 			$label = $choice['label']['text'];
 		}
 
+		if ( is_array( $choice['label']['class'] ) && wpforms_is_empty_string( $label ) ) {
+			$choice['label']['class'][] = 'wpforms-field-label-inline-empty';
+		}
+
 		printf(
 			'<label %1$s>
 				<span class="wpforms-icon-choices-icon">
@@ -553,6 +557,7 @@ class IconChoices {
 			return '';
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$svg = file_get_contents( $filename );
 
 		if ( ! $svg ) {
@@ -578,6 +583,7 @@ class IconChoices {
 			return [];
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$icons = file_get_contents( $this->icons_data_file );
 
 		if ( ! $icons ) {

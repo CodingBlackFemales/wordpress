@@ -41,13 +41,13 @@ class AdminBarMenu {
 	}
 
 	/**
-	 * Determine whether the current user has access to see admin bar menu.
+	 * Determine whether the current user has access to see the admin bar menu.
 	 *
 	 * @since 1.6.0
 	 *
 	 * @return bool
 	 */
-	public function has_access() {
+	public function has_access(): bool {
 
 		$access = false;
 
@@ -59,7 +59,14 @@ class AdminBarMenu {
 			$access = true;
 		}
 
-		return (bool) apply_filters( 'wpforms_admin_adminbarmenu_has_access', $access );
+		/**
+		 * Filters whether the current user has access to see the admin bar menu.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param bool $access Whether the current user has access to see the admin bar menu.
+		 */
+		return (bool) apply_filters( 'wpforms_admin_adminbarmenu_has_access', $access ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 	}
 
 	/**
@@ -71,7 +78,7 @@ class AdminBarMenu {
 	 */
 	public function has_notifications() {
 
-		return wpforms()->get( 'notifications' )->get_count();
+		return wpforms()->obj( 'notifications' )->get_count();
 	}
 
 	/**
@@ -159,6 +166,7 @@ class AdminBarMenu {
 				'all_forms_menu',
 				'all_payments_menu',
 				'add_new_menu',
+				'settings_menu',
 				'community_menu',
 				'support_menu',
 			],
@@ -170,6 +178,90 @@ class AdminBarMenu {
 			$this->{ $item }( $wp_admin_bar );
 
 			do_action( "wpforms_admin_adminbarmenu_register_{$item}_after", $wp_admin_bar );
+		}
+
+		$this->register_settings_submenu( $wp_admin_bar );
+	}
+
+	/**
+	 * Register Settings submenu.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 */
+	private function register_settings_submenu( WP_Admin_Bar $wp_admin_bar ) {
+
+		/**
+		 * Filters the Settings submenu items.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param array        $items        Array of submenu items.
+		 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+		 */
+		$items = (array) apply_filters(
+			'wpforms_admin_bar_menu_register_settings_submenu',
+			[
+				'wpforms-general-settings'      => [
+					'title' => __( 'General', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=general',
+				],
+				'wpforms-email-settings'        => [
+					'title' => __( 'Email', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=email',
+				],
+				'wpforms-captcha-settings'      => [
+					'title' => __( 'CAPTCHA', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=captcha',
+				],
+				'wpforms-validation-settings'   => [
+					'title' => __( 'Validation', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=validation',
+				],
+				'wpforms-payments-settings'     => [
+					'title' => __( 'Payments', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=payments',
+				],
+				'wpforms-integrations-settings' => [
+					'title' => __( 'Integrations', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=integrations',
+				],
+				'wpforms-geolocation-settings'  => [
+					'title' => __( 'Geolocation', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=geolocation',
+				],
+				'wpforms-access-settings'       => [
+					'title' => __( 'Access Control', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=access',
+				],
+				'wpforms-misc-settings'         => [
+					'title' => __( 'Misc', 'wpforms-lite' ),
+					'path'  => 'admin.php?page=wpforms-settings&view=misc',
+				],
+			],
+			$wp_admin_bar
+		);
+
+		foreach ( $items as $item_id => $args ) {
+
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => 'wpforms-settings',
+					'id'     => sanitize_key( $item_id ),
+					'title'  => esc_html( $args['title'] ),
+					'href'   => admin_url( $args['path'] ),
+				]
+			);
+
+			/**
+			 * Fires after the Settings submenu item is registered.
+			 *
+			 * @since 1.9.2
+			 *
+			 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+			 */
+			do_action( "wpforms_admin_bar_menu_register_settings_submenu_{$item_id}_after", $wp_admin_bar );
 		}
 	}
 
@@ -285,6 +377,25 @@ class AdminBarMenu {
 	}
 
 	/**
+	 * Render Settings admin bar menu item.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress Admin Bar object.
+	 */
+	public function settings_menu( WP_Admin_Bar $wp_admin_bar ) {
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => 'wpforms-menu',
+				'id'     => 'wpforms-settings',
+				'title'  => esc_html__( 'Settings', 'wpforms-lite' ),
+				'href'   => admin_url( 'admin.php?page=wpforms-settings' ),
+			]
+		);
+	}
+
+	/**
 	 * Render Community admin bar menu item.
 	 *
 	 * @since 1.6.0
@@ -382,7 +493,7 @@ class AdminBarMenu {
 				);
 			}
 
-			$has_payments = wpforms()->get( 'payment' )->get_by( 'form_id', $form_id );
+			$has_payments = wpforms()->obj( 'payment' )->get_by( 'form_id', $form_id );
 
 			$data['forms'][] = apply_filters(
 				'wpforms_admin_adminbarmenu_get_form_data',

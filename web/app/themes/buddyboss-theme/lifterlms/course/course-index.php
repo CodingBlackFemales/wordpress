@@ -1,10 +1,10 @@
 <?php
 
-$view              = get_option( 'bb_theme_lifter_course_grid_list', 'grid' );
-$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
-$class_list_active = ( $view === 'list' ) ? 'active' : '';
-$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
+$view              = bb_theme_get_directory_layout_preference( 'llms-course' );
+$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
+$class_list_active = ( 'list' === $view ) ? 'active' : '';
+$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
 $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
 
 ?>
@@ -112,7 +112,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 					$base_url    = get_post_type_archive_link( 'course' );
 					foreach ( $navs as $nav => $text ) {
 						$selected_class = $nav == $current_nav ? 'selected' : '';
-						$url            = $nav != 'all' ? add_query_arg(
+						$url            = 'all' != $nav ? add_query_arg(
 							array( 'type' => $nav ),
 							$base_url
 						) : $base_url;
@@ -148,14 +148,12 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 						<div class="select-wrap">
 							<?php
 							$category = get_queried_object();
-							if ( trim( buddyboss_theme()->lifterlms_helper()->print_categories_options() ) !== '' && is_post_type_archive( 'course' ) ) {
-								?>
+							if ( '' !== trim( buddyboss_theme()->lifterlms_helper()->print_categories_options() ) && is_post_type_archive( 'course' ) ) { ?>
 								<select id="sfwd_cats-order-by" name="filter-categories">
 									<?php echo buddyboss_theme()->lifterlms_helper()->print_categories_options(); ?>
 								</select>
 								<?php
-							}
-							?>
+							} ?>
 						</div>
 					<?php endif; ?>
 
@@ -182,7 +180,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 		<div class="grid-view bb-grid">
 			<div id="course-dir-list" class="course-dir-list bs-dir-list">
 				<?php
-				if ( isset( $_GET['type'] ) && $_GET['type'] === 'my-courses' ) {
+				if ( isset( $_GET['type'] ) && 'my-courses' === $_GET['type'] ) {
 
 					$user_id  = get_current_user_id();
 					$paged    = isset( $_GET['current_page'] ) ? (int) $_GET['current_page'] : 1;
@@ -265,8 +263,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 						<ul class="bb-course-items <?php echo esc_attr( $class_grid_show . $class_list_show ); ?>" aria-live="assertive" aria-relevant="all">
 							<?php
 							/* Start the Loop */
-							while ( $all_query->have_posts() ) :
-								$all_query->the_post();
+							while ( $all_query->have_posts() ) : $all_query->the_post();
 
 								/*
 								 * Include the Post-Format-specific template for the content.
@@ -306,6 +303,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 						</aside>
 						<?php
 					}
+
 				} else {
 					if ( have_posts() ) {
 						?>

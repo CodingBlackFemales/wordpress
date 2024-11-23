@@ -27,7 +27,7 @@ jQuery(
 						if ( 'edit' === response.reply_type ) {
 							reply_list_item = '<li class="highlight">' + response.content + '</li>';
 							// in-place editing doesn't work yet, but could (and should) eventually.
-							$( '#post-' + response.reply_id ).parent( 'li' ).replaceWith( reply_list_item );
+							$( '#post-' + response.reply_id ).parent( 'li' ).replaceWith( reply_list_item ).find( 'li' ).each( function() { bbp_reply_hide_single_url( this, '.bbp-reply-content' ); } );
 						} else {
 							if ( window.bbpReplyAjaxJS.threaded_reply && response.reply_parent && response.reply_parent !== response.reply_id ) {
 								// threaded comment.
@@ -49,14 +49,14 @@ jQuery(
 									$parent.append( '<' + list_type + ' class="bbp-threaded-replies"></' + list_type + '>' );
 								}
 								reply_list_item = '<li class="highlight depth-' + reply_list_item_depth + '" data-depth="' + reply_list_item_depth + '">' + response.content + '</li>';
-								$parent.find( '>' + list_type + '.bbp-threaded-replies' ).append( reply_list_item );
+								$parent.find( '>' + list_type + '.bbp-threaded-replies' ).append( reply_list_item ).find( 'li' ).each( function() { bbp_reply_hide_single_url( this, '.bbp-reply-content' ); } );
 							} else {
 								/**
 								* Redirect to last page when anyone reply from begging of the page.
 								*/
 								if ( response.current_page == response.total_pages ) {
 									reply_list_item = '<li class="highlight depth-1" data-depth="1">' + response.content + '</li>';
-									$bbpress_forums_element.find( '.bb-single-reply-list' ).append( reply_list_item );
+									$bbpress_forums_element.find( '.bb-single-reply-list' ).append( reply_list_item ).find( 'li' ).each( function() { bbp_reply_hide_single_url( this, '.bbp-reply-content' ); } );
 								} else {
 									var oldRedirectUrl = response.redirect_url;
 									var newRedirectUrl = oldRedirectUrl.substring( 0, oldRedirectUrl.indexOf( '#' ) );
@@ -74,25 +74,31 @@ jQuery(
 							jQuery( window ).scroll();
 						}
 						// Get all the tags without page reload.
-						if ( response.tags !== '' ) {
+						if ( typeof response.tags !== 'undefined' && response.tags !== null ) {
 							var tagsDivSelector   = $bbpress_forums_element.find( '.item-tags' );
 							var tagsDivUlSelector = $bbpress_forums_element.find( '.item-tags ul' );
-							if ( tagsDivSelector.css( 'display' ) === 'none' ) {
+							if ( tagsDivSelector.css( 'display' ) === 'none' && '' !== response.tags ) {
 								tagsDivSelector.append( response.tags );
 								tagsDivSelector.show();
-							} else {
+							} else if ( '' !== response.tags ) {
 								tagsDivUlSelector.remove();
 								tagsDivSelector.append( response.tags );
+							} else {
+								tagsDivSelector.hide();
+								tagsDivUlSelector.remove();
 							}
 						}
 
-						if ( reply_list_item != '' ) {
-							$( 'body' ).animate(
-								{
-									scrollTop: $( '#post-' + response.reply_id ).offset().top
-								},
-								500
-							);
+						if ( '' !== reply_list_item ) {
+
+							if ( 0 < $( '#post-' + response.reply_id ).length ) {
+								$( 'body' ).animate(
+									{
+										scrollTop: $( '#post-' + response.reply_id ).offset().top
+									},
+									500
+								);
+							}
 							setTimeout(
 								function () {
 									$( reply_list_item ).removeClass( 'highlight' );
@@ -242,6 +248,42 @@ jQuery(
 				}
 			}
 		}
+		
+		function bbp_reply_hide_single_url( container, selector ) {
+			var _findtext  = $( container ).find( selector + ' > p' ).removeAttr( 'br' ).removeAttr( 'a' ).text();
+			var _url       = '',
+				newString  = '',
+				startIndex = '',
+				_is_exist  = 0;
+			if ( 0 <= _findtext.indexOf( 'http://' ) ) {
+				startIndex = _findtext.indexOf( 'http://' );
+				_is_exist  = 1;
+			} else if ( 0 <= _findtext.indexOf( 'https://' ) ) {
+				startIndex = _findtext.indexOf( 'https://' );
+				_is_exist  = 1;
+			} else if ( 0 <= _findtext.indexOf( 'www.' ) ) {
+				startIndex = _findtext.indexOf( 'www' );
+				_is_exist  = 1;
+			}
+			if ( 1 === _is_exist ) {
+				for ( var i = startIndex; i < _findtext.length; i++ ) {
+					if ( _findtext[ i ] === ' ' || _findtext[ i ] === '\n' ) {
+						break;
+					} else {
+						_url += _findtext[ i ];
+					}
+				}
+
+				if ( _url !== '' ) {
+					newString = $.trim( _findtext.replace( _url, '' ) );
+				}
+
+				if ( $.trim( newString ).length === 0 && $( container ).find( 'iframe' ).length !== 0 && _url !== '' ) {
+					$( container ).find( selector + ' > p:first' ).hide();
+				}
+			}
+		}
+
 		if ( !$( 'body' ).hasClass( 'reply-edit' ) ) {
 			$( document ).on(
 				'submit',

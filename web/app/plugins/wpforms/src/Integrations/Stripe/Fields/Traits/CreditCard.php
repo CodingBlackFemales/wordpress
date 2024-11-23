@@ -39,6 +39,7 @@ trait CreditCard {
 		add_filter( 'wpforms_pro_fields_entry_preview_is_field_support_preview_stripe-credit-card_field', [ $this, 'entry_preview_availability' ], 10, 4 );
 		add_filter( 'wpforms_field_new_display_duplicate_button', [ $this, 'field_display_duplicate_button' ], 10, 2 );
 		add_filter( 'wpforms_field_preview_display_duplicate_button', [ $this, 'field_display_duplicate_button' ], 10, 2 );
+		add_filter( 'wpforms_field_display_sublabel_skip_for', [ $this, 'skip_sublabel_for_attribute' ], 10, 3 );
 	}
 
 	/**
@@ -274,7 +275,7 @@ trait CreditCard {
 	 * @since 1.8.2
 	 *
 	 * @param int   $field_id     Field ID.
-	 * @param array $field_submit Submitted field value.
+	 * @param array $field_submit Submitted field value (raw data).
 	 * @param array $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
@@ -295,7 +296,7 @@ trait CreditCard {
 		$name = ! empty( $form_data['fields'][ $field_id ]['label'] ) ? $form_data['fields'][ $field_id ]['label'] : '';
 
 		// Set final field details.
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'  => sanitize_text_field( $name ),
 			'value' => '',
 			'id'    => absint( $field_id ),
@@ -358,20 +359,26 @@ trait CreditCard {
 	}
 
 	/**
-	 * Checking if block editor is loaded.
+	 * Do not add the `for` attribute to certain sublabels.
 	 *
-	 * @since 1.8.2
+	 * @since 1.8.9
 	 *
-	 * @return bool True if is block editor.
+	 * @param bool   $skip  Whether to skip the `for` attribute.
+	 * @param string $key   Input key.
+	 * @param array  $field Field data and settings.
+	 *
+	 * @return bool
 	 */
-	private function is_block_editor() {
+	public function skip_sublabel_for_attribute( $skip, $key, $field ) {
 
-		// phpcs:disable WordPress.Security.NonceVerification
-		$is_gutenberg = defined( 'REST_REQUEST' ) && REST_REQUEST && ! empty( $_REQUEST['context'] ) && $_REQUEST['context'] === 'edit';
-		$is_elementor = ( ! empty( $_POST['action'] ) && $_POST['action'] === 'elementor_ajax' ) || ( ! empty( $_GET['action'] ) && $_GET['action'] === 'elementor' );
-		$is_divi      = ! empty( $_GET['et_fb'] ) || ( ! empty( $_POST['action'] ) && $_POST['action'] === 'wpforms_divi_preview' );
-		// phpcs:enable WordPress.Security.NonceVerification
+		if ( $field['type'] !== $this->type ) {
+			return $skip;
+		}
 
-		return $is_gutenberg || $is_elementor || $is_divi;
+		if ( $key === 'number' ) {
+			return true;
+		}
+
+		return $skip;
 	}
 }

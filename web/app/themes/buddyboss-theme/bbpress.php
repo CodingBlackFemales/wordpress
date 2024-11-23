@@ -18,7 +18,7 @@ if ( ! $is_buddyboss_bbpress && ! bbp_is_single_user() ) {
 <?php
 $sidebar_position = buddyboss_theme_get_option( 'forums' );
 
-if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'left' ) {
+if ( ! function_exists( 'buddyboss_bbpress' ) && 'left' == $sidebar_position ) {
 	get_sidebar( 'bbpress' );
 }
 ?>
@@ -70,6 +70,7 @@ if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'left' ) {
 
 			<?php
 			// buddyboss_pagination();
+
 		else :
 			get_template_part( 'template-parts/content', 'none' );
 			?>
@@ -80,7 +81,7 @@ if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'left' ) {
 </div><!-- #primary -->
 
 <?php
-if ( ! function_exists( 'buddyboss_bbpress' ) && $sidebar_position == 'right' ) {
+if ( ! function_exists( 'buddyboss_bbpress' ) && 'right' == $sidebar_position ) {
 	get_sidebar( 'bbpress' );
 }
 ?>

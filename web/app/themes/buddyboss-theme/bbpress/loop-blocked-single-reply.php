@@ -92,7 +92,7 @@ $reply_parent_class = $check_hidden_content ? 'bs-reply-suspended-block' : '';
 								),
 							);
 							$topic_links = bbp_get_topic_admin_links( $args );
-							if ( wp_strip_all_tags( $topic_links ) === '' ) {
+							if ( '' === wp_strip_all_tags( $topic_links ) ) {
 								$empty = true;
 							}
 							// If post is a reply, print the reply admin links instead.
@@ -110,7 +110,7 @@ $reply_parent_class = $check_hidden_content ? 'bs-reply-suspended-block' : '';
 							$args['links']['spam']  = bbp_get_reply_spam_link( array( 'id' => bbp_get_reply_id() ) );
 							$args['links']['trash'] = bbp_get_reply_trash_link( array( 'id' => bbp_get_reply_id() ) );
 							$reply_links            = bbp_get_reply_admin_links( $args );
-							if ( wp_strip_all_tags( $reply_links ) === '' ) {
+							if ( '' === wp_strip_all_tags( $reply_links ) ) {
 								$empty = true;
 							}
 						}

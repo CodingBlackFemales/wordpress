@@ -1,7 +1,9 @@
 <?php
 
-// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
 /** @noinspection AutoloadingIssuesInspection */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
 
 /**
  * Entry fields DB class.
@@ -19,6 +21,8 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 
 		global $wpdb;
 
+		parent::__construct();
+
 		$this->table_name  = $wpdb->prefix . 'wpforms_entry_fields';
 		$this->primary_key = 'id';
 		$this->type        = 'entry_fields';
@@ -35,7 +39,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 			'id'       => '',
 			'entry_id' => '%d',
 			'form_id'  => '%d',
-			'field_id' => '%d',
+			'field_id' => '%s',
 			'value'    => '%s',
 			'date'     => '%s',
 		];
@@ -53,7 +57,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 			'form_id'  => '',
 			'field_id' => '',
 			'value'    => '',
-			'date'     => date( 'Y-m-d H:i:s' ),
+			'date'     => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		];
 	}
 
@@ -232,9 +236,8 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		 * Retrieve the results.
 		 */
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $count === true ) {
-
 			$results = absint(
 				$wpdb->get_var(
 					"SELECT COUNT( $this->primary_key )
@@ -242,19 +245,20 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 					WHERE $where_sql;"
 				)
 			);
-
 		} else {
-
+			// Do not use an empty limit aka 'LIMIT 0, PHP_INT_MAX', because it may cause a performance issue.
+			$limit   = $args['offset'] === 0 && $args['number'] === PHP_INT_MAX
+				? ''
+				: "LIMIT {$args['offset']}, {$args['number']}";
 			$results = $wpdb->get_results(
 				"SELECT $select
 				FROM $this->table_name
 				WHERE $where_sql
 				ORDER BY {$args['orderby']} {$args['order']}
-				LIMIT {$args['offset']}, {$args['number']};"
+				$limit;"
 			);
-
 		}
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $results;
 	}
@@ -278,7 +282,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		}
 
 		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-		$date = isset( $form_data['date'] ) ? $form_data['date'] : date( 'Y-m-d H:i:s' );
+		$date = $form_data['date'] ?? date( 'Y-m-d H:i:s' );
 
 		foreach ( $fields as $field ) {
 			$this->save_field( $field, $form_data, $entry_id, $update, $date );
@@ -298,7 +302,7 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 	 *
 	 * @return void
 	 */
-	private function save_field( $field, $form_data, $entry_id, $update, $date ) {
+	private function save_field( $field, $form_data, $entry_id, $update, $date ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 		/**
@@ -313,7 +317,15 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		$field = apply_filters( 'wpforms_entry_save_fields', $field, $form_data, $entry_id );
 		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
-		if ( ! isset( $field['id'], $field['value'] ) || $field['value'] === '' ) {
+		// Check the required data.
+		if ( ! isset( $field['id'] ) ) {
+			return;
+		}
+
+		$show_values = $form_data['fields'][ $field['id'] ]['show_values'] ?? false;
+		$value       = $show_values ? wpforms_get_choices_value( $field, $form_data ) : ( $field['value'] ?? '' );
+
+		if ( ! isset( $value ) || $value === '' ) {
 			return;
 		}
 
@@ -328,8 +340,8 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 		$data = [
 			'entry_id' => $entry_id,
 			'form_id'  => absint( $form_id ),
-			'field_id' => absint( $field_id ),
-			'value'    => $field['value'],
+			'field_id' => wpforms_validate_field_id( $field_id ),
+			'value'    => $value,
 			'date'     => $date,
 		];
 
@@ -357,11 +369,11 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_var(
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				"SELECT id FROM $this->table_name WHERE entry_id = %d AND form_id = %d AND field_id = %d LIMIT 1",
+				"SELECT id FROM $this->table_name WHERE entry_id = %d AND form_id = %d AND field_id = %s LIMIT 1",
 				$entry_id,
 				$form_id,
 				$field_id
@@ -382,11 +394,11 @@ class WPForms_Entry_Fields_Handler extends WPForms_DB {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE IF NOT EXISTS {$this->table_name} (
+		$sql = "CREATE TABLE {$this->table_name} (
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			entry_id bigint(20) NOT NULL,
 			form_id bigint(20) NOT NULL,
-			field_id int(11) NOT NULL,
+			field_id varchar(16) NOT NULL,
 			value longtext NOT NULL,
 			date datetime NOT NULL,
 			PRIMARY KEY  (id),

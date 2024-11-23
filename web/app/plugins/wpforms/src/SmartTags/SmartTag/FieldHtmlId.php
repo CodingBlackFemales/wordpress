@@ -34,9 +34,12 @@ class FieldHtmlId extends SmartTag {
 			return '';
 		}
 
-		$value = ! isset( $fields[ $field_id ]['value'] ) || (string) $fields[ $field_id ]['value'] === ''
-			? '<em>' . esc_html__( '(empty)', 'wpforms-lite' ) . '</em>'
-			: wp_kses_post( wp_unslash( $fields[ $field_id ]['value'] ) );
+		if ( ! isset( $fields[ $field_id ]['value'] ) || (string) $fields[ $field_id ]['value'] === '' ) {
+			return '<em>' . esc_html__( '(empty)', 'wpforms-lite' ) . '</em>';
+		}
+
+		$value = $this->get_formatted_field_value( (int) $field_id, (array) $fields, 'value' );
+		$value = wp_kses_post( wp_unslash( $value ) );
 
 		/**
 		 * Modify value for the {field_html_id="123"} tag.

@@ -147,16 +147,17 @@ class WPForms_Entries_Export {
 	 */
 	public function headers() {
 
-		$this->form_id = absint( $_GET['form_id'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$this->form_id = isset( $_GET['form_id'] ) ? absint( $_GET['form_id'] ) : 0;
 
 		ignore_user_abort( true );
 
 		wpforms_set_time_limit();
 
 		if ( ! $this->is_single_entry() ) {
-			$file_name = 'wpforms-' . sanitize_file_name( get_the_title( $this->form_id ) ) . '-' . date( 'm-d-Y' ) . '.csv';
+			$file_name = 'wpforms-' . sanitize_file_name( get_the_title( $this->form_id ) ) . '-' . wp_date( 'm-d-Y' ) . '.csv';
 		} else {
-			$file_name = 'wpforms-' . sanitize_file_name( get_the_title( $this->form_id ) ) . '-entry' . absint( $this->entry_type ) . '-' . date( 'm-d-Y' ) . '.csv';
+			$file_name = 'wpforms-' . sanitize_file_name( get_the_title( $this->form_id ) ) . '-entry' . absint( $this->entry_type ) . '-' . wp_date( 'm-d-Y' ) . '.csv';
 		}
 
 		// Headers to send.
@@ -165,13 +166,15 @@ class WPForms_Entries_Export {
 		header( 'Content-Disposition: attachment; filename=' . $file_name );
 		header( 'Content-Transfer-Encoding: binary' );
 
-		// Create file pointer connected to the output stream.
+		// Create a file pointer connected to the output stream.
 		$this->file = fopen( 'php://output', 'w' );
 
 		// Hack for MS Excel to correctly read UTF8 CSVs.
 		// See https://www.skoumal.net/en/making-utf-8-csv-excel/.
 		$bom = chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF );
-		fputs( $this->file, $bom );
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+		fwrite( $this->file, $bom );
 	}
 
 	/**
@@ -190,10 +193,10 @@ class WPForms_Entries_Export {
 		// entry object. For multiple entry export we get the fields from the
 		// form.
 		if ( $this->is_single_entry() ) {
-			$this->entry  = wpforms()->get( 'entry' )->get( $this->entry_type );
+			$this->entry  = wpforms()->obj( 'entry' )->get( $this->entry_type );
 			$this->fields = wpforms_decode( $this->entry->fields );
 		} else {
-			$this->form_data = wpforms()->get( 'form' )->get(
+			$this->form_data = wpforms()->obj( 'form' )->get(
 				$this->form_id,
 				[
 					'content_only' => true,
@@ -271,7 +274,7 @@ class WPForms_Entries_Export {
 				//'entry_id' => is_array( $this->entry_type ) ? $this->entry_type : '', @todo
 				'form_id' => $this->form_id,
 			];
-			$entries     = wpforms()->get( 'entry' )->get_entries( $args );
+			$entries     = wpforms()->obj( 'entry' )->get_entries( $args );
 			$form_fields = $this->form_data['fields'];
 
 			foreach ( $entries as $entry ) {

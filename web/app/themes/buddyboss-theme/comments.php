@@ -44,7 +44,7 @@ if ( post_password_required() ) {
 		 * %1$s - user avatar html
 		 * %3$s - User Name
          */
-		'logged_in_as'       => '<p class="logged-in-as">' . sprintf( __( '<a class="comment-author" href="%1$s"><span class="vcard">%2$s</span><span class="name">%3$s</span></a>', 'buddyboss-theme' ), $user_link, get_avatar( get_current_user_id(), 80 ), $user_identity ) . '</p>',
+		'logged_in_as'       => '<p class="logged-in-as">' . sprintf( __( '<a class="comment-author" href="%1$s"><span class="vcard">%2$s</span><span class="name">%3$s</span></a>', 'buddyboss-theme' ), $user_link, get_avatar( get_current_user_id(), 80, '', $user_identity ), $user_identity ) . '</p>',
 		'class_submit'       => 'submit button small',
 		'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
 		'title_reply_after'  => '</h2>',

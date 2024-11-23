@@ -103,7 +103,7 @@ class Export extends View {
 	 */
 	public function get_forms() {
 
-		$forms = wpforms()->get( 'form' )->get( '', [ 'orderby' => 'title' ] );
+		$forms = wpforms()->obj( 'form' )->get( '', [ 'orderby' => 'title' ] );
 
 		return ! empty( $forms ) ? $forms : [];
 	}
@@ -285,7 +285,7 @@ class Export extends View {
 		$form_data = false;
 
 		if ( isset( $_POST['form'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification
-			$form_data = wpforms()->get( 'form' )->get(
+			$form_data = wpforms()->obj( 'form' )->get(
 				absint( $_POST['form'] ), //phpcs:ignore WordPress.Security.NonceVerification
 				[ 'content_only' => true ]
 			);

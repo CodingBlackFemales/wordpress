@@ -17,6 +17,7 @@ use WPForms\Integrations\Stripe\Helpers;
 use WPForms\Helpers\Crypto;
 use Exception;
 use WPForms\Vendor\Stripe\Charge;
+use WPForms\Vendor\Stripe\CountrySpec;
 
 /**
  * Stripe PaymentIntents API.
@@ -307,12 +308,14 @@ class PaymentIntents extends Common implements ApiInterface {
 	 * Refund a payment.
 	 *
 	 * @since 1.8.4
+	 * @since 1.8.8.2 $args param was added.
 	 *
 	 * @param string $payment_intent_id PaymentIntent id.
+	 * @param array  $args              Additional arguments (e.g. 'mode', 'metadata', 'reason' ).
 	 *
 	 * @return bool
 	 */
-	public function refund_payment( $payment_intent_id ) {
+	public function refund_payment( string $payment_intent_id, array $args = [] ): bool {
 
 		try {
 
@@ -322,15 +325,19 @@ class PaymentIntents extends Common implements ApiInterface {
 				return false;
 			}
 
-			$refund = Refund::create(
-				[
-					'payment_intent' => $payment_intent_id,
-					'metadata'       => [
-						'refunded_by' => 'wpforms_dashboard',
-					],
-				],
-				Helpers::get_auth_opts()
-			);
+			$defaults = [
+				'payment_intent' => $payment_intent_id,
+			];
+
+			if ( isset( $args['mode'] ) ) {
+				$auth_opts = [ 'api_key' => Helpers::get_stripe_key( 'secret', $args['mode'] ) ];
+
+				unset( $args['mode'] );
+			}
+
+			$args = wp_parse_args( $args, $defaults );
+
+			$refund = Refund::create( $args, $auth_opts ?? Helpers::get_auth_opts() );
 
 			if ( ! $refund ) {
 				return false;
@@ -453,17 +460,18 @@ class PaymentIntents extends Common implements ApiInterface {
 		try {
 
 			if ( isset( $args['customer_email'] ) || isset( $args['customer_name'] ) ) {
+				$this->set_customer( $args['customer_email'] ?? '', $args['customer_name'] ?? '', $args['customer_address'] ?? [] );
 
-				$name  = $args['customer_name'] ?? '';
-				$email = $args['customer_email'] ?? '';
-
-				$this->set_customer( $email, $name );
-				$this->attach_customer_to_payment();
+				// Stop payment processing for all.
+				// Otherwise, it might stop for WPForms, but proceed for Stripe.
+				if ( is_null( $this->attach_customer_to_payment() ) ) {
+					return;
+				}
 
 				$args['customer'] = $this->get_customer( 'id' );
-
-				unset( $args['customer_email'], $args['customer_name'] );
 			}
+
+			unset( $args['customer_email'], $args['customer_name'], $args['customer_address'] );
 
 			$this->intent = PaymentIntent::create( $args, Helpers::get_auth_opts() );
 
@@ -544,7 +552,7 @@ class PaymentIntents extends Common implements ApiInterface {
 	 *
 	 * @param array $args Subscription payment arguments.
 	 */
-	protected function charge_subscription( $args ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+	protected function charge_subscription( $args ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 		if ( empty( $this->payment_method_id ) ) {
 			$this->error = esc_html__( 'Stripe subscription stopped, missing PaymentMethod id.', 'wpforms-lite' );
@@ -569,11 +577,12 @@ class PaymentIntents extends Common implements ApiInterface {
 			$sub_args['application_fee_percent'] = $args['application_fee_percent'];
 		}
 
+		if ( isset( $args['description'] ) ) {
+			$sub_args['description'] = $args['description'];
+		}
+
 		try {
-
-			$name = $args['customer_name'] ?? '';
-
-			$this->set_customer( $args['email'], $name );
+			$this->set_customer( $args['email'], $args['customer_name'] ?? '', $args['customer_address'] ?? [] );
 			$sub_args['customer'] = $this->get_customer( 'id' );
 
 			if ( Helpers::is_payment_element_enabled() ) {
@@ -581,9 +590,12 @@ class PaymentIntents extends Common implements ApiInterface {
 				$sub_args['payment_behavior'] = 'default_incomplete';
 				$sub_args['off_session']      = true;
 				$sub_args['payment_settings'] = [
-					'payment_method_types'        => [ 'card', 'link' ],
 					'save_default_payment_method' => 'on_subscription',
 				];
+
+				if ( Helpers::is_link_supported() ) {
+					$sub_args['payment_settings']['payment_method_types'] = [ 'card', 'link' ];
+				}
 			} else {
 
 				$new_payment_method = $this->attach_customer_to_payment();
@@ -909,7 +921,7 @@ class PaymentIntents extends Common implements ApiInterface {
 	 */
 	private function set_bypass_captcha_3dsecure_token() {
 
-		$form_data = wpforms()->get( 'process' )->form_data;
+		$form_data = wpforms()->obj( 'process' )->form_data;
 
 		// Set token only if captcha is enabled for the form.
 		if ( empty( $form_data['settings']['recaptcha'] ) ) {
@@ -1034,6 +1046,40 @@ class PaymentIntents extends Common implements ApiInterface {
 
 			wpforms_log(
 				'Stripe: Unable to create Setup Intent.',
+				$e->getMessage(),
+				[
+					'type' => [ 'payment', 'error' ],
+				]
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get Country Specs.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @param string $country Country code.
+	 * @param array  $args    Additional arguments.
+	 *
+	 * @throws ApiErrorException If the request fails.
+	 *
+	 * @return CountrySpec|null
+	 */
+	public function get_country_specs( string $country, array $args = [] ) {
+
+		try {
+			if ( isset( $args['mode'] ) ) {
+				$auth_opts = [ 'api_key' => Helpers::get_stripe_key( 'secret', $args['mode'] ) ];
+			}
+
+			return CountrySpec::retrieve( $country, $auth_opts ?? Helpers::get_auth_opts() );
+		} catch ( Exception $e ) {
+
+			wpforms_log(
+				'Stripe: Unable to get Country specs.',
 				$e->getMessage(),
 				[
 					'type' => [ 'payment', 'error' ],

@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woocommerce.com/document/template-structure/
- * @package WooCommerce/Templates
- * @version 2.6.0
+ * @see     https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 9.3.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,13 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'woocommerce_before_account_navigation' );
 ?>
 
-<nav class="woocommerce-MyAccount-navigation">
-    <div class="wc-MyAccount-navigation-heading">
-        <h5>
-            <?php _e( 'My account', 'buddyboss-theme' ); ?>
-            <a href="#" class="push-my-account-nav"><i class="bb-icon-l bb-icon-bars"></i></a>
-        </h5>
-    </div>
+<nav class="woocommerce-MyAccount-navigation" aria-label="<?php esc_html_e( 'Account pages', 'buddyboss-theme' ); ?>">
+	<div class="wc-MyAccount-navigation-heading">
+		<h5>
+			<?php _e( 'My account', 'buddyboss-theme' ); ?>
+			<a href="#" class="push-my-account-nav"><i class="bb-icon-l bb-icon-bars"></i></a>
+		</h5>
+	</div>
 	<ul class="woocommerce-MyAccount-menu">
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
 			<li class="<?php echo wc_get_account_menu_item_classes( $endpoint ); ?>">

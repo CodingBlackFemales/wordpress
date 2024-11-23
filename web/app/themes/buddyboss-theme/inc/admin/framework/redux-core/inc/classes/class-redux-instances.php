@@ -6,6 +6,7 @@
  *
  * @package     Redux_Framework/Classes
  * @subpackage  Core
+ * @noinspection PhpIgnoredClassAliasDeclaration
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +32,7 @@ if ( ! class_exists( 'Redux_Instances', false ) ) {
 		 *
 		 * @param  string|false $opt_name the defined opt_name.
 		 *
-		 * @return ReduxFramework class instance
+		 * @return ReduxFramework|Redux_Instances class instance
 		 */
 		public static function get_instance( $opt_name = false ) {
 
@@ -56,7 +57,7 @@ if ( ! class_exists( 'Redux_Instances', false ) ) {
 		/**
 		 * Get all instantiated ReduxFramework instances (so far)
 		 *
-		 * @return [type] [description]
+		 * @return array|null [type] [description]
 		 */
 		public static function get_all_instances(): ?array {
 			return self::$instances;

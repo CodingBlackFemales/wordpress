@@ -113,21 +113,29 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 		 *
 		 * @since 1.6.0.2
 		 *
-		 * @returns {Array} Filtered list of fields.
+		 * @return {Object} Filtered list of fields.
 		 */
-		removeUnsupportedFields: function() {
+		removeUnsupportedFields() {
+			const allowed = wpforms_builder.cl_fields_supported;
 
-			var allowed = wpforms_builder.cl_fields_supported,
-				fields = $.extend( {}, updater.allFields ),
-				key;
+			let fields = { ...updater.allFields };
 
-			for ( key in fields ) {
-				if ( $.inArray( fields[key].type, allowed ) === -1 ) {
-					delete fields[key];
-				} else if ( typeof fields[key].dynamic_choices !== 'undefined' && fields[key].dynamic_choices !== '' ) {
-					delete fields[key];
+			/**
+			 * Filter the fields list before removing unsupported field types.
+			 *
+			 * @since 1.8.9
+			 *
+			 * @param {Object} fields Fields data.
+			 *
+			 * @return {Object} Filtered fields data.
+			 */
+			fields = wp.hooks.applyFilters( 'wpforms.ConditionalLogicCore.BeforeRemoveUnsupportedFields', fields );
+
+			Object.keys( fields ).forEach( ( key ) => {
+				if ( ! allowed.includes( fields[ key ].type ) || fields[ key ].dynamic_choices ) {
+					delete fields[ key ];
 				}
-			}
+			} );
 
 			return fields;
 		},
@@ -153,32 +161,24 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 		 *
 		 * @since 1.6.0.2
 		 */
-		setFieldsListTemplate: function() {
-
-			var key,
-				label;
-
-			var $fieldsListTemplate = $( '<select>' )
+		setFieldsListTemplate() {
+			const $fieldsListTemplate = $( '<select>' )
 				.append( $( '<option>', { value: '', text: wpforms_builder.select_field } ) );
 
-			for ( key in wpf.orders.fields ) {
+			for ( const key in updater.conditionalFields ) {
+				const field = updater.conditionalFields[ key ];
+				let label;
 
-				var field_id = wpf.orders.fields[ key ];
-
-				if ( ! updater.conditionalFields[ field_id ] ) {
-					continue;
-				}
-
-				if ( typeof updater.conditionalFields[ field_id ].label !== 'undefined' && updater.conditionalFields[ field_id ].label.toString().trim() !== '' ) {
-					label = wpf.sanitizeHTML( updater.conditionalFields[ field_id ].label.toString().trim() );
+				if ( typeof field.label !== 'undefined' && field.label.toString().trim() !== '' ) {
+					label = wpf.sanitizeHTML( field.label.toString().trim() );
 				} else {
-					label = wpforms_builder.field + ' #' + updater.conditionalFields[ field_id ].id;
+					label = wpforms_builder.field + ' #' + field.id;
 				}
 
 				$fieldsListTemplate.append( $( '<option>', {
-					value: updater.conditionalFields[ field_id ].id,
+					value: field.id,
 					text : label,
-					id   : 'option-' + field_id,
+					id   : 'option-' + field.id,
 				} ) );
 			}
 
@@ -190,32 +190,31 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 		 *
 		 * @since 1.6.0.2
 		 *
-		 * @param {Array}  fields		 Array of fields.
+		 * @param {Array}  fields        Array of fields.
 		 * @param {number} fieldSelected ID of selected field.
 		 *
-		 * @returns {string} HTML template.
+		 * @return {string} HTML template.
 		 */
-		getFieldValuesListTemplate: function( fields, fieldSelected ) {
-
+		getFieldValuesListTemplate( fields, fieldSelected ) {
 			// Return cached template if possible.
-			if ( updater.fieldValuesListTemplates[fieldSelected] ) {
-				return updater.fieldValuesListTemplates[fieldSelected];
+			if ( updater.fieldValuesListTemplates[ fieldSelected ] ) {
+				return updater.fieldValuesListTemplates[ fieldSelected ];
 			}
 
-			var key;
-			var items   = wpf.orders.choices['field_' + fieldSelected];
-			var $select = $( '<select>' );
+			const items = wpf.orders.choices[ 'field_' + fieldSelected ],
+				$select = $( '<select>' ),
+				field = Object.values( wpf.getFields() ).find( ( el ) => el.id.toString() === fieldSelected.toString() );
 
-			for ( key in items ) {
-				var choiceKey = items[key],
-					label = typeof fields[ fieldSelected ].choices[ choiceKey ] !== 'undefined' && fields[ fieldSelected ].choices[ choiceKey ].label.toString().trim() !== '' ?
-						wpf.sanitizeHTML( fields[ fieldSelected ].choices[ choiceKey ].label.toString().trim() ) :
-						wpforms_builder.choice_empty_label_tpl.replace( '{number}', choiceKey );
-				$select.append( $( '<option>', {value: choiceKey, text: label, id: 'choice-' + choiceKey} ) );
+			for ( const key in items ) {
+				const choiceKey = items[ key ],
+					label = typeof field.choices[ choiceKey ] !== 'undefined' && field.choices[ choiceKey ].label.toString().trim() !== ''
+						? wpf.sanitizeHTML( field.choices[ choiceKey ].label.toString().trim() )
+						: wpforms_builder.choice_empty_label_tpl.replace( '{number}', choiceKey );
+				$select.append( $( '<option>', { value: choiceKey, text: label, id: 'choice-' + choiceKey } ) );
 			}
 
 			// Cache the template for future use and return the HTML.
-			return updater.fieldValuesListTemplates[fieldSelected] = $select.html();
+			return updater.fieldValuesListTemplates[ fieldSelected ] = $select.html();
 		},
 
 		/**
@@ -444,6 +443,33 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 			WPFormsConditionals.bindUIActions();
 		},
 
+		/**
+		 * Get layout fields to exclude.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Object} $element Element to get layout fields to exclude.
+		 *
+		 * @return {Object} Layout fields to exclude.
+		 */
+		getLayoutFieldsToExclude( $element ) {
+			const layoutID = $element.parents( '.wpforms-field-option' ).find( '.wpforms-field-option-hidden-id' ).val();
+			const formData = wpf.formObject( '#wpforms-field-options' );
+			const layoutFieldData = formData?.fields[ layoutID ] ?? [];
+			const fieldsToExclude = {};
+
+			Object.values( layoutFieldData[ 'columns-json' ] ?? {} ).forEach( ( column ) => {
+				Object.values( column?.fields ?? [] ).forEach( ( field ) => {
+					if ( ! formData.fields[ field ] ) {
+						return;
+					}
+
+					fieldsToExclude[ field ] = formData.fields[ field ];
+				} );
+			} );
+
+			return fieldsToExclude;
+		},
 
 		/**
 		 * Element bindings.
@@ -457,6 +483,20 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 			// Conditional support toggle.
 			$builder.on( 'change', '.wpforms-conditionals-enable-toggle input[type=checkbox]', function( e ) {
 				WPFormsConditionals.conditionalToggle( this, e );
+			} );
+
+			$builder.on( 'click', '.wpforms-field-option-group-conditionals', function() {
+				const $this = $( this );
+				const isAllowedLayoutFields = $this.parents( '.wpforms-field-option' ).find( '.wpforms-field-option-hidden-type' ).val() !== 'layout';
+
+				if ( isAllowedLayoutFields ) {
+					return;
+				}
+
+				const $block = $this.find( '.wpforms-conditional-block' );
+				const fields = wpf.getFields( false, true, false, app.getLayoutFieldsToExclude( $this ) );
+
+				WPFormsConditionals.conditionalUpdateOptions( false, fields, $block.find( '.wpforms-conditional-row' ) );
 			} );
 
 			// Conditional process field select.
@@ -541,7 +581,9 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 				$block.append( logicBlock( data ) );
 
 				// Update fields in the added rule.
-				WPFormsConditionals.conditionalUpdateOptions( false, wpf.getFields( false, true ), $block.find( '.wpforms-conditional-row' ) );
+				const fields = wpf.getFields( false, true, false, app.getLayoutFieldsToExclude( $this ) );
+
+				WPFormsConditionals.conditionalUpdateOptions( false, fields, $block.find( '.wpforms-conditional-row' ) );
 			} else {
 
 				// Remove conditional logic rules.
@@ -780,7 +822,7 @@ var WPFormsConditionals = window.WPFormsConditionals || ( function( document, wi
 			data.inputName = data.inputBase + '[conditionals]';
 
 			if ( data.selectedID.length ) {
-				data.field = data.fields[ data.selectedID ];
+				data.field = wpf.getField( data.selectedID );
 			} else {
 				data.field = false;
 			}

@@ -18,7 +18,7 @@ $opt_name = 'redux_demo';  // YOU MUST CHANGE THIS.  DO NOT USE 'redux_demo' IN 
 // Uncomment to disable demo mode.
 /* Redux::disable_demo(); */  // phpcs:ignore Squiz.PHP.CommentedOutCode
 
-$dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
+$dir = __DIR__ . DIRECTORY_SEPARATOR;
 
 /*
  * --> Used within different fields. Simply examples. Search for ACTUAL DECLARATION for field examples
@@ -33,7 +33,6 @@ if ( is_dir( $sample_patterns_path ) ) {
 	$sample_patterns_dir = opendir( $sample_patterns_path );
 
 	if ( $sample_patterns_dir ) {
-		$sample_patterns = array();
 
 		// phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition
 		while ( false !== ( $sample_patterns_file = readdir( $sample_patterns_dir ) ) ) {
@@ -49,7 +48,7 @@ if ( is_dir( $sample_patterns_path ) ) {
 	}
 }
 
-// Used to execept HTML tags in description arguments where esc_html would remove.
+// Used to except HTML tags in description arguments where esc_html would remove.
 $kses_exceptions = array(
 	'a'      => array(
 		'href' => array(),
@@ -120,7 +119,7 @@ $args = array(
 	'disable_save_warn'         => false,
 
 	// Order where the menu appears in the admin area. If there is any conflict, something will not show. Warning.
-	'page_priority'             => null,
+	'page_priority'             => 90,
 
 	// For a full list of options, visit: http://codex.wordpress.org/Function_Reference/add_submenu_page#Parameters.
 	'page_parent'               => 'themes.php',
@@ -152,7 +151,7 @@ $args = array(
 	// Shows the Import/Export panel when not used as a field.
 	'show_import_export'        => true,
 
-	// The time transinets will expire when the 'database' arg is set.
+	// The time transients will expire when the 'database' arg is set.
 	'transient_time'            => 60 * MINUTE_IN_SECONDS,
 
 	// Global shut-off for dynamic CSS output by the framework. Will also disable google fonts output.
@@ -210,14 +209,15 @@ $args = array(
 	),
 
 	// FUTURE -> Not in use yet, but reserved or partially implemented. Use at your own risk.
-	// possible: options, theme_mods, theme_mods_expanded, transient. Not fully functional, warning!
+	// Possible: options, theme_mods, theme_mods_expanded, transient. Not fully functional, warning!
 	'database'                  => '',
 	'network_admin'             => true,
+	'search'                    => true,
 );
 
 
 // ADMIN BAR LINKS -> Setup custom links in the admin bar menu as external items.
-// PLEASE CHANGE THEME BEFORE RELEASEING YOUR PRODUCT!!
+// PLEASE CHANGE THESE SETTINGS IN YOUR THEME BEFORE RELEASING YOUR PRODUCT!!
 // If these are left unchanged, they will not display in your panel!
 $args['admin_bar_links'][] = array(
 	'id'    => 'redux-docs',
@@ -231,14 +231,8 @@ $args['admin_bar_links'][] = array(
 	'title' => __( 'Support', 'your-textdomain-here' ),
 );
 
-$args['admin_bar_links'][] = array(
-	'id'    => 'redux-extensions',
-	'href'  => 'redux.io/extensions',
-	'title' => __( 'Extensions', 'your-textdomain-here' ),
-);
-
 // SOCIAL ICONS -> Setup custom links in the footer for quick links in your panel footer icons.
-// PLEASE CHANGE THEME BEFORE RELEASEING YOUR PRODUCT!!
+// PLEASE CHANGE THESE SETTINGS IN YOUR THEME BEFORE RELEASING YOUR PRODUCT!!
 // If these are left unchanged, they will not display in your panel!
 $args['share_icons'][] = array(
 	'url'   => '//github.com/ReduxFramework/ReduxFramework',
@@ -393,6 +387,7 @@ Redux::set_section(
 
 require_once Redux_Core::$dir . '../sample/sections/media-uploads/gallery.php';
 require_once Redux_Core::$dir . '../sample/sections/media-uploads/media.php';
+require_once Redux_Core::$dir . '../sample/sections/media-uploads/multi-media.php';
 require_once Redux_Core::$dir . '../sample/sections/media-uploads/slides.php';
 
 // -> START Presentation Fields.
@@ -471,6 +466,7 @@ Redux::set_section(
 );
 
 require_once Redux_Core::$dir . '../sample/sections/additional-types/date.php';
+require_once Redux_Core::$dir . '../sample/sections/additional-types/date-time-picker.php';
 require_once Redux_Core::$dir . '../sample/sections/additional-types/sorter.php';
 require_once Redux_Core::$dir . '../sample/sections/additional-types/raw.php';
 
@@ -507,34 +503,34 @@ Redux::set_section(
 require_once Redux_Core::$dir . '../sample/sections/disabling/disable-field.php';
 require_once Redux_Core::$dir . '../sample/sections/disabling/disable-section.php';
 
-// -> START Pro Fields.
-if ( class_exists( 'Redux_Pro' ) ) {
-	Redux::set_section(
-		$opt_name,
-		array(
-			'title' => esc_html__( 'Redux Pro Fields', 'your-textdomain-here' ),
-			'id'    => 'redux-pro-fields',
-			'icon'  => 'el el-redux',
-			'class' => 'pro_highlight',
-			'desc'  => esc_html__( 'For full documentation on this field, visit: ', 'your-textdomain-here' ) . '<a href="https://devs.redux.io/premium/" target="_blank">https://devs.redux.io/premium/</a>',
-		)
-	);
+// -> START Extensions.
+Redux::set_section(
+	$opt_name,
+	array(
+		'title' => esc_html__( 'Redux Extensions', 'your-textdomain-here' ),
+		'id'    => 'redux-extensions',
+		'icon'  => 'el el-redux',
+		'class' => 'pro_highlight',
+		'desc'  => esc_html__( 'For full documentation on this field, visit: ', 'your-textdomain-here' ) . '<a href="https://devs.redux.io/core-extensions/" target="_blank">https://devs.redux.io/core-extensions/</a>',
+	)
+);
 
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/accordion.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/color-scheme.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/custom-fonts.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/date-time-picker.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/google-maps.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/icon-select.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/js-button.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/multi-media.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/repeater.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/search.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/shortcodes.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/social-profiles.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/taxonomy.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/users.php';
-	require_once Redux_Core::$dir . '../sample/sections/pro-fields/widget-areas.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/accordion.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/custom-fonts.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/google-maps.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/icon-select.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/js-button.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/repeater.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/search.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/shortcodes.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/social-profiles.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/tabbed.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/widget-areas.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/taxonomy.php';
+require_once Redux_Core::$dir . '../sample/sections/extensions/users.php';
+
+if ( class_exists( 'Redux_Pro' ) ) {
+	require_once Redux_Core::$dir . '../sample/sections/extensions/color-scheme.php';
 }
 
 /**
@@ -554,7 +550,7 @@ if ( file_exists( $dir . '/../README.md' ) ) {
 				'id'           => 'opt-raw-documentation',
 				'type'         => 'raw',
 				'markdown'     => true,
-				'content_path' => dirname( __FILE__ ) . '/../README.md', // FULL PATH, not relative please.
+				'content_path' => __DIR__ . '/../README.md', // FULL PATH, not relative, please.
 			),
 		),
 	);
@@ -601,16 +597,17 @@ Redux::set_section(
  */
 
 // Function to test the compiler hook and demo CSS output.
-// Above 10 is a priority, but 2 in necessary to include the dynamically generated CSS to be sent to the function.
+// Above 10 is a priority, but 2 is necessary to include the dynamically generated CSS to be sent to the function.
 // add_filter('redux/options/' . $opt_name . '/compiler', 'compiler_action', 10, 3);
 //
 // Change the arguments after they've been declared, but before the panel is created.
 // add_filter('redux/options/' . $opt_name . '/args', 'change_arguments' );
 //
-// Change the default value of a field after it's been set, but before it's been useds.
+// Change the default value of a field after it's been set, but before it's been used.
 // add_filter('redux/options/' . $opt_name . '/defaults', 'change_defaults' );
 //
-// Dynamically add a section. Can be also used to modify sections/fields.
+// Dynamically add a section.
+// It can be also used to modify sections/fields.
 // add_filter('redux/options/' . $opt_name . '/sections', 'dynamic_section');
 // .
 if ( ! function_exists( 'compiler_action' ) ) {
@@ -630,7 +627,7 @@ if ( ! function_exists( 'compiler_action' ) ) {
 		// echo '<br/>';
 		// print_r($options); //Option values.
 		// echo '<br/>';
-		// print_r($css); // Compiler selector CSS values  compiler => array( CSS SELECTORS ).
+		// print_r($css); // Compiler selector CSS values compiler => array( CSS SELECTORS ).
 		echo '</pre>';
 	}
 }
@@ -677,9 +674,10 @@ if ( ! function_exists( 'redux_validate_callback_function' ) ) {
 
 if ( ! function_exists( 'dynamic_section' ) ) {
 	/**
-	 * Custom function for filtering the sections array. Good for child themes to override or add to the sections.
+	 * Custom function for filtering the section array.
+	 * Good for child themes to override or add to the sections.
 	 * Simply include this function in the child themes functions.php file.
-	 * NOTE: the defined constants for URLs, and directories will NOT be available at this point in a child theme,
+	 * NOTE: the defined constants for URLs and directories will NOT be available at this point in a child theme,
 	 * so you must use get_template_directory_uri() if you want to use any of the built-in icons.
 	 *
 	 * @param array $sections Section array.
@@ -703,7 +701,8 @@ if ( ! function_exists( 'dynamic_section' ) ) {
 if ( ! function_exists( 'change_arguments' ) ) {
 	/**
 	 * Filter hook for filtering the args.
-	 * Good for child themes to override or add to the args array. Can also be used in other functions.
+	 * Good for child themes to override or add to the args array.
+	 * It can also be used in other functions.
 	 *
 	 * @param array $args Global arguments array.
 	 *
@@ -733,8 +732,8 @@ if ( ! function_exists( 'change_defaults' ) ) {
 
 if ( ! function_exists( 'redux_custom_sanitize' ) ) {
 	/**
-	 * Function to be used if the field santize argument.
-	 * Return value MUST be the formatted or cleaned text to display.
+	 * Function to be used if the field sanitizes argument.
+	 * Return value MUST be formatted or cleaned text to display.
 	 *
 	 * @param string $value Value to evaluate or clean.  Required.
 	 *

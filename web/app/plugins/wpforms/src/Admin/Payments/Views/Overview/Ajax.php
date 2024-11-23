@@ -83,7 +83,7 @@ class Ajax {
 		list( $start_date, $end_date, $utc_start_date, $utc_end_date ) = $timespans;
 
 		// Payment table name.
-		$this->table_name = wpforms()->get( 'payment' )->table_name;
+		$this->table_name = wpforms()->obj( 'payment' )->table_name;
 
 		// Get the stat cards.
 		$this->stat_cards = Chart::stat_cards();
@@ -92,7 +92,7 @@ class Ajax {
 		$results = $this->get_payments_in_timespan( $utc_start_date, $utc_end_date, $report );
 
 		// In case the database's results were empty, leave early.
-		if ( empty( $results ) ) {
+		if ( $report === Chart::ACTIVE_REPORT && empty( $results ) ) {
 			wp_send_json_error( $fallback );
 		}
 
@@ -161,7 +161,7 @@ class Ajax {
 		// WHERE clauses for items query statement.
 		$where_clause = $this->get_stats_where_clause( $report );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT date_created_gmt AS day, $column_clause AS count FROM $this->table_name AS p {$join_by_meta}
@@ -173,7 +173,7 @@ class Ajax {
 			),
 			ARRAY_A
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**
@@ -203,13 +203,14 @@ class Ajax {
 
 		list( $clause, $query ) = $this->prepare_sql_summary_reports( $utc_start_date, $utc_end_date );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$group_by = Chart::ACTIVE_REPORT;
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$results  = $wpdb->get_row(
 			"SELECT $clause FROM (SELECT $query) AS results GROUP BY $group_by",
 			ARRAY_A
 		);
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $this->maybe_format_amounts( $results );
 	}
@@ -325,7 +326,7 @@ class Ajax {
 	private function get_stats_where_clause( $report ) {
 
 		// Get the default WHERE clause from the Payments database class.
-		$clause = wpforms()->get( 'payment' )->add_secondary_where_conditions();
+		$clause = wpforms()->obj( 'payment' )->add_secondary_where_conditions();
 
 		// If the report doesn't have any additional funnel arguments, leave early.
 		if ( ! isset( $this->stat_cards[ $report ]['funnel'] ) ) {
@@ -465,7 +466,7 @@ class Ajax {
 		global $wpdb;
 
 		// Retrieve the meta table name.
-		$meta_table_name = wpforms()->get( 'payment_meta' )->table_name;
+		$meta_table_name = wpforms()->obj( 'payment_meta' )->table_name;
 
 		return $wpdb->prepare(
 			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared

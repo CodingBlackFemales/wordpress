@@ -24,13 +24,12 @@ class GoogleSheets {
 			return false;
 		}
 
-		// Addon is activated.
-		if ( ! function_exists( 'wpforms_google_sheets' ) || ! defined( 'WPFORMS_GOOGLE_SHEETS_VERSION' ) ) {
+		// Only for v1.x.x.
+		if ( ! defined( 'WPFORMS_GOOGLE_SHEETS_VERSION' ) || version_compare( WPFORMS_GOOGLE_SHEETS_VERSION, '2.0', '>=' ) ) {
 			return false;
 		}
 
-		// Only for v1.x.x.
-		if ( version_compare( WPFORMS_GOOGLE_SHEETS_VERSION, '2.0', '>=' ) ) {
+		if ( ! wpforms_is_addon_initialized( 'google-sheets' ) ) {
 			return false;
 		}
 

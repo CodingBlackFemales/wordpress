@@ -264,11 +264,20 @@ class API {
 		$url        = $this->api_url . $uri;
 		$user_agent = 'WPForms/' . WPFORMS_VERSION . '; ' . home_url();
 
+		/**
+		 * Allow to filter Lite Connect request timeout.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param int $timeout Timeout value in seconds.
+		 */
+		$timeout = (int) apply_filters( 'wpforms_integrations_lite_connect_api_request_timeout', 60 );
+
 		$response = wp_remote_post(
 			$url,
 			[
 				'method'     => 'POST',
-				'timeout'    => 15,
+				'timeout'    => $timeout,
 				'headers'    => $headers,
 				'body'       => $body,
 				'user-agent' => $user_agent,
@@ -453,7 +462,7 @@ class API {
 		// Store actual attempt counter value to the option.
 		// We need here an atomic operation to avoid race conditions with getting site key via callback.
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
 			$wpdb->prepare(
 				"INSERT INTO $wpdb->options

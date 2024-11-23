@@ -1,7 +1,11 @@
 <?php
 
+// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
 namespace WPForms\Pro\Migrations;
 
+use WPForms\Helpers\DB;
 use WPForms\Migrations\UpgradeBase;
 
 /**
@@ -27,12 +31,7 @@ class Upgrade159 extends UpgradeBase {
 
 		// Re-check that all database tables exist for Lite users
 		// who upgraded to Pro using the settings workflow for v1.5.9.
-		$wpforms_pro = wpforms()->get( 'pro' );
-
-		// Check and create custom DB tables.
-		if ( ! $wpforms_pro->custom_tables_exist() ) {
-			$wpforms_pro->create_custom_tables();
-		}
+		DB::create_custom_tables( true );
 
 		return true;
 	}

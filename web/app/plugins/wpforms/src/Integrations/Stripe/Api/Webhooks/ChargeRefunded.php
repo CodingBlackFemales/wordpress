@@ -86,7 +86,7 @@ class ChargeRefunded extends Base {
 		}
 
 		// get the last refunded from DB.
-		$previous_refund_in_db = wpforms()->get( 'payment_meta' )->get_last_by(
+		$previous_refund_in_db = wpforms()->obj( 'payment_meta' )->get_last_by(
 			'refunded_amount',
 			$this->db_payment->id
 		);

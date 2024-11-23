@@ -86,7 +86,7 @@ abstract class Base {
 
 		$transaction_id = $is_legacy_api ? $this->data->id : $this->data->payment_intent;
 
-		$this->db_payment = wpforms()->get( 'payment' )->get_by( 'transaction_id', $transaction_id );
+		$this->db_payment = wpforms()->obj( 'payment' )->get_by( 'transaction_id', $transaction_id );
 	}
 
 	/**
@@ -152,7 +152,7 @@ abstract class Base {
 			$meta['credit_card_expires'] = $details->card->exp_month . '/' . $details->card->exp_year;
 		}
 
-		$payment_meta_obj = wpforms()->get( 'payment_meta' );
+		$payment_meta_obj = wpforms()->obj( 'payment_meta' );
 
 		if ( ! $payment_meta_obj ) {
 			return;

@@ -156,7 +156,7 @@ trait Export {
 
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$statuses = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT `status` FROM {$wpdb->prefix}wpforms_entries WHERE `form_id` = %d",

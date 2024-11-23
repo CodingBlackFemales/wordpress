@@ -38,6 +38,7 @@ WPForms.Admin.Builder.WPFormsChoicesJS = WPForms.Admin.Builder.WPFormsChoicesJS 
 		setup: function( element, choicesJSArgs, ajaxArgs ) {
 
 			choicesJSArgs.searchEnabled = true;
+			choicesJSArgs.allowHTML = false; // TODO: Remove after next Choices.js release.
 			choicesJSArgs.searchChoices = ajaxArgs.nonce === null; // Enable searchChoices when not using AJAX.
 			choicesJSArgs.renderChoiceLimit = -1;
 			choicesJSArgs.noChoicesText = wpforms_builder.no_pages_found;

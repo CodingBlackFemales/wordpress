@@ -22,9 +22,32 @@ function wpforms_requirements( array $requirements ): bool {
 }
 
 /**
+ * Determine if an addon is active and passed all requirements.
+ *
+ * @since 1.9.2
+ *
+ * @param string $addon_slug Addon slug without `wpforms-` prefix.
+ *
+ * @return bool
+ */
+function wpforms_is_addon_initialized( string $addon_slug ): bool {
+
+	$addon_function = 'wpforms_' . str_replace( '-', '_', $addon_slug );
+
+	if ( ! function_exists( $addon_function ) ) {
+		return false;
+	}
+
+	$basename = sprintf( 'wpforms-%1$s/wpforms-%1$s.php', $addon_slug );
+
+	return Requirements::get_instance()->is_validated( $basename );
+}
+
+/**
  * Check addon requirements and activate addon or plugin.
  *
  * @since 1.8.4
+ * @since 1.9.2 Keep addons active even if they don't meet requirements.
  *
  * @param string $plugin Path to the plugin file relative to the plugins' directory.
  *
@@ -40,16 +63,9 @@ function wpforms_activate_plugin( string $plugin ) {
 
 	$requirements = Requirements::get_instance();
 
-	if ( ! $requirements->deactivate_not_valid_addon( $plugin ) ) {
+	if ( $requirements->is_validated( $plugin ) ) {
 		return null;
 	}
 
-	// Addon was deactivated due to requirements issues.
-	return new WP_Error(
-		'wpforms_addon_incompatible',
-		implode(
-			"\n",
-			$requirements->get_notices()
-		)
-	);
+	return new WP_Error( 'wpforms_addon_incompatible', $requirements->get_notice( $plugin ) );
 }

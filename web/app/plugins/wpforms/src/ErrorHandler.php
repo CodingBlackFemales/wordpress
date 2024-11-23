@@ -5,6 +5,8 @@
 
 namespace WPForms;
 
+use QM_Collectors;
+
 /**
  * Class ErrorHandler.
  *
@@ -40,11 +42,21 @@ class ErrorHandler {
 	private $levels;
 
 	/**
+	 * Whether the error handler is handling an error.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @var bool
+	 */
+	private $handling = false;
+
+	/**
 	 * Init class.
 	 *
 	 * @since 1.8.5
 	 *
 	 * @noinspection PhpUndefinedConstantInspection
+	 * @noinspection PhpUndefinedFieldInspection
 	 */
 	public function init() {
 
@@ -53,16 +65,20 @@ class ErrorHandler {
 		}
 
 		$this->dirs = [
+			// WPForms.
 			WPFORMS_PLUGIN_DIR . 'vendor/',
 			WPFORMS_PLUGIN_DIR . 'vendor_prefixed/',
+			// Addons.
 			WP_PLUGIN_DIR . '/wpforms-activecampaign/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-authorize-net/vendor/',
+			WP_PLUGIN_DIR . '/wpforms-aweber/deprecated/',
 			WP_PLUGIN_DIR . '/wpforms-aweber/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-calculations/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-campaign-monitor/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-captcha/vendor/',
-			WP_PLUGIN_DIR . '/wpforms-clear-cache/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-conversational-forms/vendor/',
+			WP_PLUGIN_DIR . '/wpforms-convertkit/vendor/',
+			WP_PLUGIN_DIR . '/wpforms-convertkit/vendor_prefixed/',
 			WP_PLUGIN_DIR . '/wpforms-coupons/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-drip/vendor/',
 			WP_PLUGIN_DIR . '/wpforms-e2e-helpers/vendor/',
@@ -102,17 +118,11 @@ class ErrorHandler {
 		 */
 		$this->dirs = (array) apply_filters( 'wpforms_error_handler_dirs', $this->dirs );
 
+		$this->normalize_dirs();
+
 		if ( ! $this->dirs ) {
 			return;
 		}
-
-		$this->dirs = array_map(
-			static function ( $dir ) {
-
-				return str_replace( DIRECTORY_SEPARATOR, '/', $dir );
-			},
-			$this->dirs
-		);
 
 		/**
 		 * Allow modifying the levels of messages to suppress.
@@ -126,9 +136,76 @@ class ErrorHandler {
 			E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE | E_DEPRECATED | E_USER_DEPRECATED
 		);
 
-		// To chain error handlers, we must not specify the second argument and catch all errors in our handler.
+		$this->set_error_handler();
+		$this->hooks();
+	}
+
+	/**
+	 * Add hooks.
+	 *
+	 * @since 1.9.1
+	 */
+	private function hooks() {
+
+		// Some plugins destroy an error handler chain. Set the error handler again upon loading them.
+		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], 1000 );
+
+		// Suppress the _load_textdomain_just_in_time() notices related the WPForms for WP 6.7+.
+		if ( version_compare( $GLOBALS['wp_version'], '6.7', '>=' ) ) {
+			add_action( 'doing_it_wrong_run', [ $this,'action_doing_it_wrong_run' ], 0, 3 );
+			add_action( 'doing_it_wrong_run', [ $this,'action_doing_it_wrong_run' ], 20, 3 );
+			add_filter( 'doing_it_wrong_trigger_error', [ $this, 'filter_doing_it_wrong_trigger_error' ], 10, 4 );
+		}
+
+		// Fix WP 6.5+ translation error.
+		if ( version_compare( $GLOBALS['wp_version'], '6.5', '>=' ) ) {
+			add_filter( 'gettext', [ $this, 'filter_gettext' ], 10, 3 );
+		}
+	}
+
+	/**
+	 * Set error handler and save original.
+	 * To chain error handlers, we must not specify the second argument and catch all errors in our handler.
+	 *
+	 * @since 1.9.1
+	 */
+	public function set_error_handler() {
+
 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_set_error_handler
 		$this->previous_error_handler = set_error_handler( [ $this, 'error_handler' ] );
+	}
+
+	/**
+	 * The 'plugins_loaded' hook.
+	 *
+	 * @since 0.32
+	 *
+	 * @return void
+	 */
+	public function plugins_loaded() {
+
+		// Constants of plugins that destroy an error handler chain.
+		$constants = [
+			'QM_VERSION', // Query Monitor.
+			'AUTOMATOR_PLUGIN_VERSION', // Uncanny Automator.
+		];
+
+		$found = false;
+
+		foreach ( $constants as $constant ) {
+			if ( defined( $constant ) ) {
+				$found = true;
+
+				break;
+			}
+		}
+
+		if ( ! $found ) {
+			return;
+		}
+
+		// Set this error handler after loading a plugin to chain its error handler.
+		$this->set_error_handler();
 	}
 
 	/**
@@ -142,30 +219,184 @@ class ErrorHandler {
 	 * @param int    $line    Line number.
 	 *
 	 * @return bool
+	 * @noinspection PhpTernaryExpressionCanBeReplacedWithConditionInspection
 	 */
 	public function error_handler( int $level, string $message, string $file, int $line ): bool { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 
-		if ( ( $level & $this->levels ) === 0 ) {
-			// Use standard error handler.
-			return $this->previous_error_handler === null ?
-				false :
-				// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
-				(bool) call_user_func_array( $this->previous_error_handler, func_get_args() );
+		if ( $this->handling ) {
+			$this->handling = false;
+
+			// Prevent infinite recursion and fallback to standard error handler.
+			return false;
 		}
 
+		$this->handling = true;
+
+		if ( ( $level & $this->levels ) === 0 ) {
+			// Not served error level, use fallback error handler.
+			// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+			return $this->fallback_error_handler( func_get_args() );
+		}
+
+		// Process error.
 		$normalized_file = str_replace( DIRECTORY_SEPARATOR, '/', $file );
 
 		foreach ( $this->dirs as $dir ) {
 			if ( strpos( $normalized_file, $dir ) !== false ) {
+				$this->handling = false;
+
 				// Suppress deprecated errors from this directory.
 				return true;
 			}
 		}
 
-		// Use standard error handler.
+		// Not served directory, use fallback error handler.
+		// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
+		return $this->fallback_error_handler( func_get_args() );
+	}
+
+	/**
+	 * Action for _doing_it_wrong() calls.
+	 *
+	 * @since 1.9.2.2
+	 *
+	 * @param string $function_name The function that was called.
+	 * @param string $message       A message explaining what has been done incorrectly.
+	 * @param string $version       The version of WordPress where the message was added.
+	 *
+	 * @return void
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpUnusedParameterInspection
+	 */
+	public function action_doing_it_wrong_run( $function_name, $message, $version ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed, WPForms.PHP.HooksMethod.InvalidPlaceForAddingHooks
+
+		global $wp_filter;
+
+		$function_name = (string) $function_name;
+		$message       = (string) $message;
+
+		if ( ! class_exists( 'QM_Collectors' ) || ! $this->is_just_in_time_for_wpforms_domain( $function_name, $message ) ) {
+			return;
+		}
+
+		$qm_collector_doing_it_wrong = QM_Collectors::get( 'doing_it_wrong' );
+		$current_priority            = $wp_filter['doing_it_wrong_run']->current_priority();
+
+		if ( $qm_collector_doing_it_wrong === null || $current_priority === false ) {
+			return;
+		}
+
+		switch ( $current_priority ) {
+			case 0:
+				remove_action( 'doing_it_wrong_run', [ $qm_collector_doing_it_wrong, 'action_doing_it_wrong_run' ] );
+				break;
+
+			case 20:
+				add_action( 'doing_it_wrong_run', [ $qm_collector_doing_it_wrong, 'action_doing_it_wrong_run' ], 10, 3 );
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * Filter for _doing_it_wrong() calls.
+	 *
+	 * @since 1.9.2.2
+	 *
+	 * @param bool|mixed $trigger       Whether to trigger the error for _doing_it_wrong() calls. Default true.
+	 * @param string     $function_name The function that was called.
+	 * @param string     $message       A message explaining what has been done incorrectly.
+	 * @param string     $version       The version of WordPress where the message was added.
+	 *
+	 * @return bool
+	 * @noinspection PhpMissingParamTypeInspection
+	 * @noinspection PhpUnusedParameterInspection
+	 */
+	public function filter_doing_it_wrong_trigger_error( $trigger, $function_name, $message, $version ): bool { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+
+		$trigger       = (bool) $trigger;
+		$function_name = (string) $function_name;
+		$message       = (string) $message;
+
+		return $this->is_just_in_time_for_wpforms_domain( $function_name, $message ) ? false : $trigger;
+	}
+
+	/**
+	 * Filter for gettext.
+	 *
+	 * @since 1.9.2.2
+	 *
+	 * @param string|mixed $translation Translated text.
+	 * @param string|mixed $text        Text to translate.
+	 * @param string|mixed $domain      Text domain. Unique identifier for retrieving translated strings.
+	 *
+	 * @return string
+	 */
+	public function filter_gettext( $translation, $text, $domain ): string {
+
+		$translation = (string) $translation;
+		$text        = (string) $text;
+		$domain      = (string) $domain;
+
+		if ( $translation === '' && strpos( $domain, 'wpforms' ) === 0 ) {
+			$translation = $text;
+		}
+
+		return $translation;
+	}
+
+	/**
+	 * Fallback error handler.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $args Arguments.
+	 *
+	 * @return bool
+	 * @noinspection PhpTernaryExpressionCanBeReplacedWithConditionInspection
+	 */
+	private function fallback_error_handler( array $args ): bool {
+
 		return $this->previous_error_handler === null ?
+			// Use standard error handler.
 			false :
-			// phpcs:ignore PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection
-			(bool) call_user_func_array( $this->previous_error_handler, func_get_args() );
+			(bool) call_user_func_array( $this->previous_error_handler, $args );
+	}
+
+	/**
+	 * Normalize dirs.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @return void
+	 */
+	private function normalize_dirs() {
+
+		$this->dirs = array_filter(
+			array_map(
+				static function ( $dir ) {
+
+					return str_replace( DIRECTORY_SEPARATOR, '/', trim( $dir ) );
+				},
+				$this->dirs
+			)
+		);
+	}
+
+	/**
+	 * Whether it is the just_in_time_error for WPForms-related domains.
+	 *
+	 * @since 1.9.2.2
+	 *
+	 * @param string $function_name Function name.
+	 * @param string $message       Message.
+	 *
+	 * @return bool
+	 */
+	private function is_just_in_time_for_wpforms_domain( string $function_name, string $message ): bool {
+
+		return $function_name === '_load_textdomain_just_in_time' && strpos( $message, '<code>wpforms' ) !== false;
 	}
 }

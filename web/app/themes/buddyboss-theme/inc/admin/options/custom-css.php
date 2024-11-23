@@ -202,7 +202,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 				}
 				?>
 
-				<?php if ( $theme_style === '1' ) { ?>
+				<?php if ( '1' === $theme_style ) { ?>
 					--bb-block-radius: 4px;
 					--bb-option-radius: 3px;
 					--bb-block-radius-inner: 4px;
@@ -498,6 +498,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_custom_css', $custom_css );
+
 	}
 
 	/* Add Action */
@@ -613,6 +614,7 @@ if ( ! function_exists( 'boss_generate_option_bp_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_bp_custom_css', $custom_css );
+
 	}
 
 	/* Add Action */
@@ -681,6 +683,7 @@ if ( ! function_exists( 'boss_generate_option_forums_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_forums_custom_css', $custom_css );
+
 	}
 
 	/* Add Action */
@@ -758,6 +761,7 @@ if ( ! function_exists( 'boss_generate_option_learndash_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_learndash_custom_css', $custom_css );
+
 	}
 
 	/* Add Action */
@@ -816,6 +820,7 @@ if ( ! function_exists( 'boss_generate_option_custom_css' ) ) {
 
 		</style>
 		<?php
+
 	}
 
 	/* Add Action */
@@ -882,6 +887,7 @@ if ( ! function_exists( 'boss_generate_option_lifterLMS_css' ) ) {
 
 		// save processed css.
 		set_transient( 'buddyboss_theme_compressed_lifterLMS_custom_css', $custom_css );
+
 	}
 
 	/* Add Action */

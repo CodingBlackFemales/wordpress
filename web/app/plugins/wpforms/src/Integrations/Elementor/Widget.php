@@ -14,6 +14,18 @@ use Elementor\Controls_Manager;
 class Widget extends Widget_Base {
 
 	/**
+	 * Script dependencies.
+	 *
+	 * @since 1.9.1
+	 *
+	 * @return array
+	 */
+	public function get_script_depends(): array {
+
+		return [ 'wpforms-elementor' ];
+	}
+
+	/**
 	 * Get widget name.
 	 *
 	 * Retrieve shortcode widget name.
@@ -309,7 +321,7 @@ class Widget extends Widget_Base {
 
 		static $is_root_vars_displayed = false;
 
-		$css_vars_obj = wpforms()->get( 'css_vars' );
+		$css_vars_obj = wpforms()->obj( 'css_vars' );
 
 		if ( ! empty( $css_vars_obj ) && wpforms_get_render_engine() === 'modern' && ! $is_root_vars_displayed ) {
 			$css_vars_obj->output_root( true );
@@ -375,7 +387,7 @@ class Widget extends Widget_Base {
 		static $forms_list = [];
 
 		if ( empty( $forms_list ) ) {
-			$forms = wpforms()->get( 'form' )->get();
+			$forms = wpforms()->obj( 'form' )->get();
 
 			if ( ! empty( $forms ) ) {
 				$forms_list[0] = esc_html__( 'Select a form', 'wpforms-lite' );

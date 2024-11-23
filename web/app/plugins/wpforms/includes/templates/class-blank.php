@@ -1,5 +1,10 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection AutoloadingIssuesInspection */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -10,6 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class WPForms_Template_Blank extends WPForms_Template {
+
+	/**
+	 * Template slug.
+	 *
+	 * @since 1.9.2
+	 */
+	const SLUG = 'blank';
 
 	/**
 	 * Primary class constructor.
@@ -28,17 +40,35 @@ class WPForms_Template_Blank extends WPForms_Template {
 		$this->icon        = '';
 		$this->modal       = '';
 		$this->core        = true;
-		$this->data        = [
+		$this->data        = self::get_data();
+	}
+
+	/**
+	 * Get template data.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @return array
+	 */
+	public static function get_data(): array {
+
+		return [
 			'field_id' => '1',
 			'fields'   => [],
 			'settings' => [
-				'antispam'                    => '1',
+				'antispam_v3'                 => '1',
 				'ajax_submit'                 => '1',
 				'confirmation_message_scroll' => '1',
 				'submit_text_processing'      => esc_html__( 'Sending...', 'wpforms-lite' ),
+				'anti_spam'                   => [
+					'time_limit' => [
+						'enable'   => '1',
+						'duration' => '2',
+					],
+				],
 			],
 			'meta'     => [
-				'template' => $this->slug,
+				'template' => self::SLUG,
 			],
 		];
 	}

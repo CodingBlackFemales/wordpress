@@ -9,7 +9,7 @@
             input.spinner-input {
                 margin-right: 30px !important;
                 margin-left: 30px !important;
-                margin-top: 0px !important;
+                margin-top: 0 !important;
             }
 
             .redux-container-editor {
@@ -19,8 +19,13 @@
             }
         }
     }
+
     .redux-section.open .redux-group-tab {
         display: block !important;
+
+        &.hide {
+            display:none!important;
+        }
     }
 
     .redux-section {
@@ -66,7 +71,7 @@
     }
 
     .redux_field_th {
-        padding: 13px 0px 0px 0px;
+        padding: 13px 0 0 0;
     }
 
     .redux-main {

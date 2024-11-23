@@ -240,19 +240,62 @@ function wpforms_list_forget( $array, $keys ) {
  *
  * @since 1.5.8
  *
- * @param array  $array Array where to insert.
- * @param string $key   Insert after key.
- * @param array  $new   Array to insert.
+ * @param array  $target Array where to insert.
+ * @param string $key    Insert after key.
+ * @param array  $data   Array to insert.
  *
  * @return array
  */
-function wpforms_list_insert_after( $array, $key, $new ) {
+function wpforms_list_insert_after( array $target, string $key, array $data ): array {
 
-	$keys  = array_keys( $array );
+	return wpforms_list_insert( $target, $key, $data, 'after' );
+}
+
+/**
+ * Insert a value or key/value pair before a specific key in an array.
+ * If key doesn't exist, value is prepended to the beginning of the array.
+ *
+ * @since 1.8.9
+ *
+ * @param array  $target Array where to insert.
+ * @param string $key    Insert before key.
+ * @param array  $data   Array to insert.
+ *
+ * @return array
+ */
+function wpforms_list_insert_before( array $target, string $key, array $data ): array {
+
+	return wpforms_list_insert( $target, $key, $data, 'before' );
+}
+
+/**
+ * Insert a value or key/value pair before or after a specific key in an array.
+ * If key doesn't exist, value is appended to the end of the array.
+ *
+ * @since 1.8.9
+ *
+ * @param array  $target   Array where to insert.
+ * @param string $key      Insert before/after key.
+ * @param array  $data     Array to insert.
+ * @param string $position Position to insert before/after.
+ *
+ * @return array
+ */
+function wpforms_list_insert( array $target, string $key, array $data, string $position ): array {
+
+	$position = strtolower( $position );
+
+	$keys  = array_keys( $target );
 	$index = array_search( $key, $keys, true );
-	$pos   = $index === false ? count( $array ) : $index + 1;
+	$pos   = 0;
 
-	return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+	if ( $position === 'before' ) {
+		$pos = $index === false ? 0 : $index;
+	} elseif ( $position === 'after' ) {
+		$pos = $index === false ? count( $target ) : $index + 1;
+	}
+
+	return array_merge( array_slice( $target, 0, $pos ), $data, array_slice( $target, $pos ) );
 }
 
 /**

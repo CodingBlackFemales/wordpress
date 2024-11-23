@@ -116,7 +116,7 @@ class Filters {
 			return '';
 		}
 
-		$payment_handle        = wpforms()->get( 'payment' );
+		$payment_handle        = wpforms()->obj( 'payment' );
 		$subscription_statuses = explode( '|', $args['subscription_status'] );
 		$placeholders          = wpforms_wpdb_prepare_in( $subscription_statuses );
 

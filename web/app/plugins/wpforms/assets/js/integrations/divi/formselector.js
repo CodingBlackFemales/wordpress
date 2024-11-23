@@ -1,4 +1,4 @@
-/* global wpforms_divi_builder */
+/* global wpforms_divi_builder, WPFormsRepeaterField, ETBuilderBackendDynamic */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -74,8 +74,7 @@ class WPFormsSelector extends Component {
 	 * @since 1.6.3
 	 */
 	componentDidMount() {
-
-		var formData = new FormData();
+		const formData = new FormData();
 
 		formData.append( 'nonce', wpforms_divi_builder.nonce );
 		formData.append( 'action', 'wpforms_divi_preview' );
@@ -96,17 +95,15 @@ class WPFormsSelector extends Component {
 				body: new URLSearchParams( formData ),
 			},
 		)
-			.then( res => res.json() )
+			.then( ( res ) => res.json() )
 			.then(
 				( result ) => {
-
 					this.setState( {
 						isLoading: false,
 						form: result.data,
 					} );
 				},
 				( error ) => {
-
 					this.setState( {
 						isLoading: false,
 						error,
@@ -181,24 +178,25 @@ jQuery( window )
 	} )
 
 	// Re-initialize WPForms frontend.
-	.on( 'wpformsDiviModuleDisplay', ( event ) => {
+	.on( 'wpformsDiviModuleDisplay', () => {
 		window.wpforms.init();
 	} );
 
-// Make all the modern dropdowns disabled.
 jQuery( document )
-	.on( 'wpformsReady', ( event ) => {
+	.on( 'wpformsReady', function() {
+		const $ = jQuery;
 
-		var $ = jQuery;
-
+		// Make all the modern dropdowns disabled.
 		$( '.choicesjs-select' ).each( function() {
+			const $instance = $( this ).data( 'choicesjs' );
 
-			var $instance = $( this ).data( 'choicesjs' );
-
-			if ( ! $instance || typeof $instance.disable !== 'function' ) {
-				return;
+			if ( $instance && typeof $instance.disable === 'function' ) {
+				$instance.disable();
 			}
-
-			$instance.disable();
 		} );
+
+		// Init Repeater fields.
+		if ( 'undefined' !== typeof WPFormsRepeaterField ) {
+			WPFormsRepeaterField.ready();
+		}
 	} );

@@ -33,9 +33,6 @@ namespace WPForms\Vendor\Stripe\Climate;
 class Order extends \WPForms\Vendor\Stripe\ApiResource
 {
     const OBJECT_NAME = 'climate.order';
-    use \WPForms\Vendor\Stripe\ApiOperations\All;
-    use \WPForms\Vendor\Stripe\ApiOperations\Create;
-    use \WPForms\Vendor\Stripe\ApiOperations\Retrieve;
     use \WPForms\Vendor\Stripe\ApiOperations\Update;
     const CANCELLATION_REASON_EXPIRED = 'expired';
     const CANCELLATION_REASON_PRODUCT_UNAVAILABLE = 'product_unavailable';
@@ -45,6 +42,80 @@ class Order extends \WPForms\Vendor\Stripe\ApiResource
     const STATUS_CONFIRMED = 'confirmed';
     const STATUS_DELIVERED = 'delivered';
     const STATUS_OPEN = 'open';
+    /**
+     * Creates a Climate order object for a given Climate product. The order will be
+     * processed immediately after creation and payment will be deducted your Stripe
+     * balance.
+     *
+     * @param null|array $params
+     * @param null|array|string $options
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Climate\Order the created resource
+     */
+    public static function create($params = null, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl();
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = \WPForms\Vendor\Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+        return $obj;
+    }
+    /**
+     * Lists all Climate order objects. The orders are returned sorted by creation
+     * date, with the most recently created orders appearing first.
+     *
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Collection<\Stripe\Climate\Order> of ApiResources
+     */
+    public static function all($params = null, $opts = null)
+    {
+        $url = static::classUrl();
+        return static::_requestPage($url, \WPForms\Vendor\Stripe\Collection::class, $params, $opts);
+    }
+    /**
+     * Retrieves the details of a Climate order object with the given ID.
+     *
+     * @param array|string $id the ID of the API resource to retrieve, or an options array containing an `id` key
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Climate\Order
+     */
+    public static function retrieve($id, $opts = null)
+    {
+        $opts = \WPForms\Vendor\Stripe\Util\RequestOptions::parse($opts);
+        $instance = new static($id, $opts);
+        $instance->refresh();
+        return $instance;
+    }
+    /**
+     * Updates the specified order by setting the values of the parameters passed.
+     *
+     * @param string $id the ID of the resource to update
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\Climate\Order the updated resource
+     */
+    public static function update($id, $params = null, $opts = null)
+    {
+        self::_validateParams($params);
+        $url = static::resourceUrl($id);
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $opts);
+        $obj = \WPForms\Vendor\Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+        return $obj;
+    }
     /**
      * @param null|array $params
      * @param null|array|string $opts

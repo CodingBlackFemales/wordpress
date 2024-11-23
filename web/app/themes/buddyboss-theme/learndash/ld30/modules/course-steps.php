@@ -24,7 +24,7 @@ if ( ! isset( $can_complete ) ) {
 	$can_complete = false;
 }
 
-// TODO @37designs this is a bit confusing still, as you can still navigate left / right on lessons even with topics
+// TODO @37designs this is a bit confusing still, as you can still navigate left / right on lessons even with topics.
 if ( ( isset( $course_step_post ) ) && ( is_a( $course_step_post, 'WP_Post' ) ) && ( in_array( $course_step_post->post_type, learndash_get_post_types( 'course' ), true ) ) ) {
 	if ( learndash_get_post_type_slug( 'lesson' ) === $course_step_post->post_type ) {
 		$parent_id = absint( $course_id );
@@ -37,25 +37,8 @@ if ( ( isset( $course_step_post ) ) && ( is_a( $course_step_post, 'WP_Post' ) ) 
 
 
 $learndash_previous_step_id = learndash_previous_post_link( null, 'id', $course_step_post );
-if ( ( empty( $learndash_previous_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-
-	/**
-	 * Filters whether to show parent previous link in the course navigation.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @param boolean $show_previous_link Whether to show parent previous link.
-	 * @param int     $course_step_post   ID of the lesson/topic post.
-	 * @param int     $user_id            User ID.
-	 * @param int     $course_id          Course ID.
-	 */
-	if ( apply_filters( 'learndash_show_parent_previous_link', true, $course_step_post, $user_id, $course_id ) ) {
-		$learndash_previous_step_id = learndash_previous_post_link( null, 'id', get_post( $parent_id ) );
-	}
-}
-
-$learndash_next_step_id = '';
-$button_class           = 'ld-button ' . ( 'focus' === $context ? 'ld-button-transparent' : '' );
+$learndash_next_step_id     = '';
+$button_class               = 'ld-button ' . ( 'focus' === $context ? 'ld-button-transparent' : '' );
 
 /*
  * See details for filter 'learndash_show_next_link' at https://developers.learndash.com/hook/learndash_show_next_link/
@@ -73,6 +56,16 @@ if ( 'sfwd-topic' === $course_step_post->post_type ) {
 	$current_complete = learndash_is_topic_complete( $user_id, $course_step_post->ID, $course_id );
 } elseif ( 'sfwd-lessons' === $course_step_post->post_type ) {
 	$current_complete = learndash_is_lesson_complete( $user_id, $course_step_post->ID, $course_id );
+}
+
+if ( learndash_lesson_hasassignments( $course_step_post ) ) {
+	$user_assignments = learndash_get_user_assignments( $course_step_post->ID, $user_id, absint( $course_id ), 'ids' );
+	if ( function_exists( 'learndash_assignment_list_approved' ) ) {
+		$approved_assignments = learndash_assignment_list_approved( $user_assignments, $course_step_post->ID, $user_id );
+		if ( ! $approved_assignments ) {
+			$current_complete = false;
+		}
+	}
 }
 
 $learndash_maybe_show_next_step_link = $current_complete;
@@ -110,31 +103,8 @@ if ( ! in_array( $course_step_post->post_type, learndash_get_post_type_slug( arr
 
 if ( true === (bool) $learndash_maybe_show_next_step_link ) {
 	$learndash_next_step_id = learndash_next_post_link( null, 'id', $course_step_post );
-	if ( ( empty( $learndash_next_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-		$learndash_show_parent_next_link = false;
-		if ( ( ! $course_lesson_progression_enabled ) || ( true === $current_complete ) || ( learndash_is_lesson_complete( $user_id, $parent_id ) ) ) {
-			$learndash_show_parent_next_link = true;
-		}
-
-		/**
-		 * Filters whether to show parent next link in the course navigation.
-		 *
-		 * @since 3.1.0
-		 *
-		 * @param bool $learndash_show_parent_next_link Whether to show parent next link.
-		 * @param int  $course_step_post                ID of the lesson/topic post.
-		 * @param int  $user_id                         User ID.
-		 * @param int  $course_id                       Course ID.
-		 */
-		if ( apply_filters( 'learndash_show_parent_next_link', $learndash_show_parent_next_link, $course_step_post, $user_id, $course_id ) ) {
-			$learndash_next_step_id = learndash_next_post_link( null, 'id', get_post( $parent_id ) );
-		}
-	}
 } elseif ( ( ! is_user_logged_in() ) && ( empty( $learndash_next_step_id ) ) ) {
 	$learndash_next_step_id = learndash_next_post_link( null, 'id', $course_step_post );
-	if ( ( empty( $learndash_next_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-		$learndash_next_step_id = learndash_next_post_link( null, 'id', get_post( $parent_id ) );
-	}
 	if ( ! empty( $learndash_next_step_id ) ) {
 		if ( ! learndash_is_sample( $learndash_next_step_id ) ) {
 			if ( ( ! isset( $course_settings['course_price_type'] ) ) || ( 'open' !== $course_settings['course_price_type'] ) ) {

@@ -74,7 +74,7 @@ class Logs extends View {
 	private function get_list_table(): ListTable {
 
 		if ( empty( $this->list_table ) ) {
-			$log_obj = wpforms()->get( 'log' );
+			$log_obj = wpforms()->obj( 'log' );
 
 			if ( $log_obj ) {
 				$this->list_table = $log_obj->get_list_table();
@@ -115,17 +115,14 @@ class Logs extends View {
 					</p>
 				</div>
 			</div>
-			<?php
-			if ( wpforms_setting( 'logs-enable' ) ) {
+			<div class="wpforms-logs-settings <?php echo wpforms_setting( 'logs-enable' ) ? '' : 'wpforms-hidden'; ?>">
+				<?php
+					$this->types_block();
+					$this->user_roles_block();
+					$this->users_block();
+				?>
+			</div>
 
-				$this->types_block();
-
-				$this->user_roles_block();
-
-				$this->users_block();
-
-			}
-			?>
 			<p class="submit">
 				<button class="wpforms-btn wpforms-btn-md wpforms-btn-orange" name="wpforms-settings-submit">
 					<?php esc_html_e( 'Save Settings', 'wpforms-lite' ); ?>

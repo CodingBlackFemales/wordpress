@@ -36,6 +36,7 @@ class Export {
 			'internal-information',
 			'content',
 			'layout',
+			'repeater',
 		],
 	];
 
@@ -163,7 +164,7 @@ class Export {
 			'del_fields' => esc_html__( 'Include data of previously deleted fields', 'wpforms' ),
 		];
 
-		if ( function_exists( 'wpforms_geolocation' ) ) {
+		if ( wpforms_is_addon_initialized( 'geolocation' ) ) {
 			$this->additional_info_fields['geodata'] = esc_html__( 'Geolocation Details', 'wpforms' );
 		}
 
@@ -427,7 +428,7 @@ class Export {
 	 */
 	protected function init_form_data() {
 
-		$form = wpforms()->get( 'form' );
+		$form = wpforms()->obj( 'form' );
 		$data = $form ?
 			$form->get(
 				$this->data['get_args']['form_id'],

@@ -18,7 +18,6 @@
 			// this.ajaxCompleteProcess();
 			this.quizUpload();
 			this.setElementorSpacing();
-			this.courseViewCookie();
 			this.bbStickyLdSidebar();
 			// this.StyleInputQuestion();
 			this.singleLesson();
@@ -31,74 +30,61 @@
 		switchLdGridList: function() {
 
 			var courseLoopSelector = $( '.bb-course-items:not(.is-cover)' );
-			if ( window.sessionStorage ) {
-				var getView = sessionStorage.getItem( 'course-view' );
-				if ( typeof getView === 'undefined' || getView === null ) {
-					sessionStorage.setItem( 'course-view', 'grid' );
-					getView = sessionStorage.getItem( 'course-view' );
-				}
-
-				$( '.layout-view-course' ).removeClass( 'active' );
-				courseLoopSelector.removeClass( 'grid-view' );
-				courseLoopSelector.removeClass( 'bb-grid' );
-				courseLoopSelector.removeClass( 'list-view' );
-				courseLoopSelector.removeClass( 'bb-list' );
-
-				if ( 'grid' === getView ) {
-					$( '.layout-view-course.layout-grid-view' ).addClass( 'active' );
-					courseLoopSelector.addClass( 'grid-view' );
-					courseLoopSelector.addClass( 'bb-grid' );
-				} else {
-					$( '.layout-view-course.layout-list-view' ).addClass( 'active' );
-					courseLoopSelector.addClass( 'list-view' );
-					courseLoopSelector.addClass( 'bb-list' );
-				}
-			}
 			$( document ).on(
 				'click',
-				'.grid-filters .layout-view-course',
+				'.grid-filters .layout-view-course:not(.active)',
 				function(e) {
 					e.preventDefault();
-					courseLoopSelector = $( e.target ).closest( 'form' ).find( '.bb-course-items:not(.is-cover)' );
+
+					if (
+						'undefined' === typeof $( this ).parent().attr( 'data-view' ) ||
+						'ld-course' !== $( this ).parent().attr( 'data-view' )
+					) {
+						return;
+					}
+
+					var main = $( this ).parents( 'form' );
+
+					if ( BBLMS.ajax_request ) {
+						BBLMS.ajax_request.abort();
+					}
+
+					courseLoopSelector = $( this ).parents( 'form' ).find( '.bb-course-items:not(.is-cover)' );
 					if ( $( this ).hasClass( 'layout-list-view' ) ) {
-						if ( window.sessionStorage ) {
-							sessionStorage.setItem( 'course-view', 'list' );
-						}
-						$( '.layout-view-course' ).removeClass( 'active' );
+						main.find( '.layout-view-course' ).removeClass( 'active' );
 						courseLoopSelector.removeClass( 'grid-view' );
 						courseLoopSelector.removeClass( 'bb-grid' );
 						courseLoopSelector.removeClass( 'list-view' );
 						courseLoopSelector.removeClass( 'bb-list' );
-						$( '.layout-view-course.layout-list-view' ).addClass( 'active' );
+						$( this ).addClass( 'active' );
 						courseLoopSelector.addClass( 'list-view' );
 						courseLoopSelector.addClass( 'bb-list' );
-						$.ajax(
+						BBLMS.ajax_request = $.ajax(
 							{
-								method  : 'GET',
+								method  : 'POST',
 								url     : bs_data.ajaxurl,
-								data    : 'action=buddyboss_lms_save_view&option=bb_theme_learndash_grid_list&type=list',
+								nonce   : bs_data.nonce_list_grid,
+								data    : 'action=buddyboss_lms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=list&nonce=' + bs_data.nonce_list_grid,
 								success : function ( response ) {
 								}
 							}
 						);
 					} else {
-						if ( window.sessionStorage ) {
-							sessionStorage.setItem( 'course-view', 'grid' );
-						}
-						$( '.layout-view-course' ).removeClass( 'active' );
+						main.find( '.layout-view-course' ).removeClass( 'active' );
 						courseLoopSelector.removeClass( 'grid-view' );
 						courseLoopSelector.removeClass( 'bb-grid' );
 						courseLoopSelector.removeClass( 'list-view' );
 						courseLoopSelector.removeClass( 'bb-list' );
-						$( '.layout-view-course.layout-grid-view' ).addClass( 'active' );
+						$( this ).addClass( 'active' );
 						courseLoopSelector.addClass( 'grid-view' );
 						courseLoopSelector.addClass( 'bb-grid' );
-						$.ajax(
+						BBLMS.ajax_request = $.ajax(
 							{
-								method  : 'GET',
-								url     : bs_data.ajaxurl,
-								data    : 'action=buddyboss_lms_save_view&option=bb_theme_learndash_grid_list&type=grid',
-								success : function ( response ) {
+								method  	: 'POST',
+								url     	: bs_data.ajaxurl,
+								nonce       : bs_data.nonce_list_grid,
+								data    	: 'action=buddyboss_lms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=grid&nonce=' + bs_data.nonce_list_grid,
+								success 	: function ( response ) {
 								}
 							}
 						);
@@ -209,25 +195,23 @@
 				new_url = $form.data( 'current_page_url' );
 			}
 
-			// view.
-			var view = 'grid';
-			if ( $form.find( '.layout-list-view' ).hasClass( 'active' ) ) {
-				view = 'list';
-			}
-			data += '&view=' + view + '&request_url=' + encodeURIComponent( new_url );
+			data += '&request_url=' + encodeURIComponent( new_url );
 
-			$.ajax(
+			BBLMS.ajax_request = $.ajax(
 				{
 					method  : 'GET',
 					url     : bs_data.ajaxurl,
 					data    : data + '&action=buddyboss_lms_get_courses&_wpnonce=' + bs_data.learndash.nonce_get_courses,
 					success : function ( response ) {
-
+						if ( !_.isUndefined( response.data.layout ) ) {
+							$( '.layout-view' ).removeClass( 'active' );
+							$( '.layout-' + response.data.layout + '-view' ).addClass( 'active' );
+						}
 						var current_page = $form.find( '[name="current_page"]' ).val();
 						if ( isNaN( current_page ) ) {
 							current_page = 1;
 						}
-						if ( current_page > 1 ) {
+						if ( current_page > 1 && ! $( 'body' ).hasClass( 'bp-user' ) ) {
 							new_url += 'page/' + current_page + '/';
 						}
 
@@ -272,12 +256,7 @@
 				new_url = bs_data.learndash.course_archive_url;
 			}
 
-			// view.
-			var view = 'list';
-			if ( $form.find( '.layout-grid-view' ).hasClass( 'active' ) ) {
-				view = 'grid';
-			}
-			data += '&view=' + view + '&request_url=' + encodeURIComponent( new_url );
+			data += '&request_url=' + encodeURIComponent( new_url );
 
 			var order = $form.data( 'order' );
 			if ( typeof order !== 'undefined' && order !== false ) {
@@ -295,6 +274,11 @@
 					url     : bs_data.ajaxurl,
 					data    : data + '&action=buddyboss_lms_get_courses&_wpnonce=' + bs_data.learndash.nonce_get_courses,
 					success : function ( response ) {
+						if ( !_.isUndefined( response.data.layout ) ) {
+							$( '.layout-view' ).removeClass( 'active' );
+							$( '.layout-' + response.data.layout + '-view' ).addClass( 'active' );
+						}
+
 						var current_page = $form.find( '[name="current_page"]' ).val();
 						if ( isNaN( current_page ) ) {
 							current_page = 1;
@@ -302,7 +286,7 @@
 						if ( '/' !== new_url.substr( -1 ) ) {
 							new_url += '/';
 						}
-						if ( current_page > 1 ) {
+						if ( current_page > 1 && ! $( 'body' ).hasClass( 'bp-user' ) ) {
 							new_url += 'page/' + current_page + '/';
 						}
 
@@ -322,6 +306,11 @@
 							}
 						}
 						$( '.courses-nav' ).find( '.bb-icon-loader' ).remove();
+
+						// Scroll to course listing top.
+						$( 'html, body' ).animate( {
+							scrollTop: $form.offset().top - 150
+						}, 400 );
 					}
 				}
 			);
@@ -370,9 +359,14 @@
 
 			$( document ).on(
 				'click',
-				'#bb-course-list-grid-filters .grid-filters a',
+				'#bb-course-list-grid-filters .grid-filters a:not(.active)',
 				function ( e ) {
 					e.preventDefault();
+
+					if ( BBLMS.ajax_request ) {
+						BBLMS.ajax_request.abort();
+					}
+
 					$( '#bb-course-list-grid-filters .grid-filters a' ).removeClass( 'active' );
 					$( e.currentTarget ).addClass( 'active' );
 					var view     = $( e.currentTarget ).data( 'view' );
@@ -387,11 +381,12 @@
 
 					selector.addClass( view + '-view' );
 
-					$.ajax(
+					BBLMS.ajax_request = $.ajax(
 						{
-							method  : 'GET',
+							method  : 'POST',
 							url     : bs_data.ajaxurl,
-							data    : 'action=buddyboss_lms_save_view&option=bb_theme_learndash_grid_list&type=' + view,
+							nonce   : bs_data.nonce_list_grid,
+							data    : 'action=buddyboss_lms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=' + view + '&nonce=' + bs_data.nonce_list_grid,
 							success : function ( response ) {
 							}
 						}
@@ -468,6 +463,10 @@
 				function ( e ) {
 					e.preventDefault();
 
+					if ( BBLMS.ajax_request ) {
+						BBLMS.ajax_request.abort();
+					}
+
 					$( this ).closest( '.component-navigation' ).find( '> li' ).removeClass( 'selected' );
 					$( this ).closest( 'li' ).addClass( 'selected' ).append( '<i class="bb-icon-loader animate-spin"></i>' );
 
@@ -510,6 +509,11 @@
 				'submit',
 				function(e){
 					e.preventDefault();
+
+					if ( BBLMS.ajax_request ) {
+						BBLMS.ajax_request.abort();
+					}
+
 					window.BBLMS.fetchCourses( e.target );
 					return false;
 				}
@@ -949,20 +953,6 @@
 			);
 		},
 
-		courseViewCookie: function () {
-			$( '#bb-courses-directory-form .layout-grid-view' ).click(
-				function () {
-					$.cookie( 'courseview', 'grid' );
-				}
-			);
-
-			$( '#bb-courses-directory-form .layout-list-view' ).click(
-				function () {
-					$.cookie( 'courseview', 'list' );
-				}
-			);
-		},
-
 		bbStickyLdSidebar: function () {
 			function ldSaidebarPosition() {
 				var bbHeaderHeight = $( '#masthead' ).outerHeight();
@@ -1140,6 +1130,7 @@
 
 	$( document ).ready(
 		function () {
+			window.BBLMS.ajax_request = null;
 			window.BBLMS.init();
 		}
 	);

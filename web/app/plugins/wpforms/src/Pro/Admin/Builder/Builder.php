@@ -135,5 +135,13 @@ class Builder {
 			[],
 			WPFORMS_VERSION
 		);
+
+		wp_enqueue_script(
+			'wpforms-builder-addons',
+			WPFORMS_PLUGIN_URL . "assets/pro/js/admin/builder/addons{$min}.js",
+			[ 'jquery' ],
+			WPFORMS_VERSION,
+			true
+		);
 	}
 }

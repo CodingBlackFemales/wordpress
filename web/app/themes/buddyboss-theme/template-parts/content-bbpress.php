@@ -26,9 +26,15 @@
 				<img src="<?php echo esc_url( $forum_cover_photo ); ?>" alt="<?php the_title_attribute( array( 'post' => $post->ID ) ); ?>" class="banner-img wp-post-image"/>
 				<header class="entry-header container bb-single-forum <?php echo esc_attr( $class ); ?>">
 					<h1 class="entry-title"><?php esc_html( bbp_forum_title() ); ?></h1>
-					<?php if ( ! bp_is_group_single() ) { ?>
-						<div class="bbp-forum-content-wrap"><?php echo wp_kses_post( bbp_get_forum_content_excerpt_view_more() ); ?></div>
-					<?php } ?>
+					<?php
+					if ( ! bp_is_group_single() ) {
+						remove_filter( 'bbp_get_forum_content', 'wpautop' );
+						?>
+							<div class="bbp-forum-content-wrap"><?php echo wp_kses_post( bbp_get_forum_content_excerpt_view_more() ); ?></div>
+						<?php
+						add_filter( 'bbp_get_forum_content', 'wpautop' );
+					} 
+					?>
 				</header> <!--.entry-header -->
 			</div>
 			<?php

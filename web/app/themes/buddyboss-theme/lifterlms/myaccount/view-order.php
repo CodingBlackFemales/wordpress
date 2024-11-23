@@ -221,14 +221,24 @@ llms_print_notices();
 	<div class="clear"></div>
 
 	<?php
-	llms_get_template(
-		'myaccount/view-order-transactions.php',
-		array(
-			'transactions' => $transactions,
-		)
-	);
-	?>
+		/**
+		 * Displays order transactions.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order $order        The order being displayed.
+		 * @param array      $transactions Result array from {@see LLMS_Order::get_transactions()}.
+		 */
+		do_action( 'llms_view_order_transactions', $order, $transactions );
 
-	<?php do_action( 'lifterlms_after_view_order_table', $order ); ?>
+		/**
+		 * Action run after the display of order information.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Order $order The order being displayed.
+		 */
+		do_action( 'lifterlms_after_view_order_table', $order );
+	?>
 
 </div>

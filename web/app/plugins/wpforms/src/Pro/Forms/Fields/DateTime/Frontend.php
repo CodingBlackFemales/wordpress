@@ -63,14 +63,6 @@ class Frontend extends FrontendBase {
 	 */
 	public function field_properties_modern( $properties, $field, $form_data ) {
 
-		// Adjust field label's `for` attribute to match input Id if selected `Time` field format.
-		if (
-			isset( $field['format'] ) &&
-			$field['format'] === 'time'
-		) {
-			$properties['label']['attr']['for'] .= '-time';
-		}
-
 		if (
 			isset( $field['date_type'] ) &&
 			$field['date_type'] === 'dropdown'

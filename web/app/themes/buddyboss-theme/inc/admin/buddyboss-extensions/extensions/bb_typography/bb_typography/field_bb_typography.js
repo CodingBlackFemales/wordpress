@@ -240,6 +240,14 @@
                     redux.field_objects.bb_typography.select( $( this ).parents( '.redux-container-bb_typography:first' ) );
                   }
                 );
+
+                // Init when value is changed.
+                $( this ).find( '.redux-typography-family' ).on(
+                  'change',
+                  function() {
+                    redux.field_objects.bb_typography.select( $( this ).parents( '.redux-container-bb_typography:first' ) );
+                  }
+                );
                 
                 // Have to redeclare the wpColorPicker to get a callback function.
                 $( this ).find( '.redux-typography-color, .redux-typography-shadow-color' ).wpColorPicker(
@@ -789,7 +797,12 @@
       if ( 0 === isPreviewSize ) {
         that.find( '.typography-preview' ).css( 'font-size', size + units );
       }
-      
+
+      // Make sure to wrap Baloo fonts in quotes
+      if( family.indexOf('Baloo') !== -1 ) {
+        family =  '"' + family + '"';
+      }
+
       that.find( '.typography-preview' ).css(
         {
           'font-weight': style,

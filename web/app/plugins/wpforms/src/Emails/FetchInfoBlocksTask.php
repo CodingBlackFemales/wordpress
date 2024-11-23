@@ -46,7 +46,7 @@ class FetchInfoBlocksTask extends Task {
 
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {

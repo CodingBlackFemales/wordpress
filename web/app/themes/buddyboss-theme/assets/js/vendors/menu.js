@@ -9,6 +9,8 @@
             window.addEventListener( 'load', run_alignMenu );
 
             function run_alignMenu() {
+                $elem.find( 'li.bb_more_dropdown__title' ).remove();
+
                 $elem.append( $( $( $elem.children( 'li.hideshow' ) ).children( 'ul' ) ).html() );
                 $elem.children( 'li.hideshow' ).remove();
                 alignMenu( elem );
@@ -21,7 +23,7 @@
                     menuhtml = '',
                     mw = self.width() - reduceWidth;
 
-                $.each( self.children(), function () {
+                $.each( self.children( 'li' ).not( '.bb_more_dropdown__title' ), function () {
                     i++;
                     w += $( this ).outerWidth( true );
                     if ( mw < w ) {
@@ -30,9 +32,19 @@
                     }
                 } );
 
-                self.append( '<li class="hideshow menu-item-has-children1"><a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i></a><ul class="sub-menu">' + menuhtml + '</ul></li>' );
+                self.append( '<li class="hideshow menu-item-has-children1" data-no-dynamic-translation>' +
+                  '<a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i></a>' +
+                  '<ul class="sub-menu bb_more_dropdown" data-no-dynamic-translation>' + menuhtml + '</ul>' +
+                  '<div class="bb_more_dropdown_overlay"></div></li>' );
 
-                if ( self.find( 'li.hideshow' ).find( 'li' ).length > 0 ) {
+                if ( self.find( '.hideshow .bb_more_dropdown .bb_more_dropdown__title' ).length < 1 && $( window ).width() < 981 ) {
+                    $( self ).find( '.hideshow .bb_more_dropdown' ).append( '<li class="bb_more_dropdown__title">' +
+                      '<span class="bb_more_dropdown__title__text">' + bs_data.more_menu_title + '</span>' +
+                      '<span class="bb_more_dropdown__close_button" role="button">' +
+                      '<i class="bb-icon-l bb-icon-times"></i></span></li>' );
+                }
+
+                if ( self.find( 'li.hideshow' ).find( 'li' ).not( '.bb_more_dropdown__title' ).length > 0 ) {
                     self.find( 'li.hideshow' ).show();
                 } else {
                     self.find( 'li.hideshow' ).hide();

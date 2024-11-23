@@ -68,7 +68,8 @@ class Builder {
 			'wpforms-builder-custom-captcha',
 			WPFORMS_PLUGIN_URL . "assets/pro/js/admin/builder/fields/custom-captcha{$min}.js",
 			[ 'jquery', 'wpforms-builder' ],
-			WPFORMS_VERSION
+			WPFORMS_VERSION,
+			false
 		);
 
 		// Localize strings.

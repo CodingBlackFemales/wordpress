@@ -36,7 +36,9 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 		 * @since 1.7.0
 		 */
 		init() {
-			$( document ).on( 'wpformsReady', app.customizeRichTextField );
+			$( document )
+				.on( 'wpformsReady', app.customizeRichTextField )
+				.on( 'wpformsAjaxSubmitSuccessConfirmation', app.updateIframes );
 
 			// Re-initialize tinyMCE in Elementor's popups.
 			window.addEventListener( 'elementor/popup/show', function( event ) {
@@ -127,13 +129,21 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 			$document.on( 'click', '.switch-tmce', function( e ) {
 
+				// Prevent the default action of the click event
+				e.preventDefault();
+
 				const $wrap = $( this ).closest( '.wp-editor-wrap' ),
 					textareaId = $wrap.find( '.wp-editor-area' ).attr( 'id' );
 
 				const editor = tinyMCE.get( textareaId );
 
 				if ( editor ) {
-					editor.focus();
+					$wrap.addClass( 'wpforms-focused' );
+
+					// Focus on editor without causing the jump effect.
+					setTimeout( () => {
+						editor.focus( false );
+					}, 0 );
 				}
 			} );
 
@@ -292,9 +302,8 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 				return;
 			}
 
-			$( '.wpforms-field-richtext-media-enabled .mce-toolbar .mce-btn' ).on( 'click', function( e ) {
-
-				var $this = $( e.target );
+			$( '.wpforms-field-richtext-media-enabled .mce-toolbar .mce-btn' ).on( 'click touchstart', function( e ) {
+				const $this = $( e.target );
 
 				if ( ! $this.hasClass( 'dashicons-admin-media' ) && $this.find( '.dashicons-admin-media' ).length === 0 ) {
 					return;
@@ -374,14 +383,15 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 		 *
 		 * @param {jQuery} $form Form container.
 		 */
-		reInitRichTextFields: function( $form ) {
+		reInitRichTextFields( $form ) {
+			if ( typeof tinyMCEPreInit === 'undefined' || typeof tinymce === 'undefined' ) {
+				return;
+			}
 
 			$form.find( '.wp-editor-area' ).each( function() {
-
-				var id = $( this ).attr( 'id' );
+				const id = $( this ).attr( 'id' );
 
 				if ( tinymce.get( id ) ) {
-
 					// Remove existing editor.
 					tinyMCE.execCommand( 'mceRemoveEditor', false, id );
 				}
@@ -428,6 +438,16 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 			docStyle.color    = cssVars['field-text-color'];
 			docStyle.fontSize = cssVars['field-size-font-size'];
+		},
+		/**
+		 * Create an iframe from a div inside the confirmation message.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {Event} event Event instance from the `wpformsAjaxSubmitSuccessConfirmation` hook.
+		 */
+		updateIframes( event ) {
+			$( event.target ).find( '.wpforms-iframe' ).each( window?.WPFormsIframe?.update );
 		},
 	};
 

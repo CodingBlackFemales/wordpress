@@ -12,11 +12,11 @@ use WPForms\Admin\Education\Helpers as EducationHelpers;
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_output_field( $args ) {
+function wpforms_settings_output_field( array $args ): string { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 	// Define default callback for this field type.
 	$callback = ! empty( $args['type'] ) && function_exists( 'wpforms_settings_' . $args['type'] . '_callback' ) ? 'wpforms_settings_' . $args['type'] . '_callback' : 'wpforms_settings_missing_callback';
@@ -27,7 +27,7 @@ function wpforms_settings_output_field( $args ) {
 	}
 
 	// Store returned markup from callback.
-	$field = call_user_func( $callback, $args );
+	$field = $callback( $args );
 
 	// Allow arg to bypass standard field wrap for custom display.
 	if ( ! empty( $args['wrap'] ) ) {
@@ -68,11 +68,12 @@ function wpforms_settings_output_field( $args ) {
 
 	$output .= '<span class="wpforms-setting-field">';
 	$output .= $field;
+
 	if ( ! empty( $args['desc_after'] ) ) {
 		$output .= '<div class="wpforms-clear">' . $args['desc_after'] . '</div>';
 	}
-	$output .= '</span>';
 
+	$output .= '</span>';
 	$output .= '</div>';
 
 	return $output;
@@ -81,7 +82,7 @@ function wpforms_settings_output_field( $args ) {
 /**
  * Missing Callback.
  *
- * If a function is missing for settings callbacks alert the user.
+ * If a function is missing for settings, callbacks alert the user.
  *
  * @since 1.3.9
  *
@@ -89,7 +90,7 @@ function wpforms_settings_output_field( $args ) {
  *
  * @return string
  */
-function wpforms_settings_missing_callback( $args ) {
+function wpforms_settings_missing_callback( array $args ): string {
 
 	return sprintf(
 		/* translators: %s - ID of a setting. */
@@ -103,11 +104,12 @@ function wpforms_settings_missing_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_content_callback( $args ) {
+function wpforms_settings_content_callback( array $args ): string {
+
 	return ! empty( $args['content'] ) ? $args['content'] : '';
 }
 
@@ -119,8 +121,10 @@ function wpforms_settings_content_callback( $args ) {
  * @param array $args Settings arguments.
  *
  * @return string
+ * @noinspection HtmlUnknownTarget
+ * @noinspection PhpUnusedParameterInspection
  */
-function wpforms_settings_license_callback( $args ) {
+function wpforms_settings_license_callback( array $args ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 	$output  = '<p>' . esc_html__( 'You\'re using WPForms Lite - no license needed. Enjoy!', 'wpforms-lite' ) . ' 🙂</p>';
 	$output .=
@@ -164,7 +168,7 @@ function wpforms_settings_license_callback( $args ) {
 	 *
 	 * @param string $output HTML markup to be rendered in place of license settings.
 	 */
-	return apply_filters( 'wpforms_settings_license_output', $output );
+	return (string) apply_filters( 'wpforms_settings_license_output', $output );
 }
 
 /**
@@ -176,7 +180,7 @@ function wpforms_settings_license_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_text_callback( $args ) {
+function wpforms_settings_text_callback( array $args ): string {
 
 	if ( ! in_array( $args['type'], [ 'text', 'password' ], true ) ) {
 		$args['type'] = 'text';
@@ -204,7 +208,7 @@ function wpforms_settings_text_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_password_callback( $args ) {
+function wpforms_settings_password_callback( array $args ): string {
 
 	return wpforms_settings_text_callback( $args );
 }
@@ -217,8 +221,9 @@ function wpforms_settings_password_callback( $args ) {
  * @param array $args Setting field arguments.
  *
  * @return string
+ * @noinspection HtmlUnknownAttribute
  */
-function wpforms_settings_number_callback( $args ) {
+function wpforms_settings_number_callback( array $args ): string {
 
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$id      = 'wpforms-setting-' . wpforms_sanitize_key( $args['id'] );
@@ -249,18 +254,18 @@ function wpforms_settings_number_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_select_callback( $args ) {
+function wpforms_settings_select_callback( array $args ): string { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 	$default     = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$value       = wpforms_setting( $args['id'], $default );
 	$id          = wpforms_sanitize_key( $args['id'] );
 	$select_name = $id;
 	$class       = ! empty( $args['choicesjs'] ) ? 'choicesjs-select' : '';
-	$choices     = ! empty( $args['choicesjs'] ) ? true : false;
+	$choices     = ! empty( $args['choicesjs'] );
 	$data        = isset( $args['data'] ) ? (array) $args['data'] : [];
 	$attr        = isset( $args['attr'] ) ? (array) $args['attr'] : [];
 
@@ -314,11 +319,11 @@ function wpforms_settings_select_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_checkbox_callback( $args ) {
+function wpforms_settings_checkbox_callback( array $args ): string {
 
 	$value    = wpforms_setting( $args['id'] );
 	$id       = wpforms_sanitize_key( $args['id'] );
@@ -343,11 +348,11 @@ function wpforms_settings_checkbox_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_radio_callback( $args ) {
+function wpforms_settings_radio_callback( array $args ): string {
 
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$value   = wpforms_setting( $args['id'], $default );
@@ -365,7 +370,7 @@ function wpforms_settings_radio_callback( $args ) {
 		$output .= '</label>';
 		$output .= '</span>';
 
-		$x ++;
+		++$x;
 	}
 
 	if ( ! empty( $args['desc'] ) ) {
@@ -384,7 +389,7 @@ function wpforms_settings_radio_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_email_template_callback( $args ) {
+function wpforms_settings_email_template_callback( array $args ): string {
 
 	$id             = wpforms_sanitize_key( $args['id'] );
 	$is_pro         = wpforms()->is_pro();
@@ -400,15 +405,15 @@ function wpforms_settings_email_template_callback( $args ) {
 		$checked       = checked( $args['value'], $option, false );
 		$has_education = ! $is_pro && isset( $attrs['is_pro'] ) && $attrs['is_pro'];
 		$class         = [ 'wpforms-settings-field-radio-wrapper', 'wpforms-card-image' ];
-		$datas         = [];
+		$data          = [];
 
 		// Add class and data attributes for education modal, if needed.
 		if ( $has_education ) {
 			$class[] = 'education-modal'; // This class is used for JS.
-			$datas   = $education_args; // This data is used for JS.
+			$data    = $education_args; // This data is used for JS.
 		}
 
-		$output .= '<span ' . wpforms_html_attributes( '', $class, $datas ) . '>';
+		$output .= '<span ' . wpforms_html_attributes( '', $class, $data ) . '>';
 		$output .= '<input type="radio" id="wpforms-setting-' . $id . '[' . $x . ']" name="' . $id . '" value="' . esc_attr( $option ) . '" ' . $checked . '>';
 		$output .= '<label for="wpforms-setting-' . $id . '[' . $x . ']" class="option-' . sanitize_html_class( $option ) . '">';
 		$output .= esc_html( $attrs['name'] );
@@ -452,9 +457,9 @@ function wpforms_settings_email_template_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_toggle_callback( $args ) {
+function wpforms_settings_toggle_callback( array $args ): string { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
-	$value      = wpforms_setting( $args['id'] );
+	$value      = ! empty( $args['value'] ) ? $args['value'] : wpforms_setting( $args['id'] );
 	$id         = wpforms_sanitize_key( $args['id'] );
 	$class      = ! empty( $args['control-class'] ) ? $args['control-class'] : '';
 	$class     .= ! empty( $args['is-important'] ) ? ' wpforms-important' : '';
@@ -493,11 +498,15 @@ function wpforms_settings_toggle_callback( $args ) {
 		);
 	}
 
+	if ( ! empty( $args['disabled_desc'] ) ) {
+		$output .= '<p class="disabled-desc">' . wp_kses_post( $args['disabled_desc'] ) . '</p>';
+	}
+
 	return $output;
 }
 
 /**
- * Settings image upload field callback.
+ * Settings image uploads field callback.
  *
  * @since 1.3.9
  *
@@ -505,7 +514,7 @@ function wpforms_settings_toggle_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_image_callback( $args ) {
+function wpforms_settings_image_callback( array $args ): string {
 
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$value   = wpforms_setting( $args['id'], $default );
@@ -537,11 +546,11 @@ function wpforms_settings_image_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
  */
-function wpforms_settings_color_callback( $args ) {
+function wpforms_settings_color_callback( array $args ): string {
 
 	$default = isset( $args['default'] ) ? esc_html( $args['default'] ) : '';
 	$value   = wpforms_setting( $args['id'], $default );
@@ -573,7 +582,7 @@ function wpforms_settings_color_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_color_scheme_callback( $args ) {
+function wpforms_settings_color_scheme_callback( array $args ): string {
 
 	$id     = wpforms_sanitize_key( $args['id'] );
 	$value  = wpforms_setting( $args['id'], [] );
@@ -613,11 +622,12 @@ function wpforms_settings_color_scheme_callback( $args ) {
  *
  * @since 1.3.9
  *
- * @param array $args
+ * @param array $args Arguments.
  *
  * @return string
+ * @noinspection PhpUnusedParameterInspection
  */
-function wpforms_settings_providers_callback( $args ) {
+function wpforms_settings_providers_callback( array $args ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 	$active    = wpforms_get_providers_available();
 	$providers = wpforms_get_providers_options();
@@ -625,9 +635,18 @@ function wpforms_settings_providers_callback( $args ) {
 	$output = '<div id="wpforms-settings-providers">';
 
 	ob_start();
-	do_action( 'wpforms_settings_providers', $active, $providers );
-	$output .= ob_get_clean();
 
+	/**
+	 * Output settings providers.
+	 *
+	 * @since 1.3.9.1
+	 *
+	 * @param array $active    Active providers.
+	 * @param array $providers Providers options.
+	 */
+	do_action( 'wpforms_settings_providers', $active, $providers );
+
+	$output .= ob_get_clean();
 	$output .= '</div>';
 
 	return $output;
@@ -642,7 +661,7 @@ function wpforms_settings_providers_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_webhook_endpoint_callback( $args ) {
+function wpforms_settings_webhook_endpoint_callback( array $args ): string {
 
 	$output = '';
 
@@ -669,7 +688,7 @@ function wpforms_settings_webhook_endpoint_callback( $args ) {
  *
  * @return string
  */
-function wpforms_settings_columns_callback( $args ) {
+function wpforms_settings_columns_callback( array $args ): string { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 	if ( empty( $args['columns'] ) || ! is_array( $args['columns'] ) ) {
 		return '';
@@ -694,7 +713,7 @@ function wpforms_settings_columns_callback( $args ) {
 		}
 
 		if ( function_exists( $callback ) ) {
-			$output .= call_user_func( $callback, $column );
+			$output .= $callback( $column );
 		}
 
 		$output .= '</div>';

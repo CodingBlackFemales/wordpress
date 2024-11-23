@@ -18,6 +18,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 <?php
 
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
-echo wpforms()->get( 'education_smtp_notice' )->get_template();
+echo wpforms()->obj( 'education_smtp_notice' )->get_template();
 
 /* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

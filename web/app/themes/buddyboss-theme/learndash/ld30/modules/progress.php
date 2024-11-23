@@ -47,7 +47,7 @@ do_action( 'learndash-' . $context . '-progress-bar-before', $course_id, $user_i
  *
  * @var [type]
  */
-if ( $context !== 'topic' ) {
+if ( 'topic' !== $context ) {
 
 	/**
 	 * Filters LearnDash progress arguments.
@@ -91,8 +91,9 @@ if ( $context !== 'topic' ) {
 		);
 	}
 } else {
-	// global $post;
-
+	if ( ! isset( $post ) ) {
+		global $post;
+	}
 	/** This filter is documented in themes/ld30/templates/modules/progress.php */
 	$progress = apply_filters( 'learndash-' . $context . '-progress-stats', learndash_lesson_progress( $post, $course_id ) );
 }
@@ -101,12 +102,12 @@ if ( $progress ) :
 	/**
 	 * This is just here for reference
 	 */ ?>
-	<div class="ld-progress <?php echo ( $context === 'course' ) ? esc_attr( 'ld-progress-inline' ) : ''; ?>">
-		<?php if ( $context === 'focus' ) : ?>
+	<div class="ld-progress <?php echo ( 'course' === $context ) ? esc_attr( 'ld-progress-inline' ) : ''; ?>">
+		<?php if ( 'focus' === $context ) : ?>
 			<div class="ld-progress-wrap">
 		<?php endif; ?>
 			<div class="ld-progress-heading">
-				<?php if ( $context === 'topic' ) : ?>
+				<?php if ( 'topic' === $context ) : ?>
 					<div class="ld-progress-label">
 						<?php
 						echo sprintf(
@@ -135,7 +136,7 @@ if ( $progress ) :
 				</div>
 				<div class="ld-progress-steps">
 					<?php
-					if ( $context === 'course' || $context === 'focus' ) :
+					if ( 'course' === $context || 'focus' === $context ) :
 						$course_args     = array(
 							'course_id'     => $course_id,
 							'user_id'       => $user_id,
@@ -144,9 +145,9 @@ if ( $progress ) :
 						);
 						$course_activity = learndash_get_user_activity( $course_args );
 
-						if ( ! empty( $course_activity->activity_updated ) && $context === 'course' ) :
+						if ( ! empty( $course_activity->activity_updated ) && 'course' === $context ) :
 							echo sprintf(
-								/* translators: Last activity date in infobar. */
+							    /* translators: Last activity date in infobar. */
 								esc_html_x( 'Last activity on %s', 'Last activity date in infobar', 'buddyboss-theme' ),
 								esc_html( learndash_adjust_date_time_display( $course_activity->activity_updated ) )
 							);
@@ -162,7 +163,7 @@ if ( $progress ) :
 					?>
 				</div>
 			</div> <!--/.ld-progress-stats-->
-			<?php if ( $context === 'focus' ) : ?>
+			<?php if ( 'focus' === $context ) : ?>
 				</div> <!--/.ld-progress-wrap-->
 			<?php endif; ?>
 	</div> <!--/.ld-progress-->

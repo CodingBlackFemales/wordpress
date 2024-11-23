@@ -3,7 +3,55 @@
  * Template Item
  */
 ?>
+<#
+var activatedComponents = 'undefined' !== typeof BBElementorSectionsData.active_components ? BBElementorSectionsData.active_components : '' ;
 
+var check_required_plugin = false;
+if ( 'undefined' !== typeof required_bb_components ) {
+    for ( var componentName in required_bb_components ) {
+        if ( required_bb_components.hasOwnProperty( componentName ) ) {
+            var isComponentActivated = Object.keys( activatedComponents ).includes( componentName );
+
+            if ( required_bb_components[ componentName ] && ! isComponentActivated ) {
+                check_required_plugin =  true;
+            }
+        }
+    }
+}
+
+if ( ! check_required_plugin ) {
+    var activatedPlugins = 'undefined' !== typeof BBElementorSectionsData.active_plugins ? BBElementorSectionsData.active_plugins : '' ;
+
+    if ( 'undefined' !== typeof required_plugins ) {
+
+        var hasRequiredPlugin = false;
+
+        for ( var pluginName in required_plugins ) {
+            if ( required_plugins.hasOwnProperty( pluginName ) ) {
+                var isActivated = Object.values( activatedPlugins ).some( pluginPath =>
+                    pluginPath.includes( `${pluginName}/` )
+                );
+
+                if ( (pluginName === 'lifterlms' || pluginName === 'sfwd-lms') && isActivated ) {
+                    hasRequiredPlugin = true; // Either learndash or lifterlms is active
+                }
+
+                if ( required_plugins[ pluginName ] && !isActivated && pluginName !== 'lifterlms' && pluginName !== 'sfwd-lms' ) {
+                    check_required_plugin = true;
+                }
+            }
+        }
+
+        if ( !hasRequiredPlugin ) {
+            check_required_plugin = true;
+        }
+    }
+}
+
+if ( 'undefined' !== typeof view_requirements_link && '' === view_requirements_link ) {
+    view_requirements_link = 'https://www.buddyboss.com/resources/docs/integrations/elementor-pro/elementor-template-requirement/';
+}
+#>
 <div class="elementor-template-library-template-body">
 	<div class="elementor-template-library-template-screenshot">
 		<div class="elementor-template-library-template-title">
@@ -11,30 +59,15 @@
         </div>
         <div class="bbelementor-template--thumb">
             <div class="bbelementor-template--label">
-                <# if ( is_pro ) { #>
-                <span class="bbelementor-template--tag bbelementor-template--pro"><?php echo __( 'Elementor Pro', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                <# } #>
-                <?php if (class_exists( 'SFWD_LMS' )) { ?>
-                    <# if ( is_learndash ) { #>
-                    <span class="bbelementor-template--tag bbelementor-template--ld"><?php echo __( 'LearnDash', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                    <# } #>
-                <?php } elseif (class_exists( 'LifterLMS' )) { ?>
-                    <# if ( is_lifter ) { #>
-                    <span class="bbelementor-template--tag bbelementor-template--llms"><?php echo __( 'LifterLMS', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                    <# } #>
-                <?php } else { ?>
-                    <# if ( is_learndash ) { #>
-                    <span class="bbelementor-template--tag bbelementor-template--ld"><?php echo __( 'LearnDash', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                    <# } #>
-                    <# if ( is_lifter ) { #>
-                    <span class="bbelementor-template--tag bbelementor-template--llms"><?php echo __( 'LifterLMS', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                    <# } #>
-                <?php } ?>
-                <# if ( is_woo ) { #>
-                <span class="bbelementor-template--tag bbelementor-template--woo"><?php echo __( 'WooCommerce', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
-                <# } #>
-                <# if ( is_tec ) { #>
-                <span class="bbelementor-template--tag bbelementor-template--tec"><?php echo __( 'The Events Calendar', 'buddyboss-theme' ); ?></span><span class="bbelementor-template--sep"></span>
+                <# if ( true === check_required_plugin ) { #>
+                    <span class="bbelementor-template--tag bbelementor-template--pro">
+                        <# if ( 'undefined' !== typeof unavailable_text && '' !== unavailable_text ) { #>
+                            {{ unavailable_text }}
+                        <# } else { #>
+                            <?php echo __( 'Unavailable', 'buddyboss-theme' ); ?>
+                        <# } #>
+                    </span>
+                    <span class="bbelementor-template--sep"></span>
                 <# } #>
             </div>
             <img src="{{ thumbnail }}" alt="{{ title }}">
@@ -42,8 +75,23 @@
 	</div>
 </div>
 <div class="elementor-template-library-template-controls">
-    <button class="elementor-template-library-template-action bbelementor-template-insert elementor-button elementor-button-success">
-        <i class="eicon-file-download"></i>
-        <span class="elementor-button-title"><?php echo __( 'Insert', 'buddyboss-theme' ); ?></span>
-    </button>
+    <# if ( true === check_required_plugin ) { #>
+        <button class="elementor-template-library-template-action bbelementor-template-required-plugins elementor-button e-btn-txt button-requirement">
+            <i class="eicon-external-link-square"></i>
+            <span class="elementor-button-title">
+                <a href="{{ view_requirements_link }}" target="_blank">
+                    <# if ( 'undefined' !== typeof view_requirements_text && '' !== view_requirements_text ) { #>
+                        {{ view_requirements_text }}
+                    <# } else { #>
+                        <?php echo __( 'View Requirements', 'buddyboss-theme' ); ?>
+                    <# } #>
+                </a>
+            </span>
+        </button>
+    <# } else { #>
+        <button class="elementor-template-library-template-action bbelementor-template-insert elementor-button elementor-button-success">
+            <i class="eicon-file-download"></i>
+            <span class="elementor-button-title"><?php echo __( 'Insert', 'buddyboss-theme' ); ?></span>
+        </button>
+    <# } #>
 </div>

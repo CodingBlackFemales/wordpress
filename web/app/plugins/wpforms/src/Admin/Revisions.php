@@ -126,7 +126,7 @@ class Revisions {
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$this->form_id = $id;
-		$form_handler  = wpforms()->get( 'form' );
+		$form_handler  = wpforms()->obj( 'form' );
 
 		if ( ! $form_handler ) {
 			return false;
@@ -379,7 +379,7 @@ class Revisions {
 
 		if ( $restored_id ) {
 			wp_safe_redirect(
-				wpforms()->get( 'revisions' )->get_url(
+				wpforms()->obj( 'revisions' )->get_url(
 					[
 						'form_id' => $restored_id,
 					]
