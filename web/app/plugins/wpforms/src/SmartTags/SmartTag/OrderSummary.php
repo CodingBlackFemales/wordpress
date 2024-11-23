@@ -31,6 +31,8 @@ class OrderSummary extends SmartTag {
 			$fields = isset( $entry->fields ) ? (array) wpforms_decode( $entry->fields ) : [];
 		}
 
+		$fields = $this->prepare_fields( $fields, $form_data );
+
 		list( $items, $foot, $total_width ) = $this->prepare_payment_fields_data( $fields );
 
 		return wpforms_render(
@@ -42,6 +44,37 @@ class OrderSummary extends SmartTag {
 				'context'     => 'smart_tag',
 			],
 			true
+		);
+	}
+
+	/**
+	 * Prepare fields data for summary preview.
+	 * Add label_hide property to fields if needed.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $fields    Fields data.
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @return array
+	 */
+	private function prepare_fields( array $fields, array $form_data ): array {
+
+		return array_map(
+			function ( $field ) use ( $form_data ) {
+				$form_data_fields = $form_data['fields'] ?? [];
+
+				if ( isset( $form_data_fields[ $field['id'] ] ) ) {
+					$label_hide = isset( $form_data_fields[ $field['id'] ]['label_hide'] );
+
+					if ( $label_hide ) {
+						$field['label_hide'] = true;
+					}
+				}
+
+				return $field;
+			},
+			$fields
 		);
 	}
 
@@ -121,10 +154,11 @@ class OrderSummary extends SmartTag {
 			return;
 		}
 
-		$label   = ! empty( $field['value_choice'] ) ? $field['name'] . ' - ' . $field['value_choice'] : $field['name'];
-		$amount  = $field['amount_raw'] * $quantity;
+		$label  = ! empty( $field['value_choice'] ) ? $field['name'] . ' - ' . $field['value_choice'] : $field['name'];
+		$amount = $field['amount_raw'] * $quantity;
+
 		$items[] = [
-			'label'    => $label,
+			'label'    => ! empty( $field['label_hide'] ) ? '' : $label,
 			'quantity' => $quantity,
 			'amount'   => wpforms_format_amount( $amount, true ),
 		];
@@ -162,7 +196,7 @@ class OrderSummary extends SmartTag {
 			$labels      = array_slice( $choice_data, 0, -1 );
 
 			$items[] = [
-				'label'    => $field['name'] . ' - ' . implode( ' - ', $labels ),
+				'label'    => ! empty( $field['label_hide'] ) ? implode( ' - ', $labels ) : $field['name'] . ' - ' . implode( ' - ', $labels ),
 				'quantity' => $quantity,
 				'amount'   => end( $choice_data ),
 			];

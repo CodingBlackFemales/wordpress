@@ -114,6 +114,11 @@ class WPForms_Field_Address extends WPForms_Field {
 		// Remove primary for expanded formats.
 		unset( $properties['inputs']['primary'] );
 
+		// Remove reference to an input element to prevent duplication.
+		if ( empty( $field['sublabel_hide'] ) ) {
+			unset( $properties['label']['attr']['for'] );
+		}
+
 		$form_id   = absint( $form_data['id'] );
 		$field_id  = wpforms_validate_field_id( $field['id'] );
 		$countries = $this->schemes[ $scheme ]['countries'] ?? [];
@@ -928,11 +933,20 @@ class WPForms_Field_Address extends WPForms_Field {
 						);
 					} else {
 						unset( $state['attr']['placeholder'] );
+
+						// We need to clear the value attribute since it's not allowed for <select>.
+						$state_default = $state['attr']['value'] ?? '';
+
+						unset( $state['attr']['value'] );
+
 						printf(
 							'<select %s %s>',
 							wpforms_html_attributes( $state['id'], $state['class'], $state['data'], $state['attr'] ),
 							! empty( $state['required'] ) ? 'required' : ''
 						);
+							// Revert default value.
+							$state['attr']['value'] = $state_default;
+
 							if ( ! empty( $placeholder ) && empty( $state['attr']['value'] ) ) {
 								printf( '<option class="placeholder" value="" selected disabled>%s</option>', esc_html( $placeholder ) );
 							}

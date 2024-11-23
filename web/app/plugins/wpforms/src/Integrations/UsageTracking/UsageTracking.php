@@ -407,11 +407,19 @@ class UsageTracking implements IntegrationInterface {
 		$integrations = array_map(
 			static function ( $form ) {
 
-				if ( ! empty( $form->post_content['providers'] ) ) {
-					return array_keys( $form->post_content['providers'] );
+				if ( empty( $form->post_content['providers'] ) ) {
+					return false;
 				}
 
-				return false;
+				$active_integrations = [];
+
+				foreach ( $form->post_content['providers'] as $provider_slug => $connections ) {
+					if ( ! empty( $connections ) ) {
+						$active_integrations[] = $provider_slug;
+					}
+				}
+
+				return $active_integrations;
 			},
 			$forms
 		);

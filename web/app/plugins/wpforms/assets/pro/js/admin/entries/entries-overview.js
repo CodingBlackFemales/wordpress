@@ -150,7 +150,6 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 		 * @return {Object} Localized strings.
 		 */
 		get xAxesDisplayFormat() {
-
 			if ( ! this.timespan.length ) {
 				return 'MMM D';
 			}
@@ -161,8 +160,8 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 				return 'MMM D';
 			}
 
-			const startYear = moment( dates[0] ).format( 'YYYY' );
-			const endYear   = moment( dates[1] ).format( 'YYYY' );
+			const startYear = moment( dates[ 0 ] ).format( 'YYYY' );
+			const endYear = moment( dates[ 1 ] ).format( 'YYYY' );
 
 			return startYear === endYear ? 'MMM D' : 'MMM D YYYY';
 		},
@@ -233,6 +232,7 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 					],
 				},
 				options: {
+					maintainAspectRatio: false,
 					clip: false,
 					layout: {
 						padding: {
@@ -243,80 +243,69 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 						},
 					},
 					scales: {
-						xAxes: [
-							{
-								type: 'time',
-								offset: this.type === 'bar',
-								time: {
-									unit: 'day',
-									tooltipFormat: this.tooltipFormat,
-									displayFormats: {
-										day: this.xAxesDisplayFormat,
-									},
+						x: {
+							type: 'timeseries',
+							offset: this.type === 'bar',
+							time: {
+								tooltipFormat: this.tooltipFormat,
+							},
+							reverse: isRTL,
+							ticks: {
+								font: {
+									size: 13,
+									color: '#787c82',
 								},
-								distribution: 'series',
-								ticks: {
-									reverse: isRTL,
-									beginAtZero: true,
-									padding: 10,
-									fontColor: '#787c82',
-									fontSize: 13,
-									minRotation: 25,
-									maxRotation: 25,
-									callback: function( value, index, values ) {
+								padding: 10,
+								minRotation: 25,
+								maxRotation: 25,
+								callback( value, index, values ) {
+									// Distribute the ticks equally starting from a right side of xAxis.
+									const gap = Math.floor( values.length / 7 );
 
-										// Distribute the ticks equally starting from a right side of xAxis.
-										const gap = Math.floor( values.length / 7 );
-
-										if ( gap < 1 ) {
-											return value;
-										}
-										if ( ( values.length - index - 1 ) % gap === 0 ) {
-											return value;
-										}
-									},
+									if ( gap < 1 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
+									if ( ( values.length - index - 1 ) % gap === 0 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
 								},
 							},
-						],
-						yAxes: [
-							{
-								ticks: {
-									beginAtZero: true,
-									maxTicksLimit: 6,
-									padding: 20,
-									fontColor: '#787c82',
-									fontSize: 13,
-									callback: function( value ) {
-
-										// Make sure the tick value has no decimals.
-										if ( Math.floor( value ) === value ) {
-											return value;
-										}
-									},
+						},
+						y: {
+							beginAtZero: true,
+							ticks: {
+								maxTicksLimit: 6,
+								font: {
+									size: 13,
+									color: '#787c82',
+								},
+								padding: 20,
+								callback( value ) {
+									// Make sure the tick value has no decimals.
+									if ( Math.floor( value ) === value ) {
+										return value;
+									}
 								},
 							},
-						],
+						},
 					},
 					elements: {
 						line: {
 							tension: 0,
+							fill: true,
 						},
 					},
-					animation: {
-						duration: 0,
+					animation: false,
+					plugins: {
+						legend: {
+							display: false,
+						},
+						tooltip: {
+							enabled: true,
+							displayColors: false,
+							rtl: isRTL,
+						},
 					},
-					hover: {
-						animationDuration: 0,
-					},
-					legend: {
-						display: false,
-					},
-					tooltips: {
-						displayColors: false,
-						rtl: isRTL,
-					},
-					responsiveAnimationDuration: 0,
-					maintainAspectRatio: false,
 				},
 			};
 		},
@@ -697,7 +686,7 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 
 					labels.push( date );
 					datasets.push( {
-						t: date,
+						x: date,
 						y: item?.count || 0,
 					} );
 				} );
@@ -719,7 +708,7 @@ let WPFormsEntriesOverview = window.WPFormsEntriesOverview || ( function( docume
 
 				labels.push( date );
 				datasets.push( {
-					t: date,
+					x: date,
 					y: Math.floor( Math.random() * ( maxY - minY + 1 ) ) + minY, // NOSONAR not used in secure contexts.
 				} );
 			}

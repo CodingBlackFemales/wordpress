@@ -29,6 +29,7 @@ class ReceivedDebit extends \WPForms\Vendor\Stripe\ApiResource
     const FAILURE_CODE_ACCOUNT_CLOSED = 'account_closed';
     const FAILURE_CODE_ACCOUNT_FROZEN = 'account_frozen';
     const FAILURE_CODE_INSUFFICIENT_FUNDS = 'insufficient_funds';
+    const FAILURE_CODE_INTERNATIONAL_TRANSACTION = 'international_transaction';
     const FAILURE_CODE_OTHER = 'other';
     const NETWORK_ACH = 'ach';
     const NETWORK_CARD = 'card';

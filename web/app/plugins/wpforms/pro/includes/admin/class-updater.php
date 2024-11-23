@@ -105,13 +105,13 @@ class WPForms_Updater {
 	private $core_cache;
 
 	/**
-	 * Addons info cache object.
+	 * Addons info object.
 	 *
 	 * @since 1.9.0
 	 *
 	 * @var object|null
 	 */
-	private $addons_cache;
+	private $addons_obj;
 
 	/**
 	 * Whether the class is allowed.
@@ -164,8 +164,8 @@ class WPForms_Updater {
 			return;
 		}
 
-		$this->core_cache   = wpforms()->obj( 'core_info_cache' );
-		$this->addons_cache = wpforms()->obj( 'addons' );
+		$this->core_cache = wpforms()->obj( 'core_info_cache' );
+		$this->addons_obj = wpforms()->obj( 'addons' );
 
 		if ( $this->plugin_path && $this->version ) {
 			$this->hooks();
@@ -367,7 +367,7 @@ class WPForms_Updater {
 			$plugin_info = $this->core_cache ? $this->core_cache->get() : [];
 		} else {
 			// Get the addon info.
-			$plugin_info = $this->addons_cache ? $this->addons_cache->get_addon( $this->plugin_slug ) : [];
+			$plugin_info = $this->addons_obj ? $this->addons_obj->get_addon( $this->plugin_slug ) : [];
 		}
 
 		// Mock the update object of the WPForms Pro plugin or addon.
@@ -537,6 +537,15 @@ class WPForms_Updater {
 		if ( empty( $response_body->package ) ) {
 			$response_body = $this->get_real_remote_response( $action, $body, $headers );
 		}
+
+		/**
+		 * Filter the response body before returning it.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param object|false $response_body The response body.
+		 */
+		$response_body = apply_filters( 'wpforms_updater_remote_request_response_body', $response_body );
 
 		// Return the JSON decoded content.
 		return $this->repack_response( $response_body );

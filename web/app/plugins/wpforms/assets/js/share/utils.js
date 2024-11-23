@@ -1,14 +1,13 @@
-'use strict';
 
-// eslint-disable-next-line no-unused-vars
-const WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
-
+// noinspection ES6ConvertVarToLetConst
+// eslint-disable-next-line no-var, no-unused-vars
+var WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.7.6
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
 	const app = {
 
@@ -21,11 +20,10 @@ const WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
 		 * @param {string} eventName Event name to trigger (custom or native).
 		 * @param {Array}  args      Trigger arguments.
 		 *
-		 * @returns {Event} Event object.
+		 * @return {Event} Event object.
 		 */
-		triggerEvent: function( $element, eventName, args = [] ) {
-
-			let eventObject = new $.Event( eventName );
+		triggerEvent( $element, eventName, args = [] ) {
+			const eventObject = new $.Event( eventName );
 
 			$element.trigger( eventObject, args );
 
@@ -46,21 +44,18 @@ const WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
 		 * Debouncing prevents extra activations or slow functions from triggering too often.
 		 *
 		 * @param {Function} func      The function to be debounced.
-		 * @param {int}      wait      The amount of time to delay calling func.
-		 * @param {bool}     immediate Whether or not to trigger the function on the leading edge.
+		 * @param {number}   wait      The amount of time to delay calling func.
+		 * @param {boolean}  immediate Whether or not to trigger the function on the leading edge.
 		 *
-		 * @returns {Function} Returns a function that, as long as it continues to be invoked, will not be triggered.
+		 * @return {Function} Returns a function that, as long as it continues to be invoked, will not be triggered.
 		 */
-		debounce: function( func, wait, immediate ) {
-
-			var timeout;
+		debounce( func, wait, immediate ) {
+			let timeout;
 
 			return function() {
-
-				var context = this,
+				const context = this,
 					args = arguments;
-				var later = function() {
-
+				const later = function() {
 					timeout = null;
 
 					if ( ! immediate ) {
@@ -68,7 +63,7 @@ const WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
 					}
 				};
 
-				var callNow = immediate && ! timeout;
+				const callNow = immediate && ! timeout;
 
 				clearTimeout( timeout );
 
@@ -216,5 +211,4 @@ const WPFormsUtils = window.WPFormsUtils || ( function( document, window, $ ) {
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );

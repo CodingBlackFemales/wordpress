@@ -498,12 +498,14 @@ class Chunk {
 	 * successfully and will attempt to merge all those chunks in a single file.
 	 *
 	 * @since 1.6.2
+	 * @since 1.9.2 $file_name parameter added.
 	 *
-	 * @param string $path Path where the file will be assembled.
+	 * @param string $path      Path where the file will be assembled.
+	 * @param string $file_name File name.
 	 *
 	 * @return bool
 	 */
-	public function finalize( $path ) {
+	public function finalize( string $path, string $file_name = '' ): bool {
 
 		if ( ! $this->validate_chunks() ) {
 			$this->delete_temporary_files();
@@ -532,6 +534,16 @@ class Chunk {
 
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 		@fclose( $dest );
+
+		/**
+		 * Hook triggered when a Modern uploader finishes storing temporary files.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param string $path      Path where the file will be assembled.
+		 * @param string $file_name File name.
+		 */
+		do_action( 'wpforms_pro_forms_fields_file_upload_chunk_finalize_saved', $path, $file_name );
 
 		$this->delete_temporary_files();
 

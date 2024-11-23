@@ -108,9 +108,24 @@ class AddonsCache extends CacheBase {
 			// Addon icon.
 			$addon['icon'] = str_replace( 'wpforms-', 'addon-icon-', $addon['slug'] ) . '.png';
 
-			// Special case for Sendinblue addon. The service was renamed to Brevo, but we keep the old slug for compatibility.
-			if ( $addon['slug'] === 'wpforms-sendinblue' ) {
-				$addon['icon'] = str_replace( 'sendinblue', 'brevo', $addon['icon'] );
+			// Special case when plugin addon renamed, for instance:
+			// Sendinblue to Brevo, or ConvertKit to Kit,
+			// but we keep the old slug for compatibility.
+			foreach (
+				[
+					'wpforms-sendinblue' => [
+						'old' => 'sendinblue',
+						'new' => 'brevo',
+					],
+					'wpforms-convertkit' => [
+						'old' => 'convertkit',
+						'new' => 'kit',
+					],
+				] as $slug => $renamed
+			) {
+				if ( $addon['slug'] === $slug ) {
+					$addon['icon'] = str_replace( $renamed['old'], $renamed['new'], $addon['icon'] );
+				}
 			}
 
 			// Use slug as a key for further usage.

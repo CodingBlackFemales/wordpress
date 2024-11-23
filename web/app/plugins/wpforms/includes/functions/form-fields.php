@@ -13,9 +13,16 @@
  *
  * @return bool
  */
-function wpforms_show_fields_options_setting() {
+function wpforms_show_fields_options_setting(): bool {
 
-	return apply_filters( 'wpforms_fields_show_options_setting', false );
+	/**
+	 * Filter to show or hide the "Show Values" toggle for checkbox, radio, or select fields in form builder.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param bool $show Show or hide the "Show Values" toggle.
+	 */
+	return (bool) apply_filters( 'wpforms_fields_show_options_setting', false );
 }
 
 /**
@@ -29,7 +36,7 @@ function wpforms_show_fields_options_setting() {
  *
  * @return false|array
  */
-function wpforms_get_field_dynamic_choices( $field, $form_id, $form_data = [] ) {
+function wpforms_get_field_dynamic_choices( $field, $form_id, $form_data = [] ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
 	if ( empty( $field['dynamic_choices'] ) ) {
 		return false;
@@ -97,8 +104,7 @@ function wpforms_get_field_dynamic_choices( $field, $form_id, $form_data = [] ) 
 }
 
 /**
- * Build and return either a taxonomy or post type object that is
- * nested to accommodate any hierarchy.
+ * Build and return either a taxonomy or post type object nested to accommodate any hierarchy.
  *
  * @since 1.3.9
  * @since 1.5.0 Return array only. Empty array of no data.
@@ -108,7 +114,7 @@ function wpforms_get_field_dynamic_choices( $field, $form_id, $form_data = [] ) 
  *
  * @return array
  */
-function wpforms_get_hierarchical_object( $args = [], $flat = false ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
+function wpforms_get_hierarchical_object( $args = [], $flat = false ): array { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
 
 	if ( empty( $args['taxonomy'] ) && empty( $args['post_type'] ) ) {
 		return [];
@@ -230,7 +236,7 @@ function wpforms_get_hierarchical_object( $args = [], $flat = false ) { // phpcs
  * @param string $orderby The object field to order by.
  * @param string $order   Order direction.
  */
-function _wpforms_sort_hierarchical_object( &$objects, $orderby, $order ) {
+function _wpforms_sort_hierarchical_object( $objects, $orderby, $order ) {
 
 	// Map WP_Query/WP_Term_Query orderby to WP_Post/WP_Term property.
 	$map = [
@@ -248,10 +254,11 @@ function _wpforms_sort_hierarchical_object( &$objects, $orderby, $order ) {
 			static function ( $a, $b ) use ( $map, $orderby, $order ) {
 
 				/**
-				 * This covers most cases and works for most languages. For some – e.g. European languages
-				 * that use extended latin charset (Polish, German etc) it will sort the objects into 2
-				 * groups – base and extended, properly sorted within each group. Making it even more
-				 * robust requires either additional PHP extensions to be installed on the server
+				 * This covers most cases and works for most languages.
+				 * For some – e.g.,
+				 * European languages that use extended latin charset (Polish, German, etc.)
+				 * it will sort the objects into two groups – base and extended, properly sorted within each group.
+				 * Making it even more robust requires either additional PHP extensions to be installed on the server
 				 * or using heavy (and slow) conversions and computations.
 				 */
 				return $order === 'ASC' ?
@@ -276,22 +283,13 @@ function _wpforms_sort_hierarchical_object( &$objects, $orderby, $order ) {
  */
 function _wpforms_get_hierarchical_object_search( $child, &$parents, &$children, $ref_parent ) {
 
-	foreach ( $parents as $id => $parent ) {
-
+	foreach ( $parents as $parent ) {
 		if ( $parent->ID === $child->{$ref_parent} ) {
-
-			if ( empty( $parent->children ) ) {
-				$parents[ $id ]->children = [
-					$child->ID => $child,
-				];
-			} else {
-				$parents[ $id ]->children[ $child->ID ] = $child;
-			}
+			$parent->children               = $parent->children ?? [];
+			$parent->children[ $child->ID ] = $child;
 
 			unset( $children[ $child->ID ] );
-
 		} elseif ( ! empty( $parent->children ) && is_array( $parent->children ) ) {
-
 			_wpforms_get_hierarchical_object_search( $child, $parent->children, $children, $ref_parent );
 		}
 	}
@@ -302,22 +300,28 @@ function _wpforms_get_hierarchical_object_search( $child, &$parents, &$children,
  *
  * @since 1.3.9
  *
- * @param array  $array    Array to process.
+ * @param array  $h_array  Hierarchical array to process.
  * @param array  $output   Processed output.
  * @param string $ref_name Name reference.
  * @param int    $level    Nesting level.
  */
-function _wpforms_get_hierarchical_object_flatten( $array, &$output, $ref_name = 'name', $level = 0 ) {
+function _wpforms_get_hierarchical_object_flatten( $h_array, &$output, $ref_name = 'name', $level = 0 ) {
 
-	foreach ( $array as $key => $item ) {
+	/**
+	 * Filter the hierarchical object indicator.
+	 *
+	 * @since 1.3.9
+	 *
+	 * @param string $indicator Hierarchical object indicator.
+	 */
+	$indicator = (string) apply_filters( 'wpforms_hierarchical_object_indicator', '&mdash;' );
 
-		$indicator           = apply_filters( 'wpforms_hierarchical_object_indicator', '&mdash;' );
+	foreach ( $h_array as $item ) {
 		$item->{$ref_name}   = str_repeat( $indicator, $level ) . ' ' . $item->{$ref_name};
 		$item->depth         = $level + 1;
 		$output[ $item->ID ] = $item;
 
 		if ( ! empty( $item->children ) ) {
-
 			_wpforms_get_hierarchical_object_flatten( $item->children, $output, $ref_name, $level + 1 );
 			unset( $output[ $item->ID ]->children );
 		}
@@ -327,24 +331,28 @@ function _wpforms_get_hierarchical_object_flatten( $array, &$output, $ref_name =
 /**
  * Get sanitized post title or "no title" placeholder.
  *
- * The placeholder is prepended with post ID.
+ * The placeholder is prepended with the post ID.
  *
  * @since 1.7.6
  *
- * @param WP_Post|object $post Post object.
+ * @param WP_Post|mixed $post Post object.
  *
  * @return string Post title.
  */
-function wpforms_get_post_title( $post ) {
+function wpforms_get_post_title( $post ): string {
 
-	/* translators: %d - post ID. */
-	return wpforms_is_empty_string( trim( $post->post_title ) ) ? sprintf( __( '#%d (no title)', 'wpforms-lite' ), absint( $post->ID ) ) : $post->post_title;
+	return (
+		wpforms_is_empty_string( trim( $post->post_title ) )
+			/* translators: %d - post ID. */
+			? sprintf( __( '#%d (no title)', 'wpforms-lite' ), absint( $post->ID ) )
+			: $post->post_title
+	);
 }
 
 /**
  * Get sanitized term name or "no name" placeholder.
  *
- * The placeholder is prepended with term ID.
+ * The placeholder is prepended with the term ID.
  *
  * @since 1.7.6
  *
@@ -352,10 +360,14 @@ function wpforms_get_post_title( $post ) {
  *
  * @return string Term name.
  */
-function wpforms_get_term_name( $term ) {
+function wpforms_get_term_name( WP_Term $term ): string {
 
-	/* translators: %d - taxonomy term ID. */
-	return wpforms_is_empty_string( trim( $term->name ) ) ? sprintf( __( '#%d (no name)', 'wpforms-lite' ), absint( $term->term_id ) ) : trim( $term->name );
+	return (
+		wpforms_is_empty_string( trim( $term->name ) )
+			/* translators: %d - taxonomy term ID. */
+			? sprintf( __( '#%d (no name)', 'wpforms-lite' ), absint( $term->term_id ) )
+			: trim( $term->name )
+	);
 }
 
 /**
@@ -367,7 +379,7 @@ function wpforms_get_term_name( $term ) {
  *
  * @return false|array Page Break details or false.
  */
-function wpforms_get_pagebreak_details( $form = false ) {
+function wpforms_get_pagebreak_details( $form = false ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 	if ( ! wpforms()->is_pro() ) {
 		return false;
@@ -393,7 +405,8 @@ function wpforms_get_pagebreak_details( $form = false ) {
 		}
 
 		if ( empty( $field['position'] ) ) {
-			$pages ++;
+			++$pages;
+
 			$details['total']   = $pages;
 			$details['pages'][] = $field;
 		} elseif ( $field['position'] === 'top' ) {
@@ -423,7 +436,7 @@ function wpforms_get_pagebreak_details( $form = false ) {
  *
  * @return array
  */
-function wpforms_get_builder_fields( $group = '' ) {
+function wpforms_get_builder_fields( string $group = '' ): array {
 
 	$fields = [
 		'standard' => [
@@ -441,9 +454,9 @@ function wpforms_get_builder_fields( $group = '' ) {
 	];
 
 	/**
-	 * Allows developers to modify content of the the Add Field tab.
+	 * Allows developers to modify the content of the Add Field tab.
 	 *
-	 * With this filter developers can add their own fields or even fields groups.
+	 * With this filter, developers can add their own fields or even fields groups.
 	 *
 	 * @since 1.4.0
 	 *
@@ -485,7 +498,7 @@ function wpforms_get_builder_fields( $group = '' ) {
  *
  * @return array
  */
-function wpforms_get_payments_fields() {
+function wpforms_get_payments_fields(): array {
 
 	// Some fields are added dynamically only when the corresponding payment add-on is active.
 	// However, we need to be aware of all possible payment fields, even if they are not currently available.
@@ -533,7 +546,7 @@ function wpforms_validate_field_id( $field_id ) {
  */
 function wpforms_is_repeater_child_field( $field ): bool {
 
-	$field_id = (string) ( is_array( $field ) ? $field['id'] : $field );
+	$field_id = (string) ( $field['id'] ?? $field );
 
 	$pattern = '/^(\d+_\d+)(_\d+)*$/';
 
@@ -575,7 +588,7 @@ function wpforms_get_choices_value( array $field, array $form_data ): string {
 	$is_dynamic  = ! empty( $field['dynamic'] );
 	$value       = $field['value'];
 
-	if ( ! wpforms_is_empty_string( $field['value_raw'] ?? '' ) && $show_values && ! $is_dynamic ) {
+	if ( $show_values && ! $is_dynamic && ! wpforms_is_empty_string( $field['value_raw'] ?? '' ) ) {
 		$value = $field['value_raw'];
 	}
 

@@ -23,14 +23,15 @@ namespace WPForms\Vendor\Stripe;
  * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with <code>type=subscription</code>, <code>metadata</code> reflects the current metadata from the subscription associated with the line item, unless the invoice line was directly updated with different metadata after creation.
  * @property \Stripe\StripeObject $period
  * @property null|\Stripe\Plan $plan The plan of the subscription, if the line item is a subscription or a proration.
+ * @property null|\Stripe\StripeObject[] $pretax_credit_amounts
  * @property null|\Stripe\Price $price The price of the line item.
  * @property bool $proration Whether this is a proration.
  * @property null|\Stripe\StripeObject $proration_details Additional details for proration line items
  * @property null|int $quantity The quantity of the subscription, if the line item is a subscription or a proration.
  * @property null|string|\Stripe\Subscription $subscription The subscription that the invoice item pertains to, if any.
  * @property null|string|\Stripe\SubscriptionItem $subscription_item The subscription item that generated this line item. Left empty if the line item is not an explicit result of a subscription.
- * @property null|\Stripe\StripeObject[] $tax_amounts The amount of tax calculated per tax rate for this line item
- * @property null|\Stripe\TaxRate[] $tax_rates The tax rates which apply to the line item.
+ * @property \Stripe\StripeObject[] $tax_amounts The amount of tax calculated per tax rate for this line item
+ * @property \Stripe\TaxRate[] $tax_rates The tax rates which apply to the line item.
  * @property string $type A string identifying the type of the source of this line item, either an <code>invoiceitem</code> or a <code>subscription</code>.
  * @property null|string $unit_amount_excluding_tax The amount in cents (or local equivalent) representing the unit amount for this line item, excluding all tax and discounts.
  */

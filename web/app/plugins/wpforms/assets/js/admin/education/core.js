@@ -413,8 +413,9 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 		 *
 		 * @param {string}         title   Modal title.
 		 * @param {string|boolean} content Modal content.
+		 * @param {Object}         args    Additional arguments.
 		 */
-		saveModal( title, content = false ) {
+		saveModal( title, content = false, args = undefined ) {
 			title = title || wpforms_education.addon_activated;
 			content = content || wpforms_education.save_prompt;
 
@@ -425,7 +426,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 				type: 'green',
 				buttons: {
 					confirm: {
-						text: wpforms_education.save_confirm,
+						text: args?.saveConfirm || wpforms_education.save_confirm,
 						btnClass: 'btn-confirm',
 						keys: [ 'enter' ],
 						action() {
@@ -443,7 +444,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 								.prop( 'disabled', true );
 
 							if ( WPFormsBuilder.formIsSaved() ) {
-								location.reload();
+								app.redirect( args?.redirectUrl );
 
 								return;
 							}
@@ -455,7 +456,7 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 							}
 
 							saveForm.done( function() {
-								location.reload();
+								app.redirect( args?.redirectUrl );
 							} );
 
 							return false;
@@ -466,6 +467,21 @@ WPFormsEducation.core = window.WPFormsEducation.core || ( function( document, wi
 					},
 				},
 			} );
+		},
+
+		/**
+		 * Redirect to URL or reload the page.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {string} url Redirect URL.
+		 */
+		redirect( url ) {
+			if ( url ) {
+				location.href = url;
+			} else {
+				location.reload();
+			}
 		},
 
 		/**

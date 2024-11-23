@@ -44,6 +44,9 @@ class WPForms_Field_Phone extends WPForms_Field {
 
 		// Add frontend strings.
 		add_filter( 'wpforms_frontend_strings', [ $this, 'add_frontend_strings' ] );
+
+		// Admin form builder enqueues.
+		add_action( 'wpforms_builder_enqueues', [ $this, 'admin_builder_enqueues' ] );
 	}
 
 	/**
@@ -104,6 +107,25 @@ class WPForms_Field_Phone extends WPForms_Field {
 			WPFORMS_PLUGIN_URL . "assets/pro/css/fields/phone/intl-tel-input{$min}.css",
 			[],
 			self::INTL_VERSION
+		);
+	}
+
+	/**
+	 * Enqueue script for the admin form builder.
+	 *
+	 * @since 1.9.2
+	 */
+	public function admin_builder_enqueues() {
+
+		$min = wpforms_get_min_suffix();
+
+		// JavaScript.
+		wp_enqueue_script(
+			'wpforms-builder-phone-field',
+			WPFORMS_PLUGIN_URL . "assets/pro/js/admin/builder/fields/phone{$min}.js",
+			[ 'jquery', 'wpforms-builder' ],
+			WPFORMS_VERSION,
+			false
 		);
 	}
 
@@ -279,6 +301,7 @@ class WPForms_Field_Phone extends WPForms_Field {
 	 * Field preview inside the builder.
 	 *
 	 * @since 1.0.0
+	 * @since 1.9.2 Added wrapper for the primary input for the rich preview in Smart format.
 	 *
 	 * @param array $field Field data.
 	 */
@@ -287,12 +310,24 @@ class WPForms_Field_Phone extends WPForms_Field {
 		// Define data.
 		$placeholder   = ! empty( $field['placeholder'] ) ? $field['placeholder'] : '';
 		$default_value = ! empty( $field['default_value'] ) ? $field['default_value'] : '';
+		$format        = ! empty( $field['format'] ) ? $field['format'] : 'smart';
 
 		// Label.
 		$this->field_preview_option( 'label', $field );
 
-		// Primary input.
-		echo '<input type="text" placeholder="' . esc_attr( $placeholder ) . '" value="' . esc_attr( $default_value ) . '" class="primary-input" readonly>';
+		// Primary input inside container for Smart format preview.
+		printf(
+			'<div class="wpforms-field-phone-input-container" data-format="%1$s">
+				<input type="text" placeholder="%2$s" value="%3$s" class="primary-input" readonly>
+				<div class="wpforms-field-phone-country-container">
+					<div class="wpforms-field-phone-flag"></div>
+					<div class="wpforms-field-phone-arrow"></div>
+				</div>
+			</div>',
+			esc_attr( $format ),
+			esc_attr( $placeholder ),
+			esc_attr( $default_value )
+		);
 
 		// Description.
 		$this->field_preview_option( 'description', $field );

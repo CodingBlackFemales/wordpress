@@ -33,4 +33,32 @@ class Helpers {
 		 */
 		return $last_n_days === true ? 90 : $last_n_days;
 	}
+
+	/**
+	 * Get classes for the filtering message.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @return string
+	 */
+	public static function get_filtering_message_classes( array $form_data ): string {
+
+		return self::is_store_filtering_spam( $form_data ) && empty( $form_data['settings']['disable_entries'] ) && ! empty( $form_data['settings']['store_spam_entries'] ) ? 'wpforms-hidden' : '';
+	}
+
+	/**
+	 * Determine if the form is set to store spam entries detected by filtering.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @return bool
+	 */
+	public static function is_store_filtering_spam( array $form_data ): bool {
+
+		return ! empty( $form_data['settings']['anti_spam']['filtering_store_spam'] );
+	}
 }

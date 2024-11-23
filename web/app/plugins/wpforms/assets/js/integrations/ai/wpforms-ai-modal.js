@@ -1,11 +1,13 @@
 /* global wpforms_ai_chat_element */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * AI modal.
  *
  * @since 1.9.1
  */
-const WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ ) {
+// eslint-disable-next-line no-var
+var WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
@@ -182,7 +184,7 @@ const WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ 
 		},
 
 		/**
-		 * Cancel choices refresh.
+		 * Cancel choices' refresh.
 		 *
 		 * @since 1.9.1
 		 *
@@ -195,7 +197,7 @@ const WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ 
 		},
 
 		/**
-		 * Refresh main modal window height.
+		 * Refresh the main modal window height.
 		 *
 		 * @since 1.9.1
 		 *
@@ -223,7 +225,7 @@ const WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ 
 		 * @return {number} The max modal height.
 		 */
 		getMaxModalHeight() {
-			// 80% of the window height, but not more than 800px.
+			// 80% of the window height, but not more than 800 px.
 			return Math.min( $( window ).height() * 0.8, 800 );
 		},
 
@@ -242,9 +244,9 @@ const WPFormsAIModal = window.WPFormsAIModal || ( function( document, window, $ 
 		},
 
 		/**
-		 * Confirm modal window.
+		 * Confirm a modal window.
 		 *
-		 * This is a wrapper for the jquery.confirm plugin.
+		 * This is a wrapper for the `jquery.confirm` plugin.
 		 *
 		 * @since 1.9.1
 		 *

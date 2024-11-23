@@ -125,8 +125,9 @@ WPForms.Admin.Builder.ContextMenu = WPForms.Admin.Builder.ContextMenu || ( funct
 		 */
 		rightClickContextMenuHandler( e ) {
 			const $field = $( e.target ).closest( '.wpforms-field' );
+			const $panel = $field.closest( '#wpforms-panel-fields' );
 
-			if ( $( e.target ).closest( app.selectors.contextMenu ).length || ! $field.length ) {
+			if ( ! $panel.length || ! $field.length || $( e.target ).closest( app.selectors.contextMenu ).length ) {
 				return;
 			}
 

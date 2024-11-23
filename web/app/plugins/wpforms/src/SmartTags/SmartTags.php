@@ -176,6 +176,12 @@ class SmartTags {
 	 */
 	public function process( $content, $form_data, $fields = [], $entry_id = '', $context = '' ) {
 
+		// We shouldn't process smart tags in different WordPress editors
+		// since it produce unexpected results.
+		if ( wpforms_is_editor_page() ) {
+			return $content;
+		}
+
 		$smart_tags = $this->get_all_smart_tags( $content );
 
 		if ( empty( $smart_tags ) ) {
@@ -215,7 +221,7 @@ class SmartTags {
 			 *
 			 * @param scalar|null $value            Smart Tag value.
 			 * @param array       $form_data        Form data.
-			 * @param string      $fields           List of fields.
+			 * @param array       $fields           List of fields.
 			 * @param int         $entry_id         Entry ID.
 			 * @param SmartTag    $smart_tag_object The smart tag object or the Generic object for those cases when class unregistered.
 			 * @param string      $context          Context.
@@ -238,7 +244,7 @@ class SmartTags {
 			 * @param scalar|null $value            Smart Tag value.
 			 * @param string      $tag_name         Smart tag name.
 			 * @param array       $form_data        Form data.
-			 * @param string      $fields           List of fields.
+			 * @param array       $fields           List of fields.
 			 * @param int         $entry_id         Entry ID.
 			 * @param SmartTag    $smart_tag_object The smart tag object or the Generic object for those cases when class unregistered.
 			 */

@@ -321,9 +321,9 @@ function wpforms_get_providers_all() {
 			'license'     => 'pro',
 		],
 		[
-			'name'        => 'ConvertKit',
+			'name'        => 'Kit',
 			'slug'        => 'convertkit',
-			'img'         => 'addon-icon-convertkit.png',
+			'img'         => 'addon-icon-kit.png',
 			'plugin'      => 'wpforms-convertkit/wpforms-convertkit.php',
 			'plugin_slug' => 'wpforms-convertkit',
 			'license'     => 'pro',

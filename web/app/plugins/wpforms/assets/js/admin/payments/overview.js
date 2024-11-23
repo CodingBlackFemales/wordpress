@@ -293,6 +293,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 					],
 				},
 				options: {
+					maintainAspectRatio: false,
 					layout: {
 						padding: {
 							left: 15,
@@ -302,100 +303,91 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 						},
 					},
 					scales: {
-						xAxes: [
-							{
-								type: 'time',
-								offset: this.type === 'bar',
-								time: {
-									unit: 'day',
-									tooltipFormat: this.tooltipFormat,
-									displayFormats: {
-										day: this.xAxesDisplayFormat,
-									},
+						x: {
+							type: 'timeseries',
+							offset: this.type === 'bar',
+							time: {
+								tooltipFormat: this.tooltipFormat,
+							},
+							reverse: isRTL,
+							ticks: {
+								padding: 10,
+								font: {
+									size: 13,
+									color: '#a7aaad',
 								},
-								distribution: 'series',
-								ticks: {
-									reverse: isRTL,
-									beginAtZero: true,
-									padding: 10,
-									fontColor: '#a7aaad',
-									labelOffset: 10,
-									fontSize: 13,
-									minRotation: 25,
-									maxRotation: 25,
-									callback( value, index, values ) {
-										// Distribute the ticks equally starting from the right side of xAxis.
-										const gap = Math.floor( values.length / 7 );
+								labelOffset: 10,
+								minRotation: 25,
+								maxRotation: 25,
+								callback( value, index, values ) {
+									// Distribute the ticks equally starting from the right side of xAxis.
+									const gap = Math.floor( values.length / 7 );
 
-										if ( gap < 1 ) {
-											return value;
-										}
+									if ( gap < 1 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
 
-										if ( ( values.length - index - 1 ) % gap === 0 ) {
-											return value;
-										}
-									},
+									if ( ( values.length - index - 1 ) % gap === 0 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
 								},
 							},
-						],
-						yAxes: [
-							{
-								ticks: {
-									beginAtZero: true,
-									maxTicksLimit: 6,
-									padding: 20,
-									fontColor: '#a7aaad',
-									fontSize: 13,
-									callback: ( value ) => {
-										// Update the scales if the dataset returned includes price amounts.
-										if ( this.isAmount ) {
-											return this.amountFormatter.format( value );
-										}
+						},
+						y: {
+							beginAtZero: true,
+							ticks: {
+								maxTicksLimit: 6,
+								padding: 20,
+								font: {
+									size: 13,
+									color: '#a7aaad',
+								},
+								callback: ( value ) => {
+									// Update the scales if the dataset returned includes price amounts.
+									if ( this.isAmount ) {
+										return this.amountFormatter.format( value );
+									}
 
-										// Make sure the tick value has no decimals.
-										if ( Math.floor( value ) === value ) {
-											return value;
-										}
-									},
+									// Make sure the tick value has no decimals.
+									if ( Math.floor( value ) === value ) {
+										return value;
+									}
 								},
 							},
-						],
+						},
 					},
 					elements: {
 						line: {
 							tension: 0,
+							fill: true,
 						},
 					},
-					animation: {
-						duration: 0,
-					},
-					hover: {
-						animationDuration: 0,
-					},
-					legend: {
-						display: false,
-					},
-					tooltips: {
-						displayColors: false,
-						rtl: isRTL,
-						callbacks: {
-							label: ( { yLabel: value } ) => {
-								let label = `${ this.datasetLabel } `;
+					animation: false,
+					plugins: {
+						legend: {
+							display: false,
+						},
+						tooltip: {
+							displayColors: false,
+							rtl: isRTL,
+							callbacks: {
+								label: ( tooltipItem ) => {
+									let label = `${ this.datasetLabel } `;
+									const value = tooltipItem.formattedValue;
 
-								// Update the scales if the dataset returned includes price amounts.
-								if ( this.isAmount ) {
-									label += this.amountFormatter.format( value );
+									// Update the scales if the dataset returned includes price amounts.
+									if ( this.isAmount ) {
+										label += this.amountFormatter.format( value );
+										return label;
+									}
+
+									label += value;
+
 									return label;
-								}
-
-								label += value;
-
-								return label;
+								},
 							},
 						},
 					},
-					responsiveAnimationDuration: 0,
-					maintainAspectRatio: false,
 				},
 			};
 		},
@@ -862,7 +854,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 
 					labels.push( date );
 					datasets.push( {
-						t: date,
+						x: date,
 						y: item?.count || 0,
 					} );
 				} );
@@ -890,7 +882,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 
 				labels.push( date );
 				datasets.push( {
-					t: date,
+					x: date,
 					y: Math.floor( Math.random() * ( maxY - minY + 1 ) ) + minY, // NOSONAR not used in secure contexts.
 				} );
 			}

@@ -113,7 +113,7 @@ class WebhookSettings {
 						],
 					]
 				),
-				Helpers::get_stripe_mode() === 'test' ? 'https://dashboard.stripe.com/test/webhooks/create' : 'https://dashboard.stripe.com/webhooks/create'
+				Helpers::get_stripe_mode() === 'test' ? 'https://dashboard.stripe.com/test/workbench/webhooks/create' : 'https://dashboard.stripe.com/workbench/webhooks/create'
 			),
 			'class' => $this->get_html_classes(),
 		];
@@ -181,7 +181,7 @@ class WebhookSettings {
 				]
 			),
 			$modes[ $mode ],
-			$mode === 'test' ? 'https://dashboard.stripe.com/test/webhooks' : 'https://dashboard.stripe.com/webhooks'
+			$mode === 'test' ? 'https://dashboard.stripe.com/test/workbench/webhooks' : 'https://dashboard.stripe.com/workbench/webhooks'
 		);
 	}
 
@@ -213,7 +213,7 @@ class WebhookSettings {
 				]
 			),
 			$modes[ $mode ],
-			$mode === 'test' ? 'https://dashboard.stripe.com/test/webhooks' : 'https://dashboard.stripe.com/webhooks'
+			$mode === 'test' ? 'https://dashboard.stripe.com/test/workbench/webhooks' : 'https://dashboard.stripe.com/workbench/webhooks'
 		);
 	}
 

@@ -1,31 +1,29 @@
 /* global wpforms_admin, WPFormsFormTemplates, wpforms_admin_form_templates */
 
+// noinspection ES6ConvertVarToLetConst
 /**
- * Admin Sub-page Form Templates function.
+ * Admin Subpage Form Templates function.
  *
  * @since 1.7.7
  */
 
-'use strict';
-
+// eslint-disable-next-line no-var
 var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( document, window, $ ) {
-
 	/**
 	 * Public functions and properties.
 	 *
 	 * @since 1.7.7
 	 *
-	 * @type {object}
+	 * @type {Object}
 	 */
-	let app = {
+	const app = {
 
 		/**
 		 * Start the engine.
 		 *
 		 * @since 1.7.7
 		 */
-		init: function() {
-
+		init() {
 			$( app.ready );
 		},
 
@@ -34,8 +32,8 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 		 *
 		 * @since 1.7.7
 		 */
-		ready: function() {
-
+		ready() {
+			WPFormsFormTemplates.setup();
 			app.events();
 		},
 
@@ -44,8 +42,7 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 		 *
 		 * @since 1.7.7
 		 */
-		events: function() {
-
+		events() {
 			$( '.wpforms-form-setup-content' )
 				.on( 'keyup', '#wpforms-setup-template-search', _.debounce( WPFormsFormTemplates.searchTemplate, 200 ) )
 				.on( 'click', '.wpforms-setup-templates-categories li div', WPFormsFormTemplates.selectCategory )
@@ -82,7 +79,7 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 			$( '.wpforms-form-setup-content' ).find( '.wpforms-template' ).removeClass( 'active' );
 			$button.closest( '.wpforms-template' ).addClass( 'active' );
 
-			// Save original label.
+			// Save the original label.
 			$button.data( 'labelOriginal', $button.html() );
 
 			// Display loading indicator.
@@ -96,10 +93,9 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 		 *
 		 * @since 1.7.7
 		 *
-		 * @param {object} e Event object.
+		 * @param {Object} e Event object.
 		 */
-		selectBlankTemplate: function( e ) {
-
+		selectBlankTemplate( e ) {
 			e.preventDefault();
 
 			app.selectTemplateProcessAjax( 'Blank Form', 'blank' );
@@ -219,7 +215,6 @@ var WPFormsAdminFormTemplates = window.WPFormsAdminFormTemplates || ( function( 
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

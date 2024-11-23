@@ -2,6 +2,9 @@
 
 namespace WPForms\Integrations\AI\API\Http;
 
+// phpcs:ignore WPForms.PHP.UseStatement.UnusedUseStatement
+use WP_Error;
+
 /**
  * Response class.
  *
@@ -23,7 +26,7 @@ class Response {
 	 *
 	 * @since 1.9.1
 	 *
-	 * @param array|\WP_Error $response Response.
+	 * @param array|WP_Error $response Response.
 	 */
 	public function __construct( $response ) {
 
@@ -85,6 +88,24 @@ class Response {
 		$body = $this->get_body();
 
 		return $body['error_message'] ?? wp_remote_retrieve_response_message( $this->response );
+	}
+
+	/**
+	 * Get the error log message.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $error_data Error data.
+	 *
+	 * @return string The error log message.
+	 */
+	public function get_log_message( array $error_data ): string {
+
+		return sprintf( /* translators: %1$s - error code, %2$s - error message. */
+			__( 'API response: %1$s %2$s', 'wpforms-lite' ),
+			$error_data['code'],
+			$error_data['error']
+		);
 	}
 
 	/**

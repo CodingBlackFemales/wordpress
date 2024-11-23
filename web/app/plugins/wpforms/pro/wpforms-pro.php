@@ -1101,10 +1101,14 @@ class WPForms_Pro {
 
 		foreach ( $notifications as $id => $notification ) {
 
-			$name          = ! empty( $notification['notification_name'] ) ? $notification['notification_name'] : esc_html__( 'Default Notification', 'wpforms' );
-			$closed_state  = '';
-			$toggle_state  = '<i class="fa fa-chevron-circle-up"></i>';
-			$block_classes = 'wpforms-notification wpforms-builder-settings-block';
+			$name                     = ! empty( $notification['notification_name'] ) ? $notification['notification_name'] : esc_html__( 'Default Notification', 'wpforms' );
+			$closed_state             = '';
+			$toggle_state             = '<i class="fa fa-chevron-circle-up"></i>';
+			$block_classes            = 'wpforms-notification wpforms-builder-settings-block';
+			$is_active                = ! empty( $form_settings['notification_enable'] ) && ( ! isset( $notification['enable'] ) || (int) $notification['enable'] === 1 );
+			$active_status            = __( 'Active', 'wpforms' );
+			$inactive_status          = __( 'Inactive', 'wpforms' );
+			$notification_status_name = $is_active ? $active_status : $inactive_status;
 
 			// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
 			/**
@@ -1150,6 +1154,15 @@ class WPForms_Pro {
 					<div class="wpforms-builder-settings-block-actions">
 						<?php do_action( 'wpforms_form_settings_notifications_single_action', $id, $notification, $settings ); ?>
 
+						<?php
+						printf(
+							'<span class="wpforms-builder-settings-block-status wpforms-badge wpforms-badge-sm wpforms-badge-%3$s" title="%1$s / %2$s" data-active="%1$s" data-inactive="%2$s">%4$s</span>',
+							esc_attr( $active_status ),
+							esc_attr( $inactive_status ),
+							sanitize_html_class( $is_active ? 'green' : 'silver' ),
+							esc_html( $notification_status_name )
+						);
+						?>
 						<button class="wpforms-builder-settings-block-clone" title="<?php esc_attr_e( 'Clone', 'wpforms' ); ?>"><i class="fa fa-copy"></i></button><!--
 						--><button class="wpforms-builder-settings-block-delete" title="<?php esc_attr_e( 'Delete', 'wpforms' ); ?>"><i class="fa fa-trash-o"></i></button><!--
 						--><button class="wpforms-builder-settings-block-toggle" title="<?php esc_attr_e( 'Open / Close', 'wpforms' ); ?>">
@@ -1338,6 +1351,24 @@ class WPForms_Pro {
 							'class'      => 'email-msg',
 							/* translators: %s - all fields smart tag. */
 							'after'      => '<p class="note">' . sprintf( esc_html__( 'To display all form fields, use the %s Smart Tag.', 'wpforms' ), '<code>{all_fields}</code>' ) . '</p>',
+						]
+					);
+
+					printf( '<input type="hidden" name="settings[notifications][%1$d][enable]" value="0">', (int) $id );
+
+					wpforms_panel_field(
+						'toggle',
+						'notifications',
+						'enable',
+						$settings->form_data,
+						esc_html__( 'Enable This Notification', 'wpforms' ),
+						[
+							'parent'     => 'settings',
+							'subsection' => $id,
+							// BC: The notification should be enabled even when the `enabled` key doesn't exist.
+							// The key is missed for old forms or forms created using the Lite version.
+							'value'      => ! isset( $notification['enable'] ) || (int) $notification['enable'] === 1,
+							'class'      => 'js-wpforms-enabled-notification',
 						]
 					);
 
@@ -1554,6 +1585,20 @@ class WPForms_Pro {
 						[
 							'input_id'    => 'wpforms-panel-field-confirmations-redirect-' . $field_id,
 							'input_class' => 'wpforms-panel-field-confirmations-redirect',
+							'parent'      => 'settings',
+							'subsection'  => $field_id,
+						]
+					);
+
+					wpforms_panel_field(
+						'toggle',
+						'confirmations',
+						'redirect_new_tab',
+						$settings->form_data,
+						esc_html__( 'Open confirmation in new tab', 'wpforms' ),
+						[
+							'input_id'    => 'wpforms-panel-field-confirmations-redirect_new_tab-' . $field_id,
+							'input_class' => 'wpforms-panel-field-confirmations-redirect_new_tab',
 							'parent'      => 'settings',
 							'subsection'  => $field_id,
 						]

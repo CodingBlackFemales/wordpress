@@ -81,7 +81,6 @@ class WPFormsSelector extends Component {
 		formData.append( 'form_id', this.props.form_id );
 		formData.append( 'show_title', this.props.show_title );
 		formData.append( 'show_desc', this.props.show_desc );
-		formData.append( 'divi_post_id', ETBuilderBackendDynamic?.postId ?? 0 );
 
 		fetch(
 			wpforms_divi_builder.ajax_url,

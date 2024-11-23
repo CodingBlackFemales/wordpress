@@ -558,7 +558,16 @@ abstract class WPForms_DB {
 			$where = $this->primary_key;
 		}
 
-		do_action( 'wpforms_pre_update_' . $type, $data );
+		/**
+		 * Fires before updating a record in the database.
+		 *
+		 * @since 1.5.9
+		 * @since 1.9.2 Added $row_id parameter.
+		 *
+		 * @param array $data   Array of columns and associated data to update.
+		 * @param int   $row_id Row ID for the record being updated.
+		 */
+		do_action( "wpforms_pre_update_{$type}", $data, $row_id );
 
 		// Initialise column format array.
 		$column_formats = $this->get_columns();
@@ -578,7 +587,16 @@ abstract class WPForms_DB {
 			return false;
 		}
 
-		do_action( 'wpforms_post_update_' . $type, $data );
+		/**
+		 * Fires after a record has been updated in the database.
+		 *
+		 * @since 1.1.6
+		 * @since 1.9.2 Added $row_id parameter.
+		 *
+		 * @param array $data   Array of columns and associated data that were updated.
+		 * @param int   $row_id Row ID for the record that was updated.
+		 */
+		do_action( "wpforms_post_update_{$type}", $data, $row_id );
 
 		return true;
 	}

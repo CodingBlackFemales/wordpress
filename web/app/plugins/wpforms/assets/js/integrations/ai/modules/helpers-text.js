@@ -52,5 +52,16 @@ export default function( chat ) { // eslint-disable-line no-unused-vars
 		 * @since 1.9.1
 		 */
 		addedAnswer() {},
+
+		/**
+		 * Determine whether the Welcome Screen should be displayed.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @return {boolean} Display the Welcome Screen or not.
+		 */
+		isWelcomeScreen() {
+			return true;
+		},
 	};
 }

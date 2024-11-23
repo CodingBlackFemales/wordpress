@@ -1,13 +1,15 @@
 /* eslint-disable camelcase */
 /* global ajaxurl, wpforms_education_pointers_payment */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * Module for handling education pointers related to payments in WPForms.
  *
  * @since 1.8.8
  */
 
-const WPFormsPointersPayment = window.WPFormsPointersPayment || ( function( document, window, $, l10n ) {
+// eslint-disable-next-line no-var
+var WPFormsPointersPayment = window.WPFormsPointersPayment || ( function( document, window, $, l10n ) {
 	/**
 	 * Elements holder.
 	 *

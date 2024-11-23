@@ -522,7 +522,7 @@ class EventDriven {
 				'title'     => esc_html__( 'Welcome to WPForms!', 'wpforms-lite' ),
 				'content'   => sprintf( /* translators: %s - number of templates. */
 					esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got %s form templates to get you started!', 'wpforms-lite' ),
-					'1800+'
+					'2000+'
 				),
 				'btns'      => [
 					'main' => [

@@ -1,11 +1,13 @@
 /* global wpforms_builder_custom_captcha, wpforms_builder, WPFormsBuilder */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * WPForms Custom Captcha admin builder function.
  *
  * @since 1.8.7
  */
-const WPFormsCaptcha = window.WPFormsCaptcha || ( function( document, window, $ ) {
+// eslint-disable-next-line no-var
+var WPFormsCaptcha = window.WPFormsCaptcha || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *
@@ -124,7 +126,7 @@ const WPFormsCaptcha = window.WPFormsCaptcha || ( function( document, window, $ 
 				fieldID = $choicesList.data( 'field-id' ),
 				total = app.getTotalNotEmptyQuestions( $questions );
 
-			// We can delete a choice if at least one non-empty question will remain.
+			// We can delete a choice if at least one non-empty question remains.
 			if (
 				total > 1 ||
 				( total === 1 && $choice.find( '.question' ).val().trim().length === 0 )
@@ -159,7 +161,7 @@ const WPFormsCaptcha = window.WPFormsCaptcha || ( function( document, window, $ 
 					app.showAlert( function() {
 						const currentAlert = this.$el;
 
-						// Close any other popups if active. The main goal is to close Marketing Panel popup.
+						// Close any other popups if active. The main goal is to close the Marketing Panel popup.
 						$( '.jconfirm' ).map( function() {
 							const $jConfirm = $( this );
 							if ( ! $( currentAlert ).is( $jConfirm ) ) {
@@ -170,7 +172,7 @@ const WPFormsCaptcha = window.WPFormsCaptcha || ( function( document, window, $ 
 
 						$( document ).off( app.removeEmptyQuestionsEvents, app.removeEmptyQuestions );
 
-						// We're not on Fields panel, activate it.
+						// We're not on the Fields panel, activate it.
 						if ( $( '#wpforms-panels-toggle .active' ).data( 'panel' ) !== 'fields' ) {
 							WPFormsBuilder.panelSwitch( 'fields' );
 						}

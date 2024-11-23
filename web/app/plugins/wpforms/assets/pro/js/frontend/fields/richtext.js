@@ -36,7 +36,9 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 		 * @since 1.7.0
 		 */
 		init() {
-			$( document ).on( 'wpformsReady', app.customizeRichTextField );
+			$( document )
+				.on( 'wpformsReady', app.customizeRichTextField )
+				.on( 'wpformsAjaxSubmitSuccessConfirmation', app.updateIframes );
 
 			// Re-initialize tinyMCE in Elementor's popups.
 			window.addEventListener( 'elementor/popup/show', function( event ) {
@@ -436,6 +438,16 @@ var WPFormsRichTextField = window.WPFormsRichTextField || ( function( document, 
 
 			docStyle.color    = cssVars['field-text-color'];
 			docStyle.fontSize = cssVars['field-size-font-size'];
+		},
+		/**
+		 * Create an iframe from a div inside the confirmation message.
+		 *
+		 * @since 1.9.2
+		 *
+		 * @param {Event} event Event instance from the `wpformsAjaxSubmitSuccessConfirmation` hook.
+		 */
+		updateIframes( event ) {
+			$( event.target ).find( '.wpforms-iframe' ).each( window?.WPFormsIframe?.update );
 		},
 	};
 

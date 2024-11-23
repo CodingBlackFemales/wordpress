@@ -81,7 +81,7 @@ class Templates {
 	 *
 	 * @var array
 	 */
-	private $favorits_list;
+	private $favorites_list;
 
 	/**
 	 * Templates hash.
@@ -365,7 +365,7 @@ class Templates {
 	 */
 	public function update_favorites_list() {
 
-		$this->favorits_list = $this->get_favorites_list();
+		$this->favorites_list = $this->get_favorites_list();
 	}
 
 	/**
@@ -379,11 +379,11 @@ class Templates {
 	 */
 	public function is_favorite( $template_slug ) {
 
-		if ( ! $this->favorits_list ) {
+		if ( $this->favorites_list === null ) {
 			$this->update_favorites_list();
 		}
 
-		return isset( $this->favorits_list[ $template_slug ] );
+		return isset( $this->favorites_list[ $template_slug ] );
 	}
 
 	/**

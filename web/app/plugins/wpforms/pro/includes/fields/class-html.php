@@ -45,6 +45,7 @@ class WPForms_Field_HTML extends WPForms_Field {
 		add_filter( 'wpforms_field_properties_html', [ $this, 'field_properties' ], 5, 3 );
 		add_filter( 'wpforms_field_new_default', [ $this, 'field_new_default' ] );
 		add_filter( "wpforms_pro_admin_entries_edit_is_field_displayable_{$this->type}", '__return_false' );
+		add_filter( 'wpforms_pro_admin_entries_print_preview_field_value_use_nl2br', [ $this, 'print_preview_use_nl2br' ], 10, 2 );
 	}
 
 	/**
@@ -62,6 +63,23 @@ class WPForms_Field_HTML extends WPForms_Field {
 		$field['name'] = '';
 
 		return $field;
+	}
+
+	/**
+	 * Do not use nl2br on html field's value.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param bool|mixed $use_nl2br Boolean value flagging if field should use the 'nl2br' function.
+	 * @param array      $field     Field data.
+	 *
+	 * @return bool
+	 */
+	public function print_preview_use_nl2br( $use_nl2br, $field ): bool {
+
+		$use_nl2br = (bool) $use_nl2br;
+
+		return $field['type'] === $this->type ? false : $use_nl2br;
 	}
 
 	/**

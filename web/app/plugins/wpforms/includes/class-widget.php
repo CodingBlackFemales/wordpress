@@ -66,20 +66,30 @@ class WPForms_Widget extends WP_Widget {
 
 		// Merge with defaults.
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
+		$args     = wp_parse_args(
+			$args,
+			[
+				'before_widget' => '',
+				'after_widget'  => '',
+				'before_title'  => '',
+				'after_title'   => '',
+			]
+		);
 
-		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $args['before_widget'];
 
-		// Title.
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $args['after_title']; // phpcs:ignore
+			// phpcs:ignore
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $args['after_title'];
 		}
 
-		// Form.
 		if ( ! empty( $instance['form_id'] ) ) {
-			wpforms()->obj( 'frontend' )->output( absint( $instance['form_id'] ), $instance['show_title'], $instance['show_desc'] );
+			wpforms()->obj( 'frontend' )->output( absint( $instance['form_id'] ), (bool) $instance['show_title'], (bool) $instance['show_desc'] );
 		}
 
-		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $args['after_widget'];
 	}
 
 	/**

@@ -158,7 +158,15 @@ class Page {
 			'wpforms-chart',
 			WPFORMS_PLUGIN_URL . 'assets/lib/chart.min.js',
 			[ 'moment' ],
-			'2.9.4',
+			'4.4.4',
+			true
+		);
+
+		wp_enqueue_script(
+			'wpforms-chart-adapter-moment',
+			WPFORMS_PLUGIN_URL . 'assets/lib/chartjs-adapter-moment.min.js',
+			[ 'moment', 'wpforms-chart' ],
+			'1.0.1',
 			true
 		);
 

@@ -244,6 +244,7 @@ function wpforms_get_allowed_html_tags_for_richtext_field() {
 			'table',
 			'thead',
 			'tbody',
+			'tfoot',
 			'th',
 			'tr',
 			'td',
@@ -254,10 +255,11 @@ function wpforms_get_allowed_html_tags_for_richtext_field() {
 			'ins',
 			'figure',
 			'figcaption',
+			'caption',
 			'div',
 		],
 		array_fill_keys(
-			[ 'align', 'class', 'id', 'style', 'src', 'rel', 'alt', 'href', 'target', 'width', 'height', 'title', 'cite', 'start', 'reversed', 'datetime' ],
+			[ 'align', 'class', 'id', 'style', 'src', 'rel', 'alt', 'href', 'target', 'width', 'height', 'title', 'cite', 'start', 'reversed', 'datetime', 'scope', 'colspan', 'rowspan' ],
 			[]
 		)
 	);
