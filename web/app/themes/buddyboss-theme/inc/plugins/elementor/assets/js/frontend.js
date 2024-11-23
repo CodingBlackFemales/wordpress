@@ -344,6 +344,15 @@
 					}
 				}
 			}
+
+			if ( typeof bp !== 'undefined' &&
+				typeof bp.Nouveau !== 'undefined' &&
+				typeof bp.Nouveau.Activity !== 'undefined' )
+			{
+				var form = $( this ).find( '.ac-form.not-initialized' );
+				var target = form.find( '.ac-textarea' );
+				bp.Nouveau.Activity.toggleMultiMediaOptions( form, target );
+			}
 		});
 
 		//Replace dummy image with original image by faking scroll event

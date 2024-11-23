@@ -24,6 +24,7 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 			add_action( 'bbp_init', array( $this, 'set_active' ) );
 
 			// add_action( 'bbp_template_before_single_forum', array( $this, 'action_bbp_template_before_single_forum' ) );
+
 			add_action( 'bbp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'bbp_enqueue_scripts', array( $this, 'localize_reply_ajax_script' ) );
 			add_action( 'bbp_ajax_reply', array( $this, 'ajax_reply' ) );
@@ -130,9 +131,9 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 		 */
 		public function ajax_reply() {
 			$action = $_POST['bbp_reply_form_action'];
-			if ( $action === 'bbp-new-reply' ) {
+			if ( 'bbp-new-reply' === $action ) {
 				bbp_new_reply_handler( $action );
-			} elseif ( $action === 'bbp-edit-reply' ) {
+			} elseif ( 'bbp-edit-reply' === $action ) {
 				bbp_edit_reply_handler( $action );
 			}
 		}
@@ -210,7 +211,7 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 				$total_pages = ceil( (int) bbp_get_reply_position( $reply_id, $topic_id ) / (int) bbp_get_replies_per_page() );
 			}
 			$current_page = get_query_var( 'paged', $reply_url );
-			if ( (int) $current_page === 0 ) {
+			if ( 0 === (int) $current_page ) {
 				$current_page = 1;
 			}
 
@@ -218,11 +219,11 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 			if ( bbp_show_lead_topic() ) {
 				$topic_reply_count = (int) bbp_get_topic_reply_count( $topic_id );
 				echo $topic_reply_count;
-				$topic_reply_text = $topic_reply_count !== 1 ? esc_html__( 'Replies', 'buddyboss-theme' ) : esc_html__( 'Reply', 'buddyboss-theme' );
+				$topic_reply_text = 1 !== $topic_reply_count ? esc_html__( 'Replies', 'buddyboss-theme' ) : esc_html__( 'Reply', 'buddyboss-theme' );
 			} else {
 				$topic_post_count = (int) bbp_get_topic_post_count( $topic_id );
 				echo $topic_post_count;
-				$topic_reply_text = $topic_post_count !== 1 ? esc_html__( 'Posts', 'buddyboss-theme' ) : esc_html__( 'Post', 'buddyboss-theme' );
+				$topic_reply_text = 1 !== $topic_post_count ? esc_html__( 'Posts', 'buddyboss-theme' ) : esc_html__( 'Post', 'buddyboss-theme' );
 			}
 			echo ' ' . wp_kses_post( $topic_reply_text );
 			$topic_total_reply_count_html = ob_get_clean();
@@ -264,6 +265,10 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 			if ( function_exists( 'bbp_make_clickable' ) ) {
 				// Convert plaintext URI to HTML links.
 				add_filter( 'bbp_get_reply_content', 'bbp_make_clickable', 4 );
+			}
+
+			if ( ! has_filter( 'bbp_get_reply_content', 'convert_smilies' ) ) {
+				add_filter( 'bbp_get_reply_content', 'convert_smilies', 20 );
 			}
 
 			if ( function_exists( 'bp_media_forums_embed_attachments' ) && ! has_filter( 'bbp_get_reply_content', 'bp_media_forums_embed_attachments' ) ) {
@@ -454,19 +459,19 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 				$link_embed = get_post_meta( bbp_get_reply_id(), '_link_embed', true );
 				if ( ! empty( $link_embed ) ) {
 					$embed_data = bp_core_parse_url( $link_embed );
-
+		
 					if ( isset( $embed_data['wp_embed'] ) && $embed_data['wp_embed'] && ! empty( $embed_data['description'] ) ) {
 						$embed_code = $embed_data['description'];
 					}
-
+		
 					if ( ! empty( $embed_code ) ) {
 						preg_match( '/(https?:\/\/[^\s<>"]+)/i', $content, $content_url );
 						preg_match( '(<p(>|\s+[^>]*>).*?<\/p>)', $content, $content_tag );
-
+		
 						if ( ! empty( $content_url ) && empty( $content_tag ) ) {
 							$content = sprintf( '<p>%s</p>', $content );
 						}
-						return $content .= $embed_code;
+						return  $content .= $embed_code;
 					}
 				}
 			}
@@ -506,7 +511,7 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 				$topic_id   = bbp_get_reply_topic_id( $reply_id );
 				$reply_hash = '#post-' . $reply_id;
 				$topic_link = bbp_get_topic_permalink( $topic_id, $redirect_to );
-				if ( (int) $_POST['bbp_redirect_page_to'] === 1 ) {
+				if ( 1 === (int) $_POST['bbp_redirect_page_to'] ) {
 					$reply_url = $topic_link . $reply_hash;
 				} else {
 					$reply_url = $topic_link . 'page/' . $_POST['bbp_redirect_page_to'] . $reply_hash;
@@ -536,14 +541,14 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 
 			$activity = array_shift( $activities['activities'] );
 
-			if ( $activity->type === 'bbp_topic_create' ) {
+			if ( 'bbp_topic_create' === $activity->type ) {
 				// Set topic id when the activity component is not groups.
-				if ( $activity->component === 'bbpress' ) {
+				if ( 'bbpress' === $activity->component ) {
 					$topic_id = $activity->item_id;
 				}
 
 				// Set topic id when the activity component is groups.
-				if ( $activity->component === 'groups' ) {
+				if ( 'groups' === $activity->component ) {
 					$topic_id = $activity->secondary_item_id;
 				}
 
@@ -592,7 +597,7 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 			?>
 			<div id="bbpress-forums" class="bbpress-forums-activity bb-quick-reply-form-wrap" data-component="activity" style="display: none;">
 				<?php
-				if ( isset( $_POST['action'] ) && $_POST['action'] === 'quick_reply_ajax' ) {
+				if ( isset( $_POST['action'] ) && 'quick_reply_ajax' === $_POST['action'] ) {
 					$_POST['action'] = 'reply';
 				}
 
@@ -655,6 +660,7 @@ if ( ! class_exists( '\BuddyBossTheme\BBPressHelper' ) ) {
 
 			return $r;
 		}
+
 	}
 
 }

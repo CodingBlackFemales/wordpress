@@ -18,10 +18,12 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 		/**
 		 * Redux_Extensions constructor.
 		 *
-		 * @param object $parent ReduxFramework object pointer.
+		 * @param object $redux ReduxFramework object pointer.
+		 *
+		 * @throws ReflectionException Exception.
 		 */
-		public function __construct( $parent ) {
-			parent::__construct( $parent );
+		public function __construct( $redux ) {
+			parent::__construct( $redux );
 
 			$this->load();
 		}
@@ -40,7 +42,7 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 				$max = 2;
 			}
 
-			for ( $i = 1; $i <= $max; $i ++ ) {
+			for ( $i = 1; $i <= $max; $i++ ) {
 				$path = Redux_Core::$dir . 'inc/extensions/';
 
 				if ( 2 === $i ) {
@@ -68,7 +70,7 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 				// phpcs:ignore WordPress.NamingConventions.ValidHookName
 				do_action( "redux/extensions/{$core->args['opt_name']}/before", $core );
 
-				if ( isset( $core->old_opt_name ) && null !== $core->old_opt_name ) {
+				if ( isset( $core->old_opt_name ) ) {
 					// phpcs:ignore WordPress.NamingConventions.ValidHookName
 					do_action( 'redux/extensions/' . $core->old_opt_name . '/before', $core );
 				}
@@ -77,8 +79,9 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 
 				$path = untrailingslashit( $path );
 
+				// TODO: Delete this when finished porting Redux Pro.
 				// Backwards compatibility for extensions.
-				$instance_extensions = Redux::get_extensions( $core->args['opt_name'] );
+				// $instance_extensions = Redux::get_extensions( $core->args['opt_name'] );
 				if ( ! empty( $instance_extensions ) ) {
 					foreach ( $instance_extensions as $name => $extension ) {
 						if ( ! isset( $core->extensions[ $name ] ) ) {
@@ -87,7 +90,9 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 								Redux::set_extensions( $core->args['opt_name'], dirname( $a->getFileName() ), true );
 							}
 						}
+
 						if ( ! isset( $core->extensions[ $name ] ) ) {
+
 							/* translators: %s is the name of an extension */
 							$msg  = '<strong>' . sprintf( esc_html__( 'The `%s` extension was not located properly', 'redux-framework' ), $name ) . '</strong>';
 							$data = array(
@@ -121,7 +126,7 @@ if ( ! class_exists( 'Redux_Extensions', false ) ) {
 				// phpcs:ignore WordPress.NamingConventions.ValidHookName
 				do_action( "redux/extensions/{$core->args['opt_name']}", $core );
 
-				if ( isset( $core->old_opt_name ) && null !== $core->old_opt_name ) {
+				if ( isset( $core->old_opt_name ) ) {
 					// phpcs:ignore WordPress.NamingConventions.ValidHookName
 					do_action( 'redux/extensions/' . $core->old_opt_name, $core );
 				}

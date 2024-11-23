@@ -6,20 +6,25 @@
  * @version 3.0.0
  */
 
-$bp_nouveau_appearance = bp_get_option('bp_nouveau_appearance');
-$group_cover_width = buddyboss_theme_get_option( 'buddyboss_group_cover_width' );
+$bp_nouveau_appearance = bp_get_option( 'bp_nouveau_appearance' );
+$group_cover_width     = buddyboss_theme_get_option( 'buddyboss_group_cover_width' );
+
+if ( bp_is_group_subgroups() ) {
+	ob_start();
+	bp_nouveau_group_template_part();
+	$template_content = ob_get_contents();
+	ob_end_clean();
+}
 
 if ( bp_has_groups() ) :
 	while ( bp_groups() ) :
 		bp_the_group();
-	?>
 
-		<?php bp_nouveau_group_hook( 'before', 'home_content' ); ?>
+		bp_nouveau_group_hook( 'before', 'home_content' );
+		?>
 
 		<div id="item-header" role="complementary" data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups" class="groups-header single-headers">
-
 			<?php bp_nouveau_group_header_template_part(); ?>
-
 		</div><!-- #item-header -->
 
 		<?php if ( ( isset($bp_nouveau_appearance['group_nav_display']) && $bp_nouveau_appearance['group_nav_display'] ) && is_active_sidebar( 'group' ) && $group_cover_width != 'default' ) { ?>
@@ -29,15 +34,21 @@ if ( bp_has_groups() ) :
 
 		<div class="bp-wrap">
 
-			<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
-
-				<?php bp_get_template_part( 'groups/single/parts/item-nav' ); ?>
-
-			<?php endif; ?>
+			<?php
+			if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
+				bp_get_template_part( 'groups/single/parts/item-nav' );
+			}
+			?>
 
 			<div class="bb-profile-grid bb-grid">
 				<div id="item-body" class="item-body">
-					<?php bp_nouveau_group_template_part(); ?>
+					<?php
+					if ( bp_is_group_subgroups() ) {
+						echo $template_content; // phpcs:ignore
+					} else {
+						bp_nouveau_group_template_part();
+					}
+					?>
 				</div>
 
 				<?php if ( ( !isset($bp_nouveau_appearance['group_nav_display']) || !$bp_nouveau_appearance['group_nav_display'] ) && is_active_sidebar( 'group_activity' ) && bp_is_group_activity() ) { ?>
@@ -59,7 +70,8 @@ if ( bp_has_groups() ) :
 
 		</div><!-- // .bp-wrap -->
 
-		<?php if ( ( isset($bp_nouveau_appearance['group_nav_display']) && $bp_nouveau_appearance['group_nav_display'] ) && is_active_sidebar( 'group' ) && $group_cover_width != 'default' ) { ?>
+		<?php
+		if ( ( isset($bp_nouveau_appearance['group_nav_display']) && $bp_nouveau_appearance['group_nav_display'] ) && is_active_sidebar( 'group' ) && $group_cover_width != 'default' ) { ?>
 				</div>
 				<div id="secondary" class="widget-area sm-grid-1-1 no-padding-top" role="complementary">
 					<div class="bb-sticky-sidebar">
@@ -67,11 +79,10 @@ if ( bp_has_groups() ) :
 					</div>
 				</div>
 			</div>
-		<?php } ?>
+			<?php
+		}
 
-		<?php bp_nouveau_group_hook( 'after', 'home_content' ); ?>
+		bp_nouveau_group_hook( 'after', 'home_content' );
 
-	<?php endwhile; ?>
-
-<?php
+	endwhile;
 endif;

@@ -116,9 +116,10 @@ if ( ! class_exists( '\BuddyBossTheme\RelatedPostsHelper' ) ) {
 			if ( $args['match_content'] ) {
 				$match_fields[] = 'post_content';
 
-				$content                = $source_post->post_content;
-				$output                 = strip_tags( strip_shortcodes( $content ) );
-				$output                 = wp_trim_words( $output, 500 );
+				// Due to limit in FTS phrase or proximity search depending on engine like in InnoDB,
+				// So restricted and truncated the search string.
+				$excerpt_length         = apply_filters( 'bb_related_posts_excerpt_length', 100 );
+				$output                 = self::get_the_excerpt( $source_post, $excerpt_length );
 				$match_fields_content[] = $output;
 			}
 			$match_fields = implode( ',', $match_fields );
@@ -158,6 +159,94 @@ if ( ! class_exists( '\BuddyBossTheme\RelatedPostsHelper' ) ) {
 			return $results;
 		}
 
+		/**
+		 * Function to create an excerpt for the post.
+		 *
+		 * @since 2.6.40
+		 *
+		 * @param int|\WP_Post $post            Post ID or WP_Post instance.
+		 * @param int|string   $excerpt_length  Length of the excerpt in words.
+		 *
+		 * @return string Excerpt
+		 */
+		public static function get_the_excerpt( $post, $excerpt_length = 0 ) {
+			$post = get_post( $post );
+			if ( empty( $post ) ) {
+				return '';
+			}
+
+			$content = $post->post_content;
+			$output  = strip_shortcodes( $content );
+			$output  = wp_strip_all_tags( $output, true );
+			$output  = self::strip_stopwords( $output );
+
+			/**
+			 * Filters excerpt generated before it is trimmed.
+			 *
+			 * @since 2.6.40
+			 *
+			 * @param string   $output         Formatted excerpt.
+			 * @param \WP_Post $post           Source Post instance.
+			 * @param int      $excerpt_length Length of the excerpt.
+			 * @param string   $content        Content that is used to create the excerpt.
+			 */
+			$output = apply_filters( 'bb_related_posts_excerpt_pre_trim', $output, $post, $excerpt_length, $content );
+
+			if ( 0 === (int) $excerpt_length || 100 < (int) $excerpt_length ) {
+				$excerpt_length = 100;
+			}
+
+			if ( $excerpt_length > 0 ) {
+				$output = wp_trim_words( $output, $excerpt_length );
+			}
+
+			if ( post_password_required( $post ) ) {
+				$output = __( 'There is no excerpt because this is a protected post.', 'buddyboss-theme' );
+			}
+
+			/**
+			 * Filters generated excerpt.
+			 *
+			 * @since 2.6.40
+			 *
+			 * @param string   $output         Formatted excerpt.
+			 * @param \WP_Post $post           Source Post instance.
+			 * @param int      $excerpt_length Length of the excerpt.
+			 */
+			return apply_filters( 'bb_related_posts_excerpt', $output, $post, $excerpt_length );
+		}
+
+		/**
+		 * Strip stopwords from a text.
+		 *
+		 * @since 2.6.40
+		 *
+		 * @param string|array $subject The string or an array with strings to search and replace. .
+		 * @param string|array $search  The pattern to search for. It can be either a string or an array with strings.
+		 * @param string|array $replace The string or an array with strings to replace.
+		 *
+		 * @return string Filtered string
+		 */
+		public static function strip_stopwords( $subject = '', $search = '', $replace = '' ) {
+
+			$pattern = array();
+			if ( empty( $search ) ) {
+				$get_search_stopwords = new \ReflectionMethod( 'WP_Query', 'get_search_stopwords' );
+				$get_search_stopwords->setAccessible( true );
+				$search = $get_search_stopwords->invoke( new \WP_Query() );
+
+				array_push( $search, 'from', 'where' );
+			}
+
+			foreach ( (array) $search as $s ) {
+				$pattern[] = '/\b' . $s . '\b/ui';
+			}
+			$output = preg_replace( $pattern, $replace, $subject );
+			$output = preg_replace( '/\b[a-z\-]\b/i', '', $output );
+			$output = preg_replace( '/\s+/', ' ', $output );
+
+			return $output;
+		}
 	}
 
 }

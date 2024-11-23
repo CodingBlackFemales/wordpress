@@ -1064,7 +1064,13 @@ class BB_Lms_Courses extends Widget_Base {
 		}
 		$query = new \WP_Query( $query_args );
 
-		$view = get_option( $this->get_active_plugin_view_option(), 'grid' );
+		if ( 'bb_theme_learndash_grid_list' === $this->get_active_plugin_view_option() ) {
+			$view = bb_theme_get_directory_layout_preference( 'ld-course' );
+		} else if ( 'bb_theme_lifter_grid_list' === $this->get_active_plugin_view_option() ) {
+			$view = bb_theme_get_directory_layout_preference( 'llms-course' );
+		} else {
+			$view = 'grid';
+		}
 
 		// Same settings for each LMS
 		$this->add_render_attribute( 'ld-switch', 'class', $nameLower . '-course-list ' . $nameLower . '-course-list--elementor' );

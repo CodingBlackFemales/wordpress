@@ -9,9 +9,11 @@ $profile_link = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slu
 ?>
 
 <div class="bp-invites-container">
-	<?php if ( bp_core_can_edit_settings() ) : ?>
-		<?php bp_get_template_part( 'members/single/parts/item-subnav' ); ?>
-	<?php endif; ?>
+	<?php
+	if ( bp_core_can_edit_settings() ) {
+		bp_get_template_part( 'members/single/parts/item-subnav' );
+	}
+	?>
 	<div class="bb-bp-invites-content">
 		<?php
 		switch ( bp_current_action() ) :

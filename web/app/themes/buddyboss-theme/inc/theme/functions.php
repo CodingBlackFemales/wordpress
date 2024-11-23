@@ -116,9 +116,10 @@ if ( ! function_exists( 'buddyboss_theme_setup' ) ) {
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 		/*
-		 * Gutenberg - Cover block (Adding wide option)
+		 * Gutenberg - Cover block (Adding wide option) 
 		 */
-		add_theme_support( 'align-wide' );
+		add_theme_support( 'align-wide' ); 
+		
 	}
 
 	add_action( 'after_setup_theme', 'buddyboss_theme_setup' );
@@ -156,7 +157,7 @@ function buddyboss_theme_fonts_scripts() {
 
 	// Theme default font.
 	$custom_font = buddyboss_theme_get_option( 'custom_typography' );
-	if ( $custom_font == '1' ) {
+	if ( '1' == $custom_font ) {
 		$boss_site_title_font_family = buddyboss_theme_get_option( 'boss_site_title_font_family' );
 		$boss_body_font_family       = buddyboss_theme_get_option( 'boss_body_font_family' );
 		$boss_h1_font_options        = buddyboss_theme_get_option( 'boss_h1_font_options' );
@@ -275,6 +276,15 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_style( 'buddyboss-theme-lifterlms', get_template_directory_uri() . '/assets/css' . $rtl_css . '/lifterlms' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
 
+	if ( class_exists( 'Academy' ) ) {
+		wp_enqueue_style( 'buddyboss-theme-academy', get_template_directory_uri() . '/assets/css' . $rtl_css . '/academy' . $mincss . '.css', '', buddyboss_theme()->version() );
+	}
+
+	// Tutor LMS.
+	if ( function_exists( 'tutor' ) ) {
+		wp_enqueue_style( 'buddyboss-theme-tutorlms', get_template_directory_uri() . '/assets/css' . $rtl_css . '/tutorlms' . $mincss . '.css', '', buddyboss_theme()->version() );
+	}
+
 	if ( class_exists( 'GamiPress' ) ) {
 		wp_enqueue_style( 'buddyboss-theme-gamipress', get_template_directory_uri() . '/assets/css' . $rtl_css . '/gamipress' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
@@ -283,7 +293,7 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_style( 'buddyboss-theme-badgeos', get_template_directory_uri() . '/assets/css' . $rtl_css . '/badgeos' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
 
-	if ( class_exists( 'BuddyForms' ) || class_exists( 'WPCF7' ) || class_exists( 'Easy_Digital_Downloads' ) || class_exists( 'GFForms' ) || class_exists( 'IT_Exchange' ) || class_exists( 'Ninja_Forms' ) || class_exists( 'WPForms' ) || class_exists( 'BuddyBoss_SAP_Plugin' ) || class_exists( 'BPAPR_Activity_Plus_Reloaded' ) ) {
+	if ( class_exists( 'BuddyForms' ) || class_exists( 'WPCF7' ) || class_exists( 'Easy_Digital_Downloads' ) || class_exists( 'GFForms' ) || class_exists( 'IT_Exchange' ) || class_exists( 'Ninja_Forms' ) || class_exists( 'WPForms' ) || class_exists( 'BuddyBoss_SAP_Plugin' ) || class_exists( 'BPAPR_Activity_Plus_Reloaded' ) || function_exists( 'pm_load_libs' ) ) {
 		wp_enqueue_style( 'buddyboss-theme-plugins', get_template_directory_uri() . '/assets/css' . $rtl_css . '/plugins' . $mincss . '.css', '', buddyboss_theme()->version() );
 	}
 
@@ -354,7 +364,7 @@ function buddyboss_theme_scripts() {
 		$video   = '';
 		if ( is_singular( array( 'sfwd-lessons', 'sfwd-topic' ) ) && function_exists( 'learndash_get_setting' ) ) {
 			$lesson = learndash_get_setting( get_the_ID() );
-			if ( isset( $lesson ) && isset( $lesson['lesson_video_enabled'] ) && $lesson['lesson_video_enabled'] === 'on' ) {
+			if ( isset( $lesson ) && isset( $lesson['lesson_video_enabled'] ) && 'on' === $lesson['lesson_video_enabled'] ) {
 				$default = 'on';
 				if ( isset( $lesson['lesson_video_url'] ) && strpos( $lesson['lesson_video_url'], 'vimeo.com' ) !== false ) {
 					$video = 'vimeo';
@@ -376,6 +386,11 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_script( 'buddyboss-theme-learndash-sidebar-js', get_template_directory_uri() . '/assets/js/plugins/learndash-sidebar' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	}
 
+	// Tutor LMS.
+	if ( function_exists( 'tutor' ) ) {
+		wp_enqueue_script( 'buddyboss-theme-tutor-js', get_template_directory_uri() . '/assets/js/plugins/tutorlms' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
+	}
+
 	if ( function_exists( 'WC' ) ) {
 		wp_enqueue_script( 'buddyboss-theme-woocommerce-js', get_template_directory_uri() . '/assets/js/plugins/bb-woocommerce' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	}
@@ -384,6 +399,12 @@ function buddyboss_theme_scripts() {
 	}
 	if ( class_exists( 'Tribe__Events__Main' ) ) {
 		wp_enqueue_script( 'buddyboss-theme-tec-js', get_template_directory_uri() . '/assets/js/plugins/bb-tec' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
+		wp_localize_script( 'buddyboss-theme-tec-js', 'buddyboss_theme_tec_js',
+			array( 
+				'prev_event_string' => __( 'Previous Event', 'buddyboss-theme' ),
+				'next_event_string' => __( 'Next Event', 'buddyboss-theme' ),
+			)
+		);
 	}
 	if ( class_exists( 'GamiPress' ) ) {
 		wp_enqueue_script( 'buddyboss-theme-gamipress-js', get_template_directory_uri() . '/assets/js/plugins/gamipress' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
@@ -399,7 +420,7 @@ function buddyboss_theme_scripts() {
 		wp_enqueue_script( 'comment-reply' );
 	}
 
-	if ( function_exists( 'bbpress' ) && ( function_exists( 'bp_is_active' ) && bp_is_active( 'forums' ) ) && ( ( function_exists( 'buddypress' ) && buddypress()->current_action == 'forum' ) || bbp_is_single_topic() || bp_current_action() == get_option( '_bbp_forum_slug' ) ) ) {
+	if ( function_exists( 'bbpress' ) && ( function_exists( 'bp_is_active' ) && bp_is_active( 'forums' ) ) && ( ( function_exists( 'buddypress' ) && 'forum' == buddypress()->current_action ) || bbp_is_single_topic() || bp_current_action() == get_option( '_bbp_forum_slug' ) ) ) {
 		wp_enqueue_script( 'draggabilly-js', get_template_directory_uri() . '/assets/js/vendors/draggabilly.min.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 		wp_enqueue_script( 'buddyboss-theme-bbp-scrubber-js', get_template_directory_uri() . '/assets/js/plugins/bbp-scrubber' . $minjs . '.js', array( 'jquery' ), buddyboss_theme()->version(), true );
 	}
@@ -413,19 +434,21 @@ function buddyboss_theme_scripts() {
 		apply_filters(
 			'buddyboss-theme-main-js-data',
 			array(
-				'jm_ajax'            => home_url( 'jm-ajax/' ),
-				'ajaxurl'            => admin_url( 'admin-ajax.php' ),
-				'show_notifications' => $show_notifications,
-				'show_messages'      => $show_messages,
-				'facebook_label'     => esc_html__( 'Share on Facebook', 'buddyboss-theme' ),
-				'twitter_label'      => esc_html__( 'Tweet', 'buddyboss-theme' ),
-				'translation'        => array(
+				'jm_ajax'               => home_url( 'jm-ajax/' ),
+				'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+				'show_notifications'    => $show_notifications,
+				'show_messages'         => $show_messages,
+				'facebook_label'        => esc_html__( 'Share on Facebook', 'buddyboss-theme' ),
+				'twitter_label'         => esc_html__( 'Post on X', 'buddyboss-theme' ),
+				'more_menu_title'       => esc_html__( 'Menu Items', 'buddyboss-theme' ),
+				'translation'           => array(
 					'comment_posted'      => esc_html__( 'Your comment has been posted.', 'buddyboss-theme' ),
 					'comment_btn_loading' => esc_html__( 'Please Wait...', 'buddyboss-theme' ),
 					'choose_a_file_label' => esc_html__( 'Choose a file', 'buddyboss-theme' ),
 					'email_validation'    => esc_html__( 'Please enter a valid email address.', 'buddyboss-theme' ),
 				),
-				'gamipress_badge_label'      => __( 'Badge', 'buddyboss-theme' ),
+				'gamipress_badge_label' => __( 'Badge', 'buddyboss-theme' ),
+				'nonce_list_grid'       => wp_create_nonce( 'list-grid-settings' ),
 			)
 		)
 	);
@@ -575,14 +598,14 @@ if ( ! function_exists( 'bb_buddypanel_menu_atts' ) ) {
 		if (
 			isset( $args->theme_location ) &&
 			(
-				$args->theme_location === 'buddypanel-loggedin' ||
-				$args->theme_location === 'buddypanel-loggedout'
+				'buddypanel-loggedin' === $args->theme_location ||
+				'buddypanel-loggedout' === $args->theme_location
 			)
 		) {
 			$atts['class'] = 'bb-menu-item';
 
 			$header = (int) buddyboss_theme_get_option( 'buddyboss_header' );
-			if ( $header === 3 ) {
+			if ( 3 === $header ) {
 				$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position_h3' );
 			} else {
 				$buddypanel_side = buddyboss_theme_get_option( 'buddypanel_position' );
@@ -596,7 +619,23 @@ if ( ! function_exists( 'bb_buddypanel_menu_atts' ) ) {
 			$atts['data-balloon'] = $item->title;
 		}
 
-		return $atts;
+		/**
+		 * Filters the HTML attributes applied to a menu item's anchor element.
+		 *
+		 * @since 2.5.60
+		 *
+		 * @param array $atts {
+		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+		 *
+		 *     @type string $title  Title attribute.
+		 *     @type string $target Target attribute.
+		 *     @type string $rel    The rel attribute.
+		 *     @type string $href   The href attribute.
+		 * }
+		 * @param WP_Post  $item  The current menu item.
+		 * @param stdClass $args  An object of wp_nav_menu() arguments.
+		 */
+		return apply_filters( 'bb_buddypanel_nav_menu_link_attributes', $atts, $item, $args );
 	}
 
 	add_filter( 'nav_menu_link_attributes', 'bb_buddypanel_menu_atts', 10, 3 );
@@ -714,9 +753,9 @@ function buddyboss_panel_menu_counters( $args, $item ) {
 		is_user_logged_in() &&
 		! empty( $args->theme_location ) &&
 		(
-			$args->theme_location === 'buddypanel-loggedin' ||
-			$args->theme_location === 'header-my-account' ||
-			$args->theme_location === 'mobile-menu-logged-in'
+			'buddypanel-loggedin' === $args->theme_location ||
+			'header-my-account' === $args->theme_location ||
+			'mobile-menu-logged-in' === $args->theme_location
 		)
 	) {
 		$count = 0;
@@ -761,7 +800,7 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-		if ( isset( $args->item_spacing ) && $args->item_spacing === 'discard' ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
 		} else {
@@ -774,12 +813,12 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		// Buddypanel section.
-		if ( isset( $item->post_content ) && $item->post_content === 'bb-theme-section' ) {
+		if ( isset( $item->post_content ) && 'bb-theme-section' === $item->post_content ) {
 			$classes[] = 'bb-menu-section';
 		}
 
 		// Stick to bottom of the menu.
-		if ( isset( $item->stick_to_bottom ) && $item->stick_to_bottom == '1' ) {
+		if ( isset( $item->stick_to_bottom ) && '1' == $item->stick_to_bottom ) {
 			$classes[] = 'bp-menu-item-at-bottom';
 		}
 
@@ -833,7 +872,12 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		$id = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth );
 		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
-		$output .= $indent . '<li' . $id . $class_names . '>';
+		// Add size to the menu item.
+		$meta                  = Menu_Icons_Meta::get( $item->ID );
+		$meta_font_size_amount = ( isset( $meta['font_size_amount'] ) && intval( $meta['font_size_amount'] ) > 24 ) ? intval( $meta['font_size_amount'] ) + 25 : 0;
+		$data_icon_size_amount = ! empty( $meta_font_size_amount ) ? ' style="min-height:' . esc_attr( $meta_font_size_amount ) . 'px"' : '';
+
+		$output .= $indent . '<li' . $id . $class_names . $data_icon_size_amount . '>';
 
 		$atts           = array();
 		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
@@ -864,14 +908,13 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
 			if ( ! empty( $value ) ) {
-				$value       = ( $attr === 'href' ) ? esc_url( $value ) : esc_attr( $value );
+				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 			}
 		}
 
 		$icon = false;
 		if ( class_exists( 'Menu_Icons' ) || class_exists( 'Buddyboss_Menu_Icons' ) ) {
-			$meta = Menu_Icons_Meta::get( $item->ID );
 			if ( ! class_exists( 'Menu_Icons_Front_End' ) ) {
 				$path = ABSPATH . 'wp-content/themes/buddyboss-theme/inc/plugins/buddyboss-menu-icons/includes/front.php';
 				if ( file_exists( $path ) ) {
@@ -884,42 +927,55 @@ class BuddyBoss_BuddyPanel_Menu_Walker extends Walker_Nav_Menu {
 			}
 		}
 
+		/**
+		 * Filters the arguments for a single nav menu item icon.
+		 *
+		 * @since 2.5.60
+		 *
+		 * @param string   $icon  Menu icon.
+		 * @param WP_Post  $item  Menu item data object.
+		 * @param stdClass $args  An object of wp_nav_menu() arguments.
+		 * @param int      $depth Depth of menu item. Used for padding.
+		 */
+		$icon = apply_filters( 'bb_theme_buddypanel_nav_menu_item_icon', $icon, $item, $args, $depth );
+
 		if ( ! $icon ) {
 			if ( in_array( 'bp-menu', $item->classes ) ) {
-				if ( $item->classes[1] === 'bp-profile-nav' ) {
+				if ( 'bp-profile-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-user';
-				} elseif ( $item->classes[1] === 'bp-settings-nav' ) {
+				} elseif ( 'bp-settings-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-cog';
-				} elseif ( $item->classes[1] === 'bp-activity-nav' ) {
+				} elseif ( 'bp-activity-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-activity';
-				} elseif ( $item->classes[1] === 'bp-notifications-nav' ) {
+				} elseif ( 'bp-notifications-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-bell';
-				} elseif ( $item->classes[1] === 'bp-messages-nav' ) {
+				} elseif ( 'bp-messages-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-inbox';
-				} elseif ( $item->classes[1] === 'bp-friends-nav' || $item->classes[1] === 'bp-friends-sub-nav' ) {
+				} elseif ( 'bp-friends-nav' === $item->classes[1] || 'bp-friends-sub-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-user-friends';
-				} elseif ( $item->classes[1] === 'bp-groups-nav' || $item->classes[1] === 'bp-groups-sub-nav' ) {
+				} elseif ( 'bp-groups-nav' === $item->classes[1] || 'bp-groups-sub-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-users';
-				} elseif ( $item->classes[1] === 'bp-forums-nav' ) {
+				} elseif ( 'bp-forums-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-comments-square';
-				} elseif ( $item->classes[1] === 'bp-videos-nav' ) {
+				} elseif ( 'bp-videos-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-video';
-				} elseif ( $item->classes[1] === 'bp-documents-nav' ) {
+				} elseif ( 'bp-documents-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-folder-alt';
-				} elseif ( $item->classes[1] === 'bp-photos-nav' ) {
+				} elseif ( 'bp-photos-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-image';
-				} elseif ( $item->classes[1] === 'bp-invites-nav' ) {
+				} elseif ( 'bp-invites-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-envelope';
-				} elseif ( $item->classes[1] === 'bp-logout-nav' ) {
+				} elseif ( 'bp-logout-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-sign-out';
-				} elseif ( $item->classes[1] === 'bp-login-nav' ) {
+				} elseif ( 'bp-login-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-sign-in';
-				} elseif ( $item->classes[1] === 'bp-register-nav' ) {
+				} elseif ( 'bp-register-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-clipboard';
-				} elseif ( $item->classes[1] === 'bp-courses-nav' ) {
+				} elseif ( 'bp-courses-nav' === $item->classes[1] ) {
 					$icon = 'bb-icon-graduation-cap';
 				}
 			}
+
 			if ( ! $icon ) {
 				$item->title = "<i class='bb-icon-file'></i><span class='link-text'>{$item->title}</span>";
 			} else {
@@ -991,7 +1047,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 	 * @param int      $id     Current item ID.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-		if ( isset( $args->item_spacing ) && $args->item_spacing === 'discard' ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
 		} else {
@@ -1004,7 +1060,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		// Buddypanel section.
-		if ( isset( $item->post_content ) && $item->post_content === 'bb-theme-section' ) {
+		if ( isset( $item->post_content ) && 'bb-theme-section' === $item->post_content ) {
 			$classes[] = 'bb-menu-section';
 		}
 
@@ -1022,6 +1078,18 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 				$icon = Menu_Icons_Front_End::get_icon( $meta );
 			}
 		}
+
+		/**
+		 * Filters the arguments for a single nav menu item icon.
+		 *
+		 * @since 2.5.60
+		 *
+		 * @param string   $icon  Menu icon.
+		 * @param WP_Post  $item  Menu item data object.
+		 * @param stdClass $args  An object of wp_nav_menu() arguments.
+		 * @param int      $depth Depth of menu item. Used for padding.
+		 */
+		$icon = apply_filters( 'bb_theme_sub_nav_menu_wrap_item_icon', $icon, $item, $args, $depth );
 
 		if ( ! $icon ) {
 			$classes[] = 'no-icon';
@@ -1083,7 +1151,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$data_balloon_title = ! empty( $item->title ) ? $item->title : '';
 		$data_ballon        = '';
 
-		if ( $menu_style === 'tab_bar' ) {
+		if ( 'tab_bar' === $menu_style ) {
 			$data_ballon = 'data-balloon-pos="down" data-balloon="' . esc_attr( wp_strip_all_tags( $data_balloon_title ) ) . '"';
 		}
 
@@ -1092,7 +1160,7 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 		$atts           = array();
 		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
 		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-		if ( $item->target === '_blank' && empty( $item->xfn ) ) {
+		if ( '_blank' === $item->target && empty( $item->xfn ) ) {
 			$atts['rel'] = 'noopener noreferrer';
 		} else {
 			$atts['rel'] = $item->xfn;
@@ -1123,8 +1191,8 @@ class BuddyBoss_SubMenuWrap extends Walker_Nav_Menu {
 
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
-			if ( is_scalar( $value ) && $value !== '' && $value !== false ) {
-				$value       = ( $attr === 'href' ) ? esc_url( $value ) : esc_attr( $value );
+			if ( is_scalar( $value ) && '' !== $value && false !== $value ) {
+				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 			}
 		}
@@ -1353,10 +1421,10 @@ function RGB_2_HSV( $R, $G, $B ) {
 		}
 
 		if ( $H < 0 ) {
-			$H++;
+			$H ++;
 		}
 		if ( $H > 1 ) {
-			$H--;
+			$H --;
 		}
 	}
 
@@ -1529,7 +1597,7 @@ if ( ! function_exists( 'buddyboss_theme_hide_stick_to_bottom_field' ) ) {
 	function buddyboss_theme_hide_stick_to_bottom_field() {
 		global $pagenow;
 
-		if ( ! is_admin() || $pagenow != 'nav-menus.php' ) {
+		if ( ! is_admin() || 'nav-menus.php' != $pagenow ) {
 			return false;
 		}
 
@@ -1610,6 +1678,7 @@ function buddyboss_theme_add_logout_admin_menus() {
 	);
 }
 // add_action( 'admin_bar_menu', 'buddyboss_theme_add_logout_admin_menus', PHP_INT_MAX );
+
 function buddyboss_theme_add_admin_menus() {
 
 	global $wp_admin_bar;
@@ -1646,7 +1715,7 @@ function buddyboss_theme_add_admin_menus() {
 
 		$menu3 = wp_get_nav_menu_object( $locations[ $menu_name3 ] );
 
-		if ( $menu3 != false ) {
+		if ( false != $menu3 ) {
 
 			$menu_items = wp_get_nav_menu_items( $menu3->term_id );
 
@@ -1658,7 +1727,10 @@ function buddyboss_theme_add_admin_menus() {
 						$menu_item->url = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $menu_item->url );
 					}
 
-					if ( is_admin() ) {
+					if (
+						is_admin() &&
+						in_array( 'bp-menu', $menu_item->classes, true )
+					) {
 
 						// Replace the user domain with the current user backend urls if mismatch found with and without user switching.
 						$path_info = pathinfo( $menu_item->url );
@@ -1716,6 +1788,7 @@ function buddyboss_theme_add_admin_menus() {
 			} // end foreach
 		} // end if
 	}
+
 }
 add_action( 'admin_bar_menu', 'buddyboss_theme_add_admin_menus' );
 
@@ -1736,11 +1809,13 @@ function buddyboss_theme_platform_remove_toolbar_menu() {
 	);
 
 	// $wp_admin_bar->remove_menu('logout');
+
 	if ( empty( $menu ) ) {
 		return;
 	}
 
 	$wp_admin_bar->remove_menu( 'my-account-courses' );
+
 }
 add_action( 'wp_before_admin_bar_render', 'buddyboss_theme_platform_remove_toolbar_menu', 999 );
 
@@ -1774,7 +1849,7 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 			if ( isset( $item->classes ) && is_array( $item->classes ) ) {
 				foreach ( $item->classes as $item_class ) {
 
-					if ( bp_disable_cover_image_uploads() && $item_class === 'bp-change-cover-image-nav' ) {
+					if ( bp_disable_cover_image_uploads() && 'bp-change-cover-image-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1784,7 +1859,7 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 						continue;
 					}
 
-					if ( bp_disable_avatar_uploads() && $item_class === 'bp-change-avatar-nav' ) {
+					if ( bp_disable_avatar_uploads() && 'bp-change-avatar-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1819,26 +1894,26 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 					} elseif ( ! bp_is_active( 'media' ) && in_array( $item_class, $documents_array, true ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'groups' ) && function_exists( 'bp_restrict_group_creation' ) && bp_restrict_group_creation() === true && $item_class === 'bp-groups-create-nav' ) {
+					} elseif ( bp_is_active( 'groups' ) && function_exists( 'bp_restrict_group_creation' ) && true === bp_restrict_group_creation() && 'bp-groups-create-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bb_is_enabled_subscription' ) && ( ! bb_is_enabled_subscription( 'forum' ) && ! bb_is_enabled_subscription( 'topic' ) ) && $item_class === 'bp-subscriptions-nav' ) {
+					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bb_is_enabled_subscription' ) && ( ! bb_is_enabled_subscription( 'forum' ) && ! bb_is_enabled_subscription( 'topic' ) ) && 'bp-subscriptions-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_media_support_enabled' ) && ! bp_is_profile_media_support_enabled() && ( $item_class === 'bp-photos-nav' || $item_class === 'bp-my-media-nav' ) ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_media_support_enabled' ) && ! bp_is_profile_media_support_enabled() && ( 'bp-photos-nav' === $item_class || 'bp-my-media-nav' === $item_class ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_albums_support_enabled' ) && ! bp_is_profile_albums_support_enabled() && $item_class === 'bp-albums-nav' ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_albums_support_enabled' ) && ! bp_is_profile_albums_support_enabled() && 'bp-albums-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_document_support_enabled' ) && ! bp_is_profile_document_support_enabled() && ( $item_class === 'bp-documents-nav' || $item_class === 'bp-my-document-nav' ) ) {
+					} elseif ( bp_is_active( 'media' ) && function_exists( 'bp_is_profile_document_support_enabled' ) && ! bp_is_profile_document_support_enabled() && ( 'bp-documents-nav' === $item_class || 'bp-my-document-nav' === $item_class ) ) {
 						$item->_invalid = 1;
 						continue;
-					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bbp_is_favorites_active' ) && ! bbp_is_favorites_active() && $item_class === 'bp-favorites-nav' ) {
+					} elseif ( bp_is_active( 'forums' ) && function_exists( 'bbp_is_favorites_active' ) && ! bbp_is_favorites_active() && 'bp-favorites-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
 					}
-					if ( bp_disable_account_deletion() && $item_class === 'bp-delete-account-nav' ) {
+					if ( bp_disable_account_deletion() && 'bp-delete-account-nav' === $item_class ) {
 						$item->_invalid = 1;
 						continue;
 					}
@@ -1848,6 +1923,7 @@ function buddyboss_theme_platform_user_profile_dropdown_menu( $items, $menu, $ar
 	}
 
 	return apply_filters( 'buddyboss_theme_platform_user_profile_dropdown_menu', $items, $menu, $args );
+
 }
 
 add_filter( 'wp_nav_menu_objects', 'buddyboss_theme_profile_dropdown_delete_account_remove', 10, 2 );

@@ -41,9 +41,11 @@ if ( ! isset( $learndash_assets_loaded['scripts']['learndash_template_script_js'
 endif;
 
 /**
- * We don't want to include this if this is a paginated view as we'll end up with duplicates
- *
- * @var $_GET ['action'] (string)    is set to ld30_ajax_pager if paginating
+ * We don't want to include this if this is a paginated view as we'll end up with duplicates.
+ * 
+ * The $_GET['action'] parameter, if set, indicates the type of action being performed. 
+ * If it is one of the paginating actions, such as 'ld30_ajax_pager' or 'ld30_ajax_profile_search',
+ * we want to exclude this block to prevent duplicates.
  */
 if ( ! isset( $_GET['action'] ) || ! in_array(
 	$_GET['action'],
@@ -97,7 +99,7 @@ endif; ?>
 						<?php
 						$user_stats = learndash_get_user_stats( $user_id );
 
-						$ld_profile_stats = array(
+						$learndash_profile_stats = array(
 							array(
 								'title' => LearnDash_Custom_Label::get_label( 'courses' ),
 								'value' => $user_stats['courses'],
@@ -115,7 +117,7 @@ endif; ?>
 
 
 						if ( isset( $shortcode_atts['course_points_user'] ) && 'yes' === $shortcode_atts['course_points_user'] ) {
-							$ld_profile_stats[] = array(
+							$learndash_profile_stats[] = array(
 								'title' => esc_html__( 'Points', 'buddyboss-theme' ),
 								'value' => $user_stats['points'],
 							);
@@ -129,7 +131,7 @@ endif; ?>
 						 * @param array $learndash_profile_stats An array of profile stats data.
 						 * @param int   $user_id                 User ID.
 						 */
-						$learndash_profile_stats = apply_filters( 'learndash_profile_stats', $ld_profile_stats, $user_id );
+						$learndash_profile_stats = apply_filters( 'learndash_profile_stats', $learndash_profile_stats, $user_id );
 
 						if ( ( ! empty( $learndash_profile_stats ) ) && ( is_array( $learndash_profile_stats ) ) ) {
 							foreach ( $learndash_profile_stats as $learndash_profile_stat ) :

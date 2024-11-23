@@ -202,6 +202,18 @@ final class Menu_Icons_Front_End {
 		$meta = Menu_Icons_Meta::get( $id );
 		$icon = self::get_icon( $meta );
 
+		/**
+		 * Filters the arguments for a single nav menu item icon.
+		 *
+		 * @since 2.5.60
+		 *
+		 * @param string  $icon  Menu icon.
+		 * @param integer $id    Menu item ID.
+		 * @param array   $meta  Menu item metadata values.
+		 * @param string  $title Original menu item title.
+		 */
+		$icon = apply_filters( 'bb_theme_nav_menu_item_add_icon', $icon, $id, $meta, $title );
+
 		if ( empty( $icon ) ) {
 			return $title;
 		}
@@ -216,7 +228,7 @@ final class Menu_Icons_Front_End {
 			$title
 		);
 
-		if ( 'after' === $meta['position'] ) {
+		if ( isset( $meta['position'] ) && 'after' === $meta['position'] ) {
 			$title_with_icon = "{$title_wrapped}{$icon}";
 		} else {
 			$title_with_icon = "{$icon}{$title_wrapped}";

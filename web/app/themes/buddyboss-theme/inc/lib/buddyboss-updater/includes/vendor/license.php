@@ -36,7 +36,7 @@ class BBoss_License_Helper {
 		$this->_option_name      = $this->_product_key_safe . '_license_dt';
 		$this->_domain_name      = $this->get_domain( $_SERVER['SERVER_NAME'] );
 
-		$this->_api_host = trailingslashit( $this->_api_host );//just to make sure
+		$this->_api_host = trailingslashit( $this->_api_host ); // just to make sure.
 
 		if ( isset( $package['products'] ) && ! empty( $package['products'] ) ) {
 			$product             = reset( $package['products'] );//just the first product
@@ -301,6 +301,70 @@ class BBoss_License_Helper {
 		$debug ? print( "<br>\n" . '<strong style="color:gray">&laquo;</strong> Done parsing: <span style="color:red">' . $original . '</span> as <span style="color:blue">' . join( '.', $arr ) . "</span><br>\n" ) : false;
 
 		return join( '.', $arr );
+	}
+
+	/**
+	 * Fetch token.
+	 *
+	 * @since 2.6.90
+	 *
+	 * @param string $key Product key.
+	 *
+	 * @return false|string
+	 */
+	public function bb_fetch_token( $key ) {
+		if ( empty( $key ) || empty( $this->_domain_name ) ) {
+			return false;
+		}
+
+		$request_params = array(
+			'request'     => 'token-generate',
+			'licence_key' => $key,
+			'instance'    => $this->_domain_name,
+		);
+
+		$q_response = $this->get_api_response( $request_params );
+
+		if ( is_wp_error( $q_response ) || 200 !== $q_response['response']['code'] ) {
+			return false;
+		}
+
+		$response = (array) json_decode( $q_response['body'] );
+
+		if ( ! empty( $response['token'] ) ) {
+			return $response['token'];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function to validate token expiry.
+	 *
+	 * @since [BuddyBoss]
+	 *
+	 * @param string $token Token.
+	 *
+	 * @return bool
+	 */
+	public function bb_validate_token_expiry( $token ) {
+		if ( empty( $token ) ) {
+			return false;
+		}
+
+		$token_parts = explode( '.', $token );
+		if ( count( $token_parts ) < 2 ) {
+			return false;
+		}
+
+		$payload = json_decode( base64_decode( $token_parts[1] ), true );
+		if ( isset( $payload['exp'] ) ) {
+
+			// The token should be considered valid if the current time is less than the expiry time.
+			return time() < $payload['exp'];
+		}
+
+		return false;
 	}
 }
 
