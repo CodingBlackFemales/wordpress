@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CodingBlackFemales/buddyboss-platform.git",
-                "reference": "6235db997fc2be318dd7fa226b1a9cc3d9640153"
+                "reference": "4f41c66a28a75d364208d2b490f27bdd30df0026"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/6235db997fc2be318dd7fa226b1a9cc3d9640153",
-                "reference": "6235db997fc2be318dd7fa226b1a9cc3d9640153",
+                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/4f41c66a28a75d364208d2b490f27bdd30df0026",
+                "reference": "4f41c66a28a75d364208d2b490f27bdd30df0026",
                 "shasum": ""
             },
             "require": {
@@ -116,7 +116,7 @@
                 "source": "https://github.com/buddyboss/buddyboss-platform",
                 "wiki": "https://www.buddyboss.com/resources/docs/"
             },
-            "time": "2024-09-17T17:13:59+00:00"
+            "time": "2024-11-23T01:06:26+00:00"
         },
         {
             "name": "composer/ca-bundle",
