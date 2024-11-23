@@ -4,6 +4,8 @@
  * Class ActionScheduler_TimezoneHelper
  */
 abstract class ActionScheduler_TimezoneHelper {
+
+	/** @var null|DateTimeZone */
 	private static $local_timezone = NULL;
 
 	/**
@@ -12,12 +14,12 @@ abstract class ActionScheduler_TimezoneHelper {
 	 *
 	 * @since  2.1.0
 	 *
-	 * @param DateTime $date
+	 * @param DateTime $date Timestamp.
 	 * @return ActionScheduler_DateTime
 	 */
 	public static function set_local_timezone( DateTime $date ) {
 
-		// Accept a DateTime for easier backward compatibility, even though we require methods on ActionScheduler_DateTime
+		// Accept a DateTime for easier backward compatibility, even though we require methods on ActionScheduler_DateTime.
 		if ( ! is_a( $date, 'ActionScheduler_DateTime' ) ) {
 			$date = as_get_datetime_object( $date->format( 'U' ) );
 		}
@@ -42,6 +44,7 @@ abstract class ActionScheduler_TimezoneHelper {
 	 * timezone.
 	 *
 	 * @since 2.1.0
+	 * @param bool $reset Unused.
 	 * @return string PHP timezone string for the site or empty if no timezone string is available.
 	 */
 	protected static function get_local_timezone_string( $reset = false ) {
@@ -69,13 +72,13 @@ abstract class ActionScheduler_TimezoneHelper {
 		// Last try, guess timezone string manually.
 		foreach ( timezone_abbreviations_list() as $abbr ) {
 			foreach ( $abbr as $city ) {
-				if ( (bool) date( 'I' ) === (bool) $city['dst'] && $city['timezone_id'] && intval( $city['offset'] ) === $utc_offset ) {
+				if ( (bool) date( 'I' ) === (bool) $city['dst'] && $city['timezone_id'] && intval( $city['offset'] ) === $utc_offset ) { // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	 -- we are actually interested in the runtime timezone.
 					return $city['timezone_id'];
 				}
 			}
 		}
 
-		// No timezone string
+		// No timezone string.
 		return '';
 	}
 
@@ -97,6 +100,9 @@ abstract class ActionScheduler_TimezoneHelper {
 	}
 
 	/**
+	 * Get local timezone.
+	 *
+	 * @param bool $reset Toggle to discard stored value.
 	 * @deprecated 2.1.0
 	 */
 	public static function get_local_timezone( $reset = FALSE ) {
@@ -122,7 +128,7 @@ abstract class ActionScheduler_TimezoneHelper {
 
 					// Try mapping to the first abbreviation we can find.
 					if ( false === $tzstring ) {
-						$is_dst = date( 'I' );
+						$is_dst = date( 'I' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date	 -- we are actually interested in the runtime timezone.
 						foreach ( timezone_abbreviations_list() as $abbr ) {
 							foreach ( $abbr as $city ) {
 								if ( $city['dst'] == $is_dst && $city['offset'] == $gmt_offset ) {

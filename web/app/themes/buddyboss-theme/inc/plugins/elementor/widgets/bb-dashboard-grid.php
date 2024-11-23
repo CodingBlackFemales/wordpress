@@ -736,11 +736,12 @@ class BBP_Dashboard_Grid extends Widget_Base {
 
 	private function render_image( $item, $instance ) {
 		$image_id = $item['image']['id'];
-		if( isset( $instance['image_size_size'] ) ){
-			$image_size = $instance['image_size_size'];
+		if( isset( $instance['image_layout'] ) ){
+			$image_size = $instance['image_layout'];
 		}
-		if ( isset( $image_size ) && 'custom' === $image_size ) {
-			$image_src = Group_Control_Image_Size::get_attachment_image_src( $image_id, 'image_size', $instance );
+		if ( isset( $image_size ) && 'rectangular' === $image_size ) {
+			$image_src = wp_get_attachment_image_src( $image_id, 'large' );
+			$image_src = $image_src[0];
 		} else {
 			$image_src = wp_get_attachment_image_src( $image_id, 'medium' );
 			$image_src = $image_src[0];

@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Added logic to only load the modal template once.
  */
 global $login_model_load_once;
-if ( (bool) $login_model_load_once === true ) {
+if ( true === (bool) $login_model_load_once ) {
 	return false;
 }
 $login_model_load_once = true;
@@ -82,7 +82,7 @@ if ( is_multisite() ) {
 			 */
 			do_action( 'learndash-login-modal-text-after' );
 
-			if ( isset( $_GET['login'] ) && $_GET['login'] === 'failed' ) :
+			if ( isset( $_GET['login'] ) && 'failed' === $_GET['login'] ) :
 
 				learndash_get_template_part(
 					'modules/alert.php',
@@ -101,7 +101,7 @@ if ( is_multisite() ) {
 				 */
 				do_action( 'learndash-login-modal-alert-after' );
 
-			elseif ( isset( $_GET['ld-resetpw'] ) && $_GET['ld-resetpw'] === 'true' ) :
+			elseif ( isset( $_GET['ld-resetpw'] ) && 'true' === $_GET['ld-resetpw'] ) :
 
 				learndash_get_template_part(
 					'modules/alert.php',
@@ -312,7 +312,7 @@ if ( is_multisite() ) {
 						 */
 						do_action( 'learndash-register-modal-errors-after', $errors );
 
-					elseif ( isset( $_GET['ld-registered'] ) && $_GET['ld-registered'] === 'true' ) :
+					elseif ( isset( $_GET['ld-registered'] ) && 'true' === $_GET['ld-registered'] ) :
 
 						learndash_get_template_part(
 							'modules/alert.php',
@@ -335,7 +335,7 @@ if ( is_multisite() ) {
 
 					endif;
 
-					if ( $register_url === '#ld-user-register' ) {
+					if ( '#ld-user-register' === $register_url ) {
 						/**
 						 * Filters the LearnDash Login modal register button CSS class.
 						 *
@@ -367,7 +367,7 @@ if ( is_multisite() ) {
 				/**
 				 * Only if we are showing the LD register form.
 				 */
-				if ( $register_url === '#ld-user-register' ) {
+				if ( '#ld-user-register' === $register_url ) {
 					?>
 					<div id="ld-user-register" class="ld-hide">
 					<?php

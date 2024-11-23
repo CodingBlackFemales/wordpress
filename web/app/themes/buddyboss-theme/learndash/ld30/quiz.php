@@ -117,14 +117,27 @@ if ( empty( $course ) ) {
 									<?php } ?>
 									<div class="learndash_next_prev_link">
 										<?php
-										if ( $pagination_urls['prev'] != '' ) {
+										if (
+											isset( $pagination_urls['prev'] ) &&
+											$pagination_urls['prev'] != ''
+										) {
 											echo $pagination_urls['prev'];
 										} else {
 											echo '<span class="prev-link empty-post"></span>';
 										}
 										?>
 										<?php
-										if ( $pagination_urls['next'] != '' || ( isset( $course_settings['course_disable_lesson_progression'] ) && $course_settings['course_disable_lesson_progression'] === 'on' && $pagination_urls['next'] != '' ) ) {
+										if (
+											isset( $pagination_urls['next'] ) &&
+											(
+												$pagination_urls['next'] != '' ||
+												(
+													isset( $course_settings['course_disable_lesson_progression'] ) &&
+													$course_settings['course_disable_lesson_progression'] === 'on' &&
+													$pagination_urls['next'] != ''
+												)
+											)
+										) {
 											echo $pagination_urls['next'];
 										} else {
 											echo '<span class="next-link empty-post"></span>';
@@ -134,7 +147,7 @@ if ( empty( $course ) ) {
 								</div>
 							</div>
 							<div class="lms-header-title">
-								<h1><?php echo $post->post_title; ?></h1>
+								<h1><?php echo $quiz_post->post_title; ?></h1>
 							</div>
 							<?php
 							global $post;

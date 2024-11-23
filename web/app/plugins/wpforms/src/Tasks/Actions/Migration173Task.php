@@ -94,8 +94,8 @@ class Migration173Task extends Task {
 	 */
 	public function init() {
 
-		$this->entry_handler        = wpforms()->get( 'entry' );
-		$this->entry_fields_handler = wpforms()->get( 'entry_fields' );
+		$this->entry_handler        = wpforms()->obj( 'entry' );
+		$this->entry_fields_handler = wpforms()->obj( 'entry_fields' );
 
 		if ( ! $this->entry_handler || ! $this->entry_fields_handler ) {
 			return;
@@ -113,7 +113,7 @@ class Migration173Task extends Task {
 
 		$this->hooks();
 
-		$tasks = wpforms()->get( 'tasks' );
+		$tasks = wpforms()->obj( 'tasks' );
 
 		// Add new if none exists.
 		if ( $tasks->is_scheduled( self::ACTION ) !== false ) {
@@ -218,7 +218,7 @@ class Migration173Task extends Task {
 
 		global $wpdb;
 
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$entries = $wpdb->get_results(
 			"
 			SELECT e.entry_id FROM {$this->entry_handler->table_name} e
@@ -228,7 +228,7 @@ class Migration173Task extends Task {
                 e.status IN( 'partial', 'abandoned' ) AND
             	ef.entry_id IS NULL"
 		);
-		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 		if ( ! $entries || ! is_array( $entries ) ) {
 			return [];

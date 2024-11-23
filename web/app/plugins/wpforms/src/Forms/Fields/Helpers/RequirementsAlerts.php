@@ -79,6 +79,73 @@ class RequirementsAlerts {
 	}
 
 	/**
+	 * Repeater field: determine if addon is allowed to use inside the repeater field.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param string $addon_slug Addon slug.
+	 *
+	 * @return bool
+	 */
+	public static function is_inside_repeater_allowed( string $addon_slug ): bool {
+
+		$requirements = [
+			'wpforms-geolocation'      => '2.10.0',
+			'wpforms-signatures'       => '1.11.0',
+			'wpforms-form-abandonment' => '1.12.0',
+			'wpforms-save-resume'      => '1.11.0',
+			'wpforms-lead-forms'       => '1000', // @todo: We should adjust this value when the Lead Forms get the Repeater field support.
+			'wpforms-google-sheets'    => '2.1.0',
+		];
+
+		if ( ! isset( $requirements[ $addon_slug ] ) ) {
+			return true;
+		}
+
+		$version_constant = strtoupper( str_replace( '-', '_', $addon_slug ) ) . '_VERSION';
+
+		return self::is_pro() &&
+			defined( $version_constant ) &&
+			version_compare( constant( $version_constant ), $requirements[ $addon_slug ], '>=' );
+	}
+
+	/**
+	 * Repeater field: get an update required alert HTML.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param string $addon_name Addon name.
+	 * @param string $addon_slug Addon slug.
+	 *
+	 * @return string
+	 */
+	public static function get_repeater_alert( string $addon_name, string $addon_slug ): string {
+
+		return self::get_update_alert(
+			self::get_repeater_alert_text( $addon_name ),
+			self::get_addon_update_url( $addon_slug )
+		);
+	}
+
+	/**
+	 * Repeater field: get alert text.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @param string $addon_name Addon name.
+	 *
+	 * @return string
+	 */
+	public static function get_repeater_alert_text( string $addon_name ): string {
+
+		return sprintf(
+			/* translators: %1$s - addon name. */
+			__( 'You\'re using an older version of the %1$s addon that does not support the Repeater field.', 'wpforms-lite' ),
+			$addon_name
+		);
+	}
+
+	/**
 	 * Retrieve a list of addons that require updating to support the Product Quantities feature.
 	 *
 	 * @since 1.8.7

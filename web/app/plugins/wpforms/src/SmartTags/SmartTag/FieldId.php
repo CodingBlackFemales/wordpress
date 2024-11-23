@@ -36,7 +36,8 @@ class FieldId extends SmartTag {
 		}
 
 		$field_key = ! empty( $field_parts[1] ) ? sanitize_key( $field_parts[1] ) : 'value';
-		$value     = isset( $fields[ $field_id ][ $field_key ] ) ? wp_kses_post( wp_unslash( $fields[ $field_id ][ $field_key ] ) ) : '';
+		$value     = $this->get_formatted_field_value( (int) $field_id, (array) $fields, $field_key );
+		$value     = wp_kses_post( wp_unslash( $value ) );
 
 		/**
 		 * Modify value for the `field_id` smart tag.
@@ -46,7 +47,7 @@ class FieldId extends SmartTag {
 		 *
 		 * @see This filter is documented in wp-includes/plugin.php
 		 *
-		 * @param string Smart tag value.
+		 * @param string $value Smart tag value.
 		 */
 		return (string) apply_filters_deprecated(
 			'wpforms_field_smart_tag_value',

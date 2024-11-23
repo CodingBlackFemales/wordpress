@@ -21,6 +21,7 @@ $kses_args = [
 		'target'     => [],
 		'aria-label' => [],
 		'rel'        => [],
+		'class'      => [],
 	],
 	'br'   => [],
 	'span' => [

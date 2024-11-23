@@ -137,7 +137,7 @@ class Page {
 			wp_die( esc_html__( 'You do not have permission to view this form\'s entries.', 'wpforms' ), 403 );
 		}
 
-		$form = wpforms()->get( 'form' )->get( $form_id );
+		$form = wpforms()->obj( 'form' )->get( $form_id );
 
 		if ( empty( $form ) || $form->post_status === self::TRASH_ENTRY_STATUS ) {
 			$this->abort_message = esc_html__( 'It looks like the form you are trying to access is no longer available.', 'wpforms' );
@@ -194,6 +194,8 @@ class Page {
 			'_wpnonce',
 			'read',
 			'unread',
+			'spam',
+			'unspam',
 			'unstarred',
 			'starred',
 			'deleted',
@@ -260,7 +262,7 @@ class Page {
 			[
 				'label'   => esc_html__( 'Number of entries per page:', 'wpforms' ),
 				'option'  => 'wpforms_entries_per_page',
-				'default' => wpforms()->get( 'entry' )->get_count_per_page(),
+				'default' => wpforms()->obj( 'entry' )->get_count_per_page(),
 			]
 		);
 
@@ -302,7 +304,8 @@ class Page {
 			'wpforms-flatpickr',
 			WPFORMS_PLUGIN_URL . 'assets/lib/flatpickr/flatpickr.min.js',
 			[ 'jquery' ],
-			'4.6.9'
+			'4.6.9',
+			false
 		);
 
 		// CSS.
@@ -397,7 +400,7 @@ class Page {
 			return;
 		}
 
-		wpforms()->get( 'entry' )->mark_all_read( $form_id );
+		wpforms()->obj( 'entry' )->mark_all_read( $form_id );
 
 		$this->alerts[] = [
 			'type'    => 'success',
@@ -470,9 +473,9 @@ class Page {
 		// Get the screen first.
 		$screen = isset( $_REQUEST['page'] ) ? sanitize_key( $_REQUEST['page'] ) : '';
 
-		// The delete all functionality should only be available on the trash screen.
+		// The delete all functionality should only be available on the trash and spam screens.
 		// All other places the delete all button will be replaced by trash all button.
-		if ( $screen !== self::TRASH_ENTRY_STATUS ) {
+		if ( ! in_array( $screen, [ self::TRASH_ENTRY_STATUS, SpamEntry::ENTRY_STATUS ], true ) ) {
 			wp_send_json_error( esc_html__( 'Something went wrong while performing this action.', 'wpforms' ) );
 		}
 
@@ -485,7 +488,7 @@ class Page {
 		];
 
 		// Get entries.
-		$entries = wpforms()->get( 'entry' )->get_entries( $args );
+		$entries = wpforms()->obj( 'entry' )->get_entries( $args );
 
 		if ( ! $entries ) {
 			wp_send_json_error( esc_html__( 'Something went wrong while performing this action.', 'wpforms' ) );
@@ -498,10 +501,20 @@ class Page {
 		// It must be done before removing the entry itself.
 		array_map( [ WPForms_Field_File_Upload::class, 'delete_uploaded_files_from_entry' ], $entry_ids );
 
+		/**
+		 * Allow performing additional actions before deleting entries.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param array $entry_ids Entry IDs.
+		 * @param int   $form_id   Form ID.
+		 */
+		do_action( 'wpforms_pro_admin_entries_page_empty_trash_before', $entry_ids, $form_id );
+
 		// Delete meta only if the related entry has been removed successfully.
-		if ( wpforms()->get( 'entry' )->delete_where_in( 'entry_id', $entry_ids ) ) {
-			wpforms()->get( 'entry_meta' )->delete_where_in( 'entry_id', $entry_ids );
-			wpforms()->get( 'entry_fields' )->delete_where_in( 'entry_id', $entry_ids );
+		if ( wpforms()->obj( 'entry' )->delete_where_in( 'entry_id', $entry_ids ) ) {
+			wpforms()->obj( 'entry_meta' )->delete_where_in( 'entry_id', $entry_ids );
+			wpforms()->obj( 'entry_fields' )->delete_where_in( 'entry_id', $entry_ids );
 
 			$deleted = count( $entry_ids );
 		}
@@ -596,8 +609,8 @@ class Page {
 		}
 
 		// Get entries.
-		$all_entries  = wpforms()->get( 'entry' )->get_entries( $args );
-		$spam_entries = wpforms()->get( 'entry' )->get_entries(
+		$all_entries  = wpforms()->obj( 'entry' )->get_entries( $args );
+		$spam_entries = wpforms()->obj( 'entry' )->get_entries(
 			[
 				'form_id' => $form_id,
 				'status'  => SpamEntry::ENTRY_STATUS,
@@ -625,7 +638,7 @@ class Page {
 
 		foreach ( $entry_ids as $id ) {
 			// Get the entry first.
-			$entry = wpforms()->get( 'entry' )->get( $id );
+			$entry = wpforms()->obj( 'entry' )->get( $id );
 
 			if ( ! $entry ) {
 				continue;
@@ -637,7 +650,7 @@ class Page {
 			 * TODO :: After the support for PHP 7 ends,
 			 * we can update the following code to use named arguments and skip the optional params.
 			 */
-			$success = wpforms()->get( 'entry' )->update(
+			$success = wpforms()->obj( 'entry' )->update(
 				$id,
 				[ 'status' => self::TRASH_ENTRY_STATUS ],
 				'',
@@ -651,7 +664,7 @@ class Page {
 			}
 
 			if ( $status !== '' ) {
-				wpforms()->get( 'entry_meta' )->add(
+				wpforms()->obj( 'entry_meta' )->add(
 					[
 						'entry_id' => $id,
 						'form_id'  => $form_id,
@@ -730,7 +743,7 @@ class Page {
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( is_numeric( $field ) && $form_id ) {
-			$meta = wpforms()->get( 'form' )->get_field( $form_id, $field );
+			$meta = wpforms()->obj( 'form' )->get_field( $form_id, $field );
 
 			if ( isset( $meta['label'] ) ) {
 				$field = $meta['label'];
@@ -855,16 +868,17 @@ class Page {
 	public function setup() {
 
 		if ( wpforms_current_user_can( 'view_forms' ) ) {
-			$forms = wpforms()->get( 'form' )->get(
+			$forms = wpforms()->obj( 'form' )->get(
 				'',
 				[
-					'orderby' => 'ID',
-					'order'   => 'ASC',
+					'orderby'   => 'ID',
+					'order'     => 'ASC',
+					'post_type' => wpforms()->obj( 'entries_overview' )->overview_show_form_templates() ? wpforms()->obj( 'form' )::POST_TYPES : 'wpforms',
 				]
 			);
 
 			// Fetch all forms.
-			$this->forms = wpforms()->get( 'access' )->filter_forms_by_current_user_capability( $forms, 'view_entries_form_single' );
+			$this->forms = wpforms()->obj( 'access' )->filter_forms_by_current_user_capability( $forms, 'view_entries_form_single' );
 		}
 
 		// Check that the user has created at least one form.
@@ -901,7 +915,7 @@ class Page {
 			 * @return int
 			 */
 			$this->form_id = $form_id ? $form_id : apply_filters( 'wpforms_entry_list_default_form_id', absint( $this->forms[0]->ID ) ); // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
-			$this->form    = wpforms()->get( 'form' )->get( $this->form_id, [ 'cap' => 'view_entries_form_single' ] );
+			$this->form    = wpforms()->obj( 'form' )->get( $this->form_id, [ 'cap' => 'view_entries_form_single' ] );
 		}
 	}
 
@@ -970,7 +984,7 @@ class Page {
 
 			$this->entries->prepare_items();
 
-			$last_entry = wpforms()->get( 'entry' )->get_last( $this->form_id );
+			$last_entry = wpforms()->obj( 'entry' )->get_last( $this->form_id );
 			?>
 
 			<?php $this->entries_disabled_notice(); ?>
@@ -1223,7 +1237,7 @@ class Page {
 		);
 
 		// Payments URL.
-		if ( wpforms()->get( 'payment' )->get_by( 'form_id', $this->form_id ) ) {
+		if ( wpforms()->obj( 'payment' )->get_by( 'form_id', $this->form_id ) ) {
 			$payments_url = add_query_arg(
 				[
 					'page'    => 'wpforms-payments',
@@ -1272,7 +1286,7 @@ class Page {
 		$form_title = isset( $form_data['settings']['form_title'] ) ? $form_data['settings']['form_title'] : '';
 
 		if ( empty( $form_title ) ) {
-			$form = wpforms()->get( 'form' )->get( $this->form_id );
+			$form = wpforms()->obj( 'form' )->get( $this->form_id );
 
 			$form_title = ! empty( $form )
 				? $form->post_title
@@ -1280,6 +1294,13 @@ class Page {
 					esc_html__( 'Form (#%d)', 'wpforms' ),
 					$this->form_id
 				);
+		}
+
+		$is_form_template  = wpforms_is_form_template( $this->form_id );
+		$form_title_suffix = '';
+
+		if ( $is_form_template ) {
+			$form_title_suffix = sprintf( '<span> — %s</span>', esc_html__( 'Template', 'wpforms' ) );
 		}
 		?>
 
@@ -1289,7 +1310,7 @@ class Page {
 
 			<h3 class="form-details-title">
 				<?php
-				echo esc_html( wp_strip_all_tags( $form_title ) );
+				echo esc_html( wp_strip_all_tags( $form_title ) ) . wp_kses( $form_title_suffix, [ 'span' => [] ] );
 				$this->form_selector_html();
 				?>
 			</h3>
@@ -1313,22 +1334,23 @@ class Page {
 				<?php if ( wpforms_current_user_can( 'edit_form_single', $this->form_id ) ) : ?>
 					<a href="<?php echo esc_url( $edit_url ); ?>" class="form-details-actions-edit">
 						<span class="dashicons dashicons-edit"></span>
-						<?php esc_html_e( 'Edit This Form', 'wpforms' ); ?>
+						<?php $is_form_template ? esc_html_e( 'Edit This Template', 'wpforms' ) : esc_html_e( 'Edit This Form', 'wpforms' ); ?>
 					</a>
 				<?php endif; ?>
 
 				<?php if ( wpforms_current_user_can( 'view_form_single', $this->form_id ) ) : ?>
 					<a href="<?php echo esc_url( $preview_url ); ?>" class="form-details-actions-preview" target="_blank" rel="noopener noreferrer">
 						<span class="dashicons dashicons-visibility"></span>
-						<?php esc_html_e( 'Preview Form', 'wpforms' ); ?>
+						<?php $is_form_template ? esc_html_e( 'Preview Template', 'wpforms' ) : esc_html_e( 'Preview Form', 'wpforms' ); ?>
 					</a>
 				<?php endif; ?>
 
-
-				<a href="<?php echo esc_url( $export_url ); ?>" class="form-details-actions-export">
-					<span class="dashicons dashicons-migrate"></span>
-					<?php echo $this->is_list_filtered() ? esc_html__( 'Export Filtered', 'wpforms' ) : esc_html__( 'Export All', 'wpforms' ); ?>
-				</a>
+				<?php if ( ! $is_form_template ) : ?>
+					<a href="<?php echo esc_url( $export_url ); ?>" class="form-details-actions-export">
+						<span class="dashicons dashicons-migrate"></span>
+						<?php echo $this->is_list_filtered() ? esc_html__( 'Export Filtered', 'wpforms' ) : esc_html__( 'Export All', 'wpforms' ); ?>
+					</a>
+				<?php endif; ?>
 
 				<a href="<?php echo esc_url( $read_url ); ?>" class="form-details-actions-read">
 					<span class="dashicons dashicons-marker"></span>
@@ -1372,6 +1394,10 @@ class Page {
 				<ul>
 					<?php
 					foreach ( $this->forms as $key => $form ) {
+						if ( $this->form_id === $form->ID ) {
+							continue;
+						}
+
 						$form_url = add_query_arg(
 							[
 								'page'    => 'wpforms-entries',
@@ -1381,7 +1407,11 @@ class Page {
 							admin_url( 'admin.php' )
 						);
 
-						echo '<li><a href="' . esc_url( $form_url ) . '">' . esc_html( $form->post_title ) . '</a></li>';
+						$form_title = $form->post_type === 'wpforms-template'
+							? $form->post_title . ' – ' . __( 'Template', 'wpforms' )
+							: $form->post_title;
+
+						printf( '<li><a href="%s">%s</a></li>', esc_url( $form_url ), esc_html( $form_title ) );
 					}
 					?>
 				</ul>
@@ -1501,7 +1531,7 @@ class Page {
 			return $response;
 		}
 
-		$entries_count = wpforms()->get( 'entry' )->get_next_count( $entry_id, $form_id, '' );
+		$entries_count = wpforms()->obj( 'entry' )->get_next_count( $entry_id, $form_id, '' );
 
 		if ( empty( $entries_count ) ) {
 			return $response;

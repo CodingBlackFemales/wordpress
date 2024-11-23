@@ -23,8 +23,7 @@ class Templates {
 		$file_paths = [
 			1   => trailingslashit( get_stylesheet_directory() ) . $template_dir,
 			10  => trailingslashit( get_template_directory() ) . $template_dir,
-			100 => trailingslashit( WPFORMS_PLUGIN_DIR ) . 'templates',
-			200 => trailingslashit( WPFORMS_PLUGIN_DIR ) . 'pro/templates',
+			200 => trailingslashit( WPFORMS_PLUGIN_DIR ) . 'templates',
 		];
 
 		$file_paths = \apply_filters( 'wpforms_helpers_templates_get_theme_template_paths', $file_paths );

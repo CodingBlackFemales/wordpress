@@ -1,4 +1,4 @@
-# BEGIN WP Rocket v3.15.10
+# BEGIN WP Rocket
 # Use UTF-8 encoding for anything served text/plain or text/html
 AddDefaultCharset UTF-8
 # Force UTF-8 for a number of file formats
@@ -18,7 +18,7 @@ FileETag None
 <IfModule mod_alias.c>
 <FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml)$">
 <IfModule mod_headers.c>
-Header set X-Powered-By "WP Rocket/3.15.10"
+Header set X-Powered-By "WP Rocket/3.17.3"
 Header unset Pragma
 Header append Cache-Control "public"
 Header unset Last-Modified
@@ -116,6 +116,7 @@ AddOutputFilterByType DEFLATE application/atom+xml \
 Header append Vary: Accept-Encoding
 </IfModule>
 </IfModule>
+
 
 # END WP Rocket
 

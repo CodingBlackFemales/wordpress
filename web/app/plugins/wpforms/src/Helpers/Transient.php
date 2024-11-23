@@ -183,7 +183,8 @@ class Transient {
 
 		global $wpdb;
 
-		return $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM $wpdb->options
 				WHERE option_name LIKE %s",
@@ -206,7 +207,8 @@ class Transient {
 
 		global $wpdb;
 
-		return $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->query(
 			$wpdb->prepare(
 				"DELETE a, b FROM $wpdb->options a, $wpdb->options b
 				WHERE a.option_name LIKE %s

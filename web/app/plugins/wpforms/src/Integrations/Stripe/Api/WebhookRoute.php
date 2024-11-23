@@ -278,6 +278,7 @@ class WebhookRoute extends Common {
 
 		return [
 			'charge.refunded'               => Webhooks\ChargeRefunded::class,
+			'charge.refund.updated'         => Webhooks\ChargeRefundUpdated::class,
 			'invoice.payment_succeeded'     => Webhooks\InvoicePaymentSucceeded::class,
 			'invoice.created'               => Webhooks\InvoiceCreated::class,
 			'charge.succeeded'              => Webhooks\ChargeSucceeded::class,

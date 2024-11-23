@@ -73,7 +73,7 @@ class Frontend extends FrontendBase {
 	 */
 	private function get_align_buttons_class(): string {
 
-		$frontend_obj = wpforms()->get( 'frontend' );
+		$frontend_obj = wpforms()->obj( 'frontend' );
 		$top          = ! empty( $frontend_obj->pages['top'] ) ? $frontend_obj->pages['top'] : [];
 
 		return ! empty( $top['nav_align'] ) ? 'wpforms-pagebreak-' . $top['nav_align'] : 'wpforms-pagebreak-center';
@@ -90,7 +90,7 @@ class Frontend extends FrontendBase {
 	 */
 	private function display_page_button( $action, $caption, $form_data ) {
 
-		$frontend_obj = wpforms()->get( 'frontend' );
+		$frontend_obj = wpforms()->obj( 'frontend' );
 		$current      = $frontend_obj->pages['current'];
 
 		if ( ! $this->has_page_button( $action, $caption ) ) {
@@ -126,7 +126,7 @@ class Frontend extends FrontendBase {
 	 */
 	private function has_page_button( string $action, string $caption ): bool {
 
-		$frontend_obj = wpforms()->get( 'frontend' );
+		$frontend_obj = wpforms()->obj( 'frontend' );
 		$current      = $frontend_obj->pages['current'];
 		$total        = $frontend_obj->pages['total'];
 

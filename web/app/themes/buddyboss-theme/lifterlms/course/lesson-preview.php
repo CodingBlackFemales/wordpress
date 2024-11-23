@@ -172,12 +172,12 @@ endif;
 					<?php if ( 'lesson' === get_post_type( get_the_ID() ) ) : ?>
                         <h6 class="llms-pre-text"><?php if ( !empty($pre_text) ) { echo $pre_text; } ?></h6>
 					<?php endif; ?>
-					<h5 class="llms-h5 llms-lesson-title">
+					<h4 class="llms-h5 llms-lesson-title">
 						<?php echo get_the_title( $lesson->get( 'id' ) ); ?>
 						<?php if ( $lesson->is_free() ) { ?>
 							<span class="llms-lesson-free"><?php _e( 'Free', 'buddyboss-theme' ); ?></span>
 						<?php } ?>
-					</h5>
+					</h4>
 					<?php if ( apply_filters( 'llms_show_preview_excerpt',
 							true ) && llms_get_excerpt( $lesson->get( 'id' ) ) ) : ?>
                         <div class="llms-lesson-excerpt"><?php echo llms_get_excerpt( $lesson->get( 'id' ) ); ?></div>

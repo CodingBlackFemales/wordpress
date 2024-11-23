@@ -1,5 +1,8 @@
 <?php
 
+// phpcs:ignore Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
 namespace WPForms\Logger;
 
 use WPForms\Helpers\DB;
@@ -37,7 +40,7 @@ class Repository {
 	private $records;
 
 	/**
-	 * Get not-limited total query.
+	 * Get a not-limited total query.
 	 *
 	 * @since 1.6.4.1
 	 *
@@ -49,13 +52,12 @@ class Repository {
 	 * Log constructor.
 	 *
 	 * @since 1.6.3
-	 *
-	 * @param RecordQuery $records_query Records query.
+	 * @since 1.9.0 Removed the argument.
 	 */
-	public function __construct( $records_query ) {
+	public function __construct() {
 
-		$this->records_query = $records_query;
 		$this->full_total    = false;
+		$this->records_query = new RecordQuery();
 		$this->records       = new Records();
 	}
 
@@ -88,7 +90,7 @@ class Repository {
 
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$sql = "CREATE TABLE IF NOT EXISTS $table (
+		$sql = "CREATE TABLE $table (
 			id BIGINT(20) NOT NULL AUTO_INCREMENT,
 			title VARCHAR(255) NOT NULL,
 			message LONGTEXT NOT NULL,
@@ -110,7 +112,7 @@ class Repository {
 	 *
 	 * @param string       $title    Record title.
 	 * @param string       $message  Record message.
-	 * @param array|string $types    Array, string, or string separated by commas types.
+	 * @param array|string $types    Array, string, or string separated by comma types.
 	 * @param int          $form_id  Record form ID.
 	 * @param int          $entry_id Record entry ID.
 	 * @param int          $user_id  Record user ID.
@@ -139,7 +141,8 @@ class Repository {
 		$data             = $this->records_query->get( $limit, $offset, $search, $type );
 		$this->full_total = true;
 		$records          = new Records();
-		// As we got raw data we need to convert to Record.
+
+		// As we got raw data, we need to convert to Record.
 		foreach ( $data as $row ) {
 			$records->push(
 				$this->prepare_record( $row )
@@ -161,7 +164,7 @@ class Repository {
 	public function record( $id ) {
 
 		global $wpdb;
-		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching
+		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$item = $wpdb->get_row(
 			$wpdb->prepare(
 				'SELECT * FROM ' . self::get_table_name() . ' WHERE id = %d', //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
@@ -200,7 +203,7 @@ class Repository {
 	}
 
 	/**
-	 * Save records to database.
+	 * Save records to the database.
 	 *
 	 * @since 1.6.3
 	 */
@@ -208,7 +211,7 @@ class Repository {
 
 		global $wpdb;
 
-		// We can't use the empty function because it doesn't work with Countable object.
+		// We can't use the empty function because it doesn't work with a Countable object.
 		if ( ! count( $this->records ) ) {
 			return;
 		}
@@ -230,11 +233,9 @@ class Repository {
 
 		$sql = rtrim( $sql, ',' );
 
-		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->query( $sql );
-		//phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		//phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		wp_cache_delete( self::CACHE_TOTAL_KEY );
 	}
 
@@ -264,9 +265,9 @@ class Repository {
 		$total = wp_cache_get( self::CACHE_TOTAL_KEY );
 
 		if ( ! $total ) {
-			//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 			$total = $this->full_total ? $wpdb->get_var( 'SELECT FOUND_ROWS()' ) : $wpdb->get_var( 'SELECT COUNT( ID ) FROM ' . self::get_table_name() );
-			//phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+			//phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 			wp_cache_set( self::CACHE_TOTAL_KEY, $total, 'wpforms', DAY_IN_SECONDS );
 		}
 
@@ -274,7 +275,7 @@ class Repository {
 	}
 
 	/**
-	 * Clear all records in Database.
+	 * Clear all records in the Database.
 	 *
 	 * @since 1.6.3
 	 */
@@ -282,10 +283,7 @@ class Repository {
 
 		global $wpdb;
 
-		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$wpdb->query( 'TRUNCATE TABLE ' . self::get_table_name() );
-		//phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching
-		//phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 	}
 }

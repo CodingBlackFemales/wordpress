@@ -70,20 +70,6 @@ function buddyboss_updater_cron_schedules( $schedules ) {
 	return $schedules;
 }
 
-register_activation_hook( __FILE__, 'buddyboss_updater_create_schedule_4hours' );
-function buddyboss_updater_create_schedule_4hours() {
-	$timestamp = wp_next_scheduled( 'buddyboss_updater_schedule_4hours' );
-
-	if ( $timestamp == false ) {
-		wp_schedule_event( time(), 'four_hours', 'buddyboss_updater_schedule_4hours' );
-	}
-}
-
-register_deactivation_hook( __FILE__, 'buddyboss_updater_remove_schedule_4hours' );
-function buddyboss_updater_remove_schedule_4hours() {
-	wp_clear_scheduled_hook( 'buddyboss_updater_schedule_4hours' );
-}
-
 function bbupdater_register_self_update( $products ) {
 
 	$products['BB_PLATFORM'] = array(

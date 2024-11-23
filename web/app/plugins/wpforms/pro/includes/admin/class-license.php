@@ -510,7 +510,7 @@ class WPForms_License {
 		if ( ! $key ) {
 			$notice = sprintf(
 				wp_kses( /* translators: %s - Link to the Settings > General screen in the plugin, where users can enter their license key. */
-					__( 'To access addons and enable automatic updates, please <a href="%s" target="_blank">enter and activate your license key.</a>', 'wpforms' ),
+					__( 'To access all features, addons, and enable automatic updates, please <a href="%s" target="_blank">activate your WPForms license.</a>', 'wpforms' ),
 					[
 						'a' => [
 							'href'   => [],
@@ -522,7 +522,7 @@ class WPForms_License {
 				esc_url( admin_url( 'admin.php?page=wpforms-settings' ) )
 			);
 
-			Notice::error(
+			Notice::warning(
 				$notice,
 				[ 'class' => $class ]
 			);
@@ -987,13 +987,8 @@ class WPForms_License {
 	 */
 	private function validate_as_valid( $validate, bool $forced, bool $ajax, bool $return_status, array $option ) {
 
-		// Otherwise, our check has returned successfully. Set the transient and update our license type and flags.
-		$option['type']        = $validate->type ?? $option['type'];
-		$option['is_expired']  = false;
-		$option['is_disabled'] = false;
-		$option['is_invalid']  = false;
-
-		update_option( 'wpforms_license', $option );
+		// Set transient and update license type and flags.
+		$option = $this->update_license_option( $validate, $option );
 
 		if ( ! $forced ) {
 			return $return_status ? 'valid' : true;
@@ -1029,5 +1024,39 @@ class WPForms_License {
 			isset( $_REQUEST['action'] ) &&
 			$_REQUEST['action'] === 'wpforms_refresh_license';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+	}
+
+	/**
+	 * Updates the license option based on validation results.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @param object $validate The validation object.
+	 * @param array  $option   The current option array.
+	 *
+	 * @return array
+	 */
+	private function update_license_option( $validate, array $option ): array {
+
+		// Otherwise, our check has returned successfully. Set the transient and update our license type and flags.
+		$option['type']        = $validate->type ?? $option['type'];
+		$option['is_expired']  = false;
+		$option['is_disabled'] = false;
+		$option['is_invalid']  = false;
+
+		if ( ! empty( $validate->expires ) ) {
+			// Note the `expires` value normally returns timestamp in string format;
+			// There could be a case when it returns "lifetime" string for licenses with no expiration date.
+			$option['expires'] = sanitize_text_field( $validate->expires );
+		}
+
+		if ( ! empty( $validate->sub_status ) ) {
+			// For users who have a license key but do not have a subscription, the `sub_status` value will be empty.
+			$option['sub_status'] = sanitize_text_field( $validate->sub_status );
+		}
+
+		update_option( 'wpforms_license', $option );
+
+		return $option;
 	}
 }

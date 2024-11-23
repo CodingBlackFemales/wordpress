@@ -1,8 +1,8 @@
 === Stats for WP Job Manager ===
 Contributors: Astoundify
 Requires at least: 4.8.0
-Tested up to: 6.0.1
-Stable tag: 2.7.3
+Tested up to: 6.2
+Stable tag: 2.7.4
 License: GNU General Public License v3.0
 
 When you created your directory did you imagine you would have to answer questions about traffic? Now your customers can make continual adjustments to their listing and see how well it performs because you're giving them the feedback and data they want.
@@ -22,6 +22,11 @@ To install this plugin, please refer to the guide here: [http://codex.wordpress.
 == Other Notes ==
 
 == Changelog ==
+
+= 2.7.4: April 28, 2023 =
+
+* Fix: Compatibility check with the latest WordPress 6.2.
+* Fix: Compatibility check with the latest PHP 8.1.6.
 
 = 2.7.3: August 08, 2022 =
 

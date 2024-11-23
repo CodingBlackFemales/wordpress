@@ -74,19 +74,22 @@ class Frontend extends FrontendLite {
 			$this->assets_global() ||
 			wpforms_has_field_type( 'date-time', $this->forms, true )
 		) {
+			$in_footer = $this->load_script_in_footer();
+
 			wp_enqueue_script(
 				'wpforms-flatpickr',
 				WPFORMS_PLUGIN_URL . 'assets/lib/flatpickr/flatpickr.min.js',
 				[ 'jquery' ],
 				'4.6.9',
-				true
+				$in_footer
 			);
+
 			wp_enqueue_script(
 				'wpforms-jquery-timepicker',
 				WPFORMS_PLUGIN_URL . 'assets/lib/jquery.timepicker/jquery.timepicker.min.js',
 				[ 'jquery' ],
 				'1.11.5',
-				true
+				$in_footer
 			);
 		}
 	}

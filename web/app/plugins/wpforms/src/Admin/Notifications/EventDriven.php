@@ -88,7 +88,7 @@ class EventDriven {
 	 */
 	private function allow_load() {
 
-		return wpforms()->get( 'notifications' )->has_access() || wp_doing_cron();
+		return wpforms()->obj( 'notifications' )->has_access() || wp_doing_cron();
 	}
 
 	/**
@@ -123,7 +123,7 @@ class EventDriven {
 		 */
 		$is_debug = (bool) apply_filters( 'wpforms_admin_notifications_event_driven_update_events_debug', false );
 
-		$wpforms_notifications = wpforms()->get( 'notifications' );
+		$wpforms_notifications = wpforms()->obj( 'notifications' );
 
 		foreach ( $this->get_notifications() as $slug => $notification ) {
 
@@ -355,8 +355,8 @@ class EventDriven {
 		global $wpdb;
 
 		$count              = 0;
-		$entry_handler      = wpforms()->get( 'entry' );
-		$entry_meta_handler = wpforms()->get( 'entry_meta' );
+		$entry_handler      = wpforms()->obj( 'entry' );
+		$entry_meta_handler = wpforms()->obj( 'entry_meta' );
 
 		if ( ! $entry_handler || ! $entry_meta_handler ) {
 			return $count;
@@ -371,7 +371,7 @@ class EventDriven {
 					WHERE type = 'backup_id'
 				);";
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		$count = (int) $wpdb->get_var( $query );
 
 		return $count;
@@ -388,7 +388,7 @@ class EventDriven {
 	 */
 	private function get_forms( $posts_per_page ) {
 
-		$forms = wpforms()->get( 'form' )->get(
+		$forms = wpforms()->obj( 'form' )->get(
 			'',
 			[
 				'posts_per_page'         => (int) $posts_per_page,
@@ -522,7 +522,7 @@ class EventDriven {
 				'title'     => esc_html__( 'Welcome to WPForms!', 'wpforms-lite' ),
 				'content'   => sprintf( /* translators: %s - number of templates. */
 					esc_html__( 'We’re grateful that you chose WPForms for your website! Now that you’ve installed the plugin, you’re less than 5 minutes away from publishing your first form. To make it easy, we’ve got %s form templates to get you started!', 'wpforms-lite' ),
-					'1100+'
+					'2000+'
 				),
 				'btns'      => [
 					'main' => [

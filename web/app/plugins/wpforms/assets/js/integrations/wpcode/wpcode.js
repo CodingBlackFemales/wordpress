@@ -4,12 +4,14 @@
  * @param wpformsWpcodeVars.installing_text
  */
 
+// noinspection ES6ConvertVarToLetConst
 /**
  * WPCode integration script.
  *
  * @since 1.8.5
  */
-const WPFormsWPCode = window.WPFormsWPCode || ( function( document, window, $ ) {
+// eslint-disable-next-line no-var
+var WPFormsWPCode = window.WPFormsWPCode || ( function( document, window, $ ) {
 	/**
 	 * Public functions and properties.
 	 *

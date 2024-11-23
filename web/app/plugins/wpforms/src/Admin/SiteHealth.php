@@ -95,7 +95,7 @@ class SiteHealth {
 
 		if ( ! wpforms()->is_pro() ) {
 
-			$forms = wpforms()->get( 'form' )->get( '', [ 'fields' => 'ids' ] );
+			$forms = wpforms()->obj( 'form' )->get( '', [ 'fields' => 'ids' ] );
 
 			if ( empty( $forms ) || ! is_array( $forms ) ) {
 				$forms = [];

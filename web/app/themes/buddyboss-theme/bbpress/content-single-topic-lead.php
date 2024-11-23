@@ -150,7 +150,8 @@ if ( bbp_show_lead_topic() ) {
 											<a href="#" class="bs-dropdown-link bb-reply-actions-button" data-balloon-pos="up" data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>">
 												<i class="bb-icon-menu-dots-v"></i>
 											</a>
-											<ul class="bs-dropdown bb-reply-actions-dropdown">
+											<ul class="bs-dropdown bb-reply-actions-dropdown bb_more_dropdown">
+												<?php get_template_part( 'template-parts/more-options-view' ); ?>
 												<li>
 													<?php
 													do_action( 'bbp_theme_before_reply_admin_links' );
@@ -159,6 +160,7 @@ if ( bbp_show_lead_topic() ) {
 													?>
 												</li>
 											</ul>
+											<div class="bb_more_dropdown_overlay"></div>
 											<?php
 										}
 										?>

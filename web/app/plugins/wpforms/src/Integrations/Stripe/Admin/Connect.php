@@ -104,6 +104,9 @@ class Connect {
 		$this->set_connected_user_id( $credentials['stripe_user_id'], $mode );
 		$this->set_current_mode( $mode );
 
+		// In case of switching accounts existing account data needs to be cleared.
+		unset( $this->accounts[ $mode ] );
+
 		Helpers::set_stripe_key( $credentials['stripe_publishable_key'], 'publishable', $mode );
 		Helpers::set_stripe_key( $credentials['access_token'], 'secret', $mode );
 

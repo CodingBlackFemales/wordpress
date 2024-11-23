@@ -1,7 +1,6 @@
-'use strict';
+/* global wpforms_settings */
 
 ( function() {
-
 	/**
 	 * Predefine hint text to display.
 	 *
@@ -9,13 +8,12 @@
 	 * @since 1.6.4 Added a new macros - {remaining}.
 	 *
 	 * @param {string} hintText Hint text.
-	 * @param {number} count Current count.
-	 * @param {number} limit Limit to.
+	 * @param {number} count    Current count.
+	 * @param {number} limit    Limit to.
 	 *
-	 * @returns {string} Predefined hint text.
+	 * @return {string} Predefined hint text.
 	 */
 	function renderHint( hintText, count, limit ) {
-
 		return hintText.replace( '{count}', count ).replace( '{limit}', limit ).replace( '{remaining}', limit - count );
 	}
 
@@ -24,15 +22,18 @@
 	 *
 	 * @since 1.5.6
 	 *
-	 * @param {number} formId Form id.
-	 * @param {number} fieldId Form field id.
-	 * @param {string} text Text to hint element.
+	 * @param {number|string} formId  Form id.
+	 * @param {number|string} fieldId Form field id.
+	 * @param {string}        text    Hint text.
 	 *
-	 * @returns {object} HTMLElement hint element with text.
+	 * @return {Object} HTMLElement hint element with text.
 	 */
 	function createHint( formId, fieldId, text ) {
+		const hint = document.createElement( 'div' );
 
-		var hint = document.createElement( 'div' );
+		formId = typeof formId === 'object' ? '' : formId;
+		fieldId = typeof fieldId === 'object' ? '' : fieldId;
+
 		hint.classList.add( 'wpforms-field-limit-text' );
 		hint.id = 'wpforms-field-limit-text-' + formId + '-' + fieldId;
 		hint.setAttribute( 'aria-live', 'polite' );
@@ -46,15 +47,14 @@
 	 *
 	 * @since 1.5.6
 	 *
-	 * @param {object} hint HTMLElement hint element.
+	 * @param {Object} hint  HTMLElement hint element.
 	 * @param {number} limit Max allowed number of characters.
 	 *
-	 * @returns {Function} Handler function.
+	 * @return {Function} Handler function.
 	 */
 	function checkCharacters( hint, limit ) {
-
-		return function( e ) {
-
+		// noinspection JSUnusedLocalSymbols
+		return function( e ) { // eslint-disable-line no-unused-vars
 			hint.textContent = renderHint(
 				window.wpforms_settings.val_limit_characters,
 				this.value.length,
@@ -70,10 +70,9 @@
 	 *
 	 * @param {string} string String value.
 	 *
-	 * @returns {number} Words count.
+	 * @return {number} Words count.
 	 */
 	function countWords( string ) {
-
 		if ( typeof string !== 'string' ) {
 			return 0;
 		}
@@ -98,16 +97,14 @@
 	 *
 	 * @since 1.5.6
 	 *
-	 * @param {object} hint HTMLElement hint element.
+	 * @param {Object} hint  HTMLElement hint element.
 	 * @param {number} limit Max allowed number of characters.
 	 *
-	 * @returns {Function} Handler function.
+	 * @return {Function} Handler function.
 	 */
 	function checkWords( hint, limit ) {
-
 		return function( e ) {
-
-			var value = this.value.trim(),
+			const value = this.value.trim(),
 				words = countWords( value );
 
 			hint.textContent = renderHint(
@@ -124,41 +121,38 @@
 	}
 
 	/**
-	 * Get passed text from clipboard.
+	 * Get passed text from the clipboard.
 	 *
 	 * @since 1.5.6
 	 *
 	 * @param {ClipboardEvent} e Clipboard event.
 	 *
-	 * @returns {string} Text from clipboard.
+	 * @return {string} Text from clipboard.
 	 */
 	function getPastedText( e ) {
-
 		if ( window.clipboardData && window.clipboardData.getData ) { // IE
-
 			return window.clipboardData.getData( 'Text' );
 		} else if ( e.clipboardData && e.clipboardData.getData ) {
-
 			return e.clipboardData.getData( 'text/plain' );
 		}
+
+		return '';
 	}
 
 	/**
-	 * Paste event higher order function for characters limit.
+	 * Paste event higher order function for character limit.
 	 *
 	 * @since 1.6.7.1
 	 *
 	 * @param {number} limit Max allowed number of characters.
 	 *
-	 * @returns {Function} Event handler.
+	 * @return {Function} Event handler.
 	 */
 	function pasteText( limit ) {
-
 		return function( e ) {
-
 			e.preventDefault();
 
-			var pastedText = getPastedText( e ),
+			const pastedText = getPastedText( e ),
 				newPosition = this.selectionStart + pastedText.length,
 				newText = this.value.substring( 0, this.selectionStart ) + pastedText + this.value.substring( this.selectionStart );
 
@@ -175,28 +169,25 @@
 	 * @param {string} text  Text.
 	 * @param {number} limit Max allowed number of words.
 	 *
-	 * @returns {string} Text with the limited number of words.
+	 * @return {string} Text with the limited number of words.
 	 */
 	function limitWords( text, limit ) {
-
-		var separators,
-			newTextArray,
-			result = '';
+		let result = '';
 
 		// Regular expression pattern: match any space character.
-		var regEx = /\s+/g;
+		const regEx = /\s+/g;
 
 		// Store separators for further join.
-		separators = text.trim().match( regEx ) || [];
+		const separators = text.trim().match( regEx ) || [];
 
 		// Split the new text by regular expression.
-		newTextArray = text.split( regEx );
+		const newTextArray = text.split( regEx );
 
 		// Limit the number of words.
 		newTextArray.splice( limit, newTextArray.length );
 
 		// Join the words together using stored separators.
-		for ( var i = 0; i < newTextArray.length; i++ ) {
+		for ( let i = 0; i < newTextArray.length; i++ ) {
 			result += newTextArray[ i ] + ( separators[ i ] || '' );
 		}
 
@@ -210,15 +201,13 @@
 	 *
 	 * @param {number} limit Max allowed number of words.
 	 *
-	 * @returns {Function} Event handler.
+	 * @return {Function} Event handler.
 	 */
 	function pasteWords( limit ) {
-
 		return function( e ) {
-
 			e.preventDefault();
 
-			var pastedText = getPastedText( e ),
+			const pastedText = getPastedText( e ),
 				newPosition = this.selectionStart + pastedText.length,
 				newText = this.value.substring( 0, this.selectionStart ) + pastedText + this.value.substring( this.selectionStart );
 
@@ -228,18 +217,88 @@
 	}
 
 	/**
-	 * Array.form polyfill.
+	 * Array.from polyfill.
 	 *
 	 * @since 1.5.6
 	 *
-	 * @param {object} el Iterator.
+	 * @param {Object} el Iterator.
 	 *
-	 * @returns {object} Array.
+	 * @return {Object} Array.
 	 */
 	function arrFrom( el ) {
-
 		return [].slice.call( el );
 	}
+
+	/**
+	 * Public functions and properties.
+	 *
+	 * @since 1.8.9
+	 *
+	 * @type {Object}
+	 */
+	const app = {
+		/**
+		 * Init text limit hint.
+		 *
+		 * @since 1.8.9
+		 *
+		 * @param {string} context Context selector.
+		 */
+		initHint( context ) {
+			arrFrom( document.querySelectorAll( context + ' .wpforms-limit-characters-enabled' ) )
+				.map(
+					function( e ) { // eslint-disable-line array-callback-return
+						const limit = parseInt( e.dataset.textLimit, 10 ) || 0;
+
+						e.value = e.value.slice( 0, limit );
+
+						const hint = createHint(
+							e.dataset.formId,
+							e.dataset.fieldId,
+							renderHint(
+								wpforms_settings.val_limit_characters,
+								e.value.length,
+								limit
+							)
+						);
+
+						const fn = checkCharacters( hint, limit );
+
+						e.parentNode.appendChild( hint );
+						e.addEventListener( 'keydown', fn );
+						e.addEventListener( 'keyup', fn );
+						e.addEventListener( 'paste', pasteText( limit ) );
+					}
+				);
+
+			arrFrom( document.querySelectorAll( context + ' .wpforms-limit-words-enabled' ) )
+				.map(
+					function( e ) { // eslint-disable-line array-callback-return
+						const limit = parseInt( e.dataset.textLimit, 10 ) || 0;
+
+						e.value = limitWords( e.value, limit );
+
+						const hint = createHint(
+							e.dataset.formId,
+							e.dataset.fieldId,
+							renderHint(
+								wpforms_settings.val_limit_words,
+								countWords( e.value.trim() ),
+								limit
+							)
+						);
+
+						const fn = checkWords( hint, limit );
+
+						e.parentNode.appendChild( hint );
+
+						e.addEventListener( 'keydown', fn );
+						e.addEventListener( 'keyup', fn );
+						e.addEventListener( 'paste', pasteWords( limit ) );
+					}
+				);
+		},
+	};
 
 	/**
 	 * DOMContentLoaded handler.
@@ -247,56 +306,10 @@
 	 * @since 1.5.6
 	 */
 	function ready() {
+		// Expose to the world.
+		window.WPFormsTextLimit = app;
 
-		arrFrom( document.querySelectorAll( '.wpforms-limit-characters-enabled' ) )
-			.map(
-				function( e ) {
-
-					var limit = parseInt( e.dataset.textLimit, 10 ) || 0;
-					e.value = e.value.slice( 0, limit );
-					var hint = createHint(
-						e.dataset.formId,
-						e.dataset.fieldId,
-						renderHint(
-							window.wpforms_settings.val_limit_characters,
-							e.value.length,
-							limit
-						)
-					);
-					var fn = checkCharacters( hint, limit );
-					e.parentNode.appendChild( hint );
-
-					e.addEventListener( 'keydown', fn );
-					e.addEventListener( 'keyup', fn );
-					e.addEventListener( 'paste', pasteText( limit ) );
-				}
-			);
-
-		arrFrom( document.querySelectorAll( '.wpforms-limit-words-enabled' ) )
-			.map(
-				function( e ) {
-
-					var limit = parseInt( e.dataset.textLimit, 10 ) || 0;
-
-					e.value = limitWords( e.value, limit );
-
-					var hint = createHint(
-						e.dataset.formId,
-						e.dataset.fieldId,
-						renderHint(
-							window.wpforms_settings.val_limit_words,
-							countWords( e.value.trim() ),
-							limit
-						)
-					);
-					var fn = checkWords( hint, limit );
-					e.parentNode.appendChild( hint );
-
-					e.addEventListener( 'keydown', fn );
-					e.addEventListener( 'keyup', fn );
-					e.addEventListener( 'paste', pasteWords( limit ) );
-				}
-			);
+		app.initHint( 'body' );
 	}
 
 	if ( document.readyState === 'loading' ) {
@@ -304,5 +317,4 @@
 	} else {
 		ready();
 	}
-
 }() );

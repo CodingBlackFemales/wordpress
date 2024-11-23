@@ -34,10 +34,12 @@ class FieldValueId extends SmartTag {
 			return '';
 		}
 
-		if ( isset( $fields[ $field_id ]['value_raw'] ) && ! is_array( $fields[ $field_id ]['value_raw'] ) && (string) $fields[ $field_id ]['value_raw'] !== '' ) {
-			return wp_kses_post( wp_unslash( $fields[ $field_id ]['value_raw'] ) );
-		}
+		$field_key = isset( $fields[ $field_id ]['value_raw'] ) && ! is_array( $fields[ $field_id ]['value_raw'] ) && (string) $fields[ $field_id ]['value_raw'] !== ''
+			? 'value_raw'
+			: 'value';
 
-		return isset( $fields[ $field_id ]['value'] ) ? wp_kses_post( wp_unslash( $fields[ $field_id ]['value'] ) ) : '';
+		$value = $this->get_formatted_field_value( (int) $field_id, (array) $fields, $field_key );
+
+		return wp_kses_post( wp_unslash( $value ) );
 	}
 }

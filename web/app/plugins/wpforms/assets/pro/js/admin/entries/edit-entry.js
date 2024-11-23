@@ -1,4 +1,4 @@
-/* global wpforms_admin, wpforms_admin_edit_entry, wpf, wpforms, tinyMCE */
+/* global wpforms_admin, wpforms_settings, wpforms_admin_edit_entry, wpf, wpforms, tinyMCE */
 /**
  * WPForms Edit Entry function.
  *
@@ -77,7 +77,8 @@ var WPFormsEditEntry = window.WPFormsEditEntry || ( function( document, window, 
 
 			// Submit result.
 			el.$editForm
-				.on( 'wpformsAjaxSubmitFailed', app.submitFailed )    // Submit Failed, display the errors.
+				.on( 'wpformsAjaxBeforeSubmit', app.validateFields ) // Validate fields before submit.
+				.on( 'wpformsAjaxSubmitFailed', app.submitFailed ) // Submit Failed, display the errors.
 				.on( 'wpformsAjaxSubmitSuccess', app.submitSuccess ); // Submit Success.
 
 			// Prevent lost not saved changes.
@@ -134,6 +135,9 @@ var WPFormsEditEntry = window.WPFormsEditEntry || ( function( document, window, 
 
 			// Hide all errors.
 			app.hideErrors();
+
+			// Add referer hidden field to cover a case when the browser referer is stripped out by the server.
+			el.$editForm.append( $( '<input>', { type: 'hidden', name: '_wp_http_referer', value: wpf.updateQueryString( '_wp_http_referer', null ) } ) );
 
 			wpforms.formSubmitAjax( el.$editForm );
 		},
@@ -423,11 +427,49 @@ var WPFormsEditEntry = window.WPFormsEditEntry || ( function( document, window, 
 				},
 			} );
 		},
+
+		/**
+		 * Validate fields before submit.
+		 * Use event.preventDefault() to prevent form submission.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param {Object} event Event object.
+		 */
+		validateFields( event ) {
+			app.validateSmartPhoneFields( event );
+		},
+
+		/**
+		 * Validate "Smart" phone fields before submit.
+		 *
+		 * @since 1.8.8
+		 *
+		 * @param {Object} event Event object.
+		 */
+		validateSmartPhoneFields( event ) {
+			// Loop through each "Smart" phone field.
+			$( '.wpforms-smart-phone-field' ).each( function() {
+				// Allow empty fields.
+				if ( ! $( this ).val() ) {
+					return;
+				}
+
+				const fieldID = $( this ).closest( '.wpforms-field' ).data( 'field-id' );
+				const iti = window.intlTelInputGlobals?.getInstance( this );
+				const result = $( this ).triggerHandler( 'validate' ) || iti?.isValidNumberPrecise();
+
+				// If the phone number is not valid, prevent form submission and display an error.
+				if ( ! result ) {
+					event.preventDefault();
+					app.displayFieldError( fieldID, wpforms_settings.val_phone );
+				}
+			} );
+		},
 	};
 
 	// Provide access to public functions/properties.
 	return app;
-
 }( document, window, jQuery ) );
 
 // Initialize.

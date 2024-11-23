@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</main>
 		<?php
-			if ( ! $license ) {
+			if ( $license === 'lite' ) {
 				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo wpforms_render( 'admin/splash/footer', $footer, true );
 			}

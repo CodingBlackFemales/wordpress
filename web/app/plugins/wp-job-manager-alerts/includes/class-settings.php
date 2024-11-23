@@ -83,6 +83,7 @@ class Settings {
 						'cb_label' => __( 'Require an account to create job alerts', 'wp-job-manager-alerts' ),
 						'desc'     => __( 'Limit alert creation to registered, logged-in users.', 'wp-job-manager-alerts' ),
 						'type'     => 'checkbox',
+						'track'    => 'bool',
 					],
 					[
 						'name'  => self::OPTION_BRAND_COLOR,
@@ -90,6 +91,7 @@ class Settings {
 						'std'   => self::DEFAULT_BRAND_COLOR,
 						'type'  => 'color',
 						'desc'  => __( 'Set the color used for links and buttons in e-mails and shortcodes.', 'wp-job-manager-alerts' ),
+						'track' => 'is-default',
 					],
 					[
 						'name'    => self::OPTION_FORM_FIELDS,
@@ -100,6 +102,7 @@ class Settings {
 						'std'     => [
 							'fields' => array_keys( Alert_Form_Fields::get_default_fields() ),
 						],
+						'track'   => 'is-default',
 					],
 					[
 						'name'     => self::OPTION_EMAIL_TEMPLATE,
@@ -116,6 +119,7 @@ class Settings {
 							'<strong>Note: </strong> {display_name}' . __( ' is not available when accounts are not required.', 'wp-job-manager-alerts' ),
 						'type'     => 'textarea',
 						'required' => true,
+						'track'    => 'is-default',
 					],
 					[
 						'name'    => self::OPTION_JOB_DETAILS_VISIBLE,
@@ -128,6 +132,7 @@ class Settings {
 							'location'     => __( 'Location', 'wp-job-manager-alerts' ),
 						],
 						'std'     => self::DEFAULT_JOB_DETAILS_VISIBLE,
+						'track'   => 'is-default',
 					],
 					[
 						'name'  => self::OPTION_JOB_ALERTS_AUTO_DISABLE,
@@ -135,6 +140,7 @@ class Settings {
 						'label' => __( 'Alert Duration', 'wp-job-manager-alerts' ),
 						'desc'  => __( 'Enter the number of days before alerts are automatically disabled, or leave blank to disable this feature. By default, alerts will be turned off for a search after 90 days.', 'wp-job-manager-alerts' ),
 						'type'  => 'input',
+						'track' => 'value',
 					],
 					[
 						'name'     => self::OPTION_JOB_MATCHES_ONLY,
@@ -143,6 +149,7 @@ class Settings {
 						'cb_label' => __( 'Send alerts with matches only', 'wp-job-manager-alerts' ),
 						'desc'     => __( 'Only send an alert when jobs are found matching its criteria. When disabled, an alert is sent regardless.', 'wp-job-manager-alerts' ),
 						'type'     => 'checkbox',
+						'track'    => 'bool',
 					],
 					[
 						'name'  => self::OPTION_JOB_ALERTS_PAGE_ID,
@@ -150,6 +157,7 @@ class Settings {
 						'label' => __( 'Alerts Page ID', 'wp-job-manager-alerts' ),
 						'desc'  => __( 'So that the plugin knows where to link users to view their alerts, you must select the page where you have placed the [job_alerts] shortcode.', 'wp-job-manager-alerts' ),
 						'type'  => 'page',
+						'track' => 'bool',
 					],
 				]
 			),

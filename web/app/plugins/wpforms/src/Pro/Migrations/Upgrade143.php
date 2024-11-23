@@ -75,8 +75,8 @@ class Upgrade143 extends UpgradeBase {
 			return null;
 		}
 
-		$entry_handler        = wpforms()->get( 'entry' );
-		$entry_fields_handler = wpforms()->get( 'entry_fields' );
+		$entry_handler        = wpforms()->obj( 'entry' );
+		$entry_fields_handler = wpforms()->obj( 'entry_fields' );
 
 		if ( ! $entry_handler || ! $entry_fields_handler ) {
 			return false;
@@ -130,7 +130,7 @@ class Upgrade143 extends UpgradeBase {
 		$fields_table  = $wpdb->prefix . 'wpforms_entry_fields';
 		$entries_table = $wpdb->prefix . 'wpforms_entries';
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Check if this is the initial total check.
 		if ( ! empty( $_POST['init'] ) ) {
@@ -155,14 +155,13 @@ class Upgrade143 extends UpgradeBase {
 
 			wp_send_json_success(
 				[
-					'total'    => wpforms()->get( 'entry' )->get_entries( [], true ),
+					'total'    => wpforms()->obj( 'entry' )->get_entries( [], true ),
 					'upgraded' => $upgraded,
 				]
 			);
 		}
 
 		if ( empty( $_POST['upgraded'] ) ) {
-
 			// If upgraded entries is 0 we know this is the beginning of the
 			// upgrade routine, so update the option to indicate that the
 			// upgrade has started but not completed. This way if it doesn't
@@ -170,15 +169,13 @@ class Upgrade143 extends UpgradeBase {
 			update_option( self::FIELDS_UPDATE_OPTION, self::INCOMPLETE );
 
 			// Fetch the first 10 entries.
-			$entries = wpforms()->get( 'entry' )->get_entries(
+			$entries = wpforms()->obj( 'entry' )->get_entries(
 				[
 					'number' => 10,
 					'order'  => 'ASC',
 				]
 			);
-
 		} else {
-
 			// Determine the last entry that was added in the upgrade routine.
 			$last_entry_id = $wpdb->get_var( "SELECT MAX(entry_id) FROM {$fields_table}" );
 
@@ -189,19 +186,18 @@ class Upgrade143 extends UpgradeBase {
 				)
 			);
 		}
-		// phpcs:enable WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Loop through the entries and add each field value to the new entry
 		// fields database table.
 		if ( ! empty( $entries ) ) {
 			foreach ( $entries as $entry ) {
-
 				$fields = wpforms_decode( $entry->fields );
 
 				if ( ! empty( $fields ) ) {
 					foreach ( $fields as $field ) {
 						if ( isset( $field['id'] ) && isset( $field['value'] ) && $field['value'] !== '' ) {
-							wpforms()->get( 'entry_fields' )->add(
+							wpforms()->obj( 'entry_fields' )->add(
 								[
 									'entry_id' => absint( $entry->entry_id ),
 									'form_id'  => absint( $entry->form_id ),

@@ -67,10 +67,10 @@ function wpforms_debug_data( $data, $echo = true ) {
 				box-sizing: border-box;
 			}
 			.postbox .wpforms-debug {
-				padding-top: 12px;
+				padding: 6px;
 			}
-			.postbox .wpforms-debug:first-of-type {
-				padding-top: 6px;
+			.postbox .wpforms-debug:not(:first-of-type) {
+				padding-top: 0;
 			}
 			.postbox .wpforms-debug textarea {
 				margin-top: 0 !important;
@@ -107,12 +107,12 @@ function wpforms_debug_data( $data, $echo = true ) {
  *
  * @param string $title   Title of a log message.
  * @param mixed  $message Content of a log message.
- * @param array  $args    Expected keys: form_id, meta, parent.
+ * @param array  $args    Expected keys: type, form_id, meta, parent, force.
  */
-function wpforms_log( $title = '', $message = '', $args = [] ) {
+function wpforms_log( $title = '', $message = '', $args = [] ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded
 
 	// Skip if logs disabled in Tools -> Logs.
-	if ( ! wpforms_setting( 'logs-enable', false ) ) {
+	if ( empty( $args['force'] ) && ! wpforms_setting( 'logs-enable' ) ) {
 		return;
 	}
 
@@ -161,7 +161,7 @@ function wpforms_log( $title = '', $message = '', $args = [] ) {
 
 	// Make arrays and objects look nice.
 	if ( is_array( $message ) || is_object( $message ) ) {
-		$message = '<pre>' . print_r( $message, true ) . '</pre>'; // phpcs:ignore
+		$message = '<pre>' . print_r( $message, true ) . '</pre>'; // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 	}
 
 	// Filter logs types from Tools -> Logs page.
@@ -173,8 +173,8 @@ function wpforms_log( $title = '', $message = '', $args = [] ) {
 
 	// Filter user roles from Tools -> Logs page.
 	$current_user       = function_exists( 'wp_get_current_user' ) ? wp_get_current_user() : null;
-	$current_user_id    = $current_user ? $current_user->ID : 0;
-	$current_user_roles = $current_user ? $current_user->roles : [];
+	$current_user_id    = $current_user->ID ?? 0;
+	$current_user_roles = $current_user->roles ?? [];
 	$logs_user_roles    = wpforms_setting( 'logs-user-roles', false );
 
 	if ( $logs_user_roles && empty( array_intersect( $logs_user_roles, $current_user_roles ) ) ) {
@@ -188,11 +188,12 @@ function wpforms_log( $title = '', $message = '', $args = [] ) {
 		return;
 	}
 
-	$log = wpforms()->get( 'log' );
+	$log = wpforms()->obj( 'log' );
 
 	if ( ! method_exists( $log, 'add' ) ) {
 		return;
 	}
+
 	// Create log entry.
 	$log->add(
 		$title,

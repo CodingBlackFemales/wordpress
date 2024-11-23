@@ -49,11 +49,12 @@ class Addons extends \WPForms\Admin\Addons\Addons {
 	 */
 	protected function get_status( $slug ) {
 
-		$slug   = 'wpforms-' . str_replace( 'wpforms-', '', $slug );
-		$plugin = sprintf( '%1$s/%1$s.php', sanitize_key( $slug ) );
+		$slug      = str_replace( 'wpforms-', '', $slug );
+		$full_slug = 'wpforms-' . $slug;
+		$plugin    = sprintf( '%1$s/%1$s.php', sanitize_key( $full_slug ) );
 
 		if ( is_plugin_active( $plugin ) ) {
-			return 'active';
+			return wpforms_is_addon_initialized( $slug ) ? 'active' : 'incompatible';
 		}
 
 		$plugins = get_plugins();
@@ -86,18 +87,26 @@ class Addons extends \WPForms\Admin\Addons\Addons {
 			return $addon;
 		}
 
-		if ( $addon['status'] === 'installed' && $addon['plugin_allow'] ) {
+		if ( $addon['plugin_allow'] && in_array( $addon['status'], [ 'installed', 'incompatible' ], true ) ) {
 			$addon['action'] = 'activate';
-		} else {
-			if ( ! $this->license['type'] ) {
-				$addon['action'] = 'license';
-			} elseif ( $addon['plugin_allow'] ) {
-				$addon['action'] = 'install';
-				$addon['url']    = $this->get_url( $addon['slug'] );
-			} else {
-				$addon['action'] = 'upgrade';
-			}
+
+			return $addon;
 		}
+
+		if ( ! $this->license['type'] ) {
+			$addon['action'] = 'license';
+
+			return $addon;
+		}
+
+		if ( $addon['plugin_allow'] ) {
+			$addon['action'] = 'install';
+			$addon['url']    = $this->get_url( $addon['slug'] );
+
+			return $addon;
+		}
+
+		$addon['action'] = 'upgrade';
 
 		return $addon;
 	}
@@ -172,7 +181,7 @@ class Addons extends \WPForms\Admin\Addons\Addons {
 	 */
 	protected function get_remote_urls() {
 
-		$addons = wpforms()->get( 'license' )->get_addons();
+		$addons = wpforms()->obj( 'license' )->get_addons();
 
 		// If there was an API error, set transient for only 10 minutes.
 		if ( empty( $addons ) ) {

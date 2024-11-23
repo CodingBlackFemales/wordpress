@@ -24,12 +24,12 @@ class UpdateHelpers {
 
 		$status = $refunded_amount < $payment_db->total_amount ? 'partrefund' : 'refunded';
 
-		if ( ! wpforms()->get( 'payment' )->update( $payment_db->id, [ 'status' => $status ] ) ) {
+		if ( ! wpforms()->obj( 'payment' )->update( $payment_db->id, [ 'status' => $status ] ) ) {
 			return false;
 		}
 
 		if (
-			! wpforms()->get( 'payment_meta' )->update_or_add(
+			! wpforms()->obj( 'payment_meta' )->update_or_add(
 				$payment_db->id,
 				'refunded_amount',
 				$refunded_amount
@@ -39,7 +39,7 @@ class UpdateHelpers {
 		}
 
 		if ( $log ) {
-			wpforms()->get( 'payment_meta' )->add_log( $payment_db->id, $log );
+			wpforms()->obj( 'payment_meta' )->add_log( $payment_db->id, $log );
 		}
 
 		return true;
@@ -57,12 +57,12 @@ class UpdateHelpers {
 	 */
 	public static function cancel_subscription( $payment_id, $log = '' ) {
 
-		if ( ! wpforms()->get( 'payment' )->update( $payment_id, [ 'subscription_status' => 'cancelled' ] ) ) {
+		if ( ! wpforms()->obj( 'payment' )->update( $payment_id, [ 'subscription_status' => 'cancelled' ] ) ) {
 			return false;
 		}
 
 		if ( $log ) {
-			wpforms()->get( 'payment_meta' )->add_log( $payment_id, $log );
+			wpforms()->obj( 'payment_meta' )->add_log( $payment_id, $log );
 		}
 
 		return true;

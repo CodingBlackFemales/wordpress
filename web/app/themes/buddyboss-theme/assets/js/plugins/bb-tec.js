@@ -55,8 +55,8 @@
             function prevNextSingleText() {
                 var sNext = $( '.tribe-events-single #tribe-events-footer .tribe-events-nav-next a' );
                 var sPrev = $( '.tribe-events-single #tribe-events-footer .tribe-events-nav-previous a' );
-                sNext.text( 'Next Event' );
-                sPrev.text( 'Previous Event' );
+                sNext.text( buddyboss_theme_tec_js.next_event_string );
+                sPrev.text( buddyboss_theme_tec_js.prev_event_string );
             }
             prevNextSingleText();
 

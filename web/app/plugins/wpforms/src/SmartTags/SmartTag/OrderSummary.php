@@ -27,9 +27,11 @@ class OrderSummary extends SmartTag {
 		}
 
 		if ( empty( $fields ) ) {
-			$entry  = wpforms()->get( 'entry' )->get( $entry_id );
+			$entry  = wpforms()->obj( 'entry' )->get( $entry_id );
 			$fields = isset( $entry->fields ) ? (array) wpforms_decode( $entry->fields ) : [];
 		}
+
+		$fields = $this->prepare_fields( $fields, $form_data );
 
 		list( $items, $foot, $total_width ) = $this->prepare_payment_fields_data( $fields );
 
@@ -42,6 +44,37 @@ class OrderSummary extends SmartTag {
 				'context'     => 'smart_tag',
 			],
 			true
+		);
+	}
+
+	/**
+	 * Prepare fields data for summary preview.
+	 * Add label_hide property to fields if needed.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $fields    Fields data.
+	 * @param array $form_data Form data and settings.
+	 *
+	 * @return array
+	 */
+	private function prepare_fields( array $fields, array $form_data ): array {
+
+		return array_map(
+			function ( $field ) use ( $form_data ) {
+				$form_data_fields = $form_data['fields'] ?? [];
+
+				if ( isset( $form_data_fields[ $field['id'] ] ) ) {
+					$label_hide = isset( $form_data_fields[ $field['id'] ]['label_hide'] );
+
+					if ( $label_hide ) {
+						$field['label_hide'] = true;
+					}
+				}
+
+				return $field;
+			},
+			$fields
 		);
 	}
 
@@ -93,7 +126,8 @@ class OrderSummary extends SmartTag {
 			'class'    => 'wpforms-order-summary-preview-total',
 		];
 
-		$total_width = max( $total_width, strlen( html_entity_decode( $total, ENT_COMPAT, 'UTF-8' ) ) + 3 );
+		// Adding 1 extra character to account for symbols that may occupy more than 1ch. For example: €.
+		$total_width = max( $total_width, mb_strlen( html_entity_decode( $total, ENT_COMPAT, 'UTF-8' ) ) + 1 );
 
 		return [ $items, $foot, $total_width ];
 	}
@@ -120,10 +154,11 @@ class OrderSummary extends SmartTag {
 			return;
 		}
 
-		$label   = ! empty( $field['value_choice'] ) ? $field['name'] . ' - ' . $field['value_choice'] : $field['name'];
-		$amount  = $field['amount_raw'] * $quantity;
+		$label  = ! empty( $field['value_choice'] ) ? $field['name'] . ' - ' . $field['value_choice'] : $field['name'];
+		$amount = $field['amount_raw'] * $quantity;
+
 		$items[] = [
-			'label'    => $label,
+			'label'    => ! empty( $field['label_hide'] ) ? '' : $label,
 			'quantity' => $quantity,
 			'amount'   => wpforms_format_amount( $amount, true ),
 		];
@@ -158,11 +193,12 @@ class OrderSummary extends SmartTag {
 		foreach ( $value_choices as $value_choice ) {
 
 			$choice_data = explode( ' - ', $value_choice );
+			$labels      = array_slice( $choice_data, 0, -1 );
 
 			$items[] = [
-				'label'    => $field['name'] . ' - ' . $choice_data[0],
+				'label'    => ! empty( $field['label_hide'] ) ? implode( ' - ', $labels ) : $field['name'] . ' - ' . implode( ' - ', $labels ),
 				'quantity' => $quantity,
-				'amount'   => $choice_data[1],
+				'amount'   => end( $choice_data ),
 			];
 		}
 

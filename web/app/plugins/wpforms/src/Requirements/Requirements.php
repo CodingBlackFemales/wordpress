@@ -13,8 +13,9 @@ class Requirements {
 	 * Whether deactivate addon if requirements not met.
 	 *
 	 * @since 1.8.2.2
+	 * @since 1.9.2 Keep addons active.
 	 */
-	const DEACTIVATE_IF_NOT_MET = true;
+	const DEACTIVATE_IF_NOT_MET = false;
 
 	/**
 	 * Whether to show PHP version notice.
@@ -192,6 +193,9 @@ class Requirements {
 			self::EXT     => 'curl',
 			self::LICENSE => self::PLUS_PRO_AND_TOP,
 		],
+		'wpforms-calculations/wpforms-calculations.php'                 => [
+			self::ADDON  => '1.3.0',
+		],
 		'wpforms-campaign-monitor/wpforms-campaign-monitor.php'         => [
 			self::LICENSE => self::PLUS_PRO_AND_TOP,
 		],
@@ -213,7 +217,9 @@ class Requirements {
 			self::LICENSE => self::PLUS_PRO_AND_TOP,
 		],
 		'wpforms-form-abandonment/wpforms-form-abandonment.php'         => [],
-		'wpforms-form-locker/wpforms-form-locker.php'                   => [],
+		'wpforms-form-locker/wpforms-form-locker.php'                   => [
+			self::ADDON  => '2.8.0',
+		],
 		'wpforms-form-pages/wpforms-form-pages.php'                     => [],
 		'wpforms-form-templates-pack/wpforms-form-templates-pack.php'   => [
 			self::WPFORMS => [
@@ -224,8 +230,11 @@ class Requirements {
 		'wpforms-geolocation/wpforms-geolocation.php'                   => [],
 		'wpforms-getresponse/wpforms-getresponse.php'                   => [
 			self::LICENSE => self::PLUS_PRO_AND_TOP,
+			self::PHP     => '7.3',
 		],
-		'wpforms-google-sheets/wpforms-google-sheets.php'               => [],
+		'wpforms-google-sheets/wpforms-google-sheets.php'               => [
+			self::ADDON  => '2.2.0',
+		],
 		'wpforms-hubspot/wpforms-hubspot.php'                           => [
 			self::LICENSE => self::TOP,
 		],
@@ -249,7 +258,12 @@ class Requirements {
 		'wpforms-sendinblue/wpforms-sendinblue.php'                     => [
 			self::LICENSE => self::PLUS_PRO_AND_TOP,
 		],
-		'wpforms-signatures/wpforms-signatures.php'                     => [],
+		'wpforms-signatures/wpforms-signatures.php'                     => [
+			self::EXT     => 'gd',
+		],
+		'wpforms-slack/wpforms-slack.php'                               => [
+			self::LICENSE => self::PLUS_PRO_AND_TOP,
+		],
 		'wpforms-square/wpforms-square.php'                             => [
 			self::PHP => '7.2',
 		],
@@ -343,6 +357,7 @@ class Requirements {
 
 		add_action( 'admin_init', [ $this, 'deactivate' ] );
 		add_action( 'admin_notices', [ $this, 'show_notices' ] );
+		add_action( 'network_admin_notices', [ $this, 'show_notices' ] );
 	}
 
 	/**
@@ -387,6 +402,32 @@ class Requirements {
 		$this->requirements[ $this->basename ] = $this->addon_requirements;
 
 		return empty( $this->not_validated[ $this->basename ] );
+	}
+
+	/**
+	 * Determine if addon is validated.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param string $basename Addon basename.
+	 *
+	 * @return bool
+	 */
+	public function is_validated( string $basename ): bool {
+
+		// We didn't check the addon before.
+		if ( ! isset( $this->not_validated[ $basename ], $this->is_validated[ $basename ] ) ) {
+			$addon_load_function = $this->get_addon_load_function( $basename );
+
+			if ( ! is_callable( $addon_load_function ) ) {
+				return false;
+			}
+
+			// Invoke addon loading function, which checks requirements.
+			$addon_load_function();
+		}
+
+		return in_array( $basename, $this->validated, true );
 	}
 
 	/**
@@ -675,7 +716,7 @@ class Requirements {
 			return true;
 		}
 
-		if ( $wpforms[ self::VERSION ] === self::WPFORMS_DEV_VERSION_IN_ADDON ) {
+		if ( in_array( self::WPFORMS_DEV_VERSION_IN_ADDON, $wpforms[ self::VERSION ], true ) ) {
 			return true;
 		}
 
@@ -762,7 +803,7 @@ class Requirements {
 
 		if (
 			$addon[ self::VERSION ] &&
-			! $this->version_compare( constant( $addon_version_constant ), $addon )
+			( ! defined( $addon_version_constant ) || ! $this->version_compare( constant( $addon_version_constant ), $addon ) )
 		) {
 			$this->not_validated[ $this->basename ][] = self::ADDON;
 
@@ -813,9 +854,13 @@ class Requirements {
 	 */
 	public function show_notices() {
 
-		foreach ( $this->get_notices() as $notice ) {
-			$this->show_notice( $notice );
+		$notices = $this->get_notices();
+
+		if ( ! $notices ) {
+			return;
 		}
+
+		$this->show_notice( '<p>' . implode( '</p><p>', $notices ) . '</p>' );
 	}
 
 	/**
@@ -824,8 +869,6 @@ class Requirements {
 	 * @since 1.8.2.2
 	 *
 	 * @return string[]
-	 *
-	 * @noinspection HtmlUnknownTarget
 	 */
 	public function get_notices(): array {
 
@@ -835,51 +878,77 @@ class Requirements {
 			return $notices;
 		}
 
-		$read_more = sprintf(
-		/* translators: %s - required PHP version. */
-			__( '<a href="%s" target="_blank" rel="noopener noreferrer">Read more</a> for additional information.', 'wpforms-lite' ),
-			esc_url( wpforms_utm_link( 'https://wpforms.com/docs/supported-php-version/', 'all-plugins', 'Addon PHP Notice' ) )
-		);
-
 		foreach ( $this->not_validated as $basename => $errors ) {
-			if ( ! $errors ) {
+			$notice = $this->get_notice( $basename );
+
+			if ( ! $notice ) {
 				continue;
 			}
-
-			$message = $this->get_validation_message( $errors, $basename );
-
-			if ( ! $message ) {
-				continue;
-			}
-
-			$plugin_headers = get_plugin_data( $this->requirements[ $basename ]['file'] );
-			$notice         = sprintf(
-				/* translators: translators: %1$s - WPForms addon name, %2$d - requirements message. */
-				__( 'The %1$s addon requires %2$s to work.', 'wpforms-lite' ),
-				$plugin_headers['Name'],
-				$message
-			);
-
-			if ( self::SHOW_PHP_NOTICE && in_array( self::PHP, $errors, true ) ) {
-				$notice .= ' ' . $read_more;
-			}
-
-			/**
-			 * Filter the requirements notice.
-			 *
-			 * @since 1.8.7
-			 *
-			 * @param string $notice       Notice.
-			 * @param array  $errors       Validation errors.
-			 * @param string $basename     Plugin basename.
-			 * @param array  $requirements Addon requirements.
-			 */
-			$notice = apply_filters( 'wpforms_requirements_notice', $notice, $errors, $basename, $this->requirements[ $basename ] );
 
 			$notices[] = $notice;
 		}
 
 		return $notices;
+	}
+
+	/**
+	 * Get notice.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param string $basename Plugin basename.
+	 *
+	 * @return string
+	 * @noinspection HtmlUnknownTarget
+	 */
+	public function get_notice( string $basename ): string {
+
+		if ( ! $this->not_validated[ $basename ] ) {
+			return '';
+		}
+
+		$errors  = $this->not_validated[ $basename ];
+		$message = $this->get_validation_message( $errors, $basename );
+
+		if ( ! $message ) {
+			return '';
+		}
+
+		if ( in_array( self::ADDON, $errors, true ) ) {
+			$source = __( 'WPForms plugin', 'wpforms-lite' );
+		} else {
+			$plugin_headers = get_plugin_data( $this->requirements[ $basename ]['file'] );
+			$source         = sprintf( /* translators: translators: %1$s - WPForms addon name. */
+				__( '%1$s addon', 'wpforms-lite' ),
+				$plugin_headers['Name']
+			);
+		}
+
+		$notice = sprintf(
+		/* translators: translators: %1$s - WPForms plugin or addon name, %2$d - requirements message. */
+			__( 'The %1$s requires %2$s.', 'wpforms-lite' ),
+			$source,
+			$message
+		);
+
+		if ( self::SHOW_PHP_NOTICE && in_array( self::PHP, $errors, true ) ) {
+			$notice .= ' ' . sprintf( /* translators: %s - required PHP version. */
+				__( '<a href="%s" target="_blank" rel="noopener noreferrer">Read more</a> for additional information.', 'wpforms-lite' ),
+				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/supported-php-version/', 'all-plugins', 'Addon PHP Notice' ) )
+			);
+		}
+
+		/**
+		 * Filter the requirements' notice.
+		 *
+		 * @since 1.8.7
+		 *
+		 * @param string $notice       Notice.
+		 * @param array  $errors       Validation errors.
+		 * @param string $basename     Plugin basename.
+		 * @param array  $requirements Addon requirements.
+		 */
+		return (string) apply_filters( 'wpforms_requirements_notice', $notice, $errors, $basename, $this->requirements[ $basename ] );
 	}
 
 	/**
@@ -894,6 +963,13 @@ class Requirements {
 	 */
 	private function get_validation_message( array $errors, string $basename ): string {
 
+		$addon_validation_message = $this->get_addon_validation_message( $errors, $basename );
+
+		if ( $addon_validation_message ) {
+			// Do not proceed further if addon is required in a higher version.
+			return wpforms_list_array( [ $addon_validation_message ] );
+		}
+
 		$messages = [];
 
 		$messages[] = $this->get_php_validation_message( $errors, $basename );
@@ -901,11 +977,8 @@ class Requirements {
 		$messages[] = $this->get_wp_validation_message( $errors, $basename );
 		$messages[] = $this->get_wpforms_validation_message( $errors, $basename );
 		$messages[] = $this->get_license_validation_message( $errors, $basename );
-		$messages[] = $this->get_addon_validation_message( $errors, $basename );
 
-		$messages = array_filter( $messages );
-
-		return $this->list_array( $messages );
+		return wpforms_list_array( array_filter( $messages ) );
 	}
 
 	/**
@@ -921,7 +994,7 @@ class Requirements {
 	private function get_php_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_PHP_NOTICE && in_array( self::PHP, $errors, true ) ) {
-			return 'PHP ' . $this->list_version( $this->requirements[ $basename ][ self::PHP ] );
+			return $this->list_version_detailed( $this->requirements[ $basename ][ self::PHP ], 'PHP' );
 		}
 
 		return '';
@@ -940,7 +1013,7 @@ class Requirements {
 	private function get_ext_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_EXT_NOTICE && in_array( self::EXT, $errors, true ) ) {
-			$extension = $this->list_array( $this->requirements[ $basename ][ self::EXT ] );
+			$extension = wpforms_list_array( $this->requirements[ $basename ][ self::EXT ] );
 
 			return sprintf(
 			/* translators: %s - PHP extension name(s). */
@@ -970,7 +1043,7 @@ class Requirements {
 	private function get_wp_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_WP_NOTICE && in_array( self::WP, $errors, true ) ) {
-			return 'WordPress ' . $this->list_version( $this->requirements[ $basename ][ self::WP ] );
+			return $this->list_version_detailed( $this->requirements[ $basename ][ self::WP ], 'WordPress' );
 		}
 
 		return '';
@@ -989,7 +1062,7 @@ class Requirements {
 	private function get_wpforms_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_WPFORMS_NOTICE && in_array( self::WPFORMS, $errors, true ) ) {
-			return 'WPForms ' . $this->list_version( $this->requirements[ $basename ][ self::WPFORMS ] );
+			return $this->list_version_detailed( $this->requirements[ $basename ][ self::WPFORMS ], 'WPForms' );
 		}
 
 		return '';
@@ -1008,7 +1081,7 @@ class Requirements {
 	private function get_license_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_LICENSE_NOTICE && in_array( self::LICENSE, $errors, true ) ) {
-			$license = $this->list_array(
+			$license = wpforms_list_array(
 				array_map( 'ucfirst', $this->requirements[ $basename ][ self::LICENSE ] ),
 				false
 			);
@@ -1036,12 +1109,9 @@ class Requirements {
 	private function get_addon_validation_message( array $errors, string $basename ): string {
 
 		if ( self::SHOW_ADDON_NOTICE && in_array( self::ADDON, $errors, true ) ) {
-			$self_version = $this->list_version( $this->requirements[ $basename ][ self::ADDON ] );
-
-			return sprintf(
-			/* translators: %s - addon self version. */
-				__( 'self version %s', 'wpforms-lite' ),
-				$self_version
+			return $this->list_version_detailed(
+				$this->requirements[ $basename ][ self::ADDON ],
+				get_plugin_data( $this->requirements[ $basename ]['file'] )['Name']
 			);
 		}
 
@@ -1057,9 +1127,9 @@ class Requirements {
 	 */
 	private function show_notice( string $notice ) {
 
-		echo '<div class="notice notice-error"><p>';
+		echo '<div class="notice notice-error">';
 		echo wp_kses_post( $notice );
-		echo '</p></div>';
+		echo '</div>';
 	}
 
 	/**
@@ -1090,29 +1160,6 @@ class Requirements {
 	}
 
 	/**
-	 * Get comma-separated list string from requirements' array.
-	 *
-	 * @since 1.8.2.2
-	 *
-	 * @param array $arr Array containing a list.
-	 * @param bool  $sep Separator of the last element.
-	 *
-	 * @return string
-	 */
-	private function list_array( array $arr, bool $sep = true ): string {
-
-		$separator = $sep ?
-			__( 'and', 'wpforms-lite' ) :
-			__( 'or', 'wpforms-lite' );
-
-		$last  = array_slice( $arr, - 1 );
-		$first = implode( ', ', array_slice( $arr, 0, - 1 ) );
-		$both  = array_filter( array_merge( [ $first ], $last ) );
-
-		return implode( ' ' . $separator . ' ', $both );
-	}
-
-	/**
 	 * Get version from requirements array.
 	 *
 	 * @since 1.8.2.2
@@ -1121,13 +1168,51 @@ class Requirements {
 	 *
 	 * @return string
 	 */
-	private function list_version( array $requirement ): string {
+	public function list_version( array $requirement ): string {
 
 		$compare_arr = $this->get_compare_array( $requirement );
 		$list        = [];
 
 		foreach ( $compare_arr as $version2 => $compare ) {
 			$list[] = $compare . $version2;
+		}
+
+		return implode( ', ', $list );
+	}
+
+	/**
+	 * Get a version from requirements array in human-readable format.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param array  $requirement Array containing a requirement.
+	 * @param string $what        What is being checked.
+	 *
+	 * @return string
+	 */
+	private function list_version_detailed( array $requirement, string $what = '' ): string {
+
+		$compare_arr = $this->get_compare_array( $requirement );
+		$list        = [];
+
+		$compare_to_string = [
+			/* translators: %1$s - What is being checked (PHP, WPForms, etc.), %2$s - required version. This is used as the completion of the sentence "The {addon name} addon requires {here goes this string}". */
+			'>=' => __( '%1$s %2$s or above', 'wpforms-lite' ),
+			/* translators: %1$s - What is being checked (PHP, WPForms, etc.), %2$s - required version. This is used as the completion of the sentence "The {addon name} addon requires {here goes this string}". */
+			'<=' => __( '%1$s %2$s or below', 'wpforms-lite' ),
+			'='  => '%1$s %2$s',
+			/* translators: %1$s - What is being checked (PHP, WPForms, etc.), %2$s - required version. This is used as the completion of the sentence "The {addon name} addon requires {here goes this string}". */
+			'>'  => __( 'a newer version of %1$s than %2$s', 'wpforms-lite' ),
+			/* translators: %1$s - What is being checked (PHP, WPForms, etc.), %2$s - required version. This is used as the completion of the sentence "The {addon name} addon requires {here goes this string}". */
+			'<'  => __( 'an older version of %1$s than %2$s', 'wpforms-lite' ),
+		];
+
+		foreach ( $compare_arr as $version2 => $compare ) {
+			if ( isset( $compare_to_string[ $compare ] ) ) {
+				$list[] = sprintf( $compare_to_string[ $compare ], $what, $version2 );
+			} else {
+				$list[] = $what . ' ' . $compare . ' ' . $version2;
+			}
 		}
 
 		return implode( ', ', $list );
@@ -1148,5 +1233,17 @@ class Requirements {
 		$compares = $requirement[ self::COMPARE ];
 
 		return array_combine( $versions, $compares );
+	}
+
+	/**
+	 * Get requirements.
+	 *
+	 * @since 1.8.8
+	 *
+	 * @return array
+	 */
+	public function get_requirements(): array {
+
+		return $this->requirements;
 	}
 }

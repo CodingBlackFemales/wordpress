@@ -1,8 +1,16 @@
 <?php
 
+// phpcs:disable Generic.Commenting.DocComment.MissingShort
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection AutoloadingIssuesInspection */
+// phpcs:enable Generic.Commenting.DocComment.MissingShort
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use WPForms\Admin\Traits\FormTemplates;
+use WPForms\Integrations\AI\Helpers as AIHelpers;
 
 /**
  * Setup panel.
@@ -12,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 
-	use \WPForms\Admin\Traits\FormTemplates;
+	use FormTemplates;
 
 	/**
 	 * All systems go.
@@ -28,7 +36,7 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 		$this->order     = 5;
 		$this->on_demand = true;
 
-		$this->addons_obj = wpforms()->get( 'addons' );
+		$this->addons_obj = wpforms()->obj( 'addons' );
 	}
 
 	/**
@@ -54,6 +62,8 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 	 * Output the Settings panel primary content.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @noinspection HtmlUnknownTarget
 	 */
 	public function panel_content() {
 
@@ -71,8 +81,8 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 		<p class="wpforms-setup-desc secondary-text">
 			<?php
 			printf(
-				wp_kses( /* translators: %1$s - create template doc link, %2$s - Contact us page link. */
-					__( 'To speed up the process you can select from one of our pre-made templates, start with a <a href="#" class="wpforms-trigger-blank">blank form</a> or <a href="%1$s" target="_blank" rel="noopener noreferrer">create your own</a>. Have a suggestion for a new template? <a href="%2$s" target="_blank" rel="noopener noreferrer">We’d love to hear it</a>!', 'wpforms-lite' ),
+				wp_kses( /* translators: %1$s - create a template doc link, %2$s - Contact us page link. */
+					__( 'To speed up the process, you can select from one of our pre-made templates, start with a <a href="#" class="wpforms-trigger-blank">blank form</a> or <a href="%1$s" target="_blank" rel="noopener noreferrer">create your own</a>.', 'wpforms-lite' ),
 					[
 						'strong' => [],
 						'a'      => [
@@ -83,9 +93,27 @@ class WPForms_Builder_Panel_Setup extends WPForms_Builder_Panel {
 						],
 					]
 				),
-				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-a-custom-form-template/', 'builder-templates', 'Create Your Own Template Documentation' ) ),
-				esc_url( wpforms_utm_link( 'https://wpforms.com/form-template-suggestion/', 'builder-templates', 'Suggest a Template' ) )
+				esc_url( wpforms_utm_link( 'https://wpforms.com/docs/how-to-create-a-custom-form-template/', 'builder-templates', 'Create Your Own Template Documentation' ) )
 			);
+
+			if ( AIHelpers::is_disabled() ) {
+				echo ' ';
+				printf(
+					wp_kses( /* translators: %1$s - create a template doc link, %2$s - Contact us page link. */
+						__( 'Have a suggestion for a new template? <a href="%1$s" target="_blank" rel="noopener noreferrer">We’d love to hear it</a>!', 'wpforms-lite' ),
+						[
+							'strong' => [],
+							'a'      => [
+								'href'   => [],
+								'class'  => [],
+								'target' => [],
+								'rel'    => [],
+							],
+						]
+					),
+					esc_url( wpforms_utm_link( 'https://wpforms.com/form-template-suggestion/', 'builder-templates', 'Suggest a Template' ) )
+				);
+			}
 			?>
 		</p>
 

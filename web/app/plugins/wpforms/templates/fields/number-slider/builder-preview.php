@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div
 	id="wpforms-number-slider-hint-<?php echo (int) $field_id; ?>"
-	data-hint="<?php echo esc_attr( wp_kses_post( $value_display ) ); ?>"
+	data-hint="<?php echo esc_attr( wp_kses_post( html_entity_decode( $value_display ) ) ); ?>"
 	class="wpforms-number-slider-hint">
-	<?php echo wp_kses_post( $value_hint ); ?>
+	<?php echo wp_kses_post( html_entity_decode( $value_hint ) ); ?>
 </div>

@@ -19,7 +19,7 @@ class Redux_Embedded implements themecheck {
 	 *
 	 * @var array
 	 */
-	protected array $error = array();
+	protected $error = array();
 
 	/**
 	 * Run checker.
@@ -75,7 +75,6 @@ class Redux_Embedded implements themecheck {
 	public function getError(): array {
 		return $this->error;
 	}
-
 }
 
 $themechecks[] = new Redux_Embedded();

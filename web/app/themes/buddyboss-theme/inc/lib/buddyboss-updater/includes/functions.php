@@ -513,3 +513,37 @@ function bblicenses_get_hidden_license_key( $license ) {
 
 	return $license;
 }
+
+/**
+ * Get the license stats.
+ *
+ * @since 2.6.90
+ *
+ * @param string $main_file Plugin path.
+ *
+ * @return array
+ */
+function bb_theme_get_license_stats( $main_file = '' ) {
+	global $wpdb;
+
+	$stats = array(
+		'site_url'            => get_bloginfo( 'wpurl' ),
+		'wp_version'          => get_bloginfo( 'version' ),
+		'locale'              => get_locale(),
+		'php_version'         => PHP_VERSION,
+		'server_architecture' => sprintf( '%s %s %s', php_uname( 's' ), php_uname( 'r' ), php_uname( 'm' ) ),
+		'web_server'          => ( $_SERVER['SERVER_SOFTWARE'] ?? '' ),
+		'db_server_ver'       => $wpdb->get_var( 'SELECT VERSION()' ),
+		'db_client_ver'       => $wpdb->dbh->client_info,
+		'db_charset'          => $wpdb->charset,
+	);
+
+	if ( is_multisite() ) {
+		$stats['multisite'] = array(
+			'is_multisite' => true,
+			'active'       => ! empty( $main_file ) && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( $main_file ) ? 'networkwide' : 'sitewide',
+		);
+	}
+
+	return $stats;
+}

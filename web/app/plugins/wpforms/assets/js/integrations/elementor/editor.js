@@ -57,6 +57,69 @@ var WPFormsElementor = window.WPFormsElementor || ( function( document, window, 
 				// Initialize widget controls.
 				elementor.hooks.addAction( 'panel/open_editor/widget/wpforms', app.widgetPanelOpen );
 
+				// Initialize choiceJS.
+				elementorFrontend.hooks.addAction( 'frontend/element_ready/wpforms.default', app.loadChoicesJS );
+			} );
+		},
+
+		/**
+		 * Init Modern style Dropdown fields (<select>) with choiceJS.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param {Object} $scope Elementor scope object.
+		 */
+		loadChoicesJS( $scope ) {
+			// Loads if function exists.
+			if ( typeof parent.Choices !== 'function' ) {
+				return;
+			}
+
+			const $elements = $scope.find( '.wpforms-field .choicesjs-select' );
+			const config = window.wpforms_choicesjs_config || {};
+
+			// Initialize ChoicesJS.
+			$elements.each( function( index, el ) {
+				if ( ! ( el instanceof parent.HTMLSelectElement ) ) {
+					return;
+				}
+
+				const $el = $( el );
+
+				if ( $el.data( 'choicesjs' ) ) {
+					return;
+				}
+
+				const $field = $el.closest( '.wpforms-field' );
+
+				config.callbackOnInit = function() {
+					const self = this,
+						$element = $( self.passedElement.element ),
+						$input = $( self.input.element ),
+						sizeClass = $element.data( 'size-class' );
+
+					// Add CSS-class for size.
+					if ( sizeClass ) {
+						$( self.containerOuter.element ).addClass( sizeClass );
+					}
+
+					/**
+					 * If a multiple select has selected choices - hide a placeholder text.
+					 * In case if select is empty - we return placeholder text.
+					 */
+					if ( $element.prop( 'multiple' ) ) {
+						// On init event.
+						$input.data( 'placeholder', $input.attr( 'placeholder' ) );
+
+						if ( self.getValue( true ).length ) {
+							$input.hide();
+						}
+					}
+
+					this.disable();
+					$field.find( '.is-disabled' ).removeClass( 'is-disabled' );
+				};
+				$el.data( 'choicesjs', new parent.Choices( el, config ) );
 			} );
 		},
 

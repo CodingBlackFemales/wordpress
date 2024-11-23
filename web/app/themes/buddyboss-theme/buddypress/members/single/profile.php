@@ -7,18 +7,21 @@
  */
 
 $profile_link = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() );
-?>
 
-<?php if ( bp_is_user_profile_edit() || bp_is_user_change_avatar() || bp_is_user_change_cover_image() ) { ?>
+$bp_is_user_profile_edit       = bp_is_user_profile_edit();
+$bp_is_user_change_avatar      = bp_is_user_change_avatar();
+$bp_is_user_change_cover_image = bp_is_user_change_cover_image();
+
+if ( $bp_is_user_profile_edit || $bp_is_user_change_avatar || $bp_is_user_change_cover_image ) { ?>
 	<header class="profile-header flex align-items-center">
 		<h1 class="entry-title bb-profile-title"><?php esc_attr_e( 'Edit Profile', 'buddyboss-theme' ); ?></h1>
 		<a href="<?php echo $profile_link; ?>" class="push-right button outline small"><i class="bb-icon-f bb-icon-user"></i> <?php esc_attr_e( 'View Profile', 'buddyboss-theme' ); ?></a>
 	</header>
 <?php } ?>
 
-<div class="bp-profile-wrapper <?php echo ( bp_is_user_profile() && ( ! bp_is_user_profile_edit() && ! bp_is_user_change_avatar() && ! bp_is_user_change_cover_image() ) ) ? esc_attr( 'need-separator' ) : ''; ?>">
+<div class="bp-profile-wrapper <?php echo ( bp_is_user_profile() && ( ! $bp_is_user_profile_edit && ! $bp_is_user_change_avatar && ! $bp_is_user_change_cover_image ) ) ? esc_attr( 'need-separator' ) : ''; ?>">
 	<?php
-	if ( bp_is_user_profile_edit() || bp_is_user_change_avatar() || bp_is_user_change_cover_image() ) {
+	if ( $bp_is_user_profile_edit || $bp_is_user_change_avatar || $bp_is_user_change_cover_image ) {
 		bp_get_template_part( 'members/single/parts/item-subnav' );
 	}
 	?>
@@ -53,7 +56,7 @@ $profile_link = trailingslashit( bp_displayed_user_domain() . bp_get_profile_slu
 					if ( bp_is_active( 'xprofile' ) ) {
 						bp_get_template_part( 'members/single/profile/profile-loop' );
 
-					// Display WordPress profile (fallback).
+						// Display WordPress profile (fallback).
 					} else {
 						bp_get_template_part( 'members/single/profile/profile-wp' );
 					}

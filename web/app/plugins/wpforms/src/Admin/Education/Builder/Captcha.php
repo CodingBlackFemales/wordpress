@@ -69,7 +69,7 @@ class Captcha implements EducationInterface {
 		}
 
 		// Get an actual form data.
-		$form_data = wpforms()->get( 'form' )->get( $form_id, [ 'content_only' => true ] );
+		$form_data = wpforms()->obj( 'form' )->get( $form_id, [ 'content_only' => true ] );
 
 		// Check that CAPTCHA is configured in the settings.
 		$captcha_settings = wpforms_get_captcha_settings();

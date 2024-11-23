@@ -85,6 +85,9 @@ class Field extends \WPForms_Field {
 			$properties['container']['class'][] = 'wpforms-summary-enabled';
 		}
 
+		// Unset for attribute for label.
+		unset( $properties['label']['attr']['for'] );
+
 		return $properties;
 	}
 
@@ -222,7 +225,13 @@ class Field extends \WPForms_Field {
 		$this->field_option( 'advanced-options', $field, $args );
 
 		// Size.
-		$this->field_option( 'size', $field, [ 'exclude' => [ 'small' ] ] );
+		$this->field_option(
+			'size',
+			$field,
+			[
+				'exclude' => [ 'small' ], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+			]
+		);
 
 		// Custom CSS classes.
 		$this->field_option( 'css', $field );
@@ -291,6 +300,9 @@ class Field extends \WPForms_Field {
 			$attrs['readonly'] = 'readonly';
 		}
 
+		// aria-errormessage attribute is not allowed for hidden inputs.
+		unset( $attrs['aria-errormessage'] );
+
 		$is_summary_enabled = $this->is_summary_enabled( $field );
 
 		if ( $is_summary_enabled ) {
@@ -334,14 +346,14 @@ class Field extends \WPForms_Field {
 	 * @since 1.8.2
 	 *
 	 * @param int    $field_id     Field ID.
-	 * @param string $field_submit Field value submitted by a user.
+	 * @param string $field_submit Submitted field value (raw data).
 	 * @param array  $form_data    Form data and settings.
 	 */
 	public function validate( $field_id, $field_submit, $form_data ) {
 
 		// Basic required check - If field is marked as required, check for entry data.
 		if ( ! empty( $form_data['fields'][ $field_id ]['required'] ) && ( empty( $field_submit ) || wpforms_sanitize_amount( $field_submit ) <= 0 ) ) {
-			wpforms()->get( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Payment is required.', 'wpforms-lite' );
+			wpforms()->obj( 'process' )->errors[ $form_data['id'] ][ $field_id ] = esc_html__( 'Payment is required.', 'wpforms-lite' );
 		}
 	}
 
@@ -361,7 +373,7 @@ class Field extends \WPForms_Field {
 		$amount = wpforms_sanitize_amount( $field_submit );
 
 		// Set final field details.
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'       => sanitize_text_field( $name ),
 			'value'      => wpforms_format_amount( $amount, true ),
 			'amount'     => wpforms_format_amount( $amount ),
@@ -599,7 +611,7 @@ class Field extends \WPForms_Field {
 		$field_amount = ! empty( $field['price'] ) ? wpforms_sanitize_amount( $field['price'] ) * $quantity : 0;
 
 		$fields[] = [
-			'label'     => $field['label'],
+			'label'     => ! empty( $field['label_hide'] ) ? '' : $field['label'],
 			'quantity'  => $this->get_payment_field_min_quantity( $field ),
 			'amount'    => wpforms_format_amount( $field_amount, true ),
 			'is_hidden' => ! $quantity,
@@ -636,7 +648,7 @@ class Field extends \WPForms_Field {
 			$is_default    = ! empty( $choice['default'] ) || ( isset( $default_choice_key ) && (int) $key === $default_choice_key );
 
 			$fields[] = [
-				'label'     => $field['label'] . ' - ' . $choice['label'],
+				'label'     => ! empty( $field['label_hide'] ) ? $choice['label'] : $field['label'] . ' - ' . $choice['label'],
 				'quantity'  => $quantity,
 				'amount'    => wpforms_format_amount( $choice_amount, true ),
 				'is_hidden' => ! $is_default || ! $quantity,

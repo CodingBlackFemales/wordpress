@@ -47,7 +47,7 @@ class Amp {
 	 *
 	 * @return bool True if the current page is in AMP mode.
 	 */
-	public function is_amp() {
+	public function is_amp(): bool {
 
 		if ( is_null( $this->is_amp_mode ) ) {
 			$this->is_amp_mode = wpforms_is_amp();
@@ -65,64 +65,80 @@ class Amp {
 	 *
 	 * @return bool True if we need to stop the output.
 	 */
-	public function stop_output( $form_data ) {
+	public function stop_output( $form_data ): bool {
 
 		// We need to stop output processing in case we are on AMP page.
 		// phpcs:disable WPForms.PHP.ValidateHooks.InvalidHookName
-		if (
-			wpforms_is_amp( false ) &&
-			(
-				! current_theme_supports( 'amp' ) ||
-				/**
-				 * Filters the pro status of the plugin.
-				 *
-				 * @since 1.5.4.2
-				 *
-				 * @param bool $pro Pro status.
-				 */
-				apply_filters( 'wpforms_amp_pro', wpforms()->is_pro() ) ||
-				! is_ssl() ||
-				! defined( 'AMP__VERSION' ) ||
-				version_compare( AMP__VERSION, '1.2', '<' )
-			)
-		) {
-			$form_id       = ! empty( $form_data['id'] ) ? (int) $form_data['id'] : 0;
-			$full_page_url = home_url( add_query_arg( 'nonamp', '1' ) . '#wpforms-' . $form_id );
+		if ( ! $this->should_stop_output() ) {
+			return false;
+		}
 
-			/**
-			 * Allow modifying the text or url for the full page on the AMP pages.
-			 *
-			 * @since 1.4.1.1
-			 * @since 1.7.1 Added $form_id, $full_page_url, and $form_data arguments.
-			 *
-			 * @param string $text          Text.
-			 * @param int    $form_id       Form id.
-			 * @param string $full_page_url Full page url.
-			 * @param array  $form_data     Form data and settings.
-			 *
-			 * @return string
-			 */
-			$text = (string) apply_filters(
-				'wpforms_frontend_shortcode_amp_text',
-				sprintf( /* translators: %s - URL to a non-amp version of a page with the form. */
-					__( '<a href="%s">Go to the full page</a> to view and submit the form.', 'wpforms-lite' ),
-					esc_url( $full_page_url )
-				),
-				$form_id,
-				$full_page_url,
-				$form_data
-			);
+		$form_id       = ! empty( $form_data['id'] ) ? (int) $form_data['id'] : 0;
+		$full_page_url = home_url( add_query_arg( 'nonamp', '1' ) . '#wpforms-' . $form_id );
 
-			printf(
-				'<p class="wpforms-shortcode-amp-text">%s</p>',
-				wp_kses_post( $text )
-			);
+		/**
+		 * Allow modifying the text or url for the full page on the AMP pages.
+		 *
+		 * @since 1.4.1.1
+		 * @since 1.7.1 Added $form_id, $full_page_url, and $form_data arguments.
+		 *
+		 * @param string $text          Text.
+		 * @param int    $form_id       Form id.
+		 * @param string $full_page_url Full page url.
+		 * @param array  $form_data     Form data and settings.
+		 *
+		 * @return string
+		 */
+		$text = (string) apply_filters(
+			'wpforms_frontend_shortcode_amp_text',
+			sprintf( /* translators: %s - URL to a non-amp version of a page with the form. */
+				__( '<a href="%s">Go to the full page</a> to view and submit the form.', 'wpforms-lite' ),
+				esc_url( $full_page_url )
+			),
+			$form_id,
+			$full_page_url,
+			$form_data
+		);
 
+		printf(
+			'<p class="wpforms-shortcode-amp-text">%s</p>',
+			wp_kses_post( $text )
+		);
+
+		return true;
+		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
+	}
+
+	/**
+	 * Whether output should be stopped.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @return bool
+	 */
+	private function should_stop_output(): bool {
+
+		if ( ! $this->is_amp() ) {
+			return false;
+		}
+
+		/**
+		 * Filters PRO status of the plugin.
+		 * Returning `true` means that AMP stop loading.
+		 *
+		 * @since 1.5.4.2
+		 *
+		 * @param bool $pro Pro status.
+		 */
+		if ( apply_filters( 'wpforms_amp_pro', wpforms()->is_pro() ) ) { // phpcs:ignore WPForms.PHP.ValidateHooks.InvalidHookName
 			return true;
 		}
-		// phpcs:enable WPForms.PHP.ValidateHooks.InvalidHookName
 
-		return false;
+		return (
+			! defined( 'AMP__VERSION' ) ||
+			version_compare( AMP__VERSION, '1.2', '<' ) ||
+			! is_ssl()
+		);
 	}
 
 	/**
@@ -252,7 +268,7 @@ class Amp {
 			return false;
 		}
 
-		$frontend = wpforms()->get( 'frontend' );
+		$frontend = wpforms()->obj( 'frontend' );
 
 		if ( ! $frontend ) {
 			return false;

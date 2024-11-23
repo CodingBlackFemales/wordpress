@@ -20,7 +20,8 @@ class Upload {
 
 		$stat = stat( dirname( $path ) );
 
-		@chmod( $path, $stat['mode'] & 0000666 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_chmod
+		@chmod( $path, $stat['mode'] & 0000666 );
 	}
 
 	/**
@@ -86,7 +87,8 @@ class Upload {
 		wpforms_create_index_html_file( $upload_path );
 		wpforms_create_index_html_file( $upload_path_form );
 
-		$move_new_file = @rename( $file['tmp_name'], $file_new ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		// // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.rename_rename
+		$move_new_file = @rename( $file['tmp_name'], $file_new );
 
 		if ( $move_new_file === false ) {
 			wpforms_log(

@@ -29,23 +29,28 @@ function wc_paid_listings_approve_listing_with_package( $listing_id, $user_id, $
 			delete_post_meta( $listing_id, '_post_status_before_package_pause' );
 		} else {
 			$listing = array(
-				'ID'            => $listing_id,
-				'post_date'     => current_time( 'mysql' ),
-				'post_date_gmt' => current_time( 'mysql', 1 ),
+				'ID' => $listing_id,
 			);
 
-			switch ( get_post_type( $listing_id ) ) {
-				case 'job_listing':
-					$listing['post_status'] = get_option( 'job_manager_submission_requires_approval' ) ? 'pending' : 'publish';
-					break;
-				case 'resume':
-					$listing['post_status'] = get_option( 'resume_manager_submission_requires_approval' ) ? 'pending' : 'publish';
-					break;
-			}
-		}
+			if ( 'job_listing' === get_post_type( $listing_id ) ) {
+				if ( ! class_exists( 'WP_Job_Manager_Form' ) ) {
+					include_once JOB_MANAGER_PLUGIN_DIR . '/includes/abstracts/abstract-wp-job-manager-form.php';
+					include_once JOB_MANAGER_PLUGIN_DIR . '/includes/forms/class-wp-job-manager-form-submit-job.php';
+				}
 
-		if ( 'job_listing' === get_post_type( $listing_id ) ) {
-			delete_post_meta( $listing_id, '_job_expires' );
+				if ( method_exists( 'WP_Job_Manager_Form_Submit_Job', 'apply_scheduled_date' ) ) {
+					$job_schedule_listing_date = get_post_meta( $listing_id, '_job_schedule_listing', true );
+					WP_Job_Manager_Form_Submit_Job::apply_scheduled_date( $listing, $job_schedule_listing_date );
+				} else {
+					$listing['post_date']     = current_time( 'mysql' );
+					$listing['post_date_gmt'] = current_time( 'mysql', 1 );
+				}
+
+				$listing['post_status'] = get_option( 'job_manager_submission_requires_approval' ) ? 'pending' : 'publish';
+				delete_post_meta( $listing_id, '_job_expires' );
+			} elseif ( 'resume' === get_post_type( $listing_id ) ) {
+				$listing['post_status'] = get_option( 'resume_manager_submission_requires_approval' ) ? 'pending' : 'publish';
+			}
 		}
 
 		update_post_meta( $listing_id, '_user_package_id', $user_package_id );

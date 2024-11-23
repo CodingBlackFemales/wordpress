@@ -55,7 +55,7 @@ class AddRestoredFlagTask {
 		}
 
 		// Creates the task to import entries.
-		$action_id = wpforms()->get( 'tasks' )
+		$action_id = wpforms()->obj( 'tasks' )
 				 ->create( self::LITE_CONNECT_RESTORED_TASK )
 				 ->once( $run_at )
 				 ->register();

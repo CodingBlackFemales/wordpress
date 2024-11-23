@@ -265,6 +265,13 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 		 * @return {Object} Scriptable options as a function which is called for the chart instances.
 		 */
 		get settings() { /* eslint max-lines-per-function: ["error", 200] */
+			/**
+			 * Check if the site is RTL.
+			 *
+			 * @since 1.9.1
+			 */
+			const isRTL = $( 'body' ).hasClass( 'rtl' );
+
 			return {
 
 				type: this.type,
@@ -286,6 +293,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 					],
 				},
 				options: {
+					maintainAspectRatio: false,
 					layout: {
 						padding: {
 							left: 15,
@@ -295,99 +303,91 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 						},
 					},
 					scales: {
-						xAxes: [
-							{
-								type: 'time',
-								offset: this.type === 'bar',
-								time: {
-									unit: 'day',
-									tooltipFormat: this.tooltipFormat,
-									displayFormats: {
-										day: this.xAxesDisplayFormat,
-									},
+						x: {
+							type: 'timeseries',
+							offset: this.type === 'bar',
+							time: {
+								tooltipFormat: this.tooltipFormat,
+							},
+							reverse: isRTL,
+							ticks: {
+								padding: 10,
+								font: {
+									size: 13,
+									color: '#a7aaad',
 								},
-								distribution: 'series',
-								ticks: {
-									reverse: $( 'body' ).hasClass( 'rtl' ),
-									beginAtZero: true,
-									padding: 10,
-									fontColor: '#a7aaad',
-									labelOffset: 10,
-									fontSize: 13,
-									minRotation: 25,
-									maxRotation: 25,
-									callback( value, index, values ) {
-										// Distribute the ticks equally starting from the right side of xAxis.
-										const gap = Math.floor( values.length / 7 );
+								labelOffset: 10,
+								minRotation: 25,
+								maxRotation: 25,
+								callback( value, index, values ) {
+									// Distribute the ticks equally starting from the right side of xAxis.
+									const gap = Math.floor( values.length / 7 );
 
-										if ( gap < 1 ) {
-											return value;
-										}
+									if ( gap < 1 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
 
-										if ( ( values.length - index - 1 ) % gap === 0 ) {
-											return value;
-										}
-									},
+									if ( ( values.length - index - 1 ) % gap === 0 ) {
+										return moment( value ).format( vars.xAxesDisplayFormat );
+									}
 								},
 							},
-						],
-						yAxes: [
-							{
-								ticks: {
-									beginAtZero: true,
-									maxTicksLimit: 6,
-									padding: 20,
-									fontColor: '#a7aaad',
-									fontSize: 13,
-									callback: ( value ) => {
-										// Update the scales if the dataset returned includes price amounts.
-										if ( this.isAmount ) {
-											return this.amountFormatter.format( value );
-										}
+						},
+						y: {
+							beginAtZero: true,
+							ticks: {
+								maxTicksLimit: 6,
+								padding: 20,
+								font: {
+									size: 13,
+									color: '#a7aaad',
+								},
+								callback: ( value ) => {
+									// Update the scales if the dataset returned includes price amounts.
+									if ( this.isAmount ) {
+										return this.amountFormatter.format( value );
+									}
 
-										// Make sure the tick value has no decimals.
-										if ( Math.floor( value ) === value ) {
-											return value;
-										}
-									},
+									// Make sure the tick value has no decimals.
+									if ( Math.floor( value ) === value ) {
+										return value;
+									}
 								},
 							},
-						],
+						},
 					},
 					elements: {
 						line: {
 							tension: 0,
+							fill: true,
 						},
 					},
-					animation: {
-						duration: 0,
-					},
-					hover: {
-						animationDuration: 0,
-					},
-					legend: {
-						display: false,
-					},
-					tooltips: {
-						displayColors: false,
-						callbacks: {
-							label: ( { yLabel: value } ) => {
-								let label = `${ this.datasetLabel } `;
+					animation: false,
+					plugins: {
+						legend: {
+							display: false,
+						},
+						tooltip: {
+							displayColors: false,
+							rtl: isRTL,
+							callbacks: {
+								label: ( tooltipItem ) => {
+									let label = `${ this.datasetLabel } `;
+									const value = tooltipItem.formattedValue;
 
-								// Update the scales if the dataset returned includes price amounts.
-								if ( this.isAmount ) {
-									label += this.amountFormatter.format( value );
+									// Update the scales if the dataset returned includes price amounts.
+									if ( this.isAmount ) {
+										label += this.amountFormatter.format( value );
+										return label;
+									}
+
+									label += value;
+
 									return label;
-								}
-
-								label += value;
-
-								return label;
+								},
 							},
 						},
 					},
-					responsiveAnimationDuration: 0,
-					maintainAspectRatio: false,
 				},
 			};
 		},
@@ -437,6 +437,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 			el.$filterBtn = $( '#wpforms-datepicker-popover-button' );
 			el.$datepicker = $( '#wpforms-payments-overview-datepicker' );
 			el.$filterForm = $( '.wpforms-overview-top-bar-filter-form' );
+			el.$activeStat = el.$filterForm.find( 'input[name="statcard"]' );
 			el.$table = $( '.wpforms-table-list' );
 			el.$notice = $( '.wpforms-overview-chart-notice' );
 			el.$reports = $( '.wpforms-payments-overview-reports' );
@@ -722,6 +723,18 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 			el.$reports.find( 'button' ).removeClass( vars.classNames.selected );
 			$this.addClass( vars.classNames.selected );
 
+			// If the `statcard` field is not present, create it.
+			if ( ! el.$activeStat.length ) {
+				// Append a hidden input field for the statcard.
+				el.$filterForm.append( '<input type="hidden" name="statcard">' );
+
+				// Update the reference to the activeStat element.
+				el.$activeStat = el.$filterForm.find( 'input[name="statcard"]' );
+			}
+
+			// Update the value of the statcard field with the selected report.
+			el.$activeStat.val( vars.report );
+
 			// Update the chart stats with consideration to possible form stats being viewed.
 			app.updateChartByReport();
 		},
@@ -841,7 +854,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 
 					labels.push( date );
 					datasets.push( {
-						t: date,
+						x: date,
 						y: item?.count || 0,
 					} );
 				} );
@@ -869,7 +882,7 @@ const WPFormsPaymentsOverview = window.WPFormsPaymentsOverview || ( function( do
 
 				labels.push( date );
 				datasets.push( {
-					t: date,
+					x: date,
 					y: Math.floor( Math.random() * ( maxY - minY + 1 ) ) + minY, // NOSONAR not used in secure contexts.
 				} );
 			}

@@ -1,10 +1,10 @@
 <?php
 
-$view              = get_option( 'bb_theme_lifter_membership_grid_list', 'grid' );
-$class_grid_active = ( $view === 'grid' ) ? 'active' : '';
-$class_list_active = ( $view === 'list' ) ? 'active' : '';
-$class_grid_show   = ( $view === 'grid' ) ? 'grid-view bb-grid' : '';
-$class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
+$view              = bb_theme_get_directory_layout_preference( 'llms-course' );
+$class_grid_active = ( 'grid' === $view ) ? 'active' : '';
+$class_list_active = ( 'list' === $view ) ? 'active' : '';
+$class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
+$class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
 
 ?>
 <div id="lifterlms-content" class="lifterlms-course-list lifterlms-course-list--memberships">
@@ -26,11 +26,11 @@ $class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
 		<div class="ld-secondary-header ld-secondary-header--llms">
 			<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
 				<div class="grid-filters" data-view="llms-membership">
-					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e('Grid View','buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 					</a>
 
-					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e('List View','buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 					</a>
 				</div>
@@ -60,26 +60,19 @@ $class_list_show   = ( $view === 'list' ) ? 'list-view bb-list' : '';
 						?>
 				</ul>
 
-				<div class="bb-lms-pagination">
-					<?php
+				<div class="bb-lms-pagination"><?php
 					global $wp_query;
 					$big        = 999999999; // need an unlikely integer
 					$translated = __( 'Page', 'buddyboss-theme' ); // Supply translatable string
 
-					echo paginate_links(
-						array(
-							'base'               => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-							'format'             => '?paged=%#%',
-							'current'            => max( 1, get_query_var( 'paged' ) ),
-							'total'              => $wp_query->max_num_pages,
-							'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
-						)
-					);
-					?>
-					</div>
-					<?php
-				} else {
-					?>
+					echo paginate_links( array(
+						'base'               => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+						'format'             => '?paged=%#%',
+						'current'            => max( 1, get_query_var( 'paged' ) ),
+						'total'              => $wp_query->max_num_pages,
+						'before_page_number' => '<span class="screen-reader-text">' . $translated . ' </span>',
+					) ); ?></div><?php
+				} else { ?>
 					<aside class="bp-feedback bp-template-notice ld-feedback info">
 					<span class="bp-icon" aria-hidden="true"></span>
 					<p><?php _e( 'Sorry, no courses were found.', 'buddyboss-theme' ); ?></p>

@@ -1,5 +1,5 @@
 <div class="notification-wrap header-cart-link-wrap cart-wrap menu-item-has-children">
-	<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-cart-link notification-link">
+	<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="header-cart-link notification-link" <?php echo bb_elementor_pro_disable_page_transition(); ?> aria-label="<?php _e( 'Cart', 'buddyboss-theme' ); ?>">
         <span data-balloon-pos="down" data-balloon="<?php _e( 'Cart', 'buddyboss-theme' ); ?>">
 			<i class="bb-icon-l bb-icon-shopping-cart"></i>
             <?php

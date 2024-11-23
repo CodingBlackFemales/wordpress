@@ -703,19 +703,21 @@ WPForms.Admin.Builder.Notifications = WPForms.Admin.Builder.Notifications || ( f
 			 * @param {Array|false} allowed Field types to return. Pass `false` to return all fields.
 			 * @param {Array}       exclude Field types to exclude.
 			 *
-			 * @returns {Array} Array containing fields in `object` with `label` and `value` properties.
+			 * @return {Array} Array containing fields in `object` with `label` and `value` properties.
 			 */
-			getFormFields: function( allowed, exclude = [] ) {
+			getFormFields( allowed, exclude = [] ) {
+				const availableFields = [];
 
-				let availableFields = [];
+				const fields = wpf.getFields( allowed, true, true );
 
-				const fields = wpf.getFields( allowed, true );
+				if ( ! fields ) {
+					return [];
+				}
 
-				for ( const fieldKey of wpf.orders.fields ) {
-
+				for ( const fieldKey in fields ) {
 					const field = fields[ fieldKey ];
 
-					if ( ! field || field.label === undefined || app.choicesJSHelperMethods.isFieldExcluded( field, exclude ) ) {
+					if ( field.label === undefined || app.choicesJSHelperMethods.isFieldExcluded( field, exclude ) ) {
 						continue;
 					}
 

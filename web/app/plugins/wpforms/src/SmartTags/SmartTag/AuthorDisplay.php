@@ -22,18 +22,26 @@ class AuthorDisplay extends SmartTag {
 	 */
 	public function get_value( $form_data, $fields = [], $entry_id = '' ) {
 
-		$form_id = $form_data['id'] ?? 0;
+		$author_display_name = $this->get_author_meta( $entry_id, 'display_name' );
 
-		$author = $this->get_author( $form_id );
-
-		$name = $author->display_name ?? '';
-
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		if ( empty( $name ) && ! empty( $_POST['wpforms']['author'] ) ) {
-			$name = get_the_author_meta( 'display_name', absint( $_POST['wpforms']['author'] ) );
+		if ( ! empty( $author_display_name ) ) {
+			return esc_html( wp_strip_all_tags( $author_display_name ) );
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-		return ! empty( $name ) ? esc_html( wp_strip_all_tags( $name ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST['page_id'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$author_id = get_post_field( 'post_author', absint( $_POST['page_id'] ) );
+
+			if ( ! $author_id ) {
+				return '';
+			}
+
+			$author_display_name = get_the_author_meta( 'display_name', $author_id );
+
+			return esc_html( wp_strip_all_tags( $author_display_name ) );
+		}
+
+		return esc_html( wp_strip_all_tags( get_the_author_meta( 'display_name' ) ) );
 	}
 }

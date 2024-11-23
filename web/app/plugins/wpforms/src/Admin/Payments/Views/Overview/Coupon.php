@@ -92,7 +92,7 @@ class Coupon {
 
 		global $wpdb;
 
-		$table_name = wpforms()->get( 'payment_meta' )->table_name;
+		$table_name = wpforms()->obj( 'payment_meta' )->table_name;
 
 		// Prepare and return the modified SQL query.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -125,7 +125,7 @@ class Coupon {
 		global $wpdb;
 
 		$n          = absint( $n );
-		$table_name = wpforms()->get( 'payment_meta' )->table_name;
+		$table_name = wpforms()->obj( 'payment_meta' )->table_name;
 
 		// Build the derived query using a prepared statement.
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

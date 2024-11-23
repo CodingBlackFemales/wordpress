@@ -3,7 +3,7 @@
  * Plugin Name: Stats for WP Job Manager
  * Plugin URI: https://astoundify.com/products/wp-job-manager-stats/
  * Description: Capture and display stats of the listings.
- * Version: 2.7.3
+ * Version: 2.7.4
  * Author: Astoundify
  * Author URI: http://astoundify.com
  * Text Domain: wp-job-manager-stats

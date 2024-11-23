@@ -347,6 +347,7 @@ class Import extends View {
 			return new WP_Error( 'no_permission', __( 'The unfiltered HTML permissions are required to import form.', 'wpforms-lite' ) );
 		}
 
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$forms = json_decode( File::remove_utf8_bom( file_get_contents( $filename ) ), true );
 
 		if ( empty( $forms ) || ! is_array( $forms ) ) {
@@ -376,10 +377,10 @@ class Import extends View {
 			$desc   = ! empty( $form['settings']['form_desc'] ) ? $form['settings']['form_desc'] : '';
 			$new_id = wp_insert_post(
 				[
-					'post_title'   => $title,
+					'post_title'   => wp_slash( $title ),
 					'post_status'  => 'publish',
 					'post_type'    => 'wpforms',
-					'post_excerpt' => $desc,
+					'post_excerpt' => wp_slash( $desc ),
 				]
 			);
 
@@ -410,6 +411,10 @@ class Import extends View {
 	 * @return bool
 	 */
 	private static function update_form( array $form ): bool {
+
+		if ( wpforms_is_form_data_slashing_enabled() ) {
+			$form = wp_slash( $form );
+		}
 
 		$result = wp_update_post(
 			[

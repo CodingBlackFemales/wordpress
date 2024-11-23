@@ -80,7 +80,7 @@
                 if ( $( this ).is( ':checked' ) ) {
                     $( this ).addClass( "selected_payment_method" );
                 } else {
-                    removeClass( "selected_payment_method" );
+                    $( this ).removeClass( "selected_payment_method" );
                 }
             } );
 
@@ -129,21 +129,21 @@
             }
             filterCheckboxes();
 
-            var $couponCode = $( 'form.woocommerce-cart-form .coupon #coupon_code' );
-            var $couponCodeBtn = $( 'form.woocommerce-cart-form .coupon .button' );
-            $couponCode.keyup( function () {
+            var couponCode = 'form.woocommerce-cart-form .coupon #coupon_code';
+            var couponCodeBtn = 'form.woocommerce-cart-form .coupon .button';
+            $( document ).on( 'keyup', couponCode, function () {
 
                 var empty = false;
-                $couponCode.each( function () {
+                $( couponCode ).each( function () {
                     if ( $( this ).val() == '' ) {
                         empty = true;
                     }
                 } );
 
                 if ( empty ) {
-                    $couponCodeBtn.removeClass( 'bp-coupon-btn-active' );
+                    $( couponCodeBtn ).removeClass( 'bp-coupon-btn-active' );
                 } else {
-                    $couponCodeBtn.addClass( 'bp-coupon-btn-active' );
+                    $( couponCodeBtn ).addClass( 'bp-coupon-btn-active' );
                 }
             } );
 
@@ -151,6 +151,12 @@
                 if ( $( e.target ).closest( '.woocommerce-shipping-calculator .shipping-calculator-form' ).length === 0 ) {
                     $( '.woocommerce-shipping-calculator .shipping-calculator-form' ).hide();
                 }
+            } );
+
+            $( document.body ).on( 'removed_from_cart', function () {
+                $( document.body ).one( 'wc_fragments_loaded', function () {
+                    $( '.header-cart-link-wrap.menu-item-has-children' ).addClass( 'selected' );
+                } );
             } );
 
         },

@@ -77,7 +77,7 @@ if ( is_user_logged_in() && isset( $has_access ) && $has_access ) :
 		do_action( 'learndash-course-infobar-access-progress-after', get_post_type(), $course_id, $user_id );
 
 		$course_status_string = learndash_course_status( $course_id, $user_id, true );
-		if ( $course_status_string === 'in-progress' ) {
+		if ( 'in-progress' === $course_status_string ) {
 			$course_status_string = 'progress';
 		}
 		learndash_status_bubble( $course_status_string );
@@ -97,7 +97,7 @@ if ( is_user_logged_in() && isset( $has_access ) && $has_access ) :
 	</div> <!--/.ld-course-status-->
 
 	<?php
-elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/before_do_single' ) ) :
+elseif ( 'open' !== $course_pricing['type'] && did_action( 'elementor/theme/before_do_single' ) ) :
 
 	$ld_product = null;
 	if ( class_exists( 'LearnDash\Core\Models\Product' ) ) {
@@ -155,8 +155,7 @@ elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/befo
 						)
 						: '' );
 
-					if ( $ld_product->has_ended() ) :
-						?>
+					if ( $ld_product->has_ended() ) : ?>
 						<span class="ld-status ld-status-waiting ld-tertiary-background" data-ld-tooltip="
 							<?php
 							printf(
@@ -295,7 +294,7 @@ elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/befo
 				)
 			);
 
-			if ( $course_pricing['type'] === 'subscribe' ) {
+			if ( 'subscribe' === $course_pricing['type'] ) {
 				if ( ( empty( $course_pricing['price'] ) ) || ( empty( $course_pricing['interval'] ) ) || ( empty( $course_pricing['frequency'] ) ) ) {
 					$course_pricing['type']             = LEARNDASH_DEFAULT_COURSE_PRICE_TYPE;
 					$course_pricing['interval']         = '';
@@ -315,7 +314,7 @@ elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/befo
 				}
 			}
 
-			if ( $course_pricing['type'] !== 'subscribe' ) {
+			if ( 'subscribe' !== $course_pricing['type'] ) {
 				?>
 				<span class="ld-course-status-price">
 					<?php
@@ -329,13 +328,13 @@ elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/befo
 						 *
 						 * @param string $label The label displayed when there is no price.
 						 */
-						$label = apply_filters( 'learndash_no_price_price_label', ( $course_pricing['type'] === 'closed' ? __( 'Closed', 'buddyboss-theme' ) : __( 'Free', 'buddyboss-theme' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Late escaped on output
+						$label = apply_filters( 'learndash_no_price_price_label', ( 'closed' === $course_pricing['type'] ? __( 'Closed', 'buddyboss-theme' ) : __( 'Free', 'buddyboss-theme' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Late escaped on output
 						echo esc_html( $label );
 					}
 					?>
 				</span>
 				<?php
-			} elseif ( $course_pricing['type'] === 'subscribe' ) {
+			} elseif ( 'subscribe' === $course_pricing['type'] ) {
 				if ( ! empty( $course_pricing['price'] ) ) {
 					if ( ! empty( $course_pricing['trial_price'] ) ) {
 						?>
@@ -493,7 +492,7 @@ elseif ( $course_pricing['type'] !== 'open' && did_action( 'elementor/theme/befo
 						$login_model = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
 
 						/** This filter is documented in themes/ld30/includes/shortcodes.php */
-						$login_url = apply_filters( 'learndash_login_url', ( $login_model === 'yes' ? '#login' : wp_login_url( get_permalink() ) ) );
+						$login_url = apply_filters( 'learndash_login_url', ( 'yes' === $login_model ? '#login' : wp_login_url( get_permalink() ) ) );
 
 						$learndash_login_modal = apply_filters( 'learndash_login_modal', true, $course_id, $user_id ) && ! is_user_logged_in();
 						$learndash_login_modal = ( class_exists( 'LearnDash\Core\Models\Product' ) ) ? ( $learndash_login_modal && $ld_product->can_be_purchased() ) : $learndash_login_modal;

@@ -76,8 +76,8 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 		$field_id = absint( $field['id'] );
 		$choices  = ! empty( $field['choices'] ) ? $field['choices'] : [];
 
-		// Remove primary input.
-		unset( $properties['inputs']['primary'] );
+		// Remove primary input, unset for attribute for label.
+		unset( $properties['inputs']['primary'], $properties['label']['attr']['for'] );
 
 		// Set input container (ul) properties.
 		$properties['input_container'] = [
@@ -283,8 +283,8 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 						'<label %s>%s%s</label>',
 						wpforms_html_attributes( $choice['label']['id'], $choice['label']['class'], $choice['label']['data'], $choice['label']['attr'] ),
 						wp_kses_post( $choice['label']['text'] ),
-						$required
-					); // WPCS: XSS ok.
+						wp_kses_post( $required )
+					);
 
 				echo '</li>';
 			}
@@ -303,7 +303,7 @@ class WPForms_Field_GDPR_Checkbox extends WPForms_Field {
 	 */
 	public function format( $field_id, $field_submit, $form_data ) {
 
-		wpforms()->get( 'process' )->fields[ $field_id ] = [
+		wpforms()->obj( 'process' )->fields[ $field_id ] = [
 			'name'  => ! empty( $form_data['fields'][ $field_id ]['label'] ) ? sanitize_text_field( $form_data['fields'][ $field_id ]['label'] ) : '',
 			'value' => $form_data['fields'][ $field_id ]['choices'][1]['label'],
 			'id'    => absint( $field_id ),

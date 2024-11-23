@@ -377,10 +377,10 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		}
 
 		printf(
-			'<div class="wpforms-field wpforms-field-%1$s %2$s" id="wpforms-field-%3$d" data-field-id="%3$d" data-field-type="%1$s">',
+			'<div class="wpforms-field wpforms-field-%1$s %2$s" id="wpforms-field-%3$s" data-field-id="%3$s" data-field-type="%1$s">',
 			esc_attr( $field['type'] ),
 			esc_attr( $class ),
-			absint( $field['id'] )
+			wpforms_validate_field_id( $field['id'] )
 		);
 
 		/**
@@ -499,8 +499,8 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 		$field_id = isset( $field['id'] ) ? $field['id'] : 0;
 
 		printf(
-			'<div class="wpforms-alert wpforms-alert-warning wpforms-alert-dismissible wpforms-alert-field-not-available" data-field-id="%d" data-field-type="unavailable">',
-			absint( $field_id )
+			'<div class="wpforms-alert wpforms-alert-warning wpforms-alert-dismissible wpforms-alert-field-not-available" data-field-id="%s" data-field-type="unavailable">',
+			wpforms_validate_field_id( $field['id'] )
 		);
 
 		printf(
@@ -509,13 +509,13 @@ class WPForms_Builder_Panel_Fields extends WPForms_Builder_Panel {
 			</div>
 			<div class="wpforms-alert-buttons">
 				<a href="%2$s" target="_blank" rel="noopener noreferrer" class="wpforms-btn wpforms-btn-md wpforms-btn-light-grey">%3$s</a>
-				<button type="button" class="wpforms-dismiss-button" title="%4$s" data-field-id="%5$d" />
+				<button type="button" class="wpforms-dismiss-button" title="%4$s" data-field-id="%5$s" />
 			</div>',
 			$warning_message, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'https://wpforms.com/docs/how-to-import-and-export-wpforms/#field-missing',
 			esc_html__( 'Learn More', 'wpforms-lite' ),
 			esc_attr__( 'Dismiss this message. The field will be deleted as well.', 'wpforms-lite' ),
-			absint( $field_id )
+			wpforms_validate_field_id( $field_id )
 		);
 
 		// Save unavailable fields data in hidden inputs.
