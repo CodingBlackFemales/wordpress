@@ -39,7 +39,7 @@
 			<fieldset class="bbp-form">
 				<legend>
 					<?php esc_html_e( 'Reply to:', 'buddyboss-theme' ); ?> <span id="bbp-reply-to-user"><?php printf( '%s', bbp_get_topic_author_display_name() ); ?></span>
-					<?php if ( bbp_get_topic_id() !== 0 ) : ?>
+					<?php if ( 0 !== bbp_get_topic_id() ) : ?>
 						<div id="bbp-reply-exerpt"><?php bbp_reply_excerpt( bbp_get_topic_id(), 50 ); ?></div>
 					<?php endif; ?>
 					<a href="#" id="bbp-close-btn" class="js-modal-close bb-model-close-button">
@@ -269,12 +269,12 @@
 
 <?php else : ?>
 
-	<div id="no-reply-<?php bbp_topic_id(); ?>" class="bbp-no-reply">
-		<div class="bp-feedback info">
-			<span class="bp-icon" aria-hidden="true"></span>
-			<p><?php is_user_logged_in() ? _e( 'You cannot reply to this discussion.', 'buddyboss-theme' ) : _e( 'Log in  to reply.', 'buddyboss-theme' ); ?></p>
-		</div>
-	</div>
+    <div id="no-reply-<?php bbp_topic_id(); ?>" class="bbp-no-reply">
+        <div class="bp-feedback info">
+            <span class="bp-icon" aria-hidden="true"></span>
+            <p><?php is_user_logged_in() ? _e( 'You cannot reply to this discussion.', 'buddyboss-theme' ) : _e( 'Log in  to reply.', 'buddyboss-theme' ); ?></p>
+        </div>
+    </div>
 
 <?php endif; ?>
 

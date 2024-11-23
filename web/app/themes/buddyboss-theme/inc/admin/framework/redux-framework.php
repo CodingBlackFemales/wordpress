@@ -4,24 +4,24 @@
  * for WordPress themes and plugins. Developed with WordPress coding
  * standards and PHP best practices in mind.
  *
- * Plugin Name:         Redux
+ * Plugin Name:         Redux Framework
  * Plugin URI:          http://wordpress.org/plugins/redux-framework
  * GitHub URI:          reduxframework/redux-framework
  * Description:         Build better sites in WordPress fast!
- * Version:             4.3.1
- * Requires at least:   4.0
+ * Version:             4.4.11
+ * Requires at least:   5.0
  * Requires PHP:        7.1
- * Author:              Extendify
- * Author URI:          https://extendify.com
+ * Author:              Team Redux
+ * Author URI:          https://redux.io
  * License:             GPLv3 or later
  * License URI:         http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:         redux-framework
  * Provides:            ReduxFramework
  *
  * @package             ReduxFramework
- * @author              Extendify
+ * @author              Team Redux
  * @license             GNU General Public License, version 3
- * @copyright           2012-2021 Redux.io
+ * @copyright           2012-2023 Redux.io
  */
 
 // Exit if accessed directly.
@@ -32,7 +32,7 @@ if ( ! defined( 'REDUX_PLUGIN_FILE' ) ) {
 }
 
 // Require the main plugin class.
-require_once dirname( __FILE__ ) . 'class-redux-framework-plugin.php';
+require_once plugin_dir_path( __FILE__ ) . 'class-redux-framework-plugin.php';
 
 // Register hooks that are fired when the plugin is activated and deactivated, respectively.
 register_activation_hook( __FILE__, array( 'Redux_Framework_Plugin', 'activate' ) );

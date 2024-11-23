@@ -29,7 +29,7 @@ if ( buddyboss_theme_get_option( 'learndash_course_participants', null, true ) )
 	}
 }
 
-if ( trim( $course_video_embed ) !== '' ) {
+if ( '' !== trim( $course_video_embed ) ) {
 	$thumb_mode = 'thumbnail-container-vid';
 } else {
 	$thumb_mode = 'thumbnail-container-img';
@@ -61,8 +61,8 @@ if ( empty( $progress ) ) {
 		'total'      => 0,
 	);
 }
-$progress_status = ( $progress['percentage'] == 100 ) ? 'completed' : 'notcompleted';
-if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
+$progress_status = ( 100 == $progress['percentage'] ) ? 'completed' : 'notcompleted';
+if ( 0 < $progress['percentage'] && 100 !== $progress['percentage'] ) {
 	$progress_status = 'progress';
 }
 ?>
@@ -77,7 +77,9 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 							<div class="bb-course-video-overlay">
 								<div>
 									<span class="bb-course-play-btn-wrapper"><span class="bb-course-play-btn"></span></span>
-									<div><?php _e( 'Preview this', 'buddyboss-theme' ); ?><?php echo LearnDash_Custom_Label::get_label( 'course' ); ?></div>
+									<div>
+										<?php printf( __( 'Preview this %s', 'buddyboss-theme' ), LearnDash_Custom_Label::get_label( 'course' ) ); ?>
+									</div>
 								</div>
 							</div>
 							<?php
@@ -103,7 +105,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 							?>
 								<img class="round" src="<?php echo get_avatar_url( (int) $course_member, array( 'size' => 96 ) ); ?>" alt=""/>
 							<?php
-							$count++;
+							$count ++;
 						endforeach;
 						?>
 						</span>
@@ -200,6 +202,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 							</div>
 							<?php
 						}
+
 					} else {
 
 						if ( is_user_logged_in() && isset( $has_access ) && $has_access ) {
@@ -208,7 +211,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 								<?php learndash_status_bubble( $progress_status ); ?>
 							</div>
 							<?php
-						} elseif ( $course_pricing['type'] !== 'open' ) {
+						} elseif ( 'open' !== $course_pricing['type'] ) {
 							echo '<div class="bb-course-status-content"><div class="ld-status ld-status-incomplete ld-third-background">' . __( 'Not Enrolled', 'buddyboss-theme' ) . '</div></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 					}
@@ -235,7 +238,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 						)
 					);
 
-					if ( $course_pricing['type'] === 'subscribe' ) {
+					if ( 'subscribe' === $course_pricing['type'] ) {
 						if ( ( empty( $course_pricing['price'] ) ) || ( empty( $course_pricing['interval'] ) ) || ( empty( $course_pricing['frequency'] ) ) ) {
 							$course_pricing['type']             = LEARNDASH_DEFAULT_COURSE_PRICE_TYPE;
 							$course_pricing['interval']         = '';
@@ -261,7 +264,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 						$btn_advance_class = 'btn-advance-start';
 						$btn_advance_label = sprintf( __( 'Start %s', 'buddyboss-theme' ), LearnDash_Custom_Label::get_label( 'course' ) );
 						$resume_link       = buddyboss_theme()->learndash_helper()->boss_theme_course_resume( $course_id );
-					} elseif ( $course_progress == 100 ) {
+					} elseif ( 100 == $course_progress ) {
 						$btn_advance_class = 'btn-advance-completed';
 						$btn_advance_label = __( 'Completed', 'buddyboss-theme' );
 					} else {
@@ -270,39 +273,39 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 						$resume_link       = buddyboss_theme()->learndash_helper()->boss_theme_course_resume( $course_id );
 					}
 
-					if ( learndash_get_course_steps_count( $course_id ) === 0 && $is_enrolled !== false ) {
+					if ( 0 === learndash_get_course_steps_count( $course_id ) && false !== $is_enrolled ) {
 						$btn_advance_class .= ' btn-advance-disable';
 					}
 
 					$login_model           = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
 					$login_url             = apply_filters( 'learndash_login_url', ( $login_model === 'yes' ? '#login' : wp_login_url( get_the_permalink( $course_id ) ) ) );
-					$learndash_login_modal = apply_filters( 'learndash_login_modal', true, $course_id, $user_id ) && ! is_user_logged_in();
+					$learndash_login_modal = apply_filters( 'learndash_login_modal', true, $course_id, $user_id ) && ! is_user_logged_in() && 'open' !== $course_price_type;
 					$learndash_login_modal = ( class_exists( 'LearnDash\Core\Models\Product' ) ) ? ( $learndash_login_modal && $ld_product->can_be_purchased() ) : $learndash_login_modal;
 
-					if ( $course_pricing['type'] === 'open' || $course_pricing['type'] === 'free' ) {
+					if ( 'open' === $course_pricing['type'] || 'free' === $course_pricing['type'] ) {
 
 						if ( $learndash_login_modal ) {
 							echo '<div class="learndash_join_button ' . esc_attr( $btn_advance_class ) . '"><a href="' . esc_url( $login_url ) . '" class="btn-advance ld-primary-background">' . __( 'Login to Enroll', 'buddyboss-theme' ) . '</a></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						} else {
-							if ( $course_pricing['type'] === 'free' && $is_enrolled === false ) {
-								echo '<div class="learndash_join_button ' . $btn_advance_class . '">' . learndash_payment_buttons( $post ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputs Payment button HTML
+							if ( 'free' === $course_pricing['type'] && false === $is_enrolled ) {
+								echo '<div class="learndash_join_button ' . $btn_advance_class . '">' . learndash_payment_buttons( $course ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Outputs Payment button HTML
 							} else {
 								echo '<div class="learndash_join_button ' . esc_attr( $btn_advance_class ) . '"><a href="' . esc_url( $resume_link ) . '" class="btn-advance ld-primary-background">' . esc_html( $btn_advance_label ) . '</a></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 						}
 
-						if ( $course_pricing['type'] === 'open' ) {
+						if ( 'open' === $course_pricing['type'] ) {
 							echo '<span class="bb-course-type bb-course-type-open">' . __( 'Open Registration', 'buddyboss-theme' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						} else {
 							echo '<span class="bb-course-type bb-course-type-free">' . __( 'Free', 'buddyboss-theme' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
-					} elseif ( $course_pricing['type'] === 'closed' ) {
+					} elseif ( 'closed' === $course_pricing['type'] ) {
 
 						$learndash_payment_buttons = learndash_payment_buttons( $course );
 
 						if ( empty( $learndash_payment_buttons ) ) {
 
-							if ( $is_enrolled === false ) {
+							if ( false === $is_enrolled ) {
 								echo '<span class="ld-status ld-status-incomplete ld-third-background ld-text">' . __( 'This course is currently closed', 'buddyboss-theme' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 								if ( ! empty( $course_pricing['price'] ) ) {
@@ -318,8 +321,8 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 								echo '<span class="bb-course-type bb-course-type-paynow">' . wp_kses_post( learndash_get_price_formatted( $course_pricing['price'] ) ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 						}
-					} elseif ( $course_pricing['type'] === 'paynow' || $course_pricing['type'] === 'subscribe' ) {
-						if ( $is_enrolled === false ) {
+					} elseif ( 'paynow' === $course_pricing['type'] || 'subscribe' === $course_pricing['type'] ) {
+						if ( false === $is_enrolled ) {
 							$meta                    = get_post_meta( $course_id, '_sfwd-courses', true );
 							$course_pricing['type']  = @$meta['sfwd-courses_course_price_type'];
 							$course_pricing['price'] = @$meta['sfwd-courses_course_price'];
@@ -328,7 +331,7 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 							$custom_button_url       = @$meta['sfwd-courses_custom_button_url'];
 							$custom_button_label     = @$meta['sfwd-courses_custom_button_label'];
 
-							if ( $course_pricing['type'] === 'subscribe' && $course_pricing['price'] === '' ) {
+							if ( 'subscribe' === $course_pricing['type'] && '' === $course_pricing['price'] ) {
 
 								if ( empty( $custom_button_label ) ) {
 									$button_text = LearnDash_Custom_Label::get_label( 'button_take_this_course' );
@@ -348,8 +351,8 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 							echo '<span class="ld-status">' . __( 'or ', 'buddyboss-theme' ) . '<a class="ld-login-text" href="' . esc_attr( $login_url ) . '">' . __( 'Login', 'buddyboss-theme' ) . '</a></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 
-						if ( $is_enrolled === false ) {
-							if ( $course_pricing['type'] === 'paynow' ) {
+						if ( false === $is_enrolled ) {
+							if ( 'paynow' === $course_pricing['type'] ) {
 								if ( ! empty( $course_pricing['price'] ) ) {
 									echo '<span class="bb-course-type bb-course-type-paynow">' . wp_kses_post( learndash_get_price_formatted( $course_pricing['price'] ) ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								}
@@ -367,10 +370,10 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 									$course_price_billing_t3 = 'year(s)';
 								}
 
-								$recurring = ( $course_price_billing_p3 === '' ) ? 0 : $course_price_billing_p3;
+								$recurring = ( '' === $course_price_billing_p3 ) ? 0 : $course_price_billing_p3;
 
 								$recurring_label = '<span class="bb-course-type bb-course-type-subscribe">';
-								if ( $course_pricing['price'] === '' && $course_pricing['type'] === 'subscribe' ) {
+								if ( '' === $course_pricing['price'] && 'subscribe' === $course_pricing['type'] ) {
 									$recurring_label .= '<span class="bb-course-type bb-course-type-subscribe">' . __( 'Free', 'buddyboss-theme' ) . '</span>';
 								} else {
 									$recurring_label .= wp_kses_post( learndash_get_price_formatted( $course_pricing['price'] ) );
@@ -464,10 +467,10 @@ if ( 0 < $progress['percentage'] && $progress['percentage'] !== 100 ) {
 
 <div class="bb-modal bb_course_video_details mfp-hide">
 	<?php
-	if ( $course_video_embed !== '' ) {
+	if ( '' !== $course_video_embed ) {
 		if ( wp_oembed_get( $course_video_embed ) ) {
 			echo wp_oembed_get( $course_video_embed );
-		} elseif ( isset( $file_info['extension'] ) && $file_info['extension'] === 'mp4' ) {
+		} elseif ( isset( $file_info['extension'] ) && 'mp4' === $file_info['extension'] ) {
 			?>
 			<video width="100%" controls>
 				<source src="<?php echo $course_video_embed; ?>" type="video/mp4">

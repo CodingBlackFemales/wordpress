@@ -32,114 +32,88 @@
             this.switchLdGridList();
         },
 
-        switchLdGridList: function() {
+        switchLdGridList: function () {
 
             var courseLoopSelector = $( 'body .course-dir-list .bb-course-items:not(.is-cover)' );
-            if ( window.sessionStorage ) {
-
-                if ( $( 'body' ).hasClass( 'post-type-archive-llms_membership' ) ) {
-                    var getView = sessionStorage.getItem( 'llms-membership-view' );
-                    if ( typeof getView === 'undefined' || getView === null ) {
-                        sessionStorage.setItem( 'llms-membership-view', 'grid' );
-                        getView = sessionStorage.getItem( 'llms-membership-view' );
-                    }
-                } else {
-                    var getView = sessionStorage.getItem( 'course-view' );
-                    if ( typeof getView === 'undefined' || getView === null ) {
-                        sessionStorage.setItem( 'course-view', 'grid' );
-                        getView = sessionStorage.getItem( 'course-view' );
-                    }
-                }
-
-
-                $( '.layout-view-course' ).removeClass( 'active' );
-                courseLoopSelector.removeClass( 'grid-view' );
-                courseLoopSelector.removeClass( 'bb-grid' );
-                courseLoopSelector.removeClass( 'list-view' );
-                courseLoopSelector.removeClass( 'bb-list' );
-
-                if ( 'grid' === getView ) {
-                    $( '.layout-view-course.layout-grid-view' ).addClass( 'active' );
-                    courseLoopSelector.addClass( 'grid-view' );
-                    courseLoopSelector.addClass( 'bb-grid' );
-                } else {
-                    $( '.layout-view-course.layout-list-view' ).addClass( 'active' );
-                    courseLoopSelector.addClass( 'list-view' );
-                    courseLoopSelector.addClass( 'bb-list' );
-                }
-            }
-            $( document ).on('click', '.grid-filters .layout-view-course', function(e) {
+            $( document ).on( 'click', '.grid-filters .layout-view-course:not(.active)', function ( e ) {
                 e.preventDefault();
+                
+                courseLoopSelector = $( e.target ).closest('form').find( '.bb-course-items:not(.is-cover)' );
 
-                courseLoopSelector = $( 'body .course-dir-list .bb-course-items:not(.is-cover)' );
-                if ( $(this).hasClass('layout-list-view') ) {
-                    if ( window.sessionStorage ) {
-                        if ( $( 'body' ).hasClass( 'post-type-archive-llms_membership' ) ) {
-                            sessionStorage.setItem('llms-membership-view', 'list');
-                        } else {
-                            sessionStorage.setItem('course-view', 'list');
-                        }
-                    }
-                    $( '.layout-view-course' ).removeClass( 'active' );
+                if (
+                    'undefined' === typeof $( this ).parent().attr( 'data-view' ) ||
+                    'llms-course' !== $( this ).parent().attr( 'data-view' )
+                ) {
+                    return;
+                }
+
+                var main = $( this ).parents( 'form' );
+
+                if ( BBLMS.ajax_request ) {
+                    BBLMS.ajax_request.abort();
+
+                    $( '.courses-nav' ).find( '.bb-icon-loader' ).remove();
+                }
+
+                courseLoopSelector = $( this ).parents( 'form' ).find( '.bb-course-items:not(.is-cover)' );
+                if ( $( this ).hasClass( 'layout-list-view' ) ) {
+                    main.find( '.layout-view-course' ).removeClass( 'active' );
                     courseLoopSelector.removeClass( 'grid-view' );
                     courseLoopSelector.removeClass( 'bb-grid' );
                     courseLoopSelector.removeClass( 'list-view' );
                     courseLoopSelector.removeClass( 'bb-list' );
-                    $( '.layout-view-course.layout-list-view' ).addClass( 'active' );
+                    $( this ).addClass( 'active' );
                     courseLoopSelector.addClass( 'list-view' );
                     courseLoopSelector.addClass( 'bb-list' );
                     if ( $( 'body' ).hasClass( 'post-type-archive-llms_membership' ) ) {
-                        $.ajax({
-                            method  : 'GET',
-                            url     : bs_data.ajaxurl,
-                            data    : 'action=buddyboss_llms_save_view&option=bb_theme_lifter_membership_grid_list&type=list',
-                            success : function ( response ) {
-                            }
-                        });
-                    } else {
-                        $.ajax({
-                            method: 'GET',
+                        BBLMS.ajax_request = $.ajax( {
+                            method: 'POST',
                             url: bs_data.ajaxurl,
-                            data: 'action=buddyboss_llms_save_view&option=bb_theme_lifter_course_grid_list&type=list',
-                            success: function (response) {
-                            }
-                        });
+                            nonce: bs_data.nonce_list_grid,
+                            data: 'action=buddyboss_llms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=list&nonce=' + bs_data.nonce_list_grid,
+                            success: function ( response ) {
+                            },
+                        } );
+                    } else {
+                        BBLMS.ajax_request = $.ajax( {
+                            method: 'POST',
+                            url: bs_data.ajaxurl,
+                            nonce: bs_data.nonce_list_grid,
+                            data: 'action=buddyboss_llms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=list&nonce=' + bs_data.nonce_list_grid,
+                            success: function ( response ) {
+                            },
+                        } );
                     }
                 } else {
-                    if ( window.sessionStorage ) {
-                        if ( $( 'body' ).hasClass( 'post-type-archive-llms_membership' ) ) {
-                            sessionStorage.setItem('llms-membership-view', 'grid');
-                        } else {
-                            sessionStorage.setItem('course-view', 'grid');
-                        }
-                    }
-                    $( '.layout-view-course' ).removeClass( 'active' );
+                    main.find( '.layout-view-course' ).removeClass( 'active' );
                     courseLoopSelector.removeClass( 'grid-view' );
                     courseLoopSelector.removeClass( 'bb-grid' );
                     courseLoopSelector.removeClass( 'list-view' );
                     courseLoopSelector.removeClass( 'bb-list' );
-                    $( '.layout-view-course.layout-grid-view' ).addClass( 'active' );
+                    $( this ).addClass( 'active' );
                     courseLoopSelector.addClass( 'grid-view' );
                     courseLoopSelector.addClass( 'bb-grid' );
                     if ( $( 'body' ).hasClass( 'post-type-archive-llms_membership' ) ) {
-                        $.ajax({
-                            method  : 'GET',
-                            url     : bs_data.ajaxurl,
-                            data    : 'action=buddyboss_llms_save_view&option=bb_theme_lifter_membership_grid_list&type=grid',
-                            success : function ( response ) {
-                            }
-                        });
-                    } else {
-                        $.ajax({
-                            method: 'GET',
+                        BBLMS.ajax_request = $.ajax( {
+                            method: 'POST',
                             url: bs_data.ajaxurl,
-                            data: 'action=buddyboss_llms_save_view&option=bb_theme_lifter_course_grid_list&type=grid',
-                            success: function (response) {
-                            }
-                        });
+                            nonce: bs_data.nonce_list_grid,
+                            data: 'action=buddyboss_llms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=grid&nonce=' + bs_data.nonce_list_grid,
+                            success: function ( response ) {
+                            },
+                        } );
+                    } else {
+                        BBLMS.ajax_request = $.ajax( {
+                            method: 'POST',
+                            url: bs_data.ajaxurl,
+                            nonce: bs_data.nonce_list_grid,
+                            data: 'action=buddyboss_llms_save_view&option=bb_layout_view&object=' + $( this ).parent().attr( 'data-view' ) + '&type=grid&nonce=' + bs_data.nonce_list_grid,
+                            success: function ( response ) {
+                            },
+                        } );
                     }
                 }
-            });
+            } );
         },
 
         showMoreParticipants: function() {
@@ -188,6 +162,9 @@
 
         fetchCourses: function() {
             var $form = $( '#bb-courses-directory-form' );
+			if ( typeof target !== 'undefined' && $( target ).length > 0 ) {
+				$form = $( target ).closest( 'form.bb-courses-directory' );
+			}
 
             var reset_pagination = false;
 
@@ -239,14 +216,9 @@
                 new_url = $form.data('current_page_url');
             }
 
-            //view
-            var view = 'grid';
-            if ( $form.find( '.layout-list-view' ).hasClass( 'active' ) ) {
-                view = 'list';
-            }
-            data += '&view=' + view + '&request_url=' + encodeURIComponent( new_url );
+            data += '&request_url=' + encodeURIComponent( new_url );
 
-            $.ajax({
+            BBLMS.ajax_request = $.ajax({
                 method  : 'GET',
                 url     : bs_data.ajaxurl,
                 data    : data + '&action=buddyboss_lms_get_courses&_wpnonce=' + bs_data.lifterlms.nonce_get_courses + '&course_category_url=' + bs_data.lifterlms.course_category_url + '&is_course_category=' + bs_data.lifterlms.is_course_category + '&course_category_id=' +  bs_data.lifterlms.course_category_id + '&course_category_name=' +  bs_data.lifterlms.course_category_name,
@@ -258,7 +230,7 @@
                     if ( isNaN( current_page ) ) {
                         current_page = 1;
                     }
-                    if ( current_page > 1 ) {
+                    if ( current_page > 1 && ! $( 'body' ).hasClass( 'bp-user' ) ) {
                         new_url += 'page/' + current_page + '/';
                     }
 
@@ -372,9 +344,12 @@
             //$( '#bb-courses-directory-form' ).submit();
         },
 
-        fetchCoursesPagination: function() {
+        fetchCoursesPagination: function( target ) {
             var $form = $( '#bb-courses-directory-form' );
-            var data = $form.serialize();
+			if ( typeof target !== 'undefined' && $( target ).length > 0 ) {
+				$form = $( target ).closest( 'form.bb-courses-directory' );
+			}
+			var data = $form.serialize();
 
             if ( bs_data.lifterlms.course_category_id > 0 ) {
                 //update url.
@@ -402,13 +377,11 @@
                 data    : data + '&action=buddyboss_lms_get_courses&_wpnonce=' + bs_data.lifterlms.nonce_get_courses + '&course_category_url=' + bs_data.lifterlms.course_category_url + '&is_course_category=' + bs_data.lifterlms.is_course_category + '&course_category_id=' +  bs_data.lifterlms.course_category_id + '&course_category_name=' +  bs_data.lifterlms.course_category_name,
                 success : function ( response ) {
 
-
-
                     var current_page = $form.find( '[name="current_page"]' ).val();
                     if ( isNaN( current_page ) ) {
                         current_page = 1;
                     }
-                    if ( current_page > 1 ) {
+                    if ( current_page > 1 && ! $( 'body' ).hasClass( 'bp-user' ) ) {
                         new_url += 'page/' + current_page + '/';
                     }
 
@@ -428,6 +401,12 @@
                         }
                     }
                     $('.courses-nav').find('.bb-icon-loader').remove();
+
+                    // Scroll to course listing top.
+                    $( 'html, body' ).animate( {
+                        scrollTop: $form.offset().top - 150
+                    }, 400 );
+
                 }
             });
 
@@ -469,7 +448,7 @@
 
             $( document ).on( 'change', '#bb-courses-directory-form [name=\'orderby\'], #bb-courses-directory-form [name=\'filter-categories\'], #bb-courses-directory-form [name=\'filter-instructors\']', function ( e ) {
                 e.preventDefault();
-                window.BBLMS.fetchCourses();
+                window.BBLMS.fetchCourses( e.target );
             } );
 
             $( document ).on( 'click', '#bb-courses-directory-form .bs-sort-button', function ( e ) {
@@ -492,11 +471,15 @@
                 }
 
                 $(this).closest( 'form' ).find( '[name="current_page"]' ).val( page_number );
-                window.BBLMS.fetchCoursesPagination();
+                window.BBLMS.fetchCoursesPagination( e.target );
             } );
 
             $( document ).on( 'click', '#bb-courses-directory-form .component-navigation a:not(.more-button)', function ( e ) {
                 e.preventDefault();
+
+                if ( BBLMS.ajax_request ) {
+                    BBLMS.ajax_request.abort();
+                }
 
                 $(this).closest( '.component-navigation').find( '> li' ).removeClass('selected');
                 $(this).closest( '.component-navigation').find( '> li a span' ).hide();
@@ -510,7 +493,7 @@
 
                 //resetting the page number if important, as sometimes 'all courses' can have more items than 'my courses'
                 $(this).closest( 'form' ).find( '[name="current_page"]' ).val( 1 );
-                window.BBLMS.fetchCourses();
+                window.BBLMS.fetchCourses( e.target );
             } );
 
             document.addEventListener( 'click', function ( e ) {
@@ -541,8 +524,12 @@
                 return false;
             } );
 
-            $('#bb-courses-directory-form').on( 'submit', function(e){
-                window.BBLMS.fetchCourses();
+            $('form.bb-courses-directory').on( 'submit', function(e){
+                if ( BBLMS.ajax_request ) {
+                    BBLMS.ajax_request.abort();
+                }
+
+                window.BBLMS.fetchCourses( e.target );
                 return false;
             } );
 
@@ -1041,6 +1028,7 @@
     };
 
     $( document ).ready( function () {
+        window.BBLMS.ajax_request = null;
         window.BBLMS.init();
     } );
 

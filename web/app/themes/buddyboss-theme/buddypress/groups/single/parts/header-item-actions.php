@@ -13,8 +13,8 @@
 
 		if ( function_exists( 'bb_platform_group_headers_element_enable' ) && bb_platform_group_headers_element_enable( 'group-organizers' ) ) :
 			if ( function_exists( 'get_group_role_label' ) ) {
-				?>
-				<?php if ( buddyboss_theme_bp_get_group_admins_count() > 1 ) { ?>
+				if ( buddyboss_theme_bp_get_group_admins_count() > 1 ) {
+					?>
 					<h4 class="bp-title">
 						<?php
 							echo esc_html(
@@ -36,8 +36,10 @@
 							) . ':';
 						?>
 					</h4>
-				<?php } ?>
-			<?php } ?>
+					<?php
+				}
+			}
+			?>
 
 			<dl class="moderators-lists">
 				<dt class="moderators-title">

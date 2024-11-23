@@ -33,9 +33,9 @@
 					wp_kses_post( $bbp_topic_tag )
 				);
 			} else {
-				if ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && bbpress()->current_view_id === 'popular' ) {
+				if ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && 'popular' === bbpress()->current_view_id ) {
 					esc_html_e( 'Popular Discussions', 'buddyboss-theme' );
-				} elseif ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && bbpress()->current_view_id === 'no-replies' ) {
+				} elseif ( function_exists( 'bbp_is_shortcode' ) && bbp_is_shortcode() && bbp_is_query_name( 'bbp_view' ) && 'no-replies' === bbpress()->current_view_id ) {
 					esc_html_e( 'Unanswered Discussions', 'buddyboss-theme' );
 				} else {
 					esc_html_e( 'All Discussions', 'buddyboss-theme' );
@@ -80,16 +80,18 @@
 					<?php
 				}
 
-				if ( function_exists( 'bbp_forum_report_link' ) && function_exists( 'bp_is_active' ) && bp_is_active( 'moderation' ) && bbp_get_forum_report_link( array( 'id' => $post->ID ) ) ) {
+				if ( function_exists( 'bbp_forum_report_link' ) && function_exists( 'bp_is_active' ) && bp_is_active( 'moderation' ) && isset( $post->ID ) && bbp_get_forum_report_link( array( 'id' => $post->ID ) ) ) {
 					?>
 
 					<div class="bb_more_options action">
 						<a href="#" class="bb_more_options_action">
 							<i class="bb-icon-menu-dots-h"></i>
 						</a>
-						<div class="bb_more_options_list">
+						<div class="bb_more_options_list bb_more_dropdown">
+							<?php get_template_part( 'template-parts/more-options-view' ); ?>
 							<?php bbp_forum_report_link( array( 'id' => $post->ID ) ); ?>
 						</div>
+						<div class="bb_more_dropdown_overlay"></div>
 					</div><!-- .bb_more_options -->
 
 					<?php

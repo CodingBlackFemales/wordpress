@@ -45,6 +45,7 @@ if ( bbp_show_lead_topic() ) {
 				<?php
 				if ( bbp_has_replies() ) :
 					// bbp_get_template_part( 'pagination', 'replies' );
+
 					bbp_get_template_part( 'loop', 'replies' );
 
 					bbp_get_template_part( 'pagination', 'replies' );

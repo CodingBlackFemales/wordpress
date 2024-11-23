@@ -2,7 +2,7 @@
 
 namespace BuddyBossTheme;
 
-if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
+if (!class_exists('\BuddyBossTheme\BuddyBossMultiPostThumbnails')) {
 
 	#[\AllowDynamicProperties]
 	class BuddyBossMultiPostThumbnails {
@@ -15,9 +15,9 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 */
 		protected static $statics_enqueued = false;
 
-		public function __construct( $args = array() ) {
+		public function __construct($args = array()) {
 
-			$this->register( $args );
+			$this->register($args);
 		}
 
 		/**
@@ -40,7 +40,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param array|string $args See above description.
 		 * @return void
 		 */
-		public function register( $args = array() ) {
+		public function register($args = array()) {
 			global $wp_version;
 
 			$defaults = array(
@@ -51,36 +51,36 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 				'context' => 'side',
 			);
 
-			$args = wp_parse_args( $args, $defaults );
+			$args = wp_parse_args($args, $defaults);
 
 			// Create and set properties
-			foreach ( $args as $k => $v ) {
+			foreach($args as $k => $v) {
 				$this->$k = $v;
 			}
 
 			// Need these args to be set at a minimum
-			if ( $this->label === null || $this->id === null ) {
-				if ( WP_DEBUG ) {
-					trigger_error( sprintf( __( "The 'label' and 'id' values of the 'args' parameter of '%1\$s::%2\$s()' are required", 'buddyboss-theme' ), __CLASS__, __FUNCTION__ ) );
+			if (null === $this->label || null === $this->id) {
+				if (WP_DEBUG) {
+					trigger_error(sprintf(__("The 'label' and 'id' values of the 'args' parameter of '%s::%s()' are required", 'buddyboss-theme'), __CLASS__, __FUNCTION__));
 				}
 				return;
 			}
 
 			// add theme support if not already added
-			if ( ! current_theme_supports( 'post-thumbnails' ) ) {
+			if (!current_theme_supports('post-thumbnails')) {
 				add_theme_support( 'post-thumbnails' );
 			}
 
-			add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
-			if ( version_compare( $wp_version, '3.5', '<' ) ) {
-				add_filter( 'attachment_fields_to_edit', array( $this, 'add_attachment_field' ), 20, 2 );
+			add_action('add_meta_boxes', array($this, 'add_metabox'));
+			if (version_compare($wp_version, '3.5', '<')) {
+				add_filter('attachment_fields_to_edit', array($this, 'add_attachment_field'), 20, 2);
 			}
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
-			add_action( 'admin_print_scripts-post.php', array( $this, 'admin_header_scripts' ) );
-			add_action( 'admin_print_scripts-post-new.php', array( $this, 'admin_header_scripts' ) );
-			add_action( "wp_ajax_set-{$this->post_type}-{$this->id}-thumbnail", array( $this, 'set_thumbnail' ) );
-			add_action( 'delete_attachment', array( $this, 'action_delete_attachment' ) );
-			add_filter( 'is_protected_meta', array( $this, 'filter_is_protected_meta' ), 20, 2 );
+			add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+			add_action('admin_print_scripts-post.php', array($this, 'admin_header_scripts'));
+			add_action('admin_print_scripts-post-new.php', array($this, 'admin_header_scripts'));
+			add_action("wp_ajax_set-{$this->post_type}-{$this->id}-thumbnail", array($this, 'set_thumbnail'));
+			add_action('delete_attachment', array($this, 'action_delete_attachment'));
+			add_filter('is_protected_meta', array($this, 'filter_is_protected_meta'), 20, 2);
 		}
 
 		/**
@@ -98,7 +98,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @return void
 		 */
 		public function add_metabox() {
-			add_meta_box( "{$this->post_type}-{$this->id}", __( $this->label, 'buddyboss-theme' ), array( $this, 'thumbnail_meta_box' ), $this->post_type, $this->context, $this->priority );
+			add_meta_box("{$this->post_type}-{$this->id}", __($this->label, 'buddyboss-theme'), array($this, 'thumbnail_meta_box'), $this->post_type, $this->context, $this->priority);
 		}
 
 		/**
@@ -109,8 +109,8 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		public function thumbnail_meta_box() {
 			global $post;
 
-			$thumbnail_id = get_post_meta( $post->ID, $this->get_meta_key(), true );
-			echo $this->post_thumbnail_html( $thumbnail_id );
+			$thumbnail_id = get_post_meta($post->ID, $this->get_meta_key(), true);
+			echo $this->post_thumbnail_html($thumbnail_id);
 		}
 
 		/**
@@ -120,38 +120,34 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string $post
 		 * @return void
 		 */
-		public function add_attachment_field( $form_fields, $post ) {
+		public function add_attachment_field($form_fields, $post) {
 			$calling_post_id = 0;
-			if ( isset( $_GET['post_id'] ) ) {
-				$calling_post_id = absint( $_GET['post_id'] );
-			} elseif ( isset( $_POST ) && count( $_POST ) ) { // Like for async-upload where $_GET['post_id'] isn't set
+			if (isset($_GET['post_id']))
+				$calling_post_id = absint($_GET['post_id']);
+			elseif (isset($_POST) && count($_POST)) // Like for async-upload where $_GET['post_id'] isn't set
 				$calling_post_id = $post->post_parent;
-			}
 
-			if ( ! $calling_post_id ) {
+			if (!$calling_post_id)
 				return $form_fields;
-			}
 
 			// check the post type to see if link needs to be added
-			$calling_post = get_post( $calling_post_id );
-			if ( is_null( $calling_post ) || $calling_post->post_type != $this->post_type ) {
+			$calling_post = get_post($calling_post_id);
+			if (is_null($calling_post) || $calling_post->post_type != $this->post_type) {
 				return $form_fields;
 			}
 
 			$referer = wp_get_referer();
-			$query_vars = wp_parse_args( parse_url( $referer, PHP_URL_QUERY ) );
+			$query_vars = wp_parse_args(parse_url($referer, PHP_URL_QUERY));
 
-			if ( ( isset( $_REQUEST['context'] ) && $_REQUEST['context'] != $this->id ) || ( isset( $query_vars['context'] ) && $query_vars['context'] != $this->id ) ) {
+			if( (isset($_REQUEST['context']) && $_REQUEST['context'] != $this->id) || (isset($query_vars['context']) && $query_vars['context'] != $this->id) )
 				return $form_fields;
-			}
 
-			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-{$this->post_type}-{$this->id}-{$calling_post_id}" );
-			$link = sprintf( '<a id="%4$s-%1$s-thumbnail-%2$s" class="%1$s-thumbnail" href="#" onclick="BuddyBossMultiPostThumbnails.setAsThumbnail(\'%2$s\', \'%1$s\', \'%4$s\', \'%5$s\');return false;">' . __( 'Set as %3$s', 'buddyboss-theme' ) . '</a>', $this->id, $post->ID, $this->label, $this->post_type, $ajax_nonce );
-			$form_fields[ "{$this->post_type}-{$this->id}-thumbnail" ] = array(
+			$ajax_nonce = wp_create_nonce("set_post_thumbnail-{$this->post_type}-{$this->id}-{$calling_post_id}");
+			$link = sprintf('<a id="%4$s-%1$s-thumbnail-%2$s" class="%1$s-thumbnail" href="#" onclick="BuddyBossMultiPostThumbnails.setAsThumbnail(\'%2$s\', \'%1$s\', \'%4$s\', \'%5$s\');return false;">' . __( 'Set as %3$s', 'buddyboss-theme' ) . '</a>', $this->id, $post->ID, $this->label, $this->post_type, $ajax_nonce);
+			$form_fields["{$this->post_type}-{$this->id}-thumbnail"] = array(
 				'label' => $this->label,
 				'input' => 'html',
-				'html' => $link,
-			);
+				'html' => $link);
 			return $form_fields;
 		}
 
@@ -168,23 +164,23 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 			global $wp_version, $post_ID;
 
 			// only load on select pages
-			if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'media-upload-popup' ) ) ) {
+			if ( ! in_array( $hook, array( 'post-new.php', 'post.php', 'media-upload-popup' ) ) )
 				return;
-			}
 
 			$minified_js = buddyboss_theme_get_option( 'boss_minified_js' );
 			$minjs       = $minified_js ? '.min' : '';
 
-			if ( version_compare( $wp_version, '3.5', '<' ) ) {
+			if (version_compare($wp_version, '3.5', '<')) {
 				add_thickbox();
-				wp_enqueue_script( 'buddyboss-theme-mpt-featured-image', buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/multi-post-thumbails-admin' . $minjs . '.js', array( 'jquery', 'media-upload' ) );
+				wp_enqueue_script( "buddyboss-theme-mpt-featured-image", buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/multi-post-thumbails-admin'. $minjs . '.js' , array( 'jquery', 'media-upload' ) );
 			} else { // 3.5+ media modal
 				wp_enqueue_media( array( 'post' => ( $post_ID ? $post_ID : null ) ) );
-				wp_enqueue_script( 'buddyboss-theme-mpt-featured-image', buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/multi-post-thumbails-admin' . $minjs . '.js', array( 'jquery', 'set-post-thumbnail' ) );
-				wp_enqueue_script( 'buddyboss-theme-mpt-featured-image-modal', buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/media-modal' . $minjs . '.js', array( 'jquery', 'media-models' ) );
+				wp_enqueue_script( "buddyboss-theme-mpt-featured-image", buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/multi-post-thumbails-admin'. $minjs . '.js', array( 'jquery', 'set-post-thumbnail' ) );
+				wp_enqueue_script( "buddyboss-theme-mpt-featured-image-modal", buddyboss_theme()->tpl_url() . '/assets/js/multi-post-thumbnails/media-modal'. $minjs . '.js', array( 'jquery', 'media-models' ) );
 			}
 
 			//wp_enqueue_style( "buddyboss-theme-mpt-admin-css", $this->plugins_url( 'css/multi-post-thumbnails-admin.css', __FILE__ ) );
+
 			self::$statics_enqueued = true;
 		}
 
@@ -228,10 +224,10 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @global object $wpdb
 		 * @param int $post_id
 		 */
-		public function action_delete_attachment( $post_id ) {
+		public function action_delete_attachment($post_id) {
 			global $wpdb;
 
-			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = %d", $this->get_meta_key(), $post_id ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE meta_key = '%s' AND meta_value = %d", $this->get_meta_key(), $post_id ));
 		}
 
 		/**
@@ -241,12 +237,12 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param type $meta_key Passed in from filter
 		 * @return boolean
 		 */
-		public function filter_is_protected_meta( $protected, $meta_key ) {
-			if ( apply_filters( 'mpt_unprotect_meta', false ) ) {
+		public function filter_is_protected_meta($protected, $meta_key) {
+			if (apply_filters('mpt_unprotect_meta', false)) {
 				return $protected;
 			}
 
-			if ( $meta_key == $this->get_meta_key() ) {
+			if ($meta_key == $this->get_meta_key()) {
 				$protected = true;
 			}
 
@@ -260,26 +256,26 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string $plugin_path Absolute file path to the plugin base directory
 		 * @return string the URL of the plugin file
 		 */
-		private function plugins_url( $relative_path, $plugin_path ) {
+		private function plugins_url($relative_path, $plugin_path) {
 			$template_dir = get_stylesheet_directory();
 
-			foreach ( array( 'template_dir', 'plugin_path' ) as $var ) {
-				$$var = str_replace( '\\', '/', $$var ); // sanitize for Win32 installs
-				$$var = preg_replace( '|/+|', '/', $$var );
+			foreach ( array('template_dir', 'plugin_path') as $var ) {
+				$$var = str_replace('\\' ,'/', $$var); // sanitize for Win32 installs
+				$$var = preg_replace('|/+|', '/', $$var);
 			}
 
-			if ( strpos( $plugin_path, $template_dir ) === 0 ) {
+			if(0 === strpos($plugin_path, $template_dir)) {
 				$url = get_stylesheet_directory_uri();
-				$folder = str_replace( $template_dir, '', dirname( $plugin_path ) );
-				if ( $folder != '.' ) {
-					$url .= '/' . ltrim( $folder, '/' );
+				$folder = str_replace($template_dir, '', dirname($plugin_path));
+				if ( '.' != $folder ) {
+					$url .= '/' . ltrim($folder, '/');
 				}
-				if ( ! empty( $relative_path ) && is_string( $relative_path ) && strpos( $relative_path, '..' ) === false ) {
-					$url .= '/' . ltrim( $relative_path, '/' );
+				if ( !empty($relative_path) && is_string($relative_path) && strpos($relative_path, '..') === false ) {
+					$url .= '/' . ltrim($relative_path, '/');
 				}
 				return $url;
 			} else {
-				return plugins_url( $relative_path, $plugin_path );
+				return plugins_url($relative_path, $plugin_path);
 			}
 		}
 
@@ -291,16 +287,16 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string $post_id Optional. Post ID.
 		 * @return bool Whether post has an image attached.
 		 */
-		public static function has_post_thumbnail( $post_type, $id, $post_id = null ) {
-			if ( $post_id === null ) {
+		public static function has_post_thumbnail($post_type, $id, $post_id = null) {
+			if (null === $post_id) {
 				$post_id = get_the_ID();
 			}
 
-			if ( ! $post_id ) {
+			if (!$post_id) {
 				return false;
 			}
 
-			return get_post_meta( $post_id, "{$post_type}_{$id}_thumbnail_id", true );
+			return get_post_meta($post_id, "{$post_type}_{$id}_thumbnail_id", true);
 		}
 
 		/**
@@ -313,8 +309,8 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string|array $attr Optional. Query string or array of attributes.
 		 * @param bool $link_to_original Optional. Wrap link to original image around thumbnail?
 		 */
-		public static function the_post_thumbnail( $post_type, $thumb_id, $post_id = null, $size = 'post-thumbnail', $attr = '', $link_to_original = false ) {
-			echo self::get_the_post_thumbnail( $post_type, $thumb_id, $post_id, $size, $attr, $link_to_original );
+		public static function the_post_thumbnail($post_type, $thumb_id, $post_id = null, $size = 'post-thumbnail', $attr = '', $link_to_original = false) {
+			echo self::get_the_post_thumbnail($post_type, $thumb_id, $post_id, $size, $attr, $link_to_original);
 		}
 
 		/**
@@ -327,24 +323,24 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param bool $link_to_original Optional. Wrap link to original image around thumbnail?
 		 * @param string|array $attr Optional. Query string or array of attributes.
 		 */
-		public static function get_the_post_thumbnail( $post_type, $thumb_id, $post_id = null, $size = 'post-thumbnail', $attr = '', $link_to_original = false ) {
+		public static function get_the_post_thumbnail($post_type, $thumb_id, $post_id = NULL, $size = 'post-thumbnail', $attr = '' , $link_to_original = false) {
 			global $id;
-			$post_id = ( $post_id === null ) ? get_the_ID() : $post_id;
-			$post_thumbnail_id = self::get_post_thumbnail_id( $post_type, $thumb_id, $post_id );
-			$size = apply_filters( "{$post_type}_{$post_id}_thumbnail_size", $size );
-			if ( $post_thumbnail_id ) {
-				do_action( "begin_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size ); // for "Just In Time" filtering of all of wp_get_attachment_image()'s filters
+			$post_id = (NULL === $post_id) ? get_the_ID() : $post_id;
+			$post_thumbnail_id = self::get_post_thumbnail_id($post_type, $thumb_id, $post_id);
+			$size = apply_filters("{$post_type}_{$post_id}_thumbnail_size", $size);
+			if ($post_thumbnail_id) {
+				do_action("begin_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size); // for "Just In Time" filtering of all of wp_get_attachment_image()'s filters
 				$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
-				do_action( "end_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size );
+				do_action("end_fetch_multi_{$post_type}_thumbnail_html", $post_id, $post_thumbnail_id, $size);
 			} else {
 				$html = '';
 			}
 
-			if ( $link_to_original && $html ) {
-				$html = sprintf( '<a href="%s">%s</a>', wp_get_attachment_url( $post_thumbnail_id ), $html );
+			if ($link_to_original && $html) {
+				$html = sprintf('<a href="%s">%s</a>', wp_get_attachment_url($post_thumbnail_id), $html);
 			}
 
-			return apply_filters( "{$post_type}_{$thumb_id}_thumbnail_html", $html, $post_id, $post_thumbnail_id, $size, $attr );
+			return apply_filters("{$post_type}_{$thumb_id}_thumbnail_html", $html, $post_id, $post_thumbnail_id, $size, $attr);
 		}
 
 		/**
@@ -355,8 +351,8 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param int $post_id Post ID.
 		 * @return int
 		 */
-		public static function get_post_thumbnail_id( $post_type, $id, $post_id ) {
-			return get_post_meta( $post_id, "{$post_type}_{$id}_thumbnail_id", true );
+		public static function get_post_thumbnail_id($post_type, $id, $post_id) {
+			return get_post_meta($post_id, "{$post_type}_{$id}_thumbnail_id", true);
 		}
 
 		/**
@@ -367,21 +363,21 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string $size Optional. The thumbnail size to use. If set, use wp_get_attachment_image_src() instead of wp_get_attachment_url()
 		 * @return mixed Thumbnail url or false if the post doesn't have a thumbnail for the given post type, and id.
 		 */
-		public static function get_post_thumbnail_url( $post_type, $id, $post_id = 0, $size = null ) {
-			if ( ! $post_id ) {
+		public static function get_post_thumbnail_url($post_type, $id, $post_id = 0, $size = null) {
+			if (!$post_id) {
 				$post_id = get_the_ID();
 			}
 
-			$post_thumbnail_id = self::get_post_thumbnail_id( $post_type, $id, $post_id );
+			$post_thumbnail_id = self::get_post_thumbnail_id($post_type, $id, $post_id);
 
-			if ( $size ) {
-				if ( $url = wp_get_attachment_image_src( $post_thumbnail_id, $size ) ) {
+			if ($size) {
+				if ($url = wp_get_attachment_image_src($post_thumbnail_id, $size)) {
 					$url = $url[0];
 				} else {
 					$url = '';
 				}
 			} else {
-				$url = wp_get_attachment_url( $post_thumbnail_id );
+				$url = wp_get_attachment_url($post_thumbnail_id);
 			}
 
 			return $url;
@@ -393,31 +389,25 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param string $thumbnail_id The thumbnail's post ID.
 		 * @return string HTML
 		 */
-		private function post_thumbnail_html( $thumbnail_id = null ) {
+		private function post_thumbnail_html($thumbnail_id = null) {
 			global $content_width, $_wp_additional_image_sizes, $post_ID, $wp_version;
 
-			$url_class = 'components-button editor-post-featured-image__toggle';
-			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-{$this->post_type}-{$this->id}-{$post_ID}" );
+			$url_class = "components-button editor-post-featured-image__toggle";
+			$ajax_nonce = wp_create_nonce("set_post_thumbnail-{$this->post_type}-{$this->id}-{$post_ID}");
 
-			if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
+			if ($thumbnail_id && get_post($thumbnail_id)) {
 				$url_class .= ' has-cover';
 			}
 
-			if ( version_compare( $wp_version, '3.5', '<' ) ) {
+			if (version_compare($wp_version, '3.5', '<')) {
 				// Use the old thickbox for versions prior to 3.5
-				$image_library_url = get_upload_iframe_src( 'image' );
+				$image_library_url = get_upload_iframe_src('image');
 				// if TB_iframe is not moved to end of query string, thickbox will remove all query args after it.
-				$image_library_url = add_query_arg(
-					array(
-						'context' => $this->id,
-						'TB_iframe' => 1,
-					),
-					remove_query_arg( 'TB_iframe', $image_library_url )
-				);
-				$url_class .= 'thickbox';
+				$image_library_url = add_query_arg( array( 'context' => $this->id, 'TB_iframe' => 1 ), remove_query_arg( 'TB_iframe', $image_library_url ) );
+				$url_class .= "thickbox";
 			} else {
 				// Use the media modal for 3.5 and up
-				$image_library_url = '#';
+				$image_library_url = "#";
 				$modal_js = sprintf(
 					'var mm_%3$s = new MediaModal({
 						calling_selector : "#set-%1$s-%2$s-thumbnail",
@@ -425,10 +415,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 							BuddyBossMultiPostThumbnails.setAsThumbnail(attachment.id, "%2$s", "%1$s", "%4$s");
 						}
 					});',
-					$this->post_type,
-					$this->id,
-					md5( $this->id ),
-					$ajax_nonce
+					$this->post_type, $this->id, md5($this->id), $ajax_nonce
 				);
 			}
 			$format_string = '<p class="bb-multi-thumb hide-if-no-js">' .
@@ -442,42 +429,39 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 			'</p>';
 			$set_thumbnail_link = sprintf(
 				$format_string,
-				sprintf( esc_attr__( 'Set %s', 'buddyboss-theme' ), $this->label ),
+				sprintf( esc_attr__( "Set %s" , 'buddyboss-theme' ), $this->label ),
 				$this->post_type,
 				$this->id,
 				$url_class,
 				$this->label,
 				$thumbnail_id
 			);
-			$content = sprintf( $set_thumbnail_link, sprintf( esc_html__( 'Set %s', 'buddyboss-theme' ), $this->label ) );
+			$content = sprintf( $set_thumbnail_link, sprintf( esc_html__( "Set %s", 'buddyboss-theme' ), $this->label ) );
 
-			if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
+			if ($thumbnail_id && get_post($thumbnail_id)) {
 				$attr = array( 'class' => 'bb-thumbnail' );
 
-				if ( ! isset( $_wp_additional_image_sizes[ "{$this->post_type}-{$this->id}-thumbnail" ] ) ) {
+				if ( !isset($_wp_additional_image_sizes["{$this->post_type}-{$this->id}-thumbnail"])) {
 					$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'full', false, $attr );
 				} else {
 					$thumbnail_html = wp_get_attachment_image( $thumbnail_id, "{$this->post_type}-{$this->id}-thumbnail", false, $attr );
 				}
 
-				if ( ! empty( $thumbnail_html ) ) {
-					$content = sprintf( $set_thumbnail_link, $thumbnail_html );
+				if (!empty($thumbnail_html)) {
+					$content = sprintf($set_thumbnail_link, $thumbnail_html);
 					$content .= sprintf(
-						'<button type="button" class="hide-if-no-js components-button is-button is-default is-large is-secondary" onclick="jQuery(\'#set-%2$s-%3$s-thumbnail\').trigger(\'click\');return false;">%1$s</button>',
-						__( 'Replace image', 'buddyboss-theme' ),
-						$this->post_type,
-						$this->id
-					);
+						'<button type="button" class="hide-if-no-js components-button is-button is-default is-large is-secondary" onclick="jQuery(\'#set-%2$s-%3$s-thumbnail\').trigger(\'click\');return false;">%1$s</button>', __( 'Replace image', 'buddyboss-theme' ), $this->post_type, $this->id );
 					$format_string = '<button type="button" class="hide-if-no-js components-button is-link is-destructive" id="remove-%1$s-%2$s-thumbnail" onclick="BuddyBossMultiPostThumbnails.removeThumbnail(\'%2$s\', \'%1$s\', \'%4$s\');return false;">%3$s</button>';
-					$content .= sprintf( $format_string, $this->post_type, $this->id, sprintf( esc_html__( 'Remove %s', 'buddyboss-theme' ), $this->label ), $ajax_nonce );
+					$content .= sprintf( $format_string, $this->post_type, $this->id, sprintf( esc_html__( "Remove %s", 'buddyboss-theme' ), $this->label ), $ajax_nonce );
 				}
 			}
 
-			if ( version_compare( $wp_version, '3.5', '>=' ) ) {
-				$content .= sprintf( '<script>%s</script>', $modal_js );
+			if (version_compare($wp_version, '3.5', '>=')) {
+				$content .= sprintf('<script>%s</script>', $modal_js);
 			}
 
 			$content = '<div class="editor-post-cover-image">' . $content . '</div>';
+
 
 			return apply_filters( sprintf( '%s_%s_admin_post_thumbnail_html', $this->post_type, $this->id ), $content, $post_ID, $thumbnail_id );
 		}
@@ -489,28 +473,27 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 */
 		public function set_thumbnail() {
 			global $post_ID; // have to do this so get_upload_iframe_src() can grab it
-			$post_ID = intval( $_POST['post_id'] );
-			if ( ! current_user_can( 'edit_post', $post_ID ) ) {
-				die( '-1' );
+			$post_ID = intval($_POST['post_id']);
+			if ( !current_user_can('edit_post', $post_ID))
+				die('-1');
+			$thumbnail_id = intval($_POST['thumbnail_id']);
+
+			check_ajax_referer("set_post_thumbnail-{$this->post_type}-{$this->id}-{$post_ID}");
+
+			if ($thumbnail_id == '-1') {
+				delete_post_meta($post_ID, $this->get_meta_key());
+				die($this->post_thumbnail_html(null));
 			}
-			$thumbnail_id = intval( $_POST['thumbnail_id'] );
 
-			check_ajax_referer( "set_post_thumbnail-{$this->post_type}-{$this->id}-{$post_ID}" );
-
-			if ( $thumbnail_id == '-1' ) {
-				delete_post_meta( $post_ID, $this->get_meta_key() );
-				die( $this->post_thumbnail_html( null ) );
-			}
-
-			if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
-				$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
-				if ( ! empty( $thumbnail_html ) ) {
-					$this->set_meta( $post_ID, $this->post_type, $this->id, $thumbnail_id );
-					die( $this->post_thumbnail_html( $thumbnail_id ) );
+			if ($thumbnail_id && get_post($thumbnail_id)) {
+				$thumbnail_html = wp_get_attachment_image($thumbnail_id, 'thumbnail');
+				if (!empty($thumbnail_html)) {
+					$this->set_meta($post_ID, $this->post_type, $this->id, $thumbnail_id);
+					die($this->post_thumbnail_html($thumbnail_id));
 				}
 			}
 
-			die( '0' );
+			die('0');
 		}
 
 		/**
@@ -522,8 +505,9 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBossMultiPostThumbnails' ) ) {
 		 * @param int $thumbnail_post_id ID of the attachment to use as the thumbnail
 		 * @return bool result of update_post_meta
 		 */
-		public static function set_meta( $post_ID, $post_type, $thumbnail_id, $thumbnail_post_id ) {
-			return update_post_meta( $post_ID, "{$post_type}_{$thumbnail_id}_thumbnail_id", $thumbnail_post_id );
+		public static function set_meta($post_ID, $post_type, $thumbnail_id, $thumbnail_post_id) {
+			return update_post_meta($post_ID, "{$post_type}_{$thumbnail_id}_thumbnail_id", $thumbnail_post_id);
 		}
+
 	}
 }

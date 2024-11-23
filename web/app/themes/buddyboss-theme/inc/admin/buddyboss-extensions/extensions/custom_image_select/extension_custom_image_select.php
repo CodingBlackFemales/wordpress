@@ -30,35 +30,30 @@ if ( !class_exists( 'ReduxFramework_Extension_custom_image_select' ) ) {
 	 *
 	 * @since       3.1.6
 	 */
-	class ReduxFramework_Extension_custom_image_select extends ReduxFramework {
+	#[\AllowDynamicProperties]
+	class ReduxFramework_Extension_custom_image_select extends Redux_Extension_Abstract {
 
-		// Protected vars
-		protected $parent;
 		public $extension_url;
 		public $extension_dir;
 		public static $theInstance;
 
 		/**
-		 * Class Constructor. Defines the args for the extions class
+		 * ReduxFramework_Extension_custom_image_select constructor.
 		 *
-		 * @since       1.0.0
-		 * @access      public
-		 * @param       array $sections Panel sections.
-		 * @param       array $args Class constructor arguments.
-		 * @param       array $extra_tabs Extra panel tabs.
-		 * @return      void
+		 * @param ReduxFramework $parent ReduxFramework object.
 		 */
 		public function __construct( $parent ) {
 
-			$this->parent = $parent;
+			parent::__construct( $parent, __FILE__ );
+
 			if ( empty( $this->extension_dir ) ) {
 				$this->extension_dir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
 			}
 			$this->field_name = 'custom_image_select';
 
-			self::$theInstance = $this;
+			self::$theInstance = parent::get_instance();
 
-			add_filter( 'redux/' . $this->parent->args[ 'opt_name' ] . '/field/class/' . $this->field_name, array( &$this, 'overload_field_path' ) ); // Adds the local field
+			add_filter( 'redux/' . $this->parent->args[ 'opt_name' ] . '/field/class/' . $this->field_name, array( &$this, 'overload_field_path' ), 10, 2 ); // Adds the local field
 		}
 
 		public function getInstance() {
@@ -66,8 +61,10 @@ if ( !class_exists( 'ReduxFramework_Extension_custom_image_select' ) ) {
 		}
 
 		// Forces the use of the embeded field path vs what the core typically would use
-		public function overload_field_path( $field ) {
-			return dirname( __FILE__ ) . '/' . $this->field_name . '/field_' . $this->field_name . '.php';
+		public function overload_field_path( string $file, array $field ): string {
+			$files = array( dirname( __FILE__ ) . '/' . $this->field_name . '/field_' . $this->field_name . '.php' );
+
+			return Redux_Functions::file_exists_ex( $files );
 		}
 
 	}

@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit;
 
 // Don't duplicate me!
 if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
-
+	
 	/**
 	 * Main Customizer_Helper customizer extension class
 	 *
 	 * @since 1.8.4
 	 */
 	class BB_Customizer_Helper {
-
+		
 		/**
 		 * Set parent option.
 		 *
@@ -27,7 +27,7 @@ if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
 		 * @var array
 		 */
 		public $parent;
-
+		
 		/**
 		 * Set customizer DB values.
 		 *
@@ -35,7 +35,7 @@ if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
 		 * @var array
 		 */
 		public static $changed_value;
-
+		
 		/**
 		 * Customizer_Helper constructor.
 		 *
@@ -47,7 +47,7 @@ if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
 			$this->parent = $parent;
 			$this->load();
 		}
-
+		
 		/**
 		 * Load hook and filters.
 		 *
@@ -57,7 +57,7 @@ if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
 			add_action( "redux/options/{$this->parent->args['opt_name']}/options", array( $this, 'bb_override_values' ), 101, 1 );
 			add_action( 'customize_save', array( $this, 'bb_customizer_save_before' ) );
 		}
-
+		
 		/**
 		 * Override customizer values.
 		 * Override redux framework function here because facing issue.
@@ -118,7 +118,7 @@ if ( ! class_exists( 'BB_Customizer_Helper', false ) ) {
 			}
 			return $customized_data;
 		}
-
+		
 		/**
 		 * Function will fire before publish customizer data.
 		 * Note - Before save need to unset new changes from parent options because redux framework

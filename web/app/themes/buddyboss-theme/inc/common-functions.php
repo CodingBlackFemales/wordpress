@@ -68,6 +68,7 @@ function bb_theme_get_404_svg_code( $version = 1 ) {
 	}
 
 	return $svg_code;
+
 }
 
 /**
@@ -166,6 +167,7 @@ if ( ! function_exists( 'bb_theme_filter_input_string' ) ) {
 		}
 
 		return $string;
+
 	}
 }
 
@@ -195,6 +197,7 @@ if ( ! function_exists( 'bb_theme_get_published_pages' ) ) {
 		}
 
 		return $published_pages;
+
 	}
 }
 
@@ -217,7 +220,7 @@ if ( ! function_exists( 'bb_get_theme_header_logo_link' ) ) {
 		if (
 			! empty( $logo_destination ) &&
 			is_numeric( $logo_destination ) &&
-			get_post_status( $logo_destination ) === 'publish'
+			'publish' === get_post_status( $logo_destination )
 		) {
 			$logo_destination_url = get_permalink( $logo_destination );
 		}
@@ -229,4 +232,130 @@ if ( ! function_exists( 'bb_get_theme_header_logo_link' ) ) {
 
 		return $logo_destination_url;
 	}
+}
+
+if ( ! function_exists( 'bb_theme_remove_class_action' ) ) {
+	/**
+	 * Remove action which used in thord party class.
+	 *
+	 * @since 2.4.90
+	 *
+	 * @param string $action Action name.
+	 * @param string $class  Class name.
+	 * @param string $method Method name.
+	 */
+	function bb_theme_remove_class_action( $action, $class, $method ) {
+		global $wp_filter;
+		if ( isset( $wp_filter[ $action ] ) ) {
+			$len = strlen( $method );
+			foreach ( $wp_filter[ $action ] as $pri => $actions ) {
+				foreach ( $actions as $name => $def ) {
+					if ( substr( $name, - $len ) === $method ) {
+						if ( is_array( $def['function'] ) && ! empty( $def['function'] ) ) {
+							if ( get_class( $def['function'][0] ) === $class ) {
+								if ( is_object( $wp_filter[ $action ] ) && isset( $wp_filter[ $action ]->callbacks ) ) {
+									unset( $wp_filter[ $action ]->callbacks[ $pri ][ $name ] );
+								} else {
+									unset( $wp_filter[ $action ][ $pri ][ $name ] );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+if ( ! function_exists( 'bb_theme_enable_tutorlms_override' ) ) {
+	/**
+	 * Whether to override tutorlms dashboard.
+	 *
+	 * @since 2.4.90
+	 *
+	 * @return bool
+	 */
+	function bb_theme_enable_tutorlms_override() {
+		if (
+			function_exists( 'bb_platform_pro' ) &&
+			function_exists( 'tutor_utils' ) &&
+			function_exists( 'bb_tutorlms_enable' )
+		) {
+			return bb_tutorlms_enable();
+		}
+
+		return false;
+	}
+}
+
+/**
+ * Retrieve the directory layout preference for a specific action.
+ * This function retrieves the directory layout preference for a specific action
+ * (e.g., 'ld-course' or 'llms-course'). It checks whether the user is logged in,
+ * retrieves layout preferences from user meta or cookies, and provides a default
+ * layout value if no user preferences are found.
+ *
+ * @since 2.5.01
+ *
+ * @param string $action The directory action for which to retrieve the layout preference (e.g., 'ld-course' or
+ *                       'llms-course').
+ *
+ * @return string The current layout format for the specified directory action ('grid' or 'list').
+ */
+function bb_theme_get_directory_layout_preference( $action ) {
+	if ( is_user_logged_in() ) {
+		$existing_layouts = get_user_meta( get_current_user_id(), 'bb_layout_view', true );
+	} else {
+		$existing_layouts = ! empty( $_COOKIE['bb_layout_view'] ) ? json_decode( rawurldecode( $_COOKIE['bb_layout_view'] ), true ) : array();
+	}
+	$default_value = '';
+	if ( 'ld-course' === $action ) {
+		$default_value = apply_filters( 'bb_learndash_course_layout', 'grid' );
+	} elseif ( 'llms-course' === $action ) {
+		$default_value = apply_filters( 'bb_llms_course_layout', 'grid' );
+	}
+
+	return ! empty( $existing_layouts ) && ! empty( $existing_layouts[ $action ] ) ? $existing_layouts[ $action ] : $default_value;
+}
+
+/**
+ * Collect BuddyBoss Theme options data for telemetry reporting.
+ *
+ * @since 2.7.30
+ *
+ * @param array $bb_telemetry_data BuddyBoss Theme options data.
+ *
+ * @return array BuddyBoss Theme options data.
+ */
+function bb_telemetry_theme_data( $bb_telemetry_data ) {
+	global $wpdb;
+	$bb_telemetry_data = ! empty( $bb_telemetry_data ) ? $bb_telemetry_data : array();
+
+	// Filterable list of BuddyBoss Theme options to fetch from the database.
+	$theme_db_options = apply_filters(
+		'bb_telemetry_theme_options',
+		array(
+			'bboss_updater_saved_licenses',
+			'buddyboss_theme_version',
+		)
+	);
+
+	// Added those options that are not available in the option table.
+	$bb_telemetry_data['theme_template'] = function_exists( 'buddyboss_theme_get_option' ) ? buddyboss_theme_get_option( 'theme_template' ) : '';
+
+	// Fetch options from the database.
+	$bp_prefix = $wpdb->base_prefix;
+	$query     = "SELECT option_name, option_value FROM {$bp_prefix}options WHERE option_name IN ('" . implode( "','", $theme_db_options ) . "');";
+
+	$results = $wpdb->get_results( $query, ARRAY_A );
+	if ( ! empty( $results ) ) {
+		foreach ( $results as $result ) {
+			$bb_telemetry_data[ $result['option_name'] ] = $result['option_value'];
+		}
+	}
+
+	unset( $bp_prefix, $query, $results, $theme_db_options );
+
+	return $bb_telemetry_data;
 }

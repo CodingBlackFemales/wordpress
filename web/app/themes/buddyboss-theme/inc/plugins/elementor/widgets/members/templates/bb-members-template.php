@@ -18,7 +18,7 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 <div class="bb-members">
 
 	<?php
-	if ( ( $settings['member_link_text'] != '' ) || ( $settings['heading_text'] != '' ) ) {
+	if ( ( '' != $settings['member_link_text'] ) || ( '' != $settings['heading_text'] ) ) {
 		?>
 		<div class="bb-block-header flex align-items-center">
 			<div class="bb-block-header__title"><h3><?php echo esc_html( $settings['heading_text'] ); ?></h3></div>
@@ -27,7 +27,7 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 				?>
 				<div class="bb-block-header__extra push-right">
 					<?php
-					if ( $settings['member_link_text'] !== '' ) {
+					if ( '' !== $settings['member_link_text'] ) {
 						?>
 						<a href="<?php bp_members_directory_permalink(); ?>" class="count-more"><?php echo esc_html( $settings['member_link_text'] ); ?><i class="bb-icon-l bb-icon-angle-right"></i></a>
 						<?php
@@ -97,9 +97,9 @@ if ( ! defined( 'BB_MEMBERS_WIDGET' ) ) {
 								<div class="bb-members-list__avatar">
 									<a href="<?php bp_member_permalink(); ?>"
 										<?php
-										if ( $settings['switch_tooltips'] === 'yes' ) {
+										if ( 'yes' === $settings['switch_tooltips'] ) {
 											?>
-											 data-balloon-pos="<?php echo ( $settings['alignment'] === 'left' ) ? esc_attr( 'right' ) : esc_attr( 'left' ); ?>"
+											 data-balloon-pos="<?php echo ( 'left' === $settings['alignment'] ) ? esc_attr( 'right' ) : esc_attr( 'left' ); ?>"
 											 data-balloon="<?php echo bp_get_member_last_active(); ?>"
 										<?php } ?>
 									>

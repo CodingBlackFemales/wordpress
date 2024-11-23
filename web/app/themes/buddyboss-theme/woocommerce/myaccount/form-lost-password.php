@@ -10,9 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see https://docs.woocommerce.com/document/template-structure/
+ * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 7.0.1
+ * @version 9.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,7 +46,7 @@ wc_print_notices(); ?>
 
 				<p class="woocommerce-form-row form-row bs_woocommerce_reset_ctrls">
 					<input type="hidden" name="wc_reset_password" value="true" />
-					<button type="submit" class="woocommerce-Button button" value="<?php esc_attr_e( 'Reset password', 'buddyboss-theme' ); ?>"><?php esc_html_e( 'Reset password', 'buddyboss-theme' ); ?></button>
+					<button type="submit" class="woocommerce-Button button<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" value="<?php esc_attr_e( 'Reset password', 'buddyboss-theme' ); ?>"><?php esc_html_e( 'Reset password', 'buddyboss-theme' ); ?></button>
 				</p>
 
 				<?php wp_nonce_field( 'lost_password', 'woocommerce-lost-password-nonce' ); ?>

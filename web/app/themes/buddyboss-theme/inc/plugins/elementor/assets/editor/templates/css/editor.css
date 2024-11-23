@@ -621,6 +621,10 @@ div.bbelementor-template-has-url:hover .bbelementor-clone-template {
     -ms-transform: scale(0.666) translateX(-25%) translateY(-25%);
     transform: scale(0.666) translateX(-25%) translateY(-25%);
 }
+.elementor-template-library-template-action.button-requirement:hover {
+    background-color: transparent;
+}
+
 @media (max-width: 1439px) {
     #bbelementor-templatate-item-preview-wrap iframe {
         width: 1440px;

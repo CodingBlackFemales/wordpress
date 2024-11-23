@@ -396,3 +396,32 @@
 .bb-media-frame .attachments-browser .media-toolbar {
 	left: 363px;
 }
+
+.sfwd_options .ld-select2:not(.ld-select-multiple) .select2-container--learndash {
+	max-height: 34px;
+}
+
+.sfwd_options .ld-select2.ld-select-multiple .select2-container--learndash {
+	height: auto;
+}
+
+.sfwd_options .ld-select2.ld-select-multiple .select2-container--learndash ul.select2-selection__rendered {
+	padding-bottom: 5px;
+}
+
+ul.wp-block-social-links .components-button.wp-block-social-link-anchor .wp-block-social-link-label {
+	line-height: 21px;
+}
+
+ul.wp-block-social-links:not(.alignright):not(.aligncenter) .wp-block-social-link-label {
+	text-align: right;
+}
+
+ul.wp-block-social-links.alignright .wp-block-social-link-label {
+	text-align: left;
+}
+
+/* Customize Menu height issue */
+#customize-theme-controls .accordion-section-title button.accordion-trigger {
+	height: auto;
+}

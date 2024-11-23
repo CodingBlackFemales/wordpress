@@ -15,6 +15,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php foreach ( $attempt->get_question_objects() as $attempt_question ) :
 	$quiz_question = $attempt_question->get_question();
 	if ( ! $quiz_question ) {
+		?>
+		<li class="llms-quiz-attempt-question type--removed status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>">
+			<header class="llms-quiz-attempt-question-header">
+				<span class="toggle-answer">
+					<h3 class="llms-question-title"><?php esc_html_e( 'This question has been deleted', 'buddyboss-theme' ); ?></h3>
+					<span class="llms-points">
+						<?php printf( __( '%1$d / %2$d points', 'buddyboss-theme' ), $attempt_question->get( 'earned' ), $attempt_question->get( 'points' ) ); ?>
+					</span>
+					<?php echo $attempt_question->get_status_icon(); ?>
+				</span>
+			</header>
+		</li>
+		<?php
 		continue;
 	}
 	?>
@@ -88,23 +101,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</li>
 <?php endforeach; ?>
 </ol>
-
-<script>
-( function( $ ) {
-	$( '.llms-quiz-attempt-question-header .toggle-answer' ).on( 'click', function( e ) {
-
-		e.preventDefault();
-
-		var $curr = $( this ).closest( 'header' ).next( '.llms-quiz-attempt-question-main' );
-
-		$( this ).closest( 'li' ).siblings().find( '.llms-quiz-attempt-question-main' ).slideUp( 200 );
-
-		if ( $curr.is( ':visible' ) ) {
-			$curr.slideUp( 200 );
-		}  else {
-			$curr.slideDown( 200 );
-		}
-
-	} );
-} )( jQuery );
-</script>

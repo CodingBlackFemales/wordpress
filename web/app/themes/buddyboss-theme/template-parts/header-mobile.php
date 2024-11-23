@@ -1,12 +1,16 @@
 <?php
-
+/**
+ * The template for displaying mobile header
+ *
+ * @package BuddyBoss_Theme
+ */
 
 $show_search        = buddyboss_theme_get_option( 'mobile_component_opt_multi_checkbox', 'mobile_header_search' );
 $show_messages      = buddyboss_theme_get_option( 'mobile_component_opt_multi_checkbox', 'mobile_messages' ) && is_user_logged_in();
 $show_notifications = buddyboss_theme_get_option( 'mobile_component_opt_multi_checkbox', 'mobile_notifications' ) && is_user_logged_in();
 $show_shopping_cart = buddyboss_theme_get_option( 'mobile_component_opt_multi_checkbox', 'mobile_shopping_cart' );
 $logo_align         = count( array_filter( array( $show_search, $show_messages, $show_notifications, $show_shopping_cart ) ) );
-$logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() && ! buddyboss_is_lifterlms_inner() ) ) ? 'bb-single-icon' : '';
+$logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() && ! buddyboss_is_lifterlms_inner() && ! buddyboss_is_tutorlms_inner() ) ) ? 'bb-single-icon' : '';
 
 ?>
 
@@ -61,6 +65,10 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 				(
 					class_exists( 'LifterLMS' ) &&
 					buddyboss_is_lifterlms_inner()
+				) ||
+				(
+					function_exists( 'tutor' ) &&
+					buddyboss_is_tutorlms_inner()
 				)
 			) {
 				?>
@@ -71,16 +79,12 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 					</a>
 					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
 					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
-					<?php
-				} else {
-					if ( $show_search ) :
-						?>
-						<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
+				<?php } else {
+					if ( $show_search ) : ?>
+						<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
 						<span class="search-separator bb-separator"></span>
-						<?php
-					endif;
-					if ( $show_shopping_cart && class_exists( 'WooCommerce' ) ) :
-						?>
+					<?php endif;
+					if ( $show_shopping_cart && class_exists( 'WooCommerce' ) ) : ?>
 						<?php get_template_part( 'template-parts/cart-dropdown' ); ?>
 					<?php endif; ?>
 
@@ -89,13 +93,11 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 					<?php
 				}
 			} else {
-				if ( $show_search ) :
-					?>
-					<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
+				if ( $show_search ) : ?>
+					<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
 					<?php if ( $show_messages && function_exists( 'bp_is_active' ) && bp_is_active( 'messages' ) || $show_notifications && function_exists( 'bp_is_active' ) && bp_is_active( 'notifications' ) || $show_shopping_cart && class_exists( 'WooCommerce' ) ) : ?>
 						<span class="search-separator bb-separator"></span>
-						<?php
-					endif;
+					<?php endif;
 				endif;
 
 				if ( $show_messages && function_exists( 'bp_is_active' ) && bp_is_active( 'messages' ) ) :
