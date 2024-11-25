@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.33](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.32...v0.1.33) (2024-11-23)
+
+
+### Bug Fixes
+
+* prevents duplicate result import ([45032f7](https://github.com/CodingBlackFemales/wordpress/commit/45032f72c1dfcdd365129e55b10ed8b51a7b5e55))
+* prevents duplicate result import ([cf27c22](https://github.com/CodingBlackFemales/wordpress/commit/cf27c224a97d09528ec2f5488f1906cb2a58eccb))
+
 ## [0.1.32](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.31...v0.1.32) (2024-09-16)
 
 ## [0.1.31](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.30...v0.1.31) (2024-08-19)

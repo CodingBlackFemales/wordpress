@@ -9,8 +9,6 @@
 
 namespace CodingBlackFemales\Multisite\Front;
 
-use CodingBlackFemales\Multisite\Customizations\WP_Job_Manager;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -27,7 +25,6 @@ final class Main {
 	 */
 	public static function hooks() {
 		Assets::hooks();
-		WP_Job_Manager::hooks();
 		add_action( 'init', array( __CLASS__, 'customise_error_reporting' ) );
 	}
 
