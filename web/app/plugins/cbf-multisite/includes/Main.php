@@ -12,6 +12,7 @@ use CodingBlackFemales\Multisite\Admin\Main as Admin;
 use CodingBlackFemales\Multisite\Front\Main as Front;
 use CodingBlackFemales\Multisite\Customizations\Quiz_Results_Command;
 use CodingBlackFemales\Multisite\Customizations\WP_Cron;
+use CodingBlackFemales\Multisite\Customizations\WP_Job_Manager;
 
 
 /**
@@ -77,6 +78,7 @@ final class Main {
 		}
 
 		WP_Cron::hooks();
+		WP_Job_Manager::hooks();
 
 		if ( Utils::is_request( 'admin' ) ) {
 			Admin::hooks();
