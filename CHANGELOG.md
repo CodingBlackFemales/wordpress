@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.34](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.33...v0.1.34) (2024-11-25)
+
+
+### Bug Fixes
+
+* preserves company icons during job listing import ([84f7374](https://github.com/CodingBlackFemales/wordpress/commit/84f7374720956887ff4ab9117ef0119b9d190195))
+
 ## [0.1.33](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.32...v0.1.33) (2024-11-23)
 
 
