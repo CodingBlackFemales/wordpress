@@ -9,6 +9,8 @@
 
 namespace CodingBlackFemales\Multisite\Customizations;
 
+use CodingBlackFemales\Multisite\Utils;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -57,11 +59,35 @@ class WP_Job_Manager {
 	}
 
 	/**
+	 * Prevent job listing company thumbnails from being deleted during import.
+	 *
+	 * @param bool   $is_images_to_update
+	 * @param array  $article_data
+	 * @param string $current_xml_node
+	 * @param int    $pid
+	 *
+	 * @return bool
+	 */
+	public static function preserve_job_listing_images( $is_images_to_update, $article_data, $current_xml_node, $pid ) {
+		if ( $article_data['post_type'] === 'job_listing' ) {
+			$is_images_to_update = false;
+		}
+
+		return $is_images_to_update;
+	}
+
+	/**
 	 * Hook in methods.
 	 */
 	public static function hooks() {
-		add_filter( 'submit_resume_steps', array( __CLASS__, 'submit_resume_steps' ) );
-		add_filter( 'submit_resume_form_submit_button_text', array( __CLASS__, 'submit_resume_form_submit_button_text' ) );
-		add_action( 'resume_manager_update_resume_data', array( __CLASS__, 'resume_manager_update_resume_data' ) );
+		if ( Utils::is_request( 'admin' ) ) {
+			add_filter( 'pmxi_is_images_to_update', array( __CLASS__, 'preserve_job_listing_images' ), 10, 4 );
+		}
+
+		if ( Utils::is_request( 'frontend' ) ) {
+			add_filter( 'submit_resume_steps', array( __CLASS__, 'submit_resume_steps' ) );
+			add_filter( 'submit_resume_form_submit_button_text', array( __CLASS__, 'submit_resume_form_submit_button_text' ) );
+			add_action( 'resume_manager_update_resume_data', array( __CLASS__, 'resume_manager_update_resume_data' ) );
+		}
 	}
 }
