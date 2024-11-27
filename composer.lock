@@ -7452,15 +7452,15 @@
         },
         {
             "name": "wpackagist-plugin/optimole-wp",
-            "version": "3.13.8",
+            "version": "3.13.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/3.13.8"
+                "reference": "tags/3.13.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.13.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.13.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -9648,7 +9648,7 @@
     "platform": {
         "php": ">=8.0"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.2"
     },
