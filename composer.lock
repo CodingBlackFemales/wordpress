@@ -7416,15 +7416,15 @@
         },
         {
             "name": "wpackagist-plugin/members",
-            "version": "3.2.10",
+            "version": "3.2.14",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/members/",
-                "reference": "tags/3.2.10"
+                "reference": "tags/3.2.14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/members.3.2.10.zip"
+                "url": "https://downloads.wordpress.org/plugin/members.3.2.14.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
