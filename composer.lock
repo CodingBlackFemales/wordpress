@@ -7560,15 +7560,15 @@
         },
         {
             "name": "wpackagist-plugin/remove-dashboard-access-for-non-admins",
-            "version": "1.2",
+            "version": "1.2.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/remove-dashboard-access-for-non-admins/",
-                "reference": "tags/1.2"
+                "reference": "tags/1.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/remove-dashboard-access-for-non-admins.1.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/remove-dashboard-access-for-non-admins.1.2.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
