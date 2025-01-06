@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "add72debe71d514575bc9600c04d8604",
+    "content-hash": "86751b265f002a90b5beba008037e434",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7398,15 +7398,15 @@
         },
         {
             "name": "wpackagist-plugin/mailchimp-for-woocommerce",
-            "version": "4.4.1",
+            "version": "5.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce/",
-                "reference": "tags/4.4.1"
+                "reference": "tags/5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.4.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.5.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
