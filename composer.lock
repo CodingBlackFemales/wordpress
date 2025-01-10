@@ -7236,15 +7236,15 @@
         },
         {
             "name": "wpackagist-plugin/breadcrumb-navxt",
-            "version": "7.4.0",
+            "version": "7.4.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/breadcrumb-navxt/",
-                "reference": "tags/7.4.0"
+                "reference": "trunk"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.4.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.zip?timestamp=1736473254"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
