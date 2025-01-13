@@ -7758,15 +7758,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-maintenance-mode",
-            "version": "2.6.15",
+            "version": "2.6.16",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.6.15"
+                "reference": "tags/2.6.16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.15.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.16.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -9652,5 +9652,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
