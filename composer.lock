@@ -7470,15 +7470,15 @@
         },
         {
             "name": "wpackagist-plugin/otter-blocks",
-            "version": "3.0.8",
+            "version": "3.0.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/3.0.8"
+                "reference": "tags/3.0.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.3.0.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.3.0.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
