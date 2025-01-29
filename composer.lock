@@ -7380,15 +7380,15 @@
         },
         {
             "name": "wpackagist-plugin/login-as-user",
-            "version": "1.5.8",
+            "version": "1.5.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/login-as-user/",
-                "reference": "tags/1.5.8"
+                "reference": "tags/1.5.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/login-as-user.1.5.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/login-as-user.1.5.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
