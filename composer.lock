@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86751b265f002a90b5beba008037e434",
+    "content-hash": "eb9f2efe71be73ef19b6a4fbcca4b1ce",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7686,15 +7686,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-graphql",
-            "version": "1.32.1",
+            "version": "2.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/1.32.1"
+                "reference": "tags/2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.1.32.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.0.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
