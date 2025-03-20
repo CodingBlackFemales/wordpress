@@ -7686,15 +7686,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-graphql",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/2.1.0"
+                "reference": "trunk"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.1.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.zip?timestamp=1742422490"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
