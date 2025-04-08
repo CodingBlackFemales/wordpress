@@ -7668,15 +7668,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-services",
-            "version": "2.8.8",
+            "version": "2.8.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-services/",
-                "reference": "tags/2.8.8"
+                "reference": "tags/2.8.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.2.8.8.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.2.8.9.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
