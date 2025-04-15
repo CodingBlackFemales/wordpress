@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9f2efe71be73ef19b6a4fbcca4b1ce",
+    "content-hash": "df7aa051d94eeb540100fd8fc471587a",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7452,15 +7452,15 @@
         },
         {
             "name": "wpackagist-plugin/optimole-wp",
-            "version": "3.14.1",
+            "version": "4.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/3.14.1"
+                "reference": "tags/4.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.3.14.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.0.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
