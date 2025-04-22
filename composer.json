@@ -85,7 +85,7 @@
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4",
     "wpackagist-plugin/woocommerce": "^9.0",
     "wpackagist-plugin/woocommerce-gateway-stripe": "^9.0",
-    "wpackagist-plugin/woocommerce-paypal-payments": "^2.0",
+    "wpackagist-plugin/woocommerce-paypal-payments": "^3.0",
     "wpackagist-plugin/woocommerce-services": "^2.2",
     "wpackagist-plugin/wp-graphql": "^2.0",
     "wpackagist-plugin/wp-job-manager": "^2.0",

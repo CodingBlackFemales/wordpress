@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb9f2efe71be73ef19b6a4fbcca4b1ce",
+    "content-hash": "21d8c3d3d7e8a5ad32f5cedb1982115f",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7650,15 +7650,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-paypal-payments",
-            "version": "2.9.6",
+            "version": "3.0.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments/",
-                "reference": "tags/2.9.6"
+                "reference": "tags/3.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.2.9.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.3.0.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
