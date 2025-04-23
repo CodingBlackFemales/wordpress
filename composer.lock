@@ -7349,15 +7349,15 @@
         },
         {
             "name": "wpackagist-plugin/import-meetup-events",
-            "version": "1.6.5",
+            "version": "1.6.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/import-meetup-events/",
-                "reference": "tags/1.6.5"
+                "reference": "tags/1.6.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.6.5.zip"
+                "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.6.6.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
