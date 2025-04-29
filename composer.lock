@@ -7493,15 +7493,15 @@
         },
         {
             "name": "wpackagist-plugin/pdf-embedder",
-            "version": "4.9.1",
+            "version": "4.9.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/pdf-embedder/",
-                "reference": "tags/4.9.1"
+                "reference": "tags/4.9.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/pdf-embedder.4.9.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/pdf-embedder.4.9.2.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
