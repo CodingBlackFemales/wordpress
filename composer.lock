@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f3954631ca2e65879213e64cf70ba0b",
+    "content-hash": "31c60b399e8f23fdd707ee2da36ec858",
     "packages": [
         {
             "name": "buddyboss/buddyboss-platform",
@@ -7754,15 +7754,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-services",
-            "version": "2.8.9",
+            "version": "3.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-services/",
-                "reference": "tags/2.8.9"
+                "reference": "tags/3.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.2.8.9.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.3.0.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
