@@ -7718,15 +7718,15 @@
         },
         {
             "name": "wpackagist-plugin/woocommerce-gateway-stripe",
-            "version": "9.4.1",
+            "version": "9.5.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/9.4.1"
+                "reference": "tags/9.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.9.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.9.5.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
