@@ -74,24 +74,24 @@ declare -A PRODUCTION=(
 )
 
 case "$FROM-$TO" in
-	production-development) DIR="down ⬇️ "; ;;
-	staging-development)    DIR="down ⬇️ "; ;;
-	development-production) echo "syncing development to production not supported, sync to staging first. usage: $0 production development | staging development | development staging | staging production | production staging" && exit 1 ;;
-	development-staging)    DIR="up ⬆️ "; ;;
-	production-staging)     DIR="horizontally ↔️ "; ;;
-	staging-production)     DIR="horizontally ↔️ "; ;;
-	*) echo "usage: $0 [[--skip-db] [--skip-assets] [--local]] production development | staging development | development staging | staging production | production staging" && exit 1 ;;
+	prod-dev) DIR="down ⬇️ "; ;;
+	staging-dev)    DIR="down ⬇️ "; ;;
+	dev-prod) echo "syncing dev to prod not supported, sync to staging first. usage: $0 prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
+	dev-staging)    DIR="up ⬆️ "; ;;
+	prod-staging)     DIR="horizontally ↔️ "; ;;
+	staging-prod)     DIR="horizontally ↔️ "; ;;
+	*) echo "usage: $0 [[--skip-db] [--skip-assets] [--local]] prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
 esac
 
 case "$FROM" in
-	production)  SOURCE=("${(@fkv)PRODUCTION}"); ;;
-	development) SOURCE=("${(@fkv)DEV}"); ;;
+	prod)  SOURCE=("${(@fkv)PRODUCTION}"); ;;
+	dev) SOURCE=("${(@fkv)DEV}"); ;;
 	staging)     SOURCE=("${(@fkv)STAGING}"); ;;
 esac
 
 case "$TO" in
-	development) DEST=("${(@fkv)DEV}"); ;;
-	production)  DEST=("${(@fkv)PRODUCTION}"); ;;
+	dev) DEST=("${(@fkv)DEV}"); ;;
+	prod)  DEST=("${(@fkv)PRODUCTION}"); ;;
 	staging)     DEST=("${(@fkv)STAGING}"); ;;
 esac
 
@@ -140,7 +140,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	availfrom() {
 		local AVAILFROM
 
-		if [[ "$LOCAL" = true && $FROM == "development" ]]; then
+		if [[ "$LOCAL" = true && $FROM == "dev" ]]; then
 			AVAILFROM=$(wp option get home 2>&1)
 		else
 			AVAILFROM=$(wp "@$FROM" option get home 2>&1)
@@ -155,7 +155,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 	availto() {
 		local AVAILTO
-		if [[ "$LOCAL" = true && $TO == "development" ]]; then
+		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
 			AVAILTO=$(wp option get home 2>&1)
 		else
 			AVAILTO=$(wp "@$TO" option get home 2>&1)
@@ -187,11 +187,11 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		EXPORTFILE="data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
 
 		# Export/import database
-		if [[ "$LOCAL" = true && $TO == "development" ]]; then
+		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
 			wp db export $EXPORTFILE --default-character-set=utf8mb4 &&
 			wp db reset --yes &&
 			wp "@$FROM" db export --default-character-set=utf8mb4 - | wp db import -
-		elif [[ "$LOCAL" = true && $FROM == "development" ]]; then
+		elif [[ "$LOCAL" = true && $FROM == "dev" ]]; then
 			wp "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
 			wp "@$TO" db reset --yes &&
 			wp db export --default-character-set=utf8mb4 - | wp "@$TO" db import -
