@@ -9,10 +9,10 @@
 		"php": ">=7.3"
 	},
 	"require-dev": {
-		"composer/installers": "^1.7.0",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
-		"woocommerce/woocommerce-sniffs": "^0.1.0",
-		"wp-coding-standards/wpcs": "^2.3"
+		"composer/installers": "^2.3",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.1",
+		"woocommerce/woocommerce-sniffs": "^1.0",
+		"wp-coding-standards/wpcs": "^3.2"
 	},
 	"autoload": {
 		"psr-4": {

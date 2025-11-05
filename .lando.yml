@@ -18,6 +18,8 @@ proxy:
     - cms.codingblackfemales.lndo.site
 services:
   appserver:
+    type: "php:8.2"
+    api: 3
     composer_version: 2-latest
     build_as_root:
       # Installation instructions adapted from: https://github.com/nodesource/distributions/blob/69a45587cd87bd8c700e40bb8a8160e0c28d71d8/README.md#installation-instructions
@@ -44,6 +46,8 @@ services:
         PHP_IDE_CONFIG: "serverName=appserver"
         NODE_MAJOR: 20
   database:
+    type: "mysql:8.0"
+    api: 3
     portforward: 3307
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
 # events:
