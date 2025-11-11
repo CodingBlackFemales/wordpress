@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.39](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.38...v0.1.39) (2025-11-11)
+
+
+### Bug Fixes
+
+* enable Redis cache writing ([a68095f](https://github.com/CodingBlackFemales/wordpress/commit/a68095fdda64c30ed41d7944f5906e405d1c4ffa))
+
 ## [0.1.38](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.37...v0.1.38) (2025-11-05)
 
 
