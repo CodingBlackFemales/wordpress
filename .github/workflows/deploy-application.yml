@@ -32,6 +32,8 @@ jobs:
       # Deploys specific branch/commit to target environment
       - name: Deploy to target
         uses: wei/git-sync@v3
+        env:
+          COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.ADMIN_GITHUB_TOKEN }}"}}'
         with:
           # GitHub repo slug or full clone url
           source_repo: ${{ vars.SOURCE_REPO }}
