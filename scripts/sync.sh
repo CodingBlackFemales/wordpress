@@ -49,7 +49,7 @@ bold=$(tput bold)
 normal=$(tput sgr0)
 
 # Declare arrays to store environment configuration values
-SUBSITES=("academy" "cms" "jobs")
+SUBSITES=("wp" "academy" "jobs")
 declare -A SOURCE
 declare -A DEST
 declare -A DEV=(
