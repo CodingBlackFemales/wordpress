@@ -33,7 +33,7 @@
 		"@wordpress/scripts": "^30.22.0",
 		"copy-webpack-plugin": "^12.0.0",
 		"x-var": "^2.1.0",
-		"glob": "^10.0.0",
+		"glob": "^10.5.0",
 		"node-wp-i18n": "^1.2.6",
 		"webpack-remove-empty-scripts": "^1.0.1"
 	},
