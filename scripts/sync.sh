@@ -57,13 +57,23 @@ declare -A DEV=(
 	["domain"]="wp.codingblackfemales.lndo.site"
 	["url"]="https://wp.codingblackfemales.lndo.site"
 	["dir"]="web/app/uploads/"
+	["approot"]=""
 )
+# declare -A STAGING=(
+# 	["rootdomain"]="staging.codingblackfemales.com"
+# 	["domain"]="staging.codingblackfemales.com"
+# 	["url"]="https://staging.codingblackfemales.com"
+# 	["dir"]="codingblackfemales.com@ssh.gb.stackcp.com:/home/virtual/vps-da309d/e/e7eeed1b7b/staging_html/web/app/uploads/"
+# 	["port"]="22"
+# 	["approot"]="/home/virtual/vps-da309d/e/e7eeed1b7b/staging_html/"
+# )
 declare -A STAGING=(
-	["rootdomain"]="staging.codingblackfemales.com"
-	["domain"]="staging.codingblackfemales.com"
-	["url"]="https://staging.codingblackfemales.com"
-	["dir"]="codingblackfemales.com@ssh.gb.stackcp.com:/home/virtual/vps-da309d/e/e7eeed1b7b/staging_html/web/app/uploads/"
-	["port"]="22"
+	["rootdomain"]="honeydew-jaguar-661948.hostingersite.com"
+	["domain"]="honeydew-jaguar-661948.hostingersite.com"
+	["url"]="https://honeydew-jaguar-661948.hostingersite.com"
+	["dir"]="u544495502@82.29.186.233:/home/u544495502/domains/honeydew-jaguar-661948.hostingersite.com/public_html/web/app/uploads/"
+	["port"]="65002"
+	["approot"]="/home/u544495502/domains/honeydew-jaguar-661948.hostingersite.com/public_html/"
 )
 declare -A PRODUCTION=(
 	["rootdomain"]="codingblackfemales.com"
@@ -71,6 +81,7 @@ declare -A PRODUCTION=(
 	["url"]="https://wp.codingblackfemales.com"
 	["dir"]="codingblackfemales.com@ssh.gb.stackcp.com:/home/virtual/vps-da309d/e/e7eeed1b7b/public_html/web/app/uploads/"
 	["port"]="22"
+	["approot"]="/home/virtual/vps-da309d/e/e7eeed1b7b/public_html/"
 )
 
 case "$FROM-$TO" in
@@ -184,7 +195,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local EXPORTFILE
 
 		echo "Syncing database..."
-		EXPORTFILE="data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
+		EXPORTFILE="${DEST[approot]}data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
 
 		# Export/import database
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
