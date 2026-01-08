@@ -137,9 +137,13 @@ Header append Vary: Accept-Encoding
 	RewriteCond %{REQUEST_FILENAME} -d
 	RewriteRule ^ - [L]
 
+    # Bedrock multisite subdirectory - subsite wp paths
+    RewriteRule ^([^/]+)/wp/(wp-(content|admin|includes).*) wp/$2 [L]
+    RewriteRule ^([^/]+)/wp/([^/]+\.php)$ wp/$2 [L]
+
 	# Bedrock WP core
 	RewriteRule ^(wp-(content|admin|includes).*) wp/$1 [L]
-	RewriteRule ^(.*\.php)$ wp/$1 [L]
+	RewriteRule ^([^/]+\.php)$ wp/$1 [L]
 
 	RewriteRule . index.php [L]
 </IfModule>
