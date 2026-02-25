@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40a11c725aa9cd14a5a98b71ee20d6ce",
+    "content-hash": "7e87882381b93b603a0ce3b353f7dfc2",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -8675,24 +8675,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/remove-dashboard-access-for-non-admins/"
-        },
-        {
-            "name": "wpackagist-plugin/social-login-lite-for-woocommerce",
-            "version": "1.6.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/social-login-lite-for-woocommerce/",
-                "reference": "tags/1.6.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/social-login-lite-for-woocommerce.1.6.0.zip"
-            },
-            "require": {
-                "composer/installers": "^1.0 || ^2.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/social-login-lite-for-woocommerce/"
         },
         {
             "name": "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g",
