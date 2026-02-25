@@ -84,7 +84,6 @@
     "wpackagist-plugin/query-monitor": "^3.20.2",
     "wpackagist-plugin/redis-cache": "^2.7",
     "wpackagist-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
-    "wpackagist-plugin/social-login-lite-for-woocommerce": "^1.6.0",
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4.6",
     "wpackagist-plugin/woocommerce": "^10.5.0",
     "wpackagist-plugin/woocommerce-gateway-stripe": "^10.3.1",
