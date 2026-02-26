@@ -164,7 +164,7 @@
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
-      "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
+      "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && [ -f web/.htaccess.staging ] && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
     ],
     "post-update-cmd": [
       "@configure-bp",
@@ -178,6 +178,9 @@
     "fix:all": "@fix  ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "test": [
       "phpcs"
-    ]
+    ],
+    "install:server": "composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader",
+    "update:prod": "composer update $(composer show --direct --no-dev --name-only | sort | xargs)",
+    "update:dev": "composer update $(jq -r '.\"require-dev\" | keys[]' composer.json | xargs)"
   }
 }
