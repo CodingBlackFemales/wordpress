@@ -116,14 +116,14 @@ jobs:
         with:
           github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
           script: |-
+            const branch = '${{ github.ref }}'.replace('refs/heads/', '');
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: '${{ env.WORKFLOW_ID }}',
-              ref: '${{ github.ref }}',
+              ref: branch,
               inputs: {
-                destinationEnvironment: '${{github.ref}}' === 'refs/heads/main' ? 'production' : 'staging',
-                sourceBranch: '${{ github.ref }}',
+                destinationEnvironment: branch === 'main' ? 'production' : 'staging',
               },
             })
             .catch(error => error)
