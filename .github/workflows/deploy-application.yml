@@ -13,9 +13,6 @@ on:
         options:
           - "staging"
           - "production"
-      sourceBranch:
-        description: "The source branch/commit"
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
