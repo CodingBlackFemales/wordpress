@@ -1,2 +1,3 @@
 #!/bin/bash
-./compile.sh
+pwd
+scripts/git-hooks/compile.sh
