@@ -5,4 +5,4 @@ runOnChange() {
 	echo "$changedFiles" | grep -q "$1" && eval "$2"
 }
 
-runOnChange composer.lock "composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader"
+runOnChange composer.lock "composer install:server"
