@@ -27,7 +27,6 @@ jobs:
     environment:
       name: "${{ inputs.destinationEnvironment }}"
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Deploys specific branch/commit to target environment
       - name: Deploy to target
