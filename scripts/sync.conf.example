@@ -1,0 +1,23 @@
+# Global configuration
+subsites=wp academy jobs
+
+[dev]
+rootdomain=codingblackfemales.lndo.site
+dir=web/app/uploads/
+port=22
+approot=
+multisite_mode=subdomain
+
+[staging]
+rootdomain=staging.codingblackfemales.com
+dir=
+port=
+approot=
+multisite_mode=subdomain
+
+[prod]
+rootdomain=codingblackfemales.com
+dir=
+port=
+approot=
+multisite_mode=subdomain

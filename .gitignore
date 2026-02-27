@@ -82,3 +82,7 @@ data
 
 # Scripts
 sync.sh
+sync.conf
+
+# GitHub
+auth.json
