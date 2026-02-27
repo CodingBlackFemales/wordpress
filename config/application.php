@@ -139,6 +139,13 @@ Config::define( 'AIRTABLE_BATCH_SIZE', env( 'AIRTABLE_BATCH_SIZE' ) ?? 10 );
 Config::define( 'AIRTABLE_REPORTS_BASE', env( 'AIRTABLE_REPORTS_BASE' ) ?? '' );
 Config::define( 'AIRTABLE_REPORTS_TABLE', env( 'AIRTABLE_REPORTS_TABLE' ) ?? 'Skills Check Log' );
 
+/** S3 Uploads Settings */
+Config::define( 'S3_UPLOADS_BUCKET', env( 'S3_UPLOADS_BUCKET' ) ?? '' );
+Config::define( 'S3_UPLOADS_KEY', env( 'S3_UPLOADS_KEY' ) ?? '' );
+Config::define( 'S3_UPLOADS_SECRET', env( 'S3_UPLOADS_SECRET' ) ?? '' );
+Config::define( 'S3_UPLOADS_REGION', env( 'S3_UPLOADS_REGION' ) ?? '' );
+Config::define( 'S3_UPLOADS_ENDPOINT', env( 'S3_UPLOADS_ENDPOINT' ) ?? '' );
+
 /**
  * CBF Settings
  */
