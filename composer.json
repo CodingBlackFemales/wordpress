@@ -163,8 +163,7 @@
       "@configure-bp",
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
-      "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi",
-      "([ -f .env ] && grep -Eq \"WP_ENV=['\\\"]?staging['\\\"]?\" .env && [ -f web/.htaccess.staging ] && mv web/.htaccess web/.htaccess.default && mv web/.htaccess.staging web/.htaccess) || true"
+      "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi"
     ],
     "post-update-cmd": [
       "@configure-bp",
