@@ -2,7 +2,7 @@ name: codingblackfemales
 recipe: wordpress
 config:
   database: mariadb
-  php: '8.2'
+  php: '8.3'
   via: apache
   webroot: web
   xdebug: false
@@ -15,10 +15,9 @@ proxy:
     - wp.codingblackfemales.lndo.site
     - academy.codingblackfemales.lndo.site
     - jobs.codingblackfemales.lndo.site
-    - cms.codingblackfemales.lndo.site
 services:
   appserver:
-    type: "php:8.2"
+    type: "php:8.3"
     api: 3
     composer_version: 2-latest
     build_as_root:
@@ -38,15 +37,14 @@ services:
     run:
       - composer install
       - npm install
-    run_as_root:
-      - .lando/scripts/xdebug.sh develop,debug
     overrides:
       environment:
         XDEBUG_MODE:
         PHP_IDE_CONFIG: "serverName=appserver"
+        PHP_MEMORY_LIMIT: 256M
         NODE_MAJOR: 20
   database:
-    type: "mysql:8.0"
+    type: mysql:8.0
     api: 3
     portforward: 3307
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
