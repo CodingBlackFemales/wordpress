@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.41](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.40...v0.1.41) (2026-02-27)
+
+
+### Features
+
+* add S3 endpoint filters ([35e103c](https://github.com/CodingBlackFemales/wordpress/commit/35e103c77affb49b59a88cd5b1cc01ecf1f5d04b))
+* configure S3 Uploads plugin ([dfaf029](https://github.com/CodingBlackFemales/wordpress/commit/dfaf029eb073cb091b3ddd1394fa982a58ef3fc2))
+
+
+### Bug Fixes
+
+* uninstall obsolete plugin ([18499bf](https://github.com/CodingBlackFemales/wordpress/commit/18499bf25f2465d7975ae54a4c55b27c98737971))
+
 ## [0.1.40](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.39...v0.1.40) (2025-11-11)
 
 ## [0.1.39](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.38...v0.1.39) (2025-11-11)
