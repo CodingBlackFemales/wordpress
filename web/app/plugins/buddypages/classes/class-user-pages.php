@@ -53,10 +53,14 @@ class BuddyPages_User_Pages {
 	 * @since 1.0.0
 	 */
 	public function add_profile_pages() {
-
 		$displayed_userid = bp_displayed_user_id();
-		$pages            = $this->get_user_pages( $displayed_userid, true, false );
-		$can_access       = buddypages_has_access();
+
+		$pages = get_transient( 'bp_user_pages_' . $displayed_userid );
+		if ( ! $pages ) {
+			$pages = $this->get_user_pages( $displayed_userid, true, false );
+			set_transient( 'bp_user_pages_' . $displayed_userid, $pages, MINUTE_IN_SECONDS );
+		}
+		$can_access = buddypages_has_access();
 
 		// Determine user to use.
 		if ( bp_displayed_user_domain() ) {
@@ -74,8 +78,13 @@ class BuddyPages_User_Pages {
 			foreach ( $pages->posts as $post ) {
 
 				$post_name    = $post->post_name ? $post->post_name : sanitize_title( $post->post_title );
-				$edit_link    = trailingslashit( bp_core_get_user_domain( $post->post_author ) . $post_name );
-				$add_new_link = trailingslashit( bp_core_get_user_domain( $displayed_userid ) . 'settings/pages/' );
+				if ( function_exists( 'bp_members_get_user_url' ) ) {
+					$edit_link    = trailingslashit( bp_members_get_user_url( $post->post_author ) . $post_name );
+					$add_new_link = trailingslashit( bp_members_get_user_url( $displayed_userid ) . 'settings/pages/' );
+				} else {
+					$edit_link    = trailingslashit( bp_core_get_user_domain( $post->post_author ) . $post_name );
+					$add_new_link = trailingslashit( bp_core_get_user_domain( $displayed_userid ) . 'settings/pages/' );
+				}
 
 				$draft   = ( 'draft' === $post->post_status ) ? ' (draft)' : '';
 				$post_in = buddypages_post_in( $post->ID );
