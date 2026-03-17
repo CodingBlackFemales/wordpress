@@ -16,6 +16,9 @@
             "phpstan/extension-installer": true
         }
 	},
+    "require": {
+        "wp-media/apply-filters-typed": "^1.0"
+    },
     "require-dev": {
         "phpcompatibility/phpcompatibility-wp": "^2.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",

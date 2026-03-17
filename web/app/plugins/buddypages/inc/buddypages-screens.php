@@ -197,7 +197,8 @@ function buddypages_list_pages_content() {
 		 	?>
 			<li>
 				<div class="activity-content">
-					<div class="pages-title"><?php the_title(); ?><?php echo $draft; ?></div>
+					<div class="pages-title"><?php the_title(); ?>
+						<a href="<?php echo esc_url( bp_displayed_user_domain() . $post_name . '/edit/' ); ?>" rel="bookmark" title="<?php printf( esc_attr__( 'Permanent Link to edit %s', 'buddypages' ), get_the_title() ); ?>"><?php echo $draft; ?></a></div>
 					<div class="pages-posted-in"><?php esc_html_e( 'Posted in: ', 'buddypages' ); ?><?php buddypages_permalink( $post_name, get_the_ID() ); ?></div>
 					<a class="pages-edit" href="<?php echo esc_url( bp_displayed_user_domain() .  $post_name  . '/edit/' ); ?>" rel="bookmark" title="<?php printf( esc_attr__( 'Permanent Link to edit %s', 'buddypages' ), get_the_title() ); ?>"><?php esc_html_e( 'Edit', 'buddypages' ); ?></a>
 				 </div>

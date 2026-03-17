@@ -77,12 +77,18 @@ class BuddyPages_Group_Pages {
 
 			if ( 'publish' === $post->post_status || $can_access ) {
 
+				if ( function_exists( 'bp_get_group_url' ) ) {
+					$parent_url = bp_get_group_url( $bp->groups->current_group );
+				} else {
+					$parent_url = bp_get_group_permalink( $bp->groups->current_group );
+				}
+
 				bp_core_new_subnav_item(
 					array(
 						'name'            => $post->post_title . $draft,
 						'slug'            => $post->post_name,
 						'parent_slug'     => $bp->groups->current_group->slug,
-						'parent_url'      => bp_get_group_permalink( $bp->groups->current_group ),
+						'parent_url'      => $parent_url,
 						'position'        => 11,
 						'item_css_id'     => 'nav-pages',
 						'screen_function' => 'buddypages_group_nav_item_screen',
