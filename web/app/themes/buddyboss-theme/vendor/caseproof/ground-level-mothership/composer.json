@@ -1,0 +1,24 @@
+{
+    "name": "caseproof\/ground-level-mothership",
+    "description": "The GroundLevel Mothership package.",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Team Caseproof",
+            "email": "developers@caseproof.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "BuddyBossTheme\\GroundLevel\\Mothership\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "caseproof\/ground-level-container": "^2.2.1",
+        "caseproof\/ground-level-support": "^2.2.1"
+    }
+}

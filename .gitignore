@@ -53,7 +53,7 @@ web/app/cache/wp-rocket
 !web/app/plugins/wp-all-import-pro/vendor/*
 !web/app/plugins/wp-rocket/vendor/*
 !web/app/plugins/wpforms/vendor/*
-!web/app/themes/buddyboss-theme/inc/plugins/*/vendor/*
+!web/app/themes/buddyboss-theme/**/vendor/*
 !vendor/.gitkeep
 
 # WP-CLI
