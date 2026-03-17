@@ -301,10 +301,10 @@ endif; ?>
 				do_action( 'learndash-lesson-row-expand-before', $lesson['post']->ID, $course_id, $user_id );
 				?>
 
-				<div class="ld-expand-button ld-button-alternate" data-ld-expands="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>" data-ld-expand-text="<?php esc_html_e( 'Expand', 'buddyboss-theme' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'buddyboss-theme' ); ?>">
+				<button aria-controls="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID . '-container' ); ?>" class="ld-expand-button ld-button-alternate" data-ld-expands="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>" data-ld-expand-text="<?php esc_html_e( 'Expand', 'buddyboss-theme' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Expand', 'buddyboss-theme' ); ?>">
 					<span class="ld-icon-arrow-down ld-icon ld-primary-background"></span>
-					<span class="ld-text ld-primary-color"><?php esc_html_e( 'Expand', 'buddyboss-theme' ); ?></span>
-				</div> <!--/.ld-expand-button-->
+					<span class="ld-text ld-primary-color"><?php esc_attr_e( 'Expand', 'buddyboss-theme' ); ?></span>
+				</button> <!--/.ld-expand-button-->
 
 				<?php
 				/**
@@ -343,7 +343,7 @@ endif; ?>
 	 */
 	if ( ! empty( $topics ) || ! empty( $quizzes ) ) :
 		?>
-	<div class="ld-item-list-item-expanded">
+	<div class="ld-item-list-item-expanded" id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID . '-container' ); ?>">
 		<?php
 		/**
 		 * Fires before the topic/quiz list

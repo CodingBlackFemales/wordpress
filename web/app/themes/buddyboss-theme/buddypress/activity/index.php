@@ -16,9 +16,40 @@ if ( is_user_logged_in() ) {
 
 bp_nouveau_template_notices();
 
+if ( function_exists( 'bb_is_enabled_activity_topics' ) && bb_is_enabled_activity_topics() ) {
+	$topics = function_exists( 'bb_activity_topics_manager_instance' ) ? bb_activity_topics_manager_instance()->bb_get_activity_topics() : array();
+	if ( ! empty( $topics ) ) {
+		$directory_permalink = function_exists( 'bp_get_activity_directory_permalink' ) ? bp_get_activity_directory_permalink() : '';
+		$current_slug        = function_exists( 'bb_topics_manager_instance' ) ? bb_topics_manager_instance()->bb_get_topic_slug_from_url() : '';
+		?>
+		<div class="activity-topic-selector">
+			<ul>
+				<li>
+					<a href="<?php echo ! empty( $directory_permalink ) ? esc_url( $directory_permalink ) : ''; ?>"><?php esc_html_e( 'All', 'buddyboss-theme' ); ?></a>
+				</li>
+				<?php
+				foreach ( $topics as $topic ) {
+					$li_class = '';
+					$a_class  = '';
+					if ( ! empty( $current_slug ) && $current_slug === $topic['slug'] ) {
+						$li_class = 'selected';
+						$a_class  = 'selected active';
+					}
+					echo '<li class="bb-topic-selector-item ' . esc_attr( $li_class ) . '"><a href="' . esc_url( add_query_arg( 'bb-topic', $topic['slug'] ) ) . '" data-topic-id="' . esc_attr( $topic['topic_id'] ) . '" class="bb-topic-selector-link ' . esc_attr( $a_class ) . '">' . esc_html( $topic['name'] ) . '</a></li>';
+				}
+				?>
+			</ul>
+		</div>
+		<?php
+	}
+}
 if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
-	echo '<div class="flex actvity-head-bar">';
-	bp_get_template_part( 'common/nav/directory-nav' );
+
+	// Tabs removed with the new version, also class name changed.
+	echo '<div class="flex activity-head-bar">';
+	if ( ! function_exists( 'bb_get_activity_filter_options_labels' ) ) {
+		bp_get_template_part( 'common/nav/directory-nav' );
+	}
 	bp_get_template_part( 'common/search-and-filters-bar' );
 	echo '</div>';
 }

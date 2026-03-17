@@ -14,7 +14,7 @@
  *
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates
- * @version 3.0.0
+ * @version 10.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,16 +22,29 @@ defined( 'ABSPATH' ) || exit;
 $notes = $order->get_customer_order_notes();
 ?>
 <div class="wc-MyAccount-sub-heading">
-    <h2><?php esc_html_e( 'View order', 'buddyboss-theme' ); ?></h2>
-    <p><?php
-    	printf(
-	        /* translators: 1: order number 2: order date 3: order status */
-		    esc_html__( 'Order #%1$s was placed on %2$s and is currently %3$s.', 'buddyboss-theme' ),
-    		'<mark class="order-number">' . $order->get_order_number() . '</mark>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    		'<mark class="order-date">' . wc_format_datetime( $order->get_date_created() ) . '</mark>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    		'<mark class="order-status">' . wc_get_order_status_name( $order->get_status() ) . '</mark>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    	);
-    ?></p>
+	<h2><?php esc_html_e( 'View order', 'buddyboss-theme' ); ?></h2>
+	<p>
+		<?php
+		echo wp_kses_post(
+			/**
+			* Filter to modify order detiails status text.
+			*
+			* @param string $order_status The order status text.
+			*/
+			apply_filters(
+				'woocommerce_order_details_status',
+				sprintf(
+				/* translators: 1: order number 2: order date 3: order status */
+					esc_html__( 'Order #%1$s was placed on %2$s and is currently %3$s.', 'buddyboss-theme' ),
+					'<mark class="order-number">' . $order->get_order_number() . '</mark>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<mark class="order-date">' . wc_format_datetime( $order->get_date_created() ) . '</mark>', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'<mark class="order-status">' . wc_get_order_status_name( $order->get_status() ) . '</mark>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				),
+				$order
+			)
+		);
+		?>
+	</p>
 </div>
 <div class="wc-MyAccount-inner-content">
 <?php if ( $notes ) : ?>
@@ -45,8 +58,8 @@ $notes = $order->get_customer_order_notes();
 					<div class="woocommerce-OrderUpdate-description description">
 						<?php echo wpautop( wptexturize( $note->comment_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</div>
-	  				<div class="clear"></div>
-	  			</div>
+					<div class="clear"></div>
+				</div>
 				<div class="clear"></div>
 			</div>
 		</li>

@@ -5,6 +5,9 @@
 		get_search_form();
 		remove_filter( 'search_placeholder', 'buddyboss_search_input_placeholder_text' );
 		?>
-		<a href="#" class="close-search"><i class="bb-icon-l bb-icon-times"></i></a>
+		<a href="#" class="close-search">
+			<i class="bb-icon-l bb-icon-times"></i>
+			<span class="screen-reader-text"><?php esc_html_e( 'Close search', 'buddyboss-theme' ); ?></span>
+		</a>
 	</div>
 </div>

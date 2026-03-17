@@ -226,7 +226,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 				)
 			);
 			?>
-			" class="button"><?php esc_html_e( 'View Tutorial', 'buddyboss-theme' ); ?></a>
+			" class="button" target="_blank"><?php esc_html_e( 'View Tutorial', 'buddyboss-theme' ); ?></a>
 			<?php
 		}
 
@@ -252,7 +252,8 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 			$font_face_data = get_post_meta( $post->ID, 'buddyboss_font_face', true );
 
 			if ( buddyboss_theme_get_theme_sudharo() ) {
-				$licensed_section_url = is_multisite() ? network_admin_url( 'admin.php?page=buddyboss-updater' ) : admin_url( 'admin.php?page=buddyboss-updater' );
+                $slug = buddyboss_theme_licence_page_slug();
+				$licensed_section_url = is_multisite() ? network_admin_url( 'admin.php?page=' . $slug ) : admin_url( 'admin.php?page=' . $slug );
 				?>
 				<div class="unlicensed-theme">
 					<div class="block">
@@ -501,7 +502,7 @@ if ( ! class_exists( '\BuddyBossTheme\BuddyBoss_Custom_Fonts_CPT' ) ) :
 				<script>
 					jQuery(document).ready(function(){
 						setTimeout(function(){
-							jQuery('.redux-group-tab-link-li .redux-group-tab-link-a[data-key="<?php echo sanitize_text_field( $_GET['tab'] ); ?>"]').trigger('click');
+							jQuery('.redux-group-tab-link-li .redux-group-tab-link-a[data-key="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['tab'] ) ) ); ?>"]').trigger('click');
 						},500);
 					});
 				</script>

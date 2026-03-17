@@ -141,6 +141,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			add_action( 'llms_user_enrollment_deleted', [ $this, 'bb_flush_llms_mycourse_ids_cache_user_id' ], 9999, 1 );
 
 			add_filter( 'llms_course_meta_info_title_size', [ $this, 'bb_llms_course_meta_info_title_size' ], 9999, 1 );
+			add_filter( 'the_title', array( $this, 'bb_theme_lifterlms_ajax_format_course_title' ), 10, 2 );
 		}
 
 		/**
@@ -783,11 +784,15 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 
 			$category = isset( $_GET['course_category_id'] ) ? (int) $_GET['course_category_id'] : 0;
 			$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
+
+			// Set post status: publish for everyone, private only for admin.
+			$can_edit    = current_user_can( 'administrator' );
+			$post_status = $can_edit ? array( 'publish', 'private' ) : 'publish';
 			if ( $category ) {
 				$args = [
-					'post_status'    => 'publish',
 					'posts_per_page' => $posts_per_page,
 					'post_type'      => 'course',
+					'post_status'    => $post_status,
 					'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
 					'tax_query'      => [
 						[
@@ -799,9 +804,9 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 				];
 			} else {
 				$args = [
-					'post_status'    => 'publish',
 					'posts_per_page' => $posts_per_page,
 					'post_type'      => 'course',
+					'post_status'    => $post_status,
 					'paged'          => isset( $_GET['current_page'] ) ? absint( $_GET['current_page'] ) : 1,
 				];
 			}
@@ -1493,12 +1498,16 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			$category = isset( $_GET['course_category_id'] ) ? (int) $_GET['course_category_id'] : 0;
 			$taxonomy = isset( $_GET['course_category_name'] ) ? $_GET['course_category_name'] : '';
 			$search   = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash( $_GET['search'] ) ) : '';
+
+			// Set post status: publish for everyone, private only for admin.
+			$can_edit    = current_user_can( 'administrator' );
+			$post_status = $can_edit ? array( 'publish', 'private' ) : 'publish';
 			if ( $category && $category > 0 ) {
 				$all_query = new WP_Query(
 					[
 						's'           => $search,
 						'post_type'   => 'course',
-						'post_status' => 'publish',
+						'post_status' => $post_status,
 						'tax_query'   => [
 							'relation' => 'AND',
 							[
@@ -1520,7 +1529,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 					[
 						's'           => $search,
 						'post_type'   => 'course',
-						'post_status' => 'publish',
+						'post_status' => $post_status,
 						'tax_query'   => [
 							'relation' => 'AND',
 							[
@@ -1969,7 +1978,7 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
                         <h5 style="color:red; display:none" id="review_text_error">
 							<?php _e( 'Review Text is required.', 'buddyboss-theme' ); ?>
                         </h5>
-						<?php wp_nonce_field( 'submit_review', 'submit_review_nonce_code' ); ?>
+						<?php wp_nonce_field( 'llms-review', 'llms_review_nonce' ); ?>
                         <input name="action" value="submit_review" type="hidden">
                         <input name="post_ID" value="<?php echo get_the_ID(); ?>" type="hidden" id="post_ID">
                         <span class="review_leave">
@@ -2308,6 +2317,76 @@ if ( ! class_exists( '\BuddyBossTheme\LifterLMSHelper' ) ) {
 			}
 
 			return $title_tag;
+		}
+
+		/**
+		 * Format LifterLMS private/protected course titles during AJAX requests.
+		 *
+		 * During AJAX requests, is_admin() returns true which causes get_the_title() to skip
+		 * applying private/protected prefixes. This filter applies the formatting that WordPress
+		 * would normally do on the frontend.
+		 *
+		 * @since 2.18.0
+		 *
+		 * @param string $title The post title.
+		 * @param int    $id    The post ID.
+		 *
+		 * @return string The formatted title with private/protected prefix if applicable.
+		 */
+		public function bb_theme_lifterlms_ajax_format_course_title( $title, $id ) {
+			// Only apply during AJAX requests.
+			if ( ! wp_doing_ajax() ) {
+				return $title;
+			}
+
+			$post = get_post( $id );
+
+			// Only apply to course post type.
+			if ( ! $post || 'course' !== $post->post_type ) {
+				return $title;
+			}
+
+			// Apply protected prefix if post is password protected.
+			if ( ! empty( $post->post_password ) ) {
+
+				/* translators: %s: Protected post title. */
+				$prepend = __( 'Protected: %s', 'buddyboss-theme' );
+
+				/**
+				 * Default WP filter. Filters the text prepended to the post title for protected posts.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @since 2.18.0
+				 *
+				 * @param string  $prepend Text displayed before the post title.
+				 *                         Default 'Protected: %s'.
+				 * @param WP_Post $post    Current post object.
+				 */
+				return sprintf( apply_filters( 'protected_title_format', $prepend, $post ), $post->post_title );
+			}
+
+			// Apply private prefix if post status is private.
+			if ( isset( $post->post_status ) && 'private' === $post->post_status ) {
+
+				/* translators: %s: Private post title. */
+				$prepend = __( 'Private: %s', 'buddyboss-theme' );
+
+				/**
+				 *  Default WP filter. Filters the text prepended to the post title of private posts.
+				 *
+				 * @since 2.8.0
+				 *
+				 * @since 2.18.0
+				 *
+				 * @param string  $prepend Text displayed before the post title.
+				 *                         Default 'Private: %s'.
+				 * @param WP_Post $post    Current post object.
+				 */
+				return sprintf( apply_filters( 'private_title_format', $prepend, $post ), $post->post_title );
+			}
+
+			return $title;
 		}
 	}
 }

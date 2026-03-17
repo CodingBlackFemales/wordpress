@@ -221,8 +221,16 @@
 
 						// update html.
 						$form.find( '.bs-dir-list' ).html( response.data.html );
+
 						// update count.
 						$form.find( 'li.selected a span' ).text( response.data.count );
+
+						var course_label = $form.data( 'courses_label' );
+						if ( 1 === parseInt( response.data.count ) ) {
+							course_label = $form.data( 'course_label' );
+						}
+
+						$form.find( '.bb-item-count' ).html( '<span class="bb-count">' + response.data.count + '</span> ' + course_label );
 
 						if ( response.data.scopes ) {
 							for (var i in response.data.scopes) {
@@ -307,9 +315,39 @@
 						}
 						$( '.courses-nav' ).find( '.bb-icon-loader' ).remove();
 
+
+						var topOffset = null, additionalOffset = 0, isMobile = $( 'body.bb-is-mobile' ).length;
+						if ( $( '#wpadminbar' ).length ) {
+							additionalOffset = additionalOffset + $( '#wpadminbar' ).height();
+						}
+
+						if ( $( '.sticky-header .site-header--bb' ).length ) {
+							additionalOffset = additionalOffset + $( '.sticky-header .site-header--bb' ).height();
+						}
+
+						if ( ! isMobile ) {
+							var $mainNavs = $( '.main-navs.bp-navs' );
+							if (
+								(
+									$mainNavs.hasClass( 'courses-type-navs' ) &&
+									$mainNavs.hasClass( 'dir-navs' )
+								) ||
+								$mainNavs.hasClass( 'users-nav' )
+							) {
+								topOffset = $mainNavs.offset().top;
+							}
+						}
+
+						if ( ! topOffset ) {
+							if ( $form.find( '.bs-dir-list' ).length ) {
+								topOffset = $form.find( '.bs-dir-list' ).offset().top;
+							} else {
+								topOffset = $form.offset().top;
+							}
+						}
 						// Scroll to course listing top.
 						$( 'html, body' ).animate( {
-							scrollTop: $form.offset().top - 150
+							scrollTop: topOffset - additionalOffset
 						}, 400 );
 					}
 				}

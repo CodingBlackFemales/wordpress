@@ -301,11 +301,16 @@ jQuery(
 					if ( typeof window.forums_medium_reply_editor !== 'undefined' && typeof window.forums_medium_reply_editor[editor_key] !== 'undefined' ) {
 						editor = window.forums_medium_reply_editor[editor_key];
 					}
+
+					// Check if GIF support is enabled (GIF button exists and is not disabled)
+					var gif_support_enabled = $( this ).find( '#forums-gif-button' ).length > 0 && ! $( this ).find( '#forums-gif-button' ).parents( '.post-elements-buttons-item' ).hasClass( 'disable' );
+
 					if (
 					(
 					$( this ).find( '#bbp_media' ).length > 0
 					&& $( this ).find( '#bbp_document' ).length > 0
 					&& $( this ).find( '#bbp_video' ).length > 0
+					&& gif_support_enabled
 					&& $( this ).find( '#bbp_media_gif' ).length > 0
 					&& $( this ).find( '#bbp_media' ).val() == ''
 					&& $( this ).find( '#bbp_document' ).val() == ''
@@ -316,13 +321,14 @@ jQuery(
 					$( this ).find( '#bbp_media' ).length > 0
 					&& $( this ).find( '#bbp_document' ).length > 0
 					&& $( this ).find( '#bbp_video' ).length > 0
-					&& $( this ).find( '#bbp_media_gif' ).length <= 0
-					&& $( this ).find( '#bbp_media' ).val() == ''
-					&& $( this ).find( '#bbp_video' ).val() == ''
-					&& $( this ).find( '#bbp_document' ).val() == ''
+					&& ! gif_support_enabled
+					&& ( $( this ).find( '#bbp_media' ).val() == '' || $( this ).find( '#bbp_media' ).val() == '[]' )
+					&& ( $( this ).find( '#bbp_video' ).val() == '' || $( this ).find( '#bbp_video' ).val() == '[]' )
+					&& ( $( this ).find( '#bbp_document' ).val() == '' || $( this ).find( '#bbp_document' ).val() == '[]' )
 					)
 					|| (
-					$( this ).find( '#bbp_media_gif' ).length > 0
+					gif_support_enabled
+					&& $( this ).find( '#bbp_media_gif' ).length > 0
 					&& $( this ).find( '#bbp_media' ).length <= 0
 					&& $( this ).find( '#bbp_document' ).length <= 0
 					&& $( this ).find( '#bbp_video' ).length <= 0
@@ -473,8 +479,6 @@ jQuery(
 						closeOnSelect: true,
 						tags: true,
 						language: ( typeof bp_select2 !== 'undefined' && typeof bp_select2.lang !== 'undefined' ) ? bp_select2.lang : 'en',
-						dropdownCssClass: 'bb-select-dropdown bb-tag-list-dropdown',
-						containerCssClass: 'bb-select-container',
 						tokenSeparators: [',', ' '],
 						ajax: {
 							url: bbpCommonJsData.ajax_url,
@@ -506,6 +510,14 @@ jQuery(
 							}
 						}
 					});
+
+					// Apply CSS classes after initialization
+					$tagsSelect.next( '.select2-container' ).find( '.select2-selection' ).addClass( 'bb-select-container' );
+        
+					// Add class to dropdown when it opens
+					$tagsSelect.on( 'select2:open', function() {
+						$( '.select2-dropdown' ).addClass( 'bb-select-dropdown bb-tag-list-dropdown' );
+					} );
 
 					// Add element into the Arrdata array.
 					$tagsSelect.on('select2:select', function (e) {

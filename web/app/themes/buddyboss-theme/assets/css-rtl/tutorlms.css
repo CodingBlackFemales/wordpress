@@ -996,7 +996,7 @@ body.bb-sfwd-aside.bb-buddypanel.bb-buddypanel-right .site-header .bb-toggle-pan
 }
 
 @media (min-width: 800px) {
-  .tutor-screen-course-builder-frontend.bb-buddypanel:not(.register) .site, .tutor-screen-course-builder-frontend.bb-buddypanel:not(.activate) .site {
+  .tutor-screen-course-builder-frontend:not(.single-course-bundle).bb-buddypanel:not(.register) .site, .tutor-screen-course-builder-frontend:not(.single-course-bundle).bb-buddypanel:not(.activate) .site {
     margin-right: 0;
   }
 }
@@ -1054,6 +1054,10 @@ body:not(.logged-in) .header-aside-inner #bb-toggle-theme {
   margin-right: auto;
 }
 
+.bp-user.courses .item-body-inner:has(.tutor-wrap):has(.tutor-course-filter) .bb-item-count {
+  margin-top: 40px;
+}
+
 @media screen and (min-width: 1200px) {
   #tutor-single-entry-content {
     background-color: var(--bb-content-background-color);
@@ -1092,6 +1096,14 @@ body:not(.logged-in) .header-aside-inner #bb-toggle-theme {
   .single-tutor_assignments.bb-buddypanel .site-content,
   .single-lesson.bb-buddypanel .site-content {
     padding: 0 10px;
+  }
+}
+@media screen and (min-width: 544px) {
+  .bp-user.courses .item-body-inner:has(.bb-item-count):has(.tutor-course-filter) .bb-item-count {
+    margin-top: 40px;
+  }
+  .bp-user.courses .item-body-inner:has(.bb-item-count):has(.tutor-course-filter) > .tutor-wrap:has(.tutor-course-filter) {
+    margin-top: -90px;
   }
 }
 @media screen and (min-width: 1200px) {
@@ -1164,12 +1176,14 @@ body.single-courses .site {
   overflow: visible;
 }
 
-body.single-courses .tutor-single-course-sidebar.tutor-sidebar-sticky {
+body.single-courses .tutor-single-course-sidebar.tutor-sidebar-sticky,
+body.single-course-bundle .tutor-single-course-sidebar.tutor-sidebar-sticky {
   top: -webkit-calc(var(--bb-header-height) + 30px);
   top: calc(var(--bb-header-height) + 30px);
   overflow-y: auto !important;
 }
-body.single-courses.admin-bar .tutor-single-course-sidebar.tutor-sidebar-sticky {
+body.single-courses.admin-bar .tutor-single-course-sidebar.tutor-sidebar-sticky,
+body.single-course-bundle.admin-bar .tutor-single-course-sidebar.tutor-sidebar-sticky {
   top: -webkit-calc(var(--bb-header-height) + 60px);
   top: calc(var(--bb-header-height) + 60px);
 }

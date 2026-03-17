@@ -22,6 +22,34 @@ if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
 ?>
 
 <div class="flex bp-secondary-header align-items-center">
+<?php
+if ( function_exists( 'bb_enable_content_counts' ) && bb_enable_content_counts() ) {
+	?>
+		<div class="bb-item-count">
+		<?php
+		if ( ! $is_send_ajax_request ) {
+			$count = bp_get_total_group_count();
+			printf(
+				wp_kses(
+					/* translators: %d is the group count */
+					_n(
+						'<span class="bb-count">%d</span> Group',
+						'<span class="bb-count">%d</span> Groups',
+						$count,
+						'buddyboss-theme'
+					),
+					array( 'span' => array( 'class' => true ) )
+				),
+				(int) $count
+			);
+
+			unset( $count );
+		}
+		?>
+		</div>
+	<?php
+}
+?>
 	<div class="push-right flex">
 		<div class="bp-group-filter-wrap subnav-filters filters no-ajax">
 			<?php bp_get_template_part( 'common/filters/group-filters' ); ?>
@@ -38,7 +66,7 @@ if ( ! bp_nouveau_is_object_nav_in_sidebar() ) {
 	<div id="groups-dir-list" class="groups dir-list" data-bp-list="groups" data-ajax="<?php echo esc_attr( $is_send_ajax_request ? 'true' : 'false' ); ?>">
 		<?php
 		if ( $is_send_ajax_request ) {
-		echo '<div id="bp-ajax-loader">';
+			echo '<div id="bp-ajax-loader">';
 			bp_nouveau_user_feedback( 'directory-groups-loading' );
 			echo '</div>';
 		} else {

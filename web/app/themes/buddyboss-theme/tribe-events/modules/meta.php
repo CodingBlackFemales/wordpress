@@ -32,17 +32,7 @@ tribe_get_template_part( 'modules/meta/details' );
 // Include venue meta if appropriate.
 if ( tribe_get_venue_id() ) {
     tribe_get_template_part( 'modules/meta/venue' );
-	// If we have no map to embed and no need to keep the venue separate...
-	if ( ! $set_venue_apart && ! tribe_embed_google_map() ) {
-		//tribe_get_template_part( 'modules/meta/venue' );
-	} elseif ( ! $set_venue_apart && ! tribe_has_organizer() && tribe_embed_google_map() ) {
-		// If we have no organizer, no need to separate the venue but we have a map to embed...
-		/*tribe_get_template_part( 'modules/meta/venue' );
-		echo '<div class="tribe-events-meta-group tribe-events-meta-group-gmap">';
-		tribe_get_template_part( 'modules/meta/map' );
-		echo '</div>';*/
-	} else {
-		// If the venue meta has not already been displayed then it will be printed separately by default
+	if ( tribe_embed_google_map() ) {
 		$set_venue_apart = true;
 	}
 }
@@ -60,22 +50,17 @@ do_action( 'tribe_events_single_event_meta_primary_section_end' );
 <?php endif; ?>
 
 
-<?php if ( $set_venue_apart ) : ?>
+<?php if ( $set_venue_apart || ( ! tribe_has_organizer() && tribe_embed_google_map() ) ) : ?>
 	<?php if ( $not_skeleton ) : ?>
 		<div class="tribe-events-single-section tribe-events-event-meta secondary tribe-clearfix">
 	<?php endif; ?>
 	<?php
 	do_action( 'tribe_events_single_event_meta_secondary_section_start' );
-
-	//tribe_get_template_part( 'modules/meta/venue' );
 	tribe_get_template_part( 'modules/meta/map' );
-
 	do_action( 'tribe_events_single_event_meta_secondary_section_end' );
 	?>
-	<?php
-	if ( $not_skeleton ) : ?>
+	<?php if ( $not_skeleton ) : ?>
 		</div>
-	<?php endif; ?>
-<?php
+	<?php endif;
 endif;
 do_action( 'tribe_events_single_meta_after' );

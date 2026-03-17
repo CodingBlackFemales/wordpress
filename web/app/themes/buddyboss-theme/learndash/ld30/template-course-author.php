@@ -20,14 +20,14 @@
 						if ( ! empty( $avatar ) ) :
                             if ( class_exists( 'BuddyPress' ) ) {
                             ?>
-                            <a href="<?php echo bp_core_get_user_domain( $user_id ); ?>">
+                            <a href="<?php echo bp_core_get_user_domain( $user_id ); ?>" aria-label="<?php echo esc_attr( get_the_author_meta( 'display_name', $user_id ) ); ?>">
                             <?php
                             } else {
                             ?>
-                                <a href="<?php echo get_author_posts_url( $user_id, get_the_author_meta( 'user_nicename', $user_id ) ); ?>">
+                                <a href="<?php echo get_author_posts_url( $user_id, get_the_author_meta( 'user_nicename', $user_id ) ); ?>" aria-label="<?php echo esc_attr( get_the_author_meta( 'display_name', $user_id ) ); ?>">
                                 <?php
                             } ?>
-                                <img class="round avatar" src="<?php echo $avatar; ?>"/>
+                                <img class="round avatar" src="<?php echo $avatar; ?>" alt="<?php echo esc_attr( get_the_author_meta( 'display_name', $user_id ) ); ?>"/>
                             </a>
 							<?php
                         endif;

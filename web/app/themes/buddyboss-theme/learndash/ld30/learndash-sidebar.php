@@ -2,6 +2,11 @@
 
 global $post, $wpdb;
 
+// Ensure $user_id is defined to prevent fatal errors.
+if ( ! isset( $user_id ) ) {
+	$user_id = get_current_user_id();
+}
+
 $parent_course_data = learndash_get_setting( $post, 'course' );
 if ( 0 === $parent_course_data ) {
 	$parent_course_data = $course_id;
@@ -138,7 +143,7 @@ if ( ( isset( $_COOKIE['lessonpanel'] ) && 'closed' === $_COOKIE['lessonpanel'] 
 
 						$is_sample            = ( isset( $lesson->sample ) ? $lesson->sample : false );
 						$bb_lesson_has_access = sfwd_lms_has_access( $lesson->ID, $user_id );
-						$bb_available_date    = learndash_course_step_available_date( $lesson->ID, $course_id, $user_id, true );
+						$bb_available_date    = ( $user_id > 0 ) ? learndash_course_step_available_date( $lesson->ID, $course_id, $user_id, true ) : '';
 						$atts                 = apply_filters( 'learndash_quiz_row_atts', ( ( isset( $bb_lesson_has_access ) && ! $bb_lesson_has_access && ! $is_sample ) || ( ! empty( $bb_available_date ) && ! $is_sample ) ? 'data-balloon-pos="up" data-balloon="' . __( "You don't currently have access to this content", 'buddyboss-theme' ) . '"' : '' ) );
 						$access_label         = ( empty( $attributes ) && ! empty( $atts ) ) ? __( 'Course locked', 'buddyboss-theme' ) : ( $attributes[0]['label'] ?? '' );
 						$atts_access_marker   = apply_filters( 'learndash_quiz_row_atts', ( ( isset( $bb_lesson_has_access ) && ! $bb_lesson_has_access && ! $is_sample ) || ( ! empty( $bb_available_date ) && ! $is_sample ) ) && ! empty( $access_label ) ? '<span class="lms-is-locked-ico" data-balloon-pos="left" data-balloon="' . esc_attr( $access_label ) . '"><i class="bb-icon-f bb-icon-lock"></i></span>' : '' );
@@ -255,8 +260,8 @@ if ( ( isset( $_COOKIE['lessonpanel'] ) && 'closed' === $_COOKIE['lessonpanel'] 
 										<ol class="bb-type-list">
 											<?php
 											foreach ( $lesson_topics as $lesson_topic ) {
-												$bb_topic_has_access = sfwd_lms_has_access( $lesson_topic->ID, $user_id );
-												$learndash_available_date = learndash_course_step_available_date( $lesson_topic->ID, $course_id, $user_id, true );
+												$bb_topic_has_access      = sfwd_lms_has_access( $lesson_topic->ID, $user_id );
+												$learndash_available_date = ( $user_id > 0 ) ? learndash_course_step_available_date( $lesson_topic->ID, $course_id, $user_id, true ) : '';
 												$attributes = learndash_get_course_step_attributes( $lesson_topic->ID, $course_id, $user_id );
 												if ( $bb_topic_has_access || ( ! $bb_topic_has_access && apply_filters( 'bb_theme_ld_show_locked_topics', true ) ) ) {
 													?>

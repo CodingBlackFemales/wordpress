@@ -196,7 +196,7 @@ abstract class Icon_Picker_Type_Font extends Icon_Picker_Type {
 			'item' => sprintf(
 				'<div class="attachment-preview js--select-attachment">
 					<div class="thumbnail">
-						<span class="_icon"><i class="{{data.type}} {{ data.id }}"></i></span>
+						<span class="_icon" aria-label="{{ data.name }}"><i class="{{data.type}} {{ data.id }}"></i></span>
 						<div class="filename"><div>{{ data.name }}</div></div>
 					</div>
 				</div>

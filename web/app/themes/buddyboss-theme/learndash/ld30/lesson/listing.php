@@ -154,7 +154,12 @@ do_action( 'learndash-topic-list-before', $lesson['post']->ID, $course_id, $user
 
 			if ( 'sfwd-lesson' === get_post_type() ) :
 				?>
-					<span class="ld-expand-button" data-ld-expands="<?php echo esc_attr( 'ld-topic-list-' . $lesson['post']->ID ); ?>">
+					<span
+						aria-controls="<?php echo esc_attr( 'ld-topic-list-' . $lesson['post']->ID ); ?>"
+						aria-expanded="false"
+						class="ld-expand-button"
+						data-ld-expands="<?php echo esc_attr( 'ld-topic-list-' . $lesson['post']->ID ); ?>"
+					>
 						<span class="icon-simple-arrow-down ld-icon">
 						<span class="ld-text"><?php esc_html_e( 'Expand', 'buddyboss-theme' ); ?></span>
 					</span> <!--/.ld-expand-button-->

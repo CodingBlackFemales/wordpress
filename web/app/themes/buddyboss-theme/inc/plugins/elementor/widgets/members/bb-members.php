@@ -4,7 +4,6 @@ namespace BBElementor\Widgets;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
-use Elementor\Core\Schemes;
 use Elementor\Group_Control_Border;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -588,7 +587,9 @@ class BBP_Members extends Widget_Base {
 			[
 				'name'     => 'name_typography',
 				'selector' => '{{WRAPPER}} .bb-members-list__name a',
-				'scheme'   => Schemes\Typography::TYPOGRAPHY_4,
+				'global' => [
+					'default' => \Elementor\Core\Kits\Documents\Tabs\Global_Typography::TYPOGRAPHY_ACCENT,
+				],
 			]
 		);
 

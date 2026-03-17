@@ -1033,7 +1033,12 @@ class BB_Lms_Courses extends Widget_Base {
 			'post_type'      => $this->get_active_plugin_post_type(),
 			'posts_per_page' => $posts_per_page,
 			'paged'          => $current_page,
+			'post_status'    => 'publish',
 		);
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$query_args['post_status'] = array( 'publish', 'private' );
+		}
 
 		/**
 		 * Below $tax_query will user with `get_my_courses_count` function also.
@@ -1062,6 +1067,7 @@ class BB_Lms_Courses extends Widget_Base {
 
 			$query_args['tax_query'] = $tax_query;
 		}
+
 		$query = new \WP_Query( $query_args );
 
 		if ( 'bb_theme_learndash_grid_list' === $this->get_active_plugin_view_option() ) {

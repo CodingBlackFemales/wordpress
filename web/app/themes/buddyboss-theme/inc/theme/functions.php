@@ -441,6 +441,7 @@ function buddyboss_theme_scripts() {
 				'facebook_label'        => esc_html__( 'Share on Facebook', 'buddyboss-theme' ),
 				'twitter_label'         => esc_html__( 'Post on X', 'buddyboss-theme' ),
 				'more_menu_title'       => esc_html__( 'Menu Items', 'buddyboss-theme' ),
+				'more_menu_options'     => esc_html__( 'More options', 'buddyboss-theme' ),
 				'translation'           => array(
 					'comment_posted'      => esc_html__( 'Your comment has been posted.', 'buddyboss-theme' ),
 					'comment_btn_loading' => esc_html__( 'Please Wait...', 'buddyboss-theme' ),
@@ -617,6 +618,7 @@ if ( ! function_exists( 'bb_buddypanel_menu_atts' ) ) {
 				$atts['data-balloon-pos'] = 'right';
 			}
 			$atts['data-balloon'] = $item->title;
+			$atts['aria-label']   = $item->title;
 		}
 
 		/**
@@ -760,12 +762,12 @@ function buddyboss_panel_menu_counters( $args, $item ) {
 	) {
 		$count = 0;
 		$class = '';
-		if ( ! $item->menu_item_parent && function_exists( 'bp_is_active' ) ) {
-			if ( bp_is_active( 'messages' ) && trailingslashit( $item->url ) === trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) ) {
+		if ( apply_filters( 'buddyboss_theme_panel_menu_counters', true, $item ) && function_exists( 'bp_is_active' ) ) {
+			if ( bp_is_active( 'notifications' ) && trailingslashit( $item->url ) === trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() ) ) {
+				$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
+			} elseif ( bp_is_active( 'messages' ) && trailingslashit( $item->url ) === trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) ) {
 				$count = messages_get_unread_count( bp_loggedin_user_id() );
 				$class = 'bb-messages-inbox-unread-count';
-			} elseif ( bp_is_active( 'notifications' ) && trailingslashit( $item->url ) === trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() ) ) {
-				$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
 			} elseif ( bp_is_active( 'friends' ) && trailingslashit( $item->url ) === trailingslashit( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/' ) ) {
 				$count = count( friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) );
 			} elseif ( bp_is_active( 'groups' ) && trailingslashit( $item->url ) === trailingslashit( bp_core_get_user_domain( bp_loggedin_user_id() ) . bp_get_groups_slug() . '/invites' ) ) {
@@ -1721,24 +1723,26 @@ function buddyboss_theme_add_admin_menus() {
 
 			foreach ( (array) $menu_items as $key => $menu_item ) {
 
-				// Replace the URL when bp_loggedin_user_domain && bp_displayed_user_domain are not same.
-				if ( class_exists( 'BuddyPress' ) ) {
-					if ( bp_loggedin_user_domain() !== bp_displayed_user_domain() ) {
-						$menu_item->url = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $menu_item->url );
-					}
+				if ( strpos( $menu_item->url, 'wp-login.php?action=logout' ) === false ) {
+					// Replace the URL when bp_loggedin_user_domain && bp_displayed_user_domain are not same.
+					if ( class_exists( 'BuddyPress' ) ) {
+						if ( bp_loggedin_user_domain() !== bp_displayed_user_domain() ) {
+							$menu_item->url = str_replace( bp_displayed_user_domain(), bp_loggedin_user_domain(), $menu_item->url );
+						}
 
-					if (
-						is_admin() &&
-						in_array( 'bp-menu', $menu_item->classes, true )
-					) {
+						if (
+							is_admin() &&
+							in_array( 'bp-menu', $menu_item->classes, true )
+						) {
 
-						// Replace the user domain with the current user backend urls if mismatch found with and without user switching.
-						$path_info = pathinfo( $menu_item->url );
-						if ( ! empty( $path_info['dirname'] ) ) {
-							$old_user_domain = trailingslashit( $path_info['dirname'] );
-							$new_user_domain = trailingslashit( bp_core_get_user_domain( bp_loggedin_user_id() ) );
-							if ( $old_user_domain !== $new_user_domain ) {
-								$menu_item->url = str_replace( $old_user_domain, $new_user_domain, $menu_item->url );
+							// Replace the user domain with the current user backend urls if mismatch found with and without user switching.
+							$path_info = pathinfo( $menu_item->url );
+							if ( ! empty( $path_info['dirname'] ) ) {
+								$old_user_domain = trailingslashit( $path_info['dirname'] );
+								$new_user_domain = trailingslashit( bp_core_get_user_domain( bp_loggedin_user_id() ) );
+								if ( $old_user_domain !== $new_user_domain ) {
+									$menu_item->url = str_replace( $old_user_domain, $new_user_domain, $menu_item->url );
+								}
 							}
 						}
 					}

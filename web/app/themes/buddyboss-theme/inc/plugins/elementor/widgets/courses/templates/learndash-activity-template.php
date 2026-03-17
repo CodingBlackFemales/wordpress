@@ -85,6 +85,7 @@ if ( ! defined( 'BB_LMS_WIDGET' ) ) exit; // Exit if accessed outside widget
                         //$content      = apply_filters( 'the_content', $content );
                         $excerpt      = str_replace( ']]>', ']]&gt;', $content );
                     }
+                    $excerpt = strip_shortcodes( $excerpt );
                     if ( ! empty( $excerpt ) ) {
                         $last_activity_excerpt = wp_trim_excerpt( $excerpt, $get_last_activity );
                     }
@@ -100,6 +101,7 @@ if ( ! defined( 'BB_LMS_WIDGET' ) ) exit; // Exit if accessed outside widget
                         //$content      = apply_filters( 'the_content', $content );
                         $excerpt      = str_replace( ']]>', ']]&gt;', $content );
                     }
+                    $excerpt = strip_shortcodes( $excerpt );
                     if ( ! empty( $excerpt ) ) {
                         $last_activity_excerpt = wp_trim_excerpt( $excerpt, $get_last_activity );
                     }

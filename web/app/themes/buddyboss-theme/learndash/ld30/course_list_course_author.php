@@ -4,7 +4,7 @@
 	} else {
 		$user_link = get_author_posts_url( get_the_author_meta( 'ID', $post->post_author ), get_the_author_meta( 'user_nicename', $post->post_author ) );
 	} ?>
-	<a class="item-avatar" href="<?php echo $user_link; ?>" class="item-avatar">
+	<a class="item-avatar" href="<?php echo $user_link; ?>" class="item-avatar" aria-label="<?php echo esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ); ?>">
 		<?php echo get_avatar( get_the_author_meta( 'email', $post->post_author ), 80, '', '', array() ); ?>
 	</a>
 	<strong>

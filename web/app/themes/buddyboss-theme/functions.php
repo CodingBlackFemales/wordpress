@@ -1,5 +1,7 @@
 <?php
 
+define('THEME_EDITION', 'buddyboss-theme');
+
 /**
  * buddyboss-theme functions and definitions
  *

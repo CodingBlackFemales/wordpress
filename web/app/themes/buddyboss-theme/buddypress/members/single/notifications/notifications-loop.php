@@ -17,7 +17,7 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) {
 			<li class="bs-item-wrap bs-header-item align-items-center no-hover-effect">
 				<div class="bulk-select-all">
 					<input id="select-all-notifications" type="checkbox" class="bs-styled-checkbox" />
-					<label for="select-all-notifications"></label>
+					<label for="select-all-notifications"><span class="bp-screen-reader-text"><?php esc_html_e( 'Select all', 'buddyboss-theme' ); ?></span></label>
 				</div>
 				<div class="notifications-options-nav flex-1">
 					<?php bp_nouveau_notifications_bulk_management_dropdown(); ?>
@@ -38,16 +38,23 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) {
 				$bp_the_notification_id = bp_get_the_notification_id();
 				$user_id                = $bp->notifications->query_loop->notification->secondary_item_id;
 				$readonly               = isset( $bp->notifications->query_loop->notification->readonly ) ? $bp->notifications->query_loop->notification->readonly : false;
+				$raw_description 		= bp_get_the_notification_description();
+				$plain_description 		= wp_strip_all_tags( $raw_description );
+				$short_description 		= wp_trim_words( $plain_description, 8, '…' );
 				?>
 					<li class="bs-item-wrap">
 						<div class="bulk-select-check">
 							<span class="bb-input-wrap">
 								<input id="<?php echo esc_attr( $bp_the_notification_id ); ?>" type="checkbox" name="notifications[]" value="<?php echo esc_attr(  $bp_the_notification_id); ?>" class="notification-check bs-styled-checkbox" data-readonly="<?php echo esc_attr( $readonly ); ?>"/>
-								<label for="<?php echo esc_attr( $bp_the_notification_id ); ?>"></label>
+								<label for="<?php echo esc_attr( $bp_the_notification_id ); ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Select this notification', 'buddyboss-theme' ); ?></span></label>
 							</span>
 						</div>
 						<div class="notification-avatar">
-							<?php bb_notification_avatar(); ?>
+							<?php
+							if ( function_exists( 'bb_notification_avatar' ) ) {
+								bb_notification_avatar();
+							}
+							?>
 						</div>
 
 						<div class="notification-content">

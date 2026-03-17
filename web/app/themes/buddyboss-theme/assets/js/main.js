@@ -573,6 +573,9 @@
 			);
 
 			function sidePanelHeight() {
+				if ( $( 'body' ).hasClass( 'bb-buddypanel' ) && $( 'body' ).hasClass( 'header-style-5' ) ) {
+					$( '.buddypanel' ).css( 'height', $( 'html' ).height() - $( '.site-header' ).height() - $( '#wpadminbar' ).height() + 'px' );
+				}
 				if ( $( 'body' ).hasClass( 'buddypanel-header' ) || $( 'body' ).hasClass( 'buddypanel-logo' ) ) {
 					if ( $( '.buddypanel .site-branding' ).length ) {
 						var bbPanelBranding = $( '.buddypanel .site-branding' ).outerHeight();
@@ -1874,54 +1877,73 @@
 						editor = window.forums_medium_topic_editor[ editor_key ];
 					}
 
-					if (
-						(
-							$topicForm.find( '#bbp_media' ).length > 0
-							&& $topicForm.find( '#bbp_document' ).length <= 0
-							&& $topicForm.find( '#bbp_video' ).length <= 0
-							&& $topicForm.find( '#bbp_media_gif' ).length > 0
-							&& $topicForm.find( '#bbp_media' ).val() == ''
-							&& $topicForm.find( '#bbp_media_gif' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_document' ).length > 0
-							&& $topicForm.find( '#bbp_media' ).length <= 0
-							&& $topicForm.find( '#bbp_video' ).length <= 0
-							&& $topicForm.find( '#bbp_media_gif' ).length > 0
-							&& $topicForm.find( '#bbp_document' ).val() == ''
-							&& $topicForm.find( '#bbp_media_gif' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_video' ).length > 0
-							&& $topicForm.find( '#bbp_media' ).length <= 0
-							&& $topicForm.find( '#bbp_document' ).length <= 0
-							&& $topicForm.find( '#bbp_media_gif' ).length > 0
-							&& $topicForm.find( '#bbp_video' ).val() == ''
-							&& $topicForm.find( '#bbp_media_gif' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_document' ).length > 0
-							&& $topicForm.find( '#bbp_media_gif' ).length <= 0
-							&& $topicForm.find( '#bbp_document' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_media' ).length > 0
-							&& $topicForm.find( '#bbp_media_gif' ).length <= 0
-							&& $topicForm.find( '#bbp_media' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_video' ).length > 0
-							&& $topicForm.find( '#bbp_media_gif' ).length <= 0
-							&& $topicForm.find( '#bbp_video' ).val() == ''
-						)
-						|| (
-							$topicForm.find( '#bbp_media_gif' ).length > 0
-							&& $topicForm.find( '#bbp_media' ).length <= 0
-							&& $topicForm.find( '#bbp_document' ).length <= 0
-							&& $topicForm.find( '#bbp_video' ).length <= 0
-							&& $topicForm.find( '#bbp_media_gif' ).val() == ''
-						)
-					) {
+					// Check if GIF support is enabled (GIF button exists and is not disabled)
+					var gif_support_enabled = $topicForm.find( '#forums-gif-button' ).length > 0 && ! $topicForm.find( '#forums-gif-button' ).parents( '.post-elements-buttons-item' ).hasClass( 'disable' );
+
+					var condition1 = (
+						$topicForm.find( '#bbp_media' ).length > 0
+						&& $topicForm.find( '#bbp_document' ).length <= 0
+						&& $topicForm.find( '#bbp_video' ).length <= 0
+						&& gif_support_enabled
+						&& $topicForm.find( '#bbp_media_gif' ).length > 0
+						&& '' == $topicForm.find( '#bbp_media' ).val()
+						&& '' == $topicForm.find( '#bbp_media_gif' ).val()
+					);
+					
+					var condition2 = (
+						$topicForm.find( '#bbp_document' ).length > 0
+						&& $topicForm.find( '#bbp_media' ).length <= 0
+						&& $topicForm.find( '#bbp_video' ).length <= 0
+						&& gif_support_enabled
+						&& $topicForm.find( '#bbp_media_gif' ).length > 0
+						&& '' == $topicForm.find( '#bbp_document' ).val()
+						&& '' == $topicForm.find( '#bbp_media_gif' ).val()
+					);
+					
+					var condition3 = (
+						$topicForm.find( '#bbp_video' ).length > 0
+						&& $topicForm.find( '#bbp_media' ).length <= 0
+						&& $topicForm.find( '#bbp_document' ).length <= 0
+						&& gif_support_enabled
+						&& $topicForm.find( '#bbp_media_gif' ).length > 0
+						&& '' == $topicForm.find( '#bbp_video' ).val()
+						&& '' == $topicForm.find( '#bbp_media_gif' ).val()
+					);
+					
+					var condition4 = (
+						$topicForm.find( '#bbp_document' ).length > 0
+						&& ! gif_support_enabled
+						&& ( '' == $topicForm.find( '#bbp_document' ).val() || '[]' == $topicForm.find( '#bbp_document' ).val() )
+						&& '' == $topicForm.find( '#bbp_media' ).val()
+						&& '' == $topicForm.find( '#bbp_video' ).val()
+					);
+					
+					var condition5 = (
+						$topicForm.find( '#bbp_media' ).length > 0
+						&& ! gif_support_enabled
+						&& ( '' == $topicForm.find( '#bbp_media' ).val() || '[]' == $topicForm.find( '#bbp_media' ).val() )
+						&& '' == $topicForm.find( '#bbp_document' ).val()
+						&& '' == $topicForm.find( '#bbp_video' ).val()
+					);
+					
+					var condition6 = (
+						$topicForm.find( '#bbp_video' ).length > 0
+						&& ! gif_support_enabled
+						&& ( '' == $topicForm.find( '#bbp_video' ).val() || '[]' == $topicForm.find( '#bbp_video' ).val() )
+						&& '' == $topicForm.find( '#bbp_media' ).val()
+						&& '' == $topicForm.find( '#bbp_document' ).val()
+					);
+					
+					var condition7 = (
+						gif_support_enabled
+						&& $topicForm.find( '#bbp_media_gif' ).length > 0
+						&& $topicForm.find( '#bbp_media' ).length <= 0
+						&& $topicForm.find( '#bbp_document' ).length <= 0
+						&& $topicForm.find( '#bbp_video' ).length <= 0
+						&& '' == $topicForm.find( '#bbp_media_gif' ).val()
+					);
+					
+					if ( condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7 ) {
 						media_valid = false;
 					}
 
@@ -2548,6 +2570,35 @@
 		}, 200 );
 	});
 
+	function StickyBuddyPanel () {
+		var scrollTop      = $( window ).scrollTop();
+		var adminBarHeight = $( '#wpadminbar' ).height();
+		var headerHeight   = $( '.site-header' ).height();
+		var scrollAmount   = ( adminBarHeight + headerHeight ) - scrollTop;
+		if ( scrollAmount > adminBarHeight ) {
+			$( '.buddypanel' ).css( 'top', scrollAmount + 'px' );
+			$( '.buddypanel' ).css( 'height', $( 'html' ).height() - $( '.site-header' ).height() - $( '#wpadminbar' ).height() + 'px' );
+		} else {
+			$( '.buddypanel' ).css( 'top', adminBarHeight + 'px' );
+			$( '.buddypanel' ).css( 'height', '100%');
+		}
+	}
+
+	if ( $( 'body' ).hasClass( 'header-style-5' ) && ! $( 'body' ).hasClass( 'sticky-header' ) ) {
+
+		$( window ).on( 'scroll', function () {
+			StickyBuddyPanel();
+		} );
+
+		$( window ).on( 'resize', function () {
+			StickyBuddyPanel();
+		} );
+
+		$( window ).on( 'load', function () {
+			StickyBuddyPanel();
+		} );
+	}
+
 })( jQuery );
 
 /**
@@ -2601,6 +2652,13 @@ setTimeout(
 					top: menuItemPos.top
 				}
 			);
+			
+			jQuery( 'body' ).addClass( 'bb-submenu-isactive' );
 		}
+	);
+
+	jQuery( document ).on( 'mouseleave', '#site-navigation #navbar-collapse #navbar-extend .menu-item-has-children, #site-navigation #primary-menu .ab-submenu .menu-item-has-children', function () {
+		jQuery( 'body' ).removeClass( 'bb-submenu-isactive' );
+	}
 	);
 }, 500);
