@@ -177,9 +177,29 @@ function bbp_pro_version_updater() {
 			bbp_pro_update_to_2_3_42();
 		}
 
+		if ( $raw_db_version < 315 ) {
+			bbp_pro_update_to_2_6_41();
+		}
+
+		if ( $raw_db_version < 320 ) {
+			bbp_pro_update_to_2_6_81();
+		}
+
+		if ( $raw_db_version < 325 ) {
+			bbp_pro_update_to_2_12_00();
+		}
+
 		if ( $raw_db_version !== $current_db ) {
 			if ( function_exists( 'bb_pro_reaction_migration' ) ) {
 				bb_pro_reaction_migration();
+			}
+
+			if ( function_exists( 'bp_is_active' ) && bp_is_active( 'activity' ) && class_exists( 'BB_Schedule_Posts' ) ) {
+				BB_Schedule_Posts::bb_create_activity_schedule_cron_event();
+			}
+
+			if ( function_exists( 'bp_is_active' ) && bp_is_active( 'activity' ) && class_exists( 'BB_Polls' ) ) {
+				BB_Polls::instance()->create_table();
 			}
 		}
 	}
@@ -371,7 +391,7 @@ function bbp_pro_update_to_2_3_42() {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$group_ids = $wpdb->get_col(
 			$wpdb->prepare(
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				"SELECT DISTINCT group_id FROM {$bp->groups->table_name_groupmeta} WHERE ( meta_key = %s AND meta_value != '' ) ORDER BY group_id DESC",
 				'bp-group-zoom-api-key'
 			)
@@ -387,4 +407,270 @@ function bbp_pro_update_to_2_3_42() {
 			}
 		}
 	}
+}
+
+/**
+ * Update migration for a version 2.6.60.
+ *
+ * @since 2.6.60
+ */
+function bbp_pro_update_to_2_6_41() {
+	global $wpdb;
+
+	$is_already_run = get_transient( 'bb_pro_background_remove_sso_attachments' );
+
+	if ( $is_already_run ) {
+		return;
+	}
+
+	$allow_registration = function_exists( 'bp_enable_site_registration' ) && bp_enable_site_registration();
+	bp_update_option( 'bb-sso-reg-options', $allow_registration );
+
+	// Get the table name with the proper prefix.
+	$table_name = $wpdb->base_prefix . 'bb_social_sign_on_users';
+
+	// Query to check for the existence of both columns in one go.
+	$columns = $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT COLUMN_NAME 
+			FROM INFORMATION_SCHEMA.COLUMNS 
+			WHERE TABLE_NAME = %s 
+			AND TABLE_SCHEMA = %s 
+			AND COLUMN_NAME IN ('first_name', 'last_name')",
+			$table_name,
+			DB_NAME
+		)
+	);
+
+	// Determine which columns are missing.
+	$missing_columns = array_diff( array( 'first_name', 'last_name' ), $columns );
+
+	if ( in_array( 'first_name', $missing_columns, true ) ) {
+		// Add the `first_name` column and its index.
+		$wpdb->query( "ALTER TABLE {$table_name} ADD COLUMN `first_name` VARCHAR(255) AFTER `wp_user_id`" );
+		$wpdb->query( "ALTER TABLE {$table_name} ADD INDEX `first_name` (`first_name`)" );
+	}
+
+	if ( in_array( 'last_name', $missing_columns, true ) ) {
+		// Add the `last_name` column and its index.
+		$wpdb->query( "ALTER TABLE {$table_name} ADD COLUMN `last_name` VARCHAR(255) AFTER `first_name`" );
+		$wpdb->query( "ALTER TABLE {$table_name} ADD INDEX `last_name` (`last_name`)" );
+	}
+
+	bb_pro_background_remove_sso_attachments();
+
+	set_transient( 'bb_pro_background_remove_sso_attachments', true, HOUR_IN_SECONDS );
+}
+
+/**
+ * Background job to remove SSO attachments.
+ *
+ * @since 2.6.60
+ */
+function bb_pro_background_remove_sso_attachments() {
+	global $bb_background_updater, $wpdb;
+
+	$table_name = $bb_background_updater::$table_name;
+
+	$total_bg = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT count(DISTINCT id) as total FROM {$table_name} WHERE `type` = %s AND `group` = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			'pro_sso_remove_attachments',
+			'bb_pro_sso_remove_attachments'
+		)
+	);
+
+	// Ensure that the background job count does not exceed 4.
+	if ( ! empty( $total_bg->total ) && $total_bg->total > 4 ) {
+		return;
+	}
+
+	$bb_background_updater->data(
+		array(
+			'type'     => 'pro_sso_remove_attachments',
+			'group'    => 'bb_pro_sso_remove_attachments',
+			'priority' => 3,
+			'callback' => 'bb_pro_sso_remove_attachments_callback',
+			'args'     => array(),
+		),
+	);
+
+	$bb_background_updater->save()->schedule_event();
+}
+
+/**
+ * Callback to remove SSO attachments.
+ *
+ * @since 2.6.60
+ */
+function bb_pro_sso_remove_attachments_callback() {
+	global $blog_id, $wpdb;
+
+	// Set the limit for the number of attachments to process.
+	$limit = apply_filters( 'bb_pro_sso_remove_attachments_limit', 50 );
+
+	// Define an array of upload directories.
+	$bb_sso_upload_dir_names = array( 'bb_sso_avatars' );
+	if ( defined( 'BB_SSO_AVATARS_FOLDER' ) ) {
+		$bb_sso_upload_dir_names[] = BB_SSO_AVATARS_FOLDER;
+	}
+
+	$bb_sso_upload_dir_names = array_unique( $bb_sso_upload_dir_names );
+
+	// Add multiple directory conditions to the query.
+	$like_conditions = array();
+	$query_arguments = array();
+	foreach ( $bb_sso_upload_dir_names as $dir_name ) {
+		$like_conditions[] = "pm2.meta_value LIKE %s";
+		$query_arguments[] = '%' . $dir_name . '%';
+	}
+
+	// Prepare the SQL query to select attachment IDs.
+	$sql = "SELECT DISTINCT p.ID FROM {$wpdb->posts} AS p
+		INNER JOIN {$wpdb->postmeta} AS pm1 ON p.ID = pm1.post_id AND pm1.meta_key = '_wp_attachment_wp_user_avatar'
+		INNER JOIN {$wpdb->postmeta} AS pm2 ON p.ID = pm2.post_id AND pm2.meta_key = '_wp_attached_file'
+		WHERE p.post_type = 'attachment'
+		AND p.post_status = 'private'
+		AND (" . implode( ' OR ', $like_conditions ) . ")
+		LIMIT %d";
+
+	$query_arguments[] = $limit;
+
+	$prepared_sql = $wpdb->prepare( $sql, $query_arguments );
+
+	$results = $wpdb->get_col( $prepared_sql );
+
+	if ( empty( $results ) ) {
+		return;
+	}
+
+	$post_ids = implode( ',', array_map( 'intval', $results ) );
+
+	// Delete user meta in a single query.
+	$user_meta_sql = "DELETE um FROM {$wpdb->usermeta} um
+			  INNER JOIN {$wpdb->postmeta} pm ON um.user_id = pm.meta_value
+			  WHERE pm.post_id IN ($post_ids)
+			  AND pm.meta_key = '_wp_attachment_wp_user_avatar'
+			  AND (um.meta_key = '{$wpdb->get_blog_prefix( $blog_id )}user_avatar' OR um.meta_key = 'bb_sso_user_avatar_md5')";
+	$wpdb->query( $user_meta_sql );
+
+	// Delete posts and their files.
+	foreach ( $results as $post_id ) {
+		wp_delete_attachment( $post_id, true );
+	}
+
+	// Re-register the background jobs until the result is empty.
+	bb_pro_background_remove_sso_attachments();
+}
+
+/**
+ * Update migration for a version 2.6.90.
+ * Removes empty identifiers from social sign-on users table.
+ *
+ * @since 2.6.90
+ */
+function bbp_pro_update_to_2_6_81() {
+	global $bb_background_updater;
+
+	// Check if migration already ran.
+	$is_already_run = get_transient( 'bb_pro_remove_empty_sso_identifiers' );
+	if ( $is_already_run ) {
+		return;
+	}
+
+	// Schedule background task.
+	$bb_background_updater->data(
+		array(
+			'type'     => 'remove_empty_sso_identifiers',
+			'group'    => 'bb_pro_remove_empty_identifiers',
+			'priority' => 3,
+			'callback' => 'bb_pro_remove_empty_sso_identifiers_callback',
+			'args'     => array(),
+		)
+	);
+
+	$bb_background_updater->save()->schedule_event();
+
+	// Set transient to prevent duplicate scheduling.
+	set_transient( 'bb_pro_remove_empty_sso_identifiers', true, HOUR_IN_SECONDS );
+}
+
+/**
+ * Background callback to remove empty identifiers from social sign-on users table.
+ * Processes records in batches for better performance.
+ *
+ * @since 2.6.90
+ */
+function bb_pro_remove_empty_sso_identifiers_callback() {
+	global $wpdb;
+
+	// Set batch size.
+	$batch_size = apply_filters( 'bb_pro_remove_empty_identifiers_batch_size', 100 );
+
+	// Get the table name.
+	$table_name = $wpdb->base_prefix . 'bb_social_sign_on_users';
+
+	// Delete records with empty or NULL identifiers in batches.
+	$deleted = $wpdb->query(
+		$wpdb->prepare(
+			"DELETE FROM `{$table_name}` 
+			WHERE identifier IS NULL 
+			OR identifier = ''
+			LIMIT %d",
+			$batch_size
+		)
+	);
+
+	// If records were deleted, schedule another run.
+	if ( $deleted >= $batch_size ) {
+		bb_pro_background_remove_empty_identifiers();
+	}
+}
+
+/**
+ * Schedule another background job to remove empty identifiers if needed.
+ *
+ * @since 2.6.81
+ */
+function bb_pro_background_remove_empty_identifiers() {
+	global $bb_background_updater, $wpdb;
+
+	$table_name = $bb_background_updater::$table_name;
+
+	// Check existing background jobs.
+	$total_bg = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT count(DISTINCT id) as total FROM {$table_name} 
+			WHERE `type` = %s AND `group` = %s",
+			'remove_empty_sso_identifiers',
+			'bb_pro_remove_empty_identifiers'
+		)
+	);
+
+	// Limit concurrent jobs.
+	if ( ! empty( $total_bg->total ) && $total_bg->total > 4 ) {
+		return;
+	}
+
+	// Schedule another run.
+	$bb_background_updater->data(
+		array(
+			'type'     => 'remove_empty_sso_identifiers',
+			'group'    => 'bb_pro_remove_empty_identifiers',
+			'priority' => 5,
+			'callback' => 'bb_pro_remove_empty_sso_identifiers_callback',
+			'args'     => array(),
+		)
+	);
+
+	$bb_background_updater->save()->schedule_event();
+}
+
+/**
+ * Update migration for a version 2.9.0.
+ *
+ * @since 2.9.0
+ */
+function bbp_pro_update_to_2_12_00() {
+	flush_rewrite_rules();
 }

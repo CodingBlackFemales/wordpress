@@ -340,7 +340,7 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Activity Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				)
 			);
 		} else {
@@ -349,14 +349,14 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Activity Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				),
 				'',
 				'bb_admin_access_control_setting_tutorial'
 			);
 		}
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 			$args = array();
 			$setting->add_field(
 				bb_access_control_create_activity_key(),
@@ -450,7 +450,7 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Connection Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				)
 			);
 		} else {
@@ -459,14 +459,14 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Connection Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				),
 				'',
 				'bb_admin_access_control_setting_tutorial'
 			);
 		}
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 
 			$args = array();
 			$setting->add_field(
@@ -540,7 +540,7 @@ class BB_Access_Control {
 	 * @since 1.1.0
 	 */
 	public function bb_access_control_empty_callback() {
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			?>
 			<style type="text/css">
 				#messages_access_control_block + p.submit {
@@ -567,7 +567,7 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Messages Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				)
 			);
 		} else {
@@ -576,14 +576,14 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Messages Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				),
 				'',
 				'bb_admin_access_control_setting_tutorial'
 			);
 		}
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 			$args = array();
 			$setting->add_field(
 				bb_access_control_send_message_key(),
@@ -760,7 +760,7 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Media Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				)
 			);
 		} else {
@@ -769,14 +769,14 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Media Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				),
 				'',
 				'bb_admin_access_control_setting_tutorial'
 			);
 		}
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 
 			$args = array();
 
@@ -968,7 +968,7 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Group Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				)
 			);
 		} else {
@@ -977,14 +977,14 @@ class BB_Access_Control {
 				sprintf(
 					'%1s <span class="require-licence">%2s</span>',
 					__( 'Group Access', 'buddyboss-pro' ),
-					( ! bbp_pro_is_license_valid() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
+					( bb_pro_should_lock_features() ? __( ' — requires license', 'buddyboss-pro' ) : '' )
 				),
 				'',
 				'bb_admin_access_control_setting_tutorial'
 			);
 		}
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 
 			$args = array();
 			$setting->add_field(
@@ -1176,7 +1176,7 @@ class BB_Access_Control {
 	 */
 	protected function bb_access_control_check_has_licence( $has_access = true ) {
 
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			return false;
 		}
 

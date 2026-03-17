@@ -2401,7 +2401,7 @@ window.Backbone = window.Backbone || [];
 				function ( data ) {
 
 					if ( data.user_id === bb_pusher_vars.alien_hash ) {
-						window.location.reload();
+						window.location.href = bb_pusher_vars.home_url;
 					} else {
 
 						var deleted_user_threads_hash = data.thread_ids;

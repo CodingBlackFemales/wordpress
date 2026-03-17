@@ -1453,6 +1453,11 @@ header.bb-zm-model-header {
 	margin-bottom: -10px;
 }
 
+.bp_zoom_countdown .positionWrapper {
+	display: inline-flex;
+	align-items: center;
+}
+
 span.bb-zoom-host {
 	background: #eef0f3;
 	border-radius: 11px;
@@ -2113,9 +2118,7 @@ a.bb-invitation-url {
 }
 
 .buddypress-wrap .bp-subnavs ul #sync-meetings-groups-li {
-	margin-left: auto;
-	float: right;
-	margin-right: 15px;
+	margin-right: 5px;
 }
 
 .buddypress-wrap .bp-subnavs ul #sync-meetings-groups-li #meetings-sync {
@@ -2418,6 +2421,43 @@ a.bb-invitation-url {
 	}
 }
 
+@media screen and (min-width: 540px) and (max-width: 1024px) {
+	.buddypress-wrap.bp-single-vert-nav .bb-group-zoom-settings-container .bb-field-wrap {
+		flex-flow: row wrap;
+	}
+	.buddypress-wrap.bp-single-vert-nav .bb-group-zoom-settings-container .bb-field-wrap .bp-input-wrap {
+		margin-top: 0.5rem;
+	}
+	.buddypress-wrap.bp-single-vert-nav .bb-group-zoom-settings-container .bb-field-wrap label,
+	.buddypress-wrap.bp-single-vert-nav .bb-group-zoom-settings-container .bb-field-wrap .bp-input-wrap {
+		flex: 0 0 100%;
+	}
+}
+
+@media (min-width: 540px) {
+	.buddypress-wrap.bp-single-vert-nav .single-meeting-item-table .meeting-item-head,
+	.buddypress-wrap.bp-single-vert-nav .single-meeting-item-table .meeting-item-col {
+		flex: 0 0 100%;
+		padding: 0;
+	}
+	.buddypress-wrap.bp-single-vert-nav .single-meeting-item-table .meeting-item-head {
+		margin-bottom: 10px;
+	}
+	.buddypress-wrap.bp-single-vert-nav .single-meeting-item.bb-countdown-wrap .bp_zoom_countdown {
+		width: auto;
+		transform: none;
+	}
+	.buddypress-wrap.bp-single-vert-nav .bp_zoom_countdown > span {
+		margin: 0 3px;
+	}
+	.buddypress-wrap.bp-single-vert-nav .bb-field-wrapper-inner > .bb-field-wrap > label,
+	.buddypress-wrap.bp-single-vert-nav .bb-webinar-input-wrap,
+	.buddypress-wrap.bp-single-vert-nav .bb-meeting-input-wrap,
+	.buddypress-wrap.bp-single-vert-nav .bb-field-wrapper-inner > .bb-field-wrap > .bb-video-fields-wrap {
+		flex: 0 0 100%;
+	}
+}
+
 @media (max-width: 540px) {
 	.single-meeting-item-table .meeting-item-head,
 	.single-meeting-item-table .meeting-item-col {
@@ -2449,7 +2489,6 @@ a.bb-invitation-url {
 	.bb-group-zoom-settings-container .bb-field-wrap label,
 	.bb-group-zoom-settings-container .bb-field-wrap .bp-input-wrap,
 	.bb-field-wrapper-inner > .bb-field-wrap > label,
-	.bb-meeting-input-wrap,
 	.bb-field-wrapper-inner > .bb-field-wrap > .bb-video-fields-wrap {
 		flex: 0 0 100%;
 	}
@@ -2462,9 +2501,6 @@ a.bb-invitation-url {
 	}
 	.bp-wrap-duration .bb-field-wrap {
 		max-width: 140px;
-	}
-	.bp-wrap-duration .bb-field-wrap.start-time-picker {
-		margin-top: 14px;
 	}
 	.bb-meeting-input-wrap.bp-zoom-meeting-end-date-time-wrap .bb-field-wrap.end-date-picker {
 		margin: 0 0 0 5px;
@@ -2574,6 +2610,25 @@ a.bb-invitation-url {
 
 #page .bp-zoom-webinar-container .bp-navs .bp-zoom-switch-type a {
 	padding: 6px;
+}
+
+.bp-zoom-meeting-container .bp-navs ul.subnav,
+.bp-zoom-webinar-container .bp-navs ul.subnav {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+}
+
+.bp-zoom-meeting-container .bp-navs ul.subnav li.bp-zoom-switch-type,
+.bp-zoom-webinar-container .bp-navs ul.subnav li.bp-zoom-switch-type {
+	order: 99;
+}
+
+.bp-zoom-meeting-container .bp-navs ul.subnav li.past-meetings,
+.bp-zoom-meeting-container .bp-navs ul.subnav li.past-webinars,
+.bp-zoom-webinar-container .bp-navs ul.subnav li.past-meetings,
+.bp-zoom-webinar-container .bp-navs ul.subnav li.past-webinars {
+	margin-right: auto;
 }
 
 #bp_zoom_webinar_form {
@@ -4749,6 +4804,7 @@ a.bp-close-create-webinar-form span {
 	.bb-group-zoom-settings-container .bb-field-wrap .bp-input-wrap,
 	.bb-field-wrapper-inner > .bb-field-wrap > label,
 	.bb-webinar-input-wrap,
+	.bb-meeting-input-wrap,
 	.bb-field-wrapper-inner > .bb-field-wrap > .bb-video-fields-wrap {
 		flex: 0 0 100%;
 	}
@@ -4762,8 +4818,8 @@ a.bp-close-create-webinar-form span {
 	.bp-wrap-duration .bb-field-wrap {
 		max-width: 140px;
 	}
-	.bp-wrap-duration .bb-field-wrap.start-time-picker {
-		margin-top: 14px;
+	.bp-wrap-duration .bb-field-wrap.start-date-picker, .bp-wrap-duration .bb-field-wrap.start-time-picker, .bp-wrap-duration .bb-field-wrap.bp-zoom-meeting-time-meridian-wrap {
+		margin-bottom: 10px;
 	}
 	.bb-webinar-input-wrap.bp-zoom-webinar-end-date-time-wrap .bb-field-wrap.end-date-picker {
 		margin: 0 0 0 5px;
@@ -4937,6 +4993,17 @@ a.bp-close-create-webinar-form span {
 .widget .zoom-webinar-block .bp_zoom_countdown span.countSeconds ~ span,
 .widget .zoom-meeting-block .bp_zoom_countdown span.countSeconds ~ span {
 	display: none;
+}
+
+@media screen and (max-width: 980px) {
+	.meeting-actions .meeting-actions-list.bb_more_dropdown > ul,
+	.webinar-actions .webinar-actions-list.bb_more_dropdown > ul {
+		padding: 0;
+	}
+	.bb-template-v2 .meeting-actions .meeting-actions-list.bb_more_dropdown > ul, .bb-template-v2
+	.webinar-actions .webinar-actions-list.bb_more_dropdown > ul {
+		padding: 0 8px;
+	}
 }
 
 .widget .zoom-webinar-block a.button.outline.join-webinar-in-browser {

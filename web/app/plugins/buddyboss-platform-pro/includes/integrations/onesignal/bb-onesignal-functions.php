@@ -39,7 +39,7 @@ function bb_onesignal_integration_url( $path = '' ) {
 function bb_onesignal_settings_tutorial() {
 	?>
 	<p>
-		<a class="button" href="
+		<a class="button" target="_blank" href="
 		<?php
 		echo esc_url(
 			bp_get_admin_url(
@@ -146,7 +146,7 @@ function bb_onesignal_update_app_details() {
 
 			$response_errors = '';
 			if ( ! empty( $response['errors'] ) ) {
-				$response_errors = implode( ', ', $response['errors'] );
+				$response_errors = is_array( $response['errors'] ) ? implode( ', ', $response['errors'] ) : $response['errors'];
 			}
 
 			$settings['errors']['invalid_app_id_or_rest_api_key'] = sprintf(
@@ -221,7 +221,7 @@ function bb_onesignal_view_notification_endpoint( $notification_id, $app_id ) {
  * @return bool
  */
 function bb_onesignal_enabled_web_push( $default = 0 ) {
-	return (bool) bb_onesignal_app_is_connected() && apply_filters( 'bb_onesignal_enabled_web_push', bp_get_option( 'bb-onesignal-enabled-web-push', $default ) );
+	return (bool) bb_onesignal_app_is_connected() && apply_filters( 'bb_onesignal_enabled_web_push', bp_get_option( 'bb-onesignal-enabled-web-push', $default ) ) && ! bb_pro_should_lock_features();
 }
 
 /**
@@ -379,7 +379,7 @@ function bb_onesignal_admin_setting_callback_push_notification_fields() {
 	$app_id   = ! bb_onesignal_app_id();
 	$rest_api = ! bb_onesignal_rest_api_key();
 
-	$disabled = $app_id || $rest_api || ! empty( $settings['errors'] );
+	$disabled = $app_id || $rest_api || ! empty( $settings['errors'] ) || bb_pro_should_lock_features();
 	$checked  = bb_onesignal_enabled_web_push();
 	?>
 	<input id="bb-onesignal-enabled-web-push" name="bb-onesignal-enabled-web-push" type="checkbox" value="1"

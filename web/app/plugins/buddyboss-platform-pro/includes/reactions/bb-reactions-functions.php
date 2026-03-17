@@ -211,11 +211,8 @@ function bb_admin_setting_reaction_notice_field_callback( $print = true ) {
 			}
 		}
 
-		$html = ob_get_clean();
-
-		if ( ob_get_length() ) {
-			ob_flush(); // flush the output from the buffer.
-		}
+		$html = ob_get_contents();
+		ob_end_clean();
 	}
 
 	if ( $print ) {

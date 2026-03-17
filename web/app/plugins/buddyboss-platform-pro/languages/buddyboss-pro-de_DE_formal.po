@@ -2,10 +2,10 @@
 # This file is distributed under the GPLv2 or later (license.txt).
 msgid ""
 msgstr ""
-"Project-Id-Version: BuddyBoss Platform Pro v2.4.50\n"
+"Project-Id-Version: BuddyBoss Platform Pro v2.6.00\n"
 "Report-Msgid-Bugs-To: https://www.buddyboss.com/contact/\n"
-"POT-Creation-Date: 2024-01-22 13:00+0100\n"
-"PO-Revision-Date: 2024-01-24 18:39+0400\n"
+"POT-Creation-Date: 2024-09-07 21:54+0200\n"
+"PO-Revision-Date: 2024-09-18 16:21+0400\n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language: de_DE@formal\n"
@@ -19,7 +19,7 @@ msgstr ""
 "esc_html_x:1,2c\n"
 "X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #. Plugin Name of the plugin/theme
@@ -60,11 +60,11 @@ msgstr ""
 "erfordert das BuddyBoss Platform Plugin Version 1.3.5 oder höher, um zu "
 "funktionieren. Bitte aktualisieren Sie die BuddyBoss Plattform."
 
-#: class-bb-platform-pro.php:65 class-bb-platform-pro.php:73
+#: class-bb-platform-pro.php:73 class-bb-platform-pro.php:81
 msgid "Cheatin&#8217; huh?"
 msgstr "Sie schummeln&#8217; oder?"
 
-#: class-bb-platform-pro.php:292 includes/bb-pro-update-buddyboss.php:81
+#: class-bb-platform-pro.php:310 includes/bb-pro-update-buddyboss.php:81
 msgid "Release Notes"
 msgstr "Entwicklungsstand"
 
@@ -98,7 +98,7 @@ msgstr "..."
 #: includes/integrations/tutorlms/templates/admin/integration-tab-intro.php:132
 #: includes/integrations/zoom/bp-zoom-functions.php:1308
 #: includes/integrations/zoom/bp-zoom-functions.php:1335
-#: includes/integrations/zoom/bp-zoom-functions.php:4245
+#: includes/integrations/zoom/bp-zoom-functions.php:4237
 #: includes/lib/buddyboss-updater/includes/views/package.php:20
 msgid "View Tutorial"
 msgstr "Tutorial ansehen"
@@ -525,8 +525,8 @@ msgstr "Popup schließen"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:250
 #: includes/integrations/zoom/templates/buddypress/zoom/meeting/recordings.php:279
 #: includes/integrations/zoom/templates/buddypress/zoom/webinar/recordings.php:278
-#: includes/reactions/includes/class-bb-reactions.php:408
-#: includes/reactions/includes/class-bb-reactions.php:429
+#: includes/reactions/includes/class-bb-reactions.php:409
+#: includes/reactions/includes/class-bb-reactions.php:430
 #: includes/reactions/templates/admin/emotion-picker/render-emotion-icons.php:21
 msgid "Close"
 msgstr "Schließen"
@@ -731,6 +731,7 @@ msgid "Sorry, something goes wrong please try again."
 msgstr "Leider ist etwas schief gelaufen, bitte versuchen Sie es erneut."
 
 #: includes/integrations/onesignal/bb-onesignal-admin-tab.php:114
+#: includes/polls/bb-polls-filters.php:71
 msgid "Are you sure?"
 msgstr "Sind sie sicher?"
 
@@ -803,12 +804,12 @@ msgid "OneSignal Auth Key"
 msgstr "OneSignal Auth Key"
 
 #: includes/integrations/onesignal/bb-onesignal-admin-tab.php:348
-#: includes/integrations/zoom/bp-zoom-functions.php:4546
-#: includes/integrations/zoom/bp-zoom-functions.php:4559
-#: includes/integrations/zoom/bp-zoom-functions.php:4572
-#: includes/integrations/zoom/bp-zoom-functions.php:4616
-#: includes/integrations/zoom/bp-zoom-functions.php:4701
-#: includes/integrations/zoom/bp-zoom-functions.php:4714
+#: includes/integrations/zoom/bp-zoom-functions.php:4538
+#: includes/integrations/zoom/bp-zoom-functions.php:4551
+#: includes/integrations/zoom/bp-zoom-functions.php:4564
+#: includes/integrations/zoom/bp-zoom-functions.php:4608
+#: includes/integrations/zoom/bp-zoom-functions.php:4693
+#: includes/integrations/zoom/bp-zoom-functions.php:4706
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:714
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:729
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:744
@@ -1155,8 +1156,9 @@ msgstr "Jetzt"
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:193
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:520
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:516
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:54
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:54
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:68
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:68
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:123
 #: includes/reactions/bb-reactions-actions.php:201
 #: includes/reactions/bb-reactions-actions.php:217
 #: includes/reactions/bb-reactions-actions.php:361
@@ -1230,6 +1232,7 @@ msgstr ""
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:107
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:149
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:153
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:75
 msgid "AM"
 msgstr "AM"
 
@@ -1238,6 +1241,7 @@ msgstr "AM"
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:111
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:153
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:157
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:79
 msgid "PM"
 msgstr "PM"
 
@@ -1294,7 +1298,7 @@ msgid "sa1 (São Paulo)"
 msgstr "sa1 (São Paulo)"
 
 #: includes/integrations/pusher/bb-pusher-admin-tab.php:55
-#: includes/reactions/bb-reactions-functions.php:247
+#: includes/reactions/bb-reactions-functions.php:246
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
@@ -1408,60 +1412,64 @@ msgid "Private Messaging"
 msgstr "Private Nachrichten"
 
 #. translators: Error Message.
-#: includes/integrations/pusher/bb-pusher-functions.php:234
+#: includes/integrations/pusher/bb-pusher-functions.php:236
 #, php-format
 msgid "There was a problem connecting to your Pusher Channels app: %s"
 msgstr ""
 "Beim Herstellen einer Verbindung mit Ihrer Pusher Channels-App ist ein "
 "Problem aufgetreten: %s"
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:54
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:62
 msgid "Channel Name"
 msgstr "Channel-Name"
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:59
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:78
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:67
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:87
 msgid "Socket ID"
 msgstr "Socket-ID"
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:225
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:235
 msgid "This content has been hidden as you have blocked this member."
 msgstr ""
 "Dieser Inhalt wurde ausgeblendet, da Sie dieses Mitglied blockiert haben."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:250
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:260
 msgid "This content has been hidden from site admin."
 msgstr "Dieser Inhalt wurde admin.c der Website ausgeblendet."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:304
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:314
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:431
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:179
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:445
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:156
 msgid "Sorry, Restrict access to only logged-in members."
 msgstr "Entschuldigung, beschränkt den Zugriff auf nur eingeloggte Mitglieder."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:316
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:326
 msgid "Pusher does not setup properly."
 msgstr "Der Pusher lässt sich nicht richtig einrichten."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:350
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:360
 msgid "a valid channel_name param is required."
 msgstr "ist ein gültiger channel_name Parameter erforderlich."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:353
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:363
 msgid "a valid socket_id param is required."
 msgstr "ist ein gültiger socket_id-Parameter erforderlich."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:392
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:453
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:458
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:402
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:463
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:468
 msgid "You are not authorized to subscribe this channel."
 msgstr "Sie sind nicht berechtigt, diesen Kanal zu abonnieren."
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:400
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:474
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:410
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:484
 msgid "Sorry, you are not allowed to access this endpoint"
 msgstr "Sie sind leider nicht berechtigt, auf diesen Endpunkt zuzugreifen"
 
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:512
-#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:529
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:522
+#: includes/integrations/pusher/includes/class-bb-rest-pusher-endpoint.php:539
 msgid "There is an error while authorizing the user."
 msgstr "Es ist ein Fehler bei der Autorisierung des Benutzers aufgetreten."
 
@@ -2024,7 +2032,7 @@ msgid "webinar"
 msgstr "Webinar"
 
 #: includes/integrations/zoom/bp-zoom-actions.php:216
-#: includes/integrations/zoom/bp-zoom-filters.php:201
+#: includes/integrations/zoom/bp-zoom-filters.php:202
 #: includes/integrations/zoom/includes/class-bp-zoom-groups-notification.php:98
 msgid "A Zoom meeting is scheduled in a group"
 msgstr "Eine Zoom-Konferenz wurde in einer Gruppe geplant"
@@ -2040,33 +2048,33 @@ msgid "No, do not send email"
 msgstr "Nein, E-Mail nicht senden"
 
 #: includes/integrations/zoom/bp-zoom-actions.php:232
-#: includes/integrations/zoom/bp-zoom-filters.php:213
+#: includes/integrations/zoom/bp-zoom-filters.php:214
 #: includes/integrations/zoom/includes/class-bp-zoom-groups-notification.php:113
 msgid "A Zoom webinar is scheduled in a group"
 msgstr "Ein Zoom-Webinar wurde in einer Gruppe geplant"
 
 #: includes/integrations/zoom/bp-zoom-admin-tab.php:140
-#: includes/integrations/zoom/bp-zoom-group-functions.php:862
+#: includes/integrations/zoom/bp-zoom-group-functions.php:854
 msgid "Email not found in Zoom account."
 msgstr "E-Mail nicht im Zoom-Konto gefunden."
 
 #: includes/integrations/zoom/bp-zoom-admin-tab.php:182
-#: includes/integrations/zoom/bp-zoom-functions.php:4359
-#: includes/integrations/zoom/bp-zoom-group-functions.php:907
+#: includes/integrations/zoom/bp-zoom-functions.php:4351
+#: includes/integrations/zoom/bp-zoom-group-functions.php:899
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:2115
 msgid "The Account ID is required."
 msgstr "Die Konto-ID ist erforderlich.Eine Themen-ID ist erforderlich."
 
 #: includes/integrations/zoom/bp-zoom-admin-tab.php:184
-#: includes/integrations/zoom/bp-zoom-functions.php:4368
-#: includes/integrations/zoom/bp-zoom-group-functions.php:909
+#: includes/integrations/zoom/bp-zoom-functions.php:4360
+#: includes/integrations/zoom/bp-zoom-group-functions.php:901
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:2117
 msgid "The Client ID is required."
 msgstr "Die Kunden-ID ist erforderlich.Eine Antwort-ID ist erforderlich."
 
 #: includes/integrations/zoom/bp-zoom-admin-tab.php:186
-#: includes/integrations/zoom/bp-zoom-functions.php:4377
-#: includes/integrations/zoom/bp-zoom-group-functions.php:911
+#: includes/integrations/zoom/bp-zoom-functions.php:4369
+#: includes/integrations/zoom/bp-zoom-group-functions.php:903
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:2119
 msgid "The Client Secret is required."
 msgstr ""
@@ -2117,13 +2125,13 @@ msgstr "Zoom Gutenberg EinstellungenZoom Gutenberg-Blöcke"
 msgid "Zoom Browser Settings"
 msgstr "Zoom-Browser-EinstellungenZoom-Einstellungen"
 
-#: includes/integrations/zoom/bp-zoom-filters.php:205
-#: includes/integrations/zoom/bp-zoom-filters.php:217
+#: includes/integrations/zoom/bp-zoom-filters.php:206
+#: includes/integrations/zoom/bp-zoom-filters.php:218
 msgid "Yes"
 msgstr "Ja"
 
-#: includes/integrations/zoom/bp-zoom-filters.php:206
-#: includes/integrations/zoom/bp-zoom-filters.php:218
+#: includes/integrations/zoom/bp-zoom-filters.php:207
+#: includes/integrations/zoom/bp-zoom-filters.php:219
 msgid "No"
 msgstr "Nein"
 
@@ -2459,7 +2467,7 @@ msgstr " um "
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:194
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:61
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:163
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:96
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:111
 msgid "Meeting ID"
 msgstr "Konferenz-ID"
 
@@ -2482,8 +2490,8 @@ msgstr "Datum und Uhrzeit"
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:118
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:165
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:169
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:119
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:119
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:134
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:134
 msgid "Duration"
 msgstr "Dauer"
 
@@ -2497,8 +2505,8 @@ msgstr "Dauer"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:81
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:184
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:183
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:124
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:124
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:139
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:139
 #, php-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -2515,8 +2523,8 @@ msgstr[1] "%d Stunden"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:85
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:188
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:187
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:128
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:128
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:143
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:143
 #, php-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -2529,15 +2537,15 @@ msgstr[1] "%d Minuten"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:152
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:223
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:222
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:192
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:192
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:207
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:207
 msgid "Registration Link"
 msgstr "Link zur Registrierung"
 
 #: includes/integrations/zoom/bp-zoom-functions.php:3649
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:169
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:235
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:206
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:221
 msgid "Meeting Link"
 msgstr "Konferenz-Link"
 
@@ -2551,14 +2559,14 @@ msgstr "Einzelheiten zur Konferenz"
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:245
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:59
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:162
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:96
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:111
 msgid "Webinar ID"
 msgstr "Webinar ID"
 
 #: includes/integrations/zoom/bp-zoom-functions.php:3795
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:165
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:234
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:206
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:221
 msgid "Webinar Link"
 msgstr "Webinar-Link"
 
@@ -2568,20 +2576,20 @@ msgstr "Webinar-Link"
 msgid "Webinar Details"
 msgstr "Webinar-Details"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4347
+#: includes/integrations/zoom/bp-zoom-functions.php:4339
+#: includes/integrations/zoom/bp-zoom-functions.php:4436
 #: includes/integrations/zoom/bp-zoom-functions.php:4444
-#: includes/integrations/zoom/bp-zoom-functions.php:4452
-#: includes/integrations/zoom/bp-zoom-functions.php:4462
+#: includes/integrations/zoom/bp-zoom-functions.php:4454
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:1999
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:2054
 msgid "No Zoom account found"
 msgstr "Kein Zoom-Konto gefundenKeine inaktiven Konten gefunden."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4414
+#: includes/integrations/zoom/bp-zoom-functions.php:4406
 msgid "Default"
 msgstr "Standard"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4536
+#: includes/integrations/zoom/bp-zoom-functions.php:4528
 msgid ""
 "To create Zoom meetings and webinars using Gutenberg blocks, create a "
 "<strong>Server-to-Server OAuth</strong> app in your Zoom account and connect "
@@ -2591,15 +2599,15 @@ msgstr ""
 "Sie eine <strong>Server-to-Server OAuth</strong>-App in Ihrem Zoom-Konto und "
 "verbinden Sie sie unten."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4542
-#: includes/integrations/zoom/bp-zoom-functions.php:4545
+#: includes/integrations/zoom/bp-zoom-functions.php:4534
+#: includes/integrations/zoom/bp-zoom-functions.php:4537
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:710
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1196
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1209
 msgid "Account ID"
 msgstr "Account ID"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4550
+#: includes/integrations/zoom/bp-zoom-functions.php:4542
 msgid ""
 "Enter the <strong>Account ID</strong> from the <strong>App Credentials</"
 "strong> section in your Zoom app’s settings."
@@ -2607,18 +2615,18 @@ msgstr ""
 "Geben Sie die <strong>Konto-ID</strong> aus dem Abschnitt <strong>App "
 "Credentials</strong> in den Einstellungen Ihrer Zoom-App ein."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4555
-#: includes/integrations/zoom/bp-zoom-functions.php:4558
-#: includes/integrations/zoom/bp-zoom-functions.php:4697
-#: includes/integrations/zoom/bp-zoom-functions.php:4700
+#: includes/integrations/zoom/bp-zoom-functions.php:4547
+#: includes/integrations/zoom/bp-zoom-functions.php:4550
+#: includes/integrations/zoom/bp-zoom-functions.php:4689
+#: includes/integrations/zoom/bp-zoom-functions.php:4692
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:725
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1197
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1226
 msgid "Client ID"
 msgstr "Client ID"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4563
-#: includes/integrations/zoom/bp-zoom-functions.php:4705
+#: includes/integrations/zoom/bp-zoom-functions.php:4555
+#: includes/integrations/zoom/bp-zoom-functions.php:4697
 msgid ""
 "Enter the <strong>Client ID</strong> from the <strong>App Credentials</"
 "strong> section in your Zoom app’s settings."
@@ -2626,10 +2634,10 @@ msgstr ""
 "Geben Sie die <strong>Client ID</strong> aus dem Abschnitt <strong>App "
 "Credentials</strong> in den Einstellungen Ihrer Zoom-App ein."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4568
-#: includes/integrations/zoom/bp-zoom-functions.php:4571
-#: includes/integrations/zoom/bp-zoom-functions.php:4710
-#: includes/integrations/zoom/bp-zoom-functions.php:4713
+#: includes/integrations/zoom/bp-zoom-functions.php:4560
+#: includes/integrations/zoom/bp-zoom-functions.php:4563
+#: includes/integrations/zoom/bp-zoom-functions.php:4702
+#: includes/integrations/zoom/bp-zoom-functions.php:4705
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:740
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1198
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1243
@@ -2637,8 +2645,8 @@ msgid "Client Secret"
 msgstr "Client Secret"
 
 #. translators: %s is the buddyboss marketplace link.
-#: includes/integrations/zoom/bp-zoom-functions.php:4577
-#: includes/integrations/zoom/bp-zoom-functions.php:4718
+#: includes/integrations/zoom/bp-zoom-functions.php:4569
+#: includes/integrations/zoom/bp-zoom-functions.php:4710
 msgid ""
 "Enter the <strong>Client Secret</strong> from the <strong>App Credentials</"
 "strong> section in your Zoom app’s settings."
@@ -2646,19 +2654,19 @@ msgstr ""
 "Geben Sie das <strong>Client Secret</strong> aus dem Abschnitt <strong>App "
 "Credentials</strong> in den Einstellungen Ihrer Zoom-App ein."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4582
+#: includes/integrations/zoom/bp-zoom-functions.php:4574
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:755
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1260
 msgid "Account Email"
 msgstr "Account E-Mail"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4601
+#: includes/integrations/zoom/bp-zoom-functions.php:4593
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:770
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1277
 msgid "Select a Zoom account"
 msgstr "Wählen Sie ein Zoom-KontoVerbinden eines Zoom-Kontos"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4607
+#: includes/integrations/zoom/bp-zoom-functions.php:4599
 msgid ""
 "After entering the details above, select the <strong>Zoom account</strong> "
 "to sync Zoom meetings and webinars from."
@@ -2667,14 +2675,14 @@ msgstr ""
 "Konto</strong> aus, von dem aus Sie Zoom-Meetings und Webinare "
 "synchronisieren möchten."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4612
-#: includes/integrations/zoom/bp-zoom-functions.php:4615
+#: includes/integrations/zoom/bp-zoom-functions.php:4604
+#: includes/integrations/zoom/bp-zoom-functions.php:4607
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:781
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:952
 msgid "Secret Token"
 msgstr "Secret Token"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4620
+#: includes/integrations/zoom/bp-zoom-functions.php:4612
 msgid ""
 "Enter the <strong>Secret Tokens</strong> from the <strong>Features</strong> "
 "section in your Zoom app’s settings."
@@ -2682,26 +2690,26 @@ msgstr ""
 "Geben Sie die <strong>Geheimen Token</strong> aus dem Abschnitt "
 "<strong>Features</strong> in den Einstellungen Ihrer Zoom-App ein."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4625
-#: includes/integrations/zoom/bp-zoom-functions.php:4628
+#: includes/integrations/zoom/bp-zoom-functions.php:4617
+#: includes/integrations/zoom/bp-zoom-functions.php:4620
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:796
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:998
 msgid "Notification URL"
 msgstr "Benachrichtigungs-URL"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4629
+#: includes/integrations/zoom/bp-zoom-functions.php:4621
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:800
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1002
 msgid "Copied"
 msgstr "Kopiert"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4630
+#: includes/integrations/zoom/bp-zoom-functions.php:4622
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:800
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1002
 msgid "Copy"
 msgstr "Kopieren"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4633
+#: includes/integrations/zoom/bp-zoom-functions.php:4625
 msgid ""
 "Enter as the <strong>Event notification endpoint URL</strong> when "
 "configuring Event Subscriptions in your Zoom app’s settings."
@@ -2710,7 +2718,7 @@ msgstr ""
 "wenn Sie Ereignisabonnements in den Einstellungen Ihrer Zoom-App "
 "konfigurieren."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4690
+#: includes/integrations/zoom/bp-zoom-functions.php:4682
 msgid ""
 "To require members attend your Zoom meetings and webinars directly on your "
 "site, create a <strong>Meeting SDK</strong> app in your Zoom account and "
@@ -2723,44 +2731,32 @@ msgstr ""
 "Funktion aktiviert ist, können die Mitglieder nicht über die Zoom-App "
 "teilnehmen."
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4723
+#: includes/integrations/zoom/bp-zoom-functions.php:4715
 msgid "Enabled For"
 msgstr "Aktiviert für"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4727
+#: includes/integrations/zoom/bp-zoom-functions.php:4719
 msgid "Meetings and webinars"
 msgstr "Meetings und Webinare"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4729
+#: includes/integrations/zoom/bp-zoom-functions.php:4721
 #: includes/integrations/zoom/templates/buddypress/groups/single/parts/zoom-subnav.php:42
 #: includes/integrations/zoom/templates/buddypress/zoom/meetings.php:27
 msgid "Meetings"
 msgstr "Konferenzen"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4731
+#: includes/integrations/zoom/bp-zoom-functions.php:4723
 #: includes/integrations/zoom/templates/buddypress/groups/single/parts/zoom-subnav.php:43
 #: includes/integrations/zoom/templates/buddypress/zoom/webinars.php:28
 msgid "Webinars"
 msgstr "Webinare"
 
-#: includes/integrations/zoom/bp-zoom-functions.php:4733
+#: includes/integrations/zoom/bp-zoom-functions.php:4725
 msgid "None"
 msgstr "Kein"
 
-#. translators: %1$s - user link, %2$s - group link.
-#: includes/integrations/zoom/bp-zoom-group-functions.php:218
-#, php-format
-msgid "%1$s scheduled a Zoom meeting in the group %2$s"
-msgstr "%1$s hat eine Zoom-Konferenz in der Gruppe terminiert %2$s"
-
-#. translators: %1$s - user link, %2$s - group link.
-#: includes/integrations/zoom/bp-zoom-group-functions.php:303
-#, php-format
-msgid "%1$s scheduled a Zoom webinar in the group %2$s"
-msgstr "%1$s hat ein Zoom-Webinar in der Gruppe %2$s geplant"
-
 #. translators: %s: Account Email.
-#: includes/integrations/zoom/bp-zoom-group-functions.php:866
+#: includes/integrations/zoom/bp-zoom-group-functions.php:858
 #, php-format
 msgid "Connected to Zoom %s"
 msgstr "Verbunden mit Zoom %sVerbundenes Forum"
@@ -2927,6 +2923,7 @@ msgstr "Es gab ein Problem beim Abrufen der Einladung."
 #: includes/integrations/zoom/includes/class-bp-zoom-ajax.php:1671
 #: includes/integrations/zoom/templates/buddypress/zoom/meetings.php:107
 #: includes/integrations/zoom/templates/buddypress/zoom/webinars.php:98
+#: includes/schedule-posts/templates/buddypress/activity-schedule/activity-schedule-loop.php:50
 msgid "Load More"
 msgstr "Mehr anzeigen"
 
@@ -3120,6 +3117,7 @@ msgid "Save Meeting"
 msgstr "Konferenz speichern"
 
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:209
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:46
 msgid "Delete"
 msgstr "Löschen"
 
@@ -3211,10 +3209,12 @@ msgid "Occurrence Deleted."
 msgstr "Ereignis gelöscht."
 
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:235
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:41
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:236
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:60
 msgid "Date"
 msgstr "Datum"
 
@@ -3279,6 +3279,7 @@ msgid "Duration (minutes)"
 msgstr "Dauer (Minuten)"
 
 #: includes/integrations/zoom/includes/class-bp-zoom-blocks.php:252
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:78
 #: includes/reactions/templates/admin/emotion-picker/bb-custom-settings.php:48
 #: includes/reactions/templates/admin/emotion-picker/bb-emojis-settings.php:56
 #: includes/reactions/templates/admin/emotion-picker/bb-icons-settings.php:44
@@ -3345,7 +3346,7 @@ msgstr "Registrierung erforderlich"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:265
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:389
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:420
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:237
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:252
 msgid "Enable practice session"
 msgstr "Übungseinheit freigeben"
 
@@ -3357,8 +3358,8 @@ msgstr "Übungseinheit freigeben"
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:400
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:431
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:426
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:264
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:241
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:279
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:256
 msgid "Only authenticated users can join"
 msgstr "Nur berechtigte Benutzer (Zoom-Registrierung)"
 
@@ -3367,7 +3368,7 @@ msgstr "Nur berechtigte Benutzer (Zoom-Registrierung)"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:300
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:395
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:425
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:260
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:275
 msgid "Enable waiting room"
 msgstr "Warteraum aktivieren"
 
@@ -3377,7 +3378,7 @@ msgstr "Warteraum aktivieren"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:296
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:390
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:420
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:256
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:271
 msgid "Mute participants upon entry"
 msgstr "Teilnehmer bei Eintritt stumm schalten"
 
@@ -3386,7 +3387,7 @@ msgstr "Teilnehmer bei Eintritt stumm schalten"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:292
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:385
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:415
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:252
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:267
 msgid "Enable join before host"
 msgstr "Teilnahme vor dem Gastgeber ermöglichen"
 
@@ -3954,6 +3955,7 @@ msgstr "9 Geltungsbereiche hinzugefügt"
 
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1070
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1150
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:124
 #: includes/reactions/templates/admin/emotion-picker/bb-custom.php:47
 msgid "Done"
 msgstr "Erledigt"
@@ -4103,6 +4105,7 @@ msgid "Previous"
 msgstr "Zurück"
 
 #: includes/integrations/zoom/includes/class-bp-zoom-group.php:1305
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:99
 msgid "Next"
 msgstr "Weiter"
 
@@ -4483,23 +4486,23 @@ msgstr "Gruppenbesprechungen mit Zoom synchronisieren"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:66
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:170
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:169
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:107
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:107
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:122
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:122
 msgid "Description"
 msgstr "Beschreibung"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:106
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:182
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:207
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:148
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:163
 msgid "Meeting Notifications"
 msgstr "Konferenz-Benachrichtigungen"
 
 #. translators: %d number of hours
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:111
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:108
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:153
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:153
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:168
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:168
 #, php-format
 msgid "%d hour before"
 msgid_plural "%d hours before"
@@ -4509,8 +4512,8 @@ msgstr[1] "%d Stunden vorher"
 #. translators: %d number of minutes
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:114
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:111
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:156
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:156
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:171
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:171
 #, php-format
 msgid "%d minute before"
 msgid_plural "%d minutes before"
@@ -4518,7 +4521,7 @@ msgstr[0] "%d Minute vorher"
 msgstr[1] "%d Minuten vorher"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:116
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:158
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:173
 msgid "Immediately before the meeting"
 msgstr "Unmittelbar vor der Konferenz"
 
@@ -4547,22 +4550,22 @@ msgstr "Kein Passwort erforderlich"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:177
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:242
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:247
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:210
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:213
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:225
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:228
 msgid "View Invitation"
 msgstr "Einladung ansehen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:186
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:260
 #: includes/integrations/zoom/templates/buddypress/zoom/meeting/recordings.php:264
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:220
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:235
 #: includes/integrations/zoom/templates/buddypress/zoom/webinar/recordings.php:263
 msgid "Copied to clipboard"
 msgstr "In die Zwischenablage kopiert"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:186
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:260
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:220
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:235
 msgid "Copy Meeting Invitation"
 msgstr "Einladung zur Konferenz kopieren"
 
@@ -4574,8 +4577,8 @@ msgstr "Einladung zur Konferenz kopieren"
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:339
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:365
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:369
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:228
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:215
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:243
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:230
 msgid "Video"
 msgstr "Video"
 
@@ -4591,8 +4594,8 @@ msgstr "Video"
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:485
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:373
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:481
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:231
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:218
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:246
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:233
 msgid "Host"
 msgstr "Gastgeber"
 
@@ -4600,8 +4603,8 @@ msgstr "Gastgeber"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:178
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:272
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:247
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:232
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:219
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:247
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:234
 msgid " On"
 msgstr " An"
 
@@ -4613,17 +4616,17 @@ msgstr " An"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:276
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:247
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:251
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:232
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:236
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:219
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:223
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:247
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:251
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:234
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:238
 msgid "Off"
 msgstr "Aus"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:201
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:181
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:275
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:235
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:250
 msgid "Participant"
 msgstr "Teilnehmer"
 
@@ -4631,8 +4634,8 @@ msgstr "Teilnehmer"
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:182
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:276
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:251
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:236
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:223
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:251
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:238
 msgid "On"
 msgstr "An"
 
@@ -4640,61 +4643,61 @@ msgstr "An"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:281
 #: includes/integrations/zoom/templates/buddypress/zoom/create-meeting.php:365
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-meeting.php:395
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:241
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:256
 msgid "Meeting Options"
 msgstr "Konferenz-Optionen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:237
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:311
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:271
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:286
 msgid "Record the meeting automatically in the cloud"
 msgstr "Die Konferenz automatisch in der Cloud aufzeichnen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:239
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:313
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:273
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:288
 msgid "Record the meeting automatically in the local computer"
 msgstr "Die Konferenz automatisch auf dem lokalen Computer aufzeichnen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:241
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:315
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:275
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:290
 msgid "Do not record the meeting."
 msgstr "Die Konferenz darf nicht aufgezeichnet werden."
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:289
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:345
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:326
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:341
 msgid "Host Meeting in Browser"
 msgstr "Konferenz im Browser durchführen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:291
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:347
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:328
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:343
 msgid "Join Meeting in Browser"
 msgstr "Konferenz im Browser beitreten"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:299
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:355
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:338
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:353
 msgid "Host Meeting in Zoom"
 msgstr "Konferenz in Zoom durchführen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-meeting-entry.php:301
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:357
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:340
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:355
 msgid "Join Meeting in Zoom"
 msgstr "Konferenz in Zoom beitreten"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:103
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:186
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:211
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:148
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:163
 msgid "Webinar Notifications"
 msgstr "Webinar-Benachrichtigungen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:113
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:158
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:173
 msgid "Immediately before the webinar"
 msgstr "Unmittelbar vor dem Webinar"
 
@@ -4706,43 +4709,43 @@ msgstr "Webinar-Kennwort"
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:256
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:369
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:399
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:228
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:243
 msgid "Webinar Options"
 msgstr "Webinar-Optionen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:207
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:276
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:248
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:263
 msgid "Record the webinar automatically in the cloud"
 msgstr "Das Webinar automatisch in der Cloud aufzeichnen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:209
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:278
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:250
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:265
 msgid "Record the webinar automatically in the local computer"
 msgstr "Das Webinar automatisch auf dem lokalen Computer aufzeichnen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:211
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:280
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:252
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:267
 msgid "Do not record the webinar."
 msgstr "Das Webinar darf nicht aufgezeichnet werden."
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:264
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:309
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:323
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:338
 msgid "Join Webinar in Browser"
 msgstr "Am Webinar mit dem Browser teilnehmen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:279
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:315
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:345
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:360
 msgid "Host Webinar in Zoom"
 msgstr "Webinar in Zoom durchführen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/activity-webinar-entry.php:281
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:317
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:347
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:362
 msgid "Join Webinar in Zoom"
 msgstr "Am Webinar in Zoom teilnehmen"
 
@@ -4763,40 +4766,40 @@ msgid "Live"
 msgstr "Live"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:194
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:166
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:181
 msgid "Meeting Passcode"
 msgstr "Konferenz-Kenncode"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:204
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:203
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:175
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:175
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:190
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:190
 msgid "Show passcode"
 msgstr "Kenncode anzeigen"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:207
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:206
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:176
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:176
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:191
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:191
 msgid "Hide passcode"
 msgstr "Kenncode ausblenden"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/meeting-block.php:214
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:213
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:182
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:182
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:197
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:197
 msgid "No passcode required"
 msgstr "Kein Kenncode erforderlich"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:193
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:166
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:181
 msgid "Webinar Passcode"
 msgstr "Webinar-Kenncode (Passcode)"
 
 #: includes/integrations/zoom/templates/buddypress/zoom/blocks/webinar-block.php:250
 #: includes/integrations/zoom/templates/buddypress/zoom/create-webinar.php:353
 #: includes/integrations/zoom/templates/buddypress/zoom/edit-webinar.php:383
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:222
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:237
 msgid "Panelists"
 msgstr "Diskussionsteilnehmer"
 
@@ -5179,16 +5182,22 @@ msgstr "Konferenzen suchen"
 msgid "Timezone:"
 msgstr "Zeitzone:"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:40
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:59
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:43
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:43
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:45
+msgid "Options"
+msgstr "Einstellungen"
+
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:54
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:73
 msgid "Edit this Meeting"
 msgstr "Diese Konferenz bearbeiten"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:43
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:57
 msgid "You're changing a recurring meeting."
 msgstr "Sie ändern eine Konferenzserie."
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:47
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:61
 msgid ""
 "Do you want to edit all occurrences of this meeting, or only the selected "
 "occurrence?"
@@ -5196,54 +5205,54 @@ msgstr ""
 "Möchten Sie alle Ereignisse dieser Konferenz oder nur das ausgewählte "
 "Ereignis bearbeiten?"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:52
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:52
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:66
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:66
 msgid "All occurrences"
 msgstr "Alle Ereignisse"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:53
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:67
 msgid "Only this meeting"
 msgstr "Nur diese Konferenz"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:67
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:85
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:81
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:99
 msgid "Delete this Meeting"
 msgstr "Diese Konferenz löschen"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:70
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:84
 msgid "Delete Meeting"
 msgstr "Konferenz löschen"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:74
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:74
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:88
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:88
 msgid "Topic: "
 msgstr "Thema: "
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:75
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:75
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:89
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:89
 msgid "Time: "
 msgstr "Uhrzeit: "
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:80
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:80
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:94
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:94
 msgid "Delete This Occurrence"
 msgstr "Dieses Ereignis löschen"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:81
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:81
+#: includes/integrations/zoom/templates/buddypress/zoom/single-meeting-item.php:95
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:95
 msgid "Delete All Occurrences"
 msgstr "Alle Ereignisse löschen"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:40
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:59
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:54
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:73
 msgid "Edit this Webinar"
 msgstr "Dieses Webinar bearbeiten"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:43
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:57
 msgid "You're changing a recurring webinar."
 msgstr "Sie ändern eine Webinar-Serie."
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:47
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:61
 msgid ""
 "Do you want to edit all occurrences of this webinar, or only the selected "
 "occurrence?"
@@ -5251,16 +5260,16 @@ msgstr ""
 "Möchten Sie alle Ereignisse dieses Webinars bearbeiten, oder nur das "
 "ausgewählte Ereignis?"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:53
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:67
 msgid "Only this webinar"
 msgstr "Nur dieses Webinar"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:67
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:85
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:81
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:99
 msgid "Delete this Webinar"
 msgstr "Dieses Webinar löschen"
 
-#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:70
+#: includes/integrations/zoom/templates/buddypress/zoom/single-webinar-item.php:84
 msgid "Delete Webinar"
 msgstr "Webinar löschen"
 
@@ -5591,6 +5600,833 @@ msgid ""
 msgstr ""
 "Dies ist Ihre Konto-E-Mail, die Sie zum Anmelden bei Ihrem BuddyBoss.com-"
 "Konto verwenden."
+
+#: includes/polls/bb-polls-actions.php:32
+msgid "Add Poll"
+msgstr "Umfrage hinzufügen"
+
+#: includes/polls/bb-polls-actions.php:78
+msgid "You must be logged in to create a poll."
+msgstr "Sie müssen angemeldet sein, um eine Umfrage erstellen zu können."
+
+#: includes/polls/bb-polls-actions.php:94
+msgid "You do not have permission to create polls."
+msgstr "Sie haben keine Berechtigung zum Erstellen von Umfragen."
+
+#: includes/polls/bb-polls-actions.php:102
+msgid "Poll question is required."
+msgstr "Eine Frage zur Umfrage ist erforderlich."
+
+#: includes/polls/bb-polls-actions.php:124
+#: includes/polls/bb-polls-actions.php:676
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:181
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:542
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:352
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:607
+msgid "Poll option must be between 1 and 50 characters long."
+msgstr "Die Option für die Umfrage muss zwischen 1 und 50 Zeichen lang sein."
+
+#: includes/polls/bb-polls-actions.php:131
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:193
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:554
+msgid "Poll options are required."
+msgstr "Umfrageoptionen sind erforderlich."
+
+#: includes/polls/bb-polls-actions.php:133
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:201
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:562
+msgid "Poll options must be an array."
+msgstr "Die Optionen für die Umfrage müssen ein Array sein."
+
+#: includes/polls/bb-polls-actions.php:135
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:209
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:570
+msgid "Poll options must be at least 2."
+msgstr "Die Anzahl der Optionen muss mindestens 2 betragen."
+
+#: includes/polls/bb-polls-actions.php:137
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:217
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:578
+msgid "Poll options must be at most 10."
+msgstr "Die Anzahl der Antwortmöglichkeiten darf höchstens 10 betragen."
+
+#: includes/polls/bb-polls-actions.php:139
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:225
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:586
+msgid "Poll options must be unique."
+msgstr "Die Optionen für die Umfrage müssen eindeutig sein."
+
+#: includes/polls/bb-polls-actions.php:146
+msgid "Invalid poll duration."
+msgstr "Ungültige Umfragedauer."
+
+#: includes/polls/bb-polls-actions.php:243
+msgid "Error creating poll."
+msgstr "Fehler beim Erstellen der Umfrage."
+
+#: includes/polls/bb-polls-actions.php:463
+#: includes/polls/bb-polls-filters.php:70
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:65
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:74
+msgid "Added by you"
+msgstr "Von Ihnen hinzugefügt"
+
+#. translators: %s: User link
+#: includes/polls/bb-polls-actions.php:472
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:71
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:82
+#, php-format
+msgid "Added by %s"
+msgstr "Von %s hinzugefügt"
+
+#: includes/polls/bb-polls-actions.php:512
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:109
+msgid "Remove Option"
+msgstr "Option entfernen"
+
+#: includes/polls/bb-polls-actions.php:534
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:130
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:75
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:104
+msgid "Add Option"
+msgstr "Option hinzufügen"
+
+#: includes/polls/bb-polls-actions.php:537
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:133
+msgid "Submit option"
+msgstr "Senden-Option"
+
+#: includes/polls/bb-polls-actions.php:540
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:367
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:635
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:136
+msgid "This is already an option"
+msgstr "Dies ist bereits eine Option"
+
+#: includes/polls/bb-polls-actions.php:548
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:141
+msgid "See All"
+msgstr "Alle anzeigen"
+
+#: includes/polls/bb-polls-actions.php:549
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:142
+msgid "See Less"
+msgstr "Weniger anzeigen"
+
+#. translators: %s: Total votes
+#. translators: %d: Total votes
+#: includes/polls/bb-polls-actions.php:559
+#: includes/polls/bb-polls-actions.php:984
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:151
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:114
+#, php-format
+msgid "%s vote"
+msgid_plural "%s votes"
+msgstr[0] "%s Bewertung"
+msgstr[1] ""
+
+#. translators: %d: Total votes
+#: includes/polls/bb-polls-actions.php:559
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:156
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:119
+#, php-format
+msgid "%s votes"
+msgstr "%s Bewertungen"
+
+#: includes/polls/bb-polls-actions.php:565
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:162
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:125
+msgid "Poll Closed"
+msgstr "Umfrage beendet"
+
+#. translators: Days left
+#: includes/polls/bb-polls-actions.php:579
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:173
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:136
+#, php-format
+msgid "%sd left"
+msgstr "%sd übrig"
+
+#. translators: Hours, minutes left
+#. translators: Days left
+#: includes/polls/bb-polls-actions.php:582
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:178
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:141
+#, php-format
+msgid "%sd %sh %sm left"
+msgstr "%sd %sh %sm übrig"
+
+#. translators: Hours, minutes left
+#: includes/polls/bb-polls-actions.php:586
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:183
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:146
+#, php-format
+msgid "%sh %sm left"
+msgstr "%sh %sm übrig"
+
+#. translators: Minutes, seconds left
+#: includes/polls/bb-polls-actions.php:589
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:188
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:151
+#, php-format
+msgid "%sm left"
+msgstr "%sm übrig"
+
+#. translators: Seconds left
+#: includes/polls/bb-polls-actions.php:592
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-entry.php:193
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:156
+#, php-format
+msgid "%ss left"
+msgstr "%ss übrig"
+
+#: includes/polls/bb-polls-actions.php:647
+msgid "You must be logged in to create a option."
+msgstr "Sie müssen angemeldet sein, um eine Option erstellen zu können."
+
+#: includes/polls/bb-polls-actions.php:652
+msgid "You can not add new option to this activity."
+msgstr "Sie können dieser Aktivität keine neue Option hinzufügen."
+
+#: includes/polls/bb-polls-actions.php:662
+msgid "You do not have permission to create option."
+msgstr "Sie verfügen nicht über die Berechtigung zum Erstellen der Option."
+
+#: includes/polls/bb-polls-actions.php:667
+msgid "You can not add new option to this poll."
+msgstr "Sie können dieser Umfrage keine neue Option hinzufügen."
+
+#: includes/polls/bb-polls-actions.php:672
+msgid "Poll option is required."
+msgstr "Die Umfrageoption ist erforderlich."
+
+#: includes/polls/bb-polls-actions.php:686
+msgid "The new option exceeds the allowed limit of 10 options."
+msgstr "Die neue Option überschreitet die zulässige Grenze von 10 Optionen."
+
+#: includes/polls/bb-polls-actions.php:702
+#: includes/polls/bb-polls-actions.php:891
+msgid "Error while saving option data."
+msgstr "Fehler beim Speichern von Optionsdaten."
+
+#: includes/polls/bb-polls-actions.php:750
+msgid "You must be logged in to delete a option."
+msgstr "Sie müssen angemeldet sein, um eine Option zu löschen."
+
+#: includes/polls/bb-polls-actions.php:755
+msgid "Activity ID is required to remove this poll option."
+msgstr ""
+"Die Aktivitäts-ID ist erforderlich, um diese Umfrageoption zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:760
+msgid "Poll ID is required to remove this poll option."
+msgstr "Die Umfrage-ID ist erforderlich, um diese Abfrageoption zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:765
+#: includes/polls/bb-polls-actions.php:869
+#: includes/polls/bb-polls-actions.php:1052
+msgid "Poll not found."
+msgstr "Umfrage nicht gefunden."
+
+#: includes/polls/bb-polls-actions.php:771
+msgid "You do not have permission to remove option."
+msgstr "Sie haben keine Berechtigung, die Option zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:776
+msgid "Option ID is required to remove this poll option."
+msgstr "Die Options-ID ist erforderlich, um diese Abfrageoption zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:785
+msgid "Poll options empty."
+msgstr "Umfrageoptionen leer."
+
+#: includes/polls/bb-polls-actions.php:831
+msgid "Option not exists in the poll"
+msgstr "Option in der Umfrage nicht vorhanden"
+
+#: includes/polls/bb-polls-actions.php:854
+msgid "You must be logged in to vote."
+msgstr "Sie müssen angemeldet sein, um abstimmen zu können."
+
+#: includes/polls/bb-polls-actions.php:859
+msgid "Activity ID is required to vote this poll."
+msgstr ""
+"Die Aktivitäts-ID ist erforderlich, um an dieser Umfrage teilnehmen zu "
+"können."
+
+#: includes/polls/bb-polls-actions.php:864
+msgid "Poll ID is required to vote this poll."
+msgstr ""
+"Die Umfrage-ID ist erforderlich, um an dieser Umfrage teilnehmen zu können."
+
+#: includes/polls/bb-polls-actions.php:875
+msgid "You do not have permission to add vote."
+msgstr "Sie haben keine Berechtigung, eine Stimme hinzuzufügen."
+
+#: includes/polls/bb-polls-actions.php:880
+msgid "Option ID is required to vote this poll."
+msgstr ""
+"Die Options-ID ist erforderlich, um an dieser Umfrage teilnehmen zu können."
+
+#: includes/polls/bb-polls-actions.php:937
+msgid "You must be logged in to see vote state."
+msgstr "Sie müssen angemeldet sein, um den Abstimmungsstatus zu sehen."
+
+#: includes/polls/bb-polls-actions.php:942
+msgid "Activity ID is required to see vote state."
+msgstr ""
+"Die Aktivitäts-ID ist erforderlich, um den Abstimmungsstatus anzuzeigen."
+
+#: includes/polls/bb-polls-actions.php:947
+msgid "Poll ID is required to see vote state."
+msgstr "Die Umfrage-ID ist erforderlich, um den Abstimmungsstatus anzuzeigen."
+
+#: includes/polls/bb-polls-actions.php:952
+msgid "Option ID is required to see vote state."
+msgstr "Die Options-ID ist erforderlich, um den Abstimmungsstatus anzuzeigen."
+
+#. translators: %1$s: Total votes, %2$s: Percentage
+#: includes/polls/bb-polls-actions.php:982
+#, php-format
+msgid "%1$s (%2$s%%)"
+msgstr "%1$s (%2$s%%)"
+
+#: includes/polls/bb-polls-actions.php:1042
+msgid "You must be logged in to delete a poll."
+msgstr "Sie müssen angemeldet sein, um eine Umfrage zu löschen."
+
+#: includes/polls/bb-polls-actions.php:1047
+msgid "Poll ID is required to remove this poll."
+msgstr "Die Umfrage-ID ist erforderlich, um diese Umfrage zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:1057
+msgid "You do not have permission to remove vote."
+msgstr "Sie haben keine Berechtigung, die Stimme zu entfernen."
+
+#: includes/polls/bb-polls-actions.php:1065
+msgid "Incorrect Poll ID."
+msgstr "Falsche Umfrage-ID."
+
+#: includes/polls/bb-polls-actions.php:1076
+msgid "Error while deleting poll."
+msgstr "Fehler beim Löschen der Umfrage."
+
+#: includes/polls/bb-polls-filters.php:69
+msgid "Are you sure you would like to delete this poll?"
+msgstr "Sind Sie sicher, dass Sie diese Umfrage löschen möchten?"
+
+#: includes/polls/bb-polls-filters.php:72
+msgid "Any options you have chosen will be removed"
+msgstr "Alle von Ihnen ausgewählten Optionen werden entfernt."
+
+#: includes/polls/includes/class-bb-polls.php:668
+msgid "The question is required to add poll."
+msgstr "Die Frage ist erforderlich, um eine Umfrage hinzuzufügen."
+
+#: includes/polls/includes/class-bb-polls.php:690
+msgid "The item type is invalid."
+msgstr "Der Elementtyp ist ungültig."
+
+#: includes/polls/includes/class-bb-polls.php:771
+msgid "There is an error while adding the poll."
+msgstr "Beim Hinzufügen der Umfrage ist ein Fehler aufgetreten."
+
+#: includes/polls/includes/class-bb-polls.php:892
+msgid "The Poll ID is required to get poll option."
+msgstr "Die Umfrage-ID ist erforderlich, um die Umfrageoption zu erhalten."
+
+#: includes/polls/includes/class-bb-polls.php:1102
+msgid "The Poll id is required to update poll option."
+msgstr ""
+"Die Umfrage-ID ist erforderlich, um die Umfrageoption zu aktualisieren."
+
+#: includes/polls/includes/class-bb-polls.php:1113
+msgid "The Option title is required to update poll option."
+msgstr ""
+"Der Titel der Option ist erforderlich, um die Umfrageoption zu aktualisieren."
+
+#: includes/polls/includes/class-bb-polls.php:1124
+#: includes/polls/includes/class-bb-polls.php:1654
+msgid "Invalid User ID."
+msgstr "Ungültige Benutzer-ID."
+
+#: includes/polls/includes/class-bb-polls.php:1225
+msgid "There is an error while adding the poll options."
+msgstr "Beim Hinzufügen der Umfrageoptionen ist ein Fehler aufgetreten."
+
+#: includes/polls/includes/class-bb-polls.php:1318
+#: includes/polls/includes/class-bb-polls.php:1823
+msgid "Invalid request."
+msgstr "Ungültige Anfrage."
+
+#: includes/polls/includes/class-bb-polls.php:1343
+msgid "Unable to removing the poll options."
+msgstr "Die Umfrageoptionen können nicht entfernt werden."
+
+#: includes/polls/includes/class-bb-polls.php:1425
+msgid "The Poll ID is required to get poll vote."
+msgstr "Die Umfrage-ID ist erforderlich, um Umfragestimmen zu erhalten."
+
+#: includes/polls/includes/class-bb-polls.php:1439
+msgid "The Option ID is required to get poll vote."
+msgstr "Die Options-ID ist erforderlich, um Umfragestimmen zu erhalten."
+
+#: includes/polls/includes/class-bb-polls.php:1632
+msgid "The Poll ID is required to update poll vote."
+msgstr ""
+"Die Umfrage-ID ist erforderlich, um die Umfrageabstimmung zu aktualisieren."
+
+#: includes/polls/includes/class-bb-polls.php:1643
+msgid "The Option ID is required to update poll vote."
+msgstr ""
+"Die Options-ID ist erforderlich, um die Umfrageabstimmung zu aktualisieren."
+
+#: includes/polls/includes/class-bb-polls.php:1723
+msgid "There is an error while adding the poll votes."
+msgstr "Beim Hinzufügen der Umfragestimmen ist ein Fehler aufgetreten."
+
+#: includes/polls/includes/class-bb-polls.php:1849
+msgid "Unable to removing the poll votes."
+msgstr "Die Umfragestimmen können nicht entfernt werden."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:76
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1142
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:70
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:70
+msgid "A unique numeric ID for the Poll."
+msgstr "Eine eindeutige numerische ID für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:140
+msgid "Please do not leave the question blank."
+msgstr "Bitte lassen Sie die Frage nicht leer."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:247
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:598
+msgid "Could not update the poll."
+msgstr "Die Umfrage konnte nicht aktualisiert werden."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:320
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:341
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:358
+msgid "Sorry, you are not allowed to create a poll."
+msgstr "Leider dürfen Sie keine Umfrage erstellen."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:443
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:482
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:705
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:837
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:191
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:457
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:754
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:168
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:299
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:450
+msgid "Invalid poll ID."
+msgstr "Ungültige Umfrage-ID."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:692
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:564
+msgid "Sorry, you need to be logged in to update this poll."
+msgstr ""
+"Entschuldigung, Sie müssen angemeldet sein, um diese Umfrage zu "
+"aktualisieren."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:713
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:599
+msgid ""
+"You are not authorized to update this poll option. Only the poll creator can "
+"update it."
+msgstr ""
+"Sie sind nicht berechtigt, diese Umfrageoption zu aktualisieren. Nur der "
+"Ersteller der Umfrage kann sie aktualisieren."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:722
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:854
+msgid ""
+"Activity post polls are not enabled. Please enable them to update this poll."
+msgstr ""
+"Aktivitätspost-Umfragen sind nicht aktiviert. Bitte aktivieren Sie sie, um "
+"diese Umfrage zu aktualisieren."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:735
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:867
+msgid "You must be an admin or a moderator of the group to update this poll."
+msgstr ""
+"Sie müssen Administrator oder Moderator der Gruppe sein, um diese Umfrage zu "
+"aktualisieren."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:782
+msgid "Could not delete the poll."
+msgstr "Die Umfrage konnte nicht gelöscht werden."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:824
+msgid "Sorry, you need to be logged in to delete this poll."
+msgstr ""
+"Entschuldigung, Sie müssen angemeldet sein, um diese Umfrage löschen zu "
+"können."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:845
+msgid ""
+"You are not authorized to delete this poll. Only the poll creator can delete "
+"it."
+msgstr ""
+"Sie sind nicht berechtigt, diese Umfrage zu löschen. Nur der Ersteller der "
+"Umfrage kann sie löschen."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1066
+msgid "Question."
+msgstr "Frage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1073
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1185
+msgid "Allow multiple selections."
+msgstr "Mehrfachauswahl zulassen."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1080
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1190
+msgid "Allow users to add options."
+msgstr "Erlauben Sie Benutzern, Optionen hinzuzufügen."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1087
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1195
+msgid "Duration of the poll."
+msgstr "Dauer der Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1096
+msgid "Poll options."
+msgstr "Umfrage-Optionen."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1108
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:998
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:679
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:719
+msgid "A unique numeric ID for the poll."
+msgstr "Eine eindeutige numerische ID für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1147
+msgid "Item ID."
+msgstr "Element-ID."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1153
+msgid "Item Type."
+msgstr "Elementtyp."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1158
+msgid "Secondary Item ID."
+msgstr "Sekundäre Element-ID"
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1163
+msgid "User ID who created poll."
+msgstr "Benutzer-ID, der die Umfrage erstellt hat."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1168
+msgid "The question for the poll."
+msgstr "Die Frage für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1174
+msgid "Settings for the poll."
+msgstr "Einstellungen für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1202
+msgid "The options for the poll."
+msgstr "Die Optionen für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1211
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1070
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:786
+msgid "The date the option was recorded."
+msgstr "Das Datum, an dem die Option aufgezeichnet wurde."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1218
+msgid "The date the option was updated."
+msgstr "Das Datum, an dem die Option aktualisiert wurde."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1225
+msgid "Vote disabled date for poll."
+msgstr "Datum für Umfrage deaktiviert."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1232
+msgid "The status of the poll."
+msgstr "Der Status der Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1239
+msgid "Total votes for poll."
+msgstr "Gesamtzahl der Stimmen für die Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1246
+msgid "Current user's permission with the media."
+msgstr "Aktuelle Berechtigung des Benutzers mit Medien."
+
+#: includes/polls/includes/class-bb-rest-poll-endpoint.php:1309
+msgid "Activity poll id."
+msgstr "ID der Aktivitätsumfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:74
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:75
+msgid "A unique numeric ID for the Poll option."
+msgstr "Eine eindeutige numerische ID für die Option „Umfrage“."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:131
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:304
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:583
+msgid "Invalid poll."
+msgstr "Ungültige Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:235
+msgid "Invalid poll option title."
+msgstr "Titel einer ungültigen Umfrageoption."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:290
+msgid "Sorry, you are not allowed to create an option."
+msgstr "Leider dürfen Sie keine Option erstellen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:314
+msgid "Adding new options is not allowed for this poll."
+msgstr "Das Hinzufügen neuer Optionen ist für diese Umfrage nicht zulässig."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:323
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:591
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:774
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:319
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:469
+msgid "Activity post polls are not enabled."
+msgstr "Umfragen nach Aktivitäten sind nicht aktiviert."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:341
+msgid ""
+"You must be an admin, moderator, or member of the group to add new options."
+msgstr ""
+"Sie müssen Administrator, Moderator oder Mitglied der Gruppe sein, um neue "
+"Optionen hinzuzufügen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:467
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:619
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:766
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:183
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:484
+msgid "Invalid poll option ID."
+msgstr "Ungültige ID der Abfrageoption."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:524
+msgid "Could not update the poll option."
+msgstr "Die Umfrageoption konnte nicht aktualisiert werden."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:627
+msgid "You can not update this poll option."
+msgstr "Sie können diese Umfrageoption nicht aktualisieren."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:643
+msgid "You cannot update this poll option because it has votes."
+msgstr ""
+"Sie können diese Umfrageoption nicht aktualisieren, da sie bereits Stimmen "
+"erhalten hat."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:699
+msgid "Could not delete the poll option."
+msgstr "Die Umfrageoption konnte nicht gelöscht werden."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:741
+msgid "Sorry, you need to be logged in to delete this poll option."
+msgstr ""
+"Entschuldigung, Sie müssen angemeldet sein, um diese Umfrageoption zu "
+"löschen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:785
+msgid ""
+"You are not authorized to delete this poll option. Only the option creator "
+"can delete it."
+msgstr ""
+"Sie sind nicht berechtigt, diese Umfrageoption zu löschen. Nur der Ersteller "
+"der Option kann sie löschen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:914
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:925
+msgid "Poll ID."
+msgstr "Umfrage-ID."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:932
+msgid "Option ID."
+msgstr "Options-ID."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1004
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:725
+msgid "Order sort attribute ascending or descending."
+msgstr "Sortiert Attribute aufsteigend oder absteigend."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1013
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:734
+msgid "Order by a specific parameter."
+msgstr "Nach einem bestimmten Parameter sortieren."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1043
+msgid "Unique identifier for the option."
+msgstr "Eindeutige Kennung für die Option."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1049
+msgid "ID of the poll this option belongs to."
+msgstr "ID der Umfrage, zu der diese Option gehört."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1055
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:781
+msgid "ID of the user who created the option."
+msgstr "ID des Benutzers, der die Option erstellt hat."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1060
+msgid "The title of the option."
+msgstr "Der Titel der Option."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1065
+msgid "Order of the option."
+msgstr "Reihenfolge der Optionen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1077
+msgid "The date the option was last updated."
+msgstr "Das Datum, an dem die Option zuletzt aktualisiert wurde."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1084
+msgid "The total votes for poll option."
+msgstr "Die Gesamtzahl der Stimmen für die Umfrageoption."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1091
+msgid "Option user data."
+msgstr "Option Benutzerdaten."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1102
+msgid "Poll option username."
+msgstr "Umfrageoption Benutzername."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1107
+msgid "Poll option user link."
+msgstr "Link zur Umfrageoption für Benutzer."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1114
+msgid "Whether to check user voted the option or not."
+msgstr ""
+"Ob die Option, für die die Benutzer gestimmt haben, aktiviert werden soll "
+"oder nicht."
+
+#: includes/polls/includes/class-bb-rest-poll-option-endpoint.php:1120
+msgid "User's vote id."
+msgstr "Die Stimmen-ID des Benutzers."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:80
+msgid "A unique numeric ID for the vote."
+msgstr "Eine eindeutige numerische ID für die Abstimmung."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:236
+msgid "Could not add the vote."
+msgstr "Die Stimme konnte nicht hinzugefügt werden."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:281
+msgid "Sorry, you are not allowed to add a poll vote."
+msgstr "Es tut uns leid, aber Sie dürfen keine Umfragestimme hinzufügen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:310
+msgid "Sorry, Poll has been closed. you are not allowed to add vote."
+msgstr ""
+"Leider wurde die Umfrage geschlossen. Sie dürfen keine Stimme hinzufügen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:337
+msgid "Sorry, you are not allowed to add vote."
+msgstr "Entschuldigung, Sie dürfen keine Stimme hinzufügen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:395
+msgid "Could not delete the poll option vote."
+msgstr "Die Option „Abstimmung“ konnte nicht gelöscht werden."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:437
+msgid "Sorry, you need to be logged in to delete this vote."
+msgstr ""
+"Entschuldigung, Sie müssen angemeldet sein, um diese Stimme löschen zu "
+"können."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:461
+msgid "Sorry, Poll has been closed. you are not allowed to delete this vote."
+msgstr ""
+"Entschuldigung, die Umfrage wurde geschlossen. Sie dürfen diese Stimme nicht "
+"löschen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:495
+msgid "Invalid poll option vote ID."
+msgstr "Ungültige Abstimmungsoption für die Abstimmungs-ID."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:503
+msgid "Sorry, you are not allowed to delete this vote."
+msgstr "Entschuldigung, Sie dürfen diese Stimme nicht löschen."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:686
+msgid "ID of the user who created the vote."
+msgstr "ID des Benutzers, der die Abstimmung erstellt hat."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:764
+msgid "Unique identifier for the option vote."
+msgstr "Eindeutige Kennung für die Option „Abstimmung“."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:770
+msgid "ID of the poll."
+msgstr "ID der Umfrage."
+
+#: includes/polls/includes/class-bb-rest-poll-option-vote-endpoint.php:776
+msgid "ID of the poll option."
+msgstr "ID der Umfrageoption."
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:26
+msgid "Edit poll"
+msgstr "Umfrage bearbeiten"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:28
+msgid "Add poll"
+msgstr "Umfrage hinzufügen"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:41
+msgid "Ask a Question"
+msgstr "Stellen Sie eine Frage"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:43
+msgid "Enter your question..."
+msgstr "Geben Sie Ihre Frage ein..."
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:60
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:66
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:69
+msgid "Option"
+msgstr "Option"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:85
+msgid "Allow to choose multiple answers"
+msgstr "Ermöglicht die Auswahl mehrerer Antworten"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:96
+msgid "Allow to add new options"
+msgstr "Neue Optionen hinzufügen erlauben"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:101
+msgid "Poll Duration"
+msgstr "Dauer der Umfrage"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:104
+msgid "1 Day"
+msgstr "1 Tag"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:116
+msgid "3 Days"
+msgstr "3 Tage"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:117
+msgid "1 Week"
+msgstr "1 Woche"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-form.php:118
+msgid "2 Weeks"
+msgstr "2 Wochen"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:40
+msgid "Edit Poll"
+msgstr "Umfrage bearbeiten"
+
+#: includes/polls/templates/buddypress/common/js-templates/activity/parts/bb-activity-poll-view.php:45
+msgid "Delete Poll"
+msgstr "Umfrage löschen"
 
 #: includes/reactions/assets/icons/bb-icons/font-map.php:3
 msgctxt "BuddyBoss Pro"
@@ -7699,6 +8535,11 @@ msgstr "Suche Plus"
 
 #: includes/reactions/assets/icons/bb-icons/font-map.php:3
 msgctxt "BuddyBoss Pro"
+msgid "Search Times"
+msgstr "Zeiten suchen"
+
+#: includes/reactions/assets/icons/bb-icons/font-map.php:3
+msgctxt "BuddyBoss Pro"
 msgid "Server"
 msgstr "Server"
 
@@ -8435,8 +9276,7 @@ msgid "Notice"
 msgstr "Hinweis"
 
 #: includes/reactions/bb-reactions-filters.php:58
-#: includes/reactions/bb-reactions-functions.php:239
-#: includes/reactions/bb-reactions-functions.php:472
+#: includes/reactions/bb-reactions-functions.php:471
 msgid "Emotions"
 msgstr "Emotionen"
 
@@ -8515,28 +9355,32 @@ msgstr ""
 msgid "Do later"
 msgstr "Später erledigen"
 
-#: includes/reactions/bb-reactions-functions.php:243
+#: includes/reactions/bb-reactions-functions.php:238
+msgid "Emojis"
+msgstr "Emojis"
+
+#: includes/reactions/bb-reactions-functions.php:242
 #: includes/reactions/templates/admin/emotion-picker/render-emotion-icons.php:26
 msgid "Icons"
 msgstr "Symbole"
 
-#: includes/reactions/bb-reactions-functions.php:392
+#: includes/reactions/bb-reactions-functions.php:391
 msgid "You have no reactions to convert"
 msgstr "Sie haben keine Reaktionen zu konvertieren"
 
-#: includes/reactions/bb-reactions-functions.php:398
+#: includes/reactions/bb-reactions-functions.php:397
 msgid "Unable to find any existing reactions to convert to an Emotion."
 msgstr ""
 "Es konnten keine vorhandenen Reaktionen gefunden werden, die in eine Emotion "
 "umgewandelt werden können."
 
-#: includes/reactions/bb-reactions-functions.php:403
+#: includes/reactions/bb-reactions-functions.php:402
 msgid "Unable to find any existing reactions to convert to Likes."
 msgstr ""
 "Sie können keine vorhandenen Reaktionen finden, die Sie in Likes umwandeln "
 "können."
 
-#: includes/reactions/bb-reactions-functions.php:454
+#: includes/reactions/bb-reactions-functions.php:453
 msgid ""
 "This action will convert reactions previously submitted by members on your "
 "site to an Emotion of your choice. Reactions not selected can be converted "
@@ -8547,39 +9391,39 @@ msgstr ""
 "Reaktionen können jederzeit mit diesem Migrationsassistenten umgewandelt "
 "werden."
 
-#: includes/reactions/bb-reactions-functions.php:455
+#: includes/reactions/bb-reactions-functions.php:454
 msgid "Which reactions do you want to convert?"
 msgstr "Welche Reaktionen möchten Sie umwandeln?"
 
-#: includes/reactions/bb-reactions-functions.php:463
-#: includes/reactions/bb-reactions-functions.php:640
-#: includes/reactions/bb-reactions-functions.php:666
-#: includes/reactions/bb-reactions-functions.php:700
-#: includes/reactions/includes/class-bb-reactions.php:352
-#: includes/reactions/includes/class-bb-reactions.php:354
+#: includes/reactions/bb-reactions-functions.php:462
+#: includes/reactions/bb-reactions-functions.php:639
+#: includes/reactions/bb-reactions-functions.php:665
+#: includes/reactions/bb-reactions-functions.php:699
+#: includes/reactions/includes/class-bb-reactions.php:353
+#: includes/reactions/includes/class-bb-reactions.php:355
 msgid "Likes"
 msgstr "Gefällt-mir-Klicks"
 
-#: includes/reactions/bb-reactions-functions.php:492
+#: includes/reactions/bb-reactions-functions.php:491
 msgid "Which Emotion would you like to convert your reactions to?"
 msgstr "In welche Emotion möchten Sie Ihre Reaktionen umwandeln?"
 
 #. translators: 1: Emotion name with count, 2: Convert to emotion name.
-#: includes/reactions/bb-reactions-functions.php:514
-#: includes/reactions/bb-reactions-functions.php:696
+#: includes/reactions/bb-reactions-functions.php:513
+#: includes/reactions/bb-reactions-functions.php:695
 #, php-format
 msgid "You are about to convert %1$s to the %2$s Emotion"
 msgstr "Sie sind im Begriff, %1$s in die Emotion %2$s zu konvertieren"
 
-#: includes/reactions/bb-reactions-functions.php:517
-#: includes/reactions/bb-reactions-functions.php:573
-#: includes/reactions/bb-reactions-functions.php:636
-#: includes/reactions/includes/class-bb-reactions.php:351
+#: includes/reactions/bb-reactions-functions.php:516
+#: includes/reactions/bb-reactions-functions.php:572
+#: includes/reactions/bb-reactions-functions.php:635
+#: includes/reactions/includes/class-bb-reactions.php:352
 msgid "reactions"
 msgstr "Reaktionen"
 
-#: includes/reactions/bb-reactions-functions.php:524
-#: includes/reactions/bb-reactions-functions.php:707
+#: includes/reactions/bb-reactions-functions.php:523
+#: includes/reactions/bb-reactions-functions.php:706
 msgid ""
 "The new reactions will be immediately visible on your site after being "
 "converted"
@@ -8587,35 +9431,37 @@ msgstr ""
 "Die neuen Reaktionen werden sofort nach der Konvertierung auf Ihrer Website "
 "sichtbar sein"
 
-#: includes/reactions/bb-reactions-functions.php:525
-#: includes/reactions/bb-reactions-functions.php:581
-#: includes/reactions/bb-reactions-functions.php:647
-#: includes/reactions/bb-reactions-functions.php:708
+#: includes/reactions/bb-reactions-functions.php:524
+#: includes/reactions/bb-reactions-functions.php:580
+#: includes/reactions/bb-reactions-functions.php:646
+#: includes/reactions/bb-reactions-functions.php:707
 msgid ""
 "Depending on the amount of data to convert, the migration may take a while"
 msgstr ""
 "Je nach der Menge der zu konvertierenden Daten kann die Migration eine Weile "
 "dauern"
 
-#: includes/reactions/bb-reactions-functions.php:526
-#: includes/reactions/bb-reactions-functions.php:582
-#: includes/reactions/bb-reactions-functions.php:648
-#: includes/reactions/bb-reactions-functions.php:709
+#: includes/reactions/bb-reactions-functions.php:525
+#: includes/reactions/bb-reactions-functions.php:581
+#: includes/reactions/bb-reactions-functions.php:647
+#: includes/reactions/bb-reactions-functions.php:708
 msgid ""
 "You will be unable to edit reactions while the conversion is in progress"
 msgstr ""
 "Solange die Konvertierung läuft, können Sie keine Reaktionen bearbeiten."
 
-#: includes/reactions/bb-reactions-functions.php:527
+#: includes/reactions/bb-reactions-functions.php:526
 msgid ""
 "This action cannot be undone, but you can convert reactions to another "
 "reaction in the future"
 msgstr ""
+"Diese Aktion kann nicht rückgängig gemacht werden, aber Sie können in "
+"Zukunft Reaktionen in eine andere Reaktion umwandeln."
 
-#: includes/reactions/bb-reactions-functions.php:528
-#: includes/reactions/bb-reactions-functions.php:584
-#: includes/reactions/bb-reactions-functions.php:650
-#: includes/reactions/bb-reactions-functions.php:711
+#: includes/reactions/bb-reactions-functions.php:527
+#: includes/reactions/bb-reactions-functions.php:583
+#: includes/reactions/bb-reactions-functions.php:649
+#: includes/reactions/bb-reactions-functions.php:710
 msgid ""
 "We recommend backing up your site before migrating and performing this "
 "action during an off-peak period"
@@ -8623,14 +9469,14 @@ msgstr ""
 "Wir empfehlen, vor der Migration eine Sicherungskopie Ihrer Website zu "
 "erstellen und diese Aktion in einer verkehrsarmen Zeit durchzuführen."
 
-#: includes/reactions/bb-reactions-functions.php:530
-#: includes/reactions/bb-reactions-functions.php:586
-#: includes/reactions/bb-reactions-functions.php:652
-#: includes/reactions/bb-reactions-functions.php:713
+#: includes/reactions/bb-reactions-functions.php:529
+#: includes/reactions/bb-reactions-functions.php:585
+#: includes/reactions/bb-reactions-functions.php:651
+#: includes/reactions/bb-reactions-functions.php:712
 msgid "Do you want to start the conversion now?"
 msgstr "Wollen Sie jetzt mit der Umwandlung beginnen?"
 
-#: includes/reactions/bb-reactions-functions.php:537
+#: includes/reactions/bb-reactions-functions.php:536
 msgid ""
 "This action will convert reactions previously submitted by members on your "
 "site to Likes. Reactions not selected can be converted at any point in the "
@@ -8640,31 +9486,31 @@ msgstr ""
 "abgegeben wurden, in Likes um. Nicht ausgewählte Reaktionen können jederzeit "
 "mit diesem Migrationsassistenten umgewandelt werden."
 
-#: includes/reactions/bb-reactions-functions.php:538
-#: includes/reactions/bb-reactions-functions.php:601
+#: includes/reactions/bb-reactions-functions.php:537
+#: includes/reactions/bb-reactions-functions.php:600
 msgid "Which reactions do you want to convert to Likes?"
 msgstr "Welche Reaktionen möchten Sie in Gefällt-mir-Angaben umwandeln?"
 
-#: includes/reactions/bb-reactions-functions.php:543
-#: includes/reactions/bb-reactions-functions.php:606
+#: includes/reactions/bb-reactions-functions.php:542
+#: includes/reactions/bb-reactions-functions.php:605
 msgid "All emotions"
 msgstr "Alle Emotionen"
 
-#: includes/reactions/bb-reactions-functions.php:570
+#: includes/reactions/bb-reactions-functions.php:569
 #, php-format
 msgid "You are about to convert %1$s to the %2$s Likes"
 msgstr "Sie sind dabei, %1$s in die %2$s Likes umzuwandeln."
 
-#: includes/reactions/bb-reactions-functions.php:580
-#: includes/reactions/bb-reactions-functions.php:646
+#: includes/reactions/bb-reactions-functions.php:579
+#: includes/reactions/bb-reactions-functions.php:645
 msgid ""
 "The new Likes will be immediately visible on your site after being converted"
 msgstr ""
 "Die neuen Gefällt-mir-Angaben sind nach der Konvertierung sofort auf Ihrer "
 "Website sichtbar."
 
-#: includes/reactions/bb-reactions-functions.php:583
-#: includes/reactions/bb-reactions-functions.php:649
+#: includes/reactions/bb-reactions-functions.php:582
+#: includes/reactions/bb-reactions-functions.php:648
 msgid ""
 "This action cannot be undone, but you can convert Likes back to other "
 "reactions in the future"
@@ -8672,7 +9518,7 @@ msgstr ""
 "Diese Aktion kann nicht rückgängig gemacht werden, aber Sie können die "
 "Gefällt-mir-Angaben in der Zukunft wieder in andere Reaktionen umwandeln."
 
-#: includes/reactions/bb-reactions-functions.php:600
+#: includes/reactions/bb-reactions-functions.php:599
 msgid ""
 "This action will convert reactions previously submitted by members on your "
 "site to Likes. Reactions not selected can be converted at any point in the "
@@ -8683,13 +9529,13 @@ msgstr ""
 "können zu einem beliebigen Zeitpunkt in der Zukunft mit dem "
 "Migrationsassistenten umgewandelt werden."
 
-#: includes/reactions/bb-reactions-functions.php:633
+#: includes/reactions/bb-reactions-functions.php:632
 #, php-format
 msgid "You are about to convert %1$s to %2$s"
 msgstr "Sie sind dabei %1$s in %2$s zu konvertieren"
 
 #. translators: Emotion name with count.
-#: includes/reactions/bb-reactions-functions.php:662
+#: includes/reactions/bb-reactions-functions.php:661
 #, php-format
 msgid ""
 "This action will convert the %s previously submitted by members on your site "
@@ -8701,15 +9547,15 @@ msgstr ""
 "einem beliebigen Zeitpunkt in der Zukunft mit diesem Migrationsassistenten "
 "durchführen."
 
-#: includes/reactions/bb-reactions-functions.php:672
+#: includes/reactions/bb-reactions-functions.php:671
 msgid "Which Emotion would you like to convert your Likes to?"
 msgstr "In welche Emotion möchten Sie Ihre Gefällt-mir-Angaben umwandeln?"
 
-#: includes/reactions/bb-reactions-functions.php:674
+#: includes/reactions/bb-reactions-functions.php:673
 msgid "Select an Emotion"
 msgstr "Wählen Sie eine Emotion aus"
 
-#: includes/reactions/bb-reactions-functions.php:710
+#: includes/reactions/bb-reactions-functions.php:709
 msgid ""
 "This action cannot be undone, but you can convert reactions back to to Likes "
 "in the future"
@@ -8732,56 +9578,50 @@ msgstr ""
 "ist."
 
 #: includes/reactions/includes/class-bb-reactions-picker.php:93
-msgid "Sorry - you're not allowed to upload icon less than 200KB."
-msgstr ""
-"Es tut uns leid - Sie dürfen kein Symbol hochladen, das kleiner als 200 KB "
-"ist."
-
-#: includes/reactions/includes/class-bb-reactions-picker.php:94
 msgid "No data found."
 msgstr "Keine Daten gefunden."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:95
+#: includes/reactions/includes/class-bb-reactions-picker.php:94
 msgid "Emotion label is required."
 msgstr "Das Emotionslabel ist erforderlich."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:96
+#: includes/reactions/includes/class-bb-reactions-picker.php:95
 msgid "Emotion label characters should be within limit."
 msgstr "Die Zeichen der Emotionsbezeichnung sollten sich in Grenzen halten."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:97
+#: includes/reactions/includes/class-bb-reactions-picker.php:96
 msgid "Error while uploading, please try again."
 msgstr "Fehler beim Hochladen, bitte versuchen Sie es erneut."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:124
+#: includes/reactions/includes/class-bb-reactions-picker.php:123
 msgid "You don't have permission to upload a custom icon"
 msgstr ""
 "Du hast keine Berechtigung zum Hochladen eines benutzerdefinierten Symbols"
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:132
+#: includes/reactions/includes/class-bb-reactions-picker.php:131
 msgid "Icon not found on file object."
 msgstr "Symbol nicht auf Dateiobjekt gefunden."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:139
-#: includes/reactions/includes/class-bb-reactions-picker.php:146
+#: includes/reactions/includes/class-bb-reactions-picker.php:138
+#: includes/reactions/includes/class-bb-reactions-picker.php:145
 msgid "Icon you provided is invalid."
 msgstr "Das von dir angegebene Symbol ist ungültig."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:153
+#: includes/reactions/includes/class-bb-reactions-picker.php:152
 msgid "Please provide an icon with correct size."
 msgstr "Bitte stelle ein Symbol in der richtigen Größe bereit."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:189
+#: includes/reactions/includes/class-bb-reactions-picker.php:188
 msgid "You don't have permission to delete a custom icon"
 msgstr ""
 "Du hast nicht die Berechtigung, ein benutzerdefiniertes Symbol zu löschen"
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:197
-#: includes/reactions/includes/class-bb-reactions-picker.php:204
+#: includes/reactions/includes/class-bb-reactions-picker.php:196
+#: includes/reactions/includes/class-bb-reactions-picker.php:203
 msgid "Please choose custom icon to delete."
 msgstr "Bitte wählen Sie zum Löschen ein benutzerdefiniertes Symbol."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:228
+#: includes/reactions/includes/class-bb-reactions-picker.php:227
 msgid ""
 "The icon is already assigned to another emotion. Please update first and "
 "then delete."
@@ -8789,39 +9629,39 @@ msgstr ""
 "Das Symbol ist bereits einer anderen Emotion zugeordnet. Bitte aktualisieren "
 "Sie zuerst und löschen Sie dann."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:233
+#: includes/reactions/includes/class-bb-reactions-picker.php:232
 msgid "Icon deleted."
 msgstr "Icon gelöscht."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:235
+#: includes/reactions/includes/class-bb-reactions-picker.php:234
 msgid "There is no icon for deleting."
 msgstr "Es gibt kein Symbol zum Löschen."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:237
+#: includes/reactions/includes/class-bb-reactions-picker.php:236
 msgid "There was a problem deleting the icon."
 msgstr "Es gab ein Problem beim Löschen des Symbols."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:240
+#: includes/reactions/includes/class-bb-reactions-picker.php:239
 msgid "Security check failed."
 msgstr "Sicherheits-Check ist fehlgeschlagen."
 
-#: includes/reactions/includes/class-bb-reactions-picker.php:363
-#: includes/reactions/includes/class-bb-reactions-picker.php:455
+#: includes/reactions/includes/class-bb-reactions-picker.php:362
+#: includes/reactions/includes/class-bb-reactions-picker.php:454
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
 #: includes/reactions/includes/class-bb-reactions.php:98
-#: includes/reactions/includes/class-bb-reactions.php:405
+#: includes/reactions/includes/class-bb-reactions.php:406
 msgid "Migration wizard"
 msgstr "Migrations-Assistent"
 
 #. translators: Emotion names with comma separator.
-#: includes/reactions/includes/class-bb-reactions.php:279
+#: includes/reactions/includes/class-bb-reactions.php:280
 #, php-format
 msgid "The %s Emotion was successfully deleted."
 msgstr "Die %s Emotion wurde erfolgreich gelöscht."
 
-#: includes/reactions/includes/class-bb-reactions.php:426
+#: includes/reactions/includes/class-bb-reactions.php:427
 msgid "Delete Emotion"
 msgstr "Emotion löschen"
 
@@ -8938,6 +9778,110 @@ msgstr "Icon auswählen"
 msgid "No, matching results found, Try again"
 msgstr "Keine passenden Ergebnisse gefunden. Versuchen Sie es erneut."
 
+#: includes/schedule-posts/bb-schedule-posts-filters.php:85
+msgid "Schedule"
+msgstr "Zeitplan"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:86
+msgid "Are you sure you want to delete that permanently?"
+msgstr "Sind Sie sicher, dass Sie das dauerhaft löschen wollen?"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:87
+msgid "Schedule Outdated"
+msgstr "Zeitplan veraltet"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:88
+msgid "Scheduled Post Deleted"
+msgstr "Geplanter Beitrag gelöscht"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:89
+msgid "Your scheduled post has been deleted."
+msgstr "Ihr geplanter Beitrag wurde gelöscht."
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:90
+msgid "Successfully Scheduled Post"
+msgstr "Erfolgreich geplanter Beitrag"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:91
+msgid "Your post has been scheduled."
+msgstr "Ihr Beitrag wurde geplant."
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:92
+msgid "Successfully Updated Post"
+msgstr "Erfolgreich aktualisierter Beitrag"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:93
+msgid "Your post schedule has been updated."
+msgstr "Ihr Zeitplan für den Beitrag wurde aktualisiert."
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:94
+msgid "View now"
+msgstr "Jetzt ansehen"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:95
+msgid "View all posts"
+msgstr "Alle Beiträge ansehen"
+
+#: includes/schedule-posts/bb-schedule-posts-filters.php:97
+msgid ""
+"Unable to schedule post as you are not the owner or moderator of this group"
+msgstr ""
+"Beitrag kann nicht geplant werden, da Sie nicht der Eigentümer oder "
+"Moderator dieser Gruppe sind"
+
+#: includes/schedule-posts/templates/buddypress/activity-schedule/entry.php:83
+msgid "Schedule for:"
+msgstr "Zeitplan für:"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-details.php:19
+msgid "Posting:"
+msgstr "Beitrag:"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-details.php:19
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:56
+msgid "at"
+msgstr "um"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:27
+msgid "Schedule Post"
+msgstr "Beitrag planen"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:31
+msgid "View Scheduled Posts"
+msgstr "Geplante Beiträge anzeigen"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:45
+msgid "Schedule post"
+msgstr "Beitrag planen"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:66
+msgid "Time"
+msgstr "Uhrzeit"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:85
+msgid "View all scheduled posts"
+msgstr "Alle geplanten Beiträge anzeigen"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:94
+msgid "Clear Schedule"
+msgstr "Zeitplan löschen"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:98
+msgid "Back"
+msgstr "Zurück"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:117
+msgid "Scheduled posts"
+msgstr "Geplante Beiträge"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:129
+msgid "No Scheduled Posts Found"
+msgstr "Keine geplanten Beiträge gefunden"
+
+#: includes/schedule-posts/templates/buddypress/common/js-templates/activity/parts/bb-activity-schedule-post.php:130
+msgid "You do not have any posts scheduled at the moment."
+msgstr "Sie haben zur Zeit keine Beiträge geplant."
+
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
 msgid "https://buddyboss.com/"
@@ -8950,6 +9894,19 @@ msgstr "Fügt der BuddyBoss-Plattform Premium-Funktionen hinzu."
 #. Author of the plugin/theme
 msgid "BuddyBoss"
 msgstr "BuddyBoss"
+
+#, php-format
+#~ msgid "%1$s scheduled a Zoom meeting in the group %2$s"
+#~ msgstr "%1$s hat eine Zoom-Konferenz in der Gruppe terminiert %2$s"
+
+#, php-format
+#~ msgid "%1$s scheduled a Zoom webinar in the group %2$s"
+#~ msgstr "%1$s hat ein Zoom-Webinar in der Gruppe %2$s geplant"
+
+#~ msgid "Sorry - you're not allowed to upload icon less than 200KB."
+#~ msgstr ""
+#~ "Es tut uns leid - Sie dürfen kein Symbol hochladen, das kleiner als 200 "
+#~ "KB ist."
 
 #~ msgid "Enable Zoom"
 #~ msgstr "Zoom aktivieren"
@@ -9397,9 +10354,6 @@ msgstr "BuddyBoss"
 #~ msgid "There was an error when deleting that activity"
 #~ msgstr "Es gab ein Problem beim Löschen der Aktivitätsmeldung"
 
-#~ msgid "Activity post saved."
-#~ msgstr "Aktivitätsbeitrag gespeichert."
-
 #~ msgid "There was an error saving that post. Please try again."
 #~ msgstr ""
 #~ "Es gab einen Fehler beim Speichern des Beitrags. Bitte versuchen Sie es "
@@ -9407,9 +10361,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "%s | Site-Wide Activity"
 #~ msgstr "%s | Seitenübergreifende Aktivitäten"
-
-#~ msgid "Activity feed for the entire site."
-#~ msgstr "Neuigkeiten über Aktivitäten des gesamten Kommunikationsportals."
 
 #~ msgid "%1$s | %2$s | Activity"
 #~ msgstr "%1$s | %2$s | Aktivität"
@@ -9453,9 +10404,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Ein Fehler trat auf beim Veröffentlichen Ihrer Mitteilung. Bitte "
 #~ "versuchen Sie es erneut."
-
-#~ msgid "Please do not leave the comment area blank."
-#~ msgstr "Bitte lassen Sie den Kommentarbereich nicht leer."
 
 #~ msgid "Reply Posted!"
 #~ msgstr "Antwort veröffentlicht!"
@@ -9522,9 +10470,6 @@ msgstr "BuddyBoss"
 #~ "Sie können die Aktivität auch von dieser Seite aus moderieren, indem Sie "
 #~ "die Status-Box verwenden. Darüber können Sie auch das Datum der Aktivität "
 #~ "ändern."
-
-#~ msgid "Item, Link, Type"
-#~ msgstr "Element, Link, Typ"
 
 #~ msgid ""
 #~ "<strong>Primary Item/Secondary Item</strong> - These identify the object "
@@ -9692,12 +10637,6 @@ msgstr "BuddyBoss"
 #~ msgid "Select activity type"
 #~ msgstr "Wählen Sie einen Aktivitäts-Typ"
 
-#~ msgid "Primary Item ID"
-#~ msgstr "Primäre Item ID"
-
-#~ msgid "Secondary Item ID"
-#~ msgstr "Sekundäre Item ID"
-
 #~ msgid ""
 #~ "These identify the object that created this activity. For example, the "
 #~ "fields could reference a pair of site and comment IDs."
@@ -9751,9 +10690,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "By %1$s on %2$s"
 #~ msgstr "Von %1$s am %2$s"
-
-#~ msgid "View on %s"
-#~ msgstr "Ansehen auf %s"
 
 #~ msgid " Read more"
 #~ msgstr " Weiterlesen"
@@ -10092,9 +11028,6 @@ msgstr "BuddyBoss"
 #~ msgid "Invalid activity ID."
 #~ msgstr "Ungültige Aktivitäts-ID."
 
-#~ msgid "Sorry, Activity component was not enabled."
-#~ msgstr "Tut mir leid, die Aktivitätskomponente war nicht aktiviert."
-
 #~ msgid "The content for the comment."
 #~ msgstr "Der Inhalt für den Kommentar."
 
@@ -10161,9 +11094,6 @@ msgstr "BuddyBoss"
 #~ msgid "Cannot update existing activity."
 #~ msgstr "Bestehende Aktivität kann nicht aktualisiert werden."
 
-#~ msgid "Could not delete the activity."
-#~ msgstr "Die Aktivität konnte nicht gelöscht werden."
-
 #~ msgid "Sorry, you cannot remove the activity from your favorites."
 #~ msgstr ""
 #~ "Sie können die Aktivität leider nicht aus Ihren Favoriten entfernen."
@@ -10171,9 +11101,6 @@ msgstr "BuddyBoss"
 #~ msgid "Sorry, you cannot add the activity to your favorites."
 #~ msgstr ""
 #~ "Sie können die Aktivität leider nicht zu Ihren Favoriten hinzufügen."
-
-#~ msgid "Sorry, you are not allowed to update favorites."
-#~ msgstr "Es ist Ihnen leider nicht erlaubt, Favoriten zu aktualisieren."
 
 #~ msgid "The ID of some other object primarily associated with this one."
 #~ msgstr ""
@@ -10281,9 +11208,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Ensure result set includes specific IDs."
 #~ msgstr "Stellen Sie sicher, dass das Resultset bestimmte IDs enthält."
-
-#~ msgid "Order sort attribute ascending or descending."
-#~ msgstr "Sortiert Attribute aufsteigend oder absteigend."
 
 #~ msgid ""
 #~ "Limit result set to items published after a given ISO8601 compliant date."
@@ -10602,9 +11526,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "The permalink of the blog."
 #~ msgstr "Der Permalink des Blogs."
-
-#~ msgid "The description of the blog."
-#~ msgstr "Die Beschreibung des Blogs."
 
 #~ msgid "The path of the blog."
 #~ msgstr "Der Pfad des Blogs."
@@ -10988,9 +11909,6 @@ msgstr "BuddyBoss"
 #~ msgid "Nothing to import"
 #~ msgstr "Nichts zu importieren"
 
-#~ msgid "Successfully Imported"
-#~ msgstr "Erfolgreich importiert"
-
 #~ msgid "Added successfully"
 #~ msgstr "Erfolgreich hinzugefügt"
 
@@ -11213,11 +12131,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Allow group organizers to upload an avatar"
 #~ msgstr "Erlauben Sie Organisatoren von Gruppen, einen Avatar hochzuladen"
-
-#~ msgid "Allow group organizers to upload cover photos"
-#~ msgstr ""
-#~ "Erlauben Sie den Organisatoren von Gruppen, Titelbilder (Cover-Fotos) "
-#~ "hochzuladen"
 
 #~ msgid "Enable <a href=\"%s\">group types</a> to better organize groups"
 #~ msgstr ""
@@ -12273,9 +13186,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Remove file"
 #~ msgstr "Datei entfernen"
-
-#~ msgid "You cannot upload more than 10 files at a time."
-#~ msgstr "Sie können nicht mehr als 10 Dateien auf einmal hochladen."
 
 #~ msgid "Enter valid email"
 #~ msgstr "Geben Sie eine gültige E-Mail-Adresse ein"
@@ -13416,12 +14326,6 @@ msgstr "BuddyBoss"
 #~ msgid "Name"
 #~ msgstr "Name"
 
-#~ msgid "30 Days"
-#~ msgstr "30 Tage"
-
-#~ msgid "1 Day"
-#~ msgstr "1 Tag"
-
 #~ msgid "1 Hour"
 #~ msgstr "1 Stunde"
 
@@ -13434,9 +14338,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "The group type you provided, %1$s, is not one of %2$s."
 #~ msgstr "Der von Ihnen angegebene Gruppentyp %1$s gehört nicht zu %2$s."
-
-#~ msgid "Options"
-#~ msgstr "Einstellungen"
 
 #~ msgid "%s Directory"
 #~ msgstr "%s Verzeichnis"
@@ -14256,11 +15157,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Das Datum, an dem das Objekt veröffentlicht wurde, befindet sich in der "
 #~ "Zeitzone der Website."
-
-#~ msgid "The date the object was published, as GMT."
-#~ msgstr ""
-#~ "Das Datum, an dem das Objekt veröffentlicht wurde, wurde als GMT "
-#~ "veröffentlicht."
 
 #~ msgid "The url identifier for the course."
 #~ msgstr "Die URL-Kennung für den Kurs."
@@ -15199,9 +16095,6 @@ msgstr "BuddyBoss"
 #~ msgid "The uploaded file exceeds "
 #~ msgstr "Die hochgeladene Datei überschreitet "
 
-#~ msgid "Error while uploading document."
-#~ msgstr "Fehler beim Hochladen des Dokuments."
-
 #~ msgid "Archive"
 #~ msgstr "Archiv"
 
@@ -15301,9 +16194,6 @@ msgstr "BuddyBoss"
 #~ msgid "Sorry, you are not allowed to create a document."
 #~ msgstr "Es ist Ihnen leider nicht erlaubt, ein Dokument zu erstellen."
 
-#~ msgid "Sorry, you are not allowed to create a folder."
-#~ msgstr "Es ist Ihnen leider nicht erlaubt, einen Ordner zu erstellen."
-
 #~ msgid "You don't have a permission to create a document inside this group."
 #~ msgstr ""
 #~ "Sie haben nicht die Berechtigung, ein Dokument innerhalb dieser Gruppe zu "
@@ -15371,9 +16261,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "A unique numeric ID for the parent Folder."
 #~ msgstr "Eine eindeutige numerische ID für den übergeordneten Ordner."
-
-#~ msgid "Order of the item."
-#~ msgstr "Reihenfolge des Artikels."
 
 #~ msgid "The date the document was created, in the site's timezone."
 #~ msgstr ""
@@ -15451,9 +16338,6 @@ msgstr "BuddyBoss"
 #~ msgid "Limit results to a specific user."
 #~ msgstr "Schränkt die Ergebnisse auf einen bestimmten Benutzer ein."
 
-#~ msgid "A unique numeric ID for the Folder."
-#~ msgstr "Eine eindeutige numerische ID für den Ordner."
-
 #~ msgid "A unique numeric ID for the Document's Activity."
 #~ msgstr "Eine eindeutige numerische ID für die Aktivität des Dokuments."
 
@@ -15469,17 +16353,11 @@ msgstr "BuddyBoss"
 #~ "Stellen Sie sicher, dass die Ergebnismenge bestimmte Dokument-IDs "
 #~ "ausschließt."
 
-#~ msgid "Show total count or not."
-#~ msgstr "Gesamtanzahl anzeigen oder nicht."
-
 #~ msgid "Error creating document, please try again."
 #~ msgstr "Fehler beim Erstellen des Dokuments, bitte versuchen Sie es erneut."
 
 #~ msgid "A unique numeric ID for the folder."
 #~ msgstr "Eine eindeutige numerische ID für den Ordner."
-
-#~ msgid "Invalid Folder ID."
-#~ msgstr "Ungültige Ordner-ID."
 
 #~ msgid "Sorry, Restrict access to view this folder."
 #~ msgstr "Es besteht eine Zugangsbeschränkung zum Anzeigen dieses Ordners."
@@ -15498,10 +16376,6 @@ msgstr "BuddyBoss"
 #~ "Das Element konnte nicht verschoben werden, da es sich um einen "
 #~ "übergeordneten Ordner handelt."
 
-#~ msgid "Sorry, you need to be logged in to update this folder."
-#~ msgstr ""
-#~ "Sie müssen angemeldet sein, um diesen Ordner aktualisieren zu können."
-
 #~ msgid "Sorry, you are not allowed to update this folder."
 #~ msgstr ""
 #~ "Es ist Ihnen leider nicht gestattet, diesen Ordner zu aktualisieren."
@@ -15510,14 +16384,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Sie haben nicht die Berechtigung, einen Ordner innerhalb dieser Gruppe zu "
 #~ "bearbeiten."
-
-#~ msgid "Sorry, you are not allowed to delete this folder."
-#~ msgstr "Es ist Ihnen leider nicht gestattet, diesen Ordner zu löschen."
-
-#~ msgid "Sorry, you need to be logged in to delete this folder."
-#~ msgstr ""
-#~ "Leider ist es Ihnen nicht möglich, diesen Ordner zu löschen, da Sie "
-#~ "angemeldet sein müssen."
 
 #~ msgid "Sorry, you are not allowed to view folder tree."
 #~ msgstr "Leider ist es Ihnen nicht erlaubt, den Ordnerbaum anzuzeigen."
@@ -15593,9 +16459,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "All done!"
 #~ msgstr "Alles erledigt!"
-
-#~ msgid "Go Back"
-#~ msgstr "Zurück"
 
 #~ msgid ""
 #~ "You can update your forum through this page. Hit the link below to update."
@@ -16470,9 +17333,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Favorites"
 #~ msgstr "Favoriten"
-
-#~ msgid "Subscriptions"
-#~ msgstr "Abonnements"
 
 #~ msgid "Discussion tags"
 #~ msgstr "Diskussions-Schlagwörter"
@@ -17510,9 +18370,6 @@ msgstr "BuddyBoss"
 #~ msgid "Forums Default"
 #~ msgstr "Forum-Standard"
 
-#~ msgid "Closed"
-#~ msgstr "Geschlossen"
-
 #~ msgid "Closed <span class=\"count\">(%s)</span>"
 #~ msgid_plural "Closed <span class=\"count\">(%s)</span>"
 #~ msgstr[0] "Geschlossen <span class=\"count\">(%s)</span>"
@@ -17601,9 +18458,6 @@ msgstr "BuddyBoss"
 #~ msgid "The ID for the author of the forum."
 #~ msgstr "Die ID für den Autor des Forums."
 
-#~ msgid "ID of the parent forum."
-#~ msgstr "ID des übergeordneten Forums."
-
 #~ msgid "Menu order for the forum."
 #~ msgstr "Menüreihenfolge für das Forum."
 
@@ -17675,9 +18529,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Prüfen Sie, ob der aktuelle Benutzer das Forum abonniert hat oder nicht."
 
-#~ msgid "Current user's permission with the Forum."
-#~ msgstr "Aktuelle Benutzerberechtigung im Forum."
-
 #~ msgid "Whether shows the topics for the current user or not."
 #~ msgstr ""
 #~ "Gibt an, ob die Themen für den aktuellen Benutzer angezeigt werden oder "
@@ -17735,17 +18586,11 @@ msgstr "BuddyBoss"
 #~ msgid "Retrieve subscribed forums by user."
 #~ msgstr "Abonnierte Foren nach Benutzer abrufen."
 
-#~ msgid "A unique numeric ID for the reply."
-#~ msgstr "Eine eindeutige numerische ID für die Antwort."
-
 #~ msgid "Action name to perform on the reply."
 #~ msgstr "Name der Aktion, die auf die Antwort ausgeführt werden soll."
 
 #~ msgid "Value for the action on reply."
 #~ msgstr "Wert für die Aktion bei einer Antwort."
-
-#~ msgid "Options for Move the reply."
-#~ msgstr "Optionen zum Verschieben der Antwort."
 
 #~ msgid "Destination Topic ID."
 #~ msgstr "Zielthema-ID."
@@ -17788,12 +18633,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Sie haben nicht die Berechtigung, neue Themen zu erstellen. Die Antwort "
 #~ "konnte nicht in ein Thema umgewandelt werden."
-
-#~ msgid "You do not have permission to do this."
-#~ msgstr "Sie haben keine Berechtigungen dies zu tun."
-
-#~ msgid "Invalid reply ID."
-#~ msgstr "Ungültige Antwort-ID."
 
 #~ msgid "Sorry, You do not have permission to reply."
 #~ msgstr "Sie haben leider keine Berechtigung zu antworten."
@@ -17875,14 +18714,8 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Es tut uns leid, Sie müssen eingeloggt sein, um eine Antwort zu erstellen."
 
-#~ msgid "Reply ID not found."
-#~ msgstr "Antwort-ID wurde nicht gefunden."
-
 #~ msgid "The reply you want to edit was not found."
 #~ msgstr "Die Antwort, die Sie bearbeiten möchten, wurde nicht gefunden."
-
-#~ msgid "You do not have permission to edit that reply."
-#~ msgstr "Sie haben nicht die Berechtigung, diese Antwort zu bearbeiten."
 
 #~ msgid "Your reply cannot be empty."
 #~ msgstr "Ihre Antwort darf nicht leer sein."
@@ -17962,21 +18795,12 @@ msgstr "BuddyBoss"
 #~ msgid "The ID for the author of the reply."
 #~ msgstr "Die ID für des Autors der Antwort."
 
-#~ msgid "ID of the parent topic."
-#~ msgstr "ID des übergeordneten Themas."
-
-#~ msgid "Depth for the reply."
-#~ msgstr "Tiefe der Antwort."
-
 #~ msgid "Parent reply ID."
 #~ msgstr "Übergeordnete Antwort-ID."
 
 #~ msgid "Whether the post is by an anonymous user or not."
 #~ msgstr ""
 #~ "Gibt an, ob der Beitrag von einem anonymen Benutzer stammt oder nicht."
-
-#~ msgid "An anonymous users data."
-#~ msgstr "Anonyme Benutzerdaten."
 
 #~ msgid "Name of the anonymous user."
 #~ msgstr "Name des anonymen Benutzers."
@@ -18072,9 +18896,6 @@ msgstr "BuddyBoss"
 #~ msgid "Calculated value and the thread replies depth."
 #~ msgstr "Berechneter Wert und die Tiefe der Threadantworten."
 
-#~ msgid "A unique numeric ID for the topic."
-#~ msgstr "Eine eindeutige numerische ID für das Thema."
-
 #~ msgid "A unique numeric ID for the destination topic."
 #~ msgstr "Eine eindeutige numerische ID für das Zielthema."
 
@@ -18109,9 +18930,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Maximale Anzahl an Einträgen, die in einer Ergebnismenge ausgegeben "
 #~ "werden."
-
-#~ msgid "Invalid topic ID."
-#~ msgstr "Ungültige Themen-ID."
 
 #~ msgid "The topic you want to merge was not found."
 #~ msgstr "Das Thema, das Sie zusammenführen möchten, wurde nicht gefunden."
@@ -18212,12 +19030,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Es tut uns leid, doch müssen  Sie angemeldet sein, um die Aktion "
 #~ "ausführen zu können."
-
-#~ msgid "Unique identifier for the topic."
-#~ msgstr "Eindeutige Kennung für das Thema."
-
-#~ msgid "The title of the topic."
-#~ msgstr "Der Titel des Themas."
 
 #~ msgid "Content for the title of the topic, as it exists in the database."
 #~ msgstr ""
@@ -18354,9 +19166,6 @@ msgstr "BuddyBoss"
 #~ "Das Datum für das Thema wurde zuletzt in der Zeitzone der Website "
 #~ "geändert."
 
-#~ msgid "The date for topic was last modified, as GMT."
-#~ msgstr "Das Datum für das Thema wurde zuletzt als GMT geändert."
-
 #~ msgid "An alphanumeric unique identifier for the topic."
 #~ msgstr "Eine alphanumerische eindeutige Kennung für das Thema."
 
@@ -18450,9 +19259,6 @@ msgstr "BuddyBoss"
 #~ msgid "Whether shows the replies for the current user or not."
 #~ msgstr ""
 #~ "Ob die Antworten für den aktuellen Benutzer angezeigt werden oder nicht."
-
-#~ msgid "Whether the current user can edit the topic or not."
-#~ msgstr "Ob der aktuelle Benutzer das Thema bearbeiten kann oder nicht."
 
 #~ msgid "Whether the current user is moderator or not."
 #~ msgstr "Ob der aktuelle Benutzer Moderator ist oder nicht."
@@ -19151,9 +19957,6 @@ msgstr "BuddyBoss"
 #~ msgid "Create New Reply"
 #~ msgstr "Neue Antwort erstellen"
 
-#~ msgid "Edit Reply"
-#~ msgstr "Antwort bearbeiten"
-
 #~ msgid "View Reply"
 #~ msgstr "Antwort ansehen"
 
@@ -19177,9 +19980,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Visit %s's website"
 #~ msgstr "%ss Website ansehen"
-
-#~ msgid "Are you sure you want to delete that permanently?"
-#~ msgstr "Sind Sie sicher, dass Sie das dauerhaft löschen wollen?"
 
 #~ msgid "Unspam"
 #~ msgstr "Spam aufheben"
@@ -19314,9 +20114,6 @@ msgstr "BuddyBoss"
 #~ msgid "You cannot create new forums."
 #~ msgstr "Sie können keine neue Foren erstellen."
 
-#~ msgid "You must be logged in to create new forums."
-#~ msgstr "Sie müssen eingeloggt sein, um neue Foren zu erstellen."
-
 #~ msgid "Protected"
 #~ msgstr "Geschützt"
 
@@ -19356,9 +20153,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "You do not have the permissions to edit this reply!"
 #~ msgstr "Sie sind nicht berechtigt, diese Antwort zu bearbeiten!"
-
-#~ msgid "You cannot edit this reply."
-#~ msgstr "Sie können diese Antwort nicht bearbeiten."
 
 #~ msgid ""
 #~ "This discussion is marked as closed to new replies, however your posting "
@@ -19553,10 +20347,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "You cannot create new discussions."
 #~ msgstr "Sie können keine neuen Diskussionen erstellen."
-
-#~ msgid "You must be logged in to create new discussions."
-#~ msgstr ""
-#~ "Sie müssen angemeldet sein, um neue Diskussionen erstellen zu können."
 
 #~ msgid "Last updated %s"
 #~ msgstr "Zuletzt aktualisiert: %s"
@@ -19994,9 +20784,6 @@ msgstr "BuddyBoss"
 #~ msgid "Type: "
 #~ msgstr "Typ: "
 
-#~ msgid "Search Tags"
-#~ msgstr "Schlagworte durchsuchen"
-
 #~ msgid "Popular Tags"
 #~ msgstr "Beliebte Schlagwörter"
 
@@ -20160,9 +20947,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "%s's Connections"
 #~ msgstr "%ss Kontakte"
-
-#~ msgid "See All"
-#~ msgstr "Alle anzeigen"
 
 #~ msgid "You haven't made any connections yet."
 #~ msgstr "Sie haben noch keine Kontakte hergestellt."
@@ -20352,9 +21136,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Connection request could not be withdrawn"
 #~ msgstr "Kontaktanfrage konnte nicht zurückgezogen werden"
-
-#~ msgid "You are not an organizer or moderator of this group."
-#~ msgstr "Sie sind kein Organisator oder Moderator dieser Gruppe."
 
 #~ msgid "Sorry, you are not allowed to create groups."
 #~ msgstr "Entschuldigung, Ihnen ist es nicht erlaubt, Gruppen zu erstellen."
@@ -20629,9 +21410,6 @@ msgstr "BuddyBoss"
 #~ msgid_plural "Viewing %1$s - %2$s of %3$s members"
 #~ msgstr[0] "Angezeigt wird 1 Mitglied"
 #~ msgstr[1] "Ansicht %1$s - %2$s of %3$s Mitglieder"
-
-#~ msgid "%1$s (%2$s)"
-#~ msgstr "%1$s (%2$s)"
 
 #~ msgid "There was an error while changing group type. Please try again."
 #~ msgstr ""
@@ -21008,9 +21786,6 @@ msgstr "BuddyBoss"
 #~ msgid "No groups matched the current filter."
 #~ msgstr "Keine Gruppe entspricht dem aktuellem Filter."
 
-#~ msgid "You do not have access to this content."
-#~ msgstr "Sie haben keinen Zugriff auf diesen Inhalt."
-
 #~ msgid "Search Groups&hellip;"
 #~ msgstr "Gruppen durchsuchen&hellip;"
 
@@ -21232,9 +22007,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "HTML content for the object, transformed for display."
 #~ msgstr "HTML-Inhalt für das Objekt, der zur Anzeige umgewandelt wurde."
-
-#~ msgid "ID of the group to limit results to."
-#~ msgstr "ID der Gruppe, auf die die Ergebnisse beschränkt werden sollen."
 
 #~ msgid "Return only invitations extended to this user."
 #~ msgstr ""
@@ -21665,12 +22437,6 @@ msgstr "BuddyBoss"
 #~ msgstr ""
 #~ "Sie müssen angemeldet sein, um diese Gruppe aktualisieren zu können."
 
-#~ msgid "Could not delete the group."
-#~ msgstr "Die Gruppe konnte nicht gelöscht werden."
-
-#~ msgid "Sorry, you need to be logged in to delete this group."
-#~ msgstr "Um diese Gruppe löschen zu können, müssen Sie angemeldet sein."
-
 #~ msgid "Sorry, you are not allowed to delete this group."
 #~ msgstr "Es tut uns leid, Sie dürfen diese Gruppe nicht löschen."
 
@@ -21685,9 +22451,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Delete the Group forum if exist."
 #~ msgstr "Löscht das Gruppenforum, sofern vorhanden."
-
-#~ msgid "The ID of the user who created the Group."
-#~ msgstr "Die ID des Benutzers, der die Gruppe erstellt hat."
 
 #~ msgid "The name of the Group."
 #~ msgstr "Der Name der Gruppe."
@@ -21711,9 +22474,6 @@ msgstr "BuddyBoss"
 #~ "HTML content for the description of the Group, transformed for display."
 #~ msgstr ""
 #~ "HTML-Inhalt für die Beschreibung der Gruppe, zur Anzeige transformiert."
-
-#~ msgid "The status of the Group."
-#~ msgstr "Der Status der Gruppe."
 
 #~ msgid "Whether the Group has a forum enabled or not."
 #~ msgstr "Gibt an, ob in der Gruppe ein Forum aktiviert ist oder nicht."
@@ -22656,9 +23416,6 @@ msgstr "BuddyBoss"
 #~ "Es tut uns leid, Sie müssen angemeldet sein, um eine Einladung widerrufen "
 #~ "zu können."
 
-#~ msgid "Invalid invite ID."
-#~ msgstr "Ungültige Einladungs-ID."
-
 #~ msgid "Sorry, you need to be logged in to view invites profile type."
 #~ msgstr ""
 #~ "Es tut uns leid, Sie müssen angemeldet sein, um den Einladungstyp "
@@ -22695,9 +23452,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Content for invite a member."
 #~ msgstr "Inhalt für die Einladung eines Mitglieds."
-
-#~ msgid "Unique identifier for the invite."
-#~ msgstr "Eindeutige Kennung für die Einladung."
 
 #~ msgid "Member's name."
 #~ msgstr "Name des Mitglieds."
@@ -22855,14 +23609,8 @@ msgstr "BuddyBoss"
 #~ msgid "Please login in order to upload file media."
 #~ msgstr "Bitte loggen Sie sich ein, um Dateimedien hochzuladen."
 
-#~ msgid "Error while uploading media."
-#~ msgstr "Fehler beim Hochladen von Medien."
-
 #~ msgid "BuddyBoss Media data update is failing!"
 #~ msgstr "Die Aktualisierung der BuddyBoss Media-Daten scheitert!"
-
-#~ msgid "Emoji"
-#~ msgstr "Emoji"
 
 #~ msgid "Animated GIFs"
 #~ msgstr "Animierte GIFs"
@@ -23095,9 +23843,6 @@ msgstr "BuddyBoss"
 #~ msgid "Sorry, you are not allowed to create a Album."
 #~ msgstr "Es ist Ihnen leider nicht erlaubt, ein Album zu erstellen."
 
-#~ msgid "Sorry, you are not allowed to create a media."
-#~ msgstr "Es ist Ihnen leider nicht erlaubt, ein Medium zu erstellen."
-
 #~ msgid "You don't have a permission to create an album inside this group."
 #~ msgstr ""
 #~ "Sie haben nicht die Berechtigung, ein Album innerhalb dieser Gruppe zu "
@@ -23289,9 +24034,6 @@ msgstr "BuddyBoss"
 #~ msgid "%s became a registered member"
 #~ msgstr "%s wurde ein Mitglied"
 
-#~ msgid "Edit Profile"
-#~ msgstr "Profil Bearbeiten"
-
 #~ msgid "Edit Profile Photo"
 #~ msgstr "Profilbild bearbeiten"
 
@@ -23343,9 +24085,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Invalid activation key."
 #~ msgstr "Ungültiger Aktivierungsschlüssel."
-
-#~ msgid "The user is already active."
-#~ msgstr "Der Teilnehmer ist bereits aktiviert."
 
 #~ msgid "The site is already active."
 #~ msgstr "Diese Webseite ist bereits aktiv."
@@ -24114,9 +24853,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Total number of signups to return."
 #~ msgstr "Gesamtzahl der zurückzusendenden Registrierungen."
-
-#~ msgid "Order by a specific parameter (default: signup_id)."
-#~ msgstr "Sortierung nach einem bestimmten Parameter (Standard: signup_id)."
 
 #~ msgid "Specific user login to return."
 #~ msgstr "Spezifische Benutzeranmeldung, um zurückzukehren."
@@ -24937,9 +25673,6 @@ msgstr "BuddyBoss"
 #~ msgid "%s Meta"
 #~ msgstr "%s Meta"
 
-#~ msgid "View all"
-#~ msgstr "Alle anzeigen"
-
 #~ msgid "Nothing found for '%s'"
 #~ msgstr "Nichts gefunden für „%s“"
 
@@ -24982,9 +25715,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "The new password must be different from the current password."
 #~ msgstr "Das neue Passwort muss sich vom aktuellen Passwort unterscheiden."
-
-#~ msgid "Your settings have been saved."
-#~ msgstr "Ihre Einstellungen wurden gespeichert."
 
 #~ msgid "No changes were made to your account."
 #~ msgstr "Es wurden keine Änderungen an Ihrem Konto vorgenommen."
@@ -25059,9 +25789,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "The saved value for the field."
 #~ msgstr "Der gespeicherte Wert für das Feld."
-
-#~ msgid "Available options for the field."
-#~ msgstr "Verfügbare Optionen für das Feld."
 
 #~ msgid "Headline text for the field."
 #~ msgstr "Überschriftentext für das Feld."
@@ -25369,9 +26096,6 @@ msgstr "BuddyBoss"
 #~ msgid "Search Documents…"
 #~ msgstr "Dokumente suchen…"
 
-#~ msgid "Delete Folder"
-#~ msgstr "Ordner löschen"
-
 #~ msgid "Select Photos"
 #~ msgstr "Fotos auswählen"
 
@@ -25585,9 +26309,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "More Photos"
 #~ msgstr "Weitere Fotos"
-
-#~ msgid "Add Photos"
-#~ msgstr "Fotos hinzufügen"
 
 #~ msgid "Create Album"
 #~ msgstr "Album erstellen"
@@ -25956,9 +26677,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Post what's new"
 #~ msgstr "Veröffentlichen Sie Neuigkeiten"
-
-#~ msgid "Post in"
-#~ msgstr "Veröffentlichen in"
 
 #~ msgid "%d Comment"
 #~ msgstr "%d Kommentar"
@@ -26589,9 +27307,6 @@ msgstr "BuddyBoss"
 #~ msgid "Error requesting membership."
 #~ msgstr "Fehler beim Beitritt zur Mitgliedschaft."
 
-#~ msgid "Error leaving group."
-#~ msgstr "Fehler beim Verlassen der Gruppe."
-
 #~ msgid ""
 #~ "Select which connections to invite by clicking the + button next to each "
 #~ "member."
@@ -26860,9 +27575,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "Empty media file will not be uploaded."
 #~ msgstr "Leere Mediendateien werden nicht hochgeladen."
-
-#~ msgid "Unable to reposition the image "
-#~ msgstr "Neupositionierung des Bildes nicht möglich "
 
 #~ msgid ""
 #~ "To reposition your cover photo, please upload a larger image and then try "
@@ -27448,20 +28160,11 @@ msgstr "BuddyBoss"
 #~ msgid "The order of the profile field into the group of fields."
 #~ msgstr "Die Einordnung des Profilfeldes in die Gruppe der Felder."
 
-#~ msgid "The order of the option into the profile field list of options"
-#~ msgstr "Die Reihenfolge der Option in der Profilfeldliste der Optionen"
-
-#~ msgid "The way profile field's options are ordered."
-#~ msgstr "Die Art wie die Optionen des Profilfelds sortiert werden."
-
 #~ msgid "Whether the option is the default one for the profile field."
 #~ msgstr "Gibt an, ob die Option die Standardoption für das Profilfeld ist."
 
 #~ msgid "Who may see the saved value for this profile field."
 #~ msgstr "Wer den gespeicherten Wert für dieses Profilfeld sehen darf."
-
-#~ msgid "Options of the profile field."
-#~ msgstr "Optionen des Profilfeldes."
 
 #~ msgid "The saved value for this profile field."
 #~ msgstr "Der gespeicherte Wert für dieses Profilfeld."
@@ -27674,9 +28377,6 @@ msgstr "BuddyBoss"
 #~ msgid "Prefer Not to Answer"
 #~ msgstr "Vorzugsweise nicht antworten"
 
-#~ msgid "Add an option"
-#~ msgstr "Option hinzufügen"
-
 #~ msgid "Add Another Option"
 #~ msgstr "Neue Option hinzufügen"
 
@@ -27728,12 +28428,6 @@ msgstr "BuddyBoss"
 
 #~ msgid "The profile field type %s is not registered."
 #~ msgstr "Das Profilefeld vom Typ \"%s\" wurde nicht registriert."
-
-#~ msgid "These field options are invalid."
-#~ msgstr "Diese Feldoptionen sind ungültig."
-
-#~ msgid "%s require at least one option."
-#~ msgstr "%s erfordert mindestens eine Option."
 
 #~ msgid "Edit Field"
 #~ msgstr "Feld bearbeiten"

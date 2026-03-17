@@ -1398,12 +1398,20 @@
 	opacity: 0;
 }
 
+@media screen and (max-width: 782px) {
+	.form-table .bb-pro-reaction-notices > th {
+		height: 0;
+		margin: 0;
+		padding: 0;
+	}
+}
+
 .bp-admin-card .form-table td .bb-pro-reaction-notice {
 	display: flex;
 	align-items: center;
 	background-color: #edfaef;
 	border: 1px solid #008a20;
-	padding: 12px 16px 12px 12px;
+	padding: 9px 12px 9px 12px;
 	border-radius: 6px;
 	margin-right: -220px;
 }
@@ -1465,8 +1473,8 @@
 }
 
 .bp-admin-card .form-table td .bb-pro-reaction-notice.info {
-	background-color: #f6f7f7;
-	border-color: #c3c4c7;
+	border-color: #2271b1;
+	background-color: #f0f6fc;
 }
 
 .bp-admin-card .form-table td .bb-pro-reaction-notice.info .bb-pro-reaction-notice_content {

@@ -422,30 +422,30 @@ function bp_zoom_recording_get( $col = array(), $where = array() ) {
 
 	if ( ! empty( $w['date_min'] ) || ! empty( $w['date_max'] ) ) {
 
-		$timezone_offset = wp_date( 'P', strtotime( 'now' ) );
+		$timezone_offset = wp_timezone_string();
 
 		if ( ! empty( $w['date_min'] ) && ! empty( $w['date_max'] ) ) {
-			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( 'UTC' ) );
+			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_min = $translated_date_min->format( 'Y-m-d H:i:s' );
-			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( 'UTC' ) );
+			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_max = $translated_date_max->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_min ) && ! empty( $translated_date_max ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) >= %s AND CONVERT_TZ(start_time,"+00:00",%s) < %s', $timezone_offset, $translated_date_min, $timezone_offset, $translated_date_max );
+				$where_conditions[] = $wpdb->prepare( 'start_time >= %s AND start_time < %s', $translated_date_min, $translated_date_max );
 			}
 		} elseif ( ! empty( $w['date_min'] ) && empty( $w['date_max'] ) ) {
-			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( 'UTC' ) );
+			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_min = $translated_date_min->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_min ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) >= %s', $timezone_offset, $translated_date_min );
+				$where_conditions[] = $wpdb->prepare( 'start_time >= %s', $translated_date_min );
 			}
 		} elseif ( empty( $w['date_min'] ) && ! empty( $w['date_max'] ) ) {
-			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( 'UTC' ) );
+			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_max = $translated_date_max->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_max ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) <= %s', $timezone_offset, $translated_date_max );
+				$where_conditions[] = $wpdb->prepare( 'start_time <= %s', $translated_date_max );
 			}
 		}
 	}
@@ -1115,30 +1115,30 @@ function bp_zoom_webinar_recording_get( $col = array(), $where = array() ) {
 
 	if ( ! empty( $w['date_min'] ) || ! empty( $w['date_max'] ) ) {
 
-		$timezone_offset = wp_date( 'P', strtotime( 'now' ) );
+		$timezone_offset = wp_timezone_string();
 
 		if ( ! empty( $w['date_min'] ) && ! empty( $w['date_max'] ) ) {
-			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( 'UTC' ) );
+			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_min = $translated_date_min->format( 'Y-m-d H:i:s' );
-			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( 'UTC' ) );
+			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_max = $translated_date_max->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_min ) && ! empty( $translated_date_max ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) >= %s AND CONVERT_TZ(start_time,"+00:00",%s) < %s', $timezone_offset, $translated_date_min, $timezone_offset, $translated_date_max );
+				$where_conditions[] = $wpdb->prepare( 'start_time >= %s AND start_time < %s', $translated_date_min, $translated_date_max );
 			}
 		} elseif ( ! empty( $w['date_min'] ) && empty( $w['date_max'] ) ) {
-			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( 'UTC' ) );
+			$translated_date_min = new DateTime( $w['date_min'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_min = $translated_date_min->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_min ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) >= %s', $timezone_offset, $translated_date_min );
+				$where_conditions[] = $wpdb->prepare( 'start_time >= %s', $translated_date_min );
 			}
 		} elseif ( empty( $w['date_min'] ) && ! empty( $w['date_max'] ) ) {
-			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( 'UTC' ) );
+			$translated_date_max = new DateTime( $w['date_max'], new DateTimeZone( $timezone_offset ) );
 			$translated_date_max = $translated_date_max->format( 'Y-m-d H:i:s' );
 
 			if ( ! empty( $translated_date_max ) ) {
-				$where_conditions[] = $wpdb->prepare( 'CONVERT_TZ(start_time,"+00:00",%s) <= %s', $timezone_offset, $translated_date_max );
+				$where_conditions[] = $wpdb->prepare( 'start_time <= %s', $translated_date_max );
 			}
 		}
 	}

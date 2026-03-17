@@ -1,10 +1,9 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Client;
+namespace BuddyBossPlatformPro\Psr\Http\Client;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Message\RequestInterface;
+use BuddyBossPlatformPro\Psr\Http\Message\ResponseInterface;
 interface ClientInterface
 {
     /**
@@ -16,5 +15,5 @@ interface ClientInterface
      *
      * @throws \Psr\Http\Client\ClientExceptionInterface If an error happens while processing the request.
      */
-    public function sendRequest(RequestInterface $request): ResponseInterface;
+    public function sendRequest(RequestInterface $request) : ResponseInterface;
 }

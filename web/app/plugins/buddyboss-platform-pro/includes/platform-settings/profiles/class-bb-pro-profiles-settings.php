@@ -235,7 +235,7 @@ class BB_Pro_Profiles_Settings {
 			$member_directory_profile_actions = array( 'follow', 'connect', 'message' );
 			$member_directory_primary_action  = '';
 
-			if ( bbp_pro_is_license_valid() ) {
+			if ( ! bb_pro_should_lock_features() ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				$profile_cover_width = isset( $_POST['bb-pro-cover-profile-width'] ) ? sanitize_text_field( wp_unslash( $_POST['bb-pro-cover-profile-width'] ) ) : 'default';
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing

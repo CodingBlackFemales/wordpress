@@ -162,8 +162,8 @@
 }
 
 #buddypress .users-header .centered.network_profiles.my_profile #item-header-cover-image .member-social-links {
-	position: absolute;
-	bottom: 0;
+	position: static;
+	margin-top: 5px;
 }
 
 @media screen and (max-width: 1370px) {

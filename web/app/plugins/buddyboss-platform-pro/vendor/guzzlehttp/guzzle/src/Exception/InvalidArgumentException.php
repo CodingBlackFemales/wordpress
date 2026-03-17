@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
+namespace BuddyBossPlatformPro\GuzzleHttp\Exception;
 
 final class InvalidArgumentException extends \InvalidArgumentException implements GuzzleException
 {

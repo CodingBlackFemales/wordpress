@@ -1,9 +1,8 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Client;
+namespace BuddyBossPlatformPro\Psr\Http\Client;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Message\RequestInterface;
 /**
  * Exception for when a request failed.
  *
@@ -20,5 +19,5 @@ interface RequestExceptionInterface extends ClientExceptionInterface
      *
      * @return RequestInterface
      */
-    public function getRequest(): RequestInterface;
+    public function getRequest() : RequestInterface;
 }

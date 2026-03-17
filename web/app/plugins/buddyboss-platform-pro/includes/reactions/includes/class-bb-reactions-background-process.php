@@ -64,8 +64,14 @@ if ( class_exists( 'BB_Background_Process' ) && ! class_exists( 'BB_Reactions_Ba
 			}
 
 			if ( is_callable( $callback ) ) {
-				// phpcs:ignore
-				error_log( sprintf( 'Running %s callback', json_encode( $callback ) ) );
+				if ( function_exists( 'bb_error_log' ) ) {
+					// phpcs:ignore
+					bb_error_log( sprintf( 'Running %s callback', json_encode( $callback ) ) );
+				} else {
+					// phpcs:ignore
+					error_log( sprintf( 'Running %s callback', json_encode( $callback ) ) );
+				}
+
 
 				if ( empty( $args ) ) {
 					$result = (bool) call_user_func( $callback, $this );
@@ -73,12 +79,22 @@ if ( class_exists( 'BB_Background_Process' ) && ! class_exists( 'BB_Reactions_Ba
 					$result = (bool) call_user_func_array( $callback, $args );
 				}
 
-				if ( $result ) {
-					// phpcs:ignore
-					error_log( sprintf( '%s callback needs to run again', json_encode( $callback ) ) );
+				if ( function_exists( 'bb_error_log' ) ) {
+					if ( $result ) {
+						// phpcs:ignore
+						bb_error_log( sprintf( '%s callback needs to run again', json_encode( $callback ) ) );
+					} else {
+						// phpcs:ignore
+						bb_error_log( sprintf( 'Finished running %s callback', json_encode( $callback ) ) );
+					}
 				} else {
-					// phpcs:ignore
-					error_log( sprintf( 'Finished running %s callback', json_encode( $callback ) ) );
+					if ( $result ) {
+						// phpcs:ignore
+						error_log( sprintf( '%s callback needs to run again', json_encode( $callback ) ) );
+					} else {
+						// phpcs:ignore
+						error_log( sprintf( 'Finished running %s callback', json_encode( $callback ) ) );
+					}
 				}
 			} else {
 				// phpcs:ignore
@@ -116,8 +132,13 @@ if ( class_exists( 'BB_Background_Process' ) && ! class_exists( 'BB_Reactions_Ba
 		 * @since 2.4.50
 		 */
 		protected function completed() {
-			// phpcs:ignore
-			error_log( 'Data update completed' );
+			if ( function_exists( 'bb_error_log' ) ) {
+				// phpcs:ignore
+				bb_error_log( 'Data update completed' );
+			} else {
+				// phpcs:ignore
+				error_log( 'Data update completed' );
+			}
 			do_action( $this->identifier . '_completed' );
 
 			$is_reaction_migration = (bool) bp_get_option( 'is_reaction_migration' );

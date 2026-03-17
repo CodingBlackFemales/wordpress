@@ -102,7 +102,7 @@ add_action( 'update_option_bp_member_types_allowed_messaging_without_connection'
  */
 function bb_pro_pusher_enqueue_scripts_and_styles() {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! is_user_logged_in()
 	) {
@@ -449,7 +449,7 @@ function bb_pro_pusher_messages_typing_html() {
  */
 function bb_pro_pusher_message_delete_thread( $thread_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -506,7 +506,7 @@ function bb_pro_pusher_message_delete_thread( $thread_id ) {
  */
 function bb_pro_pusher_user_suspended( $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -564,7 +564,7 @@ function bb_pro_pusher_user_suspended( $user_id ) {
  */
 function bb_pro_pusher_user_unsuspended( $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -618,7 +618,7 @@ function bb_pro_pusher_user_unsuspended( $user_id ) {
  */
 function bb_pro_pusher_moderation_after_save( $moderation ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' ) ||
 		( isset( $moderation->user_report ) && ! empty( $moderation->user_report ) )
@@ -677,7 +677,7 @@ function bb_pro_pusher_moderation_after_save( $moderation ) {
  */
 function bb_pro_pusher_moderation_after_delete( $moderation ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -736,7 +736,7 @@ function bb_pro_pusher_moderation_after_delete( $moderation ) {
  */
 function bb_pro_pusher_member_connection_after_update( $old_value, $new_value ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -769,7 +769,7 @@ function bb_pro_pusher_member_connection_after_update( $old_value, $new_value ) 
  */
 function bb_pro_pusher_member_connection_requested( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -798,7 +798,7 @@ function bb_pro_pusher_member_connection_requested( $friendship_id, $initiator_u
  */
 function bb_pro_pusher_member_withdrawn_connection_request( $friendship_id, $friendship ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -833,7 +833,7 @@ function bb_pro_pusher_member_withdrawn_connection_request( $friendship_id, $fri
  */
 function bb_pro_pusher_member_accepted_friendship( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -861,7 +861,7 @@ function bb_pro_pusher_member_accepted_friendship( $friendship_id, $initiator_us
  */
 function bb_pro_pusher_member_rejected_friendship( $friendship_id, $friendship ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -896,7 +896,7 @@ function bb_pro_pusher_member_rejected_friendship( $friendship_id, $friendship )
  */
 function bb_pro_pusher_message_access_control_after_update( $old_value, $new_value ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -957,7 +957,7 @@ function bb_pro_pusher_active_components( $old_value, $value, $option ) {
 	$current_action = ( isset( $_GET['do_action'] ) ? $_GET['do_action'] : '' );
 
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		$old_value === $value ||
 		(
@@ -990,7 +990,7 @@ function bb_pro_pusher_active_components( $old_value, $value, $option ) {
  */
 function bb_pro_pusher_disabled_group_messages( $old_value, $value, $option ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1021,7 +1021,7 @@ function bb_pro_pusher_disabled_group_messages( $old_value, $value, $option ) {
  */
 function bb_pro_pusher_group_settings_update( $meta_id, $object_id, $meta_key, $meta_value ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1078,7 +1078,7 @@ function bb_pro_pusher_group_settings_update( $meta_id, $object_id, $meta_key, $
  */
 function bb_pro_pusher_on_user_delete( $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1125,7 +1125,7 @@ function bb_pro_pusher_on_user_delete( $user_id ) {
 function bb_pro_pusher_messages_message_new_thread_save( $message ) {
 
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' ) ||
 		! did_action( 'messages_message_new_thread_save' )
@@ -1167,7 +1167,7 @@ function bb_pro_pusher_messages_message_new_thread_save( $message ) {
 function bb_pro_pusher_messages_message_new_message_save( $message ) {
 
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1279,7 +1279,7 @@ function bb_pro_pusher_groups_before_delete_group( $group_id ) {
 function bb_pro_pusher_rest_settings( $response ) {
 	$data = $response->get_data();
 
-	if ( isset( $data['platform'] ) && bb_pusher_is_enabled() && bbp_pro_is_license_valid() ) {
+	if ( isset( $data['platform'] ) && bb_pusher_is_enabled() && ! bb_pro_should_lock_features() ) {
 		$data['platform']['pusher_app_key']     = bb_pusher_app_key();
 		$data['platform']['pusher_app_cluster'] = bb_pusher_cluster();
 		$pusher_features                        = array_keys( bb_get_pusher_features() );
@@ -1307,7 +1307,7 @@ function bb_pro_pusher_rest_settings( $response ) {
  */
 function bb_pro_pusher_group_messages_banned_member( $thread_id, $user_id, $group_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1343,7 +1343,7 @@ function bb_pro_pusher_group_messages_banned_member( $thread_id, $user_id, $grou
  */
 function bb_pro_pusher_group_messages_unbanned_member( $thread_id, $user_id, $group_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1376,7 +1376,7 @@ function bb_pro_pusher_group_messages_unbanned_member( $thread_id, $user_id, $gr
  */
 function bb_pro_pusher_group_messages_member_joined( $group_id, $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1415,7 +1415,7 @@ function bb_pro_pusher_group_messages_member_joined( $group_id, $user_id ) {
  */
 function bb_pro_pusher_group_messages_member_left( $group_id, $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1510,7 +1510,7 @@ function bb_pro_comman_connection_triggers( $user_id, $friend_user_id, $initiato
 function bb_pusher_rest_create_message( $thread, $response, $request, $message ) {
 
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1587,7 +1587,7 @@ function bb_pusher_rest_create_message( $thread, $response, $request, $message )
  */
 function bb_pro_pusher_disabled_pusher_settings( $old_value, $value, $option ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled()
 	) {
 		return;
@@ -1634,7 +1634,7 @@ function bb_pro_pusher_disabled_pusher_settings( $old_value, $value, $option ) {
  */
 function bb_pro_pusher_friends_remove_friend( $initiator_user_id, $friend_user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1664,7 +1664,7 @@ function bb_pro_pusher_friends_remove_friend( $initiator_user_id, $friend_user_i
  */
 function bb_pro_pusher_deleted_thread_messages( $thread_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' ) ||
 		empty( $thread_id )
@@ -1697,7 +1697,7 @@ function bb_pro_pusher_deleted_thread_messages( $thread_id ) {
  */
 function bb_pro_pusher_group_messages_member_promoted( $group_id, $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1740,7 +1740,7 @@ function bb_pro_pusher_group_messages_member_promoted( $group_id, $user_id ) {
  */
 function bb_pro_pusher_group_messages_member_demoted( $group_id, $user_id ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -1827,7 +1827,7 @@ function bb_pusher_update_current_thread_unread_count() {
 function bb_pro_pusher_member_type_allow_messaging_update( $old_value, $new_value ) {
 
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {

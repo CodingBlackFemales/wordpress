@@ -1,0 +1,329 @@
+.bb-activity-topic-container {
+	padding: 10px;
+}
+
+.bb-activity-topic-container .description {
+	color: #666;
+	font-size: 13px;
+	margin-bottom: 20px;
+}
+
+.bb-activity-topic-container .bb-activity-topics-list {
+	margin-bottom: 20px;
+}
+
+.bb-activity-topic-container .bb-activity-topics-list.is-loading {
+	pointer-events: none;
+	position: relative;
+}
+
+.bb-activity-topic-container .bb-activity-topics-list.is-loading > * {
+	opacity: 0.5;
+}
+
+.bb-activity-topic-container .bb-activity-topics-list.is-loading:after {
+	content: "";
+	display: inline-block;
+	box-sizing: border-box;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid rgba(155, 156, 159, 0.2);
+	border-top-color: #9b9c9f;
+	animation: spin 2s infinite linear;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+.bb-activity-topic-container .bb-add-topic {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 8px;
+	font-size: 13px;
+	line-height: 1.5;
+	border-radius: 4px;
+}
+
+.bb-activity-topic-container .bb-add-topic i {
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.bb-activity-topic-container .bb-add-topic i:before {
+	margin: 0;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background-color: #f6f7f7;
+	margin-bottom: 8px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item:hover {
+	background-color: #f8f8f8;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-drag {
+	font-size: 16px;
+	color: #9b9f9b;
+	cursor: move;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-title {
+	color: #1e2132;
+	font-size: 12px;
+	font-weight: 600;
+	width: 100%;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-visibility {
+	color: #666;
+	font-size: 12px;
+	margin-left: 10px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-right {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-right .bb-topic-right-item {
+	display: flex;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-right .bb-topic-access {
+	color: #a7aaad;
+	font-size: 13px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-left {
+	display: flex;
+	align-items: center;
+	max-width: calc(100% - 185px);
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-privacy {
+	font-size: 16px;
+	color: #5a5a5a;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper {
+	position: relative;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-actions_button {
+	font-size: 16px;
+	color: #1e2132;
+	font-weight: 300;
+	opacity: 0.5;
+	outline: none;
+	box-shadow: none;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background-color: #fff;
+	border: 1px solid #e1e3e5;
+	border-radius: 6px;
+	padding: 8px;
+	box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.05), 0 6px 32px 0 rgba(18, 43, 70, 0.1);
+	min-width: 150px;
+	z-index: 100;
+	display: none;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown a {
+	display: block;
+	border: 0;
+	background: transparent;
+	color: #5a5a5a;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1;
+	cursor: pointer;
+	border-radius: 6px;
+	padding: 8px 10px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown a:before {
+	color: #9b9f9b;
+	font-family: bb-icons;
+	font-size: 16px;
+	font-weight: 400;
+	margin-right: 6px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown a.bb-edit-topic:before {
+	content: "\eeec";
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown a.bb-delete-topic:before {
+	content: "\ef48";
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper .bb-topic-more-dropdown a:hover {
+	background-color: #f0f0f1;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .bb-topic-actions-wrapper.active .bb-topic-more-dropdown {
+	display: block;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-actions {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-actions .topic-type {
+	background: #eee;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	color: #666;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-actions .topic-action-more {
+	padding: 0;
+	background: none;
+	border: none;
+	color: #666;
+	cursor: pointer;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-actions .topic-action-more:hover {
+	color: #1d2327;
+}
+
+.bb-activity-topic-container .bb-activity-topic-item .topic-actions .topic-action-more i {
+	font-size: 16px;
+}
+
+.bb-activity-topic-container .bb-activity-topic-actions {
+	text-align: left;
+}
+
+.bb-activity-topic-container .bb-activity-topic-actions .add-new-topic {
+	padding: 5px 15px;
+	height: auto;
+}
+
+.bb_enable_group_activity_topics_required .bb-radio-options-field {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+
+.bb_enable_group_activity_topics_required .bb-radio-options-field > input {
+	margin: 0;
+}
+
+.select2-container.select2-container--bb-activity-topic {
+	margin-bottom: 15px;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-selection--single {
+	font-family: inherit;
+	font-style: inherit;
+	font-size: 15px;
+	height: 41px;
+	outline: none;
+	vertical-align: middle;
+	background-color: #fff;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	box-shadow: none;
+	padding: 0 12px;
+	color: #333;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-selection--single .select2-selection__rendered {
+	padding: 0 5px;
+	line-height: 36px;
+	display: flex;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
+	margin-right: auto;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-selection--single .select2-selection__rendered .select2-selection__clear {
+	display: none;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-dropdown {
+	background: #fff;
+	box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.05), 0 6px 32px 0 rgba(18, 43, 70, 0.1);
+	border-radius: 8px;
+	border: 0;
+	padding: 5px 10px;
+	margin-right: 0;
+	max-width: 300px;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-dropdown .select2-results__option {
+	padding: 8px 15px;
+	margin-bottom: 0;
+	font-size: 14px;
+	border-radius: 6px;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-dropdown .select2-results__option.select2-results__option--highlighted {
+	background-color: #eaeaea;
+}
+
+.select2-container.select2-container--bb-activity-topic .select2-results__options {
+	max-height: 180px;
+	overflow: auto;
+}
+
+.bb-modal-panel--activity-topic .bb-hello-content {
+	padding: 15px 25px;
+}
+
+.bb-modal-panel--activity-topic.bb-modal-panel .form-fields .field-label label {
+	display: block;
+	font-size: 15px;
+	font-weight: 500;
+	color: #333;
+	line-height: 1.187;
+	margin-bottom: 15px;
+}
+
+.bb-topic-who-can-post-option {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+@media screen and (max-width: 782px) {
+	.bb-activity-topic-container .bb-activity-topic-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+	}
+	.bb-activity-topic-container .bb-activity-topic-item .topic-info {
+		flex-wrap: wrap;
+	}
+	.bb-activity-topic-container .bb-activity-topic-item .topic-actions {
+		width: 100%;
+		justify-content: space-between;
+	}
+}

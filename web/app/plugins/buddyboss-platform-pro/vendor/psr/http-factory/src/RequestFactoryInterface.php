@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Message;
+namespace BuddyBossPlatformPro\Psr\Http\Message;
 
 interface RequestFactoryInterface
 {
@@ -14,5 +14,5 @@ interface RequestFactoryInterface
      *
      * @return RequestInterface
      */
-    public function createRequest(string $method, $uri): RequestInterface;
+    public function createRequest(string $method, $uri) : RequestInterface;
 }

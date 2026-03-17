@@ -35,22 +35,29 @@ class BB_Platform_Pro_Core {
 	 */
 	private function bootstrap() {
 
+		// Load SSO.
+		$this->load_sso();
+
 		// Load Access Control.
 		$this->load_access_control();
 
 		// Load Reactions.
 		$this->load_reactions();
 
+		// Load Polls.
+		$this->load_polls();
+
+		// Load Schedule Posts.
+		$this->load_schedule_posts();
+
+		// Load Activity Topics.
+		$this->load_activity_topics();
+
 		// Load Platform Settings.
 		$this->load_platform_settings();
 
 		// Load Integrations.
 		$this->load_integrations();
-
-		// if in admin, include buddyboss updater.
-		if ( is_admin() ) {
-			$this->buddyboss_updater();
-		}
 
 		/**
 		 * Fires before the loading of individual integrations and after BuddyBoss Platform Pro Core.
@@ -131,6 +138,22 @@ class BB_Platform_Pro_Core {
 	}
 
 	/**
+	 * Load SSO files.
+	 *
+	 * @since 2.6.30
+	 */
+	private function load_sso() {
+		$bb_platform_pro = bb_platform_pro();
+
+		$file = "{$bb_platform_pro->sso_dir}/bb-sso-loader.php";
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+
+		do_action( 'bb_platform_pro_core_sso_included' );
+	}
+
+	/**
 	 * Load reactions files.
 	 *
 	 * @since 2.4.50
@@ -152,19 +175,6 @@ class BB_Platform_Pro_Core {
 	}
 
 	/**
-	 * Include BuddyBoss Updater
-	 *
-	 * @since 1.0.0
-	 */
-	private function buddyboss_updater() {
-		global $pagenow;
-
-		if ( ! function_exists( 'buddyboss_updater_init' ) ) {
-			require_once bb_platform_pro()->plugin_dir . '/includes/lib/buddyboss-updater/buddyboss-updater.php';
-		}
-	}
-
-	/**
 	 * Load platform settings files.
 	 *
 	 * @since 1.2.0
@@ -183,5 +193,68 @@ class BB_Platform_Pro_Core {
 		 * @since 1.2.0
 		 */
 		do_action( 'bb_platform_pro_platform_settings_included' );
+	}
+
+	/**
+	 * Load schedule posts files.
+	 *
+	 * @since 2.5.20
+	 */
+	private function load_schedule_posts() {
+		$bb_platform_pro = bb_platform_pro();
+
+		$file = "{$bb_platform_pro->schedule_posts_dir}/bb-schedule-posts-loader.php";
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+
+		/**
+		 * Fires after the loading schedule posts.
+		 *
+		 * @since 2.5.20
+		 */
+		do_action( 'bb_platform_pro_activity_schedule_posts_included' );
+	}
+
+	/**
+	 * Load polls files.
+	 *
+	 * @since 2.6.00
+	 */
+	private function load_polls() {
+		$bb_platform_pro = bb_platform_pro();
+
+		$file = "{$bb_platform_pro->polls_dir}/bb-polls-loader.php";
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+
+		/**
+		 * Fires after the loading polls.
+		 *
+		 * @since 2.6.00
+		 */
+		do_action( 'bb_platform_pro_core_polls_included' );
+	}
+
+	/**
+	 * Load activity topics files.
+	 *
+	 * @since 2.7.40
+	 */
+	private function load_activity_topics() {
+		$bb_platform_pro = bb_platform_pro();
+
+		$file = "{$bb_platform_pro->topics_dir}/bb-topics-loader.php";
+		if ( file_exists( $file ) ) {
+			require $file;
+		}
+
+		/**
+		 * Fires after the loading activity topics.
+		 *
+		 * @since 2.7.40
+		 */
+		do_action( 'bb_platform_pro_core_activity_topics_included' );
 	}
 }
