@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd20b2ed65d82b08715ba65da0189549",
+    "content-hash": "8c5e8fd967c5f8f787a80d6c944989dc",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -156,118 +156,6 @@
                 "source": "https://github.com/aws/aws-sdk-php/tree/3.371.5"
             },
             "time": "2026-03-04T19:06:59+00:00"
-        },
-        {
-            "name": "buddyboss/buddyboss-platform",
-            "version": "dev-release",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/CodingBlackFemales/buddyboss-platform.git",
-                "reference": "22b14131372c7a721b415b2b36b213f89601e277"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/CodingBlackFemales/buddyboss-platform/zipball/22b14131372c7a721b415b2b36b213f89601e277",
-                "reference": "22b14131372c7a721b415b2b36b213f89601e277",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "^2",
-                "maennchen/zipstream-php": "^2.1",
-                "php": ">=8.0.0",
-                "php-ffmpeg/php-ffmpeg": "^1.1.0"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "*",
-                "phpcompatibility/phpcompatibility-wp": "^2.1",
-                "phpunit/phpunit": "^9",
-                "squizlabs/php_codesniffer": "^3.4.0",
-                "symfony/var-dumper": "^4.2",
-                "wp-coding-standards/wpcs": "*"
-            },
-            "default-branch": true,
-            "type": "wordpress-plugin",
-            "autoload": {
-                "classmap": [
-                    "includes/"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "test-ld": [
-                    "TEST_LEARNDASH=yes vendor/bin/phpunit --testsuite=learndash"
-                ],
-                "lint-php": [
-                    "vendor/bin/phpcs -s"
-                ],
-                "lint-php-fix": [
-                    "vendor/bin/phpcbf"
-                ],
-                "lint-js": [
-                    "grunt jsvalidate jshint"
-                ],
-                "lint-css": [
-                    "grunt stylelint"
-                ],
-                "lint": [
-                    "@lint-php",
-                    "@lint-js",
-                    "@lint-css"
-                ],
-                "update-src": [
-                    "cd src && composer install && cd .."
-                ],
-                "post-install-cmd": [
-                    "@update-src"
-                ],
-                "post-update-cmd": [
-                    "@update-src"
-                ],
-                "scoper": [
-                    "rm -rf vendor",
-                    "rm -rf scoped_vendor",
-                    "composer install --no-dev",
-                    "php-scoper add-prefix vendor includes/Library/Composer/Src --output-dir=scoped_vendor --prefix BuddyBossPlatform",
-                    "rm -rf vendor",
-                    "mv scoped_vendor/vendor vendor/",
-                    "cp -r scoped_vendor/includes/Library/Composer/Src/* includes/Library/Composer",
-                    "rm -rf scoped_vendor",
-                    "composer dumpautoload --optimize",
-                    "php bin/bb-scoper-prefixer.php"
-                ]
-            },
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "BuddyBoss",
-                    "homepage": "https://buddyboss.com/"
-                }
-            ],
-            "description": "The BuddyBoss Platform adds community features to WordPress. Member Profiles, Activity Feeds, Direct Messaging, Notifications, and more!",
-            "homepage": "https://www.buddyboss.com/website-platform/",
-            "keywords": [
-                "activity",
-                "community",
-                "friends",
-                "groups",
-                "messaging",
-                "notifications",
-                "profiles",
-                "social network"
-            ],
-            "support": {
-                "forum": "https://buddypress.org/support/",
-                "docs": "https://www.buddyboss.com/resources/developers/",
-                "issues": "https://support.buddyboss.com/support/home/",
-                "rss": "https://www.buddyboss.com/feed/",
-                "source": "https://github.com/buddyboss/buddyboss-platform",
-                "wiki": "https://www.buddyboss.com/resources/docs/"
-            },
-            "time": "2025-08-21T02:49:48+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1156,53 +1044,6 @@
                 "source": "https://github.com/EFTEC/BladeOne/tree/3.52"
             },
             "time": "2021-04-17T13:49:01+00:00"
-        },
-        {
-            "name": "evenement/evenement",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/igorw/evenement.git",
-                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/igorw/evenement/zipball/0a16b0d71ab13284339abb99d9d2bd813640efbc",
-                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9 || ^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Evenement\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch"
-                }
-            ],
-            "description": "Événement is a very simple event dispatching library for PHP",
-            "keywords": [
-                "event-dispatcher",
-                "event-emitter"
-            ],
-            "support": {
-                "issues": "https://github.com/igorw/evenement/issues",
-                "source": "https://github.com/igorw/evenement/tree/v3.0.2"
-            },
-            "time": "2023-08-08T05:53:35+00:00"
         },
         {
             "name": "gettext/gettext",
@@ -2791,84 +2632,6 @@
             "time": "2022-02-02T11:42:57+00:00"
         },
         {
-            "name": "maennchen/zipstream-php",
-            "version": "2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maennchen/ZipStream-PHP.git",
-                "reference": "3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3",
-                "reference": "3fa72e4c71a43f9e9118752a5c90e476a8dc9eb3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "myclabs/php-enum": "^1.5",
-                "php": "^8.0",
-                "psr/http-message": "^1.0"
-            },
-            "require-dev": {
-                "ext-zip": "*",
-                "friendsofphp/php-cs-fixer": "^3.9",
-                "guzzlehttp/guzzle": "^6.5.3 || ^7.2.0",
-                "mikey179/vfsstream": "^1.6",
-                "php-coveralls/php-coveralls": "^2.4",
-                "phpunit/phpunit": "^8.5.8 || ^9.4.2",
-                "vimeo/psalm": "^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ZipStream\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paul Duncan",
-                    "email": "pabs@pablotron.org"
-                },
-                {
-                    "name": "Jonatan Männchen",
-                    "email": "jonatan@maennchen.ch"
-                },
-                {
-                    "name": "Jesse Donat",
-                    "email": "donatj@gmail.com"
-                },
-                {
-                    "name": "András Kolesár",
-                    "email": "kolesar@kolesar.hu"
-                }
-            ],
-            "description": "ZipStream is a library for dynamically streaming dynamic zip files from PHP without writing to the disk at all on the server.",
-            "keywords": [
-                "stream",
-                "zip"
-            ],
-            "support": {
-                "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
-                "source": "https://github.com/maennchen/ZipStream-PHP/tree/2.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/maennchen",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/zipstream",
-                    "type": "open_collective"
-                }
-            ],
-            "time": "2022-12-08T12:29:14+00:00"
-        },
-        {
             "name": "marc-mabe/php-enum",
             "version": "v4.7.2",
             "source": {
@@ -3110,69 +2873,6 @@
             "time": "2025-06-28T18:28:20+00:00"
         },
         {
-            "name": "myclabs/php-enum",
-            "version": "1.8.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "e7be26966b7398204a234f8673fdad5ac6277802"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e7be26966b7398204a234f8673fdad5ac6277802",
-                "reference": "e7be26966b7398204a234f8673fdad5ac6277802",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.3 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "1.*",
-                "vimeo/psalm": "^4.6.2 || ^5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MyCLabs\\Enum\\": "src/"
-                },
-                "classmap": [
-                    "stubs/Stringable.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP Enum contributors",
-                    "homepage": "https://github.com/myclabs/php-enum/graphs/contributors"
-                }
-            ],
-            "description": "PHP Enum implementation",
-            "homepage": "https://github.com/myclabs/php-enum",
-            "keywords": [
-                "enum"
-            ],
-            "support": {
-                "issues": "https://github.com/myclabs/php-enum/issues",
-                "source": "https://github.com/myclabs/php-enum/tree/1.8.5"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/mnapoli",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/myclabs/php-enum",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-01-14T11:49:03+00:00"
-        },
-        {
             "name": "nb/oxymel",
             "version": "v0.1.0",
             "source": {
@@ -3271,95 +2971,6 @@
                 "source": "https://github.com/oscarotero/env/tree/v2.1.1"
             },
             "time": "2024-12-03T01:02:28+00:00"
-        },
-        {
-            "name": "php-ffmpeg/php-ffmpeg",
-            "version": "v1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-FFMpeg/PHP-FFMpeg.git",
-                "reference": "41fa00949ea2758cd34f076a8030df7198d57759"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-FFMpeg/PHP-FFMpeg/zipball/41fa00949ea2758cd34f076a8030df7198d57759",
-                "reference": "41fa00949ea2758cd34f076a8030df7198d57759",
-                "shasum": ""
-            },
-            "require": {
-                "evenement/evenement": "^3.0",
-                "php": "^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4 || ^8.5",
-                "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "spatie/temporary-directory": "^2.0",
-                "symfony/cache": "^5.4 || ^6.0 || ^7.0 || ^8.0",
-                "symfony/process": "^5.4 || ^6.0 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^9.5.10 || ^10.0"
-            },
-            "suggest": {
-                "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FFMpeg\\": "src/FFMpeg",
-                    "Alchemy\\BinaryDriver\\": "src/Alchemy/BinaryDriver"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Romain Neutron",
-                    "email": "imprec@gmail.com",
-                    "homepage": "http://www.lickmychip.com/"
-                },
-                {
-                    "name": "Phraseanet Team",
-                    "email": "info@alchemy.fr",
-                    "homepage": "http://www.phraseanet.com/"
-                },
-                {
-                    "name": "Patrik Karisch",
-                    "email": "patrik@karisch.guru",
-                    "homepage": "http://www.karisch.guru"
-                },
-                {
-                    "name": "Romain Biard",
-                    "email": "romain.biard@gmail.com",
-                    "homepage": "https://www.strime.io/"
-                },
-                {
-                    "name": "Jens Hausdorf",
-                    "email": "hello@jens-hausdorf.de",
-                    "homepage": "https://jens-hausdorf.de"
-                },
-                {
-                    "name": "Pascal Baljet",
-                    "email": "pascal@protone.media",
-                    "homepage": "https://protone.media"
-                }
-            ],
-            "description": "FFMpeg PHP, an Object Oriented library to communicate with AVconv / ffmpeg",
-            "keywords": [
-                "audio",
-                "audio processing",
-                "avconv",
-                "avprobe",
-                "ffmpeg",
-                "ffprobe",
-                "video",
-                "video processing"
-            ],
-            "support": {
-                "issues": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/issues",
-                "source": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/tree/v1.4.0"
-            },
-            "time": "2026-01-19T21:15:14+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -4294,67 +3905,6 @@
                 "source": "https://github.com/sleiman/airtable-php/tree/v3.0.0"
             },
             "time": "2022-11-01T14:22:39+00:00"
-        },
-        {
-            "name": "spatie/temporary-directory",
-            "version": "2.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/temporary-directory.git",
-                "reference": "662e481d6ec07ef29fd05010433428851a42cd07"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/662e481d6ec07ef29fd05010433428851a42cd07",
-                "reference": "662e481d6ec07ef29fd05010433428851a42cd07",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\TemporaryDirectory\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Vanderbist",
-                    "email": "alex@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Easily create, use and destroy temporary directories",
-            "homepage": "https://github.com/spatie/temporary-directory",
-            "keywords": [
-                "php",
-                "spatie",
-                "temporary-directory"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/temporary-directory/issues",
-                "source": "https://github.com/spatie/temporary-directory/tree/2.3.1"
-            },
-            "funding": [
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-01-12T07:42:22+00:00"
         },
         {
             "name": "symfony/cache",
@@ -10949,7 +10499,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "buddyboss/buddyboss-platform": 20,
         "roave/security-advisories": 20,
         "wp-coding-standards/wpcs": 20
     },
