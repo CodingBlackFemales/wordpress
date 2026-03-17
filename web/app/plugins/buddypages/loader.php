@@ -12,7 +12,7 @@
  * Plugin Name: BuddyPages
  * Plugin URI:  https://pluginize.com
  * Description: Front end page creation for BuddyPress profiles and groups.
- * Version:     1.2.3
+ * Version:     1.2.6
  * Author:      Pluginize from WebDevStudios
  * Author URI:  https://pluginize.com
  * License:     GPLv2
@@ -74,7 +74,7 @@ class BuddyPages {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	const VERSION = '1.2.3';
+	const VERSION = '1.2.6';
 
 	/**
 	 * Current version.
@@ -436,35 +436,35 @@ class BuddyPages {
 	 */
 	public function add_social_links( $links ) {
 
-		$site_link      = 'https://pluginize.com/';
-		$twitter_status = sprintf( __( 'Check out %s from @pluginize', 'buddypages' ), $this->plugin_name );
+		$site_link = 'https://pluginize.com/';
+		$x_status  = sprintf( __( 'Check out %s from @pluginize', 'buddypages' ), $this->plugin_name );
 
 		$docs      = sprintf(
-			'<a href="%s" target="_blank" rel="noopener">%s</a>',
+			'<a href="%s">%s</a>',
 			esc_url( 'https://docs.pluginize.com/tutorials/buddypages/' ),
 			esc_html__( 'Documentation', 'buddypages' )
 		);
 		$pluginize = sprintf(
-			'<a title="%s" href="%s" target="_blank" rel="noopener">pluginize.com</a>',
+			'<a title="%s" href="%s">pluginize.com</a>',
 			esc_attr__( 'More plugins for your WordPress site here!', 'buddypages' ),
 			$site_link
 		);
 		$facebook  = sprintf(
-			'<a title="%s" href="%s" target="_blank" class="dashicons-before dashicons-facebook-alt" rel="noopener"></a>',
+			'<a title="%s" href="%s" class="dashicons-before dashicons-facebook-alt"></a>',
 			esc_attr__( 'Spread the word!', 'buddypages' ),
 			'https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link )
 		);
-		$twitter   = sprintf(
-			'<a title="%s" href="%s" target="_blank" class="dashicons-before dashicons-twitter" rel="noopener"></a>',
+		$x         = sprintf(
+			'<a title="%s" href="%s" class="dashicons-before dashicons-twitter"></a>',
 			esc_attr__( 'Spread the word!', 'buddypages' ),
-			'https://twitter.com/home?status=' . urlencode( $twitter_status )
+			'https://twitter.com/home?status=' . urlencode( $x_status )
 		);
 		array_push(
 			$links,
 			$docs,
 			$pluginize,
 			$facebook,
-			$twitter,
+			$x,
 		);
 
 		return $links;

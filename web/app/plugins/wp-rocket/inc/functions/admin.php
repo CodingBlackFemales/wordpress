@@ -327,7 +327,7 @@ function rocket_check_json_filetype( $wp_check_filetype_and_ext, $file, $filenam
 
 	$finfo     = finfo_open( FILEINFO_MIME_TYPE );
 	$real_mime = finfo_file( $finfo, $file );
-	finfo_close( $finfo );
+	finfo_close( $finfo ); // phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated
 
 	if ( 'text/plain' !== $real_mime ) {
 		return $wp_check_filetype_and_ext;
@@ -425,6 +425,15 @@ function rocket_data_collection_preview_table() {
 	$html .= '</td>';
 	$html .= '<td>';
 	$html .= sprintf( '<em>%s</em>', __( 'Which WP Rocket settings are active', 'rocket' ) );
+	$html .= '</td>';
+	$html .= '</tr>';
+
+	$html .= '<tr>';
+	$html .= '<td class="column-primary">';
+	$html .= sprintf( '<strong>%s</strong>', __( 'Anonymized WP Rocket statistics:', 'rocket' ) );
+	$html .= '</td>';
+	$html .= '<td>';
+	$html .= sprintf( '<em>%s</em>', __( 'How WP Rocket features function and perform.', 'rocket' ) );
 	$html .= '</td>';
 	$html .= '</tr>';
 
@@ -548,6 +557,10 @@ function rocket_get_license_type( $customer_data ) {
 		! isset( $customer_data->licence_account )
 	) {
 		return __( 'Unavailable', 'rocket' );
+	}
+
+	if ( isset( $customer_data->licence->is_revoked ) && $customer_data->licence->is_revoked ) {
+		return __( 'Revoked', 'rocket' );
 	}
 
 	// The licence name directly from User endpoint.

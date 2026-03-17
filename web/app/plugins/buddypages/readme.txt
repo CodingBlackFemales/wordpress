@@ -2,8 +2,8 @@
 Contributors:      webdevstudios, pluginize
 Tags: buddypress, pages
 Requires at least: 5.2
-Tested up to:      6.0.2
-Stable tag:        1.2.3
+Tested up to:      6.9
+Stable tag:        1.2.6
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
@@ -25,6 +25,20 @@ Add custom pages to BuddyPress groups and member profiles with ease–and withou
 == Screenshots ==
 
 == Changelog ==
+
+= 1.2.6 =
+* Updated: Tested up to WP 6.9 and BuddyPress 14.x
+* Updated: Draft page pencil icons are now also edit links.
+
+= 1.2.5 =
+* Fixed: Inability to delete pages in BuddyPress 12.x.
+* Updated: Redirect back to BuddyPages settings page after page deletion.
+* Updated: Confirmed compatibility with WP 6.5.
+* Updated: More conditional use of a deprecated function with BuddyPress 12.x.
+
+= 1.2.4 =
+Fixed: Compatibility issues with BuddyPress 12.x regarding loops and maximum nesting levels.
+Updated: Condtional use of a deprecated function with BuddyPress 12.x.
 
 = 1.2.3 =
 Fixed: Load internationalization files earlier to ensure they are ready to be used
