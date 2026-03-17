@@ -2,6 +2,7 @@
 web/app/languages
 web/app/plugins/*
 !web/app/plugins/.gitkeep
+!web/app/plugins/buddyboss-platform
 !web/app/plugins/buddyboss-platform-pro
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git

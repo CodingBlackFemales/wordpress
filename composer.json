@@ -40,15 +40,10 @@
         "koodimonni-plugin-language/*",
         "koodimonni-theme-language/*"
       ]
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/codingblackfemales/buddyboss-platform.git"
     }
   ],
   "require": {
     "php": ">=8.0",
-    "buddyboss/buddyboss-platform": "dev-release",
     "composer/installers": "^2.3.0",
     "humanmade/s3-uploads": "^3.0.11",
     "johnpbloch/wordpress": "^6.9.1",
@@ -160,16 +155,13 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "@configure-bp",
       "@configure-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi"
     ],
     "post-update-cmd": [
-      "@configure-bp",
       "@configure-ssp"
     ],
-    "configure-bp": "cd web/app/plugins/buddyboss-platform;composer install;cd ../../../..",
     "configure-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
