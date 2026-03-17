@@ -1,9 +1,9 @@
 === BuddyBoss Platform Pro ===
 Contributors: buddyboss
 Requires at least: 4.9.1
-Tested up to: 6.4.3
+Tested up to: 6.8.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.00
+Stable tag: 2.13.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,6 +31,182 @@ To run BuddyBoss Platform Pro, we recommend your host supports:
 5. Activate 'BuddyBoss Platform Pro' from your Plugins page.
 
 == Changelog ==
+
+= 2.13.1 =
+* Bug: Notifications - Fixed a PHP 8 fatal error on the Notifications settings page caused by improper handling of OneSignal API error responses
+
+= 2.13.0 =
+* Bug: MemberPress - Fixed UI inconsistencies in MemberPress Courses by aligning icons, colors, and spacing with the BuddyBoss Platform design
+
+= 2.12.0 =
+* Bug: Activity - Fixed a spacing issue in the poll answer statistics modal
+* Bug: Activity - Fixed an issue where the bb-activity-poll_block was duplicating when adding a new poll option
+* Bug: Activity - Fixed an issue where the comment three dot more options button was misaligned on single activity pages when a featured image was present
+* Bug: Activity - Fixed issues with the Featured Image “Reposition photo” option so it appears only when applicable
+* Bug: Blog - Fixed an issue where embedding links via the Embed Block were not rendering correctly on Pages and Blogs
+* Bug: Core - Fixed an issue where the “Select All” checkbox on the WordPress Plugins page did not work when BuddyBoss Platform was active
+* Bug: Social Login - Fixed an issue where Google SSO registration failed with Japanese nicknames by adding proper validation and handling during username generation
+* Bug: Social Login - Fixed an issue where Microsoft login was not working in the mobile app, ensuring users can successfully sign in with their Microsoft accounts
+* Bug: Social Login - Fixed an issue where the user name and avatar were not displaying correctly in the app menu after SSO registration
+
+= 2.11.0 =
+* Enhancement: Core – Improved the licensing service to reduce interruptions and increase the grace period when a license is not initially detected
+* Bug: Elementor - Fixed an issue where YouTube videos embedded using Elementor’s Video widget failed to load correctly on Safari for macOS and iOS
+
+= 2.10.1 =
+* Bug: Core - Fixed the license rate limit error and proper error handling
+
+= 2.10.0 =
+* New Feature! Core - Implemented a new licensing system for BuddyBoss plugins and theme
+
+= 2.9.0 =
+* New Feature! Activity - Added Featured Image above post content in activity and group posts, making feeds more visual and engaging
+* New Feature! Activity - Added support for Post Titles and H3/H4 text formatting in activity feeds, helping communities stay organized and posts easier to read
+
+= 2.8.0 =
+* Bug: Activity - Added permission checks to Scheduled Posts API endpoints to prevent users from accessing other users scheduled posts
+* Bug: Core -  Fixed accessibility issues across Platform and Theme for improved usability
+* Bug: Core - Fixed PHP 8.4 warnings and removed extra database queries for better stability and performance
+
+= 2.7.70 =
+* Bug: ReadyLaunch - Fixed minor UI and functional issues
+
+= 2.7.61 =
+* Bug: Core - Fixed an error in version 2.7.60
+
+= 2.7.60 =
+* Bug: Activity - Fixed an issue where the schedule post dropdown menu was not fully visible, causing options to overflow or become inaccessible
+* Bug: Groups - Fixed misalignment of the Zoom integration field style in group settings when vertical group navigation is enabled in the latest BuddyBoss theme
+
+= 2.7.50 =
+* New Feature! ReadyLaunch - launch your community with our new built in page template
+* Bug: Core - Fixed incorrect URL in the Manual Connect section on the License Keys admin page
+
+= 2.7.40 =
+* New Feature! – Added Activity Topics for categorizing and filtering posts in activity feeds and groups
+
+= 2.7.30 =
+* Bug: Activity - Fixed issue where the News Feed filter changed unexpectedly when opening the "View Scheduled Posts" popup
+* Bug: Zoom - Fixed issue about the Zoom notifications weren’t clickable
+* Bug: Zoom - Fixed issue where Zoom meeting notifications does not show correct date and time
+
+= 2.7.21 =
+* Bug: Social Login - Fixed an issue where social registration redirected to the signup form when a required custom profile field was added
+
+= 2.7.20 =
+* Bug: MemberPress - Fixed an issue where file size and file type were not displaying on the MemberPress LMS / Resources page in both the web and app
+* Bug: Social Login - Fixed an issue where related admin CSS and JS were being enqueued on all admin pages by ensuring they load only on relevant pages
+* Bug: Zoom - Fixed an issue where the Meeting and Webinar pages were broken when the Group navigation menu was set to vertical
+
+= 2.7.10 =
+* Enhancement: Login - Added Microsoft Social login support for the web
+* Bug: Core - Fixed Vulnerability issues
+
+= 2.7.01 =
+* Bug: Learndash - Resolved a code conflict in the “LearnDash Report” section
+
+= 2.7.00 =
+* Bug: Core - Fixed Vulnerability issues
+* Bug: Login - Fixed an issue where Apple's social login did not return the first and last name during subsequent authentications in the iOS app
+* Bug: Notifications - Fixed an issue where the Soft Prompt custom message was not working for the "Web Push Notification"
+
+= 2.6.90 =
+* Enhancement: Added new settings to allow admins to enable or disable member and group counts on the Members and Groups directory pages
+* Bug: Groups - Fixed an issue where saving or updating groups failed with a nonce verification error when MemberPress courses were active
+* Bug: Social Login - Fixed an issue where invited users were unable to use Social Login, as it did not recognise accounts created through invitations
+* Bug: Social Login - Fixed an issue where Twitter login redirected users to the registration page instead of logging them in when an account with the same email already existed
+* Bug: Social Login - Fixed an issue where Google SSO login redirection was not functioning as per the settings in the Redirection section
+* Bug: Zoom - Added missing instructions for the invitation scope in the Zoom App Wizard
+
+= 2.6.80 =
+* Bug: Social Login - Fixed warning messages related to Social Login
+
+= 2.6.71 =
+* Enhancement: Social Login - Enhanced the registration process to auto-populate fields with data from the social account, allowing users to manually complete any remaining mandatory fields
+
+= 2.6.70 =
+* Bug: Translations - Fixed a bug causing “PHP Notice” in the debug log after WordPress 6.7 and 6.7.1 updates
+
+= 2.6.60 =
+* Enhancement: Social Login - Added new settings for admins to configure registration options with WordPress registration
+* Enhancement: Social Login - Enhanced the web social login registration process to auto-populate fields with data from the social account, allowing users to manually complete any remaining mandatory fields
+* Bug: Activity - Fixed an issue where an additional popup appeared when closing the “View Scheduled Post” modal on activity feed pages
+* Bug: Social Login - Fixed an issue where user avatars from the SSO feature were being stored in the Media Library
+* Bug: Zoom - Fixed an issue where junk characters appeared instead of single quotes in Zoom meeting/webinar titles
+* Bug: Zoom - Fixed outdated screenshots and text information in the Zoom Wizard
+
+= 2.6.50 =
+* Bug: Activity - Fixed a spacing issue on the Reactions admin card, reducing excess empty space on smaller screens
+* Bug: Profiles - Fixed an issue where social media icons overlapped when using the “View As” feature
+* Bug: Social Login - Fixed an issue occurring when re-saving Apple credentials for the Single Sign-On feature
+
+= 2.6.40 =
+* Enhancement: Core - Updated all “View Tutorial” links across the platform to open in a new tab
+* Enhancement: Core- Updated Telemetry configuration to be anonymous by default
+* Bug: Social Login - Fixed an issue where the Social Login feature failed to function correctly with a custom wp-admin URL, resolving account verification errors
+* Bug: Social Login - Updated the warning icon and fixed a typo in the Social Login feature
+
+= 2.6.31 =
+* Bug: Core - Resolved an issue where data was sent as a string instead of an array, ensuring proper handling and compatibility
+
+= 2.6.30 =
+* New Feature: Social login compatibility for Apple, Google, Linkedin, Facebook & X
+* Enhancement: MemberPress - We have added full integration of MemberPress into Buddyboss including their most recent Courses feature
+
+= 2.6.21 =
+* Enhancement: Zoom - Updated the Zoom Web Meeting SDK library to version 3.9.2
+
+= 2.6.20 =
+* Bug: Profiles - Fixed an issue where Profile Type visibility set to “Only me” was still visible to non-admin users
+
+= 2.6.10 =
+* Enhancement: Core - Improved BuddyBoss License Validation System
+
+= 2.6.01 =
+* Bug: Activity - Added the 'more options' tool tip for the ellipses menu in polls to translations
+* Bug: Core - Updated text within Polls
+
+= 2.6.00 =
+* New Feature! - In this update we have introduced Polls. Polls is a highly requested feature that allows Admins and group Owners & Moderators make use use of Polls either in the main activity feed or group activity feed.
+* Bug: Core - A fatal error occurred when using the SureCart plugin and running the WP plugin list command
+
+= 2.5.91 =
+* Bug: Core - updated the current zoom SDK version to the latest version
+
+= 2.5.90 =
+* Bug: Core - Directory pages were not loading their content and the reaction-related notice was not displaying properly for reactions
+* Bug: Zoom - The selected timezone from Zoom block/group is now in sync with Zoom integration
+
+= 2.5.80 =
+* Bug: Core - Corrected typos found on front end text for scheduled posts function
+
+= 2.5.70 =
+* Enhancement: Styling - We have updated to show a modal instead of dropdown for ellipsis in responsive view across the network
+* Bug: Activity - The link preview from the Schedule posts is now showing correctly
+* Bug: Core - After a user deletes their account they are now redirected to the homepage instead of seeing a 404 page
+
+= 2.5.60 =
+* Bug: Activity - The wrong date would show if an activity post was scheduled after 2 days
+
+= 2.5.50 =
+* Bug: Core - Logs from the background process when migrating reactions were showing on the debug log even without turning on DEBUG in the wp-config file
+* Bug: Zoom - Zoom meeting notifications were not hyperlinked
+
+= 2.5.40 =
+* Enhancement: Core - We have added a new namespace (BuddyBossPlatformPro) in the composer library (vendor folder) so if existing plugins use the same composer library, it will work fine with our new namespace
+* Bug: Activity - Read more link was showing an error in the main activity feed and group activity feed
+
+= 2.5.30 =
+* Bug: Core - The scheduled posts modal will now open to the specific feed in the specific group where the scheduled post was originally created from
+
+= 2.5.21 =
+* Bug: Core - Updated Schedule posts logic for Group organisers and owners
+
+= 2.5.20 =
+* New Feature! Admins and Groups organizers and moderators now have the ability to use scheduling posts
+
+= 2.5.10 =
+* Bug: Zoom - Recurring Zoom meetings were showing incorrect recordings specifically for meetings set in the late part of the day
 
 = 2.5.00 =
 * Bug: TutorLMS - Unable to edit a group from the backend when TutorLMS group sync was unchecked

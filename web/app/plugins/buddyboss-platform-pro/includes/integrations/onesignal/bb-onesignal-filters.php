@@ -52,6 +52,10 @@ function bb_onesignal_admin_settings_web_push( $fields ) {
 		'args'              => array(),
 	);
 
+	if ( bb_pro_should_lock_features() ) {
+		return $fields;
+	}
+
 	$fields['bb-onesignal-default-notification-icon'] = array(
 		'title'    => esc_html__( 'Default Notification Icon', 'buddyboss-pro' ),
 		'callback' => 'bb_onesignal_admin_setting_callback_default_notification_icon_fields',
@@ -380,7 +384,7 @@ function bb_onesignal_notification_set_avatar_dir( $avatar_dir, $avatar_data ) {
  */
 function bb_onesignal_web_push_enabled( $is_enabled ) {
 
-	if ( ! $is_enabled && bp_is_active( 'notifications' ) && bbp_pro_is_license_valid() && bb_onesignal_enabled_web_push() && (int) bb_onesignal_request_permission() ) {
+	if ( ! $is_enabled && bp_is_active( 'notifications' ) && ! bb_pro_should_lock_features() && bb_onesignal_enabled_web_push() && (int) bb_onesignal_request_permission() ) {
 		$is_enabled = true;
 	}
 

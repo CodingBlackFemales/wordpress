@@ -1,42 +1,42 @@
 {
     "packages": [
         {
-            "name": "guzzlehttp/guzzle",
+            "name": "guzzlehttp\/guzzle",
             "version": "7.5.1",
             "version_normalized": "7.5.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
+                "url": "https:\/\/github.com\/guzzle\/guzzle.git",
                 "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b964ca597e86b752cd994f27293e9fa6b6a95ed9",
+                "url": "https:\/\/api.github.com\/repos\/guzzle\/guzzle\/zipball\/b964ca597e86b752cd994f27293e9fa6b6a95ed9",
                 "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/promises": "^1.5",
-                "guzzlehttp/psr7": "^1.9.1 || ^2.4.5",
+                "guzzlehttp\/promises": "^1.5",
+                "guzzlehttp\/psr7": "^1.9.1 || ^2.4.5",
                 "php": "^7.2.5 || ^8.0",
-                "psr/http-client": "^1.0",
-                "symfony/deprecation-contracts": "^2.2 || ^3.0"
+                "psr\/http-client": "^1.0",
+                "symfony\/deprecation-contracts": "^2.2 || ^3.0"
             },
             "provide": {
-                "psr/http-client-implementation": "1.0"
+                "psr\/http-client-implementation": "1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.8.1",
+                "bamarni\/composer-bin-plugin": "^1.8.1",
                 "ext-curl": "*",
-                "php-http/client-integration-tests": "^3.0",
-                "phpunit/phpunit": "^8.5.29 || ^9.5.23",
-                "psr/log": "^1.1 || ^2.0 || ^3.0"
+                "php-http\/client-integration-tests": "^3.0",
+                "phpunit\/phpunit": "^8.5.29 || ^9.5.23",
+                "psr\/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
                 "ext-curl": "Required for CURL handler support",
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
-                "psr/log": "Required for using the Log middleware"
+                "psr\/log": "Required for using the Log middleware"
             },
             "time": "2023-04-17T16:30:08+00:00",
             "type": "library",
@@ -51,12 +51,14 @@
             },
             "installation-source": "dist",
             "autoload": {
-                "files": [],
+                "files": [
+                    "src\/functions_include.php"
+                ],
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\": "src/"
+                    "BuddyBossPlatformPro\\GuzzleHttp\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -64,37 +66,37 @@
                 {
                     "name": "Graham Campbell",
                     "email": "hello@gjcampbell.co.uk",
-                    "homepage": "https://github.com/GrahamCampbell"
+                    "homepage": "https:\/\/github.com\/GrahamCampbell"
                 },
                 {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
+                    "homepage": "https:\/\/github.com\/mtdowling"
                 },
                 {
                     "name": "Jeremy Lindblom",
                     "email": "jeremeamia@gmail.com",
-                    "homepage": "https://github.com/jeremeamia"
+                    "homepage": "https:\/\/github.com\/jeremeamia"
                 },
                 {
                     "name": "George Mponos",
                     "email": "gmponos@gmail.com",
-                    "homepage": "https://github.com/gmponos"
+                    "homepage": "https:\/\/github.com\/gmponos"
                 },
                 {
                     "name": "Tobias Nyholm",
                     "email": "tobias.nyholm@gmail.com",
-                    "homepage": "https://github.com/Nyholm"
+                    "homepage": "https:\/\/github.com\/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
-                    "homepage": "https://github.com/sagikazarmark"
+                    "homepage": "https:\/\/github.com\/sagikazarmark"
                 },
                 {
                     "name": "Tobias Schultze",
                     "email": "webmaster@tubo-world.de",
-                    "homepage": "https://github.com/Tobion"
+                    "homepage": "https:\/\/github.com\/Tobion"
                 }
             ],
             "description": "Guzzle is a PHP HTTP client library",
@@ -110,37 +112,37 @@
                 "web service"
             ],
             "support": {
-                "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.5.1"
+                "issues": "https:\/\/github.com\/guzzle\/guzzle\/issues",
+                "source": "https:\/\/github.com\/guzzle\/guzzle\/tree\/7.5.1"
             },
             "funding": [
                 {
-                    "url": "https://github.com/GrahamCampbell",
+                    "url": "https:\/\/github.com\/GrahamCampbell",
                     "type": "github"
                 },
                 {
-                    "url": "https://github.com/Nyholm",
+                    "url": "https:\/\/github.com\/Nyholm",
                     "type": "github"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "url": "https:\/\/tidelift.com\/funding\/github\/packagist\/guzzlehttp\/guzzle",
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../guzzlehttp/guzzle"
+            "install-path": "..\/guzzlehttp\/guzzle"
         },
         {
-            "name": "guzzlehttp/promises",
+            "name": "guzzlehttp\/promises",
             "version": "1.5.2",
             "version_normalized": "1.5.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/promises.git",
+                "url": "https:\/\/github.com\/guzzle\/promises.git",
                 "reference": "b94b2807d85443f9719887892882d0329d1e2598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/b94b2807d85443f9719887892882d0329d1e2598",
+                "url": "https:\/\/api.github.com\/repos\/guzzle\/promises\/zipball\/b94b2807d85443f9719887892882d0329d1e2598",
                 "reference": "b94b2807d85443f9719887892882d0329d1e2598",
                 "shasum": ""
             },
@@ -148,7 +150,7 @@
                 "php": ">=5.5"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^4.4 || ^5.1"
+                "symfony\/phpunit-bridge": "^4.4 || ^5.1"
             },
             "time": "2022-08-28T14:55:35+00:00",
             "type": "library",
@@ -159,12 +161,14 @@
             },
             "installation-source": "dist",
             "autoload": {
-                "files": [],
+                "files": [
+                    "src\/functions_include.php"
+                ],
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Promise\\": "src/"
+                    "BuddyBossPlatformPro\\GuzzleHttp\\Promise\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -172,22 +176,22 @@
                 {
                     "name": "Graham Campbell",
                     "email": "hello@gjcampbell.co.uk",
-                    "homepage": "https://github.com/GrahamCampbell"
+                    "homepage": "https:\/\/github.com\/GrahamCampbell"
                 },
                 {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
+                    "homepage": "https:\/\/github.com\/mtdowling"
                 },
                 {
                     "name": "Tobias Nyholm",
                     "email": "tobias.nyholm@gmail.com",
-                    "homepage": "https://github.com/Nyholm"
+                    "homepage": "https:\/\/github.com\/Nyholm"
                 },
                 {
                     "name": "Tobias Schultze",
                     "email": "webmaster@tubo-world.de",
-                    "homepage": "https://github.com/Tobion"
+                    "homepage": "https:\/\/github.com\/Tobion"
                 }
             ],
             "description": "Guzzle promises library",
@@ -195,57 +199,57 @@
                 "promise"
             ],
             "support": {
-                "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.5.2"
+                "issues": "https:\/\/github.com\/guzzle\/promises\/issues",
+                "source": "https:\/\/github.com\/guzzle\/promises\/tree\/1.5.2"
             },
             "funding": [
                 {
-                    "url": "https://github.com/GrahamCampbell",
+                    "url": "https:\/\/github.com\/GrahamCampbell",
                     "type": "github"
                 },
                 {
-                    "url": "https://github.com/Nyholm",
+                    "url": "https:\/\/github.com\/Nyholm",
                     "type": "github"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/promises",
+                    "url": "https:\/\/tidelift.com\/funding\/github\/packagist\/guzzlehttp\/promises",
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../guzzlehttp/promises"
+            "install-path": "..\/guzzlehttp\/promises"
         },
         {
-            "name": "guzzlehttp/psr7",
+            "name": "guzzlehttp\/psr7",
             "version": "2.5.0",
             "version_normalized": "2.5.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/psr7.git",
+                "url": "https:\/\/github.com\/guzzle\/psr7.git",
                 "reference": "b635f279edd83fc275f822a1188157ffea568ff6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/b635f279edd83fc275f822a1188157ffea568ff6",
+                "url": "https:\/\/api.github.com\/repos\/guzzle\/psr7\/zipball\/b635f279edd83fc275f822a1188157ffea568ff6",
                 "reference": "b635f279edd83fc275f822a1188157ffea568ff6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.1 || ^2.0",
-                "ralouphie/getallheaders": "^3.0"
+                "psr\/http-factory": "^1.0",
+                "psr\/http-message": "^1.1 || ^2.0",
+                "ralouphie\/getallheaders": "^3.0"
             },
             "provide": {
-                "psr/http-factory-implementation": "1.0",
-                "psr/http-message-implementation": "1.0"
+                "psr\/http-factory-implementation": "1.0",
+                "psr\/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.8.1",
-                "http-interop/http-factory-tests": "^0.9",
-                "phpunit/phpunit": "^8.5.29 || ^9.5.23"
+                "bamarni\/composer-bin-plugin": "^1.8.1",
+                "http-interop\/http-factory-tests": "^0.9",
+                "phpunit\/phpunit": "^8.5.29 || ^9.5.23"
             },
             "suggest": {
-                "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
+                "laminas\/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
             "time": "2023-04-17T16:11:26+00:00",
             "type": "library",
@@ -258,10 +262,10 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\GuzzleHttp\\Psr7\\": "src/"
+                    "BuddyBossPlatformPro\\GuzzleHttp\\Psr7\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -269,37 +273,37 @@
                 {
                     "name": "Graham Campbell",
                     "email": "hello@gjcampbell.co.uk",
-                    "homepage": "https://github.com/GrahamCampbell"
+                    "homepage": "https:\/\/github.com\/GrahamCampbell"
                 },
                 {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
-                    "homepage": "https://github.com/mtdowling"
+                    "homepage": "https:\/\/github.com\/mtdowling"
                 },
                 {
                     "name": "George Mponos",
                     "email": "gmponos@gmail.com",
-                    "homepage": "https://github.com/gmponos"
+                    "homepage": "https:\/\/github.com\/gmponos"
                 },
                 {
                     "name": "Tobias Nyholm",
                     "email": "tobias.nyholm@gmail.com",
-                    "homepage": "https://github.com/Nyholm"
+                    "homepage": "https:\/\/github.com\/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
-                    "homepage": "https://github.com/sagikazarmark"
+                    "homepage": "https:\/\/github.com\/sagikazarmark"
                 },
                 {
                     "name": "Tobias Schultze",
                     "email": "webmaster@tubo-world.de",
-                    "homepage": "https://github.com/Tobion"
+                    "homepage": "https:\/\/github.com\/Tobion"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "M\u00e1rk S\u00e1gi-Kaz\u00e1r",
                     "email": "mark.sagikazar@gmail.com",
-                    "homepage": "https://sagikazarmark.hu"
+                    "homepage": "https:\/\/sagikazarmark.hu"
                 }
             ],
             "description": "PSR-7 message implementation that also provides common utility methods",
@@ -314,37 +318,37 @@
                 "url"
             ],
             "support": {
-                "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.5.0"
+                "issues": "https:\/\/github.com\/guzzle\/psr7\/issues",
+                "source": "https:\/\/github.com\/guzzle\/psr7\/tree\/2.5.0"
             },
             "funding": [
                 {
-                    "url": "https://github.com/GrahamCampbell",
+                    "url": "https:\/\/github.com\/GrahamCampbell",
                     "type": "github"
                 },
                 {
-                    "url": "https://github.com/Nyholm",
+                    "url": "https:\/\/github.com\/Nyholm",
                     "type": "github"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                    "url": "https:\/\/tidelift.com\/funding\/github\/packagist\/guzzlehttp\/psr7",
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../guzzlehttp/psr7"
+            "install-path": "..\/guzzlehttp\/psr7"
         },
         {
-            "name": "paragonie/random_compat",
+            "name": "paragonie\/random_compat",
             "version": "v9.99.100",
             "version_normalized": "9.99.100.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/paragonie/random_compat.git",
+                "url": "https:\/\/github.com\/paragonie\/random_compat.git",
                 "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "url": "https:\/\/api.github.com\/repos\/paragonie\/random_compat\/zipball\/996434e5492cb4c3edcb9168db6fbb1359ef965a",
                 "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
                 "shasum": ""
             },
@@ -352,8 +356,8 @@
                 "php": ">= 7"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*|5.*",
-                "vimeo/psalm": "^1"
+                "phpunit\/phpunit": "4.*|5.*",
+                "vimeo\/psalm": "^1"
             },
             "suggest": {
                 "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
@@ -361,7 +365,7 @@
             "time": "2020-10-15T08:29:30+00:00",
             "type": "library",
             "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -369,7 +373,7 @@
                 {
                     "name": "Paragon Initiative Enterprises",
                     "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com"
+                    "homepage": "https:\/\/paragonie.com"
                 }
             ],
             "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
@@ -381,32 +385,32 @@
             ],
             "support": {
                 "email": "info@paragonie.com",
-                "issues": "https://github.com/paragonie/random_compat/issues",
-                "source": "https://github.com/paragonie/random_compat"
+                "issues": "https:\/\/github.com\/paragonie\/random_compat\/issues",
+                "source": "https:\/\/github.com\/paragonie\/random_compat"
             },
-            "install-path": "../paragonie/random_compat"
+            "install-path": "..\/paragonie\/random_compat"
         },
         {
-            "name": "paragonie/sodium_compat",
+            "name": "paragonie\/sodium_compat",
             "version": "v1.19.0",
             "version_normalized": "1.19.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/paragonie/sodium_compat.git",
+                "url": "https:\/\/github.com\/paragonie\/sodium_compat.git",
                 "reference": "cb15e403ecbe6a6cc515f855c310eb6b1872a933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/cb15e403ecbe6a6cc515f855c310eb6b1872a933",
+                "url": "https:\/\/api.github.com\/repos\/paragonie\/sodium_compat\/zipball\/cb15e403ecbe6a6cc515f855c310eb6b1872a933",
                 "reference": "cb15e403ecbe6a6cc515f855c310eb6b1872a933",
                 "shasum": ""
             },
             "require": {
-                "paragonie/random_compat": ">=1",
+                "paragonie\/random_compat": ">=1",
                 "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
+                "phpunit\/phpunit": "^3|^4|^5|^6|^7|^8|^9"
             },
             "suggest": {
                 "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
@@ -420,7 +424,7 @@
                     "autoload.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "ISC"
             ],
@@ -470,29 +474,29 @@
                 "side-channel resistant"
             ],
             "support": {
-                "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/v1.19.0"
+                "issues": "https:\/\/github.com\/paragonie\/sodium_compat\/issues",
+                "source": "https:\/\/github.com\/paragonie\/sodium_compat\/tree\/v1.19.0"
             },
-            "install-path": "../paragonie/sodium_compat"
+            "install-path": "..\/paragonie\/sodium_compat"
         },
         {
-            "name": "psr/http-client",
+            "name": "psr\/http-client",
             "version": "1.0.2",
             "version_normalized": "1.0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-client.git",
+                "url": "https:\/\/github.com\/php-fig\/http-client.git",
                 "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/0955afe48220520692d2d09f7ab7e0f93ffd6a31",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/http-client\/zipball\/0955afe48220520692d2d09f7ab7e0f93ffd6a31",
                 "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0 || ^8.0",
-                "psr/http-message": "^1.0 || ^2.0"
+                "psr\/http-message": "^1.0 || ^2.0"
             },
             "time": "2023-04-10T20:12:12+00:00",
             "type": "library",
@@ -504,21 +508,21 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Client\\": "src/"
+                    "BuddyBossPlatformPro\\Psr\\Http\\Client\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "homepage": "https:\/\/www.php-fig.org\/"
                 }
             ],
             "description": "Common interface for HTTP clients",
-            "homepage": "https://github.com/php-fig/http-client",
+            "homepage": "https:\/\/github.com\/php-fig\/http-client",
             "keywords": [
                 "http",
                 "http-client",
@@ -526,28 +530,28 @@
                 "psr-18"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-client/tree/1.0.2"
+                "source": "https:\/\/github.com\/php-fig\/http-client\/tree\/1.0.2"
             },
-            "install-path": "../psr/http-client"
+            "install-path": "..\/psr\/http-client"
         },
         {
-            "name": "psr/http-factory",
+            "name": "psr\/http-factory",
             "version": "1.0.2",
             "version_normalized": "1.0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-factory.git",
+                "url": "https:\/\/github.com\/php-fig\/http-factory.git",
                 "reference": "e616d01114759c4c489f93b099585439f795fe35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/e616d01114759c4c489f93b099585439f795fe35",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/http-factory\/zipball\/e616d01114759c4c489f93b099585439f795fe35",
                 "reference": "e616d01114759c4c489f93b099585439f795fe35",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0",
-                "psr/http-message": "^1.0 || ^2.0"
+                "psr\/http-message": "^1.0 || ^2.0"
             },
             "time": "2023-04-10T20:10:41+00:00",
             "type": "library",
@@ -559,17 +563,17 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Message\\": "src/"
+                    "BuddyBossPlatformPro\\Psr\\Http\\Message\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "homepage": "https:\/\/www.php-fig.org\/"
                 }
             ],
             "description": "Common interfaces for PSR-7 HTTP message factories",
@@ -584,22 +588,22 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-factory/tree/1.0.2"
+                "source": "https:\/\/github.com\/php-fig\/http-factory\/tree\/1.0.2"
             },
-            "install-path": "../psr/http-factory"
+            "install-path": "..\/psr\/http-factory"
         },
         {
-            "name": "psr/http-message",
+            "name": "psr\/http-message",
             "version": "2.0",
             "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-message.git",
+                "url": "https:\/\/github.com\/php-fig\/http-message.git",
                 "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/http-message\/zipball\/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
@@ -616,21 +620,21 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\Psr\\Http\\Message\\": "src/"
+                    "BuddyBossPlatformPro\\Psr\\Http\\Message\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "homepage": "https:\/\/www.php-fig.org\/"
                 }
             ],
             "description": "Common interface for HTTP messages",
-            "homepage": "https://github.com/php-fig/http-message",
+            "homepage": "https:\/\/github.com\/php-fig\/http-message",
             "keywords": [
                 "http",
                 "http-message",
@@ -640,22 +644,22 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/2.0"
+                "source": "https:\/\/github.com\/php-fig\/http-message\/tree\/2.0"
             },
-            "install-path": "../psr/http-message"
+            "install-path": "..\/psr\/http-message"
         },
         {
-            "name": "psr/log",
+            "name": "psr\/log",
             "version": "1.1.4",
             "version_normalized": "1.1.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/log.git",
+                "url": "https:\/\/github.com\/php-fig\/log.git",
                 "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https:\/\/api.github.com\/repos\/php-fig\/log\/zipball\/d49695b909c3b7628b6289db5479a1c204601f11",
                 "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
                 "shasum": ""
             },
@@ -672,57 +676,57 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "BuddyBoss\\PlatformPro\\Vendor\\Psr\\Log\\": "Psr/Log/"
+                    "BuddyBossPlatformPro\\Psr\\Log\\": "Psr\/Log\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "homepage": "https:\/\/www.php-fig.org\/"
                 }
             ],
             "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
+            "homepage": "https:\/\/github.com\/php-fig\/log",
             "keywords": [
                 "log",
                 "psr",
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https:\/\/github.com\/php-fig\/log\/tree\/1.1.4"
             },
-            "install-path": "../psr/log"
+            "install-path": "..\/psr\/log"
         },
         {
-            "name": "pusher/pusher-php-server",
+            "name": "pusher\/pusher-php-server",
             "version": "7.2.2",
             "version_normalized": "7.2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pusher/pusher-http-php.git",
+                "url": "https:\/\/github.com\/pusher\/pusher-http-php.git",
                 "reference": "4ace4873873b06c25cecb2dd6d9fdcbf2f20b640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/4ace4873873b06c25cecb2dd6d9fdcbf2f20b640",
+                "url": "https:\/\/api.github.com\/repos\/pusher\/pusher-http-php\/zipball\/4ace4873873b06c25cecb2dd6d9fdcbf2f20b640",
                 "reference": "4ace4873873b06c25cecb2dd6d9fdcbf2f20b640",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "guzzlehttp/guzzle": "^7.2",
-                "paragonie/sodium_compat": "^1.6",
+                "guzzlehttp\/guzzle": "^7.2",
+                "paragonie\/sodium_compat": "^1.6",
                 "php": "^7.3|^8.0",
-                "psr/log": "^1.0|^2.0|^3.0"
+                "psr\/log": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
-                "overtrue/phplint": "^2.3",
-                "phpunit/phpunit": "^9.3"
+                "overtrue\/phplint": "^2.3",
+                "phpunit\/phpunit": "^9.3"
             },
             "time": "2022-12-20T19:52:36+00:00",
             "type": "library",
@@ -734,10 +738,10 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Pusher\\": "src/"
+                    "BuddyBossPlatformPro\\Pusher\\": "src\/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -756,23 +760,23 @@
                 "trigger"
             ],
             "support": {
-                "issues": "https://github.com/pusher/pusher-http-php/issues",
-                "source": "https://github.com/pusher/pusher-http-php/tree/7.2.2"
+                "issues": "https:\/\/github.com\/pusher\/pusher-http-php\/issues",
+                "source": "https:\/\/github.com\/pusher\/pusher-http-php\/tree\/7.2.2"
             },
-            "install-path": "../pusher/pusher-php-server"
+            "install-path": "..\/pusher\/pusher-php-server"
         },
         {
-            "name": "ralouphie/getallheaders",
+            "name": "ralouphie\/getallheaders",
             "version": "3.0.3",
             "version_normalized": "3.0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ralouphie/getallheaders.git",
+                "url": "https:\/\/github.com\/ralouphie\/getallheaders.git",
                 "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
+                "url": "https:\/\/api.github.com\/repos\/ralouphie\/getallheaders\/zipball\/120b605dfeb996808c31b6477290a714d356e822",
                 "reference": "120b605dfeb996808c31b6477290a714d356e822",
                 "shasum": ""
             },
@@ -780,18 +784,18 @@
                 "php": ">=5.6"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "^2.1",
-                "phpunit/phpunit": "^5 || ^6.5"
+                "php-coveralls\/php-coveralls": "^2.1",
+                "phpunit\/phpunit": "^5 || ^6.5"
             },
             "time": "2019-03-08T08:55:37+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "files": [
-                    "src/getallheaders.php"
+                    "src\/getallheaders.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -803,23 +807,23 @@
             ],
             "description": "A polyfill for getallheaders.",
             "support": {
-                "issues": "https://github.com/ralouphie/getallheaders/issues",
-                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
+                "issues": "https:\/\/github.com\/ralouphie\/getallheaders\/issues",
+                "source": "https:\/\/github.com\/ralouphie\/getallheaders\/tree\/develop"
             },
-            "install-path": "../ralouphie/getallheaders"
+            "install-path": "..\/ralouphie\/getallheaders"
         },
         {
-            "name": "symfony/deprecation-contracts",
+            "name": "symfony\/deprecation-contracts",
             "version": "v2.5.2",
             "version_normalized": "2.5.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/deprecation-contracts.git",
+                "url": "https:\/\/github.com\/symfony\/deprecation-contracts.git",
                 "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
+                "url": "https:\/\/api.github.com\/repos\/symfony\/deprecation-contracts\/zipball\/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
                 "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
                 "shasum": ""
             },
@@ -833,8 +837,8 @@
                     "dev-main": "2.5-dev"
                 },
                 "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
+                    "name": "symfony\/contracts",
+                    "url": "https:\/\/github.com\/symfony\/contracts"
                 }
             },
             "installation-source": "dist",
@@ -843,7 +847,7 @@
                     "function.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https:\/\/packagist.org\/downloads\/",
             "license": [
                 "MIT"
             ],
@@ -854,29 +858,29 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "homepage": "https:\/\/symfony.com\/contributors"
                 }
             ],
             "description": "A generic function and convention to trigger deprecation notices",
-            "homepage": "https://symfony.com",
+            "homepage": "https:\/\/symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.2"
+                "source": "https:\/\/github.com\/symfony\/deprecation-contracts\/tree\/v2.5.2"
             },
             "funding": [
                 {
-                    "url": "https://symfony.com/sponsor",
+                    "url": "https:\/\/symfony.com\/sponsor",
                     "type": "custom"
                 },
                 {
-                    "url": "https://github.com/fabpot",
+                    "url": "https:\/\/github.com\/fabpot",
                     "type": "github"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "url": "https:\/\/tidelift.com\/funding\/github\/packagist\/symfony\/symfony",
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../symfony/deprecation-contracts"
+            "install-path": "..\/symfony\/deprecation-contracts"
         }
     ],
     "dev": false,

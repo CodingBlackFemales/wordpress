@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
+namespace BuddyBossPlatformPro\GuzzleHttp\Exception;
 
 /**
  * Exception when a client error is encountered (4xx codes)

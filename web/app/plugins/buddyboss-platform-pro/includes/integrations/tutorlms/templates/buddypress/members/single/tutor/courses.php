@@ -42,6 +42,24 @@ if ( ! empty( $courses_list ) && is_array( $courses_list ) ) {
 	}
 }
 
+$course_ids = array_unique( $course_ids );
+
+if ( ! function_exists( 'bb_enable_content_counts' ) || bb_enable_content_counts() ) {
+	$count = count( $course_ids );
+	?>
+	<div class="bb-item-count">
+		<?php
+		/* translators: %d is the courses count */
+		printf(
+			wp_kses( _n( '<span class="bb-count">%d</span> Course', '<span class="bb-count">%d</span> Courses', $count, 'buddyboss-pro' ), array( 'span' => array( 'class' => true ) ) ),
+			$count
+		);
+		?>
+	</div>
+	<?php
+	unset( $count );
+}
+
 if ( ! empty( $course_ids ) ) {
 	$course_ids_string = implode( ',', $course_ids );
 	echo tutor_lms()->shortcode->tutor_course( array( 'id' => $course_ids_string, 'show_pagination' => 'on' ) );

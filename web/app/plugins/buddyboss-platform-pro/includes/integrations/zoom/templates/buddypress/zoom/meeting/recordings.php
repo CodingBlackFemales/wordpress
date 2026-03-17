@@ -254,7 +254,7 @@ $recording_groups_dates_print = array_unique( $recording_groups_dates_print );
 										<a href="#" class="toggle-password show-pass">
 											<i class="bb-icon-l bb-icon-eye"></i><?php esc_html_e( 'Show password', 'buddyboss-pro' ); ?>
 										</a>
-										<span class="show-password bp-hide"><a href="#" class="toggle-password hide-pass"><i class="bb-icon-l bb-icon-eye-slash"></i></a><span class="recording-password"><?php echo esc_html( $recording->password ); ?></span></span>
+										<span class="show-password bp-hide"><a href="#" class="toggle-password hide-pass" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>"><i class="bb-icon-l bb-icon-eye-slash"></i></a><span class="recording-password"><?php echo esc_html( $recording->password ); ?></span></span>
 									</div>
 								<?php endif; ?>
 							</div>

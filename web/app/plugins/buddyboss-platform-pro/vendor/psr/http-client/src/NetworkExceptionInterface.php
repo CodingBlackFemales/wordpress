@@ -1,9 +1,8 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Client;
+namespace BuddyBossPlatformPro\Psr\Http\Client;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Message\RequestInterface;
 /**
  * Thrown when the request cannot be completed because of network issues.
  *
@@ -20,5 +19,5 @@ interface NetworkExceptionInterface extends ClientExceptionInterface
      *
      * @return RequestInterface
      */
-    public function getRequest(): RequestInterface;
+    public function getRequest() : RequestInterface;
 }

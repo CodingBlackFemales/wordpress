@@ -290,12 +290,14 @@ function bp_zoom_meeting_after_save_update_meeting_data( $meeting ) {
 		$meeting->timezone = $object['timezone'];
 	}
 
+	$timezone = bb_zoom_get_server_allowed_timezone( $meeting->timezone );
+
 	if ( isset( $object['start_time'] ) ) {
 		$meeting->start_date_utc = $object['start_time'];
-		$meeting->start_date     = wp_date( 'Y-m-d\TH:i:s', strtotime( $meeting->start_date_utc ), new DateTimeZone( $meeting->timezone ) );
+		$meeting->start_date     = wp_date( 'Y-m-d\TH:i:s', strtotime( $meeting->start_date_utc ), new DateTimeZone( $timezone ) );
 	} elseif ( isset( $object['created_at'] ) ) {
 		$meeting->start_date_utc = $object['created_at'];
-		$meeting->start_date     = wp_date( 'Y-m-d\TH:i:s', strtotime( $meeting->start_date_utc ), new DateTimeZone( $meeting->timezone ) );
+		$meeting->start_date     = wp_date( 'Y-m-d\TH:i:s', strtotime( $meeting->start_date_utc ), new DateTimeZone( $timezone ) );
 	}
 
 	if ( isset( $object['duration'] ) ) {

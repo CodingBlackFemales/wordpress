@@ -30,5 +30,10 @@ function bb_register_platform_pro_settings() {
 	// Buddyboss platform group settings.
 	require_once dirname( __FILE__ ) . '/groups/class-bb-pro-groups-settings.php';
 	BB_Pro_Groups_Settings::instance();
+
+	// Buddyboss platform activity settings.
+	require_once dirname( __FILE__ ) . '/activity/bb-pro-activity-functions.php';
+	require_once dirname( __FILE__ ) . '/activity/class-bb-pro-activity-settings.php';
+	BB_Pro_Activity_Settings::instance();
 }
 add_action( 'bp_setup_components', 'bb_register_platform_pro_settings' );

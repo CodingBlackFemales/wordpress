@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Log;
+namespace BuddyBossPlatformPro\Psr\Log;
 
 /**
  * Basic Implementation of LoggerAwareInterface.
@@ -13,7 +13,6 @@ trait LoggerAwareTrait
      * @var LoggerInterface|null
      */
     protected $logger;
-
     /**
      * Sets a logger.
      *

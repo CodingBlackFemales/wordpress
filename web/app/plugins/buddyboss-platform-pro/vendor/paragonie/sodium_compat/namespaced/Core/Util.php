@@ -1,7 +1,7 @@
 <?php
-namespace ParagonIE\Sodium\Core;
 
-class Util extends \ParagonIE_Sodium_Core_Util
+namespace BuddyBossPlatformPro\ParagonIE\Sodium\Core;
+
+class Util extends \BuddyBossPlatformPro\ParagonIE_Sodium_Core_Util
 {
-
 }

@@ -320,7 +320,7 @@ add_filter( 'thread_recipient_inbox_unread_counts', 'bb_pro_pusher_thread_recipi
  */
 function bb_pro_pusher_on_screen_notification_query_string( $query_string ) {
 
-	if ( ! ( bbp_pro_is_license_valid() && bb_pusher_is_enabled() && bb_pusher_is_feature_enabled( 'live-messaging' ) && bp_is_user_messages() ) ) {
+	if ( ! ( ! bb_pro_should_lock_features() && bb_pusher_is_enabled() && bb_pusher_is_feature_enabled( 'live-messaging' ) && bp_is_user_messages() ) ) {
 		return $query_string;
 
 	}
@@ -351,7 +351,7 @@ function bb_pro_pusher_on_screen_notification_query_string( $query_string ) {
  */
 function bb_pro_pusher_bb_nouveau_ajax_messages_send_reply_success( $response ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled() ||
 		! bb_pusher_is_feature_enabled( 'live-messaging' )
 	) {
@@ -390,7 +390,7 @@ function bb_pro_pusher_bb_nouveau_ajax_messages_send_reply_success( $response ) 
  */
 function bb_pro_pusher_exclude_endpoints_from_restriction( $exclude_endpoint ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! bb_pusher_is_enabled()
 	) {
 		return $exclude_endpoint;

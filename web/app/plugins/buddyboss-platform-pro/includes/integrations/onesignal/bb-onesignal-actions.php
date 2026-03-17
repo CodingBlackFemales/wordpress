@@ -118,7 +118,7 @@ function bb_pro_onesignal_enqueue_scripts_and_styles() {
 		'ajax_url'                       => bp_core_ajax_url(),
 		'home_url'                       => home_url( $wp->request ),
 		'is_component_active'            => (int) bp_is_active( 'notifications' ),
-		'is_valid_licence'               => (int) bbp_pro_is_license_valid(),
+		'is_valid_licence'               => (int) ! bb_pro_should_lock_features(),
 		'is_web_push_enable'             => (int) bb_onesignal_enabled_web_push(),
 		'auto_prompt_request_permission' => (int) bb_onesignal_request_permission(),
 		'auto_prompt_validate'           => bb_onesignal_permission_validate(),
@@ -468,7 +468,7 @@ function bb_clear_display_prompt_on_login_screen() {
  */
 function bb_pro_onesignal_notification_after_save( $notification ) {
 	if (
-		! bbp_pro_is_license_valid() ||
+		bb_pro_should_lock_features() ||
 		! function_exists( 'bb_enabled_legacy_email_preference' ) ||
 		( function_exists( 'bb_enabled_legacy_email_preference' ) && bb_enabled_legacy_email_preference() ) ||
 		empty( bb_onesignal_app_id() ) ||

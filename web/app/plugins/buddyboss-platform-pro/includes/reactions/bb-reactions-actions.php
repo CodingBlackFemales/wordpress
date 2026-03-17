@@ -617,3 +617,39 @@ function bb_pro_reaction_show_global_notice() {
 		);
 	}
 }
+
+/**
+ *  Function to remove the like button if there is not a valid license.
+ *
+ * @since 2.11.0
+ *
+ * @retrun array
+ */
+function bb_pro_remove_reactions_if_not_valid_license( $buttons, $activity_id ) {
+
+	if ( 'likes' !== bb_get_reaction_mode() && bb_pro_should_lock_features() ) {
+		unset( $buttons['activity_favorite'] );
+	}
+	return $buttons;
+}
+
+add_filter( 'bp_nouveau_get_activity_entry_buttons', 'bb_pro_remove_reactions_if_not_valid_license', PHP_INT_MAX, 2 );
+
+/**
+ * Function to remove the like button from the App if there is not a valid license.
+ *
+ * @since 2.11.0
+ *
+ * @param $value
+ *
+ * @return false|mixed
+ */
+function bb_pro_activity_can_favorite( $value ) {
+
+	if ( bb_pro_should_lock_features() ) {
+		return false;
+	}
+	return $value;
+}
+
+add_filter( 'bp_activity_can_favorite', 'bb_pro_activity_can_favorite', PHP_INT_MAX, 1 );

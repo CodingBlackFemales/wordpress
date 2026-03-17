@@ -190,7 +190,7 @@ class BB_Reactions {
 	 */
 	protected function bb_reaction_check_has_licence( $has_access = true ) {
 
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			return false;
 		}
 

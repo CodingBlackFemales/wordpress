@@ -18,6 +18,8 @@ add_filter( 'bp_zoom_meeting_timezone_before_save', 'bb_zoom_get_server_allowed_
 add_filter( 'bp_zoom_webinar_timezone_before_save', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
 add_filter( 'bp_get_zoom_meeting_timezone', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
 add_filter( 'bp_get_zoom_webinar_timezone', 'bb_zoom_get_server_allowed_timezone', 99, 1 );
+add_filter( 'bb_notification_is_read_only', 'bb_zoom_group_notification_linkable', 99, 2 );
+add_filter( 'bp_activity_get_where_conditions', 'bp_zoom_exclude_activities_when_locked', 10, 5 );
 
 /**
  * Install or upgrade zoom integration.
@@ -221,4 +223,71 @@ function bb_zoom_rest_account_settings_notifications( $fields ) {
 	);
 
 	return $fields;
+}
+
+/**
+ * Determines if a Zoom group notification is linkable based on user and moderation status.
+ *
+ * @since 2.5.50
+ *
+ * @param bool   $retval       The current return value indicating if the notification is linkable.
+ * @param object $notification The notification object being evaluated.
+ *
+ * @return bool Whether the notification is linkable based on user and moderation status.
+ */
+function bb_zoom_group_notification_linkable( $retval, $notification ) {
+
+	if (
+		'groups' !== $notification->component_name ||
+		! in_array(
+			$notification->component_action,
+			array(
+				'bb_groups_new_zoom',
+			),
+			true
+		)
+	) {
+		return $retval;
+	}
+
+	$meeting = new BP_Zoom_Meeting( $notification->secondary_item_id );
+	$user_id = $meeting->user_id ?? 0;
+
+	return ! empty( $user_id ) &&
+		(
+			bp_is_user_inactive( $user_id ) ||
+			(
+				bp_is_active( 'moderation' ) &&
+				bb_moderation_moderated_user_ids( $user_id )
+			)
+		);
+}
+
+/**
+ * Exclude zoom meeting and webinar activities when DRM features are locked.
+ *
+ * @since 2.11.0
+ *
+ * @param array  $where_conditions Current WHERE conditions.
+ * @param array  $r                Query arguments.
+ * @param string $select_sql       SELECT clause.
+ * @param string $from_sql         FROM clause.
+ * @param string $join_sql         JOIN clause.
+ *
+ * @return array Modified WHERE conditions.
+ */
+function bp_zoom_exclude_activities_when_locked( $where_conditions, $r, $select_sql, $from_sql, $join_sql ) {
+	if ( function_exists( 'bb_pro_should_lock_features' ) && bb_pro_should_lock_features() ) {
+		$excluded_zoom_types = array(
+			'zoom_meeting_create',
+			'zoom_meeting_notify',
+			'zoom_webinar_create',
+			'zoom_webinar_notify',
+		);
+
+		$not_in                                  = "'" . implode( "', '", esc_sql( $excluded_zoom_types ) ) . "'";
+		$where_conditions['excluded_zoom_types'] = "a.type NOT IN ({$not_in})";
+	}
+
+	return $where_conditions;
 }
