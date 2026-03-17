@@ -353,6 +353,22 @@
 				var target = form.find( '.ac-textarea' );
 				bp.Nouveau.Activity.toggleMultiMediaOptions( form, target );
 			}
+
+			$( this ).find( '.bb-activity-more-options-action[data-balloon-pos="up"]' ).attr( 'data-balloon-pos', 'left' );
+
+			// Check if all buttons inside context more options menu are hidden
+			var $moreOptions = $( this ).children( 'span.activity-actions' ).find( '.bb-activity-more-options-wrap' );
+			var $buttons     = $moreOptions.find( 'div.generic-button a' );
+
+			var visibleButtons = $buttons.filter( function() {
+				return $( this ).css( 'display' ) !== 'none';
+			});
+
+			if ( $buttons.length > 0 && visibleButtons.length === 0 ) {
+				$moreOptions.addClass( 'bb-activity-more-options-wrap--idle' );
+			} else {
+				$moreOptions.removeClass( 'bb-activity-more-options-wrap--idle' );
+			}
 		});
 
 		//Replace dummy image with original image by faking scroll event

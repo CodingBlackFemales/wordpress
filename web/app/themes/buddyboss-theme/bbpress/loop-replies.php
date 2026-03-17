@@ -22,85 +22,105 @@ $topic_id = bbp_get_topic_id();
 
 			<div class="item flex-1">
 				<div class="item-title">
-					<h1 class="bb-reply-topic-title"><?php bbp_reply_topic_title( bbp_get_reply_id() ); ?></h1>
+					<div class="title-wrap">
+						<?php
+						if ( ! empty( bbp_get_topic_forum_title() ) ) {
+
+							$group_ids   = bbp_get_forum_group_ids( bbp_get_topic_forum_id() );
+							$group_id    = ( ! empty( $group_ids ) ? current( $group_ids ) : 0 );
+							$forum_title = ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) && $group_id ) ? bp_get_group_name( groups_get_group( $group_id ) ) : bbp_get_topic_forum_title();
+
+							?>
+							<div class="action bs-forums-meta flex align-items-center">
+								<span class="color bs-meta-item forum-label">
+									<a href="<?php bbp_forum_permalink( bbp_get_topic_forum_id() ); ?>"><?php echo esc_html( $forum_title ); ?></a>
+								</span>
+							</div>
+						<?php } ?>
+						<h1 class="bb-reply-topic-title"><?php bbp_reply_topic_title( bbp_get_reply_id() ); ?></h1>
+					</div>
 
 					<?php if ( ! bbp_show_lead_topic() && is_user_logged_in() ) : ?>
 						<div class="bb-topic-states push-right">
+							<div class="flex bb-topic-states-actions-wrap">
 							<?php
-							/**
-							 * Checked bbp_get_topic_close_link() is empty or not
-							 */
-							if ( ! empty( bbp_get_topic_close_link() ) ) {
-								if ( bbp_is_topic_open() ) {
-									?>
-									<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Close', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-lock-alt bb-topic-status open"><?php bbp_topic_close_link(); ?></i>
-									</span>
-								<?php } else { ?>
-									<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Open', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-lock-alt-open bb-topic-status closed"><?php bbp_topic_close_link(); ?></i>
-									</span>
-									<?php
-								}
-							}
-
-							/**
-							 * Checked bbp_get_topic_stick_link() is empty or not
-							 */
-							if ( ! bbp_is_topic_super_sticky( $topic_id ) && ! empty( bbp_get_topic_stick_link() ) ) {
-								if ( bbp_is_topic_sticky() ) {
-									?>
-									<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Unstick', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-thumbtack bb-topic-status bb-sticky sticky"><?php bbp_topic_stick_link(); ?></i>
-									</span>
-									<?php
-								} else {
-									?>
-									<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Sticky', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-thumbtack bb-topic-status bb-sticky unsticky"><?php bbp_topic_stick_link(); ?></i>
-									</span>
-									<?php
-								}
-							}
-
-							/**
-							 * Checked bbp_get_topic_stick_link() is empty or not
-							 */
-							if ( ! empty( bbp_get_topic_stick_link() ) ) {
-								if ( bbp_is_topic_super_sticky( $topic_id ) ) {
-									?>
-									<span class="bb-topic-status-wrapper" data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Unstick', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-thumbtack-star bb-topic-status bb-super-sticky super-sticky"><?php bbp_topic_stick_link(); ?></i>
-									</span>
-									<?php
-								} elseif ( ( ! bp_is_group() && ! bp_is_group_forum_topic() ) && ! bbp_is_topic_sticky() ) {
-									?>
-									<span class="bb-topic-status-wrapper" data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Super Sticky', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-rl bb-icon-thumbtack-star bb-topic-status bb-super-sticky super-sticky unsticky"><?php bbp_topic_stick_link(); ?></i>
-									</span>
-									<?php
-								}
-							}
-							?>
-
-							<?php if ( function_exists( 'bp_is_active' ) && bp_is_active( 'moderation' ) && function_exists( 'bbp_get_topic_report_link' ) && bbp_get_topic_report_link( array( 'id' => get_the_ID() ) ) ) { ?>
-								<div class="forum_single_action_wrap">
-									<span class="forum_single_action_more-wrap" data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'More Options', 'buddyboss-theme' ); ?>">
-										<i class="bb-icon-f bb-icon-ellipsis-v"></i>
-									</span>
-									<div class="forum_single_action_options">
-										<?php
-										if ( bp_is_active( 'moderation' ) && function_exists( 'bbp_get_topic_report_link' ) ) {
-											?>
-											<p class="bb-topic-report-link-wrap">
-												<?php echo wp_kses_post( bbp_get_topic_report_link( array( 'id' => get_the_ID() ) ) ); ?>
-											</p>
-											<?php
-										}
+								/**
+								 * Checked bbp_get_topic_stick_link() is empty or not.
+								 */
+								if ( ! bbp_is_topic_super_sticky( $topic_id ) && ! empty( bbp_get_topic_stick_link() ) ) {
+									if ( bbp_is_topic_sticky() ) {
 										?>
-									</div>
-								</div><!-- .forum_single_action_wrap -->
-							<?php } ?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Unstick', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-thumbtack bb-topic-status bb-sticky sticky"><?php bbp_topic_stick_link(); ?></i>
+										</span>
+										<?php
+									} else {
+										?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Sticky', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-thumbtack bb-topic-status bb-sticky unsticky"><?php bbp_topic_stick_link(); ?></i>
+										</span>
+										<?php
+									}
+								}
+								/**
+								 * Checked bbp_get_topic_stick_link() is empty or not.
+								 */
+								if ( ! empty( bbp_get_topic_stick_link() ) ) {
+									if ( bbp_is_topic_super_sticky( $topic_id ) ) {
+										?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Unstick', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-thumbtack-star bb-topic-status bb-super-sticky super-sticky"><?php bbp_topic_stick_link(); ?></i>
+										</span>
+										<?php
+									} elseif ( ( ! bp_is_group() && ! bp_is_group_forum_topic() ) && ! bbp_is_topic_sticky() ) {
+										?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Super Sticky', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-thumbtack-star bb-topic-status bb-super-sticky super-sticky unsticky"><?php bbp_topic_stick_link(); ?></i>
+										</span>
+										<?php
+									}
+								}
+
+								/**
+								 * Checked bbp_get_topic_close_link() is empty or not.
+								 */
+								if ( ! empty( bbp_get_topic_close_link() ) ) {
+									if ( bbp_is_topic_open() ) {
+										?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Close', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-lock-alt bb-topic-status open"><?php bbp_topic_close_link(); ?></i>
+										</span>
+									<?php } else { ?>
+										<span data-balloon-pos="up" data-balloon="<?php esc_attr_e( 'Open', 'buddyboss-theme' ); ?>">
+											<i class="bb-icon-l bb-icon-lock-alt-open bb-topic-status closed"><?php bbp_topic_close_link(); ?></i>
+										</span>
+										<?php
+									}
+								}
+								?>
+
+								<?php if ( function_exists( 'bp_is_active' ) && bp_is_active( 'moderation' ) && function_exists( 'bbp_get_topic_report_link' ) && bbp_get_topic_report_link( array( 'id' => get_the_ID() ) ) ) { ?>
+									<div class="more-actions bb-reply-actions bs-dropdown-wrap align-self-center">
+										<div class="bs-dropdown-wrap-inner bb-theme-actions">
+											<a href="#" class="bs-dropdown-link bb-reply-actions-button" data-balloon-pos="up" data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>">
+												<i class="bb-icon-menu-dots-v"></i>
+											</a>
+											<ul class="bs-dropdown bb-reply-actions-dropdown bb_more_dropdown">
+												<?php get_template_part( 'template-parts/more-options-view' ); ?>
+												<?php
+												if ( bp_is_active( 'moderation' ) && function_exists( 'bbp_get_topic_report_link' ) ) {
+													?>
+													<li>
+														<?php echo wp_kses_post( bbp_get_topic_report_link( array( 'id' => get_the_ID() ) ) ); ?>
+													</li>
+													<?php
+												}
+												?>
+											</ul>
+										</div>
+									</div><!-- .forum_single_action_wrap -->
+								<?php } ?>
+							</div>
 						</div>
 					<?php endif; ?>
 				</div>
@@ -135,25 +155,10 @@ $topic_id = bbp_get_topic_id();
 							bbp_topic_reply_count( $topic_id );
 							$topic_reply_text = (int) $topic_reply_count > 1 ? esc_html__( 'Replies', 'buddyboss-theme' ) : esc_html__( 'Reply', 'buddyboss-theme' );
 
-							echo wp_kses_post( $topic_reply_text );
+							echo ' ' . wp_kses_post( $topic_reply_text );
 							?>
 						</span>
 					</span>
-
-					<?php
-					if ( ! empty( bbp_get_topic_forum_title() ) ) {
-
-						$group_ids   = bbp_get_forum_group_ids( bbp_get_topic_forum_id() );
-						$group_id    = ( ! empty( $group_ids ) ? current( $group_ids ) : 0 );
-						$forum_title = ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) && $group_id ) ? bp_get_group_name( groups_get_group( $group_id ) ) : bbp_get_topic_forum_title();
-
-						?>
-						<div class="action bs-forums-meta flex align-items-center">
-							<span class="color bs-meta-item forum-label" style="background: <?php echo esc_attr( color2rgba( textToColor( bbp_get_topic_forum_title() ), 0.6 ) ); ?>">
-								<a href="<?php bbp_forum_permalink( bbp_get_topic_forum_id() ); ?>"><?php echo esc_html( $forum_title ); ?></a>
-							</span>
-						</div>
-					<?php } ?>
 				</div>
 				<?php
 				$terms = bbp_get_form_topic_tags();

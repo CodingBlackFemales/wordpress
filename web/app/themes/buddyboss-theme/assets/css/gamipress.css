@@ -93,6 +93,16 @@ body.buddypress .gamipress-rank-requirements .gamipress-extras-window h4 {
   text-align: center;
   padding-top: 5px;
 }
+.gamipress-achievement.user-has-earned .gamipress-achievement-image .gamipress-share-buttons,
+.gamipress-rank.user-has-earned .gamipress-rank-image .gamipress-share-buttons,
+.user-has-earned .achievement-wrap .gamipress-achievement-image .gamipress-share-buttons,
+.achievement-wrap.user-has-earned .gamipress-achievement-image .gamipress-share-buttons,
+.user-has-earned .rank-wrap .gamipress-rank-image .gamipress-share-buttons,
+.rank-wrap.user-has-earned .gamipress-rank-image .gamipress-share-buttons {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 
 ul.gamipress-achievement-earners-list li, ul.gamipress-rank-earners-list li {
   margin: 0 10px 10px 0;
@@ -698,6 +708,10 @@ body .gamipress-restrict-content-limiter {
   }
 }
 
+.members-list .gamipress-buddypress-achievement > a {
+  color: inherit;
+}
+
 .activity-content .gamipress-points-award.user-has-earned,
 .activity-content .gamipress-points-deduct.user-has-earned {
   display: -webkit-box;
@@ -824,7 +838,7 @@ body .gamipress-restrict-content-limiter {
 }
 #buddypress .users-header .gamipress-buddypress-achievements,
 #buddypress .users-header .gamipress-buddypress-ranks {
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 #buddypress .users-header .gamipress-buddypress-achievements .gamipress-buddypress-achievement-title,
 #buddypress .users-header .gamipress-buddypress-ranks .gamipress-buddypress-rank-title {
@@ -2121,12 +2135,6 @@ button.gamipress-rank-unlock-with-points-button {
 }
 .widget-area .gamipress-columns-1.gamipress-user-points .gamipress-points:last-child {
   margin-bottom: 0;
-}
-@media screen and (min-width: 545px) {
-  .widget-area .gamipress-columns-1.gamipress-user-points {
-    width: -webkit-calc(100% + 20px);
-    width: calc(100% + 20px);
-  }
 }
 .widget-area .gamipress-columns-1.gamipress-points-types .gamipress-points-type {
   -webkit-box-flex: 100%;

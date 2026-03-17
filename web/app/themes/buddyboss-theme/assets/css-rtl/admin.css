@@ -58,8 +58,8 @@
 	font-family: 'bb-icons';
 	font-size: 16px;
 	font-weight: 400;
-	position: relative;
-	top: -24px;
+	position: absolute;
+	top: 28px;
 	right: 6px;
 }
 
@@ -424,4 +424,72 @@ ul.wp-block-social-links.alignright .wp-block-social-link-label {
 /* Customize Menu height issue */
 #customize-theme-controls .accordion-section-title button.accordion-trigger {
 	height: auto;
+}
+
+/* Admin header bar */
+.bb-theme-tab-header {
+    background-color: #fff;
+    margin-right: -20px;
+    padding: 12px 24px;
+    border-bottom: 1px solid #d9d9d9;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.bb-theme-tab-header .bb-theme-branding-header {
+    margin-left: auto;
+}
+
+.bb-theme-tab-header .bb-theme-branding-header .bb-branding-logo {
+    max-width: 130px;
+}
+
+.bb-theme-tab-header .bb-theme-branding-header .bb-theme-header-actions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 8px;
+}
+
+@media screen and (max-width: 600px) {
+    #wpadminbar ~ .bb-theme-tab-header {
+        padding-top: 58px;
+    }
+    #wpadminbar ~ .bb-theme-tab-header ~ #wpbody {
+        padding-top: 0;
+    }
+}
+
+/* Adjust customizer color picker controls height and alignment */
+#customize-theme-controls .wp-picker-container input[type="text"].wp-color-picker,
+.redux-container .wp-picker-container input[type="text"].wp-color-picker {
+	min-height: 24px;
+	height: 24px;
+}
+
+#customize-theme-controls .wp-picker-container input[type="text"].wp-color-picker {
+	margin-left: 3px !important;
+}
+
+#customize-theme-controls .wp-picker-input-wrap .button.wp-picker-default,
+.redux-container .wp-picker-input-wrap .button.wp-picker-default {
+	height: 24px;
+	min-height: 24px;
+    line-height: 22px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.redux-container .wp-picker-input-wrap .button.wp-picker-default {
+	margin-right: 5px;
 }

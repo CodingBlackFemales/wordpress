@@ -1207,6 +1207,10 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 					'alt' => 'Header style 4',
 					'img' => get_template_directory_uri() . '/inc/admin/assets/images/headers/style4.png',
 				),
+				'5' => array(
+					'alt' => 'Header style 5',
+					'img' => get_template_directory_uri() . '/inc/admin/assets/images/headers/style5-updated.png',
+				),
 			);
 			$buddypanel_link = admin_url( 'admin.php?page=buddyboss_theme_options&tab=24' );
 			// Header Settings.
@@ -1226,7 +1230,7 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 						'id'         => 'buddyboss_header',
 						'title'      => esc_html__( 'Header Style', 'buddyboss-theme' ),
 						'subtitle'   => esc_html__( 'Select the layout of your desktop header.', 'buddyboss-theme' ),
-						'desc'       => sprintf(
+						'desc'       => '<div class="notice-1">' . sprintf(
 						/* translators: 1. Text, 2. Link */
 							__( 'If you have enabled %1$s in the %2$s settings, it will be hidden in your desktop header.', 'buddyboss-theme' ),
 							'<strong>' . esc_html__( 'BuddyPanel Logo', 'buddyboss-theme' ) . '</strong>',
@@ -1236,7 +1240,16 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 								esc_url( $buddypanel_link ),
 								esc_html__( 'BuddyPanel', 'buddyboss-theme' )
 							)
-						),
+						) . '</div><div class="notice-2">' . sprintf(
+							__( 'This header is %1$s of the page and appears above the %2$s. If your %3$s is enabled, it will be hidden and shown in the header instead.', 'buddyboss-theme' ),
+							'<strong>' . esc_html__( 'full width', 'buddyboss-theme' ) . '</strong>',
+							sprintf(
+								'<a href="%1$s">%2$s</a>',
+								esc_url( $buddypanel_link ),
+								esc_html__( 'BuddyPanel', 'buddyboss-theme' )
+							),
+							'<strong>' . esc_html__( 'BuddyPanel Logo', 'buddyboss-theme' ) . '</strong>'
+						) . '</div>',
 						'type'       => 'image_select',
 						'customizer' => false,
 						'default'    => '1',
@@ -2307,7 +2320,11 @@ if ( ! class_exists( 'buddyboss_theme_Redux_Framework_config' ) ) {
 							'title'        => esc_html__( 'Forum Description', 'buddyboss-theme' ),
 							'subtitle'     => esc_html__( 'Description that will be shown on forum index banner area.', 'buddyboss-theme' ),
 							'validate'     => 'html_custom',
-							'default'      => esc_html__( 'Find answers, ask questions, and connect with our <br>community around the world.', 'buddyboss-theme' ),
+							'default'      => sprintf(
+							/* translators: 1. Break the current line. */
+								esc_html__( 'Find answers, ask questions, and connect with our %scommunity around the world.', 'buddyboss-theme' ),
+								'<br />'
+							),
 							'allowed_html' => array(
 								'a'      => array(
 									'href'  => array(),

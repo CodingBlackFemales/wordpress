@@ -78,13 +78,13 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 		<div class="ld-secondary-header">
 			<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
 
-				<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? $_GET['order'] : 'desc'; ?>"/>
+				<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['order'] ) ) ) : 'desc'; ?>"/>
 				<input type="hidden" id="post-per-page" name="posts_per_page" value="<?php echo $posts_per_page; ?>"/>
 				<input type="hidden" id="current-page" name="current_page" value="<?php echo $current_page; ?>"/>
 
 				<div class="sfwd-courses-filters flex push-right">
 					<div class="select-wrap <?php echo ! empty( $settings['orderby_filter'] ) && 'on' === $settings['orderby_filter'] ? 'active' : 'hide'; ?>">
-						<select id="sfwd_prs-order-by" name="orderby">
+						<select id="sfwd_prs-order-by" name="orderby" aria-label="<?php esc_attr_e( 'Order by', 'buddyboss-theme' ); ?>">
 							<?php echo $helper->print_sorting_options(); ?>
 						</select>
 					</div>
@@ -115,7 +115,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 							?>
 							<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && 'on' === $settings['category_filter'] ? 'active' : 'hide'; ?>">
 								<?php if ( '' !== trim( $category_dropdown ) ) { ?>
-									<select id="sfwd_cats-order-by" name="filter-categories">
+									<select id="sfwd_cats-order-by" name="filter-categories" aria-label="<?php esc_attr_e( 'Filter by category', 'buddyboss-theme' ); ?>">
 										<?php echo $category_dropdown; ?>
 									</select>
 								<?php } ?>
@@ -144,7 +144,7 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 							?>
 							<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && 'on' === $settings['category_filter'] ? 'active' : 'hide'; ?>">
 								<?php if ( '' !== trim( $category_dropdown ) ) { ?>
-									<select id="sfwd_cats-order-by" name="filter-categories">
+									<select id="sfwd_cats-order-by" name="filter-categories" aria-label="<?php esc_attr_e( 'Filter by category', 'buddyboss-theme' ); ?>">
 										<?php echo $category_dropdown; ?>
 									</select>
 								<?php } ?>
@@ -155,18 +155,18 @@ $courses_label = LearnDash_Custom_Label::get_label( 'courses' );
 					?>
 
 					<div class="select-wrap <?php echo ! empty( $settings['instructors_filter'] ) && 'on' === $settings['instructors_filter'] ? 'active' : 'hide'; ?>">
-						<select id="sfwd_instructors-order-by" name="filter-instructors">
+						<select id="sfwd_instructors-order-by" name="filter-instructors" aria-label="<?php esc_attr_e( 'Filter by instructor', 'buddyboss-theme' ); ?>">
 							<?php echo $helper->print_instructors_options(); ?>
 						</select>
 					</div>
 				</div>
 
 				<div class="grid-filters <?php echo ! empty( $settings['grid_filter'] ) && 'on' === $settings['grid_filter'] ? 'active' : 'hide'; ?>" data-view="ld-course">
-					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ( 'grid' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ( 'grid' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 					</a>
 
-					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ( 'list' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ( 'list' === $view ) ? esc_attr( 'active' ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 					</a>
 				</div>

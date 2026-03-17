@@ -55,6 +55,35 @@ do_action( 'bp_before_directory_members_page' );
 		?>
 
 		<div class="flex bp-secondary-header align-items-center">
+		<?php
+		if ( function_exists( 'bb_enable_content_counts' ) && bb_enable_content_counts() ) {
+			?>
+			<div class="bb-item-count">
+				<?php
+				if ( ! $is_send_ajax_request ) {
+					$count = bp_core_get_all_member_count();
+
+					printf(
+						wp_kses(
+							/* translators: %d is the member count */
+							_n(
+								'<span class="bb-count">%d</span> Member',
+								'<span class="bb-count">%d</span> Members',
+								$count,
+								'buddyboss-theme'
+							),
+							array( 'span' => array( 'class' => true ) )
+						),
+						(int) $count
+					);
+
+					unset( $count );
+				}
+				?>
+			</div>
+			<?php
+		}
+		?>
 			<div class="push-right flex">
 				<div class="bp-profile-filter-wrap subnav-filters filters no-ajax">
 					<?php bp_get_template_part( 'common/filters/member-filters' ); ?>

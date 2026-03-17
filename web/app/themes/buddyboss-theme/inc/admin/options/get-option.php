@@ -75,7 +75,7 @@ if ( ! function_exists( 'buddyboss_theme_get_option' ) ) {
 
 		/* Check if options are set */
 		if ( ! isset( $buddyboss_theme_options ) ) {
-			$buddyboss_theme_options = get_option( 'buddyboss_theme_options', array() );
+			$buddyboss_theme_options = (array) get_option( 'buddyboss_theme_options', array() );
 		}
 
 		/* Check if array subscript exist in options */

@@ -3227,18 +3227,25 @@ input[type="submit"] {
 
 .bb-bp-invites-content .table-responsive .page-numbers,
 .bb-bp-invites-content .table-responsive .post-page-numbers,
+.bb-bp-invites-content .table-responsive .bb-rl-page-numbers,
 .bb-lms-pagination .page-numbers,
 .bb-lms-pagination .post-page-numbers,
+.bb-lms-pagination .bb-rl-page-numbers,
 .bp-pagination-links .page-numbers,
 .bp-pagination-links .post-page-numbers,
+.bp-pagination-links .bb-rl-page-numbers,
 .bbp-pagination-links .page-numbers,
 .bbp-pagination-links .post-page-numbers,
+.bbp-pagination-links .bb-rl-page-numbers,
 .woocommerce-pagination .page-numbers,
 .woocommerce-pagination .post-page-numbers,
+.woocommerce-pagination .bb-rl-page-numbers,
 .llms-pagination .page-numbers,
 .llms-pagination .post-page-numbers,
+.llms-pagination .bb-rl-page-numbers,
 .page-links .page-numbers,
-.page-links .post-page-numbers {
+.page-links .post-page-numbers,
+.page-links .bb-rl-page-numbers {
   display: inline-block;
   height: 28px;
   line-height: 28px;
@@ -3249,79 +3256,114 @@ input[type="submit"] {
 }
 .bb-bp-invites-content .table-responsive .page-numbers:not(.next, .prev),
 .bb-bp-invites-content .table-responsive .post-page-numbers:not(.next, .prev),
+.bb-bp-invites-content .table-responsive .bb-rl-page-numbers:not(.next, .prev),
 .bb-lms-pagination .page-numbers:not(.next, .prev),
 .bb-lms-pagination .post-page-numbers:not(.next, .prev),
+.bb-lms-pagination .bb-rl-page-numbers:not(.next, .prev),
 .bp-pagination-links .page-numbers:not(.next, .prev),
 .bp-pagination-links .post-page-numbers:not(.next, .prev),
+.bp-pagination-links .bb-rl-page-numbers:not(.next, .prev),
 .bbp-pagination-links .page-numbers:not(.next, .prev),
 .bbp-pagination-links .post-page-numbers:not(.next, .prev),
+.bbp-pagination-links .bb-rl-page-numbers:not(.next, .prev),
 .woocommerce-pagination .page-numbers:not(.next, .prev),
 .woocommerce-pagination .post-page-numbers:not(.next, .prev),
+.woocommerce-pagination .bb-rl-page-numbers:not(.next, .prev),
 .llms-pagination .page-numbers:not(.next, .prev),
 .llms-pagination .post-page-numbers:not(.next, .prev),
+.llms-pagination .bb-rl-page-numbers:not(.next, .prev),
 .page-links .page-numbers:not(.next, .prev),
-.page-links .post-page-numbers:not(.next, .prev) {
+.page-links .post-page-numbers:not(.next, .prev),
+.page-links .bb-rl-page-numbers:not(.next, .prev) {
   min-width: 28px;
 }
 .bb-bp-invites-content .table-responsive .page-numbers.next, .bb-bp-invites-content .table-responsive .page-numbers.prev,
 .bb-bp-invites-content .table-responsive .post-page-numbers.next,
 .bb-bp-invites-content .table-responsive .post-page-numbers.prev,
+.bb-bp-invites-content .table-responsive .bb-rl-page-numbers.next,
+.bb-bp-invites-content .table-responsive .bb-rl-page-numbers.prev,
 .bb-lms-pagination .page-numbers.next,
 .bb-lms-pagination .page-numbers.prev,
 .bb-lms-pagination .post-page-numbers.next,
 .bb-lms-pagination .post-page-numbers.prev,
+.bb-lms-pagination .bb-rl-page-numbers.next,
+.bb-lms-pagination .bb-rl-page-numbers.prev,
 .bp-pagination-links .page-numbers.next,
 .bp-pagination-links .page-numbers.prev,
 .bp-pagination-links .post-page-numbers.next,
 .bp-pagination-links .post-page-numbers.prev,
+.bp-pagination-links .bb-rl-page-numbers.next,
+.bp-pagination-links .bb-rl-page-numbers.prev,
 .bbp-pagination-links .page-numbers.next,
 .bbp-pagination-links .page-numbers.prev,
 .bbp-pagination-links .post-page-numbers.next,
 .bbp-pagination-links .post-page-numbers.prev,
+.bbp-pagination-links .bb-rl-page-numbers.next,
+.bbp-pagination-links .bb-rl-page-numbers.prev,
 .woocommerce-pagination .page-numbers.next,
 .woocommerce-pagination .page-numbers.prev,
 .woocommerce-pagination .post-page-numbers.next,
 .woocommerce-pagination .post-page-numbers.prev,
+.woocommerce-pagination .bb-rl-page-numbers.next,
+.woocommerce-pagination .bb-rl-page-numbers.prev,
 .llms-pagination .page-numbers.next,
 .llms-pagination .page-numbers.prev,
 .llms-pagination .post-page-numbers.next,
 .llms-pagination .post-page-numbers.prev,
+.llms-pagination .bb-rl-page-numbers.next,
+.llms-pagination .bb-rl-page-numbers.prev,
 .page-links .page-numbers.next,
 .page-links .page-numbers.prev,
 .page-links .post-page-numbers.next,
-.page-links .post-page-numbers.prev {
+.page-links .post-page-numbers.prev,
+.page-links .bb-rl-page-numbers.next,
+.page-links .bb-rl-page-numbers.prev {
   width: 28px;
 }
 .bb-bp-invites-content .table-responsive a.page-numbers:not(.prev, .next),
+.bb-bp-invites-content .table-responsive a.bb-rl-page-numbers:not(.prev, .next),
 .bb-bp-invites-content .table-responsive a.post-page-numbers,
 .bb-lms-pagination a.page-numbers:not(.prev, .next),
+.bb-lms-pagination a.bb-rl-page-numbers:not(.prev, .next),
 .bb-lms-pagination a.post-page-numbers,
 .bp-pagination-links a.page-numbers:not(.prev, .next),
+.bp-pagination-links a.bb-rl-page-numbers:not(.prev, .next),
 .bp-pagination-links a.post-page-numbers,
 .bbp-pagination-links a.page-numbers:not(.prev, .next),
+.bbp-pagination-links a.bb-rl-page-numbers:not(.prev, .next),
 .bbp-pagination-links a.post-page-numbers,
 .woocommerce-pagination a.page-numbers:not(.prev, .next),
+.woocommerce-pagination a.bb-rl-page-numbers:not(.prev, .next),
 .woocommerce-pagination a.post-page-numbers,
 .llms-pagination a.page-numbers:not(.prev, .next),
+.llms-pagination a.bb-rl-page-numbers:not(.prev, .next),
 .llms-pagination a.post-page-numbers,
 .page-links a.page-numbers:not(.prev, .next),
+.page-links a.bb-rl-page-numbers:not(.prev, .next),
 .page-links a.post-page-numbers {
   color: var(--bb-body-text-color);
   margin: 0 2px;
 }
 .bb-bp-invites-content .table-responsive a.page-numbers:not(.prev, .next):hover,
+.bb-bp-invites-content .table-responsive a.bb-rl-page-numbers:not(.prev, .next):hover,
 .bb-bp-invites-content .table-responsive a.post-page-numbers:hover,
 .bb-lms-pagination a.page-numbers:not(.prev, .next):hover,
+.bb-lms-pagination a.bb-rl-page-numbers:not(.prev, .next):hover,
 .bb-lms-pagination a.post-page-numbers:hover,
 .bp-pagination-links a.page-numbers:not(.prev, .next):hover,
+.bp-pagination-links a.bb-rl-page-numbers:not(.prev, .next):hover,
 .bp-pagination-links a.post-page-numbers:hover,
 .bbp-pagination-links a.page-numbers:not(.prev, .next):hover,
+.bbp-pagination-links a.bb-rl-page-numbers:not(.prev, .next):hover,
 .bbp-pagination-links a.post-page-numbers:hover,
 .woocommerce-pagination a.page-numbers:not(.prev, .next):hover,
+.woocommerce-pagination a.bb-rl-page-numbers:not(.prev, .next):hover,
 .woocommerce-pagination a.post-page-numbers:hover,
 .llms-pagination a.page-numbers:not(.prev, .next):hover,
+.llms-pagination a.bb-rl-page-numbers:not(.prev, .next):hover,
 .llms-pagination a.post-page-numbers:hover,
 .page-links a.page-numbers:not(.prev, .next):hover,
+.page-links a.bb-rl-page-numbers:not(.prev, .next):hover,
 .page-links a.post-page-numbers:hover {
   color: var(--bb-primary-color);
 }
@@ -3431,29 +3473,43 @@ input[type="submit"] {
   content: "\e827";
 }
 .bb-bp-invites-content .table-responsive span.page-numbers:not(.dots),
+.bb-bp-invites-content .table-responsive span.bb-rl-page-numbers:not(.dots),
 .bb-bp-invites-content .table-responsive span.post-page-numbers,
 .bb-lms-pagination span.page-numbers:not(.dots),
+.bb-lms-pagination span.bb-rl-page-numbers:not(.dots),
 .bb-lms-pagination span.post-page-numbers,
 .bp-pagination-links span.page-numbers:not(.dots),
+.bp-pagination-links span.bb-rl-page-numbers:not(.dots),
 .bp-pagination-links span.post-page-numbers,
 .bbp-pagination-links span.page-numbers:not(.dots),
+.bbp-pagination-links span.bb-rl-page-numbers:not(.dots),
 .bbp-pagination-links span.post-page-numbers,
 .woocommerce-pagination span.page-numbers:not(.dots),
+.woocommerce-pagination span.bb-rl-page-numbers:not(.dots),
 .woocommerce-pagination span.post-page-numbers,
 .llms-pagination span.page-numbers:not(.dots),
+.llms-pagination span.bb-rl-page-numbers:not(.dots),
 .llms-pagination span.post-page-numbers,
 .page-links span.page-numbers:not(.dots),
+.page-links span.bb-rl-page-numbers:not(.dots),
 .page-links span.post-page-numbers {
   color: var(--bb-body-background-color);
   background-color: var(--bb-primary-color);
 }
 .bb-bp-invites-content .table-responsive span.page-numbers.disabled,
+.bb-bp-invites-content .table-responsive span.bb-rl-page-numbers.disabled,
 .bb-lms-pagination span.page-numbers.disabled,
+.bb-lms-pagination span.bb-rl-page-numbers.disabled,
 .bp-pagination-links span.page-numbers.disabled,
+.bp-pagination-links span.bb-rl-page-numbers.disabled,
 .bbp-pagination-links span.page-numbers.disabled,
+.bbp-pagination-links span.bb-rl-page-numbers.disabled,
 .woocommerce-pagination span.page-numbers.disabled,
+.woocommerce-pagination span.bb-rl-page-numbers.disabled,
 .llms-pagination span.page-numbers.disabled,
-.page-links span.page-numbers.disabled {
+.llms-pagination span.bb-rl-page-numbers.disabled,
+.page-links span.page-numbers.disabled,
+.page-links span.bb-rl-page-numbers.disabled {
   background-color: transparent;
   color: var(--bb-body-text-color);
 }
@@ -5795,4 +5851,23 @@ div.bb-sso-container .bb-sso-button-default {
   border-color: var(--bb-content-border-color);
   color: var(--bb-secondary-button-text-regular);
   border-radius: var(--bb-button-radius);
+}
+
+#wfls-prompt-overlay {
+  z-index: 10;
+  padding: 0;
+}
+#wfls-prompt-overlay #wfls-prompt-wrapper {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+#wfls-prompt-overlay .wfls-remember-device-wrapper #wfls-remember-device {
+  vertical-align: middle;
+  height: 1rem;
+  width: 1rem;
+  margin-right: 1px;
+}
+
+#loginform > .cf-turnstile {
+  margin-right: 0;
 }

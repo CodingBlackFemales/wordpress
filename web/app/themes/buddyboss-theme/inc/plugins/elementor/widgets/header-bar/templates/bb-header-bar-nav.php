@@ -27,7 +27,10 @@ if ( ! defined( 'BB_HEADER_BAR_WIDGET' ) ) {
 		);
 		?>
         <div id="navbar-collapse">
-            <a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i></a>
+            <a class="more-button" href="#">
+				<i class="bb-icon-f bb-icon-ellipsis-h"></i>
+				<span class="screen-reader-text"><?php esc_html_e( 'More options', 'buddyboss-theme' ); ?></span>
+			</a>
             <ul id="navbar-extend" class="sub-menu"></ul>
         </div>
     </div>

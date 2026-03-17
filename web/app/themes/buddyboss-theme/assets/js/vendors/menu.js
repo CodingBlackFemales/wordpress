@@ -32,8 +32,8 @@
                     }
                 } );
 
-                self.append( '<li class="hideshow menu-item-has-children1" data-no-dynamic-translation>' +
-                  '<a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i></a>' +
+                self.append( '<li class="hideshow menu-item-has-children" data-no-dynamic-translation>' +
+                  '<a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i><span class="screen-reader-text">' + bs_data.more_menu_title + '</span></a>' +
                   '<ul class="sub-menu bb_more_dropdown" data-no-dynamic-translation>' + menuhtml + '</ul>' +
                   '<div class="bb_more_dropdown_overlay"></div></li>' );
 
