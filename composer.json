@@ -68,7 +68,7 @@
     "wpackagist-plugin/import-meetup-events": "^1.6.9",
     "wpackagist-plugin/jetpack": "^15.5.0",
     "wpackagist-plugin/login-as-user": "^1.6.8",
-    "wpackagist-plugin/mailchimp-for-woocommerce": "^5.6.0",
+    "wpackagist-plugin/mailchimp-for-woocommerce": "^6.0",
     "wpackagist-plugin/members": "^3.2.18",
     "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online": "^3.0.3",
     "wpackagist-plugin/optimole-wp": "^4.2.1",
