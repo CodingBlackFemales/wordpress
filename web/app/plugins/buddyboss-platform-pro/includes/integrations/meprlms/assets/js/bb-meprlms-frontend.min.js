@@ -1,0 +1,1 @@
+!function(r){var s={init:function(){this.setupGlobals()},setupGlobals:function(){setTimeout(function(){r(".mpcs-sidebar-wrapper .progress-bar .user-progress").length&&r(".mpcs-sidebar-wrapper .progress-bar .user-progress").html("")},100)}};r(function(){s.init()})}(jQuery);

@@ -86,7 +86,7 @@ class BB_Access_Control_Memberium extends BB_Access_Control_Abstract {
 	 */
 	public function get_level_lists() {
 
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			return array();
 		}
 

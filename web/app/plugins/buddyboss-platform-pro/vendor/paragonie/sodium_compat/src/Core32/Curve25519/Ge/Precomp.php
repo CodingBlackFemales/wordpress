@@ -1,9 +1,10 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp', false)) {
+namespace BuddyBossPlatformPro;
+
+if (\class_exists('BuddyBossPlatformPro\\ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp', \false)) {
     return;
 }
-
 /**
  * Class ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp
  */
@@ -13,17 +14,14 @@ class ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp
      * @var ParagonIE_Sodium_Core32_Curve25519_Fe
      */
     public $yplusx;
-
     /**
      * @var ParagonIE_Sodium_Core32_Curve25519_Fe
      */
     public $yminusx;
-
     /**
      * @var ParagonIE_Sodium_Core32_Curve25519_Fe
      */
     public $xy2d;
-
     /**
      * ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp constructor.
      *
@@ -35,11 +33,8 @@ class ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp
      * @throws SodiumException
      * @throws TypeError
      */
-    public function __construct(
-        ParagonIE_Sodium_Core32_Curve25519_Fe $yplusx = null,
-        ParagonIE_Sodium_Core32_Curve25519_Fe $yminusx = null,
-        ParagonIE_Sodium_Core32_Curve25519_Fe $xy2d = null
-    ) {
+    public function __construct(ParagonIE_Sodium_Core32_Curve25519_Fe $yplusx = null, ParagonIE_Sodium_Core32_Curve25519_Fe $yminusx = null, ParagonIE_Sodium_Core32_Curve25519_Fe $xy2d = null)
+    {
         if ($yplusx === null) {
             $yplusx = ParagonIE_Sodium_Core32_Curve25519::fe_0();
         }

@@ -1,6 +1,8 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core_Curve25519_Ge_P1p1', false)) {
+namespace BuddyBossPlatformPro;
+
+if (\class_exists('BuddyBossPlatformPro\\ParagonIE_Sodium_Core_Curve25519_Ge_P1p1', \false)) {
     return;
 }
 /**
@@ -12,22 +14,18 @@ class ParagonIE_Sodium_Core_Curve25519_Ge_P1p1
      * @var ParagonIE_Sodium_Core_Curve25519_Fe
      */
     public $X;
-
     /**
      * @var ParagonIE_Sodium_Core_Curve25519_Fe
      */
     public $Y;
-
     /**
      * @var ParagonIE_Sodium_Core_Curve25519_Fe
      */
     public $Z;
-
     /**
      * @var ParagonIE_Sodium_Core_Curve25519_Fe
      */
     public $T;
-
     /**
      * ParagonIE_Sodium_Core_Curve25519_Ge_P1p1 constructor.
      *
@@ -38,12 +36,8 @@ class ParagonIE_Sodium_Core_Curve25519_Ge_P1p1
      * @param ParagonIE_Sodium_Core_Curve25519_Fe|null $z
      * @param ParagonIE_Sodium_Core_Curve25519_Fe|null $t
      */
-    public function __construct(
-        ParagonIE_Sodium_Core_Curve25519_Fe $x = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $y = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $z = null,
-        ParagonIE_Sodium_Core_Curve25519_Fe $t = null
-    ) {
+    public function __construct(ParagonIE_Sodium_Core_Curve25519_Fe $x = null, ParagonIE_Sodium_Core_Curve25519_Fe $y = null, ParagonIE_Sodium_Core_Curve25519_Fe $z = null, ParagonIE_Sodium_Core_Curve25519_Fe $t = null)
+    {
         if ($x === null) {
             $x = new ParagonIE_Sodium_Core_Curve25519_Fe();
         }

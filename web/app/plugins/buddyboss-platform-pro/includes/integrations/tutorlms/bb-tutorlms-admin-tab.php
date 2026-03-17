@@ -49,7 +49,7 @@ class BB_TutorLMS_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function is_active() {
 		$active = false;
 		if (
-			bbp_pro_is_license_valid() &&
+			! bb_pro_should_lock_features() &&
 			function_exists( 'tutor' ) &&
 			(
 				defined( 'BP_PLATFORM_VERSION' ) &&
@@ -321,7 +321,7 @@ class BB_TutorLMS_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function bb_tutorlms_tutorlms_group_sync_tutorial() {
 		?>
 		<p>
-			<a class="button" href="
+			<a class="button" target="_blank" href="
 			<?php echo esc_url(
 				bp_get_admin_url(
 					add_query_arg(
@@ -348,7 +348,7 @@ class BB_TutorLMS_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function bb_tutorlms_tutorlms_posts_activity_tutorial() {
 		?>
 		<p>
-			<a class="button" href="
+			<a class="button" target="_blank" href="
 			<?php echo esc_url(
 				bp_get_admin_url(
 					add_query_arg(

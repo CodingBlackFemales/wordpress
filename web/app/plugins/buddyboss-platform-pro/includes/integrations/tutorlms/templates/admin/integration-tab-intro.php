@@ -17,7 +17,7 @@
 		if ( ! empty( $meta_icon ) ) {
 			$meta_icon_html .= '<i class="' . esc_attr( $meta_icon ) . '"></i>';
 		}
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			?>
 			<h2>
 				<?php
@@ -76,7 +76,7 @@
 				);
 				?>
 				<div class="bbapp-tutorial-btn">
-					<a class="button" href="<?php echo esc_url(
+					<a class="button" target="_blank" href="<?php echo esc_url(
 						bp_get_admin_url(
 							add_query_arg(
 								array(
@@ -118,7 +118,7 @@
 				);
 				?>
 				<div class="bbapp-tutorial-btn">
-					<a class="button" href="<?php echo esc_url(
+					<a class="button" target="_blank" href="<?php echo esc_url(
 						bp_get_admin_url(
 							add_query_arg(
 								array(

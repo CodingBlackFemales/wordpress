@@ -9,7 +9,7 @@
 ?>
 <div class="bb-title-wrap">
 	<h2 class="bb-title"><?php esc_html_e( 'Create Webinar', 'buddyboss-pro' ); ?></h2>
-	<a href="#" class="bp-close-create-webinar-form"><span class="bb-icon-l bb-icon-times"></span></a>
+	<a href="#" class="bp-close-create-webinar-form" aria-label="<?php esc_attr_e( 'Close', 'buddyboss-pro' ); ?>"><span class="bb-icon-l bb-icon-times"></span></a>
 </div>
 <?php
 $group_id         = filter_input( INPUT_GET, 'group_id', FILTER_VALIDATE_INT );

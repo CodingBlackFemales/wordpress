@@ -195,19 +195,21 @@ function bb_pusher_is_feature_enabled( $key ) {
  *
  * @return mixed
  *
- * @throws \GuzzleHttp\Exception\GuzzleException Client Exception.
  * @throws \Pusher\PusherException Pusher Exception.
  */
 function bb_pusher() {
 	static $bb_pusher = null;
 	if (
-		class_exists( 'Pusher\Pusher' ) &&
+		(
+			class_exists( 'Pusher\Pusher' ) ||
+			class_exists( 'BuddyBossPlatformPro\Pusher\Pusher' )
+		) &&
 		bb_pusher_app_key() &&
 		bb_pusher_app_secret() &&
 		bb_pusher_app_id() &&
 		bb_pusher_cluster()
 	) {
-		$bb_pusher = new Pusher\Pusher( bb_pusher_app_key(), bb_pusher_app_secret(), bb_pusher_app_id(), array( 'cluster' => bb_pusher_cluster() ) );
+		$bb_pusher = \BuddyBoss\PlatformPro\Library\Composer::instance()->pusher_instance()->pusher( bb_pusher_app_key(), bb_pusher_app_secret(), bb_pusher_app_id(), array( 'cluster' => bb_pusher_cluster() ) );
 	}
 
 	return $bb_pusher;

@@ -1,9 +1,8 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
+namespace BuddyBossPlatformPro\GuzzleHttp\Exception;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Client\ClientExceptionInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Client\ClientExceptionInterface;
 interface GuzzleException extends ClientExceptionInterface
 {
 }

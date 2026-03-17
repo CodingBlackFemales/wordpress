@@ -1,26 +1,25 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core_Curve25519_Fe', false)) {
+namespace BuddyBossPlatformPro;
+
+if (\class_exists('BuddyBossPlatformPro\\ParagonIE_Sodium_Core_Curve25519_Fe', \false)) {
     return;
 }
-
 /**
  * Class ParagonIE_Sodium_Core_Curve25519_Fe
  *
  * This represents a Field Element
  */
-class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
+class ParagonIE_Sodium_Core_Curve25519_Fe implements \ArrayAccess
 {
     /**
      * @var array<int, int>
      */
     protected $container = array();
-
     /**
      * @var int
      */
     protected $size = 10;
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -30,15 +29,14 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      */
     public static function fromArray($array, $save_indexes = null)
     {
-        $count = count($array);
+        $count = \count($array);
         if ($save_indexes) {
-            $keys = array_keys($array);
+            $keys = \array_keys($array);
         } else {
-            $keys = range(0, $count - 1);
+            $keys = \range(0, $count - 1);
         }
-        $array = array_values($array);
+        $array = \array_values($array);
         /** @var array<int, int> $keys */
-
         $obj = new ParagonIE_Sodium_Core_Curve25519_Fe();
         if ($save_indexes) {
             for ($i = 0; $i < $count; ++$i) {
@@ -51,7 +49,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
         }
         return $obj;
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -63,16 +60,15 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
     #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (!is_int($value)) {
-            throw new InvalidArgumentException('Expected an integer');
+        if (!\is_int($value)) {
+            throw new \InvalidArgumentException('Expected an integer');
         }
-        if (is_null($offset)) {
+        if (\is_null($offset)) {
             $this->container[] = $value;
         } else {
             $this->container[$offset] = $value;
         }
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -85,7 +81,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
     {
         return isset($this->container[$offset]);
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -98,7 +93,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
     {
         unset($this->container[$offset]);
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -112,9 +106,8 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
         if (!isset($this->container[$offset])) {
             $this->container[$offset] = 0;
         }
-        return (int) ($this->container[$offset]);
+        return (int) $this->container[$offset];
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -122,6 +115,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      */
     public function __debugInfo()
     {
-        return array(implode(', ', $this->container));
+        return array(\implode(', ', $this->container));
     }
 }

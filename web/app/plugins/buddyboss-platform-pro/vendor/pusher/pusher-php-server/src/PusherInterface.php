@@ -1,10 +1,9 @@
 <?php
 
-namespace Pusher;
+namespace BuddyBossPlatformPro\Pusher;
 
-use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception\GuzzleException;
-use BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise\PromiseInterface;
-
+use BuddyBossPlatformPro\GuzzleHttp\Exception\GuzzleException;
+use BuddyBossPlatformPro\GuzzleHttp\Promise\PromiseInterface;
 interface PusherInterface
 {
     /**
@@ -13,7 +12,6 @@ interface PusherInterface
      * @return array
      */
     public function getSettings();
-
     /**
      * Trigger an event by providing event name and payload.
      * Optionally provide a socket ID to exclude a client (most likely the sender).
@@ -29,8 +27,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function trigger($channels, string $event, $data, array $params = [], bool $already_encoded = false): object;
-
+    public function trigger($channels, string $event, $data, array $params = [], bool $already_encoded = \false) : object;
     /**
      * Asynchronously trigger an event by providing event name and payload.
      * Optionally provide a socket ID to exclude a client (most likely the sender).
@@ -41,8 +38,7 @@ interface PusherInterface
      * @param bool         $already_encoded [optional]
      *
      */
-    public function triggerAsync($channels, string $event, $data, array $params = [], bool $already_encoded = false): PromiseInterface;
-
+    public function triggerAsync($channels, string $event, $data, array $params = [], bool $already_encoded = \false) : PromiseInterface;
     /**
      * Trigger multiple events at the same time.
      *
@@ -54,8 +50,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function triggerBatch(array $batch = [], bool $already_encoded = false): object;
-
+    public function triggerBatch(array $batch = [], bool $already_encoded = \false) : object;
     /**
      * Asynchronously trigger multiple events at the same time.
      *
@@ -66,8 +61,7 @@ interface PusherInterface
      * @throws ApiErrorException Throws ApiErrorException if the Channels HTTP API responds with an error
      *
      */
-    public function triggerBatchAsync(array $batch = [], bool $already_encoded = false): PromiseInterface;
-
+    public function triggerBatchAsync(array $batch = [], bool $already_encoded = \false) : PromiseInterface;
     /**
      * Get information, such as subscriber and user count, for a channel.
      *
@@ -79,8 +73,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function getChannelInfo(string $channel, array $params = []): object;
-
+    public function getChannelInfo(string $channel, array $params = []) : object;
     /**
      * Fetch a list containing all channels.
      *
@@ -91,8 +84,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function getChannels(array $params = []): object;
-
+    public function getChannels(array $params = []) : object;
     /**
      * Fetch user ids currently subscribed to a presence channel.
      *
@@ -103,8 +95,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function getPresenceUsers(string $channel): object;
-
+    public function getPresenceUsers(string $channel) : object;
     /**
      * GET arbitrary REST API resource using a synchronous http client.
      * All request signing is handled automatically.
@@ -119,8 +110,7 @@ interface PusherInterface
      *
      * @return mixed See Pusher API docs
      */
-    public function get(string $path, array $params = [], bool $associative = false);
-
+    public function get(string $path, array $params = [], bool $associative = \false);
     /**
      * Creates a socket signature.
      *
@@ -130,8 +120,7 @@ interface PusherInterface
      * @return string Json encoded authentication string.
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      */
-    public function socketAuth(string $channel, string $socket_id, string $custom_data = null): string;
-
+    public function socketAuth(string $channel, string $socket_id, string $custom_data = null) : string;
     /**
      * Creates a presence signature (an extension of socket signing).
      *
@@ -140,8 +129,7 @@ interface PusherInterface
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      *
      */
-    public function presenceAuth(string $channel, string $socket_id, string $user_id, $user_info = null): string;
-
+    public function presenceAuth(string $channel, string $socket_id, string $user_id, $user_info = null) : string;
     /**
      * Verify that a webhook actually came from Pusher, decrypts any
      * encrypted events, and marshals them into a PHP object.
@@ -153,8 +141,7 @@ interface PusherInterface
      *
      * @return Webhook marshalled object with the properties time_ms (an int) and events (an array of event objects)
      */
-    public function webhook(array $headers, string $body): object;
-
+    public function webhook(array $headers, string $body) : object;
     /**
      * Verify that a given Pusher Signature is valid.
      *
@@ -164,8 +151,6 @@ interface PusherInterface
      * @throws PusherException if signature is incorrect.
      */
     public function verifySignature(array $headers, string $body);
-
-
     /*******************************************************************
      *
      * DEPRECATION WARNING:
@@ -174,7 +159,6 @@ interface PusherInterface
      * camelCased variants. They will be removed in the next major
      * update.
      */
-
     /**
      * Get information, such as subscriber and user count, for a channel.
      *
@@ -188,8 +172,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function get_channel_info(string $channel, array $params = []): object;
-
+    public function get_channel_info(string $channel, array $params = []) : object;
     /**
      * Fetch a list containing all channels.
      *
@@ -202,8 +185,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function get_channels(array $params = []): object;
-
+    public function get_channels(array $params = []) : object;
     /**
      * Fetch user ids currently subscribed to a presence channel.
      *
@@ -216,8 +198,7 @@ interface PusherInterface
      * @throws GuzzleException
      *
      */
-    public function get_users_info(string $channel): object;
-
+    public function get_users_info(string $channel) : object;
     /**
      * Creates a socket signature.
      *
@@ -229,8 +210,7 @@ interface PusherInterface
      * @return string Json encoded authentication string.
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      */
-    public function socket_auth(string $channel, string $socket_id, string $custom_data = null): string;
-
+    public function socket_auth(string $channel, string $socket_id, string $custom_data = null) : string;
     /**
      * Creates a presence signature (an extension of socket signing).
      *
@@ -241,8 +221,7 @@ interface PusherInterface
      * @throws PusherException Throws exception if $channel is invalid or above or $socket_id is invalid
      *
      */
-    public function presence_auth(string $channel, string $socket_id, string $user_id, $user_info = null): string;
-
+    public function presence_auth(string $channel, string $socket_id, string $user_id, $user_info = null) : string;
     /**
      * Verify that a given Pusher Signature is valid.
      *

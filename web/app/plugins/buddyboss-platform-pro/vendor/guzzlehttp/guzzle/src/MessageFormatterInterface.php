@@ -1,10 +1,9 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp;
+namespace BuddyBossPlatformPro\GuzzleHttp;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\RequestInterface;
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\ResponseInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Message\RequestInterface;
+use BuddyBossPlatformPro\Psr\Http\Message\ResponseInterface;
 interface MessageFormatterInterface
 {
     /**
@@ -14,5 +13,5 @@ interface MessageFormatterInterface
      * @param ResponseInterface|null $response Response that was received
      * @param \Throwable|null        $error    Exception that was received
      */
-    public function format(RequestInterface $request, ?ResponseInterface $response = null, ?\Throwable $error = null): string;
+    public function format(RequestInterface $request, ?ResponseInterface $response = null, ?\Throwable $error = null) : string;
 }

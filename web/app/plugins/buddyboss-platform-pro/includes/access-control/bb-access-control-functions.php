@@ -559,7 +559,7 @@ function bb_admin_access_control_setting_tutorial() {
 	?>
 
 	<p>
-		<a class="button" href="
+		<a class="button" target="_blank" href="
 		<?php
 		echo bp_get_admin_url( // phpcs:ignore
 			add_query_arg(

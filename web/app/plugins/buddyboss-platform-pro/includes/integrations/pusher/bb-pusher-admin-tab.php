@@ -73,7 +73,7 @@ class BB_Pusher_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function form_html() {
 		// Check license is valid.
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			if ( is_file( $this->intro_template ) ) {
 				require $this->intro_template;
 			}
@@ -221,7 +221,7 @@ class BB_Pusher_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	public function setting_callback_pusher_tutorial() {
 		?>
 		<p>
-			<a class="button" href="
+			<a class="button" target="_blank" href="
 			<?php
 			echo esc_url(
 				bp_get_admin_url(
@@ -410,7 +410,7 @@ class BB_Pusher_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		?>
 		<div class="password-toggle">
 			<input name="bb-pusher-app-key" id="bb-pusher-app-key" type="password" value="<?php echo esc_attr( bb_pusher_app_key() ); ?>" aria-label="<?php esc_html_e( 'Pusher App Key', 'buddyboss-pro' ); ?>" required />
-			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0">
+			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
 				<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 			</button>
 		</div>
@@ -426,7 +426,7 @@ class BB_Pusher_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		?>
 		<div class="password-toggle">
 			<input name="bb-pusher-app-secret" id="bb-pusher-app-secret" type="password" value="<?php echo esc_attr( bb_pusher_app_secret() ); ?>" aria-label="<?php esc_html_e( 'Pusher App Secret', 'buddyboss-pro' ); ?>" required />
-			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0">
+			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
 				<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 			</button>
 		</div>

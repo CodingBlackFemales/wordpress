@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Promise;
+namespace BuddyBossPlatformPro\GuzzleHttp\Promise;
 
 /**
  * Interface used with classes that return a promise.
