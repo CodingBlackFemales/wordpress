@@ -88,3 +88,6 @@ sync.conf
 
 # GitHub
 auth.json
+
+# Apache
+web/.htaccess
