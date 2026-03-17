@@ -1,7 +1,7 @@
 <?php
 bp_nouveau_member_hook( 'before', 'invites_sent_template' );
 
-$email = bb_theme_filter_input_string( INPUT_GET, 'email' );
+$email = trim( bb_theme_filter_input_string( INPUT_GET, 'email' ) );
 $email = ! empty( $email ) ? trim( $email ) : '';
 if ( '' !== $email ) {
 	?>
@@ -10,14 +10,14 @@ if ( '' !== $email ) {
 		<p>
 			<?php
 			$text = __( 'Invitations were sent successfully to the following email addresses:', 'buddyboss-theme' );
-			echo trim( $text.' '. $email );
+			echo esc_html( trim( $text.' '. $email ) );
 			?>
 		</p>
 	</aside>
 	<?php
 }
 
-$failed = bb_theme_filter_input_string( INPUT_GET, 'failed' );
+$failed = trim( bb_theme_filter_input_string( INPUT_GET, 'failed' ) );
 $failed = ! empty( $failed ) ? trim( $failed ) : '';
 if ( '' !== $failed ) {
 	?>
@@ -26,14 +26,14 @@ if ( '' !== $failed ) {
 		<p>
 			<?php
 			$text = __( 'Invitations did not send as the following email addresses are invalid:', 'buddyboss-theme' );
-			echo trim( $text.' '. $failed );
+			echo esc_html( trim( $text . ' ' . $failed ) );
 			?>
 		</p>
 	</aside>
 	<?php
 }
 
-$exists = bb_theme_filter_input_string( INPUT_GET, 'exists' );
+$exists = trim( bb_theme_filter_input_string( INPUT_GET, 'exists' ) );
 $exists = ! empty( $exists ) ? trim( $exists ) : '';
 if ( '' !== $exists ) {
 	?>
@@ -42,7 +42,7 @@ if ( '' !== $exists ) {
 		<p>
 			<?php
 			$text = __( 'Invitations did not send to the following email addresses, because they are already members:', 'buddyboss-theme' );
-			echo trim( $text.' '. $exists );
+			echo esc_html( trim( $text . ' ' . $exists ) );
 			?>
 		</p>
 	</aside>
@@ -65,7 +65,7 @@ if ( isset( $duplicates ) && '' !== $duplicates ) {
 	<?php
 }
 
-$restricted = bb_filter_input_string( INPUT_GET, 'restricted' );
+$restricted = trim( bb_filter_input_string( INPUT_GET, 'restricted' ) );
 $restricted = ! empty( $restricted ) ? trim( $restricted ) : '';
 if ( '' !== $restricted ) {
 	?>
@@ -74,7 +74,7 @@ if ( '' !== $restricted ) {
 		<p>
 			<?php
 			$text = __( 'Invitations did not send to the following email addresses, because the address or domain has been blacklisted:', 'buddyboss-theme' );
-			echo trim( $text.' '. $restricted );
+			echo esc_html( trim( $text . ' ' . $restricted ) );
 			?>
 		</p>
 	</aside>
@@ -105,32 +105,34 @@ if ( '' !== $restricted ) {
 		<tbody>
 
 		<?php
-		$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+		$paged                         = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 		$sent_invites_pagination_count = apply_filters( 'sent_invites_pagination_count', 25 );
-		$args = array(
+		$args                          = array(
 			'posts_per_page' => $sent_invites_pagination_count,
 			'post_type'      => bp_get_invite_post_type(),
 			'author'         => bp_loggedin_user_id(),
 			'paged'          => $paged,
 		);
-		$the_query = new WP_Query( $args );
+		$the_query                     = new WP_Query( $args );
 
 		if ( $the_query->have_posts() ) {
 
-			while ( $the_query->have_posts() ) : $the_query->the_post();
+			while ( $the_query->have_posts() ) :
+				$the_query->the_post();
+
 				$invitee_post_id = get_the_ID();
 				?>
 				<tr>
 					<td class="field-name">
-						<span><?php echo get_post_meta( $invitee_post_id, '_bp_invitee_name', true ); ?></span>
+						<span><?php echo esc_html( get_post_meta( $invitee_post_id, '_bp_invitee_name', true ) ); ?></span>
 					</td>
 					<td class="field-email">
-						<span><?php echo get_post_meta( $invitee_post_id, '_bp_invitee_email', true ); ?></span>
+						<span><?php echo esc_html( get_post_meta( $invitee_post_id, '_bp_invitee_email', true ) ); ?></span>
 					</td>
 					<td class="field-email">
 						<span>
 							<?php
-							$date = get_the_date( '',$invitee_post_id );
+							$date = get_the_date( '', $invitee_post_id );
 							echo $date;
 							?>
 						</span>
@@ -181,7 +183,7 @@ if ( '' !== $restricted ) {
 						?>
 					</td>
 				</tr>
-				<?php
+			<?php
 			endwhile;
 
 		} else {

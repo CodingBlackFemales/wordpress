@@ -6,7 +6,10 @@ $logo_dark_id = buddyboss_theme_get_option( 'logo_dark', 'id' );
 $logo_dark    = ( $show && $show_dark && $logo_dark_id ) ? wp_get_attachment_image( $logo_dark_id, 'full', '', array( 'class' => 'bb-logo bb-logo-dark' ) ) : '';
 ?>
 <div class="container site-header-container flex default-header">
-    <a href="#" class="bb-toggle-panel"><i class="bb-icon-l bb-icon-sidebar"></i></a>
+	<a href="#" class="bb-toggle-panel">
+		<i class="bb-icon-l bb-icon-sidebar"></i>
+		<span class="screen-reader-text"><?php esc_html_e( 'Toggle Side Panel', 'buddyboss-theme' ); ?></span>
+	</a>
     <?php
     if ( buddyboss_is_learndash_inner() && !buddyboss_theme_ld_focus_mode() ) {
         get_template_part( 'template-parts/site-logo' );

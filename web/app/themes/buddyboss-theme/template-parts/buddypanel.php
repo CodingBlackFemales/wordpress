@@ -9,7 +9,10 @@
 	if ( $buddypanel_toggle ) {
 		?>
 		<header class="panel-head">
-			<a href="#" class="bb-toggle-panel"><i class="bb-icon-l bb-icon-sidebar"></i></a>
+			<a href="#" class="bb-toggle-panel">
+				<i class="bb-icon-l bb-icon-sidebar"></i>
+				<span class="screen-reader-text"><?php esc_html_e( 'Toggle Side Panel', 'buddyboss-theme' ); ?></span>
+			</a>
 		</header>
 		<?php
 	}
@@ -21,7 +24,7 @@
 		get_template_part( 'template-parts/site-logo' );
 
 	} elseif (
-		3 !== $header &&
+		! in_array( $header, array( 3, 5 ), true ) &&
 		$buddypanel_logo
 	) {
 		get_template_part( 'template-parts/site-logo' );
@@ -37,13 +40,13 @@
 			get_template_part( 'template-parts/site-logo' );
 		}
 	}
-	$site_icon_class = $buddypanel_logo ? ' buddypanel_on_' . $buddypanel_state . '_site_icon' : 'buddypanel_off_' . $buddypanel_state . '_site_icon';
+	$site_icon_class = $buddypanel_logo && 5 !== $header ? ' buddypanel_on_' . $buddypanel_state . '_site_icon' : 'buddypanel_off_' . $buddypanel_state . '_site_icon';
 	$site_icon_url   = get_site_icon_url( 38 );
 	if ( ! empty( $site_icon_url ) ) {
 		?>
 		<div class="buddypanel-site-icon <?php echo esc_attr( $site_icon_class ); ?>">
 			<a href="<?php echo esc_url( bb_get_theme_header_logo_link() ); ?>" class="buddypanel-site-icon-link">
-				<img src="<?php echo esc_url( $site_icon_url ); ?>" class="buddypanel-site-icon-src"/>
+				<img src="<?php echo esc_url( $site_icon_url ); ?>" class="buddypanel-site-icon-src" alt="<?php esc_attr_e( 'Site Icon', 'buddyboss-theme' ); ?>"/>
 			</a>
 		</div>
 		<?php

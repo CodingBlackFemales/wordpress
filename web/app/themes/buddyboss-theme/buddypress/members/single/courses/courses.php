@@ -64,6 +64,8 @@ if ( $atts['per_page'] > 0 ) {
 	$atts['nopaging'] = true;
 }
 
+$courses_label      = LearnDash_Custom_Label::get_label( 'courses' );
+$course_label       = LearnDash_Custom_Label::get_label( 'course' );
 $user_courses       = apply_filters( 'bp_learndash_user_courses', ld_get_mycourses( $user_id, $atts ) );
 $usermeta           = get_user_meta( $user_id, '_sfwd-quizzes', true );
 $quiz_attempts_meta = empty( $usermeta ) ? false : $usermeta;
@@ -101,6 +103,31 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 <div id="bb-learndash_profile" class="<?php echo empty( $user_courses ) ? 'user-has-no-lessons' : ''; ?>">
 	<div id="learndash-content" class="learndash-course-list">
 		<?php
+		if ( function_exists( 'bb_enable_content_counts' ) && bb_enable_content_counts() ) {
+			?>
+			<div class="bb-item-count">
+				<?php
+				$count = isset( $profile_pager['total_items'] ) ? $profile_pager['total_items'] : count( $user_courses );
+
+				printf(
+					wp_kses(
+						/* translators: %d is the courses count */
+						_n(
+							'<span class="bb-count">%d</span> ' . $course_label,
+							'<span class="bb-count">%d</span> ' . $courses_label,
+							$count,
+							'buddyboss-theme'
+						),
+						array( 'span' => array( 'class' => true ) )
+					),
+					(int) $count
+				);
+
+				unset( $count );
+				?>
+			</div>
+			<?php
+		}
 		if ( ! empty( $user_courses ) ) {
 			?>
 			<form id="bb-courses-directory-form" class="bb-courses-directory" method="get" action="<?php echo esc_url( $current_url ); ?>" data-order="<?php echo esc_attr( $atts['order'] ?? 'DESC' ); ?>" data-orderby="<?php echo esc_attr( $atts['orderby'] ?? 'ID' ); ?>">
@@ -108,11 +135,11 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 					<div id="courses-dir-search" class="bs-dir-search" role="search"></div>
 					<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
 						<div class="grid-filters" data-view="ld-course">
-							<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>">
+							<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>">
 								<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 							</a>
 
-							<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>">
+							<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>">
 								<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 							</a>
 						</div>
@@ -138,7 +165,7 @@ if ( ! empty( $quiz_attempts_meta ) ) {
 							$post = $_post;
 						endif;
 
-						$total_pages         = (int) $profile_pager['total_pages'];
+						$total_pages = (int) $profile_pager['total_pages'];
 
 						if ( 1 < $total_pages ) {
 							?>

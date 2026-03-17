@@ -93,11 +93,11 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 		<div class="ld-secondary-header ld-secondary-header--llms">
 			<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
 
-				<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? $_GET['order'] : 'desc'; ?>"/>
+				<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['order'] ) ) ) : 'desc'; ?>"/>
 
 				<div class="sfwd-courses-filters flex push-right">
 					<div class="select-wrap <?php echo ! empty( $settings['orderby_filter'] ) && 'on' === $settings['orderby_filter'] ? 'active' : 'hide'; ?>">
-						<select id="sfwd_prs-order-by" name="orderby">
+						<select id="sfwd_prs-order-by" name="orderby" aria-label="<?php esc_attr_e( 'Order by', 'buddyboss-theme' ); ?>">
 							<?php echo buddyboss_theme()->lifterlms_helper()->print_sorting_options(); ?>
 						</select>
 					</div>
@@ -157,7 +157,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 						?>
 						<div class="select-wrap <?php echo ! empty( $settings['category_filter'] ) && 'on' === $settings['category_filter'] ? 'active' : 'hide'; ?>">
 							<?php if ( '' !== trim( $category_dropdown ) ) { ?>
-								<select id="sfwd_cats-order-by" name="filter-categories">
+								<select id="sfwd_cats-order-by" name="filter-categories" aria-label="<?php esc_attr_e( 'Filter by category', 'buddyboss-theme' ); ?>">
 									<?php echo $category_dropdown; ?>
 								</select>
 							<?php } ?>
@@ -168,7 +168,7 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 
 					<?php if ( buddyboss_theme_get_option( 'lifterlms_course_index_show_instructors_filter' ) ) : ?>
 						<div class="select-wrap <?php echo ! empty( $settings['instructors_filter'] ) && 'on' === $settings['instructors_filter'] ? 'active' : 'hide'; ?>">
-							<select id="sfwd_instructors-order-by" name="filter-instructors">
+							<select id="sfwd_instructors-order-by" name="filter-instructors" aria-label="<?php esc_attr_e( 'Filter by instructor', 'buddyboss-theme' ); ?>">
 								<?php echo buddyboss_theme()->lifterlms_helper()->print_instructors_options(); ?>
 							</select>
 						</div>
@@ -176,11 +176,11 @@ $search            = isset( $_GET['search'] ) ? sanitize_text_field( wp_unslash(
 				</div>
 
 				<div class="grid-filters <?php echo ! empty( $settings['grid_filter'] ) && 'on' === $settings['grid_filter'] ? 'active' : 'hide'; ?>" data-view="llms-course">
-					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ! empty( $class_grid_active ) ? esc_attr( $class_grid_active ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo ! empty( $class_grid_active ) ? esc_attr( $class_grid_active ) : ''; ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 					</a>
 
-					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ! empty( $class_list_active ) ? esc_attr( $class_list_active ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
+					<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo ! empty( $class_list_active ) ? esc_attr( $class_list_active ) : ''; ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>">
 						<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 					</a>
 				</div>

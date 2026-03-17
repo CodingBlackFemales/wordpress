@@ -230,7 +230,7 @@ final class Menu_Icons_Picker {
             <p class="description submitbox">
                 <label><?php esc_html_e( 'Icon:', 'buddyboss-theme' ) ?></label>
                 <?php if ( true === $new ) {
-	                printf( '<a class="_select" title="Change"><i class="_icon buddyboss %s"></i></a>', $icon );
+	                printf( '<a class="_select" aria-label="' . esc_attr__( 'Change', 'buddyboss-theme' ) . '"><i class="_icon buddyboss %s"></i></a>', $icon );
 	                printf( '<a class="_remove submitdelete">%s</a>', esc_html__( 'Remove', 'buddyboss-theme' ) );
                 } else {
 	                printf( '<a class="_select">%s</a>', esc_html__( 'Select', 'buddyboss-theme' ) );

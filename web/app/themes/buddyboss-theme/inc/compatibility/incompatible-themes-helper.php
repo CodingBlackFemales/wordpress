@@ -49,6 +49,7 @@ function buddyboss_theme_helper_plugins_loaded_callback() {
 			add_filter( 'bb_theme_nav_menu_item_add_icon', 'bb_theme_add_wpml_nav_menu_item_icon', 10, 2 );
 			add_filter( 'bb_theme_buddypanel_nav_menu_item_icon', 'bb_theme_set_wpml_nav_menu_item_icon_class', 10, 2 );
 			add_filter( 'bb_theme_sub_nav_menu_wrap_item_icon', 'bb_theme_set_wpml_nav_menu_item_icon_class', 10, 2 );
+			add_filter( 'bb_get_related_posts_sql', 'bb_theme_wpml_filter_related_posts_sql_by_language' );
 		}
 	}
 }
@@ -207,4 +208,57 @@ function bb_theme_set_wpml_nav_menu_item_icon_class( $icon, $item ) {
  */
 function bb_elementor_pro_disable_page_transition() {
 	return buddyboss_theme()->elementor_pro_helper() ? 'data-e-disable-page-transition="true"' : '';
+}
+
+/**
+ * Filter Related Posts SQL Query for WPML
+ *
+ * Modifies the SQL query for related posts to ensure only posts
+ * in the same language are returned when WPML is active.
+ *
+ * @param string $sql The original SQL query.
+ *
+ * @return string Modified SQL query with language filtering.
+ * @since 2.8.00
+ *
+ */
+function bb_theme_wpml_filter_related_posts_sql_by_language( $sql ) {
+	global $wpdb;
+
+	preg_match( '/wp_posts.ID != (\d+)/', $sql, $matches );
+
+	if ( empty( $matches[1] ) ) {
+		return $sql;
+	}
+
+	$target_post_id = (int) $matches[1];
+	$glue           = 'WHERE 1=1';
+	$parts          = explode( $glue, $sql );
+
+	if ( count( $parts ) !== 2 ) {
+		return $sql;
+	}
+
+	list( $before, $after ) = $parts;
+
+	$wpml_join = "LEFT JOIN {$wpdb->prefix}icl_translations
+					AS t1 ON t1.element_id = wp_posts.ID AND t1.element_type LIKE 'post_%' ";
+
+	$wpml_where = $wpdb->prepare(
+		" AND t1.language_code = (
+			SELECT t2.language_code
+			FROM {$wpdb->prefix}icl_translations AS t2
+			WHERE t2.element_id = %d AND t2.element_type LIKE 'post_%'
+			LIMIT 1
+		)",
+		$target_post_id
+	);
+
+	return implode(
+		$glue,
+		array(
+			$before . $wpml_join,
+			$wpml_where . $after,
+		)
+	);
 }

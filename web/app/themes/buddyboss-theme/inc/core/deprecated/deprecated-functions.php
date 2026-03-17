@@ -181,3 +181,21 @@ if ( ! function_exists( 'buddyboss_theme_get_header_notifications' ) ) {
 		wp_send_json_success( $response );
 	}
 }
+
+if ( ! function_exists( 'bb_theme_elementor_activity_edit_button' ) ) {
+	/**
+	 * Deprecated function for activity edit button in Elementor
+	 *
+	 * @since BuddyBoss 1.5.1
+	 * @deprecated BuddyBoss 2.8.00
+	 *
+	 * @param array $buttons Array of buttons.
+	 * @param int   $activity_id Activity ID.
+	 *
+	 * @return mixed
+	 */
+	function bb_theme_elementor_activity_edit_button( $buttons, $activity_id ) {
+		_deprecated_function( __FUNCTION__, '2.8.00', 'bb_theme_elementor_activity_bubble_buttons' );
+		return $buttons;
+	}
+}
