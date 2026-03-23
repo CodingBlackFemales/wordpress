@@ -53,6 +53,6 @@ jobs:
         with:
           node-version: "24.x"
       - name: Check site
-        uses: jtalk/url-health-check-action@v4
+        uses: jtalk/url-health-check-action@v5
         with:
           url: ${{ vars.DESTINATION_URL }}
