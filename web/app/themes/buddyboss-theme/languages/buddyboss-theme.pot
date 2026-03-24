@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-19 14:02:06+00:00\n"
+"POT-Creation-Date: 2026-03-18 14:44:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15701,16 +15701,16 @@ msgstr ""
 msgid "View order"
 msgstr ""
 
-#: woocommerce/myaccount/view-order.php:38
+#: woocommerce/myaccount/view-order.php:40
 #. translators: 1: order number 2: order date 3: order status
 msgid "Order #%1$s was placed on %2$s and is currently %3$s."
 msgstr ""
 
-#: woocommerce/myaccount/view-order.php:51
+#: woocommerce/myaccount/view-order.php:53
 msgid "Order updates"
 msgstr ""
 
-#: woocommerce/myaccount/view-order.php:57
+#: woocommerce/myaccount/view-order.php:59
 msgid "l jS \\o\\f F Y, h:ia"
 msgstr ""
 

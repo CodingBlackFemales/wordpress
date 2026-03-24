@@ -12,7 +12,7 @@
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 9.7.0
+ * @version 10.5.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,7 +42,7 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="account_display_name"><?php esc_html_e( 'Display name', 'buddyboss-theme' ); ?>&nbsp;<span class="required" aria-hidden="true">*</span></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_display_name" id="account_display_name" aria-describedby="account_display_name_description" aria-describedby="account_display_name_description" value="<?php echo esc_attr( $user->display_name ); ?>" aria-required="true" />
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_display_name" id="account_display_name" aria-describedby="account_display_name_description" value="<?php echo esc_attr( $user->display_name ); ?>" aria-required="true" />
 				<span id="account_display_name_description"><em><?php esc_html_e( 'This will be how your name will be displayed in the account section and in reviews', 'buddyboss-theme' ); ?></em></span>
 			</p>
 
@@ -67,15 +67,15 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 
 				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 					<label for="password_current"><?php esc_html_e( 'Current password (leave blank to leave unchanged)', 'buddyboss-theme' ); ?></label>
-					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_current" id="password_current" placeholder="<?php esc_html_e( 'Current password', 'buddyboss-theme' ); ?>" autocomplete="off" />
+					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_current" id="password_current" placeholder="<?php esc_html_e( 'Current password', 'buddyboss-theme' ); ?>" autocomplete="current-password" />
 				</p>
 				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 					<label for="password_1"><?php esc_html_e( 'New password (leave blank to leave unchanged)', 'buddyboss-theme' ); ?></label>
-					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_1" id="password_1" placeholder="<?php esc_html_e( 'New password', 'buddyboss-theme' ); ?>" autocomplete="off" />
+					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_1" id="password_1" placeholder="<?php esc_html_e( 'New password', 'buddyboss-theme' ); ?>" autocomplete="new-password" />
 				</p>
 				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 					<label for="password_2"><?php esc_html_e( 'Confirm new password', 'buddyboss-theme' ); ?></label>
-					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_2" id="password_2" placeholder="<?php esc_html_e( 'Confirm new password', 'buddyboss-theme' ); ?>" autocomplete="off" />
+					<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_2" id="password_2" placeholder="<?php esc_html_e( 'Confirm new password', 'buddyboss-theme' ); ?>" autocomplete="new-password" />
 				</p>
 			</fieldset>
 			<div class="clear"></div>
