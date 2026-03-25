@@ -136,15 +136,14 @@ function buddypages_process_page_delete() {
 			$post_id = wp_delete_post( $id, true );
 			if ( ! $post_id ) {
 				bp_core_add_message( __( 'Error deleting page.', 'buddypages' ) );
-				bp_core_redirect( bp_displayed_user_domain() );
 			} else {
 				bp_core_add_message( __( 'Page deleted.', 'buddypages' ) );
-				bp_core_redirect( bp_displayed_user_domain() );
 			}
+			bp_core_redirect( bp_displayed_user_domain() . 'settings/pages/' );
 		}
 	}
 }
-add_action( 'bp_init', 'buddypages_process_page_delete' );
+add_action( 'bp_parse_query', 'buddypages_process_page_delete' );
 
 /**
  * Returns array of groups data for groups diplayed user is admin.

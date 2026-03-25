@@ -17,7 +17,7 @@ if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) . '&user_id=' . g
 		$last_message_id = (int) $messages_template->thread->last_message_id;
 
 		$group_id = bp_messages_get_meta( $last_message_id, 'group_id', true );
-		if ( 0 === $last_message_id && ! $group_id ) {
+		if ( 0 === $last_message_id && ! $group_id && method_exists( 'BP_Messages_Thread', 'get_first_message' ) ) {
 			$first_message           = BP_Messages_Thread::get_first_message( bp_get_message_thread_id() );
 			$group_message_thread_id = bp_messages_get_meta( $first_message->id, 'group_message_thread_id', true ); // group.
 			$group_id                = (int) bp_messages_get_meta( $first_message->id, 'group_id', true );
@@ -138,7 +138,7 @@ if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) . '&user_id=' . g
 		}
 
 		$is_group_thread = 0;
-		if ( (int) $group_id > 0 ) {
+		if ( (int) $group_id > 0 && method_exists( 'BP_Messages_Thread', 'get_first_message' ) ) {
 
 			$first_message           = BP_Messages_Thread::get_first_message( bp_get_message_thread_id() );
 			$group_message_thread_id = bp_messages_get_meta( $first_message->id, 'group_message_thread_id', true ); // group.
@@ -166,7 +166,7 @@ if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) . '&user_id=' . g
 			);
 		} else {
 			$can_message        = ( $is_group_thread || bp_current_user_can( 'bp_moderate' ) ) ? true : apply_filters( 'bb_can_user_send_message_in_thread', true, $messages_template->thread->thread_id, (array) $messages_template->thread->recipients );
-			$is_check_un_access = $can_message && ! $is_group_thread && bp_is_active( 'friends' ) && bp_force_friendship_to_message();
+			$is_check_un_access = $can_message && ! $is_group_thread && bp_is_active( 'friends' ) && function_exists( 'bp_force_friendship_to_message' ) && bp_force_friendship_to_message();
 			$un_access_users    = false;
 		}
 
@@ -407,7 +407,7 @@ if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) . '&user_id=' . g
 					$exerpt = wp_strip_all_tags( bp_create_excerpt( preg_replace( '#(<br\s*?\/?>|</(\w+)><(\w+)>)#', ' ', $messages_template->thread->last_message_content ), 50, array( 'ending' => '&hellip;' ) ) );
 
 					if ( empty( $exerpt ) && function_exists( 'buddypress' ) && bp_is_active( 'media' ) ) :
-						if ( bp_is_messages_media_support_enabled() ) :
+						if ( function_exists( 'bp_is_messages_media_support_enabled' ) && bp_is_messages_media_support_enabled() ) :
 							$media_ids = bp_messages_get_meta( $last_message_id, 'bp_media_ids', true );
 
 							if ( ! empty( $media_ids ) ) :
@@ -455,7 +455,7 @@ if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) . '&user_id=' . g
 							endif;
 						endif;
 
-						if ( bp_is_messages_gif_support_enabled() ) :
+						if ( function_exists( 'bp_is_messages_gif_support_enabled' ) && bp_is_messages_gif_support_enabled() ) :
 							$gif_data = bp_messages_get_meta( $last_message_id, '_gif_data', true );
 
 							if ( ! empty( $gif_data ) ) :

@@ -146,3 +146,4 @@ function bb_pro_reaction_body_class( $classes ) {
 
 	return $classes;
 }
+

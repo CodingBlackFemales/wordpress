@@ -1,7 +1,7 @@
 <?php
-namespace ParagonIE\Sodium;
 
-class Crypto extends \ParagonIE_Sodium_Crypto
+namespace BuddyBossPlatformPro\ParagonIE\Sodium;
+
+class Crypto extends \BuddyBossPlatformPro\ParagonIE_Sodium_Crypto
 {
-
 }

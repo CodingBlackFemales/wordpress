@@ -40,6 +40,14 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public $access_control = null;
 
 		/**
+		 * Integration Directory path.
+		 *
+		 * @var null
+		 * @since 2.5.20
+		 */
+		public $integration_dir = null;
+
+		/**
 		 * Main BB_Platform_Pro Instance
 		 *
 		 * Ensures only one instance of BB_Platform_Pro is loaded or can be loaded.
@@ -79,9 +87,8 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function __construct() {
 			$this->constants();
 			$this->setup_globals();
-			$this->includes();
-			// Set up localisation.
 			$this->load_plugin_textdomain();
+			$this->includes();
 			$this->setup_actions();
 		}
 
@@ -116,8 +123,8 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 1.0.0
 		 */
 		private function setup_globals() {
-			$this->version        = '2.5.00';
-			$this->db_version     = 295;
+			$this->version        = '2.13.1';
+			$this->db_version     = 325;
 			$this->db_version_raw = (int) bp_get_option( '_bbp_pro_db_version' );
 
 			// root directory.
@@ -134,9 +141,24 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 			$this->access_control_dir = $this->plugin_dir . 'includes/access-control';
 			$this->access_control_url = $this->plugin_url . 'includes/access-control';
 
+			// SSO.
+			$this->sso_dir = $this->plugin_dir . 'includes/sso';
+			$this->sso_url = $this->plugin_url . 'includes/sso';
+
 			// Reactions.
 			$this->reactions_dir = $this->plugin_dir . 'includes/reactions';
 			$this->reactions_url = $this->plugin_url . 'includes/reactions';
+
+			// Polls.
+			$this->polls_dir = $this->plugin_dir . 'includes/polls';
+			$this->polls_url = $this->plugin_url . 'includes/polls';
+			// Schedule posts.
+			$this->schedule_posts_dir = $this->plugin_dir . 'includes/schedule-posts';
+			$this->schedule_posts_url = $this->plugin_url . 'includes/schedule-posts';
+
+			// Topics.
+			$this->topics_dir = $this->plugin_dir . 'includes/topics';
+			$this->topics_url = $this->plugin_url . 'includes/topics';
 
 			// Platform Settings.
 			$this->platform_settings_dir = $this->plugin_dir . 'includes/platform-settings';
@@ -191,7 +213,11 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 
 				$this->plugin_dir . "/includes/classes/class-{$class}.php",
 				$this->plugin_dir . "/includes/access-control/includes/class-{$class}.php",
+				$this->plugin_dir . "/includes/sso/includes/class-{$class}.php",
 				$this->plugin_dir . "/includes/reactions/includes/class-{$class}.php",
+				$this->plugin_dir . "/includes/polls/includes/class-{$class}.php",
+				$this->plugin_dir . "/includes/schedule-posts/includes/class-{$class}.php",
+				$this->plugin_dir . "/includes/topics/includes/class-{$class}.php",
 			);
 
 			$integration_dir = $this->integration_dir;
@@ -282,7 +308,13 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		public function bb_pro_modify_plugin_action_links( $links, $file ) {
 
 			// Return normal links if not BuddyPress.
-			if ( 'buddyboss-platform-pro/buddyboss-platform-pro.php' !== $file ) {
+			if (
+				'buddyboss-platform-pro/buddyboss-platform-pro.php' !== $file ||
+				(
+					function_exists( 'bbp_pro_is_license_valid' ) &&
+					bb_pro_should_lock_features()
+				)
+			) {
 				return $links;
 			}
 
@@ -301,11 +333,40 @@ if ( ! class_exists( 'BB_Platform_Pro' ) ) {
 		 * @since 2.1.7
 		 */
 		public function bb_pro_display_update_plugin_information() {
-			if ( 0 !== strpos( get_current_screen()->id, 'plugins' ) ) {
+			if (
+				0 !== strpos( get_current_screen()->id, 'plugins' ) ||
+				(
+					function_exists( 'bbp_pro_is_license_valid' ) &&
+					bb_pro_should_lock_features()
+				)
+			) {
 				return;
 			}
-			// Check the transient to see if we've just updated the plugin.
-			include trailingslashit( BB_PLATFORM_PRO_PLUGIN_DIR ) . 'includes/bb-pro-update-buddyboss.php';
+			
+			// Output the modal HTML template.
+			// This is needed for the Release Notes link to work.
+			// Use output buffering and error handling to prevent breaking WordPress scripts.
+			$template_path = trailingslashit( BB_PLATFORM_PRO_PLUGIN_DIR ) . 'includes/bb-pro-update-buddyboss.php';
+			
+			if ( file_exists( $template_path ) ) {
+				// Use output buffering to catch any errors.
+				ob_start();
+				try {
+					// Suppress any errors from the template to prevent breaking the page.
+					@include $template_path;
+					$output = ob_get_clean();
+					
+					// Only output if we got valid HTML (not an error).
+					if ( ! empty( $output ) && false === strpos( $output, 'Fatal error' ) ) {
+						echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					}
+				} catch ( Exception $e ) {
+					ob_end_clean();
+					// Silently fail to prevent breaking WordPress admin.
+				}
+			}
+			
+			// Clean up the update flag to prevent database bloat.
 			delete_option( '_bb_pro_is_update' );
 		}
 	}

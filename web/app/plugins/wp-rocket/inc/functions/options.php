@@ -148,7 +148,7 @@ function is_rocket_generate_caching_mobile_files() { // phpcs:ignore WordPress.N
  * return Array An array of domain names to DNS prefetch
  */
 function rocket_get_dns_prefetch_domains() {
-	$domains = (array) get_rocket_option( 'dns_prefetch' );
+	$domains = (array) get_rocket_option( 'dns_prefetch', [] );
 
 	/**
 	 * Filter list of domains to prefetch DNS
@@ -523,6 +523,13 @@ function rocket_check_key() {
 			$message = __( 'License validation failed. This user account is blocked.', 'rocket' ) . '<br>' . sprintf( __( 'Please see %1$sthis guide%2$s for more info.', 'rocket' ), '<a href="https://docs.wp-rocket.me/article/100-resolving-problems-with-license-validation#errors" rel="noopener noreferrer" target=_"blank">', '</a>' );
 			set_transient( 'rocket_check_key_errors', [ $message ] );
 
+			return $return;
+		}
+
+		if ( 'BANNED_WEBSITE' === $body ) {
+			// Translators: %1$s = opening link tag, %2$s = closing link tag.
+			$message = __( 'License validation failed. This website is revoked.', 'rocket' ) . '<br>' . sprintf( __( 'Please see %1$sthis guide%2$s for more info.', 'rocket' ), '<a href="https://docs.wp-rocket.me/article/100-resolving-problems-with-license-validation#errors" rel="noopener noreferrer" target=_"blank">', '</a>' );
+			set_transient( 'rocket_check_key_errors', [ $message ] );
 			return $return;
 		}
 

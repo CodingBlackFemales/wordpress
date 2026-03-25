@@ -42,7 +42,10 @@ if ( 4 === $header ) {
 			}
 			?>
 			<div id="navbar-collapse">
-				<a class="more-button" href="#"><i class="bb-icon-f bb-icon-ellipsis-h"></i></a>
+				<a class="more-button" href="#">
+					<i class="bb-icon-f bb-icon-ellipsis-h"></i>
+					<span class="screen-reader-text"><?php esc_html_e( 'More options', 'buddyboss-theme' ); ?></span>
+				</a>
 				<div class="sub-menu">
 					<div class="wrapper">
 						<ul id="navbar-extend" class="sub-menu-inner"></ul>

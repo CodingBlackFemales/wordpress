@@ -22,7 +22,7 @@ class BB_Pusher_Integration extends BP_Integration {
 	public function __construct() {
 		$this->start(
 			'pusher',
-			__( 'Pusher', 'buddyboss-pro' ),
+			'Pusher',
 			'pusher',
 			array(
 				'required_plugin' => array(),
@@ -32,7 +32,7 @@ class BB_Pusher_Integration extends BP_Integration {
 		// Include the code.
 		$this->includes();
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 
 			// Register the template stack for buddyboss so that theme can override.
 			bp_register_template_stack( array( $this, 'register_template' ) );

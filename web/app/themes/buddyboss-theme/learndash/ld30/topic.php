@@ -36,7 +36,105 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+global $post;
 $lesson_data = $post;
+
+// Ensure $user_id is defined.
+$user_id = isset( $user_id ) ? $user_id : get_current_user_id();
+
+// Ensure $course_id is defined.
+$course_id = isset( $course_id ) ? $course_id : 0;
+
+// Get course_id properly for Modern UI.
+if ( empty( $course_id ) ) {
+	$course_id = learndash_get_course_id( $post->ID );
+	if ( empty( $course_id ) ) {
+		$course_id = buddyboss_theme()->learndash_helper()->ld_30_get_course_id( $post->ID );
+	}
+}
+
+// Initialize LearnDash variables IMMEDIATELY when Modern UI is enabled.
+if ( ! isset( $lesson_progression_enabled ) ) {
+	$lesson_progression_enabled = learndash_lesson_progression_enabled();
+}
+
+if ( ! isset( $show_content ) ) {
+	// Use LearnDash's model to determine if content should be visible.
+	if ( class_exists( 'LearnDash\Core\Models\Topic' ) ) {
+		$model        = \LearnDash\Core\Models\Topic::create_from_post( $post );
+		$show_content = $model->is_content_visible( $user_id );
+	} else {
+		$show_content = true; // Fallback.
+	}
+}
+
+// Initialize progression variables IMMEDIATELY.
+if ( ! isset( $previous_lesson_completed ) || ! isset( $previous_topic_completed ) ) {
+	// Initialize progression variables based on LearnDash's logic.
+	$previous_lesson_completed = true; // Default to true (no previous lesson to complete).
+	$previous_topic_completed  = true; // Default to true (no previous topic to complete).
+
+	// Check if user can bypass course limits (admin users).
+	$bypass_course_limits_admin_users = learndash_can_user_bypass( $user_id, 'learndash_course_progression' );
+
+	if ( $bypass_course_limits_admin_users ) {
+		// Admin users with bypass enabled should skip progression checks.
+		$previous_lesson_completed = true;
+		$previous_topic_completed  = true;
+	} elseif ( ! empty( $user_id ) ) {
+		if ( learndash_user_progress_is_step_complete( $user_id, $course_id, $post->ID ) ) {
+			$previous_lesson_completed = true;
+			$previous_topic_completed  = true;
+		} elseif ( $lesson_progression_enabled ) {
+			// Get the previous item in the course sequence.
+			$previous_item = learndash_get_previous( $post );
+
+			if ( ! empty( $previous_item ) ) {
+				$previous_complete = learndash_is_item_complete( $user_id, $previous_item->ID, $course_id );
+
+				if ( $previous_complete ) {
+					$previous_lesson_completed = true;
+					$previous_topic_completed  = true;
+				} else {
+					$previous_lesson_completed = false;
+					$previous_topic_completed  = false;
+				}
+			} else {
+				// No previous item found, this is the first topic/lesson.
+				$previous_lesson_completed = true;
+				$previous_topic_completed  = true;
+			}
+		} else {
+			$previous_topic_completed  = true;
+			$previous_lesson_completed = true;
+		}
+	} else {
+		$previous_topic_completed  = true;
+		$previous_lesson_completed = true;
+	}
+}
+
+
+$materials   = isset( $materials ) ? $materials : '';
+$lesson_post = isset( $lesson_post ) ? $lesson_post : null;
+$content     = isset( $content ) ? $content : '';
+
+// If content is empty, populate it with the topic content.
+if ( empty( $content ) ) {
+	$content = get_post_field( 'post_content', $post->ID );
+
+	// Process the content through LearnDash's content processing.
+	if ( ! empty( $content ) ) {
+		// Apply LearnDash content filters.
+		$content = apply_filters( 'learndash_content', $content, $post );
+		$content = apply_filters( 'the_content', $content );
+	}
+}
+
+// Override $show_content based on our progression logic for Modern UI.
+if ( $previous_lesson_completed && $previous_topic_completed ) {
+	$show_content = true;
+}
 
 if ( empty( $course_id ) ) {
 	$course_id = learndash_get_course_id( $lesson_data->ID );
@@ -217,16 +315,15 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 							true
 						);
 
-
 						/**
-						 * If the user needs to complete the previous lesson AND topic display an alert
+						 * If the user needs to complete the previous lesson AND topic display an alert.
 						 */
-
 						$sub_context = '';
 						if ( ( $lesson_progression_enabled ) && ( ! learndash_user_progress_is_step_complete( $user_id, $course_id, $post->ID ) ) ) {
 							$previous_item = learndash_get_previous( $post );
 							if ( ( ! $previous_topic_completed ) || ( empty( $previous_item ) ) ) {
-								if ( 'on' === learndash_get_setting( $lesson_post->ID, 'lesson_video_enabled' ) ) {
+								// Check if current topic's lesson has video progression requirements.
+								if ( ! empty( $lesson_post ) && 'on' === learndash_get_setting( $lesson_post->ID, 'lesson_video_enabled' ) ) {
 									if ( ! empty( learndash_get_setting( $lesson_post->ID, 'lesson_video_url' ) ) ) {
 										if ( 'BEFORE' === learndash_get_setting( $lesson_post->ID, 'lesson_video_shown' ) ) {
 											if ( ! learndash_video_complete_for_step( $lesson_post->ID, $course_id, $user_id ) ) {
@@ -237,34 +334,69 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 								}
 							}
 						}
+						// Use LearnDash's core progression logic.
+						// Check if user can bypass course limits (admin users).
+						$bypass_course_limits = learndash_can_user_bypass( $user_id, 'learndash_course_progression' );
+						if ( ( ! learndash_is_sample( $post ) ) && ( $lesson_progression_enabled ) && ! $bypass_course_limits && ( ! empty( $sub_context ) || ! ( isset( $previous_topic_completed ) ? $previous_topic_completed : true ) || ! ( isset( $previous_lesson_completed ) ? $previous_lesson_completed : true ) ) ) :
 
-						if ( ( ! learndash_is_sample( $post ) ) && ( $lesson_progression_enabled ) && ( ! empty( $sub_context ) || ! $previous_topic_completed || ! $previous_lesson_completed ) ) :
+							$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
+							if ( ! empty( $previous_item_id ) ) {
+								// Check if the incomplete step is actually the current topic.
+								if ( $previous_item_id !== $post->ID ) {
+									if ( 'video_progression' === $sub_context ) {
+										$previous_item = $lesson_post;
+									} else {
+										$previous_item = get_post( $previous_item_id );
+									}
 
-							if ( 'video_progression' === $sub_context ) {
-								$previous_item = $lesson_post;
-							} else {
-								$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-								if ( ! empty( $previous_item_id ) ) {
-									$previous_item = get_post( $previous_item_id );
+									if ( ( isset( $previous_item ) ) && ( ! empty( $previous_item ) ) ) {
+										learndash_get_template_part(
+											'modules/messages/lesson-progression.php',
+											array(
+												'previous_item' => $previous_item,
+												'course_id'     => $course_id,
+												'context'       => 'topic',
+												'sub_context'   => $sub_context,
+												'user_id'       => $user_id,
+											),
+											true
+										);
+									}
 								}
-							}
-
-							if ( ( isset( $previous_item ) ) && ( ! empty( $previous_item ) ) ) {
-								$show_content = false;
-								learndash_get_template_part(
-									'modules/messages/lesson-progression.php',
-									array(
-										'previous_item' => $previous_item,
-										'course_id'     => $course_id,
-										'context'       => 'topic',
-										'sub_context'   => $sub_context,
-									),
-									true
-								);
 							}
 						endif;
 
+						// Ensure content is shown when video progression is required.
+						if ( ! empty( $sub_context ) && 'video_progression' === $sub_context ) {
+							$show_content = true;
+						}
+
 						if ( $show_content ) :
+
+							/**
+							 * Process video content first
+							 */
+							$processed_content = $content;
+
+							// Check if video content already exists in the content to prevent duplicate videos.
+							$has_video_content = (
+								strpos( $content, '<video' ) !== false ||
+								strpos( $content, '<iframe' ) !== false ||
+								strpos( $content, '[ld_video]' ) !== false
+							);
+
+							// Only process video content if it doesn't already exist.
+							if ( ! $has_video_content ) {
+								// Get video settings for this topic.
+								$topic_video_enabled = learndash_get_setting( $post, 'topic_video_enabled' );
+								$topic_video_url     = learndash_get_setting( $post, 'topic_video_url' );
+
+								if ( 'on' === $topic_video_enabled && ! empty( $topic_video_url ) ) {
+									// Process video content through LearnDash's video system.
+									$video_instance    = Learndash_Course_Video::get_instance();
+									$processed_content = $video_instance->add_video_to_content( $content, $post, learndash_get_setting( $post ) );
+								}
+							}
 
 							learndash_get_template_part(
 								'modules/tabs.php',
@@ -272,7 +404,7 @@ $topics    = learndash_get_topic_list( $lesson_id, $course_id );
 									'course_id' => $course_id,
 									'post_id'   => get_the_ID(),
 									'user_id'   => $user_id,
-									'content'   => $content,
+									'content'   => $processed_content,
 									'materials' => $materials,
 									'context'   => 'topic',
 								),

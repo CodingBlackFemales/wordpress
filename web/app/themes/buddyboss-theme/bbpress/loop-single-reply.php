@@ -116,7 +116,7 @@
 						if ( ! $empty ) {
 							?>
 							<a href="#" class="bs-dropdown-link bb-reply-actions-button" data-balloon-pos="up"
-								data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>"><i
+								data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>"><i
 										class="bb-icon-f bb-icon-ellipsis-v"></i></a>
 							<ul class="bs-dropdown bb-reply-actions-dropdown bb_more_dropdown">
 								<?php get_template_part( 'template-parts/more-options-view' ); ?>

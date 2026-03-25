@@ -66,7 +66,7 @@ if ( $is_enrolled ) {
 				$user_link = buddyboss_theme()->lifterlms_helper()->bb_llms_get_user_link( $author_id );
 				?>
 				<div class="bb-course-meta bb-course-meta--membership">
-					<a href="<?php echo esc_url( $user_link ); ?>" class="item-avatar">
+					<a href="<?php echo esc_url( $user_link ); ?>" class="item-avatar" aria-label="<?php echo esc_attr( get_the_author_meta( 'first_name', $author_id ) ); ?>">
 						<?php echo $img; ?>
 					</a> <strong> <a href="<?php echo esc_url( $user_link ); ?>">
 							<?php echo wp_kses_post( get_the_author_meta( 'first_name', $author_id ) ); ?>

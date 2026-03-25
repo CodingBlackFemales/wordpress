@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Http\Client;
+namespace BuddyBossPlatformPro\Psr\Http\Client;
 
 /**
  * Every HTTP client related exception MUST implement this interface.

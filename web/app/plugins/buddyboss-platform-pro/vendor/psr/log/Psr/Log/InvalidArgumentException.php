@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Log;
+namespace BuddyBossPlatformPro\Psr\Log;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

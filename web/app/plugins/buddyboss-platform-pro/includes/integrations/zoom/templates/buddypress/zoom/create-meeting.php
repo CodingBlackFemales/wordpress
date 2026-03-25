@@ -9,7 +9,7 @@
 ?>
 <div class="bb-title-wrap">
 	<h2 class="bb-title"><?php esc_html_e( 'Create Meeting', 'buddyboss-pro' ); ?></h2>
-	<a href="#" class="bp-close-create-meeting-form"><span class="bb-icon-l bb-icon-times"></span></a>
+	<a href="#" class="bp-close-create-meeting-form" aria-label="<?php esc_attr_e( 'Close', 'buddyboss-pro' ); ?>"><span class="bb-icon-l bb-icon-times"></span></a>
 </div>
 <?php
 $group_id         = filter_input( INPUT_GET, 'group_id', FILTER_VALIDATE_INT );
@@ -75,7 +75,7 @@ if ( 1 === (int) $host_type ) {
 			<div class="bb-field-wrap">
 				<label for="bp-zoom-meeting-password"><?php esc_html_e( 'Passcode (optional)', 'buddyboss-pro' ); ?></label>
 				<div class="bb-meeting-input-wrap bp-toggle-meeting-password-wrap">
-					<a href="#" class="bp-toggle-meeting-password"><i class="bb-icon-l bb-icon-eye"></i><i class="bb-icon-l bb-icon-eye-slash"></i></a>
+					<a href="#" class="bp-toggle-meeting-password" aria-label="<?php esc_attr_e( 'Toggle password visibility', 'buddyboss-pro' ); ?>"><i class="bb-icon-l bb-icon-eye"></i><i class="bb-icon-l bb-icon-eye-slash"></i></a>
 					<input autocomplete="new-password" type="password" id="bp-zoom-meeting-password" value="" name="bp-zoom-meeting-password" />
 				</div>
 			</div>
@@ -182,7 +182,7 @@ if ( 1 === (int) $host_type ) {
 				<label for="bp-zoom-meeting-alert"><?php esc_html_e( 'Meeting Notifications', 'buddyboss-pro' ); ?></label>
 				<div class="bb-meeting-input-wrap">
 					<div class="bb-field-wrap checkbox-row">
-						<input type="checkbox" name="bp-zoom-meeting-notification" id="bp-zoom-meeting-notification" value="yes" class="bs-styled-checkbox"/>
+						<input type="checkbox" name="bp-zoom-meeting-notification" id="bp-zoom-meeting-notification" value="yes" class="bs-styled-checkbox" aria-label="<?php esc_attr_e( 'Send meeting notifications', 'buddyboss-pro' ); ?>"/>
 						<label for="bp-zoom-meeting-notification" id="bb-notification-meeting-label"></label>
 						<span class="bb-recurring-meeting-text">
 							<?php esc_html_e( 'Send', 'buddyboss-pro' ); ?>

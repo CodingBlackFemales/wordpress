@@ -22,7 +22,7 @@ class BP_Zoom_Integration extends BP_Integration {
 	public function __construct() {
 		$this->start(
 			'zoom',
-			__( 'Zoom', 'buddyboss-pro' ),
+			'Zoom',
 			'zoom',
 			array(
 				'required_plugin' => array(),
@@ -32,7 +32,7 @@ class BP_Zoom_Integration extends BP_Integration {
 		// Include the code.
 		$this->includes();
 
-		if ( bbp_pro_is_license_valid() ) {
+		if ( ! bb_pro_should_lock_features() ) {
 			new BP_Zoom_Conference_Api();
 			new BP_Zoom_Group();
 			new BP_Zoom_Ajax();

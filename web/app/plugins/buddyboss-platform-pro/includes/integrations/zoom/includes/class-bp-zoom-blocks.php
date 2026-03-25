@@ -21,7 +21,7 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 		 * @since 1.0.0
 		 */
 		public function __construct() {
-			if ( ! bbp_pro_is_license_valid() ) {
+			if ( bb_pro_should_lock_features() ) {
 				return;
 			}
 
@@ -659,8 +659,8 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				'meeting_authentication' => $enforce_login,
 				'auto_recording'         => $auto_recording,
 				'alternative_host_ids'   => $alternative_host_ids,
-				'title'                  => $title,
-				'description'            => $description,
+				'title'                  => wp_specialchars_decode( $title, ENT_QUOTES ),
+				'description'            => wp_specialchars_decode( $description, ENT_QUOTES ),
 			);
 
 			$recurrence_obj = array();
@@ -1210,8 +1210,8 @@ if ( ! class_exists( 'BP_Zoom_Blocks' ) ) {
 				'meeting_authentication' => $enforce_login,
 				'auto_recording'         => $auto_recording,
 				'alternative_host_ids'   => $alternative_host_ids,
-				'title'                  => $title,
-				'description'            => $description,
+				'title'                  => wp_specialchars_decode( $title, ENT_QUOTES ),
+				'description'            => wp_specialchars_decode( $description, ENT_QUOTES ),
 				'type'                   => $type,
 			);
 

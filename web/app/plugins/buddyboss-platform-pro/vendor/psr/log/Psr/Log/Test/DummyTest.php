@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\Psr\Log\Test;
+namespace BuddyBossPlatformPro\Psr\Log\Test;
 
 /**
  * This class is internal and does not follow the BC promise.

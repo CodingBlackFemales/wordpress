@@ -329,32 +329,13 @@ function rocket_analytics_data() {
 		$data['license_type'] = rocket_get_license_type( $customer_data );
 	}
 
+	$media_font_data = get_transient( 'rocket_fonts_data_collection' );
+
+	if ( false !== $media_font_data ) {
+		$data = array_merge( $data, $media_font_data );
+	}
+
 	return $data;
-}
-
-/**
- * Determines if we should send the analytics data
- *
- * @since 2.11
- * @author Remy Perona
- *
- * @return bool True if we should send them, false otherwise
- */
-function rocket_send_analytics_data() {
-	if ( ! get_rocket_option( 'analytics_enabled' ) ) {
-		return false;
-	}
-
-	if ( ! current_user_can( 'rocket_manage_options' ) ) {
-		return false;
-	}
-
-	if ( false === get_transient( 'rocket_send_analytics_data' ) ) {
-		set_transient( 'rocket_send_analytics_data', 1, 7 * DAY_IN_SECONDS );
-		return true;
-	}
-
-	return false;
 }
 
 /**
@@ -374,7 +355,7 @@ function rocket_analytics_optin() {
 	}
 
 	if ( isset( $_GET['value'] ) && 'yes' === $_GET['value'] ) {
-		update_rocket_option( 'analytics_enabled', 1 );
+		update_option( 'rocket_mixpanel_optin', 1 );
 		set_transient( 'rocket_analytics_optin', 1 );
 	}
 

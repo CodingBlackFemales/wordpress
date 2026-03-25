@@ -9,7 +9,7 @@
 ?>
 <div class="meeting-item-container" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>>
 	<div class="bb-title-wrap">
-		<a href="#" class="bp-back-to-meeting-list"><span class="bb-icon-l bb-icon-angle-left"></span></a>
+		<a href="#" class="bp-back-to-meeting-list" aria-label="<?php esc_attr_e( 'Back to meeting list', 'buddyboss-pro' ); ?>"><span class="bb-icon-l bb-icon-angle-left"></span></a>
 		<div>
 			<h2 class="bb-title">
 				<?php bp_zoom_meeting_title(); ?>
@@ -28,10 +28,24 @@
 		</div>
 		<?php if ( bp_zoom_groups_can_user_manage_zoom( bp_loggedin_user_id(), bp_get_current_group_id() ) && bp_zoom_groups_can_user_manage_meeting( bp_get_zoom_meeting_id() ) ) : ?>
 			<div class="meeting-actions">
-				<a href="#" class="meeting-actions-anchor">
+				<a href="#" class="meeting-actions-anchor" aria-label="<?php esc_attr_e( 'More options', 'buddyboss-pro' ); ?>">
 					<i class="bb-icon-f bb-icon-ellipsis-v"></i>
 				</a>
-				<div class="meeting-actions-list">
+				<div class="meeting-actions-list bb_more_dropdown">
+					<?php
+					$template_exists = function_exists( 'bp_locate_template' ) && bp_locate_template( 'common/more-options-view.php' );
+					if ( $template_exists ) {
+						ob_start();
+						bp_get_template_part( 'common/more-options-view' );
+						$more_options_header = ob_get_clean();
+					} else {
+						$more_options_header = '<div class="bb_more_dropdown__title">
+						<span class="bb_more_dropdown__title__text">' . esc_html__( 'Options', 'buddyboss-pro' ) . '</span>
+						<span class="bb_more_dropdown__close_button" role="button"><i class="bb-icon-l bb-icon-times"></i></span>
+						</div>';
+					}
+					echo $more_options_header;
+					?>
 					<ul>
 						<?php if ( true !== bp_get_zoom_meeting_is_past() ) : ?>
 							<li class="bp-zoom-meeting-edit">
@@ -78,7 +92,7 @@
 
 									<footer class="bb-zm-model-footer">
 										<a href="#" id="bp-zoom-only-this-meeting-delete" class="button small" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete This Occurrence', 'buddyboss-pro' ); ?></a>
-										<a href="#" id="bp-zoom-all-meeting-delete"  class="button outline small error" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
+										<a href="#" id="bp-zoom-all-meeting-delete" class="button outline small error" data-id="<?php bp_zoom_meeting_id(); ?>" data-meeting-id="<?php bp_zoom_meeting_zoom_meeting_id(); ?>" data-is-recurring="<?php echo ( 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() || bp_get_zoom_meeting_recurring() ) ? '1' : '0'; ?>" <?php echo 'meeting_occurrence' === bp_get_zoom_meeting_zoom_type() ? 'data-occurrence-id="' . esc_attr( bp_get_zoom_meeting_occurrence_id() ) . '"' : ''; ?>><?php esc_html_e( 'Delete All Occurrences', 'buddyboss-pro' ); ?></a>
 									</footer>
 								</div>
 							<?php else : ?>
@@ -87,6 +101,7 @@
 						</li>
 					</ul>
 				</div>
+				<div class="bb_more_dropdown_overlay"></div>
 			</div>
 		<?php endif; ?>
 	</div>

@@ -1,6 +1,8 @@
 <?php
 
-if (!is_callable('sodium_crypto_stream_xchacha20')) {
+namespace BuddyBossPlatformPro;
+
+if (!\is_callable('sodium_crypto_stream_xchacha20')) {
     /**
      * @see ParagonIE_Sodium_Compat::crypto_stream_xchacha20()
      * @param int $len
@@ -12,10 +14,10 @@ if (!is_callable('sodium_crypto_stream_xchacha20')) {
      */
     function sodium_crypto_stream_xchacha20($len, $nonce, $key)
     {
-        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20($len, $nonce, $key, true);
+        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20($len, $nonce, $key, \true);
     }
 }
-if (!is_callable('sodium_crypto_stream_xchacha20_keygen')) {
+if (!\is_callable('sodium_crypto_stream_xchacha20_keygen')) {
     /**
      * @see ParagonIE_Sodium_Compat::crypto_stream_xchacha20_keygen()
      * @return string
@@ -26,7 +28,7 @@ if (!is_callable('sodium_crypto_stream_xchacha20_keygen')) {
         return ParagonIE_Sodium_Compat::crypto_stream_xchacha20_keygen();
     }
 }
-if (!is_callable('sodium_crypto_stream_xchacha20_xor')) {
+if (!\is_callable('sodium_crypto_stream_xchacha20_xor')) {
     /**
      * @see ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor()
      * @param string $message
@@ -38,10 +40,10 @@ if (!is_callable('sodium_crypto_stream_xchacha20_xor')) {
      */
     function sodium_crypto_stream_xchacha20_xor($message, $nonce, $key)
     {
-        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor($message, $nonce, $key, true);
+        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor($message, $nonce, $key, \true);
     }
 }
-if (!is_callable('sodium_crypto_stream_xchacha20_xor_ic')) {
+if (!\is_callable('sodium_crypto_stream_xchacha20_xor_ic')) {
     /**
      * @see ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor_ic()
      * @param string $message
@@ -54,6 +56,6 @@ if (!is_callable('sodium_crypto_stream_xchacha20_xor_ic')) {
      */
     function sodium_crypto_stream_xchacha20_xor_ic($message, $nonce, $counter, $key)
     {
-        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor_ic($message, $nonce, $counter, $key, true);
+        return ParagonIE_Sodium_Compat::crypto_stream_xchacha20_xor_ic($message, $nonce, $counter, $key, \true);
     }
 }

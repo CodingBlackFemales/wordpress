@@ -161,52 +161,59 @@ if ( is_user_logged_in() ) {
 				<i class="bb-icon-l bb-icon-activity"></i>
 				<span class="wp-admin-bar-arrow" aria-hidden="true"></span><?php esc_html_e( 'Timeline', 'buddyboss-theme' ); ?>
 			</a>
-			<div class="ab-sub-wrapper wrapper">
-				<ul id="wp-admin-bar-my-account-activity-default" class="ab-submenu">
-					<li id="wp-admin-bar-my-account-activity-personal">
-						<a class="ab-item" href="<?php echo esc_url( $activity_link ); ?>"><?php echo function_exists( 'bp_is_activity_tabs_active' ) && bp_is_activity_tabs_active() ? __( 'Personal', 'buddyboss-theme' ) : __( 'Posts', 'buddyboss-theme' ); ?></a>
-					</li>
-					<?php if ( function_exists( 'bp_is_activity_tabs_active' ) && bp_is_activity_tabs_active() ) : ?>
-						<?php
-						if (
-							bp_is_activity_like_active() ||
-							(
-								function_exists( 'bb_is_reaction_activity_comments_enabled' ) &&
-								bb_is_reaction_activity_comments_enabled()
-							)
-						) :
-							$item_name = esc_html__( 'Likes', 'buddyboss-theme' );
-							if ( function_exists( 'bb_is_reaction_emotions_enabled' ) && bb_is_reaction_emotions_enabled() ) {
-								$item_name = esc_html__( 'Reactions', 'buddyboss-theme' );
-							}
-							?>
-							<li id="wp-admin-bar-my-account-activity-favorites">
-								<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'favorites' ) ); ?>"><?php echo $item_name; ?></a>
-							</li>
+			<?php
+			// Tabs settings removed with the new version.
+			if ( ! function_exists( 'bb_get_activity_filter_options_labels' ) ) {
+				?>
+				<div class="ab-sub-wrapper wrapper">
+					<ul id="wp-admin-bar-my-account-activity-default" class="ab-submenu">
+						<li id="wp-admin-bar-my-account-activity-personal">
+							<a class="ab-item" href="<?php echo esc_url( $activity_link ); ?>"><?php echo function_exists( 'bp_is_activity_tabs_active' ) && bp_is_activity_tabs_active() ? __( 'Personal', 'buddyboss-theme' ) : __( 'Posts', 'buddyboss-theme' ); ?></a>
+						</li>
+						<?php if ( function_exists( 'bp_is_activity_tabs_active' ) && bp_is_activity_tabs_active() ) : ?>
+							<?php
+							if (
+								bp_is_activity_like_active() ||
+								(
+									function_exists( 'bb_is_reaction_activity_comments_enabled' ) &&
+									bb_is_reaction_activity_comments_enabled()
+								)
+							) :
+								$item_name = esc_html__( 'Likes', 'buddyboss-theme' );
+								if ( function_exists( 'bb_is_reaction_emotions_enabled' ) && bb_is_reaction_emotions_enabled() ) {
+									$item_name = esc_html__( 'Reactions', 'buddyboss-theme' );
+								}
+								?>
+								<li id="wp-admin-bar-my-account-activity-favorites">
+									<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'favorites' ) ); ?>"><?php echo $item_name; ?></a>
+								</li>
+							<?php endif; ?>
+							<?php if ( bp_is_active( 'friends' ) ) : ?>
+								<li id="wp-admin-bar-my-account-activity-friends">
+									<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'friends' ) ); ?>"><?php esc_html_e( 'Connections', 'buddyboss-theme' ); ?></a>
+								</li>
+							<?php endif; ?>
+							<?php if ( bp_is_active( 'groups' ) ) : ?>
+								<li id="wp-admin-bar-my-account-activity-groups">
+									<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'groups' ) ); ?>"><?php esc_html_e( 'Groups', 'buddyboss-theme' ); ?></a>
+								</li>
+							<?php endif; ?>
+							<?php if ( bp_activity_do_mentions() ) : ?>
+								<li id="wp-admin-bar-my-account-activity-mentions">
+									<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'mentions' ) ); ?>"><?php esc_html_e( 'Mentions', 'buddyboss-theme' ); ?></a>
+								</li>
+							<?php endif; ?>
+							<?php if ( function_exists( 'bp_is_activity_follow_active' ) && bp_is_activity_follow_active() ) : ?>
+								<li id="wp-admin-bar-my-account-activity-following">
+									<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'following' ) ); ?>"><?php esc_html_e( 'Following', 'buddyboss-theme' ); ?></a>
+								</li>
+							<?php endif; ?>
 						<?php endif; ?>
-						<?php if ( bp_is_active( 'friends' ) ) : ?>
-							<li id="wp-admin-bar-my-account-activity-friends">
-								<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'friends' ) ); ?>"><?php esc_html_e( 'Connections', 'buddyboss-theme' ); ?></a>
-							</li>
-						<?php endif; ?>
-						<?php if ( bp_is_active( 'groups' ) ) : ?>
-							<li id="wp-admin-bar-my-account-activity-groups">
-								<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'groups' ) ); ?>"><?php esc_html_e( 'Groups', 'buddyboss-theme' ); ?></a>
-							</li>
-						<?php endif; ?>
-						<?php if ( bp_activity_do_mentions() ) : ?>
-							<li id="wp-admin-bar-my-account-activity-mentions">
-								<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'mentions' ) ); ?>"><?php esc_html_e( 'Mentions', 'buddyboss-theme' ); ?></a>
-							</li>
-						<?php endif; ?>
-						<?php if ( function_exists( 'bp_is_activity_follow_active' ) && bp_is_activity_follow_active() ) : ?>
-							<li id="wp-admin-bar-my-account-activity-following">
-								<a class="ab-item" href="<?php echo esc_url( trailingslashit( $activity_link . 'following' ) ); ?>"><?php esc_html_e( 'Following', 'buddyboss-theme' ); ?></a>
-							</li>
-						<?php endif; ?>
-					<?php endif; ?>
-				</ul>
-			</div>
+					</ul>
+				</div>
+				<?php
+			}
+			?>
 		</li>
 		<?php
 	}

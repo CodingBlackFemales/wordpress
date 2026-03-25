@@ -1,26 +1,25 @@
 <?php
 
-if (class_exists('ParagonIE_Sodium_Core32_Curve25519_Fe', false)) {
+namespace BuddyBossPlatformPro;
+
+if (\class_exists('BuddyBossPlatformPro\\ParagonIE_Sodium_Core32_Curve25519_Fe', \false)) {
     return;
 }
-
 /**
  * Class ParagonIE_Sodium_Core32_Curve25519_Fe
  *
  * This represents a Field Element
  */
-class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
+class ParagonIE_Sodium_Core32_Curve25519_Fe implements \ArrayAccess
 {
     /**
      * @var array<int, ParagonIE_Sodium_Core32_Int32>
      */
     protected $container = array();
-
     /**
      * @var int
      */
     protected $size = 10;
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -32,14 +31,13 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
      */
     public static function fromArray($array, $save_indexes = null)
     {
-        $count = count($array);
+        $count = \count($array);
         if ($save_indexes) {
-            $keys = array_keys($array);
+            $keys = \array_keys($array);
         } else {
-            $keys = range(0, $count - 1);
+            $keys = \range(0, $count - 1);
         }
-        $array = array_values($array);
-
+        $array = \array_values($array);
         $obj = new ParagonIE_Sodium_Core32_Curve25519_Fe();
         if ($save_indexes) {
             for ($i = 0; $i < $count; ++$i) {
@@ -48,8 +46,8 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
             }
         } else {
             for ($i = 0; $i < $count; ++$i) {
-                if (!($array[$i] instanceof ParagonIE_Sodium_Core32_Int32)) {
-                    throw new TypeError('Expected ParagonIE_Sodium_Core32_Int32');
+                if (!$array[$i] instanceof ParagonIE_Sodium_Core32_Int32) {
+                    throw new \TypeError('Expected ParagonIE_Sodium_Core32_Int32');
                 }
                 $array[$i]->overflow = 0;
                 $obj->offsetSet($i, $array[$i]);
@@ -57,7 +55,6 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
         }
         return $obj;
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -69,20 +66,19 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
      */
     public static function fromIntArray($array, $save_indexes = null)
     {
-        $count = count($array);
+        $count = \count($array);
         if ($save_indexes) {
-            $keys = array_keys($array);
+            $keys = \array_keys($array);
         } else {
-            $keys = range(0, $count - 1);
+            $keys = \range(0, $count - 1);
         }
-        $array = array_values($array);
+        $array = \array_values($array);
         $set = array();
         /** @var int $i */
         /** @var int $v */
         foreach ($array as $i => $v) {
             $set[$i] = ParagonIE_Sodium_Core32_Int32::fromInt($v);
         }
-
         $obj = new ParagonIE_Sodium_Core32_Curve25519_Fe();
         if ($save_indexes) {
             for ($i = 0; $i < $count; ++$i) {
@@ -97,7 +93,6 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
         }
         return $obj;
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -110,17 +105,16 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
     #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        if (!($value instanceof ParagonIE_Sodium_Core32_Int32)) {
-            throw new InvalidArgumentException('Expected an instance of ParagonIE_Sodium_Core32_Int32');
+        if (!$value instanceof ParagonIE_Sodium_Core32_Int32) {
+            throw new \InvalidArgumentException('Expected an instance of ParagonIE_Sodium_Core32_Int32');
         }
-        if (is_null($offset)) {
+        if (\is_null($offset)) {
             $this->container[] = $value;
         } else {
             ParagonIE_Sodium_Core32_Util::declareScalarType($offset, 'int', 1);
             $this->container[(int) $offset] = $value;
         }
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -133,7 +127,6 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
     {
         return isset($this->container[$offset]);
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -146,7 +139,6 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
     {
         unset($this->container[$offset]);
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -164,7 +156,6 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
         $get = $this->container[$offset];
         return $get;
     }
-
     /**
      * @internal You should not use this directly from another application
      *
@@ -175,18 +166,7 @@ class ParagonIE_Sodium_Core32_Curve25519_Fe implements ArrayAccess
         if (empty($this->container)) {
             return array();
         }
-        $c = array(
-            (int) ($this->container[0]->toInt()),
-            (int) ($this->container[1]->toInt()),
-            (int) ($this->container[2]->toInt()),
-            (int) ($this->container[3]->toInt()),
-            (int) ($this->container[4]->toInt()),
-            (int) ($this->container[5]->toInt()),
-            (int) ($this->container[6]->toInt()),
-            (int) ($this->container[7]->toInt()),
-            (int) ($this->container[8]->toInt()),
-            (int) ($this->container[9]->toInt())
-        );
-        return array(implode(', ', $c));
+        $c = array((int) $this->container[0]->toInt(), (int) $this->container[1]->toInt(), (int) $this->container[2]->toInt(), (int) $this->container[3]->toInt(), (int) $this->container[4]->toInt(), (int) $this->container[5]->toInt(), (int) $this->container[6]->toInt(), (int) $this->container[7]->toInt(), (int) $this->container[8]->toInt(), (int) $this->container[9]->toInt());
+        return array(\implode(', ', $c));
     }
 }

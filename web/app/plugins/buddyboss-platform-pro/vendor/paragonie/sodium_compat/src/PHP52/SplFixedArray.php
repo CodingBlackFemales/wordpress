@@ -1,9 +1,10 @@
 <?php
 
-if (class_exists('SplFixedArray')) {
+namespace BuddyBossPlatformPro;
+
+if (\class_exists('SplFixedArray')) {
     return;
 }
-
 /**
  * The SplFixedArray class provides the main functionalities of array. The
  * main differences between a SplFixedArray and a normal PHP array is that
@@ -11,14 +12,12 @@ if (class_exists('SplFixedArray')) {
  * the range as indexes. The advantage is that it allows a faster array
  * implementation.
  */
-class SplFixedArray implements Iterator, ArrayAccess, Countable
+class SplFixedArray implements \Iterator, \ArrayAccess, \Countable
 {
     /** @var array<int, mixed> */
     private $internalArray = array();
-
     /** @var int $size */
     private $size = 0;
-
     /**
      * SplFixedArray constructor.
      * @param int $size
@@ -28,47 +27,43 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
         $this->size = $size;
         $this->internalArray = array();
     }
-
     /**
      * @return int
      */
     public function count()
     {
-        return count($this->internalArray);
+        return \count($this->internalArray);
     }
-
     /**
      * @return array
      */
     public function toArray()
     {
-        ksort($this->internalArray);
+        \ksort($this->internalArray);
         return (array) $this->internalArray;
     }
-
     /**
      * @param array $array
      * @param bool $save_indexes
      * @return SplFixedArray
      * @psalm-suppress MixedAssignment
      */
-    public static function fromArray(array $array, $save_indexes = true)
+    public static function fromArray(array $array, $save_indexes = \true)
     {
-        $self = new SplFixedArray(count($array));
-        if($save_indexes) {
-            foreach($array as $key => $value) {
+        $self = new \SplFixedArray(\count($array));
+        if ($save_indexes) {
+            foreach ($array as $key => $value) {
                 $self[(int) $key] = $value;
             }
         } else {
             $i = 0;
-            foreach (array_values($array) as $value) {
+            foreach (\array_values($array) as $value) {
                 $self[$i] = $value;
                 $i++;
             }
         }
         return $self;
     }
-
     /**
      * @return int
      */
@@ -76,7 +71,6 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     {
         return $this->size;
     }
-
     /**
      * @param int $size
      * @return bool
@@ -84,18 +78,16 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     public function setSize($size)
     {
         $this->size = $size;
-        return true;
+        return \true;
     }
-
     /**
      * @param string|int $index
      * @return bool
      */
     public function offsetExists($index)
     {
-        return array_key_exists((int) $index, $this->internalArray);
+        return \array_key_exists((int) $index, $this->internalArray);
     }
-
     /**
      * @param string|int $index
      * @return mixed
@@ -105,7 +97,6 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
         /** @psalm-suppress MixedReturnStatement */
         return $this->internalArray[(int) $index];
     }
-
     /**
      * @param string|int $index
      * @param mixed $newval
@@ -115,7 +106,6 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     {
         $this->internalArray[(int) $index] = $newval;
     }
-
     /**
      * @param string|int $index
      */
@@ -123,7 +113,6 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     {
         unset($this->internalArray[(int) $index]);
     }
-
     /**
      * Rewind iterator back to the start
      * @link https://php.net/manual/en/splfixedarray.rewind.php
@@ -132,9 +121,8 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
      */
     public function rewind()
     {
-        reset($this->internalArray);
+        \reset($this->internalArray);
     }
-
     /**
      * Return current array entry
      * @link https://php.net/manual/en/splfixedarray.current.php
@@ -144,26 +132,23 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     public function current()
     {
         /** @psalm-suppress MixedReturnStatement */
-        return current($this->internalArray);
+        return \current($this->internalArray);
     }
-
     /**
      * Return current array index
      * @return int The current array index.
      */
     public function key()
     {
-        return key($this->internalArray);
+        return \key($this->internalArray);
     }
-
     /**
      * @return void
      */
     public function next()
     {
-        next($this->internalArray);
+        \next($this->internalArray);
     }
-
     /**
      * Check whether the array contains more elements
      * @link https://php.net/manual/en/splfixedarray.valid.php
@@ -172,13 +157,12 @@ class SplFixedArray implements Iterator, ArrayAccess, Countable
     public function valid()
     {
         if (empty($this->internalArray)) {
-            return false;
+            return \false;
         }
-        $result = next($this->internalArray) !== false;
-        prev($this->internalArray);
+        $result = \next($this->internalArray) !== \false;
+        \prev($this->internalArray);
         return $result;
     }
-
     /**
      * Do nothing.
      */

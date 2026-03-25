@@ -66,7 +66,6 @@ if ( 'webinar_occurrence' === bp_get_zoom_webinar_zoom_type() ) {
 
 <div class="bb-title-wrap">
 	<h2 class="bb-title"><?php esc_html_e( 'Edit Webinar', 'buddyboss-pro' ); ?></h2>
-	<!--<a href="#" class="bp-close-create-webinar-form"><span class="bb-icon-x"></span></a>-->
 </div>
 
 <div class="bp-webinar-fields-wrap">

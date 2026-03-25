@@ -70,7 +70,7 @@ abstract class BB_Access_Control_Abstract {
 				) &&
 				! empty( $settings_data['access-control-options'] )
 			) &&
-			! bbp_pro_is_license_valid()
+			bb_pro_should_lock_features()
 		) {
 			$has_access = false;
 		} elseif (
@@ -82,7 +82,7 @@ abstract class BB_Access_Control_Abstract {
 				) &&
 				empty( $settings_data['access-control-options'] )
 			) &&
-			bbp_pro_is_license_valid()
+			! bb_pro_should_lock_features()
 		) {
 			$has_access = true;
 		} elseif (
@@ -94,12 +94,12 @@ abstract class BB_Access_Control_Abstract {
 				) &&
 				empty( $settings_data['access-control-options'] )
 			) &&
-			! bbp_pro_is_license_valid()
+			bb_pro_should_lock_features()
 		) {
 			$has_access = true;
 		} elseif (
 			! $user_id ||
-			! bbp_pro_is_license_valid()
+			bb_pro_should_lock_features()
 		) {
 			$has_access = false;
 		}

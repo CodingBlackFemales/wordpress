@@ -128,7 +128,7 @@ if ( ! class_exists( 'Redux_Options_Constructor', false ) ) {
 				$results = $defaults;
 				$this->set( $results );
 			} else {
-				$core->options = $result;
+				$core->options = (array) $result;
 			}
 
 			// Don't iterate unnecessarily.

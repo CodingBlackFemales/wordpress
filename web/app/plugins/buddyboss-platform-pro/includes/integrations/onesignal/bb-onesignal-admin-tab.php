@@ -55,7 +55,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function form_html() {
 		// Check license is valid.
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			if ( is_file( $this->intro_template ) ) {
 				require $this->intro_template;
 			}
@@ -191,7 +191,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 
 		$html = '';
 
-		if ( bbp_pro_is_license_valid() && 'bb-onesignal' === bp_core_get_admin_active_tab() ) {
+		if ( ! bb_pro_should_lock_features() && 'bb-onesignal' === bp_core_get_admin_active_tab() ) {
 			$status      = 'not-connected';
 			$status_text = __( 'Not Connected', 'buddyboss-pro' );
 
@@ -361,7 +361,7 @@ class BB_OneSignal_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		?>
 		<div class="password-toggle">
 			<input name="bb-onesignal-rest-api" id="bb-onesignal-rest-api" type="password" value="<?php echo esc_attr( bb_onesignal_rest_api_key() ); ?>" aria-label="<?php esc_html_e( 'Rest API Key', 'buddyboss-pro' ); ?>" required />
-			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0">
+			<button type="button" class="button button-secondary bb-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Toggle', 'buddyboss-pro' ); ?>">
 				<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 			</button>
 		</div>

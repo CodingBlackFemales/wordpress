@@ -137,9 +137,9 @@ if ( $footer_widgets ) {
 							$container_set = true;
 						}
 						if ( 'email' === $network ) {
-							echo '<li><a href="' . esc_url( 'mailto:' . sanitize_email( $url ) ) . '" target="_top"  data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" ><i class="bb-icon-f bb-icon-envelope"></i></a></li>';
+							echo '<li><a href="' . esc_url( 'mailto:' . sanitize_email( $url ) ) . '" target="_top"  data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" aria-label="' . esc_attr( $network ) . '" ><i class="bb-icon-f bb-icon-envelope"></i></a></li>';
 						} else {
-							echo '<li><a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" ><i class="bb-icon-f bb-icon-brand-' . esc_attr( $network ) . '"></i></a></li>';
+							echo '<li><a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" aria-label="' . esc_attr( $network ) . '" ><i class="bb-icon-f bb-icon-brand-' . esc_attr( $network ) . '"></i></a></li>';
 						}
 					}
 				}

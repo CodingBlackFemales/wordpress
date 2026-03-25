@@ -4,6 +4,7 @@ declare( strict_types=1 );
 namespace WP_Rocket\Engine\Optimization\DelayJS;
 
 use WP_Rocket\Admin\Options_Data;
+use WP_Rocket\Engine\Optimization\DelayJS\Admin\Settings;
 use WP_Rocket\Engine\Optimization\DynamicLists\DefaultLists\DataManager;
 use WP_Rocket\Engine\Optimization\RegexTrait;
 use WP_Rocket\Engine\Support\CommentTrait;
@@ -101,6 +102,13 @@ class HTML {
 		$this->excluded = array_merge( $this->excluded, $this->options->get( 'delay_js_exclusions', [] ) );
 		$this->excluded = array_merge( $this->excluded, $this->options->get( 'delay_js_exclusions_selected_exclusions', [] ) );
 
+		if ( $this->options->get( 'delay_js_execution_safe_mode', 0 ) ) {
+			$this->excluded = array_merge(
+				$this->excluded,
+				Settings::get_safe_mode_exclusions()
+			);
+		}
+
 		/**
 		 * Filters the delay JS exclusions array
 		 *
@@ -108,7 +116,7 @@ class HTML {
 		 *
 		 * @param array $excluded Array of excluded patterns.
 		 */
-		$this->excluded = (array) apply_filters( 'rocket_delay_js_exclusions', $this->excluded );
+		$this->excluded = wpm_apply_filters_typed( 'string[]', 'rocket_delay_js_exclusions', $this->excluded );
 		$this->excluded = array_map(
 			function ( $value ) {
 				if ( ! is_string( $value ) ) {
@@ -216,8 +224,15 @@ class HTML {
 			}
 		}
 
+		// This filter is documented in inc/Engine/Optimization/DelayJS/Subscriber.php.
+		$version = wpm_apply_filters_typesafe( 'rocket_delay_js_version_js_script', '' );
+
 		if ( empty( $matches['attr'] ) ) {
-			return '<script type="rocketlazyloadscript">' . $matches['content'] . '</script>';
+			if ( ! empty( $version ) ) {
+				return '<script type="rocketlazyloadscript">' . $matches['content'] . '</script>';
+			}
+
+			return '<script type="text/rocketlazyloadscript">' . $matches['content'] . '</script>';
 		}
 
 		$type_regex = '/type\s*=\s*(["\'])(?<type>.*)\1/i';
@@ -240,7 +255,11 @@ class HTML {
 		$src_regex       = '/src\s*=\s*(["\'])(.*)\1/i';
 		$matches['attr'] = preg_replace( $src_regex, 'data-rocket-src=$1$2$1', $matches['attr'] );
 
-		return '<script type="rocketlazyloadscript" ' . trim( $matches['attr'] ) . '>' . $matches['content'] . '</script>';
+		if ( ! empty( $version ) ) {
+			return '<script type="rocketlazyloadscript" ' . trim( $matches['attr'] ) . '>' . $matches['content'] . '</script>';
+		}
+
+		return '<script type="text/rocketlazyloadscript" ' . trim( $matches['attr'] ) . '>' . $matches['content'] . '</script>';
 	}
 
 

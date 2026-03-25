@@ -25,17 +25,29 @@ class BB_TutorLMS_Integration extends BP_Integration {
 	public function __construct() {
 		$this->start(
 			'tutorlms',
-			__( 'TutorLMS', 'buddyboss-pro' ),
+			'TutorLMS',
 			'tutorlms',
 			array(
 				'required_plugin' => array(),
 			)
 		);
 
+		// Always register the activity filter to exclude TutorLMS activities when features are locked.
+		add_filter( 'bp_activity_get_where_conditions', array( $this, 'exclude_tutorlms_activities_when_locked' ), 10, 5 );
+
 		// Include the code.
 		$this->includes();
 
-		if ( function_exists( 'tutor' ) ) {
+		add_action( 'bp_init', array( $this, 'load_init' ), 5 );
+	}
+
+	/**
+	 * BB_TutorLMS_Integration init.
+	 *
+	 * @since 2.6.70
+	 */
+	public function load_init() {
+		if ( function_exists( 'tutor' ) && ! bb_pro_should_lock_features() ) {
 
 			if ( bp_is_active( 'groups' ) ) {
 				add_action( 'bp_init', array( $this, 'bb_remove_tutorlms_buddypress_integration' ), 9 );
@@ -121,6 +133,27 @@ class BB_TutorLMS_Integration extends BP_Integration {
 	 */
 	public function register_template() {
 		return bb_tutorlms_integration_path( '/templates' );
+	}
+
+	/**
+	 * Exclude TutorLMS activities when features are locked.
+	 *
+	 * @since 2.11.0
+	 *
+	 * @param array  $where_conditions Current WHERE conditions.
+	 * @param array  $r                Query arguments.
+	 * @param string $select_sql       SELECT clause.
+	 * @param string $from_sql         FROM clause.
+	 * @param string $join_sql         JOIN clause.
+	 *
+	 * @return array Modified WHERE conditions.
+	 */
+	public function exclude_tutorlms_activities_when_locked( $where_conditions, $r, $select_sql, $from_sql, $join_sql ) {
+		if ( bb_pro_should_lock_features() ) {
+			$where_conditions['excluded_tutorlms_actions'] = "a.action NOT LIKE 'bb_tutorlms_%'";
+		}
+
+		return $where_conditions;
 	}
 
 	/**

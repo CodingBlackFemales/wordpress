@@ -104,9 +104,9 @@ function rocket_first_install() {
 				'lazyload'                    => 0,
 				'lazyload_iframes'            => 0,
 				'lazyload_youtube'            => 0,
-				'minify_css'                  => 0,
+				'minify_css'                  => 1,
 				'minify_css_key'              => $minify_css_key,
-				'minify_js'                   => 0,
+				'minify_js'                   => 1,
 				'minify_js_key'               => $minify_js_key,
 				'minify_concatenate_js'       => 0,
 				'minify_google_fonts'         => 1,
@@ -142,6 +142,7 @@ function rocket_first_install() {
 				'analytics_enabled'           => 0,
 				'sucury_waf_cache_sync'       => 0,
 				'sucury_waf_api_key'          => '',
+				'wpr-js-tips'                 => 1,
 			]
 		)
 	);

@@ -1,0 +1,298 @@
+div.bb-sso-container[data-align="left"] {
+	text-align: left;
+}
+
+div.bb-sso-container .bb-sso-container-buttons {
+	display: flex;
+	padding: 5px 0;
+}
+
+div.bb-sso-container .bb-sso-container-buttons.bb-sso-container-buttons--client {
+	padding: 0;
+}
+
+div.bb-sso-container.bb-sso-container-block .bb-sso-container-buttons {
+	display: grid;
+	grid-template-columns: minmax(145px, auto);
+}
+
+div.bb-sso-container-block-fullwidth .bb-sso-container-buttons {
+	flex-flow: column;
+	align-items: center;
+}
+
+div.bb-sso-container-block-fullwidth .bb-sso-container-buttons a {
+	flex: 1 1 auto;
+	display: block;
+	margin: 5px 0;
+	width: 100%;
+}
+
+div.bb-sso-container-block .bb-sso-container-buttons a {
+	flex: 1 1 auto;
+	display: block;
+	margin: 5px 0;
+	width: 100%;
+	text-decoration: none;
+}
+
+div.bb-sso-container-inline {
+	margin: -5px;
+	text-align: left;
+}
+
+div.bb-sso-container-inline .bb-sso-container-buttons {
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+div.bb-sso-container-inline .bb-sso-container-buttons a {
+	margin: 5px;
+	display: inline-block;
+}
+
+div.bb-sso-container-grid .bb-sso-container-buttons {
+	flex-flow: row;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+div.bb-sso-container-grid .bb-sso-container-buttons a {
+	flex: 1 1 auto;
+	display: block;
+	margin: 5px;
+	max-width: 280px;
+	width: 100%;
+}
+
+div.bb-sso-container .bb-sso-button {
+	cursor: pointer;
+	vertical-align: top;
+	border-radius: 4px;
+}
+
+div.bb-sso-container .bb-sso-button-default {
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 9px;
+	border-radius: 6px;
+	color: #1e2132;
+	border: 1px solid #e1e3e5;
+}
+
+div.bb-sso-container .bb-sso-button.bb-sso-button--client {
+	justify-content: flex-start;
+	padding: 15px 25px;
+}
+
+div.bb-sso-container .bb-sso-button-icon {
+	display: inline-block;
+}
+
+div.bb-sso-container .bb-sso-button-svg-container {
+	flex: 0 0 auto;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+
+div.bb-sso-container svg {
+	height: 24px;
+	width: 24px;
+	vertical-align: top;
+}
+
+div.bb-sso-container .bb-sso-button-default div.bb-sso-button-label-container {
+	margin: 0 0 0 10px;
+	padding: 0;
+	font-size: 16px;
+	line-height: 20px;
+	letter-spacing: 0.25px;
+	overflow: hidden;
+	text-align: center;
+	text-overflow: clip;
+	white-space: nowrap;
+	flex: 0 0 auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-transform: none;
+	display: inline-block;
+}
+
+.bb-sso-container-buttons .bb-sso-option {
+	margin: 10px 0;
+}
+
+.bb-sso-button-auth {
+	display: flex;
+	align-items: center;
+}
+
+.bb-sso-button-auth .bb-sso-button-svg-container {
+	margin-right: 10px;
+}
+
+.bb-sso-button-auth .bb-sso-label {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 24px;
+}
+
+.bb-sso-button-auth .bb-sso-status {
+	display: inline-block;
+	font-weight: 600;
+	font-size: 11px;
+	line-height: 13px;
+	background-color: #f2f4f5;
+	border-radius: 6px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 4px 5px;
+	margin-left: 8px;
+}
+
+.bb-sso-option-actions {
+	margin-left: auto;
+}
+
+.bb-sso-option-actions .bb-sso-action-button {
+	color: #1e2132;
+	font-size: 16px;
+	line-height: 19px;
+	font-weight: 500;
+	background-color: #f2f4f5;
+	border: 1px solid transparent;
+	padding: 9px 22px;
+	border-radius: 7px;
+}
+
+.bb-sso-option-actions .bb-sso-action-button.active {
+	background-color: #fff;
+	border-color: #e1e3e5;
+}
+
+@media only screen and (min-width: 650px) {
+	div.bb-sso-container-grid .bb-sso-container-buttons a {
+		width: auto;
+	}
+}
+
+.bb-sso-clear,
+.bb-sso-container {
+	clear: both;
+}
+
+.bb-sso-disabled-provider .bb-sso-button {
+	filter: grayscale(1);
+	opacity: 0.8;
+}
+
+/* Redirect */
+#bb-sso-redirect-overlay {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	z-index: 1000000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(1px);
+	background-color: black;
+}
+
+#bb-sso-redirect-overlay-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 10px;
+}
+
+#bb-sso-redirect-overlay-spinner {
+	content: "";
+	display: block;
+	margin: 20px;
+	border: 9px solid black;
+	border-top: 9px solid #fff;
+	border-radius: 50%;
+	box-shadow: inset 0 0 0 1px black, 0 0 0 1px black;
+	width: 40px;
+	height: 40px;
+	animation: bb-sso-loader-spin 2s linear infinite;
+}
+
+@keyframes bb-sso-loader-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+#bb-sso-redirect-overlay-title {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 18px;
+	font-weight: 700;
+	color: #3c434a;
+}
+
+#bb-sso-redirect-overlay-text {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	text-align: center;
+	font-size: 14px;
+	color: #3c434a;
+}
+
+.buddypress-wrap .bp-feedback:not(.custom-homepage-info) .bb-sso-reg-error > p {
+	padding-right: 8px;
+}
+
+.bb-sso-reg-error {
+	margin-left: -3px;
+}
+
+.bb-sso-reg-error ul {
+	list-style: disc !important;
+	font-size: 14px;
+	line-height: 1.5;
+	margin-bottom: 10px;
+}
+
+.notice-info:has(> .notice-info-extra),
+.login:not(.login-action-lostpassword) .message:not(.reset-pass):has(> .notice-info-extra) {
+	border: 1px solid var(--bb-default-notice-color);
+	background-color: transparent;
+	color: inherit;
+}
+
+#login-message .notice-info-extra {
+	display: flex;
+	align-items: center;
+	background-color: transparent;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+}
+
+#login-message .notice-info-extra .bp-icon:before {
+	content: "\eebc";
+	font-family: bb-icons;
+	font-style: normal;
+	display: inline-flex;
+	text-decoration: inherit;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+	font-size: 20px;
+	line-height: 20px;
+	color: var(--bb-default-notice-color);
+	font-weight: 200;
+	margin-right: 10px;
+}

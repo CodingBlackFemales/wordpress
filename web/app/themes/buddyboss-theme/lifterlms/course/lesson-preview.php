@@ -166,7 +166,7 @@ endif;
 
 			<?php endif; ?>
 
-            <a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked' : ''; ?> <?php echo ( ( $quiz_id != 0 ) || ( $assignment_id != 0 ) ) ? '' : 'no_quiz_and_assigment'; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>"<?php echo $data_msg; ?>>
+            <a class="llms-lesson-link<?php echo $restrictions['is_restricted'] ? ' llms-lesson-link-locked llms-lesson-locked' : ''; ?> <?php echo ( ( $quiz_id != 0 ) || ( $assignment_id != 0 ) ) ? '' : 'no_quiz_and_assigment'; ?>" href="<?php echo ( ! $restrictions['is_restricted'] ) ? get_permalink( $lesson->get( 'id' ) ) : '#llms-lesson-locked'; ?>"<?php echo $data_msg; ?>>
 
                 <section class="llms-main">
 					<?php if ( 'lesson' === get_post_type( get_the_ID() ) ) : ?>
