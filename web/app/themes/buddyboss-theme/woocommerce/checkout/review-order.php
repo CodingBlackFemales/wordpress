@@ -37,8 +37,8 @@ defined( 'ABSPATH' ) || exit;
 					?>
 					<tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 						<td class="product-name">
-                            <div class="bs-product-check">
-                                <div class="bs-product-remove">
+                            <div class="bb-product-check">
+                                <div class="bb-product-remove">
                                 <?php
     								// @codingStandardsIgnoreLine
     								echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
@@ -50,7 +50,7 @@ defined( 'ABSPATH' ) || exit;
     								), $cart_item_key );
     							?>
                                 </div>
-                                <div class="bs-product-thumbnail">
+                                <div class="bb-product-thumbnail">
                                     <?php
                                     $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
         
@@ -61,11 +61,13 @@ defined( 'ABSPATH' ) || exit;
             						}
                                     ?>
                                 </div>
-                                <div class="bs-product-name">
-    							     <div class="check-name"><?php echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;'; ?></div>
-    							     <div class="qty"><?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . esc_html_e( 'Qty:', 'buddyboss-theme' ) . sprintf( '%s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); ?></div>
-                                </div>
-    							<?php echo wc_get_formatted_cart_item_data( $cart_item ); ?>
+								<div class="bb-product-data-wrapper">
+									<div class="bb-product-name">
+										<div class="check-name"><?php echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;'; ?></div>
+										<div class="qty"><?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . esc_html_e( 'Qty:', 'buddyboss-theme' ) . sprintf( '%s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); ?></div>
+									</div>
+									<?php echo wc_get_formatted_cart_item_data( $cart_item ); ?>
+								</div>
                             </div>
 						</td>
 						<td class="product-total">

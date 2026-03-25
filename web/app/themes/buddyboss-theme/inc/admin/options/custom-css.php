@@ -387,7 +387,7 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 			) {
 				?>
 				.bb-sfwd-aside .site-header.has-scrolled {
-					box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+					box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 5px 10px -7px rgba(0, 0, 0, 0.25);
 				}
 
 				.bb-sfwd-aside .site-content  {
@@ -434,8 +434,9 @@ if ( ! function_exists( 'boss_generate_option_css' ) ) {
 					height: <?php echo $header_height; ?>px;
 				}
 
-				#learndash-content .lms-topic-sidebar-wrapper .lms-topic-sidebar-data {
-					height: calc(90vh - <?php echo $header_height; ?>px);
+				#learndash-content .lms-topic-sidebar-wrapper .lms-topic-sidebar-data,
+				.lifter-topic-sidebar-wrapper .lifter-topic-sidebar-data {
+					height: calc(90vh - <?php echo esc_attr( $header_height ); ?>px);
 				}
 			}
 

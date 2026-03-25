@@ -7,6 +7,7 @@
             this.setLayout();
             this.importExportInfo();
             this.thumbScale();
+            this.headerSelectionNotice();
 
             if ( BOSS_CUSTOM_ADMIN.elementor_pro_active == '1' ) {
                 $('#customize-control-custom_logo').attr('style','display: block !important;');
@@ -234,6 +235,16 @@
 
             saveDefaultThemeOption();
 
+        },
+        headerSelectionNotice: function () {
+            var $headerSelection    = $( '#buddyboss_theme_options-buddyboss_header' );
+            var $headerFourthOption = $headerSelection.find( '.redux-image-select li.redux-image-select:nth-child(4)' );
+            if ( $headerSelection.length > 0 ) {
+                var $commonHeadersNotice = $headerSelection.children( '.description' ).find( '.notice-1' );
+                if ( $commonHeadersNotice.length > 0 ) {
+                    $headerFourthOption.append( $commonHeadersNotice );
+                }
+            }
         }
     };
 

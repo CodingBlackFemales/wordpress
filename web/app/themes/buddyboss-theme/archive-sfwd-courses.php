@@ -16,11 +16,12 @@ $class_list_active = ( 'list' === $view ) ? 'active' : '';
 $class_grid_show   = ( 'grid' === $view ) ? 'grid-view bb-grid' : '';
 $class_list_show   = ( 'list' === $view ) ? 'list-view bb-list' : '';
 $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
+$course_label      = LearnDash_Custom_Label::get_label( 'course' );
 ?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main">
 			<div id="learndash-content" class="learndash-course-list">
-				<form id="bb-courses-directory-form" class="bb-courses-directory" method="get" action="">
+				<form id="bb-courses-directory-form" class="bb-courses-directory" method="get" action="" data-courses_label='<?php echo esc_attr( $courses_label ); ?>' data-course_label='<?php echo esc_attr( $course_label ); ?>'>
 					<?php $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; ?>
 					<input type="hidden" name="current_page" value="<?php echo esc_attr( $paged ); ?>" >
 					<div class="flex align-items-center bb-courses-header">
@@ -36,11 +37,11 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 						<ul class="component-navigation courses-nav">
 							<?php
 							$navs = array(
-								'all' => '<div class="bb-component-nav-item-point">' . sprintf( esc_html__( 'All %s', 'buddyboss-theme' ), $courses_label ) . '</div>' . '<span class="count">' . buddyboss_theme()->learndash_helper()->get_all_courses_count() . '</span>',
+								'all' => '<div class="bb-component-nav-item-point">' . sprintf( esc_html__( 'All %s', 'buddyboss-theme' ), $courses_label ) . '</div>',
 							);
 
 							if ( is_user_logged_in() ) {
-								$navs['my-courses'] = '<div class="bb-component-nav-item-point">' . sprintf( esc_html__( 'My %s', 'buddyboss-theme' ), $courses_label ) . '</div>' . '<span class="count">' . buddyboss_theme()->learndash_helper()->get_my_courses_count() . '</span>';
+								$navs['my-courses'] = '<div class="bb-component-nav-item-point">' . sprintf( esc_html__( 'My %s', 'buddyboss-theme' ), $courses_label ) . '</div>';
 							}
 
 							$navs = apply_filters( 'BuddyBossTheme/Learndash/Archive/Navs', $navs );
@@ -61,18 +62,52 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 					</nav>
 					<input type="hidden" name="type" value="<?php echo esc_attr( $current_nav ); ?>" >
 					<div class="ld-secondary-header">
+						<?php
+						if ( ! function_exists( 'bb_enable_content_counts' ) || bb_enable_content_counts() ) {
+							?>
+							<div class="bb-item-count">
+								<?php
+								$count = false;
+								if ( 'all' === $current_nav ) {
+									$count = buddyboss_theme()->learndash_helper()->get_all_courses_count();
+								} elseif ( is_user_logged_in() ) {
+									$count = buddyboss_theme()->learndash_helper()->get_my_courses_count();
+								}
+
+								if ( false !== $count ) {
+									printf(
+										wp_kses(
+											/* translators: %d is the courses count */
+											_n(
+												'<span class="bb-count">%d</span> ' . $course_label,
+												'<span class="bb-count">%d</span> ' . $courses_label,
+												$count,
+												'buddyboss-theme'
+											),
+											array( 'span' => array( 'class' => true ) )
+										),
+										(int) $count
+									);
+								}
+
+								unset( $count );
+								?>
+							</div>
+							<?php
+						}
+						?>
 						<div class="bb-secondary-list-tabs flex align-items-center" id="subnav" aria-label="Members directory secondary navigation" role="navigation">
-							<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? $_GET['order'] : 'desc'; ?>"/>
+							<input type="hidden" id="course-order" name="order" value="<?php echo ! empty( $_GET['order'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['order'] ) ) ) : 'desc'; ?>"/>
 							<div class="sfwd-courses-filters flex push-right">
 								<div class="select-wrap">
-									<select id="sfwd_prs-order-by" name="orderby">
+									<select id="sfwd_prs-order-by" name="orderby" aria-label="<?php esc_attr_e( 'Order by', 'buddyboss-theme' ); ?>">
 										<?php echo buddyboss_theme()->learndash_helper()->print_sorting_options(); ?>
 									</select>
 								</div>
 								<?php if ( buddyboss_theme_get_option( 'learndash_course_index_show_categories_filter' ) ) : ?>
 									<div class="select-wrap">
 										<?php if ( '' !== trim( buddyboss_theme()->learndash_helper()->print_categories_options() ) ) { ?>
-											<select id="sfwd_cats-order-by" name="filter-categories">
+											<select id="sfwd_cats-order-by" name="filter-categories" aria-label="<?php esc_attr_e( 'Filter by category', 'buddyboss-theme' ); ?>">
 												<?php echo buddyboss_theme()->learndash_helper()->print_categories_options(); ?>
 											</select>
 										<?php } ?>
@@ -80,7 +115,7 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 								<?php endif; ?>
 								<?php if ( buddyboss_theme_get_option( 'learndash_course_index_show_instructors_filter' ) ) : ?>
 									<div class="select-wrap">
-										<select id="sfwd_instructors-order-by" name="filter-instructors">
+										<select id="sfwd_instructors-order-by" name="filter-instructors" aria-label="<?php esc_attr_e( 'Filter by instructor', 'buddyboss-theme' ); ?>">
 											<?php echo buddyboss_theme()->learndash_helper()->print_instructors_options(); ?>
 										</select>
 									</div>
@@ -88,11 +123,11 @@ $courses_label     = LearnDash_Custom_Label::get_label( 'courses' );
 							</div>
 
 							<div class="grid-filters" data-view="ld-course">
-								<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'Grid View', 'buddyboss-theme' ); ?>">
+								<a href="#" class="layout-view layout-view-course layout-grid-view bp-tooltip <?php echo esc_attr( $class_grid_active ); ?>" data-view="grid" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Grid View', 'buddyboss-theme' ); ?>">
 									<i class="dashicons dashicons-screenoptions" aria-hidden="true"></i>
 								</a>
 
-								<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php _e( 'List View', 'buddyboss-theme' ); ?>">
+								<a href="#" class="layout-view layout-view-course layout-list-view bp-tooltip <?php echo esc_attr( $class_list_active ); ?>" data-view="list" data-bp-tooltip-pos="up" data-bp-tooltip="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'List View', 'buddyboss-theme' ); ?>">
 									<i class="dashicons dashicons-menu" aria-hidden="true"></i>
 								</a>
 							</div>

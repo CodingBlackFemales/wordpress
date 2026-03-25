@@ -165,12 +165,14 @@ window.bp = window.bp || {};
 						return event;
 					} else {
 						$( '.meeting-actions-list.open' ).removeClass( 'open' );
+						$( 'body' ).removeClass( 'zoom_meeting_more_option_open' );
 					}
 
 					if ( $( event.target ).hasClass( 'webinar-actions-anchor' ) || $( event.target ).parent().hasClass( 'webinar-actions-anchor' ) ) {
 						return event;
 					} else {
 						$( '.webinar-actions-list.open' ).removeClass( 'open' );
+						$( 'body' ).removeClass( 'zoom_webinar_more_option_open' );
 					}
 
 				}
@@ -1675,6 +1677,7 @@ window.bp = window.bp || {};
 			e.preventDefault();
 
 			_this.next( '.meeting-actions-list' ).toggleClass( 'open' );
+			$( 'body' ).addClass( 'zoom_meeting_more_option_open' );
 		},
 
 		searchMeetingActions: function(e) {
@@ -1878,6 +1881,10 @@ window.bp = window.bp || {};
 					if ( scripts_loaded >= bp_zoom_vars.scripts.length && typeof ZoomMtg !== 'undefined' ) {
 						clearInterval( loadscripts );
 
+						var styleElement = document.createElement('style');
+						styleElement.textContent = '#zmmtg-root{width: 100%; height: 100%; position: fixed; top: 0; left: 0; background-color: #000;}';
+						document.head.appendChild(styleElement);
+
 						// Add needed fixes
 						// var bp_zoom_in_browser_style = $('<style>#wc-footer .btn-default { color: #333; background-color: transparent; border-color: transparent;}.security-option-menu__pop-menu > li.selected > a:before, .popmenu > li.selected > a:before{left: 5px;top: 6px;}</style>');
 						// bp_zoom_in_browser_style.appendTo("head");
@@ -1904,8 +1911,9 @@ window.bp = window.bp || {};
 						-1 !== $.inArray( bp_zoom_vars.lang, bp.Zoom.zoom_languages )
 					) {
 						ZoomMtg.i18n.load( bp_zoom_vars.lang );
-					}ZoomMtg.preLoadWasm();
-						ZoomMtg.prepareJssdk();
+					}
+						ZoomMtg.preLoadWasm();
+						ZoomMtg.prepareWebSDK();
 
 						// var testTool = window.BpZoomTestTool;
 						// var meetingId = $(this).data('meeting-id');
@@ -2580,6 +2588,7 @@ window.bp = window.bp || {};
 			e.preventDefault();
 
 			_this.next( '.webinar-actions-list' ).toggleClass( 'open' );
+			$( 'body' ).addClass( 'zoom_webinar_more_option_open' );
 		},
 
 		searchWebinarActions: function(e) {
@@ -2726,7 +2735,7 @@ window.bp = window.bp || {};
 					) {
 						ZoomMtg.i18n.load( bp_zoom_vars.lang );
 					}ZoomMtg.preLoadWasm();
-						ZoomMtg.prepareJssdk();
+						ZoomMtg.prepareWebSDK();
 
 						// var testTool = window.BpZoomTestTool;
 						// var webinarId = $(this).data('webinar-id');

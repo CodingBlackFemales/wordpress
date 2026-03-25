@@ -229,35 +229,35 @@ class Boss_Follow_Us extends WP_Widget {
 		echo '<div class="bb-follow-links">';
 
 		if ( ! empty( $facebook ) ) {
-			echo '<a href="' . esc_url( $facebook ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-facebook"></i></a>';
+			echo '<a href="' . esc_url( $facebook ) . '" target="_blank" aria-label="' . esc_attr__( 'Facebook', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-facebook"></i></a>';
 		}
 
 		if ( ! empty( $twitter ) ) {
-			echo '<a href="' . esc_url( $twitter ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-twitter"></i></a>';
+			echo '<a href="' . esc_url( $twitter ) . '" target="_blank" aria-label="' . esc_attr__( 'Twitter', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-twitter"></i></a>';
 		}
 
 		if ( ! empty( $google ) ) {
-			echo '<a href="' . esc_url( $google ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-google"></i></a>';
+			echo '<a href="' . esc_url( $google ) . '" target="_blank" aria-label="' . esc_attr__( 'Google', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-google"></i></a>';
 		}
 
 		if ( ! empty( $youtube ) ) {
-			echo '<a href="' . esc_url( $youtube ) . '" target="_blank"><i class="bb-icon-rf bb-icon-brand-youtube"></i></a>';
+			echo '<a href="' . esc_url( $youtube ) . '" target="_blank" aria-label="' . esc_attr__( 'Youtube', 'buddyboss-theme' ) . '"><i class="bb-icon-rf bb-icon-brand-youtube"></i></a>';
 		}
 
 		if ( ! empty( $instagram ) ) {
-			echo '<a href="' . esc_url( $instagram ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-instagram"></i></a>';
+			echo '<a href="' . esc_url( $instagram ) . '" target="_blank" aria-label="' . esc_attr__( 'Instagram', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-instagram"></i></a>';
 		}
 
 		if ( ! empty( $linkedin ) ) {
-			echo '<a href="' . esc_url( $linkedin ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-linkedin"></i></a>';
+			echo '<a href="' . esc_url( $linkedin ) . '" target="_blank" aria-label="' . esc_attr__( 'LinkedIn', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-linkedin"></i></a>';
 		}
 
 		if ( ! empty( $x ) ) {
-			echo '<a href="' . esc_url( $x ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-x"></i></a>';
+			echo '<a href="' . esc_url( $x ) . '" target="_blank" aria-label="' . esc_attr__( 'X', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-x"></i></a>';
 		}
 
 		if ( ! empty( $tiktok ) ) {
-			echo '<a href="' . esc_url( $tiktok ) . '" target="_blank"><i class="bb-icon-bf bb-icon-brand-tiktok"></i></a>';
+			echo '<a href="' . esc_url( $tiktok ) . '" target="_blank" aria-label="' . esc_attr__( 'TikTok', 'buddyboss-theme' ) . '"><i class="bb-icon-bf bb-icon-brand-tiktok"></i></a>';
 		}
 
 		echo '</div>';

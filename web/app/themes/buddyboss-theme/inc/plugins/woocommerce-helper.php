@@ -198,69 +198,110 @@ if ( !class_exists( '\BuddyBossTheme\WooCommerceHelper' ) ) {
 	    }
 
 		/**
-	     * Customize stripe payment form
-	     *
-	     */
-	    public function woocommerce_stripe_payment_styles( $stripe_params ) {
+		 * Customize stripe payment form
+		 *
+		 */
+		public function woocommerce_stripe_payment_styles( $stripe_params ) {
+			global $color_schemes;
+			$color_presets        = $color_schemes['default']['presets'];
+			$primary_color        = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'accent_color' ) ) ? buddyboss_theme_get_option( 'accent_color' ) : $color_presets['accent_color'];
+			$alt_text_color       = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'alternate_text_color' ) ) ? buddyboss_theme_get_option( 'alternate_text_color' ) : $color_presets['alternate_text_color'];
+			$bb_primary_color_rgb = join( ', ', hex_2_RGB( $primary_color ) );
+			$theme_style          = buddyboss_theme_get_option( 'theme_template' );
+			if ( '1' === $theme_style ) {
+				$bb_input_focus_shadow = 'none';
+			} else {
+				$bb_input_focus_shadow = '0px 0px 0px 2px rgba( ' . $bb_primary_color_rgb . ', 0.1)';
+			}
 
-			$border_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks_border' ) ) ? buddyboss_theme_get_option( 'body_blocks_border' ) : $color_presets['body_blocks_border'];
+			$border_color           = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks_border' ) ) ? buddyboss_theme_get_option( 'body_blocks_border' ) : $color_presets['body_blocks_border'];
 			$input_background_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_blocks' ) ) ? buddyboss_theme_get_option( 'body_blocks' ) : $color_presets['body_blocks'];
-			$text_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_text_color' ) ) ? buddyboss_theme_get_option( 'body_text_color' ) : $color_presets['body_text_color'];
-			$error_color = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'error_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'error_notice_bg_color' ) : $color_presets['error_notice_bg_color'];
+			$text_color             = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'body_text_color' ) ) ? buddyboss_theme_get_option( 'body_text_color' ) : $color_presets['body_text_color'];
+			$error_color            = bb_theme_is_valid_hex_color( buddyboss_theme_get_option( 'error_notice_bg_color' ) ) ? buddyboss_theme_get_option( 'error_notice_bg_color' ) : $color_presets['error_notice_bg_color'];
 
-			$stripe_params['appearance'] = (object) [
-				'theme' => 'flat',
-				'variables' => (object) [
-					'borderRadius'  => '6px',
-				],
-				'rules' => (object) [
-					'.Input' => (object) [
-						'backgroundColor' => $input_background_color,
-						'border'          => '1px solid ' . $border_color,
-						'borderRadius'    => 'var(--borderRadius)',
-						'padding'    	  => '12px',
-					],
-					'.Label' => (object) [
-						'color' 		  => $text_color,
-					],
-					'.Input--invalid' => (object) [
-						'color' 		  => $error_color,
-						'boxShadow' 	  => '0 0 0 2px ' . $error_color,
-					],
-					'.Error' => (object) [
-						'color' 		  => $error_color,
-					]
-				],
-			];
-	
-			$stripe_params['blocksAppearance'] = (object) [
+			$stripe_params['appearance'] = (object) array(
 				'theme'     => 'flat',
-				'variables' => (object) [
-					'borderRadius'  => '6px',
-				],
-				'rules' => (object) [
-					'.Input' => (object) [
+				'variables' => (object) array(
+					'borderRadius'       => '6px',
+					'colorTextSecondary' => $alt_text_color,
+				),
+				'rules'     => (object) array(
+					'.Input'          => (object) array(
+						'backgroundColor' => '#fff',
+						'border'          => '1px solid ' . $border_color,
+						'borderRadius'    => 'var(--borderRadius)',
+						'padding'         => '12px',
+					),
+					'.Input:focus'    => (object) array(
+						'border'    => '1px solid',
+						'boxShadow' => $bb_input_focus_shadow,
+					),
+					'.Label'          => (object) array(
+						'color' => $text_color,
+					),
+					'.Input--invalid' => (object) array(
+						'color'     => $error_color,
+						'boxShadow' => '0 0 0 1px ' . $error_color,
+					),
+					'.Error'          => (object) array(
+						'color' => $error_color,
+					),
+				),
+			);
+
+			$stripe_params['blocksAppearance'] = (object) array(
+				'theme'     => 'flat',
+				'variables' => (object) array(
+					'borderRadius' => '6px',
+				),
+				'rules'     => (object) array(
+					'.Input'                  => (object) array(
 						'backgroundColor' => $input_background_color,
 						'border'          => '1px solid ' . $border_color,
 						'borderRadius'    => 'var(--borderRadius)',
-						'padding'    	  => '12px',
-					],
-					'.Label' => (object) [
-						'color' 		  => $text_color,
-					],
-					'.Input--invalid' => (object) [
-						'color' 		  => $error_color,
-						'boxShadow' 	  => '0 0 0 2px ' . $error_color,
-					],
-					'.Error' => (object) [
-						'color' 		  => $error_color,
-					]
-				],
-			];
-	
+						'padding'         => '12px',
+						'color'           => $text_color,
+					),
+					'.Input:focus'            => (object) array(
+						'backgroundColor' => '#fff',
+						'border'          => '1.5px solid',
+						'boxShadow'       => $bb_input_focus_shadow,
+						'color'           => '#2b2d2f',
+					),
+					'.Label'                  => (object) array(
+						'color' => $text_color,
+					),
+					'.Input--invalid'         => (object) array(
+						'boxShadow' => 'inherit',
+						'color'     => $text_color,
+					),
+					'.Input--invalid:hover'   => (object) array(
+						'boxShadow'   => 'none',
+						'borderColor' => $error_color,
+					),
+					'.Input--invalid:focus'   => (object) array(
+						'borderColor' => $error_color,
+					),
+					'.Error'                  => (object) array(
+						'color' => $error_color,
+					),
+					'.AccordionItem'          => (object) array(
+						'backgroundColor' => 'transparent',
+					),
+					'.AccordionItem:hover'    => (object) array(
+						'backgroundColor' => 'transparent',
+					),
+					'.RedirectText'           => (object) array(
+						'color' => $alt_text_color,
+					),
+					'.PaymentMethodMessaging' => (object) array(
+						'color' => $alt_text_color,
+					),
+				),
+			);
 			return $stripe_params;
-	    }
+		}
 
-    }
+	}
 
 }

@@ -56,7 +56,7 @@ class BP_Zoom_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 	 */
 	public function form_html() {
 		// Check license is valid.
-		if ( ! bbp_pro_is_license_valid() ) {
+		if ( bb_pro_should_lock_features() ) {
 			if ( is_file( $this->intro_template ) ) {
 				require $this->intro_template;
 			}

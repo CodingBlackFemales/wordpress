@@ -27,11 +27,11 @@ global $post;
 	<div class="entry-content-wrap">
 		<?php 
 		if ( has_post_format( 'link' ) && ( !is_singular() || is_related_posts() ) ) {
-			echo '<span class="post-format-icon"><i class="bb-icon-l bb-icon-link"></i></span>';
+			echo '<span class="post-format-icon" aria-label="' . esc_attr__( 'Link', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-link"></i></span>';
 		}
 
 		if ( has_post_format( 'quote' ) && ( !is_singular() || is_related_posts() ) ) {
-			echo '<span class="post-format-icon white"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
+			echo '<span class="post-format-icon white" aria-label="' . esc_attr__( 'Quote', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
 		}
 		?>
 

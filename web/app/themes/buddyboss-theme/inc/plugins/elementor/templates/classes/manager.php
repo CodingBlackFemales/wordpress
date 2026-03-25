@@ -291,11 +291,11 @@ if ( ! class_exists( 'BB_Elementor_Templates_Manager' ) ) {
 		 *
 		 */
 		public function register_ajax_actions( $ajax_manager ) {
-			
+
 			if ( ! isset( $_POST['actions'] ) ) {
 				return;
 			}
-			
+
 			$actions = json_decode( stripslashes( $_REQUEST['actions'] ), true );
 			$data    = false;
 			
@@ -304,31 +304,39 @@ if ( ! class_exists( 'BB_Elementor_Templates_Manager' ) ) {
 					$data = $action_data;
 				}
 			}
-			
+
 			if ( ! $data ) {
 				return;
 			}
-			
+
 			if ( ! isset( $data['data'] ) ) {
 				return;
 			}
-			
+
 			if ( ! isset( $data['data']['source'] ) ) {
 				return;
 			}
-			
+
 			$source = $data['data']['source'];
-			
+
+			// Handle case where $source is an array - extract first element and validate.
+			$source = is_array( $source ) ? ( ! empty( $source ) ? reset( $source ) : null ) : $source;
+
+			// Validate source type and value.
+			if ( empty( $source ) || ( ! is_string( $source ) && ! is_int( $source ) ) ) {
+				return;
+			}
+
 			if ( ! isset( $this->sources[ $source ] ) ) {
 				return;
 			}
-			
+
 			$ajax_manager->register_ajax_action( 'get_template_data', function ( $data ) {
 				return $this->get_template_data_array( $data );
 			} );
-			
+
 		}
-		
+
 		/**
 		 * Get template data array.
 		 *

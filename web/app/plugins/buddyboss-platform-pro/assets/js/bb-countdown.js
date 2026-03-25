@@ -81,6 +81,7 @@
     // Creating the markup inside the container
     $( '<span class="countDays">' ).html(
       '<span class="countdown_label 123">' + bb_countdown_vars.daysStr + '</span>' +
+      '<span class="positionWrapper">' +
       '<span class="position">' +
       '<span class="digit static">0</span>' +
       '</span>' +
@@ -89,6 +90,7 @@
       '</span>' +
       '<span class="position">' +
       '<span class="digit static">0</span>' +
+      '</span>' +
       '</span>' +
       '<span class="countDiv countDiv0"></span>'
     ).appendTo( elem );
@@ -100,11 +102,13 @@
     }, function ( key, value ) {
       $( '<span class="count' + key + '">' ).html(
         '<span class="countdown_label">' + value + '</span>' +
+        '<span class="positionWrapper">' +
         '<span class="position">' +
         '<span class="digit static">0</span>' +
         '</span>' +
         '<span class="position">' +
         '<span class="digit static">0</span>' +
+        '</span>' +
         '</span>'
       ).appendTo( elem );
 

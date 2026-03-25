@@ -140,7 +140,7 @@ if ( ! empty( $post->post_type ) && 'course' === $post->post_type ) {
 						<?php
 						$user_link = buddyboss_theme()->lifterlms_helper()->bb_llms_get_user_link( $author_id );
 						?>
-						<a href="<?php echo esc_url( $user_link ); ?>" class="item-avatar"><?php echo $img; ?></a> <strong> <a href="<?php echo esc_url( $user_link ); ?>"><?php echo esc_html( get_the_author_meta( 'first_name', $author_id ) ); ?></a> </strong>
+						<a href="<?php echo esc_url( $user_link ); ?>" class="item-avatar" aria-label="<?php echo esc_attr( get_the_author_meta( 'first_name', $author_id ) ); ?>"><?php echo $img; ?></a> <strong> <a href="<?php echo esc_url( $user_link ); ?>"><?php echo esc_html( get_the_author_meta( 'first_name', $author_id ) ); ?></a> </strong>
 					</div>
 				<?php endif; ?>
 

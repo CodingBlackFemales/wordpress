@@ -136,7 +136,7 @@ $reply_parent_class = $check_hidden_content ? 'bs-reply-suspended-block' : '';
 							}
 							if ( ! $empty ) {
 								?>
-								<a href="#" class="bs-dropdown-link bb-reply-actions-button" data-balloon-pos="up" data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>"><i class="bb-icon-f bb-icon-ellipsis-v"></i></a>
+								<a href="#" class="bs-dropdown-link bb-reply-actions-button" data-balloon-pos="up" data-balloon="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'More actions', 'buddyboss-theme' ); ?>"><i class="bb-icon-f bb-icon-ellipsis-v"></i></a>
 								<ul class="bs-dropdown bb-reply-actions-dropdown">
 									<li>
 										<?php

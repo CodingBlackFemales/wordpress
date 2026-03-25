@@ -301,3 +301,9 @@
 		transform: rotate(359deg);
 	}
 }
+
+@media (max-width: 782px) {
+	.hidden-header .full-with-content {
+		margin-left: 0;
+	}
+}

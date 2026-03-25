@@ -30,6 +30,7 @@
             this.showMoreParticipants();
             this.progressIndicatorRound();
             this.switchLdGridList();
+            this.enableCommentSubmit();
         },
 
         switchLdGridList: function () {
@@ -241,7 +242,14 @@
                     //update html
                     $form.find('.bs-dir-list').html( response.data.html );
                     //update count
-                    $form.find('li.selected a span').text( response.data.count );
+                    $form.find( 'li.selected a span' ).text( response.data.count );
+
+                    var course_label = $form.data( 'courses_label' );
+                    if ( 1 === parseInt( response.data.count ) ) {
+                        course_label = $form.data( 'course_label' );
+                    }
+
+                    $form.find( '.bb-item-count' ).html( '<span class="bb-count">' + response.data.count + '</span> ' + course_label );
 
                     if ( response.data.scopes ) {
                         for (var i in response.data.scopes) {
@@ -402,9 +410,32 @@
                     }
                     $('.courses-nav').find('.bb-icon-loader').remove();
 
+                    var topOffset = null, additionalOffset = 0, isMobile = $( 'body.bb-is-mobile' ).length;
+                    if ( $( '#wpadminbar' ).length ) {
+                        additionalOffset = additionalOffset + $( '#wpadminbar' ).height();
+                    }
+
+                    if ( $( '.sticky-header .site-header--bb' ).length ) {
+                        additionalOffset = additionalOffset + $( '.sticky-header .site-header--bb' ).height();
+                    }
+
+                    if ( ! isMobile ) {
+                        var $mainNavs = $( '.main-navs.bp-navs.dir-navs' );
+                        if ( $mainNavs.hasClass( 'courses-type-navs' ) ) {
+                            topOffset = $mainNavs.offset().top;
+                        }
+                    }
+
+                    if ( ! topOffset ) {
+                        if ( $form.find( '.bs-dir-list' ).length ) {
+                            topOffset = $form.find( '.bs-dir-list' ).offset().top;
+                        } else {
+                            topOffset = $form.offset().top;
+                        }
+                    }
                     // Scroll to course listing top.
                     $( 'html, body' ).animate( {
-                        scrollTop: $form.offset().top - 150
+                        scrollTop: topOffset - additionalOffset
                     }, 400 );
 
                 }
@@ -906,26 +937,32 @@
         },
 
         bbStickyLifterSidebar: function () {
-            var bbHeaderHeight = $('#masthead').outerHeight();
 
-            if ( $(window).width() > 820 && $('.bb-llms-sticky-sidebar .lifter-sidebar-widgets').length == 0 ) {
-                $('.bb-llms-sticky-sidebar').stick_in_parent({offset_top: bbHeaderHeight + 45});
+            function lifterSidebarPosition() {
+                var bbHeaderHeight = $( '#masthead' ).outerHeight();
 
-                if( $('body').hasClass('sticky-header') ) {
-                    $('.lifter-topic-sidebar-data').stick_in_parent({offset_top: bbHeaderHeight + 30 });
+                if ( $( window ).width() > 820 && 0 === $( '.bb-llms-sticky-sidebar .lifter-sidebar-widgets' ).length ) {
+                    $('.bb-llms-sticky-sidebar').stick_in_parent({offset_top: bbHeaderHeight + 45});
+
+                    var adminBarHeight = 0;
+                    if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
+                        adminBarHeight = 32;
+                    }
+                    $( '.lifter-topic-sidebar-data' ).css( {'max-height': 'calc(100vh - ' + ( bbHeaderHeight + adminBarHeight ) + 'px', 'top': ( bbHeaderHeight + adminBarHeight ) + 'px' } );
+
                 } else {
-                    $('.lifter-topic-sidebar-data').stick_in_parent({offset_top: 30});
+                    $('.bb-llms-sticky-sidebar').trigger( "sticky_kit:detach" );
                 }
             }
 
-            $(window).on('resize', function () {
-                if ( $(window).width() > 820 && $('.bb-llms-sticky-sidebar .lifter-sidebar-widgets').length == 0 ) {
-                    $('.bb-llms-sticky-sidebar').stick_in_parent({offset_top: bbHeaderHeight + 45});
-                } else {
-                    $('.bb-llms-sticky-sidebar').trigger("sticky_kit:detach");
-                    $('.lifter-topic-sidebar-data').trigger("sticky_kit:detach");
+            lifterSidebarPosition();
+
+            $( window ).on(
+                'resize',
+                function () {
+                    lifterSidebarPosition();
                 }
-            });
+            );
         },
 
         setElementorSpacing: function() {
@@ -1010,8 +1047,7 @@
             $( document ).on( 'click', '.llms-sd-header .llms-sd-title', function ( event ) {
                 event.preventDefault();
 
-                var self = $( this );
-                var navContainer = $( this ).closest( '.llms-sd-header' );
+                var navContainer = $( this ).closest( '.llms-student-dashboard' );
                 navContainer.find( 'nav.llms-sd-nav' ).slideToggle();
             } );
         },
@@ -1022,6 +1058,16 @@
                 var num = parseFloat( progress );
                 var round_num = Math.round( num ) + '%';
                 $( this ).text( round_num );
+            } );
+        },
+
+        enableCommentSubmit: function() {
+            $( 'form#commentform' ).on( 'paste', 'textarea#comment', function() { 
+                var textarea = $( this );
+                setTimeout(function() {
+                    var commentText = textarea.val();
+                    $( 'form#commentform #submit' ).prop( 'disabled', !commentText.trim().length );
+                }, 100 );
             } );
         },
 

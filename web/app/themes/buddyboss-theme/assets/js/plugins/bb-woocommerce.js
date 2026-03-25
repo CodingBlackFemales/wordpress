@@ -42,7 +42,7 @@
                     oldValue = input_qty.val(),
                     newVal = oldValue,
                     min = input_qty.attr( 'min' ),
-                    max = input_qty.attr( 'max' );
+                    max = 'undefined' !== typeof input_qty.attr( 'max' ) ? input_qty.attr( 'max' ) : '';
 
                 if ( oldValue == 0 ) {
                     $( this ).parents( '.bs-quantity' ).find( '.quantity-down' ).addClass( 'limit' );

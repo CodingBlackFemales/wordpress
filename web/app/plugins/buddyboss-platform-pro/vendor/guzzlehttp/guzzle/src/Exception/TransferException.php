@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Exception;
+namespace BuddyBossPlatformPro\GuzzleHttp\Exception;
 
 class TransferException extends \RuntimeException implements GuzzleException
 {

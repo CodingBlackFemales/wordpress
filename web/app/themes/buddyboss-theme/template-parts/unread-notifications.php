@@ -9,7 +9,11 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) . '&user_id=' 
 				<?php bp_the_notification_description(); ?>
 			</span>
 			<div class="notification-avatar">
-				<?php bb_notification_avatar(); ?>
+				<?php
+				if ( function_exists( 'bb_notification_avatar' ) ) {
+					bb_notification_avatar();
+				}
+				?>
 			</div>
 			<div class="notification-content">
 				<span class="bb-full-link">

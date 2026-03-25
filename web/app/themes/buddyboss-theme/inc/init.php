@@ -241,10 +241,24 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		 * Constructor
 		 */
 		private function __construct() {
+
+			if ( ! class_exists( 'WP_Upgrader_Skin' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php';
+			}
+
+			if ( file_exists( get_template_directory() . '/vendor/autoload.php' ) ) {
+				require_once get_template_directory() . '/vendor/autoload.php';
+			}
+
 			/**
 			 * Globals, constants, theme path etc
 			 */
 			$this->_setup_globals();
+
+			/**
+			 * Load mothership before other admin files to ensure classes are available
+			 */
+			require_once $this->_inc_dir . '/admin/mothership/mothership-init.php';
 
 			/**
 			 * Load required theme files
@@ -433,25 +447,8 @@ if ( ! class_exists( '\BuddyBossTheme\BaseTheme' ) ) {
 		 */
 		protected function _setup_actions_filters() {
 
-			if ( is_admin() ) {
-				add_action( 'after_setup_theme', array( $this, 'include_buddyboss_updater' ) );
-			}
-
 			if ( BUDDYBOSS_DEBUG ) {
 				add_action( 'bp_footer', 'buddyboss_dump_log' );
-			}
-		}
-
-		/**
-		 * Include BuddyBoss Updater.
-		 *
-		 * @return void
-		 */
-		public function include_buddyboss_updater() {
-			global $pagenow;
-
-			if ( ! function_exists( 'buddyboss_updater_init' ) ) {
-				require_once $this->_inc_dir . '/lib/buddyboss-updater/buddyboss-updater.php';
 			}
 		}
 
