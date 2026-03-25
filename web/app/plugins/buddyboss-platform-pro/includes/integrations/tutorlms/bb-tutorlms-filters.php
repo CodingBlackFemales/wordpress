@@ -15,6 +15,7 @@ add_filter( 'bp_repair_list', 'bb_migrate_tutor_group_course' );
 add_filter( 'bb_nouveau_get_activity_entry_bubble_buttons', 'bb_nouveau_remove_edit_activity_entry_buttons', 999, 2 );
 add_filter( 'bp_is_post_type_feed_enable', 'bb_tutorlms_post_type_feed_is_enable', 10, 3 );
 add_filter( 'bb_enable_blog_feed', 'bb_enable_existing_blog_feed_option', 10, 2 );
+add_filter( 'bb_readylaunch_left_sidebar_middle_content', 'bb_readylaunch_middle_content_tutorlms_courses', 20, 1 );
 
 /**
  * Function to exclude TutorLMS CPT from Activity setting screen.
@@ -345,4 +346,47 @@ function bb_enable_existing_blog_feed_option( $retval, $post_type ) {
 	}
 
 	return $retval;
+}
+
+/**
+ * Function to get the user enrolled course or all courses.
+ *
+ * This function checks if the Tutor LMS integration is enabled and retrieves the courses
+ * the logged-in user is enrolled in. It then formats the course data including title,
+ * permalink, and thumbnail, and adds it to the provided arguments array.
+ *
+ * @since 2.7.50
+ *
+ * @param array $args Array of arguments.
+ *
+ * @return array $args The user enrolled courses.
+ */
+function bb_readylaunch_middle_content_tutorlms_courses( $args = array() ) {
+	if ( ! function_exists( 'tutor_utils' ) ) {
+		return $args;
+	}
+
+	$course_data['integration'] = 'tutorlms';
+	if ( $args['has_sidebar_data'] && $args['is_sidebar_enabled_for_courses'] ) {
+		$user_id = bp_loggedin_user_id();
+		if ( $user_id ) {
+			$courses = tutor_utils()->get_enrolled_courses_by_user( bp_loggedin_user_id(), '', 0, 5 );
+		} else {
+			$courses = bb_tutorlms_get_courses( array( 'posts_per_page' => 5 ) );
+		}
+		if ( ! empty( $courses->posts ) ) {
+			foreach ( $courses->posts as $post ) {
+				$thumbnail_url = '<img class="tutor-card-image-top" src="' . esc_url( get_tutor_course_thumbnail_src( '', $post->ID ) ) . '" class="img-responsive" alt="' . get_the_title() . '" loading="lazy" />';
+
+				$course_data['items'][ $post->ID ] = array(
+					'title'     => get_the_title( $post->ID ),
+					'permalink' => get_the_permalink( $post->ID ),
+					'thumbnail' => $thumbnail_url,
+				);
+			}
+		}
+	}
+	$args['courses'] = $course_data;
+
+	return $args;
 }

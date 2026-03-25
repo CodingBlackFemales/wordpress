@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp\Psr7\Exception;
+declare (strict_types=1);
+namespace BuddyBossPlatformPro\GuzzleHttp\Psr7\Exception;
 
 use InvalidArgumentException;
-
 /**
  * Exception thrown if a URI cannot be parsed because it's malformed.
  */

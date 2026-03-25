@@ -30,53 +30,82 @@ if ( ! class_exists( '\BuddyBossTheme\RelatedPostsHelper' ) ) {
 		public function crp_create_index() {
 			global $wpdb;
 
-			$wpdb->hide_errors();
-			$mysql_server_type    = $wpdb->db_server_info();
-			$mysql_server_version = $wpdb->db_version();
+			/**
+			 * Filter to disable related posts index creation.
+			 *
+			 * @since 2.17.0
+			 *
+			 * @param bool $disable Whether to disable index creation. Default false.
+			 */
+			if ( apply_filters( 'bb_disable_related_posts_index', false ) ) {
+				return;
+			}
 
-			$is_mariadb = false;
-			if ( stristr( $mysql_server_type, 'mariadb' ) ) {
-				$is_mariadb = true;
+			try {
+				$wpdb->hide_errors();
 
-				// Account for MariaDB version being prefixed with '5.5.5-' on older PHP 8.0.15 versions.
-				if ( '5.5.5' === $mysql_server_version && PHP_VERSION_ID < 80016 ) {
-					// Strip the '5.5.5-' prefix and set the version to the correct value.
-					$mysql_server_type    = preg_replace( '/^5\.5\.5-(.*)/', '$1', $mysql_server_type );
-					$mysql_server_version = preg_replace( '/[^0-9.].*/', '', $mysql_server_type );
+				// Check if all indexes already exist - if so, return early.
+				$existing_indexes = $wpdb->get_var(
+					"SELECT COUNT(DISTINCT INDEX_NAME) FROM INFORMATION_SCHEMA.STATISTICS
+					 WHERE TABLE_SCHEMA = DATABASE()
+					 AND TABLE_NAME = '{$wpdb->posts}'
+					 AND INDEX_NAME IN ('crp_related', 'crp_related_title', 'crp_related_content')"
+				);
+				if ( 3 === (int) $existing_indexes ) {
+					$wpdb->show_errors();
+					return;
 				}
-			}
 
-			if ( $is_mariadb && version_compare( 10.3, $mysql_server_version, '<=' ) ) {
-				$table_engine = 'InnoDB';
-			} elseif ( ! $is_mariadb && version_compare( 5.6, $mysql_server_version, '<=' ) ) {
-				$table_engine = 'InnoDB';
-			} else {
-				$table_engine = 'MyISAM';
-			}
+				$mysql_server_type    = $wpdb->db_server_info();
+				$mysql_server_version = $wpdb->db_version();
 
-			$current_engine = $wpdb->get_row(
+				$is_mariadb = false;
+				if ( stristr( $mysql_server_type, 'mariadb' ) ) {
+					$is_mariadb = true;
+
+					// Account for MariaDB version being prefixed with '5.5.5-' on older PHP 8.0.15 versions.
+					if ( '5.5.5' === $mysql_server_version && PHP_VERSION_ID < 80016 ) {
+						$mysql_server_type    = preg_replace( '/^5\.5\.5-(.*)/', '$1', $mysql_server_type );
+						$mysql_server_version = preg_replace( '/[^0-9.].*/', '', $mysql_server_type );
+					}
+				}
+
+				if ( $is_mariadb && version_compare( 10.3, $mysql_server_version, '<=' ) ) {
+					$table_engine = 'InnoDB';
+				} elseif ( ! $is_mariadb && version_compare( 5.6, $mysql_server_version, '<=' ) ) {
+					$table_engine = 'InnoDB';
+				} else {
+					$table_engine = 'MyISAM';
+				}
+
+				$current_engine = $wpdb->get_row(
+					"
+					SELECT engine FROM INFORMATION_SCHEMA.TABLES
+					WHERE table_schema=DATABASE()
+					AND table_name = '{$wpdb->posts}'
 				"
-				SELECT engine FROM INFORMATION_SCHEMA.TABLES
-				WHERE table_schema=DATABASE()
-				AND table_name = '{$wpdb->posts}'
-			"
-			);
+				);
 
-			if ( isset( $current_engine->engine ) && $current_engine->engine !== $table_engine ) {
-				$wpdb->query( "ALTER TABLE {$wpdb->posts} ENGINE = {$table_engine};" ); // WPCS: unprepared SQL OK.
-			}
+				if ( isset( $current_engine->engine ) && $current_engine->engine !== $table_engine ) {
+					$wpdb->query( "ALTER TABLE {$wpdb->posts} ENGINE = {$table_engine};" ); // WPCS: unprepared SQL OK.
+				}
 
-			if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related'" ) ) {
-				$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related (post_title, post_content);" );
-			}
-			if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related_title'" ) ) {
-				$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related_title (post_title);" );
-			}
-			if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related_content'" ) ) {
-				$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related_content (post_content);" );
-			}
+				if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related'" ) ) {
+					$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related (post_title, post_content);" );
+				}
+				if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related_title'" ) ) {
+					$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related_title (post_title);" );
+				}
+				if ( ! $wpdb->get_results( "SHOW INDEX FROM {$wpdb->posts} where Key_name = 'crp_related_content'" ) ) {
+					$wpdb->query( "ALTER TABLE {$wpdb->posts} ADD FULLTEXT crp_related_content (post_content);" );
+				}
 
-			$wpdb->show_errors();
+				$wpdb->show_errors();
+
+			} catch ( \Exception $e ) {
+				$wpdb->show_errors();
+				return;
+			}
 		}
 
 		public function get_related_posts( $args = array() ) {
@@ -151,7 +180,7 @@ if ( ! class_exists( '\BuddyBossTheme\RelatedPostsHelper' ) ) {
 
 				$sql = "SELECT DISTINCT $fields FROM $wpdb->posts WHERE 1=1 $where $orderby $limits";
 
-				$results = $wpdb->get_results( $sql );
+				$results = $wpdb->get_results( apply_filters( 'bb_get_related_posts_sql', $sql ) );
 
 			} else {
 				$results = false;

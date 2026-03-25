@@ -1,13 +1,12 @@
 <?php
 
-namespace BuddyBoss\PlatformPro\Vendor\GuzzleHttp;
+namespace BuddyBossPlatformPro\GuzzleHttp;
 
-use BuddyBoss\PlatformPro\Vendor\Psr\Http\Message\MessageInterface;
-
+use BuddyBossPlatformPro\Psr\Http\Message\MessageInterface;
 interface BodySummarizerInterface
 {
     /**
      * Returns a summarized message body.
      */
-    public function summarize(MessageInterface $message): ?string;
+    public function summarize(MessageInterface $message) : ?string;
 }

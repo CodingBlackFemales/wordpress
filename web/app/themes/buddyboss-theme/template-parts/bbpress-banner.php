@@ -27,7 +27,7 @@ if ( ! $bbp_is_forum_group_forum && $bbpress_banner ) {
 		}
         $opacity = $bbpress_banner_overlay_opacity / 100;
 		$bbpress_banner_title       = buddyboss_theme_get_option( 'bbpress_banner_title' );
-		$bbpress_banner_description = buddyboss_theme_get_option( 'bbpress_banner_description' );
+		$bbpress_banner_description = wp_specialchars_decode( buddyboss_theme_get_option( 'bbpress_banner_description' ) );
 		$bbpress_banner_search      = buddyboss_theme_get_option( 'bbpress_banner_search' );
 		$bbpress_banner_text_color  = buddyboss_theme_get_option( 'bbpress_banner_text' );
 

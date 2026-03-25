@@ -34,11 +34,62 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$materials              = ( isset( $materials ) ) ? $materials : '';
-$lessons                = ( isset( $lessons ) ) ? $lessons : array();
-$quizzes                = ( isset( $quizzes ) ) ? $quizzes : array();
-$lesson_topics          = ( isset( $lesson_topics ) ) ? $lesson_topics : array();
-$course_certficate_link = ( isset( $course_certficate_link ) ) ? $course_certficate_link : '';
+if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( learndash_get_post_type_slug( 'course' ) ) ) ) {
+	$course_id = get_the_ID();
+	$post      = get_post( $course_id ); // Get the WP_Post object.
+	$course    = \LearnDash\Core\Models\Course::create_from_post( $post );
+	$content   = $course->get_content();
+
+	// Get basic course data from the course object.
+	$course_product             = $course->get_product();
+	$course_settings            = $course_product->get_pricing_settings();
+	$courses_options            = learndash_get_option( 'sfwd-courses' );
+	$lessons_options            = learndash_get_option( 'sfwd-lessons' );
+	$quizzes_options            = learndash_get_option( 'sfwd-quiz' );
+	$user_id                    = get_current_user_id();
+	$logged_in                  = is_user_logged_in();
+	$current_user               = wp_get_current_user();
+	$course_status              = learndash_course_status( $course_id, $user_id );
+	$has_access                 = $course_product->user_has_access();
+	$materials                  = $course->get_materials();
+	$has_course_content         = $course->has_steps();
+	$lessons                    = learndash_get_course_lessons_list( $course_id );
+	$quizzes                    = $course->get_quizzes();
+	$lesson_progression_enabled = learndash_lesson_progression_enabled( $course_id );
+	$has_topics                 = $course->get_topics_number() > 0;
+	$lesson_topics              = array(); // Initialize lesson_topics array.
+
+	if ( ! empty( $lessons ) ) {
+		foreach ( $lessons as $lesson ) {
+			$lesson_topics[ $lesson['post']->ID ] = learndash_topic_dots( $lesson['post']->ID, false, 'array', null, $course_id );
+			if ( ! empty( $lesson_topics[ $lesson['post']->ID ] ) ) {
+				$has_topics = true;
+
+				$topic_pager_args                     = array(
+					'course_id' => $course_id,
+					'lesson_id' => $lesson['post']->ID,
+				);
+				$lesson_topics[ $lesson['post']->ID ] = learndash_process_lesson_topics_pager( $lesson_topics[ $lesson['post']->ID ], $topic_pager_args );
+			}
+		}
+	}
+
+	// Get course meta and certificate.
+	$course_meta = get_post_meta( $course_id, '_sfwd-courses', true );
+	if ( ! is_array( $course_meta ) ) {
+		$course_meta = array();
+	}
+	if ( ! isset( $course_meta['sfwd-courses_course_disable_content_table'] ) ) {
+		$course_meta['sfwd-courses_course_disable_content_table'] = false;
+	}
+	$course_certficate_link = $course->get_certificate_link( $user_id );
+} else {
+	$materials              = ( isset( $materials ) ) ? $materials : '';
+	$lessons                = ( isset( $lessons ) ) ? $lessons : array();
+	$quizzes                = ( isset( $quizzes ) ) ? $quizzes : array();
+	$lesson_topics          = ( isset( $lesson_topics ) ) ? $lesson_topics : array();
+	$course_certficate_link = ( isset( $course_certficate_link ) ) ? $course_certficate_link : '';
+}
 
 $template_args = array(
 	'course_id'                  => $course_id,
@@ -121,24 +172,22 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 						echo $shortcode_out;
 					}
 				}
-			} else {
-				if ( ! empty( $course_certficate_link ) ) :
-					learndash_get_template_part(
-						'modules/alert.php',
-						array(
-							'type'    => 'success ld-alert-certificate',
-							'icon'    => 'certificate',
-							'message' => __( 'You\'ve earned a certificate!', 'buddyboss-theme' ),
-							'button'  => array(
-								'url'    => $course_certficate_link,
-								'icon'   => 'download',
-								'label'  => __( 'Download Certificate', 'buddyboss-theme' ),
-								'target' => '_new',
-							),
+			} elseif ( ! empty( $course_certficate_link ) ) {
+				learndash_get_template_part(
+					'modules/alert.php',
+					array(
+						'type'    => 'success ld-alert-certificate',
+						'icon'    => 'certificate',
+						'message' => __( 'You\'ve earned a certificate!', 'buddyboss-theme' ),
+						'button'  => array(
+							'url'    => $course_certficate_link,
+							'icon'   => 'download',
+							'label'  => __( 'Download Certificate', 'buddyboss-theme' ),
+							'target' => '_new',
 						),
-						true
-					);
-				endif;
+					),
+					true
+				);
 			}
 
 			/**
@@ -275,38 +324,68 @@ $has_lesson_quizzes = learndash_30_has_lesson_quizzes( $course_id, $lessons ); ?
 								 * @param int $user_id   User ID.
 								 */
 								do_action( 'learndash-course-expand-before', $course_id, $user_id );
+
+								$lesson_container_ids = implode(
+									' ',
+									array_filter(
+										array_map(
+											function ( $lesson_id ) use ( $user_id, $course_id ) {
+												$topics  = learndash_get_topic_list( $lesson_id, $course_id );
+												$quizzes = learndash_get_lesson_quiz_list( $lesson_id, $user_id, $course_id );
+
+												// Ensure we only include this ID if there is something to collapse/expand.
+												if (
+													empty( $topics )
+													&& empty( $quizzes )
+												) {
+													return '';
+												}
+
+												return "ld-expand-{$lesson_id}-container";
+											},
+											array_keys( $lesson_topics )
+										)
+									)
+								);
 								?>
 
 								<?php
 								// Only display if there is something to expand.
 								if ( $has_topics || $has_lesson_quizzes ) :
 									?>
-									<div class="ld-expand-button ld-primary-background" id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>" data-ld-expands="<?php echo esc_attr( 'ld-item-list-' . $course_id ); ?>" data-ld-expand-text="<?php echo esc_attr__( 'Expand All', 'buddyboss-theme' ); ?>" data-ld-collapse-text="<?php echo esc_attr__( 'Collapse All', 'buddyboss-theme' ); ?>">
+									<button
+											aria-controls="<?php echo esc_attr( $lesson_container_ids ); ?>"
+											class="ld-expand-button ld-primary-background"
+											id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>"
+											data-ld-expands="<?php echo esc_attr( $lesson_container_ids ); ?>"
+											data-ld-expand-text="<?php echo esc_attr__( 'Expand All', 'buddyboss-theme' ); ?>"
+											data-ld-collapse-text="<?php echo esc_attr__( 'Collapse All', 'buddyboss-theme' ); ?>"
+									>
 										<span class="ld-icon-arrow-down ld-icon"></span>
 										<span class="ld-text"><?php echo esc_attr__( 'Expand All', 'buddyboss-theme' ); ?></span>
-									</div> <!--/.ld-expand-button-->
-									<?php
+									</button> <!--/.ld-expand-button-->
+								<?php
 
-									/**
-									 * Filters whether to expand all course steps by default. Default is false.
-									 *
-									 * @since 2.5.0
-									 *
-									 * @param boolean $expand_all Whether to expand all course steps.
-									 * @param int     $course_id  Course ID.
-									 * @param string  $context    The context where course is expanded.
-									 */
-									if ( apply_filters( 'learndash_course_steps_expand_all', false, $course_id, 'course_lessons_listing_main' ) ) :
-										?>
-										<script>
-											jQuery( function(){
-												setTimeout(function(){
-													jQuery("<?php echo esc_attr( '#ld-expand-button-' . $course_id ); ?>").trigger('click');
-												}, 1000);
-											});
-										</script>
-										<?php
-									endif;
+								/**
+								 * Filters whether to expand all course steps by default. Default is false.
+								 *
+								 * @since 2.5.0
+								 *
+								 * @param boolean $expand_all Whether to expand all course steps.
+								 * @param int     $course_id  Course ID.
+								 * @param string  $context    The context where course is expanded.
+								 */
+								if ( apply_filters( 'learndash_course_steps_expand_all', false, $course_id, 'course_lessons_listing_main' ) ) :
+								?>
+									<script>
+										jQuery( function () {
+											setTimeout( function () {
+												jQuery( "<?php echo esc_attr( '#ld-expand-button-' . $course_id ); ?>" ).trigger( 'click' );
+											}, 1000 );
+										} );
+									</script>
+								<?php
+								endif;
 
 								endif;
 

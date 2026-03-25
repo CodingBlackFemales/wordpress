@@ -1,0 +1,513 @@
+.bb-box-panel {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	box-sizing: border-box;
+}
+
+.bb-box-panel *,
+.bb-box-panel *::before,
+.bb-box-panel *::after {
+	box-sizing: border-box;
+}
+
+.bb-box-panel .bb-box-item {
+	background-color: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	position: relative;
+	cursor: move;
+	min-height: 113px;
+	display: flex;
+	flex-direction: column;
+	width: 118px;
+}
+
+.bb-box-panel .bb-box-item.is-disabled .bb-box-item-icon > * {
+	opacity: 0.6;
+}
+
+.bb-box-panel .bb-box-item:hover {
+	border-color: #646970;
+}
+
+.bb-box-panel .bb-box-item button {
+	background-color: transparent;
+	border: 0;
+	padding: 0;
+}
+
+.bb-box-panel .bb-box-item.ui-sortable-placeholder {
+	border: 1px dashed #c3c4c7;
+	visibility: visible !important;
+}
+
+.bb-box-panel .bb-box-item.bb_box_item_action {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 110px;
+	border-color: #dcdcde;
+	background-color: #f6f7f7;
+}
+
+.bb-box-panel .bb-box-item.bb_box_item_action:hover {
+	border-color: #646970;
+}
+
+.bb-box-panel .bb-box-item.bb_box_item_action button {
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+}
+
+.bb-box-panel .bb-box-item.bb_box_item_action [class*=" bb-icon-"] {
+	color: #a7aaad;
+	font-size: 59px;
+}
+
+.bb-box-panel .bb-box-item-actions-label input[type="checkbox"] {
+	border-radius: 4px;
+	border: 1px solid #8c8f94;
+	background-color: white;
+}
+
+.bb-box-panel .bb-box-item-actions-enable,
+.bb-box-panel .bb-box-item-actions-disable {
+	position: absolute;
+	top: 7px;
+	left: 7px;
+}
+
+.bb-box-panel .bb-box-item-actions-enable input[type="checkbox"],
+.bb-box-panel .bb-box-item-actions-disable input[type="checkbox"] {
+	height: 1rem;
+	width: 1rem;
+	margin-right: 0;
+}
+
+.bb-box-panel .bb-box-item-actions-enable input[type="checkbox"]:before,
+.bb-box-panel .bb-box-item-actions-disable input[type="checkbox"]:before {
+	margin: -0.1875rem 0 0 -0.25rem;
+	height: 1.3125rem;
+	width: 1.3125rem;
+}
+
+.bb-box-panel .bb-box-item-actions-disable input[type="checkbox"] {
+	pointer-events: none;
+	background-color: rgba(255, 255, 255, 0.5);
+	border-color: rgba(220, 220, 222, 0.75);
+}
+
+.bb-box-panel .bb-box-item-icon {
+	display: flex;
+	justify-self: center;
+	align-items: center;
+	background-color: #f6f7f7;
+	padding: 17px 35px;
+	border-bottom: 1px solid #c3c4c7;
+	border-radius: 4px 4px 0 0;
+	width: 100%;
+	height: 74px;
+}
+
+.bb-box-panel .bb-box-item-icon img {
+	float: left;
+	margin: auto;
+	max-height: 100%;
+}
+
+.bb-box-panel .bb-box-item-icon i {
+	display: flex;
+	font-family: bb-icons;
+	font-size: 40px;
+}
+
+.bb-box-panel .bb-box-item-icon i:before {
+	margin: 0;
+}
+
+.bb-box-panel .bb-box-item-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6px 10px;
+}
+
+.bb-box-panel .bb-box-item-footer span {
+	color: #1d2327;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
+	display: block;
+	white-space: nowrap;
+}
+
+.bb-box-panel .bb-box-item-footer .bb-box-item-edit {
+	color: #a7aaad;
+	cursor: pointer;
+}
+
+.bb-box-panel .bb-box-item-footer .bb-box-item-edit:hover {
+	color: #787c82;
+}
+
+.bb-box-panel .bb-box-item-footer .bb-box-item-edit i {
+	font-size: 20px;
+}
+
+.bb-box-panel .bb-box-item-footer .bb-box-item-edit i::before {
+	margin: 0;
+}
+
+.bb-sso-provider-notice {
+	display: block;
+}
+
+.bb-sso-provider-notice .notice-container {
+	padding: 10px 0 0;
+	font-size: 13px;
+}
+
+.bb-sso-provider-notice .notice-container.notice-container--error {
+	color: #d63638;
+}
+
+.bp-feedback--clean.bp-feedback--sso-info {
+	margin: 17px 0 0;
+}
+
+.bp-feedback--clean.bp-feedback--sso-info:not(.custom-homepage-info) {
+	align-items: center;
+}
+
+.sso-reg-options-field {
+	display: flex;
+	flex-flow: wrap;
+	align-items: center;
+	padding: 0 0 10px;
+}
+
+.form-table .sso-reg-options-field input[type="radio"] {
+	margin: 5px 6px 5px 0;
+}
+
+.form-table .sso-reg-options-field label::after {
+	content: "-";
+	display: inline-block;
+	margin: 0 3px;
+}
+
+@media screen and (max-width: 768px) {
+	.form-table .sso-reg-options-field label::after {
+		display: none;
+	}
+}
+
+.bp-admin-card .form-table td .sso-reg-options-field p {
+	margin: 0 0 0 5px;
+}
+
+@media screen and (max-width: 768px) {
+	.bp-admin-card .form-table td .sso-reg-options-field p {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+.bb-modal-panel {
+	--bb-hello-color-secondary: #dcdcdc;
+}
+
+#bb-hello-backdrop.bb-modal-backdrop {
+	display: block;
+}
+
+#bb-hello-container.bb-modal-panel,
+.admin-bar #bb-hello-container.bb-modal-panel {
+	top: 50%;
+	left: 50%;
+	right: unset;
+	transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 768px) {
+	#bb-hello-container.bb-modal-panel,
+	.admin-bar #bb-hello-container.bb-modal-panel {
+		width: 90%;
+	}
+}
+
+.bb-modal-panel.bb-modal-panel--sso {
+	max-width: 430px;
+	width: 430px;
+	margin: auto;
+}
+
+.bb-modal-panel .bb-hello-header {
+	background-color: #f6f7f7;
+	border-bottom-color: var(--bb-hello-color-secondary);
+}
+
+.bb-modal-panel .bb-hello-title h2 {
+	color: #1d2327;
+	font-size: 1.5em;
+	margin: 0.5em 0;
+	padding-bottom: 0;
+	border-bottom: none;
+	font-weight: 600;
+}
+
+.bb-modal-panel .bb-hello-content {
+	height: auto;
+	padding: 0 23px;
+	min-height: 180px;
+	max-height: calc(100vh - 220px);
+	margin-bottom: 56px;
+}
+
+.bb-modal-panel .bb-hello-content .form-fields {
+	margin: 10px 0;
+}
+
+.bb-modal-panel .bb-hello-content .form-field .bb-hello-error:first-of-type {
+	margin-top: -10px;
+}
+
+.bb-modal-panel .bb-hello-content .form-field .bb-hello-error + .field-label {
+	margin-top: 20px;
+}
+
+.bb-modal-panel .bb-hello-content > .bb-hello-error:first-of-type {
+	margin-top: 0;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-error {
+	margin: -1px -23px 0;
+	background-color: #fcf0f1;
+	border-top: 1px solid #d63638;
+	border-bottom: 1px solid #d63638;
+	padding: 10px 23px;
+	display: flex;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-error > i {
+	color: #d63638;
+	font-size: 16px;
+	margin-right: 8px;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-error > i::before {
+	margin: 0;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-error + .bb-hello-error {
+	border-top: 0;
+}
+
+.bb-modal-panel .bb-hello-content .form-field .bb-hello-success:first-of-type {
+	margin-top: -10px;
+}
+
+.bb-modal-panel .bb-hello-content .form-field .bb-hello-success + .field-label {
+	margin-top: 20px;
+}
+
+.bb-modal-panel .bb-hello-content > .bb-hello-success:first-of-type {
+	margin-top: 0;
+}
+
+.bb-modal-panel .bb-hello-content .form-field .bb-hello-success + .field-label {
+	margin-top: 20px;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-success {
+	margin: -1px -23px 0;
+	background-color: #e6fce5;
+	border-top: 1px solid #66d636;
+	border-bottom: 1px solid #66d636;
+	padding: 10px 23px;
+	display: flex;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-success > i {
+	color: #66d636;
+	font-size: 16px;
+	margin-right: 8px;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-success > i::before {
+	margin: 0;
+}
+
+.bb-modal-panel .bb-hello-content .bb-hello-success + .bb-hello-success {
+	border-top: 0;
+}
+
+.bb-modal-panel .form-fields .field-label {
+	margin-bottom: 5px;
+}
+
+.bb-modal-panel .form-fields .field-label label {
+	line-height: 22px;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.bb-modal-panel .form-fields .field-input input[type="text"],
+.bb-modal-panel .form-fields .field-input textarea {
+	width: 100%;
+}
+
+.bb-modal-panel .form-fields .field-input label {
+	display: block;
+	padding-bottom: 5px;
+}
+
+.bb-modal-panel .form-fields .form-field {
+	margin-bottom: 5px;
+}
+
+.bb-modal-panel .bb-popup-buttons {
+	position: absolute;
+	bottom: 0;
+	padding: 12px 15px;
+	width: 100%;
+	margin: 0 -23px;
+	border-top: 1px solid var(--bb-hello-color-secondary);
+	background-color: #f6f7f7;
+}
+
+.bb-modal-panel #bb-sso-test-button {
+	margin: 0 5px 0 0;
+}
+
+.bb-modal-panel #bb-sso-test-button:hover {
+	color: #0a4b78;
+}
+
+.bb-modal-panel #sso_cancel {
+	margin-bottom: 0;
+}
+
+@media screen and (max-width: 782px) {
+	.bb-modal-panel #bb-sso-test-button,
+	.bb-modal-panel #sso_cancel {
+		min-height: 30px;
+		line-height: 28px;
+		font-size: 13px;
+	}
+}
+
+@media screen and (orientation: landscape) and (max-height: 480px) {
+	.bb-modal-panel .bb-hello-content {
+		min-height: 110px;
+	}
+}
+
+.bb-modal-panel .bb-hello-sso-content-container {
+	padding: 15px 0;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.bb-modal-panel .bb-hello-sso-content-container .verifying_token {
+	display: inline-block;
+}
+
+.bb-modal-panel .bb-hello-sso-content-container .grecaptcha-badge {
+	position: static !important;
+	margin: 0 auto;
+}
+
+.bb-modal-panel .form-field .description {
+	margin: 13px 0 20px 0;
+	line-height: 22px;
+}
+
+.bb-modal-panel--sso .bb-hello-close {
+	right: 14px;
+}
+
+.bb-modal-panel--sso .close-modal {
+	padding: 0;
+	border: 0;
+	font-size: 28px;
+	line-height: 1;
+	color: #a7aaad;
+	background-color: transparent;
+	min-height: 28px;
+	max-height: 28px;
+}
+
+.bb-modal-panel--sso .close-modal:hover {
+	background-color: transparent;
+	color: #787c82;
+}
+
+.bb-modal-panel--sso .close-modal:focus {
+	box-shadow: none;
+}
+
+.bb-modal-panel--sso .close-modal i {
+	display: inline-block;
+}
+
+.bb-modal-panel--sso .close-modal i::before {
+	margin: 0;
+}
+
+.form-table-modal-sso {
+	margin: 10px 0;
+}
+
+.form-table-modal-vertical {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.form-table-modal-vertical tr {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.form-table-modal-vertical th,
+.form-table-modal-vertical td {
+	display: block;
+	width: 100%;
+	padding: 0;
+}
+
+.form-table-modal-vertical th {
+	margin-bottom: 5px;
+	line-height: 22px;
+	font-size: 13px;
+}
+
+.form-table-modal-vertical td input[type="text"] {
+	width: 100%;
+}
+
+#bb-hello-container.bb-modal-panel {
+	top: 50%;
+	bottom: initial;
+	transform: translateY(-50%);
+}
+
+#bb-hello-container.bb-modal-panel.bb-modal-panel--sso {
+	border-radius: 0;
+}
+
+#bb-hello-container.bb-modal-panel .button-primary {
+	color: #fff;
+	margin-right: 5px;
+}
+
+@media screen and (max-width: 480px) {
+	#bb-hello-container.bb-modal-panel .button-primary {
+		margin-right: 0;
+	}
+}

@@ -230,7 +230,7 @@ class BB_Pro_Groups_Settings {
 				'join-buttons',
 			);
 
-			if ( bbp_pro_is_license_valid() ) {
+			if ( ! bb_pro_should_lock_features() ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing
 				$group_cover_width = isset( $_POST['bb-pro-cover-group-width'] ) ? sanitize_text_field( wp_unslash( $_POST['bb-pro-cover-group-width'] ) ) : 'default';
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing

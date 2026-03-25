@@ -1,6 +1,6 @@
 <?php
 
-namespace Pusher;
+namespace BuddyBossPlatformPro\Pusher;
 
 /**
  * HTTP error responses.
@@ -14,7 +14,7 @@ class ApiErrorException extends PusherException
      *
      * @return string
      */
-    public function __toString(): string
+    public function __toString() : string
     {
         return "(Status {$this->getCode()}) {$this->getMessage()}";
     }

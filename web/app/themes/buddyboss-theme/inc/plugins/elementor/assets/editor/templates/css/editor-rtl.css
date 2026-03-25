@@ -76,8 +76,8 @@
 }
 
 #bbelementor-template-modal-header #bbelementor-template-modal-header-title{
-    float: left;
-    margin-left: 15px;
+    float: right;
+    margin-right: 15px;
     text-transform: uppercase;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -85,13 +85,14 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    text-align: left;
+    text-align: right;
+    color: #6d7882;
 }
 
 .bbelementor-template-modal-header-title__logo {
     display: inline-block;
     max-width: 28px;
-    margin: 0 10px 0 10px;
+    margin: 0 0 0 10px;
 }
 
 .bbelementor-template-modal-header-title__logo img {
@@ -148,6 +149,7 @@
     padding: 8px 10px;
     color: #fff;
 }
+
 #bbelementor-template-modal-header-actions {
     min-width: 200px;
 }
@@ -157,6 +159,7 @@
         min-width: auto;
     }
 }
+
 #bbelementor-template-modal-header-actions
     .template-library-activate-license:hover {
     color: #fff;
@@ -198,6 +201,7 @@
         0 2px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
 }
+
 #bbelementor-modal-tabs-items {
     height: 100%;
     display: -webkit-box;
@@ -212,6 +216,12 @@
     height: 100%;
     padding: 0;
     width: auto;
+    border: 0;
+}
+
+#bbelementor-modal-tabs-items .elementor-template-library-menu-item:hover {
+    background-color: transparent;
+    border-color: transparent;
 }
 
 #bbelementor-modal-tabs-items .elementor-template-library-menu-item label {
@@ -239,16 +249,22 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    color: #6d7882;
+}
+
+#bbelementor-modal-tabs-items .elementor-template-library-menu-item:hover label span {
+    color: #f47216;
 }
 
 #bbelementor-modal-tabs-items .elementor-template-library-menu-item label input[type="radio"]:checked + span {
     border-bottom: 3px solid #f47216;
 
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f3f5), to(#fff));
+    background-image: -webkit-gradient(linear, right top, right bottom, from(#f1f3f5), to(#fff));
     background-image: -webkit-linear-gradient(top, #f1f3f5, #fff);
     background-image: -o-linear-gradient(top, #f1f3f5, #fff);
     background-image: linear-gradient(to bottom, #f1f3f5, #fff);
 }
+
 #bbelementor-template-modal-header-tabs {
     display: -webkit-box;
     display: -webkit-flex;
@@ -307,18 +323,23 @@
 }
 #bbelementor-template-library-content .bbelementor-filters-list {
     width: 18%;
-    padding: 0px 0px 10px 10px;
+    padding: 0px 0px 10px 20px;
     height: 100%;
     overflow: auto;
 }
 #bbelementor-template-library-content .bbelementor-templates-wrap {
     width: 100%;
 }
-
 div#elementor-template-library-filter-text-wrapper {
-    float: right;
+    float: left;
 }
-
+.bbelementor-templates-wrap #elementor-template-library-filter-text {
+    background-color: transparent;
+    color: #6d7882;
+}
+#bbelementor-template-modal-search-item i {
+    color: #a4afb7;
+}
 #bbelementor-template-library-content .bbelementor-templates-list {
     width: 100%;
     height: 100%;
@@ -328,10 +349,6 @@ div#elementor-template-library-filter-text-wrapper {
 }
 #bbelementor-template-library-content .bbelementor-keywords-list {
     padding-right: 10px;
-}
-div#elementor-template-library-filter-text-wrapper {
-    float: right;
-    margin-right: 20px;
 }
 #elementor-template-library-filter {
     display: -webkit-box;
@@ -350,7 +367,7 @@ div#elementor-template-library-filter-text-wrapper {
     background-color: hsla(0,0%,100%,.9);
 }
 #bbelementor-template-modal .elementor-loader .elementor-loader-box:first-of-type {
-    left: 40px;
+    right: 40px;
     top: 40px;
     width: 14px;
     height: 70px;
@@ -367,7 +384,7 @@ div#elementor-template-library-filter-text-wrapper {
 #bbelementor-template-modal
     .elementor-loader
     .elementor-loader-box:not(:first-of-type) {
-    right: 40px;
+    left: 40px;
     height: 14px;
     width: 42px;
 }
@@ -462,6 +479,7 @@ div#elementor-template-library-filter-text-wrapper {
 #bbelementor-modal-templates-container .elementor-template-library-template-remote {
     width: calc(33.3333% - 30px);
 }
+
 @media (max-width: 1000px) {
     #bbelementor-modal-templates-container .elementor-template-library-template-remote {
         width: calc(50% - 30px);
@@ -487,6 +505,7 @@ div#elementor-template-library-filter-text-wrapper {
         width: 40%;
     }
 }
+
 #bbelementor-template-library-content
     #bbelementor-modal-templates-container
     .elementor-template-library-template-controls {
@@ -621,6 +640,10 @@ div.bbelementor-template-has-url:hover .bbelementor-clone-template {
     -ms-transform: scale(0.666) translateX(25%) translateY(-25%);
     transform: scale(0.666) translateX(25%) translateY(-25%);
 }
+.elementor-template-library-template-action.button-requirement:hover {
+    background-color: transparent;
+}
+
 @media (max-width: 1439px) {
     #bbelementor-templatate-item-preview-wrap iframe {
         width: 1440px;
@@ -649,17 +672,27 @@ div.bbelementor-template-has-url:hover .bbelementor-clone-template {
 
 .elementor-template-library-template-title span {
     padding-bottom: 2px;
-    float: left;
+    float: right;
     font-size: 10px;
 }
 
 #bbelementor-template-modal.dialog-type-lightbox .dialog-message {
-    padding-left: 20px;
     padding-right: 20px;
+    padding-left: 20px;
 }
 
-#bbelementor-template-modal-empty{
+#bbelementor-template-modal-empty {
     width: 100%;
+    text-align: center;
+}
+
+#bbelementor-template-modal-empty .elementor-template-library-blank-title {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.bbelementor-template--thumb {
+    position: relative;
 }
 
 .bbelementor-template--thumb .bbelementor-template--label {
@@ -678,6 +711,7 @@ div.bbelementor-template-has-url:hover .bbelementor-clone-template {
     font-size: 10px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
+    
 }
 
 .bbelementor-template--tag.bbelementor-template--pro {

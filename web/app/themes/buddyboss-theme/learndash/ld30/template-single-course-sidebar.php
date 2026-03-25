@@ -42,8 +42,8 @@ if ( sfwd_lms_has_access( $course->ID, $current_user_id ) ) {
 }
 
 $ld_product = null;
-if ( class_exists( 'LearnDash\Core\Models\Product' ) ) {
-	$ld_product = LearnDash\Core\Models\Product::find( $course_id );
+if ( class_exists( 'LearnDash\Core\Models\Product' ) && isset( $course_id ) ) {
+	$ld_product = LearnDash\Core\Models\Product::find( (int) $course_id );
 }
 
 $progress = learndash_course_progress(

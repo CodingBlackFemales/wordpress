@@ -80,6 +80,25 @@
 	display: block;
 }
 
+#buddyboss_theme_options-buddyboss_header {
+    position: relative;
+}
+
+#buddyboss_theme_options-buddyboss_header > .description {
+    max-width: 730px;
+    margin-top: 5px;
+}
+
+#buddyboss_theme_options-buddyboss_header .notice-1 {
+    margin: 7px 0 46px; 
+}
+
+#buddyboss_theme_options-buddyboss_header .notice-1,
+#buddyboss_theme_options-buddyboss_header .notice-2 {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 @media screen and (max-width: 1200px) {
 	.redux-sidebar {
 		width: 202px;

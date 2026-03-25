@@ -21,7 +21,7 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 		 * @since 1.0.0
 		 */
 		public function __construct() {
-			if ( ! bbp_pro_is_license_valid() ) {
+			if ( bb_pro_should_lock_features() ) {
 				return;
 			}
 			$this->setup_filters();
@@ -439,8 +439,8 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			}
 
 			$data = array(
-				'title'                  => $title,
-				'description'            => $description,
+				'title'                  => wp_specialchars_decode( $title, ENT_QUOTES ),
+				'description'            => wp_specialchars_decode( $description, ENT_QUOTES ),
 				'type'                   => $type,
 				'host_id'                => $host_email,
 				'user_id'                => bp_loggedin_user_id(),
@@ -1223,8 +1223,8 @@ if ( ! class_exists( 'BP_Zoom_Ajax' ) ) {
 			}
 
 			$data = array(
-				'title'                  => $title,
-				'description'            => $description,
+				'title'                  => wp_specialchars_decode( $title, ENT_QUOTES ),
+				'description'            => wp_specialchars_decode( $description, ENT_QUOTES ),
 				'type'                   => $type,
 				'host_id'                => $host_email,
 				'user_id'                => bp_loggedin_user_id(),

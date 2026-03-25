@@ -41,11 +41,11 @@ global $post;
 			}
 
 			if ( has_post_format( 'link' ) && ( ! is_singular() || is_related_posts() ) ) {
-				echo '<span class="post-format-icon"><i class="bb-icon-l bb-icon-link"></i></span>';
+				echo '<span class="post-format-icon" aria-label="' . esc_attr__( 'Link', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-link"></i></span>';
 			}
 
 			if ( has_post_format( 'quote' ) && ( ! is_singular() || is_related_posts() ) ) {
-				echo '<span class="post-format-icon white"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
+				echo '<span class="post-format-icon white" aria-label="' . esc_attr__( 'Quote', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
 			}
 
 			if ( ! is_singular( 'lesson' ) && ! is_singular( 'llms_assignment' ) && ! is_singular( 'sfwd-lessons' ) ) :
@@ -94,11 +94,11 @@ global $post;
 		} else {
 
 			if ( has_post_format( 'link' ) && ( ! is_singular() || is_related_posts() ) ) {
-				echo '<span class="post-format-icon"><i class="bb-icon-l bb-icon-link"></i></span>';
+				echo '<span class="post-format-icon" aria-label="' . esc_attr__( 'Link', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-link"></i></span>';
 			}
 
 			if ( has_post_format( 'quote' ) && ( ! is_singular() || is_related_posts() ) ) {
-				echo '<span class="post-format-icon white"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
+				echo '<span class="post-format-icon white" aria-label="' . esc_attr__( 'Quote', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
 			}
 
 			if ( ! is_singular( 'sfwd-lessons' ) ) {
@@ -274,7 +274,7 @@ global $post;
 				if ( is_singular( 'post' ) ) :
 					?>
 					<div class="author-box-share-wrap">
-						<a href="#" class="bb-share"><i class="bb-icon-l bb-icon-share-dots"></i></a>
+						<a href="#" class="bb-share" aria-label="<?php esc_attr_e( 'Share', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-share-dots"></i></a>
 						<div class="bb-share-container bb-share-author-box">
 							<div class="bb-shareIcons"></div>
 						</div>

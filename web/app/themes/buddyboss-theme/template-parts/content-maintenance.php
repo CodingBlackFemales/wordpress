@@ -91,11 +91,11 @@ if ( defined( 'ELEMENTOR_VERSION' ) ) {
 							$network = 'google';
 						}
 						if ( 'email' === $network ) {
-							echo '<a href="mailto:' . sanitize_email( $url ) . '" target="_top"  data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" ><i class="bb-icon-rf bb-icon-envelope"></i></a>'; // phpcs:ignore
+							echo '<a href="mailto:' . sanitize_email( $url ) . '" target="_top"  data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" aria-label="' . esc_attr( $network ) . '"><i class="bb-icon-rf bb-icon-envelope"></i></a>'; // phpcs:ignore
 						} elseif ( 'rss' === $network ) {
-							echo '<a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" ><i class="bb-icon-rf bb-icon-' . esc_attr( $network ) . '"></i></a>';
+							echo '<a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" aria-label="' . esc_attr( $network ) . '"><i class="bb-icon-rf bb-icon-' . esc_attr( $network ) . '"></i></a>';
 						} else {
-							echo '<a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" ><i class="bb-icon-rf bb-icon-brand-' . esc_attr( $network ) . '"></i></a>';
+							echo '<a href="' . esc_url( $url ) . '" target="_blank" data-balloon-pos="up" data-balloon="' . esc_attr( $network ) . '" aria-label="' . esc_attr( $network ) . '"><i class="bb-icon-rf bb-icon-brand-' . esc_attr( $network ) . '"></i></a>';
 						}
 					}
 				}

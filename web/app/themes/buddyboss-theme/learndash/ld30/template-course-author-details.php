@@ -33,9 +33,9 @@ $course = $post;
                 <div class="bb-avatar-wrap">
     				<div>
 						<?php if ( class_exists( 'BuddyPress' ) ) { ?>
-						<a href="<?php echo bp_core_get_user_domain( get_the_author_meta( 'ID', $post->post_author ) ); ?>">
+						<a href="<?php echo bp_core_get_user_domain( get_the_author_meta( 'ID', $post->post_author ) ); ?>" aria-label="<?php echo esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ); ?>">
 						<?php } else { ?>
-							<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID', $post->post_author ), get_the_author_meta( 'user_nicename', $post->post_author ) ); ?>">
+							<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID', $post->post_author ), get_the_author_meta( 'user_nicename', $post->post_author ) ); ?>" aria-label="<?php echo esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ); ?>">
 						<?php } ?>
 							<?php echo get_avatar( get_the_author_meta( 'ID', $course->post_author ), 300, '', '', array('class' => array('round', 'avatar'))  ); ?>
 						</a>

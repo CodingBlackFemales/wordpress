@@ -61,7 +61,7 @@ function bb_profiles_pro_update_to_1_2_0() {
  * @param string $option    Option name.
  */
 function bb_reset_profile_cover_position_on_change_sizes( $old_value, $value, $option ) {
-	if ( bbp_pro_is_license_valid() && ( 'bb-pro-cover-profile-width' === $option || 'bb-pro-cover-profile-height' === $option ) ) {
+	if ( ! bb_pro_should_lock_features() && ( 'bb-pro-cover-profile-width' === $option || 'bb-pro-cover-profile-height' === $option ) ) {
 		$all_users = get_users(
 			array(
 				'fields'   => 'ids',

@@ -41,11 +41,31 @@ function bp_zoom_enqueue_scripts_and_styles() {
 
 	wp_enqueue_style( 'bp-zoom', bp_zoom_integration_url( '/assets/css/bp-zoom' . $rtl_css . $min . '.css' ), array(), bb_platform_pro()->version );
 
+	// Check for group single pages.
+	$is_valid_context = bp_is_group_single();
+
+	// Check if ReadyLaunch class exists and is enabled.
+	$is_readylaunch_enabled = $is_valid_context && class_exists( 'BB_Readylaunch' ) && function_exists( 'bb_is_readylaunch_enabled' ) && bb_is_readylaunch_enabled();
+
+	if (
+        $is_readylaunch_enabled &&
+        bb_load_readylaunch()->bb_is_readylaunch_enabled_for_page()
+    ) {
+		wp_enqueue_style( 'bb-rl-zoom', bp_zoom_integration_url( '/assets/css/bb-rl-zoom' . $rtl_css . $min . '.css' ), array(), bb_platform_pro()->version );
+	}
+
 	if ( ! wp_script_is( 'bp-nouveau-magnific-popup' ) ) {
 		wp_enqueue_script( 'bp-nouveau-magnific-popup', buddypress()->plugin_url . 'bp-core/js/vendor/magnific-popup.js', array(), bp_get_version(), true );
 	}
 	wp_enqueue_script( 'bp-zoom-mask-js', trailingslashit( bb_platform_pro()->plugin_url ) . 'assets/js/vendor/jquery.mask.js', array(), '5.0.4', true );
-	wp_enqueue_script( 'bp-zoom-js', bp_zoom_integration_url( '/assets/js/bp-zoom' . $min . '.js' ), array(), bb_platform_pro()->version, true );
+	if (
+        $is_readylaunch_enabled &&
+        bb_load_readylaunch()->bb_is_readylaunch_enabled_for_page()
+    ) {
+		wp_enqueue_script( 'bb-rl-zoom-js', bp_zoom_integration_url( '/assets/js/bb-rl-zoom' . $min . '.js' ), array(), bb_platform_pro()->version, true );
+	} else {
+		wp_enqueue_script( 'bp-zoom-js', bp_zoom_integration_url( '/assets/js/bp-zoom' . $min . '.js' ), array(), bb_platform_pro()->version, true );
+	}
 	wp_enqueue_script( 'bb-countdown-js', trailingslashit( bb_platform_pro()->plugin_url ) . 'assets/js/bb-countdown' . $min . '.js', array(), '1.0.1', true );
 	wp_localize_script(
 		'bb-countdown-js',
@@ -82,7 +102,7 @@ function bp_zoom_enqueue_scripts_and_styles() {
 	);
 
 	if ( bb_zoom_is_meeting_sdk() ) {
-		$scripts[] = bp_zoom_integration_url( '/assets/js/zoom-web-sdk/zoom-meeting-2.14.0.min.js' );
+		$scripts[] = bp_zoom_integration_url( '/assets/js/zoom-web-sdk/zoom-meeting-3.9.2.min.js' );
 	}
 
 	wp_localize_script(
@@ -120,6 +140,45 @@ function bp_zoom_enqueue_scripts_and_styles() {
 			'is_zoom_sdk'             => (bool) bb_zoom_is_meeting_sdk(),
 		)
 	);
+    
+    // Also localize ReadyLaunch Zoom script with the same vars
+    if (wp_script_is('bb-rl-zoom-js', 'enqueued')) {
+        wp_localize_script(
+            'bb-rl-zoom-js',
+            'bp_zoom_vars',
+            array(
+                'ajax_url'                => bp_core_ajax_url(),
+                'home_url'                => home_url( $wp->request ),
+                'is_single_meeting'       => bp_zoom_is_single_meeting(),
+                'is_single_webinar'       => bp_zoom_is_single_webinar(),
+                'group_id'                => $group_id,
+                'group_meetings_url'      => $meetings_url,
+                'group_meetings_past_url' => $past_meetings_url,
+                'group_webinars_url'      => $webinars_url,
+                'group_webinar_past_url'  => $past_webinars_url,
+                'meeting_delete_nonce'    => wp_create_nonce( 'bp_zoom_meeting_delete' ),
+                'meeting_confirm_msg'     => __( 'Are you sure you want to delete this meeting?', 'buddyboss-pro' ),
+                'webinar_delete_nonce'    => wp_create_nonce( 'bp_zoom_webinar_delete' ),
+                'webinar_confirm_msg'     => __( 'Are you sure you want to delete this webinar?', 'buddyboss-pro' ),
+                'user'                    => array(
+                    'name'  => is_user_logged_in() ? bp_core_get_user_displayname( bp_loggedin_user_id() ) : __( 'Guest', 'buddyboss-pro' ),
+                    'email' => is_user_logged_in() ? bp_core_get_user_email( bp_loggedin_user_id() ) : 'guest@domain.com',
+                ),
+                'scripts'                 => $scripts,
+                'styles'                  => array(
+                    bp_zoom_integration_url( '/assets/js/zoom-web-sdk/bootstrap.css' ),
+                    bp_zoom_integration_url( '/assets/js/zoom-web-sdk/react-select.css' ),
+                ),
+                'strings'                 => array(
+                    'day'   => esc_html__( 'day', 'buddyboss-pro' ),
+                    'month' => esc_html__( 'month', 'buddyboss-pro' ),
+                    'week'  => esc_html__( 'week', 'buddyboss-pro' ),
+                ),
+                'lang'                    => get_bloginfo( 'language' ),
+                'is_zoom_sdk'             => (bool) bb_zoom_is_meeting_sdk(),
+            )
+        );
+    }
 }
 
 add_action( 'wp_enqueue_scripts', 'bp_zoom_enqueue_scripts_and_styles', 19 );
@@ -1291,7 +1350,7 @@ function bp_zoom_api_host_show() {
 function bp_zoom_api_zoom_settings_tutorial() {
 	?>
 	<p>
-		<a class="button" href="
+		<a class="button" target="_blank" href="
 		<?php
 		echo esc_url(
 			bp_get_admin_url(
@@ -1318,7 +1377,7 @@ function bp_zoom_api_zoom_settings_tutorial() {
 function bp_zoom_settings_tutorial() {
 	?>
 	<p>
-		<a class="button" href="
+		<a class="button" target="_blank" href="
 		<?php
 		echo esc_url(
 			bp_get_admin_url(
@@ -3936,17 +3995,9 @@ function bb_zoom_get_server_allowed_timezone( $timezone ) {
  */
 function bb_zoom_mismatched_timezones() {
 	$timezones = array(
-		'America/Noronha'     => 'America/Godthab',
-		'America/New_York'    => 'America/Montreal',
-		'America/Puerto_Rico' => 'America/Indianapolis',
-		'Europe/Kyiv'         => 'Europe/Kiev',
-		'Asia/Kolkata'        => 'Asia/Calcutta',
-		'Asia/Yangon'         => 'Asia/Rangoon',
-		'Asia/Dhaka'          => 'Asia/Dacca',
-		'Asia/Bangkok'        => 'Asia/Saigon',
-		'America/Sao_Paulo'   => 'Canada/Atlantic',
-		'Atlantic/Azores'     => 'Etc/Greenwich',
-		'Europe/Belgrade'     => 'CET',
+		'Europe/Kiev'  => 'Europe/Kyiv',
+		'Asia/Kolkata' => 'Asia/Calcutta',
+		'Asia/Yangon'  => 'Asia/Rangoon',
 	);
 
 	return $timezones;
@@ -4228,7 +4279,7 @@ function bb_zoom_update_occurrence_webinar_recording( $parent_webinar_id ) {
 function bp_zoom_browser_settings_tutorial() {
 	?>
 	<p>
-		<a class="button" href="
+		<a class="button" target="_blank" href="
 		<?php
 		echo esc_url(
 			bp_get_admin_url(
@@ -4547,7 +4598,7 @@ function bb_zoom_gutenberg_settings_callback() {
 												<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter the <strong>Account ID</strong> from the <strong>App Credentials</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Account ID</strong> from the <strong>App Credentials</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 
@@ -4560,7 +4611,7 @@ function bb_zoom_gutenberg_settings_callback() {
 												<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter the <strong>Client ID</strong> from the <strong>App Credentials</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Client ID</strong> from the <strong>App Credentials</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 
@@ -4574,7 +4625,7 @@ function bb_zoom_gutenberg_settings_callback() {
 											</button>
 										</div>
 										<?php /* translators: %s is the buddyboss marketplace link. */ ?>
-										<p class="description"><?php _e( 'Enter the <strong>Client Secret</strong> from the <strong>App Credentials</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Client Secret</strong> from the <strong>App Credentials</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 
@@ -4617,7 +4668,7 @@ function bb_zoom_gutenberg_settings_callback() {
 												<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter the <strong>Secret Tokens</strong> from the <strong>Features</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Secret Tokens</strong> from the <strong>Features</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 
@@ -4630,7 +4681,7 @@ function bb_zoom_gutenberg_settings_callback() {
 												<?php esc_html_e( 'Copy', 'buddyboss-pro' ); ?>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter as the <strong>Event notification endpoint URL</strong> when configuring Event Subscriptions in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter as the <strong>Event notification endpoint URL</strong> when configuring Event Subscriptions in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 								</tbody>
@@ -4702,7 +4753,7 @@ function bb_zoom_browser_settings_callback() {
 												<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter the <strong>Client ID</strong> from the <strong>App Credentials</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Client ID</strong> from the <strong>App Credentials</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 
@@ -4715,7 +4766,7 @@ function bb_zoom_browser_settings_callback() {
 												<span class="bb-icon bb-icon-eye-small" aria-hidden="true"></span>
 											</button>
 										</div>
-										<p class="description"><?php _e( 'Enter the <strong>Client Secret</strong> from the <strong>App Credentials</strong> section in your Zoom app’s settings.', 'buddyboss-pro' ); ?></p>
+										<p class="description"><?php _e( 'Enter the <strong>Client Secret</strong> from the <strong>App Credentials</strong> section in your Zoom app\'s settings.', 'buddyboss-pro' ); ?></p>
 									</td>
 								</tr>
 

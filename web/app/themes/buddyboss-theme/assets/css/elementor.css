@@ -925,6 +925,9 @@ body.bp-search .site-header.site-header--elementor {
 .site-header--elementor .course-toggle-view {
   display: none;
 }
+.site-header--elementor:before {
+  display: none;
+}
 .site-header--elementor.site-header--align-right .header-aside {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
@@ -947,6 +950,9 @@ body.bp-search .site-header.site-header--elementor {
   padding: 0;
   margin: 0;
   color: inherit;
+}
+.site-header--elementor.site-header::before {
+  display: none;
 }
 
 .site-header--elementor .sub-menu .ab-submenu a:hover {
@@ -6596,6 +6602,9 @@ body.rtl .bb-gallery .slick-arrow.bb-slide-next {
   background-color: #fff;
   position: relative;
 }
+.bb-activity .bbel-list-flow {
+  overflow-x: hidden;
+}
 .bb-activity .activity-list.item-list {
   padding: 0;
 }
@@ -6781,11 +6790,9 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
 #buddypress .activity-modal .activity-actions.activity-actions--show .generic-button a {
   margin-right: 15px !important;
 }
-.bb-activity #buddypress .activity-actions.activity-actions--show .bb-activity-more-options-wrap,
-#buddypress .activity-modal .activity-actions.activity-actions--show .bb-activity-more-options-wrap {
-  -webkit-transform: translateY(-webkit-calc(-50% - 15px));
-      -ms-transform: translateY(calc(-50% - 15px));
-          transform: translateY(calc(-50% - 15px));
+.bb-activity #buddypress .activity-actions.activity-actions--show .bb-activity-more-options-wrap--idle,
+#buddypress .activity-modal .activity-actions.activity-actions--show .bb-activity-more-options-wrap--idle {
+  display: none;
 }
 .bb-activity #buddypress .activity-actions.activity-actions--show .bp-generic-meta.action .generic-button a,
 .bb-activity #buddypress .activity-actions.activity-actions--show .bb-activity-more-options-wrap.action .generic-button a,
@@ -6826,14 +6833,16 @@ html .bb-activity .activity-lists.item-list.elementor-activity-widget.grid > li 
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
-.bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.acomment-edit,
-#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.acomment-edit {
+.bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.acomment-edit, .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.edit-activity,
+#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.acomment-edit,
+#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--edit .bb-activity-more-options-wrap.action .generic-button a.edit-activity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
-.bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.acomment-delete,
-#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.acomment-delete {
+.bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.acomment-delete, .bb-activity #buddypress .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.delete-activity,
+#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.acomment-delete,
+#buddypress .activity-modal .activity-actions.activity-actions--show.activity-actions--delete .bb-activity-more-options-wrap.action .generic-button a.delete-activity {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

@@ -49,17 +49,19 @@ $course_class = apply_filters(
 	$course,
 	$user_id
 );
+
+$course_list_item_id           = 'ld-course-list-item-' . $course_id;
+$course_list_item_container_id = $course_list_item_id . '-container';
 ?>
 
-<div class="<?php echo esc_attr( $course_class ); ?>" id="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
+<div class="<?php echo esc_attr( $course_class ); ?>" id="<?php echo esc_attr( $course_list_item_id ); ?>">
 	<div class="ld-item-list-item-preview">
-
 		<div class="bb-sketch-expand-button">
-			<div class="ld-expand-button ld-primary-background ld-compact ld-not-mobile" data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
+			<div aria-controls="<?php echo esc_attr( $course_list_item_container_id ); ?>" class="ld-expand-button ld-primary-background ld-compact ld-not-mobile" data-ld-expands="<?php echo esc_attr( $course_list_item_container_id ); ?>">
 				<span class="ld-icon-arrow-down ld-icon"></span>
 			</div> <!--/.ld-expand-button-->
 
-			<div class="ld-expand-button ld-button-alternate ld-mobile-only" data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
+			<div aria-controls="<?php echo esc_attr( $course_list_item_container_id ); ?>" class="ld-expand-button ld-button-alternate ld-mobile-only" data-ld-expands="<?php echo esc_attr( $course_list_item_container_id ); ?>">
 				<span class="ld-icon-arrow-down ld-icon"></span>
 				<span class="ld-text ld-primary-color"><?php esc_html_e( 'Expand', 'buddyboss-theme' ); ?></span>
 			</div> <!--/.ld-expand-button-->
@@ -85,7 +87,7 @@ $course_class = apply_filters(
 		</div> <!--/.ld-course-details-->
 
 	</div> <!--/.ld-course-preview-->
-	<div class="ld-item-list-item-expanded" data-ld-expand-id="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
+	<div class="ld-item-list-item-expanded" id="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>" data-ld-expand-id="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
 
 		<?php
 		learndash_get_template_part(

@@ -17,7 +17,7 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 <div class="bb-mobile-header-wrapper <?php echo esc_attr( $logo_class ); ?>">
 	<div class="bb-mobile-header flex align-items-center">
 		<div class="bb-left-panel-icon-wrap">
-			<a href="#" class="push-left bb-left-panel-mobile"><i class="bb-icon-l bb-icon-bars"></i></a>
+			<a href="#" class="push-left bb-left-panel-mobile" aria-label="<?php esc_attr_e( 'Open Menu', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-bars"></i></a>
 		</div>
 
 		<div class="flex-1 mobile-logo-wrapper">
@@ -73,12 +73,12 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 			) {
 				?>
 				<?php if ( is_user_logged_in() ) { ?>
-					<a href="#" id="bb-toggle-theme">
+					<a href="#" id="bb-toggle-theme" aria-label="<?php esc_attr_e( 'Toggle theme', 'buddyboss-theme' ); ?>">
 						<span class="sfwd-dark-mode" data-balloon-pos="down" data-balloon="<?php esc_html_e( 'Dark Mode', 'buddyboss-theme' ); ?>"><i class="bb-icon-rl bb-icon-moon"></i></span>
 						<span class="sfwd-light-mode" data-balloon-pos="down" data-balloon="<?php esc_html_e( 'Light Mode', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-sun"></i></span>
 					</a>
-					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
-					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
+					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_attr_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
+					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_attr_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
 				<?php } else {
 					if ( $show_search ) : ?>
 						<a data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" aria-label="<?php esc_html_e( 'Search', 'buddyboss-theme' ); ?>" href="#" class="push-right header-search-link"><i class="bb-icon-l bb-icon-search"></i></a>
@@ -88,8 +88,8 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 						<?php get_template_part( 'template-parts/cart-dropdown' ); ?>
 					<?php endif; ?>
 
-					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
-					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_html_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
+					<a href="#" class="header-maximize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_attr_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Hide Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-expand"></i></a>
+					<a href="#" class="header-minimize-link course-toggle-view" data-balloon-pos="left" data-balloon="<?php esc_attr_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>" aria-label="<?php esc_attr_e( 'Show Sidepanel', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-merge"></i></a>
 					<?php
 				}
 			} else {
@@ -156,7 +156,7 @@ $logo_class         = ( $logo_align <= 1 && ( ! buddyboss_is_learndash_inner() &
 					</a>
 				</div>
 			<?php } ?>
-			<a href="#" class="bb-close-panel"><i class="bb-icon-l bb-icon-times"></i></a>
+			<a href="#" class="bb-close-panel" aria-label="<?php esc_attr_e( 'Close Menu', 'buddyboss-theme' ); ?>"><i class="bb-icon-l bb-icon-times"></i></a>
 		</div>
 
 		<nav class="main-navigation" data-menu-space="120">

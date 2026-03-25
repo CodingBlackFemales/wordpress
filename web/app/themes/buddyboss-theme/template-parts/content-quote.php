@@ -22,7 +22,7 @@ global $post;
 
 			<?php
 			if ( !is_singular() ) {
-				echo '<span class="post-format-icon white"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
+				echo '<span class="post-format-icon white" aria-label="' . esc_attr__( 'Quote', 'buddyboss-theme' ) . '"><i class="bb-icon-l bb-icon-quote-left"></i></span>';
 			}
 			?>
 

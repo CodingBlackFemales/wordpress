@@ -2,6 +2,7 @@
 web/app/languages
 web/app/plugins/*
 !web/app/plugins/.gitkeep
+!web/app/plugins/buddyboss-platform
 !web/app/plugins/buddyboss-platform-pro
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git
@@ -48,10 +49,11 @@ web/app/cache/wp-rocket
 
 # Composer
 **/vendor/*
-!web/app/plugins/buddyboss-platform-pro/vendor/*
+!web/app/plugins/buddyboss-platform*/**/vendor/*
 !web/app/plugins/wp-all-import-pro/vendor/*
 !web/app/plugins/wp-rocket/vendor/*
 !web/app/plugins/wpforms/vendor/*
+!web/app/themes/buddyboss-theme/**/vendor/*
 !vendor/.gitkeep
 
 # WP-CLI
@@ -86,3 +88,6 @@ sync.conf
 
 # GitHub
 auth.json
+
+# Apache
+web/.htaccess

@@ -24,7 +24,17 @@ if ( ! check_required_plugin ) {
 
     if ( 'undefined' !== typeof required_plugins ) {
 
-        var hasRequiredPlugin = false;
+        var isLMSActivated = false;
+
+        // Check for LMS dependencies.
+        var requiredLMS = ( required_plugins[ 'lifterlms' ] || required_plugins[ 'sfwd-lms' ] );
+
+        // Check if LifterLMS or LearnDash is activated.
+        if ( requiredLMS ) {
+            isLMSActivated = Object.values( activatedPlugins ).some( pluginPath =>
+                pluginPath.includes( 'lifterlms/' ) || pluginPath.includes( 'sfwd-lms/' )
+            );
+        }
 
         for ( var pluginName in required_plugins ) {
             if ( required_plugins.hasOwnProperty( pluginName ) ) {
@@ -32,17 +42,21 @@ if ( ! check_required_plugin ) {
                     pluginPath.includes( `${pluginName}/` )
                 );
 
-                if ( (pluginName === 'lifterlms' || pluginName === 'sfwd-lms') && isActivated ) {
-                    hasRequiredPlugin = true; // Either learndash or lifterlms is active
+                if ( 'lifterlms' === pluginName || 'sfwd-lms' === pluginName ) {
+                    // Skip if either LMS plugin is required and activated.
+                    if ( requiredLMS && isLMSActivated ) {
+                        continue;
+                    }
                 }
 
-                if ( required_plugins[ pluginName ] && !isActivated && pluginName !== 'lifterlms' && pluginName !== 'sfwd-lms' ) {
+                if ( required_plugins[ pluginName ] && !isActivated ) {
                     check_required_plugin = true;
+                    break;
                 }
             }
         }
 
-        if ( !hasRequiredPlugin ) {
+        if ( requiredLMS && !isLMSActivated ) {
             check_required_plugin = true;
         }
     }

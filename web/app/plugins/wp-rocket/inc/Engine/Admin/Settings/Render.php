@@ -428,6 +428,10 @@ class Render extends Abstract_render {
 	 * @param array $args Array of arguments to populate the template.
 	 */
 	public function hidden( $args ) {
+		if ( is_array( $args['value'] ) ) {
+			$args['value'] = implode( "\n", $args['value'] );
+		}
+
 		echo $this->generate( 'fields/hidden', $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
 	}
 
@@ -499,17 +503,6 @@ class Render extends Abstract_render {
 		$args['submit_text'] = __( 'Upload file and import settings', 'rocket' );
 
 		echo $this->generate( 'fields/import-form', $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
-	}
-
-	/**
-	 * Displays a partial template.
-	 *
-	 * @since 3.0
-	 *
-	 * @param string $part Partial template name.
-	 */
-	public function render_part( $part ) {
-		echo $this->generate( 'partials/' . $part ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
 	}
 
 	/**
