@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ff34741466081cd0488e090dc89896d",
+    "content-hash": "b4bbac67a369b2caf008faf1fbb3b8ff",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.8",
+            "version": "3.378.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "18035d80bab38c962af8580307a787bf4e15cc47"
+                "reference": "df2a6c362ddce2ede3ac3a8286f5788847e614b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/18035d80bab38c962af8580307a787bf4e15cc47",
-                "reference": "18035d80bab38c962af8580307a787bf4e15cc47",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/df2a6c362ddce2ede3ac3a8286f5788847e614b4",
+                "reference": "df2a6c362ddce2ede3ac3a8286f5788847e614b4",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.8"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.378.2"
             },
-            "time": "2026-03-23T18:08:22+00:00"
+            "time": "2026-04-10T18:13:27+00:00"
         },
         {
             "name": "composer/installers",
@@ -3212,16 +3212,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.4.6",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "3ebc794fa5315e59fd122561623c2e2e4280538e"
+                "reference": "58b9790d12f9670b7f53a1c1738febd3108970a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/3ebc794fa5315e59fd122561623c2e2e4280538e",
-                "reference": "3ebc794fa5315e59fd122561623c2e2e4280538e",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/58b9790d12f9670b7f53a1c1738febd3108970a5",
+                "reference": "58b9790d12f9670b7f53a1c1738febd3108970a5",
                 "shasum": ""
             },
             "require": {
@@ -3258,7 +3258,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.4.6"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -3278,20 +3278,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-25T16:50:00+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638"
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/a3cc8b044a6ea513310cbd48ef7333b384945638",
-                "reference": "a3cc8b044a6ea513310cbd48ef7333b384945638",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/141046a8f9477948ff284fa65be2095baafb94f2",
+                "reference": "141046a8f9477948ff284fa65be2095baafb94f2",
                 "shasum": ""
             },
             "require": {
@@ -3341,7 +3341,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -3361,20 +3361,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-09T11:45:10+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493"
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6d857f4d76bd4b343eac26d6b539585d2bc56493",
-                "reference": "6d857f4d76bd4b343eac26d6b539585d2bc56493",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/6a21eb99c6973357967f6ce3708cd55a6bec6315",
+                "reference": "6a21eb99c6973357967f6ce3708cd55a6bec6315",
                 "shasum": ""
             },
             "require": {
@@ -3426,7 +3426,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -3446,20 +3446,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-23T08:48:59+00:00"
+            "time": "2026-04-10T17:25:58+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608"
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
-                "reference": "0cc9dd0f17f61d8131e7df6b84bd344899fe2608",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
+                "reference": "dfb55726c3a76ea3b6459fcfda1ec2d80a682411",
                 "shasum": ""
             },
             "require": {
@@ -3510,7 +3510,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -3530,7 +3530,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-02T08:10:11+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -3621,16 +3621,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v7.4.0",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "03a60f169c79a28513a78c967316fbc8bf17816f"
+                "reference": "398907e89a2a56fe426f7955c6fa943ec0c77225"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/03a60f169c79a28513a78c967316fbc8bf17816f",
-                "reference": "03a60f169c79a28513a78c967316fbc8bf17816f",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/398907e89a2a56fe426f7955c6fa943ec0c77225",
+                "reference": "398907e89a2a56fe426f7955c6fa943ec0c77225",
                 "shasum": ""
             },
             "require": {
@@ -3678,7 +3678,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v7.4.0"
+                "source": "https://github.com/symfony/var-exporter/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -3698,7 +3698,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-11T10:15:23+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3845,17 +3845,77 @@
             "time": "2026-03-16T15:12:42+00:00"
         },
         {
-            "name": "wp-cli/block-command",
-            "version": "v1.0.0",
+            "name": "wp-cli/ai-command",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wp-cli/block-command.git",
-                "reference": "d24c43eb8dda8b7797c9abf7feef6c8992e80e62"
+                "url": "https://github.com/wp-cli/ai-command.git",
+                "reference": "736bee0b962d03708841fbed8134187ce962c2f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/block-command/zipball/d24c43eb8dda8b7797c9abf7feef6c8992e80e62",
-                "reference": "d24c43eb8dda8b7797c9abf7feef6c8992e80e62",
+                "url": "https://api.github.com/repos/wp-cli/ai-command/zipball/736bee0b962d03708841fbed8134187ce962c2f9",
+                "reference": "736bee0b962d03708841fbed8134187ce962c2f9",
+                "shasum": ""
+            },
+            "require": {
+                "wp-cli/wp-cli": "^2.13"
+            },
+            "require-dev": {
+                "wp-cli/entity-command": "^2",
+                "wp-cli/extension-command": "^2",
+                "wp-cli/wp-cli-tests": "^5"
+            },
+            "default-branch": true,
+            "type": "wp-cli-package",
+            "extra": {
+                "bundled": true,
+                "commands": [
+                    "ai",
+                    "ai check",
+                    "ai generate",
+                    "ai is-supported",
+                    "ai status",
+                    "connectors",
+                    "connectors get",
+                    "connectors list"
+                ],
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "ai-command.php"
+                ],
+                "psr-4": {
+                    "WP_CLI\\AI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Interacts with the WordPress AI Client",
+            "homepage": "https://github.com/wp-cli/ai-command",
+            "support": {
+                "issues": "https://github.com/wp-cli/ai-command/issues",
+                "source": "https://github.com/wp-cli/ai-command/tree/main"
+            },
+            "time": "2026-04-02T09:40:41+00:00"
+        },
+        {
+            "name": "wp-cli/block-command",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-cli/block-command.git",
+                "reference": "259b8da86f84a386e262189be3f4b912183f563d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-cli/block-command/zipball/259b8da86f84a386e262189be3f4b912183f563d",
+                "reference": "259b8da86f84a386e262189be3f4b912183f563d",
                 "shasum": ""
             },
             "require": {
@@ -3917,26 +3977,26 @@
             "homepage": "https://github.com/wp-cli/block-command",
             "support": {
                 "issues": "https://github.com/wp-cli/block-command/issues",
-                "source": "https://github.com/wp-cli/block-command/tree/v1.0.0"
+                "source": "https://github.com/wp-cli/block-command/tree/v1.0.1"
             },
-            "time": "2026-03-16T15:13:33+00:00"
+            "time": "2026-03-28T12:09:20+00:00"
         },
         {
             "name": "wp-cli/cache-command",
-            "version": "v2.2.1",
+            "version": "v2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/cache-command.git",
-                "reference": "408bde47b7c19d5701d9cb3c3b1ec90fb70295cd"
+                "reference": "c4d94e7d2219868c968a3e0796042c63144b4dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/cache-command/zipball/408bde47b7c19d5701d9cb3c3b1ec90fb70295cd",
-                "reference": "408bde47b7c19d5701d9cb3c3b1ec90fb70295cd",
+                "url": "https://api.github.com/repos/wp-cli/cache-command/zipball/c4d94e7d2219868c968a3e0796042c63144b4dfb",
+                "reference": "c4d94e7d2219868c968a3e0796042c63144b4dfb",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
                 "wp-cli/entity-command": "^1.3 || ^2",
@@ -3996,9 +4056,9 @@
             "homepage": "https://github.com/wp-cli/cache-command",
             "support": {
                 "issues": "https://github.com/wp-cli/cache-command/issues",
-                "source": "https://github.com/wp-cli/cache-command/tree/v2.2.1"
+                "source": "https://github.com/wp-cli/cache-command/tree/v2.2.2"
             },
-            "time": "2025-11-11T13:30:39+00:00"
+            "time": "2026-03-26T19:52:34+00:00"
         },
         {
             "name": "wp-cli/checksum-command",
@@ -4137,16 +4197,16 @@
         },
         {
             "name": "wp-cli/core-command",
-            "version": "v2.1.26",
+            "version": "v2.1.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/core-command.git",
-                "reference": "b62ae813b048ac1d1a0810250bfa5ed3bf224165"
+                "reference": "e05493930228c2340ce9a2d025af6c7408354635"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/core-command/zipball/b62ae813b048ac1d1a0810250bfa5ed3bf224165",
-                "reference": "b62ae813b048ac1d1a0810250bfa5ed3bf224165",
+                "url": "https://api.github.com/repos/wp-cli/core-command/zipball/e05493930228c2340ce9a2d025af6c7408354635",
+                "reference": "e05493930228c2340ce9a2d025af6c7408354635",
                 "shasum": ""
             },
             "require": {
@@ -4203,22 +4263,22 @@
             "homepage": "https://github.com/wp-cli/core-command",
             "support": {
                 "issues": "https://github.com/wp-cli/core-command/issues",
-                "source": "https://github.com/wp-cli/core-command/tree/v2.1.26"
+                "source": "https://github.com/wp-cli/core-command/tree/v2.1.27"
             },
-            "time": "2026-03-21T11:23:17+00:00"
+            "time": "2026-03-26T19:52:37+00:00"
         },
         {
             "name": "wp-cli/cron-command",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/cron-command.git",
-                "reference": "a74e533242b2a45a50da8aa336a1202832f8a5c5"
+                "reference": "d0075facebcfe0aefa8d6d3092201965b078594d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/cron-command/zipball/a74e533242b2a45a50da8aa336a1202832f8a5c5",
-                "reference": "a74e533242b2a45a50da8aa336a1202832f8a5c5",
+                "url": "https://api.github.com/repos/wp-cli/cron-command/zipball/d0075facebcfe0aefa8d6d3092201965b078594d",
+                "reference": "d0075facebcfe0aefa8d6d3092201965b078594d",
                 "shasum": ""
             },
             "require": {
@@ -4272,9 +4332,9 @@
             "homepage": "https://github.com/wp-cli/cron-command",
             "support": {
                 "issues": "https://github.com/wp-cli/cron-command/issues",
-                "source": "https://github.com/wp-cli/cron-command/tree/v2.3.6"
+                "source": "https://github.com/wp-cli/cron-command/tree/v2.3.7"
             },
-            "time": "2026-03-21T11:13:10+00:00"
+            "time": "2026-03-28T11:39:08+00:00"
         },
         {
             "name": "wp-cli/db-command",
@@ -4352,16 +4412,16 @@
         },
         {
             "name": "wp-cli/embed-command",
-            "version": "v2.1.1",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/embed-command.git",
-                "reference": "cc10e67d84e0158a96fbc5f48b7652f085cca389"
+                "reference": "287303a5efe8680da093aca57a305705c433ea55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/embed-command/zipball/cc10e67d84e0158a96fbc5f48b7652f085cca389",
-                "reference": "cc10e67d84e0158a96fbc5f48b7652f085cca389",
+                "url": "https://api.github.com/repos/wp-cli/embed-command/zipball/287303a5efe8680da093aca57a305705c433ea55",
+                "reference": "287303a5efe8680da093aca57a305705c433ea55",
                 "shasum": ""
             },
             "require": {
@@ -4413,22 +4473,22 @@
             "homepage": "https://github.com/wp-cli/embed-command",
             "support": {
                 "issues": "https://github.com/wp-cli/embed-command/issues",
-                "source": "https://github.com/wp-cli/embed-command/tree/v2.1.1"
+                "source": "https://github.com/wp-cli/embed-command/tree/v2.1.2"
             },
-            "time": "2026-02-12T12:26:05+00:00"
+            "time": "2026-03-28T11:58:59+00:00"
         },
         {
             "name": "wp-cli/entity-command",
-            "version": "v2.8.7",
+            "version": "v2.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/entity-command.git",
-                "reference": "0dea7320703d64f78a1b83541ad02124351c9c91"
+                "reference": "84b79a91aefa6ef74995cb2935c064f8064d43ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/entity-command/zipball/0dea7320703d64f78a1b83541ad02124351c9c91",
-                "reference": "0dea7320703d64f78a1b83541ad02124351c9c91",
+                "url": "https://api.github.com/repos/wp-cli/entity-command/zipball/84b79a91aefa6ef74995cb2935c064f8064d43ba",
+                "reference": "84b79a91aefa6ef74995cb2935c064f8064d43ba",
                 "shasum": ""
             },
             "require": {
@@ -4700,26 +4760,26 @@
             "homepage": "https://github.com/wp-cli/entity-command",
             "support": {
                 "issues": "https://github.com/wp-cli/entity-command/issues",
-                "source": "https://github.com/wp-cli/entity-command/tree/v2.8.7"
+                "source": "https://github.com/wp-cli/entity-command/tree/v2.8.9"
             },
-            "time": "2026-03-21T14:16:41+00:00"
+            "time": "2026-03-27T09:15:56+00:00"
         },
         {
             "name": "wp-cli/eval-command",
-            "version": "v2.2.9",
+            "version": "v2.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/eval-command.git",
-                "reference": "827c7208c74ebd6ab81c6051f515381d4f276e32"
+                "reference": "b542cd39289f466efd95ef863476198e992e3686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/eval-command/zipball/827c7208c74ebd6ab81c6051f515381d4f276e32",
-                "reference": "827c7208c74ebd6ab81c6051f515381d4f276e32",
+                "url": "https://api.github.com/repos/wp-cli/eval-command/zipball/b542cd39289f466efd95ef863476198e992e3686",
+                "reference": "b542cd39289f466efd95ef863476198e992e3686",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
                 "wp-cli/wp-cli-tests": "^5"
@@ -4758,9 +4818,9 @@
             "homepage": "https://github.com/wp-cli/eval-command",
             "support": {
                 "issues": "https://github.com/wp-cli/eval-command/issues",
-                "source": "https://github.com/wp-cli/eval-command/tree/v2.2.9"
+                "source": "https://github.com/wp-cli/eval-command/tree/v2.2.10"
             },
-            "time": "2026-03-18T09:03:46+00:00"
+            "time": "2026-03-28T12:10:22+00:00"
         },
         {
             "name": "wp-cli/export-command",
@@ -4938,23 +4998,23 @@
         },
         {
             "name": "wp-cli/i18n-command",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/i18n-command.git",
-                "reference": "e91e6903d212486e32ed2c916171f661bfc539ce"
+                "reference": "cbed9e1548a875fa4d834ffd571940302bc0c797"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/e91e6903d212486e32ed2c916171f661bfc539ce",
-                "reference": "e91e6903d212486e32ed2c916171f661bfc539ce",
+                "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/cbed9e1548a875fa4d834ffd571940302bc0c797",
+                "reference": "cbed9e1548a875fa4d834ffd571940302bc0c797",
                 "shasum": ""
             },
             "require": {
                 "eftec/bladeone": "3.52",
                 "gettext/gettext": "^4.8",
                 "mck89/peast": "^1.13.11",
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
                 "wp-cli/scaffold-command": "^1.2 || ^2",
@@ -5002,9 +5062,9 @@
             "homepage": "https://github.com/wp-cli/i18n-command",
             "support": {
                 "issues": "https://github.com/wp-cli/i18n-command/issues",
-                "source": "https://github.com/wp-cli/i18n-command/tree/v2.7.0"
+                "source": "https://github.com/wp-cli/i18n-command/tree/v2.7.1"
             },
-            "time": "2026-03-16T17:13:39+00:00"
+            "time": "2026-03-29T11:50:25+00:00"
         },
         {
             "name": "wp-cli/import-command",
@@ -5069,16 +5129,16 @@
         },
         {
             "name": "wp-cli/language-command",
-            "version": "v2.0.26",
+            "version": "v2.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/language-command.git",
-                "reference": "b0c6b6b08efeff2554b6235f546742ac30585c23"
+                "reference": "6032dd1a51e6253503a385f26083bedab40e453a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/language-command/zipball/b0c6b6b08efeff2554b6235f546742ac30585c23",
-                "reference": "b0c6b6b08efeff2554b6235f546742ac30585c23",
+                "url": "https://api.github.com/repos/wp-cli/language-command/zipball/6032dd1a51e6253503a385f26083bedab40e453a",
+                "reference": "6032dd1a51e6253503a385f26083bedab40e453a",
                 "shasum": ""
             },
             "require": {
@@ -5143,29 +5203,29 @@
             "homepage": "https://github.com/wp-cli/language-command",
             "support": {
                 "issues": "https://github.com/wp-cli/language-command/issues",
-                "source": "https://github.com/wp-cli/language-command/tree/v2.0.26"
+                "source": "https://github.com/wp-cli/language-command/tree/v2.0.27"
             },
-            "time": "2026-03-16T15:17:49+00:00"
+            "time": "2026-03-26T19:53:20+00:00"
         },
         {
             "name": "wp-cli/maintenance-mode-command",
-            "version": "v2.1.3",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/maintenance-mode-command.git",
-                "reference": "b947e094e00b7b68c6376ec9bd03303515864062"
+                "reference": "d769c19ecbfe4e731649876105f8a11c90294aa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/maintenance-mode-command/zipball/b947e094e00b7b68c6376ec9bd03303515864062",
-                "reference": "b947e094e00b7b68c6376ec9bd03303515864062",
+                "url": "https://api.github.com/repos/wp-cli/maintenance-mode-command/zipball/d769c19ecbfe4e731649876105f8a11c90294aa3",
+                "reference": "d769c19ecbfe4e731649876105f8a11c90294aa3",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
-                "wp-cli/wp-cli-tests": "^4"
+                "wp-cli/wp-cli-tests": "^5"
             },
             "type": "wp-cli-package",
             "extra": {
@@ -5204,9 +5264,9 @@
             "homepage": "https://github.com/wp-cli/maintenance-mode-command",
             "support": {
                 "issues": "https://github.com/wp-cli/maintenance-mode-command/issues",
-                "source": "https://github.com/wp-cli/maintenance-mode-command/tree/v2.1.3"
+                "source": "https://github.com/wp-cli/maintenance-mode-command/tree/v2.1.4"
             },
-            "time": "2024-11-24T17:26:30+00:00"
+            "time": "2026-03-28T12:03:12+00:00"
         },
         {
             "name": "wp-cli/media-command",
@@ -5324,16 +5384,16 @@
         },
         {
             "name": "wp-cli/php-cli-tools",
-            "version": "v0.12.8",
+            "version": "v0.12.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/php-cli-tools.git",
-                "reference": "9cbf9946ebe3462005b642de69ccd65753981517"
+                "reference": "c3d25138ce46a66647ec0dc9b17bf300338494aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/9cbf9946ebe3462005b642de69ccd65753981517",
-                "reference": "9cbf9946ebe3462005b642de69ccd65753981517",
+                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/c3d25138ce46a66647ec0dc9b17bf300338494aa",
+                "reference": "c3d25138ce46a66647ec0dc9b17bf300338494aa",
                 "shasum": ""
             },
             "require": {
@@ -5381,22 +5441,22 @@
             ],
             "support": {
                 "issues": "https://github.com/wp-cli/php-cli-tools/issues",
-                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.12.8"
+                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.12.9"
             },
-            "time": "2026-03-16T15:18:29+00:00"
+            "time": "2026-03-29T11:12:54+00:00"
         },
         {
             "name": "wp-cli/rewrite-command",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/rewrite-command.git",
-                "reference": "74c8f12fccce7f2bac04fa363ebcf452494c7afc"
+                "reference": "d473ebff594913b9b4866d3545a475d9e41edb44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/rewrite-command/zipball/74c8f12fccce7f2bac04fa363ebcf452494c7afc",
-                "reference": "74c8f12fccce7f2bac04fa363ebcf452494c7afc",
+                "url": "https://api.github.com/repos/wp-cli/rewrite-command/zipball/d473ebff594913b9b4866d3545a475d9e41edb44",
+                "reference": "d473ebff594913b9b4866d3545a475d9e41edb44",
                 "shasum": ""
             },
             "require": {
@@ -5442,29 +5502,29 @@
             "homepage": "https://github.com/wp-cli/rewrite-command",
             "support": {
                 "issues": "https://github.com/wp-cli/rewrite-command/issues",
-                "source": "https://github.com/wp-cli/rewrite-command/tree/v2.0.17"
+                "source": "https://github.com/wp-cli/rewrite-command/tree/v2.0.18"
             },
-            "time": "2026-02-15T11:56:30+00:00"
+            "time": "2026-03-28T15:28:03+00:00"
         },
         {
             "name": "wp-cli/role-command",
-            "version": "v2.0.16",
+            "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/role-command.git",
-                "reference": "ed57fb5436b4d47954b07e56c734d19deb4fc491"
+                "reference": "b9b3a9191899d423608d5e7274290aca220f646a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/role-command/zipball/ed57fb5436b4d47954b07e56c734d19deb4fc491",
-                "reference": "ed57fb5436b4d47954b07e56c734d19deb4fc491",
+                "url": "https://api.github.com/repos/wp-cli/role-command/zipball/b9b3a9191899d423608d5e7274290aca220f646a",
+                "reference": "b9b3a9191899d423608d5e7274290aca220f646a",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
-                "wp-cli/wp-cli-tests": "^4"
+                "wp-cli/wp-cli-tests": "^5"
             },
             "type": "wp-cli-package",
             "extra": {
@@ -5508,9 +5568,9 @@
             "homepage": "https://github.com/wp-cli/role-command",
             "support": {
                 "issues": "https://github.com/wp-cli/role-command/issues",
-                "source": "https://github.com/wp-cli/role-command/tree/v2.0.16"
+                "source": "https://github.com/wp-cli/role-command/tree/v2.0.17"
             },
-            "time": "2025-04-02T12:24:15+00:00"
+            "time": "2026-03-25T10:03:06+00:00"
         },
         {
             "name": "wp-cli/scaffold-command",
@@ -5640,16 +5700,16 @@
         },
         {
             "name": "wp-cli/server-command",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/server-command.git",
-                "reference": "8bf8b43b1626982a72ddbb529d116ea60560aa1d"
+                "reference": "4e1cce5783c49b1410f97b0d1daa3c7429cc68a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/server-command/zipball/8bf8b43b1626982a72ddbb529d116ea60560aa1d",
-                "reference": "8bf8b43b1626982a72ddbb529d116ea60560aa1d",
+                "url": "https://api.github.com/repos/wp-cli/server-command/zipball/4e1cce5783c49b1410f97b0d1daa3c7429cc68a4",
+                "reference": "4e1cce5783c49b1410f97b0d1daa3c7429cc68a4",
                 "shasum": ""
             },
             "require": {
@@ -5693,9 +5753,9 @@
             "homepage": "https://github.com/wp-cli/server-command",
             "support": {
                 "issues": "https://github.com/wp-cli/server-command/issues",
-                "source": "https://github.com/wp-cli/server-command/tree/v2.0.17"
+                "source": "https://github.com/wp-cli/server-command/tree/v2.0.18"
             },
-            "time": "2026-03-16T15:20:25+00:00"
+            "time": "2026-03-28T11:47:39+00:00"
         },
         {
             "name": "wp-cli/shell-command",
@@ -5809,24 +5869,24 @@
         },
         {
             "name": "wp-cli/super-admin-command",
-            "version": "v2.0.16",
+            "version": "v2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/super-admin-command.git",
-                "reference": "54ac063c384743ee414806d42cb8c61c6aa1fa8e"
+                "reference": "e887cc93116c94be4f33f8ac79a4c92e0f6a6a86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/super-admin-command/zipball/54ac063c384743ee414806d42cb8c61c6aa1fa8e",
-                "reference": "54ac063c384743ee414806d42cb8c61c6aa1fa8e",
+                "url": "https://api.github.com/repos/wp-cli/super-admin-command/zipball/e887cc93116c94be4f33f8ac79a4c92e0f6a6a86",
+                "reference": "e887cc93116c94be4f33f8ac79a4c92e0f6a6a86",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
                 "wp-cli/entity-command": "^1.3 || ^2",
-                "wp-cli/wp-cli-tests": "^4"
+                "wp-cli/wp-cli-tests": "^5"
             },
             "type": "wp-cli-package",
             "extra": {
@@ -5864,26 +5924,26 @@
             "homepage": "https://github.com/wp-cli/super-admin-command",
             "support": {
                 "issues": "https://github.com/wp-cli/super-admin-command/issues",
-                "source": "https://github.com/wp-cli/super-admin-command/tree/v2.0.16"
+                "source": "https://github.com/wp-cli/super-admin-command/tree/v2.0.18"
             },
-            "time": "2025-04-02T13:07:32+00:00"
+            "time": "2026-03-28T12:04:44+00:00"
         },
         {
             "name": "wp-cli/widget-command",
-            "version": "v2.2.1",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/widget-command.git",
-                "reference": "d5faa8f5b47828b2c103e9411fb52d4a63b53b99"
+                "reference": "07cd4f3db12f037aac20e22ee25ae2fae9efbd68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/widget-command/zipball/d5faa8f5b47828b2c103e9411fb52d4a63b53b99",
-                "reference": "d5faa8f5b47828b2c103e9411fb52d4a63b53b99",
+                "url": "https://api.github.com/repos/wp-cli/widget-command/zipball/07cd4f3db12f037aac20e22ee25ae2fae9efbd68",
+                "reference": "07cd4f3db12f037aac20e22ee25ae2fae9efbd68",
                 "shasum": ""
             },
             "require": {
-                "wp-cli/wp-cli": "^2.12"
+                "wp-cli/wp-cli": "^2.13"
             },
             "require-dev": {
                 "wp-cli/extension-command": "^1.2 || ^2",
@@ -5934,9 +5994,9 @@
             "homepage": "https://github.com/wp-cli/widget-command",
             "support": {
                 "issues": "https://github.com/wp-cli/widget-command/issues",
-                "source": "https://github.com/wp-cli/widget-command/tree/v2.2.1"
+                "source": "https://github.com/wp-cli/widget-command/tree/v2.2.3"
             },
-            "time": "2026-03-17T12:28:44+00:00"
+            "time": "2026-03-28T12:03:43+00:00"
         },
         {
             "name": "wp-cli/wp-cli",
@@ -5944,12 +6004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "f670c85141b71986dca9c19e77fb577ca3312929"
+                "reference": "626c6662c7094ca73145677be01d9c6ef1dca479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/f670c85141b71986dca9c19e77fb577ca3312929",
-                "reference": "f670c85141b71986dca9c19e77fb577ca3312929",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/626c6662c7094ca73145677be01d9c6ef1dca479",
+                "reference": "626c6662c7094ca73145677be01d9c6ef1dca479",
                 "shasum": ""
             },
             "require": {
@@ -6020,7 +6080,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli/issues",
                 "source": "https://github.com/wp-cli/wp-cli"
             },
-            "time": "2026-03-23T13:04:16+00:00"
+            "time": "2026-04-08T20:27:04+00:00"
         },
         {
             "name": "wp-cli/wp-cli-bundle",
@@ -6028,17 +6088,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli-bundle.git",
-                "reference": "8c68ebc5050226f2fad90fc62c29e8587fb1adf7"
+                "reference": "949362bd2cec244212833e2a3490892c897b3d40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/8c68ebc5050226f2fad90fc62c29e8587fb1adf7",
-                "reference": "8c68ebc5050226f2fad90fc62c29e8587fb1adf7",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/949362bd2cec244212833e2a3490892c897b3d40",
+                "reference": "949362bd2cec244212833e2a3490892c897b3d40",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2.24",
                 "wp-cli/ability-command": "^1",
+                "wp-cli/ai-command": "^1",
                 "wp-cli/block-command": "^1",
                 "wp-cli/cache-command": "^2",
                 "wp-cli/checksum-command": "^2.1",
@@ -6098,20 +6159,20 @@
                 "issues": "https://github.com/wp-cli/wp-cli-bundle/issues",
                 "source": "https://github.com/wp-cli/wp-cli-bundle"
             },
-            "time": "2026-03-23T17:30:53+00:00"
+            "time": "2026-04-08T20:56:30+00:00"
         },
         {
             "name": "wp-cli/wp-config-transformer",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-config-transformer.git",
-                "reference": "b0fda07aac51317404f5e56dc8953ea899bc7bce"
+                "reference": "8f5e66c717a7371dfb6559086880bee528aee858"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-config-transformer/zipball/b0fda07aac51317404f5e56dc8953ea899bc7bce",
-                "reference": "b0fda07aac51317404f5e56dc8953ea899bc7bce",
+                "url": "https://api.github.com/repos/wp-cli/wp-config-transformer/zipball/8f5e66c717a7371dfb6559086880bee528aee858",
+                "reference": "8f5e66c717a7371dfb6559086880bee528aee858",
                 "shasum": ""
             },
             "require": {
@@ -6145,12 +6206,12 @@
             "homepage": "https://github.com/wp-cli/wp-config-transformer",
             "support": {
                 "issues": "https://github.com/wp-cli/wp-config-transformer/issues",
-                "source": "https://github.com/wp-cli/wp-config-transformer/tree/v1.4.4"
+                "source": "https://github.com/wp-cli/wp-config-transformer/tree/v1.4.5"
             },
-            "time": "2026-01-22T09:07:20+00:00"
+            "time": "2026-03-20T07:28:10+00:00"
         },
         {
-            "name": "wpackagist-plugin/akismet",
+            "name": "wp-plugin/akismet",
             "version": "5.6",
             "source": {
                 "type": "svn",
@@ -6162,13 +6223,26 @@
                 "url": "https://downloads.wordpress.org/plugin/akismet.5.6.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/akismet/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "The best anti-spam protection to block spam comments and spam in a contact form. The most trusted antispam solution for WordPress and WooCommerce.",
+            "homepage": "https://akismet.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/akismet/#developers",
+                "issues": "https://wordpress.org/support/plugin/akismet",
+                "source": "https://plugins.svn.wordpress.org/akismet"
+            },
+            "time": "2026-04-09T20:50:37+00:00"
         },
         {
-            "name": "wpackagist-plugin/breadcrumb-navxt",
+            "name": "wp-plugin/breadcrumb-navxt",
             "version": "7.5.1",
             "source": {
                 "type": "svn",
@@ -6180,13 +6254,26 @@
                 "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.5.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/breadcrumb-navxt/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "John Havlik"
+                }
+            ],
+            "description": "Adds breadcrumb navigation showing the visitor's path to their current location.",
+            "homepage": "http://mtekk.us/code/breadcrumb-navxt/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/breadcrumb-navxt/#developers",
+                "issues": "https://wordpress.org/support/plugin/breadcrumb-navxt",
+                "source": "https://plugins.svn.wordpress.org/breadcrumb-navxt"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/code-profiler",
+            "name": "wp-plugin/code-profiler",
             "version": "1.9.1",
             "source": {
                 "type": "svn",
@@ -6198,13 +6285,26 @@
                 "url": "https://downloads.wordpress.org/plugin/code-profiler.1.9.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/code-profiler/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "bruandet"
+                }
+            ],
+            "description": "A profiler to measure the performance of your WordPress plugins and themes.",
+            "homepage": "https://nintechnet.com/codeprofiler/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/code-profiler/#developers",
+                "issues": "https://wordpress.org/support/plugin/code-profiler",
+                "source": "https://plugins.svn.wordpress.org/code-profiler"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/conditional-blocks",
+            "name": "wp-plugin/conditional-blocks",
             "version": "3.3.1",
             "source": {
                 "type": "svn",
@@ -6216,31 +6316,52 @@
                 "url": "https://downloads.wordpress.org/plugin/conditional-blocks.3.3.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/conditional-blocks/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Morgan Hvidt"
+                }
+            ],
+            "description": "Easily show/hide WordPress blocks & widgets with powerful, no-code display logic. Perfect for restricting content. Explore advanced scheduling, Ge …",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/conditional-blocks/#developers",
+                "issues": "https://wordpress.org/support/plugin/conditional-blocks",
+                "source": "https://plugins.svn.wordpress.org/conditional-blocks"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/crisp",
-            "version": "0.48",
+            "name": "wp-plugin/crisp",
+            "version": "dev-trunk",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/crisp/",
-                "reference": "trunk"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/crisp.zip?timestamp=1744623319"
+                "reference": "trunk@3272194"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/crisp/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "crisp"
+                }
+            ],
+            "description": "A Free, one-click-to-install, Live Chat and chatbot plugin. No coding skills are required. Used by more than 30 000 customers on WordPress.",
+            "homepage": "http://wordpress.org/plugins/crisp/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/crisp/#developers",
+                "issues": "https://wordpress.org/support/plugin/crisp",
+                "source": "https://plugins.svn.wordpress.org/crisp"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/drip",
+            "name": "wp-plugin/drip",
             "version": "1.1.9",
             "source": {
                 "type": "svn",
@@ -6252,31 +6373,57 @@
                 "url": "https://downloads.wordpress.org/plugin/drip.1.1.9.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/drip/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "getdrip"
+                }
+            ],
+            "description": "Build long-lasting relationships with perfectly personalized email and onsite marketing automation.",
+            "homepage": "https://github.com/DripEmail/drip-woocommerce",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/drip/#developers",
+                "issues": "https://wordpress.org/support/plugin/drip",
+                "source": "https://plugins.svn.wordpress.org/drip"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/facebook-for-woocommerce",
-            "version": "3.6.0",
+            "name": "wp-plugin/facebook-for-woocommerce",
+            "version": "3.6.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.6.0"
+                "reference": "tags/3.6.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.6.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.6.2.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/facebook-for-woocommerce/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Facebook"
+                }
+            ],
+            "description": "Get the Official Meta for WooCommerce plugin for powerful ways to help grow your business.",
+            "homepage": "https://github.com/woocommerce/facebook-for-woocommerce/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/facebook-for-woocommerce/#developers",
+                "issues": "https://wordpress.org/support/plugin/facebook-for-woocommerce",
+                "source": "https://plugins.svn.wordpress.org/facebook-for-woocommerce"
+            },
+            "time": "2026-03-27T11:55:46+00:00"
         },
         {
-            "name": "wpackagist-plugin/header-footer-code-manager",
+            "name": "wp-plugin/header-footer-code-manager",
             "version": "1.1.44",
             "source": {
                 "type": "svn",
@@ -6288,13 +6435,26 @@
                 "url": "https://downloads.wordpress.org/plugin/header-footer-code-manager.1.1.44.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/header-footer-code-manager/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "DraftPress Team"
+                }
+            ],
+            "description": "Easily add tracking code snippets, conversion pixels, or other scripts required by third party services for analytics, marketing, or chat features.",
+            "homepage": "https://draftpress.com/products",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/header-footer-code-manager/#developers",
+                "issues": "https://wordpress.org/support/plugin/header-footer-code-manager",
+                "source": "https://plugins.svn.wordpress.org/header-footer-code-manager"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/import-meetup-events",
+            "name": "wp-plugin/import-meetup-events",
             "version": "1.7.0",
             "source": {
                 "type": "svn",
@@ -6306,31 +6466,57 @@
                 "url": "https://downloads.wordpress.org/plugin/import-meetup-events.1.7.0.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/import-meetup-events/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Xylus Themes"
+                }
+            ],
+            "description": "Automatically import and sync Meetup.com events into WordPress without a Meetup Pro account. Works with The Events Calendar, Events Manager, EventON,  …",
+            "homepage": "https://xylusthemes.com/plugins/import-meetup-events/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/import-meetup-events/#developers",
+                "issues": "https://wordpress.org/support/plugin/import-meetup-events",
+                "source": "https://plugins.svn.wordpress.org/import-meetup-events"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/jetpack",
-            "version": "15.6",
+            "name": "wp-plugin/jetpack",
+            "version": "15.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/15.6"
+                "reference": "tags/15.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.15.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.15.7.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/jetpack/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Improve your WP security with powerful one-click tools like backup, WAF, and malware scan. Includes free tools like stats, CDN and social sharing.",
+            "homepage": "https://jetpack.com",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/jetpack/#developers",
+                "issues": "https://wordpress.org/support/plugin/jetpack",
+                "source": "https://plugins.svn.wordpress.org/jetpack"
+            },
+            "time": "2026-04-09T19:45:52+00:00"
         },
         {
-            "name": "wpackagist-plugin/login-as-user",
+            "name": "wp-plugin/login-as-user",
             "version": "1.6.8",
             "source": {
                 "type": "svn",
@@ -6342,31 +6528,57 @@
                 "url": "https://downloads.wordpress.org/plugin/login-as-user.1.6.8.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/login-as-user/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Yiannis Christodoulou"
+                }
+            ],
+            "description": "Login as User is a free WordPress plugin that helps admins switch user accounts instantly to check data.",
+            "homepage": "https://www.web357.com/login-as-user-wordpress-plugin",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/login-as-user/#developers",
+                "issues": "https://wordpress.org/support/plugin/login-as-user",
+                "source": "https://plugins.svn.wordpress.org/login-as-user"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/mailchimp-for-woocommerce",
-            "version": "6.0",
+            "name": "wp-plugin/mailchimp-for-woocommerce",
+            "version": "6.0.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce/",
-                "reference": "tags/6.0"
+                "reference": "tags/6.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.6.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.6.0.2.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/mailchimp-for-woocommerce/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Mailchimp"
+                }
+            ],
+            "description": "Connect your store to your Mailchimp audience to track sales, create targeted emails, send abandoned cart emails, and more.",
+            "homepage": "https://mailchimp.com/connect-your-store/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/mailchimp-for-woocommerce/#developers",
+                "issues": "https://wordpress.org/support/plugin/mailchimp-for-woocommerce",
+                "source": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce"
+            },
+            "time": "2026-03-27T20:06:05+00:00"
         },
         {
-            "name": "wpackagist-plugin/members",
+            "name": "wp-plugin/members",
             "version": "3.2.19",
             "source": {
                 "type": "svn",
@@ -6378,13 +6590,26 @@
                 "url": "https://downloads.wordpress.org/plugin/members.3.2.19.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/members/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Blair Williams"
+                }
+            ],
+            "description": "The best WordPress membership and user role editor plugin. User Roles & Capabilities editor helps you restrict content in just a few clicks.",
+            "homepage": "https://members-plugin.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/members/#developers",
+                "issues": "https://wordpress.org/support/plugin/members",
+                "source": "https://plugins.svn.wordpress.org/members"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/myworks-woo-sync-for-quickbooks-online",
+            "name": "wp-plugin/myworks-woo-sync-for-quickbooks-online",
             "version": "3.0.3",
             "source": {
                 "type": "svn",
@@ -6396,49 +6621,87 @@
                 "url": "https://downloads.wordpress.org/plugin/myworks-woo-sync-for-quickbooks-online.3.0.3.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/myworks-woo-sync-for-quickbooks-online/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "MyWorks"
+                }
+            ],
+            "description": "Automatically sync your customers, orders, inventory and more in real time between your WooCommerce store and QuickBooks! Requires a MyWorks account.",
+            "homepage": "https://myworks.software/integrations/sync-woocommerce-quickbooks-online",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/myworks-woo-sync-for-quickbooks-online/#developers",
+                "issues": "https://wordpress.org/support/plugin/myworks-woo-sync-for-quickbooks-online",
+                "source": "https://plugins.svn.wordpress.org/myworks-woo-sync-for-quickbooks-online"
+            },
+            "time": "2026-04-08T13:55:40+00:00"
         },
         {
-            "name": "wpackagist-plugin/optimole-wp",
-            "version": "4.2.1",
+            "name": "wp-plugin/optimole-wp",
+            "version": "4.2.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/4.2.1"
+                "reference": "tags/4.2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.4.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/optimole-wp/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Optimole"
+                }
+            ],
+            "description": "Automatically optimize images: bulk compression, lazy loading, WebP/AVIF conversion. With CloudFront image CDN to boost Core Web Vitals & conversions!",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/optimole-wp/#developers",
+                "issues": "https://wordpress.org/support/plugin/optimole-wp",
+                "source": "https://plugins.svn.wordpress.org/optimole-wp"
+            },
+            "time": "2026-04-03T08:36:13+00:00"
         },
         {
-            "name": "wpackagist-plugin/otter-blocks",
-            "version": "3.1.6",
+            "name": "wp-plugin/otter-blocks",
+            "version": "3.1.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/otter-blocks/",
-                "reference": "tags/3.1.6"
+                "reference": "tags/3.1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/otter-blocks.3.1.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/otter-blocks.3.1.8.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/otter-blocks/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Themeisle"
+                }
+            ],
+            "description": "Quickly create WordPress pages with 20+ blocks, 100+ ready-to-import designs, and advanced editor extensions. It’s website building, Lego-style!",
+            "homepage": "https://themeisle.com/plugins/otter-blocks",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/otter-blocks/#developers",
+                "issues": "https://wordpress.org/support/plugin/otter-blocks",
+                "source": "https://plugins.svn.wordpress.org/otter-blocks"
+            },
+            "time": "2026-04-01T13:11:04+00:00"
         },
         {
-            "name": "wpackagist-plugin/pdf-embedder",
+            "name": "wp-plugin/pdf-embedder",
             "version": "4.9.3",
             "source": {
                 "type": "svn",
@@ -6450,13 +6713,26 @@
                 "url": "https://downloads.wordpress.org/plugin/pdf-embedder.4.9.3.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/pdf-embedder/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Syed Balkhi"
+                }
+            ],
+            "description": "Seamlessly embed PDFs into your content, with customizations and intelligent responsive resizing, and no third-party services or iframes.",
+            "homepage": "https://wp-pdf.com",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/pdf-embedder/#developers",
+                "issues": "https://wordpress.org/support/plugin/pdf-embedder",
+                "source": "https://plugins.svn.wordpress.org/pdf-embedder"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/pdf-viewer-block",
+            "name": "wp-plugin/pdf-viewer-block",
             "version": "1.1",
             "source": {
                 "type": "svn",
@@ -6468,13 +6744,26 @@
                 "url": "https://downloads.wordpress.org/plugin/pdf-viewer-block.1.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/pdf-viewer-block/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Jb Audras"
+                }
+            ],
+            "description": "A simple and 100% free Gutenberg Block to display PDF Viewers / Readers on your website.",
+            "homepage": "https://www.whodunit.fr/gutenberg-pdf-viewer-block",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/pdf-viewer-block/#developers",
+                "issues": "https://wordpress.org/support/plugin/pdf-viewer-block",
+                "source": "https://plugins.svn.wordpress.org/pdf-viewer-block"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/pods",
+            "name": "wp-plugin/pods",
             "version": "3.3.8",
             "source": {
                 "type": "svn",
@@ -6486,31 +6775,57 @@
                 "url": "https://downloads.wordpress.org/plugin/pods.3.3.8.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/pods/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Scott Kingsley Clark"
+                }
+            ],
+            "description": "Pods is a framework for creating, managing, and deploying customized content types and fields for any project.",
+            "homepage": "https://pods.io/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/pods/#developers",
+                "issues": "https://wordpress.org/support/plugin/pods",
+                "source": "https://plugins.svn.wordpress.org/pods"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/post-type-switcher",
+            "name": "wp-plugin/post-type-switcher",
             "version": "4.0.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/post-type-switcher/",
-                "reference": "trunk"
+                "reference": "tags/4.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.zip?timestamp=1762559556"
+                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.4.0.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/post-type-switcher/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "John James Jacoby"
+                }
+            ],
+            "description": "A simple way to change a post's type in WordPress",
+            "homepage": "https://wordpress.org/plugins/post-type-switcher/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/post-type-switcher/#developers",
+                "issues": "https://wordpress.org/support/plugin/post-type-switcher",
+                "source": "https://plugins.svn.wordpress.org/post-type-switcher"
+            },
+            "time": "2026-03-24T16:51:13+00:00"
         },
         {
-            "name": "wpackagist-plugin/query-monitor",
+            "name": "wp-plugin/query-monitor",
             "version": "3.20.4",
             "source": {
                 "type": "svn",
@@ -6522,13 +6837,26 @@
                 "url": "https://downloads.wordpress.org/plugin/query-monitor.3.20.4.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/query-monitor/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "John Blackbourn"
+                }
+            ],
+            "description": "Query Monitor is the developer tools panel for WordPress and WooCommerce.",
+            "homepage": "https://querymonitor.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/query-monitor/#developers",
+                "issues": "https://wordpress.org/support/plugin/query-monitor",
+                "source": "https://plugins.svn.wordpress.org/query-monitor"
+            },
+            "time": "2026-04-11T11:56:17+00:00"
         },
         {
-            "name": "wpackagist-plugin/redis-cache",
+            "name": "wp-plugin/redis-cache",
             "version": "2.7.0",
             "source": {
                 "type": "svn",
@@ -6540,13 +6868,26 @@
                 "url": "https://downloads.wordpress.org/plugin/redis-cache.2.7.0.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/redis-cache/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Till Krüss"
+                }
+            ],
+            "description": "A persistent object cache backend powered by Redis®¹. Supports Predis, PhpRedis, Relay, replication, sentinels, clustering and WP-CLI.",
+            "homepage": "https://wordpress.org/plugins/redis-cache/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/redis-cache/#developers",
+                "issues": "https://wordpress.org/support/plugin/redis-cache",
+                "source": "https://plugins.svn.wordpress.org/redis-cache"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/remove-dashboard-access-for-non-admins",
+            "name": "wp-plugin/remove-dashboard-access-for-non-admins",
             "version": "1.2.1",
             "source": {
                 "type": "svn",
@@ -6558,49 +6899,84 @@
                 "url": "https://downloads.wordpress.org/plugin/remove-dashboard-access-for-non-admins.1.2.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/remove-dashboard-access-for-non-admins/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "TrustedLogin"
+                }
+            ],
+            "description": "Disable Dashboard access for users of a specific role or capability. Disallowed users are redirected to a chosen URL. Get set up in seconds.",
+            "homepage": "https://www.trustedlogin.com/remove-dashboard-access/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/remove-dashboard-access-for-non-admins/#developers",
+                "issues": "https://wordpress.org/support/plugin/remove-dashboard-access-for-non-admins",
+                "source": "https://plugins.svn.wordpress.org/remove-dashboard-access-for-non-admins"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g",
-            "version": "4.4.7",
+            "name": "wp-plugin/social-networks-auto-poster-facebook-twitter-g",
+            "version": "dev-trunk",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/social-networks-auto-poster-facebook-twitter-g/",
-                "reference": "trunk"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/social-networks-auto-poster-facebook-twitter-g.zip?timestamp=1772146112"
+                "reference": "trunk@3470733"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "NextScripts"
+                }
+            ],
+            "description": "Automatically publishes blogposts to profiles/pages/groups on Twitter, Google+, Pinterest, LinkedIn, Blogger, Tumblr ... 22 more",
+            "homepage": "https://www.nextscripts.com/social-networks-auto-poster-for-wordpress",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/#developers",
+                "issues": "https://wordpress.org/support/plugin/social-networks-auto-poster-facebook-twitter-g",
+                "source": "https://plugins.svn.wordpress.org/social-networks-auto-poster-facebook-twitter-g"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce",
-            "version": "10.6.1",
+            "name": "wp-plugin/woocommerce",
+            "version": "10.6.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce/",
-                "reference": "tags/10.6.1"
+                "reference": "tags/10.6.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.6.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce.10.6.2.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Everything you need to launch an online store in days and keep it growing for years. From your first sale to millions in revenue, Woo is with you.",
+            "homepage": "https://woocommerce.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce",
+                "source": "https://plugins.svn.wordpress.org/woocommerce"
+            },
+            "time": "2026-04-07T13:35:54+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce-gateway-stripe",
+            "name": "wp-plugin/woocommerce-gateway-stripe",
             "version": "10.5.3",
             "source": {
                 "type": "svn",
@@ -6612,13 +6988,26 @@
                 "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.5.3.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce-gateway-stripe/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WooCommerce"
+                }
+            ],
+            "description": "Accept debit and credit cards in 135+ currencies, many local methods like Alipay, ACH, and SEPA, and express checkout with Apple Pay and Google Pay.",
+            "homepage": "https://wordpress.org/plugins/woocommerce-gateway-stripe/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce-gateway-stripe/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce-gateway-stripe",
+                "source": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce-paypal-payments",
+            "name": "wp-plugin/woocommerce-paypal-payments",
             "version": "3.4.1",
             "source": {
                 "type": "svn",
@@ -6630,49 +7019,88 @@
                 "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.3.4.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce-paypal-payments/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WooCommerce"
+                }
+            ],
+            "description": "PayPal's latest payment processing solution. Accept PayPal, Pay Later, credit/debit cards, alternative digital wallets and bank accounts.",
+            "homepage": "https://woocommerce.com/products/woocommerce-paypal-payments/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce-paypal-payments/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce-paypal-payments",
+                "source": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments"
+            },
+            "time": "2026-04-02T15:01:03+00:00"
         },
         {
-            "name": "wpackagist-plugin/woocommerce-services",
-            "version": "3.5.1",
+            "name": "wp-plugin/woocommerce-services",
+            "version": "3.5.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-services/",
-                "reference": "tags/3.5.1"
+                "reference": "tags/3.5.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.3.5.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.3.5.2.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/woocommerce-services/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WooCommerce"
+                }
+            ],
+            "description": "We’re here to help with tax rates: collect accurate sales tax, automatically.",
+            "homepage": "https://woocommerce.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/woocommerce-services/#developers",
+                "issues": "https://wordpress.org/support/plugin/woocommerce-services",
+                "source": "https://plugins.svn.wordpress.org/woocommerce-services"
+            },
+            "time": "2026-04-06T04:20:49+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-graphql",
-            "version": "2.10.1",
+            "name": "wp-plugin/wp-graphql",
+            "version": "2.11.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/2.10.1"
+                "reference": "tags/2.11.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.10.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.11.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-graphql/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Jason Bahl"
+                }
+            ],
+            "description": "WPGraphQL adds a flexible and powerful GraphQL API to WordPress, enabling efficient querying and interaction with your site's data.",
+            "homepage": "https://github.com/wp-graphql/wp-graphql",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-graphql/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-graphql",
+                "source": "https://plugins.svn.wordpress.org/wp-graphql"
+            },
+            "time": "2026-04-10T18:25:51+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-job-manager",
+            "name": "wp-plugin/wp-job-manager",
             "version": "2.4.1",
             "source": {
                 "type": "svn",
@@ -6684,13 +7112,26 @@
                 "url": "https://downloads.wordpress.org/plugin/wp-job-manager.2.4.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-job-manager/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Automattic"
+                }
+            ],
+            "description": "Create a careers page for your company website, or build a public job board for your community.",
+            "homepage": "https://wpjobmanager.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-job-manager/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-job-manager",
+                "source": "https://plugins.svn.wordpress.org/wp-job-manager"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-job-manager-xml-csv-listings-import",
+            "name": "wp-plugin/wp-job-manager-xml-csv-listings-import",
             "version": "1.2.1",
             "source": {
                 "type": "svn",
@@ -6702,13 +7143,26 @@
                 "url": "https://downloads.wordpress.org/plugin/wp-job-manager-xml-csv-listings-import.1.2.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-job-manager-xml-csv-listings-import/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WP All Import"
+                }
+            ],
+            "description": "Drag & drop to import job listings from any CSV, XML, Excel, or Google Sheets file of any size or format. Supports company info, locations, applic …",
+            "homepage": "https://www.wpallimport.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-job-manager-xml-csv-listings-import/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-job-manager-xml-csv-listings-import",
+                "source": "https://plugins.svn.wordpress.org/wp-job-manager-xml-csv-listings-import"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-mail-smtp",
+            "name": "wp-plugin/wp-mail-smtp",
             "version": "4.7.1",
             "source": {
                 "type": "svn",
@@ -6720,31 +7174,56 @@
                 "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.7.1.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-mail-smtp/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Syed Balkhi"
+                }
+            ],
+            "description": "Make email delivery easy for WordPress. Connect with SMTP, Gmail, Outlook, SendGrid, Mailgun, SES, Zoho, + more. Rated #1 WordPress SMTP Email plugin.",
+            "homepage": "https://wpmailsmtp.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-mail-smtp/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-mail-smtp",
+                "source": "https://plugins.svn.wordpress.org/wp-mail-smtp"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-maintenance-mode",
-            "version": "2.6.20",
+            "name": "wp-plugin/wp-maintenance-mode",
+            "version": "2.6.21",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-maintenance-mode/",
-                "reference": "tags/2.6.20"
+                "reference": "tags/2.6.21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.20.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-maintenance-mode.2.6.21.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-maintenance-mode/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Themeisle"
+                }
+            ],
+            "description": "Easy Drag & Drop Page Builder that adds a splash page to your site that it's perfect for a coming soon page, maintenance or landing page.",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-maintenance-mode/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-maintenance-mode",
+                "source": "https://plugins.svn.wordpress.org/wp-maintenance-mode"
+            },
+            "time": "2026-04-06T09:40:46+00:00"
         },
         {
-            "name": "wpackagist-plugin/wp-rest-api-authentication",
+            "name": "wp-plugin/wp-rest-api-authentication",
             "version": "4.3.0",
             "source": {
                 "type": "svn",
@@ -6756,31 +7235,53 @@
                 "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.4.3.0.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wp-rest-api-authentication/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "miniOrange"
+                }
+            ],
+            "description": "Secure and protect WordPress REST API from unauthorized access using JWT token, Basic Authentication, API Key, OAuth 2, or external token.",
+            "homepage": "https://wordpress.org/plugins/wp-rest-api-authentication",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wp-rest-api-authentication/#developers",
+                "issues": "https://wordpress.org/support/plugin/wp-rest-api-authentication",
+                "source": "https://plugins.svn.wordpress.org/wp-rest-api-authentication"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-plugin/wpjm-extra-fields",
-            "version": "1.3.0",
+            "name": "wp-plugin/wpjm-extra-fields",
+            "version": "dev-trunk",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wpjm-extra-fields/",
                 "reference": "trunk"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wpjm-extra-fields.zip?timestamp=1587548928"
-            },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/wpjm-extra-fields/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Gabriel Maldonado"
+                }
+            ],
+            "description": "Adds Salary and Important Information extra fields to WP Job Manager plugin. Both in the front-end for Job Submissions as well as in the back end for  …",
+            "homepage": "https://tilcode.blog/wpjm-extra-fields-adds-extra-fields-to-wp-job-manager-job-listings",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wpjm-extra-fields/#developers",
+                "issues": "https://wordpress.org/support/plugin/wpjm-extra-fields",
+                "source": "https://plugins.svn.wordpress.org/wpjm-extra-fields"
+            },
+            "time": "2020-04-22T09:49:00+00:00"
         },
         {
-            "name": "wpackagist-plugin/zapier",
+            "name": "wp-plugin/zapier",
             "version": "1.5.3",
             "source": {
                 "type": "svn",
@@ -6792,31 +7293,51 @@
                 "url": "https://downloads.wordpress.org/plugin/zapier.1.5.3.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/zapier/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Zapier"
+                }
+            ],
+            "description": "Zapier saves you time on tedious tasks by moving info between WordPress and your other favorite apps, so you can focus on your most important work.",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/zapier/#developers",
+                "issues": "https://wordpress.org/support/plugin/zapier",
+                "source": "https://plugins.svn.wordpress.org/zapier"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         },
         {
-            "name": "wpackagist-theme/onepress",
-            "version": "2.3.16",
+            "name": "wp-theme/onepress",
+            "version": "2.3.17",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/onepress/",
-                "reference": "2.3.16"
+                "reference": "2.3.17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/onepress.2.3.16.zip"
+                "url": "https://downloads.wordpress.org/theme/onepress.2.3.17.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-theme",
-            "homepage": "https://wordpress.org/themes/onepress/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "description": "OnePress is an outstanding creative and flexible WordPress one page theme well suited for business website, portfolio, digital agency, product showcase, freelancers and everyone else who appreciate good design. The theme overall is an elegant and classic one, a fine example of Bootstrap 4 WordPress theme which compatibility with latest version of WooCommerce. (Live preview : https://demos.famethemes.com/onepress)",
+            "homepage": "https://wordpress.org/themes/onepress/",
+            "support": {
+                "changelog": "https://wordpress.org/themes/onepress/#developers",
+                "issues": "https://wordpress.org/support/theme/onepress",
+                "source": "https://themes.svn.wordpress.org/onepress"
+            },
+            "time": "2026-04-08T01:00:55+00:00"
         },
         {
-            "name": "wpackagist-theme/twentytwentythree",
+            "name": "wp-theme/twentytwentythree",
             "version": "1.6",
             "source": {
                 "type": "svn",
@@ -6828,10 +7349,18 @@
                 "url": "https://downloads.wordpress.org/theme/twentytwentythree.1.6.zip"
             },
             "require": {
-                "composer/installers": "^1.0 || ^2.0"
+                "composer/installers": "~1.0|~2.0"
             },
             "type": "wordpress-theme",
-            "homepage": "https://wordpress.org/themes/twentytwentythree/"
+            "notification-url": "https://wp-packages.org/downloads",
+            "description": "Twenty Twenty-Three is designed to take advantage of the new design tools introduced in WordPress 6.1. With a clean, blank base as a starting point, this default theme includes ten diverse style variations created by members of the WordPress community. Whether you want to build a complex or incredibly simple website, you can do it quickly and intuitively through the bundled styles or dive into creation and full customization yourself.",
+            "homepage": "https://wordpress.org/themes/twentytwentythree/",
+            "support": {
+                "changelog": "https://wordpress.org/themes/twentytwentythree/#developers",
+                "issues": "https://wordpress.org/support/theme/twentytwentythree",
+                "source": "https://themes.svn.wordpress.org/twentytwentythree"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
         }
     ],
     "packages-dev": [
@@ -7509,18 +8038,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "5b2dfdf2eaba4663778f776fe9b906ba425c03d4"
+                "reference": "d830a949e5c180e97c2245221daf8b589552cc2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5b2dfdf2eaba4663778f776fe9b906ba425c03d4",
-                "reference": "5b2dfdf2eaba4663778f776fe9b906ba425c03d4",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/d830a949e5c180e97c2245221daf8b589552cc2c",
+                "reference": "d830a949e5c180e97c2245221daf8b589552cc2c",
                 "shasum": ""
             },
             "conflict": {
                 "3f/pygmentize": "<1.2",
                 "adaptcms/adaptcms": "<=1.3",
-                "admidio/admidio": "<=5.0.6",
+                "admidio/admidio": "<5.0.8",
                 "adodb/adodb-php": "<=5.22.9",
                 "aheinze/cockpit": "<2.2",
                 "aimeos/ai-admin-graphql": ">=2022.04.1,<2022.10.10|>=2023.04.1,<2023.10.6|>=2024.04.1,<2024.07.2",
@@ -7564,15 +8093,14 @@
                 "athlon1600/youtube-downloader": "<=4",
                 "aureuserp/aureuserp": "<1.3.0.0-beta1",
                 "austintoddj/canvas": "<=3.4.2",
-                "auth0/auth0-php": ">=3.3,<8.18",
-                "auth0/login": "<7.20",
-                "auth0/symfony": "<=5.5",
-                "auth0/wordpress": "<=5.4",
+                "auth0/auth0-php": ">=3.3,<=8.18",
+                "auth0/login": "<=7.20",
+                "auth0/symfony": "<=5.7",
+                "auth0/wordpress": "<=5.5",
                 "automad/automad": "<2.0.0.0-alpha5",
                 "automattic/jetpack": "<9.8",
-                "avideo/avideo": "<=26",
                 "awesome-support/awesome-support": "<=6.0.7",
-                "aws/aws-sdk-php": "<3.368",
+                "aws/aws-sdk-php": "<=3.371.3",
                 "ayacoo/redirect-tab": "<2.1.2|>=3,<3.1.7|>=4,<4.0.5",
                 "azuracast/azuracast": "<=0.23.3",
                 "b13/seo_basics": "<0.8.2",
@@ -7586,7 +8114,7 @@
                 "barrelstrength/sprout-forms": "<3.9",
                 "barryvdh/laravel-translation-manager": "<0.6.8",
                 "barzahlen/barzahlen-php": "<2.0.1",
-                "baserproject/basercms": "<=5.1.1",
+                "baserproject/basercms": "<=5.2.2",
                 "bassjobsen/bootstrap-3-typeahead": ">4.0.2",
                 "bbpress/bbpress": "<2.6.5",
                 "bcit-ci/codeigniter": "<3.1.3",
@@ -7629,13 +8157,13 @@
                 "cesnet/simplesamlphp-module-proxystatistics": "<3.1",
                 "chriskacerguis/codeigniter-restserver": "<=2.7.1",
                 "chrome-php/chrome": "<1.14",
-                "ci4-cms-erp/ci4ms": "<0.28.5",
+                "ci4-cms-erp/ci4ms": "<=0.31.3",
                 "civicrm/civicrm-core": ">=4.2,<4.2.9|>=4.3,<4.3.3",
                 "ckeditor/ckeditor": "<4.25",
                 "clickstorm/cs-seo": ">=6,<6.8|>=7,<7.5|>=8,<8.4|>=9,<9.3",
                 "co-stack/fal_sftp": "<0.2.6",
                 "cockpit-hq/cockpit": "<2.13.5",
-                "code16/sharp": "<9.11.1",
+                "code16/sharp": "<9.20",
                 "codeception/codeception": "<3.1.3|>=4,<4.1.22",
                 "codeigniter/framework": "<3.1.10",
                 "codeigniter4/framework": "<4.6.2",
@@ -7662,7 +8190,7 @@
                 "cpsit/typo3-mailqueue": "<0.4.5|>=0.5,<0.5.2",
                 "craftcms/aws-s3": ">=2.0.2,<=2.2.4",
                 "craftcms/azure-blob": ">=2.0.0.0-beta1,<=2.1",
-                "craftcms/cms": "<=4.17.5|>=5,<=5.9.11",
+                "craftcms/cms": "<=4.17.7|>=5,<=5.9.13",
                 "craftcms/commerce": ">=4,<4.11|>=5,<5.6",
                 "craftcms/composer": ">=4.0.0.0-RC1-dev,<=4.10|>=5.0.0.0-RC1-dev,<=5.5.1",
                 "craftcms/craft": ">=3.5,<=4.16.17|>=5.0.0.0-RC1-dev,<=5.8.21",
@@ -7685,7 +8213,7 @@
                 "derhansen/sf_event_mgt": "<4.3.1|>=5,<5.1.1|>=7,<7.4",
                 "desperado/xml-bundle": "<=0.1.7",
                 "dev-lancer/minecraft-motd-parser": "<=1.0.5",
-                "devcode-it/openstamanager": "<=2.9.8",
+                "devcode-it/openstamanager": "<=2.10.1",
                 "devgroup/dotplant": "<2020.09.14-dev",
                 "digimix/wp-svg-upload": "<=1",
                 "directmailteam/direct-mail": "<6.0.3|>=7,<7.0.3|>=8,<9.5.2",
@@ -7702,7 +8230,7 @@
                 "doctrine/mongodb-odm": "<1.0.2",
                 "doctrine/mongodb-odm-bundle": "<3.0.1",
                 "doctrine/orm": ">=1,<1.2.4|>=2,<2.4.8|>=2.5,<2.5.1|>=2.8.3,<2.8.4",
-                "dolibarr/dolibarr": "<21.0.3",
+                "dolibarr/dolibarr": "<=22.0.4",
                 "dompdf/dompdf": "<2.0.4",
                 "doublethreedigital/guest-entries": "<3.1.2",
                 "dreamfactory/df-core": "<1.0.4",
@@ -7824,7 +8352,7 @@
                 "friendsoftypo3/openid": ">=4.5,<4.5.31|>=4.7,<4.7.16|>=6,<6.0.11|>=6.1,<6.1.6",
                 "froala/wysiwyg-editor": "<=4.3",
                 "frosh/adminer-platform": "<2.2.1",
-                "froxlor/froxlor": "<=2.3.3",
+                "froxlor/froxlor": "<=2.3.4",
                 "frozennode/administrator": "<=5.0.12",
                 "fuel/core": "<1.8.1",
                 "funadmin/funadmin": "<=7.1.0.0-RC4",
@@ -7834,7 +8362,7 @@
                 "geshi/geshi": "<=1.0.9.1",
                 "getformwork/formwork": "<=2.3.3",
                 "getgrav/grav": "<1.11.0.0-beta1",
-                "getkirby/cms": "<3.9.8.3-dev|>=3.10,<3.10.1.2-dev|>=4,<4.7.1|>=5,<=5.2.1",
+                "getkirby/cms": "<=5.2.1",
                 "getkirby/kirby": "<3.9.8.3-dev|>=3.10,<3.10.1.2-dev|>=4,<4.7.1",
                 "getkirby/panel": "<2.5.14",
                 "getkirby/starterkit": "<=3.7.0.2",
@@ -7843,7 +8371,7 @@
                 "globalpayments/php-sdk": "<2",
                 "goalgorilla/open_social": "<12.3.11|>=12.4,<12.4.10|>=13.0.0.0-alpha1,<13.0.0.0-alpha11",
                 "gogentooss/samlbase": "<1.2.7",
-                "google/protobuf": "<3.4",
+                "google/protobuf": "<4.33.6",
                 "gos/web-socket-bundle": "<1.10.4|>=2,<2.6.1|>=3,<3.3",
                 "gp247/core": "<1.1.24",
                 "gree/jose": "<2.2.1",
@@ -7863,6 +8391,7 @@
                 "hjue/justwriting": "<=1",
                 "hov/jobfair": "<1.0.13|>=2,<2.0.2",
                 "httpsoft/http-message": "<1.0.12",
+                "hybridauth/hybridauth": "<=3.12.2",
                 "hyn/multi-tenant": ">=5.6,<5.7.2",
                 "ibexa/admin-ui": ">=4.2,<4.2.3|>=4.6,<4.6.25|>=5,<5.0.3",
                 "ibexa/admin-ui-assets": ">=4.6.0.0-alpha1,<4.6.21",
@@ -7891,10 +8420,12 @@
                 "innologi/typo3-appointments": "<2.0.6",
                 "intelliants/subrion": "<4.2.2",
                 "inter-mediator/inter-mediator": "==5.5",
+                "invoiceninja/invoiceninja": "<5.13.4",
                 "ipl/web": "<0.10.1",
                 "islandora/crayfish": "<4.1",
                 "islandora/islandora": ">=2,<2.4.1",
                 "ivankristianto/phpwhois": "<=4.3",
+                "j0k3r/graby": "<=2.5",
                 "jackalope/jackalope-doctrine-dbal": "<1.7.4",
                 "jambagecom/div2007": "<0.10.2",
                 "james-heinrich/getid3": "<1.9.21",
@@ -7921,6 +8452,7 @@
                 "juzaweb/cms": "<=3.4.2",
                 "jweiland/events2": "<8.3.8|>=9,<9.0.6",
                 "jweiland/kk-downloader": "<1.2.2",
+                "kantorge/yaffa": "<=2",
                 "kazist/phpwhois": "<=4.2.6",
                 "kelvinmo/simplejwt": "<=1.1",
                 "kelvinmo/simplexrd": "<3.1.1",
@@ -7932,7 +8464,7 @@
                 "knplabs/knp-snappy": "<=1.4.2",
                 "kohana/core": "<3.3.3",
                 "koillection/koillection": "<1.6.12",
-                "krayin/laravel-crm": "<=1.3",
+                "krayin/laravel-crm": "<=2.2",
                 "kreait/firebase-php": ">=3.2,<3.8.1",
                 "kumbiaphp/kumbiapp": "<=1.1.1",
                 "la-haute-societe/tcpdf": "<6.2.22",
@@ -7944,6 +8476,7 @@
                 "laravel/fortify": "<1.11.1",
                 "laravel/framework": "<10.48.29|>=11,<11.44.1|>=12,<12.1.1",
                 "laravel/laravel": ">=5.4,<5.4.22",
+                "laravel/passport": "<13.7.1",
                 "laravel/pulse": "<1.3.1",
                 "laravel/reverb": "<1.7",
                 "laravel/socialite": ">=1,<2.0.10",
@@ -7957,7 +8490,7 @@
                 "leantime/leantime": "<3.3",
                 "lexik/jwt-authentication-bundle": "<2.10.7|>=2.11,<2.11.3",
                 "libreform/libreform": ">=2,<=2.0.8",
-                "librenms/librenms": "<26.2",
+                "librenms/librenms": "<26.3",
                 "liftkit/database": "<2.13.2",
                 "lightsaml/lightsaml": "<1.3.5",
                 "limesurvey/limesurvey": "<6.15.4",
@@ -8014,6 +8547,7 @@
                 "mikehaertl/php-shellcommand": "<1.6.1",
                 "mineadmin/mineadmin": "<=3.0.9",
                 "miniorange/miniorange-saml": "<1.4.3",
+                "miraheze/ts-portal": "<=33",
                 "mittwald/typo3_forum": "<1.2.1",
                 "mobiledetect/mobiledetectlib": "<2.8.32",
                 "modx/revolution": "<=3.1",
@@ -8117,13 +8651,13 @@
                 "phpmailer/phpmailer": "<6.5",
                 "phpmussel/phpmussel": ">=1,<1.6",
                 "phpmyadmin/phpmyadmin": "<5.2.2",
-                "phpmyfaq/phpmyfaq": "<=4.0.16",
+                "phpmyfaq/phpmyfaq": "<=4.1",
                 "phpoffice/common": "<0.2.9",
                 "phpoffice/math": "<=0.2",
                 "phpoffice/phpexcel": "<=1.8.2",
                 "phpoffice/phpspreadsheet": "<1.30|>=2,<2.1.12|>=2.2,<2.4|>=3,<3.10|>=4,<5",
                 "phppgadmin/phppgadmin": "<=7.13",
-                "phpseclib/phpseclib": "<=2.0.51|>=3,<=3.0.49",
+                "phpseclib/phpseclib": "<2.0.53|>=3,<3.0.51",
                 "phpservermon/phpservermon": "<3.6",
                 "phpsysinfo/phpsysinfo": "<3.4.3",
                 "phpunit/phpunit": "<8.5.52|>=9,<9.6.33|>=10,<10.5.62|>=11,<11.5.50|>=12,<12.5.8",
@@ -8145,7 +8679,7 @@
                 "pixelfed/pixelfed": "<0.12.5",
                 "plotly/plotly.js": "<2.25.2",
                 "pocketmine/bedrock-protocol": "<8.0.2",
-                "pocketmine/pocketmine-mp": "<5.32.1",
+                "pocketmine/pocketmine-mp": "<5.41.1",
                 "pocketmine/raklib": ">=0.14,<0.14.6|>=0.15,<0.15.1",
                 "pressbooks/pressbooks": "<5.18",
                 "prestashop/autoupgrade": ">=4,<4.10.1",
@@ -8153,7 +8687,7 @@
                 "prestashop/blockwishlist": ">=2,<2.1.1",
                 "prestashop/contactform": ">=1.0.1,<4.3",
                 "prestashop/gamification": "<2.3.2",
-                "prestashop/prestashop": "<8.2.4|>=9.0.0.0-alpha1,<9.0.3",
+                "prestashop/prestashop": "<8.2.5|>=9.0.0.0-alpha1,<9.1",
                 "prestashop/productcomments": "<5.0.2",
                 "prestashop/ps_checkout": "<4.4.1|>=5,<5.0.5",
                 "prestashop/ps_contactinfo": "<=3.3.2",
@@ -8171,7 +8705,7 @@
                 "pubnub/pubnub": "<6.1",
                 "punktde/pt_extbase": "<1.5.1",
                 "pusher/pusher-php-server": "<2.2.1",
-                "putyourlightson/craft-sprig": ">=2,<2.15.2|>=3,<3.15.2",
+                "putyourlightson/craft-sprig": ">=2,<2.15.2|>=3,<3.7.2",
                 "pwweb/laravel-core": "<=0.3.6.0-beta",
                 "pxlrbt/filament-excel": "<1.1.14|>=2.0.0.0-alpha,<2.3.3",
                 "pyrocms/pyrocms": "<=3.9.1",
@@ -8180,27 +8714,28 @@
                 "rainlab/blog-plugin": "<1.4.1",
                 "rainlab/debugbar-plugin": "<3.1",
                 "rainlab/user-plugin": "<=1.4.5",
-                "ralffreit/mfa-email": "<=2",
+                "ralffreit/mfa-email": "<1.0.7|==2",
                 "rankmath/seo-by-rank-math": "<=1.0.95",
                 "rap2hpoutre/laravel-log-viewer": "<0.13",
                 "react/http": ">=0.7,<1.9",
                 "really-simple-plugins/complianz-gdpr": "<6.4.2",
-                "redaxo/source": "<=5.20.1",
+                "redaxo/source": "<5.21",
                 "remdex/livehelperchat": "<4.29",
                 "renolit/reint-downloadmanager": "<4.0.2|>=5,<5.0.1",
                 "reportico-web/reportico": "<=8.1",
-                "rhukster/dom-sanitizer": "<1.0.7",
+                "rhukster/dom-sanitizer": "<1.0.10",
                 "rmccue/requests": ">=1.6,<1.8",
                 "roadiz/documents": "<2.3.42|>=2.4,<2.5.44|>=2.6,<2.6.28|>=2.7,<2.7.9",
                 "robrichards/xmlseclibs": "<3.1.5",
                 "roots/soil": "<4.1",
-                "roundcube/roundcubemail": "<1.5.10|>=1.6,<1.6.11",
+                "roundcube/roundcubemail": "<1.5.10|>=1.6,<1.6.11|>=1.7.0.0-beta,<1.7.0.0-RC5-dev",
                 "rudloff/alltube": "<3.0.3",
                 "rudloff/rtmpdump-bin": "<=2.3.1",
                 "s-cart/core": "<=9.0.5",
                 "s-cart/s-cart": "<6.9",
                 "sabberworm/php-css-parser": ">=1,<1.0.1|>=2,<2.0.1|>=3,<3.0.1|>=4,<4.0.1|>=5,<5.0.9|>=5.1,<5.1.3|>=5.2,<5.2.1|>=6,<6.0.2|>=7,<7.0.4|>=8,<8.0.1|>=8.1,<8.1.1|>=8.2,<8.2.1|>=8.3,<8.3.1",
                 "sabre/dav": ">=1.6,<1.7.11|>=1.8,<1.8.9",
+                "saloonphp/saloon": "<4",
                 "samwilson/unlinked-wikibase": "<1.42",
                 "scheb/two-factor-bundle": "<3.26|>=4,<4.11",
                 "sensiolabs/connect": "<4.2.3",
@@ -8271,14 +8806,14 @@
                 "starcitizentools/short-description": ">=4,<4.0.1",
                 "starcitizentools/tabber-neue": ">=1.9.1,<2.7.2|>=3,<3.1.1",
                 "starcitizenwiki/embedvideo": "<=4",
-                "statamic/cms": "<5.73.14|>=6,<6.7.1",
+                "statamic/cms": "<5.73.16|>=6,<6.7.2",
                 "stormpath/sdk": "<9.9.99",
                 "studio-42/elfinder": "<=2.1.64",
                 "studiomitte/friendlycaptcha": "<0.1.4",
                 "subhh/libconnect": "<7.0.8|>=8,<8.1",
                 "sukohi/surpass": "<1",
                 "sulu/form-bundle": ">=2,<2.5.3",
-                "sulu/sulu": "<1.6.44|>=2,<2.5.25|>=2.6,<2.6.9|>=3.0.0.0-alpha1,<3.0.0.0-alpha3",
+                "sulu/sulu": "<2.6.22|>=3,<3.0.5",
                 "sumocoders/framework-user-bundle": "<1.4",
                 "superbig/craft-audit": "<3.0.2",
                 "svewap/a21glossary": "<=0.4.10",
@@ -8345,7 +8880,7 @@
                 "thelia/thelia": ">=2.1,<2.1.3",
                 "theonedemon/phpwhois": "<=4.2.5",
                 "thinkcmf/thinkcmf": "<6.0.8",
-                "thorsten/phpmyfaq": "<4.0.18|>=4.1.0.0-alpha,<=4.1.0.0-beta2",
+                "thorsten/phpmyfaq": "<4.1.1",
                 "tikiwiki/tiki-manager": "<=17.1",
                 "timber/timber": ">=0.16.6,<1.23.1|>=1.24,<1.24.1|>=2,<2.1",
                 "tinymce/tinymce": "<7.2",
@@ -8450,7 +8985,8 @@
                 "xataface/xataface": "<3",
                 "xpressengine/xpressengine": "<3.0.15",
                 "yab/quarx": "<2.4.5",
-                "yeswiki/yeswiki": "<=4.5.4",
+                "yansongda/pay": "<=3.7.19",
+                "yeswiki/yeswiki": "<4.6",
                 "yetiforce/yetiforce-crm": "<6.5",
                 "yidashi/yii2cmf": "<=2",
                 "yii2mod/yii2-cms": "<1.9.2",
@@ -8545,7 +9081,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-23T22:10:56+00:00"
+            "time": "2026-04-10T21:13:58+00:00"
         },
         {
             "name": "slevomat/coding-standard",
@@ -8693,16 +9229,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.4.7",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "e1e6770440fb9c9b0cf725f81d1361ad1835329d"
+                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/e1e6770440fb9c9b0cf725f81d1361ad1835329d",
-                "reference": "e1e6770440fb9c9b0cf725f81d1361ad1835329d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
+                "reference": "1e92e39c51f95b88e3d66fa2d9f06d1fb45dd707",
                 "shasum": ""
             },
             "require": {
@@ -8767,7 +9303,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.4.7"
+                "source": "https://github.com/symfony/console/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -8787,20 +9323,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-06T14:06:20+00:00"
+            "time": "2026-03-30T13:54:39+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "380872130d3a5dd3ace2f4010d95125fde5d5c70"
+                "reference": "ad1b7b9092976d6c948b8a187cec9faaea9ec1df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/380872130d3a5dd3ace2f4010d95125fde5d5c70",
-                "reference": "380872130d3a5dd3ace2f4010d95125fde5d5c70",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/ad1b7b9092976d6c948b8a187cec9faaea9ec1df",
+                "reference": "ad1b7b9092976d6c948b8a187cec9faaea9ec1df",
                 "shasum": ""
             },
             "require": {
@@ -8849,7 +9385,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -8869,11 +9405,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-27T09:58:17+00:00"
+            "time": "2026-04-10T16:19:22+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.33.0",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
@@ -8934,7 +9470,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.33.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.34.0"
             },
             "funding": [
                 {
@@ -8958,16 +9494,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v7.4.6",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "9f209231affa85aa930a5e46e6eb03381424b30b"
+                "reference": "114ac57257d75df748eda23dd003878080b8e688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/9f209231affa85aa930a5e46e6eb03381424b30b",
-                "reference": "9f209231affa85aa930a5e46e6eb03381424b30b",
+                "url": "https://api.github.com/repos/symfony/string/zipball/114ac57257d75df748eda23dd003878080b8e688",
+                "reference": "114ac57257d75df748eda23dd003878080b8e688",
                 "shasum": ""
             },
             "require": {
@@ -9025,7 +9561,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v7.4.6"
+                "source": "https://github.com/symfony/string/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -9045,20 +9581,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-09T09:33:46+00:00"
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.4.6",
+            "version": "v7.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "045321c440ac18347b136c63d2e9bf28a2dc0291"
+                "reference": "9510c3966f749a1d1ff0059e1eabef6cc621e7fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/045321c440ac18347b136c63d2e9bf28a2dc0291",
-                "reference": "045321c440ac18347b136c63d2e9bf28a2dc0291",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9510c3966f749a1d1ff0059e1eabef6cc621e7fd",
+                "reference": "9510c3966f749a1d1ff0059e1eabef6cc621e7fd",
                 "shasum": ""
             },
             "require": {
@@ -9112,7 +9648,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.4.6"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.4.8"
             },
             "funding": [
                 {
@@ -9132,7 +9668,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-15T10:53:20+00:00"
+            "time": "2026-03-30T13:44:50+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -9140,12 +9676,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "12b5637ff685a8556f4b70fead3556905bd13242"
+                "reference": "8643436ede79f08033abebc62d9f84ecac119ff2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/12b5637ff685a8556f4b70fead3556905bd13242",
-                "reference": "12b5637ff685a8556f4b70fead3556905bd13242",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/8643436ede79f08033abebc62d9f84ecac119ff2",
+                "reference": "8643436ede79f08033abebc62d9f84ecac119ff2",
                 "shasum": ""
             },
             "require": {
@@ -9199,14 +9735,17 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-03-21T00:13:40+00:00"
+            "time": "2026-04-06T00:15:02+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "roave/security-advisories": 20,
-        "wp-coding-standards/wpcs": 20
+        "wp-coding-standards/wpcs": 20,
+        "wp-plugin/crisp": 20,
+        "wp-plugin/social-networks-auto-poster-facebook-twitter-g": 20,
+        "wp-plugin/wpjm-extra-fields": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
