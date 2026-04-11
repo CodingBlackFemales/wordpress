@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Syncing Trellis & Bedrock-based WordPress environments with WP-CLI aliases (Kinsta version)
-# Version 1.1.0
+# Version 1.1.1
 # Copyright (c) Ben Word
 
 LOCAL=false
@@ -215,9 +215,9 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local AVAILFROM
 
 		if [[ "$LOCAL" = true && $FROM == "dev" ]]; then
-			AVAILFROM=$(wp option get home 2>&1)
+			AVAILFROM=$("$WP" option get home 2>&1)
 		else
-			AVAILFROM=$(wp "@$FROM" option get home 2>&1)
+			AVAILFROM=$("$WP" "@$FROM" option get home 2>&1)
 		fi
 		if [[ $AVAILFROM == *"Error"* ]]; then
 			echo "❌  Unable to connect to $FROM"
@@ -230,9 +230,9 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	availto() {
 		local AVAILTO
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
-			AVAILTO=$(wp option get home 2>&1)
+			AVAILTO=$("$WP" option get home 2>&1)
 		else
-			AVAILTO=$(wp "@$TO" option get home 2>&1)
+			AVAILTO=$("$WP" "@$TO" option get home 2>&1)
 		fi
 
 		if [[ $AVAILTO == *"Error"* ]]; then
@@ -262,17 +262,17 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 		# Export/import database
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
-			wp db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			wp db reset --yes &&
-			wp "@$FROM" db export --default-character-set=utf8mb4 - | wp db import -
+			"$WP" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			"$WP" db reset --yes &&
+			"$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" db import -
 		elif [[ "$LOCAL" = true && $FROM == "dev" ]]; then
-			wp "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			wp "@$TO" db reset --yes &&
-			wp db export --default-character-set=utf8mb4 - | wp "@$TO" db import -
+			"$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			"$WP" "@$TO" db reset --yes &&
+			"$WP" db export --default-character-set=utf8mb4 - | "$WP" "@$TO" db import -
 		else
-			wp "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			wp "@$TO" db reset --yes &&
-			wp "@$FROM" db export --default-character-set=utf8mb4 - | wp "@$TO" db import -
+			"$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			"$WP" "@$TO" db reset --yes &&
+			"$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" "@$TO" db import -
 		fi
 
 		if [ $? -ne 0 ]; then
@@ -308,15 +308,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-			wp @$TO db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
-			wp @$TO search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
+			"$WP" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
+			"$WP" @"$TO" search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
 		done
 
 		# Run search & replace for primary domain
 		echo
 		echo "Replacing ${SOURCE[domain]} (primary domain) with ${DEST[domain]}"
-		wp @$TO search-replace "${SOURCE[domain]}" "${DEST[domain]}" --url="${SOURCE[url]}" &&
-		wp @$TO search-replace --network "${SOURCE[domain]}" "${DEST[domain]}"
+		"$WP" @"$TO" search-replace "${SOURCE[domain]}" "${DEST[domain]}" --all-tables-with-prefix
+		echo "Replacing ${SOURCE[rootdomain]} (root domain) with ${DEST[rootdomain]}"
+		"$WP" @"$TO" search-replace "${SOURCE[rootdomain]}" "${DEST[rootdomain]}" --all-tables-with-prefix
 	};
 
 	sync_uploads() {
@@ -357,6 +358,12 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	};
 
 	findenv
+	# Use project vendor/bin/wp if available, avoiding the PHAR vs vendor class split.
+	if [[ -x "./vendor/bin/wp" ]]; then
+		WP="./vendor/bin/wp"
+	else
+		WP="wp"
+	fi
 	availfrom
 	availto
 	sync_db
