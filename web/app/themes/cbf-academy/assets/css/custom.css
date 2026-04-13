@@ -17,3 +17,7 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
 #videos-groups-li.bp-groups-tab {
   display: none;
 }
+
+.ez-toc-sticky .ez-toc-open-icon {
+  top: 150px;
+}
