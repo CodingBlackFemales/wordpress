@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ffb40e4c335ffe64586e15c138a0f1a",
+    "content-hash": "b5bde33dfbc84e1c6b338574ee45a86a",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6363,6 +6363,37 @@
                 "source": "https://plugins.svn.wordpress.org/drip"
             },
             "time": "2026-03-23T19:23:21+00:00"
+        },
+        {
+            "name": "wp-plugin/easy-table-of-contents",
+            "version": "2.0.82.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/easy-table-of-contents/",
+                "reference": "tags/2.0.82.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/easy-table-of-contents.2.0.82.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Magazine3"
+                }
+            ],
+            "description": "Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.",
+            "homepage": "https://tocwp.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/easy-table-of-contents/#developers",
+                "issues": "https://wordpress.org/support/plugin/easy-table-of-contents",
+                "source": "https://plugins.svn.wordpress.org/easy-table-of-contents"
+            },
+            "time": "2026-03-26T06:55:40+00:00"
         },
         {
             "name": "wp-plugin/facebook-for-woocommerce",
