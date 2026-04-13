@@ -31,6 +31,15 @@
     },
     {
       "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": [
+        "wpackagist-plugin/crisp",
+        "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g",
+        "wpackagist-plugin/wpjm-extra-fields"
+      ]
+    },
+    {
+      "type": "composer",
       "url": "https://wp-languages.github.io",
       "only": [
         "koodimonni-language/*",
@@ -53,12 +62,14 @@
     "sleiman/airtable-php": "^3.0.0",
     "symfony/cache": "~7.3.0",
     "vlucas/phpdotenv": "^5.6.3",
+    "wpackagist-plugin/crisp": "^0.48",
+    "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4.7",
+    "wpackagist-plugin/wpjm-extra-fields": "^1.3.0",
     "wp-cli/wp-cli-bundle": "~2.12.0",
     "wp-plugin/akismet": "^5.6.0",
     "wp-plugin/breadcrumb-navxt": "^7.5.1",
     "wp-plugin/code-profiler": "^1.8.2",
     "wp-plugin/conditional-blocks": "^3.3.1",
-    "wp-plugin/crisp": "dev-trunk",
     "wp-plugin/drip": "^1.1.9",
     "wp-plugin/facebook-for-woocommerce": "^3.5.15",
     "wp-plugin/header-footer-code-manager": "^1.1.44",
@@ -77,7 +88,6 @@
     "wp-plugin/query-monitor": "^3.20.2",
     "wp-plugin/redis-cache": "^2.7",
     "wp-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
-    "wp-plugin/social-networks-auto-poster-facebook-twitter-g": "dev-trunk",
     "wp-plugin/woocommerce": "^10.5.0",
     "wp-plugin/woocommerce-gateway-stripe": "^10.3.1",
     "wp-plugin/woocommerce-paypal-payments": "^3.3.2",
@@ -88,7 +98,6 @@
     "wp-plugin/wp-mail-smtp": "^4.7.1",
     "wp-plugin/wp-maintenance-mode": "^2.6.20",
     "wp-plugin/wp-rest-api-authentication": "^4.2.0",
-    "wp-plugin/wpjm-extra-fields": "dev-trunk",
     "wp-plugin/zapier": "^1.5.3",
     "wp-theme/onepress": "^2.3.16",
     "wp-theme/twentytwentythree": "^1.6.0"
