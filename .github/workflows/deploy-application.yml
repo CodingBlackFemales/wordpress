@@ -27,7 +27,7 @@ jobs:
     steps:
       # Deploys specific branch/commit to target environment
       - name: Deploy to target
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -49,10 +49,10 @@ jobs:
     steps:
       # Sets the Node version
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.3.0
         with:
-          node-version: "24.x"
+          node-version: 24
       - name: Check site
-        uses: jtalk/url-health-check-action@v5
+        uses: jtalk/url-health-check-action@e7d5ebdc9027fbf494d2d034f3e8fc78f8b7a2b9
         with:
           url: ${{ vars.DESTINATION_URL }}
