@@ -1,0 +1,10 @@
+.block-editor-block-list__block.wp-block-code {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 15px;
+  padding: 0.8em 1em;
+  color: #1e1e1e;
+  font-family: Menlo, Consolas, monaco, monospace;
+  margin-bottom: 32px;
+  margin-top: 32px;
+}
