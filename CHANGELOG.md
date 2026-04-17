@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.42](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.41...v0.1.42) (2026-03-25)
+
+
+### Bug Fixes
+
+* add missing function ([a2c2953](https://github.com/CodingBlackFemales/wordpress/commit/a2c295332f72058536dc3884a84c2f308ab6703b))
+* add more missing vendor directories ([147c3b4](https://github.com/CodingBlackFemales/wordpress/commit/147c3b41c7be6d0018a405254673f897465f92d8))
+* include erroneously ignored vendor directory ([d6739aa](https://github.com/CodingBlackFemales/wordpress/commit/d6739aadb2a3853a7987f19bd71836e367601698))
+* include theme vendor directories ([467a27e](https://github.com/CodingBlackFemales/wordpress/commit/467a27ef59c3b58747173c2a5cda21d6921a5067))
+
 ## [0.1.41](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.40...v0.1.41) (2026-02-27)
 
 

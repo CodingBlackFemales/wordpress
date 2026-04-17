@@ -84,3 +84,16 @@ function cbf_academy_option_buddypages_member_pages( $value, $option ) {
 	return ! is_admin() && current_user_can( 'manage_options' ) || $value;
 }
 add_filter( 'option_buddypages-member-pages', 'cbf_academy_option_buddypages_member_pages', 10, 2 );
+
+add_action(
+	'enqueue_block_editor_assets',
+	function () {
+		$version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
+		wp_enqueue_style(
+			'cbf-academy-editor-style',
+			get_stylesheet_directory_uri() . '/assets/css/editor-style.css',
+			array(),
+			$version
+		);
+	}
+);
