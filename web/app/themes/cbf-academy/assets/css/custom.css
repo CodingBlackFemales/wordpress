@@ -17,3 +17,8 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
 #videos-groups-li.bp-groups-tab {
   display: none;
 }
+
+.wp-block-jetpack-markdown pre > code {
+  font-size: 14px;
+  line-height: 1.5;
+}
