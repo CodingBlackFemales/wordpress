@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ffb40e4c335ffe64586e15c138a0f1a",
+    "content-hash": "66536b129b98afc7188070226d7d123b",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2929,6 +2929,40 @@
                 "source": "https://github.com/roots/wp-config/tree/master"
             },
             "time": "2018-08-10T14:18:38+00:00"
+        },
+        {
+            "name": "serenichron/learndash-bulk-lessons-or-topics",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CodingBlackFemales/learndash-bulk-lessons-or-topics.git",
+                "reference": "634363269d3c9365a8bd773a461737f72f28cf91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CodingBlackFemales/learndash-bulk-lessons-or-topics/zipball/634363269d3c9365a8bd773a461737f72f28cf91",
+                "reference": "634363269d3c9365a8bd773a461737f72f28cf91",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0",
+                "php": ">=7.2"
+            },
+            "type": "wordpress-plugin",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Vlad Tudorie",
+                    "email": "vlad@serenichron.com"
+                }
+            ],
+            "description": "A WordPress plugin to bulk create LearnDash courses, lessons, and topics using CSV files.",
+            "support": {
+                "source": "https://github.com/CodingBlackFemales/learndash-bulk-lessons-or-topics/tree/v1.2.1"
+            },
+            "time": "2026-04-20T05:13:24+00:00"
         },
         {
             "name": "sleiman/airtable-php",
