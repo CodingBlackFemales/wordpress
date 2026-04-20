@@ -25,6 +25,10 @@
   },
   "repositories": [
     {
+      "type": "vcs",
+      "url": "git@github.com:CodingBlackFemales/learndash-bulk-lessons-or-topics.git"
+    },
+    {
       "name": "wp-packages",
       "type": "composer",
       "url": "https://repo.wp-packages.org"
@@ -59,6 +63,7 @@
     "roots/bedrock-disallow-indexing": "^2.0.0",
     "roots/multisite-url-fixer": "^1.1.0",
     "roots/wp-config": "1.0.0",
+    "serenichron/learndash-bulk-lessons-or-topics": "^1.2.1",
     "sleiman/airtable-php": "^3.0.0",
     "symfony/cache": "~7.3.0",
     "vlucas/phpdotenv": "^5.6.3",

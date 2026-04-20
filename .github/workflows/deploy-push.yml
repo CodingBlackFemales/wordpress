@@ -23,21 +23,21 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2.9.0
         with:
           php-version: 8.2
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v5.0.5
         with:
           path: /tmp/composer-cache
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Install dependencies
-        uses: php-actions/composer@v6
+        uses: php-actions/composer@v6.1.2
 
       - name: Install phpcs
         run: vendor/bin/phpcs -i
@@ -54,14 +54,14 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
         with:
           token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.3.0
         with:
-          node-version: "20.x"
+          node-version: 24
 
       - name: Install GitHub CLI
         run: |
@@ -112,7 +112,7 @@ jobs:
       - name: Deploy to hosting environment
         env:
           WORKFLOW_ID: ${{ 'deploy-application.yml' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9.0.0
         with:
           github-token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
           script: |-
