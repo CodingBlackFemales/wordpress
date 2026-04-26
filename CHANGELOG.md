@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.46](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.45...v0.1.46) (2026-04-26)
+
+
+### Features
+
+* style sticky TOC tab ([87f8db9](https://github.com/CodingBlackFemales/wordpress/commit/87f8db97e2b868278c8d614a24339bcceb728a88))
+
 ## [0.1.45](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.44...v0.1.45) (2026-04-22)
 
 ## [0.1.44](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.43...v0.1.44) (2026-04-20)
