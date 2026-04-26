@@ -19,7 +19,13 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
 }
 
 .ez-toc-sticky .ez-toc-open-icon {
+  background-color: var(--bb-primary-button-background-regular);
+  color: var(--bb-primary-button-text-hover);
   top: 150px;
+}
+
+.ez-toc-sticky .ez-toc-open-icon:hover {
+  background-color: var(--bb-primary-button-background-hover);
 }
 
 .wp-block-jetpack-markdown pre > code {
