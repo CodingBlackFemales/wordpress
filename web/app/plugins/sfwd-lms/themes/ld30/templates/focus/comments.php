@@ -3,6 +3,7 @@
  * LearnDash LD30 focus mode comments list wrapper.
  *
  * @since 3.0.0
+ * @version 4.20.2
  *
  * @package LearnDash\Templates\LD30
  */
@@ -43,10 +44,18 @@ if ( post_password_required() ) {
 				?>
 			</div>
 			<div class="ld-focus-comments__heading-actions">
-				<div class="ld-expand-button ld-button-alternate ld-expanded" id="ld-expand-button-comments" data-ld-expands="ld-comments" data-ld-expand-text="<?php esc_html_e( 'Expand Comments', 'learndash' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse Comments', 'learndash' ); ?>">
-				<span class="ld-text"><?php esc_html_e( 'Collapse Comments', 'learndash' ); ?></span>
-				<span class="ld-icon-arrow-down ld-icon"></span>
-				</div>
+				<button
+					aria-controls="ld-comments"
+					aria-expanded="true"
+					class="ld-expand-button ld-button-alternate ld-expanded"
+					data-ld-collapse-text="<?php esc_html_e( 'Collapse Comments', 'learndash' ); ?>"
+					data-ld-expand-text="<?php esc_html_e( 'Expand Comments', 'learndash' ); ?>"
+					data-ld-expands="ld-comments"
+					id="ld-expand-button-comments"
+				>
+					<span class="ld-text"><?php esc_html_e( 'Collapse Comments', 'learndash' ); ?></span>
+					<span class="ld-icon-arrow-down ld-icon"></span>
+				</button>
 			</div>
 		</div>
 		<?php
@@ -94,10 +103,15 @@ if ( post_password_required() ) {
 	do_action( 'learndash-focus-content-comments-after', $course_id, $user_id );
 	if ( ! empty( $learndash_comment_count ) && 0 === absint( $learndash_comment_count->approved ) ) :
 		?>
-	<div class="ld-expand-button ld-button-alternate" id="ld-comments-post-button">
+	<button
+		aria-controls="ld-comments-form"
+		aria-expanded="false"
+		class="ld-expand-button ld-button-alternate"
+		id="ld-comments-post-button"
+	>
 		<span class="ld-icon-arrow-down ld-icon"></span>
 		<span class="ld-text"><?php esc_html_e( 'Post a comment', 'learndash' ); ?></span>
-	</div>
+	</button>
 		<?php
 	endif;
 	$learndash_comment_form_state = ( ! empty( $learndash_comment_count ) && 0 === absint( $learndash_comment_count->approved ) ) ? ' ld-collapsed' : '';

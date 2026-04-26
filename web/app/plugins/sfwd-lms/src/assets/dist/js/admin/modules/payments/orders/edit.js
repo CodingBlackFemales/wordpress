@@ -1,0 +1,1 @@
+jQuery(".meta-box-sortables").sortable({cancel:".ui-sortable-handle"});

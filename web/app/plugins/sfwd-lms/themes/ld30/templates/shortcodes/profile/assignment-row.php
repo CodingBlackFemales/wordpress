@@ -3,6 +3,7 @@
  * LearnDash LD30 Displays a user's profile assignments row.
  *
  * @since 3.0.0
+ * @version 4.21.3
  *
  * @package LearnDash\Templates\LD30
  */
@@ -11,26 +12,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+$learndash_assignment_link = learndash_assignment_get_download_url( $assignment->ID );
+
 $assignment_points = learndash_get_points_awarded_array( $assignment->ID );
 ( $assignment->ID );
 ?>
 
-<div class="ld-table-list-item">
+<div
+	class="ld-table-list-item"
+	role="row"
+>
 	<div class="ld-table-list-item-preview">
-		<div class="ld-table-list-title">
-
-			<a class="ld-item-icon" href='<?php echo esc_url( get_post_meta( $assignment->ID, 'file_link', true ) ); ?>' target="_blank">
-				<span class="ld-icon ld-icon-assignment" aria-label="<?php esc_html_e( 'Download Assignment', 'learndash' ); ?>"></span>
-			</a>
-
-			<?php
-			$assignment_link = ( true === $assignment_post_type_object->publicly_queryable ? get_permalink( $assignment->ID ) : get_post_meta( $assignment->ID, 'file_link', true ) );
-			?>
-
-			<a class="ld-text" href="<?php echo esc_url( $assignment_link ); ?>"><?php echo esc_html( get_the_title( $assignment->ID ) ); ?></a>
-
-		</div>
 		<div class="ld-table-list-columns">
+			<div
+				class="ld-table-list-title"
+				role="rowheader"
+			>
+				<a class="ld-item-icon" href='<?php echo esc_url( $learndash_assignment_link ); ?>' target="_blank">
+					<span class="ld-icon ld-icon-assignment" aria-label="<?php esc_html_e( 'Download Assignment', 'learndash' ); ?>"></span>
+				</a>
+
+				<?php
+				$assignment_link = ( true === $assignment_post_type_object->publicly_queryable ? get_permalink( $assignment->ID ) : $learndash_assignment_link );
+				?>
+
+				<a
+					aria-label="<?php echo esc_attr__( 'Go to the assignment page.', 'learndash' ) ?>"
+					class="ld-text"
+					href="<?php echo esc_url( $assignment_link ); ?>"
+				>
+					<?php echo esc_html( get_the_title( $assignment->ID ) ); ?>
+				</a>
+
+			</div>
 			<?php
 			// Use an array so it can be filtered later.
 			$row_columns = array();
@@ -50,23 +64,42 @@ $assignment_points = learndash_get_points_awarded_array( $assignment->ID );
 				/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
 				do_action( 'learndash-assignment-row-comments-before', $assignment, get_the_ID(), $course_id, $user_id );
 
-				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) {
-					?>
-					<a href='<?php echo esc_url( get_comments_link( $assignment->ID ) ); ?>' data-ld-tooltip="<?php echo sprintf( // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterOpen,Squiz.PHP.EmbeddedPhp.ContentBeforeOpen
-						// translators: placeholder: commentd count.
-						esc_html_x( '%d Comments', 'placeholder: commentd count', 'learndash' ),
-						esc_html( get_comments_number( $assignment->ID ) )
-					); ?> ">
-					<?php
-				}
-				?>
+				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) : ?>
+					<div class="ld-tooltip">
+						<a
+							aria-describedby="ld-profile__assignment-row-comments-tooltip--<?php echo esc_attr( $assignment->ID ); ?>"
+							href='<?php echo esc_url( get_comments_link( $assignment->ID ) ); ?>'
+						>
+				<?php endif; ?>
 				<?php echo esc_html( get_comments_number( $assignment->ID ) ); ?><span class="ld-icon ld-icon-comments"></span>
 				<?php
-				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) {
+				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) : ?>
+						</a>
 
-					?></a> <?php
-				}
-				?>
+						<div
+							class="ld-tooltip__text"
+							id="ld-profile__assignment-row-comments-tooltip--<?php echo esc_attr( $assignment->ID ); ?>"
+							role="tooltip"
+						>
+							<?php
+							echo esc_html(
+								sprintf(
+									// translators: %1$d: comment count, %2$s: assignment title.
+									_nx(
+										'%1$d Comment for %2$s',
+										'%1$d Comments for %2$s',
+										get_comments_number( $assignment->ID ),
+										'Comment count',
+										'learndash'
+									),
+									get_comments_number( $assignment->ID ),
+									$assignment->post_title
+								)
+							);
+							?>
+						</div>
+					</div>
+				<?php endif; ?>
 				<?php
 				// Add the markup to the array.
 				$row_columns['comments'] = ob_get_clean();
@@ -125,22 +158,27 @@ $assignment_points = learndash_get_points_awarded_array( $assignment->ID );
 			$row_columns = apply_filters( 'learndash-assignment-list-columns-content', $row_columns );
 			if ( ! empty( $row_columns ) ) :
 				foreach ( $row_columns as $slug => $content ) :
-
 					/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
 					do_action( 'learndash-assignment-row-' . $slug . '-before', $assignment, get_the_ID(), $course_id, $user_id );
 					?>
-				<div class="<?php echo esc_attr( 'ld-table-list-column ld-' . $slug . '-column' ); ?>">
-					<?php
 
-					/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
-					do_action( 'learndash-assignment-row-' . $slug . '-inside-before', $assignment, get_the_ID(), $course_id, $user_id );
+					<div
+						class="<?php echo esc_attr( 'ld-table-list-column ld-' . $slug . '-column' ); ?>"
+						role="cell"
+						tabindex="0"
+					>
+						<?php
 
-					echo wp_kses_post( $content );
+						/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
+						do_action( 'learndash-assignment-row-' . $slug . '-inside-before', $assignment, get_the_ID(), $course_id, $user_id );
 
-					/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
-					do_action( 'learndash-assignment-row-' . $slug . '-inside-after', $assignment, get_the_ID(), $course_id, $user_id );
-					?>
-				</div>
+						echo wp_kses_post( $content );
+
+						/** This action is documented in themes/ld30/templates/assignment/partials/row.php */
+						do_action( 'learndash-assignment-row-' . $slug . '-inside-after', $assignment, get_the_ID(), $course_id, $user_id );
+						?>
+					</div>
+
 					<?php
 
 					/** This action is documented in themes/ld30/templates/assignment/partials/row.php */

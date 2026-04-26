@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exists( 'WP_REST_Controller' ) ) {
-
 	/**
 	 * Class LearnDash REST API Quiz Statistics Controller.
 	 *
@@ -90,7 +89,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @since 3.3.0
 		 */
 		public function __construct() {
-
 			$this->version   = 'v2';
 			$this->namespace = LEARNDASH_REST_API_NAMESPACE . '/' . $this->version;
 			$this->rest_base = $this->get_rest_base( 'quizzes-statistics' );
@@ -103,8 +101,8 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 *
 		 * @return mixed
 		 */
+		#[\ReturnTypeWillChange]
 		public function current() {
-
 			return $this->stat_refs[ $this->position ];
 		}
 
@@ -113,8 +111,8 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 *
 		 * @since 3.3.0
 		 */
+		#[\ReturnTypeWillChange]
 		public function next() {
-
 			++$this->position;
 		}
 
@@ -125,8 +123,8 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 *
 		 * @return bool|float|int|string|null
 		 */
+		#[\ReturnTypeWillChange]
 		public function key() {
-
 			return $this->position;
 		}
 
@@ -137,6 +135,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 *
 		 * @return bool
 		 */
+		#[\ReturnTypeWillChange]
 		public function valid() {
 			return isset( $this->stat_refs[ $this->position ] );
 		}
@@ -148,8 +147,8 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 *
 		 * @return void
 		 */
+		#[\ReturnTypeWillChange]
 		public function rewind() {
-
 			$this->position = 0;
 		}
 
@@ -272,13 +271,16 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 */
 		public function get_items( $request ) {
 			if ( ! $this->stat_refs ) {
-				return new WP_Error( 404, __( 'No records found for this request.', 'learndash' ) );
+				return new WP_Error(
+					'learndash_rest_quiz_statistics_no_records_found',
+					__( 'No records found for this request.', 'learndash' ),
+					[ 'status' => 404 ]
+				);
 			}
 
 			$stats_list = array();
 
 			do {
-
 				$request_clone = clone $request;
 				$request_clone->set_param( 'id', $this->current()->getStatisticRefId() );
 				$statistics   = $this->get_item( $request_clone );
@@ -295,7 +297,11 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			$max_pages   = ceil( $total_items / (int) $this->per_page );
 
 			if ( $this->page > $max_pages && $total_items > 0 ) {
-				return new WP_Error( 'rest_post_invalid_page_number', __( 'The page number requested is larger than the number of pages available.', 'learndash' ), array( 'status' => 400 ) );
+				return new WP_Error(
+					'learndash_rest_quiz_statistics_invalid_page_number',
+					__( 'The page number requested is larger than the number of pages available.', 'learndash' ),
+					[ 'status' => 400 ]
+				);
 			}
 
 			$response->header( 'X-WP-Total', (int) $total_items );
@@ -335,7 +341,11 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 */
 		public function get_item( $request ) {
 			if ( ! $this->valid() ) {
-				return new WP_Error( 404, __( 'Invalid entry', 'learndash' ) );
+				return new WP_Error(
+					'learndash_rest_quiz_statistics_invalid_entry',
+					__( 'Invalid entry', 'learndash' ),
+					[ 'status' => 404 ]
+				);
 			}
 
 			$stat_ref_id = $this->current()->getStatisticRefId();
@@ -356,7 +366,11 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 */
 		public function get_questions( $request ) {
 			if ( ! $this->valid() ) {
-				return new WP_Error( 404, __( 'Invalid entry', 'learndash' ) );
+				return new WP_Error(
+					'learndash_rest_quiz_statistics_questions_invalid_entry',
+					__( 'Invalid entry', 'learndash' ),
+					[ 'status' => 404 ]
+				);
 			}
 
 			$stat_ref_id = $this->current()->getStatisticRefId();
@@ -365,10 +379,18 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			$stat_question_id = $request->get_param( 'id' );
 			if ( ! empty( $stat_question_id ) ) {
 				list( $ref_id, $question_id ) = explode( '_', $stat_question_id );
-				if ( absint( $ref_id ) === $stat_ref_id ) {
-					$question_id = absint( $question_id );
-				} else {
-					$question_id = 0;
+				$question_id                  = absint( $ref_id ) === $stat_ref_id
+					? absint( $question_id )
+					: 0;
+
+				// Bail if question ID is not found.
+
+				if ( empty( $question_id ) ) {
+					return new WP_Error(
+						'learndash_rest_quiz_statistics_questions_invalid_entry',
+						__( 'Invalid entry', 'learndash' ),
+						[ 'status' => 404 ]
+					);
 				}
 			}
 
@@ -428,6 +450,20 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 					$stat_questions[] = $question_response;
 				}
 
+				// Return single question if question ID is provided.
+
+				if ( ! empty( $stat_question_id ) ) {
+					if ( empty( $stat_questions ) ) {
+						return new WP_Error(
+							'learndash_rest_quiz_statistics_questions_invalid_entry',
+							__( 'Invalid entry', 'learndash' ),
+							[ 'status' => 404 ]
+						);
+					}
+
+					return rest_ensure_response( $stat_questions[0] );
+				}
+
 				$response = rest_ensure_response( $stat_questions );
 
 				// Add the pagination links to response header.
@@ -435,7 +471,11 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				$max_pages   = ceil( $total_items / (int) $this->per_page );
 
 				if ( $this->page > $max_pages && $total_items > 0 ) {
-					return new WP_Error( 'rest_post_invalid_page_number', __( 'The page number requested is larger than the number of pages available.', 'learndash' ), array( 'status' => 400 ) );
+					return new WP_Error(
+						'learndash_rest_quiz_statistics_questions_invalid_page_number',
+						__( 'The page number requested is larger than the number of pages available.', 'learndash' ),
+						[ 'status' => 400 ]
+					);
 				}
 
 				$response->header( 'X-WP-Total', (int) $total_items );
@@ -462,12 +502,15 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				}
 
 				return $response;
-
 			} catch ( Throwable $throwable ) { // phpcs:ignore PHPCompatibility.Interfaces.NewInterfaces.throwableFound
 				// Executed only in PHP 7+, will not match in PHP 5.x.
 				$code = $throwable->getCode() > 0 ? $throwable->getCode() : 400;
 
-				return new WP_Error( $code, $throwable->getMessage() );
+				return new WP_Error(
+					'learndash_rest_quiz_statistics_questions_error',
+					$throwable->getMessage(),
+					[ 'status' => $code ]
+				);
 			} catch ( Exception $exception ) {
 				// Executed only in PHP 5.x. Will not be reached in PHP 7+.
 				$code = $exception->getCode() > 0 ? $exception->getCode() : 400;
@@ -562,9 +605,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @return array
 		 */
 		public function statistic_response_embed_links( array $response ) {
-
 			if ( ( isset( $response['quiz'] ) ) && ( ! empty( $response['quiz'] ) ) ) {
-
 				$quiz_rest_base       = sprintf( '%s/%s/%d', $this->namespace, $this->get_rest_base( 'quizzes' ), absint( $response['quiz'] ) );
 				$statistics_rest_base = $quiz_rest_base . '/' . $this->get_rest_base( 'quizzes-statistics' );
 
@@ -625,9 +666,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @return array
 		 */
 		public function statistic_question_response_embed_links( array $response ) {
-
 			if ( ( isset( $response['quiz'] ) ) && ( ! empty( $response['quiz'] ) ) && ( learndash_get_post_type_slug( 'quiz' ) === get_post_type( absint( $response['quiz'] ) ) ) ) {
-
 				$quiz_rest_base = sprintf( '%s/%s/%d', $this->namespace, $this->get_rest_base( 'quizzes' ), absint( $response['quiz'] ) );
 
 				$statistics_collection_rest_base = sprintf( '%s/%s', $quiz_rest_base, $this->get_rest_base( 'quizzes-statistics' ) );
@@ -757,7 +796,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			if ( $user_id ) {
 				$where .= $wpdb->prepare( " AND statref.user_id=%d ", (int) $user_id ); //phpcs:ignore
 			} else {
-
 				$users = $this->users_for_stats();
 
 				if ( ( $users ) ) {
@@ -836,13 +874,13 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				'args'   => array(
 					'quiz' => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s identifier for the object.',
-								'placeholder: Quiz',
+								'%s ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
@@ -858,15 +896,28 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			);
 			$routes[ $quiz_rest_base . '/(?P<statistic>[\d]+)' ] = array(
 				'args' => array(
-					'quiz' => array(
+					'quiz'      => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s identifier for the object.',
-								'placeholder: Quiz',
+								'%s ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
+						),
+						'type'        => 'integer',
+						'required'    => true,
+					),
+					'statistic' => array(
+						'description' => sprintf(
+							// translators: %s: quiz label.
+							esc_html_x(
+								'%s Statistic ID.',
+								'placeholder: Quiz label',
+								'learndash'
+							),
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
@@ -884,26 +935,26 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				'args'   => array(
 					'quiz'      => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s identifier for the object.',
-								'placeholder: Quiz',
+								'%s ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
 					),
 					'statistic' => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s Statistic identifier for the object.',
-								'placeholder: Quiz',
+								'%s Statistic ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
@@ -919,43 +970,43 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			);
 
 			$routes[ $quizzes_statistics_questions_base . '/(?P<id>[\w-]+)' ] = array(
-				'args' => array(
+				'args'   => array(
 					'quiz'      => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s identifier for the object.',
-								'placeholder: Quiz',
+								'%s ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
 					),
 					'statistic' => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz.
+							// translators: %s: quiz label.
 							esc_html_x(
-								'Unique %s Statistic identifier for the object.',
-								'placeholder: Quiz',
+								'%s Statistic ID.',
+								'placeholder: Quiz label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ )
 						),
 						'type'        => 'integer',
 						'required'    => true,
 					),
 					'id'        => array(
 						'description' => sprintf(
-							// translators: placeholder: Quiz, Question.
+							// translators: %s: quiz label, %s: question label.
 							esc_html_x(
-								'Unique %1$s Statistic %2$s identifier for the object.',
-								'placeholder: Quiz, Question',
+								'%1$s Statistic %2$s ID (Statistics ID + "_" + Question ID)',
+								'placeholder: Quiz label, Question label',
 								'learndash'
 							),
-							LearnDash_Custom_Label::get_label( 'quiz' ),
-							LearnDash_Custom_Label::get_label( 'question' )
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUIZ ),
+							LearnDash_Custom_Label::get_label( LDLMS_Post_Types::QUESTION )
 						),
 						'type'        => 'text',
 						'required'    => true,
@@ -967,6 +1018,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 					'callback'            => array( $this, 'get_questions' ),
 					'permission_callback' => array( $this, 'can_access_stats_questions' ),
 				),
+				'schema' => array( $this, 'get_stats_questions_schema' ),
 			);
 
 			return $routes;
@@ -1007,7 +1059,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @return void
 		 */
 		private function build_params() {
-
 			$this->per_page = $this->request->get_param( 'per_page' ) ? $this->request->get_param( 'per_page' ) : (int) get_option( 'posts_per_page' );
 			$this->page     = $this->request->get_param( 'page' ) ? $this->request->get_param( 'page' ) : 1;
 		}
@@ -1066,7 +1117,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * 4. Logged out user cannot access stats.
 		 */
 		private function users_for_stats() {
-
 			if ( ! is_null( $this->users_for_stats ) ) {
 				return $this->users_for_stats;
 			}
@@ -1084,7 +1134,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 			if ( learndash_is_admin_user() ) {
 				$this->users_for_stats = array();
 			} elseif ( learndash_is_group_leader_user() ) {
-				if ( learndash_get_group_leader_manage_courses() ) {
+				if ( learndash_get_group_leader_manage_courses() === 'advanced' ) {
 					/**
 					 * If the Group Leader can manage_courses they have will access
 					 * to all quizzes. So they are treated like the admin user.
@@ -1178,13 +1228,16 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @return stdClass
 		 */
 		private function stat_response_object() {
-			$stats               = ( new WpProQuiz_Model_StatisticMapper() )->fetchAllByRef( $this->current()->getStatisticRefId() );
-			$stat_response       = new stdClass();
-			$stat_response->id   = $this->current()->getStatisticRefId();
-			$stat_response->quiz = $this->getQuizId();
-			$stat_response->user = $this->current()->getUserId();
-			$stat_response->date = $this->prepare_date_response( gmdate( 'Y-m-d H:i:s', $this->current()->getCreateTime() ) );
+			$stats = ( new WpProQuiz_Model_StatisticMapper() )->fetchAllByRef( $this->current()->getStatisticRefId() );
 
+			$date_gmt = gmdate( 'Y-m-d H:i:s', $this->current()->getCreateTime() );
+
+			$stat_response                    = new stdClass();
+			$stat_response->id                = $this->current()->getStatisticRefId();
+			$stat_response->quiz              = $this->getQuizId();
+			$stat_response->user              = $this->current()->getUserId();
+			$stat_response->date              = $this->prepare_date_response( $date_gmt, get_date_from_gmt( $date_gmt ) );
+			$stat_response->date_gmt          = $this->prepare_date_response( $date_gmt );
 			$stat_response->answers_correct   = $this->get_count( $stats, 'getCorrectCount' );
 			$stat_response->answers_incorrect = $this->get_count( $stats, 'getIncorrectCount' );
 			$stat_response->points_scored     = $this->get_count( $stats, 'getPoints' );
@@ -1202,7 +1255,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 */
 		private function get_user_quiz_details() {
 			if ( isset( $this->user_quiz_data[ $this->current()->getUserId() ] ) ) {
-
 				return $this->user_quiz_data[ $this->current()->getUserId() ];
 			}
 
@@ -1259,9 +1311,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @throws Exception Exception for invalid type.
 		 */
 		private function make_answer_obj( $type, $args = array() ) {
-
 			switch ( $type ) {
-
 				case 'single':
 				case 'multiple':
 					$object = new ReflectionClass( LDLMS_Base_Answer_Type::class );
@@ -1306,7 +1356,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @return WpProQuiz_Model_Statistic|null
 		 */
 		private function get_statistics_mode_from_list( array $stats, $method, $expected ) {
-
 			foreach ( $stats as $key => $stat ) {
 				if ( $stat instanceof WpProQuiz_Model_Statistic && method_exists( $stat, $method ) ) {
 					$result = $stat->$method();
@@ -1331,7 +1380,6 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 		 * @since 3.3.0
 		 */
 		private function reset_state() {
-
 			global $ld_qs_api_vars;
 			/**
 			 * Reset the state only if we have some data in memory upfront
@@ -1348,9 +1396,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				$GLOBALS['ld_qs_api_vars'][] = $object_vars;
 
 				foreach ( $object_vars as $property => $var ) {
-
 					switch ( gettype( $var ) ) {
-
 						case 'integer':
 							$this->$property = 0;
 							break;
@@ -1513,13 +1559,21 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				'type'       => 'object',
 				'properties' => array(
 					'id'            => array(
-						'description' => __( 'Unique ID for Statistics Question.', 'learndash' ),
+						'description' => sprintf(
+							// translators: %s: question label.
+							esc_html_x(
+								'Unique ID for Statistics %1$s. (Statistics ID + "_" + %1$s ID)',
+								'placeholder: question label',
+								'learndash'
+							),
+							learndash_get_custom_label_lower( LDLMS_Post_Types::QUESTION )
+						),
 						'type'        => 'integer',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'statistic'     => array(
-						'description' => __( 'Statistics Ref ID.', 'learndash' ),
+						'description' => __( 'Statistics ID.', 'learndash' ),
 						'type'        => 'integer',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
@@ -1619,7 +1673,7 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 				'type'       => 'object',
 				'properties' => array(
 					'id'                => array(
-						'description' => __( 'Statistics Ref ID.', 'learndash' ),
+						'description' => __( 'Statistics ID.', 'learndash' ),
 						'type'        => 'integer',
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,
@@ -1645,10 +1699,17 @@ if ( ( ! class_exists( 'LD_REST_Quiz_Statistics_Controller_V2' ) ) && class_exis
 						'readonly'    => true,
 					),
 					'date'              => array(
-						'description' => __( 'Date.', 'learndash' ),
+						'description' => __( 'Date in local timezone.', 'learndash' ),
 						'type'        => array( 'string', null ),
 						'format'      => 'date-time',
 						'context'     => array( 'embed', 'view' ),
+						'readonly'    => true,
+					),
+					'date_gmt'          => array(
+						'description' => esc_html__( 'Date in GMT timezone.', 'learndash' ),
+						'type'        => 'string',
+						'format'      => 'date-time',
+						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'answers_correct'   => array(

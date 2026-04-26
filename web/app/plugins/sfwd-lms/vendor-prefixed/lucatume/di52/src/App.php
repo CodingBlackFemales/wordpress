@@ -1,22 +1,17 @@
 <?php
+
 /**
  * A facade to make a DI container instance globally available as a Service Locator.
  *
  * @package lucatume\DI52
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52;
 
 use StellarWP\Learndash\lucatume\DI52\Builders\ValueBuilder;
-
 /**
  * Class App
  *
- * @package lucatume\DI52
+ * @package \lucatume\DI52
  */
 class App
 {
@@ -26,7 +21,6 @@ class App
      * @var Container|null
      */
     protected static $container;
-
     /**
      * Returns the singleton instance of the DI container the application
      * will use as Service Locator.
@@ -39,10 +33,8 @@ class App
         if (!isset(static::$container)) {
             static::$container = new Container();
         }
-
         return static::$container;
     }
-    
     /**
      * Sets the container instance the Application should use as a Service Locator.
      *
@@ -58,8 +50,7 @@ class App
     {
         static::$container = $container;
     }
-    
-        /**
+    /**
      * Sets a variable on the container.
      *
      * @param string $key   The alias the container will use to reference the variable.
@@ -71,7 +62,6 @@ class App
     {
         static::container()->setVar($key, $value);
     }
-
     /**
      * Sets a variable on the container using the ArrayAccess API.
      *
@@ -89,24 +79,23 @@ class App
     {
         static::container()->offsetSet($offset, $value);
     }
-
     /**
      * Binds an interface a class or a string slug to an implementation and will always return the same instance.
      *
-     * @param string             $id                A class or interface fully qualified name or a string slug.
-     * @param mixed              $implementation    The implementation that should be bound to the alias(es); can be a
-     *                                              class name, an object or a closure.
-     * @param array<string>|null $afterBuildMethods An array of methods that should be called on the built
-     *                                              implementation after resolving it.
+     * @param  string|class-string  $id                 A class or interface fully qualified name or a string slug.
+     * @param  mixed                $implementation     The implementation that should be bound to the alias(es); can
+     *                                                  be a class name, an object or a closure.
+     * @param  string[]|null        $afterBuildMethods  An array of methods that should be called on the built
+     *                                                  implementation after resolving it.
      *
      * @return void This method does not return any value.
+     *
      * @throws ContainerException If there's any issue reflecting on the class, interface or the implementation.
      */
     public static function singleton($id, $implementation = null, array $afterBuildMethods = null)
     {
         static::container()->singleton($id, $implementation, $afterBuildMethods);
     }
-
     /**
      * Returns a variable stored in the container.
      *
@@ -124,15 +113,15 @@ class App
     {
         return static::container()->getVar($key, $default);
     }
-
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param string $offset Identifier of the entry to look for.
+     * @template T
      *
-     * @return mixed The entry for an id.
+     * @param  string|class-string<T>  $offset  Identifier of the entry to look for.
      *
-     * @return mixed The value for the offset.
+     * @return T|mixed The value for the offset.
+     * @phpstan-return ($offset is class-string ? T : mixed)
      *
      * @throws ContainerException Error while retrieving the entry.
      * @throws NotFoundException  No entry was found for **this** identifier.
@@ -141,13 +130,15 @@ class App
     {
         return static::container()->offsetGet($offset);
     }
-
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param string $id A fully qualified class or interface name or an already built object.
+     * @template T
      *
-     * @return mixed The entry for an id.
+     * @param string|class-string<T> $id A fully qualified class or interface name or an already built object.
+     *
+     * @return T|mixed The entry for an id.
+     * @phpstan-return ($id is class-string ? T : mixed)
      *
      * @throws ContainerException Error while retrieving the entry.
      */
@@ -155,7 +146,6 @@ class App
     {
         return static::container()->get($id);
     }
-
     /**
      * Returns an instance of the class or object bound to an interface, class  or string slug if any, else it will try
      * to automagically resolve the object to a usable instance.
@@ -163,9 +153,13 @@ class App
      * If the implementation has been bound as singleton using the `singleton` method
      * or the ArrayAccess API then the implementation will be resolved just on the first request.
      *
-     * @param string $id A fully qualified class or interface name or an already built object.
+     * @template T
      *
-     * @return mixed
+     * @param string|class-string<T> $id A fully qualified class or interface name or an already built object.
+     *
+     * @return T|mixed
+     * @phpstan-return ($id is class-string ? T : mixed)
+     *
      * @throws ContainerException If the target of the make is not bound and is not a valid,
      *                                              concrete, class name or there's any issue making the target.
      */
@@ -173,7 +167,6 @@ class App
     {
         return static::container()->make($id);
     }
-
     /**
      * Returns true if the container can return an entry for the given identifier.
      * Returns false otherwise.
@@ -181,7 +174,7 @@ class App
      * `$container[$id]` returning true does not mean that `$container[$id]` will not throw an exception.
      * It does however mean that `$container[$id]` will not throw a `NotFoundExceptionInterface`.
      *
-     * @param string $offset An offset to check for.
+     * @param string|class-string $offset An offset to check for.
      *
      * @return boolean true on success or false on failure.
      */
@@ -189,7 +182,6 @@ class App
     {
         return static::container()->offsetExists($offset);
     }
-
     /**
      * Returns true if the container can return an entry for the given identifier.
      * Returns false otherwise.
@@ -197,7 +189,7 @@ class App
      * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
      * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
      *
-     * @param string $id Identifier of the entry to look for.
+     * @param string|class-string $id Identifier of the entry to look for.
      *
      * @return bool Whether the container contains a binding for an id or not.
      */
@@ -205,7 +197,6 @@ class App
     {
         return static::container()->has($id);
     }
-
     /**
      * Tags an array of implementations bindings for later retrieval.
      *
@@ -225,7 +216,6 @@ class App
     {
         static::container()->tag($implementationsArray, $tag);
     }
-
     /**
      * Retrieves an array of bound implementations resolving them.
      *
@@ -247,7 +237,6 @@ class App
     {
         return static::container()->tagged($tag);
     }
-
     /**
      * Checks whether a tag group exists in the container.
      *
@@ -261,7 +250,6 @@ class App
     {
         return static::container()->hasTag($tag);
     }
-
     /**
      * Registers a service provider implementation.
      *
@@ -275,7 +263,7 @@ class App
      * If a provider overloads the `boot` method that method will be called when the `boot` method is called on the
      * container itself.
      *
-     * @param string $serviceProviderClass The fully-qualified Service Provider class name.
+     * @param class-string $serviceProviderClass The fully-qualified Service Provider class name.
      * @param string ...$alias             A list of aliases the provider should be registered with.
      * @return void This method does not return any value.
      * @throws ContainerException If the Service Provider is not correctly configured or there's an issue
@@ -290,26 +278,25 @@ class App
     {
         static::container()->register($serviceProviderClass, ...$alias);
     }
-
     /**
      * Binds an interface, a class or a string slug to an implementation.
      *
      * Existing implementations are replaced.
      *
-     * @param string             $id                A class or interface fully qualified name or a string slug.
-     * @param mixed              $implementation    The implementation that should be bound to the alias(es); can be a
-     *                                              class name, an object or a closure.
-     * @param array<string>|null $afterBuildMethods An array of methods that should be called on the built
-     *                                              implementation after resolving it.
+     * @param  string|class-string  $id                 A class or interface fully qualified name or a string slug.
+     * @param  mixed                $implementation     The implementation that should be bound to the alias(es); can
+     *                                                  be a class name, an object or a closure.
+     * @param  string[]|null        $afterBuildMethods  An array of methods that should be called on the built
+     *                                                  implementation after resolving it.
      *
      * @return void The method does not return any value.
+     *
      * @throws ContainerException      If there's an issue while trying to bind the implementation.
      */
     public static function bind($id, $implementation = null, array $afterBuildMethods = null)
     {
         static::container()->bind($id, $implementation, $afterBuildMethods);
     }
-
     /**
      * Boots up the application calling the `boot` method of each registered service provider.
      *
@@ -324,19 +311,17 @@ class App
     {
         static::container()->boot();
     }
-
     /**
      * Binds a class, interface or string slug to a chain of implementations decorating a base
      * object; the chain will be lazily resolved only on the first call.
-     *
      * The base decorated object must be the last element of the array.
      *
-     * @param string                        $id                The class, interface or slug the decorator chain should
-     *                                                         be bound to.
-     * @param array<string|object|callable> $decorators        An array of implementations that decorate an object.
-     * @param array<string>|null            $afterBuildMethods An array of methods that should be called on the
-     *                                                         instance after it has been built; the methods should not
-     *                                                         require any argument.
+     * @param  string|class-string            $id                 The class, interface or slug the decorator chain
+     *                                                            should be bound to.
+     * @param  array<string|object|callable>  $decorators         An array of implementations that decorate an object.
+     * @param  string[]|null                  $afterBuildMethods  An array of methods that should be called on the
+     *                                                            instance after it has been built; the methods should
+     *                                                            not require any argument.
      *
      * @return void This method does not return any value.
      * @throws ContainerException
@@ -345,19 +330,18 @@ class App
     {
         static::container()->singletonDecorators($id, $decorators, $afterBuildMethods);
     }
-
     /**
-     * Binds a class, interface or string slug to to a chain of implementations decorating a
+     * Binds a class, interface or string slug to a chain of implementations decorating a
      * base object.
      *
      * The base decorated object must be the last element of the array.
      *
-     * @param string                        $id                The class, interface or slug the decorator chain should
-     *                                                         be bound to.
-     * @param array<string|object|callable> $decorators        An array of implementations that decorate an object.
-     * @param array<string>|null            $afterBuildMethods An array of methods that should be called on the
-     *                                                         instance after it has been built; the methods should not
-     *                                                         require any argument.
+     * @param  string|class-string            $id                 The class, interface or slug the decorator chain
+     *                                                            should be bound to.
+     * @param  array<string|object|callable>  $decorators         An array of implementations that decorate an object.
+     * @param  string[]|null                  $afterBuildMethods  An array of methods that should be called on the
+     *                                                            instance after it has been built; the methods should
+     *                                                            not require any argument.
      *
      * @return void This method does not return any value.
      * @throws ContainerException If there's any issue binding the decorators.
@@ -366,7 +350,6 @@ class App
     {
         static::container()->bindDecorators($id, $decorators, $afterBuildMethods);
     }
-
     /**
      * Unsets a binding or tag in the container.
      *
@@ -378,11 +361,10 @@ class App
     {
         static::container()->offsetUnset($offset);
     }
-
     /**
      * Starts the `when->needs->give` chain for a contextual binding.
      *
-     * @param string $class The fully qualified name of the requesting class.
+     * @param string|class-string $class The fully qualified name of the requesting class.
      *
      * Example:
      *
@@ -390,8 +372,8 @@ class App
      *      $container->singleton('LoggerInterface', 'FilesystemLogger');
      *      // But if the requesting class is `Worker` return another implementation
      *      $container->when('Worker')
-     *          ->needs('LoggerInterface)
-     *          ->give('RemoteLogger);
+     *          ->needs('LoggerInterface')
+     *          ->give('RemoteLogger');
      *
      * @return Container The container instance, to continue the when/needs/give chain.
      */
@@ -399,7 +381,6 @@ class App
     {
         return static::container()->when($class);
     }
-
     /**
      * Second step of the `when->needs->give` chain for a contextual binding.
      *
@@ -409,10 +390,10 @@ class App
      *      $container->singleton('LoggerInterface', 'FilesystemLogger');
      *      // But if the requesting class is `Worker` return another implementation.
      *      $container->when('Worker')
-     *          ->needs('LoggerInterface)
-     *          ->give('RemoteLogger);
+     *          ->needs('LoggerInterface')
+     *          ->give('RemoteLogger');
      *
-     * @param string $id The class or interface needed by the class.
+     * @param string|class-string $id The class or interface needed by the class.
      *
      * @return Container The container instance, to continue the when/needs/give chain.
      */
@@ -420,7 +401,6 @@ class App
     {
         return static::container()->needs($id);
     }
-
     /**
      * Third step of the `when->needs->give` chain for a contextual binding.
      *
@@ -430,8 +410,8 @@ class App
      *      $container->singleton('LoggerInterface', 'FilesystemLogger');
      *      // but if the requesting class is `Worker` return another implementation
      *      $container->when('Worker')
-     *          ->needs('LoggerInterface)
-     *          ->give('RemoteLogger);
+     *          ->needs('LoggerInterface')
+     *          ->give('RemoteLogger');
      *
      * @param mixed $implementation The implementation specified
      *
@@ -442,37 +422,33 @@ class App
     {
         static::container()->give($implementation);
     }
-
     /**
      * Returns a lambda function suitable to use as a callback; when called the function will build the implementation
      * bound to `$id` and return the value of a call to `$method` method with the call arguments.
      *
-     * @param string|object $id               A fully-qualified class name, a bound slug or an object o call the
-     *                                        callback on.
-     * @param string        $method           The method that should be called on the resolved implementation with the
-     *                                        specified array arguments.
+     * @param  string|class-string|object  $id      A fully-qualified class name, a bound slug or an object o call the
+     *                                              callback on.
+     * @param  string                      $method  The method that should be called on the resolved implementation
+     *                                              with the specified array arguments.
      *
      * @return callable The callback function.
-     *
      * @throws ContainerException If the id is not a bound implementation or valid class name.
      */
     public static function callback($id, $method)
     {
         return static::container()->callback($id, $method);
     }
-
     /**
      * Returns a callable object that will build an instance of the specified class using the
      * specified arguments when called.
-     *
      * The callable will be a closure on PHP 5.3+ or a lambda function on PHP 5.2.
      *
-     * @param string|mixed       $id                The fully qualified name of a class or an interface.
-     * @param array<mixed>       $buildArgs         An array of arguments that should be used to build the instance;
-     *                                              note that any argument will be resolved using the container itself
-     *                                              and bindings will apply.
-     * @param array<string>|null $afterBuildMethods An array of methods that should be called on the built
-     *                                              implementation after resolving it.
+     * @param  string|class-string|mixed  $id                 The fully qualified name of a class or an interface.
+     * @param  array<mixed>               $buildArgs          An array of arguments that should be used to build the
+     *                                                        instance; note that any argument will be resolved using
+     *                                                        the container itself and bindings will apply.
+     * @param  string[]|null              $afterBuildMethods  An array of methods that should be called on the built
+     *                                                        implementation after resolving it.
      *
      * @return callable  A callable function that will return an instance of the specified class when
      *                   called.
@@ -481,7 +457,6 @@ class App
     {
         return static::container()->instance($id, $buildArgs, $afterBuildMethods);
     }
-
     /**
      * Protects a value to make sure it will not be resolved, if callable or if the name of an existing class.
      *
@@ -493,11 +468,10 @@ class App
     {
         return static::container()->protect($value);
     }
-
     /**
      * Returns the Service Provider instance registered.
      *
-     * @param string $providerId The Service Provider clas to return the instance for.
+     * @param string|class-string $providerId The Service Provider class to return the instance for.
      *
      * @return ServiceProvider The service provider instance.
      *
@@ -508,14 +482,13 @@ class App
     {
         return static::container()->getProvider($providerId);
     }
-
     /**
      * Returns whether a binding exists in the container or not.
      *
-     * `isBound($id)` returning `true` means the a call to `bind($id, $implementaion)` or `singleton($id,
+     * `isBound($id)` returning `true` means the call to `bind($id, $implementaion)` or `singleton($id,
      * $implementation)` (or equivalent ArrayAccess methods) was explicitly made.
      *
-     * @param string $id The id to check for bindings in the container.
+     * @param string|class-string $id The id to check for bindings in the container.
      *
      * @return bool Whether an explicit binding for the id exists in the container or not.
      */
@@ -523,7 +496,6 @@ class App
     {
         return static::container()->isBound($id);
     }
-
     /**
      * Sets the mask for the throwables that should be caught and re-thrown as container exceptions.
      *

@@ -1,10 +1,20 @@
 <?php
+/**
+ * ProQuiz view question edit.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName
-class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 
+/**
+ * ProQuiz view question edit.
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName
+ */
+class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 	/**
 	 * @var WpProQuiz_Model_Category
 	 */
@@ -15,8 +25,12 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 	 */
 	public $question;
 
+	/**
+	 * Outputs the view.
+	 *
+	 * @return void
+	 */
 	public function show() {
-
 		wp_enqueue_script( 'media-upload' );
 		wp_enqueue_script( 'thickbox' );
 
@@ -59,7 +73,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 					<p class="description">
 						<?php
 						// translators: placeholder: quiz.
-						echo sprintf( esc_html_x( 'The title is used for overview, it is not visible in %s. If you leave the title field empty, a title will be generated.', 'placeholder: quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
+						printf( esc_html_x( 'The title is used for overview, it is not visible in %s. If you leave the title field empty, a title will be generated.', 'placeholder: quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
 						?>
 					</p>
 					<input name="title" class="regular-text" value="<?php echo esc_attr( $this->question->getTitle() ); ?>" type="text">
@@ -79,7 +93,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 							?>
 						</p>
 						<label>
-							<input name="points" class="small-text" value="<?php echo esc_attr( $this->question->getPoints() ); ?>" type="number" min="1"> <?php esc_html_e( 'Points', 'learndash' ); ?>
+							<input name="points" class="small-text" value="<?php echo esc_attr( (string) $this->question->getPoints() ); ?>" type="number" min="1"> <?php esc_html_e( 'Points', 'learndash' ); ?>
 						</label>
 						<p class="description">
 							<?php
@@ -103,7 +117,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 					<div style="margin-top: 10px; display: none;" id="wpProQuiz_showPointsBox">
 						<label>
 							<input name="showPointsInBox" value="1" type="checkbox" <?php echo $this->question->isShowPointsInBox() ? 'checked="checked"' : ''; ?>>
-							<?php esc_html_e( 'Show reached points in the correct- and incorrect message?', 'learndash' ); ?>
+							<?php esc_html_e( 'Show reached points in the correct and incorrect message?', 'learndash' ); ?>
 						</label>
 					</div>
 				</div>
@@ -151,7 +165,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 				<div class="inside">
 					<?php
 					// translators: placeholder: quiz.
-					echo sprintf( esc_html_x( 'Deactivated in %s settings.', 'placeholder: quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
+					printf( esc_html_x( 'Deactivated in %s settings.', 'placeholder: quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
 					?>
 				</div>
 			</div>
@@ -309,6 +323,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 				<select name="templateSaveList">
 					<option value="0">=== <?php esc_html_e( 'Create new template', 'learndash' ); ?> === </option>
 					<?php
+					// @phpstan-ignore-next-line -- I don't want to touch it.
 					foreach ( $this->templates as $template ) {
 						echo '<option value="', esc_attr( $template->getTemplateId() ), '">', esc_html( $template->getName() ), '</option>';
 					}
@@ -326,7 +341,17 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 		<?php
 	}
 
-	public function singleMultiCoice( $data ) { // cspell:disable-line
+	/**
+	 * Echoes the multi choice row.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param array<WpProQuiz_Model_AnswerTypes> $data Data.
+	 *
+	 * @return void
+	 */
+	public function singleMultiCoice( $data ) {
+		// cspell:disable-line.
 		foreach ( $data as $d ) {
 			?>
 
@@ -355,7 +380,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 						</div>
 						<div style="padding-top: 5px;" class="wpProQuiz_answerPoints">
 							<label>
-								<input type="number" min="0" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
+								<input type="number" step="any" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
 								<?php esc_html_e( 'Points', 'learndash' ); ?>
 							</label>
 						</div>
@@ -377,6 +402,13 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 		}
 	}
 
+	/**
+	 * Outputs the matrix sorting choice.
+	 *
+	 * @param array<WpProQuiz_Model_AnswerTypes> $data Data.
+	 *
+	 * @return void
+	 */
 	public function matrixSortingChoice( $data ) {
 		foreach ( $data as $d ) {
 			?>
@@ -393,7 +425,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 						<tr>
 							<td style="border-right: 1px solid #9E9E9E; padding: 5px; vertical-align: top;">
 								<label class="wpProQuiz_answerPoints">
-									<input type="number" min="0" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
+									<input type="number" step="any" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
 									<?php esc_html_e( 'Points', 'learndash' ); ?>
 								</label>
 							</td>
@@ -430,6 +462,14 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 		}
 	}
 
+
+	/**
+	 * Outputs the sorting choice.
+	 *
+	 * @param array<WpProQuiz_Model_AnswerTypes> $data Data.
+	 *
+	 * @return void
+	 */
 	public function sortingChoice( $data ) {
 		foreach ( $data as $d ) {
 			?>
@@ -452,7 +492,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 								</div>
 								<div style="padding-top: 5px;" class="wpProQuiz_answerPoints">
 									<label>
-										<input type="number" min="0" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
+										<input type="number" step="any" class="small-text wpProQuiz_points" name="answerData[][points]" value="<?php echo esc_attr( $d->getPoints() ); ?>">
 										<?php esc_html_e( 'Points', 'learndash' ); ?>
 									</label>
 								</div>
@@ -567,13 +607,13 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 				<p class="description" style="margin-top: 10px">
 					<?php
 					// translators: placeholder: question, course.
-					echo sprintf( esc_html_x( 'This is a %1$s that can be graded and potentially prevent a user from progressing to the next step of the %2$s.', 'placeholder: question, course', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'question' ) ), esc_html( learndash_get_custom_label_lower( 'course' ) ) )
+					printf( esc_html_x( 'If you set the %1$s to be graded and the student doesn\'t have enough points to proceed, they will be blocked from continuing the %2$s until the %1$s has been graded.', 'placeholder: question, course', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'question' ) ), esc_html( learndash_get_custom_label_lower( 'course' ) ) )
 					?>
 					<br />
-					<?php esc_html_e( 'The user can only progress if the essay is marked as "Graded" and if the user has enough points to move on.', 'learndash' ); ?><br />
+					<?php esc_html_e( 'The student can progress if they have enough points to move on.', 'learndash' ); ?><br />
 					<?php
 					// translators: placeholder: question, quiz.
-					echo sprintf( esc_html_x( 'How should the answer to this %1$s be marked and graded upon %2$s submission?', 'placeholder: question, quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'question' ) ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
+					printf( esc_html_x( 'How should the answer to this %1$s be marked and graded upon %2$s submission?', 'placeholder: question, quiz', 'learndash' ), esc_html( learndash_get_custom_label_lower( 'question' ) ), esc_html( learndash_get_custom_label_lower( 'quiz' ) ) );
 					?>
 					<br />
 				</p>
@@ -585,17 +625,22 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 				</select>
 				<input type="hidden"  id="essay" name="answerData[essay][answer]">
 			<?php
-		}
+		}   }
 
-	}
-
+	/**
+	 * Outputs the single choice options.
+	 *
+	 * @param array<WpProQuiz_Model_AnswerTypes> $data Data.
+	 *
+	 * @return void
+	 */
 	public function singleChoiceOptions( $data ) {
 		?>
 	<div class="postbox" id="singleChoiceOptions">
 		<h3 class="hndle"><?php esc_html_e( 'Single choice options', 'learndash' ); ?></h3>
 		<div class="inside">
 			<p class="description">
-				<?php echo wp_kses_post( __( 'If "Different points for each answer" is activated, you can activate a special mode.<br> This changes the calculation of the points', 'learndash' ) ); ?>
+				<?php echo wp_kses_post( __( 'If "Different points for each answer" is activated, you can activate a special mode.<br> This changes the calculation of the points.', 'learndash' ) ); ?>
 			</p>
 			<label>
 				<input type="checkbox" name="answerPointsDiffModusActivated" value="1" <?php $this->checked( $this->question->isAnswerPointsDiffModusActivated() ); ?>>
@@ -603,7 +648,19 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 			</label>
 			<br><br>
 			<p class="description">
-				<?php esc_html_e( 'Disables the distinction between correct and incorrect.', 'learndash' ); ?><br>
+				<?php
+				echo esc_html(
+					sprintf(
+						// translators: placeholder: question.
+						__(
+							'Disables the distinction between correct and incorrect. If enabled, the total points for the %s are the greatest points from all answers.',
+							'learndash'
+						),
+						learndash_get_custom_label_lower( 'question' )
+					)
+				);
+				?>
+				<br/>
 			</p>
 			<label>
 				<input type="checkbox" name=disableCorrect value="1" <?php $this->checked( $this->question->isDisableCorrect() ); ?>>
@@ -620,6 +677,11 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 		<?php
 	}
 
+	/**
+	 * Outputs the explanation of points calculation.
+	 *
+	 * @return void
+	 */
 	private function answerPointDia() {
 		?>
 <style>
@@ -651,7 +713,7 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 			B=2 Points [incorrect]
 			C=1 Point [incorrect]
 
-			= 6 Points
+			= 3 Points
 			'
 			);
 			?>
@@ -684,10 +746,10 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 
 			Result:
 			A=correct and checked (correct) = 3 Points
-			B=incorrect and unchecked (correct) = 2 Points
-			C=incorrect and unchecked (correct) = 1 Points
+			B=incorrect and unchecked (correct) = 0 Points
+			C=incorrect and unchecked (correct) = 0 Points
 
-			= 6 / 6 Points 100%
+			= 3 / 3 Points 100%
 			'
 			);
 			?>
@@ -725,9 +787,9 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 			Result:
 			A=correct and unchecked (incorrect) = 0 Points
 			B=incorrect and checked (incorrect) = 0 Points
-			C=incorrect and uncecked (correct) = 1 Points
+			C=incorrect and uncecked (correct) = 0 Points
 
-			= 1 / 6 Points 16.67%
+			= 0 / 3 Points 0%
 			'
 			);
 			?>
@@ -764,10 +826,10 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 
 			Result:
 			A=correct and unchecked (incorrect) = 0 Points
-			B=incorrect and unchecked (correct) = 2 Points
+			B=incorrect and unchecked (correct) = 0 Points
 			C=incorrect and checked (incorrect) = 0 Points
 
-			= 2 / 6 Points 33.33%
+			= 0 / 6 Points 0%
 			'
 			);
 			?>
@@ -804,10 +866,10 @@ class WpProQuiz_View_QuestionEdit extends WpProQuiz_View_View {
 
 			Result:
 			A=correct and unchecked (incorrect) = 0 Points
-			B=incorrect and unchecked (correct) = 2 Points
-			C=incorrect and unchecked (correct) = 1 Points
+			B=incorrect and unchecked (correct) = 0 Points
+			C=incorrect and unchecked (correct) = 0 Points
 
-			= 3 / 6 Points 50%
+			= 0 / 3 Points 50%
 			'
 			);
 			?>

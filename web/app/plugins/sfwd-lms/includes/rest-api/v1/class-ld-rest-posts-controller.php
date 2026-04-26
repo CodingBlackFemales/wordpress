@@ -80,15 +80,13 @@ if ( ( ! class_exists( 'LD_REST_Posts_Controller_V1' ) ) && ( class_exists( 'WP_
 		 * Registers the routes for the objects of the controller.
 		 *
 		 * @since 2.5.8
+		 * @since 4.10.2 Deprecated. This function is no longer used.
 		 *
 		 * @see register_rest_route() in WordPress core.
 		 */
 		public function register_routes_wpv2() {
-
-			if ( class_exists( 'LD_REST_Posts_Gutenberg_Controller' ) ) {
-					$g = new LD_REST_Posts_Gutenberg_Controller( $this->post_type );
-				$g->register_routes();
-			}
+			// call deprecated function.
+			_deprecated_function( __METHOD__, '4.10.2' );
 		}
 
 		/**

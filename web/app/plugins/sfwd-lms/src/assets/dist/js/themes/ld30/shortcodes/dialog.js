@@ -1,0 +1,1 @@
+(()=>{"use strict";var e={723:e=>{e.exports=window.wp.i18n}},t={};!function o(r){var p=t[r];if(void 0!==p)return p.exports;var n=t[r]={exports:{}};return e[r](n,n.exports,o),n.exports}(723);var o="undefined"==typeof Element;o||Element.prototype.matches||Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector,!o&&Element.prototype.getRootNode})();

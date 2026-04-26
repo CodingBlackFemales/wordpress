@@ -7,6 +7,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -331,12 +333,18 @@ if ( ! class_exists( 'Learndash_Logger' ) ) {
 			if ( ! empty( $file_name ) ) {
 				$logs_suffixes = (array) get_option( self::SUFFIXES_META_KEY, array() );
 
-				if ( ! isset( $logs_suffixes[ $file_name ] ) ) {
+				$file_suffix = isset( $logs_suffixes[ $file_name ] )
+								? basename( Cast::to_string( $logs_suffixes[ $file_name ] ) )
+								: '';
+
+				if ( empty( $file_suffix ) ) {
 					$logs_suffixes[ $file_name ] = uniqid( '', true );
 					update_option( self::SUFFIXES_META_KEY, $logs_suffixes );
+
+					$file_suffix = $logs_suffixes[ $file_name ];
 				}
 
-				$log_path .= DIRECTORY_SEPARATOR . $file_name . $logs_suffixes[ $file_name ] . self::EXTENSION;
+				$log_path .= DIRECTORY_SEPARATOR . $file_name . $file_suffix . self::EXTENSION;
 			}
 
 			return $log_path;

@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -35,8 +37,13 @@ function learndash_course_info_shortcode( $atts = array(), $content = '', $short
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$atts = apply_filters( 'learndash_shortcode_atts', $atts, $shortcode_slug );
 
-	if ( ( isset( $atts['user_id'] ) ) && ( ! empty( $atts['user_id'] ) ) ) {
-		$user_id = intval( $atts['user_id'] );
+	if ( ! empty( $atts['user_id'] ) ) {
+		// Override the user ID if the current user can't access the passed user ID's data.
+		$atts['user_id'] = learndash_shortcode_protect_user(
+			Cast::to_int( $atts['user_id'] )
+		);
+
+		$user_id = $atts['user_id'];
 		unset( $atts['user_id'] );
 	} else {
 		$current_user = wp_get_current_user();

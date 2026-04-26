@@ -7,6 +7,9 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -101,19 +104,34 @@ function learndash_student_check_shortcode( $atts = array(), $content = '', $sho
 		$view_content = false;
 
 		if ( ( ! empty( $atts['user_id'] ) ) && ( get_current_user_id() === $atts['user_id'] ) ) {
-			if ( ! empty( $atts['course_id'] ) ) {
-				// The reason we are doing this check is because 'sfwd_lms_has_access' will return true if the course does not exist.
-				// This needs to be changed to return some other value because true signals the calling function that all is well.
-				$course_id = learndash_get_course_id( $atts['course_id'] );
-				if ( (int) $course_id === (int) $atts['course_id'] ) {
-					if ( sfwd_lms_has_access( $atts['course_id'], $atts['user_id'] ) ) {
-						$view_content = true;
+			if (
+				! empty( $atts['course_id'] )
+				|| ! empty( $atts['group_id'] )
+			) {
+				$product_id = 0;
+
+				if ( ! empty( $atts['course_id'] ) ) {
+					$course_id = Cast::to_int( learndash_get_course_id( $atts['course_id'] ) );
+
+					if ( $course_id === $atts['course_id'] ) {
+						$product_id = $course_id;
 					}
+				} else {
+					$product_id = $atts['group_id'];
 				}
-			} elseif ( ! empty( $atts['group_id'] ) ) {
-				if ( learndash_is_user_in_group( $atts['user_id'], $atts['group_id'] ) ) {
-					$view_content = true;
-				}
+
+				/**
+				 * The product object.
+				 *
+				 * @var Product|null $product
+				 */
+				$product = Product::find( $product_id );
+
+				$view_content = $product
+								&& (
+									$product->user_has_access( $atts['user_id'] )
+									|| $product->is_pre_ordered( $atts['user_id'] )
+								);
 			} else {
 				$user_enrolled_courses = learndash_user_get_enrolled_courses( $atts['user_id'], array() );
 				$user_enrolled_groups  = learndash_get_users_group_ids( $atts['user_id'] );

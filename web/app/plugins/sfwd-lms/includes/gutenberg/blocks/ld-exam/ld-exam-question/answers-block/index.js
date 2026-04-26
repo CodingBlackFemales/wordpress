@@ -47,6 +47,7 @@ registerBlockType( block_key, {
         inserter: false,
         html: false
     },
+    apiVersion: 3,
     edit: Edit,
     save: () => <InnerBlocks.Content/>
 } );

@@ -1,12 +1,14 @@
 <?php
 /**
- * Page 3 of the design wizard template
+ * Setup wizard step 3.
  *
- * @package LearnDash_Design_Wizard
+ * @version 4.18.0
  *
- * @var array<string, mixed> $template_details
- * @var array<string, array<string, array<string, string>>> $palettes
- * @var LearnDash_Design_Wizard $design_wizard
+ * @var array<string, mixed>                                $template_details Template details.
+ * @var array<string, array<string, array<string, string>>> $palettes         Palettes.
+ * @var LearnDash_Design_Wizard                             $design_wizard    Design wizard object.
+ *
+ * @package LearnDash\Core
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="sidebar">
 		<div class="logo">
             <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-			<img src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/learndash.svg' ); ?>" alt="LearnDash" >
+			<img src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . 'assets/images/learndash.svg' ); ?>" alt="LearnDash" >
 		</div>
 		<div class="header">
 			<div class="title-wrapper">
@@ -69,7 +71,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="exit">
 				<span class="text"><?php esc_html_e( 'Exit to Setup', 'learndash' ); ?></span>
                 <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-				<img src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/exit.svg' ); ?>" >
+				<img src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/exit.svg' ); ?>" >
 			</div>
 		</div>
 		<?php
@@ -82,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="footer">
 			<div class="back">
                 <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-				<img class="icon" src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/back.svg' ); ?>" > 
+				<img class="icon" src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/back.svg' ); ?>" >
 				<span class="text"><?php esc_html_e( 'Back', 'learndash' ); ?></span>
 			</div>
 			<div class="steps">

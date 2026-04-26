@@ -1,8 +1,19 @@
 <?php
+/**
+ * ProQuiz XML Import Helper.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * ProQuiz XML Import Helper.
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+ */
 class WpProQuiz_Helper_ImportXml {
 	private $_content      = null;
 	private $_error        = false;
@@ -132,6 +143,13 @@ class WpProQuiz_Helper_ImportXml {
 		return base64_encode( gzcompress( $this->_content ) );
 	}
 
+	/**
+	 * Saves the imported quizzes.
+	 *
+	 * @param int[] $ids IDs of the quizzes to import.
+	 *
+	 * @return true
+	 */
 	public function saveImport( $ids ) {
 		$quizMapper     = new WpProQuiz_Model_QuizMapper();
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
@@ -264,7 +282,7 @@ class WpProQuiz_Helper_ImportXml {
 					$question_post_array = wp_slash( $question_post_array );
 					$question_post_id    = wp_insert_post( $question_post_array );
 					if ( ! empty( $question_post_id ) ) {
-						update_post_meta( $question_post_id, 'points', absint( $question->getPoints() ) );
+						update_post_meta( $question_post_id, 'points', $question->getPoints() );
 						update_post_meta( $question_post_id, 'question_type', $question->getAnswerType() );
 						update_post_meta( $question_post_id, 'question_pro_id', absint( $question->getId() ) );
 

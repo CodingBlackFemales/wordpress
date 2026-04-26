@@ -45,8 +45,6 @@ if ( ( ! class_exists( 'LD_REST_Groups_Controller_V1' ) ) && ( class_exists( 'LD
 		public function register_routes() {
 			$this->register_fields();
 
-			parent::register_routes_wpv2();
-
 			$collection_params = $this->get_collection_params();
 			$schema            = $this->get_item_schema();
 
@@ -134,18 +132,53 @@ if ( ( ! class_exists( 'LD_REST_Groups_Controller_V1' ) ) && ( class_exists( 'LD
 		}
 
 		/**
-		 * Check Groups Read Permissions.
+		 * Checks if a given request has access to read posts.
+		 * We override this to implement our own permissions check.
 		 *
 		 * @since 2.5.8
 		 *
-		 * @param object $request WP_REST_Request instance.
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 		 */
 		public function get_items_permissions_check( $request ) {
-			if ( ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
+			if (
+				learndash_is_admin_user()
+				|| learndash_is_group_leader_user()
+			) {
 				return true;
-			} else {
-				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 			}
+
+			return new WP_Error(
+				'learndash_rest_forbidden',
+				esc_html__( 'Sorry, you are not allowed to access this resource.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
+
+		/**
+		 * Checks if a given request has access to read a post.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
+		 */
+		public function get_item_permissions_check( $request ) {
+			if (
+				learndash_is_admin_user()
+				|| learndash_is_group_leader_user()
+			) {
+				return true;
+			}
+
+			return new WP_Error(
+				'learndash_rest_forbidden',
+				esc_html__( 'Sorry, you are not allowed to access this resource.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
 		}
 
 		/**

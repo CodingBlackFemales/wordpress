@@ -56,7 +56,7 @@ define( 'LEARNDASH_LMS_TEXT_DOMAIN', 'learndash' );
  *
  * @var string $value PHP version x.x.x or x.x.x.x format.
  */
-define( 'LEARNDASH_MIN_PHP_VERSION', '7.3' );
+define( 'LEARNDASH_MIN_PHP_VERSION', '7.4' );
 
 /**
  * Define LearnDash LMS - Set the minimum supported MySQL version.
@@ -241,6 +241,7 @@ if ( ! defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) {
 	 * This define will be removed in a future release.
 	 *
 	 * @since 3.4.0
+	 * @deprecated 5.0.0 Not used anymore.
 	 *
 	 * @var bool $value {
 	 *    Only one of the following values.
@@ -315,14 +316,14 @@ if ( ! defined( 'LEARNDASH_REST_API_ENABLED' ) ) {
 
 if ( ! defined( 'LEARNDASH_BLOCK_WORDPRESS_CPT_ROUTES' ) ) {
 	/**
-	 * Define LearnDash LMS - Enable block access to default WordPress CPT routes.
+	 * Define LearnDash LMS - Enable LearnDash additional restrictions for the LD WordPress CPT routes (wp/v2/<learndash_post_types>)
 	 *
-	 * Logic added to prevent access to the automatic routes created as part of
-	 * WP core for Gutenberg enabled custom post types. This new logic will prevent
-	 * visibility read access if used is not authenticated or does not have update
-	 * capabilities.
+	 * If enabled, the LearnDash REST API controllers will add additional permission checks to the default WordPress REST API controllers.
+	 *
+	 * If disabled, the default WordPress REST API controllers logic will be used, which has less restrictions by default.
 	 *
 	 * @since 3.2.0
+	 * @deprecated 4.10.3 We always want to have a good level of security. It can always be modified by custom code if needed.
 	 *
 	 * @var bool $value Default is true.
 	 */
@@ -475,10 +476,11 @@ if ( ! defined( 'LEARNDASH_LMS_DEFAULT_QUESTION_POINTS' ) ) {
 	 * Define LearnDash LMS - Set the default quiz question points.
 	 *
 	 * @since 2.1.6
+	 * @since 4.25.1 Changed from int to float.
 	 *
-	 * @var int $value Default is 1.
+	 * @var float $value Default is 1.0.
 	 */
-	define( 'LEARNDASH_LMS_DEFAULT_QUESTION_POINTS', 1 );
+	define( 'LEARNDASH_LMS_DEFAULT_QUESTION_POINTS', 1. );
 }
 
 if ( ! defined( 'LEARNDASH_LMS_DEFAULT_ANSWER_POINTS' ) ) {
@@ -626,18 +628,19 @@ if ( ! defined( 'LEARNDASH_DEFAULT_COURSE_PRICE_TYPE' ) ) {
 	/**
 	 * Define LearnDash LMS - Set the default course price type.
 	 *
-	 * @since 3.2.0
+	 * @since 3.2.0 Default is 'open'.
+	 * @since 4.9.0   Default is 'free'.
 	 *
 	 * @var string $value {
 	 *    Possible values one of the following.
-	 *    @type string open      Price Type 'open'. Default.
-	 *    @type string free      Price Type 'free'.
+	 *    @type string open      Price Type 'open'.
+	 *    @type string free      Price Type 'free'. Default.
 	 *    @type string paynow    Price Type 'paynow'.
 	 *    @type string subscribe Price Type 'subscribe'.
 	 *    @type string closed    Price Type 'closed'.
 	 * }
 	 */
-	define( 'LEARNDASH_DEFAULT_COURSE_PRICE_TYPE', 'open' );
+	define( 'LEARNDASH_DEFAULT_COURSE_PRICE_TYPE', 'free' );
 }
 
 if ( ! defined( 'LEARNDASH_DEFAULT_COURSE_ORDER' ) ) {
@@ -761,7 +764,7 @@ if ( ! defined( 'LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_DEFAULT' ) ) {
 	 *
 	 * @since 3.6.1
 	 *
-	 * @var int $value Default is 5.
+	 * @var int $value Default is 20.
 	 */
 	define( 'LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_DEFAULT', 20 );
 }
@@ -858,7 +861,7 @@ if ( ! defined( 'LEARNDASH_DISABLE_TEMPLATE_CONTENT_OUTSIDE_LOOP' ) ) {
 if ( ! defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) {
 	/**
 	 * Define LearnDash LMS - Controls the method the template content is rendered.
-	 * Supported by LD30 theme only.
+	 * Supported by LD30 theme only (classic variant only).
 	 *
 	 * @since 4.0.0
 	 *

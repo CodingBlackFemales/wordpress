@@ -11,6 +11,9 @@
  * @package LearnDash\REST\V2
  */
 
+use LearnDash\Core\Mappers\Models\Quiz_Id_Mapper;
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -114,7 +117,7 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 					$metabox->load_settings_values();
 					$metabox->load_settings_fields();
 
-					$this->register_rest_fields( $metabox->get_settings_metabox_fields(), $metabox );
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
 				}
 			}
 		}
@@ -211,11 +214,6 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 					$GLOBALS['course_id'] = $course_id;
 				}
 
-				$quiz_id = (int) $request['id'];
-				if ( ( $quiz_id ) && ( sfwd_lms_has_access( $quiz_id ) ) ) {
-					return true;
-				}
-
 				// If we don't have a course parameter we need to get all the courses the user has access to and all
 				// the courses the lesson is available in and compare.
 				if ( empty( $course_id ) ) {
@@ -258,12 +256,12 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 					}
 					$this->ld_course_steps_object = LDLMS_Factory_Post::course_steps( $this->course_post->ID );
 					$this->ld_course_steps_object->load_steps();
-					$lesson_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type );
-					if ( empty( $lesson_ids ) ) {
+					$quiz_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type, 'ids', true );
+					if ( empty( $quiz_ids ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 
-					if ( ! in_array( absint( $request['id'] ), $lesson_ids, true ) ) {
+					if ( ! in_array( absint( $request['id'] ), $quiz_ids, true ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 				}
@@ -276,37 +274,78 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 		 * Check user permission to get/access Quizzes.
 		 *
 		 * @since 3.3.0
+		 * @since 5.0.0 Corrected the type of $request to WP_REST_Request<array<string,mixed>>.
+		 * @since 5.0.0 Corrected the return type to true|WP_Error.
+		 * @since 5.0.0 Non-Admins can now provide only a Lesson or Topic if desired without specifying a Course.
 		 *
-		 * @param object $request  WP_REST_Request instance.
-		 * @return bool True is used can get item.
+		 * @param WP_REST_Request<array<string,mixed>> $request WP_REST_Request instance.
+		 *
+		 * @return true|WP_Error True is used can get item, WP_Error on failure.
 		 */
 		public function get_items_permissions_check( $request ) {
 			$return = parent::get_items_permissions_check( $request );
 			$this->rest_init_request_posts( $request );
-			if ( ( true === $return ) && ( 'view' === $request['context'] ) && ( ! learndash_is_admin_user() ) ) {
 
-				// If the archive setting is enabled we allow full listing.
-				if ( ! $this->rest_post_type_has_archive( $this->post_type ) ) {
-					if ( is_null( $this->course_post ) ) {
-						return new WP_Error(
-							'rest_post_invalid_id',
-							sprintf(
-								// translators: placeholder: Course.
-								esc_html_x(
-									'Missing %s ID',
-									'placeholder: Course',
-									'learndash'
-								),
-								LearnDash_Custom_Label::get_label( 'course' )
-							),
-							array( 'status' => 404 )
-						);
-					}
+			if ( learndash_is_admin_user() ) {
+				return $return;
+			}
 
-					if ( ! sfwd_lms_has_access( $this->course_post->ID ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-				}
+			$has_course_parameter = $this->course_post !== null
+				&& $this->course_post instanceof WP_Post
+				&& $this->course_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::COURSE );
+
+			$has_lesson_parameter = $this->lesson_post !== null
+				&& $this->lesson_post instanceof WP_Post
+				&& $this->lesson_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::LESSON );
+
+			$has_topic_parameter = $this->topic_post !== null
+				&& $this->topic_post instanceof WP_Post
+				&& $this->topic_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::TOPIC );
+
+			$course_id = $has_course_parameter ? $this->course_post->ID : 0;
+			$lesson_id = $has_lesson_parameter ? $this->lesson_post->ID : 0;
+			$topic_id  = $has_topic_parameter ? $this->topic_post->ID : 0;
+
+			if (
+				! $has_course_parameter
+				&& ! $has_lesson_parameter
+				&& ! $has_topic_parameter
+			) {
+				return new WP_Error(
+					'rest_post_invalid_id',
+					esc_html(
+						sprintf(
+							// translators: placeholder: %1$s course label, %2$s lesson label, %3$s topic label.
+							__( 'You must specify either a valid %1$s, %2$s, or %3$s ID.', 'learndash' ),
+							LearnDash_Custom_Label::get_label( 'course' ),
+							LearnDash_Custom_Label::get_label( 'lesson' ),
+							LearnDash_Custom_Label::get_label( 'topic' )
+						)
+					)
+				);
+			}
+
+			if (
+				(
+					$has_topic_parameter
+					&& ! sfwd_lms_has_access( $topic_id )
+				)
+				|| (
+					$has_lesson_parameter
+					&& ! sfwd_lms_has_access( $lesson_id )
+				)
+				|| (
+					$has_course_parameter
+					&& ! sfwd_lms_has_access( $course_id )
+				)
+			) {
+				return new WP_Error(
+					'ld_rest_cannot_view',
+					esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+					[
+						'status' => rest_authorization_required_code(),
+					]
+				);
 			}
 
 			return $return;
@@ -329,61 +368,71 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 
 			$query_args = parent::rest_query_filter( $query_args, $request );
 
-			$step_ids = array();
+			$has_course_parameter = $this->course_post !== null
+				&& $this->course_post instanceof WP_Post
+				&& $this->course_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::COURSE );
 
-			// The course_post should be set in the local method get_items_permissions_check().
-			if ( ( $this->course_post ) && ( is_a( $this->course_post, 'WP_Post' ) ) && ( 'sfwd-courses' === $this->course_post->post_type ) ) {
+			$has_lesson_parameter = $this->lesson_post !== null
+				&& $this->lesson_post instanceof WP_Post
+				&& $this->lesson_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::LESSON );
 
-				if ( $this->topic_post ) {
-					$step_ids = learndash_course_get_children_of_step( $this->course_post->ID, $this->topic_post->ID, $this->post_type );
-				} elseif ( $this->lesson_post ) {
-					$step_ids = learndash_course_get_children_of_step( $this->course_post->ID, $this->lesson_post->ID, $this->post_type );
-				} elseif ( $this->course_post ) {
-					$step_ids = learndash_course_get_steps_by_type( $this->course_post->ID, $this->post_type );
+			$has_topic_parameter = $this->topic_post !== null
+				&& $this->topic_post instanceof WP_Post
+				&& $this->topic_post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::TOPIC );
+
+			// The course_post should be set in the local method get_items_permissions_check() when applicable.
+			if (
+				! $has_course_parameter
+				&& ! $has_lesson_parameter
+				&& ! $has_topic_parameter
+			) {
+				return $query_args;
+			}
+
+			$step_ids = [];
+
+			$course_id = $has_course_parameter ? $this->course_post->ID : 0;
+			$lesson_id = $has_lesson_parameter ? $this->lesson_post->ID : 0;
+			$topic_id  = $has_topic_parameter ? $this->topic_post->ID : 0;
+
+			if ( $has_topic_parameter ) {
+				// Attempt to get the course ID from the topic post if the Course parameter is not set.
+				$course_id = $course_id ? $course_id : Cast::to_int( learndash_get_course_id( $topic_id ) );
+
+				$step_ids = learndash_course_get_children_of_step( $course_id, $topic_id, $this->post_type );
+			} elseif ( $has_lesson_parameter ) {
+				// Attempt to get the course ID from the lesson post if the Course parameter is not set.
+				$course_id = $course_id ? $course_id : Cast::to_int( learndash_get_course_id( $lesson_id ) );
+
+				$step_ids = learndash_course_get_children_of_step( $course_id, $lesson_id, $this->post_type );
+			} else {
+				$step_ids = learndash_course_get_steps_by_type( $course_id, $this->post_type );
+			}
+
+			if ( ! empty( $step_ids ) ) {
+				$query_args['post__in'] = isset( $query_args['post__in'] ) && is_array( $query_args['post__in'] )
+					? array_intersect( $step_ids, $query_args['post__in'] )
+					: $step_ids;
+
+				$course_lessons_args = learndash_get_course_lessons_order( $course_id );
+
+				if ( $request->get_param( 'orderby' ) === null ) {
+					if ( ! empty( $course_lessons_args['orderby'] ) ) {
+						$query_args['orderby'] = $course_lessons_args['orderby'];
+					} else {
+						$query_args['orderby'] = 'title';
+					}
 				}
 
-				if ( ! empty( $step_ids ) ) {
-					$query_args['post__in'] = $query_args['post__in'] ? array_intersect( $step_ids, $query_args['post__in'] ) : $step_ids;
-
-					$course_lessons_args = learndash_get_course_lessons_order( $this->course_post->ID );
-					// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					if ( ! isset( $_GET['orderby'] ) ) {
-						if ( isset( $course_lessons_args['orderby'] ) ) {
-							$query_args['orderby'] = $course_lessons_args['orderby'];
-						} else {
-							$query_args['orderby'] = 'title';
-						}
+				if ( $request->get_param( 'order' ) === null ) {
+					if ( ! empty( $course_lessons_args['order'] ) ) {
+						$query_args['order'] = $course_lessons_args['order'];
+					} else {
+						$query_args['order'] = 'ASC';
 					}
-
-					// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-					if ( ! isset( $_GET['order'] ) ) {
-						if ( isset( $course_lessons_args['order'] ) ) {
-							$query_args['order'] = $course_lessons_args['order'];
-						} else {
-							$query_args['order'] = 'ASC';
-						}
-					}
-				} else {
-					$query_args['post__in'] = array( 0 );
 				}
 			} else {
-				if ( get_current_user_id() ) {
-					/**
-					 * If the user is logged in they can see all GLOBAL quizzes or those not
-					 * associated with a course.
-					 */
-					$step_ids = learndash_get_non_course_qizzes(); // cspell:disable-line.
-				} else {
-					/**
-					 * If the user is NOT logged in they can see all OPEN quizzes or those not
-					 * associated with a course AND allowed to be viewed by non-logged in users.
-					 */
-					$step_ids = learndash_get_open_quizzes( true );
-				}
-
-				if ( ! empty( $step_ids ) ) {
-					$query_args['post__in'] = $query_args['post__in'] ? array_intersect( $step_ids, $query_args['post__in'] ) : $step_ids;
-				}
+				$query_args['post__in'] = [ 0 ];
 			}
 
 			return $query_args;
@@ -393,6 +442,7 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 		 * Get REST Setting Field value.
 		 *
 		 * @since 3.3.0
+		 * @since 5.0.0 The `prerequisites` field is now converted to Post IDs (from Pro Quiz IDs). We don't want to manipulate Pro Quiz IDs in REST API.
 		 *
 		 * @param array           $postdata   Post data array.
 		 * @param string          $field_name Field Name for $postdata value.
@@ -406,9 +456,38 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V2' ) ) && ( class_exists( 'L
 				$field_value = learndash_course_get_single_parent_step( $postdata['course'], $postdata['id'], learndash_get_post_type_slug( 'lesson' ) );
 			} elseif ( 'topic' === $field_name ) {
 				$field_value = learndash_course_get_single_parent_step( $postdata['course'], $postdata['id'], learndash_get_post_type_slug( 'topic' ) );
+			} elseif (
+				'prerequisites' === $field_name
+				&& is_array( $field_value )
+			) {
+				$field_value = Quiz_Id_Mapper::to_post_ids( $field_value );
 			}
 
 			return $field_value;
+		}
+
+		/**
+		 * Update REST Settings Field value.
+		 *
+		 * @since 5.0.0 The `prerequisites` field is now converted to Pro Quiz IDs (from Post IDs). We don't want to manipulate Pro Quiz IDs in REST API.
+		 *
+		 * @param mixed                                $post_value Value of setting to update.
+		 * @param WP_Post                              $post       Post object being updated.
+		 * @param string                               $field_name Settings file name/key.
+		 * @param WP_REST_Request<array<string,mixed>> $request    Request object.
+		 * @param string                               $post_type  Post type string.
+		 *
+		 * @return bool|int
+		 */
+		public function update_rest_settings_field_value( $post_value, WP_Post $post, $field_name, $request, $post_type ) {
+			if (
+				'prerequisites' === $field_name
+				&& is_array( $post_value )
+			) {
+				$post_value = Quiz_Id_Mapper::to_pro_quiz_ids( $post_value );
+			}
+
+			return parent::update_rest_settings_field_value( $post_value, $post, $field_name, $request, $post_type );
 		}
 
 		/**

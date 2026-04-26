@@ -10,11 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\App;
+use LearnDash\Core\Modules\Reports\Legacy\Settings\Page;
+use LearnDash\Core\Utilities\Cast;
+use LearnDash\Core\Utilities\Sanitize;
+
 if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 	/**
 	 * LearnDash Reports Base Class.
 	 *
 	 * @since 2.3.0
+	 *
+	 * @phpstan-import-type Header_Data from LearnDash_Settings_Page
 	 */
 	class Learndash_Admin_Settings_Data_Reports {
 
@@ -28,12 +35,18 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		/**
 		 * Parent menu page URL
 		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
+		 *
 		 * @var string
 		 */
 		protected $parent_menu_page_url;
 
 		/**
 		 * Capability for menu page
+		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
 		 *
 		 * @var string
 		 */
@@ -42,12 +55,18 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		/**
 		 * Settings page ID
 		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
+		 *
 		 * @var string
 		 */
 		protected $settings_page_id;
 
 		/**
 		 * Settings page title
+		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
 		 *
 		 * @var string
 		 */
@@ -56,12 +75,18 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		/**
 		 * Settings tab title
 		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
+		 *
 		 * @var string
 		 */
 		protected $settings_tab_title;
 
 		/**
 		 * Settings tab priority
+		 *
+		 * @since 3.5.0
+		 * @deprecated 4.17.0
 		 *
 		 * @var integer
 		 */
@@ -80,16 +105,7 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		 * @since 2.3.0
 		 */
 		public function __construct() {
-
-			$this->parent_menu_page_url  = 'admin.php?page=learndash-lms-reports';
-			$this->menu_page_capability  = LEARNDASH_ADMIN_CAPABILITY_CHECK;
-			$this->settings_page_id      = 'learndash-lms-reports';
-			$this->settings_page_title   = esc_html_x( 'Reports', 'Learndash Report Menu Label', 'learndash' );
-			$this->settings_tab_title    = $this->settings_page_title;
-			$this->settings_tab_priority = 0;
-
 			add_action( 'init', array( $this, 'init_check_for_download_request' ) );
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 			if ( ! defined( 'LEARNDASH_PROCESS_TIME_PERCENT' ) ) {
 				/** This filter is documented in includes/admin/class-learndash-admin-data-upgrades.php */
@@ -110,9 +126,7 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		 */
 		public function init_check_for_download_request() {
 			if ( isset( $_GET['ld-report-download'] ) ) {
-
 				if ( ( isset( $_GET['data-nonce'] ) ) && ( ! empty( $_GET['data-nonce'] ) ) && ( isset( $_GET['data-slug'] ) ) && ( ! empty( $_GET['data-slug'] ) ) ) {
-
 					if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['data-nonce'] ) ), 'learndash-data-reports-' . sanitize_text_field( wp_unslash( $_GET['data-slug'] ) ) . '-' . get_current_user_id() ) ) {
 						$transient_key = sanitize_text_field( wp_unslash( $_GET['data-slug'] ) ) . '_' . sanitize_text_field( wp_unslash( $_GET['data-nonce'] ) );
 
@@ -169,57 +183,44 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		 * Register settings page
 		 *
 		 * @since 2.3.0
+		 * @deprecated 4.17.0
+		 *
+		 * @return void
 		 */
 		public function admin_menu() {
+			_deprecated_function( __METHOD__, '4.17.0' );
 
-			$data_settings_courses = learndash_data_upgrades_setting( 'user-meta-courses' );
-			$data_settings_quizzes = learndash_data_upgrades_setting( 'user-meta-quizzes' );
+			$page_instance = App::get( Page::class );
 
-			if ( ( ! empty( $data_settings_courses ) ) && ( ! empty( $data_settings_quizzes ) ) ) {
-				$this->settings_page_id = add_submenu_page(
-					'learndash-lms',
-					$this->settings_page_title,
-					$this->settings_page_title,
-					$this->menu_page_capability,
-					$this->settings_page_id,
-					array( $this, 'admin_page' )
-				);
-				add_action( 'load-' . $this->settings_page_id, array( $this, 'on_load_panel' ) );
-
-			} else {
-				// If the data upgrades have not been performed then we call the old Reports page output in ld-admin.php.
-				$this->settings_page_id = add_submenu_page(
-					'learndash-lms',
-					$this->settings_page_title,
-					$this->settings_page_title,
-					LEARNDASH_ADMIN_CAPABILITY_CHECK,
-					'learndash-lms-reports',
-					'learndash_lms_reports_page'
-				);
+			if ( ! $page_instance instanceof Page ) {
+				return;
 			}
+
+			$page_instance->admin_menu();
 		}
 
 		/**
 		 * Admin tabs
 		 *
 		 * @since 2.4.0
+		 * @since 4.17.0 Corrected type of $admin_menu_section
+		 * @deprecated 4.17.0
 		 *
-		 * @param object $admin_menu_section Settings Section instance.
+		 * @param string $admin_menu_section Settings Section instance.
 		 * @param object $ld_admin_tabs      LearnDash Admin Tabs instance.
+		 *
+		 * return void
 		 */
 		public function admin_tabs( $admin_menu_section, $ld_admin_tabs ) {
-			if ( $admin_menu_section == $this->parent_menu_page_url ) {
+			_deprecated_function( __METHOD__, '4.17.0' );
 
-				$ld_admin_tabs->add_admin_tab_item(
-					$admin_menu_section,
-					array(
-						'id'   => $this->settings_page_id,
-						'link' => add_query_arg( array( 'page' => $this->settings_page_id ), 'admin.php' ),
-						'name' => $this->settings_tab_title,
-					),
-					$this->settings_tab_priority
-				);
+			$page_instance = App::get( Page::class );
+
+			if ( ! $page_instance instanceof Page ) {
+				return;
 			}
+
+			$page_instance->admin_tabs( $admin_menu_section );
 		}
 
 		/**
@@ -278,46 +279,34 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		}
 
 		/**
+		 * Returns registered Report Actions.
+		 *
+		 * @since 4.17.0
+		 *
+		 * @return array{class: string, instance: Learndash_Admin_Settings_Data_Reports, slug: string, text?: string}[]
+		 */
+		public function get_report_actions(): array {
+			return $this->report_actions;
+		}
+
+		/**
 		 * Admin page
 		 *
 		 * @since 2.3.0
+		 * @deprecated 4.17.0
+		 *
+		 * @return void
 		 */
 		public function admin_page() {
+			_deprecated_function( __METHOD__, '4.17.0' );
 
-			/**
-			 * Fires before settings page content.
-			 *
-			 * @since 3.0.0
-			 */
-			do_action( 'learndash_settings_page_before_content' );
-			?>
-			<div id="learndash-settings" class="wrap learndash-settings-page-wrap">
-				<h1 class="learndash-empty-page-title"></h1>
-				<form method="post" action="options.php">
-					<div id="poststuff">
-						<div id="advanced-sortables" class="meta-box-sortables">
-							<div id="sfwd-courses_metabox" class="postbox ld_settings_postbox learndash-settings-postbox">
-								<div class="postbox-header">
-									<h2 class="hndle ui-sortable-handle"><?php esc_html_e( 'User Reports', 'learndash' ); ?></h2>
-								</div>
-								<div class="inside">
-									<div class="sfwd sfwd_options sfwd-courses_settings">
-										<table id="learndash-data-reports" class="wc_status_table widefat" cellspacing="0">
-										<?php
-										wp_nonce_field( 'learndash-data-reports-nonce-' . get_current_user_id(), 'learndash-data-reports-nonce' );
-										foreach ( $this->report_actions as $report_action_slug => $report_action ) {
-											$report_action['instance']->show_report_action();
-										}
-										?>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<?php
+			$page_instance = App::get( Page::class );
+
+			if ( ! $page_instance instanceof Page ) {
+				return;
+			}
+
+			$page_instance->show_settings_page();
 		}
 
 		/**
@@ -331,9 +320,7 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		 * @return array
 		 */
 		public function do_data_reports( $post_data = array(), $reply_data = array() ) {
-
 			$this->init_report_actions();
-
 			if ( ( isset( $post_data['slug'] ) ) && ( ! empty( $post_data['slug'] ) ) ) {
 				$post_data_slug = esc_attr( $post_data['slug'] );
 
@@ -489,8 +476,6 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 				}
 			}
 		}
-
-		// End of functions.
 	}
 }
 
@@ -511,21 +496,36 @@ add_action(
  * Handles AJAX requests for Reports.
  *
  * @since 2.3.0
+ *
+ * @return void
  */
-function learndash_data_reports_ajax() {
+function learndash_data_reports_ajax() { // phpcs:ignore Universal.Files.SeparateFunctionsFromOO.Mixed -- TODO: Move this function.
+	if (
+		! current_user_can( 'read' )
+		|| empty( $_POST['data'] )
+		|| empty( $_POST['data']['nonce'] )
+	) {
+		wp_die();
+	}
+
+	$data = Sanitize::array( wp_unslash( $_POST['data'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in Sanitize::array().
+
+	if (
+		! wp_verify_nonce(
+			Cast::to_string( $data['nonce'] ),
+			'learndash-data-reports-' . esc_attr( Cast::to_string( $data['slug'] ) ) . '-' . get_current_user_id()
+		)
+	) {
+		wp_die();
+	}
+
 	$reply_data = array( 'status' => false );
 
-	if ( current_user_can( 'read' ) ) {
-		if ( ( isset( $_POST['nonce'] ) ) && ( ! empty( $_POST['nonce'] ) ) && ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'learndash-data-reports-nonce-' . get_current_user_id() ) ) ) {
-			if ( ( isset( $_POST['data'] ) ) && ( ! empty( $_POST['data'] ) ) ) {
+	$ld_admin_settings_data_reports = new Learndash_Admin_Settings_Data_Reports();
+	$reply_data['data']             = $ld_admin_settings_data_reports->do_data_reports( $data, $reply_data );
 
-				$ld_admin_settings_data_reports = new Learndash_Admin_Settings_Data_Reports();
-				$reply_data['data']             = $ld_admin_settings_data_reports->do_data_reports( $_POST['data'], $reply_data ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	echo wp_json_encode( $reply_data );
 
-				echo wp_json_encode( $reply_data );
-			}
-		}
-	}
 	wp_die(); // this is required to terminate immediately and return a proper response.
 }
 

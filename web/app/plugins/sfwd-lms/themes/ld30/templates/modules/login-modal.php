@@ -27,9 +27,20 @@ if ( is_multisite() ) {
 }
 ?>
 
-<div class="ld-modal ld-login-modal<?php echo ( $can_register ? ' ld-can-register' : '' ); ?>">
-
-	<span class="ld-modal-closer ld-icon ld-icon-delete"></span>
+<div
+	aria-label="<?php esc_attr_e( 'Login modal', 'learndash' ); ?>"
+	aria-modal="true"
+	class="ld-modal ld-login-modal<?php echo ( $can_register ? ' ld-can-register' : '' ); ?>"
+	id="ld-login-modal"
+	role="dialog"
+	tabindex="-1"
+>
+	<span
+		aria-label="<?php esc_attr_e( 'Close the login modal', 'learndash' ); ?>"
+		class="ld-modal-closer ld-icon ld-icon-delete"
+		role="button"
+		tabindex="0"
+	></span>
 
 	<div class="ld-login-modal-login">
 		<div class="ld-login-modal-wrapper">

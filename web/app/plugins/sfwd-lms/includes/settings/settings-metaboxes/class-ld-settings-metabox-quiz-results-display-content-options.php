@@ -90,9 +90,8 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				$this->quiz_edit = $this->init_quiz_edit( $this->_post, $reload_pro_quiz );
 
 				if ( ( isset( $this->quiz_edit['quiz'] ) ) && ( ! empty( $this->quiz_edit['quiz'] ) ) ) {
-					$this->setting_option_values['resultGradeEnabled'] = $this->quiz_edit['quiz']->isResultGradeEnabled();
-					if ( true === $this->setting_option_values['resultGradeEnabled'] ) {
-						$this->setting_option_values['resultGradeEnabled'] = true;
+					if ( $this->quiz_edit['quiz']->is_result_message_enabled() ) {
+						$this->setting_option_values['resultGradeEnabled'] = 'on';
 					} else {
 						$this->setting_option_values['resultGradeEnabled'] = '';
 					}
@@ -183,7 +182,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					$this->setting_option_values['resultTextGrade'] = array();
 					$this->setting_option_values['resultText']      = $this->quiz_edit['quiz']->getResultText();
 					if ( ( '' === $this->setting_option_values['resultText'] ) || ( isset( $this->setting_option_values['resultText']['text'][0] ) ) && ( ! empty( $this->setting_option_values['resultText']['text'][0] ) ) ) {
-						$this->setting_option_values['resultGradeEnabled'] = 'on';
 						if ( is_array( $this->setting_option_values['resultText'] ) ) {
 							$this->setting_option_values['resultTextGrade'] = $this->setting_option_values['resultText'];
 						} else {
@@ -191,8 +189,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 							$this->setting_option_values['resultTextGrade']['prozent'][0] = '0';
 							$this->setting_option_values['resultTextGrade']['activ'][0]   = '1';
 						}
-					} else {
-						$this->setting_option_values['resultGradeEnabled'] = '';
 					}
 				}
 			}
@@ -262,9 +258,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'restart_button_hide',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Quiz label.
+									__( 'Whether to show the "Restart %s" button on the Results page.', 'learndash' ),
+									learndash_get_custom_label( 'Quiz' )
+								),
+								'field_key'   => 'restart_button_hide',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -302,9 +303,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'show_average_result',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: Quiz label.
+									__( 'Whether to show the average score of all users who took the %s on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'Quiz' )
+								),
+								'field_key'   => 'show_average_result',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -329,9 +335,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'show_category_score',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: Question label.
+									__( 'Whether to show the score achieved for each %s category on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'question' )
+								),
+								'field_key'   => 'show_category_score',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -356,9 +367,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_result_points',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Quiz label.
+									__( 'Whether to show the overall %s score on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'hide_result_points',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -382,9 +398,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_result_correct_question',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Questions label.
+									__( 'Whether to show the number of correctly answered %s on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'questions' )
+								),
+								'field_key'   => 'hide_result_correct_question',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -404,9 +425,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_result_quiz_time',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Quiz label.
+									__( 'Whether to show the time spent on the %s on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'hide_result_quiz_time',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -431,9 +457,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'custom_answer_feedback',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Question label.
+									__( 'Whether to show custom answer feedback for each %s on the results page.', 'learndash' ),
+									learndash_get_custom_label( 'question' )
+								),
+								'field_key'   => 'custom_answer_feedback',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -453,9 +484,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_answer_message_box',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Question label.
+									__( 'Whether to show the correct / incorrect messages for each %s on the results page. Requires the "Custom Answer Feedback" setting to be enabled.', 'learndash' ),
+									learndash_get_custom_label( 'question' )
+								),
+								'field_key'   => 'hide_answer_message_box',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -474,9 +510,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'disabled_answer_mark',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Question label.
+									__( 'Whether to show the correct / incorrect answer marks for each %s on the results page. Requires the "Custom Answer Feedback" setting to be enabled.', 'learndash' ),
+									learndash_get_custom_label( 'question' )
+								),
+								'field_key'   => 'disabled_answer_mark',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -499,9 +540,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'view_question_button_hidden',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => sprintf(
+									// translators: placeholder: Questions label.
+									__( 'Whether to show the "View %s" button on the results page. Requires the "Custom Answer Feedback" setting to be enabled.', 'learndash' ),
+									learndash_get_custom_label( 'questions' )
+								),
+								'field_key'   => 'view_question_button_hidden',
+								'type'        => 'boolean',
 							),
 						),
 					),

@@ -7,13 +7,6 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Template\Breadcrumbs;
 
 use InvalidArgumentException;
@@ -86,12 +79,12 @@ class Breadcrumb {
 		/**
 		 * Filters the breadcrumb ID.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string     $id         Breadcrumb ID.
 		 * @param Breadcrumb $Breadcrumb Breadcrumb object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return (string) apply_filters( 'learndash_template_breadcrumb_id', $this->id, $this );
 	}
@@ -107,12 +100,12 @@ class Breadcrumb {
 		/**
 		 * Filters the Breadcrumb label.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string     $label      Breadcrumb label.
 		 * @param Breadcrumb $Breadcrumb Breadcrumb object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return (string) apply_filters( 'learndash_template_breadcrumb_label', $this->label, $this );
 	}
@@ -128,12 +121,12 @@ class Breadcrumb {
 		/**
 		 * Filters the breadcrumb url.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string     $url        Breadcrumb url.
 		 * @param Breadcrumb $Breadcrumb Breadcrumb object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return apply_filters( 'learndash_template_breadcrumb_url', $this->url, $this );
 	}
@@ -149,12 +142,12 @@ class Breadcrumb {
 		/**
 		 * Filters the breadcrumb is_last state.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param bool       $is_last    Breadcrumb is_last state.
 		 * @param Breadcrumb $Breadcrumb Breadcrumb object.
 		 *
-		 * @ignore
+		 * @return bool
 		 */
 		return (bool) apply_filters( 'learndash_template_breadcrumb_is_last', $this->is_last, $this );
 	}

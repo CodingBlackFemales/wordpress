@@ -6,6 +6,8 @@
  * @package LearnDash\Settings\Metaboxes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -17,7 +19,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 	 * @since 3.0.0
 	 */
 	class LearnDash_Settings_Metabox_Quiz_Admin_Data_Handling_Settings extends LearnDash_Settings_Metabox {
-
 		/**
 		 * Quiz edit
 		 *
@@ -133,12 +134,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						$this->setting_option_values['custom_fields_forms'] = array();
 					}
 
-					if ( empty( $this->setting_option_values['custom_fields_forms'] ) ) {
-						$this->setting_option_values['formActivated'] = '';
-					} else {
-						$this->setting_option_values['formActivated'] = 'on';
-					}
-
 					$this->setting_option_values['formShowPosition'] = $this->quiz_edit['quiz']->getFormShowPosition();
 					if ( WpProQuiz_Model_Quiz::QUIZ_FORM_POSITION_START === $this->setting_option_values['formShowPosition'] ) {
 						$this->setting_option_values['formShowPosition'] = WpProQuiz_Model_Quiz::QUIZ_FORM_POSITION_START;
@@ -153,7 +148,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						$this->setting_option_values['toplistActivated'] = '';
 					}
 
-					$this->setting_option_values['toplistDataAddPermissions'] = $this->quiz_edit['quiz']->getToplistDataAddPermissions();
+					$this->setting_option_values['toplistDataAddPermissions'] = Cast::to_string( $this->quiz_edit['quiz']->getToplistDataAddPermissions() );
 					$this->setting_option_values['toplistDataAddMultiple']    = $this->quiz_edit['quiz']->isToplistDataAddMultiple();
 					if ( true === $this->setting_option_values['toplistDataAddMultiple'] ) {
 						$this->setting_option_values['toplistDataAddMultiple'] = 'on';
@@ -168,7 +163,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					}
 
 					$this->setting_option_values['toplistDataShowLimit'] = $this->quiz_edit['quiz']->getToplistDataShowLimit();
-					$this->setting_option_values['toplistDataSort']      = $this->quiz_edit['quiz']->getToplistDataSort();
+					$this->setting_option_values['toplistDataSort']      = Cast::to_string( $this->quiz_edit['quiz']->getToplistDataSort() );
 					$this->setting_option_values['toplistDataShowIn']    = $this->quiz_edit['quiz']->getToplistDataShowIn();
 					if ( absint( $this->setting_option_values['toplistDataShowIn'] ) > 0 ) {
 						$this->setting_option_values['toplistDataShowIn_enabled'] = 'on';
@@ -208,12 +203,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 					if ( isset( $this->quiz_edit['quiz_postmeta']['viewProfileStatistics'] ) ) {
 						$this->setting_option_values['viewProfileStatistics'] = $this->quiz_edit['quiz_postmeta']['viewProfileStatistics'];
-					} else {
-						if ( 'post-new.php' === $pagenow ) {
+					} elseif ( 'post-new.php' === $pagenow ) {
 							$this->setting_option_values['viewProfileStatistics'] = true;
-						} else {
-							$this->setting_option_values['viewProfileStatistics'] = $this->quiz_edit['quiz']->getViewProfileStatistics();
-						}
+					} else {
+						$this->setting_option_values['viewProfileStatistics'] = $this->quiz_edit['quiz']->getViewProfileStatistics();
 					}
 					if ( true === $this->setting_option_values['viewProfileStatistics'] ) {
 						$this->setting_option_values['viewProfileStatistics'] = 'on';
@@ -324,11 +317,12 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					'rest'        => array(
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
-							'schema' => array(
-								'field_key' => 'toplist_data_add_delay',
-								'type'      => 'integer',
-								'default'   => 1,
-							),
+							'schema' => [
+								'default'     => 1,
+								'description' => __( 'The delay in minutes before a user can add more data to the leaderboard.', 'learndash' ),
+								'field_key'   => 'toplist_data_add_delay',
+								'type'        => 'integer',
+							],
 						),
 					),
 				),
@@ -350,15 +344,16 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					'rest'       => array(
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
-							'schema' => array(
-								'field_key' => 'toplist_data_shown',
-								'type'      => 'sting',
-								'default'   => '1',
-								'enum'      => array(
-									'1' => esc_html__( 'Below the result text', 'learndash' ),
-									'2' => esc_html__( 'In a button', 'learndash' ),
-								),
-							),
+							'schema' => [
+								'default'     => '1',
+								'description' => __( 'The location of the leaderboard on the results page. 1 is below the result text, 2 is in a button.', 'learndash' ),
+								'enum'        => [
+									'1',
+									'2',
+								],
+								'field_key'   => 'toplist_data_shown',
+								'type'        => 'string',
+							],
 						),
 					),
 				),
@@ -386,9 +381,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'statistics_ip_lock',
-								'default'   => 0,
-								'type'      => 'integer',
+								'default'     => 0,
+								'description' => __( 'How often statistics will be saved in minutes from the same IP. The "statistics_ip_lock_enabled" setting must be enabled for this to take effect.', 'learndash' ),
+								'field_key'   => 'statistics_ip_lock',
+								'type'        => 'integer',
 							),
 						),
 					),
@@ -419,8 +415,20 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'email_notification',
-								'type'      => 'string',
+								'default'     => (string) WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_ALL,
+								'description' => sprintf(
+									// translators: placeholder: %1$s quiz label, %2$d all users, %3$d registered users only.
+									__( 'Which users should cause the admin to receive an email notification on %1$s completion. "%2$d" is all users, "%3$d" is registered users only.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' ),
+									WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_ALL,
+									WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_REG_USER
+								),
+								'enum'        => [
+									(string) WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_ALL,
+									(string) WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_REG_USER,
+								],
+								'field_key'   => 'email_notification',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -503,6 +511,75 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					'input_full'     => true,
 					'value'          => $this->setting_option_values['custom_fields_forms'],
 					'parent_setting' => 'formActivated',
+					'rest'           => array(
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => array(
+							'get_callback' => [ $this, 'custom_fields_forms_get_callback' ],
+							'schema'       => [
+								'field_key' => 'custom_fields_forms',
+								'default'   => [],
+								'readonly'  => true,
+								'type'      => 'array',
+								'items'     => [
+									'type'       => 'object',
+									'properties' => [
+										'name'     => [
+											'type'        => 'string',
+											'description' => esc_html__( 'Field name.', 'learndash' ),
+										],
+										'type'     => [
+											'type'        => 'string',
+											'description' => sprintf(
+												/* translators: placeholder: %1$s: text field value, %2$s: textarea field value, %3$s: number field value, %4$s: email field value, %5$s: date field value, %6$s: checkbox field value, %7$s: radio field value, %8$s: select field value, %9$s: yes/no field value */
+												__( 'Field type. "%1$s" is text, "%2$s" is textarea, "%3$s" is number, "%4$s" is email, "%5$s" is date, "%6$s" is checkbox, "%7$s" is radio, "%8$s" is select, "%9$s" is yes/no.', 'learndash' ),
+												(string) WpProQuiz_Model_Form::FORM_TYPE_TEXT,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_TEXTAREA,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_NUMBER,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_EMAIL,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_DATE,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_CHECKBOX,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_RADIO,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_SELECT,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_YES_NO,
+											),
+											'enum'        => [
+												(string) WpProQuiz_Model_Form::FORM_TYPE_TEXT,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_TEXTAREA,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_NUMBER,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_EMAIL,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_DATE,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_CHECKBOX,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_RADIO,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_SELECT,
+												(string) WpProQuiz_Model_Form::FORM_TYPE_YES_NO,
+											],
+										],
+										'sort'     => [
+											'type'        => 'integer',
+											'description' => esc_html__( 'Field sort order.', 'learndash' ),
+										],
+										'data'     => [
+											'type'        => 'array',
+											'description' => esc_html__( 'Field data. Used as options for select and radio fields.', 'learndash' ),
+											'items'       => [
+												'type' => 'string',
+											],
+											'nullable'    => true,
+										],
+										'id'       => [
+											'type'        => 'integer',
+											'description' => esc_html__( 'Field ID.', 'learndash' ),
+										],
+										'required' => [
+											'type'        => 'boolean',
+											'description' => esc_html__( 'Whether the field is required.', 'learndash' ),
+											'default'     => false,
+										],
+									],
+								],
+							],
+						),
+					),
 				),
 				'formShowPosition'            => array(
 					'name'           => 'formShowPosition',
@@ -540,9 +617,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => __( 'Whether the leaderboard is enabled.', 'learndash' ),
+								'field_key'   => 'toplist_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -563,14 +641,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_add_permissions',
-								'type'      => 'string',
-								'default'   => '1',
-								'enum'      => array(
+								'default'     => '1',
+								'description' => __( 'Who can apply to the leaderboard. 1 is all users, 2 is registered users only, 3 is anonymous users only.', 'learndash' ),
+								'enum'        => [
 									'1',
 									'2',
 									'3',
-								),
+								],
+								'field_key'   => 'toplist_data_add_permissions',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -595,9 +674,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_add_multiple',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => __( 'Whether users can apply more than once to the leaderboard.', 'learndash' ),
+								'field_key'   => 'toplist_data_add_multiple',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -617,9 +697,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_add_automatic',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => __( 'Whether users are added automatically to the leaderboard.', 'learndash' ),
+								'field_key'   => 'toplist_data_add_automatic',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -641,9 +722,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_show_limit',
-								'type'      => 'integer',
-								'default'   => 10,
+								'default'     => 10,
+								'description' => __( 'The number of entries to display on the leaderboard.', 'learndash' ),
+								'field_key'   => 'toplist_data_show_limit',
+								'type'        => 'integer',
 							),
 						),
 					),
@@ -665,14 +747,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_sort',
-								'type'      => 'string',
-								'default'   => '1',
-								'enum'      => array(
+								'description' => __( 'The sort order of the leaderboard. 1 is best user, 2 is newest entry, 3 is oldest entry.', 'learndash' ),
+								'enum'        => [
 									'1',
 									'2',
 									'3',
-								),
+								],
+								'field_key'   => 'toplist_data_sort',
+								'type'        => 'string',
+								'default'     => '1',
 							),
 						),
 					),
@@ -699,9 +782,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'toplist_data_showin_enabled', // cspell:disable-line.
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => __( 'Whether the leaderboard is displayed on the results page.', 'learndash' ),
+								'field_key'   => 'toplist_data_showin_enabled', // cspell:disable-line.
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -742,9 +826,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'statistics_enabled',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => __( 'Whether statistics are enabled.', 'learndash' ),
+								'field_key'   => 'statistics_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -763,9 +848,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'view_profile_statistics_enabled',
-								'type'      => 'boolean',
-								'default'   => true,
+								'default'     => true,
+								'description' => __( 'Whether the front-end profile display is enabled for statistics.', 'learndash' ),
+								'field_key'   => 'view_profile_statistics_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -788,9 +874,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'statistics_ip_lock_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'description' => __( 'Whether statistics are protected from spam by checking the IP address.', 'learndash' ),
+								'field_key'   => 'statistics_ip_lock_enabled',
+								'type'        => 'boolean',
+								'default'     => false,
 							),
 						),
 					),
@@ -810,9 +897,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'email_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => 'Whether email notifications are enabled.',
+								'field_key'   => 'email_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -836,9 +924,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'email_admin_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => 'Whether admin email notifications are enabled.',
+								'field_key'   => 'email_admin_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -857,9 +946,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'email_user_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => 'Whether user email notifications are enabled.',
+								'field_key'   => 'email_user_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -949,12 +1039,10 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 			// If the Real Simple CAPTCHA is not installed then clear and disable the checkbox.
 			if ( ! class_exists( 'ReallySimpleCaptcha' ) ) {
-				if ( isset( $this->setting_option_fields['toplistDataCaptcha'] ) ) {
-					$this->setting_option_fields['toplistDataCaptcha']['value'] = '';
-					$this->setting_option_fields['toplistDataCaptcha']['attrs'] = array(
-						'disabled' => 'disabled',
-					);
-				}
+				$this->setting_option_fields['toplistDataCaptcha']['value'] = '';
+				$this->setting_option_fields['toplistDataCaptcha']['attrs'] = array(
+					'disabled' => 'disabled',
+				);
 			}
 
 			/** This filter is documented in includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php */
@@ -976,7 +1064,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 		 */
 		public function filter_saved_fields( $settings_values = array(), $settings_metabox_key = '', $settings_screen_id = '' ) {
 			if ( ( $settings_screen_id === $this->settings_screen_id ) && ( $settings_metabox_key === $this->settings_metabox_key ) ) {
-
 				if ( ( isset( $settings_values['formActivated'] ) ) && ( 'on' === $settings_values['formActivated'] ) ) {
 					$settings_values['formActivated'] = true;
 				} else {
@@ -1055,7 +1142,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				// Main Email notification switch.
 				if ( ( isset( $settings_values['email_enabled'] ) ) && ( 'on' === $settings_values['email_enabled'] ) ) {
 					if ( ( isset( $settings_values['email_enabled_admin'] ) ) && ( 'on' === $settings_values['email_enabled_admin'] ) ) {
-
 						if ( ( isset( $settings_values['emailNotification'] ) ) && ( ( WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_ALL == $settings_values['emailNotification'] ) || ( WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_REG_USER == $settings_values['emailNotification'] ) ) ) {
 							$settings_values['emailNotification'] = $settings_values['emailNotification'];
 						} else {
@@ -1081,7 +1167,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				 * logic.
 				 */
 				if ( ( $this->verify_metabox_nonce_field() ) && ( isset( $settings_values['templates_enabled'] ) ) && ( 'on' === $settings_values['templates_enabled'] ) ) {
-
 					// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 					if ( '-1' === $_POST['templateSaveList'] ) {
 						$_POST['templateSaveList'] = '';
@@ -1114,24 +1199,78 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					$settings_values['timeLimitCookie'] = '';
 				}
 
-				if ( '-1' === $settings_values['quiz_pro'] ) {
-					$settings_values['quiz_pro'] = '';
-				}
+				// We should NOT process the quiz_pro value if we are serving the REST API.
 
-				/**
-				 * We set the value from the settings if empty to prevent the ProQuiz logic from
-				 * assigning a new pro_quiz ID.
-				 */
-				if ( empty( $settings_values['quiz_pro'] ) ) {
-					$settings_values['quiz_pro'] = learndash_get_setting( get_the_ID(), 'quiz_pro' );
-				}
+				if ( ! wp_is_serving_rest_request() ) {
+					if ( '-1' === $settings_values['quiz_pro'] ) {
+						$settings_values['quiz_pro'] = '';
+					}
 
-				if ( 'new' === $settings_values['quiz_pro'] ) {
-					$settings_values['quiz_pro'] = '';
+					/**
+					 * We set the value from the settings if empty to prevent the ProQuiz logic from
+					 * assigning a new pro_quiz ID.
+					 */
+					if ( empty( $settings_values['quiz_pro'] ) ) {
+						$settings_values['quiz_pro'] = learndash_get_setting( get_the_ID(), 'quiz_pro' );
+					}
+
+					if ( 'new' === $settings_values['quiz_pro'] ) {
+						$settings_values['quiz_pro'] = '';
+					}
+				} else {
+					// If we are serving the REST API, we need to unset the quiz_pro value.
+					unset( $settings_values['quiz_pro'] );
 				}
 			}
 
 			return $settings_values;
+		}
+
+		/**
+		 * Get Pro Quiz custom fields data for REST API.
+		 *
+		 * @since 4.25.4
+		 *
+		 * @param array<string, mixed> $post Post data array.
+		 *
+		 * @return array<array<string, mixed>> Custom fields data.
+		 */
+		public function custom_fields_forms_get_callback( $post ) {
+			$custom_fields = [];
+
+			// Get the quiz pro ID from post meta.
+			if ( ! isset( $post['id'] ) ) {
+				return $custom_fields;
+			}
+
+			$quiz_pro_id = Cast::to_int(
+				get_post_meta( Cast::to_int( $post['id'] ), 'quiz_pro_id', true )
+			);
+
+			// If Quiz pro ID not set, return empty array.
+			if ( empty( $quiz_pro_id ) ) {
+				return $custom_fields;
+			}
+
+			// Fetch the latest custom fields from the database.
+
+			$quiz_form_mapper = new WpProQuiz_Model_FormMapper();
+			$forms            = $quiz_form_mapper->fetch( $quiz_pro_id );
+
+			foreach ( $forms as $field ) {
+				if ( $field instanceof WpProQuiz_Model_Form ) {
+					$custom_fields[] = [
+						'name'     => $field->getFieldname(),
+						'type'     => $field->getType(),
+						'required' => $field->isRequired(),
+						'id'       => $field->getFormId(),
+						'sort'     => $field->getSort(),
+						'data'     => $field->getData(),
+					];
+				}
+			}
+
+			return $custom_fields;
 		}
 
 		// End of functions.
@@ -1139,7 +1278,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 	add_filter(
 		'learndash_post_settings_metaboxes_init_' . learndash_get_post_type_slug( 'quiz' ),
-		function( $metaboxes = array() ) {
+		function ( $metaboxes = array() ) {
 			if ( ( ! isset( $metaboxes['LearnDash_Settings_Metabox_Quiz_Admin_Data_Handling_Settings'] ) ) && ( class_exists( 'LearnDash_Settings_Metabox_Quiz_Admin_Data_Handling_Settings' ) ) ) {
 				$metaboxes['LearnDash_Settings_Metabox_Quiz_Admin_Data_Handling_Settings'] = LearnDash_Settings_Metabox_Quiz_Admin_Data_Handling_Settings::add_metabox_instance();
 			}

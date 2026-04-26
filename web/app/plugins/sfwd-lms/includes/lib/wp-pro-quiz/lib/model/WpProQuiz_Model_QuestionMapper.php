@@ -1,15 +1,30 @@
 <?php
+/**
+ * ProQuiz question model mapper.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
+/**
+ * ProQuiz question model mapper.
+ *
+ * @since 2.6.0
+ */
 class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 	private $_table;
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 
-		//$this->_table = $this->_prefix."question";
 		$this->_table = $this->_tableQuestion;
 	}
 
@@ -98,6 +113,14 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 		);
 	}
 
+	/**
+	 * Saves the question.
+	 *
+	 * @param WpProQuiz_Model_Question $question Question model.
+	 * @param bool                     $auto     Not sure what this is for. Default false.
+	 *
+	 * @return WpProQuiz_Model_Question
+	 */
 	public function save( WpProQuiz_Model_Question $question, $auto = false ) {
 		$sort                 = null;
 		$question_previous_id = null;
@@ -148,7 +171,7 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 					'matrix_sort_answer_criteria_width'  => $question->getMatrixSortAnswerCriteriaWidth(),
 				),
 				array( 'id' => $question->getId() ),
-				array( '%s', '%s', '%d', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%d' ),
+				array( '%s', '%s', '%.2f', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%d' ),
 				array( '%d' )
 			);
 		} else {
@@ -175,7 +198,7 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 					'disable_correct'                    => (int) $question->isDisableCorrect(),
 					'matrix_sort_answer_criteria_width'  => $question->getMatrixSortAnswerCriteriaWidth(),
 				),
-				array( '%d', '%d', '%d', '%s', '%d', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%d' )
+				array( '%d', '%d', '%d', '%s', '%.2f', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%d', '%d' )
 			);
 
 			$question->setId( $this->_wpdb->insert_id );
@@ -183,33 +206,6 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 
 		if ( ( ! empty( $question_previous_id ) ) && ( absint( $question_previous_id ) !== absint( $question->getId() ) ) ) {
 			$this->setPreviousId( $question->getId(), $question_previous_id );
-		}
-
-		if ( ( true === learndash_is_data_upgrade_quiz_questions_updated() ) && ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Builder', 'enabled' ) !== 'yes' ) ) {
-			$question_post_id = learndash_get_question_post_by_pro_id( $question->getId() );
-			if ( empty( $question_post_id ) ) {
-				// We load fresh from DB. Don't use the $question object as it is not up to date.
-				$question_pro = $this->fetchById( $question->getId() );
-				if ( ( $question_pro ) && ( is_a( $question_pro, 'WpProQuiz_Model_Question' ) ) ) {
-					$question_insert_post                 = array();
-					$question_insert_post['post_type']    = learndash_get_post_type_slug( 'question' );
-					$question_insert_post['post_status']  = 'publish';
-					$question_insert_post['post_title']   = $question_pro->getTitle();
-					$question_insert_post['post_content'] = $question_pro->getQuestion();
-					$question_insert_post['menu_order']   = absint( $question_pro->getSort() );
-
-					$question_insert_post    = wp_slash( $question_insert_post );
-					$question_insert_post_id = wp_insert_post( $question_insert_post );
-					if ( false !== $question_insert_post_id ) {
-						$quiz_pro_id  = $question_pro->getQuizId();
-						$quiz_pro_id  = absint( $quiz_pro_id );
-						$quiz_post_id = learndash_get_quiz_id_by_pro_quiz_id( $quiz_pro_id );
-						learndash_update_setting( $question_insert_post_id, 'quiz', $quiz_post_id );
-						learndash_proquiz_sync_question_fields( $question_insert_post_id, $question_pro );
-						learndash_set_question_quizzes_dirty( $question_insert_post_id );
-					}
-				}
-			}
 		}
 
 		return $question;
@@ -232,17 +228,27 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 
 		$model = new WpProQuiz_Model_Question( $row );
 		return $model;
-
-		//return $model->get_specific_question_model();
-
-		//$view = new WpProQuiz_View_QuestionFront();
-
 	}
 
+	/**
+	 * Fetches questions by IDs.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param mixed $id      Array of IDs or single ID.
+	 * @param mixed $online  Online status. Default 1.
+	 *
+	 * @return null|WpProQuiz_Model_Question|array<WpProQuiz_Model_Question>
+	 */
 	public function fetchById( $id, $online = 1 ) {
+		$ids = array_map(
+			function ( $value ) {
+				return Cast::to_int( $value );
+			},
+			(array) $id
+		);
 
-		$ids = array_map( 'intval', (array) $id );
-		$a   = array();
+		$a = array();
 
 		if ( empty( $ids ) ) {
 			return null;
@@ -259,6 +265,10 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 			ARRAY_A
 		);
 
+		if ( ! $results ) {
+			return null;
+		}
+
 		foreach ( $results as $row ) {
 			$a[] = new WpProQuiz_Model_Question( $row );
 
@@ -267,16 +277,31 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 		return is_array( $id ) ? $a : ( isset( $a[0] ) ? $a[0] : null );
 	}
 
-	public function fetchAll( $quizId = 0, $rand = false, $max = 0, $offset = 0, $only_online = true ) {
+	/**
+	 * Fetches questions by quiz.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param int|WpProQuiz_Model_Quiz $quiz_id     Quiz ID or model.
+	 * @param bool                     $rand        Random order. Default false.
+	 * @param int                      $max         Maximum number of questions to fetch. Default all (zero).
+	 * @param int                      $offset      Data offset. Default zero.
+	 * @param bool                     $only_online Only online questions. Default true.
+	 *
+	 * @return array<WpProQuiz_Model_Question>
+	 */
+	public function fetchAll( $quiz_id = 0, $rand = false, $max = 0, $offset = 0, $only_online = true ) {
 		$quiz_post_id = 0;
-		if ( is_a( $quizId, 'WpProQuiz_Model_Quiz' ) ) {
-			$quiz   = $quizId;
-			$quizId = $quiz->getId();
+
+		if ( $quiz_id instanceof WpProQuiz_Model_Quiz ) {
+			$quiz    = $quiz_id;
+			$quiz_id = $quiz->getId();
 			if ( empty( $quiz_post_id ) ) {
 				$quiz_post_id = $quiz->getPostId();
 			}
 		} else {
-			$quiz_post_id = learndash_get_question_post_by_pro_id( $quizId );
+			$quiz_post_id = learndash_get_quiz_id_by_pro_quiz_id( $quiz_id );
+
 			if ( empty( $quiz_post_id ) ) {
 				if ( ( isset( $_GET['post'] ) ) && ( ! empty( $_GET['post'] ) ) ) {
 					$quiz_post_id = learndash_get_quiz_id( absint( $_GET['post'] ) );
@@ -292,6 +317,8 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 				/**
 				 * Filters pro quiz questions list.
 				 *
+				 * @since 2.6.0
+				 *
 				 * Used in `fetchAll` method of `WpProQuiz_Model_QuestionMapper` class to fetch all pro quiz questions.
 				 *
 				 * @param array   $pro_questions An array of pro quiz question IDs.
@@ -299,10 +326,9 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 				 * @param boolean $random        Whether to fetch questions in random order.
 				 * @param int     $max           The maximum number of questions to be fetched.
 				 */
-				$pro_questions = apply_filters( 'learndash_fetch_quiz_questions', $pro_questions, $quizId, $rand, $max );
+				$pro_questions = apply_filters( 'learndash_fetch_quiz_questions', $pro_questions, $quiz_id, $rand, $max );
 				if ( ! empty( $pro_questions ) ) {
 					if ( $rand ) {
-						//$pro_questions = array_rand( $pro_questions, intval( $max ) );
 						shuffle( $pro_questions );
 
 						$max = absint( $max );
@@ -364,10 +390,14 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 									' . $where . '
 								' . $orderBy . '
 								' . $limit,
-					$quizId
+					$quiz_id
 				),
 				ARRAY_A
 			);
+
+			if ( ! $results ) {
+				return $a;
+			}
 
 			foreach ( $results as $row ) {
 				$model = new WpProQuiz_Model_Question( $row );
@@ -509,6 +539,13 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 		return $this->_wpdb->get_var( $this->_wpdb->prepare( "SELECT COUNT(*) FROM {$this->_table} WHERE id = %d AND online = 1", $id ) );
 	}
 
+	/**
+	 * Fetches points grouped by category.
+	 *
+	 * @param int $quizId Quiz ID.
+	 *
+	 * @return array<int, float>
+	 */
 	public function fetchCategoryPoints( $quizId ) {
 		$results = $this->_wpdb->get_results(
 			$this->_wpdb->prepare(
@@ -517,13 +554,18 @@ class WpProQuiz_Model_QuestionMapper extends WpProQuiz_Model_Mapper {
 						WHERE quiz_id = %d AND online = 1
 						GROUP BY category_id',
 				$quizId
-			)
+			),
+			ARRAY_A
 		);
 
 		$a = array();
 
+		if ( ! $results ) {
+			return $a;
+		}
+
 		foreach ( $results as $result ) {
-			$a[ $result['category_id'] ] = $result['sum_points'];
+			$a[ Cast::to_int( $result['category_id'] ) ] = learndash_format_course_points( $result['sum_points'] );
 		}
 
 		return $a;

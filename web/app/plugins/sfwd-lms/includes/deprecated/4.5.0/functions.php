@@ -355,40 +355,16 @@ if ( ! function_exists( 'learndash_send_purchase_invoice_email' ) ) {
 			'{post_title}'   => $purchased_post->post_title,
 		);
 
-		/**
-		 * Filters purchase email placeholders.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param array $placeholders Array of email placeholders and values.
-		 * @param int   $user_id      User ID.
-		 * @param int   $post_id      Post ID.
-		 */
+		/** This filter is documented in includes/payments/ld-purchase-invoice-functions.php */
 		$placeholders = apply_filters( 'learndash_purchase_invoice_email_placeholders', $placeholders, $user_id, $post_id );
 
-		/**
-		 * Filters purchase invoice email subject.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $email_subject Email subject text.
-		 * @param int    $user_id       User ID.
-		 * @param int    $post_id       Post ID.
-		 */
+		/** This filter is documented in src/Core/Models/Invoice.php */
 		$email_setting['subject'] = apply_filters( 'learndash_purchase_invoice_email_subject', $email_setting['subject'], $user_id, $post_id );
 		if ( ! empty( $email_setting['subject'] ) ) {
 			$email_setting['subject'] = learndash_emails_parse_placeholders( $email_setting['subject'], $placeholders );
 		}
 
-		/**
-		 * Filters purchase invoice email message.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $email_message Email message text.
-		 * @param int    $user_id       User ID.
-		 * @param int    $post_id       Post ID.
-		 */
+		/** This filter is documented in src/Core/Models/Invoice.php */
 		$email_setting['message'] = apply_filters( 'learndash_purchase_invoice_email_message', $email_setting['message'], $user_id, $post_id );
 		if ( ! empty( $email_setting['message'] ) ) {
 			$email_setting['message'] = learndash_emails_parse_placeholders( $email_setting['message'], $placeholders );

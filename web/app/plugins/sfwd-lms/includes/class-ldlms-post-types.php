@@ -10,42 +10,48 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// cSpell:ignore virt .
+
 if ( ! class_exists( 'LDLMS_Post_Types' ) ) {
 	/**
 	 * Class to create the instance.
 	 */
 	class LDLMS_Post_Types {
-		const COURSE      = 'course';
-		const LESSON      = 'lesson';
-		const TOPIC       = 'topic';
-		const QUIZ        = 'quiz';
-		const QUESTION    = 'question';
-		const TRANSACTION = 'transaction';
-		const GROUP       = 'group';
-		const ASSIGNMENT  = 'assignment';
-		const ESSAY       = 'essay';
-		const CERTIFICATE = 'certificate';
-		const EXAM        = 'exam';
-		const COUPON      = 'coupon';
+		const COURSE             = 'course';
+		const LESSON             = 'lesson';
+		const TOPIC              = 'topic';
+		const QUIZ               = 'quiz';
+		const QUESTION           = 'question';
+		const TRANSACTION        = 'transaction';
+		const GROUP              = 'group';
+		const ASSIGNMENT         = 'assignment';
+		const ESSAY              = 'essay';
+		const CERTIFICATE        = 'certificate';
+		const EXAM               = 'exam';
+		const COUPON             = 'coupon';
+		const VIRTUAL_INSTRUCTOR = 'virtual_instructor';
 
 		/**
 		 * Collection of all post types.
 		 *
+		 * Post type keys can't exceed 20 characters and can only contain alphanumeric characters, dashes, and underscores.
+		 *
 		 * @var array $post_types.
 		 */
 		private static $post_types = array(
-			self::COURSE      => 'sfwd-courses',
-			self::LESSON      => 'sfwd-lessons',
-			self::TOPIC       => 'sfwd-topic',
-			self::QUIZ        => 'sfwd-quiz',
-			self::QUESTION    => 'sfwd-question',
-			self::TRANSACTION => 'sfwd-transactions',
-			self::GROUP       => 'groups',
-			self::ASSIGNMENT  => 'sfwd-assignment',
-			self::ESSAY       => 'sfwd-essays',
-			self::CERTIFICATE => 'sfwd-certificates',
-			self::EXAM        => 'ld-exam',
-			self::COUPON      => 'ld-coupon',
+			self::COURSE             => 'sfwd-courses',
+			self::LESSON             => 'sfwd-lessons',
+			self::TOPIC              => 'sfwd-topic',
+			self::QUIZ               => 'sfwd-quiz',
+			self::QUESTION           => 'sfwd-question',
+			self::TRANSACTION        => 'sfwd-transactions',
+			self::GROUP              => 'groups',
+			self::ASSIGNMENT         => 'sfwd-assignment',
+			self::ESSAY              => 'sfwd-essays',
+			self::CERTIFICATE        => 'sfwd-certificates',
+			self::EXAM               => 'ld-exam',
+			self::COUPON             => 'ld-coupon',
+			self::VIRTUAL_INSTRUCTOR => 'ld-virt-instructor',
 		);
 
 		/**
@@ -67,6 +73,7 @@ if ( ! class_exists( 'LDLMS_Post_Types' ) ) {
 				self::CERTIFICATE,
 				self::EXAM,
 				self::COUPON,
+				self::VIRTUAL_INSTRUCTOR,
 			),
 			self::COURSE     => array(
 				self::COURSE,
@@ -123,6 +130,46 @@ if ( ! class_exists( 'LDLMS_Post_Types' ) ) {
 		}
 
 		/**
+		 * Get available statuses for a specific post type.
+		 *
+		 * Note:
+		 * Some of these come from the global variables $learndash_course_statuses, $learndash_exam_challenge_statuses.
+		 * We want to move away from globals and have a single source of truth for statuses.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param string $post_type The post type to get statuses for.
+		 *
+		 * @return array<string,string>|null Array of statuses with keys and labels. Null if no statuses are found.
+		 */
+		public static function get_post_type_statuses( string $post_type ): ?array {
+			global $learndash_course_statuses, $learndash_exam_challenge_statuses;
+
+			switch ( $post_type ) {
+				case self::get_post_type_slug( self::COURSE ):
+					return $learndash_course_statuses;
+				case self::get_post_type_slug( self::TOPIC ):
+				case self::get_post_type_slug( self::LESSON ):
+					return [
+						'not-started' => esc_html__( 'Not Started', 'learndash' ),
+						'in-progress' => esc_html__( 'In Progress', 'learndash' ),
+						'completed'   => esc_html__( 'Completed', 'learndash' ),
+					];
+				case self::get_post_type_slug( self::QUIZ ):
+					return [
+						'not-started' => esc_html__( 'Not Started', 'learndash' ),
+						'in-progress' => esc_html__( 'In Progress', 'learndash' ),
+						'passed'      => esc_html__( 'Passed', 'learndash' ),
+						'failed'      => esc_html__( 'Failed', 'learndash' ),
+					];
+				case self::get_post_type_slug( self::EXAM ):
+					return $learndash_exam_challenge_statuses;
+				default:
+					return null;
+			}
+		}
+
+		/**
 		 * Get an array of all custom tables.
 		 *
 		 * @since 2.6.0
@@ -132,7 +179,7 @@ if ( ! class_exists( 'LDLMS_Post_Types' ) ) {
 		 * @param string $return_type       Used to designate the returned value. String or array.
 		 * @param string $quote_char        Wrap the return values in quote character. Only for return_type 'string'.
 		 *
-		 * @return array|string Post type slugs array or string. See `$return_type` parameter.
+		 * @return ($return_type is "string" ? string : array) Post type slugs array or string. See `$return_type` parameter.
 		 */
 		public static function get_post_types( $post_type_section = 'all', $return_type = 'array', $quote_char = '' ) {
 			$post_types_return = array();

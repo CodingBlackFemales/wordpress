@@ -1,0 +1,42 @@
+.learndash-course-grid .pagination {
+    text-align: center;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.learndash-course-grid .pagination::before,
+.learndash-course-grid .pagination::after {
+    display: none;
+}
+
+.learndash-course-grid .pagination .load-more {
+    margin: 0 auto;
+    border-radius: 3px;
+    background-color: #fd6703;
+    color: #ffffff;
+    padding: 10px 50px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.4rem;
+    border: 3px solid #fd6703;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.learndash-course-grid .pagination .load-more:hover {
+    background-color: #f7883e;
+    border-color: #f7883e;
+}

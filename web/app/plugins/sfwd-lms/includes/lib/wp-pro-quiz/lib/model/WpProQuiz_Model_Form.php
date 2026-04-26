@@ -1,8 +1,23 @@
 <?php
+/**
+ * Form model.
+ *
+ * @since 1.2.7
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Form model.
+ *
+ * @since 1.2.7
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+ */
 class WpProQuiz_Model_Form extends WpProQuiz_Model_Model {
 	const FORM_TYPE_TEXT     = 0;
 	const FORM_TYPE_TEXTAREA = 1;
@@ -40,8 +55,17 @@ class WpProQuiz_Model_Form extends WpProQuiz_Model_Model {
 		return $this->_quizId;
 	}
 
+	/**
+	 * Sets the field name.
+	 *
+	 * @since 1.2.7
+	 *
+	 * @param string $_fieldname The field name.
+	 *
+	 * @return $this
+	 */
 	public function setFieldname( $_fieldname ) {
-		$this->_fieldname = (string) $_fieldname;
+		$this->_fieldname = sanitize_text_field( $_fieldname );
 		return $this;
 	}
 
@@ -110,7 +134,6 @@ class WpProQuiz_Model_Form extends WpProQuiz_Model_Model {
 	}
 
 	public function get_object_as_array() {
-
 		$object_vars = array(
 			'_formId'    => $this->getFormId(),
 			'_quizId'    => $this->getQuizId(),

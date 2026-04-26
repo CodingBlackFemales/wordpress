@@ -49,7 +49,7 @@
 	overflow: auto;
 }
 
-.wpProQuiz_content .wpProQuiz_questionListItem {
+.wpProQuiz_content .wpProQuiz_questionListItem:not(.ld-sortable__item) {
 	padding: 3px ;
 	margin-bottom: 5px ;
 	background-image: none ;

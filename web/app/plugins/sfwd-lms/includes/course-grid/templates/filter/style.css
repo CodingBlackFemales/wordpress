@@ -1,0 +1,280 @@
+.toggle-filter {
+    position: sticky;
+    left: 100%;
+    margin-bottom: 20px;
+}
+
+.toggle-filter.opened::before {
+    content: "\f158";
+    font-family: 'Dashicons';
+    padding-right: 10px;
+    top: 1px;
+    position: relative;
+}
+
+.learndash-course-grid {
+    position: relative;
+}
+
+.learndash-course-grid .learndash-course-grid-filter {
+    position: absolute;
+    max-width: 300px;
+}
+
+.learndash-course-grid .learndash-course-grid-filter {
+    display: none;
+}
+
+.learndash-course-grid-filter {
+    max-width: 300px;
+    min-width: 300px;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    z-index: 2000;
+    margin: 0 auto;
+    border: 2px solid #ddd;
+}
+
+.learndash-course-grid .learndash-course-grid-filter {
+    right: 0;
+    position: absolute;
+}
+
+.learndash-course-grid-filter form {
+    margin: 0;
+}
+
+.learndash-course-grid-filter form input:focus,
+.learndash-course-grid-filter form select:focus {
+    outline: none;
+}
+
+/* Range Input */
+
+.learndash-course-grid-filter form input[type=range] {
+    -webkit-appearance: none;
+    margin: 18px 0;
+    width: 100%;
+}
+
+.learndash-course-grid-filter form input[type=range]:focus {
+    outline: none;
+}
+
+.learndash-course-grid-filter form input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: #0077ff;
+    border-radius: 1.3px;
+}
+
+.learndash-course-grid-filter form input[type="range"]:first-child::-webkit-slider-runnable-track {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-right: none;
+}
+
+.learndash-course-grid-filter form input[type="range"]:nth-child(2)::-webkit-slider-runnable-track {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: none;
+}
+
+.learndash-course-grid-filter form input[type=range]::-webkit-slider-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+
+.learndash-course-grid-filter form input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #0077ff;
+}
+
+.learndash-course-grid-filter form input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #0077ff;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+}
+
+.learndash-course-grid-filter form input[type=range]::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.learndash-course-grid-filter form input[type=range]::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+}
+
+.learndash-course-grid-filter form input[type=range]::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+.learndash-course-grid-filter form input[type=range]::-ms-fill-upper {
+    background: #0077ff;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+
+.learndash-course-grid-filter form input[type=range]::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.learndash-course-grid-filter form input[type=range]:focus::-ms-fill-lower {
+    background: #0077ff;
+}
+
+.learndash-course-grid-filter form input[type=range]:focus::-ms-fill-upper {
+    background: #0077ff;
+}
+
+/* End Range Input */
+
+.learndash-course-grid-filter .filter {
+    margin-bottom: 15px;
+}
+
+.learndash-course-grid-filter .taxonomies-wrapper .terms {
+    list-style-type: none;
+    padding: 0 0 15px 20px;
+    margin: 0;
+    max-height: 150px;
+    overflow: auto;
+}
+
+.learndash-course-grid-filter .filter.price label {
+    display: block;
+}
+
+/* .learndash-course-grid-filter .filter.price .range-wrapper {
+    position: relative;
+    left: 8px;
+} */
+
+.learndash-course-grid-filter .filter.price .range-wrapper :first-child {
+    width: 50%;
+    float: left;
+}
+
+.learndash-course-grid-filter .filter.price .range-wrapper :nth-child(2) {
+    width: 50%;
+    float: right;
+}
+
+.learndash-course-grid-filter .filter.price .number-wrapper.left {
+    float: left;
+    text-align: left;
+}
+
+.learndash-course-grid-filter .filter.price .number-wrapper.right {
+    float: right;
+    text-align: right;
+}
+
+.learndash-course-grid-filter .filter.price .number-wrapper label,
+.learndash-course-grid-filter .filter.price .number-wrapper input {
+    display: block;
+}
+
+.learndash-course-grid-filter .filter.price .number-wrapper input {
+    width: 80px;
+}
+
+.learndash-course-grid-filter .filter.price input[type="range"] {
+    margin-bottom: 10px;
+}
+
+.learndash-course-grid-filter input[type="text"],
+.learndash-course-grid-filter input[type="range"] {
+    display: block;
+    width: 100%;
+}
+
+.learndash-course-grid-filter input[type="text"] {
+    padding: 5px;
+}
+
+.learndash-course-grid-filter .buttons {
+    margin-top: 0;
+}
+
+.toggle-filter,
+.learndash-course-grid-filter .buttons .button {
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    border: 3px solid #ddd;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.learndash-course-grid-filter .buttons .button {
+    width: 100%;
+}
+
+.learndash-course-grid-filter .buttons .button.blue {
+    color: #ffffff;
+    background-color: #235af4;
+    border-color: #235af4;
+}
+
+.learndash-course-grid-filter .buttons .button.blue:hover {
+    background: #0d9dff;    
+    border-color: #0d9dff;
+}
+
+.toggle-filter,
+.learndash-course-grid-filter .buttons .button.grey {
+    color: #333333;
+    background-color: #eeeeee;
+    border-color: #eeeeee;
+}
+
+.toggle-filter:hover,
+.learndash-course-grid-filter .buttons .button.grey:hover {
+    background-color: #d5d5d5;
+    border-color: #d5d5d5;
+}

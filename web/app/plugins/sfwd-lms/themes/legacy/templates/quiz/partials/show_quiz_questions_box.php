@@ -10,6 +10,7 @@
  * @var int    $question_count Number of Question to display.
  *
  * @since 3.2.0
+ * @version 4.21.1
  *
  * @package LearnDash\Templates\Legacy\Quiz
  */
@@ -64,8 +65,14 @@ $cat_points    = array();
 			);
 
 			?>
+
 			<li class="wpProQuiz_listItem" style="display: none;" data-type="<?php echo esc_attr( $question->getAnswerType() ); ?>" data-question-meta="<?php echo htmlspecialchars( wp_json_encode( $question_meta ) ); ?>">
-				<div class="wpProQuiz_question_page" <?php $quiz_view->isDisplayNone( $quiz->getQuizModus() != WpProQuiz_Model_Quiz::QUIZ_MODUS_SINGLE && ! $quiz->isHideQuestionPositionOverview() ); ?> >
+				<div
+					aria-level="2"
+					class="wpProQuiz_question_page"
+					<?php $quiz_view->isDisplayNone( $quiz->getQuizModus() != WpProQuiz_Model_Quiz::QUIZ_MODUS_SINGLE && ! $quiz->isHideQuestionPositionOverview() ); ?>
+					role="heading"
+				>
 				<?php
 					echo wp_kses_post(
 						SFWD_LMS::get_template(
@@ -143,8 +150,8 @@ $cat_points    = array();
 						?>
 					</div>
 				<?php } ?>
-				<div class="wpProQuiz_question" style="margin: 10px 0px 0px 0px;">
-					<div class="wpProQuiz_question_text">
+				<fieldset class="wpProQuiz_question" style="margin: 10px 0px 0px 0px;" tabindex="0">
+					<legend class="wpProQuiz_question_text">
 						<?php
 							$wpproquiz_question_text = $question->getQuestion();
 							$wpproquiz_question_text = sanitize_post_field( 'post_content', $wpproquiz_question_text, 0, 'display' );
@@ -154,8 +161,9 @@ $cat_points    = array();
 							$wpproquiz_question_text = do_shortcode( $wpproquiz_question_text );
 							echo $wpproquiz_question_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Need to allow HTML / shortcode output
 						?>
-					</div>
-					<p class="wpProQuiz_clear" style="clear:both;"></p>
+					</legend>
+
+					<div class="wpProQuiz_clear" style="clear:both;"></div>
 
 					<?php
 					/**
@@ -221,7 +229,7 @@ $cat_points    = array();
 					 * Print questions in a list for all other answer types
 					 */
 					?>
-					<ul class="wpProQuiz_questionList" data-question_id="<?php echo esc_attr( $question->getId() ); ?>"
+					<div class="wpProQuiz_questionList" data-question_id="<?php echo esc_attr( $question->getId() ); ?>"
 						data-type="<?php echo esc_attr( $question->getAnswerType() ); ?>">
 						<?php
 						if ( $question->getAnswerType() === 'sort_answer' ) {
@@ -283,7 +291,7 @@ $cat_points    = array();
 								}
 								?>
 
-								<li class="wpProQuiz_questionListItem" data-pos="<?php echo esc_attr( $datapos ); ?>">
+								<div class="wpProQuiz_questionListItem" data-pos="<?php echo esc_attr( $datapos ); ?>">
 									<?php
 									/**
 									 *  Single/Multiple
@@ -471,13 +479,13 @@ $cat_points    = array();
 									}
 
 									?>
-								</li>
+								</div>
 								<?php
 								$answer_index ++;
 							}
 						}
 						?>
-					</ul>
+					</div>
 					<?php if ( $question->getAnswerType() === 'sort_answer' ) { ?>
 						<div class="wpProQuiz_questionList_containers">
 							<p><?php esc_html_e( 'View Answers', 'learndash' ); ?>: <input type="button" class="wpProQuiz_questionList_containers_view_student wpProQuiz_questionList_containers_view_active wpProQuiz_button2" value="<?php esc_html_e( 'Student', 'learndash' ); ?>"> <input type="button" class="wpProQuiz_questionList_containers_view_correct wpProQuiz_button2" value="<?php esc_html_e( 'Correct', 'learndash' ); ?>" /></p>
@@ -485,7 +493,7 @@ $cat_points    = array();
 							<div class="wpProQuiz_questionList_container_correct"></div>
 						</div>
 					<?php } ?>
-				</div>
+				</fieldset>
 				<?php if ( ! $quiz->isHideAnswerMessageBox() ) { ?>
 					<div class="wpProQuiz_response" style="display: none;">
 						<div style="display: none;" class="wpProQuiz_correct">
@@ -506,7 +514,8 @@ $cat_points    = array();
 									?>
 									</span>
 									<span class="wpProQuiz_response_correct_points_label" style="float: right;">
-										<?php echo esc_html( $question->getPoints() ) . ' / ' . esc_html( $question->getPoints() ); ?>
+										<span class="wpProQuiz_responsePoints"></span>
+										<?php echo ' / ' . esc_html( $question->getPoints() ); ?>
 										<?php
 										echo wp_kses_post(
 											SFWD_LMS::get_template(
@@ -786,9 +795,6 @@ $cat_points    = array();
 	<?php } ?>
 </div>
 <?php
-if ( empty( $global_points ) ) {
-	$global_points = 1;
-}
 return array(
 	'globalPoints' => $global_points,
 	'json'         => $json,

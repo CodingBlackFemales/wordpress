@@ -138,6 +138,24 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		protected $supports_views = true;
 
 		/**
+		 * Variations provided by this theme.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @var array<string,string>
+		 */
+		protected $variations = [];
+
+		/**
+		 * Default variation for this theme.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @var string
+		 */
+		protected string $default_variation = '';
+
+		/**
 		 * Protected constructor for class
 		 */
 		protected function __construct() {
@@ -261,7 +279,7 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Get the instance of the current active theme.
 		 *
 		 * @since 3.0.0
-		 * @return object instance of active theme.
+		 * @return LearnDash_Theme_Register instance of active theme.
 		 */
 		final public static function get_active_theme_instance() {
 			$theme_key = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Themes', 'themes' );
@@ -559,11 +577,30 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 * Returns a flag that indicates if the theme supports views.
 		 *
 		 * @since 4.6.0
+		 * @since 4.21.0 Added $view_slug parameter.
+		 *
+		 * @param string $view_slug View slug to use as context when checking if the Theme supports views. Default empty string.
 		 *
 		 * @return bool
 		 */
-		public function supports_views(): bool {
-			return $this->supports_views;
+		public function supports_views( string $view_slug = '' ): bool {
+			/**
+			 * Filters whether the Theme supports views.
+			 *
+			 * @since 4.21.0
+			 *
+			 * @param bool                     $supports_views Whether the Theme supports views.
+			 * @param string                   $view_slug      View slug to use as context when checking if the Theme supports views.
+			 * @param LearnDash_Theme_Register $theme_instance Instance of the Theme.
+			 *
+			 * @return bool
+			 */
+			return apply_filters(
+				'learndash_theme_supports_views',
+				$this->supports_views,
+				$view_slug,
+				$this
+			);
 		}
 
 		/**
@@ -575,6 +612,28 @@ if ( ! class_exists( 'LearnDash_Theme_Register' ) ) {
 		 */
 		public function get_themes_inheriting_settings(): array {
 			return array();
+		}
+
+		/**
+		 * Get the variations provided by this theme.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return array<string,string>
+		 */
+		public function get_variations(): array {
+			return $this->variations;
+		}
+
+		/**
+		 * Get the default variation for this theme.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return string
+		 */
+		public function get_default_variation(): string {
+			return $this->default_variation;
 		}
 
 		/**

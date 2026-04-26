@@ -3,6 +3,7 @@
  * This file contains the code that displays the course navigation admin.
  *
  * @since 2.1.0
+ * @version 4.25.8.1
  *
  * @package LearnDash\Templates\Legacy\Shortcodes
  */
@@ -94,7 +95,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 									$edit_url = add_query_arg( 'course_id', $course_id, $edit_url );
 								}
 								?>
-								<a href='<?php echo esc_url( $edit_url ); ?>'><?php echo apply_filters( 'the_title', $course_lesson['post']->post_title, $course_lesson['post']->ID ); ?></a>
+								<a href='<?php echo esc_url( $edit_url ); ?>'><?php echo wp_kses_post( apply_filters( 'the_title', $course_lesson['post']->post_title, $course_lesson['post']->ID ) ); ?></a>
 							</div>
 
 							<?php
@@ -148,7 +149,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 															$edit_url = add_query_arg( 'course_id', $course_id, $edit_url );
 														}
 														?>
-														<a class='<?php echo $completed_class; ?>' href='<?php echo esc_url( $edit_url ); ?>' title='<?php echo esc_html( $topic->post_title ); ?>'><span><?php echo apply_filters( 'the_title', $topic->post_title, $topic->ID ); ?></span></a>	</span>
+														<a class='<?php echo $completed_class; ?>' href='<?php echo esc_url( $edit_url ); ?>' title='<?php echo esc_html( $topic->post_title ); ?>'><span><?php echo wp_kses_post( apply_filters( 'the_title', $topic->post_title, $topic->ID ) ); ?></span></a>	</span>
 														<?php
 														if ( ! empty( $topic_quiz_list ) ) {
 															?>
@@ -186,7 +187,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 																			}
 																			?>
 
-																			<a href='<?php echo esc_url( $edit_url ); ?>' title='<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>'><span><?php echo apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ); ?></span></a>
+																			<a href='<?php echo esc_url( $edit_url ); ?>' title='<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>'><span><?php echo wp_kses_post( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?></span></a>
 
 																		</li>
 																	<?php } ?>
@@ -232,7 +233,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 													$edit_url = add_query_arg( 'course_id', $course_id, $edit_url );
 												}
 												?>
-													<a href="<?php echo esc_url( $edit_url ); ?>" title="<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>"><span><?php echo apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ); ?></span></a>
+													<a href="<?php echo esc_url( $edit_url ); ?>" title="<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>"><span><?php echo wp_kses_post( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?></span></a>
 													</li>
 													<?php
 										}
@@ -287,7 +288,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 											<?php
 									}
 									?>
-										<a href="<?php echo esc_url( add_query_arg( 'course_id', $course_id, get_edit_post_link( $quiz['post']->ID ) ) ); ?>" title="<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>"><?php echo apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ); ?></a>
+										<a href="<?php echo esc_url( add_query_arg( 'course_id', $course_id, get_edit_post_link( $quiz['post']->ID ) ) ); ?>" title="<?php echo esc_html( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?>"><?php echo wp_kses_post( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?></a>
 									</div>
 								</div>
 							</div>
@@ -338,7 +339,7 @@ if ( ( isset( $course_id ) ) && ( ! empty( $course_id ) ) ) {
 		<?php if ( ( $widget['current_step_id'] != 0 ) && ( $widget['current_step_id'] != $course->ID ) ) { ?>
 			<p class="widget_course_return">
 				<?php esc_html_e( 'Return to', 'learndash' ); ?> <a href='<?php echo esc_url( get_edit_post_link( $course_id ) ); ?>'>
-					<?php echo apply_filters( 'the_title', $course->post_title, $course->ID ); ?>
+					<?php echo wp_kses_post( apply_filters( 'the_title', $course->post_title, $course->ID ) ); ?>
 				</a>
 			</p>
 

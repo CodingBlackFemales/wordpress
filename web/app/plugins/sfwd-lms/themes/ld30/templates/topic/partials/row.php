@@ -117,9 +117,12 @@ do_action( 'learndash-topic-row-before', $topic->ID, $course_id, $user_id ); ?>
 	<?php
 		if ( ! empty( $attributes ) ) :
 			foreach ( $attributes as $attribute ) :
+				$ld_icon_class = isset( $attribute['icon'] ) && ! empty( $attribute['icon'] )
+								? 'ld-icon ' . $attribute['icon']
+								: '';
 				?>
-			<span class="<?php echo esc_attr( 'ld-status ' . $attribute['class'] ); ?>">
-				<span class="<?php echo esc_attr( 'ld-icon ' . $attribute['icon'] ); ?>"></span>
+			<span class="<?php echo esc_attr( 'ld-status ' . ( $attribute['class'] ?? '' ) ); ?>">
+				<span class="<?php echo esc_attr( $ld_icon_class ); ?>"></span>
 				<?php echo esc_html( $attribute['label'] ); ?>
 			</span>
 				<?php

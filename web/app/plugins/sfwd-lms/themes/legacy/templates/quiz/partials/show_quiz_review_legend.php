@@ -26,6 +26,16 @@ $learndash_quiz_legend_current_label = SFWD_LMS::get_template(
 		'message'      => esc_html__( 'Current', 'learndash' ),
 	)
 );
+
+/**
+ * Filters the current label.
+ *
+ * @since 3.4.0
+ *
+ * @param string $learndash_quiz_legend_current_label The current label.
+ *
+ * @return string The current label.
+ */
 $learndash_quiz_legend_current_label = apply_filters( 'learndash_quiz_legend_current_label', $learndash_quiz_legend_current_label );
 
 if ( ( 2 === (int) $quiz->getQuizModus() ) && ( ! $quiz->isSkipQuestionDisabled() ) ) {
@@ -41,6 +51,16 @@ $learndash_quiz_legend_review_label = SFWD_LMS::get_template(
 		'message'      => $learndash_quiz_legend_review,
 	)
 );
+
+/**
+ * Filters the review label.
+ *
+ * @since 3.4.0
+ *
+ * @param string $learndash_quiz_legend_review_label The review label.
+ *
+ * @return string The review label.
+ */
 $learndash_quiz_legend_review_label = apply_filters( 'learndash_quiz_legend_review_label', $learndash_quiz_legend_review_label );
 
 // Single Grading.
@@ -52,6 +72,16 @@ $learndash_quiz_legend_answered_label = SFWD_LMS::get_template(
 		'message'      => esc_html__( 'Answered', 'learndash' ),
 	)
 );
+
+/**
+ * Filters the answered label.
+ *
+ * @since 3.4.0
+ *
+ * @param string $learndash_quiz_legend_answered_label The answered label.
+ *
+ * @return string The answered label.
+ */
 $learndash_quiz_legend_answered_label = apply_filters( 'learndash_quiz_legend_answered_label', $learndash_quiz_legend_answered_label );
 
 $learndash_quiz_legend_correct_label = SFWD_LMS::get_template(
@@ -62,6 +92,16 @@ $learndash_quiz_legend_correct_label = SFWD_LMS::get_template(
 		'message'      => esc_html__( 'Correct', 'learndash' ),
 	)
 );
+
+/**
+ * Filters the correct label.
+ *
+ * @since 3.4.0
+ *
+ * @param string $learndash_quiz_legend_correct_label The correct label.
+ *
+ * @return string The correct label.
+ */
 $learndash_quiz_legend_correct_label = apply_filters( 'learndash_quiz_legend_correct_label', $learndash_quiz_legend_correct_label );
 
 $learndash_quiz_legend_incorrect_label = SFWD_LMS::get_template(
@@ -72,6 +112,16 @@ $learndash_quiz_legend_incorrect_label = SFWD_LMS::get_template(
 		'message'      => esc_html__( 'Incorrect', 'learndash' ),
 	)
 );
+
+/**
+ * Filters the incorrect label.
+ *
+ * @since 3.4.0
+ *
+ * @param string $learndash_quiz_legend_incorrect_label The incorrect label.
+ *
+ * @return string The incorrect label.
+ */
 $learndash_quiz_legend_incorrect_label = apply_filters( 'learndash_quiz_legend_incorrect_label', $learndash_quiz_legend_incorrect_label );
 
 ?>

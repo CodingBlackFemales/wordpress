@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -60,6 +62,15 @@ function ld_course_resume_shortcode( $atts = array(), $content = '', $shortcode_
 		}
 	}
 
+	if (
+		get_current_user_id() !== $atts['user_id']
+		|| ! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['course_id'] )
+		)
+	) {
+		return '';
+	}
+
 	if ( empty( $atts['label'] ) ) {
 		if ( ! empty( $content ) ) {
 			$atts['label'] = $content;
@@ -99,8 +110,7 @@ function ld_course_resume_shortcode( $atts = array(), $content = '', $shortcode_
 			if ( 'completed' !== $course_status ) {
 				$user_course_last_step_id = learndash_user_progress_get_first_incomplete_step( $atts['user_id'], $atts['course_id'] );
 				if ( ! empty( $user_course_last_step_id ) ) {
-					$user_course_last_step_id = learndash_user_progress_get_parent_incomplete_step( $atts['user_id'], $atts['course_id'], $user_course_last_step_id );
-					$course_permalink         = learndash_get_step_permalink( $user_course_last_step_id, $atts['course_id'] );
+					$course_permalink = learndash_get_step_permalink( $user_course_last_step_id, $atts['course_id'] );
 					if ( ! empty( $course_permalink ) ) {
 						$learndash_shortcode_used = true;
 

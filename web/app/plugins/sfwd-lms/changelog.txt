@@ -1,8 +1,905 @@
+= [5.0.5] 2026-04-08 =
+
+* Fix - Resolved an issue where group leaders with basic settings could not view or grade assignments submitted by users in their groups. Admins and advanced group leaders are unchanged and still see all assignments; author and group filters respect the same visibility rules.
+* Fix - Resolved an issue where, for group leaders assigned to more than one group, exporting group progress could include users beyond those in the exported group.
+
+= [5.0.4] 2026-03-25 =
+
+* Fix - Added delay between scheduled payment actions to prevent overwhelming the payment gateway when many subscriptions are due at once (e.g. on first run after upgrade).
+* Tweak - Added filters: `learndash_payment_subscription_delay_between_actions`.
+
+= [5.0.3.1] 2026-03-19 =
+
+* Security - Tightened security around SQL queries.
+
+= [5.0.3] 2026-03-11 =
+
+* Fix - Resolved an issue where the `[ld_course_resume]` shortcode/block could redirect users to the wrong course step.
+* Tweak - Updated functions: `learndash_user_progress_get_first_incomplete_step`.
+
+= [5.0.2.1] 2026-03-09 =
+
+* Security - Tightened security around PDF generation.
+
+= [5.0.2] 2026-02-25 =
+
+* Compatibility - Improved blocks compatibility with PHP 8.4.
+* Fix - Fixed courses filtering by progress status in the `LearnDash Course Grid` block.
+* Fix - Number input fields now properly return a number via the REST API if the field is saved with no value.
+* Fix - Prevented PayPal scripts from being enqueued on Checkout and Profile pages when PayPal Checkout is disabled.
+* Fix - Resolved an issue where cloning a Lesson, Topic, or Course built with Elementor would result in a broken layout.
+* Fix - Resolved an issue where locally installed translations without remote GlotPress data were not displayed and could not be removed on the Translations page.
+* Fix - Resolved an issue where non LearnDash plugins could be visible on the Add-ons page.
+* Tweak - Added hints to the Modern Course and Modern Group fields to clarify tabs behavior.
+* Tweak - Added filters: `learndash_hub_installed_projects`.
+
+= [5.0.1.1] 2026-02-17 =
+
+* Fix - Resolved an issue where downloaded Report CSVs would only contain the header row.
+
+= [5.0.1] 2026-02-11 =
+
+* Fix - Fixed the course category counters in a Course List block.
+* Fix - Resolved an issue where approving an assignment via API did not complete the related lesson.
+* Fix - Resolved an issue where creating a course using the Course Creation Wizard could not maintain the video ordering for Vimeo showcases.
+* Fix - Resolved an issue where resuming a quiz could result in a corrupted start timestamp.
+* Fix - Resolved an issue where when moving between questions in a quiz, the WordPress Admin Bar could overlap the question text after scrolling to the question.
+* Fix - Resolved deprecated warnings in the Course Creation Wizard page.
+* Tweak - Added extra loading styles and messages for User Course Data and User Quiz Data exports on the LearnDash LMS -> Reports page.
+* Tweak - Course activity records are now created for users when they added to a group or when new courses are added to a group. Course activity records can be generated for groups created prior to this change by running the data upgrade at LearnDash LMS -> Settings -> Advanced -> Data Upgrades -> Upgrade Group Course Access Data.
+* Tweak - Updated `[ld_lesson_list]` shortcode to follow the course lessons order by default when a course is provided and the shared course steps are disabled.
+* Tweak - Added filters: `learndash_bulk_create_course_access_activities_skip`, `learndash_group_access_activity_chunk_size`, `learndash_group_courses_access_user_batch_size`, `learndash_scroll_offset`.
+* Tweak - Updated functions: `ld_update_course_group_access`, `ld_update_group_access`.
+
+= [5.0.0] 2026-02-04 =
+
+* Deprecate - Deprecated actions: `learndash_report_page_buttons`.
+* Deprecate - Deprecated constants: `LEARNDASH_COURSE_FUNCTIONS_LEGACY`, `LEARNDASH_IS_QUIZ_ACCESSABLE_LEGACY`.
+* Deprecate - Deprecated filters: `learndash_course_autocompletion_multiple_final_quizzes_step`, `learndash_course_status_recalc_total_steps`, `learndash_get_content_label`, `learndash_get_lesson_progress_defaults`, `learndash_get_lesson_progress`, `learndash_lesson_attributes`, `learndash_responsive_video_domains`, `learndash_responsive_video_post_types`, `learndash_update_posts_comment_status`, `learndash_users_can_register`.
+* Deprecate - Deprecated functions: `ld_course_check_user_access`, `learndash_30_focus_mode_can_complete`, `learndash_30_responsive_videos`, `learndash_activity_complete_course`, `learndash_activity_complete_quiz`, `learndash_check_query_post_type`, `learndash_course_get_completed_steps_legacy`, `learndash_course_status_legacy`, `learndash_get_content_label`, `learndash_get_course_data_legacy`, `learndash_get_course_lessons_list_legacy`, `learndash_get_course_progress_legacy`, `learndash_get_course_quiz_list_legacy`, `learndash_get_course_steps_count_legacy`, `learndash_get_course_steps_legacy`, `learndash_get_course_url`, `learndash_get_current_tabs_set`, `learndash_get_essays_by_quiz_attempt`, `learndash_get_exam_challenge_available_courses`, `learndash_get_exam_challenge_courses`, `learndash_get_global_quiz_list_legacy`, `learndash_get_lesson_attributes`, `learndash_get_lesson_progress`, `learndash_get_lesson_quiz_list_legacy`, `learndash_get_paynow_courses`, `learndash_get_quiz_pro_fields`, `learndash_get_step_post_status_label`, `learndash_get_topic_list_legacy`, `learndash_get_user_course_attempts_time_spent`, `learndash_get_user_quiz_attempts_count`, `learndash_get_user_quiz_attempts_time_spent`, `learndash_is_lesson_notcomplete_legacy`, `learndash_is_quiz_accessable_legacy`, `learndash_is_topic_notcomplete_legacy`, `learndash_lms_reports_page`, `learndash_on_iis`, `learndash_process_mark_complete_legacy`, `learndash_report_user_courses_progress`, `learndash_set_course_prerequisite_enabled`, `learndash_set_course_prerequisite`, `learndash_set_exam_challenge_courses`, `learndash_test_admin_icon`, `learndash_the_currency_symbol`, `learndash_update_posts_comment_status`, `learndash_user_course_last_step`, `learndash_users_can_register`, `ls_propanel_set_report_filenames`.
+* Feature - Added Angie Agentic AI integration.
+* Feature - Added compatibility with our MCP Server, available using npm as `@stellarwp/learndash-mcp-server`.
+* Fix - Corrected the `ldlms/v2` REST API parameter documentation for `materials` for each `ldlms/v2` endpoint.
+* Fix - Fixed an issue where administrators could not access essays in GET `ldlms/v2/sfwd-essays`.
+* Fix - Fixed error code handling for the `ldlms/v2/sfwd-quiz/{quiz}/statistics`, `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}`, `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}/questions` and `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}/questions/{id}` endpoints.
+* Fix - Fixed pagination and `include`/`exclude` parameters support in the REST API v2 List User Courses endpoint.
+* Fix - Resolved an issue when setting dates via the REST API for date fields such as Course and Group Start and End Date. Now they will work with RFC3339 formatted dates as expected.
+* Fix - Resolved an issue where Lesson and Topic pagination settings could not be set for Courses using the `POST ldlms/v2/sfwd-courses` and `PATCH ldlms/v2/sfwd-courses/{id}` endpoints.
+* Fix - Resolved an issue where `POST ldlms/v2/sfwd-question` and `PATCH ldlms/v2/sfwd-question/{id}` were unable to set an associated Quiz correctly.
+* Fix - Resolved an issue where `ldlms/v2/sfwd-courses/{id}/users` would return the wrong users.
+* Fix - Resolved an issue where `ldlms/v2/sfwd-question` and `ldlms/v2/sfwd-question/{id}` would not return answer data.
+* Fix - Resolved an issue where a default was not being shown for endpoints under `/learndash/v1/docs/openapi`.
+* Fix - Resolved an issue where some fields marked as being exposed to the `ldlms/v2` REST API would not be exposed properly.
+* Fix - Resolved an issue where the Quiz Statistic link would not be included with the results for `ldlms/v2/users/{id}/quiz-progress` when it should be.
+* Fix - Resolved an issue where the `step_status` field was incorrect in the REST API v2 User Course Progress Steps endpoint.
+* Fix - Resolved an issue where updating a quiz using the REST API could change the internal quiz pro ID.
+* Fix - The `page` and `per_page` parameters for `ldlms/v2/users/{id}/quiz-progress` now work as expected.
+* Fix - `POST ldlms/v2/sfwd-question` and `PATCH ldlms/v2/sfwd-question/{id}` now set answer data using the already documented `answer` key instead of the undocumented `_answerData`.
+* Fix - `ldlms/v2` REST API endpoints to retrieve a specific resource no longer expose the wrong parameters.
+* Tweak - Added documentation for the `approved_status` parameter for the `GET ldlms/v2/sfwd-assignment` endpoint.
+* Tweak - Added pagination support to the REST API v2 User Course Progress Steps endpoint.
+* Tweak - Added request body examples to OpenAPI documentation of `ldlms/v2/sfwd-courses/{id}/steps`.
+* Tweak - Added the REST API v2 User Course Progress Exam endpoint.
+* Tweak - Added the `date_gmt` field in the `ldlms/v2/sfwd-quiz/{quiz}/statistics` endpoint.
+* Tweak - Added the `date_started_gmt` and `date_completed_gmt` fields to the REST API v2 User Course Progress Steps endpoint.
+* Tweak - Added the `date_started_gmt` and `date_completed_gmt` fields to the REST API v2 User Course Progress endpoints.
+* Tweak - Added the `enrolled_at` and `enrolled_at_gmt` fields to the REST API v2 List User Courses endpoint.
+* Tweak - Added the `ldlms/v2/users/{user_id}/courses/{course_id}` endpoint to allow updating an enrollment date for a user.
+* Tweak - Added the `learndash/v1/progress-status`, `learndash/v1/progress-status/{type}` and `learndash/v1/progress-status/{type}/{slug}` endpoints.
+* Tweak - Added the `step_name` field to the REST API v2 User Course Progress Steps endpoint.
+* Tweak - Added the `value` field to the `ldlms/v2/progress-status/` and `ldlms/v2/progress-status/{slug}/` endpoints.
+* Tweak - Adds the following fields to the `ldlms/v2/groups` and `ldlms/v2/groups/{id}` endpoints: `group_start_date`, `group_end_date`, `group_courses_order_enabled`, `group_seats_limit`.
+* Tweak - Administrators can now access the GET `ldlms/v2/sfwd-question` endpoint whether or not the "Bypass Course limits" setting is enabled or disabled.
+* Tweak - All logged in users can now access the `GET ldlms/v2/sfwd-assignment` and `GET ldlms/v2/sfwd-assignment/{id}` endpoints. Admins will be able to retrieve all Assignments, Group Leaders only Assignments submitted by themselves or a user within one of their Groups for Courses within those Groups, and all other users will only be able to retrieve their own Assignments.
+* Tweak - By default, `learndash/v1/docs/openapi` no longer documents certain HTTP methods for `ldlms/v2` endpoints in order to save on token size. This can be reverted to the previous functionality using `learndash/v1/docs/openapi?trim=false`.
+* Tweak - Group Course pagination settings can now be set via `POST ldlms/v2/groups` and `PATCH ldlms/v2/groups/{id}`. At this time, this setting does nothing if Modern Group Pages are enabled.
+* Tweak - Improved REST API parameter descriptions for setting Course Prerequisites.
+* Tweak - Improved parameters description for `/ldlms/v2/users/{user_id}/course-progress/{course_id}` and `/ldlms/v2/users/{user_id}/course-progress/{course_id}/steps`.
+* Tweak - Improved parameters description for the `ldlms/v2/sfwd-quiz/{quiz}/statistics`, `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}`, `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}/questions` and `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}/questions/{id}` endpoints.
+* Tweak - Improved route discovery for OpenAPI documentation of existing REST API endpoints.
+* Tweak - Improved the `ldlms/v2/question-types/` and `ldlms/v2/question-types/{slug}/` endpoints. Added the `value` field, removed the `description` field, updated the `slug` field to be a hyphenated slug instead of an underscore slug, both variants are supported for compatibility.
+* Tweak - Improved the descriptions for parameters in the `ldlms/v2/sfwd-quiz` and `ldlms/v2/sfwd-quizzes` endpoints.
+* Tweak - Improved the descriptions for parameters in the `ldlms/v2/users/{user_id}/course-progress/*` endpoints.
+* Tweak - Normalized the `ldlms/v2/users/{user_id}/courses` endpoints to always return the `code` field with the `learndash_` prefix.
+* Tweak - Normalized the `ldlms/v2/users/{user_id}/groups` endpoints to always return the `code` field with the `learndash_` prefix.
+* Tweak - Now `lesson` and `topic`parameters in GET `ldlms/v2/sfwd-essays` work with or without the `course` parameter.
+* Tweak - Now the GET endpoint `ldlms/v2/users/{user_id}/course-progress/{course_id}/steps` returns the status value in the `step_status` field (with underscore).
+* Tweak - Now the GET endpoints `ldlms/v2/users/{user_id}/course-progress` and `ldlms/v2/users/{user_id}/course-progress/{course_id}` returns the status value in the `progress_status` field (with underscore).
+* Tweak - Now the `date` field from the `ldlms/v2/sfwd-quiz/{quiz}/statistics` endpoint returns the date in the local timezone.
+* Tweak - Removed admin alerts related to Solid Backups.
+* Tweak - Removed the "Course Admin Auto-enrollment" permission dependency for administrators in `wp-json/ldlms/v2/sfwd-courses/<id>/steps`.
+* Tweak - Removed the nested array from the GET endpoint `/ldlms/v2/users/{user_id}/course-progress/{course_id}`.
+* Tweak - Removed the nested array from the REST API v2 User Course Progress Steps endpoint.
+* Tweak - Removed the nested array from the `ldlms/v2/sfwd-quiz/{quiz}/statistics/{statistic}/questions/{id}`endpoint response.
+* Tweak - Removed the unused `search` parameter from `ldlms/v2/users/{id}/quiz-progress`.
+* Tweak - Retrieving quizzes via `ldlms/v2/sfwd-quiz` no longer requires a `course` parameter for administrators.
+* Tweak - The GET endpoint `ldlms/v2/groups/{id}/courses` now returns the same fields as the GET `ldlms/v2/sfwd-courses` endpoint.
+* Tweak - The GET endpoint `ldlms/v2/users/{user_id}/courses` now returns the same fields as the GET `ldlms/v2/sfwd-courses` endpoint.
+* Tweak - The GET endpoint `ldlms/v2/users/{user_id}/groups` now returns the same fields as the GET `ldlms/v2/groups` endpoint.
+* Tweak - The REST API settings section under LearnDash LMS -> Settings -> Advanced is now hidden if you had not made any modifications there previously.
+* Tweak - The `PATCH ldlms/v2/sfwd-assignment` endpoint is now available to admins and any user with the ability to edit other user's Assignments, which normally would only include Group Leaders. Admins can edit any user's Assignments including their own. Group Leaders will only be able to edit those belonging to users within their Groups and only for Assignments submitted for a Course within their Groups.
+* Tweak - The `course_start_date` and `course_end_date` field types for `POST ldlms/v2/sfwd-courses` and `PATCH ldlms/v2/sfwd-courses/{id}` have been reverted to `string` as they were before v4.25.2.
+* Tweak - The `custom_fields_forms` parameter for `ldlms/v2/sfwd-quiz` and `ldlms/v2/sfwd-quiz/{id}` is now marked read-only. Attempting to set the value previously did nothing.
+* Tweak - The `date_started` and `date_completed` fields in the REST API v2 User Course Progress endpoints now return the date in the site timezone.
+* Tweak - The `ldlms/v2/sfwd-quiz` and `ldlms/v2/sfwd-quiz/{id}` endpoints now accept and return WordPress Post IDs for the `prerequisites` field instead of internal Pro Quiz IDs.
+* Tweak - The `ldlms/v2/sfwd-quiz` endpoint no longer requires the `course` parameter for non-administrators if they pass through a `lesson` or `topic` parameter when Shared Course Steps are disabled.
+* Tweak - The `ldlms/v2/users/{user_id}/course-progress/{course_id}/steps` endpoint now returns the appropriate progress status based on the post type of the course step.
+* Tweak - The `learndash/v1/docs/openapi` endpoint now explicitly lists the namespace as part of the `paths` key to avoid potential collisions across namespaces.
+* Tweak - The parameter description for `question_type` for the `ldlms/v2/sfwd-question` and `ldlms/v2/sfwd-question/{id}` endpoints has been improved.
+* Tweak - Updated the `order` parameter for `ldlms/v2/users/{id}/quiz-progress` to no longer be case sensitive.
+* Tweak - Updated the `orderby` parameter for `ldlms/v2/users/{id}/quiz-progress` to no longer expect `ID` when sorting by IDs and can now also accept `id` as it was documented.
+* Tweak - Updated the required WP version from 6.6 to 6.7.
+* Tweak - `POST ldlms/v2/sfwd-question` and `PATCH ldlms/v2/sfwd-question/{id}` now return the same structure as `GET ldlms/v2/sfwd-question/{id}`.
+* Tweak - `prerequisite_enabled` is no longer exposed to the REST API for `ldlms/v2/sfwd-courses` and `ldlms/v2/sfwd-courses/{id}`. This setting is not meant to be set via the REST API and you should instead set `requirements_for_enrollment` to `course_prerequisite_enabled` for the same behavior.
+* Tweak - Added filters: `learndash_model_assignment_course`, `learndash_post_type_progress_statuses`, `learndash_settings_section_{$this->settings_section_key}_is_visible`.
+* Tweak - Added functions: `learndash_course_challenge_exam_get_questions_stats`, `learndash_get_user_quiz_average`.
+* Tweak - Updated filters: `learndash_group_courses_per_page`, `learndash_quiz_info_paged`, `learndash_rest_openapi_documentation`.
+* Tweak - Updated functions: `learndash_course_get_completed_steps`, `learndash_course_status`, `learndash_get_certificate_link`, `learndash_get_course_data`, `learndash_get_course_groups`, `learndash_get_course_lessons_list`, `learndash_get_course_progress`, `learndash_get_course_quiz_list`, `learndash_get_course_steps_count`, `learndash_get_course_steps`, `learndash_get_global_quiz_list`, `learndash_get_lesson_quiz_list`, `learndash_get_topic_list`, `learndash_group_enrolled_courses`, `learndash_is_lesson_notcomplete`, `learndash_is_quiz_accessable`, `learndash_is_topic_notcomplete`, `learndash_is_user_in_group`, `learndash_process_mark_complete`.
+
+= [4.25.8.1] 2026-01-21 =
+
+* Security - Tightened security around user content when editing LearnDash elements.
+* Tweak - Updated templates: `themes/legacy/templates/course_navigation_admin.php`, `themes/legacy/templates/quiz_navigation_admin.php`.
+
+= [4.25.8] 2026-01-19 =
+
+* Fix - Addressed a regression in the RazorPay library related to the `REQUESTS_SILENCE_PSR0_DEPRECATIONS` constant.
+* Fix - Fixed an issue where the quiz Legend (question numbers at the top of the quiz) could lose the correct/incorrect flag, after the user answered a question.
+* Fix - Resolved an issue where if Quiz Resume Data was stored in the browser and not yet sent to the server and the logged-in user logged out and another user logged in, the Quiz Resume Data would be shared between them.
+* Tweak - Fixed the markup of the modern topic layout.
+* Tweak - Improved validation for quiz resume data to prevent corrupted data from causing issues when resuming a quiz.
+* Tweak - Quiz Resume Data is now stored via `localStorage` instead of a Cookie to avoid issues with large Quizzes.
+* Tweak - Updated templates: `themes/ld30/templates/modern/topic/content.php`.
+
+= [4.25.7.1] 2025-12-16 =
+
+* Fix - Fixed an issue with block toolbars in WP 6.9.
+* Fix - Resolved an issue where Lesson, Topic, Group, and Challenge Exam settings tabs would not load.
+* Fix - Resolved an issue where links within LearnDash Blocks could be clicked and would replace the block with the contents of that page.
+* Fix - Resolved an issue where sometimes the block editor wouldn't be visible for Courses.
+
+= [4.25.7] 2025-12-08 =
+
+* Fix - Fixed a PHP warning when accessing post content in contexts where the global `$post` variable is null.
+* Fix - Fixed the WP logo in the fullscreen mode on post editing page.
+* Fix - Resolved an issue where the Course Builder would not be visible if meta boxes are hidden in WP 6.9+.
+* Fix - Resolved an issue where the Course CSV Export on the LearnDash LMS -> Reports page would sometimes get stuck at 50% complete.
+* Fix - Resolved an issue where the export buttons on the LearnDash LMS -> Reports page would not initialize properly in some circumstances.
+* Tweak - Improved Block compatibility with WordPress 6.9.
+* Tweak - Improved `get_comments_number` filter return type to match WordPress core behavior for strict type comparison compatibility.
+* Tweak - LearnDash Cloud: removed the LearnDash Cloud menu and standardized the LearnDash help page.
+* Tweak - Removed the "new" tag from Presenter Mode.
+
+= [4.25.6] 2025-10-27 =
+
+* Fix - Fixed `e(...).dialog is not a function` console error. This was due to a missing dependency on some pages.
+* Fix - Fixed a style conflict for Kadence Gallery and other related blocks on the Course pages when in focus mode.
+* Fix - Orders with a discount that reduces the price to 0 will now show on the Orders page.
+* Fix - Resolved an issue where the Reporting block Download button would not return the same results as displayed on the page.
+* Fix - Resolved issue with `[learndash_course_grid]` shortcode loading styles when rendered from an Elementor or Divi template.
+* Fix - Resolves issue where the first comment would sometimes be cropped off at the top.
+
+= [4.25.5] 2025-10-23 =
+
+* Tweak - Added notice linking to documentation for v5.0.0. This notice will be displayed once v5.0.0 is available.
+* Tweak - Added filters: `learndash_location_is_plugins_page`, `learndash_location_is_updates_page`.
+
+= [4.25.4] 2025-10-13 =
+
+* Fix - Authentication files that were automatically included in ZIPs downloaded from account.learndash.com will now be deleted when deauthenticating a site.
+* Fix - Fixed a broken layout issue of the `OpenAI API Key` field's input note.
+* Fix - Fixed a conflict with Divi theme builder when course reviews module was active.
+* Fix - Fixed a fatal error with 3rd party plugins that was caused by an explicit return type on a filter.
+* Fix - Fixed an issue where essays that were in draft, trashed or deleted appeared on user profile page.
+* Fix - Fixed an issue where updating a quiz post after previously adding a custom field would create a duplicate custom field.
+* Fix - Fixed missing LearnDash reports widgets titles.
+* Fix - Resolved an issue when rendering free choice quiz question answers with angle brackets.
+* Fix - Resolved an issue where disabling the quiz custom field setting would not keep it disabled after the editor page was reloaded.
+* Fix - Resolved an issue where the "Save Quiz data to the server every" setting was not respected and instead always used the default value.
+* Fix - Resolved an issue where the `LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_DEFAULT` constant was not respected by the "Save Quiz data to the server every" quiz setting. The default value is now 20 seconds instead of 5.
+* Fix - Restored the Question Overview Legend when enabled.
+* Tweak - Added course and group type enrollment statistics to Site Health.
+* Tweak - Added temporary seasonal UI enhancement.
+* Tweak - Improved accessibility for the Question Overview Legend.
+* Tweak - Modern Course Pages are no longer automatically enabled for new installs.
+* Tweak - Added filters: `learndash_admin_banners`.
+* Tweak - Added templates: `themes/ld30/templates/quiz/partials/show_quiz_review_legend.php`, `themes/ld30/templates/quiz/partials/show_quiz_review_questions.php`.
+* Tweak - Updated templates: `includes/reports/templates/ld-propanel-full-page.php`, `themes/ld30/templates/shortcodes/profile/quiz-row.php`.
+
+= [4.25.3] 2025-10-06 =
+
+* Feature - Added a migration guide to the PayPal Standard settings page to help users update subscriptions and switch to PayPal Checkout.
+* Feature - Added a new `[ld_migrate_paypal_subscription]` shortcode to help migrate PayPal Standard subscriptions to PayPal Checkout.
+* Feature - Added a new mechanism to retry payments for failed PayPal Checkout subscriptions.
+* Fix - Fixed an issue where limited subscriptions were charging one extra billing cycle when paid with PayPal Checkout.
+* Fix - Fixed the OpenAPI security schemes array and empty properties.
+* Fix - Removed an extra div element inside the Profile block.
+* Tweak - Added PayPal Checkout Status to Site Health.
+* Tweak - Display the "Saved Cards" section inside the Profile block only when a compatible payment gateway is enabled.
+* Tweak - Enhanced PayPal Checkout onboarding with increased connection timeouts and improved error messaging to provide a smoother setup experience.
+* Tweak - Improved checkout display by hiding the PayPal button and card fields when the selected payment method is not eligible.
+* Tweak - Improved the LearnDash Orders Edit Page and the Profile shortcode to include the reason why a subscription was canceled.
+* Tweak - Prevented the Telemetry Opt-in modal from showing during the onboarding wizard when setting up PayPal.
+* Tweak - When a PayPal Standard subscription is cancelled, a user is unenrolled from a course or a group automatically.
+* Tweak - Added actions: `learndash_paypal_standard_migration_shortcode_after`.
+* Tweak - Added filters: `learndash_profile_show_saved_cards`, `learndash_show_telemetry_modal`, `learndash_subscription_max_retries`, `learndash_subscription_payment_retry_email_message`, `learndash_subscription_payment_retry_email_placeholders`, `learndash_subscription_payment_retry_email_subject`, `learndash_subscription_retry_intervals`.
+* Tweak - Updated templates: `src/admin_views/modules/payments/orders/edit/subscription/details/cells/status.php`, `themes/ld30/templates/shortcodes/profile/saved-cards/index.php`, `themes/ld30/templates/shortcodes/profile/subscriptions/canceled/cancellation-date.php`.
+
+= [4.25.2] 2025-09-15 =
+
+* Feature - Added OpenAPI documentation for Course-related `ldlms/v2` endpoints to `/wp-json/learndash/v1/docs/openapi`.
+* Tweak - Added the `topic` parameter when retrieving assignments via the `ldlms/v2/sfwd-assignments/` and `ldlms/v2/sfwd-assignments/{id}` endpoints.
+* Tweak - Added the following fields to the `ldlms/v2/sfwd-courses/` and `ldlms/v2/sfwd-courses/{id}/` endpoints when creating or updating a Course: `course_start_date`, `course_end_date`, `course_seats_limit`.
+
+= [4.25.1] 2025-09-03 =
+
+* Feature - Merged course reviews addon feature to LearnDash core.
+* Fix - Fixed an issue where a new quiz question had zero points by default. Now it supports the LEARNDASH_LMS_DEFAULT_QUESTION_POINTS constant and is 1 by default.
+* Fix - Fixed an issue where the "Groups" submenu was missing on the groups editor page.
+* Fix - Resolved an issue where the Export User Course/Quiz Data buttons were missing on the Reports page.
+* Tweak - Improved compatibility with PHP 8.3.
+* Tweak - Removed open courses from Report Filters to avoid confusion.
+* Tweak - Added actions: `learndash_course_reviews_after_review_pagination`, `learndash_course_reviews_after_review`, `learndash_course_reviews_after_reviews`, `learndash_course_reviews_average_review`, `learndash_course_reviews_before_review`, `learndash_course_reviews_before_reviews`, `learndash_course_reviews_review_form`, `learndash_course_reviews_review_list`, `learndash_course_reviews_review_reply`.
+* Tweak - Added constants: `LEARNDASH_MODULE_COURSE_REVIEWS_DISABLED`.
+* Tweak - Added filters: `learndash_course_reviews_locate_template_args`, `learndash_course_reviews_locate_template_name`, `learndash_course_reviews_locate_template`, `learndash_course_reviews_render_reviews_args`, `learndash_course_reviews_show_review_form`, `learndash_course_reviews_user_has_not_started_course`, `learndash_course_reviews_user_has_started_course`, `learndash_course_reviews_user_logged_out_message`, `learndash_module_course_reviews_disabled`.
+* Tweak - Added functions: `LEARNDASHCOURSEREVIEWS`, `learndash_course_reviews_add_review`, `learndash_course_reviews_get_average_review_score`, `learndash_course_reviews_get_user_review`, `learndash_course_reviews_is_review_enabled`, `learndash_course_reviews_load`, `learndash_course_reviews_locate_template`, `learndash_course_reviews_star_rating`, `learndash_course_reviews_stars_input`, `learndash_course_reviews_user_has_started_course`.
+
+= [4.25.0] 2025-08-26 =
+
+* Feature - Added `wp-json/learndash/v1/docs/openapi` REST API endpoint.
+* Feature - Added a new PayPal Checkout integration.
+* Tweak - Added PayPal Checkout to the setup wizard.
+* Tweak - Added a message on the setup page about the deprecation of the PayPal Standard gateway.
+* Tweak - Added a warning about the deprecation of the PayPal Standard gateway.
+* Tweak - Renamed "PayPal" to "PayPal Standard" in the payment gateways list.
+* Tweak - Added actions: `learndash_dialog_closed`, `learndash_dialog_opened`, `learndash_payment_subscription_after_failure_{$gateway_name}`, `learndash_payment_subscription_after_success_{$gateway_name}`, `learndash_payment_subscription_before_process_{$gateway_name}`, `learndash_payment_subscription_check_due_payments`, `learndash_payment_subscription_process_due_payment`, `learndash_profile_add_card_form_content_loaded`, `learndash_profile_add_card_form_content`, `learndash_profile_add_card_submit`, `learndash_shortcode_profile_before_template`.
+* Tweak - Added filters: `learndash_handle_remove_card_{$gateway_id}`, `learndash_model_product_final_price`, `learndash_model_user_cards`, `learndash_payment_subscription_batch_size`, `learndash_payment_subscription_check_end_timestamp`, `learndash_payment_subscription_check_start_timestamp`, `learndash_payment_subscription_daily_check_start_timestamp`, `learndash_payment_subscription_process_with_gateway_{$gateway_name}`, `learndash_paypal_checkout_client_data`, `learndash_rest_endpoints`, `learndash_rest_openapi_documentation`, `learndash_rest_v1_common_schemas`, `learndash_settings_payments_show_paypal_standard`, `learndash_stripe_is_on_payments_setting_page`, `learndash_subscription_payment_method_information`.
+* Tweak - Updated templates: `src/admin_views/modules/payments/orders/edit/items/index.php`, `themes/ld30/templates/shortcodes/profile.php`.
+
+= [4.24.0] 2025-08-12 =
+
+* Feature - Added the new Modern Lesson and Topic Pages, which can be toggled under LearnDash > Settings > General -> Appearance -> Course Page.
+* Fix - Resolved an issue where if a Lesson was marked as a Sample Lesson and was set to be available in the future, the content could be visible for not logged in users.
+* Tweak - Removed duplicated "has access" check for Modern Course and Group pages.
+* Tweak - Updated the styling for Alerts on Modern Course and Group pages.
+* Tweak - Updated the styling of the Progress Bar for Modern Course and Group pages.
+* Tweak - Added filters: `learndash_ld30_modern_lesson_show_header`, `learndash_ld30_modern_topic_show_header`, `learndash_mapper_models_step_map`, `learndash_mark_complete_input_button_html`, `learndash_mark_complete_timer_html`, `learndash_model_assignment_can_be_deleted`, `learndash_model_assignment_delete_url`, `learndash_model_assignment_download_url`, `learndash_model_assignment_is_approved`, `learndash_model_assignment_points_awarded`, `learndash_model_assignment_related_step`, `learndash_model_assignment_uploaded_file_name`, `learndash_model_course_is_complete`, `learndash_model_course_is_linear_progression_enabled`, `learndash_model_group_last_activity`, `learndash_model_settings`, `learndash_model_topic_lesson`, `learndash_model_{$post_type_key}_is_content_visible`, `learndash_model_{$post_type_key}_is_video_watched`, `learndash_model_{$post_type_key}_next_step`, `learndash_model_{$post_type_key}_parent_step`, `learndash_model_{$post_type_key}_previous_step`, `learndash_model_{$post_type_key}_requires_watching_video_after_sub_steps`, `learndash_model_{$post_type_key}_requires_watching_video_before_sub_steps`, `learndash_model_{$post_type_key}_user_has_access`, `learndash_model_{$this->get_post_type_key()}_approved_assignments_number`, `learndash_model_{$this->get_post_type_key()}_assignment_points_maximum`, `learndash_model_{$this->get_post_type_key()}_assignment_upload_limit_size`, `learndash_model_{$this->get_post_type_key()}_assignments_number`, `learndash_model_{$this->get_post_type_key()}_assignments`, `learndash_model_{$this->get_post_type_key()}_has_assignment_points_enabled`, `learndash_model_{$this->get_post_type_key()}_last_activity`, `learndash_model_{$this->get_post_type_key()}_maximum_assignments_number`, `learndash_model_{$this->get_post_type_key()}_requires_assignments`, `learndash_model_{$this->get_post_type_key()}_submittable_assignments_number`, `learndash_model_{$this->get_post_type_key()}_supported_assignment_file_mime_types`, `learndash_model_{$this->get_post_type_key()}_supported_assignment_file_types`, `learndash_model_{$this->get_post_type_key()}_topics`, `learndash_progression_bar_is_complete`, `learndash_progression_bar_should_show`, `learndash_template_alert_action_type`, `learndash_template_alert_button_icon`, `learndash_template_alert_icon`, `learndash_template_alert_id`, `learndash_template_alert_link_target`, `learndash_template_alert_link_text`, `learndash_template_alert_link_url`, `learndash_template_alert_message`, `learndash_template_alert_type`, `learndash_template_breadcrumb_id`, `learndash_template_breadcrumb_is_last`, `learndash_template_breadcrumb_label`, `learndash_template_breadcrumb_url`, `learndash_template_progression_step_back_to_course_label`, `learndash_template_progression_step_back_to_course_url`, `learndash_template_progression_step_is_course_completed`, `learndash_template_progression_step_is_just_completed`, `learndash_template_progression_step_next_label`, `learndash_template_progression_step_next_short_label`, `learndash_template_progression_step_next_url`, `learndash_template_progression_step_previous_incomplete_step`, `learndash_template_progression_step_previous_label`, `learndash_template_progression_step_previous_short_label`, `learndash_template_progression_step_previous_url`, `learndash_template_progression_step_show_next`, `learndash_template_tab_content`, `learndash_template_tab_icon`, `learndash_template_tab_id`, `learndash_template_tab_is_first`, `learndash_template_tab_label`, `learndash_template_tab_order`, `learndash_template_tab_template`, `learndash_template_tabs_sorted`, `learndash_template_views_alerts`, `learndash_template_views_breadcrumbs`, `learndash_template_views_course_alerts`, `learndash_template_views_course_progress_bar`, `learndash_template_views_group_alerts`, `learndash_template_views_group_progress_bar`, `learndash_template_views_lesson_alerts`, `learndash_template_views_lesson_breadcrumbs`, `learndash_template_views_lesson_progress_bar`, `learndash_template_views_lesson_tabs`, `learndash_template_views_topic_alerts`, `learndash_template_views_topic_breadcrumbs`, `learndash_template_views_topic_progress_bar`, `learndash_template_views_topic_tabs`.
+* Tweak - Deprecated templates: `themes/ld30/templates/modern/course/alerts/certificate.php`, `themes/ld30/templates/modern/course/alerts/index.php`, `themes/ld30/templates/modern/course/alerts/progress.php`.
+* Tweak - Updated filters: `learndash_ld30_modern_course_show_header`, `learndash_ld30_modern_group_show_header`.
+* Tweak - Updated functions: `learndash_course_get_step_completion_data`, `learndash_mark_complete`, `learndash_process_mark_incomplete`.
+* Tweak - Updated templates: `themes/ld30/templates/modern/course/accordion/final-quizzes/heading.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/index.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/attributes/index.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/index.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/title.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/topics.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/quizzes/quiz/attributes/index.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/index.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/attributes/index.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/index.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/title.php`, `themes/ld30/templates/modern/course/alerts/certificate.php`, `themes/ld30/templates/modern/course/alerts/progress.php`, `themes/ld30/templates/modern/course/header.php`, `themes/ld30/templates/modern/group/alerts/certificate.php`, `themes/ld30/templates/modern/group/alerts/progress.php`, `themes/ld30/templates/modern/group/header.php`.
+
+= [4.23.2.1] 2025-07-24 =
+
+* Fix - Resolved an issue where the "View" and "Trash" links for Orders were missing from the Orders listing screen.
+
+= [4.23.2] =
+
+* Fix - Resolved an issue where "Fill in the blanks" question answer result indicators would overlap when the question contained multiple answer inputs across multiple lines.
+* Fix - Fixed an issue where the Quiz Question Overview Table would horizontally scroll, instead of wrapping. This was a bug introduced in 4.22.1.
+* Fix - Fixed an issue where fluid width elements added to the Quiz question container would not expand to fit as expected.
+* Fix - Fixed the incorrect closing `<section>` tag for the  `themes/ld30/templates/modern/course/enrollment/pricing/closed/with-price.php` template.
+* Fix - Resolved a JS error on non-Focus Mode pages that prevented some functionality from working correctly.
+* Fix - Resolved an issue where "Add New" buttons were missing in the backend for some content types created by addons.
+* Fix - Resolved an issue where an "Add New" button was incorrectly shown for Orders and Assignments in the backend.
+* Tweak - Replaced references of "ProPanel" with "Reports" in the LearnDash Shortcode picker in the classic editor.
+* Tweak - Added `[ld_reports]` as an alias for the `[ld_propanel]` shortcode.
+* Tweak - Added easter egg.
+* Tweak - Updated templates: `themes/ld30/templates/modern/course/enrollment/pricing/closed/with-price.php`.
+* Tweak - Added filters: `learndash_module_extras_disabled`.
+
+= [4.23.1] =
+
+* Fix - Removed the redundant Chart Data call on the Reports Dashboard.
+* Fix - Fixed an issue where the date filters didn't work for "Reports" widgets.
+* Fix - Fixed non-available Group Administration admin page for group leaders and administrators with zero managed groups.
+* Fix - Fixed an issue where the "Reports" admin menu tab item appeared on several unrelated LearnDash admin pages.
+* Fix - Fixed duplicate report file name when downloading LearnDash report using different set of filters.
+* Tweak - Added new "Display Reports" setting to toggle on and off the Reports Dashboard, to optionally use instead of the `LEARNDASH_MODULE_REPORTS_DISABLED` constant or `learndash_module_reports_disabled` filter.
+* Tweak - Added more constants on the Support page.
+
+= [4.23.0] =
+
+* Feature - Added "Presenter Mode" to the Focus Mode options.
+
+= [4.22.1] =
+
+* Fix - Fixed an issue with the Quiz Builder not maintaining the Question Points when certain elements were updated.
+* Fix - Fixed an issue where cloned courses would retain the original Stripe product ID and customers would get enrolled in both courses.
+* Fix - Fixed an issue where some admin pages were not working correctly when the "LearnDash LMS" menu item was translated.
+* Fix - Fixed an issue where LearnDash menu items were hidden behind the header when the menu was collapsed.
+* Fix - Updated broken links on the Setup page.
+* Fix - Fixed deprecation notice on quiz saving with PHP 8.2+.
+* Tweak - Improved styles for tabs on a quiz edit screen.
+* Tweak - Updated invalid license notice message.
+* Tweak - Improved accessibility to the Quiz Question Overview Table.
+* Tweak - Improved accessibility on the Download Certificate button.
+* Tweak - Updated required WP version to 6.6.
+* Tweak - Removed the last LearnDash WP version support policy notice.
+
+= [4.22.0] =
+
+* Feature - Added the new Modern Group Page, which can be toggled under LearnDash > Settings > General.
+* Tweak - Added filters: `learndash_course_grid_template_post_shortcode_attributes`, `learndash_ld30_modern_group_course_grid_args`, `learndash_ld30_modern_group_show_header`, `learndash_ld30_modern_group_show_sidebar`, `learndash_model_group_award_certificate`, `learndash_model_group_certificate_link`, `learndash_model_group_courses_number`, `learndash_model_group_courses`, `learndash_model_group_has_awards`, `learndash_model_group_product`, `learndash_payment_button_label_group`, `learndash_template_views_group_tabs`.
+* Tweak - Updated filters: `learndash_course_grid_template_post_attributes`.
+* Tweak - Updated templates: `includes/course-grid/templates/cards/grid-2/layout.php`, `includes/course-grid/templates/cards/grid-3/layout.php`, `includes/course-grid/templates/cards/list-1/layout.php`.
+* Tweak - Consolidating buttons on the admin list pages.
+
+= [4.21.5] =
+
+* Fix - Resolved a conflict with the Paid Memberships Pro plugin related to the Stripe library.
+* Tweak - Added LearnDash onboarding wizard trigger for StellarSites users.
+* Tweak - Added a setting to enable/disable automatic progression for courses (disabled by default), which can be toggled under LearnDash > Courses > Settings.
+* Tweak - Hid the LearnDash Licensing page on StellarSites if the LearnDash license is valid.
+* Tweak - Changed setup link in the LearnDash fresh install pointer to link to the LearnDash onboarding wizard.
+* Tweak - Improved accessibility for the Focus Mode sidebar keyboard navigation.
+* Tweak - Improved accessibility for the focus mode sidebar trigger on mobile.
+* Tweak - Improved accessibility for focus mode sidebar navigation.
+* Tweak - Improved accessibility for Course step status icons.
+* Tweak - Improved the accessibility of the Focus Mode Sidebar on desktop and mobile.
+* Tweak - Improved the accessibility of the mark complete button.
+* Tweak - Improved accessibility for alerts shown on page load.
+* Tweak - Improved accessibility for the expand and collapse buttons for the Profile shortcode.
+* Tweak - Increased cache time for failed licensing server requests to avoid potential site slowdowns.
+* Tweak - Prevented future LearnDash core updates if the WP version is lower than 6.6.
+* Tweak - Improved accessibility for "Fill in the blank" questions.
+* Tweak - Added a "skip to content" link for Focus Mode.
+* Tweak - Added filters: `learndash_location_is_learndash_admin_page`, `learndash_module_licensing_failed_response_cache_time`, `learndash_setup_wizard_status`.
+* Tweak - Updated filters: `learndash_step_completed_redirect_immediately`.
+* Tweak - Updated functions: `learndash_30_show_step_completed_alert`, `learndash_mark_complete_process`.
+* Tweak - Updated templates: `themes/ld30/templates/focus/header.php`, `themes/ld30/templates/focus/index.php`, `themes/ld30/templates/focus/sidebar.php`, `themes/ld30/templates/modules/alert.php`, `themes/ld30/templates/modules/infobar.php`, `themes/ld30/templates/quiz/partials/show_quiz_questions_box.php`, `themes/ld30/templates/shortcodes/profile/course-row.php`, `themes/ld30/templates/widgets/navigation/lesson-row.php`, `themes/ld30/templates/widgets/navigation/quiz-row.php`, `themes/ld30/templates/widgets/navigation/topic-row.php`.
+
+= [4.21.4] =
+
+* Feature - Merged course grid addon feature to LearnDash core.
+* Fix - Fixed an issue where the [ld_course_list] shortcode/block could not return courses that have not been started yet.
+* Fix - Fixed the square outline on the quiz radio input for themes that override it.
+* Fix - Fixed a PHP deprecation notice on LearnDash profile page and single group page.
+* Fix - Resolved an issue where the Focus Sidebar could not be scrolled properly.
+* Fix - Resolved a potential fatal error if an invalid color were saved under LearnDash LMS -> Settings.
+* Fix - Resolved an issue where Quizzes couldn't be started with the Legacy Theme active.
+* Fix - Lesson status message now consistently appears on repeated page loads.
+* Tweak - Added a filter to allow redirecting the user immediately after a course step is completed.
+* Tweak - Added a warning message to the matrix sort answer question type in the backend about accessibility compliance.
+* Tweak - Improved accessibility for quiz Free Choice result label.
+* Tweak - Improved accessibility for quiz Matrix result label.
+* Tweak - Improved accessibility for quiz Fill in Blank result label.
+* Tweak - Improved accessibility for quiz free match result label.
+* Tweak - Improved accessibility for quiz single match result label.
+* Tweak - Added support for WP auto-updates.
+* Tweak - Updated the default custom label for the "Continue" button from "Click Here to Continue" to "Continue".
+* Tweak - Improved the RazorPay library to avoid PHP warnings related to the `REQUESTS_SILENCE_PSR0_DEPRECATIONS` constant.
+* Tweak - Increased YouTube playlist importer request timeout.
+* Tweak - Improved accessibility for correct and incorrect answers for the "sorting" choice question type.
+* Tweak - Added move icon for matrix sorting question answers to improve accessibility.
+* Tweak - Improved accessibility for expand and collapse button labels.
+* Tweak - Improved accessibility for quiz question inputs.
+* Tweak - Reverted the Quiz Questions template for the Legacy theme to avoid conflicts with the LD30 theme.
+* Tweak - Added LearnDash Legacy template end of support notice.
+* Tweak - Added actions: `learndash_course_grid_assets_loaded`, `learndash_course_grid_custom_css`.
+* Tweak - Added filters: `learndash_block_markers_shortcode_atts`, `learndash_course_grid_author`, `learndash_course_grid_block_editor_image_sizes`, `learndash_course_grid_block_editor_orderby`, `learndash_course_grid_block_editor_paginations`, `learndash_course_grid_block_editor_post_types`, `learndash_course_grid_block_editor_taxonomies`, `learndash_course_grid_cards`, `learndash_course_grid_card`, `learndash_course_grid_class`, `learndash_course_grid_course_class`, `learndash_course_grid_currency`, `learndash_course_grid_custom_button_link`, `learndash_course_grid_custom_button_text`, `learndash_course_grid_default_shortcode_attributes`, `learndash_course_grid_editor_fields`, `learndash_course_grid_excluded_post_types`, `learndash_course_grid_filter_default_shortcode_attributes`, `learndash_course_grid_html_output`, `learndash_course_grid_post_extra_course_grids`, `learndash_course_grid_post_types`, `learndash_course_grid_price_text_format`, `learndash_course_grid_price`, `learndash_course_grid_query_args`, `learndash_course_grid_reviews`, `learndash_course_grid_ribbon_class`, `learndash_course_grid_ribbon_text`, `learndash_course_grid_skins`, `learndash_course_grid_skin`, `learndash_course_grid_template_post_attributes`, `learndash_course_grid_template`, `learndash_module_course_grid_disabled`, `learndash_step_completed_redirect_immediately`, `learndash_step_completed_transient_expiration_time`.
+* Tweak - Added functions: `learndash_course_grid_count_students`, `learndash_course_grid_is_learndash_post_type`, `learndash_course_grid_load_card_template`, `learndash_course_grid_load_inline_script_locale_data`, `learndash_course_grid_load_resources`, `learndash_course_grid_prepare_template_post_attributes`.
+* Tweak - Deprecated functions: `LearnDash\course_grid`.
+* Tweak - Updated templates: `themes/ld30/templates/course.php`, `themes/ld30/templates/group.php`, `themes/ld30/templates/group/partials/course-row.php`, `themes/ld30/templates/lesson/listing.php`, `themes/ld30/templates/lesson/partials/row.php`, `themes/ld30/templates/modern/course/accordion/header/expand-all.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/expand-button.php`, `themes/ld30/templates/shortcodes/course_content_shortcode.php`, `themes/ld30/templates/shortcodes/groups/row.php`, `themes/ld30/templates/shortcodes/profile.php`, `themes/ld30/templates/shortcodes/profile/course-row.php`, `themes/ld30/templates/widgets/course-navigation.php`, `themes/ld30/templates/widgets/navigation/lesson-row.php`, `themes/legacy/templates/quiz/partials/show_quiz_questions_box.php`.
+
+= [4.21.3] =
+
+* Fix - Resolved an issue where if the entered license key was expired, other LearnDash plugins could not be installed properly.
+* Tweak - Improved accessibility for input fields in the Setup Wizard.
+* Tweak - Improved accessibility for breadcrumbs.
+* Tweak - Improved accessibility for course page focus mode side navigation when zoomed in.
+* Tweak - Improved accessibility for headings on registration page.
+* Tweak - Improved accessibility for onboarding wizard field labels.
+* Tweak - Improved accessibility of heading elements in the profile shortcode.
+* Tweak - Improved accessibility for course page side navigation when zoomed in.
+* Tweak - Improved accessibility for alerts with a role "alert".
+* Tweak - Improved accessibility for login link and modal.
+* Tweak - Improved accessibility for registration form field labels.
+* Tweak - Improved accessibility for registration form error messages.
+* Tweak - Improved accessibility for buttons when hovered and focused.
+* Tweak - Improved accessibility for assignments table on the profile page.
+* Tweak - Improved accessibility for quizzes table on the profile page.
+* Tweak - Improved accessibility for essays table on the profile page.
+* Tweak - Improved accessibility of the comments link in the assignments and essays tables on the profile page.
+* Tweak - Improved accessibility of the view statistics and view certificate links in the quizzes tables on the profile page.
+* Tweak - Improved accessibility for "sorting" choice questions.
+* Tweak - Improved accessibility for course pricing section.
+* Tweak - Changed the payment buttons' HTML type to `button` to improve accessibility.
+* Tweak - Added a redirect alert countdown to the payment form in the Registration page (classic and modern) to improve accessibility.
+* Tweak - Improved accessibility when a course step is completed.
+* Tweak - Improved accessibility for error messages on registration pages.
+* Tweak - Improved accessibility for tooltips.
+* Tweak - Removed the old and added a new LearnDash WP version support policy notice.
+* Tweak - Added filters: `learndash_payment_form_redirect_alert_countdown`.
+* Tweak - Added templates: `src/views/components/icons/drag.php`.
+* Tweak - Added functions: `learndash_30_show_step_completed_alert`, `learndash_course_get_step_completion_data`, `learndash_get_step_completed_transient_data`.
+* Tweak - Updated functions: `learndash_course_get_step_completion_url`, `learndash_login_failed_alert`, `learndash_mark_complete_process`, `learndash_output_registration_success_alert`.
+* Tweak - Updated filters: `learndash_group_course_row_atts`, `learndash_lesson_row_atts_sample_no_access`, `learndash_lesson_row_atts`, `learndash_quiz_row_atts`.
+* Tweak - Updated templates: `src/views/components/forms/field-label.php`, `src/views/modules/registration/login/forgot-password.php`, `src/views/modules/registration/order/coupons/alerts.php`, `src/views/modules/registration/order/details.php`, `src/views/modules/registration/register/form.php`, `themes/ld30/templates/assignment/partials/row.php`, `themes/ld30/templates/focus/sidebar.php`, `themes/ld30/templates/group/partials/row.php`, `themes/ld30/templates/lesson.php`, `themes/ld30/templates/lesson/partials/row.php`, `themes/ld30/templates/modules/alert.php`, `themes/ld30/templates/modules/breadcrumbs.php`, `themes/ld30/templates/modules/infobar.php`, `themes/ld30/templates/modules/infobar/course.php`, `themes/ld30/templates/modules/infobar/group.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/attributes/available-on.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/attributes/in-person.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/attributes/virtual.php`, `themes/ld30/templates/modern/course/accordion/final-quizzes/quiz/title.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/available-on.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/in-person.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/sample.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/virtual.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/quizzes/quiz/attributes/available-on.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/quizzes/quiz/attributes/in-person.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/quizzes/quiz/attributes/virtual.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/quizzes/quiz/title.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/title.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/attributes/available-on.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/attributes/in-person.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/attributes/virtual.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/quizzes/quiz/attributes/available-on.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/quizzes/quiz/attributes/in-person.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/quizzes/quiz/attributes/virtual.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/quizzes/quiz/title.php`, `themes/ld30/templates/modern/course/accordion/lessons/lesson/topics/topic/title.php`, `themes/ld30/templates/modern/course/enrollment/join/index.php`, `themes/ld30/templates/modern/course/enrollment/pricing/closed/restricted.php`, `themes/ld30/templates/modern/course/enrollment/pricing/closed/with-price.php`, `themes/ld30/templates/modern/course/enrollment/pricing/free.php`, `themes/ld30/templates/modern/course/enrollment/pricing/pay-now.php`, `themes/ld30/templates/modern/course/enrollment/pricing/recurring/no-trial.php`, `themes/ld30/templates/modern/course/enrollment/pricing/recurring/trial.php`, `themes/ld30/templates/quiz/partials/row.php`, `themes/ld30/templates/shortcodes/profile.php`, `themes/ld30/templates/shortcodes/profile/assignment-row.php`, `themes/ld30/templates/shortcodes/profile/assignments.php`, `themes/ld30/templates/shortcodes/profile/course-row.php`, `themes/ld30/templates/shortcodes/profile/essay-row.php`, `themes/ld30/templates/shortcodes/profile/quiz-row.php`, `themes/ld30/templates/shortcodes/profile/quizzes.php`, `themes/ld30/templates/shortcodes/profile/search.php`, `themes/ld30/templates/topic.php`, `themes/ld30/templates/widgets/navigation/lesson-row.php`, `themes/ld30/templates/widgets/navigation/quiz-row.php`, `themes/ld30/templates/widgets/navigation/topic-row.php`, `themes/legacy/templates/quiz/partials/show_quiz_questions_box.php`.
+
+= [4.21.2.2] =
+
+* Security - Added more safety checks to telemetry opt-ins/opt-outs.
+
+= [4.21.2.1] =
+
+* Fix - Resolved an issue where if translation files were not downloaded, a PHP notice would be shown on WordPress 6.8+.
+* Fix - Resolved an incompatibility with WordPress 6.8+ and the different tabbed interfaces when editing LearnDash content.
+* Fix - Removed an added border from around Quiz Questions.
+
+= [4.21.2] =
+
+* Fix - Resolved an issue where a quiz could not be started if resuming, automatic start and time limit settings were enabled.
+* Fix - Fixed an issue where a topic inside a lesson could have the wrong previous step completed status.
+* Fix - Fixed the [user_groups] shortcode.
+* Fix - Improved the payment button accessibility.
+* Tweak - Added an accent color support to a "Complete previous step" button.
+* Tweak - Improved the accessibility of the profile edit link.
+* Tweak - Resolved accessibility issues with the Setup Wizard licensing key validation messages.
+* Tweak - Improved colors accessibility by updating the default LearnDash 3.0 theme colors.
+* Tweak - Improved accessibility for a login button on course and group pages.
+* Tweak - Improved accessibility for headings on the onboarding wizard screens.
+* Tweak - Improved accessibility for alerts.
+* Tweak - Improved colors accessibility by updating the default LearnDash 3.0 theme colors.
+* Tweak - Improved accessibility related to the color contrast of various elements.
+* Tweak - Added a focus state to the search close button in the profile block to improve accessibility.
+* Tweak - Invalid license notices will no longer be shown on non-LearnDash admin pages.
+* Tweak - Improved accessibility for the Focus Mode sidebar.
+* Tweak - Improved colors accessibility for the Modern Course tabs.
+* Tweak - Lessons and Topics will now run the appropriate actions when marked complete from the backend user edit screen.
+* Tweak - Updated functions: `learndash_process_user_course_progress_update`.
+* Tweak - Added filters: `learndash_alert_role`.
+* Tweak - Updated templates: `themes/ld30/templates/focus/sidebar.php`, `themes/ld30/templates/modern/course/enrollment/join/login-link.php`, `themes/ld30/templates/modules/infobar/course.php`, `themes/ld30/templates/modules/infobar/group.php`.
+
+= [4.21.1] =
+
+* Fix - Fixed missing quiz points in the activity report widget.
+* Fix - Resolved an issue where a white screen could be shown when editing LearnDash content types while running a Beta or Nightly WordPress version.
+* Fix - Fixed quiz admin notification email was not sent out after a user completes a quiz even though the mail to addresses are set in the global quiz settings.
+* Fix - Fixed an incorrect call of a function in the Quiz feature.
+* Fix - Resolved an issue where a message from the quiz setting "Message after Essay is submitted" was not showing on empty answer.
+* Fix - Resolved an issue where the required field message for Quiz Custom Fields would not show correctly for Number, Text, Email, and Date fields.
+* Fix - Resolved an issue where the message field for correct and incorrect question answers in the quiz builder could not be switched to text mode.
+* Fix - Resolved an issue where the question setting values in the quiz builder would not persist after the question was saved.
+* Fix - Resolved an issue where Courses that have not been started yet would not show when using the `[ld_course_list]` shortcode.
+* Fix - Resolved an issue where "Not Started" results could not be returned as expected under LearnDash LMS -> Reports.
+* Tweak - Improved the UX of the quiz template saving process on the LearnDash quiz edit page.
+* Tweak - Improved headers accessibility on the quiz page in the focus mode.
+* Tweak - Support StellarSites license key authorization.
+* Tweak - Improved accessibility for the progress indicator.
+* Tweak - Improved accessibility for Required Custom Fields in Quizzes.
+* Tweak - Improved accessibility for alerts shown for reached points in Quizzes.
+* Tweak - Improved accessibility for question text and answer options.
+* Tweak - Improved accessibility for alerts shown for Required Custom Fields in Quizzes.
+* Tweak - Improved accessibility for quiz custom fields form.
+* Tweak - Improved accessibility for the back to course link on the course step pages.
+* Tweak - Improved accessibility for when only one Tabbed element exists on a page.
+* Tweak - Improved accessibility for landmarks on focus mode pages.
+* Tweak - Compatibility update of our telemetry library.
+* Tweak - Improved the Licensing API Component with enhanced caching, validation, and error handling.
+* Tweak - Updated functions: `learndash_reports_get_activity`, `learndash_sanitize_version_string`.
+* Tweak - Updated templates: `themes/ld30/templates/focus/index.php`, `themes/ld30/templates/focus/masthead.php`, `themes/ld30/templates/focus/sidebar.php`, `themes/ld30/templates/modules/infobar.php`, `themes/ld30/templates/modules/course-steps.php`, `themes/ld30/templates/modules/tabs.php`, `themes/ld30/templates/modules/tabs_group.php`, `themes/legacy/templates/quiz/partials/show_quiz_form_box.php`, `themes/legacy/templates/quiz/partials/show_quiz_info_page_box.php`, `themes/legacy/templates/quiz/partials/show_quiz_questions_box.php`, `themes/legacy/templates/quiz/partials/show_quiz_result_box.php`.
+
+= [4.21.0] =
+
+* Feature - Added the new Modern Course Page, which can be toggled under LearnDash > Settings > General.
+* Tweak - Added the "Modern Registration Page" and "Modern Course Page" fields to the Site Health Info page in the admin.
+* Tweak - Migrated the LearnDash > Settings > Registration/Login - Appearance field to the General tab.
+* Tweak - Added functions: `learndash_registration_page_build_url`.
+* Tweak - Updated functions: `learndash_get_login_url`, `learndash_get_wrapper_class`.
+* Tweak - Added filters: `learndash_ld30_modern_course_show_header`, `learndash_ld30_modern_course_show_sidebar`, `learndash_model_course_award_certificate`, `learndash_model_course_award_points`, `learndash_model_course_certificate_link`, `learndash_model_course_has_awards`, `learndash_model_course_has_requirements`, `learndash_model_course_has_steps`, `learndash_model_course_lessons_number`, `learndash_model_course_lessons`, `learndash_model_course_product`, `learndash_model_course_quizzes_number`, `learndash_model_course_requirement_points`, `learndash_model_course_requirement_prerequisites`, `learndash_model_course_topics_number`, `learndash_model_setting`, `learndash_model_{$post_type_key}_available_on_date`, `learndash_model_{$post_type_key}_course`, `learndash_model_{$post_type_key}_is_attendance_required`, `learndash_model_{$post_type_key}_is_complete`, `learndash_model_{$post_type_key}_is_external`, `learndash_model_{$post_type_key}_is_in_person`, `learndash_model_{$post_type_key}_is_sample, `learndash_model_{$post_type_key}_is_virtual`, `learndash_model_{$post_type_key}_quizzes_number`, `learndash_model_{$post_type_key}_quizzes`, `learndash_model_{$post_type_key}_steps_filter_by_visibility`, `learndash_model_{$post_type_key}_topics_number`, `learndash_payment_button_label_course`, `learndash_template_views_course_tabs`, `learndash_template_views_tabs`, `learndash_template_view_context`, `learndash_theme_supports_views`.
+* Tweak - Updated filters: `learndash_model_product_type_label`, `learndash_wrapper_class`.
+* Tweak - Added actions: `learndash_version_downgraded_to_$version`, `learndash_version_downgraded`, `learndash_version_upgraded_to_$version`, `learndash_version_upgraded`.
+
+= [4.20.5] =
+
+* Fix - Fixed activity widget not showing activity for cases when a user gets enrolled in a course.
+* Fix - Fixed activity widget not respecting the statuses set in the filter.
+* Performance - Optimized the performance of activity data queries made via the learndash_reports_get_activity() function, especially for sites with many posts and users when their activity meta is fetched.
+* Performance - Optimized activity widget by not querying additional activity meta that it doesn't use.
+* Performance - Optimized the progress chart widget by lowering memory consumption and improving its performance on large sites.
+* Performance - Optimized functions: `learndash_reports_get_activity`.
+* Tweak - Updated functions: `learndash_reports_get_activity`.
+* Tweak - Added filters: `learndash_user_activity_meta_query_joins`, `learndash_user_activity_meta_query_where`, `learndash_user_activity_query_group_by`, `learndash_user_activity_results`.
+
+= [4.20.4] =
+
+* Fix - Fixed the Expand and Collapse button label text on course inner pages when focus mode is enabled.
+* Fix - Resolved an issue where the Trusted Login page styling was not loading correctly.
+
+= [4.20.3] =
+
+* Fix - Resolved a fatal error for purchases through the RazorPay payment gateway.
+* Fix - Resolved an issue where Tabs on Group pages would not work correctly.
+* Tweak - Enhanced Stripe Webhook validation with a loading state and more detailed validation results for both test and live webhooks.
+* Tweak - Updated templates: `themes/ld30/templates/modules/tabs_group.php`.
+* Tweak - Deprecated classes: `LearnDash\Core\Modules\Payments\Gateways\Stripe\Webhook_Setup_Validator`.
+* Tweak - Deprecated functions: `Learndash_Stripe_Gateway::create_fake_coupon_for_webhook_test`.
+
+= [4.20.2.1] =
+
+* Fix - Resolved an issue where users could not be enrolled in a Free course after registration when the 'Modern' registration appearance is activated.
+* Tweak - Added filters: `learndash_model_product_supports_coupon`.
+
+= [4.20.2] =
+
+* Feature - Added a Terms and Privacy setting that forces users to accept the custom defined terms/privacy during registration.
+* Fix - Resolved an issue where after incorrectly entering your license information in the Setup Wizard, entering the correct license information would fail.
+* Fix - Login modal could not be displayed on LearnDash course, lesson, topic, and quiz category archive pages via `[learndash_login]` shortcode.
+* Fix - Updated `Modern` registration templates in order to properly handle scenarios where coupons that would bring the price to 0 would incorrectly still send the user to the payment gateway for payment.
+* Fix - Added a missing label on the admin user profile screen for the quiz lock removing setting.
+* Fix - Updated broken links on the Help page.
+* Fix - Fixed LearnDash course info shortcode's course points value output.
+* Fix - Updated mobile styles for the LearnDash -> Help page.
+* Fix - Fixed translation files priority order to ensure globally installed translations are loaded correctly.
+* Tweak - Improved accessibility for expandable items.
+* Tweak - Improved accessibility related to the color contrast of various elements throughout Courses.
+* Tweak - Improved accessibility when buttons within Courses receive focus.
+* Tweak - Improved accessibility for tabbed content within Courses.
+* Tweak - Added actions: `learndash_coupon_after_redemption`, `learndash_coupon_before_redemption`, `learndash_coupon_user_enrolled_with_zero_price`.
+* Tweak - Added filters: `learndash_coupon_attached_data`, `learndash_coupon_check_is_valid`, `learndash_coupon_discounted_price`, `learndash_coupon_exists_and_is_active`, `learndash_coupon_get_by_code`, `learndash_coupon_is_attached_to_product`, `learndash_coupon_to_attach`.
+* Tweak - Updated functions: `learndash_get_course_points_access`, `learndash_get_course_points_enabled`, `learndash_get_course_points`, `learndash_get_course_prerequisite_enabled`, `learndash_validate_hub_license`.
+* Tweak - Updated templates: `themes/ld30/templates/course.php`, `themes/ld30/templates/focus/comments.php`, `themes/ld30/templates/group.php`, `themes/ld30/templates/group/partials/course-row.php`, `themes/ld30/templates/lesson/listing.php`, `themes/ld30/templates/lesson/partials/row.php`, `themes/ld30/templates/modules/tabs.php`, `themes/ld30/templates/shortcodes/course_content_shortcode.php`, `themes/ld30/templates/shortcodes/group_content_shortcode.php`, `themes/ld30/templates/shortcodes/groups/row.php`, `themes/ld30/templates/shortcodes/profile.php`, `themes/ld30/templates/shortcodes/profile/course-row.php`, `themes/ld30/templates/shortcodes/profile/search.php`, `themes/ld30/templates/widgets/course-navigation.php`, `themes/ld30/templates/widgets/navigation/lesson-row.php`.
+
+= [4.20.1.1] =
+
+* Fix - Resolved an issue where quiz resume didn't work when the saved answer had a line break or similar characters within it.
+* Tweak - Deprecated functions: `learndash_prepare_quiz_resume_data_to_js`.
+
+= [4.20.1] =
+
+* Feature - Added webhook autoconfiguration when connecting to Stripe.
+* Fix - Fixed a PHP deprecation warning when editing a course.
+* Fix - Resolved an issue where quiz resume didn't work when the saved answer has single quotes.
+* Security - Strengthened communication with PayPal IPN to ensure secure transaction integrity.
+* Tweak - Improved the HTTP status code returned to PayPal IPN notifications to avoid PayPal retrying the notification when it is not necessary.
+* Tweak - Set minimum required WP version to 6.1.
+* Tweak - Added Requires at least: 6.1 to the plugin header fields.
+* Tweak - Added LearnDash WP version support policy notice.
+* Tweak - Added Requires PHP: 7.4 to the plugin header fields.
+* Tweak - Deprecated classes: `LearnDash\Core\Payments\Provider`, `LearnDash\Core\Payments\Stripe\Provider`, `LearnDash\Core\Payments\Stripe\Webhook_Setup_Validator`.
+* Tweak - Updated functions: `learndash_extra_autoloading`.
+* Tweak - Added constants: `LEARNDASH_WHODAT_SERVER_URL`.
+* Tweak - Added actions: `learndash_coupon_attached`, `learndash_coupon_detached`.
+
+= [4.20.0.3] =
+
+* Fix - Resolved an issue with the REST API post content that was incorrectly being filtered.
+
+= [4.20.0.2] =
+
+* Security - Ensured content is hidden on the search listing and archive pages.
+* Tweak - Updated functions: `learndash_get_course_id`.
+* Tweak - Added filters: `learndash_template_content_on_listing_is_hidden`.
+
+= [4.20.0.1] =
+
+* Fix - Resolved an issue with plugin deletion.
+
+= [4.20.0] =
+
+* Feature - Added the LearnDash DocsBot widget.
+* Fix - Corrected the output of some timestamps to properly match the site timezone.
+* Fix - Fixed the question points field description.
+* Fix - Fixed missing course titles in the activity widget.
+* Tweak - Improved course settings UX.
+* Tweak - Improved the course editor header.
+* Tweak - Updated the block editor site icon on the LearnDash post types.
+* Tweak - Added filters: `learndash_header_variant`.
+* Tweak - Updated filters: `learndash_date_time_formats`.
+
+= [4.19.0.1] =
+
+* Fix - Resolved a fatal error that could occur during post revision deletion or permanent post deletion.
+
+= [4.19.0] =
+
+* Feature - New Order Management UI replaced the old Transactions UI.
+* Fix - Resolved an issue where quizzes with essays could be marked as completed without the required points to pass.
+* Fix - Fixed styling issues in a profile block when a Kadence theme is active.
+* Fix - Improved the protected files downloading mechanism to allow instructors to download files from the front-end.
+* Tweak - Improved admin menu items grouping and ordering.
+* Tweak - Add orders onboarding screen when no orders are present.
+* Tweak - Added filters: `learndash_assignment_get_download_url`, `learndash_file_download_path`, `learndash_file_download_url`, `learndash_listing_reset_button_url`, `learndash_model_invoice_transaction`, `learndash_model_transaction_formatted_price`, `learndash_model_transaction_gateway_customer_id`, `learndash_model_transaction_is_test_mode`, `learndash_quiz_essay_get_download_url`.
+
+= [4.18.1.1] =
+
+* Fix - Resolved an issue where translations wouldn't be loaded under WordPress 6.7.
+* Tweak - Added filters: `learndash_mo_file_path`.
+
+= [4.18.1] =
+
+* Fix - Resolved an issue where the PayPal IPN payment gateway could get stuck in test mode.
+* Fix - Resolved a deprecated JS method issue triggered since WordPress 6.0.
+* Fix - Resolved an incompatibility between WordPress v6.7 and the tabbed interface for editing LearnDash content.
+* Tweak - Added functions: `learndash_sanitize_version_string`.
+
+= [4.18.0.1] =
+
+* Fix - Restricted calls to licensing server to relevant admin pages.
+* Fix - Ensured all LearnDash add-ons can be installed properly.
+
+= [4.18.0] =
+
+* Feature - Licensing and Management is now included as a part of LearnDash LMS instead of requiring a separate plugin.
+* Feature - LearnDash payment gateways with test mode enabled now show within the WordPress admin bar with links to configure their settings.
+* Fix - Fixed fatal error when updating submitted essay points if the essay question has 0 points setting.
+* Fix - Fixed imported quizzes losing associations on import.
+* Fix - Fixed terms not being associated with imported posts.
+* Fix - Fixed imported courses losing steps when the shared steps mode is enabled on import.
+* Fix - Fixed empty steps until page refresh on import when the course builder and shared steps mode are disabled.
+* Fix - Removed draft courses from a list and adjusted the completed course count in the profile block/shortcode.
+* Fix - Corrected "login" to "log in" on a course/group page where appropriate.
+* Fix - Resolved an issue where LearnDash sometimes processed Stripe Webhooks created by other LearnDash instances connected to the same Stripe account.
+* Fix - Resolved issue where directory index files were rewritten on every page load.
+* Fix - Resolved issue where the LearnDash admin header could overlap the save dialog for reusable block patterns.
+* Fix - Resolved an alignment issue with the actions dropdown on smaller screen sizes.
+* Fix - Resolved an issue when rendering free choice quiz question answers.
+* Fix - Resolved a positioning issue with the LearnDash admin bar on mobile devices.
+* Tweak - Created Stripe Products for "Buy now" LearnDash courses/groups.
+* Tweak - A progression warning is now displayed for child steps of sample lessons if a user is enrolled.
+* Tweak - Improved quiz statistics responsiveness in the profile block/shortcode.
+* Tweak - Improved header responsiveness on the setup wizard and help pages.
+* Tweak - Updated a logo.
+* Tweak - Improved Kadence templates import stability on low-end hosting environments.
+* Tweak - Updated `Learndash_Payment_Gateway::get_active_gateways()` to no longer return `Learndash_Unknown_Gateway`. If needed, it can be obtained using `Learndash_Unknown_Gateway::get_initiated_instance()`.
+* Tweak - Added constants: `LEARNDASH_MODULE_LICENSING_DISABLED`.
+* Tweak - Added filters: `learndash_module_licensing_disabled`, `learndash_payment_option_active_gateways_in_test_mode`.
+* Tweak - Updated functions: `learndash_get_user_stats`, `learndash_put_directory_index_file`.
+* Tweak - Deprecated functions: `learndash_activate_learndash_hub`, `learndash_get_updater_instance`, `learndash_hub_deactivated_notice`, `learndash_hub_install`, `learndash_is_learndash_hub_active`, `learndash_is_learndash_hub_installed`.
+* Tweak - Deprecated actions: `{$plugin_slug}-nss_license_footer`.
+* Tweak - Deprecated classes: `nss_plugin_updater_sfwd_lms`.
+
+= [4.17.0] =
+
+* Feature - Added basic reports. Learn more here: https://go.learndash.com/reportsmerge
+* Feature - Added custom label support for the virtual instructors.
+* Fix - Fixed an issue where Essay/Open Answer questions could not show a textarea.
+* Fix - Resolved issue where you could not mark a step as complete after watching video when using Wistia with video progression.
+* Fix - Resolved issue where the result message for a quiz was shown when not empty even if it was disabled.
+* Fix - Resolved issue where the result message in quiz settings cannot be disabled when the message text is not empty.
+* Fix - Converted 'toHHMMSS' javascript string prototype method to be non-enumerable to fix a conflict with 3rd party JS scripts that attempt to enumerate string prototype methods.
+* Fix - Fixed "allow html" option doesn't work when editing question in quiz builder.
+* Fix - Fixed the log in to enroll button label for free courses and groups by using a verb instead of a noun.
+* Fix - Resolved an issue where no label existed for the virtual instructor post type in import/export settings.
+* Fix - Fixed a problem where the case lowering for custom labels was not working with multi-byte characters.
+* Fix - Resolved issue where the currency selector in payments settings was not working correctly for countries with multiple currencies.
+* Tweak - LearnDash Admin Header buttons now match the chosen WordPress Admin Theme.
+* Tweak - Improved the tabs experience so they are no longer visible when there is only one tab.
+* Tweak - Improved statistics links in the reports activity widget.
+* Tweak - Added constants: `LEARNDASH_LICENSING_SERVER_URL`, `LEARNDASH_MODULE_REPORTS_DISABLED`.
+* Tweak - Added filters: `learndash_dashboard_reports_is_enabled`, `learndash_dashboard_sections_reports`, `learndash_dashboard_section_valid_screen_sizes`, `learndash_header_buttons`, `learndash_module_reports_disabled`.
+
+= [4.16.2] =
+
+* Fix - Resolved an issue where users registered via the Modern registration page would not have their chosen password set.
+
+= [4.16.1] =
+
+* Fix - Resolved an issue where LearnDash 3.0 template colors were not being applied to some elements.
+* Tweak - Updated functions: `learndash_30_custom_colors`.
+
+= [4.16.0] =
+
+* Feature - New Registration page UI.
+* Feature - New Appearance option for registration page, providing the ability to choose between Classic and Modern registration pages.
+* Fix - Corrected the display of checkboxes within the Course builder in WordPress v6.6+.
+* Security - Altered the message for the forgot password form provided by LearnDash to be nonspecific if the username/email provided is found in the system.
+* Tweak - Updated functions: `learndash_registration_output`, `output_registration_success_alert`.
+* Tweak - Added functions: `learndash_get_login_form_html`, `learndash_is_initialized`, `learndash_registration_variation`.
+* Tweak - Added filters: `learndash_initialization_is_new_install`, `learndash_model_product_interval_message`, `learndash_payment_option_active_gateways`, `learndash_paypal_ipn_checkout_info_text`, `learndash_razorpay_checkout_info_text`, `learndash_registration_forgot_password_html`, `learndash_registration_form`, `learndash_registration_login_form_html`, `learndash_registration_wp_login_form_html`, `learndash_stripe_checkout_info_text`.
+* Tweak - Added actions: `learndash_initialization_new_install`, `learndash_registration_successful_before`.
+* Tweak - Updated actions: `learndash_registration_form_after`, `learndash_registration_form_before`, `learndash_registration_form_override`, `learndash_registration_successful_after`.
+* Tweak - Updated filters, ensuring string as return type: `learndash_payment_button`, `learndash_registration_login_link_redirect`, `learndash_registration_login_form_redirect`, `learndash_registration_errors_after`, `learndash_registration_form_fields_before`, `learndash_registration_form_fields_after`.
+
+= [4.15.2] =
+
+* Fix - Fixed a fatal error that could be encountered when quizzes that are set to randomize the order of questions and have quiz saving enabled. This could have happened if one of the questions were edited since the user last started the quiz and then the user resumed the quiz.
+* Tweak - Added "Get Help Launching Your Site" sections to the Help and Setup pages.
+* Tweak - Added a `description_after` argument to all settings fields.
+* Tweak - Deprecated `LearnDash\Core\Modules\Experiments\Experiment::get_url()` and `LearnDash\Core\Modules\Experiments\Experiment::$url`. These have been replaced with `LearnDash\Core\Modules\Experiments\Experiment::get_action_items()` and `LearnDash\Core\Modules\Experiments\Experiment::$action_items`.
+
+= [4.15.1] =
+
+* Fix - Resolved issue where standalone quizzes did not trigger the learndash_quiz_completed action.
+* Fix - Resolved issue where the LearnDash Customizer outputted the default CSS values, changing the CSS priorities and affecting some themes.
+* Fix - Resolved issue where the switch field in admin settings was not displaying the label correctly depending on the state.
+* Fix - Fixed inconsistent input field styling on virtual instructor chatbox.
+* Tweak - Deprecated constants: LEARNDASH_QUIZ_ESSAY_SUBMIT_COMPLETED.
+* Tweak - Updated templates: `modules/ai/virtual-instructor/message-default.php`, `modules/ai/virtual-instructor/message-error.php`.
+
+= [4.15.0] =
+
+* Feature - Customizer settings for the LearnDash 3.0 template.
+* Fix - Fixed issue where adding directory index file causes PHP notices when the directory is not writable.
+* Fix - Resolved issue where admins cannot disable all toggles in certain metaboxes.
+* Fix - Resolved issue where Additional Question Options won't stay toggled on when only "Randomize Answers" is enabled.
+* Fix - Resolved issue where Windows-based servers were unable to use the Import tool.
+* Fix - Resolved issue where adding a percentage symbol in password in login form would change the password.
+* Fix - Resolved issue where TrustedLogin access link doesn't auto log in the user.
+* Tweak - Updated functions: `learndash_put_directory_index_file`.
+* Tweak - Added filters: `learndash_customizer_config`, `learndash_customizer_control`, `learndash_customizer_css_priority`, `learndash_customizer_themes`.
+* Tweak - Added actions: `learndash_customizer_control_add_after`, `learndash_customizer_control_add_before`, `learndash_customizer_panel_add_after`, `learndash_customizer_panel_add_before`, `learndash_customizer_section_add_after`, `learndash_customizer_section_add_before`, `learndash_customizer_setting_add_after`, `learndash_customizer_setting_add_before`, `learndash_customizer_themes_init_after`, `learndash_customizer_themes_init_before`, `learndash_customizer_theme_init_after`, `learndash_customizer_theme_init_before`.
+
+= [4.14.0] =
+
+* Feature - Added decimal and negative number support to quiz points.
+* Feature - Added "Different points for each answer" option support to the quiz builder.
+* Feature - TrustedLogin - Provide one click secure access to your site for our support team.
+* Fix - Resolved issue where NaN points label could appear if points were deleted in the quiz builder.
+* Fix - Fixed quiz statistics loading for quizzes where all questions are set to 0 points.
+* Fix - Improved question and answer points synchronization in the quiz builder.
+* Fix - Resolved issue where the question settings were ignored in the quiz builder when the existing question was added.
+* Fix - Resolved issue where the question was being duplicated on deletion in the quiz builder sidebar in some cases.
+* Fix - Resolved issue where the free choice question points are calculated incorrectly when the different points mode is enabled.
+* Tweak - Added points calculation within the POST route in the `ldlms/v1/sfwd-questions/<id>` REST API endpoint.
+* Tweak - Updated constants: WPPROQUIZ_VERSION.
+* Tweak - Updated functions: `learndash_format_course_points`, `learndash_get_essay_details`, `learndash_proquiz_sync_question_fields`, `learndash_question_assessment_fetch_data`, `learndash_question_cloze_fetch_data`, `learndash_question_free_get_answer_data`, `learndash_update_quiz_statistics`.
+* Tweak - Updated filters: `learndash_course_points_format_round`, `learndash_fetch_quiz_questions`, `learndash_ques_free_answer_pts`, `learndash_ques_multiple_answer_pts_each`, `learndash_ques_multiple_answer_pts_whole`, `learndash_ques_single_answer_pts`, `learndash_quiz_question_answer_preprocess`.
+* Tweak - Updated templates: `legacy/templates/quiz/partials/show_quiz_questions_box.php`.
+
+= [4.13.0] =
+
+* Feature - LearnDash Experiments.
+* Feature - Virtual Instructor [Experiment].
+* Tweak - Added filters: `learndash_experiments`, `learndash_model_virtual_instructor_applied_to_all_courses`, `learndash_model_virtual_instructor_applied_to_all_groups`, `learndash_model_virtual_instructor_avatar_url`, `learndash_model_virtual_instructor_banned_words`, `learndash_model_virtual_instructor_course_ids`, `learndash_model_virtual_instructor_custom_instruction`, `learndash_model_virtual_instructor_error_message`, `learndash_model_virtual_instructor_group_ids`, `learndash_model_virtual_instructor_message_contains_banned_words`, `learndash_model_virtual_instructor_name`, `learndash_module_ai_chatgpt_summarizer_command_generate_summary`, `learndash_module_ai_chatgpt_summarizer_last_preserved_messages_count`, `learndash_module_ai_chatgpt_summarizer_max_context_characters`, `learndash_module_ai_chatgpt_summarizer_messages_summary_content`, `learndash_module_ai_virtual_instructor_chat_session_initial_message`, `learndash_module_ai_virtual_instructor_chat_session_max_message_length`, `learndash_module_ai_virtual_instructor_chat_session_message_is_valid`, `learndash_module_ai_virtual_instructor_chat_session_message`, `learndash_module_ai_virtual_instructor_chat_session_storage_period`, `learndash_service_chatgpt_model_max_context_window_tokens`, `learndash_template_template_paths`.
+* Tweak - Added actions: `learndash_experiments_experiment_init_after`, `learndash_experiments_experiment_init_before`, `learndash_experiments_init_after`, `learndash_experiments_init_before`, `learndash_post_setting_updated`.
+
+= [4.12.1] =
+
+* Fix - Resolved issue where the course progress could not be updated in some cases in a user profile.
+* Fix - Resolved issue where Lifetime sales and Latest transactions widgets, present in the Course Dashboard, were causing fatal errors in some DB engines.
+* Fix - Fixed compatibility issues with plugins using composer dependencies.
+* Tweak - Updated functions: `learndash_process_mark_complete`, `learndash_process_user_course_progress_update`.
+
+= [4.12.0] =
+
+* Feature - Blended Learning.
+* Fix - Password reset process redirects to Reset Password Success page.
+* Fix - Stripe cancellation processing for finite subscriptions with no trial.
+* Security - Tightened security around LearnDash Log.
+* Security - Tightened security around quizzes.
+* Performance - Course dashboard.
+* Performance - Groups listing/editing page when there are many groups.
+* Performance - Profile block when there are a lot of courses.
+* Performance - Optimized functions: `learndash_get_certificate_count`, `learndash_get_groups_administrator_ids`, `learndash_get_groups_user_ids`, `learndash_get_user_stats`.
+* Tweak - Fixed PHP 8.2 deprecation notices.
+* Tweak - Improved the invoice PDF in the purchase email for subscriptions with no trial.
+* Tweak - Make shared course steps option enabled by default.
+* Tweak - Set minimum required PHP version to 7.4.
+* Tweak - Updated constants: LEARNDASH_MIN_PHP_VERSION.
+* Tweak - Updated the Stripe PHP library to version 13.
+* Tweak - Added filters: `learndash_stripe_api_version`, `learndash_stripe_max_network_retries`.
+* Tweak - Added functions: `learndash_course_steps_get_external_type`, `learndash_course_steps_is_external_attendance_required`, `learndash_course_steps_is_external`, `learndash_course_steps_map_external_type_to_label`, `learndash_process_password_reset_redirect`.
+* Tweak - Updated functions: `learndash_course_get_step_completion_url`, `learndash_create_nonce`, `learndash_get_certificate_count`, `learndash_get_groups_administrator_ids`, `learndash_get_groups_user_ids`, `learndash_get_user_stats`, `learndash_mark_complete`, `learndash_process_mark_complete`, `learndash_reset_password_output`, `learndash_reset_password_set_user_new_password`, `learndash_stripe_api_version`, `learndash_stripe_max_network_retries`.
+* Tweak - Updated templates: `ld30/templates/modules/course-steps.php`, `ld30/includes/helpers.php`, `ld30/templates/lesson/partials/row.php`, `themes/ld30/templates/topic/partials/row.php`, `ld30/templates/widgets/navigation/lesson-row.php`, `ld30/templates/widgets/navigation/topic-row.php`, `ld30/templates/quiz.php`.
+
+= [4.11.0] =
+
+* Feature - Added course completion page.
+* Fix - Lesson not marking as complete when "Not Graded, full points awarded" option set in quiz essay type.
+* Fix - Added additional validation for shortcodes and blocks.
+* Tweak - Updated course progression to flow as expected between steps in a course.
+* Tweak - Added filters: `learndash_course_completion_page_redirect_enabled`, `learndash_course_linear_step_ids`, `learndash_course_next_step_default_value`, `learndash_course_next_step_id`, `learndash_course_next_step_url`, `learndash_course_previous_step_default_value`, `learndash_course_previous_step_id`, `learndash_course_previous_step_url`, `learndash_course_step_completion_url`.
+* Tweak - Updated filters: `learndash_course_completion_url`, `learndash_next_post_link`, `learndash_previous_post_link`.
+* Tweak - Deprecated filters: `learndash_completion_redirect`, `learndash_show_parent_next_link`, `learndash_show_parent_previous_link`.
+* Tweak - Added functions: `learndash_course_get_completion_url`, `learndash_course_get_linear_step_ids`, `learndash_course_get_step_completion_url`, `learndash_course_steps_requires_watching_video_after_sub_steps`, `learndash_shortcode_can_current_user_access_post`, `learndash_shortcode_protect_user`.
+* Tweak - Updated functions: `learndash_approve_assignment`, `learndash_get_step_post_statuses`, `learndash_mark_complete_process`, `learndash_next_post_link`, `learndash_previous_post_link`, `learndash_process_mark_complete`, `learndash_quiz_continue_link`, `learndash_quiz_redirect`, `learndash_upload_assignment_init`.
+* Tweak - Deprecated functions: `learndash_ajax_mark_complete`, `learndash_course_progress_widget`, `learndash_get_next_lesson_redirect`, `learndash_next_global_quiz`, `learndash_next_lesson_quiz`, `learndash_update_completion`.
+* Tweak - Updated templates: `ld30/templates/modules/course-steps.php`.
+
+= [4.10.3] =
+
+* Fix - User's essays and assignments posts do not get deleted permanently when the data erasure request is executed.
+* Security - Tightened security around REST API.
+* Security - Tightened security around assignments & essays files.
+* Tweak - Changed assignment files uploading path to `uploads/learndash/assignments`.
+* Tweak - Changed essay files uploading path to `uploads/learndash/essays`.
+* Tweak - Made essay and assignment file links dynamic.
+* Tweak - Added filters: `learndash_file_can_be_downloaded`, `learndash_file_protection_paths`.
+* Tweak - Added functions: `learndash_assignment_get_download_url`, `learndash_quiz_essay_get_download_url`.
+* Tweak - Deprecated classes: `LD_REST_Posts_Gutenberg_Controller`.
+* Tweak - Deprecated filters: `learndash_rest_wp_archive_repsonse`, `learndash_rest_wp_archive_viewable`.
+* Tweak - Updated filters: `learndash_assignment_process_init`, `learndash_essay_upload_dirbase`, `learndash_essay_upload_urlbase`, `learndash_fileupload_process`, `learndash_upload_assignment_init`.
+* Tweak - Updated functions: , `learndash_add_new_essay_response`, `learndash_before_delete_essay`, `learndash_delete_user_data`, `learndash_essay_fileupload_process`, `learndash_essay_permissions`.
+* Tweak - Updated templates: `ld30/templates/assignment/partials/row.php`, `ld30/templates/shortcodes/profile/assignment-row.php`, `themes/legacy/templates/learndash_lesson_assignment_uploads_list.php`.
+
+= [4.10.2] =
+
+* Fix - Disabling the /ldlms/v1 and /ldlms/v2 API does not affect /wp/v2 API restrictions anymore.
+* Security - Tightened security around the REST API.
+
+= [4.10.1] =
+
+* Fix - Stripe Conflict with multiple plugins.
+* Fix - Incompatibility with other plugins using psr/container.
+
+= [4.10.0] =
+
+* Feature - Add an option to import demo content in the onboarding wizard.
+* Fix - Quiz AI existing quiz steps resetting on new quiz creation.
+* Fix - Course outline AI resetting existing course section headings.
+* Fix - Fatal error on WooCommerce Subscriptions order pages.
+* Fix - Lessons generated by AI are missing course ID.
+* Tweak - Some Telemetry data was mapped incorrectly.
+* Tweak - Fixed Stripe related PHP 8.2 deprecation notices.
+* Tweak - Updated functions: `learndash_course_add_child_to_parent`.
+
+= [4.9.1] =
+
+* Fix - Deprecation notice on the course page in PHP 8.1.
+* Fix - Support a custom label in the latest transactions course widget.
+* Fix - Can’t re-arrange/drag and drop Answers in Quiz Builder.
+* Fix - Quizzes inside topic can't be re-ordered.
+* Fix - Can’t correctly remove answers via Quiz Builder.
+* Tweak - Format a discount properly in the purchase invoice PDF.
+* Tweak - Improve a button label and a warning message on the quiz statistics page.
+* Tweak - Use WP defined date/time format in course dashboard widgets.
+
+= [4.9.0.1] =
+
+* Fix - Parameters compatibility for the get_edit_post_link filter.
+
+= [4.9.0] =
+
+* Feature - Add new course dashboard with course performance metrics and data.
+* Fix - Course 'Mark Complete' button validations.
+* Fix - Sidebar hiding does not work in tabs.
+* Tweak - Added Course-Presell support for the Student and Visitor shortcodes.
+* Tweak - Set default course access mode to Free.
+* Tweak - Support non /wp-admin URLs in the course video playlist.
+* Tweak - Added actions: `learndash_dashboard_widget_before_loading`, `learndash_dashboard_widget_after_loading`, `learndash_template_before_include`, `learndash_template_before_include:{template_name}`, `learndash_template_after_include`, `learndash_template_after_include:{template_name}`, `learndash_template_entry_point:{template_name}`, `learndash_template_entry_point:{template_name}:{entry_point_name}`.
+* Tweak - Added filters: `learndash_template_after_include_html:{$template_name}`, `learndash_template_after_include_html`, `learndash_template_args:{$template_name}`, `learndash_template_args`, `learndash_template_filepath`, `learndash_template_before_include_html:{$template_name}`, `learndash_template_before_include_html`, `learndash_template_entry_point_html:{template_name}:{entry_point_name}`, `learndash_template_entry_point_html:{template_name}`, `learndash_template_entry_point_is_enabled`, `learndash_template_html:{template_name}`, `learndash_template_html`, `learndash_template_include_html:{template_name}`, `learndash_template_include_html`, `learndash_template_pre_html:{$template_name}`, `learndash_template_pre_html`, `learndash_template_skip_rendering`, `learndash_template_admin_template_paths`, `learndash_dashboard_tab_is_default`, `learndash_dashboard_widget_course_lifetime_sales_transactions_chunk_size`, `learndash_dashboard_widget_course_latest_enrollees_users_limit`, `learndash_dashboard_widget_course_latest_transactions_limit`, `learndash_dashboard_is_enabled`, `learndash_dashboard_post_is_enabled`, `learndash_dashboard_section_hint_supported_html_tags`, `learndash_dashboard_sections`, `learndash_dashboard_sections_course`, `learndash_dashboard_widget_view_path`.
+* Tweak - Updated constants: LEARNDASH_DEFAULT_COURSE_PRICE_TYPE.
+* Tweak - Updated filters: `learndash_template_filename`.
+* Tweak - Updated functions: `learndash_mark_complete_process`.
+
+= [4.8.0.1] =
+
+* Fix - Error on Settings Support page when no .po file is available.
+* Fix - Incompatibility of binary selectors (group courses and course groups) with the classic editor.
+
+= [4.8.0] =
+
+* Feature - Add a password reset success page setting.
+* Feature - Add Bunny.net video progress support.
+* Feature - Create quizzes using AI.
+* Feature - Extend access to a course (single or in a group) on an individual user basis.
+* Feature - Group pre-selling.
+* Feature - Group start and end dates.
+* Feature - Group student limit.
+* Fix - Course could not be created from a video playlist if a license email contained a plus sign.
+* Fix - Incorrect from email address when sending admin and user quiz completion emails.
+* Fix - Remove "0 Days Trial" item for Stripe subscriptions with no trial.
+* Performance - `sfwd_lms_has_access_fn` function is optimized.
+* Tweak - Added actions: `learndash_metabox_initialized`.
+* Tweak - Added confirm dialog to start of Design Wizard.
+* Tweak - Added filters: `learndash_group_access_from`, `learndash_model_product_user_enrollment_date`, `learndash_course_get_extended_access_timestamp`.
+* Tweak - Added functions: `learndash_group_access_from`, `learndash_get_reset_password_success_page_id`, `learndash_is_learndash_hub_installed`, `learndash_activate_learndash_hub`, `learndash_course_extend_user_access`, `learndash_course_get_extended_access_timestamp`.
+* Tweak - Improved the LearnDash Licensing & Management plugin activation process.
+* Tweak - Updated functions: `ld_update_group_access`, `learndash_user_group_enrolled_to_course`, `ld_update_course_access`, `learndash_hub_deactivated_notice`, `learndash_video_complete_for_step`, `learndash_video_delete_cookie_for_step`, `learndash_delete_user_data`, `ld_course_access_expires_on`, `sfwd_lms_has_access_fn`.
+
+= [4.7.0.2] =
+
+* Fix - Add compatibility with the User Role Editor plugin when updating user roles via profile page.
+* Fix - Removed Astra templates from Design Wizard.
+* Tweak - Added 12 additional Kadence templates into the Design Wizard.
+* Tweak - Added filters: `learndash_stripe_webhook_event_processable`.
+
+= [4.7.0.1] =
+
+* Fix - Content editor was sometimes shown above the correct page content on LD post editing pages with tabs.
+* Fix - Respect gateway return url on successful payment redirect.
+* Fix - Stop exporting all courses when a user has no courses attached on GDPR export.
+* Tweak - Added actions: `learndash_quiz_resume_metadata_updated`.
+* Tweak - Added filters: `learndash_privacy_export_exporters`, `learndash_privacy_export_course_progress_data`, `learndash_privacy_export_lesson_progress_data`, `learndash_privacy_export_topic_progress_data`
+* Tweak - Deprecated functions: `learndash_get_course_enrollment_url`, `learndash_get_group_enrollment_url`.
+
 = [4.7.0] =
 
 * Feature - Course pre-selling.
-* Feature - Course student limit.
 * Feature - Course start and end dates.
+* Feature - Course student limit.
 * Fix - Add left padding to content area in Focus Mode when using right sidebar on mobile screens.
 * Fix - Prevent group_leader role being removed from users on profile update.
 * Fix - Undefined array key warning in `ld_profile` shortcode when displaying a quiz with no title.
@@ -42,7 +939,7 @@
 = [4.5.3] =
 
 * Fix - The default color is not displayed in the theme settings color picker.
-* Update - RazorPay library to 2.8.5.
+* Tweak - RazorPay library to 2.8.5.
 
 = [4.5.2.1] =
 
@@ -55,8 +952,8 @@
 * Fix - Incorrect decimal pricing on Stripe & Razorpay checkout.
 * Fix - learndash_reports_get_activity() returns results outside of date range if activity status combination is set.
 * Tweak - Show deprecation notice if using Stripe addon plugin.
-* Update - Change documentation in LearnDash LMS > Setup page.
-* Update - TCPDF to version 6.6.2.
+* Tweak - Change documentation in LearnDash LMS > Setup page.
+* Tweak - TCPDF to version 6.6.2.
 
 = [4.5.1.2] =
 
@@ -71,7 +968,7 @@
 
 * Fix - Add ; to Content-Type email header.
 * Fix - Display Telemetry modal on LD admin pages.
-* Fix - Hide continue button on failed quiz shortcode unless filtered
+* Fix - Hide continue button on failed quiz shortcode unless filtered.
 * Fix - Issues with pagination, minimum global pagination value is 1 now.
 * Fix - Keep the old slugs for imported posts where possible.
 * Fix - learndash_user_get_course_completed_date function did not calculate the correct date in some cases.
@@ -83,7 +980,7 @@
 
 = [4.5.0.3] =
 
-* Fix - Increase timeout period for Action Scheduler
+* Fix - Increase timeout period for Action Scheduler.
 * Fix - Prices containing commas were not being passed to payment gateways correctly.
 * Fix - Stripe Connect does not allow purchase for a logged-out user if Registration page not set.
 * Tweak - Removed a non-circulating currency CLF.
@@ -120,14 +1017,12 @@
 * Fix - Text on the course wizard page was not using custom labels.
 * Fix - When the Group Leader user role was removed through the user’s profile, it was not deleted from group leaders assigned to groups.
 * Performance - learndash_active_coupons_exist function is optimized.
-* Tweak - Added actions: `learndash_payment_button_added`, `learndash_payment_gateway_event_processed`, `learndash_payment_gateway_user_created`
+* Tweak - Added actions: `learndash_payment_button_added`, `learndash_payment_gateway_event_processed`, `learndash_payment_gateway_user_created`.
 * Tweak - Added Data Sharing tab to the advanced settings.
-* Tweak - Added filters: `learndash_admin_settings_advanced_sections_with_hidden_metaboxes`
-* Tweak - Added filters: `learndash_group_leader_can_edit_group_leaders`, `learndash_admin_settings_advanced_sections_with_hidden_metaboxes`
-* Tweak - Added filters: `learndash_purchase_invoice_logo_params`, `learndash_user_statistics`, `learndash_lesson_row_class`, `learndash_quiz_essay_upload_link`, `learndash_account_error_messages`, `learndash_account_menu`, `learndash_label_to_slug`, `learndash_payment_gateway_event_ignore`, `learndash_payment_gateways`, `learndash_loggers`, `learndash_logger_max_file_size`, `learndash_model_is_parent`, `learndash_model_allowed_post_types`, `learndash_model_product_pricing_type`, `learndash_model_product_type_label`, `learndash_model_product_pricing`, `learndash_model_product_user_has_access`, `learndash_model_product_user_enrolled`, `learndash_model_product_user_unenrolled`, `learndash_model_transaction_user`, `learndash_model_transaction_gateway_name`, `learndash_model_transaction_gateway_label`, `learndash_model_transaction_gateway`, `learndash_model_transaction_is_subscription`, `learndash_model_transaction_is_free`, `learndash_model_transaction_is_parent`, `learndash_model_transaction_has_trial`, `learndash_model_transaction_has_coupon`, `learndash_model_transaction_gateway_transaction_id`, `learndash_model_transaction_product`, `learndash_model_transaction_product_name`, `learndash_model_transaction_product_type_label`, `learndash_model_transaction_pricing`, `learndash_model_transaction_coupon_data`, `learndash_payment_option_image_url`, `learndash_payment_option_url_fail`, `learndash_payment_option_url_success`, `learndash_payment_button_label`, `learndash_payment_buttons`, `learndash_payment_button_open`, `learndash_payment_button_closed`, `learndash_payment_button_free`, `learndash_payment_button_dropdown`, `learndash_payment_button_dropdown_trigger`, `learndash_payment_button_markup`, `learndash_transaction_post_title`
-* Tweak - Added functions: `learndash_registration_errors`, `learndash_get_account_menu`, `learndash_coupons_init`, `learndash_registration_page_get_id`, `learndash_generate_purchase_invoice`
+* Tweak - Added filters: `learndash_account_error_messages`, `learndash_account_menu`, `learndash_admin_settings_advanced_sections_with_hidden_metaboxes`, `learndash_group_leader_can_edit_group_leaders`, `learndash_label_to_slug`, `learndash_lesson_row_class`, `learndash_loggers`, `learndash_logger_max_file_size`, `learndash_model_allowed_post_types`, `learndash_model_is_parent`, `learndash_model_product_pricing_type`, `learndash_model_product_pricing`, `learndash_model_product_type_label`, `learndash_model_product_user_enrolled`, `learndash_model_product_user_has_access`, `learndash_model_product_user_unenrolled`, `learndash_model_transaction_coupon_data`, `learndash_model_transaction_gateway_label`, `learndash_model_transaction_gateway_name`, `learndash_model_transaction_gateway_transaction_id`, `learndash_model_transaction_gateway`, `learndash_model_transaction_has_coupon`, `learndash_model_transaction_has_trial`, `learndash_model_transaction_is_free`, `learndash_model_transaction_is_parent`, `learndash_model_transaction_is_subscription`, `learndash_model_transaction_pricing`, `learndash_model_transaction_product_name`, `learndash_model_transaction_product_type_label`, `learndash_model_transaction_product`, `learndash_model_transaction_user`, `learndash_payment_buttons`, `learndash_payment_button_closed`, `learndash_payment_button_dropdown_trigger`, `learndash_payment_button_dropdown`, `learndash_payment_button_free`, `learndash_payment_button_label`, `learndash_payment_button_markup`, `learndash_payment_button_open`, `learndash_payment_gateways`, `learndash_payment_gateway_event_ignore`, `learndash_payment_option_image_url`, `learndash_payment_option_url_fail`, `learndash_payment_option_url_success`, `learndash_purchase_invoice_logo_params`, `learndash_quiz_essay_upload_link`, `learndash_transaction_post_title`, `learndash_user_statistics`.
+* Tweak - Added functions: `learndash_registration_errors`, `learndash_get_account_menu`, `learndash_coupons_init`, `learndash_registration_page_get_id`, `learndash_generate_purchase_invoice`.
 * Tweak - Allow child class of LearnDash_Gutenberg_Block to set $block_dir property so it can register Gutenberg block using block.json.
-* Tweak - Deprecated actions: `learndash_user_created_with_razorpay`, `learndash_stripe_after_create_user`
-* Tweak - Deprecated classes: `LearnDash_Payment_Gateway_Integration`, `LearnDash_PayPal_IPN`, `LearnDash_Stripe_Connect_Checkout_Integration`, `LearnDash_Razorpay_Integration`
-* Tweak - Deprecated filters: `learndash-get-user-stats`, `learndash-lesson-row-class`, `learndash-quiz-essay-upload-link`, `learndash-registration-errors`, `learndash_payment_closed_button`, `learndash_dropdown_payment_button`, `label_to_slug`, `learndash_stripe_create_short_username`, `learndash_button_label_razorpay`, `learndash_stripe_purchase_button_text`, `learndash_process_webhook_razorpay`, `learndash_stripe_process_webhook`
-* Tweak - Deprecated functions: `learndash_footer_payment_buttons`, `learndash_get_footer`, `learndash_get_payment_button_label`, `learndash_paypal_init_user_purchase_hash`, `learndash_paypal_get_purchase_success_redirect_url`, `learndash_paypal_get_purchase_cancel_redirect_url`, `learndash_send_purchase_invoice_email`, `learndash_transaction_add_learndash_version`, `learndash_transaction_get_payment_meta`, `learndash_transaction_get_razorpay_meta`, `learndash_transaction_get_paypal_meta`, `learndash_transaction_get_final_price`, `learndash_transaction_get_stripe_meta`, `learndash_transaction_get_coupon_meta`
+* Tweak - Deprecated actions: `learndash_user_created_with_razorpay`, `learndash_stripe_after_create_user`.
+* Tweak - Deprecated classes: `LearnDash_Payment_Gateway_Integration`, `LearnDash_PayPal_IPN`, `LearnDash_Stripe_Connect_Checkout_Integration`, `LearnDash_Razorpay_Integration`.
+* Tweak - Deprecated filters: `learndash-get-user-stats`, `learndash-lesson-row-class`, `learndash-quiz-essay-upload-link`, `learndash-registration-errors`, `learndash_payment_closed_button`, `learndash_dropdown_payment_button`, `label_to_slug`, `learndash_stripe_create_short_username`, `learndash_button_label_razorpay`, `learndash_stripe_purchase_button_text`, `learndash_process_webhook_razorpay`, `learndash_stripe_process_webhook`.
+* Tweak - Deprecated functions: `learndash_footer_payment_buttons`, `learndash_get_footer`, `learndash_get_payment_button_label`, `learndash_paypal_init_user_purchase_hash`, `learndash_paypal_get_purchase_success_redirect_url`, `learndash_paypal_get_purchase_cancel_redirect_url`, `learndash_send_purchase_invoice_email`, `learndash_transaction_add_learndash_version`, `learndash_transaction_get_payment_meta`, `learndash_transaction_get_razorpay_meta`, `learndash_transaction_get_paypal_meta`, `learndash_transaction_get_final_price`, `learndash_transaction_get_stripe_meta`, `learndash_transaction_get_coupon_meta`.

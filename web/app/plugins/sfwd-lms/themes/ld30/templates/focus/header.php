@@ -3,6 +3,7 @@
  * LearnDash LD30 focus mode header.
  *
  * @since 3.0.0
+ * @version 4.21.5
  *
  * @package LearnDash\Templates\LD30
  */
@@ -30,6 +31,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<body <?php body_class(); ?>>
 
 		<div class="<?php echo esc_attr( learndash_the_wrapper_class() ); ?>">
+			<a
+				class="screen-reader-shortcut"
+				href="#ld-focus-content"
+				tabindex="1"
+			>
+				<?php esc_html_e( 'Skip to content', 'learndash' ); ?>
+			</a>
+
 			<?php
 				/**
 				 * Filter Focus Mode sidebar collpases.
