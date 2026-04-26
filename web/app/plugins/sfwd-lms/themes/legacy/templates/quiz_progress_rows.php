@@ -5,6 +5,7 @@
  * none
  *
  * @since 2.1.0
+ * @version 4.20.0
  *
  * @package LearnDash\Templates\Legacy\Quiz
  */
@@ -114,8 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						// translators: placeholders: User, Date.
 						_x( 'Manual Edit by: %1$s on %2$s', 'placeholders: User, Date', 'learndash' ),
 						$manual_edit_user->display_name,
-						/** This filter is documented in includes/ld-misc-functions.php */
-						date_i18n( apply_filters( 'learndash_date_time_formats', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ), $v['m_edit_time'] + get_option( 'gmt_offset' ) * 3600 )
+						learndash_adjust_date_time_display( $v['m_edit_time'] )
 					);
 
 					?>
@@ -193,8 +193,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php echo esc_html__( ' on ', 'learndash' ); ?>
 			<?php
-			/** This filter is documented in includes/ld-misc-functions.php */
-			echo date_i18n( apply_filters( 'learndash_date_time_formats', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) ), $v['time'] + get_option( 'gmt_offset' ) * 3600 );
+			echo esc_html( learndash_adjust_date_time_display( $v['time'] ) );
 
 			if ( is_admin() ) {
 				echo ' <a onClick="return false;" title="' . esc_html__( 'copy link to use in [quizinfo] block.', 'learndash' ) . '" href="data:quizinfo:quiz:' . absint( $quiz->ID ) . ':user:' . absint( $user_id ) . ':time:' . absint( $v['time'] ) . '">' . esc_html__( '#', 'learndash' ) . '</a>';

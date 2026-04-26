@@ -1,16 +1,27 @@
 <?php
+/**
+ * Quiz mapper.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Quiz mapper.
+ */
 class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper {
 
 	protected $_table;
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 
-		//$this->_table = $this->_prefix."master";
 		$this->_table = $this->_tableMaster;
 	}
 
@@ -273,6 +284,13 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper {
 		return $data;
 	}
 
+	/**
+	 * Sums the points of all questions in a quiz.
+	 *
+	 * @param int $quiz_pro_id The ProQuiz ID.
+	 *
+	 * @return float|int|void
+	 */
 	public function sumQuestionPoints( $quiz_pro_id = 0 ) {
 		$quiz_pro_id = absint( $quiz_pro_id );
 		if ( ! empty( $quiz_pro_id ) ) {
@@ -280,16 +298,26 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper {
 			if ( ! empty( $quiz_post_id ) ) {
 				$questions_post_ids = learndash_get_quiz_questions( $quiz_post_id );
 				if ( ! empty( $questions_post_ids ) ) {
-					return (int) $this->sumQuestionPointsFromArray( $questions_post_ids );
+					return $this->sumQuestionPointsFromArray( $questions_post_ids );
 				}
 			}
 		}
 	}
 
+	/**
+	 * It sums the points of all passed questions.
+	 *
+	 * @param int[] $question_ids The question IDs.
+	 *
+	 * @return float|int
+	 */
 	public function sumQuestionPointsFromArray( $question_ids = array() ) {
 		if ( ! empty( $question_ids ) ) {
 			$sql_str = "SELECT SUM(points) FROM {$this->_tableQuestion} WHERE id IN (" . implode( ',', $question_ids ) . ') AND online = 1';
-			return $this->_wpdb->get_var( $sql_str );
+
+			return learndash_format_course_points(
+				$this->_wpdb->get_var( $sql_str )
+			);
 		} else {
 			return 0;
 		}

@@ -1,20 +1,16 @@
 <?php
+
 /**
  * The API provided by a Builder that can be re-initialized.
  *
  * @package StellarWP\Learndash\lucatume\DI52\Builders
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52\Builders;
 
 /**
  * Interface ReinitializableBuilderInterface
  *
- * @package StellarWP\Learndash\lucatume\DI52\Builders
+ * @package \StellarWP\Learndash\lucatume\DI52\Builders
  */
 interface ReinitializableBuilderInterface
 {

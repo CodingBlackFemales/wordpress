@@ -75,6 +75,48 @@ if ( ( ! class_exists( 'LD_REST_Exams_Controller_V2' ) ) && ( class_exists( 'LD_
 			return $schema;
 		}
 
-		// End of functions.
+		/**
+		 * Checks if a given request has access to read posts.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+		 */
+		public function get_items_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
+
+		/**
+		 * Checks if a given request has access to read a post.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
+		 */
+		public function get_item_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
 	}
 }

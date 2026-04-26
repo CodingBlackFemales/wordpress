@@ -1,0 +1,183 @@
+.learndash-course-grid .items-wrapper .grid-2 .post {
+    line-height: 1.428571429;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 5%);
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .ribbon {
+    text-shadow: 0 1px rgb( 0 0 0 / 30% );
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    right: 15px;
+    left: auto;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #fff;
+    background: #0f69aa;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .ribbon::before {
+    
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail img {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    height: auto;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail .arrow {
+    position: absolute;
+    right: 10px;
+    bottom: -18px;
+    left: initial;
+    top: initial;
+    overflow: visible;
+    z-index: 1000;
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 100px;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail .arrow a {
+    border-radius: 100px;
+    display: block;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail .arrow * {
+    text-decoration: none;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .thumbnail .arrow .dashicons {
+    background: #fd9752;
+    color: #fff;
+    font-size: 25px;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border-radius: 100px;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content {
+    padding: 30px 22px;
+    color: #333333;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content > *:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author {
+    display: flex;
+    gap: 15px;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author .avatar {
+    width: 43px;
+    height: 43px;
+    border-radius: 30px;
+    display: block;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author .wrapper {
+    display: grid;
+    width: 100%;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author .name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author .wrapper .lessons {
+    float: right;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .entry-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #333;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .entry-title a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    font-weight: bold;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .entry-content {
+    margin-bottom: 20px;
+    color: #949ca1;
+    font-size: 0.875rem;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .entry-content > * {
+    margin: 0;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .author {
+    font-size: 0.875rem;
+    color: #949ca1;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .button {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .button a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #143f5e;
+    border-color: #143f5e;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 12px 0;
+}
+
+.learndash-course-grid .items-wrapper .grid-2 .content .button a:hover {
+    background: #29648f;
+    border-color: #29648f;
+}

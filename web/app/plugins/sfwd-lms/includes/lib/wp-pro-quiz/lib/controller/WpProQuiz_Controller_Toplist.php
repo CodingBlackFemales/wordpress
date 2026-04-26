@@ -1,8 +1,17 @@
 <?php
+/**
+ * Quiz top list controller.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Quiz top list controller.
+ */
 class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 
 	public function route() {
@@ -60,7 +69,6 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 				'date'   => WpProQuiz_Helper_Until::convertTime(
 					$tp->getDate(),
 					LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'toplist_time_format' )
-					//get_option('wpProQuiz_toplistDataFormat', 'Y/m/d g:i A')
 				),
 				'points' => $tp->getPoints(),
 				'result' => $tp->getResult(),
@@ -201,6 +209,13 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 		echo wp_json_encode( $r );
 	}
 
+	/**
+	 * Handles adding in a top list.
+	 *
+	 * @param WpProQuiz_Model_Quiz $quiz Quiz model.
+	 *
+	 * @return array{text: string, clear: bool}|true Array on error, true on success.
+	 */
 	private function handleAddInToplist( WpProQuiz_Model_Quiz $quiz ) {
 		if ( ! wp_verify_nonce( $this->_post['token'], 'wpProQuiz_toplist' ) ) {
 			return array(
@@ -220,21 +235,23 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 			);
 		}
 
+		$points                = 0;
+		$total_possible_points = 0;
+		$total_awarded_points  = 0;
+
 		$results = $this->_post['results'];
 		if ( ! empty( $results ) ) {
-			$total_possible_points = 0;
-			$total_awarded_points  = 0;
 
 			foreach ( $results as $r_idx => $result ) {
 				if ( 'comp' == $r_idx ) {
-					$points = intval( $total_awarded_points );
+					$points = learndash_format_course_points( $total_awarded_points );
 					continue;
 				}
 
 				$points_array = array(
-					'points'         => intval( $result['points'] ),
+					'points'         => learndash_format_course_points( $result['points'] ),
 					'correct'        => intval( $result['correct'] ),
-					'possiblePoints' => intval( $result['possiblePoints'] ),
+					'possiblePoints' => learndash_format_course_points( $result['possiblePoints'] ),
 				);
 				if ( false === $points_array['correct'] ) {
 					$points_array['correct'] = 0;
@@ -248,8 +265,8 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 					$this->_post['results'][ $r_idx ]['correct']        = 0;
 					$this->_post['results'][ $r_idx ]['possiblePoints'] = 0;
 				}
-				$total_awarded_points  += intval( $this->_post['results'][ $r_idx ]['points'] );
-				$total_possible_points += intval( $this->_post['results'][ $r_idx ]['possiblePoints'] );
+				$total_awarded_points  += learndash_format_course_points( $this->_post['results'][ $r_idx ]['points'] );
+				$total_possible_points += learndash_format_course_points( $this->_post['results'][ $r_idx ]['possiblePoints'] );
 			}
 		}
 
@@ -329,6 +346,12 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 			}
 		}
 
+		if ( $total_possible_points > 0 ) {
+			$result = round( $points / $total_possible_points * 100, 2 );
+		} else {
+			$result = 0;
+		}
+
 		$toplist = new WpProQuiz_Model_Toplist();
 		$toplist->setQuizId( $quizId )
 			->setUserId( $userId )
@@ -336,7 +359,7 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 			->setName( $name )
 			->setEmail( $email )
 			->setPoints( $points )
-			->setResult( round( $points / $total_possible_points * 100, 2 ) )
+			->setResult( $result )
 			->setIp( $ip );
 
 		$toplistMapper->save( $toplist );
@@ -378,7 +401,6 @@ class WpProQuiz_Controller_Toplist extends WpProQuiz_Controller_Controller {
 					'date'   => WpProQuiz_Helper_Until::convertTime(
 						$tp->getDate(),
 						LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'toplist_time_format' )
-						//get_option('wpProQuiz_toplistDataFormat', 'Y/m/d g:i A')
 					),
 					'points' => $tp->getPoints(),
 					'result' => $tp->getResult(),

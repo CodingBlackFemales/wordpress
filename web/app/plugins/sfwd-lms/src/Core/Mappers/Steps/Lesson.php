@@ -243,7 +243,6 @@ class Lesson extends Mapper {
 
 		$step->set_contents( $this->get_contents() );
 		$step->set_steps_number( $this->total() );
-		$step->set_progress( $this->model->get_progress_percentage( wp_get_current_user() ) );
 
 		$step->set_icon( 'lesson' );
 		$step->set_type_label( LearnDash_Custom_Label::get_label( 'lesson' ) );

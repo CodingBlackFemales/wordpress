@@ -18,8 +18,8 @@
  */
 import { __, _x, sprintf } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, PanelRow, TextControl, ToggleControl } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, PanelRow, TextControl, ToggleControl, Disabled } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from "@wordpress/element";
 
@@ -45,6 +45,7 @@ registerBlockType(
 		supports: {
 			customClassName: false,
 		},
+		apiVersion: 3,
 		attributes: {
 			user_id: {
 				type: 'string',
@@ -64,6 +65,8 @@ registerBlockType(
 		edit: function (props) {
 			const { attributes: { user_id, preview_user_id, preview_show },
 				setAttributes } = props;
+
+			const blockProps = useBlockProps();
 
 				let panel_groups_not_public = '';
 				if ( ldlms_settings['settings']['groups_cpt']['public'] === '' ) {
@@ -158,10 +161,14 @@ registerBlockType(
 				}
 			}
 
-			return [
-				inspectorControls,
-				useMemo(() => do_serverside_render(props.attributes), [props.attributes]),
-			];
+			return (
+				<div { ...blockProps }>
+					{ inspectorControls }
+					<Disabled>
+						{ useMemo(() => do_serverside_render(props.attributes), [props.attributes]) }
+					</Disabled>
+				</div>
+			);
 		},
 
 		save: props => {

@@ -51,8 +51,6 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V1' ) ) && ( class_exists( 'L
 		public function register_routes() {
 			$this->register_fields();
 
-			parent::register_routes_wpv2();
-
 			$collection_params = $this->get_collection_params();
 
 			$schema        = $this->get_item_schema();
@@ -208,72 +206,27 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V1' ) ) && ( class_exists( 'L
 		}
 
 		/**
-		 * Check Single Quiz Read Permissions.
+		 * Checks if a given request has access to read a post.
+		 * We override this to implement our own permissions check.
 		 *
 		 * @since 2.5.8
 		 *
-		 * @param object $request WP_REST_Request instance.
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
 		 */
 		public function get_item_permissions_check( $request ) {
-			$return = parent::get_item_permissions_check( $request );
-			if ( ( true === $return ) && ( ! learndash_is_admin_user() ) ) {
+			// Prevent non-admins users from accessing the endpoint.
 
-				$course_id = (int) $request['course'];
-
-				// If we don't have a course parameter we need to get all the courses the user has access to and all
-				// the courses the lesson is available in and compare.
-				if ( empty( $course_id ) ) {
-					$user_enrolled_courses = learndash_user_get_enrolled_courses( get_current_user_id() );
-					if ( empty( $user_enrolled_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-
-					$step_courses = learndash_get_courses_for_step( $request['id'], true );
-					if ( empty( $step_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-					$user_enrolled_courses = array_intersect( $user_enrolled_courses, array_keys( $step_courses ) );
-
-					if ( empty( $user_enrolled_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-				} else {
-					// But if the course parameter is provided we need to check the user has access and also
-					// check the step is part of that course.
-					$this->course_post = get_post( $course_id );
-					if ( ( ! $this->course_post ) || ( ! is_a( $this->course_post, 'WP_Post' ) ) || ( 'sfwd-courses' !== $this->course_post->post_type ) ) {
-						return new WP_Error(
-							'rest_post_invalid_id',
-							sprintf(
-								// translators: placeholder: course.
-								esc_html_x(
-									'Invalid %s ID.',
-									'placeholder: course',
-									'learndash'
-								),
-								LearnDash_Custom_Label::get_label( 'course' )
-							),
-							array( 'status' => 404 )
-						);
-					}
-
-					if ( ! sfwd_lms_has_access( $this->course_post->ID ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-					$this->ld_course_steps_object = LDLMS_Factory_Post::course_steps( $this->course_post->ID );
-					$this->ld_course_steps_object->load_steps();
-					$lesson_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type );
-					if ( empty( $lesson_ids ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-
-					if ( ! in_array( $request['id'], $lesson_ids, true ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-				}
+			if ( ! learndash_is_admin_user() ) {
+				return new WP_Error(
+					'ld_rest_cannot_view',
+					esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+					[ 'status' => rest_authorization_required_code() ]
+				);
 			}
 
-			return $return;
+			return true;
 		}
 
 		/**
@@ -286,6 +239,18 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V1' ) ) && ( class_exists( 'L
 		 * @return WP_Error|bool
 		 */
 		public function get_items_permissions_check( $request ) {
+			// Prevent non-admins users from accessing the endpoint.
+
+			if ( ! learndash_is_admin_user() ) {
+				return new WP_Error(
+					'ld_rest_cannot_view',
+					esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+					[ 'status' => rest_authorization_required_code() ]
+				);
+			}
+
+			// We have legacy code below that checks for course, lesson and topic parameters.
+
 			$return = parent::get_items_permissions_check( $request );
 			if ( ( true === $return ) && ( 'view' === $request['context'] ) ) {
 
@@ -349,7 +314,7 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V1' ) ) && ( class_exists( 'L
 					}
 				}
 
-				if ( ! learndash_is_admin_user() ) {
+				if ( ! learndash_is_admin_user() ) { // @phpstan-ignore-line -- legacy code.
 					if ( $this->topic_post ) {
 						if ( ! $this->course_post ) {
 							return new WP_Error(
@@ -473,6 +438,8 @@ if ( ( ! class_exists( 'LD_REST_Quizzes_Controller_V1' ) ) && ( class_exists( 'L
 					 */
 					$step_ids = learndash_get_non_course_qizzes(); // cspell:disable-line.
 				} else {
+					// This case is not valid anymore as it is a security risk.
+
 					/**
 					 * If the user is NOT logged in they can see all OPEN quizzes or those not
 					 * associated with a course AND allowed to be viewed by non-logged in users.

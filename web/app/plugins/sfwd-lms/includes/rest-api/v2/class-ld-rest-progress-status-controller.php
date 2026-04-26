@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Mappers\Progress\Post_Type_Status;
+
 if ( ( ! class_exists( 'LD_REST_Progress_Status_Controller_V2' ) ) && ( class_exists( 'WP_REST_Controller' ) ) ) {
 
 	/**
@@ -96,16 +98,17 @@ if ( ( ! class_exists( 'LD_REST_Progress_Status_Controller_V2' ) ) && ( class_ex
 		 * Initialize the types dataset for use within the class.
 		 *
 		 * @since 3.4.0
+		 * @since 5.0.0 Added the `value` field to the dataset to clarify that it is the actual value that will be referenced in other endpoints (underscore instead of hyphen).
 		 */
 		protected function init_sets() {
-			global $learndash_course_statuses;
+			$this->types = [];
 
-			$this->types = array();
-			foreach ( $learndash_course_statuses as $status_slug => $status_label ) {
-				$this->types[ str_replace( '_', '-', $status_slug ) ] = array(
-					'slug' => str_replace( '_', '-', $status_slug ),
-					'name' => $status_label,
-				);
+			foreach ( Post_Type_Status::get_statuses( LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::COURSE ) ) as $status_slug => $status_label ) {
+				$this->types[ str_replace( '_', '-', $status_slug ) ] = [
+					'name'  => $status_label,
+					'slug'  => str_replace( '_', '-', $status_slug ),
+					'value' => $status_slug, // This is the actual value that will be referenced in other endpoints.
+				];
 			}
 		}
 
@@ -233,14 +236,14 @@ if ( ( ! class_exists( 'LD_REST_Progress_Status_Controller_V2' ) ) && ( class_ex
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,
 					),
-					'description' => array(
-						'description' => __( 'The description for the progress status.', 'learndash' ),
+					'slug'        => array(
+						'description' => __( 'The slug for the progress status that can be used to retrieve the progress status.', 'learndash' ),
 						'type'        => 'string',
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,
 					),
-					'slug'        => array(
-						'description' => __( 'An alphanumeric identifier for the progress status.', 'learndash' ),
+					'value' => array(
+						'description' => __( 'The value for the progress status. This is the actual value that will be referenced in other endpoints.', 'learndash' ),
 						'type'        => 'string',
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,

@@ -12,6 +12,7 @@
  * $context		     : (string) Context of the usage. Either 'lesson', 'topic' or 'focus' use for Focus Mode header navigation.
  *
  * @since 3.0.0
+ * @version 4.21.1
  *
  * @package LearnDash\Templates\LD30
  */
@@ -36,25 +37,14 @@ if ( ( isset( $course_step_post ) ) && ( is_a( $course_step_post, 'WP_Post' ) ) 
 	$parent_id = ( get_post_type() === 'sfwd-lessons' ? absint( $course_id ) : learndash_course_get_single_parent_step( $course_id, get_the_ID() ) );
 }
 
-$learndash_previous_step_id = learndash_previous_post_link( null, 'id', $course_step_post );
-if ( ( empty( $learndash_previous_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-
-	/**
-	 * Filters whether to show parent previous link in the course navigation.
-	 *
-	 * @since 3.1.0
-	 *
-	 * @param boolean $show_previous_link Whether to show parent previous link.
-	 * @param int     $course_step_post   ID of the lesson/topic post.
-	 * @param int     $user_id            User ID.
-	 * @param int     $course_id          Course ID.
-	 */
-	if ( apply_filters( 'learndash_show_parent_previous_link', true, $course_step_post, $user_id, $course_id ) ) {
-		$learndash_previous_step_id = learndash_previous_post_link( null, 'id', get_post( $parent_id ) );
-	}
+// If parent ID is empty then the parent is the course.
+if ( empty( $parent_id ) ) {
+	$parent_id = absint( $course_id );
 }
 
-$learndash_next_step_id = '';
+$learndash_previous_step_id = learndash_previous_post_link( null, 'id', $course_step_post );
+$learndash_next_step_id     = '';
+
 $button_class           = 'ld-button ' . ( 'focus' === $context ? 'ld-button-transparent' : '' );
 
 /*
@@ -69,10 +59,12 @@ if ( ( empty( $course_settings ) ) && ( ! empty( $course_id ) ) ) {
 	$course_settings = learndash_get_setting( $course_id );
 }
 
-if ( 'sfwd-topic' === $course_step_post->post_type ) {
+if ( LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::TOPIC ) === $course_step_post->post_type ) {
 	$current_complete = learndash_is_topic_complete( $user_id, $course_step_post->ID, $course_id );
-} elseif ( 'sfwd-lessons' === $course_step_post->post_type ) {
+} elseif ( LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::LESSON ) === $course_step_post->post_type ) {
 	$current_complete = learndash_is_lesson_complete( $user_id, $course_step_post->ID, $course_id );
+}elseif ( LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ ) === $course_step_post->post_type ) {
+	$current_complete = learndash_is_quiz_complete( $user_id, $course_step_post->ID, $course_id );
 }
 
 if ( learndash_lesson_hasassignments( $course_step_post ) ) {
@@ -101,49 +93,46 @@ if ( $learndash_maybe_show_next_step_link !== true ) {
 /**
  * Filters whether to show the next link in the course navigation.
  *
+ * This filter is not applied in the LD30 Modern mode.
+ * If you want to hide the next link in LD30 Modern mode, use the hooks available in the `LearnDash\Core\Template` class.
+ *
  * @since 2.3.0
  *
  * @param bool $show_next_link Whether to show next link.
  * @param int  $user_id        User ID.
  * @param int  $step_id        ID of the lesson/topic post.
  *
+ * @return bool
  */
 $learndash_maybe_show_next_step_link = apply_filters( 'learndash_show_next_link', $learndash_maybe_show_next_step_link, $user_id, $course_step_post->ID );
 
-// Only complete lessons/topics.
-if ( ! in_array( $course_step_post->post_type, learndash_get_post_type_slug( array( 'lesson', 'topic' ) ), true ) ) {
-	$can_complete = false;
-	$current_complete = false;
+// Only complete lessons/topics or external quizzes.
+if (
+	! in_array(
+		$course_step_post->post_type,
+		learndash_get_post_type_slug(
+			[
+				LDLMS_Post_Types::LESSON,
+				LDLMS_Post_Types::TOPIC,
+			]
+		),
+		true
+	)
+	&& ! (
+		$course_step_post->post_type === LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ )
+		&& learndash_course_steps_is_external( $course_step_post->ID )
+	)
+) {
+	$can_complete                        = false;
+	$current_complete                    = false;
 	$learndash_maybe_show_next_step_link = false;
 }
 
 if ( true === (bool) $learndash_maybe_show_next_step_link ) {
 	$learndash_next_step_id = learndash_next_post_link( null, 'id', $course_step_post );
-	if ( ( empty( $learndash_next_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-		$learndash_show_parent_next_link = false;
-		if ( ( ! $course_lesson_progression_enabled ) || ( true === $current_complete ) || ( learndash_is_lesson_complete( $user_id, $parent_id ) ) ) {
-			$learndash_show_parent_next_link = true;
-		}
-
-		/**
-		 * Filters whether to show parent next link in the course navigation.
-		 *
-		 * @since 3.1.0
-		 *
-		 * @param bool $learndash_show_parent_next_link Whether to show parent next link.
-		 * @param int  $course_step_post                ID of the lesson/topic post.
-		 * @param int  $user_id                         User ID.
-		 * @param int  $course_id                       Course ID.
-		 */
-		if ( apply_filters( 'learndash_show_parent_next_link', $learndash_show_parent_next_link, $course_step_post, $user_id, $course_id ) ) {
-			$learndash_next_step_id = learndash_next_post_link( null, 'id', get_post( $parent_id ) );
-		}
-	}
 } elseif ( ( ! is_user_logged_in() ) && ( empty( $learndash_next_step_id ) ) ) {
 	$learndash_next_step_id = learndash_next_post_link( null, 'id', $course_step_post );
-	if ( ( empty( $learndash_next_step_id ) ) && ( learndash_get_post_type_slug( 'topic' ) === $course_step_post->post_type ) ) {
-		$learndash_next_step_id = learndash_next_post_link( null, 'id', get_post( $parent_id ) );
-	}
+
 	if ( ! empty( $learndash_next_step_id ) ) {
 		if ( ! learndash_is_sample( $learndash_next_step_id ) ) {
 			if ( ( ! isset( $course_settings['course_price_type'] ) ) || ( 'open' !== $course_settings['course_price_type'] ) ) {
@@ -155,6 +144,9 @@ if ( true === (bool) $learndash_maybe_show_next_step_link ) {
 
 /**
  * Filters to override next step post ID.
+ *
+ * This filter is not applied in the LD30 Modern mode.
+ * If you want to override the next step post ID in LD30 Modern mode, use the `learndash_model_{$post_type_key}_next_step` filter instead.
  *
  * @since 3.1.2
  *
@@ -270,7 +262,11 @@ if ( ( true === $current_complete ) && ( is_a( $course_step_post, 'WP_Post' ) ) 
 			<?php endif; ?>
 			</div>
 			<?php else : ?>
-			<a href="<?php echo esc_attr( learndash_get_step_permalink( $parent_id, $course_id ) ); ?>" class="ld-primary-color"><?php echo learndash_get_label_course_step_back( get_post_type( $parent_id ) ); ?></a>
+				<div class="ld-content-action">
+					<a href="<?php echo esc_attr( learndash_get_step_permalink( $parent_id, $course_id ) ); ?>" class="ld-primary-color ld-course-step-back">
+						<?php echo learndash_get_label_course_step_back( get_post_type( $parent_id ) ); ?>
+					</a>
+				</div>
 			<div class="ld-content-action <?php if ( ( ! $can_complete ) && ( ! $learndash_next_step_id ) ) : ?>ld-empty<?php endif; ?>">
 				<?php
 				if ( ( true === $can_complete ) && ( true !== $current_complete ) && ( ! empty( $complete_button ) ) ) :

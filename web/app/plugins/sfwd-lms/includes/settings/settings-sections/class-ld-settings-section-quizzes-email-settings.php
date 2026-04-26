@@ -6,6 +6,8 @@
  * @package LearnDash\Settings\Sections
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -91,12 +93,11 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			// If the settings set as a whole is empty then we set a default.
-			if ( empty( $this->setting_option_values ) ) {
-				// If the settings set as a whole is empty then we set a default.
-				if ( false === $this->setting_option_values ) {
-					$this->transition_deprecated_settings();
-				}
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
+				$this->transition_deprecated_settings();
 			}
 
 			if ( ! isset( $this->setting_option_values['admin_mail_from_name'] ) ) {
@@ -166,7 +167,11 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 					'name'              => 'admin_mail_message',
 					'type'              => 'wpeditor',
 					'label'             => esc_html__( 'Message', 'learndash' ),
-					'value'             => isset( $this->setting_option_values['admin_mail_message'] ) ? stripslashes( $this->setting_option_values['admin_mail_message'] ) : '',
+					'value'             => isset( $this->setting_option_values['admin_mail_message'] )
+						? stripslashes(
+							Cast::to_string( $this->setting_option_values['admin_mail_message'] )
+						)
+						: '',
 					'editor_args'       => array(
 						'textarea_name' => $this->setting_option_key . '[admin_mail_message]',
 						'textarea_rows' => 5,
@@ -223,7 +228,11 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 					'name'              => 'user_mail_message',
 					'type'              => 'wpeditor',
 					'label'             => esc_html__( 'Message', 'learndash' ),
-					'value'             => isset( $this->setting_option_values['user_mail_message'] ) ? stripslashes( $this->setting_option_values['user_mail_message'] ) : '',
+					'value'             => isset( $this->setting_option_values['user_mail_message'] )
+						? stripslashes(
+							Cast::to_string( $this->setting_option_values['user_mail_message'] )
+						)
+						: '',
 					'editor_args'       => array(
 						'textarea_name' => $this->setting_option_key . '[user_mail_message]',
 						'textarea_rows' => 5,

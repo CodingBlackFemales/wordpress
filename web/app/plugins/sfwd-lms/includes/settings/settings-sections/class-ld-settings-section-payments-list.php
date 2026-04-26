@@ -11,14 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'LearnDash_Settings_Section_Payments_List' ) ) ) {
-
 	/**
 	 * Class LearnDash Settings Section for Payments List Metabox.
 	 *
 	 * @since 3.6.0
 	 */
 	class LearnDash_Settings_Section_Payments_List extends LearnDash_Settings_Section {
-
 		/**
 		 * Section URL Param
 		 *
@@ -74,8 +72,45 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		 */
 		public function learndash_settings_page_init( $settings_page_id ) {
 			if ( $settings_page_id === $this->settings_page_id ) {
-
 				$this->sub_sections = LearnDash_Settings_Section::get_all_sections_by( 'settings_parent_section_key', $this->settings_section_key );
+
+				// Hide PayPal Standard settings section.
+
+				$is_paypal_standard_enabled = LearnDash_Settings_Section_PayPal::get_setting( 'enabled' ) === 'on';
+
+				/**
+				 * Filters whether to show the PayPal Standard settings section.
+				 *
+				 * @since 4.25.0
+				 *
+				 * @param bool $show_paypal_standard Whether to show the PayPal Standard settings section. Default is true if PayPal Standard is enabled.
+				 *
+				 * @return bool Whether to show the PayPal Standard settings section.
+				 */
+				if ( ! apply_filters( 'learndash_settings_payments_show_paypal_standard', $is_paypal_standard_enabled ) ) {
+					$this->sub_sections = array_filter(
+						$this->sub_sections,
+						function ( $sub_section ) {
+							return $sub_section->settings_section_key !== 'settings_paypal';
+						}
+					);
+
+					// Remove the PayPal Standard settings from the default settings page.
+
+					add_filter(
+						'learndash_show_section',
+						function ( $show_section, $section_key ) {
+							if ( $section_key === 'settings_paypal' ) {
+								return false;
+							}
+
+							return $show_section;
+						},
+						10,
+						2
+					);
+				}
+
 				if ( ! empty( $this->sub_sections ) ) {
 					add_filter( 'learndash_show_section', array( $this, 'should_show_settings_section' ), 10, 3 );
 				}
@@ -256,7 +291,6 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			}
 
 			return $sub_sections_keys;
-
 		}
 
 		/**
@@ -284,7 +318,7 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 }
 add_action(
 	'learndash_settings_sections_init',
-	function() {
+	function () {
 		LearnDash_Settings_Section_Payments_List::add_section_instance();
 	}
 );

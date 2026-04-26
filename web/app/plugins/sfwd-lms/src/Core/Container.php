@@ -19,6 +19,14 @@ use StellarWP\Learndash\StellarWP\ContainerContract\ContainerInterface;
  * @since 4.5.0
  *
  * @method void register( $serviceProviderClass, ...$alias ) Registers a service provider implementation.
+ * @method void setVar( string $key, mixed $value ) Sets a variable in the container.
+ * @method mixed getVar( string $key, mixed|null $default ) Returns a variable stored in the container.
+ * @method mixed make( string $id ) Resolves a class or interface from the container.
+ * @method callable callback( string|object $id, string $method ) Returns a callback to a method.
+ * @method Container when( string $id ) Starts a conditional binding.
+ * @method Container needs( string $id ) Adds a dependency to a conditional binding.
+ * @method void give( mixed $implementation ) Sets a value to be returned when resolving an id.
+ * @method void offsetUnset( string $id ) Unsets a binding or tag in the container.
  */
 class Container implements ContainerInterface {
 	/**
@@ -62,11 +70,16 @@ class Container implements ContainerInterface {
 	/**
 	 * Finds an entry of the container by its identifier and returns it.
 	 *
-	 * @since 4.5.0
+	 * @template T
 	 *
-	 * @param string $id A fully qualified class or interface name or an already built object.
+	 * @since 4.5.0
+	 * @since 5.0.0 add generics.
+	 *
+	 * @param string $id A fully qualified class or interface name.
+	 * @phpstan-param class-string<T> $id A fully qualified class or interface name.
 	 *
 	 * @return mixed The entry for an id.
+	 * @phpstan-return T The instance of the classname provided.
 	 *
 	 * @throws ContainerException Error while retrieving the entry.
 	 */

@@ -1,16 +1,15 @@
 <?php
 /**
- * Displays Quiz Result Box
- *
- * Available Variables:
- *
- * @var object $quiz_view      WpProQuiz_View_FrontQuiz instance.
- * @var object $quiz           WpProQuiz_Model_Quiz instance.
- * @var array  $shortcode_atts Array of shortcode attributes to create the Quiz.
- * @var int    $question_count Number of Question to display.
- * @var array  $result         Array of Quiz Result Messages.
+ * Displays Quiz Result Box.
  *
  * @since 3.2.0
+ * @version 4.17.0
+ *
+ * @var WpProQuiz_Model_Quiz     $quiz           WpProQuiz_Model_Quiz instance.
+ * @var array                    $shortcode_atts Array of shortcode attributes to create the Quiz.
+ * @var int                      $question_count Number of Question to display.
+ * @var array                    $result         Array of Quiz Result Messages.
+ * @var WpProQuiz_View_FrontQuiz $quiz_view      WpProQuiz_View_FrontQuiz instance.
  *
  * @package LearnDash\Templates\Legacy\Quiz
  */
@@ -102,7 +101,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 	if ( ! $quiz->isHideResultPoints() ) {
 		?>
-		<p class="wpProQuiz_points">
+		<p class="wpProQuiz_points wpProQuiz_points--message">
 		<?php
 			echo wp_kses_post(
 				SFWD_LMS::get_template(
@@ -262,8 +261,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php foreach ( $result['text'] as $resultText ) { ?>
 				<li style="display: none;">
 					<div>
-						<?php echo do_shortcode( apply_filters( 'comment_text', $resultText, null, null ) ); ?>
-						<?php // echo do_shortcode( apply_filters( 'the_content', $resultText, null, null ) ); ?>
+						<?php if ( $quiz->is_result_message_enabled() ) : ?>
+							<?php echo do_shortcode( apply_filters( 'comment_text', $resultText, null, null ) ); ?>
+						<?php endif; ?>
 					</div>
 				</li>
 			<?php } ?>

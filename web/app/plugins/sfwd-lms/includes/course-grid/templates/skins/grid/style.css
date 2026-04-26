@@ -1,0 +1,17 @@
+.learndash-course-grid .items-wrapper.grid {
+    display: grid;
+    grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+    column-gap: 30px;
+    row-gap: 30px;
+    margin-bottom: 30px;
+}
+
+.learndash-course-grid .items-wrapper.grid .item {
+    visibility: hidden;
+}
+
+.learndash-course-grid .items-wrapper.grid .item .content .entry-content {
+    float: none;
+    margin: auto;
+    width: auto;
+}

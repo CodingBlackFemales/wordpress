@@ -7,16 +7,9 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Template\Tabs;
 
-use LearnDash\Core\Collection;
+use LearnDash\Core\Collections\Collection;
 
 /**
  * The Tabs collection.
@@ -92,20 +85,29 @@ class Tabs extends Collection {
 		/**
 		 * Filters the ordered tabs.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param array<string, Tab> $tabs   The tabs.
 		 * @param Tabs               $object The Tabs iterator object.
 		 *
-		 * @ignore
+		 * @return array<string, Tab>
 		 */
 		$this->items = (array) apply_filters( 'learndash_template_tabs_sorted', $this->items, $this );
 
 		foreach ( $this->items as $tab ) {
+			if ( ! $tab instanceof Tab ) {
+				continue;
+			}
+
 			$tab->set_is_first( false );
 		}
 
-		$this->items[ $this->key() ]->set_is_first();
+		if (
+			isset( $this->items[ $this->key() ] )
+			&& $this->items[ $this->key() ] instanceof Tab
+		) {
+			$this->items[ $this->key() ]->set_is_first();
+		}
 
 		return $this;
 	}

@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-2.0
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\DB\QueryBuilder\Clauses;
 
@@ -26,8 +20,8 @@ class Select {
 	 * @param  string  $column
 	 * @param  string|null  $alias
 	 */
-	public function __construct( $column, $alias = null ) {
+	public function __construct( $column, $alias = '' ) {
 		$this->column = trim( $column );
-		$this->alias  = trim( $alias );
+		$this->alias  = is_scalar( $alias ) ? trim( (string) $alias ) : '';
 	}
 }

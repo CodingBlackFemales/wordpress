@@ -84,6 +84,7 @@ if (
 					true
 				);
 
+				// If the post is a quiz/question, we need to find the post ID imported via the ProQuiz importer, otherwise insert the post.
 				$post_id = $is_quiz
 					? self::get_new_post_id_by_old_post_id( $item['wp_post']['ID'] )
 					: wp_insert_post(
@@ -110,12 +111,6 @@ if (
 				$this->update_post_meta( $new_post, $item['wp_post_meta'], $is_quiz );
 				$this->update_meta_after_insertion( $new_post );
 				$this->update_post_terms( $new_post->ID, $item['wp_post_terms'] );
-
-				// remove course steps metadata.
-				if ( $this->post_type === LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::COURSE ) ) {
-					delete_post_meta( $new_post->ID, 'ld_course_steps' );
-					delete_post_meta( $new_post->ID, '_ld_course_steps_count' );
-				}
 
 				Learndash_Admin_Import::clear_wpdb_query_cache();
 			}

@@ -45,8 +45,6 @@ if ( ( ! class_exists( 'LD_REST_Courses_Controller_V1' ) ) && ( class_exists( 'L
 		public function register_routes() {
 			$this->register_fields();
 
-			parent::register_routes_wpv2();
-
 			$collection_params = $this->get_collection_params();
 			$schema            = $this->get_item_schema();
 
@@ -145,6 +143,50 @@ if ( ( ! class_exists( 'LD_REST_Courses_Controller_V1' ) ) && ( class_exists( 'L
 			$schema['title'] = 'course';
 
 			return $schema;
+		}
+
+		/**
+		 * Checks if a given request has access to read posts.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+		 */
+		public function get_items_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'learndash_rest_forbidden',
+				esc_html__( 'Sorry, you are not allowed to access this resource.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
+
+		/**
+		 * Checks if a given request has access to read a post.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
+		 */
+		public function get_item_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'learndash_rest_forbidden',
+				esc_html__( 'Sorry, you are not allowed to access this resource.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
 		}
 
 		/**

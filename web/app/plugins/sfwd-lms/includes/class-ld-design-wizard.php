@@ -90,9 +90,87 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 		 *
 		 * @return array<string, array<string, array<string, string>|string>>
 		 */
-		public function register_templates() : array {
+		public function register_templates(): array {
+			// Kadence Pro templates are not supported. We need to make sure the following templates are available in the free Kadence starter templates.
 			$this->templates = array(
-				'kadence_seo_skills'              => array(
+				'kadence_sewing_course'    => array(
+					'id'                => 'kadence_sewing_course',
+					'label'             => 'Sewing Course',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g42',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g42/?cache=bust',
+				),
+				'kadence_writing_course'   => array(
+					'id'                => 'kadence_writing_course',
+					'label'             => 'Writing Course',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g41',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g41/?cache=bust',
+				),
+				'kadence_nutrition_course'  => array(
+					'id'                => 'kadence_nutrition_course',
+					'label'             => 'Nutrition Course',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g37',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g37/?cache=bust',
+				),
+				'kadence_makeup'            => array(
+					'id'                => 'kadence_makeup',
+					'label'             => 'Makeup',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g28',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g28/?cache=bust',
+				),
+				'kadence_design_course'     => array(
+					'id'                => 'kadence_design_course',
+					'label'             => 'Design Course',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g36',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g36/?cache=bust',
+				),
+				'kadence_fitness_course'    => array(
+					'id'                => 'kadence_fitness_course',
+					'label'             => 'Fitness Course',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g40',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g40/?cache=bust',
+				),
+				'kadence_photo_courses'     => array(
+					'id'                => 'kadence_photo_courses',
+					'label'             => 'Photo Courses',
+					'theme'             => 'kadence',
+					'theme_label'       => 'Kadence',
+					'theme_template_id' => 'g34',
+					'plugins'           => array(
+						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
+					),
+					'preview_url'       => 'https://startertemplatecloud.com/g34/?cache=bust',
+				),
+				'kadence_seo_skills'        => array(
 					'id'                => 'kadence_seo_skills',
 					'label'             => 'SEO Skills',
 					'theme'             => 'kadence',
@@ -103,7 +181,7 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g21/?cache=bust',
 				),
-				'kadence_digital_course'          => array(
+				'kadence_digital_course'    => array(
 					'id'                => 'kadence_digital_course',
 					'label'             => 'Digital Course',
 					'theme'             => 'kadence',
@@ -114,7 +192,7 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g22/?cache=bust',
 				),
-				'kadence_business_course'         => array(
+				'kadence_business_course'   => array(
 					'id'                => 'kadence_business_course',
 					'label'             => 'Business Course',
 					'theme'             => 'kadence',
@@ -125,7 +203,7 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g20/?cache=bust',
 				),
-				'kadence_course'                  => array(
+				'kadence_course'            => array(
 					'id'                => 'kadence_course',
 					'label'             => 'Course',
 					'theme'             => 'kadence',
@@ -136,18 +214,7 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g03/?cache=bust',
 				),
-				'kadence_get_income'              => array(
-					'id'                => 'kadence_get_income',
-					'label'             => 'Get Income',
-					'theme'             => 'kadence',
-					'theme_label'       => 'Kadence',
-					'theme_template_id' => 'member_g01',
-					'plugins'           => array(
-						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
-					),
-					'preview_url'       => 'https://startertemplatecloud.com/member-g01/?cache=bust',
-				),
-				'kadence_online_course'           => array(
+				'kadence_online_course'     => array(
 					'id'                => 'kadence_online_course',
 					'label'             => 'Online Course',
 					'theme'             => 'kadence',
@@ -158,7 +225,7 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g04/?cache=bust',
 				),
-				'kadence_painting_course'         => array(
+				'kadence_painting_course'   => array(
 					'id'                => 'kadence_painting_course',
 					'label'             => 'Painting Course',
 					'theme'             => 'kadence',
@@ -168,102 +235,6 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 						'kadence-starter-templates' => __( 'Starter Templates by Kadence WP', 'learndash' ),
 					),
 					'preview_url'       => 'https://startertemplatecloud.com/g35/?cache=bust',
-				),
-				'astra_meditation_courses'        => array(
-					'id'                => 'astra_meditation_courses',
-					'label'             => 'Meditation Courses',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '56593',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/learn-meditation-08/',
-				),
-				'astra_learndash_academy'         => array(
-					'id'                => 'astra_learndash_academy',
-					'label'             => 'LearnDash Academy',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '47984',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/learndash-academy-08/',
-				),
-				'astra_online_health_coach'       => array(
-					'id'                => 'astra_online_health_coach',
-					'label'             => 'Online Health Coach',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '47932',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/online-health-coach-08/',
-				),
-				'astra_learn_digital_marketing'   => array(
-					'id'                => 'astra_learn_digital_marketing',
-					'label'             => 'Learn Digital Marketing',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '56525',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/learn-digital-marketing-08/',
-				),
-				'astra_online_course'             => array(
-					'id'                => 'astra_online_course',
-					'label'             => 'Online Course',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '48026',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/online-courses-08/',
-				),
-				'astra_online_programming_course' => array(
-					'id'                => 'astra_online_programming_course',
-					'label'             => 'Online Programming Course',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '47896',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/online-coding-course-08/',
-				),
-				'astra_online_cooking_course'     => array(
-					'id'                => 'astra_online_cooking_course',
-					'label'             => 'Online Cooking Course',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '48061',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/online-cooking-course-08/',
-				),
-				'astra_yoga_instructor'           => array(
-					'id'                => 'astra_yoga_instructor',
-					'label'             => 'Yoga Instructor',
-					'theme'             => 'astra',
-					'theme_label'       => 'Astra',
-					'theme_template_id' => '48631',
-					'color_scheme'      => 'light',
-					'plugins'           => array(
-						'astra-sites' => __( 'Starter Templates by Astra', 'learndash' ),
-					),
-					'preview_url'       => 'https://websitedemos.net/yoga-instructor-08/',
 				),
 			);
 
@@ -410,14 +381,14 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 				wp_enqueue_style(
 					'learndash-design-wizard',
 					LEARNDASH_LMS_PLUGIN_URL . '/assets/css/design-wizard.css',
-					array(),
+					array( 'wp-jquery-ui-dialog' ),
 					LEARNDASH_VERSION
 				);
 
 				wp_enqueue_script(
 					'learndash-design-wizard',
 					LEARNDASH_LMS_PLUGIN_URL . '/assets/js/design-wizard.js',
-					array( 'jquery', 'js-cookie', 'updates' ),
+					array( 'jquery', 'js-cookie', 'updates', 'jquery-ui-dialog' ),
 					LEARNDASH_VERSION,
 					true
 				);
@@ -444,8 +415,6 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 							admin_url( 'admin.php' )
 						),
 						'ajax_init_nonce'             => wp_create_nonce( 'ld_dw_build_template' ),
-						'ajax_nonce'                  => wp_create_nonce( 'astra-sites' ),
-						'ajax_set_data_nonce'         => wp_create_nonce( 'astra-sites-set-ai-site-data' ),
 						'ajax_kadence_security_nonce' => wp_create_nonce( 'kadence-ajax-verification' ),
 						'fonts'                       => $this->get_theme_fonts(),
 						'palettes'                    => $this->get_theme_palettes(),
@@ -455,6 +424,12 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 							'dw_error_default' => __( 'There\'s unknown error with the design wizard. Please try again later or contact our support if the issue persists.', 'learndash' ),
 						),
 						'templates'                   => $templates,
+						'confirm_dialog'              => array(
+							'proceed' => __( 'I understand, continue.', 'learndash' ),
+							'exit'    => __( 'Exit Setup', 'learndash' ),
+							'start_title' => __( 'Choose a template', 'learndash' ),
+							'end_title'   => __( 'Ready to Import?', 'learndash' ),
+						),
 					)
 				);
 			}
@@ -687,245 +662,15 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 				),
 			);
 
-			$astra_fonts = array(
-				'default' => array(
-					'label'    => 'Default',
-					'families' => array(),
-					'details'  => array(
-						'body-font-family'      => '',
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => '',
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'1'       => array(
-					'label'    => 'Playfair Display & Source Sans Pro',
-					'families' => array(
-						'heading' => 'Playfair Display',
-						'body'    => 'Source Sans Pro',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Source Sans Pro', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Playfair Display', serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'2'       => array(
-					'label'    => 'Poppins & Lato',
-					'families' => array(
-						'heading' => 'Poppins',
-						'body'    => 'Lato',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Lato', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Poppins', sans-serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'3'       => array(
-					'label'    => 'Monserrat & Lato',
-					'families' => array(
-						'heading' => 'Monserrat',
-						'body'    => 'Lato',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Lato', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 17,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Montserrat', sans-serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'4'       => array(
-					'label'    => 'Rubik & Karla',
-					'families' => array(
-						'heading' => 'Rubik',
-						'body'    => 'Karla',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Karla', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 17,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Rubik', sans-serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'5'       => array(
-					'label'    => 'Roboto Condensed & Roboto',
-					'families' => array(
-						'heading' => 'Roboto Condensed',
-						'body'    => 'Roboto',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Roboto', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Roboto Condensed', sans-serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'6'       => array(
-					'label'    => 'Merriweather & Inter',
-					'families' => array(
-						'heading' => 'Merriweather',
-						'body'    => 'Inter',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Inter', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 17,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Merriweather', serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'7'       => array(
-					'label'    => 'Volkorn & Open Sans', // cspell:disable-line.
-					'families' => array(
-						'heading' => 'Volkorn', // cspell:disable-line.
-						'body'    => 'Open Sans',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Open Sans', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Vollkorn', serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-				'8'       => array(
-					'label'    => 'Open Sans & Work Sans',
-					'families' => array(
-						'heading' => 'Open Sans',
-						'body'    => 'Work Sans',
-					),
-					'details'  => array(
-						'body-font-family'      => "'Work Sans', sans-serif",
-						'body-font-variant'     => '',
-						'body-font-weight'      => 400,
-						'font-size-body'        => array(
-							'desktop'      => 16,
-							'tablet'       => '',
-							'mobile'       => '',
-							'desktop-unit' => 'px',
-							'tablet-unit'  => 'px',
-							'mobile-unit'  => 'px',
-						),
-						'body-line-height'      => '',
-						'headings-font-family'  => "'Open Sans', sans-serif",
-						'headings-font-weight'  => 700,
-						'headings-line-height'  => '',
-						'headings-font-variant' => '',
-					),
-				),
-			);
-
 			if ( ! empty( $theme ) ) {
 				switch ( $theme ) {
 					case 'kadence':
 						$fonts = $kadence_fonts;
 						break;
-
-					case 'astra':
-						$fonts = $astra_fonts;
-						break;
 				}
 			} else {
 				$fonts = array(
 					'kadence' => $kadence_fonts,
-					'astra'   => $astra_fonts,
 				);
 			}
 
@@ -951,10 +696,6 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 				switch ( $template['theme'] ) {
 					case 'kadence':
 						$fonts = $this->get_theme_fonts( 'kadence' );
-						break;
-
-					case 'astra':
-						$fonts = $this->get_theme_fonts( 'astra' );
 						break;
 				}
 			}
@@ -1077,337 +818,15 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 				),
 			);
 
-			$astra_palettes = array(
-				'dark'  => array(
-					'default'  => array(
-						'slug'   => 'default',
-						'title'  => __( 'Default', 'learndash' ),
-						'colors' => array(),
-					),
-					'style-1'  => array(
-						'slug'   => 'style-1',
-						'title'  => __( 'Style 1', 'learndash' ),
-						'colors' => array(
-							'#8E43F0',
-							'#7215EA',
-							'#FFFFFF',
-							'#EEEBF4',
-							'#150E1F',
-							'#494153',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-2'  => array(
-						'slug'   => 'style-2',
-						'title'  => __( 'Style 2', 'learndash' ),
-						'colors' => array(
-							'#EF4D48',
-							'#D90700',
-							'#FFFFFF',
-							'#EEEAEC',
-							'#2B161B',
-							'#3C2F32',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-3'  => array(
-						'slug'   => 'style-3',
-						'title'  => __( 'Style 3', 'learndash' ),
-						'colors' => array(
-							'#FF42B3',
-							'#FF0099',
-							'#FFFFFF',
-							'#EEEAEC',
-							'#2B161B',
-							'#3C2F32',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-4'  => array(
-						'slug'   => 'style-4',
-						'title'  => __( 'Style 4', 'learndash' ),
-						'colors' => array(
-							'#FF6A97',
-							'#FA036B',
-							'#FFFFFF',
-							'#EEEAEC',
-							'#2B161B',
-							'#3C2F32',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-5'  => array(
-						'slug'   => 'style-5',
-						'title'  => __( 'Style 5', 'learndash' ),
-						'colors' => array(
-							'#FF7A3D',
-							'#FF5100',
-							'#FFFFFF',
-							'#F1EDEB',
-							'#1E1810',
-							'#443D3A',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-6'  => array(
-						'slug'   => 'style-6',
-						'title'  => __( 'Style 6', 'learndash' ),
-						'colors' => array(
-							'#F9C349',
-							'#FFB100',
-							'#FFFFFF',
-							'#F0EFEC',
-							'#1E1810',
-							'#4D4A46',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-7'  => array(
-						'slug'   => 'style-7',
-						'title'  => __( 'Style 7', 'learndash' ),
-						'colors' => array(
-							'#30C7B5',
-							'#00AC97',
-							'#FFFFFF',
-							'#F0EFEC',
-							'#1E1810',
-							'#4D4A46',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-8'  => array(
-						'slug'   => 'style-8',
-						'title'  => __( 'Style 8', 'learndash' ),
-						'colors' => array(
-							'#1BAE70',
-							'#06752E',
-							'#FFFFFF',
-							'#EBECEB',
-							'#14261C',
-							'#3D4641',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-9'  => array(
-						'slug'   => 'style-9',
-						'title'  => __( 'Style 9', 'learndash' ),
-						'colors' => array(
-							'#2FE6FF',
-							'#00D0EC',
-							'#FFFFFF',
-							'#E8EBEC',
-							'#101218',
-							'#3B4244',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-10' => array(
-						'slug'   => 'style-10',
-						'title'  => __( 'Style 10', 'learndash' ),
-						'colors' => array(
-							'#4175FC',
-							'#084AF3',
-							'#FFFFFF',
-							'#E8EBEC',
-							'#101218',
-							'#3B4244',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-				),
-				'light' => array(
-					'default'  => array(
-						'slug'   => 'default',
-						'title'  => __( 'Default', 'learndash' ),
-						'colors' => array(),
-					),
-					'style-1'  => array(
-						'slug'   => 'style-1',
-						'title'  => __( 'Style 1', 'learndash' ),
-						'colors' => array(
-							'#8E43F0',
-							'#6300E2',
-							'#150E1F',
-							'#584D66',
-							'#F3F1F6',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-2'  => array(
-						'slug'   => 'style-2',
-						'title'  => __( 'Style 2', 'learndash' ),
-						'colors' => array(
-							'#EF4D48',
-							'#D90700',
-							'#2B161B',
-							'#453E3E',
-							'#F7F3F5',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-3'  => array(
-						'slug'   => 'style-3',
-						'title'  => __( 'Style 3', 'learndash' ),
-						'colors' => array(
-							'#FF42B3',
-							'#FF0099',
-							'#2B161B',
-							'#554B4E',
-							'#F6F3F5',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-4'  => array(
-						'slug'   => 'style-4',
-						'title'  => __( 'Style 4', 'learndash' ),
-						'colors' => array(
-							'#FF6A97',
-							'#FA036B',
-							'#2B161B',
-							'#645659',
-							'#F8F3F5',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-5'  => array(
-						'slug'   => 'style-5',
-						'title'  => __( 'Style 5', 'learndash' ),
-						'colors' => array(
-							'#FF7A3D',
-							'#FF5100',
-							'#1E1810',
-							'#575250',
-							'#F8F5F4',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-6'  => array(
-						'slug'   => 'style-6',
-						'title'  => __( 'Style 6', 'learndash' ),
-						'colors' => array(
-							'#F9C349',
-							'#FFB100',
-							'#1E1810',
-							'#62615C',
-							'#F8F7F3',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-7'  => array(
-						'slug'   => 'style-7',
-						'title'  => __( 'Style 7', 'learndash' ),
-						'colors' => array(
-							'#30C7B5',
-							'#00AC97',
-							'#14261C',
-							'#4F5655',
-							'#F3F6F3',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-8'  => array(
-						'slug'   => 'style-8',
-						'title'  => __( 'Style 8', 'learndash' ),
-						'colors' => array(
-							'#1BAE70',
-							'#06752E',
-							'#14261C',
-							'#4E5652',
-							'#F4F6F4',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-9'  => array(
-						'slug'   => 'style-9',
-						'title'  => __( 'Style 9', 'learndash' ),
-						'colors' => array(
-							'#2FC1FF',
-							'#08ACF2',
-							'#101218',
-							'#4C5253',
-							'#F3F6F6',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-					'style-10' => array(
-						'slug'   => 'style-10',
-						'title'  => __( 'Style 10', 'learndash' ),
-						'colors' => array(
-							'#4175FC',
-							'#084AF3',
-							'#101218',
-							'#494B51',
-							'#F3F5F5',
-							'#FFFFFF',
-							'#000000',
-							'#4B4F58',
-							'#F6F7F8',
-						),
-					),
-				),
-			);
-
 			if ( ! empty( $theme ) ) {
 				switch ( $theme ) {
 					case 'kadence':
 						$palettes = $kadence_palettes;
 						break;
-
-					case 'astra':
-						$palettes = $astra_palettes;
-						break;
 				}
 			} else {
 				$palettes = array(
 					'kadence' => $kadence_palettes,
-					'astra'   => $astra_palettes,
 				);
 			}
 
@@ -1432,23 +851,6 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 				switch ( $template['theme'] ) {
 					case 'kadence':
 						$palettes = $this->get_theme_palettes( 'kadence' );
-						break;
-
-					case 'astra':
-						$palettes     = $this->get_theme_palettes( 'astra' );
-						$color_scheme = 'light'; // Default color scheme.
-						$color_scheme = ! empty( $template['color_scheme'] ) ? $template['color_scheme'] : $color_scheme;
-
-						$palettes = $palettes[ $color_scheme ];
-
-						$palettes = array_map(
-							function ( $palette ) {
-								$palette['colors'] = array_slice( $palette['colors'], 0, 5 );
-
-								return $palette;
-							},
-							$palettes
-						);
 						break;
 				}
 			}
@@ -1983,8 +1385,6 @@ if ( ! class_exists( 'LearnDash_Design_Wizard' ) ) {
 			$message = '';
 			if ( isset( $this->ajax_template['theme'] ) && $this->ajax_template['theme'] === 'kadence' ) {
 				$message = __( 'Run Kadence template building process', 'learndash' );
-			} elseif ( isset( $this->ajax_template['theme'] ) && $this->ajax_template['theme'] === 'astra' ) {
-				$message = __( 'Run Astra template building process', 'learndash' );
 			}
 
 			return array( 'next_step_message' => $message );

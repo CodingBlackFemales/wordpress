@@ -7,12 +7,17 @@
  * @package LearnDash\Certificates
  */
 
+use StellarWP\Learndash\StellarWP\DB\DB;
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\StellarWP\Arrays\Arr;
+use LearnDash\Core\Models\Quiz;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Gets certificate details.
+ * Gets certificate details for a quiz post.
  *
  * Return a link to the certificate and certificate threshold.
  *
@@ -38,10 +43,8 @@ function learndash_certificate_details( $post_id, $cert_user_id = null ) {
 	$post             = get_post( $post_id );
 
 	if ( ( $post instanceof WP_Post ) && ( 'sfwd-quiz' === $post->post_type ) ) {
-
 		$meta = get_post_meta( $post_id, '_sfwd-quiz', true );
 		if ( is_array( $meta ) && ! empty( $meta ) ) {
-
 			if ( ( isset( $meta['sfwd-quiz_threshold'] ) ) && ( '' !== $meta['sfwd-quiz_threshold'] ) ) {
 				$certificate_threshold = $meta['sfwd-quiz_threshold'];
 			} else {
@@ -53,7 +56,6 @@ function learndash_certificate_details( $post_id, $cert_user_id = null ) {
 				$certificate_link = get_permalink( $certificate_post );
 
 				if ( ! empty( $certificate_link ) ) {
-
 					$cert_query_args = array(
 						'quiz' => $post->ID,
 					);
@@ -160,16 +162,16 @@ function learndash_get_course_certificate_link( $course_id, $cert_user_id = null
 /**
  * Gets the certificate link if the certificate exists and quizzes are completed.
  *
- * @todo  consider for deprecation, not being used in plugin
- *
  * @since 2.1.0
+ * @since 5.0.0 Add $url_only parameter to return only the URL.
  *
  * @param int      $quiz_id Quiz ID.
  * @param int|null $user_id Optional. User ID. Default null.
+ * @param bool     $url_only Optional. Whether to return only the URL or the HTML output. Default false.
  *
  * @return string Certificate link HTML output or empty string.
  */
-function learndash_get_certificate_link( $quiz_id, $user_id = null ) {
+function learndash_get_certificate_link( $quiz_id, $user_id = null, $url_only = false ) {
 	if ( empty( $user_id ) ) {
 		$user_id = get_current_user_id();
 	}
@@ -194,6 +196,9 @@ function learndash_get_certificate_link( $quiz_id, $user_id = null ) {
 	foreach ( $usermeta as $quizdata ) {
 		if ( ! empty( $quizdata['quiz'] ) && $quizdata['quiz'] == $quiz_id ) {
 			if ( $c['certificate_threshold'] <= $quizdata['percentage'] / 100 ) {
+				if ( $url_only ) {
+					return $c['certificateLink'];
+				}
 
 				/**
 				 * Filters label for certificate link.
@@ -222,7 +227,7 @@ function learndash_get_certificate_link( $quiz_id, $user_id = null ) {
  *
  * @since 2.1.0
  *
- * @param  array $return An array of editors. Accepts 'tinymce', 'html', 'test'.
+ * @param array $return An array of editors. Accepts 'tinymce', 'html', 'test'.
  *
  * @return array|string $return The type of the editor.
  */
@@ -295,7 +300,6 @@ add_action( 'add_meta_boxes', 'learndash_certificates_add_meta_box' );
  * @param WP_Post $certificate The current certificate WP_Post object being edited.
  */
 function learndash_certificate_options_metabox( $certificate ) {
-
 	$learndash_certificate_options_selected = get_post_meta( $certificate->ID, 'learndash_certificate_options', true );
 
 	if ( ! is_array( $learndash_certificate_options_selected ) ) {
@@ -357,7 +361,6 @@ function learndash_certificate_options_metabox( $certificate ) {
 	}
 
 	if ( ( is_array( $learndash_certificate_options['pdf_page_orientation'] ) ) && ( ! empty( $learndash_certificate_options['pdf_page_orientation'] ) ) ) {
-
 		?>
 		<p><label for="learndash_certificate_options_pdf_page_orientation"><?php esc_html_e( 'PDF Page Orientation', 'learndash' ); ?></label>
 			<select id="learndash_certificate_options_pdf_page_orientation" name="learndash_certificate_options[pdf_page_orientation]">
@@ -435,8 +438,12 @@ add_action( 'save_post', 'learndash_certificates_save_meta_box' );
  * @return array Array of published/updated notice messages.
  */
 function learndash_certificates_post_updated_messages( $messages ) {
+	$post = get_post();
 
-	$post             = get_post();
+	if ( ! $post instanceof WP_Post ) {
+		return $messages;
+	}
+
 	$post_type        = get_post_type( $post );
 	$post_type_object = get_post_type_object( $post_type );
 
@@ -481,7 +488,7 @@ function learndash_certificates_post_updated_messages( $messages ) {
 			// translators: placeholder: Post Date.
 			esc_html_x( 'Certificate scheduled for: <strong>%s</strong>.', 'placeholder: Post Date', 'learndash' ),
 			// translators: Publish box date format, see https://secure.php.net/date.
-			date_i18n( __( 'M j, Y @ H:i', 'learndash' ), strtotime( $post->post_date ) )
+			learndash_adjust_date_time_display( (int) strtotime( $post->post_date_gmt ), __( 'M j, Y @ H:i', 'learndash' ) )
 		),
 		10 => esc_html__( 'Certificate draft updated.', 'learndash' ),
 	);
@@ -495,8 +502,8 @@ add_filter( 'post_updated_messages', 'learndash_certificates_post_updated_messag
  *
  * @since 3.2.0
  *
- * @param  int $group_id     Group ID.
- * @param  int $cert_user_id User ID.
+ * @param int $group_id     Group ID.
+ * @param int $cert_user_id User ID.
  *
  * @return string
  */
@@ -671,7 +678,6 @@ function learndash_certificate_display() {
 			} elseif ( ( isset( $_GET['quiz'] ) ) && ( ! empty( $_GET['quiz'] ) ) ) {
 				$quiz_id = intval( $_GET['quiz'] );
 				if ( wp_verify_nonce( $_GET['cert-nonce'], $quiz_id . $cert_user_id . $view_user_id ) ) {
-
 					$quiz_post = get_post( $quiz_id );
 					if ( ( $quiz_post ) && ( is_a( $quiz_post, 'WP_Post' ) ) && ( learndash_get_post_type_slug( 'quiz' ) === $quiz_post->post_type ) ) {
 						$quiz_certificate_post_id = learndash_get_setting( $quiz_post->ID, 'certificate' );
@@ -683,7 +689,6 @@ function learndash_certificate_display() {
 
 							if ( ! empty( $quizinfo ) ) {
 								foreach ( $quizinfo as $quiz_i ) {
-
 									if ( ( ( isset( $quiz_i['time'] ) ) && intval( $quiz_i['time'] ) == intval( $time ) ) && ( intval( $quiz_i['quiz'] ) === intval( $quiz_id ) ) ) {
 										$selected_quizinfo = $quiz_i;
 										break;
@@ -746,7 +751,6 @@ function learndash_certificate_display() {
 		// If here we display the error and exit.
 		esc_html_e( 'Access to certificate page is disallowed.', 'learndash' );
 		die();
-
 	}
 }
 add_action( 'template_redirect', 'learndash_certificate_display', 5 );
@@ -794,3 +798,86 @@ function learndash_certificate_get_used_by( $post_id = 0, $post_type = '' ) {
 
 	return $post_ids;
 }
+
+/**
+ * Gets the certificate count for a user.
+ *
+ * @since 3.0.0
+ *
+ * @param WP_User|int|null $user `WP_User` object or user ID. Defaults to current logged in user.
+ *
+ * @return int|false Returns users certificate count.
+ */
+function learndash_get_certificate_count( $user = null ) {
+	if ( null === $user ) {
+		$user = wp_get_current_user();
+	}
+
+	if ( is_int( $user ) ) {
+		$user = get_user_by( 'id', $user );
+	}
+
+	if ( ! $user ) {
+		return false;
+	}
+
+	$certificates = 0;
+
+	$course_ids = learndash_user_get_enrolled_courses( $user->ID, [], true );
+
+	if ( ! empty( $course_ids ) ) {
+		// Filter out the courses that don't have a certificate.
+		$course_ids = DB::get_col(
+			DB::table( 'postmeta' )
+				->select( 'post_id' )
+				->whereIn( 'post_id', $course_ids )
+				->where( 'meta_key', '_ld_certificate' )
+				->where( 'meta_value', '0', '>' )
+				->getSQL()
+		);
+
+		foreach ( $course_ids as $course_id ) {
+			$link = learndash_get_course_certificate_link(
+				Cast::to_int( $course_id ),
+				$user->ID
+			);
+
+			if ( ! empty( $link ) ) {
+				++$certificates;
+			}
+		}
+	}
+
+	$quizzes = get_user_meta( $user->ID, '_sfwd-quizzes', true );
+
+	if (
+		is_array( $quizzes )
+		&& ! empty( $quizzes )
+	) {
+		// Get unique quiz IDs from user's quiz attempts.
+		$quiz_ids = array_unique(
+			array_map(
+				function ( $quiz_attempt ) {
+					return isset( $quiz_attempt['quiz'] ) ? (int) $quiz_attempt['quiz'] : 0;
+				},
+				$quizzes
+			)
+		);
+
+		// Filter out invalid quiz IDs.
+		$quiz_ids = array_filter( $quiz_ids );
+
+		foreach ( $quiz_ids as $quiz_id ) {
+			// Check if this quiz has a certificate and if the user passed it.
+			$certificate_link = learndash_get_certificate_link( $quiz_id, $user->ID, true );
+
+			if ( ! empty( $certificate_link ) ) {
+				++$certificates;
+			}
+		}
+	}
+
+	return $certificates;
+}
+
+

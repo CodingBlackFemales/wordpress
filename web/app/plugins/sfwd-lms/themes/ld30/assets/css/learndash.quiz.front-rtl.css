@@ -3,11 +3,11 @@
 	margin-top: 10px;
 	background-color: rgb(0,162,232, 0.1);
 	padding: 10px;
-	border: 1px solid #00a2e8;
+	border: 1px solid #235af3;
 }
 
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_toplistTable th {
-	background: #00a2e8;
+	background: #235af3;
 }
 
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_toplistTrOdd {
@@ -16,12 +16,12 @@
 
 .learndash-wrapper .wpProQuiz_content a#quiz_continue_link:hover {
     opacity: 0.75;
-    background-color: #019e7c;
+    background-color: #235af3;
 }
 
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_button_reShowQuestion:hover,
 .learndash-wrapper .wpProQuiz_content .wpProQuiz_button_restartQuiz:hover {
-	background-color: #019e7c;
+	background-color: #235af3;
 	opacity: 0.75;
 }
 

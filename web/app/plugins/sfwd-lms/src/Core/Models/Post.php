@@ -7,19 +7,14 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Models;
 
 use InvalidArgumentException;
 use LDLMS_Post_Types;
-use LearnDash\Core\Traits\Memoizable;
+use LearnDash\Core\Utilities\Cast;
 use WP_Post;
+use WP_User;
+use LearnDash_Custom_Label;
 
 /**
  * Post model class.
@@ -27,8 +22,6 @@ use WP_Post;
  * @since 4.6.0
  */
 abstract class Post extends Model {
-	use Memoizable;
-
 	/**
 	 * Post.
 	 *
@@ -69,7 +62,7 @@ abstract class Post extends Model {
 
 		if ( is_array( $post_meta ) && ! empty( $post_meta ) ) {
 			$attributes = array_map(
-				function( array $meta_values ) {
+				function ( array $meta_values ) {
 					$meta_values = array_map(
 						function ( $meta_value ) {
 							return maybe_unserialize( $meta_value );
@@ -108,6 +101,36 @@ abstract class Post extends Model {
 	 */
 	public function get_post_type(): string {
 		return $this->post->post_type;
+	}
+
+	/**
+	 * Returns a post type key.
+	 *
+	 * @since 4.21.0
+	 *
+	 * @return LDLMS_Post_Types::*|string
+	 */
+	public function get_post_type_key(): string {
+		return LDLMS_Post_Types::get_post_type_key( $this->get_post_type() );
+	}
+
+	/**
+	 * Returns a post type label.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @param bool $is_lowercase Whether to return the label in lowercase. Default is false.
+	 *
+	 * @return string
+	 */
+	public function get_post_type_label( bool $is_lowercase = false ): string {
+		$post_type_key = $this->get_post_type_key();
+
+		if ( $is_lowercase ) {
+			return LearnDash_Custom_Label::label_to_lower( $post_type_key );
+		}
+
+		return LearnDash_Custom_Label::get_label( $post_type_key );
 	}
 
 	/**
@@ -159,14 +182,89 @@ abstract class Post extends Model {
 	}
 
 	/**
-	 * Returns a post content.
+	 * Returns a post edit link.
 	 *
-	 * @since 4.6.0
+	 * @since 4.19.0
 	 *
 	 * @return string
 	 */
-	public function get_content(): string {
-		return get_the_content( null, false, $this->post );
+	public function get_edit_post_link(): string {
+		return (string) get_edit_post_link( $this->post );
+	}
+
+	/**
+	 * Returns a post delete link.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @return string
+	 */
+	public function get_delete_post_link(): string {
+		return (string) get_delete_post_link( $this->post );
+	}
+
+	/**
+	 * Returns a post author ID.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @return int
+	 */
+	public function get_post_author_id(): int {
+		return Cast::to_int( $this->post->post_author );
+	}
+
+	/**
+	 * Returns a post content.
+	 *
+	 * @since 4.6.0
+	 * @since 4.21.0 Added $raw parameter.
+	 *
+	 * @param bool $raw Whether to return raw content or not. Default is false.
+	 *
+	 * @return string
+	 */
+	public function get_content( bool $raw = false ): string {
+		$content = get_the_content( null, false, $this->post );
+
+		if ( ! $raw ) {
+			return apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- It's a WordPress core filter.
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Returns the number of comments for a post.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @return int
+	 */
+	public function get_comments_number(): int {
+		return Cast::to_int( get_comments_number( $this->post ) );
+	}
+
+	/**
+	 * Returns whether the post comments are open.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @return bool
+	 */
+	public function comments_open(): bool {
+		return comments_open( $this->post );
+	}
+
+	/**
+	 * Returns the comments link.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @return string
+	 */
+	public function get_comments_link(): string {
+		return (string) get_comments_link( $this->post );
 	}
 
 	/**
@@ -229,7 +327,7 @@ abstract class Post extends Model {
 	 */
 	public function get_children(): array {
 		if ( ! $this->is_parent() ) {
-			return array();
+			return [];
 		}
 
 		/**
@@ -242,10 +340,78 @@ abstract class Post extends Model {
 				'post_parent' => $this->post->ID,
 				'post_type'   => static::get_allowed_post_types(),
 				'numberposts' => -1,
+				'post_status' => [
+					'publish',
+					'future',
+					'draft',
+					'pending',
+					'private',
+					'inherit',
+					'trash',
+				],
 			)
 		);
 
 		return self::map_posts_to_models( $posts );
+	}
+
+	/**
+	 * Returns first child.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @return static
+	 */
+	public function get_first_child(): ?self {
+		if ( ! $this->is_parent() ) {
+			return null;
+		}
+
+		/**
+		 * Posts.
+		 *
+		 * @var WP_Post[] $posts
+		 */
+		$posts = get_children(
+			[
+				'post_parent' => $this->post->ID,
+				'post_type'   => static::get_allowed_post_types(),
+				'numberposts' => 1,
+				'post_status' => [
+					'publish',
+					'future',
+					'draft',
+					'pending',
+					'private',
+					'inherit',
+					'trash',
+				],
+			]
+		);
+
+		if ( empty( $posts ) ) {
+			return null;
+		}
+
+		$posts = array_values( $posts );
+
+		return static::create_from_post( $posts[0] );
+	}
+
+	/**
+	 * Sets a post meta value.
+	 *
+	 * @since 4.25.0
+	 *
+	 * @param string $key   Meta key.
+	 * @param mixed  $value Meta value.
+	 *
+	 * @return void
+	 */
+	public function set_meta( string $key, $value ): void {
+		update_post_meta( $this->post->ID, $key, $value );
+
+		$this->setAttribute( $key, $value );
 	}
 
 	/**
@@ -289,9 +455,19 @@ abstract class Post extends Model {
 			return null;
 		}
 
-		$models = self::find_many( array( $post_id ) );
+		$post = get_post( $post_id );
 
-		return ! empty( $models ) ? $models[0] : null;
+		if ( ! $post instanceof WP_Post ) {
+			return null;
+		}
+
+		try {
+			$model = self::create_from_post( $post );
+		} catch ( InvalidArgumentException $e ) {
+			return null;
+		}
+
+		return $model;
 	}
 
 	/**
@@ -331,6 +507,8 @@ abstract class Post extends Model {
 	/**
 	 * Returns a model (post) setting.
 	 *
+	 * It's more efficient to use the getAttribute method as the attributes are cached.
+	 *
 	 * @since 4.6.0
 	 *
 	 * @param string $setting_key Setting key.
@@ -347,17 +525,11 @@ abstract class Post extends Model {
 		 * @param string $setting_key   Setting value.
 		 * @param Post   $model         Model.
 		 *
-		 * @return bool True if it's a parent model, false otherwise.
-		 *
-		 * @ignore
+		 * @return mixed Setting value.
 		 */
 		return apply_filters(
 			'learndash_model_setting',
-			$this->memoize(
-				function() use ( $setting_key ) {
-					return learndash_get_setting( $this->get_id(), $setting_key );
-				}
-			),
+			learndash_get_setting( $this->get_id(), $setting_key ),
 			$setting_key,
 			$this
 		);
@@ -366,30 +538,33 @@ abstract class Post extends Model {
 	/**
 	 * Returns model (post) settings.
 	 *
-	 * @since 4.6.0
+	 * It's more efficient to use the getAttributes method as the attributes are cached.
 	 *
-	 * @return mixed[]
+	 * @since 4.24.0
+	 *
+	 * @return array<string,mixed>
 	 */
 	public function get_settings(): array {
+		$settings = learndash_get_setting( $this->get_id() );
+
+		// Extra check to be safe.
+		if ( ! is_array( $settings ) ) {
+			$settings = [];
+		}
+
 		/**
 		 * Filters model settings.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
-		 * @param mixed[] $settings Settings.
-		 * @param Post    $model    Model.
+		 * @param array<string,mixed>  $settings Settings.
+		 * @param Post   $model         Model.
 		 *
-		 * @return mixed[] Settings.
-		 *
-		 * @ignore
+		 * @return array<string,mixed> Settings.
 		 */
 		return apply_filters(
 			'learndash_model_settings',
-			$this->memoize(
-				function(): array {
-					return (array) learndash_get_setting( $this->get_post() );
-				}
-			),
+			$settings,
 			$this
 		);
 	}
@@ -484,5 +659,27 @@ abstract class Post extends Model {
 		}
 
 		$this->post = $post;
+	}
+
+	/**
+	 * Returns a WP_User object or a user ID mapped according to the given user.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param WP_User|int|null $user          The user ID or WP_User. If null or empty, the current user is used if $supports_null is false.
+	 * @param bool             $supports_null Whether to return null if the given user is null or empty.
+	 *
+	 * @return ( $supports_null is true ? WP_User|int|null : WP_User|int )
+	 */
+	protected function map_user( $user, bool $supports_null = false ) {
+		if ( $user instanceof WP_User ) {
+			return $user;
+		}
+
+		$user_id = Cast::to_int( $user );
+
+		return $user_id > 0
+			? $user_id
+			: ( $supports_null ? null : wp_get_current_user() );
 	}
 }

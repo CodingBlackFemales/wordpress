@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[ld_infobar]` shortcode output.
  *
@@ -106,10 +109,22 @@ function learndash_infobar_shortcode( $atts = array(), $content = '', $shortcode
 		}
 	}
 
-	$atts['group_id']  = absint( $atts['group_id'] );
-	$atts['post_id']   = absint( $atts['post_id'] );
-	$atts['course_id'] = absint( $atts['course_id'] );
-	$atts['user_id']   = absint( $atts['user_id'] );
+	$atts['group_id']  = Cast::to_int( $atts['group_id'] );
+	$atts['post_id']   = Cast::to_int( $atts['post_id'] );
+	$atts['course_id'] = Cast::to_int( $atts['course_id'] );
+	$atts['user_id']   = Cast::to_int( $atts['user_id'] );
+
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$atts['user_id'] = learndash_shortcode_protect_user( $atts['user_id'] );
+
+	// Check post access.
+	if (
+		! learndash_shortcode_can_current_user_access_post( $atts['course_id'] )
+		|| ! learndash_shortcode_can_current_user_access_post( $atts['group_id'] )
+		|| ! learndash_shortcode_can_current_user_access_post( $atts['post_id'] )
+	) {
+		return '';
+	}
 
 	if ( ! empty( $atts['group_id'] ) ) {
 		$shown_content_key = $atts['group_id'] . '_' . $atts['user_id'];
@@ -158,8 +173,19 @@ function learndash_infobar_shortcode( $atts = array(), $content = '', $shortcode
 		}
 	} elseif ( ! empty( $atts['group_id'] ) ) {
 
-		$post_post    = get_post( $atts['group_id'] );
-		$has_access   = learndash_is_user_in_group( $atts['user_id'], $atts['group_id'] );
+		$post_post = get_post( $atts['group_id'] );
+
+		if ( $post_post instanceof WP_Post ) {
+			try {
+				$product    = Product::create_from_post( $post_post );
+				$has_access = $product->user_has_access( $atts['user_id'] );
+			} catch ( InvalidArgumentException $e ) {
+				$has_access = false;
+			}
+		} else {
+			$has_access = false;
+		}
+
 		$group_status = learndash_get_user_group_status( $atts['group_id'], $atts['user_id'] );
 
 		$shortcode_output = SFWD_LMS::get_template(

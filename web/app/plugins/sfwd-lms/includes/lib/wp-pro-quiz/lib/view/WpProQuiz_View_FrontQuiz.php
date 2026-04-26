@@ -1,8 +1,17 @@
 <?php
+/**
+ * WP Pro Quiz front end view.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Class WpProQuiz_View_FrontQuiz
+ */
 class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 
 	/**
@@ -21,6 +30,24 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 	private $_assessmetTemp = array();
 
 	private $_shortcode_atts = array();
+
+	/**
+	 * Questions associated with the Quiz.
+	 *
+	 * @since 4.2.1.2
+	 *
+	 * @var WpProQuiz_Model_Question[]
+	 */
+	public $question = [];
+
+	/**
+	 * Categories that the Quiz's Questions belong to.
+	 *
+	 * @since 4.2.1.2
+	 *
+	 * @var WpProQuiz_Model_Category[]
+	 */
+	public $category = [];
 
 	public function set_shortcode_atts( $atts = array() ) {
 		$this->_shortcode_atts = $atts;
@@ -52,6 +79,15 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 		return array_values( $t );
 	}
 
+	/**
+	 * Outputs the view.
+	 *
+	 * @since 4.2.1.2
+	 *
+	 * @param bool $preview Whether this is a preview. Defaults to false.
+	 *
+	 * @return void
+	 */
 	public function show( $preview = false ) {
 
 		$question_count = count( $this->question );
@@ -91,15 +127,21 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 							! empty( $quiz_resume_data['randomOrder'] ) &&
 							count( $this->question ) > 0
 						) {
-							$questionPostIdProIdHash = array();
+							$question_post_id_pro_id_hash = [];
 							foreach ( $this->question as $question ) {
 								/** @var WpProQuiz_Model_Question $question Question. */
-								$questionPostIdProIdHash[ $question->getId() ] = $question->getQuestionPostId();
+								$question_post_id_pro_id_hash[ $question->getId() ] = $question->getQuestionPostId();
+
+								// If the Question has since been updated,
+								// ensure we have a reference to the old Pro Quiz ID.
+								if ( $question->getPreviousId() ) {
+									$question_post_id_pro_id_hash[ $question->getPreviousId() ] = $question->getQuestionPostId();
+								}
 							}
 
 							$questions = array();
 							foreach ( $quiz_resume_data['randomOrder'] as $question_id ) {
-								$question = $this->question[ $questionPostIdProIdHash[ $question_id ] ];
+								$question = $this->question[ $question_post_id_pro_id_hash[ $question_id ] ];
 
 								$questions[ $question->getQuestionPostId() ] = $question;
 							}
@@ -173,6 +215,13 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 		$this->script( true );
 	}
 
+	/**
+	 * Outputs the question script.
+	 *
+	 * @param boolean $preview Whether the quiz is being previewed. Default false.
+	 *
+	 * @return void
+	 */
 	public function script( $preview = false ) {
 
 		if ( ( isset( $this->_shortcode_atts['quiz_id'] ) ) && ( ! empty( $this->_shortcode_atts['quiz_id'] ) ) ) {
@@ -199,12 +248,12 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 		$resultsProzent = wp_json_encode( $result['prozent'] );
 
 		ob_start();
-		$quizData = $this->showQuizBox( $question_count );
+		$quiz_data = $this->showQuizBox( $question_count );
 		ob_get_clean();
 
-		foreach ( $quizData['json'] as $key => $value ) {
+		foreach ( $quiz_data['json'] as $key => $value ) {
 			foreach ( array( 'points', 'correct' ) as $key2 ) {
-				unset( $quizData['json'][ $key ][ $key2 ] );
+				unset( $quiz_data['json'][ $key ][ $key2 ] );
 			}
 		}
 		$user_id = get_current_user_id();
@@ -299,7 +348,9 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 			$quiz_resume_enabled = (bool) learndash_get_setting( $quiz_post_id, 'quiz_resume' );
 			if ( true === $quiz_resume_enabled ) {
 				$quiz_resume_cookie_send_timer = (int) learndash_get_setting( $quiz_post_id, 'quiz_resume_cookie_send_timer' );
-				if ( LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN < $quiz_resume_cookie_send_timer ) {
+
+				// We don't want to allow the user to set the timer to less than the minimum.
+				if ( $quiz_resume_cookie_send_timer < LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN ) {
 					$quiz_resume_cookie_send_timer = LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN;
 				}
 				$quiz_resume_activity = LDLMS_User_Quiz_Resume::get_user_quiz_resume_activity( $user_id, $quiz_post_id, $course_id );
@@ -318,8 +369,6 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 			}
 		}
 
-		$quiz_resume_data = learndash_prepare_quiz_resume_data_to_js( $quiz_resume_data );
-
 		echo " <script type='text/javascript'>
 		function load_wpProQuizFront" . esc_attr( $this->quiz->getId() ) . "() {
 			jQuery('#wpProQuiz_" . esc_attr( $this->quiz->getId() ) . "').wpProQuizFront({
@@ -329,7 +378,7 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				quiz: ' . (int) $quiz_post_id . ',
 				quizId: ' . (int) $this->quiz->getId() . ',
 				mode: ' . (int) $this->quiz->getQuizModus() . ',
-				globalPoints: ' . (int) $quizData['globalPoints'] . ',
+				globalPoints: ' . esc_attr( (string) learndash_format_course_points( $quiz_data['globalPoints'] ) ) . ',
 				timelimit: ' . (int) $this->quiz->getTimeLimit() . ',
 				timelimitcookie: ' . (int) $timelimitcookie . ',
 				resultsGrade: ' . esc_attr( $resultsProzent ) . ',
@@ -337,7 +386,7 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				passingpercentage: ' . (int) $quiz_meta_sfwd_quiz_passingpercentage . ',
 				user_id: ' . (int) $user_id . ',
 				qpp: ' . (int) $this->quiz->getQuestionsPerPage() . ',
-				catPoints: ' . wp_json_encode( $quizData['catPoints'] ) . ',
+				catPoints: ' . wp_json_encode( $quiz_data['catPoints'] ) . ',
 				formPos: ' . (int) $this->quiz->getFormShowPosition() . ",
 				essayUploading: '" . esc_html(
 					SFWD_LMS::get_template(
@@ -378,7 +427,7 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 						)
 					)
 				) . ',
-				json: ' . wp_json_encode( $quizData['json'] ) . ',
+				json: ' . wp_json_encode( $quiz_data['json'] ) . ',
 				ld_script_debug: ' . (int) $ld_script_debug . ",
 				quiz_nonce: '" . esc_attr( $quiz_nonce ) . "',
 				scrollSensitivity: '" .
@@ -416,23 +465,29 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				 * @param int $quiz_resume_enabled Whether the quiz resume is enabled.
 				 * @param int $quiz_post_id        Quiz ID
 				 * @param int $user_id             User ID
-				 *
 				 */
 				(int) apply_filters( 'learndash_quiz_resume_enabled', $quiz_resume_enabled, $quiz_post_id, $user_id ) . "',
 				quiz_resume_id: '" . (int) $quiz_resume_id . "',
 				quiz_resume_quiz_started: '" . (int) $quiz_resume_quiz_started . "',
 				quiz_resume_data: '" .
-				/**
-				 * Filters quiz resume data sent to the front-end
-				 *
-				 * @since 3.5.0
-				 *
-				 * @param int $quiz_resume_data Saved data sent to the front-end.
-				 * @param int $quiz_post_id     Quiz ID
-				 * @param int $user_id          User ID
-				 *
-				 */
-				wp_json_encode( apply_filters( 'learndash_quiz_resume_data', $quiz_resume_data, $quiz_post_id, $user_id ), JSON_HEX_APOS ) . "',
+				// phpcs:ignore- WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_js() is more suited for onClick() attributes and similar where the passed in data is a String. This is safe for outputting an Array/Object in a script tag.
+				addslashes(
+					(string) wp_json_encode(
+						/**
+						 * Filters quiz resume data sent to the front-end
+						 *
+						 * @since 3.5.0
+						 *
+						 * @param array<string, mixed> $quiz_resume_data Saved data sent to the front-end.
+						 * @param int                  $quiz_post_id     Quiz ID
+						 * @param int                  $user_id          User ID
+						 *
+						 * @return array<string, mixed>
+						 */
+						apply_filters( 'learndash_quiz_resume_data', $quiz_resume_data, $quiz_post_id, $user_id ),
+						JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+					)
+				) . "',
 				quiz_resume_cookie_expiration: '" .
 				/**
 				 * Filters the quiz resume cookie expiration.
@@ -442,7 +497,6 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				 * @param int $quiz_resume_cookie_expiration Cookie expiration time in seconds.
 				 * @param int $quiz_post_id     Quiz ID
 				 * @param int $user_id          User ID
-				 *
 				 */
 				(int) apply_filters( 'learndash_quiz_resume_cookie_expiration', $quiz_resume_cookie_expiration, $quiz_post_id, $user_id ) . "',
 				quiz_resume_cookie_send_timer: '" .
@@ -454,7 +508,6 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				 * @param int $quiz_resume_cookie_send_timer Interval data is sent to the server in miliseconds.
 				 * @param int $quiz_post_id     Quiz ID
 				 * @param int $user_id          User ID
-				 *
 				 */
 				(int) apply_filters( 'learndash_quiz_resume_cookie_send_timer', $quiz_resume_cookie_send_timer, $quiz_post_id, $user_id ) . "',
 			});
@@ -471,6 +524,13 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 		</script> ';
 	}
 
+	/**
+	 * Outputs the question script if max question setting enabled.
+	 *
+	 * @since 1.5.3
+	 *
+	 * @return void
+	 */
 	public function max_question_script() {
 		$question_count = count( $this->question );
 
@@ -487,7 +547,6 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 		$user_id        = get_current_user_id();
 		$bo             = $this->createOption( false );
 
-		//global $post;
 		$post = get_queried_object();
 
 		if ( 'sfwd-quiz' != @$post->post_type ) {
@@ -548,7 +607,9 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 			$quiz_resume_enabled = (bool) learndash_get_setting( $quiz_post_id, 'quiz_resume' );
 			if ( true === $quiz_resume_enabled ) {
 				$quiz_resume_cookie_send_timer = (int) learndash_get_setting( $quiz_post_id, 'quiz_resume_cookie_send_timer' );
-				if ( LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN < $quiz_resume_cookie_send_timer ) {
+
+				// We don't want to allow the user to set the timer to less than the minimum.
+				if ( $quiz_resume_cookie_send_timer < LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN ) {
 					$quiz_resume_cookie_send_timer = LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN;
 				}
 				$quiz_resume_activity = LDLMS_User_Quiz_Resume::get_user_quiz_resume_activity( $user_id, $quiz_post_id, $course_id );
@@ -566,8 +627,6 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				$timelimitcookie = 0;
 			}
 		}
-
-		$quiz_resume_data = learndash_prepare_quiz_resume_data_to_js( $quiz_resume_data );
 
 		echo "<script type='text/javascript'>
 		jQuery( function($) {
@@ -600,8 +659,14 @@ class WpProQuiz_View_FrontQuiz extends WpProQuiz_View_View {
 				quiz_resume_id: '" . (int) $quiz_resume_id . "',
 				quiz_resume_quiz_started: '" . (int) $quiz_resume_quiz_started . "',
 				quiz_resume_data: '" .
-				/** This filter is documented in includes/lib/wp-pro-quiz/lib/view/WpProQuiz_ViewFrontQuiz.php */
-				wp_json_encode( apply_filters( 'learndash_quiz_resume_data', $quiz_resume_data, $quiz_post_id, $user_id ) ) . "',
+				// phpcs:ignore- WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_js() is more suited for onClick() attributes and similar where the passed in data is a String. This is safe for outputting an Array/Object in a script tag.
+				addslashes(
+					(string) wp_json_encode(
+						/** This filter is documented in includes/lib/wp-pro-quiz/lib/view/WpProQuiz_ViewFrontQuiz.php */
+						apply_filters( 'learndash_quiz_resume_data', $quiz_resume_data, $quiz_post_id, $user_id ),
+						JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+					)
+				) . "',
 				quiz_resume_cookie_expiration: '" .
 				/** This filter is documented in includes/lib/wp-pro-quiz/lib/view/WpProQuiz_ViewFrontQuiz.php */
 				(int) apply_filters( 'learndash_quiz_resume_cookie_expiration', $quiz_resume_cookie_expiration, $quiz_post_id, $user_id ) . "',

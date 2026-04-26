@@ -60,6 +60,9 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				'lesson_schedule'             => 'lesson_schedule',
 				'visible_after'               => 'visible_after',
 				'visible_after_specific_date' => 'visible_after_specific_date',
+				'external'                    => 'external',
+				'external_type'               => 'external_type',
+				'external_require_attendance' => 'external_require_attendance',
 				'startOnlyRegisteredUser'     => 'startOnlyRegisteredUser',
 				'prerequisite'                => 'prerequisite',
 				'prerequisiteList'            => 'prerequisiteList',
@@ -291,8 +294,11 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								// translators: placeholder: Lesson.
-								'description' => esc_html__( 'Visible After X day(s)', 'learndash' ),
+								'description' => sprintf(
+									// translators: placeholder: course label.
+									__( 'Released X day(s) after %s enrollment', 'learndash' ),
+									learndash_get_custom_label_lower( 'course' )
+								),
 								'type'        => 'integer',
 								'default'     => 0,
 							),
@@ -316,8 +322,8 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								// translators: placeholder: Lesson.
-								'description' => esc_html__( 'Visible After Specific Date (YYYY-MM-DD)', 'learndash' ),
-								'type'        => 'date',
+								'description' => esc_html__( 'Available after a specific date as a unix timestamp', 'learndash' ),
+								'type'        => 'integer',
 								'default'     => '',
 							),
 						),
@@ -328,7 +334,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 			$this->settings_sub_option_fields['visible_after_specific_date_fields'] = $this->setting_option_fields;
 
 			$this->setting_option_fields = array(
-				'course'                  => array(
+				'course'                      => array(
 					'name'        => 'course',
 					'label'       => sprintf(
 						// translators: placeholder: Course.
@@ -355,7 +361,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						),
 					),
 				),
-				'lesson'                  => array(
+				'lesson'                      => array(
 					'name'        => 'lesson',
 					'label'       => sprintf(
 						// translators: placeholder: Lesson.
@@ -381,7 +387,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						),
 					),
 				),
-				'lesson_schedule'         => array(
+				'lesson_schedule'             => array(
 					'name'    => 'lesson_schedule',
 					'label'   => sprintf(
 						// Translators: placeholder: Quiz.
@@ -430,21 +436,166 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'visible_type',
-								'description' => esc_html__( 'Available Release Schedule', 'learndash' ),
-								'type'        => 'string',
 								'default'     => '',
-								'required'    => false,
-								'enum'        => array(
+								'description' => esc_html__( 'Availability Release Schedule. Empty means immediately available, "visible_after" means available X days after enrollment, "visible_after_specific_date" means available on a specific date.', 'learndash' ),
+								'enum'        => [
 									'',
 									'visible_after',
 									'visible_after_specific_date',
-								),
+								],
+								'field_key'   => 'visible_type',
+								'required'    => false,
+								'type'        => 'string',
 							),
 						),
 					),
 				),
-				'prerequisiteList'        => array(
+				'external'                    => [
+					'name'                => 'external',
+					'help_text'           => sprintf(
+						// translators: placeholder: quiz.
+						esc_html_x( 'Whether a %s takes place in a virtual setting (e.g, Zoom) or in-person.', 'placeholder: quiz', 'learndash' ),
+						learndash_get_custom_label_lower( 'quiz' )
+					),
+					'label'               => sprintf(
+						// translators: placeholder: Quiz.
+						esc_html_x( 'External %s', 'placeholder: Quiz', 'learndash' ),
+						learndash_get_custom_label( 'quiz' )
+					),
+					'type'                => 'checkbox-switch',
+					'value'               => $this->setting_option_values['external'],
+					'child_section_state' => 'on' === $this->setting_option_values['external'] ? 'open' : 'closed',
+					'default'             => '',
+					'options'             => [
+						'on' => sprintf(
+							// Translators: placeholder: quiz.
+							esc_html_x( 'This %s takes place in a virtual setting (e.g, Zoom) or in-person. ', 'placeholder: quiz', 'learndash' ),
+							learndash_get_custom_label_lower( 'quiz' )
+						),
+						''   => '',
+					],
+					'rest'                => [
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => [
+							'schema' => [
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( 'Whether the %s takes place in a virtual setting (e.g, Zoom) or in-person outside of LearnDash.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'is_external',
+								'type'        => 'boolean',
+							],
+						],
+					],
+				],
+				'external_type'               => [
+					'name'           => 'external_type',
+					'label'          => esc_html__( 'Type', 'learndash' ),
+					'parent_setting' => 'external',
+					'type'           => 'radio',
+					'value'          => $this->setting_option_values['external_type'],
+					'default'        => 'virtual',
+					'options'        => [
+						'virtual'   => [
+							'label'       => learndash_course_steps_map_external_type_to_label( 'virtual' ),
+							'description' => sprintf(
+								// translators: placeholder: quiz.
+								esc_html__(
+									'This %s takes place in a virtual setting (e.g, Zoom).',
+									'learndash'
+								),
+								learndash_get_custom_label_lower( 'quiz' )
+							),
+						],
+						'in-person' => [
+							'label'       => learndash_course_steps_map_external_type_to_label( 'in-person' ),
+							'description' => sprintf(
+								// translators: placeholder: quiz.
+								esc_html_x(
+									'This %s takes place in-person.',
+									'placeholder: quiz',
+									'learndash'
+								),
+								learndash_get_custom_label_lower( 'quiz' )
+							),
+						],
+					],
+					'rest'           => [
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => [
+							'schema' => [
+								'default'     => 'virtual',
+								'description' => sprintf(
+									// translators: placeholder: quiz.
+									__( 'The type of external %1$s. "virtual" means the %1$s takes place in a virtual setting (e.g, Zoom). "in-person" means the %1$s takes place in-person.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'external_type',
+								'type'        => 'string',
+								'enum'        => [
+									'virtual',
+									'in-person',
+								],
+							],
+						],
+					],
+				],
+				'external_require_attendance' => [
+					'name'           => 'external_require_attendance',
+					'label'          => esc_html__( 'Require Attendance', 'learndash' ),
+					'parent_setting' => 'external',
+					'type'           => 'radio',
+					'value'          => $this->setting_option_values['external_require_attendance'],
+					'default'        => '',
+					'options'        => [
+						'yes' => [
+							'label'       => esc_html__( 'Yes', 'learndash' ),
+							'description' => sprintf(
+								// translators: placeholder: quiz.
+								esc_html_x(
+									'If attendance is required the student will not be able to continue in the course until they have been marked by an admin or group leader that they have attended the virtual or in-person %s.',
+									'placeholder: quiz',
+									'learndash'
+								),
+								learndash_get_custom_label_lower( 'quiz' )
+							),
+						],
+						''    => [
+							'label'       => esc_html__( 'No', 'learndash' ),
+							'description' => sprintf(
+								// translators: placeholder: quiz.
+								esc_html_x(
+									'If attendance is not required the student will be able to continue the course without requiring to be marked as attending the virtual or in-person %s.',
+									'placeholder: quiz',
+									'learndash'
+								),
+								learndash_get_custom_label_lower( 'quiz' )
+							),
+						],
+					],
+					'rest'           => [
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => [
+							'schema' => [
+								'default'     => '',
+								'description' => sprintf(
+									// translators: placeholder: quiz.
+									__( 'Whether attendance is required for the external %s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'external_require_attendance',
+								'type'        => 'string',
+								'enum'        => [
+									'',
+									'yes',
+								],
+							],
+						],
+					],
+				],
+				'prerequisiteList'            => array(
 					'name'      => 'prerequisiteList',
 					'type'      => 'multiselect',
 					'label'     => sprintf(
@@ -464,18 +615,24 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'prerequisites',
-								'default'   => array(),
-								'type'      => 'array',
-								'items'     => array(
-									'type' => 'integer',
+								'default'     => [],
+								'description' => sprintf(
+									// translators: placeholder: quiz.
+									__( 'The %1$s prerequisites for this %1$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
 								),
+								'field_key'   => 'prerequisites',
+								'type'        => 'array',
+								'items'       => [
+									'type'        => 'integer',
+									'uniqueItems' => true,
+								],
 							),
 						),
 					),
 				),
 
-				'startOnlyRegisteredUser' => array(
+				'startOnlyRegisteredUser'     => array(
 					'name'      => 'startOnlyRegisteredUser',
 					'type'      => 'checkbox',
 					'label'     => esc_html__( 'Allowed Users', 'learndash' ),
@@ -500,10 +657,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'registered_users_only',
-								esc_html__( 'Only Logged-in Users', 'learndash' ),
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz.
+									__( 'Only logged-in users can take this %s', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'registered_users_only',
+								'type'        => 'boolean',
 							),
 						),
 					),

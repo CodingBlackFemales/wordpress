@@ -14,6 +14,12 @@ import {
 
 import { __, _x } from "@wordpress/i18n";
 
+import '../../../src/assets/js/main';
+
+const ldlms_get_custom_label = learndash.customLabel.get,
+	ldlms_get_custom_label_lower = learndash.customLabel.getLower,
+	ldlms_get_custom_label_slug = learndash.customLabel.getSlug;
+
 /**
  * Will retrieve meta information about the post being edited. For now
  * this is only loaded on post edit screen for Gutenberg. So no checks
@@ -47,53 +53,11 @@ export function ldlms_get_setting(token = "", default_value) {
 	return default_value;
 }
 
-/**
- * Returns the label for custom label element
- *
- * @param {string} token Will represent the custom label field to retrieve Course, Courses, Lesson, Quiz.
- */
-export function ldlms_get_custom_label(token = "") {
-	if (typeof ldlms_settings.meta.post !== "undefined" && token !== "") {
-		if (typeof ldlms_settings.settings.custom_labels[token] !== "undefined") {
-			return ldlms_settings.settings.custom_labels[token];
-		}
-	}
-	return token;
-}
-
-/**
- * Returns the lowercase label for custom label element
- *
- * @param {string} token Will represent the custom label field to retrieve Course, Courses, Lesson, Quiz.
- */
-export function ldlms_get_custom_label_lower(token = "") {
-	if (typeof ldlms_settings.meta.post !== "undefined" && token !== "") {
-		if (
-			typeof ldlms_settings.settings.custom_labels[token + "_lower"] !==
-			"undefined"
-		) {
-			return ldlms_settings.settings.custom_labels[token + "_lower"];
-		}
-	}
-	return token;
-}
-
-/**
- * Returns the slug for custom label element
- *
- * @param {string} token Will represent the custom label field to retrieve Course, Courses, Lesson, Quiz.
- */
-export function ldlms_get_custom_label_slug(token = "") {
-	if (token !== "") {
-		if (
-			typeof ldlms_settings.settings.custom_labels[token + "_slug"] !==
-			"undefined"
-		) {
-			return ldlms_settings.settings.custom_labels[token + "_slug"];
-		}
-	}
-	return token;
-}
+export {
+	ldlms_get_custom_label,
+	ldlms_get_custom_label_lower,
+	ldlms_get_custom_label_slug
+};
 
 /**
  * Will retrieve meta information about the post being edited. For now

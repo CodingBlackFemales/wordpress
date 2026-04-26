@@ -6,13 +6,14 @@
  * @package LearnDash\Builder
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 
 if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exists( 'Learndash_Admin_Builder' ) ) ) {
-
 	/**
 	 * Class LearnDash Quiz Builder Metabox.
 	 *
@@ -20,7 +21,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 	 * @uses Learndash_Admin_Builder
 	 */
 	class Learndash_Admin_Metabox_Quiz_Builder extends Learndash_Admin_Builder {
-
 		/**
 		 * LearnDash quiz question object
 		 *
@@ -66,7 +66,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 		 */
 		public function show_builder_box( $post ) {
 			if ( ( is_a( $post, 'WP_Post' ) ) && ( $this->builder_post_type === $post->post_type ) ) {
-
 				$this->builder_init( $post->ID );
 				parent::show_builder_box( $post );
 				?>
@@ -75,7 +74,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 					#learndash_builder_box_wrap .learndash_selectors #learndash-selector-post-listing-sfwd-question:empty::after {
 						content: "
 						<?php
-						echo sprintf(
+						printf(
 							// translators: placeholder: Question.
 							esc_html_x( 'Click the \'+\' to add a new %s', 'placeholder: Question', 'learndash' ),
 							LearnDash_Custom_Label::get_label( 'question' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
@@ -86,7 +85,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 					#learndash_builder_box_wrap .learndash_builder_items .ld-course-builder-question-items:empty::after {
 						content: "
 						<?php
-						echo sprintf(
+						printf(
 							// translators: placeholder: Questions.
 							esc_html_x( 'Drop %s Here', 'placeholder: Questions', 'learndash' ),
 							LearnDash_Custom_Label::get_label( 'questions' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
@@ -156,7 +155,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 			foreach ( $this->selector_post_types as $selector_post_type ) {
 				$post_type_object = get_post_type_object( $selector_post_type );
 				if ( is_a( $post_type_object, 'WP_Post_Type' ) ) {
-
 					$this->builder_assets[ $this->builder_post_type ]['messages'][ 'confirm_remove_' . $selector_post_type ] = sprintf(
 						// translators: placeholders: post type labels like Question, second Quiz.
 						esc_html_x( 'Are you sure you want to remove this %1$s from the %2$s?', 'placeholders: post type labels like Question, second Quiz', 'learndash' ),
@@ -239,7 +237,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 			 * not associated with any quiz.
 			 */
 			if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Builder', 'shared_questions' ) !== 'yes' ) {
-
 				$m_include_ids = array();
 				$m_args        = array( 'posts_per_page' => -1 );
 
@@ -288,7 +285,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 				 */
 				$include_orphaned_questions = apply_filters( 'learndash_quiz_builder_include_orphaned_questions', true, $args );
 				if ( true === $include_orphaned_questions ) {
-
 					// Next get any quiz where the 'quiz_id' is zero.
 					$m_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						array(
@@ -515,25 +511,23 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 						}
 					}
 
-					$question_type = get_post_meta( $p->ID, 'question_type', true );
-					$points        = (int) get_post_meta( $p->ID, 'question_points', true );
-
 					$selector_rows[] = array(
-						'ID'              => $p->ID,
-						'expanded'        => false,
-						'post_title'      => wp_kses_post( $question_data['_title'] ),
-						'post_status'     => learndash_get_step_post_status_slug( $p ),
-						'post_content'    => $question_data['_question'],
-						'edit_link'       => get_edit_post_link( $p->ID, '' ),
-						'type'            => $selector_post_type,
-						'question_type'   => $question_data['_answerType'],
-						'points'          => $question_data['_points'],
-						'answers'         => $processed_answers,
-						'correctMsg'      => $question_data['_correctMsg'],
-						'incorrectMsg'    => $question_data['_incorrectMsg'],
-						'correctSameText' => $question_data['_correctSameText'],
-						'tipEnabled'      => $question_data['_tipEnabled'],
-						'tipMsg'          => $question_data['_tipMsg'],
+						'ID'                    => $p->ID,
+						'expanded'              => false,
+						'post_title'            => wp_kses_post( $question_data['_title'] ),
+						'post_status'           => learndash_get_step_post_status_slug( $p ),
+						'post_content'          => $question_data['_question'],
+						'edit_link'             => get_edit_post_link( $p->ID, '' ),
+						'type'                  => $selector_post_type,
+						'question_type'         => $question_data['_answerType'],
+						'points'                => learndash_format_course_points( $question_data['_points'] ),
+						'answers'               => $processed_answers,
+						'correctMsg'            => $question_data['_correctMsg'],
+						'incorrectMsg'          => $question_data['_incorrectMsg'],
+						'correctSameText'       => $question_data['_correctSameText'],
+						'tipEnabled'            => $question_data['_tipEnabled'],
+						'tipMsg'                => $question_data['_tipMsg'],
+						'answerPointsActivated' => $question_data['_answerPointsActivated'],
 					);
 				}
 			}
@@ -582,7 +576,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 				 */
 				add_filter(
 					'learndash_post_link_course_id',
-					function( $course_id ) {
+					function ( $course_id ) {
 						return 0;
 					}
 				);
@@ -612,13 +606,13 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 
 			$question_points_string = '';
 			if ( ( isset( $question_pro_fields['points'] ) ) && ( ! empty( $question_pro_fields['points'] ) ) ) {
-				$question_points = absint( $question_pro_fields['points'] );
+				$question_points = learndash_format_course_points( $question_pro_fields['points'] );
 			} else {
-				$question_points = 1;
+				$question_points = 1; // Default to 1 point.
 			}
 
 			// translators: placeholder: Question Points.
-			$question_points_string = sprintf( _nx( '(%dpt)', '(%dpts)', $question_points, 'placeholder: Question Points', 'learndash' ), number_format_i18n( $question_points ) );
+			$question_points_string = sprintf( _nx( '(%.2fpt)', '(%.2fpts)', absint( $question_points ), 'placeholder: Question Points', 'learndash' ), number_format_i18n( $question_points, 2 ) ); // cspell: disable-line .
 
 			$selector_sub_actions .= '<a target="_blank" class="ld-course-builder-action ld-course-builder-action-edit ld-course-builder-action-' . $selector_slug . '-edit dashicons" href="' . $edit_post_link . '"><span class="screen-reader-text">' . sprintf(
 				// translators: placeholder: will contain post type label.
@@ -627,7 +621,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 			) . '</span></a>';
 
 			if ( current_user_can( 'delete_courses' ) ) {
-
 				$selector_sub_actions .= '<span class="ld-course-builder-action ld-course-builder-action-trash ld-course-builder-action-' . $selector_slug . '-trash dashicons" title="' . sprintf(
 					// translators: placeholder: will contain post type label.
 					esc_html_x( 'Move %s to Trash', 'placeholder: will contain post type label', 'learndash' ),
@@ -660,7 +653,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 						<span class="ld-course-builder-action ld-course-builder-edit-title-cancel dashicons" title="' . esc_html__( 'Cancel', 'learndash' ) . '" ></span>
 						<span class="ld-course-builder-title-right" style="float: right;" >
 						<span class="ld-course-builder-type">' . $question_type_string . '</span>
-						<span class="ld-course-builder-points" data-ld-points="' . absint( $question_points ) . '">' . $question_points_string . '</span>
+						<span class="ld-course-builder-points" data-ld-points="' . learndash_format_course_points( $question_points ) . '">' . $question_points_string . '</span>
 					</span>
 				</div>
 				</li>';
@@ -687,12 +680,11 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 				printf(
 					// translators: placeholder: Total of question points.
 					esc_html_x( 'Total Points: %s', 'placeholder: Total of question points', 'learndash' ),
-					'<span class="learndash_builder_points_total_value">' . esc_html( $total_question_points ) . '</span>'
+					'<span class="learndash_builder_points_total_value">' . esc_html( (string) $total_question_points ) . '</span>'
 				);
 				?>
 			</div>
 			<?php
-
 		}
 
 		/**
@@ -744,13 +736,13 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 
 					$question_points_string = '';
 					if ( ( isset( $question_pro_fields['points'] ) ) && ( ! empty( $question_pro_fields['points'] ) ) ) {
-						$question_points = absint( $question_pro_fields['points'] );
+						$question_points = learndash_format_course_points( $question_pro_fields['points'] );
 					} else {
-						$question_points = 1;
+						$question_points = 1; // Default to 1 point.
 					}
 
 					// translators: placeholder: Question Points.
-					$question_points_string = sprintf( _nx( '(%dpt)', '(%dpts)', $question_points, 'placeholder: Question Points', 'learndash' ), number_format_i18n( $question_points ) );
+					$question_points_string = sprintf( _nx( '(%.2fpt)', '(%.2fpts)', absint( $question_points ), 'placeholder: Question Points', 'learndash' ), number_format_i18n( $question_points, 2 ) ); // cspell: disable-line .
 
 					$questions_section_item_html = '<div id="ld-post-' . $question_id . '" class="ld-course-builder-item ld-course-builder-question-item" data-ld-type="' . $steps_type . '" data-ld-id="' . $question_id . '">
 									<div class="ld-course-builder-quiz-header ld-course-builder-header">
@@ -772,7 +764,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 											<span class="ld-course-builder-action ld-course-builder-edit-title-cancel dashicons" title="' . esc_html__( 'Cancel', 'learndash' ) . '" ></span>
 											<span class="ld-course-builder-title-right" style="float: right;" >
 												<span class="ld-course-builder-type">' . $question_type_string . '</span>
-												<span class="ld-course-builder-points" data-ld-points="' . absint( $question_points ) . '">' . $question_points_string . '</span>
+												<span class="ld-course-builder-points" data-ld-points="' . learndash_format_course_points( $question_points ) . '">' . $question_points_string . '</span>
 											</span>
 										</span>
 									</div>
@@ -831,7 +823,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 		 * @param array $query_args array of values for AJAX request.
 		 */
 		public function learndash_builder_selector_pager( $query_args = array() ) {
-
 			$reply_data = array();
 
 			if ( isset( $query_args['format'] ) && 'json' === $query_args['format'] ) {
@@ -871,7 +862,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 		 * @param array $query_args array of values for AJAX request.
 		 */
 		public function learndash_builder_selector_search( $query_args = array() ) {
-
 			$reply_data = array();
 			if ( isset( $query_args['format'] ) && 'json' === $query_args['format'] ) {
 				$reply_data['selector_pager'] = array();
@@ -1026,7 +1016,6 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 		 * @param array $query_args array of values for AJAX request.
 		 */
 		public function learndash_builder_selector_step_title( $query_args = array() ) {
-
 			$reply_data = array();
 
 			$post_args               = array(
@@ -1083,7 +1072,7 @@ if ( ( ! class_exists( 'Learndash_Admin_Metabox_Quiz_Builder' ) ) && ( class_exi
 }
 add_action(
 	'learndash_builders_init',
-	function() {
+	function () {
 		Learndash_Admin_Metabox_Quiz_Builder::add_instance();
 	}
 );

@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-2.0
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\DB\QueryBuilder\Clauses;
 
@@ -15,6 +9,7 @@ use InvalidArgumentException;
  * @since 1.0.0
  */
 class Where {
+
 	/**
 	 * @var string
 	 */
@@ -36,13 +31,8 @@ class Where {
 	public $logicalOperator;
 
 	/**
-	 * @var string|null
-	 */
-	public $type;
-
-	/**
 	 * @param  string  $column
-	 * @param  string  $value
+	 * @param  mixed  $value
 	 * @param  string  $comparisonOperator
 	 * @param  string|null  $logicalOperator
 	 */

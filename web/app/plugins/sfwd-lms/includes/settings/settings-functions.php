@@ -110,7 +110,27 @@ function learndash_get_setting( $post, $setting = null ) {
 		}
 
 		$meta = get_post_meta( $post->ID, '_' . $post->post_type, true );
-		if ( ( ! empty( $meta ) ) && ( is_array( $meta ) ) ) {
+
+		if (
+			! empty( $meta )
+			&& is_array( $meta )
+		) {
+			$custom_per_page_meta_key = '';
+			if ( $post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::COURSE ) ) {
+				$custom_per_page_meta_key = "{$post->post_type}_{$post_type_prefix}_lesson_per_page";
+			} elseif ( $post->post_type === learndash_get_post_type_slug( LDLMS_Post_Types::GROUP ) ) {
+				$custom_per_page_meta_key = "{$post->post_type}_{$post_type_prefix}_courses_per_page_enabled";
+			}
+
+			// Backwards compatibility with Courses and Groups saved before 5.0.0.
+			if (
+				! empty( $custom_per_page_meta_key )
+				&& ! empty( $meta[ $custom_per_page_meta_key ] )
+				&& $meta[ $custom_per_page_meta_key ] === 'CUSTOM'
+			) {
+				$meta[ $custom_per_page_meta_key ] = 'on';
+			}
+
 			if ( empty( $setting ) ) {
 				$settings = array();
 				foreach ( $meta as $k => $v ) {
@@ -369,6 +389,19 @@ function learndash_update_setting( $post, $setting, $value ) {
 		$meta[ $post->post_type . '_' . $setting ] = $value;
 
 		$return = update_post_meta( $post->ID, '_' . $post->post_type, $meta );
+
+		if ( $return ) {
+			/**
+			 * Fires after a LearnDash post setting is updated.
+			 *
+			 * @since 4.13.0
+			 *
+			 * @param WP_Post $post    The WP_Post object.
+			 * @param string  $setting The key of the setting to update.
+			 * @param mixed   $value   The new value of setting to be updated.
+			 */
+			do_action( 'learndash_post_setting_updated', $post, $setting, $value );
+		}
 	}
 
 	return $return;

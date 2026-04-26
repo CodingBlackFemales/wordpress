@@ -2,9 +2,14 @@
 /**
  * LearnDash class for displaying the setup wizard.
  *
- * @package    LearnDash
- * @since      4.0.0
+ * @package LearnDash
+ * @since 4.0.0
  */
+
+use LearnDash\Core\Modules\Payments\Gateways\Stripe\Connection_Handler;
+use LearnDash\Core\Modules\Payments\Gateways\Paypal\Payment_Gateway as Paypal_Payment_Gateway;
+use LearnDash\Core\Utilities\Cast;
+use LearnDash\Core\Utilities\Location;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +32,6 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		const DATA_KEY = 'learndash_setup_wizard';
 
 		const CERTIFICATE_BUILDER_SLUG   = 'learndash-certificate-builder/learndash-certificate-builder.php';
-		const COURSE_GRID_SLUG           = 'learndash-course-grid/learndash_course_grid.php';
 		const WOOCOMMERCE_SLUG           = 'woocommerce/woocommerce.php';
 		const LEARNDASH_WOOCOMMERCE_SLUG = 'learndash-woocommerce/learndash_woocommerce.php';
 
@@ -38,6 +42,15 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 
 		const ADMIN_REDIRECT_PAGE       = 'admin.php?page=learndash-setup';
 		const FINAL_ADMIN_REDIRECT_PAGE = 'admin.php?page=learndash-setup';
+
+		/**
+		 * The option key for the StellarSites integration.
+		 *
+		 * @since 4.21.5
+		 *
+		 * @var string
+		 */
+		private const LEARNDASH_SETUP_WIZARD_STELLARSITES = 'learndash_setup_wizard_stellarsites_triggered';
 
 		/**
 		 * The single instance of the class.
@@ -56,20 +69,91 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 			add_action( 'wp_ajax_learndash_setup_wizard_save_data', array( $this, 'save_data' ) );
 			add_action( 'wp_ajax_learndash_finalize', array( $this, 'finalize_setup' ) );
 			add_action( 'admin_post_stripe_connect_wizard_process', array( $this, 'enable_stripe_connect_and_redirect' ) );
+			add_action( 'current_screen', [ $this, 'redirect_after_stellar_sites_plugin_activation' ] );
 		}
 
 		/**
-		 * Enable stripe connect and then redirect to the wizard again.
+		 * Check if this is a LearnDash submenu item click and handle wizard redirect if StellarSites MU plugin is active.
+		 *
+		 * @since 4.21.5
+		 *
+		 * @return void
 		 */
-		public function enable_stripe_connect_and_redirect() {
-			// enable stripe connect.
+		public function redirect_after_stellar_sites_plugin_activation( WP_Screen $screen ): void {
+			if ( ! Location::is_learndash_admin_page() ) {
+				return;
+			}
+
+			// Check if the StellarSites MU plugin is active.
+			if ( ! class_exists( '\StellarWP\StellarSites\Plugin' ) ) {
+				return;
+			}
+
+			// Check if the wizard has already been triggered.
+			$wizard_triggered = get_option( self::LEARNDASH_SETUP_WIZARD_STELLARSITES, false );
+
+			if ( $wizard_triggered ) {
+				return;
+			}
+
+			// Get wizard status.
+			$wizard_status = get_option( self::STATUS_KEY );
+
+			// Only redirect if the wizard hasn't been completed or dismissed.
+			if (
+				$wizard_status !== self::STATUS_COMPLETED
+				&& $wizard_status !== self::STATUS_CLOSED
+			) {
+				// Mark the wizard as triggered to prevent future redirects.
+				update_option( self::LEARNDASH_SETUP_WIZARD_STELLARSITES, true );
+
+				// Redirect to wizard.
+				learndash_safe_redirect( admin_url( 'admin.php?page=' . self::HANDLE ) );
+			}
+		}
+
+		/**
+		 * Retrieves the wizard status.
+		 *
+		 * @since 4.21.5
+		 *
+		 * @return string The value of the wizard status from the options.
+		 */
+		public static function get_status(): string {
+			/**
+			 * Filters the status of the setup wizard.
+			 *
+			 * @since 4.21.5
+			 *
+			 * @param string $status The value of the wizard status from the options.
+			 */
+			return apply_filters(
+				'learndash_setup_wizard_status',
+				Cast::to_string(
+					get_option( self::STATUS_KEY )
+				)
+			);
+		}
+
+		/**
+		 * Enables the Stripe connect and then redirect to the wizard again.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @return void
+		 */
+		public function enable_stripe_connect_and_redirect(): void {
+			// Enable stripe connect.
 			if ( LearnDash_Settings_Section_Stripe_Connect::is_stripe_connected() ) {
 				LearnDash_Settings_Section::set_section_setting( 'LearnDash_Settings_Section_Stripe_Connect', 'enabled', 'yes' );
 			}
 
-			// force update wizard data.
+			// Force update wizard data.
 			$this->update_data( 'charge', 'yes' );
 			$this->update_data( 'charge_method', 'stripe' );
+
+			// Create a transient to flag that we need to create webhooks.
+			set_transient( 'learndash_stripe_connect_create_webhooks', true, HOUR_IN_SECONDS );
 
 			learndash_safe_redirect( admin_url( 'admin.php?page=' . self::HANDLE ) );
 		}
@@ -181,16 +265,15 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 					$this->create_profile_page();
 					break;
 				case 'process_course_listing':
-					// download and setup course grid, create course listing page.
+					// Import demo course.
+					// phpcs:ignore Generic.CodeAnalysis.EmptyStatement -- TODO: Remove this comment later.
+					if ( 'yes' === $data['course_demo'] ) {
+						Learndash_Admin_Import_Export::import_demo_content();
+					}
+
+					// Create course listing page.
 					if ( 'multiple' === $data['courses_amount'] ) {
 						$this->create_courses_listing_page();
-					}
-					// install course grid plugin.
-					if ( 'true' === $data['course_grid'] ) {
-						$ret = $this->maybe_install_a_plugin( self::COURSE_GRID_SLUG );
-						if ( true === $ret ) {
-							activate_plugin( self::COURSE_GRID_SLUG );
-						}
 					}
 					break;
 				case 'process_certificate_builder':
@@ -460,29 +543,9 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 			update_option( self::LICENSE_KEY, $license_key );
 			update_option( self::LICENSE_EMAIL_KEY, $email );
 
-			$license_status = false;
-			if ( learndash_is_learndash_hub_active() ) {
-				$license_status = learndash_validate_hub_license( $email, $license_key );
-			} else {
-				$updater_sfwd_lms = learndash_get_updater_instance( true );
-				if ( ( $updater_sfwd_lms ) && ( is_a( $updater_sfwd_lms, 'nss_plugin_updater_sfwd_lms' ) ) ) {
-					/**
-					 * Remove the time to check timestamp. Within the getRemote_license() method
-					 * is calls time_to_recheck_license() which uses this option to determine if
-					 * the license needs to be checked again.
-					 */
-					delete_option( 'nss_plugin_check_sfwd_lms' );
-					$license_status = $updater_sfwd_lms->getRemote_license();
-				}
+			// Licensing validation.
 
-				// The return from getRemote_license() is literally "1" (string) for valid. Anything else is invalid.
-				if ( '1' !== $license_status ) {
-					wp_send_json_error();
-				}
-
-				// license is valid.
-				$license_status = true;
-			}
+			$license_status = learndash_validate_hub_license( $email, $license_key, true );
 
 			if ( ! $license_status ) {
 				wp_send_json_error();
@@ -551,7 +614,7 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 					'next'        => isset( $keys[ $pos + 1 ] ) ? $keys[ $pos + 1 ] : '',
 					'prev'        => isset( $keys[ $pos - 1 ] ) ? $keys[ $pos - 1 ] : '',
 				);
-				$pos++;
+				++$pos;
 			}
 
 			return $scenes;
@@ -578,13 +641,22 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 					constant( 'SCRIPT_DEBUG' ) === true ? time() : LEARNDASH_VERSION,
 					true
 				);
-				$data             = get_option( self::DATA_KEY );
+
+				$data = get_option( self::DATA_KEY );
+				if ( ! is_array( $data ) ) {
+					$data = [];
+				}
+
 				$currency_code    = learndash_get_currency_code();
 				$currency_country = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Payments_Defaults', 'country' ) ?? '';
 
 				// scenes processing.
 				$scenes        = $this->get_scenes();
 				$current_scene = isset( $data['scene'] ) && isset( $scenes[ $data['scene'] ] ) ? $data['scene'] : array_keys( $scenes )[0];
+
+				// Define if we need to create webhooks.
+				$stripe_create_webhooks = get_transient( 'learndash_stripe_connect_create_webhooks' );
+				delete_transient( 'learndash_stripe_connect_create_webhooks' );
 
 				wp_localize_script(
 					self::HANDLE,
@@ -603,13 +675,24 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 							'stripe_connect' => LearnDash_Settings_Section_Stripe_Connect::generate_connect_url( admin_url( 'admin-post.php?action=stripe_connect_wizard_process' ) ),
 							'iso_4217'       => 'https://en.wikipedia.org/wiki/ISO_4217#Active_codes',
 							'no_step_url'    => $this->get_completed_redirect_url(),
+							'paypal_connect' => esc_url_raw(
+								add_query_arg(
+									[
+										'page'            => 'learndash_lms_payments',
+										'section-payment' => 'settings_paypal_checkout',
+										'setup-wizard'    => '1',
+									],
+									admin_url( 'admin.php' )
+								)
+							),
 						),
 						'nonces'         => array(
-							'verify'   => wp_create_nonce( 'ld_setup_wizard_verify_license' ),
-							'save'     => wp_create_nonce( 'ld_setup_wizard_save_data' ),
-							'finalize' => wp_create_nonce( 'ld_setup_wizard_finalize' ),
+							'verify'                   => wp_create_nonce( 'ld_setup_wizard_verify_license' ),
+							'save'                     => wp_create_nonce( 'ld_setup_wizard_save_data' ),
+							'finalize'                 => wp_create_nonce( 'ld_setup_wizard_finalize' ),
+							'stripe_ajax_post_connect' => wp_create_nonce( Connection_Handler::$ajax_action_post_connect ),
 						),
-						'data'           => array(
+						'data'           => [
 							'scenes'                   => $scenes,
 							'scene'                    => $current_scene,
 							'email'                    => $data['email'] ?? get_option( self::LICENSE_EMAIL_KEY, '' ),
@@ -617,6 +700,7 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 							'use_registered_email'     => $data['use_registered_email'] ?? 'yes',
 							'notification_email'       => $data['notification_email'] ?? '',
 							'license_validated'        => $data['license_validated'] ?? 'no',
+							'course_demo'              => $data['course_demo'] ?? 'no',
 							'courses_amount'           => $data['courses_amount'] ?? 'single',
 							'course_type'              => $data['course_type'] ?? array(),
 							'group_access'             => $data['group_access'] ?? 'no',
@@ -628,10 +712,11 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 							'currency_select2_default' => ! empty( $currency_country ) ? ucwords( mb_strtolower( $currency_country ) ) . ' (' . learndash_get_currency_symbol( $currency_code ) . ') ' : '',
 							'stripe_connected'         => LearnDash_Settings_Section_Stripe_Connect::is_stripe_connected(),
 							'stripe_webhook_notice'    => wp_kses_post( LearnDash_Settings_Section_Stripe_Connect::get_stripe_webhook_notice() ),
-						),
+							'stripe_create_webhooks'   => $stripe_create_webhooks ? 'yes' : 'no',
+							'paypal_connected'         => Paypal_Payment_Gateway::account_is_connected(),
+						],
 						'plugins'        => array(
 							'certificate_builder' => is_plugin_active( self::CERTIFICATE_BUILDER_SLUG ),
-							'course_grid'         => is_plugin_active( self::COURSE_GRID_SLUG ),
 							'woocommerce'         => is_plugin_active( self::WOOCOMMERCE_SLUG ),
 						),
 						'currency_codes' => array(
@@ -667,6 +752,16 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 
 			// Hide the admin menu item, the page stays available.
 			remove_menu_page( self::HANDLE );
+
+			if (
+				isset( $_GET['page'] )
+				&& self::HANDLE === sanitize_text_field( wp_unslash( $_GET['page'] ) )
+			) {
+				// remove_menu_page() call affects the global title and makes it null in the end,
+				// which causes a deprecation error in WP core cause it requires it to be a string.
+				global $title;
+				$title = ''; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- It's intentional.
+			}
 		}
 
 		/**
@@ -677,15 +772,26 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		protected function should_display(): bool {
 			$should_display = false;
 
-			$wizard_status = get_option( self::STATUS_KEY );
+			$wizard_status = self::get_status();
 			// The wizard is in progress, but closed by an accident or something like that.
 			if ( self::STATUS_ONGOING === $wizard_status ) {
 				$should_display = true;
 			}
 
+			// No license key/email.
 			if (
-			empty( get_option( self::LICENSE_KEY ) ) ||
-			empty( get_option( self::LICENSE_EMAIL_KEY ) )
+				empty( get_option( self::LICENSE_KEY ) )
+				|| empty( get_option( self::LICENSE_EMAIL_KEY ) )
+			) {
+				$should_display = true;
+			}
+
+			// Add StellarSites MU plugin integration check.
+			if (
+				class_exists( '\StellarWP\StellarSites\Plugin' )
+				&& ! get_option( self::LEARNDASH_SETUP_WIZARD_STELLARSITES, false )
+				&& $wizard_status !== self::STATUS_COMPLETED
+				&& $wizard_status !== self::STATUS_CLOSED
 			) {
 				$should_display = true;
 			}

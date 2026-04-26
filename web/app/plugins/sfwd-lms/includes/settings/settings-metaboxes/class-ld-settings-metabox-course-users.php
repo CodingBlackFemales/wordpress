@@ -33,7 +33,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 			// Section label/header.
 			$this->settings_section_label = sprintf(
 				// translators: placeholder: Course.
-				esc_html_x( '%s Users', 'placeholder: Course', 'learndash' ),
+				esc_html_x( '%s Students', 'placeholder: Course', 'learndash' ),
 				learndash_get_custom_label( 'course' )
 			);
 
@@ -91,7 +91,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 						$metabox_description .= sprintf(
 							// translators: placeholder: Groups, Course, Group.
-							esc_html_x( 'Users enrolled via %1$s using this %2$s are excluded from the listings below and should be manage via the %3$s admin screen.', 'placeholder: Groups, Course, Group', 'learndash' ),
+							esc_html_x( 'Students enrolled via %1$s using this %2$s are excluded from the listings below and should be managed via the %3$s admin screen.', 'placeholder: Groups, Course, Group', 'learndash' ),
 							LearnDash_Custom_Label::get_label( 'groups' ),
 							LearnDash_Custom_Label::get_label( 'course' ),
 							LearnDash_Custom_Label::get_label( 'group' )

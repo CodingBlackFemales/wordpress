@@ -10,8 +10,9 @@
  * $group_status			: Group Status
  * $has_access				: User has access to course or is enrolled.
  * $has_group_content		: Group has course content
- * 
+ *
  * @since 4.0.0
+ * @version 4.21.4
  *
  * @package LearnDash\Templates\LD30
  */
@@ -38,11 +39,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			// Only display if there is something to expand.
 			if ( ( isset( $group_courses ) ) && ( ! empty( $group_courses ) ) ) {
+				$group_course_container_ids = implode(
+					' ',
+					array_map(
+						function( $course_id ) {
+							return "ld-course-list-item-{$course_id}-container";
+						},
+						$group_courses
+					)
+				);
+
 				?>
-				<div class="ld-expand-button ld-primary-background" id="<?php echo esc_attr( 'ld-expand-button-' . $group_id ); ?>" data-ld-expands="<?php echo esc_attr( 'ld-item-list-' . $group_id ); ?>" data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>" data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>">
+				<button
+					aria-controls="<?php echo esc_attr( $group_course_container_ids ); ?>"
+					aria-expanded="false"
+					class="ld-expand-button ld-primary-background"
+					data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>"
+					data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>"
+					data-ld-expands="<?php echo esc_attr( $group_course_container_ids ); ?>"
+					id="<?php echo esc_attr( 'ld-expand-button-' . $group_id ); ?>"
+				>
 					<span class="ld-icon-arrow-down ld-icon"></span>
 					<span class="ld-text"><?php echo esc_html_e( 'Expand All', 'learndash' ); ?></span>
-				</div> <!--/.ld-expand-button-->
+
+					<span class="screen-reader-text">
+						<?php echo esc_html( learndash_get_custom_label( 'courses' ) ); ?>
+					</span>
+				</button> <!--/.ld-expand-button-->
 				<?php
 			}
 			?>

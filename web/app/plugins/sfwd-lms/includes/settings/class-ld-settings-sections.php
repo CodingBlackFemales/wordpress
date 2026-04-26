@@ -49,7 +49,7 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		/**
 		 * Holds the values for the fields. Read in from the wp_options item.
 		 *
-		 * @var array $setting_option_values Array of section values.
+		 * @var array<int|string,mixed> $setting_option_values Array of section values.
 		 */
 		protected $setting_option_values = array();
 
@@ -226,6 +226,23 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		 */
 		protected $settings_bypass_nonce_check = false;
 
+		/**
+		 * Check if the setting option has been initialized.
+		 *
+		 * @since 4.15.0
+		 *
+		 * @var bool
+		 */
+		protected bool $setting_option_initialized = false;
+
+		/**
+		 * Default values
+		 *
+		 * @since 5.0.0
+		 *
+		 * @var array<string, mixed>
+		 */
+		protected $default_values = [];
 
 		/**
 		 * Public constructor for class
@@ -401,23 +418,34 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		public function load_settings_values() {
 			$this->settings_values_loaded = true;
 
-			if ( true === $this->load_options ) {
-				$this->setting_option_values = get_option( $this->setting_option_key );
-				if ( ( false === $this->setting_option_values ) || ( '' === $this->setting_option_values ) ) {
-					// Track that the option value is not set. See after_load_settings_values().
+			if ( true !== $this->load_options ) {
+				return;
+			}
+
+			/**
+			 * Option values.
+			 *
+			 * @var array<mixed>|mixed $setting_option_values
+			 */
+			$setting_option_values = get_option( $this->setting_option_key );
+
+			$this->setting_option_initialized = $setting_option_values !== false;
+			$this->setting_option_values      = is_array( $setting_option_values ) ? $setting_option_values : [];
+
+			if ( ( false === $setting_option_values ) || ( '' === $setting_option_values ) ) {
+				// Track that the option value is not set. See after_load_settings_values().
+				$this->settings_values_save_on_load = true;
+			} else {
+				/**
+				 * Added to correct issues with Group Leader User capabilities.
+				 * See LEARNDASH-5707. See changes in
+				 * includes/settings/settings-sections/class-ld-settings-section-groups-group-leader-user.php
+				 *
+				 * @since 3.4.0.2
+				 */
+				$gl_user_activate = get_option( 'learndash_groups_group_leader_user_activate', '' );
+				if ( ! empty( $gl_user_activate ) ) {
 					$this->settings_values_save_on_load = true;
-				} else {
-					/**
-					 * Added to correct issues with Group Leader User capabilities.
-					 * See LEARNDASH-5707. See changes in
-					 * includes/settings/settings-sections/class-ld-settings-section-groups-group-leader-user.php
-					 *
-					 * @since 3.4.0.2
-					 */
-					$gl_user_activate = get_option( 'learndash_groups_group_leader_user_activate', '' );
-					if ( ! empty( $gl_user_activate ) ) {
-						$this->settings_values_save_on_load = true;
-					}
 				}
 			}
 		}
@@ -529,6 +557,9 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		 * @param string $settings_page_id ID of page being initialized.
 		 */
 		public function settings_page_init( $settings_page_id = '' ) {
+			if ( ! $this->is_visible() ) {
+				return;
+			}
 
 			// Ensure settings_page_id is not empty and that it matches the page_id we want to display this section on.
 			if ( ( ! empty( $settings_page_id ) ) && ( $settings_page_id === $this->settings_page_id ) && ( ! empty( $this->setting_option_fields ) ) ) {
@@ -724,42 +755,44 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		 * @param string $settings_screen_id Settings Screen ID.
 		 */
 		public function add_meta_boxes( $settings_screen_id = '' ) {
+			if ( $settings_screen_id !== $this->settings_screen_id ) {
+				return;
+			}
+
 			global $learndash_metaboxes;
 
-			if ( $settings_screen_id === $this->settings_screen_id ) {
-				$show_section = true;
+			$show_section = $this->is_visible();
 
-				/** This filter is documented in includes/settings/class-ld-settings-metaboxes.php */
-				$show_section = apply_filters( 'learndash_show_metabox', $show_section, $this->metabox_key, $this->settings_screen_id );
+			/** This filter is documented in includes/settings/class-ld-settings-metaboxes.php */
+			$show_section = apply_filters( 'learndash_show_metabox', $show_section, $this->metabox_key, $this->settings_screen_id );
 
-				/**
-				 * Filters whether to show settings section.
-				 *
-				 * @since 3.6.0
-				 *
-				 * @param boolean $show_section         Whether to show settings metabox.
-				 * @param string  $settings_section_key Settings section key.
-				 * @param string  $settings_screen_id   Settings screen ID.
-				 */
-				$show_section = apply_filters( 'learndash_show_section', $show_section, $this->settings_section_key, $this->settings_screen_id );
+			/**
+			 * Filters whether to show settings section.
+			 *
+			 * @since 3.6.0
+			 *
+			 * @param boolean $show_section         Whether to show settings metabox.
+			 * @param string  $settings_section_key Settings section key.
+			 * @param string  $settings_screen_id   Settings screen ID.
+			 */
+			$show_section = apply_filters( 'learndash_show_section', $show_section, $this->settings_section_key, $this->settings_screen_id );
 
-				if ( true === $show_section ) {
-					if ( ! isset( $learndash_metaboxes[ $this->settings_screen_id ] ) ) {
-						$learndash_metaboxes[ $this->settings_screen_id ] = array();
-					}
-					$learndash_metaboxes[ $this->settings_screen_id ][ $this->metabox_key ] = $this->metabox_key;
-
-					add_meta_box(
-						$this->metabox_key,
-						$this->settings_section_label,
-						array( $this, 'show_meta_box' ),
-						$this->settings_screen_id,
-						$this->metabox_context,
-						$this->metabox_priority
-					);
-
-					add_filter( 'postbox_classes_' . $this->settings_screen_id . '_' . $this->metabox_key, array( $this, 'add_meta_box_classes' ), 30, 1 );
+			if ( true === $show_section ) {
+				if ( ! isset( $learndash_metaboxes[ $this->settings_screen_id ] ) ) {
+					$learndash_metaboxes[ $this->settings_screen_id ] = array();
 				}
+				$learndash_metaboxes[ $this->settings_screen_id ][ $this->metabox_key ] = $this->metabox_key;
+
+				add_meta_box(
+					$this->metabox_key,
+					$this->settings_section_label,
+					array( $this, 'show_meta_box' ),
+					$this->settings_screen_id,
+					$this->metabox_context,
+					$this->metabox_priority
+				);
+
+				add_filter( 'postbox_classes_' . $this->settings_screen_id . '_' . $this->metabox_key, array( $this, 'add_meta_box_classes' ), 30, 1 );
 			}
 		}
 
@@ -937,6 +970,29 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		}
 
 		/**
+		 * Returns whether the section should be shown.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return bool True if the section should be shown, false otherwise.
+		 */
+		public function is_visible(): bool {
+			/**
+			 * Filters whether the Settings Section should be shown.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @param bool $show_section True if the Settings Section should be shown, false otherwise. Default true.
+			 *
+			 * @return bool True if the Settings Section should be shown, false otherwise.
+			 */
+			return apply_filters(
+				"learndash_settings_section_{$this->settings_section_key}_is_visible",
+				true
+			);
+		}
+
+		/**
 		 * Static function to get section setting.
 		 *
 		 * @since 2.4.0
@@ -1101,8 +1157,10 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @param string $section_org Settings Section.
-		 * @param string $field       Settings Section field key.
+		 * @param string $section_org       Settings Section.
+		 * @param string $field             Settings Section field key.
+
+		 * @return null|array<string,mixed> If found returns the field values.
 		 */
 		public static function get_section_settings_all( $section_org = '', $field = 'value' ) {
 			if ( empty( $section_org ) ) {
@@ -1133,6 +1191,8 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 
 				return $fields_values;
 			}
+
+			return null;
 		}
 
 		/**
@@ -1246,6 +1306,59 @@ if ( ! class_exists( 'LearnDash_Settings_Section' ) ) {
 			}
 
 			return $this->settings_section_sub_label;
+		}
+
+		/**
+		 * Returns whether the section has saved settings.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return bool True if the section has saved settings, false otherwise.
+		 */
+		protected function has_saved_settings(): bool {
+			$default_values = $this->retrieve_default_values();
+			$saved_values   = get_option( $this->setting_option_key );
+			$saved_values   = is_array( $saved_values ) ? $saved_values : [];
+
+			return ! empty( array_diff_assoc( $saved_values, $default_values ) );
+		}
+
+		/**
+		 * Gets the default values for the section.
+		 * Note: get_default_values() is not used to avoid a conflict with Notes by LearnDash which extends this class.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return mixed[] The default values.
+		 */
+		protected function retrieve_default_values(): array {
+			if ( ! empty( $this->default_values ) ) {
+				return $this->default_values;
+			}
+
+			// Store the original values for these to ensure they can be restored.
+			$load_options                 = $this->load_options;
+			$setting_option_initialized   = $this->setting_option_initialized;
+			$settings_option_values       = $this->setting_option_values;
+			$settings_values_loaded       = $this->settings_values_loaded;
+			$settings_values_save_on_load = $this->settings_values_save_on_load;
+
+			// Ensure that the options are not loaded from the database.
+			$this->load_options          = false;
+			$this->setting_option_values = [];
+
+			// Grab all the default values.
+			$this->load_settings_values();
+			$this->default_values = $this->setting_option_values;
+
+			// Restore settings loading-related properties.
+			$this->load_options                 = $load_options;
+			$this->setting_option_initialized   = $setting_option_initialized;
+			$this->setting_option_values        = $settings_option_values;
+			$this->settings_values_loaded       = $settings_values_loaded;
+			$this->settings_values_save_on_load = $settings_values_save_on_load;
+
+			return $this->default_values;
 		}
 
 		// End of functions.

@@ -38,7 +38,6 @@ class LD_QuizPro {
 	 * @since 2.1.0
 	 */
 	public function __construct() {
-
 		add_action( 'wp_pro_quiz_completed_quiz', array( $this, 'wp_pro_quiz_completed' ) );
 		add_action( 'plugins_loaded', array( $this, 'quiz_edit_redirect' ), 1 );
 
@@ -54,7 +53,6 @@ class LD_QuizPro {
 		if ( ! empty( $_GET['ld_fix_permissions'] ) ) {
 			$role = get_role( 'administrator' );
 			if ( ( $role ) && ( $role instanceof WP_Role ) ) {
-
 				$role->add_cap( 'wpProQuiz_show' );
 				$role->add_cap( 'wpProQuiz_add_quiz' );
 				$role->add_cap( 'wpProQuiz_edit_quiz' );
@@ -84,6 +82,15 @@ class LD_QuizPro {
 		// First we unpack the $_POST['results'] string.
 		if ( ( isset( $_POST['data']['responses'] ) ) && ( ! empty( $_POST['data']['responses'] ) ) && ( is_string( $_POST['data']['responses'] ) ) ) {
 			$_POST['data']['responses'] = json_decode( stripslashes( $_POST['data']['responses'] ), true );
+		}
+
+		// Decode the quiz_resume_data string.
+
+		if (
+			isset( $_POST['data']['quiz_resume_data'] ) // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is checked later.
+			&& ! empty( $_POST['data']['quiz_resume_data'] ) // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is checked later.
+		) {
+			$_POST['data']['quiz_resume_data'] = json_decode( sanitize_text_field( wp_unslash( $_POST['data']['quiz_resume_data'] ) ), true ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is checked later.
 		}
 
 		$func = isset( $_POST['func'] ) ? $_POST['func'] : '';
@@ -130,15 +137,22 @@ class LD_QuizPro {
 			die();
 		}
 
+		$course_id        = absint( $data['course_id'] ?? 0 );
+		$quiz_started     = isset( $data['quiz_started'] ) ? absint( $data['quiz_started'] / 1000 ) : 0; // convert milliseconds to seconds.
+		$quiz_resume_data = $data['quiz_resume_data'] ?? null;
+
 		learndash_quiz_debug_log_init( $quiz_post_id );
 		learndash_quiz_debug_log_message( 'Browser version: ' . $_SERVER['HTTP_USER_AGENT'] );
 		learndash_quiz_debug_log_message( '---------------------------------' );
 		learndash_quiz_debug_log_message( 'in ' . __FUNCTION__ );
-		learndash_quiz_debug_log_message( '_POST<pre>' . print_r( $_POST, true ) . '</pre>' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- It's okay, the second argument is true.
+		learndash_quiz_debug_log_message( '_POST<pre>' . print_r( $_POST, true ) . '</pre>' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Intended for debugging.
 
 		learndash_quiz_debug_log_message( 'user_id ' . $user_id );
 		learndash_quiz_debug_log_message( 'quiz id ' . $id );
 		learndash_quiz_debug_log_message( 'quiz_post_id ' . $quiz_post_id );
+		learndash_quiz_debug_log_message( 'course_id ' . $course_id );
+		learndash_quiz_debug_log_message( 'quiz_started ' . $quiz_started );
+		learndash_quiz_debug_log_message( 'quiz_resume_data ' . print_r( $quiz_resume_data, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Intended for debugging.
 
 		if ( defined( 'LEARNDASH_QUIZ_DEBUG' ) && LEARNDASH_QUIZ_DEBUG ) {
 			/**
@@ -190,7 +204,6 @@ class LD_QuizPro {
 
 			foreach ( $questionModels as $questionModel ) {
 				if ( $questionModel->getId() == intval( $question_id ) ) {
-
 					$userResponse = $info['response'];
 
 					$questionData           = $json[ $question_id ];
@@ -201,7 +214,7 @@ class LD_QuizPro {
 					$extra['type']          = $questionData['type'];
 					$questionData['points'] = isset( $questionData['points'] ) ? $questionData['points'] : $questionData['globalPoints'];
 
-					$question_index++;
+					++$question_index;
 					$answer_pointed_activated = $questionModel->isAnswerPointsActivated();
 
 					/**
@@ -228,7 +241,6 @@ class LD_QuizPro {
 							$points  = 0;
 
 							if ( ( ! empty( $questionData['correct'] ) ) && ( '' !== $userResponse_filtered ) ) {
-
 								/**
 								 * The default value is based on the opposite of the legacy sanitize var value.
 								 *
@@ -279,7 +291,7 @@ class LD_QuizPro {
 										$correct = true;
 										if ( $questionModel->isAnswerPointsActivated() ) {
 											if ( isset( $questionData['points'][ $questionData_idx ] ) ) {
-												$points = (int) $questionData['points'][ $questionData_idx ];
+												$points = $questionData['points'][ $questionData_idx ];
 											} else {
 												$points = 1;
 											}
@@ -292,13 +304,20 @@ class LD_QuizPro {
 							}
 
 							/**
-							 * Filters answer points for free question type.
+							 * Filters answer points for a free question type.
 							 *
-							 * @param int    $points        Points for the question.
+							 * @since 4.14.0 $points type changed from int to float.
+							 *
+							 * @param float  $points        Points for the question.
 							 * @param array  $question_data An array of question data.
 							 * @param string $user_response User response data.
 							 */
-							$points = apply_filters( 'learndash_ques_free_answer_pts', $points, $questionData, $userResponse );
+							$points = apply_filters(
+								'learndash_ques_free_answer_pts',
+								learndash_format_course_points( $points ),
+								$questionData,
+								$userResponse
+							);
 
 							/**
 							 * Filters whether the answer is correct or not for a free question type.
@@ -344,35 +363,50 @@ class LD_QuizPro {
 											$correct_this_item = true;
 
 											if ( $userResponse[ $answerIndex ] == true ) {
-												$points += $questionData['points'][ $answerIndex ];
+												$points += learndash_format_course_points( $questionData['points'][ $answerIndex ] );
 											}
 										} else {
 											$r[ $answerIndex ] = false;
 											$correct_this_item = false;
 										}
 
+										$points = learndash_format_course_points( $points );
+
 										if ( has_filter( 'learndash_ques_multiple_answer_pts_each' ) ) {
 											/**
 											 * Filters the points of each answer for multiple answer type question.
 											 *
-											 * @param int        $point          Points for the question.
+											 * @since 4.14.0 Changed $points type from int to float.
+											 *
+											 * @param float      $point          Points for the question.
 											 * @param int|string $answer_index   Index of the answer.
 											 * @param array      $question_data  An array of question data.
 											 * @param mixed      $correct_answer Correct answer for the question.
 											 * @param array      $user_response  An array of user response data.
 											 */
-											$points = apply_filters( 'learndash_ques_multiple_answer_pts_each', $points, $questionData, $answerIndex, $correctAnswer, $userResponse );
+											$points = apply_filters(
+												'learndash_ques_multiple_answer_pts_each',
+												$points,
+												$questionData,
+												$answerIndex,
+												$correctAnswer,
+												$userResponse
+											);
 										} else {
 											/**
 											 * Added logic to subtract points on selected incorrect answers.
 											 *
+											 * We summarized points for the correct answers above.
+											 * Here we subtract points for incorrect answers (if a user selected them, if not, we subtract nothing).
+											 *
 											 * @since 2.5.7
+											 * @since 4.14.0 Added negative and decimal points support, so we subtract both positive and negative points.
 											 */
 											if ( $questionData['correct'][ $answerIndex ] == 0 ) {
 												if ( $correct_this_item == false ) {
-													if ( intval( $questionData['points'][ $answerIndex ] ) > 0 ) {
-														$points -= intval( $questionData['points'][ $answerIndex ] );
-													}
+													$points -= abs(
+														learndash_format_course_points( $questionData['points'][ $answerIndex ] )
+													);
 												}
 
 												end( $questionData['correct'] );
@@ -393,7 +427,6 @@ class LD_QuizPro {
 											$correct = false;
 										}
 									} else {
-
 										/**
 										 * Points are allocated for the entire question if the user selects all the correct answers and none of
 										 * the incorrect answers
@@ -430,13 +463,22 @@ class LD_QuizPro {
 										 * LearnDash Core loops over all the answers in a multiple answer question. If the user does not mark an incorrect answer,
 										 * allow the possibility of giving them points.
 										 *
-										 * @param int        $points         Points awarded to quiz
+										 * @since 4.14.0 Changed $points type from int to float.
+										 *
+										 * @param float      $points         Points awarded to quiz
 										 * @param array      $question_data  An array of question data.
 										 * @param int|string $answer_index   Index of the answer.
 										 * @param mixed      $correct_answer Correct answer for the question.
 										 * @param array      $user_response  An array of user response data.
 										 */
-										$points = apply_filters( 'learndash_ques_multiple_answer_pts_whole', $points, $questionData, $answerIndex, $correctAnswer, $userResponse );
+										$points = apply_filters(
+											'learndash_ques_multiple_answer_pts_whole',
+											learndash_format_course_points( $points ),
+											$questionData,
+											$answerIndex,
+											$correctAnswer,
+											$userResponse
+										);
 
 										/**
 										 * Filters whether the answer to the multiple type question is correct or not.
@@ -448,7 +490,6 @@ class LD_QuizPro {
 										 * @param array      $user_response  An array of user response data.
 										 */
 										$correct = apply_filters( 'learndash_ques_multiple_answer_correct_whole', $correct, $questionData, $answerIndex, $correctAnswer, $userResponse );
-
 									}
 								}
 							}
@@ -483,7 +524,6 @@ class LD_QuizPro {
 							if ( ! empty( $questionData['correct'] ) ) {
 								foreach ( $questionData['correct'] as $answerIndex => $correctAnswer ) {
 									if ( $userResponse[ $answerIndex ] === true ) {
-
 										if ( ( ( isset( $questionData['diffMode'] ) ) && ( ! empty( $questionData['diffMode'] ) ) ) || ( ! empty( $correctAnswer ) ) ) {
 											// DiffMode or Correct.
 											if ( is_array( $questionData['points'] ) ) {
@@ -504,13 +544,23 @@ class LD_QuizPro {
 										 * LearnDash single answer question, allow points to be allocated for not marking an incorrect answer.
 										 * Allow all possibility of given answer to be correct answer.
 										 *
-										 * @param integer    $points         Points awarded to quiz
+										 * @since 4.14.0 Changed $points type from int to float.
+										 *
+										 * @param float      $points         Points awarded to quiz
 										 * @param array      $question_data  An array of question data.
 										 * @param int|string $answer_index   Index of the answer.
 										 * @param mixed      $correct_answer Correct answer for the question.
 										 * @param array      $user_response  An array of user response data.
 										 */
-										$points = apply_filters( 'learndash_ques_single_answer_pts', $points, $questionData, $answerIndex, $correctAnswer, $userResponse );
+										$points = apply_filters(
+											'learndash_ques_single_answer_pts',
+											learndash_format_course_points( $points ),
+											$questionData,
+											$answerIndex,
+											$correctAnswer,
+											$userResponse
+										);
+
 										/**
 										 * Filters whether the answer to the single type question is correct or not.
 										 *
@@ -551,10 +601,8 @@ class LD_QuizPro {
 								foreach ( $questionData['correct'] as $answerIndex => $answer ) {
 									if ( ! isset( $userResponse[ $answerIndex ] ) || $userResponse[ $answerIndex ] != $answer ) {
 										$correct = false;
-									} else {
-										if ( is_array( $questionData['points'] ) ) {
-											$points += $questionData['points'][ $answerIndex ];
-										}
+									} elseif ( is_array( $questionData['points'] ) ) {
+											$points += learndash_format_course_points( $questionData['points'][ $answerIndex ] );
 									}
 									if ( isset( $userResponse[ $answerIndex ] ) ) {
 										$statisticsData->{$answerIndex} = $userResponse[ $answerIndex ];
@@ -665,7 +713,7 @@ class LD_QuizPro {
 										}
 										if ( $questionModel->isAnswerPointsActivated() ) {
 											if ( ( is_array( $questionData['points'] ) ) && ( isset( $questionData['points'][ $answerIndex ][ $correct_idx ] ) ) ) {
-												$points += (int) $questionData['points'][ $answerIndex ][ $correct_idx ];
+												$points += learndash_format_course_points( $questionData['points'][ $answerIndex ][ $correct_idx ] );
 											} else {
 												$points = $questionData['points'];
 											}
@@ -756,7 +804,6 @@ class LD_QuizPro {
 								$correct                = false;
 								$extra['graded_status'] = 'not_graded';
 								$extra['graded_id']     = 0;
-
 							}
 							break;
 
@@ -767,7 +814,11 @@ class LD_QuizPro {
 					if ( ! $quiz->isHideAnswerMessageBox() ) {
 						foreach ( $questionModels as $key => $value ) {
 							if ( $value->getId() == $question_id ) {
-								if ( $correct || $value->isCorrectSameText() ) {
+								if (
+									$correct
+									|| $value->isCorrectSameText()
+									|| $value->getAnswerType() === 'essay' // For the essay question type, we always show the "correct message", which is actually "Message after Essay is submitted".
+								) {
 									$extra['AnswerMessage'] = do_shortcode( learndash_the_content( $value->getCorrectMsg(), __FUNCTION__ ) );
 								} else {
 									$extra['AnswerMessage'] = do_shortcode( learndash_the_content( $value->getIncorrectMsg(), __FUNCTION__ ) );
@@ -792,16 +843,49 @@ class LD_QuizPro {
 						'learndash_quiz_question_result',
 						array(
 							'c' => $correct,
-							'p' => $points,
+							'p' => learndash_format_course_points( $points ),
 							's' => $statisticsData,
 							'e' => $extra,
 						),
 						$question_id
 					);
 
+					// Update the question status in the review box.
+
+					if (
+						isset( $quiz_resume_data[ $question_id ] )
+						&& isset( $quiz_resume_data[ $question_id ]['index'] )
+						&& isset( $quiz_resume_data['reviewBox'] )
+					) {
+						$question_index = $quiz_resume_data[ $question_id ]['index'];
+
+						if ( isset( $quiz_resume_data['reviewBox'][ $question_index ] ) ) {
+							if ( $correct ) {
+								$quiz_resume_data['reviewBox'][ $question_index ]['correct'] = 1;
+							} else {
+								$quiz_resume_data['reviewBox'][ $question_index ]['incorrect'] = 1;
+							}
+						}
+					}
+
 					break;
 				}
 			}
+		}
+
+		// Save the quiz resume data to the quiz resume metadata.
+
+		if (
+			! empty( $quiz_resume_data )
+			&& ! empty( $quiz_started )
+		) {
+			LDLMS_User_Quiz_Resume::update_user_quiz_resume_metadata(
+				$user_id,
+				$quiz_post_id,
+				$course_id,
+				$quiz_started,
+				$quiz_resume_data
+			);
 		}
 
 		/**
@@ -816,7 +900,6 @@ class LD_QuizPro {
 		$total_points = 0;
 
 		foreach ( $results as $r_idx => $result ) {
-
 			if ( ( isset( $result['e'] ) ) && ( ! empty( $result['e'] ) ) ) {
 				if ( ( isset( $result['e']['type'] ) ) && ( ! empty( $result['e']['type'] ) ) ) {
 					$response_str = '';
@@ -830,7 +913,6 @@ class LD_QuizPro {
 
 						case 'free_answer':
 							if ( ( isset( $result['e']['r'] ) ) && ( '' !== $result['e']['r'] ) ) {
-
 								$response_str = maybe_serialize( array( trim( $result['e']['r'] ) ) );
 							}
 							break;
@@ -868,9 +950,9 @@ class LD_QuizPro {
 			}
 
 			$points_array = array(
-				'points'         => intval( $result['p'] ),
+				'points'         => learndash_format_course_points( $result['p'] ),
 				'correct'        => intval( $result['c'] ),
-				'possiblePoints' => intval( $result['e']['possiblePoints'] ),
+				'possiblePoints' => learndash_format_course_points( $result['e']['possiblePoints'] ),
 			);
 			if ( $points_array['correct'] === false ) {
 				$points_array['correct'] = 0;
@@ -893,9 +975,7 @@ class LD_QuizPro {
 	 * @since 2.1.0
 	 */
 	public function quiz_edit_redirect() {
-
 		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'ldAdvQuiz' && empty( $_GET['module'] ) && ! empty( $_GET['action'] ) && $_GET['action'] == 'addEdit' ) {
-
 			if ( ! empty( $_GET['post_id'] ) ) {
 				header( 'Location: ' . admin_url( 'post.php?action=edit&post=' . absint( $_GET['post_id'] ) ) );
 				exit;
@@ -1049,7 +1129,6 @@ class LD_QuizPro {
 	 * @param object $user     WP_User object.
 	 */
 	public function set_quiz_status_meta( $quizdata, $user ) {
-
 		if ( empty( $quizdata ) ) {
 			return;
 		}
@@ -1115,7 +1194,6 @@ class LD_QuizPro {
 		LDLMS_User_Quiz_Resume::delete_user_quiz_resume_metadata( $user->ID, $quizdata['quiz'], $quizdata['course'], $quizdata['started'] );
 
 		if ( ( isset( $quizdata['started'] ) ) && ( ! empty( $quizdata['started'] ) ) && ( isset( $quizdata['completed'] ) ) && ( ! empty( $quizdata['completed'] ) ) ) {
-
 			if ( $quizdata['pass'] == true ) {
 				$quizdata_pass = true;
 			} else {
@@ -1166,7 +1244,11 @@ class LD_QuizPro {
 		$quiz_pro_id  = isset( $_POST['quizId'] ) ? absint( $_POST['quizId'] ) : null;
 		$quiz_post_id = isset( $_POST['quiz'] ) ? absint( $_POST['quiz'] ) : null;
 		$score        = isset( $_POST['results']['comp']['correctQuestions'] ) ? $_POST['results']['comp']['correctQuestions'] : null;
-		$points       = isset( $_POST['results']['comp']['points'] ) ? absint( $_POST['results']['comp']['points'] ) : null;
+		$points       = isset( $_POST['results']['comp']['points'] )
+			? learndash_format_course_points(
+				sanitize_text_field( wp_unslash( $_POST['results']['comp']['points'] ) )
+			)
+			: null;
 		$result       = isset( $_POST['results']['comp']['result'] ) ? $_POST['results']['comp']['result'] : null;
 		$timespent    = isset( $_POST['timespent'] ) ? floatval( $_POST['timespent'] ) : null;
 
@@ -1210,7 +1292,7 @@ class LD_QuizPro {
 				$graded[ $question_id ] = array(
 					'post_id'        => intval( $individual_result['graded_id'] ),
 					'status'         => esc_html( $individual_result['graded_status'] ),
-					'points_awarded' => intval( $individual_result['points'] ),
+					'points_awarded' => learndash_format_course_points( $individual_result['points'] ),
 				);
 			}
 		}
@@ -1232,12 +1314,14 @@ class LD_QuizPro {
 				}
 
 				if ( ( isset( $q_result['possiblePoints'] ) ) && ( ! empty( $q_result['possiblePoints'] ) ) ) {
-					$total_points += intval( $q_result['possiblePoints'] );
+					$total_points += learndash_format_course_points( $q_result['possiblePoints'] );
 				}
 			}
 		} else {
-			$total_points = round( $points * 100 / $result );
+			$total_points = learndash_format_course_points( $points * 100 / $result );
 		}
+
+		$total_points = learndash_format_course_points( $total_points );
 
 		$questions_shown_count = count( $_POST['results'] ) - 1;
 
@@ -1283,8 +1367,8 @@ class LD_QuizPro {
 			'course'              => $course_id,
 			'lesson'              => $lesson_id,
 			'topic'               => $topic_id,
-			'points'              => absint( $points ),
-			'total_points'        => absint( $total_points ),
+			'points'              => learndash_format_course_points( $points ),
+			'total_points'        => learndash_format_course_points( $total_points ),
 			'percentage'          => $result,
 			'timespent'           => $timespent,
 			'has_graded'          => ( $has_graded ) ? true : false,
@@ -1302,13 +1386,53 @@ class LD_QuizPro {
 			$quizdata['completed'] = intval( $_POST['results']['comp']['quizEndTimestamp'] / 1000 );
 		}
 
-		if ( ( isset( $quizdata['started'] ) ) && ( ! empty( $quizdata['started'] ) ) && ( isset( $quizdata['completed'] ) ) && ( ! empty( $quizdata['completed'] ) ) ) {
-			$quiz_time_diff  = absint( $quizdata['completed'] ) - absint( $quizdata['started'] );
-			$quiz_time_end   = time();
-			$quiz_time_start = $quiz_time_end - $quiz_time_diff;
+		if (
+			isset( $quizdata['started'] )
+			&& ! empty( $quizdata['started'] )
+			&& isset( $quizdata['completed'] )
+			&& ! empty( $quizdata['completed'] )
+		) {
+			/**
+			 * Preserve the original start timestamp for existing quiz activities to prevent drift.
+			 *
+			 * Drift occurs when timestamps are recalculated using server time: any delay between
+			 * JavaScript sending completion and PHP processing causes the start time to shift forward,
+			 * corrupting the original quiz start time. By preserving the existing activity_started
+			 * timestamp, we maintain accuracy for resumed quizzes while still normalizing new quizzes
+			 * to server time to handle client clock differences.
+			*/
+			$quiz_args = [
+				'course_id'          => $course_id,
+				'user_id'            => $user_id,
+				'post_id'            => $quiz_post_id,
+				'activity_type'      => LDLMS_Post_Types::QUIZ,
+				'activity_completed' => 0,
+			];
 
-			$quizdata['started']   = $quiz_time_start;
-			$quizdata['completed'] = $quiz_time_end;
+			$quiz_activity    = learndash_get_user_activity( $quiz_args );
+			$existing_started = 0;
+
+			if (
+				is_object( $quiz_activity )
+				&& property_exists( $quiz_activity, 'activity_started' )
+				&& ! empty( $quiz_activity->activity_started )
+			) {
+				$existing_started = absint( $quiz_activity->activity_started );
+			}
+
+			if ( ! empty( $existing_started ) ) {
+				// Preserve the original start timestamp from existing activity.
+				$quizdata['started']   = $existing_started;
+				$quizdata['completed'] = time();
+			} else {
+				// No existing activity or invalid timestamp, normalize to server time.
+				$quiz_time_diff  = absint( $quizdata['completed'] ) - absint( $quizdata['started'] );
+				$quiz_time_end   = time();
+				$quiz_time_start = $quiz_time_end - $quiz_time_diff;
+
+				$quizdata['started']   = $quiz_time_start;
+				$quizdata['completed'] = $quiz_time_end;
+			}
 		} else {
 			$quizdata['started']   = 0;
 			$quizdata['completed'] = 0;
@@ -1362,81 +1486,58 @@ class LD_QuizPro {
 			 */
 			do_action( 'learndash_quiz_submitted', $quizdata, get_user_by( 'id', $user_id ) );
 
-			/**
-			 * Changed in 2.6.0. If the quiz has essay type questions that are not
-			 * auto-graded we don't send out the 'learndash_quiz_completed' action.
-			 */
-			$send_quiz_completed = true;
-			if ( ( isset( $quizdata['has_graded'] ) ) && ( true === $quizdata['has_graded'] ) ) {
-				if ( ( isset( $quizdata['graded'] ) ) && ( ! empty( $quizdata['graded'] ) ) ) {
-					foreach ( $quizdata['graded'] as $grade_item ) {
-						if ( ( isset( $grade_item['status'] ) ) && ( $grade_item['status'] !== 'graded' ) ) {
-							$send_quiz_completed = false;
+			if ( ! empty( $course_id ) ) {
+				$quiz_parent_post_id = 0;
+				if ( ! empty( $topic_id ) ) {
+					$quiz_parent_post_id = $topic_id;
+				} elseif ( ! empty( $lesson_id ) ) {
+					$quiz_parent_post_id = $lesson_id;
+				}
+
+				if ( ! empty( $quiz_parent_post_id ) ) {
+					/**
+					 * Filter to set all parent steps completed.
+					 *
+					 * @since 4.2.0
+					 *
+					 * @param boolean $set_all_steps_completed Whether to set all steps completed.
+					 * @param int     $quiz_post_id            Quiz post ID.
+					 * @param int     $user_id                 User ID.
+					 * @param int     $course_id               Course ID.
+					 */
+					if ( apply_filters( 'learndash_complete_all_parent_steps', true, $quiz_post_id, $user_id, $course_id ) ) {
+						if ( ! empty( $topic_id ) ) {
+							if ( learndash_can_complete_step( $user_id, $topic_id, $course_id ) ) {
+								learndash_process_mark_complete( $user_id, $topic_id, false, $course_id );
+							}
 						}
+						if ( ! empty( $lesson_id ) ) {
+							if ( learndash_can_complete_step( $user_id, $lesson_id, $course_id ) ) {
+								learndash_process_mark_complete( $user_id, $lesson_id, false, $course_id );
+							}
+						}
+					} elseif ( learndash_can_complete_step( $user_id, $quiz_parent_post_id, $course_id ) ) {
+							learndash_process_mark_complete( $user_id, $quiz_parent_post_id, false, $course_id );
+					}
+				} else {
+					$all_quizzes_complete = true;
+					$quizzes              = learndash_get_global_quiz_list( $course_id );
+					if ( ! empty( $quizzes ) ) {
+						foreach ( $quizzes as $quiz ) {
+							if ( learndash_is_quiz_notcomplete( $user_id, array( $quiz->ID => 1 ), false, $course_id ) ) {
+								$all_quizzes_complete = false;
+								break;
+							}
+						}
+					}
+					if ( true === $all_quizzes_complete ) {
+						learndash_process_mark_complete( $user_id, $course_id, false, $course_id );
 					}
 				}
 			}
 
-			if ( true === $send_quiz_completed ) {
-				if ( ! empty( $course_id ) ) {
-					$quiz_parent_post_id = 0;
-					if ( ! empty( $topic_id ) ) {
-						$quiz_parent_post_id = $topic_id;
-					} elseif ( ! empty( $lesson_id ) ) {
-						$quiz_parent_post_id = $lesson_id;
-					}
-
-					if ( ! empty( $quiz_parent_post_id ) ) {
-
-						/**
-						 * Filter to set all parent steps completed.
-						 *
-						 * @since 4.2.0
-						 *
-						 * @param boolean $set_all_steps_completed Whether to set all steps completed.
-						 * @param int     $quiz_post_id            Quiz post ID.
-						 * @param int     $user_id                 User ID.
-						 * @param int     $course_id               Course ID.
-						 */
-						if ( apply_filters( 'learndash_complete_all_parent_steps', true, $quiz_post_id, $user_id, $course_id ) ) {
-							if ( ! empty( $topic_id ) ) {
-								if ( learndash_can_complete_step( $user_id, $topic_id, $course_id ) ) {
-									learndash_process_mark_complete( $user_id, $topic_id, false, $course_id );
-								}
-							}
-							if ( ! empty( $lesson_id ) ) {
-								if ( learndash_can_complete_step( $user_id, $lesson_id, $course_id ) ) {
-									learndash_process_mark_complete( $user_id, $lesson_id, false, $course_id );
-								}
-							}
-						} else {
-							if ( learndash_can_complete_step( $user_id, $quiz_parent_post_id, $course_id ) ) {
-								learndash_process_mark_complete( $user_id, $quiz_parent_post_id, false, $course_id );
-							}
-						}
-					} else {
-						$all_quizzes_complete = true;
-						$quizzes              = learndash_get_global_quiz_list( $course_id );
-						if ( ! empty( $quizzes ) ) {
-							foreach ( $quizzes as $quiz ) {
-								if ( learndash_is_quiz_notcomplete( $user_id, array( $quiz->ID => 1 ), false, $course_id ) ) {
-									$all_quizzes_complete = false;
-									break;
-								}
-							}
-						}
-						if ( true === $all_quizzes_complete ) {
-							learndash_process_mark_complete( $user_id, $course_id, false, $course_id );
-						}
-					}
-				}
-
-				/** This action is documented in includes/ld-users.php */
-				do_action( 'learndash_quiz_completed', $quizdata, get_user_by( 'id', $user_id ) );
-			} elseif ( defined( 'LEARNDASH_QUIZ_ESSAY_SUBMIT_COMPLETED' ) && LEARNDASH_QUIZ_ESSAY_SUBMIT_COMPLETED === true ) {
-				/** This action is documented in includes/ld-users.php */
-				do_action( 'learndash_quiz_completed', $quizdata, get_user_by( 'id', $user_id ) );
-			}
+			/** This action is documented in includes/ld-users.php */
+			do_action( 'learndash_quiz_completed', $quizdata, get_user_by( 'id', $user_id ) );
 		}
 
 		$results[ $quiz_pro_id ]['quiz_result_settings'] = array(
@@ -1497,7 +1598,6 @@ class LD_QuizPro {
 	 * @param int $pro_quiz_id WPProQuiz ID.
 	 */
 	public static function certificate_details( $pro_quiz_id = null ) {
-
 		$quiz_post_id = 0;
 
 		if ( is_null( $pro_quiz_id ) ) {
@@ -1555,8 +1655,8 @@ class LD_QuizPro {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param  string $content HTML.
-	 * @param  mixed  $pro_quiz (integer) WPProQuiz ID, (object) WpProQuiz_Model_Quiz.
+	 * @param string $content HTML.
+	 * @param mixed  $pro_quiz (integer) WPProQuiz ID, (object) WpProQuiz_Model_Quiz.
 	 *
 	 * @return string HTML $content or $content concatenated with the certificate link
 	 */
@@ -1710,10 +1810,8 @@ class LD_QuizPro {
 			if ( ! current_user_can( 'edit_page', $post_id ) ) {
 				return;
 			}
-		} else {
-			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
 				return;
-			}
 		}
 
 		$post = get_post( $post_id );
@@ -1764,8 +1862,8 @@ class LD_QuizPro {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param  int $question_id Question ID.
-	 * @param  int $count       Count.
+	 * @param int $question_id Question ID.
+	 * @param int $count       Count.
 	 *
 	 * @return array    Array of MD5 checksum strings
 	 */
@@ -1868,8 +1966,6 @@ class LD_QuizPro {
 	public function learndash_quiz_content( $quiz_content ) {
 		return $quiz_content;
 	}
-
-
 }
 
 new LD_QuizPro();
@@ -1902,7 +1998,6 @@ function learndash_get_non_course_qizzes( $bypass_transient = false ) {
 	}
 
 	if ( false === $global_quiz_ids_transient ) {
-
 		$global_quiz_ids_query_str = "SELECT posts.ID FROM {$wpdb->posts} as posts
 			LEFT JOIN {$wpdb->postmeta} as postmeta1 ON posts.ID = postmeta1.post_id AND postmeta1.meta_key LIKE 'ld_course%'
 			LEFT JOIN {$wpdb->postmeta} as postmeta2 ON posts.ID = postmeta2.post_id AND postmeta2.meta_key = 'course_id'
@@ -1947,7 +2042,6 @@ function learndash_get_open_quizzes( $bypass_transient = false ) {
 	}
 
 	if ( false === $open_quiz_ids_transient ) {
-
 		$global_quiz_ids = learndash_get_non_course_qizzes(); // cspell:disable-line.
 		if ( ! empty( $global_quiz_ids ) ) {
 			$open_quiz_ids_query_str = "SELECT posts.ID FROM {$wpdb->posts} as posts
@@ -2028,10 +2122,8 @@ function learndash_quiz_debug_log_message( $message = '' ) {
 				if ( ! is_writable( dirname( $quiz_debug_error_log_file ) ) ) {
 					return false;
 				}
-			} else {
-				if ( ! is_writable( $quiz_debug_error_log_file ) ) {
+			} elseif ( ! is_writable( $quiz_debug_error_log_file ) ) {
 					return false;
-				}
 			}
 
 			$user_id   = get_current_user_id();

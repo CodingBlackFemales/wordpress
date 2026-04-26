@@ -1,8 +1,19 @@
 <?php
+/**
+ * WP Pro Quiz Controller for Statistics.
+ *
+ * @package LearnDash\Core
+ */
+
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * WP Pro Quiz Controller for Statistics.
+ */
 class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 
 	public function route() {
@@ -280,6 +291,16 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		return $formArray;
 	}
 
+	/**
+	 * Makes the data list.
+	 *
+	 * @param WpProQuiz_Model_Quiz $quiz   The quiz model.
+	 * @param array<mixed>[]       $array  The array of data.
+	 * @param int                  $userId The user ID.
+	 * @param int                  $modus  The quiz modus.
+	 *
+	 * @return array<int, WpProQuiz_Model_Statistic>|false
+	 */
 	private function makeDataList( $quiz, $array, $userId, $modus ) {
 
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
@@ -296,16 +317,14 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			$ids[] = $q['id'];
 			$v     = $array[ $q['id'] ];
 
-			//if(!isset($v) || $v['points'] > $q['points'] || $v['points'] < 0) {
-			//	return false;
-			//}
-
 			if ( ! isset( $v['points'] ) ) {
 				$v['points'] = 0;
 			}
 
-			if ( (int) $v['points'] > (int) $q['points'] ) {
-				$v['points'] = (int) $q['points'];
+			$question_points = learndash_format_course_points( $q['points'] );
+
+			if ( learndash_format_course_points( $v['points'] ) > $question_points ) {
+				$v['points'] = $question_points;
 			}
 
 			if ( $v['points'] < 0 ) {
@@ -365,7 +384,14 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 	}
 
 	/**
-	 * @deprecated
+	 * Ajax callback to load the statistics.
+	 *
+	 * @deprecated *
+	 *
+	 * @param array<mixed> $data Data payload.
+	 * @param mixed        $func Not sure what this is, not used.
+	 *
+	 * @return bool|string The JSON encoded string, or false if it cannot be encoded.
 	 */
 	public static function ajaxLoadStatistic( $data, $func ) {
 		if ( ! current_user_can( 'wpProQuiz_show_statistics' ) ) {
@@ -498,6 +524,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		}
 
 		foreach ( $ca as $catIndex => $cat ) {
+			// @phpstan-ignore-next-line -- legacy code.
 			$ca[ $catIndex ] = self::calcTotal( $cat, $category[ $catIndex ]['points'], $category[ $catIndex ]['sum'] );
 		}
 
@@ -691,6 +718,14 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		return wp_json_encode( $d );
 	}
 
+	/**
+	 * Loads the history for the quiz.
+	 *
+	 * @param array{quizId: int, quiz: int, page?: int, pageLimit: int, users: int, dateFrom: int, dateTo: int, generateNav?: bool} $data Data payload.
+	 * @param mixed                                                                                                                 $func Not sure what this is, not used.
+	 *
+	 * @return false|string The JSON encoded string, or false if it cannot be encoded.
+	 */
 	public static function ajaxLoadHistory( $data, $func ) {
 		if ( ! current_user_can( 'wpProQuiz_show_statistics' ) ) {
 			return wp_json_encode( array() );
@@ -727,8 +762,13 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 				$model->setUserName( __( 'Deleted user', 'learndash' ) );
 			}
 
-			$sum    = $model->getCorrectCount() + $model->getIncorrectCount();
-			$result = round( 100 * $model->getPoints() / $model->getGPoints(), 2 ) . '%';
+			$sum = $model->getCorrectCount() + $model->getIncorrectCount();
+
+			if ( $model->getGPoints() > 0 ) {
+				$result = round( 100 * $model->getPoints() / $model->getGPoints(), 2 );
+			} else {
+				$result = 0;
+			}
 
 			$model->setResult( $result );
 
@@ -767,17 +807,23 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		);
 	}
 
+	/**
+	 * Loads the user statistics for the quiz.
+	 *
+	 * @param array<mixed> $data Data payload.
+	 * @param mixed        $func Not sure what this is, not used.
+	 *
+	 * @return false|string
+	 */
 	public static function ajaxLoadStatisticUser( $data, $func ) {
-
-		// The userId is not passed into this data payload. so for now we set to zero. We will load it via the $statisticRefMapper shortly after
-		//$userId = 0; // intval($data['userId']);
+		$user_id = 0;
 
 		if ( ( isset( $data['statistic_nonce'] ) ) && ( ! empty( $data['statistic_nonce'] ) ) ) {
 			if ( ( isset( $data['userId'] ) ) && ( ! empty( $data['userId'] ) ) ) {
-				$userId = intval( $data['userId'] );
+				$user_id = intval( $data['userId'] );
 			}
 
-			if ( ! wp_verify_nonce( $data['statistic_nonce'], 'statistic_nonce_' . $data['refId'] . '_' . get_current_user_id() . '_' . $userId ) ) {
+			if ( ! wp_verify_nonce( Cast::to_string( $data['statistic_nonce'] ), 'statistic_nonce_' . $data['refId'] . '_' . get_current_user_id() . '_' . $user_id ) ) {
 				return wp_json_encode( array() );
 			}
 		} elseif ( ! current_user_can( 'wpProQuiz_show_statistics' ) ) {
@@ -789,9 +835,9 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			$quizId = absint( $data['quizId'] );
 		}
 
-		$userId = 0;
+		$user_id = 0;
 		if ( isset( $data['userId'] ) ) {
-			$userId = absint( $data['userId'] );
+			$user_id = absint( $data['userId'] );
 		}
 
 		$refId = 0;
@@ -804,12 +850,12 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			$avg = (bool) $data['avg'];
 		}
 
-		$refIdUserId = $avg ? $userId : $refId;
+		$refIdUserId = $avg ? $user_id : $refId; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 
 		$statisticRefMapper = new WpProQuiz_Model_StatisticRefMapper();
 		$statisticModel     = $statisticRefMapper->fetchByRefId( $refIdUserId, $quizId );
 		if ( $statisticModel instanceof WpProQuiz_Model_StatisticRefModel ) {
-			$userId = $statisticModel->getUserId();
+			$user_id = $statisticModel->getUserId(); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		}
 
 		$statisticUserMapper = new WpProQuiz_Model_StatisticUserMapper();
@@ -910,7 +956,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 							// Take the item key and encode it.
 							//$datapos = LD_QuizPro::datapos($questionId, intval($q_k));
 							// We can't call LD_QuizPro::datapos because is uses current_user which will NOT match the statistic user.
-							$datapos = md5( intval( $userId ) . $questionId . intval( $q_k ) );
+							$datapos = md5( intval( $user_id ) . $questionId . intval( $q_k ) ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 
 							// If we find that encoded value in the 'statistcAnswerData' we update the value.
 							$s_pos = array_search( $datapos, $question_item['statistcAnswerData'], true );
@@ -936,9 +982,11 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 						if ( isset( $graded_data['status'] ) ) {
 							if ( 'graded' === $graded_data['status'] ) {
 								if ( isset( $graded_data['points_awarded'] ) ) {
-									$question_item['correct']   = absint( $graded_data['points_awarded'] );
-									$question_item['points']    = absint( $graded_data['points_awarded'] );
-									$question_item['incorrect'] = absint( $question_item['gPoints'] ) - $question_item['correct'];
+									$points_awarded = learndash_format_course_points( $graded_data['points_awarded'] );
+
+									$question_item['correct']   = $points_awarded;
+									$question_item['points']    = $points_awarded;
+									$question_item['incorrect'] = learndash_format_course_points( $question_item['gPoints'] ) - $question_item['correct'];
 									$question_item['result']    = esc_html__( 'Graded', 'learndash' );
 								}
 							} else {

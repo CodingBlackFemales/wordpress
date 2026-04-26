@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-2.0
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\DB\QueryBuilder\Concerns;
 
@@ -46,7 +40,7 @@ trait JoinClause {
 	 *
 	 * @return static
 	 */
-	public function leftJoin( $table, $column1, $column2, $alias = null ) {
+	public function leftJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder
@@ -66,7 +60,7 @@ trait JoinClause {
 	 *
 	 * @return static
 	 */
-	public function innerJoin( $table, $column1, $column2, $alias = null ) {
+	public function innerJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder
@@ -86,7 +80,7 @@ trait JoinClause {
 	 *
 	 * @return static
 	 */
-	public function rightJoin( $table, $column1, $column2, $alias = null ) {
+	public function rightJoin( $table, $column1, $column2, $alias = '' ) {
 		$this->join(
 			function ( JoinQueryBuilder $builder ) use ( $table, $column1, $column2, $alias ) {
 				$builder

@@ -46,19 +46,7 @@ trait Supports_Steps_Context {
 	 * @return array<string, mixed>
 	 */
 	protected static function build_steps_context( Models\Post $model ): array {
-		$is_enrolled = false;
-
-		if ( $model instanceof Interfaces\Product ) {
-			$is_enrolled = $model->get_product()->user_has_access( wp_get_current_user() );
-		} elseif ( $model instanceof Interfaces\Course_Step ) { // @phpstan-ignore-line -- it can be used in other classes.
-			$course = $model->get_course();
-			if ( $course ) {
-				$is_enrolled = $course->get_product()->user_has_access( wp_get_current_user() );
-			}
-		}
-
-		return [
-			'is_enrolled' => $is_enrolled,
-		];
+		// TODO: Implement this method.
+		return [];
 	}
 }
