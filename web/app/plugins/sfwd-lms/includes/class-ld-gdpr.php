@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 	/**
 	 * Class to handle GDPR
@@ -87,7 +89,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 		 */
 		public function add_exporters( array $exporters = array() ): array {
 			$exporters['learndash-transactions'] = array(
-				'exporter_friendly_name' => esc_html__( 'LearnDash LMS Transactions', 'learndash' ),
+				'exporter_friendly_name' => sprintf(
+					// Translators: %s: Orders label.
+					esc_html__( 'LearnDash LMS %s', 'learndash' ),
+					learndash_get_custom_label( 'orders' )
+				),
 				'callback'               => array( $this, 'export_transactions' ),
 			);
 
@@ -163,7 +169,14 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 				'callback'               => array( $this, 'export_course_progress' ),
 			);
 
-			return $exporters;
+			/**
+			 * Filters LearnDash GDPR Exporters.
+			 *
+			 * @since 4.7.0.1
+			 *
+			 * @param array<string, array{ exporter_friendly_name: string, callback: callback }> $exporters Array of Exporters.
+			 */
+			return apply_filters( 'learndash_privacy_export_exporters', $exporters );
 		}
 
 		/**
@@ -186,6 +199,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page privacy export transactions.
 			 *
+			 * @since 2.5.8
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$number = apply_filters( 'learndash_privacy_export_transactions_per_page', $this->per_page_default );
@@ -206,6 +221,10 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			$transaction_to_export = array();
 
 			foreach ( $transactions_query->posts as $transaction ) {
+				if ( ! $transaction instanceof WP_Post ) {
+					continue;
+				}
+
 				$transaction_meta_data   = array();
 				$transaction_meta_fields = array();
 
@@ -213,7 +232,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 				if ( 'stripe' === $transaction_type ) {
 					$transaction_meta_data[] = array(
-						'name'  => __( 'Transaction Type', 'learndash' ),
+						'name'  => sprintf(
+							// Translators: %s: Order label.
+							esc_html__( '%s Type', 'learndash' ),
+							learndash_get_custom_label( 'order' )
+						),
 						'value' => __( 'Stripe', 'learndash' ),
 					);
 
@@ -238,7 +261,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 					if ( ! empty( $transaction_type ) ) {
 
 						$transaction_meta_data[] = array(
-							'name'  => __( 'Transaction Type', 'learndash' ),
+							'name'  => sprintf(
+								// Translators: %s: Order label.
+								esc_html__( '%s Type', 'learndash' ),
+								learndash_get_custom_label( 'order' )
+							),
 							'value' => __( 'PayPal', 'learndash' ),
 						);
 
@@ -273,7 +300,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 					if ( '2co' === $transaction_type ) {
 						$transaction_meta_data[] = array(
-							'name'  => __( 'Transaction Type', 'learndash' ),
+							'name'  => sprintf(
+								// Translators: %s: Order label.
+								esc_html__( '%s Type', 'learndash' ),
+								learndash_get_custom_label( 'order' )
+							),
 							'value' => __( '2Checkout', 'learndash' ),
 						);
 
@@ -341,7 +372,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 					if ( ! empty( $order_ip_address ) ) {
 						$transaction_meta_data[] = array(
-							'name'  => __( 'Transaction Type', 'learndash' ),
+							'name'  => sprintf(
+								// Translators: %s: Order label.
+								esc_html__( '%s Type', 'learndash' ),
+								learndash_get_custom_label( 'order' )
+							),
 							'value' => __( 'Samcart', 'learndash' ),
 						);
 
@@ -394,7 +429,7 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 					$transaction_meta_data[] = array(
 						'name'  => __( 'Order Date', 'learndash' ),
-						'value' => learndash_adjust_date_time_display( strtotime( $transaction->post_date ) ),
+						'value' => learndash_adjust_date_time_display( (int) strtotime( $transaction->post_date_gmt ) ),
 					);
 
 					foreach ( $transaction_meta_fields as $meta_key => $meta_set ) {
@@ -409,7 +444,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 					$transaction_to_export[] = array(
 						'group_id'    => 'ld-transactions',
-						'group_label' => __( 'LearnDash LMS Purchase Transactions', 'learndash' ),
+						'group_label' => sprintf(
+							// Translators: %s: Orders label.
+							__( 'LearnDash LMS %s', 'learndash' ),
+							learndash_get_custom_label( 'orders' )
+						),
 						'item_id'     => "ld-transactions-{$transaction->ID}",
 						'data'        => $transaction_meta_data,
 					);
@@ -442,6 +481,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page export for course assignments.
 			 *
+			 * @since 4.1.0
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$posts_per_page = apply_filters( 'learndash_privacy_export_assignments_per_page', $this->per_page_default );
@@ -462,6 +503,10 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			$assignments_to_export = array();
 
 			foreach ( $assignments_query->posts as $assignment ) {
+				if ( ! $assignment instanceof WP_Post ) {
+					continue;
+				}
+
 				$assignment_meta_data = array();
 
 				$assignment_url         = get_permalink( $assignment->ID );
@@ -472,7 +517,7 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 				$assignment_meta_data[] = array(
 					'name'  => __( 'Date', 'learndash' ),
-					'value' => learndash_adjust_date_time_display( strtotime( $assignment->post_date ) ),
+					'value' => learndash_adjust_date_time_display( (int) strtotime( $assignment->post_date_gmt ) ),
 				);
 
 				$course_id = get_post_meta( $assignment->ID, 'course_id', true );
@@ -536,6 +581,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page export for quiz essays.
 			 *
+			 * @since 2.5.8
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$number = apply_filters( 'learndash_privacy_export_quiz_essays_per_page', $this->per_page_default );
@@ -556,6 +603,10 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			$essays_to_export = array();
 
 			foreach ( $essays_query->posts as $essay ) {
+				if ( ! $essay instanceof WP_Post ) {
+					continue;
+				}
+
 				$essay_meta_data = array();
 
 				$essay_url = get_permalink( $essay->ID );
@@ -569,7 +620,7 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 				$essay_meta_data[] = array(
 					'name'  => __( 'Date', 'learndash' ),
-					'value' => learndash_adjust_date_time_display( strtotime( $essay->post_date ) ),
+					'value' => learndash_adjust_date_time_display( (int) strtotime( $essay->post_date_gmt ) ),
 				);
 
 				$course_id = get_post_meta( $essay->ID, 'course_id', true );
@@ -638,6 +689,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 			/**
 			 * Filters value of per page export for enrolled groups.
+			 *
+			 * @since 4.1.0
 			 *
 			 * @param int $per_page_default Per page limit.
 			 */
@@ -714,6 +767,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 			/**
 			 * Filters value of per page export for enrolled courses.
+			 *
+			 * @since 4.1.0
 			 *
 			 * @param int $per_page_default Per page limit.
 			 */
@@ -806,6 +861,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page export for course certificates.
 			 *
+			 * @since 4.1.0
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$posts_per_page = apply_filters(
@@ -890,6 +947,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page export for quiz certificates.
 			 *
+			 * @since 4.1.0
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$posts_per_page = apply_filters(
@@ -972,6 +1031,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 			/**
 			 * Filters value of per page export for group certificates.
 			 *
+			 * @since 4.1.0
+			 *
 			 * @param int $per_page_default Per page limit.
 			 */
 			$posts_per_page = apply_filters(
@@ -1036,7 +1097,15 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 		 * @param string $email_address Email Address of user to export.
 		 * @param int    $page          Page number of export.
 		 *
-		 * @return array
+		 * @return array{
+		 *     data: array{}|array{
+		 *         item_id: string,
+		 *         group_id: string,
+		 *         group_label: string,
+		 *         data: array{ name: string, value: string }[],
+		 *     },
+		 *     done: bool,
+		 * }
 		 */
 		public function export_course_progress( string $email_address, int $page ): array {
 			$user = $this->get_user_by_email( $email_address );
@@ -1045,146 +1114,197 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 				return self::DEFAULT_EXPORTER_RESULT;
 			}
 
-			/**
-			 * Filters value of per page export for group certificates.
-			 *
-			 * @param int $per_page_default Per page limit.
-			 */
-			$posts_per_page = apply_filters(
-				'learndash_privacy_export_course_progress_per_page',
-				$this->per_page_default
+			$course_progress = get_user_meta( $user->ID, '_sfwd-course_progress', true );
+			$course_progress = empty( $course_progress ) ? [] : (array) $course_progress;
+
+			$course_progress_ids = array_diff(
+				array_merge(
+					ld_get_mycourses( $user->ID ),
+					array_keys( $course_progress )
+				),
+				learndash_get_expired_user_courses_from_meta( $user->ID )
 			);
 
-			$courses_registered_all = ld_get_mycourses( $user->ID );
+			if ( empty( $course_progress_ids ) ) {
+				return self::DEFAULT_EXPORTER_RESULT;
+			}
 
-			$courses_registered_query_args = array(
-				'post_type'      => 'sfwd-courses',
-				'fields'         => 'ids',
-				'post__in'       => $courses_registered_all,
-				'posts_per_page' => $posts_per_page,
-				'paged'          => $page,
+			$course_progress_query = new WP_Query(
+				[
+					'post_type'      => LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::COURSE ),
+					'fields'         => 'ids',
+					'post__in'       => $course_progress_ids,
+					/**
+					 * Filters value of per page export for course progress.
+					 *
+					 * @since 4.1.0
+					 *
+					 * @param int $per_page_default Per page limit.
+					 */
+					'posts_per_page' => apply_filters(
+						'learndash_privacy_export_course_progress_per_page',
+						$this->per_page_default
+					),
+					'paged'          => $page,
+				]
 			);
 
-			$usermeta        = get_user_meta( $user->ID, '_sfwd-course_progress', true );
-			$course_progress = empty( $usermeta ) ? array() : $usermeta;
-
-			$course_progress_ids = array_merge( $courses_registered_all, array_keys( $course_progress ) );
-			$course_progress_ids = array_diff( $course_progress_ids, learndash_get_expired_user_courses_from_meta( $user->ID ) );
-
-			$course_progress_query_args = array(
-				'post_type'      => 'sfwd-courses',
-				'fields'         => 'ids',
-				'post__in'       => $course_progress_ids,
-				'posts_per_page' => $posts_per_page,
-				'paged'          => $page,
+			$found_course_ids = array_map(
+				function( $course_id ) {
+					return Cast::to_int( $course_id );
+				},
+				$course_progress_query->posts
 			);
 
-			$course_progress_query = new WP_Query( $course_progress_query_args );
-
-			$course_p        = $course_progress;
-			$course_progress = array();
-			foreach ( $course_progress_query->posts as $course_id ) {
-				if ( isset( $course_p[ $course_id ] ) ) {
-					$course_progress[ $course_id ] = $course_p[ $course_id ];
-				} else {
-					$course_progress[ $course_id ] = array();
+			foreach ( $found_course_ids as $course_id ) {
+				if ( ! isset( $course_progress[ $course_id ] ) ) {
+					$course_progress[ $course_id ] = [];
 				}
 			}
+
+			$course_progress = array_intersect_key( $course_progress, array_flip( $found_course_ids ) );
 
 			if ( empty( $course_progress ) ) {
 				return self::DEFAULT_EXPORTER_RESULT;
 			}
 
-			$data = array();
+			$courses_data = [];
 
-			foreach ( $course_progress as $course_id => $coursep ) {
-				$progress_summary = learndash_user_get_course_progress( $user->ID, $course_id, 'summary' );
-				$status           = learndash_course_status_label( $progress_summary['status'] );
-				$completed        = ( ! empty( $coursep['completed'] ) ? $coursep['completed'] : '0' );
+			foreach ( $course_progress as $course_id => $course_progress_data ) {
+				$topics  = [];
+				$lessons = [];
 
-				$lessons = array();
+				if ( ! empty( $course_progress_data['lessons'] ) ) {
+					foreach ( $course_progress_data['lessons'] as $lesson_id => $lesson_status ) {
+						$lesson_data = [
+							'name'  => sprintf(
+								// translators: placeholder: Lesson label, Lesson title.
+								esc_html_x( '%1$s: %2$s', 'placeholder: Lesson label, Lesson title', 'learndash' ),
+								LearnDash_Custom_Label::get_label( 'lesson' ),
+								get_the_title( (int) $lesson_id )
+							),
+							'value' => true === (bool) $lesson_status
+								? esc_html_x( 'Completed', 'Completed lesson', 'learndash' )
+								: esc_html_x( 'Not completed', 'Not completed lesson', 'learndash' ),
+						];
 
-				if ( ! empty( $coursep['lessons'] ) ) {
-					foreach ( $coursep['lessons'] as $lesson_id => $status ) {
-						$title = sprintf(
-							// translators: placeholder: Lesson.
-							esc_html_x( '%s: ', 'placeholder: Lesson', 'learndash' ),
-							LearnDash_Custom_Label::get_label( 'lesson' )
-						) . get_the_title( $lesson_id );
-						$status = ( true === (bool) $status ? 'Completed' : 'Not Completed' );
-
-						$lessons[] = array(
-							'name'  => $title,
-							'value' => $status,
+						/**
+						 * Filters lesson progress data on GDPR export.
+						 *
+						 * @since 4.7.0.1
+						 *
+						 * @param array{ name: string, value: string } $lesson_data Lesson data.
+						 * @param int                                  $lesson_id   Lesson ID.
+						 * @param int                                  $course_id   Course ID.
+						 * @param int                                  $user_id     User ID.
+						 */
+						$lessons[] = apply_filters(
+							'learndash_privacy_export_lesson_progress_data',
+							$lesson_data,
+							$lesson_id,
+							$course_id,
+							$user->ID
 						);
 					}
 				}
 
-				$topics = array();
+				if ( ! empty( $course_progress_data['topics'] ) ) {
+					foreach ( $course_progress_data['topics'] as $lesson_id ) {
+						foreach ( $lesson_id as $topic_id => $topic_status ) {
+							$topic_data = [
+								'name'  => sprintf(
+									// translators: placeholder: Topic label, Topic title.
+									esc_html_x( '%1$s: %2$s', 'placeholder: Topic label, Topic title', 'learndash' ),
+									LearnDash_Custom_Label::get_label( 'topic' ),
+									get_the_title( (int) $topic_id )
+								),
+								'value' => true === (bool) $topic_status
+									? esc_html_x( 'Completed', 'Completed topic', 'learndash' )
+									: esc_html_x( 'Not completed', 'Not completed topic', 'learndash' ),
+							];
 
-				if ( ! empty( $course_progress[ $course_id ]['topics'] ) ) {
-					foreach ( $course_progress[ $course_id ]['topics'] as $lesson_id ) {
-						foreach ( $lesson_id as $topic_id => $status ) {
-							$title = sprintf(
-								// translators: placeholder: Topic.
-								esc_html_x( '%s: ', 'placeholder: Topic', 'learndash' ),
-								LearnDash_Custom_Label::get_label( 'topic' )
-							) . get_the_title( $topic_id );
-							$status = ( true === (bool) $status ? 'Completed' : 'Not Completed' );
-
-							$topics[] = array(
-								'name'  => $title,
-								'value' => $status,
+							/**
+							 * Filters topic progress data on GDPR export.
+							 *
+							 * @since 4.7.0.1
+							 *
+							 * @param array{ name: string, value: string } $topic_data Topic data.
+							 * @param int                                  $topic_id   Topic ID.
+							 * @param int                                  $lesson_id  Lesson ID.
+							 * @param int                                  $course_id  Course ID.
+							 * @param int                                  $user_id    User ID.
+							 */
+							$topics[] = apply_filters(
+								'learndash_privacy_export_topic_progress_data',
+								$topic_data,
+								$topic_id,
+								$lesson_id,
+								$course_id,
+								$user->ID
 							);
 						}
 					}
 				}
 
-				$data[]                    = array(
-					'group_id'    => 'learndash-course-progress',
-					'group_label' => sprintf(
-						// translators: placeholder: Course.
-						esc_html_x( 'LearnDash LMS %s Progress', 'placeholder: Course', 'learndash' ),
-						LearnDash_Custom_Label::get_label( 'course' )
-					),
-					'item_id'     => "learndash-course-progress-{$course_id}",
-					'data'        => array(
-						array(
-							'name'  => LearnDash_Custom_Label::get_label( 'course' ),
-							'value' => get_the_title( $course_id ),
-						),
-						array(
-							'name'  => sprintf(
-								// translators: placeholder: Course.
-								esc_html_x( '%s ID', 'placeholder: Course', 'learndash' ),
-								LearnDash_Custom_Label::get_label( 'course' )
-							),
-							'value' => absint( $course_id ),
-						),
-						array(
-							'name'  => __( 'URL', 'learndash' ),
-							'value' => get_permalink( $course_id ),
-						),
-						array(
-							'name'  => __( 'Status', 'learndash' ),
-							'value' => $status,
-						),
-						array(
-							'name'  => __( 'Steps Completed', 'learndash' ),
-							'value' => $progress_summary['completed'] . ' / ' . $progress_summary['total'],
-						),
-					),
-				);
-				$data_idx                  = count( $data ) - 1;
-				$steps_progress            = array_merge( $lessons, $topics );
-				$data[ $data_idx ]['data'] = array_merge( $data[ $data_idx ]['data'], $steps_progress );
+				$progress_summary = learndash_user_get_course_progress( $user->ID, $course_id, 'summary' );
 
+				$course_data = [
+					[
+						'name'  => LearnDash_Custom_Label::get_label( 'course' ),
+						'value' => get_the_title( $course_id ),
+					],
+					[
+						'name'  => sprintf(
+							// translators: placeholder: Course.
+							esc_html_x( '%s ID', 'placeholder: Course', 'learndash' ),
+							LearnDash_Custom_Label::get_label( 'course' )
+						),
+						'value' => absint( $course_id ),
+					],
+					[
+						'name'  => __( 'URL', 'learndash' ),
+						'value' => get_permalink( $course_id ),
+					],
+					[
+						'name'  => __( 'Status', 'learndash' ),
+						'value' => learndash_course_status_label( $progress_summary['status'] ),
+					],
+					[
+						'name'  => __( 'Steps Completed', 'learndash' ),
+						'value' => $progress_summary['completed'] . ' / ' . $progress_summary['total'],
+					],
+				];
+
+				/**
+				 * Filters course progress data on GDPR export.
+				 *
+				 * @since 4.7.0.1
+				 *
+				 * @param array{ item_id: string, group_id: string, group_label: string, data: array{ name: string, value: mixed }[] } $course_data Course progress data.
+				 * @param int                                                                                                          $course_id   Course ID.
+				 * @param int                                                                                                          $user_id     User ID.
+				 */
+				$courses_data[] = apply_filters(
+					'learndash_privacy_export_course_progress_data',
+					[
+						'item_id'     => "learndash-course-progress-{$course_id}",
+						'group_id'    => 'learndash-course-progress',
+						'group_label' => sprintf(
+							// translators: placeholder: Course label.
+							esc_html_x( 'LearnDash LMS %s Progress', 'placeholder: Course', 'learndash' ),
+							LearnDash_Custom_Label::get_label( 'course' )
+						),
+						'data'        => array_merge( $course_data, $lessons, $topics ),
+					],
+					$course_id,
+					$user->ID
+				);
 			}
 
-			return array(
-				'data' => $data,
+			return [
+				'data' => $courses_data,
 				'done' => $page >= $course_progress_query->max_num_pages,
-			);
+			];
 		}
 
 		/**
@@ -1198,7 +1318,11 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 		 */
 		public function add_erasers( array $erasers = array() ): array {
 			$erasers[] = array(
-				'eraser_friendly_name' => esc_html__( 'LearnDash LMS Transactions', 'learndash' ),
+				'eraser_friendly_name' => sprintf(
+					// Translators: %s: Orders label.
+					esc_html__( 'LearnDash LMS %s', 'learndash' ),
+					learndash_get_custom_label( 'orders' )
+				),
 				'callback'             => array( $this, 'erase_transactions' ),
 			);
 
@@ -1253,6 +1377,8 @@ if ( ! class_exists( 'LearnDash_GDPR' ) ) {
 
 			/**
 			 * Filters value of per page erase transactions.
+			 *
+			 * @since 2.5.8
 			 *
 			 * @param int $per_page_default Per page limit.
 			 */

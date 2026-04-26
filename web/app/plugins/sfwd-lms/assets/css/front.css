@@ -167,6 +167,7 @@ ul.responses li.correct p span {
 
 .checkout-dropdown-button .btn-join,
 .checkout-dropdown-button #btn-join,
+.checkout-dropdown-button form button[type="submit"],
 .checkout-dropdown-button form input[type="submit"] {
  background-color: #FFFFFF !important;
  color: #333333 !important;
@@ -174,6 +175,7 @@ ul.responses li.correct p span {
 
 .checkout-dropdown-button .btn-join:hover,
 .checkout-dropdown-button #btn-join:hover,
+.checkout-dropdown-button form button[type="submit"]:hover,
 .checkout-dropdown-button form input[type="submit"]:hover {
  background-color: #F5F5F5 !important;
  color: #000000 !important;

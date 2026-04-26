@@ -285,7 +285,10 @@ function learndash_login_shortcode( $atts = array(), $content = '' ) {
 
 		echo '</a></div>';
 
-		if ( ! in_array( get_post_type(), learndash_get_post_types( 'course' ), true ) && ! is_user_logged_in() && 'yes' === $atts['login_model'] ) {
+		if (
+			! is_user_logged_in()
+			&& 'yes' === $atts['login_model'] // Typo: login_model should be login_modal. Kept for backward compatibility.
+		) {
 			learndash_load_login_modal_html();
 		}
 

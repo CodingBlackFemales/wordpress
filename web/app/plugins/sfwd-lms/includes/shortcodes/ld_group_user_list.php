@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -44,12 +46,35 @@ function learndash_group_user_list( $attr = array(), $content = '', $shortcode_s
 
 	$attr['group_post'] = null;
 	if ( ! empty( $attr['group_id'] ) ) {
+		// Check post access.
+		if (
+			! learndash_shortcode_can_current_user_access_post(
+				Cast::to_int( $attr['group_id'] )
+			)
+		) {
+			return '';
+		}
+
+		$attr['group_id']   = Cast::to_int( $attr['group_id'] );
 		$attr['group_post'] = get_post( $attr['group_id'] );
 		if ( ( $attr['group_post'] ) && ( is_a( $attr['group_post'], 'WP_Post' ) ) && ( learndash_get_post_type_slug( 'group' ) === $attr['group_post']->post_type ) ) {
 
 			$current_user = wp_get_current_user();
 
-			if ( ( ! learndash_is_admin_user( $current_user ) ) && ( ! learndash_is_group_leader_user( $current_user ) ) ) {
+			$is_allowed_to_view = learndash_is_admin_user( $current_user );
+
+			if (
+				! $is_allowed_to_view
+				&& learndash_is_group_leader_user( $current_user )
+				&& (
+					learndash_get_group_leader_manage_groups() === 'advanced'
+					|| in_array( $attr['group_id'], learndash_get_administrators_group_ids( $current_user->ID ), true )
+				)
+			) {
+				$is_allowed_to_view = true;
+			}
+
+			if ( ! $is_allowed_to_view ) {
 				return sprintf(
 					// translators: placeholder: Group.
 					esc_html_x( 'Please login as a %s Administrator', 'placeholder: Group', 'learndash' ),
@@ -59,6 +84,8 @@ function learndash_group_user_list( $attr = array(), $content = '', $shortcode_s
 
 			$users = learndash_get_groups_users( $attr['group_id'] );
 			if ( ! empty( $users ) ) {
+				$level = ob_get_level();
+				ob_start();
 				?>
 				<table cellspacing="0" class="wp-list-table widefat fixed groups_user_table">
 				<thead>
@@ -106,6 +133,7 @@ function learndash_group_user_list( $attr = array(), $content = '', $shortcode_s
 				</tbody>
 				</table>
 				<?php
+				return learndash_ob_get_clean( $level );
 			} else {
 				return esc_html__( 'No users.', 'learndash' );
 			}

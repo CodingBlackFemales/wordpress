@@ -108,6 +108,11 @@ if ( ( ! class_exists( 'Learndash_Admin_Data_Reports_Quizzes' ) ) && ( class_exi
 				'class'    => get_class( $this ),
 				'instance' => $this,
 				'slug'     => $this->data_slug,
+				'text'     => sprintf(
+					// Translators: placeholders: Custom Quiz Label.
+					__( 'Export User %s Data', 'learndash' ),
+					learndash_get_custom_label( 'quiz' )
+				),
 			);
 
 			$this->set_report_headers();

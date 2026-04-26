@@ -19,8 +19,8 @@ import {
  */
 import { __, _x, sprintf} from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl, PanelRow } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, RangeControl, SelectControl, TextControl, ToggleControl, PanelRow, Disabled } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from "@wordpress/element";
 
@@ -47,6 +47,7 @@ registerBlockType(block_key, {
 	supports: {
 		customClassName: false,
 	},
+	apiVersion: 3,
 	attributes: {
 		orderby: {
 			type: "string",
@@ -180,6 +181,8 @@ registerBlockType(block_key, {
 			},
 			setAttributes,
 		} = props;
+
+		const blockProps = useBlockProps();
 
 		let field_show_content = "";
 		let field_show_thumbnail = "";
@@ -812,10 +815,14 @@ registerBlockType(block_key, {
 			}
 		}
 
-		return [
-			inspectorControls,
-			useMemo(() => do_serverside_render(props.attributes), [props.attributes]),
-		];
+		return (
+			<div { ...blockProps }>
+				{ inspectorControls }
+				<Disabled>
+					{ useMemo(() => do_serverside_render(props.attributes), [props.attributes]) }
+				</Disabled>
+			</div>
+		);
 	},
 
 	save: (props) => {

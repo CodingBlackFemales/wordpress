@@ -18,7 +18,6 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 	 * @uses LDLMS_Model
 	 */
 	class LDLMS_Model_Exam extends LDLMS_Model_Post {
-
 		/**
 		 * User ID.
 		 *
@@ -242,10 +241,13 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 		 * @return int Returns the count of valid questions.
 		 */
 		public function get_questions_count() {
+			$this->load_question_models_from_post_content();
+
 			$questions_total = 0;
+
 			foreach ( $this->question_models as $question_model ) {
 				if ( true === $question_model->is_valid ) {
-					$questions_total++;
+					++$questions_total;
 				}
 			}
 
@@ -296,7 +298,6 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			if ( ( isset( $_POST['exam-nonce'] ) ) && ( ! empty( $_POST['exam-nonce'] ) ) && ( wp_verify_nonce( $_POST['exam-nonce'], $this->get_nonce_key() ) ) ) {
-
 				$this->student_submit_data = array();
 
 				if ( ! isset( $_POST['exam_id'] ) ) {
@@ -361,7 +362,6 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 					$question_model->question_grade( $this->student_submit_data );
 				}
 			}
-
 		}
 
 		/**
@@ -383,10 +383,10 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 						continue;
 					}
 
-					$questions_total++;
+					++$questions_total;
 
 					if ( ( true === $question_model->is_graded ) && ( true === $question_model->get_grade ) ) {
-						$questions_correct++;
+						++$questions_correct;
 					}
 				}
 
@@ -470,7 +470,6 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 					$this->post->ID,
 					$exam_status_slug
 				);
-
 			} else {
 				// If the exam is not graded then there are not values to set here.
 				$exam_result_button['button_label'] = '';
@@ -577,7 +576,7 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 										$this->question_models[ $question_block_idx ] = $ld_exam_question_object;
 									}
 
-									$question_block_idx++;
+									++$question_block_idx;
 								}
 							}
 						}
@@ -649,7 +648,7 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 						continue;
 					}
 
-					$exam_meta['questions_count']++;
+					++$exam_meta['questions_count'];
 
 					$question_block_meta = array(
 						'question_type'    => $question_model->question_type,
@@ -660,7 +659,7 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 					);
 
 					if ( true === $question_block_meta['question_grade'] ) {
-						$exam_meta['questions_correct']++;
+						++$exam_meta['questions_correct'];
 					}
 
 					$question_block = $question_model->get_block;
@@ -683,7 +682,6 @@ if ( ( class_exists( 'LDLMS_Model_Post' ) ) && ( ! class_exists( 'LDLMS_Model_Ex
 				}
 
 				$exam_meta['questions'] = $exam_questions_meta;
-
 			}
 
 			return $exam_meta;

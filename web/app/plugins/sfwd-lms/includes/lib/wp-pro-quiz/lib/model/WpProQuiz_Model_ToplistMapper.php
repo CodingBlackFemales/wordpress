@@ -1,8 +1,17 @@
 <?php
+/**
+ * Quiz top list mapper.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Quiz top list mapper class.
+ */
 class WpProQuiz_Model_ToplistMapper extends WpProQuiz_Model_Mapper {
 
 	public function countFree( $quizId, $name, $email, $ip, $clearTime = null ) {
@@ -54,8 +63,15 @@ class WpProQuiz_Model_ToplistMapper extends WpProQuiz_Model_Mapper {
 		);
 	}
 
+	/**
+	 * Saves the top list object to the database.
+	 *
+	 * @param WpProQuiz_Model_Toplist $toplist The top list object.
+	 *
+	 * @return void
+	 */
 	public function save( WpProQuiz_Model_Toplist $toplist ) {
-		$result = $this->_wpdb->insert(
+		$this->_wpdb->insert(
 			$this->_tableToplist,
 			array(
 				'quiz_id' => $toplist->getQuizId(),
@@ -67,7 +83,7 @@ class WpProQuiz_Model_ToplistMapper extends WpProQuiz_Model_Mapper {
 				'result'  => $toplist->getResult(),
 				'ip'      => $toplist->getIp(),
 			),
-			array( '%d', '%d', '%d', '%s', '%s', '%d', '%f', '%s' )
+			array( '%d', '%d', '%d', '%s', '%s', '%.2f', '%f', '%s' )
 		);
 
 		$toplist->setToplistId( $this->_wpdb->insert_id );
@@ -83,6 +99,14 @@ class WpProQuiz_Model_ToplistMapper extends WpProQuiz_Model_Mapper {
 			)
 		);
 	}
+
+	/**
+	 * Fetches the top list with arguments.
+	 *
+	 * @param array<mixed> $args Arguments.
+	 *
+	 * @return WpProQuiz_Model_Toplist[]
+	 */
 	public function fetchWithArgs( $args = array() ) {
 		$s     = '';
 		$r     = array();
@@ -111,7 +135,7 @@ class WpProQuiz_Model_ToplistMapper extends WpProQuiz_Model_Mapper {
 
 		switch ( $args['sort'] ) {
 			case WpProQuiz_Model_Quiz::QUIZ_TOPLIST_SORT_BEST:
-				$s = 'ORDER BY result DESC';
+				$s = 'ORDER BY result DESC, points DESC';
 				break;
 			case WpProQuiz_Model_Quiz::QUIZ_TOPLIST_SORT_NEW:
 				$s = 'ORDER BY date DESC';

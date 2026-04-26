@@ -196,9 +196,6 @@ if ( ( ! class_exists( 'LD_REST_Courses_Steps_Controller_V1' ) ) && ( class_exis
 							$this->enrolled_courses = array( $course_id );
 							return true;
 						}
-					} else {
-						// If user has enrolled courses but not requesting a specific course then good to go.
-						return true;
 					}
 				}
 			}

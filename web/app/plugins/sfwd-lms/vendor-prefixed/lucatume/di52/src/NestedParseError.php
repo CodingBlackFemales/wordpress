@@ -1,23 +1,18 @@
 <?php
+
 /**
  * Class used to handle the special case of a parse error in a nested dependency
  * and bubble its nature up.
  *
  * @package StellarWP\Learndash\lucatume\DI52;
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52;
 
 use Throwable;
-
 /**
  * Class NestedParseError.
  *
- * @package StellarWP\Learndash\lucatume\DI52;
+ * @package \StellarWP\Learndash\lucatume\DI52;
  */
 class NestedParseError extends \Exception
 {
@@ -27,14 +22,12 @@ class NestedParseError extends \Exception
      * @var string
      */
     private $type;
-
     /**
      * The name of the entity being loaded.
      *
      * @var string
      */
     private $name;
-
     /**
      * NestedParseError constructor.
      *
@@ -50,7 +43,6 @@ class NestedParseError extends \Exception
         $this->type = $type;
         $this->name = $name;
     }
-
     /**
      * Returns the type of the entity being loaded.
      *
@@ -60,7 +52,6 @@ class NestedParseError extends \Exception
     {
         return $this->type;
     }
-
     /**
      * Returns the name of the entity being loaded.
      *

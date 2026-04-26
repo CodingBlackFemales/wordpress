@@ -6,6 +6,7 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Models\Invoice;
 use LearnDash\Core\Models\Transaction;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -243,87 +244,15 @@ function learndash_emails_send( string $user_email = '', array $email_args = arr
 add_action(
 	'learndash_transaction_created',
 	function ( int $transaction_id ): void {
-		$email_setting = LearnDash_Settings_Section_Emails_Purchase_Invoice::get_section_settings_all();
-
-		if ( 'on' !== $email_setting['enabled'] ) {
-			return;
-		}
-
 		$transaction = Transaction::find( $transaction_id );
 
-		if ( ! $transaction ) {
+		if ( ! $transaction instanceof Transaction ) {
 			return;
 		}
 
-		$user    = $transaction->get_user();
-		$product = $transaction->get_product();
+		$invoice = Invoice::create_from_transaction( $transaction );
 
-		if ( 0 === $user->ID || ! $product ) {
-			return;
-		}
-
-		$product_id = $product->get_id();
-
-		$placeholders = array(
-			'{user_login}'   => $user->user_login,
-			'{first_name}'   => $user->user_firstname,
-			'{last_name}'    => $user->user_lastname,
-			'{display_name}' => $user->display_name,
-			'{user_email}'   => $user->user_email,
-			'{post_title}'   => $transaction->get_product_name(),
-		);
-
-		/**
-		 * Filters purchase email placeholders.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param array $placeholders Array of email placeholders and values.
-		 * @param int   $user         User Object.
-		 * @param int   $product_id   Transaction Product ID.
-		 */
-		$placeholders = apply_filters( 'learndash_purchase_invoice_email_placeholders', $placeholders, $user->ID, $product_id );
-
-		/**
-		 * Filters purchase invoice email subject.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $email_subject Email subject text.
-		 * @param int    $user          User Object.
-		 * @param int    $product_id    Transaction Product ID.
-		 */
-		$email_setting['subject'] = apply_filters( 'learndash_purchase_invoice_email_subject', $email_setting['subject'], $user->ID, $product_id );
-
-		if ( ! empty( $email_setting['subject'] ) ) {
-			$email_setting['subject'] = learndash_emails_parse_placeholders( $email_setting['subject'], $placeholders );
-		}
-
-		/**
-		 * Filters purchase invoice email message.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $email_message Email message text.
-		 * @param int    $user          User Object.
-		 * @param int    $product_id    Transaction Product ID.
-		 */
-		$email_setting['message'] = apply_filters( 'learndash_purchase_invoice_email_message', $email_setting['message'], $user->ID, $product_id );
-
-		if ( ! empty( $email_setting['message'] ) ) {
-			$email_setting['message'] = learndash_emails_parse_placeholders( $email_setting['message'], $placeholders );
-		}
-
-		$pdf = learndash_generate_purchase_invoice( $transaction_id );
-
-		if ( ! empty( $email_setting['subject'] ) && ( ! empty( $pdf ) ) ) {
-			learndash_emails_send(
-				$user->user_email,
-				$email_setting,
-				$headers = '',
-				array( $pdf['filepath'] . $pdf['filename'] )
-			);
-		}
+		$invoice->send_email();
 	}
 );
 

@@ -64,8 +64,6 @@ if ( ( ! class_exists( 'LD_REST_Groups_Courses_Controller_V1' ) ) && ( class_exi
 		public function register_routes() {
 			$this->register_fields();
 
-			parent::register_routes_wpv2();
-
 			$collection_params = $this->get_collection_params();
 			$schema            = $this->get_item_schema();
 

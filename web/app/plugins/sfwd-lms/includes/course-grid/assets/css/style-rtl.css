@@ -1,0 +1,17 @@
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/assets/scss/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+.learndash-course-grid .arrow {
+  all: unset;
+}
+
+.learndash-course-grid .arrow::after {
+  all: unset;
+}
+
+.learndash-course-grid iframe,
+.learndash-course-grid embed,
+.learndash-course-grid object,
+.learndash-course-grid video {
+  max-width: 100%;
+}

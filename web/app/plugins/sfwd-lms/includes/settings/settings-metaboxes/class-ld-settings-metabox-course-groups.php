@@ -3,8 +3,11 @@
  * LearnDash Settings Metabox for Course Groups Settings.
  *
  * @since 3.2.0
+ *
  * @package LearnDash\Settings\Metaboxes
  */
+
+use LearnDash\Core\Validations\Validators\Metaboxes\Course_Groups;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,7 +20,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 	 * @since 3.2.0
 	 */
 	class LearnDash_Settings_Metabox_Course_Groups_Settings extends LearnDash_Settings_Metabox {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -85,7 +87,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						array(
 							'html_title'            => '',
 							'course_id'             => $course_id,
-							'selected_ids'          => learndash_get_course_groups( $course_id, true ),
+							'selected_ids'          => learndash_get_course_groups( $course_id ),
 							'search_posts_per_page' => 100,
 						)
 					);
@@ -102,18 +104,56 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param integer $post_id $Post ID is post being saved.
-		 * @param object  $saved_post WP_Post object being saved.
-		 * @param boolean $update If update true, otherwise false.
-		 * @param array   $settings_field_updates array of settings fields to update.
+		 * @param int          $post_id                ID of the post being saved.
+		 * @param WP_Post|null $saved_post             WP_Post object being saved.
+		 * @param bool         $update                 True if this is an existing post being updated, false if it's a new one.
+		 * @param array<mixed> $settings_field_updates Array of settings fields to update.
+		 *
+		 * @return void
 		 */
 		public function save_post_meta_box( $post_id = 0, $saved_post = null, $update = null, $settings_field_updates = null ) {
-			if ( ( isset( $_POST['learndash_course_groups_nonce'] ) ) && ( wp_verify_nonce( $_POST['learndash_course_groups_nonce'], 'learndash_course_groups_nonce_' . $post_id ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- This is a nonce.
-				if ( ( isset( $_POST['learndash_course_groups'] ) ) && ( isset( $_POST['learndash_course_groups'][ $post_id ] ) ) && ( ! empty( $_POST['learndash_course_groups'][ $post_id ] ) ) && ( isset( $_POST[ 'learndash_course_groups-' . $post_id . '-changed' ] ) ) && ( ! empty( $_POST[ 'learndash_course_groups-' . $post_id . '-changed' ] ) ) ) {
-					$course_groups = (array) json_decode( stripslashes( $_POST['learndash_course_groups'][ $post_id ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- This is a json decoded string.
-					learndash_set_course_groups( $post_id, $course_groups );
-				}
+			if (
+				! isset( $_POST['learndash_course_groups_nonce'] )
+				|| ! wp_verify_nonce(
+					sanitize_text_field( wp_unslash( $_POST['learndash_course_groups_nonce'] ) ),
+					'learndash_course_groups_nonce_' . $post_id
+				)
+			) {
+				return;
 			}
+
+			if (
+				! isset( $_POST['learndash_course_groups'] )
+				|| ! isset( $_POST['learndash_course_groups'][ $post_id ] )
+				|| ! isset( $_POST[ 'learndash_course_groups-' . $post_id . '-changed' ] )
+			) {
+				return;
+			}
+
+			$course_groups = (array) json_decode(
+				sanitize_text_field(
+					wp_unslash(
+						$_POST['learndash_course_groups'][ $post_id ]
+					)
+				)
+			);
+
+			// Validate the course groups.
+
+			$validator = ( new Course_Groups() )->validate(
+				[ Course_Groups::$field_groups => $course_groups ]
+			);
+
+			if ( $validator->fails() ) {
+				return;
+			}
+
+			// Update the course groups.
+
+			learndash_set_course_groups(
+				$post_id,
+				$validator->validated()[ Course_Groups::$field_groups ]
+			);
 		}
 
 		// End of functions.

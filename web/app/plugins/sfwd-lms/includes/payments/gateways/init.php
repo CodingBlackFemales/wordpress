@@ -7,6 +7,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Modules\Payments\Gateways;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -40,6 +42,7 @@ add_action(
 				new Learndash_Paypal_IPN_Gateway(),
 				new Learndash_Stripe_Gateway(),
 				new Learndash_Razorpay_Gateway(),
+				new Gateways\Paypal\Payment_Gateway(),
 			)
 		);
 

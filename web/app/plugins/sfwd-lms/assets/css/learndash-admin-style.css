@@ -228,3 +228,7 @@ body.edit-php.post-type-sfwd-essays .ui-dialog-content img,
 body.edit-php.post-type-sfwd-assignment .ui-dialog-content img {
 	max-width: 100%;
 }
+
+.ui-dialog {
+	z-index: 160000;
+}

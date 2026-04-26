@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ( ! class_exists( 'LD_REST_Topics_Controller_V2' ) ) && ( class_exists( 'LD_REST_Posts_Controller_V2' ) ) ) {
 
 	/**
@@ -82,7 +84,7 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V2' ) ) && ( class_exists( 'LD
 				foreach ( $this->metaboxes as $metabox ) {
 					$metabox->load_settings_values();
 					$metabox->load_settings_fields();
-					$this->register_rest_fields( $metabox->get_settings_metabox_fields(), $metabox );
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
 				}
 			}
 		}
@@ -154,11 +156,6 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V2' ) ) && ( class_exists( 'LD
 					$GLOBALS['course_id'] = $course_id;
 				}
 
-				$topic_id = (int) $request['id'];
-				if ( ( $topic_id ) && ( sfwd_lms_has_access( $topic_id ) ) ) {
-					return true;
-				}
-
 				// If we don't have a course parameter we need to get all the courses the user has access to and all
 				// the courses the lesson is available in and compare.
 				if ( empty( $course_id ) ) {
@@ -199,14 +196,16 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V2' ) ) && ( class_exists( 'LD
 					if ( ! sfwd_lms_has_access( $this->course_post->ID ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
+
 					$this->ld_course_steps_object = LDLMS_Factory_Post::course_steps( $this->course_post->ID );
 					$this->ld_course_steps_object->load_steps();
-					$lesson_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type );
-					if ( empty( $lesson_ids ) ) {
+					$topic_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type, 'ids', true );
+
+					if ( empty( $topic_ids ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 
-					if ( ! in_array( $request['id'], $lesson_ids, true ) ) {
+					if ( ! in_array( Cast::to_int( $request['id'] ), $topic_ids, true ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 				}
@@ -229,7 +228,6 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V2' ) ) && ( class_exists( 'LD
 			$this->rest_init_request_posts( $request );
 			if ( ( true === $return ) && ( 'view' === $request['context'] ) && ( ! learndash_is_admin_user() ) ) {
 
-				// If the archive setting is enabled we allow full listing.
 				if ( ! $this->rest_post_type_has_archive( $this->post_type ) ) {
 					if ( is_null( $this->course_post ) ) {
 						return new WP_Error(

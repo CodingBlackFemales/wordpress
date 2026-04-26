@@ -37,6 +37,7 @@ registerBlockType( block_key, {
         inserter: false,
         html: false
     },
+    apiVersion: 3,
     edit: () => {
         const template = [ [ "core/paragraph", {
             placeholder: __(

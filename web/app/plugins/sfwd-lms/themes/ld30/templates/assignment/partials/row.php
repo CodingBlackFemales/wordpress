@@ -7,6 +7,7 @@
  * $course_step_post: WP_Post object for the Lesson/Topic being shown
  *
  * @since 3.0.0
+ * @version 4.21.3
  *
  * @package LearnDash\Templates\LD30
  */
@@ -14,6 +15,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$learndash_assignment_link = learndash_assignment_get_download_url( $assignment->ID );
 
 $assignment_points = learndash_get_points_awarded_array( $assignment->ID ); ?>
 
@@ -73,14 +76,14 @@ $assignment_points = learndash_get_points_awarded_array( $assignment->ID ); ?>
 			do_action( 'learndash-assignment-row-title-before', $assignment, get_the_ID(), $course_id, $user_id );
 			?>
 
-			<a href='<?php echo esc_url( get_post_meta( $assignment->ID, 'file_link', true ) ); ?>' target="_blank">
+			<a href='<?php echo esc_url( $learndash_assignment_link ); ?>' target="_blank">
 				<span class="ld-item-icon">
 					<span class="ld-icon ld-icon-download" aria-label="<?php esc_html_e( 'Download Assignment', 'learndash' ); ?>"></span>
 				</span>
 			</a>
 
 			<?php
-			$assignment_link = ( true === (bool) $assignment_post_type_object->publicly_queryable ? get_permalink( $assignment->ID ) : get_post_meta( $assignment->ID, 'file_link', true ) );
+			$assignment_link = ( true === (bool) $assignment_post_type_object->publicly_queryable ? get_permalink( $assignment->ID ) : $learndash_assignment_link );
 			?>
 
 			<a href="<?php echo esc_url( $assignment_link ); ?>"><?php echo esc_html( get_the_title( $assignment->ID ) ); ?></a>
@@ -138,22 +141,32 @@ $assignment_points = learndash_get_points_awarded_array( $assignment->ID ); ?>
 			/** This filter is documented in https://developer.wordpress.org/reference/hooks/comments_open/ */
 			if ( post_type_supports( 'sfwd-assignment', 'comments' ) && apply_filters( 'comments_open', $assignment->comment_status, $assignment->ID ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Core filter
 
-				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) {
-					?>
-					<a href='<?php echo esc_url( get_comments_link( $assignment->ID ) ); ?>' data-ld-tooltip="
-						<?php
-						echo sprintf(
-							// translators: placeholder: comment count.
-							esc_html_x( '%d Comments', 'placeholder: comment count', 'learndash' ),
-							esc_html( get_comments_number( $assignment->ID ) ) // get_comments_number returns a number. Adding escaping just in case somebody changes the template.
-						);
-						?>
-					"><?php 
-				}
-				echo esc_html( get_comments_number( $assignment->ID ) ); ?><span class="ld-icon ld-icon-comments"></span><?php
-				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) {	
-					?></a><?php
-				}
+				if ( true === (bool) $assignment_post_type_object->publicly_queryable ) : ?>
+					<div class="ld-tooltip">
+						<a
+							href="<?php echo esc_url( get_comments_link( $assignment->ID ) ); ?>"
+							aria-describedby="ld-assignment__row-comments-tooltip--<?php echo esc_attr( $assignment->ID ); ?>"
+						>
+				<?php endif;
+					echo esc_html( get_comments_number( $assignment->ID ) ); ?><span class="ld-icon ld-icon-comments"></span>
+				<?php if ( true === (bool) $assignment_post_type_object->publicly_queryable ) : ?>
+						</a>
+
+						<div
+							class="ld-tooltip__text"
+							id="ld-assignment__row-comments-tooltip--<?php echo esc_attr( $assignment->ID ); ?>"
+							role="tooltip"
+						>
+							<?php
+							echo sprintf(
+								// translators: placeholder: comment count.
+								esc_html_x( '%d Comments', 'placeholder: comment count', 'learndash' ),
+								esc_html( get_comments_number( $assignment->ID ) ) // get_comments_number returns a number. Adding escaping just in case somebody changes the template.
+							);
+							?>
+						</div>
+					</div>
+				<?php endif;
 			} else {
 				echo '';
 			};

@@ -15,6 +15,64 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 	 * Class for LearnDash Settings Pages.
 	 *
 	 * @since 2.4.0
+	 *
+	 * @phpstan-type Header_Button array{
+	 *     text: string,
+	 *     href?: string,
+	 *     target?: string,
+	 *     data: array<int|string, mixed>,
+	 *     class?: string,
+	 * }
+	 *
+	 * @phpstan-type Header_Data array{
+	 *     buttons: Header_Button[],
+	 *     tabs: array{
+	 *         id: string,
+	 *         name: string,
+	 *         link: string,
+	 *         isExternal: string,
+	 *         actions: array{
+	 *             title: string,
+	 *             link: string,
+	 *             isExternal: string,
+	 *             metaboxes: string[],
+	 *         },
+	 *         metaboxes: string[],
+	 *     },
+	 *     currentTab: string,
+	 *     editing: int,
+	 *     ajaxurl: string,
+	 *     adminurl: string,
+	 *     quizImportUrl: string,
+	 *     postadminurl: string,
+	 *     back_to_title: string,
+	 *     back_to_url: string,
+	 *     error_messages: array<string, string>,
+	 *     labels: array<string, string>,
+	 *     sfwdMap: array<string, string>,
+	 *     rest: array{
+	 *         namespace: string,
+	 *         base: array{
+	 *             lessons: string,
+	 *             topic: string,
+	 *             quiz: string,
+	 *             question: string,
+	 *         },
+	 *         root: string,
+	 *         nonce: string,
+	 *     },
+	 *     post_data?: array{
+	 *         builder_post_id: int|false,
+	 *         builder_post_title: string,
+	 *         builder_post_type: string,
+	 *     },
+	 *     posts_per_page: string|int,
+	 *     lessons: array<int|string, mixed>,
+	 *     topics: array<int|string, mixed>,
+	 *     quizzes: array<int|string, mixed>,
+	 *     questions: array<int|string, mixed>,
+	 *     i18n: array<string, string|array<string, string>>,
+	 * }
 	 */
 	class LearnDash_Settings_Page {
 
@@ -57,6 +115,15 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 		 * @var string $settings_page_id
 		 */
 		protected $settings_page_id = '';
+
+		/**
+		 * Priority for the menu item. Default null.
+		 *
+		 * @since 4.19.0
+		 *
+		 * @var int|null
+		 */
+		protected ?int $settings_menu_item_priority = null;
 
 		/**
 		 * Title for page <h1></h1> string
@@ -129,6 +196,15 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 		protected $page_sections = null;
 
 		/**
+		 * Header Buttons.
+		 *
+		 * @since 4.17.0
+		 *
+		 * @var Header_Button[]
+		 */
+		protected $buttons = [];
+
+		/**
 		 * Public constructor for class
 		 *
 		 * @since 2.4.0
@@ -156,6 +232,76 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 			if ( true === $this->settings_metabox_as_sub ) {
 				add_filter( 'learndash_show_section', array( $this, 'should_show_settings_section' ), 10, 3 );
 			}
+
+			add_filter(
+				'learndash_header_data',
+				[ $this, 'add_header_data' ],
+				10
+			);
+		}
+
+		/**
+		 * Adds header data like a post title, back link, etc.
+		 *
+		 * @since 4.17.0
+		 *
+		 * @param Header_Data $header_data Header data.
+		 *
+		 * @return Header_Data
+		 */
+		public function add_header_data( $header_data ) {
+			$screen = get_current_screen();
+
+			if (
+				! $screen instanceof WP_Screen
+				|| "learndash-lms_page_{$this->settings_page_id}" !== $screen->id
+			) {
+				return $header_data;
+			}
+
+			$this->set_header_page_title( $header_data );
+
+			$this->set_header_buttons( $header_data );
+
+			return $header_data;
+		}
+
+		/**
+		 * Sets the "Page Title" shown within the LearnDash Global Header.
+		 *
+		 * @since 4.17.0
+		 *
+		 * @param Header_Data $header_data Header data, passed by reference.
+		 *
+		 * @return void
+		 */
+		public function set_header_page_title( array &$header_data ): void { // phpcs:ignore Squiz.Commenting.FunctionComment.IncorrectTypeHint -- Type hint is correct.
+			if ( empty( $this->settings_page_title ) ) {
+				return;
+			}
+
+			if ( ! isset( $header_data['post_data'] ) ) {
+				$header_data['post_data'] = [];
+			}
+
+			$header_data['post_data']['builder_post_title'] = esc_html( $this->settings_page_title );
+		}
+
+		/**
+		 * Sets the buttons shown within the LearnDash Global Header.
+		 *
+		 * @since 4.17.0
+		 *
+		 * @param Header_Data $header_data Header data, passed by reference.
+		 *
+		 * @return void
+		 */
+		public function set_header_buttons( array &$header_data ): void { // phpcs:ignore Squiz.Commenting.FunctionComment.IncorrectTypeHint -- Type hint is correct.
+			if ( empty( $this->buttons ) ) {
+				return;
+			}
+
+			$header_data['buttons'] = $this->buttons;
 		}
 
 		/**
@@ -294,9 +440,11 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 					$this->settings_page_title,
 					$this->menu_page_capability,
 					$this->settings_page_id,
-					array( $this, 'show_settings_page' )
+					[ $this, 'show_settings_page' ],
+					$this->settings_menu_item_priority
 				);
 			}
+
 			add_action( 'load-' . $this->settings_screen_id, array( $this, 'load_settings_page' ) );
 		}
 
@@ -699,6 +847,10 @@ if ( ! class_exists( 'LearnDash_Settings_Page' ) ) {
 
 					$q_links = array();
 					foreach ( $page_sections as $section_id => $section ) {
+						if ( ! $section->is_visible() ) {
+							continue;
+						}
+
 						$q_links[ $section_id ] = array(
 							'url'   => add_query_arg( 'section-advanced', esc_attr( $section_id ) ),
 							'label' => $section->get_settings_section_sub_label(),
@@ -849,7 +1001,7 @@ function learndash_admin_settings_page_assets() {
 		wp_enqueue_script(
 			'learndash-admin-settings-page',
 			LEARNDASH_LMS_PLUGIN_URL . 'assets/js/learndash-admin-settings-page' . learndash_min_asset() . '.js',
-			array( 'jquery', 'wp-color-picker' ),
+			array( 'jquery', 'jquery-ui-dialog', 'wp-color-picker' ),
 			LEARNDASH_SCRIPT_VERSION_TOKEN,
 			true
 		);

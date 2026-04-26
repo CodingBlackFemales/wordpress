@@ -49,13 +49,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 2.5.9
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_Block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return string The output is echoed.
 		 */
-		public function render_block( $block_attributes = array(), $block_content = '', WP_Block $block = null ) {
+		public function render_block( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes = $this->preprocess_block_attributes( $block_attributes );
 			/** This filter is documented in includes/gutenberg/blocks/ld-course-list/index.php */
 			$block_attributes = apply_filters( 'learndash_block_markers_shortcode_atts', $block_attributes, $this->shortcode_slug, $this->block_slug, '' );

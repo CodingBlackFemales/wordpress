@@ -3,8 +3,13 @@
  * LearnDash Binary Selector Class.
  *
  * @since 2.1.2
+ *
  * @package LearnDash\Settings
  */
+
+use LearnDash\Core\Utilities\Sanitize;
+use LearnDash\Core\Validations\Validators\DTO\Action;
+use LearnDash\Core\Validations\Validators\Validator;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,7 +23,6 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 	 * @since 2.1.2
 	 */
 	class Learndash_Binary_Selector {
-
 		/**
 		 * Selector args used.
 		 *
@@ -48,6 +52,24 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 		protected $selector_nonce;
 
 		/**
+		 * The validator object for the selector.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @var Validator|null
+		 */
+		protected $server_side_validator;
+
+		/**
+		 * The field ID to use for server side validation.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @var string
+		 */
+		protected $server_side_validation_field_id;
+
+		/**
 		 * Element data passed to DOM.
 		 *
 		 * @var array $element_data Array of data passed to DOM
@@ -74,18 +96,21 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 		 * @var array $allowed_classes.
 		 */
 		protected static $allowed_classes = array(
-			'Learndash_Binary_Selector_Users',
-			'Learndash_Binary_Selector_Course_Users',
-			'Learndash_Binary_Selector_Group_Users',
-			'Learndash_Binary_Selector_Group_Leaders',
-			'Learndash_Binary_Selector_Posts',
-			'Learndash_Binary_Selector_Group_Courses',
-			'Learndash_Binary_Selector_Group_Courses_Enroll',
 			'Learndash_Binary_Selector_Course_Groups',
+			'Learndash_Binary_Selector_Course_Users',
+			'Learndash_Binary_Selector_Course_Users_Access_Extending',
+			'Learndash_Binary_Selector_Exam_Challenge_Courses',
+			'Learndash_Binary_Selector_Group_Courses',
+			'Learndash_Binary_Selector_Group_Courses_Access_Extending',
+			'Learndash_Binary_Selector_Group_Courses_Enroll',
+			'Learndash_Binary_Selector_Group_Leaders',
+			'Learndash_Binary_Selector_Group_Users',
+			'Learndash_Binary_Selector_Group_Users_Access_Extending',
+			'Learndash_Binary_Selector_Leader_Groups',
+			'Learndash_Binary_Selector_Posts',
 			'Learndash_Binary_Selector_User_Courses',
 			'Learndash_Binary_Selector_User_Groups',
-			'Learndash_Binary_Selector_Leader_Groups',
-			'Learndash_Binary_Selector_Exam_Challenge_Courses',
+			'Learndash_Binary_Selector_Users',
 		);
 
 		/**
@@ -181,6 +206,9 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 			if ( ( isset( $element_data['query_vars']['exclude'] ) ) && ( ! empty( $element_data['query_vars']['exclude'] ) ) ) {
 				$element_data['query_vars']['exclude'] = wp_json_encode( $element_data['query_vars']['exclude'], JSON_FORCE_OBJECT );
 			}
+
+			$element_data['server_side_validation_enabled']  = ! empty( $this->server_side_validator ) && ! empty( $this->server_side_validation_field_id );
+			$element_data['server_side_validation_field_id'] = $this->server_side_validation_field_id;
 
 			?>
 			<div id="<?php echo esc_attr( $this->args['html_id'] ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'learndash-binary-selector-' . get_current_user_id() ) ); ?>" class="<?php echo esc_attr( $this->args['html_class'] ); ?> learndash-binary-selector" data="<?php echo htmlspecialchars( wp_json_encode( $element_data ) ); ?>"><?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -495,6 +523,54 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 		}
 
 		/**
+		 * Runs the server side validation for the selector.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param array<int> $items_added Array of items added to the selector.
+		 *
+		 * @return array
+		 *
+		 * @phpstan-return array{is_valid: bool, error?: array{message: string, actions: array<array<string, mixed>>}}
+		 */
+		public function validate( array $items_added ): array {
+			// If the server side validation is not enabled then we return true.
+
+			if (
+				! $this->server_side_validator
+				|| empty( $this->server_side_validation_field_id )
+			) {
+				return [ 'is_valid' => true ];
+			}
+
+			$validation_result = $this->server_side_validator->validate(
+				[
+					$this->server_side_validation_field_id => array_merge(
+						$this->args['selected_ids'],
+						$items_added
+					),
+				]
+			);
+
+			if ( $validation_result->passes() ) {
+				return [ 'is_valid' => true ];
+			}
+
+			return [
+				'is_valid' => false,
+				'error'    => [
+					'message' => $validation_result->errors()[ $this->server_side_validation_field_id ],
+					'actions' => array_map(
+						function ( Action $action ): array {
+							return $action->to_array();
+						},
+						$this->server_side_validator->get_actions_for_field( $this->server_side_validation_field_id )
+					),
+				],
+			];
+		}
+
+		/**
 		 * Check the class is valid.
 		 *
 		 * Used by the learndash_binary_selector_pager_ajax() function.
@@ -516,12 +592,16 @@ if ( ! class_exists( 'Learndash_Binary_Selector' ) ) {
 }
 
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-users.php';
+
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-course-users.php';
+require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-course-users-access-extending.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-users.php';
+require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-users-access-extending.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-leaders.php';
 
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-posts.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-courses.php';
+require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-courses-access-extending.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-group-courses-enroll.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-binary-selectors/class-learndash-admin-binary-selector-course-groups.php';
 
@@ -594,3 +674,55 @@ function learndash_binary_selector_pager_ajax() {
 }
 
 add_action( 'wp_ajax_learndash_binary_selector_pager', 'learndash_binary_selector_pager_ajax' );
+
+/**
+ * Handler function for binary selector validator.
+ *
+ * @since 4.8.0
+ *
+ * @return void
+ */
+function learndash_binary_selector_validator_ajax(): void {
+	if (
+		empty( $_POST['nonce'] )
+		|| ! wp_verify_nonce(
+			sanitize_text_field( wp_unslash( $_POST['nonce'] ) ),
+			'learndash-binary-selector-' . get_current_user_id()
+		)
+		|| empty( $_POST['selector_data'] )
+		|| empty( $_POST['selector_data']['selector_class'] )
+		|| empty( $_POST['selector_data']['query_vars'] )
+		|| empty( $_POST['items_added'] )
+		|| ! isset( $_POST['selected_ids'] )
+	) {
+		wp_send_json_error();
+	}
+
+	$selector_class = sanitize_text_field( wp_unslash( $_POST['selector_data']['selector_class'] ) );
+
+	if (
+		! Learndash_Binary_Selector::check_class( $selector_class )
+		|| ! is_subclass_of( $selector_class, Learndash_Binary_Selector::class )
+	) {
+		wp_send_json_error();
+	}
+
+	$args = array_merge(
+		Sanitize::array( wp_unslash( $_POST['selector_data']['query_vars'] ) ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in Sanitize::array().
+		[
+			'selected_ids' => (array) json_decode(
+				sanitize_text_field( wp_unslash( $_POST['selected_ids'] ) )
+			),
+		]
+	);
+
+	$selector_object = new $selector_class( $args );
+
+	wp_send_json_success(
+		$selector_object->validate(
+			wp_parse_id_list( wp_unslash( $_POST['items_added'] ) )
+		)
+	);
+}
+
+add_action( 'wp_ajax_learndash_binary_selector_validator', 'learndash_binary_selector_validator_ajax' );

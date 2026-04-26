@@ -11,6 +11,7 @@
  * $quiz      :   The current quiz (array)
  *
  * @since 3.0.0
+ * @since 4.21.3
  *
  * @package LearnDash\Templates\LD30
  */
@@ -28,10 +29,13 @@ $attributes = learndash_get_course_step_attributes( $quiz['post']->ID, $course_i
  * Filters quiz row attributes. Used while displaying a single quiz row.
  *
  * @since 3.0.0
+ * @since 4.21.3  No longer used to set a tooltip message.
  *
- * @param string $attribute Quiz row attribute. The value is data-ld-tooltip if a user does not have access to quiz otherwise empty string.
+ * @param string $attribute Quiz row attribute.
+ *
+ * @return string
  */
-$atts = apply_filters( 'learndash_quiz_row_atts', ( isset( $has_access ) && ! $has_access && ! $is_sample ? 'data-ld-tooltip="' . esc_html__( "You don't currently have access to this content", 'learndash' ) . '"' : '' ) );
+$atts = apply_filters( 'learndash_quiz_row_atts', '' );
 
 $learndash_quiz_available_date = learndash_course_step_available_date( $quiz['post']->ID, $course_id, $user_id, true );
 if ( ! empty( $learndash_quiz_available_date ) ) {
@@ -48,49 +52,89 @@ if ( ! empty( $learndash_quiz_available_date ) ) {
  * @param int $user_id   User ID.
  */
 do_action( 'learndash-quiz-row-before', $quiz['post']->ID, $course_id, $user_id ); ?>
-<div id="<?php echo esc_attr( 'ld-table-list-item-' . $quiz['post']->ID ); ?>" class="<?php echo esc_attr( $quiz_classes['wrapper'] ); ?> <?php echo esc_attr( 'ld-table-list-item-' . $quiz['post']->ID ); ?>" <?php echo wp_kses_post( $atts ); ?>>
+<div
+	id="<?php echo esc_attr( 'ld-table-list-item-' . $quiz['post']->ID ); ?>"
+	class="<?php echo esc_attr( $quiz_classes['wrapper'] ); ?> <?php echo esc_attr( 'ld-table-list-item-' . $quiz['post']->ID ); ?>"
+	<?php echo wp_kses_post( $atts ); ?>
+>
 	<div class="<?php echo esc_attr( $quiz_classes['preview'] ); ?>">
-		<a class="<?php echo esc_attr( $quiz_classes['anchor'] ); ?>" href="<?php echo esc_url( learndash_get_step_permalink( $quiz['post']->ID, $course_id ) ); ?>">
+		<div class="ld-tooltip">
+			<a
+				<?php
+				if (
+					isset( $has_access )
+					&& ! $has_access
+					&& ! $is_sample
+				) :
+				?>
+					aria-describedby="ld-quiz__row-tooltip--<?php echo esc_attr( $quiz['post']->ID ); ?>"
+				<?php endif; ?>
+				class="<?php echo esc_attr( $quiz_classes['anchor'] ); ?>"
+				href="<?php echo esc_url( learndash_get_step_permalink( $quiz['post']->ID, $course_id ) ); ?>"
+			>
+				<?php
+				/**
+				 * Fires before the quiz row status.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param int $quiz_id   Post ID.
+				 * @param int $course_id Course ID.
+				 * @param int $user_id   User ID.
+				 *
+				 * @return void
+				 */
+				do_action( 'learndash-quiz-row-status-before', $quiz['post']->ID, $course_id, $user_id );
+
+				learndash_status_icon( $quiz['status'], 'sfwd-quiz', null, true );
+				/**
+				 * Fires before the quiz row title.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param int $quiz_id   Quiz ID.
+				 * @param int $course_id Course ID.
+				 * @param int $user_id   User ID.
+				 *
+				 * @return void
+				 */
+				do_action( 'learndash-quiz-row-title-before', $quiz['post']->ID, $course_id, $user_id );
+				?>
+
+				<div class="ld-item-title"><?php echo wp_kses_post( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?></div> <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
+
+				<?php
+				/**
+				 * Fires after the quiz row title.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param int $quiz_id   Quiz ID.
+				 * @param int $course_id Course ID.
+				 * @param int $user_id   User ID.
+				 *
+				 * @return void
+				 */
+				do_action( 'learndash-quiz-row-title-after', $quiz['post']->ID, $course_id, $user_id );
+				?>
+			</a>
 			<?php
-			/**
-			 * Fires before the quiz row status.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param int $quiz_id   Post ID.
-			 * @param int $course_id Course ID.
-			 * @param int $user_id   User ID.
-			 */
-			do_action( 'learndash-quiz-row-status-before', $quiz['post']->ID, $course_id, $user_id );
-
-			learndash_status_icon( $quiz['status'], 'sfwd-quiz', null, true );
-			/**
-			 * Fires before the quiz row title.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param int $quiz_id   Quiz ID.
-			 * @param int $course_id Course ID.
-			 * @param int $user_id   User ID.
-			 */
-			do_action( 'learndash-quiz-row-title-before', $quiz['post']->ID, $course_id, $user_id );
+			if (
+				isset( $has_access )
+				&& ! $has_access
+				&& ! $is_sample
+			) :
 			?>
+				<div
+					class="ld-tooltip__text"
+					id="ld-quiz__row-tooltip--<?php echo esc_attr( $quiz['post']->ID ); ?>"
+					role="tooltip"
+				>
+					<?php esc_html_e( "You don't currently have access to this content", 'learndash' ); ?>
+				</div>
+			<?php endif; ?>
+		</div>
 
-			<div class="ld-item-title"><?php echo wp_kses_post( apply_filters( 'the_title', $quiz['post']->post_title, $quiz['post']->ID ) ); ?></div> <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
-
-			<?php
-			/**
-			 * Fires after the quiz row title.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param int $quiz_id   Quiz ID.
-			 * @param int $course_id Course ID.
-			 * @param int $user_id   User ID.
-			 */
-			do_action( 'learndash-quiz-row-title-after', $quiz['post']->ID, $course_id, $user_id );
-			?>
-		</a>
 		<?php
 		if ( ! empty( $attributes ) ) :
 			foreach ( $attributes as $attribute ) :

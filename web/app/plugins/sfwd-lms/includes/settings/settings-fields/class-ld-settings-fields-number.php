@@ -6,6 +6,8 @@
  * @package LearnDash\Settings\Field
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -110,6 +112,42 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 			}
 
 			return false;
+		}
+
+		/**
+		 * Convert Settings Field value to REST value.
+		 *
+		 * @since 5.0.2
+		 *
+		 * @param mixed               $val        The field value.
+		 * @param string              $key        Key field for value.
+		 * @param array<string,mixed> $field_args Array of field args.
+		 * @param WP_REST_Request     $request    Request object.
+		 *
+		 * @return mixed
+		 *
+		 * @phpstan-ignore-next-line -- $request is defined this way in the parent class.
+		 */
+		public function field_value_to_rest_value( $val, $key, $field_args, WP_REST_Request $request ) {
+			if (
+				! isset( $field_args['field'] )
+				|| ! is_array( $field_args['field'] )
+				|| ! isset( $field_args['field']['type'] )
+				|| $field_args['field']['type'] !== $this->field_type
+			) {
+				return $val;
+			}
+
+			if (
+				isset( $field_args['field']['attrs'] )
+				&& is_array( $field_args['field']['attrs'] )
+				&& isset( $field_args['field']['attrs']['step'] )
+				&& is_float( $field_args['field']['attrs']['step'] )
+			) {
+				return Cast::to_float( $val );
+			}
+
+			return Cast::to_int( $val );
 		}
 	}
 }

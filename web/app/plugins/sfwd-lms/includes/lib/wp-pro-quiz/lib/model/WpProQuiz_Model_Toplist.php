@@ -1,8 +1,17 @@
 <?php
+/**
+ * WP Pro Quiz Toplist Model
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Class WpProQuiz_Model_Toplist
+ */
 class WpProQuiz_Model_Toplist extends WpProQuiz_Model_Model {
 	protected $_toplistId;
 	protected $_quizId;
@@ -68,8 +77,16 @@ class WpProQuiz_Model_Toplist extends WpProQuiz_Model_Model {
 		return $this->_email;
 	}
 
+	/**
+	 * Sets points.
+	 *
+	 * @param mixed $_points Points.
+	 *
+	 * @return self
+	 */
 	public function setPoints( $_points ) {
-		$this->_points = (int) $_points;
+		$this->_points = learndash_format_course_points( $_points );
+
 		return $this;
 	}
 

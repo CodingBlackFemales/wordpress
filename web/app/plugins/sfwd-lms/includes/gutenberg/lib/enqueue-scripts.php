@@ -13,11 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Enqueues block editor styles and scripts.
  *
- * Fires on `enqueue_block_editor_assets` hook.
+ * Fires on `enqueue_block_assets` hook.
  *
  * @since 2.5.8
  */
 function learndash_editor_scripts() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	// Make paths variables so we don't write em twice ;).
 	$learndash_block_path         = '../assets/js/index.js';
 	$learndash_editor_style_path  = '../assets/css/blocks.editor.css';
@@ -174,7 +178,7 @@ function learndash_editor_scripts() {
 	}
 }
 // Hook scripts function into block editor hook.
-add_action( 'enqueue_block_editor_assets', 'learndash_editor_scripts' );
+add_action( 'enqueue_block_assets', 'learndash_editor_scripts' );
 
 /**
  * Enqueues the required styles and scripts for the course grid.

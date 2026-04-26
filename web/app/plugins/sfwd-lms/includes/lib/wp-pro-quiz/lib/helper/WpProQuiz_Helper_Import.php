@@ -1,8 +1,21 @@
 <?php
+/**
+ * ProQuiz Helper Import.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+use LearnDash\Core\Utilities\Cast;
+
+/**
+ * ProQuiz Helper Import class.
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+ */
 class WpProQuiz_Helper_Import {
 
 	private $_content = null;
@@ -89,6 +102,11 @@ class WpProQuiz_Helper_Import {
 		return $this->_content;
 	}
 
+	/**
+	 * Returns the import data.
+	 *
+	 * @return array<mixed>|false
+	 */
 	public function getImportData() {
 
 		if ( null === $this->_content ) {
@@ -133,6 +151,15 @@ class WpProQuiz_Helper_Import {
 		return false;
 	}
 
+	/**
+	 * Imports data.
+	 *
+	 * @param mixed $o       Data.
+	 * @param mixed $ids     Ids.
+	 * @param mixed $version Version.
+	 *
+	 * @return true
+	 */
 	private function importData( $o, $ids = false, $version = '1' ) {
 		$user_id = $this->_user_id > 0 ? $this->_user_id : get_current_user_id();
 
@@ -140,15 +167,19 @@ class WpProQuiz_Helper_Import {
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
 		$formMapper     = new WpProQuiz_Model_FormMapper();
 
+		// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 		foreach ( $o['master'] as $master ) {
-			if ( get_class( $master ) !== 'WpProQuiz_Model_Quiz' ) {
+			if (
+				! is_object( $master ) ||
+				get_class( $master ) !== 'WpProQuiz_Model_Quiz'
+			) {
 				continue;
 			}
 
 			$oldId = $master->getId();
 
 			if ( false !== $ids ) {
-				if ( ! in_array( $oldId, $ids ) ) {
+				if ( ! in_array( $oldId, (array) $ids ) ) {
 					continue;
 				}
 			}
@@ -177,6 +208,7 @@ class WpProQuiz_Helper_Import {
 				'post_author' => $user_id,
 			);
 
+			// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 			if ( ( isset( $o['post'][ $oldId ] ) ) && ( ! empty( $o['post'][ $oldId ] ) ) ) {
 				$post_import_keys = array( 'post_title', 'post_content' );
 
@@ -188,6 +220,7 @@ class WpProQuiz_Helper_Import {
 				$post_import_keys = apply_filters( 'learndash_quiz_import_post_keys', $post_import_keys );
 				if ( ! empty( $post_import_keys ) ) {
 					foreach ( $post_import_keys as $import_key ) {
+						// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 						if ( isset( $o['post'][ $oldId ][ $import_key ] ) ) {
 							$quiz_insert_data[ $import_key ] = $o['post'][ $oldId ][ $import_key ];
 						}
@@ -216,14 +249,21 @@ class WpProQuiz_Helper_Import {
 				 */
 				$post_meta_import_keys = apply_filters( 'learndash_quiz_import_post_meta_keys', $post_meta_import_keys );
 				if ( ! empty( $post_meta_import_keys ) ) {
+					// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 					if ( ( isset( $o['post_meta'][ $oldId ] ) ) && ( ! empty( $o['post_meta'][ $oldId ] ) ) ) {
+						// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 						foreach ( $o['post_meta'][ $oldId ] as $_key => $_key_data ) {
 							if ( ( ! empty( $_key ) ) && ( ! empty( $_key_data ) ) && ( in_array( $_key, $post_meta_import_keys, true ) ) ) {
+								// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 								foreach ( $_key_data as $_data_set ) {
 									if ( ( defined( 'LEARNDASH_QUIZ_EXPORT_LEGACY' ) ) && ( true === LEARNDASH_QUIZ_EXPORT_LEGACY ) ) {
-										$_data_set = maybe_unserialize( $_data_set );
+										$_data_set = maybe_unserialize( Cast::to_string( $_data_set ) );
 									}
-									update_post_meta( $quiz_post_id, $_key, $_data_set );
+									update_post_meta(
+										$quiz_post_id,
+										Cast::to_string( $_key ),
+										$_data_set
+									);
 								}
 							}
 						}
@@ -240,6 +280,7 @@ class WpProQuiz_Helper_Import {
 				}
 			}
 
+			// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 			if ( ( isset( $o['forms'] ) ) && ( isset( $o['forms'][ $oldId ] ) ) && ( is_array( $o['forms'][ $oldId ] ) ) && ( ! empty( $o['forms'][ $oldId ] ) ) ) {
 				foreach ( $o['forms'][ $oldId ] as $form ) {
 					/** @var WpProQuiz_Model_Form $form */
@@ -252,6 +293,7 @@ class WpProQuiz_Helper_Import {
 
 			$question_idx   = 0;
 			$quiz_questions = array();
+			// @phpstan-ignore-next-line -- Don't want to touch it now, as I'm not sure what data should be there.
 			if ( ( isset( $o['question'][ $oldId ] ) ) && ( is_array( $o['question'][ $oldId ] ) ) && ( ! empty( $o['question'][ $oldId ] ) ) ) {
 				foreach ( $o['question'][ $oldId ] as $question ) {
 					if ( get_class( $question ) !== 'WpProQuiz_Model_Question' ) {
@@ -298,12 +340,10 @@ class WpProQuiz_Helper_Import {
 					if ( ! empty( $question_post_id ) ) {
 						$this->import_questions_old_to_new_ids[ $old_question_post_id ] = $question_post_id;
 
-						update_post_meta( $question_post_id, 'points', absint( $question->getPoints() ) );
-						update_post_meta( $question_post_id, 'question_type', $question->getAnswerType() );
-						update_post_meta( $question_post_id, 'question_pro_id', absint( $question->getId() ) );
+						learndash_proquiz_sync_question_fields( $question_post_id, $question->getId() );
 
 						learndash_update_setting( $question_post_id, 'quiz', $quiz_post_id );
-						add_post_meta( $question_post_id, 'ld_quiz_id', $quiz_post_id );
+						learndash_update_setting( $question_post_id, 'ld_quiz_id', $quiz_post_id );
 
 						$quiz_questions[ $question_post_id ] = absint( $question->getId() );
 					}

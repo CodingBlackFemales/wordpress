@@ -7,8 +7,14 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Mappers\Models\Commerce_Product_Mapper;
+use LearnDash\Core\Models\Commerce\Charge;
 use LearnDash\Core\Models\Product;
 use LearnDash\Core\Models\Transaction;
+use LearnDash\Core\Models\Commerce\Subscription;
+use LearnDash\Core\Repositories\Transaction as Transaction_Repository;
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\StellarWP\Arrays\Arr;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -76,7 +82,7 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		protected $customer_id_meta_key = '';
 
 		/**
-		 * Parent transaction ID.
+		 * Parent order ID.
 		 *
 		 * @since 4.5.0
 		 *
@@ -85,11 +91,20 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		protected $parent_transaction_id = 0;
 
 		/**
+		 * Settings Section Key used to configure this Payment Gateway.
+		 *
+		 * @since 4.18.0
+		 *
+		 * @var string
+		 */
+		protected string $settings_section_key = '';
+
+		/**
 		 * List of all registered gateways.
 		 *
 		 * @since 4.5.0
 		 *
-		 * @var Learndash_Payment_Gateway[]
+		 * @var static[]
 		 */
 		private static $gateways = array();
 
@@ -100,7 +115,7 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @var Learndash_Payment_Gateway[]
+		 * @var static[]
 		 */
 		private static $active_gateways = array();
 
@@ -129,7 +144,7 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 
 				add_filter(
 					'learndash_loggers',
-					function( array $loggers ): array {
+					function ( array $loggers ): array {
 						$loggers[] = $this->logger;
 
 						return $loggers;
@@ -160,7 +175,7 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 
 			add_action(
 				'learndash_payment_button_added',
-				function() {
+				function () {
 					wp_enqueue_script( 'learndash-payments' );
 
 					$this->enqueue_scripts();
@@ -215,6 +230,39 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 					static::get_name()
 				)
 			);
+		}
+
+		/**
+		 * Returns the URL for the page used to configure the Payment Gateway.
+		 *
+		 * @since 4.18.0
+		 *
+		 * @return string Settings URL, empty string if a Settings page is not available for the Payment Gateway.
+		 */
+		public function get_settings_url(): string {
+			if ( empty( $this->settings_section_key ) ) {
+				return '';
+			}
+
+			return add_query_arg(
+				[
+					'page'            => 'learndash_lms_payments',
+					'section-payment' => $this->settings_section_key,
+				],
+				admin_url( 'admin.php' )
+			);
+		}
+
+		/**
+		 * Returns whether the sandbox mode is enabled.
+		 * It's a public alias for `is_test_mode()`, which is protected.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @return bool
+		 */
+		public function is_sandbox_enabled(): bool {
+			return $this->is_test_mode();
 		}
 
 		/**
@@ -339,6 +387,31 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 			return 'learndash_payment_gateway_setup_' . static::get_name();
 		}
 
+
+		/**
+		 * Returns the payment button markup for a specific button key.
+		 *
+		 * If the subclass has more than one payment button, it should override this method.
+		 * Otherwise, it will return the payment button markup for the default button key.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param string       $button_key Button key.
+		 * @param WP_Post      $post       Post being processing.
+		 * @param array<mixed> $params     Payment params.
+		 *
+		 * @return string Payment button HTML markup.
+		 */
+		protected function get_payment_button_markup_for_button_key( string $button_key, WP_Post $post, array $params ): string {
+			// Compatibility with the single button key.
+			if ( $button_key === static::get_name() ) {
+				return $this->map_payment_button_markup( $params, $post );
+			}
+
+			// If the subclass has more than one button key, it should override this method.
+			return '';
+		}
+
 		/**
 		 * Handles the webhook.
 		 *
@@ -347,6 +420,96 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 * @return void
 		 */
 		abstract public function process_webhook(): void;
+
+		/**
+		 * Returns the gateway label for checkout activities.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return string
+		 */
+		public function get_checkout_label(): string {
+			return __( 'Pay now', 'learndash' );
+		}
+
+		/**
+		 * Returns the gateway meta HTML that appears near the payment selector.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return string
+		 */
+		public function get_checkout_meta_html(): string {
+			return '';
+		}
+
+		/**
+		 * Returns the gateway info text for checkout activities.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @param string $product_type Type of product being purchased.
+		 *
+		 * @return string
+		 */
+		public function get_checkout_info_text( string $product_type ): string {
+			return '';
+		}
+
+		/**
+		 * Returns the button keys handled by the gateway.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @return string[] Button keys.
+		 */
+		public function get_button_keys(): array {
+			return [ static::get_name() ];
+		}
+
+		/**
+		 * Returns the checkout data for a specific button key.
+		 *
+		 * If the subclass has more than one button key, it should override this method.
+		 * Otherwise, it will use the get_checkout_*() methods to retrieve the data for the default button key.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param string               $button_key Button key.
+		 * @param array<string, mixed> $params     Payment params. Default empty array.
+		 *
+		 * @return array<string, mixed>
+		 */
+		public function get_checkout_data_for_button_key( string $button_key, array $params = [] ): array {
+			if ( $button_key === static::get_name() ) {
+				return [
+					'label'     => $this->get_checkout_label(),
+					'info_text' => $this->get_checkout_info_text( Cast::to_string( $params['product_type'] ?? '' ) ),
+					'meta_html' => $this->get_checkout_meta_html(),
+				];
+			}
+
+			// If the subclass has more than one button key, it should override this method.
+			return [];
+		}
+
+		/**
+		 * Returns an instance of the payment gateway initiated by LD.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @return static|null Initiated instance or null if it was never initiated by LD (look `learndash_payment_gateways` filter).
+		 */
+		public static function get_initiated_instance(): ?self {
+			foreach ( self::$gateways as $gateway ) {
+				// It must be exactly the same class.
+				if ( get_class( $gateway ) === static::class ) {
+					return $gateway;
+				}
+			}
+
+			return null;
+		}
 
 		/**
 		 * Gets payment gateways select. Keys are gateway names and values are gateway labels.
@@ -388,6 +551,79 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		}
 
 		/**
+		 * Returns the payment gateway instance related to the button key.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param string $button_key Button key.
+		 *
+		 * @return Learndash_Payment_Gateway Instance of the payment gateway. Learndash_Unknown_Gateway if not found or not ready.
+		 */
+		public static function get_active_payment_gateway_by_button_key( string $button_key ): Learndash_Payment_Gateway {
+			foreach ( self::$active_gateways as $gateway ) {
+				if ( in_array( $button_key, $gateway->get_button_keys(), true ) ) {
+					return $gateway;
+				}
+			}
+
+			// If the button key is not found, return the unknown gateway.
+			return new Learndash_Unknown_Gateway();
+		}
+
+		/**
+		 * Returns all active gateways.
+		 *
+		 * @since 4.16.0
+		 * @since 4.18.0 Corrected returned type and excluded Learndash_Unknown_Gateway.
+		 *
+		 * @return array<string, static> The key is the gateway's unique key.
+		 */
+		public static function get_active_gateways(): array {
+			/**
+			 * Filters active gateways.
+			 *
+			 * @since 4.16.0
+			 *
+			 * @param array<string, static> $active_gateways Active gateways.
+			 */
+			return apply_filters(
+				'learndash_payment_option_active_gateways',
+				array_filter(
+					self::$active_gateways,
+					function ( $gateway ) {
+						return ! $gateway instanceof Learndash_Unknown_Gateway;
+					}
+				)
+			);
+		}
+
+		/**
+		 * Returns all active gateways that have test mode enabled.
+		 *
+		 * @since 4.18.0
+		 *
+		 * @return array<string, static> The key is the gateway's unique key.
+		 */
+		public static function get_active_gateways_in_test_mode(): array {
+			/**
+			 * Filters active gateways in test mode.
+			 *
+			 * @since 4.18.0
+			 *
+			 * @param array<string, static> $active_gateways_in_test_mode Active gateways in test mode.
+			 */
+			return apply_filters(
+				'learndash_payment_option_active_gateways_in_test_mode',
+				array_filter(
+					self::get_active_gateways(),
+					function ( $gateway ) {
+						return $gateway->is_test_mode();
+					}
+				)
+			);
+		}
+
+		/**
 		 * Adds button.
 		 *
 		 * @since 4.5.0
@@ -399,7 +635,11 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 * @return array<string,string> Payment buttons list.
 		 */
 		public function add_payment_button( array $buttons, WP_Post $post, array $params ): array {
-			$buttons[ static::get_name() ] = $this->map_payment_button_markup( $params, $post );
+			foreach ( $this->get_button_keys() as $button_key ) {
+				$buttons[ $button_key ] = $this->get_payment_button_markup_for_button_key( $button_key, $post, $params );
+			}
+
+			ksort( $buttons );
 
 			return $buttons;
 		}
@@ -426,15 +666,22 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 			// For buy now and recurring types, use the “enrollment URL” field from post settings.
 
 			if ( 1 === count( $products ) ) {
-				$product = $products[0];
+				$product        = $products[0];
+				$setting_prefix = LDLMS_Post_Types::get_post_type_key( $product->get_post_type() );
 
-				if ( learndash_is_course_post( $product->get_post() ) ) {
-					$enrollment_url = learndash_get_course_enrollment_url( $product->get_post() );
-				} elseif ( learndash_is_group_post( $product->get_post() ) ) {
-					$enrollment_url = learndash_get_group_enrollment_url( $product->get_post() );
+				if ( $product->is_price_type_paynow() ) {
+					$product_enrollment_url = Cast::to_string(
+						$product->get_setting( "{$setting_prefix}_price_type_paynow_enrollment_url" )
+					);
+				} elseif ( $product->is_price_type_subscribe() ) {
+					$product_enrollment_url = Cast::to_string(
+						$product->get_setting( "{$setting_prefix}_price_type_subscribe_enrollment_url" )
+					);
+				} else {
+					$product_enrollment_url = '';
 				}
 
-				if ( ! empty( $enrollment_url ) ) {
+				if ( ! empty( $product_enrollment_url ) ) {
 					/**
 					 * Filters URL for successful payments.
 					 *
@@ -446,7 +693,7 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 					 *
 					 * @return string The URL, where user will be redirected after the successful payment.
 					 */
-					return apply_filters( 'learndash_payment_option_url_success', $enrollment_url, static::get_name(), $products );
+					return apply_filters( 'learndash_payment_option_url_success', $product_enrollment_url, static::get_name(), $products );
 				}
 			}
 
@@ -554,13 +801,13 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		protected function map_description( array $products = array() ): string {
 			$products = array_filter(
 				$products,
-				function( $product ) {
+				function ( $product ) {
 					return $product instanceof Product;
 				}
 			);
 
 			$product_titles = array_map(
-				function( Product $product ): string {
+				function ( Product $product ): string {
 					return $product->get_post()->post_title;
 				},
 				$products
@@ -625,13 +872,38 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 * @since 4.5.0
 		 *
 		 * @param array<int|string,mixed> $meta Transaction meta.
-		 * @param WP_Post                 $post Post.
+		 * @param WP_Post                 $post The product post.
 		 * @param WP_User                 $user User.
 		 *
 		 * @return int Return the newly created transaction ID.
 		 */
 		protected function record_transaction( array $meta, WP_Post $post, WP_User $user ): int {
 			$transaction_id = learndash_transaction_create( $meta, $post, $user, $this->parent_transaction_id );
+
+			// Subscription processing: Exclude PayPal IPN as it's legacy.
+
+			if ( static::get_name() !== Learndash_Paypal_IPN_Gateway::get_name() ) {
+				// Set the transaction status based on the product.
+
+				$product = Product::find( $post->ID );
+
+				if ( $product ) {
+					$this->set_transaction_status_based_on_product( $product, $transaction_id );
+				}
+
+				// Set the recurring transaction meta and first charge if the product is a subscription.
+				if (
+				$product
+				&& $product->is_price_type_subscribe()
+				) {
+					$subscription = Commerce_Product_Mapper::create( $product, $transaction_id );
+
+					if ( $subscription instanceof Subscription ) {
+						$this->set_subscription_transaction_meta( $product, $subscription, $meta );
+						$this->create_charge( $product, $subscription );
+					}
+				}
+			}
 
 			if ( 0 === $this->parent_transaction_id ) {
 				$transaction = Transaction::find( $transaction_id );
@@ -644,6 +916,82 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 			}
 
 			return $transaction_id;
+		}
+
+		/**
+		 * Sets the transaction status based on the product.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param Product $product        The product.
+		 * @param int     $transaction_id The transaction ID.
+		 *
+		 * @return void
+		 */
+		protected function set_transaction_status_based_on_product( Product $product, int $transaction_id ): void {
+			$transaction = Commerce_Product_Mapper::create( $product, $transaction_id );
+
+			if ( ! $transaction ) {
+				$this->log_error( 'Transaction not found for ID: ' . $transaction_id );
+
+				return;
+			}
+
+			$status = $transaction->get_status_based_on_product( $product );
+
+			$this->log_info( 'Setting ' . get_class( $transaction ) . ' status: ' . $status );
+
+			$transaction->set_status( $status );
+		}
+
+		/**
+		 * Sets the subscription transaction meta.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param Product                 $product        The product.
+		 * @param Subscription            $subscription   The subscription.
+		 * @param array<int|string,mixed> $meta           The transaction meta.
+		 *
+		 * @return void
+		 */
+		protected function set_subscription_transaction_meta( Product $product, Subscription $subscription, array $meta ): void {
+			// Set the payment token.
+
+			if ( Arr::has( $meta, 'gateway_transaction.event.payment_token' ) ) {
+				$subscription->set_payment_token( Arr::wrap( Arr::get( $meta, 'gateway_transaction.event.payment_token', [] ) ) );
+			}
+
+			// Calculate and set the next payment date.
+
+			$subscription->calculate_next_payment_date();
+		}
+
+		/**
+		 * Creates a charge for the subscription.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param Product      $product      The product.
+		 * @param Subscription $subscription The subscription.
+		 *
+		 * @return void
+		 */
+		protected function create_charge( Product $product, Subscription $subscription ): void {
+			$number_of_charges = $subscription->count_charges();
+
+			$is_trial = $number_of_charges === 0 && $product->has_trial();
+
+			// Defining the price.
+
+			if ( $number_of_charges === 0 ) {
+				$price = $is_trial ? $product->get_trial_price() : $product->get_final_price();
+			} else {
+				// For the next charges, we use the regular price.
+				$price = $product->get_price();
+			}
+
+			$subscription->add_charge( $price, Charge::$status_success, $is_trial );
 		}
 
 		/**
@@ -889,6 +1237,48 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		}
 
 		/**
+		 * Cancels transactions for a user and products.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param Product[] $products Products.
+		 * @param WP_User   $user     User.
+		 * @param string    $reason   The reason for the cancellation.
+		 *
+		 * @return void
+		 */
+		protected function cancel_transactions( array $products, WP_User $user, string $reason ): void {
+			$products = array_filter(
+				$products,
+				function ( $product ) {
+					return $product instanceof Product;
+				}
+			);
+
+			foreach ( $products as $product ) {
+				$transaction_id = Transaction_Repository::find_latest_transaction_id( $user->ID, $product->get_id() );
+
+				if ( ! $transaction_id ) {
+					$this->log_error( 'Transaction not found for user: ' . $user->ID . ' and product: ' . $product->get_id() );
+
+					continue;
+				}
+
+				$transaction = Commerce_Product_Mapper::create( $product, $transaction_id );
+
+				if ( ! $transaction ) {
+					$this->log_error( 'Transaction not found for ID: ' . $transaction_id );
+
+					continue;
+				}
+
+				$this->log_info( 'Cancelling transaction: ' . $transaction->get_id() );
+
+				$transaction->cancel( $reason, true );
+			}
+		}
+
+		/**
 		 * Maps the payment button label.
 		 *
 		 * @since 4.5.0
@@ -911,9 +1301,21 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 			if ( count( $active_gateways ) > 1 ) {
 				$button_label = $gateway_button_label;
 			} elseif ( learndash_is_course_post( $post ) ) {
-				$button_label = LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_course );
+				/* This filter is documented in includes/payments/class-learndash-payment-button.php */
+				$button_label = apply_filters(
+					'learndash_payment_button_label_course',
+					LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_course ),
+					Product::create_from_post( $post ),
+					$this->user
+				);
 			} elseif ( learndash_is_group_post( $post ) ) {
-				$button_label = LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_group );
+				/* This filter is documented in includes/payments/class-learndash-payment-button.php */
+				$button_label = apply_filters(
+					'learndash_payment_button_label_group',
+					LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_group ),
+					Product::create_from_post( $post ),
+					$this->user
+				);
 			}
 
 			if ( Learndash_Razorpay_Gateway::get_name() === static::get_name() ) {
@@ -1075,12 +1477,13 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 * Writes an information to the log.
 		 *
 		 * @since 4.5.0
+		 * @since 4.20.1. Changed the visibility from protected to public.
 		 *
 		 * @param string $message Message.
 		 *
 		 * @return void
 		 */
-		protected function log_info( string $message ): void {
+		public function log_info( string $message ): void {
 			if ( ! $this->supports_logger() || ! $this->logger ) {
 				return;
 			}
@@ -1092,12 +1495,13 @@ if ( ! class_exists( 'Learndash_Payment_Gateway' ) ) {
 		 * Writes an error to the log.
 		 *
 		 * @since 4.5.0
+		 * @since 4.20.1. Changed the visibility from protected to public.
 		 *
 		 * @param string $message Message.
 		 *
 		 * @return void
 		 */
-		protected function log_error( string $message ): void {
+		public function log_error( string $message ): void {
 			if ( ! $this->supports_logger() || ! $this->logger ) {
 				return;
 			}

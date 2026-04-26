@@ -6,12 +6,13 @@
  * @package LearnDash\Settings\Fields
  */
 
+use LearnDash\Core\Utilities\Sanitize;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'LearnDash_Settings_Fields_Checkbox_Switch' ) ) ) {
-
 	/**
 	 * Class LearnDash Checkbox Switch / Toggle Settings Field.
 	 *
@@ -19,7 +20,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 	 * @uses LearnDash_Settings_Fields
 	 */
 	class LearnDash_Settings_Fields_Checkbox_Switch extends LearnDash_Settings_Fields {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -41,7 +41,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 		 * @return void
 		 */
 		public function create_section_field( $field_args = array() ) {
-
 			/**
 			 * Filters setting field arguments.
 			 *
@@ -157,30 +156,26 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 
 				$html .= '<span class="label-text';
 				if ( count( $field_args['options'] ) > 1 ) {
-					 // phpcs:ignore CSpell: CSS changes needed when updating spelling.
-					$html .= ' label-text-multple'; // cspell:disable-line.
+					$html .= ' label-text-multiple';
 				}
 				$html .= '">';
 
 				if ( count( $field_args['options'] ) > 1 ) {
-
 					foreach ( $field_args['options'] as $option_key => $option_label ) {
 						$label_display_state = '';
 						if ( $option_key !== $sel_option_key ) {
 							$label_display_state = ' style="display:none;" ';
 						}
 						if ( is_string( $option_label ) ) {
-							$html .= '<span class="ld-label-text ld-label-text-' . esc_attr( $option_key ) . '"' . $label_display_state . '>' . wp_kses_post( $option_label ) . '</span>';
+							$html .= '<span class="ld-label-text ld-label-text-' . esc_attr( $option_key ) . '"' . $label_display_state . '>' . wp_kses( $option_label, Sanitize::extended_kses() ) . '</span>';
 						} elseif ( ( is_array( $option_label ) ) && ( isset( $option_label['label'] ) ) && ( ! empty( $option_label['label'] ) ) ) {
-							$html .= '<span class="ld-label-text ld-label-text-' . esc_attr( $option_key ) . '"' . $label_display_state . '>' . wp_kses_post( $option_label['label'] ) . '</span>';
+							$html .= '<span class="ld-label-text ld-label-text-' . esc_attr( $option_key ) . '"' . $label_display_state . '>' . wp_kses( $option_label['label'], Sanitize::extended_kses() ) . '</span>';
 						}
 					}
-				} else {
-					if ( is_string( $sel_option_label ) ) {
+				} elseif ( is_string( $sel_option_label ) ) {
 							$html .= $sel_option_label;
-					} elseif ( ( is_array( $sel_option_label ) ) && ( isset( $sel_option_label['label'] ) ) && ( ! empty( $sel_option_label['label'] ) ) ) {
-						$html .= $sel_option_label['label'];
-					}
+				} elseif ( ( is_array( $sel_option_label ) ) && ( isset( $sel_option_label['label'] ) ) && ( ! empty( $sel_option_label['label'] ) ) ) {
+					$html .= $sel_option_label['label'];
 				}
 				$html .= '</span>';
 				$html .= '</div></label>';
@@ -269,7 +264,7 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 }
 add_action(
 	'learndash_settings_sections_fields_init',
-	function() {
+	function () {
 		LearnDash_Settings_Fields_Checkbox_Switch::add_field_instance( 'checkbox-switch' );
 	}
 );

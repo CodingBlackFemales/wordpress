@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-2.0-or-later
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */ declare( strict_types=1 );
 
 namespace StellarWP\Learndash\StellarWP\ContainerContract;
 
@@ -12,28 +6,25 @@ namespace StellarWP\Learndash\StellarWP\ContainerContract;
  * Describes the interface of a container that exposes methods to read its entries.
  */
 interface ContainerInterface {
-
 	/**
 	 * Binds an interface, a class or a string slug to an implementation.
 	 *
 	 * Existing implementations are replaced.
 	 *
-	 * @param string|class-string $id             Identifier of the entry to look for.
-	 * @param mixed               $implementation The implementation that should be bound to the alias(es); can be a
-	 *                                            class name, an object or a closure.
+	 * @param string $id             Identifier of the entry to look for.
+	 * @param mixed  $implementation The implementation that should be bound to the alias(es); can be a
+	 *                               class name, an object or a closure.
 	 *
-	 * @return void
+	 * @return mixed Entry.
 	 */
 	public function bind( string $id, $implementation = null );
 
 	/**
 	 * Finds an entry of the container by its identifier and returns it.
 	 *
-	 * @template T
+	 * @param string $id Identifier of the entry to look for.
 	 *
-	 * @param string|class-string<T> $id Identifier of the entry to look for.
-	 *
-	 * @return ($id is class-string<T> ? T : mixed) Entry.
+	 * @return mixed Entry.
 	 */
 	public function get( string $id );
 
@@ -44,7 +35,7 @@ interface ContainerInterface {
 	 * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
 	 * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
 	 *
-	 * @param string|class-string $id Identifier of the entry to look for.
+	 * @param string $id Identifier of the entry to look for.
 	 *
 	 * @return bool
 	 */
@@ -53,12 +44,11 @@ interface ContainerInterface {
 	/**
 	 * Binds an interface a class or a string slug to an implementation and will always return the same instance.
 	 *
-	 * @param string|class-string $id             Identifier of the entry to look for.
-	 * @param mixed               $implementation The implementation that should be bound to the alias(es); can be a
-	 *                                            class name, an object or a closure.
+	 * @param string $id             Identifier of the entry to look for.
+	 * @param mixed  $implementation The implementation that should be bound to the alias(es); can be a
+	 *                               class name, an object or a closure.
 	 *
 	 * @return void This method does not return any value.
 	 */
 	public function singleton( string $id, $implementation = null );
-
 }

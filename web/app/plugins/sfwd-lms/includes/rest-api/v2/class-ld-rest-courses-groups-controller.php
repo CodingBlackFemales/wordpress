@@ -198,7 +198,7 @@ if ( ( ! class_exists( 'LD_REST_Courses_Groups_Controller_V2' ) ) && ( class_exi
 
 					$this->course_post = get_post( $course_id );
 					if ( ( $this->course_post ) && ( is_a( $this->course_post, 'WP_Post' ) ) && ( learndash_get_post_type_slug( 'course' ) === $this->course_post->post_type ) ) {
-						$course_groups = learndash_get_course_groups( $this->course_post->ID, true );
+						$course_groups = learndash_get_course_groups( $this->course_post->ID );
 						if ( ! empty( $course_groups ) ) {
 							$course_has_groups      = true;
 							$query_args['post__in'] = $query_args['post__in'] ? array_intersect( $course_groups, $query_args['post__in'] ) : $course_groups;

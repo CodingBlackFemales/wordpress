@@ -33,12 +33,11 @@ if ( ( ! class_exists( 'LD_REST_Users_Quiz_Progress_Controller_V2' ) ) && ( clas
 			'course'   => 'course_id',
 			'lesson'   => 'lesson_id',
 			'topic'    => 'topic_id',
-			'offset'   => 'offset',
+			'offset'   => 'quiz_offset',
 			'order'    => 'order',
 			'orderby'  => 'orderby',
 			'per_page' => 'posts_per_page',
-			'page'     => 'paged',
-			'search'   => 's',
+			'page'     => 'quiz_paged',
 		);
 
 		/**
@@ -237,13 +236,20 @@ if ( ( ! class_exists( 'LD_REST_Users_Quiz_Progress_Controller_V2' ) ) && ( clas
 						'readonly'    => true,
 					),
 					'timespent'     => array(
-						'description' => esc_html__( 'Timespent', 'learndash' ),
+						'description' => esc_html__( 'Time spent', 'learndash' ),
 						'type'        => 'number',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
 					),
 					'has_graded'    => array(
-						'description' => esc_html__( 'Has Graded', 'learndash' ),
+						'description' => esc_html(
+							sprintf(
+								// translators: placeholder: %1$s: Quiz, %2$s: Questions.
+								__( 'Has ungraded %1$s %2$s', 'learndash' ),
+								learndash_get_custom_label_lower( 'quiz' ),
+								learndash_get_custom_label_lower( 'questions' )
+							)
+						),
 						'type'        => 'boolean',
 						'context'     => array( 'view' ),
 						'readonly'    => true,
@@ -582,10 +588,10 @@ if ( ( ! class_exists( 'LD_REST_Users_Quiz_Progress_Controller_V2' ) ) && ( clas
 						);
 					}
 
-					if ( ! empty( $quiz['statistic_ref_id'] ) ) {
+					if ( ! empty( $quiz['statistic'] ) ) {
 						$links['statistic_ref_id'] = array(
 							array(
-								'href'       => rest_url( $this->namespace . '/' . $this->get_rest_base( 'quizzes' ) . '/' . absint( $quiz['quiz'] ) . '/' . $this->get_rest_base( 'quizzes-statistics' ) . '/' . absint( $quiz['statistic_ref_id'] ) ),
+								'href'       => rest_url( $this->namespace . '/' . $this->get_rest_base( 'quizzes' ) . '/' . absint( $quiz['quiz'] ) . '/' . $this->get_rest_base( 'quizzes-statistics' ) . '/' . absint( $quiz['statistic'] ) ),
 								'embeddable' => true,
 							),
 						);
@@ -647,16 +653,28 @@ if ( ( ! class_exists( 'LD_REST_Users_Quiz_Progress_Controller_V2' ) ) && ( clas
 
 			if ( ! isset( $query_params_default['quiz'] ) ) {
 				$query_params_default['quiz'] = array(
-					'description' => sprintf(
-						// translators: placeholder: quiz.
-						esc_html_x(
-							'Limit results to be within a specific %s. Required for non-admin users.',
-							'placeholder: quiz',
-							'learndash'
+					'description' => esc_html(
+						sprintf(
+							// translators: placeholder: quiz label.
+							__( 'Limit results to be within a specific %s.', 'learndash' ),
+							LearnDash_Custom_Label::get_label( 'quiz' )
 						),
-						LearnDash_Custom_Label::get_label( 'quiz' )
 					),
 					'type'        => 'integer',
+				);
+			}
+
+			if (
+				! empty( $query_params_default['course'] )
+				&& is_array( $query_params_default['course'] )
+				&& ! empty( $query_params_default['course']['description'] )
+			) {
+				$query_params_default['course']['description'] = esc_html(
+					sprintf(
+						// translators: placeholder: course label.
+						__( 'Limit results to be within a specific %s.', 'learndash' ),
+						LearnDash_Custom_Label::get_label( 'course' )
+					),
 				);
 			}
 

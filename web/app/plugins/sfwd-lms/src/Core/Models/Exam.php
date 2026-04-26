@@ -17,18 +17,13 @@
 namespace LearnDash\Core\Models;
 
 use LDLMS_Post_Types;
-use LearnDash\Core\Models\Traits\Has_Course;
 
 /**
  * Exam model class.
  *
  * @since 4.6.0
  */
-class Exam extends Post {
-	use Has_Course {
-		get_course as get_course_from_trait;
-	}
-
+class Exam extends Step {
 	/**
 	 * Returns allowed post types.
 	 *
@@ -40,28 +35,5 @@ class Exam extends Post {
 		return array(
 			LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::EXAM ),
 		);
-	}
-
-	/**
-	 * Returns a course of the exam or null.
-	 *
-	 * @since 4.6.0
-	 *
-	 * @return Course|null
-	 */
-	public function get_course(): ?Course {
-		/**
-		 * Filters an exam course.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param Course|null $course Course model.
-		 * @param Exam        $exam   Exam model.
-		 *
-		 * @return Course|null Lesson course model.
-		 *
-		 * @ignore
-		 */
-		return apply_filters( 'learndash_model_exam_course', $this->get_course_from_trait(), $this );
 	}
 }

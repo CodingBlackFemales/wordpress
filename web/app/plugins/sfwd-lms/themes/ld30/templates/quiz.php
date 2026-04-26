@@ -2,6 +2,9 @@
 /**
  * LearnDash LD30 Displays a quiz.
  *
+ * @since 2.1.0
+ * @version 4.18.0
+ *
  * Available Variables:
  *
  * $course_id                   : (int) ID of the course
@@ -29,8 +32,6 @@
  *
  * To get lesson/topic post object under which the quiz is added:
  * $lesson_post = !empty($quiz_settings["lesson"])? get_post($quiz_settings["lesson"]):null;
- *
- * @since 2.1.0
  *
  * @package LearnDash\Templates\LD30
  */
@@ -115,11 +116,17 @@ if ( ( ! isset( $quiz_post ) ) || ( ! is_a( $quiz_post, 'WP_Post' ) ) ) {
 				$show_content = $previous_lesson_completed;
 			}
 
-			if ( ( learndash_is_sample( $quiz_post ) ) /* && ( true !== (bool) $has_access ) */ ) {
-				$show_content = true;
-			} elseif ( ( $last_incomplete_step ) && ( is_a( $last_incomplete_step, 'WP_Post' ) ) ) {
-				$show_content = false;
+			// Case of sample quizzes.
+			$show_content = $show_content || learndash_is_sample( $quiz_post );
 
+			if (
+				$last_incomplete_step
+				&& $last_incomplete_step instanceof WP_Post
+				&& (
+					! learndash_is_sample( $quiz_post )
+					|| (bool) $has_access
+				)
+			) {
 				$sub_context = '';
 				if ( 'on' === learndash_get_setting( $last_incomplete_step->ID, 'lesson_video_enabled' ) ) {
 					if ( ! empty( learndash_get_setting( $last_incomplete_step->ID, 'lesson_video_url' ) ) ) {
@@ -164,7 +171,6 @@ if ( ( ! isset( $quiz_post ) ) || ( ! is_a( $quiz_post, 'WP_Post' ) ) ) {
 				 * @param int $user_id   User ID.
 				 */
 				do_action( 'learndash-quiz-progression-after', $quiz_post->ID, $course_id, $user_id );
-
 			}
 		} else {
 			$show_content = true;
@@ -261,8 +267,25 @@ if ( ( ! isset( $quiz_post ) ) || ( ! is_a( $quiz_post, 'WP_Post' ) ) ) {
 		endif;
 	endif;
 
+	// External quizzes.
+
+	if ( learndash_course_steps_is_external( $quiz_post->ID ) ):
+		learndash_get_template_part(
+			'modules/course-steps.php',
+			array(
+				'course_id'        => $course_id,
+				'course_step_post' => $quiz_post,
+				'user_id'          => $user_id,
+				'course_settings'  => $course_settings ?? [],
+				'can_complete'     => ! learndash_course_steps_is_external_attendance_required( $quiz_post->ID ),
+				'context'          => 'quiz',
+			),
+			true
+		);
+	endif;
+
 	/**
-	 * Fires before the quiz content starts.
+	 * Fires after the quiz content starts.
 	 *
 	 * @since 3.0.0
 	 *

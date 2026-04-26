@@ -17,7 +17,6 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 	 * @since 4.4.0
 	 */
 	class LearnDash_Settings_Page_Help extends LearnDash_Settings_Page {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -31,15 +30,13 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 			$this->settings_tab_title    = esc_html__( 'Help', 'learndash' );
 			$this->settings_tab_priority = 100;
 
-			if ( ! learndash_cloud_is_enabled() ) {
-				add_filter( 'learndash_submenu', array( $this, 'submenu_item' ), 200 );
+			add_filter( 'learndash_submenu', array( $this, 'submenu_item' ), 200 );
 
-				add_filter( 'learndash_admin_tab_sets', array( $this, 'learndash_admin_tab_sets' ), 10, 3 );
-				add_filter( 'learndash_header_data', array( $this, 'admin_header' ), 40, 3 );
-				add_action( 'admin_head', array( $this, 'output_admin_inline_scripts' ) );
+			add_filter( 'learndash_admin_tab_sets', array( $this, 'learndash_admin_tab_sets' ), 10, 3 );
+			add_filter( 'learndash_header_data', array( $this, 'admin_header' ), 40, 3 );
+			add_action( 'admin_head', array( $this, 'output_admin_inline_scripts' ) );
 
-				parent::__construct();
-			}
+			parent::__construct();
 		}
 
 		/**
@@ -51,7 +48,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return array
 		 */
-		public function submenu_item( array $submenu ) : array {
+		public function submenu_item( array $submenu ): array {
 			if ( ! isset( $submenu[ $this->settings_page_id ] ) ) {
 				$submenu = array_merge(
 					$submenu,
@@ -80,7 +77,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return array
 		 */
-		public function admin_header( array $header_data = array(), string $menu_key = '', array $menu_items = array() ) : array {
+		public function admin_header( array $header_data = array(), string $menu_key = '', array $menu_items = array() ): array {
 			// Clear out $header_data if we are showing our page.
 			return $menu_key === $this->parent_menu_page_url ? array() : $header_data;
 		}
@@ -92,7 +89,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return void
 		 */
-		public function output_admin_inline_scripts() : void {
+		public function output_admin_inline_scripts(): void {
 			?>
             <?php // phpcs:ignore?>
             <?php if ( isset( $_GET['page'] ) && in_array( $_GET['page'], [ 'learndash-help' ], true ) ) : ?>
@@ -112,7 +109,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return string
 		 */
-		public function get_admin_page_title() : string {
+		public function get_admin_page_title(): string {
 			/** This filter is documented in includes/settings/class-ld-settings-pages.php */
 			return apply_filters( 'learndash_admin_page_title', '<h1>' . $this->settings_page_title . '</h1>' );
 		}
@@ -124,7 +121,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return void
 		 */
-		public static function enqueue_support_assets() : void {
+		public static function enqueue_support_assets(): void {
 			wp_enqueue_style(
 				'learndash-help',
 				LEARNDASH_LMS_PLUGIN_URL . '/assets/css/help.css',
@@ -149,8 +146,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return void
 		 */
-		public function load_settings_page() : void {
-
+		public function load_settings_page(): void {
 			global $learndash_assets_loaded;
 
 			self::enqueue_support_assets();
@@ -171,7 +167,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return array
 		 */
-		public function learndash_admin_tab_sets( array $tab_set = array(), string $tab_key = '', string $current_page_id = '' ) : array {
+		public function learndash_admin_tab_sets( array $tab_set = array(), string $tab_key = '', string $current_page_id = '' ): array {
 			if ( ( ! empty( $tab_set ) ) && ( ! empty( $tab_key ) ) && ( ! empty( $current_page_id ) ) ) {
 				if ( 'admin_page_learndash-help' === $current_page_id ) {
 					?>
@@ -189,7 +185,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return void
 		 */
-		public function show_settings_page() : void {
+		public function show_settings_page(): void {
 			$categories = self::get_categories();
 
 			SFWD_LMS::get_view(
@@ -202,89 +198,79 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		}
 
 		/**
-		 * Get categories
+		 * Returns Help categories.
 		 *
 		 * @since 4.4.0
+		 * @since 4.20.2 Removed the 'helpScoutId' key from categories. And added the 'url' key.
 		 *
-		 * @return array<string, array<string, string>>
+		 * @return array<string, array{id: string, url: string, label: string, description: string, icon: string}>
 		 */
-		public static function get_categories() : array {
-			$categories = array(
-				'getting-started'     => array(
+		public static function get_categories(): array {
+			return [
+				'getting-started'     => [
 					'id'          => 'getting-started',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/getstarted',
 					'label'       => __( 'Getting Started', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Not sure what to do next? Read our top articles to get more information.', 'learndash' ),
 					'icon'        => 'getting-started',
-				),
-				'learndash-core'      => array(
+				],
+				'learndash-core'      => [
 					'id'          => 'learndash-core',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/core',
 					'label'       => __( 'LearnDash Core', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Everything about LearnDash LMS core plugin.', 'learndash' ),
 					'icon'        => 'core',
-				),
-				'add-ons'             => array(
+				],
+				'add-ons'             => [
 					'id'          => 'add-ons',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/addons',
 					'label'       => __( 'Add-Ons', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Course Grid, Stripe, WooCommerce, Zapier, and other official add-ons documentations.', 'learndash' ),
 					'icon'        => 'addons',
-				),
-				'users-and-groups'    => array(
+				],
+				'users-and-groups'    => [
 					'id'          => 'users-and-groups',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/usermanagement',
 					'label'       => __( 'Users & Groups', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Have questions about users & groups? Our articles may help.', 'learndash' ),
 					'icon'        => 'users-groups',
-				),
-				'reporting'           => array(
+				],
+				'reporting'           => [
 					'id'          => 'reporting',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/reporting',
 					'label'       => __( 'Reporting', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'LearnDash reporting guides.', 'learndash' ),
 					'icon'        => 'reporting',
-				),
-				'user-guides'         => array(
+				],
+				'user-guides'         => [
 					'id'          => 'user-guides',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/guides',
 					'label'       => __( 'User Guides', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Collection of guides that will help you accomplish certain tasks.', 'learndash' ),
 					'icon'        => 'user-guides',
-				),
-				'troubleshooting'     => array(
+				],
+				'troubleshooting'     => [
 					'id'          => 'troubleshooting',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/troubleshooting',
 					'label'       => __( 'Troubleshooting', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Have issues? Follow our troubleshooting guides to resolve them.', 'learndash' ),
 					'icon'        => 'troubleshooting',
-				),
-				'faqs'                => array(
+				],
+				'faqs'                => [
 					'id'          => 'faqs',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/faq',
 					'label'       => __( 'FAQs', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Have a question? See if it\'s already been answered.', 'learndash' ),
 					'icon'        => 'faqs',
-				),
-				'account-and-billing' => array(
+				],
+				'account-and-billing' => [
 					'id'          => 'account-and-billing',
-					'helpScoutId' => '',
+					'url'         => 'https://go.learndash.com/accounthelp',
 					'label'       => __( 'Accounts & Billing', 'learndash' ),
-                    // phpcs:ignore Generic.Files.LineLength.TooLong
 					'description' => __( 'Accounts & Billing related articles.', 'learndash' ),
 					'icon'        => 'accounts-billing',
-				),
-			);
-
-			return $categories;
+				],
+			];
 		}
 
 		/**
@@ -296,7 +282,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return array<string, string>
 		 */
-		public static function get_articles_categories( array $exclude_categories = array() ) : array {
+		public static function get_articles_categories( array $exclude_categories = array() ): array {
 			$categories = array(
 				'additional_resources' => __( 'Additional Resources', 'learndash' ),
 				'build_courses'        => __( 'Build Courses', 'learndash' ),
@@ -327,12 +313,12 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 		 *
 		 * @return array<int, array<string, array<int, string>|string>>
 		 */
-		public static function get_articles( string $category = null, array $exclude_categories = array() ) : array {
+		public static function get_articles( string $category = null, array $exclude_categories = array() ): array {
 			$articles = array(
 				array(
-					'type'       => 'youtube_video',
+					'type'       => 'vimeo_video',
 					'title'      => __( 'Welcome to LearnDash', 'learndash' ),
-					'youtube_id' => 'hcSTaMhZi64',
+					'youtube_id' => '797750743',
 					'category'   => 'overview_video',
 				),
 				array(
@@ -342,36 +328,39 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 					'category' => 'overview_article',
 				),
 				array(
-					'type'     => 'url',
+					'category' => 'additional_resources',
+					'target'   => '_blank',
 					'title'    => __( 'LearnDash 101', 'learndash' ),
-					'url'      => 'https://academy.learndash.com/courses/learndash-101/',
-					'category' => 'additional_resources',
-				),
-				array(
 					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/101',
+				),
+				array(
+					'category' => 'additional_resources',
+					'target'   => '_blank',
 					'title'    => __( 'WordPress 101', 'learndash' ),
-					'url'      => 'https://academy.learndash.com/courses/wordpress-101/',
-					'category' => 'additional_resources',
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/wp101',
 				),
 				array(
-					'type'     => 'helpscout_action',
+					'category' => 'additional_resources',
+					'target'   => '_blank',
 					'title'    => __( 'LearnDash Documentation', 'learndash' ),
-					'action'   => 'open_doc',
-					'keyword'  => '',
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/docs',
+				),
+				array(
 					'category' => 'additional_resources',
+					'target'   => '_blank',
+					'title'    => __( 'Getting Started', 'learndash' ),
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/gettingstarted',
 				),
 				array(
-					'type'         => 'article',
-					'title'        => __( 'Getting Started', 'learndash' ),
-					'helpscout_id' => '62a0e4f0e1d2cf0eac00f2bb',
-					'category'     => 'additional_resources',
-				),
-				array(
-					'type'     => 'helpscout_action',
+					'category' => 'additional_resources',
+					'target'   => '_blank',
 					'title'    => __( 'Contact Support', 'learndash' ),
-					'action'   => 'open_chat',
-					'keyword'  => '',
-					'category' => 'additional_resources',
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/support',
 				),
 				array(
 					'type'     => 'vimeo_video',
@@ -404,10 +393,11 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 					'category' => 'sell_courses',
 				),
 				array(
-					'type'         => 'article',
-					'title'        => __( 'WooCommerce Integration [Article]', 'learndash' ),
-					'helpscout_id' => '6216b293aca5bb2b753c5c7f',
-					'category'     => 'sell_courses',
+					'category' => 'sell_courses',
+					'target'   => '_blank',
+					'title'    => __( 'WooCommerce Integration', 'learndash' ),
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/woo',
 				),
 				array(
 					'type'     => 'vimeo_video',
@@ -422,16 +412,18 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 					'category' => 'manage_students',
 				),
 				array(
-					'type'         => 'article',
-					'title'        => __( 'Adding a User Profile Page', 'learndash' ),
-					'helpscout_id' => '6216c2961173d072c69fb37a',
-					'category'     => 'manage_students',
+					'category' => 'manage_students',
+					'target'   => '_blank',
+					'title'    => __( 'Adding a User Profile Page', 'learndash' ),
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/userprofilesetup',
 				),
 				array(
-					'type'         => 'article',
-					'title'        => __( 'LearnDash Login & Registration [Guide]', 'learndash' ),
-					'helpscout_id' => '6217ffea1173d072c69fba4d',
-					'category'     => 'manage_students',
+					'category' => 'manage_students',
+					'target'   => '_blank',
+					'title'    => __( 'LearnDash Login & Registration', 'learndash' ),
+					'type'     => 'url',
+					'url'      => 'https://go.learndash.com/registrationsetup',
 				),
 			);
 
@@ -464,7 +456,7 @@ if ( class_exists( 'LearnDash_Settings_Page' ) && ! class_exists( 'LearnDash_Set
 
 add_action(
 	'learndash_settings_pages_init',
-	function() {
+	function () {
 		LearnDash_Settings_Page_Help::add_page_instance();
 	}
 );

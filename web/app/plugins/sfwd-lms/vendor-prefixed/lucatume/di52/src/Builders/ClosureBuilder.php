@@ -1,23 +1,18 @@
 <?php
+
 /**
  * Closure-based builder.
  *
  * @package lucatume\DI52
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52\Builders;
 
 use Closure;
 use StellarWP\Learndash\lucatume\DI52\Container;
-
 /**
  * Class ClosureBuilder
  *
- * @package StellarWP\Learndash\lucatume\DI52\Builders
+ * @package \StellarWP\Learndash\lucatume\DI52\Builders
  */
 class ClosureBuilder implements BuilderInterface
 {
@@ -27,14 +22,12 @@ class ClosureBuilder implements BuilderInterface
      * @var Container
      */
     protected $container;
-
     /**
      * A reference to the closure the builder should run to build.
      *
      * @var Closure
      */
     protected $closure;
-
     /**
      * ClosureBuilder constructor.
      *
@@ -46,7 +39,6 @@ class ClosureBuilder implements BuilderInterface
         $this->container = $container;
         $this->closure = $closure;
     }
-
     /**
      * Calls the Closure handled by the builder to return the built implementation.
      *

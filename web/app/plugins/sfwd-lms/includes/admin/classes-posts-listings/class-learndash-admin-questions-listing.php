@@ -6,12 +6,14 @@
  * @package LearnDash\Question\Listing
  */
 
+use LearnDash\Core\App;
+use LearnDash\Core\Modules\Quiz\Question\Admin\Listing;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'Learndash_Admin_Questions_Listing' ) ) ) {
-
 	/**
 	 * Class LearnDash Quiz Questions (sfwd-question) Posts Listing.
 	 *
@@ -19,7 +21,6 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 	 * @uses Learndash_Admin_Posts_Listing
 	 */
 	class Learndash_Admin_Questions_Listing extends Learndash_Admin_Posts_Listing {
-
 		/**
 		 * Collection of deleted Question post IDs.
 		 *
@@ -95,18 +96,30 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 				),
 			);
 
+			/**
+			 * Question listing handler instance.
+			 *
+			 * @var Listing
+			 */
+			$question_listing_handler = App::get( Listing::class );
+
 			$this->columns = array(
-				'question_type'   => array(
+				'ld_question_title_custom' => [
+					'label'   => esc_html__( 'Title', 'learndash' ),
+					'after'   => 'cb',
+					'display' => [ $question_listing_handler, 'show_column_title_custom' ],
+				],
+				'question_type'            => array(
 					'label'   => esc_html__( 'Type', 'learndash' ),
-					'after'   => 'title',
+					'after'   => 'ld_question_title_custom',
 					'display' => array( $this, 'show_column_question_type' ),
 				),
-				'question_points' => array(
+				'question_points'          => array(
 					'label'   => esc_html__( 'Points', 'learndash' ),
 					'after'   => 'question_type',
 					'display' => array( $this, 'show_column_question_points' ),
 				),
-				'quiz'            => array(
+				'quiz'                     => array(
 					'label'    => sprintf(
 						// translators: placeholder: Quiz.
 						esc_html_x( 'Assigned %s', 'placeholder: Quiz', 'learndash' ),
@@ -156,7 +169,6 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		 */
 		public function on_load_listing() {
 			if ( $this->post_type_check() ) {
-
 				parent::on_load_listing();
 
 				add_action( 'admin_footer', array( $this, 'admin_footer' ), 30 );
@@ -255,7 +267,8 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 			if ( ( ! isset( $question_values['points'] ) ) || ( empty( $question_values['points'] ) ) ) {
 				$question_values['points'] = 1;
 			}
-			echo absint( $question_values['points'] );
+
+			echo esc_attr( (string) learndash_format_course_points( $question_values['points'] ) );
 		}
 
 		/**
@@ -325,7 +338,6 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 			$category_mapper         = new WpProQuiz_Model_CategoryMapper();
 			$question_pro_categories = $category_mapper->fetchAll();
 			if ( ! empty( $question_pro_categories ) ) {
-
 				if ( ( isset( $selector['selected'] ) ) && ( ! empty( $selector['selected'] ) ) ) {
 					$selected_question_pro_category = esc_attr( $selector['selected'] );
 				} else {

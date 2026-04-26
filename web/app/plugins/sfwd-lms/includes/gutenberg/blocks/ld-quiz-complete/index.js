@@ -19,7 +19,7 @@ import {
  */
 import { __, _x, sprintf } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { InnerBlocks, InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 const block_key   = 'learndash/ld-quiz-complete';
@@ -40,6 +40,7 @@ registerBlockType(
 		supports: {
 			customClassName: false,
 		},
+		apiVersion: 3,
 		attributes: {
 			course_id: {
 				type: 'string',
@@ -59,7 +60,9 @@ registerBlockType(
 			},
 		},
 		edit: props => {
-			const { attributes: { course_id, quiz_id, user_id, autop }, className, setAttributes } = props;
+			const { attributes: { course_id, quiz_id, user_id, autop }, setAttributes } = props;
+
+			const blockProps = useBlockProps();
 
 			const inspectorControls = (
 				<InspectorControls key="controls">
@@ -137,8 +140,9 @@ registerBlockType(
 				ld_block_error_message = (<span className="learndash-block-error-message">{ld_block_error_message}</span>);
 			}
 
-			const outputBlock = (
-				<div className={className} key='ld-quiz-complete'>
+			return (
+				<div { ...blockProps }>
+					{ inspectorControls }
 					<span className="learndash-inner-header">{block_title}</span>
 					<div className="learndash-block-inner">
 						{ld_block_error_message}
@@ -146,11 +150,6 @@ registerBlockType(
 					</div>
 				</div>
 			);
-
-			return [
-				inspectorControls,
-				outputBlock
-			];
 		},
 		save: props => {
 			return (

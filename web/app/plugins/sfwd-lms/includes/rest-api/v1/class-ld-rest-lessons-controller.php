@@ -49,8 +49,6 @@ if ( ( ! class_exists( 'LD_REST_Lessons_Controller_V1' ) ) && ( class_exists( 'L
 		 * @see register_rest_route() in WordPress core.
 		 */
 		public function register_routes() {
-			parent::register_routes_wpv2();
-
 			$this->register_fields();
 
 			$collection_params = $this->get_collection_params();

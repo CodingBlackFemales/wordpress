@@ -1,22 +1,17 @@
 <?php
+
 /**
  * Callable-based builder.
  *
  * @package StellarWP\Learndash\lucatume\DI52\Builders
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52\Builders;
 
 use StellarWP\Learndash\lucatume\DI52\Container;
-
 /**
  * Class CallableBuilder
  *
- * @package StellarWP\Learndash\lucatume\DI52\Builders
+ * @package \StellarWP\Learndash\lucatume\DI52\Builders
  */
 class CallableBuilder implements BuilderInterface, ReinitializableBuilderInterface
 {
@@ -26,7 +21,6 @@ class CallableBuilder implements BuilderInterface, ReinitializableBuilderInterfa
      * @var Container The
      */
     protected $container;
-
     /**
      * The callable this builder will use.
      *
@@ -45,7 +39,6 @@ class CallableBuilder implements BuilderInterface, ReinitializableBuilderInterfa
      * @var array<mixed>
      */
     protected $buildArgs;
-
     /**
      * CallableBuilder constructor.
      *
@@ -54,18 +47,13 @@ class CallableBuilder implements BuilderInterface, ReinitializableBuilderInterfa
      * @param array<string>|null $afterBuildMethods A set of methods to call on the built instance.
      * @param mixed              ...$buildArgs      A set of optional arguments for the callable method.
      */
-    public function __construct(
-        Container $container,
-        callable $callable,
-        array $afterBuildMethods = null,
-        ...$buildArgs
-    ) {
+    public function __construct(Container $container, callable $callable, array $afterBuildMethods = null, ...$buildArgs)
+    {
         $this->container = $container;
         $this->callable = $callable;
         $this->afterBuildMethods = $afterBuildMethods ?: [];
         $this->buildArgs = $buildArgs;
     }
-
     /**
      * Calls the callable for the builder and returns its value.
      *
@@ -74,14 +62,11 @@ class CallableBuilder implements BuilderInterface, ReinitializableBuilderInterfa
     public function build()
     {
         $built = call_user_func($this->callable, ...$this->buildArgs);
-
-        foreach ((array)$this->afterBuildMethods as $afterBuildMethod) {
+        foreach ((array) $this->afterBuildMethods as $afterBuildMethod) {
             $built->{$afterBuildMethod}();
         }
-
         return $built;
     }
-
     /**
      * Reinitialize the builder setting the after build methods and build args.
      *

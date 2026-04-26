@@ -2,53 +2,51 @@
 /**
  * This class provides the easy way to operate a user.
  *
- * @since 4.6.0
+ * @since 4.25.0
  *
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Models;
 
-use LearnDash\Core\Traits\Memoizable;
+use LearnDash\Core\Models\Commerce\Card;
+use LearnDash\Core\Modules\Payments\DTO\Card as Card_DTO;
 use WP_User;
-
-// TODO: Add tests.
 
 /**
  * User model class.
  *
- * @since 4.6.0
+ * @since 4.25.0
  */
-abstract class User extends Model {
-	use Memoizable;
-
+class User extends Model {
 	/**
 	 * User.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
 	 * @var WP_User
 	 */
 	protected $user;
 
 	/**
-	 * Creates a model from a post.
+	 * Creates a model from a user.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
-	 * @param WP_User $user User.
+	 * @param WP_User|int $user User ID or user object.
 	 *
 	 * @return static
 	 */
-	public static function create_from_user( WP_User $user ): self {
+	public static function create_from_user( $user ): self {
 		$model = new static();
+
+		if ( is_int( $user ) ) {
+			$user = get_user_by( 'id', $user );
+		}
+
+		if ( ! $user instanceof WP_User ) {
+			return $model;
+		}
 
 		$model->set_user( $user );
 
@@ -56,9 +54,44 @@ abstract class User extends Model {
 	}
 
 	/**
+	 * Returns the cards for a user.
+	 *
+	 * @since 4.25.0
+	 *
+	 * @return Card[]
+	 */
+	public function get_cards(): array {
+		/**
+		 * Filters the user cards.
+		 *
+		 * @since 4.25.0
+		 *
+		 * @param array $cards The user cards.
+		 * @param User  $user  The user model.
+		 *
+		 * @return Card_DTO[]
+		 */
+		$cards = apply_filters( 'learndash_model_user_cards', [], $this );
+
+		if (
+			empty( $cards )
+			|| ! is_array( $cards )
+		) {
+			return [];
+		}
+
+		return array_map(
+			function ( Card_DTO $card ): Card {
+				return new Card( $card->to_array() );
+			},
+			$cards
+		);
+	}
+
+	/**
 	 * Returns a user ID.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
 	 * @return int
 	 */
@@ -69,7 +102,7 @@ abstract class User extends Model {
 	/**
 	 * Returns a user display name.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
 	 * @return string
 	 */
@@ -80,7 +113,7 @@ abstract class User extends Model {
 	/**
 	 * Returns a user property.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
 	 * @return WP_User
 	 */
@@ -91,7 +124,7 @@ abstract class User extends Model {
 	/**
 	 * Sets a user property.
 	 *
-	 * @since 4.6.0
+	 * @since 4.25.0
 	 *
 	 * @param WP_User $user User.
 	 *

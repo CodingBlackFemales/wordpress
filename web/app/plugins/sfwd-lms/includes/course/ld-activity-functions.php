@@ -7,6 +7,9 @@
  * @package LearnDash\Activity
  */
 
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\StellarWP\DB\DB;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -58,7 +61,7 @@ function learndash_update_user_activity( $args = array() ) {
 		'user_id'            => 0,
 
 		// Will be the token stats that described the status_times array (next argument) Can be most anything.
-		// From 'course', 'lesson', 'topic', 'access' or 'expired'. Unique key part 4/4.
+		// From 'course', 'lesson', 'topic', 'access', 'group_progress', 'exam', or 'expired'. Unique key part 4/4.
 		'activity_type'      => '',
 
 		// true if the lesson, topic, course, quiz is complete. False if not complete. null if not started.
@@ -374,9 +377,9 @@ function learndash_get_user_activity_meta( $activity_id = 0, $activity_meta_key 
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int         $activity_id Optional. Activity ID. Default 0.
- * @param string      $meta_key    Optional. The activity meta key to get. Default empty.
- * @param string|null $meta_value  Optional. Activity meta value. Default null.
+ * @param int                 $activity_id Optional. Activity ID. Default 0.
+ * @param string              $meta_key    Optional. The activity meta key to get. Default empty.
+ * @param string|mixed[]|null $meta_value  Optional. Activity meta value. Default null.
  */
 function learndash_update_user_activity_meta( $activity_id = 0, $meta_key = '', $meta_value = null ) {
 	global $wpdb;
@@ -617,21 +620,6 @@ function learndash_activity_start_course( $user_id = 0, $course_id = 0, $start_t
 }
 
 /**
- * Set the course activity completed record.
- *
- * @since 3.5.0
- *
- * @param int $user_id       User ID.
- * @param int $course_id     Course ID.
- * @param int $complete_time Activity complete timestamp (GMT).
- *
- * @return object Instance of LDLMS_Model_Activity or null;
- */
-function learndash_activity_complete_course( $user_id = 0, $course_id = 0, $complete_time = 0 ) {
-	return learndash_activity_complete_step( $user_id, $course_id, $course_id, 'course', $complete_time );
-}
-
-/**
  * Set the lesson activity started record.
  *
  * @since 3.5.0
@@ -712,22 +700,6 @@ function learndash_activity_start_quiz( $user_id = 0, $course_id = 0, $quiz_id =
 }
 
 /**
- * Set the quiz activity completed record.
- *
- * @since 3.5.0
- *
- * @param int $user_id       User ID.
- * @param int $course_id     Course ID.
- * @param int $quiz_id       Quiz ID.
- * @param int $complete_time Activity complete timestamp (GMT).
- *
- * @return object Instance of LDLMS_Model_Activity or null;
- */
-function learndash_activity_complete_quiz( $user_id = 0, $course_id = 0, $quiz_id = 0, $complete_time = 0 ) {
-	return learndash_activity_complete_step( $user_id, $course_id, $quiz_id, 'quiz', $complete_time );
-}
-
-/**
  * Update activity meta set.
  *
  * This will update an array of activity meta record(s).
@@ -767,4 +739,175 @@ function learndash_activity_course_get_latest_completed_step( $user_id = 0, $cou
 
 		return $activity_item;
 	}
+}
+
+/**
+ * Bulk creates course access activity records for user/course combinations.
+ *
+ * Handles efficient creation of 'access' type activity records:
+ * 1. Queries existing records to avoid duplicates
+ * 2. Filters to find only missing combinations
+ * 3. Bulk inserts in chunks for efficiency
+ *
+ * @since 5.0.1
+ *
+ * @param int[] $user_ids   Array of user IDs.
+ * @param int[] $course_ids Array of course IDs.
+ * @param int   $group_id   Optional. Group ID for looking up accurate enrollment timestamps.
+ *                          When provided, uses the later of user-group or course-group enrollment dates.
+ *                          When omitted, uses current time.
+ *
+ * @return int Number of activity records created.
+ */
+function learndash_bulk_create_course_access_activities( array $user_ids, array $course_ids, int $group_id = 0 ): int {
+	if (
+		/**
+		 * Filters whether to skip bulk creation of course access activities.
+		 *
+		 * @since 5.0.1
+		 *
+		 * @param bool  $skip Whether to skip bulk creation of course access activities. Default false.
+		 * @param int[] $user_ids Array of user IDs.
+		 * @param int[] $course_ids Array of course IDs.
+		 * @param int   $group_id Group ID.
+		 *
+		 * @return bool Whether to skip bulk creation of course access activities. Default false.
+		 */
+		apply_filters( 'learndash_bulk_create_course_access_activities_skip', false, $user_ids, $course_ids, $group_id )
+		|| empty( $user_ids )
+		|| empty( $course_ids )
+	) {
+		return 0;
+	}
+
+	$activity_table = LDLMS_DB::get_table_name( 'user_activity' );
+
+	// Query existing 'access' activity records to avoid duplicates.
+	$existing_records = DB::table( DB::raw( $activity_table ) )
+		->select( 'user_id', 'course_id' )
+		->whereIn( 'user_id', $user_ids )
+		->whereIn( 'course_id', $course_ids )
+		->where( 'activity_type', 'access' )
+		->getAll();
+
+	if ( ! is_array( $existing_records ) ) {
+		$existing_records = [];
+	}
+
+	// Build a hash set of existing combinations for O(1) lookup.
+	$existing_set = [];
+	foreach ( $existing_records as $record ) {
+		$existing_set[ $record->user_id . '_' . $record->course_id ] = true;
+	}
+
+	// Find combinations that need new activity records.
+	$current_time = time();
+	$new_records  = [];
+
+	// Pre-fetch course-group enrollment timestamps if group_id is provided.
+	$course_group_times = [];
+	if ( $group_id > 0 ) {
+		foreach ( $course_ids as $course_id ) {
+			$course_group_times[ $course_id ] = (int) learndash_group_course_access_from( $group_id, $course_id );
+		}
+	}
+
+	foreach ( $user_ids as $user_id ) {
+		// Get user-group enrollment timestamp if group_id is provided.
+		$user_group_time = 0;
+		if ( $group_id > 0 ) {
+			$user_group_time = (int) learndash_group_access_from( $group_id, $user_id );
+		}
+
+		foreach ( $course_ids as $course_id ) {
+			$key = $user_id . '_' . $course_id;
+
+			if ( isset( $existing_set[ $key ] ) ) {
+				continue;
+			}
+
+			// Determine the access timestamp.
+			// When group_id is provided, use the later of user-group or course-group enrollment.
+			// This represents when both conditions were met for the user to access the course.
+			$access_time = $current_time;
+			if ( $group_id > 0 ) {
+				$course_time = $course_group_times[ $course_id ] ?? 0;
+				if (
+					$user_group_time > 0
+					&& $course_time > 0
+				) {
+					$access_time = max( $user_group_time, $course_time );
+				} elseif ( $user_group_time > 0 ) {
+					$access_time = $user_group_time;
+				} elseif ( $course_time > 0 ) {
+					$access_time = $course_time;
+				}
+			}
+
+			$new_records[] = [
+				'user_id'          => $user_id,
+				'course_id'        => $course_id,
+				'post_id'          => $course_id,
+				'activity_type'    => 'access',
+				'activity_started' => $access_time,
+				'activity_status'  => 0,
+				'activity_updated' => $access_time,
+			];
+		}
+	}
+
+	if ( empty( $new_records ) ) {
+		return 0;
+	}
+
+	/**
+	 * Filters the chunk size for bulk course access activity creation.
+	 *
+	 * @since 5.0.1
+	 *
+	 * @param int $chunk_size The number of records to insert per database query. Default 500.
+	 *
+	 * @return int The number of records to insert per database query. Default 500.
+	 */
+	$chunk_size    = max( 1, Cast::to_int( apply_filters( 'learndash_group_access_activity_chunk_size', 500 ) ) );
+	$created_count = 0;
+
+	foreach ( array_chunk( $new_records, $chunk_size ) as $chunk ) {
+		$values       = [];
+		$placeholders = [];
+
+		foreach ( $chunk as $record ) {
+			$placeholders[] = '(%d, %d, %d, %s, %d, %d, %d)';
+			$values[]       = $record['user_id'];
+			$values[]       = $record['course_id'];
+			$values[]       = $record['post_id'];
+			$values[]       = $record['activity_type'];
+			$values[]       = $record['activity_started'];
+			$values[]       = $record['activity_status'];
+			$values[]       = $record['activity_updated'];
+		}
+
+		// Bulk insert. QueryBuilder::insert() cannot be used as wpdb::insert() only can insert one row at a time.
+		$sql = sprintf(
+			'INSERT INTO %s (user_id, course_id, post_id, activity_type, activity_started, activity_status, activity_updated) VALUES %s',
+			$activity_table,
+			implode( ', ', $placeholders )
+		);
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql is built with placeholders above.
+		$prepared_sql = Cast::to_string( DB::prepare( $sql, ...$values ) );
+
+		if ( empty( $prepared_sql ) ) {
+			continue;
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Prepared above, bulk insert requires direct query, no caching needed for inserts.
+		$inserted = DB::query( $prepared_sql );
+
+		if ( false !== $inserted ) {
+			$created_count += count( $chunk );
+		}
+	}
+
+	return $created_count;
 }

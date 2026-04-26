@@ -4,13 +4,15 @@
  *
  * Available Variables:
  *
- * $user_id        : Current User ID
- * $current_user   : (object) Currently logged in user object
- * $user_courses   : Array of course ID's of the current user
- * $quiz_attempts  : Array of quiz attempts of the current user
- * $shortcode_atts : Array of values passed to shortcode
+ * @var int                    $user_id          Current User ID.
+ * @var WP_User                $current_user     Currently logged in user object.
+ * @var array<int>             $user_courses     Array of course ID's of the current user.
+ * @var array<int, mixed>      $quiz_attempts    Array of quiz attempts of the current user.
+ * @var array<string, mixed>   $shortcode_atts   Array of values passed to shortcode.
+ * @var bool                   $show_saved_cards Whether to show the saved cards.
  *
  * @since 3.0.0
+ * @version 4.25.3
  *
  * @package LearnDash\Templates\LD30
  */
@@ -18,6 +20,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+use LearnDash\Core\Models\User;
+use LearnDash\Core\Repositories\Subscription;
+use LearnDash\Core\Template\Template;
+use LearnDash\Core\Utilities\Cast;
 
 global $learndash_assets_loaded;
 $learndash_shortcode_data_json = htmlspecialchars( wp_json_encode( $shortcode_atts ) );
@@ -52,7 +59,7 @@ if ( ! isset( $_GET['action'] ) || ! in_array( $_GET['action'], array( 'ld30_aja
 	LD_QuizPro::showModalWindow();
 endif; ?>
 
-<div class="<?php learndash_the_wrapper_class(); ?>">
+<div class="<?php learndash_the_wrapper_class( null, 'ld-profile' ); ?>">
 	<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped on line 20 ?>
 	<div id="ld-profile" data-shortcode_instance="<?php echo $learndash_shortcode_data_json; ?>">
 		<?php
@@ -77,9 +84,9 @@ endif; ?>
 					<?php
 					if ( ! empty( $current_user->user_lastname ) || ! empty( $current_user->user_firstname ) ) :
 						?>
-						<div class="ld-profile-heading">
+						<h2 class="ld-profile-heading">
 							<?php echo esc_html( $current_user->user_firstname . ' ' . $current_user->user_lastname ); ?>
-						</div>
+						</h2>
 					<?php endif; ?>
 
 					<?php
@@ -90,12 +97,16 @@ endif; ?>
 					 *
 					 * @param boolean $show_profile Whether to show profile link.
 					 */
-					if ( current_user_can( 'read' ) && isset( $shortcode_atts['profile_link'] ) && true === (bool) $shortcode_atts['profile_link'] && apply_filters( 'learndash_show_profile_link', $shortcode_atts['profile_link'] ) ) :
+					if ( current_user_can( 'read' ) && isset( $shortcode_atts['profile_link'] ) && true === (bool) $shortcode_atts['profile_link'] && apply_filters( 'learndash_show_profile_link', Cast::to_bool( $shortcode_atts['profile_link'] ) ) ) :
 						?>
 						<a class="ld-profile-edit-link" href='<?php echo esc_url( get_edit_user_link() ); ?>'><?php esc_html_e( 'Edit profile', 'learndash' ); ?></a>
 					<?php endif; ?>
 				</div> <!--/.ld-profile-card-->
 				<div class="ld-profile-stats">
+					<h3 class="sr-only">
+						<?php esc_html_e( 'Your Stats', 'learndash' ); ?>
+					</h3>
+
 					<?php
 					$learndash_user_stats = learndash_get_user_stats( $user_id );
 
@@ -168,21 +179,49 @@ endif; ?>
 				</h3>
 				<div class="ld-item-list-actions">
 					<?php if ( isset( $shortcode_atts['show_search'] ) && 'yes' === $shortcode_atts['show_search'] ) { ?>
-					<button class="ld-search-prompt ld-icon-search ld-icon" data-ld-expands="ld-course-search" aria-label="
-						<?php
-						printf(
-							// translators: placeholder: Profile Search Prompt Label.
-							esc_html_x( 'Show %s Search Field', 'placeholder: Profile Search Prompt Label', 'learndash' ),
-							esc_attr( LearnDash_Custom_Label::get_label( 'courses' ) )
-						);
-						?>
-					">
+					<button
+						aria-controls="ld-course-search"
+						aria-expanded="false"
+						aria-label="<?php
+							printf(
+								// translators: placeholder: Profile Search Prompt Label.
+								esc_html_x( 'Show %s Search Field', 'placeholder: Profile Search Prompt Label', 'learndash' ),
+								esc_attr( LearnDash_Custom_Label::get_label( 'courses' ) )
+							);
+						?>"
+						class="ld-search-prompt ld-icon-search ld-icon"
+						data-ld-expands="ld-course-search"
+					>
 					</button> <!--/.ld-search-prompt-->
 					<?php } ?>
-					<div class="ld-expand-button" data-ld-expands="ld-main-course-list" data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>" data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>">
+
+					<?php
+						$course_container_ids = implode(
+							' ',
+							array_map(
+								function( $course_id ) {
+									return "ld-course-list-item-{$course_id}-container";
+								},
+								$user_courses
+							)
+						);
+					?>
+
+					<button
+						aria-controls="<?php echo esc_attr( $course_container_ids ); ?>"
+						aria-expanded="false"
+						class="ld-expand-button"
+						data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>"
+						data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>"
+						data-ld-expands="<?php echo esc_attr( $course_container_ids ); ?>"
+					>
 						<span class="ld-icon-arrow-down ld-icon"></span>
 						<span class="ld-text"><?php echo esc_html_e( 'Expand All', 'learndash' ); ?></span>
-					</div> <!--/.ld-expand-button-->
+
+						<span class="screen-reader-text">
+							<?php echo esc_html( learndash_get_custom_label( 'courses' ) ); ?>
+						</span>
+					</button> <!--/.ld-expand-button-->
 				</div> <!--/.ld-course-list-actions-->
 			</div> <!--/.ld-section-heading-->
 			<?php
@@ -223,6 +262,7 @@ endif; ?>
 							// translators: placeholder: Courses.
 							'message' => sprintf( esc_html_x( 'No %s found', 'placeholder: Courses', 'learndash' ), LearnDash_Custom_Label::get_label( 'courses' ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
 							'type'    => 'warning',
+							'role'    => $shortcode_atts['alert_role'] ?? 'status',
 						);
 						learndash_get_template_part( 'modules/alert.php', $learndash_no_courses_found_alert, true );
 
@@ -250,6 +290,25 @@ endif; ?>
 		);
 		?>
 
+		<?php
+			Template::show_template(
+				'shortcodes/profile/subscriptions',
+				[
+					'subscriptions' => Subscription::find_by_user( Cast::to_int( $user_id ) ),
+				]
+			);
+
+			if ( $show_saved_cards ) {
+				$user = User::create_from_user( Cast::to_int( $user_id ) );
+
+				Template::show_template(
+					'shortcodes/profile/saved-cards',
+					[
+						'cards' => $user->get_cards(),
+					]
+				);
+			}
+		?>
 	</div> <!--/#ld-profile-->
 
 </div> <!--/.ld-course-wrapper-->

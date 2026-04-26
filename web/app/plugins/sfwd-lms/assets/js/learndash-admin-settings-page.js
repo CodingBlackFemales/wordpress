@@ -1244,8 +1244,14 @@ jQuery(function () {
 				let select_theme_val = jQuery(e.currentTarget).val();
 
 				// If a theme inherits settings from another theme then we need to change the select value to the parent theme.
-				if ( learndash_admin_settings_data.themes_inheriting_settings[ select_theme_val ] !== undefined ) {
-					select_theme_val = learndash_admin_settings_data.themes_inheriting_settings[ select_theme_val ];
+				if (
+					learndash_admin_settings_data.themes_inheriting_settings[
+						select_theme_val
+					] !== undefined
+				) {
+					select_theme_val =
+						learndash_admin_settings_data
+							.themes_inheriting_settings[select_theme_val];
 				}
 
 				jQuery(
@@ -2590,63 +2596,250 @@ jQuery(function ($) {
 		});
 	});
 
-	function learndashValidateStripeWebhook(callIndex = 1) {
-		const $button = $('#learndash-validate-stripe-webhook');
+	// Stripe pre-disconnect task.
 
-		$button.attr('disabled', true);
-		$button.find('.learndash-validate-stripe-webhook-text-default').hide();
-		$button.find('.learndash-validate-stripe-webhook-text-loading').show();
+	$('#learndash-stripe-disconnect').on('click', function (e) {
+		e.preventDefault();
+
+		const that = this;
 
 		$.ajax({
 			type: 'POST',
 			url: ajaxurl,
 			dataType: 'json',
 			data: {
-				action: 'learndash_validate_stripe_webhook',
-				nonce: $button.data('nonce'),
-				call_index: callIndex,
+				action: 'learndash_stripe_pre_disconnect',
+				nonce: $(this).data('nonce'),
+			},
+		}).done(function () {
+			// Redirect to the disconnect-url
+			window.location.href = $(that).data('disconnect-url');
+		});
+	});
+
+	// Webhook status message helper functions.
+
+	/**
+	 * Shows the success message for the Stripe webhook status.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param {boolean} isLiveMode Whether the webhook should be configured for live mode.
+	 *
+	 * @return {void}
+	 */
+	function learndashShowStripeWebhookStatusMessageSuccess(isLiveMode) {
+		const complementaryName = isLiveMode ? 'live' : 'test';
+
+		$(
+			'.ld-stripe-webhook-' + complementaryName + '-status__message'
+		).hide();
+
+		$(
+			'.ld-stripe-webhook-' +
+				complementaryName +
+				'-status__message--success'
+		).show();
+	}
+
+	/**
+	 * Shows the error message for the Stripe webhook status.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param {boolean} isLiveMode Whether the webhook should be configured for live mode.
+	 * @param {string}  errorHtml  The error message to display.
+	 *
+	 * @return {void}
+	 */
+	function learndashShowStripeWebhookStatusMessageError(
+		isLiveMode,
+		errorHtml
+	) {
+		const complementaryName = isLiveMode ? 'live' : 'test';
+
+		$(
+			'.ld-stripe-webhook-' + complementaryName + '-status__message'
+		).hide();
+
+		$(
+			'.ld-stripe-webhook-' + complementaryName + '-status__error-html'
+		).html(errorHtml);
+		$(
+			'.ld-stripe-webhook-' +
+				complementaryName +
+				'-status__message--error'
+		).show();
+	}
+
+	/**
+	 * Shows the loading message for the Stripe webhook status.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param {boolean} isLiveMode Whether the webhook should be configured for live mode.
+	 *
+	 * @return {void}
+	 */
+	function learndashShowStripeWebhookStatusMessageLoading(isLiveMode) {
+		const complementaryName = isLiveMode ? 'live' : 'test';
+
+		$(
+			'.ld-stripe-webhook-' + complementaryName + '-status__message'
+		).hide();
+		$(
+			'.ld-stripe-webhook-' +
+				complementaryName +
+				'-status__message--loading'
+		).show();
+	}
+
+	// Stripe post-connect task.
+
+	/**
+	 * Handles the auto-configuration of Stripe webhooks.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param {string}  ajaxNonce  The nonce to use for the AJAX request.
+	 * @param {boolean} isLiveMode Whether the webhook should be configured for live mode.
+	 *
+	 * @return {void}
+	 */
+	function learndashConfigureStripeWebhooks(ajaxNonce, isLiveMode) {
+		// Show the loading message.
+		learndashShowStripeWebhookStatusMessageLoading(isLiveMode);
+
+		return $.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'learndash_stripe_post_connect',
+				nonce: ajaxNonce,
+				is_live_mode: isLiveMode,
 			},
 		}).done(function (response) {
-			if (response.success) {
-				if (response.data.success) {
-					$button.attr('disabled', false);
-					$button
-						.find('.learndash-validate-stripe-webhook-text-loading')
-						.hide();
-					$button
-						.find('.learndash-validate-stripe-webhook-text-default')
-						.show();
-
-					$('#learndash-stripe-webhook-validation-success').show();
-				} else if (response.data.fail) {
-					$button.attr('disabled', false);
-					$button
-						.find('.learndash-validate-stripe-webhook-text-loading')
-						.hide();
-					$button
-						.find('.learndash-validate-stripe-webhook-text-default')
-						.show();
-
-					$('#learndash-stripe-webhook-validation-error').show();
-				} else if (response.data.progress) {
-					callIndex++;
-
-					setTimeout(function () {
-						learndashValidateStripeWebhook(callIndex);
-					}, 5000);
-				}
+			// Show success/error messages.
+			if (!response.success || !response.data.stripe_webhook_created) {
+				learndashShowStripeWebhookStatusMessageError(
+					isLiveMode,
+					response.data.stripe_webhook_html_error
+				);
 			} else {
-				alert(response.data.message);
+				learndashShowStripeWebhookStatusMessageSuccess(isLiveMode);
 			}
 		});
 	}
 
-	$('#learndash-validate-stripe-webhook').on('click', function (e) {
+	const checkWebhooks = function (nonce) {
+		const button = $('#learndash-validate-stripe-webhook');
+		button.attr('disabled', true);
+		button.find('.learndash-validate-stripe-webhook-text-default').hide();
+		button.find('.learndash-validate-stripe-webhook-text-loading').show();
+		$(
+			'#learndash_stripe_connection_settings_webhook_status_message_live_field,#learndash_stripe_connection_settings_webhook_status_message_test_field'
+		).show();
+
+		// Show the second loading message without waiting, so it appears queued.
+		learndashShowStripeWebhookStatusMessageLoading(false);
+
+		// Configuring live and test webhooks.
+		// Synchronous so it "looks" good and avoids session lock timeouts, unnecessary load.
+		learndashConfigureStripeWebhooks(nonce, true).then(() => {
+			learndashConfigureStripeWebhooks(nonce, false).then(() => {
+				button.removeAttr('disabled');
+				button
+					.find('.learndash-validate-stripe-webhook-text-default')
+					.show();
+				button
+					.find('.learndash-validate-stripe-webhook-text-loading')
+					.hide();
+			});
+		});
+	};
+
+	$(document).ready(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+
+		// Ignore if it's not a Stripe connect request.
+		if (
+			!urlParams.has('ld_stripe_connected') ||
+			!urlParams.has('ld_stripe_connected_nonce')
+		) {
+			// Remove the Stripe webhook status messages.
+			$(
+				'#learndash_stripe_connection_settings_webhook_status_message_live_field,#learndash_stripe_connection_settings_webhook_status_message_test_field'
+			).hide();
+
+			return;
+		}
+
+		checkWebhooks(urlParams.get('ld_stripe_connected_nonce'));
+	});
+
+	$('#learndash-validate-stripe-webhook').on('click', (e) => {
 		e.preventDefault();
 
-		$('#learndash-stripe-webhook-validation-success').hide();
-		$('#learndash-stripe-webhook-validation-error').hide();
+		checkWebhooks($('#learndash-validate-stripe-webhook').data('nonce'));
+	});
 
-		learndashValidateStripeWebhook();
+	$(document).on(
+		'click',
+		'#learndash-stripe-configure-webhooks',
+		function (e) {
+			e.preventDefault();
+			learndashConfigureStripeWebhooks(
+				$(this).data('nonce'),
+				$(this).data('is-live-mode')
+			);
+		}
+	);
+
+	// Handle Modern Appearance settings according to the LD template selected.
+
+	if ($('#learndash_settings_courses_themes_active_theme').length) {
+		$('#learndash_settings_courses_themes_active_theme').on(
+			'change',
+			function () {
+				const selectedTheme = $(this).val();
+				if (selectedTheme === 'ld30') {
+					$('#learndash_settings_appearance_settings_appearance').show();
+				} else {
+					$('#learndash_settings_appearance_settings_appearance').hide();
+				}
+			}
+		);
+	}
+
+	// PayPal Checkout connected message.
+
+	$('#ld-paypal-checkout-connected-message').dialog({
+		modal: true,
+		draggable: false,
+		resizable: false,
+		width: 'auto',
+		maxWidth: '40%',
+		title: $(this).data('title'),
+		create() {
+			$(window)
+				.on('resize', function () {
+					const dialog = $('#ld-paypal-checkout-connected-message');
+					if ($(window).width() <= 1200) {
+						dialog.dialog('option', 'width', '90%');
+					} else if ($(window).width() <= 768) {
+						dialog.dialog('option', 'width', '70%');
+					} else {
+						dialog.dialog('option', 'width', '40%');
+					}
+				})
+				.trigger('resize');
+		}
+	});
+
+	$('.ld-paypal-checkout-connected-message__button').on('click', function (e) {
+		e.preventDefault();
+
+		$('#ld-paypal-checkout-connected-message').dialog('close');
 	});
 });

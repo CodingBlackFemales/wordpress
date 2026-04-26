@@ -1,11 +1,20 @@
 <?php
+/**
+ * WP Pro Quiz DB upgrade helper
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+/**
+ * Class WpProQuiz_Helper_DbUpgrade
+ */
 class WpProQuiz_Helper_DbUpgrade {
 
-	const WPPROQUIZ_DB_VERSION = 22;
+	const WPPROQUIZ_DB_VERSION = 23;
 
 	private $_wpdb;
 	private $_prefix;
@@ -53,6 +62,11 @@ class WpProQuiz_Helper_DbUpgrade {
 		$this->databaseDelta();
 	}
 
+	/**
+	 * Adds the quiz tables to the database.
+	 *
+	 * @return void
+	 */
 	public function databaseDelta() {
 		if ( ! function_exists( 'dbDelta' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -60,10 +74,10 @@ class WpProQuiz_Helper_DbUpgrade {
 
 		$charset_collate = '';
 		if ( ! empty( $this->_wpdb->charset ) ) {
-			$charset_collate .= "DEFAULT CHARACTER SET ". $this->_wpdb->charset;
+			$charset_collate .= 'DEFAULT CHARACTER SET ' . $this->_wpdb->charset;
 		}
 		if ( ! empty( $this->_wpdb->collate ) ) {
-			$charset_collate .= " COLLATE " . $this->_wpdb->collate;
+			$charset_collate .= ' COLLATE ' . $this->_wpdb->collate;
 		}
 
 		dbDelta(
@@ -160,7 +174,7 @@ class WpProQuiz_Helper_DbUpgrade {
 			  previous_id int(11) NOT NULL,
 			  sort smallint(5) unsigned NOT NULL,
 			  title text NOT NULL,
-			  points int(11) NOT NULL,
+			  points float NOT NULL,
 			  question text NOT NULL,
 			  correct_msg text NOT NULL,
 			  incorrect_msg text NOT NULL,
@@ -187,7 +201,7 @@ class WpProQuiz_Helper_DbUpgrade {
 			  correct_count int(10) unsigned NOT NULL,
 			  incorrect_count int(10) unsigned NOT NULL,
 			  hint_count int(10) unsigned NOT NULL,
-			  points int(10) unsigned NOT NULL,
+			  points float NOT NULL,
 			  question_time int(10) unsigned NOT NULL,
 			  answer_data text,
 			  PRIMARY KEY  (statistic_ref_id,question_id)
@@ -222,7 +236,7 @@ class WpProQuiz_Helper_DbUpgrade {
 			  user_id bigint(20) unsigned NOT NULL,
 			  name varchar(30) NOT NULL,
 			  email varchar(200) NOT NULL,
-			  points int(10) unsigned NOT NULL,
+			  points float NOT NULL,
 			  result float unsigned NOT NULL,
 			  ip varchar(100) NOT NULL,
 			  PRIMARY KEY  (toplist_id,quiz_id)
@@ -627,9 +641,14 @@ class WpProQuiz_Helper_DbUpgrade {
 		return 13;
 	}
 
+	/**
+	 * Updates the database from version 13 to 14.
+	 *
+	 * @return int
+	 */
 	private function upgradeDbV13() {
 
-		//WordPress SVN Bug
+		// WordPress SVN Bug.
 
 		$this->_wpdb->query( 'SELECT * FROM `' . LDLMS_DB::get_table_name( 'quiz_master' ) . '` LIMIT 0,1' );
 
@@ -670,6 +689,11 @@ class WpProQuiz_Helper_DbUpgrade {
 		return 15;
 	}
 
+	/**
+	 * Updates the database from version 15 to 16.
+	 *
+	 * @return int
+	 */
 	private function upgradeDbV15() {
 
 		$this->_wpdb->query(
@@ -842,7 +866,7 @@ class WpProQuiz_Helper_DbUpgrade {
 				answer_type <> \'free_answer\''
 		);
 
-		//Statistics
+		// Statistics.
 		$this->_wpdb->query(
 			'UPDATE
 				' . LDLMS_DB::get_table_name( 'quiz_statistic' ) . ' AS s
@@ -946,9 +970,14 @@ class WpProQuiz_Helper_DbUpgrade {
 		return 18;
 	}
 
+	/**
+	 * Updates the database from version 18 to 19.
+	 *
+	 * @return int
+	 */
 	private function upgradeDbV18() {
 
-		//Clear
+		// Clear.
 
 		$this->_wpdb->query(
 			'
@@ -960,7 +989,7 @@ class WpProQuiz_Helper_DbUpgrade {
 		'
 		);
 
-		//Start - Update Statistic
+		// Start - Update Statistic.
 		$this->_wpdb->query(
 			'
 			CREATE TABLE IF NOT EXISTS ' . LDLMS_DB::get_table_name( 'quiz_statistic_ref' ) . ' (
@@ -1016,9 +1045,9 @@ class WpProQuiz_Helper_DbUpgrade {
 		'
 		);
 
-		//end
+		// end.
 
-		//Master
+		// Master.
 		$this->_wpdb->query(
 			'
 			ALTER TABLE  ' . LDLMS_DB::get_table_name( 'quiz_master' ) . "
@@ -1125,6 +1154,11 @@ class WpProQuiz_Helper_DbUpgrade {
 		return 21;
 	}
 
+	/**
+	 * Updates the database from version 21 to 22.
+	 *
+	 * @return int
+	 */
 	private function upgradeDbV21() {
 		$this->_wpdb->query(
 			'
@@ -1188,7 +1222,7 @@ class WpProQuiz_Helper_DbUpgrade {
 		'
 		);
 
-		//Check
+		// Check.
 		$this->databaseDelta();
 
 		$this->_wpdb->query(
@@ -1197,5 +1231,28 @@ class WpProQuiz_Helper_DbUpgrade {
 		);
 
 		return 22;
+	}
+
+	/**
+	 * Updates the database from version 22 to 23.
+	 *
+	 * @since 4.14.0
+	 *
+	 * @return int
+	 */
+	private function upgradeDbV22(): int {
+		$this->_wpdb->query(
+			'ALTER TABLE ' . esc_sql( LDLMS_DB::get_table_name( 'quiz_question' ) ) . ' MODIFY COLUMN points float NOT NULL'
+		);
+
+		$this->_wpdb->query(
+			'ALTER TABLE ' . esc_sql( LDLMS_DB::get_table_name( 'quiz_statistic' ) ) . ' MODIFY COLUMN points float NOT NULL'
+		);
+
+		$this->_wpdb->query(
+			'ALTER TABLE ' . esc_sql( LDLMS_DB::get_table_name( 'quiz_toplist' ) ) . ' MODIFY COLUMN points float NOT NULL'
+		);
+
+		return 23;
 	}
 }

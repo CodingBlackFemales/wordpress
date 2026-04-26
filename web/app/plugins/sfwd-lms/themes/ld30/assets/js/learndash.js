@@ -25,7 +25,7 @@ jQuery(function ($) {
 		var lesson = $('#ld-expand-' + topicId);
 		var button = $(lesson).find('.ld-expand-button');
 
-		ld_expand_element(button);
+		ldToggleExpandableElement(button, true);
 
 		$('html, body').animate(
 			{
@@ -35,9 +35,22 @@ jQuery(function ($) {
 		);
 	}
 
-	$('body').on('click', 'a[href="#login"]', function (e) {
-		e.preventDefault();
-		openLoginModal();
+	// a[href="#login"] is for backwards compatibility with potentially outdated templates.
+	$('body').on(
+		'click',
+		'a[href="#login"], button[data-ld-login-modal-trigger]',
+		function (e) {
+			e.preventDefault();
+			openLoginModal();
+		}
+	);
+
+	// By default, the element is not interactable with keyboard. We make the keypress event for space and enter key to close the login modal for accessibility.
+	$('body').on('keypress', '.ld-modal-closer', function (e) {
+		if (13 === e.keyCode || 32 === e.keyCode) {
+			e.preventDefault();
+			closeLoginModal();
+		}
 	});
 
 	$('body').on('click', '.ld-modal-closer', function (e) {
@@ -76,6 +89,9 @@ jQuery(function ($) {
 	);
 
 	focusMobileCheck();
+	focusMobileResizeCheck();
+
+	disableFocusTrap();
 
 	$('body').on('click', '.ld-focus-sidebar-trigger', function (e) {
 		if ($('.ld-focus').hasClass('ld-focus-sidebar-collapsed')) {
@@ -85,7 +101,7 @@ jQuery(function ($) {
 		}
 	});
 
-	$('body').on('click', '.ld-mobile-nav a', function (e) {
+	$('body').on('click', '.ld-trigger-mobile-nav', function (e) {
 		e.preventDefault();
 		if ($('.ld-focus').hasClass('ld-focus-sidebar-collapsed')) {
 			openFocusSidebar();
@@ -105,35 +121,29 @@ jQuery(function ($) {
 	});
 
 	// If registration login link filter not defined, allow to replace the register form with login form
-	if ('' == $('.registration-login-link').attr('href')) {
-		$('.registration-login-link').on('click', function (e) {
-			e.preventDefault();
-			$('#learndash_registerform, .registration-login').hide();
-			$(
-				'.registration-login-form, .show-register-form, .show-password-reset-link'
-			).show();
-		});
-		$('.show-register-form').on('click', function (e) {
-			e.preventDefault();
-			$(
-				'.registration-login-form, .show-register-form, .show-password-reset-link'
-			).hide();
-			$('#learndash_registerform, .registration-login').show();
-		});
-	}
+	ldRegistrationLinkInit();
+	ldRegistrationLinkInitModern();
 
 	var windowWidth = $(window).width();
 
-	$(window).on('orientationchange', function () {
-		windowWidth = $(window).width();
-	});
+	// Ensure that tooltips are positioned properly after screen size changes.
+	$(window).on('resize orientationchange', function () {
+		const resizeTimer = setTimeout(() => {
+			const newWidth = $(window).width();
 
-	$(window).on('resize', function () {
-		if ($(this).width() !== windowWidth && 1024 >= $(this).width()) {
-			setTimeout(function () {
+			if (newWidth === windowWidth) {
+				return;
+			}
+
+			windowWidth = newWidth;
+
+			// Wait one more animation frame after debounce to let layout settle.
+			window.requestAnimationFrame(() => {
+				initTooltips();
 				focusMobileResizeCheck();
-			}, 50);
-		}
+				clearTimeout(resizeTimer);
+			});
+		}, 150);
 	});
 
 	if ($('.ld-course-status-content').length) {
@@ -154,23 +164,32 @@ jQuery(function ($) {
 		}
 	}
 
+	/**
+	 * Toggles the focus sidebar based on the window width.
+	 *
+	 * @since 3.2.0
+	 * @since 4.21.5 Now also toggles aria-modal attribute.
+	 *
+	 * @return {void}
+	 */
 	function focusMobileResizeCheck() {
-		if (
-			1024 > $(window).width() &&
-			!$('.ld-focus').hasClass('ld-focus-sidebar-collapsed')
-		) {
-			closeFocusSidebar();
-		} else if (
-			1024 <= $(window).width() &&
-			$('.ld-focus').hasClass('ld-focus-sidebar-filtered')
-		) {
-			closeFocusSidebar();
-		} else if (
-			1024 <= $(window).width() &&
-			!$('.ld-focus').hasClass('ld-focus-sidebar-filtered') &&
-			$('.ld-focus').hasClass('ld-focus-sidebar-collapsed')
-		) {
-			openFocusSidebar();
+		if ($(window).width() < 1024) {
+			$('#ld-focus-sidebar').attr('aria-modal', 'true');
+
+			if (!$('.ld-focus').hasClass('ld-focus-sidebar-collapsed')) {
+				closeFocusSidebar();
+			}
+		} else {
+			$('#ld-focus-sidebar').attr('aria-modal', 'false');
+
+			if ($('.ld-focus').hasClass('ld-focus-sidebar-filtered')) {
+				closeFocusSidebar();
+			} else if (
+				!$('.ld-focus').hasClass('ld-focus-sidebar-filtered') &&
+				$('.ld-focus').hasClass('ld-focus-sidebar-collapsed')
+			) {
+				openFocusSidebar();
+			}
 		}
 	}
 
@@ -193,10 +212,53 @@ jQuery(function ($) {
 		$('.ld-focus').addClass('ld-focus-sidebar-collapsed');
 		$('.ld-focus').removeClass('ld-focus-initial-transition');
 		$('.ld-mobile-nav').removeClass('expanded');
+		$('[aria-controls="ld-focus-sidebar"]').attr('aria-expanded', 'false');
 		positionTooltips();
+
+		const sidebar = document.querySelector('.ld-focus-sidebar');
+
+		if (sidebar) {
+			sidebar.dispatchEvent(new CustomEvent('ld-focus-sidebar-closed'));
+		}
+		dispatchSidebarEvent(false);
 	}
 
+	/**
+	 * Dispatches a custom event on to notify other scripts that the focus sidebar has been opened or closed.
+	 *
+	 * @since 4.23.2
+	 *
+	 * @param {boolean} isOpen Whether the sidebar is open.
+	 *
+	 * @return {void}
+	 */
+	function dispatchSidebarEvent(isOpen) {
+		const sidebar = document.querySelector('.ld-focus-sidebar');
+
+		if (!sidebar) {
+			return;
+		}
+
+		let eventName = 'ld-focus-sidebar-closed';
+
+		if (isOpen) {
+			eventName = 'ld-focus-sidebar-opened';
+		}
+
+		sidebar.dispatchEvent(new CustomEvent(eventName));
+	}
+
+	/**
+	 * Closes the focus sidebar.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return {void}
+	 */
 	function closeFocusSidebar() {
+		// Hide the wrapper to avoid issues with focus trap.
+		$('.ld-focus-sidebar-wrapper').hide();
+
 		$('.ld-focus').addClass('ld-focus-sidebar-collapsed');
 		$('.ld-mobile-nav').removeClass('expanded');
 
@@ -224,13 +286,104 @@ jQuery(function ($) {
 			);
 		}
 
+		$('[aria-controls="ld-focus-sidebar"]').attr('aria-expanded', 'false');
+
+		disableFocusTrap();
+
+		// If the mobile trigger is visible, move focus to it.
+		const mobileTrigger = $('.ld-trigger-mobile-nav');
+
+		if (mobileTrigger.is(':visible')) {
+			mobileTrigger.focus();
+		}
+
 		positionTooltips();
+
+		const sidebar = document.querySelector('.ld-focus-sidebar');
+
+		if (sidebar) {
+			sidebar.dispatchEvent(new CustomEvent('ld-focus-sidebar-closed'));
+		}
+		dispatchSidebarEvent(false);
+	}
+	/**
+	 * Handles tab key press in the focus sidebar to trap focus within the sidebar.
+	 * When the last focusable element is reached, focus is redirected to the first element.
+	 *
+	 * @since 4.21.3
+	 * @param {Event} e The keyboard event object.
+	 */
+	function handleTabTrap(e) {
+		if (e.key === 'Tab') {
+			e.preventDefault();
+			$('#ld-focus-sidebar-toggle').focus();
+		}
 	}
 
+	/**
+	 * Enables focus trap for the sidebar to improve accessibility.
+	 * Makes sidebar elements tabbable, focuses the sidebar toggle button,
+	 * and adds event listener to trap focus within the sidebar.
+	 *
+	 * @since 4.21.3
+	 */
+	function enableFocusTrap() {
+		// Focus sidebar for accessibility when opened, allowing keyboard navigation easier.
+		$('#ld-focus-sidebar-toggle').focus();
+
+		// Make the course heading tabbable.
+		$('#ld-focus-mode-course-heading').attr('tabindex', '0');
+
+		// Get list of focusable elements, and when last one is focused, focus on the first element to trap focus.
+		const focusableElements = $('.ld-lesson-items a');
+		const lastFocusableElement =
+			focusableElements[focusableElements.length - 1];
+
+		lastFocusableElement.addEventListener('keydown', handleTabTrap);
+	}
+
+	/**
+	 * Disables focus trap for the sidebar when it's closed.
+	 * Makes sidebar elements non-tabbable and removes the event listener.
+	 *
+	 * @since 4.21.3
+	 */
+	function disableFocusTrap() {
+		// Make the course heading non-tabbable when the sidebar is closed.
+		$('#ld-focus-mode-course-heading').attr('tabindex', '-1');
+
+		if ($('.ld-focus-sidebar-trigger').attr('aria-expanded') === 'true') {
+			return;
+		}
+
+		// Remove focus trap when sidebar is closed.
+		const focusableElements = $('.ld-lesson-items a');
+		const lastFocusableElement =
+			focusableElements[focusableElements.length - 1];
+
+		if (lastFocusableElement) {
+			lastFocusableElement.removeEventListener('keydown', handleTabTrap);
+		}
+	}
+
+	/**
+	 * Opens the focus sidebar and enables focus trap for accessibility.
+	 * Handles mobile checks, class toggling, and icon changes.
+	 *
+	 * @since 3.0.0
+	 */
 	function openFocusSidebar() {
 		focusMobileCheck();
+
+		// Show the wrapper
+		$('.ld-focus-sidebar-wrapper').show();
+
+		// Flip classes to open the focus sidebar.
 		$('.ld-focus').removeClass('ld-focus-sidebar-collapsed');
 		$('.ld-mobile-nav').addClass('expanded');
+
+		// We need to wait for the sidebar to be opened before we can enable the focus trap.
+		enableFocusTrap();
 
 		if (
 			$('.ld-focus-sidebar-trigger .ld-icon').hasClass(
@@ -255,6 +408,15 @@ jQuery(function ($) {
 				'ld-icon-arrow-left'
 			);
 		}
+
+		$('[aria-controls="ld-focus-sidebar"]').attr('aria-expanded', 'true');
+
+		const sidebar = document.querySelector('.ld-focus-sidebar');
+
+		if (sidebar) {
+			sidebar.dispatchEvent(new CustomEvent('ld-focus-sidebar-opened'));
+		}
+		dispatchSidebarEvent(true);
 
 		positionTooltips();
 	}
@@ -299,191 +461,517 @@ jQuery(function ($) {
 			});
 	});
 
-	$('body').on('click', '.ld-expand-button', function (e) {
-		e.preventDefault();
+	$('body').on(
+		'click',
+		'.ld-expand-button, [data-ld-expand-button]',
+		function (e) {
+			e.preventDefault();
 
-		ld_expand_element($(this));
+			ldToggleExpandableElement($(this));
 
-		positionTooltips();
-	});
+			positionTooltips();
+		}
+	);
+
+	/**
+	 * Initialize expanded items to be expanded and collapsed elements to have [hidden="hidden"].
+	 * Expanded elements allow "Expand All" items to expand all their children by default.
+	 * Collapsed elements need [hidden="hidden"] to be set via JavaScript, so we cannot pre-load this on the server.
+	 *
+	 * @see https://designsystem.digital.gov/components/accordion/
+	 *
+	 * @since 4.21.0
+	 */
+	function initializeExpandableElements() {
+		$('.ld-expand-button, [data-ld-expand-button], .ld-search-prompt').each(
+			function (index, buttonElement) {
+				ldToggleExpandableElement(
+					$(buttonElement),
+					$(buttonElement).attr('aria-expanded') === 'true'
+				);
+			}
+		);
+	}
+
+	/**
+	 * Focuses on the first alert on the page with a role "alert".
+	 * This is required for accessibility.
+	 *
+	 * @since 4.21.3
+	 * @since 4.21.5 Switched to a focus-based approach for better compatibility with different screen readers.
+	 *
+	 * @return {void}
+	 */
+	function initializeAlerts() {
+		/**
+		 * We need to give it a tabindex of -1 to allow it to be programmatically focused so it will be
+		 * read out by screen readers. Unfortunately, we cannot remove it after focusing.
+		 * If we do, it won't be read at all.
+		 *
+		 * By using -1 rather than 0, it won't show up in the tab order when navigating by keyboard.
+		 *
+		 * We can only target the first alert because we have no way to know when the screen reader has finished
+		 * reading each alert to focus on the next one.
+		 *
+		 * The setTimeout() is used to force this to happen at the end of the event queue and improve compatibility.
+		 */
+		setTimeout(function () {
+			$('.ld-alert[role="alert"]:visible')
+				.first()
+				.attr('tabindex', '-1')
+				.focus();
+		}, 500);
+	}
+
+	$(document).on(
+		'ldAccordionPaginationComplete',
+		'.ld-accordion',
+		initializeExpandableElements
+	);
+
+	// On page load.
+	initializeExpandableElements();
+	initializeAlerts();
 
 	$('body').on('click', '.ld-search-prompt', function (e) {
 		e.preventDefault();
 
 		$('#course_name_field').focus();
 
-		ld_expand_element($(this));
+		ldToggleExpandableElement($(this));
+
+		const $controls = $('#' + $(this).attr('aria-controls'));
+
+		if ($controls.find('.ld-closer').length > 0) {
+			$controls
+				.find('.ld-closer')
+				.attr('aria-expanded', $(this).attr('aria-expanded'));
+		}
 	});
 
-	function ld_expand_button_state(state, elm) {
-		var $expandText = $(elm)[0].hasAttribute('data-ld-expand-text')
-			? $(elm).attr('data-ld-expand-text')
-			: 'Expand';
-		var $collapseText = $(elm)[0].hasAttribute('data-ld-collapse-text')
-			? $(elm).attr('data-ld-collapse-text')
-			: 'Collapse';
+	/**
+	 * Handles expanding and collapsing elements on button click.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param {jQuery}  $button jQuery Element for the button that was clicked.
+	 * @param {boolean} expand  Whether to expand the associated element or not. Defaults to a value based on the button's aria-expanded attribute.
+	 *
+	 * @return {void}
+	 */
+	function ldToggleExpandableElement($button, expand) {
+		if ('undefined' === typeof expand) {
+			// Checking !== true to handle undefined and false.
+			expand = $button.attr('aria-expanded') !== 'true';
+		}
 
-		if ('collapse' == state) {
-			$(elm).removeClass('ld-expanded');
-			if ('false' !== $collapseText) {
-				$(elm).find('.ld-text').text($expandText);
-			}
+		const containerID = $button.attr('aria-controls');
+
+		if (
+			typeof containerID !== 'undefined' &&
+			containerID.indexOf(' ') > -1 &&
+			!$button.data('ld-expanding-all')
+		) {
+			// We're toggling multiple elements at once via an "Expand All"-type button.
+
+			containerID.split(' ').forEach(function (id) {
+				const $element = $('[aria-controls="' + id + '"]');
+
+				ldToggleExpandableElement($element, expand);
+			});
+
+			// Temporarily set the "ld-expanding-all" data to allow us to toggle the state of this specific button.
+
+			$button.data('ld-expanding-all', true);
+
+			ldToggleExpandableElement($button, expand);
+
+			$button.data('ld-expanding-all', false);
 		} else {
-			$(elm).addClass('ld-expanded');
-			if ('false' !== $collapseText) {
-				$(elm).find('.ld-text').text($collapseText);
+			// Toggle a specific button.
+
+			// Account for edge cases where an Expand All button controls only one expandable area.
+			$button = $('[aria-controls="' + containerID + '"]');
+
+			const $container = $('#' + containerID);
+
+			if (expand && $container.length > 0) {
+				// Unhide right away.
+				$container.attr('hidden', false);
+			}
+
+			$button.each(function (index, element) {
+				/**
+				 * Pull the initial text from a cached data attribute,
+				 * that way as the button text changes we always know what it was initially.
+				 */
+				const dataInitialText =
+					$(element).data('ld-initial-text') ||
+					$(element)
+						.find('.ld-text, [data-ld-expand-button-text-element]')
+						.html();
+
+				$(element).data('ld-initial-text', dataInitialText);
+
+				const dataExpandText =
+					$(element).data('ld-expand-text') || dataInitialText;
+				const dataCollapseText =
+					$(element).data('ld-collapse-text') || dataInitialText;
+
+				$(element)
+					.attr('aria-expanded', expand)
+					.toggleClass('ld-expanded', expand);
+
+				if (expand && dataCollapseText) {
+					$(element)
+						.find('.ld-text, [data-ld-expand-button-text-element]')
+						.html(dataCollapseText);
+				} else if (!expand && dataExpandText) {
+					$(element)
+						.find('.ld-text, [data-ld-expand-button-text-element]')
+						.html(dataExpandText);
+				}
+			});
+
+			if ($container.length <= 0) {
+				/**
+				 * Expand All buttons with more than one controlled element won't have a valid Container,
+				 * so we shouldn't proceed.
+				 */
+				return;
+			}
+
+			let totalHeight = 0;
+			$container.find('> *').each(function () {
+				totalHeight += $(this).outerHeight();
+			});
+
+			// Writing to the attribute to make debugging easier.
+			$container.attr('data-height', totalHeight + 50);
+
+			$container.css({
+				'max-height': expand ? $container.data('height') : 0,
+			});
+
+			if (!expand) {
+				// If we're collapsing, we should remove this class immediately.
+				$container.toggleClass('ld-expanded', expand);
+
+				const waitForCollapsed = setInterval(function () {
+					if ($container.outerHeight() === 0) {
+						clearInterval(waitForCollapsed);
+						$container.attr('hidden', true);
+					}
+				});
+			} else {
+				// If we're expanding, we only want to add the .ld-expanded class once fully expanded.
+				const waitForExpanded = setInterval(function () {
+					if ($container.outerHeight() === totalHeight) {
+						clearInterval(waitForExpanded);
+						$container.toggleClass('ld-expanded', expand);
+					}
+				});
 			}
 		}
+
+		positionTooltips();
 	}
 
-	function ld_expand_element(elm, collapse) {
-		if (collapse === undefined) {
-			collapse = false;
+	/**
+	 * Initialize registration link in the classic registration page.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return {void}
+	 */
+	function ldRegistrationLinkInit() {
+		const $loginLink = $('.registration-login-link');
+
+		if ($loginLink.length === 0) {
+			return;
 		}
 
-		var elmParentWrapper = elm.parents('.ld-focus-sidebar');
-		if (
-			'undefined' === typeof elmParentWrapper ||
-			!elmParentWrapper.length
-		) {
-			var elmParentWrapper = elm.parents('.learndash-wrapper');
+		if ('' !== $loginLink.attr('href')) {
+			return;
 		}
+
+		$loginLink.on('click', function (e) {
+			e.preventDefault();
+			$('#learndash_registerform, .registration-login').hide();
+			$(
+				'.registration-login-form, .show-register-form, .show-password-reset-link'
+			).show();
+		});
+
+		$('.show-register-form').on('click', function (e) {
+			e.preventDefault();
+			$(
+				'.registration-login-form, .show-register-form, .show-password-reset-link'
+			).hide();
+			$('#learndash_registerform, .registration-login').show();
+		});
+	}
+
+	/**
+	 * Initialize registration link in the modern registration page.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return {void}
+	 */
+	function ldRegistrationLinkInitModern() {
+		const $loginLink = $('.ld-registration__login-link');
+
+		if ($loginLink.length === 0) {
+			return;
+		}
+
+		if ('' !== $loginLink.attr('href')) {
+			return;
+		}
+
+		$(document).on('click', '.ld-registration__login-link', function (e) {
+			e.preventDefault();
+			let $wrapper = $(this).closest('.ld-registration__wrapper');
+			$wrapper.addClass('ld-registration__wrapper--login');
+			$wrapper.removeClass('ld-registration__wrapper--register');
+		});
+
+		$(document).on(
+			'click',
+			'.ld-registration__register-link',
+			function (e) {
+				e.preventDefault();
+				let $wrapper = $(this).closest('.ld-registration__wrapper');
+				$wrapper.removeClass('ld-registration__wrapper--login');
+				$wrapper.addClass('ld-registration__wrapper--register');
+			}
+		);
+	}
+
+	$('body').on('click', '.ld-closer', function (e) {
+		ldToggleExpandableElement($('.ld-search-prompt'), false);
+		$(this).attr('aria-expanded', false);
+	});
+
+	$('body').on('touch click', '.ld-tabs-navigation .ld-tab', function () {
+		const $tabContent = $('#' + $(this).attr('aria-controls'));
+		if (!$tabContent.length) {
+			return;
+		}
+
+		// Set other Tabs as inactive.
+		$('.ld-tabs-navigation .ld-tab.ld-active')
+			.removeClass('ld-active')
+			.attr('aria-selected', 'false')
+			.attr('tabindex', '-1');
+
+		// Set current Tab as active.
+		$(this)
+			.addClass('ld-active')
+			.attr('aria-selected', 'true')
+			.removeAttr('tabindex');
+
+		// Make other Tab Content panels invisible.
+		$('.ld-tabs-content .ld-tab-content.ld-visible').removeClass(
+			'ld-visible'
+		);
+
+		$tabContent.addClass('ld-visible');
+
+		positionTooltips();
+	});
+
+	$('body').on('keydown', '.ld-tabs-navigation .ld-tab', function (event) {
+		// If the key is not a Left/Right arrow key, Home, or End, do nothing.
 		if (
-			'undefined' === typeof elmParentWrapper ||
-			!elmParentWrapper.length
+			['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(event.key) === -1
 		) {
 			return;
 		}
 
-		// Get the button's state
-		var $expanded = $(elm).hasClass('ld-expanded');
+		const target = event.currentTarget;
+		const $firstTab = $(target)
+			.closest('[role="tablist"]')
+			.find('[role="tab"]')
+			.first();
+		const $lastTab = $(target)
+			.closest('[role="tablist"]')
+			.find('[role="tab"]')
+			.last();
 
-		// Get the element to expand
-		if ($(elm)[0] && $(elm)[0].hasAttribute('data-ld-expands')) {
-			var $expands = $(elm).attr('data-ld-expands');
-			if ('undefined' === typeof $expands || !$expands.length) {
+		event.stopPropagation();
+		event.preventDefault();
+
+		switch (event.key) {
+			case 'ArrowLeft':
+				if (target === $firstTab[0]) {
+					$lastTab.focus();
+				} else {
+					$(this).prev().focus();
+				}
+				break;
+			case 'ArrowRight':
+				if (target === $lastTab[0]) {
+					$firstTab.focus();
+				} else {
+					$(target).next().focus();
+				}
+				break;
+			case 'Home':
+				$firstTab.focus();
+				break;
+			case 'End':
+				$lastTab.focus();
+				break;
+			default:
+				break;
+		}
+	});
+
+	/**
+	 * Initialize tooltips.
+	 * - If JS isn't enabled, the tooltips will be visible at all times.
+	 * - This adds the `ld-tooltip--initialized` class to all tooltips to signify that JS is enabled.
+	 * - The `ld-tooltip--hidden` class is removed when the mouse is over a tooltip, the tooltip is focused,
+	 * or the tooltip is focused-within.
+	 * - The `ld-tooltip--hidden` class is added if a tooltip is visible and the Escape key is pressed.
+	 *
+	 * @since 4.21.3
+	 *
+	 * @return {void}
+	 */
+	function initTooltips() {
+		$('.ld-tooltip').each(function () {
+			const $tooltip = $(this).find('[role="tooltip"]');
+
+			if (!$tooltip.length || typeof $tooltip[0] === 'undefined') {
 				return;
 			}
 
-			var $expandElm = $(elmParentWrapper).find(
-				'[data-ld-expand-id="' + $expands + '"]'
-			);
-			if ('undefined' === typeof $expandElm || !$expandElm.length) {
-				return;
+			if (!$(this).hasClass('ld-tooltip--initialized')) {
+				$(this)
+					.addClass('ld-tooltip--initialized')
+					.addClass('ld-tooltip--hidden');
 			}
 
-			var $expandsChild = $($expandElm).find(
-				'.ld-item-list-item-expanded'
-			);
+			/**
+			 * We need to temporarily remove the `ld-tooltip--hidden` class
+			 * as hidden tooltips are hidden off to the left edge of the screen.
+			 *
+			 * We need to know where it would normally be positioned when visible
+			 * to know if we need to move it to the right.
+			 */
+			const isHidden = $(this).hasClass('ld-tooltip--hidden');
 
-			if ($expandsChild.length) {
-				$expandElm = $expandsChild;
+			$(this).removeClass('ld-tooltip--hidden');
+			$(this).removeClass('ld-tooltip--position-right');
+
+			const tooltipRect = $tooltip[0].getBoundingClientRect();
+
+			let containerWidth = windowWidth;
+
+			/**
+			 * If the tooltip is within the focus sidebar, use the sidebar width.
+			 *
+			 * We have to do this because when an element is vertically scrollable, a browser will simply not
+			 * allow you to have items spill out the left or right sides even when the appropriate CSS for
+			 * overflow-x is set to visible as it will be forced to auto implicitly.
+			 *
+			 * See https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x#syntax
+			 */
+			if ($(this).closest('.ld-focus-sidebar').length) {
+				containerWidth = $(this).closest('.ld-focus-sidebar').width();
 			}
 
-			var totalHeight = 0;
+			/**
+			 * If the tooltip would overflow the right edge of the window,
+			 * add the `ld-tooltip--position-right` class.
+			 */
+			$(this).toggleClass(
+				'ld-tooltip--position-right',
+				tooltipRect.right > containerWidth
+			);
 
-			$expandElm.find('> *').each(function () {
-				totalHeight += $(this).outerHeight();
-			});
+			// Add the .ld-tooltip--hidden class back if it was hidden.
+			$(this).toggleClass('ld-tooltip--hidden', isHidden);
+		});
 
-			$expandElm.attr('data-height', '' + (totalHeight + 50) + '');
-
-			// If the element expands a list
-
+		$(document).on('keydown', function (event) {
+			/**
+			 * We need to check if the Escape key is pressed and if any tooltips
+			 * are currently visible before dismissing them.
+			 */
 			if (
-				$(elmParentWrapper)
-					.find('[data-ld-expand-id="' + $expands + '"]')[0]
-					.hasAttribute('data-ld-expand-list')
+				event.key === 'Escape' &&
+				($('.ld-tooltip:hover').length ||
+					$('.ld-tooltip:focus').length ||
+					$('.ld-tooltip:focus-within').length)
 			) {
-				var $container = $(elmParentWrapper).find(
-					'[data-ld-expand-id="' + $expands + '"]'
-				);
-				var innerButtons = $container.find('.ld-expand-button');
-				if ($expanded) {
-					ld_expand_button_state('collapse', elm);
-					innerButtons.each(function () {
-						ld_expand_element($(this), true);
-					});
-				} else {
-					ld_expand_button_state('expand', elm);
-					innerButtons.each(function () {
-						ld_expand_element($(this));
-					});
-				}
+				$(
+					'.ld-tooltip:hover, .ld-tooltip:focus, .ld-tooltip:focus-within'
+				).addClass('ld-tooltip--hidden');
 
-				// If the element expands an item
-			} else if (
-				$(elmParentWrapper).find(
-					'[data-ld-expand-id="' + $expands + '"]'
-				).length
-			) {
-				if ($expanded || true == collapse) {
-					ld_expand_singular_item(
-						elm,
-						$(elmParentWrapper).find(
-							'[data-ld-expand-id="' + $expands + '"]'
-						),
-						$expandElm
-					);
-				} else {
-					ld_collapse_singular_item(
-						elm,
-						$(elmParentWrapper).find(
-							'[data-ld-expand-id="' + $expands + '"]'
-						),
-						$expandElm
-					);
-				}
-			} else {
-				console.log('LearnDash: No expandable content was found');
+				// Remove focus to prevent automatically scrolling the page.
+				$('.ld-tooltip:focus, .ld-tooltip :focus').blur();
 			}
-			positionTooltips();
-		}
-	}
-
-	function ld_expand_singular_item(elm, $containerElm, $expandElm) {
-		$containerElm.removeClass('ld-expanded');
-		ld_expand_button_state('collapse', elm);
-
-		$expandElm.css({
-			'max-height': 0,
 		});
+
+		/**
+		 * For the next two event listeners:
+		 *
+		 * - mouseenter/mouseleave are used for hover on desktop.
+		 *
+		 * - focusin/focusout are used for keyboard focus on desktop.
+		 * 	- These are used instead of focus/blur because the focused element is likely _within_ the tooltip container.
+		 * 	- If the focused element is the tooltip container, these event names still work.
+		 *
+		 * - touchstart is used for touch devices.
+		 */
+
+		$(document).on(
+			'mouseenter focusin touchstart',
+			'.ld-tooltip--hidden',
+			function () {
+				// Show the tooltip.
+				$(this).removeClass('ld-tooltip--hidden');
+			}
+		);
+
+		$(document).on(
+			'mouseleave focusout touchstart',
+			'.ld-tooltip:not(.ld-tooltip--hidden)',
+			function () {
+				// Hide the tooltip when the mouse when the user moves away from the tooltip.
+				$(this).addClass('ld-tooltip--hidden');
+			}
+		);
 	}
 
-	function ld_collapse_singular_item(elm, $containerElm, $expandElm) {
-		$containerElm.addClass('ld-expanded');
-
-		ld_expand_button_state('expand', elm);
-
-		$expandElm.css({
-			'max-height': $expandElm.data('height'),
-		});
-	}
-
-	$('body').on('click', '.ld-closer', function (e) {
-		ld_expand_element($('.ld-search-prompt'), true);
-	});
-
-	$('body').on('click', '.ld-tabs-navigation .ld-tab', function () {
-		var $tab = $('#' + $(this).attr('data-ld-tab'));
-		if ($tab.length) {
-			$('.ld-tabs-navigation .ld-tab.ld-active').removeClass('ld-active');
-			$('.ld-tabs-navigation .ld-tab').removeAttr('aria-selected');
-			$(this).addClass('ld-active');
-			$(this).attr('aria-selected', 'true');
-			$('.ld-tabs-content .ld-tab-content.ld-visible').removeClass(
-				'ld-visible'
-			);
-			$tab.addClass('ld-visible');
-		}
-		positionTooltips();
-	});
+	/**
+	 * In order to account for container breakpoints modifying the layout,
+	 * we need to initialize tooltips twice on page load.
+	 *
+	 * TODO: Find a better way to do this.
+	 */
+	initTooltips();
+	initTooltips();
 
 	var $tooltips = $('*[data-ld-tooltip]');
 
-	initTooltips();
+	initLegacyTooltips();
 
-	function initTooltips() {
+	/**
+	 * Initialize legacy LD30 Classic tooltips.
+	 * Replaced with a new style of tooltips in 4.21.3 for accessibility reasons.
+	 * Kept for backwards compatibility.
+	 *
+	 * @since 3.0.0
+	 * @since 4.21.3 Renamed from initTooltips to initLegacyTooltips.
+	 *
+	 * @return {void}
+	 */
+	function initLegacyTooltips() {
 		// Clear out old tooltips
 
 		if ($('#learndash-tooltips').length) {
@@ -589,6 +1077,8 @@ jQuery(function ($) {
 				},
 				50
 			);
+
+			$('.ld-modal', modal_wrapper).focus();
 		}
 	}
 
@@ -597,9 +1087,21 @@ jQuery(function ($) {
 		if ('undefined' !== typeof modal_wrapper && modal_wrapper.length) {
 			$(modal_wrapper).removeClass('ld-modal-open');
 			$(modal_wrapper).addClass('ld-modal-closed');
+
+			// Return the focus to the login link that triggers the modal.
+			$('[data-ld-login-modal-trigger]').focus();
 		}
 	}
 
+	/**
+	 * Position legacy LD30 Classic tooltips.
+	 * This is not used by the new tooltips added in 4.21.3.
+	 * Kept for backwards compatibility.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return {void}
+	 */
 	function positionTooltips() {
 		if ('undefined' !== typeof $tooltips) {
 			setTimeout(function () {
@@ -701,7 +1203,10 @@ jQuery(function ($) {
 			success(response) {
 				if ('undefined' !== typeof response.data.markup) {
 					$('#ld-profile').html(response.data.markup);
-					ld_expand_element('#ld-profile .ld-search-prompt', false);
+					ldToggleExpandableElement(
+						'#ld-profile .ld-search-prompt',
+						true
+					);
 				}
 			},
 		});
@@ -732,7 +1237,10 @@ jQuery(function ($) {
 			success(response) {
 				if ('undefined' !== typeof response.data.markup) {
 					$('#ld-profile').html(response.data.markup);
-					ld_expand_element('#ld-profile .ld-search-prompt', false);
+					ldToggleExpandableElement(
+						'#ld-profile .ld-search-prompt',
+						true
+					);
 				}
 			},
 		});
@@ -759,7 +1267,6 @@ jQuery(function ($) {
 			.data('pager-results');
 
 		linkVars.context = $(this).data('context');
-		console.log('linkVars[%o]', linkVars);
 
 		parentVars.currentTarget = e.currentTarget;
 
@@ -1169,8 +1676,6 @@ jQuery(function ($) {
 		jQuery('#wpProQuiz_user_overlay, #wpProQuiz_loadUserData').show();
 		var content = jQuery('#wpProQuiz_user_content').hide();
 
-		//console.log('- learndash.js');
-
 		jQuery.ajax({
 			type: 'POST',
 			url: ldVars.ajaxurl,
@@ -1183,7 +1688,6 @@ jQuery(function ($) {
 					content.html(reply_data.html);
 					jQuery('#wpProQuiz_user_content').show();
 
-					//console.log('trigger event change - learndash.js');
 					jQuery('body').trigger(
 						'learndash-statistics-contentchanged'
 					);
@@ -1333,6 +1837,12 @@ jQuery(function ($) {
 			return false;
 		}
 
+		const supportsCoupon = $('#total-row').attr('data-supports-coupon');
+
+		if (!supportsCoupon) {
+			return;
+		}
+
 		const total = parseFloat($('#total-row').attr('data-total'));
 
 		if (0 === total) {
@@ -1362,6 +1872,8 @@ jQuery(function ($) {
 
 	$('#apply-coupon-form').on('submit', function (e) {
 		e.preventDefault();
+		const $el = $(this);
+		const $wrapper = $el.closest('.ld-registration-order__items');
 
 		$.ajax({
 			type: 'POST',
@@ -1375,40 +1887,87 @@ jQuery(function ($) {
 				post_id: $(this).data('post-id'),
 			},
 			success(response) {
-				$('#coupon-alerts .coupon-alert').hide();
+				const isModernRegistration = $(
+					'.ld-form__field-coupon_field'
+				).length;
 
-				const $alert = $('#coupon-alerts').find(
-					response.success
-						? '.coupon-alert-success'
-						: '.coupon-alert-warning'
-				);
+				if (isModernRegistration) {
+					$('#coupon-alerts .coupon-alert').hide();
 
-				const $coupon_row = $('#coupon-row');
+					const $alert = $('#coupon-alerts').find(
+						response.success
+							? '.coupon-alert-success'
+							: '.coupon-alert-warning'
+					);
 
-				if (response.success) {
-					$coupon_row
-						.find('.purchase-label > span')
-						.html(response.data.coupon_code); // Set coupon code in totals.
-					$coupon_row
-						.find('.purchase-value span')
-						.html(response.data.discount); // Set discount value in totals.
-					$coupon_row.css('display', 'flex').hide().fadeIn(); // Show a coupon row in totals.
-					$('#total-row .purchase-value').html(
-						response.data.total.formatted
-					); // Update Total.
-					$('#totals').show();
+					if (response.success) {
+						$wrapper
+							.find('.ld-coupon__label-text')
+							.html(response.data.coupon_code); // Set coupon code in totals.
 
-					update_payment_forms(response.data);
+						$wrapper
+							.find('.ld-coupon__value')
+							.html('(' + response.data.discount + ')'); // Set discount value in totals.
+
+						$wrapper
+							.find('.ld-registration-order__item-price-value')
+							.html(response.data.total.formatted); // Update course/group price.
+
+						$wrapper
+							.find('.ld-registration-order__total-price')
+							.html(response.data.total.formatted); // Update Total.
+
+						$wrapper.addClass(
+							'ld-registration-order__items--with-coupon'
+						);
+
+						update_payment_forms(response.data);
+					}
+
+					$alert
+						.find('.ld-alert-messages')
+						.html(response.data.message);
+					$alert.fadeIn();
+				} else {
+					$('#coupon-alerts .coupon-alert').hide();
+
+					const $alert = $('#coupon-alerts').find(
+						response.success
+							? '.coupon-alert-success'
+							: '.coupon-alert-warning'
+					);
+
+					const $coupon_row = $('#coupon-row');
+
+					if (response.success) {
+						$coupon_row
+							.find('.purchase-label > span')
+							.html(response.data.coupon_code); // Set coupon code in totals.
+						$coupon_row
+							.find('.purchase-value span')
+							.html(response.data.discount); // Set discount value in totals.
+						$coupon_row.css('display', 'flex').hide().fadeIn(); // Show a coupon row in totals.
+						$('#total-row .purchase-value').html(
+							response.data.total.formatted
+						); // Update Total.
+						$('#totals').show();
+
+						update_payment_forms(response.data);
+					}
+
+					$alert
+						.find('.ld-alert-messages')
+						.html(response.data.message);
+					$alert.fadeIn();
 				}
-
-				$alert.find('.ld-alert-messages').html(response.data.message);
-				$alert.fadeIn();
 			},
 		});
 	});
 
 	$('#remove-coupon-form').on('submit', function (e) {
 		e.preventDefault();
+		const $el = $(this);
+		const $wrapper = $el.closest('.ld-registration-order__items');
 
 		$.ajax({
 			type: 'POST',
@@ -1421,33 +1980,69 @@ jQuery(function ($) {
 				post_id: $(this).data('post-id'),
 			},
 			success(response) {
-				$('#coupon-alerts .coupon-alert').hide();
+				const isModernRegistration = $(
+					'.ld-form__field-coupon_field'
+				).length;
 
-				const $alert = $('#coupon-alerts').find(
-					response.success
-						? '.coupon-alert-success'
-						: '.coupon-alert-warning'
-				);
+				if (isModernRegistration) {
+					$('#coupon-alerts .coupon-alert').hide();
 
-				if (response.success) {
-					$('#coupon-row').hide(); // Hide a coupon row in totals.
-					$('#coupon-field').val(''); // Set coupon field empty.
-					$('#price-row .purchase-value').html(
-						response.data.total.formatted
-					); // Update Price.
-					$('#subtotal-row .purchase-value').html(
-						response.data.total.formatted
-					); // Update Subtotal.
-					$('#total-row .purchase-value').html(
-						response.data.total.formatted
-					); // Update Total.
-					$('#totals').hide();
+					const $alert = $('#coupon-alerts').find(
+						response.success
+							? '.coupon-alert-success'
+							: '.coupon-alert-warning'
+					);
 
-					update_payment_forms(response.data);
+					if (response.success) {
+						$wrapper.removeClass(
+							'ld-registration-order__items--with-coupon'
+						);
+						$wrapper.find('.ld-form__field-coupon_field').val(''); // Set coupon field empty.
+						$wrapper
+							.find('.ld-registration-order__item-price-value')
+							.html(response.data.total.formatted); // Update course/group price.
+						$wrapper
+							.find('.ld-registration-order__total-price')
+							.html(response.data.total.formatted); // Update Total.
+
+						update_payment_forms(response.data);
+					}
+
+					$alert
+						.find('.ld-alert-messages')
+						.html(response.data.message);
+					$alert.fadeIn();
+				} else {
+					$('#coupon-alerts .coupon-alert').hide();
+
+					const $alert = $('#coupon-alerts').find(
+						response.success
+							? '.coupon-alert-success'
+							: '.coupon-alert-warning'
+					);
+
+					if (response.success) {
+						$('#coupon-row').hide(); // Hide a coupon row in totals.
+						$('#coupon-field').val(''); // Set coupon field empty.
+						$('#price-row .purchase-value').html(
+							response.data.total.formatted
+						); // Update Price.
+						$('#subtotal-row .purchase-value').html(
+							response.data.total.formatted
+						); // Update Subtotal.
+						$('#total-row .purchase-value').html(
+							response.data.total.formatted
+						); // Update Total.
+						$('#totals').hide();
+
+						update_payment_forms(response.data);
+					}
+
+					$alert
+						.find('.ld-alert-messages')
+						.html(response.data.message);
+					$alert.fadeIn();
 				}
-
-				$alert.find('.ld-alert-messages').html(response.data.message);
-				$alert.fadeIn();
 			},
 		});
 	});
