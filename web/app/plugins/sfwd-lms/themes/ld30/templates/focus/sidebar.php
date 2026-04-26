@@ -3,6 +3,7 @@
  * LearnDash LD30 focus mode sidebar.
  *
  * @since 3.0.0
+ * @version 4.21.5
  *
  * @package LearnDash\Templates\LD30
  */
@@ -16,7 +17,12 @@ global $course_pager_results;
 /** This action is documented in themes/ld30/templates/focus/index.php */
 do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 
-<div class="ld-focus-sidebar">
+<div
+	aria-modal="true"
+	class="ld-focus-sidebar"
+	id="ld-focus-sidebar"
+	role="dialog"
+>
 	<div class="ld-course-navigation-heading">
 
 		<?php
@@ -31,7 +37,14 @@ do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 		do_action( 'learndash-focus-sidebar-trigger-wrapper-before', $course_id, $user_id );
 		?>
 
-		<span class="ld-focus-sidebar-trigger">
+		<button
+			aria-controls="ld-focus-sidebar"
+			<?php // This filter is documented in themes/ld30/templates/focus/header.php. ?>
+			aria-expanded="<?php echo esc_attr( apply_filters( 'learndash_focus_mode_collapse_sidebar', false ) ? 'false' : 'true' ); ?>"
+			aria-label="<?php echo esc_attr_x( 'Toggle sidebar navigation', 'Accessibility label for sidebar toggle button', 'learndash' ); ?>"
+			class="ld-focus-sidebar-trigger"
+			id="ld-focus-sidebar-toggle"
+		>
 			<?php
 			/**
 			 * Fires before the sidebar trigger in the focus template.
@@ -55,7 +68,7 @@ do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 			 */
 			do_action( 'learndash-focus-sidebar-trigger-after', $course_id, $user_id );
 			?>
-		</span>
+		</button>
 
 		<?php
 		/**
@@ -81,12 +94,12 @@ do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 		do_action( 'learndash-focus-sidebar-heading-before', $course_id, $user_id );
 		?>
 
-		<h3>
+		<span class="ld-focus-mode-course-heading-wrapper">
 			<a href="<?php echo esc_url( get_the_permalink( $course_id ) ); ?>" id="ld-focus-mode-course-heading">
 				<span class="ld-icon ld-icon-content"></span>
 				<?php echo esc_html( get_the_title( $course_id ) ); ?>
 			</a>
-		</h3>
+		</span>
 		<?php
 		/**
 		 * Fires after the sidebar heading in the focus template.
@@ -111,7 +124,10 @@ do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 		 */
 		do_action( 'learndash-focus-sidebar-between-heading-navigation', $course_id, $user_id );
 		?>
-		<div class="ld-course-navigation">
+		<nav
+			class="ld-course-navigation"
+			aria-label="<?php echo esc_attr_x( sprintf( '%s', LearnDash_Custom_Label::get_label( 'course' ) ), sprintf( 'Accessibility label for the focus mode %s navigation', LearnDash_Custom_Label::get_label( 'course' ) ), 'learndash' ); ?>"
+		>
 			<div class="ld-course-navigation-list">
 				<div class="ld-lesson-navigation">
 					<div class="ld-lesson-items" id="<?php echo esc_attr( 'ld-lesson-list-' . $course_id ); ?>">
@@ -170,7 +186,7 @@ do_action( 'learndash-focus-sidebar-before', $course_id, $user_id ); ?>
 					</div> <!--/.ld-lesson-items-->
 				</div> <!--/.ld-lesson-navigation-->
 			</div> <!--/.ld-course-navigation-list-->
-		</div> <!--/.ld-course-navigation-->
+		</nav> <!--/.ld-course-navigation-->
 		<?php
 		/**
 		 * Fires after the sidebar nav wrapper in the focus template.

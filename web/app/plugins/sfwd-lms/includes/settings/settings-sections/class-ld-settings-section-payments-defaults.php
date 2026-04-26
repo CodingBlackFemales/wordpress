@@ -124,8 +124,7 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 
 			if ( ( isset( $field_args['type'] ) ) && ( ! empty( $field_args['type'] ) ) ) {
 				$field_ref = LearnDash_Settings_Fields::get_field_instance( $field_args['type'] );
-				if ( is_a( $field_ref, 'LearnDash_Settings_Fields' ) ) {
-
+				if ( $field_ref instanceof LearnDash_Settings_Fields ) {
 					/** This filter is documented in includes/settings/settings-fields/class-ld-settings-fields-checkbox-switch.php */
 					$html = apply_filters( 'learndash_settings_field_html_before', '', $field_args );
 
@@ -149,13 +148,16 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 						);
 					}
 
-					foreach ( $currency_codes_list as $code ) {
+					foreach ( $currency_codes_list as $currency_codes_list_item ) {
+						$option_is_selected = $currency_country === $currency_codes_list_item['country']
+							&& $this->setting_option_values['currency'] === $currency_codes_list_item['currency_code'];
+
 						$select_html .= sprintf(
 							'<option %1$s value="%2$s" data-country="%3$s">%4$s</option>',
-							( $currency_country === $code['country'] ? 'selected' : '' ),
-							$code['currency_code'],
-							$code['country'],
-							$code['option_label']
+							$option_is_selected ? 'selected' : '',
+							$currency_codes_list_item['currency_code'],
+							$currency_codes_list_item['country'],
+							$currency_codes_list_item['option_label']
 						);
 					}
 
@@ -175,10 +177,9 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 
 			echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Need to output HTML
 		}
-
-		// End of functions.
 	}
 }
+
 add_action(
 	'learndash_settings_sections_init',
 	function() {

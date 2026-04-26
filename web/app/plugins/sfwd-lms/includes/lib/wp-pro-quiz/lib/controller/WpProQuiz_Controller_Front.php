@@ -1,4 +1,12 @@
 <?php
+/**
+ * Front Controller for WP Pro Quiz.
+ *
+ * @since 1.2.5
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -6,8 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 use LearnDash\Core\Template\Views;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
-class WpProQuiz_Controller_Front {
 
+/**
+ * Front Controller for WP Pro Quiz.
+ *
+ * @since 1.2.5
+ */
+class WpProQuiz_Controller_Front {
 	/**
 	 * @var WpProQuiz_Model_GlobalSettings
 	 */
@@ -38,6 +51,17 @@ class WpProQuiz_Controller_Front {
 		}
 	}
 
+	/**
+	 * Loads the JavaScript scripts.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @param bool $footer  Whether to load the scripts in the footer. Default true.
+	 * @param bool $quiz    Whether to load the quiz scripts. Default true.
+	 * @param bool $toplist Whether to load the toplist scripts. Default false.
+	 *
+	 * @return void
+	 */
 	private function loadJsScripts( $footer = true, $quiz = true, $toplist = false ) {
 		global $learndash_assets_loaded;
 
@@ -45,7 +69,7 @@ class WpProQuiz_Controller_Front {
 			wp_enqueue_script(
 				'wpProQuiz_front_javascript',
 				plugins_url( 'js/wpProQuiz_front' . learndash_min_asset() . '.js', WPPROQUIZ_FILE ),
-				array( 'jquery', 'jquery-ui-sortable' ),
+				[ 'jquery', 'jquery-ui-sortable', 'learndash-sortable-script', 'wp-i18n' ],
 				LEARNDASH_SCRIPT_VERSION_TOKEN,
 				$footer
 			);
@@ -54,7 +78,7 @@ class WpProQuiz_Controller_Front {
 			wp_localize_script(
 				'wpProQuiz_front_javascript',
 				'WpProQuizGlobal',
-				array(
+				[
 					'ajaxurl'            => str_replace( array( 'http:', 'https:' ), array( '', '' ), admin_url( 'admin-ajax.php' ) ),
 					'loadData'           => esc_html__( 'Loading', 'learndash' ),
 					// translators: placeholder: question
@@ -62,7 +86,16 @@ class WpProQuiz_Controller_Front {
 					// translators: placeholder: questions, quiz.
 					'questionsNotSolved' => sprintf( esc_html_x( 'You must answer all %1$s before you can complete the %2$s.', 'placeholder: questions, quiz', 'learndash' ), learndash_get_custom_label_lower( 'questions' ), learndash_get_custom_label_lower( 'quiz' ) ),
 					'fieldsNotFilled'    => esc_html__( 'All fields have to be filled.', 'learndash' ),
-				)
+					'correctAnswer'      => esc_html__( 'Correct', 'learndash' ),
+					'incorrectAnswer'    => sprintf(
+						// We are using @@LearnDash_Incorrect@@ as a placeholder to handle parsing in the wpProQuiz_front.js because that is where the answer is parsed.
+						// translators: placeholder: span open, correct answer placeholder, span close.
+						esc_html__( 'Incorrect, %1$sCorrect Answer: %2$s%3$s', 'learndash' ),
+						'<span class="ld-quiz__cloze-results--correct-answer">',
+						'@@LearnDash_Incorrect@@',
+						'</span>'
+					),
+				]
 			);
 
 			wp_enqueue_script(
@@ -115,7 +148,6 @@ class WpProQuiz_Controller_Front {
 	}
 
 	public function shortcode( $attr = array(), $content = '' ) {
-
 		global $learndash_shortcode_used, $learndash_shortcode_atts;
 		$learndash_shortcode_used = true;
 
@@ -209,7 +241,6 @@ class WpProQuiz_Controller_Front {
 		$maxQuestion = false;
 
 		if ( ( $quiz->isShowMaxQuestion() ) && ( $quiz->getShowMaxQuestionValue() > 0 ) ) {
-
 			$value = $quiz->getShowMaxQuestionValue();
 
 			if ( $quiz->isShowMaxQuestionPercent() ) {
@@ -218,12 +249,9 @@ class WpProQuiz_Controller_Front {
 				$value = ceil( $count * $value / 100 );
 			}
 
-			//$question = $questionMapper->fetchAll( $atts['quiz_pro_id'], true, $value );
 			$question    = $questionMapper->fetchAll( $quiz, true, $value );
 			$maxQuestion = true;
-
 		} else {
-			//$question = $questionMapper->fetchAll( $atts['quiz_pro_id'] );
 			$question = $questionMapper->fetchAll( $quiz );
 		}
 
@@ -248,7 +276,6 @@ class WpProQuiz_Controller_Front {
 	}
 
 	public function shortcodeToplist( $attr ) {
-
 		global $learndash_shortcode_used;
 		$learndash_shortcode_used = true;
 
@@ -299,6 +326,36 @@ class WpProQuiz_Controller_Front {
 		$this->_settings = $mapper->fetchAll();
 	}
 
+	/**
+	 * It's a copy of the ajaxQuizLoadData method with the security fix.
+	 * Unfortunately, we could not do anything better at the moment.
+	 *
+	 * @since 4.12.0
+	 *
+	 * @param array $data Data.
+	 * @param mixed $func Function.
+	 *
+	 * @return false|string
+	 */
+	public static function ajaxQuizLoadDataWithoutCorrectAnswers( $data, $func ) {
+		$quiz_data = json_decode( self::ajaxQuizLoadData( $data, $func ), true );
+
+		if (
+			is_array( $quiz_data )
+			&& ! empty( $quiz_data )
+			&& ! empty( $quiz_data['json'] )
+			&& is_array( $quiz_data['json'] )
+		) {
+			foreach ( $quiz_data['json'] as &$question ) {
+				if ( isset( $question['correct'] ) ) {
+					unset( $question['correct'] );
+				}
+			}
+		}
+
+		return wp_json_encode( $quiz_data );
+	}
+
 	public static function ajaxQuizLoadData( $data, $func ) {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
@@ -328,7 +385,6 @@ class WpProQuiz_Controller_Front {
 			$learndash_course_id = (int) learndash_get_course_id();
 		}
 
-
 		$view = new WpProQuiz_View_FrontQuiz();
 
 		$quizMapper     = new WpProQuiz_Model_QuizMapper();
@@ -346,7 +402,6 @@ class WpProQuiz_Controller_Front {
 			if ( ! empty( $quiz_post_id ) && $user_id ) {
 				$learndash_quiz_resume_enabled = learndash_get_setting( $quiz_post_id, 'quiz_resume' );
 				if ( true === $learndash_quiz_resume_enabled ) {
-					//$learndash_course_id            = learndash_get_course_id();
 					$learndash_quiz_resume_activity = LDLMS_User_Quiz_Resume::get_user_quiz_resume_activity( $user_id, $quiz_post_id, $learndash_course_id );
 					if ( ( is_a( $learndash_quiz_resume_activity, 'LDLMS_Model_Activity' ) ) && ( property_exists( $learndash_quiz_resume_activity, 'activity_id' ) ) && ( ! empty( $learndash_quiz_resume_activity->activity_id ) ) ) {
 						$learndash_quiz_resume_id = $learndash_quiz_resume_activity->activity_id;

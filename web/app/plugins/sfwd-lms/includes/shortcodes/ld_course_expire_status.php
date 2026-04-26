@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[ld_course_expire_status]` shortcode output.
  *
@@ -67,6 +69,20 @@ function learndash_course_expire_status_shortcode( $atts = array(), $content = '
 	 * @param array $attributes An array of ld_course_expire_status shortcode attributes.
 	 */
 	$atts = apply_filters( 'learndash_ld_course_expire_status_shortcode_atts', $atts );
+
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$atts['user_id'] = learndash_shortcode_protect_user(
+		Cast::to_int( $atts['user_id'] )
+	);
+
+	// Check post access.
+	if (
+		! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['course_id'] )
+		)
+	) {
+		return '';
+	}
 
 	if ( ( ! empty( $atts['course_id'] ) ) && ( ! empty( $atts['user_id'] ) ) ) {
 		if ( sfwd_lms_has_access( $atts['course_id'], $atts['user_id'] ) ) {

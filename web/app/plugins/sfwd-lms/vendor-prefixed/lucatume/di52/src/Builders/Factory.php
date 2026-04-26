@@ -1,24 +1,19 @@
 <?php
+
 /**
  * Builds and sets up the correct builder for a binding.
  *
  * @package lucatume\DI52
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52\Builders;
 
 use Closure;
 use StellarWP\Learndash\lucatume\DI52\Container;
 use StellarWP\Learndash\lucatume\DI52\NotFoundException;
-
 /**
  * Class Factory
  *
- * @package StellarWP\Learndash\lucatume\DI52\Builders
+ * @package \StellarWP\Learndash\lucatume\DI52\Builders
  */
 class Factory
 {
@@ -34,7 +29,6 @@ class Factory
      * @var Container
      */
     protected $container;
-
     /**
      * BuilderFactory constructor.
      * @param Container $container A reference to the DI container the builder is working for.
@@ -45,17 +39,15 @@ class Factory
         $this->container = $container;
         $this->resolver = $resolver;
     }
-
     /**
      * Returns the correct builder for a value.
      *
-     * @param string|mixed       $id                 The string id to provide a builder for, or a value.
-     * @param mixed              $implementation     The implementation to build the builder for.
-     * @param array<string>|null $afterBuildMethods  A list of methods that should be called on the built instance
-     *                                               after
-     *                                               it's been built.
-     * @param mixed              ...$buildArgs       A set of arguments to pass that should be used to build the
-     *                                               instance, if any.
+     * @param  string|class-string|mixed  $id                 The string id to provide a builder for, or a value.
+     * @param  mixed                      $implementation     The implementation to build the builder for.
+     * @param  string[]|null              $afterBuildMethods  A list of methods that should be called on the built
+     *                                                        instance after it's been built.
+     * @param  mixed                      ...$buildArgs       A set of arguments to pass that should be used to build
+     *                                                        the instance, if any.
      *
      * @return BuilderInterface A builder instance.
      *
@@ -72,19 +64,41 @@ class Factory
             }
             return new ValueBuilder($implementation);
         }
-
         if ($implementation instanceof BuilderInterface) {
             return $implementation;
         }
-
         if ($implementation instanceof Closure) {
             return new ClosureBuilder($this->container, $implementation);
         }
-
         if (is_callable($implementation)) {
             return new CallableBuilder($this->container, $implementation);
         }
-
         return new ValueBuilder($implementation);
+    }
+    /**
+     * Sets the container the builder should use.
+     *
+     * @since TBD
+     *
+     * @param Container $container The container to bind.
+     *
+     * @return void
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+    }
+    /**
+     * Sets the resolver the container should use.
+     *
+     * @since TBD
+     *
+     * @param Resolver $resolver The resolver the container should use.
+     *
+     * @return void
+     */
+    public function setResolver(Resolver $resolver)
+    {
+        $this->resolver = $resolver;
     }
 }

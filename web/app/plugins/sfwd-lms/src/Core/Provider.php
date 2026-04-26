@@ -9,9 +9,11 @@
 
 namespace LearnDash\Core;
 
+use LearnDash\Core\Template\Breakpoints;
+use StellarWP\Learndash\lucatume\DI52\ContainerException;
 use StellarWP\Learndash\lucatume\DI52\ServiceProvider;
-use LearnDash\Core\Payments;
-use LearnDash\Core\Modules\AI;
+use StellarWP\Learndash\StellarWP\Assets\Asset;
+use StellarWP\Learndash\StellarWP\Assets\Assets;
 
 /**
  * Class Provider for the LearnDash Core.
@@ -24,24 +26,80 @@ class Provider extends ServiceProvider {
 	 *
 	 * @since 4.6.0
 	 *
+	 * @throws ContainerException If the registration fails.
+	 *
 	 * @return void
 	 */
 	public function register(): void {
 		// Registering implementations.
+		$this->container->register( Libraries\Provider::class );
 
-		$this->container->register( AI\Provider::class );
-		$this->container->register( Payments\Provider::class );
+		$this->register_actions();
 
-		// Registering in-progress features.
+		$this->container->register( Licensing\Provider::class );
+		$this->container->register( Settings\Provider::class );
+		$this->container->register( Modules\Provider::class );
+		$this->container->register( Infrastructure\Provider::class );
 
-		// bail early if in-progress features are not enabled.
-		if ( ! defined( 'LEARNDASH_ENABLE_IN_PROGRESS_FEATURES' ) || ! LEARNDASH_ENABLE_IN_PROGRESS_FEATURES ) { // @phpstan-ignore-line -- constant can be changed.
-			return;
-		}
+		$this->container->register( Themes\Provider::class );
 
-		// Breezy template.
-		if ( defined( 'LEARNDASH_ENABLE_FEATURE_BREEZY_TEMPLATE' ) && LEARNDASH_ENABLE_FEATURE_BREEZY_TEMPLATE ) { // @phpstan-ignore-line -- constant can be changed.
-			$this->container->register( Themes\Provider::class );
-		}
+		$this->container->register( Mcp\Provider::class );
+
+		// Initialize our version tracking.
+		// Register this late, so our other providers have an opportunity to hook into these changes.
+		Version_Tracker::sync_version( learndash_sanitize_version_string( LEARNDASH_VERSION ) );
+	}
+
+	/**
+	 * Register actions.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return void
+	 */
+	public function register_actions(): void {
+		add_action( 'init', [ $this, 'register_scripts' ], 1 );
+	}
+
+	/**
+	 * Registers the core LearnDash scripts that can be enqueued.
+	 *
+	 * These are global-level, core scripts that are used throughout the plugin.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return void
+	 */
+	public function register_scripts(): void {
+		Asset::add( 'learndash-main', 'js/main.js' )
+			->add_to_group( 'learndash-core' )
+			->add_localize_script(
+				'learndash.global',
+				[
+					'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+					/**
+					 * Filters an additional scroll offset used when programmatically scrolling to an element on the page.
+					 *
+					 * @since 5.0.1
+					 *
+					 * @param int $scroll_offset The scroll offset. Default 0.
+					 *
+					 * @return int The scroll offset. Default 0.
+					 */
+					'scrollOffset' => apply_filters( 'learndash_scroll_offset', 0 ),
+				]
+			)
+			->register();
+
+		Asset::add( 'learndash-breakpoints', 'js/breakpoints.js' )
+			->add_to_group( 'learndash-core' )
+			->set_dependencies( 'learndash-main' )
+			->add_localize_script(
+				'learndash.views.breakpoints',
+				[
+					'list' => Breakpoints::get(),
+				]
+			)
+			->register();
 	}
 }

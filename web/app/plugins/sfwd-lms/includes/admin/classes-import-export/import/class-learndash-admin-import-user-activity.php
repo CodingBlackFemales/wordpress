@@ -33,7 +33,7 @@ if (
 		 */
 		protected function import(): void {
 			$old_new_statistic_ref_id_hash = get_transient( Learndash_Admin_Import::TRANSIENT_KEY_STATISTIC_REF_IDS );
-			$old_new_statistic_ref_id_hash = is_array( $old_new_statistic_ref_id_hash ) ? $old_new_statistic_ref_id_hash : array();
+			$old_new_statistic_ref_id_hash = is_array( $old_new_statistic_ref_id_hash ) ? $old_new_statistic_ref_id_hash : [];
 
 			$old_user_id_new_user_id_hash = $this->get_old_user_id_new_user_id_hash();
 

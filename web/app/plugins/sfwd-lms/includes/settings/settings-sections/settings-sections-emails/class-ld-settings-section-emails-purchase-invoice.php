@@ -52,11 +52,9 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			$new_settings = false;
-			if ( ! is_array( $this->setting_option_values ) ) {
-				$new_settings                = true;
-				$this->setting_option_values = array();
-			}
+			$new_settings =
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values );
 
 			if ( ! isset( $this->setting_option_values['enabled'] ) ) {
 				if ( true === $new_settings ) {

@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[ld_quiz_list]` shortcode output.
  *
@@ -45,8 +47,25 @@ function ld_quiz_list( $attr = array(), $content = '', $shortcode_slug = 'ld_qui
 		$attr['course_id'] = isset( $attr['course_id'] ) ? absint( $attr['course_id'] ) : '';
 		$course_steps      = array();
 
+		// Check post access.
+		if (
+			! learndash_shortcode_can_current_user_access_post(
+				Cast::to_int(
+					$attr['course_id']
+				)
+			)
+		) {
+			return '';
+		}
+
 		if ( isset( $attr['lesson_id'] ) ) {
 			$attr['lesson_id'] = absint( $attr['lesson_id'] );
+
+			// Check post access.
+			if ( ! learndash_shortcode_can_current_user_access_post( $attr['lesson_id'] ) ) {
+				return '';
+			}
+
 			if ( ! empty( $attr['lesson_id'] ) ) {
 				$course_steps = learndash_get_lesson_quiz_list( $attr['lesson_id'], null, $attr['course_id'] );
 				if ( ! empty( $course_steps ) ) {

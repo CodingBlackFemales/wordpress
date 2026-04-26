@@ -8,6 +8,7 @@
  * @var bool   $has_access          User has access to group or is enrolled.
  *
  * @since 3.1.7
+ * @version 4.21.4
  *
  * @package LearnDash\Templates\LD30
  */
@@ -81,20 +82,38 @@ $course_class = apply_filters(
 
 		<?php if ( true === $has_group_access ) { ?>
 			<div class="ld-item-details">
-				<?php echo wp_kses_post( learndash_status_bubble( $status ) ); ?>
-				<div class="ld-expand-button ld-primary-background ld-compact ld-not-mobile" data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>">
+				<?php echo wp_kses_post( learndash_status_bubble( $status, 'group', false ) ); ?>
+				<button
+					aria-controls="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>"
+					aria-expanded="false"
+					class="ld-expand-button ld-primary-background ld-compact ld-not-mobile"
+					data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>"
+				>
 					<span class="ld-icon-arrow-down ld-icon"></span>
-				</div> <!--/.ld-expand-button-->
+				</button> <!--/.ld-expand-button-->
 
-				<div class="ld-expand-button ld-button-alternate ld-mobile-only" data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id ); ?>"  data-ld-expand-text="<?php esc_html_e( 'Expand', 'learndash' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'learndash' ); ?>">
+				<button
+					aria-controls="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>"
+					aria-expanded="false"
+					class="ld-expand-button ld-button-alternate ld-mobile-only"
+					data-ld-expands="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>"
+					data-ld-expand-text="<?php esc_html_e( 'Expand', 'learndash' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'learndash' ); ?>"
+				>
 					<span class="ld-icon-arrow-down ld-icon"></span>
 					<span class="ld-text ld-primary-color"><?php esc_html_e( 'Expand', 'learndash' ); ?></span>
-				</div> <!--/.ld-expand-button-->
+
+					<span class="screen-reader-text">
+						<?php echo esc_html( get_the_title( $course_id ) ); ?>
+					</span>
+				</button> <!--/.ld-expand-button-->
 
 			</div> <!--/.ld-course-details-->
 			<?php } ?>
 	</div> <!--/.ld-course-preview-->
-	<div class="ld-item-list-item-expanded">
+	<div
+		class="ld-item-list-item-expanded"
+		id="<?php echo esc_attr( 'ld-course-list-item-' . $course_id . '-container' ); ?>"
+	>
 
 		<?php
 		learndash_get_template_part(

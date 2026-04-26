@@ -37,7 +37,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				learndash_get_custom_label( 'course' )
 			);
 
-			$this->settings_section_description = esc_html__( 'Controls how users interact with the content and their navigational experience', 'learndash' );
+			$this->settings_section_description = esc_html__( 'Controls how students interact with the content and their navigational experience', 'learndash' );
 
 			// Map internal settings field ID to legacy field ID.
 			$this->settings_fields_map = array(
@@ -87,16 +87,17 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						''   => array(
 							'label'       => esc_html__( 'Linear', 'learndash' ),
 							'description' => sprintf(
-								// translators: placeholder: Course.
-								esc_html_x( 'Requires the user to progress through the %s in the designated step sequence', 'placeholder: Course', 'learndash' ),
-								esc_html( learndash_get_custom_label_lower( 'course' ) )
+								// translators: placeholder: course, courses.
+								esc_html_x( 'Student must progress through the %1$s in the designated sequence. Linear Progress does not work with Open %2$s.', 'placeholder: Course', 'learndash' ),
+								esc_html( learndash_get_custom_label_lower( 'course' ) ),
+								esc_html( learndash_get_custom_label_lower( 'courses' ) )
 							),
 						),
 						'on' => array(
 							'label'       => esc_html__( 'Free form', 'learndash' ),
 							'description' => sprintf(
 								// translators: placeholder: Course.
-								esc_html_x( 'Allows the user to move freely through the %s without following the designated step sequence', 'placeholder: Course', 'learndash' ),
+								esc_html_x( 'Allows the student to move freely through the %s without following the designated step sequence', 'placeholder: Course', 'learndash' ),
 								esc_html( learndash_get_custom_label_lower( 'course' ) )
 							),
 						),

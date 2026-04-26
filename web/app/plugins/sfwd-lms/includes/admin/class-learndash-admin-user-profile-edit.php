@@ -257,7 +257,7 @@ if ( ! class_exists( 'Learndash_Admin_User_Profile_Edit' ) ) {
 							?>
 								<p><label for="">
 								<?php
-								wp_kses_post(
+								echo wp_kses_post(
 									sprintf(
 										// translators: placeholder: quiz.
 										esc_html_x( 'Remove the %s lock(s) for this user.', 'placeholder: quiz', 'learndash' ),

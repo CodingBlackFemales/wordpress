@@ -1,31 +1,29 @@
 <?php
 /**
- * Page 4 of setup wizard template file
+ * Setup wizard step 4.
  *
- * @package LearnDash_Design_Wizard
+ * @version 4.18.0
  *
- * @var array<string, mixed> $template_details
- * @var LearnDash_Design_Wizard $design_wizard
+ * @var array<string, mixed>    $template_details Template details.
+ * @var LearnDash_Design_Wizard $design_wizard    Design wizard object.
+ *
+ * @package LearnDash\Core
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-// Needed for confirm popup before setting up template.
-wp_enqueue_script( 'jquery-ui-dialog' );
-wp_enqueue_style( 'wp-jquery-ui-dialog' );
-
 ?>
 <div class="design-wizard layout-2">
 	<div class="header">
 		<div class="logo">
             <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-			<img src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/learndash.svg' ); ?>" alt="LearnDash" >
+			<img src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . 'assets/images/learndash.svg' ); ?>" alt="LearnDash" >
 		</div>
 		<div class="exit">
 			<span class="text"><?php esc_html_e( 'Exit to Setup', 'learndash' ); ?></span> <img
-				src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/exit.svg' ); ?>"
+				src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/exit.svg' ); ?>"
 			>
 		</div>
 	</div>
@@ -42,7 +40,7 @@ wp_enqueue_style( 'wp-jquery-ui-dialog' );
 		<div class="back">
 			<img
 				class="icon"
-				src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/back.svg' ); ?>"
+				src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/svg/back.svg' ); ?>"
 			> <span class="text"><?php esc_html_e( 'Back', 'learndash' ); ?></span>
 		</div>
 		<div class="steps">
@@ -63,12 +61,20 @@ wp_enqueue_style( 'wp-jquery-ui-dialog' );
 		</div>
 	</div>
 	<div id="ld_dw_confirm" style="display: none;">
-		Upon clicking continue we’ll install your selected template which will include:
-			<ul style="list-style-type: disc;margin-left: 20px;">
-				<li>Theme</li>
-				<li>Plugins</li>
-				<li>Content</li>
-			</ul>
-		<p>This will overwrite your existing theme. It will not replace content or plugins but the theme will impact your entire site, not only LearnDash content.</p>
+	<?php
+	$learndash_dw_confirm_message = sprintf(
+		__(
+			'Upon clicking continue we’ll install your selected template which will include:
+				<ul style="list-style-type: disc;margin-left: 20px;">
+					<li>Theme</li>
+					<li>Plugins</li>
+					<li>Content</li>
+				</ul>
+			<p>This will overwrite your existing theme. It will not replace content or plugins but the theme will impact your entire site, not only LearnDash content.</p>',
+			'learndash'
+		)
+	);
+	echo wp_kses_post( $learndash_dw_confirm_message );
+	?>
 	</div>
 </div>

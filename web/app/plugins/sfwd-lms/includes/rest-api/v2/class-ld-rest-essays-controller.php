@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD_REST_Posts_Controller_V2' ) ) ) {
-
 	/**
 	 * Class LearnDash REST API V2 Essays Post Controller.
 	 *
@@ -24,7 +23,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 	 * @uses LD_REST_Posts_Controller_V2
 	 */
 	class LD_REST_Essays_Controller_V2 extends LD_REST_Posts_Controller_V2 /* phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound */ {
-
 		/**
 		 * LearnDash course steps object
 		 *
@@ -53,8 +51,8 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 			$this->post_type = $post_type;
 			$this->metaboxes = array();
 
-			$this->route_methods_singular   = array( WP_REST_Server::READABLE, WP_REST_Server::EDITABLE );
-			$this->route_methods_collection = array( WP_REST_Server::READABLE, WP_REST_Server::EDITABLE, WP_REST_Server::DELETABLE );
+			$this->route_methods_singular   = [ WP_REST_Server::READABLE, WP_REST_Server::EDITABLE ];
+			$this->route_methods_collection = [ WP_REST_Server::READABLE ];
 
 			parent::__construct( $this->post_type );
 
@@ -84,7 +82,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 		 * @since 3.3.0
 		 */
 		protected function register_fields() {
-
 			register_rest_field(
 				$this->post_type,
 				'course',
@@ -167,8 +164,8 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 					'schema'          => array(
 						'field_key'   => 'points_max',
 						'description' => esc_html__( 'Essay Points Maximum', 'learndash' ),
-						'type'        => 'integer',
-						'default'     => 0,
+						'type'        => 'float',
+						'default'     => 0.0,
 						'required'    => false,
 						'context'     => array( 'view' ),
 					),
@@ -183,8 +180,8 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 					'schema'          => array(
 						'field_key'   => 'points_awarded',
 						'description' => esc_html__( 'Essay Points Awarded', 'learndash' ),
-						'type'        => 'integer',
-						'default'     => 0,
+						'type'        => 'float',
+						'default'     => 0.0,
 						'required'    => false,
 						'context'     => array( 'view', 'edit' ),
 					),
@@ -196,7 +193,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 			$this->register_fields_metabox();
 
 			do_action( 'learndash_rest_register_fields', $this->post_type, $this );
-
 		}
 
 		/**
@@ -207,7 +203,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 		 * @return array
 		 */
 		public function get_public_item_schema() {
-
 			$schema = parent::get_public_item_schema();
 
 			$schema['title'] = 'essay';
@@ -237,91 +232,44 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 		 * Check user permission to get/access single item.
 		 *
 		 * @since 3.3.0
+		 * @since 4.10.3 Only admins can access it.
 		 *
-		 * @param object $request  WP_REST_Request instance.
+		 * @param object $request WP_REST_Request instance.
 		 *
 		 * @return bool|WP_Error True if the request has read access for the item, WP_Error object otherwise.
 		 */
 		public function get_item_permissions_check( $request ) {
-			$return = parent::get_item_permissions_check( $request );
-			if ( ( true === $return ) && ( ! learndash_is_admin_user() ) ) {
-
-				$course_id = (int) $request['course'];
-
-				// If we don't have a course parameter we need to get all the courses the user has access to and all
-				// the courses the lesson is available in and compare.
-				if ( empty( $course_id ) ) {
-					$user_enrolled_courses = learndash_user_get_enrolled_courses( get_current_user_id() );
-					if ( empty( $user_enrolled_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-
-					$step_courses = learndash_get_courses_for_step( $request['id'], true );
-					if ( empty( $step_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-					$user_enrolled_courses = array_intersect( $user_enrolled_courses, array_keys( $step_courses ) );
-
-					if ( empty( $user_enrolled_courses ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-				} else {
-					/**
-					 * But if the course parameter is provided we need to check the user has access and
-					 * also check the step is part of that course.
-					 */
-					$this->course_post = get_post( $course_id );
-					if ( ( ! $this->course_post ) || ( ! is_a( $this->course_post, 'WP_Post' ) ) || ( 'sfwd-courses' !== $this->course_post->post_type ) ) {
-						return new WP_Error(
-							'rest_post_invalid_id',
-							sprintf(
-								// translators: placeholder: Course.
-								esc_html_x(
-									'Missing %s ID',
-									'placeholder: Course',
-									'learndash'
-								),
-								LearnDash_Custom_Label::get_label( 'course' )
-							) . ' ' . __CLASS__,
-							array( 'status' => 404 )
-						);
-					}
-
-					if ( ! sfwd_lms_has_access( $this->course_post->ID ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-					$this->ld_course_steps_object = LDLMS_Factory_Post::course_steps( $this->course_post->ID );
-					$this->ld_course_steps_object->load_steps();
-					$lesson_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type );
-					if ( empty( $lesson_ids ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-
-					if ( ! in_array( $request['id'], $lesson_ids, true ) ) {
-						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-					}
-				}
+			if ( learndash_is_admin_user() ) {
+				return true;
 			}
 
-			return $return;
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
 		}
 
 		/**
 		 * Check user permission to get/access items.
 		 *
 		 * @since 3.3.0
+		 * @since 4.10.3 Only admins can access it.
 		 *
 		 * @param object $request  WP_REST_Request instance.
 		 *
 		 * @return bool|WP_Error True if the request has read access for the item, WP_Error object otherwise.
 		 */
 		public function get_items_permissions_check( $request ) {
-			$return = parent::get_items_permissions_check( $request );
-			if ( ! is_user_logged_in() ) {
-				$return = false;
+			if ( learndash_is_admin_user() ) {
+				return true;
 			}
 
-			return $return;
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
 		}
 
 		/**
@@ -351,7 +299,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 			);
 
 			if ( is_user_logged_in() ) {
-
 				$filters['status'] = $request['status'];
 				$filters['status'] = array_intersect( array( 'graded', 'not_graded' ), $request['status'] );
 				if ( empty( $filters['status'] ) ) {
@@ -362,19 +309,23 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 				$filters['course_id'] = $request['course'];
 				$filters['course_id'] = absint( $filters['course_id'] );
 
-				if ( ! empty( $filters['course_id'] ) ) {
 					$filters['lesson_id'] = $request['lesson'];
 					$filters['lesson_id'] = absint( $filters['lesson_id'] );
 
 					$filters['topic_id'] = $request['topic'];
 					$filters['topic_id'] = absint( $filters['topic_id'] );
 
-					if ( ( ! empty( $filters['topic_id'] ) ) && ( learndash_get_post_type_slug( 'topic' ) === get_post_type( $filters['topic_id'] ) ) ) {
-						$filters['lesson_id'] = absint( $filters['topic_id'] );
-					}
+				if (
+					! empty( $filters['topic_id'] )
+					&& learndash_get_post_type_slug( 'topic' ) === get_post_type( $filters['topic_id'] )
+				) {
+					$filters['lesson_id'] = absint( $filters['topic_id'] );
 				}
 
-				if ( ! current_user_can( 'edit_others_essays' ) ) {
+				if (
+					! learndash_is_admin_user() // Admin can access all essays.
+					&& current_user_can( 'edit_others_essays' )
+				) {
 					if ( learndash_is_group_leader_user() ) {
 						$gl_course_ids = array();
 						$gl_user_ids   = array();
@@ -434,22 +385,22 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 					'value'   => $filters['course_id'],
 					'compare' => is_array( $filters['course_id'] ) ? 'IN' : '=',
 				);
+			}
 
-				if ( ! empty( $filters['lesson_id'] ) ) {
-					$meta_query[] = array(
-						'key'     => 'lesson_id',
-						'value'   => $filters['lesson_id'],
-						'compare' => is_array( $filters['lesson_id'] ) ? 'IN' : '=',
-					);
-				}
+			if ( ! empty( $filters['lesson_id'] ) ) {
+				$meta_query[] = array(
+					'key'     => 'lesson_id',
+					'value'   => $filters['lesson_id'],
+					'compare' => is_array( $filters['lesson_id'] ) ? 'IN' : '=',
+				);
+			}
 
-				if ( ! empty( $filters['topic_id'] ) ) {
-					$meta_query[] = array(
-						'key'     => 'lesson_id',
-						'value'   => $filters['topic_id'],
-						'compare' => is_array( $filters['topic_id'] ) ? 'IN' : '=',
-					);
-				}
+			if ( ! empty( $filters['topic_id'] ) ) {
+				$meta_query[] = array(
+					'key'     => 'lesson_id',
+					'value'   => $filters['topic_id'],
+					'compare' => is_array( $filters['topic_id'] ) ? 'IN' : '=',
+				);
 			}
 
 			if ( ! empty( $meta_query ) ) {
@@ -487,7 +438,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 				$request_route = $request->get_route();
 
 				if ( ( ! empty( $request_route ) ) && ( strpos( $request_route, $base ) !== false ) ) {
-
 					$links = array();
 
 					$current_links = $response->get_links();
@@ -618,7 +568,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 		 * @param string          $post_type  Post Type for request.
 		 */
 		public function get_rest_settings_field_value( array $postdata, $field_name, WP_REST_Request $request, $post_type ) {
-
 			if ( ( isset( $postdata['id'] ) ) && ( ! empty( $postdata['id'] ) ) && ( $post_type == $this->post_type ) ) {
 				$field_value = '';
 
@@ -628,6 +577,7 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 
 				$quiz_id     = get_post_meta( $postdata['id'], 'quiz_id', true );
 				$question_id = get_post_meta( $postdata['id'], 'question_id', true );
+				$question    = null;
 
 				if ( ! empty( $quiz_id ) ) {
 					$question_mapper = new WpProQuiz_Model_QuestionMapper();
@@ -678,7 +628,7 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 
 					case 'points_max':
 						if ( is_a( $question, 'WpProQuiz_Model_Question' ) ) {
-							$field_value = $question->getPoints();
+							$field_value = learndash_format_course_points( $question->getPoints() );
 						}
 						break;
 
@@ -688,6 +638,7 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 						} else {
 							$field_value = 0;
 						}
+						$field_value = learndash_format_course_points( $field_value );
 						break;
 
 					default:
@@ -713,7 +664,6 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 
 			if ( ! empty( $post_id ) ) {
 				if ( ! isset( $this->essay_post_data[ $post_id ] ) ) {
-
 					$course_id = (int) get_post_meta( $post_id, 'course_id', true );
 					$lesson_id = (int) get_post_meta( $post_id, 'lesson_id', true );
 
@@ -760,16 +710,13 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 		 */
 		public function update_rest_settings_field_value( $post_value, WP_Post $post, $field_name, WP_REST_Request $request, $post_type ) {
 			if ( ( is_a( $post, 'WP_Post' ) ) && ( $post->post_type == $this->post_type ) ) {
-
 				switch ( $field_name ) {
 					case 'points_awarded':
 						$quiz_id     = get_post_meta( $post->ID, 'quiz_id', true );
 						$question_id = get_post_meta( $post->ID, 'question_id', true );
 
 						if ( ! empty( $quiz_id ) ) {
-							if ( 'graded' !== $post->post_status ) {
-								$quiz_score_difference = 1;
-							}
+							$quiz_score_difference = 'graded' !== $post->post_status ? 1 : 0;
 
 							$question_mapper = new WpProQuiz_Model_QuestionMapper();
 							$question        = $question_mapper->fetchById( intval( $question_id ), null );
@@ -777,15 +724,15 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 								$submitted_essay_data = learndash_get_submitted_essay_data( $quiz_id, $question_id, $post );
 
 								$max_points = $question->getPoints();
-								$max_points = absint( $max_points );
+								$max_points = learndash_format_course_points( $max_points );
 
 								if ( isset( $submitted_essay_data['points_awarded'] ) ) {
-									$original_points_awarded = intval( $submitted_essay_data['points_awarded'] );
+									$original_points_awarded = learndash_format_course_points( $submitted_essay_data['points_awarded'] );
 								} else {
 									$original_points_awarded = 0;
 								}
 
-								$awarded_points = absint( $post_value );
+								$awarded_points = learndash_format_course_points( $post_value );
 
 								// Check that award points is not greater then max points.
 								if ( $awarded_points > $max_points ) {
@@ -802,11 +749,11 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 									$submitted_essay_data = apply_filters( 'learndash_essay_status_data', $submitted_essay_data );
 									learndash_update_submitted_essay_data( $quiz_id, $question_id, $post, $submitted_essay_data );
 
-									if ( ! is_null( $original_points_awarded ) && ! is_null( $submitted_essay_data['points_awarded'] ) ) {
+									if ( ! is_null( $original_points_awarded ) && ! is_null( $submitted_essay_data['points_awarded'] ) ) { // @phpstan-ignore-line -- legacy code.
 										if ( $submitted_essay_data['points_awarded'] > $original_points_awarded ) {
-											$points_awarded_difference = intval( $submitted_essay_data['points_awarded'] ) - intval( $original_points_awarded );
+											$points_awarded_difference = learndash_format_course_points( $submitted_essay_data['points_awarded'] ) - learndash_format_course_points( $original_points_awarded );
 										} else {
-											$points_awarded_difference = ( intval( $original_points_awarded ) - intval( $submitted_essay_data['points_awarded'] ) ) * -1;
+											$points_awarded_difference = ( learndash_format_course_points( $original_points_awarded ) - learndash_format_course_points( $submitted_essay_data['points_awarded'] ) ) * -1;
 										}
 
 										$updated_scoring_data = array(
@@ -839,6 +786,38 @@ if ( ( ! class_exists( 'LD_REST_Essays_Controller_V2' ) ) && ( class_exists( 'LD
 			}
 		}
 
-		// End of functions.
+		/**
+		 * Checks if a given post type can be viewed or managed.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_Post_Type|string $post_type Post type name or object.
+		 *
+		 * @return bool Whether the post type is allowed in REST.
+		 */
+		protected function check_is_post_type_allowed( $post_type ) {
+			return true;
+		}
+
+		/**
+		 * Checks if a given request has access to update a post.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
+		 */
+		public function update_item_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return parent::update_item_permissions_check( $request );
+			}
+
+			return new WP_Error(
+				'rest_cannot_edit',
+				__( 'Sorry, you are not allowed to edit this post.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
 	}
 }

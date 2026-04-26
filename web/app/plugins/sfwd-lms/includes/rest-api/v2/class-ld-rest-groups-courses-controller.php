@@ -58,6 +58,8 @@ if ( ( ! class_exists( 'LD_REST_Groups_Courses_Controller_V2' ) ) && ( class_exi
 		 * @see register_rest_route()
 		 */
 		public function register_routes() {
+			$this->register_fields();
+
 			$schema = $this->get_item_schema();
 
 			$get_item_args = array(
@@ -451,7 +453,7 @@ if ( ( ! class_exists( 'LD_REST_Groups_Courses_Controller_V2' ) ) && ( class_exi
 					$data_item->message   = sprintf(
 						// translators: placeholder: Course, Group.
 						esc_html_x(
-							'%1$s enrolled from %2$s success.',
+							'%1$s unenrolled from %2$s success.',
 							'placeholder: Course, Group',
 							'learndash'
 						),
@@ -531,7 +533,7 @@ if ( ( ! class_exists( 'LD_REST_Groups_Courses_Controller_V2' ) ) && ( class_exi
 
 				$query_args['post__in'] = array( 0 );
 				if ( ! empty( $current_user_id ) ) {
-					$course_ids = learndash_group_enrolled_courses( $group_id, true );
+					$course_ids = learndash_group_enrolled_courses( $group_id );
 					if ( ! empty( $course_ids ) ) {
 						$query_args['post__in'] = $course_ids;
 					}
@@ -539,6 +541,127 @@ if ( ( ! class_exists( 'LD_REST_Groups_Courses_Controller_V2' ) ) && ( class_exi
 			}
 
 			return $query_args;
+		}
+
+		/**
+		 * Override the REST response links.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_REST_Response              $response WP_REST_Response instance.
+		 * @param WP_Post                       $post     WP_Post instance.
+		 * @param WP_REST_Request<array{mixed}> $request  WP_REST_Request instance.
+		 *
+		 * @return WP_REST_Response
+		 */
+		public function rest_prepare_response_filter( WP_REST_Response $response, WP_Post $post, WP_REST_Request $request ) {
+			if ( $this->post_type !== $post->post_type ) {
+				return $response;
+			}
+
+			$base = sprintf( '/%s/%s', $this->namespace, $this->get_rest_base( 'courses' ) );
+
+			$additional_links = [];
+			$current_links    = $response->get_links();
+
+			if ( ! isset( $current_links['price-type'] ) ) {
+				$course_price_type = learndash_get_course_meta_setting( $post->ID, 'course_price_type' );
+				if ( ! empty( $course_price_type ) ) {
+					$additional_links[ $this->get_rest_base( 'price-types' ) ] = array(
+						'href'       => rest_url( trailingslashit( $this->namespace ) . $this->get_rest_base( 'price-types' ) . '/' . $course_price_type ),
+						'embeddable' => true,
+					);
+				}
+			}
+
+			if ( ! isset( $current_links['prerequisites'] ) ) {
+				$additional_links['prerequisites'] = array(
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'courses-prerequisites' ),
+					'embeddable' => true,
+				);
+			}
+
+			if ( ! isset( $current_links['steps'] ) ) {
+				$additional_links['steps'] = array(
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'courses-steps' ),
+					'embeddable' => true,
+				);
+			}
+
+			if ( ! isset( $current_links['users'] ) ) {
+				$additional_links['users'] = array(
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'courses-users' ),
+					'embeddable' => true,
+				);
+			}
+
+			if ( ! isset( $current_links['groups'] ) ) {
+				$additional_links['groups'] = array(
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'courses-groups' ),
+					'embeddable' => true,
+				);
+			}
+
+			if ( ! empty( $additional_links ) ) {
+				$response->add_links( $additional_links );
+			}
+
+			return $response;
+		}
+
+		/**
+		 * Prepares the LearnDash Post Type Settings.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return void
+		 */
+		protected function register_fields() {
+			$this->register_fields_metabox();
+
+			/**
+			 * Fires after registering the fields for the REST API.
+			 *
+			 * @since 3.1.2
+			 *
+			 * @param string                      $post_type The post type.
+			 * @param LD_REST_Posts_Controller_V2 $instance  The controller instance.
+			 *
+			 * @return void
+			 */
+			do_action( 'learndash_rest_register_fields', $this->post_type, $this );
+		}
+
+		/**
+		 * Registers the Settings Fields from the Post Metaboxes.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return void
+		 */
+		protected function register_fields_metabox() {
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Enrollment'] = LearnDash_Settings_Metabox_Course_Enrollment::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-display-content.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Display_Content'] = LearnDash_Settings_Metabox_Course_Display_Content::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Access_Settings'] = LearnDash_Settings_Metabox_Course_Access_Settings::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-completion-awards.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Completion_Awards'] = LearnDash_Settings_Metabox_Course_Completion_Awards::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-navigation-settings.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Navigation_Settings'] = LearnDash_Settings_Metabox_Course_Navigation_Settings::add_metabox_instance();
+
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $metabox ) {
+					$metabox->load_settings_values();
+					$metabox->load_settings_fields();
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
+				}
+			}
 		}
 
 		// End of functions.

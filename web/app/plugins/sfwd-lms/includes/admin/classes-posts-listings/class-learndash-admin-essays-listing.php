@@ -546,17 +546,17 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		public function add_inline_actions( array $row_actions, WP_Post $post ): array {
 			$row_actions = parent::post_row_actions( $row_actions, $post );
 
-			$file_url = get_post_meta( $post->ID, 'upload', true );
+			$file_path = get_post_meta( $post->ID, 'upload', true );
 
 			$file_is_image = in_array(
-				strtolower( pathinfo( $file_url, PATHINFO_EXTENSION ) ),
+				strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) ),
 				array( 'jpg', 'jpeg', 'png', 'gif' ),
 				true
 			);
 
 			// Quick view.
 
-			if ( empty( $file_url ) || $file_is_image ) {
+			if ( empty( $file_path ) || $file_is_image ) {
 				$view_label = __( 'Quick View', 'learndash' );
 				$view_url   = admin_url(
 					sprintf(
@@ -576,6 +576,8 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 			}
 
 			// Download.
+
+			$file_url = learndash_quiz_essay_get_download_url( $post->ID );
 
 			if ( ! empty( $file_url ) ) {
 				$row_actions['download'] = sprintf(
@@ -659,15 +661,20 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 							$submitted_essay_data = learndash_get_submitted_essay_data( $quiz_id, $question_id, $essay_post );
 
 							if ( isset( $submitted_essay_data['points_awarded'] ) ) {
-								$original_points_awarded = intval( $submitted_essay_data['points_awarded'] );
+								$original_points_awarded = $submitted_essay_data['points_awarded'];
 							} else {
 								$original_points_awarded = 0;
 							}
+							$original_points_awarded = learndash_format_course_points( $original_points_awarded );
 
 							$submitted_essay_data['status'] = 'graded';
 
 							// get the new assigned points.
-							$submitted_essay_data['points_awarded'] = intval( $_REQUEST['essay_points'][ $essay_id ] );
+							$submitted_essay_data['points_awarded'] = learndash_format_course_points(
+								sanitize_text_field(
+									wp_unslash( $_REQUEST['essay_points'][ $essay_id ] )
+								)
+							);
 
 							/**
 							 * Filter essay status data
@@ -681,9 +688,9 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 
 							if ( ! is_null( $submitted_essay_data['points_awarded'] ) ) {
 								if ( $submitted_essay_data['points_awarded'] > $original_points_awarded ) {
-									$points_awarded_difference = intval( $submitted_essay_data['points_awarded'] ) - intval( $original_points_awarded );
+									$points_awarded_difference = $submitted_essay_data['points_awarded'] - $original_points_awarded;
 								} else {
-									$points_awarded_difference = ( intval( $original_points_awarded ) - intval( $submitted_essay_data['points_awarded'] ) ) * -1;
+									$points_awarded_difference = ( $original_points_awarded - $submitted_essay_data['points_awarded'] ) * -1;
 								}
 
 								$updated_scoring_data = array(
@@ -751,33 +758,32 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 						$submitted_essay_data = learndash_get_submitted_essay_data( $quiz_id, $question_id, $essay );
 
 						echo '<div class="ld-approval-points">';
-						$max_points = $question->getPoints();
 
-						$current_points = 0;
-						if ( isset( $submitted_essay_data['points_awarded'] ) ) {
-							$current_points = intval( $submitted_essay_data['points_awarded'] );
-						}
+						$current_points = is_array( $submitted_essay_data )
+							? learndash_format_course_points( $submitted_essay_data['points_awarded'] ?? 0 )
+							: 0;
+						$max_points     = learndash_format_course_points( $question->getPoints() );
 
 						if ( 'not_graded' === $essay->post_status ) {
 							$points_label = '<label class="learndash-listing-row-field-label" for="essay_points_' . absint( $post_id ) . '">' . esc_html__( 'Points', 'learndash' ) . '</label>';
 
-							$points_input = '<input id="essay_points_' . absint( $post_id ) . '" class="small-text learndash-award-points" type="number" value="' . absint( $current_points ) . '" max="' . absint( $max_points ) . '" min="0" step="1" name="essay_points[' . absint( $post_id ) . ']" />';
+							$points_input = '<input id="essay_points_' . absint( $post_id ) . '" class="small-text learndash-award-points" type="number" value="' . esc_attr( (string) $current_points ) . '" min="0" step="any" name="essay_points[' . absint( $post_id ) . ']" />';
 
 							echo sprintf(
 								// translators: placeholders: Points label, points input, maximum points.
-								esc_html_x( '%1$s: %2$s / %3$d', 'placeholders: Points label, points input, maximum points', 'learndash' ),
+								esc_html_x( '%1$s: %2$s / %3$0.2f', 'placeholders: Points label, points input, maximum points', 'learndash' ),
 								$points_label, //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								$points_input, //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								absint( $max_points )
+								$max_points //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 						} else {
 							$points_field = '<span class="learndash-listing-row-field-label">' . esc_html__( 'Points', 'learndash' ) . '</span>';
 							echo sprintf(
 								// translators: placeholders: Points label, current points, maximum points.
-								esc_html_x( '%1$s: %2$d / %3$d', 'placeholders: Points label, points input, maximum points', 'learndash' ),
+								esc_html_x( '%1$s: %2$0.2f / %3$0.2f', 'placeholders: Points label, points input, maximum points', 'learndash' ),
 								$points_field, //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								absint( $current_points ),
-								absint( $max_points )
+								$current_points, //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								$max_points //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							);
 						}
 						echo '</div>';
@@ -1248,7 +1254,7 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 				return;
 			}
 
-			$file_url = get_post_meta( $essay->ID, 'upload', true );
+			$file_url = learndash_quiz_essay_get_download_url( $essay->ID );
 
 			if ( empty( $file_url ) ) {
 				$content = nl2br( $essay->post_content );

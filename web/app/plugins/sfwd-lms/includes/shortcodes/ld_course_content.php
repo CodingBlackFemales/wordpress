@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[course_content]` shortcode output.
  *
@@ -118,6 +120,23 @@ function learndash_course_content_shortcode( $atts = array(), $content = '', $sh
 	$atts['user_id']   = absint( $atts['user_id'] );
 	$atts['paged']     = absint( $atts['paged'] );
 	$atts['wrapper']   = (bool) $atts['wrapper'];
+
+	// Protect post data. User ID is already protected as it is overridden above.
+	if (
+		! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['course_id'] )
+		)
+		|| ! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['post_id'] )
+		)
+		|| ! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int(
+				$atts['group_id']
+			)
+		)
+	) {
+		return '';
+	}
 
 	if ( '' !== $atts['num'] ) {
 		$atts['num'] = absint( $atts['num'] );

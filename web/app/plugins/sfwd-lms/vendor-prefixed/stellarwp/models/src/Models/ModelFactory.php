@@ -1,13 +1,8 @@
 <?php
-/**
- * @license GPL-3.0-or-later
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\Models;
 
+use Closure;
 use Exception;
 use StellarWP\Learndash\StellarWP\DB\DB;
 
@@ -60,6 +55,18 @@ abstract class ModelFactory {
 	}
 
 	/**
+	 * @since 1.2.3
+	 */
+	public function makeAndResolveTo($property): Closure
+	{
+		return function() use ($property) {
+			return is_array($results = $this->make())
+				? array_column($results, $property)
+				: $results->$property;
+		};
+	}
+
+	/**
 	 * @since 1.0.0
 	 *
 	 * @param array $attributes
@@ -81,14 +88,33 @@ abstract class ModelFactory {
 	}
 
 	/**
+	 * @since 1.2.3
+	 */
+	public function createAndResolveTo( $property ): Closure {
+		return function() use ( $property ) {
+			return is_array( $results = $this->create() )
+				? array_column( $results, $property )
+				: $results->$property;
+		};
+	}
+
+	/**
 	 * Creates an instance of the model from the attributes and definition.
 	 *
+	 * @since 1.2.3 Add support for resolving Closures.
 	 * @since 1.0.0
 	 *
 	 * @return M
 	 */
 	protected function makeInstance( array $attributes ) {
-		return new $this->model( array_merge( $this->definition(), $attributes ) );
+		return new $this->model(
+			array_map(
+				function( $attribute ) {
+					return $attribute instanceof Closure ? $attribute() : $attribute;
+				},
+				array_merge( $this->definition(), $attributes )
+			)
+		);
 	}
 
 	/**

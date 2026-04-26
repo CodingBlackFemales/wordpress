@@ -18,7 +18,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 	 * @uses LearnDash_Settings_Fields
 	 */
 	class LearnDash_Settings_Fields_Quiz_Custom_Fields extends LearnDash_Settings_Fields {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -39,7 +38,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 		 * @return void
 		 */
 		public function create_section_field( $field_args = array() ) {
-
 			/** This filter is documented in includes/settings/settings-fields/class-ld-settings-fields-checkbox-switch.php */
 			$field_args = apply_filters( 'learndash_settings_field', $field_args );
 
@@ -89,7 +87,7 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 				if ( empty( $form_id ) ) {
 					$form_id = '';
 				}
-				$html .= '	<td>' . esc_attr( $form_id ) . '</td>';
+				$html .= '	<td class="form_id">' . esc_attr( $form_id ) . '</td>';
 				$html .= '	<td>';
 				$html .= '		<input type="text" name="form[][fieldname]" value="' . esc_attr( $form->getFieldname() ) . '" class="regular-text"/>
 							</td>';
@@ -153,7 +151,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 								<input type="hidden" name="form[][form_delete]" value="0">
 							</td>
 						</tr>';
-
 			}
 
 				$html .= '</tbody>
@@ -182,24 +179,37 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 		 * @return mixed $val validated value.
 		 */
 		public function validate_section_field( $val, $key, $args = array() ) {
-			if ( ( isset( $args['field']['type'] ) ) && ( $args['field']['type'] === $this->field_type ) ) {
-				if ( ! empty( $val ) ) {
-					$val = wp_check_invalid_utf8( strval( $val ) );
-					if ( ! empty( $val ) ) {
-						$val = sanitize_post_field( 'post_content', $val, 0, 'db' );
-					}
-				}
-
+			if (
+				! isset( $args['field']['type'] )
+				|| $args['field']['type'] !== $this->field_type
+			) {
 				return $val;
 			}
 
-			return false;
+			// We don't process this field here. The value is always empty for non-REST API requests or an array of WpProQuiz_Model_Form objects, when processed by the REST API.
+			// It's handled by includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Quiz.php:formHandler().
+
+			// If we are serving the REST API, we need to verify if the value is an array of WpProQuiz_Model_Form objects.
+
+			if ( wp_is_serving_rest_request() ) {
+				if ( ! is_array( $val ) ) {
+					$val = [];
+				}
+
+				foreach ( $val as $key => $item ) {
+					if ( ! $item instanceof WpProQuiz_Model_Form ) {
+						unset( $val[ $key ] );
+					}
+				}
+			}
+
+			return $val;
 		}
 	}
 }
 add_action(
 	'learndash_settings_sections_fields_init',
-	function() {
+	function () {
 		LearnDash_Settings_Fields_Quiz_Custom_Fields::add_field_instance( 'quiz-custom-fields' );
 	}
 );

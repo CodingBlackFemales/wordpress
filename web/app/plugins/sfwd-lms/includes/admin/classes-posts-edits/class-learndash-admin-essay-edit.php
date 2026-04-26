@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 // cspell:ignore subbmitdiv .
 
 if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learndash_Admin_Essay_Edit' ) ) ) {
@@ -144,11 +146,11 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 									?>
 									<span>(<a href="<?php echo esc_url( $question_edit_url ); ?>"><?php esc_html_e( 'Edit', 'learndash' ); ?></a>)</span>
 								</p>
-								<p><strong><?php esc_html_e( 'Points available', 'learndash' ); ?>:</strong> <?php echo esc_html( $question->getPoints() ); ?></p>
+								<p><strong><?php esc_html_e( 'Points available', 'learndash' ); ?>:</strong> <?php echo esc_html( (string) learndash_format_course_points( $question->getPoints() ) ); ?></p>
 								<p>
 									<strong><?php esc_html_e( 'Points awarded', 'learndash' ); ?>:</strong>
-									<input name="points_awarded" type="number" min="0" max="<?php echo esc_attr( $question->getPoints() ); ?>" value="<?php echo esc_attr( $submitted_essay_data['points_awarded'] ); ?>">
-									<input name="original_points_awarded" type="hidden" value="<?php echo esc_attr( $submitted_essay_data['points_awarded'] ); ?>">
+									<input name="points_awarded" type="number" min="0" step="any" value="<?php echo esc_attr( (string) learndash_format_course_points( $submitted_essay_data['points_awarded'] ?? 0 ) ); ?>">
+									<input name="original_points_awarded" type="hidden" value="<?php echo esc_attr( (string) learndash_format_course_points( $submitted_essay_data['points_awarded'] ?? 0 ) ); ?>">
 								</p>
 								<input name="quiz_id" type="hidden" value="<?php echo esc_attr( $quiz_id ); ?>">
 								<input name="question_id" type="hidden" value="<?php echo esc_attr( $question->getId() ); ?>">
@@ -262,7 +264,7 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 						// translators: Publish box date format, see https://secure.php.net/date.
 						$date_format = esc_html__( 'M j, Y @ H:i', 'learndash' );
 						if ( 0 != $essay->ID ) {
-							$date = date_i18n( $date_format, strtotime( $essay->post_date ) );
+							$date = learndash_adjust_date_time_display( (int) strtotime( $essay->post_date_gmt ), $date_format );
 						} else {
 							$date = '';
 						}
@@ -332,9 +334,17 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 		 * @param WP_Post $essay The `WP_Post` essay object.
 		 */
 		public function essay_upload_meta_box( $essay ) {
-			$upload = get_post_meta( $essay->ID, 'upload', true );
-			if ( ! empty( $upload ) ) {
-				printf( '<a target="_blank" href="%1$s">%s</a>', esc_url( $upload ) );
+			$file_url = learndash_quiz_essay_get_download_url( $essay->ID );
+			if ( ! empty( $file_url ) ) {
+				printf(
+					'<a target="_blank" href="%1$s">%2$s</a>',
+					esc_url( $file_url ),
+					esc_html(
+						basename(
+							Cast::to_string( get_post_meta( $essay->ID, 'upload', true ) )
+						)
+					)
+				);
 			} else {
 				printf(
 					// translators: placeholder: question.
@@ -419,8 +429,15 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 				}
 			}
 
-			$submitted_essay['status']         = sanitize_text_field( wp_unslash( $_POST['post_status'] ) );
-			$submitted_essay['points_awarded'] = intval( $_POST['points_awarded'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			$submitted_essay['status'] = sanitize_text_field( wp_unslash( $_POST['post_status'] ) );
+
+			if ( isset( $_POST['points_awarded'] ) ) {
+				$submitted_essay['points_awarded'] = learndash_format_course_points(
+					sanitize_text_field(
+						wp_unslash( $_POST['points_awarded'] )
+					)
+				);
+			}
 
 			/**
 			 * Filters essay status data.
@@ -432,14 +449,19 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 			$submitted_essay = apply_filters( 'learndash_essay_status_data', $submitted_essay );
 			learndash_update_submitted_essay_data( $quiz_id, $question_id, $essay, $submitted_essay );
 
-			$original_points_awarded = isset( $_POST['original_points_awarded'] ) ? intval( $_POST['original_points_awarded'] ) : null;
-			$points_awarded          = isset( $_POST['points_awarded'] ) ? intval( $_POST['points_awarded'] ) : null;
+			$original_points_awarded = isset( $_POST['original_points_awarded'] )
+				? learndash_format_course_points( sanitize_text_field( wp_unslash( $_POST['original_points_awarded'] ) ) )
+				: null;
+
+			$points_awarded = isset( $_POST['points_awarded'] )
+				? learndash_format_course_points( sanitize_text_field( wp_unslash( $_POST['points_awarded'] ) ) )
+				: null;
 
 			if ( ! is_null( $original_points_awarded ) && ! is_null( $points_awarded ) ) {
 				if ( $points_awarded > $original_points_awarded ) {
-					$points_awarded_difference = intval( $points_awarded ) - intval( $original_points_awarded );
+					$points_awarded_difference = learndash_format_course_points( $points_awarded ) - learndash_format_course_points( $original_points_awarded );
 				} else {
-					$points_awarded_difference = ( intval( $original_points_awarded ) - intval( $points_awarded ) ) * -1;
+					$points_awarded_difference = ( learndash_format_course_points( $original_points_awarded ) - learndash_format_course_points( $points_awarded ) ) * -1;
 				}
 
 				$updated_scoring = array(

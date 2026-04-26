@@ -29,6 +29,7 @@ if ( ! class_exists( 'Learndash_Transaction_Meta_DTO' ) && class_exists( 'Learnd
 		 */
 		protected $cast = array(
 			'ld_payment_processor' => 'string',
+			'is_test_mode'         => 'bool',
 			'price_type'           => 'string',
 			'pricing_info'         => Learndash_Pricing_DTO::class,
 			'gateway_transaction'  => Learndash_Transaction_Gateway_Transaction_DTO::class,
@@ -44,6 +45,15 @@ if ( ! class_exists( 'Learndash_Transaction_Meta_DTO' ) && class_exists( 'Learnd
 		 * @var string
 		 */
 		public $ld_payment_processor = '';
+
+		/**
+		 * Whether the transaction was made in test mode or not.
+		 *
+		 * @since 4.19.0
+		 *
+		 * @var bool
+		 */
+		public $is_test_mode = false;
 
 		/**
 		 * Type. Valid values are LEARNDASH_PRICE_TYPE_PAYNOW and LEARNDASH_PRICE_TYPE_SUBSCRIBE.

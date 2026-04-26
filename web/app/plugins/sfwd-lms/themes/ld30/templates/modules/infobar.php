@@ -12,6 +12,7 @@
  * $current_user  : (object) Currently logged in user object
  *
  * @since 3.0.0
+ * @version 4.21.5
  *
  * @package LearnDash\Templates\LD30\Modules
  */
@@ -114,7 +115,7 @@ switch ( $context ) {
 		?>
 
 		<div class="ld-lesson-status">
-			<div class="ld-breadcrumbs">
+			<nav aria-label="<?php esc_attr_e( 'Breadcrumbs', 'learndash' ); ?>" class="ld-breadcrumbs">
 
 				<?php
 				learndash_get_template_part(
@@ -139,7 +140,7 @@ switch ( $context ) {
 				learndash_status_bubble( ( ! empty( $course_status ) ? $course_status : $status ) );
 				?>
 
-			</div> <!--/.ld-breadcrumbs-->
+			</nav> <!--/.ld-breadcrumbs-->
 
 			<?php
 			if ( ( is_user_logged_in() ) && ( true === $has_access ) ) {
@@ -165,7 +166,7 @@ switch ( $context ) {
 
 		<div class="ld-topic-status">
 
-			<div class="ld-breadcrumbs">
+			<nav aria-label="<?php esc_html_e( 'Breadcrumbs', 'learndash' ); ?>" class="ld-breadcrumbs">
 
 				<?php
 				learndash_get_template_part(
@@ -189,7 +190,7 @@ switch ( $context ) {
 				learndash_status_bubble( ( ! empty( $course_status ) ? $course_status : $status ) );
 				?>
 
-			</div> <!--/.ld-breadcrumbs-->
+			</nav> <!--/.ld-breadcrumbs-->
 
 			<?php
 			if ( ( is_user_logged_in() ) && ( true === $has_access ) ) {
@@ -216,7 +217,7 @@ switch ( $context ) {
 			?>
 			<div class="ld-quiz-status">
 				<?php if ( ! empty( $course_id ) ) { ?>
-				<div class="ld-breadcrumbs">
+				<nav aria-label="<?php esc_html_e( 'Breadcrumbs', 'learndash' ); ?>" class="ld-breadcrumbs">
 					<?php
 					learndash_get_template_part(
 						'modules/breadcrumbs.php',
@@ -229,7 +230,7 @@ switch ( $context ) {
 						true
 					);
 					?>
-				</div> <!--/.ld-breadcrumbs-->
+				</nav> <!--/.ld-breadcrumbs-->
 				<?php } ?>
 			</div>
 			<?php

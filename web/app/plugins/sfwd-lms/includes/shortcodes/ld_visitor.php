@@ -7,6 +7,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Models\Product;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -97,21 +99,27 @@ function learndash_visitor_check_shortcode( $atts = array(), $content = '', $sho
 		$view_content = false;
 
 		if ( ( empty( $atts['user_id'] ) ) || ( get_current_user_id() === $atts['user_id'] ) ) {
-			if ( ! empty( $atts['course_id'] ) ) {
-				if ( get_current_user_id() ) {
-					if ( ! sfwd_lms_has_access( $atts['course_id'], $atts['user_id'] ) ) {
-						$view_content = true;
-					}
-				} else {
+			if (
+				! empty( $atts['course_id'] )
+				|| ! empty( $atts['group_id'] )
+			) {
+				if ( empty( $atts['user_id'] ) ) {
 					$view_content = true;
-				}
-			} elseif ( ! empty( $atts['group_id'] ) ) {
-				if ( get_current_user_id() ) {
-					if ( ! learndash_is_user_in_group( $atts['user_id'], $atts['group_id'] ) ) {
-						$view_content = true;
-					}
 				} else {
-					$view_content = true;
+					$product_id = ! empty( $atts['course_id'] ) ? $atts['course_id'] : $atts['group_id'];
+
+					/**
+					 * The product object.
+					 *
+					 * @var Product|null $product
+					 */
+					$product = Product::find( $product_id );
+
+					$view_content = ! $product
+									|| (
+										! $product->user_has_access( $atts['user_id'] )
+										&& ! $product->is_pre_ordered( $atts['user_id'] )
+									);
 				}
 			} else {
 				if ( get_current_user_id() ) {

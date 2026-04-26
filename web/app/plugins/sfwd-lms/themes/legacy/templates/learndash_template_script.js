@@ -32,83 +32,163 @@ if ( typeof flip_collapse_all === 'undefined' ) {
 	}
 }
 
-String.prototype.toHHMMSS = function() {
-	sec_numb = parseInt( this, 10 );
-	var hours = Math.floor( sec_numb / 3600 );
-	var minutes = Math.floor( ( sec_numb - ( hours * 3600 ) ) / 60 );
-	var seconds = sec_numb - ( hours * 3600 ) - ( minutes * 60 );
-	if ( hours < 10 ) {
-		hours = '0' + hours;
-	}
-	if ( minutes < 10 ) {
-		minutes = '0' + minutes;
-	}
-	if ( seconds < 10 ) {
-		seconds = '0' + seconds;
-	}
-	var time = hours + ':' + minutes + ':' + seconds;
-	return time;
-};
+Object.defineProperty( String.prototype, 'toHHMMSS', {
+	value() {
+		const secNumb = parseInt( this, 10 );
+		let hours = Math.floor( secNumb / 3600 );
+		let minutes = Math.floor( ( secNumb - hours * 3600 ) / 60 );
+		let seconds = secNumb - ( hours * 3600 ) - ( minutes * 60 );
+
+		if ( hours < 10 ) {
+			hours = '0' + hours;
+		}
+
+		if ( minutes < 10 ) {
+			minutes = '0' + minutes;
+		}
+
+		if ( seconds < 10 ) {
+			seconds = '0' + seconds;
+		}
+
+		return hours + ':' + minutes + ':' + seconds;
+	},
+	enumerable: false,
+} );
 
 jQuery( function() {
-	if ( jQuery( '.learndash_timer' ).length ) {
-		jQuery( '.learndash_timer' ).each( function( idx, item ) {
-			var timer_el = jQuery( item );
+	if (jQuery('.learndash_timer').length) {
+		/**
+		 * Formats the timer seconds into a string.
+		 *
+		 * @param {number} timerSeconds The number of seconds to format.
+		 *
+		 * @return {string} The formatted string.
+		 */
+		function learndashTimerToString(timerSeconds) {
+			const timerLabel = jQuery('.ld-navigation__progress-timer-label');
 
-			var timer_seconds = timer_el.data( 'timer-seconds' );
-			var button_ref = timer_el.data( 'button' );
+			// If the timer label is not present, use the old format.
 
-			if ( ( typeof button_ref !== 'undefined' ) && ( jQuery( button_ref ).length ) ) {
-				var timer_button_el = jQuery( button_ref );
+			if (timerLabel.length <= 0) {
+				return timerSeconds.toString().toHHMMSS();
+			}
 
-				if ( ( typeof timer_seconds !== 'undefined' ) && ( typeof timer_button_el !== 'undefined' ) ) {
-					timer_button_el.attr( 'disabled', true );
+			// Less than 60 seconds.
 
-					timer_seconds = parseInt( timer_seconds );
+			if (timerSeconds <= 60) {
+				return `${timerSeconds}s`;
+			}
 
-					var cookie_key 		= timer_el.attr( 'data-cookie-key' );
+			// Less than 1 hour.
 
-					if ( typeof cookie_key !== 'undefined' ) {
-						var cookie_name = 'learndash_timer_cookie_' + cookie_key;
+			if (timerSeconds < 3600) {
+				const minutes = Math.floor(timerSeconds / 60);
+				const seconds = timerSeconds % 60;
+
+				return `${minutes}m ${seconds}s`;
+			}
+
+			// More than 1 hour.
+
+			return timerSeconds.toString().toHHMMSS();
+		}
+
+		jQuery('.learndash_timer').each(function (idx, item) {
+			var timer_el = jQuery(item);
+			const $tooltip = timer_el.closest('.ld-tooltip');
+
+			var timer_seconds = timer_el.data('timer-seconds');
+			var button_ref = timer_el.data('button');
+
+			if (
+				typeof button_ref !== 'undefined' &&
+				jQuery(button_ref).length
+			) {
+				var timer_button_el = jQuery(button_ref);
+
+				if (
+					typeof timer_seconds !== 'undefined' &&
+					typeof timer_button_el !== 'undefined'
+				) {
+					timer_button_el.attr('disabled', true);
+
+					timer_seconds = parseInt(timer_seconds);
+
+					var cookie_key = timer_el.attr('data-cookie-key');
+
+					if (typeof cookie_key !== 'undefined') {
+						var cookie_name =
+							'learndash_timer_cookie_' + cookie_key;
 					} else {
 						var cookie_name = 'learndash_timer_cookie';
 					}
 
-					var cookie_timer_seconds = jQuery.cookie( cookie_name );
+					var cookie_timer_seconds = jQuery.cookie(cookie_name);
 
-					if ( typeof cookie_timer_seconds !== 'undefined' ) {
-						timer_seconds = parseInt( cookie_timer_seconds );
+					if (typeof cookie_timer_seconds !== 'undefined') {
+						timer_seconds = parseInt(cookie_timer_seconds);
 					}
 					//jQuery.removeCookie( cookie_name );
 
-					if ( timer_seconds >= 1 ) {
-						var learndash_timer_var = setInterval( function() {
+					const timerLabel = jQuery(
+						'.ld-navigation__progress-timer-label'
+					);
+
+					if (timer_seconds >= 1) {
+						// Show the first second.
+						timer_el.html(learndashTimerToString(timer_seconds));
+
+						var learndash_timer_var = setInterval(function () {
 							timer_seconds = timer_seconds - 1;
 
-							var time_display = timer_seconds.toString().toHHMMSS();
-							timer_el.html( time_display );
-							if ( timer_seconds <= 0 ) {
-								clearInterval( learndash_timer_var );
-								timer_button_el.attr( 'disabled', false );
-								timer_el.html( '' );
+							var time_display =
+								learndashTimerToString(timer_seconds);
+							timer_el.html(time_display);
+							if (timer_seconds <= 0) {
+								clearInterval(learndash_timer_var);
+								timer_button_el.attr('disabled', false);
+								timer_el.html('');
 								timer_el.hide();
-								jQuery.cookie( cookie_name, 0 );
+								jQuery.cookie(cookie_name, 0);
 
-								timer_button_el.trigger( 'learndash-time-finished' );
+								timer_button_el.trigger(
+									'learndash-time-finished'
+								);
+
+								if (timerLabel.length) {
+									timerLabel.text(
+										timerLabel.data('timer-complete-label')
+									);
+								}
+
+								if ($tooltip.length) {
+									$tooltip.find('[role="tooltip"]').hide();
+								}
 							}
 							// Store the timer state (value) into a cookie. This is done if the page reloads the student can resume
 							// the time instead of restarting.
-							jQuery.cookie( cookie_name, timer_seconds );
-						}, 1000 );
+							jQuery.cookie(cookie_name, timer_seconds);
+						}, 1000);
 					} else {
-						timer_button_el.attr( 'disabled', false );
-						timer_el.html( '' );
-						jQuery.cookie( cookie_name, 0 );
+						timer_button_el.attr('disabled', false);
+						timer_el.html('');
+						jQuery.cookie(cookie_name, 0);
 						//jQuery.removeCookie( cookie_name );
+
+						if (timerLabel.length) {
+							timerLabel.text(
+								timerLabel.data('timer-complete-label')
+							);
+						}
+
+						if ($tooltip.length) {
+							$tooltip.find('[role="tooltip"]').hide();
+						}
 					}
 				}
 			}
-		} );
+		});
 	}
 } );
 

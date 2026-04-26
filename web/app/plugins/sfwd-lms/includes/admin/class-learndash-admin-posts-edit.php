@@ -6,6 +6,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -41,6 +43,15 @@ if ( ! class_exists( 'Learndash_Admin_Post_Edit' ) ) {
 		protected $_metaboxes = array(); //phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 		/**
+		 * Whether this post type has a dashboard tab. Default is false.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @var bool $has_dashboard_tab
+		 */
+		protected $has_dashboard_tab = false;
+
+		/**
 		 * Public constructor for class.
 		 *
 		 * @since 2.6.0
@@ -57,6 +68,140 @@ if ( ! class_exists( 'Learndash_Admin_Post_Edit' ) ) {
 			add_filter( 'write_your_story', array( $this, 'gutenberg_placeholder_write_your_story' ), 30, 2 );
 			add_action( 'edit_form_top', array( $this, 'edit_form_top' ), 30, 1 );
 			add_filter( 'redirect_post_location', array( $this, 'redirect_post_location' ), 30, 2 );
+
+			add_action( 'admin_init', [ $this, 'process_dashboard_tab' ] );
+		}
+
+		/**
+		 * Processes the dashboard tab.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @return void
+		 */
+		public function process_dashboard_tab(): void {
+			// If has dashboard tab, registering filters.
+
+			/**
+			 * Filters whether the Dashboard tab is the default tab in the post edit screen.
+			 *
+			 * @since 4.9.0
+			 *
+			 * @param bool   $dashboard_tab_is_default Whether the Dashboard tab is the default tab in the post edit screen.
+			 * @param string $post_type                The post type.
+			 *
+			 * @return bool
+			 */
+			$dashboard_tab_is_default = apply_filters( 'learndash_dashboard_tab_is_default', true, $this->post_type );
+
+			if (
+					$this->has_dashboard_tab
+					&& $dashboard_tab_is_default
+					) {
+				add_filter(
+					'get_edit_post_link',
+					[ $this, 'add_dashboard_tab_in_edit_post_link' ],
+					99,
+					3
+				);
+
+				add_filter(
+					'post_row_actions',
+					[ $this, 'revert_edit_post_link_in_row_actions' ],
+					99,
+					2
+				);
+			}
+		}
+
+		/**
+		 * Filters the edit post link function to add the Dashboard tab when clicking on the Post title in the Post list.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string $link    The edit post link.
+		 * @param int    $post_id Post ID.
+		 * @param string $context The context.
+		 *                        We removed the PHP type because MemberPress called get_edit_post_link()
+		 *                        function with a $context parameter = NULL, and our customers needed a quick fix.
+		 *
+		 * @return string
+		 */
+		public function add_dashboard_tab_in_edit_post_link( $link, $post_id, $context ): string {
+			$current_screen = get_current_screen();
+
+			$link = Cast::to_string( $link );
+
+			if (
+				$this->has_dashboard_tab
+				&& $current_screen
+				&& $current_screen->id === 'edit-' . $this->post_type
+				&& $context === 'display'
+			) {
+				return add_query_arg( 'currentTab', 'learndash_' . $this->post_type . '_dashboard', $link );
+			}
+
+			return $link;
+		}
+
+		/**
+		 * Reverts the edit post link in the row actions to the default one.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param array<string,mixed> $actions The row actions.
+		 * @param WP_Post             $post    The post object.
+		 *
+		 * @return array<string,mixed>
+		 */
+		public function revert_edit_post_link_in_row_actions( array $actions, WP_Post $post ): array {
+			if (
+				$post->post_type !== $this->post_type
+				|| ! isset( $actions['edit'] )
+			) {
+				return $actions;
+			}
+
+			// Change the URL of the Edit Course link.
+
+			if ( class_exists( 'WP_HTML_Tag_Processor' ) ) {
+				$parser = new WP_HTML_Tag_Processor(
+					Cast::to_string( $actions['edit'] )
+				);
+				$parser->next_tag( 'a' ); // @phpstan-ignore-line -- next_tag() also expects a string (it's a bug in the stub).
+
+				$edit_url = $parser->get_attribute( 'href' );
+
+				if ( ! empty( $edit_url ) ) {
+					$parser->set_attribute( 'href', add_query_arg( 'currentTab', 'post-body-content', $edit_url ) );
+
+					$actions['edit'] = strval( $parser );
+				}
+
+				return $actions;
+			}
+
+			// Fallback to regex if the WP_HTML_Tag_Processor class is not available (WP < 6.2.0).
+
+			// href with single or double quotes.
+			$href_regex = '/href=[\'"]([^\'"]+)[\'"]/';
+			$edit_tag   = Cast::to_string( $actions['edit'] );
+
+			$edit_url = preg_match( $href_regex, $edit_tag, $matches )
+						? $matches[1]
+						: '';
+
+			if ( ! $edit_url ) {
+				return $actions;
+			}
+
+			$actions['edit'] = preg_replace(
+				$href_regex,
+				'href="' . add_query_arg( 'currentTab', 'post-body-content', $edit_url ) . '"',
+				$edit_tag
+			);
+
+			return $actions;
 		}
 
 		/**
@@ -212,6 +357,12 @@ if ( ! class_exists( 'Learndash_Admin_Post_Edit' ) ) {
 
 				// Add Metabox and hook for saving post metabox.
 				add_action( 'add_meta_boxes', array( $this, 'add_metaboxes' ), 30, 2 );
+
+				// Hide the content editor if we are not on the content tab.
+				wp_add_inline_style(
+					'learndash-admin-style',
+					'body:not([data-active-tab="post-body-content"]) .edit-post-visual-editor { display: none }'
+				);
 			}
 		}
 

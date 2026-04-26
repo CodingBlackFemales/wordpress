@@ -6,12 +6,13 @@
  * @package LearnDash\REST\V2
  */
 
+use LearnDash\Core\Enums\Models\Question_Type;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exists( 'WP_REST_Controller' ) ) ) {
-
 	/**
 	 * Class LearnDash REST API V2 Question Types Controller.
 	 *
@@ -53,7 +54,6 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 		 * @see register_rest_route()
 		 */
 		public function register_routes() {
-
 			$this->init_types_set();
 
 			register_rest_route(
@@ -78,8 +78,8 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 						'slug' => array(
 							'description' => sprintf(
 								// translators: placeholder: question.
-								esc_html_x( 'An alphanumeric identifier for the %s type', 'placeholder: question', 'learndash' ),
-								learndash_get_custom_label_lower( 'question ' )
+								esc_html_x( 'An alphanumeric slug for the %s type', 'placeholder: question', 'learndash' ),
+								learndash_get_custom_label_lower( 'question' )
 							),
 							'type'        => 'string',
 						),
@@ -103,49 +103,17 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 		 * @since 3.3.0
 		 */
 		protected function init_types_set() {
-			$this->types = array(
-				'single'             => array(
-					'slug'        => 'single',
-					'name'        => esc_html__( 'Single choice', 'learndash' ),
-					'description' => '',
-				),
-				'multiple'           => array(
-					'slug'        => 'multiple',
-					'name'        => esc_html__( 'Multiple choice', 'learndash' ),
-					'description' => '',
-				),
-				'free_answer'        => array(
-					'slug'        => 'free_answer',
-					'name'        => esc_html__( '"Free" choice', 'learndash' ),
-					'description' => '',
-				),
+			$types = [];
 
-				'sort_answer'        => array(
-					'slug'        => 'sort_answer',
-					'name'        => esc_html__( '"Sorting" choice', 'learndash' ),
-					'description' => '',
-				),
-				'matrix_sort_answer' => array(
-					'slug'        => 'matrix_sort_answer',
-					'name'        => esc_html__( '"Matrix Sorting" choice', 'learndash' ),
-					'description' => '',
-				),
-				'cloze_answer'       => array(
-					'slug'        => 'cloze_answer',
-					'name'        => esc_html__( 'Closed', 'learndash' ),
-					'description' => '',
-				),
-				'assessment_answer'  => array(
-					'slug'        => 'assessment_answer',
-					'name'        => esc_html__( 'Assessment', 'learndash' ),
-					'description' => '',
-				),
-				'essay'              => array(
-					'slug'        => 'essay',
-					'name'        => esc_html__( 'Essay / Open Answer', 'learndash' ),
-					'description' => '',
-				),
-			);
+			foreach ( Question_Type::values() as $type ) {
+				$types[ $type->getValue() ] = [
+					'name'  => $type->get_label(),
+					'slug'  => str_replace( '_', '-', $type->getValue() ),
+					'value' => $type->getValue(),
+				];
+			}
+
+			$this->types = $types;
 		}
 
 		/**
@@ -205,7 +173,18 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 		 */
 		public function get_item( $request ) {
 			$type_slug = $request['slug'];
-			if ( ( empty( $type_slug ) ) || ( ! isset( $this->types[ $type_slug ] ) ) ) {
+
+			// A fallback for requests pre v5.0.0 that used to send the value instead of the slug.
+			if ( array_key_exists( $type_slug, $this->types ) ) {
+				$type_slug = $this->types[ $type_slug ]['slug'];
+			}
+
+			$types_indexed_by_slug = array_column( $this->types, null, 'slug' );
+
+			if (
+				empty( $type_slug )
+				|| ! array_key_exists( $type_slug, $types_indexed_by_slug )
+			) {
 				return new WP_Error(
 					'rest_question_type_invalid',
 					sprintf(
@@ -217,7 +196,7 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 				);
 			}
 
-			$data = $this->prepare_item_for_response( $this->types[ $type_slug ], $request );
+			$data = $this->prepare_item_for_response( $types_indexed_by_slug[ $type_slug ], $request );
 
 			return rest_ensure_response( $data );
 		}
@@ -233,7 +212,6 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 		 * @return WP_REST_Response Post status data.
 		 */
 		public function prepare_item_for_response( $question_type, $request ) {
-
 			$fields        = $this->get_fields_for_response( $request );
 			$data          = array();
 			$question_type = (array) $question_type;
@@ -271,11 +249,11 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 				'title'      => $this->get_rest_base( 'question-types' ),
 				'type'       => 'object',
 				'properties' => array(
-					'name'        => array(
+					'name'  => array(
 						'description' => sprintf(
 							// translators: placeholder: question.
 							esc_html_x(
-								'The title for the %s type',
+								'The label for the %s type',
 								'placeholder: question',
 								'learndash'
 							),
@@ -285,11 +263,11 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,
 					),
-					'description' => array(
+					'slug'  => array(
 						'description' => sprintf(
 							// translators: placeholder: question.
 							esc_html_x(
-								'The description for the %s type.',
+								'An alphanumeric slug for the %s type',
 								'placeholder: question',
 								'learndash'
 							),
@@ -299,12 +277,11 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 						'context'     => array( 'embed', 'view' ),
 						'readonly'    => true,
 					),
-
-					'slug'        => array(
+					'value' => array(
 						'description' => sprintf(
 							// translators: placeholder: question.
 							esc_html_x(
-								'An alphanumeric identifier for the %s type',
+								'The value for the %s type. This is the actual value that will be referenced in other endpoints.',
 								'placeholder: question',
 								'learndash'
 							),
@@ -340,7 +317,7 @@ if ( ( ! class_exists( 'LD_REST_Question_Types_Controller_V2' ) ) && ( class_exi
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string $rest_slug Settings REST slug.
+		 * @param string $rest_slug     Settings REST slug.
 		 * @param string $default_value Default value if rest_slug is not found.
 		 */
 		protected function get_rest_base( $rest_slug = '', $default_value = '' ) {

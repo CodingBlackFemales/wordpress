@@ -17,13 +17,13 @@ if ( ! function_exists( 'learndash_30_the_currency_symbol' ) ) {
 	/**
 	 * Outputs the currency symbol.
 	 *
-	 * @deprecated 4.1.0 Please use {@see 'learndash_the_currency_symbol'} instead.
+	 * @deprecated 4.1.0 Please use {@see 'learndash_get_currency_symbol'} instead.
 	 *
 	 * @since 3.0.0
 	 */
 	function learndash_30_the_currency_symbol() {
 		if ( function_exists( '_deprecated_function' ) ) {
-			_deprecated_function( __FUNCTION__, '4.1.0', 'learndash_the_currency_symbol' );
+			_deprecated_function( __FUNCTION__, '4.1.0', 'learndash_get_currency_symbol' );
 		}
 
 		echo wp_kses_post( learndash_30_get_currency_symbol() );

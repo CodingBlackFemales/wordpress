@@ -2,7 +2,7 @@
 /**
  * The quiz view class.
  *
- * @since   4.6.0
+ * @since 4.6.0
  *
  * @package LearnDash\Core
  */
@@ -46,7 +46,6 @@ class Quiz extends View {
 	 */
 	public function __construct( WP_Post $post, array $context = [] ) {
 		$this->model = Models\Quiz::create_from_post( $post );
-		$this->model->enable_memoization();
 
 		parent::__construct(
 			LDLMS_Post_Types::get_post_type_key( $post->post_type ),
@@ -72,7 +71,7 @@ class Quiz extends View {
 			'content'      => get_the_content( null, false, $this->model->get_post() ),
 			'tabs'         => $this->get_tabs(),
 			// TODO: replace these mocked values (or function calls that have mocked values) with real ones.
-			'show_content' => $this->model->is_content_visible(),
+			'show_content' => true,
 		];
 
 		return array_merge( $context, $defaults );
@@ -89,30 +88,13 @@ class Quiz extends View {
 		$course = $this->model->get_course();
 
 		if ( $course ) {
-			$breadcrumbs = $this->get_breadcrumbs_base();
+			$breadcrumbs = [];
 
 			$breadcrumbs[] = [
 				'url'   => $course->get_permalink(),
 				'label' => $course->get_title(),
 				'id'    => 'course',
 			];
-
-			$lesson = $this->model->get_lesson();
-			$topic  = $this->model->get_topic();
-
-			if ( $lesson ) {
-				$breadcrumbs[] = [
-					'url'   => $lesson->get_permalink(),
-					'label' => $lesson->get_title(),
-					'id'    => 'lesson',
-				];
-			} elseif ( $topic ) {
-				$breadcrumbs[] = [
-					'url'   => $topic->get_permalink(),
-					'label' => $topic->get_title(),
-					'id'    => 'topic',
-				];
-			}
 		} else {
 			$breadcrumbs = [
 				[
@@ -163,44 +145,41 @@ class Quiz extends View {
 	 * @return Tabs\Tabs
 	 */
 	protected function get_tabs(): Tabs\Tabs {
-		$tabs = new Tabs\Tabs(
+		$tabs_array = [
 			[
-				[
-					'id'       => 'content',
-					'icon'     => 'quiz',
-					'label'    => LearnDash_Custom_Label::get_label( 'quiz' ),
-					'template' => 'quiz/tabs/quiz',
-					'order'    => 1,
-				],
-				[
-					'id'       => 'materials',
-					'icon'     => 'materials',
-					'label'    => __( 'Materials', 'learndash' ),
-					'template' => 'quiz/tabs/materials',
-					'order'    => 2,
-				],
-			]
-		);
+				'id'       => 'content',
+				'icon'     => 'quiz',
+				'label'    => LearnDash_Custom_Label::get_label( 'quiz' ),
+				'template' => 'quiz/tabs/quiz',
+				'order'    => 1,
+			],
+			[
+				'id'       => 'materials',
+				'icon'     => 'materials',
+				'label'    => __( 'Materials', 'learndash' ),
+				'template' => 'quiz/tabs/materials',
+				'order'    => 2,
+			],
+		];
 
-		$tabs_array = $tabs->filter_empty_content()->sort()->all();
-
-		/** This filter is documented in src/Core/Template/Views/Group.php */
+		/** This filter is documented in src/Core/Template/Views/Course.php */
 		$tabs_array = (array) apply_filters( 'learndash_template_views_tabs', $tabs_array, $this->view_slug, $this );
 
 		/**
-		 * Filters the course tabs.
+		 * Filters the quiz tabs.
 		 *
-		 * @since 4.6.0
+		 * @since 4.21.0
 		 *
-		 * @param array<string, Tabs\Tab>|array<int, array<string, mixed>> $tabs      The tabs.
-		 * @param string                                                   $view_slug The view slug.
-		 * @param Quiz                                                     $view      The view object.
+		 * @param array<int, array<string, array{id: string, icon: string, label: string, content: string, order?: int}>> $tabs      The tabs.
+		 * @param string                                                                                                  $view_slug The view slug.
+		 * @param Quiz                                                                                                    $view      The view object.
 		 *
 		 * @ignore
 		 */
 		$tabs_array = (array) apply_filters( 'learndash_template_views_quiz_tabs', $tabs_array, $this->view_slug, $this );
 
-		// Rebuild the tabs object after filtering.
-		return new Tabs\Tabs( $tabs_array );
+		$tabs = new Tabs\Tabs( $tabs_array );
+
+		return $tabs->filter_empty_content()->sort();
 	}
 }

@@ -6,6 +6,8 @@
  * @package LearnDash\Settings\Sections
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -88,12 +90,11 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			// If the settings set as a whole is empty then we set a default.
-			if ( empty( $this->setting_option_values ) ) {
-				// If the settings set as a whole is empty then we set a default.
-				if ( false === $this->setting_option_values ) {
-					$this->transition_deprecated_settings();
-				}
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
+				$this->transition_deprecated_settings();
 
 				if ( true === learndash_is_data_upgrade_quiz_questions_updated() ) {
 					$this->setting_option_values['quiz_builder_enabled'] = 'yes';
@@ -135,8 +136,8 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 				$this->setting_option_values['force_shared_questions']        = '';
 			}
 
-			$wp_date_format      = get_option( 'date_format' );
-			$wp_time_format      = get_option( 'time_format' );
+			$wp_date_format      = Cast::to_string( get_option( 'date_format' ) );
+			$wp_time_format      = Cast::to_string( get_option( 'time_format' ) );
 			$wp_date_time_format = esc_attr( $wp_date_format ) . ' ' . esc_attr( $wp_time_format );
 
 			if ( ( ! isset( $this->setting_option_values['toplist_time_format'] ) ) || ( empty( $this->setting_option_values['toplist_time_format'] ) ) ) {
@@ -349,8 +350,14 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			$time_formats_off_state_text = sprintf(
 				// translators: placeholder: Date preview, Time preview, Date format string, Time format string.
 				esc_html_x( 'Default format: %1$s %2$s  %3$s %4$s ', '', 'learndash' ),
-				date_i18n( get_option( 'date_format' ) ),
-				date_i18n( get_option( 'time_format' ) ),
+				learndash_adjust_date_time_display(
+					time(),
+					Cast::to_string( get_option( 'date_format' ) )
+				),
+				learndash_adjust_date_time_display(
+					time(),
+					Cast::to_string( get_option( 'time_format' ) )
+				),
 				'<code>' . get_option( 'date_format' ) . '</code>',
 				'<code>' . get_option( 'time_format' ) . '</code>'
 			);
@@ -407,12 +414,12 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 
 			if ( ! empty( $date_time_formats ) ) {
 				$options = array(
-					$wp_date_time_format => '<span class="date-time-text format-i18n">' . date_i18n( $wp_date_time_format ) . '</span><code>' . $wp_date_format . ' ' . $wp_time_format . '</code> - ' . __( 'WordPress default', 'learndash' ),
+					$wp_date_time_format => '<span class="date-time-text format-i18n">' . learndash_adjust_date_time_display( time(), $wp_date_time_format ) . '</span><code>' . $wp_date_format . ' ' . $wp_time_format . '</code> - ' . __( 'WordPress default', 'learndash' ),
 				);
 
 				foreach ( $date_time_formats as $format ) {
 					if ( ! isset( $options[ $format ] ) ) {
-						$options[ $format ] = '<span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . $format . '</code>';
+						$options[ $format ] = '<span class="date-time-text format-i18n">' . learndash_adjust_date_time_display( time(), $format ) . '</span><code>' . $format . '</code>';
 					}
 				}
 			}

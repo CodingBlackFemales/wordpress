@@ -544,7 +544,7 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 						$gl_user_query_args['meta_value'] = 1; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 					}
 
-					$wp_user_query = new WP_User_Query( $gl_user_query_args );
+					$wp_user_query = new WP_User_Query( $gl_user_query_args ); // @phpstan-ignore-line -- legacy code.
 
 					$users = $wp_user_query->get_results();
 					if ( ! empty( $users ) ) {

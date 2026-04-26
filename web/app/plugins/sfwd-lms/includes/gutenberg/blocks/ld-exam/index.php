@@ -152,13 +152,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			return '';
 		}
 
@@ -170,13 +170,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block_exam_question( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block_exam_question( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes['learndash_question_content'] = $block_content;
 
 			$block_content = SFWD_LMS::get_template(
@@ -195,13 +195,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block_exam_question_description( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block_exam_question_description( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes['learndash_question_description'] = $block_content;
 
 			$block_content = SFWD_LMS::get_template(
@@ -220,13 +220,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block_exam_question_answers( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block_exam_question_answers( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			if ( ! isset( $block_attributes['learndash_question_answers'] ) ) {
 				if ( isset( $block_attributes['answers'] ) ) {
 					$block_attributes['learndash_question_answers'] = $block_attributes['answers'];
@@ -250,13 +250,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block_exam_question_correct_message( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block_exam_question_correct_message( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes['learndash_question_correct_message'] = $block_content;
 
 			$block_content = SFWD_LMS::get_template(
@@ -275,13 +275,13 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array    $block_attributes The block attributes.
-		 * @param string   $block_content    The block content.
-		 * @param WP_block $block            The block object.
+		 * @param array         $block_attributes The block attributes.
+		 * @param string        $block_content    The block content.
+		 * @param WP_Block|null $block            The block object.
 		 *
 		 * @return none The output is echoed.
 		 */
-		public function render_block_exam_question_incorrect_message( $block_attributes = array(), $block_content = '', WP_block $block = null ) {
+		public function render_block_exam_question_incorrect_message( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes['learndash_question_incorrect_message'] = $block_content;
 
 			$block_content = SFWD_LMS::get_template(

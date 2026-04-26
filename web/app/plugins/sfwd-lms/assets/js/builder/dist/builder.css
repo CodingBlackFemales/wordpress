@@ -506,6 +506,9 @@
 .ld-node-header__points-form-toggle {
   cursor: pointer;
 }
+.ld-node-header__points-form-toggle:disabled {
+  cursor: default;
+}
 .ld-node-header__points-form-toggle:hover svg {
   fill: #007cba;
 }
@@ -517,6 +520,10 @@
 
 .ld-button-reset.warning-expand svg {
   fill: #c92c2c;
+}
+
+.ld-button-reset.accessibility-warning svg {
+  fill: #c77800;
 }
 
 .warning-icon {
@@ -535,6 +542,13 @@
   fill: #c92c2c;
   height: 16px;
   width: 16px;
+}
+
+.warning-icon--accessibility {
+  color: #c77800;
+}
+.warning-icon--accessibility svg {
+  fill: #c77800;
 }
 
 .ld-entity-builder-header {
@@ -902,6 +916,11 @@
 .ld-question-answer button.ld-button-reset:hover .edit-svg {
   fill: #007cba;
 }
+.ld-question-answer-points {
+  margin: 0 3px 0 0;
+  vertical-align: middle;
+  width: 70px;
+}
 .ld-question-answer.-showform {
   align-items: flex-start;
 }
@@ -970,7 +989,6 @@
   align-items: flex-start;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
   width: 100%;
 }
 .ld-answer-editor-table > div {

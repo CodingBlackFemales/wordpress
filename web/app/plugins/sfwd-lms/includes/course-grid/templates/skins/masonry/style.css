@@ -1,0 +1,13 @@
+.learndash-course-grid .masonry {
+    display: grid;
+    grid-template-columns: repeat( 3, minmax( 0, 1fr ) );
+    column-gap: 30px;
+    row-gap: 30px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    width: 100% !important;
+}
+
+.learndash-course-grid .items-wrapper.masonry .item {
+    visibility: hidden;
+}

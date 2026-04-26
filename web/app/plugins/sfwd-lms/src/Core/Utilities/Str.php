@@ -7,13 +7,6 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Utilities;
 
 /**
@@ -188,5 +181,56 @@ class Str {
 		$end            = mb_substr( $string, $start_index + $segment_length );
 
 		return $start . str_repeat( mb_substr( $character, 0, 1, $encoding ), intval( $segment_length ) ) . $end;
+	}
+
+	/**
+	 * Gets the portion of a string before the first occurrence of a given value.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param string $subject Subject string.
+	 * @param string $search  String to search.
+	 *
+	 * @return string
+	 */
+	public static function before( string $subject, string $search ): string {
+		if ( $search === '' ) {
+			return $subject;
+		}
+
+		$result = strstr( $subject, $search, true );
+
+		return $result === false ? $subject : $result;
+	}
+
+	/**
+	 * Determines if a given string exactly matches one or multiple strings.
+	 *
+	 * @since 4.21.5
+	 *
+	 * @param string          $string      The string to check.
+	 * @param string|string[] $matches     The string(s) to match against.
+	 * @param bool            $ignore_case Whether to ignore case. Default false.
+	 *
+	 * @return bool Returns true if the string exactly matches any of the provided strings.
+	 */
+	public static function matches( string $string, $matches, bool $ignore_case = false ): bool {
+		if ( ! is_array( $matches ) ) {
+			$matches = array( $matches );
+		}
+
+		foreach ( $matches as $match ) {
+			if ( $ignore_case ) {
+				if ( strcasecmp( $string, $match ) === 0 ) {
+					return true;
+				}
+			} else { // phpcs:ignore Universal.ControlStructures.DisallowLonelyIf.Found -- For better clarity.
+				if ( $string === $match ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

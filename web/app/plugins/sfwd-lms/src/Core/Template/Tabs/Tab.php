@@ -7,13 +7,6 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Template\Tabs;
 
 use InvalidArgumentException;
@@ -70,7 +63,7 @@ class Tab {
 	protected $label = '';
 
 	/**
-	 * Tab order.
+	 * Tab order. Defaults to 100.
 	 *
 	 * @since 4.6.0
 	 *
@@ -111,12 +104,12 @@ class Tab {
 		/**
 		 * Filters the tab content.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string|null $content Tab content.
 		 * @param Tab         $tab     Tab object.
 		 *
-		 * @ignore
+		 * @return string|null
 		 */
 		return apply_filters( 'learndash_template_tab_content', $this->content, $this );
 	}
@@ -132,12 +125,12 @@ class Tab {
 		/**
 		 * Filters the tab icon.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string|null $icon Tab icon.
 		 * @param Tab         $tab  Tab object.
 		 *
-		 * @ignore
+		 * @return string|null
 		 */
 		return apply_filters( 'learndash_template_tab_icon', $this->icon, $this );
 	}
@@ -153,12 +146,12 @@ class Tab {
 		/**
 		 * Filters the tab ID.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string $id  Tab ID.
 		 * @param Tab    $tab Tab object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return (string) apply_filters( 'learndash_template_tab_id', $this->id, $this );
 	}
@@ -174,12 +167,12 @@ class Tab {
 		/**
 		 * Filters the tab label.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string $label Tab label.
 		 * @param Tab    $tab   Tab object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return (string) apply_filters( 'learndash_template_tab_label', $this->label, $this );
 	}
@@ -189,18 +182,18 @@ class Tab {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @return int Defaults to 100.
+	 * @return int
 	 */
 	public function get_order(): int {
 		/**
 		 * Filters the tab order.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param int $order Tab order.
 		 * @param Tab $tab   Tab object.
 		 *
-		 * @ignore
+		 * @return int
 		 */
 		return (int) apply_filters( 'learndash_template_tab_order', $this->order, $this );
 	}
@@ -216,12 +209,12 @@ class Tab {
 		/**
 		 * Filters the tab template.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param string $template Tab template.
 		 * @param Tab    $tab      Tab object.
 		 *
-		 * @ignore
+		 * @return string
 		 */
 		return (string) apply_filters( 'learndash_template_tab_template', $this->template, $this );
 	}
@@ -237,12 +230,12 @@ class Tab {
 		/**
 		 * Filters the tab is_first state.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
 		 * @param bool $is_first Tab is_first state.
 		 * @param Tab  $tab      Tab object.
 		 *
-		 * @ignore
+		 * @return bool
 		 */
 		return (bool) apply_filters( 'learndash_template_tab_is_first', $this->is_first, $this );
 	}

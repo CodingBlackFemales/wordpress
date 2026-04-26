@@ -50,11 +50,9 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			$new_settings = false;
-			if ( ! is_array( $this->setting_option_values ) ) {
-				$new_settings                = true;
-				$this->setting_option_values = array();
-			}
+			$new_settings =
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values );
 
 			// Fields orders.
 			if ( ( ! isset( $this->setting_option_values['fields_order'] ) ) || ( empty( $this->setting_option_values['fields_order'] ) ) ) {
@@ -180,36 +178,38 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 				'display_callback'  => array( $this, 'display_registration_fields_order' ),
 			);
 
-			foreach ( $this->setting_option_values['fields_order'] as $field_prefix ) {
-				$this->setting_option_fields[ $field_prefix . '_enabled' ]  = array(
-					'name'    => $field_prefix . '_enabled',
-					'type'    => 'checkbox-switch',
-					'label'   => '',
-					'value'   => $this->setting_option_values[ $field_prefix . '_enabled' ],
-					'options' => array(
-						'yes' => '',
-					),
-				);
-				$this->setting_option_fields[ $field_prefix . '_label' ]    = array(
-					'name'        => $field_prefix . '_label',
-					'type'        => 'text',
-					'label'       => '',
-					'value'       => $this->setting_option_values[ $field_prefix . '_label' ],
-					'class'       => 'regular-text',
-					'placeholder' => $this->setting_option_values[ $field_prefix . '_placeholder' ],
-					'attrs'       => array(
-						'required' => 'required',
-					),
-				);
-				$this->setting_option_fields[ $field_prefix . '_required' ] = array(
-					'name'    => $field_prefix . '_required',
-					'type'    => 'checkbox',
-					'label'   => '',
-					'value'   => $this->setting_option_values[ $field_prefix . '_required' ],
-					'options' => array(
-						'yes' => '',
-					),
-				);
+			if ( is_iterable( $this->setting_option_values['fields_order'] ) ) {
+				foreach ( $this->setting_option_values['fields_order'] as $field_prefix ) {
+					$this->setting_option_fields[ $field_prefix . '_enabled' ]  = [
+						'name'    => $field_prefix . '_enabled',
+						'type'    => 'checkbox-switch',
+						'label'   => '',
+						'value'   => $this->setting_option_values[ $field_prefix . '_enabled' ],
+						'options' => [
+							'yes' => '',
+						],
+					];
+					$this->setting_option_fields[ $field_prefix . '_label' ]    = [
+						'name'        => $field_prefix . '_label',
+						'type'        => 'text',
+						'label'       => '',
+						'value'       => $this->setting_option_values[ $field_prefix . '_label' ],
+						'class'       => 'regular-text',
+						'placeholder' => $this->setting_option_values[ $field_prefix . '_placeholder' ],
+						'attrs'       => [
+							'required' => 'required',
+						],
+					];
+					$this->setting_option_fields[ $field_prefix . '_required' ] = [
+						'name'    => $field_prefix . '_required',
+						'type'    => 'checkbox',
+						'label'   => '',
+						'value'   => $this->setting_option_values[ $field_prefix . '_required' ],
+						'options' => [
+							'yes' => '',
+						],
+					];
+				}
 			}
 
 			/** This filter is documented in includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php */
@@ -263,10 +263,13 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function section_pre_update_option( $current_values = '', $old_values = '', $option = '' ) {
 			if ( $option === $this->setting_option_key ) {
 				$current_values = parent::section_pre_update_option( $current_values, $old_values, $option );
-				foreach ( $this->setting_option_values['fields_order'] as $field_prefix ) {
-					if ( ( ! isset( $current_values[ $field_prefix . '_label' ] ) ) || ( empty( $current_values[ $field_prefix . '_label' ] ) ) ) {
-						if ( isset( $this->setting_option_values[ $field_prefix . '_placeholder' ] ) ) {
-							$current_values[ $field_prefix . '_label' ] = $this->setting_option_values[ $field_prefix . '_placeholder' ];
+
+				if ( is_iterable( $this->setting_option_values['fields_order'] ) ) {
+					foreach ( $this->setting_option_values['fields_order'] as $field_prefix ) {
+						if ( ( ! isset( $current_values[ $field_prefix . '_label' ] ) ) || ( empty( $current_values[ $field_prefix . '_label' ] ) ) ) {
+							if ( isset( $this->setting_option_values[ $field_prefix . '_placeholder' ] ) ) {
+								$current_values[ $field_prefix . '_label' ] = $this->setting_option_values[ $field_prefix . '_placeholder' ];
+							}
 						}
 					}
 				}

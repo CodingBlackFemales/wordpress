@@ -3,8 +3,11 @@
  * LearnDash Settings Metabox for Group Courses Settings.
  *
  * @since 3.2.0
+ *
  * @package LearnDash\Settings\Metaboxes
  */
+
+use LearnDash\Core\Validations\Validators\Metaboxes\Group_Courses_Auto_Enroll;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,7 +20,6 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 	 * @since 3.2.0
 	 */
 	class LearnDash_Settings_Metabox_Group_Courses_Enroll_Settings extends LearnDash_Settings_Metabox {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -81,7 +83,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						}
 						$ld_auto_enroll_group_course_ids = array_map( 'absint', $ld_auto_enroll_group_course_ids );
 
-						$group_selected_ids = learndash_group_enrolled_courses( $group_id, true );
+						$group_selected_ids = learndash_group_enrolled_courses( $group_id );
 						if ( ! empty( $group_selected_ids ) ) {
 							$group_selected_ids              = array_map( 'absint', $group_selected_ids );
 							$ld_auto_enroll_group_course_ids = array_intersect( $ld_auto_enroll_group_course_ids, $group_selected_ids );
@@ -91,7 +93,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 							array(
 								'html_title'   => '',
 								'group_id'     => $group_id,
-								'included_ids' => learndash_group_enrolled_courses( $group_id, true ),
+								'included_ids' => learndash_group_enrolled_courses( $group_id ),
 								'selected_ids' => $ld_auto_enroll_group_course_ids,
 							)
 						);
@@ -129,25 +131,47 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 		 * @param array   $settings_field_updates array of settings fields to update.
 		 */
 		public function save_post_meta_box( $post_id = 0, $saved_post = null, $update = null, $settings_field_updates = null ) {
-			if ( true === $this->verify_metabox_nonce_field() ) {
+			if ( ! $this->verify_metabox_nonce_field() ) {
+				return;
+			}
 
-				if ( ( isset( $_POST[ $this->settings_metabox_key . '-' . $post_id . '-changed' ] ) ) && ( ! empty( $_POST[ $this->settings_metabox_key . '-' . $post_id . '-changed' ] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-					if ( ( isset( $_POST[ $this->settings_metabox_key ][ $post_id ] ) ) && ( ! empty( $_POST[ $this->settings_metabox_key ][ $post_id ] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						$group_enroll_courses = (array) json_decode( stripslashes( $_POST[ $this->settings_metabox_key ][ $post_id ] ) ); // phpcs:ignore WordPress.Security.NonceVerification, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-						$group_enroll_courses = array_map( 'absint', $group_enroll_courses );
-						if ( ! empty( $group_enroll_courses ) ) {
-							update_post_meta( $post_id, 'ld_auto_enroll_group_course_ids', $group_enroll_courses );
-						} else {
-							delete_post_meta( $post_id, 'ld_auto_enroll_group_course_ids' );
-						}
-					}
-				}
+			if ( ( isset( $_POST['learndash_auto_enroll_group_courses'] ) ) && ( 'yes' === $_POST['learndash_auto_enroll_group_courses'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification -- Nonce is checked above.
+				update_post_meta( $post_id, 'ld_auto_enroll_group_courses', 'yes' );
+			} else {
+				delete_post_meta( $post_id, 'ld_auto_enroll_group_courses' );
+			}
 
-				if ( ( isset( $_POST['learndash_auto_enroll_group_courses'] ) ) && ( 'yes' == $_POST['learndash_auto_enroll_group_courses'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-					update_post_meta( $post_id, 'ld_auto_enroll_group_courses', 'yes' );
-				} else {
-					delete_post_meta( $post_id, 'ld_auto_enroll_group_courses' );
-				}
+			if (
+				! isset( $_POST[ $this->settings_metabox_key . '-' . $post_id . '-changed' ] ) // phpcs:ignore WordPress.Security.NonceVerification -- Nonce is checked above.
+				|| ! isset( $_POST[ $this->settings_metabox_key ][ $post_id ] ) // phpcs:ignore WordPress.Security.NonceVerification -- Nonce is checked above.
+			) {
+				return;
+			}
+
+			$group_auto_enroll_courses = (array) json_decode(
+				sanitize_text_field( wp_unslash( $_POST[ $this->settings_metabox_key ][ $post_id ] ) ) // phpcs:ignore WordPress.Security.NonceVerification -- Nonce is checked above.
+			);
+
+			// Validate the auto-enroll courses field.
+
+			$validator = ( new Group_Courses_Auto_Enroll( $post_id ) )->validate(
+				[ Group_Courses_Auto_Enroll::$field_courses_auto_enroll => $group_auto_enroll_courses ]
+			);
+
+			if ( $validator->fails() ) {
+				return;
+			}
+
+			$group_auto_enroll_courses = $validator->validated()[ Group_Courses_Auto_Enroll::$field_courses_auto_enroll ];
+
+			if ( ! empty( $group_auto_enroll_courses ) ) {
+				update_post_meta(
+					$post_id,
+					'ld_auto_enroll_group_course_ids',
+					$group_auto_enroll_courses
+				);
+			} else {
+				delete_post_meta( $post_id, 'ld_auto_enroll_group_course_ids' );
 			}
 		}
 

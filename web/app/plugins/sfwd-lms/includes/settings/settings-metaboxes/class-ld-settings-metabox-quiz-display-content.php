@@ -295,7 +295,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					}
 				}
 
-				if ( ( 'on' === $this->setting_option_values['showPoints'] ) || ( 'on' === $this->setting_option_values['showCategory'] ) || ( 'on' === $this->setting_option_values['hideQuestionPositionOverview'] ) || ( 'on' === $this->setting_option_values['hideQuestionNumbering'] ) || ( 'on' === $this->setting_option_values['numberedAnswer'] ) ) {
+				if (
+					'on' === $this->setting_option_values['showPoints']
+					|| 'on' === $this->setting_option_values['showCategory']
+					|| 'on' === $this->setting_option_values['hideQuestionPositionOverview']
+					|| 'on' === $this->setting_option_values['hideQuestionNumbering']
+					|| 'on' === $this->setting_option_values['numberedAnswer']
+					|| 'on' === $this->setting_option_values['answerRandom']
+				) {
 					$this->setting_option_values['custom_question_elements'] = 'on';
 				} else {
 					$this->setting_option_values['custom_question_elements'] = '';
@@ -438,7 +445,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								'field_key'   => 'materials_enabled',
-								'description' => esc_html__( 'Materials Enabled', 'learndash' ),
+								'description' => esc_html__( 'Supplemental Materials Enabled', 'learndash' ),
 								'type'        => 'boolean',
 								'default'     => false,
 							),
@@ -460,26 +467,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'materials',
-								'description' => esc_html__( 'Materials', 'learndash' ),
-								'type'        => 'object',
-								'properties'  => array(
-									'raw'      => array(
-										'description' => 'Content for the object, as it exists in the database.',
-										'type'        => 'string',
-										'context'     => array( 'edit' ),
-									),
-									'rendered' => array(
-										'description' => 'HTML content for the object, transformed for display.',
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-								),
-								'arg_options' => array(
+								'arg_options' => [
 									'sanitize_callback' => null, // Note: sanitization performed in rest_pre_insert_filter().
 									'validate_callback' => null,
-								),
+								],
+								'default'     => '',
+								'description' => esc_html__( 'Supplemental Materials', 'learndash' ),
+								'field_key'   => 'materials',
+								'format'      => 'html',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -501,9 +497,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'auto_start',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz.
+									__( 'Whether the %1$s starts automatically, without the "Start %1$s" button', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'auto_start',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -546,13 +548,20 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'quiz_modus',
-								'type'      => 'string',
-								'default'   => 'single',
-								'enum'      => array(
+								'default'     => 'single',
+								'description' => sprintf(
+									// translators: placeholder: %1$s quiz label, 2%$s question label, 3%$s questions label.
+									__( 'The display mode of the %1$s. "single" means one %2$s at a time, "multiple" means all %3$s at once.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'questions' )
+								),
+								'enum'        => [
 									'single',
 									'multiple',
-								),
+								],
+								'field_key'   => 'quiz_modus',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -580,9 +589,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'review_table_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: question label.
+									__( 'Whether the %s overview table is enabled.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' )
+								),
+								'field_key'   => 'review_table_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -606,9 +620,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'summary_hide',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s quiz label, 2%$s question label.
+									__( 'Whether the %1$s summary is enabled in the %2$s overview table.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' ),
+									learndash_get_custom_label_lower( 'question' )
+								),
+								'field_key'   => 'summary_hide',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -637,9 +657,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'skip_question_disabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s questions label, 2%$s question label.
+									__( 'Whether the %1$s can be skipped. Must use the "One %2$s at a time" and "Display results after each submitted answer" settings in the %2$s Display setting.', 'learndash' ),
+									learndash_get_custom_label_lower( 'questions' ),
+									learndash_get_custom_label( 'question' )
+								),
+								'field_key'   => 'skip_question_disabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -683,9 +709,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'sort_categories',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: questions label.
+									__( 'Sort %s by category.', 'learndash' ),
+									learndash_get_custom_label_lower( 'questions' )
+								),
+								'field_key'   => 'sort_categories',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -705,9 +736,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'question_random',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: question label.
+									__( 'Randomize %s order.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' )
+								),
+								'field_key'   => 'question_random',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -745,9 +781,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'show_max_question',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: 1%$s questions label, 2%$s question label.
+									__( 'Whether to only display subset of %1$s. Randomize %2$s order must be enabled.', 'learndash' ),
+									learndash_get_custom_label_lower( 'questions' ),
+									learndash_get_custom_label_lower( 'question' )
+								),
+								'field_key'   => 'show_max_question',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -787,9 +829,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'show_points',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to display the point value for each %1$s when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'show_points',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -812,9 +860,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'show_category',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to display the category for each %1$s when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'show_category',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -837,9 +891,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_question_position_overview',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to show the position of each %1$s when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'hide_question_position_overview',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -863,9 +923,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'hide_question_numbering',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to show the number for each %1$s when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'hide_question_numbering',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -884,9 +950,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'numbered_answer',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to show the number for each %1$s answer when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'numbered_answer',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -910,9 +982,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'answer_random',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: %1$s question label, %2$s quiz label.
+									__( 'Whether to randomize the answers for each %1$s when taking the %2$s.', 'learndash' ),
+									learndash_get_custom_label_lower( 'question' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'answer_random',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -953,9 +1031,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'title_hidden',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( 'Whether to show the title for the %1$s above the %1$s when taking it.', 'learndash' ),
+									learndash_get_custom_label_lower( 'quiz' )
+								),
+								'field_key'   => 'title_hidden',
+								'type'        => 'boolean',
 							),
 						),
 					),

@@ -148,20 +148,21 @@ if ( ( ! class_exists( 'LDLMS_Factory_Post' ) ) && ( class_exists( 'LDLMS_Factor
 		}
 
 		/**
-		 * Get a Course Steps.
+		 * Returns course steps.
 		 *
-		 * @param int|object $course Either course_id integer or WP_Post instance.
-		 * @param bool       $reload To force reload of instance.
+		 * @param int|WP_Post $course Course post ID or WP_Post instance.
+		 * @param bool        $reload To force reloading of instance.
 		 *
-		 * @return object|null Instance of `LDLMS_Course_Steps` or null
+		 * @return LDLMS_Course_Steps|null
 		 */
 		public static function course_steps( $course = null, $reload = false ) {
 			if ( ! empty( $course ) ) {
 				$model = 'LDLMS_Course_Steps';
 
-				$course_id = 0;
-
-				if ( ( is_a( $course, 'WP_Post' ) ) && ( learndash_get_post_type_slug( 'course' ) === $course->post_type ) ) {
+				if (
+					$course instanceof WP_Post
+					&& learndash_get_post_type_slug( 'course' ) === $course->post_type
+				) {
 					$course_id = absint( $course->ID );
 				} else {
 					$course_id = absint( $course );

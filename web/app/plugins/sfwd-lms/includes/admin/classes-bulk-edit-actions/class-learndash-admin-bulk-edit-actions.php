@@ -45,7 +45,7 @@ if ( ! class_exists( 'Learndash_Admin_Bulk_Edit_Actions' ) ) {
 					'file_path'    => 'class-learndash-admin-bulk-edit-action-courses.php',
 					'class_name'   => Learndash_Admin_Bulk_Edit_Action_Courses::class,
 					'dependencies' => array(
-						new LearnDash_Settings_Metabox_Course_Access_Settings(),
+						new LearnDash_Settings_Metabox_Course_Enrollment(),
 					),
 				),
 				array(
@@ -69,6 +69,7 @@ if ( ! class_exists( 'Learndash_Admin_Bulk_Edit_Actions' ) ) {
 			foreach ( $bulk_classes as $class ) {
 				require_once $folder_path . $class['file_path'];
 
+				// @phpstan-ignore-next-line -- PhpStan bug where it doesn't recognize spread operator.
 				self::$bulk_classes[ $class['class_name'] ] = new $class['class_name']( ...$class['dependencies'] );
 			}
 
@@ -120,7 +121,7 @@ if ( ! class_exists( 'Learndash_Admin_Bulk_Edit_Actions' ) ) {
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-bulk-edit-actions/class-learndash-admin-bulk-edit-action.php';
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-bulk-edit-actions/class-learndash-admin-bulk-edit-field.php';
 
-			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php';
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php';
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-settings.php';
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-lesson-display-content.php';
 		}

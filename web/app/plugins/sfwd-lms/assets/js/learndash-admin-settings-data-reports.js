@@ -1,38 +1,82 @@
-jQuery( function() {
-	jQuery( 'table#learndash-data-reports button' ).on( 'click', function( e ) {
-		e.preventDefault();
+jQuery( function () {
+	const loadingIcon = jQuery( '.ld-svgicon__refresh--reports' )
+		.clone()
+		.removeClass( 'hidden' );
 
-		var form_nonce = jQuery( 'input#learndash-data-reports-nonce' ).val();
-		var parent_tr 	= jQuery( this ).parents( 'tr' );
-		var data_nonce 	= jQuery( this ).attr( 'data-nonce' );
-		var data_slug 	= jQuery( this ).attr( 'data-slug' );
+	// Ensure screen readers don't see the original icon.
+	jQuery( '.ld-svgicon__refresh--reports' ).attr( 'aria-hidden', 'true' );
 
-		// Close all other progress meters
-		jQuery( 'table#learndash-data-reports .learndash-data-reports-status' ).hide();
+	jQuery( 'button.learndash-data-reports-button' ).on(
+		'click',
+		function ( e ) {
+			e.preventDefault();
 
-		// disable all other buttons
-		jQuery( 'table#learndash-data-reports button.learndash-data-reports-button' ).prop( 'disabled', true );
+			const button = jQuery( this );
+			const container = jQuery( this ).parents(
+				'.ld-global-header-new-settings'
+			);
+			const dataNonce = jQuery( this ).attr( 'data-nonce' );
+			const dataSlug = jQuery( this ).attr( 'data-slug' );
 
-		// Hide all download buttons
-		jQuery( 'table#learndash-data-reports a.learndash-data-reports-download-link' ).hide();
+			// Store original button HTML to use later.
+			if ( ! button.data( 'original-html' ) ) {
+				button.data( 'original-html', button.html() );
+			}
 
-		var post_data = {
-			action: 'learndash-data-reports',
-			nonce: form_nonce,
-			data: {
-				init: 1,
-				nonce: data_nonce,
-				slug: data_slug,
-			},
-		};
+			button.prepend( loadingIcon );
 
-		learndash_data_reports_do_ajax( post_data, parent_tr );
-	} );
+			jQuery( '.learndash-settings-page-wrap' ).prepend(
+				'<div class="notice notice-info ld-reports-notice ld-reports-notice--loading">' +
+					'<p>' +
+					loadingIcon.clone().attr( 'aria-hidden', 'true' )[ 0 ]
+						.outerHTML +
+					'<span class="ld-reports-notice__text">' +
+					wp.i18n.__(
+						'Your report is being processed for export. Do not close or navigate away from this page until the report is ready.',
+						'learndash'
+					) +
+					'</span>' +
+					'</p>' +
+					'</div>'
+			);
+
+			// disable all other buttons
+			jQuery( 'button.learndash-data-reports-button' ).prop(
+				'disabled',
+				true
+			);
+
+			// Hide all download buttons
+			jQuery(
+				'table#learndash-data-reports a.learndash-data-reports-download-link'
+			).hide();
+
+			const postData = {
+				action: 'learndash-data-reports',
+				data: {
+					init: 1,
+					slug: dataSlug,
+					nonce: dataNonce,
+				},
+			};
+
+			learndash_data_reports_do_ajax( postData, container );
+		}
+	);
+
+	// Notices added in this way are not properly dismissible by default.
+	jQuery( document ).on(
+		'click',
+		'.ld-reports-notice .notice-dismiss',
+		function () {
+			jQuery( this ).parents( '.ld-reports-notice' ).remove();
+		}
+	);
 } );
 
-function learndash_data_reports_do_ajax( post_data, container ) {
-	if ( ( typeof post_data === 'undefined' ) || ( post_data == '' ) ) {
-		active_post_data = {};
+// eslint-disable-next-line camelcase
+function learndash_data_reports_do_ajax( postData, container ) {
+	if ( typeof postData === 'undefined' || postData === '' ) {
 		return false;
 	}
 
@@ -41,47 +85,89 @@ function learndash_data_reports_do_ajax( post_data, container ) {
 		url: ajaxurl,
 		dataType: 'json',
 		cache: false,
-		data: post_data,
-		error: function( jqXHR, textStatus, errorThrown ) {
-		},
-		success: function( reply_data ) {
-			if ( typeof reply_data !== 'undefined' ) {
-				if ( typeof reply_data.data !== 'undefined' ) {
-					// Update the progress meter
-					if ( jQuery( '.learndash-data-reports-status', container ).length ) {
-						jQuery( '.learndash-data-reports-status', container ).show();
-
-						if ( typeof reply_data.data.progress_percent !== 'undefined' ) {
-							jQuery( '.learndash-data-reports-status .progress-meter-image', container ).css( 'width', reply_data.data.progress_percent + '%' );
-						}
-
-						if ( typeof reply_data.data.progress_label !== 'undefined' ) {
-							jQuery( '.learndash-data-reports-status .progress-label', container ).html( reply_data.data.progress_label );
-						}
-					}
-
-					var total_count = 0;
-					if ( typeof reply_data.data.total_count !== 'undefined' ) {
-						total_count = parseInt( reply_data.data.total_count );
-					}
-
-					var result_count = 0;
-					if ( typeof reply_data.data.result_count !== 'undefined' ) {
-						result_count = parseInt( reply_data.data.result_count );
-					}
-
-					if ( result_count < total_count ) {
-						post_data.data = reply_data.data;
-						learndash_data_reports_do_ajax( post_data, container );
-					} else {
-						// Re-enable the buttons
-						jQuery( 'table#learndash-data-reports button.learndash-data-reports-button' ).prop( 'disabled', false );
-
-						if ( ( typeof reply_data.data.report_download_link !== 'undefined' ) && ( reply_data.data.report_download_link != '' ) ) {
-							window.location.href = reply_data.data.report_download_link;
-						}
-					}
+		data: postData,
+		complete() {
+			// Remove loading icon and restore original button text
+			jQuery( 'button.learndash-data-reports-button' ).each( function () {
+				if ( jQuery( this ).data( 'original-html' ) ) {
+					jQuery( this ).html(
+						jQuery( this ).data( 'original-html' )
+					);
 				}
+			} );
+			// Re-enable the buttons.
+			jQuery( 'button.learndash-data-reports-button' ).prop(
+				'disabled',
+				false
+			);
+
+			jQuery( '.ld-reports-notice--loading' ).remove();
+		},
+		success( replyData ) {
+			if (
+				typeof replyData === 'undefined' ||
+				typeof replyData.data === 'undefined'
+			) {
+				return;
+			}
+
+			let totalCount = 0;
+			if ( typeof replyData.data.total_count !== 'undefined' ) {
+				totalCount = parseInt( replyData.data.total_count );
+			}
+
+			let resultCount = 0;
+			if ( typeof replyData.data.result_count !== 'undefined' ) {
+				resultCount = parseInt( replyData.data.result_count );
+			}
+
+			if ( resultCount < totalCount ) {
+				postData.data = replyData.data;
+				learndash_data_reports_do_ajax( postData, container );
+			} else if (
+				typeof replyData.data.report_download_link !== 'undefined' &&
+				replyData.data.report_download_link !== ''
+			) {
+				// Remove loading icon and restore original button text
+				jQuery( 'button.learndash-data-reports-button' ).each(
+					function () {
+						if ( jQuery( this ).data( 'original-html' ) ) {
+							jQuery( this ).html(
+								jQuery( this ).data( 'original-html' )
+							);
+						}
+					}
+				);
+				// Re-enable the buttons.
+				jQuery( 'button.learndash-data-reports-button' ).prop(
+					'disabled',
+					false
+				);
+
+				const checkIcon = jQuery( '.ld-svgicon__check--reports' )
+					.clone()
+					.removeClass( 'hidden' );
+
+				jQuery( '.learndash-settings-page-wrap' ).prepend(
+					'<div class="notice notice-success is-dismissible ld-reports-notice ld-reports-notice--ready">' +
+						'<p>' +
+						checkIcon[ 0 ].outerHTML +
+						'<span class="ld-reports-notice__text">' +
+						wp.i18n.__(
+							'Your report export is now completed.',
+							'learndash'
+						) +
+						'</span>' +
+						'</p>' +
+						'<button type="button" class="notice-dismiss"><span class="screen-reader-text">' +
+						'<span class="screen-reader-text">' +
+						wp.i18n.__( 'Dismiss this notice.', 'learndash' ) +
+						'</span>' +
+						'</button>' +
+						'</div>'
+				);
+
+				window.location.href = replyData.data.report_download_link;
 			}
 		},
 	} );

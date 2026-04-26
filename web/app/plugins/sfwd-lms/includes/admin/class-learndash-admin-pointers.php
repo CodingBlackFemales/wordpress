@@ -58,6 +58,7 @@ if ( ! class_exists( 'Learndash_Admin_Pointers' ) ) {
 		public function admin_enqueue_scripts() {
 			$this->register_pointers();
 			$this->check_user_dismissed();
+			$this->check_setup_wizard_status();
 
 			if ( empty( $this->pointers ) ) {
 				return;
@@ -175,6 +176,36 @@ if ( ! class_exists( 'Learndash_Admin_Pointers' ) ) {
 			}
 		}
 
+		/**
+		 * Checks the status of the setup wizard and modifies pointers accordingly.
+		 *
+		 * This function verifies whether the setup wizard has been completed or dismissed.
+		 * If either is true, it removes the pointer associated with a new LearnDash installation.
+		 *
+		 * @since 4.21.5
+		 *
+		 * @return void
+		 */
+		protected function check_setup_wizard_status(): void {
+			if ( empty( $this->pointers ) ) {
+				return;
+			}
+
+			// Check if the setup wizard has been completed or dismissed.
+			$setup_wizard_status = LearnDash_Setup_Wizard::get_status();
+
+			// If the setup wizard is completed or dismissed, remove the new LearnDash install pointer.
+			if (
+				(
+					$setup_wizard_status === LearnDash_Setup_Wizard::STATUS_COMPLETED
+					|| $setup_wizard_status === LearnDash_Setup_Wizard::STATUS_CLOSED
+				)
+				&& isset( $this->pointers['learndash-new-install'] )
+			) {
+				unset( $this->pointers['learndash-new-install'] );
+			}
+		}
+
 		// End of functions.
 	}
 }
@@ -195,13 +226,6 @@ add_filter(
 		if ( learndash_is_admin_user() ) {
 			if ( 'new' === $ld_prior_version ) {
 				if ( ! isset( $pointers['learndash-new-install'] ) ) {
-
-					$setup_page_slug = LearnDash_Settings_Page_Setup::SETUP_SLUG;
-
-					if ( learndash_cloud_is_enabled() ) {
-						$setup_page_slug = LearnDash_Settings_Page_Setup::SETUP_SLUG_CLOUD;
-					}
-
 					$pointers['learndash-new-install'] = array(
 						'id'       => 'learndash-new-install',
 						'screen'   => '',
@@ -210,7 +234,7 @@ add_filter(
 						'content'  => '<span class="ld-pointer-content">' . sprintf(
 							// translators: placeholder: Link to Setup page.
 							esc_html_x( 'Go to the LearnDash %s', 'placeholder: Link to Setup page', 'learndash' ),
-							'<a href="' . admin_url( 'admin.php?page=' ) . $setup_page_slug . '">' . esc_html__( 'setup', 'learndash' ) . '</a>'
+							'<a href="' . esc_url( admin_url( 'admin.php?page=' . LearnDash_Setup_Wizard::HANDLE ) ) . '">' . esc_html__( 'setup', 'learndash' ) . '</a>'
 						) . '</span>',
 						'position' => array(
 							'edge'  => is_rtl() ? 'right' : 'left', // top, bottom, left, right.

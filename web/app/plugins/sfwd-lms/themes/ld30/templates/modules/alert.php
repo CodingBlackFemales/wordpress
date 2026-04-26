@@ -5,6 +5,7 @@
  * This file contains the wrapper for a custom alert message
  *
  * @since 3.0.0
+ * @version 4.21.5
  *
  * @package LearnDash\Templates\LD30
  */
@@ -58,6 +59,18 @@ $class = apply_filters(
 );
 
 /**
+ * Filters the role attribute for the alert.
+ *
+ * @since 4.21.2
+ *
+ * @param string $role The role attribute for the alert.
+ *                     Default is 'status' which means that's not urgent enough to justify interrupting the current task.
+ *
+ * @return string The role attribute for the alert.
+ */
+$role = apply_filters( 'learndash_alert_role', $role ?? 'status' );
+
+/**
  * Filters LearnDash custom alert message text.
  *
  * @since 3.0.0
@@ -87,7 +100,12 @@ if ( ( isset( $message ) ) && ( ! empty( $message ) ) ) :
 	 */
 	do_action( 'learndash-alert-before', $class, $icon, $message, $type ); ?>
 
-	<div class="<?php echo esc_attr( $class ); ?>">
+	<div
+		class="<?php echo esc_attr( $class ); ?>"
+		<?php if ( ! empty( $role ) ) : ?>
+			role="<?php echo esc_attr( $role ); ?>"
+		<?php endif; ?>
+	>
 		<div class="ld-alert-content">
 
 			<?php
@@ -105,7 +123,11 @@ if ( ( isset( $message ) ) && ( ! empty( $message ) ) ) :
 
 			if ( ! empty( $icon ) ) :
 				?>
-				<div class="<?php echo esc_attr( $icon ); ?>"></div>
+				<div aria-hidden="true" class="<?php echo esc_attr( $icon ); ?>">
+					<?php if ( isset( $icon_content ) && ! empty( $icon_content ) ) : ?>
+						<?php echo $icon_content; ?>
+					<?php endif; ?>
+				</div>
 				<?php
 			endif;
 

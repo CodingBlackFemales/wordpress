@@ -49,8 +49,6 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V1' ) ) && ( class_exists( 'LD
 		 * @see register_rest_route() in WordPress core.
 		 */
 		public function register_routes() {
-			parent::register_routes_wpv2();
-
 			$this->register_fields();
 
 			$collection_params = $this->get_collection_params();
@@ -238,12 +236,12 @@ if ( ( ! class_exists( 'LD_REST_Topics_Controller_V1' ) ) && ( class_exists( 'LD
 					}
 					$this->ld_course_steps_object = LDLMS_Factory_Post::course_steps( $this->course_post->ID );
 					$this->ld_course_steps_object->load_steps();
-					$lesson_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type );
-					if ( empty( $lesson_ids ) ) {
+					$topic_ids = $this->ld_course_steps_object->get_children_steps( $this->course_post->ID, $this->post_type, 'ids', true );
+					if ( empty( $topic_ids ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 
-					if ( ! in_array( $request['id'], $lesson_ids, true ) ) {
+					if ( ! in_array( $request['id'], $topic_ids, true ) ) {
 						return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 					}
 				}

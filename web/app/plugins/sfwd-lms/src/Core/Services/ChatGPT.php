@@ -8,6 +8,8 @@
 namespace LearnDash\Core\Services;
 
 use Exception;
+use LearnDash\Core\Modules\AI\Chat_Message;
+use LearnDash\Core\Modules\AI\ChatGPT_Summarizer;
 
 /**
  * ChatGPT client class.
@@ -15,6 +17,98 @@ use Exception;
  * @since 4.6.0
  */
 class ChatGPT {
+	/**
+	 * Role key for system.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var string
+	 */
+	public static $role_system = 'system';
+
+	/**
+	 * Role key for assistant.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var string
+	 */
+	public static $role_assistant = 'assistant';
+
+	/**
+	 * Role key for user.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var string
+	 */
+	public static $role_user = 'user';
+
+	/**
+	 * Default OpenAI model.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @see https://platform.openai.com/docs/models/gpt-3-5-turbo
+	 *
+	 * @var string
+	 */
+	private const MODEL = 'gpt-3.5-turbo';
+
+	/**
+	 * Max context window tokens. Default max context length tokens is 16,385 according to the default model
+	 * gpt-3.5-turbo. Context window tokens is the total length of input tokens and generated tokens.
+	 *
+	 * A ChatGPT max tokens is the number of tokens it can handle as part of the same prompt. Suppose you type in
+	 * a prompt that contains 50 tokens and receive a response with 150 tokens. In that case, the chat will
+	 * consume a total of 200 tokens.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @see https://platform.openai.com/docs/models/gpt-3-5-turbo
+	 *
+	 * @var int
+	 */
+	private const MODEL_MAX_CONTEXT_WINDOW_TOKENS = 16385;
+
+	/**
+	 * Default max tokens.
+	 *
+	 * The maximum number of tokens that can be generated in the chat completion.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @see https://platform.openai.com/docs/models/gpt-3-5-turbo
+	 *
+	 * @var int
+	 */
+	private const MAX_TOKENS = 4096;
+
+	/**
+	 * Default temperature. The default temperature is 0.9 so that the model will be less repetitive, but not too random which results in response that does not make sense.
+	 *
+	 * Temperature is a number between 0 and 2 that controls randomness in boltzmann distribution. Lower temperature
+	 * results in less random completions. As the temperature approaches zero, the model will become deterministic
+	 * and repetitive. Higher temperature results in more random completions.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var float
+	 */
+	private const TEMPERATURE = 0.9;
+
+	/**
+	 * Default top p. The default top p is 0.7 so that the model will be less repetitive.
+	 *
+	 * Top p is a number between 0 and 1 that controls diversity via nucleus sampling: 0.5 means half of all
+	 * likelihood-weighted options are considered.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var float
+	 */
+	private const TOP_P = 0.7;
+
 	/**
 	 * OpenAI API key.
 	 *
@@ -34,11 +128,36 @@ class ChatGPT {
 	private $api_url = 'https://api.openai.com/v1/chat/completions';
 
 	/**
+	 * A collection of system, user and ChatGPT response messages.
+	 *
+	 * A collection of chat message objects. ChatGPT needs the history of the
+	 * conversation to generate a response that understands the context of a conversation.
+	 * This property only accept objects which have roles supported by ChatGPT.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var Chat_Message[]
+	 */
+	private array $messages = [];
+
+	/**
+	 * Instruction for the ChatGPT.
+	 *
+	 * System message used to set the initial instruction for the ChatGPT. ChatGPT accepts custom system message
+	 * or instruction that can direct the way ChatGPT generates response.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @var string
+	 */
+	private string $instruction = '';
+
+	/**
 	 * Constructor.
 	 *
-	 * @param string $api_key    OpenAI API key.
-	 *
 	 * @since 4.6.0
+	 *
+	 * @param string $api_key OpenAI API key.
 	 *
 	 * @return void
 	 */
@@ -47,7 +166,7 @@ class ChatGPT {
 	}
 
 	/**
-	 * Get API key.
+	 * Returns API key.
 	 *
 	 * @since 4.6.0
 	 *
@@ -89,7 +208,7 @@ class ChatGPT {
 				'method'  => $method,
 				'body'    => wp_json_encode( $body ),
 				'headers' => $headers,
-				'timeout' => 30,
+				'timeout' => 2 * MINUTE_IN_SECONDS,
 			]
 		);
 
@@ -107,7 +226,7 @@ class ChatGPT {
 				$error_message = $response->get_error_message();
 
 				if ( mb_stristr( $error_message, 'curl error 28' ) ) {
-					$error_message .= '. ' . esc_html__( 'You might have entered too many lessons. Please try it again with maximum 20-30 lessons. If the issue persists, please check your server or Open AI service status.', 'learndash' );
+					$error_message .= '. ' . esc_html__( 'The request has timed out. Please try it again with lower number of items. If the issue persists, please check your website server or Open AI service status.', 'learndash' );
 				}
 			} else {
 				$body          = json_decode( $body, true );
@@ -154,29 +273,20 @@ class ChatGPT {
 	 *
 	 * @throws Exception Throw exception with error message and response code if request failed for any reason.
 	 *
-	 * @param string $command Command for the request.
+	 * @param string               $command Command for the request.
+	 * @param array<string, mixed> $args    Additional arguments if any.
 	 *
 	 * @return string
 	 */
-	public function send_command( $command ): string {
-		// Extract values from the command.
-		preg_match( "/Outline (\d+) lessons for a '(.+)' course on the topic of '(.+)'./", $command, $matches );
-		$lesson_count = $matches[1];
-		$course_name  = $matches[2];
-		$course_idea  = $matches[3];
+	public function send_command( $command, array $args = [] ): string {
+		$this->construct_messages_from_command( $command );
 
-		$prompt = "Create a numbered bullet list with {$lesson_count} lesson titles for a '{$course_name}' course on the topic of '{$course_idea}'.";
-
-		$messages = [
+		$args = wp_parse_args(
+			$args,
 			[
-				'role'    => 'system',
-				'content' => 'You are a helpful assistant.',
-			],
-			[
-				'role'    => 'user',
-				'content' => $prompt,
-			],
-		];
+				'role' => self::$role_user,
+			]
+		);
 
 		/**
 		 * Filters the data to send to ChatGPT API.
@@ -185,19 +295,21 @@ class ChatGPT {
 		 *
 		 * @param array<string, mixed> $data    Data to send to ChatGPT API.
 		 * @param string               $command Command for the request.
+		 * @param array<string, mixed> $args    Additional arguments if any.
 		 *
 		 * @return array<string, mixed>
 		 */
 		$data = apply_filters(
 			'learndash_service_chatgpt_send_command_data',
 			[
-				'model'       => 'gpt-3.5-turbo',
-				'messages'    => $messages,
-				'max_tokens'  => 3000,
-				'temperature' => 0.9,
-				'top_p'       => 0.7,
+				'model'       => self::MODEL,
+				'messages'    => $this->map_messages_to_request_format(),
+				'max_tokens'  => self::MAX_TOKENS,
+				'temperature' => self::TEMPERATURE,
+				'top_p'       => self::TOP_P,
 			],
-			$command
+			$command,
+			$args
 		);
 
 		$response = $this->request(
@@ -206,8 +318,167 @@ class ChatGPT {
 		);
 
 		$response_data = json_decode( $response, true );
-		$response_text = is_array( $response_data ) && isset( $response_data['choices'][0]['message']['content'] ) ? $response_data['choices'][0]['message']['content'] : '';
 
-		return $response_text;
+		return is_array( $response_data )
+			   && isset( $response_data['choices'][0]['message']['content'] )
+			? $response_data['choices'][0]['message']['content']
+			: '';
+	}
+
+	/**
+	 * Adds a new chat message object into messages property.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param Chat_Message $message Chat message object.
+	 *
+	 * @return void
+	 */
+	public function add_message( Chat_Message $message ): void {
+		if ( empty( $this->messages ) ) {
+			$this->messages = [
+				new Chat_Message(
+					$this->get_instruction(),
+					self::$role_system
+				),
+			];
+		}
+
+		$this->messages = array_merge( $this->get_messages(), [ $message ] );
+	}
+
+	/**
+	 * Sets messages property.
+	 *
+	 * It can be used to restore contextual messages from a saved state or a session.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param Chat_Message[] $messages Messages to set.
+	 *
+	 * @return void
+	 */
+	public function set_messages( array $messages ): void {
+		$system_message = [
+			new Chat_Message(
+				$this->get_instruction(),
+				self::$role_system
+			),
+		];
+
+		$this->messages = array_merge( $system_message, $messages );
+	}
+
+	/**
+	 * Returns messages property.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return Chat_Message[]
+	 */
+	public function get_messages(): array {
+		return $this->messages;
+	}
+
+	/**
+	 * Sets instruction.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param string $instruction Instruction for the ChatGPT.
+	 *
+	 * @return void
+	 */
+	public function set_instruction( string $instruction ): void {
+		$this->instruction = $instruction;
+	}
+
+	/**
+	 * Returns ChatGPT instruction.
+	 *
+	 * It returns default generic instruction if the instruction is not set.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return string
+	 */
+	public function get_instruction(): string {
+		return ! empty( $this->instruction )
+			? $this->instruction
+			: __( 'You are a helpful assistant.', 'learndash' );
+	}
+
+	/**
+	 * Returns model max context window tokens.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return int
+	 */
+	public static function get_model_max_context_window_tokens(): int {
+		/**
+		 * Filters the maximum context window tokens for ChatGPT model.
+		 *
+		 * @since 4.13.0
+		 *
+		 * @param int $max_context_window_tokens Maximum context window tokens for a ChatGPT model.
+		 *
+		 * @return int Maximum context window tokens for a ChatGPT model.
+		 */
+		return apply_filters(
+			'learndash_service_chatgpt_model_max_context_window_tokens',
+			self::MODEL_MAX_CONTEXT_WINDOW_TOKENS
+		);
+	}
+
+	/**
+	 * Maps chat message objects into chatgpt messages array.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @return array<array{
+	 *     content: string,
+	 *     role: string
+	 * }> ChatGPT messages array.
+	 */
+	private function map_messages_to_request_format(): array {
+		$chatgpt_messages = [];
+
+		foreach ( $this->messages as $message ) {
+			$chatgpt_messages[] = [
+				'content' => $message->content,
+				'role'    => $message->role,
+			];
+		}
+
+		return $chatgpt_messages;
+	}
+
+	/**
+	 * Constructs messages for the request from user command.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param string $command User command.
+	 *
+	 * @return void
+	 */
+	private function construct_messages_from_command( string $command ): void {
+		$chatgpt_summarizer = new ChatGPT_Summarizer( $this->get_messages() );
+
+		if ( $chatgpt_summarizer->messages_need_summarization() ) {
+			$summary = $chatgpt_summarizer->summarize_messages();
+
+			if ( ! empty( $summary ) ) {
+				// Re-construct the messages to include the summary.
+				$messages = array_merge(
+					[ new Chat_Message( $summary, self::$role_user ) ],
+					$chatgpt_summarizer->get_preserved_messages(),
+				);
+				$this->set_messages( $messages );
+			}
+		}
+
+		$this->add_message( new Chat_Message( $command, self::$role_user ) );
 	}
 }

@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -57,6 +59,15 @@ function learndash_materials_shortcode_function( $atts = array(), $content = '',
 		$atts['post_id'] = absint( $atts['post_id'] );
 	} else {
 		$atts['post_id'] = absint( get_the_ID() );
+	}
+
+	// Check post access.
+	if (
+		! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['post_id'] )
+		)
+	) {
+		return '';
 	}
 
 	$post = get_post( $atts['post_id'] );

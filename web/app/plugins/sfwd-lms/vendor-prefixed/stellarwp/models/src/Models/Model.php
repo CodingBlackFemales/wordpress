@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-3.0-or-later
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\Models;
 
@@ -131,6 +125,31 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 	}
 
 	/**
+	 * Whether the property is set or not. This is different from isset() because this considers a `null` value as
+	 * being set. Defaults are considered set as well.
+	 *
+	 * @since 1.2.2
+	 *
+	 * @return boolean
+	 */
+	public function isSet( string $key ): bool {
+		return array_key_exists( $key, $this->attributes ) || $this->hasDefault( $key );
+	}
+
+	/**
+	 * Check if there is a default value for a property.
+	 *
+	 * @since 1.2.2
+	 *
+	 * @param string $key Property name.
+	 *
+	 * @return bool
+	 */
+	protected function hasDefault( string $key ): bool {
+		return is_array( $this->properties[ $key ] ) && array_key_exists( 1, $this->properties[ $key ] );
+	}
+
+	/**
 	 * Returns the default value for a property if one is provided, otherwise null.
 	 *
 	 * @since 1.0.0
@@ -140,9 +159,11 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 	 * @return mixed|null
 	 */
 	protected function getPropertyDefault( string $key ) {
-		return is_array( $this->properties[ $key ] ) && isset( $this->properties[ $key ][1] )
-			? $this->properties[ $key ][1]
-			: null;
+		if ( $this->hasDefault( $key ) ) {
+			return $this->properties[ $key ][1];
+		}
+
+		return null;
 	}
 
 	/**
@@ -155,7 +176,9 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 	protected function getPropertyDefaults() : array {
 		$defaults = [];
 		foreach ( array_keys( $this->properties ) as $property ) {
-			$defaults[ $property ] = $this->getPropertyDefault( $property );
+			if ( $this->hasDefault( $property ) ) {
+				$defaults[ $property ] = $this->getPropertyDefault( $property );
+			}
 		}
 
 		return $defaults;
@@ -208,6 +231,19 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns true if an attribute exists. Otherwise, false.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $key Attribute name.
+	 *
+	 * @return bool
+	 */
+	protected function hasAttribute( string $key ) : bool {
+		return array_key_exists( $key, $this->attributes );
 	}
 
 	/**
@@ -292,6 +328,10 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 				return is_bool( $value );
 			case 'array':
 				return is_array( $value );
+			case 'float':
+				return is_float( $value );
+			case 'number':
+				return is_int( $value ) || is_float( $value );
 			default:
 				return $value instanceof $type;
 		}
@@ -304,6 +344,7 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 	 *
 	 * @return array<string,mixed>
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return get_object_vars( $this );
 	}
@@ -333,7 +374,29 @@ abstract class Model implements ModelInterface, Arrayable, JsonSerializable {
 		$this->validatePropertyExists( $key );
 		$this->validatePropertyType( $key, $value );
 
+		$validation_method = 'validate_' . $key;
+		if ( method_exists( $this, $validation_method ) ) {
+			$this->$validation_method( $value );
+		}
+
 		$this->attributes[ $key ] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Sets multiple attributes on the model.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array<string,mixed> $attributes Attributes to set.
+	 *
+	 * @return ModelInterface
+	 */
+	public function setAttributes( array $attributes ) : ModelInterface {
+		foreach ( $attributes as $key => $value ) {
+			$this->setAttribute( $key, $value );
+		}
 
 		return $this;
 	}

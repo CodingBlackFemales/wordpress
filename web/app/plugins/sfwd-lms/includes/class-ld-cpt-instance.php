@@ -11,7 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Models\Product;
+use LearnDash\Core\Models;
 use LearnDash\Core\Template\Views;
+use LearnDash\Core\Themes\Modern\Theme as Modern_Theme;
+use LearnDash\Core\Utilities\Cast;
 
 if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 
@@ -228,8 +232,6 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 			}
 		} // end get_archive_content()
 
-
-
 		/**
 		 * Generate output for courses, lessons, topics, quizzes
 		 * Filter callback for 'the_content' (wp core filter)
@@ -259,11 +261,43 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 				return $content;
 			}
 
+			$is_rest_request = defined( 'REST_REQUEST' )
+				&& Cast::to_bool( constant( 'REST_REQUEST' ) );
+
+			if (
+				! $is_rest_request
+				&& ! is_singular()
+				&& in_array(
+					get_post_type( $post ),
+					LDLMS_Post_Types::get_post_types(),
+					true
+				)
+				&&
+				/**
+				 * Filters the content on the listing pages to be hidden or shown.
+				 *
+				 * @since 4.20.0.2
+				 *
+				 * @param bool $is_hidden True to hide content. Default true.
+				 * @param int  $post_id   Current Post ID.
+				 *
+				 * @return bool True to hide content. False to show content.
+				 */
+				apply_filters( 'learndash_template_content_on_listing_is_hidden', true, $post->ID )
+			) {
+				return wpautop(
+					esc_html__( 'Open to access this content', 'learndash' )
+				);
+			}
+
 			if ( get_query_var( 'post_type' ) ) {
 				$post_type = get_query_var( 'post_type' );
 			}
 
-			if ( ( ! is_singular() ) || ( $post_type !== $this->post_type ) || ( $post_type !== $post->post_type ) ) {
+			if (
+				$post_type !== $this->post_type
+				|| $post_type !== $post->post_type
+			) {
 				return $content;
 			}
 
@@ -424,7 +458,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 					if ( 'sfwd-courses' === $this->post_type ) {
 						require_once LEARNDASH_LMS_LIBRARY_DIR . '/paypal/enhanced-paypal-shortcodes.php';
 
-						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( $this->post_type ) ) ) {
 							if ( empty( $course ) ) {
 								return $content;
 							}
@@ -514,20 +548,19 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 						$user_wrapper = false;
 
 					} elseif ( 'sfwd-lessons' === $this->post_type ) {
-						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( $this->post_type ) ) ) {
 							$view = new Views\Lesson( $post );
 
 							$content = $view->get_html();
 						} else {
-							$show_content = false;
+							$model        = Models\Lesson::create_from_post( $post );
+							$show_content = $model->is_content_visible( $user_id );
 
 							if ( ! empty( $user_id ) ) {
 								if ( learndash_user_progress_is_step_complete( $user_id, $course_id, $post->ID ) ) {
-									$show_content              = true;
 									$previous_lesson_completed = true;
 								} elseif ( $lesson_progression_enabled ) {
 									if ( learndash_is_sample( $post ) ) {
-										$show_content              = true;
 										$previous_lesson_completed = false;
 
 										if ( $has_access ) {
@@ -559,18 +592,14 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 											 */
 											$previous_lesson_completed = apply_filters( 'learndash_previous_step_completed', $previous_lesson_completed, $post->ID, $user_id );
 										}
-										$show_content = $previous_lesson_completed;
 									}
 								} else {
-									$show_content              = true;
 									$previous_lesson_completed = true;
 								}
 							} else {
 								if ( ( ! learndash_is_sample( $post ) ) && ( ( learndash_get_setting( $post->ID, 'visible_after' ) ) || ( learndash_get_setting( $post->ID, 'visible_after_specific_date' ) ) ) ) {
-									$show_content              = false;
 									$previous_lesson_completed = false;
 								} else {
-									$show_content              = true;
 									$previous_lesson_completed = true;
 								}
 							}
@@ -642,7 +671,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 							if ( ( defined( 'LEARNDASH_LESSON_VIDEO' ) ) && ( true === LEARNDASH_LESSON_VIDEO ) ) {
 								if ( $show_content ) {
 									$ld_course_videos = Learndash_Course_Video::get_instance();
-									$content          = $ld_course_videos->add_video_to_content( $content, $post, $lesson_settings );
+									$content          = $ld_course_videos->add_video_to_content( $content, $post, (array) $lesson_settings );
 								}
 							}
 
@@ -655,7 +684,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 							$content = learndash_ob_get_clean( $level );
 						}
 					} elseif ( 'sfwd-topic' === $this->post_type ) {
-						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+						if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( $this->post_type ) ) ) {
 							$view = new Views\Topic( $post );
 
 							$content = $view->get_html();
@@ -668,51 +697,44 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 								$lesson_post = null;
 							}
 
+							$model        = Models\Topic::create_from_post( $post );
+							$show_content = $model->is_content_visible( $user_id );
+
 							$previous_lesson_completed = false;
 							$previous_topic_completed  = false;
 
 							if ( ! empty( $user_id ) ) {
 								if ( learndash_user_progress_is_step_complete( $user_id, $course_id, $post->ID ) ) {
-									$show_content              = true;
 									$previous_lesson_completed = true;
 									$previous_topic_completed  = true;
 								} elseif ( $lesson_progression_enabled ) {
-									if ( learndash_is_sample( $post ) ) {
-										$show_content             = true;
-										$previous_topic_completed = false;
+									if ( $bypass_course_limits_admin_users ) {
+										$previous_lesson_completed = true;
+										remove_filter( 'learndash_content', 'lesson_visible_after', 1, 2 );
 									} else {
-										if ( $bypass_course_limits_admin_users ) {
+										$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
+										if ( ( $previous_step_post_id ) && ( $previous_step_post_id === $post->ID ) ) {
 											$previous_lesson_completed = true;
-											remove_filter( 'learndash_content', 'lesson_visible_after', 1, 2 );
 										} else {
-											$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-											if ( ( $previous_step_post_id ) && ( $previous_step_post_id === $post->ID ) ) {
-												$previous_lesson_completed = true;
-											} else {
-												$previous_lesson_completed = false;
-											}
-
-											/** This filter is documented in includes/class-ld-cpt-instance.php */
-											$previous_lesson_completed = apply_filters( 'learndash_previous_step_completed', $previous_lesson_completed, $post->ID, $user_id );
-
+											$previous_lesson_completed = false;
 										}
-										$previous_topic_completed = $previous_lesson_completed;
-										$show_content             = $previous_lesson_completed;
+
+										/** This filter is documented in includes/class-ld-cpt-instance.php */
+										$previous_lesson_completed = apply_filters( 'learndash_previous_step_completed', $previous_lesson_completed, $post->ID, $user_id );
 									}
+
+									$previous_topic_completed = $previous_lesson_completed;
 								} else {
 									$previous_topic_completed  = true;
 									$previous_lesson_completed = true;
-									$show_content              = true;
 								}
 							} else {
 								if ( ( ! learndash_is_sample( $post ) ) && ( ( learndash_get_setting( $lesson_id, 'visible_after' ) ) || ( learndash_get_setting( $lesson_id, 'visible_after_specific_date' ) ) ) ) {
 									$previous_topic_completed  = false;
 									$previous_lesson_completed = false;
-									$show_content              = false;
 								} else {
 									$previous_topic_completed  = true;
 									$previous_lesson_completed = true;
-									$show_content              = true;
 								}
 							}
 
@@ -776,7 +798,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 							if ( ( defined( 'LEARNDASH_LESSON_VIDEO' ) ) && ( true === LEARNDASH_LESSON_VIDEO ) ) {
 								if ( $show_content ) {
 									$ld_course_videos = Learndash_Course_Video::get_instance();
-									$content          = $ld_course_videos->add_video_to_content( $content, $post, $topic_settings );
+									$content          = $ld_course_videos->add_video_to_content( $content, $post, (array) $topic_settings );
 								}
 							}
 
@@ -794,7 +816,11 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 					}
 				}
 			} elseif ( learndash_get_post_type_slug( 'group' ) === $post->post_type ) {
-				if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+				if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( $this->post_type ) ) ) {
+					if ( ! $post instanceof WP_Post ) {
+						return $content;
+					}
+
 					$view = new Views\Group( $post );
 
 					$content = $view->get_html();
@@ -802,11 +828,16 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 					$group_id = $post->ID;
 					$group    = $post;
 
-					if ( learndash_is_user_in_group( $user_id, $group_id ) ) {
-						$has_access   = true;
+					try {
+						$product    = Product::create_from_post( $group );
+						$has_access = $product->user_has_access();
+					} catch ( InvalidArgumentException $e ) {
+						$has_access = false;
+					}
+
+					if ( $has_access ) {
 						$group_status = learndash_get_user_group_status( $group_id, $user_id );
 					} else {
-						$has_access   = false;
 						$group_status = '';
 					}
 
@@ -849,7 +880,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 					$content = learndash_ob_get_clean( $level );
 				}
 			} elseif ( learndash_get_post_type_slug( 'exam' ) === $post->post_type ) {
-				if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views() ) {
+				if ( LearnDash_Theme_Register::get_active_theme_instance()->supports_views( LDLMS_Post_Types::get_post_type_key( $this->post_type ) ) ) {
 					$view = new Views\Exam( $post );
 
 					$content = $view->get_html();

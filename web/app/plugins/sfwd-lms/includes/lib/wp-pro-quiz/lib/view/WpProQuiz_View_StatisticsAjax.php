@@ -1,8 +1,19 @@
 <?php
+/**
+ * WP Pro Quiz View Statistics Ajax
+ *
+ * @package LearnDash\Core
+ */
+
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Class WpProQuiz_View_StatisticsAjax
+ */
 class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 
 	public function getHistoryTable() {
@@ -84,6 +95,11 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 		return $content;
 	}
 
+	/**
+	 * Outputs the user statistics table.
+	 *
+	 * @return void
+	 */
 	public function showUserTable() {
 		$filepath = SFWD_LMS::get_template( 'learndash_quiz_statistics.css', null, null, true );
 		if ( file_exists( $filepath ) ) {
@@ -108,16 +124,20 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 		<?php if ( $this->avg ) { ?>
 		<h2>
 			<?php
-			echo date_i18n( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'statistics_time_format' ),
-				$this->statisticModel->getMinCreateTime()
+			echo esc_html(
+				learndash_adjust_date_time_display(
+					$this->statisticModel->getMinCreateTime(), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property.
+					LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'statistics_time_format' )
+				)
 			);
 			?>
 			-
 			<?php
-			echo date_i18n( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'statistics_time_format' ),
-				$this->statisticModel->getMaxCreateTime()
+			echo esc_html(
+				learndash_adjust_date_time_display(
+					$this->statisticModel->getMaxCreateTime(), // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property.
+					LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Management_Display', 'statistics_time_format' )
+				)
 			);
 			?>
 		</h2>
@@ -138,7 +158,7 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 			<thead>
 				<tr>
 					<th scope="col" style="width: 50px;"></th>
-					<th scope="col"><?php esc_html_e( 'Question', 'learndash' ); ?></th>
+					<th scope="col" style="min-width: 250px;"><?php esc_html_e( 'Question', 'learndash' ); ?></th>
 					<th scope="col" style="width: 100px;"><?php esc_html_e( 'Points', 'learndash' ); ?></th>
 					<th scope="col" style="width: 100px;"><?php esc_html_e( 'Correct', 'learndash' ); ?></th>
 					<th scope="col" style="width: 100px;"><?php esc_html_e( 'Incorrect', 'learndash' ); ?></th>
@@ -205,6 +225,7 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 						if ( ! $this->avg && null !== $q['statistcAnswerData'] ) {
 							/**
 							 * Changed above logic which removes all shortcodes and HTML tags. This is better served as a filter.
+							 *
 							 * @since 2.4.0
 							*/
 
@@ -341,14 +362,22 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 						}
 					}
 
-					$sum    = $cCorrect + $cIncorrect;
-					$result = round( ( 100 * $cPoints / $cGPoints ), 2 ) . '%';
+					$sum = $cCorrect + $cIncorrect; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+
+					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+					if ( $cGPoints > 0 ) {
+						$result = round( ( 100 * $cPoints / $cGPoints ), 2 ) . '%'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+					} else {
+						$result = '---';
+					}
 					?>
 				<tr class="categoryTr" id="wpProQuiz_ctr_222">
 					<th colspan="2">
 						<span><?php esc_html_e( 'Sub-Total: ', 'learndash' ); ?></span>
 					</th>
-					<th><?php echo esc_html( $cGPoints ); ?></th>
+					<th>
+						<?php echo esc_html( Cast::to_string( $cGPoints ) ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase ?>
+					</th>
 					<th style="color: green;"><?php echo $cCorrect . ' (' . round( 100 * $cCorrect / $sum, 2 ) . '%)'; ?></th> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					<th style="color: red;"><?php echo $cIncorrect . ' (' . round( 100 * $cIncorrect / $sum, 2 ) . '%)'; ?></th> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					<th><?php echo $cHintCount; ?></th> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -371,10 +400,16 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 				}
 				?>
 			</tbody>
-				<?php
-					$sum    = $gCorrect + $gIncorrect;
-					$result = round( ( 100 * $gPoints / $gGPoints ), 2 ) . '%';
-				?>
+			<?php
+			$sum = $gCorrect + $gIncorrect; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+			if ( $gGPoints > 0 ) {
+				$result = round( ( 100 * $gPoints / $gGPoints ), 2 ) . '%'; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+			} else {
+				$result = '---';
+			}
+			?>
 			<tfoot>
 				<tr id="wpProQuiz_tr_0">
 					<th></th>
@@ -713,12 +748,22 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 
 	private $_clozeTemp = array();
 
+	/**
+	 * Fetches the cloze question data (fill in the blank).
+	 *
+	 * @param string       $answer_text     The answer text.
+	 * @param array<mixed> $answerData      The answer data.
+	 * @param int          $question_pro_id The pro question ID.
+	 *
+	 * @return array<mixed>
+	 */
 	private function fetchCloze( $answer_text, $answerData, $question_pro_id = 0 ) {
 		$data = array();
 
 		$question_cloze_data = learndash_question_cloze_fetch_data( $answer_text );
 		$question_model      = fetchQuestionModel( $question_pro_id );
 
+		// @phpstan-ignore-next-line -- trim is a valid function.
 		$answerData_check = array_map( 'trim', $answerData );
 
 		/** This filter is documented in includes/lib/wp-pro-quiz/wp-pro-quiz.php */
@@ -759,8 +804,8 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 
 							$correct_set_text .= ' <span class="wpProQuiz_cloze_answerPoints">' . sprintf(
 								// translators: placeholder points.
-								_n( '- %dpt', '- %dpts', absint( $points ), 'learndash' ),
-								number_format_i18n( $points )
+								_n( '- %.2fpt', '- %.2fpts', absint( $points ), 'learndash' ),
+								number_format_i18n( $points, 2 )
 							) . '</span>';
 						}
 					}
@@ -871,6 +916,11 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 		return $content;
 	}
 
+	/**
+	 * Outputs the overview table.
+	 *
+	 * @return void
+	 */
 	public function showOverviewTable() {
 		?>
 		<table class="wp-list-table widefat">
@@ -894,7 +944,11 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 
 					<?php
 					foreach ( $this->statisticModel as $model ) {
-						/** @var WpProQuiz_Model_StatisticOverview  $model **/
+						/**
+						 * The statistic overview model.
+						 *
+						 * @var WpProQuiz_Model_StatisticOverview  $model
+						*/
 						$sum = $model->getCorrectCount() + $model->getIncorrectCount();
 
 						if ( ! $model->getUserId() ) {
@@ -907,7 +961,12 @@ class WpProQuiz_View_StatisticsAjax extends WpProQuiz_View_View {
 							$incorrect = $model->getIncorrectCount() . ' (' . round( 100 * $model->getIncorrectCount() / $sum, 2 ) . '%)';
 							$hintCount = $model->getHintCount();
 							$time      = WpProQuiz_Helper_Until::convertToTimeString( $model->getQuestionTime() );
-							$result    = round( ( 100 * $points / $model->getGPoints() ), 2 ) . '%';
+
+							if ( $model->getGPoints() > 0 ) {
+								$result = round( ( 100 * $points / $model->getGPoints() ), 2 ) . '%';
+							} else {
+								$result = '---';
+							}
 						} else {
 							$result    = '---';
 							$time      = '---';

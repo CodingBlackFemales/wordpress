@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[ld_user_course_points]` shortcode output.
  *
@@ -39,7 +41,10 @@ function learndash_user_course_points_shortcode( $atts = array(), $content = '',
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$atts = apply_filters( 'learndash_shortcode_atts', $atts, $shortcode_slug );
 
-	if ( empty( $atts['user_id'] ) ) {
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$atts['user_id'] = learndash_shortcode_protect_user( Cast::to_int( $atts['user_id'] ) );
+
+	if ( $atts['user_id'] <= 0 ) {
 		return;
 	}
 

@@ -68,16 +68,11 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			// If the settings set as a whole is empty then we set a default.
-			if ( ( false === $this->setting_option_values ) || ( '' === $this->setting_option_values ) ) {
-				if ( '' === $this->setting_option_values ) {
-					$this->setting_option_values = array();
-				}
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
 				$this->transition_deprecated_settings();
-			}
-
-			if ( '' === $this->setting_option_values ) {
-				$this->setting_option_values = array();
 			}
 
 			if ( ! isset( $this->setting_option_values['group_hierarchical_enabled'] ) ) {

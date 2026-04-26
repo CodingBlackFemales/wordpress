@@ -77,6 +77,7 @@ if ( ( ! class_exists( 'LD_REST_Price_Types_Controller_V2' ) ) && ( class_exists
 						'slug' => array(
 							'description' => __( 'An alphanumeric identifier for the price type.', 'learndash' ),
 							'type'        => 'string',
+							'required'    => true,
 						),
 					),
 					array(

@@ -2,7 +2,7 @@
 /**
  * LearnDash Admin Import Handler.
  *
- * @since   4.3.0
+ * @since 4.3.0
  *
  * @package LearnDash
  */
@@ -35,8 +35,12 @@ if (
 			$this->validate();
 
 			$file_path = sanitize_text_field(
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing
-				wp_unslash( $_FILES['file']['tmp_name'] )
+				wp_unslash(
+					wp_normalize_path(
+						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+						$_FILES['file']['tmp_name']
+					)
+				)
 			);
 
 			$task_enqueued = $this->enqueue_import_task( $file_path );
@@ -297,7 +301,7 @@ if (
 		 *
 		 * @param string $file_path Import file path.
 		 *
-		 * @return bool|WP_Error True on success. WP_Error if an error occurred.
+		 * @return true|WP_Error True on success. WP_Error if an error occurred.
 		 */
 		public function enqueue_import_task( string $file_path ) {
 			$zip_archive = new ZipArchive();

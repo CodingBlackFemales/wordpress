@@ -389,7 +389,7 @@ if ( ! class_exists( 'Learndash_Admin_Cloning' ) ) {
 					if ( in_array( $meta_key, $excluded_keys, true ) ) {
 						continue;
 					}
-					update_post_meta( $new_post_id, $meta_key, maybe_unserialize( $meta_value[0] ) );
+					update_post_meta( $new_post_id, $meta_key, wp_slash( maybe_unserialize( $meta_value[0] ) ) );
 				}
 			}
 		}
@@ -404,12 +404,14 @@ if ( ! class_exists( 'Learndash_Admin_Cloning' ) ) {
 		 * @return array The list of meta keys that should be excluded from cloning.
 		 */
 		protected function get_cloning_excluded_meta_keys( WP_Post $post ): array {
-			$excluded_keys = array(
+			$excluded_keys = [
 				'_wp_old_slug',
 				'_wp_old_date',
 				'_edit_lock',
 				'_edit_last',
-			);
+				'learndash_stripe_product_ids',
+				'_elementor_css',
+			];
 
 			/**
 			 * Filters the list of meta keys that should be excluded from cloning.

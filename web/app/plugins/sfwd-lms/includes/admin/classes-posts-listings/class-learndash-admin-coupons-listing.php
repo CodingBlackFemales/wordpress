@@ -481,16 +481,7 @@ if ( class_exists( 'Learndash_Admin_Posts_Listing' ) && ! class_exists( 'Learnda
 				$aria_label = esc_html__( 'Filter listing by future state', 'learndash' );
 
 				$label  = esc_html__( 'Active from ', 'learndash' );
-				$label .= esc_html(
-					date_i18n(
-						/** This filter is documented in includes/ld-misc-functions.php */
-						apply_filters(
-							'learndash_date_time_formats',
-							get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
-						),
-						strtotime( get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $start_date ) ) )
-					)
-				);
+				$label .= esc_html( learndash_adjust_date_time_display( $start_date ) );
 			} elseif ( $end_date > 0 && $current_time >= $end_date ) {
 				$filter_url = add_query_arg( $column_name, self::COUPON_EXPIRED, $this->get_clean_filter_url() );
 				$aria_label = esc_html__( 'Filter listing by expired state', 'learndash' );

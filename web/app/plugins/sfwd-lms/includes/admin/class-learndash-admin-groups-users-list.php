@@ -82,23 +82,17 @@ if ( ! class_exists( 'Learndash_Admin_Groups_Users_List' ) ) {
 			$position      = 0;
 
 			if ( current_user_can( 'edit_groups' ) ) {
-				$user_group_ids = learndash_get_administrators_group_ids( get_current_user_id(), true );
-				if ( ! empty( $user_group_ids ) ) {
-					$menu_user_cap = 'edit_groups';
-					$menu_parent   = 'edit.php?post_type=groups';
-					$position      = null; // Let the position be natural.
-				}
+				$menu_user_cap = 'edit_groups';
+				$menu_parent   = 'edit.php?post_type=groups';
+				$position      = null; // Let the position be natural.
 			} elseif ( learndash_is_group_leader_user() ) {
-				$user_group_ids = learndash_get_administrators_group_ids( get_current_user_id(), true );
-				if ( ! empty( $user_group_ids ) ) {
-					$menu_user_cap = LEARNDASH_GROUP_LEADER_CAPABILITY_CHECK;
-					$menu_parent   = 'learndash-lms';
+				$menu_user_cap = LEARNDASH_GROUP_LEADER_CAPABILITY_CHECK;
+				$menu_parent   = 'learndash-lms';
 
-					if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Groups_Group_Leader_User', 'manage_courses_enabled' ) === 'yes' ) {
-						$position = 6; // Position to the top for Group Leader.
-					} else {
-						$position = 0; // Position to the top for Group Leader.
-					}
+				if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Groups_Group_Leader_User', 'manage_courses_enabled' ) === 'yes' ) {
+					$position = 6; // Position to the top for Group Leader.
+				} else {
+					$position = 0; // Position to the top for Group Leader.
 				}
 			}
 

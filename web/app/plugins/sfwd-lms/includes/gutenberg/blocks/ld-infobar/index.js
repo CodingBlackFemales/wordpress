@@ -17,15 +17,16 @@ import {
 /**
  * Internal block libraries
  */
-import { __, _x } from '@wordpress/i18n';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
 	TextControl,
 	ToggleControl,
 	PanelRow,
+	Disabled,
 } from "@wordpress/components";
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from "@wordpress/element";
@@ -44,6 +45,7 @@ registerBlockType(block_key, {
 	supports: {
 		customClassName: false,
 	},
+	apiVersion: 3,
 	attributes: {
 		display_type: {
 			type: "string",
@@ -90,6 +92,8 @@ registerBlockType(block_key, {
 			},
 			setAttributes,
 		} = props;
+
+		const blockProps = useBlockProps();
 
 		var display_type_control;
 		var post_id_controls;
@@ -293,10 +297,14 @@ registerBlockType(block_key, {
 			}
 		}
 
-		return [
-			inspectorControls,
-			useMemo(() => do_serverside_render(props.attributes), [props.attributes]),
-		];
+		return (
+			<div { ...blockProps }>
+				{ inspectorControls }
+				<Disabled>
+					{ useMemo(() => do_serverside_render(props.attributes), [props.attributes]) }
+				</Disabled>
+			</div>
+		);
 	},
 	save: function (props) {
 		delete props.attributes.example_show;

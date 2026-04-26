@@ -7,6 +7,8 @@
  * @package LearnDash\Course_Steps
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -17,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * For now excludes quizzes at lesson and topic level.
  *
  * @since 2.3.0
+ * @since 5.0.0 Removed the option to use `learndash_get_course_steps_legacy`.
  *
  * @param int   $course_id          Optional. The ID of the course. Default 0.
  * @param array $include_post_types Optional. An array of post types to include in course steps. Default array contains 'sfwd-lessons' and 'sfwd-topic'.
@@ -24,11 +27,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array An array of all course steps.
  */
 function learndash_get_course_steps( $course_id = 0, $include_post_types = array( 'sfwd-lessons', 'sfwd-topic' ) ) {
-
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_course_steps_legacy( $course_id, $include_post_types );
-	}
-
 	// The steps array will hold all the individual step counts for each post_type.
 	$steps = array();
 
@@ -49,16 +47,13 @@ function learndash_get_course_steps( $course_id = 0, $include_post_types = array
  * Gets the total count of lessons and topics for a given course ID.
  *
  * @since 2.3.0
+ * @since 5.0.0 Removed the option to use `learndash_get_course_steps_count_legacy`.
  *
  * @param int $course_id Optional. The ID of the course. Default 0.
  *
  * @return int The count of the course steps.
  */
 function learndash_get_course_steps_count( $course_id = 0 ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_course_steps_count_legacy( $course_id );
-	}
-
 	return learndash_course_get_steps_count( $course_id );
 }
 
@@ -66,6 +61,7 @@ function learndash_get_course_steps_count( $course_id = 0 ) {
  * Gets the total completed steps for a given course progress array.
  *
  * @since 2.3.0
+ * @since 5.0.0 Removed the option to use `learndash_course_get_completed_steps_legacy`.
  *
  * @param int   $user_id         Optional. The ID of the user. Default 0.
  * @param int   $course_id       Optional. The ID of the course. Default 0.
@@ -74,10 +70,6 @@ function learndash_get_course_steps_count( $course_id = 0 ) {
  * @return int The count of completed course steps.
  */
 function learndash_course_get_completed_steps( $user_id = 0, $course_id = 0, $course_progress = array() ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_course_get_completed_steps_legacy( $user_id, $course_id, $course_progress );
-	}
-
 	$user_id   = absint( $user_id );
 	$course_id = absint( $course_id );
 
@@ -133,7 +125,7 @@ function learndash_course_get_completed_steps( $user_id = 0, $course_id = 0, $co
  * @param integer $course_id Course ID.
  * @param array   $query_args Array of query args to filter the query.
  *
- * @return array of Sections.
+ * @return object{order: int, ID: int, post_title: string, type: string, steps: int[]}[] Sections.
  */
 function learndash_course_get_sections( $course_id = 0, $query_args = array() ) {
 	$sections = array();
@@ -276,6 +268,7 @@ function learndash_course_get_steps_count( $course_id = 0 ) {
 
 /**
  * Gets the parent step IDs for a step in a course.
+ * It returns the parent steps in the order of the hierarchy: from the top parent to the immediate parent.
  *
  * @since 2.5.0
  *
@@ -326,7 +319,9 @@ function learndash_course_get_all_parent_step_ids( $course_id = 0, $step_id = 0 
 }
 
 /**
- * Gets the single parent step ID for a given step ID in a course.
+ * Returns the parent step ID for a given step ID. 0 if no parent.
+ *
+ * Note that a course is not a step, so this function will return 0 for a lesson or a global quiz.
  *
  * @since 2.5.0
  *
@@ -620,6 +615,119 @@ function learndash_set_primary_course_for_step( $step_id = 0, $course_id = 0 ) {
 }
 
 /**
+ * Add a step as child of a parent.
+ *
+ * @since 4.8.0
+ *
+ * @param int $course_id Course post ID.
+ * @param int $child_id  Child post ID.
+ * @param int $parent_id Parent post ID.
+ *
+ * @return bool True if successful, false otherwise.
+ */
+function learndash_course_add_child_to_parent( int $course_id, int $child_id, int $parent_id ): bool {
+	// Check course.
+
+	$course      = get_post( $course_id );
+	$course_type = learndash_get_post_type_slug( LDLMS_Post_Types::COURSE );
+
+	if (
+		! $course
+		|| $course->post_type !== $course_type
+	) {
+		return false;
+	}
+
+	// Check parent and child possible relationship.
+
+	$parent_type = get_post_type( $parent_id );
+	$child_type  = get_post_type( $child_id );
+
+	if (
+		! $parent_type
+		|| ! $child_type
+	) {
+		return false;
+	}
+
+	$lesson_type = learndash_get_post_type_slug( LDLMS_Post_Types::LESSON );
+	$topic_type  = learndash_get_post_type_slug( LDLMS_Post_Types::TOPIC );
+	$quiz_type   = learndash_get_post_type_slug( LDLMS_Post_Types::QUIZ );
+
+	if (
+		(
+			$parent_type === $course_type
+			&& ! in_array(
+				$child_type,
+				[
+					$lesson_type,
+					$quiz_type,
+				],
+				true
+			)
+		)
+		|| (
+			$parent_type === $lesson_type
+			&& ! in_array(
+				$child_type,
+				[
+					$topic_type,
+					$quiz_type,
+				],
+				true
+			)
+		)
+		|| (
+			$parent_type === $topic_type
+			&& ! in_array(
+				$child_type,
+				[
+					$quiz_type,
+				],
+				true
+			)
+		)
+		|| (
+			$parent_type === $quiz_type
+			|| $child_type === $course_type
+		)
+	) {
+		return false;
+	}
+
+	$course_steps = LDLMS_Factory_Post::course_steps( $course_id );
+
+	if ( ! $course_steps instanceof LDLMS_Course_Steps ) {
+		return false;
+	}
+
+	$steps = $course_steps->get_steps();
+
+	if (
+		$child_type === $lesson_type
+		&& $parent_id === $course_id
+	) {
+		$steps[ $lesson_type ][ $child_id ] = [];
+	} elseif ( $child_type === $topic_type ) {
+		$steps[ $lesson_type ][ $parent_id ][ $topic_type ][ $child_id ] = [];
+	} elseif ( $child_type === $quiz_type ) {
+		if ( $parent_type === $course_type ) {
+			$steps[ $quiz_type ][ $child_id ] = [];
+		} elseif ( $parent_type === $lesson_type ) {
+			$steps[ $lesson_type ][ $parent_id ][ $quiz_type ][ $child_id ] = [];
+		} elseif ( $parent_type === $topic_type ) {
+			$lesson_id = learndash_get_lesson_id( $parent_id, $course_id );
+
+			$steps[ $lesson_type ][ $lesson_id ][ $topic_type ][ $parent_id ][ $quiz_type ][ $child_id ] = [];
+		}
+	}
+
+	$course_steps->set_steps_keeping_sections( $steps );
+
+	return true;
+}
+
+/**
  * Validates the URL requests when nested URL permalinks are used.
  *
  * @since 2.5.0
@@ -822,7 +930,7 @@ function learndash_course_set_steps_dirty( $course_id = 0 ) {
  */
 function learndash_get_step_post_statuses() {
 	$ld_post_statuses = array();
-	$wp_post_statuses = get_post_stati( array( 'show_in_admin_status_list' => true ), 'object' );
+	$wp_post_statuses = get_post_stati( array( 'show_in_admin_status_list' => true ), 'objects' );
 	if ( ! empty( $wp_post_statuses ) ) {
 		foreach ( $wp_post_statuses as $status_key => $status_object ) {
 			$ld_post_statuses[ $status_key ] = $status_object->label;
@@ -858,28 +966,6 @@ function learndash_get_step_post_status_slug( $post ) {
 	}
 
 	return '';
-}
-
-/**
- * Get single course step post status label.
- *
- * @since 4.0.0
- *
- * @param object $post WP_Post object.
- *
- * @return string
- */
-function learndash_get_step_post_status_label( $post ) {
-	$post_status_label = '';
-	if ( ( $post ) && ( is_a( $post, 'WP_Post' ) ) ) {
-		$post_status_slug = learndash_get_step_post_status_slug( $post );
-		$post_statuses    = learndash_get_step_post_statuses();
-		if ( isset( $post_statuses[ $post_status_slug ] ) ) {
-			$post_status_label = $post_statuses[ $post_status_slug ];
-		}
-	}
-
-	return $post_status_label;
 }
 
 /**
@@ -1169,3 +1255,146 @@ function learndash_course_steps_add_post_meta( $object_id, $meta_key, $meta_valu
 	}
 }
 add_action( 'add_post_meta', 'learndash_course_steps_add_post_meta', 20, 3 );
+
+/**
+ * Returns all step ids for a course in a linear (flattened) array.
+ *
+ * @since 4.11.0
+ *
+ * @param int $course_id Course post ID.
+ *
+ * @return int[] Array of step IDs.
+ */
+function learndash_course_get_linear_step_ids( int $course_id ): array {
+	if ( $course_id <= 0 ) {
+		return [];
+	}
+
+	$course_steps_handler = LDLMS_Factory_Post::course_steps( $course_id );
+
+	if ( ! $course_steps_handler instanceof LDLMS_Course_Steps ) {
+		return [];
+	}
+
+	$flattened_steps_with_post_type_prefix = $course_steps_handler->get_steps( 'l' );
+
+	if ( empty( $flattened_steps_with_post_type_prefix ) ) {
+		return [];
+	}
+
+	$step_ids = [];
+
+	// Extracting post ids from strings like "sfwd-lessons:272".
+	foreach ( $flattened_steps_with_post_type_prefix as $step_with_post_type_prefix ) {
+		[ , $step_id ] = explode(
+			':',
+			Cast::to_string( $step_with_post_type_prefix ) // Casting to be safe.
+		);
+
+		$step_id = Cast::to_int( $step_id );
+
+		if ( $step_id > 0 ) {
+			$step_ids[] = $step_id;
+		}
+	}
+
+	/**
+	 * Filters the flattened step ids for a course.
+	 *
+	 * @since 4.11.0
+	 *
+	 * @param int[] $step_ids  Step IDs.
+	 * @param int   $course_id Course ID.
+	 */
+	return apply_filters( 'learndash_course_linear_step_ids', $step_ids, $course_id );
+}
+
+/**
+ * Returns whether the video progression is enabled for the current step after the user has completed sub-steps.
+ *
+ * @since 4.11.0
+ *
+ * @param int $step_id Step ID.
+ *
+ * @return bool
+ */
+function learndash_course_steps_requires_watching_video_after_sub_steps( int $step_id ): bool {
+		$step_settings = learndash_get_setting( $step_id );
+
+		return is_array( $step_settings )
+			&& isset( $step_settings['lesson_video_enabled'] )
+			&& 'on' === $step_settings['lesson_video_enabled']
+			&& isset( $step_settings['lesson_video_url'] )
+			&& ! empty( $step_settings['lesson_video_url'] )
+			&& isset( $step_settings['lesson_video_shown'] )
+			&& 'AFTER' === $step_settings['lesson_video_shown'];
+}
+
+/**
+ * Returns whether the step is external.
+ *
+ * @since 4.12.0
+ *
+ * @param int $step_id Step ID.
+ *
+ * @return bool
+ */
+function learndash_course_steps_is_external( int $step_id ): bool {
+	return 'on' === learndash_get_setting( $step_id, 'external' );
+}
+
+/**
+ * Returns the external type of the step if it is external. Empty string otherwise.
+ *
+ * @since 4.12.0
+ *
+ * @param int $step_id Step ID.
+ *
+ * @return string
+ */
+function learndash_course_steps_get_external_type( int $step_id ): string {
+	if ( ! learndash_course_steps_is_external( $step_id ) ) {
+		return '';
+	}
+
+	return Cast::to_string( learndash_get_setting( $step_id, 'external_type' ) );
+}
+
+/**
+ * Returns whether the step is external and requires attendance. False if not external.
+ *
+ * @since 4.12.0
+ *
+ * @param int $step_id Step ID.
+ *
+ * @return bool
+ */
+function learndash_course_steps_is_external_attendance_required( int $step_id ): bool {
+	if ( ! learndash_course_steps_is_external( $step_id ) ) {
+		return false;
+	}
+
+	return 'yes' === learndash_get_setting( $step_id, 'external_require_attendance' );
+}
+
+/**
+ * Returns the step's external type label.
+ *
+ * @since 4.12.0
+ *
+ * @param string $external_type External type.
+ *
+ * @return string External type label. Empty string if external type is invalid.
+ */
+function learndash_course_steps_map_external_type_to_label( string $external_type ): string {
+	$external_type = strtolower( $external_type );
+
+	switch ( $external_type ) {
+		case 'virtual':
+			return esc_html__( 'Virtual', 'learndash' );
+		case 'in-person':
+			return esc_html__( 'In-Person', 'learndash' );
+		default:
+			return '';
+	}
+}

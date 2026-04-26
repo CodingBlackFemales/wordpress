@@ -9,6 +9,7 @@
 
 namespace LearnDash\Core\Models;
 
+use Exception;
 use LDLMS_Post_Types;
 use LearnDash_Custom_Label;
 use Learndash_DTO_Validation_Exception;
@@ -16,13 +17,23 @@ use Learndash_Payment_Gateway;
 use Learndash_Paypal_IPN_Gateway;
 use Learndash_Pricing_DTO;
 use Learndash_Razorpay_Gateway;
+use Learndash_Stripe_Gateway;
 use Learndash_Transaction_Coupon_DTO;
 use Learndash_Transaction_Gateway_Transaction_DTO;
 use Learndash_Unknown_Gateway;
+use LearnDash\Core\Utilities\Cast;
 use WP_User;
 
 /**
  * Transaction model class.
+ *
+ * We have 3 levels of transaction:
+ *
+ * 1. Transaction level 1 (Parent) - The order.
+ * 2. Transaction level 2 (Child) - The product. It can be a subscription or one-time payment product.
+ * 3. Transaction level 3 (Grandchild) - Charges of a subscription, if any (optional). This is a child of the subscription.
+ *
+ * We have a better representation of the transaction hierarchy in the Commerce namespace.
  *
  * @since 4.6.0
  */
@@ -41,7 +52,7 @@ class Transaction extends Post {
 	);
 
 	/**
-	 * Meta key to identify the parent transaction.
+	 * Meta key to identify the parent order.
 	 *
 	 * @since 4.5.0
 	 *
@@ -59,7 +70,7 @@ class Transaction extends Post {
 	public static $meta_key_is_free = 'is_zero_price';
 
 	/**
-	 * Meta key to for the pricing info.
+	 * Meta key for the gateway name.
 	 *
 	 * @since 4.5.0
 	 *
@@ -68,7 +79,16 @@ class Transaction extends Post {
 	public static $meta_key_gateway_name = 'ld_payment_processor';
 
 	/**
-	 * Meta key to for the pricing info.
+	 * Meta key to identify if the transaction was made in test mode.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @var string
+	 */
+	public static $meta_key_is_test_mode = 'is_test_mode';
+
+	/**
+	 * Meta key for the pricing info.
 	 *
 	 * @since 4.5.0
 	 *
@@ -77,7 +97,7 @@ class Transaction extends Post {
 	public static $meta_key_pricing_info = 'pricing_info';
 
 	/**
-	 * Meta key to for the gateway transaction info (contains ID and an event).
+	 * Meta key for the gateway transaction info (contains ID and an event).
 	 *
 	 * @since 4.5.0
 	 *
@@ -86,7 +106,7 @@ class Transaction extends Post {
 	public static $meta_key_gateway_transaction = 'gateway_transaction';
 
 	/**
-	 * Meta key to for the price type (payment/subscription).
+	 * Meta key for the price type (payment/subscription).
 	 *
 	 * @since 4.5.0
 	 *
@@ -136,8 +156,8 @@ class Transaction extends Post {
 	public function get_user(): WP_User {
 		if ( $this->post->post_author > 0 ) { // Actual.
 			$user_id = (int) $this->post->post_author;
-		} elseif ( intval( $this->getAttribute( 'user_id', 0 ) ) > 0 ) { // Legacy.
-			$user_id = intval( $this->getAttribute( 'user_id' ) );
+		} elseif ( Cast::to_int( $this->getAttribute( 'user_id', 0 ) ) > 0 ) { // Legacy.
+			$user_id = Cast::to_int( $this->getAttribute( 'user_id' ) );
 		} else {
 			$user_id = 0;
 		}
@@ -164,7 +184,7 @@ class Transaction extends Post {
 		if ( ! empty( $this->getAttribute( 'payer_email' ) ) ) {
 			$user = get_user_by(
 				'email',
-				strval( $this->getAttribute( 'payer_email' ) )
+				Cast::to_string( $this->getAttribute( 'payer_email' ) )
 			);
 
 			if ( $user instanceof WP_User ) {
@@ -189,7 +209,7 @@ class Transaction extends Post {
 			$user->display_name = $user_info['display_name'];
 			$user->user_email   = $user_info['user_email'];
 		} else {
-			$user->display_name = __( 'Deleted', 'learndash' );
+			$user->display_name = __( 'User deleted', 'learndash' );
 		}
 
 		/** This filter is documented in includes/models/class-learndash-transaction.php */
@@ -207,13 +227,12 @@ class Transaction extends Post {
 		$gateway_name = '';
 
 		if ( $this->is_parent() ) {
-			$children = $this->get_children();
+			$child = $this->get_first_child();
 
-			if ( ! empty( $children ) ) {
-				return $children[0]->get_gateway_name();
+			if ( $child ) {
+				return $child->get_gateway_name();
 			}
-		} else {
-			if (
+		} elseif (
 				$this->hasAttribute( self::$meta_key_gateway_name ) &&
 				in_array(
 					$this->getAttribute( self::$meta_key_gateway_name ),
@@ -222,14 +241,16 @@ class Transaction extends Post {
 				)
 			) {
 				$gateway_name = $this->getAttribute( self::$meta_key_gateway_name ); // If the gateway name is up-to-date, use it.
-			} elseif (
+		} elseif (
 				'paypal' === $this->getAttribute( self::$meta_key_gateway_name ) || // If it's an old PayPal transaction. Legacy support.
 				$this->hasAttribute( 'ipn_track_id' ) // If it's PayPal according to the IPN track ID field. Legacy support.
 			) {
-				$gateway_name = Learndash_Paypal_IPN_Gateway::get_name();
-			} elseif ( $this->hasAttribute( 'stripe_price' ) ) { // If it's Stripe according to the price field. Legacy support.
-				$gateway_name = 'stripe';
-			}
+			$gateway_name = Learndash_Paypal_IPN_Gateway::get_name();
+		} elseif (
+			$this->hasAttribute( 'stripe_customer' ) // If it's Stripe according to the customer field. Legacy support.
+			|| $this->hasAttribute( 'stripe_price' ) // If it's Stripe according to the price field. Legacy support.
+		) {
+			$gateway_name = 'stripe';
 		}
 
 		/**
@@ -246,6 +267,39 @@ class Transaction extends Post {
 	}
 
 	/**
+	 * Returns whether the transaction was made in test mode.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @return bool
+	 */
+	public function is_test_mode(): bool {
+		$is_test_mode = false;
+
+		if ( $this->is_parent() ) {
+			$child = $this->get_first_child();
+
+			if ( $child ) {
+				return $child->is_test_mode();
+			}
+		} elseif ( $this->hasAttribute( self::$meta_key_is_test_mode ) ) {
+			$is_test_mode = $this->getAttribute( self::$meta_key_is_test_mode );
+		}
+
+		/**
+		 * Filters whether the transaction was made in test mode.
+		 *
+		 * @since 4.19.0
+		 *
+		 * @param bool        $is_test_mode Whether the transaction was made in test mode.
+		 * @param Transaction $transaction  Transaction model.
+		 *
+		 * @return bool
+		 */
+		return apply_filters( 'learndash_model_transaction_is_test_mode', Cast::to_bool( $is_test_mode ), $this );
+	}
+
+	/**
 	 * Returns a transaction gateway label.
 	 *
 	 * @since 4.5.0
@@ -256,23 +310,21 @@ class Transaction extends Post {
 		$gateway_label = '';
 
 		if ( $this->is_parent() ) {
-			$children = $this->get_children();
+			$child = $this->get_first_child();
 
-			if ( ! empty( $children ) ) {
-				return $children[0]->get_gateway_label();
+			if ( $child ) {
+				return $child->get_gateway_label();
 			}
+		} elseif ( $this->is_free() ) {
+			$gateway_label = esc_html__( 'No Gateway', 'learndash' );
 		} else {
-			if ( $this->is_free() ) {
-				$gateway_label = esc_html__( 'No Gateway', 'learndash' );
-			} else {
-				$gateway_name  = $this->get_gateway_name();
-				$gateway_label = Learndash_Payment_Gateway::get_select_list()[ $gateway_name ] ?? '';
+			$gateway_name  = $this->get_gateway_name();
+			$gateway_label = Learndash_Payment_Gateway::get_select_list()[ $gateway_name ] ?? '';
 
-				if ( empty( $gateway_label ) ) {
-					$gateway_label = ! empty( $gateway_name )
-						? ucfirst( $gateway_name )
-						: Learndash_Unknown_Gateway::get_label();
-				}
+			if ( empty( $gateway_label ) ) {
+				$gateway_label = ! empty( $gateway_name )
+					? ucfirst( $gateway_name )
+					: Learndash_Unknown_Gateway::get_label();
 			}
 		}
 
@@ -324,6 +376,14 @@ class Transaction extends Post {
 	 * @return bool
 	 */
 	public function is_subscription(): bool {
+		if ( $this->is_parent() ) {
+			$child = $this->get_first_child();
+
+			if ( $child ) {
+				return $child->is_subscription();
+			}
+		}
+
 		$is_subscription = false;
 
 		if ( $this->hasAttribute( self::$meta_key_price_type ) ) {
@@ -376,7 +436,7 @@ class Transaction extends Post {
 	}
 
 	/**
-	 * Returns true if it's a parent transaction, false otherwise.
+	 * Returns true if it's a parent order, false otherwise.
 	 *
 	 * @since 4.5.0
 	 *
@@ -388,10 +448,10 @@ class Transaction extends Post {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param bool        $is_parent   True if it's a parent transaction, false otherwise.
+		 * @param bool        $is_parent   True if it's a parent order, false otherwise.
 		 * @param Transaction $transaction Transaction model.
 		 *
-		 * @return bool True if it's a parent transaction, false otherwise.
+		 * @return bool True if it's a parent order, false otherwise.
 		 */
 		return apply_filters(
 			'learndash_model_transaction_is_parent',
@@ -433,6 +493,14 @@ class Transaction extends Post {
 	 * @return string
 	 */
 	public function get_gateway_transaction_id(): string {
+		if ( $this->is_parent() ) {
+			$child = $this->get_first_child();
+
+			if ( $child ) {
+				return $child->get_gateway_transaction_id();
+			}
+		}
+
 		$transaction_id = '';
 
 		$gateway_name = $this->get_gateway_name();
@@ -448,10 +516,13 @@ class Transaction extends Post {
 				// Do nothing.
 			}
 		} elseif ( 'stripe' === $gateway_name ) {
-			if ( $this->hasAttribute( 'subscription' ) ) { // Stripe Legacy subscription ID field.
-				$transaction_id = $this->getAttribute( 'subscription' );
-			} elseif ( $this->hasAttribute( 'stripe_payment_intent' ) ) { // Stripe Legacy payment intent ID field.
-				$transaction_id = $this->getAttribute( 'stripe_payment_intent' );
+			if (
+				$this->hasAttribute( 'subscription' )
+				&& ! empty( $this->getAttribute( 'subscription' ) ) // There is a case where it exists, but empty.
+			) {
+				$transaction_id = $this->getAttribute( 'subscription' ); // Stripe Legacy subscription ID field.
+			} elseif ( $this->hasAttribute( 'stripe_payment_intent' ) ) {
+				$transaction_id = $this->getAttribute( 'stripe_payment_intent' ); // Stripe Legacy payment intent ID field.
 			}
 		} elseif (
 			Learndash_Razorpay_Gateway::get_name() === $gateway_name &&
@@ -466,6 +537,11 @@ class Transaction extends Post {
 			} elseif ( isset( $razorpay_payload['subscription'] ) ) {
 				$transaction_id = $razorpay_payload['subscription']['entity']['id'];
 			}
+		} elseif (
+			Learndash_Paypal_IPN_Gateway::get_name() === $gateway_name &&
+			$this->hasAttribute( 'txn_id' ) // Legacy PayPal transaction ID field.
+		) {
+			$transaction_id = $this->getAttribute( 'txn_id' );
 		}
 
 		/**
@@ -478,7 +554,104 @@ class Transaction extends Post {
 		 *
 		 * @return string Gateway transaction ID.
 		 */
-		return apply_filters( 'learndash_model_transaction_gateway_transaction_id', (string) $transaction_id, $this );
+		return apply_filters( 'learndash_model_transaction_gateway_transaction_id', Cast::to_string( $transaction_id ), $this );
+	}
+
+	/**
+	 * Returns a gateway customer ID.
+	 *
+	 * Razorpay subscription case has an empty customer ID in the payload.
+	 * There are some very old transactions where we can't determine the customer ID.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @return string Customer ID or an empty string if not possible to determine.
+	 */
+	public function get_gateway_customer_id(): string {
+		if ( $this->is_parent() ) {
+			$child = $this->get_first_child();
+
+			if ( $child ) {
+				return $child->get_gateway_customer_id();
+			}
+		}
+
+		$customer_id = '';
+
+		$gateway_name = $this->get_gateway_name();
+
+		if ( $this->hasAttribute( self::$meta_key_gateway_transaction ) ) {
+			// Transactions after LD 4.5.0.
+			try {
+				$gateway_transaction_dto = Learndash_Transaction_Gateway_Transaction_DTO::create(
+					(array) $this->getAttribute( self::$meta_key_gateway_transaction )
+				);
+
+				if ( ! empty( $gateway_transaction_dto->customer_id ) ) {
+					// Transactions after LD 4.19.0.
+					$customer_id = $gateway_transaction_dto->customer_id;
+				} else {
+					// Transactions after LD 4.5.0 but before LD 4.19.0.
+					$event = $gateway_transaction_dto->event;
+
+					switch ( $gateway_name ) {
+						case Learndash_Stripe_Gateway::get_name():
+							$customer_id = $event['customer'] ?? '';
+							break;
+						case Learndash_Razorpay_Gateway::get_name():
+							if (
+								! isset( $event['contains'] )
+								|| ! isset( $event['payload'] )
+							) {
+								break;
+							}
+
+							$entity_type = in_array(
+								'subscription',
+								$event['contains'],
+								true
+							)
+								? 'subscription'
+								: 'payment';
+
+							if ( ! isset( $event['payload'][ $entity_type ] ) ) {
+								break;
+							}
+
+							$customer_id = $event['payload'][ $entity_type ]['entity']['customer_id'] ?? '';
+
+							break;
+						case Learndash_Paypal_IPN_Gateway::get_name():
+							$customer_id = $event['payer_id'] ?? '';
+							break;
+					}
+				}
+			} catch ( Learndash_DTO_Validation_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+				// Do nothing.
+			}
+		} elseif (
+			'stripe' === $gateway_name
+			&& $this->hasAttribute( 'stripe_customer' ) // Legacy Stripe customer ID field.
+		) {
+			$customer_id = $this->getAttribute( 'stripe_customer' );
+		} elseif (
+			Learndash_Paypal_IPN_Gateway::get_name() === $gateway_name
+			&& $this->hasAttribute( 'payer_id' ) // Legacy PayPal IPN customer ID field.
+		) {
+			$customer_id = $this->getAttribute( 'payer_id' );
+		}
+
+		/**
+		 * Filters LD transaction gateway customer ID.
+		 *
+		 * @since 4.19.0
+		 *
+		 * @param string      $customer_id Gateway customer ID or an empty string.
+		 * @param Transaction $transaction Transaction model.
+		 *
+		 * @return string Gateway transaction ID.
+		 */
+		return apply_filters( 'learndash_model_transaction_gateway_customer_id', Cast::to_string( $customer_id ), $this );
 	}
 
 	/**
@@ -489,9 +662,17 @@ class Transaction extends Post {
 	 * @return Product|null
 	 */
 	public function get_product(): ?Product {
+		if ( $this->is_parent() ) {
+			$child = $this->get_first_child();
+
+			if ( $child ) {
+				return $child->get_product();
+			}
+		}
+
 		$product_id = 0;
 		foreach ( self::$product_id_meta_keys as $product_id_meta_key ) {
-			$product_id = intval( $this->getAttribute( $product_id_meta_key, 0 ) );
+			$product_id = Cast::to_int( $this->getAttribute( $product_id_meta_key, 0 ) );
 
 			if ( $product_id > 0 ) {
 				break;
@@ -526,7 +707,7 @@ class Transaction extends Post {
 		$product = $this->get_product();
 
 		if ( $product ) {
-			$product_title = $product->get_post()->post_title;
+			$product_title = $product->get_title();
 		} elseif (
 			$this->hasAttribute( 'post' ) &&
 			is_array( $this->getAttribute( 'post' ) ) &&
@@ -551,7 +732,7 @@ class Transaction extends Post {
 		 *
 		 * @return string Transaction product name.
 		 */
-		return apply_filters( 'learndash_model_transaction_product_name', strval( $product_title ), $this );
+		return apply_filters( 'learndash_model_transaction_product_name', Cast::to_string( $product_title ), $this );
 	}
 
 	/**
@@ -598,8 +779,6 @@ class Transaction extends Post {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @throws Learndash_DTO_Validation_Exception DTO validation exception.
-	 *
 	 * @return Learndash_Pricing_DTO
 	 */
 	public function get_pricing(): Learndash_Pricing_DTO {
@@ -632,9 +811,14 @@ class Transaction extends Post {
 
 			if ( 'stripe' === $gateway_name ) { // Legacy Stripe.
 				$pricing['currency'] = mb_strtoupper(
-					strval( $this->getAttribute( 'stripe_currency', '' ) )
+					Cast::to_string( $this->getAttribute( 'stripe_currency', '' ) )
 				);
-				$pricing['price']    = $this->getAttribute( 'stripe_price' );
+
+				if ( $this->hasAttribute( 'stripe_price' ) ) {
+					$pricing['price'] = $this->getAttribute( 'stripe_price' );
+				} elseif ( $this->hasAttribute( 'amount' ) ) {
+					$pricing['price'] = $this->getAttribute( 'amount' );
+				}
 
 				if ( $this->is_subscription() ) {
 					$duration_hash = array(
@@ -659,11 +843,11 @@ class Transaction extends Post {
 				if ( $this->is_subscription() ) {
 					$duration       = explode(
 						' ',
-						strval( $this->getAttribute( 'period3', '' ) )
+						Cast::to_string( $this->getAttribute( 'period3', '' ) )
 					);
 					$trial_duration = explode(
 						' ',
-						strval( $this->getAttribute( 'period1', '' ) )
+						Cast::to_string( $this->getAttribute( 'period1', '' ) )
 					);
 
 					if ( empty( $pricing['price'] ) ) {
@@ -710,6 +894,12 @@ class Transaction extends Post {
 			}
 		}
 
+		try {
+			$pricing_dto = Learndash_Pricing_DTO::create( $pricing );
+		} catch ( Exception $e ) {
+			$pricing_dto = new Learndash_Pricing_DTO();
+		}
+
 		/**
 		 * Filters transaction product pricing.
 		 *
@@ -722,7 +912,48 @@ class Transaction extends Post {
 		 */
 		return apply_filters(
 			'learndash_model_transaction_pricing',
-			Learndash_Pricing_DTO::create( $pricing ),
+			$pricing_dto,
+			$this
+		);
+	}
+
+	/**
+	 * Returns the actual amount that a user paid in a formatted way.
+	 *
+	 * @since 4.19.0
+	 *
+	 * @return string
+	 */
+	public function get_formatted_price(): string {
+		$pricing_dto = $this->get_pricing();
+
+		if ( $this->is_free() ) {
+			$price = 0; // Free.
+		} elseif ( $pricing_dto->trial_duration_value > 0 ) {
+			$price = $pricing_dto->trial_price; // Subscription with a trial.
+		} elseif ( $pricing_dto->discount > 0 ) {
+			$price = $pricing_dto->discounted_price; // Discounted price (both for one-time and subscription).
+		} else {
+			$price = $pricing_dto->price; // Regular price (both for one-time and subscription).
+		}
+
+		$price = Cast::to_float( $price );
+
+		/**
+		 * Filters transaction formatted price.
+		 *
+		 * @since 4.19.0
+		 *
+		 * @param string      $formatted_price Formatted price.
+		 * @param float       $price           Price (amount).
+		 * @param Transaction $transaction     Transaction model.
+		 *
+		 * @return Learndash_Pricing_DTO Transaction pricing DTO.
+		 */
+		return apply_filters(
+			'learndash_model_transaction_formatted_price',
+			learndash_get_price_formatted( $price, $pricing_dto->currency ),
+			$price,
 			$this
 		);
 	}
@@ -732,11 +963,17 @@ class Transaction extends Post {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @throws Learndash_DTO_Validation_Exception Coupon DTO validation exception.
-	 *
 	 * @return Learndash_Transaction_Coupon_DTO Transaction coupon data.
 	 */
 	public function get_coupon_data(): Learndash_Transaction_Coupon_DTO {
+		try {
+			$coupon_data = Learndash_Transaction_Coupon_DTO::create(
+				(array) $this->getAttribute( LEARNDASH_TRANSACTION_COUPON_META_KEY, array() )
+			);
+		} catch ( Exception $e ) {
+			$coupon_data = new Learndash_Transaction_Coupon_DTO();
+		}
+
 		/**
 		 * Filters transaction coupon data.
 		 *
@@ -747,13 +984,7 @@ class Transaction extends Post {
 		 *
 		 * @return array Transaction coupon data.
 		 */
-		return apply_filters(
-			'learndash_model_transaction_coupon_data',
-			Learndash_Transaction_Coupon_DTO::create(
-				(array) $this->getAttribute( LEARNDASH_TRANSACTION_COUPON_META_KEY, array() )
-			),
-			$this
-		);
+		return apply_filters( 'learndash_model_transaction_coupon_data', $coupon_data, $this );
 	}
 
 	/**

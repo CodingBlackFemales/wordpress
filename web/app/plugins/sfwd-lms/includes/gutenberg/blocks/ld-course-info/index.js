@@ -19,8 +19,8 @@ import {
  */
 import { __, _x, sprintf} from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, ToggleControl, PanelRow } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, TextControl, ToggleControl, PanelRow, Disabled } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from "@wordpress/element";
 
@@ -47,6 +47,7 @@ registerBlockType(
 		supports: {
 			customClassName: false,
 		},
+		apiVersion: 3,
 		attributes: {
 			user_id: {
 				type: 'string',
@@ -123,6 +124,8 @@ registerBlockType(
 		edit: function( props ) {
 			const { attributes: { user_id, registered_show, registered_show_thumbnail, registered_num, registered_orderby, registered_order, progress_show, progress_num, progress_orderby, progress_order, quiz_show, quiz_num, quiz_orderby, quiz_order, preview_user_id, preview_show },
 				setAttributes } = props;
+
+			const blockProps = useBlockProps();
 
 			if ( typeof registered_show === "undefined" ) {
 				setAttributes({ registered_show: true });
@@ -458,10 +461,14 @@ registerBlockType(
 				}
 			}
 
-			return [
-				inspectorControls,
-				useMemo(() => do_serverside_render(props.attributes), [props.attributes]),
-			];
+		return (
+			<div { ...blockProps }>
+				{ inspectorControls }
+				<Disabled>
+					{ useMemo(() => do_serverside_render(props.attributes), [props.attributes]) }
+				</Disabled>
+			</div>
+		);
 		},
 
 		save: props => {

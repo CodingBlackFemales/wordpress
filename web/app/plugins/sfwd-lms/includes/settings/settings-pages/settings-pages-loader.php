@@ -40,6 +40,7 @@ if ( ( defined( 'LEARNDASH_TRANSLATIONS' ) ) && ( LEARNDASH_TRANSLATIONS === tru
 }
 require_once __DIR__ . '/class-ld-settings-page-support.php';
 require_once __DIR__ . '/class-ld-settings-page-advanced.php';
+require_once __DIR__ . '/class-ld-settings-page-experiments.php';
 
 // Add-ons Page.
 if ( ( defined( 'LEARNDASH_ADDONS_UPDATER' ) ) && ( LEARNDASH_ADDONS_UPDATER === true ) ) {
