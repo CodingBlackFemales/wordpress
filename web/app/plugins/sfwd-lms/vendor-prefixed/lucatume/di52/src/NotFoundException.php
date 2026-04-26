@@ -1,22 +1,17 @@
 <?php
+
 /**
  * An exception used to signal no binding was found for container ID.
  *
  * @package lucatume\DI52
- *
- * @license GPL-3.0
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
  */
-
 namespace StellarWP\Learndash\lucatume\DI52;
 
-use Psr\Container\NotFoundExceptionInterface;
-
+use StellarWP\Learndash\Psr\Container\NotFoundExceptionInterface;
 /**
  * Class NotFoundException
  *
- * @package lucatume\DI52
+ * @package \lucatume\DI52
  */
 class NotFoundException extends ContainerException implements NotFoundExceptionInterface
 {

@@ -11,7 +11,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Modules\Registration\Terms_Privacy_Agreement\Terms_Privacy_Agreement;
 use LearnDash\Core\Models\Product;
+use LearnDash\Core\Template\Template;
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\StellarWP\Assets\Assets;
+use StellarWP\Learndash\StellarWP\SuperGlobals\SuperGlobals;
+
+/**
+ * Returns the registration appearance setting.
+ *
+ * @since 4.16.0
+ *
+ * @return string
+ */
+function learndash_registration_variation(): string {
+	$registration_appearance = 'classic';
+
+	if ( LearnDash_Settings_Section_General_Appearance::get_setting( 'registration_enabled' ) === 'yes' ) {
+		$registration_appearance = 'modern';
+	}
+
+	return $registration_appearance;
+}
 
 /**
  * LearnDash LD30 Shows registration form for user registration
@@ -21,6 +43,11 @@ use LearnDash\Core\Models\Product;
  * @param array $attr Array of attributes for shortcode.
  */
 function learndash_registration_output( $attr = array() ) {
+	if ( learndash_registration_variation() === LearnDash_Theme_Register_LD30::$variation_modern ) {
+		learndash_registration_output_modern( $attr );
+		return;
+	}
+
 	$attr_defaults = array(
 		'width' => 0,
 	);
@@ -125,7 +152,7 @@ function learndash_registration_output( $attr = array() ) {
 					)
 				)
 			) {
-				echo sprintf(
+				printf(
 					// translators: placeholder: You already have access to Course/Group - Click here to visit.
 					esc_html_x(
 						'You already have access to %1$s - %2$s',
@@ -136,7 +163,6 @@ function learndash_registration_output( $attr = array() ) {
 					'<a href="' . esc_url( get_permalink( $register_id ) ) . '">' . esc_html__( 'Click here to visit', 'learndash' ) . '</a>'
 				);
 			} else {
-
 				if ( 'paynow' === $course_pricing['type'] && is_user_logged_in() ) :
 					?>
 					<div id="coupon-alerts">
@@ -271,11 +297,15 @@ function learndash_registration_output( $attr = array() ) {
 							</div>
 
 							<?php
-							/** This filter is documented in includes/payments/class-learndash-stripe-connect-checkout-integration.php */
-							$total = apply_filters( 'learndash_get_price_by_coupon', floatval( $course_pricing['price'] ), $register_id, get_current_user_id() );
+							$total = (string) $product->get_final_price();
 							?>
 
-							<div class="purchase-row" id="total-row" data-total="<?php echo esc_attr( $total ); ?>">
+							<div
+								class="purchase-row"
+								data-supports-coupon="<?php echo esc_attr( (string) $product->supports_coupon() ); ?>"
+								data-total="<?php echo esc_attr( $total ); ?>"
+								id="total-row"
+							>
 								<span class="purchase-label">
 									<?php esc_html_e( 'Total', 'learndash' ); ?>
 								</span>
@@ -308,12 +338,13 @@ function learndash_registration_output( $attr = array() ) {
 		'registration'
 	);
 
+	$preview_show = Cast::to_string( SuperGlobals::get_var( [ 'attributes', 'preview_show' ], '' ) );
+
 	if (
-		isset( $_REQUEST['attributes']['preview_show'] ) && // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		'true' === sanitize_text_field( wp_unslash( $_REQUEST['attributes']['preview_show'] ) ) || // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		! is_user_logged_in()
+		'true' === sanitize_text_field( $preview_show ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		|| ! is_user_logged_in()
 	) {
-		$register_id   = $_GET['ld_register_id'] ?? '';
+		$register_id   = absint( SuperGlobals::get_get_var( 'ld_register_id', 0 ) );
 		$registered_id = '?ld_register_id=' . $register_id;
 		$checkout_page = get_permalink( $registration_page_id ) . ( ! empty( $register_id ) ? $registered_id : '' );
 
@@ -349,7 +380,7 @@ function learndash_registration_output( $attr = array() ) {
 
 		if ( learndash_reset_password_is_enabled() ) {
 			// translators: placeholder: Forgot password link below login form.
-			echo '<p class="show-password-reset-link" style="display: none;">' . sprintf( esc_html_x( 'Forgot password? %s', 'placeholder: Forgot password link below login form.', 'learndash' ), '<a href="' . esc_attr( get_permalink( learndash_get_reset_password_page_id() ) ) . '">' . esc_html__( 'Click here to reset it.', 'learndash' ) . '</a>' ) . '</p>';
+			echo '<p class="show-password-reset-link" style="display: none;">' . sprintf( esc_html_x( 'Forgot password? %s', 'placeholder: Forgot password link below login form.', 'learndash' ), '<a href="' . esc_attr( Cast::to_string( get_permalink( learndash_get_reset_password_page_id() ) ) ) . '">' . esc_html__( 'Click here to reset it.', 'learndash' ) . '</a>' ) . '</p>';
 		}
 
 		if ( $learndash_can_register ) :
@@ -439,7 +470,7 @@ function learndash_registration_output( $attr = array() ) {
 					}
 					if ( 'yes' === $learndash_registration_fields[ $learndash_field . '_enabled' ] ) {
 						echo '<p class="learndash-registration-field learndash-registration-field-' . esc_attr( $learndash_field ) . ' ' . ( ! empty( $learndash_required ) ? 'learndash-required' : '' ) . '"><label for="' . esc_attr( $learndash_field ) . '">' . esc_html( $learndash_registration_fields[ $learndash_field . '_label' ] ) . ( ! empty( $learndash_required ) ? ' <span class="learndash-required-field">*</span>' : '' ) . '</label>
-						<input ' . esc_attr( $learndash_required ) . ' type="' . ( 'password' === $learndash_field ? 'password' : 'text' ) . '" id="' . esc_attr( $learndash_field ) . '" name="' . esc_attr( $learndash_name_field ) . '" value="' . ( isset( $_GET[ $learndash_name_field ] ) ? sanitize_text_field( $_GET[ $learndash_name_field ] ) : '' ) . '" /></p>';
+						<input ' . esc_attr( $learndash_required ) . ' type="' . ( 'password' === $learndash_field ? 'password' : 'text' ) . '" id="' . esc_attr( $learndash_field ) . '" name="' . esc_attr( $learndash_name_field ) . '" value="' . esc_attr( sanitize_text_field( Cast::to_string( SuperGlobals::get_get_var( $learndash_name_field, '' ) ) ) ) . '" /></p>';
 						if ( 'password' === $learndash_field ) {
 							echo '<p class="learndash-registration-field learndash-registration-field-confirm' . esc_attr( $learndash_field ) . ' ' . ( ! empty( $learndash_required ) ? 'learndash-required' : '' ) . '"><label for="confirm_password">' . esc_html__( 'Confirm Password', 'learndash' ) . ( ! empty( $learndash_required ) ? ' <span class="learndash-required-field">*</span>' : '' ) . '</label><input ' . esc_attr( $learndash_required ) . ' type="password" id="confirm_password" name="confirm_password" /></p>';
 						}
@@ -453,16 +484,7 @@ function learndash_registration_output( $attr = array() ) {
 				 */
 				do_action( 'learndash_registration_form_fields_after' );
 
-				if ( isset( $_POST['ld_register_id'] ) && isset( $_GET['ld_register_id'] ) ) {
-					$register_id = sanitize_text_field( $_POST['ld_register_id'] );
-				} elseif ( isset( $_POST['ld_register_id'] ) ) {
-					$register_id = sanitize_text_field( $_POST['ld_register_id'] );
-				} elseif ( isset( $_GET['ld_register_id'] ) ) {
-					$register_id = sanitize_text_field( $_GET['ld_register_id'] );
-				} else {
-					$register_id = 0;
-				}
-
+				$register_id               = absint( SuperGlobals::get_var( 'ld_register_id', 0 ) );
 				$learndash_redirect_to_url = remove_query_arg(
 					array_keys( $learndash_errors_conditions ), // @phpstan-ignore-line -- It's string[].
 					get_permalink()
@@ -513,16 +535,14 @@ function learndash_registration_output( $attr = array() ) {
 				do_action( 'learndash_registration_form_after' );
 			}
 		endif;
-	} else {
-		if ( ! isset( $_GET['ld-registered'] ) && ! isset( $_GET['ld_register_id'] ) ) {
-			$current_user = wp_get_current_user();
-			echo sprintf(
-			// translators: placeholders: Current Logged In Username, WP Logout Link.
-				esc_html_x( 'Hello %1$s, looks like you\'re already logged in. Want to sign in as a different user? %2$s', 'placeholder: Current Logged In Username, WP Logout Link.', 'learndash' ),
-				esc_html( $current_user->user_login ),
-				'<a href="' . esc_url( wp_logout_url( get_permalink( $registration_page_id ) ) ) . '">' . esc_html__( 'Log Out', 'learndash' ) . '</a>'
-			);
-		}
+	} elseif ( ! isset( $_GET['ld-registered'] ) && ! isset( $_GET['ld_register_id'] ) ) {
+		$current_user = wp_get_current_user();
+		printf(
+		// translators: placeholders: Current Logged In Username, WP Logout Link.
+			esc_html_x( 'Hello %1$s, looks like you\'re already logged in. Want to sign in as a different user? %2$s', 'placeholder: Current Logged In Username, WP Logout Link.', 'learndash' ),
+			esc_html( $current_user->user_login ),
+			'<a href="' . esc_url( wp_logout_url( get_permalink( $registration_page_id ) ) ) . '">' . esc_html__( 'Log Out', 'learndash' ) . '</a>'
+		);
 	}
 
 	echo '</div></div>';
@@ -531,24 +551,372 @@ function learndash_registration_output( $attr = array() ) {
 }
 
 /**
- * Retrieves the LD login URL if using the LD30 template and the LD Login & Registration feature. If not using the Login & Registration feature, uses the wp_login_url() function redirecting back to current page
+ * LearnDash LD30 Shows registration form for user registration.
+ *
+ * @since 4.16.0
+ *
+ * @param array<string, mixed> $attr Array of attributes for shortcode.
+ *
+ * @return void
+ */
+function learndash_registration_output_modern( array $attr = [] ): void {
+	$attr_defaults = [
+		'width' => 0,
+	];
+
+	$attr                 = shortcode_atts( $attr_defaults, $attr );
+	$active_template_key  = \LearnDash_Theme_Register::get_active_theme_key();
+	$wrapper_class        = ( 'ld30' === $active_template_key ) ? esc_attr( learndash_get_wrapper_class() ) : 'learndash-wrapper';
+	$ld_registered        = SuperGlobals::get_get_var( 'ld-registered', null );
+	$register_id          = absint( SuperGlobals::get_get_var( 'ld_register_id', 0 ) );
+	$preview_show         = SuperGlobals::get_var( [ 'attributes', 'preview_show' ], null );
+	$current_user         = wp_get_current_user();
+	$current_user_id      = get_current_user_id();
+	$is_user_logged_in    = is_user_logged_in();
+	$registration_page_id = (int) \LearnDash_Settings_Section::get_section_setting(
+		'LearnDash_Settings_Section_Registration_Pages',
+		'registration'
+	);
+
+	if ( is_multisite() ) {
+		$learndash_can_register = users_can_register_signup_filter();
+	} else {
+		$learndash_can_register = get_option( 'users_can_register' );
+	}
+
+	// Set some default values to pass to the template. They get overwritten
+	// contextually below.
+	$product                        = null;
+	$course_pricing                 = [];
+	$attached_coupon_dto            = [];
+	$has_access_already             = false;
+	$checkout_page                  = null;
+	$registration_errors            = [];
+	$login_link_redirect            = '';
+	$wp_login_form_html             = '';
+	$error_conditions               = [];
+	$register_action_url            = '';
+	$field_name_login               = '';
+	$field_name_email               = '';
+	$has_registration_form_override = has_action( 'learndash_registration_form_override' );
+	$registration_fields_order      = [];
+	$registration_fields            = [];
+	$registration_redirect_to_url   = '';
+
+	if (
+		$register_id
+		&& $register_id > 0
+	) {
+		$post_type = get_post_type( $register_id );
+
+		/**
+		 * Product object.
+		 *
+		 * @var Product|null $product
+		 */
+		$product = Product::find( $register_id );
+
+		if ( LDLMS_Post_Types::get_post_type_slug( 'course' ) === $post_type ) {
+			$course_pricing = learndash_get_course_price( $register_id );
+		} elseif ( learndash_get_post_type_slug( 'group' ) === $post_type ) {
+			$course_pricing = learndash_get_group_price( $register_id );
+		} else {
+			esc_html_e( 'Invalid Course or Group', 'learndash' );
+			return;
+		}
+
+		if ( ! $product ) {
+			esc_html_e( 'Invalid product', 'learndash' );
+			return;
+		}
+
+		$course_pricing['price'] = learndash_get_price_as_float( $course_pricing['price'] );
+
+		if ( ! empty( $course_pricing['trial_price'] ) ) {
+			$course_pricing['trial_price'] = learndash_get_price_as_float( $course_pricing['trial_price'] );
+		}
+
+		$current_user_id   = get_current_user_id();
+		$is_user_logged_in = is_user_logged_in();
+
+		$attached_coupon_dto = null;
+		if (
+			$is_user_logged_in
+			&& learndash_post_has_attached_coupon( $register_id, $current_user_id )
+		) {
+			$attached_coupon_dto = learndash_get_attached_coupon_data( $register_id, $current_user_id );
+		}
+
+		$current_user_id    = get_current_user_id();
+		$is_user_logged_in  = is_user_logged_in();
+		$has_access_already = $product->user_has_access( $current_user_id );
+	}
+
+	if (
+		$preview_show === 'true'
+		|| ! $is_user_logged_in
+	) {
+		$checkout_page = get_permalink( $registration_page_id );
+
+		if ( $register_id ) {
+			$checkout_page = add_query_arg( 'ld_register_id', $register_id, $checkout_page );
+		}
+
+		/**
+		 * Filters login link on registration form.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $login_link_redirect The location to redirect the login link to
+		 */
+		$login_link_redirect = Cast::to_string( apply_filters( 'learndash_registration_login_link_redirect', '' ) );
+
+		$wp_login_form_html = learndash_get_login_form_html( Cast::to_string( $checkout_page ) );
+
+		if (
+			$learndash_can_register
+			&& ! $has_registration_form_override
+		) {
+			$error_conditions = learndash_login_error_conditions();
+
+			if ( is_multisite() ) {
+				$register_action_url = network_site_url( 'wp-signup.php' );
+				$field_name_login    = 'user_name';
+				$field_name_email    = 'user_email';
+			} else {
+				$register_action_url = site_url( 'wp-login.php?action=register', 'login_post' );
+				$field_name_login    = 'user_login';
+				$field_name_email    = 'user_email';
+			}
+
+			$registration_errors = array(
+				'has_errors' => false,
+				'message'    => '',
+			);
+
+			$error_conditions_keys = [];
+
+			foreach ( $error_conditions as $learndash_param => $learndash_message ) {
+				$param_value = SuperGlobals::get_get_var( (string) $learndash_param, null );
+
+				if ( $param_value !== null ) {
+					$registration_errors['has_errors'] = true;
+					if ( ! empty( $registration_errors['message'] ) ) {
+						$registration_errors['message'] .= '<br />';
+					}
+					$registration_errors['message'] .= $learndash_message;
+				}
+
+				if ( ! is_string( $learndash_param ) ) {
+					continue;
+				}
+
+				$error_conditions_keys[] = $learndash_param;
+
+				$registration_fields       = LearnDash_Settings_Section_Registration_Fields::get_section_settings_all();
+				$registration_fields_order = $registration_fields['fields_order'];
+
+				$registration_redirect_to_url = remove_query_arg(
+					$error_conditions_keys,
+					get_permalink()
+				);
+
+				if ( ! is_multisite() ) {
+					$registration_redirect_to_url = add_query_arg(
+						array(
+							'ld-registered'  => 'true',
+							'ld_register_id' => $register_id,
+						),
+						$registration_redirect_to_url
+					);
+				}
+			}
+		}
+	}
+
+	Assets::instance()->enqueue_group( 'learndash-registration' );
+	wp_enqueue_style( 'dashicons' );
+
+	$total = $product ? (string) $product->get_final_price() : '';
+
+	Template::show_template(
+		'modules/registration/registration',
+		[
+			'active_template_key'            => $active_template_key,
+			'attached_coupon_dto'            => $attached_coupon_dto,
+			'is_registration_enabled'        => $learndash_can_register,
+			'checkout_page'                  => $checkout_page,
+			'course_pricing'                 => $course_pricing,
+			'current_user'                   => $current_user,
+			'current_user_id'                => $current_user_id,
+			'error_conditions'               => $error_conditions,
+			'field_name_email'               => $field_name_email,
+			'field_name_login'               => $field_name_login,
+			'has_access_already'             => $has_access_already,
+			'has_registration_form_override' => $has_registration_form_override,
+			'is_registered'                  => $ld_registered === 'true',
+			'is_user_logged_in'              => $is_user_logged_in,
+			'form_width'                     => $attr['width'],
+			'ld_registered'                  => $ld_registered,
+			'wp_login_form_html'             => $wp_login_form_html,
+			'login_link_redirect'            => $login_link_redirect,
+			'price'                          => $product ? $product->get_display_price() : '',
+			'preview_show'                   => $preview_show,
+			'product'                        => $product,
+			'register_action_url'            => $register_action_url,
+			'register_id'                    => $register_id,
+			'registration_errors'            => $registration_errors,
+			'registration_fields_order'      => $registration_fields_order,
+			'registration_fields'            => $registration_fields,
+			'registration_redirect_to_url'   => $registration_redirect_to_url,
+			'registration_page_id'           => $registration_page_id,
+			'trial_price'                    => $product ? $product->get_display_trial_price() : '',
+			'wrapper_class'                  => $wrapper_class,
+			'total'                          => $total,
+			'terms_settings'                 => Terms_Privacy_Agreement::get_settings(),
+			'is_terms_enabled'               => Terms_Privacy_Agreement::is_terms_enabled(),
+			'is_privacy_enabled'             => Terms_Privacy_Agreement::is_privacy_enabled(),
+		]
+	);
+
+	learndash_registerform_password_strength_data();
+}
+
+/**
+ * Returns the login form HTML.
+ *
+ * @since 4.16.0
+ *
+ * @param string $redirect_url URL to redirect to after logging in.
+ *
+ * @return string
+ */
+function learndash_get_login_form_html( string $redirect_url = '' ): string {
+	/**
+	 * Url to redirect to after logging in through registration form login form. Notice this runs through the wp_safe_redirect function ( https://developer.wordpress.org/reference/functions/wp_safe_redirect/ )
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $login_form_redirect The location the user is redirected to after logging into their account
+	 */
+	$login_form_redirect = Cast::to_string( apply_filters( 'learndash_registration_login_form_redirect', $redirect_url ) );
+
+	$reset_password_is_enabled = learndash_reset_password_is_enabled();
+	$wp_login_form_html        = wp_login_form(
+		[
+			'echo'           => false,
+			'redirect'       => $login_form_redirect,
+			'label_username' => esc_html__( 'Username or Email Address *', 'learndash' ),
+			'label_password' => esc_html__( 'Password *', 'learndash' ),
+		]
+	);
+
+	if ( $reset_password_is_enabled ) {
+		ob_start();
+		?>
+		<p class="ld-registration__forgot-password">
+			<a href="<?php echo esc_attr( Cast::to_string( get_permalink( learndash_get_reset_password_page_id() ) ) ); ?>">
+				<?php echo esc_html_x( 'Forgot password?', 'placeholder: Forgot password link below login form.', 'learndash' ); ?>
+			</a>
+		</p>
+		<?php
+		/**
+		 * Filters the forgot password HTML.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @param string $forgot_password_html Forgot password HTML.
+		 *
+		 * @return string
+		 */
+		$forgot_password_html = Cast::to_string( apply_filters( 'learndash_registration_forgot_password_html', (string) ob_get_clean() ) );
+
+		$wp_login_form_html = Cast::to_string( preg_replace( '!<p class="login-submit">!', $forgot_password_html . "\n" . '<p class="login-submit">', $wp_login_form_html ) );
+
+		if ( preg_match( '!<p class="login-remember">!', $wp_login_form_html ) ) {
+			$wp_login_form_html = Cast::to_string( preg_replace( '!<p class="login-remember">!', '<div class="ld-registration__login_options_wrapper"><p class="login-remember">', $wp_login_form_html ) );
+			$wp_login_form_html = Cast::to_string( preg_replace( '!<p class="login-submit">!', '</div><p class="login-submit">', $wp_login_form_html ) );
+		}
+	}
+
+	$wp_login_form_html = Cast::to_string( preg_replace( '!<form name!', '<form class="ld-form" name', $wp_login_form_html ) );
+	$wp_login_form_html = Cast::to_string( preg_replace( '!class="input"!', 'class="input ld-form__field"', $wp_login_form_html ) );
+	$wp_login_form_html = Cast::to_string( preg_replace( '!class="button button-primary"!', 'class="button button-primary wp-element-button"', $wp_login_form_html ) );
+
+	/**
+	 * Filters the WP login form HTML.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @param string $wp_login_form_html WP login form HTML.
+	 *
+	 * @return string
+	 */
+	return Cast::to_string( apply_filters( 'learndash_registration_wp_login_form_html', $wp_login_form_html ) );
+}
+
+/**
+ * Displays a success message after a user successfully registers.
+ *
+ * @since 4.16.0
+ *
+ * @return void
+ */
+function learndash_output_registration_success_alert() {
+	/**
+	 * Fires before the register success alert.
+	 *
+	 * @since 4.16.0
+	 */
+	do_action( 'learndash_registration_successful_before' );
+
+	learndash_get_template_part(
+		'modules/alert.php',
+		[
+			'icon'    => 'alert',
+			'message' => __( 'Registration successful.', 'learndash' ),
+			'role'    => 'alert',
+			'type'    => 'success',
+		],
+		true
+	);
+
+	/**
+	 * Fires after the register success alert.
+	 *
+	 * @since 3.6.0
+	 */
+	do_action( 'learndash_registration_successful_after' );
+}
+
+/**
+ * Returns the appropriate login URL based on the active LearnDash theme and settings.
+ *
+ * For sites using the LD30 theme with Login & Registration enabled, it returns '#login'
+ * and loads the login modal HTML.
+ * Otherwise, it returns the WordPress login URL with a redirect back to the current page.
  *
  * @since 3.6.0
+ * @since 4.21.0 Added the `learndash_login_url` filter.
  *
- * @return string The login URL
+ * @return string Login URL - Either '#login' for modal or WordPress login page URL.
  */
 function learndash_get_login_url() {
 	$active_template_key = LearnDash_Theme_Register::get_active_theme_key();
 	$login_mode_enabled  = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
-	$learndash_login_url = '';
-	if ( ( 'ld30' === $active_template_key ) && ( 'yes' === $login_mode_enabled ) ) {
+
+	if (
+		'ld30' === $active_template_key
+		&& 'yes' === $login_mode_enabled
+	) {
 		learndash_load_login_modal_html();
 		$learndash_login_url = '#login';
 	} else {
 		$learndash_login_url = wp_login_url( get_permalink( get_the_ID() ) );
 	}
 
-	return $learndash_login_url;
+	/** This filter is documented in themes/ld30/includes/shortcodes.php. */
+	return apply_filters( 'learndash_login_url', $learndash_login_url, 'login', [] );
 }
 
 /**
@@ -581,7 +949,6 @@ function learndash_new_user_email_enabled() {
 function learndash_emails_content_new_user( $wp_new_user_notification_email = '', $user = '', $blogname = '' ) {
 	$email_setting = LearnDash_Settings_Section_Emails_New_User_Registration::get_section_settings_all();
 	if ( 'on' === $email_setting['enabled'] ) {
-
 		$placeholders = array(
 			'{user_login}'   => $user->user_login,
 			'{first_name}'   => $user->user_firstname,
@@ -636,7 +1003,7 @@ function learndash_emails_content_new_user( $wp_new_user_notification_email = ''
 
 			add_filter(
 				'wp_mail_content_type',
-				function() {
+				function () {
 					return 'text/html';
 				}
 			);
@@ -678,16 +1045,19 @@ function learndash_registration_form_validate( WP_Error $errors ) {
 			$password           = '';
 			$confirmed_password = '';
 			if ( isset( $_POST['password'] ) ) {
-				$password = sanitize_text_field( $_POST['password'] );
+				$password = $_POST['password'];
 			}
 			if ( 'yes' === $learndash_registration_fields['password_required'] && empty( $password ) ) {
 				$errors->add( 'empty_password', __( 'Registration requires a password.', 'learndash' ) );
 			}
 			if ( isset( $_POST['confirm_password'] ) ) {
-				$confirmed_password = sanitize_text_field( $_POST['confirm_password'] );
+				$confirmed_password = $_POST['confirm_password'];
 			}
 
-			if ( $password !== $confirmed_password ) {
+			if (
+				learndash_registration_variation() === LearnDash_Theme_Register_LD30::$variation_classic
+				&& $password !== $confirmed_password
+			) {
 				$errors->add( 'confirm_password', __( 'Passwords do not match.', 'learndash' ) );
 			}
 		}
@@ -728,7 +1098,6 @@ function learndash_validation_registration_form_redirect_to() {
  * @param array  $errors               Array of registration errors.
  */
 function learndash_user_register_error( $sanitized_user_login, $user_email, $errors ) {
-
 	$redirect_url = learndash_validation_registration_form_redirect_to();
 	if ( $redirect_url ) {
 		$redirect_url = remove_query_arg( 'ld-registered', $redirect_url );
@@ -798,16 +1167,14 @@ function learndash_user_register_error( $sanitized_user_login, $user_email, $err
 				// add finally, redirect to your custom page with all errors in attributes.
 				learndash_safe_redirect( $redirect_url );
 			}
-		} else {
-			if ( isset( $_POST['ld_register_id'] ) ) {
-				if ( empty( $_POST['ld_register_id'] ) ) {
-					// We set the 'redirect_to' only if there are not errors in the registration data.
-					$ld_registration_success_id  = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Registration_Pages', 'registration_success' );
-					$ld_registration_success_id  = absint( $ld_registration_success_id );
-					$ld_registration_success_url = get_permalink( $ld_registration_success_id );
-					if ( ! empty( $ld_registration_success_url ) ) {
-						$_POST['redirect_to'] = $ld_registration_success_url;
-					}
+		} elseif ( isset( $_POST['ld_register_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- legacy code.
+			if ( empty( $_POST['ld_register_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- legacy code.
+				// We set the 'redirect_to' only if there are not errors in the registration data.
+				$ld_registration_success_id  = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Registration_Pages', 'registration_success' );
+				$ld_registration_success_id  = absint( $ld_registration_success_id );
+				$ld_registration_success_url = get_permalink( $ld_registration_success_id );
+				if ( ! empty( $ld_registration_success_url ) ) {
+					$_POST['redirect_to'] = $ld_registration_success_url;
 				}
 			}
 		}
@@ -921,7 +1288,6 @@ function learndash_validation_login_form_course() {
 		if ( ( isset( $_POST['learndash-login-form-post'] ) ) && ( ! empty( $_POST['learndash-login-form-post'] ) ) ) {
 			$post_id = absint( $_POST['learndash-login-form-post'] );
 			if ( ( isset( $_POST['learndash-login-form-post-nonce'] ) ) && ( wp_verify_nonce( $_POST['learndash-login-form-post-nonce'], 'learndash-login-form-post-' . $post_id . '-nonce' ) ) ) {
-
 				if ( in_array( get_post_type( $post_id ), array( learndash_get_post_type_slug( 'course' ) ), true ) ) {
 					/** This filter is documented in themes/ld30/includes/login-register-functions.php */
 					if ( ( ! empty( $post_id ) ) && ( apply_filters( 'learndash_login_form_include_course', true, $post_id ) ) ) {
@@ -974,8 +1340,8 @@ function learndash_register_user_success( $user_id = 0 ) {
 				}
 			}
 			if ( isset( $_POST['password'] ) ) {
-				$password           = sanitize_text_field( $_POST['password'] );
-				$confirmed_password = sanitize_text_field( $_POST['confirm_password'] );
+				$password           = $_POST['password'];
+				$confirmed_password = $_POST['confirm_password'];
 				if ( ! empty( $password ) && ! empty( $confirmed_password ) ) {
 					wp_set_password( $password, $user_id );
 				}
@@ -1278,7 +1644,7 @@ function learndash_registerform_password_strength_data() {
 	 *
 	 * @param string Message to display to user with additional information to help choose a better password
 	 */
-	$params['i18n_password_hint'] = esc_attr__( 'Hint: The password should be at least twelve characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).', 'learndash' );
+	$params['i18n_password_hint'] = esc_attr__( 'Tip: Try at least 12 characters long containing letters, numbers, and special characters.', 'learndash' );
 
 	/**
 	 * Controls disabling registration form submission
@@ -1336,12 +1702,17 @@ function learndash_get_reset_password_page_id(): int {
  * @return void
  */
 function learndash_reset_password_output( $attr = array() ): void {
+	if ( learndash_registration_variation() === LearnDash_Theme_Register_LD30::$variation_modern ) {
+		learndash_reset_password_output_modern( $attr );
+		return;
+	}
+
 	$attr_defaults       = array( 'width' => 0 );
 	$attr                = shortcode_atts( $attr_defaults, $attr );
 	$form_width          = $attr['width'];
 	$active_template_key = LearnDash_Theme_Register::get_active_theme_key();
 	?>
-	<div class="<?php echo ( 'ld30' === $active_template_key ) ? esc_attr( learndash_the_wrapper_class() ) : 'learndash-wrapper'; ?>">
+<div class="<?php echo ( 'ld30' === $active_template_key ) ? esc_attr( learndash_the_wrapper_class() ) : 'learndash-wrapper'; ?>">
 	<?php
 	if ( isset( $_GET['action'] ) && 'rp' === $_GET['action'] ) {
 		$key        = ( isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '' );
@@ -1367,15 +1738,12 @@ function learndash_reset_password_output( $attr = array() ): void {
 		&& ! empty( $_POST['learndash-reset-password-form-post-nonce'] )
 		&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['learndash-reset-password-form-post-nonce'] ) ), 'learndash-reset-password-form-post-nonce' )
 	) {
-		$new_password = sanitize_text_field( wp_unslash( $_POST['reset_password'] ) );
-		$user         = get_user_by( 'login', sanitize_text_field( wp_unslash( $_POST['user_login'] ) ) );
+		$user = get_user_by( 'login', sanitize_text_field( wp_unslash( $_POST['user_login'] ) ) );
 
 		if ( $user ) {
 			$key = sanitize_text_field( wp_unslash( $_GET['key'] ?? '' ) );
 
-			if ( ! learndash_reset_password_verification( $user, $key ) instanceof WP_Error ) {
-				learndash_reset_password_set_user_new_password( $user, $new_password );
-			} else {
+			if ( learndash_reset_password_verification( $user, $key ) instanceof WP_Error ) {
 				$status['message'] = esc_html__( 'Invalid user, please check your reset password link and try again.', 'learndash' );
 				$status['type']    = 'warning';
 			}
@@ -1386,63 +1754,171 @@ function learndash_reset_password_output( $attr = array() ): void {
 		$status['type']    = 'success';
 	}
 	?>
-	<div id="learndash-reset-password-wrapper" <?php echo ( ! empty( $form_width ) ) ? 'style="width: ' . esc_attr( $form_width ) . 'px;"' : ''; ?>>
+	<div class="<?php echo ( 'ld30' === $active_template_key ) ? esc_attr( learndash_get_wrapper_class() ) : 'learndash-wrapper'; ?>">
+		<div id="learndash-reset-password-wrapper" <?php echo ( ! empty( $form_width ) ) ? 'style="width: ' . esc_attr( $form_width ) . 'px;"' : ''; ?>>
+			<?php
+			if ( ! empty( $status ) ) {
+				learndash_get_template_part(
+					'modules/alert.php',
+					array(
+						'type'    => $status['type'],
+						'icon'    => 'alert',
+						'message' => $status['message'],
+					),
+					true
+				);
+			}
+
+			learndash_login_failed_alert();
+
+			if ( isset( $_GET['action'] ) && 'rp' === $_GET['action'] && ! isset( $status ) ) {
+				?>
+				<form action="" method="POST">
+					<p>
+						<label for="reset_password"><?php esc_html_e( 'Set new password', 'learndash' ); ?></label>
+						<input type="password" name="reset_password" id="user_new_password" />
+						<input type="hidden" name="user_login" id="user_login" value="<?php echo ( isset( $_GET['login'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) : '' ); ?>" />
+						<?php
+						wp_nonce_field( 'learndash-reset-password-form-post-nonce', 'learndash-reset-password-form-post-nonce' );
+						?>
+					</p>
+					<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
+				</form>
+				<?php
+			} elseif ( isset( $status['action'] ) && 'prevent_reset' === $status['action'] ) {
+				// Password reset key is invalid here, don't allow them to reset the password and just show an error message.
+				echo '';
+			} elseif ( isset( $_GET['password_reset'] ) && 'true' === $_GET['password_reset'] ) {
+				wp_login_form(
+					[
+						'redirect' => learndash_get_reset_password_success_page_id() > 0
+							? (string) get_permalink( learndash_get_reset_password_success_page_id() )
+							: home_url(),
+					]
+				);
+			} else {
+				?>
+				<form action="" method="POST">
+					<p>
+						<label for="reset_password"><?php esc_html_e( 'Username or Email Address', 'learndash' ); ?></label>
+						<input type="text" name="user_login" id="user_login" autocapitalize="off" autocomplete="off" />
+						<?php
+						wp_nonce_field( 'learndash-reset-password-form-nonce', 'learndash-reset-password-form-nonce' );
+						?>
+					</p>
+					<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
+				</form>
+				<?php
+			}
+			?>
+		</div>
+	</div>
 	<?php
-	if ( ! empty( $status ) ) {
-		learndash_get_template_part(
-			'modules/alert.php',
-			array(
-				'type'    => $status['type'],
-				'icon'    => 'alert',
-				'message' => $status['message'],
-			),
-			true
-		);
+}
+
+/**
+ * LearnDash LD30 Shows reset password form.
+ *
+ * @since 4.16.0
+ *
+ * @param array<string, mixed> $attr Array of attributes for shortcode.
+ *
+ * @return void
+ */
+function learndash_reset_password_output_modern( array $attr = [] ): void {
+	$attr_defaults       = [ 'width' => 0 ];
+	$attr                = shortcode_atts( $attr_defaults, $attr );
+	$form_width          = $attr['width'];
+	$active_template_key = LearnDash_Theme_Register::get_active_theme_key();
+
+	$wrapper_class        = ( 'ld30' === $active_template_key ) ? esc_attr( learndash_get_wrapper_class() ) : 'learndash-wrapper';
+	$action               = SuperGlobals::get_get_var( 'action', null );
+	$do_password_reset    = SuperGlobals::get_get_var( 'password_reset', null );
+	$form_nonce           = Cast::to_string( SuperGlobals::get_post_var( 'learndash-reset-password-form-nonce', null ) );
+	$form_post_nonce      = Cast::to_string( SuperGlobals::get_post_var( 'learndash-reset-password-form-post-nonce', null ) );
+	$reset_password       = SuperGlobals::get_post_var( 'reset_password', null );
+	$login                = Cast::to_string( SuperGlobals::get_var( 'login', null ) );
+	$user                 = null;
+	$submitted_user_login = Cast::to_string( SuperGlobals::get_post_var( 'user_login', null ) );
+	$key                  = Cast::to_string( SuperGlobals::get_get_var( 'key', '' ) );
+	$status               = [];
+	$wp_login_form_html   = '';
+
+	if ( $login ) {
+		$user = get_user_by( 'login', $login );
 	}
 
-	learndash_login_failed_alert();
+	if (
+		$action === 'rp'
+		&& $user instanceof WP_User
+	) {
+		$key_verify = learndash_reset_password_verification( $user, $key );
 
-	if ( isset( $_GET['action'] ) && 'rp' === $_GET['action'] && ! isset( $status ) ) {
-		?>
-		<form action="" method="POST">
-			<p>
-				<label for="reset_password"><?php esc_html_e( 'Set new password', 'learndash' ); ?></label>
-				<input type="password" name="reset_password" id="user_new_password" />
-				<input type="hidden" name="user_login" id="user_login" value="<?php echo ( isset( $_GET['login'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) : '' ); ?>" />
-				<?php
-					wp_nonce_field( 'learndash-reset-password-form-post-nonce', 'learndash-reset-password-form-post-nonce' );
-				?>
-			</p>
-			<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
-		</form>
-		<?php
-	} elseif ( isset( $status['action'] ) && 'prevent_reset' === $status['action'] ) {
-		// Password reset key is invalid here, don't allow them to reset the password and just show an error message.
-		echo '';
-	} elseif ( isset( $_GET['password_reset'] ) && 'true' === $_GET['password_reset'] ) {
-		wp_login_form(
-			array(
-				'redirect' => get_permalink( learndash_get_reset_password_page_id() ),
-			)
-		);
-	} else {
-		?>
-		<form action="" method="POST">
-			<p>
-				<label for="reset_password"><?php esc_html_e( 'Username or Email Address', 'learndash' ); ?></label>
-				<input type="text" name="user_login" id="user_login" autocapitalize="off" autocomplete="off" />
-				<?php
-					wp_nonce_field( 'learndash-reset-password-form-nonce', 'learndash-reset-password-form-nonce' );
-				?>
-			</p>
-			<input type="submit" value="<?php esc_html_e( 'Reset Password', 'learndash' ); ?>"/>
-		</form>
-		<?php
+		if ( 'WP_Error' === get_class( $key_verify ) ) {
+			$status['message'] = esc_html__( 'Invalid key, please check your reset password link and try again.', 'learndash' );
+			$status['type']    = 'warning';
+			$status['action']  = 'prevent_reset';
+		}
 	}
-	?>
-	</div>
-	</div>
-	<?php
+
+	if (
+		$submitted_user_login
+		&& ! empty( $form_nonce )
+		&& wp_verify_nonce( $form_nonce, 'learndash-reset-password-form-nonce' )
+		&& ! $reset_password
+	) {
+		$status = learndash_reset_password_email_send();
+	}
+
+	if (
+		$submitted_user_login
+		&& $reset_password
+		&& ! empty( $form_post_nonce )
+		&& wp_verify_nonce( $form_post_nonce, 'learndash-reset-password-form-post-nonce' )
+		&& $user
+		&& learndash_reset_password_verification( $user, $key ) instanceof WP_Error
+	) {
+		$status['message'] = esc_html__( 'Invalid user, please check your reset password link and try again.', 'learndash' );
+		$status['type']    = 'warning';
+	}
+
+	if (
+		$do_password_reset === 'true'
+		&& ! $submitted_user_login
+		&& $login
+	) {
+		$status['message'] = esc_html__( 'Password reset, please log into your account.', 'learndash' );
+		$status['type']    = 'success';
+	}
+
+	if ( $do_password_reset === 'true' ) {
+		$redirect_url = learndash_get_reset_password_success_page_id() > 0
+			? (string) get_permalink( learndash_get_reset_password_success_page_id() )
+			: home_url();
+
+		$wp_login_form_html = learndash_get_login_form_html( $redirect_url );
+	}
+
+	Assets::instance()->enqueue_group( 'learndash-registration' );
+
+	Template::show_template(
+		'modules/registration/login/forgot-password.php',
+		[
+			'action'                 => $action,
+			'do_password_reset'      => $do_password_reset,
+			'form_nonce'             => $form_nonce,
+			'form_post_nonce'        => $form_post_nonce,
+			'form_width'             => $form_width,
+			'reset_password'         => $reset_password,
+			'show_set_password_form' => $action === 'rp' && ! $status,
+			'status'                 => $status,
+			'user_login'             => empty( $submitted_user_login ) ? $login : $submitted_user_login,
+			'wp_login_form_html'     => $wp_login_form_html,
+			'wrapper_class'          => $wrapper_class,
+		]
+	);
+
+	learndash_registerform_password_strength_data();
 }
 
 /**
@@ -1464,12 +1940,12 @@ function learndash_reset_password_email_send(): array {
 	}
 
 	if ( ! $user_data ) {
-		$status['message'] = esc_html__( 'There is no account with that username or email address.', 'learndash' );
-		$status['type']    = 'warning';
+		$status['message'] = esc_html__( 'If an account with that username or email address exists, an email has been sent with password reset instructions.', 'learndash' );
+		$status['type']    = 'success';
 		return $status;
 	}
 
-	$status['message'] = esc_html__( 'Reset password mail sent. Check your inbox.', 'learndash' );
+	$status['message'] = esc_html__( 'If an account with that username or email address exists, an email has been sent with password reset instructions.', 'learndash' );
 	$status['type']    = 'success';
 	wp_mail( $user_data->user_email, esc_html__( 'Password Reset', 'learndash' ), learndash_reset_password_email_message( $user_data ) );
 	return $status;
@@ -1531,7 +2007,7 @@ function learndash_reset_password_email_message( $user_data ): string {
  * @param WP_User $user  WP_User object.
  * @param string  $key   Reset password activation key.
  *
- * @return object WP_User object on success or WP_Error object on invalid/expired key
+ * @return WP_User|WP_Error WP_User object on success or WP_Error object on invalid/expired key.
  */
 function learndash_reset_password_verification( $user, $key ) {
 	return check_password_reset_key( $key, $user->user_login );
@@ -1549,14 +2025,18 @@ function learndash_reset_password_verification( $user, $key ) {
  */
 function learndash_reset_password_set_user_new_password( $user, $new_password ): void {
 	reset_password( $user, $new_password );
+
 	/**
 	 * Fires after the user password has been updated
 	 *
 	 * @since 4.4.0
 	 */
 	do_action( 'learndash_reset_password_success' );
-	remove_query_arg( 'action', get_permalink() );
-	learndash_safe_redirect( add_query_arg( 'password_reset', 'true', get_permalink() ) );
+
+	$permalink = remove_query_arg( 'action', get_permalink() );
+	$permalink = add_query_arg( 'password_reset', 'true', $permalink );
+
+	learndash_safe_redirect( $permalink );
 }
 
 /**
@@ -1576,6 +2056,7 @@ function learndash_login_failed_alert(): void {
 				'type'    => 'warning',
 				'icon'    => 'alert',
 				'message' => __( 'Incorrect username or password. Please try again', 'learndash' ),
+				'role'    => 'alert',
 			),
 			true
 		);
@@ -1617,3 +2098,81 @@ if ( ! function_exists( 'learndash_registration_page_get_id' ) ) {
 		);
 	}
 }
+
+/**
+ * Builds the registration page URL for a given product ID.
+ *
+ * @since 4.21.0
+ *
+ * @param int $product_id Product ID.
+ *
+ * @return string Empty string if the registration page is not set, otherwise the URL.
+ */
+function learndash_registration_page_build_url( int $product_id ): string {
+	$page_id = learndash_registration_page_get_id();
+
+	if ( ! $page_id ) {
+		return '';
+	}
+
+	return add_query_arg( 'ld_register_id', $product_id, get_permalink( $page_id ) );
+}
+
+/**
+ * Returns the reset password success page ID or 0 if not set.
+ *
+ * @since 4.8.0
+ *
+ * @return int
+ */
+function learndash_get_reset_password_success_page_id(): int {
+	$page_id = LearnDash_Settings_Section::get_section_setting(
+		'LearnDash_Settings_Section_Registration_Pages',
+		'reset_password_success'
+	);
+
+	return Cast::to_int( $page_id );
+}
+
+/**
+ * Processes the password reset redirect.
+ *
+ * @since 4.12.0
+ *
+ * @return void
+ */
+function learndash_process_password_reset_redirect(): void {
+	if (
+		empty( $_GET['key'] )
+		|| empty( $_POST['user_login'] )
+		|| empty( $_POST['reset_password'] )
+		|| empty( $_POST['learndash-reset-password-form-post-nonce'] )
+		|| ! wp_verify_nonce(
+			sanitize_text_field( wp_unslash( $_POST['learndash-reset-password-form-post-nonce'] ) ),
+			'learndash-reset-password-form-post-nonce'
+		)
+	) {
+		return;
+	}
+
+	$user = get_user_by(
+		'login',
+		sanitize_text_field( wp_unslash( $_POST['user_login'] ) )
+	);
+
+	if ( ! $user instanceof WP_User ) {
+		return;
+	}
+
+	$key = sanitize_text_field( wp_unslash( $_GET['key'] ) );
+
+	if ( learndash_reset_password_verification( $user, $key ) instanceof WP_Error ) {
+		return;
+	}
+
+	$new_password = sanitize_text_field( wp_unslash( $_POST['reset_password'] ) );
+
+	learndash_reset_password_set_user_new_password( $user, $new_password );
+}
+
+add_action( 'init', 'learndash_process_password_reset_redirect' );

@@ -3,6 +3,7 @@
  * This file contains the code that displays the quiz navigation admin.
  *
  * @since 2.1.0
+ * @version 4.25.8.1
  *
  * @package LearnDash\Templates\Legacy
  */
@@ -64,7 +65,7 @@ if ( ( isset( $quiz_id ) ) && ( ! empty( $quiz_id ) ) ) {
 			$question_edit_link = add_query_arg( 'quiz_id', $quiz_id, $question_edit_link );
 
 			?>
-			<li class="learndash-quiz-question-item ld-question-overview-widget-item <?php echo $selected_class; ?>"></span> <a href="<?php echo esc_url( $question_edit_link ); ?>"><?php echo $question_title; ?></a></li>
+			<li class="learndash-quiz-question-item ld-question-overview-widget-item <?php echo $selected_class; ?>"></span> <a href="<?php echo esc_url( $question_edit_link ); ?>"><?php echo wp_kses_post( $question_title ); ?></a></li>
 			<?php
 			$question_label_idx += 1;
 		}

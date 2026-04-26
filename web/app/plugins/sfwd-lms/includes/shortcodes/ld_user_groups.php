@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `[user_groups]` shortcode output.
  *
@@ -43,11 +45,14 @@ function learndash_user_groups( $attr = array(), $content = '', $shortcode_slug 
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$shortcode_atts = apply_filters( 'learndash_shortcode_atts', $shortcode_atts, $shortcode_slug );
 
-	if ( empty( $shortcode_atts['user_id'] ) ) {
+	if ( ! empty( $shortcode_atts['user_id'] ) ) {
+		// Override the user ID if the current user can't access the passed user ID's data.
+		$shortcode_atts['user_id'] = learndash_shortcode_protect_user( Cast::to_int( $shortcode_atts['user_id'] ) );
+	} else {
 		$shortcode_atts['user_id'] = get_current_user_id();
 	}
 
-	if ( ! empty( $user_id ) ) {
+	if ( $shortcode_atts['user_id'] <= 0 ) {
 		return '';
 	}
 

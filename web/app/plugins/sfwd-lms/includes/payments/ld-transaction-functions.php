@@ -20,9 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 4.5.0   Added optional $parent_transaction_id parameter.
  *
  * @param array   $meta_fields           Meta fields.
- * @param WP_Post $post                  Post.
+ * @param WP_Post $post                  The product post.
  * @param WP_User $user                  User.
- * @param int     $parent_transaction_id Parent transaction ID. Default 0. If not set, a new parent transaction will be created.
+ * @param int     $parent_transaction_id Parent order ID. Default 0. If not set, a new parent order will be created.
  *
  * @return int Transaction ID or 0.
  */
@@ -35,17 +35,21 @@ function learndash_transaction_create( array $meta_fields, WP_Post $post, WP_Use
 		),
 	);
 
-	// Create a parent transaction if not specified.
+	// Create a parent order if not specified.
 
 	if ( $parent_transaction_id <= 0 ) {
 		/**
-		 * Parent transaction ID.
+		 * Parent order ID.
 		 *
-		 * @var int|WP_Error $parent_transaction_id Parent transaction ID.
+		 * @var int|WP_Error $parent_transaction_id Parent order ID.
 		 */
 		$parent_transaction_id = wp_insert_post(
 			array(
-				'post_title'  => __( 'Parent transaction', 'learndash' ),
+				'post_title'  => sprintf(
+					// Translators: %s: order label.
+					__( 'Parent %s', 'learndash' ),
+					learndash_get_custom_label_lower( 'order' )
+				),
 				'post_type'   => LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::TRANSACTION ),
 				'post_status' => 'publish',
 				'post_author' => $user->ID,

@@ -49,6 +49,21 @@ function learndash_check_coupon_is_valid( string $coupon_code, int $post_id ): a
 	$course_post_type = LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::COURSE );
 	$group_post_type  = LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::GROUP );
 
+	/**
+	 * Override the coupon check and return with the expected response array.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @return null|array{
+	 *     is_valid: bool,
+	 *     error: string
+	 * }
+	 */
+	$response = apply_filters( 'learndash_coupon_check_is_valid', null, $coupon_code, $post_id, $errors );
+	if ( $response !== null ) {
+		return $response;
+	}
+
 	// Check if params are empty.
 
 	if ( empty( $coupon_code ) || empty( $post_id ) ) {
@@ -155,6 +170,22 @@ function learndash_check_coupon_is_valid( string $coupon_code, int $post_id ): a
 function learndash_calculate_coupon_discounted_price( int $coupon_id, float $price ): float {
 	$coupon = get_post( $coupon_id );
 
+	/**
+	 * Filters the calculated price for when a coupon would be applied.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param null|float   $new_price The new price if we are overriding.
+	 * @param null|WP_Post $coupon    The coupon WP_Post object if one is found.
+	 * @param float        $price     The price to be discounted by the coupon.
+	 *
+	 * @return float|null
+	 */
+	$new_price = apply_filters( 'learndash_coupon_discounted_price', null, $coupon, $price );
+	if ( $new_price !== null ) {
+		return $new_price;
+	}
+
 	if ( is_null( $coupon ) ) {
 		return $price;
 	}
@@ -215,7 +246,19 @@ function learndash_get_coupon_by_code( string $coupon_code ): ?WP_Post {
 
 	$query = new WP_Query( $query_args );
 
-	return empty( $query->posts ) ? null : $query->posts[0];
+	$post = empty( $query->posts ) ? null : $query->posts[0];
+
+	/**
+	 * Filter or override a WP_Post for a particular coupon code.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param null|WP_Post $post        The parameter to override the coupon fetching by coupon code.
+	 * @param string       $coupon_code The coupon string.
+	 *
+	 * @return WP_Post|null
+	 */
+	return apply_filters( 'learndash_coupon_get_by_code', $post, $coupon_code ); // @phpstan-ignore-line
 }
 
 /**
@@ -226,6 +269,18 @@ function learndash_get_coupon_by_code( string $coupon_code ): ?WP_Post {
  * @return bool
  */
 function learndash_active_coupons_exist(): bool {
+	/**
+	 * Override whether there is a valid coupon that exists.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param null|bool $coupons_exist Flag whether a valid coupon exists.
+	 */
+	$coupons_exist = apply_filters( 'learndash_coupon_exists_and_is_active', null );
+	if ( $coupons_exist !== null ) {
+		return $coupons_exist;
+	}
+
 	$coupon_post_type = LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::COUPON );
 
 	if ( 0 === wp_count_posts( strval( $coupon_post_type ) )->publish ) {
@@ -309,11 +364,33 @@ function learndash_increment_coupon_redemptions( int $coupon_id, int $post_id, i
 		LEARNDASH_COUPON_META_KEY_REDEMPTIONS
 	);
 
+	/**
+	 * Fires before coupon redemptions are incremented.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param int $coupon_id The coupon post ID.
+	 * @param int $post_id   The course post ID.
+	 * @param int $user_id   The user ID.
+	 */
+	do_action( 'learndash_coupon_before_redemption', $coupon_id, $post_id, $user_id );
+
 	learndash_update_setting(
 		$coupon_id,
 		LEARNDASH_COUPON_META_KEY_REDEMPTIONS,
 		$redemptions + 1
 	);
+
+	/**
+	 * Fires after coupon redemptions are incremented.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param int $coupon_id The coupon post ID.
+	 * @param int $post_id   The course post ID.
+	 * @param int $user_id   The user ID.
+	 */
+	do_action( 'learndash_coupon_after_redemption', $coupon_id, $post_id, $user_id );
 }
 
 /**
@@ -352,11 +429,38 @@ function learndash_attach_coupon( int $post_id, int $coupon_id, float $price, fl
 		return;
 	}
 
+	/**
+	 * Filters the Learndash_Coupon_DTO when a coupon is being applied.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param Learndash_Coupon_DTO  $coupon_dto The computed price with discounts applied.
+	 * @param int                   $post_id    Product post ID.
+	 * @param int|null              $coupon_id  The coupon post ID.
+	 *
+	 * @return Learndash_Coupon_DTO
+	 */
+	$coupon_dto = apply_filters( 'learndash_coupon_to_attach', $coupon_dto, $post_id, $coupon_id );
+
 	set_transient(
 		learndash_map_coupon_transient_key( $post_id, get_current_user_id() ),
 		$coupon_dto->to_array(),
 		DAY_IN_SECONDS
 	);
+
+	/**
+	 * Fires after a coupon is attached to a product.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param int                  $product_id Product ID.
+	 * @param int                  $coupon_id  Coupon ID.
+	 * @param int                  $user_id    User ID.
+	 * @param Learndash_Coupon_DTO $coupon_dto Coupon DTO.
+	 *
+	 * @return void
+	 */
+	do_action( 'learndash_coupon_attached', $post_id, $coupon_id, get_current_user_id(), $coupon_dto );
 }
 
 /**
@@ -373,6 +477,18 @@ function learndash_detach_coupon( int $post_id, int $user_id ): void {
 	delete_transient(
 		learndash_map_coupon_transient_key( $post_id, $user_id )
 	);
+
+	/**
+	 * Fires after a coupon is detached from a product.
+	 *
+	 * @since 4.20.1
+	 *
+	 * @param int $product_id Product ID.
+	 * @param int $user_id    User ID.
+	 *
+	 * @return void
+	 */
+	do_action( 'learndash_coupon_detached', $post_id, $user_id );
 }
 
 /**
@@ -395,7 +511,18 @@ function learndash_get_attached_coupon_data( int $post_id, int $user_id ): ?Lear
 	}
 
 	try {
-		return Learndash_Coupon_DTO::create( (array) $attached_coupon_data );
+		/**
+		 * Filters the Learndash_Coupon_DTO for the coupon attached by the user.
+		 *
+		 * @since 4.20.2
+		 *
+		 * @param Learndash_Coupon_DTO $coupon_dto The DTO of the coupon being fetched.
+		 * @param int                  $post_id    Product post ID.
+		 * @param int                  $user_id    The user ID associated with the coupon.
+		 *
+		 * @return Learndash_Coupon_DTO
+		 */
+		return apply_filters( 'learndash_coupon_attached_data', Learndash_Coupon_DTO::create( (array) $attached_coupon_data ), $post_id, $user_id );
 	} catch ( Learndash_DTO_Validation_Exception $e ) {
 		return null;
 	}
@@ -416,7 +543,18 @@ function learndash_post_has_attached_coupon( int $post_id, int $user_id ): bool 
 		learndash_map_coupon_transient_key( $post_id, $user_id )
 	);
 
-	return false !== $attached_coupon_data;
+	/**
+	 * Filters whether the post has an attached coupon for the user.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param bool $has_coupon Whether the post has an attached coupon.
+	 * @param int  $post_id    Product post ID.
+	 * @param int  $user_id    The user ID we are checking for a coupon.
+	 *
+	 * @return bool
+	 */
+	return apply_filters( 'learndash_coupon_is_attached_to_product', false !== $attached_coupon_data, $post_id, $user_id );
 }
 
 /**
@@ -827,6 +965,18 @@ function learndash_enroll_with_zero_price(): void {
 	// Enroll.
 
 	$product->enroll( $user );
+
+	/**
+	 * Fires when a user was enrolled to a product when the price was calculated to zero.
+	 *
+	 * @since 4.20.2
+	 *
+	 * @param Product     $product  Product model.
+	 * @param WP_User     $user     The WP_User being enrolled.
+	 *
+	 * @return void
+	 */
+	do_action( 'learndash_coupon_user_enrolled_with_zero_price', $product, $user );
 
 	// Redirect.
 

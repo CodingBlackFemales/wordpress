@@ -11,7 +11,15 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-prefixed/autoload.php';
+
+// Autoload licensing classes if not already loaded by a legacy plugin.
+if ( ! class_exists( 'LearnDash\Hub\Boot', false ) ) {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/licensing/vendor/autoload.php';
+}
+
+use LearnDash\Hub\Boot;
 
 /**
  * Remove our Multisite support file(s) to the /wp-content/mu-plugins directory.
@@ -35,3 +43,18 @@ do_action( 'learndash_uninstall' );
  * @since 4.5.0
  */
 StellarWP\Learndash\StellarWP\Telemetry\Uninstall::run( 'learndash' );
+
+/**
+ * Removes capabilities related to Reports.
+ *
+ * @since 4.17.0
+ */
+LearnDash\Core\Modules\Reports\Capabilities::remove();
+
+/**
+ * Removes caches stored for licensing.
+ *
+ * @since 4.18.0
+ */
+$learndash_licensing_boot = new Boot();
+$learndash_licensing_boot->deactivate();

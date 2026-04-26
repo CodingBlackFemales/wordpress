@@ -7,37 +7,27 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Template\Views;
 
 use InvalidArgumentException;
 use LDLMS_Post_Types;
 use LearnDash\Core\Models;
 use LearnDash\Core\Template\Tabs;
-use LearnDash\Core\Template\Views\Traits\Has_Steps;
-use LearnDash\Core\Traits\Memoizable;
 use LearnDash_Custom_Label;
-use LearnDash\Core\Template\Breadcrumbs;
 use WP_Post;
-use LearnDash\Core\Mappers;
+use LearnDash\Core\Template\Progression;
+use LearnDash\Core\Template\Alerts;
 
 /**
  * The view class for LD group post type.
  *
  * @since 4.6.0
  */
-class Group extends View implements Interfaces\Has_Steps {
-	use Has_Steps;
-	use Memoizable;
-
+class Group extends View {
 	/**
 	 * The related model.
+	 *
+	 * @since 4.6.0
 	 *
 	 * @var Models\Group
 	 */
@@ -48,15 +38,14 @@ class Group extends View implements Interfaces\Has_Steps {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param WP_Post $post The post object.
+	 * @param WP_Post              $post    The post object.
+	 * @param array<string, mixed> $context Context.
 	 *
 	 * @throws InvalidArgumentException If the post type is not allowed.
 	 */
-	public function __construct( WP_Post $post ) {
-		$this->enable_memoization();
-
-		$this->model = Models\Group::create_from_post( $post );
-		$this->model->enable_memoization();
+	public function __construct( WP_Post $post, array $context = [] ) {
+		$this->context = $context;
+		$this->model   = Models\Group::create_from_post( $post );
 
 		parent::__construct(
 			LDLMS_Post_Types::get_post_type_key( $post->post_type ),
@@ -65,37 +54,14 @@ class Group extends View implements Interfaces\Has_Steps {
 	}
 
 	/**
-	 * Returns the total number of steps.
+	 * Returns the model.
 	 *
-	 * TODO: Here it will contain the wrong number if some of the lessons or quizzes are not published. So we need to decide how we want to handle this case.
+	 * @since 4.22.0
 	 *
-	 * @since 4.6.0
-	 *
-	 * @return int
+	 * @return Models\Group
 	 */
-	public function get_total_steps(): int {
-		return $this->memoize(
-			function (): int {
-				$steps_mapper = new Mappers\Steps\Group( $this->model );
-
-				return $steps_mapper->total();
-			}
-		);
-	}
-
-	/**
-	 * Returns the steps page size.
-	 *
-	 * @since 4.6.0
-	 *
-	 * @return int
-	 */
-	public function get_steps_page_size(): int {
-		return $this->memoize(
-			function (): int {
-				return learndash_get_group_courses_per_page( $this->model->get_id() );
-			}
-		);
+	public function get_model(): Models\Group {
+		return $this->model;
 	}
 
 	/**
@@ -106,19 +72,23 @@ class Group extends View implements Interfaces\Has_Steps {
 	 * @return array<string, mixed>
 	 */
 	protected function build_context(): array {
-		$user    = wp_get_current_user();
-		$product = $this->model->get_product();
+		$context = array_merge(
+			// Parent context.
+			$this->context,
+			// Default context (is used across all themes).
+			[
+				'group'        => $this->model,
+				'has_access'   => $this->model->get_product()->user_has_access(),
+				'login_url'    => learndash_get_login_url(),
+				'product'      => $this->model->get_product(),
+				'progress_bar' => $this->get_progress_bar(),
+				'tabs'         => $this->get_tabs(),
+			]
+		);
 
-		return [
-			'group'              => $this->model,
-			'breadcrumbs'        => $this->get_breadcrumbs(),
-			'title'              => $this->model->get_title(),
-			'content_is_visible' => $product->is_content_visible( $user ),
-			'is_enrolled'        => $product->user_has_access( $user ),
-			'product'            => $product,
-			'instructors'        => $this->model->get_instructors(),
-			'tabs'               => $this->get_tabs(),
-		];
+		$context['alerts'] = $this->get_alerts( $context );
+
+		return $context;
 	}
 
 	/**
@@ -129,131 +99,167 @@ class Group extends View implements Interfaces\Has_Steps {
 	 * @return Tabs\Tabs
 	 */
 	protected function get_tabs(): Tabs\Tabs {
-		$tabs = new Tabs\Tabs(
+		$content = $this->model->get_content();
+
+		if (
+			! empty( $content )
+			&& has_post_thumbnail( $this->model->get_post() )
+		) {
+			$content = get_the_post_thumbnail(
+				$this->model->get_post(),
+				'large', // We assume this is the default 1024x1024 size.
+				[
+					'class' => 'ld-featured-image ld-featured-image--group',
+				]
+			) . $content;
+		}
+
+		$tabs_array = [
 			[
-				[
-					'id'      => 'content',
-					'icon'    => 'course',
-					'label'   => LearnDash_Custom_Label::get_label( 'courses' ),
-					'content' => $this->model->get_content() . $this->map_steps_content(),
-					'order'   => 1,
-				],
-				[
-					'id'      => 'materials',
-					'icon'    => 'materials',
-					'label'   => __( 'Materials', 'learndash' ),
-					'content' => $this->model->get_materials(),
-					'order'   => 2,
-				],
-			]
+				'id'      => 'content',
+				'icon'    => 'group',
+				'label'   => LearnDash_Custom_Label::get_label( 'group' ),
+				'content' => $content,
+				'order'   => 10,
+			],
+			[
+				'id'      => 'materials',
+				'icon'    => 'materials',
+				'label'   => __( 'Materials', 'learndash' ),
+				'content' => $this->model->get_materials(),
+				'order'   => 20,
+			],
+		];
+
+		/** This filter is documented in themes/ld30/templates/modules/tabs.php */
+		$tabs_array = (array) apply_filters(
+			'learndash_content_tabs',
+			$tabs_array,
+			LDLMS_Post_Types::get_post_type_key( $this->model->get_post()->post_type ),
+			$this->model->get_id(),
+			get_current_user_id()
 		);
 
-		$tabs_array = $tabs->filter_empty_content()->sort()->all();
-
-		/**
-		 * Filters the tabs.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param array<string, Tabs\Tab>|array<int, array<string, mixed>> $tabs      The tabs.
-		 * @param string                                                   $view_slug The view slug.
-		 * @param Group                                                    $view      The view object.
-		 */
+		/** This filter is documented in src/Core/Template/Views/Course.php */
 		$tabs_array = (array) apply_filters( 'learndash_template_views_tabs', $tabs_array, $this->view_slug, $this );
 
 		/**
 		 * Filters the group tabs.
 		 *
-		 * @since 4.6.0
+		 * @since 4.22.0
 		 *
-		 * @param array<string, Tabs\Tab>|array<int, array<string, mixed>> $tabs      The tabs.
-		 * @param string                                                   $view_slug The view slug.
-		 * @param Group                                                    $view      The view object.
+		 * @param array<int, array<string, array{id: string, icon: string, label: string, content: string, order?: int}>> $tabs      The tabs.
+		 * @param string                                                                                                  $view_slug The view slug.
+		 * @param Group                                                                                                   $view      The view object.
+		 * @param Models\Group                                                                                            $model     The group model.
 		 *
-		 * @ignore
+		 * @return array<int, array<string, array{id: string, icon: string, label: string, content: string, order?: int}>>
 		 */
-		$tabs_array = (array) apply_filters( 'learndash_template_views_group_tabs', $tabs_array, $this->view_slug, $this );
+		$tabs_array = (array) apply_filters( 'learndash_template_views_group_tabs', $tabs_array, $this->view_slug, $this, $this->model );
 
-		// Rebuild the tabs object after filtering.
-		return new Tabs\Tabs( $tabs_array );
+		$tabs = new Tabs\Tabs( $tabs_array );
+
+		return $tabs->filter_empty_content()->sort();
 	}
 
 	/**
-	 * Gets the breadcrumbs.
+	 * Maps the progress bar.
 	 *
-	 * @since 4.6.0
+	 * @since 4.24.0
 	 *
-	 * @return BreadCrumbs\Breadcrumbs
+	 * @return Progression\Bar
 	 */
-	protected function get_breadcrumbs(): BreadCrumbs\Breadcrumbs {
-		$breadcrumbs = [
-			[
-				'url'   => learndash_post_type_has_archive( $this->model->get_post()->post_type )
-					? (string) get_post_type_archive_link( $this->model->get_post()->post_type )
-					: '',
-				'label' => LearnDash_Custom_Label::get_label( 'groups' ),
-				'id'    => 'groups',
-			],
-		];
+	protected function get_progress_bar(): Progression\Bar {
+		// Map the number of courses. Paginate for memory reasons.
 
-		if ( learndash_is_groups_hierarchical_enabled() && $this->model->get_parent() ) {
-			$breadcrumbs[] = [
-				'url'   => get_permalink( $this->model->get_parent()->get_post() ),
-				'label' => $this->model->get_parent()->get_title(),
-				'id'    => 'group-parent',
+		$page_size = 100;
+
+		$courses_number           = $this->model->get_courses_number();
+		$completed_courses_number = 0;
+
+		$courses_offset = 0;
+		$courses        = $this->model->get_courses( $page_size, $courses_offset );
+
+		while ( ! empty( $courses ) ) {
+			$completed_courses_number += count(
+				array_filter( $courses, fn( $course ) => $course->is_complete() )
+			);
+
+			$courses_offset += $page_size;
+
+			$courses = $this->model->get_courses( $page_size, $courses_offset );
+		}
+
+		// Map the progress bar.
+
+		$progress_bar = new Progression\Bar();
+
+		$progress_bar
+			->set_total_step_count( $courses_number )
+			->set_completed_step_count( $completed_courses_number )
+			->set_label( $this->model->get_post_type_label() )
+			->set_last_activity( $this->model->get_last_activity() );
+
+		/**
+		 * Filters the group progress bar.
+		 *
+		 * @since 4.24.0
+		 *
+		 * @param Progression\Bar $progress_bar The progress bar.
+		 * @param string          $view_slug    The view slug.
+		 * @param Group           $view         The view object.
+		 * @param Models\Group    $model        The group model.
+		 *
+		 * @return Progression\Bar
+		 */
+		return apply_filters( 'learndash_template_views_group_progress_bar', $progress_bar, $this->view_slug, $this, $this->model );
+	}
+
+	/**
+	 * Gets the alerts.
+	 *
+	 * @since 4.24.0
+	 *
+	 * @param array<string, mixed> $context The context.
+	 *
+	 * @return Alerts\Alerts
+	 */
+	protected function get_alerts( array $context ): Alerts\Alerts {
+		$alerts = [];
+
+		$certificate_link = $this->get_model()->get_certificate_link();
+
+		if ( ! empty( $certificate_link ) ) {
+			$alerts[] = [
+				'id'          => 'group-certificate',
+				'action_type' => 'button',
+				'button_icon' => 'download-mini',
+				'link_target' => '_new',
+				'link_text'   => __( 'Download Certificate', 'learndash' ),
+				'link_url'    => $certificate_link,
+				'message'     => __( "You've earned a certificate!", 'learndash' ),
+				'type'        => 'info',
 			];
 		}
 
-		$breadcrumbs[] = [
-			'url'   => '',
-			'label' => $this->model->get_title(),
-			'id'    => 'group',
-		];
-
-		$breadcrumbs = new Breadcrumbs\Breadcrumbs( $breadcrumbs );
-
-		$breadcrumbs = $breadcrumbs->update_is_last()->all();
+		/** This filter is documented in themes/ld30/templates/modern/lesson.php */
+		$alerts = (array) apply_filters( 'learndash_template_views_alerts', $alerts, $this->view_slug, $this );
 
 		/**
-		 * Filters the breadcrumbs.
+		 * Filters the group alerts.
 		 *
-		 * @since 4.6.0
+		 * @since 4.24.0
 		 *
-		 * @param array<string, string>[]|Breadcrumbs\Breadcrumb[] $breadcrumbs The breadcrumbs.
-		 * @param string                                           $view_slug   The view slug.
-		 * @param View                                             $view        The view object.
+		 * @param array<string, string>[]|Alerts\Alert[] $alerts    The alerts.
+		 * @param string                                 $view_slug The view slug.
+		 * @param Group                                  $view      The view object.
+		 * @param Models\Group                           $model     The group model.
+		 *
+		 * @return array<string, string>[]|Alerts\Alert[]
 		 */
-		$breadcrumbs = (array) apply_filters( 'learndash_template_views_breadcrumbs', $breadcrumbs, $this->view_slug, $this );
+		$alerts = (array) apply_filters( 'learndash_template_views_group_alerts', $alerts, $this->view_slug, $this, $this->model );
 
-		/**
-		 * Filters the group breadcrumbs.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param array<string, string>[]|Breadcrumbs\Breadcrumb[] $breadcrumbs The breadcrumbs.
-		 * @param string                                           $view_slug   The view slug.
-		 * @param Group                                            $view        The view object.
-		 *
-		 * @ignore
-		 */
-		$breadcrumbs = (array) apply_filters( 'learndash_template_views_group_breadcrumbs', $breadcrumbs, $this->view_slug, $this );
-
-		// Rebuild the breadcrumbs objects after filtering.
-		return new Breadcrumbs\Breadcrumbs( $breadcrumbs );
-	}
-
-	/**
-	 * Maps the steps content.
-	 *
-	 * @since 4.6.0
-	 *
-	 * @return string
-	 */
-	protected function map_steps_content(): string {
-		$steps_mapper = new Mappers\Steps\Group( $this->model );
-
-		$steps = $steps_mapper->paginated( $this->get_current_steps_page(), $this->get_steps_page_size() );
-
-		return $this->get_steps_content( $steps );
+		// Rebuild the Alerts objects after filtering.
+		return new Alerts\Alerts( $alerts );
 	}
 }

@@ -13,8 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use LearnDash\Core\Models\Product;
 use LearnDash\Core\Models\Transaction;
-use Razorpay\Api\Api;
-use Razorpay\Api\Errors\SignatureVerificationError;
+use LearnDash\Core\Template\Template;
+use LearnDash\Core\Utilities\Cast;
+use StellarWP\Learndash\Razorpay\Api\Api;
+use StellarWP\Learndash\Razorpay\Api\Errors\SignatureVerificationError;
 
 if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_Payment_Gateway' ) ) {
 	/**
@@ -66,6 +68,15 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		private const EVENT_SUBSCRIPTION_CANCELLED     = 'subscription.cancelled';
 		private const EVENT_SUBSCRIPTION_PAUSED        = 'subscription.paused';
 		private const EVENT_SUBSCRIPTION_RESUMED       = 'subscription.resumed';
+
+		/**
+		 * Settings Section Key used to configure this Payment Gateway.
+		 *
+		 * @since 4.18.0
+		 *
+		 * @var string
+		 */
+		protected string $settings_section_key = 'settings_razorpay';
 
 		/**
 		 * Secret key.
@@ -162,6 +173,62 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 */
 		public static function get_label(): string {
 			return esc_html__( 'Razorpay', 'learndash' );
+		}
+
+		/**
+		 * Returns the gateway label for checkout activities.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return string
+		 */
+		public function get_checkout_label(): string {
+			return __( 'Pay with Razorpay', 'learndash' );
+		}
+
+		/**
+		 * Returns the gateway info text for checkout activities.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @param string $product_type Type of product being purchased.
+		 *
+		 * @return string
+		 */
+		public function get_checkout_info_text( string $product_type ): string {
+			if ( $product_type === 'course' ) {
+				$info = _x(
+					'You will be redirected to Razorpay to complete your payment with your debit card, credit card, or Razorpay account. Once complete, you will be redirected back to this site to continue your course.',
+					'Message displayed when purchasing a course.',
+					'learndash'
+				);
+			} elseif ( $product_type === 'group' ) {
+				$info = _x(
+					'You will be redirected to Razorpay to complete your payment with your debit card, credit card, or Razorpay account. Once complete, you will be redirected back to this site to continue your group.',
+					'Message displayed when purchasing a group.',
+					'learndash'
+				);
+			} else {
+				$info = _x(
+					'You will be redirected to Razorpay to complete your payment with your debit card, credit card, or Razorpay account. Once complete, you will be redirected back to this site.',
+					'Message displayed when purchasing a a product that is neither a course nor a group.',
+					'learndash'
+				);
+			}
+
+			/**
+			 * Filters the Razorpay checkout info HTML.
+			 *
+			 * @since 4.16.0
+			 *
+			 * @param string $info         The Razorpay checkout info text.
+			 * @param string $product_type The product type.
+			 *
+			 * @return string The checkout info text.
+			 */
+			$info = apply_filters( 'learndash_razorpay_checkout_info_text', $info, $product_type );
+
+			return Cast::to_string( $info );
 		}
 
 		/**
@@ -272,10 +339,6 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			$this->customer_id_meta_key = $this->is_test_mode() ? self::META_KEY_CUSTOMER_ID_TEST : self::META_KEY_CUSTOMER_ID_LIVE;
 			$this->plans_meta_key       = $this->is_test_mode() ? self::META_KEY_PLANS_TEST : self::META_KEY_PLANS_LIVE;
 
-			if ( ! class_exists( 'Razorpay\Api\Api' ) ) {
-				require_once LEARNDASH_LMS_LIBRARY_DIR . '/razorpay-php/Razorpay.php';
-			}
-
 			if ( ! empty( $this->secret_key ) ) {
 				$this->api = new Api( $this->publishable_key, $this->secret_key );
 			}
@@ -327,15 +390,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 
 			$pricing = $product->get_pricing( $this->user );
 
-			/** This filter is documented in includes/payments/gateways/class-learndash-stripe-gateway.php */
-			$price = apply_filters(
-				'learndash_get_price_by_coupon',
-				$pricing->price,
-				$product->get_id(),
-				$this->user->ID
-			);
-
-			$price_in_subunits = $this->get_price_in_subunits( $price );
+			$price_in_subunits = $this->get_price_in_subunits( $product->get_final_price( $this->user ) );
 
 			if ( $price_in_subunits < 1 ) {
 				throw new Exception( __( 'The minimum Price is 1.', 'learndash' ) );
@@ -425,7 +480,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			 * @var array{
 			 *     id: string,
 			 *     customer_id?: string,
-			 *     notes: array{
+			 *     notes?: array{
 			 *         is_learndash?: bool,
 			 *         learndash_version?: string,
 			 *         post_id?: int,
@@ -451,10 +506,25 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 * @phpstan-param array{
 		 *     contains: string[],
 		 *     payload: array{
-		 *         id: string,
-		 *         notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
-		 *         order?: array{entity: array<mixed>},
-		 *         subscription?: array{entity: array<mixed>},
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         },
 		 *     }
 		 * } $event
 		 *
@@ -492,11 +562,25 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *     event: string,
 		 *     contains: array<string>,
 		 *     payload: array{
-		 *         id: string,
-		 *         notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
-		 *         order?: array{entity: array<mixed>},
-		 *         subscription?: array{entity: array<mixed>},
-		 *         payment?: array{entity: array<mixed>}
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         },
 		 *     }
 		 * } $event
 		 *
@@ -597,7 +681,9 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				data-nonce="<?php echo esc_attr( wp_create_nonce( $this->get_nonce_name() ) ); ?>"
 				data-post_id="<?php echo esc_attr( (string) $post->ID ); ?>"
 			>
-				<input class="<?php echo esc_attr( Learndash_Payment_Button::map_button_class_name() ); ?>" id="<?php echo esc_attr( Learndash_Payment_Button::map_button_id() ); ?>" type="submit" value="<?php echo esc_attr( $button_label ); ?>">
+				<button	aria-label="<?php echo esc_attr( $button_label . '. ' . $this->get_checkout_info_text( $post->post_type ) ); ?>" class="<?php echo esc_attr( Learndash_Payment_Button::map_button_class_name() ); ?>" id="<?php echo esc_attr( Learndash_Payment_Button::map_button_id() ); ?>" type="submit">
+					<?php echo esc_html( $button_label ); ?>
+				</button>
 			</form>
 			<?php
 			$buffer = ob_get_clean();
@@ -687,6 +773,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
 					Transaction::$meta_key_gateway_name => $this::get_name(),
+					Transaction::$meta_key_is_test_mode => $this->is_test_mode(),
 					Transaction::$meta_key_price_type   => LEARNDASH_PRICE_TYPE_PAYNOW,
 					Transaction::$meta_key_pricing_info => Learndash_Pricing_DTO::create(
 						array(
@@ -752,6 +839,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			$transaction_meta_dto = Learndash_Transaction_Meta_DTO::create(
 				array(
 					Transaction::$meta_key_gateway_name   => $this::get_name(),
+					Transaction::$meta_key_is_test_mode   => $this->is_test_mode(),
 					Transaction::$meta_key_price_type     => LEARNDASH_PRICE_TYPE_SUBSCRIBE,
 					Transaction::$meta_key_pricing_info   => $pricing,
 					Transaction::$meta_key_has_trial      => $has_trial,
@@ -873,8 +961,28 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @phpstan-param array{
 		 *     event: string,
-		 *     contains: array<string>,
-		 *     payload: array{id: string, notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string}}
+		 *     contains: string[],
+		 *     payload: array{
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         },
+		 *     }
 		 * } $data
 		 *
 		 * @throws Learndash_DTO_Validation_Exception Transaction data validation exception.
@@ -890,8 +998,15 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				array(
 					Transaction::$meta_key_gateway_transaction => Learndash_Transaction_Gateway_Transaction_DTO::create(
 						array(
-							'id'    => $entity['id'], // @phpstan-ignore-line -- It was checked before.
-							'event' => $data,
+							'id'          => $entity['id'], // @phpstan-ignore-line -- It was checked before.
+							'customer_id' => $is_subscription_event && isset( $entity['customer_id'] )
+								? $entity['customer_id']
+								: (
+									isset( $data['payload']['payment'] )
+										? $data['payload']['payment']['entity']['customer_id']
+										: ''
+								),
+							'event'       => $data,
 						)
 					),
 				)
@@ -932,6 +1047,10 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			if ( empty( $learndash_version ) ) {
 				if ( ! isset( $event_meta[ Transaction::$meta_key_gateway_name ] ) ) {
 					$event_meta[ Transaction::$meta_key_gateway_name ] = self::get_name();
+				}
+
+				if ( ! isset( $event_meta[ Transaction::$meta_key_is_test_mode ] ) ) {
+					$event_meta[ Transaction::$meta_key_is_test_mode ] = $this->is_test_mode();
 				}
 
 				if ( ! isset( $event_meta[ Transaction::$meta_key_price_type ] ) ) {
@@ -987,7 +1106,7 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 * @phpstan-param array{
 		 *     id: string,
 		 *     customer_id?: string,
-		 *     notes: array{
+		 *     notes?: array{
 		 *         is_learndash?: bool,
 		 *         learndash_version?: string,
 		 *         post_id?: int,
@@ -999,11 +1118,25 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *     event: string,
 		 *     contains: array<string>,
 		 *     payload: array{
-		 *         id: string,
-		 *         notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
-		 *         order?: array{entity: array<mixed>},
-		 *         subscription?: array{entity: array<mixed>},
-		 *         payment?: array{entity: array<mixed>}
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         }
 		 *     }
 		 * } $event
 		 *
@@ -1093,8 +1226,28 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *
 		 * @phpstan-param array{
 		 *     event: string,
-		 *     contains: array<string>,
-		 *     payload: array{id: string, notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string}}
+		 *     contains: string[],
+		 *     payload: array{
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         },
+		 *     }
 		 * } $event
 		 *
 		 * @return void
@@ -1155,10 +1308,25 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 		 *     event: string,
 		 *     contains: string[],
 		 *     payload: array{
-		 *         id: string,
-		 *         notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, user_id?: int, operation_id?: string},
-		 *         order?: array{entity: array<mixed>},
-		 *         subscription?: array{entity: array<mixed>},
+		 *         payment?: array{
+		 *             entity: array{
+		 *                 customer_id: string,
+		 *                 email: string,
+		 *             }
+		 *         },
+		 *         order?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *             }
+		 *         },
+		 *         subscription?: array{
+		 *             entity: array{
+		 *                 id: string,
+		 *                 notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string},
+		 *                 customer_id?: string,
+		 *             }
+		 *         },
 		 *     }
 		 * }
 		 */
@@ -1186,7 +1354,41 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 			/**
 			 * Event.
 			 *
-			 * @var array{event: string, contains: string[], payload: array{id: string, notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string}}} $event
+			 * @var array{
+			 *     event: string,
+			 *     contains: string[],
+			 *     payload: array{
+			 *         payment?: array{
+			 *             entity: array{
+			 *                 customer_id: string,
+			 *                 email: string,
+			 *             }
+			 *         },
+			 *         order?: array{
+			 *             entity: array{
+			 *                 id: string,
+			 *                 notes: array{
+			 *                     is_learndash?: bool,
+			 *                     learndash_version?: string,
+			 *                     post_id?: int,
+			 *                     operation_id?: string
+			 *                 },
+			 *             }
+			 *         },
+			 *         subscription?: array{
+			 *             entity: array{
+			 *                 id: string,
+			 *                 notes: array{
+			 *                     is_learndash?: bool,
+			 *                     learndash_version?: string,
+			 *                     post_id?: int,
+			 *                     operation_id?: string
+			 *                 },
+			 *                 customer_id?: string,
+			 *             }
+			 *         },
+			 *     }
+			 * } $event
 			 */
 			$event = json_decode( $payload, true );
 
@@ -1241,15 +1443,6 @@ if ( ! class_exists( 'Learndash_Razorpay_Gateway' ) && class_exists( 'Learndash_
 				);
 			}
 
-			/**
-			 * Event.
-			 *
-			 * @var array{
-			 *     event: string,
-			 *     contains: string[],
-			 *     payload: array{id: string, notes: array{is_learndash?: bool, learndash_version?: string, post_id?: int, operation_id?: string}}
-			 * } $event
-			 */
 			return $event;
 		}
 	}

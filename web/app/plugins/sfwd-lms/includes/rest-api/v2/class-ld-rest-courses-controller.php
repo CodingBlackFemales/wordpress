@@ -97,11 +97,17 @@ if ( ( ! class_exists( 'LD_REST_Courses_Controller_V2' ) ) && ( class_exists( 'L
 		 * @since 3.3.0
 		 */
 		protected function register_fields_metabox() {
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Enrollment'] = LearnDash_Settings_Metabox_Course_Enrollment::add_metabox_instance();
+
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-display-content.php';
 			$this->metaboxes['LearnDash_Settings_Metabox_Course_Display_Content'] = LearnDash_Settings_Metabox_Course_Display_Content::add_metabox_instance();
 
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-settings.php';
 			$this->metaboxes['LearnDash_Settings_Metabox_Course_Access_Settings'] = LearnDash_Settings_Metabox_Course_Access_Settings::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-completion-awards.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Course_Completion_Awards'] = LearnDash_Settings_Metabox_Course_Completion_Awards::add_metabox_instance();
 
 			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-course-navigation-settings.php';
 			$this->metaboxes['LearnDash_Settings_Metabox_Course_Navigation_Settings'] = LearnDash_Settings_Metabox_Course_Navigation_Settings::add_metabox_instance();
@@ -110,7 +116,7 @@ if ( ( ! class_exists( 'LD_REST_Courses_Controller_V2' ) ) && ( class_exists( 'L
 				foreach ( $this->metaboxes as $metabox ) {
 					$metabox->load_settings_values();
 					$metabox->load_settings_fields();
-					$this->register_rest_fields( $metabox->get_settings_metabox_fields(), $metabox );
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
 				}
 			}
 		}
@@ -217,6 +223,48 @@ if ( ( ! class_exists( 'LD_REST_Courses_Controller_V2' ) ) && ( class_exists( 'L
 			return $query_args;
 		}
 
-		// End of functions.
+		/**
+		 * Checks if a given request has access to read posts.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+		 */
+		public function get_items_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
+
+		/**
+		 * Checks if a given request has access to read a post.
+		 * We override this to implement our own permissions check.
+		 *
+		 * @since 4.10.3
+		 *
+		 * @param WP_REST_Request $request Full details about the request.
+		 *
+		 * @return true|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
+		 */
+		public function get_item_permissions_check( $request ) {
+			if ( learndash_is_admin_user() ) {
+				return true;
+			}
+
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[ 'status' => rest_authorization_required_code() ]
+			);
+		}
 	}
 }

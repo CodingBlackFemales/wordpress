@@ -69,7 +69,7 @@ if ( ( class_exists( 'LearnDash_Gutenberg_Block' ) ) && ( ! class_exists( 'Learn
 		 *
 		 * @return string $block_content The block content.
 		 */
-		public function render_block( $block_attributes = array(), $block_content = '', WP_Block $block = null ) {
+		public function render_block( $block_attributes = array(), $block_content = '', ?WP_Block $block = null ) {
 			$block_attributes = $this->preprocess_block_attributes( $block_attributes );
 
 			if ( $this->block_attributes_is_editing_post( $block_attributes ) ) {

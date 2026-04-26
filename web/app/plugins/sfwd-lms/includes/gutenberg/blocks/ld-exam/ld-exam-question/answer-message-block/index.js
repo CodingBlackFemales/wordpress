@@ -19,6 +19,7 @@ const settings = {
         inserter: false,
         html: false
     },
+    apiVersion: 3,
     save: () => <InnerBlocks.Content />
 };
 

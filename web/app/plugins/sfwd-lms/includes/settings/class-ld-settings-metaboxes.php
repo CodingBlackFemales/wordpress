@@ -9,11 +9,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+use LearnDash\Core\Validations\Validators\Validator;
+use StellarWP\Learndash\StellarWP\Arrays\Arr;
+
+
 if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 	/**
 	 * Class for LearnDash Settings Sections.
 	 */
 	class LearnDash_Settings_Metabox {
+		/**
+		 * The validator instance.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @var Validator|null
+		 */
+		protected $validator;
 
 		/**
 		 * Static array of section instances.
@@ -205,10 +218,12 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 		}
 
 		/**
-		 * Initialize Metabox instance.
+		 * Initialize the Metabox instance.
 		 *
-		 * @param WP_Post $post Post object instance to initialize instance.
-		 * @param boolean $force True to force init. This will load values and settings again.
+		 * @param WP_Post $post  The WP_Post object to initialize the instance.
+		 * @param bool    $force True to force the initialization. This will load values and settings again. Default false.
+		 *
+		 * @return false|void False if the post is not valid, otherwise void.
 		 */
 		public function init( $post = null, $force = false ) {
 			if ( ( ! $post ) || ( ! is_a( $post, 'WP_Post' ) ) ) {
@@ -237,6 +252,19 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 			if ( ! $this->settings_fields_loaded ) {
 				$this->load_settings_fields();
 			}
+
+			/**
+			 * Fires after a metabox is initialized.
+			 *
+			 * @since 4.8.0
+			 *
+			 * @param WP_Post                     $post    The WP_Post object.
+			 * @param bool                        $force   True to force the initialization. This will load values and settings again. Default false.
+			 * @param LearnDash_Settings_Metabox  $metabox Current metabox instance.
+			 *
+			 * @return void
+			 */
+			do_action( 'learndash_metabox_initialized', $post, $force, $this );
 		}
 
 		/**
@@ -538,6 +566,8 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 
 			if ( is_null( $settings_field_updates ) ) {
 				$settings_field_updates = $this->get_post_settings_field_updates( $post_id, $saved_post, $update );
+			} else {
+				$settings_field_updates = $this->validate_fields_with_validator( $settings_field_updates );
 			}
 
 			if ( ( ! empty( $settings_field_updates ) ) && ( is_array( $settings_field_updates ) ) ) {
@@ -647,12 +677,48 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 						} else {
 							$post_value = esc_attr( $post_value );
 						}
-						$settings_field_updates[ $_legacy ] = $post_value;
+						$settings_field_updates[ strval( $_legacy ) ] = $post_value;
 					}
 				}
+
+				// Validate all fields if we have a validator.
+
+				$settings_field_updates = $this->validate_fields_with_validator( $settings_field_updates );
 			}
 
 			return $settings_field_updates;
+		}
+
+		/**
+		 * Validate all fields with the validator, if we have one.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param array<string,mixed> $fields Array of fields to validate. [field_id => field_value].
+		 *
+		 * @return array<string,mixed> Array of fields with validated values. [field_id => field_value].
+		 */
+		protected function validate_fields_with_validator( array $fields ): array {
+			if ( ! $this->validator ) {
+				return $fields;
+			}
+
+			$validation_result = $this->validator->validate( $fields );
+			$validation_errors = $validation_result->errors();
+			$validated_values  = $validation_result->validated();
+
+			// Updating the fields values with validated values and set old values for fields with errors.
+
+			foreach ( $fields as $key => $value ) {
+				if ( isset( $validation_errors[ $key ] ) ) {
+					$fields[ $key ] = $this->setting_option_values[ $key ];
+				} else {
+					// We may have a field that is not in the validator, as it is a new approach.
+					$fields[ $key ] = $validated_values[ $key ] ?? $value;
+				}
+			}
+
+			return $fields;
 		}
 
 		/**
@@ -772,6 +838,40 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 		 */
 		public function get_settings_metabox_fields() {
 			return $this->setting_option_fields;
+		}
+
+		/**
+		 * Returns Settings Metabox Fields with sub fields for REST API.
+		 *
+		 * Returns a plain array of fields that includes sub fields as well (3rd level fields).
+		 * This is used by the REST API to expose all fields, including nested inline fields.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return array<string,mixed[]> Array of settings fields including sub fields.
+		 */
+		public function get_rest_api_fields(): array {
+			$fields = $this->get_settings_metabox_fields();
+
+			if ( ! empty( $this->settings_sub_option_fields ) ) {
+				foreach ( $this->settings_sub_option_fields as $fields_group ) {
+					foreach ( $fields_group as $field_name => $field ) {
+						$fields[ $field_name ] = $field;
+					}
+				}
+			}
+
+			// Filter out fields that are not marked as show_in_rest.
+			$fields = array_filter(
+				$fields,
+				function ( array $field ): bool {
+					return Cast::to_bool(
+						Arr::get( $field, 'args.rest.show_in_rest', false )
+					);
+				}
+			);
+
+			return $fields;
 		}
 
 		/**

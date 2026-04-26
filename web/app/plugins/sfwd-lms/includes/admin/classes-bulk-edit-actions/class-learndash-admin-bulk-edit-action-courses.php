@@ -7,6 +7,8 @@
  * @package LearnDash\Bulk_Edit
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -26,7 +28,7 @@ if (
 		 *
 		 * @since 4.2.0
 		 *
-		 * @var LearnDash_Settings_Metabox_Course_Access_Settings
+		 * @var LearnDash_Settings_Metabox
 		 */
 		private $metabox_access_settings;
 
@@ -35,9 +37,9 @@ if (
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param LearnDash_Settings_Metabox_Course_Access_Settings $metabox_access_settings Course access metabox.
+		 * @param LearnDash_Settings_Metabox $metabox_access_settings Course access metabox class.
 		 */
-		public function __construct( LearnDash_Settings_Metabox_Course_Access_Settings $metabox_access_settings ) {
+		public function __construct( LearnDash_Settings_Metabox $metabox_access_settings ) {
 			$this->metabox_access_settings = $metabox_access_settings;
 			$this->metabox_access_settings->load_settings_values();
 			$this->metabox_access_settings->load_settings_fields();
@@ -94,7 +96,9 @@ if (
 
 			learndash_update_setting(
 				$post_id,
-				$fields_mapping_hash[ $field_name ] ?? $field_name,
+				Cast::to_string(
+					$fields_mapping_hash[ $field_name ] ?? $field_name,
+				),
 				$field_value
 			);
 		}

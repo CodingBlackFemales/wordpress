@@ -9,6 +9,7 @@
  * @var array  $shortcode_atts Array of shortcode attributes to create the Quiz.
  *
  * @since 3.2.0
+ * @version 4.21.1
  *
  * @package LearnDash\Templates\Legacy\Quiz
  */
@@ -18,7 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wpProQuiz_infopage" style="display: none;">
-	<h4><?php esc_html_e( 'Information', 'learndash' ); ?></h4>
+	<h2 class="wpProQuiz_infopageHeader">
+		<?php esc_html_e( 'Information', 'learndash' ); ?>
+	</h2>
+
 	<?php
 	if ( $quiz->isFormActivated() && $quiz->getFormShowPosition() == WpProQuiz_Model_Quiz::QUIZ_FORM_POSITION_END && ( ! $quiz->isShowReviewQuestion() || $quiz->isQuizSummaryHide() ) ) {
 		$quiz_view->showFormBox();

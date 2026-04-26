@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exists( 'LD_REST_Posts_Controller_V2' ) ) ) {
-
 	/**
 	 * Class LearnDash V2 REST API Users Courses Controller.
 	 *
@@ -24,7 +23,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 	 * @uses LD_REST_Posts_Controller_V2
 	 */
 	class LD_REST_Users_Groups_Controller_V2 extends LD_REST_Posts_Controller_V2 /* phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound */ {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -52,6 +50,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 		 * @see register_rest_route()
 		 */
 		public function register_routes() {
+			$this->register_fields();
 
 			$collection_params = $this->get_collection_params();
 			$schema            = $this->get_item_schema();
@@ -161,8 +160,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 		public function update_user_groups_permissions_check( $request ) {
 			if ( learndash_is_admin_user() ) {
 				return true;
-			} elseif ( get_current_user_id() == $request['id'] ) {
-				return true;
 			} else {
 				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
 			}
@@ -179,8 +176,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 		 */
 		public function delete_user_groups_permissions_check( $request ) {
 			if ( learndash_is_admin_user() ) {
-				return true;
-			} elseif ( get_current_user_id() == $request['id'] ) {
 				return true;
 			} else {
 				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
@@ -213,7 +208,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 			$user_id = $request['id'];
 			if ( empty( $user_id ) ) {
 				return new WP_Error(
-					'rest_post_invalid_id',
+					'learndash_rest_invalid_user_id',
 					esc_html__( 'Invalid User ID.', 'learndash' ),
 					array(
 						'status' => 404,
@@ -224,7 +219,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 			$user = get_user_by( 'id', $user_id );
 			if ( ( ! $user ) || ( ! is_a( $user, 'WP_User' ) ) ) {
 				return new WP_Error(
-					'rest_user_invalid_id',
+					'learndash_rest_invalid_user_id',
 					esc_html__( 'Invalid User ID.', 'learndash' ),
 					array(
 						'status' => 404,
@@ -235,7 +230,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 			$group_ids = $request['group_ids'];
 			if ( ( ! is_array( $group_ids ) ) || ( empty( $group_ids ) ) ) {
 				return new WP_Error(
-					'rest_post_invalid_id',
+					'learndash_rest_invalid_group_id',
 					sprintf(
 						// translators: placeholder: Group.
 						esc_html_x(
@@ -264,7 +259,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 				if ( ( ! $group_post ) || ( ! is_a( $group_post, 'WP_Post' ) ) || ( learndash_get_post_type_slug( 'group' ) !== $group_post->post_type ) ) {
 					$data_item->group_id = $group_id;
 					$data_item->status   = 'failed';
-					$data_item->code     = 'learndash_rest_invalid_id';
+					$data_item->code     = 'learndash_rest_invalid_group_id';
 					$data_item->message  = sprintf(
 						// translators: placeholder: Group.
 						esc_html_x(
@@ -308,7 +303,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 					);
 				}
 				$data[] = $data_item;
-
 			}
 
 			// Create the response object.
@@ -332,13 +326,13 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 		public function delete_user_groups( $request ) {
 			$user_id = $request['id'];
 			if ( empty( $user_id ) ) {
-				return new WP_Error( 'rest_post_invalid_id', esc_html__( 'Invalid User ID.', 'learndash' ) . ' ' . __CLASS__, array( 'status' => 404 ) );
+				return new WP_Error( 'learndash_rest_invalid_user_id', esc_html__( 'Invalid User ID.', 'learndash' ) . ' ' . __CLASS__, array( 'status' => 404 ) );
 			}
 
 			$group_ids = $request['group_ids'];
 			if ( ( ! is_array( $group_ids ) ) || ( empty( $group_ids ) ) ) {
 				return new WP_Error(
-					'rest_post_invalid_id',
+					'learndash_rest_invalid_group_id',
 					sprintf(
 						// translators: placeholder: Group.
 						esc_html_x(
@@ -368,7 +362,7 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 				if ( ( ! $group_post ) || ( ! is_a( $group_post, 'WP_Post' ) ) || ( learndash_get_post_type_slug( 'group' ) !== $group_post->post_type ) ) {
 					$data_item->group_id = $group_id;
 					$data_item->status   = 'failed';
-					$data_item->code     = 'learndash_rest_invalid_id';
+					$data_item->code     = 'learndash_rest_invalid_group_id';
 					$data_item->message  = sprintf(
 						// translators: placeholder: Group.
 						esc_html_x(
@@ -443,10 +437,9 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 			$route_url    = $request->get_route();
 			$ld_route_url = '/' . $this->namespace . '/' . $this->rest_base . '/' . absint( $request['id'] ) . '/' . $this->rest_sub_base;
 			if ( ( ! empty( $route_url ) ) && ( $ld_route_url === $route_url ) ) {
-
 				$user_id = $request['id'];
 				if ( empty( $user_id ) ) {
-					return new WP_Error( 'rest_user_invalid_id', esc_html__( 'Invalid User ID.', 'learndash' ), array( 'status' => 404 ) );
+					return new WP_Error( 'learndash_rest_invalid_user_id', esc_html__( 'Invalid User ID.', 'learndash' ), array( 'status' => 404 ) );
 				}
 
 				if ( is_user_logged_in() ) {
@@ -465,6 +458,101 @@ if ( ( ! class_exists( 'LD_REST_Users_Groups_Controller_V2' ) ) && ( class_exist
 			}
 
 			return $query_args;
+		}
+
+		/**
+		 * Overrides the REST response links. This is needed when Course Shared Steps is enabled.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_REST_Response              $response WP_REST_Response instance.
+		 * @param WP_Post                       $post     WP_Post instance.
+		 * @param WP_REST_Request<array{mixed}> $request  WP_REST_Request instance.
+		 *
+		 * @return WP_REST_Response
+		 */
+		public function rest_prepare_response_filter( WP_REST_Response $response, WP_Post $post, WP_REST_Request $request ) {
+			if ( $this->post_type !== $post->post_type ) {
+				return $response;
+			}
+
+			$base = sprintf( '/%s/%s', $this->namespace, $this->get_rest_base( 'groups' ) );
+
+			$additional_links = [];
+			$current_links    = $response->get_links();
+
+			if ( ! isset( $current_links['users'] ) ) {
+				$additional_links['users'] = [
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'groups-users' ),
+					'embeddable' => true,
+				];
+			}
+
+			if ( ! isset( $current_links['leaders'] ) ) {
+				$additional_links['leaders'] = [
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'groups-leaders' ),
+					'embeddable' => true,
+				];
+			}
+
+			if ( ! isset( $current_links['courses'] ) ) {
+				$additional_links['courses'] = [
+					'href'       => rest_url( trailingslashit( $base ) . $post->ID ) . '/' . $this->get_rest_base( 'groups-courses' ),
+					'embeddable' => true,
+				];
+			}
+
+			if ( ! empty( $additional_links ) ) {
+				$response->add_links( $additional_links );
+			}
+
+			return $response;
+		}
+
+		/**
+		 * Prepares the LearnDash Post Type Settings.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return void
+		 */
+		protected function register_fields() {
+			$this->register_fields_metabox();
+
+			/**
+			 * Fires after registering the fields for the REST API.
+			 *
+			 * @since 3.1.2
+			 *
+			 * @param string                             $post_type The post type.
+			 * @param LD_REST_Users_Groups_Controller_V2 $instance  The controller instance.
+			 *
+			 * @return void
+			 */
+			do_action( 'learndash_rest_register_fields', $this->post_type, $this );
+		}
+
+		/**
+		 * Registers the Settings Fields from the Post Metaboxes.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return void
+		 */
+		protected function register_fields_metabox() {
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-group-display-content.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Group_Display_Content'] = LearnDash_Settings_Metabox_Group_Display_Content::add_metabox_instance();
+
+			require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-settings.php';
+			$this->metaboxes['LearnDash_Settings_Metabox_Group_Access_Settings'] = LearnDash_Settings_Metabox_Group_Access_Settings::add_metabox_instance();
+
+			if ( ! empty( $this->metaboxes ) ) {
+				foreach ( $this->metaboxes as $metabox ) {
+					$metabox->load_settings_values();
+					$metabox->load_settings_fields();
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
+				}
+			}
 		}
 	}
 }

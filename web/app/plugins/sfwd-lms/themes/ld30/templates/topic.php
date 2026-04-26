@@ -2,6 +2,9 @@
 /**
  * LearnDash LD30 Displays a topic.
  *
+ * @since 3.0.0
+ * @version 4.21.3
+ *
  * Available Variables:
  *
  * $course_id                 : (int) ID of the course
@@ -27,8 +30,6 @@
  * $previous_lesson_completed  : (true/false) true if previous lesson is completed
  * $previous_topic_completed   : (true/false) true if previous topic is completed
  *
- * @since 3.0.0
- *
  * @package LearnDash\Templates\LD30
  */
 
@@ -48,6 +49,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 * @param int $user_id   User ID.
 	 */
 	do_action( 'learndash-topic-before', get_the_ID(), $course_id, $user_id );
+
+	// Show the step completed alert immediately after the topic is completed.
+
+	learndash_30_show_step_completed_alert( $post->ID, $course_id, $user_id, 'topic' );
 
 	if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD ) ) {
 		$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
@@ -90,9 +95,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	}
 
 	if ( ( $lesson_progression_enabled ) && ( ! empty( $sub_context ) || ! $previous_topic_completed || ! $previous_lesson_completed ) && ! learndash_can_user_bypass() ) {
-
-		if ( ( ! learndash_is_sample( $post ) ) /* || ( learndash_is_sample( $post ) && true === (bool) $has_access ) */ ) {
-
+		if (
+			! learndash_is_sample( $post )
+			|| (bool) $has_access
+		) {
 			if ( 'video_progression' === $sub_context ) {
 				$previous_item = $lesson_post;
 			} else {
@@ -103,7 +109,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 
 			if ( ( isset( $previous_item ) ) && ( ! empty( $previous_item ) ) ) {
-				$show_content = false;
 				learndash_get_template_part(
 					'modules/messages/lesson-progression.php',
 					array(
@@ -142,7 +147,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 			}
 		} else {
-
 			/**
 			 * Display Lesson Assignments
 			 */
@@ -214,7 +218,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 		}
 	} else {
-
 		$can_complete = false;
 
 		if ( $all_quizzes_completed && $logged_in && ! empty( $course_id ) ) :

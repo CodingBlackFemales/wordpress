@@ -56,9 +56,12 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			parent::load_settings_values();
 
 			$_init = false;
-			if ( false === $this->setting_option_values ) {
-				$_init                       = true;
-				$this->setting_option_values = array();
+
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
+				$_init = true;
 			}
 
 			$this->setting_option_values = wp_parse_args(

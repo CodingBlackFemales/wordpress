@@ -1,10 +1,12 @@
 <?php
 /**
- * Setup wizard template of page 5
+ * Setup wizard step 5.
  *
- * @package LearnDash_Design_Wizard
+ * @version 4.18.0
  *
- * @var array<string, mixed> $template_details
+ * @var array<string, mixed> $template_details Template details.
+ *
+ * @package LearnDash\Core
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,13 +19,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="header">
 		<div class="logo">
             <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-			<img  src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/learndash.svg' ); ?>" alt="LearnDash" />
+			<img  src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . 'assets/images/learndash.svg' ); ?>" alt="LearnDash" />
 		</div>
 	</div>
 	<div class="content">
 		<div class="icon">
             <?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
-			<img src="<?php echo esc_url( \LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/wizard/palette.png' ); ?>" alt="Palette" />
+			<img src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/design-wizard/wizard/palette.png' ); ?>" alt="Palette" />
 		</div>
 		<div class="title-wrapper">
 			<h1 class="title"><?php esc_html_e( 'Nice choices', 'learndash' ); ?></h1>

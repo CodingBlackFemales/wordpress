@@ -26,6 +26,24 @@ if ( ! class_exists( 'Learndash_Admin_Import_Export' ) ) {
 		const COMMON_PATH = LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-import-export/common/';
 
 		/**
+		 * Demo content path.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @var string
+		 */
+		private const DEMO_CONTENT_PATH = LEARNDASH_LMS_PLUGIN_DIR . 'assets/demo/demo-content.zip';
+
+		/**
+		 * Admin import handler.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @var Learndash_Admin_Import_Handler|null
+		 */
+		protected static $admin_import_handler;
+
+		/**
 		 * Inits.
 		 *
 		 * @since 4.3.0
@@ -36,6 +54,55 @@ if ( ! class_exists( 'Learndash_Admin_Import_Export' ) ) {
 			self::init_common_classes();
 			self::init_import_classes();
 			self::init_export_classes();
+		}
+
+		/**
+		 * Imports demo content.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @param string $content_zip_path Content zip path. Defaults to LearnDash demo content.
+		 *
+		 * @return true|WP_Error True on success. WP_Error if an error occurred.
+		 */
+		public static function import_demo_content( string $content_zip_path = '' ) {
+			if ( empty( $content_zip_path ) ) {
+				$content_zip_path = self::DEMO_CONTENT_PATH;
+			}
+
+			return self::create_import_handler()->enqueue_import_task( $content_zip_path );
+		}
+
+		/**
+		 * Creates and returns the import handler.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @return Learndash_Admin_Import_Handler
+		 */
+		public static function create_import_handler(): Learndash_Admin_Import_Handler {
+			if ( self::$admin_import_handler instanceof Learndash_Admin_Import_Handler ) {
+				return self::$admin_import_handler;
+			}
+
+			$import_logger = new Learndash_Import_Export_Logger( Learndash_Import_Export_Logger::$log_type_import );
+
+			add_filter(
+				'learndash_loggers',
+				function( array $loggers ) use ( $import_logger ): array {
+					$loggers[] = $import_logger;
+
+					return $loggers;
+				}
+			);
+
+			self::$admin_import_handler = new Learndash_Admin_Import_Handler(
+				new Learndash_Admin_Import_File_Handler(),
+				new Learndash_Admin_Action_Scheduler( self::SCHEDULER_IMPORT_GROUP_NAME ),
+				$import_logger
+			);
+
+			return self::$admin_import_handler;
 		}
 
 		/**
@@ -84,21 +151,7 @@ if ( ! class_exists( 'Learndash_Admin_Import_Export' ) ) {
 			require_once self::IMPORT_PATH . 'class-learndash-admin-import-media.php';
 			require_once self::IMPORT_PATH . 'class-learndash-admin-import-associations-handler.php';
 
-			$import_logger = new Learndash_Import_Export_Logger( Learndash_Import_Export_Logger::$log_type_import );
-			add_filter(
-				'learndash_loggers',
-				function( array $loggers ) use ( $import_logger ): array {
-					$loggers[] = $import_logger;
-
-					return $loggers;
-				}
-			);
-
-			new Learndash_Admin_Import_Handler(
-				new Learndash_Admin_Import_File_Handler(),
-				new Learndash_Admin_Action_Scheduler( self::SCHEDULER_IMPORT_GROUP_NAME ),
-				$import_logger
-			);
+			self::create_import_handler();
 		}
 
 		/**

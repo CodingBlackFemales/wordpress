@@ -7,6 +7,8 @@
  * @package LearnDash\Misc
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -190,33 +192,51 @@ function learndash_is_sample( $post ) {
 	return false;
 }
 
-
-
 /**
  * Helper function for PHP output buffering.
  *
- * @todo not sure what this is preventing with a while looping
- *       counting to 10 and checking current buffer level
+ * Cleans nested output buffers down to a specified level. The loop counter
+ * prevents infinite loops by limiting iterations to 10, providing a safety
+ * mechanism in case of unexpected buffer handling issues.
+ *
+ * Example usage:
+ *
+ *     $initial_level = ob_get_level(); // Level 1.
+ *
+ *     ob_start();
+ *     echo 'Outer content';            // Level 2.
+ *
+ *     ob_start();
+ *     echo 'Middle content';           // Level 3.
+ *
+ *     ob_start();
+ *     echo 'Inner content';            // Level 4.
+ *
+ *     // Clean all buffers down to level 1 (return to initial level).
+ *     $content = learndash_ob_get_clean( $initial_level );
+ *     // Returns: 'Outer content' (the last/outermost buffer cleaned).
+ *
+ *     // Clean only down to level 2 (leave the outer buffer).
+ *     $content = learndash_ob_get_clean( 2 );
+ *     // Returns: 'Middle content' (the last buffer cleaned before stopping).
  *
  * @since 2.1.0
  *
- * @param int $level Optional. The level for output buffering. Default 0.
+ * @param int $level Optional. The target buffer level to stop at. Default 0 (clean all buffers).
  *
- * @return string Buffered output.
+ * @return string Content from the last (outermost) buffer that was cleaned, or empty string if no buffers were cleaned.
  */
 function learndash_ob_get_clean( $level = 0 ) {
 	$content = '';
 	$i       = 1;
 
 	while ( $i <= 10 && ob_get_level() > $level ) {
-		$i++;
+		++$i;
 		$content = ob_get_clean();
 	}
 
 	return $content;
 }
-
-
 
 /**
  * Redirects to the home page if the user lands on archive pages for lesson or quiz post types.
@@ -530,45 +550,56 @@ function learndash_seconds_to_time( $input_seconds = 0 ) {
 }
 
 /**
- * Converts a timestamp to local timezone adjusted display.
+ * Converts a GMT timestamp to local timezone adjusted display.
  *
  * @since 2.2.0
  *
- * @param int    $timestamp      Optional. The timestamp to display. Default 0.
- * @param string $display_format Optional. The time display format. Default empty.
+ * @param int    $timestamp      Optional. The Unix timestamp to display. Default 0.
+ * @param string $display_format Optional. The time display format. Default empty. If empty, uses the format defined for WordPress under Settings -> General.
  *
  * @return string The adjusted date time display.
  */
 function learndash_adjust_date_time_display( $timestamp = 0, $display_format = '' ) {
 	$date_time_display = '';
 
-	if ( ! empty( $timestamp ) ) {
-		if ( empty( $display_format ) ) {
-			$date_format = get_option( 'date_format', 'Y-m-d' );
-			if ( empty( $date_format ) ) {
-				$date_format = 'Y-m-d';
-			}
+	if ( $timestamp <= 0 ) {
+		return $date_time_display;
+	}
 
-			$time_format = get_option( 'time_format', 'H:i:s' );
-			if ( empty( $time_format ) ) {
-				$time_format = 'H:i:s';
-			}
-
-			/**
-			 * Filters LearnDash date and time format.
-			 *
-			 * @param string  $format Format to display the date.
-			 */
-			$display_format = apply_filters( 'learndash_date_time_formats', $date_format . ' ' . $time_format );
+	if ( empty( $display_format ) ) {
+		$date_format = get_option( 'date_format', 'Y-m-d' );
+		if ( empty( $date_format ) ) {
+			$date_format = 'Y-m-d';
 		}
 
-		// First we convert the timestamp to local Y-m-d H:i:s format.
-		$date_time_display = get_date_from_gmt( date( 'Y-m-d H:i:s', $timestamp ), 'Y-m-d H:i:s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$time_format = get_option( 'time_format', 'H:i:s' );
+		if ( empty( $time_format ) ) {
+			$time_format = 'H:i:s';
+		}
 
-		// Then we take that value and reconvert it to a timestamp and call date_i18n to translate the month, date name etc.
-		$date_time_display = date_i18n( $display_format, strtotime( $date_time_display ) );
+		$display_format = $date_format . ' ' . $time_format;
 	}
-	return $date_time_display;
+
+	/**
+	 * Filters LearnDash date and time format.
+	 *
+	 * @since 2.2.0
+	 * @since 4.20.0 This filter is now also applied when a format was specified rather than only to the default.
+	 *
+	 * @param string $display_format Format to display the date.
+	 *
+	 * @return string
+	 */
+	$display_format = apply_filters(
+		'learndash_date_time_formats',
+		$display_format
+	);
+
+	// First we convert the timestamp to local Y-m-d H:i:s format.
+	$date_time_display = get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $timestamp ), 'Y-m-d H:i:s' );
+
+	// Then we take that value and reconvert it to a timestamp and call date_i18n to translate the month, date name etc.
+	return date_i18n( $display_format, strtotime( $date_time_display ) );
 }
 
 /**
@@ -598,22 +629,6 @@ function learndash_get_timestamp_from_date_string( $date_string = '', $adjust_to
 }
 
 /**
- * Checks if the server is on Microsoft IIS.
- *
- * @since 2.1.0
- *
- * @return boolean Returns true if the server is on Microsoft IIS otherwise false.
- */
-function learndash_on_iis() {
-	$s_software = strtolower( $_SERVER['SERVER_SOFTWARE'] );
-	if ( strpos( $s_software, 'microsoft-iis' ) !== false ) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-/**
  * Utility function to traverse the multidimensional array and apply user function.
  *
  * @since 2.1.2
@@ -639,25 +654,47 @@ function learndash_array_map_r( $func, $arr ) {
 }
 
 /**
- * Formats course points.
+ * Formats course points to the specified decimal value.
  *
- * @param string $points   Course points.
- * @param int    $decimals Optional. The decimal values to round the course points. Default 1.
+ * @since 2.1.0
+ * @since 4.14.0 $decimal parameter changed from 1 to 2 by default.
  *
- * @return float Formatted course points.
+ * @param mixed $points   Course points.
+ * @param int   $decimals Optional. The decimal values to round the course points. Default 2.
+ *
+ * @return float Course points.
  */
-function learndash_format_course_points( $points, $decimals = 1 ) {
+function learndash_format_course_points( $points, $decimals = 2 ) {
+	if ( is_string( $points ) ) {
+		$points = preg_replace( '/[^0-9.-]/', '', $points ); // Allow only numbers, hyphen and dot in the string.
+		$points = preg_replace( '/-+/', '-', Cast::to_string( $points ) ); // Allow only one hyphen in the string.
+	}
 
-	$points = preg_replace( '/[^0-9.]/', '', $points );
+	$points = Cast::to_float( $points );
 
 	/**
-	 * Filters course points format round decimal value.
-	 *
-	 * @param int $decimals the number of decimal digits to round to.
-	 */
-	$points = round( floatval( $points ), apply_filters( 'learndash_course_points_format_round', $decimals ) );
+	* Filters course points format round decimal value.
+	*
+	* @since 2.1.0
+	*
+	* @param int $decimals The number of decimal digits to round to.
+	*
+	* @return int
+	*/
+	$decimals = apply_filters( 'learndash_course_points_format_round', $decimals );
 
-	return floatval( $points );
+	// Catch intentional zero values.
+
+	if ( $decimals === 0 ) {
+		return round( $points );
+	}
+
+	$decimals = Cast::to_int( $decimals );
+
+	return round(
+		$points,
+		$decimals > 0 ? $decimals : 2 // If $decimals is invalid, use the default value.
+	);
 }
 
 /**
@@ -910,6 +947,8 @@ function learndash_get_ignored_upload_file_extensions() {
  * This utility function is used to limit the allowed file extensions for
  * Assignments and Essays.
  *
+ * Warning: In the context of Assignments, this function is a candidate for deprecation. Use `Has_Assignments::get_supported_assignment_file_mime_types()` instead.
+ *
  * @since 3.1.7
  *
  * @param integer $post_id Post ID for Assignment or Essay.
@@ -1143,7 +1182,7 @@ function learndash_post_updated_messages( $post_messages = array() ) {
 		}
 
 		// translators: Publish box date format, see https://secure.php.net/date.
-		$scheduled_date = date_i18n( __( 'M j, Y @ H:i', 'learndash' ), strtotime( $post->post_date ) );
+		$scheduled_date = learndash_adjust_date_time_display( (int) strtotime( $post->post_date_gmt ), __( 'M j, Y @ H:i', 'learndash' ) );
 
 		$post_messages[ $post_type ] = array(
 			0  => '', // Unused. Messages start at index 1.
@@ -1219,27 +1258,6 @@ function learndash_get_total_post_count( $post_type = '' ) {
 }
 
 /**
- * Gets the posts count from the `WP_Query` post_type argument.
- *
- * @param array $query_args Optional. The `WP_Query` query arguments array. Default empty array.
- *
- * @return int Number of posts for a post type.
- */
-function learndash_check_query_post_type( $query_args = array() ) {
-	$total_post_count = 0;
-	if ( ( isset( $query_args['post_type'] ) ) && ( ! empty( $query_args['post_type'] ) ) ) {
-		if ( is_string( $query_args['post_type'] ) ) {
-			$total_post_count += learndash_get_total_post_count( $query_args['post_type'] );
-		} elseif ( is_array( $query_args['post_type'] ) ) {
-			foreach ( $query_args['post_type'] as $post_type ) {
-				$total_post_count += learndash_get_total_post_count( $query_args['post_type'] );
-			}
-		}
-	}
-
-	return $total_post_count;
-}
-/**
  * Converts the stored lesson timer value from the postmeta settings into number of total seconds.
  *
  * @param string|int $timer_time Optional. The lesson timer time. Default 0.
@@ -1273,46 +1291,6 @@ function learndash_convert_lesson_time_time( $timer_time = 0 ) {
 	}
 
 	return $timer_time;
-}
-
-/**
- * Updates the comment_status field for all the post of given post type.
- *
- * @global array $learndash_question_types
- *
- * @since 3.0.0
- *
- * @param string         $post_type      Optional. The post type slug. Default empty.
- * @param string|boolean $comment_status Optional. New comment status. Allowed values 'open' or 'closed'. Default false.
- */
-function learndash_update_posts_comment_status( $post_type = '', $comment_status = false ) {
-	global $learndash_question_types;
-
-	if ( ! empty( $post_type ) ) {
-		$ld_post_types = learndash_get_post_types();
-		if ( in_array( $post_type, $ld_post_types, true ) ) {
-			if ( in_array( $comment_status, array( 'open', 'closed' ), true ) ) {
-
-				/**
-				 * Filters whether to update comment status for any post type or not.
-				 *
-				 * @param boolean $update_comment_status Whether to Update comment status or not.
-				 * @param string  $post_type             Post type slug.
-				 * @param string  $comment_status        Status of comments.
-				 */
-				if ( apply_filters( 'learndash_update_posts_comment_status', true, $post_type, $comment_status ) ) {
-					global $wpdb;
-					$wpdb->query(
-						$wpdb->prepare(
-							'UPDATE wp_posts SET comment_status = %s WHERE post_type = %s',
-							$comment_status,
-							$post_type
-						)
-					);
-				}
-			}
-		}
-	}
 }
 
 /**
@@ -1879,12 +1857,18 @@ function learndash_use_select2_lib_ajax_fetch() {
 }
 
 /**
- * Add index file to directory
+ * Add an index file to directory.
  *
  * @param string $index_filename File name.
+ *
+ * @return void
  */
 function learndash_put_directory_index_file( $index_filename = '' ) {
-	if ( ! empty( $index_filename ) ) {
+	if (
+		! empty( $index_filename )
+		&& ! file_exists( $index_filename )
+		&& is_writable( dirname( $index_filename ) )
+	) {
 		file_put_contents( $index_filename, '//LearnDash is THE Best LMS' );
 	}
 }
@@ -2079,31 +2063,42 @@ function learndash_stripe_addon_deprecation_notice() {
 add_action( 'admin_notices', 'learndash_stripe_addon_deprecation_notice' );
 
 /**
- * Shows admin notice warning if Licensing & Management plugin is not activated.
+ * Creates a cryptographic token tied to a specific action, user, user session, and window of time.
+ * Adds the `learndash_` prefix to the action.
  *
- * @since 4.6.0
+ * @since 4.12.0
  *
- * @return void
+ * @param string $action String value to add context to the nonce.
+ *
+ * @return string The token.
  */
-function learndash_hub_deactivated_notice() {
-	$class   = 'notice notice-warning is-dismissible';
-	$title   = __( 'LearnDash Licensing & Management', 'learndash' );
-	$message = __( 'Important! The LearnDash Licensing & Management plugin is missing. Please install and/or activate the plugin to ensure your LearnDash license works correctly. ', 'learndash' );
-	$links   = __( '<a href="https://www.learndash.com/support/docs/core/learndash-licensing-and-management/">LearnDash Licensing Guide</a>', 'learndash' );
-
-	if ( ! learndash_is_learndash_hub_active() && current_user_can( 'administrator' ) ) {
-		printf(
-			'<div class="%1$s">
-				<p><strong>%2$s</strong></p>
-				<p>%3$s</p>
-				<p>%4$s</p>
-			</div>',
-			esc_attr( $class ),
-			esc_html( $title ),
-			esc_html( $message ),
-			wp_kses_post( $links )
-		);
-	}
+function learndash_create_nonce( string $action ): string {
+	return wp_create_nonce( 'learndash_' . $action );
 }
 
-add_action( 'admin_notices', 'learndash_hub_deactivated_notice' );
+/**
+ * Sanitizes a given version string to ensure that it follows SemVer properly.
+ *
+ * @since 4.18.1
+ * @since 4.21.1 Added support for WordPress Beta and Nightly version strings.
+ *
+ * @param string $version Version string.
+ *
+ * @return string
+ */
+function learndash_sanitize_version_string( string $version ): string {
+	$modifier = '';
+
+	// Extracts the "modifier" to add it back later. Example: -RC2, -dev.hash, -beta1-hash, etc.
+	if ( strpos( $version, '-' ) !== false ) {
+		$modifier = Cast::to_string( preg_replace( '/^[^-]*(.*$)/', '$1', $version ) );
+		$version  = str_replace( $modifier, '', $version );
+	}
+
+	// Ensure that the version string has at least 3 parts.
+	for ( $count = count( explode( '.', $version ) ); $count < 3; $count++ ) {
+		$version .= '.0';
+	}
+
+	return $version . $modifier;
+}

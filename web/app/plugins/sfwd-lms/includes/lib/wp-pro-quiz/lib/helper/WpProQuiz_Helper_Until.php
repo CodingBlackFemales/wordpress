@@ -1,8 +1,19 @@
 <?php
+/**
+ * LearnDash ProQuiz Helper Until.
+ *
+ * @since 1.2.5
+ * @package LearnDash
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * LearnDash ProQuiz Helper Until Class.
+ */
 class WpProQuiz_Helper_Until {
 
 	public static function saveUnserialize( $str, &$into ) {
@@ -35,16 +46,36 @@ class WpProQuiz_Helper_Until {
 	}
 	*/
 
+	/**
+	 * Convert a Unix timestamp to a local time.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @param int    $time   Unix timestamp.
+	 * @param string $format PHP date format.
+	 *
+	 * @return string
+	 */
 	public static function convertTime( $time, $format ) {
-		$time = $time + get_option( 'gmt_offset' ) * 60 * 60;
-
-		return date_i18n( $format, $time );
+		return learndash_adjust_date_time_display( $time, $format );
 	}
 
-	public static function getDatePicker( $format, $namePrefix ) {
+	/**
+	 * Outputs a date picker dropdown.
+	 *
+	 * @since 1.4.6
+	 * @since 4.21.1 Added $required parameter.
+	 *
+	 * @param string $format     PHP Date format to use when rendering the dropdowns in-order.
+	 * @param string $namePrefix Prefix for the dropdown names.
+	 * @param bool   $required   Whether the field is required. Default false.
+	 *
+	 * @return string HTML for the date picker dropdown.
+	 */
+	public static function getDatePicker( $format, $namePrefix, $required = false ) {
 		global $wp_locale;
 
-		$day = ' <select name="' . $namePrefix . '_day"><option value="">' . esc_html__( 'day', 'learndash' ) . '</option>';
+		$day = ' <select name="' . $namePrefix . '_day"' . ( $required ? ' required aria-required="true"' : '' ) . '><option value="">' . esc_html__( 'day', 'learndash' ) . '</option>';
 
 		for ( $i = 1; $i <= 31; $i++ ) {
 			$day .= '<option value="' . $i . '">' . $i . '</option>';
@@ -52,7 +83,7 @@ class WpProQuiz_Helper_Until {
 
 		$day .= '</select> ';
 
-		$monthNumber = ' <select name="' . $namePrefix . '_month"><option value="">' . esc_html__( 'month', 'learndash' ) . '</option>';
+		$monthNumber = ' <select name="' . $namePrefix . '_month"' . ( $required ? ' required aria-required="true"' : '' ) . '><option value="">' . esc_html__( 'month', 'learndash' ) . '</option>';
 
 		for ( $i = 1; $i <= 12; $i++ ) {
 			$monthNumber .= '<option value="' . $i . '">' . $i . '</option>';
@@ -60,7 +91,7 @@ class WpProQuiz_Helper_Until {
 
 		$monthNumber .= '</select> ';
 
-		$monthName = ' <select name="' . $namePrefix . '_month"><option value="">' . esc_html__( 'month', 'learndash' ) . '</option>';
+		$monthName = ' <select name="' . $namePrefix . '_month"' . ( $required ? ' required aria-required="true"' : '' ) . '><option value="">' . esc_html__( 'month', 'learndash' ) . '</option>';
 		$names     = array_values( $wp_locale->month );
 
 		$index = 1;
@@ -70,7 +101,7 @@ class WpProQuiz_Helper_Until {
 
 		$monthName .= '</select>';
 
-		$year = ' <select name="' . $namePrefix . '_year"><option value="">' . esc_html__( 'year', 'learndash' ) . '</option>';
+		$year = ' <select name="' . $namePrefix . '_year"' . ( $required ? ' required aria-required="true"' : '' ) . '><option value="">' . esc_html__( 'year', 'learndash' ) . '</option>';
 
 		/**
 		 * Filters Quiz Custom Field Year minimum value.

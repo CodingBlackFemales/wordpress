@@ -31,8 +31,14 @@ if ( ( ! class_exists( 'LD_REST_Courses_Users_Controller_V2' ) ) && ( class_exis
 		 * @since 3.3.0
 		 */
 		public function __construct() {
-			$this->rest_sub_base = $this->get_rest_base( 'courses-users' );
 			parent::__construct();
+
+			/**
+			 * Set the rest_base after the parent __constructor
+			 * as it will set these var with WP specific details.
+			 */
+			$this->rest_base     = $this->get_rest_base( 'courses' );
+			$this->rest_sub_base = $this->get_rest_base( 'courses-users' );
 		}
 
 		/**
@@ -56,15 +62,9 @@ if ( ( ! class_exists( 'LD_REST_Courses_Users_Controller_V2' ) ) && ( class_exis
 				);
 			}
 
-			/**
-			 * Set the rest_base after the parent __constructor
-			 * as it will set these var with WP specific details.
-			 */
-			$courses_rest_base = $this->get_rest_base( 'courses' );
-
 			register_rest_route(
 				$this->namespace,
-				'/' . $courses_rest_base . '/(?P<id>[\d]+)/' . $this->rest_sub_base,
+				'/' . $this->rest_base . '/(?P<id>[\d]+)/' . $this->rest_sub_base,
 				array(
 					'args'   => array(
 						'id' => array(
@@ -156,10 +156,9 @@ if ( ( ! class_exists( 'LD_REST_Courses_Users_Controller_V2' ) ) && ( class_exis
 
 			$query_args = parent::rest_query_filter( $query_args, $request );
 
-			$route_url         = $request->get_route();
-			$courses_rest_base = $this->get_rest_base( 'courses' );
+			$route_url = $request->get_route();
 
-			$ld_route_url = '/' . $this->namespace . '/' . $courses_rest_base . '/' . absint( $request['id'] ) . '/' . $this->rest_sub_base;
+			$ld_route_url = '/' . $this->namespace . '/' . $this->rest_base . '/' . absint( $request['id'] ) . '/' . $this->rest_sub_base;
 			if ( ( ! empty( $route_url ) ) && ( $ld_route_url === $route_url ) ) {
 				$course_id = (int) $request['id'];
 				if ( ! empty( $course_id ) ) {

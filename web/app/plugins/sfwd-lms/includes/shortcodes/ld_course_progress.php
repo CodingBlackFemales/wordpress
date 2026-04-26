@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -52,7 +54,18 @@ function learndash_course_progress( $atts = array(), $content = '', $shortcode_s
 		$atts['course_id'] = learndash_get_course_id();
 	}
 
-	if ( ( empty( $atts['user_id'] ) ) || ( empty( $atts['course_id'] ) ) ) {
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$atts['user_id'] = learndash_shortcode_protect_user(
+		Cast::to_int( $atts['user_id'] )
+	);
+
+	if (
+		empty( $atts['user_id'] )
+		|| empty( $atts['course_id'] )
+		|| ! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $atts['course_id'] )
+		)
+	) {
 		if ( $atts['array'] ) {
 			return array(
 				'percentage' => 0,

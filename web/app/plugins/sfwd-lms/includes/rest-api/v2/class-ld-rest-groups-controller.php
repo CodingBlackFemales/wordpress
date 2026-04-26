@@ -99,7 +99,7 @@ if ( ( ! class_exists( 'LD_REST_Groups_Controller_V2' ) ) && ( class_exists( 'LD
 				foreach ( $this->metaboxes as $metabox ) {
 					$metabox->load_settings_values();
 					$metabox->load_settings_fields();
-					$this->register_rest_fields( $metabox->get_settings_metabox_fields(), $metabox );
+					$this->register_rest_fields( $metabox->get_rest_api_fields(), $metabox );
 				}
 			}
 		}
@@ -114,7 +114,7 @@ if ( ( ! class_exists( 'LD_REST_Groups_Controller_V2' ) ) && ( class_exists( 'LD
 		 * @return true|WP_Error True if the request has read access, otherwise WP_Error object.
 		 */
 		public function get_items_permissions_check( $request ) {
-			if ( ( 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Groups_CPT', 'public' ) ) || ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
+			if ( ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
 				return true;
 			} else {
 				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
@@ -131,7 +131,7 @@ if ( ( ! class_exists( 'LD_REST_Groups_Controller_V2' ) ) && ( class_exists( 'LD
 		 * @return bool|WP_Error True if the request has read access for the item, WP_Error object otherwise.
 		 */
 		public function get_item_permissions_check( $request ) {
-			if ( ( 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Groups_CPT', 'public' ) ) || ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
+			if ( ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
 				return true;
 			} else {
 				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );

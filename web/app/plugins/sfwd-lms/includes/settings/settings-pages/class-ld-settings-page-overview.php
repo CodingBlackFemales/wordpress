@@ -223,80 +223,6 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 		}
 
 		/**
-		 * Check and update license information
-		 *
-		 * @since 3.0.0
-		 */
-		private function check_and_update_license() {
-			$updater = learndash_get_updater_instance();
-			if ( ( $updater ) && ( is_a( $updater, 'nss_plugin_updater_sfwd_lms' ) ) ) {
-				// Check if we have new user input.
-				if ( ( isset( $_POST['update_nss_plugin_license_sfwd_lms'], $_POST['ld_bootcamp_license_form_nonce'] ) )
-					&& ( wp_verify_nonce( sanitize_key( $_POST['ld_bootcamp_license_form_nonce'] ), 'ld_bootcamp_license_form_nonce' ) ) ) {
-					// Read their posted value.
-					$license = isset( $_POST['nss_plugin_license_sfwd_lms'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['nss_plugin_license_sfwd_lms'] ) ) ) : '';
-					$email   = isset( $_POST['nss_plugin_license_email_sfwd_lms'] ) ? trim( sanitize_email( wp_unslash( $_POST['nss_plugin_license_email_sfwd_lms'] ) ) ) : '';
-
-					// Save the posted value in the database.
-					update_option( 'nss_plugin_license_sfwd_lms', $license );
-					update_option( 'nss_plugin_license_email_sfwd_lms', $email );
-
-					$updater->reset();
-					$updater->generate_update_path();
-					$updater->getRemote_license();
-					?>
-					<script>window.location.reload()</script>
-					<?php
-				} else {
-					/*
-					 * @TODO : All this logic needs to be encapsulated within the ld-autoupdate.php
-					 * code. We should not be exposing settings keys like 'nss_plugin_license_sfwd_lms'
-					 * and 'nss_plugin_license_email_sfwd_lms' spread all over the LD code.
-					 * There should be an interface function that simply returns the license
-					 * details and status.
-					 */
-
-					// Get values from the database.
-					$license = get_option( 'nss_plugin_license_sfwd_lms' );
-					$email   = get_option( 'nss_plugin_license_email_sfwd_lms' );
-
-					// Check the license.
-					if ( ! empty( $license ) && ! empty( $email ) ) {
-						$license_status = learndash_is_learndash_license_valid();
-
-						if ( ! $license_status ) {
-							// Clear just to be sure.
-
-							$license_status = false;
-
-							/**
-							 * We don't want to call getRemote_license() on every page
-							 * load. So we use the time_to_recheck() logic.
-							 */
-							if ( $updater->time_to_recheck() ) {
-								$license_status = $updater->getRemote_license();
-
-								/**
-								 * NOTE: The getRemote_license() does not update the option.
-								 * So we need to do it. And it needs to be set as an array structure.
-								 */
-								update_option( 'nss_plugin_remote_license_sfwd_lms', array( 'value' => $license_status ) );
-
-								// Then re-update the license using new utility function.
-								// Plus this provides simpler true/false boolean.
-								$license_status = learndash_is_learndash_license_valid();
-							}
-						}
-
-						$this->license_info['license'] = $license;
-						$this->license_info['email']   = $email;
-						$this->license_info['status']  = $license_status;
-					}
-				}
-			}
-		}
-
-		/**
 		 * Utility function to maybe display the Bootcamp
 		 *
 		 * @since 3.0.0
@@ -321,9 +247,6 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 		public function show_settings_page() {
 			$toggle_state = get_option( 'learndash_bootcamp_toggle_state' );
 			$this->get_feeds();
-			if ( learndash_is_admin_user() ) :
-				$this->check_and_update_license();
-			endif;
 			?>
 			<div class="wrap learndash-settings-page-wrap learndash-overview-page-wrap">
 				<div class="ld-bootview">
@@ -380,7 +303,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 														if ( ! learndash_is_learndash_license_valid() ) :
 															if ( learndash_get_license_show_notice() ) {
 																?>
-																<p class="<?php echo esc_attr( learndash_get_license_class( 'notice notice-error is-dismissible learndash-license-is-dismissible' ) ); ?>" <?php echo learndash_get_license_data_attrs(); ?>> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Element hardcoded in function. ?>
+																<p class="<?php echo esc_attr( learndash_get_license_class( 'notice notice-error is-dismissible learndash-license-is-dismissible' ) ); ?>" <?php learndash_get_license_data_attrs(); ?>> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Element hardcoded in function. ?>
 																<?php echo learndash_get_license_message(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Function escapes output ?>
 																</p>
 																<?php
@@ -859,7 +782,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 											if ( is_array( $rss_sell->get_items() ) ) {
 												echo '<ul>';
 												foreach ( $rss_sell->get_items( 0, 4 ) as $rss_sell_posts ) {
-													echo '<li><a href="' . esc_url( $rss_sell_posts->get_permalink() ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $rss_sell_posts->get_title() ) . '</a></li>';
+													echo '<li><a href="' . esc_url( strval( $rss_sell_posts->get_permalink() ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( strval( $rss_sell_posts->get_title() ) ) . '</a></li>';
 												};
 												echo '</ul>';
 											} else {
@@ -895,7 +818,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 											if ( is_array( $rss_tips->get_items() ) ) {
 												echo '<ul>';
 												foreach ( $rss_tips->get_items( 0, 4 ) as $rss_tips_posts ) {
-													echo '<li><a href="' . esc_url( $rss_tips_posts->get_permalink() ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $rss_tips_posts->get_title() ) . '</a></li>';
+													echo '<li><a href="' . esc_url( strval( $rss_tips_posts->get_permalink() ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( strval( $rss_tips_posts->get_title() ) ) . '</a></li>';
 												};
 												echo '</ul>';
 											} else {
@@ -935,7 +858,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 									if ( is_array( $rss_announcements->get_items() ) ) {
 										echo '<ul>';
 										foreach ( $rss_announcements->get_items( 0, 4 ) as $announcement_post ) {
-											echo '<li><a href="' . esc_url( $announcement_post->get_permalink() ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( $announcement_post->get_title() ) . '</a></li>';
+											echo '<li><a href="' . esc_url( strval( $announcement_post->get_permalink() ) ) . '" target="_blank" rel="noopener noreferrer">' . esc_html( strval( $announcement_post->get_title() ) ) . '</a></li>';
 										};
 										echo '</ul>';
 									} else {

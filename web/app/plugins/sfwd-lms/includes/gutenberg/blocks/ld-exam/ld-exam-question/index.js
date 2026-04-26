@@ -16,9 +16,8 @@ import { MdAssignment } from "react-icons/md";
 import { ldlms_get_custom_label } from "../../ldlms.js";
 import Edit from "./edit";
 
-export const settings = {
-    block_key: "learndash/ld-exam-question",
-    block_title: sprintf(
+registerBlockType( 'learndash/ld-exam-question', {
+	title: sprintf(
         // translators: placeholder: Challenge Exam Question.
         _x(
 			"%s Question",
@@ -27,7 +26,7 @@ export const settings = {
 		),
 		ldlms_get_custom_label( "exam" )
     ),
-    block_description: sprintf(
+	description: sprintf(
         // translators: placeholder: Create a question for your Challenge Exam.
         _x(
 			"Create a question for your %s",
@@ -35,18 +34,14 @@ export const settings = {
 			"learndash"
 		),
 		ldlms_get_custom_label( "exam" )
-    )
-};
-
-registerBlockType( settings.block_key, {
-	title: settings.block_title,
-	description: settings.block_description,
+    ),
 	icon: <MdAssignment />,
 	category: "learndash-blocks",
 	parent: [ "learndash/ld-exam" ],
 	supports: {
 		html: false,
 	},
+	apiVersion: 3,
 	providesContext: {
 		"learndash/question_type": "question_type",
 	},

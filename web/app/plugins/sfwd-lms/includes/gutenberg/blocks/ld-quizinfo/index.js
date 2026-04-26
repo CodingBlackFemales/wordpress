@@ -18,8 +18,8 @@ import {
  */
 import { __, _x, sprintf } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Disabled } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useMemo } from "@wordpress/element";
 
@@ -44,6 +44,7 @@ registerBlockType(block_key, {
 	supports: {
 		customClassName: false,
 	},
+	apiVersion: 3,
 	attributes: {
 		show: {
 			type: "string",
@@ -87,9 +88,10 @@ registerBlockType(block_key, {
 				preview_show,
 				preview_user_id,
 			},
-			className,
 			setAttributes,
 		} = props;
+
+		const blockProps = useBlockProps();
 
 		const field_show_field = (
 			<SelectControl
@@ -389,10 +391,14 @@ registerBlockType(block_key, {
 			}
 		}
 
-		return [
-			inspectorControls,
-			useMemo(() => do_serverside_render(props.attributes), [props.attributes]),
-		];
+		return (
+			<div { ...blockProps }>
+				{ inspectorControls }
+				<Disabled>
+					{ useMemo(() => do_serverside_render(props.attributes), [props.attributes]) }
+				</Disabled>
+			</div>
+		);
 	},
 	save: function (props) {
 		delete props.attributes.example_show;

@@ -1,8 +1,20 @@
 <?php
+/**
+ * WpProQuiz_Model_Quiz class file.
+ *
+ * @package LearnDash\Core
+ */
+
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * WpProQuiz_Model_Quiz.
+ */
 class WpProQuiz_Model_Quiz extends WpProQuiz_Model_Model {
 
 	const QUIZ_RUN_ONCE_TYPE_ALL         = 1;
@@ -735,6 +747,30 @@ class WpProQuiz_Model_Quiz extends WpProQuiz_Model_Model {
 
 	public function isShowCategory() {
 		return $this->_showCategory;
+	}
+
+	/**
+	 * Returns true when the result message is enabled, false otherwise.
+	 *
+	 * @since 4.17.0
+	 *
+	 * @return bool
+	 */
+	public function is_result_message_enabled(): bool {
+		if ( 0 === $this->_quiz_post_id ) {
+			return false;
+		}
+
+		$quiz_settings = get_post_meta( $this->_quiz_post_id, '_sfwd-quiz', true );
+
+		if (
+			! is_array( $quiz_settings )
+			|| ! array_key_exists( 'sfwd-quiz_resultGradeEnabled', $quiz_settings )
+		) {
+			return false;
+		}
+
+		return Cast::to_bool( $quiz_settings['sfwd-quiz_resultGradeEnabled'] );
 	}
 
 	public function get_object_as_array() {

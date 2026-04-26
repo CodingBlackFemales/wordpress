@@ -16,7 +16,7 @@
 
 namespace LearnDash\Core\Template\Steps;
 
-use LearnDash\Core\Collection;
+use LearnDash\Core\Collections\Collection;
 
 // TODO: Write tests for it.
 

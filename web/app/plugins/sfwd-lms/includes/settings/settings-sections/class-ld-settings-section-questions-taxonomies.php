@@ -69,9 +69,10 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			$_init = false;
-			if ( false === $this->setting_option_values ) {
-				$_init                       = true;
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+            ) {
 				$this->setting_option_values = array(
 					'proquiz_question_category' => 'yes',
 					'ld_question_category'      => 'no',

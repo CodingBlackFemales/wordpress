@@ -3,6 +3,7 @@
  * LearnDash LD30 Displays content tabs
  *
  * @since 3.0.0
+ * @version 4.20.2
  *
  * @package LearnDash\Templates\LD30
  */
@@ -98,13 +99,20 @@ foreach ( $tabs as $tab ) {
 				}
 
 				$tab_class = 'ld-tab ' . ( 0 === $i ? 'ld-active' : '' );
-				$attrs     = ( 0 === $i ? 'aria-selected="true"' : '' );
 				?>
 
-				<button <?php echo esc_attr( $attrs ); ?> role="tab" aria-controls="<?php echo esc_attr( $tab['id'] . '-tab' ); ?>" id="<?php echo esc_attr( 'ld-' . $tab['id'] ) . '-tab-' . get_the_ID(); ?>" class="<?php echo esc_attr( $tab_class ); ?>" data-ld-tab="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>">
+				<button
+					aria-controls="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>"
+					aria-selected="<?php echo ( $i === 0 ) ? 'true' : 'false'; ?>"
+					class="<?php echo esc_attr( $tab_class ); ?>"
+					data-ld-tab="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>"
+					id="<?php echo esc_attr( 'ld-' . $tab['id'] ) . '-tab-' . get_the_ID(); ?>"
+					role="tab"
+					tabindex="<?php echo ( $i === 0 ) ? '0' : '-1'; ?>"
+				>
 					<span class="<?php echo esc_attr( 'ld-icon ' . $tab['icon'] ); ?>"></span>
 					<span class="ld-text"><?php echo esc_attr( $tab['label'] ); ?></span>
-			</button>
+				</button>
 					<?php
 					$i++;
 				endforeach;
@@ -164,7 +172,20 @@ foreach ( $tabs as $tab ) {
 			do_action( 'learndash-content-tabs-' . $tab['id'] . '-before', get_the_ID(), $context, $course_id, $user_id );
 			?>
 
-			<div role="tabpanel" tabindex="0" aria-labelledby="<?php echo esc_attr( $tab['id'] ); ?>" class="<?php echo esc_attr( $tab_class ); ?>" id="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>">
+			<?php if ( $tab_count > 1 ) : ?>
+				<div
+					aria-labelledby="<?php echo esc_attr( 'ld-' . $tab['id'] ) . '-tab-' . get_the_ID(); ?>"
+					class="<?php echo esc_attr( $tab_class ); ?>"
+					id="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>"
+					role="tabpanel"
+					tabindex="0"
+				>
+			<?php else : ?>
+				<div
+					class="<?php echo esc_attr( $tab_class ); ?>"
+					id="<?php echo esc_attr( 'ld-tab-' . $tab['id'] . '-' . get_the_ID() ); ?>"
+				>
+			<?php endif; ?>
 				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Might output HTML?>
 				<?php echo $tab['content']; ?>
 			</div>

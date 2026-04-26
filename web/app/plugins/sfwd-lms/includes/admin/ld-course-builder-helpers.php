@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Gets the course data for the course builder.
  *
  * @since 3.4.0
+ * @since 5.0.0 Removed the option to use `learndash_course_get_lessons_legacy`.
  *
  * @param array $data The data passed down to the front-end.
  *
@@ -26,10 +27,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 function learndash_get_course_data( $data ) {
 
 	$data['post_statuses'] = learndash_get_step_post_statuses();
-
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) { // @phpstan-ignore-line
-		return \learndash_get_course_data_legacy( $data );
-	}
 
 	global $pagenow, $typenow;
 

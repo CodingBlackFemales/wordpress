@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
 use LearnDash\Core\Utilities\Str;
 
 if ( class_exists( 'LearnDash_Settings_Section' ) && ! class_exists( 'LearnDash_Settings_Section_AI_Integrations' ) ) {
@@ -50,16 +51,34 @@ if ( class_exists( 'LearnDash_Settings_Section' ) && ! class_exists( 'LearnDash_
 		 * @return void
 		 */
 		public function load_settings_fields(): void {
+			$openai_api_key        = $this->setting_option_values['openai_api_key'] ?? '';
+			$masked_openai_api_key = Str::mask(
+				$openai_api_key,
+				'*',
+				3, // The first 3 characters that contains the prefix, e.g. `sk-`, are not masked.
+				strlen( Cast::to_string( $openai_api_key ) ) - 7 // Mask the remaining characters, excluding the last 4 characters.
+			);
+
 			$this->setting_option_fields = [
 				'openai_api_key' => [
 					'name'       => 'openai_api_key',
 					'type'       => 'password',
 					'label'      => esc_html__( 'OpenAI API Key', 'learndash' ),
-					'input_note' => ! empty( $this->setting_option_values['openai_api_key'] ?? '' )
+					'input_note' => ! empty( $openai_api_key )
 						? sprintf(
 							// translators: Secret key.
 							esc_html__( 'Saved key: %1$s', 'learndash' ),
-							Str::mask( $this->setting_option_values['openai_api_key'], '*', 3, 45 )
+							// Display the first 3 characters and the last 4 characters of the masked key.
+							substr(
+								$masked_openai_api_key,
+								0,
+								35
+							) .
+							substr(
+								$masked_openai_api_key,
+								-4,
+								4
+							)
 						)
 						: '',
 					'help_text'  => sprintf(
@@ -68,7 +87,7 @@ if ( class_exists( 'LearnDash_Settings_Section' ) && ! class_exists( 'LearnDash_
 						'<a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noreferrer noopener">',
 						'</a>'
 					),
-					'value'      => ! empty( $this->setting_option_values['openai_api_key'] ?? '' ) ? $this->get_placeholder_for_keys() : '',
+					'value'      => ! empty( $openai_api_key ) ? $this->get_placeholder_for_keys() : '',
 					'class'      => 'regular-text',
 				],
 			];

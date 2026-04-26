@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-2.0
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\DB\QueryBuilder\Concerns;
 
@@ -27,7 +21,7 @@ trait FromClause {
 	 *
 	 * @return $this
 	 */
-	public function from( $table, $alias = null ) {
+	public function from( $table, $alias = '' ) {
 		$this->froms[] = new From( $table, $alias );
 
 		return $this;

@@ -7,176 +7,338 @@
  * @package LearnDash\Navigation
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Generates the previous post link for lesson or topic.
+ * Generates the previous post link/url/ID for a lesson/topic/quiz in a course.
+ *
+ * Important note: learndash_clear_prev_next_links() affects it via `learndash_previous_post_link` hook.
+ * For some historical reason, it affects the link case only, not ID or URL.
  *
  * @since 2.1.0
+ * @since 4.11.0 Added support for quizzes.
  *
- * @param  string       $prev_link Default previous post link.
- * @param  boolean      $url       Whether to return URL instead of HTML output.
- * @param  WP_Post|null $post      The `WP_Post` object. Defaults to global post object.
+ * @param string|null  $default_value Default previous post link. Default empty string.
+ *                                    Null type is added for backward compatibility.
+ * @param string|bool  $url           Whether to return URL or ID instead of HTML output. Default false.
+ *                                    If true, the URL is returned.
+ *                                    If 'id', ID is returned.
+ *                                    Otherwise, an HTML link is returned.
+ * @param WP_Post|null $post          Current post. If not passed, the global post object is used.
  *
- * @return string Previous post link URL or HTML output.
+ * @return string|int Previous post link URL or HTML link or Post ID depending on the `$url` parameter.
+ *                    If a link cannot be generated, the default value will be returned.
  */
-function learndash_previous_post_link( $prev_link = '', $url = false, $post = null ) {
-	if ( empty( $post ) ) {
+function learndash_previous_post_link( $default_value = '', $url = false, $post = null ) {
+	// If a post is not passed, use the global post object.
+
+	if ( ! $post instanceof WP_Post ) {
 		global $post;
 	}
 
-	if ( empty( $post ) ) {
-		return $prev_link;
+	// Prepare arguments.
+
+	/**
+	 * Filters previous step default value for the course.
+	 *
+	 * @since 4.11.0
+	 *
+	 * @param string       $default_value Default previous step value. Always cast to string.
+	 * @param WP_Post|null $post          Current post. If not passed, the global post object is used. If not available, null.
+	 *
+	 * @return int Previous step default value.
+	 */
+	$default_value = apply_filters(
+		'learndash_course_previous_step_default_value',
+		Cast::to_string( $default_value ),
+		$post
+	);
+
+	// If post is not available, return the default previous post link.
+	if ( ! $post instanceof WP_Post ) {
+		return $default_value;
 	}
 
-	if ( 'sfwd-lessons' === $post->post_type ) {
-		$link_name = learndash_get_label_course_step_previous( learndash_get_post_type_slug( 'lesson' ) );
-
-		$course_id = learndash_get_course_id( $post );
-		$posts     = learndash_course_get_lessons( $course_id, array( 'per_page' => 0 ) );
-
-	} elseif ( 'sfwd-topic' === $post->post_type ) {
-		$link_name = learndash_get_label_course_step_previous( learndash_get_post_type_slug( 'topic' ) );
-
-		if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
-			$course_id = learndash_get_course_id( $post );
-			$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
-		} else {
-			$lesson_id = learndash_get_setting( $post, 'lesson' );
-			$course_id = learndash_get_setting( $post, 'course' );
-		}
-		$posts = learndash_course_get_topics( $course_id, $lesson_id, array( 'per_page' => 0 ) );
-	} else {
-		return $prev_link;
+	// If the post is not a lesson/topic/quiz, return the default previous post link.
+	if (
+		! in_array(
+			$post->post_type,
+			[
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::LESSON ),
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::TOPIC ),
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ ),
+			],
+			true
+		)
+	) {
+		return $default_value;
 	}
 
-	$prev_post = null;
-	foreach ( $posts as $k => $p ) {
-		if ( is_a( $p, 'WP_Post' ) ) {
-			if ( $p->ID == $post->ID ) {
-				break;
-			}
-			$prev_post = $p;
-		}
+	$course_id             = Cast::to_int( learndash_get_course_id( $post ) );
+	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id );
+	$current_step_position = array_search( $post->ID, $course_step_ids, true );
+
+	if ( false === $current_step_position ) {
+		return $default_value;
 	}
 
-	if ( ( $prev_post ) && ( is_a( $prev_post, 'WP_Post' ) ) ) {
-		if ( 'id' === $url ) {
-			return $prev_post->ID;
-		} elseif ( $url ) {
-			return get_permalink( $prev_post->ID );
-		} else {
-			$permalink = get_permalink( $prev_post->ID );
-			if ( is_rtl() ) {
-				$link_name_with_arrow = $link_name;
-			} else {
-				$link_name_with_arrow = '<span class="meta-nav">&larr;</span> ' . $link_name;
-			}
+	$previous_step_position = Cast::to_int( $current_step_position ) - 1;
 
-			$link = '<a href="' . $permalink . '" class="prev-link" rel="prev">' . $link_name_with_arrow . '</a>';
-
-			/**
-			 * Filters course navigation previous post link output.
-			 *
-			 * @since 2.1.0
-			 *
-			 * @param string  $link      Previous post link output.
-			 * @param string  $permalink Previous post permalink.
-			 * @param string  $link_name Text shown inside previous post link.
-			 * @param WP_Post $post      Post object.
-			 */
-			return apply_filters( 'learndash_previous_post_link', $link, $permalink, $link_name, $post );
-		}
-	} else {
-		return $prev_link;
+	// If the current step is the first step, return the default previous post link.
+	if ( ! isset( $course_step_ids[ $previous_step_position ] ) ) {
+		return $default_value;
 	}
+
+	$previous_post = get_post( $course_step_ids[ $previous_step_position ] );
+
+	// If the previous step is not a post for some reason, return the default previous post link.
+	if ( ! $previous_post instanceof WP_Post ) {
+			return $default_value;
+	}
+
+	// Return the post ID if the ID is requested.
+	if ( 'id' === $url ) {
+		/**
+		 * Filters previous step ID for the course.
+		 *
+		 * @since 4.11.0
+		 *
+		 * @param int     $previous_post_id Previous post ID.
+		 * @param WP_Post $post             Current post.
+		 * @param WP_Post $previous_post    Previous post.
+		 *
+		 * @return int Previous step ID.
+		 */
+		return apply_filters( 'learndash_course_previous_step_id', $previous_post->ID, $post, $previous_post );
+	}
+
+	$permalink = Cast::to_string(
+		learndash_get_step_permalink( $previous_post->ID, $course_id )
+	);
+
+	// If $permalink is empty, return the default previous post link.
+	if ( empty( $permalink ) ) {
+		return $default_value;
+	}
+
+	// Return the post URL if the URL is requested.
+	if ( Cast::to_bool( $url ) ) {
+		/**
+		 * Filters previous step url for the course.
+		 *
+		 * @since 4.11.0
+		 *
+		 * @param string  $permalink     Permalink.
+		 * @param WP_Post $post          Current post.
+		 * @param WP_Post $previous_post Previous post.
+		 *
+		 * @return string Previous step URL.
+		 */
+		return apply_filters( 'learndash_course_previous_step_url', $permalink, $post, $previous_post );
+	}
+
+	// Return the HTML output if the URL is not requested.
+
+	$link_label = learndash_get_label_course_step_previous( $previous_post->post_type );
+
+	$link_name_with_arrow = $link_label;
+	if ( ! is_rtl() ) {
+		$link_name_with_arrow = '<span class="meta-nav">&larr;</span> ' . $link_label;
+	}
+
+	$link = sprintf(
+		'<a href="%1$s" class="prev-link" rel="prev">%2$s</a>',
+		esc_url( $permalink ),
+		$link_name_with_arrow
+	);
+
+	/**
+	 * Filters previous post link output for the course.
+	 *
+	 * @since 2.1.0
+	 * @since 4.11.0 Added `$previous_post` parameter.
+	 *
+	 * @param string  $link          Link HTML.
+	 * @param string  $permalink     Permalink.
+	 * @param string  $link_label    Link label.
+	 * @param WP_Post $post          Current post.
+	 * @param WP_Post $previous_post Previous post.
+	 *
+	 * @return string Previous post link output.
+	 */
+	return apply_filters(
+		'learndash_previous_post_link',
+		$link,
+		$permalink,
+		$link_label,
+		$post,
+		$previous_post
+	);
 }
 
 /**
- * Generates the next post link for lesson or topic.
+ * Generates the next post link/url/ID for a lesson/topic/quiz in a course.
+ *
+ * Important note: learndash_clear_prev_next_links() affects it via `learndash_next_post_link` hook.
+ * For some historical reason, it affects the link case only, not ID or URL.
  *
  * @since 2.1.0
+ * @since 4.11.0 Added support for quizzes.
  *
- * @param  string       $prev_link Default next post link.
- * @param  boolean      $url       Whether to return URL instead of HTML output.
- * @param  WP_Post|null $post      The `WP_Post` object. Defaults to global post object.
+ * @param string|null  $default_value Default next post link. Default empty string.
+ *                                    Null type is added for backward compatibility.
+ * @param string|bool  $url           Whether to return URL or ID instead of HTML output. Default false.
+ *                                    If true, the URL is returned.
+ *                                    If 'id', ID is returned.
+ *                                    Otherwise, an HTML link is returned.
+ * @param WP_Post|null $post          Current post. If not passed, the global post object is used.
  *
- * @return string Next post link URL or HTML output.
+ * @return string|int Next post link URL or HTML link or Post ID depending on the `$url` parameter.
+ *                    If a link cannot be generated, the default value will be returned.
  */
-function learndash_next_post_link( $prev_link = '', $url = false, $post = null ) {
-	if ( empty( $post ) ) {
+function learndash_next_post_link( $default_value = '', $url = false, $post = null ) {
+	// If a post is not passed, use the global post object.
+
+	if ( ! $post instanceof WP_Post ) {
 		global $post;
 	}
 
-	if ( empty( $post ) ) {
-		return $prev_link;
+	// Prepare arguments.
+
+	/**
+	 * Filters next step default value for the course.
+	 *
+	 * @since 4.11.0
+	 *
+	 * @param string       $default_value Default step post value. Always cast to string.
+	 * @param WP_Post|null $post          Current post. If not passed, the global post object is used. If not available, null.
+	 *
+	 * @return int Next step default value.
+	 */
+	$default_value = apply_filters(
+		'learndash_course_next_step_default_value',
+		Cast::to_string( $default_value ),
+		$post
+	);
+
+	// If that is not available, return the default next post link.
+
+	if ( ! $post instanceof WP_Post ) {
+		return $default_value;
 	}
 
-	if ( 'sfwd-lessons' === $post->post_type ) {
-		$link_name = learndash_get_label_course_step_next( learndash_get_post_type_slug( 'lesson' ) );
-		$course_id = learndash_get_course_id( $post );
-		$posts     = learndash_course_get_lessons( $course_id, array( 'per_page' => 0 ) );
-	} elseif ( 'sfwd-topic' === $post->post_type ) {
-		$link_name = learndash_get_label_course_step_next( learndash_get_post_type_slug( 'topic' ) );
-
-		if ( learndash_is_course_builder_enabled() ) {
-			$course_id = learndash_get_course_id( $post->ID );
-			$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
-		} else {
-			$lesson_id = learndash_get_setting( $post, 'lesson' );
-			$course_id = learndash_get_setting( $post, 'course' );
-		}
-		$posts = learndash_course_get_topics( $course_id, $lesson_id, array( 'per_page' => 0 ) );
-	} else {
-		return $prev_link;
+	// If the post is not a lesson/topic/quiz, return the default next post link.
+	if (
+		! in_array(
+			$post->post_type,
+			[
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::LESSON ),
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::TOPIC ),
+				LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ ),
+			],
+			true
+		)
+	) {
+		return $default_value;
 	}
 
-	$found_at  = null;
-	$next_post = null;
-	foreach ( $posts as $k => $p ) {
+	$course_id             = Cast::to_int( learndash_get_course_id( $post ) );
+	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id );
+	$current_step_position = array_search( $post->ID, $course_step_ids, true );
 
-		if ( is_a( $p, 'WP_Post' ) ) {
-			if ( $p->ID == $post->ID ) {
-				$found_at = $k;
-			} elseif ( $found_at ) {
-				$next_post = $p;
-				break;
-			}
-		}
+	if ( false === $current_step_position ) {
+		return $default_value;
 	}
 
-	if ( ( $next_post ) && ( is_a( $next_post, 'WP_Post' ) ) ) {
-		if ( 'id' === $url ) {
-			return $next_post->ID;
-		} elseif ( $url ) {
-			return get_permalink( $next_post->ID );
-		} else {
-			$permalink = get_permalink( $next_post->ID );
-			if ( is_rtl() ) {
-				$link_name_with_arrow = $link_name;
-			} else {
-				$link_name_with_arrow = $link_name . ' <span class="meta-nav">&rarr;</span>';
-			}
+	$next_step_position = Cast::to_int( $current_step_position ) + 1;
 
-			$link = '<a href="' . $permalink . '" class="next-link" rel="next">' . $link_name_with_arrow . '</a>';
-
-			/**
-			 * Filters course navigation next post link output.
-			 *
-			 * @since 2.1.0
-			 *
-			 * @param string  $link      Next post link output.
-			 * @param string  $permalink Next post permalink.
-			 * @param string  $link_name Text shown inside next post link.
-			 * @param WP_Post $post      Post object.
-			 */
-			return apply_filters( 'learndash_next_post_link', $link, $permalink, $link_name, $next_post );
-		}
-	} else {
-		return $prev_link;
+	// If the current step is the last step, return the default next post link.
+	if ( ! isset( $course_step_ids[ $next_step_position ] ) ) {
+		return $default_value;
 	}
+
+	$next_post = get_post( $course_step_ids[ $next_step_position ] );
+
+	// If the next step is not a post for some reason, return the default next post link.
+	if ( ! $next_post instanceof WP_Post ) {
+		return $default_value;
+	}
+
+	// Return the post ID if the ID is requested.
+	if ( 'id' === $url ) {
+		/**
+		 * Filters next step ID for the course.
+		 *
+		 * @since 4.11.0
+		 *
+		 * @param int     $next_post_id Next post ID.
+		 * @param WP_Post $post         Current post.
+		 * @param WP_Post $next_post    Next post.
+		 *
+		 * @return int Next step ID.
+		 */
+		return apply_filters( 'learndash_course_next_step_id', $next_post->ID, $post, $next_post );
+	}
+
+	$permalink = Cast::to_string(
+		learndash_get_step_permalink( $next_post->ID, $course_id )
+	);
+
+	// If $permalink is empty, return the default next post link.
+	if ( empty( $permalink ) ) {
+		return $default_value;
+	}
+
+	// Return the post URL if the URL is requested.
+	if ( Cast::to_bool( $url ) ) {
+		/**
+		 * Filters next step url for the course.
+		 *
+		 * @since 4.11.0
+		 *
+		 * @param string  $permalink Permalink.
+		 * @param WP_Post $post      Current post.
+		 * @param WP_Post $next_post Next post.
+		 *
+		 * @return string Next step URL.
+		 */
+		return apply_filters( 'learndash_course_next_step_url', $permalink, $post, $next_post );
+	}
+
+	// Return the HTML output if the URL is not requested.
+
+	$link_label = learndash_get_label_course_step_next( $next_post->post_type );
+
+	$link_name_with_arrow = $link_label;
+	if ( ! is_rtl() ) {
+		$link_name_with_arrow = $link_label . ' <span class="meta-nav">&rarr;</span>';
+	}
+
+	$link = sprintf(
+		'<a href="%1$s" class="next-link" rel="next">%2$s</a>',
+		esc_url( $permalink ),
+		$link_name_with_arrow
+	);
+
+	/**
+	 * Filters next post link output for the course.
+	 *
+	 * @since 2.1.0
+	 * @since 4.11.0 Added `$next_post` parameter.
+	 *
+	 * @param string  $link       Link HTML.
+	 * @param string  $permalink  Permalink.
+	 * @param string  $link_label Link label.
+	 * @param WP_Post $post       Current post.
+	 * @param WP_Post $next_post  Next post.
+	 *
+	 * @return string Next post link output.
+	 */
+	return apply_filters( 'learndash_next_post_link', $link, $permalink, $link_label, $post, $next_post );
 }
 
 /**
@@ -203,103 +365,50 @@ add_filter( 'previous_post_link', 'learndash_clear_prev_next_links', 1 );
 add_filter( 'next_post_link', 'learndash_clear_prev_next_links', 1 );
 
 /**
- * Outputs the quiz continue link.
+ * Outputs the continue quiz link.
  *
  * @param int $id Quiz ID.
  *
- * @return string The quiz continue link output.
+ * @return string The continue quiz link HTML.
+ *                Empty string if the quiz is not a part of a course or ID passed is not a quiz.
  */
 function learndash_quiz_continue_link( $id ) {
-	$course_id = learndash_get_course_id( $id );
-	if ( ( ! empty( $course_id ) ) && ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) ) {
-		$lesson_id = learndash_course_get_single_parent_step( $course_id, $id );
-		if ( empty( $lesson_id ) ) {
-			$url = get_permalink( $course_id );
-			$url = add_query_arg(
-				array(
-					'quiz_type'     => 'global',
-					'quiz_redirect' => 1,
-					'course_id'     => $course_id,
-					'quiz_id'       => $id,
-					'next_step'     => '1',
-				),
-				$url
-			);
+	$quiz_id   = Cast::to_int( $id );
+	$course_id = Cast::to_int( learndash_get_course_id( $id ) );
 
-		} else {
-			$url = get_permalink( $lesson_id );
-			$url = add_query_arg(
-				array(
-					'quiz_type'     => 'lesson',
-					'quiz_redirect' => 1,
-					'lesson_id'     => $lesson_id,
-					'quiz_id'       => $id,
-					'next_step'     => '1',
-				),
-				$url
-			);
-		}
-
-		if ( ( isset( $url ) ) && ( ! empty( $url ) ) ) {
-			$return_link = '<a id="quiz_continue_link" href="' . esc_url( $url ) . '">' . LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
-		}
-	} else {
-		$quizmeta = get_post_meta( $id, '_sfwd-quiz', true );
-
-		if ( ! empty( $quizmeta['sfwd-quiz_lesson'] ) ) {
-			$return_id   = (int) $quizmeta['sfwd-quiz_lesson'];
-			$quiz_lesson = (int) $quizmeta['sfwd-quiz_lesson'];
-		}
-
-		if ( empty( $quiz_lesson ) ) {
-			$url         = add_query_arg(
-				array(
-					'quiz_type'     => 'global',
-					'quiz_redirect' => 1,
-					'course_id'     => $course_id,
-					'quiz_id'       => $id,
-					'next_step'     => '1',
-				),
-				get_permalink( $course_id )
-			);
-			$return_link = '<a id="quiz_continue_link" href="' . esc_url( $url ) . '">' . LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
-		} else {
-			$url         = add_query_arg(
-				array(
-					'quiz_type'     => 'lesson',
-					'quiz_redirect' => 1,
-					'course_id'     => $course_id,
-					'lesson_id'     => $return_id,
-					'quiz_id'       => $id,
-					'next_step'     => '1',
-				),
-				get_permalink( $return_id )
-			);
-			$return_link = '<a id="quiz_continue_link" href="' . esc_url( $url ) . '">' . LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
-		}
+	if (
+		$course_id <= 0
+		|| $quiz_id <= 0
+		|| get_post_type( $quiz_id ) !== learndash_get_post_type_slug( LDLMS_Post_Types::QUIZ )
+	) {
+		return '';
 	}
 
-	// Why are we checking the WordPress version? Shouldn't this be checking the LD version??
-	$version = get_bloginfo( 'version' );
+	$url = add_query_arg(
+		[
+			'quiz_redirect' => 1,
+			'quiz_id'       => $quiz_id,
+		],
+		Cast::to_string( learndash_get_step_permalink( $id, $course_id ) )
+	);
 
-	if ( $version >= '1.5.1' ) {
+	$link = sprintf(
+		'<a id="quiz_continue_link" href="%1$s">%2$s</a>',
+		esc_url( $url ),
+		LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output.
+	);
 
-		/**
-		 * Filters output of quiz continue link.
-		 *
-		 * @since 2.1.0
-		 *
-		 * @param string $return_link   Continue link output.
-		 * @param string $url           Continue link url.
-		 */
-		return apply_filters( 'learndash_quiz_continue_link', $return_link, $url );
-
-	} else {
-
-		/** This filter is documented in includes/course/ld-course-navigation.php */
-		return apply_filters( 'learndash_quiz_continue_link', $return_link );
-
-	}
+	/**
+	 * Filters HTML of continue quiz link.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $link Continue link HTML.
+	 * @param string $url  Continue link url.
+	 *
+	 * @return string Continue link HTML.
+	 */
+	return apply_filters( 'learndash_quiz_continue_link', $link, $url );
 }
 
 /**
@@ -414,6 +523,7 @@ function learndash_topic_dots( $lesson_id, $show_text = false, $type = 'dots', $
  * Gets the topics list for a lesson.
  *
  * @since 2.1.0
+ * @since 5.0.0 Removed the option to use `learndash_get_topic_list_legacy`.
  *
  * @param int|null $lesson_id The ID of the lesson to get topics.
  * @param int|null $course_id     Course ID.
@@ -421,10 +531,6 @@ function learndash_topic_dots( $lesson_id, $show_text = false, $type = 'dots', $
  * @return array An array of topics list.
  */
 function learndash_get_topic_list( $lesson_id = null, $course_id = null ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_topic_list_legacy( $lesson_id, $course_id );
-	}
-
 	$course_topics = array();
 
 	if ( empty( $course_id ) ) {
@@ -454,6 +560,7 @@ function learndash_get_topic_list( $lesson_id = null, $course_id = null ) {
  * @global WP_Post $post Global post object.
  *
  * @since 2.1.0
+ * @since 5.0.0 Removed the option to use `learndash_get_global_quiz_list_legacy`.
  *
  * @param int|null $id An ID of the resource.
  *
@@ -464,10 +571,6 @@ function learndash_get_global_quiz_list( $id = null ) {
 
 	$course_id = learndash_get_course_id( $id );
 	if ( ! empty( $course_id ) ) {
-		if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-			return learndash_get_global_quiz_list_legacy( $id );
-		}
-
 		$quizzes = learndash_course_get_quizzes( $course_id, $course_id );
 	}
 	return $quizzes;
@@ -477,6 +580,7 @@ function learndash_get_global_quiz_list( $id = null ) {
  * Gets the lesson list output for a course.
  *
  * @since 2.1.0
+ * @since 5.0.0 Removed the option to use `learndash_get_course_lessons_list_legacy`.
  *
  * @param int|WP_Post|null $course_id  Optional. The course ID or `WP_Post` object. Default null.
  * @param int|null         $user_id    Optional. User ID. Default null.
@@ -485,10 +589,6 @@ function learndash_get_global_quiz_list( $id = null ) {
  * @return array The lesson list array.
  */
 function learndash_get_course_lessons_list( $course_id = null, $user_id = null, $query_args = array() ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_course_lessons_list_legacy( $course_id, $user_id, $query_args );
-	}
-
 	$lessons = array();
 
 	if ( empty( $user_id ) ) {
@@ -637,17 +737,14 @@ function learndash_get_course_lessons_list( $course_id = null, $user_id = null, 
  * Gets the quiz list output for a course.
  *
  * @since 2.1.0
+ * @since 5.0.0 Removed the option to use `learndash_get_course_quiz_list_legacy`.
  *
  * @param int|WP_Post|null $course  Optional. The `WP_Post` course object or course ID. Default null.
  * @param int|null         $user_id Optional. User ID. Default null.
  *
- * @return array|string The quiz list HTML output.
+ * @return array{sno: int, id: int, post: WP_Post, permalink: string, class: string, status: string, sample: string, sub_title: string, ld_lesson_access_from: string}[] An array of quiz items.
  */
 function learndash_get_course_quiz_list( $course = null, $user_id = null ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_course_quiz_list_legacy( $course, $user_id );
-	}
-
 	$quizzes = array();
 
 	if ( is_a( $course, 'WP_Post' ) ) {
@@ -702,18 +799,15 @@ function learndash_get_course_quiz_list( $course = null, $user_id = null ) {
  * Gets the quiz list output for a lesson/topic.
  *
  * @since 2.1.0
+ * @since 5.0.0 Removed the option to use `learndash_get_lesson_quiz_list_legacy`.
  *
  * @param int|WP_Post $lesson    The `WP_Post` lesson/topic object or ID.
  * @param int|null    $user_id   Optional. User ID. Default null.
  * @param int|null    $course_id Optional. Course ID. Default null.
  *
- * @return array|string The lesson quiz list HTML output.
+ * @return array{sno: int, id: int, post: WP_Post, permalink: string, class: string, status: string, sample: string, sub_title: string, ld_lesson_access_from: string}[] An array of quiz items.
  */
 function learndash_get_lesson_quiz_list( $lesson, $user_id = null, $course_id = null ) {
-	if ( ( defined( 'LEARNDASH_COURSE_FUNCTIONS_LEGACY' ) ) && ( true === LEARNDASH_COURSE_FUNCTIONS_LEGACY ) ) {
-		return learndash_get_lesson_quiz_list_legacy( $lesson, $user_id, $course_id );
-	}
-
 	$quizzes   = array();
 	$lesson_id = 0;
 

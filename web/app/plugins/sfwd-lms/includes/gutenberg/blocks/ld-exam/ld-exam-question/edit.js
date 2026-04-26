@@ -5,7 +5,7 @@
  * @package LearnDash
  */
 
-import { __, _x } from "@wordpress/i18n";
+import { __, _x, sprintf } from "@wordpress/i18n";
 import { InnerBlocks, PlainText, InspectorControls } from "@wordpress/block-editor";
 import { PanelBody, PanelRow, SelectControl } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
@@ -24,11 +24,6 @@ const question_types = [
 ]
 
 const empty_title = __( "The Question is empty.", "learndash" );
-
-const panel_title = sprintf(
-    // translators: placeholder: Question type.
-    _x( "%s type", "placeholder: Question type", "learndash" ),
-    ldlms_get_custom_label( "question" ));
 
 const Edit = ( props ) => {
     const {
@@ -87,7 +82,16 @@ const Edit = ( props ) => {
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={ panel_title } initialOpen={ true }>
+                <PanelBody
+					title={
+						sprintf(
+							// translators: placeholder: Question type.
+							_x( "%s type", "placeholder: Question type", "learndash" ),
+							ldlms_get_custom_label( "question" )
+						)
+					}
+					initialOpen={ true }
+				>
                     <PanelRow>
                         <SelectControl
                             value={ question_type }

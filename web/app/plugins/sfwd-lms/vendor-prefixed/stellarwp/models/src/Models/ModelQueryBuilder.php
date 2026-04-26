@@ -1,10 +1,4 @@
 <?php
-/**
- * @license GPL-3.0-or-later
- *
- * Modified by learndash on 21-June-2023 using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
- */
 
 namespace StellarWP\Learndash\StellarWP\Models;
 
@@ -15,16 +9,19 @@ use StellarWP\Learndash\StellarWP\DB\QueryBuilder\Clauses\RawSQL;
 use StellarWP\Learndash\StellarWP\Models\Model;
 
 /**
+ * @since 1.2.2  improve model generic
  * @since 1.0.0
+ *
+ * @template M of Model
  */
 class ModelQueryBuilder extends QueryBuilder {
 	/**
-	 * @var class-string<Model>
+	 * @var class-string<M>
 	 */
 	protected $model;
 
 	/**
-	 * @param class-string<Model> $modelClass
+	 * @param class-string<M> $modelClass
 	 */
 	public function __construct( string $modelClass ) {
 		if ( ! is_subclass_of( $modelClass, Model::class ) ) {
@@ -59,9 +56,9 @@ class ModelQueryBuilder extends QueryBuilder {
 	 *
 	 * @param string $output
 	 *
-	 * @return Model|null
+	 * @return M|null
 	 */
-	public function get( $output = OBJECT ) : ?Model {
+	public function get( $output = OBJECT ): ?Model {
 		$row = DB::get_row( $this->getSQL(), OBJECT );
 
 		if ( ! $row ) {
@@ -76,7 +73,7 @@ class ModelQueryBuilder extends QueryBuilder {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return Model[]|null
+	 * @return M[]|null
 	 */
 	public function getAll( $output = OBJECT ) : ?array {
 		$results = DB::get_results( $this->getSQL(), OBJECT );
@@ -99,7 +96,7 @@ class ModelQueryBuilder extends QueryBuilder {
 	 *
 	 * @param object|null $row
 	 *
-	 * @return Model|null
+	 * @return M|null
 	 */
 	protected function getRowAsModel( $row ) {
 		$model = $this->model;
@@ -118,7 +115,7 @@ class ModelQueryBuilder extends QueryBuilder {
 	 *
 	 * @param object[] $results
 	 *
-	 * @return Model[]|null
+	 * @return M[]|null
 	 */
 	protected function getAllAsModel( array $results ) {
 		/** @var Contracts\ModelCrud $model */

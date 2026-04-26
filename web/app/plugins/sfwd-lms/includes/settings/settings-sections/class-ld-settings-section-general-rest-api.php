@@ -692,6 +692,21 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			return $content;
 		}
 
+		/**
+		 * Returns whether the section should be shown.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @return bool True if the section should be shown, false otherwise.
+		 */
+		public function is_visible(): bool {
+			/** This filter is documented in includes/settings/class-ld-settings-sections.php */
+			return apply_filters(
+				"learndash_settings_section_{$this->settings_section_key}_is_visible",
+				$this->has_saved_settings()
+			);
+		}
+
 		// End of function.
 	}
 }

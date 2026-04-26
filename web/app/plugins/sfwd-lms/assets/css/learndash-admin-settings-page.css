@@ -638,20 +638,22 @@ body.users-php .tablenav.top .select2-container--learndash .select2-selection--s
   width: auto;
 }
 
-.sfwd_options .tooltip {
+.sfwd_options .tooltip ,
+.ld_question_title_custom .tooltip {
   position: relative;
   display: inline-block;
   opacity: 1;
 }
 
 /* Tooltip text */
-.sfwd_options .tooltip .tooltiptext {
+.sfwd_options .tooltip .tooltiptext,
+.ld_question_title_custom .tooltip .tooltiptext {
   visibility: hidden;
   width: 180px;
   background-color: #11a0d2 /* #1e8cbe */;
   color: #fff;
   text-align: center;
-  padding: 5px 0;
+  padding: 5px;
   border-radius: 6px;
   margin-left: -90px; /* Use half of the width (120/2 = 60), to center the tooltip */
   bottom: 100%;
@@ -660,18 +662,20 @@ body.users-php .tablenav.top .select2-container--learndash .select2-selection--s
 
   /* Position the tooltip text - see examples below! */
   position: absolute;
-  z-index: 1;
+  z-index: 9991; /* Admin sidebar is at z-index 9990, so this needs to be higher. */
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.sfwd_options .-disabled.tooltip:hover .tooltiptext {
+.sfwd_options .tooltip:hover .tooltiptext,
+.ld_question_title_custom .tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
 /* Tooltip top of element */
 
 /* Arrow */
-.sfwd_options .tooltip .tooltiptext::after {
+.sfwd_options .tooltip .tooltiptext::after,
+.ld_question_title_custom .tooltip .tooltiptext::after {
   content: " ";
   position: absolute;
   top: 100%; /* At the bottom of the tooltip */
@@ -1157,6 +1161,10 @@ body[data-active-tab="learndash_quiz_builder"] .postbox-header .handle-actions .
 
 /* Stripe Payments Settings */
 
+.learndash-settings-page-wrap .notice.connect-stripe a {
+	margin-left: 22px;
+}
+
 .sfwd_options .learndash-stripe-connect, .notice.connect-stripe .learndash-stripe-connect {
 	align-items: center;
 	background: #6772e5;
@@ -1165,11 +1173,30 @@ body[data-active-tab="learndash_quiz_builder"] .postbox-header .handle-actions .
 	display: flex;
 	font-size: 16px;
 	justify-content: center;
-	letter-spacing: .6px;
+	letter-spacing: 0.6px;
 	padding: 6px 24px;
 	text-decoration: none;
 	transition: all .3s ease;
 	width: 200px;
+}
+
+@media screen and (max-width: 720px) {
+
+	.sfwd_options .learndash-stripe-connect, .notice.connect-stripe {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 15px;
+		margin-left: 0;
+	}
+
+	.sfwd_options .learndash-stripe-connect {
+		align-self: stretch;
+		justify-content: center;
+	}
+
+	.learndash-settings-page-wrap .notice.connect-stripe a {
+		margin-left: 0;
+	}
 }
 
 .sfwd_options .learndash-stripe-connect:active, .learndash-stripe-connect:focus, .learndash-stripe-connect:hover, .notice.connect-stripe .learndash-stripe-connect:active, .notice.connect-stripe .learndash-stripe-connect:focus, .notice.connect-stripe .learndash-stripe-connect:hover {
@@ -1179,6 +1206,111 @@ body[data-active-tab="learndash_quiz_builder"] .postbox-header .handle-actions .
 
 .sfwd_options .learndash-stripe-connect .stripe-logo, .notice.connect-stripe .learndash-stripe-connect .stripe-logo {
 	padding: 2px 10px 0 0;
+}
+
+.sfwd_options .learndash-stripe-webhook-url {
+	align-items: center;
+	display: flex;
+	width: 100%;
+}
+
+.sfwd_input.sfwd_input_type_text--learndash_stripe_connection_settings_webhook_status_message_live,
+.sfwd_input.sfwd_input_type_text--learndash_stripe_connection_settings_webhook_status_message_test,
+.sfwd_input.sfwd_input_type_text--learndash_stripe_connection_settings_webhook_validation_button {
+	padding: 0;
+}
+
+.ld-stripe-webhook-live-status__message svg,
+.ld-stripe-webhook-test-status__message svg {
+	width: 15px;
+	height: 15px;
+}
+
+/* PayPal Checkout Settings */
+
+.sfwd_options .ld-paypal-checkout__button {
+	align-items: center;
+	background: #6772e5;
+	border-radius: 5px;
+	color: #fff;
+	display: flex;
+	font-size: 16px;
+	justify-content: center;
+	letter-spacing: 0.6px;
+	max-width: 100%;
+	overflow-wrap: break-word;
+	padding: 6px 24px;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	white-space: normal;
+	word-wrap: break-word;
+}
+
+.sfwd_options .ld-paypal-checkout__button:active,
+.sfwd_options .ld-paypal-checkout__button:focus,
+.sfwd_options .ld-paypal-checkout__button:hover {
+	background: #3f4ddf;
+	color: #fff;
+}
+
+.sfwd_options .ld-paypal-checkout__button .ld-paypal-checkout__logo {
+	padding: 2px 10px 0 0;
+}
+
+.sfwd_options .ld-paypal-checkout__buttons {
+	box-sizing: border-box;
+	display: block;
+	max-width: 100%;
+	width: 100%;
+}
+
+.sfwd_options .ld-paypal-checkout__button--connect {
+	width: 250px;
+}
+
+.sfwd_options .ld-paypal-checkout__button--disconnect,
+.sfwd_options .ld-paypal-checkout__button--reconnect {
+	display: inline-flex;
+	padding: 3px 12px;
+	justify-content: center;
+}
+
+.sfwd_options .ld-paypal-checkout__button--reconnect {
+	background: #f6f7f7;
+	border: 1px solid #2271b1;
+	color: #2271b1;
+}
+
+.sfwd_options .ld-paypal-checkout__button--disconnect {
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.sfwd_options .ld-paypal-checkout__button--disconnect .ld-paypal-checkout__logo {
+	height: 25px;
+}
+
+.sfwd_options .ld-paypal-checkout__list,
+.ld-paypal-checkout-connected-message__list {
+	list-style: disc;
+	padding-left: 20px;
+}
+
+/* jQuery UI Dialog */
+.ld-paypal-checkout__error-dialog .ui-dialog-titlebar {
+	min-height: 36px;
+	height: auto;
+}
+
+@media screen and (max-width: 1020px) {
+
+	.sfwd_options .ld-paypal-checkout__buttons {
+		display: block;
+	}
+
+	.sfwd_options .ld-paypal-checkout__button--disconnect {
+		margin-right: 0;
+	}
 }
 
 /* Logs Settings */
@@ -1382,4 +1514,100 @@ body[data-active-tab="learndash_quiz_builder"] .postbox-header .handle-actions .
 
 #learndash_import_export_settings_import_export .button {
 	margin-top: 20px;
+}
+
+.col-name-modern-ui-header {
+	margin-right: 8px;
+}
+
+/** Badges **/
+
+.ld-settings__badge {
+	align-items: center;
+	border-radius: 3px;
+	border: 1px solid #586679;
+	color: #586679;
+	column-gap: 4px;
+	display: inline-flex;
+	justify-content: center;
+	line-height: 12px;
+	padding: 6px;
+}
+
+.ld-settings__badge-label {
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 7px;
+}
+
+.ld-settings__badge--new {
+	background: var(--ld-color-primitives-blue-100, #f3f8ff);
+	border: none;
+}
+
+.sfwd_label .ld-settings__badge {
+	margin-left: 10px;
+}
+
+#learndash_ai_integrations_openai_api_key_field .sfwd_option_input_note {
+	word-break: break-all;
+}
+
+#learndash_settings_terms_pages_terms_page_field,
+#learndash_settings_terms_pages_privacy_page_field {
+	border-left: 1px solid #CCC;
+	padding-left: 15px;
+}
+
+#learndash_settings_terms_pages_terms_page_field .sfwd_option_input_note,
+#learndash_settings_terms_pages_privacy_page_field .sfwd_option_input_note {
+	display: block;
+	margin-top: 15px;
+}
+
+/** Action Items **/
+.learndash-settings-page-wrap .button .icon {
+	display: block;
+	margin: auto;
+}
+.learndash-settings-page-wrap .action-items {
+	background: #fff;
+	border: 1px solid #2271b1;
+	border-radius: 3px;
+	margin: 0;
+	padding: 10px;
+	position: absolute;
+	width: 100px;
+	z-index: 999;
+}
+.learndash-settings-page-wrap .action-items--closed {
+	display: none;
+}
+.learndash-settings-page-wrap .action-items--open {
+	display: block;
+}
+.learndash-settings-page-wrap .action-items:after {
+	border: 10px solid transparent;
+	border-bottom: 10px solid #2271b1;
+	border-top: none;
+	content: " ";
+	position: absolute;
+	right: 10px;
+	top: -10px;
+}
+.learndash-settings-page-wrap .action-items .action-item:last-child {
+	margin: 0;
+}
+/** end Action Items **/
+
+/* Accessibility warning */
+.ld-accessibility-warning {
+	fill: #F59E0B;
+	vertical-align: baseline !important;
+	padding-left: 0.625rem;
+}
+
+.ld-accessibility-warning.ld-accessibility-warning--automatic-progression-enabled {
+	padding: 0 0.25rem 0 0;
 }

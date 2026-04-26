@@ -76,6 +76,7 @@
     "wp-plugin/code-profiler": "^1.8.2",
     "wp-plugin/conditional-blocks": "^3.3.1",
     "wp-plugin/drip": "^1.1.9",
+    "wp-plugin/easy-table-of-contents": "^2.0",
     "wp-plugin/facebook-for-woocommerce": "^3.5.15",
     "wp-plugin/header-footer-code-manager": "^1.1.44",
     "wp-plugin/import-meetup-events": "^1.6.9",

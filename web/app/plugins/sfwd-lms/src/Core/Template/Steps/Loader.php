@@ -18,7 +18,7 @@ namespace LearnDash\Core\Template\Steps;
 
 use InvalidArgumentException;
 use LearnDash\Core\Template\Steps;
-use LearnDash\Core\Factories\Model_Factory;
+use LearnDash\Core\Factories\Model;
 use LearnDash\Core\Factories\Step_Mapper_Factory;
 use LearnDash\Core\Template\Views\Traits\Supports_Steps_Context;
 
@@ -141,7 +141,7 @@ class Loader {
 		}
 
 		try {
-			$model = Model_Factory::create( $post );
+			$model = Model::create_from_post( $post );
 		} catch ( InvalidArgumentException $e ) {
 			wp_send_json_error(
 				[
@@ -164,8 +164,7 @@ class Loader {
 			->set_depth_modificator( 1 ) // It is needed to set the depth modificator to 1, because the steps are already nested. So we need to start from the second level.
 			->walk(
 				$steps_mapper->get_sub_steps( $step_id, $page )->all(),
-				$this->steps_walker_max_depth,
-				self::build_steps_context( $model )
+				$this->steps_walker_max_depth
 			);
 
 		wp_send_json_success( compact( 'steps_html' ) );

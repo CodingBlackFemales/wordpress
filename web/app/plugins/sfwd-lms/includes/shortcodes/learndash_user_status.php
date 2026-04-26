@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 /**
  * Builds the `learndash_user_status` shortcode output.
  *
@@ -32,21 +34,19 @@ function learndash_user_status_shortcode( $atts = array(), $content = '', $short
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$atts = apply_filters( 'learndash_shortcode_atts', $atts, $shortcode_slug );
 
-	if ( isset( $atts['user_id'] ) && ! empty( $atts['user_id'] ) ) {
-
-		$user_id = intval( $atts['user_id'] );
+	if (
+		isset( $atts['user_id'] )
+		&& ! empty( $atts['user_id'] )
+	) {
+		// Override the user ID if the current user can't access the passed user ID's data.
+		$user_id = learndash_shortcode_protect_user( Cast::to_int( $atts['user_id'] ) );
 		unset( $atts['user_id'] );
-
 	} else {
+		$user_id = get_current_user_id();
+	}
 
-		$current_user = wp_get_current_user();
-
-		if ( empty( $current_user->ID ) ) {
-			return '';
-		}
-
-		$user_id = $current_user->ID;
-
+	if ( $user_id <= 0 ) {
+		return '';
 	}
 
 	if ( empty( $atts ) ) {

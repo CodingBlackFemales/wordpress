@@ -47,7 +47,6 @@ class Exam extends View {
 	 */
 	public function __construct( WP_Post $post ) {
 		$this->model = Models\Exam::create_from_post( $post );
-		$this->model->enable_memoization();
 
 		parent::__construct(
 			LDLMS_Post_Types::get_post_type_key( $post->post_type ),

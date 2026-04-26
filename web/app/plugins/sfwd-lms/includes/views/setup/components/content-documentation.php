@@ -19,16 +19,16 @@ use LearnDash_Settings_Page_Help as Help_Page;
 
 <h3><?php echo esc_html( $overview_video['title'] ); ?></h3>
 <div class="overview-wrapper">
-	<div class="welcome-to-learndash">
-		<p>
-			Just getting started with LearnDash? Find out more about what features we offer in the link to our documentation below:
-		</p>
-		<p>
-			<br /><a target="_blank" href="https://www.learndash.com/support/docs/core/">LearnDash Core</a>
-		</p>
-		<p>
-			<br />Other helpful information and tips can be found within this section as well.
-		</p>
+	<div
+		class="video"
+		data-vimeo_id="<?php echo esc_attr( $overview_video['youtube_id'] ); ?>"
+		data-type="<?php echo esc_attr( $overview_video['type'] ); ?>"
+	>
+		<div class="icon">
+			<span class="dashicons dashicons-arrow-right"></span>
+		</div>
+		<?php // phpcs:ignore Generic.Files.LineLength.TooLong?>
+		<img class="placeholder" src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/overview.png' ); ?>">
 	</div>
 	<div class="overview">
 		<div class="time"><?php esc_html_e( '2 Minutes', 'learndash' ); ?></div>

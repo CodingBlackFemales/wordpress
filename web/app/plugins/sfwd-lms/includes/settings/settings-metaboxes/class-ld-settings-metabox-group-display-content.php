@@ -93,7 +93,8 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				if ( ! isset( $this->setting_option_values['group_courses_per_page_enabled'] ) ) {
 					$this->setting_option_values['group_courses_per_page_enabled'] = '';
 				}
-				if ( 'CUSTOM' === $this->setting_option_values['group_courses_per_page_enabled'] ) {
+
+				if ( $this->setting_option_values['group_courses_per_page_enabled'] === 'on' ) {
 					$this->setting_option_values['group_courses_per_page_custom'] = absint( $this->setting_option_values['group_courses_per_page_custom'] );
 				} else {
 					$this->setting_option_values['group_courses_per_page_custom'] = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Groups_Management_Display', 'group_pagination_courses' );
@@ -180,7 +181,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								'field_key'   => 'materials_enabled',
-								'description' => esc_html__( 'Materials Enabled', 'learndash' ),
+								'description' => esc_html__( 'Supplemental Materials Enabled', 'learndash' ),
 								'type'        => 'boolean',
 								'default'     => false,
 							),
@@ -202,26 +203,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'materials',
-								'description' => esc_html__( 'Materials', 'learndash' ),
-								'type'        => 'object',
-								'properties'  => array(
-									'raw'      => array(
-										'description' => 'Content for the object, as it exists in the database.',
-										'type'        => 'string',
-										'context'     => array( 'edit' ),
-									),
-									'rendered' => array(
-										'description' => 'HTML content for the object, transformed for display.',
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-								),
-								'arg_options' => array(
+								'arg_options' => [
 									'sanitize_callback' => null, // Note: sanitization performed in rest_pre_insert_filter().
 									'validate_callback' => null,
-								),
+								],
+								'default'     => '',
+								'description' => esc_html__( 'Supplemental Materials', 'learndash' ),
+								'field_key'   => 'materials',
+								'format'      => 'html',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -288,15 +278,31 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						learndash_get_custom_label_lower( 'group' )
 					),
 					'options'             => array(
-						''       => sprintf(
+						''   => sprintf(
 							// translators: placeholder: default per page number.
 							esc_html_x( 'Currently showing default pagination %d', 'placeholder: default per page number', 'learndash' ),
 							LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Groups_Management_Display', 'group_pagination_courses' )
 						),
-						'CUSTOM' => '',
+						'on' => '',
 					),
 					'value'               => $this->setting_option_values['group_courses_per_page_enabled'],
-					'child_section_state' => ( 'CUSTOM' === $this->setting_option_values['group_courses_per_page_enabled'] ) ? 'open' : 'closed',
+					'child_section_state' => $this->setting_option_values['group_courses_per_page_enabled'] === 'on' ? 'open' : 'closed',
+					'rest'                => [
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => [
+							'schema' => [
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: group label, courses label.
+									__( 'Custom %1$s %2$s Pagination Enabled. This setting will not take effect if Modern %1$s Pages are enabled.', 'learndash' ),
+									learndash_get_custom_label( 'group' ),
+									learndash_get_custom_label( 'courses' )
+								),
+								'field_key'   => 'courses_per_page_enabled',
+								'type'        => 'boolean',
+							],
+						],
+					],
 				),
 				'group_courses_per_page_custom'  => array(
 					'name'           => 'group_courses_per_page_custom',
@@ -313,15 +319,18 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					'parent_setting' => 'group_courses_per_page_enabled',
 					'rest'           => array(
 						'show_in_rest' => LearnDash_REST_API::enabled(),
-						'rest_args'    => array(
-							'schema' => array(
-								'field_key'   => 'courses_per_page_custom',
-								// translators: placeholder: Courses per page.
-								'description' => sprintf( esc_html_x( '%s per page', 'placeholder: Courses per page', 'learndash' ), learndash_get_custom_label( 'courses' ) ),
-								'type'        => 'integer',
+						'rest_args'    => [
+							'schema' => [
 								'default'     => (int) $this->setting_option_values['group_courses_per_page_custom'],
-							),
-						),
+								'description' => sprintf(
+									// translators: placeholder: Courses per page.
+									esc_html__( '%s per page. Requires the "courses_per_page_enabled" setting to be enabled.', 'learndash' ),
+									learndash_get_custom_label( 'courses' )
+								),
+								'field_key'   => 'courses_per_page_custom',
+								'type'        => 'integer',
+							],
+						],
 					),
 				),
 
@@ -353,6 +362,23 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 					),
 					'value'               => $this->setting_option_values['group_courses_order_enabled'],
 					'child_section_state' => ( 'on' === $this->setting_option_values['group_courses_order_enabled'] ) ? 'open' : 'closed',
+					'rest'                => [
+						'show_in_rest' => LearnDash_REST_API::enabled(),
+						'rest_args'    => [
+							'schema' => [
+								'default'     => false,
+								'description' => esc_html(
+									sprintf(
+										// translators: placeholder: group label, courses label.
+										__( 'Custom %1$s %2$s Order Enabled. This must be enabled when setting a custom order.', 'learndash' ),
+										learndash_get_custom_label( 'group' ),
+										learndash_get_custom_label( 'courses' )
+									)
+								),
+								'type'        => 'boolean',
+							],
+						],
+					],
 				),
 
 				'group_courses_orderby'          => array(
@@ -372,9 +398,18 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'courses_orderby',
-								'type'      => 'string',
-								'default'   => '',
+								'default'     => '',
+								'description' => esc_html(
+									sprintf(
+										// translators: placeholder: group label, courses label.
+										__( 'Custom %1$s %2$s Order By. This must be set when setting a custom order.', 'learndash' ),
+										learndash_get_custom_label( 'group' ),
+										learndash_get_custom_label( 'courses' )
+									)
+								),
+								'enum'        => [ '', 'title', 'date', 'menu_order' ],
+								'field_key'   => 'courses_orderby',
+								'type'        => 'string',
 							),
 						),
 					),
@@ -395,9 +430,18 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'courses_order',
-								'type'      => 'string',
-								'default'   => '',
+								'default'     => '',
+								'description' => esc_html(
+									sprintf(
+										// translators: placeholder: group label, courses label.
+										__( 'Custom %1$s %2$s Order Direction.', 'learndash' ),
+										learndash_get_custom_label( 'group' ),
+										learndash_get_custom_label( 'courses' )
+									)
+								),
+								'enum'        => [ '', 'ASC', 'DESC' ],
+								'field_key'   => 'courses_order',
+								'type'        => 'string',
 							),
 						),
 					),

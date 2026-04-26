@@ -7,6 +7,8 @@
  * @package LearnDash\Exams
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -64,7 +66,6 @@ function learndash_course_exam_challenge_redirect( $course_id = 0 ) {
 
 	$exam_id = (int) learndash_get_course_exam_challenge( $course_id );
 	if ( ! empty( $exam_id ) ) {
-
 		if ( ! is_post_publicly_viewable( $exam_id ) ) {
 			return;
 		}
@@ -84,7 +85,6 @@ function learndash_course_exam_challenge_redirect( $course_id = 0 ) {
 
 		$exam_status = learndash_get_user_course_exam_challenge_status( $user_id, $course_id );
 		if ( 'not_taken' === $exam_status ) {
-
 			$exam_show_new_enroll = learndash_get_setting( $exam_id, 'show_new_enroll' );
 			if ( ( 'on' === $exam_show_new_enroll ) && ( 'not_started' !== $course_status ) ) {
 				return;
@@ -120,7 +120,6 @@ function learndash_course_exam_challenge_redirect( $course_id = 0 ) {
 function learndash_exam_challenge_view_permission( $exam_id = 0 ) {
 	$user_id = get_current_user_id();
 	if ( ( ! empty( $user_id ) ) && ( ! empty( $exam_id ) ) ) {
-
 		// Allow Admin to bypass redirect and view exam.
 		if ( true === learndash_can_user_bypass(
 			$user_id,
@@ -216,104 +215,6 @@ function learndash_exam_challenge_view_permission( $exam_id = 0 ) {
 }
 
 /**
- * Gets the list of enrolled courses for a Challenge Exam.
- *
- * @since 4.0.0
- *
- * @param int $exam_id Optional. Exam ID. Default 0.
- *
- * @return array An array of course IDs.
- */
-function learndash_get_exam_challenge_courses( $exam_id = 0 ) {
-	$course_ids = array();
-
-	$exam_id = absint( $exam_id );
-	if ( ! empty( $exam_id ) ) {
-
-		$query_args = array(
-			'post_type'      => learndash_get_post_type_slug( 'course' ),
-			'fields'         => 'ids',
-			'posts_per_page' => -1,
-			'meta_query'     => array(
-				array(
-					'key'     => LEARNDASH_EXAM_CHALLENGE_POST_META_KEY,
-					'value'   => $exam_id,
-					'compare' => '=',
-				),
-			),
-		);
-
-		$query = new WP_Query( $query_args );
-		if ( ( is_a( $query, 'WP_Query' ) ) && ( property_exists( $query, 'posts' ) ) ) {
-			$course_ids = $query->posts;
-		}
-	}
-
-	return $course_ids;
-}
-
-
-/**
- * Gets the list of available courses for a Challenge Exam.
- *
- * This is a list of Courses not associated with a Challenge Exam.
- *
- * @since 4.0.0
- *
- * @return array An array of course IDs.
- */
-function learndash_get_exam_challenge_available_courses() {
-	$query_args = array(
-		'post_type'      => learndash_get_post_type_slug( 'course' ),
-		'fields'         => 'ids',
-		'posts_per_page' => -1,
-		'meta_query'     => array(
-			array(
-				'key'     => LEARNDASH_EXAM_CHALLENGE_POST_META_KEY,
-				'compare' => 'NOT EXISTS',
-			),
-		),
-	);
-
-	$query = new WP_Query( $query_args );
-
-	return $query->posts;
-}
-
-/**
- * Sets the list of enrolled courses for an exam.
- *
- * @since 4.0.0
- *
- * @param int   $exam_id          Optional. Exam ID. Default 0.
- * @param array $exam_courses_new Optional. An array of courses to enroll an exam. Default empty array.
- */
-function learndash_set_exam_challenge_courses( $exam_id = 0, $exam_courses_new = array() ) {
-	$exam_id = absint( $exam_id );
-	if ( ! empty( $exam_id ) ) {
-
-		$exam_courses_old = learndash_get_exam_challenge_courses( $exam_id, true );
-
-		$exam_courses_intersect = array_intersect( $exam_courses_new, $exam_courses_old );
-
-		$exam_courses_add = array_diff( $exam_courses_new, $exam_courses_intersect );
-		if ( ! empty( $exam_courses_add ) ) {
-			foreach ( $exam_courses_add as $course_id ) {
-				learndash_update_course_exam_challenge( $course_id, $exam_id, false );
-			}
-		}
-
-		$exam_courses_remove = array_diff( $exam_courses_old, $exam_courses_intersect );
-		if ( ! empty( $exam_courses_remove ) ) {
-			foreach ( $exam_courses_remove as $course_id ) {
-				learndash_update_course_exam_challenge( $course_id, $exam_id, true );
-			}
-		}
-	}
-}
-
-
-/**
  * Get the Course to Exam challenge association.
  *
  * @since 4.0.0
@@ -323,7 +224,6 @@ function learndash_set_exam_challenge_courses( $exam_id = 0, $exam_courses_new =
  * @return int The Exam ID if found, zero if not.
  */
 function learndash_get_course_exam_challenge( $course_id = 0 ) {
-
 	$course_id = absint( $course_id );
 	$exam_id   = 0;
 
@@ -441,6 +341,57 @@ function learndash_get_user_course_exam_challenge_status( $user_id = 0, $course_
 }
 
 /**
+ * Returns the question stats for a course challenge exam.
+ *
+ * @since 5.0.0
+ *
+ * @param int                       $exam_id       The exam ID.
+ * @param LDLMS_Model_Activity|null $exam_activity The exam activity object or null.
+ *
+ * @return array{total: int, correct: int, incorrect: int, percentage: float} The question stats.
+ */
+function learndash_course_challenge_exam_get_questions_stats( int $exam_id, ?LDLMS_Model_Activity $exam_activity ): array {
+	$question_stats = [
+		'total'      => 0,
+		'correct'    => 0,
+		'incorrect'  => 0,
+		'percentage' => 0.,
+	];
+
+	$exam_model = LDLMS_Factory_Post::exam( $exam_id );
+
+	if (
+		! $exam_model
+		|| ! $exam_model instanceof LDLMS_Model_Exam
+	) {
+		return $question_stats;
+	}
+
+	$question_stats['total'] = $exam_model->get_questions_count();
+
+	// Loop through the activity meta to grab the questions stats.
+
+	if ( $exam_activity instanceof LDLMS_Model_Activity ) {
+		foreach ( $exam_activity->activity_meta as $activity ) {
+			switch ( $activity->activity_meta_key ) {
+				case 'questions_correct':
+					$question_stats['correct'] = Cast::to_int( $activity->activity_meta_value );
+					break;
+				case 'questions_percentage':
+					$question_stats['percentage'] = Cast::to_float( $activity->activity_meta_value );
+					break;
+				default:
+					break;
+			}
+		}
+
+		$question_stats['incorrect'] = $question_stats['total'] - $question_stats['correct'];
+	}
+
+	return $question_stats;
+}
+
+/**
  * Grade the user's course exam activity record.
  *
  * @since 4.0.0
@@ -478,7 +429,6 @@ function learndash_get_user_course_exam_activity( $user_id = 0, $course_id = 0, 
 	$activity = null;
 
 	if ( ( ! empty( $user_id ) ) && ( ! empty( $exam_id ) ) ) {
-
 		$args = array(
 			'course_id'     => $course_id,
 			'user_id'       => $user_id,
@@ -504,18 +454,22 @@ function learndash_get_user_course_exam_activity( $user_id = 0, $course_id = 0, 
  * @since 4.0.0
  **/
 function learndash_exam_deregister_post_type_blocks() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	$post_type = get_post_type( get_the_ID() );
 	if ( learndash_get_post_type_slug( 'exam' ) !== $post_type ) {
 		wp_enqueue_script(
 			'learndash-deregister-post-type-blocks',
-			plugins_url( 'gutenberg/blocks/deregister-exam-question-block.js', dirname( __FILE__ ) ),
+			plugins_url( 'gutenberg/blocks/deregister-exam-question-block.js', __DIR__ ),
 			array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ),
 			LEARNDASH_SCRIPT_VERSION_TOKEN,
 			false
 		);
 	}
 }
-add_action( 'enqueue_block_editor_assets', 'learndash_exam_deregister_post_type_blocks' );
+add_action( 'enqueue_block_assets', 'learndash_exam_deregister_post_type_blocks' );
 
 /**
  * Returns message if current active theme is set to Legacy

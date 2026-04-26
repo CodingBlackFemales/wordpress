@@ -1,8 +1,17 @@
 <?php
+/**
+ * Pro Quiz Model StatisticRefMapper class.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Pro Quiz Model StatisticRefMapper class.
+ */
 class WpProQuiz_Model_StatisticRefMapper extends WpProQuiz_Model_Mapper {
 
 	public function fetchAll( $quizId, $userId, $testId = 0 ) {
@@ -505,6 +514,13 @@ class WpProQuiz_Model_StatisticRefMapper extends WpProQuiz_Model_Mapper {
 		);
 	}
 
+	/**
+	 * Fetch history with arguments.
+	 *
+	 * @param array<mixed> $args Arguments to fetch history.
+	 *
+	 * @return WpProQuiz_Model_StatisticHistory[]
+	 */
 	public function fetchHistoryWithArgs( $args = array() ) {
 		$where     = '';
 		$timeWhere = '';

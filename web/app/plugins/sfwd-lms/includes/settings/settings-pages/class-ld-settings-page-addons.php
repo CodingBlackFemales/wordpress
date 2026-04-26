@@ -34,7 +34,6 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 
 			// Override action with custom plugins function for add-ons.
 			add_action( 'install_plugins_pre_plugin-information', array( $this, 'shows_addon_plugin_information' ), 5 );
-			add_filter( 'learndash_submenu_last', array( $this, 'submenu_item' ), 200 );
 
 			add_filter( 'learndash_admin_tab_sets', array( $this, 'learndash_admin_tab_sets' ), 10, 3 );
 			add_filter( 'learndash_header_data', array( $this, 'admin_header' ), 40, 3 );
@@ -46,11 +45,14 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDa
 		 * Control visibility of submenu items based on license status
 		 *
 		 * @since 2.5.5
+		 * @deprecated 4.18.0 -- This is now included in LearnDash - LMS.
 		 *
 		 * @param array $submenu Submenu item to check.
 		 * @return array $submenu
 		 */
 		public function submenu_item( $submenu ) {
+			_deprecated_function( __METHOD__, '4.18.0' );
+
 			if ( ! isset( $submenu[ $this->settings_page_id ] ) ) {
 				if ( ! learndash_is_learndash_hub_active() && learndash_is_learndash_license_valid() ) {
 					$submenu[ $this->settings_page_id ] = array(

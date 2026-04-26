@@ -1,17 +1,38 @@
 <?php
+/**
+ * Preview Controller for WP Pro Quiz.
+ *
+ * @since 1.2.5
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Preview Controller for WP Pro Quiz.
+ *
+ * @since 1.2.5
+ */
 class WpProQuiz_Controller_Preview extends WpProQuiz_Controller_Controller {
 
+	/**
+	 * Routes the preview controller after enqueuing the necessary scripts.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @return void
+	 */
 	public function route() {
 		global $learndash_assets_loaded;
 
 		wp_enqueue_script(
 			'wpProQuiz_front_javascript',
 			plugins_url( 'js/wpProQuiz_front' . learndash_min_asset() . '.js', WPPROQUIZ_FILE ),
-			array( 'jquery', 'jquery-ui-sortable' ),
+			[ 'jquery', 'jquery-ui-sortable', 'learndash-sortable-script' ],
 			LEARNDASH_SCRIPT_VERSION_TOKEN
 		);
 		$learndash_assets_loaded['scripts']['wpProQuiz_front_javascript'] = __FUNCTION__;

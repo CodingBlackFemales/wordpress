@@ -17,10 +17,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @global boolean $learndash_shortcode_used
  *
  * @since 2.1.0
+ * @since 4.21.2 Added the `alert_role` attribute.
  *
  * @param array  $atts {
  *    An array of shortcode attributes.
  *
+ *    @type string    $alert_role         The role attribute for the alert. Default 'status'. Added in v4.21.2.
  *    @type int       $user_id            User ID. Defaults to current user ID.
  *    @type false|int $per_page           Number of profiles per page. Default false.
  *    @type string    $order              Designates ascending ('ASC') or descending ('DESC') order. Default 'DESC'.
@@ -48,6 +50,7 @@ function learndash_profile( $atts = array(), $content = '', $shortcode_slug = 'l
 	}
 
 	$defaults = array(
+		'alert_role'         => 'status',
 		'user_id'            => get_current_user_id(),
 		'per_page'           => false,
 		'order'              => 'DESC',
@@ -62,6 +65,9 @@ function learndash_profile( $atts = array(), $content = '', $shortcode_slug = 'l
 		'quiz_num'           => false,
 	);
 	$atts     = wp_parse_args( $atts, $defaults );
+
+	// We should not show non-published posts in the profile.
+	$atts['post_status'] = 'publish';
 
 	/** This filter is documented in includes/shortcodes/ld_course_resume.php */
 	$atts = apply_filters( 'learndash_shortcode_atts', $atts, $shortcode_slug );
@@ -194,15 +200,38 @@ function learndash_profile( $atts = array(), $content = '', $shortcode_slug = 'l
 
 	$learndash_shortcode_used = true;
 
+	/**
+	 * Filters whether to show the saved cards in the profile.
+	 *
+	 * @since 4.25.3
+	 *
+	 * @param bool                $show_saved_cards Whether to show the saved cards.
+	 * @param array<string,mixed> $atts             Shortcode attributes.
+	 *
+	 * @return bool Whether to show the saved cards.
+	 */
+	$show_saved_cards = apply_filters( 'learndash_profile_show_saved_cards', false, $atts );
+
+	/**
+	 * Action before the profile shortcode template is rendered.
+	 *
+	 * @since 4.25.0
+	 *
+	 * @param array<string,mixed> $atts           Shortcode attributes.
+	 * @param string              $shortcode_slug Shortcode slug.
+	 */
+	do_action( 'learndash_shortcode_profile_before_template', $atts, $shortcode_slug );
+
 	return SFWD_LMS::get_template(
 		'profile',
 		array(
-			'user_id'        => $atts['user_id'],
-			'quiz_attempts'  => $quiz_attempts,
-			'current_user'   => $current_user,
-			'user_courses'   => $user_courses,
-			'shortcode_atts' => $atts,
-			'profile_pager'  => $profile_pager,
+			'user_id'          => $atts['user_id'],
+			'quiz_attempts'    => $quiz_attempts,
+			'current_user'     => $current_user,
+			'user_courses'     => $user_courses,
+			'shortcode_atts'   => $atts,
+			'profile_pager'    => $profile_pager,
+			'show_saved_cards' => $show_saved_cards,
 		)
 	);
 }

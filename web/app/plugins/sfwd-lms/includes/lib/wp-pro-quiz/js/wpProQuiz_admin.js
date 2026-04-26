@@ -377,16 +377,35 @@ jQuery( function($) {
 				});
 			},
 
-			generateFormIds: function() {
-				var index = 0;
+			generateFormIds: function( customFields = [] ) {
+				if ( customFields.length === 0 ) {
+					return;
+				}
 
-				$('#form_table tbody > tr').each(function() {
-					$(this).find('[name^="form[]"]').each(function() {
-						var newname = $(this).attr('name').substr(6);
-						$(this).attr('name', 'form[' + index + ']' + newname);
+				// Get non-hidden custom field rows because there are some hidden rows.
+				const $fields = $( '#form_table tbody > tr:not([style*="display: none"])' );
+
+				// Modify the form IDs only if the number of visible custom field rows match with the number of custom fields stored in the database.
+				if ( $fields.length !== customFields.length ) {
+					return;
+				}
+
+				$fields.each( function( index ) {
+					$( this ).find( '[name^="form[]"]' ).each( function() {
+						const attribute = $( this ).attr( 'name' ).substr( 6 );
+
+						$( this ).attr( 'name', 'form[]' + attribute );
+
+						// Set the [form_id] hidden input to make sure the field is updated in the database.
+						if ( attribute.includes( 'form_id' ) ) {
+							$( this ).val( customFields[ index ].id );
+						}
 					});
 
-					++index;
+					$( this ).removeAttr( 'style' );
+
+					// The second column is the ID column.
+					$( this ).find( '.form_id' ).text( customFields[ index ].id );
 				});
 			}
 
@@ -465,15 +484,30 @@ jQuery( function($) {
 					$('select[name="prerequisiteList[]"] option').attr('selected', 'selected');
 				});
 			} else {
-				// Gutenberg
-				window.wp.data.subscribe( () => {
-					if ( true === window.wp.data.select( 'core/editor' ).isSavingPost() ) {
-						methode.generateFormIds();
-
-						$('select[name="prerequisiteList[]"] option').attr('selected', 'selected');
-					}
-				});
 			}
+
+			// Gutenberg post saving.
+
+			let wasSavingPost = false;
+			window.wp.data.subscribe( () => {
+				const isSavingPost = window.wp.data.select( 'core/editor' ).isSavingPost();
+
+				// Make sure the request is only made once.
+				if (
+					wasSavingPost
+					&& ! isSavingPost
+					&& ! window.wp.data.select( 'core/editor' ).isAutosavingPost()
+					&& window.wp.data.select( 'core/editor' ).didPostSaveRequestSucceed()
+				) {
+					wp.apiFetch( {
+						path: '/ldlms/v2/sfwd-quiz/' + window.wp.data.select( 'core/editor' ).getCurrentPostId(),
+					} ).then( (data) => {
+						methode.generateFormIds( data.custom_fields_forms );
+					} );
+				}
+
+				wasSavingPost = isSavingPost;
+			});
 
 			$('input[name="template"]').on( 'click', function(e) {
 				if($('select[name="templateSaveList"]').val() == '0') {
@@ -1617,7 +1651,7 @@ jQuery( function($) {
 						if(!elements.pointsModus.is(':checked')) {
 							var p = elements.gPoints.val();
 
-							if(!global.isNumber(p) || p < 1) {
+							if(!global.isNumber(p)) {
 								alert(wpProQuizLocalize.no_nummber_points);
 
 								return false;
@@ -1736,7 +1770,7 @@ jQuery( function($) {
 								}
 
 								var p = t.find('input.wpProQuiz_points').val();
-								if(global.isNumber(p) && p >= 0) {
+								if(global.isNumber(p)) {
 									findPoints++;
 								}
 							}
@@ -1793,7 +1827,7 @@ jQuery( function($) {
 
 								var p = t.find('input.wpProQuiz_points').val();
 
-								if(global.isNumber(p) && p >= 0) {
+								if(global.isNumber(p)) {
 									findPoints++;
 								}
 							}
@@ -1830,14 +1864,14 @@ jQuery( function($) {
 									sortString = false;
 								}
 
-								if(global.isNumber(p) && p >= 0) {
+								if(global.isNumber(p)) {
 									findPoints++;
 								}
 							} else {
 								if(!global.isEmpty(t.find('textareawpProQuiz_matrix_sort_string').val())) {
 									menge++;
 
-									if(global.isNumber(p) && p >= 0) {
+									if(global.isNumber(p)) {
 										findPoints++;
 									}
 								}

@@ -7,6 +7,7 @@
  */
 
 use LearnDash\Core\Models\Transaction;
+use LearnDash\Core\Utilities\Cast;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
@@ -216,9 +217,15 @@ if ( ! function_exists( 'learndash_generate_purchase_invoice' ) ) {
 			unset( $transaction_meta['stripe_metadata'] );
 		}
 
-		$purchase_date  = date_i18n( strval( get_option( 'date_format' ) ), strtotime( $transaction_post->post_date ) );
+		$purchase_date  = learndash_adjust_date_time_display(
+			(int) strtotime( $transaction_post->post_date_gmt ),
+			strval( get_option( 'date_format' ) )
+		);
 		$purchase_date .= ' ';
-		$purchase_date .= date_i18n( strval( get_option( 'time_format' ) ), strtotime( $transaction_post->post_date ) );
+		$purchase_date .= learndash_adjust_date_time_display(
+			(int) strtotime( $transaction_post->post_date_gmt ),
+			strval( get_option( 'time_format' ) )
+		);
 
 		$filepath = learndash_purchase_invoice_filepath( $transaction_id );
 
@@ -534,14 +541,18 @@ if ( ! function_exists( 'learndash_purchase_invoice_pdf' ) ) {
 
 		$transaction = Transaction::find( $transaction_id );
 		if ( ! $transaction ) {
-			wp_die( esc_html__( 'Transaction now found.', 'learndash' ) );
+			wp_die(
+				sprintf(
+					// Translators: %s: Order label.
+					esc_html__( '%s now found.', 'learndash' ),
+					esc_html(
+						learndash_get_custom_label( 'order' )
+					)
+				)
+			);
 		}
 
-		try {
-			$transaction_pricing = $transaction->get_pricing();
-		} catch ( Learndash_DTO_Validation_Exception $e ) {
-			wp_die( esc_html__( 'Something went wrong.', 'learndash' ) );
-		}
+		$transaction_pricing = $transaction->get_pricing();
 
 		$pricing = '';
 
@@ -555,8 +566,8 @@ if ( ! function_exists( 'learndash_purchase_invoice_pdf' ) ) {
 
 			$pricing .= __( 'Original Price: ', 'learndash' ) . learndash_get_price_formatted( $transaction_pricing->price, $transaction_pricing->currency ) . '<br />';
 			$pricing .= __( 'Coupon: ', 'learndash' ) . $coupon_data->code . '<br />';
-			$pricing .= __( 'Discount: ', 'learndash' ) . $transaction_pricing->discount . '<br />';
-			$pricing .= __( 'Discounted Price: ', 'learndash' ) . $transaction_pricing->discounted_price . '<br />';
+			$pricing .= __( 'Discount: ', 'learndash' ) . learndash_get_price_formatted( $transaction_pricing->discount * -1, $transaction_pricing->currency ) . '<br />';
+			$pricing .= __( 'Discounted Price: ', 'learndash' ) . learndash_get_price_formatted( $transaction_pricing->discounted_price, $transaction_pricing->currency ) . '<br />';
 		} elseif ( $transaction->is_subscription() && $transaction->has_trial() ) {
 			// Transaction with trial.
 			$pricing .= sprintf(
@@ -1044,6 +1055,8 @@ if ( ! function_exists( 'learndash_purchase_invoice_pdf' ) ) {
 			'filepath' => $filepath,
 			'filename' => $filename,
 		);
+
+		wp_mkdir_p( Cast::to_string( $filepath ) );
 
 		// Save pdf document.
 		$pdf->Output( $filepath . $filename, $destination );
