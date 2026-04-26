@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.47](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.46...v0.1.47) (2026-04-26)
+
+
+### Bug Fixes
+
+* exclude Learndash vendor files from gitignore ([41bea35](https://github.com/CodingBlackFemales/wordpress/commit/41bea3574836c8125f0e3db174e3acf661179aa1))
+
 ## [0.1.46](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.45...v0.1.46) (2026-04-26)
 
 
