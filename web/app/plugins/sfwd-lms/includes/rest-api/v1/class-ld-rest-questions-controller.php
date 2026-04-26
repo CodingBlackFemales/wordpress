@@ -11,14 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 'WP_REST_Controller' ) ) ) {
-
 	/**
 	 * Class LearnDash REST API V1 Questions Post Controller.
 	 *
 	 * @since 2.5.8
 	 */
 	class LD_REST_Questions_Controller_V1 extends WP_REST_Controller /* phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound */ {
-
 		/**
 		 * Registers the routes for the objects of the controller.
 		 *
@@ -30,19 +28,6 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 			$version   = '1';
 			$namespace = LEARNDASH_REST_API_NAMESPACE . '/v' . $version;
 			$base      = 'sfwd-questions';
-
-			register_rest_route(
-				$namespace,
-				'/' . $base,
-				array(
-					array(
-						'methods'             => WP_REST_Server::READABLE,
-						'callback'            => array( $this, 'get_items' ),
-						'permission_callback' => array( $this, 'permissions_check' ),
-						'args'                => array(),
-					),
-				)
-			);
 
 			register_rest_route(
 				$namespace,
@@ -60,7 +45,7 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 									learndash_get_custom_label_lower( 'question' )
 								),
 								'required'          => true,
-								'validate_callback' => function( $param, $request, $key ) {
+								'validate_callback' => function ( $param, $request, $key ) {
 									return is_numeric( $param );
 								},
 								'sanitize_callback' => 'absint',
@@ -79,7 +64,7 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 									learndash_get_custom_label_lower( 'question' )
 								),
 								'required'          => true,
-								'validate_callback' => function( $param, $request, $key ) {
+								'validate_callback' => function ( $param, $request, $key ) {
 									return is_numeric( $param );
 								},
 								'sanitize_callback' => 'absint',
@@ -98,7 +83,7 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 									learndash_get_custom_label_lower( 'question' )
 								),
 								'required'          => true,
-								'validate_callback' => function( $param, $request, $key ) {
+								'validate_callback' => function ( $param, $request, $key ) {
 									return is_numeric( $param );
 								},
 								'sanitize_callback' => 'absint',
@@ -194,6 +179,8 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 		/**
 		 * Update one item from the collection
 		 *
+		 * TODO: Add test.
+		 *
 		 * @since 2.5.8
 		 *
 		 * @param WP_REST_Request $request Full data about the request.
@@ -210,9 +197,27 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 
 			$question_model = $question_mapper->fetch( $question_pro_id );
 
-			// Update answer data if available.
+			// Prepare answer data.
 			if ( isset( $params['_answerData'] ) && is_string( $params['_answerData'] ) ) {
 				$params['_answerData'] = json_decode( $params['_answerData'], true );
+			}
+
+			// Decide if we need points recalculation.
+
+			if (
+				isset( $params['_answerData'] )
+				|| isset( $params['_points'] )
+				|| isset( $params['_answerPointsActivated'] )
+			) {
+				$validated_post = WpProQuiz_Controller_Question::clearPost(
+					$this->map_parameters_to_validation( $question_model, $params )
+				);
+
+				// Apply the validated data.
+
+				$params['_points']                = $validated_post['points'];
+				$params['_answerPointsActivated'] = $validated_post['answerPointsActivated'];
+				$params['_answerData']            = $validated_post['answerData'];
 			}
 
 			// Also save points at question's post meta data.
@@ -246,6 +251,135 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 		}
 
 		/**
+		 * Maps the API parameters to the format that can be used for validation.
+		 * If a needed parameter is not received, the function will use the current question data.
+		 *
+		 * @since 4.14.0
+		 *
+		 * @param WpProQuiz_Model_Question $question   The question model.
+		 * @param array<mixed>             $parameters The API parameters.
+		 *
+		 * @return array<mixed> The mapped parameters.
+		 */
+		private function map_parameters_to_validation( WpProQuiz_Model_Question $question, array $parameters ) {
+			$mapped_parameters = [
+				'answerPointsActivated' => isset( $parameters['_answerPointsActivated'] ) ? $parameters['_answerPointsActivated'] : $question->isAnswerPointsActivated(),
+				/**
+				 * Note that we always use the current answer type. Users can change it, but it should be considered only in the next request
+				 * as it may affect the answer data and we don't recalculate points question if the answer type is changed.
+				 */
+				'answerType'            => $question->getAnswerType(),
+				'points'                => isset( $parameters['_points'] ) ? $parameters['_points'] : $question->getPoints(),
+				'answerData'            => [],
+			];
+
+			$is_answer_data_param_valid = isset( $parameters['_answerData'] )
+				&& is_array( $parameters['_answerData'] )
+				&& count( $parameters['_answerData'] ) > 0;
+
+			$question_answer_data = $question->getAnswerData();
+			$first_answer_data    = is_array( $question_answer_data ) && count( $question_answer_data ) > 0
+				? $question_answer_data[0]
+				: null;
+
+			switch ( $mapped_parameters['answerType'] ) {
+				case 'cloze_answer':
+					$mapped_parameters['answerData']['cloze'] = [];
+
+					$mapped_parameters['answerData']['cloze']['answer'] = $is_answer_data_param_valid
+						? $parameters['_answerData'][0]['_answer']
+						: ( $first_answer_data ? $first_answer_data->getAnswer() : '' );
+
+					break;
+
+				case 'assessment_answer':
+					$mapped_parameters['answerData']['assessment'] = [];
+
+					$mapped_parameters['answerData']['assessment']['answer'] = $is_answer_data_param_valid
+						? $parameters['_answerData'][0]['_answer']
+						: ( $first_answer_data ? $first_answer_data->getAnswer() : '' );
+
+					break;
+
+				case 'essay':
+					$mapped_parameters['answerData']['essay'] = [];
+
+					$mapped_parameters['answerData']['essay']['type'] = $is_answer_data_param_valid
+						? $parameters['_answerData'][0]['_gradedType']
+						: ( $first_answer_data ? $first_answer_data->getGradedType() : '' );
+
+					$mapped_parameters['answerData']['essay']['progression'] = $is_answer_data_param_valid
+						? $parameters['_answerData'][0]['_gradingProgression']
+						: ( $first_answer_data ? $first_answer_data->getGradingProgression() : '' );
+
+					break;
+
+				case 'free_answer':
+					$mapped_parameters['answerData'][] = [];
+
+					$mapped_parameters['answerData'][0]['answer'] = $is_answer_data_param_valid
+						? $parameters['_answerData'][0]['_answer']
+						: ( $first_answer_data ? $first_answer_data->getAnswer() : '' );
+
+					break;
+
+				case 'single':
+					// Fill up the modus 2 data.
+
+					$mapped_parameters['answerPointsDiffModusActivated'] = isset( $parameters['_answerPointsDiffModusActivated'] )
+						? $parameters['_answerPointsDiffModusActivated']
+						: $question->isAnswerPointsDiffModusActivated();
+
+					$mapped_parameters['disableCorrect'] = isset( $parameters['_disableCorrect'] )
+						? $parameters['_disableCorrect']
+						: $question->isDisableCorrect();
+
+					// Other types, including single.
+
+				default:
+					if ( $is_answer_data_param_valid ) {
+						foreach ( $parameters['_answerData'] as $answer ) {
+							$answer = (array) $answer;
+
+							$answer_data = [];
+							foreach ( $answer as $key => $value ) {
+								// Remove the underscore from the key for certain keys to match the existing array keys format.
+								if ( in_array( $key, [ '_answer', '_points', '_sortString', '_correct' ], true ) ) {
+									$key = str_replace( '_', '', $key );
+								}
+
+								$answer_data[ $key ] = $value;
+							}
+
+							$mapped_parameters['answerData'][] = $answer_data;
+						}
+					} else {
+						foreach ( (array) $question_answer_data as $answer ) {
+							if ( ! $answer instanceof WpProQuiz_Model_AnswerTypes ) {
+								continue;
+							}
+
+							$mapped_parameters['answerData'][] = [
+								'answer'              => $answer->getAnswer(),
+								'points'              => $answer->getPoints(),
+								'sortString'          => $answer->getSortString(),
+								'correct'             => $answer->isCorrect(),
+								'_html'               => $answer->isHtml(),
+								'_sortStringHtml'     => $answer->isSortStringHtml(),
+								'_graded'             => $answer->isGraded(),
+								'_gradingProgression' => $answer->getGradingProgression(),
+								'_gradedType'         => $answer->getGradedType(),
+							];
+						}
+					}
+
+					break;
+			}
+
+			return $mapped_parameters;
+		}
+
+		/**
 		 * Get question data.
 		 *
 		 * @since 2.5.8
@@ -271,8 +405,11 @@ if ( ( ! class_exists( 'LD_REST_Questions_Controller_V1' ) ) && ( class_exists( 
 			$answer_data = array();
 
 			// Get answer data.
-			foreach ( $question_data['_answerData'] as $answer ) {
-				$answer_data[] = $answer->get_object_as_array();
+
+			if ( $question_data['_answerData'] ) {
+				foreach ( $question_data['_answerData'] as $answer ) {
+					$answer_data[] = $answer->get_object_as_array();
+				}
 			}
 
 			unset( $question_data['_answerData'] );

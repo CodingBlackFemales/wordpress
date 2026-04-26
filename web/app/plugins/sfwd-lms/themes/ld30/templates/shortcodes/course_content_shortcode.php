@@ -23,6 +23,7 @@
  * $lesson_progression_enabled : (true/false)
  *
  * @since 3.0.0
+ * @version 4.21.4
  *
  * @package LearnDash\Templates\LD30
  */
@@ -78,11 +79,46 @@ if ( $has_course_content ) :
 					<?php
 					// Only display if there is something to expand.
 					if ( $has_topics ) :
+						$lesson_container_ids = implode(
+							' ',
+							array_filter(
+								array_map(
+									function( $lesson_id ) use ( $user_id, $course_id ) {
+										$topics  = learndash_get_topic_list( $lesson_id, $course_id );
+										$quizzes = learndash_get_lesson_quiz_list( $lesson_id, $user_id, $course_id );
+
+										// Ensure we only include this ID if there is something to collapse/expand.
+										if (
+											empty( $topics )
+											&& empty( $quizzes )
+										) {
+											return '';
+										}
+
+										return "ld-expand-{$lesson_id}-container";
+									},
+									array_keys( $lesson_topics )
+								)
+							)
+						);
+
 						?>
-						<div class="ld-expand-button ld-primary-background" id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>" data-ld-expands="<?php echo esc_attr( 'ld-item-list-' . $course_id ); ?>" data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>" data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>">
+						<button
+							aria-controls="<?php echo esc_attr( $lesson_container_ids ); ?>"
+							aria-expanded="false"
+							class="ld-expand-button ld-primary-background"
+							id="<?php echo esc_attr( 'ld-expand-button-' . $course_id ); ?>"
+							data-ld-expands="<?php echo esc_attr( $lesson_container_ids ); ?>"
+							data-ld-expand-text="<?php echo esc_attr_e( 'Expand All', 'learndash' ); ?>"
+							data-ld-collapse-text="<?php echo esc_attr_e( 'Collapse All', 'learndash' ); ?>"
+						>
 							<span class="ld-icon-arrow-down ld-icon"></span>
 							<span class="ld-text"><?php echo esc_html_e( 'Expand All', 'learndash' ); ?></span>
-						</div> <!--/.ld-expand-button-->
+
+							<span class="screen-reader-text">
+								<?php echo esc_html( learndash_get_custom_label( 'lessons' ) ); ?>
+							</span>
+						</button> <!--/.ld-expand-button-->
 						<?php
 						/** This filter is documented in themes/ld30/templates/course.php */
 						if ( apply_filters( 'learndash_course_steps_expand_all', false, $course_id, 'course_lessons_listing_main' ) ) :

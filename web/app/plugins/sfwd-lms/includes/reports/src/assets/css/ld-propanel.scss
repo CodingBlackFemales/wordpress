@@ -1,0 +1,1106 @@
+/* stylelint-disable -- TODO: Fix linting issues */
+
+/* General styles */
+
+/*.loading-results {*/
+	/*display:none;*/
+/*}*/
+
+.clearfix {
+	content: "";
+/*	display: table; */
+	clear: both;
+}
+
+body.wp-admin.index-php .clearfix {
+	display: table;
+}
+
+.filtered,
+.select2-hidden-accessible {
+	display: none;
+}
+
+.widget-spinner {
+	display: block;
+	margin: 0 auto;
+}
+
+h2.hndle .loading {
+	vertical-align: middle;
+	margin: 0 5px;
+}
+
+.ld-propanel-widget {
+	width: 100%;
+    word-wrap: break-word;
+}
+
+/* Overview Module */
+
+.ld-propanel-widget {
+	// Fixes an issue in the Gutenberg Editor where after creation it could no longer be selected.
+	overflow: auto;
+}
+
+.ld-propanel-widget-overview .propanel-stat {
+	border: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner {
+	padding: 10px 0;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner * {
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover {
+	background: #0085ba;
+	border-color: #0085ba;
+	color: rgba(255,255,255,0.75);
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover a,
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover .stat {
+	color: #fff;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover a {
+	text-decoration: underline;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner .pending-label {
+	color: #444;
+	opacity: 0.65;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover .pending-label {
+	color: #fff;
+}
+
+.ld-propanel-widget-overview .propanel-stat:first-child {
+	border-left: none;
+}
+
+.ld-propanel-widget-overview .propanel-stat:last-child {
+	border-right: none;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-label {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 1.4;
+	padding: 0;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-label a {
+	color: #444;
+	opacity: 0.65;
+	text-decoration: none;
+	box-shadow: 0 0 0 0;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat-inner:hover .stat-label a {
+	color: #fff;
+	opacity: 1;
+	text-decoration: underline;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat {
+	color: #0085ba;
+	font-size: 28px;
+	display: block;
+	line-height: 1;
+	margin: 10px 0 5px;
+}
+
+.ld-propanel-widget-overview .propanel-stat .stat a {
+	text-decoration: none;
+	box-shadow: 0 0 0 0;
+}
+
+
+.ld-propanel-widget-overview .propanel-stat strong {
+	color: #444;
+}
+
+/* Activity Module */
+
+.ld-propanel-widget-activity .activity-item {
+	border-top: 2px solid #F3F5F9;
+	padding: 10px;
+}
+
+.ld-propanel-widget-activity .activity-item:nth-child(even) {
+	background: #f9f9f9;
+}
+
+
+/*
+.ld-propanel-widget-activity .activity-item.pagination .next,
+.learndash-propanel-activity-shortcode .activity-item.pagination .next {
+	float: right;
+}
+*/
+
+.ld-propanel-widget-activity .activity-item:first-child {
+	border-top: none;
+	padding-top: 0;
+}
+
+.ld-propanel-widget-activity .activity-item a {
+	text-decoration: none !important;
+	border-bottom: none !important;
+	box-shadow: none !important;
+}
+
+.ld-propanel-widget-activity .activity-item abbr {
+	text-decoration: none !important;
+	border-bottom: none !important;
+}
+
+
+.ld-propanel-widget-activity .activity-item .user a:before,
+.ld-propanel-widget-activity .activity-item .date:before,
+.ld-propanel-widget-activity .activity-item .content:before {
+	color: #888;
+	display: inline-block;
+	font: normal 16px/1 dashicons;
+	margin: 0 10px 10px 0;
+	vertical-align: middle;
+	position: relative;
+	top: 2px;
+}
+
+.ld-propanel-widget-activity .activity-item .user {
+	font-weight: bold;
+}
+
+.ld-propanel-widget-activity .activity-item .user a:before {
+	content: "\f110";
+}
+
+.ld-propanel-widget-activity .activity-item .date {
+	display: block;
+/*	margin-bottom: 8px; */
+}
+
+.ld-propanel-widget-activity .activity-item .date:before {
+	content: "\f508";
+}
+
+.ld-propanel-widget-activity .activity-item .content {
+	padding-left: 26px;
+	position: relative;
+}
+
+.ld-propanel-widget-activity .activity-item .content:before {
+	content: '\f118';
+	position: absolute;
+	left: 0;
+	top: 2px;
+}
+
+.ld-propanel-widget-activity .report-header {
+	width: 100%;
+	margin: 15px 0;
+}
+
+.ld-propanel-widget-activity .report-header .report-pagination {
+	width: 52%;
+	float: left;
+	clear: none;
+}
+.ld-propanel-widget-activity .report-header .report-pagination.ld-propanel-full-width {
+	width: 100%;
+	clear: left;
+}
+
+.ld-propanel-widget-activity .report-header .report-exports {
+	width: 47%;
+	float: right;
+	text-align: right;
+	clear: none;
+}
+.ld-propanel-widget-activity .report-header .report-exports.ld-propanel-full-width {
+	width: 100%;
+	clear: left;
+}
+
+.ld-propanel-widget-activity .report-header .report-pagination p {
+	margin: 0;
+}
+
+.ld-propanel-widget-activity .report-header .report-pagination .button.button-simple {
+/*	background: none !important; */
+	border: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	font-size: 18px;
+	padding: 0 3px 1px;
+}
+
+.ld-propanel-widget-activity .report-header .report-pagination .button.button-simple:hover {
+	background: #f7f7f7 none repeat scroll 0 0 !important;
+	border-color: #ccc !important;
+	box-shadow: 0 1px 0 #ccc !important;
+}
+
+
+.ld-propanel-widget-activity .report-header .report-exports button span.dashicons-download {
+	margin-top: 4px;
+}
+
+
+/* Progress Chart Module */
+/*
+.ld-propanel-widget-progress-chart .canvas-wrap {
+	padding: 0 5%;
+}
+*/
+
+.ld-propanel-widget-progress-chart .canvas-wrap canvas {
+	width: 100%;
+}
+
+.ld-propanel-widget-progress-chart .canvas-wrap .progress-chart {
+	max-width: 80%;
+	margin: 30px auto;
+	position: relative;
+}
+
+.ld-propanel-widget-progress-chart .canvas-wrap .chart-overlay {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 100%;
+	text-align: center;
+	font-size: 80px;
+	height: 70px;
+	line-height: 70px;
+	margin: -40px 0 0 0;
+	color: #0085ba;
+}
+
+.ld-propanel-widget-progress-chart .propanel-admin-row .col-1-2 {
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.ld-propanel-widget-progress-chart.side-by-side .propanel-admin-row .col-1-2 {
+	width: 50%;
+}
+
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:first-child div.title,
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:last-child div.title {
+	width: 100%;
+	margin-left: 0;
+}
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:first-child div.title:after {
+	border: 0;
+}
+
+
+.propanel-admin-row {
+	width: 100%;
+}
+
+.propanel-admin-row.center {
+	text-align: center;
+}
+
+.propanel-admin-row [class*='col-'] {
+	float: left;
+}
+
+.propanel-admin-row .col-1-4 {
+	width: 25%;
+}
+
+.propanel-admin-row .col-1-2 {
+	width: 50%;
+/*	border-width: 0 1px; */
+	border-width: 0;
+/*	border-style: solid; */
+/*	border-color: #F3F5F9; */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+/*
+.propanel-admin-row .col-1-2:first-child {
+	border-left: none;
+}
+
+.propanel-admin-row .col-1-2:last-child {
+	border-right: none;
+}
+*/
+
+.propanel-admin-row .col-1-2.propanel-courses {
+	border-right: none;
+}
+.propanel-admin-row .col-1-2.propanel-assignments {
+	border-left: none;
+}
+
+
+/* Reporting Module */
+
+.ld-propanel-widget-filtering.single-view .inside {
+	border: 1px solid #DFDFDF;
+	-moz-box-shadow: inset 0 1px 0 #fff;
+	-webkit-box-shadow: inset 0 1px 0 #fff;
+	box-shadow: inset 0 1px 0 #fff;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background: #fff;
+	margin: 20px 0;
+	padding: 20px;
+}
+
+.ld-propanel-widget-filtering .table-actions-wrap {
+	margin-bottom: 10px;
+}
+
+.ld-propanel-widget-filtering .section-toggles {
+	width: 100%;
+}
+
+.ld-propanel-widget-filtering .section-toggle {
+	background: none;
+	/* margin: 0 10px 0 0; */
+	margin: 0 4px 0 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	position: relative;
+	z-index: 1;
+	border-color: #ccc;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    height: 28px;
+    line-height: 26px;
+    padding: 0 10px 1px;
+    text-decoration: none;
+    white-space: nowrap;
+	color: #444;
+}
+
+
+.ld-propanel-widget-filtering .section-toggle:after {
+	content: "\f140";
+	font: 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none!important;
+	color: #b4b9be;
+	top: -3px;
+	/* margin: 0 0 0 5px; */
+}
+
+.ld-propanel-widget-filtering .section-toggle.active {
+	border-bottom: none;
+	box-shadow: none;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	height: auto;
+	padding-bottom: 6px; /* 10px; */
+	top: 1px;
+	margin-top: -1px;
+	background: #f9f9f9;
+	border-color: #ccc;
+}
+
+.ld-propanel-widget-filtering .section-toggle.active:after {
+	content: "\f142";
+}
+
+.ld-propanel-widget-reporting .tablesorter-search {
+	margin: 5px 0 0 0;
+	width: 100%;
+}
+
+.ld-propanel-widget-filtering .email input,
+.ld-propanel-widget-filtering .email textarea {
+	width: 100%;
+}
+
+.ld-propanel-widget-filtering .toggle-section {
+	display: none;
+	background: #F7F7F7;
+	border: 1px solid #ccc;
+	margin: 0;
+	padding: 10px;
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	position: relative;
+	z-index: 0;
+	color: #444;
+}
+
+.ld-propanel-widget-filtering .toggle-section .close {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #aaa;
+	border-radius: 30px;
+	text-indent: -9999px;
+	color: #aaa;
+	background: #fff;
+}
+
+.ld-propanel-widget-filtering .toggle-section .close:after {
+	content: "\f335";
+	font: 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration: none!important;
+	text-indent: 0;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -10px;
+}
+
+.ld-propanel-widget-filtering .toggle-section .close:hover {
+	background: #0085ba;
+	border-color: #0085ba;
+	color: #fff;
+}
+
+.ld-propanel-widget-filtering .toggle-section.email {
+	padding: 10px 10px 10px 10px;
+}
+
+.ld-propanel-widget-filtering .toggle-section.email input[type='text'],
+.ld-propanel-widget-filtering .toggle-section.email textarea {
+	margin: 0 0 10px 0;
+	padding: 5px 10px;
+}
+.ld-propanel-widget-filtering .table-pagination p:first-child {
+	margin-top: 0;
+}
+
+.ld-propanel-widget-filtering .toggle-section.display {
+	display: block;
+}
+
+.ld-propanel-widget-filtering .reporting-actions .filter-selection {
+	padding: 5px 0;
+	/* margin-left: 5px; */
+}
+
+.ld-propanel-widget-filtering .reporting-actions .filter-section-courseStatus li {
+	margin-bottom: 0;
+}
+
+.ld-propanel-widget-filtering .reporting-actions .filter-section-courseStatus .select2-container .select2-selection--multiple {
+	min-width: 110px;
+}
+
+.ld-propanel-widget-filtering .reporting-actions .select2-container .select2-search--inline .select2-search__field {
+	margin-top: 0px;
+}
+
+.ld-propanel-widget-filtering .reporting-actions .select2-container .select2-search--inline .select2-search__field::-moz-placeholder {
+	font: inherit;
+	color: #999 !important;
+}
+
+/* body.wp-admin.index-php .ld-propanel-widget-filtering .reporting-actions .select2-container .select2-search--inline .select2-search__field, */
+/*
+body.ld-propanel-full-page .ld-propanel-widget-filtering .reporting-actions .select2-container .select2-search--inline .select2-search__field {
+	margin-top: 5px;
+}
+*/
+
+.ld-propanel-widget-filtering .reporting-actions .select2-container .select2-selection--multiple ul {
+    min-height: 28px;
+/*	max-height: 28px; */
+	line-height: 28px;
+}
+
+s
+.ld-propanel-widget-filtering .select2-selection--multiple .select2-selection__clear {
+    line-height: 1;
+}
+
+.ld-propanel-widget-filtering .select2-selection--multiple .select2-selection__choice {
+    line-height: 1;
+}
+
+.ld-propanel-widget-filtering .reporting-actions .select2 {
+	width: 100%;
+	max-width: 100%;
+	display: block;
+}
+
+.ld-propanel-widget-filtering .filter-selection.filter-section-date > input {
+	width: 100%;
+	border: 1px solid #aaa;
+}
+
+.ld-propanel-widget-filtering .filter-selection.filter-section-date > input::placeholder {
+    font: inherit;
+    color: #999 !important;
+}
+
+.ld-propanel-widget-filtering .reporting-actions p {
+	margin: 10px 0 0 0;
+}
+
+.ld-propanel-widget-filtering .reporting-actions p .button {
+	margin: 0 10px 0 0;
+}
+
+.ld-propanel-widget-filtering .table-actions-wrap .filter-section-courseStatus .select2-container--default {
+	width: inherit !important;
+}
+/*
+.ld-propanel-widget-filtering .select2-container {
+	width: auto !important;
+}
+*/
+
+.ld-propanel-widget-filtering .filter-date {
+	margin-bottom: 10px;
+}
+
+.ld-propanel-widget-filtering .filter-date span.filter-date-label {
+	width: 50px;
+	display: inline-block;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering input,
+body.ld-propanel-full-page .ld-propanel-widget-filtering select {
+	box-sizing: border-box;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering select {
+	font-size: 14px;
+	line-height: 2;
+	color: #32373c;
+	border: 1px solid #7e8993;
+	box-shadow: 0 0 0 transparent;
+	border-radius: 3px;
+	padding: 0 24px 0 8px;
+	min-height: 30px;
+	max-width: 25rem;
+	-webkit-appearance: none;
+	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E') no-repeat right 5px top 55%; // cspell:disable-line
+	background-size: 16px 16px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering input[type="number"] {
+	padding: 0 8px;
+	line-height: 2;
+	min-height: 30px;
+
+	box-shadow: 0 0 0 transparent;
+	border-radius: 4px;
+	border: 1px solid #7e8993;
+	background-color: #fff;
+	color: #32373c;
+}
+
+/* body.ld-propanel-full-page .ld-propanel-widget-filtering .button,  */
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-secondary {
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 2.15384615;
+	min-height: 30px;
+	margin: 0;
+	padding: 0 10px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary {
+	background: #007cba;
+	border-color: #007cba;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: none;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary.focus,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary.hover,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary:focus,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-primary:hover {
+	background: #0071a1;
+	border-color: #0071a1;
+	color: #fff;
+}
+
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button-secondary:hover,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button.hover,
+body.ld-propanel-full-page .ld-propanel-widget-filtering .button:hover {
+	background: #f1f1f1;
+	border-color: #016087;
+	color: #016087;
+}
+
+/*
+.ld-propanel-widget-filtering .filter-date select {
+	padding: 0 5px 0 5px;
+}
+*/
+.ld-propanel-widget-filtering .select2-container .select2-selection--single {
+	height: auto;
+}
+
+.ld-propanel-widget-filtering .select2-container .select2-selection--single .select2-selection__rendered {
+	white-space: break-spaces;
+/*	max-width: max-content; */
+/*	height: auto; */
+}
+
+
+.ld-propanel-widget-reporting table {
+	background: #fff;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.ld-propanel-widget-reporting table thead {
+	border: 1px solid #555555; /* #23282d; */
+}
+
+.ld-propanel-widget-reporting table tr th {
+	background-color: #555555; /* #23282d; */
+	color: #fff;
+	font-size: 12px; /* 10px; */
+	font-weight: normal;
+	padding: 5px 10px;
+}
+
+.ld-propanel-widget-reporting table tr th.tablesorter-header {
+	cursor: pointer;
+}
+
+.ld-propanel-widget-reporting table tr th.tablesorter-header.sorter-false {
+	cursor: default;
+}
+
+.ld-propanel-widget-reporting table tr th.tablesorter-headerDesc .tablesorter-header-inner:after,
+.ld-propanel-widget-reporting table tr th.tablesorter-headerAsc .tablesorter-header-inner:after {
+	font: normal 12px/1 dashicons;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0 5px;
+	opacity: 0.75;
+}
+
+.ld-propanel-widget-reporting table tr th.tablesorter-headerAsc .tablesorter-header-inner:after {
+	content: '\f347';
+}
+
+.ld-propanel-widget-reporting table tr th.tablesorter-headerDesc .tablesorter-header-inner:after {
+	content: '\f343';
+}
+
+.ld-propanel-widget-reporting table tbody {
+	border: 1px solid #ddd;
+}
+
+.ld-propanel-widget-reporting table tr td {
+	border-top: 1px solid #ddd;
+	border-left: 0px solid #ddd;
+	border-right: 0px solid #ddd;
+	border-bottom: 0px solid #ddd;
+
+	padding: 10px;
+}
+
+.ld-propanel-widget-reporting table tbody tr:nth-child(even) td {
+	background: #f9f9f9;
+}
+
+.ld-propanel-widget-reporting table .display-name {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.ld-propanel-widget-reporting table .user-login,
+.ld-propanel-widget-reporting table .course-title,
+.ld-propanel-widget-reporting table .user-email {
+	font-size: 12px; /* 10px; */
+	display: block;
+	margin: 0;
+}
+
+.ld-propanel-widget-reporting .user-login a:before,
+.ld-propanel-widget-reporting .course-title a:before,
+.ld-propanel-widget-reporting .user-email a:before {
+	font: normal 12px/1 dashicons;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 5px 0 0;
+}
+
+.ld-propanel-widget-reporting table .course-title {
+	font-size: 14px;
+}
+
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table th {
+	text-align: left;
+}
+
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-widget th.ld-propanel-reporting-col-checkbox input,
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-checkbox input{
+	min-width: 5px;
+	min-height: 5px;
+}
+
+
+
+
+/* Groups Template Widget */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-widget th.ld-propanel-reporting-col-checkbox { width: 10%; min-width: 10px; max-width: 10px; }
+/*.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-widget th.ld-propanel-reporting-col-course { width: 45%; } */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-widget th.ld-propanel-reporting-col-progress { width: 45%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-widget th.ld-propanel-reporting-col-checkbox input { min-width: 5px; min-height: 5px; }
+
+/* Groups Template Full */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-checkbox { width: 5%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-course_id { width: 5%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-course { width: 35%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-user_id { width: 5%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-user {	width: 20%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-progress {	width: 20%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-groups-full th.ld-propanel-reporting-col-last_update { width: 10%; }
+
+
+/* Courses Template Widget */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-checkbox { width: 10%; min-width: 10px; }
+/*.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-user { width: 45%; } */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-progress { width: 45%; }
+/* .ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-course { width: 45%; } */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-widget th.ld-propanel-reporting-col-checkbox input{ min-width: 5px; min-height: 5px; }
+
+/* Courses Template Full */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-full th.ld-propanel-reporting-col-checkbox { width: 5%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-full th.ld-propanel-reporting-col-user_id { width: 5%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-full th.ld-propanel-reporting-col-user {	width: 25%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-full th.ld-propanel-reporting-col-progress { width: 30%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-courses-full th.ld-propanel-reporting-col-last_update { width: 20%; }
+
+
+/* Users Template Widget */
+/* .ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-widget th.ld-propanel-reporting-col-course { width: 50%; } */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-widget th.ld-propanel-reporting-col-progress { width: 50%; }
+
+
+/* Users Template Full */
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-full th.ld-propanel-reporting-col-course_id { width: 10%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-full th.ld-propanel-reporting-col-course { width: 35%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-full th.ld-propanel-reporting-col-progress { width: 35%; }
+.ld-propanel-widget-reporting table.ld-propanel-reporting-table-users-full th.ld-propanel-reporting-col-last_update { width: 20%; }
+
+
+.ld-propanel-widget-reporting .course-title a:before {
+	font: normal 14px/1 dashicons;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 5px 0 0;
+}
+
+.ld-propanel-widget-reporting .user-login a:before {
+	content: "\f110";
+}
+
+.ld-propanel-widget-reporting .course-title a:before {
+	content: "\f123";
+}
+
+.ld-propanel-widget-reporting .user-email a:before {
+	content: "\f466";
+}
+
+.ld-propanel-widget-reporting table .course-title {
+	margin-bottom: 5px;
+}
+
+.ld-propanel-widget-reporting table .user-email {
+	margin-top: 5px;
+}
+
+.ld-propanel-widget-reporting .progress-bar {
+	background: #eee;
+	height: 15px;
+}
+
+.ld-propanel-widget-reporting .pager {
+	overflow: hidden;
+}
+
+
+.ld-propanel-widget-reporting .pager p.ld-propanel-reporting-pager-info {
+	float: left;
+	margin-top: 10px;
+	width: 60%;
+	clear: left;
+}
+
+.ld-propanel-widget-reporting .pager p.ld-propanel-reporting-pager-info.ld-propanel-full-width {
+	width: 100%;
+	clear: left;
+}
+
+/*
+.ld-propanel-widget-filtering.learndash-propanel-reporting-shortcode .pager.top p,
+.ld-propanel-widget-filtering.learndash-propanel-reporting-shortcode .pager.bottom p {
+	margin-top: 25px;
+}
+*/
+
+.ld-propanel-widget-reporting .pager p.download-button-wrap {
+	float: right;
+	margin-top: 10px;
+	width: 40%;
+	text-align: right;
+	clear: none;
+}
+
+.ld-propanel-widget-reporting .pager p.download-button-wrap button span.dashicons-download {
+	margin-top: 4px;
+}
+
+
+.ld-propanel-widget-reporting .pager p.search-wrap {
+	float: right;
+	margin-top: 10px;
+	width: 40%;
+	text-align: right;
+	clear: none;
+}
+.ld-propanel-widget-reporting .pager p.search-wrap.ld-propanel-full-width {
+	width: 100%;
+	clear: left;
+}
+
+.ld-propanel-widget-reporting .go-to-page {
+	margin-right: 20px;
+}
+
+.ld-propanel-widget-reporting .actual-progress {
+	display: block;
+	height: 100%;
+	background: #0085ba;
+}
+
+.ld-propanel-widget-reporting .progress-amount {
+	display: block;
+	margin: 10px 0 0 0;
+	font-size: 20px;
+	color: #0085ba;
+}
+
+.ld-propanel-widget-reporting .button.button-simple {
+/*	background: none; */
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	font-size: 18px;
+	padding: 0 3px 1px;
+	margin: 0 1px;
+}
+
+.ld-propanel-widget-reporting .button.button-simple:hover {
+	background: #f7f7f7 none repeat scroll 0 0;
+	border-color: #ccc;
+	box-shadow: 0 1px 0 #ccc;
+}
+
+.ld-propanel-widget-reporting.learndash-propanel-reporting-shortcode .button.button-simple:hover {
+	background: none;
+	border-color: none;
+	box-shadow: 0 1px 0 #ccc;
+}
+
+
+.ld-propanel-widget-filtering .button.full-page,
+.ld-propanel-widget-filtering .button.dashboard-page {
+	float: right;
+}
+
+.propanel-note {
+	text-align: center;
+}
+
+.please-choose-filter {
+	color: #7a7a7a;
+	font-size: 14px;
+}
+
+
+.ld-propanel-widget-filtering a.full-page,
+.ld-propanel-widget-filtering a.dashboard-page {
+	display: none;
+}
+
+body.wp-admin.index-php .ld-propanel-widget-filtering a.full-page {
+	display: block;
+}
+
+/*
+.ld-propanel-widget-filtering a.dashboard-page {
+	display: block;
+}
+*/
+
+body.wp-admin.index-php .ld-propanel-widget-filtering a.dashboard-page {
+	display: none;
+}
+
+body.dashboard_page_propanel-reporting .ld-propanel-widget-filtering a.dashboard-page {
+	display: block;
+}
+
+
+
+
+.ld-propanel-widget-filtering #table-filters button.download-reporting {
+	float: right;
+}
+
+.ld-propanel-widget-filtering a.close {
+	display:none;
+}
+
+.ld-propanel-widget-filtering .propanel-reporting th.sorter-checkbox .tablesorter-header-inner {
+	display: none;
+}
+
+.ld-propanel-widget-filtering .propanel-reporting table th input[type="checkbox"],
+.ld-propanel-widget-filtering .propanel-reporting table td input[type="checkbox"] {
+	margin-left: 5px;
+	margin-right: 0px;
+	padding: 0;
+}
+
+/*
+.propanel-admin-row .col-1-2:first-child {
+	border-right: none;
+}
+*/
+/*
+.propanel-admin-row .col-1-2:last-child {
+	border-left:none;
+}
+*/
+
+.ld-propanel-widget-progress-chart div.inside div.propanel-admin-row div.col-1-2 .proPanelDefaultMessage {
+	display: none;
+	margin: 50% 0;
+	text-align: center;
+}
+
+/* ProPanel Arrows */
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2 div.title {
+    display: block;
+    position: relative;
+    background: #555;
+/*    padding: 15px; */
+    width: 100%;
+/*    z-index: 1000; */
+	text-align:center;
+	font-size: 14px;
+	font-weight: normal;
+/*	padding-bottom: 5px; */
+/*	padding-top: 5px;  */
+	padding: 5px 0;
+	color: #FFFFFF;
+}
+
+
+body.wp-admin.index-php .ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2 div.title {
+    width: 87%;
+	padding: 5px 15px;
+}
+
+body.wp-admin.index-php .ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:first-child div.title {
+	background-color: #555555;
+	z-index: 1000;
+}
+
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:last-child div.title {
+    display: inline-block;
+    position: relative;
+    background: transparent;
+    margin-left: 0px;
+    z-index: 0;
+    width: 100%;
+	background-color: #B1B1B1;
+}
+
+body.wp-admin.index-php .ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:last-child div.title {
+    margin-left: -20px;
+    width: 95%;
+}
+
+body.wp-admin.index-php .ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2 div.title:after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	margin-top: -14px;
+	width: 0;
+	height: 0;
+	border-top: 14px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 14px solid transparent;
+	border-left: 15px solid #555;
+}
+
+.ld-propanel-widget-progress-chart div.propanel-admin-row div.col-1-2:last-child div.title:after {
+	border: 0px solid transparent!important;
+}
+
+body.wp-admin.index-php .ld-propanel-widget .ld_filter_section_date[readonly] {
+	background-color: #ffffff;
+}

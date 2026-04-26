@@ -12,15 +12,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use LearnDash\Core\Models\Product;
+use LearnDash\Core\Template\Template;
 
 if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 	/**
 	 * Class for mapping payment button HTML markup.
 	 *
 	 * @since 4.5.0
+	 *
+	 * @phpstan-type Payment_Params = array{
+	 *      button_label: string,
+	 *      login_url: string,
+	 *      price: float,
+	 *      product_id: int,
+	 *      type: string,
+	 * }
 	 */
 	class Learndash_Payment_Button {
-		private const BUTTON_CLASS = 'btn-join';
+		private const BUTTON_CLASS = 'btn-join button button-primary button-large wp-element-button';
 		private const BUTTON_ID    = 'btn-join';
 
 		/**
@@ -52,16 +61,20 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 
 		/**
 		 * Default payment button params for filters.
-		 * They are here with these keys for backward compatibility.
+		 * The actual values are populated before the button is rendered.
 		 *
 		 * @since 4.5.0
+		 * @since 4.21.0 `button_label`, `login_url`, and `product_id` were added.
 		 *
-		 * @var array{
-		 *     type?: string,
-		 *     price?: float,
-		 * }
+		 * @var Payment_Params
 		 */
-		private $default_payment_params = array();
+		private $default_payment_params = [
+			'button_label' => '',
+			'login_url'    => '',
+			'price'        => 0,
+			'product_id'   => 0,
+			'type'         => '',
+		];
 
 		/**
 		 * Registration page ID.
@@ -146,6 +159,13 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		public static function map_button_class_name( string $additional_class = '' ): string {
 			$classes = self::BUTTON_CLASS;
 
+			$registration_variation = learndash_registration_variation();
+			$variation_classic      = \LearnDash_Theme_Register_LD30::$variation_classic;
+
+			if ( $registration_variation !== $variation_classic ) {
+				$classes .= ' ld--ignore-inline-css';
+			}
+
 			if ( ! empty( $additional_class ) ) {
 				$classes .= " $additional_class";
 			}
@@ -166,16 +186,17 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * Returns payment button ID.
 		 *
 		 * @since 4.5.0
+		 * @since 4.25.0 Renamed the parameter from `additional_id` to `suffix` and added a double-dash between the button ID and the suffix to make the HTML valid.
 		 *
-		 * @param string $additional_id Additional ID. Default empty string.
+		 * @param string $suffix ID suffix. Default empty string.
 		 *
 		 * @return string
 		 */
-		public static function map_button_id( string $additional_id = '' ): string {
+		public static function map_button_id( string $suffix = '' ): string {
 			$result = self::BUTTON_ID;
 
-			if ( ! empty( $additional_id ) ) {
-				$result .= " $additional_id";
+			if ( ! empty( $suffix ) ) {
+				$result .= "--$suffix";
 			}
 
 			return $result;
@@ -202,16 +223,19 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 
 			$product_pricing = $this->product->get_pricing( $this->current_user );
 
-			$this->default_payment_params = array(
-				'type'  => $this->product->get_pricing_type(),
-				'price' => $product_pricing->price,
-			);
+			$this->default_payment_params = [
+				'button_label' => $this->button_label,
+				'login_url'    => learndash_get_login_url(),
+				'price'        => $product_pricing->price,
+				'product_id'   => $this->product->get_id(),
+				'type'         => $this->product->get_pricing_type(),
+			];
 
 			if ( $this->product->is_price_type_open() ) {
 				return $this->button_open();
 			}
 
-			if ( ! $this->product->can_be_purchased() ) {
+			if ( ! $this->product->can_be_purchased( $this->current_user ) ) {
 				return $this->button_disabled();
 			}
 
@@ -261,8 +285,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 *
 			 * @since 4.7.0
 			 *
-			 * @param string                                $button Disabled payment button HTML markup.
-			 * @param array{ type?: string, price?: float } $params Payment parameters.
+			 * @param string         $button Disabled payment button HTML markup.
+			 * @param Payment_Params $params Payment parameters.
 			 *
 			 * @return string Payment button HTML markup.
 			 */
@@ -282,8 +306,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 *
 			 * @since 4.5.0
 			 *
-			 * @param string $button Payment button HTML markup for open price type. Default empty.
-			 * @param array  $params Payment parameters.
+			 * @param string         $button Payment button HTML markup for open price type. Default empty.
+			 * @param Payment_Params $params Payment parameters.
 			 *
 			 * @return string Payment button HTML markup.
 			 */
@@ -335,8 +359,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 * @since 2.1.0
 			 * @deprecated 4.5.0 Use the {@see 'learndash_payment_button_closed'} filter instead.
 			 *
-			 * @param string $button         Payment button HTML markup.
-			 * @param array  $payment_params Payment parameters.
+			 * @param string         $button         Payment button HTML markup.
+			 * @param Payment_Params $payment_params Payment parameters.
 			 *
 			 * @return string Payment button HTML markup.
 			 */
@@ -360,8 +384,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 *
 			 * @since 4.5.0
 			 *
-			 * @param string $button Payment button HTML markup.
-			 * @param array  $params Payment parameters.
+			 * @param string         $button Payment button HTML markup.
+			 * @param Payment_Params $params Payment parameters.
 			 *
 			 * @return string Payment button HTML markup.
 			 */
@@ -402,8 +426,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 *
 			 * @since 4.5.0
 			 *
-			 * @param string $button Payment button HTML markup.
-			 * @param array  $params Payment parameters.
+			 * @param string         $button Payment button HTML markup.
+			 * @param Payment_Params $params Payment parameters.
 			 *
 			 * @return string Payment button HTML markup.
 			 */
@@ -418,14 +442,21 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		private function button_paid(): string {
+			if (
+				$this->is_on_registration_page()
+				&& learndash_registration_variation() === LearnDash_Theme_Register_LD30::$variation_modern
+			) {
+				return $this->registration_button_paid();
+			}
+
 			/**
 			 * Filters payment buttons list.
 			 *
 			 * @since 4.5.0
 			 *
-			 * @param array   $buttons Payment buttons. An associative array where a key is a payment gateway name, and a value is payment button HTML markup.
-			 * @param WP_Post $post    Post being processing.
-			 * @param array   $params  Payment params.
+			 * @param array          $buttons Payment buttons. An associative array where a key is a payment gateway name, and a value is payment button HTML markup.
+			 * @param WP_Post        $post    Post being processing.
+			 * @param Payment_Params $params  Payment params.
 			 *
 			 * @return array Payment buttons list.
 			 */
@@ -444,8 +475,8 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 				 *
 				 * @since 2.1.0
 				 *
-				 * @param string $payment_button Payment button HTML markup.
-				 * @param array  $params         Payment parameters.
+				 * @param string         $payment_button Payment button HTML markup.
+				 * @param Payment_Params $params         Payment parameters.
 				 *
 				 * @return string Payment button HTML markup.
 				 */
@@ -461,7 +492,7 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 				implode(
 					'',
 					array_map(
-						function( string $button ) {
+						function ( string $button ) {
 							return '<div>' . $button . '</div>';
 						},
 						$buttons
@@ -511,6 +542,74 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 			 * @return string Payment button dropdown trigger HTML markup.
 			 */
 			return (string) apply_filters( 'learndash_payment_button_dropdown_trigger', $button );
+		}
+
+		/**
+		 * Returns the button UI for paid posts on the registration page.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @return string
+		 */
+		private function registration_button_paid(): string {
+			// Ensure that the checkout buttons say "Checkout" just for this use case.
+			add_filter( 'learndash_payment_button_label', [ $this, 'filter_checkout_button_label' ] );
+
+			/**
+			 * Filters payment buttons list.
+			 *
+			 * @since 4.5.0
+			 *
+			 * @param array          $buttons Payment buttons. An associative array where a key is a payment gateway name, and a value is payment button HTML markup.
+			 * @param WP_Post        $post    Post being processing.
+			 * @param Payment_Params $params  Payment params.
+			 *
+			 * @return array Payment buttons list.
+			 */
+			$buttons = (array) apply_filters( // @phpstan-ignore-line -- $this->post is checked before in the map().
+				'learndash_payment_buttons',
+				array(),
+				$this->post,
+				$this->default_payment_params
+			);
+
+			// Remove the filter so we no longer override the checkout button label.
+			remove_filter( 'learndash_payment_button_label', [ $this, 'filter_checkout_button_label' ] );
+
+			$buttons = array_filter( $buttons );
+
+			if ( empty( $buttons ) ) {
+				/**
+				 * Filters payment button HTML markup.
+				 *
+				 * @since 2.1.0
+				 *
+				 * @param string         $payment_button Payment button HTML markup.
+				 * @param Payment_Params $params         Payment parameters.
+				 *
+				 * @return string Payment button HTML markup.
+				 */
+				return (string) apply_filters( 'learndash_payment_button', '', $this->default_payment_params );
+			}
+
+			$payment_keys     = array_keys( $buttons );
+			$selected_payment = $payment_keys[0] ?? '';
+			$product_type     = '';
+
+			if ( $this->product instanceof Product ) {
+				$product_type = $this->product->get_type();
+			}
+
+			return Template::get_template(
+				'modules/registration/order/checkout/checkout.php',
+				[
+					'active_gateways'        => Learndash_Payment_Gateway::get_active_gateways(),
+					'selected_payment'       => $selected_payment,
+					'buttons'                => $buttons,
+					'default_payment_params' => $this->default_payment_params,
+					'product_type'           => $product_type,
+				]
+			);
 		}
 
 		/**
@@ -581,15 +680,20 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		private function button_registration_page_link(): string {
-			$button = '<form action="' . esc_url( (string) get_permalink( $this->registration_page_id ) ) . '" method="get">';
-			if ( empty( get_option( 'permalink_structure' ) ) ) {
-				$button .= '<input type="hidden" value="' . esc_attr( (string) $this->registration_page_id ) . '" name="page_id" />';
-			}
-			$button .= '<input type="hidden" value="' . esc_attr( (string) $this->post->ID ) . '" name="ld_register_id" />'; // @phpstan-ignore-line -- $this->post is checked before in the map().
-			$button .= '<input type="submit" class="' . esc_attr( $this->map_button_class_name() ) . '" id="' . esc_attr( $this->map_button_id() ) . '" value="' . esc_attr( $this->button_label ) . '" />';
-			$button .= '</form>';
+			$registration_page_link = add_query_arg(
+				[
+					'ld_register_id' => $this->post->ID, // @phpstan-ignore-line -- $this->post is checked before in the map().
+				],
+				(string) get_permalink( $this->registration_page_id )
+			);
 
-			return $button;
+			return sprintf(
+				'<a href="%1$s" class="%2$s" id="%3$s">%4$s</a>',
+				esc_url( $registration_page_link ),
+				esc_attr( $this->map_button_class_name() ),
+				esc_attr( $this->map_button_id() ),
+				esc_html( $this->button_label )
+			);
 		}
 
 		/**
@@ -615,8 +719,48 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		protected function map_group_label(): string {
-			return LearnDash_Custom_Label::get_label(
-				LearnDash_Custom_Label::$button_take_group
+			$button_label = '';
+
+			if ( $this->product ) {
+				if ( $this->product->has_ended( $this->current_user ) ) {
+					$button_label = sprintf(
+						// translators: placeholder: Course label.
+						esc_html_x( '%s ended', 'placeholder: Group label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} elseif ( $this->product->is_pre_ordered( $this->current_user ) ) {
+					$button_label = sprintf(
+						// translators: placeholder: Group label.
+						esc_html_x( '%s pre-ordered', 'placeholder: Group label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} elseif ( 0 === $this->product->get_seats_available( $this->current_user ) ) {
+					$button_label = sprintf(
+						// translators: placeholder: Group label.
+						esc_html_x( '%s is full', 'placeholder: Group label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} else {
+					$button_label = LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_group );
+				}
+			}
+
+			/**
+			 * Filters the group payment button label.
+			 *
+			 * @since 4.22.0
+			 *
+			 * @param string       $button_label The button label.
+			 * @param Product|null $product      The product model.
+			 * @param WP_User      $current_user The current user.
+			 *
+			 * @return string Button label.
+			 */
+			return apply_filters(
+				'learndash_payment_button_label_group',
+				$button_label,
+				$this->product,
+				$this->current_user
 			);
 		}
 
@@ -628,35 +772,62 @@ if ( ! class_exists( 'Learndash_Payment_Button' ) ) {
 		 * @return string
 		 */
 		protected function map_course_label(): string {
-			if ( ! $this->product ) {
-				return '';
-			}
+			$button_label = '';
 
-			if ( $this->product->has_ended() ) {
-				return sprintf(
+			if ( $this->product ) {
+				if ( $this->product->has_ended( $this->current_user ) ) {
+					$button_label = sprintf(
+						// translators: placeholder: Course label.
+						esc_html_x( '%s ended', 'placeholder: Course label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} elseif ( $this->product->is_pre_ordered( $this->current_user ) ) {
+					$button_label = sprintf(
+						// translators: placeholder: Course label.
+						esc_html_x( '%s pre-ordered', 'placeholder: Course label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} elseif ( 0 === $this->product->get_seats_available( $this->current_user ) ) {
+					$button_label = sprintf(
 					// translators: placeholder: Course label.
-					esc_html_x( '%s ended', 'placeholder: Course label', 'learndash' ),
-					LearnDash_Custom_Label::get_label( 'course' )
-				);
+						esc_html_x( '%s is full', 'placeholder: Course label', 'learndash' ),
+						$this->product->get_type_label()
+					);
+				} else {
+					$button_label = LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_course );
+				}
 			}
 
-			if ( $this->product->is_pre_ordered( $this->current_user ) ) {
-				return sprintf(
-					// translators: placeholder: Course label.
-					esc_html_x( '%s pre-ordered', 'placeholder: Course label', 'learndash' ),
-					LearnDash_Custom_Label::get_label( 'course' )
-				);
-			}
+			/**
+			 * Filters the course payment button label.
+			 *
+			 * @since 4.21.0
+			 *
+			 * @param string       $button_label The button label.
+			 * @param Product|null $product      The product model.
+			 * @param WP_User      $current_user The current user.
+			 *
+			 * @return string Button label.
+			 */
+			return apply_filters(
+				'learndash_payment_button_label_course',
+				$button_label,
+				$this->product,
+				$this->current_user
+			);
+		}
 
-			if ( $this->product->get_seats_available() === 0 ) {
-				return sprintf(
-					// translators: placeholder: Course label.
-					esc_html_x( '%s is full', 'placeholder: Course label', 'learndash' ),
-					LearnDash_Custom_Label::get_label( 'course' )
-				);
-			}
-
-			return LearnDash_Custom_Label::get_label( LearnDash_Custom_Label::$button_take_course );
+		/**
+		 * Filters the checkout button label.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @param string $label Button label.
+		 *
+		 * @return string
+		 */
+		public function filter_checkout_button_label( $label ) {
+			return __( 'Checkout', 'learndash' );
 		}
 	}
 }

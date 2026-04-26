@@ -67,11 +67,10 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			if ( ( false === $this->setting_option_values ) || ( '' === $this->setting_option_values ) ) {
-				if ( '' === $this->setting_option_values ) {
-					$this->setting_option_values = array();
-				}
-
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
 				$ld_prior_version = learndash_data_upgrades_setting( 'prior_version' );
 
 				$this->setting_option_values = array(

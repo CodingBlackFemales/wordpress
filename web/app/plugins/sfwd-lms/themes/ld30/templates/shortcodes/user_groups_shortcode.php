@@ -9,6 +9,7 @@
  * @param boolean $has_user_groups  True if there are user groups.
  *
  * @since 3.0.0
+ * @version 4.21.2
  *
  * @package LearnDash\Templates\LD30
  */
@@ -43,7 +44,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						learndash_get_template_part(
 							'shortcodes/groups/row.php',
 							array(
-								'group' => $learndash_group,
+								'group'   => $learndash_group,
+								'context' => 'admin-group',
 							),
 							true
 						);
@@ -87,7 +89,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 							learndash_get_template_part(
 								'shortcodes/groups/row.php',
 								array(
-									'group' => $learndash_group,
+									'group'   => $learndash_group,
+									'context' => 'user-group',
 								),
 								true
 							);

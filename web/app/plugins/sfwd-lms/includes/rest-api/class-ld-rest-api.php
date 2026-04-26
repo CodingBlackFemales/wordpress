@@ -33,8 +33,6 @@ if ( ! defined( 'LEARNDASH_REST_API_DIR' ) ) {
 	define( 'LEARNDASH_REST_API_DIR', dirname( __FILE__ ) );
 }
 
-require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/gutenberg/lib/class-ld-rest-gutenberg-posts-controller.php';
-
 if ( ! class_exists( 'LearnDash_REST_API' ) ) {
 
 	/**
@@ -42,6 +40,7 @@ if ( ! class_exists( 'LearnDash_REST_API' ) ) {
 	 *
 	 * @since 2.4.5
 	 */
+	#[\AllowDynamicProperties]
 	class LearnDash_REST_API {
 
 		/**
@@ -206,6 +205,10 @@ if ( ! class_exists( 'LearnDash_REST_API' ) ) {
 						'register_routes' => true,
 						'file'            => LEARNDASH_REST_API_DIR . '/v2/class-ld-rest-exams-controller.php',
 					),
+					'LD_REST_Students_Controller_V2'       => [
+						'register_routes' => true,
+						'file'            => LEARNDASH_REST_API_DIR . '/v2/class-ld-rest-students-controller.php',
+					],
 				);
 
 				$this->controllers = array_merge( $controllers_v1, $controllers_v2 );
@@ -313,64 +316,19 @@ if ( ! class_exists( 'LearnDash_REST_API' ) ) {
 		}
 
 		/**
-		 * Get REST controller for post type.
+		 * Get REST controller for the post type.
 		 *
 		 * @since 2.5.8
+		 * @deprecated 4.10.3 We did not find any usage of this method in our codebase and it makes no sense.
 		 *
 		 * @param string $post_type Post Type slug to check.
 		 *
 		 * @return string Class name.
 		 */
 		public static function get_controller( $post_type = '' ) {
-			$rest_controller = '';
+			_deprecated_function( __METHOD__, '4.10.3' );
 
-			if ( ! empty( $post_type ) ) {
-				switch ( $post_type ) {
-					case learndash_get_post_type_slug( 'course' ):
-						if ( self::enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Courses_Controller_V1';
-						} elseif ( self::gutenberg_enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
-						}
-						break;
-
-					case learndash_get_post_type_slug( 'lesson' ):
-						if ( self::enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Lessons_Controller_V1';
-						} elseif ( self::gutenberg_enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
-						}
-						break;
-
-					case learndash_get_post_type_slug( 'topic' ):
-						if ( self::enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Topics_Controller_V1';
-						} elseif ( self::gutenberg_enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
-						}
-						break;
-
-					case learndash_get_post_type_slug( 'quiz' ):
-						if ( self::enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Quizzes_Controller_V1';
-						} elseif ( self::gutenberg_enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
-						}
-						break;
-
-					case learndash_get_post_type_slug( 'group' ):
-						if ( self::enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Groups_Controller_V1';
-						} elseif ( self::gutenberg_enabled( $post_type ) ) {
-							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
-						}
-						break;
-
-					default:
-						break;
-				}
-			}
-			return $rest_controller;
+			return '';
 		}
 
 		/**
@@ -382,7 +340,7 @@ if ( ! class_exists( 'LearnDash_REST_API' ) ) {
 		 *
 		 * @return bool true if all post types are registered. Otherwise false.
 		 */
-		public static function check_registered_post_type() : bool {
+		public static function check_registered_post_type(): bool {
 			$args = array(
 				'public'   => true,
 				'_builtin' => false,

@@ -12,12 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'LEARNDASH_LICENSE_PANEL_SHOW' ) ) {
-	$learndash_show_license_panel = ! learndash_is_learndash_hub_active();
-
 	/**
 	 * Define LearnDash LMS - Show license panel.
 	 *
 	 * @since 4.3.0.2
+	 * @since 4.18.0 -- Now defaults to true.
 	 *
 	 * @var bool $value {
 	 *    Only one of the following values.
@@ -25,5 +24,5 @@ if ( ! defined( 'LEARNDASH_LICENSE_PANEL_SHOW' ) ) {
 	 *    @type bool false License panel/tab will not be visible.
 	 * }
 	 */
-	define( 'LEARNDASH_LICENSE_PANEL_SHOW', $learndash_show_license_panel );
+	define( 'LEARNDASH_LICENSE_PANEL_SHOW', true );
 }

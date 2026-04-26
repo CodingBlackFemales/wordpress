@@ -3,6 +3,7 @@
  * LearnDash LD30 Displays the course navigation widget.
  *
  * @since 3.0.0
+ * @version 4.21.4
  *
  * @package LearnDash\Templates\LD30
  */
@@ -63,11 +64,46 @@ $widget_data_json = htmlspecialchars( wp_json_encode( $widget_data ) ); ?>
 					esc_html_x( '%s Home', 'Course Navigation Home Label', 'learndash' ),
 					LearnDash_Custom_Label::get_label( 'course' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
 				); ?></a> <?php // phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect,Squiz.PHP.EmbeddedPhp.ContentBeforeEnd,Squiz.PHP.EmbeddedPhp.ContentAfterEnd,PEAR.Functions.FunctionCallSignature.Indent,PEAR.Functions.FunctionCallSignature.CloseBracketLine ?>
-				<?php if ( $has_lesson_quizzes || $has_topics ) : ?>
-					<span class="ld-expand-button ld-button-alternate" data-ld-expands="<?php echo esc_attr( 'ld-lesson-list-' . $course->ID ); ?>"  data-ld-expand-text="<?php esc_html_e( 'Expand All', 'learndash' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse All', 'learndash' ); ?>">
+				<?php if ( $has_lesson_quizzes || $has_topics ) :
+					$lesson_container_ids = implode(
+						' ',
+						array_filter(
+							array_map(
+								function( $lesson ) use ( $user_id, $course_id ) {
+									$topics  = learndash_get_topic_list( $lesson['post']->ID, $course_id );
+									$quizzes = learndash_get_lesson_quiz_list( $lesson['post']->ID, $user_id, $course_id );
+
+									// Ensure we only include this ID if there is something to collapse/expand.
+									if (
+										empty( $topics )
+										&& empty( $quizzes )
+									) {
+										return '';
+									}
+
+									return "ld-nav-content-list-{$lesson['post']->ID}";
+								},
+								$lessons
+							)
+						)
+					);
+					?>
+
+					<button
+						aria-controls="<?php echo esc_attr( $lesson_container_ids ); ?>"
+						aria-expanded="false"
+						class="ld-expand-button ld-button-alternate"
+						data-ld-collapse-text="<?php esc_html_e( 'Collapse All', 'learndash' ); ?>"
+						data-ld-expand-text="<?php esc_html_e( 'Expand All', 'learndash' ); ?>"
+						data-ld-expands="<?php echo esc_attr( $lesson_container_ids ); ?>"
+					>
 						<span class="ld-icon-arrow-down ld-icon ld-primary-background"></span>
 						<span class="ld-text ld-primary-color"><?php esc_html_e( 'Expand All', 'learndash' ); ?></span>
-					</span>
+
+						<span class="screen-reader-text">
+							<?php echo esc_html( learndash_get_custom_label( 'lessons' ) ); ?>
+						</span>
+					</button>
 				<?php endif; ?>
 			</div> <!--/.ld-course-navigation-actions-->
 		</div> <!--/.ld-course-navigation-heading-->

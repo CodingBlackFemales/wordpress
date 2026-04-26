@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'LearnDash_Settings_Fields_Text' ) ) ) {
-
 	/**
 	 * Class LearnDash Input Text Settings Field.
 	 *
@@ -19,7 +18,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 	 * @uses LearnDash_Settings_Fields
 	 */
 	class LearnDash_Settings_Fields_Text extends LearnDash_Settings_Fields {
-
 		/**
 		 * Public constructor for class
 		 *
@@ -40,7 +38,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 		 * @return void
 		 */
 		public function create_section_field( $field_args = array() ) {
-
 			/** This filter is documented in includes/settings/settings-fields/class-ld-settings-fields-checkbox-switch.php */
 			$field_args = apply_filters( 'learndash_settings_field', $field_args );
 
@@ -49,7 +46,6 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 
 			if ( ( isset( $field_args['value_prefix'] ) ) && ( ! empty( $field_args['value_prefix'] ) ) ) {
 				$html .= '<span class="learndash_settings_field_text_prefix ' . $this->get_field_attribute_class( $field_args, false ) . '">' . $field_args['value_prefix'];
-
 			}
 
 			$html .= '<input autocomplete="off" ';
@@ -100,7 +96,7 @@ if ( ( class_exists( 'LearnDash_Settings_Fields' ) ) && ( ! class_exists( 'Learn
 }
 add_action(
 	'learndash_settings_sections_fields_init',
-	function() {
+	function () {
 		LearnDash_Settings_Fields_Text::add_field_instance( 'text' );
 	}
 );

@@ -10,6 +10,8 @@
 
 namespace LearnDash\Admin\QuizBuilderHelpers;
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -87,23 +89,24 @@ function get_quiz_data( $data ) {
 					}
 
 					// Output question's data and answers.
-					$output_questions[] = array(
-						'ID'              => $question_id,
-						'expanded'        => false,
-						'post_title'      => $question_data['_title'],
-						'post_status'     => learndash_get_step_post_status_slug( $question_post ),
-						'post_content'    => $question_data['_question'],
-						'edit_link'       => get_edit_post_link( $question_id, '' ),
-						'type'            => $question_post->post_type,
-						'question_type'   => $question_data['_answerType'],
-						'points'          => $question_data['_points'],
-						'answers'         => $processed_answers,
-						'correctMsg'      => $question_data['_correctMsg'],
-						'incorrectMsg'    => $question_data['_incorrectMsg'],
-						'correctSameText' => $question_data['_correctSameText'],
-						'tipEnabled'      => $question_data['_tipEnabled'],
-						'tipMsg'          => $question_data['_tipMsg'],
-					);
+					$output_questions[] = [
+						'ID'                      => $question_id,
+						'expanded'                => false,
+						'post_title'              => $question_data['_title'],
+						'post_status'             => learndash_get_step_post_status_slug( $question_post ),
+						'post_content'            => $question_data['_question'],
+						'edit_link'               => get_edit_post_link( $question_id, '' ),
+						'type'                    => $question_post->post_type,
+						'question_type'           => $question_data['_answerType'],
+						'points'                  => $question_data['_points'],
+						'answers'                 => $processed_answers,
+						'correctMsg'              => $question_data['_correctMsg'],
+						'incorrectMsg'            => $question_data['_incorrectMsg'],
+						'correctSameText'         => $question_data['_correctSameText'],
+						'tipEnabled'              => $question_data['_tipEnabled'],
+						'tipMsg'                  => $question_data['_tipMsg'],
+						'answerPointsActivated'   => Cast::to_bool( $question_data['_answerPointsActivated'] ),
+					];
 				}
 			}
 		}
@@ -144,11 +147,11 @@ function get_quiz_data( $data ) {
 			esc_html__( 'How should the user submit their answer?', 'learndash' ),
 			sprintf(
 				// translators: placeholders: question, course.
-				esc_html_x( 'This is a %1$s that can be graded and potentially prevent a user from progressing to the next step of the %2$s.', 'placeholders: question, course', 'learndash' ),
+				esc_html_x( 'If you set the %1$s to be graded and the student doesn\'t have enough points to proceed, they will be blocked from continuing the %2$s until the %1$s has been graded.', 'placeholders: question, course', 'learndash' ),
 				\learndash_get_custom_label_lower( 'question' ),
 				\learndash_get_custom_label_lower( 'course' )
 			),
-			esc_html__( 'The user can only progress if the essay is marked as "Graded" and if the user has enough points to move on.', 'learndash' ),
+			esc_html__( 'The student can progress if they have enough points to move on.', 'learndash' ),
 			sprintf(
 				// translators: placeholders: question, quiz.
 				esc_html_x( 'How should the answer to this %1$s be marked and graded upon %2$s submission?', 'placeholders: question, quiz', 'learndash' ),

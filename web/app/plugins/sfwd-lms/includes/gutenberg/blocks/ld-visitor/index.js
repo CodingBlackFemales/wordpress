@@ -20,7 +20,7 @@ import {
  */
 import { __, _x, sprintf} from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import { InnerBlocks, InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
@@ -47,6 +47,7 @@ registerBlockType(block_key, {
 		customClassName: false,
 	},
 	category: "learndash-blocks",
+	apiVersion: 3,
 	attributes: {
 		display_type: {
 			type: "string",
@@ -72,9 +73,10 @@ registerBlockType(block_key, {
 	edit: (props) => {
 		const {
 			attributes: { display_type, course_id, group_id, user_id, autop },
-			className,
 			setAttributes,
 		} = props;
+
+		const blockProps = useBlockProps();
 
 		var display_type_control;
 		var post_id_controls;
@@ -265,8 +267,9 @@ registerBlockType(block_key, {
 			);
 		}
 
-		const outputBlock = (
-			<div className={className} key="learndash/ld-visitor">
+		return (
+			<div { ...blockProps }>
+				{ inspectorControls }
 				<span className="learndash-inner-header">{block_title}</span>
 				<div className="learndash-block-inner">
 					{ld_block_error_message}
@@ -274,8 +277,6 @@ registerBlockType(block_key, {
 				</div>
 			</div>
 		);
-
-		return [inspectorControls, outputBlock];
 	},
 	save: (props) => {
 		return <InnerBlocks.Content />;

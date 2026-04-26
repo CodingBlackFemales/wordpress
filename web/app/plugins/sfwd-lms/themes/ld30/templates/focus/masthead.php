@@ -3,6 +3,7 @@
  * LearnDash LD30 focus mode masthead.
  *
  * @since 3.0.0
+ * @version 4.21.1
  *
  * @package LearnDash\Templates\LD30
  */
@@ -70,7 +71,11 @@ if ( ! empty( $header['logo'] ) ) {
 	}
 }
 ?>
-<div class="ld-focus-header">
+<div
+	id="ld-focus-header"
+	class="ld-focus-header"
+	role="banner"
+>
 
 	<?php
 	/**
@@ -85,11 +90,17 @@ if ( ! empty( $header['logo'] ) ) {
 	?>
 
 	<div class="ld-mobile-nav">
-		<a href="#" class="ld-trigger-mobile-nav" aria-label="<?php esc_attr_e( 'Menu', 'learndash' ); ?>">
+		<button
+			aria-controls="ld-focus-sidebar"
+			aria-expanded="false"
+			aria-haspopup="true"
+			aria-label="<?php esc_attr_e( 'Menu', 'learndash' ); ?>"
+			class="ld-trigger-mobile-nav"
+		>
 			<span class="bar-1"></span>
 			<span class="bar-2"></span>
 			<span class="bar-3"></span>
-		</a>
+		</button>
 	</div>
 
 	<?php

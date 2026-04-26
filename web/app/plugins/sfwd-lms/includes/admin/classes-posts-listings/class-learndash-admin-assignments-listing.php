@@ -6,6 +6,10 @@
  * @package LearnDash\Assignment\Listing
  */
 
+use StellarWP\Learndash\StellarWP\DB\DB;
+use StellarWP\Learndash\StellarWP\DB\QueryBuilder\JoinQueryBuilder;
+use StellarWP\Learndash\StellarWP\DB\QueryBuilder\WhereQueryBuilder;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -180,6 +184,16 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		/**
 		 * Listing table query vars
 		 *
+		 * Restricts the assignments list so that:
+		 * - Admins see all assignments (optionally filtered by author/group selectors).
+		 * - Group Leaders with advanced user management see all assignments.
+		 * - Group Leaders with advanced course access only (not advanced users) see assignments
+		 *   submitted to courses they created or manage via their groups, OR submitted by users
+		 *   within their groups.
+		 * - Group Leaders with basic settings see only assignments from users in their groups.
+		 * - Users with edit_others_assignments see all.
+		 * - Other users see only their own assignments.
+		 *
 		 * @since 3.2.3
 		 *
 		 * @param array  $q_vars    Array of query vars.
@@ -189,49 +203,186 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		public function listing_table_query_vars_filter_assignments( $q_vars, $post_type, $query ) {
 			if ( $post_type === $this->post_type ) {
 
-				$author_selector = $this->get_selector( 'author' );
-				$group_selector  = $this->get_selector( 'group_id' );
-				if ( ( isset( $author_selector['selected'] ) ) && ( ! empty( $author_selector['selected'] ) ) ) {
-					if ( learndash_is_admin_user() ) {
-						$q_vars['author__in'] = array( $author_selector['selected'] );
-					} elseif ( ( learndash_is_group_leader_user( get_current_user_id() ) ) && ( 'advanced' !== learndash_get_group_leader_manage_users() ) ) {
-						if ( learndash_is_group_leader_of_user( get_current_user_id(), $author_selector['selected'] ) ) {
-							$q_vars['author__in'] = array( $author_selector['selected'] );
-						} else {
-							$q_vars['author__in'] = array( 0 );
-						}
+				// Admins can see all assignments.
+				if ( learndash_is_admin_user() ) {
+					return $this->apply_selector_filters( $q_vars );
+				}
+
+				// Group Leaders: visibility controlled by GL settings (basic/advanced).
+				if ( learndash_is_group_leader_user( get_current_user_id() ) ) {
+					$is_advanced_users   = ( 'advanced' === learndash_get_group_leader_manage_users() );
+					$is_advanced_courses = ( 'advanced' === learndash_get_group_leader_manage_courses() );
+
+					if ( $is_advanced_users ) {
+						// Advanced user management: can see all assignments.
+						return $this->apply_selector_filters( $q_vars );
+					}
+
+					if ( $is_advanced_courses ) {
+						// Advanced course access only: can see assignments in their courses (created or
+						// managed via groups) OR submitted by users within their groups.
+						$assignment_ids     = $this->get_advanced_courses_group_leader_assignment_ids();
+						$q_vars['post__in'] = ! empty( $assignment_ids ) ? $assignment_ids : array( 0 );
+
+						return $this->apply_selector_filters( $q_vars );
+					}
+
+					// Basic GL: can only see assignments from users in their groups.
+					$gl_user_ids = learndash_get_groups_administrators_users( get_current_user_id() );
+					if ( ! empty( $gl_user_ids ) ) {
+						$q_vars['author__in'] = $gl_user_ids;
 					} else {
+						// GL has no groups - show only their own assignments.
 						$q_vars['author__in'] = array( get_current_user_id() );
 					}
-				} elseif ( ( isset( $group_selector['selected'] ) ) && ( ! empty( $group_selector['selected'] ) ) ) {
-					$user_ids = learndash_get_groups_user_ids( absint( $group_selector['selected'] ) );
-					if ( ! empty( $user_ids ) ) {
-						if ( ! empty( $q_vars['author__in'] ) ) {
-							$user_ids_intersect = array_intersect( $q_vars['author__in'], $user_ids );
-							if ( ! empty( $user_ids_intersect ) ) {
-								$q_vars['author__in'] = $user_ids_intersect;
-							} else {
-								$q_vars['author__in'] = array( 0 );
-							}
-						} else {
-							$q_vars['author__in'] = $user_ids;
-						}
+
+					return $this->apply_selector_filters( $q_vars );
+				}
+
+				// Users with edit_others_assignments capability (but not admin/GL) can see all.
+				if ( current_user_can( 'edit_others_assignments' ) ) {
+					return $this->apply_selector_filters( $q_vars );
+				}
+
+				// Regular users: can only see their own assignments.
+				$q_vars['author__in'] = array( get_current_user_id() );
+			}
+
+			return $q_vars;
+		}
+
+		/**
+		 * Collect all assignment IDs visible to a Group Leader with advanced course access only.
+		 *
+		 * Combines two sources with OR logic (not natively supported by WP_Query):
+		 * - Assignments submitted to courses the GL created (post_author) or manages via groups.
+		 * - Assignments submitted by users within the GL's groups.
+		 *
+		 * Uses StellarWP DB to avoid multiple unbounded get_posts() calls.
+		 *
+		 * @since 5.0.5
+		 *
+		 * @return array<int, int> Assignment post IDs.
+		 */
+		protected function get_advanced_courses_group_leader_assignment_ids(): array {
+			$current_user_id = get_current_user_id();
+
+			// Courses the GL manages via their groups.
+			$group_course_ids = array_map( 'absint', (array) learndash_get_groups_administrators_courses( $current_user_id ) );
+
+			// Courses the GL authored directly — a targeted single-column query.
+			$created_course_ids = array_map(
+				'absint',
+				(array) DB::get_col(
+					DB::table( 'posts' )
+						->select( 'ID' )
+						->where( 'post_type', learndash_get_post_type_slug( 'course' ) )
+						->where( 'post_author', $current_user_id )
+						->where( 'post_status', 'trash', '!=' )
+						->getSQL()
+				)
+			);
+
+			$all_course_ids = array_unique( array_merge( $group_course_ids, $created_course_ids ) );
+			$gl_user_ids    = array_map( 'absint', (array) learndash_get_groups_administrators_users( $current_user_id ) );
+
+			if (
+				empty( $all_course_ids )
+				&& empty( $gl_user_ids )
+			) {
+				return array();
+			}
+
+			// Build a single query combining both sources with OR — avoids two separate unbounded lookups.
+			$assignment_type = learndash_get_post_type_slug( 'assignment' );
+
+			$query = DB::table( 'posts', 'p' )
+				->select( 'p.ID' )
+				->distinct()
+				->where( 'p.post_type', $assignment_type )
+				->where( 'p.post_status', 'trash', '!=' );
+
+			if ( ! empty( $all_course_ids ) ) {
+				$query->join(
+					function ( JoinQueryBuilder $builder ) {
+						$builder
+							->leftJoin( 'postmeta', 'pm' )
+							->on( 'p.ID', 'pm.post_id' )
+							->andOn( 'pm.meta_key', 'course_id', true );
+					}
+				);
+			}
+
+			if (
+				! empty( $all_course_ids )
+				&& ! empty( $gl_user_ids )
+			) {
+				$query->where(
+					function ( WhereQueryBuilder $builder ) use ( $all_course_ids, $gl_user_ids ) {
+						$builder
+							->whereIn( 'pm.meta_value', $all_course_ids )
+							->orWhereIn( 'p.post_author', $gl_user_ids );
+					}
+				);
+			} elseif ( ! empty( $all_course_ids ) ) {
+				$query->whereIn( 'pm.meta_value', $all_course_ids );
+			} else {
+				$query->whereIn( 'p.post_author', $gl_user_ids );
+			}
+
+			return array_map(
+				'absint',
+				(array) DB::get_col( $query->getSQL() )
+			);
+		}
+
+		/**
+		 * Apply author/group selector filters to query vars.
+		 *
+		 * Intersects any existing `author__in` restriction with the selector values,
+		 * so that pre-existing role-based restrictions are always respected.
+		 *
+		 * @since 5.0.5
+		 *
+		 * @param array<string, mixed> $q_vars Query vars.
+		 *
+		 * @return array<string, mixed> Modified query vars.
+		 */
+		protected function apply_selector_filters( array $q_vars ): array {
+			$author_selector = $this->get_selector( 'author' );
+			$group_selector  = $this->get_selector( 'group_id' );
+
+			// Filter by selected author, intersecting with any existing restriction.
+			if ( ! empty( $author_selector['selected'] ) ) {
+				$selected_author = absint( $author_selector['selected'] );
+
+				if ( ! empty( $q_vars['author__in'] ) ) {
+					if ( in_array( $selected_author, (array) $q_vars['author__in'], true ) ) {
+						$q_vars['author__in'] = array( $selected_author );
 					} else {
 						$q_vars['author__in'] = array( 0 );
 					}
 				} else {
-					if ( ! learndash_is_admin_user() ) {
-						if ( ( learndash_is_group_leader_user( get_current_user_id() ) ) && ( 'advanced' !== learndash_get_group_leader_manage_users() ) ) {
-							$gl_user_ids = learndash_get_groups_administrators_users( get_current_user_id() );
-							if ( ! empty( $gl_user_ids ) ) {
-								$q_vars['author__in'] = $gl_user_ids;
-							} else {
-								$q_vars['author__in'] = array( 0 );
-							}
-						} else {
-							$q_vars['author__in'] = get_current_user_id();
+					$q_vars['author__in'] = array( $selected_author );
+				}
+			}
+
+			// Filter by selected group's users, intersecting with any existing restriction.
+			if ( ! empty( $group_selector['selected'] ) ) {
+				$user_ids = learndash_get_groups_user_ids( absint( $group_selector['selected'] ) );
+
+				if ( ! empty( $user_ids ) ) {
+					if ( ! empty( $q_vars['author__in'] ) ) {
+						$q_vars['author__in'] = array_values( array_intersect( (array) $q_vars['author__in'], $user_ids ) );
+
+						if ( empty( $q_vars['author__in'] ) ) {
+							$q_vars['author__in'] = array( 0 );
 						}
+					} else {
+						$q_vars['author__in'] = $user_ids;
 					}
+				} else {
+					$q_vars['author__in'] = array( 0 );
 				}
 			}
 
@@ -276,12 +427,27 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		 *
 		 * @since 3.2.3.4
 		 *
-		 * @param  object $q_vars   Query vars used for the table listing.
-		 * @param  array  $selector Array of attributes used to display the filter selector.
+		 * @param object $q_vars   Query vars used for the table listing.
+		 * @param array  $selector Array of attributes used to display the filter selector.
 		 *
 		 * @return object $q_vars.
 		 */
 		protected function listing_filter_by_course( $q_vars, $selector = array() ) {
+			// Determine if user is a basic GL (needs course restrictions).
+			$is_basic_gl = false;
+			if (
+				! learndash_is_admin_user()
+				&& learndash_is_group_leader_user( get_current_user_id() )
+			) {
+				$is_advanced_users   = ( 'advanced' === learndash_get_group_leader_manage_users() );
+				$is_advanced_courses = ( 'advanced' === learndash_get_group_leader_manage_courses() );
+				// Basic GL has neither advanced setting. Advanced-courses-only GLs are restricted
+				// via post__in in listing_table_query_vars_filter_assignments, so no extra
+				// per-course validation is needed here for them.
+				$is_basic_gl = ( ! $is_advanced_users ) && ( ! $is_advanced_courses );
+			}
+
+			// Check for "No Course" filter.
 			if ( ( isset( $selector['selected'] ) ) && ( ! empty( $selector['selected'] ) ) ) {
 				if ( ( isset( $selector['show_empty_value'] ) ) && ( $selector['show_empty_value'] === $selector['selected'] ) ) {
 					if ( ! isset( $q_vars['meta_query'] ) ) {
@@ -299,48 +465,37 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 							'compare' => '=',
 						),
 					);
-				} else {
-					if ( ( learndash_is_group_leader_user( get_current_user_id() ) ) && ( 'advanced' !== learndash_get_group_leader_manage_users() ) ) {
-						$gl_course_ids = learndash_get_groups_administrators_courses( get_current_user_id() );
-						$gl_course_ids = array_map( 'absint', $gl_course_ids );
-						if ( ! in_array( $selector['selected'], $gl_course_ids, true ) ) {
-							$selector['selected'] = 0;
-						}
-					}
 
-					if ( ! empty( $selector['selected'] ) ) {
-
-						if ( ! isset( $q_vars['meta_query'] ) ) {
-							$q_vars['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-						}
-
-						$q_vars['meta_query'][] = array(
-							'key'   => 'course_id',
-							'value' => absint( $selector['selected'] ),
-						);
-					}
-				}
-			} elseif ( ( learndash_is_group_leader_user( get_current_user_id() ) ) && ( 'advanced' !== learndash_get_group_leader_manage_users() ) ) {
-				$gl_course_ids = learndash_get_groups_administrators_courses( get_current_user_id() );
-				$gl_course_ids = array_map( 'absint', $gl_course_ids );
-				if ( ! isset( $q_vars['meta_query'] ) ) {
-					$q_vars['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				}
-
-				if ( ! empty( $gl_course_ids ) ) {
-					$q_vars['meta_query'][] = array(
-						'key'     => 'course_id',
-						'compare' => 'IN',
-						'value'   => $gl_course_ids,
-					);
-				} else {
-					$q_vars['meta_query'][] = array(
-						'key'     => 'course_id',
-						'compare' => 'IN',
-						'value'   => array( 0 ),
-					);
+					return $q_vars;
 				}
 			}
+
+			// Filter by specific course if selected.
+			if ( ! empty( $selector['selected'] ) ) {
+				// Basic GL: verify they have access to this course.
+				if ( $is_basic_gl ) {
+					$gl_course_ids = learndash_get_groups_administrators_courses( get_current_user_id() );
+					$gl_course_ids = array_map( 'absint', $gl_course_ids );
+					if ( ! in_array( absint( $selector['selected'] ), $gl_course_ids, true ) ) {
+						$selector['selected'] = 0;
+					}
+				}
+
+				if ( ! empty( $selector['selected'] ) ) {
+					if ( ! isset( $q_vars['meta_query'] ) ) {
+						$q_vars['meta_query'] = array(); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+					}
+					$q_vars['meta_query'][] = array(
+						'key'   => 'course_id',
+						'value' => absint( $selector['selected'] ),
+					);
+				}
+
+				return $q_vars;
+			}
+
+			// No course selected. For basic GL, author filter in listing_table_query_vars_filter_assignments
+			// already restricts to users in their groups; no need to add course meta_query here.
 
 			return $q_vars;
 		}
@@ -675,19 +830,26 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 		 * @since 4.1.0
 		 *
 		 * @param array   $row_actions Existing Row actions for an assignment.
-		 * @param WP_Post $post Assignment post for the current row.
+		 * @param WP_Post $post        Assignment post for the current row.
 		 *
 		 * @return array $row_actions
 		 */
 		public function post_row_actions( $row_actions = array(), $post = null ): array {
+			if ( ! $post ) {
+				return $row_actions;
+			}
+
 			$row_actions = parent::post_row_actions( $row_actions, $post );
 
-			$file_url = get_post_meta( $post->ID, 'file_link', true );
+			$file_name = get_post_meta( $post->ID, 'file_name', true );
+
+			// Path is not accessible. We need to grab the download URL.
+			$file_url = learndash_assignment_get_download_url( $post->ID );
 
 			// Quick view.
 
 			$file_is_image = in_array(
-				strtolower( pathinfo( $file_url, PATHINFO_EXTENSION ) ),
+				strtolower( pathinfo( $file_name, PATHINFO_EXTENSION ) ),
 				array( 'jpg', 'jpeg', 'png', 'gif' ),
 				true
 			);
@@ -698,7 +860,7 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 				$row_actions['quick_view'] = sprintf(
 					'<a class="view-learndash-assignment" href="%s" data-title="%s" aria-label="%s">%s</a>',
 					esc_url( $file_url ),
-					esc_attr( get_post_meta( $post->ID, 'file_name', true ) ),
+					esc_attr( $file_name ),
 					esc_attr( $view_label ),
 					esc_html( $view_label )
 				);

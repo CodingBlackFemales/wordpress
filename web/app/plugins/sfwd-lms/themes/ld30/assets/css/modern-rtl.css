@@ -1,0 +1,3785 @@
+/**
+ * IMPORTANT: These variables should be considered deprecated!
+ *
+ * You should be using the variables in the
+ * src/assets/scss/common/variables directory instead.
+ *
+ * Where possible, these have been mapped to the correct colors in the
+ * src/assets/scss/common/variables directory as a fallback.
+ *
+ * @deprecated
+ */
+:root {
+  /** Colors **/
+  --ld-color-semantic-success: #2f8351;
+  --ld-color-semantic-error: var(--ld-color-primitives-red-500);
+  --ld-color-system-body-text: #333;
+  --ld-color-system-middle-gray: var(--ld-color-primitives-grey-150);
+  --ld-color-system-middle-gray-light: #edf0f5;
+  --ld-color-system-light-2: #f6f8fa;
+  --ld-color-system-subtle: var(--ld-color-primitives-grey-500);
+  --ld-color-system-subtle-text: var(--ld-color-system-subtle);
+  /** Forms **/
+  --ld-color-field-bg: var(--ld-color-system-white);
+  --ld-color-field-border: #8694b1;
+  --ld-color-field-border-error: var(--ld-color-semantic-error);
+  --ld-color-field-border-valid: var(--ld-color-semantic-success);
+  --ld-color-field-error: var(--ld-color-semantic-error);
+}
+
+/* stylelint-disable-next-line at-rule-empty-line-before */
+/**
+ * These breakpoints' pixels are used in the legacy
+ * breakpoint mixin only.
+ *
+ * The container-breakpoint mixin breakpoints are defined in the
+ * LearnDash\Core\Template\Breakpoints PHP class.
+ *
+ * The names of the breakpoints are used in both mixins.
+ * Please keep those synced.
+ */
+/**
+ * This is the required way to use breakpoints in the project.
+ *
+ * @param {String}              $name - The name of the breakpoint.
+ * @param {Boolean|String|List} $container - If true, the breakpoint class will
+ *                                  be applied directly to the current element.
+ *                                  If a string (or list) is provided, the
+ *                                  breakpoint class will be applied directly
+ *                                  to the provided container with the current
+ *                                  element as a child selector. If false, the
+ *                                  breakpoint class will be applied as an
+ *                                  ancestor of the current element.
+ */
+/**
+ * This is the legacy way to use breakpoints in the project.
+ * Don't use it unless you have a very good reason,
+ * you have to provide it in the PR.
+ *
+ * @param {String} $name - The name of the breakpoint.
+ * @param {String} $type - The type of the breakpoint.
+ *                         Can be 'min' or 'max'.
+ */
+:root {
+  --ld-typography-font-family: inter, -apple-system, roboto, ubuntu, sans-serif;
+  --ld-typography-font-weight-regular: 400;
+  --ld-typography-font-weight-medium: 500;
+  --ld-typography-font-weight-bold: 700;
+  --ld-typography-desktop-h1-size: 4rem;
+  --ld-typography-desktop-h1-height: 4.5rem;
+  --ld-typography-desktop-h1-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h1-spacing: -2%;
+  --ld-typography-desktop-h1-margin: var(--ld-spacer-8);
+  --ld-typography-mobile-h1-size: 3rem;
+  --ld-typography-mobile-h1-height: 3.5rem;
+  --ld-typography-mobile-h1-margin: var(--ld-spacer-7);
+  --ld-typography-desktop-h2-size: 3rem;
+  --ld-typography-desktop-h2-height: 3.5rem;
+  --ld-typography-desktop-h2-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h2-spacing: -2%;
+  --ld-typography-desktop-h2-margin: var(--ld-spacer-7);
+  --ld-typography-mobile-h2-size: 2.5rem;
+  --ld-typography-mobile-h2-height: 3rem;
+  --ld-typography-mobile-h2-margin: var(--ld-spacer-6);
+  --ld-typography-desktop-h3-size: 2.5rem;
+  --ld-typography-desktop-h3-height: 3rem;
+  --ld-typography-desktop-h3-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h3-spacing: -2%;
+  --ld-typography-desktop-h3-margin: var(--ld-spacer-6);
+  --ld-typography-mobile-h3-size: 2rem;
+  --ld-typography-mobile-h3-height: 2.5rem;
+  --ld-typography-mobile-h3-margin: var(--ld-spacer-5);
+  --ld-typography-desktop-h4-size: 2rem;
+  --ld-typography-desktop-h4-height: 2.5rem;
+  --ld-typography-desktop-h4-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h4-spacing: inherit;
+  --ld-typography-desktop-h4-margin: var(--ld-spacer-5);
+  --ld-typography-mobile-h4-size: 1.5rem;
+  --ld-typography-mobile-h4-height: 2rem;
+  --ld-typography-mobile-h4-margin: var(--ld-spacer-4);
+  --ld-typography-desktop-h5-size: 1.5rem;
+  --ld-typography-desktop-h5-height: 2rem;
+  --ld-typography-desktop-h5-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h5-spacing: inherit;
+  --ld-typography-desktop-h5-margin: var(--ld-spacer-4);
+  --ld-typography-mobile-h5-size: 1.25rem;
+  --ld-typography-mobile-h5-height: 1.75rem;
+  --ld-typography-mobile-h5-margin: var(--ld-spacer-4);
+  --ld-typography-desktop-h6-size: 1.125rem;
+  --ld-typography-desktop-h6-height: 1.5rem;
+  --ld-typography-desktop-h6-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-h6-spacing: inherit;
+  --ld-typography-desktop-h6-margin: var(--ld-spacer-3);
+  --ld-typography-mobile-h6-size: 1.125rem;
+  --ld-typography-mobile-h6-height: 1.5rem;
+  --ld-typography-mobile-h6-margin: var(--ld-spacer-3);
+  --ld-typography-desktop-body-large-size: 1.25rem;
+  --ld-typography-desktop-body-large-height: 1.75rem;
+  --ld-typography-mobile-body-large-size: 1rem;
+  --ld-typography-mobile-body-large-height: 1.5rem;
+  --ld-typography-desktop-body-size: 1rem;
+  --ld-typography-desktop-body-height: 1.5rem;
+  --ld-typography-mobile-body-size: 0.875rem;
+  --ld-typography-mobile-body-height: 1.375rem;
+  --ld-typography-desktop-body-small-size: 0.875rem;
+  --ld-typography-desktop-body-small-height: 1.375rem;
+  --ld-typography-desktop-caption-size: 0.75rem; /* 12px */
+  --ld-typography-desktop-caption-height: 1.25rem; /* 20px */
+  --ld-typography-mobile-caption-size: 0.75rem;
+  --ld-typography-mobile-caption-height: 1.25rem;
+  --ld-typography-desktop-pre-title-size: 0.75rem;
+  --ld-typography-desktop-pre-title-height: 1.25rem;
+  --ld-typography-desktop-pre-title-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-pre-title-spacing: 3%;
+  --ld-typography-desktop-pre-title-transform: uppercase;
+  --ld-typography-mobile-pre-title-size: 0.75rem;
+  --ld-typography-mobile-pre-title-height: 1.25rem;
+  --ld-typography-desktop-button-text-size: var(--ld-typography-desktop-body-size);
+  --ld-typography-desktop-button-text-height: var(--ld-typography-desktop-body-height);
+  --ld-typography-desktop-button-text-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-button-text-spacing: 3%;
+  --ld-typography-mobile-button-text-size: var(--ld-typography-mobile-body-size);
+  --ld-typography-mobile-button-text-height: var(--ld-typography-mobile-body-height);
+  --ld-typography-desktop-link-size: 1rem;
+  --ld-typography-desktop-link-height: 1.5rem;
+  --ld-typography-desktop-link-weight: var(--ld-typography-font-weight-bold);
+  --ld-typography-desktop-link-decoration: underline;
+  --ld-typography-mobile-link-size: 0.875rem;
+  --ld-typography-mobile-link-height: 1.375rem;
+}
+
+:root {
+  /* Blue */
+  --ld-color-primitives-blue-100: #f3f8ff;
+  --ld-color-primitives-blue-150: #d6defb;
+  --ld-color-primitives-blue-175: #b6c7f7;
+  --ld-color-primitives-blue-200: #98acf5;
+  --ld-color-primitives-blue-500: #235af3;
+  --ld-color-primitives-blue-800: #0e2a90;
+  /* Green */
+  --ld-color-primitives-green-100: #eef7f1;
+  --ld-color-primitives-green-250: #7cd09d;
+  --ld-color-primitives-green-300: #3eab6a;
+  --ld-color-primitives-green-500: #2b7f4d;
+  --ld-color-primitives-green-800: #055224;
+  /* Grey */
+  --ld-color-primitives-grey-0: #fff;
+  --ld-color-primitives-grey-100: #f7f9fc;
+  --ld-color-primitives-grey-140: #dce1e8;
+  --ld-color-primitives-grey-150: #d2d7e2;
+  --ld-color-primitives-grey-200: #a7adc2;
+  --ld-color-primitives-grey-350: #8d90a7;
+  --ld-color-primitives-grey-500: #73738c;
+  --ld-color-primitives-grey-800: #4a4a68;
+  --ld-color-primitives-grey-900: #0e0e2c;
+  /* Red */
+  --ld-color-primitives-red-100: #faeeee;
+  --ld-color-primitives-red-200: #f6cfcf;
+  --ld-color-primitives-red-250: #ee8b8d;
+  --ld-color-primitives-red-300: #e65255;
+  --ld-color-primitives-red-500: #db0000;
+  --ld-color-primitives-red-800: #8f0000;
+  /* Yellow */
+  --ld-color-primitives-yellow-100: #fdf8ec;
+  --ld-color-primitives-yellow-200: #f9d99e;
+  --ld-color-primitives-yellow-500: #f3b33e;
+  --ld-color-primitives-yellow-800: #eb7100;
+}
+
+:root {
+  /* Success */
+  --ld-color-semantic-alert-success-background: var(--ld-color-primitives-blue-100);
+  --ld-color-semantic-alert-success-border: var(--ld-color-primitives-blue-200);
+  --ld-color-semantic-alert-success-icon: var(--ld-color-primitives-blue-150);
+  /* Warning */
+  --ld-color-semantic-alert-warning-background: var(--ld-color-primitives-yellow-100);
+  --ld-color-semantic-alert-warning-border: var(--ld-color-primitives-yellow-500);
+  --ld-color-semantic-alert-warning-icon: var(--ld-color-primitives-yellow-200);
+  /* Error */
+  --ld-color-semantic-alert-error-background: var(--ld-color-primitives-red-100);
+  --ld-color-semantic-alert-error-border: var(--ld-color-primitives-red-300);
+  --ld-color-semantic-alert-error-icon: var(--ld-color-primitives-red-200);
+}
+
+:root {
+  /* Primary */
+  --ld-color-semantic-button-primary-background-disabled-hover: var(--ld-color-primitives-grey-200);
+  --ld-color-semantic-button-primary-background-disabled: var(--ld-color-primitives-grey-100);
+  --ld-color-semantic-button-primary-background-hover: var(--ld-color-primitives-blue-800);
+  --ld-color-semantic-button-primary-background: var(--ld-color-primitives-blue-500);
+  --ld-color-semantic-button-primary-border-disabled: var(--ld-color-primitives-grey-500);
+  /* Secondary */
+  --ld-color-semantic-button-secondary-background-hover: var(--ld-color-primitives-blue-100);
+  --ld-color-semantic-button-secondary-background: var(--ld-color-primitives-grey-0);
+  --ld-color-semantic-button-secondary-border-hover: var(--ld-color-primitives-blue-800);
+  --ld-color-semantic-button-secondary-border: var(--ld-color-primitives-blue-500);
+  /* Tertiary */
+  --ld-color-semantic-button-tertiary-border: var(--ld-color-primitives-blue-500);
+  --ld-color-semantic-button-tertiary-focus: var(--ld-color-primitives-blue-150);
+  --ld-color-semantic-button-tertiary-text-disabled-hover: var(--ld-color-primitives-grey-500);
+  --ld-color-semantic-button-tertiary-text-disabled: var(--ld-color-primitives-grey-200);
+  --ld-color-semantic-button-tertiary-text-hover: var(--ld-color-primitives-blue-500);
+  --ld-color-semantic-button-tertiary-text-icon-only: var(--ld-color-primitives-grey-500);
+  --ld-color-semantic-button-tertiary-text: var(--ld-color-primitives-grey-800);
+}
+
+:root {
+  /* Background */
+  --ld-color-semantic-field-background-active: var(--ld-color-primitives-blue-100);
+  --ld-color-semantic-field-background-disabled: var(--ld-color-primitives-grey-100);
+  --ld-color-semantic-field-background-error: var(--ld-color-primitives-red-100);
+  --ld-color-semantic-field-background-hover: var(--ld-color-primitives-blue-100);
+  --ld-color-semantic-field-background-valid: var(--ld-color-primitives-green-100);
+  --ld-color-semantic-field-background: var(--ld-color-primitives-grey-0);
+  /* Border */
+  --ld-color-semantic-field-border-disabled: var(--ld-color-primitives-grey-200);
+  --ld-color-semantic-field-border: var(--ld-color-primitives-grey-150);
+  --ld-color-semantic-field-border-error: var(--ld-color-primitives-red-200);
+  --ld-color-semantic-field-border-valid: var(--ld-color-primitives-green-200);
+}
+
+/**
+ * "General" semantic colors are used for global
+ * colors that are not specific to a component.
+ */
+:root {
+  --ld-color-semantic-general-border: var(--ld-color-primitives-grey-140);
+  --ld-color-semantic-general-middle-grey: var(--ld-color-primitives-grey-150);
+  --ld-color-semantic-general-tab-underline: var(--ld-color-primitives-grey-150);
+}
+
+:root {
+  --ld-color-semantic-text-body: var(--ld-color-primitives-grey-800);
+  --ld-color-semantic-text-body-subtle: var(--ld-color-primitives-grey-500);
+}
+
+:root {
+  /* Primary */
+  --ld-color-semantic-text-button-primary: var(--ld-color-primitives-grey-0);
+  --ld-color-semantic-text-button-primary-disabled: var(--ld-color-primitives-grey-800);
+  --ld-color-semantic-text-button-primary-disabled-hover: var(--ld-color-primitives-grey-900);
+  /* Secondary */
+  --ld-color-semantic-text-button-secondary-disabled-hover: var(--ld-color-primitives-grey-900);
+}
+
+:root {
+  --ld-color-semantic-text-link: var(--ld-color-primitives-blue-500);
+  --ld-color-semantic-text-link-hover: var(--ld-color-primitives-blue-800);
+}
+
+/**
+ * Modern versions of the deprecated LD30 CSS variables.
+ *
+ * We are ensuring that they're loaded so that they override
+ * the even older versions of these variables loaded by
+ * LD30 normally.
+ */
+/**
+ * IMPORTANT: These variables should be considered deprecated!
+ *
+ * You should be using the variables in the
+ * src/assets/scss/common/variables directory instead.
+ *
+ * Where possible, these have been mapped to the correct colors in the
+ * src/assets/scss/common/variables directory as a fallback.
+ *
+ * @deprecated
+ */
+:root {
+  /** Colors **/
+  --ld-color-brand-primary: var(--ld-color-primitives-blue-500);
+  --ld-color-brand-secondary: var(--ld-color-primitives-yellow-500);
+  --ld-color-brand-tertiary: #479bf8;
+  --ld-color-semantic-success: var(--ld-color-primitives-green-300);
+  --ld-color-semantic-error: var(--ld-color-primitives-red-300);
+  --ld-color-system-validation-error: var(--ld-color-primitives-red-500);
+  --ld-color-semantic-error-light: var(--ld-color-primitives-red-100);
+  --ld-color-system-validation-success: #2f8351;
+  --ld-color-semantic-success-light: var(--ld-color-primitives-green-100);
+  --ld-color-system-dark: var(--ld-color-primitives-blue-800);
+  --ld-color-system-body-text: var(--ld-color-primitives-grey-800);
+  --ld-color-system-text-dark: var(--ld-color-primitives-grey-900);
+  --ld-color-system-subtle: #8c8ca2;
+  --ld-color-system-subtle-text: var(--ld-color-system-subtle);
+  --ld-color-system-border: var(--ld-color-primitives-grey-140);
+  --ld-color-system-light-1: var(--ld-color-primitives-blue-100);
+  --ld-color-system-light-2: var(--ld-color-primitives-grey-100);
+  --ld-color-system-white: var(--ld-color-primitives-grey-0);
+  /** Buttons **/
+  --ld-color-button: var(--ld-color-system-white);
+  --ld-color-button-bg: var(--ld-color-brand-primary);
+  --ld-color-button-bg-hover: var(--ld-color-system-dark);
+  --ld-color-button-secondary-border: var(--ld-color-brand-primary);
+  --ld-color-button-disabled-bg-hover: var(--ld-color-primitives-grey-200);
+  --ld-color-button-disabled-border-hover: var(--ld-color-system-subtle-text);
+  /** Progress bar **/
+  --ld-color-progress-bar-bg: #f5f5f5;
+  --ld-color-progress-bar-fg: #000;
+  /** Forms **/
+  --ld-color-field-bg: var(--ld-color-system-light-1);
+  --ld-color-field-bg-hover: var(--ld-color-system-white);
+  --ld-color-field-bg-active: var(--ld-color-system-white);
+  --ld-color-field-bg-valid: var(--ld-color-system-white);
+  --ld-color-field-bg-error: var(--ld-color-system-white);
+  --ld-color-field-bg-disabled: var(--ld-color-system-light-2);
+  --ld-color-field-border: var(--ld-color-system-subtle);
+  --ld-color-field-border-active: var(--ld-color-brand-primary);
+  --ld-color-field-border-active-shadow: 0 0 0 4px rgba(50, 89, 235, 0.2);
+  --ld-color-field-border-error: var(--ld-color-semantic-error);
+  --ld-color-field-border-error-shadow: 0 0 0 4px rgba(230, 82, 85, 0.2);
+  --ld-color-field-border-valid: var(--ld-color-semantic-success);
+  --ld-color-field-border-valid-shadow: 0 0 0 4px rgba(62, 171, 106, 0.2);
+  --ld-color-field-border-disabled: var(--ld-color-system-light-3);
+  --ld-color-field-text: var(--ld-color-system-subtle-text);
+  --ld-color-field-text-active: var(--ld-color-system-dark);
+  --ld-color-field-text-valid: var(--ld-color-system-dark);
+  --ld-color-field-text-error: var(--ld-color-system-dark);
+  --ld-color-field-text-disabled: var(--ld-color-system-subtle-text);
+  --ld-color-field-description: var(--ld-color-system-subtle-text);
+  --ld-color-field-error: var(--ld-color-semantic-error);
+  --ld-color-label: var(--ld-color-system-dark);
+}
+
+.ld-layout {
+  display: grid;
+  grid-gap: var(--ld-spacer-fixed-6);
+  grid-template-areas: "header" "sidebar" "content";
+  grid-template-columns: 1fr;
+}
+.ld-layout,
+.ld-layout * {
+  -webkit-font-smoothing: antialiased;
+}
+.ld-layout--no-header {
+  grid-template-areas: "sidebar" "content";
+}
+.ld-layout.ld-breakpoint--extra-small:not(.ld-layout--no-sidebar) {
+  grid-template-areas: "header header" "content sidebar";
+  grid-template-columns: auto clamp(210px, 30.5%, 285px);
+}
+.ld-layout.ld-breakpoint--extra-small:not(.ld-layout--no-sidebar).ld-layout--no-header {
+  grid-template-areas: "content sidebar";
+}
+.ld-layout--no-sidebar {
+  grid-template-areas: "header" "content";
+}
+.ld-layout--no-sidebar.ld-layout--no-header {
+  grid-template-areas: "content";
+}
+.ld-layout__header, .ld-layout__sidebar, .ld-layout__content {
+  display: grid;
+}
+.ld-layout__header {
+  gap: var(--ld-spacer-fixed-4);
+  grid-area: header;
+}
+.ld-breakpoint--small .ld-layout__header {
+  gap: var(--ld-spacer-fixed-3);
+}
+.ld-layout__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-4);
+  grid-area: sidebar;
+  margin-top: var(--ld-spacer-2);
+}
+.ld-layout__content {
+  grid-area: content;
+  gap: var(--ld-spacer-6);
+}
+.ld-layout {
+  /**
+   * Positions any injected children from a hook to display
+   * after the content grid-area.
+   *
+   * This checks specifically whether the element is not the header,
+   * sidebar, or content elements and that they're not a script or style tag.
+   *
+   * Checking for script and style tags is important as otherwise
+   * they'll be rendered as text!
+   *
+   * It is possible that 3rd parties may need to make CSS adjustments for this
+   * to work well with their injected content, but this should cover most cases.
+   */
+}
+.ld-layout > *:not(.ld-layout__header):not(.ld-layout__sidebar):not(.ld-layout__content):not(script):not(style) {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
+}
+.ld-layout--no-sidebar .ld-layout > *:not(.ld-layout__header):not(.ld-layout__sidebar):not(.ld-layout__content):not(script):not(style) {
+  grid-column: 1/-1;
+}
+.ld-layout > *:not(.ld-layout__header):not(.ld-layout__sidebar):not(.ld-layout__content):not(script):not(style) {
+  grid-row-start: span 1;
+}
+
+.ld-form .ld-form__field {
+  background: var(--ld-color-field-bg);
+  border: 1px solid var(--ld-color-field-border);
+  border-radius: var(--ld-radius);
+  box-sizing: border-box;
+  color: var(--ld-color-field-text);
+  display: inline-block;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  height: auto;
+  line-height: var(--ld-typography-desktop-body-height);
+  margin-bottom: var(--ld-spacer-4);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-3);
+}
+.ld-form .ld-form__field:active, .ld-form .ld-form__field:focus {
+  border-color: var(--ld-color-field-border-active);
+  box-shadow: inset 0 0 0 2px var(--ld-color-field-border-active);
+  outline: 0;
+}
+.ld-form .ld-form__field:disabled {
+  background: var(--ld-color-field-bg-disabled);
+  border-color: var(--ld-color-field-border-disabled);
+  color: var(--ld-color-field-text-disabled);
+}
+.ld-form .ld-form__field:hover {
+  background: var(--ld-color-field-bg-hover);
+}
+.ld-form .ld-form__field--error:not(:focus) {
+  border-color: var(--ld-color-field-border-error);
+}
+.ld-form .ld-form__field--valid {
+  border-color: var(--ld-color-field-border-valid);
+}
+.ld-form .ld-form__field-wrapper--type-radio {
+  cursor: pointer;
+  position: relative;
+}
+.ld-form .ld-form__field-wrapper--type-radio input[type=radio] {
+  position: absolute;
+  height: 1.5em;
+  right: -5px;
+  opacity: 0;
+  top: -2px;
+  width: 1.5em;
+}
+.ld-form .ld-form__field-wrapper--type-radio input[type=radio]:checked + .ld-svgicon__radio .ld-svgicon__radio-select {
+  display: inline-block;
+}
+.ld-form .ld-form__field-wrapper--type-radio input[type=radio]:not(:checked) + .ld-svgicon__radio .ld-svgicon__radio-select {
+  display: none;
+}
+.ld-form input[type=checkbox] {
+  border-color: var(--ld-color-field-border);
+  border-radius: var(--ld-radius);
+  border-width: 1px;
+  cursor: pointer;
+  margin-left: var(--ld-spacer-1);
+  transform: scale(1.5);
+  transform-origin: right;
+  vertical-align: baseline;
+}
+.ld-form input[type=checkbox]:after {
+  content: "";
+  opacity: 0;
+  display: block;
+  right: 8px;
+  top: 4px;
+  position: absolute;
+  width: 7px;
+  height: 13px;
+  border: 3px solid var(--form--color-text);
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-30deg);
+}
+.ld-form input[type=checkbox]:checked:after {
+  opacity: 1;
+}
+.ld-form__fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.ld-form input[type=button]:disabled,
+.ld-form input[type=submit]:disabled,
+.ld-form input[type=reset]:disabled,
+.ld-form button:disabled,
+.ld-form .ld-button:disabled {
+  cursor: not-allowed;
+}
+
+.ld-form__field-error-message {
+  color: var(--ld-color-semantic-error);
+  display: block;
+  font-size: var(--ld-typography-desktop-body-small-size);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  margin-bottom: var(--ld-spacer-4);
+  margin-top: calc(-1 * var(--ld-spacer-1));
+}
+.ld-form__field-password-wrapper + .ld-form__field-error-message {
+  margin-bottom: var(--ld-spacer-1);
+  margin-top: var(--ld-spacer-1);
+}
+.ld-form__field-confirm_password-wrapper + .ld-form__field-error-message {
+  margin-bottom: 0;
+}
+
+/**
+ * Applies base LD button styles.
+ *
+ * @param {Boolean} $force - Whether to force the button styles by un-setting
+ * 								existing styles. This should be used if you need
+ * 								to override any possible Theme or Plugin styles.
+ * 								If you do not need to be this specific with your
+ * 								styles, you should instead use the .ld-button classes.
+ * 								Default: true.
+ */
+/**
+ * Applies primary button styles.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies Secondary button styles.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies Tertiary button styles.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies Border button styles.
+ *
+ * TODO: Remove, it is only used on the Modern Registration page.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies Mini button styles.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies styling for a button with an icon on the right side.
+ *
+ * @param {Boolean} $mini-styles - Whether this is for a mini button.
+ * 									Default: false.
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies styling for a button with an icon on the left side.
+ *
+ * @param {Boolean} $mini-styles - Whether this is for a mini button.
+ * 									Default: false.
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies Disabled button styles.
+ *
+ * @param {Boolean} $using-forced-styles - Whether this is being used in
+ * 											conjunction with ld-button( true ). Default: true.
+ */
+/**
+ * Applies provided styles in a way that allows us to force them
+ * across multiple pseudo-selectors. Optionally, un-sets all styles
+ * before applying the provided styles.
+ *
+ * This is useful when we really don't want any
+ * 3rd party CSS impacting our styling.
+ *
+ * This mixin should not be used directly, but rather as part of
+ * other button styling mixins to give us a way to consistently
+ * apply button styling in a variety of scenarios.
+ *
+ * @param {Boolean} $force - Whether to apply the passed styles across multiple
+ * 								pseudo-selectors. Default: true.
+ * @param {Boolean} $with-unset - Whether to un-set all styles. This should only
+ * 								be used with base styles. Default: false.
+ */
+.ld-button {
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-button {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-button:focus {
+  outline-style: solid;
+}
+.ld-button:disabled, .ld-button[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-button:disabled:hover, .ld-button[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-button--primary {
+  background-color: var(--ld-color-button-bg);
+}
+.ld-button--primary:active, .ld-button--primary:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.ld-button--primary:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.ld-button--primary:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.ld-button--secondary {
+  background-color: var(--ld-color-system-white);
+  border: 2px solid var(--ld-color-button-secondary-border);
+  color: var(--ld-color-brand-primary);
+}
+.ld-button--secondary:active, .ld-button--secondary:hover {
+  background-color: var(--ld-color-system-light-1);
+  border-color: var(--ld-color-system-dark);
+  color: var(--ld-color-system-dark);
+  outline: none;
+}
+.ld-button--secondary:disabled {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border-color: var(--ld-color-semantic-button-primary-border-disabled);
+  border-width: 2px;
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+}
+.ld-button--secondary:focus {
+  outline-color: var(--ld-color-system-dark);
+}
+.ld-button--secondary:hover:disabled {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-secondary-disabled-hover);
+}
+.ld-button--secondary:hover:focus {
+  outline-color: var(--ld-color-system-light-1);
+}
+.ld-button--tertiary {
+  background-color: var(--ld-color-system-white);
+  border: 2px solid transparent;
+  color: var(--ld-color-system-body-text);
+  outline-offset: 0;
+  outline-width: 4px;
+}
+.ld-button--tertiary:active, .ld-button--tertiary:hover, .ld-button--tertiary:focus {
+  border-color: var(--ld-color-brand-primary);
+}
+.ld-button--tertiary:active, .ld-button--tertiary:hover {
+  background-color: var(--ld-color-system-light-1);
+  color: var(--ld-color-brand-primary);
+}
+.ld-button--tertiary:focus {
+  outline-color: #d6defb;
+}
+.ld-button--tertiary:disabled, .ld-button--tertiary[aria-disabled=true] {
+  background-color: var(--ld-color-system-white);
+  border: none;
+}
+.ld-button--tertiary:disabled:hover, .ld-button--tertiary[aria-disabled=true]:hover {
+  background-color: var(--ld-color-system-light-2);
+}
+.ld-button--border {
+  background: var(--ld-color-field-bg);
+  border: 2px solid var(--ld-color-field-border);
+  border-radius: 8px;
+  color: var(--ld-color-system-body-text);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-medium);
+  line-height: var(--ld-typography-desktop-body-height);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-3);
+}
+.ld-button--border:focus {
+  border-color: var(--ld-color-system-body-text);
+  box-shadow: inset 0 0 0 2px var(--ld-color-system-body-text);
+  outline: none;
+}
+.ld-button--border:active, .ld-button--border:hover {
+  background-color: var(--ld-color-system-light-1);
+  border-color: var(--ld-color-system-body-text);
+  color: var(--ld-color-system-body-text);
+  outline: none;
+}
+.ld-button--mini {
+  font-size: var(--ld-typography-desktop-caption-size);
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+}
+.ld-button--mini.ld-button--icon-right {
+  padding-left: var(--ld-spacer-fixed-2);
+}
+.ld-button--mini.ld-button--icon-left {
+  padding-right: var(--ld-spacer-fixed-2);
+}
+.ld-button--icon-right {
+  padding-left: var(--ld-spacer-fixed-2);
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-button--icon-right {
+    padding-left: var(--ld-spacer-fixed-3);
+  }
+}
+.ld-button--icon-left {
+  padding-right: var(--ld-spacer-fixed-2);
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-button--icon-left {
+    padding-right: var(--ld-spacer-fixed-3);
+  }
+}
+
+/**
+ * Applies base pill styles.
+ *
+ * A "pill" is similar to a badge and is used to indicate a status or
+ * attribute of an item.
+ */
+/**
+ * Applies info pill styles.
+ */
+/**
+ * Applies warning pill styles.
+ */
+.ld-pill {
+  align-items: center;
+  background: var(--ld-color-system-middle-gray-light);
+  border-radius: var(--ld-border-radius);
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  gap: var(--ld-spacer-fixed-0);
+  letter-spacing: 1px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-0) var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  text-transform: uppercase;
+}
+.ld-pill--info {
+  background: var(--ld-color-primitives-blue-150);
+  color: var(--ld-color-primitives-blue-800);
+}
+.ld-pill--warning {
+  background: var(--ld-color-primitives-yellow-200);
+  color: #000;
+}
+
+.ld-tab-bar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1);
+}
+.ld-tab-bar.ld-breakpoint--small {
+  gap: var(--ld-spacer-3);
+}
+.ld-tab-bar--single.ld-tab-bar--no-access {
+  margin-top: var(--ld-spacer-2);
+}
+.ld-tab-bar__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.ld-breakpoint--small .ld-tab-bar__tabs {
+  gap: var(--ld-spacer-fixed-0);
+}
+.ld-tab-bar__tab {
+  all: unset;
+  align-items: center;
+  color: var(--ld-color-system-body-text);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-weight: var(--ld-typography-font-weight-bold);
+  gap: var(--ld-spacer-fixed-1);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-0) var(--ld-spacer-1) var(--ld-spacer-fixed-0);
+  position: relative;
+}
+.ld-breakpoint--small .ld-tab-bar__tab {
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-0) var(--ld-spacer-2) var(--ld-spacer-fixed-1);
+}
+.ld-tab-bar__tab::before {
+  border-bottom: 0.125rem solid var(--ld-color-system-middle-gray);
+  bottom: 0.125rem;
+  content: "";
+  right: 0;
+  position: absolute;
+  left: 0;
+  width: 100vw;
+}
+.ld-tab-bar__tab::after {
+  border-bottom: 0.25rem solid transparent;
+  bottom: 0.125rem;
+  content: "";
+  right: 0;
+  position: absolute;
+  left: 0;
+}
+.ld-tab-bar__tab .ld-svgicon {
+  color: var(--ld-color-system-subtle-text);
+}
+.ld-tab-bar__tab:hover, .ld-tab-bar__tab:focus, .ld-tab-bar__tab:focus-visible, .ld-tab-bar__tab[aria-selected=true] {
+  box-shadow: none;
+}
+.ld-tab-bar__tab:hover .ld-svgicon, .ld-tab-bar__tab:focus .ld-svgicon, .ld-tab-bar__tab:focus-visible .ld-svgicon, .ld-tab-bar__tab[aria-selected=true] .ld-svgicon {
+  color: inherit;
+}
+.ld-tab-bar__tab {
+  /**
+   * Hover styles come first as Hovering over an active item
+   * should keep the active styles.
+   */
+}
+.ld-tab-bar__tab:hover {
+  background-color: unset;
+  color: var(--ld-color-system-dark);
+}
+.ld-tab-bar__tab:hover::after {
+  border-color: var(--ld-color-system-dark);
+}
+.ld-tab-bar__tab[aria-selected=true] {
+  background-color: unset;
+  color: var(--ld-color-brand-primary);
+}
+.ld-tab-bar__tab[aria-selected=true]::after {
+  border-color: var(--ld-color-brand-primary);
+}
+.ld-tab-bar__tab:focus, .ld-tab-bar__tab:focus-visible {
+  background: var(--ld-color-system-dark);
+  color: var(--ld-color-system-white);
+}
+.ld-tab-bar__tab:focus::after, .ld-tab-bar__tab:focus-visible::after {
+  display: none;
+}
+.ld-tab-bar__panel > p {
+  margin-bottom: var(--ld-spacer-3);
+}
+.ld-tab-bar__panel > * {
+  margin-top: 0;
+}
+.ld-tab-bar__panel .ld-featured-image {
+  height: auto;
+  margin-bottom: var(--ld-spacer-8);
+  width: 100%;
+}
+
+.ld-button__password-visibility-toggle {
+  background-color: var(--ld-color-field-bg);
+}
+
+.ld-registration__wrapper {
+  margin: auto;
+}
+.ld-registration__wrapper.ld-breakpoint--medium {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper.ld-breakpoint--medium {
+  display: block;
+  flex-wrap: wrap;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper.ld-breakpoint--medium .ld-registration-order {
+  border-top: none;
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  margin-bottom: 0;
+  max-width: 650px;
+  padding-right: 0;
+  padding-left: 0;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper .ld-registration-order {
+  max-width: 650px;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper .ld-registration-order__return {
+  font-size: inherit;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper .ld-registration-order__return .dashicons {
+  font-size: inherit;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper .ld-registration-order__return-wrapper {
+  border-left: none;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+  padding-left: 0;
+}
+.ld-registration__wrapper--logged-in.ld-registration__wrapper .ld-registration__form {
+  border-left: none;
+  flex: 0 0 100%;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+  padding-left: 0;
+}
+.ld-registration__wrapper--login .ld-registration__login,
+.ld-registration__wrapper--login .ld-registration__login-form {
+  display: block;
+}
+.ld-registration__wrapper--login .ld-registration__register,
+.ld-registration__wrapper--login .ld-registration__register-form {
+  display: none;
+}
+.ld-registration__wrapper--register .ld-registration__login,
+.ld-registration__wrapper--register .ld-registration__login-form {
+  display: none;
+}
+.ld-registration__wrapper--register .ld-registration__register,
+.ld-registration__wrapper--register .ld-registration__register-form {
+  display: block;
+}
+.ld-registration__wrapper .ld-alert {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+}
+.ld-registration__wrapper--has-order.ld-breakpoint--medium .ld-registration__form {
+  border-left: 1px solid var(--ld-color-system-middle-gray);
+  box-sizing: border-box;
+  flex: 0 0 67%;
+  margin-right: 0;
+  margin-left: 0;
+  max-width: 67%;
+  padding-left: var(--ld-spacer-9);
+}
+.ld-registration__login, .ld-registration__register {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+}
+.ld-registration__login, .ld-registration__login-form {
+  display: none;
+}
+.ld-registration__register, .ld-registration__register-form {
+  display: block;
+}
+.ld-registration__register-form .ld-password-strength__error {
+  display: none;
+}
+.ld-registration__register, .ld-registration__login {
+  margin-bottom: var(--ld-spacer-5);
+}
+.ld-registration__heading {
+  margin-bottom: var(--ld-spacer-5);
+}
+.ld-registration__p {
+  margin-bottom: var(--ld-spacer-5);
+}
+.ld-registration__register .ld-registration__p:last-child {
+  margin-bottom: 0;
+}
+.ld-registration__login-button {
+  display: inline-block;
+}
+.ld-registration__login-button--active {
+  display: none;
+}
+.ld-registration__form {
+  padding-bottom: var(--ld-spacer-6);
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+  width: 100%;
+}
+.ld-registration__form .ld-password-strength {
+  margin-bottom: var(--ld-spacer-fixed-1);
+}
+.ld-registration__login-form input:not([type=checkbox]) {
+  margin-bottom: var(--ld-spacer-4);
+}
+.ld-registration__login-form .login-username,
+.ld-registration__login-form .login-password,
+.ld-registration__login-form .login-submit,
+.ld-registration__login-form .ld-registration__forgot-password,
+.ld-registration__login-form .login-remember {
+  margin: 0;
+}
+.ld-registration__login-form .login-remember {
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: var(--ld-typography-desktop-body-height);
+  margin-bottom: var(--ld-spacer-4);
+  padding: var(--ld-spacer-1) 0;
+}
+.ld-breakpoint--tablet .ld-registration__login-form .login-remember {
+  margin-bottom: 0;
+}
+.ld-registration__login-form .login-remember input,
+.ld-registration__login-form .login-remember label {
+  margin-bottom: 0;
+}
+.ld-registration__login-form, .ld-registration__register-form, .ld-registration__forgot-password-form, .ld-registration__reset-password-form {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+}
+.ld-registration__login-form label, .ld-registration__register-form label, .ld-registration__forgot-password-form label, .ld-registration__reset-password-form label {
+  display: block;
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: var(--ld-typography-desktop-body-height);
+  margin-bottom: var(--ld-spacer-1);
+}
+.ld-registration__login-form input[type=email],
+.ld-registration__login-form input[type=text],
+.ld-registration__login-form input[type=password], .ld-registration__register-form input[type=email],
+.ld-registration__register-form input[type=text],
+.ld-registration__register-form input[type=password], .ld-registration__forgot-password-form input[type=email],
+.ld-registration__forgot-password-form input[type=text],
+.ld-registration__forgot-password-form input[type=password], .ld-registration__reset-password-form input[type=email],
+.ld-registration__reset-password-form input[type=text],
+.ld-registration__reset-password-form input[type=password] {
+  font-size: var(--ld-typography-desktop-body-size);
+  margin-right: 0;
+  width: 100%;
+}
+.ld-registration__login-form input[type=checkbox], .ld-registration__register-form input[type=checkbox], .ld-registration__forgot-password-form input[type=checkbox], .ld-registration__reset-password-form input[type=checkbox] {
+  margin-bottom: 3px;
+}
+.ld-registration__login-form input[name=confirm_password], .ld-registration__register-form input[name=confirm_password], .ld-registration__forgot-password-form input[name=confirm_password], .ld-registration__reset-password-form input[name=confirm_password] {
+  margin-bottom: 0;
+}
+.ld-registration__login-form .login-submit, .ld-registration__register-form .login-submit, .ld-registration__forgot-password-form .login-submit, .ld-registration__reset-password-form .login-submit {
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: var(--ld-typography-desktop-body-height);
+  padding-top: var(--ld-spacer-5);
+}
+.ld-breakpoint--tablet .ld-registration__login_options_wrapper {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+.ld-registration__forgot-password {
+  margin: 0;
+}
+.ld-breakpoint--tablet .ld-registration__forgot-password {
+  text-align: left;
+}
+
+.ld-form .ld-form__field {
+  margin-bottom: 0;
+}
+.ld-form .ld-form__field.ld-form__field-password.ld-form__field--valid {
+  border-color: var(--ld-color-field-border-valid);
+}
+.ld-form .ld-form__field.ld-form__field-password.ld-form__field--valid:active, .ld-form .ld-form__field.ld-form__field-password.ld-form__field--valid:focus {
+  border-color: var(--ld-color-field-border-valid);
+}
+.ld-form__field-wrapper {
+  margin-bottom: var(--ld-spacer-4);
+}
+
+/**
+ * Order details
+ */
+.ld-registration-order {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+  padding-bottom: var(--ld-spacer-fixed-4);
+  padding-top: var(--ld-spacer-fixed-6);
+}
+.ld-breakpoint--medium .ld-registration-order {
+  box-sizing: border-box;
+  flex: 0 0 33%;
+  margin-bottom: var(--ld-spacer-fixed-9);
+  max-width: 33%;
+  padding-right: var(--ld-spacer-fixed-9);
+  padding-left: var(--ld-spacer-fixed-9);
+}
+.ld-registration-order__heading {
+  margin-bottom: var(--ld-spacer-5);
+  margin-top: 0;
+}
+.ld-registration-order__items {
+  max-width: 350px;
+}
+.logged-in .ld-registration-order__items {
+  max-width: 100%;
+}
+.ld-breakpoint--medium .ld-registration-order__items {
+  max-width: 100%;
+}
+.ld-registration-order__item-type {
+  color: var(--ld-color-system-subtle);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  letter-spacing: 0.36px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  text-transform: uppercase;
+}
+.ld-registration-order__item-details {
+  display: flex;
+  font-size: var(--ld-typography-desktop-body-size);
+  justify-content: space-between;
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-registration-order__item-title-wrapper {
+  flex-grow: 2;
+}
+.ld-registration-order__item-price {
+  margin-right: 10px;
+  text-align: left;
+  word-break: normal;
+}
+.ld-registration-order__item-price-value {
+  text-align: left;
+}
+.ld-registration-order__item-price-original {
+  color: var(--ld-color-system-subtle-text);
+  visibility: hidden;
+  font-size: var(--ld-typography-desktop-caption-size);
+  line-height: var(--ld-typography-desktop-caption-height);
+  text-align: left;
+  text-decoration-line: line-through;
+}
+.ld-registration-order__items--with-coupon .ld-registration-order__item-price-original {
+  visibility: visible;
+}
+.ld-registration-order__item-interval {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-registration-order__item-trial-marker {
+  background-color: var(--ld-color-system-middle-gray-light);
+  border-radius: 5px;
+  display: block;
+  font-size: var(--ld-typography-desktop-caption-size);
+  margin-bottom: 6px;
+  margin-top: var(--ld-spacer-2);
+  padding: 3px 9px;
+  width: fit-content;
+}
+.ld-registration-order__total {
+  border-top: 1px solid var(--ld-color-system-middle-gray);
+  display: flex;
+  font-size: var(--ld-typography-desktop-body-size);
+  justify-content: space-between;
+  line-height: var(--ld-typography-desktop-body-height);
+  margin-top: var(--ld-spacer-fixed-5);
+  padding-bottom: var(--ld-spacer-fixed-2);
+  padding-top: var(--ld-spacer-fixed-2);
+}
+.ld-registration-order__total-title {
+  flex-grow: 2;
+  font-weight: var(--ld-typography-font-weight-bold);
+}
+.ld-registration-order__total-price {
+  margin-right: 10px;
+  text-align: left;
+}
+.ld-registration-order__return {
+  border-top: 1px solid var(--ld-color-system-middle-gray);
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin-bottom: var(--ld-spacer-9);
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+  padding-top: var(--ld-spacer-2);
+}
+.ld-breakpoint--medium .ld-registration-order__return-wrapper {
+  border-left: 1px solid var(--ld-color-system-middle-gray);
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  max-width: 67%;
+  padding-left: var(--ld-spacer-9);
+}
+.ld-registration-order__return .dashicons {
+  margin-left: var(--ld-spacer-fixed-1);
+  text-decoration: none;
+  vertical-align: middle;
+}
+.ld-registration-order__coupon-form-wrapper {
+  border-top: 1px solid var(--ld-color-system-middle-gray);
+  margin-top: var(--ld-spacer-fixed-5);
+  padding-top: var(--ld-spacer-fixed-5);
+}
+.ld-registration-order__coupon-form-wrapper label {
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-registration-order__checkout-select {
+  margin-bottom: var(--ld-spacer-fixed-5);
+  margin-top: var(--ld-spacer-fixed-5);
+  padding-bottom: var(--ld-spacer-fixed-3);
+  padding-top: var(--ld-spacer-fixed-3);
+}
+.ld-registration-order__checkout-select-item {
+  margin-bottom: var(--ld-spacer-fixed-2);
+}
+.ld-registration-order__checkout-select-item-main, .ld-registration-order__checkout-select-item-info {
+  padding: var(--ld-spacer-fixed-2);
+}
+.ld-breakpoint--medium .ld-registration-order__checkout-select-item-main, .ld-breakpoint--medium .ld-registration-order__checkout-select-item-info {
+  padding: var(--ld-spacer-fixed-3) var(--ld-spacer-fixed-5) var(--ld-spacer-fixed-2);
+}
+.ld-registration-order__checkout-select-item-main, .ld-registration-order__checkout-select-item-gateway-details {
+  background-color: var(--ld-color-system-light-2);
+  border-radius: var(--ld-border-radius);
+  border: 1px solid var(--ld-color-system-middle-gray-light);
+  display: none;
+}
+.ld-registration-order__checkout-select-item-main {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.ld-registration-order__checkout-select-item-main .ld-form__field-wrapper {
+  display: flex;
+}
+.ld-registration-order__checkout-select-item-main .ld-form__field-wrapper span {
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-registration-order__checkout-select-item-gateway-details {
+  border-color: var(--ld-color-brand-primary);
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: var(--ld-typography-desktop-body-height);
+  margin-top: 3px;
+  padding-bottom: var(--ld-spacer-fixed-3);
+}
+.ld-registration-order__checkout-select-item:first-child {
+  margin-top: 0;
+}
+.ld-registration-order__checkout-select-item:last-child {
+  margin-bottom: 0;
+}
+.ld-registration-order__checkout-select-item.ld--selected .ld-registration-order__checkout-select-item-main {
+  border-color: var(--ld-color-brand-primary);
+}
+.ld-registration-order__checkout-select-item.ld--selected .ld-registration-order__checkout-select-item-meta .ld-svglogo,
+.ld-registration-order__checkout-select-item.ld--selected .ld-registration-order__checkout-select-item-meta .ld-svgicon {
+  filter: none;
+}
+.ld-registration-order__checkout-select-item.ld--selected .ld-registration-order__checkout-select-item-gateway-details {
+  display: block;
+}
+.ld-registration-order__checkout-select-item-meta {
+  align-self: center;
+  display: flex;
+  height: fit-content;
+  margin-right: var(--ld-spacer-fixed-2);
+}
+.ld-registration-order__checkout-select-item-meta .ld-svglogo,
+.ld-registration-order__checkout-select-item-meta .ld-svgicon {
+  filter: grayscale(1);
+  line-height: 0;
+}
+.ld-registration-order__checkout-select-item .ld-form__field-wrapper--type-radio {
+  align-items: center;
+  flex-grow: 2;
+  font-weight: var(--ld-typography-font-weight-bold);
+  margin-bottom: 0;
+}
+.ld-registration-order__checkout-select-item label {
+  display: block;
+  width: 100%;
+}
+.ld-registration-order__checkout-button {
+  display: none;
+}
+.ld-registration-order__checkout-button #btn-join,
+.ld-registration-order__checkout-button .button {
+  width: auto;
+}
+.ld-registration-order__checkout-button.ld--selected {
+  display: block;
+}
+.ld-registration-order__checkout-button-gateway-details-container {
+  background-color: var(--ld-color-system-light-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2);
+  margin: var(--ld-spacer-5) 0;
+}
+.ld-registration-order__checkout-button-gateway-details-container .ld-paypal-checkout__sandbox-enabled {
+  border-radius: 0;
+}
+.ld-registration-order__checkout-button-gateway-details-header {
+  align-items: center;
+  border-bottom: 1px solid #dfe0e0;
+  display: flex;
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  justify-content: space-between;
+  line-height: var(--ld-typography-desktop-body-height);
+  padding: var(--ld-spacer-3) var(--ld-spacer-fixed-5);
+}
+.ld-registration-order__checkout-button-gateway-details-content {
+  margin-top: var(--ld-spacer-3);
+}
+.ld-registration-order .ppalholder {
+  display: block;
+  height: 0;
+}
+
+.ld-paypal-checkout__sandbox-enabled {
+  align-items: flex-start;
+  background-color: #e6ecf2;
+  border-top-right-radius: var(--ld-border-radius);
+  border-top-left-radius: var(--ld-border-radius);
+  color: #333;
+  display: flex;
+  gap: var(--ld-spacer-1);
+  justify-content: center;
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-2);
+}
+.ld-paypal-checkout__sandbox-enabled-icon {
+  align-items: flex-end;
+  display: flex;
+  font-size: var(--ld-typography-desktop-body-size);
+}
+.ld-paypal-checkout__sandbox-enabled-content {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--ld-typography-desktop-body-size);
+  gap: var(--ld-spacer-1);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-paypal-checkout__sandbox-enabled-title {
+  font-weight: var(--ld-typography-font-weight-bold);
+}
+.ld-paypal-checkout__card-details-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2);
+  padding: var(--ld-spacer-3) var(--ld-spacer-fixed-5);
+}
+.ld-paypal-checkout__billing-field-wrapper {
+  padding-top: var(--ld-spacer-3);
+}
+.ld-paypal-checkout__billing-field-wrapper select {
+  width: 100%;
+}
+.ld-paypal-checkout__billing-field-label {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  margin-bottom: var(--ld-spacer-fixed-0);
+}
+.ld-paypal-checkout__payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2);
+}
+
+.ld-form__field-password-wrapper {
+  margin-bottom: var(--ld-spacer-fixed-1);
+}
+
+.ld-form__field-coupon_field {
+  width: 100%;
+}
+.ld-form__field-coupon_field-wrapper {
+  display: flex;
+  max-width: 450px;
+}
+
+.ld-form__coupon {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ld-button__coupon-apply {
+  margin-right: 10px;
+  overflow-wrap: break-word;
+  white-space: normal;
+  word-break: normal;
+}
+
+.ld-breakpoint--medium .ld-registration__wrapper--logged-in .ld-registration-order-wrapper {
+  border-left: none;
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  max-width: 650px;
+  padding-left: 0;
+}
+
+.ld-coupon {
+  display: flex;
+}
+.ld-coupon__alerts {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 650px;
+}
+.ld-coupon__wrapper {
+  display: none;
+}
+.ld-registration-order__items--with-coupon .ld-coupon__wrapper {
+  display: block;
+}
+.ld-coupon__details-wrapper {
+  background-color: var(--ld-color-system-middle-gray-light);
+  border-radius: 5px;
+  display: none;
+  padding: 7px 9px;
+}
+.ld-registration-order__items--with-coupon .ld-coupon__details-wrapper {
+  display: inline-block;
+}
+.ld-coupon__remove {
+  border: 0;
+  cursor: pointer;
+  font-size: var(--ld-typography-desktop-body-size);
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+.ld-coupon__remove, .ld-coupon__remove:hover, .ld-coupon__remove:focus, .ld-coupon__remove:active {
+  background-color: transparent;
+  box-shadow: none;
+}
+.ld-coupon__remove:hover svg path {
+  fill: #000;
+}
+.ld-coupon__remove:focus {
+  color: inherit;
+  outline: solid;
+}
+.ld-coupon__remove-form {
+  align-self: center;
+  display: flex;
+  line-height: 0;
+  margin-right: var(--ld-spacer-2);
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.ld-coupon__label-wrapper {
+  display: flex;
+}
+.ld-coupon__label {
+  align-self: center;
+  display: flex;
+}
+.ld-coupon__label-text {
+  align-self: center;
+  display: inline-block;
+  font-weight: var(--ld-typography-font-weight-bold);
+  text-transform: uppercase;
+  word-break: break-all;
+}
+.ld-coupon__label--coupon-icon {
+  align-self: center;
+  margin-left: var(--ld-spacer-1);
+}
+.ld-coupon__value {
+  align-self: center;
+  color: var(--ld-color-system-subtle-text);
+  display: inline-block;
+  font-size: var(--ld-typography-desktop-body-small-size);
+  margin-right: var(--ld-spacer-fixed-4);
+}
+.ld-coupon .ld-svgicon__coupon {
+  stroke: var(--ld-color-system-subtle);
+}
+
+.ld-enrollment {
+  border-radius: var(--ld-border-radius-small);
+  border: 1px solid var(--ld-color-system-border);
+  color: var(--ld-color-system-body-text);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-3);
+  padding: var(--ld-spacer-4) var(--ld-spacer-fixed-3) var(--ld-spacer-5) var(--ld-spacer-fixed-3);
+}
+.ld-enrollment__king {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-0);
+}
+.ld-enrollment__king-label {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-enrollment__king-description {
+  font-size: var(--ld-typography-desktop-body-large-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-enrollment__subject {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-enrollment__pricing, .ld-enrollment__access, .ld-enrollment__status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-0);
+}
+.ld-enrollment__pricing-label, .ld-enrollment__status-label {
+  color: var(--ld-color-system-body-text);
+  font-family: var(--wp--preset--font-family--body);
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.ld-enrollment__pricing-price, .ld-enrollment__status-description {
+  color: var(--ld-color-system-body-text);
+  font-family: var(--wp--preset--font-family--body);
+  font-size: var(--ld-typography-desktop-body-large-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.ld-enrollment__seats-remaining {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-enrollment__join {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2);
+}
+.ld-enrollment__join form {
+  margin: 0;
+}
+.ld-enrollment__join {
+  /**
+   * Some themes, like Kadence, may style both
+   * .button and input[type="submit"] at the same time,
+   * which would both apply to this button in many cases.
+   *
+   * Nesting the selector like this ensures that
+   * we're specific enough to override theme styles.
+   */
+}
+.ld-enrollment__join .ld-enrollment__join-button, .ld-enrollment__join .ld-enrollment__join-button:active, .ld-enrollment__join .ld-enrollment__join-button:focus-visible, .ld-enrollment__join .ld-enrollment__join-button:focus-within, .ld-enrollment__join .ld-enrollment__join-button:focus, .ld-enrollment__join .ld-enrollment__join-button:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-enrollment__join .ld-enrollment__join-button {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-enrollment__join .ld-enrollment__join-button, .ld-enrollment__join .ld-enrollment__join-button:active, .ld-enrollment__join .ld-enrollment__join-button:focus-visible, .ld-enrollment__join .ld-enrollment__join-button:focus-within, .ld-enrollment__join .ld-enrollment__join-button:focus, .ld-enrollment__join .ld-enrollment__join-button:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-enrollment__join .ld-enrollment__join-button:focus {
+  outline-style: solid;
+}
+.ld-enrollment__join .ld-enrollment__join-button:disabled, .ld-enrollment__join .ld-enrollment__join-button[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-enrollment__join .ld-enrollment__join-button:disabled:hover, .ld-enrollment__join .ld-enrollment__join-button[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-enrollment__join .ld-enrollment__join-button, .ld-enrollment__join .ld-enrollment__join-button:active, .ld-enrollment__join .ld-enrollment__join-button:focus-visible, .ld-enrollment__join .ld-enrollment__join-button:focus-within, .ld-enrollment__join .ld-enrollment__join-button:focus, .ld-enrollment__join .ld-enrollment__join-button:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.ld-enrollment__join .ld-enrollment__join-button:active, .ld-enrollment__join .ld-enrollment__join-button:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.ld-enrollment__join .ld-enrollment__join-button:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.ld-enrollment__join .ld-enrollment__join-button:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.ld-enrollment__login {
+  display: flex;
+  flex-direction: row;
+  gap: var(--ld-spacer-fixed-1);
+}
+.ld-enrollment__login-text {
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-caption-height);
+}
+.ld-enrollment__login-link {
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--ld-color-brand-primary);
+  cursor: pointer;
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-caption-height);
+  outline: none;
+  padding: 0;
+  text-decoration: underline;
+}
+.ld-enrollment__login-link:focus, .ld-enrollment__login-link:hover {
+  background: none;
+  color: var(--ld-color-system-dark);
+}
+
+.ld-details {
+  border-radius: var(--ld-border-radius-small);
+  border: 1px solid var(--ld-color-system-border);
+  color: var(--ld-color-system-body-text);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-5);
+  padding: var(--ld-spacer-5) var(--ld-spacer-fixed-4) var(--ld-spacer-6) var(--ld-spacer-fixed-4);
+}
+.ld-details__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1);
+}
+.ld-details__heading {
+  font-size: var(--ld-typography-desktop-body-large-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-large-height);
+  margin-bottom: var(--ld-spacer-1);
+}
+.ld-details__item {
+  display: flex;
+  gap: var(--ld-spacer-fixed-0);
+}
+.ld-details__label {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-details__link {
+  color: var(--ld-color-system-body-text);
+}
+.ld-details__link:hover, .ld-details__link:focus {
+  color: var(--ld-color-brand-primary);
+}
+.ld-details__link:focus {
+  border-radius: var(--ld-border-radius-small);
+  outline: solid 2px var(--ld-color-brand-primary);
+}
+.ld-details__icon-wrapper {
+  align-items: center;
+  display: flex;
+  max-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-details__icon {
+  height: 18px;
+  width: 18px;
+}
+
+.ld-accordion {
+  display: flex;
+  flex-direction: column;
+}
+.ld-accordion__header {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2);
+  margin: 0 0 var(--ld-spacer-3) 0;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__header {
+  gap: var(--ld-spacer-fixed-1);
+}
+.ld-accordion__subheading {
+  font-size: var(--ld-typography-desktop-body-large-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-height);
+  padding: var(--ld-spacer-4) var(--ld-spacer-fixed-2) var(--ld-spacer-1) var(--ld-spacer-fixed-2);
+}
+.ld-accordion__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-3);
+}
+.ld-accordion__section, .ld-accordion__items, .ld-accordion__item-steps-container, .ld-accordion__item-steps {
+  display: flex;
+  flex-direction: column;
+}
+.ld-accordion__section, .ld-accordion__item-steps {
+  gap: var(--ld-spacer-2);
+}
+.ld-accordion {
+  /**
+   * Ensures that we cannot tab into a collapsed accordion.
+   *
+   * This happens because [hidden] is a browser-level style
+   * and is considered very low specificity.
+   *
+   * If we force it to be display: none, it looks the same
+   * and ensures that we cannot tab into the hidden content even
+   * if the container is normally something like display: flex.
+   *
+   * https://css-tricks.com/the-hidden-attribute-is-visibly-weak/
+   */
+}
+.ld-accordion__item-steps[hidden=hidden] {
+  display: none;
+}
+.ld-accordion__items, .ld-accordion__item-steps-container {
+  gap: var(--ld-spacer-4);
+}
+.ld-accordion__items--lessons, .ld-accordion__items--topics, .ld-accordion__item-steps-container--lessons, .ld-accordion__item-steps-container--topics {
+  gap: var(--ld-spacer-2);
+}
+.ld-accordion__section {
+  border: 1px solid var(--ld-color-system-border);
+  border-radius: var(--ld-border-radius-small);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-2) var(--ld-spacer-6) var(--ld-spacer-fixed-2);
+}
+.ld-accordion__item-steps {
+  gap: var(--ld-spacer-5);
+  grid-area: attributes;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.ld-accordion__item-steps.ld-expanded {
+  /**
+   * Ensure Tooltips are visible if they would expand
+   * outside the collapsible element.
+   */
+  overflow: visible;
+}
+.ld-accordion__item-steps {
+  /**
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion__item-steps [data-ld-tooltip-text] {
+  /**
+   * Don't position Tooltips based on the element
+   * they're associated with.
+   *
+   * This is counter-intuitive, but necessary
+   * to ensure they are positioned correctly when taking
+   * into account the expandable nature of accordions.
+   */
+  position: inherit;
+}
+.ld-accordion__item-steps [data-ld-tooltip-text]::after {
+  bottom: auto;
+  /**
+   * To account for issues with positioning if the
+   * tooltip spills to a second line, we need calculate
+   * what it _should be_ and use it only if it is less
+   * than 100% of the container.
+   */
+  transform: translate(1%, min(24px + var(--ld-typography-desktop-body-small-size) + var(--ld-spacer-1), 100%));
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-steps [data-ld-tooltip-text]::after {
+  transform: translate(0, min(24px + var(--ld-typography-desktop-body-small-size) + var(--ld-spacer-1), 100%));
+}
+.ld-accordion__item-steps-container {
+  /**
+   * Padding is placed here to ensure it doesn't
+   * interfere with how height and overflow are calculated.
+   */
+  padding: var(--ld-spacer-2) 0;
+}
+.ld-accordion {
+  /**
+   * TODO: If this gets added to the global button styles, we should
+   * switch to using mixins here.
+   */
+}
+.ld-accordion__expand-button, .ld-accordion__expand-button:hover, .ld-accordion__expand-button:focus {
+  all: unset;
+  align-items: center;
+  color: var(--ld-color-system-body-text);
+  display: flex;
+  font-size: var(--ld-typography-desktop-body-size);
+  font-style: normal;
+  gap: var(--ld-spacer-fixed-1);
+  line-height: var(--ld-typography-desktop-body-height);
+  padding-bottom: var(--ld-spacer-0);
+}
+.ld-accordion__expand-button:hover {
+  color: var(--ld-color-brand-primary);
+  cursor: pointer;
+}
+.ld-accordion__expand-button:focus-visible {
+  border-radius: var(--ld-border-radius-small);
+  outline: solid 2px var(--ld-color-brand-primary);
+}
+.ld-accordion__expand-button--all, .ld-accordion__expand-button--all:hover, .ld-accordion__expand-button--all:focus {
+  font-weight: var(--ld-typography-font-weight-medium);
+}
+.ld-accordion__expand-button--all:hover {
+  border-bottom: 2px solid var(--ld-color-brand-primary);
+  margin-bottom: -2px;
+}
+.ld-accordion__expand-button--lesson, .ld-accordion__expand-button--lesson:hover, .ld-accordion__expand-button--lesson:focus, .ld-accordion__expand-button--topic, .ld-accordion__expand-button--topic:hover, .ld-accordion__expand-button--topic:focus {
+  font-weight: var(--ld-typography-font-weight-bold);
+}
+.ld-accordion__expand-button--lesson:hover .ld-accordion__expand-button-text, .ld-accordion__expand-button--topic:hover .ld-accordion__expand-button-text {
+  border-bottom: 2px solid var(--ld-color-brand-primary);
+  margin-bottom: -2px;
+}
+.ld-accordion__expand-button .ld-accordion__expand-button-icon--collapse {
+  display: none;
+}
+.ld-accordion__expand-button[aria-expanded=true] .ld-accordion__expand-button-icon--expand {
+  display: none;
+}
+.ld-accordion__expand-button[aria-expanded=true] .ld-accordion__expand-button-icon--collapse {
+  display: inline-block;
+}
+.ld-accordion__item {
+  border-radius: var(--ld-border-radius);
+  transition: all 0.3s ease;
+}
+.ld-accordion__item--lesson, .ld-accordion__item--topic {
+  display: grid;
+  grid-template-areas: "title expand" "attributes attributes";
+  grid-template-columns: 1fr min-content;
+}
+.ld-accordion__item--lesson-topic, .ld-accordion__item--lesson-quiz, .ld-accordion__item--topic-quiz, .ld-accordion__item--quiz {
+  column-gap: var(--ld-spacer-fixed-1);
+  display: grid;
+  grid-template-areas: "icon title" "icon attributes";
+  grid-template-columns: min-content auto;
+}
+.ld-accordion__item--quiz {
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-2);
+}
+.ld-accordion__item--lesson-topic, .ld-accordion__item--topic-quiz, .ld-accordion__item--lesson-quiz {
+  padding: 0 var(--ld-spacer-fixed-2) 0 var(--ld-spacer-fixed-9);
+}
+.ld-accordion__item--lesson .ld-accordion__item--topic-quiz {
+  padding: 0 0 0 var(--ld-spacer-fixed-2);
+}
+.ld-accordion__item--lesson .ld-accordion__item--topic-quiz:first-of-type {
+  padding-top: var(--ld-spacer-1);
+}
+.ld-accordion__item .ld-accordion__expand-button {
+  font-size: var(--ld-typography-desktop-caption-size);
+  grid-area: expand;
+  justify-content: flex-end;
+  letter-spacing: 1px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-5);
+  text-transform: uppercase;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item .ld-accordion__expand-button {
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-5) var(--ld-spacer-2) var(--ld-spacer-fixed-2);
+}
+.ld-accordion__item .ld-accordion__expand-button {
+  /**
+   * On mobile, always hide the Expand/Collapse text visually.
+   * Screen readers can always see it when styled this way.
+   */
+}
+.ld-accordion__item .ld-accordion__expand-button .ld-accordion__expand-button-text {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.ld-accordion__item:has(.ld-accordion__expand-button[aria-expanded=true]), .ld-accordion__item:hover, .ld-accordion__item:focus-within {
+  background-color: var(--ld-color-system-light-2);
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item:has(.ld-accordion__expand-button[aria-expanded=true]), .ld-accordion.ld-breakpoint--small .ld-accordion__item:hover, .ld-accordion.ld-breakpoint--small .ld-accordion__item:focus-within {
+  /**
+   * This border should only be visible when:
+   *
+   * 1. The user is hovering over the Lesson.
+   * 2. The user is focused somewhere within the Lesson.
+   * 3. The Lesson is collapsed.
+   */
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item:has(.ld-accordion__expand-button[aria-expanded=true]) .ld-accordion__expand-button, .ld-accordion.ld-breakpoint--small .ld-accordion__item:hover .ld-accordion__expand-button, .ld-accordion.ld-breakpoint--small .ld-accordion__item:focus-within .ld-accordion__expand-button {
+  position: relative;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item:has(.ld-accordion__expand-button[aria-expanded=true]) .ld-accordion__expand-button[aria-expanded=false]::before, .ld-accordion.ld-breakpoint--small .ld-accordion__item:hover .ld-accordion__expand-button[aria-expanded=false]::before, .ld-accordion.ld-breakpoint--small .ld-accordion__item:focus-within .ld-accordion__expand-button[aria-expanded=false]::before {
+  background: var(--ld-color-system-middle-gray);
+  bottom: var(--ld-spacer-0);
+  content: "";
+  right: 0;
+  position: absolute;
+  top: var(--ld-spacer-0);
+  width: 1px;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item--lesson, .ld-accordion.ld-breakpoint--small .ld-accordion__item--topic {
+  grid-template-columns: auto minmax(160px, min-content);
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item {
+  /**
+   * On Desktop, show the Expand/Collapse text:
+   *
+   * 1. The user is hovering over the Lesson.
+   * 2. The user is focused somewhere within the Lesson.
+   * 3. The Lesson is expanded.
+   */
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item:hover .ld-accordion__expand-button .ld-accordion__expand-button-text, .ld-accordion.ld-breakpoint--small .ld-accordion__item:focus-within .ld-accordion__expand-button .ld-accordion__expand-button-text {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: relative;
+  width: auto;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item:hover .ld-accordion__expand-button:hover .ld-accordion__expand-button-text, .ld-accordion.ld-breakpoint--small .ld-accordion__item:focus-within .ld-accordion__expand-button:hover .ld-accordion__expand-button-text {
+  border-bottom: 2px solid var(--ld-color-brand-primary);
+  margin-bottom: -2px;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item .ld-accordion__expand-button[aria-expanded=true] .ld-accordion__expand-button-text {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: relative;
+  width: auto;
+}
+.ld-accordion__item-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1);
+}
+.ld-accordion__item-header--lesson, .ld-accordion__item-header--topic, .ld-accordion__item-header--quiz {
+  position: relative;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-header--lesson, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--topic, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--quiz {
+  position: inherit;
+}
+.ld-accordion__item-header--lesson, .ld-accordion__item-header--topic, .ld-accordion__item-header--quiz {
+  /**
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion__item-header--lesson [data-ld-tooltip-text], .ld-accordion__item-header--topic [data-ld-tooltip-text], .ld-accordion__item-header--quiz [data-ld-tooltip-text] {
+  /**
+   * Don't position Tooltips based on the element
+   * they're associated with.
+   *
+   * This is counter-intuitive, but necessary
+   * to ensure they are positioned correctly when taking
+   * into account the expandable nature of accordions.
+   */
+  position: inherit;
+}
+.ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion__item-header--topic [data-ld-tooltip-text]::after, .ld-accordion__item-header--quiz [data-ld-tooltip-text]::after {
+  bottom: auto;
+  right: auto;
+  /**
+   * To account for issues with positioning if the
+   * tooltip spills to a second line, we need calculate
+   * what it _should be_ and use it only if it is less
+   * than 100% of the container.
+   */
+  transform: translate(1%, min(24px + var(--ld-typography-desktop-body-small-size) + var(--ld-spacer-1), 100%));
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--topic [data-ld-tooltip-text]::after, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--quiz [data-ld-tooltip-text]::after {
+  transform: translate(0%, min(24px + var(--ld-typography-desktop-body-small-size) + var(--ld-spacer-1), 100%));
+  left: auto;
+}
+.ld-accordion__item-header--lesson, .ld-accordion__item-header--topic {
+  padding: var(--ld-spacer-1) var(--ld-spacer-2) var(--ld-spacer-fixed-1) 0;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-header--lesson, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--topic {
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-2) var(--ld-spacer-1) var(--ld-spacer-fixed-2);
+}
+.ld-accordion__item-header--lesson, .ld-accordion__item-header--topic {
+  /**
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion__item-header--topic [data-ld-tooltip-text]::after {
+  /**
+   * Fixes a very specific edge case with positioning of the tooltips
+   * only in the Lesson Header.
+   *
+   * The Expand/Collapse button and the way the icons
+   * get positioned in relation to it causes us some issues.
+   */
+  right: 0;
+  left: 0;
+}
+.ld-accordion.ld-breakpoint--mobile .ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion.ld-breakpoint--mobile .ld-accordion__item-header--topic [data-ld-tooltip-text]::after {
+  right: auto;
+}
+.ld-accordion.ld-breakpoint--tablet .ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion.ld-breakpoint--tablet .ld-accordion__item-header--topic [data-ld-tooltip-text]::after {
+  right: 0;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-header--lesson [data-ld-tooltip-text]::after, .ld-accordion.ld-breakpoint--small .ld-accordion__item-header--topic [data-ld-tooltip-text]::after {
+  right: auto;
+}
+.ld-accordion__item-icon {
+  grid-area: icon;
+}
+.ld-accordion__item-icon--progress {
+  color: var(--ld-color-brand-primary);
+}
+.ld-accordion__item-title {
+  color: var(--ld-color-system-body-text);
+  font-size: var(--ld-typography-desktop-h6-size);
+  grid-area: title;
+  line-height: var(--ld-typography-desktop-h6-height);
+}
+.ld-accordion__item-title:is(a):hover, .ld-accordion__item-title:is(a):focus {
+  color: var(--ld-color-brand-primary);
+  text-decoration: underline;
+}
+.ld-accordion__item-title:is(a):focus {
+  outline: solid 2px var(--ld-color-brand-primary);
+}
+.ld-accordion__item-title {
+  /**
+   * Item Title Tooltips, specifically,
+   * need to use styling closer to the default Tooltip styling.
+   *
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion__item-title[data-ld-tooltip-text] {
+  position: relative;
+}
+.ld-accordion__item-title[data-ld-tooltip-text]::after {
+  right: 0;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-title[data-ld-tooltip-text]::after {
+  right: 0;
+}
+.ld-accordion__item-title[data-ld-tooltip-text]::after {
+  /**
+   * To account for issues with positioning if the
+   * tooltip spills to a second line, we need calculate
+   * what it _should be_ and use it only if it is less
+   * than 100% of the container.
+   */
+  transform: translate(1%, min(24px + var(--ld-spacer-1), 100%));
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-title[data-ld-tooltip-text]::after {
+  transform: translate(0, min(24px + var(--ld-spacer-1), 100%));
+}
+.ld-accordion__item-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--ld-typography-desktop-body-small-size);
+  gap: var(--ld-spacer-fixed-1);
+  grid-area: attributes;
+  line-height: var(--ld-typography-desktop-body-small-height);
+}
+.ld-accordion__item-attribute {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--ld-spacer-fixed-0);
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible {
+  display: inline-flex;
+  letter-spacing: 1px;
+  padding-left: var(--ld-spacer-1);
+  /**
+   * On desktop the text within these Tooltips is shown by default.
+   * We need to hide it when the user hovers over the attribute.
+   *
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible[data-ld-tooltip-text]:hover::after, .ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible[data-ld-tooltip-text]:focus::after, .ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible[data-ld-tooltip-text]:focus-within::after {
+  visibility: hidden;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible.ld-tooltip [role=tooltip] {
+  all: unset;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible.ld-tooltip,
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--collapsible.ld-tooltip [role=tooltip] {
+  letter-spacing: 1px;
+}
+.ld-accordion__item-attribute--collapsible, .ld-accordion__item-attribute--collapsed {
+  align-items: center;
+  background: var(--ld-color-system-middle-gray-light);
+  border-radius: var(--ld-border-radius);
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  gap: var(--ld-spacer-fixed-0);
+  letter-spacing: 1px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-0) var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  text-transform: uppercase;
+  padding: 0;
+  /**
+   * Don't use the tooltip styles if JS is disabled.
+   *
+   * We have to ignore the selector-class-pattern rule
+   * otherwise it would only apply to --collapsed attributes.
+   */
+  /* stylelint-disable-next-line selector-class-pattern */
+}
+.ld-accordion__item-attribute--collapsible:not(.ld-tooltip--initialized) [role=tooltip], .ld-accordion__item-attribute--collapsed:not(.ld-tooltip--initialized) [role=tooltip] {
+  all: unset;
+}
+.ld-accordion__item-attribute--available-on {
+  background: var(--ld-color-primitives-yellow-200);
+  color: #000;
+}
+.ld-accordion__item-attribute--lesson-topics .ld-accordion__item-attribute-icon, .ld-accordion__item-attribute--quizzes .ld-accordion__item-attribute-icon {
+  display: none;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--lesson-topics .ld-accordion__item-attribute-icon, .ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute--quizzes .ld-accordion__item-attribute-icon {
+  display: inline-block;
+  height: auto;
+  width: 16px;
+}
+.ld-accordion__item-attribute-icon {
+  height: 1rem;
+  width: 1rem;
+}
+.ld-accordion__item-attribute-icon--progress {
+  color: var(--ld-color-brand-primary);
+}
+.ld-accordion__item-attribute-label--collapsible {
+  /**
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion__item-attribute-label--collapsible[data-ld-tooltip-text] {
+  display: none;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute-label--collapsible {
+  /**
+   * Kept for backwards compatibility with LD30 Modern templates
+   * from before 4.21.3.
+   */
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute-label--collapsible[data-ld-tooltip-text] {
+  display: inline-block;
+}
+.ld-accordion.ld-breakpoint--small .ld-accordion__item-attribute-label--collapsible {
+  opacity: 1;
+  position: relative;
+}
+.ld-accordion__pagination {
+  color: var(--ld-color-system-body-text);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-caption-size);
+  /**
+   * 8px, accounting for the 4px padding on the buttons themselves.
+   *
+   * Bottom padding is intentionally 0 as the
+   * container has its own bottom padding.
+   *
+   * Top padding is being handled by the gap attribute on the parent element.
+   */
+  padding: 0 var(--ld-spacer-fixed-1);
+}
+.ld-accordion__pagination-list {
+  align-items: center;
+  display: flex;
+  gap: var(--ld-spacer-2);
+}
+.ld-accordion .ld-accordion__pagination-list,
+.ld-accordion .ld-accordion__pagination-list-item {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.ld-accordion__pagination-button, .ld-accordion__pagination-button:hover, .ld-accordion__pagination-button:focus {
+  all: unset;
+  box-sizing: border-box;
+}
+.ld-accordion__pagination-button:disabled {
+  opacity: 0.6;
+}
+.ld-accordion__pagination-button:hover, .ld-accordion__pagination-button:focus {
+  color: var(--ld-color-brand-primary);
+}
+.ld-accordion__pagination-button:focus {
+  border-radius: var(--ld-border-radius-small);
+  outline: solid 2px var(--ld-color-brand-primary);
+}
+.ld-accordion__pagination-button:hover {
+  cursor: pointer;
+}
+.ld-accordion__pagination-button:hover:disabled {
+  color: inherit;
+  cursor: not-allowed;
+}
+
+.ld-tooltip.ld-tooltip--modern::after {
+  height: var(--ld-spacer-0);
+}
+.ld-tooltip.ld-tooltip--modern [role=tooltip] {
+  background: var(--ld-color-system-middle-gray-light);
+  border-radius: var(--ld-border-radius-small);
+  border: 1px solid #cbd5e0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+  color: var(--ld-color-system-body-text);
+  font-family: unset;
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-medium);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  max-width: 100%;
+  min-width: 130px;
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  text-transform: none;
+  transform: translateY(var(--ld-spacer-0));
+}
+
+/**
+ * Old LD30 Modern tooltip implementation, left for backwards compatibility.
+ * Replaced with a new style of tooltips in 4.21.3 for accessibility reasons.
+ * Kept for backwards compatibility.
+ */
+[data-ld-tooltip-text] {
+  position: relative;
+}
+[data-ld-tooltip-text]::after {
+  background: var(--ld-color-system-middle-gray-light);
+  border-radius: var(--ld-border-radius-small);
+  border: 1px solid #cbd5e0;
+  bottom: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+  color: var(--ld-color-system-body-text);
+  content: attr(data-ld-tooltip-text);
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-medium);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  position: absolute;
+  text-transform: none;
+  visibility: hidden;
+  z-index: 999;
+}
+[data-ld-tooltip-text]:hover::after, [data-ld-tooltip-text]:focus::after, [data-ld-tooltip-text]:focus-within::after {
+  visibility: visible;
+}
+
+.ld-alerts {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--ld-spacer-3);
+}
+
+.ld-alert.ld-alert--modern {
+  all: unset;
+  border-radius: var(--ld-border-radius);
+  border-style: solid;
+  border-width: 2px;
+  color: var(--ld-color-primitives-grey-800);
+  display: flex;
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-0);
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-1);
+}
+.ld-breakpoint--small .ld-alert.ld-alert--modern {
+  padding: var(--ld-spacer-3) var(--ld-spacer-fixed-3);
+}
+.ld-alert.ld-alert--modern {
+  /**
+   * We need to style the alert types in this way due to the
+   * LD30 Classic override above.
+   */
+}
+.ld-alert.ld-alert--modern.ld-alert--info {
+  background-color: var(--ld-color-semantic-alert-success-background);
+  border-color: var(--ld-color-semantic-alert-success-border);
+}
+.ld-alert.ld-alert--modern.ld-alert--warning {
+  background-color: var(--ld-color-semantic-alert-warning-background);
+  border-color: var(--ld-color-semantic-alert-warning-border);
+}
+.ld-alert.ld-alert--modern.ld-alert--error {
+  background-color: var(--ld-color-semantic-alert-error-background);
+  border-color: var(--ld-color-semantic-alert-error-border);
+}
+.ld-alert.ld-alert--modern.ld-alert--timer {
+  background-color: var(--ld-color-primitives-grey-100);
+  border-color: var(--ld-color-primitives-grey-800);
+}
+.ld-alert__icon {
+  align-items: center;
+  border-radius: 50%;
+  display: inline-flex;
+  flex-shrink: 0;
+  height: var(--ld-typography-desktop-h6-size);
+  justify-content: center;
+  margin: var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  width: var(--ld-typography-desktop-h6-size);
+}
+.ld-alert__icon--info {
+  background-color: var(--ld-color-semantic-alert-success-icon);
+}
+.ld-alert__icon--warning {
+  background-color: var(--ld-color-semantic-alert-warning-icon);
+}
+.ld-alert__icon--error {
+  background-color: var(--ld-color-semantic-alert-error-icon);
+}
+.ld-alert__icon--timer {
+  background-color: var(--ld-color-primitives-grey-800);
+  color: var(--ld-color-primitives-grey-0);
+}
+.ld-alert__icon-svg {
+  height: auto;
+  width: 0.625rem;
+}
+.ld-alert__content {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  gap: var(--ld-spacer-fixed-2);
+  line-height: var(--ld-typography-desktop-body-height);
+  width: 100%;
+}
+.ld-breakpoint--small .ld-alert__content {
+  flex-direction: row;
+}
+.ld-alert__action {
+  flex-shrink: 0;
+}
+.ld-breakpoint--small .ld-alert__action {
+  max-width: 20%;
+}
+.ld-alert__action--button {
+  max-width: none;
+}
+.ld-breakpoint--small .ld-alert__action--button {
+  margin-right: auto;
+  max-width: none;
+}
+.ld-breakpoint--small .ld-alert--action-button {
+  /**
+   * When an Alert has a button, on desktop we want to fake aligning
+   * the icon and message with the button.
+   *
+   * Spacers do not exist for the necessary values, so we're using
+   * hardcoded values.
+   */
+}
+.ld-breakpoint--small .ld-alert--action-button .ld-alert__icon {
+  margin-top: 0.5625rem;
+}
+.ld-breakpoint--small .ld-alert--action-button .ld-alert__message {
+  margin-top: 0.3125rem;
+}
+.ld-alert__button, .ld-alert__button:active, .ld-alert__button:focus-visible, .ld-alert__button:focus-within, .ld-alert__button:focus, .ld-alert__button:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-alert__button {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-alert__button, .ld-alert__button:active, .ld-alert__button:focus-visible, .ld-alert__button:focus-within, .ld-alert__button:focus, .ld-alert__button:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-alert__button:focus {
+  outline-style: solid;
+}
+.ld-alert__button:disabled, .ld-alert__button[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-alert__button:disabled:hover, .ld-alert__button[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-alert__button, .ld-alert__button:active, .ld-alert__button:focus-visible, .ld-alert__button:focus-within, .ld-alert__button:focus, .ld-alert__button:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.ld-alert__button:active, .ld-alert__button:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.ld-alert__button:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.ld-alert__button:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.ld-alert__button, .ld-alert__button:active, .ld-alert__button:focus-visible, .ld-alert__button:focus-within, .ld-alert__button:focus, .ld-alert__button:hover {
+  font-size: var(--ld-typography-desktop-caption-size);
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+}
+.ld-alert__button, .ld-alert__button:active, .ld-alert__button:focus-visible, .ld-alert__button:focus-within, .ld-alert__button:focus, .ld-alert__button:hover {
+  padding-left: var(--ld-spacer-fixed-2);
+}
+.ld-alert__link-container {
+  display: flex;
+}
+.ld-breakpoint--small .ld-alert__link-separator {
+  align-self: stretch;
+  background-color: var(--ld-color-primitives-grey-200);
+  display: inline-flex;
+  height: auto;
+  margin: var(--ld-spacer-0) 0 var(--ld-spacer-0) var(--ld-spacer-fixed-2);
+  width: 1px;
+}
+.ld-alert__link {
+  color: var(--ld-color-primitives-grey-800);
+  text-decoration: underline;
+}
+.ld-alert__link:hover {
+  color: var(--ld-color-primitives-grey-900);
+  text-decoration: none;
+}
+
+.ld-breadcrumbs.ld-breadcrumbs--modern {
+  all: unset;
+  border-bottom: 1px solid var(--ld-color-system-border);
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  padding: var(--ld-spacer-fixed-1) 0;
+}
+.ld-breadcrumbs {
+  /**
+   * This has to be a nested selector to override the majority of the default
+   * theme styles.
+   */
+}
+.ld-breadcrumbs > .ld-breadcrumbs__items {
+  all: unset;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ld-breakpoint--small .ld-breadcrumbs > .ld-breadcrumbs__items {
+  display: block;
+  vertical-align: middle;
+}
+.ld-breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  max-width: 19ch;
+  overflow: hidden;
+}
+.ld-breakpoint--small .ld-breadcrumbs__item {
+  display: inline;
+  overflow: auto;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+.ld-breadcrumbs__item > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+.ld-breadcrumbs__delimiter {
+  color: var(--ld-color-field-border);
+  margin: 0 var(--ld-spacer-fixed-0);
+}
+.ld-breakpoint--small .ld-breadcrumbs__delimiter {
+  /**
+   * On desktop, since we are displaying inline, we need to remove the
+   * margin as whitespace nodes are rendered.
+   *
+   * These whitespace nodes are included by formatting decisions within our
+   * templates and even if we trim the output of the templates, they end up
+   * still making it through into the final DOM.
+   *
+   * These whitespace nodes end up being just under 4px wide each and
+   * display on either side of the delimiter, so it works out to be
+   * almost exactly what we want anyway.
+   */
+  margin: 0;
+}
+.ld-breadcrumbs__link {
+  color: var(--ld-color-brand-primary);
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.ld-breakpoint--small .ld-breadcrumbs__link {
+  display: inline;
+  overflow: visible;
+  text-overflow: initial;
+  white-space: normal;
+}
+.ld-breadcrumbs__link[href=""] {
+  color: var(--ld-color-body-text);
+  cursor: default;
+  pointer-events: none;
+}
+
+.ld-assignments__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1) 0;
+  margin-bottom: var(--ld-spacer-2);
+}
+.ld-assignments__header-count {
+  color: var(--ld-color-primitives-grey-800);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  gap: var(--ld-spacer-fixed-0);
+  letter-spacing: 1px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  text-transform: uppercase;
+}
+.ld-assignments__list {
+  display: flex;
+  flex-direction: column;
+}
+.ld-assignments__list-item {
+  border-bottom: 1px solid var(--ld-color-primitives-grey-140);
+  display: flex;
+  flex-direction: column;
+  padding: var(--ld-spacer-3) 0;
+}
+.ld-assignments__list-item:first-child {
+  border-top: 1px solid var(--ld-color-primitives-grey-140);
+}
+.ld-breakpoint--small .ld-assignments__list-item {
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.ld-assignments__list-item-title {
+  color: var(--ld-color-primitives-grey-900);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  gap: var(--ld-spacer-1);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-assignments__list-item-details {
+  display: flex;
+  flex-direction: row;
+  gap: var(--ld-spacer-fixed-1);
+}
+.ld-assignments__list-item-status {
+  align-items: center;
+  background: var(--ld-color-system-middle-gray-light);
+  border-radius: var(--ld-border-radius);
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  gap: var(--ld-spacer-fixed-0);
+  letter-spacing: 1px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-0) var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  text-transform: uppercase;
+}
+.ld-assignments__list-item-status--approved {
+  background: var(--ld-color-primitives-blue-150);
+  color: var(--ld-color-primitives-blue-800);
+}
+.ld-assignments__list-item-status--pending {
+  background: var(--ld-color-primitives-yellow-200);
+  color: #000;
+}
+.ld-assignments__list-item-status-icon {
+  height: 1rem;
+  width: 1rem;
+}
+.ld-assignments__list-item-points {
+  color: var(--ld-color-primitives-grey-900);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-assignments__list-item-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-0);
+}
+.ld-breakpoint--small .ld-assignments__list-item-actions {
+  flex-wrap: nowrap;
+  gap: var(--ld-spacer-5) var(--ld-spacer-fixed-5);
+}
+.ld-assignments__list-item-action, .ld-assignments__list-item-action:active, .ld-assignments__list-item-action:focus-visible, .ld-assignments__list-item-action:focus-within, .ld-assignments__list-item-action:focus, .ld-assignments__list-item-action:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-assignments__list-item-action {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-assignments__list-item-action, .ld-assignments__list-item-action:active, .ld-assignments__list-item-action:focus-visible, .ld-assignments__list-item-action:focus-within, .ld-assignments__list-item-action:focus, .ld-assignments__list-item-action:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-assignments__list-item-action:focus {
+  outline-style: solid;
+}
+.ld-assignments__list-item-action:disabled, .ld-assignments__list-item-action[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-assignments__list-item-action:disabled:hover, .ld-assignments__list-item-action[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-assignments__list-item-action, .ld-assignments__list-item-action:active, .ld-assignments__list-item-action:focus-visible, .ld-assignments__list-item-action:focus-within, .ld-assignments__list-item-action:focus, .ld-assignments__list-item-action:hover {
+  background-color: var(--ld-color-system-white);
+  border: 2px solid transparent;
+  color: var(--ld-color-system-body-text);
+  outline-offset: 0;
+  outline-width: 4px;
+}
+.ld-assignments__list-item-action:active, .ld-assignments__list-item-action:hover, .ld-assignments__list-item-action:focus {
+  border-color: var(--ld-color-brand-primary);
+}
+.ld-assignments__list-item-action:active, .ld-assignments__list-item-action:hover {
+  background-color: var(--ld-color-system-light-1);
+  color: var(--ld-color-brand-primary);
+}
+.ld-assignments__list-item-action:focus {
+  outline-color: #d6defb;
+}
+.ld-assignments__list-item-action:disabled, .ld-assignments__list-item-action[aria-disabled=true] {
+  background-color: var(--ld-color-system-white);
+  border: none;
+}
+.ld-assignments__list-item-action:disabled:hover, .ld-assignments__list-item-action[aria-disabled=true]:hover {
+  background-color: var(--ld-color-system-light-2);
+}
+.ld-assignments__list-item-action, .ld-assignments__list-item-action:active, .ld-assignments__list-item-action:focus-visible, .ld-assignments__list-item-action:focus-within, .ld-assignments__list-item-action:focus, .ld-assignments__list-item-action:hover {
+  font-size: var(--ld-typography-desktop-caption-size);
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+}
+.ld-assignments__list-item-action, .ld-assignments__list-item-action:active, .ld-assignments__list-item-action:focus-visible, .ld-assignments__list-item-action:focus-within, .ld-assignments__list-item-action:focus, .ld-assignments__list-item-action:hover {
+  padding-right: var(--ld-spacer-fixed-2);
+}
+.ld-assignments__upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-2) 0;
+  margin-top: var(--ld-spacer-3);
+}
+.ld-assignments__upload-heading {
+  color: var(--ld-color-primitives-grey-800);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-h6-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-desktop-h6-height);
+  text-transform: capitalize;
+}
+.ld-assignments__upload-form {
+  background: #f0f3f6;
+  border-radius: var(--ld-border-radius-small);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1) 0;
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-2);
+}
+.ld-breakpoint--small .ld-assignments__upload-form {
+  flex-direction: row;
+  gap: 0 var(--ld-spacer-fixed-5);
+  padding: var(--ld-spacer-7) var(--ld-spacer-fixed-5);
+}
+.ld-assignments__upload-form-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.ld-assignments__upload-form-file-input-wrapper {
+  color: var(--ld-color-primitives-grey-800);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  line-height: var(--ld-typography-desktop-body-height);
+  position: relative;
+}
+.ld-assignments__upload-form-file-input-wrapper:hover .ld-assignments__upload-form-upload-choose-file {
+  text-decoration: none;
+  color: var(--ld-color-primitives-blue-800);
+}
+.ld-assignments__upload-form-file-input-wrapper--drag-over .ld-assignments__upload-form-file-label-content, .ld-assignments__upload-form-file-input-wrapper:focus .ld-assignments__upload-form-file-label-content, .ld-assignments__upload-form-file-input-wrapper:focus-within .ld-assignments__upload-form-file-label-content {
+  border-color: var(--ld-color-primitives-blue-500);
+  border-style: solid;
+  border-width: 2px;
+}
+.ld-assignments__upload-form-file-input-wrapper--drag-over:hover .ld-assignments__upload-form-file-label-content, .ld-assignments__upload-form-file-input-wrapper:focus:hover .ld-assignments__upload-form-file-label-content, .ld-assignments__upload-form-file-input-wrapper:focus-within:hover .ld-assignments__upload-form-file-label-content {
+  border-color: var(--ld-color-primitives-blue-800);
+}
+.ld-assignments__upload-form-file-label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1) 0;
+}
+.ld-breakpoint--small .ld-assignments__upload-form-file-label {
+  gap: var(--ld-spacer-2) 0;
+}
+.ld-assignments__upload-form-file-label-content {
+  background-color: var(--ld-color-primitives-grey-0);
+  border-radius: var(--ld-border-radius);
+  border: 1px dashed var(--ld-color-primitives-grey-800);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-1) 0;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-4);
+}
+.ld-breakpoint--small .ld-assignments__upload-form-file-label-content {
+  display: block;
+  padding: var(--ld-spacer-2) var(--ld-spacer-fixed-3);
+}
+.ld-assignments__upload-form-upload-choose-file {
+  color: var(--ld-color-primitives-blue-500);
+  display: inline-block;
+  text-decoration: underline;
+}
+.ld-assignments__upload-form-file-name {
+  border-top: 1px solid var(--ld-color-primitives-grey-140);
+  color: var(--ld-color-primitives-grey-500);
+  margin-top: var(--ld-spacer-1);
+  padding-top: var(--ld-spacer-0);
+}
+.ld-breakpoint--small .ld-assignments__upload-form-file-name {
+  border-right: 1px solid var(--ld-color-primitives-grey-140);
+  border-top: none;
+  margin-right: var(--ld-spacer-fixed-1);
+  margin-top: 0;
+  padding-right: var(--ld-spacer-fixed-2);
+  padding-top: 0;
+}
+.ld-assignments__upload-form-file-description {
+  align-items: center;
+  color: var(--ld-color-primitives-grey-800);
+  display: inline-flex;
+  flex-direction: row;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  gap: 0 var(--ld-spacer-fixed-0);
+  line-height: var(--ld-typography-desktop-caption-height);
+}
+.ld-assignments {
+  /**
+   * Visually hide the input but keep it accessible to screen readers.
+   *
+   * Using .screen-reader-text here results in an issue where the
+   * input becomes visible on focus.
+   */
+}
+.ld-assignments__upload-form-file-input {
+  bottom: 0;
+  cursor: pointer;
+  display: block;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.ld-assignments__upload-form-file-input:focus {
+  outline: none;
+}
+.ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-assignments__upload-form-submit {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-assignments__upload-form-submit:focus {
+  outline-style: solid;
+}
+.ld-assignments__upload-form-submit:disabled, .ld-assignments__upload-form-submit[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-assignments__upload-form-submit:disabled:hover, .ld-assignments__upload-form-submit[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+  background-color: var(--ld-color-system-white);
+  border: 2px solid var(--ld-color-button-secondary-border);
+  color: var(--ld-color-brand-primary);
+}
+.ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:hover {
+  background-color: var(--ld-color-system-light-1);
+  border-color: var(--ld-color-system-dark);
+  color: var(--ld-color-system-dark);
+  outline: none;
+}
+.ld-assignments__upload-form-submit:disabled {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border-color: var(--ld-color-semantic-button-primary-border-disabled);
+  border-width: 2px;
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+}
+.ld-assignments__upload-form-submit:focus {
+  outline-color: var(--ld-color-system-dark);
+}
+.ld-assignments__upload-form-submit:hover:disabled {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-secondary-disabled-hover);
+}
+.ld-assignments__upload-form-submit:hover:focus {
+  outline-color: var(--ld-color-system-light-1);
+}
+.ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+  padding-left: var(--ld-spacer-fixed-2);
+}
+.ld-assignments__upload-form-submit {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+    padding-left: var(--ld-spacer-fixed-3);
+  }
+}
+.ld-assignments__upload-form-submit, .ld-assignments__upload-form-submit:active, .ld-assignments__upload-form-submit:focus-visible, .ld-assignments__upload-form-submit:focus-within, .ld-assignments__upload-form-submit:focus, .ld-assignments__upload-form-submit:hover {
+  align-self: flex-start;
+  justify-self: flex-end;
+}
+.ld-assignments__upload-form-hidden-fields {
+  display: none;
+}
+
+/* cspell:ignore valuenow */
+.ld-progress-bar {
+  align-items: center;
+  color: var(--ld-color-primitives-grey-800);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--ld-spacer-1) var(--ld-spacer-fixed-1);
+}
+.ld-breakpoint--small .ld-progress-bar {
+  gap: var(--ld-spacer-2) var(--ld-spacer-fixed-2);
+}
+.ld-progress-bar__label, .ld-progress-bar__meter-percentage, .ld-progress-bar__meter-label {
+  align-items: center;
+  display: flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-small-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  text-transform: uppercase;
+}
+.ld-progress-bar__label {
+  gap: var(--ld-spacer-1) var(--ld-spacer-fixed-1);
+}
+.ld-progress-bar__label-icon {
+  height: 28px;
+  width: 28px;
+}
+.ld-progress-bar__label-icon--complete {
+  color: var(--ld-color-primitives-blue-500);
+}
+.ld-progress-bar__meter {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--ld-spacer-1) var(--ld-spacer-fixed-1);
+  width: 100%;
+}
+.ld-breakpoint--small .ld-progress-bar__meter {
+  max-width: 35%;
+}
+.ld-progress-bar__meter-percentage {
+  flex-shrink: 0;
+}
+.ld-progress-bar__meter-foreground {
+  background-color: var(--ld-color-primitives-blue-500);
+  border-radius: 0 var(--ld-border-radius) var(--ld-border-radius) 0;
+  height: 100%;
+  width: var(--bar-width);
+  border-left: 2px solid var(--ld-color-primitives-grey-0);
+}
+.ld-progress-bar__meter-background {
+  background-color: var(--ld-color-semantic-general-middle-grey);
+  border-radius: var(--ld-border-radius);
+  height: var(--ld-typography-desktop-caption-size);
+  width: 100%;
+}
+.ld-progress-bar__meter-background[aria-valuenow="0"] .ld-progress-bar__meter-foreground {
+  border-left: none;
+}
+.ld-progress-bar__meter-label {
+  font-size: var(--ld-typography-desktop-caption-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  letter-spacing: 0.36px;
+  line-height: var(--ld-typography-desktop-caption-height);
+  white-space: nowrap;
+}
+.ld-progress-bar__last-activity {
+  font-size: var(--ld-typography-desktop-body-small-size);
+  line-height: var(--ld-typography-desktop-body-small-height);
+  font-weight: var(--ld-typography-font-weight-regular);
+}
+.ld-breakpoint--small .ld-progress-bar__last-activity {
+  margin-right: auto;
+}
+
+.ld-navigation {
+  display: grid;
+  grid-gap: var(--ld-spacer-7) var(--ld-spacer-fixed-7);
+  grid-template-areas: "progress progress" "previous next" "back-to-course back-to-course";
+  justify-content: space-between;
+  padding: var(--ld-spacer-2) 0;
+}
+.ld-navigation__progress {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-0);
+  grid-area: progress;
+  justify-content: center;
+}
+.ld-navigation__previous {
+  grid-area: previous;
+  padding-top: var(--ld-spacer-2);
+}
+.ld-navigation__next {
+  grid-area: next;
+  padding-top: var(--ld-spacer-2);
+}
+.ld-navigation__back-to-course {
+  grid-area: back-to-course;
+  text-align: center;
+}
+.ld-navigation__label--long {
+  display: none;
+}
+.ld-navigation__previous-link, .ld-navigation__previous-link:active, .ld-navigation__previous-link:focus-visible, .ld-navigation__previous-link:focus-within, .ld-navigation__previous-link:focus, .ld-navigation__previous-link:hover, .ld-navigation__next-link, .ld-navigation__next-link:active, .ld-navigation__next-link:focus-visible, .ld-navigation__next-link:focus-within, .ld-navigation__next-link:focus, .ld-navigation__next-link:hover, .ld-navigation__back-to-course-link, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:focus-visible, .ld-navigation__back-to-course-link:focus-within, .ld-navigation__back-to-course-link:focus, .ld-navigation__back-to-course-link:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-navigation__previous-link, .ld-navigation__next-link, .ld-navigation__back-to-course-link {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__previous-link, .ld-navigation__previous-link:active, .ld-navigation__previous-link:focus-visible, .ld-navigation__previous-link:focus-within, .ld-navigation__previous-link:focus, .ld-navigation__previous-link:hover, .ld-navigation__next-link, .ld-navigation__next-link:active, .ld-navigation__next-link:focus-visible, .ld-navigation__next-link:focus-within, .ld-navigation__next-link:focus, .ld-navigation__next-link:hover, .ld-navigation__back-to-course-link, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:focus-visible, .ld-navigation__back-to-course-link:focus-within, .ld-navigation__back-to-course-link:focus, .ld-navigation__back-to-course-link:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-navigation__previous-link:focus, .ld-navigation__next-link:focus, .ld-navigation__back-to-course-link:focus {
+  outline-style: solid;
+}
+.ld-navigation__previous-link:disabled, .ld-navigation__previous-link[aria-disabled=true], .ld-navigation__next-link:disabled, .ld-navigation__next-link[aria-disabled=true], .ld-navigation__back-to-course-link:disabled, .ld-navigation__back-to-course-link[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-navigation__previous-link:disabled:hover, .ld-navigation__previous-link[aria-disabled=true]:hover, .ld-navigation__next-link:disabled:hover, .ld-navigation__next-link[aria-disabled=true]:hover, .ld-navigation__back-to-course-link:disabled:hover, .ld-navigation__back-to-course-link[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-navigation__previous-link, .ld-navigation__previous-link:active, .ld-navigation__previous-link:focus-visible, .ld-navigation__previous-link:focus-within, .ld-navigation__previous-link:focus, .ld-navigation__previous-link:hover, .ld-navigation__next-link, .ld-navigation__next-link:active, .ld-navigation__next-link:focus-visible, .ld-navigation__next-link:focus-within, .ld-navigation__next-link:focus, .ld-navigation__next-link:hover, .ld-navigation__back-to-course-link, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:focus-visible, .ld-navigation__back-to-course-link:focus-within, .ld-navigation__back-to-course-link:focus, .ld-navigation__back-to-course-link:hover {
+  background-color: var(--ld-color-system-white);
+  border: 2px solid transparent;
+  color: var(--ld-color-system-body-text);
+  outline-offset: 0;
+  outline-width: 4px;
+}
+.ld-navigation__previous-link:active, .ld-navigation__previous-link:hover, .ld-navigation__previous-link:focus, .ld-navigation__next-link:active, .ld-navigation__next-link:hover, .ld-navigation__next-link:focus, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:hover, .ld-navigation__back-to-course-link:focus {
+  border-color: var(--ld-color-brand-primary);
+}
+.ld-navigation__previous-link:active, .ld-navigation__previous-link:hover, .ld-navigation__next-link:active, .ld-navigation__next-link:hover, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:hover {
+  background-color: var(--ld-color-system-light-1);
+  color: var(--ld-color-brand-primary);
+}
+.ld-navigation__previous-link:focus, .ld-navigation__next-link:focus, .ld-navigation__back-to-course-link:focus {
+  outline-color: #d6defb;
+}
+.ld-navigation__previous-link:disabled, .ld-navigation__previous-link[aria-disabled=true], .ld-navigation__next-link:disabled, .ld-navigation__next-link[aria-disabled=true], .ld-navigation__back-to-course-link:disabled, .ld-navigation__back-to-course-link[aria-disabled=true] {
+  background-color: var(--ld-color-system-white);
+  border: none;
+}
+.ld-navigation__previous-link:disabled:hover, .ld-navigation__previous-link[aria-disabled=true]:hover, .ld-navigation__next-link:disabled:hover, .ld-navigation__next-link[aria-disabled=true]:hover, .ld-navigation__back-to-course-link:disabled:hover, .ld-navigation__back-to-course-link[aria-disabled=true]:hover {
+  background-color: var(--ld-color-system-light-2);
+}
+.ld-navigation__previous-link, .ld-navigation__previous-link:active, .ld-navigation__previous-link:focus-visible, .ld-navigation__previous-link:focus-within, .ld-navigation__previous-link:focus, .ld-navigation__previous-link:hover, .ld-navigation__back-to-course-link, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:focus-visible, .ld-navigation__back-to-course-link:focus-within, .ld-navigation__back-to-course-link:focus, .ld-navigation__back-to-course-link:hover {
+  padding-right: var(--ld-spacer-fixed-2);
+}
+.ld-navigation__previous-link, .ld-navigation__back-to-course-link {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__previous-link, .ld-navigation__previous-link:active, .ld-navigation__previous-link:focus-visible, .ld-navigation__previous-link:focus-within, .ld-navigation__previous-link:focus, .ld-navigation__previous-link:hover, .ld-navigation__back-to-course-link, .ld-navigation__back-to-course-link:active, .ld-navigation__back-to-course-link:focus-visible, .ld-navigation__back-to-course-link:focus-within, .ld-navigation__back-to-course-link:focus, .ld-navigation__back-to-course-link:hover {
+    padding-right: var(--ld-spacer-fixed-3);
+  }
+}
+.ld-navigation__next-link, .ld-navigation__next-link:active, .ld-navigation__next-link:focus-visible, .ld-navigation__next-link:focus-within, .ld-navigation__next-link:focus, .ld-navigation__next-link:hover {
+  padding-left: var(--ld-spacer-fixed-2);
+}
+.ld-navigation__next-link {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__next-link, .ld-navigation__next-link:active, .ld-navigation__next-link:focus-visible, .ld-navigation__next-link:focus-within, .ld-navigation__next-link:focus, .ld-navigation__next-link:hover {
+    padding-left: var(--ld-spacer-fixed-3);
+  }
+}
+.ld-navigation__next-link--just-completed, .ld-navigation__next-link--just-completed:active, .ld-navigation__next-link--just-completed:focus-visible, .ld-navigation__next-link--just-completed:focus-within, .ld-navigation__next-link--just-completed:focus, .ld-navigation__next-link--just-completed:hover, .ld-navigation__next-link--no-user, .ld-navigation__next-link--no-user:active, .ld-navigation__next-link--no-user:focus-visible, .ld-navigation__next-link--no-user:focus-within, .ld-navigation__next-link--no-user:focus, .ld-navigation__next-link--no-user:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-navigation__next-link--just-completed, .ld-navigation__next-link--no-user {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__next-link--just-completed, .ld-navigation__next-link--just-completed:active, .ld-navigation__next-link--just-completed:focus-visible, .ld-navigation__next-link--just-completed:focus-within, .ld-navigation__next-link--just-completed:focus, .ld-navigation__next-link--just-completed:hover, .ld-navigation__next-link--no-user, .ld-navigation__next-link--no-user:active, .ld-navigation__next-link--no-user:focus-visible, .ld-navigation__next-link--no-user:focus-within, .ld-navigation__next-link--no-user:focus, .ld-navigation__next-link--no-user:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-navigation__next-link--just-completed:focus, .ld-navigation__next-link--no-user:focus {
+  outline-style: solid;
+}
+.ld-navigation__next-link--just-completed:disabled, .ld-navigation__next-link--just-completed[aria-disabled=true], .ld-navigation__next-link--no-user:disabled, .ld-navigation__next-link--no-user[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-navigation__next-link--just-completed:disabled:hover, .ld-navigation__next-link--just-completed[aria-disabled=true]:hover, .ld-navigation__next-link--no-user:disabled:hover, .ld-navigation__next-link--no-user[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-navigation__next-link--just-completed, .ld-navigation__next-link--just-completed:active, .ld-navigation__next-link--just-completed:focus-visible, .ld-navigation__next-link--just-completed:focus-within, .ld-navigation__next-link--just-completed:focus, .ld-navigation__next-link--just-completed:hover, .ld-navigation__next-link--no-user, .ld-navigation__next-link--no-user:active, .ld-navigation__next-link--no-user:focus-visible, .ld-navigation__next-link--no-user:focus-within, .ld-navigation__next-link--no-user:focus, .ld-navigation__next-link--no-user:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.ld-navigation__next-link--just-completed:active, .ld-navigation__next-link--just-completed:hover, .ld-navigation__next-link--no-user:active, .ld-navigation__next-link--no-user:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.ld-navigation__next-link--just-completed:focus, .ld-navigation__next-link--no-user:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.ld-navigation__next-link--just-completed:focus:hover, .ld-navigation__next-link--no-user:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.ld-navigation__progress-mark-complete-button, .ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:focus-visible, .ld-navigation__progress-mark-complete-button:focus-within, .ld-navigation__progress-mark-complete-button:focus, .ld-navigation__progress-mark-complete-button:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.ld-navigation__progress-mark-complete-button {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__progress-mark-complete-button, .ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:focus-visible, .ld-navigation__progress-mark-complete-button:focus-within, .ld-navigation__progress-mark-complete-button:focus, .ld-navigation__progress-mark-complete-button:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.ld-navigation__progress-mark-complete-button:focus {
+  outline-style: solid;
+}
+.ld-navigation__progress-mark-complete-button:disabled, .ld-navigation__progress-mark-complete-button[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.ld-navigation__progress-mark-complete-button:disabled:hover, .ld-navigation__progress-mark-complete-button[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.ld-navigation__progress-mark-complete-button, .ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:focus-visible, .ld-navigation__progress-mark-complete-button:focus-within, .ld-navigation__progress-mark-complete-button:focus, .ld-navigation__progress-mark-complete-button:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.ld-navigation__progress-mark-complete-button:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.ld-navigation__progress-mark-complete-button:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.ld-navigation__progress-mark-complete-button, .ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:focus-visible, .ld-navigation__progress-mark-complete-button:focus-within, .ld-navigation__progress-mark-complete-button:focus, .ld-navigation__progress-mark-complete-button:hover {
+  padding-right: var(--ld-spacer-fixed-2);
+}
+.ld-navigation__progress-mark-complete-button {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because this we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .ld-navigation__progress-mark-complete-button, .ld-navigation__progress-mark-complete-button:active, .ld-navigation__progress-mark-complete-button:focus-visible, .ld-navigation__progress-mark-complete-button:focus-within, .ld-navigation__progress-mark-complete-button:focus, .ld-navigation__progress-mark-complete-button:hover {
+    padding-right: var(--ld-spacer-fixed-3);
+  }
+}
+.ld-navigation .ld-navigation__progress-mark-incomplete-button, .ld-navigation .ld-navigation__progress-mark-incomplete-button:active, .ld-navigation .ld-navigation__progress-mark-incomplete-button:focus-visible, .ld-navigation .ld-navigation__progress-mark-incomplete-button:focus-within, .ld-navigation .ld-navigation__progress-mark-incomplete-button:focus, .ld-navigation .ld-navigation__progress-mark-incomplete-button:hover {
+  all: unset;
+  color: var(--ld-color-primitives-blue-500);
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-mobile-link-size);
+  font-weight: var(--ld-typography-font-weight-regular);
+  line-height: var(--ld-typography-mobile-link-height);
+  text-decoration-line: underline;
+}
+.ld-navigation .ld-navigation__progress-mark-incomplete-button:hover {
+  cursor: pointer;
+}
+.ld-navigation__icon--lesson-complete {
+  color: var(--ld-color-primitives-blue-500);
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.ld-navigation__icon--progress-timer {
+  vertical-align: text-top;
+}
+.ld-navigation__progress-completed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-4);
+}
+.ld-navigation__progress-completed-action {
+  color: var(--ld-color-primitives-blue-500);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-0);
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-navigation .sfwd-mark-incomplete {
+  display: flex;
+  margin-right: calc(var(--ld-spacer-fixed-5) + var(--ld-spacer-fixed-0));
+}
+.ld-navigation__progress-timer {
+  align-items: flex-start;
+  color: var(--ld-color-primitives-blue-500);
+  display: flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-normal);
+  gap: var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  justify-content: left;
+  line-height: var(--ld-typography-desktop-body-height);
+}
+.ld-navigation__progress-timer-label {
+  font-weight: var(--ld-typography-font-weight-bold);
+}
+.ld-navigation {
+  /* stylelint-disable-next-line selector-class-pattern -- Existing class. */
+}
+.ld-navigation .learndash_timer {
+  background-color: var(--ld-color-primitives-grey-100);
+  border-radius: var(--ld-border-radius-small);
+  color: var(--ld-color-primitives-blue-500);
+  font-family: "Courier New", Courier, monospace;
+  font-size: var(--ld-typography-desktop-body-size);
+  font-weight: var(--ld-typography-font-weight-bold);
+  line-height: var(--ld-typography-desktop-body-height);
+  padding: var(--ld-spacer-0) var(--ld-spacer-fixed-1);
+  text-align: center;
+}
+.ld-breakpoint--small .ld-navigation {
+  border-top: 1px solid var(--ld-color-system-middle-gray);
+  grid-template-areas: "previous progress next" ". back-to-course .";
+  padding: 0;
+}
+.ld-breakpoint--small .ld-navigation--no-progress {
+  grid-template-areas: "previous back-to-course next";
+}
+.ld-breakpoint--small .ld-navigation__label--short {
+  display: none;
+}
+.ld-breakpoint--small .ld-navigation__label--long {
+  display: initial;
+}
+.ld-breakpoint--small .ld-navigation__next, .ld-breakpoint--small .ld-navigation__previous, .ld-breakpoint--small .ld-navigation__progress {
+  align-items: flex-start;
+  display: flex;
+  padding-top: var(--ld-spacer-7);
+}
+.ld-breakpoint--small .ld-navigation__progress {
+  align-items: center;
+  text-align: center;
+}
+.ld-breakpoint--small .ld-navigation .sfwd-mark-incomplete {
+  margin-right: 0;
+}
+.ld-breakpoint--small .ld-navigation__progress-timer {
+  align-items: center;
+  justify-content: center;
+}
+.ld-breakpoint--small .ld-navigation__back-to-course--no-progress {
+  padding-top: var(--ld-spacer-7);
+}
+.ld-breakpoint--small .ld-navigation__progress-completed {
+  align-items: center;
+}
+.ld-breakpoint--small .ld-navigation__progress-completed-action {
+  flex-direction: row;
+  gap: var(--ld-spacer-2) var(--ld-spacer-fixed-2);
+  justify-content: center;
+}
+.ld-breakpoint--medium .ld-navigation__progress-completed {
+  flex-direction: row;
+}
+
+.learndash-course-grid--modern .items-wrapper.grid {
+  column-gap: var(--ld-spacer-fixed-2);
+  row-gap: var(--ld-spacer-2);
+  margin-bottom: var(--ld-spacer-2);
+  /**
+   * The parent wrapper element exists outside of the "styling context"
+   * of the course grid, so we need to target it specifically.
+   */
+}
+.ld-course-grid__wrapper.ld-breakpoint--small .learndash-course-grid--modern .items-wrapper.grid {
+  column-gap: var(--ld-spacer-fixed-5);
+  row-gap: var(--ld-spacer-5);
+  margin-bottom: var(--ld-spacer-5);
+}
+.ld-course-grid__wrapper.ld-breakpoint--wide .learndash-course-grid--modern .items-wrapper.grid {
+  column-gap: var(--ld-spacer-fixed-6);
+  row-gap: var(--ld-spacer-6);
+  margin-bottom: var(--ld-spacer-6);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .post {
+  border-radius: var(--ld-border-radius);
+  border: 1px solid var(--ld-color-system-border);
+  box-shadow: none;
+  overflow: hidden;
+  padding: 0;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .thumbnail img {
+  aspect-ratio: 4/3;
+  border-radius: 0;
+  object-fit: cover;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--ld-spacer-fixed-4) var(--ld-spacer-4) var(--ld-spacer-fixed-8) var(--ld-spacer-4);
+  gap: var(--ld-spacer-7);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button {
+  /**
+   * Due to how it is wrapped in a .button class,
+   * we need to unstyle the container as well as the button itself.
+   *
+   * This is because 3rd party themes are very, very likely to
+   * style the .button class as a button.
+   */
+  all: unset;
+  align-self: center;
+  display: flex;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-visible, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-within, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-visible, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-within, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus {
+  outline-style: solid;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:disabled, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:disabled:hover, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-visible, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-within, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-visible, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-within, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+  font-size: var(--ld-typography-desktop-caption-size);
+  line-height: var(--ld-typography-desktop-caption-height);
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .button a, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:active, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-visible, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus-within, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:focus, .learndash-course-grid--modern .items-wrapper .grid-3 .content .button a:hover {
+  padding-left: var(--ld-spacer-fixed-2);
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .entry-title {
+  font-size: var(--ld-typography-desktop-h5-size);
+  line-height: var(--ld-typography-desktop-h5-height);
+  margin: 0;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content .ld-progress {
+  margin: 0;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content {
+  /**
+   * Replicate grid_height_equal, but align the content to the top
+   * instead of the bottom.
+   */
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content > *:not(.button):last-child {
+  margin-bottom: auto;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content {
+  /**
+   * However, if it is a button, we should align it to the bottom.
+   */
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .content > .button:last-child {
+  margin-top: auto;
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 {
+  /**
+   * To replicate grid_height_equal, we need to ensure the post and
+   * content elements are flex containers with a height of 100%.
+   */
+}
+.learndash-course-grid--modern .items-wrapper .grid-3 .post,
+.learndash-course-grid--modern .items-wrapper .grid-3 .content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.learndash-course-grid--modern .pagination {
+  overflow: initial;
+}
+.learndash-course-grid--modern .pagination .load-more, .learndash-course-grid--modern .pagination .load-more:active, .learndash-course-grid--modern .pagination .load-more:focus-visible, .learndash-course-grid--modern .pagination .load-more:focus-within, .learndash-course-grid--modern .pagination .load-more:focus, .learndash-course-grid--modern .pagination .load-more:hover {
+  all: unset;
+  align-items: center;
+  border-radius: var(--ld-button-border-radius);
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: var(--ld-color-system-white);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--ld-typography-font-family);
+  font-size: var(--ld-typography-desktop-button-text-size);
+  font-weight: var(--ld-typography-desktop-button-text-weight);
+  gap: var(--ld-spacer-fixed-1);
+  justify-content: center;
+  line-height: var(--ld-typography-desktop-button-text-height);
+  margin: 0;
+  outline-offset: 2px;
+  outline-style: none;
+  outline-width: 2px;
+  overflow-wrap: break-word;
+  padding: var(--ld-spacer-1) var(--ld-spacer-fixed-3);
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  width: auto;
+  word-break: normal;
+}
+.learndash-course-grid--modern .pagination .load-more {
+  /**
+   * We are intentionally using a screen width breakpoint here.
+   *
+   * This is because we cannot be sure what container size this
+   * mixin will be used in ahead of time.
+   *
+   * We have decided to handle mobile vs desktop button styles based on
+   * screen width rather than container width globally.
+   */
+}
+@media (min-width: 720px) {
+  .learndash-course-grid--modern .pagination .load-more, .learndash-course-grid--modern .pagination .load-more:active, .learndash-course-grid--modern .pagination .load-more:focus-visible, .learndash-course-grid--modern .pagination .load-more:focus-within, .learndash-course-grid--modern .pagination .load-more:focus, .learndash-course-grid--modern .pagination .load-more:hover {
+    padding: var(--ld-spacer-2) var(--ld-spacer-fixed-4);
+  }
+}
+.learndash-course-grid--modern .pagination .load-more:focus {
+  outline-style: solid;
+}
+.learndash-course-grid--modern .pagination .load-more:disabled, .learndash-course-grid--modern .pagination .load-more[aria-disabled=true] {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled);
+  border: 1px solid var(--ld-color-semantic-button-primary-border-disabled);
+  color: var(--ld-color-semantic-text-button-primary-disabled);
+  cursor: not-allowed;
+}
+.learndash-course-grid--modern .pagination .load-more:disabled:hover, .learndash-course-grid--modern .pagination .load-more[aria-disabled=true]:hover {
+  background-color: var(--ld-color-semantic-button-primary-background-disabled-hover);
+  color: var(--ld-color-semantic-text-button-primary-disabled-hover);
+}
+.learndash-course-grid--modern .pagination .load-more, .learndash-course-grid--modern .pagination .load-more:active, .learndash-course-grid--modern .pagination .load-more:focus-visible, .learndash-course-grid--modern .pagination .load-more:focus-within, .learndash-course-grid--modern .pagination .load-more:focus, .learndash-course-grid--modern .pagination .load-more:hover {
+  background-color: var(--ld-color-button-bg);
+}
+.learndash-course-grid--modern .pagination .load-more:active, .learndash-course-grid--modern .pagination .load-more:hover {
+  background-color: var(--ld-color-button-bg-hover);
+}
+.learndash-course-grid--modern .pagination .load-more:focus {
+  outline-color: var(--ld-color-button-bg);
+}
+.learndash-course-grid--modern .pagination .load-more:focus:hover {
+  outline-color: var(--ld-color-button-bg-hover);
+}

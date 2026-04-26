@@ -118,7 +118,133 @@ if ( ( ! class_exists( 'LD_REST_Courses_Steps_Controller_V2' ) ) && ( class_exis
 						'methods'             => WP_REST_Server::EDITABLE,
 						'callback'            => array( $this, 'update_course_steps' ),
 						'permission_callback' => array( $this, 'update_course_steps_permissions_check' ),
-						'args'                => $this->get_collection_params(),
+						'args'                => [
+							'sfwd-lessons' => [
+								'description'          => sprintf(
+									// translators: %1$s: singular course label. %2$s: plural lesson label. %3$s: plural topics label. %4$s: plural quizzes label. %5$s: singular lesson label.
+									__( '%1$s %2$s structure with %3$s and %4$s. Keys must be valid %5$s post IDs.', 'learndash' ),
+									learndash_get_custom_label( 'course' ),
+									learndash_get_custom_label_lower( 'lessons' ),
+									learndash_get_custom_label_lower( 'topics' ),
+									learndash_get_custom_label_lower( 'quizzes' ),
+									learndash_get_custom_label_lower( 'lesson' )
+								),
+								'type'                 => 'object',
+								'required'             => false,
+								'additionalProperties' => [
+									'description' => sprintf(
+										// translators: %s: singular lesson label.
+										__( '%s post ID (e.g., "123")', 'learndash' ),
+										learndash_get_custom_label( 'lesson' )
+									),
+									'type'        => 'object',
+									'properties'  => [
+										'sfwd-topic' => [
+											'description' => sprintf(
+												// translators: %1$s: singular topic label. %2$s: singular lesson label. %3$s: singular topic label.
+												__( '%1$s within this %2$s. Keys must be valid %3$s post IDs.', 'learndash' ),
+												learndash_get_custom_label( 'topic' ),
+												learndash_get_custom_label_lower( 'lesson' ),
+												learndash_get_custom_label_lower( 'topic' )
+											),
+											'type'        => 'object',
+											'additionalProperties' => [
+												'description' => sprintf(
+													// translators: %s: singular topic label.
+													__( '%s post ID (e.g., "123")', 'learndash' ),
+													learndash_get_custom_label( 'topic' )
+												),
+												'type' => 'object',
+												'properties' => [
+													'sfwd-quiz' => [
+														'description' => sprintf(
+															// translators: %1$s: singular quiz label. %2$s: singular topic label.
+															__( '%1$s within this %2$s. Keys must be valid %3$s post IDs.', 'learndash' ),
+															learndash_get_custom_label( 'quiz' ),
+															learndash_get_custom_label_lower( 'topic' ),
+															learndash_get_custom_label_lower( 'quiz' )
+														),
+														'type'       => 'object',
+														'additionalProperties' => [
+															'description' => sprintf(
+																// translators: %s: singular quiz label.
+																__( '%s post ID (e.g., "123")', 'learndash' ),
+																learndash_get_custom_label( 'quiz' )
+															),
+															'type' => 'object',
+														],
+													],
+												],
+											],
+											'example'     => [
+												'3' => new stdClass(),
+												'4' => [
+													LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ ) => [
+														'5' => new stdClass(),
+													],
+												],
+											],
+										],
+										'sfwd-quiz'  => [
+											'description' => sprintf(
+												// translators: %1$s: plural quiz label. %2$s: singular lesson label. %3$s: singular quiz label.
+												__( '%1$s directly within this %2$s. Keys must be valid %3$s post IDs.', 'learndash' ),
+												learndash_get_custom_label( 'quizzes' ),
+												learndash_get_custom_label_lower( 'lesson' ),
+												learndash_get_custom_label_lower( 'quiz' )
+											),
+											'type'        => 'object',
+											'additionalProperties' => [
+												'description' => sprintf(
+													// translators: %s: singular quiz label.
+													__( '%s post ID (e.g., "123")', 'learndash' ),
+													learndash_get_custom_label( 'quiz' )
+												),
+												'type' => 'object',
+											],
+											'example'     => [
+												'5' => new stdClass(),
+											],
+										],
+									],
+								],
+								'example'              => [
+									'1' => new stdClass(),
+									'2' => [
+										LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::TOPIC ) => [
+											'3' => new stdClass(),
+											'4' => [
+												LDLMS_Post_Types::get_post_type_slug( LDLMS_Post_Types::QUIZ ) => [
+													'5' => new stdClass(),
+												],
+											],
+										],
+									],
+								],
+							],
+							'sfwd-quiz'    => [
+								'description'          => sprintf(
+									// translators: %1$s: singular course label. %2$s: plural quiz label. %3$s: singular quiz label.
+									__( '%1$s %2$s structure. Keys must be valid %3$s post IDs.', 'learndash' ),
+									learndash_get_custom_label( 'course' ),
+									learndash_get_custom_label_lower( 'quizzes' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'type'                 => 'object',
+								'required'             => false,
+								'additionalProperties' => [
+									'description' => sprintf(
+										// translators: %s: singular quiz label.
+										__( '%s post ID (e.g., "123")', 'learndash' ),
+										learndash_get_custom_label( 'quiz' )
+									),
+									'type'        => 'object',
+								],
+								'example'              => [
+									'6' => new stdClass(),
+								],
+							],
+						],
 					),
 					'schema' => array( $this, 'get_public_item_schema' ),
 				)
@@ -226,35 +352,17 @@ if ( ( ! class_exists( 'LD_REST_Courses_Steps_Controller_V2' ) ) && ( class_exis
 					return true;
 				}
 				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
+			} elseif ( learndash_is_admin_user() ) {
+				return true;
 			}
 
-			if ( learndash_is_admin_user() ) {
-				if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Admin_User', 'courses_autoenroll_admin_users' ) === 'yes' ) {
-					return true;
-				}
-			} else {
-				return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
-			}
-
-			$enrolled_courses = learndash_user_get_enrolled_courses( get_current_user_id() );
-
-			// Ensure the user has some courses.
-			if ( ! empty( $enrolled_courses ) ) {
-
-				// Secondary check if they are wanting steps for a specific course ID.
-				$course_id = $request['id'];
-				if ( ! empty( $course_id ) ) {
-					// And if that course ID is in their enrolled courses.
-					if ( in_array( $course_id, $enrolled_courses, true ) ) {
-						$enrolled_courses = array( $course_id );
-						return true;
-					}
-				} else {
-					// If user has enrolled courses but not requesting a specific course then good to go.
-					return true;
-				}
-			}
-			return new WP_Error( 'ld_rest_cannot_view', esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error(
+				'ld_rest_cannot_view',
+				esc_html__( 'Sorry, you are not allowed to view this item.', 'learndash' ),
+				[
+					'status' => rest_authorization_required_code(),
+				]
+			);
 		}
 
 		/**

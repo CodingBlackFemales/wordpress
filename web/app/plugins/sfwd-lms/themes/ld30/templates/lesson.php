@@ -2,6 +2,9 @@
 /**
  * LearnDash LD30 Displays a lesson.
  *
+ * @since 3.0.0
+ * @version 4.21.3
+ *
  * Available Variables:
  *
  * $course_id                  : (int) ID of the course
@@ -26,8 +29,6 @@
  * $show_content               : (true/false) true if lesson progression is disabled or if previous lesson is completed.
  * $previous_lesson_completed  : (true/false) true if previous lesson is completed
  * $lesson_settings            : Settings specific to the current lesson.
- *
- * @since 3.0.0
  *
  * @package LearnDash\Templates\LD30
  */
@@ -54,6 +55,10 @@ add_filter( 'comments_array', 'learndash_remove_comments', 1, 2 ); ?>
 	 */
 	do_action( 'learndash-lesson-before', get_the_ID(), $course_id, $user_id );
 
+	// Show the step completed alert immediately after the lesson is completed.
+
+	learndash_30_show_step_completed_alert( $post->ID, $course_id, $user_id, 'lesson');
+
 	if ( ( defined( 'LEARNDASH_TEMPLATE_CONTENT_METHOD' ) ) && ( 'shortcode' === LEARNDASH_TEMPLATE_CONTENT_METHOD ) ) {
 		$shown_content_key = 'learndash-shortcode-wrap-ld_infobar-' . absint( $course_id ) . '_' . (int) get_the_ID() . '_' . absint( $user_id );
 		if ( false === strstr( $content, $shown_content_key ) ) {
@@ -78,7 +83,7 @@ add_filter( 'comments_array', 'learndash_remove_comments', 1, 2 ); ?>
 	 * If the user needs to complete the previous lesson display an alert
 	 */
 	if ( ( isset( $lesson_progression_enabled ) ) && ( true === (bool) $lesson_progression_enabled ) && ( isset( $previous_lesson_completed ) ) && ( true !== $previous_lesson_completed ) ) {
-		if ( ( ! learndash_is_sample( $post ) ) || ( learndash_is_sample( $post ) && true === ( bool) $has_access ) ) {
+		if ( ( ! learndash_is_sample( $post ) ) || ( learndash_is_sample( $post ) && true === (bool) $has_access ) ) {
 			$previous_item_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
 			if ( ! empty( $previous_item_id ) ) {
 				learndash_get_template_part(
@@ -228,7 +233,6 @@ add_filter( 'comments_array', 'learndash_remove_comments', 1, 2 ); ?>
 			}
 		}
 	} else {
-
 		/**
 		 * Set a variable to switch the next button to complete button
 		 */

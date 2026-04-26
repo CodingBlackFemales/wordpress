@@ -431,7 +431,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								'field_key'   => 'materials_enabled',
-								'description' => esc_html__( 'Materials Enabled', 'learndash' ),
+								'description' => esc_html__( 'Supplemental Materials Enabled', 'learndash' ),
 								'type'        => 'boolean',
 								'default'     => false,
 							),
@@ -453,26 +453,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'materials',
-								'description' => esc_html__( 'Materials', 'learndash' ),
-								'type'        => 'object',
-								'properties'  => array(
-									'raw'      => array(
-										'description' => 'Content for the object, as it exists in the database.',
-										'type'        => 'string',
-										'context'     => array( 'edit' ),
-									),
-									'rendered' => array(
-										'description' => 'HTML content for the object, transformed for display.',
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-								),
-								'arg_options' => array(
+								'arg_options' => [
 									'sanitize_callback' => null, // Note: sanitization performed in rest_pre_insert_filter().
 									'validate_callback' => null,
-								),
+								],
+								'default'     => '',
+								'description' => esc_html__( 'Supplemental Materials', 'learndash' ),
+								'field_key'   => 'materials',
+								'format'      => 'html',
+								'type'        => 'string',
 							),
 						),
 					),

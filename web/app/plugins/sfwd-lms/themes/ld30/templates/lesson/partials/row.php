@@ -6,6 +6,7 @@
  * WIP
  *
  * @since 3.0.0
+ * @version 4.21.4
  *
  * @package LearnDash\Templates\LD30
  */
@@ -34,10 +35,13 @@ $sections = ( isset( $sections ) ? $sections : array() );
  * Filters lesson row attributes. Used while displaying lesson lists in a course.
  *
  * @since 3.0.0
+ * @since 4.21.3 No longer used to set a tooltip message.
  *
- * @param string $attribute Lesson row attribute. The value is data-ld-tooltip if a user does not have access to the course otherwise an empty string.
+ * @param string $attribute Lesson row attribute.
+ *
+ * @return string
  */
-$atts = apply_filters( 'learndash_lesson_row_atts', ( isset( $has_access ) && ! $has_access && 'is_not_sample' === $lesson['sample'] ? 'data-ld-tooltip="' . esc_html__( "You don't currently have access to this content", 'learndash' ) . '"' : '' ), $lesson['post']->ID, $course_id, $user_id );
+$atts = apply_filters( 'learndash_lesson_row_atts', '', $lesson['post']->ID, $course_id, $user_id );
 
 /**
  * New logic to override sample lessons access LEARNDASH-3854
@@ -50,13 +54,16 @@ if ( ( empty( $atts ) ) && ( ! is_user_logged_in() ) ) {
 			 * Filters lesson row attributes if the access to sample lesson is not allowed to a user.
 			 *
 			 * @since 3.1.4
+			 * @since 4.21.3 No longer used to set a tooltip message.
 			 *
 			 * @param string $attribute Lesson row attribute. The attribute value to show if the sample lesson is not accessible.
 			 * @param int    $lesson_id Lesson ID.
 			 * @param int    $course_id Course ID.
 			 * @param int    $user_id   User ID.
+			 *
+			 * @return string
 			 */
-			$atts = apply_filters( 'learndash_lesson_row_atts_sample_no_access', 'data-ld-tooltip="' . esc_html__( 'Please login to view sample content', 'learndash' ) . '"', $lesson['post']->ID, $course_id, $user_id );
+			$atts = apply_filters( 'learndash_lesson_row_atts_sample_no_access', '', $lesson['post']->ID, $course_id, $user_id );
 		}
 	}
 }
@@ -86,63 +93,172 @@ if ( isset( $sections[ $lesson['post']->ID ] ) ) :
 
 endif; ?>
 
-<div class="<?php learndash_lesson_row_class( $lesson, $has_access, $topics, $quizzes ); ?>" id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>" data-ld-expand-id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>" <?php echo wp_kses_post( $atts ); ?>>
+<div
+	class="<?php learndash_lesson_row_class( $lesson, $has_access, $topics, $quizzes ); ?>"
+	id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>"
+	data-ld-expand-id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>"
+	<?php echo wp_kses_post( $atts ); ?>
+>
 	<div class="ld-item-list-item-preview">
-		<?php
-		/**
-		 * Fires before a lesson title.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param int $lesson_id Lesson ID.
-		 * @param int $course_id Course ID.
-		 * @param int $user_id   User ID.
-		 */
-		do_action( 'learndash-lesson-row-title-before', $lesson['post']->ID, $course_id, $user_id );
-		?>
-
-		<a class="ld-item-name ld-primary-color-hover" href="<?php echo esc_attr( learndash_get_step_permalink( $lesson['post']->ID, $course_id ) ); ?>">
+		<div class="ld-tooltip">
 			<?php
-			$lesson_progress = learndash_lesson_progress( $lesson['post'] );
-			if ( is_array( $lesson_progress ) ) {
-				$status = ( $lesson_progress['completed'] > 0 && 'completed' !== $lesson['status'] ? 'progress' : $lesson['status'] );
-			} else {
-				$status = $lesson['status'];
-			}
-
-			learndash_status_icon( $status, $lesson['post']->post_type, null, true );
+			/**
+			 * Fires before a lesson title.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param int $lesson_id Lesson ID.
+			 * @param int $course_id Course ID.
+			 * @param int $user_id   User ID.
+			 *
+			 * @return void
+			 */
+			do_action( 'learndash-lesson-row-title-before', $lesson['post']->ID, $course_id, $user_id );
 			?>
-			<div class="ld-item-title">
-				<?php
-				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				echo wp_kses_post( apply_filters( 'the_title', $lesson['post']->post_title, $lesson['post']->ID ) );
 
-				/**
-				 * Display content counts if the lesson has topics
-				 */
-				/**
-				 * Filters whether to show lesson row attributes in lesson listing.
-				 *
-				 * @since 3.0.0
-				 *
-				 * @param boolean $show_row_attributes Whether to show lesson row attributes.
-				 */
-				if ( ! empty( $topics ) || ! empty( $quizzes ) || ! empty( $attributes ) || apply_filters( 'learndash-lesson-row-attributes', false ) ) :
+			<a
+				<?php if ( isset( $has_access ) && ! $has_access ) : ?>
+					aria-describedby="ld-lesson__row-tooltip--<?php echo esc_attr( $lesson['post']->ID ); ?>"
+				<?php endif; ?>
+				class="ld-item-name ld-primary-color-hover"
+				href="<?php echo esc_attr( learndash_get_step_permalink( $lesson['post']->ID, $course_id ) ); ?>"
+			>
+				<?php
+				$lesson_progress = learndash_lesson_progress( $lesson['post'] );
+				if ( is_array( $lesson_progress ) ) {
+					$status = ( $lesson_progress['completed'] > 0 && 'completed' !== $lesson['status'] ? 'progress' : $lesson['status'] );
+				} else {
+					$status = $lesson['status'];
+				}
+
+				learndash_status_icon( $status, $lesson['post']->post_type, null, true );
+				?>
+				<div class="ld-item-title">
+					<?php
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+					echo wp_kses_post( apply_filters( 'the_title', $lesson['post']->post_title, $lesson['post']->ID ) );
 
 					/**
-					 * Fires after the lesson topic counts.
+					 * Display content counts if the lesson has topics
+					 */
+					/**
+					 * Filters whether to show lesson row attributes in lesson listing.
 					 *
 					 * @since 3.0.0
 					 *
-					 * @param int $lesson_id Lesson ID.
-					 * @param int $course_id Course ID.
-					 * @param int $user_id   User ID.
+					 * @param boolean $show_row_attributes Whether to show lesson row attributes.
+					 *
+					 * @return boolean
 					 */
-					do_action( 'learndash-lesson-row-topic-count-before', $lesson['post']->ID, $course_id, $user_id );
-					?>
+					if ( ! empty( $topics ) || ! empty( $quizzes ) || ! empty( $attributes ) || apply_filters( 'learndash-lesson-row-attributes', false ) ) :
 
-					<span class="ld-item-components">
+						/**
+						 * Fires after the lesson topic counts.
+						 *
+						 * @since 3.0.0
+						 *
+						 * @param int $lesson_id Lesson ID.
+						 * @param int $course_id Course ID.
+						 * @param int $user_id   User ID.
+						 *
+						 * @return void
+						 */
+						do_action( 'learndash-lesson-row-topic-count-before', $lesson['post']->ID, $course_id, $user_id );
+						?>
 
+						<span class="ld-item-components">
+
+							<?php
+							/**
+							 * Fires after the lesson topic counts.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param int $lesson_id Lesson ID.
+							 * @param int $course_id Course ID.
+							 * @param int $user_id   User ID.
+							 *
+							 * @return void
+							 */
+							do_action( 'learndash-lesson-components-before', $lesson['post']->ID, $course_id, $user_id );
+
+							if ( $content_count['topics'] > 0 ) :
+								?>
+								<span class="ld-item-component">
+								<?php
+								printf(
+									// translators: placeholders: Topic Count, Topic/Topics Label.
+									_nx(
+										'%1$d %2$s',
+										'%1$d %2$s',
+										$content_count['topics'],
+										'placeholders: Topic Count, Topic/Topics Label',
+										'learndash'
+									),
+									$content_count['topics'],
+									( $content_count['topics'] < 2 ? esc_attr( LearnDash_Custom_Label::get_label( 'topic' ) ) : esc_attr( LearnDash_Custom_Label::get_label( 'topics' ) ) ),
+									number_format_i18n( $content_count['topics'] )
+								);
+								?>
+								</span>
+								<?php
+							endif;
+
+							if ( $content_count['topics'] > 0 && $content_count['quizzes'] > 0 ) {
+								echo '<span class="ld-sep">|</span>';
+							}
+
+							if ( $content_count['quizzes'] > 0 ) :
+								?>
+								<span class="ld-item-component">
+								<?php
+								printf(
+									// translators: placeholders: Quiz Count, Quiz/Quizzes Label.
+									_nx(
+										'%1$d %2$s',
+										'%1$d %2$s',
+										$content_count['quizzes'],
+										'placeholders: Quiz Count, Quiz/Quizzes Label',
+										'learndash'
+									),
+									$content_count['quizzes'],
+									( $content_count['quizzes'] < 2 ? esc_attr( LearnDash_Custom_Label::get_label( 'quiz' ) ) : esc_attr( LearnDash_Custom_Label::get_label( 'quizzes' ) ) ),
+									number_format_i18n( $content_count['quizzes'] )
+								);
+								?>
+								</span>
+								<?php
+							endif;
+
+							if ( ! empty( $attributes ) ) :
+								foreach ( $attributes as $attribute ) :
+									$ld_icon_class = isset( $attribute['icon'] ) && ! empty( $attribute['icon'] )
+													? 'ld-icon ' . $attribute['icon']
+													: '';
+									?>
+								<span class="<?php echo esc_attr( 'ld-status ' . ( $attribute['class'] ?? '' ) ); ?>">
+									<span class="<?php echo esc_attr( $ld_icon_class ); ?>"></span>
+									<?php echo esc_html( $attribute['label'] ); ?>
+								</span>
+									<?php
+								endforeach;
+							endif;
+
+							/**
+							 * Fires after the lesson topic counts.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param int $lesson_id Lesson ID.
+							 * @param int $course_id Course ID.
+							 * @param int $user_id   User ID.
+							 *
+							 * @return void
+							 */
+							do_action( 'learndash-lesson-components-after', $lesson['post']->ID, $course_id, $user_id );
+							?>
+
+						</span> <!--/.ld-item-components-->
 						<?php
 						/**
 						 * Fires after the lesson topic counts.
@@ -152,97 +268,47 @@ endif; ?>
 						 * @param int $lesson_id Lesson ID.
 						 * @param int $course_id Course ID.
 						 * @param int $user_id   User ID.
-						 */
-						do_action( 'learndash-lesson-components-before', $lesson['post']->ID, $course_id, $user_id );
-
-						if ( $content_count['topics'] > 0 ) :
-							?>
-							<span class="ld-item-component">
-							<?php
-							printf(
-								// translators: placeholders: Topic Count, Topic/Topics Label.
-								_nx(
-									'%1$d %2$s',
-									'%1$d %2$s',
-									$content_count['topics'],
-									'placeholders: Topic Count, Topic/Topics Label',
-									'learndash'
-								),
-								$content_count['topics'],
-								( $content_count['topics'] < 2 ? esc_attr( LearnDash_Custom_Label::get_label( 'topic' ) ) : esc_attr( LearnDash_Custom_Label::get_label( 'topics' ) ) ),
-								number_format_i18n( $content_count['topics'] )
-							);
-							?>
-							</span>
-							<?php
-						endif;
-
-						if ( $content_count['topics'] > 0 && $content_count['quizzes'] > 0 ) {
-							echo '<span class="ld-sep">|</span>';
-						}
-
-						if ( $content_count['quizzes'] > 0 ) :
-							?>
-							<span class="ld-item-component">
-							<?php
-							printf(
-								// translators: placeholders: Quiz Count, Quiz/Quizzes Label.
-								_nx(
-									'%1$d %2$s',
-									'%1$d %2$s',
-									$content_count['quizzes'],
-									'placeholders: Quiz Count, Quiz/Quizzes Label',
-									'learndash'
-								),
-								$content_count['quizzes'],
-								( $content_count['quizzes'] < 2 ? esc_attr( LearnDash_Custom_Label::get_label( 'quiz' ) ) : esc_attr( LearnDash_Custom_Label::get_label( 'quizzes' ) ) ),
-								number_format_i18n( $content_count['quizzes'] )
-							);
-							?>
-							</span>
-							<?php
-						endif;
-
-						if ( ! empty( $attributes ) ) :
-							foreach ( $attributes as $attribute ) :
-								?>
-							<span class="<?php echo esc_attr( 'ld-status ' . $attribute['class'] ); ?>">
-								<span class="<?php echo esc_attr( 'ld-icon ' . $attribute['icon'] ); ?>"></span>
-								<?php echo esc_html( $attribute['label'] ); ?>
-							</span>
-								<?php
-							endforeach;
-						endif;
-
-						/**
-						 * Fires after the lesson topic counts.
 						 *
-						 * @since 3.0.0
-						 *
-						 * @param int $lesson_id Lesson ID.
-						 * @param int $course_id Course ID.
-						 * @param int $user_id   User ID.
+						 * @return void
 						 */
-						do_action( 'learndash-lesson-components-after', $lesson['post']->ID, $course_id, $user_id );
+						do_action( 'learndash-lesson-preview-after', $lesson['post']->ID, $course_id, $user_id );
 						?>
+					<?php endif; ?>
 
-					</span> <!--/.ld-item-components-->
-					<?php
-					/**
-					 * Fires after the lesson topic counts.
-					 *
-					 * @since 3.0.0
-					 *
-					 * @param int $lesson_id Lesson ID.
-					 * @param int $course_id Course ID.
-					 * @param int $user_id   User ID.
-					 */
-					do_action( 'learndash-lesson-preview-after', $lesson['post']->ID, $course_id, $user_id );
-					?>
-				<?php endif; ?>
+				</div> <!--/.ld-item-title-->
+			</a>
 
-			</div> <!--/.ld-item-title-->
-		</a>
+			<?php
+			if (
+				isset( $has_access )
+				&& ! $has_access
+				&& $lesson['sample'] === 'is_not_sample'
+			) :
+			?>
+				<div
+					class="ld-tooltip__text"
+					id="ld-lesson__row-tooltip--<?php echo esc_attr( $lesson['post']->ID ); ?>"
+					role="tooltip"
+				>
+					<?php echo esc_html__( "You don't currently have access to this content", 'learndash' ); ?>
+				</div>
+			<?php
+			elseif (
+				! is_user_logged_in()
+				&& $lesson['sample'] === 'is_sample'
+				/** This filter is documented in themes/ld30/includes/helpers.php */
+				&& (bool) apply_filters( 'learndash_lesson_sample_access', true, $lesson['post']->ID, $course_id, $user_id ) !== true
+			) :
+			?>
+				<div
+					class="ld-tooltip__text"
+					id="ld-lesson__row-tooltip--<?php echo esc_attr( $lesson['post']->ID ); ?>"
+					role="tooltip"
+				>
+					<?php echo esc_html__( 'Please login to view sample content', 'learndash' ); ?>
+				</div>
+			<?php endif; ?>
+		</div>
 
 		<?php
 		/**
@@ -289,10 +355,21 @@ endif; ?>
 				do_action( 'learndash-lesson-row-expand-before', $lesson['post']->ID, $course_id, $user_id );
 				?>
 
-				<div class="ld-expand-button ld-button-alternate" data-ld-expands="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID ); ?>" data-ld-expand-text="<?php esc_html_e( 'Expand', 'learndash' ); ?>" data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'learndash' ); ?>">
+				<button
+					aria-controls="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID . '-container' ); ?>"
+					aria-expanded="false"
+					class="ld-expand-button ld-button-alternate"
+					data-ld-collapse-text="<?php esc_html_e( 'Collapse', 'learndash' ); ?>"
+					data-ld-expand-text="<?php esc_html_e( 'Expand', 'learndash' ); ?>"
+					data-ld-expands="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID. '-container' ); ?>"
+				>
 					<span class="ld-icon-arrow-down ld-icon ld-primary-background"></span>
 					<span class="ld-text ld-primary-color"><?php esc_html_e( 'Expand', 'learndash' ); ?></span>
-				</div> <!--/.ld-expand-button-->
+
+					<span class="screen-reader-text">
+						<?php echo esc_html( get_the_title( $lesson['post']->ID ) ); ?>
+					</span>
+				</button> <!--/.ld-expand-button-->
 
 				<?php
 				/**
@@ -333,7 +410,10 @@ endif; ?>
 	 */
 	if ( ! empty( $topics ) || ! empty( $quizzes ) ) :
 		?>
-		<div class="ld-item-list-item-expanded">
+		<div
+			class="ld-item-list-item-expanded"
+			id="<?php echo esc_attr( 'ld-expand-' . $lesson['post']->ID . '-container' ); ?>"
+		>
 			<?php
 			/**
 			 * Fires before the topic/quiz list

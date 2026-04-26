@@ -1,9 +1,17 @@
 <?php
+/**
+ * ProQuiz question model.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+/**
+ * ProQuiz question model.
+ */
 class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 	protected $_id              = 0;
 	protected $_questionPostId  = 0;
@@ -22,21 +30,21 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 	protected $_points          = LEARNDASH_LMS_DEFAULT_QUESTION_POINTS;
 	protected $_showPointsInBox = false;
 
-	//0.19
+	// 0.19
 	protected $_answerPointsActivated = false;
 	protected $_answerData            = null;
 
-	//0.23
+	// 0.23
 	protected $_categoryId = 0;
 
-	//0.24
+	// 0.24
 	protected $_categoryName = '';
 
-	//0.25
+	// 0.25
 	protected $_answerPointsDiffModusActivated = false;
 	protected $_disableCorrect                 = false;
 
-	//0.27
+	// 0.27
 	protected $_matrixSortAnswerCriteriaWidth = 20;
 
 	/**
@@ -188,18 +196,33 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 		return $this->_tipMsg;
 	}
 
+	/**
+	 * Sets the points.
+	 *
+	 * @param mixed $_points Points.
+	 *
+	 * @return $this
+	 */
 	public function setPoints( $_points ) {
-		$this->_points = (int) $_points;
+		$this->_points = learndash_format_course_points( $_points );
 
 		return $this;
 	}
 
+	/**
+	 * Gets the points.
+	 *
+	 * @return float
+	 */
 	public function getPoints() {
 		/**
 		 * LEARNDASH-5717
 		 * Added to correct the issue when the disable correct/incorrect. The
 		 * points is calculated to be the max points from all answers not the
 		 * one marked as correct.
+		 *
+		 * It was fixed in the `WpProQuiz_Controller_Question::clearPost()` method since version "4.14.0".
+		 * It is still needed here to fix the issue for questions created before that version.
 		 */
 		if ( ( 'single' === $this->getAnswerType() ) && ( true === $this->isDisableCorrect() ) ) {
 			$_answerData = $this->getAnswerData();
@@ -244,25 +267,58 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 		return $this;
 	}
 
+	/**
+	 * Returns Answer Data for the Question Model.
+	 * TODO: Refactor to enforce return types.
+	 *
+	 * @since 1.2.6
+	 * @since 4.17.0 Added a default return for the Essay/Open Answer type.
+	 *
+	 * @param bool $serialize Whether to serialize the returned data. Defaults to false.
+	 *
+	 * @return WpProQuiz_Model_AnswerTypes[]|string|null|mixed
+	 *      - Array of Answer Models (optionally serialized)
+	 *      - null if there is an issue unserializing saved Answer Data
+	 *      - If an empty string is saved to the Question as Answer Data in the Database,
+	 *      serialized null (`N;`) will be returned when $serialize is true.
+	 *      - Note: An empty array (optionally serialized) is normally returned rather than null. This is because
+	 *      normally an empty array is what is saved in the database as Answer Data by default.
+	 *      - mixed is to satisfy static analysis
+	 */
 	public function getAnswerData( $serialize = false ) {
 		global $wpdb;
 
-		if ( ! is_null( $this->_answerData ) ) {
-			if ( ! is_array( $this->_answerData ) ) {
-				$answerData = @maybe_unserialize( $this->_answerData );
-				if ( false === $answerData ) {
-					$answerData = learndash_recount_serialized_bytes( $this->_answerData );
-					if ( false !== $answerData ) {
-						$answerData = @maybe_unserialize( $answerData );
-						if ( false === $answerData ) {
+		if ( ! is_null( $this->_answerData ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
+			if ( ! is_array( $this->_answerData ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
+				$answer_data = @maybe_unserialize( $this->_answerData ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
+				if ( false === $answer_data ) {
+					$answer_data = learndash_recount_serialized_bytes( $this->_answerData );  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
+					if ( false !== $answer_data ) {
+						$answer_data = @maybe_unserialize( $answer_data );
+						if ( false === $answer_data ) {
 							return null;
 						}
 					}
+				} elseif (
+					is_array( $answer_data )
+					&& empty( $answer_data )
+					&& $this->getAnswerType() === 'essay'
+				) {
+					/**
+					 * If an Essay/Open Answer question was created without Answer Data,
+					 * populate it with the expected defaults.
+					 */
+					$answer_model = new WpProQuiz_Model_AnswerTypes();
+					$answer_model->setGraded( true );
+					$answer_model->setGradedType( 'text' );
+					$answer_model->setGradingProgression( 'not-graded-none' );
+
+					$answer_data[] = $answer_model;
 				}
 
-				if ( ( ! empty( $answerData ) ) && ( is_array( $answerData ) ) ) {
+				if ( ( ! empty( $answer_data ) ) && ( is_array( $answer_data ) ) ) {
 					$changes = false;
-					foreach ( $answerData as $a_idx => $answer ) {
+					foreach ( $answer_data as $a_idx => $answer ) {
 						if ( ! is_a( $answer, 'WpProQuiz_Model_AnswerTypes' ) ) {
 
 							$answer_model = learndash_cast_WpProQuiz_Model_AnswerTypes( $answer, 'WpProQuiz_Model_AnswerTypes' );
@@ -271,15 +327,15 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 								continue;
 							}
 
-							$changes              = true;
-							$answerData[ $a_idx ] = $answer_model;
+							$changes               = true;
+							$answer_data[ $a_idx ] = $answer_model;
 						}
 					}
 					if ( true === $changes ) {
 						$wpdb->update(
 							LDLMS_DB::get_table_name( 'quiz_question' ),
 							array(
-								'answer_data' => serialize( $answerData ),
+								'answer_data' => serialize( $answer_data ),
 							),
 							array(
 								'id' => $this->_id,
@@ -289,14 +345,14 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 						);
 					}
 				}
-				$this->_answerData = $answerData;
+				$this->_answerData = $answer_data;  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
 			}
 		}
 
 		if ( $serialize ) {
-			return @serialize( $this->_answerData );
+			return @serialize( $this->_answerData );  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
 		} else {
-			return $this->_answerData;
+			return $this->_answerData;  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Existing property name.
 		}
 	}
 
@@ -418,8 +474,15 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 		return $object_vars;
 	}
 
+	/**
+	 * Sets the object properties from an array of values.
+	 *
+	 * @param array<mixed> $array_vars  Array of values.
+	 * @param boolean      $init_fields Initialize fields. Default is true.
+	 *
+	 * @return void
+	 */
 	public function set_array_to_object( $array_vars = array(), $init_fields = true ) {
-
 		foreach ( $array_vars as $key => $value ) {
 			switch ( $key ) {
 				case '_id':
@@ -479,9 +542,7 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 							}
 						}
 
-						//if ( !empty( $answer_import_array ) ) {
-							$this->setAnswerData( $answer_import_array );
-						//}
+						$this->setAnswerData( $answer_import_array );
 					}
 					break;
 

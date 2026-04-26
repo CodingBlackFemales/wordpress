@@ -2,8 +2,12 @@
 /**
  * Plugin Name: LearnDash LMS
  * Plugin URI: http://www.learndash.com
+ * Update URI: learndash
  * Description: LearnDash LMS Plugin - Turn your WordPress site into a learning management system.
- * Version: 4.7.0
+ * Version: 5.0.5
+ * Requires PHP: 7.4
+ * Requires at least: 6.7
+ * Tested up to: 6.9.4
  * Author: LearnDash
  * Author URI: http://www.learndash.com
  * Text Domain: learndash
@@ -25,9 +29,11 @@ use LearnDash\Core\App;
 use LearnDash\Core\Autoloader;
 use LearnDash\Core\Container;
 use StellarWP\Learndash\lucatume\DI52\ContainerException;
-use StellarWP\Learndash\StellarWP\Telemetry\Config;
+use StellarWP\Learndash\StellarWP\AdminNotices\AdminNotices;
+use StellarWP\Learndash\StellarWP\Telemetry\Config as TelemetryConfig;
 use StellarWP\Learndash\StellarWP\Telemetry\Core as Telemetry;
 use StellarWP\Learndash\StellarWP\DB\DB;
+use StellarWP\Learndash\StellarWP\Validation\Config as ValidationConfig;
 
 // CONSTANTS.
 
@@ -38,7 +44,7 @@ use StellarWP\Learndash\StellarWP\DB\DB;
 *
 * @internal Will be set by LearnDash LMS. Semantic versioning is used.
 */
-define( 'LEARNDASH_VERSION', '4.7.0' );
+define( 'LEARNDASH_VERSION', '5.0.5' );
 
 if ( ! defined( 'LEARNDASH_LMS_PLUGIN_DIR' ) ) {
 	/**
@@ -99,23 +105,37 @@ require_once __DIR__ . '/learndash-scalar-constants.php';
 add_action(
 	'plugins_loaded',
 	function () {
+		$hook_prefix = 'learndash';
+
 		// Telemetry.
 
-		$telemetry_server_url = defined( 'LEARNDASH_TELEMETRY_URL' ) && ! empty( LEARNDASH_TELEMETRY_URL )
-			? LEARNDASH_TELEMETRY_URL
+		$telemetry_server_url = defined( 'STELLARWP_TELEMETRY_SERVER' ) && ! empty( STELLARWP_TELEMETRY_SERVER )
+			? STELLARWP_TELEMETRY_SERVER
 			: 'https://telemetry.stellarwp.com/api/v1';
 
 		App::set_container( new Container() );
-		Config::set_container( App::container() );
-		Config::set_server_url( $telemetry_server_url );
-		Config::set_hook_prefix( 'learndash' );
-		Config::set_stellar_slug( 'learndash' );
+
+		TelemetryConfig::set_container( App::container() );
+		TelemetryConfig::set_server_url( $telemetry_server_url );
+		TelemetryConfig::set_hook_prefix( $hook_prefix );
+		TelemetryConfig::set_stellar_slug( $hook_prefix );
 
 		Telemetry::instance()->init( __FILE__ );
 
 		// DB.
 
 		DB::init();
+
+		// Validation.
+
+		ValidationConfig::setServiceContainer( App::container() );
+		ValidationConfig::setHookPrefix( $hook_prefix );
+
+		ValidationConfig::initialize();
+
+		// Admin Notices.
+
+		AdminNotices::initialize( 'learndash', plugin_dir_url( __FILE__ ) . 'vendor-prefixed/stellarwp/admin-notices' );
 	},
 	0
 );
@@ -187,8 +207,8 @@ function learndash_deactivated() {
  *
  * @since 4.6.0
  *
- * @param string $service_provider_class The fully-qualified Service Provider class name.
- * @param string ...$alias               A list of aliases the provider should be registered with.
+ * @param class-string $service_provider_class The fully-qualified Service Provider class name.
+ * @param string       ...$alias               A list of aliases the provider should be registered with.
  *
  * @throws ContainerException If the Service Provider is not correctly configured or there's an issue reflecting on it.
  *
@@ -202,14 +222,47 @@ function learndash_register_provider( string $service_provider_class, string ...
  * Setup the autoloader for extra classes, which are not in the src/Core directory.
  *
  * @since 4.6.0
+ * @since 4.20.1 Support autoload from subdirectories in the src/deprecated directory.
  *
  * @return void
  */
 function learndash_extra_autoloading(): void {
 	$autoloader = Autoloader::instance();
 
-	foreach ( (array) glob( LEARNDASH_LMS_PLUGIN_DIR . 'src/deprecated/*.php' ) as $file ) {
-		$autoloader->register_class( basename( (string) $file, '.php' ), (string) $file );
+	// Iterate through all files under ./src/deprecated.
+	$iterator = new RecursiveDirectoryIterator( LEARNDASH_LMS_PLUGIN_DIR . 'src/deprecated/' );
+	$files    = new RecursiveIteratorIterator( $iterator, RecursiveIteratorIterator::SELF_FIRST );
+
+	foreach ( $files as $file ) {
+		if (
+			! $file instanceof SplFileInfo
+			|| ! $file->isFile()
+			|| $file->getExtension() !== 'php'
+		) {
+			continue;
+		}
+
+		if ( strstr( $file->getRealPath(), 'functions' ) ) {
+			// If this was named functions.php in any directory, load it.
+			include_once $file->getRealPath();
+		} else {
+			// Construct the proper Class Name based on the file path.
+			$class_name = str_replace(
+				'/',
+				'\\',
+				(string) preg_replace(
+					'/.*?src\/deprecated\/(.*?)\.php/',
+					'$1',
+					$file->getRealPath()
+				)
+			);
+
+			if ( strpos( $class_name, '\\' ) !== false ) {
+				$class_name = 'LearnDash\\' . $class_name;
+			}
+
+			$autoloader->register_class( $class_name, $file->getRealPath() );
+		}
 	}
 
 	$autoloader->register_autoloader();

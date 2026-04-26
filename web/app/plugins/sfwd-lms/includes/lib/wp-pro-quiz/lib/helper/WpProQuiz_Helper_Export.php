@@ -40,7 +40,7 @@ class WpProQuiz_Helper_Export {
 				}
 			}
 
-			if ( ( isset( $export['question'] ) ) && ( ! empty( $export['question'] ) ) ) {
+			if ( ( isset( $export['question'] ) ) && ( ! empty( $export['question'] ) ) ) { // @phpstan-ignore-line -- legacy code.
 				foreach ( $export['question'] as $quiz_id => $question_set ) {
 					if ( ! empty( $question_set ) ) {
 						foreach ( $question_set as $question_id => $question ) {
@@ -60,7 +60,7 @@ class WpProQuiz_Helper_Export {
 				}
 			}
 
-			if ( ( isset( $export['forms'] ) ) && ( ! empty( $export['forms'] ) ) ) {
+			if ( ( isset( $export['forms'] ) ) && ( ! empty( $export['forms'] ) ) ) { // @phpstan-ignore-line -- legacy code.
 				foreach ( $export['forms'] as $quiz_id => $form_set ) {
 					if ( ! empty( $form_set ) ) {
 						foreach ( $form_set as $form_id => $form ) {

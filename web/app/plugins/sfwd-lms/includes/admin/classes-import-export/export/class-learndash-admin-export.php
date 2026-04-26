@@ -7,6 +7,8 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -211,8 +213,11 @@ if (
 
 			// block content processing.
 			if (
-				! empty( $blocks ) &&
-				( count( $blocks ) > 1 || '' !== trim( $blocks[0]['blockName'] ) )
+				! empty( $blocks )
+				&& (
+					count( $blocks ) > 1
+					|| '' !== trim( Cast::to_string( $blocks[0]['blockName'] ) )
+				)
 			) {
 				return $this->get_media_ids_from_blocks( $blocks );
 			}

@@ -1,13 +1,19 @@
 <?php
 /**
- * Setup page template
+ * Setup page template.
  *
- * @package LearnDash_Settings_Page_Setup
+ * @version 4.18.0
  *
- * @var array<string, array>  $steps
- * @var array<string, string> $overview_video
- * @var array<string, string> $overview_article
+ * @var array<string, array>  $steps                Array of steps.
+ * @var array<string, string> $overview_video       Overview video.
+ * @var array<string, string> $overview_article     Overview article.
+ * @var bool                  $paypal_ipn_enabled   Whether PayPal IPN is enabled.
+ * @var bool                  $paypal_ipn_dismissed Whether PayPal IPN notice is dismissed.
+ *
+ * @package LearnDash\Core
  */
+
+use LearnDash\Core\Utilities\Cast;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
@@ -18,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wrap learndash-setup">
 	<div class="logo">
 		<img
-			src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/learndash.svg' ); ?>"
+			src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . 'assets/images/learndash.svg' ); ?>"
 			alt="LearnDash"
 		/>
 	</div>
@@ -34,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php foreach ( $steps as $step ) : ?>
 		<div
 			class="box <?php echo esc_attr( $step['class'] ); ?>"
-			data-url="<?php echo esc_url( $step['url'] ); ?>"
+			data-url="<?php echo esc_url( Cast::to_string( $step['url'] ) ); ?>"
 			data-completed="<?php echo esc_attr( (string) $step['completed'] ); ?>"
 		>
 			<div class="heading">
@@ -132,3 +138,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</div>
 </div>
+
+<?php if ( $paypal_ipn_enabled && ! $paypal_ipn_dismissed ) : ?>
+	<div
+		id="ld-paypal-ipn-deprecated-warning"
+		title="<?php esc_html_e( 'PayPal Standard Deprecation', 'learndash' ); ?>"
+		class="ld-paypal-ipn-warning__notice"
+		data-nonce="<?php echo esc_attr( wp_create_nonce( 'learndash_notice_dismiss_permanently' ) ); ?>"
+	>
+		<strong><?php esc_html_e( 'PayPal Standard is no longer being supported by LearnDash', 'learndash' ); ?></strong>
+		<p><?php esc_html_e( 'Migrate PayPal Standard to PayPal Checkout, which supports PayPal\'s latest API updates. As PayPal\'s IPN is being deprecated it will soon be removed from our platform.', 'learndash' ); ?></p>
+
+		<p class="ld-paypal-ipn-warning__actions">
+			<a
+				href="https://go.learndash.com/paypal/"
+				target="_blank"
+				class="button button-secondary ld-paypal-ipn-warning__button ld-paypal-ipn-warning__button--secondary"
+			>
+				<?php esc_html_e( 'Read Documentation', 'learndash' ); ?>
+			</a>
+
+			<a
+				href="<?php echo esc_url( admin_url( 'admin.php?page=learndash_lms_payments&section-payment=settings_paypal_checkout' ) ); ?>"
+				class="button button-primary ld-paypal-ipn-warning__button ld-paypal-ipn-warning__button--primary"
+			>
+				<?php esc_html_e( 'Set up PayPal Checkout', 'learndash' ); ?>
+			</a>
+		</p>
+	</div>
+
+	<?php
+endif;

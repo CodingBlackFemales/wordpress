@@ -119,6 +119,14 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 				if ( true === $this->meta['empty'] ) {
 					// Note here since we are loading the steps via legacy methods we don't need to validate.
 					$this->steps['h'] = $this->load_steps_legacy();
+
+					// I don't want to affect the default flow, so this is a safe way to do this step after it was imported only.
+					if ( get_post_meta( $this->course_id, 'course_steps_update_after_import_is_needed', true ) ) {
+						// This is necessary to rebuild the steps after the import.
+						$steps_h = $this->steps['h'];
+
+						delete_post_meta( $this->course_id, 'course_steps_update_after_import_is_needed' );
+					}
 				}
 
 				$this->build_steps();
@@ -256,7 +264,6 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 
 			$this->set_steps_count_meta();
 		}
-
 
 		/**
 		 * Sets the Course steps dirty flag and will force the steps to be
@@ -1001,20 +1008,38 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 		 * This is generally called when editing the course and the course steps has been changed.
 		 *
 		 * @since 2.5.0
+		 * @since 4.10.0   Add $keep_sections parameter to keep sections when updating steps.
 		 *
-		 * @param array $course_steps Array of Course steps.
+		 * @param array $course_steps  Array of Course steps.
+		 * @param bool  $keep_sections Whether to keep the existing sections when setting steps or not. Default false.
+		 *
+		 * @return void
 		 */
-		public function set_steps( $course_steps = array() ) {
+		public function set_steps( $course_steps = array(), bool $keep_sections = false ): void {
 			if ( ! empty( $this->course_id ) ) {
 				$this->saving_steps = true;
 
 				$this->load_steps_meta();
 
-				if ( isset( $course_steps['section-heading'] ) ) {
-					$this->set_section_headings( $course_steps['section-heading'] );
-					unset( $course_steps['section-heading'] );
+				if ( $keep_sections ) {
+					// Get the value directly from meta data to keep the structure of the sections unchanged to maintain its function in the course builder.
+
+					$course_sections = get_post_meta( $this->course_id, 'course_sections', true );
+
+					if ( is_string( $course_sections ) ) {
+						$course_sections = json_decode( $course_sections, true );
+					}
+
+					$course_sections = is_array( $course_sections ) ? $course_sections : [];
+
+					$this->set_section_headings( $course_sections );
 				} else {
-					$this->set_section_headings( array() );
+					if ( isset( $course_steps['section-heading'] ) ) {
+						$this->set_section_headings( $course_steps['section-heading'] );
+						unset( $course_steps['section-heading'] );
+					} else {
+						$this->set_section_headings( array() );
+					}
 				}
 
 				$this->steps['h'] = $course_steps;
@@ -1038,6 +1063,19 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 
 				$this->steps_loaded = false;
 			}
+		}
+
+		/**
+		 * Set course steps while keeping the sections.
+		 *
+		 * @since 4.10.0
+		 *
+		 * @param array<string, array<mixed>> $course_steps Course steps.
+		 *
+		 * @return void
+		 */
+		public function set_steps_keeping_sections( array $course_steps = [] ): void {
+			$this->set_steps( $course_steps, true );
 		}
 
 		/**
@@ -1589,11 +1627,11 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 		}
 
 		/**
-		 * Get Course Step parents.
+		 * Returns the parent steps for a given step. Empty array if no parent steps.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param int    $post_id Current step post ID.
+		 * @param int    $post_id   Current step post ID.
 		 * @param string $post_type Parent step post_type to.
 		 */
 		public function get_item_parent_steps( $post_id = 0, $post_type = '' ) {
@@ -1617,7 +1655,7 @@ if ( ( ! class_exists( 'LDLMS_Course_Steps' ) ) && ( class_exists( 'LDLMS_Model'
 		}
 
 		/**
-		 * Get Single Course Step parent.
+		 * Returns the parent step ID for a given step. 0 if no parent step.
 		 *
 		 * @since 2.5.0
 		 *

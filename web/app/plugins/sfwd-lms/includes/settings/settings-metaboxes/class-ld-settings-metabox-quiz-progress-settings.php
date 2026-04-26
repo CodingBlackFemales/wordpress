@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'LearnDash_Settings_Metabox_Quiz_Progress_Settings' ) ) ) {
 	/**
 	 * Class LearnDash Settings Metabox for Quiz Progress Settings.
@@ -125,7 +127,8 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 
 				if ( ( isset( $this->setting_option_values['quiz_resume_cookie_send_timer'] ) ) && ( '' !== $this->setting_option_values['quiz_resume_cookie_send_timer'] ) ) {
 					$this->setting_option_values['quiz_resume_cookie_send_timer'] = absint( $this->setting_option_values['quiz_resume_cookie_send_timer'] );
-					if ( LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN > $this->setting_option_values['quiz_resume_cookie_send_timer'] ) {
+
+					if ( $this->setting_option_values['quiz_resume_cookie_send_timer'] < LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN ) {
 						$this->setting_option_values['quiz_resume_cookie_send_timer'] = LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_MIN;
 					}
 				} else {
@@ -262,7 +265,11 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								'field_key'   => 'passing_percentage',
-								'description' => esc_html__( 'Passing Score Percentage', 'learndash' ),
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( '%s Passing Score Percentage', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
 								'type'        => 'float',
 								'default'     => 0.0,
 							),
@@ -313,9 +320,16 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'certificate_award_threshold',
-								'type'      => 'float',
-								'default'   => 0.0,
+								'default'     => 0.0,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( '%1$s certificate threshold percentage to earn the certificate as a decimal. The %1$s Certificate value must be set for this to take effect.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'certificate_award_threshold',
+								'maximum'     => 100,
+								'minimum'     => 0,
+								'type'        => 'float',
 							),
 						),
 					),
@@ -345,9 +359,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'quiz_resume',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( 'Whether the %s can be saved and resumed later.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'quiz_resume',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -374,10 +393,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'quiz_resume_cookie_send_timer',
-								'description' => esc_html__( 'Save cookie data to the server every', 'learndash' ),
-								'type'        => 'integer',
 								'default'     => LEARNDASH_QUIZ_RESUME_COOKIE_SEND_TIMER_DEFAULT,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( 'Save %s resume cookie data to the server every x seconds.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'quiz_resume_cookie_send_timer',
+								'type'        => 'integer',
 							),
 						),
 					),
@@ -401,9 +424,14 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key' => 'retry_restrictions_enabled',
-								'type'      => 'boolean',
-								'default'   => false,
+								'default'     => false,
+								'description' => sprintf(
+									// translators: placeholder: quiz label.
+									__( 'Whether the %s can be retaken only a certain number of times.', 'learndash' ),
+									learndash_get_custom_label( 'quiz' )
+								),
+								'field_key'   => 'retry_restrictions_enabled',
+								'type'        => 'boolean',
 							),
 						),
 					),
@@ -493,14 +521,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'show_in_rest' => LearnDash_REST_API::enabled(),
 						'rest_args'    => array(
 							'schema' => array(
-								'field_key'   => 'answer_all_questions_enabled',
+								'default'     => false,
 								'description' => sprintf(
-									// translators: placeholder: Questions.
-									esc_html_x( 'All %s required to complete', 'placeholder: Questions', 'learndash' ),
-									learndash_get_custom_label( 'questions' )
+									// translators: placeholder: %1$s questions label, %2$s quiz label.
+									__( 'Whether all %1$s are required to complete the %2$s.', 'learndash' ),
+									learndash_get_custom_label( 'questions' ),
+									learndash_get_custom_label( 'quiz' )
 								),
+								'field_key'   => 'answer_all_questions_enabled',
 								'type'        => 'boolean',
-								'default'     => true,
 							),
 						),
 					),
@@ -541,7 +570,7 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 						'rest_args'    => array(
 							'schema' => array(
 								'field_key'   => 'time_limit_time',
-								'description' => esc_html__( 'Automatically Submit After', 'learndash' ),
+								'description' => esc_html__( 'Automatically submit after x seconds. Requires the "Time Limit Enabled" setting to be enabled.', 'learndash' ),
 								'type'        => 'integer',
 								'default'     => 0,
 							),

@@ -1,8 +1,17 @@
 <?php
+/**
+ * WP Pro Quiz Statistic User Model
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+
+/**
+ * Class WpProQuiz_Model_StatisticUser
+ */
 class WpProQuiz_Model_StatisticUser extends WpProQuiz_Model_Model {
 
 	protected $_correctCount        = 0;
@@ -46,8 +55,16 @@ class WpProQuiz_Model_StatisticUser extends WpProQuiz_Model_Model {
 		return $this->_hintCount;
 	}
 
+	/**
+	 * Sets points.
+	 *
+	 * @param mixed $_points Points.
+	 *
+	 * @return self
+	 */
 	public function setPoints( $_points ) {
-		$this->_points = (int) $_points;
+		$this->_points = learndash_format_course_points( $_points );
+
 		return $this;
 	}
 
@@ -82,8 +99,18 @@ class WpProQuiz_Model_StatisticUser extends WpProQuiz_Model_Model {
 		return $this->_questionName;
 	}
 
-	public function setGPoints( $_gPoints ) {
-		$this->_gPoints = (int) $_gPoints;
+	/**
+	 * Sets global points.
+	 *
+	 * @since 2.6.0
+	 *
+	 * @param mixed $_gPoints Global points.
+	 *
+	 * @return self
+	 */
+	public function setGPoints( $_gPoints ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+		$this->_gPoints = learndash_format_course_points( $_gPoints ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase,WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+
 		return $this;
 	}
 

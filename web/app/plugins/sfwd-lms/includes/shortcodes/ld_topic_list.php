@@ -44,10 +44,21 @@ function ld_topic_list( $attr = array(), $content = '', $shortcode_slug = 'ld_to
 	if ( ( isset( $attr['course_id'] ) ) && ( ! empty( $attr['course_id'] ) ) ) {
 		$attr['course_id'] = absint( $attr['course_id'] );
 
+		// Check post access.
+		if ( ! learndash_shortcode_can_current_user_access_post( $attr['course_id'] ) ) {
+			return '';
+		}
+
 		$course_steps = array();
 
 		if ( isset( $attr['lesson_id'] ) ) {
 			$attr['lesson_id'] = absint( $attr['lesson_id'] );
+
+			// Check post access.
+			if ( ! learndash_shortcode_can_current_user_access_post( $attr['lesson_id'] ) ) {
+				return '';
+			}
+
 			if ( ! empty( $attr['lesson_id'] ) ) {
 				$course_steps = learndash_get_topic_list( $attr['lesson_id'], $attr['course_id'] );
 				if ( ! empty( $course_steps ) ) {

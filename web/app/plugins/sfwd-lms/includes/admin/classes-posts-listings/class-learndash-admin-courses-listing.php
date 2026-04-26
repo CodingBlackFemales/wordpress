@@ -6,6 +6,8 @@
  * @package LearnDash\Course\Listing
  */
 
+use LearnDash\Core\Modules\AJAX\Notices;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -133,6 +135,7 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 				parent::on_load_listing();
 
 				add_filter( 'learndash_listing_table_query_vars_filter', array( $this, 'listing_table_query_vars_filter_courses' ), 30, 3 );
+				add_action( 'admin_notices', [ $this, 'show_shared_steps_notice' ] );
 
 				/**
 				 * Convert the Course Post Meta items.
@@ -144,6 +147,52 @@ if ( ( class_exists( 'Learndash_Admin_Posts_Listing' ) ) && ( ! class_exists( 'L
 					$ld_data_upgrade_course_post_meta->process_post_meta( true );
 				}
 			}
+		}
+
+		/**
+		 * We recommend using shared steps setting.
+		 *
+		 * @since 4.12.0
+		 *
+		 * @return void
+		 */
+		public function show_shared_steps_notice(): void {
+			// Don't show the notice if the user has already enabled shared steps.
+			if ( learndash_is_course_shared_steps_enabled() ) {
+				return;
+			}
+
+			$notice_id = 'feature_shared_steps_should_be_enabled';
+
+			// Don't show the notice if the user has dismissed it.
+			if ( Notices\Dismisser::is_dismissed( $notice_id ) ) {
+				return;
+			}
+
+			$message = sprintf(
+				// translators: placeholder: Shared Steps documentation URL.
+				__(
+					'Get a performance boost on your course by enabling shared steps in LearnDash LMS. Shared steps uses newer underlying architecture that really makes your course fly! <a target="_blank" href="%1$s">Learn more about Shared Steps</a>.',
+					'learndash'
+				),
+				esc_url( 'https://www.learndash.com/support/docs/core/courses/shared-course-steps/' )
+			);
+
+			echo sprintf(
+				'<div class="notice notice-info is-dismissible %1$s" data-nonce="%2$s" data-id="%3$s"><p>%4$s</p></div>',
+				esc_attr( Notices\Dismisser::$classname ),
+				esc_attr( learndash_create_nonce( Notices\Dismisser::$action ) ),
+				esc_attr( $notice_id ),
+				wp_kses(
+					$message,
+					[
+						'a' => [
+							'href'   => [],
+							'target' => [],
+						],
+					]
+				)
+			);
 		}
 
 		/**

@@ -6,6 +6,8 @@
  * @package LearnDash\Settings\Sections
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -37,14 +39,14 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 			$this->settings_section_key = 'settings_paypal';
 
 			// Section label/header.
-			$this->settings_section_label = esc_html__( 'PayPal Settings', 'learndash' );
+			$this->settings_section_label = esc_html__( 'Settings - PayPal Standard', 'learndash' );
 
 			$this->reset_confirm_message = esc_html__( 'Are you sure want to reset the PayPal values?', 'learndash' );
 
 			// Used to associate this section with the parent section.
 			$this->settings_parent_section_key = 'settings_payments_list';
 
-			$this->settings_section_listing_label = esc_html__( 'PayPal', 'learndash' );
+			$this->settings_section_listing_label = Learndash_Paypal_IPN_Gateway::get_label();
 
 			parent::__construct();
 		}
@@ -57,7 +59,10 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 		public function load_settings_values() {
 			parent::load_settings_values();
 
-			if ( false === $this->setting_option_values ) {
+			if (
+				! $this->setting_option_initialized
+				&& empty( $this->setting_option_values )
+			) {
 				$sfwd_cpt_options = get_option( 'sfwd_cpt_options' );
 
 				if ( ( isset( $sfwd_cpt_options['modules']['sfwd-courses_options'] ) ) && ( ! empty( $sfwd_cpt_options['modules']['sfwd-courses_options'] ) ) ) {
@@ -71,7 +76,7 @@ if ( ( class_exists( 'LearnDash_Settings_Section' ) ) && ( ! class_exists( 'Lear
 							}
 						}
 
-						$this->setting_option_values[ $key ] = $val;
+						$this->setting_option_values[ Cast::to_string( $key ) ] = $val;
 					}
 				}
 			}

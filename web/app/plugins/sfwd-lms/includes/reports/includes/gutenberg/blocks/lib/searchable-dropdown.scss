@@ -1,0 +1,17 @@
+/* stylelint-disable -- TODO: Fix linting issues */
+
+.ld-propanel-searchable-dropdown {
+
+    [class$="container"] {
+
+        & > [class$="control"] {
+
+            input {
+                box-shadow: none !important;
+            }
+
+        }
+
+    }
+
+}

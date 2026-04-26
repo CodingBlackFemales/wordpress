@@ -3,8 +3,11 @@
  * LearnDash Binary Selector Group Courses Enroll.
  *
  * @since 3.2.0
+ *
  * @package LearnDash\Settings
  */
+
+use LearnDash\Core\Validations\Validators\Metaboxes\Group_Courses_Auto_Enroll;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,6 +64,9 @@ if ( ( ! class_exists( 'Learndash_Binary_Selector_Group_Courses_Enroll' ) ) && (
 
 			$args['html_id']   = $args['html_id'] . '-' . $args['group_id'];
 			$args['html_name'] = $args['html_name'] . '[' . $args['group_id'] . ']';
+
+			$this->server_side_validator           = new Group_Courses_Auto_Enroll( $args['group_id'] );
+			$this->server_side_validation_field_id = Group_Courses_Auto_Enroll::$field_courses_auto_enroll;
 
 			parent::__construct( $args );
 		}

@@ -196,7 +196,7 @@ tr:hover .wpProQuiz_actions {
 				<div style="float: right;">
 					<a class="button-secondary wpProQuiz_update" href="#"><?php esc_html_e( 'Refresh', 'learndash' ); ?></a>
 					<?php if ( current_user_can( 'wpProQuiz_reset_statistics' ) ) { ?>
-					<a class="button-secondary wpProQuiz_resetComplete" href="#"><?php esc_html_e( 'Reset entire statistic', 'learndash' ); ?></a>
+					<a class="button-secondary wpProQuiz_resetComplete" href="#"><?php esc_html_e( 'Delete all statistics', 'learndash' ); ?></a>
 					<?php } ?>
 				</div>
 

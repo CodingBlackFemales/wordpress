@@ -280,7 +280,7 @@ if ( ! class_exists( 'Learndash_Admin_Bulk_Edit_Action' ) ) {
 		 *
 		 * @return string|null The number of affected posts or null.
 		 */
-		protected function get_affected_posts_number( array $enabled_filters ):?string {
+		protected function get_affected_posts_number( array $enabled_filters ): ?string {
 			global $wpdb;
 
 			$sql = "SELECT COUNT(*) FROM {$wpdb->posts}" . $this->get_sql_from_filters( $enabled_filters );
@@ -297,7 +297,7 @@ if ( ! class_exists( 'Learndash_Admin_Bulk_Edit_Action' ) ) {
 		 *
 		 * @return array The array of affected posts ids.
 		 */
-		protected function get_affected_posts_ids( array $enabled_filters ):array {
+		protected function get_affected_posts_ids( array $enabled_filters ): array {
 			global $wpdb;
 
 			$sql = "SELECT {$wpdb->posts}.ID FROM {$wpdb->posts}" . $this->get_sql_from_filters( $enabled_filters );

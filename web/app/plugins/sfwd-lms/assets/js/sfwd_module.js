@@ -1983,3 +1983,27 @@ jQuery(function () {
 		}
 	}
 });
+
+/**
+ * Handles the dismissible notices. We want to dismiss the notice forever sometimes.
+ *
+ * @since 4.12.0
+ */
+if (jQuery('.learndash-notice-permanently-dismissible').length) {
+	jQuery( '.learndash-notice-permanently-dismissible' ).on(
+		'click',
+		'.notice-dismiss',
+		function( event, el ) {
+			jQuery.ajax( {
+				type: 'POST',
+				url: ajaxurl,
+				dataType: 'json',
+				data: {
+					action: 'learndash_notice_dismiss_permanently',
+					nonce: jQuery( event.currentTarget ).parent( '.learndash-notice-permanently-dismissible' ).data( 'nonce' ),
+					id: jQuery( event.currentTarget ).parent( '.learndash-notice-permanently-dismissible' ).data( 'id' ),
+				}
+			} );
+		},
+	);
+}

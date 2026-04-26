@@ -1,0 +1,61 @@
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!../node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./scss/remote.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+.ld-banner {
+  position: relative;
+  margin: 40px 0;
+}
+
+.ld-banner-bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 40px;
+  color: #fff;
+}
+
+.ld-banner-title {
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.ld-banner-text {
+  font-size: 22px;
+  margin-bottom: 20px;
+  display: block;
+  width: 70%;
+}
+
+.ld-banner-shop-btn {
+  color: #fff;
+  font-size: 16px;
+  border: solid 1px #fff;
+  border-radius: 50px;
+  padding: 12px 26px;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.ld-banner-dismiss {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.ld-banner-dismiss svg {
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+
+.ld-banner-bg-image {
+  position: absolute;
+  bottom: -4px;
+  left: 100px;
+}
+
+.ld-banner-image-only {
+  width: 100%;
+  height: auto;
+}

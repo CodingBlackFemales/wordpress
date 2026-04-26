@@ -298,7 +298,6 @@ class Course extends Mapper {
 		$step = new Steps\Step( $this->model->get_id(), $this->model->get_title(), $this->model->get_permalink() );
 
 		$step->set_contents( $this->get_contents() );
-		$step->set_progress( $this->model->get_progress_percentage( wp_get_current_user() ) );
 
 		$step->set_icon( 'course' );
 		$step->set_type_label( LearnDash_Custom_Label::get_label( 'course' ) );

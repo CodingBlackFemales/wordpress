@@ -6,6 +6,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -87,6 +89,20 @@ function learndash_courseinfo( $attr = array(), $content = '', $shortcode_slug =
 				$shortcode_atts['user_id'] = intval( $_GET['user'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 		}
+	}
+
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$shortcode_atts['user_id'] = learndash_shortcode_protect_user(
+		Cast::to_int( $shortcode_atts['user_id'] )
+	);
+
+	// Check post access.
+	if (
+		! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $shortcode_atts['course_id'] )
+		)
+	) {
+		return '';
 	}
 
 	if ( empty( $shortcode_atts['course_id'] ) || empty( $shortcode_atts['user_id'] ) ) {

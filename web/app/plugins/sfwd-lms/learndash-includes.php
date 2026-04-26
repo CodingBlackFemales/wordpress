@@ -43,6 +43,11 @@ require_once dirname( __FILE__ ) . '/includes/class-ldlms-transients.php';
 require_once dirname( __FILE__ ) . '/includes/class-ld-semper-fi-module.php';
 
 /**
+ * Misc functions
+ */
+require_once trailingslashit( __DIR__ ) . 'includes/ld-misc-functions.php';
+
+/**
  * SFWD_LMS
  */
 require_once dirname( __FILE__ ) . '/includes/class-ld-lms.php';
@@ -192,11 +197,6 @@ require_once dirname( __FILE__ ) . '/includes/ld-users.php';
 require_once dirname( __FILE__ ) . '/includes/ld-certificates.php';
 
 /**
- * Misc functions
- */
-require_once dirname( __FILE__ ) . '/includes/ld-misc-functions.php';
-
-/**
  * WP-admin functions
  */
 require_once dirname( __FILE__ ) . '/includes/admin/ld-admin.php';
@@ -303,64 +303,54 @@ require_once dirname( __FILE__ ) . '/includes/site-health/class-site-health.php'
 Learndash_Site_Health::init();
 
 /**
- * Core Updater
- */
-require_once dirname( __FILE__ ) . '/includes/ld-autoupdate.php';
-
-/**
  * Purchase Invoice Functions
  */
 require_once dirname( __FILE__ ) . '/includes/payments/ld-purchase-invoice-functions.php';
 
-// @phpstan-ignore-next-line
-if ( ( true === (bool) LEARNDASH_ADDONS_UPDATER ) && ( true === (bool) LEARNDASH_UPDATES_ENABLED ) ) {
-	require_once dirname( __FILE__ ) . '/includes/class-ld-addons-updater.php';
-} else {
+/**
+ * Added a dummy class if/when auto_update is disabled.
+ * To prevent fatal errors.
+ */
+if ( ! class_exists( 'LearnDash_Addon_Updater' ) ) {
 	/**
-	 * Added a dummy class if/when auto_update is disabled.
-	 * To prevent fatal errors.
+	 * Dummy class
+	 *
+	 * @ignore
 	 */
-	if ( ! class_exists( 'LearnDash_Addon_Updater' ) ) {
+	class LearnDash_Addon_Updater {
 		/**
-		 * Dummy class
+		 * Instance
+		 *
+		 * @var object
+		 * @ignore
+		 */
+		protected static $instance = null;
+
+		/**
+		 * Get instance
 		 *
 		 * @ignore
 		 */
-		class LearnDash_Addon_Updater {
-			/**
-			 * Instance
-			 *
-			 * @var object
-			 * @ignore
-			 */
-			protected static $instance = null;
-
-			/**
-			 * Get instance
-			 *
-			 * @ignore
-			 */
-			public static function get_instance() {
-				// @phpstan-ignore-next-line
-				if ( ! isset( static::$instance ) ) {
-					static::$instance = new self();
-				}
-
-				return static::$instance;
+		public static function get_instance() {
+			// @phpstan-ignore-next-line
+			if ( ! isset( static::$instance ) ) {
+				static::$instance = new self();
 			}
 
-			/**
-			 * Call
-			 *
-			 * @param string $name      Name.
-			 * @param array  $arguments Arguments.
-			 *
-			 * @ignore
-			 */
-			public function __call( $name, $arguments ) {
-				// phpcs:ignore Squiz.PHP.NonExecutableCode.ReturnNotRequired
-				return;
-			}
+			return static::$instance;
+		}
+
+		/**
+		 * Call
+		 *
+		 * @param string $name      Name.
+		 * @param array  $arguments Arguments.
+		 *
+		 * @ignore
+		 */
+		public function __call( $name, $arguments ) {
+			// phpcs:ignore Squiz.PHP.NonExecutableCode.ReturnNotRequired
+			return;
 		}
 	}
 }

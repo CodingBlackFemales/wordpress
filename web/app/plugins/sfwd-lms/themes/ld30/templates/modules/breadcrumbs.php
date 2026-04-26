@@ -1,15 +1,13 @@
 <?php
 /**
- * LearnDash LD30 Displays the breadcrumbs
- *
- * Available Variables:
- *
- * $post                  : (WP_Post) The post object.
+ * LearnDash LD30 Displays the breadcrumbs.
  *
  * @since 3.0.0
+ * @version 4.21.3
+ *
+ * @var WP_Post $post The post object.
  *
  * @package LearnDash\Templates\LD30
- *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,7 +26,7 @@ if ( ! isset( $post ) ) {
  */
 do_action( 'learndash-breadcrumbs-before' ); ?>
 
-<div class="ld-breadcrumbs-segments">
+<ol class="ld-breadcrumbs-segments">
 	<?php
 	$breadcrumbs = learndash_get_breadcrumbs( $post );
 
@@ -52,12 +50,22 @@ do_action( 'learndash-breadcrumbs-before' ); ?>
 	foreach ( $keys as $key ) :
 		if ( isset( $breadcrumbs[ $key ] ) ) :
 			?>
-			<span><a href="<?php echo esc_url( $breadcrumbs[ $key ]['permalink'] ); ?>"><?php echo esc_html( wp_strip_all_tags( $breadcrumbs[ $key ]['title'] ) ); ?></a> </span>
+			<li>
+				<?php if ( $key === 'current' ) : ?>
+					<a href="" aria-current="page">
+						<?php echo esc_html( wp_strip_all_tags( $breadcrumbs[ $key ]['title'] ) ); ?>
+					</a>
+				<?php else: ?>
+					<a href="<?php echo esc_url( $breadcrumbs[ $key ]['permalink'] ); ?>">
+						<?php echo esc_html( wp_strip_all_tags( $breadcrumbs[ $key ]['title'] ) ); ?>
+					</a>
+				<?php endif; ?>
+			</li>
 			<?php
 		endif;
 	endforeach;
 	?>
-</div> <!--/.ld-breadcrumbs-segments-->
+</ol>
 
 <?php
 /**

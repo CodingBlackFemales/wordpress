@@ -25,12 +25,16 @@ class Course_Outline {
 	/**
 	 * Page slug.
 	 *
+	 * @since 4.6.0
+	 *
 	 * @var string
 	 */
 	public static $slug = 'learndash-ai-course-outline';
 
 	/**
 	 * AJAX actions.
+	 *
+	 * @since 4.6.0
 	 *
 	 * @var array<string, string>
 	 */
@@ -40,6 +44,8 @@ class Course_Outline {
 
 	/**
 	 * Maximum number of allowed lessons.
+	 *
+	 * @since 4.6.0
 	 *
 	 * @var int
 	 */
@@ -57,6 +63,8 @@ class Course_Outline {
 	/**
 	 * Constructor.
 	 *
+	 * @since 4.6.0
+	 *
 	 * @param ChatGPT $chatgpt ChatGPT client.
 	 */
 	public function __construct( ChatGPT $chatgpt ) {
@@ -66,39 +74,39 @@ class Course_Outline {
 	/**
 	 * Add the course wizard button to the course list table.
 	 *
-	 * @since 4.6.0
+	 * @since 4.23.1
 	 *
-	 * return void
+	 * @param array<string,mixed> $buttons Array of header buttons.
+	 *
+	 * @return array<int|string,mixed> Modified array of header buttons.
 	 */
-	public function add_button(): void {
+	public function add_header_buttons( $buttons = [] ) {
 		$screen = get_current_screen();
 
 		if ( is_object( $screen ) && 'edit-' . learndash_get_post_type_slug( LDLMS_Post_Types::COURSE ) === $screen->id ) {
-			$label = wp_sprintf(
-				// translators: Course label.
-				__( 'Create %s Outline from AI', 'learndash' ),
-				learndash_get_custom_label( 'course' )
-			);
-			?>
-			<script>
-				( function() {
-					window.addEventListener( 'load', function() {
-						const settingsElem  = document.getElementsByClassName( 'ld-global-header-new-settings' );
-						const newEntityElem =  document.getElementsByClassName( 'global-new-entity-button' );
-
-						const link = document.createElement( 'a' );
-						const text = document.createTextNode( '<?php echo esc_html( $label ); ?>' );
-						link.setAttribute( 'href', '<?php echo esc_url( admin_url( 'admin.php?page=' . static::$slug ) ); ?>' );
-						link.setAttribute( 'class', 'global-new-entity-button' );
-						link.setAttribute( 'style', 'margin-right: 10px;' );
-						link.appendChild( text );
-
-						settingsElem[0].insertBefore( link, newEntityElem[0] );
-					});
-				} )();
-			</script>
-			<?php
+			$buttons[] = [
+				'text' => wp_sprintf(
+					// translators: Course label.
+					__( 'Create %s Outline from AI', 'learndash' ),
+					learndash_get_custom_label( 'course' )
+				),
+				'href' => esc_url( admin_url( 'admin.php?page=' . static::$slug ) ),
+			];
 		}
+
+		return $buttons;
+	}
+
+	/**
+	 * Add the course wizard button to the course list table.
+	 *
+	 * @since 4.6.0
+	 * @deprecated 4.23.1
+	 *
+	 * @return void
+	 */
+	public function add_button() {
+		_deprecated_function( __METHOD__, '4.23.1', 'Course_Outline::add_header_buttons' );
 	}
 
 	/**
@@ -209,14 +217,7 @@ class Course_Outline {
 	public function enqueue_admin_scripts(): void {
 		$screen = get_current_screen();
 		if ( is_object( $screen ) && 'learndash-lms_page_' . static::$slug === $screen->id ) {
-			wp_register_style(
-				'ld-tailwindcss',
-				LEARNDASH_LMS_PLUGIN_URL . 'assets/css/ld-tailwind.css',
-				array(),
-				LEARNDASH_SCRIPT_VERSION_TOKEN
-			);
 			wp_enqueue_style( 'ld-tailwindcss' );
-			wp_style_add_data( 'ld-tailwindcss', 'rtl', 'replace' );
 		}
 	}
 
@@ -274,7 +275,7 @@ class Course_Outline {
 				$course_title = is_array( $course ) && ! empty( $course['title'] ) ? $course['title'] : get_the_title( absint( $course ) );
 				$course_id    = ! is_array( $course ) || empty( $course['title'] ) ? absint( $course ) : 0;
 
-				$command = "Outline {$lesson_count} lessons for a '{$course_title}' course on the topic of '{$course_idea}'.";
+				$command = "Create a numbered bullet list with {$lesson_count} lesson titles for a '{$course_title}' course on the topic of '{$course_idea}'.";
 
 				$response = $this->chatgpt->send_command( $command );
 			} catch ( Exception $e ) {
@@ -386,24 +387,9 @@ class Course_Outline {
 				]
 			);
 
-			update_post_meta( $lesson_id, 'course_id', $course_id );
+			learndash_update_setting( $lesson_id, 'course', $course_id );
 
-			/**
-			 * Create course steps object.
-			 *
-			 * @var LDLMS_Course_Steps
-			 */
-			$course_steps = LDLMS_Factory_Post::course_steps( $course_id );
-			$steps        = $course_steps->get_steps();
-
-			$steps[ learndash_get_post_type_slug( LDLMS_Post_Types::LESSON ) ][ $lesson_id ] = [
-				learndash_get_post_type_slug( LDLMS_Post_Types::TOPIC ) => [],
-				learndash_get_post_type_slug( LDLMS_Post_Types::QUIZ )  => [],
-			];
-
-			ksort( $steps[ learndash_get_post_type_slug( LDLMS_Post_Types::LESSON ) ], SORT_NUMERIC );
-
-			$course_steps->set_steps( $steps );
+			learndash_course_add_child_to_parent( $course_id, $lesson_id, $course_id );
 		}
 
 		$message = wp_sprintf(

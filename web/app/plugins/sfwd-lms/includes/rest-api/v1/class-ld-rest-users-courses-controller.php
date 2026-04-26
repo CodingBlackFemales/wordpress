@@ -178,8 +178,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Courses_Controller_V1' ) ) && ( class_exis
 		public function update_user_courses_permissions_check( $request ) {
 			if ( learndash_is_admin_user() ) {
 				return true;
-			} elseif ( get_current_user_id() == $request['id'] ) {
-				return true;
 			}
 		}
 
@@ -192,8 +190,6 @@ if ( ( ! class_exists( 'LD_REST_Users_Courses_Controller_V1' ) ) && ( class_exis
 		 */
 		public function delete_user_courses_permissions_check( $request ) {
 			if ( learndash_is_admin_user() ) {
-				return true;
-			} elseif ( get_current_user_id() == $request['id'] ) {
 				return true;
 			}
 		}

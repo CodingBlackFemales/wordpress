@@ -1,3 +1,14 @@
+/**
+ * @var {Object} WpProQuizGlobal Global object for wpProQuiz.
+ */
+const learndash = window.learndash || {};
+
+learndash.forms = learndash.forms || {};
+learndash.forms.sortable = learndash.forms.sortable || {};
+learndash.scrollTo = learndash.scrollTo || {};
+
+const localStorage = window.localStorage || {};
+
 /* eslint-disable vars-on-top, camelcase*/
 (function ($) {
 	/**
@@ -22,11 +33,168 @@
 		let sending_timer = null;
 
 		let cookie_name = '';
+		let storage_name = '';
 		let cookieSendTimer = false;
 		let cookie_value = '';
 		let cookieExpireDate = 0;
 		let cookieSending = false;
 		let quiz_resume_data = {};
+
+		/**
+		 * LocalStorage helper methods for quiz data persistence.
+		 * Uses localStorage instead of cookies to handle larger data.
+		 * Falls back to cookies for reading existing data (migration).
+		 * Keys include both user_id and quiz_id to prevent data corruption
+		 * when users impersonate other users.
+		 *
+		 * @since 4.25.8
+		 */
+		const quizStorage = {
+			/**
+			 * Get the storage key that includes both user_id and quiz_id.
+			 *
+			 * @since 4.25.8
+			 *
+			 * @param {string} baseName The base cookie name.
+			 * @return {string} The storage key with user_id included.
+			 */
+			getStorageKey( baseName ) {
+				// Insert user_id into the key for user-specific storage
+				// Format: ld_save_{quizId}_{userId}_quiz_responses
+				// or: ld_{quizId}_{userId}_quiz_responses
+				if ( baseName.includes( '_quiz_responses' ) ) {
+					return baseName.replace(
+						'_quiz_responses',
+						'_' + config.user_id + '_quiz_responses'
+					);
+				}
+				return baseName + '_' + config.user_id;
+			},
+
+			/**
+			 * Get data from localStorage.
+			 *
+			 * @since 4.25.8
+			 *
+			 * @param {string} key The storage key.
+			 * @return {Object|null} The parsed data or null.
+			 */
+			get( key ) {
+				try {
+					const data = localStorage.getItem( key );
+					if ( data ) {
+						return JSON.parse( data );
+					}
+				} catch ( e ) {
+					if ( config.ld_script_debug ) {
+						console.log( 'localStorage get error:', e ); // eslint-disable-line no-console
+					}
+				}
+				return null;
+			},
+
+			/**
+			 * Set data in localStorage.
+			 *
+			 * @since 4.25.8
+			 *
+			 * @param {string} key   The storage key.
+			 * @param {Object} value The data to store.
+			 * @return {boolean} True on success, false on failure.
+			 */
+			set( key, value ) {
+				try {
+					localStorage.setItem( key, JSON.stringify( value ) );
+					return true;
+				} catch (e) {
+					if ( config.ld_script_debug ) {
+						console.log( 'localStorage set error:', e ); // eslint-disable-line no-console
+					}
+
+					// Fallback to cookie if localStorage fails (e.g., quota exceeded)
+					return false;
+				}
+			},
+
+			/**
+			 * Remove data from localStorage.
+			 *
+			 * @since 4.25.8
+			 *
+			 * @param {string} key The storage key.
+			 */
+			remove( key ) {
+				try {
+					localStorage.removeItem( key );
+				} catch (e) {
+					if ( config.ld_script_debug ) {
+						console.log( 'localStorage remove error:', e ); // eslint-disable-line no-console
+					}
+				}
+			},
+
+			/**
+			 * Get data with fallback to cookies (for migration).
+			 * Checks localStorage first, then falls back to cookies.
+			 *
+			 * @since 4.25.8
+			 *
+			 * @param {string} storageKey The localStorage key.
+			 * @param {string} cookieKey  The original cookie key (without user_id).
+			 * @return {Object} The parsed data or empty object.
+			 */
+			getWithCookieFallback( storageKey, cookieKey ) {
+				// First try localStorage with the new key format
+				let data = this.get( storageKey );
+				if ( data && Object.keys( data ).length > 0 ) {
+					return data;
+				}
+
+				// Fallback: try localStorage with the old key format (quiz_id only, no user_id)
+				const oldStorageKey = cookieKey;
+				data = this.get( oldStorageKey );
+				if ( data && Object.keys( data ).length > 0 ) {
+					if ( config.ld_script_debug ) {
+						// eslint-disable-next-line no-console
+						console.log(
+							'Migrating data from old localStorage key:',
+							oldStorageKey
+						);
+					}
+					// Migrate to new key format
+					this.set( storageKey, data );
+					this.remove( oldStorageKey );
+					return data;
+				}
+
+				// Fallback: try cookie with the old key format
+				const cookieData = jQuery.cookie( cookieKey );
+				if ( cookieData && cookieData !== '%7B%7D' ) {
+					try {
+						data = JSON.parse( cookieData );
+						if ( data && Object.keys( data ).length > 0 ) {
+							if ( config.ld_script_debug ) {
+								// eslint-disable-next-line no-console
+								console.log(
+									'Migrating data from cookie:',
+									cookieKey
+								);
+							}
+							// Migrate to localStorage and clear the cookie
+							this.set( storageKey, data );
+							jQuery.cookie( cookieKey, '' );
+							return data;
+						}
+					} catch ( e ) {
+						if ( config.ld_script_debug ) {
+							console.log( 'Cookie parse error:', e ); // eslint-disable-line no-console
+						}
+					}
+				}
+
+				return {};
+			},
+		};
 
 		if (config.ld_script_debug == true) {
 			console.log('config[%o]', config);
@@ -174,7 +342,7 @@
 					16
 				);
 
-				if (config.quiz_resume_enabled === '1' && !cookieSendTimer) {
+				if (config.quiz_resume_enabled === '1') {
 					plugin.methode.startCookieSendTimer();
 				}
 			},
@@ -295,7 +463,12 @@
 						.addClass('wpProQuiz_reviewQuestionTarget');
 					//updateItemsStatus();
 
-					scroll(e.values.index);
+					if (e.values.item.length > 0) {
+						learndash.scrollTo( e.values.item[ 0 ] );
+					}
+
+					// Attempt to focus the question text and let screen readers read it.
+					$(e.values.item).find('.wpProQuiz_question_text').focus();
 				});
 
 				$e.on('skipQuestion', function (e) {
@@ -461,24 +634,67 @@
 				}
 
 				let css_class = '';
+				let statusText = $('learndash-quiz-review-legend-item-current').text();
 
 				if (itemStatus.correct) {
 					css_class = 'wpProQuiz_reviewQuestionSolvedCorrect';
+					statusText = $(
+						'.learndash-quiz-review-legend-item-correct'
+					).text();
 				} else if (itemStatus.incorrect) {
 					css_class = 'wpProQuiz_reviewQuestionSolvedIncorrect';
+					statusText = $(
+						'.learndash-quiz-review-legend-item-incorrect'
+					).text();
 				} else if (
 					itemStatus.solved === true ||
 					itemStatus.solved === false
 				) {
 					css_class = 'wpProQuiz_reviewQuestionSolved';
+					statusText = $(
+						'.learndash-quiz-review-legend-item-answered'
+					).text();
 				} else if (itemStatus.review) {
 					css_class = 'wpProQuiz_reviewQuestionReview';
+					statusText = $(
+						'.learndash-quiz-review-legend-item-review'
+					).text();
 				} else if (itemStatus.skip) {
 					css_class = 'wpProQuiz_reviewQuestionSkip';
+					statusText = $(
+						'.learndash-quiz-review-legend-item-review'
+					).text();
 				}
 
 				if (css_class != '') {
 					$items.eq(index).addClass(css_class);
+
+					let $status = $items
+						.eq(index)
+						.find('.learndash-quiz-review__item-status');
+
+					if (!$status.length) {
+						$items
+							.eq(index)
+							.append(
+								$(
+									'<span class="learndash-quiz-review__item-status screen-reader-text">'
+								)
+							);
+
+						$status = $items
+							.eq(index)
+							.find('.learndash-quiz-review__item-status');
+					}
+
+					$status.text(
+						'. ' +
+							wp.i18n.sprintf(
+								// translators: placeholder: Status text.
+								wp.i18n.__('Status: %s', 'learndash'),
+								statusText
+							)
+					);
 				}
 			}
 
@@ -549,15 +765,16 @@
 				quizStartTimer = +new Date();
 
 				// Use server start time when quiz is resumed.
+				// Server sends timestamp in seconds (Unix timestamp), but JavaScript Date uses milliseconds.
 				if (
 					config.quiz_resume_enabled === '1' &&
 					typeof config.quiz_resume_quiz_started === 'string'
 				) {
 					if ('0' !== config.quiz_resume_quiz_started) {
-						quizStartTimer = parseInt(
-							config.quiz_resume_quiz_started,
-							10
-						);
+						// Convert from saved seconds to milliseconds by multiplying by 1000.
+						quizStartTimer =
+							parseInt( config.quiz_resume_quiz_started, 10 ) *
+							1000;
 					}
 				}
 
@@ -627,7 +844,7 @@
 
 				sort_answer() {
 					const $items = $questionList.children(
-						'li.wpProQuiz_questionListItem'
+						'.wpProQuiz_questionListItem'
 					);
 					let idx = 0;
 					$items.each(function (item_idx, item) {
@@ -638,9 +855,18 @@
 						}
 					});
 
-					if (lockResponse == true) {
-						$questionList.sortable();
-						$questionList.sortable('disable');
+					if (lockResponse === true) {
+						// Backwards compatibility with templates older than 4.21.3.
+						if (
+							!$questionList.hasClass('.ld-sortable--sort_answer')
+						) {
+							$questionList.sortable();
+							$questionList.sortable('disable');
+						} else {
+							learndash.forms.sortable.destroySortable(
+								$questionList[0] ?? null
+							);
+						}
 					}
 				},
 
@@ -749,7 +975,7 @@
 
 				essay() {
 					const question_id = $question
-						.find('ul.wpProQuiz_questionList')
+						.find('.wpProQuiz_questionList')
 						.data('question_id');
 					if (lockResponse == true) {
 						$questionList
@@ -852,19 +1078,29 @@
 						solved: true,
 					},
 				});
-			} else if (question_data.type == 'sort_answer') {
+			} else if (question_data.type === 'sort_answer') {
 				jQuery.each(question_value, function (pos, key) {
 					const this_li = $(
-						'li.wpProQuiz_questionListItem[data-pos="' + key + '"]',
+						'.wpProQuiz_questionListItem[data-pos="' + key + '"]',
 						$questionList
 					);
-					const this_li_inner = $('div.wpProQuiz_sortable', this_li);
+					const this_li_inner = $('.wpProQuiz_sortable', this_li);
 					const this_li_inner_value = $(this_li_inner).text();
 
 					jQuery($questionList).append(this_li);
 					if (lockQuestion) {
-						jQuery($questionList).sortable();
-						jQuery($questionList).sortable('disable');
+						// Backwards compatibility with templates older than 4.21.3.
+						if (
+							!$questionList.hasClass('ld-sortable--sort_answer')
+						) {
+							jQuery($questionList).sortable();
+							jQuery($questionList).sortable('disable');
+						} else {
+							learndash.forms.sortable.destroySortable(
+								$questionList[0] ?? null
+							);
+						}
+
 						navigationElementslockQuestion(question);
 					}
 				});
@@ -885,7 +1121,7 @@
 						question
 					);
 					const question_destination_outer_li = $(
-						'li.wpProQuiz_questionListItem[data-pos="' +
+						'.wpProQuiz_questionListItem[data-pos="' +
 							key +
 							'"] ul.wpProQuiz_maxtrixSortCriterion',
 						$questionList
@@ -990,7 +1226,7 @@
 				) {
 					$questionList
 						.find('.wpProQuiz_questionEssay')
-						.html(question_value);
+						.text(learndash_decodeHTML(question_value));
 					if (lockQuestion) {
 						$questionList
 							.find('.wpProQuiz_questionEssay')
@@ -1745,25 +1981,64 @@
 					console.log('after currentQuestion[%o]', currentQuestion);
 				}
 
-				$e.find('.wpProQuiz_sortable')
-					.parents('ul')
-					.sortable({
-						scroll: true,
-						scrollSensitivity: 10 || config.scrollSensitivity,
-						scrollSpeed: 10 || config.scrollSpeed,
-						update(event, ui) {
-							const $p = $(this).parents('.wpProQuiz_listItem');
-							$e.trigger({
-								type: 'questionSolved',
-								values: {
-									item: $p,
-									index: $p.index(),
-									solved: true,
-								},
-							});
-						},
-					})
-					.disableSelection();
+				// Backwards compatibility with templates older than 4.21.3.
+				$e.find(
+					'.wpProQuiz_sortable:not(.ld-sortable__item-handle)'
+				).each(function (index, sortableHandle) {
+					const $sortable = $(sortableHandle).parents(
+						'.wpProQuiz_questionList'
+					);
+
+					$sortable
+						.sortable({
+							scroll: true,
+							scrollSensitivity: 10 || config.scrollSensitivity,
+							scrollSpeed: 10 || config.scrollSpeed,
+							update() {
+								const $p = $(this).parents(
+									'.wpProQuiz_listItem'
+								);
+
+								$e.trigger({
+									type: 'questionSolved',
+									values: {
+										item: $p,
+										index: $p.index(),
+										solved: true,
+									},
+								});
+							},
+						})
+						.disableSelection();
+				});
+
+				$e.find('.ld-sortable--sort_answer').each(function (
+					index,
+					sortable
+				) {
+					let instance = sortable?.ldSortable;
+
+					if (!instance) {
+						instance =
+							learndash.forms.sortable.initSortable(sortable);
+					}
+
+					const callback = (container, item) => {
+						const $p = $(container).parents('.wpProQuiz_listItem');
+
+						$e.trigger({
+							type: 'questionSolved',
+							values: {
+								item: $p,
+								index: $p.index(),
+								solved: true,
+							},
+						});
+					};
+
+					instance.on('dropped', callback);
+					instance.on('reorder', callback);
+				});
 
 				$e.find(
 					'.wpProQuiz_sortStringList, .wpProQuiz_maxtrixSortCriterion'
@@ -1839,6 +2114,7 @@
 						currentQuestion
 					);
 				}
+
 				if (config.mode != 3) {
 					$e.trigger({
 						type: 'changeQuestion',
@@ -2288,10 +2564,14 @@
 					results.comp.correctQuestions
 				);
 
-				results.comp.result =
-					Math.round(
-						(results.comp.points / config.globalPoints) * 100 * 100
-					) / 100;
+				if (config.globalPoints > 0) {
+					results.comp.result =
+						Math.round(
+							( results.comp.points / config.globalPoints ) * 100 * 100
+						) / 100;
+				} else {
+					results.comp.result = 0;
+				}
 
 				let hasNotGradedQuestion = false;
 				$.each(results, function () {
@@ -2869,36 +3149,39 @@
 
 				list = list == undefined ? currentQuestion : list;
 
-				list.each(function () {
-					const $this = $(this);
+				list.each( function () {
+					const $this = $( this );
 					const question_index = $this.index();
-					const $questionList = $this.find(globalNames.questionList);
-					const question_id = $questionList.data('question_id');
-					const data = config.json[$questionList.data('question_id')];
+					const $questionList = $this.find(
+						globalNames.questionList
+					);
+					const question_id = $questionList.data( 'question_id' );
+					const data =
+						config.json[ $questionList.data( 'question_id' ) ];
 					let name = data.type;
 
 					questionTimer.questionStop();
 
-					if ($this.data('check')) {
+					if ( $this.data( 'check' ) ) {
 						return true;
 					}
 
-					if (data.type == 'single' || data.type == 'multiple') {
+					if ( data.type == 'single' || data.type == 'multiple' ) {
 						name = 'singleMulti';
 					}
 					//if (config.ld_script_debug == true) {
 					//	console.log('checkQuestion: calling readResponses');
 					//}
 
-					responses[question_id] = readResponses(
+					responses[ question_id ] = readResponses(
 						name,
 						data,
 						$this,
 						$questionList,
 						true
 					);
-					responses[question_id].question_pro_id = data.id;
-					responses[question_id].question_post_id =
+					responses[ question_id ].question_pro_id = data.id;
+					responses[ question_id ].question_post_id =
 						data.question_post_id;
 					//console.log('responses[%o]', responses);
 
@@ -2910,11 +3193,11 @@
 							question_id,
 							question_index,
 							data.type,
-							responses[question_id],
+							responses[ question_id ],
 							true
 						);
 					}
-				});
+				} );
 				//console.log('responses[%o]', responses);
 				config.checkAnswers = {
 					list,
@@ -2923,27 +3206,37 @@
 					finishQuiz,
 				};
 
-				if (finishQuiz) {
-					plugin.methode.sending(1, 80, 3);
+				if ( finishQuiz ) {
+					plugin.methode.sending( 1, 80, 3 );
 				} else {
 					plugin.methode.showSpinner();
 				}
 
-				//console.log('config.json[%o]', config.json);
+				// Get the current quiz resume data from localStorage/cookie (client-side state).
+				// This contains the live, up-to-date quiz progress as the user interacts.
+
+				const current_quiz_resume_data =
+					cookie_value &&
+					typeof cookie_value === 'object' &&
+					Object.keys( cookie_value ).length > 0
+						? cookie_value
+						: [];
 
 				plugin.methode.ajax(
 					{
 						action: 'ld_adv_quiz_pro_ajax',
 						func: 'checkAnswers',
 						data: {
-							quizId: config.quizId,
-							quiz: config.quiz,
 							course_id: config.course_id,
 							quiz_nonce: config.quiz_nonce,
-							responses: JSON.stringify(responses),
+							quiz_started: questionTimer.getQuizStart(),
+							quiz: config.quiz,
+							quizId: config.quizId,
+							responses: JSON.stringify( responses ),
+							quiz_resume_data: JSON.stringify( current_quiz_resume_data ),
 						},
 					},
-					function (json) {
+					function ( json ) {
 						//console.log('json[%o]', json);
 
 						plugin.methode.hideSpinner();
@@ -2953,67 +3246,69 @@
 						const endCheck = config.checkAnswers.endCheck;
 						const finishQuiz = config.checkAnswers.finishQuiz;
 
-						list.each(function () {
-							const $this = $(this);
+						list.each( function () {
+							const $this = $( this );
 							//console.log('this[%o]', $this);
 
 							const $questionList = $this.find(
 								globalNames.questionList
 							);
 							const question_id =
-								$questionList.data('question_id');
+								$questionList.data( 'question_id' );
 							//var data = {id: question_id};
 
-							if ($this.data('check')) {
+							if ( $this.data( 'check' ) ) {
 								return true;
 							}
 
-							if (typeof json[question_id] !== 'undefined') {
-								const result = json[question_id];
+							if ( typeof json[ question_id ] !== 'undefined' ) {
+								const result = json[ question_id ];
 
 								data =
 									config.json[
-										$questionList.data('question_id')
+										$questionList.data( 'question_id' )
 									];
 
-								$this.find('.wpProQuiz_response').show();
-								$this.find(globalNames.check).hide();
-								$this.find(globalNames.skip).hide();
-								$this.find(globalNames.next).show();
+								$this.find( '.wpProQuiz_response' ).show();
+								$this.find( globalNames.check ).hide();
+								$this.find( globalNames.skip ).hide();
+								$this.find( globalNames.next ).show();
 								$this
-									.find(globalNames.next)
-									.attr('data-question-lock', true);
+									.find( globalNames.next )
+									.attr( 'data-question-lock', true );
 
-								results[data.id].points = result.p;
-								if (typeof result.p_nonce !== 'undefined') {
-									results[data.id].p_nonce = result.p_nonce;
+								results[ data.id ].points = result.p;
+								if ( typeof result.p_nonce !== 'undefined' ) {
+									results[ data.id ].p_nonce = result.p_nonce;
 								} else {
-									results[data.id].p_nonce = '';
+									results[ data.id ].p_nonce = '';
 								}
 
-								results[data.id].correct = Number(result.c);
-								results[data.id].data = result.s;
-								if (typeof result.a_nonce !== 'undefined') {
-									results[data.id].a_nonce = result.a_nonce;
+								results[ data.id ].correct = Number( result.c );
+								results[ data.id ].data = result.s;
+								if ( typeof result.a_nonce !== 'undefined' ) {
+									results[ data.id ].a_nonce = result.a_nonce;
 								} else {
-									results[data.id].a_nonce = '';
+									results[ data.id ].a_nonce = '';
 								}
-								results[data.id].possiblePoints =
+								results[ data.id ].possiblePoints =
 									result.e.possiblePoints;
 
 								// If the sort_answer or matrix_sort_answer question type is not 100% correct then the returned
 								// result.s object will be empty. So in order to pass the user's answers to the server for the
 								// sendCompletedQuiz AJAX call we need to grab the result.e.r object and store into results.
 								if (
-									jQuery.isEmptyObject(results[data.id].data)
+									jQuery.isEmptyObject(
+										results[ data.id ].data
+									)
 								) {
 									if (
 										result.e.type != undefined &&
-										(result.e.type == 'sort_answer' ||
+										( result.e.type == 'sort_answer' ||
 											result.e.type ==
-												'matrix_sort_answer')
+												'matrix_sort_answer' )
 									) {
-										results[data.id].data = result.e.r;
+										results[ data.id ].data = result.e.r;
 									}
 								}
 
@@ -3021,7 +3316,7 @@
 									typeof result.e.graded_id !== 'undefined' &&
 									result.e.graded_id > 0
 								) {
-									results[data.id].graded_id =
+									results[ data.id ].graded_id =
 										result.e.graded_id;
 								}
 
@@ -3029,19 +3324,23 @@
 									typeof result.e.graded_status !==
 									'undefined'
 								) {
-									results[data.id].graded_status =
+									results[ data.id ].graded_status =
 										result.e.graded_status;
 								}
 
-								results.comp.points += result.p;
+								results.comp.points = parseFloat(
+									parseFloat(
+										results.comp.points + result.p
+									).toFixed( 2 )
+								);
 
-								$this.find('.wpProQuiz_response').show();
-								$this.find(globalNames.check).hide();
-								$this.find(globalNames.skip).hide();
-								$this.find(globalNames.next).show();
+								$this.find( '.wpProQuiz_response' ).show();
+								$this.find( globalNames.check ).hide();
+								$this.find( globalNames.skip ).hide();
+								$this.find( globalNames.next ).show();
 								$this
-									.find(globalNames.next)
-									.attr('data-question-lock', true);
+									.find( globalNames.next )
+									.attr( 'data-question-lock', true );
 
 								//results[data.id].points = result.p;
 								//results[data.id].correct = Number(result.c);
@@ -3051,9 +3350,13 @@
 								// result.s object will be empty. So in order to pass the user's answers to the server for the
 								// sendCompletedQuiz AJAX call we need to grab the result.e.r object and store into results.
 								if (
-									jQuery.isEmptyObject(results[data.id].data)
+									jQuery.isEmptyObject(
+										results[ data.id ].data
+									)
 								) {
-									if (typeof result.e.type !== 'undefined') {
+									if (
+										typeof result.e.type !== 'undefined'
+									) {
 										if (
 											result.e.type == 'sort_answer' ||
 											result.e.type ==
@@ -3063,17 +3366,17 @@
 												typeof result.e.r !==
 												'undefined'
 											) {
-												results[data.id].data =
+												results[ data.id ].data =
 													result.e.r;
 											}
 										}
 
-										if (result.e.type == 'essay') {
+										if ( result.e.type == 'essay' ) {
 											if (
 												typeof result.e.graded_id !==
 												'undefined'
 											) {
-												results[data.id].data = {
+												results[ data.id ].data = {
 													graded_id:
 														result.e.graded_id,
 												};
@@ -3082,9 +3385,9 @@
 									}
 								}
 
-								catResults[data.catId] += result.p; // cspell:disable-line
+								catResults[ data.catId ] += result.p; // cspell:disable-line
 
-								if (config.quiz_resume_enabled === '1') {
+								if ( config.quiz_resume_enabled === '1' ) {
 									plugin.methode.saveMetaDataToCookie(
 										'checked' + question_id,
 										result
@@ -3098,17 +3401,17 @@
 									$questionList
 								);
 
-								if (result.c) {
+								if ( result.c ) {
 									if (
 										typeof result.e.AnswerMessage !==
 										'undefined'
 									) {
 										$this
-											.find('.wpProQuiz_correct')
-											.find('.wpProQuiz_AnswerMessage')
-											.html(result.e.AnswerMessage);
+											.find( '.wpProQuiz_correct' )
+											.find( '.wpProQuiz_AnswerMessage' )
+											.html( result.e.AnswerMessage );
 										$this
-											.find('.wpProQuiz_correct')
+											.find( '.wpProQuiz_correct' )
 											.trigger(
 												'learndash-quiz-answer-response-contentchanged'
 											);
@@ -3117,7 +3420,7 @@
 									//if(!endCheck) {
 									//	$e.trigger({type: 'questionSolved', values: {item: $this, index: $this.index(), solved: true}});
 									//}
-									$e.trigger({
+									$e.trigger( {
 										type: 'questionSolvedCorrect',
 										values: {
 											item: $this,
@@ -3125,9 +3428,9 @@
 											solved: true,
 											result,
 										},
-									});
+									} );
 
-									$this.find('.wpProQuiz_correct').show();
+									$this.find( '.wpProQuiz_correct' ).show();
 									results.comp.correctQuestions += 1;
 								} else {
 									if (
@@ -3135,11 +3438,11 @@
 										'undefined'
 									) {
 										$this
-											.find('.wpProQuiz_incorrect')
-											.find('.wpProQuiz_AnswerMessage')
-											.html(result.e.AnswerMessage);
+											.find( '.wpProQuiz_incorrect' )
+											.find( '.wpProQuiz_AnswerMessage' )
+											.html( result.e.AnswerMessage );
 										$this
-											.find('.wpProQuiz_incorrect')
+											.find( '.wpProQuiz_incorrect' )
 											.trigger(
 												'learndash-quiz-answer-response-contentchanged'
 											);
@@ -3148,7 +3451,7 @@
 									//if (!endCheck) {
 									//	$e.trigger({ type: 'questionSolved', values: { item: $this, index: $this.index(), solved: true } });
 									//}
-									$e.trigger({
+									$e.trigger( {
 										type: 'questionSolvedIncorrect',
 										values: {
 											item: $this,
@@ -3156,18 +3459,23 @@
 											solved: true,
 											result,
 										},
-									});
+									} );
 
-									$this.find('.wpProQuiz_incorrect').show();
+									$this.find( '.wpProQuiz_incorrect' ).show();
 								}
 
 								$this
-									.find('.wpProQuiz_responsePoints')
-									.text(result.p);
+									.find( '.wpProQuiz_responsePoints' )
+									.text( result.p );
 
-								$this.data('check', true);
+								// Hide the move icon in matrix sorting answer box after answer checking is successful.
+								$this
+									.find( '.wpProQuiz_sortStringItem_icon' )
+									.hide();
+
+								$this.data( 'check', true );
 							}
-						});
+						} );
 
 						// Set a default just in case.
 						//results.comp.p_nonce = '';
@@ -3179,7 +3487,7 @@
 						//	}
 						//}
 
-						if (finishQuiz) {
+						if ( finishQuiz ) {
 							plugin.methode.finishQuizEnd();
 						}
 					}
@@ -3227,10 +3535,28 @@
 							typeof result.e.c !== 'undefined' &&
 							result.e.c.length > 0
 						) {
-							$question
-								.find('span.wpProQuiz_freeCorrect')
-								.html(result.e.c.join(', '))
-								.show();
+							autosizeInput($question.find('input[type="text"]'), 12);
+
+							// If the answer is incorrect, show the correct answer message.
+							if (!result.c) {
+								// Escape the correct answer text to ensure that it is not interpreted as HTML.
+								const escapedAnswers = result.e.c
+									.map((answer) =>
+										$('<div>').text(answer).html()
+									)
+									.join(', ');
+
+								const message =
+									WpProQuizGlobal.incorrectAnswer.replace(
+										'@@LearnDash_Incorrect@@',
+										escapedAnswers
+									);
+
+								$question
+									.find('span.wpProQuiz_freeCorrect')
+									.html(message)
+									.show();
+							}
 						}
 						break;
 
@@ -3249,15 +3575,26 @@
 
 								if (result.s[i]) {
 									//input.css('background-color', '#B0DAB0');
-									input.addClass('wpProQuiz_answerCorrect');
+									$this.addClass('wpProQuiz_answerCorrect');
+
+									// Add a new span next to the `input` element to show the correct answer icon.
+									const correctAnswerIcon = $(
+										'<span class="ld-quiz__cloze-icon ld-quiz__cloze-icon--correct dashicons"></span>'
+									);
+									input.after(correctAnswerIcon);
+
+									span.show();
 								} else {
-									input.addClass('wpProQuiz_answerIncorrect');
-									//input.css('background-color', '#FFBABA');
+									$this.addClass('wpProQuiz_answerIncorrect');
+
+									// Add a new span next to the `input` element to show the incorrect answer icon.
+									const incorrectAnswerIcon = $(
+										'<span class="ld-quiz__cloze-icon ld-quiz__cloze-icon--incorrect dashicons"></span>'
+									);
+									input.after(incorrectAnswerIcon);
 
 									if (typeof result.e.c[i] !== 'undefined') {
-										span.html(
-											'(' + result.e.c[i].join() + ')'
-										);
+										span.html( '<span class="ld-quiz__cloze-results--correct-answer">(' + result.e.c[i].join() + ')</span>' );
 										span.show();
 									}
 								}
@@ -3275,6 +3612,58 @@
 						) {
 							// LD 3.6.0: New logic to handle showing the "student" vs. "correct" answers.
 
+							if (
+								$questionList.hasClass(
+									'ld-sortable--sort_answer'
+								)
+							) {
+								learndash.forms.sortable.destroySortable(
+									$questionList[0] ?? null
+								);
+
+								/**
+								 * Improve accessibility of answered sortable list.
+								 *
+								 * This is destructive, and not easily reversible.
+								 * Therefore, it is not a part of learndash.forms.sortable.destroySortable().
+								 */
+								if ($questionList[0]) {
+									const $items =
+										$questionList.find(
+											'.ld-sortable__item'
+										);
+
+									$items.each(function(index, item) {
+										const $handle = $(item).find(
+											'.ld-sortable__item-handle'
+										);
+
+										$handle.removeAttr('tabindex');
+
+										const attributes = {};
+										$.each(
+											$handle[0]
+												? $handle[0].attributes
+												: {},
+											function () {
+												attributes[this.nodeName] =
+													this.nodeValue;
+											}
+										);
+
+										// Convert the handle to a <div> so that a screen reader won't treat it as a button.
+										const $nonButtonHandle = $(
+											'<div />',
+											attributes
+										).append($handle.contents());
+
+										$handle.replaceWith($nonButtonHandle);
+
+										$(item).attr('tabindex', '0');
+									});
+								}
+							}
+
 							// Clone the student answert list in order to show the correct order.
 							const $questionList_correct = $questionList.clone();
 							$questionList_correct.insertAfter($questionList);
@@ -3283,7 +3672,7 @@
 							);
 
 							var $items = $questionList_correct.children(
-								'li.wpProQuiz_questionListItem'
+								'.wpProQuiz_questionListItem'
 							);
 							var index = new Array();
 							jQuery.each(result.e.c, function (i, v) {
@@ -3297,15 +3686,28 @@
 							});
 							$questionList_correct.append($items);
 							$questionList_correct
-								.children('li.wpProQuiz_questionListItem')
+								.children('.wpProQuiz_questionListItem')
 								.addClass('wpProQuiz_answerCorrect');
+
+							if (
+								$questionList_correct.hasClass(
+									'ld-sortable--sort_answer'
+								)
+							) {
+								$questionList_correct
+									.children('.ld-sortable__item')
+									.addClass(
+										'ld-sortable__item--correct-answer'
+									);
+							}
+
 							// Show the correct/incorrect indicators on the student answers.
 							jQuery.each(
 								result.e.c,
 								function (correct_item_idx, correct_item_key) {
 									const student_item_el =
 										$questionList.children(
-											'li.wpProQuiz_questionListItem'
+											'.wpProQuiz_questionListItem'
 										)[correct_item_idx];
 
 									if (
@@ -3321,11 +3723,31 @@
 												jQuery(student_item_el),
 												true
 											);
+
+											if (
+												$(student_item_el).hasClass(
+													'ld-sortable__item'
+												)
+											) {
+												$(student_item_el).addClass(
+													'ld-sortable__item--correct'
+												);
+											}
 										} else {
 											plugin.methode.marker(
 												jQuery(student_item_el),
 												false
 											);
+
+											if (
+												$(student_item_el).hasClass(
+													'ld-sortable__item'
+												)
+											) {
+												$(student_item_el).addClass(
+													'ld-sortable__item--incorrect'
+												);
+											}
 										}
 									}
 								}
@@ -3423,7 +3845,7 @@
 							// Legacy logic in case the new 'div.wpProQuiz_questionList_containers' element is not present.
 
 							var $items = $questionList.children(
-								'li.wpProQuiz_questionListItem'
+								'.wpProQuiz_questionListItem'
 							);
 
 							$items.each(function (i, v) {
@@ -3439,8 +3861,6 @@
 							$items
 								.children()
 								.css({ 'box-shadow': '0 0', cursor: 'auto' });
-
-							//						$questionList.sortable("destroy");
 
 							var index = new Array();
 							jQuery.each(result.e.c, function (i, v) {
@@ -4177,23 +4597,20 @@
 					console.log('in CookieInit');
 				}
 
-				cookie_value = jQuery.cookie(cookie_name);
+				// Generate the localStorage key that includes user_id for user-specific storage.
+				// This prevents data corruption when users impersonate other users.
+				storage_name = quizStorage.getStorageKey(cookie_name);
 
-				if (
-					!cookie_value ||
-					cookie_value == undefined ||
-					cookie_value === '%7B%7D'
-				) {
-					cookie_value = {};
-				} else {
-					try {
-						cookie_value = JSON.parse(cookie_value);
-						//console.log("cookie_value[%o]", cookie_value );
-					} catch (exception) {
-						console.log('JSON.parse error [%o]', exception);
-						cookie_value = {};
-					}
+				if (config.ld_script_debug == true) {
+					console.log('storage_name:', storage_name);
+					console.log('cookie_name:', cookie_name);
 				}
+
+				// Use localStorage with fallback to cookies for migration.
+				cookie_value = quizStorage.getWithCookieFallback(
+					storage_name,
+					cookie_name
+				);
 
 				if (config.ld_script_debug == true) {
 					console.log('after parse: cookie_value[%o]', cookie_value);
@@ -4218,6 +4635,9 @@
 				//if (config.ld_script_debug == true) {
 				//	console.log('CookieDelete: cookie_name[%o]', cookie_name);
 				//}
+				// Delete from localStorage (new storage).
+				quizStorage.remove(storage_name);
+				// Also clear cookie for cleanup during migration.
 				jQuery.cookie(cookie_name, '');
 			},
 			CookieProcessQuestionResponse(list, lockQuestion) {
@@ -4259,7 +4679,7 @@
 					});
 				}
 			},
-			// Save the answer(response) to the cookie. This is called from 'checkQuestion' and cookie timer functions.
+			// Save the answer(response) to localStorage. This is called from 'checkQuestion' and cookie timer functions.
 			CookieSaveResponse(
 				question_id,
 				question_index,
@@ -4284,15 +4704,18 @@
 					};
 				}
 
-				// Calculate the cookie date to expire
+				// Calculate the cookie date to expire (still used for server-side sync)
 				plugin.methode.calculateCookieExpiry();
 
-				// store the values.
-				jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
-					expires: cookieExpireDate,
-				});
+				// Store the values in localStorage (preferred) with cookie fallback.
+				if (!quizStorage.set(storage_name, cookie_value)) {
+					// Fallback to cookie if localStorage fails (e.g., quota exceeded)
+					jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
+						expires: cookieExpireDate,
+					});
+				}
 
-				if (config.quiz_resume_enabled === '1' && !cookieSendTimer) {
+				if (config.quiz_resume_enabled === '1') {
 					plugin.methode.startCookieSendTimer();
 				}
 			},
@@ -4342,10 +4765,13 @@
 					}
 				}
 
-				// store the values.
-				jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
-					expires: cookieExpireDate,
-				});
+				// Store the values in localStorage (preferred) with cookie fallback.
+				if (!quizStorage.set(storage_name, cookie_value)) {
+					// Fallback to cookie if localStorage fails (e.g., quota exceeded)
+					jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
+						expires: cookieExpireDate,
+					});
+				}
 
 				if (config.quiz_resume_enabled === '1' && !cookieSendTimer) {
 					plugin.methode.startCookieSendTimer();
@@ -4471,15 +4897,35 @@
 				// Immediately send the first cookie entry to the server
 				// to trigger the Continue Quiz logic when no server-side
 				// data exists.
-				if (
-					!cookieSendTimer &&
-					(undefined === quiz_resume_data ||
-						quiz_resume_data.length === 0)
-				) {
-					plugin.methode.prepareSendCookieData();
+
+				// If timer is already running, don't start another one.
+				if (cookieSendTimer) {
+					return;
 				}
-				// We only need to start the timer once per page load.
+
+				// Set flag before starting timer.
 				cookieSendTimer = true;
+
+				/**
+				 * Quiz Resume Data is an empty object when cleared,
+				 * but an empty Array when not set in the DB and not set in localStorage.
+				 */
+				if (
+					undefined === quiz_resume_data ||
+					quiz_resume_data.length === 0
+				) {
+					/**
+					 * Use setTimeout to defer the initial send until after the current
+					 * JavaScript execution completes. This ensures all synchronous
+					 * questionSolved event handlers have finished adding their data
+					 * to cookie_value before we send the AJAX request.
+					 * Without this, a race condition occurs where reviewBox data is
+					 * sent before the question response data is added.
+					 */
+					setTimeout(function () {
+						plugin.methode.prepareSendCookieData();
+					}, 0);
+				}
 
 				// Start the Timer
 				setInterval(function () {
@@ -4707,8 +5153,16 @@
 							) {
 								plugin.methode.deleteCookieKeys(keys);
 							}
-							cookieSending = false;
+						} else if ( config.ld_script_debug == true ) {
+							// Log validation errors for debugging.
+							console.error(
+								'Quiz resume save failed:',
+								response.data?.message || 'Unknown error'
+							);
 						}
+
+						// Always reset the sending flag to allow retries.
+						cookieSending = false;
 					},
 					error(xhr) {
 						console.log('xhr[%o]', xhr);
@@ -4731,10 +5185,13 @@
 					delete cookie_value[key];
 				});
 
-				// Write changed cookie object to cookie
-				jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
-					expires: cookieExpireDate,
-				});
+				// Write changed cookie object to localStorage (preferred) with cookie fallback.
+				if (!quizStorage.set(storage_name, cookie_value)) {
+					// Fallback to cookie if localStorage fails
+					jQuery.cookie(cookie_name, JSON.stringify(cookie_value), {
+						expires: cookieExpireDate,
+					});
+				}
 			},
 			setupMatrixSortHeights() {
 				/**
@@ -4920,6 +5377,31 @@
 			}
 		});
 	};
+
+	/**
+	 * Autosize the input field.
+	 *
+	 * @since 4.21.4
+	 *
+	 * @param {jQuery} $input       - The input field to autosize.
+	 * @param {number} [$padding=0] - The padding to add to the input field.
+	 */
+	function autosizeInput($input, $padding = 0) {
+		const $sizer = $('<span>').css({
+			position: 'absolute',
+			visibility: 'hidden',
+			whiteSpace: 'pre',
+			font: $input.css('font'),
+		}).appendTo('body');
+
+		function update() {
+			$sizer.text($input.val() || $input.attr('placeholder') || '');
+			$input.width($sizer.width() + 6 + $padding);
+		}
+
+		$input.on('input', update);
+		update();
+	}
 })(jQuery);
 
 var learndash_prepare_quiz_resume_data = function (config) {

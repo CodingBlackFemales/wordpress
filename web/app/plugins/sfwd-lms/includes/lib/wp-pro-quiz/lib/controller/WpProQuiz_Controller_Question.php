@@ -1,20 +1,32 @@
 <?php
+/**
+ * ProQuiz Question Controller.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
-class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 
+use LearnDash\Core\Utilities\Cast;
+
+/**
+ * ProQuiz Question Controller.
+ *
+ * phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+ */
+class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	private $_quizId;
 
 	/**
 	 * View instance
+	 *
 	 * @var object $view.
 	 */
 	protected $view;
 
 	public function route() {
-
 		if ( ! isset( $_GET['quiz_id'] ) || empty( $_GET['quiz_id'] ) ) {
 			// translators: placeholder: Quiz.
 			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x( '%s not found', 'placeholder: Quiz', 'learndash' ), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error' );
@@ -56,6 +68,13 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		}
 	}
 
+	/**
+	 * Adds or edits a question.
+	 *
+	 * @param int $quizId The quiz ID.
+	 *
+	 * @return void
+	 */
 	private function addEditQuestion( $quizId ) {
 		$questionId = isset( $_GET['questionId'] ) ? (int) $_GET['questionId'] : 0;
 
@@ -63,10 +82,8 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 			if ( ! current_user_can( 'wpProQuiz_edit_quiz' ) ) {
 				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
 			}
-		} else {
-			if ( ! current_user_can( 'wpProQuiz_add_quiz' ) ) {
+		} elseif ( ! current_user_can( 'wpProQuiz_add_quiz' ) ) {
 				wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
-			}
 		}
 
 		$quizMapper     = new WpProQuiz_Model_QuizMapper();
@@ -111,10 +128,8 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 			$question = $questionMapper->save( $this->getPostQuestionModel( $quizId, $questionId ), true );
 
 			$questionId = $question->getId();
-		} else {
-			if ( $questionId ) {
+		} elseif ( $questionId ) {
 				$question = $questionMapper->fetch( $questionId );
-			}
 		}
 
 		$this->view             = new WpProQuiz_View_QuestionEdit();
@@ -157,6 +172,14 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		return $templateMapper->save( $template );
 	}
 
+	/**
+	 * Returns the Model for the question.
+	 *
+	 * @param int $quizId     The quiz ID.
+	 * @param int $questionId The question ID.
+	 *
+	 * @return WpProQuiz_Model_Question
+	 */
 	public function getPostQuestionModel( $quizId, $questionId ) {
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
 
@@ -167,30 +190,16 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		$post['title']  = isset( $post['title'] ) ? trim( $post['title'] ) : '';
 		$post['sort']   = $questionMapper->getSort( $questionId );
 
-		$clearPost = $this->clearPost( $post );
+		$clearPost = self::clearPost( $post );
 
-		$post['answerData'] = $clearPost['answerData'];
+		$post['points']                = $clearPost['points'];
+		$post['answerPointsActivated'] = $clearPost['answerPointsActivated'];
+		$post['answerData']            = $clearPost['answerData'];
 
 		if ( ( isset( $post['title'] ) ) && ( empty( $post['title'] ) ) ) {
 			$count = $questionMapper->count( $quizId );
 			// translators: placeholder: Question, question count.
 			$post['title'] = sprintf( esc_html_x( '%1$s: %2$d', 'placeholder: Question, question count', 'learndash' ), learndash_get_custom_label( 'question' ), $count + 1 );
-		}
-
-		if ( ( isset( $post['answerType'] ) ) && ( 'assessment_answer' === $post['answerType'] ) ) {
-			$post['answerPointsActivated'] = 1;
-		}
-
-		if ( ( isset( $post['answerType'] ) ) && ( 'essay' === $post['answerType'] ) ) {
-			$post['answerPointsActivated'] = 0;
-		}
-
-		if ( isset( $post['answerPointsActivated'] ) ) {
-			if ( isset( $post['answerPointsDiffModusActivated'] ) ) {
-				$post['points'] = $clearPost['maxPoints'];
-			} else {
-				$post['points'] = $clearPost['points'];
-			}
 		}
 
 		if ( isset( $post['category'] ) ) {
@@ -203,7 +212,6 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	}
 
 	public function copyQuestion( $quizId ) {
-
 		if ( ! current_user_can( 'wpProQuiz_edit_quiz' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
 		}
@@ -223,7 +231,6 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	}
 
 	public function loadQuestion( $quizId ) {
-
 		if ( ! current_user_can( 'wpProQuiz_edit_quiz' ) ) {
 			echo wp_json_encode( array() );
 			exit;
@@ -236,7 +243,6 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		$quiz = $quizMapper->fetchAll();
 
 		foreach ( $quiz as $qz ) {
-
 			if ( $qz->getId() == $quizId ) {
 				continue;
 			}
@@ -263,10 +269,16 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		exit;
 	}
 
+	/**
+	 * Saves the sort order of the questions.
+	 *
+	 * @since 1.2.8
+	 *
+	 * @return void
+	 */
 	public function saveSort() {
-
 		if ( ! current_user_can( 'wpProQuiz_edit_quiz' ) ) {
-			exit;
+			wp_die();
 		}
 
 		$mapper = new WpProQuiz_Model_QuestionMapper();
@@ -276,11 +288,10 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 			$mapper->updateSort( $v, $k );
 		}
 
-		exit;
+		wp_die();
 	}
 
 	public function deleteAction( $id ) {
-
 		if ( ! current_user_can( 'wpProQuiz_delete_quiz' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
 		}
@@ -294,10 +305,14 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	}
 
 	/**
-	 * @deprecated
+	 * Outputs the edit question page.
+	 *
+	 * @deprecated *
+	 * @param int $id The quiz ID.
+	 *
+	 * @return void
 	 */
 	public function editAction( $id ) {
-
 		if ( ! current_user_can( 'wpProQuiz_edit_quiz' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
 		}
@@ -323,7 +338,12 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	}
 
 	/**
-	 * @deprecated
+	 * Edits a question.
+	 *
+	 * @deprecated *
+	 * @param int $id The question ID.
+	 *
+	 * @return void
 	 */
 	public function editPostAction( $id ) {
 		$mapper = new WpProQuiz_Model_QuestionMapper();
@@ -368,10 +388,8 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 	}
 
 	/**
-	 * @deprecated
-	 */
+	 * @deprecated */
 	public function createAction() {
-
 		if ( ! current_user_can( 'wpProQuiz_add_quiz' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'learndash' ) );
 		}
@@ -397,8 +415,15 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		$this->view->show();
 	}
 
+	/**
+	 * Sets the answer object.
+	 *
+	 * @param WpProQuiz_Model_Question|null $question The question object.
+	 *
+	 * @return array<int|string, array<WpProQuiz_Model_AnswerTypes>> The answer object.
+	 */
 	public function setAnswerObject( WpProQuiz_Model_Question $question = null ) {
-		//Defaults
+		// Defaults.
 		$data = array(
 			'sort_answer'        => array( new WpProQuiz_Model_AnswerTypes() ),
 			'classic_answer'     => array( new WpProQuiz_Model_AnswerTypes() ),
@@ -422,7 +447,38 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 		return $data;
 	}
 
-	public function clearPost( $post ) {
+	/**
+	 * Calculates and validates the points for a question based on the post data.
+	 *
+	 * @since 2.6.0
+	 * @since 4.14.0 Added the 'answerPointsActivated' key to the return array. Also, 'points' key is the correct total points for the question.
+	 *            It makes 'maxPoints' useless, but it's kept for compatibility reasons and may contain innacurate data.
+	 *
+	 * @param array<mixed> $post The post data.
+	 *
+	 * @return array{points: float, maxPoints: float, answerData: array<WpProQuiz_Model_AnswerTypes>, answerPointsActivated: int}
+	 */
+	public static function clearPost( $post ) {
+		$answerPointsActivated = isset( $post['answerPointsActivated'] ) ? Cast::to_int( $post['answerPointsActivated'] ) : 0;
+
+		// Force answerPointsActivated according to the answerType.
+
+		if ( isset( $post['answerType'] ) ) {
+			switch ( $post['answerType'] ) {
+				case 'assessment_answer':
+					$answerPointsActivated = 1;
+					break;
+				case 'essay':
+					$answerPointsActivated = 0;
+					break;
+			}
+		}
+
+		$question_points = isset( $post['points'] )
+			? $post['points']
+			: LEARNDASH_LMS_DEFAULT_QUESTION_POINTS;
+
+		// 'Fill in the blank' question.
 
 		if ( ( isset( $post['answerType'] ) ) && ( 'cloze_answer' == $post['answerType'] ) && ( isset( $post['answerData']['cloze'] ) ) ) {
 			$question_cloze_data = learndash_question_cloze_fetch_data( $post['answerData']['cloze']['answer'] );
@@ -434,23 +490,28 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 			$points    = 0;
 			$maxPoints = 0;
 
-			foreach ( $question_cloze_data['points'] as $points_set ) {
+			foreach ( $question_cloze_data['points'] ?? [] as $points_set ) {
 				if ( ( is_array( $points_set ) ) && ( ! empty( $points_set ) ) ) {
 					$item_points = max( $points_set );
 				} else {
-					$item_points = 1;
+					$item_points = 1; // Default to 1 point.
 				}
 
 				$points   += $item_points;
 				$maxPoints = max( $maxPoints, $item_points );
 			}
 
+			$points = learndash_format_course_points( $answerPointsActivated ? $points : $question_points );
+
 			return array(
-				'points'     => $points,
-				'maxPoints'  => $maxPoints,
-				'answerData' => array( new WpProQuiz_Model_AnswerTypes( $post['answerData']['cloze'] ) ),
+				'points'                => $points > 0 ? $points : 0.,
+				'maxPoints'             => learndash_format_course_points( $maxPoints ),
+				'answerData'            => array( new WpProQuiz_Model_AnswerTypes( $post['answerData']['cloze'] ) ),
+				'answerPointsActivated' => $answerPointsActivated,
 			);
 		}
+
+		// 'Assessment' question.
 
 		if ( ( isset( $post['answerType'] ) ) && ( 'assessment_answer' == $post['answerType'] ) && ( isset( $post['answerData']['assessment'] ) ) ) {
 			if ( isset( $post['sfwd-question_quiz'] ) ) {
@@ -467,9 +528,10 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 
 			$cloze_answer_data = learndash_question_assessment_fetch_data( $post['answerData']['assessment']['answer'], $quiz_id, $question_id );
 
-			if ( isset( $cloze_answer_data['points'] ) ) {
+			if ( ! empty( $cloze_answer_data['points'] ) ) {
 				$points     = max( $cloze_answer_data['points'] );
 				$max_points = $points;
+				// @phpstan-ignore-next-line -- It looks like it's always set, but I would not touch it now.
 			} elseif ( isset( $cloze_answer_data['correct'] ) ) {
 				$points     = count( $cloze_answer_data['correct'] );
 				$max_points = $points;
@@ -478,27 +540,36 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 				$max_points = 0;
 			}
 
+			$points = learndash_format_course_points( $points ); // answerPointsActivated is always true for assessment questions.
+
 			return array(
-				'points'     => $points,
-				'maxPoints'  => $max_points,
-				'answerData' => array( new WpProQuiz_Model_AnswerTypes( $post['answerData']['assessment'] ) ),
+				'points'                => $points > 0 ? $points : 0.,
+				'maxPoints'             => learndash_format_course_points( $max_points ),
+				'answerData'            => array( new WpProQuiz_Model_AnswerTypes( $post['answerData']['assessment'] ) ),
+				'answerPointsActivated' => $answerPointsActivated,
 			);
 		}
+
+		// 'Essay' question.
 
 		if ( ( isset( $post['answerType'] ) ) && ( 'essay' == $post['answerType'] ) && ( isset( $post['answerData']['essay'] ) ) ) {
 			$answerType = new WpProQuiz_Model_AnswerTypes( $post['answerData']['essay'] );
-			$answerType->setPoints( $post['points'] );
+			$answerType->setPoints( $question_points );
 			$answerType->setGraded( true );
 			$answerType->setGradedType( $post['answerData']['essay']['type'] );
 			$answerType->setGradingProgression( $post['answerData']['essay']['progression'] );
-			$points = $post['points'];
+
+			$points = learndash_format_course_points( $question_points ); // answerPointsActivated is always false for essay questions.
 
 			return array(
-				'points'     => $points,
-				'maxPoints'  => $points,
-				'answerData' => array( $answerType ),
+				'points'                => $points > 0 ? $points : 0.,
+				'maxPoints'             => learndash_format_course_points( $points ),
+				'answerData'            => array( $answerType ),
+				'answerPointsActivated' => $answerPointsActivated,
 			);
 		}
+
+		// 'Free answer' question.
 
 		if ( ( isset( $post['answerType'] ) ) && ( 'free_answer' == $post['answerType'] ) && ( isset( $post['answerData'] ) ) ) {
 			foreach ( $post['answerData'] as $k => $v ) {
@@ -507,27 +578,35 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 
 				$points    = 0;
 				$maxPoints = 0;
+
 				if ( isset( $post['points'] ) ) {
-					$points    = absint( $post['points'] );
+					$points    = learndash_format_course_points( $post['points'] );
 					$maxPoints = $points;
 				}
 
-				if ( ( isset( $post['answerPointsActivated'] ) ) && ( isset( $answer_data['points'] ) ) ) {
+				if (
+					isset( $post['answerPointsActivated'] )
+					&& intval( $post['answerPointsActivated'] ) === 1
+					&& isset( $answer_data['points'] )
+				) {
+					// @phpstan-ignore-next-line -- It looks like it's always an array, but I would not touch it now.
 					if ( is_array( $answer_data['points'] ) ) {
 						$maxPoints = max( $answer_data['points'] );
 						$points    = $maxPoints;
 					} else {
-						$maxPoints = absint( $answer_data['points'] );
+						$maxPoints = learndash_format_course_points( $answer_data['points'] );
 						$points    = $maxPoints;
 					}
 				}
 
+				$points = learndash_format_course_points( $answerPointsActivated ? $points : $question_points );
+
 				return array(
-					'points'     => $points,
-					'maxPoints'  => $maxPoints,
-					'answerData' => array( $answerType ),
+					'points'                => $points > 0 ? $points : 0.,
+					'maxPoints'             => learndash_format_course_points( $maxPoints ),
+					'answerData'            => array( $answerType ),
+					'answerPointsActivated' => $answerPointsActivated,
 				);
-				break;
 			}
 		}
 
@@ -542,40 +621,116 @@ class WpProQuiz_Controller_Question extends WpProQuiz_Controller_Controller {
 			unset( $post['answerData']['none'] );
 		}
 
-		$answerData = array();
-		$points     = 0;
-		$maxPoints  = 0;
+		$answerData               = array();
+		$points                   = 0;
+		$maxPoints                = 0;
+		$last_corret_answer_index = -1;
+
+		$is_disable_correct_enabled = (
+			isset( $post['answerPointsDiffModusActivated'] )
+			&& intval( $post['answerPointsDiffModusActivated'] ) === 1
+			&& isset( $post['disableCorrect'] )
+			&& intval( $post['disableCorrect'] ) === 1
+		);
 
 		if ( isset( $post['answerData'] ) ) {
 			foreach ( $post['answerData'] as $k => $v ) {
 				if ( ( isset( $v['answer'] ) ) && ( trim( $v['answer'] ) == '' ) ) {
 					if ( 'matrix_sort_answer' != $post['answerType'] ) {
 						continue;
-					} else {
-						if ( ( ! isset( $v['sort_string'] ) ) || ( trim( $v['sort_string'] ) == '' ) ) {
+					} elseif ( ( ! isset( $v['sort_string'] ) ) || ( trim( $v['sort_string'] ) == '' ) ) {
 							continue;
-						}
 					}
 				}
 
 				$answerType = new WpProQuiz_Model_AnswerTypes( $v );
 
+				if ( $answerType->isCorrect() ) {
+					$last_corret_answer_index = $k;
+
+					// multiple choice questions: the correct answers must have points greater or equal to zero.
+
+					if ( 'multiple' === $post['answerType'] ) {
+						if ( $answerType->getPoints() < 0 ) {
+							// Adjust the points for the correct answer to zero.
+							$answerType->setPoints( 0 );
+						}
+					}
+				}
+
 				if ( ( 'matrix_sort_answer' == $post['answerType'] ) || ( 'sort_answer' == $post['answerType'] ) ) {
 					$points   += $answerType->getPoints();
 					$maxPoints = max( $maxPoints, $answerType->getPoints() );
-				} elseif ( $answerType->isCorrect() ) {
+				} elseif (
+					$answerType->isCorrect()
+					|| (
+						'single' === $post['answerType']
+						&& $is_disable_correct_enabled
+					)
+				) {
 					$points   += $answerType->getPoints();
 					$maxPoints = max( $maxPoints, $answerType->getPoints() );
 				}
 
 				$answerData[] = $answerType;
 			}
+
+			$answer_data_size = count( $answerData );
+
+			// Add extra validation for question types.
+
+			switch ( $post['answerType'] ) {
+				case 'single':
+					// If the answer points modus 2 is activated and the correct answer is disabled.
+
+					if ( $is_disable_correct_enabled ) {
+						// The total number of points for this question is the greatest points from all answers.
+
+						$points = $maxPoints;
+
+						// At least one answer must have points greater or equal to zero.
+
+						$points_greater_or_equal_to_zero = array_filter(
+							$answerData,
+							function ( $answer_object ) {
+								return $answer_object->getPoints() >= 0;
+							}
+						);
+
+						if ( empty( $points_greater_or_equal_to_zero ) ) {
+							// Invalid points. Adjust the points for the last answer to zero.
+							$answerData[ $answer_data_size - 1 ]->setPoints( 0 );
+						}
+						// The points for the correct answer must be greater or equal to zero.
+					} elseif ( $points < 0 ) {
+							// Adjust the points for the correct answer to zero.
+							$answerData[ $last_corret_answer_index ]->setPoints( 0 );
+					}
+
+					break;
+
+				case 'sort_answer':
+				case 'matrix_sort_answer':
+					// The sum of the points for the answers must be greater or equal to zero.
+
+					if ( $points < 0 ) {
+						// Adjust the points for the last answer to make the sum of the points equal to zero.
+						$answerData[ $answer_data_size - 1 ]->setPoints(
+							$answerData[ $answer_data_size - 1 ]->getPoints() - $points
+						);
+					}
+
+					break;
+			}
 		}
 
+		$points = learndash_format_course_points( $answerPointsActivated ? $points : $question_points );
+
 		return array(
-			'points'     => $points,
-			'maxPoints'  => $maxPoints,
-			'answerData' => $answerData,
+			'points'                => $points > 0 ? $points : 0.,
+			'maxPoints'             => learndash_format_course_points( $maxPoints ),
+			'answerData'            => $answerData,
+			'answerPointsActivated' => $answerPointsActivated,
 		);
 	}
 

@@ -219,9 +219,11 @@ if ( ! class_exists( 'Learndash_Admin_Data_Upgrades' ) ) {
 		}
 
 		/**
-		 * Initialize the LearnDash Settings array
+		 * Initialize the LearnDash Settings array.
+		 * Important: We don't want to officially deprecate this yet, but we don't want to rely on it either. Start using Version_Tracker.
 		 *
 		 * @since 2.6.0
+		 * @todo We are now using the Version_Tracker to handle these version fields. We need to deprecate this system when we can investigate ramifications.
 		 *
 		 * @param bool $force_reload optional to force reload from database.
 		 *
@@ -695,6 +697,7 @@ require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-data-upgrades-ac
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-quiz-questions.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-course-access-list-convert.php';
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-rename_wpproquiz-tables.php';
+require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-group-courses-access.php';
 
 /**
  * Fires on admin data upgrades init

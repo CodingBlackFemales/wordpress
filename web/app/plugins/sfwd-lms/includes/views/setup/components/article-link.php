@@ -1,35 +1,29 @@
 <?php
 /**
- * Article link template
+ * Article link template.
  *
- * @package LearnDash_Settings_Page_Setup
+ * @since 4.4.0.1
+ * @version 4.22.1
  *
- * @var array{
- *  'type': string,
- *  'youtube_id': string,
- *  'vimeo_id': string,
- *  'url': string,
- *  'helpscout_id': string,
- *  'action': string,
- *  'keyword': string,
- *  'articles': array<string>,
- *  'title': string
- * } $article
+ * @var array{action: string, articles: array<string>, helpscout_id: string, keyword: string, target: string, title: string, type: string, url: string, vimeo_id: string, youtube_id: string } $article Article.
+ *
+ * @package LearnDash\Core
  */
+
+use LearnDash\Core\Template\Template;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
 if ( 'url' === $article['type'] ) {
-	$learndash_setup_url = esc_url( $article['url'] );
+	$url = esc_url( $article['url'] );
 } else {
-	$learndash_setup_url = '#';
+	$url = '#';
 }
 ?>
-
 <a
-	href="<?php echo esc_attr( $learndash_setup_url ); ?>"
+	href="<?php echo esc_url( $url ); ?>"
 	data-type="<?php echo esc_attr( $article['type'] ); ?>"
 	<?php if ( 'youtube_video' === $article['type'] ) : ?>
 		data-youtube_id="<?php echo esc_attr( $article['youtube_id'] ); ?>"
@@ -45,6 +39,13 @@ if ( 'url' === $article['type'] ) {
 			data-articles="<?php echo esc_attr( implode( ',', $article['articles'] ) ); ?>"
 		<?php endif; ?>
 	<?php endif; ?>
+	<?php if ( ! empty( $article['target'] ) ) : ?>
+		target="<?php echo esc_attr( $article['target'] ); ?>"
+	<?php endif; ?>
 >
 	<?php echo esc_html( $article['title'] ); ?>
+
+	<?php if ( ! empty( $article['target'] ) && '_blank' === $article['target'] ) : ?>
+		<span class="dashicons dashicons-external"></span>
+	<?php endif; ?>
 </a>

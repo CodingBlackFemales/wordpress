@@ -13,8 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Gets the quiz ID from the pro quiz ID.
  *
- * @todo   purpose of this function and how quiz pro id's relate to quizzes
- *
  * @global wpdb  $wpdb                     WordPress database abstraction object.
  * @global array $learndash_shortcode_atts LearnDash global shortcode attributes.
  *
@@ -174,7 +172,6 @@ function learndash_transition_quiz_question_post_status( $new_status, $old_statu
 
 	if ( $new_status !== $old_status ) {
 		if ( ( ! empty( $post ) ) && ( is_a( $post, 'WP_Post' ) ) && ( in_array( $post->post_type, array( 'sfwd-question' ), true ) ) === true ) {
-
 			$sql_str  = 'SELECT meta_value FROM ' . $wpdb->postmeta . ' WHERE post_id = ' . $post->ID . " AND (meta_key = 'quiz_id' OR meta_key LIKE 'ld_quiz_%')";
 			$quiz_ids = $wpdb->get_col( $sql_str );
 			if ( ! empty( $quiz_ids ) ) {
@@ -261,11 +258,13 @@ function learndash_update_pro_question( $question_pro_id = 0, $post_data = array
 
 			default:
 				break;
-
 		}
 	}
 
-	if ( ( isset( $question_model ) ) && ( is_a( $question_model, 'WpProQuiz_Model_Question' ) ) ) {
+	if (
+		isset( $question_model )
+		&& $question_model instanceof WpProQuiz_Model_Question
+	) {
 		if ( ( isset( $post_data['post_type'] ) ) && ( learndash_get_post_type_slug( 'question' ) === $post_data['post_type'] ) ) {
 			if ( isset( $post_data['post_title'] ) ) {
 				$question_model->setTitle( $post_data['post_title'] );
@@ -378,10 +377,11 @@ function learndash_get_quizzes_for_question( $question_post_id = 0, $return_flat
 					if ( ! isset( $quiz_ids[ $quiz_set->quiz_id ] ) ) {
 						$quiz_ids[ $quiz_set->quiz_id ] = $quiz_set->quiz_title;
 					}
-				} else {
-					if ( ( ! isset( $quiz_ids['primary'][ $quiz_set->quiz_id ] ) ) && ( ! isset( $quiz_ids['secondary'][ $quiz_set->quiz_id ] ) ) ) {
+				} elseif (
+					! isset( $quiz_ids['primary'][ $quiz_set->quiz_id ] )
+					&& ! isset( $quiz_ids['secondary'][ $quiz_set->quiz_id ] )
+				) {
 						$quiz_ids['secondary'][ $quiz_set->quiz_id ] = $quiz_set->quiz_title;
-					}
 				}
 			}
 		}
@@ -484,7 +484,6 @@ function learndash_quiz_navigation_admin_box_content() {
 	}
 
 	if ( ! empty( $quiz_id ) ) {
-
 		$instance                        = array();
 		$instance['show_widget_wrapper'] = true;
 		$instance['quiz_id']             = $quiz_id;
@@ -507,7 +506,7 @@ function learndash_quiz_navigation_admin_box_content() {
 			learndash_quiz_switcher_admin( $quiz_id );
 		}
 	} else {
-		echo sprintf(
+		printf(
 			// translators: placeholders: Questions.
 			esc_html_x( 'No associated %s', 'placeholder: Questions', 'learndash' ),
 			LearnDash_Custom_Label::get_label( 'questions' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
@@ -598,7 +597,7 @@ function learndash_quiz_navigation_admin( $quiz_id = 0, $instance = array(), $qu
 			}
 		}
 	} else {
-		echo sprintf(
+		printf(
 			// translators: placeholders: Questions.
 			esc_html_x( 'No associated %s', 'placeholder: Questions', 'learndash' ),
 			LearnDash_Custom_Label::get_label( 'questions' ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Method escapes output
@@ -693,7 +692,6 @@ add_action( 'wp_ajax_ld_quiz_navigation_admin_pager', 'learndash_wp_ajax_ld_quiz
  * @param WpProQuiz_Model_Question|int $question_pro_id  Optional. WpProQuiz_Model_Question object or ID. Default 0.
  */
 function learndash_proquiz_sync_question_fields( $question_post_id = 0, $question_pro_id = 0 ) {
-
 	if ( ( empty( $question_post_id ) ) || ( empty( $question_pro_id ) ) ) {
 		return;
 	}
@@ -706,8 +704,7 @@ function learndash_proquiz_sync_question_fields( $question_post_id = 0, $questio
 	}
 
 	if ( is_a( $question_pro, 'WpProQuiz_Model_Question' ) ) {
-
-		update_post_meta( $question_post_id, 'question_points', intval( $question_pro->getPoints() ) );
+		update_post_meta( $question_post_id, 'question_points', $question_pro->getPoints() );
 		update_post_meta( $question_post_id, 'question_type', $question_pro->getAnswerType() );
 		update_post_meta( $question_post_id, 'question_pro_id', intval( $question_pro->getId() ) );
 		update_post_meta( $question_post_id, 'question_pro_category', intval( $question_pro->getCategoryId() ) );
@@ -725,7 +722,6 @@ function learndash_proquiz_sync_question_fields( $question_post_id = 0, $questio
  * @return array An array of question category terms or newly created category term.
  */
 function learndash_proquiz_sync_question_category( $question_post_id = 0, $question_pro_id = 0 ) {
-
 	if ( ( empty( $question_post_id ) ) || ( empty( $question_pro_id ) ) ) {
 		return;
 	}
@@ -738,7 +734,6 @@ function learndash_proquiz_sync_question_category( $question_post_id = 0, $quest
 	}
 
 	if ( is_a( $question_pro, 'WpProQuiz_Model_Question' ) ) {
-
 		// Sync the Question category with the LD Question Category.
 		if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Questions_Taxonomies', 'ld_question_category' ) == 'yes' ) {
 			$question_pro_category_id   = $question_pro->getCategoryId();
@@ -756,7 +751,6 @@ function learndash_proquiz_sync_question_category( $question_post_id = 0, $quest
 							wp_set_object_terms( $question_post_id, $category_term->term_id, 'ld_question_category' );
 						}
 						return $category_terms;
-
 					} else {
 						$new_term = wp_insert_term( $question_pro_category_name, 'ld_question_category' );
 						if ( isset( $new_term['term_id'] ) ) {
@@ -862,46 +856,6 @@ function learndash_get_question_pro_fields( $question_pro_id = 0, $fields = null
 }
 
 /**
- * Gets the `WPProQuiz` Quiz row column fields.
- *
- * @since 2.6.0
- * @since 3.3.0 Corrected function name
- *
- * @param int          $quiz_pro_id Optional. The `WPProQuiz` Question ID. Default 0.
- * @param string|array $fields       Optional. An array or comma delimited string of fields to return. Default null.
- *
- * @return array An array of `WPProQuiz` quiz field values.
- */
-function learndash_get_quiz_pro_fields( $quiz_pro_id = 0, $fields = null ) {
-	$values = array();
-
-	if ( ( ! empty( $quiz_pro_id ) ) && ( ! empty( $fields ) ) ) {
-		if ( is_string( $fields ) ) {
-			$fields = explode( ',', $fields );
-		}
-		if ( is_array( $fields ) ) {
-			$fields = array_map( 'trim', $fields );
-		}
-
-		$quiz_mapper = new WpProQuiz_Model_QuizMapper();
-		$quiz_pro    = $quiz_mapper->fetch( $quiz_pro_id );
-
-		foreach ( $fields as $field ) {
-			$function = 'get' . str_replace( ' ', '', ucwords( str_replace( '_', ' ', $field ) ) );
-			if ( method_exists( $quiz_pro, $function ) ) {
-				$values[ $field ] = $quiz_pro->$function();
-			} else {
-				$values[ $field ] = null;
-			}
-		}
-
-		return $values;
-	}
-
-	return $values;
-}
-
-/**
  * Gets the primary quiz post ID from a pro quiz ID.
  *
  * This function accepts a list of Quiz posts. It is assumed quiz posts
@@ -925,7 +879,6 @@ function learndash_get_quiz_primary_shared( $quiz_pro_id = 0, $set_first = true 
 			$quiz_primary_post_ids[ $quiz_pro_id ] = 0;
 			$quiz_post_ids                         = learndash_get_quiz_post_ids( $quiz_pro_id );
 			if ( ! empty( $quiz_post_ids ) ) {
-
 				$quiz_query_args = array(
 					'post_type'      => learndash_get_post_type_slug( 'quiz' ),
 					'post_status'    => 'any',
@@ -952,11 +905,9 @@ function learndash_get_quiz_primary_shared( $quiz_pro_id = 0, $set_first = true 
 							}
 						}
 					}
-				} else {
-					if ( true === $set_first ) {
+				} elseif ( true === $set_first ) {
 						$quiz_primary_post_ids[ $quiz_pro_id ] = $quiz_post_ids[0];
 						update_post_meta( $quiz_primary_post_ids[ $quiz_pro_id ], 'quiz_pro_primary_' . $quiz_pro_id, $quiz_pro_id );
-					}
 				}
 			}
 		}
@@ -984,7 +935,6 @@ function learndash_quiz_result_message_sort( $messages = array() ) {
 		}
 
 		for ( $i = 0; $i < LEARNDASH_QUIZ_RESULT_MESSAGE_MAX; $i++ ) {
-
 			if ( true === $activ_bypass ) {
 				$activ = 1;
 			} else {
@@ -1234,45 +1184,41 @@ function learndash_quiz_statistics_users_select2() {
 add_action( 'wp_ajax_learndash_quiz_statistics_users_select2', 'learndash_quiz_statistics_users_select2' );
 
 /**
- * Utility function to prepare Quiz Resume PHP array to JSON.
+ * Gets the quiz average percentage for a user.
  *
- * @since 3.5.1.2
- * @uses `esc_js()`
+ * Calculates the average percentage score across all quizzes the user has attempted.
  *
- * @param array $quiz_resume_data Quiz Resume array.
+ * @since 5.0.0
+ *
+ * @param int $user_id User ID.
+ *
+ * @return ?float The average quiz percentage or null if no quiz data.
  */
-function learndash_prepare_quiz_resume_data_to_js( $quiz_resume_data = array() ) {
-	if ( ! empty( $quiz_resume_data ) ) {
-		foreach ( $quiz_resume_data as $key => &$set ) {
-			if ( 'formData' === substr( $key, 0, strlen( 'formData' ) ) ) { // Handle the form fields.
-				if ( ( isset( $set['type'] ) ) && ( in_array( $set['type'], array( WpProQuiz_Model_Form::FORM_TYPE_TEXT, WpProQuiz_Model_Form::FORM_TYPE_TEXTAREA ) ) ) ) {
-					if ( ( isset( $set['value'] ) ) && ( is_string( $set['value'] ) ) && ( ! empty( $set['value'] ) ) ) {
-						$set['value'] = esc_js( $set['value'] );
-					}
-				}
-			} elseif ( isset( $set['type'] ) ) { // Handle the question fields.
-				if ( ( isset( $set['value'] ) ) && ( ! empty( $set['value'] ) ) ) {
-					if ( in_array( $set['type'], array( 'free_answer', 'essay', 'cloze_answer' ), true ) ) {
-						if ( is_string( $set['value'] ) ) {
-							$set['value'] = esc_js( $set['value'] );
-						} elseif ( is_array( $set['value'] ) ) {
-							foreach ( $set['value'] as $set_value_idx => &$set_value_value ) {
-								if ( ( is_string( $set_value_value ) ) && ( ! empty( $set_value_value ) ) ) {
-									$set_value_value = esc_js( $set_value_value );
-								}
-							}
-						}
-					}
-				}
-			} elseif ( 'checked' === substr( $key, 0, strlen( 'checked' ) ) ) {
-				if ( ( isset( $set['e']['AnswerMessage'] ) ) && ( ! empty( $set['e']['AnswerMessage'] ) ) ) {
-					if ( is_string( $set['e']['AnswerMessage'] ) ) {
-						$set['e']['AnswerMessage'] = esc_js( $set['e']['AnswerMessage'] );
-					}
-				}
-			}
+function learndash_get_user_quiz_average( $user_id ): ?float {
+	$quiz_attempts = get_user_meta( $user_id, '_sfwd-quizzes', true );
+
+	if (
+		empty( $quiz_attempts )
+		|| ! is_array( $quiz_attempts )
+	) {
+		return null;
+	}
+
+	$total_percentage = 0;
+	$count            = 0;
+
+	foreach ( $quiz_attempts as $quiz_attempt ) {
+		// Make sure this is a valid quiz attempt with percentage data.
+		if (
+			isset( $quiz_attempt['percentage'] )
+			&& is_numeric( $quiz_attempt['percentage'] )
+		) {
+			$total_percentage += floatval( $quiz_attempt['percentage'] );
+			++$count;
 		}
 	}
 
-	return $quiz_resume_data;
+	return $count > 0
+		? $total_percentage / $count
+		: null;
 }

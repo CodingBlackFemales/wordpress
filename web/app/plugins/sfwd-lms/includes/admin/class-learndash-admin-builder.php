@@ -6,6 +6,8 @@
  * @package LearnDash\Builder
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -228,12 +230,16 @@ if ( ! class_exists( 'Learndash_Admin_Builder' ) ) {
 			wp_enqueue_script(
 				'learndash-force-metaboxes',
 				LEARNDASH_LMS_PLUGIN_URL . 'assets/js/builder/dist/metaboxes' . learndash_min_builder_asset() . '.js',
-				array( 'wp-data', 'jquery' ),
+				[ 'wp-data', 'jquery', 'learndash-main' ],
 				LEARNDASH_SCRIPT_VERSION_TOKEN,
 				true
 			);
 
-			$metaboxes = array();
+			$metaboxes = [
+				'wp_version' => learndash_sanitize_version_string(
+					Cast::to_string( get_bloginfo( 'version' ) )
+				),
+			];
 
 			if ( ( function_exists( 'use_block_editor_for_post' ) ) && ( use_block_editor_for_post( $post ) ) ) {
 				$this->builder_assets[ $this->builder_post_type ]['post_data']['builder_editor'] = 'block';

@@ -1,19 +1,31 @@
 <?php
+/**
+ * ProQuiz Admin Controller.
+ *
+ * @package LearnDash\Core
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * ProQuiz Admin Controller.
+ */
 class WpProQuiz_Controller_Admin {
 
 	protected $_ajax;
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 
 		$this->_ajax = new WpProQuiz_Controller_Ajax();
 
 		$this->_ajax->init();
 
-		//deprecated - use WpProQuiz_Controller_Ajax
+		// deprecated - use WpProQuiz_Controller_Ajax.
 		add_action( 'wp_ajax_wp_pro_quiz_update_sort', array( $this, 'updateSort' ) );
 		add_action( 'wp_ajax_wp_pro_quiz_load_question', array( $this, 'loadQuestions' ) );
 
@@ -21,8 +33,8 @@ class WpProQuiz_Controller_Admin {
 
 		add_action( 'wp_ajax_wp_pro_quiz_load_toplist', array( $this, 'adminToplist' ) );
 
-		add_action( 'wp_ajax_wp_pro_quiz_completed_quiz', array( $this, 'completedQuiz' ) );
-		add_action( 'wp_ajax_nopriv_wp_pro_quiz_completed_quiz', array( $this, 'completedQuiz' ) );
+		add_action( 'wp_ajax_wp_pro_quiz_completed_quiz', array( $this, 'completedQuiz' ) ); // @phpstan-ignore-line -- legacy architecture.
+		add_action( 'wp_ajax_nopriv_wp_pro_quiz_completed_quiz', array( $this, 'completedQuiz' ) ); // @phpstan-ignore-line -- legacy architecture.
 
 		add_action( 'wp_ajax_wp_pro_quiz_cookie_save_quiz', array( $this, 'cookieSaveQuiz' ) );
 		add_action( 'wp_ajax_nopriv_wp_pro_quiz_cookie_save_quiz', array( $this, 'cookieSaveQuiz' ) );
@@ -30,7 +42,7 @@ class WpProQuiz_Controller_Admin {
 		add_action( 'wp_ajax_wp_pro_quiz_check_lock', array( $this, 'quizCheckLock' ) );
 		add_action( 'wp_ajax_nopriv_wp_pro_quiz_check_lock', array( $this, 'quizCheckLock' ) );
 
-		//0.19
+		// 0.19
 		add_action( 'wp_ajax_wp_pro_quiz_add_toplist', array( $this, 'addInToplist' ) );
 		add_action( 'wp_ajax_nopriv_wp_pro_quiz_add_toplist', array( $this, 'addInToplist' ) );
 
@@ -177,6 +189,11 @@ class WpProQuiz_Controller_Admin {
 		}
 	}
 
+	/**
+	 * Saves the quiz data.
+	 *
+	 * @return void
+	 */
 	public function cookieSaveQuiz() {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
@@ -212,9 +229,7 @@ class WpProQuiz_Controller_Admin {
 			wp_send_json_error( array( 'message' => esc_html__( 'Your login has expired. Please log in and reload this page to continue.', 'learndash' ) ), 403 );
 		}
 
-		/********************************************************
-		 * New Quiz Activity save logic
-		 ********************************************************/
+		// New Quiz Activity save logic.
 
 		if ( ( isset( $_POST['results'] ) ) && ( ! empty( $_POST['results'] ) ) ) {
 			$results = (array) json_decode( stripslashes( $_POST['results'] ), true );
@@ -223,10 +238,6 @@ class WpProQuiz_Controller_Admin {
 			if ( isset( $_POST['quiz_started'] ) ) {
 				$quiz_started = absint( $_POST['quiz_started'] / 1000 );
 			}
-
-			//error_log( __FUNCTION__ . ': quiz_post_id[' . $quiz_post_id . '] quiz_started[' . $quiz_started . '] results<pre>' . print_r( $results, true ) . '</pre>' );
-
-			//error_log( __FUNCTION__ . ': _COOKIE<pre>' . print_r( $_COOKIE, true ) . '</pre>' );
 
 			if ( ( ! empty( $quiz_post_id ) ) && ( ! empty( $quiz_started ) ) ) {
 				$success = LDLMS_User_Quiz_Resume::update_user_quiz_resume_metadata( $user_id, $quiz_post_id, $course_id, $quiz_started, $results );
@@ -250,6 +261,12 @@ class WpProQuiz_Controller_Admin {
 			);
 		}
 	}
+
+	/**
+	 * Called when a user completes a quiz.
+	 *
+	 * @return array<mixed>|void
+	 */
 	public function completedQuiz() {
 
 		if ( is_user_logged_in() ) {
@@ -337,9 +354,9 @@ class WpProQuiz_Controller_Admin {
 				// Validate the Points items.
 				if ( ( isset( $result['p_nonce'] ) ) && ( ! empty( $result['p_nonce'] ) ) ) {
 					$points_array = array(
-						'points'         => intval( $result['points'] ),
+						'points'         => learndash_format_course_points( $result['points'] ),
 						'correct'        => intval( $result['correct'] ),
-						'possiblePoints' => intval( $result['possiblePoints'] ),
+						'possiblePoints' => learndash_format_course_points( $result['possiblePoints'] ),
 					);
 					if ( $points_array['correct'] === false ) {
 						$points_array['correct'] = 0;
@@ -376,15 +393,29 @@ class WpProQuiz_Controller_Admin {
 					}
 				}
 
-				$total_awarded_points  += intval( $_POST['results'][ $r_idx ]['points'] );
-				$total_possible_points += intval( $_POST['results'][ $r_idx ]['possiblePoints'] );
-				$total_correct         += $_POST['results'][ $r_idx ]['correct'];
+				if ( isset( $_POST['results'][ $r_idx ]['points'] ) ) {
+					$total_awarded_points += learndash_format_course_points(
+						sanitize_text_field(
+							wp_unslash( $_POST['results'][ $r_idx ]['points'] )
+						)
+					);
+				}
+
+				if ( isset( $_POST['results'][ $r_idx ]['possiblePoints'] ) ) {
+					$total_possible_points += learndash_format_course_points(
+						sanitize_text_field( wp_unslash( $_POST['results'][ $r_idx ]['possiblePoints'] ) )
+					);
+				}
+
+				if ( isset( $_POST['results'][ $r_idx ]['correct'] ) ) {
+					$total_correct += sanitize_text_field( wp_unslash( $_POST['results'][ $r_idx ]['correct'] ) );
+				}
 
 				// Validate the Answer items.
 				if ( ( isset( $result['a_nonce'] ) ) && ( ! empty( $result['a_nonce'] ) ) ) {
 					global $learndash_completed_question;
 					$learndash_completed_question = $question;
-					
+
 					$response_str = maybe_serialize(
 						array_map(
 							function ( $array_item ) {
@@ -419,8 +450,8 @@ class WpProQuiz_Controller_Admin {
 			}
 		}
 
-		$_POST['results']['comp']['points']           = intval( $total_awarded_points );
-		$_POST['results']['comp']['correctQuestions'] = intval( $total_correct );
+		$_POST['results']['comp']['points']           = learndash_format_course_points( $total_awarded_points );
+		$_POST['results']['comp']['correctQuestions'] = learndash_format_course_points( $total_correct );
 
 		if ( ! empty( $total_possible_points ) ) {
 			$comp_result = round( ( $total_awarded_points / $total_possible_points ) * 100, 2 );
@@ -439,6 +470,11 @@ class WpProQuiz_Controller_Admin {
 		$quiz->completedQuiz();
 	}
 
+	/**
+	 * Localizes the script.
+	 *
+	 * @return void
+	 */
 	private function localizeScript() {
 		global $wp_locale;
 
@@ -455,11 +491,11 @@ class WpProQuiz_Controller_Admin {
 			// translators: placeholder: quiz.
 			'no_quiz_start_msg'                   => sprintf( esc_html_x( 'No %s description filled!', 'placeholder: quiz', 'learndash' ), learndash_get_custom_label_lower( 'quiz' ) ),
 			'fail_grade_result'                   => esc_html__( 'The percent values in result text are incorrect.', 'learndash' ),
-			'no_nummber_points'                   => esc_html__( 'No number in the field "Points" or less than 1', 'learndash' ),
-			'no_nummber_points_new'               => esc_html__( 'No number in the field "Points" or less than 0', 'learndash' ),
+			'no_nummber_points'                   => esc_html__( 'No number in the field "Points"', 'learndash' ),
+			'no_nummber_points_new'               => esc_html__( 'No number in the field "Points"', 'learndash' ),
 			// translators: placeholder: quiz.
 			'no_selected_quiz'                    => sprintf( esc_html_x( 'No %s selected', 'placeholder: quiz', 'learndash' ), learndash_get_custom_label_lower( 'quiz' ) ),
-			'reset_statistics_msg'                => esc_html__( 'Do you really want to reset the statistic?', 'learndash' ),
+			'reset_statistics_msg'                => esc_html__( 'Warning: This action removes all quiz statistics and cannot be reversed.', 'learndash' ),
 			'no_data_available'                   => esc_html__( 'No data available', 'learndash' ),
 			'no_sort_element_criterion'           => esc_html__( 'No sort element in the criterion', 'learndash' ),
 			'dif_points'                          => esc_html__( '"Different points for every answer" is not possible at "Free" choice', 'learndash' ),
@@ -551,7 +587,6 @@ class WpProQuiz_Controller_Admin {
 				$c = new WpProQuiz_Controller_Toplist();
 				break;
 			case 'wpq_support':
-				//$c = new WpProQuiz_Controller_WpqSupport();
 				break;
 		}
 

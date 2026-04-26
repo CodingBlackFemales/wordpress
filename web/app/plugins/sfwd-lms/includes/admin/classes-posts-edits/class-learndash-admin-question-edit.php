@@ -6,12 +6,13 @@
  * @package LearnDash\Question\Edit
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learndash_Admin_Question_Edit' ) ) ) {
-
 	/**
 	 * Class LearnDash Admin Question Edit.
 	 *
@@ -19,7 +20,6 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 	 * @uses Learndash_Admin_Post_Edit
 	 */
 	class Learndash_Admin_Question_Edit extends Learndash_Admin_Post_Edit {
-
 		/**
 		 * WPProQuiz Question instance.
 		 * This is used to bridge the WPProQuiz to WP systems.
@@ -380,7 +380,6 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 								'learndash_question_hint',
 								'learndash_question_template',
 							);
-
 						} else {
 							$all_postboxes = array(
 								'learndash_question_message_correct_answer',
@@ -485,9 +484,8 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 			if ( is_a( $this->pro_question_edit, 'WpProQuiz_Model_Question' ) ) {
 				$question_points = $this->pro_question_edit->getPoints();
 			} else {
-				$question_points = 1;
+				$question_points = 1; // Default to 1 point.
 			}
-
 			?>
 			<p class="description">
 				<?php
@@ -499,16 +497,10 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 				?>
 			</p>
 			<label>
-				<input name="points" class="small-text" value="<?php echo intval( $question_points ); ?>" type="number" min="1"> <?php esc_html_e( 'Points', 'learndash' ); ?>
+				<input name="points" class="small-text" value="<?php echo esc_attr( (string) $question_points ); ?>" type="number" min="0" step="any"> <?php esc_html_e( 'Points', 'learndash' ); ?>
 			</label>
 			<p class="description">
-				<?php
-					printf(
-						// translators: placeholder: question.
-						esc_html_x( 'These points will be rewarded, only if the user chooses the %s correctly', 'placeholder: question', 'learndash' ),
-						esc_html( learndash_get_custom_label( 'question' ) )
-					)
-				?>
+				<?php esc_html_e( 'These points will be rewarded, only if the user chooses the answer correctly.', 'learndash' ); ?>
 			</p>
 
 			<div style="margin-top: 10px;" id="wpProQuiz_answerPointsActivated">
@@ -523,7 +515,7 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 			<div style="margin-top: 10px;" id="wpProQuiz_showPointsBox">
 				<label>
 					<input name="showPointsInBox" value="1" type="checkbox" <?php checked( '1', $this->pro_question_edit->isShowPointsInBox() ); ?>>
-					<?php esc_html_e( 'Show reached points in the correct- and incorrect message?', 'learndash' ); ?>
+					<?php esc_html_e( 'Show reached points in the correct and incorrect message?', 'learndash' ); ?>
 				</label>
 			</div>
 			<?php
@@ -537,7 +529,6 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 		 * @param object $post WP_Post Question being edited.
 		 */
 		public function question_message_correct_answer_page_box( $post ) {
-
 			if ( is_a( $this->pro_question_edit, 'WpProQuiz_Model_Question' ) ) {
 				$question_correct_same_text = checked( '1', $this->pro_question_edit->isCorrectSameText(), false );
 				$question_correct_message   = $this->pro_question_edit->getCorrectMsg();
@@ -569,7 +560,6 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 		 * @param object $post WP_Post Question being edited.
 		 */
 		public function question_message_incorrect_answer_page_box( $post ) {
-
 			if ( is_a( $this->pro_question_edit, 'WpProQuiz_Model_Question' ) ) {
 				$question_incorrect_message = $this->pro_question_edit->getIncorrectMsg();
 			} else {
@@ -626,7 +616,7 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 		public function question_single_choice_options( $post ) {
 			?>
 			<p class="description">
-				<?php echo wp_kses_post( __( 'If "Different points for each answer" is activated, you can activate a special mode.<br> This changes the calculation of the points', 'learndash' ) ); ?>
+				<?php echo wp_kses_post( __( 'If "Different points for each answer" is activated, you can activate a special mode.<br> This changes the calculation of the points.', 'learndash' ) ); ?>
 			</p>
 			<label>
 				<input type="checkbox" name="answerPointsDiffModusActivated" value="1" <?php checked( '1', $this->pro_question_edit->isAnswerPointsDiffModusActivated() ); ?>>
@@ -634,7 +624,19 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 			</label>
 			<br><br>
 			<p class="description">
-				<?php esc_html_e( 'Disables the distinction between correct and incorrect.', 'learndash' ); ?><br>
+				<?php
+				echo esc_html(
+					sprintf(
+						// translators: placeholder: question.
+						__(
+							'Disables the distinction between correct and incorrect. If enabled, the total points for the %s are the greatest points from all answers.',
+							'learndash'
+						),
+						learndash_get_custom_label_lower( 'question' )
+					)
+				);
+				?>
+				<br>
 			</p>
 			<label>
 				<input type="checkbox" name=disableCorrect value="1" <?php checked( '1', $this->pro_question_edit->isDisableCorrect() ); ?>>
@@ -729,7 +731,6 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 		 * @param object $post WP_Post Question being edited.
 		 */
 		public function question_template_page_box( $post ) {
-
 			$template_mapper = new WpProQuiz_Model_TemplateMapper();
 			$templates       = $template_mapper->fetchAll( WpProQuiz_Model_Template::TEMPLATE_TYPE_QUESTION, false );
 
@@ -824,7 +825,7 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 						B=2 Points [incorrect]
 						C=1 Point [incorrect]
 
-						= 6 Points',
+						= 3 Points',
 						'learndash'
 					)
 				);
@@ -860,10 +861,10 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 
 						Result:
 						A=correct and checked (correct) = 3 Points
-						B=incorrect and unchecked (correct) = 2 Points
-						C=incorrect and unchecked (correct) = 1 Points
+						B=incorrect and unchecked (correct) = 0 Points
+						C=incorrect and unchecked (correct) = 0 Points
 
-						= 6 / 6 Points 100%',
+						= 3 / 3 Points 100%',
 						'learndash'
 					)
 				);
@@ -905,9 +906,9 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 						Result:
 						A=correct and unchecked (incorrect) = 0 Points
 						B=incorrect and checked (incorrect) = 0 Points
-						C=incorrect and unchecked (correct) = 1 Points
+						C=incorrect and unchecked (correct) = 0 Points
 
-						= 1 / 6 Points 16.67%',
+						= 0 / 3 Points 0%',
 						'learndash'
 					)
 				);
@@ -948,10 +949,10 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 
 						Result:
 						A=correct and unchecked (incorrect) = 0 Points
-						B=incorrect and unchecked (correct) = 2 Points
+						B=incorrect and unchecked (correct) = 0 Points
 						C=incorrect and checked (incorrect) = 0 Points
 
-						= 2 / 6 Points 33.33%',
+						= 0 / 3 Points 0%',
 						'learndash'
 					)
 				);
@@ -992,10 +993,10 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 
 						Result:
 						A=correct and unchecked (incorrect) = 0 Points
-						B=incorrect and unchecked (correct) = 2 Points
-						C=incorrect and unchecked (correct) = 1 Points
+						B=incorrect and unchecked (correct) = 0 Points
+						C=incorrect and unchecked (correct) = 0 Points
 
-						= 3 / 6 Points 50%',
+						= 0 / 3 Points 0%',
 						'learndash'
 					)
 				);

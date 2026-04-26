@@ -7,16 +7,9 @@
  * @package LearnDash\Core
  */
 
-/** NOTICE: This code is currently under development and may not be stable.
- *  Its functionality, behavior, and interfaces may change at any time without notice.
- *  Please refrain from using it in production or other critical systems.
- *  By using this code, you assume all risks and liabilities associated with its use.
- *  Thank you for your understanding and cooperation.
- **/
-
 namespace LearnDash\Core\Template;
 
-use LearnDash\Core\Template\Views\View;
+use LearnDash\Core\Template\View;
 use LearnDash\Core\Utilities\Str;
 use SFWD_LMS;
 
@@ -72,18 +65,43 @@ class Template {
 	private $view;
 
 	/**
+	 * Whether the current template is an admin template.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @var bool
+	 */
+	private $is_admin;
+
+	/**
+	 * Breakpoint pointer for the current template.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @var string
+	 */
+	private $breakpoint_pointer;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 4.6.0
 	 *
 	 * @param string              $name Template name.
 	 * @param array<string,mixed> $args Template arguments.
+	 * @param bool                $is_admin Whether the current template is an admin template. Default false.
 	 * @param View|null           $view View instance or null.
 	 */
-	public function __construct( string $name, array $args = array(), View $view = null ) {
-		$this->name = $name;
-		$this->args = $args;
-		$this->view = $view;
+	public function __construct(
+		string $name,
+		array $args = array(),
+		bool $is_admin = false,
+		View $view = null
+	) {
+		$this->name     = $name;
+		$this->args     = $args;
+		$this->is_admin = $is_admin;
+		$this->view     = $view;
 
 		// Set the current rendering template name and arguments.
 		$this->current_rendering_name = $this->name;
@@ -108,6 +126,32 @@ class Template {
 	}
 
 	/**
+	 * Gets a breakpoint pointer.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return string
+	 */
+	public function get_breakpoint_pointer(): string {
+		if ( empty( $this->breakpoint_pointer ) ) {
+			$this->breakpoint_pointer = Breakpoints::get_pointer();
+		}
+
+		return $this->breakpoint_pointer;
+	}
+
+	/**
+	 * Gets the template breakpoints JSON.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return string
+	 */
+	public function get_breakpoints_json(): string {
+		return (string) json_encode( [ 'breakpoints' => Breakpoints::get() ] );
+	}
+
+	/**
 	 * Gets the template content.
 	 *
 	 * @since 4.6.0
@@ -116,6 +160,17 @@ class Template {
 	 */
 	public function get_content(): string {
 		return $this->get_template_output( false, false );
+	}
+
+	/**
+	 * Gets the template context.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @return array<string,mixed>
+	 */
+	public function get_context(): array {
+		return $this->args;
 	}
 
 	/**
@@ -181,6 +236,20 @@ class Template {
 	}
 
 	/**
+	 * Returns the admin template content.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string              $template_name Template name.
+	 * @param array<string,mixed> $args          Template arguments.
+	 *
+	 * @return string
+	 */
+	public static function get_admin_template( string $template_name, array $args = array() ): string {
+		return ( new self( $template_name, $args, true ) )->get_content();
+	}
+
+	/**
 	 * Prints the template content.
 	 *
 	 * @since 4.6.0
@@ -195,6 +264,20 @@ class Template {
 	}
 
 	/**
+	 * Prints the admin template content.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string              $template_name Template name.
+	 * @param array<string,mixed> $args          Template arguments.
+	 *
+	 * @return void
+	 */
+	public static function show_admin_template( string $template_name, array $args = array() ): void {
+		( new self( $template_name, $args, true ) )->show();
+	}
+
+	/**
 	 * Gets the template file name.
 	 *
 	 * @since 4.6.0
@@ -204,7 +287,7 @@ class Template {
 	 *
 	 * @return string
 	 */
-	private function get_template_filename( bool $echo, bool $return_file_path ): string {
+	protected function get_template_filename( bool $echo, bool $return_file_path ): string {
 		$file_extension    = pathinfo( $this->current_rendering_name, PATHINFO_EXTENSION );
 		$template_filename = empty( $file_extension ) ? $this->current_rendering_name . '.php' : $this->current_rendering_name;
 
@@ -214,14 +297,12 @@ class Template {
 		 * @since 3.0.0
 		 * @since 4.6.0 Added `$instance` parameter.
 		 *
-		 * @param string   $template_filename Template file name.
-		 * @param string   $name              Template name.
-		 * @param array    $args              Template data.
-		 * @param bool     $echo              Whether to echo the template output or not.
-		 * @param bool     $return_file_path  Whether to return the template file path or not.
-		 * @param Template $instance          Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
+		 * @param string        $template_filename Template file name.
+		 * @param string        $name              Template name.
+		 * @param array         $args              Template data.
+		 * @param bool          $echo              Whether to echo the template output or not.
+		 * @param bool          $return_file_path  Whether to return the template file path or not.
+		 * @param Template|null $instance          Current Instance of template engine rendering this template or null if not available (legacy).
 		 */
 		return apply_filters(
 			'learndash_template_filename',
@@ -248,6 +329,9 @@ class Template {
 		/**
 		 * Allow users to disable templates before rendering it.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since 4.6.0
 		 *
 		 * @param bool     $skip_rendering   Whether to skip rendering the template or not. Default false.
@@ -256,8 +340,6 @@ class Template {
 		 * @param bool     $echo             Whether to echo the template output or not.
 		 * @param bool     $return_file_path Whether to return the template file path or not.
 		 * @param Template $instance         Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			'learndash_template_skip_rendering',
@@ -279,19 +361,19 @@ class Template {
 	 * @param bool $return_file_path Whether to return the template file path or not.
 	 *
 	 * @return string
-	 *
-	 * @ignore
 	 */
-	private function get_template_path( bool $echo, bool $return_file_path ): string {
+	protected function get_template_path( bool $echo, bool $return_file_path ): string {
 		$template_filename = $this->get_template_filename( $echo, $return_file_path );
 
 		if ( empty( $template_filename ) ) {
 			return '';
 		}
 
-		$template_paths = SFWD_LMS::get_template_paths( $template_filename );
+		$template_paths = ! $this->is_admin
+						? $this->get_template_paths( $template_filename )
+						: $this->get_admin_template_paths( $template_filename );
+		$file_path      = '';
 
-		$file_path = '';
 		if ( ! empty( $template_paths['theme'] ) ) {
 			$file_path = locate_template( $template_paths['theme'] );
 		}
@@ -305,33 +387,21 @@ class Template {
 			}
 		}
 
-		/**
-		 * Filters file path for the learndash template.
-		 *
-		 * @since 3.0.0
-		 * @deprecated 4.6.0 Use the {@see 'learndash_template_file_path'} filter instead.
-		 *
-		 * @param string              $file_path         File path for the learndash template.
-		 * @param string              $template_filename Template file name.
-		 * @param string              $name              Template name.
-		 * @param array<string,mixed> $args              Template data.
-		 *
-		 * @ignore
-		 */
-		$file_path = apply_filters_deprecated(
-			'learndash_template_filepath',
-			array(
-				$file_path,
-				$template_filename,
-				$this->current_rendering_name,
-				$this->current_rendering_args,
-			),
-			'4.6.0',
-			'learndash_template_file_path'
+		/** This filter is documented in includes/class-ld-lms.php */
+		$file_path = apply_filters(
+			'learndash_template',
+			$file_path,
+			$this->current_rendering_name,
+			$this->current_rendering_args,
+			$echo,
+			$return_file_path
 		);
 
 		/**
 		 * Filters file path for the learndash template.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -340,13 +410,187 @@ class Template {
 		 * @param string              $name              Template name.
 		 * @param array<string,mixed> $args              Template data.
 		 * @param Template            $instance          Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
-			'learndash_template_file_path',
+			'learndash_template_filepath',
 			$file_path,
 			$template_filename,
+			$this->current_rendering_name,
+			$this->current_rendering_args,
+			$this
+		);
+	}
+
+	/**
+	 * Returns the template paths for frontend templates.
+	 *
+	 * @since 4.13.0
+	 *
+	 * @param string $file_name Template file name.
+	 *
+	 * @return array{theme:string[],templates:string[]}
+	 */
+	protected function get_template_paths( string $file_name ): array {
+		$paths = [
+			'theme'     => [],
+			'templates' => [],
+		];
+
+		if ( ! empty( $file_name ) ) {
+			$paths = SFWD_LMS::get_template_paths( $file_name );
+
+			// Add src/views/ directory to the paths.
+
+			$template_dir  = LEARNDASH_LMS_PLUGIN_DIR . 'src/views/';
+			$file_pathinfo = pathinfo( $file_name );
+
+			// Normalize path info.
+
+			if ( empty( $file_pathinfo['dirname'] ) ) {
+				$file_pathinfo['dirname'] = '';
+			}
+
+			if ( empty( $file_pathinfo['extension'] ) ) {
+				$file_pathinfo['extension'] = '';
+			}
+
+			// Add index suffix to file name.
+
+			$template_file_dir  = ! empty( $file_pathinfo['dirname'] ) && '.' !== $file_pathinfo['dirname']
+								? trailingslashit( $file_pathinfo['dirname'] )
+								: '';
+			$template_file_name = $template_file_dir . $file_pathinfo['filename'] . '.' . $file_pathinfo['extension'];
+
+			if ( ! is_file( $template_dir . $template_file_name ) ) {
+				if ( is_dir( $template_dir . $template_file_dir ) ) {
+					$template_file_name = $template_file_dir . $file_pathinfo['filename'] . '/index.' . $file_pathinfo['extension'];
+
+					if ( ! is_file( $template_dir . $template_file_name ) ) {
+						$template_file_name = '';
+					}
+				} else {
+					$template_file_name = '';
+				}
+			}
+
+			// Add template file name to paths.
+
+			if ( ! empty( $template_file_name ) ) {
+				$paths['templates'][] = $template_dir . $template_file_name;
+			}
+		}
+
+		/**
+		 * Filters the template paths for frontend templates.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates because they don't use this engine to render templates.
+		 *
+		 * @since 4.13.0
+		 *
+		 * @param array{theme:string[],templates:string[]} $paths     Template paths.
+		 * @param string                                   $file_name Template file name.
+		 * @param string                                   $name      Template name.
+		 * @param array<string,mixed>                      $args      Template data.
+		 * @param Template                                 $instance  Current Instance of template engine rendering this template.
+		 */
+		return apply_filters(
+			'learndash_template_template_paths',
+			$paths,
+			$file_name,
+			$this->current_rendering_name,
+			$this->current_rendering_args,
+			$this
+		);
+	}
+
+	/**
+	 * Update a rendering arg in the current template hierarchy so that it cascades down.
+	 *
+	 * @since 4.16.0
+	 *
+	 * @param string $arg_name  Argument name.
+	 * @param mixed  $arg_value Argument value.
+	 *
+	 * @return void
+	 */
+	public function update_arg( string $arg_name, $arg_value ): void {
+		$this->current_rendering_args[ $arg_name ] = $arg_value;
+	}
+
+	/**
+	 * Returns the template paths for admin templates.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $file_name Template file name.
+	 *
+	 * @return array{theme:string[],templates:string[]}
+	 */
+	protected function get_admin_template_paths( string $file_name ): array {
+		$paths = [
+			'theme'     => [],
+			'templates' => [],
+		];
+
+		if ( ! empty( $file_name ) ) {
+			$admin_template_dir = LEARNDASH_LMS_PLUGIN_DIR . 'src/admin_views/';
+			$file_pathinfo      = pathinfo( $file_name );
+
+			// Normalize path info.
+
+			if ( empty( $file_pathinfo['dirname'] ) ) {
+				$file_pathinfo['dirname'] = '';
+			}
+
+			if ( empty( $file_pathinfo['extension'] ) ) {
+				$file_pathinfo['extension'] = '';
+			}
+
+			// Add index suffix to file name.
+
+			$template_file_dir  = ! empty( $file_pathinfo['dirname'] ) && '.' !== $file_pathinfo['dirname']
+								? trailingslashit( $file_pathinfo['dirname'] )
+								: '';
+			$template_file_name = $template_file_dir . $file_pathinfo['filename'] . '.' . $file_pathinfo['extension'];
+
+			if ( ! is_file( $admin_template_dir . $template_file_name ) ) {
+				if ( is_dir( $admin_template_dir . $template_file_dir ) ) {
+					$template_file_name = $template_file_dir . $file_pathinfo['filename'] . '/index.' . $file_pathinfo['extension'];
+
+					if ( ! is_file( $admin_template_dir . $template_file_name ) ) {
+						$template_file_name = '';
+					}
+				} else {
+					$template_file_name = '';
+				}
+			}
+
+			// Add template file name to paths.
+
+			if ( ! empty( $template_file_name ) ) {
+				$paths['templates'][] = $admin_template_dir . $template_file_name;
+			}
+		}
+
+		/**
+		 * Filters the template paths for admin templates.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param array{theme:string[],templates:string[]} $paths     Template paths.
+		 * @param string                                   $file_name Template file name.
+		 * @param string                                   $name      Template name.
+		 * @param array<string,mixed>                      $args      Template data.
+		 * @param Template                                 $instance  Current Instance of template engine rendering this template.
+		 */
+		return apply_filters(
+			'learndash_template_admin_template_paths',
+			$paths,
+			$file_name,
 			$this->current_rendering_name,
 			$this->current_rendering_args,
 			$this
@@ -365,7 +609,10 @@ class Template {
 	 */
 	private function pre_html_filters( bool $echo, string $file_path ): string {
 		/**
-		 * Allow users to filter the HTML before rendering
+		 * Allow users to filter the HTML before rendering.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -375,8 +622,6 @@ class Template {
 		 * @param array<string,mixed> $args      Template data.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$pre_html = apply_filters(
 			'learndash_template_pre_html',
@@ -389,7 +634,10 @@ class Template {
 		);
 
 		/**
-		 * Allow users to filter the HTML by the name before rendering
+		 * Allow users to filter the HTML by the name before rendering.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * E.g.:
 		 *    `learndash_template_pre_html:topic/infobar`
@@ -404,8 +652,6 @@ class Template {
 		 * @param array<string,mixed> $args      Template data.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			"learndash_template_pre_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -429,8 +675,19 @@ class Template {
 	 * @return void
 	 */
 	private function args_filters( bool $echo, string $file_path ): void {
+		/** This filter is documented in includes/class-ld-lms.php */
+		$this->current_rendering_args = apply_filters(
+			'ld_template_args_' . $this->current_rendering_name,
+			$this->current_rendering_args,
+			$file_path,
+			$echo
+		);
+
 		/**
 		 * Filters template arguments.
+		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -441,8 +698,6 @@ class Template {
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
 		 *
 		 * @return array Template arguments.
-		 *
-		 * @ignore
 		 */
 		$this->current_rendering_args = apply_filters(
 			'learndash_template_args',
@@ -457,24 +712,8 @@ class Template {
 		 * Filters template arguments.
 		 * The dynamic part of the hook refers to the name of the template.
 		 *
-		 * @deprecated 4.6.0 Use the {@see 'learndash_template_args:{$name}'} filter instead.
-		 *
-		 * @param array  $args      Template data.
-		 * @param string $file_path Template file path.
-		 * @param bool   $echo      Whether to echo the template output or not.
-		 *
-		 * @ignore
-		 */
-		$this->current_rendering_args = apply_filters_deprecated(
-			'ld_template_args_' . $this->current_rendering_name,
-			array( $this->current_rendering_args, $file_path, $echo ),
-			'4.6.0',
-			'learndash_template_args:{$template_name}'
-		);
-
-		/**
-		 * Filters template arguments.
-		 * The dynamic part of the hook refers to the name of the template.
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -483,8 +722,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$this->current_rendering_args = apply_filters(
 			"learndash_template_args:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -510,7 +747,10 @@ class Template {
 		ob_start();
 
 		/**
-		 * Fires an Action before including the template file
+		 * Fires an Action before including the template file.
+		 *
+		 * This action hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -519,8 +759,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		do_action(
 			'learndash_template_before_include',
@@ -532,7 +770,11 @@ class Template {
 		);
 
 		/**
-		 * Fires an Action for a given template name before including the template file
+		 * Fires an Action for a given template name before including the template file.
+		 *
+		 * This action hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_before_include:topic/infobar`
 		 *    `learndash_template_before_include:course/infobar-enrolled`
@@ -545,8 +787,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		do_action(
 			"learndash_template_before_include:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -574,7 +814,10 @@ class Template {
 		ob_start();
 
 		/**
-		 * Fires an Action after including the template file
+		 * Fires an Action after including the template file.
+		 *
+		 * This action hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
 		 *
 		 * @since 4.6.0
 		 *
@@ -583,8 +826,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		do_action(
 			'learndash_template_after_include',
@@ -596,7 +837,11 @@ class Template {
 		);
 
 		/**
-		 * Fires an Action for a given template name after including the template file
+		 * Fires an Action for a given template name after including the template file.
+		 *
+		 * This action hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_before_include:topic/infobar`
 		 *    `learndash_template_before_include:course/infobar-enrolled`
@@ -609,8 +854,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		do_action(
 			"learndash_template_after_include:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -663,6 +906,9 @@ class Template {
 		/**
 		 * Allow users to filter the Before include actions.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since 4.6.0
 		 *
 		 * @param string   $html      Template HTML.
@@ -671,8 +917,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$html = apply_filters(
 			'learndash_template_before_include_html',
@@ -687,6 +931,9 @@ class Template {
 		/**
 		 * Allow users to filter the Before include actions by name.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_before_include_html:topic/infobar`
 		 *    `learndash_template_before_include_html:course/infobar-enrolled`
@@ -700,8 +947,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			"learndash_template_before_include_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -729,6 +974,9 @@ class Template {
 		/**
 		 * Allow users to filter the After include actions.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since 4.6.0
 		 *
 		 * @param string   $html      Template HTML.
@@ -737,8 +985,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$html = apply_filters(
 			'learndash_template_after_include_html',
@@ -753,6 +999,9 @@ class Template {
 		/**
 		 * Allow users to filter the After include actions by name.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_after_include_html:topic/infobar`
 		 *    `learndash_template_after_include_html:course/infobar-enrolled`
@@ -766,8 +1015,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			"learndash_template_after_include_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -795,6 +1042,9 @@ class Template {
 		/**
 		 * Allow users to filter the template include HTML.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since 4.6.0
 		 *
 		 * @param string   $html      Template HTML.
@@ -803,8 +1053,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$html = apply_filters(
 			'learndash_template_include_html',
@@ -819,6 +1067,9 @@ class Template {
 		/**
 		 * Allow users to filter the template include HTML by name.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_include_html:topic/infobar`
 		 *    `learndash_template_include_html:course/infobar-enrolled`
@@ -832,8 +1083,6 @@ class Template {
 		 * @param string              $file_path Template file path.
 		 * @param bool                $echo      Whether to echo the template output or not.
 		 * @param Template            $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			"learndash_template_include_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -861,6 +1110,9 @@ class Template {
 		/**
 		 * Allow users to filter the final template HTML.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since 4.6.0
 		 *
 		 * @param string   $html      Template HTML.
@@ -869,8 +1121,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$html = apply_filters(
 			'learndash_template_html',
@@ -885,6 +1135,9 @@ class Template {
 		/**
 		 * Allow users to filter the final template HTML by name.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * E.g.:
 		 *    `learndash_template_final_html:topic/infobar`
 		 *    `learndash_template_final_html:course/infobar-enrolled`
@@ -898,8 +1151,6 @@ class Template {
 		 * @param string   $file_path Template file path.
 		 * @param bool     $echo      Whether to echo the template output or not.
 		 * @param Template $instance  Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		return apply_filters(
 			"learndash_template_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -1110,6 +1361,9 @@ class Template {
 		/**
 		 * Filter if the entry points are enabled.
 		 *
+		 * This filter hook is active exclusively within the new ‘src’ structure.
+		 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+		 *
 		 * @since @4.6.0
 		 *
 		 * @param bool                $is_enabled       Is entry_point enabled.
@@ -1117,8 +1371,6 @@ class Template {
 		 * @param string              $entry_point_name Which entry point specifically we are triggering.
 		 * @param array<string,mixed> $args             The arguments to pass to the entry point actions/filters.
 		 * @param Template            $instance         Current Instance of template engine rendering this template.
-		 *
-		 * @ignore
 		 */
 		$is_entry_point_enabled = apply_filters(
 			'learndash_template_entry_point_is_enabled',
@@ -1139,14 +1391,15 @@ class Template {
 			/**
 			 * Generic entry point action for the current template.
 			 *
+			 * This action hook is active exclusively within the new ‘src’ structure.
+			 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+			 *
 			 * @since 4.6.0
 			 *
 			 * @param string              $template_name    For which template include this entry point belongs.
 			 * @param string              $entry_point_name Which entry point specifically we are triggering.
 			 * @param array<string,mixed> $args             The arguments to pass to the entry point actions/filters.
 			 * @param Template            $instance         Current Instance of template engine rendering this template.
-			 *
-			 * @ignore
 			 */
 			do_action(
 				"learndash_template_entry_point:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -1161,14 +1414,15 @@ class Template {
 			/**
 			 * Specific named entry point action called.
 			 *
+			 * This action hook is active exclusively within the new ‘src’ structure.
+			 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+			 *
 			 * @since 4.6.0
 			 *
 			 * @param string              $template_name    For which template include this entry point belongs.
 			 * @param string              $entry_point_name Which entry point specifically we are triggering.
 			 * @param array<string,mixed> $args             The arguments to pass to the entry point actions/filters.
 			 * @param Template            $instance         Current Instance of template engine rendering this template.
-			 *
-			 * @ignore
 			 */
 			do_action(
 				"learndash_template_entry_point:{$this->current_rendering_name}:{$entry_point_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -1185,6 +1439,9 @@ class Template {
 			/**
 			 * Generic entry point action for the current template.
 			 *
+			 * This filter hook is active exclusively within the new ‘src’ structure.
+			 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+			 *
 			 * @since 4.6.0
 			 *
 			 * @param string              $html             HTML returned for this entry point.
@@ -1192,8 +1449,6 @@ class Template {
 			 * @param string              $entry_point_name Which entry point specifically we are triggering.
 			 * @param array<string,mixed> $args             The arguments to pass to the entry point actions/filters.
 			 * @param Template            $instance         Current Instance of template engine rendering this template.
-			 *
-			 * @ignore
 			 */
 			$html = apply_filters(
 				"learndash_template_entry_point_html:{$this->current_rendering_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
@@ -1209,6 +1464,9 @@ class Template {
 			/**
 			 * Specific named entry point action called.
 			 *
+			 * This filter hook is active exclusively within the new ‘src’ structure.
+			 * It won’t trigger in ‘LD 30’ and ‘Legacy’ templates, nor in views located within the ‘includes/views’ directory.
+			 *
 			 * @since 4.6.0
 			 *
 			 * @param string              $html             HTML returned for this entry point.
@@ -1216,8 +1474,6 @@ class Template {
 			 * @param string              $entry_point_name Which entry point specifically we are triggering.
 			 * @param array<string,mixed> $args             The arguments to pass to the entry point actions/filters.
 			 * @param Template            $instance         Current Instance of template engine rendering this template.
-			 *
-			 * @ignore
 			 */
 			$html = apply_filters(
 				"learndash_template_entry_point_html:{$this->current_rendering_name}:{$entry_point_name}", // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores

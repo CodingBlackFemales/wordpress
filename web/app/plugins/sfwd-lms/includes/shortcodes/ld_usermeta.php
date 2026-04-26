@@ -34,6 +34,12 @@ function learndash_usermeta_shortcode( $attr = array(), $content = '', $shortcod
 	global $learndash_shortcode_used;
 	$learndash_shortcode_used = true;
 
+	// guest users can't access usermeta.
+
+	if ( ! is_user_logged_in() ) {
+		return '';
+	}
+
 	// We clear out content because there is no reason to retain it.
 	$content = '';
 

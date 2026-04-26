@@ -7,6 +7,8 @@
  * @package LearnDash\Shortcodes
  */
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -52,7 +54,7 @@ function learndash_groupinfo_shortcode( $attr = array(), $content = '', $shortco
 
 	$shortcode_atts['group_id'] = ! empty( $shortcode_atts['group_id'] ) ? $shortcode_atts['group_id'] : '';
 	if ( '' === $shortcode_atts['group_id'] ) {
-		if ( ( isset( $_GET['group_id'] ) ) && ( ! empty( $_GET['group_id'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended 
+		if ( ( isset( $_GET['group_id'] ) ) && ( ! empty( $_GET['group_id'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$shortcode_atts['group_id'] = intval( $_GET['group_id'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		} else {
 			$post_id = get_the_id();
@@ -87,6 +89,20 @@ function learndash_groupinfo_shortcode( $attr = array(), $content = '', $shortco
 				$shortcode_atts['user_id'] = intval( $_GET['user'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			}
 		}
+	}
+
+	// Override the user ID if the current user can't access the passed user ID's data.
+	$shortcode_atts['user_id'] = learndash_shortcode_protect_user(
+		Cast::to_int( $shortcode_atts['user_id'] )
+	);
+
+	// Check post access.
+	if (
+		! learndash_shortcode_can_current_user_access_post(
+			Cast::to_int( $shortcode_atts['group_id'] )
+		)
+	) {
+		return '';
 	}
 
 	if ( empty( $shortcode_atts['group_id'] ) || empty( $shortcode_atts['user_id'] ) ) {

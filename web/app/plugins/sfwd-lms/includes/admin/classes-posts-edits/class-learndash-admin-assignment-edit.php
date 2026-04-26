@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use LearnDash\Core\Utilities\Cast;
+
 if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learndash_Admin_Assignment_Edit' ) ) ) {
 
 	/**
@@ -232,19 +234,17 @@ if ( ( class_exists( 'Learndash_Admin_Post_Edit' ) ) && ( ! class_exists( 'Learn
 			</div>
 
 			<?php
-				$file_link = get_post_meta( $post->ID, 'file_link', true );
-			if ( ! empty( $file_link ) ) {
+			$file_name = get_post_meta( $post->ID, 'file_name', true );
+
+			if ( ! empty( $file_name ) ) {
 				?>
 				<div class="sfwd sfwd_options sfwd-assignment_settings">
 					<div class="sfwd_input " id="sfwd-assignment_download">
 						<span class="sfwd_option_label" style="text-align:right;vertical-align:top;"><a class="sfwd_help_text_link" style="cursor:pointer;" title="<?php esc_html_e( 'Click for Help!', 'learndash' ); ?>" onclick="toggleVisibility('sfwd-assignment_download_tip');"><img src="<?php echo esc_url( LEARNDASH_LMS_PLUGIN_URL . '/assets/images/question.png' ); ?>" /><label class="sfwd_label textinput"><?php esc_html_e( 'Actions', 'learndash' ); ?></label></a></span>
 						<span class="sfwd_option_input"><div class="sfwd_option_div">
 						<?php
-
-							// Link handling.
-							$file_link = get_post_meta( $post->ID, 'file_link', true );
-
-							echo "<a href='" . esc_url( $file_link ) . "' target='_blank' class='button'>" . esc_html__( 'Download', 'learndash' ) . '</a>';
+							// Path is not accessible. We need to grab the download URL.
+							echo "<a href='" . esc_url( learndash_assignment_get_download_url( $post->ID ) ) . "' target='_blank' class='button'>" . esc_html__( 'Download', 'learndash' ) . '</a>';
 						?>
 						</div><div class="sfwd_help_text_div" style="display:none" id="sfwd-assignment_download_tip"><label class="sfwd_help_text"><?php esc_html_e( 'Assignment download.', 'learndash' ); ?></label></div></span><p style="clear:left"></p></div>
 					</div>

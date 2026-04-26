@@ -301,7 +301,7 @@ jQuery( function( $ ) {
 				var question_id = jQuery( question_item ).data( 'ld-id' );
 				var points = jQuery( '.ld-course-builder-points', question_item ).data( 'ld-points' );
 
-				builder_items_points = parseInt( builder_items_points ) + parseInt( points );
+				builder_items_points = parseFloat( builder_items_points ) + parseFloat( points );
 
 				builder_items_count += 1;
 				builder_items['sfwd-question:' + question_id.toString()] = {};

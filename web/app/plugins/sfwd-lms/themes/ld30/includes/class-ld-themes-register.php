@@ -21,6 +21,24 @@ if ( class_exists( 'LearnDash_Theme_Register' ) && ! class_exists( 'LearnDash_Th
 	 */
 	class LearnDash_Theme_Register_LD30 extends LearnDash_Theme_Register {
 		/**
+		 * Theme variation: Classic.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @var string
+		 */
+		public static string $variation_classic = 'classic';
+
+		/**
+		 * Theme variation: Modern.
+		 *
+		 * @since 4.16.0
+		 *
+		 * @var string
+		 */
+		public static string $variation_modern = 'modern';
+
+		/**
 		 * Protected constructor for class
 		 *
 		 * @since 3.0.0
@@ -35,6 +53,11 @@ if ( class_exists( 'LearnDash_Theme_Register' ) && ! class_exists( 'LearnDash_Th
 			$this->theme_template_dir = $this->theme_base_dir . '/templates';
 			$this->theme_template_url = $this->theme_base_url . '/templates';
 			$this->supports_views     = false;
+			$this->variations         = [
+				static::$variation_classic => _x( 'Classic', 'Theme variation: Classic', 'learndash' ),
+				static::$variation_modern  => _x( 'Modern', 'Theme variation: Modern', 'learndash' ),
+			];
+			$this->default_variation  = static::$variation_classic;
 
 			parent::__construct();
 		}
