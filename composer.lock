@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0138df2bd02f57736c2b5ad2843a6222",
+    "content-hash": "171bced0857b4be77c1271846b191071",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6866,15 +6866,15 @@
         },
         {
             "name": "wp-plugin/query-monitor",
-            "version": "3.20.4",
+            "version": "4.0.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/3.20.4"
+                "reference": "tags/4.0.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.3.20.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.4.0.6.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -9799,5 +9799,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
