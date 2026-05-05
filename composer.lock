@@ -6588,15 +6588,15 @@
         },
         {
             "name": "wp-plugin/mailchimp-for-woocommerce",
-            "version": "6.0.2",
+            "version": "6.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce/",
-                "reference": "tags/6.0.2"
+                "reference": "tags/6.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.6.0.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/mailchimp-for-woocommerce.6.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6615,7 +6615,7 @@
                 "issues": "https://wordpress.org/support/plugin/mailchimp-for-woocommerce",
                 "source": "https://plugins.svn.wordpress.org/mailchimp-for-woocommerce"
             },
-            "time": "2026-03-27T20:06:05+00:00"
+            "time": "2026-04-30T13:45:59+00:00"
         },
         {
             "name": "wp-plugin/members",
@@ -9799,5 +9799,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
