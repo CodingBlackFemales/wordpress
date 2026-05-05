@@ -96,7 +96,7 @@
     "wp-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
     "wp-plugin/woocommerce": "^10.5.0",
     "wp-plugin/woocommerce-gateway-stripe": "^10.3.1",
-    "wp-plugin/woocommerce-paypal-payments": "^3.3.2",
+    "wp-plugin/woocommerce-paypal-payments": "^4.0.3",
     "wp-plugin/woocommerce-services": "^3.4.0",
     "wp-plugin/wp-graphql": "^2.8.0",
     "wp-plugin/wp-job-manager": "^2.4.0",
