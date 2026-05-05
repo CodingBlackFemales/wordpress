@@ -91,7 +91,7 @@
     "wp-plugin/pdf-viewer-block": "^1.1.0",
     "wp-plugin/post-type-switcher": "^4.0.1",
     "wp-plugin/pods": "^3.3.4",
-    "wp-plugin/query-monitor": "^3.20.2",
+    "wp-plugin/query-monitor": "^4.0.6",
     "wp-plugin/redis-cache": "^2.7",
     "wp-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
     "wp-plugin/woocommerce": "^10.5.0",
