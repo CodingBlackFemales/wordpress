@@ -6526,15 +6526,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "15.7.1",
+            "version": "15.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/15.7.1"
+                "reference": "tags/15.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.15.7.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.15.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6553,7 +6553,7 @@
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-04-20T17:05:48+00:00"
+            "time": "2026-05-05T17:30:59+00:00"
         },
         {
             "name": "wp-plugin/login-as-user",
@@ -9799,5 +9799,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
