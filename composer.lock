@@ -6681,15 +6681,15 @@
         },
         {
             "name": "wp-plugin/optimole-wp",
-            "version": "4.2.4",
+            "version": "4.2.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/optimole-wp/",
-                "reference": "tags/4.2.4"
+                "reference": "tags/4.2.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.4.zip"
+                "url": "https://downloads.wordpress.org/plugin/optimole-wp.4.2.5.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6701,13 +6701,13 @@
                     "name": "Optimole"
                 }
             ],
-            "description": "Automatically optimize images: bulk compression, lazy loading, WebP/AVIF conversion. With CloudFront image CDN to boost Core Web Vitals & conversions!",
+            "description": "Automatically optimize images with bulk compression, lazy loading, WebP/AVIF conversion & CloudFront image CDN. Boost Core Web Vitals & conversions.",
             "support": {
                 "changelog": "https://wordpress.org/plugins/optimole-wp/#developers",
                 "issues": "https://wordpress.org/support/plugin/optimole-wp",
                 "source": "https://plugins.svn.wordpress.org/optimole-wp"
             },
-            "time": "2026-04-13T13:55:36+00:00"
+            "time": "2026-05-07T08:40:45+00:00"
         },
         {
             "name": "wp-plugin/otter-blocks",
@@ -9799,5 +9799,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
