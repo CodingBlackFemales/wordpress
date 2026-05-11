@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bfdbd6fb48c5b8769c6a91bbfa258d9",
+    "content-hash": "78f774f02cc6e264620320d3b6d1ddc5",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7114,15 +7114,15 @@
         },
         {
             "name": "wp-plugin/wp-graphql",
-            "version": "2.12.0",
+            "version": "2.13.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/2.12.0"
+                "reference": "tags/2.13.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.12.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.13.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7141,7 +7141,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-graphql",
                 "source": "https://plugins.svn.wordpress.org/wp-graphql"
             },
-            "time": "2026-04-23T21:16:09+00:00"
+            "time": "2026-05-08T17:45:52+00:00"
         },
         {
             "name": "wp-plugin/wp-job-manager",
@@ -9830,5 +9830,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
