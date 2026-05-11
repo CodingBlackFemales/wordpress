@@ -30,6 +30,7 @@ final class Assets {
 		add_action( 'admin_enqueue_scripts', array( AssetsMain::class, 'load_scripts' ) );
 		add_action( 'admin_print_scripts', array( AssetsMain::class, 'localize_printed_scripts' ), 5 );
 		add_action( 'admin_print_footer_scripts', array( AssetsMain::class, 'localize_printed_scripts' ), 5 );
+		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_block_editor_scripts' ) );
 	}
 
 
@@ -64,6 +65,28 @@ final class Assets {
 			),
 		);
 
+		$scripts['cbf-multisite-group-figure'] = array(
+			'src'  => AssetsMain::localize_asset( 'js/admin/group-block-figure.js' ),
+			'deps' => array( 'wp-hooks', 'wp-blocks', 'wp-element', 'wp-compose', 'wp-block-editor', 'wp-components' ),
+		);
+
 		return $scripts;
+	}
+
+
+	/**
+	 * Add inline styles for the block editor.
+	 *
+	 * @return void
+	 */
+	public static function enqueue_block_editor_scripts() {
+		// Hide the Group block's original (hardcoded) HTML element control.
+		// The wrapper carries a dedicated .block-editor-html-element-control class,
+		// so we can target it precisely. The :has() guard ensures the rule only
+		// fires when a Group block with our extended control is in the panel.
+		wp_add_inline_style(
+			'wp-edit-blocks',
+			'.block-editor-block-inspector__advanced:has(.cbf-html-element-control) .block-editor-html-element-control { display: none !important; }'
+		);
 	}
 }
