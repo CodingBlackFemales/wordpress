@@ -34,8 +34,13 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
           script: |
+            # Non-interactive SSH does not load ~/.bashrc; nvm lives there.
+            export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             cd ${{ secrets.SSH_PATH }}
             git pull
+            cd web/app/plugins/cbf-multisite
+            npm ci && npm run build:assets
 
   check:
     needs: [deploy]
