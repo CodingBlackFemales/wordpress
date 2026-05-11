@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.48](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.47...v0.1.48) (2026-05-11)
+
+
+### Features
+
+* implement code styling ([adcd42d](https://github.com/CodingBlackFemales/wordpress/commit/adcd42d53aa1434da7a86632c1f002a6d97c3416))
+
 ## [0.1.47](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.46...v0.1.47) (2026-04-26)
 
 
