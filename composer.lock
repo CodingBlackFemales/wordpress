@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bfdbd6fb48c5b8769c6a91bbfa258d9",
+    "content-hash": "78f774f02cc6e264620320d3b6d1ddc5",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6433,15 +6433,15 @@
         },
         {
             "name": "wp-plugin/facebook-for-woocommerce",
-            "version": "3.6.3",
+            "version": "3.7.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.6.3"
+                "reference": "tags/3.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.6.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.7.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6453,14 +6453,14 @@
                     "name": "Facebook"
                 }
             ],
-            "description": "Get the Official Meta for WooCommerce plugin for powerful ways to help grow your business.",
+            "description": "Reach more customers and drive sales on Facebook, Instagram and WhatsApp with the official Meta for WooCommerce plugin.",
             "homepage": "https://github.com/woocommerce/facebook-for-woocommerce/",
             "support": {
                 "changelog": "https://wordpress.org/plugins/facebook-for-woocommerce/#developers",
                 "issues": "https://wordpress.org/support/plugin/facebook-for-woocommerce",
                 "source": "https://plugins.svn.wordpress.org/facebook-for-woocommerce"
             },
-            "time": "2026-04-21T12:51:18+00:00"
+            "time": "2026-05-11T13:01:21+00:00"
         },
         {
             "name": "wp-plugin/header-footer-code-manager",
@@ -9830,5 +9830,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
