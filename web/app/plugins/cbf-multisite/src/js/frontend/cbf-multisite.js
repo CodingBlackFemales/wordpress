@@ -29,4 +29,15 @@
    * Although scripts in the WordPress core, Plugins and Themes may be
    * practising this, we should strive to set a better example in our own work.
    */
+  $(function () {
+    $(".code-annotations").each(function () {
+      $(this)
+        .children("li")
+        .each(function () {
+          if (!$(this).attr("data-line") && $(this).val()) {
+            $(this).attr("data-line", $(this).val());
+          }
+        });
+    });
+  });
 })(jQuery);
