@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0138df2bd02f57736c2b5ad2843a6222",
+    "content-hash": "6bfdbd6fb48c5b8769c6a91bbfa258d9",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6956,6 +6956,37 @@
                 "source": "https://plugins.svn.wordpress.org/remove-dashboard-access-for-non-admins"
             },
             "time": "2026-03-23T19:23:21+00:00"
+        },
+        {
+            "name": "wp-plugin/webberzone-code-block-highlighting",
+            "version": "1.0.0",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting/",
+                "reference": "tags/1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.0.0.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Ajay"
+                }
+            ],
+            "description": "Add beautiful syntax highlighting to the Gutenberg Code block — powered by Prism.js with 21 themes and 40 languages, zero configuration required.",
+            "homepage": "https://webberzone.com/webberzone-code-block-highlighting-page/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/webberzone-code-block-highlighting/#developers",
+                "issues": "https://wordpress.org/support/plugin/webberzone-code-block-highlighting",
+                "source": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting"
+            },
+            "time": "2026-05-03T12:32:00+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
