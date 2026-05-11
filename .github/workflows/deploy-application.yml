@@ -37,7 +37,11 @@ jobs:
             cd ${{ secrets.SSH_PATH }}
             git pull
             cd web/app/plugins/cbf-multisite
-            npm ci && npm run build:assets
+            echo "SHELL=$SHELL"
+            echo "PATH=$PATH"
+            command -v npm || true
+            type npm || true
+            # npm ci && npm run build:assets
 
   check:
     needs: [deploy]
