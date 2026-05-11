@@ -18,6 +18,7 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
   display: none;
 }
 
+/* Sticky Table of Contents */
 .ez-toc-sticky .ez-toc-open-icon {
   background-color: var(--bb-primary-button-background-regular);
   color: var(--bb-primary-button-text-hover);
@@ -28,7 +29,60 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
   background-color: var(--bb-primary-button-background-hover);
 }
 
+.is-style-stripes th {
+  text-align: center;
+}
+
+.bb-sfwd-aside.bb-dark-theme .wp-block-table.is-style-stripes th {
+  color: #fff;
+}
+
+.bb-sfwd-aside.bb-dark-theme
+  .wp-block-table.is-style-stripes
+  tbody
+  tr:nth-child(odd) {
+  background: #282a2c;
+}
+
+/* Code blocks in Markdown */
 .wp-block-jetpack-markdown pre > code {
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* Dark mode inline code blocks */
+.bb-sfwd-aside.bb-dark-theme code:not(pre > code) {
+  background: #282a2c;
+}
+
+pre[class*="language-"].line-numbers {
+  padding: 1em 0 1em 3.8em;
+}
+
+/* Highlighted lines in code blocks */
+.wp-block-jetpack-markdown .line-highlight,
+pre[class*="language-"] .line-highlight {
+  background: linear-gradient(
+    to right,
+    rgba(255, 183, 77, 0.15),
+    rgba(255, 183, 77, 0.1)
+  );
+  border-left: 3px solid #ffb74d;
+}
+
+/* Code annotations */
+.code-annotations {
+  list-style: none;
+}
+
+.code-annotations > li::before {
+  color: #000;
+  content: "L" attr(data-line) ":";
+  font-weight: 700;
+  margin-right: 0.5em;
+}
+
+/* Dark mode code annotations */
+.bb-sfwd-aside.bb-dark-theme .code-annotations li::before {
+  color: #fff;
 }
