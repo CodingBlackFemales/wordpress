@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bfdbd6fb48c5b8769c6a91bbfa258d9",
+    "content-hash": "d4a356e8cd1c007015a3526db114fa80",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7052,15 +7052,15 @@
         },
         {
             "name": "wp-plugin/woocommerce-paypal-payments",
-            "version": "3.4.1",
+            "version": "4.0.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments/",
-                "reference": "tags/3.4.1"
+                "reference": "tags/4.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.3.4.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-paypal-payments.4.0.3.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7079,7 +7079,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-paypal-payments",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-paypal-payments"
             },
-            "time": "2026-04-02T15:01:03+00:00"
+            "time": "2026-04-27T13:50:49+00:00"
         },
         {
             "name": "wp-plugin/woocommerce-services",
@@ -9830,5 +9830,5 @@
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
