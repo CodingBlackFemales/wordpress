@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = /Users/gary/Dev/CodingBlackFemales/slides-to-learndash
+	branch = main
+	commit = 28b10e664db3915ec85409f5b443c8c8f7bf8b12
+	parent = 06d1fe87d0bb3a87f531e42759b4eac89b973180
+	method = merge
+	cmdver = 0.4.9
