@@ -53,7 +53,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.5",
     "composer/installers": "^2.3.0",
     "humanmade/s3-uploads": "^3.0.11",
     "johnpbloch/wordpress": "^6.9.1",
@@ -65,7 +65,7 @@
     "roots/wp-config": "1.0.0",
     "serenichron/learndash-bulk-lessons-or-topics": "^1.2.1",
     "sleiman/airtable-php": "^3.0.0",
-    "symfony/cache": "~7.3.0",
+    "symfony/cache": "~7.4.15",
     "vlucas/phpdotenv": "^5.6.3",
     "wpackagist-plugin/crisp": "^0.48",
     "wpackagist-plugin/social-networks-auto-poster-facebook-twitter-g": "^4.4.7",
@@ -80,24 +80,24 @@
     "wp-plugin/facebook-for-woocommerce": "^3.5.15",
     "wp-plugin/header-footer-code-manager": "^1.1.44",
     "wp-plugin/import-meetup-events": "^1.6.9",
-    "wp-plugin/jetpack": "^15.5.0",
+    "wp-plugin/jetpack": "^16.0",
     "wp-plugin/login-as-user": "^1.6.8",
     "wp-plugin/mailchimp-for-woocommerce": "^6.0",
     "wp-plugin/members": "^3.2.18",
     "wp-plugin/myworks-woo-sync-for-quickbooks-online": "^3.0.3",
     "wp-plugin/optimole-wp": "^4.2.1",
     "wp-plugin/otter-blocks": "^3.1.4",
-    "wp-plugin/pdf-embedder": "^4.9.3",
+    "wp-plugin/pdf-embedder": "^5.0",
     "wp-plugin/pdf-viewer-block": "^1.1.0",
     "wp-plugin/post-type-switcher": "^4.0.1",
     "wp-plugin/pods": "^3.3.4",
-    "wp-plugin/query-monitor": "^3.20.2",
+    "wp-plugin/query-monitor": "^4.0",
     "wp-plugin/redis-cache": "^2.7",
     "wp-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
     "wp-plugin/webberzone-code-block-highlighting": "^1.0",
     "wp-plugin/woocommerce": "^10.5.0",
     "wp-plugin/woocommerce-gateway-stripe": "^10.3.1",
-    "wp-plugin/woocommerce-paypal-payments": "^3.3.2",
+    "wp-plugin/woocommerce-paypal-payments": "^4.1.1",
     "wp-plugin/woocommerce-services": "^3.4.0",
     "wp-plugin/wp-graphql": "^2.8.0",
     "wp-plugin/wp-job-manager": "^2.4.0",
@@ -129,7 +129,7 @@
       "mnsami/composer-custom-directory-installer": false
     },
     "platform": {
-      "php": "8.2"
+      "php": "8.5"
     }
   },
   "minimum-stability": "dev",
