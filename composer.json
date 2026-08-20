@@ -101,7 +101,6 @@
     "wp-plugin/wp-graphql": "^2.8.0",
     "wp-plugin/wp-job-manager": "^2.4.0",
     "wp-plugin/wp-job-manager-xml-csv-listings-import": "^1.2.1",
-    "wp-plugin/wp-mail-smtp": "^4.7.1",
     "wp-plugin/wp-maintenance-mode": "^2.6.20",
     "wp-plugin/wp-rest-api-authentication": "^4.2.0",
     "wp-plugin/zapier": "^1.5.3",
