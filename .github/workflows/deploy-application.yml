@@ -41,7 +41,7 @@ jobs:
               . "$NVM_DIR/nvm.sh"
             fi
             cd ${{ secrets.SSH_PATH }}
-            git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
             git pull
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
