@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1029529897213525bf75edef76bd110d",
+    "content-hash": "25418c3dc8870c69d786c3bf6e7236cf",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7163,37 +7163,6 @@
                 "source": "https://plugins.svn.wordpress.org/wp-job-manager-xml-csv-listings-import"
             },
             "time": "2026-07-30T22:30:51+00:00"
-        },
-        {
-            "name": "wp-plugin/wp-mail-smtp",
-            "version": "4.9.0",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/wp-mail-smtp/",
-                "reference": "tags/4.9.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-mail-smtp.4.9.0.zip"
-            },
-            "require": {
-                "composer/installers": "~1.0|~2.0"
-            },
-            "type": "wordpress-plugin",
-            "notification-url": "https://wp-packages.org/downloads",
-            "authors": [
-                {
-                    "name": "Syed Balkhi"
-                }
-            ],
-            "description": "Make email delivery easy for WordPress. Connect with SMTP, Gmail, Outlook, SendGrid, Mailgun, SES, Zoho, + more. Rated #1 WordPress SMTP Email plugin.",
-            "homepage": "https://wpmailsmtp.com/",
-            "support": {
-                "changelog": "https://wordpress.org/plugins/wp-mail-smtp/#developers",
-                "issues": "https://wordpress.org/support/plugin/wp-mail-smtp",
-                "source": "https://plugins.svn.wordpress.org/wp-mail-smtp"
-            },
-            "time": "2026-06-25T08:56:20+00:00"
         },
         {
             "name": "wp-plugin/wp-maintenance-mode",
