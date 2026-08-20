@@ -49,13 +49,8 @@ web/app/cache/wp-rocket
 !.env.example
 
 # Composer
-**/vendor/*
-!web/app/plugins/buddyboss-platform*/**/vendor/*
-!web/app/plugins/sfwd-lms/**/vendor/*
-!web/app/plugins/wp-all-import-pro/vendor/*
-!web/app/plugins/wp-rocket/vendor/*
-!web/app/plugins/wpforms/vendor/*
-!web/app/themes/buddyboss-theme/**/vendor/*
+vendor/*
+web/app/plugins/cbf-multisite/vendor/*
 !vendor/.gitkeep
 
 # WP-CLI
