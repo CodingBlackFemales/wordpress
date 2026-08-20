@@ -38,6 +38,7 @@ jobs:
             export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             cd ${{ secrets.SSH_PATH }}
+            git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             git pull
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
