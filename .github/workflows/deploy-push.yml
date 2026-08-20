@@ -125,11 +125,14 @@ jobs:
               inputs: {
                 destinationEnvironment: branch === 'main' ? 'production' : 'staging',
               },
+              headers: {
+                'X-GitHub-Api-Version': '2026-03-10',
+              },
             })
             .catch(error => error)
             .then(response => {
               core.debug(response);
-              if (response.status !== 204) {
+              if (response.status !== 200) {
                 core.setFailed(`createWorkflowDispatch to ${{ env.WORKFLOW_ID }} received status code ${response.status}`)
               }
             })
