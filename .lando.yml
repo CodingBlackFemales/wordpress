@@ -2,12 +2,13 @@ name: codingblackfemales
 recipe: wordpress
 config:
   database: mariadb
-  php: '8.3'
+  php: "8.5"
   via: apache
   webroot: web
   xdebug: false
   config:
     php: .lando/config/php/php.ini
+    database: mysql.cnf
 # Multisite networks must have each site listed below to work under lando
 # and the URLs must match those in the wp_blogs table
 proxy:
@@ -17,7 +18,7 @@ proxy:
     - jobs.codingblackfemales.lndo.site
 services:
   appserver:
-    type: "php:8.3"
+    type: "php:8.5"
     api: 3
     composer_version: 2-latest
     build_as_root:
@@ -44,7 +45,7 @@ services:
         PHP_MEMORY_LIMIT: 256M
         NODE_MAJOR: 20
   database:
-    type: mysql:8.0
+    type: mysql:8.4
     api: 3
     portforward: 3307
 # https://github.com/lando/lando/issues/1668#issuecomment-557090549
