@@ -27,17 +27,21 @@ jobs:
     steps:
       # Deploys specific branch/commit to target environment
       - name: Deploy to target
-        uses: appleboy/ssh-action@v1.2.5
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
           script: |
+            set -euo pipefail
             # Non-interactive SSH does not load ~/.bashrc; nvm lives there.
             export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            if [ -s "$NVM_DIR/nvm.sh" ]; then
+              . "$NVM_DIR/nvm.sh"
+            fi
             cd ${{ secrets.SSH_PATH }}
+            git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
             git pull
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
@@ -54,7 +58,7 @@ jobs:
     steps:
       # Sets the Node version
       - name: Setup Node.js
-        uses: actions/setup-node@v6.3.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
       - name: Check site

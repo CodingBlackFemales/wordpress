@@ -1,0 +1,3 @@
+[mysqld]
+mysql-native-password = ON
+binlog_expire_logs_seconds = 864000
