@@ -43,6 +43,7 @@ jobs:
             cd ${{ secrets.SSH_PATH }}
             git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
             git pull
+            composer install --no-dev --optimize-autoloader
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
 
