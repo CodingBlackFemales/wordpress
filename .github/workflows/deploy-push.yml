@@ -23,21 +23,21 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.9.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
         with:
           php-version: 8.5
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v5.0.5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: /tmp/composer-cache
           key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Install dependencies
-        uses: php-actions/composer@v6.1.2
+        uses: php-actions/composer@8a65f0d3c6a1d17ca4800491a40b5756a4c164f3 # v6.1.2
 
       - name: Install phpcs
         run: vendor/bin/phpcs -i
@@ -54,12 +54,12 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6.3.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
 
