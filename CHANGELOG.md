@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.54](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.53...v0.1.54) (2026-08-21)
+
+### Features
+
+* update WordPress to 7.1 ([1782b9a](https://github.com/CodingBlackFemales/wordpress/commit/1782b9a6ea6b0b85e4aa493c500b1ee7748f4731))
 ## [0.1.53](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.52...v0.1.53) (2026-08-20)
 ## [0.1.52](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.51...v0.1.52) (2026-08-20)
 ## [0.1.51](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.50...v0.1.51) (2026-07-31)
