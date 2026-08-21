@@ -2,10 +2,14 @@
 namespace WP_Rocket\Engine\CDN\RocketCDN;
 
 use WP_Rocket\Abstract_Render;
+use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Engine\Admin\Beacon\Beacon;
+use WP_Rocket\Engine\Common\Utils;
+use WP_Rocket\Engine\License\API\User;
 use WP_Rocket\Engine\License\API\UserClient;
 use WP_Rocket\Engine\Tracking\Tracking;
 use WP_Rocket\Event_Management\Subscriber_Interface;
+use WP_Rocket\Engine\Tracking\TrackingTrait;
 
 /**
  * Subscriber for the RocketCDN notices on WP Rocket settings page
@@ -13,6 +17,8 @@ use WP_Rocket\Event_Management\Subscriber_Interface;
  * @since 3.5
  */
 class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface {
+	use TrackingTrait;
+
 	/**
 	 * RocketCDN API Client instance.
 	 *
@@ -42,158 +48,82 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 	private $tracking;
 
 	/**
+	 * WP Rocket options instance
+	 *
+	 * @var Options_Data
+	 */
+	private $options;
+
+	/**
+	 * Subscription controller instance.
+	 *
+	 * @var SubscriptionController
+	 */
+	private $subscription_controller;
+
+	/**
+	 * User instance.
+	 *
+	 * @var User
+	 */
+	private $user;
+
+	/**
 	 * Constructor
 	 *
-	 * @param APIClient  $api_client    RocketCDN API Client instance.
-	 * @param Beacon     $beacon        Beacon instance.
-	 * @param UserClient $user_client   UserClient instance.
-	 * @param Tracking   $tracking      Tracking instance.
-	 * @param string     $template_path Path to the templates.
+	 * @param APIClient              $api_client              RocketCDN API Client instance.
+	 * @param Beacon                 $beacon                  Beacon instance.
+	 * @param UserClient             $user_client             UserClient instance.
+	 * @param Tracking               $tracking                Tracking instance.
+	 * @param string                 $template_path           Path to the templates.
+	 * @param Options_Data           $options                 WP Rocket options instance.
+	 * @param SubscriptionController $subscription_controller Subscription controller instance.
+	 * @param User                   $user                    User instance.
 	 */
-	public function __construct( APIClient $api_client, Beacon $beacon, UserClient $user_client, Tracking $tracking, $template_path ) {
+	public function __construct(
+		APIClient $api_client,
+		Beacon $beacon,
+		UserClient $user_client,
+		Tracking $tracking,
+		$template_path,
+		Options_Data $options,
+		SubscriptionController $subscription_controller,
+		User $user
+	) {
 		parent::__construct( $template_path );
 
-		$this->api_client  = $api_client;
-		$this->beacon      = $beacon;
-		$this->user_client = $user_client;
-		$this->tracking    = $tracking;
+		$this->api_client              = $api_client;
+		$this->beacon                  = $beacon;
+		$this->user_client             = $user_client;
+		$this->tracking                = $tracking;
+		$this->options                 = $options;
+		$this->subscription_controller = $subscription_controller;
+		$this->user                    = $user;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Return an array of events that this subscriber wants to listen to.
+	 *
+	 * @return array
 	 */
 	public static function get_subscribed_events() {
 		return [
-			'admin_notices'                    => [
-				[ 'promote_rocketcdn_notice' ],
+			'admin_notices'                           => [
 				[ 'purge_cache_notice' ],
 				[ 'change_cname_notice' ],
 				[ 'activation_failed_notice' ],
+				[ 'maybe_display_rocketcdn_notice' ],
 			],
-			'rocket_before_cdn_sections'       => 'display_rocketcdn_cta',
-			'wp_ajax_toggle_rocketcdn_cta'     => 'toggle_cta',
-			'wp_ajax_rocketcdn_dismiss_notice' => 'dismiss_notice',
-			'admin_footer'                     => 'add_dismiss_script',
+			'rocket_cdn_free_before_status_indicator' => [
+				[ 'display_rocketcdn_cta' ],
+				[ 'display_reseller_limit_banner', 11 ],
+			],
+			'admin_post_rocket_ignore'                => [
+				[ 'track_notice_homepage_cta_click', 5 ],
+				[ 'track_rocketcdn_notice_dismissed', 5 ],
+			],
+			'wp_ajax_rocket_ignore'                   => [ [ 'track_rocketcdn_notice_dismissed', 5 ] ],
 		];
-	}
-
-	/**
-	 * Adds notice to promote RocketCDN on settings page
-	 *
-	 * @since 3.5
-	 *
-	 * @return void
-	 */
-	public function promote_rocketcdn_notice() {
-		/**
-		 * Filters RocketCDN promotion notice.
-		 *
-		 * @param bool $promotion_notice; true to display, false otherwise.
-		 */
-		if ( ! apply_filters( 'rocket_promote_rocketcdn_notice', true ) ) {
-			return;
-		}
-
-		if ( $this->is_white_label_account() ) {
-			return;
-		}
-
-		if ( ! rocket_is_live_site() ) {
-			return;
-		}
-
-		if ( ! $this->should_display_notice() ) {
-			return;
-		}
-
-		echo $this->generate( 'promote-notice' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
-	}
-
-	/**
-	 * Adds inline script to permanently dismissing the RocketCDN promotion notice
-	 *
-	 * @since 3.5
-	 *
-	 * @return void
-	 */
-	public function add_dismiss_script() {
-		if ( $this->is_white_label_account() ) {
-			return;
-		}
-
-		if ( ! rocket_is_live_site() ) {
-			return;
-		}
-
-		if ( ! $this->should_display_notice() ) {
-			return;
-		}
-
-		$nonce = wp_create_nonce( 'rocketcdn_dismiss_notice' );
-		?>
-		<script>
-		window.addEventListener( 'load', function() {
-			var dismissBtn  = document.querySelectorAll( '#rocketcdn-promote-notice .notice-dismiss, #rocketcdn-promote-notice #rocketcdn-learn-more-dismiss' );
-
-			dismissBtn.forEach(function(element) {
-				element.addEventListener( 'click', function( event ) {
-					var httpRequest = new XMLHttpRequest(),
-						postData    = '';
-
-					postData += 'action=rocketcdn_dismiss_notice';
-					postData += '&nonce=<?php echo esc_attr( $nonce ); ?>';
-					httpRequest.open( 'POST', '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>' );
-					httpRequest.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' )
-					httpRequest.send( postData );
-				});
-			});
-		});
-		</script>
-		<?php
-	}
-
-	/**
-	 * Checks if the promotion notice should be displayed
-	 *
-	 * @since 3.5
-	 *
-	 * @return boolean
-	 */
-	private function should_display_notice() {
-		if ( ! current_user_can( 'rocket_manage_options' ) ) {
-			return false;
-		}
-
-		if ( 'settings_page_wprocket' !== get_current_screen()->id ) {
-			return false;
-		}
-
-		if ( get_user_meta( get_current_user_id(), 'rocketcdn_dismiss_notice', true ) ) {
-			return false;
-		}
-
-		$subscription_data = $this->api_client->get_subscription_data();
-
-		return 'running' !== $subscription_data['subscription_status'];
-	}
-
-	/**
-	 * Ajax callback to save the dismiss as a user meta
-	 *
-	 * @since 3.5
-	 *
-	 * @return void
-	 */
-	public function dismiss_notice() {
-		check_ajax_referer( 'rocketcdn_dismiss_notice', 'nonce', true );
-
-		if ( ! current_user_can( 'rocket_manage_options' ) ) {
-			wp_send_json_error( 'no permissions' );
-		}
-
-		update_user_meta( get_current_user_id(), 'rocketcdn_dismiss_notice', true );
-
-		wp_send_json_success();
 	}
 
 	/**
@@ -201,9 +131,11 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 	 *
 	 * @since 3.5
 	 *
+	 * @param array $cta_data CTA data.
+	 *
 	 * @return void
 	 */
-	public function display_rocketcdn_cta() {
+	public function display_rocketcdn_cta( array $cta_data ) {
 		/**
 		 * Filters the display of the RocketCDN cta banner.
 		 *
@@ -217,13 +149,17 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 			return;
 		}
 
+		if ( $this->user->is_reseller_account() ) {
+			return;
+		}
+
 		if ( ! rocket_is_live_site() ) {
 			return;
 		}
 
 		$subscription_data = $this->api_client->get_subscription_data();
 
-		if ( 'running' === $subscription_data['subscription_status'] ) {
+		if ( $this->subscription_controller->has_active_subscription() && $this->subscription_controller->is_paid() ) {
 			return;
 		}
 
@@ -286,6 +222,13 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 				$promotion_end_date    = date_i18n( get_option( 'date_format' ), $end_date );
 			}
 
+			global $wp_locale;
+			$current_price_array = explode( $wp_locale->number_format['decimal_point'], $current_price_monthly );
+
+			if ( $cta_data['limit_reached'] ) {
+				$cta_big_class .= 'wpr-rocketcdn-cta---max-limit';
+			}
+
 			$big_cta_data = [
 				'container_class'       => $cta_big_class,
 				'promotion_campaign'    => $promotion_campaign,
@@ -296,38 +239,39 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 				'current_price_monthly' => $current_price_monthly,
 				'current_price_annual'  => $current_price_annual,
 				'button_url'            => $button_url,
+				'regular_price'         => $regular_price_monthly,
+				'current_price'         => $current_price_monthly,
+				'current_price_array'   => [
+					'major' => ! empty( $current_price_array[0] ) ? $current_price_array[0] : 0,
+					'minor' => ! empty( $current_price_array[1] ) ? $current_price_array[1] : 0,
+				],
 			];
 		}
 
-		echo $this->generate( 'cta-small', $small_cta_data ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
+		$big_cta_data = array_merge( $big_cta_data, $cta_data );
+
 		echo $this->generate( 'cta-big', $big_cta_data ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
 	}
 
 	/**
-	 * Toggles display of the RocketCDN CTAs on the settings page
+	 * Displays a reseller-specific informational banner when the 3-page limit is reached.
 	 *
-	 * @since 3.5
+	 * @param array $cta_data CTA data including limit_reached flag.
 	 *
 	 * @return void
 	 */
-	public function toggle_cta() {
-		check_ajax_referer( 'rocket-ajax', 'nonce', true );
-
-		if ( ! current_user_can( 'rocket_manage_options' ) ) {
-			wp_send_json_error( 'no permissions' );
+	public function display_reseller_limit_banner( array $cta_data ) {
+		if ( ! $this->user->is_reseller_account() ) {
+			return;
 		}
 
-		if ( ! isset( $_POST['status'] ) ) {
-			wp_send_json_error( 'missing status' );
-		}
+		$banner_data = [
+			'heading'     => esc_html__( 'Nice work!  You\'re using RocketCDN on all available pages.', 'rocket' ),
+			'description' => esc_html__( 'RocketCDN covers up to 3 pages, and you\'re all set.', 'rocket' ),
+			'is_hidden'   => empty( $cta_data['limit_reached'] ),
+		];
 
-		if ( 'big' === $_POST['status'] ) {
-			delete_user_meta( get_current_user_id(), 'rocket_rocketcdn_cta_hidden' );
-		} elseif ( 'small' === $_POST['status'] ) {
-			update_user_meta( get_current_user_id(), 'rocket_rocketcdn_cta_hidden', true );
-		}
-
-		wp_send_json_success();
+		echo $this->generate( 'cta-reseller-limit', $banner_data ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Dynamic content is properly escaped in the view.
 	}
 
 	/**
@@ -469,6 +413,12 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 			return;
 		}
 
+		if ( $this->subscription_controller->is_free() ) {
+			// Send the request again (create subscription) to fix what is wrong with this account.
+			$this->subscription_controller->create_subscription( true );
+			return;
+		}
+
 		$express_checkout_url = $this->get_express_checkout_url();
 
 		if ( empty( $express_checkout_url ) ) {
@@ -506,16 +456,18 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 	 * @return bool True if notice should be displayed, false otherwise.
 	 */
 	private function should_display_activation_failed_notice(): bool {
+		if ( $this->subscription_controller->is_subscription_creation_loading() ) {
+			return false;
+		}
+
 		// Do not show the notice if there is no RocketCDN user token saved:
 		// this usually means the user never went through the checkout/activation flow.
 		if ( empty( get_option( 'rocketcdn_user_token', '' ) ) ) {
 			return false;
 		}
 
-		$subscription_data = $this->api_client->get_subscription_data();
-
-		// Show notice when is_active is false AND cdn_url is empty.
-		return ! $subscription_data['is_active'] && empty( $subscription_data['cdn_url'] );
+		// Show notice when webiste is not attached.
+		return ! $this->subscription_controller->is_website_attached() && $this->subscription_controller->has_active_subscription();
 	}
 
 	/**
@@ -544,5 +496,147 @@ class NoticesSubscriber extends Abstract_Render implements Subscriber_Interface 
 			],
 			esc_url_raw( $user_data->rocketcdn->button->url )
 		);
+	}
+
+	/**
+	 * Display RocketCDN notice on admin dashboard if flag is set and notice hasn't been dismissed
+	 *
+	 * @since 3.22
+	 *
+	 * @return void
+	 */
+	public function maybe_display_rocketcdn_notice() {
+		/**
+		 * Filters showing rocketcdn admin notices
+		 *
+		 * @since 3.22
+		 *
+		 * @param bool $show_rocketcdn_notices Show rocketcdn notices, by default it's shown.
+		 */
+		if ( wpm_apply_filters_typed( 'boolean', 'rocket_hide_rocketcdn_notices', false ) ) {
+			return;
+		}
+
+		$previous_version = $this->options->get( 'previous_version' );
+		// @phpstan-ignore-next-line
+		$rocket_cdn_token = get_option( 'rocketcdn_user_token', '' );
+
+		// Don't show the notice if RocketCDN is already active (token exists).
+		if ( ! empty( $rocket_cdn_token ) ) {
+			return;
+		}
+
+		// Fresh install, show new install notice.
+		if ( empty( $previous_version ) ) {
+			$message = sprintf(
+			// translators: %1$s opening <strong> tag, %2$s closing </strong> tag.
+				esc_html__(
+					'%1$sNew in WP Rocket: Faster loading for your key pages%2$s',
+					'rocket'
+				),
+				'<p><strong>',
+				'</strong></p>'
+			);
+
+			$message .= sprintf(
+			// translators: %1$s opening <p> tag, %2$s closing </p> tag.
+				esc_html__(
+					'%1$sYou can now use Content Delivery, powered by RocketCDN, to speed up your homepage and 2 more pages, at no extra cost.%2$s',
+					'rocket'
+				),
+				'<p>',
+				'</p>'
+			);
+
+			$notice_info = [
+				'new_version'     => '3.22.0',
+				'dismiss_button'  => 'rocketcdn_install_notice',
+				'dismiss_message' => __( 'Dismiss', 'rocket' ),
+				'message'         => $message,
+				'action'          => 'rocketcdn_install_page',
+				'status'          => 'success',
+				'track_event'     => true,
+			];
+
+			Utils::display_update_notice( $notice_info, true );
+
+			return;
+		}
+
+		$message = sprintf(
+		// translators: %1$s opening <strong> tag, %2$s closing </strong> tag.
+			esc_html__(
+				'%1$sUse RocketCDN for free to boost up to 3 pages 🚀%2$s',
+				'rocket'
+			),
+			'<p><strong>',
+			'</strong></p>'
+		);
+
+		$message .= sprintf(
+		// translators: %1$s opening <p> tag, %2$s closing </p> tag.
+			esc_html__(
+				'%1$sAs a WP Rocket user, you can now activate RocketCDN for free on up to 3 pages. Choose your top pages and speed up their performance worldwide!%2$s',
+				'rocket'
+			),
+			'<p>',
+			'</p>'
+		);
+
+		$notice_info = [
+			'new_version'      => '3.22.0',
+			'dismiss_button'   => 'rocket_update_notice',
+			'dismiss_message'  => __( 'Check it later', 'rocket' ),
+			'message'          => $message,
+			'action'           => 'rocketcdn_upgrade_page',
+			'previous_version' => $previous_version,
+			'track_event'      => true,
+		];
+
+		Utils::display_update_notice( $notice_info, true );
+	}
+
+	/**
+	 * Tracks the "Start with my homepage" CTA click from the RocketCDN promo admin notice.
+	 *
+	 * Fires before rocket_dismiss_boxes() redirects, so we can track before the exit.
+	 *
+	 * @return void
+	 */
+	public function track_notice_homepage_cta_click(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce is verified later by rocket_dismiss_boxes().
+		$box = isset( $_GET['box'] ) ? sanitize_key( wp_unslash( $_GET['box'] ) ) : '';
+
+		if ( 'rocketcdn_install_notice' !== $box ) {
+			return;
+		}
+
+		/**
+		 * Fires when the homepage cta button is clicked.
+		 *
+		 * @param string $source The source of the click, either 'add_homepage_button' or 'admin_notices'.
+		 */
+		do_action( 'rocket_rocketcdn_add_homepage', 'admin_notices' );
+	}
+
+	/**
+	 * Tracks when a RocketCDN admin notice is dismissed.
+	 *
+	 * Fires before rocket_dismiss_boxes() redirects, so we can track before the exit.
+	 *
+	 * @return void
+	 */
+	public function track_rocketcdn_notice_dismissed(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce is verified later by rocket_dismiss_boxes().
+		$box = isset( $_GET['box'] ) ? sanitize_key( wp_unslash( $_GET['box'] ) ) : '';
+
+		$rocketcdn_boxes = [ 'rocketcdn_install_notice', 'rocket_update_notice' ];
+
+		if ( ! in_array( $box, $rocketcdn_boxes, true ) ) {
+			return;
+		}
+
+		// Track Mixpanel event immediately.
+		$this->track_event( 'RocketCDN Admin Notice Dismissed' );
 	}
 }
