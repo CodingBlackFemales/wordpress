@@ -56,12 +56,12 @@
     "php": ">=8.5",
     "composer/installers": "^2.3.0",
     "humanmade/s3-uploads": "^3.0.11",
-    "johnpbloch/wordpress": "^6.9.1",
     "koodimonni-language/en_gb": ">=6.9.1",
     "oscarotero/env": "^2.1.1",
     "roots/bedrock-autoloader": "^1.0.4",
     "roots/bedrock-disallow-indexing": "^2.0.0",
     "roots/multisite-url-fixer": "^1.1.0",
+    "roots/wordpress": "^7.1",
     "roots/wp-config": "1.0.0",
     "serenichron/learndash-bulk-lessons-or-topics": "^1.2.1",
     "sleiman/airtable-php": "^3.0.0",
@@ -121,7 +121,7 @@
     "preferred-install": "dist",
     "allow-plugins": {
       "composer/installers": true,
-      "johnpbloch/wordpress-core-installer": true,
+      "roots/wordpress-core-installer": true,
       "koodimonni/composer-dropin-installer": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "mnsami/composer-custom-directory-installer": false
@@ -166,14 +166,15 @@
       "php -r \"copy('.env.example', '.env');\""
     ],
     "post-install-cmd": [
-      "@configure-ssp",
+      "@install-ssp",
       "if [ ! -e .env ]; then cp .env.dist .env; fi",
       "if [ ! -e wp-cli.yml ]; then cp wp-cli.yml.dist wp-cli.yml; fi"
     ],
     "post-update-cmd": [
-      "@configure-ssp"
+      "@update-ssp"
     ],
-    "configure-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
+    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
+    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
     "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",

@@ -8,8 +8,11 @@ $baseDir = dirname($vendorDir);
 return array(
     'voku\\helper\\' => array($vendorDir . '/voku/simple_html_dom/src/voku/helper'),
     'WP_Rocket\\' => array($baseDir . '/inc'),
+    'WP\\McpSchema\\' => array($vendorDir . '/wordpress/php-mcp-schema/src'),
+    'WP\\MCP\\' => array($vendorDir . '/wordpress/mcp-adapter/includes'),
     'WPMedia\\PluginFamily\\' => array($vendorDir . '/wp-media/plugin-family/src'),
     'WPMedia\\Mixpanel\\' => array($vendorDir . '/wp-media/wp-mixpanel/src'),
+    'WPMedia\\MCP\\OAuth\\' => array($vendorDir . '/wp-media/mcp-oauth/inc'),
     'WPMedia\\Cloudflare\\' => array($baseDir . '/inc/Addon/Cloudflare'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
