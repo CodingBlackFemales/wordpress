@@ -6,6 +6,8 @@ namespace WP_Rocket\Engine\Tracking;
 use WP_Rocket\Abstract_Render;
 use WP_Rocket\Admin\Options_Data;
 use WP_Rocket\Engine\Admin\RocketInsights\Database\Rows\RocketInsights;
+use WP_Rocket\Engine\Common\Utils;
+use WP_Rocket\Engine\License\API\User;
 use WPMedia\Mixpanel\Optin;
 use WPMedia\Mixpanel\TrackingPlugin as MixpanelTracking;
 
@@ -32,21 +34,69 @@ class Tracking extends Abstract_Render {
 	private $mixpanel;
 
 	/**
+	 * License User instance.
+	 *
+	 * @var User
+	 */
+	private $user;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Options_Data     $options Options Data instance.
 	 * @param Optin            $optin Optin instance.
 	 * @param MixpanelTracking $mixpanel Mixpanel Tracking instance.
+	 * @param User             $user License User instance.
 	 * @param string           $template_path Path to the template files.
 	 */
-	public function __construct( Options_Data $options, Optin $optin, MixpanelTracking $mixpanel, $template_path ) {
+	public function __construct( Options_Data $options, Optin $optin, MixpanelTracking $mixpanel, User $user, $template_path ) {
 		parent::__construct( $template_path );
 
 		$this->options  = $options;
 		$this->optin    = $optin;
 		$this->mixpanel = $mixpanel;
+		$this->user     = $user;
 
-		$this->mixpanel->identify( $this->options->get( 'consumer_email', '' ) );
+		$consumer_email = $this->options->get( 'consumer_email', '' );
+
+		$this->mixpanel->identify( $consumer_email );
+
+		$this->sync_is_reseller_property( $consumer_email );
+	}
+
+	/**
+	 * Sync the is_reseller property with Mixpanel when tracking is allowed.
+	 *
+	 * @param string $consumer_email Consumer email.
+	 *
+	 * @return void
+	 */
+	private function sync_is_reseller_property( string $consumer_email ): void {
+		if ( ! $this->optin->can_track() ) {
+			return;
+		}
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$is_reseller = $this->user->is_reseller_account();
+		if ( ! $is_reseller ) {
+			return;
+		}
+
+		if ( false !== get_transient( 'rocket_mixpanel_reseller_synced' ) ) {
+			return;
+		}
+
+		// We could fire this on change instead of running it once per day.
+		$this->mixpanel->set_user_property(
+			$this->mixpanel->hash( $consumer_email ),
+			'is_reseller',
+			$is_reseller
+		);
+
+		set_transient( 'rocket_mixpanel_reseller_synced', 1, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -269,17 +319,23 @@ class Tracking extends Abstract_Render {
 			return;
 		}
 
+		$event_data = [
+			'context'   => 'wp_plugin',
+			'status'    => $row_details->status,
+			'score'     => $row_details->score,
+			'retest'    => $row_details->data['is_retest'],
+			'duration'  => time() - $row_details->data['start_time'],
+			'plan_type' => $plan,
+			'source'    => $row_details->data['source'],
+		];
+
+		if ( Utils::is_home( $row_details->url ) ) {
+			$event_data['ri_page_identifier'] = 'is_home_page';
+		}
+
 		$this->mixpanel->track_direct(
 			'Rocket Insights Performance Test',
-			[
-				'context'   => 'wp_plugin',
-				'status'    => $row_details->status,
-				'score'     => $row_details->score,
-				'retest'    => $row_details->data['is_retest'],
-				'duration'  => time() - $row_details->data['start_time'],
-				'plan_type' => $plan,
-				'source'    => $row_details->data['source'],
-			]
+			$event_data
 		);
 	}
 
@@ -367,8 +423,85 @@ class Tracking extends Abstract_Render {
 			[
 				'context' => 'wp_plugin',
 			]
-			);
+		);
 
 		$this->mixpanel->track( $event_name, $event_data );
+	}
+
+	/**
+	 * Track when the "Add Homepage" button is clicked for RocketCDN.
+	 *
+	 * @param string $source Either 'add_homepage_button' (CDN settings) or 'admin_notices'.
+	 * @return void
+	 */
+	public function track_add_rocket_cdn_homepage( string $source ): void {
+		if ( ! $this->optin->can_track() ) {
+			return;
+		}
+
+		$this->track_event(
+			'Button Clicked',
+			[
+				'button'  => 'rocket cdn add homepage',
+				'context' => 'wp_plugin',
+				'source'  => $source,
+			]
+		);
+	}
+
+	/**
+	 * Track when the RocketCDN pause status is changed.
+	 *
+	 * @param string $status  The new status of the CDN (e.g., 'paused', 'active').
+	 * @param string $trigger The trigger for the status change (e.g., 'user_paused', 'user_resume').
+	 *
+	 * @return void
+	 */
+	public function track_rocket_cdn_pause_status( string $status, string $trigger ): void {
+		if ( ! $this->optin->can_track() ) {
+			return;
+		}
+
+		$this->track_event(
+			'Button Clicked',
+			[
+				'status'  => $status,
+				'trigger' => $trigger,
+				'button'  => 'rocket cdn pause',
+			]
+		);
+	}
+
+	/**
+	 * Track when RocketCDN free-tier is activated.
+	 *
+	 * @return void
+	 */
+	public function track_rocketcdn_free_activated(): void {
+		if ( ! $this->optin->can_track() ) {
+			return;
+		}
+
+		$this->track_event( 'RocketCDN Activated' );
+	}
+
+	/**
+	 * Track when a RocketCDN notice is viewed
+	 *
+	 * @param string $box The notice box identifier.
+	 * @return void
+	 */
+	public function track_rocketcdn_notice_viewed( string $box ) {
+		if ( ! $this->optin->can_track() ) {
+			return;
+		}
+
+		$rocketcdn_boxes = [ 'rocketcdn_install_notice', 'rocket_update_notice' ];
+
+		if ( ! in_array( $box, $rocketcdn_boxes, true ) ) {
+			return;
+		}
+
+		$this->track_event( 'RocketCDN Notice Viewed' );
 	}
 }
