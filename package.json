@@ -59,5 +59,8 @@
       "stylelint-config-prettier",
       "stylelint-config-prettier-scss"
     ]
+  },
+  "allowScripts": {
+    "@evilmartians/lefthook@1.6.4": true
   }
 }
