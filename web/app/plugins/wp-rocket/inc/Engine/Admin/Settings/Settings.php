@@ -385,6 +385,12 @@ class Settings {
 			$input['cdn_zone'] = array_values( $input['cdn_zone'] );
 		}
 
+		if ( ! empty( $input['cdn_reject_pages'] ) ) {
+			$input['cdn_reject_pages'] = rocket_sanitize_textarea_field( 'cdn_reject_pages', $input['cdn_reject_pages'] );
+		} else {
+			$input['cdn_reject_pages'] = [];
+		}
+
 		// Option : Files to exclude from the CDN process.
 		if ( ! empty( $input['cdn_reject_files'] ) ) {
 			$input['cdn_reject_files'] = rocket_sanitize_textarea_field( 'cdn_reject_files', $input['cdn_reject_files'] );
@@ -421,7 +427,16 @@ class Settings {
 			);
 
 			if ( ! $notices ) {
-				add_settings_error( 'general', 'settings_updated', __( 'Settings saved.', 'rocket' ), 'updated' );
+				$message = __( 'Settings saved.', 'rocket' );
+
+				/**
+				 * Filters the appended message to the "Settings saved." admin notice.
+				 *
+				 * @param string   $appended_message    The appended message.
+				 */
+				$message .= wpm_apply_filters_typed( 'string', 'rocket_settings_saved_message', '' );
+
+				add_settings_error( 'general', 'settings_updated', $message, 'updated' );
 			}
 		}
 
