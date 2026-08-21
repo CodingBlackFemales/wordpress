@@ -548,6 +548,23 @@ class User {
 	}
 
 	/**
+	 * Checks if the current website is a reseller account whose license was specifically banned.
+	 *
+	 * This is the single source of truth for "reseller-banned" state, combining reseller
+	 * scoping with the specific `BANNED_WEBSITE` ban reason so it is not confused with
+	 * other revocation causes (non-payment, fraud, chargeback, etc.).
+	 *
+	 * @since 3.23.1
+	 *
+	 * @return bool
+	 */
+	public function is_reseller_license_banned(): bool {
+		return $this->is_reseller_account()
+			&& $this->is_revoked()
+			&& 'BANNED_WEBSITE' === $this->ban_reason();
+	}
+
+	/**
 	 * Checks if plugin updates are available.
 	 *
 	 * @return bool
@@ -609,5 +626,27 @@ class User {
 			return '';
 		}
 		return $reasons[ $reason_code ];
+	}
+
+	/**
+	 * Get currency from user data.
+	 *
+	 * @return string
+	 */
+	public function get_currency() {
+		return $this->user->currency ?? 'USD';
+	}
+
+	/**
+	 * Gets the user rocketcdn free url.
+	 *
+	 * @return string
+	 */
+	public function get_rocketcdn_free_url() {
+		if ( ! isset( $this->user->rocketcdn->cdn_free_url ) ) {
+			return '';
+		}
+
+		return (string) $this->user->rocketcdn->cdn_free_url;
 	}
 }

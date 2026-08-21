@@ -1,0 +1,60 @@
+{
+    "name"          : "wp-media/mcp-oauth",
+    "description"   : "MCP OAuth layer for the WordPress MCP Adapter",
+    "type"          : "library",
+    "keywords"      : ["wordpress", "wp", "plugin"],
+    "homepage"      : "https://github.com/wp-media/mcp-oauth",
+    "license"       : "GPL-2.0+",
+    "authors"       : [
+        {
+            "name": "WP Media",
+            "email": "contact@wp-media.me"
+        }
+    ],
+	"config": {
+		"sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
+        }
+    },
+    "require": {
+        "php" : ">=7.4",
+		"wp-media/apply-filters-typed": "^1.0",
+		"wordpress/mcp-adapter": "^0.5"
+    },
+    "require-dev": {
+		"php": ">=7.4",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1",
+		"phpcompatibility/phpcompatibility-wp": "^2.0",
+		"php-stubs/wordpress-tests-stubs": "^6.8",
+		"phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-mockery": "^2.0",
+		"phpstan/phpstan-phpunit": "^2.0",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"roave/security-advisories": "dev-master",
+		"wp-coding-standards/wpcs": "^3",
+		"wp-media/phpunit": "^3"
+    },
+    "autoload": {
+		"psr-4": {
+			"WPMedia\\MCP\\OAuth\\": "inc/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"WPMedia\\MCP\\OAuth\\Tests\\": "Tests/"
+		}
+	},
+	"scripts": {
+		"phpcs": "vendor/bin/phpcs",
+		"phpcs:fix": "vendor/bin/phpcbf",
+		"phpstan": "vendor/bin/phpstan analyze --memory-limit=2G",
+		"test-unit": "vendor/bin/phpunit --testsuite unit --colors=always --configuration \"Tests/Unit/phpunit.xml.dist\"",
+		"test-integration": "vendor/bin/phpunit --testsuite integration --colors=always --configuration \"Tests/Integration/phpunit.xml.dist\"",
+		"run-tests": [
+			"@test-unit",
+			"@test-integration"
+		]
+	}
+}
