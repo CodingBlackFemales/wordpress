@@ -44,6 +44,9 @@ services:
         PHP_IDE_CONFIG: "serverName=appserver"
         PHP_MEMORY_LIMIT: 256M
         NODE_MAJOR: 20
+        # CBF Slides Importer — AES-256-GCM key for OAuth token encryption.
+        # Change to a strong random value in any shared/staging environment.
+        CBF_SI_ENCRYPTION_KEY: "lando-dev-key-change-in-prod-32b"
   database:
     type: mysql:8.4
     api: 3
