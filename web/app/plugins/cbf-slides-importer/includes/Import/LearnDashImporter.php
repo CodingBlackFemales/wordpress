@@ -38,10 +38,13 @@ final class LearnDashImporter {
 	 * @return array|WP_Error { created_post_ids: int[] } on success, WP_Error on failure.
 	 */
 	public function import( array $classified_deck, array $summary ): array|WP_Error {
-		$config    = $summary['config'] ?? array();
-		$mode      = $config['mode'] ?? 'lesson-only';
-		$course_id = ! empty( $config['course_id'] ) ? (int) $config['course_id'] : 0;
-		$img_dir   = $summary['img_dir'] ?? '';
+		$config     = $summary['config'] ?? array();
+		$mode       = $config['mode'] ?? 'lesson-only';
+		$course_id  = ! empty( $config['course_id'] ) ? (int) $config['course_id'] : 0;
+		$img_dir    = $summary['img_dir'] ?? '';
+		$post_title = ! empty( $config['post_title'] )
+			? $config['post_title']
+			: ( $summary['deck_name'] ?? 'Imported Lesson' );
 
 		// Retrieve the learndash-bulk plugin instance.
 		$bulk_plugin = $this->get_bulk_plugin();
@@ -58,9 +61,9 @@ final class LearnDashImporter {
 		$errors           = array();
 
 		if ( $mode === 'lesson-with-topics' ) {
-			$result = $this->import_lesson_with_topics( $bulk_plugin, $rendered, $course_id, $img_dir, $errors );
+			$result = $this->import_lesson_with_topics( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $errors );
 		} else {
-			$result = $this->import_lesson_only( $bulk_plugin, $rendered, $course_id, $img_dir, $errors );
+			$result = $this->import_lesson_only( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $errors );
 		}
 
 		if ( ! empty( $errors ) ) {
@@ -81,20 +84,18 @@ final class LearnDashImporter {
 	/**
 	 * Import a single lesson (lesson-only mode).
 	 *
-	 * @param object $plugin    learndash-bulk plugin instance.
-	 * @param array  $rendered  BlockRenderer output.
-	 * @param int    $course_id Target course ID.
-	 * @param string $img_dir   Absolute path to extracted images.
-	 * @param array  &$errors   Errors collected during import.
+	 * @param object $plugin     learndash-bulk plugin instance.
+	 * @param array  $rendered   BlockRenderer output.
+	 * @param int    $course_id  Target course ID.
+	 * @param string $img_dir    Absolute path to extracted images.
+	 * @param string $post_title Lesson title (from config panel or deck name).
+	 * @param array  &$errors    Errors collected during import.
 	 * @return int[]|WP_Error
 	 */
-	private function import_lesson_only( object $plugin, array $rendered, int $course_id, string $img_dir, array &$errors ): array|WP_Error {
-		$html   = $rendered['lesson_html'] ?? '';
-		$title  = 'Imported Lesson'; // TODO: derive from deck name.
-
+	private function import_lesson_only( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, array &$errors ): array|WP_Error {
 		$row = array(
-			'post_title'   => $title,
-			'post_content' => $html,
+			'post_title'   => $post_title,
+			'post_content' => $rendered['lesson_html'] ?? '',
 			'course_id'    => $course_id,
 			'post_type'    => 'sfwd-lessons',
 		);
@@ -110,15 +111,16 @@ final class LearnDashImporter {
 	 * @param array  $rendered
 	 * @param int    $course_id
 	 * @param string $img_dir
+	 * @param string $post_title Lesson title (from config panel or deck name).
 	 * @param array  &$errors
 	 * @return int[]|WP_Error
 	 */
-	private function import_lesson_with_topics( object $plugin, array $rendered, int $course_id, string $img_dir, array &$errors ): array|WP_Error {
+	private function import_lesson_with_topics( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, array &$errors ): array|WP_Error {
 		$post_ids = array();
 
 		// 1. Create the lesson.
 		$lesson_row = array(
-			'post_title'   => 'Imported Lesson',
+			'post_title'   => $post_title,
 			'post_content' => $rendered['lesson_html'] ?? '',
 			'course_id'    => $course_id,
 			'post_type'    => 'sfwd-lessons',
