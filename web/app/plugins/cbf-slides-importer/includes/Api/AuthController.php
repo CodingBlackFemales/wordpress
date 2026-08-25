@@ -1,0 +1,169 @@
+<?php
+/**
+ * REST endpoints for Google OAuth2 flow.
+ *
+ * GET  /auth/begin    — redirect user to Google consent screen
+ * GET  /auth/callback — receive code, exchange for tokens, store encrypted
+ * POST /auth/revoke   — delete current user's stored token
+ * GET  /auth/status   — return auth state for current user
+ *
+ * @class   Api\AuthController
+ * @version 1.0.0
+ * @package CodingBlackFemales/SlidesImporter
+ */
+
+namespace CodingBlackFemales\SlidesImporter\Api;
+
+use CodingBlackFemales\SlidesImporter\Google\OAuthClient;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * AuthController class.
+ */
+final class AuthController {
+
+	/**
+	 * Register routes.
+	 *
+	 * @param string $namespace REST namespace.
+	 */
+	public static function register_routes( string $namespace ): void {
+		register_rest_route(
+			$namespace,
+			'/auth/begin',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'begin' ),
+				'permission_callback' => array( __CLASS__, 'require_auth' ),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
+			'/auth/callback',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'callback' ),
+				'permission_callback' => array( __CLASS__, 'require_auth' ),
+				'args'                => array(
+					'code'  => array(
+						'type' => 'string',
+						'required' => true,
+					),
+					'state' => array(
+						'type' => 'string',
+						'required' => true,
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
+			'/auth/revoke',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'revoke' ),
+				'permission_callback' => array( __CLASS__, 'require_auth' ),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
+			'/auth/status',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'status' ),
+				'permission_callback' => array( __CLASS__, 'require_auth' ),
+			)
+		);
+	}
+
+
+	/**
+	 * Permission: user must be logged in and have cbf_slides_import capability.
+	 */
+	public static function require_auth(): bool|WP_Error {
+		if ( ! is_user_logged_in() ) {
+			return new WP_Error( 'rest_not_logged_in', __( 'You must be logged in.', 'cbf-slides-importer' ), array( 'status' => 401 ) );
+		}
+		if ( ! current_user_can( 'cbf_slides_import' ) ) {
+			return new WP_Error( 'rest_forbidden', __( 'You do not have permission.', 'cbf-slides-importer' ), array( 'status' => 403 ) );
+		}
+		return true;
+	}
+
+
+	/**
+	 * GET /auth/begin — build the Google OAuth consent URL and redirect.
+	 */
+	public static function begin( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		$client = OAuthClient::make();
+		if ( is_wp_error( $client ) ) {
+			return $client;
+		}
+
+		$auth_url = $client->create_auth_url();
+
+		// For browser redirects from REST we return the URL; the JS will follow it.
+		return new WP_REST_Response( array( 'auth_url' => $auth_url ), 200 );
+	}
+
+
+	/**
+	 * GET /auth/callback — exchange the authorisation code for tokens and store.
+	 *
+	 * After success, redirect the user to the importer admin page.
+	 */
+	public static function callback( WP_REST_Request $request ): void {
+		$code  = sanitize_text_field( $request->get_param( 'code' ) );
+		$state = sanitize_text_field( $request->get_param( 'state' ) );
+
+		// Validate state nonce (stored transiently during begin).
+		$stored_state = get_transient( 'cbf_si_oauth_state_' . get_current_user_id() );
+		if ( ! hash_equals( (string) $stored_state, $state ) ) {
+			wp_die( esc_html__( 'OAuth state mismatch — possible CSRF attack.', 'cbf-slides-importer' ), 403 );
+		}
+		delete_transient( 'cbf_si_oauth_state_' . get_current_user_id() );
+
+		$result = OAuthClient::exchange_code( $code, get_current_user_id() );
+		if ( is_wp_error( $result ) ) {
+			wp_die( esc_html( $result->get_error_message() ), 500 );
+		}
+
+		// Redirect back to the importer admin page.
+		wp_safe_redirect( admin_url( 'admin.php?page=cbf-slides-importer&oauth=success' ) );
+		exit;
+	}
+
+
+	/**
+	 * POST /auth/revoke — delete the current user's stored OAuth token.
+	 */
+	public static function revoke( WP_REST_Request $request ): WP_REST_Response {
+		OAuthClient::revoke_token( get_current_user_id() );
+		return new WP_REST_Response( array( 'revoked' => true ), 200 );
+	}
+
+
+	/**
+	 * GET /auth/status — return whether the current user has a stored token.
+	 */
+	public static function status( WP_REST_Request $request ): WP_REST_Response {
+		$user_id   = get_current_user_id();
+		$has_token = OAuthClient::has_token( $user_id );
+		return new WP_REST_Response(
+			array(
+				'authenticated' => $has_token,
+				'user_id'       => $user_id,
+			),
+			200
+		);
+	}
+}
