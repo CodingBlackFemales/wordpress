@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 1.5.0 |
-| **Status** | Awaiting approval |
+| **Plan version** | 1.6.0 |
+| **Status** | Phase 3 UI in progress |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -710,39 +710,39 @@ Documented in plugin's admin Help tab:
 
 ### Phase 1: Plugin Scaffold and Auth
 
-- [ ] **P1.1** Create `cbf-slides-importer.php` bootstrap: plugin header, ABSPATH guard, dependency check for `learndash-bulk-lessons-or-topics` active (NR5), init hook (resolves NR5)
-- [ ] **P1.2** Create `Installer.php`: `register_activation_hook` creates both DB tables via `dbDelta()`; stores `cbf_si_db_version`; assigns `cbf_slides_import` capability to `administrator` role
-- [ ] **P1.3** Create `uninstall.php`: drops tables, removes wp_options keys, removes wp_usermeta tokens (guarded by `WP_UNINSTALL_PLUGIN`)
-- [ ] **P1.4** Implement `TokenStore.php`: AES-256-GCM encrypt/decrypt using `CBF_SI_ENCRYPTION_KEY` env var; graceful error if env var absent (resolves NR2, NR6)
-- [ ] **P1.5** Implement `GoogleOAuth.php`: build authorisation URL with `drive.readonly` scope and CSRF state token; token exchange; token refresh; revoke; state stored in transient with 10-min TTL (resolves R3, Security plan)
-- [ ] **P1.6** Register OAuth callback as WP admin redirect target (`admin_action_cbf_si_oauth_callback`); validate state; exchange code; store encrypted token
-- [ ] **P1.7** Implement REST `GET /auth/url`, `GET /auth/status`, `DELETE /auth/token` endpoints in `ApiController.php`; nonce + capability checks on all (resolves NR6)
-- [ ] **P1.8** Create admin page scaffold (`AdminPage.php`, `templates/admin-page.php`): registers submenu under LearnDash; mounts React app placeholder; enqueues assets
-- [ ] **P1.9** Implement `SettingsPage.php`: registers a settings screen under the plugin admin menu (accessible only to `manage_options`); fields: Google Client ID, encrypted Client Secret, **Drive Shared Folder ID** (`cbf_si_drive_folder_id`); validates that Folder ID is a non-empty string before saving; displays folder ID prominently so admins can share the right folder with partner-org users (resolves AQ1-b, R13)
-- [ ] **P1.10** Add admin notice on the importer page when `cbf_si_drive_folder_id` is empty: "The shared Drive folder has not been configured. Go to [Settings] to set it up." Disables the Picker button until set (resolves AQ1-b)
-- [ ] **P1.11** Build auth UI component: "Connect Google Account" button + status display; calls `/auth/url` and `/auth/status`
+- [x] **P1.1** Create `cbf-slides-importer.php` bootstrap: plugin header, ABSPATH guard, dependency check for `learndash-bulk-lessons-or-topics` active (NR5), init hook (resolves NR5)
+- [x] **P1.2** Create `Install.php` (`Installer.php` in design): `register_activation_hook` creates both DB tables via `dbDelta()`; stores `cbf_si_db_version`; assigns `cbf_slides_import` capability to `administrator` role
+- [x] **P1.3** Create `uninstall.php`: drops tables, removes wp_options keys, removes wp_usermeta tokens (guarded by `WP_UNINSTALL_PLUGIN`) — file confirmed present
+- [x] **P1.4** Implement `Crypto.php` (`TokenStore.php` in design): AES-256-GCM encrypt/decrypt using `CBF_SI_ENCRYPTION_KEY` env var; graceful error if env var absent (resolves NR2, NR6)
+- [x] **P1.5** Implement `Google/OAuthClient.php` (`GoogleOAuth.php` in design): build authorisation URL with `drive.readonly` scope and CSRF state token; token exchange; token refresh; revoke; state stored in transient with 10-min TTL (resolves R3, Security plan)
+- [x] **P1.6** Register OAuth callback via `Admin/OAuthBridge.php`; validate state; exchange code; store encrypted token
+- [x] **P1.7** Implement REST `GET /auth/url`, `GET /auth/status`, `DELETE /auth/token` endpoints in `Api/AuthController.php`; nonce + capability checks on all (resolves NR6)
+- [x] **P1.8** Create admin page scaffold (`Admin/ImporterPage.php`, admin-page template): registers submenu under LearnDash; enqueues assets; Google Picker JS wired
+- [x] **P1.9** Implement `Admin/SettingsPage.php`: registers settings screen (accessible only to `manage_options`); fields: Google Client ID, encrypted Client Secret, Drive Shared Folder ID (`cbf_si_drive_folder_id`); validates Folder ID before saving (resolves AQ1-b, R13)
+- [x] **P1.10** Admin notice when `cbf_si_drive_folder_id` is empty: "The shared Drive folder has not been configured." Disables Picker button until set (resolves AQ1-b)
+- [x] **P1.11** Auth UI component: "Connect Google Account" button + status display in admin JS; calls `/auth/url` and `/auth/status`
 
 ### Phase 2: Drive Integration and PPTX Parsing
 
-- [ ] **P2.1** Implement `DriveClient.php`: wraps `google/apiclient`; `exportPptx(fileId)` downloads to temp path; includes retry on 429/5xx; validates mime type of response (resolves R9)
-- [ ] **P2.2** Implement `FilePicker.php`: returns picker config for Google Picker JS API; OAuth token passed as short-lived value only
-- [ ] **P2.3** Implement REST `GET /drive/picker-config`; pass `root_folder_id` from `cbf_si_drive_folder_id` setting; add Google Picker JS to admin assets; initialise Picker with `setParent(root_folder_id)` and `setSelectableMimeTypes(['application/vnd.google-apps.presentation'])`; wire picker close event to `POST /jobs`; handle Drive 403 on folder load with user-friendly message (resolves AQ1-b, R12)
-- [ ] **P2.4** Implement `PptxParser.php` using PhpPresentation: slide iteration, title extraction, layout name, visible-slide detection via `ZipArchive` (checking `show` attr in `ppt/slides/slideN.xml`), image extraction via `Drawing\Gd::getContents()` + `getExtension()` to temp dir. **Unit note:** PhpPresentation returns shape offsets/dims in pixels; divide python-pptx EMU thresholds by 9525 (= 96 DPI). (Resolves A6, R1, R4)
-- [ ] **P2.5** Implement `SlideClassifier.php`: auto-classify each slide based on layout name heuristics (SECTION_HEADER → heading, blank → hidden, etc.); apply user overrides from DeckConfig
-- [ ] **P2.6** Implement `BlockRenderer.php`: convert parsed slide segments to WP Gutenberg block HTML (paragraphs, headings, lists, code, columns, images) — port `blocks.py` serialisation logic to PHP (resolves R1)
-- [ ] **P2.7** Implement multi-column detection in PHP: port geometry-based overlap ratio logic from `slide_geometry.py` with pixel thresholds (ROW_OVERLAP_MIN=0.40, MIN_COL_GAP=4px, MAX_X_OVERLAP=5px). P0.4 confirmed this detects 21/33 multi-col slides correctly across both CBF decks. (Resolves R1)
-- [ ] **P2.8** Implement REST `POST /jobs` endpoint: validate Drive file ID; dispatch background download + parse job; return `job_id`
-- [ ] **P2.9** Implement background job handler (`cbf_si_process_job` hook): download PPTX → parse → store ParsedDeck metadata → update job status; catch all exceptions → set status `failed` (resolves R4, R5)
-- [ ] **P2.10** Implement `GET /jobs/{id}` and `GET /jobs/{id}/slides` REST endpoints (resolves R6)
+- [x] **P2.1** Implement `Google/DriveClient.php`: wraps `google/apiclient`; `exportPptx(fileId)` downloads to temp path; includes retry on 429/5xx; validates mime type of response (resolves R9)
+- [x] **P2.2** Implement `Api/DriveController.php` (`FilePicker.php` in design): returns picker config for Google Picker JS API; OAuth token passed as short-lived value only
+- [x] **P2.3** Implement REST `GET /drive/picker-config`; passes `folder_id` from `cbf_si_drive_folder_id` setting; Google Picker JS initialised with `setParent(folder_id)`; picker close event wired to `POST /jobs`; Drive 403 surfaces user-friendly message (resolves AQ1-b, R12)
+- [x] **P2.4** Implement `Pptx/Parser.php`: slide iteration, title extraction, layout name, visible-slide detection via `ZipArchive`, image extraction via `Drawing\Gd::getContents()` + `getExtension()`. PhpPresentation pixel dims handled correctly. (Resolves A6, R1, R4)
+- [x] **P2.5** Implement `Pptx/SlideClassifier.php`: auto-classify slides by layout name heuristics (SECTION_HEADER → heading, blank → hidden, etc.); apply user overrides from config
+- [x] **P2.6** Implement `Pptx/BlockRenderer.php`: WP Gutenberg block HTML from parsed slide segments (paragraphs, headings, lists, code, columns, images). Fixed `Font::isUnderline()` → `getUnderline()` bug. (Resolves R1)
+- [x] **P2.7** Multi-column detection in `Pptx/GeometryDetector.php`: geometry-based overlap ratio logic ported from `slide_geometry.py` with pixel thresholds. (Resolves R1)
+- [x] **P2.8** Implement REST `POST /jobs` endpoint in `Api/JobController.php`: validate Drive file ID; dispatch background download + parse job; return `job_id`
+- [x] **P2.9** Background job handler in `Import/JobRunner.php` (`cbf_si_process_job` hook): download PPTX → parse → classify → render → store result_summary → set status `parsed`; catch all exceptions → status `failed`. Fixed `parsed` missing from ENUM. (Resolves R4, R5)
+- [x] **P2.10** `GET /jobs/{id}` and `GET /jobs` REST endpoints implemented in `Api/JobController.php` (resolves R6)
 - [ ] **P2.11** Set up temp file cleanup cron (`cbf_si_cleanup`) and stale job reset (resolves R4, Memory OOM recovery in Failure Isolation)
 
 ### Phase 3: Configuration UI
 
-- [ ] **P3.1** Implement `ConfigRepository.php`: upsert to `cbf_slide_import_configs`; validate `slide_overrides` JSON against schema; compute and store `config_hash` (resolves NR7, R7)
-- [ ] **P3.2** Implement REST `PUT /jobs/{id}/config` endpoint; invalidate preview transient on save
-- [ ] **P3.3** Build slide map UI component: list of slides with index, title, layout name, auto-detected type, override dropdown (`cover|heading|content|hidden`); low-confidence badge (resolves UX plan)
-- [ ] **P3.4** Build mode toggle, course selector (populated from LearnDash API), lesson title field, slide headings toggle
-- [ ] **P3.5** Validate all config inputs client-side before `PUT`; server-side validation in `ConfigRepository.php` (resolves NR7)
+- [x] **P3.1** `Api/ConfigController.php` implements full CRUD on `cbf_slide_import_configs` (inline DB ops — no separate ConfigRepository needed); validates `slide_overrides` JSON; sanitises all inputs (resolves NR7, R7)
+- [x] **P3.2** REST `GET/POST /configs` and `GET/PUT/DELETE /configs/{id}` endpoints registered via `Api/Router.php`; server-side validation present
+- [ ] **P3.3** Build slide map UI component: list of slides with index, title, layout name, auto-detected type, override dropdown (`cover|heading|content|hidden`) — currently absent from admin JS (resolves UX plan)
+- [ ] **P3.4** Build mode toggle, course selector (populated from LearnDash API), lesson title field, slide headings toggle — currently absent from admin JS
+- [ ] **P3.5** Validate config inputs client-side before saving; wire config UI to `POST/PUT /configs` and associate config with job before import (resolves NR7)
 
 ### Phase 4: Preview
 

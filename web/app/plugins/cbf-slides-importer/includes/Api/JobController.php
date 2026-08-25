@@ -107,6 +107,17 @@ final class JobController {
 				'methods'             => 'POST',
 				'callback'            => array( __CLASS__, 'trigger_import' ),
 				'permission_callback' => array( AuthController::class, 'require_auth' ),
+				'args'                => array(
+					'mode'      => array(
+						'type'    => 'string',
+						'enum'    => array( 'lesson-only', 'lesson-with-topics' ),
+						'default' => null,
+					),
+					'course_id' => array(
+						'type'    => 'integer',
+						'default' => null,
+					),
+				),
 			)
 		);
 	}
@@ -227,11 +238,47 @@ final class JobController {
 	 * POST /jobs/{id}/import — trigger the LearnDash import phase for a parsed job.
 	 *
 	 * The job must already be in 'parsed' status (download + parse completed).
+	 * Optional body params `mode` and `course_id` override the stored config so
+	 * editors can set import options in the UI without a separate config save step.
 	 */
 	public static function trigger_import( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		global $wpdb;
+
 		$row = self::find_row( (int) $request->get_param( 'id' ) );
 		if ( is_wp_error( $row ) ) {
 			return $row;
+		}
+
+		// Merge UI-supplied config overrides into result_summary.config before
+		// the background job runs, so LearnDashImporter picks them up without
+		// needing a separate config record.
+		$mode      = $request->get_param( 'mode' );
+		$course_id = $request->get_param( 'course_id' );
+
+		if ( $mode !== null || $course_id !== null ) {
+			$summary = json_decode( $row['result_summary'] ?? '{}', true );
+			$summary = is_array( $summary ) ? $summary : array();
+			$config  = isset( $summary['config'] ) && is_array( $summary['config'] )
+				? $summary['config']
+				: array();
+
+			if ( $mode !== null ) {
+				$config['mode'] = sanitize_text_field( $mode );
+			}
+			if ( $course_id !== null ) {
+				$config['course_id'] = absint( $course_id );
+			}
+
+			$summary['config'] = $config;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->update(
+				$wpdb->prefix . 'cbf_slide_import_jobs',
+				array( 'result_summary' => wp_json_encode( $summary ) ),
+				array( 'id' => (int) $row['id'] ),
+				array( '%s' ),
+				array( '%d' )
+			);
 		}
 
 		// Re-schedule background job to proceed to import phase.
@@ -240,9 +287,9 @@ final class JobController {
 			JobRunner::CRON_HOOK,
 			array(
 				array(
-					'job_id' => (int) $row['id'],
+					'job_id'  => (int) $row['id'],
 					'blog_id' => (int) $row['blog_id'],
-					'phase' => 'import',
+					'phase'   => 'import',
 				),
 			)
 		);

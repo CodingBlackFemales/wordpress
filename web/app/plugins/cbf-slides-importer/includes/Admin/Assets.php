@@ -90,9 +90,10 @@ final class Assets extends AssetsMain {
 			'src'  => AssetsMain::localize_asset( 'js/admin/cbf-slides-importer.js' ),
 			'deps' => array( 'google-api-client' ),
 			'data' => array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'rest_url' => rest_url( 'cbf-si/v1/' ),
-				'nonce'    => wp_create_nonce( 'wp_rest' ),
+				'ajax_url'    => admin_url( 'admin-ajax.php' ),
+				'rest_url'    => rest_url( 'cbf-si/v1/' ),
+				'wp_rest_url' => rest_url( '' ),
+				'nonce'       => wp_create_nonce( 'wp_rest' ),
 			),
 		);
 		return $scripts;
