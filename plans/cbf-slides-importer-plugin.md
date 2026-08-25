@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 1.4.0 |
+| **Plan version** | 1.5.0 |
 | **Status** | Awaiting approval |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -705,8 +705,8 @@ Documented in plugin's admin Help tab:
 - [x] **P0.5** ~~Confirm `run_import_cli()` entry point~~ — **Verified**: confirmed correct entrypoint (A2).
 - [x] **P0.6** ✅ `academy` subsite confirmed: **`blog_id = 2`**. `wp_usermeta` is per-site scoped — tokens stored under a user's `user_id` with `meta_key = 'cbf_si_google_token_enc'` are naturally isolated per user; no additional per-blog keying needed. Phase 1 token storage implementation can proceed.
 - [x] **P0.7** ~~Resolve AQ1~~ — **Verified**: partner users import from a CBF shared Drive folder (AQ1-b confirmed). Folder-restricted Picker with configurable `cbf_si_drive_folder_id` setting is the chosen approach. (resolves A7, R12 → R12/R13 updated)
-- [ ] **P0.8** Create `web/app/plugins/cbf-slides-importer/` directory; initialise `composer.json` and `package.json` for the new plugin (resolves A8)
-- [ ] **P0.9** Add `google/apiclient` and `phpoffice/phppresentation` to plugin's `composer.json`; verify no version conflicts with root `composer.json` dependencies; resolve any conflicts
+- [x] **P0.8** Create `web/app/plugins/cbf-slides-importer/` directory; initialise `composer.json` and `package.json` for the new plugin (resolves A8) — committed 2026-08-24, 31 files, namespace `CodingBlackFemales\SlidesImporter`
+- [x] **P0.9** Add `google/apiclient` and `phpoffice/phppresentation` to plugin's `composer.json`; verify no version conflicts with root `composer.json` dependencies; resolve any conflicts — `google/apiclient ^2.15`, `phpoffice/phppresentation ^1.1` (1.2.0 installed); no conflicts with root `composer.json`
 
 ### Phase 1: Plugin Scaffold and Auth
 
