@@ -108,14 +108,19 @@ final class JobController {
 				'callback'            => array( __CLASS__, 'trigger_import' ),
 				'permission_callback' => array( AuthController::class, 'require_auth' ),
 				'args'                => array(
-					'mode'      => array(
+					'mode'       => array(
 						'type'    => 'string',
 						'enum'    => array( 'lesson-only', 'lesson-with-topics' ),
 						'default' => null,
 					),
-					'course_id' => array(
+					'course_id'  => array(
 						'type'    => 'integer',
 						'default' => null,
+					),
+					'post_title' => array(
+						'type'              => 'string',
+						'sanitize_callback' => 'sanitize_text_field',
+						'default'           => null,
 					),
 				),
 			)
@@ -238,48 +243,18 @@ final class JobController {
 	 * POST /jobs/{id}/import — trigger the LearnDash import phase for a parsed job.
 	 *
 	 * The job must already be in 'parsed' status (download + parse completed).
-	 * Optional body params `mode` and `course_id` override the stored config so
-	 * editors can set import options in the UI without a separate config save step.
+	 * Optional body params `mode`, `course_id`, and `post_title` override the
+	 * stored config so editors can configure the import in the UI without a
+	 * separate config save step.
 	 */
 	public static function trigger_import( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		global $wpdb;
-
 		$row = self::find_row( (int) $request->get_param( 'id' ) );
 		if ( is_wp_error( $row ) ) {
 			return $row;
 		}
 
-		// Merge UI-supplied config overrides into result_summary.config before
-		// the background job runs, so LearnDashImporter picks them up without
-		// needing a separate config record.
-		$mode      = $request->get_param( 'mode' );
-		$course_id = $request->get_param( 'course_id' );
-
-		if ( $mode !== null || $course_id !== null ) {
-			$summary = json_decode( $row['result_summary'] ?? '{}', true );
-			$summary = is_array( $summary ) ? $summary : array();
-			$config  = isset( $summary['config'] ) && is_array( $summary['config'] )
-				? $summary['config']
-				: array();
-
-			if ( $mode !== null ) {
-				$config['mode'] = sanitize_text_field( $mode );
-			}
-			if ( $course_id !== null ) {
-				$config['course_id'] = absint( $course_id );
-			}
-
-			$summary['config'] = $config;
-
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->update(
-				$wpdb->prefix . 'cbf_slide_import_jobs',
-				array( 'result_summary' => wp_json_encode( $summary ) ),
-				array( 'id' => (int) $row['id'] ),
-				array( '%s' ),
-				array( '%d' )
-			);
-		}
+		// Persist any UI-supplied overrides before the background job runs.
+		self::save_import_overrides( $row, $request );
 
 		// Re-schedule background job to proceed to import phase.
 		wp_schedule_single_event(
@@ -295,6 +270,54 @@ final class JobController {
 		);
 
 		return new WP_REST_Response( array( 'scheduled' => true ), 202 );
+	}
+
+
+	/**
+	 * Persist UI-supplied import config overrides into the job's result_summary.
+	 *
+	 * Extracted so trigger_import() stays within cyclomatic complexity limits.
+	 *
+	 * @param array           $row     Job DB row.
+	 * @param WP_REST_Request $request Incoming REST request.
+	 */
+	private static function save_import_overrides( array $row, WP_REST_Request $request ): void {
+		global $wpdb;
+
+		$mode       = $request->get_param( 'mode' );
+		$course_id  = $request->get_param( 'course_id' );
+		$post_title = $request->get_param( 'post_title' );
+
+		if ( $mode === null && $course_id === null && $post_title === null ) {
+			return;
+		}
+
+		$summary = json_decode( $row['result_summary'] ?? '{}', true );
+		$summary = is_array( $summary ) ? $summary : array();
+		$config  = isset( $summary['config'] ) && is_array( $summary['config'] )
+			? $summary['config']
+			: array();
+
+		if ( $mode !== null ) {
+			$config['mode'] = sanitize_text_field( $mode );
+		}
+		if ( $course_id !== null ) {
+			$config['course_id'] = absint( $course_id );
+		}
+		if ( $post_title !== null ) {
+			$config['post_title'] = sanitize_text_field( $post_title );
+		}
+
+		$summary['config'] = $config;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$wpdb->prefix . 'cbf_slide_import_jobs',
+			array( 'result_summary' => wp_json_encode( $summary ) ),
+			array( 'id' => (int) $row['id'] ),
+			array( '%s' ),
+			array( '%d' )
+		);
 	}
 
 

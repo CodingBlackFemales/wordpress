@@ -98,7 +98,7 @@
      * Trigger the import phase for a parsed job.
      *
      * @param {number} id       Job ID.
-     * @param {object} [config] Optional { mode, course_id } overrides.
+     * @param {object} [config] Optional { mode, course_id, post_title } overrides.
      * @returns {Promise<any>}
      */
     triggerImport(id, config) {
@@ -334,6 +334,8 @@
       return (
         '<tr id="cbf-si-job-' +
         j.id +
+        '" data-deck-name="' +
+        this._esc(j.deck_name || "") +
         '">' +
         "<td>" +
         j.id +
@@ -458,6 +460,9 @@
         "</td>";
       jobRow.insertAdjacentElement("afterend", panel);
 
+      // Read the deck name from the job row so it can be the title default.
+      const deckName = jobRow.dataset.deckName || "";
+
       this._loadCourses().then((courses) => {
         const courseOptions =
           '<option value="0">— No course —</option>' +
@@ -478,6 +483,16 @@
           '<td colspan="5" style="background:#f6f7f7;padding:16px 20px;border-top:1px solid #ddd;">' +
           '<strong style="font-size:13px;">Import Configuration</strong>' +
           '<table style="margin-top:12px;border-collapse:collapse;">' +
+          "<tr>" +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Title</th>' +
+          "<td>" +
+          '<input type="text" id="cbf-si-title-' +
+          jobId +
+          '" value="' +
+          this._esc(deckName) +
+          '" style="min-width:320px;max-width:500px;" placeholder="Lesson title">' +
+          "</td>" +
+          "</tr>" +
           "<tr>" +
           '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Mode</th>' +
           "<td>" +
@@ -548,10 +563,12 @@
 
     _doImport(id) {
       // Read config from the panel.
+      const titleEl = document.getElementById("cbf-si-title-" + id);
       const modeEl = document.querySelector(
         'input[name="cbf-si-mode-' + id + '"]:checked',
       );
       const courseEl = document.getElementById("cbf-si-course-" + id);
+      const postTitle = titleEl ? titleEl.value.trim() : "";
       const mode = modeEl ? modeEl.value : "lesson-only";
       const courseId = courseEl ? parseInt(courseEl.value, 10) : 0;
 
@@ -580,7 +597,12 @@
         return;
       }
 
-      Api.triggerImport(id, { mode: mode, course_id: courseId })
+      const importConfig = { mode: mode, course_id: courseId };
+      if (postTitle) {
+        importConfig.post_title = postTitle;
+      }
+
+      Api.triggerImport(id, importConfig)
         .then(() => {
           // Close config panel.
           const panel = document.getElementById("cbf-si-config-panel-" + id);
