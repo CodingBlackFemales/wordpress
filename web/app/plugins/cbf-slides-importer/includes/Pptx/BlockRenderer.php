@@ -60,19 +60,33 @@ final class BlockRenderer {
 	/**
 	 * Merge all body slides into a single lesson content string.
 	 *
+	 * Contiguous slides that share the same title (common with Google Slides
+	 * progressive-reveal exports) emit only one H2 heading — for the first
+	 * slide in each run of identical titles.
+	 *
 	 * @param array  $slides
 	 * @param bool   $slide_headings
 	 * @param string $media_base_url
 	 * @return string WP block HTML.
 	 */
 	private static function render_lesson_only( array $slides, bool $slide_headings, string $media_base_url ): string {
-		$parts = array();
+		$parts      = array();
+		$prev_title = null;
+
 		foreach ( $slides as $slide ) {
 			if ( in_array( $slide['slide_type'], array( 'cover', 'hidden' ), true ) ) {
 				continue;
 			}
-			$parts[] = self::render_slide( $slide, $slide_headings, $media_base_url );
+
+			$title        = $slide['title'] ?? '';
+			$is_duplicate = $title !== '' && $title === $prev_title;
+			$parts[]      = self::render_slide( $slide, $slide_headings && ! $is_duplicate, $media_base_url );
+
+			if ( $title !== '' ) {
+				$prev_title = $title;
+			}
 		}
+
 		return implode( "\n", array_filter( $parts ) );
 	}
 
@@ -81,6 +95,11 @@ final class BlockRenderer {
 	 * Split body slides into topics at each heading-type slide.
 	 *
 	 * Slides before the first heading go into the lesson only.
+	 *
+	 * Contiguous body slides with the same title emit only one H2 heading.
+	 * Heading-type slides (which become LearnDash Topics) also participate in
+	 * the dedup tracking, so a body slide whose title matches the preceding
+	 * topic header is not given a redundant H2.
 	 *
 	 * @param array  $slides
 	 * @param bool   $slide_headings
@@ -91,6 +110,7 @@ final class BlockRenderer {
 		$lesson_parts  = array();
 		$topics        = array();
 		$current_topic = null;
+		$prev_title    = null;
 
 		foreach ( $slides as $slide ) {
 			$type = $slide['slide_type'];
@@ -104,15 +124,28 @@ final class BlockRenderer {
 				if ( $current_topic !== null ) {
 					$topics[] = $current_topic;
 				}
+				$heading_title = $slide['title'] ?? '';
 				$current_topic = array(
-					'title' => $slide['title'],
+					'title' => $heading_title,
 					'parts' => array(),
 				);
+				// Heading slides become Topic headers — their title is tracked so
+				// the first body slide in the topic does not repeat it as an H2.
+				if ( $heading_title !== '' ) {
+					$prev_title = $heading_title;
+				}
 				continue;
 			}
 
 			// 'body' slide.
-			$html = self::render_slide( $slide, $slide_headings, $media_base_url );
+			$title        = $slide['title'] ?? '';
+			$is_duplicate = $title !== '' && $title === $prev_title;
+			$html         = self::render_slide( $slide, $slide_headings && ! $is_duplicate, $media_base_url );
+
+			if ( $title !== '' ) {
+				$prev_title = $title;
+			}
+
 			if ( $current_topic === null ) {
 				$lesson_parts[] = $html;
 			} else {
