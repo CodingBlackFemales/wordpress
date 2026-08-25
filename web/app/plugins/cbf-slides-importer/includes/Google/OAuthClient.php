@@ -76,10 +76,14 @@ final class OAuthClient {
 			return $client;
 		}
 
-		$state = wp_generate_password( 32, false );
-		set_transient( 'cbf_si_oauth_state_' . $user_id, $state, 10 * MINUTE_IN_SECONDS );
+		$nonce = wp_generate_password( 32, false );
+		set_transient( 'cbf_si_oauth_state_' . $user_id, $nonce, 10 * MINUTE_IN_SECONDS );
 
-		$client->setState( $state );
+		// Encode user_id into the state so the callback can identify the user
+		// without relying on the WP session cookie (which is unavailable in the
+		// REST API context without a matching X-WP-Nonce header).
+		// Format: "{user_id}:{nonce}" — the nonce is the CSRF token.
+		$client->setState( $user_id . ':' . $nonce );
 
 		return $client->createAuthUrl();
 	}

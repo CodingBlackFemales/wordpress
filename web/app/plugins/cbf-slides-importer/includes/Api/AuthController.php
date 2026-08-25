@@ -127,23 +127,36 @@ final class AuthController {
 	 * After success, redirect the user to the importer admin page.
 	 */
 	public static function callback( WP_REST_Request $request ): void {
-		// permission_callback is __return_true so Google's redirect is not blocked
-		// by the missing X-WP-Nonce header. Perform auth checks manually here.
-		if ( ! is_user_logged_in() || ! current_user_can( 'cbf_slides_import' ) ) {
-			wp_die( esc_html__( 'You must be logged in to connect Google Drive.', 'cbf-slides-importer' ), 401 );
-		}
-
+		// permission_callback is __return_true: Google's browser redirect carries
+		// the WP session cookie but never X-WP-Nonce, so standard REST cookie-auth
+		// never fires. We identify the user from the state parameter instead —
+		// format: "{user_id}:{nonce}" set by OAuthClient::create_auth_url().
 		$code  = sanitize_text_field( $request->get_param( 'code' ) );
 		$state = sanitize_text_field( $request->get_param( 'state' ) );
 
-		// Validate state nonce (stored transiently during begin).
-		$stored_state = get_transient( 'cbf_si_oauth_state_' . get_current_user_id() );
-		if ( ! hash_equals( (string) $stored_state, $state ) ) {
+		// Parse user_id and nonce from state.
+		$parts   = explode( ':', $state, 2 );
+		$user_id = isset( $parts[0] ) ? absint( $parts[0] ) : 0;
+		$nonce   = $parts[1] ?? '';
+
+		if ( ! $user_id || ! $nonce ) {
+			wp_die( esc_html__( 'Invalid OAuth state parameter.', 'cbf-slides-importer' ), 400 );
+		}
+
+		// Verify the user exists and has permission.
+		$user = get_user_by( 'id', $user_id );
+		if ( ! $user || ! user_can( $user, 'cbf_slides_import' ) ) {
+			wp_die( esc_html__( 'Unauthorised OAuth callback.', 'cbf-slides-importer' ), 403 );
+		}
+
+		// Validate nonce against stored transient (CSRF protection).
+		$stored_nonce = get_transient( 'cbf_si_oauth_state_' . $user_id );
+		if ( ! $stored_nonce || ! hash_equals( (string) $stored_nonce, $nonce ) ) {
 			wp_die( esc_html__( 'OAuth state mismatch — possible CSRF attack.', 'cbf-slides-importer' ), 403 );
 		}
-		delete_transient( 'cbf_si_oauth_state_' . get_current_user_id() );
+		delete_transient( 'cbf_si_oauth_state_' . $user_id );
 
-		$result = OAuthClient::exchange_code( $code, get_current_user_id() );
+		$result = OAuthClient::exchange_code( $code, $user_id );
 		if ( is_wp_error( $result ) ) {
 			wp_die( esc_html( $result->get_error_message() ), 500 );
 		}
