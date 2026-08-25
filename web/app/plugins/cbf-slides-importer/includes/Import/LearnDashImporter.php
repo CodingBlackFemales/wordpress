@@ -154,42 +154,78 @@ final class LearnDashImporter {
 	// ── Helpers ───────────────────────────────────────────────────────────────
 
 	/**
-	 * Call run_import_cli() on the bulk plugin and rewrite image paths.
+	 * Call run_import() on the bulk plugin and rewrite image paths.
+	 *
+	 * Extended_LearnDash_Bulk_Create::run_import() expects:
+	 *   - $content_type : post type slug (e.g. 'sfwd-lessons', 'sfwd-topic')
+	 *   - $headers      : ordered list of column names
+	 *   - $rows         : array of rows, each row is a values array matching $headers
+	 *   - $options      : ['overwrite' => bool, 'media_dir' => string]
+	 *
+	 * The $row passed in here is an associative array keyed by column name, so
+	 * we derive $headers and a single-element $rows from it.
 	 *
 	 * @param  object $plugin    learndash-bulk plugin instance.
-	 * @param  array  $row       CSV-equivalent row data.
-	 * @param  string $img_dir   Path to extracted image files.
+	 * @param  array  $row       Associative row data (post_title, post_content, etc.).
+	 * @param  string $img_dir   Path to extracted image files for media rewrite.
 	 * @param  array  &$errors   Accumulates any errors.
-	 * @return int[]|WP_Error    Created post IDs.
+	 * @return int[]|WP_Error    Created/updated post IDs.
 	 */
 	private function run_import_row( object $plugin, array $row, string $img_dir, array &$errors ): array|WP_Error {
-		$post_ids = array();
+		// Separate the post_type out — it drives content_type, not a column.
+		$content_type = $row['post_type'] ?? 'sfwd-lessons';
+		unset( $row['post_type'] );
+
+		// Build CSV-style headers + rows from the associative array.
+		$headers = array_keys( $row );
+		$rows    = array( array_values( $row ) );
 
 		try {
-			// run_import_cli() accepts an array of row arrays matching CSV columns.
-			$result = $plugin->run_import_cli( array( $row ) );
+			// run_import() returns a stats array, not post IDs directly.
+			$result = $plugin->run_import(
+				$content_type,
+				$headers,
+				$rows,
+				array(
+					'overwrite' => false,
+					'media_dir' => $img_dir,
+				)
+			);
 
 			if ( is_wp_error( $result ) ) {
 				$errors[] = $result->get_error_message();
 				return $result;
 			}
 
-			if ( is_array( $result ) ) {
-				$post_ids = array_filter( array_map( 'intval', $result ) );
+			if ( ! is_array( $result ) ) {
+				return array();
 			}
 
-			// Rewrite image paths in post content.
-			if ( ! empty( $img_dir ) ) {
-				foreach ( $post_ids as $post_id ) {
-					$this->rewrite_post_images( $post_id, $img_dir, $errors );
+			// Collect errors from the stats.
+			if ( ! empty( $result['errors'] ) ) {
+				$errors = array_merge( $errors, $result['errors'] );
+			}
+
+			// Collect created and updated post IDs.
+			$post_ids = array();
+			foreach ( $result['created_entries'] ?? array() as $entry ) {
+				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
+				if ( $id ) {
+					$post_ids[] = $id;
 				}
 			}
+			foreach ( $result['updated_entries'] ?? array() as $entry ) {
+				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
+				if ( $id ) {
+					$post_ids[] = $id;
+				}
+			}
+
+			return array_values( array_filter( array_map( 'intval', $post_ids ) ) );
 		} catch ( \Throwable $e ) {
 			$errors[] = $e->getMessage();
 			return new WP_Error( 'cbf_si_import_exception', $e->getMessage() );
 		}
-
-		return $post_ids;
 	}
 
 
@@ -231,17 +267,27 @@ final class LearnDashImporter {
 	/**
 	 * Retrieve the active learndash-bulk plugin instance.
 	 *
-	 * @return object|WP_Error Plugin instance with run_import_cli() method.
+	 * The plugin (learndash-bulk-lessons-or-topics) instantiates its main class
+	 * directly into a global variable at the bottom of its bootstrap file:
+	 *
+	 *   $extended_learndash_bulk_create = new Extended_LearnDash_Bulk_Create();
+	 *
+	 * We retrieve it via the global. If the global is absent (plugin inactive or
+	 * not yet loaded), we fall back to constructing a fresh instance, which is
+	 * safe because the constructor only registers hooks.
+	 *
+	 * @return object|WP_Error Plugin instance with run_import() method.
 	 */
 	private function get_bulk_plugin(): mixed {
-		// The learndash-bulk plugin registers itself via a global or static method.
-		// Check the most likely entry points.
-		if ( function_exists( 'learndash_bulk_plugin' ) ) {
-			return learndash_bulk_plugin();
+		global $extended_learndash_bulk_create;
+
+		if ( ! empty( $extended_learndash_bulk_create ) && is_object( $extended_learndash_bulk_create ) ) {
+			return $extended_learndash_bulk_create;
 		}
 
-		if ( class_exists( 'ELDBC_Plugin' ) && method_exists( 'ELDBC_Plugin', 'instance' ) ) {
-			return \ELDBC_Plugin::instance();
+		// Fallback: instantiate directly if the class is available.
+		if ( class_exists( 'Extended_LearnDash_Bulk_Create' ) ) {
+			return new \Extended_LearnDash_Bulk_Create();
 		}
 
 		return new WP_Error(
