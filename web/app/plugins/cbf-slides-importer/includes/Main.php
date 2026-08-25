@@ -35,7 +35,7 @@ final class Main {
 	/**
 	 * The dependency plugin that must be active before this plugin loads.
 	 */
-	const REQUIRED_PLUGIN = 'learndash-bulk-lessons-or-topics/learndash-bulk-lessons-or-topics.php';
+	const REQUIRED_PLUGIN = 'learndash-bulk-lessons-or-topics/learndash-bulk-create.php';
 
 	/**
 	 * Bootstrap the plugin: register activation/deactivation hooks and add
@@ -131,6 +131,11 @@ final class Main {
 				esc_html__( 'CBF Slides Importer requires WordPress %s or higher.', 'cbf-slides-importer' ),
 				self::PLUGIN_REQUIREMENTS['wp_version']
 			);
+		}
+
+		// is_plugin_active() requires plugin.php; load it when not already available.
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
 		if ( ! is_plugin_active( self::REQUIRED_PLUGIN ) ) {
