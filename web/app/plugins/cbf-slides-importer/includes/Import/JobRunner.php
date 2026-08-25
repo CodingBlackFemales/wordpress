@@ -164,13 +164,14 @@ final class JobRunner {
 		PreviewController::store( $job_id, $user_id, $rendered );
 
 		// ── Store tmp paths in result_summary for import phase ────────────────
+		// Note: $classified is NOT stored here — PhpPresentation shape objects
+		// cannot survive JSON serialisation. The import phase re-parses from disk.
 		self::update_result_summary(
 			$job_id,
 			array(
 				'pptx_path'   => $pptx_path,
 				'img_dir'     => $img_dir,
 				'job_tmp_dir' => $job_tmp_dir,
-				'classified'  => $classified,
 				'mode'        => $mode,
 				'config'      => $config,
 			)
@@ -185,21 +186,39 @@ final class JobRunner {
 	/**
 	 * Phase 2: Import parsed content into LearnDash.
 	 *
+	 * PHP objects (PhpPresentation shape instances) cannot survive JSON
+	 * serialisation, so we re-parse the PPTX from the stored path rather than
+	 * relying on the `classified` value that was JSON-encoded at parse time.
+	 *
 	 * @param array $job Job DB row.
 	 */
 	private static function run_import_phase( array $job ): void {
-		$job_id = (int) $job['id'];
+		$job_id  = (int) $job['id'];
+		$summary = json_decode( $job['result_summary'], true );
 
 		self::update_status( $job_id, 'importing' );
 
-		$summary = json_decode( $job['result_summary'], true );
-		if ( empty( $summary['classified'] ) ) {
-			self::set_failed( $job_id, 'Parse data not available. Please re-run the job.' );
+		$pptx_path = $summary['pptx_path'] ?? '';
+		if ( empty( $pptx_path ) || ! file_exists( $pptx_path ) ) {
+			self::set_failed( $job_id, 'PPTX file not found. Please re-run the job from scratch.' );
 			return;
 		}
 
+		// Re-parse: shape objects are not JSON-serialisable, so we rebuild from disk.
+		$img_dir = $summary['img_dir'] ?? '';
+		$parsed  = Parser::parse( $pptx_path, $img_dir );
+		if ( is_wp_error( $parsed ) ) {
+			self::set_failed( $job_id, $parsed->get_error_message() );
+			return;
+		}
+
+		$classified = self::classify_from_summary( $parsed, $summary );
+
+		// Make deck_name available to the importer for the default lesson title.
+		$summary['deck_name'] = $job['deck_name'] ?? '';
+
 		$importer = new LearnDashImporter();
-		$result   = $importer->import( $summary['classified'], $summary );
+		$result   = $importer->import( $classified, $summary );
 
 		if ( is_wp_error( $result ) ) {
 			self::set_failed( $job_id, $result->get_error_message() );
@@ -211,7 +230,7 @@ final class JobRunner {
 				'Import complete.',
 				array(
 					'job_id' => $job_id,
-					'posts' => count( $post_ids ),
+					'posts'  => count( $post_ids ),
 				)
 			);
 		}
@@ -220,6 +239,28 @@ final class JobRunner {
 		if ( ! empty( $summary['job_tmp_dir'] ) ) {
 			Utils::rmdir_recursive( $summary['job_tmp_dir'] );
 		}
+	}
+
+
+	/**
+	 * Re-classify a freshly parsed deck using the config stored in a job summary.
+	 *
+	 * Extracted to keep run_import_phase() within cyclomatic complexity limits.
+	 *
+	 * @param array $parsed  ParsedDeck from Parser::parse().
+	 * @param array $summary Decoded result_summary from the DB row.
+	 * @return array Classified deck.
+	 */
+	private static function classify_from_summary( array $parsed, array $summary ): array {
+		$config          = $summary['config'] ?? array();
+		$heading_regex   = $config['heading_layout_regex'] ?? '';
+		$slide_overrides = array();
+
+		if ( ! empty( $config['slide_overrides'] ) ) {
+			$slide_overrides = (array) json_decode( $config['slide_overrides'], true );
+		}
+
+		return SlideClassifier::classify( $parsed, $heading_regex, $slide_overrides );
 	}
 
 
