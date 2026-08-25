@@ -102,16 +102,17 @@ final class AuthController {
 
 	/**
 	 * GET /auth/begin — build the Google OAuth consent URL and redirect.
+	 *
+	 * Uses OAuthClient::create_auth_url() (not GoogleClient directly) so that
+	 * the state nonce transient is stored before the user is sent to Google.
 	 */
 	public static function begin( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		$client = OAuthClient::make();
-		if ( is_wp_error( $client ) ) {
-			return $client;
+		$auth_url = OAuthClient::create_auth_url( get_current_user_id() );
+		if ( is_wp_error( $auth_url ) ) {
+			return $auth_url;
 		}
 
-		$auth_url = $client->create_auth_url();
-
-		// For browser redirects from REST we return the URL; the JS will follow it.
+		// Return the URL; the React UI opens it in a popup or redirect.
 		return new WP_REST_Response( array( 'auth_url' => $auth_url ), 200 );
 	}
 
