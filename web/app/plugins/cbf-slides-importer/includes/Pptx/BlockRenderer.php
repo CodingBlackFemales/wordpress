@@ -408,18 +408,22 @@ final class BlockRenderer {
 	/**
 	 * Produce a wp:image block.
 	 *
-	 * During preview, the src is a placeholder. After import, LearnDashImporter
-	 * rewrites paths via ELDBC_Media::rewrite_paths().
+	 * When no $media_base_url is supplied (import path), the src is rendered as
+	 * `media/filename.ext` — the exact prefix that ELDBC_Media::rewrite_paths()
+	 * scans for and replaces with the WP attachment URL after upload.
+	 *
+	 * When a real base URL is supplied (preview path), the full URL is used.
 	 *
 	 * @param  array  $img            Image metadata array from Parser.
-	 * @param  string $media_base_url Base URL for media paths.
+	 * @param  string $media_base_url Base URL for media paths (empty = import placeholder).
 	 * @return string
 	 */
 	private static function render_image_block( array $img, string $media_base_url ): string {
-		$src = trailingslashit( $media_base_url ) . $img['filename'];
+		$base = $media_base_url !== '' ? trailingslashit( $media_base_url ) : 'media/';
+		$src  = $base . $img['filename'];
 		return sprintf(
 			"<!-- wp:image -->\n<figure class=\"wp-block-image\"><img src=\"%s\" alt=\"\"/></figure>\n<!-- /wp:image -->",
-			esc_url( $src )
+			esc_attr( $src )
 		);
 	}
 }
