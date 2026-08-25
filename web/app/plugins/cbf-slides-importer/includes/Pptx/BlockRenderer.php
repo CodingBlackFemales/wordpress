@@ -271,7 +271,7 @@ final class BlockRenderer {
 
 		$flush_list = function () use ( &$list_buf, &$parts ) {
 			if ( ! empty( $list_buf ) ) {
-				$items = implode( "\n", array_map( fn( $i ) => "<li class=\"wp-block-list-item\"><p>{$i}</p></li>", $list_buf ) );
+				$items   = implode( "\n", array_map( fn( $i ) => "<!-- wp:list-item --><li>{$i}</li><!-- /wp:list-item -->", $list_buf ) );
 				$parts[] = "<!-- wp:list -->\n<ul class=\"wp-block-list\">\n{$items}\n</ul>\n<!-- /wp:list -->";
 				$list_buf = array();
 			}
