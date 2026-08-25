@@ -80,7 +80,7 @@ final class Parser {
 
 			$parsed_slides = array();
 			foreach ( $slides as $idx => $slide ) {
-				$parsed_slides[] = self::parse_slide( $slide, $idx, $pptx_path, $img_out_dir, $slide_width_px );
+				$parsed_slides[] = self::parse_slide( $slide, $idx, $pptx_path, $img_out_dir, $slide_width_px, $slide_height_px );
 			}
 
 			return array(
@@ -107,14 +107,15 @@ final class Parser {
 	/**
 	 * Parse a single slide.
 	 *
-	 * @param object $slide         PhpPresentation slide object.
-	 * @param int    $idx           0-based slide index.
-	 * @param string $pptx_path     Path to PPTX (for ZipArchive hidden-slide check).
-	 * @param string $img_out_dir   Directory to write extracted images.
-	 * @param int    $slide_width_px Slide width in pixels (for column detection).
+	 * @param object $slide           PhpPresentation slide object.
+	 * @param int    $idx             0-based slide index.
+	 * @param string $pptx_path       Path to PPTX (for ZipArchive hidden-slide check).
+	 * @param string $img_out_dir     Directory to write extracted images.
+	 * @param int    $slide_width_px  Slide width in pixels (for column detection).
+	 * @param int    $slide_height_px Slide height in pixels (for footer cutoff).
 	 * @return array ParsedSlide array.
 	 */
-	private static function parse_slide( object $slide, int $idx, string $pptx_path, string $img_out_dir, int $slide_width_px ): array {
+	private static function parse_slide( object $slide, int $idx, string $pptx_path, string $img_out_dir, int $slide_width_px, int $slide_height_px ): array {
 		$layout_name = '';
 		try {
 			$layout      = $slide->getSlideLayout();
@@ -124,8 +125,8 @@ final class Parser {
 
 		$is_hidden = self::is_hidden_slide( $pptx_path, $idx );
 		$title     = self::extract_title( $slide );
-		$images    = self::extract_images( $slide, $idx, $img_out_dir );
-		$content   = GeometryDetector::build_content_blocks( $slide, $slide_width_px );
+		$images    = self::extract_images( $slide, $idx, $img_out_dir, $slide_height_px );
+		$content   = GeometryDetector::build_content_blocks( $slide, $slide_width_px, $slide_height_px );
 
 		return array(
 			'index'       => $idx,
@@ -201,18 +202,33 @@ final class Parser {
 	 * Images are written to $img_out_dir and returned as an array of paths.
 	 * Uses Drawing\Gd::getContents() — confirmed by P0.4 probe.
 	 *
-	 * @param  object $slide       PhpPresentation slide.
-	 * @param  int    $slide_idx   0-based slide index (for filename prefix).
-	 * @param  string $img_out_dir Destination directory.
+	 * Drawing shapes in the footer zone (e.g. the CBF logo that appears on every
+	 * slide) are skipped using the same FOOTER_TOP_RATIO threshold as
+	 * GeometryDetector.
+	 *
+	 * @param  object $slide           PhpPresentation slide.
+	 * @param  int    $slide_idx       0-based slide index (for filename prefix).
+	 * @param  string $img_out_dir     Destination directory.
+	 * @param  int    $slide_height_px Slide height in pixels (0 = skip footer filter).
 	 * @return array<array{path: string, ext: string}> Extracted image metadata.
 	 */
-	private static function extract_images( object $slide, int $slide_idx, string $img_out_dir ): array {
+	private static function extract_images( object $slide, int $slide_idx, string $img_out_dir, int $slide_height_px = 0 ): array {
 		$images  = array();
 		$img_num = 0;
+
+		$footer_cutoff = $slide_height_px > 0
+			? (int) round( $slide_height_px * GeometryDetector::FOOTER_TOP_RATIO )
+			: PHP_INT_MAX;
 
 		foreach ( $slide->getShapeCollection() as $shape ) {
 			$cls = get_class( $shape );
 			if ( stripos( $cls, 'Drawing' ) === false ) {
+				continue;
+			}
+
+			// Skip images in the footer zone (e.g. CBF icon on every slide).
+			$shape_top = $shape->getOffsetY();
+			if ( $shape_top !== null && (int) $shape_top >= $footer_cutoff ) {
 				continue;
 			}
 
