@@ -112,14 +112,17 @@ final class SettingsPage {
 	 * @return string       Encrypted ciphertext, or empty string on failure.
 	 */
 	public static function sanitize_client_secret( mixed $value ): string {
-		$value = sanitize_textarea_field( (string) $value );
+		// wp_unslash first (WP adds slashes to POST data), then trim whitespace.
+		// Do NOT use sanitize_textarea_field here — it encodes quotes and angle
+		// brackets which breaks JSON parsing.
+		$value = trim( wp_unslash( (string) $value ) );
 
 		if ( $value === '' ) {
 			// Preserve existing value when field is left blank.
 			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
 		}
 
-		// Validate that it is parseable JSON.
+		// Validate that it is parseable JSON and contains expected keys.
 		$decoded = json_decode( $value, true );
 		if ( ! is_array( $decoded ) ) {
 			add_settings_error(
@@ -129,6 +132,20 @@ final class SettingsPage {
 			);
 			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
 		}
+
+		// Accept both "web" (Web Application) and "installed" (Desktop) credential types.
+		$cred = $decoded['web'] ?? $decoded['installed'] ?? null;
+		if ( ! $cred || empty( $cred['client_id'] ) || empty( $cred['client_secret'] ) ) {
+			add_settings_error(
+				Install::CLIENT_SECRET_OPTION,
+				'cbf_si_invalid_secret_structure',
+				esc_html__( 'Client secret JSON must contain a "web" or "installed" key with client_id and client_secret fields.', 'cbf-slides-importer' )
+			);
+			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
+		}
+
+		// Re-encode to normalise whitespace (strips stray newlines/spaces).
+		$value = wp_json_encode( $decoded );
 
 		$encrypted = Crypto::encrypt( $value );
 		if ( is_wp_error( $encrypted ) ) {
