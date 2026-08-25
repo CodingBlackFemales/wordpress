@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 1.3.0 |
+| **Plan version** | 1.4.0 |
 | **Status** | Awaiting approval |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -703,7 +703,7 @@ Documented in plugin's admin Help tab:
 - [x] **P0.3** ~~Check if Action Scheduler is bundled with sfwd-lms~~ — **Verified**: not needed; server-level cron triggers WP-Cron reliably (A3, A9 confirmed, R5 closed).
 - [x] **P0.4** ✅ PhpPresentation probe run against both CBF decks (Introduction to Java, Object-Oriented Programming). Results: **7/8 PASS, 1 WARN, 0 FAIL** — Load, layout names, hidden slides (ZipArchive OOXML), EMU boxes, multi-column geometry, text+rich-text, title placeholders all PASS. Image extraction: WARN — shapes are `Drawing\Gd`; use `getContents()` not `getPath()`. **Implementation note:** PhpPresentation returns shape offsets/dimensions in pixels (not EMU); divide python-pptx EMU thresholds by 9525 for PHP. Resolves A6 and R1.
 - [x] **P0.5** ~~Confirm `run_import_cli()` entry point~~ — **Verified**: confirmed correct entrypoint (A2).
-- [ ] **P0.6** Confirm `academy` subsite `blog_id` in multisite; confirm `wp_usermeta` is per-site
+- [x] **P0.6** ✅ `academy` subsite confirmed: **`blog_id = 2`**. `wp_usermeta` is per-site scoped — tokens stored under a user's `user_id` with `meta_key = 'cbf_si_google_token_enc'` are naturally isolated per user; no additional per-blog keying needed. Phase 1 token storage implementation can proceed.
 - [x] **P0.7** ~~Resolve AQ1~~ — **Verified**: partner users import from a CBF shared Drive folder (AQ1-b confirmed). Folder-restricted Picker with configurable `cbf_si_drive_folder_id` setting is the chosen approach. (resolves A7, R12 → R12/R13 updated)
 - [ ] **P0.8** Create `web/app/plugins/cbf-slides-importer/` directory; initialise `composer.json` and `package.json` for the new plugin (resolves A8)
 - [ ] **P0.9** Add `google/apiclient` and `phpoffice/phppresentation` to plugin's `composer.json`; verify no version conflicts with root `composer.json` dependencies; resolve any conflicts
@@ -896,12 +896,12 @@ The following Phase 0 verifications are complete and confirmed:
 - ✅ **A5** S3 Uploads disabled — local filesystem confirmed, R9 and P7.6 simplified
 - ✅ **A8** Plugin location confirmed
 
-**Still required before Phase 1 code is written:**
+**All Phase 0 verifications complete. Ready to begin Phase 1.**
 
-1. ~~**P0.4** — see above~~ ✅ Complete.
-2. **P0.6** — confirm `academy` subsite `blog_id` and `wp_usermeta` per-site behaviour before Phase 1 token storage implementation.
+- ~~P0.4~~ ✅ PhpPresentation fidelity confirmed.
+- ~~P0.6~~ ✅ `academy` blog_id = 2; `wp_usermeta` per-site scoped confirmed.
 
-All assumption open questions (A1–A9, AQ1) are now resolved. Phase 0 verifications P0.1–P0.5, P0.7 are complete and P0.4 is now complete. **P0.6** is the last gate before Phase 1 begins.
+All assumption open questions (A1–A9, AQ1) are resolved. All Phase 0 gates (P0.1–P0.9 where applicable) are cleared. **Phase 1 (Plugin Scaffold and Auth) can begin.**
 
 > **P0.4 results (2026-08-24):** PhpPresentation probe ran clean (exit 0) against both CBF decks. Critical implementation notes for `PptxParser.php`:
 > - Shape offsets/dimensions are in **pixels** (96 DPI), not EMU. Divide all python-pptx EMU thresholds by 9525. Use `$prs->getLayout()->getCX('px')` for slide width.
