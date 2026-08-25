@@ -63,9 +63,12 @@ final class ImporterPage {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'cbf-slides-importer' ) );
 		}
 
-		$is_authed   = OAuthClient::has_token( get_current_user_id() );
-		$auth_url    = rest_url( 'cbf-si/v1/auth/begin' );
-		$revoke_url  = rest_url( 'cbf-si/v1/auth/revoke' );
+		$is_authed  = OAuthClient::has_token( get_current_user_id() );
+		// OAuthBridge::begin_url() returns a nonce-protected admin-post URL that
+		// redirects the browser to Google. The REST /auth/begin endpoint is
+		// reserved for the JS SPA (which sends X-WP-Nonce in the request header).
+		$auth_url   = OAuthBridge::begin_url();
+		$revoke_url = rest_url( 'cbf-si/v1/auth/revoke' );
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Import Slides to LearnDash', 'cbf-slides-importer' ); ?></h1>

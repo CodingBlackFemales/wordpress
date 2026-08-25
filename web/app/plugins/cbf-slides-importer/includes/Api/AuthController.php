@@ -50,14 +50,18 @@ final class AuthController {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( __CLASS__, 'callback' ),
-				'permission_callback' => array( __CLASS__, 'require_auth' ),
+				// Google's browser redirect carries the WP session cookie but
+				// never an X-WP-Nonce header, so standard cookie auth fails.
+				// We allow the route through and check is_user_logged_in() +
+				// the OAuth state nonce inside the callback method itself.
+				'permission_callback' => '__return_true',
 				'args'                => array(
 					'code'  => array(
-						'type' => 'string',
+						'type'     => 'string',
 						'required' => true,
 					),
 					'state' => array(
-						'type' => 'string',
+						'type'     => 'string',
 						'required' => true,
 					),
 				),
@@ -123,6 +127,12 @@ final class AuthController {
 	 * After success, redirect the user to the importer admin page.
 	 */
 	public static function callback( WP_REST_Request $request ): void {
+		// permission_callback is __return_true so Google's redirect is not blocked
+		// by the missing X-WP-Nonce header. Perform auth checks manually here.
+		if ( ! is_user_logged_in() || ! current_user_can( 'cbf_slides_import' ) ) {
+			wp_die( esc_html__( 'You must be logged in to connect Google Drive.', 'cbf-slides-importer' ), 401 );
+		}
+
 		$code  = sanitize_text_field( $request->get_param( 'code' ) );
 		$state = sanitize_text_field( $request->get_param( 'state' ) );
 
