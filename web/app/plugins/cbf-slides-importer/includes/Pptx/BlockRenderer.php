@@ -320,7 +320,9 @@ final class BlockRenderer {
 			$font       = method_exists( $run, 'getFont' ) ? $run->getFont() : null;
 			$bold       = $font ? $font->isBold() : false;
 			$italic     = $font ? $font->isItalic() : false;
-			$underline  = $font ? $font->isUnderline() : false;
+			$underline  = $font
+				? ( $font->getUnderline() !== \PhpOffice\PhpPresentation\Style\Font::UNDERLINE_NONE )
+				: false;
 			$strike     = $font ? $font->isStrikethrough() : false;
 			$run_size   = $font ? $font->getSize() : null;
 			$run_mono   = false; // TODO: detect code font by name comparison in Phase 2.
