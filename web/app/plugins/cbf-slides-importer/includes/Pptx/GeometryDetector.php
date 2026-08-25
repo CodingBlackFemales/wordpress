@@ -33,6 +33,24 @@ final class GeometryDetector {
 	const MAX_X_OVERLAP_PX = 5;
 	const MIN_COL_GAP_PX   = 4;
 
+	/**
+	 * Shapes whose top-edge (t) sits at or above this fraction of the slide height
+	 * are treated as footer elements and excluded from content extraction.
+	 *
+	 * Calibrated against the Session 07 deck (960×540 px):
+	 *   - CBF icon          t=475  (87.9 %)
+	 *   - sldNum            t=479  (88.7 %)
+	 *   - copyright text    t=511  (94.6 %)
+	 *   - body shapes       t=96–113 (≤21 %)
+	 */
+	const FOOTER_TOP_RATIO = 0.87;
+
+	/**
+	 * Placeholder types that are always footer elements (slide number, footer
+	 * text, date/time) and excluded regardless of position.
+	 */
+	const FOOTER_PLACEHOLDER_TYPES = array( 'sldNum', 'ftr', 'dt' );
+
 
 	/**
 	 * Build the ordered list of content blocks for a slide.
@@ -40,14 +58,15 @@ final class GeometryDetector {
 	 * Each block is either a LinearBlock (single text column) or a
 	 * ColumnsBlock (two or more horizontally adjacent shapes in the same row).
 	 *
-	 * Title placeholder shapes are excluded — they are handled separately.
+	 * Title placeholder shapes and footer-zone shapes are excluded.
 	 *
-	 * @param  object $slide          PhpPresentation slide object.
-	 * @param  int    $slide_width_px Slide width in pixels (from Parser).
+	 * @param  object $slide           PhpPresentation slide object.
+	 * @param  int    $slide_width_px  Slide width in pixels (from Parser).
+	 * @param  int    $slide_height_px Slide height in pixels (used for footer cutoff).
 	 * @return array<array> Ordered array of LinearBlock|ColumnsBlock arrays.
 	 */
-	public static function build_content_blocks( object $slide, int $slide_width_px ): array {
-		$shapes = self::collect_content_shapes( $slide );
+	public static function build_content_blocks( object $slide, int $slide_width_px, int $slide_height_px = 0 ): array {
+		$shapes = self::collect_content_shapes( $slide, $slide_height_px );
 
 		if ( empty( $shapes ) ) {
 			return array();
@@ -98,18 +117,31 @@ final class GeometryDetector {
 	// ── Private helpers ───────────────────────────────────────────────────────
 
 	/**
-	 * Collect all non-title-placeholder shapes from a slide as bounding boxes.
+	 * Collect all content shapes from a slide as bounding boxes.
 	 *
-	 * @param object $slide
+	 * Excluded:
+	 *  - Title/centre-title placeholder shapes (handled by extract_title).
+	 *  - Footer placeholder types: sldNum, ftr, dt.
+	 *  - Any shape whose top-edge sits in the footer zone (≥ FOOTER_TOP_RATIO
+	 *    of the slide height), covering copyright text-boxes and the CBF icon.
+	 *
+	 * @param object $slide           PhpPresentation slide.
+	 * @param int    $slide_height_px Slide height in px (0 = skip position filter).
 	 * @return array<array{l:int,t:int,w:int,h:int,shape:object}>
 	 */
-	private static function collect_content_shapes( object $slide ): array {
+	private static function collect_content_shapes( object $slide, int $slide_height_px ): array {
+		$footer_cutoff = $slide_height_px > 0
+			? (int) round( $slide_height_px * self::FOOTER_TOP_RATIO )
+			: PHP_INT_MAX;
+
+		$excluded_ph_types = array_merge( array( 'title', 'ctrTitle' ), self::FOOTER_PLACEHOLDER_TYPES );
+
 		$shapes = array();
 		foreach ( $slide->getShapeCollection() as $shape ) {
 			if ( $shape instanceof RichText ) {
 				try {
 					$ph = $shape->getPlaceholder();
-					if ( $ph && in_array( $ph->getType(), array( 'title', 'ctrTitle' ), true ) ) {
+					if ( $ph && in_array( $ph->getType(), $excluded_ph_types, true ) ) {
 						continue;
 					}
 				} catch ( \Throwable $e ) {
@@ -121,15 +153,22 @@ final class GeometryDetector {
 			$w = $shape->getWidth();
 			$h = $shape->getHeight();
 
-			if ( $l !== null && $w > 0 && $h > 0 ) {
-				$shapes[] = array(
-					'l'     => (int) $l,
-					't'     => (int) $t,
-					'w'     => (int) $w,
-					'h'     => (int) $h,
-					'shape' => $shape,
-				);
+			if ( $l === null || $w <= 0 || $h <= 0 ) {
+				continue;
 			}
+
+			// Skip shapes in the footer zone (copyright text boxes, icons, etc.).
+			if ( (int) $t >= $footer_cutoff ) {
+				continue;
+			}
+
+			$shapes[] = array(
+				'l'     => (int) $l,
+				't'     => (int) $t,
+				'w'     => (int) $w,
+				'h'     => (int) $h,
+				'shape' => $shape,
+			);
 		}
 		return $shapes;
 	}
