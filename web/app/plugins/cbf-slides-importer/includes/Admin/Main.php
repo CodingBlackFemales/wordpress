@@ -29,5 +29,6 @@ final class Main {
 		Assets::hooks();
 		SettingsPage::hooks();
 		ImporterPage::hooks();
+		OAuthBridge::hooks();
 	}
 }
