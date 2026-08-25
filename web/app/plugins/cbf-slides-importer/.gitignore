@@ -1,3 +1,16 @@
-assets/
+# Ignore built/generated assets but track source JS/CSS.
+# Git won't traverse an ignored directory, so each level needs an explicit negation.
+assets/*
+!assets/js
+!assets/css
+assets/js/*
+!assets/js/admin
+assets/css/*
+!assets/css/admin
+assets/js/admin/*
+!assets/js/admin/cbf-slides-importer.js
+assets/css/admin/*
+!assets/css/admin/cbf-slides-importer.css
+
 vendor/
 node_modules/

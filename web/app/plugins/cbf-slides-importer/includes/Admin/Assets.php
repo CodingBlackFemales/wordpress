@@ -30,9 +30,33 @@ final class Assets extends AssetsMain {
 	public static function hooks(): void {
 		add_filter( 'cbf_si_enqueue_styles', array( __CLASS__, 'add_styles' ), 9 );
 		add_filter( 'cbf_si_enqueue_scripts', array( __CLASS__, 'add_scripts' ), 9 );
-		add_action( 'admin_enqueue_scripts', array( AssetsMain::class, 'load_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'maybe_load_scripts' ) );
 		add_action( 'admin_print_scripts', array( AssetsMain::class, 'localize_printed_scripts' ), 5 );
 		add_action( 'admin_print_footer_scripts', array( AssetsMain::class, 'localize_printed_scripts' ), 5 );
+	}
+
+
+	/**
+	 * Only enqueue plugin assets on the importer page.
+	 *
+	 * @param string $hook Current admin page hook suffix.
+	 */
+	public static function maybe_load_scripts( string $hook ): void {
+		// The importer page slug produces a hook like "learndash-lms_page_cbf-slides-importer".
+		if ( strpos( $hook, ImporterPage::PAGE_SLUG ) === false ) {
+			return;
+		}
+
+		// Register Google API client library so the Picker can be loaded on demand.
+		wp_register_script(
+			'google-api-client',
+			'https://apis.google.com/js/api.js',
+			array(),
+			null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			false // must load in <head> for gapi to be available before picker init
+		);
+
+		AssetsMain::load_scripts();
 	}
 
 
@@ -64,9 +88,9 @@ final class Assets extends AssetsMain {
 	public static function add_scripts( array $scripts ): array {
 		$scripts['cbf-slides-importer-admin'] = array(
 			'src'  => AssetsMain::localize_asset( 'js/admin/cbf-slides-importer.js' ),
-			'deps' => array( 'jquery', 'wp-api-fetch' ),
+			'deps' => array( 'google-api-client' ),
 			'data' => array(
-				'ajax_url' => Utils::ajax_url(),
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'rest_url' => rest_url( 'cbf-si/v1/' ),
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
 			),
