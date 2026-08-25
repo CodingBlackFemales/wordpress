@@ -14,150 +14,171 @@
  */
 
 /* global cbf_slides_importer_admin_params, google, gapi */
-( function () {
-	'use strict';
+(function () {
+  "use strict";
 
-	// ── Bootstrap ─────────────────────────────────────────────────────────────
+  // ── Bootstrap ─────────────────────────────────────────────────────────────
 
-	document.addEventListener( 'DOMContentLoaded', function () {
-		const app = document.getElementById( 'cbf-si-app' );
-		if ( ! app ) {
-			return;
-		}
-		CbfSiApp.init( app );
-	} );
+  /**
+   * Safe DOM-ready bootstrap.
+   *
+   * WP admin pages can have 70+ synchronous body scripts ahead of ours, so
+   * DOMContentLoaded may have already fired by the time this IIFE runs.
+   * Checking readyState handles both the early-script and late-script cases.
+   */
+  function bootstrap() {
+    const app = document.getElementById("cbf-si-app");
+    if (!app) {
+      return;
+    }
+    CbfSiApp.init(app);
+  }
 
-	// ── REST helper ───────────────────────────────────────────────────────────
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootstrap);
+  } else {
+    // DOM already parsed — invoke immediately.
+    bootstrap();
+  }
 
-	const Api = {
-		/**
-		 * Fetch a cbf-si REST endpoint with the wp_rest nonce.
-		 *
-		 * @param {string} path   Relative to rest_url (e.g. 'drive/picker-config').
-		 * @param {object} [opts] fetch() options override.
-		 * @returns {Promise<any>}
-		 */
-		fetch( path, opts = {} ) {
-			const url = cbf_slides_importer_admin_params.rest_url + path;
-			return fetch( url, {
-				headers: {
-					'X-WP-Nonce': cbf_slides_importer_admin_params.nonce,
-					'Content-Type': 'application/json',
-					...( opts.headers || {} ),
-				},
-				...opts,
-			} ).then( async ( res ) => {
-				const json = await res.json();
-				if ( ! res.ok ) {
-					throw new Error( json.message || `HTTP ${ res.status }` );
-				}
-				return json;
-			} );
-		},
+  // ── REST helper ───────────────────────────────────────────────────────────
 
-		pickerConfig() {
-			return this.fetch( 'drive/picker-config' );
-		},
+  const Api = {
+    /**
+     * Fetch a cbf-si REST endpoint with the wp_rest nonce.
+     *
+     * @param {string} path   Relative to rest_url (e.g. 'drive/picker-config').
+     * @param {object} [opts] fetch() options override.
+     * @returns {Promise<any>}
+     */
+    fetch(path, opts) {
+      opts = opts || {};
+      const url = cbf_slides_importer_admin_params.rest_url + path;
+      const headers = Object.assign(
+        {
+          "X-WP-Nonce": cbf_slides_importer_admin_params.nonce,
+          "Content-Type": "application/json",
+        },
+        opts.headers || {},
+      );
+      const fetchOpts = Object.assign({}, opts, { headers: headers });
+      return fetch(url, fetchOpts).then(async (res) => {
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.message || `HTTP ${res.status}`);
+        }
+        return json;
+      });
+    },
 
-		createJob( driveFileId, deckName ) {
-			return this.fetch( 'jobs', {
-				method: 'POST',
-				body: JSON.stringify( { drive_file_id: driveFileId, deck_name: deckName } ),
-			} );
-		},
+    pickerConfig() {
+      return this.fetch("drive/picker-config");
+    },
 
-		getJob( id ) {
-			return this.fetch( `jobs/${ id }` );
-		},
+    createJob(driveFileId, deckName) {
+      return this.fetch("jobs", {
+        method: "POST",
+        body: JSON.stringify({
+          drive_file_id: driveFileId,
+          deck_name: deckName,
+        }),
+      });
+    },
 
-		listJobs( page = 1 ) {
-			return this.fetch( `jobs?page=${ page }&per_page=20` );
-		},
+    getJob(id) {
+      return this.fetch(`jobs/${id}`);
+    },
 
-		triggerImport( id ) {
-			return this.fetch( `jobs/${ id }/import`, { method: 'POST' } );
-		},
+    listJobs(page = 1) {
+      return this.fetch(`jobs?page=${page}&per_page=20`);
+    },
 
-		cancelJob( id ) {
-			return this.fetch( `jobs/${ id }/cancel`, { method: 'POST' } );
-		},
-	};
+    triggerImport(id) {
+      return this.fetch(`jobs/${id}/import`, { method: "POST" });
+    },
 
-	// ── Google Picker ─────────────────────────────────────────────────────────
+    cancelJob(id) {
+      return this.fetch(`jobs/${id}/cancel`, { method: "POST" });
+    },
+  };
 
-	const Picker = {
-		_config: null,
-		_gapiReady: false,
+  // ── Google Picker ─────────────────────────────────────────────────────────
 
-		/**
-		 * Load the Google API client library, then open the picker.
-		 */
-		open( onSelected ) {
-			Api.pickerConfig()
-				.then( ( cfg ) => {
-					this._config = cfg;
-					if ( this._gapiReady ) {
-						this._buildAndShow( onSelected );
-					} else {
-						gapi.load( 'picker', () => {
-							this._gapiReady = true;
-							this._buildAndShow( onSelected );
-						} );
-					}
-				} )
-				.catch( ( err ) => {
-					CbfSiApp.showError( 'Could not load Drive picker: ' + err.message );
-				} );
-		},
+  const Picker = {
+    _config: null,
+    _gapiReady: false,
 
-		_buildAndShow( onSelected ) {
-			const { access_token, folder_id } = this._config;
+    /**
+     * Load the Google API client library, then open the picker.
+     */
+    open(onSelected) {
+      Api.pickerConfig()
+        .then((cfg) => {
+          this._config = cfg;
+          if (this._gapiReady) {
+            this._buildAndShow(onSelected);
+          } else {
+            gapi.load("picker", () => {
+              this._gapiReady = true;
+              this._buildAndShow(onSelected);
+            });
+          }
+        })
+        .catch((err) => {
+          CbfSiApp.showError("Could not load Drive picker: " + err.message);
+        });
+    },
 
-			// Show only Google Slides presentations inside the configured folder.
-			const view = new google.picker.DocsView( google.picker.ViewId.PRESENTATIONS )
-				.setParent( folder_id )
-				.setIncludeFolders( false );
+    _buildAndShow(onSelected) {
+      const { access_token, folder_id } = this._config;
 
-			const picker = new google.picker.PickerBuilder()
-				.addView( view )
-				.setOAuthToken( access_token )
-				.setTitle( 'Select a slide deck to import' )
-				.setCallback( ( data ) => {
-					if ( data.action === google.picker.Action.PICKED ) {
-						const doc = data.docs[ 0 ];
-						onSelected( doc.id, doc.name );
-					}
-				} )
-				.build();
+      // Show only Google Slides presentations inside the configured folder.
+      const view = new google.picker.DocsView(
+        google.picker.ViewId.PRESENTATIONS,
+      )
+        .setParent(folder_id)
+        .setIncludeFolders(false);
 
-			picker.setVisible( true );
-		},
-	};
+      const picker = new google.picker.PickerBuilder()
+        .addView(view)
+        .setOAuthToken(access_token)
+        .setTitle("Select a slide deck to import")
+        .setCallback((data) => {
+          if (data.action === google.picker.Action.PICKED) {
+            const doc = data.docs[0];
+            onSelected(doc.id, doc.name);
+          }
+        })
+        .build();
 
-	// ── Main app ──────────────────────────────────────────────────────────────
+      picker.setVisible(true);
+    },
+  };
 
-	const CbfSiApp = {
-		_root: null,
-		_jobListEl: null,
-		_statusEl: null,
-		_pollTimers: {},
+  // ── Main app ──────────────────────────────────────────────────────────────
 
-		init( root ) {
-			this._root = root;
-			this._render();
-			this._loadJobs();
+  const CbfSiApp = {
+    _root: null,
+    _jobListEl: null,
+    _statusEl: null,
+    _pollTimers: {},
 
-			// Show success notice if redirected back from OAuth.
-			const params = new URLSearchParams( window.location.search );
-			if ( params.get( 'oauth' ) === 'success' ) {
-				this.showNotice( '✓ Google Drive connected successfully.', 'success' );
-			}
-		},
+    init(root) {
+      this._root = root;
+      this._render();
+      this._loadJobs();
 
-		// ── Render skeleton ────────────────────────────────────────────────────
+      // Show success notice if redirected back from OAuth.
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("oauth") === "success") {
+        this.showNotice("✓ Google Drive connected successfully.", "success");
+      }
+    },
 
-		_render() {
-			this._root.innerHTML = `
+    // ── Render skeleton ────────────────────────────────────────────────────
+
+    _render() {
+      this._root.innerHTML = `
 				<div id="cbf-si-notices"></div>
 
 				<div class="cbf-si-actions" style="margin:16px 0;">
@@ -172,66 +193,71 @@
 				</div>
 			`;
 
-			document.getElementById( 'cbf-si-pick-btn' )
-				.addEventListener( 'click', () => this._openPicker() );
+      document
+        .getElementById("cbf-si-pick-btn")
+        .addEventListener("click", () => this._openPicker());
 
-			this._jobListEl  = document.getElementById( 'cbf-si-job-list' );
-			this._statusEl   = document.getElementById( 'cbf-si-notices' );
-		},
+      this._jobListEl = document.getElementById("cbf-si-job-list");
+      this._statusEl = document.getElementById("cbf-si-notices");
+    },
 
-		// ── Picker flow ────────────────────────────────────────────────────────
+    // ── Picker flow ────────────────────────────────────────────────────────
 
-		_openPicker() {
-			const btn = document.getElementById( 'cbf-si-pick-btn' );
-			btn.disabled = true;
-			btn.textContent = 'Loading picker…';
+    _openPicker() {
+      const btn = document.getElementById("cbf-si-pick-btn");
+      btn.disabled = true;
+      btn.textContent = "Loading picker…";
 
-			Picker.open( ( fileId, fileName ) => {
-				btn.disabled = false;
-				btn.textContent = '⇪ Choose Slide Deck from Drive';
-				this._confirmAndCreate( fileId, fileName );
-			} );
+      Picker.open((fileId, fileName) => {
+        btn.disabled = false;
+        btn.textContent = "⇪ Choose Slide Deck from Drive";
+        this._confirmAndCreate(fileId, fileName);
+      });
 
-			// Re-enable button if picker is dismissed without selection.
-			setTimeout( () => {
-				btn.disabled = false;
-				btn.textContent = '⇪ Choose Slide Deck from Drive';
-			}, 30000 );
-		},
+      // Re-enable button if picker is dismissed without selection.
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = "⇪ Choose Slide Deck from Drive";
+      }, 30000);
+    },
 
-		_confirmAndCreate( fileId, fileName ) {
-			if ( ! window.confirm( `Import "${ fileName }" into LearnDash?` ) ) {
-				return;
-			}
-			this.showNotice( `Creating import job for "${ fileName }"…` );
+    _confirmAndCreate(fileId, fileName) {
+      if (!window.confirm(`Import "${fileName}" into LearnDash?`)) {
+        return;
+      }
+      this.showNotice(`Creating import job for "${fileName}"…`);
 
-			Api.createJob( fileId, fileName )
-				.then( ( job ) => {
-					this.showNotice( `✓ Job #${ job.id } queued — downloading and parsing…`, 'success' );
-					this._loadJobs();
-					this._pollJob( job.id );
-				} )
-				.catch( ( err ) => this.showError( 'Could not create job: ' + err.message ) );
-		},
+      Api.createJob(fileId, fileName)
+        .then((job) => {
+          this.showNotice(
+            `✓ Job #${job.id} queued — downloading and parsing…`,
+            "success",
+          );
+          this._loadJobs();
+          this._pollJob(job.id);
+        })
+        .catch((err) => this.showError("Could not create job: " + err.message));
+    },
 
-		// ── Job list ───────────────────────────────────────────────────────────
+    // ── Job list ───────────────────────────────────────────────────────────
 
-		_loadJobs() {
-			Api.listJobs()
-				.then( ( jobs ) => this._renderJobList( jobs ) )
-				.catch( ( err ) => {
-					this._jobListEl.innerHTML = `<p class="cbf-si-error">Could not load jobs: ${ this._esc( err.message ) }</p>`;
-				} );
-		},
+    _loadJobs() {
+      Api.listJobs()
+        .then((jobs) => this._renderJobList(jobs))
+        .catch((err) => {
+          this._jobListEl.innerHTML = `<p class="cbf-si-error">Could not load jobs: ${this._esc(err.message)}</p>`;
+        });
+    },
 
-		_renderJobList( jobs ) {
-			if ( ! jobs.length ) {
-				this._jobListEl.innerHTML = '<p>No import jobs yet. Choose a slide deck above to get started.</p>';
-				return;
-			}
+    _renderJobList(jobs) {
+      if (!jobs.length) {
+        this._jobListEl.innerHTML =
+          "<p>No import jobs yet. Choose a slide deck above to get started.</p>";
+        return;
+      }
 
-			const rows = jobs.map( ( j ) => this._jobRow( j ) ).join( '' );
-			this._jobListEl.innerHTML = `
+      const rows = jobs.map((j) => this._jobRow(j)).join("");
+      this._jobListEl.innerHTML = `
 				<table class="wp-list-table widefat fixed striped" style="margin-top:8px;">
 					<thead>
 						<tr>
@@ -242,163 +268,184 @@
 							<th style="width:220px">Actions</th>
 						</tr>
 					</thead>
-					<tbody>${ rows }</tbody>
+					<tbody>${rows}</tbody>
 				</table>
 				<p style="margin-top:8px;">
 					<button class="button" id="cbf-si-refresh-btn">↻ Refresh</button>
 				</p>
 			`;
 
-			document.getElementById( 'cbf-si-refresh-btn' )
-				.addEventListener( 'click', () => this._loadJobs() );
+      document
+        .getElementById("cbf-si-refresh-btn")
+        .addEventListener("click", () => this._loadJobs());
 
-			this._bindJobActions();
-		},
+      this._bindJobActions();
+    },
 
-		_jobRow( j ) {
-			const badge   = this._statusBadge( j.status );
-			const created = new Date( j.created_at + 'Z' ).toLocaleString();
-			const actions = this._jobActions( j );
-			return `<tr id="cbf-si-job-${ j.id }">
-				<td>${ j.id }</td>
-				<td>${ this._esc( j.deck_name || j.drive_file_id ) }</td>
-				<td>${ badge }</td>
-				<td>${ created }</td>
-				<td>${ actions }</td>
+    _jobRow(j) {
+      const badge = this._statusBadge(j.status);
+      const created = new Date(j.created_at + "Z").toLocaleString();
+      const actions = this._jobActions(j);
+      return `<tr id="cbf-si-job-${j.id}">
+				<td>${j.id}</td>
+				<td>${this._esc(j.deck_name || j.drive_file_id)}</td>
+				<td>${badge}</td>
+				<td>${created}</td>
+				<td>${actions}</td>
 			</tr>`;
-		},
+    },
 
-		_statusBadge( status ) {
-			const colours = {
-				pending:     '#888',
-				downloading: '#0073aa',
-				parsing:     '#0073aa',
-				parsed:      '#00a32a',
-				importing:   '#f0ad4e',
-				done:        '#00a32a',
-				failed:      '#d63638',
-			};
-			const c = colours[ status ] || '#888';
-			return `<span style="display:inline-block;padding:2px 8px;border-radius:3px;background:${ c };color:#fff;font-size:12px;">${ status }</span>`;
-		},
+    _statusBadge(status) {
+      const colours = {
+        pending: "#888",
+        downloading: "#0073aa",
+        parsing: "#0073aa",
+        parsed: "#00a32a",
+        importing: "#f0ad4e",
+        done: "#00a32a",
+        failed: "#d63638",
+      };
+      const c = colours[status] || "#888";
+      return `<span style="display:inline-block;padding:2px 8px;border-radius:3px;background:${c};color:#fff;font-size:12px;">${status}</span>`;
+    },
 
-		_jobActions( j ) {
-			const btns = [];
+    _jobActions(j) {
+      const btns = [];
 
-			if ( j.status === 'parsed' ) {
-				btns.push( `<button class="button button-primary button-small" data-action="import" data-id="${ j.id }">Import into LearnDash</button>` );
-			}
-			if ( j.status === 'pending' ) {
-				btns.push( `<button class="button button-small" data-action="cancel" data-id="${ j.id }">Cancel</button>` );
-			}
-			if ( j.status === 'done' && j.created_post_ids ) {
-				try {
-					const ids = JSON.parse( j.created_post_ids );
-					if ( ids.length ) {
-						btns.push( `<span style="color:#00a32a;font-size:12px;">✓ ${ ids.length } post${ ids.length > 1 ? 's' : '' } created</span>` );
-					}
-				} catch ( e ) {}
-			}
-			if ( j.status === 'failed' && j.error_message ) {
-				btns.push( `<span style="color:#d63638;font-size:12px;" title="${ this._esc( j.error_message ) }">✗ ${ this._esc( j.error_message.substring( 0, 40 ) ) }…</span>` );
-			}
+      if (j.status === "parsed") {
+        btns.push(
+          `<button class="button button-primary button-small" data-action="import" data-id="${j.id}">Import into LearnDash</button>`,
+        );
+      }
+      if (j.status === "pending") {
+        btns.push(
+          `<button class="button button-small" data-action="cancel" data-id="${j.id}">Cancel</button>`,
+        );
+      }
+      if (j.status === "done" && j.created_post_ids) {
+        try {
+          const ids = JSON.parse(j.created_post_ids);
+          if (ids.length) {
+            btns.push(
+              `<span style="color:#00a32a;font-size:12px;">✓ ${ids.length} post${ids.length > 1 ? "s" : ""} created</span>`,
+            );
+          }
+        } catch (e) {
+          // Malformed JSON — skip the post-count badge.
+        }
+      }
+      if (j.status === "failed" && j.error_message) {
+        btns.push(
+          `<span style="color:#d63638;font-size:12px;" title="${this._esc(j.error_message)}">✗ ${this._esc(j.error_message.substring(0, 40))}…</span>`,
+        );
+      }
 
-			const html = `<span data-job-actions="${ j.id }">${ btns.join( ' ' ) }</span>`;
+      const html = `<span data-job-actions="${j.id}">${btns.join(" ")}</span>`;
 
-			// Wire events after insertion (delegated on the list container).
-			return html;
-		},
+      // Wire events after insertion (delegated on the list container).
+      return html;
+    },
 
-		// ── Job actions (delegated) ────────────────────────────────────────────
+    // ── Job actions (delegated) ────────────────────────────────────────────
 
-		_bindJobActions() {
-			this._jobListEl.removeEventListener( 'click', this._onJobAction );
-			this._onJobAction = ( e ) => {
-				const btn = e.target.closest( '[data-action]' );
-				if ( ! btn ) {
-					return;
-				}
-				const action = btn.dataset.action;
-				const id     = parseInt( btn.dataset.id, 10 );
+    _bindJobActions() {
+      this._jobListEl.removeEventListener("click", this._onJobAction);
+      this._onJobAction = (e) => {
+        const btn = e.target.closest("[data-action]");
+        if (!btn) {
+          return;
+        }
+        const action = btn.dataset.action;
+        const id = parseInt(btn.dataset.id, 10);
 
-				if ( action === 'import' ) {
-					this._doImport( id );
-				} else if ( action === 'cancel' ) {
-					this._doCancel( id );
-				}
-			};
-			this._jobListEl.addEventListener( 'click', this._onJobAction );
-		},
+        if (action === "import") {
+          this._doImport(id);
+        } else if (action === "cancel") {
+          this._doCancel(id);
+        }
+      };
+      this._jobListEl.addEventListener("click", this._onJobAction);
+    },
 
-		_doImport( id ) {
-			if ( ! window.confirm( 'Import this deck into LearnDash now? This will create lesson/topic posts.' ) ) {
-				return;
-			}
-			Api.triggerImport( id )
-				.then( () => {
-					this.showNotice( `✓ Import triggered for job #${ id }`, 'success' );
-					this._pollJob( id );
-					this._loadJobs();
-				} )
-				.catch( ( err ) => this.showError( 'Import failed: ' + err.message ) );
-		},
+    _doImport(id) {
+      if (
+        !window.confirm(
+          "Import this deck into LearnDash now? This will create lesson/topic posts.",
+        )
+      ) {
+        return;
+      }
+      Api.triggerImport(id)
+        .then(() => {
+          this.showNotice(`✓ Import triggered for job #${id}`, "success");
+          this._pollJob(id);
+          this._loadJobs();
+        })
+        .catch((err) => this.showError("Import failed: " + err.message));
+    },
 
-		_doCancel( id ) {
-			Api.cancelJob( id )
-				.then( () => {
-					this.showNotice( `Job #${ id } cancelled.` );
-					this._loadJobs();
-				} )
-				.catch( ( err ) => this.showError( 'Cancel failed: ' + err.message ) );
-		},
+    _doCancel(id) {
+      Api.cancelJob(id)
+        .then(() => {
+          this.showNotice(`Job #${id} cancelled.`);
+          this._loadJobs();
+        })
+        .catch((err) => this.showError("Cancel failed: " + err.message));
+    },
 
-		// ── Polling ────────────────────────────────────────────────────────────
+    // ── Polling ────────────────────────────────────────────────────────────
 
-		_pollJob( id ) {
-			clearTimeout( this._pollTimers[ id ] );
-			const TERMINAL = new Set( [ 'done', 'failed', 'parsed' ] );
-			const poll = () => {
-				Api.getJob( id ).then( ( job ) => {
-					this._loadJobs(); // refresh entire list (keeps it simple)
-					if ( ! TERMINAL.has( job.status ) ) {
-						this._pollTimers[ id ] = setTimeout( poll, 3000 );
-					} else if ( job.status === 'parsed' ) {
-						this.showNotice( `✓ Job #${ id } parsed — review the preview then click "Import into LearnDash".`, 'success' );
-					} else if ( job.status === 'done' ) {
-						this.showNotice( `✓ Job #${ id } complete!`, 'success' );
-					} else if ( job.status === 'failed' ) {
-						this.showError( `Job #${ id } failed: ${ job.error_message || 'unknown error' }` );
-					}
-				} ).catch( () => {
-					// Network blip — retry.
-					this._pollTimers[ id ] = setTimeout( poll, 5000 );
-				} );
-			};
-			this._pollTimers[ id ] = setTimeout( poll, 3000 );
-		},
+    _pollJob(id) {
+      clearTimeout(this._pollTimers[id]);
+      const TERMINAL = new Set(["done", "failed", "parsed"]);
+      const poll = () => {
+        Api.getJob(id)
+          .then((job) => {
+            this._loadJobs(); // refresh entire list (keeps it simple)
+            if (!TERMINAL.has(job.status)) {
+              this._pollTimers[id] = setTimeout(poll, 3000);
+            } else if (job.status === "parsed") {
+              this.showNotice(
+                `✓ Job #${id} parsed — review the preview then click "Import into LearnDash".`,
+                "success",
+              );
+            } else if (job.status === "done") {
+              this.showNotice(`✓ Job #${id} complete!`, "success");
+            } else if (job.status === "failed") {
+              this.showError(
+                `Job #${id} failed: ${job.error_message || "unknown error"}`,
+              );
+            }
+          })
+          .catch(() => {
+            // Network blip — retry.
+            this._pollTimers[id] = setTimeout(poll, 5000);
+          });
+      };
+      this._pollTimers[id] = setTimeout(poll, 3000);
+    },
 
-		// ── Notices ────────────────────────────────────────────────────────────
+    // ── Notices ────────────────────────────────────────────────────────────
 
-		showNotice( msg, type = 'info' ) {
-			const colours = { info: '#0073aa', success: '#00a32a', error: '#d63638' };
-			const c = colours[ type ] || colours.info;
-			this._statusEl.innerHTML = `
-				<div class="notice" style="border-left-color:${ c };padding:8px 12px;margin:8px 0;">
-					<p>${ this._esc( msg ) }</p>
+    showNotice(msg, type = "info") {
+      const colours = { info: "#0073aa", success: "#00a32a", error: "#d63638" };
+      const c = colours[type] || colours.info;
+      this._statusEl.innerHTML = `
+				<div class="notice" style="border-left-color:${c};padding:8px 12px;margin:8px 0;">
+					<p>${this._esc(msg)}</p>
 				</div>`;
-		},
+    },
 
-		showError( msg ) {
-			this.showNotice( msg, 'error' );
-		},
+    showError(msg) {
+      this.showNotice(msg, "error");
+    },
 
-		_esc( str ) {
-			return String( str )
-				.replace( /&/g, '&amp;' )
-				.replace( /</g, '&lt;' )
-				.replace( />/g, '&gt;' )
-				.replace( /"/g, '&quot;' );
-		},
-	};
-
-} )();
+    _esc(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    },
+  };
+})();

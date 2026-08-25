@@ -147,7 +147,7 @@ CREATE TABLE {$prefix}cbf_slide_import_jobs (
   config_id        BIGINT UNSIGNED     NULL DEFAULT NULL,
   drive_file_id    VARCHAR(200)    NOT NULL,
   deck_name        VARCHAR(500)    NOT NULL DEFAULT '',
-  status           ENUM('pending','downloading','parsing','importing','done','failed') NOT NULL DEFAULT 'pending',
+  status           ENUM('pending','downloading','parsing','parsed','importing','done','failed') NOT NULL DEFAULT 'pending',
   error_message    TEXT                NULL DEFAULT NULL,
   created_post_ids LONGTEXT            NULL DEFAULT NULL,
   result_summary   LONGTEXT            NULL DEFAULT NULL,
