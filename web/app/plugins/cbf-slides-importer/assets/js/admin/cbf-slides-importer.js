@@ -140,27 +140,38 @@
 
     /**
      * Load the Google API client library, then open the picker.
+     *
+     * @param {function} onSelected  Called with (fileId, fileName) on selection.
+     * @param {function} onDismissed Called with no arguments when the picker is
+     *                               closed without a selection.
      */
-    open(onSelected) {
+    open(onSelected, onDismissed) {
       Api.pickerConfig()
         .then((cfg) => {
           this._config = cfg;
           if (this._gapiReady) {
-            this._buildAndShow(onSelected);
+            this._buildAndShow(onSelected, onDismissed);
           } else {
             gapi.load("picker", () => {
               this._gapiReady = true;
-              this._buildAndShow(onSelected);
+              this._buildAndShow(onSelected, onDismissed);
             });
           }
         })
         .catch((err) => {
           CbfSiApp.showError("Could not load Drive picker: " + err.message);
+          if (onDismissed) {
+            onDismissed();
+          }
         });
     },
 
-    _buildAndShow(onSelected) {
+    _buildAndShow(onSelected, onDismissed) {
       const { access_token, folder_id } = this._config;
+
+      // Save scroll position — the picker iframe can cause the browser to jump.
+      const savedScrollX = window.scrollX;
+      const savedScrollY = window.scrollY;
 
       // Show only Google Slides presentations inside the configured folder.
       const view = new google.picker.DocsView(
@@ -177,11 +188,19 @@
           if (data.action === google.picker.Action.PICKED) {
             const doc = data.docs[0];
             onSelected(doc.id, doc.name);
+          } else if (data.action === google.picker.Action.CANCEL) {
+            if (onDismissed) {
+              onDismissed();
+            }
           }
         })
         .build();
 
       picker.setVisible(true);
+
+      // Restore scroll position after the picker iframe is injected.
+      window.scrollTo(savedScrollX, savedScrollY);
+      requestAnimationFrame(() => window.scrollTo(savedScrollX, savedScrollY));
     },
   };
 
@@ -231,20 +250,24 @@
 
     _openPicker() {
       const btn = document.getElementById("cbf-si-pick-btn");
+      const resetBtn = () => {
+        btn.disabled = false;
+        btn.textContent = "⇪ Choose Slide Deck from Drive";
+      };
+
       btn.disabled = true;
       btn.textContent = "Loading picker…";
 
-      Picker.open((fileId, fileName) => {
-        btn.disabled = false;
-        btn.textContent = "⇪ Choose Slide Deck from Drive";
-        this._confirmAndCreate(fileId, fileName);
-      });
-
-      // Re-enable button if picker is dismissed without selection.
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.textContent = "⇪ Choose Slide Deck from Drive";
-      }, 30000);
+      Picker.open(
+        (fileId, fileName) => {
+          resetBtn();
+          this._confirmAndCreate(fileId, fileName);
+        },
+        () => {
+          // Picker dismissed without a selection.
+          resetBtn();
+        },
+      );
     },
 
     _confirmAndCreate(fileId, fileName) {
