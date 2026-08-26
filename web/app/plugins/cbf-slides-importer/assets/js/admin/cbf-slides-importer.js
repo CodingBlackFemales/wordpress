@@ -926,16 +926,16 @@
         return;
       }
 
+      // Collect the current UI config BEFORE clearing the panel DOM so that
+      // slide-map <select> elements are still accessible when we read them.
+      const config = this._readConfigFromPanel(id);
+
       // Cache the current config panel HTML so we can restore it.
       this._configPanelCache = this._configPanelCache || {};
       this._configPanelCache[id] = cell.innerHTML;
 
       cell.innerHTML =
         '<em style="color:#888;font-size:13px;">Loading preview…</em>';
-
-      // Collect the current UI config so the preview reflects the user's
-      // current slide-map selections before they are persisted via Import.
-      const config = this._readConfigFromPanel(id);
 
       Api.getJobPreview(id, config)
         .then((data) => {
@@ -965,7 +965,9 @@
                   this._esc(t.title || "Topic " + (i + 1)) +
                   "</summary>" +
                   '<div class="cbf-si-preview-content" style="padding:12px 16px;max-height:360px;overflow-y:auto;font-size:13px;background:#fff;">' +
+                  '<div class="cbf-si-preview-inner">' +
                   (t.html || "<em style='color:#888'>No content</em>") +
+                  "</div>" +
                   "</div>" +
                   "</details>",
               )
@@ -982,7 +984,9 @@
             // lesson-only mode.
             previewHtml =
               '<div class="cbf-si-preview-content" style="max-height:480px;overflow-y:auto;padding:12px 16px;border:1px solid #ddd;border-radius:4px;font-size:13px;background:#fff;">' +
+              '<div class="cbf-si-preview-inner">' +
               (lessonHtml || "<em style='color:#888'>No content</em>") +
+              "</div>" +
               "</div>";
           }
 
