@@ -82,6 +82,20 @@ final class PreviewRenderer {
 		$mode       = $config['mode'] ?? 'lesson-only';
 		$classified = SlideClassifier::classify( $parsed, $heading_regex, $slide_overrides );
 
-		return BlockRenderer::render( $classified, $mode );
+		// Derive an absolute URL for the image directory so the preview HTML
+		// contains real <img src> values the browser can load.  The img_dir
+		// lives inside wp-uploads (created by Utils::tmp_dir()), so we can map
+		// the filesystem path to a URL via wp_upload_dir().
+		$upload      = wp_upload_dir();
+		$img_base_url = '';
+		if ( ! empty( $upload['basedir'] ) && ! empty( $img_dir ) ) {
+			$img_base_url = str_replace(
+				untrailingslashit( $upload['basedir'] ),
+				untrailingslashit( $upload['baseurl'] ),
+				untrailingslashit( $img_dir )
+			);
+		}
+
+		return BlockRenderer::render( $classified, $mode, true, $img_base_url );
 	}
 }
