@@ -4,7 +4,89 @@
  * @package CodingBlackFemales/SlidesImporter
  */
 
-/* Placeholder — add admin UI styles here in Phase 3 */
 #cbf-si-app {
 	margin-top: 20px;
+}
+
+/* ── Phase 4: Preview panel content ────────────────────────────────────── */
+
+/*
+ * Render block HTML legibly in the admin context.  The preview panel uses
+ * WP Gutenberg block markup (headings, paragraphs, columns, code, lists),
+ * but the admin page does not load frontend block styles.  These rules
+ * provide a minimal fallback so editors can assess the content structure.
+ */
+.cbf-si-preview-content {
+	line-height: 1.6;
+	word-break: break-word;
+}
+
+.cbf-si-preview-content h1,
+.cbf-si-preview-content h2,
+.cbf-si-preview-content h3,
+.cbf-si-preview-content h4,
+.cbf-si-preview-content h5,
+.cbf-si-preview-content h6 {
+	margin: 0.75em 0 0.4em;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.cbf-si-preview-content h1 { font-size: 1.5em; }
+
+.cbf-si-preview-content h2 { font-size: 1.3em; }
+
+.cbf-si-preview-content h3 { font-size: 1.15em; }
+
+.cbf-si-preview-content p {
+	margin: 0 0 0.8em;
+}
+
+.cbf-si-preview-content ul,
+.cbf-si-preview-content ol {
+	margin: 0 0 0.8em 1.4em;
+	padding: 0;
+}
+
+.cbf-si-preview-content li {
+	margin-bottom: 0.25em;
+}
+
+.cbf-si-preview-content pre,
+.cbf-si-preview-content code {
+	background: #f1f1f1;
+	border-radius: 3px;
+	font-family: Consolas, "Courier New", monospace;
+	font-size: 0.9em;
+}
+
+.cbf-si-preview-content pre {
+	padding: 10px 14px;
+	overflow-x: auto;
+	margin: 0 0 0.8em;
+}
+
+.cbf-si-preview-content code {
+	padding: 1px 5px;
+}
+
+/* Gutenberg column blocks — display side by side when space allows */
+.cbf-si-preview-content .wp-block-columns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 0.8em;
+}
+
+.cbf-si-preview-content .wp-block-column {
+	flex: 1 1 200px;
+	min-width: 0;
+}
+
+/* Images */
+.cbf-si-preview-content img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin: 0.5em 0;
 }

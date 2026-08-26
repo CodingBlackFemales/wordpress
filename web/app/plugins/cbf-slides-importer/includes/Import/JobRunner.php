@@ -17,6 +17,7 @@ use CodingBlackFemales\SlidesImporter\Google\DriveClient;
 use CodingBlackFemales\SlidesImporter\Pptx\Parser;
 use CodingBlackFemales\SlidesImporter\Pptx\SlideClassifier;
 use CodingBlackFemales\SlidesImporter\Pptx\BlockRenderer;
+use CodingBlackFemales\SlidesImporter\Import\PreviewRenderer;
 use CodingBlackFemales\SlidesImporter\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -178,8 +179,18 @@ final class JobRunner {
 		);
 
 		// ── Render preview ────────────────────────────────────────────────────
-		$rendered = BlockRenderer::render( $classified, $mode );
-		PreviewController::store( $job_id, $user_id, $rendered );
+		// Store a serialisable summary first so render_from_summary() can find
+		// the PPTX path. Then use PreviewRenderer so the same render pipeline
+		// is shared with the on-demand refresh in PreviewController.
+		$preview_summary = array(
+			'pptx_path'   => $pptx_path,
+			'img_dir'     => $img_dir,
+			'config'      => $config,
+		);
+		$rendered = PreviewRenderer::render_from_summary( $preview_summary );
+		if ( ! is_wp_error( $rendered ) ) {
+			PreviewController::store( $job_id, $user_id, $rendered );
+		}
 
 		// ── Store tmp paths in result_summary for import phase ────────────────
 		// Note: $classified is NOT stored here — PhpPresentation shape objects

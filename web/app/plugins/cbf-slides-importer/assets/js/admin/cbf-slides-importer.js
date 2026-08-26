@@ -123,6 +123,25 @@
     },
 
     /**
+     * Fetch rendered block HTML preview for a parsed job.
+     *
+     * Returns { lesson_html, topics } on success or rejects with an error.
+     * If the server returns 202 (still generating), rejects with a sentinel
+     * error whose message starts with "RETRY:" so the caller can back-off.
+     *
+     * @param {number} id  Job ID.
+     * @returns {Promise<{lesson_html: string, topics: Array}>}
+     */
+    getJobPreview(id) {
+      return this.fetch("jobs/" + id + "/preview").then((data) => {
+        if (data && data.retry_after) {
+          return Promise.reject(new Error("RETRY:" + (data.retry_after || 3)));
+        }
+        return data;
+      });
+    },
+
+    /**
      * Fetch LearnDash courses for the course selector dropdown.
      * Uses the standard WP REST API (sfwd-courses CPT).
      *
@@ -734,6 +753,9 @@
           '<button class="button button-primary" data-action="do-import" data-id="' +
           jobId +
           '">Import into LearnDash</button>' +
+          '<button class="button" data-action="show-preview" data-id="' +
+          jobId +
+          '" style="margin-left:8px;">Preview content…</button>' +
           '<button class="button" data-action="cancel-config" data-id="' +
           jobId +
           '" style="margin-left:8px;">Cancel</button>' +
@@ -758,6 +780,10 @@
           this._openConfigPanel(id);
         } else if (action === "do-import") {
           this._doImport(id);
+        } else if (action === "show-preview") {
+          this._doPreview(id);
+        } else if (action === "back-to-config") {
+          this._restoreConfigPanel(id);
         } else if (action === "cancel-config") {
           const panel = document.getElementById("cbf-si-config-panel-" + id);
           if (panel) {
@@ -861,6 +887,134 @@
           this._loadJobs();
         })
         .catch((err) => this.showError("Cancel failed: " + err.message));
+    },
+
+    // ── Preview panel (Phase 4) ────────────────────────────────────────────
+
+    /**
+     * Fetch the rendered block HTML preview for a job and display it in the
+     * config panel row, replacing the config form.  Saves the config form's
+     * current innerHTML so it can be restored via "← Back to Configure".
+     *
+     * @param {number} id  Job ID.
+     */
+    _doPreview(id) {
+      const panel = document.getElementById("cbf-si-config-panel-" + id);
+      if (!panel) {
+        return;
+      }
+      const cell = panel.querySelector("td");
+      if (!cell) {
+        return;
+      }
+
+      // Cache the current config panel HTML so we can restore it.
+      this._configPanelCache = this._configPanelCache || {};
+      this._configPanelCache[id] = cell.innerHTML;
+
+      cell.innerHTML =
+        '<em style="color:#888;font-size:13px;">Loading preview…</em>';
+
+      Api.getJobPreview(id)
+        .then((data) => {
+          const lessonHtml = (data.lesson_html || "").trim();
+          const topics = Array.isArray(data.topics) ? data.topics : [];
+
+          const hasContent =
+            lessonHtml.length > 0 ||
+            topics.some((t) => (t.html || "").trim().length > 0);
+
+          let previewHtml = "";
+
+          if (!hasContent) {
+            previewHtml =
+              '<p style="color:#996800;background:#fff8e1;padding:10px 14px;border-left:4px solid #f0b849;margin:0 0 12px;">' +
+              "⚠ No content was generated from the current config. Try a different mode or adjust the slide map." +
+              "</p>";
+          } else if (topics.length > 0) {
+            // lesson-with-topics mode.
+            const topicsHtml = topics
+              .map(
+                (t, i) =>
+                  "<details" +
+                  (i === 0 ? " open" : "") +
+                  ' style="margin-bottom:8px;border:1px solid #ddd;border-radius:4px;">' +
+                  '<summary style="padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px;background:#f9f9f9;border-radius:4px;">' +
+                  this._esc(t.title || "Topic " + (i + 1)) +
+                  "</summary>" +
+                  '<div class="cbf-si-preview-content" style="padding:12px 16px;max-height:360px;overflow-y:auto;font-size:13px;">' +
+                  (t.html || "<em style='color:#888'>No content</em>") +
+                  "</div>" +
+                  "</details>",
+              )
+              .join("");
+            previewHtml =
+              '<p style="font-size:12px;color:#888;margin:0 0 8px;">' +
+              "Lesson-with-topics — " +
+              topics.length +
+              " topic" +
+              (topics.length !== 1 ? "s" : "") +
+              "</p>" +
+              topicsHtml;
+          } else {
+            // lesson-only mode.
+            previewHtml =
+              '<div class="cbf-si-preview-content" style="max-height:480px;overflow-y:auto;padding:12px 16px;border:1px solid #ddd;border-radius:4px;font-size:13px;">' +
+              (lessonHtml || "<em style='color:#888'>No content</em>") +
+              "</div>";
+          }
+
+          cell.innerHTML =
+            '<strong style="font-size:13px;">Content Preview</strong>' +
+            '<p style="font-size:12px;color:#888;margin:4px 0 12px;">Rendered block HTML for the current configuration. Styling may differ from the live site.</p>' +
+            previewHtml +
+            '<p style="margin-top:12px;margin-bottom:0;">' +
+            '<button class="button button-primary" data-action="do-import" data-id="' +
+            id +
+            '">Import into LearnDash</button>' +
+            '<button class="button" data-action="back-to-config" data-id="' +
+            id +
+            '" style="margin-left:8px;">← Back to Configure</button>' +
+            "</p>";
+        })
+        .catch((err) => {
+          const msg = err.message || "";
+          if (msg.startsWith("RETRY:")) {
+            const delay = parseInt(msg.slice(6), 10) || 3;
+            cell.innerHTML =
+              '<em style="color:#888;font-size:13px;">Preview is generating… refreshing in ' +
+              delay +
+              "s</em>";
+            setTimeout(() => this._doPreview(id), delay * 1000);
+          } else {
+            cell.innerHTML =
+              '<p style="color:#d63638;font-size:13px;">⚠ Preview unavailable: ' +
+              this._esc(msg) +
+              "</p>" +
+              '<p style="margin-top:8px;margin-bottom:0;">' +
+              '<button class="button" data-action="back-to-config" data-id="' +
+              id +
+              '">← Back to Configure</button>' +
+              "</p>";
+          }
+        });
+    },
+
+    /**
+     * Restore the config panel to its previous state after viewing the preview.
+     *
+     * @param {number} id  Job ID.
+     */
+    _restoreConfigPanel(id) {
+      const panel = document.getElementById("cbf-si-config-panel-" + id);
+      const cell = panel && panel.querySelector("td");
+      if (!cell) {
+        return;
+      }
+      const cached = this._configPanelCache && this._configPanelCache[id];
+      if (cached) {
+        cell.innerHTML = cached;
+      }
     },
 
     // ── Polling ────────────────────────────────────────────────────────────
