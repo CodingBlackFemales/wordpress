@@ -697,7 +697,15 @@
           "</tr>" +
           "</table>" +
           slideMapHtml +
-          '<p style="margin-top:14px;margin-bottom:0;">' +
+          '<p style="margin-top:16px;margin-bottom:6px;">' +
+          "<label>" +
+          '<input type="checkbox" id="cbf-si-overwrite-' +
+          jobId +
+          '" style="margin-right:6px;">' +
+          "<strong>Overwrite existing content</strong> — update posts that already share this title rather than skipping them" +
+          "</label>" +
+          "</p>" +
+          '<p style="margin-top:10px;margin-bottom:0;">' +
           '<button class="button button-primary" data-action="do-import" data-id="' +
           jobId +
           '">Import into LearnDash</button>' +
@@ -744,9 +752,11 @@
         'input[name="cbf-si-mode-' + id + '"]:checked',
       );
       const courseEl = document.getElementById("cbf-si-course-" + id);
+      const overwriteEl = document.getElementById("cbf-si-overwrite-" + id);
       const postTitle = titleEl ? titleEl.value.trim() : "";
       const mode = modeEl ? modeEl.value : "lesson-only";
       const courseId = courseEl ? parseInt(courseEl.value, 10) : 0;
+      const overwrite = overwriteEl ? overwriteEl.checked : false;
 
       // Validate: title is required (P3.5).
       if (!postTitle) {
@@ -799,6 +809,7 @@
         mode: mode,
         course_id: courseId,
         post_title: postTitle,
+        overwrite: overwrite,
       };
       if (Object.keys(slideOverrides).length) {
         importConfig.slide_overrides = slideOverrides;
