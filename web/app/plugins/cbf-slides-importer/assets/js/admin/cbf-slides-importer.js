@@ -812,8 +812,6 @@
           this._openConfigPanel(id);
         } else if (action === "do-import") {
           this._doImport(id);
-        } else if (action === "force-import") {
-          this._doImport(id, { force: true });
         } else if (action === "show-preview") {
           this._doPreview(id);
         } else if (action === "back-to-config") {
@@ -830,9 +828,7 @@
       this._jobListEl.addEventListener("click", this._onJobAction);
     },
 
-    _doImport(id, opts) {
-      opts = opts || {};
-
+    _doImport(id) {
       // Read config from the panel.  When Import is clicked from the preview
       // panel the form elements are no longer in the DOM, so fall back to the
       // config that was cached when the preview was generated.
@@ -842,14 +838,8 @@
         ? panelConfig
         : Object.assign({}, cached);
 
-      if (opts.force) {
-        config.force = true;
-      }
-
-      const { mode, course_id: courseId, post_title: postTitle } = config;
-
       // Validate: title is required (P3.5).
-      if (!postTitle) {
+      if (!config.post_title) {
         const titleEl = document.getElementById("cbf-si-title-" + id);
         window.alert("Please enter a lesson title before importing.");
         if (titleEl) {
@@ -858,57 +848,150 @@
         return;
       }
 
-      // Validate: course_id required for lesson-with-topics (warn, not block).
-      if (mode === "lesson-with-topics" && !courseId) {
-        if (
-          !window.confirm(
-            "No course selected. The topics will be created without being assigned to a course.\n\nProceed?",
-          )
-        ) {
-          return;
-        }
-      }
-
-      if (
-        !window.confirm(
-          "Import this deck into LearnDash? " +
-            "This will create " +
-            (mode === "lesson-with-topics" ? "lesson and topic" : "lesson") +
-            " posts." +
-            (courseId
-              ? ""
-              : "\n\nNote: no course selected — posts will not be linked to a course."),
-        )
-      ) {
-        return;
-      }
-
-      Api.triggerImport(id, config)
-        .then((data) => {
-          if (data && data.conflict) {
-            this._showImportConflict(id, data);
-            return;
-          }
-          // Close config panel.
-          const panel = document.getElementById("cbf-si-config-panel-" + id);
-          if (panel) {
-            panel.remove();
-          }
-          this.showNotice("✓ Import triggered for job #" + id, "success");
-          this._pollJob(id);
-          this._loadJobs();
-        })
-        .catch((err) => this.showError("Import failed: " + err.message));
+      this._showImportModal(id, config);
     },
 
     /**
-     * Replace the preview action buttons with a conflict warning when a prior
-     * completed import is found for the same deck + configuration.
+     * Show a confirmation modal before triggering an import.
      *
-     * @param {number} id       Job ID.
-     * @param {object} conflict { priorJobId, priorJobDate } from the 409 response.
+     * Manages the full confirm → trigger → conflict flow in one place so the
+     * UX is identical whether the modal is opened from the configure or preview
+     * panel.  On a 409 conflict the modal stays open and its content is updated
+     * in place — no second dialog, no window.confirm().
+     *
+     * @param {number} id     Job ID.
+     * @param {object} config Import config ({ mode, course_id, overwrite, topic_count }).
      */
-    _showImportConflict(id, conflict) {
+    _showImportModal(id, config) {
+      const mode = config.mode || "lesson-only";
+      const courseId = config.course_id || 0;
+      const overwrite = config.overwrite || false;
+      const topicCount = config.topic_count; // undefined when imported without preview
+
+      // Resolve course name from cached courses list.
+      let courseName = null;
+      if (courseId && this._courses) {
+        const found = this._courses.find((c) => c.id === courseId);
+        if (found) {
+          courseName =
+            found.title && found.title.rendered
+              ? found.title.rendered
+              : String(courseId);
+        }
+      }
+
+      // Build the summary sentence.
+      let summary = "This will create ";
+      if (mode === "lesson-with-topics") {
+        const topicsLabel =
+          topicCount !== undefined
+            ? topicCount + " topic" + (topicCount !== 1 ? "s" : "")
+            : "topics";
+        summary += "1 lesson and " + topicsLabel;
+      } else {
+        summary += "1 lesson";
+      }
+      summary += courseName
+        ? ' in the "' + this._esc(courseName) + '" course.'
+        : ".";
+
+      // Build warning lines (no-course and overwrite).
+      const warnings = [];
+      if (!courseId) {
+        warnings.push("Posts will not be assigned to a course.");
+      }
+      if (overwrite) {
+        warnings.push("Existing content with the same title will be updated.");
+      }
+      const warningHtml = warnings.length
+        ? '<p id="cbf-si-modal-warnings" style="margin:14px 0 0;padding:10px 14px;background:#fff8e1;border-left:4px solid #f0b849;font-size:13px;">' +
+          warnings.map((w) => this._esc(w)).join("<br>") +
+          "</p>"
+        : "";
+
+      const overlay = document.createElement("div");
+      overlay.id = "cbf-si-import-modal";
+      overlay.setAttribute("role", "presentation");
+      overlay.style.cssText =
+        "position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100000;" +
+        "display:flex;align-items:center;justify-content:center;";
+
+      overlay.innerHTML =
+        '<div role="dialog" aria-modal="true" aria-labelledby="cbf-si-modal-title"' +
+        ' style="background:#fff;border-radius:4px;box-shadow:0 4px 24px rgba(0,0,0,0.18);' +
+        'max-width:480px;width:90%;padding:24px;">' +
+        '<h2 id="cbf-si-modal-title" style="margin:0 0 12px;font-size:16px;font-weight:600;">Confirm Import</h2>' +
+        '<p style="margin:0;font-size:14px;line-height:1.5;">' +
+        summary +
+        "</p>" +
+        warningHtml +
+        '<p style="margin:20px 0 0;">' +
+        '<button class="button button-primary" id="cbf-si-modal-confirm">Confirm Import</button>' +
+        ' <button class="button" id="cbf-si-modal-cancel">Cancel</button>' +
+        "</p>" +
+        "</div>";
+
+      document.body.appendChild(overlay);
+
+      const close = () => overlay.remove();
+
+      const triggerImport = (importConfig) => {
+        const confirmBtn = document.getElementById("cbf-si-modal-confirm");
+        if (confirmBtn) {
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = "Importing…";
+        }
+        Api.triggerImport(id, importConfig)
+          .then((data) => {
+            if (data && data.conflict) {
+              this._updateModalForConflict(data, id, importConfig);
+              return;
+            }
+            close();
+            const panel = document.getElementById("cbf-si-config-panel-" + id);
+            if (panel) {
+              panel.remove();
+            }
+            this.showNotice("✓ Import triggered for job #" + id, "success");
+            this._pollJob(id);
+            this._loadJobs();
+          })
+          .catch((err) => {
+            close();
+            this.showError("Import failed: " + err.message);
+          });
+      };
+
+      document
+        .getElementById("cbf-si-modal-confirm")
+        .addEventListener("click", () => triggerImport(config));
+      document
+        .getElementById("cbf-si-modal-cancel")
+        .addEventListener("click", close);
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          close();
+        }
+      });
+    },
+
+    /**
+     * Update the open import modal to show a conflict warning and swap the
+     * confirm button to "Re-Import anyway".
+     *
+     * Called when Api.triggerImport() returns a 409 conflict response.  The
+     * modal stays open so the user can decide without losing context.
+     *
+     * @param {object} conflict   { priorJobId, priorJobDate } from the 409 response.
+     * @param {number} id         Job ID.
+     * @param {object} prevConfig The config that triggered the conflict.
+     */
+    _updateModalForConflict(conflict, id, prevConfig) {
+      const overlay = document.getElementById("cbf-si-import-modal");
+      if (!overlay) {
+        return;
+      }
+
       let dateLabel = "a previous session";
       if (conflict.priorJobDate) {
         try {
@@ -918,34 +1001,61 @@
         }
       }
 
-      // When in the preview panel, replace the action row with an inline warning.
-      const panel = document.getElementById("cbf-si-config-panel-" + id);
-      const cell = panel && panel.querySelector("td");
-      const actionP = cell && cell.querySelector(".cbf-si-preview-actions");
-      if (actionP) {
-        actionP.innerHTML =
-          '<p style="margin:0 0 10px;padding:10px 14px;background:#fff8e1;border-left:4px solid #f0b849;font-size:13px;">' +
-          "<strong>⚠ Already imported</strong> — this deck was imported with these settings on " +
-          this._esc(dateLabel) +
-          ". Re-importing will skip posts that already exist (unless Overwrite is enabled)." +
-          "</p>" +
-          '<button class="button button-primary" data-action="force-import" data-id="' +
-          id +
-          '">Re-import anyway</button>' +
-          ' <button class="button" data-action="back-to-config" data-id="' +
-          id +
-          '">← Back to Configure</button>';
-        return;
+      // Inject (or replace) the warnings strip with the conflict message.
+      const dialog = overlay.querySelector('[role="dialog"]');
+      const existing = document.getElementById("cbf-si-modal-warnings");
+      const conflictHtml =
+        "<strong>⚠ Already imported</strong> — this deck was imported " +
+        "with these settings on " +
+        this._esc(dateLabel) +
+        ". Re-importing will skip posts that already exist (unless Overwrite is enabled).";
+
+      if (existing) {
+        existing.innerHTML = conflictHtml;
+      } else {
+        const strip = document.createElement("p");
+        strip.id = "cbf-si-modal-warnings";
+        strip.style.cssText =
+          "margin:14px 0 0;padding:10px 14px;background:#fff8e1;" +
+          "border-left:4px solid #f0b849;font-size:13px;";
+        strip.innerHTML = conflictHtml;
+        const btnRow = dialog && dialog.querySelector("p:last-child");
+        if (btnRow) {
+          dialog.insertBefore(strip, btnRow);
+        } else if (dialog) {
+          dialog.appendChild(strip);
+        }
       }
 
-      // When in the configure panel (no preview actions row), fall back to a
-      // confirm dialog so the user can still choose to proceed.
-      const message =
-        "This deck was already imported with these settings on " +
-        dateLabel +
-        ".\n\nRe-importing will skip posts that already exist (unless Overwrite is enabled).\n\nRe-import anyway?";
-      if (window.confirm(message)) {
-        this._doImport(id, { force: true });
+      // Swap confirm button to "Re-Import anyway" with a fresh event listener.
+      const oldBtn = document.getElementById("cbf-si-modal-confirm");
+      if (oldBtn) {
+        const newBtn = oldBtn.cloneNode(false);
+        newBtn.disabled = false;
+        newBtn.textContent = "Re-Import anyway";
+        newBtn.addEventListener("click", () => {
+          newBtn.disabled = true;
+          newBtn.textContent = "Importing…";
+          const forceConfig = Object.assign({}, prevConfig, { force: true });
+          Api.triggerImport(id, forceConfig)
+            .then(() => {
+              overlay.remove();
+              const panel = document.getElementById(
+                "cbf-si-config-panel-" + id,
+              );
+              if (panel) {
+                panel.remove();
+              }
+              this.showNotice("✓ Import triggered for job #" + id, "success");
+              this._pollJob(id);
+              this._loadJobs();
+            })
+            .catch((err) => {
+              overlay.remove();
+              this.showError("Import failed: " + err.message);
+            });
+        });
+        oldBtn.parentNode.replaceChild(newBtn, oldBtn);
       }
     },
 
@@ -1037,6 +1147,11 @@
         .then((data) => {
           const lessonHtml = (data.lesson_html || "").trim();
           const topics = Array.isArray(data.topics) ? data.topics : [];
+
+          // Cache topic count so the import confirmation modal can surface it.
+          this._previewConfig = this._previewConfig || {};
+          this._previewConfig[id] = this._previewConfig[id] || {};
+          this._previewConfig[id].topic_count = topics.length;
 
           const hasContent =
             lessonHtml.length > 0 ||
