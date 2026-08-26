@@ -481,6 +481,31 @@
                 (ids.length > 1 ? "s" : "") +
                 " created</span>",
             );
+          } else {
+            // No posts created — check whether any were skipped due to existing
+            // title matches (overwrite was off).
+            let skippedIds = [];
+            try {
+              const summary = JSON.parse(j.result_summary || "{}");
+              skippedIds = Array.isArray(summary.skipped_post_ids)
+                ? summary.skipped_post_ids
+                : [];
+            } catch (_) {
+              // ignore malformed JSON
+            }
+            if (skippedIds.length) {
+              btns.push(
+                '<span style="color:#996800;font-size:12px;" title="' +
+                  skippedIds.length +
+                  " existing post" +
+                  (skippedIds.length > 1 ? "s were" : " was") +
+                  " found with a matching title. Enable &ldquo;Overwrite existing content&rdquo; and re-import to update " +
+                  (skippedIds.length > 1 ? "them" : "it") +
+                  '.">⚠ 0 created — existing post' +
+                  (skippedIds.length > 1 ? "s" : "") +
+                  " found (enable Overwrite to update)</span>",
+              );
+            }
           }
         } catch (e) {
           // Malformed JSON — skip the post-count badge.

@@ -243,13 +243,21 @@ final class JobRunner {
 			self::set_failed( $job_id, $result->get_error_message() );
 		} else {
 			self::update_status( $job_id, 'done' );
-			$post_ids = $result['created_post_ids'] ?? array();
+			$post_ids    = $result['created_post_ids'] ?? array();
+			$skipped_ids = $result['skipped_post_ids'] ?? array();
 			self::update_created_posts( $job_id, $post_ids );
+			// Persist skipped IDs into result_summary so the UI can display a clear
+			// "existing post found — enable Overwrite to update" message.
+			if ( ! empty( $skipped_ids ) ) {
+				$summary['skipped_post_ids'] = array_values( array_map( 'intval', $skipped_ids ) );
+				self::update_result_summary( $job_id, $summary );
+			}
 			Utils::log(
 				'Import complete.',
 				array(
-					'job_id' => $job_id,
-					'posts'  => count( $post_ids ),
+					'job_id'  => $job_id,
+					'posts'   => count( $post_ids ),
+					'skipped' => count( $skipped_ids ),
 				)
 			);
 		}
