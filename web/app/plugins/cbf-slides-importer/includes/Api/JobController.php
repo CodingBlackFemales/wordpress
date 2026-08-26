@@ -15,6 +15,7 @@
 namespace CodingBlackFemales\SlidesImporter\Api;
 
 use CodingBlackFemales\SlidesImporter\Import\JobRunner;
+use CodingBlackFemales\SlidesImporter\Api\PreviewController;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -395,6 +396,10 @@ final class JobController {
 			array( '%s' ),
 			array( '%d' )
 		);
+
+		// Bust the preview transient so the next GET /preview re-renders with
+		// the updated config (mode, slide_overrides, etc.).
+		PreviewController::bust( (int) $row['id'], get_current_user_id() );
 	}
 
 
