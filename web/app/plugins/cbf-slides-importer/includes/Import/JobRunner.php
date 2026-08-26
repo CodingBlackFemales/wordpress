@@ -159,6 +159,24 @@ final class JobRunner {
 
 		$classified = SlideClassifier::classify( $parsed, $heading_regex, (array) $slide_overrides );
 
+		// ── Extract serialisable slide metadata for the slide-map UI ──────────
+		// Shape objects (PhpPresentation\Shape\RichText) cannot survive JSON
+		// serialisation, so only primitive fields are captured here.
+		$slides_meta = array_map(
+			static function ( array $slide ): array {
+				return array(
+					'index'        => $slide['index'],
+					'slide_number' => $slide['slide_number'],
+					'title'        => $slide['title'],
+					'layout_name'  => $slide['layout_name'],
+					'is_hidden'    => $slide['is_hidden'],
+					'is_cover'     => $slide['is_cover'],
+					'slide_type'   => $slide['slide_type'],
+				);
+			},
+			$classified['slides']
+		);
+
 		// ── Render preview ────────────────────────────────────────────────────
 		$rendered = BlockRenderer::render( $classified, $mode );
 		PreviewController::store( $job_id, $user_id, $rendered );
@@ -174,6 +192,7 @@ final class JobRunner {
 				'job_tmp_dir' => $job_tmp_dir,
 				'mode'        => $mode,
 				'config'      => $config,
+				'slides_meta' => $slides_meta,
 			)
 		);
 
