@@ -15,7 +15,7 @@
  * Plugin Name: CBF Slides Importer
  * Plugin URI:  https://codingblackfemales.com
  * Description: Import Google Slides decks into LearnDash lessons and topics via a browser-based admin UI.
- * Version:     1.0.5
+ * Version:     1.0.6
  * Author:      Coding Black Females
  * Author URI:  https://codingblackfemales.com
  * License:     GPL-2.0+
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-const VERSION     = '1.0.5';
+const VERSION     = '1.0.6';
 const PLUGIN_FILE = __FILE__;
 
 /**

@@ -58,12 +58,13 @@ final class LearnDashImporter {
 			$mode
 		);
 
-		$errors = array();
+		$errors      = array();
+		$skipped_ids = array();
 
 		if ( $mode === 'lesson-with-topics' ) {
-			$result = $this->import_lesson_with_topics( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors );
+			$result = $this->import_lesson_with_topics( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors, $skipped_ids );
 		} else {
-			$result = $this->import_lesson_only( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors );
+			$result = $this->import_lesson_only( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors, $skipped_ids );
 		}
 
 		if ( ! empty( $errors ) ) {
@@ -74,6 +75,7 @@ final class LearnDashImporter {
 			? $result
 			: array(
 				'created_post_ids' => $result,
+				'skipped_post_ids' => $skipped_ids,
 				'errors'           => $errors,
 			);
 	}
@@ -84,15 +86,17 @@ final class LearnDashImporter {
 	/**
 	 * Import a single lesson (lesson-only mode).
 	 *
-	 * @param object $plugin     learndash-bulk plugin instance.
-	 * @param array  $rendered   BlockRenderer output.
-	 * @param int    $course_id  Target course ID.
-	 * @param string $img_dir    Absolute path to extracted images.
-	 * @param string $post_title Lesson title (from config panel or deck name).
-	 * @param array  &$errors    Errors collected during import.
+	 * @param object $plugin       learndash-bulk plugin instance.
+	 * @param array  $rendered     BlockRenderer output.
+	 * @param int    $course_id    Target course ID.
+	 * @param string $img_dir      Absolute path to extracted images.
+	 * @param string $post_title   Lesson title (from config panel or deck name).
+	 * @param bool   $overwrite    Whether to overwrite existing posts matched by title.
+	 * @param array  &$errors      Errors collected during import.
+	 * @param array  &$skipped_ids IDs of posts skipped due to title match + overwrite=false.
 	 * @return int[]|WP_Error
 	 */
-	private function import_lesson_only( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, bool $overwrite, array &$errors ): array|WP_Error {
+	private function import_lesson_only( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
 		$row = array(
 			'post_title'   => $post_title,
 			'post_content' => $rendered['lesson_html'] ?? '',
@@ -100,22 +104,24 @@ final class LearnDashImporter {
 			'post_type'    => 'sfwd-lessons',
 		);
 
-		return $this->run_import_row( $plugin, $row, $img_dir, $overwrite, $errors );
+		return $this->run_import_row( $plugin, $row, $img_dir, $overwrite, $errors, $skipped_ids );
 	}
 
 
 	/**
 	 * Import a lesson + multiple topics (lesson-with-topics mode).
 	 *
-	 * @param object $plugin
-	 * @param array  $rendered
-	 * @param int    $course_id
-	 * @param string $img_dir
-	 * @param string $post_title Lesson title (from config panel or deck name).
-	 * @param array  &$errors
+	 * @param object $plugin       learndash-bulk plugin instance.
+	 * @param array  $rendered     BlockRenderer output.
+	 * @param int    $course_id    Target course ID.
+	 * @param string $img_dir      Absolute path to extracted images.
+	 * @param string $post_title   Lesson title (from config panel or deck name).
+	 * @param bool   $overwrite    Whether to overwrite existing posts matched by title.
+	 * @param array  &$errors      Errors collected during import.
+	 * @param array  &$skipped_ids IDs of posts skipped due to title match + overwrite=false.
 	 * @return int[]|WP_Error
 	 */
-	private function import_lesson_with_topics( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, bool $overwrite, array &$errors ): array|WP_Error {
+	private function import_lesson_with_topics( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
 		$post_ids = array();
 
 		// 1. Create the lesson.
@@ -126,7 +132,7 @@ final class LearnDashImporter {
 			'post_type'    => 'sfwd-lessons',
 		);
 
-		$lesson_ids = $this->run_import_row( $plugin, $lesson_row, $img_dir, $overwrite, $errors );
+		$lesson_ids = $this->run_import_row( $plugin, $lesson_row, $img_dir, $overwrite, $errors, $skipped_ids );
 		if ( is_wp_error( $lesson_ids ) ) {
 			return $lesson_ids;
 		}
@@ -143,7 +149,7 @@ final class LearnDashImporter {
 				'lesson_id'    => $lesson_id,
 				'post_type'    => 'sfwd-topic',
 			);
-			$topic_ids = $this->run_import_row( $plugin, $topic_row, $img_dir, $overwrite, $errors );
+			$topic_ids = $this->run_import_row( $plugin, $topic_row, $img_dir, $overwrite, $errors, $skipped_ids );
 			if ( ! is_wp_error( $topic_ids ) ) {
 				$post_ids = array_merge( $post_ids, $topic_ids );
 			}
@@ -167,13 +173,19 @@ final class LearnDashImporter {
 	 * The $row passed in here is an associative array keyed by column name, so
 	 * we derive $headers and a single-element $rows from it.
 	 *
-	 * @param  object $plugin    learndash-bulk plugin instance.
-	 * @param  array  $row       Associative row data (post_title, post_content, etc.).
-	 * @param  string $img_dir   Path to extracted image files for media rewrite.
-	 * @param  array  &$errors   Accumulates any errors.
-	 * @return int[]|WP_Error    Created/updated post IDs.
+	 * Posts that the bulk plugin skips due to a title match when overwrite is false
+	 * are collected into $skipped_ids (not $post_ids) so the caller can surface a
+	 * clear "existing post found" message rather than silently reporting 0 created.
+	 *
+	 * @param  object $plugin       learndash-bulk plugin instance.
+	 * @param  array  $row          Associative row data (post_title, post_content, etc.).
+	 * @param  string $img_dir      Path to extracted image files for media rewrite.
+	 * @param  bool   $overwrite    Whether to overwrite existing posts matched by title.
+	 * @param  array  &$errors      Accumulates any errors.
+	 * @param  array  &$skipped_ids Accumulates IDs of skipped (title-matched) posts.
+	 * @return int[]|WP_Error       Created/updated post IDs only.
 	 */
-	private function run_import_row( object $plugin, array $row, string $img_dir, bool $overwrite, array &$errors ): array|WP_Error {
+	private function run_import_row( object $plugin, array $row, string $img_dir, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
 		// Separate the post_type out — it drives content_type, not a column.
 		$content_type = $row['post_type'] ?? 'sfwd-lessons';
 		unset( $row['post_type'] );
@@ -223,21 +235,21 @@ final class LearnDashImporter {
 				}
 			}
 
-			// Also collect skipped IDs (existing posts matched by title when overwrite
-			// is false). These are included so the job tracks the associated post ID
-			// and the action column shows the post rather than appearing blank.
-			$skipped = 0;
+			// Collect skipped IDs separately — they represent existing posts that were
+			// matched by title but NOT modified (overwrite is false). They must not be
+			// added to $post_ids because the job did not create or update them.
+			$skipped_count = 0;
 			foreach ( $result['skipped_entries'] ?? array() as $entry ) {
 				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
 				if ( $id ) {
-					$post_ids[] = $id;
-					++$skipped;
+					$skipped_ids[] = $id;
+					++$skipped_count;
 				}
 			}
-			if ( $skipped > 0 ) {
+			if ( $skipped_count > 0 ) {
 				Utils::log(
 					'Import skipped existing posts (title match, overwrite off).',
-					array( 'skipped' => $skipped )
+					array( 'skipped' => $skipped_count )
 				);
 			}
 
