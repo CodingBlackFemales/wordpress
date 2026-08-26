@@ -208,20 +208,27 @@
         })
         .build();
 
+      // Guard against the browser scrolling to the picker iframe when it gains
+      // focus. The scroll can be asynchronous (fires after setVisible returns),
+      // so a synchronous or rAF-based restore arrives too early. Instead,
+      // intercept the scroll event itself and immediately scroll back.
+      // { once: true } auto-removes the listener on first fire so it cannot
+      // interfere with normal scrolling while the picker is open.
+      // The setTimeout is a cleanup in case no scroll event fires at all
+      // (user was already at the top, or subsequent opens where the iframe
+      // already exists and no focus-scroll occurs).
+      const scrollGuard = () => window.scrollTo(scrollX, scrollY);
+      window.addEventListener("scroll", scrollGuard, { once: true });
+
       picker.setVisible(true);
+
+      setTimeout(() => window.removeEventListener("scroll", scrollGuard), 1000);
 
       // Notify the caller that the picker is now visible (e.g. to update the
       // trigger button label while keeping it disabled).
       if (onReady) {
         onReady();
       }
-
-      // Restore scroll position. The jump is caused by gapi.load() injecting a
-      // hidden iframe that receives browser focus on first use. scrollX/scrollY
-      // are captured in _openPicker() before any async work so they reflect the
-      // true pre-open position even if gapi.load() has already scrolled the page.
-      window.scrollTo(scrollX, scrollY);
-      requestAnimationFrame(() => window.scrollTo(scrollX, scrollY));
     },
   };
 
