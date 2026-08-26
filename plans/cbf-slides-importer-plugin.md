@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 1.6.0 |
-| **Status** | Phase 3 UI in progress |
+| **Plan version** | 1.7.0 |
+| **Status** | Phase 4 complete; Phase 5 next |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 1.7.0 — Phase 3 complete (P3.1–P3.5, slide map UI, overwrite flag, config validation); Phase 4 complete (P4.1–P4.4, PreviewRenderer.php, on-demand preview with transient cache + bust, preview panel UI with topic accordion, back-to-configure, warning when no content); skipped_post_ids fix (false-outcome bug on title-match dedup) · 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -752,10 +752,10 @@ Documented in plugin's admin Help tab:
 
 ### Phase 4: Preview
 
-- [ ] **P4.1** Implement `PreviewRenderer.php`: assemble block HTML for lesson and each topic using BlockRenderer + DeckConfig; store in transient `cbf_si_preview_{job_id}_{user_id}` (1h TTL) (resolves NR4, R8)
-- [ ] **P4.2** Trigger preview generation on job completion (after parse) and on config update
-- [ ] **P4.3** Implement REST `GET /jobs/{id}/preview` endpoint; return 202 if not yet ready (resolves G3)
-- [ ] **P4.4** Build preview panel UI: scrollable block HTML panels per lesson/topic; warning if slides produced no content; "Back to Configure" and "Start Import" actions
+- [x] **P4.1** Implement `PreviewRenderer.php`: assemble block HTML for lesson and each topic using BlockRenderer + DeckConfig; store in transient `cbf_si_preview_{job_id}_{user_id}` (1h TTL) (resolves NR4, R8)
+- [x] **P4.2** Trigger preview generation on job completion (after parse) and on config update
+- [x] **P4.3** Implement REST `GET /jobs/{id}/preview` endpoint; return 202 if not yet ready (resolves G3)
+- [x] **P4.4** Build preview panel UI: scrollable block HTML panels per lesson/topic; warning if slides produced no content; "Back to Configure" and "Start Import" actions
 
 ### Phase 5: Import Orchestration
 
