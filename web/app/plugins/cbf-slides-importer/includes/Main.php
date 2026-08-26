@@ -10,6 +10,7 @@ namespace CodingBlackFemales\SlidesImporter;
 
 use CodingBlackFemales\SlidesImporter\Admin\Main as Admin;
 use CodingBlackFemales\SlidesImporter\Api\Router;
+use CodingBlackFemales\SlidesImporter\Import\Janitor;
 use CodingBlackFemales\SlidesImporter\Import\JobRunner;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -87,6 +88,9 @@ final class Main {
 
 		// Background job handler (WP-Cron).
 		JobRunner::hooks();
+
+		// Hourly cleanup: stale job reset + orphaned temp file purge.
+		Janitor::hooks();
 
 		// Admin UI — only in admin context.
 		if ( Utils::is_request( 'admin' ) ) {
