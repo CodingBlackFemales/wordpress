@@ -9,6 +9,7 @@
 
 namespace CodingBlackFemales\SlidesImporter;
 
+use CodingBlackFemales\SlidesImporter\Import\Janitor;
 use CodingBlackFemales\SlidesImporter\Import\JobRunner;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -60,6 +61,12 @@ final class Install {
 		self::create_tables();
 		self::add_capabilities();
 		update_option( self::DB_VERSION_OPTION, self::DB_VERSION );
+
+		// Schedule hourly cleanup cron if not already registered.
+		if ( ! wp_next_scheduled( Janitor::CLEANUP_HOOK ) ) {
+			wp_schedule_event( time(), 'hourly', Janitor::CLEANUP_HOOK );
+		}
+
 		do_action( 'cbf_si_installed' );
 	}
 
@@ -67,11 +74,13 @@ final class Install {
 	/**
 	 * Deactivation hook callback.
 	 *
-	 * Clears the WP-Cron processing hook so no orphaned events fire.
-	 * Does NOT remove data — that is reserved for uninstall.php.
+	 * Clears both scheduled WP-Cron hooks (job processor and cleanup) so no
+	 * orphaned events fire after deactivation. Does NOT remove data — that is
+	 * reserved for uninstall.php.
 	 */
 	public static function deactivate(): void {
 		wp_clear_scheduled_hook( JobRunner::CRON_HOOK );
+		wp_clear_scheduled_hook( Janitor::CLEANUP_HOOK );
 	}
 
 
