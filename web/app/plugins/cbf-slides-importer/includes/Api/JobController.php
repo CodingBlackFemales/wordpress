@@ -314,7 +314,7 @@ final class JobController {
 		}
 
 		// Persist any UI-supplied overrides before the background job runs.
-		self::save_import_overrides( $row, $request );
+		self::save_overrides_for_job( $row, $request );
 
 		// Re-schedule background job to proceed to import phase.
 		wp_schedule_single_event(
@@ -336,12 +336,13 @@ final class JobController {
 	/**
 	 * Persist UI-supplied import config overrides into the job's result_summary.
 	 *
-	 * Extracted so trigger_import() stays within cyclomatic complexity limits.
+	 * Public so PreviewController can call it before generating a refresh preview
+	 * without duplicating the sanitisation and persistence logic.
 	 *
 	 * @param array           $row     Job DB row.
 	 * @param WP_REST_Request $request Incoming REST request.
 	 */
-	private static function save_import_overrides( array $row, WP_REST_Request $request ): void {
+	public static function save_overrides_for_job( array $row, WP_REST_Request $request ): void {
 		global $wpdb;
 
 		$mode            = $request->get_param( 'mode' );
