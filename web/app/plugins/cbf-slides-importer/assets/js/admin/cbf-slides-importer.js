@@ -102,9 +102,32 @@
      * @returns {Promise<any>}
      */
     triggerImport(id, config) {
-      return this.fetch("jobs/" + id + "/import", {
+      // Cannot use this.fetch() here because 409 (prior-import conflict) must
+      // return structured data to the caller rather than throw an Error.
+      const url =
+        cbf_slides_importer_admin_params.rest_url + "jobs/" + id + "/import";
+      const headers = {
+        "X-WP-Nonce": cbf_slides_importer_admin_params.nonce,
+        "Content-Type": "application/json",
+      };
+      return fetch(url, {
         method: "POST",
+        headers,
         body: JSON.stringify(config || {}),
+      }).then(async (res) => {
+        const json = await res.json();
+        if (res.status === 409) {
+          const d = json.data || {};
+          return {
+            conflict: true,
+            priorJobId: d.prior_job_id || null,
+            priorJobDate: d.prior_job_date || null,
+          };
+        }
+        if (!res.ok) {
+          throw new Error(json.message || "HTTP " + res.status);
+        }
+        return json;
       });
     },
 
@@ -789,6 +812,8 @@
           this._openConfigPanel(id);
         } else if (action === "do-import") {
           this._doImport(id);
+        } else if (action === "force-import") {
+          this._doImport(id, { force: true });
         } else if (action === "show-preview") {
           this._doPreview(id);
         } else if (action === "back-to-config") {
@@ -805,9 +830,22 @@
       this._jobListEl.addEventListener("click", this._onJobAction);
     },
 
-    _doImport(id) {
-      // Read config from the panel (shared with _doPreview via _readConfigFromPanel).
-      const config = this._readConfigFromPanel(id);
+    _doImport(id, opts) {
+      opts = opts || {};
+
+      // Read config from the panel.  When Import is clicked from the preview
+      // panel the form elements are no longer in the DOM, so fall back to the
+      // config that was cached when the preview was generated.
+      const panelConfig = this._readConfigFromPanel(id);
+      const cached = (this._previewConfig || {})[id] || {};
+      const config = panelConfig.post_title
+        ? panelConfig
+        : Object.assign({}, cached);
+
+      if (opts.force) {
+        config.force = true;
+      }
+
       const { mode, course_id: courseId, post_title: postTitle } = config;
 
       // Validate: title is required (P3.5).
@@ -846,7 +884,11 @@
       }
 
       Api.triggerImport(id, config)
-        .then(() => {
+        .then((data) => {
+          if (data && data.conflict) {
+            this._showImportConflict(id, data);
+            return;
+          }
           // Close config panel.
           const panel = document.getElementById("cbf-si-config-panel-" + id);
           if (panel) {
@@ -857,6 +899,54 @@
           this._loadJobs();
         })
         .catch((err) => this.showError("Import failed: " + err.message));
+    },
+
+    /**
+     * Replace the preview action buttons with a conflict warning when a prior
+     * completed import is found for the same deck + configuration.
+     *
+     * @param {number} id       Job ID.
+     * @param {object} conflict { priorJobId, priorJobDate } from the 409 response.
+     */
+    _showImportConflict(id, conflict) {
+      let dateLabel = "a previous session";
+      if (conflict.priorJobDate) {
+        try {
+          dateLabel = new Date(conflict.priorJobDate).toLocaleDateString();
+        } catch (_) {
+          // Keep default label if the date is unparsable.
+        }
+      }
+
+      // When in the preview panel, replace the action row with an inline warning.
+      const panel = document.getElementById("cbf-si-config-panel-" + id);
+      const cell = panel && panel.querySelector("td");
+      const actionP = cell && cell.querySelector(".cbf-si-preview-actions");
+      if (actionP) {
+        actionP.innerHTML =
+          '<p style="margin:0 0 10px;padding:10px 14px;background:#fff8e1;border-left:4px solid #f0b849;font-size:13px;">' +
+          "<strong>⚠ Already imported</strong> — this deck was imported with these settings on " +
+          this._esc(dateLabel) +
+          ". Re-importing will skip posts that already exist (unless Overwrite is enabled)." +
+          "</p>" +
+          '<button class="button button-primary" data-action="force-import" data-id="' +
+          id +
+          '">Re-import anyway</button>' +
+          ' <button class="button" data-action="back-to-config" data-id="' +
+          id +
+          '">← Back to Configure</button>';
+        return;
+      }
+
+      // When in the configure panel (no preview actions row), fall back to a
+      // confirm dialog so the user can still choose to proceed.
+      const message =
+        "This deck was already imported with these settings on " +
+        dateLabel +
+        ".\n\nRe-importing will skip posts that already exist (unless Overwrite is enabled).\n\nRe-import anyway?";
+      if (window.confirm(message)) {
+        this._doImport(id, { force: true });
+      }
     },
 
     _doCancel(id) {
@@ -930,6 +1020,12 @@
       // slide-map <select> elements are still accessible when we read them.
       const config = this._readConfigFromPanel(id);
 
+      // Cache config so _doImport can recover it when the form elements have
+      // been replaced by the preview panel (they are no longer in the DOM at
+      // that point, so a fresh _readConfigFromPanel call would return defaults).
+      this._previewConfig = this._previewConfig || {};
+      this._previewConfig[id] = config;
+
       // Cache the current config panel HTML so we can restore it.
       this._configPanelCache = this._configPanelCache || {};
       this._configPanelCache[id] = cell.innerHTML;
@@ -994,7 +1090,7 @@
             '<strong style="font-size:13px;">Content Preview</strong>' +
             '<p style="font-size:12px;color:#888;margin:4px 0 12px;">Rendered block HTML for the current configuration. Styling may differ from the live site.</p>' +
             previewHtml +
-            '<p style="margin-top:12px;margin-bottom:0;">' +
+            '<p class="cbf-si-preview-actions" style="margin-top:12px;margin-bottom:0;">' +
             '<button class="button button-primary" data-action="do-import" data-id="' +
             id +
             '">Import into LearnDash</button>' +
