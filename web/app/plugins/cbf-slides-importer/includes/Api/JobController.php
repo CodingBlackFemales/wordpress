@@ -141,6 +141,10 @@ final class JobController {
 						'type'    => 'boolean',
 						'default' => null,
 					),
+					'force'           => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
 				),
 			)
 		);
@@ -167,7 +171,7 @@ final class JobController {
 			ARRAY_A
 		);
 
-		return new WP_REST_Response( $rows ?: array(), 200 );
+		return new WP_REST_Response( $rows ? $rows : array(), 200 );
 	}
 
 
@@ -271,26 +275,13 @@ final class JobController {
 			return $row;
 		}
 
-		$summary     = json_decode( $row['result_summary'] ?? '{}', true );
-		$summary     = is_array( $summary ) ? $summary : array();
+		$summary     = self::decode_summary( $row );
 		$slides_meta = $summary['slides_meta'] ?? array();
-
-		// Merge any stored per-slide overrides so the UI can pre-populate them.
-		$config    = isset( $summary['config'] ) && is_array( $summary['config'] )
-			? $summary['config']
-			: array();
-		$overrides = array();
-		if ( ! empty( $config['slide_overrides'] ) ) {
-			$decoded = json_decode( $config['slide_overrides'], true );
-			if ( is_array( $decoded ) ) {
-				foreach ( $decoded as $slide_number => $type ) {
-					$overrides[ (int) $slide_number ] = (string) $type;
-				}
-			}
-		}
+		$config      = self::extract_config( $summary );
+		$overrides   = self::decode_stored_overrides( $config );
 
 		foreach ( $slides_meta as &$slide ) {
-			$num              = (int) ( $slide['slide_number'] ?? 0 );
+			$num               = (int) ( $slide['slide_number'] ?? 0 );
 			$slide['override'] = $overrides[ $num ] ?? null;
 		}
 		unset( $slide );
@@ -306,9 +297,15 @@ final class JobController {
 	 * Optional body params `mode`, `course_id`, and `post_title` override the
 	 * stored config so editors can configure the import in the UI without a
 	 * separate config save step.
+	 *
+	 * Returns 409 when a prior `done` job for the same deck + config hash is found,
+	 * unless `force=true` is supplied to bypass the check.
 	 */
 	public static function trigger_import( WP_REST_Request $request ): WP_REST_Response|WP_Error {
-		$row = self::find_row( (int) $request->get_param( 'id' ) );
+		global $wpdb;
+
+		$job_id = (int) $request->get_param( 'id' );
+		$row    = self::find_row( $job_id );
 		if ( is_wp_error( $row ) ) {
 			return $row;
 		}
@@ -316,13 +313,27 @@ final class JobController {
 		// Persist any UI-supplied overrides before the background job runs.
 		self::save_overrides_for_job( $row, $request );
 
+		// Check for a prior completed import of the same deck + config.
+		if ( ! $request->get_param( 'force' ) ) {
+			$table    = $wpdb->prefix . 'cbf_slide_import_jobs';
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$fresh    = $wpdb->get_row(
+				$wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $job_id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				ARRAY_A
+			);
+			$conflict = self::find_prior_import( $fresh );
+			if ( $conflict ) {
+				return $conflict;
+			}
+		}
+
 		// Re-schedule background job to proceed to import phase.
 		wp_schedule_single_event(
 			time(),
 			JobRunner::CRON_HOOK,
 			array(
 				array(
-					'job_id'  => (int) $row['id'],
+					'job_id'  => $job_id,
 					'blog_id' => (int) $row['blog_id'],
 					'phase'   => 'import',
 				),
@@ -330,6 +341,130 @@ final class JobController {
 		);
 
 		return new WP_REST_Response( array( 'scheduled' => true ), 202 );
+	}
+
+
+	/**
+	 * Check for a prior completed import of the same deck + configuration.
+	 *
+	 * Computes a config hash from the freshly saved row, stores it, then
+	 * queries for other `done` jobs on the same Drive file ID whose stored
+	 * hash matches.  Returns a 409 WP_Error when a match is found, null
+	 * when clear.
+	 *
+	 * @param array $row Job DB row with freshly saved config in result_summary.
+	 * @return WP_Error|null
+	 */
+	private static function find_prior_import( array $row ): ?WP_Error {
+		$summary     = self::decode_summary( $row );
+		$config      = self::extract_config( $summary );
+		$config_hash = self::compute_config_hash( $row['drive_file_id'], $config );
+
+		self::store_config_hash( (int) $row['id'], $summary, $config_hash );
+
+		return self::query_prior_import( $row, $config_hash );
+	}
+
+
+	/**
+	 * Persist a config hash into a job's result_summary.
+	 *
+	 * @param int    $job_id      Job ID.
+	 * @param array  $summary     Decoded result_summary (will be updated in-place).
+	 * @param string $config_hash SHA-256 hex hash to store.
+	 */
+	private static function store_config_hash( int $job_id, array $summary, string $config_hash ): void {
+		global $wpdb;
+		$summary['config_hash'] = $config_hash;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$wpdb->prefix . 'cbf_slide_import_jobs',
+			array( 'result_summary' => wp_json_encode( $summary ) ),
+			array( 'id' => $job_id ),
+			array( '%s' ),
+			array( '%d' )
+		);
+	}
+
+
+	/**
+	 * Query for a prior completed import with the same file + config hash.
+	 *
+	 * @param array  $row         Current job row.
+	 * @param string $config_hash Hash to match against prior done jobs.
+	 * @return WP_Error|null
+	 */
+	private static function query_prior_import( array $row, string $config_hash ): ?WP_Error {
+		global $wpdb;
+		$table = $wpdb->prefix . 'cbf_slide_import_jobs';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$prior_jobs = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, result_summary, updated_at FROM {$table} WHERE drive_file_id = %s AND status = 'done' AND id != %d AND blog_id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$row['drive_file_id'],
+				(int) $row['id'],
+				(int) $row['blog_id']
+			),
+			ARRAY_A
+		);
+
+		foreach ( (array) $prior_jobs as $prior ) {
+			$prior_hash = self::decode_summary( $prior )['config_hash'] ?? null;
+			if ( $prior_hash === $config_hash ) {
+				return new WP_Error(
+					'cbf_si_already_imported',
+					__( 'This deck was already imported with the same configuration.', 'cbf-slides-importer' ),
+					array(
+						'status'         => 409,
+						'prior_job_id'   => (int) $prior['id'],
+						'prior_job_date' => $prior['updated_at'] ?? '',
+					)
+				);
+			}
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Compute a stable SHA-256 hash of the key import-config fields.
+	 *
+	 * The hash covers the deck source and content-structure settings (mode,
+	 * course, slide overrides) so the same deck imported with the same slide
+	 * map can be detected on a subsequent trigger.  Post title and overwrite
+	 * are deliberately excluded — they are post-metadata settings, not
+	 * content-structure settings.
+	 *
+	 * @param string $drive_file_id Google Drive file ID.
+	 * @param array  $config        Stored config from result_summary.
+	 * @return string Hex SHA-256 hash.
+	 */
+	private static function compute_config_hash( string $drive_file_id, array $config ): string {
+		$mode      = $config['mode'] ?? 'lesson-only';
+		$course_id = (int) ( $config['course_id'] ?? 0 );
+
+		// Decode and sort slide overrides for a stable key order.
+		$overrides = array();
+		if ( ! empty( $config['slide_overrides'] ) ) {
+			$decoded = json_decode( $config['slide_overrides'], true );
+			if ( is_array( $decoded ) ) {
+				ksort( $decoded );
+				$overrides = $decoded;
+			}
+		}
+
+		$payload = implode(
+			'|',
+			array(
+				$drive_file_id,
+				$mode,
+				(string) $course_id,
+				wp_json_encode( $overrides ),
+			)
+		);
+
+		return hash( 'sha256', $payload );
 	}
 
 
@@ -351,42 +486,15 @@ final class JobController {
 		$slide_overrides = $request->get_param( 'slide_overrides' );
 		$overwrite       = $request->get_param( 'overwrite' );
 
-		if ( $mode === null && $course_id === null && $post_title === null && $slide_overrides === null && $overwrite === null ) {
+		if ( $mode === null && $course_id === null && $post_title === null
+			&& $slide_overrides === null && $overwrite === null ) {
 			return;
 		}
 
-		$summary = json_decode( $row['result_summary'] ?? '{}', true );
-		$summary = is_array( $summary ) ? $summary : array();
-		$config  = isset( $summary['config'] ) && is_array( $summary['config'] )
-			? $summary['config']
-			: array();
-
-		if ( $mode !== null ) {
-			$config['mode'] = sanitize_text_field( $mode );
-		}
-		if ( $course_id !== null ) {
-			$config['course_id'] = absint( $course_id );
-		}
-		if ( $post_title !== null ) {
-			$config['post_title'] = sanitize_text_field( $post_title );
-		}
-		if ( $overwrite !== null ) {
-			$config['overwrite'] = (bool) $overwrite;
-		}
-		if ( $slide_overrides !== null && is_array( $slide_overrides ) ) {
-			// Sanitise: keys are slide_numbers (int), values are allowed type strings.
-			$allowed  = array( 'cover', 'body', 'heading', 'hidden', 'section' );
-			$sanitised = array();
-			foreach ( $slide_overrides as $slide_number => $type ) {
-				$slide_number = absint( $slide_number );
-				$type         = sanitize_key( (string) $type );
-				if ( $slide_number > 0 && in_array( $type, $allowed, true ) ) {
-					$sanitised[ $slide_number ] = $type;
-				}
-			}
-			$config['slide_overrides'] = wp_json_encode( $sanitised );
-		}
-
+		$summary           = self::decode_summary( $row );
+		$config            = self::extract_config( $summary );
+		$config            = self::apply_request_config( $config, $mode, $course_id, $post_title, $overwrite );
+		$config            = self::apply_slide_overrides( $config, $slide_overrides );
 		$summary['config'] = $config;
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -401,6 +509,64 @@ final class JobController {
 		// Bust the preview transient so the next GET /preview re-renders with
 		// the updated config (mode, slide_overrides, etc.).
 		PreviewController::bust( (int) $row['id'], get_current_user_id() );
+	}
+
+
+	/**
+	 * Apply scalar config overrides from a REST request to a config array.
+	 *
+	 * @param array       $config     Existing config.
+	 * @param string|null $mode       Import mode.
+	 * @param mixed       $course_id  Course ID.
+	 * @param string|null $post_title Lesson title.
+	 * @param bool|null   $overwrite  Overwrite flag.
+	 * @return array Updated config.
+	 */
+	private static function apply_request_config(
+		array $config,
+		?string $mode,
+		$course_id,
+		?string $post_title,
+		?bool $overwrite
+	): array {
+		if ( $mode !== null ) {
+			$config['mode'] = sanitize_text_field( $mode );
+		}
+		if ( $course_id !== null ) {
+			$config['course_id'] = absint( $course_id );
+		}
+		if ( $post_title !== null ) {
+			$config['post_title'] = sanitize_text_field( $post_title );
+		}
+		if ( $overwrite !== null ) {
+			$config['overwrite'] = (bool) $overwrite;
+		}
+		return $config;
+	}
+
+
+	/**
+	 * Sanitise and apply slide overrides to a config array.
+	 *
+	 * @param array      $config          Existing config.
+	 * @param array|null $slide_overrides Raw slide overrides from the request.
+	 * @return array Updated config.
+	 */
+	private static function apply_slide_overrides( array $config, ?array $slide_overrides ): array {
+		if ( $slide_overrides === null || ! is_array( $slide_overrides ) ) {
+			return $config;
+		}
+		$allowed   = array( 'cover', 'body', 'heading', 'hidden', 'section' );
+		$sanitised = array();
+		foreach ( $slide_overrides as $slide_number => $type ) {
+			$slide_number = absint( $slide_number );
+			$type         = sanitize_key( (string) $type );
+			if ( $slide_number > 0 && in_array( $type, $allowed, true ) ) {
+				$sanitised[ $slide_number ] = $type;
+			}
+		}
+		$config['slide_overrides'] = wp_json_encode( $sanitised );
+		return $config;
 	}
 
 
@@ -432,5 +598,53 @@ final class JobController {
 		}
 
 		return $row;
+	}
+
+
+	// ── Summary / config helpers ──────────────────────────────────────────────
+
+	/**
+	 * JSON-decode a job row's result_summary, returning a safe array.
+	 *
+	 * @param array $row Job DB row.
+	 * @return array
+	 */
+	private static function decode_summary( array $row ): array {
+		$decoded = json_decode( $row['result_summary'] ?? '{}', true );
+		return is_array( $decoded ) ? $decoded : array();
+	}
+
+
+	/**
+	 * Extract the config sub-array from a decoded summary, returning [] when absent.
+	 *
+	 * @param array $summary Decoded result_summary.
+	 * @return array
+	 */
+	private static function extract_config( array $summary ): array {
+		$config = $summary['config'] ?? null;
+		return is_array( $config ) ? $config : array();
+	}
+
+
+	/**
+	 * Decode slide_overrides from a stored config into an int-keyed array.
+	 *
+	 * @param array $config Stored config.
+	 * @return array<int, string>
+	 */
+	private static function decode_stored_overrides( array $config ): array {
+		if ( empty( $config['slide_overrides'] ) ) {
+			return array();
+		}
+		$decoded = json_decode( $config['slide_overrides'], true );
+		if ( ! is_array( $decoded ) ) {
+			return array();
+		}
+		$result = array();
+		foreach ( $decoded as $slide_number => $type ) {
+			$result[ (int) $slide_number ] = (string) $type;
+		}
+		return $result;
 	}
 }
