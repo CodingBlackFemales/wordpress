@@ -33,51 +33,95 @@ final class LearnDashImporter {
 	/**
 	 * Import a classified and rendered deck into LearnDash.
 	 *
+	 * Posts are created in their natural 'publish' state. If any errors occur
+	 * during the batch, all created posts are reverted to 'draft' so students
+	 * never see partial content (NR4). Using revert-on-error rather than a
+	 * temporary wp_insert_post_data filter avoids interfering with any other
+	 * concurrent post-creation processes.
+	 *
 	 * @param  array $classified_deck ParsedDeck with slide_type and rendered HTML.
 	 * @param  array $summary         Result summary from JobRunner (contains config, mode, img_dir, etc.).
-	 * @return array|WP_Error { created_post_ids: int[] } on success, WP_Error on failure.
+	 * @return array|WP_Error { created_post_ids: int[], skipped_post_ids: int[], errors: string[] }
 	 */
 	public function import( array $classified_deck, array $summary ): array|WP_Error {
-		$config     = $summary['config'] ?? array();
-		$mode       = $config['mode'] ?? 'lesson-only';
-		$course_id  = ! empty( $config['course_id'] ) ? (int) $config['course_id'] : 0;
-		$overwrite  = ! empty( $config['overwrite'] );
-		$img_dir    = $summary['img_dir'] ?? '';
-		$post_title = ! empty( $config['post_title'] )
-			? $config['post_title']
-			: ( $summary['deck_name'] ?? 'Imported Lesson' );
-
-		// Retrieve the learndash-bulk plugin instance.
+		$params      = $this->parse_import_params( $summary );
 		$bulk_plugin = $this->get_bulk_plugin();
 		if ( is_wp_error( $bulk_plugin ) ) {
 			return $bulk_plugin;
 		}
 
-		$rendered = \CodingBlackFemales\SlidesImporter\Pptx\BlockRenderer::render(
-			$classified_deck,
-			$mode
-		);
-
+		$rendered    = \CodingBlackFemales\SlidesImporter\Pptx\BlockRenderer::render( $classified_deck, $params['mode'] );
 		$errors      = array();
 		$skipped_ids = array();
+		$result      = $this->run_import_mode( $bulk_plugin, $rendered, $params, $errors, $skipped_ids );
 
-		if ( $mode === 'lesson-with-topics' ) {
-			$result = $this->import_lesson_with_topics( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors, $skipped_ids );
-		} else {
-			$result = $this->import_lesson_only( $bulk_plugin, $rendered, $course_id, $img_dir, $post_title, $overwrite, $errors, $skipped_ids );
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
 
 		if ( ! empty( $errors ) ) {
-			Utils::log( 'Import errors.', array( 'count' => count( $errors ) ) );
+			Utils::log( 'Import errors — reverting created posts to draft.', array( 'count' => count( $errors ) ) );
+			$this->revert_to_draft( $result );
 		}
 
-		return is_wp_error( $result )
-			? $result
-			: array(
-				'created_post_ids' => $result,
-				'skipped_post_ids' => $skipped_ids,
-				'errors'           => $errors,
-			);
+		return array(
+			'created_post_ids' => $result,
+			'skipped_post_ids' => $skipped_ids,
+			'errors'           => $errors,
+		);
+	}
+
+
+	/**
+	 * Parse import parameters from a job summary into a flat array.
+	 *
+	 * @param array $summary Job result_summary.
+	 * @return array { mode, course_id, overwrite, img_dir, post_title }
+	 */
+	private function parse_import_params( array $summary ): array {
+		$config = $summary['config'] ?? array();
+		return array(
+			'mode'       => $config['mode'] ?? 'lesson-only',
+			'course_id'  => ! empty( $config['course_id'] ) ? (int) $config['course_id'] : 0,
+			'overwrite'  => ! empty( $config['overwrite'] ),
+			'img_dir'    => $summary['img_dir'] ?? '',
+			'post_title' => $this->resolve_post_title( $config, $summary ),
+		);
+	}
+
+
+	/**
+	 * Resolve the lesson post title from config, falling back to deck name.
+	 *
+	 * @param array $config  Stored config.
+	 * @param array $summary Job result_summary.
+	 * @return string
+	 */
+	private function resolve_post_title( array $config, array $summary ): string {
+		if ( ! empty( $config['post_title'] ) ) {
+			return $config['post_title'];
+		}
+		return $summary['deck_name'] ?? 'Imported Lesson';
+	}
+
+
+	/**
+	 * Dispatch to the mode-appropriate importer method.
+	 *
+	 * Isolating this keeps import() well under the cyclomatic complexity limit.
+	 *
+	 * @param object $bulk_plugin  learndash-bulk plugin instance.
+	 * @param array  $rendered     BlockRenderer output.
+	 * @param array  $params       Parsed import params (mode, course_id, …).
+	 * @param array  &$errors      Accumulated errors.
+	 * @param array  &$skipped_ids Accumulated skipped post IDs.
+	 * @return int[]|WP_Error
+	 */
+	private function run_import_mode( object $bulk_plugin, array $rendered, array $params, array &$errors, array &$skipped_ids ): array|WP_Error {
+		if ( $params['mode'] === 'lesson-with-topics' ) {
+			return $this->import_lesson_with_topics( $bulk_plugin, $rendered, $params['course_id'], $params['img_dir'], $params['post_title'], $params['overwrite'], $errors, $skipped_ids );
+		}
+		return $this->import_lesson_only( $bulk_plugin, $rendered, $params['course_id'], $params['img_dir'], $params['post_title'], $params['overwrite'], $errors, $skipped_ids );
 	}
 
 
@@ -186,16 +230,12 @@ final class LearnDashImporter {
 	 * @return int[]|WP_Error       Created/updated post IDs only.
 	 */
 	private function run_import_row( object $plugin, array $row, string $img_dir, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
-		// Separate the post_type out — it drives content_type, not a column.
 		$content_type = $row['post_type'] ?? 'sfwd-lessons';
 		unset( $row['post_type'] );
-
-		// Build CSV-style headers + rows from the associative array.
 		$headers = array_keys( $row );
 		$rows    = array( array_values( $row ) );
 
 		try {
-			// run_import() returns a stats array, not post IDs directly.
 			$result = $plugin->run_import(
 				$content_type,
 				$headers,
@@ -215,48 +255,100 @@ final class LearnDashImporter {
 				return array();
 			}
 
-			// Collect errors from the stats.
-			if ( ! empty( $result['errors'] ) ) {
-				$errors = array_merge( $errors, $result['errors'] );
-			}
-
-			// Collect created and updated post IDs.
-			$post_ids = array();
-			foreach ( $result['created_entries'] ?? array() as $entry ) {
-				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
-				if ( $id ) {
-					$post_ids[] = $id;
-				}
-			}
-			foreach ( $result['updated_entries'] ?? array() as $entry ) {
-				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
-				if ( $id ) {
-					$post_ids[] = $id;
-				}
-			}
-
-			// Collect skipped IDs separately — they represent existing posts that were
-			// matched by title but NOT modified (overwrite is false). They must not be
-			// added to $post_ids because the job did not create or update them.
-			$skipped_count = 0;
-			foreach ( $result['skipped_entries'] ?? array() as $entry ) {
-				$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
-				if ( $id ) {
-					$skipped_ids[] = $id;
-					++$skipped_count;
-				}
-			}
-			if ( $skipped_count > 0 ) {
-				Utils::log(
-					'Import skipped existing posts (title match, overwrite off).',
-					array( 'skipped' => $skipped_count )
-				);
-			}
-
-			return array_values( array_filter( array_map( 'intval', $post_ids ) ) );
+			return $this->parse_result_stats( $result, $errors, $skipped_ids );
 		} catch ( \Throwable $e ) {
 			$errors[] = $e->getMessage();
 			return new WP_Error( 'cbf_si_import_exception', $e->getMessage() );
+		}
+	}
+
+
+	/**
+	 * Extract created/updated/skipped post IDs from a run_import() stats array.
+	 *
+	 * @param array  $result      Stats array returned by the bulk plugin.
+	 * @param array  &$errors     Accumulated errors.
+	 * @param array  &$skipped_ids Accumulated skipped post IDs.
+	 * @return int[] Created and updated post IDs.
+	 */
+	private function parse_result_stats( array $result, array &$errors, array &$skipped_ids ): array {
+		if ( ! empty( $result['errors'] ) ) {
+			$errors = array_merge( $errors, $result['errors'] );
+		}
+
+		$post_ids = array_merge(
+			$this->extract_entry_ids( $result['created_entries'] ?? array() ),
+			$this->extract_entry_ids( $result['updated_entries'] ?? array() )
+		);
+
+		$skipped = $this->collect_skipped( $result['skipped_entries'] ?? array(), $skipped_ids );
+		if ( $skipped > 0 ) {
+			Utils::log(
+				'Import skipped existing posts (title match, overwrite off).',
+				array( 'skipped' => $skipped )
+			);
+		}
+
+		return array_values( array_filter( array_map( 'intval', $post_ids ) ) );
+	}
+
+
+	/**
+	 * Extract integer post IDs from a bulk-plugin entries array.
+	 *
+	 * Each entry is either an int (bare ID) or an array containing an 'id' key.
+	 *
+	 * @param array $entries
+	 * @return int[]
+	 */
+	private function extract_entry_ids( array $entries ): array {
+		$ids = array();
+		foreach ( $entries as $entry ) {
+			$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
+			if ( $id ) {
+				$ids[] = $id;
+			}
+		}
+		return $ids;
+	}
+
+
+	/**
+	 * Append skipped-entry IDs to $skipped_ids and return the count added.
+	 *
+	 * @param array $entries     Skipped entries from the bulk-plugin stats.
+	 * @param array &$skipped_ids Accumulated skipped IDs.
+	 * @return int Number of skipped IDs appended.
+	 */
+	private function collect_skipped( array $entries, array &$skipped_ids ): int {
+		$count = 0;
+		foreach ( $entries as $entry ) {
+			$id = is_array( $entry ) ? ( $entry['id'] ?? 0 ) : (int) $entry;
+			if ( $id ) {
+				$skipped_ids[] = $id;
+				++$count;
+			}
+		}
+		return $count;
+	}
+
+
+	/**
+	 * Revert a set of published posts back to 'draft'.
+	 *
+	 * Called when one or more errors occurred during an import batch so that
+	 * students never see incomplete content (NR4).
+	 *
+	 * @param int[] $post_ids Post IDs to revert.
+	 */
+	private function revert_to_draft( array $post_ids ): void {
+		foreach ( $post_ids as $post_id ) {
+			wp_update_post(
+				array(
+					'ID'          => (int) $post_id,
+					'post_status' => 'draft',
+				)
+			);
 		}
 	}
 
