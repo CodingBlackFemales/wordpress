@@ -144,17 +144,33 @@
      * @param {function} onSelected  Called with (fileId, fileName) on selection.
      * @param {function} onDismissed Called with no arguments when the picker is
      *                               closed without a selection.
+     * @param {function} onReady     Called once the picker UI is visible.
+     * @param {number}   scrollX     Scroll position to restore (captured before
+     *                               async work begins, so gapi.load() can't skew it).
+     * @param {number}   scrollY     Scroll position to restore.
      */
-    open(onSelected, onDismissed) {
+    open(onSelected, onDismissed, onReady, scrollX, scrollY) {
       Api.pickerConfig()
         .then((cfg) => {
           this._config = cfg;
           if (this._gapiReady) {
-            this._buildAndShow(onSelected, onDismissed);
+            this._buildAndShow(
+              onSelected,
+              onDismissed,
+              onReady,
+              scrollX,
+              scrollY,
+            );
           } else {
             gapi.load("picker", () => {
               this._gapiReady = true;
-              this._buildAndShow(onSelected, onDismissed);
+              this._buildAndShow(
+                onSelected,
+                onDismissed,
+                onReady,
+                scrollX,
+                scrollY,
+              );
             });
           }
         })
@@ -166,12 +182,8 @@
         });
     },
 
-    _buildAndShow(onSelected, onDismissed) {
+    _buildAndShow(onSelected, onDismissed, onReady, scrollX, scrollY) {
       const { access_token, folder_id } = this._config;
-
-      // Save scroll position — the picker iframe can cause the browser to jump.
-      const savedScrollX = window.scrollX;
-      const savedScrollY = window.scrollY;
 
       // Show only Google Slides presentations inside the configured folder.
       const view = new google.picker.DocsView(
@@ -198,9 +210,18 @@
 
       picker.setVisible(true);
 
-      // Restore scroll position after the picker iframe is injected.
-      window.scrollTo(savedScrollX, savedScrollY);
-      requestAnimationFrame(() => window.scrollTo(savedScrollX, savedScrollY));
+      // Notify the caller that the picker is now visible (e.g. to update the
+      // trigger button label while keeping it disabled).
+      if (onReady) {
+        onReady();
+      }
+
+      // Restore scroll position. The jump is caused by gapi.load() injecting a
+      // hidden iframe that receives browser focus on first use. scrollX/scrollY
+      // are captured in _openPicker() before any async work so they reflect the
+      // true pre-open position even if gapi.load() has already scrolled the page.
+      window.scrollTo(scrollX, scrollY);
+      requestAnimationFrame(() => window.scrollTo(scrollX, scrollY));
     },
   };
 
@@ -250,6 +271,12 @@
 
     _openPicker() {
       const btn = document.getElementById("cbf-si-pick-btn");
+
+      // Capture scroll now — before any async work — so gapi.load() cannot
+      // skew the saved position.
+      const savedScrollX = window.scrollX;
+      const savedScrollY = window.scrollY;
+
       const resetBtn = () => {
         btn.disabled = false;
         btn.textContent = "⇪ Choose Slide Deck from Drive";
@@ -267,6 +294,13 @@
           // Picker dismissed without a selection.
           resetBtn();
         },
+        () => {
+          // Picker is now visible — revert label (button stays disabled until
+          // the user picks a file or closes the picker).
+          btn.textContent = "⇪ Choose Slide Deck from Drive";
+        },
+        savedScrollX,
+        savedScrollY,
       );
     },
 
