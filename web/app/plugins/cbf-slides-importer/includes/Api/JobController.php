@@ -102,6 +102,16 @@ final class JobController {
 
 		register_rest_route(
 			$namespace,
+			'/jobs/(?P<id>[\d]+)/slides',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( __CLASS__, 'slides' ),
+				'permission_callback' => array( AuthController::class, 'require_auth' ),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
 			'/jobs/(?P<id>[\d]+)/import',
 			array(
 				'methods'             => 'POST',
@@ -117,10 +127,14 @@ final class JobController {
 						'type'    => 'integer',
 						'default' => null,
 					),
-					'post_title' => array(
+					'post_title'      => array(
 						'type'              => 'string',
 						'sanitize_callback' => 'sanitize_text_field',
 						'default'           => null,
+					),
+					'slide_overrides' => array(
+						'type'    => 'object',
+						'default' => null,
 					),
 				),
 			)
@@ -240,6 +254,47 @@ final class JobController {
 
 
 	/**
+	 * GET /jobs/{id}/slides — return per-slide metadata for the slide-map UI.
+	 *
+	 * Returns the serialisable slide metadata captured at parse time together
+	 * with any per-slide type overrides already stored in the job config so the
+	 * UI can pre-populate the override dropdowns on re-open.
+	 */
+	public static function slides( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		$row = self::find_row( (int) $request->get_param( 'id' ) );
+		if ( is_wp_error( $row ) ) {
+			return $row;
+		}
+
+		$summary     = json_decode( $row['result_summary'] ?? '{}', true );
+		$summary     = is_array( $summary ) ? $summary : array();
+		$slides_meta = $summary['slides_meta'] ?? array();
+
+		// Merge any stored per-slide overrides so the UI can pre-populate them.
+		$config    = isset( $summary['config'] ) && is_array( $summary['config'] )
+			? $summary['config']
+			: array();
+		$overrides = array();
+		if ( ! empty( $config['slide_overrides'] ) ) {
+			$decoded = json_decode( $config['slide_overrides'], true );
+			if ( is_array( $decoded ) ) {
+				foreach ( $decoded as $slide_number => $type ) {
+					$overrides[ (int) $slide_number ] = (string) $type;
+				}
+			}
+		}
+
+		foreach ( $slides_meta as &$slide ) {
+			$num              = (int) ( $slide['slide_number'] ?? 0 );
+			$slide['override'] = $overrides[ $num ] ?? null;
+		}
+		unset( $slide );
+
+		return new WP_REST_Response( array( 'slides' => $slides_meta ), 200 );
+	}
+
+
+	/**
 	 * POST /jobs/{id}/import — trigger the LearnDash import phase for a parsed job.
 	 *
 	 * The job must already be in 'parsed' status (download + parse completed).
@@ -284,11 +339,12 @@ final class JobController {
 	private static function save_import_overrides( array $row, WP_REST_Request $request ): void {
 		global $wpdb;
 
-		$mode       = $request->get_param( 'mode' );
-		$course_id  = $request->get_param( 'course_id' );
-		$post_title = $request->get_param( 'post_title' );
+		$mode            = $request->get_param( 'mode' );
+		$course_id       = $request->get_param( 'course_id' );
+		$post_title      = $request->get_param( 'post_title' );
+		$slide_overrides = $request->get_param( 'slide_overrides' );
 
-		if ( $mode === null && $course_id === null && $post_title === null ) {
+		if ( $mode === null && $course_id === null && $post_title === null && $slide_overrides === null ) {
 			return;
 		}
 
@@ -306,6 +362,19 @@ final class JobController {
 		}
 		if ( $post_title !== null ) {
 			$config['post_title'] = sanitize_text_field( $post_title );
+		}
+		if ( $slide_overrides !== null && is_array( $slide_overrides ) ) {
+			// Sanitise: keys are slide_numbers (int), values are allowed type strings.
+			$allowed  = array( 'cover', 'body', 'heading', 'hidden', 'section' );
+			$sanitised = array();
+			foreach ( $slide_overrides as $slide_number => $type ) {
+				$slide_number = absint( $slide_number );
+				$type         = sanitize_key( (string) $type );
+				if ( $slide_number > 0 && in_array( $type, $allowed, true ) ) {
+					$sanitised[ $slide_number ] = $type;
+				}
+			}
+			$config['slide_overrides'] = wp_json_encode( $sanitised );
 		}
 
 		$summary['config'] = $config;

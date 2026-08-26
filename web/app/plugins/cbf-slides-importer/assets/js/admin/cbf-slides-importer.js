@@ -113,6 +113,16 @@
     },
 
     /**
+     * Fetch slide metadata for a job (populated after parsing).
+     *
+     * @param {number} id  Job ID.
+     * @returns {Promise<{slides: Array}>}
+     */
+    getJobSlides(id) {
+      return this.fetch("jobs/" + id + "/slides");
+    },
+
+    /**
      * Fetch LearnDash courses for the course selector dropdown.
      * Uses the standard WP REST API (sfwd-courses CPT).
      *
@@ -527,7 +537,10 @@
       // Read the deck name from the job row so it can be the title default.
       const deckName = jobRow.dataset.deckName || "";
 
-      this._loadCourses().then((courses) => {
+      Promise.all([
+        this._loadCourses(),
+        Api.getJobSlides(jobId).catch(() => ({ slides: [] })),
+      ]).then(([courses, slideData]) => {
         const courseOptions =
           '<option value="0">— No course —</option>' +
           courses
@@ -543,6 +556,104 @@
             )
             .join("");
 
+        const slides = slideData.slides || [];
+
+        // Build slide map HTML (only when slides are available).
+        let slideMapHtml = "";
+        if (slides.length) {
+          const typeOpts = [
+            { value: "", label: "— auto —" },
+            { value: "cover", label: "Cover" },
+            { value: "heading", label: "Heading / Topic" },
+            { value: "body", label: "Content" },
+            { value: "hidden", label: "Hidden" },
+          ];
+          const typeLabel = {
+            cover: "Cover",
+            heading: "Heading",
+            body: "Content",
+            hidden: "Hidden",
+            section: "Section",
+          };
+          const rows = slides
+            .map((s) => {
+              const detected = typeLabel[s.slide_type] || s.slide_type || "—";
+              const badge =
+                s.slide_type === "cover"
+                  ? "background:#7e56c2;color:#fff;"
+                  : s.slide_type === "heading"
+                    ? "background:#2271b1;color:#fff;"
+                    : s.slide_type === "hidden"
+                      ? "background:#777;color:#fff;"
+                      : "background:#e8f0fe;color:#1a56db;";
+              const selectOpts = typeOpts
+                .map((o) => {
+                  const sel =
+                    o.value && o.value === s.override ? " selected" : "";
+                  return (
+                    '<option value="' +
+                    o.value +
+                    '"' +
+                    sel +
+                    ">" +
+                    o.label +
+                    "</option>"
+                  );
+                })
+                .join("");
+              return (
+                "<tr>" +
+                '<td style="padding:4px 8px 4px 0;width:36px;text-align:right;color:#888;font-size:12px;">' +
+                s.slide_number +
+                "</td>" +
+                '<td style="padding:4px 8px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' +
+                this._esc(s.title || "—") +
+                "</td>" +
+                '<td style="padding:4px 8px;color:#888;font-size:12px;">' +
+                this._esc(s.layout_name || "—") +
+                "</td>" +
+                '<td style="padding:4px 8px;">' +
+                '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;' +
+                badge +
+                '">' +
+                this._esc(detected) +
+                "</span></td>" +
+                '<td style="padding:4px 0;">' +
+                '<select data-slide-override="' +
+                s.slide_number +
+                '" style="font-size:12px;">' +
+                selectOpts +
+                "</select>" +
+                "</td>" +
+                "</tr>"
+              );
+            })
+            .join("");
+
+          slideMapHtml =
+            '<details style="margin-top:16px;">' +
+            '<summary style="cursor:pointer;font-weight:600;font-size:13px;margin-bottom:8px;">Slide Map (' +
+            slides.length +
+            " slides)</summary>" +
+            '<div style="max-height:320px;overflow-y:auto;margin-top:8px;">' +
+            '<table style="border-collapse:collapse;width:100%;font-size:13px;" id="cbf-si-slidemap-' +
+            jobId +
+            '">' +
+            "<thead><tr>" +
+            '<th style="text-align:right;padding:4px 8px 4px 0;width:36px;color:#888;">#</th>' +
+            '<th style="text-align:left;padding:4px 8px;">Title</th>' +
+            '<th style="text-align:left;padding:4px 8px;">Layout</th>' +
+            '<th style="text-align:left;padding:4px 8px;">Detected type</th>' +
+            '<th style="text-align:left;padding:4px 0;">Override</th>' +
+            "</tr></thead>" +
+            "<tbody>" +
+            rows +
+            "</tbody>" +
+            "</table>" +
+            "</div>" +
+            "</details>";
+        }
+
         panel.innerHTML =
           '<td colspan="5" style="background:#f6f7f7;padding:16px 20px;border-top:1px solid #ddd;">' +
           '<strong style="font-size:13px;">Import Configuration</strong>' +
@@ -554,7 +665,7 @@
           jobId +
           '" value="' +
           this._esc(deckName) +
-          '" style="min-width:320px;max-width:500px;" placeholder="Lesson title">' +
+          '" style="min-width:320px;max-width:500px;" placeholder="Lesson title (required)">' +
           "</td>" +
           "</tr>" +
           "<tr>" +
@@ -585,6 +696,7 @@
           "</td>" +
           "</tr>" +
           "</table>" +
+          slideMapHtml +
           '<p style="margin-top:14px;margin-bottom:0;">' +
           '<button class="button button-primary" data-action="do-import" data-id="' +
           jobId +
@@ -636,6 +748,28 @@
       const mode = modeEl ? modeEl.value : "lesson-only";
       const courseId = courseEl ? parseInt(courseEl.value, 10) : 0;
 
+      // Validate: title is required (P3.5).
+      if (!postTitle) {
+        window.alert("Please enter a lesson title before importing.");
+        if (titleEl) {
+          titleEl.focus();
+        }
+        return;
+      }
+
+      // Collect slide overrides from the slide map (P3.3).
+      const slideOverrides = {};
+      const slideMapEl = document.getElementById("cbf-si-slidemap-" + id);
+      if (slideMapEl) {
+        slideMapEl.querySelectorAll("[data-slide-override]").forEach((sel) => {
+          const num = parseInt(sel.dataset.slideOverride, 10);
+          const val = sel.value;
+          if (num > 0 && val) {
+            slideOverrides[num] = val;
+          }
+        });
+      }
+
       // Validate: course_id required for lesson-with-topics (warn, not block).
       if (mode === "lesson-with-topics" && !courseId) {
         if (
@@ -661,9 +795,13 @@
         return;
       }
 
-      const importConfig = { mode: mode, course_id: courseId };
-      if (postTitle) {
-        importConfig.post_title = postTitle;
+      const importConfig = {
+        mode: mode,
+        course_id: courseId,
+        post_title: postTitle,
+      };
+      if (Object.keys(slideOverrides).length) {
+        importConfig.slide_overrides = slideOverrides;
       }
 
       Api.triggerImport(id, importConfig)

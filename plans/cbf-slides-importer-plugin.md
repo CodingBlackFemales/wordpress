@@ -734,7 +734,7 @@ Documented in plugin's admin Help tab:
 - [x] **P2.8** Implement REST `POST /jobs` endpoint in `Api/JobController.php`: validate Drive file ID; dispatch background download + parse job; return `job_id`
 - [x] **P2.9** Background job handler in `Import/JobRunner.php` (`cbf_si_process_job` hook): download PPTX → parse → classify → render → store result_summary → set status `parsed`; catch all exceptions → status `failed`. Fixed `parsed` missing from ENUM. (Resolves R4, R5)
 - [x] **P2.10** `GET /jobs/{id}` and `GET /jobs` REST endpoints implemented in `Api/JobController.php` (resolves R6)
-- [ ] **P2.11** Set up temp file cleanup cron (`cbf_si_cleanup`) and stale job reset (resolves R4, Memory OOM recovery in Failure Isolation)
+- [x] **P2.11** Set up temp file cleanup cron (`cbf_si_cleanup`) and stale job reset (resolves R4, Memory OOM recovery in Failure Isolation)
 
 ### Bug fixes (post-P2)
 
@@ -746,9 +746,9 @@ Documented in plugin's admin Help tab:
 
 - [x] **P3.1** `Api/ConfigController.php` implements full CRUD on `cbf_slide_import_configs` (inline DB ops — no separate ConfigRepository needed); validates `slide_overrides` JSON; sanitises all inputs (resolves NR7, R7)
 - [x] **P3.2** REST `GET/POST /configs` and `GET/PUT/DELETE /configs/{id}` endpoints registered via `Api/Router.php`; server-side validation present
-- [ ] **P3.3** Build slide map UI component: list of slides with index, title, layout name, auto-detected type, override dropdown (`cover|heading|content|hidden`) — currently absent from admin JS (resolves UX plan)
+- [x] **P3.3** Build slide map UI component: list of slides with index, title, layout name, auto-detected type, override dropdown (`cover|heading|content|hidden`) — currently absent from admin JS (resolves UX plan)
 - [x] **P3.4** Mode toggle, course selector (LearnDash API), lesson title field implemented in config panel; post_title passed through REST API to LearnDashImporter (slide headings toggle deferred to P3.5)
-- [ ] **P3.5** Validate config inputs client-side before saving; wire config UI to `POST/PUT /configs` and associate config with job before import (resolves NR7)
+- [x] **P3.5** Validate config inputs client-side before saving; wire config UI to `POST/PUT /configs` and associate config with job before import (resolves NR7)
 
 ### Phase 4: Preview
 
