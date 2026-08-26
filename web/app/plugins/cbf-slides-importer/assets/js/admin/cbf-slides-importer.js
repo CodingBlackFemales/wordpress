@@ -123,17 +123,26 @@
     },
 
     /**
-     * Fetch rendered block HTML preview for a parsed job.
+     * Refresh and fetch the rendered block HTML preview for a parsed job.
+     *
+     * POSTs the current config (slide overrides, mode, etc.) so the server
+     * saves them and re-generates the preview before returning it.  This
+     * ensures the preview always reflects the current slide-map selections
+     * even before the user clicks "Import".
      *
      * Returns { lesson_html, topics } on success or rejects with an error.
      * If the server returns 202 (still generating), rejects with a sentinel
      * error whose message starts with "RETRY:" so the caller can back-off.
      *
-     * @param {number} id  Job ID.
+     * @param {number} id      Job ID.
+     * @param {object} config  Current UI config { mode, slide_overrides, post_title, overwrite }.
      * @returns {Promise<{lesson_html: string, topics: Array}>}
      */
-    getJobPreview(id) {
-      return this.fetch("jobs/" + id + "/preview").then((data) => {
+    getJobPreview(id, config) {
+      return this.fetch("jobs/" + id + "/preview", {
+        method: "POST",
+        body: JSON.stringify(config || {}),
+      }).then((data) => {
         if (data && data.retry_after) {
           return Promise.reject(new Error("RETRY:" + (data.retry_after || 3)));
         }
@@ -797,38 +806,18 @@
     },
 
     _doImport(id) {
-      // Read config from the panel.
-      const titleEl = document.getElementById("cbf-si-title-" + id);
-      const modeEl = document.querySelector(
-        'input[name="cbf-si-mode-' + id + '"]:checked',
-      );
-      const courseEl = document.getElementById("cbf-si-course-" + id);
-      const overwriteEl = document.getElementById("cbf-si-overwrite-" + id);
-      const postTitle = titleEl ? titleEl.value.trim() : "";
-      const mode = modeEl ? modeEl.value : "lesson-only";
-      const courseId = courseEl ? parseInt(courseEl.value, 10) : 0;
-      const overwrite = overwriteEl ? overwriteEl.checked : false;
+      // Read config from the panel (shared with _doPreview via _readConfigFromPanel).
+      const config = this._readConfigFromPanel(id);
+      const { mode, course_id: courseId, post_title: postTitle } = config;
 
       // Validate: title is required (P3.5).
       if (!postTitle) {
+        const titleEl = document.getElementById("cbf-si-title-" + id);
         window.alert("Please enter a lesson title before importing.");
         if (titleEl) {
           titleEl.focus();
         }
         return;
-      }
-
-      // Collect slide overrides from the slide map (P3.3).
-      const slideOverrides = {};
-      const slideMapEl = document.getElementById("cbf-si-slidemap-" + id);
-      if (slideMapEl) {
-        slideMapEl.querySelectorAll("[data-slide-override]").forEach((sel) => {
-          const num = parseInt(sel.dataset.slideOverride, 10);
-          const val = sel.value;
-          if (num > 0 && val) {
-            slideOverrides[num] = val;
-          }
-        });
       }
 
       // Validate: course_id required for lesson-with-topics (warn, not block).
@@ -856,17 +845,7 @@
         return;
       }
 
-      const importConfig = {
-        mode: mode,
-        course_id: courseId,
-        post_title: postTitle,
-        overwrite: overwrite,
-      };
-      if (Object.keys(slideOverrides).length) {
-        importConfig.slide_overrides = slideOverrides;
-      }
-
-      Api.triggerImport(id, importConfig)
+      Api.triggerImport(id, config)
         .then(() => {
           // Close config panel.
           const panel = document.getElementById("cbf-si-config-panel-" + id);
@@ -892,9 +871,48 @@
     // ── Preview panel (Phase 4) ────────────────────────────────────────────
 
     /**
+     * Collect the current slide map overrides and other config from the panel.
+     *
+     * @param {number} id  Job ID.
+     * @returns {{ mode, course_id, post_title, overwrite, slide_overrides }}
+     */
+    _readConfigFromPanel(id) {
+      const titleEl = document.getElementById("cbf-si-title-" + id);
+      const modeEl = document.querySelector(
+        'input[name="cbf-si-mode-' + id + '"]:checked',
+      );
+      const courseEl = document.getElementById("cbf-si-course-" + id);
+      const overwriteEl = document.getElementById("cbf-si-overwrite-" + id);
+      const slideMapEl = document.getElementById("cbf-si-slidemap-" + id);
+
+      const slideOverrides = {};
+      if (slideMapEl) {
+        slideMapEl.querySelectorAll("[data-slide-override]").forEach((sel) => {
+          const num = parseInt(sel.dataset.slideOverride, 10);
+          const val = sel.value;
+          if (num > 0 && val) {
+            slideOverrides[num] = val;
+          }
+        });
+      }
+
+      const config = {
+        mode: modeEl ? modeEl.value : "lesson-only",
+        course_id: courseEl ? parseInt(courseEl.value, 10) : 0,
+        post_title: titleEl ? titleEl.value.trim() : "",
+        overwrite: overwriteEl ? overwriteEl.checked : false,
+      };
+      if (Object.keys(slideOverrides).length) {
+        config.slide_overrides = slideOverrides;
+      }
+      return config;
+    },
+
+    /**
      * Fetch the rendered block HTML preview for a job and display it in the
-     * config panel row, replacing the config form.  Saves the config form's
-     * current innerHTML so it can be restored via "← Back to Configure".
+     * config panel row, replacing the config form.  POSTs the current slide-map
+     * config so the preview reflects the user's current selections.  Saves the
+     * config form's current innerHTML so it can be restored via "← Back to Configure".
      *
      * @param {number} id  Job ID.
      */
@@ -915,7 +933,11 @@
       cell.innerHTML =
         '<em style="color:#888;font-size:13px;">Loading preview…</em>';
 
-      Api.getJobPreview(id)
+      // Collect the current UI config so the preview reflects the user's
+      // current slide-map selections before they are persisted via Import.
+      const config = this._readConfigFromPanel(id);
+
+      Api.getJobPreview(id, config)
         .then((data) => {
           const lessonHtml = (data.lesson_html || "").trim();
           const topics = Array.isArray(data.topics) ? data.topics : [];
@@ -942,7 +964,7 @@
                   '<summary style="padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px;background:#f9f9f9;border-radius:4px;">' +
                   this._esc(t.title || "Topic " + (i + 1)) +
                   "</summary>" +
-                  '<div class="cbf-si-preview-content" style="padding:12px 16px;max-height:360px;overflow-y:auto;font-size:13px;">' +
+                  '<div class="cbf-si-preview-content" style="padding:12px 16px;max-height:360px;overflow-y:auto;font-size:13px;background:#fff;">' +
                   (t.html || "<em style='color:#888'>No content</em>") +
                   "</div>" +
                   "</details>",
@@ -959,7 +981,7 @@
           } else {
             // lesson-only mode.
             previewHtml =
-              '<div class="cbf-si-preview-content" style="max-height:480px;overflow-y:auto;padding:12px 16px;border:1px solid #ddd;border-radius:4px;font-size:13px;">' +
+              '<div class="cbf-si-preview-content" style="max-height:480px;overflow-y:auto;padding:12px 16px;border:1px solid #ddd;border-radius:4px;font-size:13px;background:#fff;">' +
               (lessonHtml || "<em style='color:#888'>No content</em>") +
               "</div>";
           }

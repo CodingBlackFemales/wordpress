@@ -17,6 +17,7 @@
  * provide a minimal fallback so editors can assess the content structure.
  */
 .cbf-si-preview-content {
+	background: #fff;
 	line-height: 1.6;
 	word-break: break-word;
 }
