@@ -136,6 +136,10 @@ final class JobController {
 						'type'    => 'object',
 						'default' => null,
 					),
+					'overwrite'       => array(
+						'type'    => 'boolean',
+						'default' => null,
+					),
 				),
 			)
 		);
@@ -343,8 +347,9 @@ final class JobController {
 		$course_id       = $request->get_param( 'course_id' );
 		$post_title      = $request->get_param( 'post_title' );
 		$slide_overrides = $request->get_param( 'slide_overrides' );
+		$overwrite       = $request->get_param( 'overwrite' );
 
-		if ( $mode === null && $course_id === null && $post_title === null && $slide_overrides === null ) {
+		if ( $mode === null && $course_id === null && $post_title === null && $slide_overrides === null && $overwrite === null ) {
 			return;
 		}
 
@@ -362,6 +367,9 @@ final class JobController {
 		}
 		if ( $post_title !== null ) {
 			$config['post_title'] = sanitize_text_field( $post_title );
+		}
+		if ( $overwrite !== null ) {
+			$config['overwrite'] = (bool) $overwrite;
 		}
 		if ( $slide_overrides !== null && is_array( $slide_overrides ) ) {
 			// Sanitise: keys are slide_numbers (int), values are allowed type strings.
