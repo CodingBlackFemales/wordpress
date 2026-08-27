@@ -821,6 +821,9 @@
           if (panel) {
             panel.remove();
           }
+          // Refresh the job list so the status badge reflects the latest state
+          // (e.g. done/failed) after the progress panel is closed.
+          this._loadJobs();
         } else if (action === "cancel") {
           this._doCancel(id);
         }
