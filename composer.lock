@@ -7290,15 +7290,15 @@
         },
         {
             "name": "wp-theme/onepress",
-            "version": "2.3.21",
+            "version": "2.3.22",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/onepress/",
-                "reference": "2.3.21"
+                "reference": "2.3.22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/onepress.2.3.21.zip"
+                "url": "https://downloads.wordpress.org/theme/onepress.2.3.22.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7312,7 +7312,7 @@
                 "issues": "https://wordpress.org/support/theme/onepress",
                 "source": "https://themes.svn.wordpress.org/onepress"
             },
-            "time": "2026-06-26T00:00:00+00:00"
+            "time": "2026-08-27T06:46:27+00:00"
         },
         {
             "name": "wp-theme/twentytwentythree",
