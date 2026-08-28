@@ -6394,15 +6394,15 @@
         },
         {
             "name": "wp-plugin/easy-table-of-contents",
-            "version": "2.0.86",
+            "version": "2.0.87",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/easy-table-of-contents/",
-                "reference": "tags/2.0.86"
+                "reference": "tags/2.0.87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/easy-table-of-contents.2.0.86.zip"
+                "url": "https://downloads.wordpress.org/plugin/easy-table-of-contents.2.0.87.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6421,7 +6421,7 @@
                 "issues": "https://wordpress.org/support/plugin/easy-table-of-contents",
                 "source": "https://plugins.svn.wordpress.org/easy-table-of-contents"
             },
-            "time": "2026-08-04T08:16:26+00:00"
+            "time": "2026-08-27T10:56:39+00:00"
         },
         {
             "name": "wp-plugin/facebook-for-woocommerce",
