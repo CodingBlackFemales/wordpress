@@ -6271,15 +6271,15 @@
         },
         {
             "name": "wp-plugin/breadcrumb-navxt",
-            "version": "7.5.1",
+            "version": "7.5.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/breadcrumb-navxt/",
-                "reference": "tags/7.5.1"
+                "reference": "tags/7.5.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.5.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/breadcrumb-navxt.7.5.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6298,7 +6298,7 @@
                 "issues": "https://wordpress.org/support/plugin/breadcrumb-navxt",
                 "source": "https://plugins.svn.wordpress.org/breadcrumb-navxt"
             },
-            "time": "2026-07-02T01:50:47+00:00"
+            "time": "2026-08-29T20:51:44+00:00"
         },
         {
             "name": "wp-plugin/code-profiler",
