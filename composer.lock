@@ -6796,15 +6796,15 @@
         },
         {
             "name": "wp-plugin/pods",
-            "version": "3.3.9.1",
+            "version": "3.3.9.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/pods/",
-                "reference": "tags/3.3.9.1"
+                "reference": "tags/3.3.9.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/pods.3.3.9.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/pods.3.3.9.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6823,7 +6823,7 @@
                 "issues": "https://wordpress.org/support/plugin/pods",
                 "source": "https://plugins.svn.wordpress.org/pods"
             },
-            "time": "2026-08-14T19:06:45+00:00"
+            "time": "2026-08-31T17:31:32+00:00"
         },
         {
             "name": "wp-plugin/post-type-switcher",
