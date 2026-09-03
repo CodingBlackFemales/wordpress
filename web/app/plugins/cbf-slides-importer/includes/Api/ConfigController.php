@@ -227,6 +227,7 @@ final class ConfigController {
 			'mode'                => 'sanitize_text_field',
 			'heading_layout_regex' => 'sanitize_text_field',
 			'course_id'           => 'absint',
+			'lesson_id'           => 'absint',
 		);
 
 		foreach ( $fields as $key => $sanitizer ) {
@@ -262,7 +263,12 @@ final class ConfigController {
 				'type' => 'string',
 				'required' => false,
 				'default' => 'lesson-only',
-				'enum' => array( 'lesson-only', 'lesson-with-topics' ),
+				'enum' => array( 'lesson-only', 'topic' ),
+			),
+			'lesson_id'            => array(
+				'type' => 'integer',
+				'required' => false,
+				'default' => 0,
 			),
 			'heading_layout_regex' => array(
 				'type' => 'string',
@@ -285,6 +291,6 @@ final class ConfigController {
 
 	/** @return array<string> $wpdb format strings matching extract_data() field order. */
 	private static function data_formats(): array {
-		return array( '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%s' );
+		return array( '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%s' );
 	}
 }

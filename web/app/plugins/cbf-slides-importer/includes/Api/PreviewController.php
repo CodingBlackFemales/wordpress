@@ -63,7 +63,7 @@ final class PreviewController {
 					'args'                => array(
 						'mode'            => array(
 							'type'    => 'string',
-							'enum'    => array( 'lesson-only', 'lesson-with-topics' ),
+							'enum'    => array( 'lesson-only', 'topic' ),
 							'default' => null,
 						),
 						'course_id'       => array(
@@ -93,12 +93,11 @@ final class PreviewController {
 	/**
 	 * GET /jobs/{id}/preview
 	 *
-	 * Returns rendered block HTML for a job's lesson (and topics when in
-	 * lesson-with-topics mode).  Reads from the cached transient when
-	 * available; otherwise re-renders on-demand from the stored PPTX.
+	 * Returns rendered block HTML for a job's content.  Reads from the cached
+	 * transient when available; otherwise re-renders on-demand from the stored PPTX.
 	 *
 	 * Response shape:
-	 *   { lesson_html: '<string>', topics: [{ title, html }, …] }
+	 *   { lesson_html: '<string>', topics: [] }
 	 *
 	 * Returns 404 when the PPTX is no longer on disk (cleaned up after import)
 	 * or when the job does not belong to the current user.
