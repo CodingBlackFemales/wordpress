@@ -81,6 +81,7 @@ final class Assets extends AssetsMain {
 	 * - ajax_url  : for any legacy wp_ajax calls
 	 * - rest_url  : base REST URL for the plugin's namespace
 	 * - nonce     : wp_rest nonce for REST authentication
+	 * - labels    : LearnDash custom labels (course/lesson/topic, singular + plural)
 	 *
 	 * @param  array $scripts Existing scripts array.
 	 * @return array<string,array>
@@ -94,8 +95,40 @@ final class Assets extends AssetsMain {
 				'rest_url'    => rest_url( 'cbf-si/v1/' ),
 				'wp_rest_url' => rest_url( '' ),
 				'nonce'       => wp_create_nonce( 'wp_rest' ),
+				'labels'      => self::get_learndash_labels(),
 			),
 		);
 		return $scripts;
+	}
+
+
+	/**
+	 * Retrieve LearnDash custom labels for the current site.
+	 *
+	 * Falls back to the default English strings when LearnDash is not active or
+	 * the custom-label API is unavailable.
+	 *
+	 * @return array<string,string>
+	 */
+	private static function get_learndash_labels(): array {
+		$defaults = array(
+			'course'  => 'Course',
+			'courses' => 'Courses',
+			'lesson'  => 'Lesson',
+			'lessons' => 'Lessons',
+			'topic'   => 'Topic',
+			'topics'  => 'Topics',
+		);
+
+		if ( ! function_exists( 'learndash_get_custom_label' ) ) {
+			return $defaults;
+		}
+
+		$labels = array();
+		foreach ( $defaults as $key => $fallback ) {
+			$label          = learndash_get_custom_label( $key );
+			$labels[ $key ] = ( is_string( $label ) && $label !== '' ) ? $label : $fallback;
+		}
+		return $labels;
 	}
 }
