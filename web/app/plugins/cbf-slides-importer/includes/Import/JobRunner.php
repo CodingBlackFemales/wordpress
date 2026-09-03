@@ -79,11 +79,7 @@ final class JobRunner {
 				return;
 			}
 
-			if ( $phase === 'import' ) {
-				self::run_import_phase( $job );
-			} else {
-				self::run_download_and_parse_phase( $job );
-			}
+			self::dispatch_phase( $job, $phase );
 		} catch ( \Throwable $e ) {
 			Utils::log(
 				'JobRunner uncaught exception.',
@@ -104,7 +100,30 @@ final class JobRunner {
 	// ── Phases ────────────────────────────────────────────────────────────────
 
 	/**
-	 * Phase 1: Download PPTX from Drive, parse it, store preview.
+	 * Dispatch to the correct phase handler.
+	 *
+	 * Extracted from run() so that adding a third phase ('parse') does not
+	 * push that method's cyclomatic complexity over the project limit.
+	 *
+	 * @param array  $job   Job DB row.
+	 * @param string $phase Phase name from the cron payload.
+	 */
+	private static function dispatch_phase( array $job, string $phase ): void {
+		if ( $phase === 'import' ) {
+			self::run_import_phase( $job );
+		} elseif ( $phase === 'parse' ) {
+			self::run_parse_phase( $job );
+		} else {
+			self::run_download_and_parse_phase( $job );
+		}
+	}
+
+
+	/**
+	 * Phase 1a: Download PPTX from Drive then parse it.
+	 *
+	 * Used for jobs created via the Google Drive picker. Handles the download
+	 * step then delegates to run_parse_and_store() for the shared parse pipeline.
 	 *
 	 * @param array $job Job DB row.
 	 */
@@ -112,12 +131,11 @@ final class JobRunner {
 		$job_id  = (int) $job['id'];
 		$user_id = (int) $job['user_id'];
 
-		// ── Download ──────────────────────────────────────────────────────────
 		self::update_status( $job_id, 'downloading' );
 		Utils::log(
 			'Downloading PPTX.',
 			array(
-				'job_id' => $job_id,
+				'job_id'  => $job_id,
 				'file_id' => $job['drive_file_id'],
 			)
 		);
@@ -138,12 +156,62 @@ final class JobRunner {
 			return;
 		}
 
-		// ── Parse ─────────────────────────────────────────────────────────────
-		self::update_status( $job_id, 'parsing' );
-		Utils::log( 'Parsing PPTX.', array( 'job_id' => $job_id ) );
+		$img_dir = trailingslashit( $job_tmp_dir ) . 'images';
+		wp_mkdir_p( $img_dir );
+
+		self::run_parse_and_store( $job, $pptx_path, $img_dir, $job_tmp_dir );
+	}
+
+
+	/**
+	 * Phase 1b: Parse a locally-uploaded PPTX (no download needed).
+	 *
+	 * Used for jobs created via the local-file upload endpoint. The PPTX path
+	 * is read from result_summary — stored there by the upload endpoint before
+	 * the cron was scheduled — and parsing is handed off to run_parse_and_store().
+	 *
+	 * @param array $job Job DB row.
+	 */
+	private static function run_parse_phase( array $job ): void {
+		$job_id  = (int) $job['id'];
+		$summary = json_decode( $job['result_summary'] ?? '{}', true );
+		$summary = is_array( $summary ) ? $summary : array();
+
+		$pptx_path   = $summary['pptx_path'] ?? '';
+		$job_tmp_dir = $summary['job_tmp_dir'] ?? '';
+
+		if ( empty( $pptx_path ) || ! file_exists( $pptx_path ) ) {
+			self::set_failed( $job_id, 'Uploaded PPTX file not found on disk.' );
+			return;
+		}
+
+		Utils::log( 'Parsing uploaded PPTX.', array( 'job_id' => $job_id ) );
 
 		$img_dir = trailingslashit( $job_tmp_dir ) . 'images';
 		wp_mkdir_p( $img_dir );
+
+		self::run_parse_and_store( $job, $pptx_path, $img_dir, $job_tmp_dir );
+	}
+
+
+	/**
+	 * Shared parse + preview + result-summary pipeline.
+	 *
+	 * Called by both run_download_and_parse_phase() (Drive jobs) and
+	 * run_parse_phase() (local-upload jobs). Parses the PPTX at $pptx_path,
+	 * renders a preview, and persists the result_summary for the import phase.
+	 *
+	 * @param array  $job         Job DB row.
+	 * @param string $pptx_path   Absolute path to the PPTX file.
+	 * @param string $img_dir     Directory to extract images into.
+	 * @param string $job_tmp_dir Root temp directory for this job.
+	 */
+	private static function run_parse_and_store( array $job, string $pptx_path, string $img_dir, string $job_tmp_dir ): void {
+		$job_id  = (int) $job['id'];
+		$user_id = (int) $job['user_id'];
+
+		self::update_status( $job_id, 'parsing' );
+		Utils::log( 'Parsing PPTX.', array( 'job_id' => $job_id ) );
 
 		$parsed = Parser::parse( $pptx_path, $img_dir );
 		if ( is_wp_error( $parsed ) ) {
@@ -152,7 +220,6 @@ final class JobRunner {
 			return;
 		}
 
-		// ── Load config and classify ──────────────────────────────────────────
 		$config          = self::load_config( $job );
 		$heading_regex   = $config['heading_layout_regex'] ?? '';
 		$slide_overrides = isset( $config['slide_overrides'] ) ? json_decode( $config['slide_overrides'], true ) : array();
@@ -160,7 +227,6 @@ final class JobRunner {
 
 		$classified = SlideClassifier::classify( $parsed, $heading_regex, (array) $slide_overrides );
 
-		// ── Extract serialisable slide metadata for the slide-map UI ──────────
 		// Shape objects (PhpPresentation\Shape\RichText) cannot survive JSON
 		// serialisation, so only primitive fields are captured here.
 		$slides_meta = array_map(
@@ -178,23 +244,20 @@ final class JobRunner {
 			$classified['slides']
 		);
 
-		// ── Render preview ────────────────────────────────────────────────────
-		// Store a serialisable summary first so render_from_summary() can find
-		// the PPTX path. Then use PreviewRenderer so the same render pipeline
-		// is shared with the on-demand refresh in PreviewController.
+		// Use PreviewRenderer so the same render pipeline is shared with the
+		// on-demand refresh in PreviewController::refresh().
 		$preview_summary = array(
-			'pptx_path'   => $pptx_path,
-			'img_dir'     => $img_dir,
-			'config'      => $config,
+			'pptx_path' => $pptx_path,
+			'img_dir'   => $img_dir,
+			'config'    => $config,
 		);
 		$rendered = PreviewRenderer::render_from_summary( $preview_summary );
 		if ( ! is_wp_error( $rendered ) ) {
 			PreviewController::store( $job_id, $user_id, $rendered );
 		}
 
-		// ── Store tmp paths in result_summary for import phase ────────────────
-		// Note: $classified is NOT stored here — PhpPresentation shape objects
-		// cannot survive JSON serialisation. The import phase re-parses from disk.
+		// Note: $classified is NOT stored — PhpPresentation shape objects cannot
+		// survive JSON serialisation. The import phase re-parses from disk.
 		self::update_result_summary(
 			$job_id,
 			array(
@@ -207,7 +270,6 @@ final class JobRunner {
 			)
 		);
 
-		// Status 'parsed' — waiting for user to confirm and trigger import.
 		self::update_status( $job_id, 'parsed' );
 		Utils::log( 'Parse complete. Awaiting user import trigger.', array( 'job_id' => $job_id ) );
 	}
