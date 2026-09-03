@@ -174,6 +174,33 @@
     },
 
     /**
+     * Create an import job from a locally-uploaded PPTX file.
+     *
+     * POSTs multipart/form-data to /jobs/upload — the Content-Type header is
+     * intentionally omitted so the browser sets it with the correct boundary.
+     *
+     * @param {File} file  The .pptx File object from an <input type="file">.
+     * @returns {Promise<object>} Resolves to the created job object.
+     */
+    uploadJob(file) {
+      const url = cbf_slides_importer_admin_params.rest_url + "jobs/upload";
+      const body = new FormData();
+      body.append("file", file);
+      body.append("deck_name", file.name.replace(/\.pptx$/i, ""));
+      return fetch(url, {
+        method: "POST",
+        headers: { "X-WP-Nonce": cbf_slides_importer_admin_params.nonce },
+        body,
+      }).then(async function (res) {
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.message || "HTTP " + res.status);
+        }
+        return json;
+      });
+    },
+
+    /**
      * Fetch LearnDash courses for the course selector dropdown.
      * Uses the standard WP REST API (sfwd-courses CPT).
      *
@@ -370,10 +397,15 @@
     _render() {
       this._root.innerHTML =
         '<div id="cbf-si-notices"></div>' +
-        '<div class="cbf-si-actions" style="margin:16px 0;">' +
+        '<div class="cbf-si-actions" style="margin:16px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
         '<button id="cbf-si-pick-btn" class="button button-primary button-large">' +
         "⇪ Choose Slide Deck from Drive" +
         "</button>" +
+        '<span style="color:#999;">or</span>' +
+        '<button id="cbf-si-upload-btn" class="button button-large">' +
+        "⇪ Upload local .pptx file" +
+        "</button>" +
+        '<input type="file" id="cbf-si-file-input" accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" style="display:none;">' +
         "</div>" +
         '<h2 style="margin-top:24px;">Import Jobs</h2>' +
         '<div id="cbf-si-job-list"><p class="cbf-si-loading">Loading…</p></div>';
@@ -381,6 +413,16 @@
       document
         .getElementById("cbf-si-pick-btn")
         .addEventListener("click", () => this._openPicker());
+
+      document
+        .getElementById("cbf-si-upload-btn")
+        .addEventListener("click", () =>
+          document.getElementById("cbf-si-file-input").click(),
+        );
+
+      document
+        .getElementById("cbf-si-file-input")
+        .addEventListener("change", (e) => this._handleFileUpload(e));
 
       this._jobListEl = document.getElementById("cbf-si-job-list");
       this._statusEl = document.getElementById("cbf-si-notices");
@@ -439,6 +481,48 @@
           this._pollJob(job.id);
         })
         .catch((err) => this.showError("Could not create job: " + err.message));
+    },
+
+    // ── Local file upload ──────────────────────────────────────────────────
+
+    /**
+     * Handle a file selected via the hidden <input type="file">.
+     *
+     * Resets the input immediately so the same file can be re-selected after
+     * an error. Uploads via Api.uploadJob() and polls until the job is parsed.
+     *
+     * @param {Event} e  The input "change" event.
+     */
+    _handleFileUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      // Reset so the same file can be chosen again after an error.
+      e.target.value = "";
+
+      if (!file) {
+        return;
+      }
+
+      const btn = document.getElementById("cbf-si-upload-btn");
+      const resetBtn = () => {
+        btn.disabled = false;
+        btn.textContent = "⇪ Upload local .pptx file";
+      };
+
+      btn.disabled = true;
+      btn.textContent = "Uploading…";
+      this.showNotice('Uploading "' + this._esc(file.name) + '"…');
+
+      Api.uploadJob(file)
+        .then((job) => {
+          resetBtn();
+          this.showNotice("✓ Job #" + job.id + " queued — parsing…", "success");
+          this._loadJobs();
+          this._pollJob(job.id);
+        })
+        .catch((err) => {
+          resetBtn();
+          this.showError("Upload failed: " + err.message);
+        });
     },
 
     // ── Courses / lessons cache ────────────────────────────────────────────

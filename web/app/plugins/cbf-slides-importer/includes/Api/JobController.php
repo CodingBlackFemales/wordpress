@@ -16,6 +16,7 @@ namespace CodingBlackFemales\SlidesImporter\Api;
 
 use CodingBlackFemales\SlidesImporter\Import\JobRunner;
 use CodingBlackFemales\SlidesImporter\Api\PreviewController;
+use CodingBlackFemales\SlidesImporter\Utils;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
@@ -107,6 +108,16 @@ final class JobController {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( __CLASS__, 'slides' ),
+				'permission_callback' => array( AuthController::class, 'require_auth' ),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
+			'/jobs/upload',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'upload' ),
 				'permission_callback' => array( AuthController::class, 'require_auth' ),
 			)
 		);
@@ -218,6 +229,178 @@ final class JobController {
 		);
 
 		return new WP_REST_Response( array_merge( $data, array( 'id' => $job_id ) ), 201 );
+	}
+
+
+	/**
+	 * POST /jobs/upload — create a job from a locally-uploaded PPTX file.
+	 *
+	 * Accepts a multipart/form-data POST with a required `file` field (PPTX)
+	 * and an optional `deck_name` text field.  The file is moved into the job's
+	 * temp directory immediately, bypassing the Drive download phase — the
+	 * background cron is scheduled with phase='parse' so it goes straight to
+	 * parsing.
+	 *
+	 * File constraints: .pptx extension only, ≤ wp_max_upload_size().
+	 */
+	public static function upload( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		global $wpdb;
+
+		$files        = $request->get_file_params();
+		$upload_error = self::validate_upload_file( $files );
+		if ( $upload_error !== null ) {
+			return $upload_error;
+		}
+
+		$file       = $files['file'];  // safe: validate_upload_file confirmed it exists.
+		$raw_name   = (string) $file['name'];
+		$name_param = sanitize_text_field( (string) $request->get_param( 'deck_name' ) );
+		$deck_name  = $name_param !== '' ? $name_param : pathinfo( $raw_name, PATHINFO_FILENAME );
+
+		$tmp_dir = Utils::tmp_dir();
+		if ( is_wp_error( $tmp_dir ) ) {
+			return $tmp_dir;
+		}
+
+		$table = $wpdb->prefix . 'cbf_slide_import_jobs';
+		$data  = array(
+			'blog_id'       => get_current_blog_id(),
+			'user_id'       => get_current_user_id(),
+			'drive_file_id' => '',
+			'deck_name'     => $deck_name,
+			'config_id'     => null,
+			'status'        => 'pending',
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$result = $wpdb->insert( $table, $data, array( '%d', '%d', '%s', '%s', '%d', '%s' ) );
+		if ( $result === false ) {
+			return new WP_Error( 'cbf_si_db_error', $wpdb->last_error, array( 'status' => 500 ) );
+		}
+
+		$job_id      = $wpdb->insert_id;
+		$job_tmp_dir = trailingslashit( $tmp_dir ) . 'job_' . $job_id;
+		wp_mkdir_p( $job_tmp_dir );
+
+		$pptx_path = trailingslashit( $job_tmp_dir ) . 'upload.pptx';
+		if ( ! move_uploaded_file( $file['tmp_name'], $pptx_path ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->delete( $table, array( 'id' => $job_id ), array( '%d' ) );
+			return new WP_Error(
+				'cbf_si_upload_move_failed',
+				__( 'Could not save the uploaded file.', 'cbf-slides-importer' ),
+				array( 'status' => 500 )
+			);
+		}
+
+		$img_dir = trailingslashit( $job_tmp_dir ) . 'images';
+
+		// Store pptx_path in result_summary so the parse-phase cron can find it.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$table,
+			array(
+				'result_summary' => wp_json_encode(
+					array(
+						'pptx_path'   => $pptx_path,
+						'img_dir'     => $img_dir,
+						'job_tmp_dir' => $job_tmp_dir,
+					)
+				),
+			),
+			array( 'id' => $job_id ),
+			array( '%s' ),
+			array( '%d' )
+		);
+
+		// Schedule cron in 'parse' phase — no Drive download needed.
+		wp_schedule_single_event(
+			time(),
+			JobRunner::CRON_HOOK,
+			array(
+				array(
+					'job_id'  => $job_id,
+					'blog_id' => get_current_blog_id(),
+					'phase'   => 'parse',
+				),
+			)
+		);
+
+		return new WP_REST_Response( array_merge( $data, array( 'id' => $job_id ) ), 201 );
+	}
+
+
+	/**
+	 * Validate the uploaded file from $_FILES for the upload endpoint.
+	 *
+	 * Accepts the full file-params array and checks for the presence of a "file"
+	 * entry, a successful upload, an acceptable file size, and a .pptx extension.
+	 *
+	 * @param  array $files  Result of WP_REST_Request::get_file_params().
+	 * @return WP_Error|null WP_Error on failure, null on success.
+	 */
+	private static function validate_upload_file( array $files ): ?WP_Error {
+		if ( empty( $files['file'] ) ) {
+			return new WP_Error(
+				'cbf_si_no_file',
+				__( 'No file was uploaded. Send a PPTX file in the "file" field.', 'cbf-slides-importer' ),
+				array( 'status' => 400 )
+			);
+		}
+
+		$file = $files['file'];
+
+		if ( $file['error'] !== UPLOAD_ERR_OK ) {
+			return new WP_Error(
+				'cbf_si_upload_error',
+				self::upload_error_message( (int) $file['error'] ),
+				array( 'status' => 400 )
+			);
+		}
+
+		$max_size = wp_max_upload_size();
+		if ( (int) $file['size'] > $max_size ) {
+			return new WP_Error(
+				'cbf_si_file_too_large',
+				sprintf(
+					/* translators: %s: human-readable maximum upload size */
+					__( 'File exceeds the maximum allowed size of %s.', 'cbf-slides-importer' ),
+					size_format( $max_size )
+				),
+				array( 'status' => 400 )
+			);
+		}
+
+		$ext = strtolower( pathinfo( (string) $file['name'], PATHINFO_EXTENSION ) );
+		if ( $ext !== 'pptx' ) {
+			return new WP_Error(
+				'cbf_si_invalid_type',
+				__( 'Only .pptx files are accepted.', 'cbf-slides-importer' ),
+				array( 'status' => 400 )
+			);
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Return a human-readable message for a PHP upload error code.
+	 *
+	 * @param int $error_code One of the UPLOAD_ERR_* constants.
+	 * @return string
+	 */
+	private static function upload_error_message( int $error_code ): string {
+		$messages = array(
+			UPLOAD_ERR_INI_SIZE   => __( 'The file exceeds the server upload size limit.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_FORM_SIZE  => __( 'The file exceeds the form upload size limit.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_PARTIAL    => __( 'The file was only partially uploaded.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_NO_FILE    => __( 'No file was received.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_NO_TMP_DIR => __( 'The server temporary directory is missing.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_CANT_WRITE => __( 'Failed to write the file to disk.', 'cbf-slides-importer' ),
+			UPLOAD_ERR_EXTENSION  => __( 'File upload stopped by a server extension.', 'cbf-slides-importer' ),
+		);
+		return $messages[ $error_code ] ?? __( 'An unknown upload error occurred.', 'cbf-slides-importer' );
 	}
 
 
@@ -360,6 +543,11 @@ final class JobController {
 	 * @return WP_Error|null
 	 */
 	private static function find_prior_import( array $row ): ?WP_Error {
+		// Local-upload jobs have no stable file identity — skip deduplication.
+		if ( empty( $row['drive_file_id'] ) ) {
+			return null;
+		}
+
 		$summary     = self::decode_summary( $row );
 		$config      = self::extract_config( $summary );
 		$config_hash = self::compute_config_hash( $row['drive_file_id'], $config );
