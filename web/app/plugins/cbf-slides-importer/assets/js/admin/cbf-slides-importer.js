@@ -487,7 +487,10 @@
         return;
       }
       if (!courseId) {
-        sel.innerHTML = '<option value="0">— Select a course first —</option>';
+        sel.innerHTML =
+          '<option value="0">— Select a ' +
+          this._label("course") +
+          " first —</option>";
         sel.disabled = true;
         return;
       }
@@ -495,7 +498,9 @@
       sel.disabled = true;
       this._loadLessons(courseId).then((lessons) => {
         const opts =
-          '<option value="0">— No lesson —</option>' +
+          '<option value="0">— No ' +
+          this._label("lesson") +
+          " —</option>" +
           lessons
             .map(
               (l) =>
@@ -716,7 +721,9 @@
       panel.id = "cbf-si-config-panel-" + jobId;
       panel.innerHTML =
         '<td colspan="5" style="background:#f6f7f7;padding:16px 20px;">' +
-        "<em>Loading courses…</em>" +
+        "<em>Loading " +
+        this._label("courses") +
+        "…</em>" +
         "</td>";
       jobRow.insertAdjacentElement("afterend", panel);
 
@@ -728,7 +735,9 @@
         Api.getJobSlides(jobId).catch(() => ({ slides: [] })),
       ]).then(([courses, slideData]) => {
         const courseOptions =
-          '<option value="0">— No course —</option>' +
+          '<option value="0">— No ' +
+          this._label("course") +
+          " —</option>" +
           courses
             .map(
               (c) =>
@@ -855,7 +864,9 @@
           jobId +
           '" value="' +
           this._esc(deckName) +
-          '" style="min-width:320px;max-width:500px;" placeholder="Lesson title (required)">' +
+          '" style="min-width:320px;max-width:500px;" placeholder="' +
+          this._label("lesson") +
+          ' title (required)">' +
           "</td>" +
           "</tr>" +
           "<tr>" +
@@ -865,18 +876,20 @@
           '<input type="radio" name="cbf-si-mode-' +
           jobId +
           '" value="lesson-only" checked style="margin-right:4px;">' +
-          "Lesson" +
+          this._label("lesson") +
           "</label>" +
           "<label>" +
           '<input type="radio" name="cbf-si-mode-' +
           jobId +
           '" value="topic" style="margin-right:4px;">' +
-          "Topic" +
+          this._label("topic") +
           "</label>" +
           "</td>" +
           "</tr>" +
           "<tr>" +
-          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Course</th>' +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">' +
+          this._label("course") +
+          "</th>" +
           "<td>" +
           '<select id="cbf-si-course-' +
           jobId +
@@ -888,14 +901,26 @@
           '<tr id="cbf-si-lesson-row-' +
           jobId +
           '" style="display:none;">' +
-          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Lesson</th>' +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">' +
+          this._label("lesson") +
+          "</th>" +
           "<td>" +
           '<select id="cbf-si-lesson-' +
           jobId +
           '" style="min-width:260px;max-width:400px;">' +
-          '<option value="0">— No lesson —</option>' +
+          '<option value="0">— No ' +
+          this._label("lesson") +
+          " —</option>" +
           "</select>" +
-          '<p style="margin:4px 0 0;font-size:12px;color:#888;">The topic will be nested under this lesson. Select a course first to filter lessons.</p>' +
+          '<p style="margin:4px 0 0;font-size:12px;color:#888;">The ' +
+          this._label("topic") +
+          " will be nested under this " +
+          this._label("lesson") +
+          ". Select a " +
+          this._label("course") +
+          " first to filter " +
+          this._label("lessons") +
+          ".</p>" +
           "</td>" +
           "</tr>" +
           "</table>" +
@@ -1011,7 +1036,11 @@
       // Validate: title is required (P3.5).
       if (!config.post_title) {
         const titleEl = document.getElementById("cbf-si-title-" + id);
-        window.alert("Please enter a lesson title before importing.");
+        window.alert(
+          "Please enter a " +
+            this._label("lesson") +
+            " title before importing.",
+        );
         if (titleEl) {
           titleEl.focus();
         }
@@ -1070,21 +1099,28 @@
       // Build the summary sentence.
       let summary = "This will create ";
       if (mode === "topic") {
-        summary += "1 topic";
+        summary += "1 " + this._label("topic");
         if (lessonName) {
-          summary += ' in the "' + this._esc(lessonName) + '" lesson';
+          summary +=
+            ' in the "' + this._esc(lessonName) + '" ' + this._label("lesson");
         }
       } else {
-        summary += "1 lesson";
+        summary += "1 " + this._label("lesson");
       }
       summary += courseName
-        ? ' in the "' + this._esc(courseName) + '" course.'
+        ? ' in the "' +
+          this._esc(courseName) +
+          '" ' +
+          this._label("course") +
+          "."
         : ".";
 
       // Build warning lines (no-course and overwrite).
       const warnings = [];
       if (!courseId) {
-        warnings.push("Posts will not be assigned to a course.");
+        warnings.push(
+          "Posts will not be assigned to a " + this._label("course") + ".",
+        );
       }
       if (overwrite) {
         warnings.push("Existing content with the same title will be updated.");
@@ -1483,6 +1519,29 @@
      * @param {string} str
      * @returns {string}
      */
+    /**
+     * Return a LearnDash custom label, falling back to the default English string.
+     *
+     * Labels are passed from PHP via wp_localize_script so they reflect the
+     * site's LearnDash custom label settings (e.g. "Session" instead of "Lesson").
+     *
+     * @param {"course"|"courses"|"lesson"|"lessons"|"topic"|"topics"} key
+     * @returns {string}
+     */
+    _label(key) {
+      const defaults = {
+        course: "Course",
+        courses: "Courses",
+        lesson: "Lesson",
+        lessons: "Lessons",
+        topic: "Topic",
+        topics: "Topics",
+      };
+      const labels =
+        (window.cbf_slides_importer_admin_params || {}).labels || {};
+      return labels[key] || defaults[key] || key;
+    },
+
     _decodeHtml(str) {
       const el = document.createElement("textarea");
       el.innerHTML = String(str);
