@@ -21,9 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * BlockRenderer class.
  *
- * Renders a ParsedDeck (with slide_type applied) to two HTML strings:
+ * Renders a ParsedDeck (with slide_type applied) to block HTML:
  *  - lesson_html  : all body-slide content merged into one block string
- *  - topics_html  : array of {title, html} for each heading-type slide group
+ *
+ * Used for both 'lesson-only' (sfwd-lessons) and 'topic' (sfwd-topic) import
+ * modes — the rendered HTML is identical; only the LearnDash post type differs.
  *
  * Block types produced (matching python-pptx pipeline output):
  *  wp:paragraph, wp:heading (h2–h4), wp:list / wp:list-item,
@@ -32,10 +34,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class BlockRenderer {
 
 	/**
-	 * Render a full classified deck to lesson/topic HTML strings.
+	 * Render a full classified deck to block HTML.
+	 *
+	 * Both 'lesson-only' and 'topic' modes merge all body slides into a single
+	 * HTML block (the difference is only in the LearnDash post type created at
+	 * import time).
 	 *
 	 * @param  array  $classified_deck ParsedDeck with slide_type set.
-	 * @param  string $mode            'lesson-only' or 'lesson-with-topics'.
+	 * @param  string $mode            'lesson-only' or 'topic'.
 	 * @param  bool   $slide_headings  Whether to emit an H2 for each slide title.
 	 * @param  string $media_base_url  Base URL for embedded images (WP attachment URLs
 	 *                                 added after import; placeholder during preview).
@@ -43,10 +49,6 @@ final class BlockRenderer {
 	 */
 	public static function render( array $classified_deck, string $mode = 'lesson-only', bool $slide_headings = true, string $media_base_url = '' ): array {
 		$slides = $classified_deck['slides'] ?? array();
-
-		if ( $mode === 'lesson-with-topics' ) {
-			return self::render_lesson_with_topics( $slides, $slide_headings, $media_base_url );
-		}
 
 		return array(
 			'lesson_html' => self::render_lesson_only( $slides, $slide_headings, $media_base_url ),
@@ -88,88 +90,6 @@ final class BlockRenderer {
 		}
 
 		return implode( "\n", array_filter( $parts ) );
-	}
-
-
-	/**
-	 * Split body slides into topics at each heading-type slide.
-	 *
-	 * Slides before the first heading go into the lesson only.
-	 *
-	 * Contiguous body slides with the same title emit only one H2 heading.
-	 * Heading-type slides (which become LearnDash Topics) also participate in
-	 * the dedup tracking, so a body slide whose title matches the preceding
-	 * topic header is not given a redundant H2.
-	 *
-	 * @param array  $slides
-	 * @param bool   $slide_headings
-	 * @param string $media_base_url
-	 * @return array{lesson_html: string, topics: array}
-	 */
-	private static function render_lesson_with_topics( array $slides, bool $slide_headings, string $media_base_url ): array {
-		$lesson_parts  = array();
-		$topics        = array();
-		$current_topic = null;
-		$prev_title    = null;
-
-		foreach ( $slides as $slide ) {
-			$type = $slide['slide_type'];
-
-			if ( in_array( $type, array( 'cover', 'hidden', 'section' ), true ) ) {
-				continue;
-			}
-
-			if ( $type === 'heading' ) {
-				// Save previous topic if exists.
-				if ( $current_topic !== null ) {
-					$topics[] = $current_topic;
-				}
-				$heading_title = $slide['title'] ?? '';
-				$current_topic = array(
-					'title' => $heading_title,
-					'parts' => array(),
-				);
-				// Heading slides become Topic headers — their title is tracked so
-				// the first body slide in the topic does not repeat it as an H2.
-				if ( $heading_title !== '' ) {
-					$prev_title = $heading_title;
-				}
-				continue;
-			}
-
-			// 'body' slide.
-			$title        = $slide['title'] ?? '';
-			$is_duplicate = $title !== '' && $title === $prev_title;
-			$html         = self::render_slide( $slide, $slide_headings && ! $is_duplicate, $media_base_url );
-
-			if ( $title !== '' ) {
-				$prev_title = $title;
-			}
-
-			if ( $current_topic === null ) {
-				$lesson_parts[] = $html;
-			} else {
-				$current_topic['parts'][] = $html;
-			}
-		}
-
-		if ( $current_topic !== null ) {
-			$topics[] = $current_topic;
-		}
-
-		// Collapse topics' parts into html.
-		$rendered_topics = array();
-		foreach ( $topics as $t ) {
-			$rendered_topics[] = array(
-				'title' => $t['title'],
-				'html'  => implode( "\n", array_filter( $t['parts'] ) ),
-			);
-		}
-
-		return array(
-			'lesson_html' => implode( "\n", array_filter( $lesson_parts ) ),
-			'topics'      => $rendered_topics,
-		);
 	}
 
 

@@ -121,10 +121,14 @@ final class JobController {
 				'args'                => array(
 					'mode'       => array(
 						'type'    => 'string',
-						'enum'    => array( 'lesson-only', 'lesson-with-topics' ),
+						'enum'    => array( 'lesson-only', 'topic' ),
 						'default' => null,
 					),
 					'course_id'  => array(
+						'type'    => 'integer',
+						'default' => null,
+					),
+					'lesson_id'  => array(
 						'type'    => 'integer',
 						'default' => null,
 					),
@@ -482,18 +486,19 @@ final class JobController {
 
 		$mode            = $request->get_param( 'mode' );
 		$course_id       = $request->get_param( 'course_id' );
+		$lesson_id       = $request->get_param( 'lesson_id' );
 		$post_title      = $request->get_param( 'post_title' );
 		$slide_overrides = $request->get_param( 'slide_overrides' );
 		$overwrite       = $request->get_param( 'overwrite' );
 
-		if ( $mode === null && $course_id === null && $post_title === null
-			&& $slide_overrides === null && $overwrite === null ) {
+		if ( $mode === null && $course_id === null && $lesson_id === null
+			&& $post_title === null && $slide_overrides === null && $overwrite === null ) {
 			return;
 		}
 
 		$summary           = self::decode_summary( $row );
 		$config            = self::extract_config( $summary );
-		$config            = self::apply_request_config( $config, $mode, $course_id, $post_title, $overwrite );
+		$config            = self::apply_request_config( $config, $mode, $course_id, $lesson_id, $post_title, $overwrite );
 		$config            = self::apply_slide_overrides( $config, $slide_overrides );
 		$summary['config'] = $config;
 
@@ -518,7 +523,8 @@ final class JobController {
 	 * @param array       $config     Existing config.
 	 * @param string|null $mode       Import mode.
 	 * @param mixed       $course_id  Course ID.
-	 * @param string|null $post_title Lesson title.
+	 * @param mixed       $lesson_id  Lesson ID (for topic mode).
+	 * @param string|null $post_title Post title.
 	 * @param bool|null   $overwrite  Overwrite flag.
 	 * @return array Updated config.
 	 */
@@ -526,6 +532,7 @@ final class JobController {
 		array $config,
 		?string $mode,
 		$course_id,
+		$lesson_id,
 		?string $post_title,
 		?bool $overwrite
 	): array {
@@ -534,6 +541,9 @@ final class JobController {
 		}
 		if ( $course_id !== null ) {
 			$config['course_id'] = absint( $course_id );
+		}
+		if ( $lesson_id !== null ) {
+			$config['lesson_id'] = absint( $lesson_id );
 		}
 		if ( $post_title !== null ) {
 			$config['post_title'] = sanitize_text_field( $post_title );
