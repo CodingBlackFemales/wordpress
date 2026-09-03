@@ -76,13 +76,14 @@ final class LearnDashImporter {
 	 * Parse import parameters from a job summary into a flat array.
 	 *
 	 * @param array $summary Job result_summary.
-	 * @return array { mode, course_id, overwrite, img_dir, post_title }
+	 * @return array { mode, course_id, lesson_id, overwrite, img_dir, post_title }
 	 */
 	private function parse_import_params( array $summary ): array {
 		$config = $summary['config'] ?? array();
 		return array(
 			'mode'       => $config['mode'] ?? 'lesson-only',
 			'course_id'  => ! empty( $config['course_id'] ) ? (int) $config['course_id'] : 0,
+			'lesson_id'  => ! empty( $config['lesson_id'] ) ? (int) $config['lesson_id'] : 0,
 			'overwrite'  => ! empty( $config['overwrite'] ),
 			'img_dir'    => $summary['img_dir'] ?? '',
 			'post_title' => $this->resolve_post_title( $config, $summary ),
@@ -91,7 +92,7 @@ final class LearnDashImporter {
 
 
 	/**
-	 * Resolve the lesson post title from config, falling back to deck name.
+	 * Resolve the post title from config, falling back to deck name.
 	 *
 	 * @param array $config  Stored config.
 	 * @param array $summary Job result_summary.
@@ -101,7 +102,9 @@ final class LearnDashImporter {
 		if ( ! empty( $config['post_title'] ) ) {
 			return $config['post_title'];
 		}
-		return $summary['deck_name'] ?? 'Imported Lesson';
+		$mode     = $config['mode'] ?? 'lesson-only';
+		$fallback = $mode === 'topic' ? 'Imported Topic' : 'Imported Lesson';
+		return $summary['deck_name'] ?? $fallback;
 	}
 
 
@@ -112,14 +115,14 @@ final class LearnDashImporter {
 	 *
 	 * @param object $bulk_plugin  learndash-bulk plugin instance.
 	 * @param array  $rendered     BlockRenderer output.
-	 * @param array  $params       Parsed import params (mode, course_id, …).
+	 * @param array  $params       Parsed import params (mode, course_id, lesson_id, …).
 	 * @param array  &$errors      Accumulated errors.
 	 * @param array  &$skipped_ids Accumulated skipped post IDs.
 	 * @return int[]|WP_Error
 	 */
 	private function run_import_mode( object $bulk_plugin, array $rendered, array $params, array &$errors, array &$skipped_ids ): array|WP_Error {
-		if ( $params['mode'] === 'lesson-with-topics' ) {
-			return $this->import_lesson_with_topics( $bulk_plugin, $rendered, $params['course_id'], $params['img_dir'], $params['post_title'], $params['overwrite'], $errors, $skipped_ids );
+		if ( $params['mode'] === 'topic' ) {
+			return $this->import_as_topic( $bulk_plugin, $rendered, $params['course_id'], $params['lesson_id'], $params['img_dir'], $params['post_title'], $params['overwrite'], $errors, $skipped_ids );
 		}
 		return $this->import_lesson_only( $bulk_plugin, $rendered, $params['course_id'], $params['img_dir'], $params['post_title'], $params['overwrite'], $errors, $skipped_ids );
 	}
@@ -153,53 +156,29 @@ final class LearnDashImporter {
 
 
 	/**
-	 * Import a lesson + multiple topics (lesson-with-topics mode).
+	 * Import the deck as a single topic (topic mode).
 	 *
 	 * @param object $plugin       learndash-bulk plugin instance.
 	 * @param array  $rendered     BlockRenderer output.
 	 * @param int    $course_id    Target course ID.
+	 * @param int    $lesson_id    Target lesson ID to nest the topic under (0 = unassigned).
 	 * @param string $img_dir      Absolute path to extracted images.
-	 * @param string $post_title   Lesson title (from config panel or deck name).
+	 * @param string $post_title   Topic title (from config panel or deck name).
 	 * @param bool   $overwrite    Whether to overwrite existing posts matched by title.
 	 * @param array  &$errors      Errors collected during import.
 	 * @param array  &$skipped_ids IDs of posts skipped due to title match + overwrite=false.
 	 * @return int[]|WP_Error
 	 */
-	private function import_lesson_with_topics( object $plugin, array $rendered, int $course_id, string $img_dir, string $post_title, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
-		$post_ids = array();
-
-		// 1. Create the lesson.
-		$lesson_row = array(
+	private function import_as_topic( object $plugin, array $rendered, int $course_id, int $lesson_id, string $img_dir, string $post_title, bool $overwrite, array &$errors, array &$skipped_ids ): array|WP_Error {
+		$row = array(
 			'post_title'   => $post_title,
 			'post_content' => $rendered['lesson_html'] ?? '',
 			'course_id'    => $course_id,
-			'post_type'    => 'sfwd-lessons',
+			'lesson_id'    => $lesson_id,
+			'post_type'    => 'sfwd-topic',
 		);
 
-		$lesson_ids = $this->run_import_row( $plugin, $lesson_row, $img_dir, $overwrite, $errors, $skipped_ids );
-		if ( is_wp_error( $lesson_ids ) ) {
-			return $lesson_ids;
-		}
-
-		$lesson_id = ! empty( $lesson_ids[0] ) ? (int) $lesson_ids[0] : 0;
-		$post_ids  = array_merge( $post_ids, $lesson_ids );
-
-		// 2. Create topics.
-		foreach ( $rendered['topics'] as $topic ) {
-			$topic_row = array(
-				'post_title'   => $topic['title'],
-				'post_content' => $topic['html'],
-				'course_id'    => $course_id,
-				'lesson_id'    => $lesson_id,
-				'post_type'    => 'sfwd-topic',
-			);
-			$topic_ids = $this->run_import_row( $plugin, $topic_row, $img_dir, $overwrite, $errors, $skipped_ids );
-			if ( ! is_wp_error( $topic_ids ) ) {
-				$post_ids = array_merge( $post_ids, $topic_ids );
-			}
-		}
-
-		return $post_ids;
+		return $this->run_import_row( $plugin, $row, $img_dir, $overwrite, $errors, $skipped_ids );
 	}
 
 

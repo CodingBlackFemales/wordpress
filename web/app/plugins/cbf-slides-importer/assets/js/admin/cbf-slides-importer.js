@@ -191,6 +191,56 @@
         return res.ok ? res.json() : [];
       });
     },
+
+    /**
+     * Fetch lessons belonging to a course.
+     *
+     * Step 1: GET /ldlms/v2/sfwd-courses/{id}/steps?context=view&type=all
+     *   Returns { h: {...}, t: { "sfwd-lessons": [123, 456], … } }.
+     *   Works correctly when Shared Course Steps is enabled because the steps
+     *   endpoint reflects the actual course structure rather than post metadata.
+     *
+     * Step 2: GET /wp/v2/sfwd-lessons?include=123,456&per_page=100
+     *   Fetches full post objects (id, title.rendered) for the lesson IDs.
+     *
+     * Returns an empty array when courseId is falsy — a course must be
+     * selected before lessons can be listed.
+     *
+     * @param {number} courseId  Course ID.
+     * @returns {Promise<Array<{id:number, title:{rendered:string}}>>}
+     */
+    getLessons(courseId) {
+      if (!courseId) {
+        return Promise.resolve([]);
+      }
+      const nonce = cbf_slides_importer_admin_params.nonce;
+      const stepsUrl =
+        cbf_slides_importer_admin_params.wp_rest_url +
+        "ldlms/v2/sfwd-courses/" +
+        courseId +
+        "/steps?context=view&type=all";
+      return fetch(stepsUrl, { headers: { "X-WP-Nonce": nonce } })
+        .then(function (res) {
+          return res.ok ? res.json() : {};
+        })
+        .then(function (data) {
+          const lessonIds =
+            data.t && data.t["sfwd-lessons"] ? data.t["sfwd-lessons"] : [];
+          if (!lessonIds.length) {
+            return [];
+          }
+          const lessonsUrl =
+            cbf_slides_importer_admin_params.wp_rest_url +
+            "wp/v2/sfwd-lessons?include=" +
+            lessonIds.join(",") +
+            "&per_page=100&orderby=include";
+          return fetch(lessonsUrl, { headers: { "X-WP-Nonce": nonce } }).then(
+            function (res) {
+              return res.ok ? res.json() : [];
+            },
+          );
+        });
+    },
   };
 
   // ── Google Picker ─────────────────────────────────────────────────────────
@@ -301,6 +351,7 @@
     _statusEl: null,
     _pollTimers: {},
     _courses: null, // cached LearnDash courses for the config dropdown
+    _lessons: null, // { courseId: [...] } — lessons keyed by course ID
 
     init(root) {
       this._root = root;
@@ -390,7 +441,7 @@
         .catch((err) => this.showError("Could not create job: " + err.message));
     },
 
-    // ── Courses cache ──────────────────────────────────────────────────────
+    // ── Courses / lessons cache ────────────────────────────────────────────
 
     _loadCourses() {
       if (this._courses !== null) {
@@ -405,6 +456,65 @@
           this._courses = [];
           return [];
         });
+    },
+
+    _loadLessons(courseId) {
+      this._lessons = this._lessons || {};
+      const key = courseId || 0;
+      if (this._lessons[key] !== undefined) {
+        return Promise.resolve(this._lessons[key]);
+      }
+      return Api.getLessons(key)
+        .then((lessons) => {
+          this._lessons[key] = Array.isArray(lessons) ? lessons : [];
+          return this._lessons[key];
+        })
+        .catch(() => {
+          this._lessons[key] = [];
+          return [];
+        });
+    },
+
+    /**
+     * Fetch lessons for courseId and repopulate the lesson <select> for jobId.
+     *
+     * @param {number} jobId     Job ID whose lesson select to update.
+     * @param {number} courseId  Course to filter lessons by (0 = no course selected).
+     */
+    _populateLessonSelect(jobId, courseId) {
+      const sel = document.getElementById("cbf-si-lesson-" + jobId);
+      if (!sel) {
+        return;
+      }
+      if (!courseId) {
+        sel.innerHTML = '<option value="0">— Select a course first —</option>';
+        sel.disabled = true;
+        return;
+      }
+      sel.innerHTML = "<option>Loading…</option>";
+      sel.disabled = true;
+      this._loadLessons(courseId).then((lessons) => {
+        const opts =
+          '<option value="0">— No lesson —</option>' +
+          lessons
+            .map(
+              (l) =>
+                '<option value="' +
+                l.id +
+                '">' +
+                this._esc(
+                  this._decodeHtml(
+                    l.title && l.title.rendered
+                      ? l.title.rendered
+                      : String(l.id),
+                  ),
+                ) +
+                "</option>",
+            )
+            .join("");
+        sel.innerHTML = opts;
+        sel.disabled = false;
+      });
     },
 
     // ── Job list ───────────────────────────────────────────────────────────
@@ -626,7 +736,11 @@
                 c.id +
                 '">' +
                 this._esc(
-                  c.title && c.title.rendered ? c.title.rendered : String(c.id),
+                  this._decodeHtml(
+                    c.title && c.title.rendered
+                      ? c.title.rendered
+                      : String(c.id),
+                  ),
                 ) +
                 "</option>",
             )
@@ -751,13 +865,13 @@
           '<input type="radio" name="cbf-si-mode-' +
           jobId +
           '" value="lesson-only" checked style="margin-right:4px;">' +
-          "Lesson only" +
+          "Lesson" +
           "</label>" +
           "<label>" +
           '<input type="radio" name="cbf-si-mode-' +
           jobId +
-          '" value="lesson-with-topics" style="margin-right:4px;">' +
-          "Lesson + Topics" +
+          '" value="topic" style="margin-right:4px;">' +
+          "Topic" +
           "</label>" +
           "</td>" +
           "</tr>" +
@@ -769,6 +883,19 @@
           '" style="min-width:260px;max-width:400px;">' +
           courseOptions +
           "</select>" +
+          "</td>" +
+          "</tr>" +
+          '<tr id="cbf-si-lesson-row-' +
+          jobId +
+          '" style="display:none;">' +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Lesson</th>' +
+          "<td>" +
+          '<select id="cbf-si-lesson-' +
+          jobId +
+          '" style="min-width:260px;max-width:400px;">' +
+          '<option value="0">— No lesson —</option>' +
+          "</select>" +
+          '<p style="margin:4px 0 0;font-size:12px;color:#888;">The topic will be nested under this lesson. Select a course first to filter lessons.</p>' +
           "</td>" +
           "</tr>" +
           "</table>" +
@@ -793,6 +920,46 @@
           '" style="margin-left:8px;">Cancel</button>' +
           "</p>" +
           "</td>";
+
+        // Wire mode radios to show/hide the lesson row and load lessons.
+        const lessonRow = document.getElementById("cbf-si-lesson-row-" + jobId);
+        const courseEl = document.getElementById("cbf-si-course-" + jobId);
+        const modeEls = document.querySelectorAll(
+          '[name="cbf-si-mode-' + jobId + '"]',
+        );
+
+        const onModeOrCourseChange = () => {
+          const modeEl = document.querySelector(
+            '[name="cbf-si-mode-' + jobId + '"]:checked',
+          );
+          const isTopicMode = modeEl && modeEl.value === "topic";
+          if (lessonRow) {
+            lessonRow.style.display = isTopicMode ? "" : "none";
+          }
+          if (isTopicMode && courseEl) {
+            this._populateLessonSelect(
+              jobId,
+              parseInt(courseEl.value, 10) || 0,
+            );
+          }
+        };
+
+        modeEls.forEach((el) =>
+          el.addEventListener("change", onModeOrCourseChange),
+        );
+        if (courseEl) {
+          courseEl.addEventListener("change", () => {
+            const modeEl = document.querySelector(
+              '[name="cbf-si-mode-' + jobId + '"]:checked',
+            );
+            if (modeEl && modeEl.value === "topic") {
+              this._populateLessonSelect(
+                jobId,
+                parseInt(courseEl.value, 10) || 0,
+              );
+            }
+          });
+        }
       });
     },
 
@@ -868,29 +1035,45 @@
     _showImportModal(id, config) {
       const mode = config.mode || "lesson-only";
       const courseId = config.course_id || 0;
+      const lessonId = config.lesson_id || 0;
       const overwrite = config.overwrite || false;
-      const topicCount = config.topic_count; // undefined when imported without preview
 
       // Resolve course name from cached courses list.
       let courseName = null;
       if (courseId && this._courses) {
         const found = this._courses.find((c) => c.id === courseId);
         if (found) {
-          courseName =
+          courseName = this._decodeHtml(
             found.title && found.title.rendered
               ? found.title.rendered
-              : String(courseId);
+              : String(courseId),
+          );
+        }
+      }
+
+      // Resolve lesson name from cached lessons (any course bucket).
+      let lessonName = null;
+      if (lessonId && this._lessons) {
+        for (const bucket of Object.values(this._lessons)) {
+          const found = bucket.find((l) => l.id === lessonId);
+          if (found) {
+            lessonName = this._decodeHtml(
+              found.title && found.title.rendered
+                ? found.title.rendered
+                : String(lessonId),
+            );
+            break;
+          }
         }
       }
 
       // Build the summary sentence.
       let summary = "This will create ";
-      if (mode === "lesson-with-topics") {
-        const topicsLabel =
-          topicCount !== undefined
-            ? topicCount + " topic" + (topicCount !== 1 ? "s" : "")
-            : "topics";
-        summary += "1 lesson and " + topicsLabel;
+      if (mode === "topic") {
+        summary += "1 topic";
+        if (lessonName) {
+          summary += ' in the "' + this._esc(lessonName) + '" lesson';
+        }
       } else {
         summary += "1 lesson";
       }
@@ -1099,9 +1282,11 @@
         });
       }
 
+      const lessonEl = document.getElementById("cbf-si-lesson-" + id);
       const config = {
         mode: modeEl ? modeEl.value : "lesson-only",
         course_id: courseEl ? parseInt(courseEl.value, 10) : 0,
+        lesson_id: lessonEl ? parseInt(lessonEl.value, 10) : 0,
         post_title: titleEl ? titleEl.value.trim() : "",
         overwrite: overwriteEl ? overwriteEl.checked : false,
       };
@@ -1149,53 +1334,18 @@
       Api.getJobPreview(id, config)
         .then((data) => {
           const lessonHtml = (data.lesson_html || "").trim();
-          const topics = Array.isArray(data.topics) ? data.topics : [];
 
-          // Cache topic count so the import confirmation modal can surface it.
-          this._previewConfig = this._previewConfig || {};
-          this._previewConfig[id] = this._previewConfig[id] || {};
-          this._previewConfig[id].topic_count = topics.length;
-
-          const hasContent =
-            lessonHtml.length > 0 ||
-            topics.some((t) => (t.html || "").trim().length > 0);
+          const hasContent = lessonHtml.length > 0;
 
           let previewHtml = "";
 
           if (!hasContent) {
             previewHtml =
               '<p style="color:#996800;background:#fff8e1;padding:10px 14px;border-left:4px solid #f0b849;margin:0 0 12px;">' +
-              "⚠ No content was generated from the current config. Try a different mode or adjust the slide map." +
+              "⚠ No content was generated from the current config. Try adjusting the slide map." +
               "</p>";
-          } else if (topics.length > 0) {
-            // lesson-with-topics mode.
-            const topicsHtml = topics
-              .map(
-                (t, i) =>
-                  "<details" +
-                  (i === 0 ? " open" : "") +
-                  ' style="margin-bottom:8px;border:1px solid #ddd;border-radius:4px;">' +
-                  '<summary style="padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px;background:#f9f9f9;border-radius:4px;">' +
-                  this._esc(t.title || "Topic " + (i + 1)) +
-                  "</summary>" +
-                  '<div class="cbf-si-preview-content" style="padding:12px 16px;max-height:360px;overflow-y:auto;font-size:13px;background:#fff;">' +
-                  '<div class="cbf-si-preview-inner">' +
-                  (t.html || "<em style='color:#888'>No content</em>") +
-                  "</div>" +
-                  "</div>" +
-                  "</details>",
-              )
-              .join("");
-            previewHtml =
-              '<p style="font-size:12px;color:#888;margin:0 0 8px;">' +
-              "Lesson-with-topics — " +
-              topics.length +
-              " topic" +
-              (topics.length !== 1 ? "s" : "") +
-              "</p>" +
-              topicsHtml;
           } else {
-            // lesson-only mode.
+            // lesson-only and topic modes both produce a single block of HTML.
             previewHtml =
               '<div class="cbf-si-preview-content" style="max-height:480px;overflow-y:auto;padding:12px 16px;border:1px solid #ddd;border-radius:4px;font-size:13px;background:#fff;">' +
               '<div class="cbf-si-preview-inner">' +
@@ -1320,6 +1470,23 @@
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
+    },
+
+    /**
+     * Decode HTML entities in a string returned by the WP REST API.
+     *
+     * title.rendered values arrive pre-encoded (e.g. "&amp;", "&#8211;").
+     * Using a hidden textarea lets the browser decode them safely without
+     * executing any scripts, so the result is plain text suitable for
+     * passing straight into _esc() before HTML insertion.
+     *
+     * @param {string} str
+     * @returns {string}
+     */
+    _decodeHtml(str) {
+      const el = document.createElement("textarea");
+      el.innerHTML = String(str);
+      return el.value;
     },
   };
 })();
