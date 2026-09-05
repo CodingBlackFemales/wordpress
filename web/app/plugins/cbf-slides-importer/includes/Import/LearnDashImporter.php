@@ -12,6 +12,7 @@
 
 namespace CodingBlackFemales\SlidesImporter\Import;
 
+use CodingBlackFemales\SlidesImporter\Document\BlockRenderer;
 use CodingBlackFemales\SlidesImporter\Utils;
 use WP_Error;
 
@@ -23,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * LearnDashImporter class.
  *
  * Responsibilities:
- * 1. Assemble the CSV row data from BlockRenderer output.
+ * 1. Assemble the CSV row data from Document\BlockRenderer output.
  * 2. Call run_import_cli() on the learndash-bulk plugin instance.
  * 3. Rewrite image paths using ELDBC_Media::rewrite_paths() after post creation.
  * 4. Return the list of created WP post IDs.
@@ -50,7 +51,7 @@ final class LearnDashImporter {
 			return $bulk_plugin;
 		}
 
-		$rendered    = \CodingBlackFemales\SlidesImporter\Pptx\BlockRenderer::render( $classified_deck, $params['mode'] );
+		$rendered    = BlockRenderer::render( $classified_deck, $params['mode'] );
 		$errors      = array();
 		$skipped_ids = array();
 		$result      = $this->run_import_mode( $bulk_plugin, $rendered, $params, $errors, $skipped_ids );

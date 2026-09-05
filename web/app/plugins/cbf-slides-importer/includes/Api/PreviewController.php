@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * whenever the user saves import config overrides (mode, slide_overrides, etc.)
  * so that a subsequent GET /preview re-renders from the updated config.
  *
- * If the transient has expired or been busted and the PPTX file is still on
- * disk, the endpoint re-renders on-demand.  If the PPTX has been cleaned up
+ * If the transient has expired or been busted and the source file is still on
+ * disk, the endpoint re-renders on-demand.  If the source file has been cleaned up
  * (post-import), the endpoint returns 404.
  */
 final class PreviewController {
@@ -94,12 +94,12 @@ final class PreviewController {
 	 * GET /jobs/{id}/preview
 	 *
 	 * Returns rendered block HTML for a job's content.  Reads from the cached
-	 * transient when available; otherwise re-renders on-demand from the stored PPTX.
+	 * transient when available; otherwise re-renders on-demand from the stored file.
 	 *
 	 * Response shape:
 	 *   { lesson_html: '<string>', topics: [] }
 	 *
-	 * Returns 404 when the PPTX is no longer on disk (cleaned up after import)
+	 * Returns 404 when the source file is no longer on disk (cleaned up after import)
 	 * or when the job does not belong to the current user.
 	 *
 	 * @param WP_REST_Request $request REST request.

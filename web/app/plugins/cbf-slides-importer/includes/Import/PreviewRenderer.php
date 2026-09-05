@@ -1,21 +1,21 @@
 <?php
 /**
- * Renders Gutenberg block HTML from a parsed PPTX for preview purposes.
+ * Renders Gutenberg block HTML from a parsed source document for preview purposes.
  *
  * Encapsulates the re-parse → re-classify → render pipeline that both
  * JobRunner (eager preview at parse time) and PreviewController (on-demand
  * refresh when config changes) need to perform.
  *
  * @class   Import\PreviewRenderer
- * @version 1.0.0
+ * @version 1.1.0
  * @package CodingBlackFemales/SlidesImporter
  */
 
 namespace CodingBlackFemales\SlidesImporter\Import;
 
-use CodingBlackFemales\SlidesImporter\Pptx\Parser;
-use CodingBlackFemales\SlidesImporter\Pptx\SlideClassifier;
-use CodingBlackFemales\SlidesImporter\Pptx\BlockRenderer;
+use CodingBlackFemales\SlidesImporter\Document\BlockRenderer;
+use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
+use CodingBlackFemales\SlidesImporter\Document\SlideClassifier;
 use WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -33,9 +33,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class PreviewRenderer {
 
 	/**
-	 * Build block HTML from the job's stored PPTX + config summary.
+	 * Build block HTML from the job's stored source file + config summary.
 	 *
-	 * Requires the PPTX file to still exist on disk. Returns WP_Error if the
+	 * Requires the source file to still exist on disk. Returns WP_Error if the
 	 * file has been cleaned up (e.g. after a completed import) or if parsing
 	 * fails.
 	 *
@@ -50,10 +50,10 @@ final class PreviewRenderer {
 	 * @return array{lesson_html: string, topics: array}|WP_Error
 	 */
 	public static function render_from_summary( array $summary ): array|WP_Error {
-		$pptx_path = $summary['pptx_path'] ?? '';
-		$img_dir   = $summary['img_dir'] ?? '';
+		$source_path = JobRunner::source_path( $summary );
+		$img_dir     = $summary['img_dir'] ?? '';
 
-		if ( empty( $pptx_path ) || ! file_exists( $pptx_path ) ) {
+		if ( empty( $source_path ) || ! file_exists( $source_path ) ) {
 			return new WP_Error(
 				'cbf_si_preview_unavailable',
 				__(
@@ -63,39 +63,66 @@ final class PreviewRenderer {
 			);
 		}
 
-		$parsed = Parser::parse( $pptx_path, $img_dir );
+		$parsed = ParserFactory::parse( $source_path, $img_dir );
 		if ( is_wp_error( $parsed ) ) {
 			return $parsed;
 		}
 
-		$config          = isset( $summary['config'] ) && is_array( $summary['config'] ) ? $summary['config'] : array();
-		$heading_regex   = $config['heading_layout_regex'] ?? '';
-		$slide_overrides = array();
+		$config     = isset( $summary['config'] ) && is_array( $summary['config'] ) ? $summary['config'] : array();
+		$classified = SlideClassifier::classify(
+			$parsed,
+			$config['heading_layout_regex'] ?? '',
+			self::decode_overrides( $config )
+		);
 
-		if ( ! empty( $config['slide_overrides'] ) ) {
-			$decoded = json_decode( $config['slide_overrides'], true );
-			if ( is_array( $decoded ) ) {
-				$slide_overrides = $decoded;
-			}
+		return BlockRenderer::render(
+			$classified,
+			$config['mode'] ?? 'lesson-only',
+			true,
+			self::media_base_url( $img_dir )
+		);
+	}
+
+
+	/**
+	 * Decode the per-entry type overrides stored on a job's config.
+	 *
+	 * @param  array $config Stored config.
+	 * @return array<int, string> Overrides keyed by 1-based entry number.
+	 */
+	private static function decode_overrides( array $config ): array {
+		if ( empty( $config['slide_overrides'] ) ) {
+			return array();
 		}
 
-		$mode       = $config['mode'] ?? 'lesson-only';
-		$classified = SlideClassifier::classify( $parsed, $heading_regex, $slide_overrides );
+		$decoded = json_decode( $config['slide_overrides'], true );
 
-		// Derive an absolute URL for the image directory so the preview HTML
-		// contains real <img src> values the browser can load.  The img_dir
-		// lives inside wp-uploads (created by Utils::tmp_dir()), so we can map
-		// the filesystem path to a URL via wp_upload_dir().
-		$upload      = wp_upload_dir();
-		$img_base_url = '';
-		if ( ! empty( $upload['basedir'] ) && ! empty( $img_dir ) ) {
-			$img_base_url = str_replace(
-				untrailingslashit( $upload['basedir'] ),
-				untrailingslashit( $upload['baseurl'] ),
-				untrailingslashit( $img_dir )
-			);
+		return is_array( $decoded ) ? $decoded : array();
+	}
+
+
+	/**
+	 * Derive a browser-loadable URL for a job's extracted image directory.
+	 *
+	 * The directory lives inside wp-uploads (created by Utils::tmp_dir()), so
+	 * the filesystem path maps to a URL via wp_upload_dir(). Preview HTML needs
+	 * real <img src> values; the import path uses relative `media/` paths
+	 * instead and rewrites them after attachments are created.
+	 *
+	 * @param  string $img_dir Absolute path to the job's image directory.
+	 * @return string Base URL, or '' when the path is outside the uploads dir.
+	 */
+	private static function media_base_url( string $img_dir ): string {
+		$upload = wp_upload_dir();
+
+		if ( empty( $upload['basedir'] ) || empty( $img_dir ) ) {
+			return '';
 		}
 
-		return BlockRenderer::render( $classified, $mode, true, $img_base_url );
+		return str_replace(
+			untrailingslashit( $upload['basedir'] ),
+			untrailingslashit( $upload['baseurl'] ),
+			untrailingslashit( $img_dir )
+		);
 	}
 }

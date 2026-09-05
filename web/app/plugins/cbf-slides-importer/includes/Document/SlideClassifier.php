@@ -1,16 +1,19 @@
 <?php
 /**
- * Classifies each slide into a type based on layout name and config overrides.
+ * Classifies each parsed slide into a type based on layout name and config overrides.
  *
  * Mirrors the python-pptx pipeline's use of slide layout names to identify
- * section headings vs body content slides.
+ * section headings vs body content slides. Works on the format-neutral ParsedDeck
+ * (see Document\Ir), so a PDF page and a DOCX section classify the same way a
+ * PPTX slide does — for those formats `layout_name` carries the page label or the
+ * heading style name respectively.
  *
- * @class   Pptx\SlideClassifier
+ * @class   Document\SlideClassifier
  * @version 1.0.0
  * @package CodingBlackFemales/SlidesImporter
  */
 
-namespace CodingBlackFemales\SlidesImporter\Pptx;
+namespace CodingBlackFemales\SlidesImporter\Document;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

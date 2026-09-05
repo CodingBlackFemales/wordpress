@@ -33,7 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Relationships:
  *  - STALE_MINUTES (30) < TMP_MAX_HOURS * 60 (120): a job reset to `pending`
  *    at 30 min will be re-processed before its temp dir (created at job start)
- *    is purged at 2 h, so a re-run can still find its previous PPTX if needed.
+ *    is purged at 2 h, so a re-run can still find its previous source file if
+ *    needed.
  */
 final class Janitor {
 
