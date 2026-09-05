@@ -215,3 +215,38 @@ if ( ! function_exists( 'wp_delete_file' ) ) {
 		}
 	}
 }
+
+if ( ! function_exists( 'wp_parse_url' ) ) {
+	/**
+	 * @param string $url       URL to parse.
+	 * @param int    $component Component to return, or -1 for all.
+	 */
+	function wp_parse_url( $url, $component = -1 ) {
+		return parse_url( (string) $url, (int) $component ); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
+	}
+}
+
+if ( ! function_exists( 'sanitize_text_field' ) ) {
+	/**
+	 * Approximates WordPress's sanitiser: strips tags and control characters
+	 * and collapses whitespace, which is the behaviour the parsers rely on.
+	 *
+	 * @param string $value Raw value.
+	 */
+	function sanitize_text_field( $value ): string {
+		$value = wp_strip_all_tags( (string) $value );
+		$value = (string) preg_replace( '/[\r\n\t]+/', ' ', $value );
+		$value = (string) preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $value );
+		return trim( (string) preg_replace( '/ {2,}/', ' ', $value ) );
+	}
+}
+
+if ( ! function_exists( 'wp_strip_all_tags' ) ) {
+	/**
+	 * @param string $value Raw value.
+	 */
+	function wp_strip_all_tags( $value ): string {
+		$value = (string) preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', (string) $value );
+		return trim( strip_tags( $value ) );
+	}
+}

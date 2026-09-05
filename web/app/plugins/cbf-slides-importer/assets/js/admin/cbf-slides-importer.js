@@ -137,6 +137,48 @@
       return this.fetch("jobs/" + id);
     },
 
+    /**
+     * Upload a bulk migration CSV for validation.
+     *
+     * Nothing is written to LearnDash by this call: the response is the
+     * pre-flight plan the editor confirms before any import runs.
+     *
+     * @param {File} file        The .csv File object.
+     * @param {number} courseId  Course every row imports into.
+     * @param {boolean} overwrite Whether to update posts matched by title.
+     * @returns {Promise<object>} Resolves to the validated batch.
+     */
+    createBatch(file, courseId, overwrite) {
+      const body = new FormData();
+      body.append("file", file);
+      body.append("course_id", String(courseId));
+      body.append("overwrite", overwrite ? "1" : "0");
+
+      return fetch(cbf_slides_importer_admin_params.rest_url + "batches", {
+        method: "POST",
+        headers: { "X-WP-Nonce": cbf_slides_importer_admin_params.nonce },
+        body,
+      }).then(async function (res) {
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.message || "HTTP " + res.status);
+        }
+        return json;
+      });
+    },
+
+    getBatch(id) {
+      return this.fetch("batches/" + id);
+    },
+
+    runBatch(id) {
+      return this.fetch("batches/" + id + "/run", { method: "POST" });
+    },
+
+    cancelBatch(id) {
+      return this.fetch("batches/" + id + "/cancel", { method: "POST" });
+    },
+
     listJobs(page) {
       page = page || 1;
       return this.fetch("jobs?page=" + page + "&per_page=20");
@@ -426,6 +468,9 @@
   const CbfSiApp = {
     _root: null,
     _jobListEl: null,
+    _bulkPanelEl: null,
+    _bulkBatchId: null,
+    _bulkTimer: null,
     _statusEl: null,
     _pollTimers: {},
     _courses: null, // cached LearnDash courses for the config dropdown
@@ -463,6 +508,19 @@
         FORMAT_LIST +
         "</span>" +
         "</div>" +
+        '<div class="cbf-si-actions" style="margin:16px 0;padding-top:12px;border-top:1px solid #ddd;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
+        '<button id="cbf-si-bulk-btn" class="button button-large">' +
+        "⇪ Bulk import from CSV" +
+        "</button>" +
+        '<input type="file" id="cbf-si-csv-input" accept=".csv,text/csv" style="display:none;">' +
+        '<span style="color:#999;font-size:12px;">Many ' +
+        this._esc(this._label("lessons").toLowerCase()) +
+        " and " +
+        this._esc(this._label("topics").toLowerCase()) +
+        " in one pass" +
+        "</span>" +
+        "</div>" +
+        '<div id="cbf-si-bulk-panel"></div>' +
         '<h2 style="margin-top:24px;">Import Jobs</h2>' +
         '<div id="cbf-si-job-list"><p class="cbf-si-loading">Loading…</p></div>';
 
@@ -479,6 +537,16 @@
       document
         .getElementById("cbf-si-file-input")
         .addEventListener("change", (e) => this._handleFileUpload(e));
+
+      document
+        .getElementById("cbf-si-bulk-btn")
+        .addEventListener("click", () => this._openBulkPanel());
+
+      document
+        .getElementById("cbf-si-csv-input")
+        .addEventListener("change", (e) => this._handleCsvUpload(e));
+
+      this._bulkPanelEl = document.getElementById("cbf-si-bulk-panel");
 
       this._jobListEl = document.getElementById("cbf-si-job-list");
       this._statusEl = document.getElementById("cbf-si-notices");
@@ -579,6 +647,394 @@
           resetBtn();
           this.showError("Upload failed: " + err.message);
         });
+    },
+
+    // ── Bulk CSV migration ─────────────────────────────────────────────────
+
+    /**
+     * Show the bulk setup form.
+     *
+     * Only two settings are chosen here — course and overwrite. Everything else
+     * comes from the CSV, which is the point of the feature.
+     */
+    _openBulkPanel() {
+      this._stopBulkPolling();
+      this._bulkBatchId = null;
+
+      this._bulkPanelEl.innerHTML =
+        '<div class="cbf-si-bulk" style="background:#f6f7f7;border:1px solid #ddd;padding:16px 20px;margin:12px 0;">' +
+        '<p class="cbf-si-loading">Loading ' +
+        this._esc(this._label("courses").toLowerCase()) +
+        "…</p>" +
+        "</div>";
+
+      this._loadCourses().then((courses) => {
+        const options = courses
+          .map(
+            (c) =>
+              '<option value="' +
+              c.id +
+              '">' +
+              this._esc(
+                this._decodeHtml(
+                  c.title && c.title.rendered ? c.title.rendered : String(c.id),
+                ),
+              ) +
+              "</option>",
+          )
+          .join("");
+
+        this._bulkPanelEl.innerHTML =
+          '<div class="cbf-si-bulk" style="background:#f6f7f7;border:1px solid #ddd;padding:16px 20px;margin:12px 0;">' +
+          '<strong style="font-size:13px;">Bulk import from CSV</strong>' +
+          '<p style="margin:8px 0 12px;color:#555;max-width:52em;">' +
+          "Upload a CSV with a <code>heading</code>, <code>session_id</code>, <code>type</code>, " +
+          "<code>title</code> and <code>url</code> column. The file is checked first — nothing is " +
+          "created until you confirm." +
+          "</p>" +
+          '<table style="border-collapse:collapse;">' +
+          "<tr>" +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;">' +
+          this._esc(this._label("course")) +
+          "</th>" +
+          '<td><select id="cbf-si-bulk-course" style="min-width:320px;">' +
+          '<option value="0">— Select a ' +
+          this._esc(this._label("course").toLowerCase()) +
+          " —</option>" +
+          options +
+          "</select></td>" +
+          "</tr>" +
+          "<tr>" +
+          '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;">Overwrite</th>' +
+          '<td><label><input type="checkbox" id="cbf-si-bulk-overwrite" style="margin-right:6px;">' +
+          "Update existing posts matched by title</label></td>" +
+          "</tr>" +
+          "</table>" +
+          '<p style="margin:14px 0 0;">' +
+          '<button id="cbf-si-bulk-choose" class="button button-primary">Choose CSV…</button> ' +
+          '<button id="cbf-si-bulk-close" class="button">Cancel</button>' +
+          "</p>" +
+          "</div>";
+
+        document
+          .getElementById("cbf-si-bulk-choose")
+          .addEventListener("click", () => {
+            if (this._bulkCourseId() === 0) {
+              this.showError(
+                "Choose a " +
+                  this._label("course").toLowerCase() +
+                  " before uploading a CSV.",
+              );
+              return;
+            }
+            document.getElementById("cbf-si-csv-input").click();
+          });
+
+        document
+          .getElementById("cbf-si-bulk-close")
+          .addEventListener("click", () => this._closeBulkPanel());
+      });
+    },
+
+    _closeBulkPanel() {
+      this._stopBulkPolling();
+      this._bulkBatchId = null;
+      this._bulkPanelEl.innerHTML = "";
+    },
+
+    _bulkCourseId() {
+      const el = document.getElementById("cbf-si-bulk-course");
+      return el ? parseInt(el.value, 10) || 0 : 0;
+    },
+
+    _bulkOverwrite() {
+      const el = document.getElementById("cbf-si-bulk-overwrite");
+      return !!(el && el.checked);
+    },
+
+    /**
+     * Validate an uploaded CSV and show the pre-flight report.
+     *
+     * @param {Event} e  The input "change" event.
+     */
+    _handleCsvUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      e.target.value = "";
+
+      if (!file) {
+        return;
+      }
+
+      const courseId = this._bulkCourseId();
+      const overwrite = this._bulkOverwrite();
+
+      this.showNotice('Checking "' + this._esc(file.name) + '"…');
+
+      Api.createBatch(file, courseId, overwrite)
+        .then((batch) => {
+          this.showNotice(
+            "✓ CSV checked — review the rows below before importing.",
+            "success",
+          );
+          this._bulkBatchId = batch.id;
+          this._renderBatch(batch);
+        })
+        .catch((err) =>
+          this.showError("CSV could not be used: " + err.message),
+        );
+    },
+
+    /**
+     * Render a batch: its counts, its rows, and whatever action comes next.
+     *
+     * @param {object} batch  Batch payload from the REST API.
+     */
+    _renderBatch(batch) {
+      const s = batch.summary || {};
+      const ready = (batch.counts && batch.counts.ready) || 0;
+      const awaiting = batch.status === "awaiting_confirmation";
+      const running = batch.status === "running";
+
+      const chip = (label, n, colour) =>
+        n
+          ? '<span style="display:inline-block;margin-right:8px;padding:2px 8px;border-radius:3px;font-size:12px;background:' +
+            colour +
+            '">' +
+            label +
+            ": " +
+            n +
+            "</span>"
+          : "";
+
+      this._bulkPanelEl.innerHTML =
+        '<div class="cbf-si-bulk" style="background:#f6f7f7;border:1px solid #ddd;padding:16px 20px;margin:12px 0;">' +
+        '<strong style="font-size:13px;">' +
+        this._esc(batch.csv_name || "Bulk import") +
+        "</strong>" +
+        '<span style="margin-left:10px;color:#666;font-size:12px;">' +
+        this._esc(this._batchStatusLabel(batch.status)) +
+        "</span>" +
+        '<p style="margin:10px 0;">' +
+        chip("Ready", ready, "#e8f0fe;color:#1a56db;") +
+        chip("Created", s.created, "#e6f6ea;color:#00733b;") +
+        chip("Updated", s.updated, "#e6f6ea;color:#00733b;") +
+        chip("Skipped", s.skipped, "#f0f0f1;color:#555;") +
+        chip("Failed", s.failed, "#fcebea;color:#b32d2e;") +
+        chip("Cannot import", s.rejected, "#fcf0e4;color:#8a6100;") +
+        "</p>" +
+        this._batchHeadingsHtml(batch) +
+        this._batchRowsHtml(batch) +
+        '<p style="margin:14px 0 0;">' +
+        (awaiting && ready
+          ? '<button id="cbf-si-bulk-run" class="button button-primary">Import ' +
+            ready +
+            " row" +
+            (ready === 1 ? "" : "s") +
+            "</button> "
+          : "") +
+        (running
+          ? '<button id="cbf-si-bulk-cancel" class="button">Stop after current row</button> '
+          : "") +
+        (batch.complete && !awaiting
+          ? '<a class="button" href="' +
+            cbf_slides_importer_admin_params.rest_url +
+            "batches/" +
+            batch.id +
+            "/report?format=csv&_wpnonce=" +
+            encodeURIComponent(cbf_slides_importer_admin_params.nonce) +
+            '">Download report</a> '
+          : "") +
+        '<button id="cbf-si-bulk-close" class="button">Close</button>' +
+        "</p>" +
+        "</div>";
+
+      const run = document.getElementById("cbf-si-bulk-run");
+      if (run) {
+        run.addEventListener("click", () => this._runBatch(batch.id));
+      }
+
+      const cancel = document.getElementById("cbf-si-bulk-cancel");
+      if (cancel) {
+        cancel.addEventListener("click", () => this._cancelBatch(batch.id));
+      }
+
+      document
+        .getElementById("cbf-si-bulk-close")
+        .addEventListener("click", () => this._closeBulkPanel());
+    },
+
+    /** Headings the import will add to the course, if any. */
+    _batchHeadingsHtml(batch) {
+      const headings = batch.headings || [];
+      if (!headings.length) {
+        return "";
+      }
+      return (
+        '<p style="margin:0 0 10px;color:#555;font-size:13px;">Section headings used: ' +
+        headings
+          .map((h) => "<strong>" + this._esc(h) + "</strong>")
+          .join(", ") +
+        "</p>"
+      );
+    },
+
+    /** The per-row table. */
+    _batchRowsHtml(batch) {
+      const rows = batch.rows || [];
+      if (!rows.length) {
+        return "";
+      }
+
+      const body = rows
+        .map((r) => {
+          const detail = r.detail || (r.notices || []).join(" ");
+          return (
+            "<tr>" +
+            '<td style="padding:4px 8px 4px 0;text-align:right;color:#888;font-size:12px;">' +
+            r.line +
+            "</td>" +
+            '<td style="padding:4px 8px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' +
+            this._esc(r.title || "—") +
+            "</td>" +
+            '<td style="padding:4px 8px;font-size:12px;color:#555;">' +
+            this._esc(
+              r.type === "topic" ? this._label("topic") : this._label("lesson"),
+            ) +
+            "</td>" +
+            '<td style="padding:4px 8px;">' +
+            this._batchOutcomeBadge(r.outcome) +
+            "</td>" +
+            '<td style="padding:4px 0;font-size:12px;color:#555;">' +
+            this._esc(detail) +
+            "</td>" +
+            "</tr>"
+          );
+        })
+        .join("");
+
+      return (
+        '<details open style="margin-top:6px;">' +
+        '<summary style="cursor:pointer;font-weight:600;font-size:13px;">Rows (' +
+        rows.length +
+        ")</summary>" +
+        '<div style="max-height:340px;overflow-y:auto;margin-top:8px;">' +
+        '<table style="border-collapse:collapse;width:100%;font-size:13px;">' +
+        "<thead><tr>" +
+        '<th style="text-align:right;padding:4px 8px 4px 0;color:#888;">#</th>' +
+        '<th style="text-align:left;padding:4px 8px;">Title</th>' +
+        '<th style="text-align:left;padding:4px 8px;">Type</th>' +
+        '<th style="text-align:left;padding:4px 8px;">Outcome</th>' +
+        '<th style="text-align:left;padding:4px 0;">Detail</th>' +
+        "</tr></thead><tbody>" +
+        body +
+        "</tbody></table></div></details>"
+      );
+    },
+
+    _batchOutcomeBadge(outcome) {
+      const styles = {
+        created: "background:#e6f6ea;color:#00733b;",
+        updated: "background:#e6f6ea;color:#00733b;",
+        skipped: "background:#f0f0f1;color:#555;",
+        failed: "background:#fcebea;color:#b32d2e;",
+        rejected: "background:#fcf0e4;color:#8a6100;",
+        pending: "background:#e8f0fe;color:#1a56db;",
+      };
+      const labels = {
+        created: "Created",
+        updated: "Updated",
+        skipped: "Skipped",
+        failed: "Failed",
+        rejected: "Cannot import",
+        pending: "Waiting",
+      };
+      return (
+        '<span style="display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;' +
+        (styles[outcome] || styles.pending) +
+        '">' +
+        (labels[outcome] || outcome) +
+        "</span>"
+      );
+    },
+
+    _batchStatusLabel(status) {
+      return (
+        {
+          awaiting_confirmation: "checked — not yet imported",
+          running: "importing…",
+          done: "finished",
+          completed_with_errors: "finished with problems",
+          cancelled: "stopped",
+          failed: "failed",
+        }[status] || status
+      );
+    },
+
+    _runBatch(id) {
+      this.showNotice("Starting import…");
+
+      Api.runBatch(id)
+        .then((batch) => {
+          this._renderBatch(batch);
+          this._pollBatch(id);
+          this._loadJobs();
+        })
+        .catch((err) => this.showError("Could not start: " + err.message));
+    },
+
+    _cancelBatch(id) {
+      Api.cancelBatch(id)
+        .then((batch) => {
+          this._stopBulkPolling();
+          this._renderBatch(batch);
+          this.showNotice("Import stopped. Rows already imported are kept.");
+        })
+        .catch((err) => this.showError("Could not stop: " + err.message));
+    },
+
+    /**
+     * Refresh a running batch until it finishes.
+     *
+     * A hundred-row migration runs for the better part of an hour, so the panel
+     * has to keep showing progress rather than looking stalled.
+     */
+    _pollBatch(id) {
+      this._stopBulkPolling();
+
+      const tick = () => {
+        Api.getBatch(id)
+          .then((batch) => {
+            if (this._bulkBatchId !== id) {
+              return;
+            }
+            this._renderBatch(batch);
+
+            if (batch.status === "running") {
+              this._bulkTimer = setTimeout(tick, 5000);
+              return;
+            }
+
+            this._loadJobs();
+            this.showNotice(
+              batch.status === "completed_with_errors"
+                ? "Import finished, but some rows need attention."
+                : "✓ Import finished.",
+              batch.status === "completed_with_errors" ? "info" : "success",
+            );
+          })
+          .catch(() => {
+            this._bulkTimer = setTimeout(tick, 8000);
+          });
+      };
+
+      this._bulkTimer = setTimeout(tick, 4000);
+    },
+
+    _stopBulkPolling() {
+      if (this._bulkTimer) {
+        clearTimeout(this._bulkTimer);
+        this._bulkTimer = null;
+      }
     },
 
     // ── Courses / lessons cache ────────────────────────────────────────────
