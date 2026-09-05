@@ -116,6 +116,57 @@ Triggering an import for a Drive file that was already imported with the same co
 
 If any error occurs mid-batch, every post created by that job is reverted to draft so students never see partial content.
 
+## Bulk migration from a CSV
+
+Migrating a whole course one file at a time does not scale. Instead, upload a CSV describing every piece of content and where it belongs.
+
+| Column       | Required on  | Meaning                                                                                                                                               |
+| ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`    | session rows | Section heading the session goes under; created if the course does not have it. Ignored on topic rows — LearnDash sections group sessions, not topics |
+| `session_id` | topic rows   | Post ID of the existing session the topic nests under. Ignored on session rows                                                                        |
+| `type`       | all rows     | `session` (or `lesson`) or `topic`                                                                                                                    |
+| `title`      | all rows     | Title of the created post                                                                                                                             |
+| `url`        | all rows     | Google Drive link to the source document                                                                                                              |
+
+Course and Overwrite are chosen once in the panel and apply to every row, so they are not columns.
+
+```csv
+heading,session_id,type,title,url
+Foundations,,session,Introduction to Git,https://docs.google.com/presentation/d/FILE_ID/edit
+Foundations,,session,Command Line Basics,https://drive.google.com/file/d/FILE_ID/view
+,412,topic,Git Exercises,https://docs.google.com/document/d/FILE_ID/edit
+```
+
+### Sessions before topics
+
+A topic's `session_id` must name a session that **already exists**. A session row does not report its new ID back into the CSV, so one file cannot create a session and a topic under it in the same run. Migration goes in two passes:
+
+1. Upload the session rows. The report gives each created session's post ID.
+2. Put those IDs into the `session_id` column of a topic CSV, and upload that.
+
+Sessions already live in LearnDash need only the second pass.
+
+### What happens
+
+Uploading **validates only** — nothing is created until you confirm. Every row is checked and every Drive link resolved, so the report tells you what will happen before it happens. You can upload, fix the spreadsheet, and upload again at no cost.
+
+On confirmation the rows import one at a time. That is slower than it could be, deliberately: a session's section is decided by its position in the course's lesson list, and running rows in parallel would interleave those positions and land content under the wrong headings. Expect roughly 10–30 seconds per row — a 120-row migration runs for the better part of an hour, in the background.
+
+### Sources that cannot be imported
+
+Expect a meaningful minority of rows to be rejected. In the curriculum this feature was built for, about a sixth of rows pointed at things that are not documents:
+
+| Source                             | Why                                   | What to do                          |
+| ---------------------------------- | ------------------------------------- | ----------------------------------- |
+| Google Form                        | Quizzes have their own question model | Build the quiz in LearnDash         |
+| Google Sheet                       | Not lesson content                    | Export or rewrite it as a document  |
+| GitHub repository, external course | Not in Drive                          | Link to it from a session's content |
+| Empty `url` cell                   | No source                             | Fill it in, or drop the row         |
+
+These are reported individually, with the reason, before anything runs. A row that fails during import — a permissions problem, a corrupt file — does not stop the rest: the batch continues and the report records what happened to each row. Nothing is half-created; a post whose import errored is reverted to draft.
+
+Re-uploading a corrected CSV is safe. Rows already imported with the same file and settings are reported as skipped rather than duplicated.
+
 ## Background jobs
 
 Work happens on WP-Cron, not in the request that queues it.
@@ -146,6 +197,11 @@ Namespace `cbf-si/v1`. Every route requires the `cbf_slides_import` capability e
 | `POST`                 | `/jobs/{id}/cancel`                             | cancel a job still `pending`                                        |
 | `GET`, `POST`          | `/configs`                                      | list or create saved per-deck configurations                        |
 | `GET`, `PUT`, `DELETE` | `/configs/{id}`                                 | read, update or remove one                                          |
+| `GET`, `POST`          | `/batches`                                      | list bulk migrations, or upload and validate a CSV                  |
+| `GET`                  | `/batches/{id}`                                 | one batch, with its plan and live report                            |
+| `POST`                 | `/batches/{id}/run`                             | confirm the plan and start importing                                |
+| `GET`                  | `/batches/{id}/report`                          | per-row outcomes; `?format=csv` downloads them                      |
+| `POST`                 | `/batches/{id}/cancel`                          | stop a running batch, keeping what it created                       |
 
 Previews are cached in a per-user transient for an hour and busted whenever settings change.
 
@@ -162,6 +218,7 @@ includes/
   Pptx/          Parser, ShapeReader          (PhpPresentation)
   Pdf/           Parser, TextExtractor, ImageExtractor  (smalot/pdfparser)
   Docx/          Parser, Numbering            (PhpWord)
+  Bulk/          CSV parsing, Drive URL resolution, batch planning and running
   Api/           REST controllers and the router
   Google/        OAuth and Drive clients
   Import/        JobRunner, PreviewRenderer, LearnDashImporter, Janitor
@@ -231,5 +288,8 @@ Two sets of versions are duplicated across files and have to be changed together
 | Preview unavailable after a completed import     | expected — temp files are deleted once posts are created                                                                |
 | A PDF imports with words run together            | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces |
 | Everything in a PDF becomes one code block       | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                       |
+| A bulk row says the session does not exist       | `session_id` must name a session already in the selected course — see Sessions before topics                            |
+| Bulk rows are reported as skipped                | the same file was already imported with these settings; enable Overwrite to update instead                              |
+| A bulk batch seems stuck                         | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes      |
 
 Errors stored against a job have filesystem paths redacted. For full detail, enable `WP_DEBUG_LOG` and look for `[CBF-SI]` entries.

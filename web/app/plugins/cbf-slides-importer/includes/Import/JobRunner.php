@@ -17,6 +17,8 @@
 namespace CodingBlackFemales\SlidesImporter\Import;
 
 use CodingBlackFemales\SlidesImporter\Api\PreviewController;
+use CodingBlackFemales\SlidesImporter\Bulk\BatchReport;
+use CodingBlackFemales\SlidesImporter\Bulk\BatchRunner;
 use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
 use CodingBlackFemales\SlidesImporter\Document\SlideClassifier;
 use CodingBlackFemales\SlidesImporter\Google\DriveClient;
@@ -230,7 +232,7 @@ final class JobRunner {
 			return;
 		}
 
-		$config          = self::load_config( $job );
+		$config          = self::resolve_config( $job );
 		$heading_regex   = $config['heading_layout_regex'] ?? '';
 		$slide_overrides = isset( $config['slide_overrides'] ) ? json_decode( $config['slide_overrides'], true ) : array();
 		$mode            = $config['mode'] ?? 'lesson-only';
@@ -287,7 +289,72 @@ final class JobRunner {
 		);
 
 		self::update_status( $job_id, 'parsed' );
-		Utils::log( 'Parse complete. Awaiting user import trigger.', array( 'job_id' => $job_id ) );
+
+		self::after_parse( $job );
+	}
+
+
+	/**
+	 * Decide what happens once a job has parsed.
+	 *
+	 * A single-file job stops and waits so an editor can review the preview
+	 * before anything is written. A batch row does not: the CSV was reviewed as
+	 * a whole at pre-flight, and a hundred individual confirmations would defeat
+	 * the point of bulk migration.
+	 *
+	 * @param array $job Job DB row.
+	 */
+	private static function after_parse( array $job ): void {
+		$job_id = (int) $job['id'];
+
+		if ( self::batch_context( $job ) === null ) {
+			Utils::log( 'Parse complete. Awaiting user import trigger.', array( 'job_id' => $job_id ) );
+			return;
+		}
+
+		Utils::log( 'Parse complete. Importing automatically for batch row.', array( 'job_id' => $job_id ) );
+		self::run_import_phase( self::reload( $job_id ) ?? $job );
+	}
+
+
+	/**
+	 * The batch this job belongs to, if any.
+	 *
+	 * @param  array $job Job DB row.
+	 * @return array{batch_id: int, line: int, section_id: int}|null
+	 */
+	private static function batch_context( array $job ): ?array {
+		if ( empty( $job['batch_id'] ) ) {
+			return null;
+		}
+
+		$batch = self::decode_summary( $job )['batch'] ?? array();
+
+		return array(
+			'batch_id'   => (int) $job['batch_id'],
+			'line'       => (int) ( $batch['line'] ?? $job['batch_row'] ?? 0 ),
+			'section_id' => (int) ( $batch['section_id'] ?? 0 ),
+		);
+	}
+
+
+	/**
+	 * Re-read a job row after it has been updated.
+	 *
+	 * @param  int $job_id Job ID.
+	 * @return array|null
+	 */
+	private static function reload( int $job_id ): ?array {
+		global $wpdb;
+		$table = $wpdb->prefix . 'cbf_slide_import_jobs';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$row = $wpdb->get_row(
+			$wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $job_id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			ARRAY_A
+		);
+
+		return is_array( $row ) ? $row : null;
 	}
 
 
@@ -325,6 +392,8 @@ final class JobRunner {
 			self::record_import_result( $job_id, $summary, $result );
 		}
 
+		self::report_to_batch( $job, $result );
+
 		// Clean up temp files after import.
 		if ( ! empty( $summary['job_tmp_dir'] ) ) {
 			Utils::rmdir_recursive( $summary['job_tmp_dir'] );
@@ -357,6 +426,68 @@ final class JobRunner {
 		}
 
 		return $parsed;
+	}
+
+
+	/**
+	 * Tell the batch how this row turned out, and let it queue the next.
+	 *
+	 * Sequential execution depends on this being called exactly once per row,
+	 * whatever the outcome — a row that fails silently would stall the batch.
+	 *
+	 * @param array          $job    Job DB row.
+	 * @param array|WP_Error $result Importer result.
+	 */
+	private static function report_to_batch( array $job, $result ): void {
+		$context = self::batch_context( $job );
+
+		if ( $context === null ) {
+			return;
+		}
+
+		$outcome = self::batch_outcome( $result );
+
+		BatchRunner::complete_row( $context['batch_id'], $context['line'], $outcome['outcome'], $outcome['extra'] );
+	}
+
+
+	/**
+	 * Translate an importer result into a batch row outcome.
+	 *
+	 * @param  array|WP_Error $result Importer result.
+	 * @return array{outcome: string, extra: array}
+	 */
+	private static function batch_outcome( $result ): array {
+		if ( is_wp_error( $result ) ) {
+			return array(
+				'outcome' => BatchReport::OUTCOME_FAILED,
+				'extra'   => array( 'detail' => $result->get_error_message() ),
+			);
+		}
+
+		$created = $result['created_post_ids'] ?? array();
+		if ( $created !== array() ) {
+			return array(
+				'outcome' => BatchReport::OUTCOME_CREATED,
+				'extra'   => array( 'post_id' => (int) reset( $created ) ),
+			);
+		}
+
+		$skipped = $result['skipped_post_ids'] ?? array();
+		if ( $skipped !== array() ) {
+			return array(
+				'outcome' => BatchReport::OUTCOME_SKIPPED,
+				'extra'   => array(
+					'post_id' => (int) reset( $skipped ),
+					'detail'  => __( 'A post with this title already exists. Enable Overwrite to update it.', 'cbf-slides-importer' ),
+				),
+			);
+		}
+
+		return array(
+			'outcome' => BatchReport::OUTCOME_FAILED,
+			'extra'   => array( 'detail' => __( 'The import produced no content.', 'cbf-slides-importer' ) ),
+		);
 	}
 
 
@@ -495,6 +626,37 @@ final class JobRunner {
 				'error' => $safe_message,
 			)
 		);
+
+		self::fail_batch_row( $job_id, $safe_message );
+	}
+
+
+	/**
+	 * Move a batch past a row that failed before it reached the importer.
+	 *
+	 * A download or parse failure never reaches report_to_batch(), and without
+	 * this the batch would wait for a row that is never coming.
+	 *
+	 * @param int    $job_id  Job ID.
+	 * @param string $message Redacted failure message.
+	 */
+	private static function fail_batch_row( int $job_id, string $message ): void {
+		$job = self::reload( $job_id );
+
+		if ( $job === null ) {
+			return;
+		}
+
+		$context = self::batch_context( $job );
+
+		if ( $context !== null ) {
+			BatchRunner::complete_row(
+				$context['batch_id'],
+				$context['line'],
+				BatchReport::OUTCOME_FAILED,
+				array( 'detail' => $message )
+			);
+		}
 	}
 
 
@@ -523,6 +685,34 @@ final class JobRunner {
 			array( '%s' ),
 			array( '%d' )
 		);
+	}
+
+
+	/**
+	 * Determine the configuration a job should be parsed and imported with.
+	 *
+	 * A single-file job is configured after parsing, through the preview UI, and
+	 * its settings live in a saved config row. A batch row is configured before
+	 * it is queued — the CSV said what it should become — and carries its
+	 * settings in the job summary instead.
+	 *
+	 * Falling back to the summary is what keeps a batch row's course, mode and
+	 * title from being erased at parse time, which would leave imported lessons
+	 * unattached to any course.
+	 *
+	 * @param  array $job Job DB row.
+	 * @return array Config values.
+	 */
+	private static function resolve_config( array $job ): array {
+		$config = self::load_config( $job );
+
+		if ( $config !== array() ) {
+			return $config;
+		}
+
+		$stored = self::decode_summary( $job )['config'] ?? array();
+
+		return is_array( $stored ) ? $stored : array();
 	}
 
 
