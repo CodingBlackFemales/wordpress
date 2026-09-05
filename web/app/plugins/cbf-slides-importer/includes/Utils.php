@@ -68,7 +68,7 @@ final class Utils {
 	/**
 	 * Return the absolute path to the plugin's temporary upload directory.
 	 *
-	 * The directory is created on first call. All PPTX downloads and extracted
+	 * The directory is created on first call. All source-file downloads and extracted
 	 * images are written here and cleaned up after each import job completes.
 	 *
 	 * Path: {wp_upload_dir}/cbf-slides-tmp/

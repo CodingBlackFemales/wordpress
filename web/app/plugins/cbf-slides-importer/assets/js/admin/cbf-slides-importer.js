@@ -17,6 +17,44 @@
 (function () {
   "use strict";
 
+  // ── Supported source formats ──────────────────────────────────────────────
+
+  /**
+   * File extensions the importer accepts, mirroring Document\ParserFactory.
+   *
+   * The server is the authority and rejects anything else; this list only
+   * shapes the file picker and the labels around it.
+   */
+  const SUPPORTED_FORMATS = ["pptx", "pdf", "docx"];
+
+  /** MIME types paired with those extensions, for the file input's accept list. */
+  const SUPPORTED_MIME_TYPES = [
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+
+  /** The `accept` attribute for the local-upload file input. */
+  const UPLOAD_ACCEPT = SUPPORTED_FORMATS.map((e) => "." + e)
+    .concat(SUPPORTED_MIME_TYPES)
+    .join(",");
+
+  /** Human-readable extension list, e.g. ".pptx, .pdf, .docx". */
+  const FORMAT_LIST = SUPPORTED_FORMATS.map((e) => "." + e).join(", ");
+
+  /**
+   * Strip a supported extension off a file name to make a default post title.
+   *
+   * @param {string} name  File name.
+   * @returns {string} Name without its extension.
+   */
+  function stripExtension(name) {
+    return name.replace(
+      new RegExp("\\.(" + SUPPORTED_FORMATS.join("|") + ")$", "i"),
+      "",
+    );
+  }
+
   // ── Bootstrap ─────────────────────────────────────────────────────────────
 
   /**
@@ -75,12 +113,22 @@
       return this.fetch("drive/picker-config");
     },
 
-    createJob(driveFileId, deckName) {
+    /**
+     * Create an import job from a file picked in Google Drive.
+     *
+     * @param {string} driveFileId  Drive file ID.
+     * @param {string} deckName     File name, used as the default post title.
+     * @param {string} sourceMime   Drive MIME type, so the server knows whether
+     *                              the file needs exporting or downloading as-is.
+     * @returns {Promise<object>} Resolves to the created job object.
+     */
+    createJob(driveFileId, deckName, sourceMime) {
       return this.fetch("jobs", {
         method: "POST",
         body: JSON.stringify({
           drive_file_id: driveFileId,
           deck_name: deckName,
+          source_mime: sourceMime || "",
         }),
       });
     },
@@ -174,19 +222,20 @@
     },
 
     /**
-     * Create an import job from a locally-uploaded PPTX file.
+     * Create an import job from a locally-uploaded document.
      *
      * POSTs multipart/form-data to /jobs/upload — the Content-Type header is
      * intentionally omitted so the browser sets it with the correct boundary.
      *
-     * @param {File} file  The .pptx File object from an <input type="file">.
+     * @param {File} file  A file of one of SUPPORTED_FORMATS, from an
+     *                     <input type="file">.
      * @returns {Promise<object>} Resolves to the created job object.
      */
     uploadJob(file) {
       const url = cbf_slides_importer_admin_params.rest_url + "jobs/upload";
       const body = new FormData();
       body.append("file", file);
-      body.append("deck_name", file.name.replace(/\.pptx$/i, ""));
+      body.append("deck_name", stripExtension(file.name));
       return fetch(url, {
         method: "POST",
         headers: { "X-WP-Nonce": cbf_slides_importer_admin_params.nonce },
@@ -321,23 +370,25 @@
     },
 
     _buildAndShow(onSelected, onDismissed, onReady, scrollX, scrollY) {
-      const { access_token, folder_id } = this._config;
+      const { access_token, folder_id, mime_types } = this._config;
 
-      // Show only Google Slides presentations inside the configured folder.
-      const view = new google.picker.DocsView(
-        google.picker.ViewId.PRESENTATIONS,
-      )
+      // Show every importable document type inside the configured folder:
+      // Google Slides and Docs, plus PowerPoint, Word and PDF files already
+      // stored in Drive. The server supplies the list so it stays in step with
+      // Document\ParserFactory.
+      const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
         .setParent(folder_id)
-        .setIncludeFolders(false);
+        .setIncludeFolders(false)
+        .setMimeTypes((mime_types || []).join(","));
 
       const picker = new google.picker.PickerBuilder()
         .addView(view)
         .setOAuthToken(access_token)
-        .setTitle("Select a slide deck to import")
+        .setTitle("Select a document to import")
         .setCallback((data) => {
           if (data.action === google.picker.Action.PICKED) {
             const doc = data.docs[0];
-            onSelected(doc.id, doc.name);
+            onSelected(doc.id, doc.name, doc.mimeType);
           } else if (data.action === google.picker.Action.CANCEL) {
             if (onDismissed) {
               onDismissed();
@@ -399,13 +450,18 @@
         '<div id="cbf-si-notices"></div>' +
         '<div class="cbf-si-actions" style="margin:16px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">' +
         '<button id="cbf-si-pick-btn" class="button button-primary button-large">' +
-        "⇪ Choose Slide Deck from Drive" +
+        "⇪ Choose Document from Drive" +
         "</button>" +
         '<span style="color:#999;">or</span>' +
         '<button id="cbf-si-upload-btn" class="button button-large">' +
-        "⇪ Upload local .pptx file" +
+        "⇪ Upload local file" +
         "</button>" +
-        '<input type="file" id="cbf-si-file-input" accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation" style="display:none;">' +
+        '<input type="file" id="cbf-si-file-input" accept="' +
+        UPLOAD_ACCEPT +
+        '" style="display:none;">' +
+        '<span style="color:#999;font-size:12px;">Accepts ' +
+        FORMAT_LIST +
+        "</span>" +
         "</div>" +
         '<h2 style="margin-top:24px;">Import Jobs</h2>' +
         '<div id="cbf-si-job-list"><p class="cbf-si-loading">Loading…</p></div>';
@@ -440,16 +496,16 @@
 
       const resetBtn = () => {
         btn.disabled = false;
-        btn.textContent = "⇪ Choose Slide Deck from Drive";
+        btn.textContent = "⇪ Choose Document from Drive";
       };
 
       btn.disabled = true;
       btn.textContent = "Loading picker…";
 
       Picker.open(
-        (fileId, fileName) => {
+        (fileId, fileName, mimeType) => {
           resetBtn();
-          this._confirmAndCreate(fileId, fileName);
+          this._confirmAndCreate(fileId, fileName, mimeType);
         },
         () => {
           // Picker dismissed without a selection.
@@ -458,20 +514,20 @@
         () => {
           // Picker is now visible — revert label (button stays disabled until
           // the user picks a file or closes the picker).
-          btn.textContent = "⇪ Choose Slide Deck from Drive";
+          btn.textContent = "⇪ Choose Document from Drive";
         },
         savedScrollX,
         savedScrollY,
       );
     },
 
-    _confirmAndCreate(fileId, fileName) {
+    _confirmAndCreate(fileId, fileName, mimeType) {
       if (!window.confirm('Import "' + fileName + '" into LearnDash?')) {
         return;
       }
       this.showNotice('Creating import job for "' + fileName + '"…');
 
-      Api.createJob(fileId, fileName)
+      Api.createJob(fileId, fileName, mimeType)
         .then((job) => {
           this.showNotice(
             "✓ Job #" + job.id + " queued — downloading and parsing…",
@@ -505,7 +561,7 @@
       const btn = document.getElementById("cbf-si-upload-btn");
       const resetBtn = () => {
         btn.disabled = false;
-        btn.textContent = "⇪ Upload local .pptx file";
+        btn.textContent = "⇪ Upload local file";
       };
 
       btn.disabled = true;
@@ -841,7 +897,14 @@
 
         const slides = slideData.slides || [];
 
-        // Build slide map HTML (only when slides are available).
+        // A PDF's units are pages and a Word document's are sections, so the
+        // map borrows its noun from the parsed source rather than always
+        // saying "slide".
+        const unit = slideData.unit || "slide";
+        const unitPlural = slideData.unit_plural || unit + "s";
+        const unitTitle = unit.charAt(0).toUpperCase() + unit.slice(1);
+
+        // Build slide map HTML (only when units are available).
         let slideMapHtml = "";
         if (slides.length) {
           const typeOpts = [
@@ -915,9 +978,13 @@
 
           slideMapHtml =
             '<details style="margin-top:16px;">' +
-            '<summary style="cursor:pointer;font-weight:600;font-size:13px;margin-bottom:8px;">Slide Map (' +
+            '<summary style="cursor:pointer;font-weight:600;font-size:13px;margin-bottom:8px;">' +
+            unitTitle +
+            " Map (" +
             slides.length +
-            " slides)</summary>" +
+            " " +
+            (slides.length === 1 ? unit : unitPlural) +
+            ")</summary>" +
             '<div style="max-height:320px;overflow-y:auto;margin-top:8px;">' +
             '<table style="border-collapse:collapse;width:100%;font-size:13px;" id="cbf-si-slidemap-' +
             jobId +

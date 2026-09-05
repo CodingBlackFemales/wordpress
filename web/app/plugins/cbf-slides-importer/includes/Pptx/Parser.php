@@ -2,6 +2,9 @@
 /**
  * PPTX parser — orchestrates PhpPresentation to extract slide data.
  *
+ * Emits the format-neutral ParsedDeck IR (see Document\Ir) shared with the PDF
+ * and DOCX parsers; PhpPresentation objects never leave this namespace.
+ *
  * Key implementation notes from P0.4 probe:
  * - PhpPresentation returns shape offsets/dimensions in PIXELS (96 DPI), not EMU.
  *   Divide python-pptx EMU constants by 9525 when porting thresholds.
@@ -13,16 +16,16 @@
  * - Text paragraphs: $shape->getParagraphs() (NOT getActiveParagraphs()).
  *
  * @class   Pptx\Parser
- * @version 1.0.0
+ * @version 1.1.0
  * @package CodingBlackFemales/SlidesImporter
  */
 
 namespace CodingBlackFemales\SlidesImporter\Pptx;
 
-use PhpOffice\PhpPresentation\IOFactory;
-use PhpOffice\PhpPresentation\Shape\RichText;
-use PhpOffice\PhpPresentation\Shape\Drawing;
+use CodingBlackFemales\SlidesImporter\Document\BlockLayout;
+use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
 use CodingBlackFemales\SlidesImporter\Utils;
+use PhpOffice\PhpPresentation\IOFactory;
 use WP_Error;
 use ZipArchive;
 
@@ -33,13 +36,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Parser class.
  *
- * Returns a structured ParsedDeck array consumed by BlockRenderer and
- * LearnDashImporter.
+ * Returns a structured ParsedDeck array consumed by Document\BlockRenderer and
+ * Import\LearnDashImporter. See Document\Ir for the full IR contract.
  *
  * ParsedDeck shape:
  * {
+ *   source_format:   'pptx',
  *   slide_width_px:  int,
  *   slide_height_px: int,
+ *   unit_label:      string,   // UI noun for one entry in `slides`
  *   slides: ParsedSlide[]
  * }
  *
@@ -49,9 +54,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   slide_number: int,       // 1-based
  *   layout_name:  string,
  *   is_hidden:    bool,
+ *   is_cover:     bool,
  *   title:        string,
- *   content:      ContentBlock[]   // LinearBlock | ColumnsBlock
- *   images:       ImageBlob[]
+ *   content:      ContentBlock[]   // linear | columns | table
+ *   images:       ImageMeta[]
  * }
  */
 final class Parser {
@@ -84,6 +90,8 @@ final class Parser {
 			}
 
 			return array(
+				'source_format'   => ParserFactory::FORMAT_PPTX,
+				'unit_label'      => ParserFactory::unit_label( ParserFactory::FORMAT_PPTX ),
 				'slide_width_px'  => $slide_width_px,
 				'slide_height_px' => $slide_height_px,
 				'slides'          => $parsed_slides,
@@ -123,20 +131,15 @@ final class Parser {
 		} catch ( \Throwable $e ) {
 		}
 
-		$is_hidden = self::is_hidden_slide( $pptx_path, $idx );
-		$title     = self::extract_title( $slide );
-		$images    = self::extract_images( $slide, $idx, $img_out_dir, $slide_height_px );
-		$content   = GeometryDetector::build_content_blocks( $slide, $slide_width_px, $slide_height_px );
-
 		return array(
-			'index'       => $idx,
+			'index'        => $idx,
 			'slide_number' => $idx + 1,
-			'layout_name' => $layout_name,
-			'is_hidden'   => $is_hidden,
-			'is_cover'    => ( $idx === 0 ),
-			'title'       => $title,
-			'content'     => $content,
-			'images'      => $images,
+			'layout_name'  => $layout_name,
+			'is_hidden'    => self::is_hidden_slide( $pptx_path, $idx ),
+			'is_cover'     => ( $idx === 0 ),
+			'title'        => ShapeReader::extract_title( $slide ),
+			'content'      => ShapeReader::build_content_blocks( $slide, $slide_width_px, $slide_height_px ),
+			'images'       => self::extract_images( $slide, $idx, $img_out_dir, $slide_height_px ),
 		);
 	}
 
@@ -171,54 +174,24 @@ final class Parser {
 
 
 	/**
-	 * Extract the slide title from the title placeholder shape.
-	 *
-	 * Falls back to the first non-body RichText shape's text if no
-	 * title placeholder is found.
-	 *
-	 * @param  object $slide PhpPresentation slide.
-	 * @return string
-	 */
-	private static function extract_title( object $slide ): string {
-		foreach ( $slide->getShapeCollection() as $shape ) {
-			if ( ! ( $shape instanceof RichText ) ) {
-				continue;
-			}
-			try {
-				$ph = $shape->getPlaceholder();
-				if ( $ph && in_array( $ph->getType(), array( 'title', 'ctrTitle' ), true ) ) {
-					return self::shape_plain_text( $shape );
-				}
-			} catch ( \Throwable $e ) {
-			}
-		}
-		return '';
-	}
-
-
-	/**
 	 * Extract image blobs from all Drawing shapes on a slide.
 	 *
 	 * Images are written to $img_out_dir and returned as an array of paths.
 	 * Uses Drawing\Gd::getContents() — confirmed by P0.4 probe.
 	 *
 	 * Drawing shapes in the footer zone (e.g. the CBF logo that appears on every
-	 * slide) are skipped using the same FOOTER_TOP_RATIO threshold as
-	 * GeometryDetector.
+	 * slide) are skipped using the same footer threshold as BlockLayout.
 	 *
 	 * @param  object $slide           PhpPresentation slide.
 	 * @param  int    $slide_idx       0-based slide index (for filename prefix).
 	 * @param  string $img_out_dir     Destination directory.
 	 * @param  int    $slide_height_px Slide height in pixels (0 = skip footer filter).
-	 * @return array<array{path: string, ext: string}> Extracted image metadata.
+	 * @return array<array{path: string, filename: string, ext: string}> Extracted image metadata.
 	 */
 	private static function extract_images( object $slide, int $slide_idx, string $img_out_dir, int $slide_height_px = 0 ): array {
-		$images  = array();
-		$img_num = 0;
-
-		$footer_cutoff = $slide_height_px > 0
-			? (int) round( $slide_height_px * GeometryDetector::FOOTER_TOP_RATIO )
-			: PHP_INT_MAX;
+		$images        = array();
+		$img_num       = 0;
+		$footer_cutoff = BlockLayout::footer_cutoff( $slide_height_px );
 
 		foreach ( $slide->getShapeCollection() as $shape ) {
 			$cls = get_class( $shape );
@@ -264,24 +237,5 @@ final class Parser {
 		}
 
 		return $images;
-	}
-
-
-	/**
-	 * Concatenate all plain text from a RichText shape.
-	 *
-	 * @param RichText $shape
-	 * @return string
-	 */
-	private static function shape_plain_text( RichText $shape ): string {
-		$text = '';
-		foreach ( $shape->getParagraphs() as $para ) {
-			foreach ( $para->getRichTextElements() as $run ) {
-				if ( method_exists( $run, 'getText' ) ) {
-					$text .= $run->getText();
-				}
-			}
-		}
-		return trim( $text );
 	}
 }

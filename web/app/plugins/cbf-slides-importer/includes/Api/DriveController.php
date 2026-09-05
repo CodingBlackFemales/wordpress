@@ -11,6 +11,7 @@
 
 namespace CodingBlackFemales\SlidesImporter\Api;
 
+use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
 use CodingBlackFemales\SlidesImporter\Google\OAuthClient;
 use CodingBlackFemales\SlidesImporter\Install;
 use WP_REST_Request;
@@ -50,7 +51,11 @@ final class DriveController {
 	 * Returns the data the Google Picker JS API needs:
 	 * - access_token : short-lived token from stored credentials
 	 * - folder_id    : the shared CBF folder configured in settings
-	 * - developer_key: Google API key (optional; Picker works without it in domain-restricted mode)
+	 * - mime_types   : the Drive MIME types the picker should offer, so the list
+	 *                  of importable formats is defined in one place server-side
+	 *
+	 * The picker works without a developer key in domain-restricted mode, so none
+	 * is issued here.
 	 *
 	 * The access_token is fetched from the decrypted stored credential — it is
 	 * never logged and is only transmitted over HTTPS.
@@ -83,6 +88,7 @@ final class DriveController {
 			array(
 				'access_token' => $access_token, // NR6: only in transit, not logged.
 				'folder_id'    => $folder_id,
+				'mime_types'   => ParserFactory::picker_mime_types(),
 			),
 			200
 		);

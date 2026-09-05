@@ -14,6 +14,7 @@
 
 namespace CodingBlackFemales\SlidesImporter\Api;
 
+use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
 use CodingBlackFemales\SlidesImporter\Import\JobRunner;
 use CodingBlackFemales\SlidesImporter\Api\PreviewController;
 use CodingBlackFemales\SlidesImporter\Utils;
@@ -68,6 +69,11 @@ final class JobController {
 							'required' => true,
 						),
 						'deck_name'     => array(
+							'type' => 'string',
+							'required' => false,
+							'default' => '',
+						),
+						'source_mime'   => array(
 							'type' => 'string',
 							'required' => false,
 							'default' => '',
@@ -198,6 +204,19 @@ final class JobController {
 		$drive_file_id = sanitize_text_field( (string) $request->get_param( 'drive_file_id' ) );
 		$deck_name     = sanitize_text_field( (string) $request->get_param( 'deck_name' ) );
 		$config_id     = $request->get_param( 'config_id' ) ? absint( $request->get_param( 'config_id' ) ) : null;
+		$source_mime   = sanitize_text_field( (string) $request->get_param( 'source_mime' ) );
+
+		if ( $source_mime !== '' && ParserFactory::format_for_mime( $source_mime ) === null ) {
+			return new WP_Error(
+				'cbf_si_unsupported_type',
+				sprintf(
+					/* translators: %s: comma-separated list of supported file extensions */
+					__( 'That file type cannot be imported. Supported formats: %s.', 'cbf-slides-importer' ),
+					ParserFactory::extension_list()
+				),
+				array( 'status' => 400 )
+			);
+		}
 
 		$data = array(
 			'blog_id'       => get_current_blog_id(),
@@ -208,8 +227,16 @@ final class JobController {
 			'status'        => 'pending',
 		);
 
+		// The picker knows the file's Drive MIME type; recording it here saves the
+		// download phase an extra metadata round-trip and tells it whether the file
+		// needs exporting or downloading as-is.
+		$insert = array_merge(
+			$data,
+			array( 'result_summary' => wp_json_encode( array( 'source_mime' => $source_mime ) ) )
+		);
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$result = $wpdb->insert( $table, $data, array( '%d', '%d', '%s', '%s', '%d', '%s' ) );
+		$result = $wpdb->insert( $table, $insert, array( '%d', '%d', '%s', '%s', '%d', '%s', '%s' ) );
 		if ( $result === false ) {
 			return new WP_Error( 'cbf_si_db_error', $wpdb->last_error, array( 'status' => 500 ) );
 		}
@@ -233,15 +260,15 @@ final class JobController {
 
 
 	/**
-	 * POST /jobs/upload — create a job from a locally-uploaded PPTX file.
+	 * POST /jobs/upload — create a job from a locally-uploaded document.
 	 *
-	 * Accepts a multipart/form-data POST with a required `file` field (PPTX)
-	 * and an optional `deck_name` text field.  The file is moved into the job's
-	 * temp directory immediately, bypassing the Drive download phase — the
-	 * background cron is scheduled with phase='parse' so it goes straight to
-	 * parsing.
+	 * Accepts a multipart/form-data POST with a required `file` field and an
+	 * optional `deck_name` text field.  The file is moved into the job's temp
+	 * directory immediately, bypassing the Drive download phase — the background
+	 * cron is scheduled with phase='parse' so it goes straight to parsing.
 	 *
-	 * File constraints: .pptx extension only, ≤ wp_max_upload_size().
+	 * File constraints: one of the extensions Document\ParserFactory supports,
+	 * ≤ wp_max_upload_size().
 	 */
 	public static function upload( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		global $wpdb;
@@ -254,6 +281,7 @@ final class JobController {
 
 		$file       = $files['file'];  // safe: validate_upload_file confirmed it exists.
 		$raw_name   = (string) $file['name'];
+		$format     = ParserFactory::detect_format( $raw_name );
 		$name_param = sanitize_text_field( (string) $request->get_param( 'deck_name' ) );
 		$deck_name  = $name_param !== '' ? $name_param : pathinfo( $raw_name, PATHINFO_FILENAME );
 
@@ -282,8 +310,10 @@ final class JobController {
 		$job_tmp_dir = trailingslashit( $tmp_dir ) . 'job_' . $job_id;
 		wp_mkdir_p( $job_tmp_dir );
 
-		$pptx_path = trailingslashit( $job_tmp_dir ) . 'upload.pptx';
-		if ( ! move_uploaded_file( $file['tmp_name'], $pptx_path ) ) {
+		// The extension is what ParserFactory dispatches on, so it must survive
+		// the move into the job's temp directory.
+		$source_path = trailingslashit( $job_tmp_dir ) . 'upload.' . $format;
+		if ( ! move_uploaded_file( $file['tmp_name'], $source_path ) ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->delete( $table, array( 'id' => $job_id ), array( '%d' ) );
 			return new WP_Error(
@@ -295,16 +325,17 @@ final class JobController {
 
 		$img_dir = trailingslashit( $job_tmp_dir ) . 'images';
 
-		// Store pptx_path in result_summary so the parse-phase cron can find it.
+		// Store source_path in result_summary so the parse-phase cron can find it.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->update(
 			$table,
 			array(
 				'result_summary' => wp_json_encode(
 					array(
-						'pptx_path'   => $pptx_path,
-						'img_dir'     => $img_dir,
-						'job_tmp_dir' => $job_tmp_dir,
+						'source_path'   => $source_path,
+						'source_format' => $format,
+						'img_dir'       => $img_dir,
+						'job_tmp_dir'   => $job_tmp_dir,
 					)
 				),
 			),
@@ -334,7 +365,8 @@ final class JobController {
 	 * Validate the uploaded file from $_FILES for the upload endpoint.
 	 *
 	 * Accepts the full file-params array and checks for the presence of a "file"
-	 * entry, a successful upload, an acceptable file size, and a .pptx extension.
+	 * entry, a successful upload, an acceptable file size, and a supported
+	 * extension.
 	 *
 	 * @param  array $files  Result of WP_REST_Request::get_file_params().
 	 * @return WP_Error|null WP_Error on failure, null on success.
@@ -343,7 +375,11 @@ final class JobController {
 		if ( empty( $files['file'] ) ) {
 			return new WP_Error(
 				'cbf_si_no_file',
-				__( 'No file was uploaded. Send a PPTX file in the "file" field.', 'cbf-slides-importer' ),
+				sprintf(
+					/* translators: %s: comma-separated list of supported file extensions */
+					__( 'No file was uploaded. Send a %s file in the "file" field.', 'cbf-slides-importer' ),
+					ParserFactory::extension_list()
+				),
 				array( 'status' => 400 )
 			);
 		}
@@ -371,16 +407,54 @@ final class JobController {
 			);
 		}
 
-		$ext = strtolower( pathinfo( (string) $file['name'], PATHINFO_EXTENSION ) );
-		if ( $ext !== 'pptx' ) {
+		$format = ParserFactory::detect_format( (string) $file['name'] );
+		if ( $format === null ) {
 			return new WP_Error(
 				'cbf_si_invalid_type',
-				__( 'Only .pptx files are accepted.', 'cbf-slides-importer' ),
+				sprintf(
+					/* translators: %s: comma-separated list of supported file extensions */
+					__( 'Unsupported file type. Accepted formats: %s.', 'cbf-slides-importer' ),
+					ParserFactory::extension_list()
+				),
 				array( 'status' => 400 )
 			);
 		}
 
-		return null;
+		return self::validate_upload_contents( (string) $file['tmp_name'], $format );
+	}
+
+
+	/**
+	 * Confirm an upload's bytes match the format its extension claims.
+	 *
+	 * The extension alone decides which parser runs, and it comes from the
+	 * client, so a mislabelled file would otherwise reach a parser that cannot
+	 * read it and fail with an opaque library error. Checking the magic bytes
+	 * turns that into a clear message at upload time. Both OOXML formats are ZIP
+	 * archives and are told apart by the parsers themselves.
+	 *
+	 * @param  string $tmp_name Temporary upload path.
+	 * @param  string $format   Format key derived from the file name.
+	 * @return WP_Error|null
+	 */
+	private static function validate_upload_contents( string $tmp_name, string $format ): ?WP_Error {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_get_contents
+		$head = (string) file_get_contents( $tmp_name, false, null, 0, 8 );
+
+		$expected = $format === ParserFactory::FORMAT_PDF ? '%PDF' : "PK\x03\x04";
+		if ( str_starts_with( $head, $expected ) ) {
+			return null;
+		}
+
+		return new WP_Error(
+			'cbf_si_corrupt_file',
+			sprintf(
+				/* translators: %s: uppercase file extension, e.g. PDF */
+				__( 'That file does not look like a valid %s document. It may be corrupt or misnamed.', 'cbf-slides-importer' ),
+				strtoupper( $format )
+			),
+			array( 'status' => 400 )
+		);
 	}
 
 
@@ -455,6 +529,10 @@ final class JobController {
 	 * Returns the serialisable slide metadata captured at parse time together
 	 * with any per-slide type overrides already stored in the job config so the
 	 * UI can pre-populate the override dropdowns on re-open.
+	 *
+	 * The source format and its unit noun travel with the response so the UI can
+	 * label a PDF's entries "pages" and a Word document's "sections" rather than
+	 * calling everything a slide.
 	 */
 	public static function slides( WP_REST_Request $request ): WP_REST_Response|WP_Error {
 		$row = self::find_row( (int) $request->get_param( 'id' ) );
@@ -462,18 +540,38 @@ final class JobController {
 			return $row;
 		}
 
-		$summary     = self::decode_summary( $row );
-		$slides_meta = $summary['slides_meta'] ?? array();
-		$config      = self::extract_config( $summary );
-		$overrides   = self::decode_stored_overrides( $config );
+		$summary   = self::decode_summary( $row );
+		$config    = self::extract_config( $summary );
+		$overrides = self::decode_stored_overrides( $config );
+		$format    = (string) ( $summary['source_format'] ?? ParserFactory::FORMAT_PPTX );
 
+		return new WP_REST_Response(
+			array(
+				'slides'        => self::apply_overrides_to_meta( $summary['slides_meta'] ?? array(), $overrides ),
+				'source_format' => $format,
+				'unit'          => ParserFactory::unit_label( $format ),
+				'unit_plural'   => ParserFactory::unit_label_plural( $format ),
+			),
+			200
+		);
+	}
+
+
+	/**
+	 * Attach each entry's stored type override to its slide metadata.
+	 *
+	 * @param  array $slides_meta Slide metadata captured at parse time.
+	 * @param  array $overrides   Stored overrides, keyed by 1-based number.
+	 * @return array Slide metadata with an `override` key on every entry.
+	 */
+	private static function apply_overrides_to_meta( array $slides_meta, array $overrides ): array {
 		foreach ( $slides_meta as &$slide ) {
 			$num               = (int) ( $slide['slide_number'] ?? 0 );
 			$slide['override'] = $overrides[ $num ] ?? null;
 		}
 		unset( $slide );
 
-		return new WP_REST_Response( array( 'slides' => $slides_meta ), 200 );
+		return $slides_meta;
 	}
 
 
