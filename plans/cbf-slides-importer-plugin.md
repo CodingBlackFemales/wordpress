@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 2.2.0 |
-| **Status** | Phase 5 complete |
+| **Plan version** | 2.4.0 |
+| **Status** | Phase 5 complete · Phase 6 partial (P6.5) · Phase 7 partial (P7.1, P7.3) |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 2.2.0 — P5.8 closed: animated progress bar removed (no reliable sub-phase metric); status badges in job list provide sufficient feedback; _pollJob keeps badge current after import trigger · 2.1.0 — P5.7 complete (import confirmation modal: lesson/topic count + course name summary, amber warnings for no-course/overwrite, conflict 409 handled inline — warning injected, button swapped to "Re-Import anyway" — no window.confirm() anywhere in the import flow) · 2.0.0 — P5.4 complete (revert-on-error: posts created published, reverted to draft if batch has errors; replaces draft-filter approach to avoid concurrent-process interference) · 1.9.0 — P5.2 complete (config_hash idempotency check, 409 conflict response, inline warning + confirm-dialog fallback, force re-import); import-from-configure-view fix (cached preview config used when form elements gone); PHPCS pre-existing complexity fixes in JobController (extract_config, decode_summary, apply_request_config, apply_slide_overrides helpers) · 1.8.0 — P5.1/P5.3/P5.5/P5.6 marked complete (already implemented) · 1.7.0 — Phase 3 complete (P3.1–P3.5, slide map UI, overwrite flag, config validation); Phase 4 complete (P4.1–P4.4, PreviewRenderer.php, on-demand preview with transient cache + bust, preview panel UI with topic accordion, back-to-configure, warning when no content); skipped_post_ids fix (false-outcome bug on title-match dedup) · 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 2.4.0 — Codeception adopted as the PHP test framework; unit suite implemented (P7.1 complete, 158 tests / 401 assertions, no WordPress required); committed synthetic fixtures for all three formats plus an env-gated corpus test over real decks; plugin PHP floor raised to 8.5 to match the root project · 2.3.0 — PDF and DOCX import added (see Multi-format support); parsing refactored onto a format-neutral IR; plugin README written (P6.5) · 2.2.0 — P5.8 closed: animated progress bar removed (no reliable sub-phase metric); status badges in job list provide sufficient feedback; _pollJob keeps badge current after import trigger · 2.1.0 — P5.7 complete (import confirmation modal: lesson/topic count + course name summary, amber warnings for no-course/overwrite, conflict 409 handled inline — warning injected, button swapped to "Re-Import anyway" — no window.confirm() anywhere in the import flow) · 2.0.0 — P5.4 complete (revert-on-error: posts created published, reverted to draft if batch has errors; replaces draft-filter approach to avoid concurrent-process interference) · 1.9.0 — P5.2 complete (config_hash idempotency check, 409 conflict response, inline warning + confirm-dialog fallback, force re-import); import-from-configure-view fix (cached preview config used when form elements gone); PHPCS pre-existing complexity fixes in JobController (extract_config, decode_summary, apply_request_config, apply_slide_overrides helpers) · 1.8.0 — P5.1/P5.3/P5.5/P5.6 marked complete (already implemented) · 1.7.0 — Phase 3 complete (P3.1–P3.5, slide map UI, overwrite flag, config validation); Phase 4 complete (P4.1–P4.4, PreviewRenderer.php, on-demand preview with transient cache + bust, preview panel UI with topic accordion, back-to-configure, warning when no content); skipped_post_ids fix (false-outcome bug on title-match dedup) · 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -20,8 +20,8 @@
 
 Replace a multi-step, CLI-dependent migration pipeline (Google Slides → PPTX export → local Python conversion → rsync → WP-CLI import) with a self-contained WordPress admin plugin that allows editors—including non-technical colleagues—to:
 
-1. Pick a Google Slides deck directly from Drive via a browser-based file picker.
-2. Configure how slides map to LearnDash structures (lesson, topics, slide headings, hidden slides) without touching a command line.
+1. Pick a source document directly from Drive via a browser-based file picker — Google Slides, Google Docs, or a PPTX, DOCX or PDF already stored there — or upload one from their machine.
+2. Configure how each unit of content — a slide, a PDF page or a Word section — maps to LearnDash structures (lesson, topics, headings, hidden units) without touching a command line.
 3. Preview the generated Gutenberg block HTML before any WordPress content is created.
 4. Trigger the import with one click and track progress in the browser.
 
@@ -81,7 +81,7 @@ The `scripts/import-slides.sh` script in the wordpress repo orchestrates steps 2
 | `tests/test_slide_merge.py` | Same-title slide merge / heading suppression logic |
 | `tests/test_content_postprocess.py` | Session-outline column stripping |
 
-**No PHP tests exist** for the bulk import plugin or cbf-multisite. No integration tests for the end-to-end pipeline exist.
+**No PHP tests existed** for the bulk import plugin or cbf-multisite when this plan was written, and there was no PHP test framework anywhere in the repository. Codeception has since been adopted for this plugin — see [Test Framework](#test-framework). No integration tests for the end-to-end pipeline exist yet (P7.2).
 
 ---
 
@@ -694,6 +694,97 @@ Documented in plugin's admin Help tab:
 
 ---
 
+## Test Framework
+
+<a name="test-framework"></a>
+
+**Framework:** [Codeception](https://codeception.com) 5.3, installed as a dev dependency of the plugin (`web/app/plugins/cbf-slides-importer/composer.json`) rather than of the root project, so the plugin stays self-contained and the root `composer install` is unaffected.
+
+Codeception was chosen over bare PHPUnit because the phases still outstanding need more than unit tests: P7.2 wants an integration test against a real WordPress install, and the REST surface warrants functional tests. Codeception covers all three tiers under one runner and one configuration, and `lucatume/wp-browser` plugs a WordPress-aware module set into it. Adopting it now, while only the unit tier exists, avoids migrating later.
+
+### Suites
+
+| Suite | Needs WordPress? | Covers | Status |
+|---|---|---|---|
+| `Unit` | No | `Document`, `Pptx`, `Pdf`, `Docx` — parsing, layout, classification, rendering | **Implemented** — 158 tests, 401 assertions, ~0.4 s |
+| `Integration` | Yes (WPLoader) | `JobRunner`, `LearnDashImporter`, `$wpdb` access, the LearnDash handoff | P7.2 |
+| `Functional` | Yes (WPLoader) | REST controllers: auth, ownership, validation, status codes | P7.9 |
+
+The parsing code is plain PHP that touches only a handful of WordPress helpers (escaping, slashes, translation, `WP_Error`). Those are stubbed in `tests/Support/wordpress-stubs.php`, which the unit suite's bootstrap loads. That keeps the unit tier fast and runnable anywhere — no database, no WordPress, no network — and draws a clear line: **anything that needs real WordPress behaviour belongs in the integration suite, not a bigger stub.**
+
+### Layout
+
+```text
+codeception.yml                     runner config; declares the unit bootstrap
+tests/
+  Unit.suite.yml                    suite modules
+  Unit/
+    _bootstrap.php                  autoloader + stubs; defines ABSPATH
+    IrTest.php                      IR constructors, bullet/mono/font heuristics
+    ParserFactoryTest.php           format table, MIME mapping, Drive routing
+    SlideClassifierTest.php         cover/hidden/override/regex precedence
+    BlockRendererTest.php           IR to Gutenberg blocks, escaping, grouping
+    PptxParserTest.php              against deck.pptx
+    PdfParserTest.php               against slides.pdf
+    DocxParserTest.php              against document.docx
+    NumberingTest.php               Word list-type resolution
+    PreviewRendererTest.php         parse-to-HTML pipeline, legacy key fallback
+    CorpusTest.php                  real decks; skipped unless opted in
+  Support/
+    wordpress-stubs.php             the WordPress surface the parsers touch
+    Helper/Fixtures.php             fixture paths, per-test image directories
+  _data/
+    build-fixtures.php              regenerates the binaries below
+    bin/{deck.pptx,document.docx,slides.pdf}
+```
+
+### Fixtures
+
+Real CBF decks are megabytes each and cannot be committed, so the suite ships three small synthetic files (~21 KB total) built by `tests/_data/build-fixtures.php`. Each is constructed to exercise specific behaviour rather than to look realistic:
+
+| Fixture | Exercises |
+|---|---|
+| `deck.pptx` | title placeholders, cover flag, `show="0"` hidden slide, two-column geometry, bullets, a code paragraph, an inline code run inside prose, footer-band image exclusion |
+| `document.docx` | heading-depth sectioning, title-page detection, relative heading levels, XML entity decoding, bullet vs numbered lists via real numbering definitions, a table with a bold header row, an inline image |
+| `slides.pdf` | glyph-position text reconstruction, title detection, wrapped-line rejoining, bullet splitting, monospace code detection, footer text and footer image exclusion |
+
+The DOCX and PDF are written as raw bytes rather than through a library, because both need structure the writers will not produce on demand — exact numbering definitions, and precise glyph positions with a footer-band image.
+
+**Corpus test.** `CorpusTest` parses every supported document in a nominated directory and asserts only what must hold for any input: no `WP_Error`, no PHP diagnostics, non-empty output, escaped text. It is skipped when no corpus is found, mirroring how the Python suite skips when `demo.pptx` is absent (R10).
+
+The directory is resolved in this order, so it can be configured per-run or left standing on a machine:
+
+1. `CBF_SI_FIXTURE_DIR` in the environment
+2. `CBF_SI_FIXTURE_DIR` in the plugin's `.env` (see `.env.example`)
+3. `tests/assets/` — the default
+
+All three are gitignored: real course material is large and not ours to redistribute, and `tests/assets/` in particular sat at 13 MB during development. Relative paths resolve against the plugin root, which is where the test commands run from.
+
+Note that PHP does not read `.env` files on its own, and Codeception's `params: - env` only feeds its own `%PLACEHOLDER%` config interpolation — it neither reads `.env` nor populates `getenv()`. The helper therefore parses `.env` itself via `vlucas/phpdotenv` (the library Bedrock already uses at the repository root), and deliberately parses rather than populates, so running the suite cannot leak settings into the wider process.
+
+Against the 30+ real CBF decks in `tools/slides-to-learndash/assets` it runs 156 assertions in ~53 s, which is why it is not part of the default run.
+
+### Running
+
+```bash
+cd web/app/plugins/cbf-slides-importer
+composer test           # all suites
+composer test:unit      # unit suite only
+composer test:build     # regenerate actor classes after changing suite modules
+```
+
+or `lando codecept run` from anywhere in the project.
+
+**`register_argc_argv`.** Codeception refuses to start unless this is `On`. The shared `.lando/config/php/php.ini` sets it `Off` deliberately for the web SAPI, and many local CLI builds also default it off, so every entry point above overrides it per-invocation (`php -d register_argc_argv=1`) rather than weakening a web-facing setting.
+
+**PHP floor.** The plugin's minimum PHP was raised from 8.1 to **8.5** to match the root project's `composer.json` (`php >=8.5`) and the Lando appserver. Composer's `config.platform.php` applies to dev dependencies as well as runtime ones, so the old 8.1 pin held the tooling back several major versions. The floor is declared in four places that must stay in step — see the README's Version metadata table.
+
+### Known trap
+
+Every plugin file ends its `ABSPATH` guard with `exit`. Codeception 5 does **not** load `tests/_bootstrap.php` implicitly, so if the bootstrap that defines `ABSPATH` is not wired up, the first autoloaded plugin class silently terminates the run: no failure, no PHP error, just `COMMAND DID NOT FINISH PROPERLY` and exit code 125. The unit suite declares its bootstrap explicitly (`settings.bootstrap` in `codeception.yml`, resolved relative to the suite directory). Any new suite must do the same.
+
+---
+
 ## Implementation Phases with Checklist Tasks
 
 ### Phase 0: Foundation and Dependency Validation
@@ -774,36 +865,54 @@ Documented in plugin's admin Help tab:
 - [ ] **P6.2** Implement WP-CLI commands: `wp cbf-si jobs list`, `wp cbf-si jobs retry <id>`, `wp cbf-si cleanup` (resolves Operations plan)
 - [ ] **P6.3** Implement admin dashboard widget on plugin page: jobs summary by status, stalled jobs count, last success (resolves Operations plan)
 - [ ] **P6.4** Document `CBF_SI_ENCRYPTION_KEY` env var requirement in README and `.env.dist`; add validation on plugin activation (resolves NR2)
-- [ ] **P6.5** Write plugin README: setup instructions (GCP project, OAuth consent screen, client ID/secret, env var); user guide for each screen step (resolves G5)
+- [x] **P6.5** ✅ Plugin README written (`web/app/plugins/cbf-slides-importer/README.md`): requirements, supported formats, pipeline overview, setup (encryption key, GCP project, settings, capability), import flow, background jobs, REST surface, code layout, how to add a format, development commands, troubleshooting (resolves G5)
 
 ### Phase 7: Quality and Hardening
 
-- [ ] **P7.1** Write PHP unit tests for `TokenStore`, `GoogleOAuth` (mocked HTTP), `SlideClassifier`, `BlockRenderer`, `ConfigRepository` (resolves test gap for PHP)
-- [ ] **P7.2** Write PHP integration test (against Lando dev environment): end-to-end import of a known PPTX fixture; assert post titles and content structure
-- [ ] **P7.3** Run PHPCS against new plugin code using existing `phpcs.xml` rules; fix all violations
+- [x] **P7.0** ✅ Codeception 5.3 adopted as the PHP test framework and wired into the plugin: `codeception.yml`, `Unit` suite, `composer test` / `test:unit` / `test:build` scripts, `lando codecept` tooling, generated artefacts gitignored and excluded from PHPCS. Plugin PHP floor raised 8.1 → 8.5 to match the root project, which had been pinning the tooling to unsupported versions. See [Test Framework](#test-framework).
+- [x] **P7.1** ✅ Unit suite implemented — **158 tests, 401 assertions, ~0.4 s**, no WordPress required. Covers `Ir` (bullet/mono/font heuristics, IR constructors), `ParserFactory` (format table, MIME mapping, Drive routing), `SlideClassifier` (cover/hidden/override/regex precedence), `BlockRenderer` (every block type, escaping, run nesting, list and code grouping), all three parsers against committed fixtures, `Docx\Numbering`, and `PreviewRenderer` (including the legacy `pptx_path` fallback). Regression guards included for the BF3 serialisation bug and the monospace-paragraph misclassification.
+  - `TokenStore` (`Crypto`) and `GoogleOAuth` are **not** covered: both need WordPress options/usermeta and HTTP mocking, so they move to P7.2's WordPress-backed suite rather than being stubbed into the unit tier.
+- [ ] **P7.2** Add the `Integration` suite (`lucatume/wp-browser` + WPLoader against the Lando database): end-to-end import of `tests/_data/bin/deck.pptx`; assert post type, title, course association and block structure; cover `Crypto` round-trip, `OAuthClient` state validation with mocked HTTP, `JobRunner` phase transitions, and `ConfigController` persistence
+- [x] **P7.3** ✅ PHPCS passes on all new plugin code including the test suite. Plugin-wide count is **12 errors, down from a pre-existing baseline of 18** — every remaining one is in a function that was already over the complexity limit before this work
 - [ ] **P7.4** Security review: verify no token values in logs, no IDOR on job endpoints (user can only access their own jobs), no path traversal in temp file handling
 - [ ] **P7.5** Add `.htaccess` / Apache `<Directory>` block denying direct HTTP access to `cbf-slides-tmp/` uploads subdirectory
 - [x] **P7.6** ~~Test S3-uploads transparency~~ — **Not needed**: S3 Uploads disabled in all environments (A5 confirmed). ELDBC_Media returns local attachment URLs.
 - [ ] **P7.7** Load test: import a deck with 60 slides and 40 images; verify no memory limit error and completion <10 minutes (resolves R4)
 - [ ] **P7.8** Test multisite subsite isolation: import as user on `academy` subsite; confirm content not visible on `wp` or `jobs` subsites (resolves R6, A7)
+- [ ] **P7.9** Add the `Functional` suite for the REST surface: capability enforcement on every route, IDOR (user A cannot read user B's jobs), upload validation (extension, size, magic bytes), and the 409 idempotency conflict — currently only reachable by hand
+- [ ] **P7.10** Wire `composer test` into CI alongside the existing lint steps; publish the corpus test as an opt-in job with `CBF_SI_FIXTURE_DIR` pointed at a fixture store
 
 ---
 
 ## Validation Plan
 
 ### Static checks
-- [ ] PHPCS passes with zero errors against `phpcs.xml` rules
+- [x] PHPCS passes on all new plugin code and the test suite; plugin-wide errors reduced from a pre-existing baseline of 18 to 12, all in functions that were already over the complexity limit
 - [ ] PHPStan level 6 (or equivalent) passes on all new PHP files
 - [ ] ESLint passes on all new JS
 - [ ] No `error_log()` calls that could print tokens (grep for `cbf_si.*token` patterns in log calls)
 
-### Unit tests (new, PHP)
-- [ ] `TokenStore`: encrypt → decrypt round-trip; missing env var returns WP_Error
-- [ ] `GoogleOAuth`: CSRF state validation; expired token triggers refresh; revoke calls correct endpoint
-- [ ] `SlideClassifier`: SECTION_HEADER layout → heading; hidden slide → hidden; user override beats auto-detect
-- [ ] `BlockRenderer`: paragraph → `wp:paragraph`; bullet list → `wp:list`; two-column → `wp:columns`; image → `wp:image`
-- [ ] `ConfigRepository`: upsert; config_hash computed correctly; duplicate insert updates rather than errors
-- [ ] `ImportOrchestrator`: WP_Error from learndash-bulk sets job to failed; duplicate dispatch exits early
+### Unit tests (Codeception `Unit` suite — no WordPress required)
+
+Run with `composer test:unit` from the plugin directory, or `lando codecept run Unit`.
+
+- [x] `Ir`: bullet glyphs split without a following space; a hyphen needs one; monospaced families detected by name including PDF subset prefixes; weight and slant read off embedded font names
+- [x] `ParserFactory`: extension dispatch; Google editor and binary MIME types both resolve; export MIME only for editor files; picker MIME list; unit nouns per format; unsupported input rejected before a parser is reached
+- [x] `SlideClassifier`: layout regex is anchored and case-insensitive; a malformed regex is survivable; user override beats auto-detect; cover and hidden cannot be overridden; overrides keyed by the 1-based UI number
+- [x] `BlockRenderer`: every block type (`wp:paragraph`, `wp:list` ordered and unordered, `wp:code`, `wp:heading`, `wp:columns`, `wp:table`, `wp:image`); consecutive bullets and code lines group into one block; run formatting nests with `<code>` innermost; document text is escaped; unsafe link schemes dropped; repeated unit titles emit one heading
+- [x] `Pptx\Parser`: titles from placeholders; `show="0"` hidden slides; two-column geometry; footer-band images excluded; a partly monospaced paragraph stays prose (regression guard); the parse result holds no PHP objects (BF3 regression guard)
+- [x] `Pdf\Parser`: word spacing reconstructed from glyph positions; title is the largest text at the top; wrapped lines rejoined; bullet markers stripped; monospace becomes code; footer text and footer images excluded
+- [x] `Docx\Parser`: sectioning descends past a lone top-level heading; title page detected; heading levels relative to the split depth; XML entities decoded exactly once; tables survive the empty-paragraph filter; inline images extracted
+- [x] `Docx\Numbering`: bullet vs counting formats; unknown level falls back to level zero; missing, list-free and malformed documents all yield an empty map rather than an error
+- [x] `PreviewRenderer`: all three formats render; cover and hidden content excluded; stored overrides applied and malformed ones ignored; preview images resolve to absolute URLs while import uses `media/`; legacy `pptx_path` summaries still resolve
+- [x] Every parser returns `WP_Error` — never an exception — for missing, malformed and empty input
+- [ ] `Crypto` (`TokenStore`): encrypt → decrypt round-trip; missing env var returns WP_Error — **deferred to P7.2**, needs WordPress
+- [ ] `OAuthClient`: CSRF state validation; expired token triggers refresh; revoke calls the correct endpoint — **deferred to P7.2**, needs WordPress and HTTP mocking
+- [ ] `ConfigController`: upsert; config_hash computed correctly; duplicate insert updates rather than errors — **deferred to P7.2**, needs `$wpdb`
+- [ ] `LearnDashImporter`: WP_Error from learndash-bulk sets job to failed; duplicate dispatch exits early — **deferred to P7.2**, needs the LearnDash plugin
+
+### Corpus regression (opt-in)
+- [x] `CorpusTest` parses every supported document in `CBF_SI_FIXTURE_DIR` and asserts no errors, no PHP diagnostics, non-empty output and escaped text. Verified against the 30+ real CBF decks in `tools/slides-to-learndash/assets` — 156 assertions, ~53 s. Skipped when the variable is unset, mirroring the Python suite's `demo.pptx` convention (R10)
 
 ### Existing Python tests (regression — must not break)
 - [ ] `test_columns_layout.py` — skip if `demo.pptx` absent; document skip in CI config (resolves R10)
@@ -811,7 +920,7 @@ Documented in plugin's admin Help tab:
 - [ ] `test_slide_merge.py` — passes unchanged
 - [ ] `test_content_postprocess.py` — passes unchanged
 
-### Integration tests (Lando dev environment)
+### Integration tests (Codeception `Integration` suite — P7.2, not yet built)
 - [ ] Full pipeline: Google auth → pick real CBF deck → configure → preview → import; verify lesson and topics created with correct post_type, post_title, course_id
 - [ ] Idempotency: run same import twice; verify no duplicate posts
 - [ ] Media: confirm images appear in WP media library with correct local attachment URLs (S3 not in use — A5 confirmed)
@@ -852,7 +961,7 @@ Documented in plugin's admin Help tab:
 
 The feature is done when **all** of the following are true:
 
-1. A non-technical editor can, without any CLI access, pick a Google Slides deck, configure it, preview the output, and trigger an import that creates correctly structured LearnDash content in the `academy` subsite.
+1. A non-technical editor can, without any CLI access, pick a Google Slides deck, Google Doc, PDF or Word document, configure it, preview the output, and trigger an import that creates correctly structured LearnDash content in the `academy` subsite.
 2. The import is idempotent: running the same deck twice with the same configuration does not create duplicate posts.
 3. All created posts are initially in draft status and promoted to the target status only after the full batch is confirmed.
 4. Encrypted token storage is in place; no token value appears in any log or REST response.
@@ -862,6 +971,7 @@ The feature is done when **all** of the following are true:
 8. `GET /cbf-si/v1/health` returns healthy on production.
 9. Plugin README documents setup steps; non-technical user guide is present.
 10. All Phase 0 verifications (P0.1–P0.6) are documented with actual results.
+11. `composer test` passes, covering all three source formats, and runs in CI.
 
 ---
 
