@@ -1,0 +1,213 @@
+# CBF Slides Importer
+
+Imports slide decks, PDFs and Word documents into LearnDash lessons and topics from the WordPress admin. Editors pick a file from a shared Google Drive folder or upload one, review a preview of the generated content, then import.
+
+This is the browser-based counterpart to [`tools/slides-to-learndash`](../../../../tools/slides-to-learndash), the Python CLI that produces CSVs for the same LearnDash importer. The two share a content model, not code.
+
+## Requirements
+
+- PHP 8.1+, WordPress 6.0+
+- [LearnDash Bulk Lessons or Topics](https://github.com/serenichron/learndash-bulk-lessons-or-topics) active — this plugin builds the rows and delegates post creation to it
+- A Google Cloud project with the Drive API enabled, for the Drive picker
+- `CBF_SI_ENCRYPTION_KEY` set in the environment (see [Setup](#setup))
+
+Run `composer install` in this directory after checkout; `vendor/` is not committed.
+
+## Supported formats
+
+| Format  | Source                                         | One unit of content is | Structure comes from                 |
+| ------- | ---------------------------------------------- | ---------------------- | ------------------------------------ |
+| `.pptx` | Google Slides (exported) or an uploaded deck   | a slide                | shape geometry and placeholder types |
+| `.pdf`  | any PDF, typically a deck exported to PDF      | a page                 | glyph positions and font metrics     |
+| `.docx` | Google Docs (exported) or an uploaded document | a section              | heading levels                       |
+
+Google Slides and Google Docs files are exported by Drive to PPTX and DOCX on the way in. Files already stored in Drive in one of the three formats are downloaded unchanged.
+
+## How it works
+
+Each source parser emits the same format-neutral intermediate representation, so classification, layout analysis and block rendering are shared:
+
+```text
+Pptx\Parser ─┐
+Pdf\Parser  ─┼─→ ParsedDeck ──→ SlideClassifier ──→ BlockLayout ──→ BlockRenderer ──→ LearnDashImporter
+Docx\Parser ─┘   (Document\Ir)   type per unit      rows/columns     Gutenberg HTML    posts
+```
+
+A job moves through these statuses:
+
+`pending` → `downloading` → `parsing` → `parsed` → `importing` → `done`, or `failed` at any point.
+
+Parsing stops at `parsed` and waits. Nothing is written to LearnDash until an editor reviews the preview and triggers the import, which re-reads the source file so any configuration changed in the meantime is applied.
+
+### Vocabulary
+
+The pipeline calls one unit of content a "slide" throughout — in the database, the REST payloads and the per-unit override map. A PDF page and a Word section are slides as far as the code is concerned. Only the admin UI relabels them, using the noun the source format's parser reports.
+
+### What the parsers produce
+
+All three emit paragraphs classified as body text, headings, bullets or code, with bold, italic, underline, strikethrough, inline code and links preserved. Images are extracted to the job's temp directory and referenced as `media/<filename>`, which `ELDBC_Media::rewrite_paths()` swaps for real attachment URLs after the posts exist.
+
+**PPTX.** Shape offsets drive the layout: shapes sharing a row become a `wp:columns` block, and shapes in the footer band (below 87% of the slide height) are dropped, which is what removes the CBF logo and copyright line from every slide. Hidden slides are read from the OOXML `show` attribute and excluded. Slide 1 is treated as a cover and excluded from content.
+
+**PDF.** A PDF stores glyphs at coordinates and nothing else, so structure is reconstructed: glyphs are grouped into lines by baseline, lines into blocks by proximity and alignment, and wrapped lines are rejoined where the previous line ran to the block's right edge. The largest text in the top of a page becomes its title. Bold and monospace are inferred from embedded font names — but only where the page's dominant font is _not_ monospaced, since decks that set all their body copy in Consolas would otherwise import as one long code block. Images are located by walking the content stream's transformation matrix stack, because position is what separates real content from the logo repeated on every page.
+
+**DOCX.** Sections split at the shallowest heading depth that occurs more than once, so a document whose only Heading 1 is its title splits on Heading 2 instead of collapsing into a single section. A leading heading with no body of its own is treated as a title page and excluded. Tables become `wp:table`; list types are resolved by reading `word/numbering.xml` directly, since PhpWord's reader records which numbering definition an item belongs to but not whether it renders as a bullet or a counter.
+
+## Setup
+
+### 1. Encryption key
+
+OAuth client secrets and per-user access tokens are stored encrypted with AES-256-GCM. The key comes from `CBF_SI_ENCRYPTION_KEY`, read as either a PHP constant or an environment variable. Without it, nothing is stored and the plugin reports an error rather than falling back to plaintext.
+
+```ini
+# .env (Bedrock)
+CBF_SI_ENCRYPTION_KEY='a long random passphrase'
+```
+
+Any length works — the value is run through SHA-256 to derive the 32-byte key. Changing it invalidates every stored token, and users will need to reconnect.
+
+### 2. Google Cloud project
+
+Enable the Google Drive API and the Google Picker API, then create an OAuth 2.0 **Web application** client. Add this redirect URI, using the site's real host:
+
+```text
+https://example.com/wp-json/cbf-si/v1/auth/callback
+```
+
+The plugin requests the `drive.readonly` scope only.
+
+### 3. Plugin settings
+
+Under **LearnDash → Slides Importer**:
+
+| Setting                  | Value                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| OAuth Client Secret JSON | the JSON downloaded from Google Cloud, pasted whole — validated to contain a `web` or `installed` key |
+| Shared Drive Folder ID   | the folder editors browse, from its Drive URL                                                         |
+
+### 4. Capability
+
+Activation grants `cbf_slides_import` to administrators. Grant it to other roles to let them import:
+
+```php
+get_role( 'editor' )->add_cap( 'cbf_slides_import' );
+```
+
+Activation also creates the `cbf_slide_import_configs` and `cbf_slide_import_jobs` tables (under the site's `$wpdb->prefix`) and schedules the hourly cleanup event.
+
+## Importing
+
+Under **LearnDash → Import Documents**, connect Google Drive once, then either choose a file from the configured Drive folder or upload one. Uploads are capped at `wp_max_upload_size()` and checked against the format's magic bytes, so a renamed file is rejected at upload rather than failing later inside a parser.
+
+Once a job reaches `parsed`, its configuration panel offers:
+
+| Option    | Effect                                                                        |
+| --------- | ----------------------------------------------------------------------------- |
+| Title     | the post title; defaults to the file name                                     |
+| Mode      | `lesson-only` creates an `sfwd-lessons` post, `topic` creates an `sfwd-topic` |
+| Course    | the course to attach to                                                       |
+| Lesson    | in `topic` mode, the lesson to nest under                                     |
+| Overwrite | update an existing post matched by title instead of skipping it               |
+| Unit map  | override each unit's detected type: cover, heading, content or hidden         |
+
+Units marked cover or hidden are excluded from the generated content. **Preview content** re-renders from the current settings without importing.
+
+Triggering an import for a Drive file that was already imported with the same content-affecting settings returns a 409 and asks for confirmation. The check hashes the Drive file ID, mode, course and unit map — not the title or overwrite flag, which are post metadata rather than content. Local uploads have no stable identity and are not deduplicated.
+
+If any error occurs mid-batch, every post created by that job is reverted to draft so students never see partial content.
+
+## Background jobs
+
+Work happens on WP-Cron, not in the request that queues it.
+
+| Hook                 | Schedule          | Does                                             |
+| -------------------- | ----------------- | ------------------------------------------------ |
+| `cbf_si_process_job` | one-off per phase | download, parse, and — once triggered — import   |
+| `cbf_si_cleanup`     | hourly            | resets stale jobs and purges orphaned temp files |
+
+Source files and extracted images live in `wp-content/uploads/cbf-slides-tmp/job_<id>/` and are deleted when the import finishes. A job stuck in an in-flight status for more than 30 minutes is reset to `pending` for retry; temp directories older than 2 hours are removed. The 30-minute reset deliberately comes first, so a retried job can still find its files.
+
+Sites that set `DISABLE_WP_CRON` need a system cron hitting `wp-cron.php`, or jobs never leave `pending`.
+
+## REST API
+
+Namespace `cbf-si/v1`. Every route requires the `cbf_slides_import` capability except `/auth/callback`, which Google redirects to and which validates the OAuth state parameter instead.
+
+| Method                 | Route                                           | Purpose                                                             |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------------------------------- |
+| `GET`                  | `/auth/begin`, `/auth/callback`, `/auth/status` | Google OAuth; `POST /auth/revoke` drops the stored token            |
+| `GET`                  | `/drive/picker-config`                          | access token, folder ID and the MIME types the picker should offer  |
+| `GET`, `POST`          | `/jobs`                                         | list jobs, or queue one from a Drive file                           |
+| `POST`                 | `/jobs/upload`                                  | queue one from a `multipart/form-data` upload                       |
+| `GET`                  | `/jobs/{id}`                                    | poll status                                                         |
+| `GET`                  | `/jobs/{id}/slides`                             | per-unit metadata and stored overrides, plus the format's unit noun |
+| `GET`, `POST`          | `/jobs/{id}/preview`                            | rendered preview; `POST` saves settings first and re-renders        |
+| `POST`                 | `/jobs/{id}/import`                             | run the import phase                                                |
+| `POST`                 | `/jobs/{id}/cancel`                             | cancel a job still `pending`                                        |
+| `GET`, `POST`          | `/configs`                                      | list or create saved per-deck configurations                        |
+| `GET`, `PUT`, `DELETE` | `/configs/{id}`                                 | read, update or remove one                                          |
+
+Previews are cached in a per-user transient for an hour and busted whenever settings change.
+
+## Code layout
+
+```text
+includes/
+  Document/      format-neutral core
+    Ir.php               the intermediate representation, and its constructors
+    ParserFactory.php    the format table; dispatches on file extension
+    BlockLayout.php      geometry → linear/column blocks
+    SlideClassifier.php  cover/heading/hidden/body per unit
+    BlockRenderer.php    IR → Gutenberg block HTML
+  Pptx/          Parser, ShapeReader          (PhpPresentation)
+  Pdf/           Parser, TextExtractor, ImageExtractor  (smalot/pdfparser)
+  Docx/          Parser, Numbering            (PhpWord)
+  Api/           REST controllers and the router
+  Google/        OAuth and Drive clients
+  Import/        JobRunner, PreviewRenderer, LearnDashImporter, Janitor
+  Admin/         settings and importer screens
+```
+
+Only the three `Parser` classes and their helpers know about a document library. Everything under `Document/` works on arrays.
+
+### Adding a format
+
+1. Write a parser exposing `parse( string $path, string $img_dir ): array|WP_Error` that returns a `ParsedDeck`. The shape is documented in `Document\Ir`.
+2. Add an entry to `ParserFactory::FORMATS` giving its extension, MIME type, label, unit noun and — if a Google editor exports to it — the export MIME type and direct export URL.
+3. Add the extension to `SUPPORTED_FORMATS` and its MIME type to `SUPPORTED_MIME_TYPES` in `assets/js/admin/cbf-slides-importer.js`. These exist only so the file input's `accept` attribute can be rendered before any API call; the server remains the authority.
+
+Nothing else needs to change. The REST layer, job runner, preview and importer all dispatch through `ParserFactory`.
+
+## Development
+
+```bash
+composer install
+composer phpcs     # WordPress coding standards
+composer phpcbf    # fix what can be fixed automatically
+```
+
+The repository's [`phpcs.xml`](../../../../phpcs.xml) caps cyclomatic complexity at 6 and nesting at 3, which is why the parsers are built from many small methods.
+
+Coding standards, commit conventions and local environment setup are covered in the repository's [CONTRIBUTING.md](../../../../CONTRIBUTING.md).
+
+### Version metadata
+
+Two sets of versions are duplicated across files and have to be changed together.
+
+| What                      | Where                                                                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plugin version            | the `Version:` header and the `VERSION` constant, both in `cbf-slides-importer.php`                                                               |
+| Minimum PHP and WordPress | the `Requires` headers in `cbf-slides-importer.php`, `Main::PLUGIN_REQUIREMENTS`, and `require.php` plus `config.platform.php` in `composer.json` |
+
+## Troubleshooting
+
+| Symptom                                          | Cause                                                                                                                   |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| Jobs stay at `pending`                           | WP-Cron is not running                                                                                                  |
+| "Google Drive is not connected" after connecting | `CBF_SI_ENCRYPTION_KEY` changed or is unset, so the stored token cannot be decrypted                                    |
+| "No shared Drive folder is configured"           | the folder ID setting is empty                                                                                          |
+| Preview unavailable after a completed import     | expected — temp files are deleted once posts are created                                                                |
+| A PDF imports with words run together            | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces |
+| Everything in a PDF becomes one code block       | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                       |
+
+Errors stored against a job have filesystem paths redacted. For full detail, enable `WP_DEBUG_LOG` and look for `[CBF-SI]` entries.
