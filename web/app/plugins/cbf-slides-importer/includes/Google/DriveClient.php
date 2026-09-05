@@ -38,6 +38,22 @@ final class DriveClient {
 	const MEDIA_DOWNLOAD_URL = 'https://www.googleapis.com/drive/v3/files/%s?alt=media&supportsAllDrives=true';
 
 	/**
+	 * Drive metadata endpoint.
+	 *
+	 * Metadata is read over plain HTTP rather than through the Drive API client
+	 * because google/apiclient 2.x requires Guzzle 6 or 7 and refuses to build a
+	 * transport against the Guzzle 8 that Bedrock's root autoloader supplies —
+	 * see the note on describe(). wp_remote_get() has no such constraint, and
+	 * the export path already falls back to it for the same reason.
+	 *
+	 * `supportsAllDrives` is what lets a file on a shared drive be described at
+	 * all; without it Drive answers 404 for files the user can plainly open in a
+	 * browser. Bulk migration reads URLs from a spreadsheet rather than from a
+	 * folder-restricted picker, so shared drives are expected, not exceptional.
+	 */
+	const METADATA_URL = 'https://www.googleapis.com/drive/v3/files/%s?fields=id%%2Cname%%2CmimeType%%2Ctrashed&supportsAllDrives=true';
+
+	/**
 	 * Fetch a Drive file and save it to a local temp file.
 	 *
 	 * A Google Slides or Google Docs file is exported to its binary equivalent;
@@ -61,7 +77,7 @@ final class DriveClient {
 		}
 
 		if ( $mime_type === '' ) {
-			$looked_up = self::lookup_mime_type( $file_id, $client );
+			$looked_up = self::lookup_mime_type( $file_id, $user_id );
 			if ( is_wp_error( $looked_up ) ) {
 				return $looked_up;
 			}
@@ -125,27 +141,105 @@ final class DriveClient {
 	}
 
 
+	/**
+	 * Read a Drive file's metadata over HTTP.
+	 *
+	 * Deliberately not `DriveService::files->get()`. google/apiclient 2.x accepts
+	 * only Guzzle 6 or 7, and Bedrock's root vendor ships Guzzle 8, which wins
+	 * the autoloader race against the copy bundled with this plugin — so every
+	 * call through the API client raises "Could not find supported version of
+	 * Guzzle" before it reaches the network. The download and export paths were
+	 * already resilient to this because they fall back to wp_remote_get(); the
+	 * metadata path had no fallback, which left bulk pre-flight unable to
+	 * resolve any file at all.
+	 *
+	 * @param  string $file_id Drive file ID.
+	 * @param  int    $user_id WP user ID whose credentials to use.
+	 * @return array|WP_Error  Decoded metadata, or an editor-facing error.
+	 */
+	private static function fetch_metadata( string $file_id, int $user_id ): array|WP_Error {
+		$token = OAuthClient::get_access_token( $user_id );
+		if ( is_wp_error( $token ) ) {
+			return $token;
+		}
+
+		$response = wp_remote_get(
+			sprintf( self::METADATA_URL, rawurlencode( $file_id ) ),
+			array(
+				'timeout' => 30,
+				'headers' => array( 'Authorization' => 'Bearer ' . $token ),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error(
+				'cbf_si_drive_unreachable',
+				__( 'This Drive file could not be read.', 'cbf-slides-importer' )
+			);
+		}
+
+		$code = (int) wp_remote_retrieve_response_code( $response );
+		if ( $code !== 200 ) {
+			return new WP_Error( 'cbf_si_drive_unreachable', self::describe_error( $code ) );
+		}
+
+		$decoded = json_decode( (string) wp_remote_retrieve_body( $response ), true );
+		if ( ! is_array( $decoded ) ) {
+			return new WP_Error(
+				'cbf_si_drive_unreachable',
+				__( 'Google Drive returned a response this plugin could not read.', 'cbf-slides-importer' )
+			);
+		}
+
+		return $decoded;
+	}
+
+
 	// ── Private helpers ───────────────────────────────────────────────────────
+
+	/**
+	 * Turn a Drive HTTP status into something an editor can act on.
+	 *
+	 * A 404 from Drive usually means "you cannot see this", not "it is gone" —
+	 * the API hides existence from users without access — so the message covers
+	 * both rather than asserting the wrong one.
+	 *
+	 * @param  int $code HTTP status from the Drive API.
+	 * @return string
+	 */
+	private static function describe_error( int $code ): string {
+		switch ( $code ) {
+			case 401:
+				return __( 'Google Drive access has expired. Reconnect your account and try again.', 'cbf-slides-importer' );
+			case 403:
+				return __( 'Your Google account does not have permission to read this file. Ask its owner to share it with you.', 'cbf-slides-importer' );
+			case 404:
+				return __( 'This file could not be found. It may have been deleted, or it may live in a workspace your Google account cannot reach.', 'cbf-slides-importer' );
+			default:
+				return sprintf(
+					/* translators: %d: HTTP status code */
+					__( 'Google Drive could not be reached (HTTP %d).', 'cbf-slides-importer' ),
+					$code
+				);
+		}
+	}
 
 	/**
 	 * Look up a Drive file's MIME type.
 	 *
 	 * Only needed for jobs queued before the picker started recording the type.
 	 *
-	 * @param  string         $file_id Drive file ID.
-	 * @param  \Google\Client $client  Authenticated Google client.
+	 * @param  string $file_id Drive file ID.
+	 * @param  int    $user_id WP user ID whose credentials to use.
 	 * @return string|WP_Error MIME type.
 	 */
-	private static function lookup_mime_type( string $file_id, \Google\Client $client ): string|WP_Error {
-		try {
-			$file = ( new DriveService( $client ) )->files->get( $file_id, array( 'fields' => 'mimeType' ) );
-			return (string) $file->getMimeType();
-		} catch ( \Throwable $e ) {
-			return new WP_Error(
-				'cbf_si_drive_metadata_failed',
-				sprintf( 'Could not read the Drive file details: %s', $e->getMessage() )
-			);
+	private static function lookup_mime_type( string $file_id, int $user_id ): string|WP_Error {
+		$file = self::fetch_metadata( $file_id, $user_id );
+		if ( is_wp_error( $file ) ) {
+			return $file;
 		}
+
+		return (string) ( $file['mimeType'] ?? '' );
 	}
 
 
@@ -203,7 +297,9 @@ final class DriveClient {
 					$export_mime,
 					array( 'alt' => 'media' )
 				);
-
+				// files.export takes no supportsAllDrives parameter; shared-drive
+				// files are reachable through it because the token, not the
+				// request, carries the access.
 				$body = $response->getBody();
 				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 				$bytes_written = file_put_contents( $dest_path, $body );
