@@ -14,3 +14,14 @@ assets/css/admin/*
 
 vendor/
 node_modules/
+
+# Codeception: run artefacts and the generated actor trait, both rebuilt by
+# `composer test` / `composer test:build`.
+tests/_output/
+tests/Support/_generated/
+
+# Local corpus for the opt-in CorpusTest: real decks and documents, which are
+# far too large to commit and are not ours to redistribute. The directory is
+# kept so the default location exists on a fresh checkout; its contents are not.
+tests/assets/*
+!tests/assets/.gitkeep

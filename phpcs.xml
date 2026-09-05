@@ -21,6 +21,10 @@
 	<exclude-pattern>node_modues/*</exclude-pattern>
 	<exclude-pattern>assets/*</exclude-pattern>
 
+	<!-- Codeception run artefacts and generated actor traits -->
+	<exclude-pattern>*/tests/_output/*</exclude-pattern>
+	<exclude-pattern>*/tests/Support/_generated/*</exclude-pattern>
+
 	<!-- Show colors in console -->
 	<arg value="-colors"/>
 
