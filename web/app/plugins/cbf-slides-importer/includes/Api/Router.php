@@ -63,6 +63,15 @@ final class Router {
 		// POST /jobs/{id}/cancel  — cancel a pending job
 		JobController::register_routes( self::NAMESPACE );
 
+		// ── Batches ───────────────────────────────────────────────────────────
+		// POST /batches              — upload and validate a bulk migration CSV
+		// GET  /batches              — list the current user's batches
+		// GET  /batches/{id}         — one batch, with its plan and live report
+		// POST /batches/{id}/run     — confirm the plan and begin importing
+		// GET  /batches/{id}/report  — per-row outcomes, as JSON or a CSV download
+		// POST /batches/{id}/cancel  — stop a running batch
+		BatchController::register_routes( self::NAMESPACE );
+
 		// ── Preview ───────────────────────────────────────────────────────────
 		// GET  /jobs/{id}/preview — return parsed HTML preview for a job
 		PreviewController::register_routes( self::NAMESPACE );

@@ -6,11 +6,11 @@
 
 | Field | Value |
 |---|---|
-| **Plan version** | 2.4.0 |
-| **Status** | Phase 5 complete · Phase 6 partial (P6.5) · Phase 7 partial (P7.1, P7.3) |
+| **Plan version** | 2.8.0 |
+| **Status** | Phase 5 complete · Phase 6 partial (P6.5) · Phase 7 partial (P7.0, P7.1, P7.3) · **Phase 8 complete (P8.0–P8.17) except integration tests (P8.15), which wait on the P7.2 suite**; all Phase 8 assumptions verified |
 | **Depth tier** | **Standard** — content migration tool; elevated security treatment for OAuth token storage; no money flows, no shared counters, no irreversible structural DB changes |
 | **Evidence baseline** | Local inspection · branch `claude/wizardly-yonath-c64ab1` (slides-to-learndash) · branch `main` (wordpress) · inspection date 2026-08-24 |
-| **Changelog** | 2.4.0 — Codeception adopted as the PHP test framework; unit suite implemented (P7.1 complete, 158 tests / 401 assertions, no WordPress required); committed synthetic fixtures for all three formats plus an env-gated corpus test over real decks; plugin PHP floor raised to 8.5 to match the root project · 2.3.0 — PDF and DOCX import added (see Multi-format support); parsing refactored onto a format-neutral IR; plugin README written (P6.5) · 2.2.0 — P5.8 closed: animated progress bar removed (no reliable sub-phase metric); status badges in job list provide sufficient feedback; _pollJob keeps badge current after import trigger · 2.1.0 — P5.7 complete (import confirmation modal: lesson/topic count + course name summary, amber warnings for no-course/overwrite, conflict 409 handled inline — warning injected, button swapped to "Re-Import anyway" — no window.confirm() anywhere in the import flow) · 2.0.0 — P5.4 complete (revert-on-error: posts created published, reverted to draft if batch has errors; replaces draft-filter approach to avoid concurrent-process interference) · 1.9.0 — P5.2 complete (config_hash idempotency check, 409 conflict response, inline warning + confirm-dialog fallback, force re-import); import-from-configure-view fix (cached preview config used when form elements gone); PHPCS pre-existing complexity fixes in JobController (extract_config, decode_summary, apply_request_config, apply_slide_overrides helpers) · 1.8.0 — P5.1/P5.3/P5.5/P5.6 marked complete (already implemented) · 1.7.0 — Phase 3 complete (P3.1–P3.5, slide map UI, overwrite flag, config validation); Phase 4 complete (P4.1–P4.4, PreviewRenderer.php, on-demand preview with transient cache + bust, preview panel UI with topic accordion, back-to-configure, warning when no content); skipped_post_ids fix (false-outcome bug on title-match dedup) · 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
+| **Changelog** | 2.8.0 — **A12 closed** (P8.17): pre-flight over the real 132-row curriculum sheet resolved 109 of 109 importable files with no permission failures; the 23 rejections are all source-type, as predicted. The run exposed **R25**, a live defect — google/apiclient 2.19 accepts only Guzzle 6–7, Bedrock's root vendor supplies Guzzle 8, so every Drive API-client call threw before reaching the network; metadata now goes over `wp_remote_get`, matching the fallback the export path already had. Also disproved **A15**: 42 of 74 `/presentation/` URLs are uploaded `.pptx` binaries, not native Slides, so the URL never implies the format · 2.7.0 — Phase 8 implemented and verified end to end on Lando (a three-row CSV built the intended course structure). P8.6a settled: a section heading's `ID` is a millisecond Unix timestamp. The probe also found that lesson order is read from the `ld_course_steps` step tree rather than `menu_order` (A14) — the reorder pass now writes both, reloads the cached steps model, and refuses to write a tree missing lessons the batch created (R22). Two further implementation defects recorded as R23 (batch jobs losing their course config) and R24 (a requeued row never rescheduled). Unit suite at 226 tests / 644 assertions; README documents the CSV contract and the two-pass workflow. **A12 stays open** — confirming Drive read access across workspaces needs a live OAuth token · 2.6.0 — AQ2–AQ6 resolved (AQ2-a, AQ3-c, AQ4-a, AQ5 synonyms, AQ6 two-stage), removing the update-by-ID scope risk; P8.1 completed by measuring the draft curriculum spreadsheet — ~17% of rows point at sources that cannot become lesson content (12 Google Forms, GitHub repos, external courses, empty cells), driving R20, R21 and a path-segment-based URL parser; two-pass session-then-topic workflow documented as a consequence of AQ3-c · 2.5.0 — Phase 8 (bulk CSV migration) designed: batch data model, CSV contract, endpoints, section-heading resolution, concurrency strategy, reporting · 2.4.0 — Codeception adopted as the PHP test framework; unit suite implemented (P7.1 complete, 158 tests / 401 assertions, no WordPress required); committed synthetic fixtures for all three formats plus an env-gated corpus test over real decks; plugin PHP floor raised to 8.5 to match the root project · 2.3.0 — PDF and DOCX import added (see Multi-format support); parsing refactored onto a format-neutral IR; plugin README written (P6.5) · 2.2.0 — P5.8 closed: animated progress bar removed (no reliable sub-phase metric); status badges in job list provide sufficient feedback; _pollJob keeps badge current after import trigger · 2.1.0 — P5.7 complete (import confirmation modal: lesson/topic count + course name summary, amber warnings for no-course/overwrite, conflict 409 handled inline — warning injected, button swapped to "Re-Import anyway" — no window.confirm() anywhere in the import flow) · 2.0.0 — P5.4 complete (revert-on-error: posts created published, reverted to draft if batch has errors; replaces draft-filter approach to avoid concurrent-process interference) · 1.9.0 — P5.2 complete (config_hash idempotency check, 409 conflict response, inline warning + confirm-dialog fallback, force re-import); import-from-configure-view fix (cached preview config used when form elements gone); PHPCS pre-existing complexity fixes in JobController (extract_config, decode_summary, apply_request_config, apply_slide_overrides helpers) · 1.8.0 — P5.1/P5.3/P5.5/P5.6 marked complete (already implemented) · 1.7.0 — Phase 3 complete (P3.1–P3.5, slide map UI, overwrite flag, config validation); Phase 4 complete (P4.1–P4.4, PreviewRenderer.php, on-demand preview with transient cache + bust, preview panel UI with topic accordion, back-to-configure, warning when no content); skipped_post_ids fix (false-outcome bug on title-match dedup) · 1.6.0 — Phase 1 and Phase 2 (P2.1–P2.10) complete; all bugs fixed (Font::getUnderline, parsed ENUM, DOMContentLoaded timing, ESLint); ConfigController and uninstall.php confirmed present · 1.5.0 — P0.8/P0.9 complete: plugin scaffold committed (31 files, 6 541 insertions); namespace CodingBlackFemales\SlidesImporter; composer deps installed; all PHP files parse clean · 1.4.0 — P0.6 complete: academy blog_id=2 confirmed; wp_usermeta per-site scoped confirmed; all Phase 0 gates cleared; Phase 1 unblocked · 1.3.0 — P0.4 complete: PhpPresentation probe passed 7/8 capabilities on 2 real CBF decks; A6/R1 resolved; image extraction method documented (Drawing\Gd::getContents()); pixel unit difference from python-pptx EMU noted; P2.4 implementation notes updated · 1.2.0 — AQ1 resolved; folder-restricted Picker added; SettingsPage, R12/R13, P1.9/P1.10, P2.3 updated · 1.1.0 — A1–A5/A7–A9 verified; R2/R5 closed; S3 removed; WP-Cron confirmed · 1.0.0 — initial plan |
 | **Attribution** | Robust Feature Planner by Simeon Williams — Veedence.co.uk |
 | **Planner** | Robust Feature Planner v3.0.0 (raw prompt) — plannerskill.veedence.com |
 
@@ -24,6 +24,7 @@ Replace a multi-step, CLI-dependent migration pipeline (Google Slides → PPTX e
 2. Configure how each unit of content — a slide, a PDF page or a Word section — maps to LearnDash structures (lesson, topics, headings, hidden units) without touching a command line.
 3. Preview the generated Gutenberg block HTML before any WordPress content is created.
 4. Trigger the import with one click and track progress in the browser.
+5. Migrate a whole course in one pass by uploading a CSV that lists many source files, their target titles and where each belongs in the course structure (Phase 8).
 
 ---
 
@@ -98,6 +99,12 @@ The `scripts/import-slides.sh` script in the wordpress repo orchestrates steps 2
 | A7 | Per-user Google OAuth is the right credential model; each user authenticates with their own Google account; the Drive Picker is constrained to a configurable CBF shared folder ID so partner-org users cannot browse unrelated internal Drive content | ✅ **Verified** — AQ1 resolved: partner users import from a CBF shared folder (AQ1-b). Per-user OAuth + folder-restricted picker confirmed. | None | — |
 | A8 | The new plugin lives in `web/app/plugins/cbf-slides-importer/` managed by the wordpress repo | ✅ **Verified** | None | — |
 | A9 | WP-Cron is sufficient; Action Scheduler is not required | ✅ **Verified** — server-level cron confirmed (see A3) | None | — |
+| A10 | LearnDash section headings are **virtual markers**, not posts: a JSON array in the course's `course_sections` post meta, each entry `{ID, order, post_title, type: 'section-heading'}`, where `order` is an index into the course's ordered lesson list | ✅ **Verified** — read from `LDLMS_Course_Steps::steps_grouped_sections()` and `set_section_headings()`; corroborated by the [LearnDash sections documentation](https://docs.nexcess.com/software/learndash/course-sections/). **P8.6a: `ID` is a millisecond Unix timestamp** assigned client-side at creation, confirmed against live data (`{"order":0,"ID":1631808942506,"post_title":"Test Driven Development",...}` = 16 Sep 2021) | Section creation would need a different mechanism | — |
+| A11 | Section headings group **lessons only** and exist **only at course top level** — a topic cannot sit directly under a heading | ✅ **Verified** — vendor docs: sections "cannot be placed inside lessons or topics" | The CSV's `heading` column would mean something different for `type=topic` rows — see **AQ2** | — |
+| A12 | A CSV row's Drive file is readable by the importing user's own Google account, whatever folder or workspace it lives in | ✅ **Verified** — pre-flight run over all 132 rows of the draft curriculum sheet with the migrating account's live token: **109 of 109 importable files resolved, zero permission or not-found errors**. The 23 remaining rows fail on source type, not access (12 Forms, 6 blank, 5 non-Drive) | Rows fail individually with a permissions error; batch completes partially | — |
+| A13 | Bulk rows may be imported without a per-row human preview, because the CSV itself is the reviewed artefact and a pre-flight validation report is shown before anything is written | ⚠️ **Assumed** — differs from the single-file flow, where NR4 requires preview-before-import | Editors get no chance to catch a bad parse before content is created | Confirm with CBF during review — see **AQ6** |
+| A14 | Lesson order is read from the course's step tree (`ld_course_steps`), not from `menu_order` alone | ✅ **Verified** during P8.6 — shared course steps are enabled on this site, so `ld_lesson_list()` queries `orderby: post__in` against the tree. Writing `menu_order` alone leaves the builder order unchanged | A reorder pass appears to succeed while the course builder shows the old order | — |
+| A15 | A `docs.google.com/presentation/` URL identifies a native Google Slides file | ❌ **Disproved** — of 74 such URLs, only **32 are native Slides**; the other **42 are uploaded `.pptx` binaries** that Drive also serves under a `/presentation/` URL. Same pattern for Docs: 16 URLs, 2 native, 14 `.docx`. The design already reads the MIME type from Drive rather than the URL, so nothing changed — but trusting the URL would have sent 56 rows down the wrong export path | Files would be exported when they should be downloaded, and fail | — |
 
 ### AQ1 — Partner-org users and Drive access model ✅ Resolved
 
@@ -117,6 +124,63 @@ The `scripts/import-slides.sh` script in the wordpress repo orchestrates steps 2
 3. If `cbf_si_drive_folder_id` is empty, the entire plugin UI shows an admin notice ("Configure the shared Drive folder ID to enable the importer") and disables the Picker.
 4. If the user's Google account cannot access the folder (Google returns a `403`), the UI shows: "Your Google account does not have access to the shared course materials folder. Ask a CBF administrator to share it with [user's Google email]."
 
+### AQ2 — What does `heading` mean on a `type=topic` row? ✅ Resolved — AQ2-a
+
+LearnDash section headings group **lessons at course top level** (A11). A topic sits under a lesson, so a heading cannot apply to it directly.
+
+| Option | Behaviour | Consequence |
+|---|---|---|
+| **AQ2-a** | Ignore `heading` on topic rows | Simplest. The column is only read for `type=session` rows |
+| **AQ2-b** | Treat it as the heading of the topic's *parent session*, and use it to place that session if the parent is also being created in the same CSV | Lets one CSV build a whole course; ordering becomes dependent on row order |
+| **AQ2-c** | Reject topic rows that carry a heading as invalid | Strictest; surfaces authoring mistakes but rejects harmless data |
+
+**Resolved: AQ2-a.** `heading` is read only on `type=session` rows. A populated `heading` on a topic row is ignored, and the pre-flight report shows it as an ignored-value notice rather than an error.
+
+### AQ3 — What is `session_id` for on a `type=session` row? ✅ Resolved — AQ3-c
+
+On a `type=topic` row its meaning is clear: the existing session the topic is nested under. On a `type=session` row it is ambiguous.
+
+| Option | Behaviour |
+|---|---|
+| **AQ3-a** | Expected to be empty; a value is a validation error |
+| **AQ3-b** | Identifies an **existing** session to update in place — effectively a per-row overwrite target, independent of the batch-level Overwrite toggle |
+| **AQ3-c** | Ignored entirely |
+
+**Resolved: AQ3-c.** `session_id` is ignored entirely on `type=session` rows — not an error, simply unread. `LearnDashImporter` needs no update-by-ID path, and session overwrite continues to work by title match under the batch-level Overwrite toggle.
+
+**Consequence — topics can only reference sessions that already exist.** Because a session row never reports an ID back into the CSV, a topic cannot reference a session created by the same batch. Migration therefore runs in two passes:
+
+1. Upload a CSV of `type=session` rows. The report gives each created session's post ID.
+2. Fill those IDs into the `session_id` column of a second CSV of `type=topic` rows, and upload that.
+
+Sessions already live in LearnDash need only the second pass. This is a workflow constraint of AQ3-c rather than a defect, but it must be documented in the README (P8.16) or editors will hit it on their first attempt.
+
+### AQ4 — Where in a section should a newly created session be placed? ✅ Resolved — AQ4-a
+
+Section membership is positional (A10): a lesson belongs to the nearest preceding heading in the course's lesson order. So creating a session "under" a heading means placing it at a specific index.
+
+| Option | Behaviour |
+|---|---|
+| **AQ4-a** | Append to the end of the named section, preserving CSV row order within it |
+| **AQ4-b** | Append to the end of the course, then move the heading — simplest but reorders existing content |
+| **AQ4-c** | Honour an explicit `order` column added to the CSV |
+
+**Resolved: AQ4-a.** New sessions are appended to the end of the named section in CSV row order. No CSV change needed.
+
+### AQ5 — Should `type` accept LearnDash's custom labels? ✅ Resolved — accept synonyms
+
+CBF renames LearnDash's "Lesson" to "Session" via custom labels, which the admin UI already honours. The CSV uses `session`/`topic`.
+
+**Resolved: accept synonyms.** `session` and `lesson` both mean the lesson post type; `topic` means topics. Matching is case-insensitive and whitespace-trimmed. Anything else is a row-level validation error naming the accepted values.
+
+### AQ6 — Is a per-row preview required before content is created? ✅ Resolved — two-stage batch flow
+
+The single-file flow requires the editor to review rendered output before anything is written (NR4). A CSV of 40 rows makes that impractical.
+
+**Resolved: two-stage batch flow.** The production CSV is expected to be roughly 120 rows, which settles it — per-row preview is not workable at that size. A pre-flight validation report (rows parsed, URLs resolved, sessions and headings located, unsupported sources and duplicates flagged) must be confirmed before any job runs. Preview remains available on any individual job afterwards, since each row is still an ordinary job.
+
+---
+
 ---
 
 ## Goals and Non-Goals
@@ -132,11 +196,12 @@ The `scripts/import-slides.sh` script in the wordpress repo orchestrates steps 2
 
 ### Non-Goals
 - **NG1** Real-time Google Slides API sync (two-way or webhook-triggered); the feature is import-only on demand.
-- **NG2** Processing non-Google-Slides source files (PDFs, PowerPoint from other sources) in v1 — PPTX upload from local machine is a stretch goal for v2.
-- **NG3** Automated course structure management (creating new courses, reordering lessons) — only lesson/topic creation.
+- **NG2** ~~Processing non-Google-Slides source files~~ — **superseded**: PPTX, PDF and DOCX are supported, from Drive or local upload.
+- **NG3** Creating courses. Course structure is otherwise **partly in scope as of Phase 8**: creating section headings and ordering created lessons beneath them is required by bulk migration. Reordering content the importer did not create remains out of scope.
 - **NG4** Translation or multilingual support.
 - **NG5** Public-facing UI; this is admin-only.
 - **NG6** Replacing or modifying the existing `learndash-bulk-lessons-or-topics` plugin.
+- **NG7** Editing or re-syncing content after import. A corrected CSV can be re-run — already-imported rows are skipped — but the plugin never reconciles changes made in Drive against posts it created earlier.
 
 ---
 
@@ -170,6 +235,18 @@ The `scripts/import-slides.sh` script in the wordpress repo orchestrates steps 2
 | R13 | CBF shared Drive folder ID changes (e.g. folder reorganisation); all users get 403 until admin updates the plugin setting | Low | Medium | Admin | Admin-only settings screen displays the current folder ID; plugin health check (`GET /cbf-si/v1/health`) verifies the folder is accessible using the first available user token |
 | R10 | Existing tests (`test_columns_layout.py`) depend on `demo.pptx` which is not committed — CI gap | Medium | Low | Developer | Flag as existing risk; add `demo.pptx` to test fixtures or skip in CI with clear explanation (see Validation Plan) |
 | R11 | The `cbf-multisite` build pipeline (webpack) may conflict with the new plugin's assets if co-located | Low | Low | Developer | New plugin has its own build pipeline; assets are completely independent |
+| R14 | **Concurrent writes to `course_sections` lose headings.** Section headings live in one JSON post-meta value on the course. If several bulk jobs each read-modify-write it, later writes silently discard earlier ones | High (if headings are created per-job) | High | Developer | Resolve and create **all** headings once, synchronously, during batch creation — before any job is scheduled. Jobs then only read heading positions, never write them. This is the single most important design constraint in Phase 8 |
+| R15 | **Concurrent lesson ordering corrupts section membership.** A lesson's section is decided by its index in the course's lesson order; parallel job completion interleaves `menu_order` unpredictably | High | High | Developer | Run batch jobs **strictly sequentially** (one in flight per batch), and apply a single reorder pass at batch end that places every created lesson under its intended heading |
+| R16 | Drive files referenced by CSV live in other folders or workspaces and are not readable by the importing user | Medium | Medium | Developer/Ops | Validate every URL during pre-flight with a metadata call and report unreachable rows before any import runs; per-row failure never aborts the batch. Add `supportsAllDrives=true` to the API export and metadata calls, which currently only the media-download path sets |
+| R17 | A large batch exhausts Drive API quota (429) or the PHP time limit | Medium | Medium | Developer | Sequential execution with a short delay between jobs; existing 429 retry with backoff; batch resumes from the first unfinished row after a stale-job reset |
+| R18 | A malformed or hostile CSV (huge row count, injected formulae, path-like titles) is uploaded | Low | Medium | Developer | Cap row count; validate every column against an allow-list; `sanitize_text_field` all values; never interpolate CSV values into SQL or shell; treat the file as untrusted input exactly as document content is |
+| R20 | A large minority of CSV rows point at sources that cannot become lesson content — Google Forms, GitHub repositories, external courses, empty cells. Measured at ~17% of the draft curriculum sheet | High (confirmed present) | Medium | Developer | Detect at pre-flight from the URL's path segment and the Drive MIME type; report each with a specific reason ("Google Forms cannot be imported — this row is a quiz") rather than a generic failure. Never queue a job for one |
+| R21 | Editors expect one CSV to build sessions and their topics in a single pass, but AQ3-c means a topic can only reference a session that already exists | Medium | Medium | Developer | Document the two-pass workflow prominently; have the pre-flight report name the offending rows when a `session_id` cannot be resolved, rather than failing them at import time |
+| R19 | Partial batch outcome is misread as total success or total failure | Medium | Medium | Developer | Report presents per-row outcomes with explicit counts (created / updated / skipped / failed) and remains available after completion; batch status is `completed_with_errors` rather than `done` when any row failed |
+| R22 | **A stale course step tree written back detaches lessons the batch just created.** Found during P8.6: the steps model is cached per request, so a tree read before the batch ran silently drops everything created since | High (hit in testing) | High — silent content loss | Developer | Reload the model with `course_steps( $id, true )` before writing; `tree_is_complete()` refuses any write whose tree is missing lessons the batch created, logging the skip instead. Never delete `ld_course_steps` to force a rebuild — it drops headings and topic nesting |
+| R23 | **A batch job loses its course association.** Found during P8.9: `JobRunner` reloaded config from the configs table, which is empty for batch jobs, overwriting the config carried on the job summary | High (hit in testing) | High — lessons created outside any course | Developer | `JobRunner::resolve_config()` falls back to the summary config when `config_id` is `NULL`. Covered by the end-to-end batch check |
+| R25 | **The Drive API client cannot build a transport in this environment.** google/apiclient 2.19 accepts Guzzle 6 or 7 only; Bedrock's root vendor ships **Guzzle 8.0.2** (since 2026-07-30) and wins the autoloader race against the copy bundled with the plugin, so every call through `DriveService` throws `LogicException: Could not find supported version of Guzzle` before reaching the network | High — was live, undetected | High — bulk pre-flight could resolve no file at all | Developer | Read metadata over `wp_remote_get` with the Bearer token instead of the API client, mirroring the fallback the export path already had. This was invisible until bulk because the single-file flow gets its MIME type from the Drive Picker and the export path silently falls back — so only the metadata call, which bulk depends on entirely, had no escape route |
+| R24 | **A row reset to `pending` never runs again.** Found during P8.8: the Janitor cleared the in-flight state without scheduling a cron event, so a stalled batch stayed stalled | Medium | Medium | Developer | `Janitor::requeue()` reschedules the cron event alongside the status reset |
 
 ---
 
@@ -694,6 +771,205 @@ Documented in plugin's admin Help tab:
 
 ---
 
+## Bulk Migration (CSV) — Phase 8 Design
+
+<a name="bulk-migration"></a>
+
+**Status: implemented** (P8.2–P8.16). AQ2–AQ6 resolved; the design below is as built, with the P8.6 findings folded in. Integration coverage of the LearnDash-dependent modules still waits on the P7.2 suite.
+
+Migrating an existing course one file at a time does not scale: each deck needs a picker selection, a configuration pass and a preview confirmation. Bulk migration replaces that with a single CSV describing every piece of content and where it belongs.
+
+### CSV contract
+
+| Column | Required | Meaning | Validation |
+|---|---|---|---|
+| `heading` | Session rows only | LearnDash section heading the created session belongs under; created if absent from the course | Trimmed; matched case-insensitively against existing headings. **Ignored on topic rows** (AQ2-a) — reported as a notice, not an error |
+| `session_id` | Topic rows only | The existing session the topic nests under | Must be a lesson-type post belonging to the selected course. **Ignored on session rows** (AQ3-c) |
+| `type` | Required | `session` or `topic` | Case-insensitive, trimmed; `lesson` accepted as a synonym for `session` (AQ5) |
+| `title` | Required | Title of the created session or topic | Non-empty after sanitisation; length capped to the `post_title` column |
+| `url` | Required | Google Drive URL of the source document | Must yield a file ID and resolve to a supported MIME type |
+
+Course and Overwrite are **not** CSV columns — they are chosen once in the configuration panel and apply to the whole batch, exactly as the brief specifies.
+
+Header row is required. Column order is not significant; unknown columns are ignored with a notice. Values are treated as untrusted input (R18).
+
+**Drive URL forms to accept:**
+
+```text
+Accepted — all observed in the real material:
+  https://docs.google.com/presentation/d/FILE_ID/edit#slide=id.p     -> export to PPTX
+  https://docs.google.com/document/d/FILE_ID/edit?usp=sharing        -> export to DOCX
+  https://drive.google.com/file/d/FILE_ID/view?usp=sharing           -> download as-is
+  https://drive.google.com/open?id=FILE_ID                           -> download as-is
+  http://docs.google.com/...                                         -> scheme tolerated
+  FILE_ID                                                            -> bare ID, for hand-written rows
+
+Rejected at pre-flight, with a reason naming the type:
+  https://docs.google.com/forms/d/FILE_ID/edit         -> Google Form (12 rows; quizzes, out of scope)
+  https://docs.google.com/spreadsheets/d/FILE_ID/edit  -> Google Sheet
+  https://github.com/org/repo                          -> not a Drive URL
+  (empty)                                              -> no source given
+```
+
+Unsupported Drive types share the same `/d/ID` URL shape as supported ones — Google Forms are the largest group in the real material (R20) — so the parser keys on the path segment and rejects `forms` and `spreadsheets` explicitly rather than extracting an ID and failing later.
+
+The file's MIME type is then read from Drive metadata, not guessed from the URL — the existing `ParserFactory::format_for_mime()` then decides whether it is exported or downloaded as-is, so bulk inherits PPTX, PDF and DOCX support unchanged.
+
+### Source material — measured, not assumed (P8.1)
+
+The curriculum spreadsheet that the CSV will be derived from was inspected directly: `Data sponsorship 2026 | Proposed curriculum.xlsx`, 132 content rows across 9 Learning Journeys, with 126 hyperlinks in the "Link to Session Slides" column. Every figure below comes from that file.
+
+**What the sources actually are:**
+
+| Source | Rows | Importable |
+|---|---|---|
+| Google Slides (`docs.google.com/presentation/d/…`) | 74 | Yes — exported to PPTX |
+| Drive binary (`drive.google.com/file/d/…`) | 19 | Only if the MIME type is PPTX, PDF or DOCX — unknown until the metadata call |
+| Google Docs (`docs.google.com/document/d/…`) | 16 | Yes — exported to DOCX |
+| **Google Forms** (`docs.google.com/forms/d/…`) | **12** | **No** — all "Quiz / Skills Check" rows |
+| No link at all | 6 | No |
+| GitHub repositories | 3 | No |
+| Already live on the LMS | 1 | No |
+| External course (netacad.com) | 1 | No |
+
+**So roughly 109 of 132 rows are importable and 23 — about 17% — are not.** The exact figures will shift as the sheet is edited, but the proportion is unlikely to: a meaningful minority of rows point at things that are not documents. That is not an error condition to be fixed; it is the normal shape of the input. The pre-flight report is therefore the feature's main surface, not a formality: its job is to tell an editor which 17% need handling another way, before anything runs.
+
+The 12 Google Forms are the largest single group and are all quizzes. LearnDash quizzes are a different post type with their own question model, and importing them is **out of scope** (NG3) — they must be reported as an unsupported source with a clear reason, never silently skipped.
+
+**What this adds to URL parsing (P8.2):**
+
+- Query strings are present on most links and must be discarded when extracting the ID: `?usp=sharing` (22), `?slide=…` deep links (72), plus `tab`, `ouid`, `rtpof`, `sd`.
+- At least one link uses `http://`, not `https://`, so the scheme must be tolerated.
+- `docs.google.com/forms/d/ID` matches the same `/d/ID` shape as Slides and Docs, so the parser must key on the **path segment** (`presentation`, `document`, `forms`, `spreadsheets`) and not merely on finding an ID.
+- All 121 file IDs are distinct — no row reuses another's file, so nothing depends on de-duplicating identical sources.
+
+**Treat the row counts as indicative, not final.** The spreadsheet is still being edited and will be revised before the CSV is produced; the session and topic columns in particular are incomplete at the time of writing. What is stable enough to design against is the *distribution of source types* above — that reflects the material itself rather than the state of the sheet.
+
+**Still unverified:** whether the importing user's Google account can actually read all 121 files (A12, R16). URL shape says nothing about permissions, and testing it needs a real OAuth token against the live account. The pre-flight metadata call is what will answer it, per row, before any content is created — which is precisely why validation resolves every URL rather than trusting the CSV.
+
+### Data model
+
+A new table, plus two columns on the existing jobs table so every row is a first-class job with the status tracking, retry and cleanup behaviour already built:
+
+```sql
+CREATE TABLE {prefix}cbf_slide_import_batches (
+  id            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  blog_id       BIGINT UNSIGNED NOT NULL,
+  user_id       BIGINT UNSIGNED NOT NULL,
+  course_id     BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  overwrite     TINYINT(1)      NOT NULL DEFAULT 0,
+  csv_name      VARCHAR(500)    NOT NULL DEFAULT '',
+  row_count     INT UNSIGNED    NOT NULL DEFAULT 0,
+  status        ENUM('validating','awaiting_confirmation','running','done','completed_with_errors','failed','cancelled')
+                                NOT NULL DEFAULT 'validating',
+  plan          LONGTEXT            NULL DEFAULT NULL,  -- validated rows + resolved targets
+  report        LONGTEXT            NULL DEFAULT NULL,  -- per-row outcomes, written as jobs finish
+  error_message TEXT                NULL DEFAULT NULL,
+  created_at    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_blog_user (blog_id, user_id),
+  KEY idx_status (status)
+);
+
+ALTER TABLE {prefix}cbf_slide_import_jobs
+  ADD COLUMN batch_id  BIGINT UNSIGNED NULL DEFAULT NULL,
+  ADD COLUMN batch_row INT UNSIGNED    NULL DEFAULT NULL,
+  ADD KEY idx_batch (batch_id, batch_row);
+```
+
+`batch_id` being NULL is what distinguishes a single-file job from a bulk row, so every existing query keeps working untouched. `Install::DB_VERSION` moves to `1.1.0` and `create_tables()` gains the new table; `dbDelta()` adds the columns in place. Uninstall drops the batch table alongside the others.
+
+### Flow
+
+```text
+1. Upload      POST /batches            CSV + course_id + overwrite
+2. Validate    (synchronous)            parse CSV, resolve every URL, session and heading
+3. Report      GET  /batches/{id}       pre-flight table: row -> action, with errors and warnings
+4. Confirm     POST /batches/{id}/run   creates headings, then queues one job per valid row
+5. Execute     WP-Cron, sequential      each job: download -> parse -> import, no preview gate
+6. Report      GET  /batches/{id}/report  per-row outcomes; CSV download
+```
+
+Steps 1–3 write nothing to LearnDash. That pre-flight gate is what replaces the per-row preview (AQ6): the editor sees exactly what will be created, and which rows cannot be, before committing.
+
+### Section heading resolution
+
+Headings are created **once, synchronously, at step 4** — never inside a job (R14). For each distinct `heading` value in the batch:
+
+1. Read `course_sections` post meta for the selected course.
+2. Match case-insensitively on `post_title`; reuse the existing heading if found.
+3. Otherwise append a new entry `{ID, order, post_title, type: 'section-heading'}` and write the meta back once, for all new headings together.
+
+The write goes through `LDLMS_Course_Steps` where possible rather than touching post meta directly, so LearnDash's own caches are invalidated.
+
+✅ **Resolved (P8.6a): a section's `ID` is a millisecond Unix timestamp**, assigned client-side when the heading is created in the builder. Confirmed against a live course on Lando, whose oldest heading carries `"ID":1631808942506` — 16 September 2021, matching when that course was built. `SectionHeadings::next_id()` therefore uses `max(round(microtime(true) * 1000), highest_existing_id + 1)`, so several headings created inside the same millisecond still get distinct IDs and can never collide with an existing one.
+
+Because `order` is an index into the lesson list (A10), the final placement of created lessons is applied as **one reorder pass at the end of the batch** (R15), not per job: collect the created lesson IDs per heading, then rewrite the whole course order in a single sweep.
+
+**What that sweep has to write turned out to be the hardest part of Phase 8 (A14).** Shared course steps are enabled on this site, so LearnDash builds a course's lesson list from the step tree stored in `ld_course_steps` post meta, queried with `orderby: post__in`. Writing `menu_order` alone changes nothing an editor can see. `SectionHeadings::reorder_steps()` therefore writes both: `menu_order` on each lesson, and the tree itself via `LDLMS_Factory_Post::course_steps( $course_id )->set_steps_keeping_sections()`, which preserves the heading markers the same pass depends on.
+
+Two hazards found while building it, both now guarded:
+
+- **The steps model is cached per request.** A tree read before the batch created its lessons is stale, and writing it back silently detaches everything created since. The reorder pass reloads with `LDLMS_Factory_Post::course_steps( $course_id, true )`, and `tree_is_complete()` refuses to write a tree that is missing lessons this batch created — logging `Skipped reordering: the course step tree is missing lessons this batch created` rather than destroying them. A wrong order is recoverable by hand; a detached lesson is not.
+- **Deleting `ld_course_steps` to force a rebuild is destructive**, not a refresh: it drops section headings and any topic nesting LearnDash has not re-derived. All writes go through the `set_steps` API. Note that `set_steps()` takes the type map directly — wrapping it in another `'h'` key empties the course.
+
+`place_lessons()` detaches each lesson from its current position before reattaching it, because appending without detaching duplicates the entry in the tree.
+
+### Concurrency
+
+Jobs in a batch run **strictly sequentially** — one in flight at a time. Each job's completion schedules the next. This is slower than parallel execution and deliberately so: it is what makes lesson ordering deterministic (R15), keeps Drive well inside rate limits (R17), and bounds peak memory to a single parse. The production CSV is expected to be roughly 120 rows, of which ~109 are importable; at roughly 10–30 s per row that is a **20–55 minute run**. This is background work either way, but the duration has consequences worth designing for: the batch must survive WP-Cron ticks across that window, resume from the first unfinished row after a stale-job reset, and show live progress so an editor can tell a slow batch from a stalled one.
+
+The existing Janitor already resets jobs stuck in flight for 30 minutes, so a wedged batch resumes on the next tick rather than stalling permanently.
+
+### Failure handling
+
+Per-row failure never aborts the batch. NR4's revert-on-error is per job, so a failed row leaves the rows before it intact and published — an important difference from the single-file flow, and the reason the report matters. A row can fail at three points, each recorded distinctly:
+
+| Stage | Example | Outcome |
+|---|---|---|
+| Validation | Unparseable URL, unknown `type`, `session_id` not in this course | Row never queued; reported before confirmation |
+| Fetch | Drive 403/404 — file in another workspace (R16) | Job `failed`, row reported with the Drive error |
+| Import | Malformed document, LearnDash rejection | Job `failed`, any post it created reverted to draft |
+
+Rows already imported with the same file and configuration are reported as **skipped**, reusing the existing `config_hash` idempotency check — which currently surfaces as a 409 to be confirmed by hand and must become a non-blocking outcome in batch context.
+
+### Reporting
+
+The report is built incrementally as jobs finish, so it is useful while the batch is still running:
+
+| Column | Content |
+|---|---|
+| Row | CSV line number, for cross-reference against the source file |
+| Title | From the CSV |
+| Type | Session or topic, using LearnDash's custom labels |
+| Target | Heading and parent session the row resolved to |
+| Outcome | Created / Updated / Skipped / Failed |
+| Post | Link to the created post, where there is one |
+| Detail | Error message for failures, reason for skips |
+
+Downloadable as CSV so a partially failed batch can be corrected and re-uploaded — the skipped-duplicate check makes re-running a corrected file safe.
+
+### New modules
+
+```text
+includes/
+  Bulk/
+    CsvParser.php        # header mapping, row validation, untrusted-input handling
+    DriveUrl.php         # URL -> file ID for every accepted Drive URL form
+    BatchPlanner.php     # resolve rows against the course: headings, sessions, duplicates
+    BatchRunner.php      # sequential job scheduling; batch status transitions
+    SectionHeadings.php  # read/create course_sections; end-of-batch reorder pass
+    BatchReport.php      # per-row outcomes; CSV export
+  Api/
+    BatchController.php  # POST /batches, GET /batches/{id}, POST /batches/{id}/run,
+                         # GET /batches/{id}/report, POST /batches/{id}/cancel
+```
+
+`Bulk\DriveUrl` and `Bulk\CsvParser` are pure functions over strings, so they are unit-testable in the existing suite with no WordPress. `BatchPlanner` and `SectionHeadings` need `$wpdb` and LearnDash, so they belong to the P7.2 integration suite.
+
+---
+
 ## Test Framework
 
 <a name="test-framework"></a>
@@ -882,6 +1158,30 @@ Every plugin file ends its `ABSPATH` guard with `exit`. Codeception 5 does **not
 - [ ] **P7.9** Add the `Functional` suite for the REST surface: capability enforcement on every route, IDOR (user A cannot read user B's jobs), upload validation (extension, size, magic bytes), and the 409 idempotency conflict — currently only reachable by hand
 - [ ] **P7.10** Wire `composer test` into CI alongside the existing lint steps; publish the corpus test as an opt-in job with `CBF_SI_FIXTURE_DIR` pointed at a fixture store
 
+### Phase 8: Bulk CSV Migration
+
+**Complete**, apart from integration tests. Every task is implemented and verified end to end on Lando: a three-row CSV produced the correct course structure — a topic nested under an existing session, and two new sessions under a heading the batch created. P8.6a was settled empirically and changed the ordering design (see A14, R22). **A12 is now closed** — pre-flight over the real 132-row sheet resolved all 109 importable files with no permission failures, and in doing so exposed R25, a live Guzzle-version defect that had silently disabled the Drive metadata path.
+
+- [x] **P8.0** ✅ AQ2–AQ6 resolved with CBF: AQ2-a (ignore `heading` on topic rows), AQ3-c (ignore `session_id` on session rows), AQ4-a (append to end of section in row order), AQ5 (accept `session`/`lesson` synonyms), AQ6 (two-stage batch flow, confirmed by the ~120-row CSV size)
+- [x] **P8.1** ✅ Source material measured from the draft curriculum spreadsheet — see [Source material](#bulk-migration). 132 rows, 126 links: 74 Google Slides, 19 Drive binaries, 16 Google Docs, **12 Google Forms**, 6 with no link, 3 GitHub repos, 2 other external. **~17% of rows cannot become lesson content** (R20). All 121 file IDs distinct. Query strings and an `http://` link present, both of which the URL parser must handle. **A12 since closed** by the pre-flight run — see P8.17
+- [x] **P8.2** ✅ Implemented `Bulk/DriveUrl.php`: parse on the **path segment** (`presentation`, `document`, `forms`, `spreadsheets`, `file`, `open`) rather than on finding an ID, so Forms and Sheets are recognised and rejected rather than mistaken for importable files. Tolerate `http://`, discard query strings and fragments. Unit-tested against a table drawn from the real spreadsheet, including every unsupported form
+- [x] **P8.3** ✅ Implemented `Bulk/CsvParser.php`: header mapping, per-row validation against the column contract, row cap, sanitisation; `type` accepts `session`/`lesson`/`topic` case-insensitively (AQ5); a populated `heading` on a topic row is a notice, not an error (AQ2-a); `session_id` on a session row is ignored (AQ3-c). Returns typed rows plus per-row errors. Unit-tested including malformed, oversized and hostile input (R18)
+- [x] **P8.4** ✅ Schema: add `cbf_slide_import_batches`; add `batch_id` and `batch_row` to the jobs table via `dbDelta()`; bump `Install::DB_VERSION` to `1.1.0`; extend `uninstall.php`. Verify existing single-file jobs (`batch_id IS NULL`) are unaffected
+- [x] **P8.5** ✅ Implemented `Bulk/BatchPlanner.php`: resolve each row against the selected course — locate or plan headings, validate that a topic's `session_id` names a lesson in this course (R21), call Drive metadata for every URL, classify unsupported sources with a specific reason (R20), flag duplicates via the existing `config_hash`. Produces the plan stored on the batch. Writes nothing
+- [x] **P8.6a** ✅ **The `ID` is a millisecond Unix timestamp**, assigned client-side. Read from a live course whose oldest heading carries `"ID":1631808942506` (16 Sep 2021, when that course was built). `next_id()` uses `max(now_ms, highest + 1)` so same-millisecond creates stay distinct. The same probe surfaced the finding that mattered more — ordering is read from the `ld_course_steps` tree, not `menu_order` (A14, R22)
+- [x] **P8.6** ✅ Implemented `Bulk/SectionHeadings.php`: read `course_sections`, match case-insensitively, create missing headings in **one** write at batch start (R14); expose the end-of-batch reorder pass that places created lessons under their heading (R15, AQ4)
+- [x] **P8.7** ✅ Implemented `Api/BatchController.php`: `POST /batches` (multipart CSV + `course_id` + `overwrite`), `GET /batches/{id}`, `POST /batches/{id}/run`, `GET /batches/{id}/report`, `POST /batches/{id}/cancel`. Capability and ownership checks identical to `JobController`
+- [x] **P8.8** ✅ Implemented `Bulk/BatchRunner.php`: create one job per valid row carrying its own config (mode from `type`, `course_id`, `lesson_id` from `session_id`, `post_title` from `title`, file ID from `url`); schedule **sequentially**, each completion queueing the next; drive batch status transitions
+- [x] **P8.9** ✅ Added an auto-import path to `JobRunner`: a job with a `batch_id` proceeds from `parsed` straight to import without waiting for the manual trigger, and reports its outcome to the batch. The single-file preview gate is untouched
+- [x] **P8.10** ✅ Made the `config_hash` duplicate check non-blocking in batch context: a match becomes a **skipped** row outcome instead of a 409 the user must confirm
+- [x] **P8.11** ✅ Added `supportsAllDrives=true` to the Drive API metadata and export calls — only the media-download path sets it today, so shared-drive files fail on the export path (R16)
+- [x] **P8.12** ✅ Implemented `Bulk/BatchReport.php`: per-row outcomes written incrementally, counts by outcome, CSV download
+- [x] **P8.13** ✅ Built the bulk UI: CSV upload control alongside the existing single-file actions; configuration panel showing **only** course selector and overwrite toggle; pre-flight validation table with per-row errors and a confirm action; live progress; report view with CSV download. Uses LearnDash custom labels throughout
+- [x] **P8.14** ✅ Batch cancellation: stop scheduling further rows, leave completed rows in place, mark the batch `cancelled`, and make clear in the report what was and was not created
+- [~] **P8.15** Unit tests **done** — `DriveUrl` (25), `CsvParser` (33) and `BatchReport` (10), URL shapes taken from the real spreadsheet with synthetic IDs; suite now `226 tests, 644 assertions`. Integration tests **outstanding**, blocked on the P7.2 suite: heading creation and reuse, sequential ordering, duplicate skip, partial-failure reporting, and a full small-batch run against fixtures. All of these were exercised by hand on Lando in the meantime
+- [x] **P8.17** ✅ **Pre-flight run against the real material, closing A12.** All 132 rows of the draft curriculum sheet, with the migrating account's live token: **109 ready, 0 unreachable**; the 23 failures are all source-type rejections (12 Forms, 6 blank, 5 non-Drive), exactly as P8.1 predicted. 8 section headings planned. Resolved MIME types: 42 `.pptx`, 32 native Slides, 19 PDF, 14 `.docx`, 2 native Docs — disproving A15 and confirming the PDF/DOCX support added in v2.3.0 covers **75 of the 109 rows**. The run surfaced R25 and was only completable after fixing it
+- [x] **P8.16** ✅ Documentation: README section on the CSV format with a worked example and a downloadable template; **the two-pass session-then-topic workflow required by AQ3-c (R21)**; the list of source types that cannot be imported and what to do with them instead (R20); troubleshooting entries for the common row failures
+
 ---
 
 ## Validation Plan
@@ -910,6 +1210,22 @@ Run with `composer test:unit` from the plugin directory, or `lando codecept run 
 - [ ] `OAuthClient`: CSRF state validation; expired token triggers refresh; revoke calls the correct endpoint — **deferred to P7.2**, needs WordPress and HTTP mocking
 - [ ] `ConfigController`: upsert; config_hash computed correctly; duplicate insert updates rather than errors — **deferred to P7.2**, needs `$wpdb`
 - [ ] `LearnDashImporter`: WP_Error from learndash-bulk sets job to failed; duplicate dispatch exits early — **deferred to P7.2**, needs the LearnDash plugin
+
+### Bulk migration tests (Phase 8)
+
+- [x] **Live pre-flight** over the real curriculum sheet (132 rows, migrating account's own token): 109 ready, 0 unreachable, 8 headings planned, MIME resolved for every ready row — writes nothing to LearnDash
+- [x] `DriveUrl`: every accepted URL form yields the right file ID; malformed and non-Drive URLs are rejected rather than guessed at; Forms and Sheets rejected by path segment despite sharing the `/d/ID/` shape
+- [x] `CsvParser`: missing header, unknown `type`, empty `title`, absent `url`, unknown columns, row cap exceeded, values containing quotes, commas, newlines and leading `=` — each reported per-row without aborting the parse
+The remaining bulk checks need WordPress and LearnDash, so they belong to the P7.2 integration suite. Each was verified by hand on Lando during P8.6–P8.14; none is covered by an automated test yet.
+
+- [ ] `BatchPlanner`: `session_id` belonging to a different course is rejected; an unreachable Drive URL is reported at pre-flight, not at import; a row matching a prior import is marked skipped
+- [ ] `SectionHeadings`: an existing heading is reused, not duplicated; matching ignores case; several new headings are created in one write; **a concurrent write does not lose headings** (R14 — the regression this design exists to prevent)
+- [ ] Ordering: sessions created under a heading land under that heading in the course builder, in CSV row order (R15, AQ4)
+- [ ] Sequencing: only one job per batch is ever in flight
+- [ ] Partial failure: a batch where row 3 fails still creates rows 1, 2 and 4; the failed row's post is reverted to draft and the others are not; batch status is `completed_with_errors`
+- [ ] Cancellation: cancelling mid-batch stops further rows and leaves completed rows intact
+- [x] Report: counts match the per-row outcomes; CSV download parses cleanly and defuses leading `=+-@`; re-uploading the corrected CSV skips the rows already done
+- [ ] Isolation: a batch job carries `batch_id`; single-file jobs still work unchanged and are excluded from batch queries
 
 ### Corpus regression (opt-in)
 - [x] `CorpusTest` parses every supported document in `CBF_SI_FIXTURE_DIR` and asserts no errors, no PHP diagnostics, non-empty output and escaped text. Verified against the 30+ real CBF decks in `tools/slides-to-learndash/assets` — 156 assertions, ~53 s. Skipped when the variable is unset, mirroring the Python suite's `demo.pptx` convention (R10)
@@ -972,6 +1288,8 @@ The feature is done when **all** of the following are true:
 9. Plugin README documents setup steps; non-technical user guide is present.
 10. All Phase 0 verifications (P0.1–P0.6) are documented with actual results.
 11. `composer test` passes, covering all three source formats, and runs in CI.
+12. An editor can migrate a course from a single CSV: upload, review the pre-flight report, confirm, and receive a per-row outcome report — with sessions placed under the right section headings and topics under the right sessions.
+13. A batch with failing rows completes the rows it can, reports each failure with an actionable reason, and leaves no partially created content behind.
 
 ---
 

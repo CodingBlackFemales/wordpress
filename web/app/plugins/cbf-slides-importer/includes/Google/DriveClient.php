@@ -142,6 +142,39 @@ final class DriveClient {
 
 
 	/**
+	 * Describe a Drive file without downloading it.
+	 *
+	 * Used by bulk pre-flight to establish, before anything is created, that
+	 * every referenced file exists, is readable by this user and is a format
+	 * the importer understands. Errors are phrased for an editor reading a
+	 * validation report, not for a log.
+	 *
+	 * @param  string $file_id Google Drive file ID.
+	 * @param  int    $user_id WP user ID whose credentials to use.
+	 * @return array{id: string, name: string, mime_type: string}|WP_Error
+	 */
+	public static function describe( string $file_id, int $user_id ): array|WP_Error {
+		$file = self::fetch_metadata( $file_id, $user_id );
+		if ( is_wp_error( $file ) ) {
+			return $file;
+		}
+
+		if ( ! empty( $file['trashed'] ) ) {
+			return new WP_Error(
+				'cbf_si_drive_trashed',
+				__( 'This Drive file is in the bin.', 'cbf-slides-importer' )
+			);
+		}
+
+		return array(
+			'id'        => (string) ( $file['id'] ?? $file_id ),
+			'name'      => (string) ( $file['name'] ?? '' ),
+			'mime_type' => (string) ( $file['mimeType'] ?? '' ),
+		);
+	}
+
+
+	/**
 	 * Read a Drive file's metadata over HTTP.
 	 *
 	 * Deliberately not `DriveService::files->get()`. google/apiclient 2.x accepts

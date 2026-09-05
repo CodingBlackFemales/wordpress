@@ -35,7 +35,7 @@ final class Install {
 	/**
 	 * Current DB schema version.
 	 */
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '1.1.0';
 
 	/**
 	 * wp_options key for the encrypted Google OAuth client secret.
@@ -58,6 +58,7 @@ final class Install {
 	 * Creates custom tables, adds capabilities, stores DB version.
 	 */
 	public static function install(): void {
+		self::log_schema_upgrade();
 		self::create_tables();
 		self::add_capabilities();
 		update_option( self::DB_VERSION_OPTION, self::DB_VERSION );
@@ -68,6 +69,29 @@ final class Install {
 		}
 
 		do_action( 'cbf_si_installed' );
+	}
+
+
+	/**
+	 * Record that a schema upgrade is about to happen.
+	 *
+	 * The upgrade itself is dbDelta()'s doing — it adds the batch columns to an
+	 * existing jobs table in place, so a site coming from 1.0.0 keeps its job
+	 * history. This only leaves a trace in the log, which is the one thing
+	 * dbDelta will not do for you when a migration misbehaves.
+	 */
+	private static function log_schema_upgrade(): void {
+		$installed = (string) get_option( self::DB_VERSION_OPTION, '' );
+
+		if ( $installed !== '' && version_compare( $installed, self::DB_VERSION, '<' ) ) {
+			Utils::log(
+				'Upgrading plugin schema.',
+				array(
+					'from' => $installed,
+					'to'   => self::DB_VERSION,
+				)
+			);
+		}
 	}
 
 
@@ -97,6 +121,7 @@ final class Install {
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'cbf_slide_import_configs' );
 		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'cbf_slide_import_jobs' );
+		$wpdb->query( 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'cbf_slide_import_batches' );
 		// phpcs:enable
 
 		// Remove all plugin options.
@@ -117,8 +142,12 @@ final class Install {
 	 *
 	 * Tables use the site's table prefix and utf8mb4 charset.
 	 *
-	 * cbf_slide_import_configs: one row per (user, deck) configuration.
-	 * cbf_slide_import_jobs:    one row per import job, tracks lifecycle.
+	 * cbf_slide_import_configs:  one row per (user, deck) configuration.
+	 * cbf_slide_import_jobs:     one row per import job, tracks lifecycle.
+	 * cbf_slide_import_batches:  one row per bulk CSV migration.
+	 *
+	 * A job belonging to a batch carries a non-null `batch_id`; single-file jobs
+	 * leave it null, which is what keeps every pre-existing query correct.
 	 */
 	private static function create_tables(): void {
 		global $wpdb;
@@ -164,14 +193,39 @@ CREATE TABLE {$prefix}cbf_slide_import_jobs (
   created_at       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
+  batch_id         BIGINT UNSIGNED     NULL DEFAULT NULL,
+  batch_row        INT UNSIGNED        NULL DEFAULT NULL,
   KEY idx_blog_status (blog_id, status),
   KEY idx_user_id (user_id),
-  KEY idx_config_id (config_id)
+  KEY idx_config_id (config_id),
+  KEY idx_batch (batch_id, batch_row)
+) $charset;
+";
+
+		$batches_table = "
+CREATE TABLE {$prefix}cbf_slide_import_batches (
+  id            BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  blog_id       BIGINT UNSIGNED NOT NULL,
+  user_id       BIGINT UNSIGNED NOT NULL,
+  course_id     BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  overwrite     TINYINT(1)      NOT NULL DEFAULT 0,
+  csv_name      VARCHAR(500)    NOT NULL DEFAULT '',
+  row_count     INT UNSIGNED    NOT NULL DEFAULT 0,
+  status        ENUM('validating','awaiting_confirmation','running','done','completed_with_errors','failed','cancelled') NOT NULL DEFAULT 'validating',
+  plan          LONGTEXT            NULL DEFAULT NULL,
+  report        LONGTEXT            NULL DEFAULT NULL,
+  error_message TEXT                NULL DEFAULT NULL,
+  created_at    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_blog_user (blog_id, user_id),
+  KEY idx_status (status)
 ) $charset;
 ";
 
 		dbDelta( $configs_table );
 		dbDelta( $jobs_table );
+		dbDelta( $batches_table );
 	}
 
 

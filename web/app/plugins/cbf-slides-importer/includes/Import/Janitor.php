@@ -127,8 +127,41 @@ final class Janitor {
 				array( '%s', '%s' ),
 				array( '%d' )
 			);
+			self::requeue( (int) $id );
 			Utils::log( 'Stale job reset to pending.', array( 'job_id' => (int) $id ) );
 		}
+	}
+
+
+	/**
+	 * Schedule a reset job to run again.
+	 *
+	 * Returning a job to `pending` only describes an intention; without a cron
+	 * event nothing acts on it, and the job sits there indefinitely. That is
+	 * merely slow for a single-file import, but it stalls a bulk batch outright,
+	 * because the batch waits for each row before queueing the next.
+	 *
+	 * @param int $job_id Job ID.
+	 */
+	private static function requeue( int $job_id ): void {
+		global $wpdb;
+		$table = $wpdb->prefix . 'cbf_slide_import_jobs';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$blog_id = (int) $wpdb->get_var(
+			$wpdb->prepare( "SELECT blog_id FROM {$table} WHERE id = %d", $job_id ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		);
+
+		$payload = array(
+			'job_id'  => $job_id,
+			'blog_id' => $blog_id,
+		);
+
+		if ( wp_next_scheduled( JobRunner::CRON_HOOK, array( $payload ) ) ) {
+			return;
+		}
+
+		wp_schedule_single_event( time(), JobRunner::CRON_HOOK, array( $payload ) );
 	}
 
 
