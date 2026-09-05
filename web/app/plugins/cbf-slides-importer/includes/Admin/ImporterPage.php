@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Importer admin page class.
  *
- * Registered under LearnDash menu → "Import Slides".
+ * Registered under LearnDash menu → "Import Documents".
  * Capability: cbf_slides_import.
  */
 final class ImporterPage {
@@ -43,8 +43,8 @@ final class ImporterPage {
 	public static function register_menu(): void {
 		add_submenu_page(
 			'learndash-lms',
-			esc_html__( 'Import Slides', 'cbf-slides-importer' ),
-			esc_html__( 'Import Slides', 'cbf-slides-importer' ),
+			esc_html__( 'Import Documents', 'cbf-slides-importer' ),
+			esc_html__( 'Import Documents', 'cbf-slides-importer' ),
 			'cbf_slides_import',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render' )
@@ -71,12 +71,12 @@ final class ImporterPage {
 		$revoke_url = rest_url( 'cbf-si/v1/auth/revoke' );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Import Slides to LearnDash', 'cbf-slides-importer' ); ?></h1>
+			<h1><?php esc_html_e( 'Import Documents to LearnDash', 'cbf-slides-importer' ); ?></h1>
 
 			<?php if ( ! $is_authed ) : ?>
 				<div class="notice notice-warning">
 					<p>
-						<?php esc_html_e( 'You need to authorise Google Drive access before you can import slides.', 'cbf-slides-importer' ); ?>
+						<?php esc_html_e( 'You need to authorise Google Drive access before you can import from Drive.', 'cbf-slides-importer' ); ?>
 						<a href="<?php echo esc_url( $auth_url ); ?>" class="button button-primary" style="margin-left:8px;">
 							<?php esc_html_e( 'Connect Google Drive', 'cbf-slides-importer' ); ?>
 						</a>
