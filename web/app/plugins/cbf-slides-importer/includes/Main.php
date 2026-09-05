@@ -29,7 +29,7 @@ final class Main {
 	 * Minimum required versions.
 	 */
 	const PLUGIN_REQUIREMENTS = array(
-		'php_version' => '8.1',
+		'php_version' => '8.5',
 		'wp_version'  => '6.0',
 	);
 
