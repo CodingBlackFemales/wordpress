@@ -1,0 +1,16 @@
+namespace: CodingBlackFemales\SlidesImporter\Tests
+support_namespace: Support
+paths:
+  tests: tests
+  output: tests/_output
+  data: tests/_data
+  support: tests/Support
+settings:
+  # Codeception 5 does not load tests/_bootstrap.php implicitly, and without it
+  # ABSPATH is undefined — every plugin file then hits its `exit` guard and the
+  # run dies silently with no PHP error.
+  bootstrap: _bootstrap.php
+  shuffle: false
+  colors: true
+params:
+  - env

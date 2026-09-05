@@ -6,7 +6,7 @@ This is the browser-based counterpart to [`tools/slides-to-learndash`](../../../
 
 ## Requirements
 
-- PHP 8.1+, WordPress 6.0+
+- PHP 8.5+, WordPress 6.0+
 - [LearnDash Bulk Lessons or Topics](https://github.com/serenichron/learndash-bulk-lessons-or-topics) active — this plugin builds the rows and delegates post creation to it
 - A Google Cloud project with the Drive API enabled, for the Drive picker
 - `CBF_SI_ENCRYPTION_KEY` set in the environment (see [Setup](#setup))
@@ -182,9 +182,31 @@ Nothing else needs to change. The REST layer, job runner, preview and importer a
 
 ```bash
 composer install
+composer test      # Codeception suite
+composer test:unit # unit suite only
 composer phpcs     # WordPress coding standards
 composer phpcbf    # fix what can be fixed automatically
 ```
+
+`lando codecept run` works from anywhere in the project.
+
+### Tests
+
+The `Unit` suite runs without WordPress: the parsing code touches only a handful of WordPress helpers, and those are stubbed in `tests/Support/wordpress-stubs.php`. Anything needing real WordPress behaviour — the REST controllers, `$wpdb` access, the LearnDash handoff — belongs in the integration suite rather than a larger stub.
+
+Three small synthetic fixtures under `tests/_data/bin/` exercise the parsers; regenerate them with `php tests/_data/build-fixtures.php`.
+
+Real decks are too large to commit, so the corpus test is opt-in. Drop documents into `tests/assets/` — gitignored, and the default location — or point `CBF_SI_FIXTURE_DIR` somewhere else:
+
+| Where           | Example                                  | Notes                                            |
+| --------------- | ---------------------------------------- | ------------------------------------------------ |
+| `tests/assets/` | —                                        | the default; nothing to configure                |
+| `.env`          | `CBF_SI_FIXTURE_DIR=tests/assets`        | copy `.env.example`; relative to the plugin root |
+| Environment     | `CBF_SI_FIXTURE_DIR=/path composer test` | overrides `.env`, for one-off runs               |
+
+That test asserts only what must hold for any input — no errors, no PHP diagnostics, escaped output — and skips when no corpus is found.
+
+Two things to know if you add a suite. Codeception needs `register_argc_argv=On`, which the shared Lando `php.ini` turns off, so every entry point overrides it per-invocation. And Codeception 5 does not load `tests/_bootstrap.php` implicitly: without a bootstrap defining `ABSPATH`, the first plugin class autoloaded hits its `exit` guard and the run dies with no error and exit code 125.
 
 The repository's [`phpcs.xml`](../../../../phpcs.xml) caps cyclomatic complexity at 6 and nesting at 3, which is why the parsers are built from many small methods.
 

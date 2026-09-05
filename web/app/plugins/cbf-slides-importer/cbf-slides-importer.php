@@ -23,7 +23,7 @@
  * Text Domain: cbf-slides-importer
  * Domain Path: /i18n/languages
  * Requires at least: 6.0
- * Requires PHP: 8.1
+ * Requires PHP: 8.5
  * Network: false
  */
 
