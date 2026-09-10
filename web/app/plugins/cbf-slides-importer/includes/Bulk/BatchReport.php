@@ -34,6 +34,15 @@ final class BatchReport {
 	/** An existing post was updated, because Overwrite was on. */
 	const OUTCOME_UPDATED = 'updated';
 
+	/**
+	 * An existing post was added to this course rather than duplicated.
+	 *
+	 * With shared course steps enabled a lesson can belong to several courses,
+	 * so a title already in use elsewhere is content to reuse, not a collision
+	 * to refuse. Distinct from `updated`, which rewrites what is there.
+	 */
+	const OUTCOME_REUSED = 'reused';
+
 	/** Nothing done: already imported, or a matching post exists and Overwrite is off. */
 	const OUTCOME_SKIPPED = 'skipped';
 
@@ -47,6 +56,7 @@ final class BatchReport {
 	const OUTCOMES = array(
 		self::OUTCOME_CREATED,
 		self::OUTCOME_UPDATED,
+		self::OUTCOME_REUSED,
 		self::OUTCOME_SKIPPED,
 		self::OUTCOME_FAILED,
 		self::OUTCOME_REJECTED,

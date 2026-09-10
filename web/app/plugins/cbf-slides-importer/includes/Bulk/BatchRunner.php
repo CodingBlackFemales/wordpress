@@ -387,7 +387,13 @@ final class BatchRunner {
 		$placements = array();
 
 		foreach ( $report as $entry ) {
-			$created = in_array( $entry['outcome'], array( BatchReport::OUTCOME_CREATED, BatchReport::OUTCOME_UPDATED ), true );
+			// A reused row belongs in the course exactly as a created one does:
+			// with shared steps, placing it is what attaches it.
+			$created = in_array(
+				$entry['outcome'],
+				array( BatchReport::OUTCOME_CREATED, BatchReport::OUTCOME_UPDATED, BatchReport::OUTCOME_REUSED ),
+				true
+			);
 
 			if ( ! $created || $entry['type'] !== CsvParser::TYPE_SESSION || (int) $entry['post_id'] === 0 ) {
 				continue;
