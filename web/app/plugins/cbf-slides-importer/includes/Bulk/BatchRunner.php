@@ -155,10 +155,19 @@ final class BatchRunner {
 			return;
 		}
 
-		BatchRepository::update(
-			$batch_id,
-			array( 'report' => BatchReport::record( $report, $line, $outcome, $extra ) )
-		);
+		$report = BatchReport::record( $report, $line, $outcome, $extra );
+
+		BatchRepository::update( $batch_id, array( 'report' => $report ) );
+
+		// Position what exists so far before starting the next row. Doing this
+		// once at the end left the course builder scrambled for the length of a
+		// run — headings created against an empty course sit at indices 0..n,
+		// so every lesson lands under the wrong one until the pass runs — and a
+		// batch that was cancelled or abandoned never ran it at all. Rows are
+		// sequential, so there is no interleaving to guard against; the pass is
+		// idempotent, and re-running it per row simply keeps the course correct
+		// at every point a person might look at it.
+		SectionHeadings::place_lessons( (int) $batch['course_id'], self::placements( $batch, $report ) );
 
 		self::advance( $batch_id );
 	}
@@ -211,6 +220,10 @@ final class BatchRunner {
 				'report' => $report,
 			)
 		);
+
+		// Leave the course tidy. Rows are placed as they finish, but a row that
+		// was mid-flight when the cancel landed may still report afterwards.
+		SectionHeadings::place_lessons( (int) $batch['course_id'], self::placements( $batch, $report ) );
 
 		Utils::log( 'Bulk batch cancelled.', array( 'batch_id' => $batch_id ) );
 
@@ -337,6 +350,9 @@ final class BatchRunner {
 	private static function finish( array $batch, array $report ): void {
 		$batch_id = (int) $batch['id'];
 
+		// complete_row() has already placed every row as it finished; this final
+		// pass costs one more write and covers a batch whose last row never
+		// reported, so the course is never left half-ordered.
 		SectionHeadings::place_lessons( (int) $batch['course_id'], self::placements( $batch, $report ) );
 
 		$status = BatchReport::has_problems( $report )
