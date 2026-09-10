@@ -71,7 +71,8 @@ final class ImporterPage {
 		$revoke_url = rest_url( 'cbf-si/v1/auth/revoke' );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Import Documents to LearnDash', 'cbf-slides-importer' ); ?></h1>
+			<h1><?php esc_html_e( 'Slides Importer', 'cbf-slides-importer' ); ?></h1>
+			<?php Tabs::render( self::PAGE_SLUG ); ?>
 
 			<?php if ( ! $is_authed ) : ?>
 				<div class="notice notice-warning">
