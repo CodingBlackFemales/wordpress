@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Importer admin page class.
  *
- * Registered under LearnDash menu → "Import Documents".
+ * Registered under LearnDash menu → "Slides Importer".
  * Capability: cbf_slides_import.
  */
 final class ImporterPage {
@@ -43,8 +43,8 @@ final class ImporterPage {
 	public static function register_menu(): void {
 		add_submenu_page(
 			'learndash-lms',
-			esc_html__( 'Import Documents', 'cbf-slides-importer' ),
-			esc_html__( 'Import Documents', 'cbf-slides-importer' ),
+			esc_html__( 'Slides Importer', 'cbf-slides-importer' ),
+			esc_html__( 'Slides Importer', 'cbf-slides-importer' ),
 			'cbf_slides_import',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render' )
