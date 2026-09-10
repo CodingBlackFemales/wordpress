@@ -1,0 +1,17 @@
+# Unit suite — runs without a WordPress installation.
+#
+# Everything under includes/Document, includes/Pptx, includes/Pdf and
+# includes/Docx is plain PHP that only touches a handful of WordPress helper
+# functions (escaping, slashes, translation, WP_Error). Those are stubbed in
+# tests/_bootstrap.php, which keeps the parser tests fast and runnable anywhere
+# — no database, no WP install, no network.
+#
+# Code that genuinely needs WordPress (REST controllers, JobRunner's $wpdb
+# access, the LearnDash handoff) is not covered here; that belongs in the
+# WPLoader-based integration suite added by P7.2.
+actor: UnitTester
+modules:
+  enabled:
+    - Asserts
+    - \CodingBlackFemales\SlidesImporter\Tests\Support\Helper\Fixtures
+step_decorators: ~
