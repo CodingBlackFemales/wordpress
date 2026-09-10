@@ -51,6 +51,14 @@ final class DriveClient {
 	 * browser. Bulk migration reads URLs from a spreadsheet rather than from a
 	 * folder-restricted picker, so shared drives are expected, not exceptional.
 	 */
+	/**
+	 * Endpoint naming the account a token belongs to.
+	 *
+	 * Covered by `drive.readonly`, so identifying the connected account needs no
+	 * extra scope and no second consent screen.
+	 */
+	const ABOUT_URL = 'https://www.googleapis.com/drive/v3/about?fields=user';
+
 	const METADATA_URL = 'https://www.googleapis.com/drive/v3/files/%s?fields=id%%2Cname%%2CmimeType%%2Ctrashed&supportsAllDrives=true';
 
 	/**
@@ -170,6 +178,47 @@ final class DriveClient {
 			'id'        => (string) ( $file['id'] ?? $file_id ),
 			'name'      => (string) ( $file['name'] ?? '' ),
 			'mime_type' => (string) ( $file['mimeType'] ?? '' ),
+		);
+	}
+
+
+	/**
+	 * Name the Google account a user's stored token belongs to.
+	 *
+	 * Without this the only sign of which account is connected is whether an
+	 * import works, which is how the wrong account went unnoticed on staging
+	 * until content failed to appear.
+	 *
+	 * @param  int $user_id WP user ID.
+	 * @return array{name: string, email: string}|WP_Error
+	 */
+	public static function account( int $user_id ): array|WP_Error {
+		$token = OAuthClient::get_access_token( $user_id );
+
+		if ( is_wp_error( $token ) ) {
+			return $token;
+		}
+
+		$response = wp_remote_get(
+			self::ABOUT_URL,
+			array(
+				'timeout' => 15,
+				'headers' => array( 'Authorization' => 'Bearer ' . $token ),
+			)
+		);
+
+		if ( is_wp_error( $response ) || (int) wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			return new WP_Error(
+				'cbf_si_account_unknown',
+				__( 'Google did not say which account this connection belongs to.', 'cbf-slides-importer' )
+			);
+		}
+
+		$user = json_decode( (string) wp_remote_retrieve_body( $response ), true )['user'] ?? array();
+
+		return array(
+			'name'  => (string) ( $user['displayName'] ?? '' ),
+			'email' => (string) ( $user['emailAddress'] ?? '' ),
 		);
 	}
 

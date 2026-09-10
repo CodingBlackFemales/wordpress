@@ -38,11 +38,15 @@ final class OAuthBridge {
 	const ACTION     = 'cbf_si_auth_begin';
 	const NONCE_NAME = 'cbf_si_auth_begin_nonce';
 
+	const REVOKE_ACTION     = 'cbf_si_auth_revoke';
+	const REVOKE_NONCE_NAME = 'cbf_si_auth_revoke_nonce';
+
 	/**
 	 * Register the admin_post hook.
 	 */
 	public static function hooks(): void {
 		add_action( 'admin_post_' . self::ACTION, array( __CLASS__, 'handle_begin' ) );
+		add_action( 'admin_post_' . self::REVOKE_ACTION, array( __CLASS__, 'handle_revoke' ) );
 	}
 
 
@@ -59,6 +63,41 @@ final class OAuthBridge {
 			self::ACTION,
 			self::NONCE_NAME
 		);
+	}
+
+
+	/**
+	 * Build the disconnect URL for use in a nonce-protected admin link.
+	 *
+	 * Deliberately an admin-post link rather than a REST call: disconnecting has
+	 * to work from the page itself, without depending on the importer's script
+	 * having loaded.
+	 *
+	 * @return string
+	 */
+	public static function revoke_url(): string {
+		return wp_nonce_url(
+			admin_url( 'admin-post.php?action=' . self::REVOKE_ACTION ),
+			self::REVOKE_ACTION,
+			self::REVOKE_NONCE_NAME
+		);
+	}
+
+
+	/**
+	 * admin_post handler — verify nonce, revoke the token, return to the page.
+	 */
+	public static function handle_revoke(): void {
+		if ( ! current_user_can( 'cbf_slides_import' ) ) {
+			wp_die( esc_html__( 'You do not have permission to disconnect Google Drive.', 'cbf-slides-importer' ), 403 );
+		}
+
+		check_admin_referer( self::REVOKE_ACTION, self::REVOKE_NONCE_NAME );
+
+		OAuthClient::revoke_token( get_current_user_id() );
+
+		wp_safe_redirect( admin_url( 'admin.php?page=' . ImporterPage::PAGE_SLUG . '&google=disconnected' ) );
+		exit;
 	}
 
 
