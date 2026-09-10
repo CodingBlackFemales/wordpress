@@ -106,14 +106,9 @@ final class Janitor {
 
 		// Status values are hardcoded constants — not user input — so inlining
 		// them in the IN() clause is safe. The table name is also not user input.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$stale_ids = $wpdb->get_col(
-			$wpdb->prepare(
-				"SELECT id FROM {$table}
-				 WHERE status IN ('downloading','parsing','importing')
-				 AND updated_at < %s",
-				$cutoff
-			)
+			$wpdb->prepare( "SELECT id FROM {$table} WHERE status IN ('downloading','parsing','importing') AND updated_at < %s", $cutoff ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 
 		if ( empty( $stale_ids ) ) {

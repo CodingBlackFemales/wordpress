@@ -98,9 +98,7 @@ final class JobRunner {
 	 * @param array $payload { job_id: int, blog_id: int, phase?: string }
 	 */
 	public static function run( array $payload ): void {
-		$job_id  = isset( $payload['job_id'] ) ? (int) $payload['job_id'] : 0;
-		$blog_id = isset( $payload['blog_id'] ) ? (int) $payload['blog_id'] : get_current_blog_id();
-		$phase   = $payload['phase'] ?? 'download';
+		list( $job_id, $blog_id, $phase ) = self::read_payload( $payload );
 
 		if ( ! $job_id ) {
 			Utils::log( 'JobRunner called with no job_id.' );
@@ -111,38 +109,80 @@ final class JobRunner {
 		self::watch_for_fatal( $job_id, $blog_id );
 
 		// Ensure we are on the correct blog in multisite.
-		if ( function_exists( 'switch_to_blog' ) && $blog_id !== get_current_blog_id() ) {
-			switch_to_blog( $blog_id );
-			$switched = true;
-		}
+		$switched = self::switch_to_job_blog( $blog_id );
 
 		try {
-			$job = self::get_job( $job_id, $blog_id );
-			if ( ! $job ) {
-				Utils::log( 'Job not found.', array( 'job_id' => $job_id ) );
-				return;
-			}
-
-			// Already in a terminal state — do nothing.
-			if ( in_array( $job['status'], array( 'done', 'failed' ), true ) ) {
-				return;
-			}
-
-			self::dispatch_phase( $job, $phase );
+			self::run_phase( $job_id, $blog_id, $phase );
 		} catch ( \Throwable $e ) {
 			Utils::log(
 				'JobRunner uncaught exception.',
 				array(
 					'job_id' => $job_id,
-					'msg' => $e->getMessage(),
+					'msg'    => $e->getMessage(),
 				)
 			);
 			self::set_failed( $job_id, $e->getMessage() );
 		} finally {
-			if ( ! empty( $switched ) ) {
+			if ( $switched ) {
 				restore_current_blog();
 			}
 		}
+	}
+
+
+	/**
+	 * Read the cron payload, filling in what it omits.
+	 *
+	 * @param  array $payload { job_id: int, blog_id: int, phase?: string }
+	 * @return array{0: int, 1: int, 2: string} Job ID, blog ID and phase.
+	 */
+	private static function read_payload( array $payload ): array {
+		return array(
+			isset( $payload['job_id'] ) ? (int) $payload['job_id'] : 0,
+			isset( $payload['blog_id'] ) ? (int) $payload['blog_id'] : get_current_blog_id(),
+			(string) ( $payload['phase'] ?? 'download' ),
+		);
+	}
+
+
+	/**
+	 * Move to the blog a job belongs to, if it is not the current one.
+	 *
+	 * @param  int $blog_id Blog the job belongs to.
+	 * @return bool Whether a switch happened and must be undone.
+	 */
+	private static function switch_to_job_blog( int $blog_id ): bool {
+		if ( ! function_exists( 'switch_to_blog' ) || $blog_id === get_current_blog_id() ) {
+			return false;
+		}
+
+		switch_to_blog( $blog_id );
+
+		return true;
+	}
+
+
+	/**
+	 * Load a job and run the requested phase against it.
+	 *
+	 * @param int    $job_id  Job ID.
+	 * @param int    $blog_id Blog the job belongs to.
+	 * @param string $phase   Phase name from the cron payload.
+	 */
+	private static function run_phase( int $job_id, int $blog_id, string $phase ): void {
+		$job = self::get_job( $job_id, $blog_id );
+
+		if ( ! $job ) {
+			Utils::log( 'Job not found.', array( 'job_id' => $job_id ) );
+			return;
+		}
+
+		// Already in a terminal state — do nothing.
+		if ( in_array( $job['status'], array( 'done', 'failed' ), true ) ) {
+			return;
+		}
+
+		self::dispatch_phase( $job, $phase );
 	}
 
 
@@ -333,41 +373,11 @@ final class JobRunner {
 			return;
 		}
 
-		$config          = self::resolve_config( $job );
-		$heading_regex   = $config['heading_layout_regex'] ?? '';
-		$slide_overrides = isset( $config['slide_overrides'] ) ? json_decode( $config['slide_overrides'], true ) : array();
-		$mode            = $config['mode'] ?? 'lesson-only';
+		$config      = self::resolve_config( $job );
+		$classified  = SlideClassifier::classify( $parsed, $config['heading_layout_regex'] ?? '', self::overrides_from( $config ) );
+		$slides_meta = self::slides_meta( $classified['slides'] );
 
-		$classified = SlideClassifier::classify( $parsed, $heading_regex, (array) $slide_overrides );
-
-		// Only the fields the slide-map UI needs are kept, so the stored summary
-		// stays small even for a long deck.
-		$slides_meta = array_map(
-			static function ( array $slide ): array {
-				return array(
-					'index'        => $slide['index'],
-					'slide_number' => $slide['slide_number'],
-					'title'        => $slide['title'],
-					'layout_name'  => $slide['layout_name'],
-					'is_hidden'    => $slide['is_hidden'],
-					'is_cover'     => $slide['is_cover'],
-					'slide_type'   => $slide['slide_type'],
-				);
-			},
-			$classified['slides']
-		);
-
-		// Use PreviewRenderer so the same render pipeline is shared with the
-		// on-demand refresh in PreviewController::refresh().
-		$preview_summary = array(
-			'source_path' => $source_path,
-			'img_dir'     => $img_dir,
-			'config'      => $config,
-		);
-		$rendered = PreviewRenderer::render_from_summary( $preview_summary );
-		if ( ! is_wp_error( $rendered ) ) {
-			PreviewController::store( $job_id, $user_id, $rendered );
-		}
+		self::store_preview( $job_id, $user_id, $source_path, $img_dir, $config );
 
 		// Note: $classified is NOT stored. Re-parsing at import time costs a few
 		// seconds and keeps the stored summary to metadata the UI actually reads.
@@ -382,7 +392,7 @@ final class JobRunner {
 					'unit_label'    => $parsed['unit_label'] ?? 'slide',
 					'img_dir'       => $img_dir,
 					'job_tmp_dir'   => $job_tmp_dir,
-					'mode'          => $mode,
+					'mode'          => $config['mode'] ?? 'lesson-only',
 					'config'        => $config,
 					'slides_meta'   => $slides_meta,
 				)
@@ -392,6 +402,79 @@ final class JobRunner {
 		self::update_status( $job_id, 'parsed' );
 
 		self::after_parse( $job );
+	}
+
+
+	/**
+	 * The per-entry type overrides a job's config carries.
+	 *
+	 * @param  array $config Stored config.
+	 * @return array
+	 */
+	private static function overrides_from( array $config ): array {
+		if ( empty( $config['slide_overrides'] ) ) {
+			return array();
+		}
+
+		$decoded = json_decode( $config['slide_overrides'], true );
+
+		return is_array( $decoded ) ? $decoded : array();
+	}
+
+
+	/**
+	 * Reduce classified entries to what the slide-map UI reads.
+	 *
+	 * Keeping only these fields is what stops a long deck's stored summary
+	 * growing to the size of the deck itself.
+	 *
+	 * @param  array $slides Classified entries.
+	 * @return array
+	 */
+	private static function slides_meta( array $slides ): array {
+		return array_map(
+			static function ( array $slide ): array {
+				return array(
+					'index'        => $slide['index'],
+					'slide_number' => $slide['slide_number'],
+					'title'        => $slide['title'],
+					'layout_name'  => $slide['layout_name'],
+					'is_hidden'    => $slide['is_hidden'],
+					'is_cover'     => $slide['is_cover'],
+					'slide_type'   => $slide['slide_type'],
+				);
+			},
+			$slides
+		);
+	}
+
+
+	/**
+	 * Render and cache the preview for a freshly parsed job.
+	 *
+	 * Goes through PreviewRenderer so the render pipeline stays shared with the
+	 * on-demand refresh in PreviewController::refresh(). A preview that fails to
+	 * render is not fatal — the parse still stands, and the editor is shown the
+	 * error when they open the preview.
+	 *
+	 * @param int    $job_id      Job ID.
+	 * @param int    $user_id     User the preview is cached for.
+	 * @param string $source_path Absolute path to the source document.
+	 * @param string $img_dir     Directory images were extracted into.
+	 * @param array  $config      Stored config.
+	 */
+	private static function store_preview( int $job_id, int $user_id, string $source_path, string $img_dir, array $config ): void {
+		$rendered = PreviewRenderer::render_from_summary(
+			array(
+				'source_path' => $source_path,
+				'img_dir'     => $img_dir,
+				'config'      => $config,
+			)
+		);
+
+		if ( ! is_wp_error( $rendered ) ) {
+			PreviewController::store( $job_id, $user_id, $rendered );
+		}
 	}
 
 
@@ -959,6 +1042,6 @@ final class JobRunner {
 			$wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d AND blog_id = %d", $job['config_id'], $job['blog_id'] ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
-		return $row ?: array();
+		return is_array( $row ) ? $row : array();
 	}
 }

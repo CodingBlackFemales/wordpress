@@ -134,27 +134,7 @@ final class AuthController {
 		$code  = sanitize_text_field( $request->get_param( 'code' ) );
 		$state = sanitize_text_field( $request->get_param( 'state' ) );
 
-		// Parse user_id and nonce from state.
-		$parts   = explode( ':', $state, 2 );
-		$user_id = isset( $parts[0] ) ? absint( $parts[0] ) : 0;
-		$nonce   = $parts[1] ?? '';
-
-		if ( ! $user_id || ! $nonce ) {
-			wp_die( esc_html__( 'Invalid OAuth state parameter.', 'cbf-slides-importer' ), 400 );
-		}
-
-		// Verify the user exists and has permission.
-		$user = get_user_by( 'id', $user_id );
-		if ( ! $user || ! user_can( $user, 'cbf_slides_import' ) ) {
-			wp_die( esc_html__( 'Unauthorised OAuth callback.', 'cbf-slides-importer' ), 403 );
-		}
-
-		// Validate nonce against stored transient (CSRF protection).
-		$stored_nonce = get_transient( 'cbf_si_oauth_state_' . $user_id );
-		if ( ! $stored_nonce || ! hash_equals( (string) $stored_nonce, $nonce ) ) {
-			wp_die( esc_html__( 'OAuth state mismatch — possible CSRF attack.', 'cbf-slides-importer' ), 403 );
-		}
-		delete_transient( 'cbf_si_oauth_state_' . $user_id );
+		$user_id = self::user_from_state( $state );
 
 		$result = OAuthClient::exchange_code( $code, $user_id );
 		if ( is_wp_error( $result ) ) {
@@ -164,6 +144,42 @@ final class AuthController {
 		// Redirect back to the importer admin page.
 		wp_safe_redirect( admin_url( 'admin.php?page=cbf-slides-importer&oauth=success' ) );
 		exit;
+	}
+
+
+	/**
+	 * Identify and authorise the user a callback belongs to.
+	 *
+	 * The state parameter is the only thing tying Google's redirect back to a
+	 * session, so each of these checks is load-bearing: the format, that the
+	 * user still exists and may still import, and that the nonce matches the one
+	 * issued for them. Any failure ends the request rather than returning.
+	 *
+	 * @param  string $state The `{user_id}:{nonce}` state parameter.
+	 * @return int    The authorised user's ID.
+	 */
+	private static function user_from_state( string $state ): int {
+		$parts   = explode( ':', $state, 2 );
+		$user_id = absint( $parts[0] ?? 0 );
+		$nonce   = $parts[1] ?? '';
+
+		if ( ! $user_id || ! $nonce ) {
+			wp_die( esc_html__( 'Invalid OAuth state parameter.', 'cbf-slides-importer' ), 400 );
+		}
+
+		$user = get_user_by( 'id', $user_id );
+		if ( ! $user || ! user_can( $user, 'cbf_slides_import' ) ) {
+			wp_die( esc_html__( 'Unauthorised OAuth callback.', 'cbf-slides-importer' ), 403 );
+		}
+
+		// CSRF protection: the nonce must be the one issued to this user.
+		$stored_nonce = get_transient( 'cbf_si_oauth_state_' . $user_id );
+		if ( ! $stored_nonce || ! hash_equals( (string) $stored_nonce, $nonce ) ) {
+			wp_die( esc_html__( 'OAuth state mismatch — possible CSRF attack.', 'cbf-slides-importer' ), 403 );
+		}
+		delete_transient( 'cbf_si_oauth_state_' . $user_id );
+
+		return $user_id;
 	}
 
 

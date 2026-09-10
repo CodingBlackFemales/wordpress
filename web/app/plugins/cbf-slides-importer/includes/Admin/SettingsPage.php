@@ -185,25 +185,8 @@ final class SettingsPage {
 			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
 		}
 
-		// Validate that it is parseable JSON and contains expected keys.
-		$decoded = json_decode( $value, true );
-		if ( ! is_array( $decoded ) ) {
-			add_settings_error(
-				Install::CLIENT_SECRET_OPTION,
-				'cbf_si_invalid_json',
-				esc_html__( 'Client secret must be valid JSON.', 'cbf-slides-importer' )
-			);
-			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
-		}
-
-		// Accept both "web" (Web Application) and "installed" (Desktop) credential types.
-		$cred = $decoded['web'] ?? $decoded['installed'] ?? null;
-		if ( ! $cred || empty( $cred['client_id'] ) || empty( $cred['client_secret'] ) ) {
-			add_settings_error(
-				Install::CLIENT_SECRET_OPTION,
-				'cbf_si_invalid_secret_structure',
-				esc_html__( 'Client secret JSON must contain a "web" or "installed" key with client_id and client_secret fields.', 'cbf-slides-importer' )
-			);
+		$decoded = self::valid_credentials( $value );
+		if ( $decoded === null ) {
 			return (string) get_option( Install::CLIENT_SECRET_OPTION, '' );
 		}
 
@@ -276,6 +259,46 @@ final class SettingsPage {
 			<?php esc_html_e( 'The Google Drive folder ID that the file picker will open. Editors will only be able to browse within this folder.', 'cbf-slides-importer' ); ?>
 		</p>
 		<?php
+	}
+
+
+	/**
+	 * Decode a client secret, reporting anything wrong with it.
+	 *
+	 * Google issues the file as either a "web" (Web Application) or an
+	 * "installed" (Desktop) credential, and both are accepted; what matters is
+	 * that whichever it is carries a client_id and a client_secret.
+	 *
+	 * @param  string $value Raw JSON pasted into the field.
+	 * @return array|null    The decoded credentials, or null once the problem
+	 *                       has been reported through the Settings API.
+	 */
+	private static function valid_credentials( string $value ): ?array {
+		$decoded = json_decode( $value, true );
+
+		if ( ! is_array( $decoded ) ) {
+			add_settings_error(
+				Install::CLIENT_SECRET_OPTION,
+				'cbf_si_invalid_json',
+				esc_html__( 'Client secret must be valid JSON.', 'cbf-slides-importer' )
+			);
+
+			return null;
+		}
+
+		$cred = $decoded['web'] ?? $decoded['installed'] ?? null;
+
+		if ( ! $cred || empty( $cred['client_id'] ) || empty( $cred['client_secret'] ) ) {
+			add_settings_error(
+				Install::CLIENT_SECRET_OPTION,
+				'cbf_si_invalid_secret_structure',
+				esc_html__( 'Client secret JSON must contain a "web" or "installed" key with client_id and client_secret fields.', 'cbf-slides-importer' )
+			);
+
+			return null;
+		}
+
+		return $decoded;
 	}
 
 

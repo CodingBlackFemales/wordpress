@@ -68,7 +68,7 @@ final class PreviewRenderer {
 			return $parsed;
 		}
 
-		$config     = isset( $summary['config'] ) && is_array( $summary['config'] ) ? $summary['config'] : array();
+		$config     = self::config_from( $summary );
 		$classified = SlideClassifier::classify(
 			$parsed,
 			$config['heading_layout_regex'] ?? '',
@@ -81,6 +81,19 @@ final class PreviewRenderer {
 			true,
 			self::media_base_url( $img_dir )
 		);
+	}
+
+
+	/**
+	 * The config stored on a job summary, or an empty one.
+	 *
+	 * @param  array $summary Decoded result_summary array.
+	 * @return array
+	 */
+	private static function config_from( array $summary ): array {
+		$config = $summary['config'] ?? array();
+
+		return is_array( $config ) ? $config : array();
 	}
 
 

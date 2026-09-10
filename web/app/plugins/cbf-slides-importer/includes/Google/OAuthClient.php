@@ -134,32 +134,48 @@ final class OAuthClient {
 		$client->setAccessToken( $token );
 
 		if ( $client->isAccessTokenExpired() ) {
-			if ( empty( $token['refresh_token'] ) ) {
-				return new WP_Error(
-					'cbf_si_token_expired',
-					__( 'Google access token expired and no refresh token available. Please re-authorise.', 'cbf-slides-importer' )
-				);
-			}
+			$token = self::refresh_token( $client, $token, $user_id );
 
-			$new_token = $client->fetchAccessTokenWithRefreshToken( $token['refresh_token'] );
-			if ( isset( $new_token['error'] ) ) {
-				return new WP_Error( 'cbf_si_refresh_error', (string) ( $new_token['error_description'] ?? $new_token['error'] ) );
+			if ( is_wp_error( $token ) ) {
+				return $token;
 			}
-
-			// Merge refresh_token (Google only returns it on first auth).
-			if ( empty( $new_token['refresh_token'] ) ) {
-				$new_token['refresh_token'] = $token['refresh_token'];
-			}
-
-			$store_result = self::store_token( $user_id, $new_token );
-			if ( is_wp_error( $store_result ) ) {
-				return $store_result;
-			}
-
-			$token = $new_token;
 		}
 
 		return $token['access_token'];
+	}
+
+
+	/**
+	 * Exchange a refresh token for a fresh access token and store the result.
+	 *
+	 * @param  GoogleClient $client  Client already carrying the expired token.
+	 * @param  array        $token   The expired token.
+	 * @param  int          $user_id WP user ID to store the new token against.
+	 * @return array|WP_Error The refreshed token.
+	 */
+	private static function refresh_token( GoogleClient $client, array $token, int $user_id ): array|WP_Error {
+		if ( empty( $token['refresh_token'] ) ) {
+			return new WP_Error(
+				'cbf_si_token_expired',
+				__( 'Google access token expired and no refresh token available. Please re-authorise.', 'cbf-slides-importer' )
+			);
+		}
+
+		$new_token = $client->fetchAccessTokenWithRefreshToken( $token['refresh_token'] );
+
+		if ( isset( $new_token['error'] ) ) {
+			return new WP_Error( 'cbf_si_refresh_error', (string) ( $new_token['error_description'] ?? $new_token['error'] ) );
+		}
+
+		// Google only returns a refresh token on first authorisation, so carry
+		// the existing one forward or the next refresh has nothing to use.
+		if ( empty( $new_token['refresh_token'] ) ) {
+			$new_token['refresh_token'] = $token['refresh_token'];
+		}
+
+		$stored = self::store_token( $user_id, $new_token );
+
+		return is_wp_error( $stored ) ? $stored : $new_token;
 	}
 
 

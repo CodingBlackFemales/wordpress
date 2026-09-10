@@ -95,7 +95,7 @@ final class ConfigController {
 			ARRAY_A
 		);
 
-		return new WP_REST_Response( $rows ?: array(), 200 );
+		return new WP_REST_Response( is_array( $rows ) ? $rows : array(), 200 );
 	}
 
 
