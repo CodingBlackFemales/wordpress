@@ -280,16 +280,17 @@ Two sets of versions are duplicated across files and have to be changed together
 
 ## Troubleshooting
 
-| Symptom                                          | Cause                                                                                                                   |
-| ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Jobs stay at `pending`                           | WP-Cron is not running                                                                                                  |
-| "Google Drive is not connected" after connecting | `CBF_SI_ENCRYPTION_KEY` changed or is unset, so the stored token cannot be decrypted                                    |
-| "No shared Drive folder is configured"           | the folder ID setting is empty                                                                                          |
-| Preview unavailable after a completed import     | expected — temp files are deleted once posts are created                                                                |
-| A PDF imports with words run together            | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces |
-| Everything in a PDF becomes one code block       | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                       |
-| A bulk row says the session does not exist       | `session_id` must name a session already in the selected course — see Sessions before topics                            |
-| Bulk rows are reported as skipped                | the same file was already imported with these settings; enable Overwrite to update instead                              |
-| A bulk batch seems stuck                         | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes      |
+| Symptom                                           | Cause                                                                                                                                                                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Jobs stay at `pending`                            | WP-Cron is not running                                                                                                                                                                                 |
+| "Google Drive is not connected" after connecting  | `CBF_SI_ENCRYPTION_KEY` changed or is unset, so the stored token cannot be decrypted                                                                                                                   |
+| "No shared Drive folder is configured"            | the folder ID setting is empty                                                                                                                                                                         |
+| Preview unavailable after a completed import      | expected — temp files are deleted once posts are created                                                                                                                                               |
+| A PDF imports with words run together             | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces                                                                                |
+| Everything in a PDF becomes one code block        | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                                                                                                      |
+| A bulk row says the session does not exist        | `session_id` must name a session already in the selected course — see Sessions before topics                                                                                                           |
+| Bulk rows are reported as skipped                 | the same file was already imported with these settings; enable Overwrite to update instead                                                                                                             |
+| A bulk batch seems stuck                          | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes                                                                                     |
+| A row fails saying the document needs more memory | the document is too large or too image-heavy for this server to parse; import it on its own, or split it up. Raise the ceiling with the `cbf_si_job_memory_limit` filter where the server has headroom |
 
 Errors stored against a job have filesystem paths redacted. For full detail, enable `WP_DEBUG_LOG` and look for `[CBF-SI]` entries.
