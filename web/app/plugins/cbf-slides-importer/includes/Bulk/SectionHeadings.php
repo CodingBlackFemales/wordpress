@@ -143,7 +143,7 @@ final class SectionHeadings {
 		// New headings go after everything already in the course. Reusing the
 		// lesson count alone would collide with headings added by an earlier
 		// call, and equal `order` values sort unpredictably.
-		$order = max( self::lesson_count( $course_id ), self::highest_order( $sections ) + 1 );
+		$order = max( self::lesson_count( $course_id ) + count( $sections ), self::highest_order( $sections ) + 1 );
 
 		foreach ( $wanted as $key => $title ) {
 			$existing = self::find( $sections, $title );
@@ -267,13 +267,45 @@ final class SectionHeadings {
 	 * @return int Index of the next unopened heading.
 	 */
 	private static function open_sections_up_to( array $sections, array &$grouped, string &$current, int $next, int $index ): int {
-		while ( isset( $sections[ $next ] ) && (int) ( $sections[ $next ]['order'] ?? 0 ) <= $index ) {
+		// `order` counts the headings spliced in before it as well as the
+		// lessons (see apply_order), so comparing it against a bare lesson
+		// index would open each heading too late by the number already open.
+		while ( isset( $sections[ $next ] ) && ( (int) ( $sections[ $next ]['order'] ?? 0 ) ) - $next <= $index ) {
 			$current             = (string) $sections[ $next ]['ID'];
 			$grouped[ $current ] = $grouped[ $current ] ?? array();
 			++$next;
 		}
 
 		return $next;
+	}
+
+
+	/**
+	 * The `order` value a heading needs to sit after a given number of lessons.
+	 *
+	 * LearnDash builds the list a course displays by splicing each heading into
+	 * the lesson list in turn:
+	 *
+	 *     $lessons = array_keys( $steps['sfwd-lessons'] );
+	 *     foreach ( $sections as $s ) {
+	 *         array_splice( $lessons, $s->order, 0, array( $s ) );
+	 *     }
+	 *
+	 * Each splice shifts everything after it right by one, so by the time the
+	 * Nth heading is inserted the N before it already occupy slots. `order` is
+	 * an index into that part-built list, not into the lessons alone.
+	 *
+	 * Pure, so the contract can be tested against a replica of the splice
+	 * without WordPress — which is the only way this was ever going to be
+	 * caught, since deriving the grouping by the same wrong rule used to write
+	 * it looks perfectly correct.
+	 *
+	 * @param  int $lessons_before  Lessons that precede this heading.
+	 * @param  int $headings_before Headings already spliced in before it.
+	 * @return int
+	 */
+	public static function section_order( int $lessons_before, int $headings_before ): int {
+		return $lessons_before + $headings_before;
 	}
 
 
@@ -296,8 +328,21 @@ final class SectionHeadings {
 			$sequence[] = (int) $lesson_id;
 		}
 
-		foreach ( $sections as $section ) {
-			$section['order'] = count( $sequence );
+		foreach ( $sections as $index => $section ) {
+			// `order` is not an index into the lesson list, which is the natural
+			// reading and the wrong one. LearnDash builds the displayed list by
+			// splicing each heading into it in turn:
+			//
+			//   $lessons = array_keys( $steps['sfwd-lessons'] );
+			//   foreach ( $sections as $s ) array_splice( $lessons, $s->order, 0, [ $s ] );
+			//
+			// so by the time heading N is spliced, the N headings before it are
+			// already occupying slots and have pushed every lesson right. The
+			// index therefore has to count them too: lessons-so-far plus the
+			// number of headings already placed. Getting this wrong drifts each
+			// heading one position earlier per heading before it, which quietly
+			// moves the last lesson of every section into the next one.
+			$section['order'] = self::section_order( count( $sequence ), (int) $index );
 			$updated[]        = $section;
 
 			foreach ( $grouped[ (string) $section['ID'] ] ?? array() as $lesson_id ) {
