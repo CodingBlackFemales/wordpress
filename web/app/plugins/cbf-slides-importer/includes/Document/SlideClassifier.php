@@ -74,23 +74,55 @@ final class SlideClassifier {
 		}
 
 		// User overrides take precedence over auto-detection.
-		$slide_number = (int) $slide['slide_number'];
-		if ( isset( $overrides[ $slide_number ] ) ) {
-			$override = (string) $overrides[ $slide_number ];
-			if ( in_array( $override, array( 'body', 'heading', 'hidden', 'section' ), true ) ) {
-				return $override;
-			}
+		$override = self::override_for( $slide, $overrides );
+		if ( $override !== null ) {
+			return $override;
 		}
 
-		// Auto-detect from layout name using heading regex.
-		if ( ! empty( $heading_regex ) ) {
-			$layout = (string) $slide['layout_name'];
-			// Use preg_match with full-match semantics (anchored).
-			if ( $layout && @preg_match( '/^(?:' . $heading_regex . ')$/i', $layout ) ) { // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-				return 'heading';
-			}
+		if ( self::layout_is_heading( (string) $slide['layout_name'], $heading_regex ) ) {
+			return 'heading';
 		}
 
 		return 'body';
+	}
+
+
+	/**
+	 * The user's override for a slide, if they set a usable one.
+	 *
+	 * @param  array $slide     ParsedSlide array.
+	 * @param  array $overrides Per-slide user overrides, keyed by 1-based number.
+	 * @return string|null The override, or null when there is none to apply.
+	 */
+	private static function override_for( array $slide, array $overrides ): ?string {
+		$slide_number = (int) $slide['slide_number'];
+
+		if ( ! isset( $overrides[ $slide_number ] ) ) {
+			return null;
+		}
+
+		$override = (string) $overrides[ $slide_number ];
+
+		return in_array( $override, array( 'body', 'heading', 'hidden', 'section' ), true ) ? $override : null;
+	}
+
+
+	/**
+	 * Whether a layout name matches the configured heading pattern.
+	 *
+	 * The pattern comes from user configuration, so a malformed one must not
+	 * take the import down with it — hence the silenced match.
+	 *
+	 * @param  string $layout        Layout name from the deck.
+	 * @param  string $heading_regex Heading layout regex.
+	 * @return bool
+	 */
+	private static function layout_is_heading( string $layout, string $heading_regex ): bool {
+		if ( $heading_regex === '' || $layout === '' ) {
+			return false;
+		}
+
+		// Anchored for full-match semantics.
+		return (bool) @preg_match( '/^(?:' . $heading_regex . ')$/i', $layout ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 	}
 }

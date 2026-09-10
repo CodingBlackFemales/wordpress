@@ -114,12 +114,14 @@ final class Main {
 
 
 	/**
-	 * Check PHP/WP version requirements and that the required dependency
-	 * plugin is active. Adds admin notice on failure.
+	 * Every requirement this installation does not meet.
+	 *
+	 * @return string[] Editor-facing messages, empty when everything is in place.
 	 */
-	private static function check_plugin_requirements(): bool {
-		$errors = array();
+	private static function unmet_requirements(): array {
 		global $wp_version;
+
+		$errors = array();
 
 		if ( ! version_compare( PHP_VERSION, self::PLUGIN_REQUIREMENTS['php_version'], '>=' ) ) {
 			$errors[] = sprintf(
@@ -145,6 +147,17 @@ final class Main {
 		if ( ! is_plugin_active( self::REQUIRED_PLUGIN ) ) {
 			$errors[] = esc_html__( 'CBF Slides Importer requires the LearnDash Bulk Lessons or Topics plugin to be active.', 'cbf-slides-importer' );
 		}
+
+		return $errors;
+	}
+
+
+	/**
+	 * Check PHP/WP version requirements and that the required dependency
+	 * plugin is active. Adds admin notice on failure.
+	 */
+	private static function check_plugin_requirements(): bool {
+		$errors = self::unmet_requirements();
 
 		if ( empty( $errors ) ) {
 			return true;

@@ -194,48 +194,82 @@ final class Parser {
 		$footer_cutoff = BlockLayout::footer_cutoff( $slide_height_px );
 
 		foreach ( $slide->getShapeCollection() as $shape ) {
-			$cls = get_class( $shape );
-			if ( stripos( $cls, 'Drawing' ) === false ) {
+			if ( ! self::is_content_image( $shape, $footer_cutoff ) ) {
 				continue;
 			}
 
-			// Skip images in the footer zone (e.g. CBF icon on every slide).
-			$shape_top = $shape->getOffsetY();
-			if ( $shape_top !== null && (int) $shape_top >= $footer_cutoff ) {
-				continue;
-			}
+			$image = self::save_image( $shape, $slide_idx, $img_num + 1, $img_out_dir );
 
-			try {
-				$blob = $shape->getContents();
-				$ext  = method_exists( $shape, 'getExtension' ) ? $shape->getExtension() : 'png';
-
-				if ( empty( $blob ) ) {
-					continue;
-				}
-
+			if ( $image !== null ) {
 				$img_num++;
-				$filename = sprintf( 'slide_%03d_img_%02d.%s', $slide_idx + 1, $img_num, $ext );
-				$dest     = trailingslashit( $img_out_dir ) . $filename;
-
-				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
-				file_put_contents( $dest, $blob );
-
-				$images[] = array(
-					'path'     => $dest,
-					'filename' => $filename,
-					'ext'      => $ext,
-				);
-			} catch ( \Throwable $e ) {
-				Utils::log(
-					'Image extraction error.',
-					array(
-						'slide' => $slide_idx + 1,
-						'msg' => $e->getMessage(),
-					)
-				);
+				$images[] = $image;
 			}
 		}
 
 		return $images;
+	}
+
+
+	/**
+	 * Whether a shape is an image that belongs in the imported content.
+	 *
+	 * Drawings in the footer band are furniture — the CBF logo sits there on
+	 * every slide — so they are excluded on the same threshold as text.
+	 *
+	 * @param  object $shape         PhpPresentation shape.
+	 * @param  int    $footer_cutoff Y position at which the footer band starts.
+	 * @return bool
+	 */
+	private static function is_content_image( object $shape, int $footer_cutoff ): bool {
+		if ( stripos( get_class( $shape ), 'Drawing' ) === false ) {
+			return false;
+		}
+
+		$shape_top = $shape->getOffsetY();
+
+		return $shape_top === null || (int) $shape_top < $footer_cutoff;
+	}
+
+
+	/**
+	 * Write one drawing's bytes to disk.
+	 *
+	 * @param  object $shape       PhpPresentation drawing shape.
+	 * @param  int    $slide_idx   0-based slide index, for the filename.
+	 * @param  int    $img_num     1-based image number within the slide.
+	 * @param  string $img_out_dir Destination directory.
+	 * @return array{path: string, filename: string, ext: string}|null Null when there is nothing to write.
+	 */
+	private static function save_image( object $shape, int $slide_idx, int $img_num, string $img_out_dir ): ?array {
+		try {
+			$blob = $shape->getContents();
+
+			if ( empty( $blob ) ) {
+				return null;
+			}
+
+			$ext      = method_exists( $shape, 'getExtension' ) ? $shape->getExtension() : 'png';
+			$filename = sprintf( 'slide_%03d_img_%02d.%s', $slide_idx + 1, $img_num, $ext );
+			$dest     = trailingslashit( $img_out_dir ) . $filename;
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			file_put_contents( $dest, $blob );
+
+			return array(
+				'path'     => $dest,
+				'filename' => $filename,
+				'ext'      => $ext,
+			);
+		} catch ( \Throwable $e ) {
+			Utils::log(
+				'Image extraction error.',
+				array(
+					'slide' => $slide_idx + 1,
+					'msg'   => $e->getMessage(),
+				)
+			);
+
+			return null;
+		}
 	}
 }
