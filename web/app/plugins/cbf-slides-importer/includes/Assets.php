@@ -70,10 +70,49 @@ abstract class Assets {
 	}
 
 
+	/**
+	 * Cache-bust an asset on its own modification time.
+	 *
+	 * Assets are served with a one-year max-age, and the plugin version only
+	 * changes at release, so an edited script keeps its `?ver=` and a browser
+	 * that has the page open goes on running the old file indefinitely. That is
+	 * indistinguishable from the fix not working, and cost a round of debugging
+	 * a bug that had already been fixed.
+	 *
+	 * The plugin version stays in the string so the query argument still says
+	 * what release the file came from.
+	 *
+	 * @param  string $src     The asset URL, as returned by localize_asset().
+	 * @param  string $version Version the caller asked for.
+	 * @return string
+	 */
+	private static function file_version( string $src, string $version ): string {
+		if ( $version !== VERSION ) {
+			return $version;
+		}
+
+		$base = str_replace( array( 'http:', 'https:' ), '', Utils::plugin_url() ) . '/assets/';
+
+		if ( strpos( $src, $base ) !== 0 ) {
+			return $version;
+		}
+
+		$file = Utils::plugin_path() . '/assets/' . substr( $src, strlen( $base ) );
+
+		if ( ! file_exists( $file ) ) {
+			return $version;
+		}
+
+		$mtime = filemtime( $file );
+
+		return $mtime ? $version . '.' . $mtime : $version;
+	}
+
+
 	/** Register a script. */
 	private static function register_script( string $handle, string $path, array $deps = array( 'jquery' ), string $version = VERSION, bool $in_footer = true ): void {
 		self::$scripts[] = $handle;
-		wp_register_script( $handle, $path, $deps, $version, $in_footer );
+		wp_register_script( $handle, $path, $deps, self::file_version( $path, $version ), $in_footer );
 	}
 
 
@@ -89,7 +128,7 @@ abstract class Assets {
 	/** Register a stylesheet. */
 	private static function register_style( string $handle, string $path, array $deps = array(), string $version = VERSION, string $media = 'all' ): void {
 		self::$styles[] = $handle;
-		wp_register_style( $handle, $path, $deps, $version, $media );
+		wp_register_style( $handle, $path, $deps, self::file_version( $path, $version ), $media );
 	}
 
 
