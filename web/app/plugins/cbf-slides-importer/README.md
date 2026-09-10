@@ -85,7 +85,20 @@ Under **LearnDash → Slides Importer**, on the **Settings** tab (administrators
 | OAuth Client Secret JSON | the JSON downloaded from Google Cloud, pasted whole — validated to contain a `web` or `installed` key |
 | Shared Drive Folder ID   | the folder editors browse, from its Drive URL                                                         |
 
-### 4. Capability
+### 4. Connecting a Google account
+
+Each WordPress user connects their own Google account: the token is stored in
+that user's meta, encrypted, and is never shared between users. Connecting is
+therefore done on the **Import** tab rather than in Settings, which only
+administrators can reach.
+
+The panel at the top of that tab names the account currently connected, so
+importing as the wrong one is visible rather than something to deduce from
+missing content. **Use a different account** re-runs consent with Google's
+account chooser; **Disconnect** revokes the grant at Google and deletes the
+stored token.
+
+### 5. Capability
 
 Activation grants `cbf_slides_import` to administrators. Grant it to other roles to let them import:
 

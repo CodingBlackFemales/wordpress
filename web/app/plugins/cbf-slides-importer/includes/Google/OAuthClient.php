@@ -36,6 +36,9 @@ final class OAuthClient {
 	 */
 	const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
+	/** Google's token revocation endpoint. */
+	const REVOKE_URL = 'https://oauth2.googleapis.com/revoke';
+
 	/**
 	 * Build and configure a Google_Client instance for the current request.
 	 *
@@ -61,7 +64,12 @@ final class OAuthClient {
 		$client->setAuthConfig( json_decode( $secret_json, true ) );
 		$client->setScopes( array( \Google\Service\Drive::DRIVE_READONLY ) );
 		$client->setAccessType( 'offline' );
-		$client->setPrompt( 'consent' );
+		// `select_account` is what makes it possible to connect a different
+		// account: with `consent` alone Google re-uses whichever account the
+		// browser is already signed into, so someone who authorised the wrong
+		// one has no way to choose another. `consent` stays because it is what
+		// guarantees a refresh token comes back.
+		$client->setPrompt( 'select_account consent' );
 		$client->setRedirectUri( self::redirect_uri() );
 
 		return $client;
@@ -400,8 +408,84 @@ final class OAuthClient {
 	 * @param int $user_id WP user ID.
 	 */
 	public static function revoke_token( int $user_id ): void {
+		self::revoke_at_google( $user_id );
+
 		delete_user_meta( $user_id, Install::USER_TOKEN_META );
 		Utils::log( 'OAuth token revoked.', array( 'user_id' => $user_id ) );
+	}
+
+
+	/**
+	 * Withdraw the grant at Google, not just the copy stored here.
+	 *
+	 * Deleting the stored token only makes this site forget the account; the
+	 * grant itself lives on in the account's third-party access list until it
+	 * is revoked, so a "disconnect" that skips this leaves access standing.
+	 *
+	 * Revoking the refresh token withdraws the whole grant. Failure is logged
+	 * and otherwise ignored: the local token is deleted either way, because
+	 * leaving someone connected to an account they are trying to disconnect
+	 * from is the worse outcome, and an already-invalid grant fails here too.
+	 *
+	 * @param int $user_id WP user ID.
+	 */
+	private static function revoke_at_google( int $user_id ): void {
+		$token = self::retrieve_token( $user_id );
+
+		if ( is_wp_error( $token ) ) {
+			return;
+		}
+
+		$revocable = self::revocable_token( $token );
+
+		if ( $revocable === '' ) {
+			return;
+		}
+
+		$response = wp_remote_post(
+			self::REVOKE_URL,
+			array(
+				'timeout' => 15,
+				'body'    => array( 'token' => $revocable ),
+			)
+		);
+
+		$status = self::status_of( $response );
+
+		if ( $status !== 200 ) {
+			Utils::log(
+				'Google did not confirm the token revocation.',
+				array(
+					'user_id' => $user_id,
+					'status'  => $status,
+				)
+			);
+		}
+	}
+
+
+	/**
+	 * The token to send to the revocation endpoint.
+	 *
+	 * Revoking the refresh token withdraws the whole grant; the access token is
+	 * a fallback for a record that never carried one.
+	 *
+	 * @param  array $token Stored token.
+	 * @return string
+	 */
+	private static function revocable_token( array $token ): string {
+		return (string) ( $token['refresh_token'] ?? $token['access_token'] ?? '' );
+	}
+
+
+	/**
+	 * The HTTP status of a response, or 0 when the request never landed.
+	 *
+	 * @param  array|WP_Error $response Result of a wp_remote_* call.
+	 * @return int
+	 */
+	private static function status_of( $response ): int {
+		return is_wp_error( $response ) ? 0 : (int) wp_remote_retrieve_response_code( $response );
 	}
 
 
