@@ -103,9 +103,9 @@ final class BatchReportTest extends Unit {
 	}
 
 	/**
-	 * Failures and rejections both count as needing attention.
+	 * Only a failure counts as needing attention.
 	 *
-	 * A batch that finished with either is reported as completed-with-errors
+	 * A batch that finished with one is reported as completed-with-errors
 	 * rather than done, so a partial outcome is never read as a clean run.
 	 */
 	public function testHasProblems(): void {
@@ -114,8 +114,31 @@ final class BatchReportTest extends Unit {
 
 		$failed = BatchReport::record( BatchReport::from_plan( array( $this->planned( 2 ) ) ), 2, BatchReport::OUTCOME_FAILED );
 		$this->assertTrue( BatchReport::has_problems( $failed ) );
+	}
 
-		$this->assertTrue( BatchReport::has_problems( BatchReport::from_plan( array( $this->planned( 2, 'error' ) ) ) ) );
+	/**
+	 * A rejected row is not a problem with the run.
+	 *
+	 * Pre-flight identified it and the editor saw it before pressing the
+	 * button, so a batch that did exactly what it said it would has not gone
+	 * wrong. Reporting a known, accepted exclusion as a problem teaches people
+	 * to ignore the final status.
+	 */
+	public function testRejectedIsNotAProblem(): void {
+		$entries = BatchReport::from_plan( array( $this->planned( 2, 'error' ) ) );
+
+		$this->assertSame( BatchReport::OUTCOME_REJECTED, $entries[0]['outcome'] );
+		$this->assertFalse( BatchReport::has_problems( $entries ) );
+		$this->assertTrue( BatchReport::is_complete( $entries ) );
+	}
+
+	/** A reused row is not a problem — the content was shared, not duplicated. */
+	public function testReusedIsNotAProblem(): void {
+		$entries = BatchReport::record( BatchReport::from_plan( array( $this->planned( 2 ) ) ), 2, BatchReport::OUTCOME_REUSED );
+
+		$this->assertSame( BatchReport::OUTCOME_REUSED, $entries[0]['outcome'] );
+		$this->assertFalse( BatchReport::has_problems( $entries ) );
+		$this->assertTrue( BatchReport::is_complete( $entries ) );
 	}
 
 	/** A skipped row is not a problem — it means the content already existed. */

@@ -1013,6 +1013,10 @@
             this._renderBatch(batch);
 
             if (batch.status === "running") {
+              // The jobs table is the other half of what an editor watches; if
+              // it only refreshes when the batch ends, a long run looks frozen
+              // on its first row.
+              this._loadJobs();
               this._bulkTimer = setTimeout(tick, 5000);
               return;
             }

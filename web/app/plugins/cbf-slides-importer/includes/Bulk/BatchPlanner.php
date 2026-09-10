@@ -57,13 +57,11 @@ final class BatchPlanner {
 	 */
 	public static function plan( array $rows, int $course_id, int $user_id ): array {
 		$sessions = self::course_sessions( $course_id );
-		$sections = SectionHeadings::read( $course_id );
-
 		$planned  = array();
 		$headings = array();
 
 		foreach ( $rows as $row ) {
-			$planned_row = self::plan_row( $row, $course_id, $user_id, $sessions, $sections );
+			$planned_row = self::plan_row( $row, $course_id, $user_id, $sessions );
 			$planned[]   = $planned_row;
 
 			if ( $planned_row['status'] === 'ready' && $planned_row['heading'] !== '' ) {
@@ -111,10 +109,9 @@ final class BatchPlanner {
 	 * @param  int   $course_id Target course.
 	 * @param  int   $user_id   Drive credential owner.
 	 * @param  array $sessions  Lesson IDs in the course, keyed by ID.
-	 * @param  array $sections  The course's existing headings.
 	 * @return array PlannedRow.
 	 */
-	private static function plan_row( array $row, int $course_id, int $user_id, array $sessions, array $sections ): array {
+	private static function plan_row( array $row, int $course_id, int $user_id, array $sessions ): array {
 		$planned = array_merge(
 			$row,
 			array(
@@ -132,7 +129,6 @@ final class BatchPlanner {
 		}
 
 		self::check_parent_session( $planned, $sessions, $course_id );
-		self::note_existing_heading( $planned, $sections );
 		self::resolve_source( $planned, $user_id );
 
 		$planned['status'] = $planned['errors'] === array() ? 'ready' : 'error';
@@ -180,30 +176,6 @@ final class BatchPlanner {
 			$session_id,
 			$course_id
 		);
-	}
-
-
-	/**
-	 * Note whether a session's heading already exists or will be created.
-	 *
-	 * Not an error either way — the editor simply benefits from knowing which
-	 * headings the import is about to add to their course.
-	 *
-	 * @param array $row      PlannedRow, updated in place.
-	 * @param array $sections The course's existing headings.
-	 */
-	private static function note_existing_heading( array &$row, array $sections ): void {
-		if ( $row['type'] !== CsvParser::TYPE_SESSION || $row['heading'] === '' ) {
-			return;
-		}
-
-		if ( SectionHeadings::find( $sections, $row['heading'] ) === null ) {
-			$row['notices'][] = sprintf(
-				/* translators: %s: section heading title */
-				__( 'Section heading "%s" does not exist yet and will be created.', 'cbf-slides-importer' ),
-				$row['heading']
-			);
-		}
 	}
 
 

@@ -166,14 +166,20 @@ final class BatchReport {
 
 
 	/**
-	 * Whether any row needs the editor's attention.
+	 * Whether anything went wrong while the batch ran.
+	 *
+	 * Only failures count. A rejected row was identified at pre-flight and
+	 * shown to the editor before they pressed the button, so a batch that did
+	 * exactly what the pre-flight report said it would has not gone wrong — and
+	 * reporting a known, accepted exclusion as a problem trains people to
+	 * ignore the status.
 	 *
 	 * @param  array $entries Report entries.
 	 * @return bool
 	 */
 	public static function has_problems( array $entries ): bool {
 		foreach ( $entries as $entry ) {
-			if ( in_array( $entry['outcome'], array( self::OUTCOME_FAILED, self::OUTCOME_REJECTED ), true ) ) {
+			if ( $entry['outcome'] === self::OUTCOME_FAILED ) {
 				return true;
 			}
 		}
