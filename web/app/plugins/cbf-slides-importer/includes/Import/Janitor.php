@@ -48,6 +48,17 @@ final class Janitor {
 	const STALE_MINUTES = 30;
 
 	/**
+	 * How many times a job may be reset before it is abandoned.
+	 *
+	 * A worker that dies without running its shutdown handler — killed by the
+	 * OS, or by a segfault in a parsing library — leaves no error behind, so
+	 * the sweep below cannot tell a transient stall from a document that will
+	 * fail the same way every time. Without a ceiling those are identical, and
+	 * a single bad row keeps a batch cycling every 30 minutes forever.
+	 */
+	const MAX_ATTEMPTS = 3;
+
+	/**
 	 * Job temp directories older than this many hours are deleted.
 	 */
 	const TMP_MAX_HOURS = 2;
@@ -116,6 +127,11 @@ final class Janitor {
 		);
 
 		foreach ( $stale_ids as $id ) {
+			if ( self::attempts( (int) $id ) >= self::MAX_ATTEMPTS ) {
+				self::abandon( (int) $id );
+				continue;
+			}
+
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->update(
 				$table,
@@ -127,9 +143,102 @@ final class Janitor {
 				array( '%s', '%s' ),
 				array( '%d' )
 			);
+			self::record_attempt( (int) $id );
 			self::requeue( (int) $id );
 			Utils::log( 'Stale job reset to pending.', array( 'job_id' => (int) $id ) );
 		}
+	}
+
+
+	/**
+	 * Count how many times this job has already been reset.
+	 *
+	 * Kept in the job's result summary rather than its own column so that the
+	 * counter needs no schema change; nothing else reads the key.
+	 *
+	 * @param  int $job_id Job ID.
+	 * @return int
+	 */
+	private static function attempts( int $job_id ): int {
+		return (int) ( self::summary( $job_id )['stale_resets'] ?? 0 );
+	}
+
+
+	/**
+	 * Note one more reset against a job.
+	 *
+	 * @param int $job_id Job ID.
+	 */
+	private static function record_attempt( int $job_id ): void {
+		global $wpdb;
+
+		$summary                 = self::summary( $job_id );
+		$summary['stale_resets'] = self::attempts( $job_id ) + 1;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$wpdb->prefix . 'cbf_slide_import_jobs',
+			array( 'result_summary' => wp_json_encode( $summary ) ),
+			array( 'id' => $job_id ),
+			array( '%s' ),
+			array( '%d' )
+		);
+	}
+
+
+	/**
+	 * Read a job's result summary.
+	 *
+	 * @param  int $job_id Job ID.
+	 * @return array
+	 */
+	private static function summary( int $job_id ): array {
+		global $wpdb;
+		$table = $wpdb->prefix . 'cbf_slide_import_jobs';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$raw = (string) $wpdb->get_var(
+			$wpdb->prepare( "SELECT result_summary FROM {$table} WHERE id = %d", $job_id ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		);
+
+		$decoded = json_decode( $raw, true );
+
+		return is_array( $decoded ) ? $decoded : array();
+	}
+
+
+	/**
+	 * Give up on a job that has been reset too many times.
+	 *
+	 * Marking it failed is what releases a batch waiting on the row, so the
+	 * remaining rows still run.
+	 *
+	 * @param int $job_id Job ID.
+	 */
+	private static function abandon( int $job_id ): void {
+		global $wpdb;
+
+		$note = sprintf(
+			/* translators: %d: number of attempts */
+			__( 'This document could not be processed after %d attempts. The server stopped each time, which usually means it is too large or too complex for this site to handle.', 'cbf-slides-importer' ),
+			self::MAX_ATTEMPTS
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$wpdb->prefix . 'cbf_slide_import_jobs',
+			array(
+				'status'        => 'failed',
+				'error_message' => $note,
+			),
+			array( 'id' => $job_id ),
+			array( '%s', '%s' ),
+			array( '%d' )
+		);
+
+		JobRunner::release_batch_row( $job_id, $note );
+
+		Utils::log( 'Job abandoned after repeated stalls.', array( 'job_id' => $job_id ) );
 	}
 
 

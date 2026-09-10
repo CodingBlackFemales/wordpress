@@ -44,10 +44,51 @@ final class JobRunner {
 	const CRON_HOOK = 'cbf_si_process_job';
 
 	/**
+	 * Memory ceiling to raise to before a job runs.
+	 *
+	 * Parsing is far hungrier than the file on disk suggests: a 7.2 MB, 42-slide
+	 * PPTX peaks at ~450 MB, because PhpPresentation holds every slide's object
+	 * graph and every embedded image in memory at once. Against the 256 MB that
+	 * WP_MEMORY_LIMIT gives a cron request, that is a fatal error rather than a
+	 * caught failure — the worker dies mid-parse, and a batch waiting on the row
+	 * stalls until the Janitor's stale-job sweep 30 minutes later.
+	 *
+	 * Raised only for the duration of the cron request, and only upwards; a
+	 * server already configured higher is left alone. Filter
+	 * `cbf_si_job_memory_limit` to change it.
+	 */
+	const MEMORY_LIMIT = '1024M';
+
+	/**
+	 * Bytes held back so the shutdown handler can still work after an OOM.
+	 *
+	 * A fatal "allowed memory size exhausted" leaves no headroom for the
+	 * handler that records it, so a buffer is allocated up front and released
+	 * the moment the handler runs.
+	 *
+	 * @var string|null
+	 */
+	private static $memory_reserve = null;
+
+	/**
 	 * Register the cron hook.
 	 */
 	public static function hooks(): void {
 		add_action( self::CRON_HOOK, array( __CLASS__, 'run' ) );
+		add_filter( 'cbf_si_job_memory_limit', array( __CLASS__, 'default_memory_limit' ) );
+	}
+
+
+	/**
+	 * Supply the default ceiling for wp_raise_memory_limit().
+	 *
+	 * Registered as a filter so a site can lower or raise it without patching
+	 * the plugin, and so the value is discoverable in the usual WordPress way.
+	 *
+	 * @return string
+	 */
+	public static function default_memory_limit(): string {
+		return self::MEMORY_LIMIT;
 	}
 
 
@@ -65,6 +106,9 @@ final class JobRunner {
 			Utils::log( 'JobRunner called with no job_id.' );
 			return;
 		}
+
+		wp_raise_memory_limit( 'cbf_si_job' );
+		self::watch_for_fatal( $job_id, $blog_id );
 
 		// Ensure we are on the correct blog in multisite.
 		if ( function_exists( 'switch_to_blog' ) && $blog_id !== get_current_blog_id() ) {
@@ -99,6 +143,63 @@ final class JobRunner {
 				restore_current_blog();
 			}
 		}
+	}
+
+
+	/**
+	 * Record a fatal error against the job instead of losing it.
+	 *
+	 * An exception is caught by run(); a fatal is not. Memory exhaustion, a
+	 * timeout or a segfault in a parsing library kills the worker outright,
+	 * leaving the job frozen in `downloading`, `parsing` or `importing` with no
+	 * error against it. A single-file import merely looks stuck; a batch stops
+	 * dead, because the next row is only queued when this one reports back.
+	 *
+	 * @param int $job_id  Job ID.
+	 * @param int $blog_id Blog the job belongs to.
+	 */
+	private static function watch_for_fatal( int $job_id, int $blog_id ): void {
+		self::$memory_reserve = str_repeat( ' ', 512 * 1024 );
+
+		register_shutdown_function(
+			static function () use ( $job_id, $blog_id ) {
+				self::$memory_reserve = null;
+
+				$error = error_get_last();
+				if ( $error === null || ! in_array( $error['type'], array( E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR ), true ) ) {
+					return;
+				}
+
+				$job = self::get_job( $job_id, $blog_id );
+				if ( $job === null || in_array( $job['status'], array( 'done', 'failed' ), true ) ) {
+					return;
+				}
+
+				self::set_failed( $job_id, self::fatal_message( $error ) );
+			}
+		);
+	}
+
+
+	/**
+	 * Phrase a fatal error for someone reading an import report.
+	 *
+	 * The raw message names a vendor file and a byte count, neither of which
+	 * helps an editor decide what to do with the row.
+	 *
+	 * @param  array $error Result of error_get_last().
+	 * @return string
+	 */
+	private static function fatal_message( array $error ): string {
+		if ( stripos( $error['message'], 'allowed memory size' ) !== false ) {
+			return __( 'This document needs more memory to process than the server allows. It is likely to be very large or to contain a great many images; import it on its own, or split it up.', 'cbf-slides-importer' );
+		}
+
+		if ( stripos( $error['message'], 'maximum execution time' ) !== false ) {
+			return __( 'This document took too long to process and the server stopped it. It is likely to be very large; import it on its own, or split it up.', 'cbf-slides-importer' );
+		}
+
+		return __( 'The server stopped while processing this document. Check the debug log for the underlying error.', 'cbf-slides-importer' );
 	}
 
 
@@ -632,6 +733,17 @@ final class JobRunner {
 
 
 	/**
+	 * Let the Janitor move a batch past a row it has given up on.
+	 *
+	 * @param int    $job_id  Job ID.
+	 * @param string $message Failure detail for the report.
+	 */
+	public static function release_batch_row( int $job_id, string $message ): void {
+		self::fail_batch_row( $job_id, $message );
+	}
+
+
+	/**
 	 * Move a batch past a row that failed before it reached the importer.
 	 *
 	 * A download or parse failure never reaches report_to_batch(), and without
@@ -639,6 +751,14 @@ final class JobRunner {
 	 *
 	 * @param int    $job_id  Job ID.
 	 * @param string $message Redacted failure message.
+	 */
+
+
+	/**
+	 * Move a batch past a row that failed before it reached the importer.
+	 *
+	 * @param int    $job_id  Job ID.
+	 * @param string $message Failure detail for the report.
 	 */
 	private static function fail_batch_row( int $job_id, string $message ): void {
 		$job = self::reload( $job_id );
