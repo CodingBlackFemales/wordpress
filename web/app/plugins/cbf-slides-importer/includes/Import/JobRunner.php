@@ -603,7 +603,7 @@ final class JobRunner {
 				'outcome' => BatchReport::OUTCOME_REUSED,
 				'extra'   => array(
 					'post_id' => $existing,
-					'detail'  => self::reuse_detail( $existing, $course_id ),
+					'detail'  => self::reuse_detail(),
 				),
 			);
 		}
@@ -653,23 +653,14 @@ final class JobRunner {
 	/**
 	 * Explain a reused row.
 	 *
-	 * @param  int $existing_id Post being reused.
-	 * @param  int $course_id   Course the row was importing into.
+	 * Kept to one short clause. This sits in a table of 100-plus rows, where a
+	 * sentence per row is noise; the outcome badge already carries the meaning,
+	 * and the linked post shows where the content came from.
+	 *
 	 * @return string
 	 */
-	private static function reuse_detail( int $existing_id, int $course_id ): string {
-		$courses = function_exists( 'learndash_get_courses_for_step' ) ? (array) learndash_get_courses_for_step( $existing_id, true ) : array();
-		unset( $courses[ $course_id ] );
-
-		if ( $courses === array() ) {
-			return __( 'This content already existed and has been added to the course as it is. Nothing was overwritten.', 'cbf-slides-importer' );
-		}
-
-		return sprintf(
-			/* translators: %s: comma-separated list of course titles */
-			__( 'This content already existed in %s and has been added to this course as well, as a shared step. Nothing was overwritten, and nothing was duplicated.', 'cbf-slides-importer' ),
-			implode( ', ', array_map( 'html_entity_decode', array_map( 'strval', $courses ) ) )
-		);
+	private static function reuse_detail(): string {
+		return __( 'Existing content, added as a shared step.', 'cbf-slides-importer' );
 	}
 
 
