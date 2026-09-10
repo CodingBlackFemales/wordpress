@@ -71,6 +71,33 @@ final class SettingsPage {
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render' )
 		);
+
+		// Drop the entry the line above put in `$submenu['']`. Nothing renders
+		// it — there is no menu with an empty slug — but `get_admin_page_parent()`
+		// searches `$submenu` and would resolve this screen's parent to `''`,
+		// overwriting `$parent_file` after the filter below has set it and
+		// leaving the sidebar with no menu open.
+		//
+		// Removing it is safe here in a way it was not under a real parent: the
+		// hook name `add_submenu_page()` registered is derived from the same
+		// unresolvable parent the access check derives its own from, so the two
+		// still agree.
+		remove_submenu_page( '', self::PAGE_SLUG );
+	}
+
+
+	/**
+	 * Keep the LearnDash menu open while on the settings screen.
+	 *
+	 * With the screen absent from `$submenu`, `get_admin_page_parent()` finds
+	 * nothing and leaves `$parent_file` alone rather than clearing it, so the
+	 * value set here survives to the menu render.
+	 *
+	 * @param  string $parent_file The menu WordPress will treat as current.
+	 * @return string
+	 */
+	public static function keep_menu_open( $parent_file ) {
+		return self::is_current_screen() ? 'learndash-lms' : $parent_file;
 	}
 
 
@@ -79,20 +106,6 @@ final class SettingsPage {
 	 */
 	private static function is_current_screen(): bool {
 		return isset( $GLOBALS['plugin_page'] ) && $GLOBALS['plugin_page'] === self::PAGE_SLUG;
-	}
-
-
-	/**
-	 * Keep the LearnDash menu open while on the settings screen.
-	 *
-	 * The screen has no menu entry, so WordPress cannot work out which menu it
-	 * belongs under and would collapse the sidebar to nothing.
-	 *
-	 * @param  string $parent_file The menu WordPress will treat as current.
-	 * @return string
-	 */
-	public static function keep_menu_open( $parent_file ) {
-		return self::is_current_screen() ? 'learndash-lms' : $parent_file;
 	}
 
 
