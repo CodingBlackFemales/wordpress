@@ -24,7 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Settings page class.
  *
- * Registered under LearnDash menu → "Slides Importer" → "Settings".
+ * Reached from the Settings tab on the importer screen rather than from a menu
+ * entry of its own: it is an administrator's screen, and a second LearnDash menu
+ * item for it put configuration in front of every editor who cannot use it.
  * Capability: manage_options (admin-only).
  */
 final class SettingsPage {
@@ -39,11 +41,18 @@ final class SettingsPage {
 	public static function hooks(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_filter( 'submenu_file', array( __CLASS__, 'keep_parent_open' ) );
 	}
 
 
 	/**
-	 * Add the settings page under the LearnDash menu.
+	 * Register the settings screen without giving it a menu entry.
+	 *
+	 * Registering under LearnDash and then removing the link is deliberate:
+	 * `remove_submenu_page()` only takes the item out of `$submenu`, leaving the
+	 * screen registered and routable. Passing an empty parent instead would
+	 * work too, but loses the capability check `add_submenu_page()` performs and
+	 * leaves the page orphaned from the menu it belongs under.
 	 */
 	public static function register_menu(): void {
 		add_submenu_page(
@@ -54,6 +63,28 @@ final class SettingsPage {
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render' )
 		);
+
+		remove_submenu_page( 'learndash-lms', self::PAGE_SLUG );
+	}
+
+
+	/**
+	 * Keep the importer's menu item highlighted while on the settings screen.
+	 *
+	 * Without this the LearnDash menu opens with nothing marked current, since
+	 * the screen being viewed has no item of its own.
+	 *
+	 * @param  string|null $submenu_file The submenu item WordPress will mark current.
+	 * @return string|null
+	 */
+	public static function keep_parent_open( $submenu_file ) {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( $screen && strpos( (string) $screen->id, self::PAGE_SLUG ) !== false ) {
+			return ImporterPage::PAGE_SLUG;
+		}
+
+		return $submenu_file;
 	}
 
 
@@ -225,7 +256,8 @@ final class SettingsPage {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'CBF Slides Importer — Settings', 'cbf-slides-importer' ); ?></h1>
+			<h1><?php esc_html_e( 'Slides Importer', 'cbf-slides-importer' ); ?></h1>
+			<?php Tabs::render( self::PAGE_SLUG ); ?>
 			<?php settings_errors(); ?>
 			<form method="post" action="options.php">
 				<?php
