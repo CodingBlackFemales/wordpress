@@ -173,12 +173,12 @@
     "post-update-cmd": [
       "@update-ssp"
     ],
-    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../../../..",
-    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../../../..",
+    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../cbf-slides-importer;composer install;cd ../../../..",
+    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../cbf-slides-importer;composer update;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
-    "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
+    "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",
-    "fix:all": "@fix  ./web/app/plugins/cbf-multisite ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
+    "fix:all": "@fix  ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "test": [
       "phpcs"
     ],
