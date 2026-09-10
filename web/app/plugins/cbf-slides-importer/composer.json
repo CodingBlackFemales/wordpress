@@ -75,6 +75,9 @@
   "autoload-dev": {
     "psr-4": {
       "CodingBlackFemales\\SlidesImporter\\Tests\\": "tests/"
-    }
+    },
+    "exclude-from-classmap": [
+      "/tests/Support/wordpress-stubs.php"
+    ]
   }
 }

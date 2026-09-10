@@ -61,6 +61,6 @@
     ]
   },
   "allowScripts": {
-    "@evilmartians/lefthook@1.6.4": true
+    "@evilmartians/lefthook@1.13.6": true
   }
 }

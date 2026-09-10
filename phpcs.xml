@@ -17,9 +17,9 @@
 	<exclude-pattern>\.github/*</exclude-pattern>
 	<exclude-pattern>web/wp</exclude-pattern>
 	<exclude-pattern>web/app/themes/twentytwentythree/</exclude-pattern>
-	<exclude-pattern>vendor/*</exclude-pattern>
-	<exclude-pattern>node_modues/*</exclude-pattern>
-	<exclude-pattern>assets/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
 
 	<!-- Codeception run artefacts and generated actor traits -->
 	<exclude-pattern>*/tests/_output/*</exclude-pattern>
