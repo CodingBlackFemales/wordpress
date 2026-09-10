@@ -818,6 +818,7 @@
         chip("Ready", ready, "#e8f0fe;color:#1a56db;") +
         chip("Created", s.created, "#e6f6ea;color:#00733b;") +
         chip("Updated", s.updated, "#e6f6ea;color:#00733b;") +
+        chip("Reused", s.reused, "#eef2ff;color:#3730a3;") +
         chip("Skipped", s.skipped, "#f0f0f1;color:#555;") +
         chip("Failed", s.failed, "#fcebea;color:#b32d2e;") +
         chip("Cannot import", s.rejected, "#fcf0e4;color:#8a6100;") +
@@ -935,6 +936,7 @@
       const styles = {
         created: "background:#e6f6ea;color:#00733b;",
         updated: "background:#e6f6ea;color:#00733b;",
+        reused: "background:#eef2ff;color:#3730a3;",
         skipped: "background:#f0f0f1;color:#555;",
         failed: "background:#fcebea;color:#b32d2e;",
         rejected: "background:#fcf0e4;color:#8a6100;",
@@ -943,6 +945,7 @@
       const labels = {
         created: "Created",
         updated: "Updated",
+        reused: "Reused",
         skipped: "Skipped",
         failed: "Failed",
         rejected: "Cannot import",

@@ -357,11 +357,13 @@ final class SectionHeadings {
 		$steps = (array) $model->get_steps( 'h' );
 		$key   = self::LESSON_POST_TYPE;
 
-		if ( ! self::tree_is_complete( $steps[ $key ] ?? array(), $sequence ) ) {
+		$lessons = self::attach_missing( (array) ( $steps[ $key ] ?? array() ), $sequence );
+
+		if ( $lessons === null ) {
 			return;
 		}
 
-		$steps[ $key ] = self::reindex( (array) $steps[ $key ], $sequence );
+		$steps[ $key ] = self::reindex( $lessons, $sequence );
 
 		// set_steps() takes the step-type map itself, and `keep_sections` stops
 		// it discarding the headings written moments earlier.
@@ -404,35 +406,52 @@ final class SectionHeadings {
 
 
 	/**
-	 * Refuse to write a step tree that is missing lessons.
+	 * Add any lesson the batch is placing that the step tree does not yet hold.
 	 *
-	 * Writing the tree replaces the course's definitive step list, so a stale or
-	 * partial read would silently detach content. Ordering is a convenience;
-	 * losing lessons is not recoverable from here, so when the tree does not
-	 * account for everything being placed, the reorder is abandoned and the
-	 * lessons simply keep their existing positions.
+	 * Writing the tree replaces the course's definitive step list, so a lesson
+	 * absent from the read is a lesson about to be detached. Two situations
+	 * produce one, and both want the same answer — put it in the tree:
+	 *
+	 * - The tree was read before this batch created the lesson.
+	 * - The row reused a lesson that already existed in **another** course.
+	 *   With shared course steps enabled a lesson can belong to several
+	 *   courses, and `set_steps()` registers the step against this one, which
+	 *   is exactly how the course builder shares a step.
+	 *
+	 * Only real lessons are added. Anything else in the sequence means a caller
+	 * has gone wrong, and writing it into the tree would attach nonsense to the
+	 * course, so the reorder is abandoned instead — a course left in its old
+	 * order is recoverable by hand, a corrupted step tree much less so.
 	 *
 	 * @param  array $lessons  Lesson steps keyed by post ID.
 	 * @param  int[] $sequence Lessons the batch intends to order.
-	 * @return bool
+	 * @return array|null      Lesson steps including the additions, or null to abandon.
 	 */
-	private static function tree_is_complete( array $lessons, array $sequence ): bool {
-		if ( $lessons === array() ) {
-			Utils::log( 'Skipped reordering: LearnDash reports no steps for this course.' );
-			return false;
-		}
-
+	private static function attach_missing( array $lessons, array $sequence ): ?array {
 		$missing = array_diff( $sequence, array_map( 'intval', array_keys( $lessons ) ) );
 
-		if ( $missing !== array() ) {
-			Utils::log(
-				'Skipped reordering: the course step tree is missing lessons this batch created.',
-				array( 'missing' => count( $missing ) )
-			);
-			return false;
+		if ( $missing === array() ) {
+			return $lessons;
 		}
 
-		return true;
+		foreach ( $missing as $lesson_id ) {
+			if ( get_post_type( $lesson_id ) !== self::LESSON_POST_TYPE ) {
+				Utils::log(
+					'Skipped reordering: something in the sequence is not a lesson.',
+					array( 'post_id' => (int) $lesson_id )
+				);
+				return null;
+			}
+
+			$lessons[ $lesson_id ] = array();
+		}
+
+		Utils::log(
+			'Attached lessons to the course step tree.',
+			array( 'attached' => count( $missing ) )
+		);
+
+		return $lessons;
 	}
 
 

@@ -546,8 +546,8 @@ final class JobRunner {
 			return;
 		}
 
-		$course_id = (int) ( self::resolve_config( $job )['course_id'] ?? 0 );
-		$outcome   = self::batch_outcome( $result, $course_id );
+		$config  = self::resolve_config( $job );
+		$outcome = self::batch_outcome( $result, (int) ( $config['course_id'] ?? 0 ), $config );
 
 		BatchRunner::complete_row( $context['batch_id'], $context['line'], $outcome['outcome'], $outcome['extra'] );
 	}
@@ -558,9 +558,10 @@ final class JobRunner {
 	 *
 	 * @param  array|WP_Error $result    Importer result.
 	 * @param  int            $course_id Course the row was importing into.
+	 * @param  array          $config    The row's import config.
 	 * @return array{outcome: string, extra: array}
 	 */
-	private static function batch_outcome( $result, int $course_id = 0 ): array {
+	private static function batch_outcome( $result, int $course_id = 0, array $config = array() ): array {
 		if ( is_wp_error( $result ) ) {
 			return array(
 				'outcome' => BatchReport::OUTCOME_FAILED,
@@ -578,20 +579,96 @@ final class JobRunner {
 
 		$skipped = $result['skipped_post_ids'] ?? array();
 		if ( $skipped !== array() ) {
-			$existing = (int) reset( $skipped );
-
-			return array(
-				'outcome' => BatchReport::OUTCOME_SKIPPED,
-				'extra'   => array(
-					'post_id' => $existing,
-					'detail'  => self::skip_detail( $existing, $course_id ),
-				),
-			);
+			return self::matched_outcome( (int) reset( $skipped ), $course_id, $config );
 		}
 
 		return array(
 			'outcome' => BatchReport::OUTCOME_FAILED,
 			'extra'   => array( 'detail' => __( 'The import produced no content.', 'cbf-slides-importer' ) ),
+		);
+	}
+
+
+	/**
+	 * Decide what to do with a row whose title matched an existing post.
+	 *
+	 * @param  int   $existing  Post that matched by title.
+	 * @param  int   $course_id Course the row was importing into.
+	 * @param  array $config    The row's import config.
+	 * @return array{outcome: string, extra: array}
+	 */
+	private static function matched_outcome( int $existing, int $course_id, array $config ): array {
+		if ( self::can_reuse( $existing, $course_id, $config ) ) {
+			return array(
+				'outcome' => BatchReport::OUTCOME_REUSED,
+				'extra'   => array(
+					'post_id' => $existing,
+					'detail'  => self::reuse_detail( $existing, $course_id ),
+				),
+			);
+		}
+
+		return array(
+			'outcome' => BatchReport::OUTCOME_SKIPPED,
+			'extra'   => array(
+				'post_id' => $existing,
+				'detail'  => self::skip_detail( $existing, $course_id ),
+			),
+		);
+	}
+
+
+	/**
+	 * Whether an existing post should be added to this course rather than skipped.
+	 *
+	 * With shared course steps enabled, a lesson is not owned by one course —
+	 * it is a step several courses can hold, which is how CBF already runs
+	 * common material like "Introduction to Git" across bootcamps. A title
+	 * already in use is therefore content to reuse, and refusing the row leaves
+	 * a gap in the course for no reason.
+	 *
+	 * Overwrite takes precedence when it is on: the editor has asked for the
+	 * existing post to be rewritten, and the importer has already done it.
+	 *
+	 * @param  int   $existing_id Post that matched by title.
+	 * @param  int   $course_id   Course the row was importing into.
+	 * @param  array $config      The row's import config.
+	 * @return bool
+	 */
+	private static function can_reuse( int $existing_id, int $course_id, array $config ): bool {
+		if ( $course_id === 0 || ! empty( $config['overwrite'] ) ) {
+			return false;
+		}
+
+		if ( ! function_exists( 'learndash_is_course_shared_steps_enabled' ) || ! learndash_is_course_shared_steps_enabled() ) {
+			return false;
+		}
+
+		$wanted = ( $config['mode'] ?? '' ) === 'topic' ? 'sfwd-topic' : 'sfwd-lessons';
+
+		return get_post_type( $existing_id ) === $wanted;
+	}
+
+
+	/**
+	 * Explain a reused row.
+	 *
+	 * @param  int $existing_id Post being reused.
+	 * @param  int $course_id   Course the row was importing into.
+	 * @return string
+	 */
+	private static function reuse_detail( int $existing_id, int $course_id ): string {
+		$courses = function_exists( 'learndash_get_courses_for_step' ) ? (array) learndash_get_courses_for_step( $existing_id, true ) : array();
+		unset( $courses[ $course_id ] );
+
+		if ( $courses === array() ) {
+			return __( 'This content already existed and has been added to the course as it is. Nothing was overwritten.', 'cbf-slides-importer' );
+		}
+
+		return sprintf(
+			/* translators: %s: comma-separated list of course titles */
+			__( 'This content already existed in %s and has been added to this course as well, as a shared step. Nothing was overwritten, and nothing was duplicated.', 'cbf-slides-importer' ),
+			implode( ', ', array_map( 'html_entity_decode', array_map( 'strval', $courses ) ) )
 		);
 	}
 

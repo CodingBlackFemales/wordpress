@@ -167,6 +167,12 @@ These are reported individually, with the reason, before anything runs. A row th
 
 Re-uploading a corrected CSV is safe. Rows already imported with the same file and settings are reported as skipped rather than duplicated.
 
+### Content that already exists
+
+This site has LearnDash **shared course steps** enabled, so one session can belong to several courses. When a row's title matches a session that already exists — commonly a shared one like "Introduction to Git", which several bootcamps teach — the importer does not create a second copy. It adds the existing session to this course as a shared step and reports the row as **Reused**, naming the other courses it belongs to. Nothing is overwritten and nothing is duplicated, and the session keeps whatever content it already had.
+
+To replace that content rather than reuse it, enable Overwrite — but note that with shared steps the change is visible in every course holding the session, not only this one.
+
 ## Background jobs
 
 Work happens on WP-Cron, not in the request that queues it.
@@ -290,6 +296,7 @@ Two sets of versions are duplicated across files and have to be changed together
 | Everything in a PDF becomes one code block        | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                                                                                                      |
 | A bulk row says the session does not exist        | `session_id` must name a session already in the selected course — see Sessions before topics                                                                                                           |
 | Bulk rows are reported as skipped                 | the same file was already imported with these settings; enable Overwrite to update instead                                                                                                             |
+| A bulk row is reported as reused                  | a session with that title already existed, so it was added to this course as a shared step instead of being duplicated — see Content that already exists                                               |
 | A bulk batch seems stuck                          | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes                                                                                     |
 | A row fails saying the document needs more memory | the document is too large or too image-heavy for this server to parse; import it on its own, or split it up. Raise the ceiling with the `cbf_si_job_memory_limit` filter where the server has headroom |
 
