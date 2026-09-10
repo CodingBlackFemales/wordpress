@@ -30,6 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class OAuthClient {
 
 	/**
+	 * Google's OAuth token endpoint.
+	 *
+	 * Used when the stored client secret does not name one of its own.
+	 */
+	const TOKEN_URL = 'https://oauth2.googleapis.com/token';
+
+	/**
 	 * Build and configure a Google_Client instance for the current request.
 	 *
 	 * Returns WP_Error if the client secret is not stored or cannot be decrypted.
@@ -55,7 +62,7 @@ final class OAuthClient {
 		$client->setScopes( array( \Google\Service\Drive::DRIVE_READONLY ) );
 		$client->setAccessType( 'offline' );
 		$client->setPrompt( 'consent' );
-		$client->setRedirectUri( rest_url( 'cbf-si/v1/auth/callback' ) );
+		$client->setRedirectUri( self::redirect_uri() );
 
 		return $client;
 	}
@@ -97,15 +104,16 @@ final class OAuthClient {
 	 * @return true|WP_Error
 	 */
 	public static function exchange_code( string $code, int $user_id ): true|WP_Error {
-		$client = self::make();
-		if ( is_wp_error( $client ) ) {
-			return $client;
-		}
+		$token = self::request_token(
+			array(
+				'grant_type'   => 'authorization_code',
+				'code'         => $code,
+				'redirect_uri' => self::redirect_uri(),
+			)
+		);
 
-		$token = $client->fetchAccessTokenWithAuthCode( $code );
-
-		if ( isset( $token['error'] ) ) {
-			return new WP_Error( 'cbf_si_oauth_error', (string) $token['error_description'] ?? $token['error'] );
+		if ( is_wp_error( $token ) ) {
+			return $token;
 		}
 
 		return self::store_token( $user_id, $token );
@@ -134,7 +142,7 @@ final class OAuthClient {
 		$client->setAccessToken( $token );
 
 		if ( $client->isAccessTokenExpired() ) {
-			$token = self::refresh_token( $client, $token, $user_id );
+			$token = self::refresh_token( $token, $user_id );
 
 			if ( is_wp_error( $token ) ) {
 				return $token;
@@ -148,12 +156,11 @@ final class OAuthClient {
 	/**
 	 * Exchange a refresh token for a fresh access token and store the result.
 	 *
-	 * @param  GoogleClient $client  Client already carrying the expired token.
-	 * @param  array        $token   The expired token.
-	 * @param  int          $user_id WP user ID to store the new token against.
+	 * @param  array $token   The expired token.
+	 * @param  int   $user_id WP user ID to store the new token against.
 	 * @return array|WP_Error The refreshed token.
 	 */
-	private static function refresh_token( GoogleClient $client, array $token, int $user_id ): array|WP_Error {
+	private static function refresh_token( array $token, int $user_id ): array|WP_Error {
 		if ( empty( $token['refresh_token'] ) ) {
 			return new WP_Error(
 				'cbf_si_token_expired',
@@ -161,10 +168,25 @@ final class OAuthClient {
 			);
 		}
 
-		$new_token = $client->fetchAccessTokenWithRefreshToken( $token['refresh_token'] );
+		$new_token = self::request_token(
+			array(
+				'grant_type'    => 'refresh_token',
+				'refresh_token' => $token['refresh_token'],
+			)
+		);
 
-		if ( isset( $new_token['error'] ) ) {
-			return new WP_Error( 'cbf_si_refresh_error', (string) ( $new_token['error_description'] ?? $new_token['error'] ) );
+		if ( is_wp_error( $new_token ) ) {
+			// Google's own wording here is terse — "Bad Request" for a revoked
+			// grant — so it is kept for the log but paired with the one thing
+			// the person reading it can actually do.
+			return new WP_Error(
+				'cbf_si_refresh_error',
+				sprintf(
+					/* translators: %s: reason reported by Google */
+					__( 'Your Google sign-in could not be renewed (%s). Reconnect your Google account and try again.', 'cbf-slides-importer' ),
+					$new_token->get_error_message()
+				)
+			);
 		}
 
 		// Google only returns a refresh token on first authorisation, so carry
@@ -176,6 +198,164 @@ final class OAuthClient {
 		$stored = self::store_token( $user_id, $new_token );
 
 		return is_wp_error( $stored ) ? $stored : $new_token;
+	}
+
+
+	/**
+	 * Ask Google's token endpoint for a token.
+	 *
+	 * Deliberately not `Google\Client::fetchAccessTokenWith*()`. google/apiclient
+	 * 2.x builds its transport on Guzzle 6 or 7, and Bedrock's root vendor ships
+	 * Guzzle 8, which wins the autoloader race against the copy bundled here — so
+	 * any call through the client raises "Could not find supported version of
+	 * Guzzle" before reaching the network. The Drive paths already route around
+	 * it; this one had no fallback, which meant a token could never be refreshed
+	 * and a re-authorisation could never complete. Nothing noticed because both
+	 * only happen once an access token passes an hour old.
+	 *
+	 * @param  array $grant The grant-specific parameters.
+	 * @return array|WP_Error The token, or an editor-facing error.
+	 */
+	private static function request_token( array $grant ): array|WP_Error {
+		$cred = self::credentials();
+
+		if ( is_wp_error( $cred ) ) {
+			return $cred;
+		}
+
+		$response = wp_remote_post(
+			self::token_url( $cred ),
+			array(
+				'timeout' => 30,
+				'body'    => array_merge(
+					array(
+						'client_id'     => $cred['client_id'],
+						'client_secret' => $cred['client_secret'],
+					),
+					$grant
+				),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error(
+				'cbf_si_oauth_unreachable',
+				__( 'Google could not be reached to complete sign-in. Try again in a moment.', 'cbf-slides-importer' )
+			);
+		}
+
+		return self::decode_token( (string) wp_remote_retrieve_body( $response ) );
+	}
+
+
+	/**
+	 * Read a token out of the endpoint's response.
+	 *
+	 * `created` is stamped here because the client works out expiry from it, and
+	 * a token without one is treated as expired on every single check.
+	 *
+	 * @param  string $body Raw response body.
+	 * @return array|WP_Error
+	 */
+	private static function decode_token( string $body ): array|WP_Error {
+		$token = json_decode( $body, true );
+
+		if ( ! is_array( $token ) ) {
+			return new WP_Error(
+				'cbf_si_oauth_error',
+				__( 'Google returned a sign-in response this plugin could not read.', 'cbf-slides-importer' )
+			);
+		}
+
+		if ( isset( $token['error'] ) ) {
+			return new WP_Error( 'cbf_si_oauth_error', (string) ( $token['error_description'] ?? $token['error'] ) );
+		}
+
+		$token['created'] = time();
+
+		return $token;
+	}
+
+
+	/**
+	 * The client credentials from the stored secret.
+	 *
+	 * Google issues the file as either a "web" or an "installed" credential and
+	 * both are accepted, matching what the settings screen validates.
+	 *
+	 * @return array|WP_Error
+	 */
+	private static function credentials(): array|WP_Error {
+		$config = self::auth_config();
+
+		if ( is_wp_error( $config ) ) {
+			return $config;
+		}
+
+		$cred = (array) ( $config['web'] ?? $config['installed'] ?? array() );
+
+		if ( empty( $cred['client_id'] ) || empty( $cred['client_secret'] ) ) {
+			return new WP_Error(
+				'cbf_si_bad_client_secret',
+				__( 'The stored Google client secret is missing its client ID or secret. Re-save it in the plugin settings.', 'cbf-slides-importer' )
+			);
+		}
+
+		return $cred;
+	}
+
+
+	/**
+	 * Decrypt and decode the stored client secret.
+	 *
+	 * @return array|WP_Error
+	 */
+	private static function auth_config(): array|WP_Error {
+		$enc_secret = get_option( Install::CLIENT_SECRET_OPTION, '' );
+
+		if ( empty( $enc_secret ) ) {
+			return new WP_Error(
+				'cbf_si_no_client_secret',
+				__( 'Google OAuth client secret is not configured. An administrator must add it in the plugin settings.', 'cbf-slides-importer' )
+			);
+		}
+
+		$secret_json = Crypto::decrypt( (string) $enc_secret );
+
+		if ( is_wp_error( $secret_json ) ) {
+			return $secret_json;
+		}
+
+		$decoded = json_decode( (string) $secret_json, true );
+
+		return is_array( $decoded ) ? $decoded : new WP_Error(
+			'cbf_si_bad_client_secret',
+			__( 'The stored Google client secret could not be read. Re-save it in the plugin settings.', 'cbf-slides-importer' )
+		);
+	}
+
+
+	/**
+	 * The token endpoint to use, preferring the one the credentials name.
+	 *
+	 * @param  array $cred Client credentials.
+	 * @return string
+	 */
+	private static function token_url( array $cred ): string {
+		return empty( $cred['token_uri'] ) ? self::TOKEN_URL : (string) $cred['token_uri'];
+	}
+
+
+	/**
+	 * Where Google sends the browser back to after consent.
+	 *
+	 * Google requires the value sent with the code exchange to match the one
+	 * the consent URL carried exactly, so both read it from here.
+	 *
+	 * @return string
+	 */
+	private static function redirect_uri(): string {
+		return rest_url( 'cbf-si/v1/auth/callback' );
 	}
 
 
