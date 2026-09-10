@@ -41,50 +41,69 @@ final class SettingsPage {
 	public static function hooks(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
-		add_filter( 'submenu_file', array( __CLASS__, 'keep_parent_open' ) );
+		add_filter( 'parent_file', array( __CLASS__, 'keep_menu_open' ) );
+		add_filter( 'submenu_file', array( __CLASS__, 'highlight_importer' ) );
 	}
 
 
 	/**
-	 * Register the settings screen without giving it a menu entry.
+	 * Register the settings screen with no menu entry of its own.
 	 *
-	 * Registering under LearnDash and then removing the link is deliberate:
-	 * `remove_submenu_page()` only takes the item out of `$submenu`, leaving the
-	 * screen registered and routable. Passing an empty parent instead would
-	 * work too, but loses the capability check `add_submenu_page()` performs and
-	 * leaves the page orphaned from the menu it belongs under.
+	 * An empty parent is how a screen is registered without appearing in a
+	 * menu. Registering it under LearnDash and then calling
+	 * `remove_submenu_page()` looks equivalent and is not: `$submenu` is what
+	 * `get_admin_page_parent()` searches to work out which menu a screen
+	 * belongs to, so removing the entry leaves the parent unresolvable.
+	 * `user_can_access_admin_page()` then derives a different hook name than
+	 * the one `add_submenu_page()` registered, finds nothing, and denies
+	 * access — to administrators included.
+	 *
+	 * The capability still gates the screen: `add_submenu_page()` records a
+	 * user who lacks it in `$_wp_submenu_nopriv`, which is the first thing
+	 * `user_can_access_admin_page()` checks.
 	 */
 	public static function register_menu(): void {
 		add_submenu_page(
-			'learndash-lms',
+			'',
 			esc_html__( 'Slides Importer Settings', 'cbf-slides-importer' ),
-			esc_html__( 'Slides Importer', 'cbf-slides-importer' ),
+			esc_html__( 'Settings', 'cbf-slides-importer' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render' )
 		);
-
-		remove_submenu_page( 'learndash-lms', self::PAGE_SLUG );
 	}
 
 
 	/**
-	 * Keep the importer's menu item highlighted while on the settings screen.
+	 * Whether the screen being rendered is this one.
+	 */
+	private static function is_current_screen(): bool {
+		return isset( $GLOBALS['plugin_page'] ) && $GLOBALS['plugin_page'] === self::PAGE_SLUG;
+	}
+
+
+	/**
+	 * Keep the LearnDash menu open while on the settings screen.
 	 *
-	 * Without this the LearnDash menu opens with nothing marked current, since
-	 * the screen being viewed has no item of its own.
+	 * The screen has no menu entry, so WordPress cannot work out which menu it
+	 * belongs under and would collapse the sidebar to nothing.
+	 *
+	 * @param  string $parent_file The menu WordPress will treat as current.
+	 * @return string
+	 */
+	public static function keep_menu_open( $parent_file ) {
+		return self::is_current_screen() ? 'learndash-lms' : $parent_file;
+	}
+
+
+	/**
+	 * Highlight the importer's item while on the settings screen.
 	 *
 	 * @param  string|null $submenu_file The submenu item WordPress will mark current.
 	 * @return string|null
 	 */
-	public static function keep_parent_open( $submenu_file ) {
-		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-
-		if ( $screen && strpos( (string) $screen->id, self::PAGE_SLUG ) !== false ) {
-			return ImporterPage::PAGE_SLUG;
-		}
-
-		return $submenu_file;
+	public static function highlight_importer( $submenu_file ) {
+		return self::is_current_screen() ? ImporterPage::PAGE_SLUG : $submenu_file;
 	}
 
 

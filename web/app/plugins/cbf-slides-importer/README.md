@@ -78,7 +78,7 @@ The plugin requests the `drive.readonly` scope only.
 
 ### 3. Plugin settings
 
-Under **LearnDash → Import Documents**, on the **Settings** tab (administrators only — editors see the Import screen with no tab bar):
+Under **LearnDash → Slides Importer**, on the **Settings** tab (administrators only — editors see the Import screen with no tab bar):
 
 | Setting                  | Value                                                                                                 |
 | ------------------------ | ----------------------------------------------------------------------------------------------------- |
