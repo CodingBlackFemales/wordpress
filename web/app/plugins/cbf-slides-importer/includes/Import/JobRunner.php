@@ -546,7 +546,8 @@ final class JobRunner {
 			return;
 		}
 
-		$outcome = self::batch_outcome( $result );
+		$course_id = (int) ( self::resolve_config( $job )['course_id'] ?? 0 );
+		$outcome   = self::batch_outcome( $result, $course_id );
 
 		BatchRunner::complete_row( $context['batch_id'], $context['line'], $outcome['outcome'], $outcome['extra'] );
 	}
@@ -555,10 +556,11 @@ final class JobRunner {
 	/**
 	 * Translate an importer result into a batch row outcome.
 	 *
-	 * @param  array|WP_Error $result Importer result.
+	 * @param  array|WP_Error $result    Importer result.
+	 * @param  int            $course_id Course the row was importing into.
 	 * @return array{outcome: string, extra: array}
 	 */
-	private static function batch_outcome( $result ): array {
+	private static function batch_outcome( $result, int $course_id = 0 ): array {
 		if ( is_wp_error( $result ) ) {
 			return array(
 				'outcome' => BatchReport::OUTCOME_FAILED,
@@ -576,11 +578,13 @@ final class JobRunner {
 
 		$skipped = $result['skipped_post_ids'] ?? array();
 		if ( $skipped !== array() ) {
+			$existing = (int) reset( $skipped );
+
 			return array(
 				'outcome' => BatchReport::OUTCOME_SKIPPED,
 				'extra'   => array(
-					'post_id' => (int) reset( $skipped ),
-					'detail'  => __( 'A post with this title already exists. Enable Overwrite to update it.', 'cbf-slides-importer' ),
+					'post_id' => $existing,
+					'detail'  => self::skip_detail( $existing, $course_id ),
 				),
 			);
 		}
@@ -589,6 +593,40 @@ final class JobRunner {
 			'outcome' => BatchReport::OUTCOME_FAILED,
 			'extra'   => array( 'detail' => __( 'The import produced no content.', 'cbf-slides-importer' ) ),
 		);
+	}
+
+
+	/**
+	 * Explain a skipped row in terms of where the clashing content actually is.
+	 *
+	 * The importer matches an existing post by title across the **whole site**,
+	 * not within the target course, so two courses cannot both hold a lesson
+	 * called "Introduction to Git". Telling an editor to enable Overwrite is
+	 * therefore actively harmful when the match belongs to another course: it
+	 * would rewrite that course's lesson and pull it into this one. Name the
+	 * course instead, and only recommend Overwrite when the match is one this
+	 * course already owns.
+	 *
+	 * @param  int $existing_id Post that blocked the import.
+	 * @param  int $course_id   Course the row was importing into.
+	 * @return string
+	 */
+	private static function skip_detail( int $existing_id, int $course_id ): string {
+		$owner = function_exists( 'learndash_get_setting' ) ? (int) learndash_get_setting( $existing_id, 'course' ) : 0;
+
+		if ( $course_id !== 0 && $owner === $course_id ) {
+			return __( 'This already exists in this course. Enable Overwrite to update it instead of skipping.', 'cbf-slides-importer' );
+		}
+
+		if ( $owner !== 0 ) {
+			return sprintf(
+				/* translators: %s: title of the course the existing post belongs to */
+				__( 'Another course, “%s”, already has content with this title, and titles must be unique across the whole site. Give this row a different title and run it again. Do not enable Overwrite — it would rewrite that course\'s content and move it into this one.', 'cbf-slides-importer' ),
+				get_the_title( $owner )
+			);
+		}
+
+		return __( 'Content with this title already exists elsewhere on the site, and titles must be unique. Give this row a different title and run it again.', 'cbf-slides-importer' );
 	}
 
 
