@@ -65,6 +65,7 @@ Thumbs.db
 
 # SQL
 *.sql
+*.sql.gz
 
 # PHPCS
 .phpcs.cache
