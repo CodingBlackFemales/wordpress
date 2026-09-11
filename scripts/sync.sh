@@ -1,8 +1,16 @@
 #!/bin/zsh
 
-# Syncing Trellis & Bedrock-based WordPress environments with WP-CLI aliases (Kinsta version)
-# Version 1.1.1
+# Sync Bedrock-based WordPress environments with WP-CLI aliases.
+#
+# Derived from sync-kinsta.sh in roots/sync-script, which is published
+# without a licence; this file is not covered by the repository's MIT grant.
+# https://github.com/roots/sync-script
 # Copyright (c) Ben Word
+#
+# Substantially rewritten for the Coding Black Females multisite network:
+# INI-based environment config, multisite sub-site handling, per-environment
+# remote WP-CLI selection.
+# Copyright (c) 2023-2026 Gary McPherson
 
 LOCAL=false
 SKIP_DB=false
