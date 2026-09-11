@@ -36,16 +36,26 @@ jobs:
           script: |
             set -euo pipefail
             # Non-interactive SSH does not load ~/.bashrc; nvm lives there.
+            echo "=== Starting deployment ==="
             export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
             if [ -s "$NVM_DIR/nvm.sh" ]; then
+              echo "Loading NVM..."
               . "$NVM_DIR/nvm.sh"
+            else
+              echo "NVM not found at $NVM_DIR"
             fi
+            echo "Entering directory: ${{ secrets.SSH_PATH }}"
             cd ${{ secrets.SSH_PATH }}
+            echo "Git stashing..."
             git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
+            echo "Pulling changes..."
             git pull
+            echo "Installing composer dependencies..."
             composer install --no-dev --optimize-autoloader
+            echo "Building assets..."
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
+            echo "=== Deployment complete ==="
 
   check:
     needs: [deploy]
