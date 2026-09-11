@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f860951cc422a1977a8f74af7adb869f",
+    "content-hash": "7bc388fee7676e3159dff8451425747f",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7013,15 +7013,15 @@
         },
         {
             "name": "wp-plugin/woocommerce-gateway-stripe",
-            "version": "10.9.1",
+            "version": "11.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/10.9.1"
+                "reference": "tags/11.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.10.9.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.11.0.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7040,7 +7040,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-gateway-stripe",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe"
             },
-            "time": "2026-09-08T15:01:22+00:00"
+            "time": "2026-09-10T08:56:26+00:00"
         },
         {
             "name": "wp-plugin/woocommerce-paypal-payments",
