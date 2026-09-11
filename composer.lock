@@ -6951,15 +6951,15 @@
         },
         {
             "name": "wp-plugin/webberzone-code-block-highlighting",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting/",
-                "reference": "tags/1.2.1"
+                "reference": "tags/1.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.2.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.2.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6978,7 +6978,7 @@
                 "issues": "https://wordpress.org/support/plugin/webberzone-code-block-highlighting",
                 "source": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting"
             },
-            "time": "2026-08-20T04:46:07+00:00"
+            "time": "2026-09-10T11:31:13+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
