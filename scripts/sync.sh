@@ -1,12 +1,20 @@
 #!/bin/zsh
 
-# Syncing Trellis & Bedrock-based WordPress environments with WP-CLI aliases (Kinsta version)
-# Version 1.1.1
+# Sync Bedrock-based WordPress environments with WP-CLI aliases.
+#
+# Derived from sync-kinsta.sh in roots/sync-script, which is published
+# without a licence; this file is not covered by the repository's MIT grant.
+# https://github.com/roots/sync-script
 # Copyright (c) Ben Word
+#
+# Substantially rewritten for the Coding Black Females multisite network:
+# INI-based environment config, multisite sub-site handling, per-environment
+# remote WP-CLI selection.
+# Copyright (c) 2023-2026 Gary McPherson
 
 LOCAL=false
 SKIP_DB=false
-SKIP_ASSETS=false
+SKIP_MEDIA=false
 POSITIONAL_ARGS=()
 
 while [[ $# -gt 0 ]]; do
@@ -15,8 +23,8 @@ while [[ $# -gt 0 ]]; do
       SKIP_DB=true
       shift
       ;;
-    --skip-assets)
-      SKIP_ASSETS=true
+    --skip-media)
+      SKIP_MEDIA=true
       shift
       ;;
     --local)
@@ -38,7 +46,7 @@ set -- "${POSITIONAL_ARGS[@]}"
 
 if [ $# != 2 ]
 then
-  echo "Usage: $0 [[--skip-db] [--skip-assets] [--local]] [ENV_FROM] [ENV_TO]"
+  echo "Usage: $0 [[--skip-db] [--skip-media] [--local]] [ENV_FROM] [ENV_TO]"
 exit;
 fi
 
@@ -141,7 +149,7 @@ case "$FROM-$TO" in
 	dev-staging)    DIR="up ⬆️ "; ;;
 	prod-staging)     DIR="horizontally ↔️ "; ;;
 	staging-prod)     DIR="horizontally ↔️ "; ;;
-	*) echo "usage: $0 [[--skip-db] [--skip-assets] [--local]] prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
+	*) echo "usage: $0 [[--skip-db] [--skip-media] [--local]] prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
 esac
 
 case "$FROM" in
@@ -174,12 +182,12 @@ then
   DB_MESSAGE=" - ${bold}reset the $TO database${normal} (${DEST[url]})"
 fi
 
-if [ "$SKIP_ASSETS" = false ]
+if [ "$SKIP_MEDIA" = false ]
 then
-  ASSETS_MESSAGE=" - sync ${bold}$DIR${normal} from $FROM (${SOURCE[url]})?"
+  MEDIA_MESSAGE=" - sync ${bold}$DIR${normal} from $FROM (${SOURCE[url]})?"
 fi
 
-if [ "$SKIP_DB" = true ] && [ "$SKIP_ASSETS" = true ]
+if [ "$SKIP_DB" = true ] && [ "$SKIP_MEDIA" = true ]
 then
   echo "Nothing to synchronize."
   exit;
@@ -188,7 +196,7 @@ fi
 read "response?
 🔄  Would you really like to
 ${DB_MESSAGE}
-${ASSETS_MESSAGE}
+${MEDIA_MESSAGE}
 [y/N] "
 
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
@@ -210,6 +218,17 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		fi
 	};
 
+	# WP-CLI's SSH proxy runs plain `wp` on the remote host. On shared hosting that
+	# is usually a global PHAR whose bundled db-command still calls exec() to probe
+	# mysqldump, and exec() is in disable_functions -- so `db export` dies with a
+	# silent PHP fatal that WP-CLI reports as "Cannot connect over SSH". Point the
+	# remote at the site's own Composer-installed WP-CLI, which no longer needs exec().
+	remote_wp_binary() {
+		local approot=$1
+		[[ -z "$approot" ]] && return
+		echo "php ${approot}vendor/wp-cli/wp-cli/php/boot-fs.php"
+	};
+
 	# Make sure both environments are available before we continue
 	availfrom() {
 		local AVAILFROM
@@ -217,10 +236,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		if [[ "$LOCAL" = true && $FROM == "dev" ]]; then
 			AVAILFROM=$("$WP" option get home 2>&1)
 		else
-			AVAILFROM=$("$WP" "@$FROM" option get home 2>&1)
+			AVAILFROM=$(WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" option get home 2>&1)
 		fi
-		if [[ $AVAILFROM == *"Error"* ]]; then
-			echo "❌  Unable to connect to $FROM"
+		if [[ $AVAILFROM != http* ]]; then
+			echo "❌  Unable to connect to $FROM: $AVAILFROM"
 			exit 1
 		else
 			echo "✅  Able to connect to $FROM"
@@ -232,11 +251,11 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
 			AVAILTO=$("$WP" option get home 2>&1)
 		else
-			AVAILTO=$("$WP" "@$TO" option get home 2>&1)
+			AVAILTO=$(WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" option get home 2>&1)
 		fi
 
-		if [[ $AVAILTO == *"Error"* ]]; then
-			echo "❌  Unable to connect to $TO $AVAILTO"
+		if [[ $AVAILTO != http* ]]; then
+			echo "❌  Unable to connect to $TO: $AVAILTO"
 			exit 1
 		else
 			echo "✅  Able to connect to $TO"
@@ -264,15 +283,15 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
 			"$WP" db export $EXPORTFILE --default-character-set=utf8mb4 &&
 			"$WP" db reset --yes &&
-			"$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" db import -
+			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" db import -
 		elif [[ "$LOCAL" = true && $FROM == "dev" ]]; then
-			"$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			"$WP" "@$TO" db reset --yes &&
-			"$WP" db export --default-character-set=utf8mb4 - | "$WP" "@$TO" db import -
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db reset --yes &&
+			"$WP" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db import -
 		else
-			"$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			"$WP" "@$TO" db reset --yes &&
-			"$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" "@$TO" db import -
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db reset --yes &&
+			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db import -
 		fi
 
 		if [ $? -ne 0 ]; then
@@ -308,25 +327,25 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-			"$WP" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
-			"$WP" @"$TO" search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
 		done
 
 		# Run search & replace for primary domain
 		echo
 		echo "Replacing ${SOURCE[domain]} (primary domain) with ${DEST[domain]}"
-		"$WP" @"$TO" search-replace "${SOURCE[domain]}" "${DEST[domain]}" --all-tables-with-prefix
+		WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "${SOURCE[domain]}" "${DEST[domain]}" --all-tables-with-prefix
 		echo "Replacing ${SOURCE[rootdomain]} (root domain) with ${DEST[rootdomain]}"
-		"$WP" @"$TO" search-replace "${SOURCE[rootdomain]}" "${DEST[rootdomain]}" --all-tables-with-prefix
+		WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "${SOURCE[rootdomain]}" "${DEST[rootdomain]}" --all-tables-with-prefix
 	};
 
 	sync_uploads() {
-		if [ "$SKIP_ASSETS" = true ]
+		if [ "$SKIP_MEDIA" = true ]
 		then
 			return
 		fi
 
-		echo "Syncing assets $DIR from ${SOURCE[dir]} to ${DEST[dir]}..."
+		echo "Syncing media $DIR from ${SOURCE[dir]} to ${DEST[dir]}..."
 		# Sync uploads directory
 		chmod -R 755 web/app/uploads/ &&
 		if [[ $DIR == "horizontally"* ]]; then
@@ -364,6 +383,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	else
 		WP="wp"
 	fi
+	SOURCE_WP=$(remote_wp_binary "${SOURCE[approot]}")
+	DEST_WP=$(remote_wp_binary "${DEST[approot]}")
 	availfrom
 	availto
 	sync_db

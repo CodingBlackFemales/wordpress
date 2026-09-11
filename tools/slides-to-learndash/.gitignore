@@ -8,6 +8,6 @@ build/
 .pytest_cache/
 .coverage
 htmlcov/
-media/
+assets/
 *.pptx
 *.csv

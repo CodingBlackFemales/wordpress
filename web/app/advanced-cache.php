@@ -13,7 +13,7 @@ $rocket_config_path = '/app/web/app/wp-rocket-config/';
 $rocket_cache_path  = '/app/web/app/cache/wp-rocket/';
 
 if (
-	version_compare( phpversion(), '7.3', '<' )
+	version_compare( phpversion(), '7.4', '<' )
 	|| ! file_exists( $rocket_path )
 	|| ! file_exists( $rocket_config_path )
 	|| ! file_exists( $rocket_cache_path )
