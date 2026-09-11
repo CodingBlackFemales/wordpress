@@ -45,7 +45,6 @@ jobs:
               echo "::error::Could not install or select the current Node LTS"
               exit 1
             fi
-            echo "Building with node $(node --version) / npm $(npm --version)"
             set -euo pipefail
             cd ${{ secrets.SSH_PATH }}
             git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
