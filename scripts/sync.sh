@@ -6,7 +6,7 @@
 
 LOCAL=false
 SKIP_DB=false
-SKIP_ASSETS=false
+SKIP_MEDIA=false
 POSITIONAL_ARGS=()
 
 while [[ $# -gt 0 ]]; do
@@ -15,8 +15,8 @@ while [[ $# -gt 0 ]]; do
       SKIP_DB=true
       shift
       ;;
-    --skip-assets)
-      SKIP_ASSETS=true
+    --skip-media)
+      SKIP_MEDIA=true
       shift
       ;;
     --local)
@@ -38,7 +38,7 @@ set -- "${POSITIONAL_ARGS[@]}"
 
 if [ $# != 2 ]
 then
-  echo "Usage: $0 [[--skip-db] [--skip-assets] [--local]] [ENV_FROM] [ENV_TO]"
+  echo "Usage: $0 [[--skip-db] [--skip-media] [--local]] [ENV_FROM] [ENV_TO]"
 exit;
 fi
 
@@ -141,7 +141,7 @@ case "$FROM-$TO" in
 	dev-staging)    DIR="up ⬆️ "; ;;
 	prod-staging)     DIR="horizontally ↔️ "; ;;
 	staging-prod)     DIR="horizontally ↔️ "; ;;
-	*) echo "usage: $0 [[--skip-db] [--skip-assets] [--local]] prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
+	*) echo "usage: $0 [[--skip-db] [--skip-media] [--local]] prod dev | staging dev | dev staging | staging prod | prod staging" && exit 1 ;;
 esac
 
 case "$FROM" in
@@ -174,12 +174,12 @@ then
   DB_MESSAGE=" - ${bold}reset the $TO database${normal} (${DEST[url]})"
 fi
 
-if [ "$SKIP_ASSETS" = false ]
+if [ "$SKIP_MEDIA" = false ]
 then
-  ASSETS_MESSAGE=" - sync ${bold}$DIR${normal} from $FROM (${SOURCE[url]})?"
+  MEDIA_MESSAGE=" - sync ${bold}$DIR${normal} from $FROM (${SOURCE[url]})?"
 fi
 
-if [ "$SKIP_DB" = true ] && [ "$SKIP_ASSETS" = true ]
+if [ "$SKIP_DB" = true ] && [ "$SKIP_MEDIA" = true ]
 then
   echo "Nothing to synchronize."
   exit;
@@ -188,7 +188,7 @@ fi
 read "response?
 🔄  Would you really like to
 ${DB_MESSAGE}
-${ASSETS_MESSAGE}
+${MEDIA_MESSAGE}
 [y/N] "
 
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
@@ -321,12 +321,12 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	};
 
 	sync_uploads() {
-		if [ "$SKIP_ASSETS" = true ]
+		if [ "$SKIP_MEDIA" = true ]
 		then
 			return
 		fi
 
-		echo "Syncing assets $DIR from ${SOURCE[dir]} to ${DEST[dir]}..."
+		echo "Syncing media $DIR from ${SOURCE[dir]} to ${DEST[dir]}..."
 		# Sync uploads directory
 		chmod -R 755 web/app/uploads/ &&
 		if [[ $DIR == "horizontally"* ]]; then
