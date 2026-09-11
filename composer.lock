@@ -6518,15 +6518,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "16.1.3",
+            "version": "16.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/16.1.3"
+                "reference": "tags/16.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.16.1.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.16.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6545,7 +6545,7 @@
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-09-08T18:46:56+00:00"
+            "time": "2026-09-10T20:41:22+00:00"
         },
         {
             "name": "wp-plugin/login-as-user",
