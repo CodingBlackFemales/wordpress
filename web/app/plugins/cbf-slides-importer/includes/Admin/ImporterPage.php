@@ -97,16 +97,16 @@ final class ImporterPage {
 		$account = DriveClient::account( get_current_user_id() );
 		?>
 		<div class="notice notice-success inline" style="margin:16px 0;padding:10px 12px;">
-			<p style="margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-				<span>
-					<?php if ( is_wp_error( $account ) ) : ?>
-						<strong><?php esc_html_e( 'Google Drive is connected.', 'cbf-slides-importer' ); ?></strong>
-						<?php echo ' ' . esc_html( $account->get_error_message() ); ?>
-					<?php else : ?>
-						<?php esc_html_e( 'Connected to Google Drive as', 'cbf-slides-importer' ); ?>
-						<strong><?php echo esc_html( self::account_label( $account ) ); ?></strong>
-					<?php endif; ?>
-				</span>
+			<p style="margin:0 0 10px;">
+				<?php if ( is_wp_error( $account ) ) : ?>
+					<strong><?php esc_html_e( 'Google Drive is connected.', 'cbf-slides-importer' ); ?></strong>
+					<?php echo ' ' . esc_html( $account->get_error_message() ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'Connected to Google Drive as', 'cbf-slides-importer' ); ?>
+					<strong><?php echo esc_html( self::account_label( $account ) ); ?></strong>
+				<?php endif; ?>
+			</p>
+			<p style="margin:0;display:flex;gap:8px;flex-wrap:wrap;">
 				<a href="<?php echo esc_url( OAuthBridge::begin_url() ); ?>" class="button">
 					<?php esc_html_e( 'Use a different account', 'cbf-slides-importer' ); ?>
 				</a>
@@ -126,14 +126,14 @@ final class ImporterPage {
 		$disconnected = isset( $_GET['google'] ) && $_GET['google'] === 'disconnected'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="notice notice-warning inline" style="margin:16px 0;padding:10px 12px;">
-			<p style="margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-				<span>
-					<?php if ( $disconnected ) : ?>
-						<?php esc_html_e( 'Your Google account has been disconnected. Connect one to import from Drive.', 'cbf-slides-importer' ); ?>
-					<?php else : ?>
-						<?php esc_html_e( 'You need to authorise Google Drive access before you can import from Drive.', 'cbf-slides-importer' ); ?>
-					<?php endif; ?>
-				</span>
+			<p style="margin:0 0 10px;">
+				<?php if ( $disconnected ) : ?>
+					<?php esc_html_e( 'Your Google account has been disconnected. Connect one to import from Drive.', 'cbf-slides-importer' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'You need to authorise Google Drive access before you can import from Drive.', 'cbf-slides-importer' ); ?>
+				<?php endif; ?>
+			</p>
+			<p style="margin:0;">
 				<a href="<?php echo esc_url( OAuthBridge::begin_url() ); ?>" class="button button-primary">
 					<?php esc_html_e( 'Connect Google Drive', 'cbf-slides-importer' ); ?>
 				</a>
