@@ -36,9 +36,16 @@ jobs:
           script: |
             # Non-interactive SSH does not load ~/.bashrc; nvm lives there.
             export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-            if [ -s "$NVM_DIR/nvm.sh" ]; then
-              . "$NVM_DIR/nvm.sh"
+            if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+              echo "::error::nvm not found at $NVM_DIR; cannot select a Node release"
+              exit 1
             fi
+            . "$NVM_DIR/nvm.sh"
+            if ! nvm install --lts; then
+              echo "::error::Could not install or select the current Node LTS"
+              exit 1
+            fi
+            echo "Building with node $(node --version) / npm $(npm --version)"
             set -euo pipefail
             cd ${{ secrets.SSH_PATH }}
             git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
