@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.394.11",
+            "version": "3.395.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0a16c43453b30b5ec4025293f33028e299cf448e"
+                "reference": "c8f42d03b697a61b4910d162d753b13d2de297fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0a16c43453b30b5ec4025293f33028e299cf448e",
-                "reference": "0a16c43453b30b5ec4025293f33028e299cf448e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c8f42d03b697a61b4910d162d753b13d2de297fc",
+                "reference": "c8f42d03b697a61b4910d162d753b13d2de297fc",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.394.11"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.395.0"
             },
-            "time": "2026-09-09T18:06:19+00:00"
+            "time": "2026-09-11T18:07:54+00:00"
         },
         {
             "name": "composer/installers",
@@ -1210,10 +1210,10 @@
         },
         {
             "name": "koodimonni-plugin-language/ai-provider-for-anthropic-en_gb",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-anthropic/1.0.3/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-anthropic/1.0.4/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1229,10 +1229,10 @@
         },
         {
             "name": "koodimonni-plugin-language/ai-provider-for-google-en_gb",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-google/1.1.0/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-google/1.1.1/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1647,10 +1647,10 @@
         },
         {
             "name": "koodimonni-plugin-language/sqlite-database-integration-en_gb",
-            "version": "3.0.0",
+            "version": "3.0.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/sqlite-database-integration/3.0.0/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/sqlite-database-integration/3.0.2/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -2046,10 +2046,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentyten-en_gb",
-            "version": "4.6",
+            "version": "4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentyten/4.6/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentyten/4.7/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -2065,10 +2065,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentythirteen-en_gb",
-            "version": "4.6",
+            "version": "4.7",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/4.6/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentythirteen/4.7/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -2084,10 +2084,10 @@
         },
         {
             "name": "koodimonni-theme-language/twentytwelve-en_gb",
-            "version": "4.8",
+            "version": "4.9",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/4.8/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/theme/twentytwelve/4.9/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -6031,12 +6031,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "97e0ac20290f2ef579ef87171bc7e62929ac3f42"
+                "reference": "f3bc040e4a0df1f7e745f2da12cdfec5b2561dda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/97e0ac20290f2ef579ef87171bc7e62929ac3f42",
-                "reference": "97e0ac20290f2ef579ef87171bc7e62929ac3f42",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/f3bc040e4a0df1f7e745f2da12cdfec5b2561dda",
+                "reference": "f3bc040e4a0df1f7e745f2da12cdfec5b2561dda",
                 "shasum": ""
             },
             "require": {
@@ -6108,7 +6108,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli/issues",
                 "source": "https://github.com/wp-cli/wp-cli"
             },
-            "time": "2026-09-07T06:30:37+00:00"
+            "time": "2026-09-12T07:43:34+00:00"
         },
         {
             "name": "wp-cli/wp-cli-bundle",
@@ -6116,12 +6116,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli-bundle.git",
-                "reference": "d3fac3a78133af989c89c02459b7d95a6745be4f"
+                "reference": "5279a99fca2ac06fd6f7d0004b42030b22282c0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/d3fac3a78133af989c89c02459b7d95a6745be4f",
-                "reference": "d3fac3a78133af989c89c02459b7d95a6745be4f",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/5279a99fca2ac06fd6f7d0004b42030b22282c0d",
+                "reference": "5279a99fca2ac06fd6f7d0004b42030b22282c0d",
                 "shasum": ""
             },
             "require": {
@@ -6187,7 +6187,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli-bundle/issues",
                 "source": "https://github.com/wp-cli/wp-cli-bundle"
             },
-            "time": "2026-09-09T06:27:27+00:00"
+            "time": "2026-09-12T05:35:34+00:00"
         },
         {
             "name": "wp-cli/wp-config-transformer",
@@ -6518,15 +6518,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "16.1.3",
+            "version": "16.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/16.1.3"
+                "reference": "tags/16.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.16.1.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.16.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6545,7 +6545,7 @@
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-09-08T18:46:56+00:00"
+            "time": "2026-09-10T20:41:22+00:00"
         },
         {
             "name": "wp-plugin/login-as-user",
@@ -6951,15 +6951,15 @@
         },
         {
             "name": "wp-plugin/webberzone-code-block-highlighting",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting/",
-                "reference": "tags/1.2.1"
+                "reference": "tags/1.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.2.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.2.2.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6978,7 +6978,7 @@
                 "issues": "https://wordpress.org/support/plugin/webberzone-code-block-highlighting",
                 "source": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting"
             },
-            "time": "2026-08-20T04:46:07+00:00"
+            "time": "2026-09-10T11:31:13+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
@@ -7040,7 +7040,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-gateway-stripe",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe"
             },
-            "time": "2026-09-08T15:01:22+00:00"
+            "time": "2026-09-10T08:56:26+00:00"
         },
         {
             "name": "wp-plugin/woocommerce-paypal-payments",
@@ -7229,15 +7229,15 @@
         },
         {
             "name": "wp-plugin/wp-rest-api-authentication",
-            "version": "4.7.0",
+            "version": "4.8.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-rest-api-authentication/",
-                "reference": "tags/4.7.0"
+                "reference": "tags/4.8.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.4.7.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.4.8.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7256,7 +7256,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-rest-api-authentication",
                 "source": "https://plugins.svn.wordpress.org/wp-rest-api-authentication"
             },
-            "time": "2026-09-02T03:56:03+00:00"
+            "time": "2026-09-10T10:36:04+00:00"
         },
         {
             "name": "wp-plugin/zapier",
@@ -7290,15 +7290,15 @@
         },
         {
             "name": "wp-theme/onepress",
-            "version": "2.3.22",
+            "version": "2.3.23",
             "source": {
                 "type": "svn",
                 "url": "https://themes.svn.wordpress.org/onepress/",
-                "reference": "2.3.22"
+                "reference": "2.3.23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/theme/onepress.2.3.22.zip"
+                "url": "https://downloads.wordpress.org/theme/onepress.2.3.23.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7312,7 +7312,7 @@
                 "issues": "https://wordpress.org/support/theme/onepress",
                 "source": "https://themes.svn.wordpress.org/onepress"
             },
-            "time": "2026-08-27T06:46:27+00:00"
+            "time": "2026-09-11T11:41:26+00:00"
         },
         {
             "name": "wp-theme/twentytwentythree",
@@ -8122,12 +8122,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "55a9238f51c5449fdaa650fb03322dfca498a2e5"
+                "reference": "320c728c28346390c380a9876d6572a6c80cdd87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/55a9238f51c5449fdaa650fb03322dfca498a2e5",
-                "reference": "55a9238f51c5449fdaa650fb03322dfca498a2e5",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/320c728c28346390c380a9876d6572a6c80cdd87",
+                "reference": "320c728c28346390c380a9876d6572a6c80cdd87",
                 "shasum": ""
             },
             "conflict": {
@@ -8887,7 +8887,7 @@
                 "sheng/yiicms": "<1.2.1",
                 "shlinkio/shlink": "<=5.0.1",
                 "shopper/cart": "<2.8",
-                "shopper/framework": "<2.8",
+                "shopper/framework": "<2.9.2",
                 "shopware/core": "<6.6.10.18-dev|>=6.7,<6.7.10.1-dev",
                 "shopware/platform": "<6.6.10.18-dev|>=6.7,<6.7.10.1-dev",
                 "shopware/production": "<=6.3.5.2",
@@ -9260,7 +9260,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-09T20:29:53+00:00"
+            "time": "2026-09-11T23:00:23+00:00"
         },
         {
             "name": "slevomat/coding-standard",
@@ -10023,12 +10023,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "f72bcdfc4da28526a6e753bcecfaeff8a80a6d00"
+                "reference": "b2f0c372b930b228f36056c1dc3665759858c1c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/f72bcdfc4da28526a6e753bcecfaeff8a80a6d00",
-                "reference": "f72bcdfc4da28526a6e753bcecfaeff8a80a6d00",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/b2f0c372b930b228f36056c1dc3665759858c1c6",
+                "reference": "b2f0c372b930b228f36056c1dc3665759858c1c6",
                 "shasum": ""
             },
             "require": {
@@ -10082,7 +10082,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-08-20T23:19:15+00:00"
+            "time": "2026-09-11T18:24:55+00:00"
         }
     ],
     "aliases": [],
