@@ -1,0 +1,27 @@
+# Ignore built/generated assets but track source JS/CSS.
+# Git won't traverse an ignored directory, so each level needs an explicit negation.
+assets/*
+!assets/js
+!assets/css
+assets/js/*
+!assets/js/admin
+assets/css/*
+!assets/css/admin
+assets/js/admin/*
+!assets/js/admin/cbf-slides-importer.js
+assets/css/admin/*
+!assets/css/admin/cbf-slides-importer.css
+
+vendor/
+node_modules/
+
+# Codeception: run artefacts and the generated actor trait, both rebuilt by
+# `composer test` / `composer test:build`.
+tests/_output/
+tests/Support/_generated/
+
+# Local corpus for the opt-in CorpusTest: real decks and documents, which are
+# far too large to commit and are not ours to redistribute. The directory is
+# kept so the default location exists on a fresh checkout; its contents are not.
+tests/assets/*
+!tests/assets/.gitkeep

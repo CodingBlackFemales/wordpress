@@ -18,6 +18,34 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
   display: none;
 }
 
+.is-style-stripes th {
+  text-align: center;
+}
+
+/*--------------------------------------------------------------
+Data table cell highlighting
+Highlighting is class-based so table content never carries inline
+styles. The core Table block discards per-cell classes on edit, so
+emphasis is applied at block level and targeted by column position.
+--------------------------------------------------------------*/
+
+/* Amber emphasis for the trailing columns of a table (e.g. the post
+   columns appended to a denormalised profile table). */
+.wp-block-table.cbf-highlight-last-3 tbody td:nth-last-child(-n + 3),
+.wp-block-table.cbf-highlight-last-3 thead th:nth-last-child(-n + 3) {
+  background-color: #fedc98;
+  color: #1a1a1a;
+}
+
+/* Amber emphasis for a key column (first column), e.g. an id used as
+   a primary or foreign key. */
+.wp-block-table.cbf-highlight-first tbody td:first-child,
+.wp-block-table.cbf-highlight-first thead th:first-child {
+  background-color: #fedc98;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
 /* Sticky Table of Contents */
 .ez-toc-sticky .ez-toc-open-icon {
   background-color: var(--bb-primary-button-background-regular);
@@ -27,10 +55,6 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
 
 .ez-toc-sticky .ez-toc-open-icon:hover {
   background-color: var(--bb-primary-button-background-hover);
-}
-
-.is-style-stripes th {
-  text-align: center;
 }
 
 .bb-sfwd-aside.bb-dark-theme .wp-block-table.is-style-stripes th {
@@ -53,6 +77,10 @@ https://www.w3schools.com/css/css_rwd_mediaqueries.asp
 /* Dark mode inline code blocks */
 .bb-sfwd-aside.bb-dark-theme code:not(pre > code) {
   background: #282a2c;
+}
+
+pre[class*="language-"] {
+  margin-bottom: 1.6875rem;
 }
 
 pre[class*="language-"].line-numbers {
@@ -85,4 +113,87 @@ pre[class*="language-"] .line-highlight {
 /* Dark mode code annotations */
 .bb-sfwd-aside.bb-dark-theme .code-annotations li::before {
   color: #fff;
+}
+
+/*--------------------------------------------------------------
+Callout box
+A branded prompt/question box used to draw attention to a reflective
+question or note within lesson content.
+--------------------------------------------------------------*/
+.wp-block-group.cbf-callout {
+  margin: 0 0 1.6875rem;
+  padding: 1rem 1.25rem;
+  background-color: #f3f7fb;
+  border-left: 4px solid #b07d00;
+  border-radius: 4px;
+}
+
+.wp-block-group.cbf-callout > *:last-child {
+  margin-bottom: 0;
+}
+
+/*--------------------------------------------------------------
+Inline SVG schema / entity-relationship diagrams
+Class rules are duplicated in an embedded style block inside each SVG
+so colours survive WordPress sanitisation. These rules keep theming in
+one place when the stylesheet is loaded.
+--------------------------------------------------------------*/
+.cbf-er-figure {
+  margin: 0 0 1.6875rem;
+}
+
+svg.cbf-er {
+  display: block;
+  fill: none;
+  height: auto;
+  max-width: 100%;
+  font-family: sans-serif;
+}
+
+.cbf-er .cbf-er-box {
+  fill: #fff;
+  stroke: #90a4b8;
+}
+
+.cbf-er .cbf-er-head {
+  fill: #eef2f7;
+  stroke: #90a4b8;
+}
+
+.cbf-er .cbf-er-key,
+.cbf-er .cbf-er-keyhead {
+  fill: #fedc98;
+  stroke: #b07d00;
+}
+
+.cbf-er .cbf-er-title {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #1a1a1a;
+}
+
+.cbf-er .cbf-er-label {
+  font-size: 13px;
+  fill: #1a1a1a;
+}
+
+.cbf-er .cbf-er-label-key {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #1a1a1a;
+}
+
+.cbf-er .cbf-er-rel {
+  fill: none;
+  stroke: #b07d00;
+  stroke-width: 2;
+}
+
+.cbf-er .cbf-er-reltext {
+  font-size: 12px;
+  fill: #b07d00;
+}
+
+.cbf-er .cbf-er-arrow {
+  fill: #b07d00;
 }

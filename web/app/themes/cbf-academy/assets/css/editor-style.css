@@ -1,3 +1,4 @@
+/* stylelint-disable-next-line selector-class-pattern */
 .block-editor-block-list__block.wp-block-code {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
