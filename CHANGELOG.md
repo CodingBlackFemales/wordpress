@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.55](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.54...v0.1.55) (2026-09-12)
+
+### Features
+
+* add import idempotency via config hash and conflict warning ([84a8e05](https://github.com/CodingBlackFemales/wordpress/commit/84a8e05ed552cac458a52b13176926a2d05b3e97))
+* add local pptx file upload as alternative to drive picker ([bec8545](https://github.com/CodingBlackFemales/wordpress/commit/bec85450b5b4baf6fccd537f63c6bdb865ba323a))
+* close config panel on import trigger, rely on status badges (P5.8) ([210c7fa](https://github.com/CodingBlackFemales/wordpress/commit/210c7faa73e95e9163deca7f108c47c7e7097fa6))
+* Drive file picker UI and import job list ([39d8454](https://github.com/CodingBlackFemales/wordpress/commit/39d8454ffce35244e28082fcba882e2fac54aab6))
+* implement Phase 4 content preview (P4.1-P4.4) ([f93967b](https://github.com/CodingBlackFemales/wordpress/commit/f93967b128332eb728196df9f061b6edf2d2aa2b))
+* import confirmation modal with inline conflict handling (P5.7) ([b0fc32e](https://github.com/CodingBlackFemales/wordpress/commit/b0fc32e804d8dc95289705ef5ac1e72dfee893f6))
+* **P2.11:** hourly cleanup cron — stale job reset and orphaned tmp purge ([a0e7562](https://github.com/CodingBlackFemales/wordpress/commit/a0e75620fbc292c26f2014ec070935064c0d7412))
+* **P3.3,P3.5:** slide map UI + slide_overrides wiring ([633c8bb](https://github.com/CodingBlackFemales/wordpress/commit/633c8bb50b67c71553b54b15d8432430de002d42))
+* phase 3 config UI - mode toggle, course selector, import config ([4efefcd](https://github.com/CodingBlackFemales/wordpress/commit/4efefcd2751889ab9b43733a609c023dc5eba611))
+* replace lesson-with-topics mode with topic mode ([e31d582](https://github.com/CodingBlackFemales/wordpress/commit/e31d58290ba213827169dd0925ed64d9404b8ba7))
+* revert-on-error import guard (P5.4) ([2dba834](https://github.com/CodingBlackFemales/wordpress/commit/2dba834651987d3ff598b5c1fd0d144e9833a3d8))
+* scaffold cbf-slides-importer plugin (P0.8/P0.9 + Phase 1) ([6afbe33](https://github.com/CodingBlackFemales/wordpress/commit/6afbe33f087ca0698f88db9e485df0b419775ca3))
+* **slides-importer:** import PDF and Word documents ([2840c2b](https://github.com/CodingBlackFemales/wordpress/commit/2840c2b363e15ef00b1c23575fca2c758fa45c0f))
+* **slides-importer:** migrate a whole course from a csv ([88a3be9](https://github.com/CodingBlackFemales/wordpress/commit/88a3be94bef8315f5b01565f3f4ba76909b331cb))
+* **slides-importer:** navigate between screens with tabs ([08bcc61](https://github.com/CodingBlackFemales/wordpress/commit/08bcc61e3bfa68ccb5230aa0a8e60c312f4b8e94))
+* **slides-importer:** reuse an existing session instead of skipping it ([0e25c06](https://github.com/CodingBlackFemales/wordpress/commit/0e25c062604370d7bf362ce5ae626fb81abf5594))
+* **slides-importer:** show and change the connected google account ([de75414](https://github.com/CodingBlackFemales/wordpress/commit/de75414b05aaf8ae35aca7fc3030126ab8cd461a))
+* support learndash custom labels in admin ui ([0a926c5](https://github.com/CodingBlackFemales/wordpress/commit/0a926c5479829969f6744339df2a401a16075b6e))
+
+### Bug Fixes
+
+* call OAuthClient::create_auth_url() from auth/begin endpoint ([5dab2af](https://github.com/CodingBlackFemales/wordpress/commit/5dab2afecbffea64155ea0b8418916b58d12811f))
+* correct learndash-bulk plugin integration in LearnDashImporter ([9ded0b9](https://github.com/CodingBlackFemales/wordpress/commit/9ded0b90f8d23c553e4e45b1785e3045e1ea7186))
+* deduplicate contiguous identical slide headings ([f5c642c](https://github.com/CodingBlackFemales/wordpress/commit/f5c642cc4ce85d315abb3feeacec5c03380aa8fd))
+* encode user_id in OAuth state to avoid REST cookie-auth dependency ([b1c5e0f](https://github.com/CodingBlackFemales/wordpress/commit/b1c5e0f48854b920eb4b52320714e45a69a81328))
+* fix image paths for ELDBC_Media upload and exclude footer shapes ([d89335d](https://github.com/CodingBlackFemales/wordpress/commit/d89335d7048e8ba6d5f15ebc102a8692524239b4))
+* handle exportSizeLimitExceeded with direct Docs export URL fallback ([5b790cb](https://github.com/CodingBlackFemales/wordpress/commit/5b790cbe897a086b667972a68ab242beafa2e14a))
+* intercept scroll event to prevent picker-induced page jump ([1927449](https://github.com/CodingBlackFemales/wordpress/commit/1927449fb58f30cea81f75cee0ed7c095d1d872e))
+* preview respects slide map settings; add white background ([24ff096](https://github.com/CodingBlackFemales/wordpress/commit/24ff096de325d27e4a3e48664eea4d2a40cdca84)), references [#fff](https://github.com/CodingBlackFemales/wordpress/issues/fff)
+* re-parse PPTX on import; add lesson title field ([b56d557](https://github.com/CodingBlackFemales/wordpress/commit/b56d557e89b899d34264583fe145f717d6095099))
+* remove spurious <p> tags from list items ([24ac3a3](https://github.com/CodingBlackFemales/wordpress/commit/24ac3a3cfc63d0ff4672c9a87b54a53c9258be98))
+* replace REST link with admin_post action for OAuth begin flow ([105ba97](https://github.com/CodingBlackFemales/wordpress/commit/105ba9738eae8f1e9f90116868a72012f2a4a7e9))
+* resolve image src URLs in preview HTML ([e599d7e](https://github.com/CodingBlackFemales/wordpress/commit/e599d7ebd68e8ed24520197167f64ac664bff5ba))
+* resolve MariaDB strict-mode TEXT default and required plugin path ([72afb01](https://github.com/CodingBlackFemales/wordpress/commit/72afb012f232b70fc1e62652be0a93b8303737de))
+* resolve picker UI and parse failures ([17a30eb](https://github.com/CodingBlackFemales/wordpress/commit/17a30eb1f9cb39a4531084df3954a22d279a4914))
+* respect slide-map overrides in preview and constrain content width ([bda1c37](https://github.com/CodingBlackFemales/wordpress/commit/bda1c370095c44c18aa9c27990fdef61069ea786))
+* restore scroll position after picker opens; re-enable button on dismiss ([37ffe40](https://github.com/CodingBlackFemales/wordpress/commit/37ffe403d76e44a56a27eabfe091881cb859f8bd))
+* revert button label on picker ready; fix scroll position capture timing ([ea19b1c](https://github.com/CodingBlackFemales/wordpress/commit/ea19b1cceeae53945788a314f8f17b9bbf464987))
+* skipped posts visible in action column; add overwrite toggle ([48c4a25](https://github.com/CodingBlackFemales/wordpress/commit/48c4a255090caa66328d95ec9e287c56e47c46f4))
+* **slides-importer:** cache-bust assets on file modification time ([3c95edc](https://github.com/CodingBlackFemales/wordpress/commit/3c95edca28a209abe5ae02c0a2c5f7fb7b9483b7))
+* **slides-importer:** count headings when positioning a section ([a0b9f5b](https://github.com/CodingBlackFemales/wordpress/commit/a0b9f5bc2fcefb08b90f679af209bc0748424275))
+* **slides-importer:** keep the LearnDash menu open on the settings screen ([652c995](https://github.com/CodingBlackFemales/wordpress/commit/652c99528a0147d52c2d53fdf782c416d9ae12d0))
+* **slides-importer:** place each row as it lands, not at batch end ([803ebc1](https://github.com/CodingBlackFemales/wordpress/commit/803ebc1db69382bff31854b2907c09a4d4b945b8))
+* **slides-importer:** read drive metadata over http, not the api client ([fcfcca1](https://github.com/CodingBlackFemales/wordpress/commit/fcfcca17ccce571165ba2a925d079f0fdf569f58))
+* **slides-importer:** register the settings screen with no parent ([3dd370a](https://github.com/CodingBlackFemales/wordpress/commit/3dd370a292f30e72b6a37ca38f5492905604b772))
+* **slides-importer:** renew google tokens without the api client ([8298fff](https://github.com/CodingBlackFemales/wordpress/commit/8298fff0862989326e6a7b5b120f2587d38e2bb2))
+* **slides-importer:** report a batch by what actually went wrong ([f943c53](https://github.com/CodingBlackFemales/wordpress/commit/f943c538a4dd78e3581a31015d5c23cb50de3dc5))
+* **slides-importer:** survive a document that exhausts the worker ([bd69bf4](https://github.com/CodingBlackFemales/wordpress/commit/bd69bf40948c650df81ba93555d607d9a1240e19))
+* track skipped_post_ids separately from created_post_ids ([0e71858](https://github.com/CodingBlackFemales/wordpress/commit/0e71858b436a40cb478dc1e1ba0de3cc94db9a05))
+* use wp_unslash+trim instead of sanitize_textarea_field for client secret ([25328df](https://github.com/CodingBlackFemales/wordpress/commit/25328df4f00cd7d17700f7c0e68d696c3cbcb135))
 ## [0.1.54](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.53...v0.1.54) (2026-08-21)
 
 ### Features
