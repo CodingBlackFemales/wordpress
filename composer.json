@@ -95,7 +95,7 @@
     "wp-plugin/remove-dashboard-access-for-non-admins": "^1.2.1",
     "wp-plugin/webberzone-code-block-highlighting": "^1.0",
     "wp-plugin/woocommerce": "^11.0",
-    "wp-plugin/woocommerce-gateway-stripe": "^10.3.1",
+    "wp-plugin/woocommerce-gateway-stripe": "^11.0.0",
     "wp-plugin/woocommerce-paypal-payments": "^4.1.1",
     "wp-plugin/woocommerce-services": "^3.4.0",
     "wp-plugin/wp-graphql": "^2.8.0",
