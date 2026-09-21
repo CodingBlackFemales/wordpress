@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f860951cc422a1977a8f74af7adb869f",
+    "content-hash": "ba137846fe64518bfaf04d6e7e3a7891",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6889,15 +6889,15 @@
         },
         {
             "name": "wp-plugin/redis-cache",
-            "version": "2.8.0",
+            "version": "3.0.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/redis-cache/",
-                "reference": "tags/2.8.0"
+                "reference": "tags/3.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/redis-cache.2.8.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/redis-cache.3.0.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6916,7 +6916,7 @@
                 "issues": "https://wordpress.org/support/plugin/redis-cache",
                 "source": "https://plugins.svn.wordpress.org/redis-cache"
             },
-            "time": "2026-05-04T18:40:49+00:00"
+            "time": "2026-09-18T18:36:32+00:00"
         },
         {
             "name": "wp-plugin/remove-dashboard-access-for-non-admins",
