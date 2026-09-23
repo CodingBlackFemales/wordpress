@@ -1098,10 +1098,10 @@
         },
         {
             "name": "koodimonni-language/en_gb",
-            "version": "7.1",
+            "version": "7.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/core/7.1/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/core/7.1.2/en_GB.zip"
             },
             "require": {
                 "koodimonni-plugin-language/admin-color-schemer-en_gb": "*",
@@ -1229,10 +1229,10 @@
         },
         {
             "name": "koodimonni-plugin-language/ai-provider-for-google-en_gb",
-            "version": "1.1.1",
+            "version": "1.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-google/1.1.1/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-google/1.2.0/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1248,10 +1248,10 @@
         },
         {
             "name": "koodimonni-plugin-language/ai-provider-for-openai-en_gb",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-openai/1.1.0/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/ai-provider-for-openai/1.2.0/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1305,10 +1305,10 @@
         },
         {
             "name": "koodimonni-plugin-language/bbpress-en_gb",
-            "version": "2.6.15",
+            "version": "2.6.18",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.15/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/bbpress/2.6.18/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1761,10 +1761,10 @@
         },
         {
             "name": "koodimonni-plugin-language/woocommerce-en_gb",
-            "version": "11.1.0",
+            "version": "11.1.2",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/11.1.0/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/woocommerce/11.1.2/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1799,10 +1799,10 @@
         },
         {
             "name": "koodimonni-plugin-language/wp-consent-api-en_gb",
-            "version": "2.0.1",
+            "version": "2.1.0",
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/translation/plugin/wp-consent-api/2.0.1/en_GB.zip"
+                "url": "https://downloads.wordpress.org/translation/plugin/wp-consent-api/2.1.0/en_GB.zip"
             },
             "require": {
                 "koodimonni/composer-dropin-installer": ">=0.2.3"
