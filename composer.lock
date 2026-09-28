@@ -7234,15 +7234,15 @@
         },
         {
             "name": "wp-plugin/wp-rest-api-authentication",
-            "version": "4.8.0",
+            "version": "4.9.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-rest-api-authentication/",
-                "reference": "tags/4.8.0"
+                "reference": "tags/4.9.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.4.8.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-rest-api-authentication.4.9.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7261,7 +7261,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-rest-api-authentication",
                 "source": "https://plugins.svn.wordpress.org/wp-rest-api-authentication"
             },
-            "time": "2026-09-10T10:36:04+00:00"
+            "time": "2026-09-28T04:06:19+00:00"
         },
         {
             "name": "wp-plugin/zapier",
