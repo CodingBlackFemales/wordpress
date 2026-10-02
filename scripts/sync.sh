@@ -238,7 +238,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		else
 			AVAILFROM=$(WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" option get home 2>&1)
 		fi
-		if [[ $AVAILFROM != http* ]]; then
+		# stderr is merged in, so ignore warnings (e.g. plugin CLI notices) and look for the URL line
+		local -a lines=("${(@f)AVAILFROM}")
+		local -a urls=(${(M)lines:#http*})
+		if (( ${#urls} == 0 )); then
 			echo "❌  Unable to connect to $FROM: $AVAILFROM"
 			exit 1
 		else
@@ -254,7 +257,9 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 			AVAILTO=$(WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" option get home 2>&1)
 		fi
 
-		if [[ $AVAILTO != http* ]]; then
+		local -a lines=("${(@f)AVAILTO}")
+		local -a urls=(${(M)lines:#http*})
+		if (( ${#urls} == 0 )); then
 			echo "❌  Unable to connect to $TO: $AVAILTO"
 			exit 1
 		else
@@ -281,17 +286,17 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 		# Export/import database
 		if [[ "$LOCAL" = true && $TO == "dev" ]]; then
-			"$WP" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			"$WP" db reset --yes &&
-			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" db export --default-character-set=utf8mb4 - | "$WP" db import -
+			"$WPDEV" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			"$WPDEV" db reset --yes &&
+			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WPFROM" "@$FROM" db export --default-character-set=utf8mb4 - | "$WPDEV" db import -
 		elif [[ "$LOCAL" = true && $FROM == "dev" ]]; then
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db reset --yes &&
-			"$WP" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db import -
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db reset --yes &&
+			"$WPDEV" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db import -
 		else
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db reset --yes &&
-			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WP" "@$FROM" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WP" "@$TO" db import -
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db export $EXPORTFILE --default-character-set=utf8mb4 &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db reset --yes &&
+			WP_CLI_SSH_BINARY="$SOURCE_WP" "$WPFROM" "@$FROM" db export --default-character-set=utf8mb4 - | WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" "@$TO" db import -
 		fi
 
 		if [ $? -ne 0 ]; then
@@ -327,7 +332,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
+			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
 			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
 		done
 
@@ -383,6 +388,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 	else
 		WP="wp"
 	fi
+	# The host's mysql client (Homebrew 9.x) can't authenticate against the Lando
+	# database, so run dev's DB commands inside the Lando container instead.
+	wp_lando() { lando wp "$@"; }
+	if command -v lando >/dev/null 2>&1; then
+		WPDEV=wp_lando
+	else
+		WPDEV="$WP"
+	fi
+	[[ $TO == "dev" ]] && WPTO="$WPDEV" || WPTO="$WP"
+	[[ $FROM == "dev" ]] && WPFROM="$WPDEV" || WPFROM="$WP"
 	SOURCE_WP=$(remote_wp_binary "${SOURCE[approot]}")
 	DEST_WP=$(remote_wp_binary "${DEST[approot]}")
 	availfrom
