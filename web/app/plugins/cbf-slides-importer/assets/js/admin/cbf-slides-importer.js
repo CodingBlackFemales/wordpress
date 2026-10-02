@@ -359,6 +359,56 @@
           );
         });
     },
+
+    /**
+     * Fetch the topics nested under a lesson.
+     *
+     * The steps endpoint's `h` tree nests topics under their lesson, so the
+     * lesson's topic IDs come from there and the post objects from wp/v2.
+     *
+     * @param {number} courseId  Course ID.
+     * @param {number} lessonId  Lesson ID.
+     * @returns {Promise<Array<{id:number, title:{rendered:string}}>>}
+     */
+    getTopics(courseId, lessonId) {
+      if (!courseId || !lessonId) {
+        return Promise.resolve([]);
+      }
+      const nonce = cbf_slides_importer_admin_params.nonce;
+      const base = cbf_slides_importer_admin_params.wp_rest_url;
+      return fetch(
+        base +
+          "ldlms/v2/sfwd-courses/" +
+          courseId +
+          "/steps?context=view&type=all",
+        { headers: { "X-WP-Nonce": nonce } },
+      )
+        .then(function (res) {
+          return res.ok ? res.json() : {};
+        })
+        .then(function (data) {
+          const lesson =
+            data.h && data.h["sfwd-lessons"]
+              ? data.h["sfwd-lessons"][lessonId]
+              : null;
+          const topicIds =
+            lesson && lesson["sfwd-topic"]
+              ? Object.keys(lesson["sfwd-topic"])
+              : [];
+          if (!topicIds.length) {
+            return [];
+          }
+          return fetch(
+            base +
+              "wp/v2/sfwd-topic?include=" +
+              topicIds.join(",") +
+              "&per_page=100&orderby=include",
+            { headers: { "X-WP-Nonce": nonce } },
+          ).then(function (res) {
+            return res.ok ? res.json() : [];
+          });
+        });
+    },
   };
 
   // ── Google Picker ─────────────────────────────────────────────────────────
@@ -899,7 +949,11 @@
             "</td>" +
             '<td style="padding:4px 8px;font-size:12px;color:#555;">' +
             this._esc(
-              r.type === "topic" ? this._label("topic") : this._label("lesson"),
+              r.type === "topic"
+                ? this._label("topic")
+                : r.type === "quiz"
+                  ? "Quiz"
+                  : this._label("lesson"),
             ) +
             "</td>" +
             '<td style="padding:4px 8px;">' +
@@ -1123,6 +1177,53 @@
         sel.innerHTML = opts;
         sel.disabled = false;
       });
+    },
+
+    /**
+     * Repopulate the topic <select> for a quiz job with the topics of a lesson.
+     *
+     * @param {number} jobId     Job ID whose topic select to update.
+     * @param {number} courseId  Course the lesson belongs to.
+     * @param {number} lessonId  Lesson whose topics to list (0 = none chosen).
+     */
+    _populateTopicSelect(jobId, courseId, lessonId) {
+      const sel = document.getElementById("cbf-si-topic-" + jobId);
+      if (!sel) {
+        return;
+      }
+      const none =
+        '<option value="0">— Directly under the ' +
+        this._label("lesson").toLowerCase() +
+        " —</option>";
+      if (!courseId || !lessonId) {
+        sel.innerHTML = none;
+        return;
+      }
+      sel.innerHTML = "<option>Loading…</option>";
+      sel.disabled = true;
+      Api.getTopics(courseId, lessonId)
+        .catch(() => [])
+        .then((topics) => {
+          sel.innerHTML =
+            none +
+            topics
+              .map(
+                (t) =>
+                  '<option value="' +
+                  t.id +
+                  '">' +
+                  this._esc(
+                    this._decodeHtml(
+                      t.title && t.title.rendered
+                        ? t.title.rendered
+                        : String(t.id),
+                    ),
+                  ) +
+                  "</option>",
+              )
+              .join("");
+          sel.disabled = false;
+        });
     },
 
     // ── Job list ───────────────────────────────────────────────────────────
@@ -1358,7 +1459,9 @@
             )
             .join("");
 
-        const slides = slideData.slides || [];
+        // A Google Form imports as a quiz: no lesson/topic mode, no slide map.
+        const isQuiz = slideData.source_format === "gform";
+        const slides = isQuiz ? [] : slideData.slides || [];
 
         // A PDF's units are pages and a Word document's are sections, so the
         // map borrows its noun from the parsed source rather than always
@@ -1479,7 +1582,7 @@
           '" value="' +
           this._esc(deckName) +
           '" style="min-width:320px;max-width:500px;" placeholder="' +
-          this._label("lesson") +
+          (isQuiz ? "Quiz" : this._label("lesson")) +
           ' title (required)">' +
           "</td>" +
           "</tr>" +
@@ -1487,16 +1590,20 @@
           '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">Mode</th>' +
           "<td>" +
           '<label style="margin-right:20px;">' +
-          '<input type="radio" name="cbf-si-mode-' +
-          jobId +
-          '" value="lesson-only" checked style="margin-right:4px;">' +
-          this._label("lesson") +
-          "</label>" +
-          "<label>" +
-          '<input type="radio" name="cbf-si-mode-' +
-          jobId +
-          '" value="topic" style="margin-right:4px;">' +
-          this._label("topic") +
+          (isQuiz
+            ? '<input type="radio" name="cbf-si-mode-' +
+              jobId +
+              '" value="quiz" checked style="margin-right:4px;">Quiz'
+            : '<input type="radio" name="cbf-si-mode-' +
+              jobId +
+              '" value="lesson-only" checked style="margin-right:4px;">' +
+              this._label("lesson") +
+              "</label>" +
+              "<label>" +
+              '<input type="radio" name="cbf-si-mode-' +
+              jobId +
+              '" value="topic" style="margin-right:4px;">' +
+              this._label("topic")) +
           "</label>" +
           "</td>" +
           "</tr>" +
@@ -1514,7 +1621,9 @@
           "</tr>" +
           '<tr id="cbf-si-lesson-row-' +
           jobId +
-          '" style="display:none;">' +
+          '" style="' +
+          (isQuiz ? "" : "display:none;") +
+          '">' +
           '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">' +
           this._label("lesson") +
           "</th>" +
@@ -1527,7 +1636,7 @@
           " —</option>" +
           "</select>" +
           '<p style="margin:4px 0 0;font-size:12px;color:#888;">The ' +
-          this._label("topic") +
+          (isQuiz ? "quiz" : this._label("topic")) +
           " will be nested under this " +
           this._label("lesson") +
           ". Select a " +
@@ -1537,6 +1646,26 @@
           ".</p>" +
           "</td>" +
           "</tr>" +
+          (isQuiz
+            ? '<tr id="cbf-si-topic-row-' +
+              jobId +
+              '">' +
+              '<th style="text-align:left;padding:6px 12px 6px 0;white-space:nowrap;font-weight:600;">' +
+              this._label("topic") +
+              "</th>" +
+              "<td>" +
+              '<select id="cbf-si-topic-' +
+              jobId +
+              '" style="min-width:260px;max-width:400px;">' +
+              '<option value="0">— Directly under the ' +
+              this._esc(this._label("lesson").toLowerCase()) +
+              " —</option>" +
+              "</select>" +
+              '<p style="margin:4px 0 0;font-size:12px;color:#888;">Optional. Choose a ' +
+              this._esc(this._label("topic").toLowerCase()) +
+              " to place the quiz under it instead.</p>" +
+              "</td></tr>"
+            : "") +
           "</table>" +
           slideMapHtml +
           '<p style="margin-top:16px;margin-bottom:6px;">' +
@@ -1571,7 +1700,8 @@
           const modeEl = document.querySelector(
             '[name="cbf-si-mode-' + jobId + '"]:checked',
           );
-          const isTopicMode = modeEl && modeEl.value === "topic";
+          const isTopicMode =
+            modeEl && (modeEl.value === "topic" || modeEl.value === "quiz");
           if (lessonRow) {
             lessonRow.style.display = isTopicMode ? "" : "none";
           }
@@ -1591,13 +1721,30 @@
             const modeEl = document.querySelector(
               '[name="cbf-si-mode-' + jobId + '"]:checked',
             );
-            if (modeEl && modeEl.value === "topic") {
+            if (
+              modeEl &&
+              (modeEl.value === "topic" || modeEl.value === "quiz")
+            ) {
               this._populateLessonSelect(
                 jobId,
                 parseInt(courseEl.value, 10) || 0,
               );
+              this._populateTopicSelect(jobId, 0, 0);
             }
           });
+        }
+
+        // A quiz's parent is a lesson, or one of that lesson's topics.
+        const lessonEl = document.getElementById("cbf-si-lesson-" + jobId);
+        if (isQuiz && lessonEl) {
+          lessonEl.addEventListener("change", () =>
+            this._populateTopicSelect(
+              jobId,
+              parseInt(courseEl.value, 10) || 0,
+              parseInt(lessonEl.value, 10) || 0,
+            ),
+          );
+          onModeOrCourseChange();
         }
       });
     },
@@ -1661,6 +1808,19 @@
         return;
       }
 
+      // A quiz has to hang off a lesson; the server refuses it otherwise, but
+      // catching it here saves a background job that can only fail.
+      if (config.mode === "quiz" && (!config.course_id || !config.lesson_id)) {
+        window.alert(
+          "Choose the " +
+            this._label("course").toLowerCase() +
+            " and " +
+            this._label("lesson").toLowerCase() +
+            " this quiz belongs to.",
+        );
+        return;
+      }
+
       this._showImportModal(id, config);
     },
 
@@ -1712,7 +1872,16 @@
 
       // Build the summary sentence.
       let summary = "This will create ";
-      if (mode === "topic") {
+      if (mode === "quiz") {
+        summary += "1 quiz";
+        if (lessonName) {
+          summary +=
+            ' under the "' +
+            this._esc(lessonName) +
+            '" ' +
+            this._label("lesson");
+        }
+      } else if (mode === "topic") {
         summary += "1 " + this._label("topic");
         if (lessonName) {
           summary +=
@@ -1933,10 +2102,12 @@
       }
 
       const lessonEl = document.getElementById("cbf-si-lesson-" + id);
+      const topicEl = document.getElementById("cbf-si-topic-" + id);
       const config = {
         mode: modeEl ? modeEl.value : "lesson-only",
         course_id: courseEl ? parseInt(courseEl.value, 10) : 0,
         lesson_id: lessonEl ? parseInt(lessonEl.value, 10) : 0,
+        topic_id: topicEl ? parseInt(topicEl.value, 10) || 0 : 0,
         post_title: titleEl ? titleEl.value.trim() : "",
         overwrite: overwriteEl ? overwriteEl.checked : false,
       };

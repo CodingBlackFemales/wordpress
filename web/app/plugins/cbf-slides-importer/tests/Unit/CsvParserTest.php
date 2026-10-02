@@ -22,6 +22,9 @@ final class CsvParserTest extends Unit {
 	/** A valid Slides URL. */
 	private const URL = 'https://docs.google.com/presentation/d/' . self::ID . '/edit';
 
+	/** @var string */
+	private const FORM_URL = 'https://docs.google.com/forms/d/' . self::ID . '/edit';
+
 	/**
 	 * Build CSV text from rows.
 	 *
@@ -136,7 +139,12 @@ final class CsvParserTest extends Unit {
 			'missing type'     => array( array( '', '', '', 'Title', self::URL ), 'No type was given' ),
 			'missing title'    => array( array( '', '', 'session', '', self::URL ), 'No title was given' ),
 			'missing url'      => array( array( '', '', 'session', 'Title', '' ), 'No source link' ),
-			'google form'      => array( array( '', '', 'session', 'Quiz', 'https://docs.google.com/forms/d/' . self::ID . '/edit' ), 'Google Form' ),
+			'google form'      => array( array( '', '', 'session', 'Quiz', 'https://docs.google.com/forms/d/' . self::ID . '/edit' ), 'Set the row type to "quiz"' ),
+			'quiz no session'  => array( array( '', '', 'quiz', 'Check', self::FORM_URL ), 'need a session_id' ),
+			'quiz bad session' => array( array( '', 'abc', 'quiz', 'Check', self::FORM_URL ), 'is not a post ID' ),
+			'quiz with slides' => array( array( '', '12', 'quiz', 'Check', self::URL ), 'link to a Google Form' ),
+			'quiz with blank'  => array( array( '', '12', 'quiz', 'Check', '' ), 'No source link' ),
+			'quiz published'   => array( array( '', '12', 'quiz', 'Check', 'https://docs.google.com/forms/d/e/1FAIpQLSeXAMPLEexample/viewform' ), 'public link' ),
 			'github repo'      => array( array( '', '', 'session', 'Repo', 'https://github.com/cbfacademy/x' ), 'not a Google Drive link' ),
 			'topic no session' => array( array( '', '', 'topic', 'Orphan', self::URL ), 'need a session_id' ),
 			'topic bad session' => array( array( '', 'abc', 'topic', 'Orphan', self::URL ), 'is not a post ID' ),
@@ -293,5 +301,17 @@ final class CsvParserTest extends Unit {
 
 		$this->assertSame( DriveUrl::KIND_SLIDES, $row['source']['kind'] );
 		$this->assertTrue( $row['source']['importable'] );
+	}
+
+	/** A quiz row reads session_id, ignores heading with a notice, and needs a Form. */
+	public function testQuizRow(): void {
+		$row = CsvParser::parse( $this->csv( array( array( 'Ignored', '412', 'QUIZ', 'Git Skills Check', self::FORM_URL ) ) ) )['rows'][0];
+
+		$this->assertTrue( CsvParser::is_valid( $row ) );
+		$this->assertSame( CsvParser::TYPE_QUIZ, $row['type'] );
+		$this->assertSame( 412, $row['session_id'] );
+		$this->assertSame( '', $row['heading'] );
+		$this->assertStringContainsString( 'do not use heading', implode( ' ', $row['notices'] ) );
+		$this->assertSame( self::ID, $row['source']['file_id'] );
 	}
 }

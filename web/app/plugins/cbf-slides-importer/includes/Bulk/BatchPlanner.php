@@ -36,8 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   notices:    string[],
  *   file_id:    string,
  *   mime_type:  string,
- *   format:     string,   // pptx | pdf | docx
- *   post_type:  string,   // sfwd-lessons | sfwd-topic
+ *   format:     string,   // pptx | pdf | docx | gform
+ *   post_type:  string,   // sfwd-lessons | sfwd-topic | sfwd-quiz
+ *   parent_type: string,  // quiz rows only: sfwd-lessons | sfwd-topic
  * }
  */
 final class BatchPlanner {
@@ -45,6 +46,7 @@ final class BatchPlanner {
 	/** LearnDash post types the importer creates. */
 	const POST_TYPE_SESSION = 'sfwd-lessons';
 	const POST_TYPE_TOPIC   = 'sfwd-topic';
+	const POST_TYPE_QUIZ    = 'sfwd-quiz';
 
 
 	/**
@@ -119,7 +121,7 @@ final class BatchPlanner {
 				'file_id'   => $row['source']['file_id'] ?? '',
 				'mime_type' => '',
 				'format'    => '',
-				'post_type' => $row['type'] === CsvParser::TYPE_TOPIC ? self::POST_TYPE_TOPIC : self::POST_TYPE_SESSION,
+				'post_type' => self::post_type_for( $row['type'] ),
 			)
 		);
 
@@ -128,12 +130,89 @@ final class BatchPlanner {
 			return $planned;
 		}
 
-		self::check_parent_session( $planned, $sessions, $course_id );
+		if ( $planned['type'] === CsvParser::TYPE_QUIZ ) {
+			self::check_quiz_parent( $planned, $sessions, $course_id );
+		} else {
+			self::check_parent_session( $planned, $sessions, $course_id );
+		}
 		self::resolve_source( $planned, $user_id );
 
 		$planned['status'] = $planned['errors'] === array() ? 'ready' : 'error';
 
 		return $planned;
+	}
+
+
+	/**
+	 * The LearnDash post type a row type creates.
+	 *
+	 * @param  string $type CsvParser row type.
+	 * @return string
+	 */
+	private static function post_type_for( string $type ): string {
+		return match ( $type ) {
+			CsvParser::TYPE_TOPIC => self::POST_TYPE_TOPIC,
+			CsvParser::TYPE_QUIZ  => self::POST_TYPE_QUIZ,
+			default               => self::POST_TYPE_SESSION,
+		};
+	}
+
+
+	/**
+	 * Confirm a quiz's parent exists and belongs to this course.
+	 *
+	 * A quiz sits under a session or under one of a session's topics, so the
+	 * session_id column may name either. A topic is checked by walking up to its
+	 * session, which is the step the course actually contains.
+	 *
+	 * @param array $row       PlannedRow, updated in place.
+	 * @param array $sessions  Lesson IDs in the course, keyed by ID.
+	 * @param int   $course_id Target course.
+	 */
+	private static function check_quiz_parent( array &$row, array $sessions, int $course_id ): void {
+		$parent_id = (int) $row['session_id'];
+		$post      = get_post( $parent_id );
+
+		if ( ! $post || ! in_array( $post->post_type, array( self::POST_TYPE_SESSION, self::POST_TYPE_TOPIC ), true ) ) {
+			$row['errors'][] = sprintf(
+				/* translators: %d: post ID from the session_id column */
+				__( 'No session or topic with ID %d exists.', 'cbf-slides-importer' ),
+				$parent_id
+			);
+			return;
+		}
+
+		$row['parent_type'] = $post->post_type;
+
+		$in_course = $post->post_type === self::POST_TYPE_SESSION
+			? isset( $sessions[ $parent_id ] )
+			: self::topic_in_course( $parent_id, $course_id );
+
+		if ( ! $in_course ) {
+			$row['errors'][] = sprintf(
+				/* translators: 1: parent title, 2: post ID, 3: course ID */
+				__( '"%1$s" (ID %2$d) is not part of the selected course (ID %3$d).', 'cbf-slides-importer' ),
+				$post->post_title,
+				$parent_id,
+				$course_id
+			);
+		}
+	}
+
+
+	/**
+	 * Whether a topic is one of the course's steps.
+	 *
+	 * @param  int $topic_id  Topic post ID.
+	 * @param  int $course_id Course post ID.
+	 * @return bool
+	 */
+	private static function topic_in_course( int $topic_id, int $course_id ): bool {
+		if ( ! function_exists( 'learndash_course_get_steps_by_type' ) ) {
+			return false;
+		}
+
+		return in_array( $topic_id, array_map( 'intval', (array) learndash_course_get_steps_by_type( $course_id, self::POST_TYPE_TOPIC ) ), true );
 	}
 
 
@@ -204,6 +283,23 @@ final class BatchPlanner {
 
 		$row['mime_type'] = (string) $meta['mime_type'];
 		$format           = ParserFactory::format_for_mime( $row['mime_type'] );
+
+		// Whatever the URL claimed, the file must be the kind of thing the row's
+		// type will create: forms become quizzes and nothing else does.
+		if ( ( $format === ParserFactory::FORMAT_GFORM ) !== ( $row['type'] === CsvParser::TYPE_QUIZ ) && $format !== null ) {
+			$row['errors'][] = $format === ParserFactory::FORMAT_GFORM
+				? sprintf(
+					/* translators: %s: file name in Drive */
+					__( '"%s" is a Google Form. Set the row type to "quiz" to import it.', 'cbf-slides-importer' ),
+					$meta['name']
+				)
+				: sprintf(
+					/* translators: %s: file name in Drive */
+					__( '"%s" is not a Google Form, so it cannot be imported as a quiz.', 'cbf-slides-importer' ),
+					$meta['name']
+				);
+			return;
+		}
 
 		if ( $format === null ) {
 			$row['errors'][] = sprintf(

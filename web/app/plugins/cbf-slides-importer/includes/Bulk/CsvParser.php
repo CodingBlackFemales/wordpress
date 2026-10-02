@@ -10,8 +10,10 @@
  * Column semantics follow the resolved design questions:
  *  - `heading` is read on session rows only; on a topic row it is ignored and
  *    reported as a notice, because LearnDash sections group lessons, not topics.
- *  - `session_id` is read on topic rows only; on a session row it is ignored.
- *  - `type` accepts "session" and "lesson" interchangeably, plus "topic".
+ *  - `session_id` is read on topic and quiz rows; on a session row it is ignored.
+ *  - `type` accepts "session" and "lesson" interchangeably, plus "topic" and
+ *    "quiz". A quiz row's url must be a Google Form, and no other type's may be;
+ *    its session_id names the session (or topic) the quiz belongs under.
  *
  * @class   Bulk\CsvParser
  * @version 1.0.0
@@ -30,9 +32,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Produces `ParsedRow` arrays:
  * {
  *   line:       int,     // 1-based line in the file, header included
- *   type:       string,  // 'session' | 'topic'
+ *   type:       string,  // 'session' | 'topic' | 'quiz'
  *   title:      string,
- *   heading:    string,  // '' on topic rows
+ *   heading:    string,  // '' on topic and quiz rows
  *   session_id: int,     // 0 on session rows
  *   source:     array,   // DriveUrl::parse() result
  *   errors:     string[],
@@ -44,12 +46,14 @@ final class CsvParser {
 	/** Post-type intents a row can express. */
 	const TYPE_SESSION = 'session';
 	const TYPE_TOPIC   = 'topic';
+	const TYPE_QUIZ    = 'quiz';
 
 	/** Accepted `type` values, mapped to the intent they express. */
 	const TYPE_SYNONYMS = array(
 		'session' => self::TYPE_SESSION,
 		'lesson'  => self::TYPE_SESSION,
 		'topic'   => self::TYPE_TOPIC,
+		'quiz'    => self::TYPE_QUIZ,
 	);
 
 	/** Columns the parser reads. Anything else is ignored with a notice. */
@@ -281,11 +285,38 @@ final class CsvParser {
 			self::field( $fields, $index, 'session_id' )
 		);
 
-		if ( ! DriveUrl::is_importable( $row['source'] ) ) {
-			$row['errors'][] = $row['source']['reason'];
-		}
+		self::validate_source( $row );
 
 		return $row;
+	}
+
+
+	/**
+	 * Check the row's source link suits its type.
+	 *
+	 * A quiz row must point at a Google Form and every other row must not: the
+	 * two go through different importers, and a mismatch would otherwise fail
+	 * in the background job rather than in the report.
+	 *
+	 * @param array $row ParsedRow, updated in place.
+	 */
+	private static function validate_source( array &$row ): void {
+		$source = $row['source'];
+
+		if ( $row['type'] !== self::TYPE_QUIZ ) {
+			if ( ! DriveUrl::is_importable( $source ) ) {
+				$row['errors'][] = $source['reason'];
+			}
+			return;
+		}
+
+		if ( $source['kind'] === DriveUrl::KIND_FORM && $source['file_id'] !== '' ) {
+			return;
+		}
+
+		$row['errors'][] = $source['kind'] === DriveUrl::KIND_FORM || ! in_array( $source['kind'], array( DriveUrl::KIND_SLIDES, DriveUrl::KIND_DOC, DriveUrl::KIND_FILE ), true )
+			? $source['reason']
+			: __( 'Quiz rows need a link to a Google Form.', 'cbf-slides-importer' );
 	}
 
 
@@ -316,10 +347,10 @@ final class CsvParser {
 		}
 
 		$row['errors'][] = $raw_type === ''
-			? __( 'No type was given. Use "session" or "topic".', 'cbf-slides-importer' )
+			? __( 'No type was given. Use "session", "topic" or "quiz".', 'cbf-slides-importer' )
 			: sprintf(
 				/* translators: %s: the value found in the type column */
-				__( 'Unrecognised type "%s". Use "session" (or "lesson") or "topic".', 'cbf-slides-importer' ),
+				__( 'Unrecognised type "%s". Use "session" (or "lesson"), "topic" or "quiz".', 'cbf-slides-importer' ),
 				$raw_type
 			);
 	}
@@ -350,7 +381,7 @@ final class CsvParser {
 	/**
 	 * Apply the placement columns that are meaningful for this row's type.
 	 *
-	 * A session is placed under a heading; a topic is placed under a session.
+	 * A session is placed under a heading; a topic or quiz is placed under a session.
 	 * The column that does not apply is ignored, and a populated one earns a
 	 * notice so the author can see it had no effect.
 	 *
@@ -368,12 +399,14 @@ final class CsvParser {
 			return;
 		}
 
-		if ( $row['type'] !== self::TYPE_TOPIC ) {
+		if ( $row['type'] !== self::TYPE_TOPIC && $row['type'] !== self::TYPE_QUIZ ) {
 			return;
 		}
 
 		if ( $heading !== '' ) {
-			$row['notices'][] = __( 'Topic rows do not use heading — sections group sessions, not topics; the value was ignored.', 'cbf-slides-importer' );
+			$row['notices'][] = $row['type'] === self::TYPE_QUIZ
+				? __( 'Quiz rows do not use heading — sections group sessions, not quizzes; the value was ignored.', 'cbf-slides-importer' )
+				: __( 'Topic rows do not use heading — sections group sessions, not topics; the value was ignored.', 'cbf-slides-importer' );
 		}
 
 		$row['session_id'] = self::parse_session_id( $row, $session_id );
@@ -389,7 +422,9 @@ final class CsvParser {
 	 */
 	private static function parse_session_id( array &$row, string $session_id ): int {
 		if ( $session_id === '' ) {
-			$row['errors'][] = __( 'Topic rows need a session_id naming the session they belong to.', 'cbf-slides-importer' );
+			$row['errors'][] = $row['type'] === self::TYPE_QUIZ
+				? __( 'Quiz rows need a session_id naming the session (or topic) they belong to.', 'cbf-slides-importer' )
+				: __( 'Topic rows need a session_id naming the session they belong to.', 'cbf-slides-importer' );
 			return 0;
 		}
 

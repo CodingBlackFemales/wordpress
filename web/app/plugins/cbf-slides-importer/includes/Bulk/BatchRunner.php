@@ -260,6 +260,21 @@ final class BatchRunner {
 
 
 	/**
+	 * The import mode a row runs in.
+	 *
+	 * @param  array $row PlannedRow.
+	 * @return string
+	 */
+	private static function mode_for( array $row ): string {
+		return match ( $row['type'] ) {
+			CsvParser::TYPE_TOPIC => 'topic',
+			CsvParser::TYPE_QUIZ  => JobRunner::QUIZ_MODE,
+			default               => 'lesson-only',
+		};
+	}
+
+
+	/**
 	 * Create and schedule the job for one row.
 	 *
 	 * The job carries its own config, so from here on it is an ordinary import
@@ -278,12 +293,17 @@ final class BatchRunner {
 		$heading_key = strtolower( (string) $row['heading'] );
 
 		$config = array(
-			'mode'       => $row['type'] === CsvParser::TYPE_TOPIC ? 'topic' : 'lesson-only',
+			'mode'       => self::mode_for( $row ),
 			'course_id'  => (int) $batch['course_id'],
 			'lesson_id'  => (int) $row['session_id'],
 			'post_title' => (string) $row['title'],
 			'overwrite'  => ! empty( $batch['overwrite'] ),
 		);
+
+		// A quiz's session_id may name a topic; the importer wants that as topic_id.
+		if ( $row['type'] === CsvParser::TYPE_QUIZ && ( $row['parent_type'] ?? '' ) === BatchPlanner::POST_TYPE_TOPIC ) {
+			$config['topic_id'] = (int) $row['session_id'];
+		}
 
 		$summary = array(
 			'source_mime' => (string) $row['mime_type'],

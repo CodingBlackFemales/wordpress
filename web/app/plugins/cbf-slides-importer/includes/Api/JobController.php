@@ -138,7 +138,7 @@ final class JobController {
 				'args'                => array(
 					'mode'       => array(
 						'type'    => 'string',
-						'enum'    => array( 'lesson-only', 'topic' ),
+						'enum'    => array( 'lesson-only', 'topic', 'quiz' ),
 						'default' => null,
 					),
 					'course_id'  => array(
@@ -146,6 +146,10 @@ final class JobController {
 						'default' => null,
 					),
 					'lesson_id'  => array(
+						'type'    => 'integer',
+						'default' => null,
+					),
+					'topic_id'   => array(
 						'type'    => 'integer',
 						'default' => null,
 					),
@@ -281,7 +285,7 @@ final class JobController {
 
 		$file       = $files['file'];  // safe: validate_upload_file confirmed it exists.
 		$raw_name   = (string) $file['name'];
-		$format     = ParserFactory::detect_format( $raw_name );
+		$format     = ParserFactory::detect_upload_format( $raw_name );
 		$name_param = sanitize_text_field( (string) $request->get_param( 'deck_name' ) );
 		$deck_name  = $name_param !== '' ? $name_param : pathinfo( $raw_name, PATHINFO_FILENAME );
 
@@ -407,7 +411,7 @@ final class JobController {
 			);
 		}
 
-		$format = ParserFactory::detect_format( (string) $file['name'] );
+		$format = ParserFactory::detect_upload_format( (string) $file['name'] );
 		if ( $format === null ) {
 			return new WP_Error(
 				'cbf_si_invalid_type',
@@ -773,18 +777,19 @@ final class JobController {
 		$mode            = $request->get_param( 'mode' );
 		$course_id       = $request->get_param( 'course_id' );
 		$lesson_id       = $request->get_param( 'lesson_id' );
+		$topic_id        = $request->get_param( 'topic_id' );
 		$post_title      = $request->get_param( 'post_title' );
 		$slide_overrides = $request->get_param( 'slide_overrides' );
 		$overwrite       = $request->get_param( 'overwrite' );
 
-		if ( $mode === null && $course_id === null && $lesson_id === null
+		if ( $mode === null && $course_id === null && $lesson_id === null && $topic_id === null
 			&& $post_title === null && $slide_overrides === null && $overwrite === null ) {
 			return;
 		}
 
 		$summary           = self::decode_summary( $row );
 		$config            = self::extract_config( $summary );
-		$config            = self::apply_request_config( $config, $mode, $course_id, $lesson_id, $post_title, $overwrite );
+		$config            = self::apply_request_config( $config, $mode, $course_id, $lesson_id, $post_title, $overwrite, $topic_id );
 		$config            = self::apply_slide_overrides( $config, $slide_overrides );
 		$summary['config'] = $config;
 
@@ -812,6 +817,7 @@ final class JobController {
 	 * @param mixed       $lesson_id  Lesson ID (for topic mode).
 	 * @param string|null $post_title Post title.
 	 * @param bool|null   $overwrite  Overwrite flag.
+	 * @param mixed       $topic_id   Topic ID a quiz sits under, in quiz mode (0 = directly under the lesson).
 	 * @return array Updated config.
 	 */
 	private static function apply_request_config(
@@ -820,7 +826,8 @@ final class JobController {
 		$course_id,
 		$lesson_id,
 		?string $post_title,
-		?bool $overwrite
+		?bool $overwrite,
+		$topic_id = null
 	): array {
 		if ( $mode !== null ) {
 			$config['mode'] = sanitize_text_field( $mode );
@@ -830,6 +837,9 @@ final class JobController {
 		}
 		if ( $lesson_id !== null ) {
 			$config['lesson_id'] = absint( $lesson_id );
+		}
+		if ( $topic_id !== null ) {
+			$config['topic_id'] = absint( $topic_id );
 		}
 		if ( $post_title !== null ) {
 			$config['post_title'] = sanitize_text_field( $post_title );

@@ -104,6 +104,11 @@ final class DriveClient {
 			);
 		}
 
+		// A Form cannot be exported from Drive; its questions come from the Forms API.
+		if ( $format === ParserFactory::FORMAT_GFORM ) {
+			return FormsClient::fetch_source( $file_id, $user_id, $dest_dir );
+		}
+
 		$dest_path   = trailingslashit( $dest_dir ) . sanitize_file_name( $file_id ) . '.' . $format;
 		$export_mime = ParserFactory::export_mime_for( $mime_type );
 

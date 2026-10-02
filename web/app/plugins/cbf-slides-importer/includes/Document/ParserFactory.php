@@ -16,6 +16,7 @@
 namespace CodingBlackFemales\SlidesImporter\Document;
 
 use CodingBlackFemales\SlidesImporter\Docx\Parser as DocxParser;
+use CodingBlackFemales\SlidesImporter\Forms\Parser as FormsParser;
 use CodingBlackFemales\SlidesImporter\Pdf\Parser as PdfParser;
 use CodingBlackFemales\SlidesImporter\Pptx\Parser as PptxParser;
 use WP_Error;
@@ -35,11 +36,20 @@ final class ParserFactory {
 	const FORMAT_DOCX = 'docx';
 
 	/**
+	 * Google Forms are the odd one out: a quiz rather than a document, with no
+	 * binary export. The Forms API response is saved as `<id>.gform` (JSON) and
+	 * parsed from there. Forms exist only in Drive, so they are never offered for
+	 * local upload and have no MIME type of their own.
+	 */
+	const FORMAT_GFORM = 'gform';
+
+	/**
 	 * Google Drive MIME types for native editor files, which must be exported
 	 * to a binary format before they can be parsed.
 	 */
 	const GOOGLE_SLIDES_MIME = 'application/vnd.google-apps.presentation';
 	const GOOGLE_DOCS_MIME   = 'application/vnd.google-apps.document';
+	const GOOGLE_FORMS_MIME  = 'application/vnd.google-apps.form';
 
 	/**
 	 * The format table.
@@ -52,6 +62,7 @@ final class ParserFactory {
 	 *  - unit_plural : plural of `unit`.
 	 *  - google_mime : Drive MIME type of the native editor file that exports to
 	 *                  this format, or '' when the format has no native editor.
+	 *  - uploadable  : false for formats that only exist in Drive (omitted = true).
 	 *  - export_url  : printf template for Drive's direct export endpoint, used
 	 *                  as a fallback when the API's export size cap is hit.
 	 */
@@ -82,6 +93,16 @@ final class ParserFactory {
 			'unit_plural' => 'pages',
 			'google_mime' => '',
 			'export_url'  => '',
+		),
+		self::FORMAT_GFORM => array(
+			'parser'      => FormsParser::class,
+			'mime'        => '',
+			'label'       => 'Google Form',
+			'unit'        => 'question',
+			'unit_plural' => 'questions',
+			'google_mime' => self::GOOGLE_FORMS_MIME,
+			'export_url'  => '',
+			'uploadable'  => false,
 		),
 	);
 
@@ -138,7 +159,7 @@ final class ParserFactory {
 		$mime_type = strtolower( trim( $mime_type ) );
 
 		foreach ( self::FORMATS as $format => $spec ) {
-			if ( $mime_type === $spec['mime'] || ( $spec['google_mime'] !== '' && $mime_type === $spec['google_mime'] ) ) {
+			if ( ( $spec['mime'] !== '' && $mime_type === $spec['mime'] ) || ( $spec['google_mime'] !== '' && $mime_type === $spec['google_mime'] ) ) {
 				return $format;
 			}
 		}
@@ -149,13 +170,39 @@ final class ParserFactory {
 
 	/** Return all supported file extensions. */
 	public static function extensions(): array {
-		return array_keys( self::FORMATS );
+		return array_keys( self::uploadable() );
+	}
+
+
+	/**
+	 * The formats a file can be uploaded or picked as, i.e. all but Forms.
+	 *
+	 * @return array<string, array>
+	 */
+	private static function uploadable(): array {
+		return array_filter( self::FORMATS, static fn( array $spec ): bool => $spec['uploadable'] ?? true );
+	}
+
+
+	/**
+	 * Identify a format from a name a user supplied for an upload.
+	 *
+	 * Stricter than detect_format(): a `.gform` file is the plugin's own saved
+	 * API response and must never be accepted from outside.
+	 *
+	 * @param  string $name File name.
+	 * @return string|null Format key, or null when it cannot be uploaded.
+	 */
+	public static function detect_upload_format( string $name ): ?string {
+		$format = self::detect_format( $name );
+
+		return $format !== null && isset( self::uploadable()[ $format ] ) ? $format : null;
 	}
 
 
 	/** Return the canonical MIME type for each supported extension. */
 	public static function mime_types(): array {
-		return array_map( static fn( array $spec ): string => $spec['mime'], self::FORMATS );
+		return array_map( static fn( array $spec ): string => $spec['mime'], self::uploadable() );
 	}
 
 
@@ -174,7 +221,9 @@ final class ParserFactory {
 			if ( $spec['google_mime'] !== '' ) {
 				$types[] = $spec['google_mime'];
 			}
-			$types[] = $spec['mime'];
+			if ( $spec['mime'] !== '' ) {
+				$types[] = $spec['mime'];
+			}
 		}
 
 		return $types;
@@ -189,7 +238,7 @@ final class ParserFactory {
 	public static function accept_attribute(): string {
 		$parts = array();
 
-		foreach ( self::FORMATS as $ext => $spec ) {
+		foreach ( self::uploadable() as $ext => $spec ) {
 			$parts[] = '.' . $ext;
 			$parts[] = $spec['mime'];
 		}
@@ -265,7 +314,7 @@ final class ParserFactory {
 	 */
 	public static function export_mime_for( string $google_mime ): ?string {
 		foreach ( self::FORMATS as $spec ) {
-			if ( $spec['google_mime'] !== '' && $spec['google_mime'] === $google_mime ) {
+			if ( $spec['mime'] !== '' && $spec['google_mime'] !== '' && $spec['google_mime'] === $google_mime ) {
 				return $spec['mime'];
 			}
 		}

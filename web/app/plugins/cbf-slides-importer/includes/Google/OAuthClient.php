@@ -62,7 +62,7 @@ final class OAuthClient {
 
 		$client = new GoogleClient();
 		$client->setAuthConfig( json_decode( $secret_json, true ) );
-		$client->setScopes( array( \Google\Service\Drive::DRIVE_READONLY ) );
+		$client->setScopes( array( \Google\Service\Drive::DRIVE_READONLY, FormsClient::SCOPE ) );
 		$client->setAccessType( 'offline' );
 		// `select_account` is what makes it possible to connect a different
 		// account: with `consent` alone Google re-uses whichever account the

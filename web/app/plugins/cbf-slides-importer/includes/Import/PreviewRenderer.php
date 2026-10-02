@@ -68,6 +68,13 @@ final class PreviewRenderer {
 			return $parsed;
 		}
 
+		if ( JobRunner::is_quiz( $parsed ) ) {
+			return array(
+				'lesson_html' => self::quiz_html( $parsed ),
+				'topics'      => array(),
+			);
+		}
+
 		$config     = self::config_from( $summary );
 		$classified = SlideClassifier::classify(
 			$parsed,
@@ -81,6 +88,77 @@ final class PreviewRenderer {
 			true,
 			self::media_base_url( $img_dir )
 		);
+	}
+
+
+	/**
+	 * Render a quiz for review: each question with its answers, the correct
+	 * ones marked, and anything that will not be imported called out.
+	 *
+	 * Nothing here is written to LearnDash. It is the editor's only chance to
+	 * notice a skipped question or a wrong answer key before the import runs.
+	 *
+	 * @param  array $quiz ParsedQuiz.
+	 * @return string
+	 */
+	private static function quiz_html( array $quiz ): string {
+		$html = '<div class="cbf-si-quiz-preview">';
+
+		foreach ( $quiz['questions'] as $question ) {
+			$html .= '<section class="cbf-si-quiz-question">';
+			$html .= sprintf(
+				/* translators: 1: question number, 2: points, 3: question type */
+				'<h3>%1$s <small>(%2$s, %3$s)</small></h3>',
+				esc_html( sprintf( __( 'Question %d', 'cbf-slides-importer' ), $question['index'] ) ),
+				esc_html( sprintf( _n( '%d point', '%d points', $question['points'], 'cbf-slides-importer' ), $question['points'] ) ),
+				esc_html( self::type_label( $question['type'] ) )
+			);
+			$html .= QuizImporter::question_html( $question );
+
+			if ( $question['answers'] !== array() ) {
+				$html .= '<ul>';
+				foreach ( $question['answers'] as $answer ) {
+					$html .= sprintf(
+						'<li%s>%s%s</li>',
+						$answer['correct'] ? ' class="cbf-si-quiz-correct"' : '',
+						esc_html( $answer['text'] ),
+						$answer['correct'] ? ' <strong>&#10003;</strong>' : ''
+					);
+				}
+				$html .= '</ul>';
+			}
+
+			foreach ( $question['warnings'] as $warning ) {
+				$html .= '<p class="cbf-si-quiz-warning"><em>' . esc_html( $warning ) . '</em></p>';
+			}
+
+			$html .= '</section>';
+		}
+
+		foreach ( $quiz['skipped'] as $skipped ) {
+			$html .= sprintf(
+				'<p class="cbf-si-quiz-warning"><strong>%s</strong> %s</p>',
+				esc_html( sprintf( __( 'Not imported: question %d.', 'cbf-slides-importer' ), $skipped['index'] ) ),
+				esc_html( $skipped['title'] . ' — ' . $skipped['reason'] )
+			);
+		}
+
+		return $html . '</div>';
+	}
+
+
+	/**
+	 * A question type's label.
+	 *
+	 * @param  string $type One of Forms\Parser's TYPE_ constants.
+	 * @return string
+	 */
+	private static function type_label( string $type ): string {
+		return match ( $type ) {
+			'multiple' => __( 'multiple answers', 'cbf-slides-importer' ),
+			'essay'    => __( 'open answer, graded by hand', 'cbf-slides-importer' ),
+			default    => __( 'single answer', 'cbf-slides-importer' ),
+		};
 	}
 
 

@@ -90,14 +90,15 @@ final class ParserFactoryTest extends Unit {
 		$this->assertSame( '', ParserFactory::export_url_template( 'pdf' ) );
 	}
 
-	/** The picker offers both editor types and all three binary types. */
+	/** The picker offers the three editor types and all three binary types. */
 	public function testPickerMimeTypes(): void {
 		$types = ParserFactory::picker_mime_types();
 
 		$this->assertContains( 'application/vnd.google-apps.presentation', $types );
 		$this->assertContains( 'application/vnd.google-apps.document', $types );
 		$this->assertContains( 'application/pdf', $types );
-		$this->assertCount( 5, $types, 'Three binary types plus two Google editor types' );
+		$this->assertContains( 'application/vnd.google-apps.form', $types );
+		$this->assertCount( 6, $types, 'Three binary types plus three Google editor types' );
 	}
 
 	/** The file input accepts every extension and its MIME type. */
