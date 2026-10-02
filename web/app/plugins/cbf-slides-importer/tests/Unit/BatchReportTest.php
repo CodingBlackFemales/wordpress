@@ -196,8 +196,22 @@ final class BatchReportTest extends Unit {
 	public function testParentIsReportedAsWritten(): void {
 		$entries = BatchReport::from_plan(
 			array(
-				$this->planned( 2, 'ready', array( 'type' => CsvParser::TYPE_TOPIC, 'parent_title' => 'Introduction to Git' ) ),
-				$this->planned( 3, 'ready', array( 'type' => CsvParser::TYPE_TOPIC, 'session_id' => 412 ) ),
+				$this->planned(
+					2,
+					'ready',
+					array(
+						'type' => CsvParser::TYPE_TOPIC,
+						'parent_title' => 'Introduction to Git',
+					)
+				),
+				$this->planned(
+					3,
+					'ready',
+					array(
+						'type' => CsvParser::TYPE_TOPIC,
+						'session_id' => 412,
+					)
+				),
 			)
 		);
 

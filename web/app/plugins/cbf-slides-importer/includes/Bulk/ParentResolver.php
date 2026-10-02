@@ -96,40 +96,63 @@ final class ParentResolver {
 	private static function resolve_row( array $row, array $rows, array $in_file, array $in_course ): array|string {
 		$key     = self::key( $row['parent_title'] );
 		$allowed = self::ALLOWED[ $row['type'] ];
-		$earlier = array();
-		$later   = array();
+		$split   = self::split_by_position( $row, $rows, $in_file[ $key ] ?? array(), $allowed );
 
-		foreach ( $in_file[ $key ] ?? array() as $index ) {
-			if ( ! in_array( $rows[ $index ]['type'], $allowed, true ) ) {
-				continue;
-			}
-
-			if ( $rows[ $index ]['line'] < $row['line'] ) {
-				$earlier[] = $rows[ $index ];
-			} else {
-				$later[] = $rows[ $index ];
-			}
-		}
-
-		if ( count( $earlier ) > 1 ) {
+		if ( count( $split['earlier'] ) > 1 ) {
 			return sprintf(
 				/* translators: 1: parent title, 2: comma-separated line numbers */
 				__( 'More than one earlier row is titled "%1$s" (lines %2$s), so the parent is ambiguous. Give them distinct titles.', 'cbf-slides-importer' ),
 				$row['parent_title'],
-				implode( ', ', array_column( $earlier, 'line' ) )
+				implode( ', ', array_column( $split['earlier'], 'line' ) )
 			);
 		}
 
-		if ( $earlier !== array() ) {
-			return self::from_row( $earlier[0] );
+		if ( $split['earlier'] !== array() ) {
+			return self::from_row( $split['earlier'][0] );
 		}
 
-		$matches = array_values(
-			array_filter(
-				$in_course[ $key ] ?? array(),
-				static fn( array $post ): bool => in_array( $post['type'], array_map( static fn( string $t ): string => self::POST_TYPES[ $t ], $allowed ), true )
-			)
+		return self::from_course( $row, $in_course[ $key ] ?? array(), $allowed, $split['later'] );
+	}
+
+
+	/**
+	 * The file's rows with this title, split into those before and after the
+	 * row naming them, keeping only types the row may sit under.
+	 *
+	 * @param  array    $row     The row naming a parent.
+	 * @param  array    $rows    Every planned row, in file order.
+	 * @param  int[]    $indexes Indexes of rows with the parent's title.
+	 * @param  string[] $allowed Row types the row may sit under.
+	 * @return array{earlier: array, later: array}
+	 */
+	private static function split_by_position( array $row, array $rows, array $indexes, array $allowed ): array {
+		$split = array(
+			'earlier' => array(),
+			'later'   => array(),
 		);
+
+		foreach ( $indexes as $index ) {
+			if ( in_array( $rows[ $index ]['type'], $allowed, true ) ) {
+				$split[ $rows[ $index ]['line'] < $row['line'] ? 'earlier' : 'later' ][] = $rows[ $index ];
+			}
+		}
+
+		return $split;
+	}
+
+
+	/**
+	 * Find the parent among the course's existing content.
+	 *
+	 * @param  array    $row     The row naming a parent.
+	 * @param  array    $posts   Existing posts with the parent's title.
+	 * @param  string[] $allowed Row types the row may sit under.
+	 * @param  array    $later   Rows after this one with the parent's title.
+	 * @return array|string The parent, or the reason it could not be found.
+	 */
+	private static function from_course( array $row, array $posts, array $allowed, array $later ): array|string {
+		$types   = array_map( static fn( string $t ): string => self::POST_TYPES[ $t ], $allowed );
+		$matches = array_values( array_filter( $posts, static fn( array $post ): bool => in_array( $post['type'], $types, true ) ) );
 
 		if ( count( $matches ) === 1 ) {
 			return array(
@@ -149,6 +172,18 @@ final class ParentResolver {
 			);
 		}
 
+		return self::not_found( $row, $later );
+	}
+
+
+	/**
+	 * Explain a parent that is neither in the course nor earlier in the file.
+	 *
+	 * @param  array $row   The row naming a parent.
+	 * @param  array $later Rows after this one with the parent's title.
+	 * @return string
+	 */
+	private static function not_found( array $row, array $later ): string {
 		if ( $later !== array() ) {
 			return sprintf(
 				/* translators: 1: parent title, 2: line number */

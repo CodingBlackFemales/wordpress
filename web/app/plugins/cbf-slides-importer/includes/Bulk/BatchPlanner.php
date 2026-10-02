@@ -340,30 +340,10 @@ final class BatchPlanner {
 		$row['mime_type'] = (string) $meta['mime_type'];
 		$format           = ParserFactory::format_for_mime( $row['mime_type'] );
 
-		// Whatever the URL claimed, the file must be the kind of thing the row's
-		// type will create: forms become quizzes and nothing else does.
-		if ( ( $format === ParserFactory::FORMAT_GFORM ) !== ( $row['type'] === CsvParser::TYPE_QUIZ ) && $format !== null ) {
-			$row['errors'][] = $format === ParserFactory::FORMAT_GFORM
-				? sprintf(
-					/* translators: %s: file name in Drive */
-					__( '"%s" is a Google Form. Set the row type to "quiz" to import it.', 'cbf-slides-importer' ),
-					$meta['name']
-				)
-				: sprintf(
-					/* translators: %s: file name in Drive */
-					__( '"%s" is not a Google Form, so it cannot be imported as a quiz.', 'cbf-slides-importer' ),
-					$meta['name']
-				);
-			return;
-		}
+		$problem = self::format_problem( $row['type'], $format, (string) $meta['name'] );
 
-		if ( $format === null ) {
-			$row['errors'][] = sprintf(
-				/* translators: 1: file name in Drive, 2: comma-separated list of supported extensions */
-				__( '"%1$s" is not a document the importer can read. Supported formats: %2$s.', 'cbf-slides-importer' ),
-				$meta['name'],
-				ParserFactory::extension_list()
-			);
+		if ( $problem !== null ) {
+			$row['errors'][] = $problem;
 			return;
 		}
 
@@ -376,6 +356,47 @@ final class BatchPlanner {
 				$meta['name']
 			);
 		}
+	}
+
+
+	/**
+	 * Why a Drive file cannot be imported by this row, if it cannot.
+	 *
+	 * Whatever the URL claimed, the file must be the kind of thing the row's
+	 * type will create: forms become quizzes and nothing else does.
+	 *
+	 * @param  string      $type   CsvParser row type.
+	 * @param  string|null $format ParserFactory format, or null when unreadable.
+	 * @param  string      $name   File name in Drive.
+	 * @return string|null
+	 */
+	private static function format_problem( string $type, ?string $format, string $name ): ?string {
+		if ( $format === null ) {
+			return sprintf(
+				/* translators: 1: file name in Drive, 2: comma-separated list of supported extensions */
+				__( '"%1$s" is not a document the importer can read. Supported formats: %2$s.', 'cbf-slides-importer' ),
+				$name,
+				ParserFactory::extension_list()
+			);
+		}
+
+		$is_form = $format === ParserFactory::FORMAT_GFORM;
+
+		if ( $is_form === ( $type === CsvParser::TYPE_QUIZ ) ) {
+			return null;
+		}
+
+		return $is_form
+			? sprintf(
+				/* translators: %s: file name in Drive */
+				__( '"%s" is a Google Form. Set the row type to "quiz" to import it.', 'cbf-slides-importer' ),
+				$name
+			)
+			: sprintf(
+				/* translators: %s: file name in Drive */
+				__( '"%s" is not a Google Form, so it cannot be imported as a quiz.', 'cbf-slides-importer' ),
+				$name
+			);
 	}
 
 

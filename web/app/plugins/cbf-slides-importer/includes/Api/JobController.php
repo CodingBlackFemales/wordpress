@@ -32,6 +32,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class JobController {
 
 	/**
+	 * Scalar import settings a request may override, with how each is sanitised.
+	 *
+	 * `topic_id` places a quiz under a topic of the chosen lesson; 0 puts it
+	 * directly under the lesson.
+	 */
+	const REQUEST_CONFIG = array(
+		'mode'       => 'sanitize_text_field',
+		'course_id'  => 'absint',
+		'lesson_id'  => 'absint',
+		'topic_id'   => 'absint',
+		'post_title' => 'sanitize_text_field',
+		'overwrite'  => 'boolval',
+	);
+
+	/**
 	 * Register routes.
 	 *
 	 * @param string $namespace REST namespace.
@@ -774,22 +789,20 @@ final class JobController {
 	public static function save_overrides_for_job( array $row, WP_REST_Request $request ): void {
 		global $wpdb;
 
-		$mode            = $request->get_param( 'mode' );
-		$course_id       = $request->get_param( 'course_id' );
-		$lesson_id       = $request->get_param( 'lesson_id' );
-		$topic_id        = $request->get_param( 'topic_id' );
-		$post_title      = $request->get_param( 'post_title' );
+		$values          = array();
 		$slide_overrides = $request->get_param( 'slide_overrides' );
-		$overwrite       = $request->get_param( 'overwrite' );
 
-		if ( $mode === null && $course_id === null && $lesson_id === null && $topic_id === null
-			&& $post_title === null && $slide_overrides === null && $overwrite === null ) {
+		foreach ( array_keys( self::REQUEST_CONFIG ) as $key ) {
+			$values[ $key ] = $request->get_param( $key );
+		}
+
+		if ( $slide_overrides === null && array_filter( $values, static fn( $v ): bool => $v !== null ) === array() ) {
 			return;
 		}
 
 		$summary           = self::decode_summary( $row );
 		$config            = self::extract_config( $summary );
-		$config            = self::apply_request_config( $config, $mode, $course_id, $lesson_id, $post_title, $overwrite, $topic_id );
+		$config            = self::apply_request_config( $config, $values );
 		$config            = self::apply_slide_overrides( $config, $slide_overrides );
 		$summary['config'] = $config;
 
@@ -811,42 +824,21 @@ final class JobController {
 	/**
 	 * Apply scalar config overrides from a REST request to a config array.
 	 *
-	 * @param array       $config     Existing config.
-	 * @param string|null $mode       Import mode.
-	 * @param mixed       $course_id  Course ID.
-	 * @param mixed       $lesson_id  Lesson ID (for topic mode).
-	 * @param string|null $post_title Post title.
-	 * @param bool|null   $overwrite  Overwrite flag.
-	 * @param mixed       $topic_id   Topic ID a quiz sits under, in quiz mode (0 = directly under the lesson).
+	 * Only settings the request actually carries are applied, so a partial
+	 * update leaves the rest of the stored config alone.
+	 *
+	 * @param array $config Existing config.
+	 * @param array $values Raw request values keyed as REQUEST_CONFIG; null
+	 *                      means "not sent".
 	 * @return array Updated config.
 	 */
-	private static function apply_request_config(
-		array $config,
-		?string $mode,
-		$course_id,
-		$lesson_id,
-		?string $post_title,
-		?bool $overwrite,
-		$topic_id = null
-	): array {
-		if ( $mode !== null ) {
-			$config['mode'] = sanitize_text_field( $mode );
+	private static function apply_request_config( array $config, array $values ): array {
+		foreach ( self::REQUEST_CONFIG as $key => $sanitise ) {
+			if ( ( $values[ $key ] ?? null ) !== null ) {
+				$config[ $key ] = $sanitise( $values[ $key ] );
+			}
 		}
-		if ( $course_id !== null ) {
-			$config['course_id'] = absint( $course_id );
-		}
-		if ( $lesson_id !== null ) {
-			$config['lesson_id'] = absint( $lesson_id );
-		}
-		if ( $topic_id !== null ) {
-			$config['topic_id'] = absint( $topic_id );
-		}
-		if ( $post_title !== null ) {
-			$config['post_title'] = sanitize_text_field( $post_title );
-		}
-		if ( $overwrite !== null ) {
-			$config['overwrite'] = (bool) $overwrite;
-		}
+
 		return $config;
 	}
 

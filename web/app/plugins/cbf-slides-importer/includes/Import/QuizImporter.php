@@ -42,21 +42,73 @@ final class QuizImporter {
 	 * @return array|WP_Error { created_post_ids: int[], skipped_post_ids: int[], errors: string[] }
 	 */
 	public function import( array $quiz, array $summary ): array|WP_Error {
+		$params  = self::params( $quiz, $summary );
+		$problem = self::precondition( $quiz, $params );
+
+		if ( $problem !== null ) {
+			return $problem;
+		}
+
+		$existing = self::find_existing( $params['title'], $params['course_id'] );
+		if ( $existing && ! $params['overwrite'] ) {
+			return array(
+				'created_post_ids' => array(),
+				'skipped_post_ids' => array( $existing ),
+				'errors'           => array(),
+			);
+		}
+
+		return $this->build( $quiz, $params, $existing );
+	}
+
+
+	/**
+	 * Read the import settings out of a job summary.
+	 *
+	 * The quiz sits under the topic when one was chosen, otherwise the lesson.
+	 * Its title falls back from the configured title to the form's own, then to
+	 * the job's name.
+	 *
+	 * @param  array $quiz    ParsedQuiz.
+	 * @param  array $summary Job result_summary.
+	 * @return array{course_id: int, parent_id: int, title: string, overwrite: bool}
+	 */
+	private static function params( array $quiz, array $summary ): array {
+		$config = array_merge(
+			array(
+				'course_id'  => 0,
+				'lesson_id'  => 0,
+				'topic_id'   => 0,
+				'post_title' => '',
+				'overwrite'  => false,
+			),
+			(array) ( $summary['config'] ?? array() )
+		);
+
+		$titles = array( (string) $config['post_title'], (string) ( $quiz['title'] ?? '' ), (string) ( $summary['deck_name'] ?? '' ), 'Imported Quiz' );
+
+		return array(
+			'course_id' => (int) $config['course_id'],
+			'parent_id' => (int) $config['topic_id'] > 0 ? (int) $config['topic_id'] : (int) $config['lesson_id'],
+			'title'     => (string) current( array_filter( $titles, static fn( string $t ): bool => $t !== '' ) ),
+			'overwrite' => ! empty( $config['overwrite'] ),
+		);
+	}
+
+
+	/**
+	 * Why a quiz cannot be imported at all, if it cannot.
+	 *
+	 * @param  array $quiz   ParsedQuiz.
+	 * @param  array $params Import settings from params().
+	 * @return WP_Error|null
+	 */
+	private static function precondition( array $quiz, array $params ): ?WP_Error {
 		if ( ! class_exists( 'WpProQuiz_Model_Quiz' ) || ! function_exists( 'learndash_course_add_child_to_parent' ) ) {
 			return new WP_Error( 'cbf_si_no_learndash', __( 'LearnDash is not active, so a quiz cannot be created.', 'cbf-slides-importer' ) );
 		}
 
-		$config    = (array) ( $summary['config'] ?? array() );
-		$course_id = (int) ( $config['course_id'] ?? 0 );
-		$parent_id = (int) ( $config['topic_id'] ?? 0 ) ?: (int) ( $config['lesson_id'] ?? 0 );
-		$title     = (string) ( $config['post_title'] ?? '' );
-		$overwrite = ! empty( $config['overwrite'] );
-
-		if ( $title === '' ) {
-			$title = (string) ( $quiz['title'] ?: ( $summary['deck_name'] ?? '' ) ?: 'Imported Quiz' );
-		}
-
-		if ( $course_id <= 0 || $parent_id <= 0 ) {
+		if ( $params['course_id'] <= 0 || $params['parent_id'] <= 0 ) {
 			return new WP_Error(
 				'cbf_si_quiz_no_parent',
 				__( 'Choose the course and the lesson or topic this quiz belongs to.', 'cbf-slides-importer' )
@@ -67,22 +119,26 @@ final class QuizImporter {
 			return new WP_Error( 'cbf_si_quiz_empty', __( 'This form has no questions that can be imported.', 'cbf-slides-importer' ) );
 		}
 
-		$existing = self::find_existing( $title, $course_id );
-		if ( $existing && ! $overwrite ) {
-			return array(
-				'created_post_ids' => array(),
-				'skipped_post_ids' => array( $existing ),
-				'errors'           => array(),
-			);
-		}
+		return null;
+	}
 
+
+	/**
+	 * Create or overwrite the quiz and its questions.
+	 *
+	 * @param  array $quiz     ParsedQuiz.
+	 * @param  array $params   Import settings from params().
+	 * @param  int   $existing Quiz post ID being overwritten, or 0.
+	 * @return array { created_post_ids: int[], skipped_post_ids: int[], errors: string[] }
+	 */
+	private function build( array $quiz, array $params, int $existing ): array {
 		$errors  = array();
 		$created = array();
 
 		try {
-			$quiz_id = $this->save_quiz_post( $existing, $title, (string) $quiz['description'] );
-			$pro_id  = $this->save_pro_quiz( $quiz_id, $title );
-			$this->link_to_course( $quiz_id, $pro_id, $course_id, $parent_id );
+			$quiz_id = $this->save_quiz_post( $existing, $params['title'], (string) $quiz['description'] );
+			$pro_id  = $this->save_pro_quiz( $quiz_id, $params['title'] );
+			$this->link_to_course( $quiz_id, $pro_id, $params['course_id'], $params['parent_id'] );
 			$this->remove_questions( $quiz_id );
 
 			$created[] = $quiz_id;

@@ -376,21 +376,13 @@ final class JobRunner {
 			return;
 		}
 
-		$config = self::resolve_config( $job );
-
-		// A quiz has nothing to classify: its entries are questions, not slides.
-		if ( self::is_quiz( $parsed ) ) {
-			$config['mode'] = self::QUIZ_MODE;
-			$slides_meta    = self::question_meta( $parsed['questions'] ?? array() );
-		} else {
-			$classified  = SlideClassifier::classify( $parsed, $config['heading_layout_regex'] ?? '', self::overrides_from( $config ) );
-			$slides_meta = self::slides_meta( $classified['slides'] );
-		}
+		$config      = self::resolve_config( $job );
+		$slides_meta = self::entries_meta( $parsed, $config );
 
 		self::store_preview( $job_id, $user_id, $source_path, $img_dir, $config );
 
-		// Note: $classified is NOT stored. Re-parsing at import time costs a few
-		// seconds and keeps the stored summary to metadata the UI actually reads.
+		// Note: the classified deck is NOT stored. Re-parsing at import time costs
+		// a few seconds and keeps the stored summary to metadata the UI reads.
 		$summary = self::decode_summary( $job );
 		self::update_result_summary(
 			$job_id,
@@ -412,6 +404,28 @@ final class JobRunner {
 		self::update_status( $job_id, 'parsed' );
 
 		self::after_parse( $job );
+	}
+
+
+	/**
+	 * The slide-map rows for a freshly parsed document.
+	 *
+	 * A quiz has nothing to classify: its entries are questions, not slides,
+	 * and the job's mode is forced to quiz whatever the stored config said.
+	 *
+	 * @param  array $parsed Parser output.
+	 * @param  array $config Stored config, updated in place for a quiz.
+	 * @return array
+	 */
+	private static function entries_meta( array $parsed, array &$config ): array {
+		if ( self::is_quiz( $parsed ) ) {
+			$config['mode'] = self::QUIZ_MODE;
+			return self::question_meta( $parsed['questions'] ?? array() );
+		}
+
+		$classified = SlideClassifier::classify( $parsed, $config['heading_layout_regex'] ?? '', self::overrides_from( $config ) );
+
+		return self::slides_meta( $classified['slides'] );
 	}
 
 

@@ -92,25 +92,63 @@ final class Parser {
 	 * @return array ParsedQuiz.
 	 */
 	public static function from_form( array $form ): array {
-		$info      = (array) ( $form['info'] ?? array() );
+		$form  = array_merge(
+			array(
+				'info'     => array(),
+				'settings' => array(),
+				'items'    => array(),
+			),
+			$form
+		);
+		$info  = array_merge(
+			array(
+				'title'         => '',
+				'documentTitle' => '',
+				'description'   => '',
+			),
+			(array) $form['info']
+		);
+		$items = self::collect_questions( (array) $form['items'] );
+		$title = trim( (string) $info['title'] );
+
+		return array(
+			'source_format' => ParserFactory::FORMAT_GFORM,
+			'unit_label'    => ParserFactory::unit_label( ParserFactory::FORMAT_GFORM ),
+			// A form's own title, or the Drive file name when it has none.
+			'title'         => $title !== '' ? $title : trim( (string) $info['documentTitle'] ),
+			'description'   => trim( (string) $info['description'] ),
+			'is_quiz'       => ! empty( $form['settings']['quizSettings']['isQuiz'] ),
+			'questions'     => $items['questions'],
+			'skipped'       => $items['skipped'],
+			'slides'        => array(),
+		);
+	}
+
+
+	/**
+	 * Convert every question item, separating what can be imported from what
+	 * cannot.
+	 *
+	 * @param  array $items The form's `items` list.
+	 * @return array{questions: array, skipped: array}
+	 */
+	private static function collect_questions( array $items ): array {
 		$questions = array();
 		$skipped   = array();
 		$position  = 0;
 
-		foreach ( (array) ( $form['items'] ?? array() ) as $item ) {
+		foreach ( $items as $item ) {
 			if ( ! is_array( $item ) || ! self::is_question_item( $item ) ) {
 				continue;
 			}
 
 			++$position;
-			$title = trim( (string) ( $item['title'] ?? '' ) );
-
 			$question = self::question_from_item( $item, $position );
 
 			if ( is_string( $question ) ) {
 				$skipped[] = array(
 					'index'  => $position,
-					'title'  => $title,
+					'title'  => trim( (string) ( $item['title'] ?? '' ) ),
 					'reason' => $question,
 				);
 				continue;
@@ -120,14 +158,8 @@ final class Parser {
 		}
 
 		return array(
-			'source_format' => ParserFactory::FORMAT_GFORM,
-			'unit_label'    => ParserFactory::unit_label( ParserFactory::FORMAT_GFORM ),
-			'title'         => trim( (string) ( $info['title'] ?? $info['documentTitle'] ?? '' ) ),
-			'description'   => trim( (string) ( $info['description'] ?? '' ) ),
-			'is_quiz'       => ! empty( $form['settings']['quizSettings']['isQuiz'] ),
-			'questions'     => $questions,
-			'skipped'       => $skipped,
-			'slides'        => array(),
+			'questions' => $questions,
+			'skipped'   => $skipped,
 		);
 	}
 
@@ -185,50 +217,79 @@ final class Parser {
 	 * @return array|string    Question, or the reason it cannot be imported.
 	 */
 	private static function choice_question( array $item, array $question, array $grading, int $position ): array|string {
-		$choice   = (array) $question['choiceQuestion'];
-		$type     = ( $choice['type'] ?? '' ) === 'CHECKBOX' ? self::TYPE_MULTIPLE : self::TYPE_SINGLE;
-		$correct  = self::correct_values( $grading );
-		$warnings = array();
+		$choice  = (array) $question['choiceQuestion'];
+		$options = self::choice_options( (array) ( $choice['options'] ?? array() ), self::correct_values( $grading ) );
+		$right   = count( array_filter( array_column( $options['answers'], 'correct' ) ) );
+		$problem = self::choice_problem( count( $options['answers'] ), $right );
+
+		if ( $problem !== null ) {
+			return $problem;
+		}
+
+		// A radio or dropdown question whose key accepts several answers can only
+		// be graded as a multiple-answer question.
+		$type = ( $choice['type'] ?? '' ) === 'CHECKBOX' || $right > 1 ? self::TYPE_MULTIPLE : self::TYPE_SINGLE;
+
+		$built             = self::base_question( $item, $grading, $position, $type );
+		$built['answers']  = $options['answers'];
+		$built['warnings'] = $options['warnings'];
+
+		return $built;
+	}
+
+
+	/**
+	 * Turn a choice question's options into answers.
+	 *
+	 * @param  array    $options The question's `options` list.
+	 * @param  string[] $correct Option values the answer key marks correct.
+	 * @return array{answers: array, warnings: string[]}
+	 */
+	private static function choice_options( array $options, array $correct ): array {
 		$answers  = array();
+		$warnings = array();
 
-		foreach ( (array) ( $choice['options'] ?? array() ) as $option ) {
-			$text = trim( (string) ( $option['value'] ?? '' ) );
-
+		foreach ( $options as $option ) {
 			// "Other" is a free-text slot; there is nothing to mark right or wrong.
 			if ( ! empty( $option['isOther'] ) ) {
 				$warnings[] = __( 'The "Other" option was left out.', 'cbf-slides-importer' );
 				continue;
 			}
 
-			if ( $text === '' ) {
-				continue;
-			}
+			$text = trim( (string) ( $option['value'] ?? '' ) );
 
-			$answers[] = array(
-				'text'    => $text,
-				'correct' => in_array( $text, $correct, true ),
-			);
+			if ( $text !== '' ) {
+				$answers[] = array(
+					'text'    => $text,
+					'correct' => in_array( $text, $correct, true ),
+				);
+			}
 		}
 
-		if ( count( $answers ) < 2 ) {
+		return array(
+			'answers'  => $answers,
+			'warnings' => $warnings,
+		);
+	}
+
+
+	/**
+	 * Why a choice question cannot be graded, if it cannot.
+	 *
+	 * @param  int $answers Number of usable options.
+	 * @param  int $right   Number of options the key marks correct.
+	 * @return string|null
+	 */
+	private static function choice_problem( int $answers, int $right ): ?string {
+		if ( $answers < 2 ) {
 			return __( 'A choice question needs at least two options.', 'cbf-slides-importer' );
 		}
-
-		$right = count( array_filter( array_column( $answers, 'correct' ) ) );
 
 		if ( $right === 0 ) {
 			return __( 'No correct answer is set in Google Forms, so it cannot be graded. Set an answer key and re-import.', 'cbf-slides-importer' );
 		}
 
-		if ( $type === self::TYPE_SINGLE && $right > 1 ) {
-			$type = self::TYPE_MULTIPLE;
-		}
-
-		$built             = self::base_question( $item, $grading, $position, $type );
-		$built['answers']  = $answers;
-		$built['warnings'] = $warnings;
-
-		return $built;
+		return null;
 	}
 
 
@@ -242,23 +303,53 @@ final class Parser {
 	 * @return array Question with no answers yet.
 	 */
 	private static function base_question( array $item, array $grading, int $position, string $type ): array {
-		$title = trim( (string) ( $item['title'] ?? '' ) );
-
 		return array(
 			'index'         => $position,
-			'title'         => $title !== '' ? $title : sprintf(
-				/* translators: %d: 1-based question number */
-				__( 'Question %d', 'cbf-slides-importer' ),
-				$position
-			),
+			'title'         => self::question_title( $item, $position ),
 			'description'   => trim( (string) ( $item['description'] ?? '' ) ),
 			'type'          => $type,
 			'points'        => max( self::DEFAULT_POINTS, (int) ( $grading['pointValue'] ?? self::DEFAULT_POINTS ) ),
 			'answers'       => array(),
-			'correct_msg'   => trim( (string) ( $grading['whenRight']['text'] ?? '' ) ),
-			'incorrect_msg' => trim( (string) ( $grading['whenWrong']['text'] ?? '' ) ),
+			'correct_msg'   => self::feedback( $grading, 'whenRight' ),
+			'incorrect_msg' => self::feedback( $grading, 'whenWrong' ),
 			'warnings'      => array(),
 		);
+	}
+
+
+	/**
+	 * A question's title, or "Question n" when the form left it blank.
+	 *
+	 * @param  array $item     Form item.
+	 * @param  int   $position 1-based position among the form's questions.
+	 * @return string
+	 */
+	private static function question_title( array $item, int $position ): string {
+		$title = trim( (string) ( $item['title'] ?? '' ) );
+
+		if ( $title !== '' ) {
+			return $title;
+		}
+
+		return sprintf(
+			/* translators: %d: 1-based question number */
+			__( 'Question %d', 'cbf-slides-importer' ),
+			$position
+		);
+	}
+
+
+	/**
+	 * Feedback text shown for a right or wrong answer.
+	 *
+	 * @param  array  $grading The question's `grading` object.
+	 * @param  string $key     `whenRight` or `whenWrong`.
+	 * @return string
+	 */
+	private static function feedback( array $grading, string $key ): string {
+		$feedback = (array) ( $grading[ $key ] ?? array() );
+
+		return trim( (string) ( $feedback['text'] ?? '' ) );
 	}
 
 

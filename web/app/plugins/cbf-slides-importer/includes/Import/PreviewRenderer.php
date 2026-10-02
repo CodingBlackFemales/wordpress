@@ -75,7 +75,19 @@ final class PreviewRenderer {
 			);
 		}
 
-		$config     = self::config_from( $summary );
+		return self::deck_html( $parsed, self::config_from( $summary ), $img_dir );
+	}
+
+
+	/**
+	 * Classify and render a parsed deck with the job's stored config.
+	 *
+	 * @param  array  $parsed  ParsedDeck.
+	 * @param  array  $config  Stored config.
+	 * @param  string $img_dir Directory images were extracted into.
+	 * @return array{lesson_html: string, topics: array}
+	 */
+	private static function deck_html( array $parsed, array $config, string $img_dir ): array {
 		$classified = SlideClassifier::classify(
 			$parsed,
 			$config['heading_layout_regex'] ?? '',
@@ -105,45 +117,69 @@ final class PreviewRenderer {
 		$html = '<div class="cbf-si-quiz-preview">';
 
 		foreach ( $quiz['questions'] as $question ) {
-			$html .= '<section class="cbf-si-quiz-question">';
-			$html .= sprintf(
-				/* translators: 1: question number, 2: points, 3: question type */
-				'<h3>%1$s <small>(%2$s, %3$s)</small></h3>',
-				esc_html( sprintf( __( 'Question %d', 'cbf-slides-importer' ), $question['index'] ) ),
-				esc_html( sprintf( _n( '%d point', '%d points', $question['points'], 'cbf-slides-importer' ), $question['points'] ) ),
-				esc_html( self::type_label( $question['type'] ) )
-			);
-			$html .= QuizImporter::question_html( $question );
-
-			if ( $question['answers'] !== array() ) {
-				$html .= '<ul>';
-				foreach ( $question['answers'] as $answer ) {
-					$html .= sprintf(
-						'<li%s>%s%s</li>',
-						$answer['correct'] ? ' class="cbf-si-quiz-correct"' : '',
-						esc_html( $answer['text'] ),
-						$answer['correct'] ? ' <strong>&#10003;</strong>' : ''
-					);
-				}
-				$html .= '</ul>';
-			}
-
-			foreach ( $question['warnings'] as $warning ) {
-				$html .= '<p class="cbf-si-quiz-warning"><em>' . esc_html( $warning ) . '</em></p>';
-			}
-
-			$html .= '</section>';
+			$html .= self::question_preview( $question );
 		}
 
 		foreach ( $quiz['skipped'] as $skipped ) {
 			$html .= sprintf(
 				'<p class="cbf-si-quiz-warning"><strong>%s</strong> %s</p>',
+				/* translators: %d: question number */
 				esc_html( sprintf( __( 'Not imported: question %d.', 'cbf-slides-importer' ), $skipped['index'] ) ),
 				esc_html( $skipped['title'] . ' — ' . $skipped['reason'] )
 			);
 		}
 
 		return $html . '</div>';
+	}
+
+
+	/**
+	 * Render one question: its heading, stem, answers and any warnings.
+	 *
+	 * @param  array $question Parsed question.
+	 * @return string
+	 */
+	private static function question_preview( array $question ): string {
+		$html  = '<section class="cbf-si-quiz-question">';
+		$html .= sprintf(
+			'<h3>%1$s <small>(%2$s, %3$s)</small></h3>',
+			/* translators: %d: question number */
+			esc_html( sprintf( __( 'Question %d', 'cbf-slides-importer' ), $question['index'] ) ),
+			/* translators: %d: points the question is worth */
+			esc_html( sprintf( _n( '%d point', '%d points', $question['points'], 'cbf-slides-importer' ), $question['points'] ) ),
+			esc_html( self::type_label( $question['type'] ) )
+		);
+		$html .= QuizImporter::question_html( $question );
+		$html .= self::answers_preview( $question['answers'] );
+
+		foreach ( $question['warnings'] as $warning ) {
+			$html .= '<p class="cbf-si-quiz-warning"><em>' . esc_html( $warning ) . '</em></p>';
+		}
+
+		return $html . '</section>';
+	}
+
+
+	/**
+	 * Render a question's answers with the correct ones marked.
+	 *
+	 * @param  array $answers { text, correct } entries; empty for an essay.
+	 * @return string
+	 */
+	private static function answers_preview( array $answers ): string {
+		if ( $answers === array() ) {
+			return '';
+		}
+
+		$items = '';
+
+		foreach ( $answers as $answer ) {
+			$items .= $answer['correct']
+				? '<li class="cbf-si-quiz-correct">' . esc_html( $answer['text'] ) . ' <strong>&#10003;</strong></li>'
+				: '<li>' . esc_html( $answer['text'] ) . '</li>';
+		}
+
+		return '<ul>' . $items . '</ul>';
 	}
 
 

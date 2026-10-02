@@ -313,11 +313,20 @@ final class BatchRunner {
 			);
 		}
 
-		if ( (int) $parent['id'] > 0 ) {
-			return $parent;
-		}
+		return (int) $parent['id'] > 0 ? $parent : self::parent_from_report( $parent, $report, $course_id );
+	}
 
-		$entry = self::entry_for_line( $report, (int) $parent['line'] );
+
+	/**
+	 * The post an earlier row in this batch produced for a parent.
+	 *
+	 * @param  array $parent    Parent, as ParentResolver described it.
+	 * @param  array $report    Report entries.
+	 * @param  int   $course_id Course the batch imports into.
+	 * @return array|string The parent with its post ID, or why there is none.
+	 */
+	private static function parent_from_report( array $parent, array $report, int $course_id ): array|string {
+		$entry = self::entry_for_line( $report, (int) $parent['line'] ) ?? array( 'outcome' => BatchReport::OUTCOME_FAILED );
 		$id    = (int) ( $entry['post_id'] ?? 0 );
 
 		if ( $id > 0 && self::is_usable_parent( $entry, $id, (string) $parent['type'], $course_id ) ) {
@@ -329,7 +338,7 @@ final class BatchRunner {
 			__( 'The parent "%1$s" on line %2$d was not imported (%3$s), so there is nothing to attach this row to.', 'cbf-slides-importer' ),
 			$parent['title'],
 			$parent['line'],
-			$entry['outcome'] ?? BatchReport::OUTCOME_FAILED
+			$entry['outcome']
 		);
 	}
 
@@ -383,6 +392,33 @@ final class BatchRunner {
 
 
 	/**
+	 * The import config a row's job carries.
+	 *
+	 * @param  array $batch  Batch row.
+	 * @param  array $row    PlannedRow.
+	 * @param  array $parent { id, type } of the post a topic or quiz goes under;
+	 *                       empty for a session.
+	 * @return array
+	 */
+	private static function row_config( array $batch, array $row, array $parent ): array {
+		$config = array(
+			'mode'       => self::mode_for( $row ),
+			'course_id'  => (int) $batch['course_id'],
+			'lesson_id'  => (int) ( $parent['id'] ?? 0 ),
+			'post_title' => (string) $row['title'],
+			'overwrite'  => ! empty( $batch['overwrite'] ),
+		);
+
+		// A quiz's parent may be a topic; the importer wants that as topic_id.
+		if ( $row['type'] === CsvParser::TYPE_QUIZ && ( $parent['type'] ?? '' ) === BatchPlanner::POST_TYPE_TOPIC ) {
+			$config['topic_id'] = (int) $parent['id'];
+		}
+
+		return $config;
+	}
+
+
+	/**
 	 * Create and schedule the job for one row.
 	 *
 	 * The job carries its own config, so from here on it is an ordinary import
@@ -402,19 +438,6 @@ final class BatchRunner {
 		$heading_ids = $plan['heading_ids'] ?? array();
 		$heading_key = strtolower( (string) $row['heading'] );
 
-		$config = array(
-			'mode'       => self::mode_for( $row ),
-			'course_id'  => (int) $batch['course_id'],
-			'lesson_id'  => (int) ( $parent['id'] ?? 0 ),
-			'post_title' => (string) $row['title'],
-			'overwrite'  => ! empty( $batch['overwrite'] ),
-		);
-
-		// A quiz's parent may be a topic; the importer wants that as topic_id.
-		if ( $row['type'] === CsvParser::TYPE_QUIZ && ( $parent['type'] ?? '' ) === BatchPlanner::POST_TYPE_TOPIC ) {
-			$config['topic_id'] = (int) $parent['id'];
-		}
-
 		$summary = array(
 			'source_mime' => (string) $row['mime_type'],
 			'batch'       => array(
@@ -422,7 +445,7 @@ final class BatchRunner {
 				'line'       => (int) $row['line'],
 				'section_id' => (int) ( $heading_ids[ $heading_key ] ?? 0 ),
 			),
-			'config'      => $config,
+			'config'      => self::row_config( $batch, $row, $parent ),
 		);
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery

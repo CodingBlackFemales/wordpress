@@ -123,9 +123,20 @@ final class FormsClient {
 	 * @return string
 	 */
 	public static function describe_error( int $code, array $body ): string {
-		$error   = (array) ( $body['error'] ?? array() );
-		$message = (string) ( $error['message'] ?? '' );
-		$blob    = strtolower( $message . ' ' . wp_json_encode( $error['details'] ?? array() ) );
+		return self::setup_problem( $code, $body ) ?? self::status_message( $code );
+	}
+
+
+	/**
+	 * A failure caused by the connection or the Cloud project, not the form.
+	 *
+	 * @param  int   $code HTTP status.
+	 * @param  array $body Decoded error response, possibly empty.
+	 * @return string|null
+	 */
+	private static function setup_problem( int $code, array $body ): ?string {
+		$error = (array) ( $body['error'] ?? array() );
+		$blob  = strtolower( (string) ( $error['message'] ?? '' ) . ' ' . wp_json_encode( $error['details'] ?? array() ) );
 
 		if ( $code === 401 || str_contains( $blob, 'scope' ) ) {
 			return __( 'Your Google connection does not yet allow reading Forms. Use "Use a different account" or disconnect and reconnect on the Import tab, then try again.', 'cbf-slides-importer' );
@@ -135,6 +146,17 @@ final class FormsClient {
 			return __( 'The Google Forms API is not enabled for this plugin\'s Google Cloud project. An administrator needs to enable it.', 'cbf-slides-importer' );
 		}
 
+		return null;
+	}
+
+
+	/**
+	 * Explain an HTTP status once setup problems are ruled out.
+	 *
+	 * @param  int $code HTTP status.
+	 * @return string
+	 */
+	private static function status_message( int $code ): string {
 		return match ( $code ) {
 			403 => __( 'Your Google account cannot read this form. Only people who can edit a form can import its questions and answer key.', 'cbf-slides-importer' ),
 			404 => __( 'This form could not be found. It may have been deleted, or it may live in a workspace your Google account cannot reach.', 'cbf-slides-importer' ),
