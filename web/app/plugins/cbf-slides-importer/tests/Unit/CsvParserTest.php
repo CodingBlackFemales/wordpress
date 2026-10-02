@@ -32,7 +32,7 @@ final class CsvParserTest extends Unit {
 	 * @param  string $header Header line.
 	 * @return string
 	 */
-	private function csv( array $rows, string $header = 'heading,session_id,type,title,url' ): string {
+	private function csv( array $rows, string $header = 'heading,parent,type,title,url' ): string {
 		$out = $header . "\n";
 		foreach ( $rows as $row ) {
 			$out .= implode( ',', array_map( static fn( $v ): string => '"' . str_replace( '"', '""', (string) $v ) . '"', $row ) ) . "\n";
@@ -108,13 +108,13 @@ final class CsvParserTest extends Unit {
 		$this->assertStringContainsString( 'sections group sessions', $row['notices'][0] );
 	}
 
-	/** A session_id on a session row is ignored, not rejected. */
+	/** A parent on a session row is ignored, not rejected. */
 	public function testSessionIdOnSessionRowIsIgnoredWithANotice(): void {
 		$row = CsvParser::parse( $this->csv( array( array( 'Foundations', '412', 'session', 'Intro', self::URL ) ) ) )['rows'][0];
 
 		$this->assertTrue( CsvParser::is_valid( $row ) );
 		$this->assertSame( 0, $row['session_id'] );
-		$this->assertStringContainsString( 'do not use session_id', $row['notices'][0] );
+		$this->assertStringContainsString( 'do not use parent', $row['notices'][0] );
 	}
 
 	/**
@@ -140,14 +140,12 @@ final class CsvParserTest extends Unit {
 			'missing title'    => array( array( '', '', 'session', '', self::URL ), 'No title was given' ),
 			'missing url'      => array( array( '', '', 'session', 'Title', '' ), 'No source link' ),
 			'google form'      => array( array( '', '', 'session', 'Quiz', 'https://docs.google.com/forms/d/' . self::ID . '/edit' ), 'Set the row type to "quiz"' ),
-			'quiz no session'  => array( array( '', '', 'quiz', 'Check', self::FORM_URL ), 'need a session_id' ),
-			'quiz bad session' => array( array( '', 'abc', 'quiz', 'Check', self::FORM_URL ), 'is not a post ID' ),
+			'quiz no session'  => array( array( '', '', 'quiz', 'Check', self::FORM_URL ), 'need a parent' ),
 			'quiz with slides' => array( array( '', '12', 'quiz', 'Check', self::URL ), 'link to a Google Form' ),
 			'quiz with blank'  => array( array( '', '12', 'quiz', 'Check', '' ), 'No source link' ),
 			'quiz published'   => array( array( '', '12', 'quiz', 'Check', 'https://docs.google.com/forms/d/e/1FAIpQLSeXAMPLEexample/viewform' ), 'public link' ),
 			'github repo'      => array( array( '', '', 'session', 'Repo', 'https://github.com/cbfacademy/x' ), 'not a Google Drive link' ),
-			'topic no session' => array( array( '', '', 'topic', 'Orphan', self::URL ), 'need a session_id' ),
-			'topic bad session' => array( array( '', 'abc', 'topic', 'Orphan', self::URL ), 'is not a post ID' ),
+			'topic no session' => array( array( '', '', 'topic', 'Orphan', self::URL ), 'need a parent' ),
 			'topic zero session' => array( array( '', '0', 'topic', 'Orphan', self::URL ), 'is not a post ID' ),
 		);
 	}
@@ -313,5 +311,39 @@ final class CsvParserTest extends Unit {
 		$this->assertSame( '', $row['heading'] );
 		$this->assertStringContainsString( 'do not use heading', implode( ' ', $row['notices'] ) );
 		$this->assertSame( self::ID, $row['source']['file_id'] );
+	}
+
+	/** A parent that is not a number is a title, resolved later against the course and the file. */
+	public function testParentTitle(): void {
+		$row = CsvParser::parse( $this->csv( array( array( '', 'Introduction to Git', 'topic', 'Git exercises', self::URL ) ) ) )['rows'][0];
+
+		$this->assertTrue( CsvParser::is_valid( $row ) );
+		$this->assertSame( 'Introduction to Git', $row['parent_title'] );
+		$this->assertSame( 0, $row['session_id'] );
+	}
+
+	/** Files written for the old column name keep working, IDs and titles alike. */
+	public function testSessionIdIsAnAliasForParent(): void {
+		$csv  = $this->csv(
+			array(
+				array( '', '412', 'topic', 'By ID', self::URL ),
+				array( '', 'Introduction to Git', 'topic', 'By title', self::URL ),
+			),
+			'heading,session_id,type,title,url'
+		);
+		$rows = CsvParser::parse( $csv )['rows'];
+
+		$this->assertSame( 412, $rows[0]['session_id'] );
+		$this->assertSame( 'Introduction to Git', $rows[1]['parent_title'] );
+	}
+
+	/** With both columns present, the first is read and the duplicate reported. */
+	public function testDuplicateParentColumnIsReported(): void {
+		$result = CsvParser::parse(
+			$this->csv( array( array( '', 'Intro', 'topic', 'T', self::URL, '412' ) ), 'heading,parent,type,title,url,session_id' )
+		);
+
+		$this->assertSame( 'Intro', $result['rows'][0]['parent_title'] );
+		$this->assertStringContainsString( 'duplicates an earlier column', implode( ' ', $result['notices'] ) );
 	}
 }

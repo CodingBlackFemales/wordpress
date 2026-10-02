@@ -10,10 +10,14 @@
  * Column semantics follow the resolved design questions:
  *  - `heading` is read on session rows only; on a topic row it is ignored and
  *    reported as a notice, because LearnDash sections group lessons, not topics.
- *  - `session_id` is read on topic and quiz rows; on a session row it is ignored.
+ *  - `parent` is read on topic and quiz rows; on a session row it is ignored.
+ *    It names the session a topic belongs under, or the session or topic a
+ *    quiz belongs under, by **title** — so a parent created earlier in the
+ *    same file can be referred to before it exists. A value made only of
+ *    digits is still read as a post ID, and the column's old name,
+ *    `session_id`, is accepted as an alias.
  *  - `type` accepts "session" and "lesson" interchangeably, plus "topic" and
- *    "quiz". A quiz row's url must be a Google Form, and no other type's may be;
- *    its session_id names the session (or topic) the quiz belongs under.
+ *    "quiz". A quiz row's url must be a Google Form, and no other type's may be.
  *
  * @class   Bulk\CsvParser
  * @version 1.0.0
@@ -34,8 +38,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   line:       int,     // 1-based line in the file, header included
  *   type:       string,  // 'session' | 'topic' | 'quiz'
  *   title:      string,
- *   heading:    string,  // '' on topic and quiz rows
- *   session_id: int,     // 0 on session rows
+ *   heading:      string,  // '' on topic and quiz rows
+ *   session_id:   int,     // parent given as a post ID; 0 otherwise
+ *   parent_title: string,  // parent given as a title; '' otherwise
  *   source:     array,   // DriveUrl::parse() result
  *   errors:     string[],
  *   notices:    string[]
@@ -57,7 +62,15 @@ final class CsvParser {
 	);
 
 	/** Columns the parser reads. Anything else is ignored with a notice. */
-	const COLUMNS = array( 'heading', 'session_id', 'type', 'title', 'url' );
+	const COLUMNS = array( 'heading', 'parent', 'type', 'title', 'url' );
+
+	/**
+	 * Former column names, mapped to the column they now mean.
+	 *
+	 * `session_id` only ever held post IDs; `parent` reads those the same way,
+	 * so files written for the old name keep working unchanged.
+	 */
+	const COLUMN_ALIASES = array( 'session_id' => 'parent' );
 
 	/**
 	 * Most rows a single CSV may contain.
@@ -225,8 +238,20 @@ final class CsvParser {
 		foreach ( $header as $position => $name ) {
 			$key = strtolower( trim( $name ) );
 			$key = (string) preg_replace( '/[\s-]+/', '_', $key );
+			$key = self::COLUMN_ALIASES[ $key ] ?? $key;
 
 			if ( in_array( $key, self::COLUMNS, true ) ) {
+				// A file carrying both `parent` and its old alias: the first wins,
+				// and the author is told which one was read.
+				if ( isset( $index[ $key ] ) ) {
+					$notices[] = sprintf(
+						/* translators: %s: column name */
+						__( 'Column "%s" duplicates an earlier column and was ignored.', 'cbf-slides-importer' ),
+						$name
+					);
+					continue;
+				}
+
 				$index[ $key ] = $position;
 				continue;
 			}
@@ -270,11 +295,12 @@ final class CsvParser {
 			'line'       => $line,
 			'type'       => $type,
 			'title'      => self::clean_title( $title ),
-			'heading'    => '',
-			'session_id' => 0,
-			'source'     => DriveUrl::parse( $url ),
-			'errors'     => array(),
-			'notices'    => array(),
+			'heading'      => '',
+			'session_id'   => 0,
+			'parent_title' => '',
+			'source'       => DriveUrl::parse( $url ),
+			'errors'       => array(),
+			'notices'      => array(),
 		);
 
 		self::validate_type( $row, $raw_type );
@@ -282,7 +308,7 @@ final class CsvParser {
 		self::apply_placement(
 			$row,
 			self::field( $fields, $index, 'heading' ),
-			self::field( $fields, $index, 'session_id' )
+			self::field( $fields, $index, 'parent' )
 		);
 
 		self::validate_source( $row );
@@ -381,20 +407,20 @@ final class CsvParser {
 	/**
 	 * Apply the placement columns that are meaningful for this row's type.
 	 *
-	 * A session is placed under a heading; a topic or quiz is placed under a session.
+	 * A session is placed under a heading; a topic or quiz is placed under a parent.
 	 * The column that does not apply is ignored, and a populated one earns a
 	 * notice so the author can see it had no effect.
 	 *
 	 * @param array  $row        ParsedRow, updated in place.
 	 * @param string $heading    Heading column value.
-	 * @param string $session_id Session ID column value.
+	 * @param string $parent     Parent column value.
 	 */
-	private static function apply_placement( array &$row, string $heading, string $session_id ): void {
+	private static function apply_placement( array &$row, string $heading, string $parent ): void {
 		if ( $row['type'] === self::TYPE_SESSION ) {
 			$row['heading'] = sanitize_text_field( $heading );
 
-			if ( $session_id !== '' ) {
-				$row['notices'][] = __( 'Session rows do not use session_id; the value was ignored.', 'cbf-slides-importer' );
+			if ( $parent !== '' ) {
+				$row['notices'][] = __( 'Session rows do not use parent; the value was ignored.', 'cbf-slides-importer' );
 			}
 			return;
 		}
@@ -409,35 +435,43 @@ final class CsvParser {
 				: __( 'Topic rows do not use heading — sections group sessions, not topics; the value was ignored.', 'cbf-slides-importer' );
 		}
 
-		$row['session_id'] = self::parse_session_id( $row, $session_id );
+		self::parse_parent( $row, $parent );
 	}
 
 
 	/**
-	 * Read a topic's parent session ID, recording any problem with it.
+	 * Read a topic's or quiz's parent, recording any problem with it.
 	 *
-	 * @param  array  $row        ParsedRow, updated in place.
-	 * @param  string $session_id The value as written.
-	 * @return int Post ID, or 0 when unusable.
+	 * Digits alone are a post ID, as the column always allowed. Anything else
+	 * is a title, resolved by BatchPlanner against the course and against the
+	 * rows earlier in this file.
+	 *
+	 * @param array  $row    ParsedRow, updated in place.
+	 * @param string $parent The value as written.
 	 */
-	private static function parse_session_id( array &$row, string $session_id ): int {
-		if ( $session_id === '' ) {
+	private static function parse_parent( array &$row, string $parent ): void {
+		if ( $parent === '' ) {
 			$row['errors'][] = $row['type'] === self::TYPE_QUIZ
-				? __( 'Quiz rows need a session_id naming the session (or topic) they belong to.', 'cbf-slides-importer' )
-				: __( 'Topic rows need a session_id naming the session they belong to.', 'cbf-slides-importer' );
-			return 0;
+				? __( 'Quiz rows need a parent naming the session (or topic) they belong to.', 'cbf-slides-importer' )
+				: __( 'Topic rows need a parent naming the session they belong to.', 'cbf-slides-importer' );
+			return;
 		}
 
-		if ( ! preg_match( '/^\d+$/', $session_id ) || (int) $session_id < 1 ) {
-			$row['errors'][] = sprintf(
-				/* translators: %s: the value found in the session_id column */
-				__( 'session_id "%s" is not a post ID.', 'cbf-slides-importer' ),
-				$session_id
-			);
-			return 0;
+		if ( preg_match( '/^\d+$/', $parent ) ) {
+			if ( (int) $parent < 1 ) {
+				$row['errors'][] = sprintf(
+					/* translators: %s: the value found in the parent column */
+					__( 'parent "%s" is not a post ID.', 'cbf-slides-importer' ),
+					$parent
+				);
+				return;
+			}
+
+			$row['session_id'] = (int) $parent;
+			return;
 		}
 
-		return (int) $session_id;
+		$row['parent_title'] = self::clean_title( $parent );
 	}
 
 

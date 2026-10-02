@@ -157,7 +157,7 @@ Migrating a whole course one file at a time does not scale. Instead, upload a CS
 | Column       | Required on  | Meaning                                                                                                                                               |
 | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `heading`    | session rows | Section heading the session goes under; created if the course does not have it. Ignored on topic and quiz rows — LearnDash sections group sessions    |
-| `session_id` | topic and quiz rows | Post ID of the existing session the topic nests under, or that the quiz belongs to (a quiz may name a topic instead). Ignored on session rows |
+| `parent`     | topic and quiz rows | Title of the session the topic nests under, or of the session or topic the quiz belongs to. A number is read as a post ID. Ignored on session rows. The old name `session_id` is still accepted |
 | `type`       | all rows     | `session` (or `lesson`), `topic` or `quiz`                                                                                                            |
 | `title`      | all rows     | Title of the created post                                                                                                                             |
 | `url`        | all rows     | Google Drive link to the source document; for `quiz` rows, the Google Form's editor link                                                              |
@@ -165,23 +165,27 @@ Migrating a whole course one file at a time does not scale. Instead, upload a CS
 Course and Overwrite are chosen once in the panel and apply to every row, so they are not columns.
 
 ```csv
-heading,session_id,type,title,url
+heading,parent,type,title,url
 Foundations,,session,Introduction to Git,https://docs.google.com/presentation/d/FILE_ID/edit
-Foundations,,session,Command Line Basics,https://drive.google.com/file/d/FILE_ID/view
-,412,topic,Git Exercises,https://docs.google.com/document/d/FILE_ID/edit
-,412,quiz,Git Skills Check,https://docs.google.com/forms/d/FORM_ID/edit
+,Introduction to Git,topic,Introduction to Git: Extended exercises (Commits and branches),https://docs.google.com/document/d/FILE_ID/edit
+Foundations,,session,Introduction to GitHub,https://drive.google.com/file/d/FILE_ID/view
+,Introduction to GitHub,quiz,Command line and Git: Skills check,https://docs.google.com/forms/d/FORM_ID/edit
 ```
 
 A `quiz` row must link to a Google Form and every other row type must not; the report says so if they are mixed up. Use the form's editor link (`…/forms/d/FORM_ID/edit`). A form's public link (`…/forms/d/e/…/viewform`) carries a different ID that the Forms API cannot read, and is rejected with an explanation. Quiz rows follow the same rules as single imports: the connected account must be able to edit the form, and the row is skipped if the course already has a quiz with that title (enable Overwrite to replace its questions).
 
-### Sessions before topics and quizzes
+### Parents
 
-A topic's or quiz's `session_id` must name a session (or, for a quiz, a topic) that **already exists** and belongs to the selected course. A session row does not report its new ID back into the CSV, so one file cannot create a session and a topic under it in the same run. Migration goes in two passes:
+A topic or quiz names its parent by **title**, so one file can create a session and the content under it in a single run. The parent can be:
 
-1. Upload the session rows. The report gives each created session's post ID.
-2. Put those IDs into the `session_id` column of a topic CSV, and upload that.
+- a row **earlier in the same file**: rows import one at a time in file order, so the parent exists by the time its children run; or
+- a session (or, for a quiz, a topic) the selected course **already has**.
 
-Sessions already live in LearnDash need only the second pass.
+If both exist, the earlier row wins, since the importer matches posts by title and that row is what decides which post the title refers to. Titles match case-insensitively.
+
+Pre-flight rejects a row whose parent cannot be found, is ambiguous (two earlier rows, or two posts in the course, with that title), appears later in the file, or was itself rejected. A parent row that fails during the import takes its children with it: each is reported as failed with the parent's line and outcome, rather than imported with nothing to attach to.
+
+Where a title is ambiguous, give the post ID instead. A number in `parent` is read as an ID, exactly as `session_id` was.
 
 ### What happens
 
@@ -331,7 +335,7 @@ Two sets of versions are duplicated across files and have to be changed together
 | Preview unavailable after a completed import      | expected — temp files are deleted once posts are created                                                                                                                                               |
 | A PDF imports with words run together             | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces                                                                                |
 | Everything in a PDF becomes one code block        | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                                                                                                      |
-| A bulk row says the session does not exist        | `session_id` must name a session already in the selected course — see Sessions before topics                                                                                                           |
+| A bulk row says its parent does not exist         | `parent` must match the title of a row earlier in the file, or of a session (or topic) already in the selected course — see Parents                                                                    |
 | Bulk rows are reported as skipped                 | the same file was already imported with these settings; enable Overwrite to update instead                                                                                                             |
 | A bulk row is reported as reused                  | a session with that title already existed, so it was added to this course as a shared step instead of being duplicated — see Content that already exists                                               |
 | A bulk batch seems stuck                          | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes                                                                                     |

@@ -85,7 +85,7 @@ final class BatchReport {
 				'title'      => (string) $row['title'],
 				'type'       => (string) $row['type'],
 				'heading'    => (string) $row['heading'],
-				'session_id' => (int) $row['session_id'],
+				'parent'     => self::parent_label( $row ),
 				'outcome'    => $ready ? self::OUTCOME_PENDING : self::OUTCOME_REJECTED,
 				'detail'     => $ready ? '' : implode( ' ', $row['errors'] ),
 				'notices'    => array_values( $row['notices'] ),
@@ -205,7 +205,7 @@ final class BatchReport {
 			return '';
 		}
 
-		fputcsv( $handle, array( 'line', 'title', 'type', 'heading', 'session_id', 'outcome', 'post_id', 'detail' ), ',', '"', '\\' );
+		fputcsv( $handle, array( 'line', 'title', 'type', 'heading', 'parent', 'outcome', 'post_id', 'detail' ), ',', '"', '\\' );
 
 		foreach ( $entries as $entry ) {
 			fputcsv(
@@ -217,7 +217,7 @@ final class BatchReport {
 						$entry['title'],
 						$entry['type'],
 						$entry['heading'],
-						$entry['session_id'] > 0 ? $entry['session_id'] : '',
+						self::entry_parent( $entry ),
 						$entry['outcome'],
 						$entry['post_id'] > 0 ? $entry['post_id'] : '',
 						$entry['detail'],
@@ -234,6 +234,37 @@ final class BatchReport {
 		fclose( $handle );
 
 		return $csv;
+	}
+
+
+	/**
+	 * The parent a row named, as the author wrote it: a title or a post ID.
+	 *
+	 * @param  array $row PlannedRow.
+	 * @return string
+	 */
+	private static function parent_label( array $row ): string {
+		if ( ( $row['parent_title'] ?? '' ) !== '' ) {
+			return (string) $row['parent_title'];
+		}
+
+		return (int) ( $row['session_id'] ?? 0 ) > 0 ? (string) $row['session_id'] : '';
+	}
+
+
+	/**
+	 * A report entry's parent, including entries written before titles were
+	 * accepted, which recorded only `session_id`.
+	 *
+	 * @param  array $entry Report entry.
+	 * @return string
+	 */
+	private static function entry_parent( array $entry ): string {
+		if ( isset( $entry['parent'] ) ) {
+			return (string) $entry['parent'];
+		}
+
+		return (int) ( $entry['session_id'] ?? 0 ) > 0 ? (string) $entry['session_id'] : '';
 	}
 
 

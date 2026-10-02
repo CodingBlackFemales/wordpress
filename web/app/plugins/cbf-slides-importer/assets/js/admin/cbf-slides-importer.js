@@ -738,9 +738,10 @@
           '<div class="cbf-si-bulk" style="background:#f6f7f7;border:1px solid #ddd;padding:16px 20px;margin:12px 0;">' +
           '<strong style="font-size:13px;">Bulk import from CSV</strong>' +
           '<p style="margin:8px 0 12px;color:#555;max-width:52em;">' +
-          "Upload a CSV with a <code>heading</code>, <code>session_id</code>, <code>type</code>, " +
-          "<code>title</code> and <code>url</code> column. The file is checked first — nothing is " +
-          "created until you confirm." +
+          "Upload a CSV with a <code>heading</code>, <code>parent</code>, <code>type</code>, " +
+          "<code>title</code> and <code>url</code> column. A topic or quiz names its parent by " +
+          "title, and the parent can be a row earlier in the same file. The file is checked " +
+          "first — nothing is created until you confirm." +
           "</p>" +
           '<table style="border-collapse:collapse;">' +
           "<tr>" +

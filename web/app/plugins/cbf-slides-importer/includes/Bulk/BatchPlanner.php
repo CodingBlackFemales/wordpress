@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   mime_type:  string,
  *   format:     string,   // pptx | pdf | docx | gform
  *   post_type:  string,   // sfwd-lessons | sfwd-topic | sfwd-quiz
- *   parent_type: string,  // quiz rows only: sfwd-lessons | sfwd-topic
+ *   parent:     array,    // topic and quiz rows: see ParentResolver
  * }
  */
 final class BatchPlanner {
@@ -63,9 +63,14 @@ final class BatchPlanner {
 		$headings = array();
 
 		foreach ( $rows as $row ) {
-			$planned_row = self::plan_row( $row, $course_id, $user_id, $sessions );
-			$planned[]   = $planned_row;
+			$planned[] = self::plan_row( $row, $course_id, $user_id, $sessions );
+		}
 
+		// Parents named by title can point at rows anywhere earlier in the file,
+		// so they are resolved once every row's own checks are done.
+		$planned = ParentResolver::resolve( $planned, self::course_parents( $course_id, $sessions ) );
+
+		foreach ( $planned as $planned_row ) {
 			if ( $planned_row['status'] === 'ready' && $planned_row['heading'] !== '' ) {
 				$headings[ strtolower( $planned_row['heading'] ) ] = $planned_row['heading'];
 			}
@@ -130,10 +135,14 @@ final class BatchPlanner {
 			return $planned;
 		}
 
-		if ( $planned['type'] === CsvParser::TYPE_QUIZ ) {
-			self::check_quiz_parent( $planned, $sessions, $course_id );
-		} else {
-			self::check_parent_session( $planned, $sessions, $course_id );
+		// A parent given as a post ID is checked here; one given as a title is
+		// left to ParentResolver, once the whole file has been planned.
+		if ( $planned['session_id'] > 0 ) {
+			if ( $planned['type'] === CsvParser::TYPE_QUIZ ) {
+				self::check_quiz_parent( $planned, $sessions, $course_id );
+			} else {
+				self::check_parent_session( $planned, $sessions, $course_id );
+			}
 		}
 		self::resolve_source( $planned, $user_id );
 
@@ -162,8 +171,7 @@ final class BatchPlanner {
 	 * Confirm a quiz's parent exists and belongs to this course.
 	 *
 	 * A quiz sits under a session or under one of a session's topics, so the
-	 * session_id column may name either. A topic is checked by walking up to its
-	 * session, which is the step the course actually contains.
+	 * parent column may name either.
 	 *
 	 * @param array $row       PlannedRow, updated in place.
 	 * @param array $sessions  Lesson IDs in the course, keyed by ID.
@@ -175,20 +183,20 @@ final class BatchPlanner {
 
 		if ( ! $post || ! in_array( $post->post_type, array( self::POST_TYPE_SESSION, self::POST_TYPE_TOPIC ), true ) ) {
 			$row['errors'][] = sprintf(
-				/* translators: %d: post ID from the session_id column */
+				/* translators: %d: post ID from the parent column */
 				__( 'No session or topic with ID %d exists.', 'cbf-slides-importer' ),
 				$parent_id
 			);
 			return;
 		}
 
-		$row['parent_type'] = $post->post_type;
-
 		$in_course = $post->post_type === self::POST_TYPE_SESSION
 			? isset( $sessions[ $parent_id ] )
 			: self::topic_in_course( $parent_id, $course_id );
 
-		if ( ! $in_course ) {
+		if ( $in_course ) {
+			$row['parent'] = self::existing_parent( $post );
+		} else {
 			$row['errors'][] = sprintf(
 				/* translators: 1: parent title, 2: post ID, 3: course ID */
 				__( '"%1$s" (ID %2$d) is not part of the selected course (ID %3$d).', 'cbf-slides-importer' ),
@@ -197,6 +205,54 @@ final class BatchPlanner {
 				$course_id
 			);
 		}
+	}
+
+
+	/**
+	 * Describe a parent that already exists, in ParentResolver's shape.
+	 *
+	 * @param  \WP_Post $post Session or topic.
+	 * @return array{id: int, line: int, type: string, title: string}
+	 */
+	private static function existing_parent( \WP_Post $post ): array {
+		return array(
+			'id'    => (int) $post->ID,
+			'line'  => 0,
+			'type'  => $post->post_type,
+			'title' => $post->post_title,
+		);
+	}
+
+
+	/**
+	 * The course's sessions and topics, for resolving parents by title.
+	 *
+	 * @param  int   $course_id Course post ID.
+	 * @param  array $sessions  Lesson IDs in the course, keyed by ID.
+	 * @return array<array{id: int, title: string, type: string}>
+	 */
+	private static function course_parents( int $course_id, array $sessions ): array {
+		$ids = array_keys( $sessions );
+
+		if ( function_exists( 'learndash_course_get_steps_by_type' ) ) {
+			$ids = array_merge( $ids, array_map( 'intval', (array) learndash_course_get_steps_by_type( $course_id, self::POST_TYPE_TOPIC ) ) );
+		}
+
+		$parents = array();
+
+		foreach ( $ids as $id ) {
+			$post = get_post( (int) $id );
+
+			if ( $post ) {
+				$parents[] = array(
+					'id'    => (int) $post->ID,
+					'title' => $post->post_title,
+					'type'  => $post->post_type,
+				);
+			}
+		}
+
+		return $parents;
 	}
 
 
@@ -232,16 +288,16 @@ final class BatchPlanner {
 		}
 
 		$session_id = (int) $row['session_id'];
+		$post       = get_post( $session_id );
 
-		if ( isset( $sessions[ $session_id ] ) ) {
+		if ( isset( $sessions[ $session_id ] ) && $post ) {
+			$row['parent'] = self::existing_parent( $post );
 			return;
 		}
 
-		$post = get_post( $session_id );
-
 		if ( ! $post || $post->post_type !== self::POST_TYPE_SESSION ) {
 			$row['errors'][] = sprintf(
-				/* translators: %d: post ID from the session_id column */
+				/* translators: %d: post ID from the parent column */
 				__( 'No session with ID %d exists.', 'cbf-slides-importer' ),
 				$session_id
 			);
