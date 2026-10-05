@@ -107,7 +107,16 @@ final class BatchRunner {
 			return false;
 		}
 
-		$job_id = self::queue_row( $batch, $next );
+		$parent = self::parent_post( $next, $report, (int) $batch['course_id'] );
+
+		if ( is_string( $parent ) ) {
+			$report = BatchReport::record( $report, (int) $next['line'], BatchReport::OUTCOME_FAILED, array( 'detail' => $parent ) );
+			BatchRepository::update( $batch_id, array( 'report' => $report ) );
+
+			return self::advance( $batch_id );
+		}
+
+		$job_id = self::queue_row( $batch, $next, $parent );
 
 		if ( $job_id === 0 ) {
 			$report = BatchReport::record(
@@ -260,30 +269,174 @@ final class BatchRunner {
 
 
 	/**
+	 * The import mode a row runs in.
+	 *
+	 * @param  array $row PlannedRow.
+	 * @return string
+	 */
+	private static function mode_for( array $row ): string {
+		return match ( $row['type'] ) {
+			CsvParser::TYPE_TOPIC => 'topic',
+			CsvParser::TYPE_QUIZ  => JobRunner::QUIZ_MODE,
+			default               => 'lesson-only',
+		};
+	}
+
+
+	/**
+	 * The post a topic or quiz row goes under, now that earlier rows have run.
+	 *
+	 * A parent that already existed was resolved to an ID at pre-flight. One
+	 * created by an earlier row only has an ID once that row has finished, so
+	 * it is read from the row's report entry here. A parent row that did not
+	 * produce a post in this course leaves nothing to attach to, and the
+	 * dependent row fails with the reason rather than importing unparented.
+	 *
+	 * @param  array $row       PlannedRow about to be queued.
+	 * @param  array $report    Report entries.
+	 * @param  int   $course_id Course the batch imports into.
+	 * @return array|string { id, type }, empty for a session; or why the parent
+	 *                      is unavailable.
+	 */
+	private static function parent_post( array $row, array $report, int $course_id ): array|string {
+		if ( $row['type'] === CsvParser::TYPE_SESSION ) {
+			return array();
+		}
+
+		$parent = $row['parent'] ?? null;
+
+		// Batches planned before parents were named by title carry only an ID.
+		if ( ! is_array( $parent ) ) {
+			return array(
+				'id'   => (int) $row['session_id'],
+				'type' => (string) ( $row['parent_type'] ?? BatchPlanner::POST_TYPE_SESSION ),
+			);
+		}
+
+		return (int) $parent['id'] > 0 ? $parent : self::parent_from_report( $parent, $report, $course_id );
+	}
+
+
+	/**
+	 * The post an earlier row in this batch produced for a parent.
+	 *
+	 * @param  array $parent    Parent, as ParentResolver described it.
+	 * @param  array $report    Report entries.
+	 * @param  int   $course_id Course the batch imports into.
+	 * @return array|string The parent with its post ID, or why there is none.
+	 */
+	private static function parent_from_report( array $parent, array $report, int $course_id ): array|string {
+		$entry = self::entry_for_line( $report, (int) $parent['line'] ) ?? array( 'outcome' => BatchReport::OUTCOME_FAILED );
+		$id    = (int) ( $entry['post_id'] ?? 0 );
+
+		if ( $id > 0 && self::is_usable_parent( $entry, $id, (string) $parent['type'], $course_id ) ) {
+			return array_merge( $parent, array( 'id' => $id ) );
+		}
+
+		return sprintf(
+			/* translators: 1: parent title, 2: line number, 3: that row's outcome */
+			__( 'The parent "%1$s" on line %2$d was not imported (%3$s), so there is nothing to attach this row to.', 'cbf-slides-importer' ),
+			$parent['title'],
+			$parent['line'],
+			$entry['outcome']
+		);
+	}
+
+
+	/**
+	 * Whether a finished parent row left a post this row can go under.
+	 *
+	 * Created, updated and reused posts are all in the course by the time the
+	 * row reports. A skipped row also names a post — the one whose title it
+	 * matched — but that is only the right parent if it is already part of this
+	 * course; if it belongs to another course, attaching to it would put this
+	 * row's content somewhere the editor is not looking.
+	 *
+	 * @param  array  $entry     The parent row's report entry.
+	 * @param  int    $id        Post ID it reported.
+	 * @param  string $type      Expected post type.
+	 * @param  int    $course_id Course the batch imports into.
+	 * @return bool
+	 */
+	private static function is_usable_parent( array $entry, int $id, string $type, int $course_id ): bool {
+		$imported = array( BatchReport::OUTCOME_CREATED, BatchReport::OUTCOME_UPDATED, BatchReport::OUTCOME_REUSED );
+
+		if ( in_array( $entry['outcome'], $imported, true ) ) {
+			return true;
+		}
+
+		if ( $entry['outcome'] !== BatchReport::OUTCOME_SKIPPED || ! function_exists( 'learndash_course_get_steps_by_type' ) ) {
+			return false;
+		}
+
+		return in_array( $id, array_map( 'intval', (array) learndash_course_get_steps_by_type( $course_id, $type ) ), true );
+	}
+
+
+	/**
+	 * A report entry by CSV line.
+	 *
+	 * @param  array $report Report entries.
+	 * @param  int   $line   CSV line.
+	 * @return array|null
+	 */
+	private static function entry_for_line( array $report, int $line ): ?array {
+		foreach ( $report as $entry ) {
+			if ( (int) $entry['line'] === $line ) {
+				return $entry;
+			}
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * The import config a row's job carries.
+	 *
+	 * @param  array $batch  Batch row.
+	 * @param  array $row    PlannedRow.
+	 * @param  array $parent { id, type } of the post a topic or quiz goes under;
+	 *                       empty for a session.
+	 * @return array
+	 */
+	private static function row_config( array $batch, array $row, array $parent ): array {
+		$config = array(
+			'mode'       => self::mode_for( $row ),
+			'course_id'  => (int) $batch['course_id'],
+			'lesson_id'  => (int) ( $parent['id'] ?? 0 ),
+			'post_title' => (string) $row['title'],
+			'overwrite'  => ! empty( $batch['overwrite'] ),
+		);
+
+		// A quiz's parent may be a topic; the importer wants that as topic_id.
+		if ( $row['type'] === CsvParser::TYPE_QUIZ && ( $parent['type'] ?? '' ) === BatchPlanner::POST_TYPE_TOPIC ) {
+			$config['topic_id'] = (int) $parent['id'];
+		}
+
+		return $config;
+	}
+
+
+	/**
 	 * Create and schedule the job for one row.
 	 *
 	 * The job carries its own config, so from here on it is an ordinary import
 	 * job — the only difference is `batch_id`, which tells JobRunner to import
 	 * without waiting for a human to press the button.
 	 *
-	 * @param  array $batch Batch row.
-	 * @param  array $row   PlannedRow.
+	 * @param  array $batch  Batch row.
+	 * @param  array $row    PlannedRow.
+	 * @param  array $parent { id, type } of the post a topic or quiz goes under;
+	 *                       empty for a session.
 	 * @return int Job ID, or 0 on failure.
 	 */
-	private static function queue_row( array $batch, array $row ): int {
+	private static function queue_row( array $batch, array $row, array $parent ): int {
 		global $wpdb;
 
 		$plan        = BatchRepository::decode( $batch, 'plan' );
 		$heading_ids = $plan['heading_ids'] ?? array();
 		$heading_key = strtolower( (string) $row['heading'] );
-
-		$config = array(
-			'mode'       => $row['type'] === CsvParser::TYPE_TOPIC ? 'topic' : 'lesson-only',
-			'course_id'  => (int) $batch['course_id'],
-			'lesson_id'  => (int) $row['session_id'],
-			'post_title' => (string) $row['title'],
-			'overwrite'  => ! empty( $batch['overwrite'] ),
-		);
 
 		$summary = array(
 			'source_mime' => (string) $row['mime_type'],
@@ -292,7 +445,7 @@ final class BatchRunner {
 				'line'       => (int) $row['line'],
 				'section_id' => (int) ( $heading_ids[ $heading_key ] ?? 0 ),
 			),
-			'config'      => $config,
+			'config'      => self::row_config( $batch, $row, $parent ),
 		);
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery

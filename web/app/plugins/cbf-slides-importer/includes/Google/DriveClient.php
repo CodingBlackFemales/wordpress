@@ -84,24 +84,16 @@ final class DriveClient {
 			return $client;
 		}
 
-		if ( $mime_type === '' ) {
-			$looked_up = self::lookup_mime_type( $file_id, $user_id );
-			if ( is_wp_error( $looked_up ) ) {
-				return $looked_up;
-			}
-			$mime_type = $looked_up;
+		$resolved = self::resolve_format( $file_id, $mime_type, $user_id );
+		if ( is_wp_error( $resolved ) ) {
+			return $resolved;
 		}
 
-		$format = ParserFactory::format_for_mime( $mime_type );
-		if ( $format === null ) {
-			return new WP_Error(
-				'cbf_si_unsupported_drive_file',
-				sprintf(
-					/* translators: %s: comma-separated list of supported file extensions */
-					__( 'That Drive file is not an importable document. Supported formats: %s.', 'cbf-slides-importer' ),
-					ParserFactory::extension_list()
-				)
-			);
+		list( $mime_type, $format ) = $resolved;
+
+		// A Form cannot be exported from Drive; its questions come from the Forms API.
+		if ( $format === ParserFactory::FORMAT_GFORM ) {
+			return FormsClient::fetch_source( $file_id, $user_id, $dest_dir );
 		}
 
 		$dest_path   = trailingslashit( $dest_dir ) . sanitize_file_name( $file_id ) . '.' . $format;
@@ -113,6 +105,40 @@ final class DriveClient {
 		}
 
 		return self::export_file( $file_id, $format, $export_mime, $client, $dest_path );
+	}
+
+
+	/**
+	 * Establish a Drive file's MIME type and the format it imports as.
+	 *
+	 * @param  string $file_id   Drive file ID.
+	 * @param  string $mime_type MIME type from the picker, or '' to look it up.
+	 * @param  int    $user_id   WP user ID whose credentials to use.
+	 * @return array{0: string, 1: string}|WP_Error MIME type and format key.
+	 */
+	private static function resolve_format( string $file_id, string $mime_type, int $user_id ): array|WP_Error {
+		if ( $mime_type === '' ) {
+			$mime_type = self::lookup_mime_type( $file_id, $user_id );
+		}
+
+		if ( is_wp_error( $mime_type ) ) {
+			return $mime_type;
+		}
+
+		$format = ParserFactory::format_for_mime( $mime_type );
+
+		if ( $format !== null ) {
+			return array( $mime_type, $format );
+		}
+
+		return new WP_Error(
+			'cbf_si_unsupported_drive_file',
+			sprintf(
+				/* translators: %s: comma-separated list of supported file extensions */
+				__( 'That Drive file is not an importable document. Supported formats: %s.', 'cbf-slides-importer' ),
+				ParserFactory::extension_list()
+			)
+		);
 	}
 
 

@@ -142,6 +142,30 @@ if ( ! function_exists( '__' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wpautop' ) ) {
+	/**
+	 * Wraps text in a paragraph. The real function also splits on blank lines,
+	 * which nothing under test depends on.
+	 *
+	 * @param string $text Text to wrap.
+	 */
+	function wpautop( $text ): string {
+		return '<p>' . trim( (string) $text ) . "</p>\n";
+	}
+}
+
+if ( ! function_exists( '_n' ) ) {
+	/**
+	 * @param string $single Singular form.
+	 * @param string $plural Plural form.
+	 * @param int    $number Quantity.
+	 * @param string $domain Text domain.
+	 */
+	function _n( $single, $plural, $number, $domain = 'default' ): string {
+		return (string) ( (int) $number === 1 ? $single : $plural );
+	}
+}
+
 if ( ! function_exists( 'esc_html__' ) ) {
 	/**
 	 * @param string $text   Text to translate.

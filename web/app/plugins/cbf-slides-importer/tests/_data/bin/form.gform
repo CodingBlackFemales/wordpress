@@ -1,0 +1,25 @@
+{
+  "formId": "1FAIpQLSexample",
+  "info": { "title": "Containerisation Skills Check", "documentTitle": "Untitled form", "description": "Ten quick questions." },
+  "settings": { "quizSettings": { "isQuiz": true } },
+  "items": [
+    { "itemId": "a1", "title": "Welcome", "textItem": {} },
+    { "itemId": "q1", "title": "What is a container?", "description": "Pick one.",
+      "questionItem": { "question": { "questionId": "q1", "required": true,
+        "grading": { "pointValue": 2, "correctAnswers": { "answers": [ { "value": "A running instance of an image" } ] },
+                     "whenRight": { "text": "Correct!" }, "whenWrong": { "text": "Review images vs containers." } },
+        "choiceQuestion": { "type": "RADIO", "options": [ { "value": "A running instance of an image" }, { "value": "A virtual machine" }, { "value": "Other", "isOther": true } ] } } } },
+    { "itemId": "q2", "title": "Which are Docker commands?",
+      "questionItem": { "question": { "questionId": "q2",
+        "grading": { "pointValue": 3, "correctAnswers": { "answers": [ { "value": "docker ps" }, { "value": "docker logs" } ] } },
+        "choiceQuestion": { "type": "CHECKBOX", "options": [ { "value": "docker ps" }, { "value": "docker logs" }, { "value": "docker fly" } ] } } } },
+    { "itemId": "q3", "title": "Explain layer caching.",
+      "questionItem": { "question": { "questionId": "q3", "grading": { "pointValue": 5 }, "textQuestion": { "paragraph": true } } } },
+    { "itemId": "q4", "title": "No key set",
+      "questionItem": { "question": { "questionId": "q4", "choiceQuestion": { "type": "DROP_DOWN", "options": [ { "value": "x" }, { "value": "y" } ] } } } },
+    { "itemId": "q5", "title": "Rate this course",
+      "questionItem": { "question": { "questionId": "q5", "scaleQuestion": { "low": 1, "high": 5 } } } },
+    { "itemId": "g1", "title": "Grid", "questionGroupItem": { "questions": [], "grid": {} } },
+    { "itemId": "p1", "pageBreakItem": {} }
+  ]
+}

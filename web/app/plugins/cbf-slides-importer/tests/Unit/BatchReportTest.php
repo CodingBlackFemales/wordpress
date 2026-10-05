@@ -161,7 +161,7 @@ final class BatchReportTest extends Unit {
 		$csv   = BatchReport::to_csv( $entries );
 		$lines = array_values( array_filter( explode( "\n", $csv ) ) );
 
-		$this->assertStringStartsWith( 'line,title,type,heading,session_id,outcome,post_id,detail', $csv );
+		$this->assertStringStartsWith( 'line,title,type,heading,parent,outcome,post_id,detail', $csv );
 		$this->assertCount( 3, $lines );
 		$this->assertStringContainsString( '4242', $lines[1] );
 		$this->assertStringContainsString( 'Something is wrong.', $lines[2] );
@@ -190,5 +190,33 @@ final class BatchReportTest extends Unit {
 		$csv = BatchReport::to_csv( BatchReport::from_plan( array( $this->planned( 2 ) ) ) );
 
 		$this->assertStringNotContainsString( ',0,', $csv );
+	}
+
+	/** The parent is reported as the author wrote it: a title, or a post ID. */
+	public function testParentIsReportedAsWritten(): void {
+		$entries = BatchReport::from_plan(
+			array(
+				$this->planned(
+					2,
+					'ready',
+					array(
+						'type' => CsvParser::TYPE_TOPIC,
+						'parent_title' => 'Introduction to Git',
+					)
+				),
+				$this->planned(
+					3,
+					'ready',
+					array(
+						'type' => CsvParser::TYPE_TOPIC,
+						'session_id' => 412,
+					)
+				),
+			)
+		);
+
+		$this->assertSame( 'Introduction to Git', $entries[0]['parent'] );
+		$this->assertSame( '412', $entries[1]['parent'] );
+		$this->assertStringContainsString( ',"Introduction to Git",', BatchReport::to_csv( $entries ) );
 	}
 }

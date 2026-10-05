@@ -171,7 +171,16 @@ final class DriveUrl {
 		// docs.google.com/<editor>/d/FILE_ID — the editor decides the kind, and
 		// is the only thing separating an importable Doc from a Form.
 		if ( isset( self::DOCS_SEGMENTS[ $first ] ) ) {
-			return self::result( self::DOCS_SEGMENTS[ $first ], self::id_after( $segments, 'd' ) );
+			$kind = self::DOCS_SEGMENTS[ $first ];
+			$id   = self::id_after( $segments, 'd' );
+
+			// A form's public link is /forms/d/e/PUBLISHED_ID/viewform. That ID is
+			// not the Drive file ID and the Forms API cannot read a form by it.
+			if ( $kind === self::KIND_FORM && $id === 'e' ) {
+				$id = '';
+			}
+
+			return self::result( $kind, $id );
 		}
 
 		// drive.google.com/file/d/FILE_ID — a stored binary of unknown type.
@@ -270,7 +279,9 @@ final class DriveUrl {
 	private static function reason( string $kind, string $file_id ): string {
 		$reasons = array(
 			self::KIND_EMPTY     => __( 'No source link was given for this row.', 'cbf-slides-importer' ),
-			self::KIND_FORM      => __( 'This is a Google Form. Quizzes are built in LearnDash and cannot be imported from Drive.', 'cbf-slides-importer' ),
+			self::KIND_FORM      => $file_id === ''
+				? __( 'This looks like a Google Form\'s public link. Use the editor link (docs.google.com/forms/d/…/edit) instead.', 'cbf-slides-importer' )
+				: __( 'This is a Google Form. Set the row type to "quiz" to import it as a quiz.', 'cbf-slides-importer' ),
 			self::KIND_SHEET     => __( 'This is a Google Sheet. Spreadsheets cannot be imported as lesson content.', 'cbf-slides-importer' ),
 			self::KIND_FOLDER    => __( 'This is a Drive folder, not a file. Link the individual document instead.', 'cbf-slides-importer' ),
 			self::KIND_NOT_DRIVE => __( 'This is not a Google Drive link. Only files stored in Drive can be imported.', 'cbf-slides-importer' ),

@@ -43,6 +43,9 @@ final class JobRunner {
 	/** WP-Cron event hook name. */
 	const CRON_HOOK = 'cbf_si_process_job';
 
+	/** Import mode for Google Forms: the job creates a quiz, not a lesson or topic. */
+	const QUIZ_MODE = 'quiz';
+
 	/**
 	 * Memory ceiling to raise to before a job runs.
 	 *
@@ -374,13 +377,12 @@ final class JobRunner {
 		}
 
 		$config      = self::resolve_config( $job );
-		$classified  = SlideClassifier::classify( $parsed, $config['heading_layout_regex'] ?? '', self::overrides_from( $config ) );
-		$slides_meta = self::slides_meta( $classified['slides'] );
+		$slides_meta = self::entries_meta( $parsed, $config );
 
 		self::store_preview( $job_id, $user_id, $source_path, $img_dir, $config );
 
-		// Note: $classified is NOT stored. Re-parsing at import time costs a few
-		// seconds and keeps the stored summary to metadata the UI actually reads.
+		// Note: the classified deck is NOT stored. Re-parsing at import time costs
+		// a few seconds and keeps the stored summary to metadata the UI reads.
 		$summary = self::decode_summary( $job );
 		self::update_result_summary(
 			$job_id,
@@ -402,6 +404,61 @@ final class JobRunner {
 		self::update_status( $job_id, 'parsed' );
 
 		self::after_parse( $job );
+	}
+
+
+	/**
+	 * The slide-map rows for a freshly parsed document.
+	 *
+	 * A quiz has nothing to classify: its entries are questions, not slides,
+	 * and the job's mode is forced to quiz whatever the stored config said.
+	 *
+	 * @param  array $parsed Parser output.
+	 * @param  array $config Stored config, updated in place for a quiz.
+	 * @return array
+	 */
+	private static function entries_meta( array $parsed, array &$config ): array {
+		if ( self::is_quiz( $parsed ) ) {
+			$config['mode'] = self::QUIZ_MODE;
+			return self::question_meta( $parsed['questions'] ?? array() );
+		}
+
+		$classified = SlideClassifier::classify( $parsed, $config['heading_layout_regex'] ?? '', self::overrides_from( $config ) );
+
+		return self::slides_meta( $classified['slides'] );
+	}
+
+
+	/**
+	 * Whether a parsed document is a quiz rather than a deck.
+	 *
+	 * @param  array $parsed Parser output.
+	 * @return bool
+	 */
+	public static function is_quiz( array $parsed ): bool {
+		return ( $parsed['source_format'] ?? '' ) === ParserFactory::FORMAT_GFORM;
+	}
+
+
+	/**
+	 * The slide-map rows for a quiz: one per question.
+	 *
+	 * @param  array $questions Parsed questions.
+	 * @return array
+	 */
+	private static function question_meta( array $questions ): array {
+		return array_map(
+			static fn( array $question ): array => array(
+				'index'        => $question['index'] - 1,
+				'slide_number' => $question['index'],
+				'title'        => $question['title'],
+				'layout_name'  => $question['type'],
+				'is_hidden'    => false,
+				'is_cover'     => false,
+				'slide_type'   => 'question',
+			),
+			$questions
+		);
 	}
 
 
@@ -562,13 +619,14 @@ final class JobRunner {
 			return;
 		}
 
-		$classified = self::classify_from_summary( $parsed, $summary );
-
 		// Make deck_name available to the importer for the default lesson title.
 		$summary['deck_name'] = $job['deck_name'] ?? '';
 
-		$importer = new LearnDashImporter();
-		$result   = $importer->import( $classified, $summary );
+		if ( self::is_quiz( $parsed ) ) {
+			$result = ( new QuizImporter() )->import( $parsed, $summary );
+		} else {
+			$result = ( new LearnDashImporter() )->import( self::classify_from_summary( $parsed, $summary ), $summary );
+		}
 
 		if ( is_wp_error( $result ) ) {
 			self::set_failed( $job_id, $result->get_error_message() );
@@ -719,10 +777,11 @@ final class JobRunner {
 	 * @return bool
 	 */
 	private static function can_reuse( int $existing_id, int $course_id, array $config ): bool {
-		if ( $course_id === 0 || ! empty( $config['overwrite'] ) ) {
+		// A quiz is matched within its own course, so a match is never content to
+		// borrow from elsewhere; it is already here.
+		if ( $course_id === 0 || ! empty( $config['overwrite'] ) || ( $config['mode'] ?? '' ) === self::QUIZ_MODE ) {
 			return false;
 		}
-
 		if ( ! function_exists( 'learndash_is_course_shared_steps_enabled' ) || ! learndash_is_course_shared_steps_enabled() ) {
 			return false;
 		}

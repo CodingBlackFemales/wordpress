@@ -23,6 +23,8 @@ Run `composer install` in this directory after checkout; `vendor/` is not commit
 
 Google Slides and Google Docs files are exported by Drive to PPTX and DOCX on the way in. Files already stored in Drive in one of the three formats are downloaded unchanged.
 
+**Google Forms** are the exception: they import as a LearnDash _quiz_ rather than a lesson, and only from Drive (there is no file to upload). See [Importing Google Forms as quizzes](#importing-google-forms-as-quizzes).
+
 ## How it works
 
 Each source parser emits the same format-neutral intermediate representation, so classification, layout analysis and block rendering are shared:
@@ -53,6 +55,23 @@ All three emit paragraphs classified as body text, headings, bullets or code, wi
 
 **DOCX.** Sections split at the shallowest heading depth that occurs more than once, so a document whose only Heading 1 is its title splits on Heading 2 instead of collapsing into a single section. A leading heading with no body of its own is treated as a title page and excluded. Tables become `wp:table`; list types are resolved by reading `word/numbering.xml` directly, since PhpWord's reader records which numbering definition an item belongs to but not whether it renders as a bullet or a counter.
 
+## Importing Google Forms as quizzes
+
+Pick a Google Form from Drive on the Import tab. Its questions and answer key are read through the Google Forms API, so the connected account must be able to **edit** the form — Google only returns the answer key to editors.
+
+The config panel for a form asks for a course, a lesson and optionally one of that lesson's topics; the quiz is created under that parent. Re-importing a form with the same title into the same course is skipped unless **Overwrite** is ticked, in which case the quiz's questions are replaced.
+
+| Google Forms question                  | LearnDash question                                                     |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| Multiple choice, Dropdown              | Single choice (multiple choice if the key marks more than one answer) |
+| Checkboxes                             | Multiple choice                                                        |
+| Short answer, Paragraph                | Essay (open answer, graded by hand)                                    |
+| Scale, date, time, file upload, grids  | Not imported                                                           |
+
+Point values, and the "correct" and "incorrect" feedback text, carry across. A choice question with no answer key, and any unsupported type, is left out and listed in the preview so it is not lost silently. The "Other" option on a choice question is dropped, since it has nothing to grade.
+
+Quizzes are built directly on LearnDash's quiz classes rather than through `learndash-bulk-lessons-or-topics`, whose quiz support depends on a plugin that is not installed. They can also be imported in bulk with `type` set to `quiz`; see [Bulk migration from a CSV](#bulk-migration-from-a-csv).
+
 ## Setup
 
 ### 1. Encryption key
@@ -74,7 +93,9 @@ Enable the Google Drive API and the Google Picker API, then create an OAuth 2.0 
 https://example.com/wp-json/cbf-si/v1/auth/callback
 ```
 
-The plugin requests the `drive.readonly` scope only.
+The plugin requests two read-only scopes: `drive.readonly`, and `forms.body.readonly` for [Google Forms](#importing-google-forms-as-quizzes). Also enable the **Google Forms API** in the same Cloud project.
+
+Users who connected before Forms support was added hold a token without the Forms scope. Importing a form fails with a message asking them to reconnect; **Use a different account** (or Disconnect, then connect) re-runs consent with the new scope. Slides, Docs and PDF imports are unaffected.
 
 ### 3. Plugin settings
 
@@ -135,29 +156,36 @@ Migrating a whole course one file at a time does not scale. Instead, upload a CS
 
 | Column       | Required on  | Meaning                                                                                                                                               |
 | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `heading`    | session rows | Section heading the session goes under; created if the course does not have it. Ignored on topic rows — LearnDash sections group sessions, not topics |
-| `session_id` | topic rows   | Post ID of the existing session the topic nests under. Ignored on session rows                                                                        |
-| `type`       | all rows     | `session` (or `lesson`) or `topic`                                                                                                                    |
+| `heading`    | session rows | Section heading the session goes under; created if the course does not have it. Ignored on topic and quiz rows — LearnDash sections group sessions    |
+| `parent`     | topic and quiz rows | Title of the session the topic nests under, or of the session or topic the quiz belongs to. A number is read as a post ID. Ignored on session rows. The old name `session_id` is still accepted |
+| `type`       | all rows     | `session` (or `lesson`), `topic` or `quiz`                                                                                                            |
 | `title`      | all rows     | Title of the created post                                                                                                                             |
-| `url`        | all rows     | Google Drive link to the source document                                                                                                              |
+| `url`        | all rows     | Google Drive link to the source document; for `quiz` rows, the Google Form's editor link                                                              |
 
 Course and Overwrite are chosen once in the panel and apply to every row, so they are not columns.
 
 ```csv
-heading,session_id,type,title,url
+heading,parent,type,title,url
 Foundations,,session,Introduction to Git,https://docs.google.com/presentation/d/FILE_ID/edit
-Foundations,,session,Command Line Basics,https://drive.google.com/file/d/FILE_ID/view
-,412,topic,Git Exercises,https://docs.google.com/document/d/FILE_ID/edit
+,Introduction to Git,topic,Introduction to Git: Extended exercises (Commits and branches),https://docs.google.com/document/d/FILE_ID/edit
+Foundations,,session,Introduction to GitHub,https://drive.google.com/file/d/FILE_ID/view
+,Introduction to GitHub,quiz,Command line and Git: Skills check,https://docs.google.com/forms/d/FORM_ID/edit
 ```
 
-### Sessions before topics
+A `quiz` row must link to a Google Form and every other row type must not; the report says so if they are mixed up. Use the form's editor link (`…/forms/d/FORM_ID/edit`). A form's public link (`…/forms/d/e/…/viewform`) carries a different ID that the Forms API cannot read, and is rejected with an explanation. Quiz rows follow the same rules as single imports: the connected account must be able to edit the form, and the row is skipped if the course already has a quiz with that title (enable Overwrite to replace its questions).
 
-A topic's `session_id` must name a session that **already exists**. A session row does not report its new ID back into the CSV, so one file cannot create a session and a topic under it in the same run. Migration goes in two passes:
+### Parents
 
-1. Upload the session rows. The report gives each created session's post ID.
-2. Put those IDs into the `session_id` column of a topic CSV, and upload that.
+A topic or quiz names its parent by **title**, so one file can create a session and the content under it in a single run. The parent can be:
 
-Sessions already live in LearnDash need only the second pass.
+- a row **earlier in the same file**: rows import one at a time in file order, so the parent exists by the time its children run; or
+- a session (or, for a quiz, a topic) the selected course **already has**.
+
+If both exist, the earlier row wins, since the importer matches posts by title and that row is what decides which post the title refers to. Titles match case-insensitively.
+
+Pre-flight rejects a row whose parent cannot be found, is ambiguous (two earlier rows, or two posts in the course, with that title), appears later in the file, or was itself rejected. A parent row that fails during the import takes its children with it: each is reported as failed with the parent's line and outcome, rather than imported with nothing to attach to.
+
+Where a title is ambiguous, give the post ID instead. A number in `parent` is read as an ID, exactly as `session_id` was.
 
 ### What happens
 
@@ -171,7 +199,7 @@ Expect a meaningful minority of rows to be rejected. In the curriculum this feat
 
 | Source                             | Why                                   | What to do                          |
 | ---------------------------------- | ------------------------------------- | ----------------------------------- |
-| Google Form                        | Quizzes have their own question model | Build the quiz in LearnDash         |
+| Google Form on a `session` or `topic` row | Forms import as quizzes, not lessons | Change the row's `type` to `quiz` |
 | Google Sheet                       | Not lesson content                    | Export or rewrite it as a document  |
 | GitHub repository, external course | Not in Drive                          | Link to it from a session's content |
 | Empty `url` cell                   | No source                             | Fill it in, or drop the row         |
@@ -307,7 +335,7 @@ Two sets of versions are duplicated across files and have to be changed together
 | Preview unavailable after a completed import      | expected — temp files are deleted once posts are created                                                                                                                                               |
 | A PDF imports with words run together             | the PDF positions each glyph individually and omits space characters; there is no reliable signal to recover the spaces                                                                                |
 | Everything in a PDF becomes one code block        | the page is set entirely in a monospaced font, and code detection has nothing to contrast against                                                                                                      |
-| A bulk row says the session does not exist        | `session_id` must name a session already in the selected course — see Sessions before topics                                                                                                           |
+| A bulk row says its parent does not exist         | `parent` must match the title of a row earlier in the file, or of a session (or topic) already in the selected course — see Parents                                                                    |
 | Bulk rows are reported as skipped                 | the same file was already imported with these settings; enable Overwrite to update instead                                                                                                             |
 | A bulk row is reported as reused                  | a session with that title already existed, so it was added to this course as a shared step instead of being duplicated — see Content that already exists                                               |
 | A bulk batch seems stuck                          | rows run one at a time; check WP-Cron is firing, and note that a stalled row is reset and retried after 30 minutes                                                                                     |

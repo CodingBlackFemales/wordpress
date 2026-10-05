@@ -63,7 +63,7 @@ final class PreviewController {
 					'args'                => array(
 						'mode'            => array(
 							'type'    => 'string',
-							'enum'    => array( 'lesson-only', 'topic' ),
+							'enum'    => array( 'lesson-only', 'topic', 'quiz' ),
 							'default' => null,
 						),
 						'course_id'       => array(

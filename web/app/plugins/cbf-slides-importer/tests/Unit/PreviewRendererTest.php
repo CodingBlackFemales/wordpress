@@ -186,4 +186,35 @@ final class PreviewRendererTest extends Unit {
 			'neither'      => array( array(), '' ),
 		);
 	}
+
+	/**
+	 * A Google Form previews as a quiz: answers listed, the key marked, and
+	 * anything that will not be imported called out.
+	 */
+	public function testQuizPreview(): void {
+		$rendered = PreviewRenderer::render_from_summary(
+			array(
+				'source_path' => $this->tester->fixture( 'form.gform' ),
+				'img_dir'     => '',
+				'config'      => array( 'mode' => 'quiz' ),
+			)
+		);
+
+		$this->assertFalse( is_wp_error( $rendered ) );
+		$this->assertSame( array(), $rendered['topics'] );
+
+		$html = $rendered['lesson_html'];
+		$this->assertStringContainsString( 'What is a container?', $html );
+		$this->assertStringContainsString( '<li class="cbf-si-quiz-correct">A running instance of an image', $html );
+		$this->assertStringContainsString( '<li>A virtual machine</li>', $html );
+		$this->assertStringContainsString( 'Not imported: question 4.', $html );
+		$this->assertStringNotContainsString( '<!-- wp:', $html );
+	}
+
+	/** Quiz jobs are recognised by their parsed format, not their config. */
+	public function testIsQuiz(): void {
+		$this->assertTrue( JobRunner::is_quiz( array( 'source_format' => 'gform' ) ) );
+		$this->assertFalse( JobRunner::is_quiz( array( 'source_format' => 'pptx' ) ) );
+		$this->assertFalse( JobRunner::is_quiz( array() ) );
+	}
 }

@@ -68,7 +68,26 @@ final class PreviewRenderer {
 			return $parsed;
 		}
 
-		$config     = self::config_from( $summary );
+		if ( JobRunner::is_quiz( $parsed ) ) {
+			return array(
+				'lesson_html' => self::quiz_html( $parsed ),
+				'topics'      => array(),
+			);
+		}
+
+		return self::deck_html( $parsed, self::config_from( $summary ), $img_dir );
+	}
+
+
+	/**
+	 * Classify and render a parsed deck with the job's stored config.
+	 *
+	 * @param  array  $parsed  ParsedDeck.
+	 * @param  array  $config  Stored config.
+	 * @param  string $img_dir Directory images were extracted into.
+	 * @return array{lesson_html: string, topics: array}
+	 */
+	private static function deck_html( array $parsed, array $config, string $img_dir ): array {
 		$classified = SlideClassifier::classify(
 			$parsed,
 			$config['heading_layout_regex'] ?? '',
@@ -81,6 +100,101 @@ final class PreviewRenderer {
 			true,
 			self::media_base_url( $img_dir )
 		);
+	}
+
+
+	/**
+	 * Render a quiz for review: each question with its answers, the correct
+	 * ones marked, and anything that will not be imported called out.
+	 *
+	 * Nothing here is written to LearnDash. It is the editor's only chance to
+	 * notice a skipped question or a wrong answer key before the import runs.
+	 *
+	 * @param  array $quiz ParsedQuiz.
+	 * @return string
+	 */
+	private static function quiz_html( array $quiz ): string {
+		$html = '<div class="cbf-si-quiz-preview">';
+
+		foreach ( $quiz['questions'] as $question ) {
+			$html .= self::question_preview( $question );
+		}
+
+		foreach ( $quiz['skipped'] as $skipped ) {
+			$html .= sprintf(
+				'<p class="cbf-si-quiz-warning"><strong>%s</strong> %s</p>',
+				/* translators: %d: question number */
+				esc_html( sprintf( __( 'Not imported: question %d.', 'cbf-slides-importer' ), $skipped['index'] ) ),
+				esc_html( $skipped['title'] . ' — ' . $skipped['reason'] )
+			);
+		}
+
+		return $html . '</div>';
+	}
+
+
+	/**
+	 * Render one question: its heading, stem, answers and any warnings.
+	 *
+	 * @param  array $question Parsed question.
+	 * @return string
+	 */
+	private static function question_preview( array $question ): string {
+		$html  = '<section class="cbf-si-quiz-question">';
+		$html .= sprintf(
+			'<h3>%1$s <small>(%2$s, %3$s)</small></h3>',
+			/* translators: %d: question number */
+			esc_html( sprintf( __( 'Question %d', 'cbf-slides-importer' ), $question['index'] ) ),
+			/* translators: %d: points the question is worth */
+			esc_html( sprintf( _n( '%d point', '%d points', $question['points'], 'cbf-slides-importer' ), $question['points'] ) ),
+			esc_html( self::type_label( $question['type'] ) )
+		);
+		$html .= QuizImporter::question_html( $question );
+		$html .= self::answers_preview( $question['answers'] );
+
+		foreach ( $question['warnings'] as $warning ) {
+			$html .= '<p class="cbf-si-quiz-warning"><em>' . esc_html( $warning ) . '</em></p>';
+		}
+
+		return $html . '</section>';
+	}
+
+
+	/**
+	 * Render a question's answers with the correct ones marked.
+	 *
+	 * @param  array $answers { text, correct } entries; empty for an essay.
+	 * @return string
+	 */
+	private static function answers_preview( array $answers ): string {
+		if ( $answers === array() ) {
+			return '';
+		}
+
+		$items = '';
+
+		foreach ( $answers as $answer ) {
+			$items .= $answer['correct']
+				? '<li class="cbf-si-quiz-correct">' . esc_html( $answer['text'] ) . ' <strong>&#10003;</strong></li>'
+				: '<li>' . esc_html( $answer['text'] ) . '</li>';
+		}
+
+		return '<ul>' . $items . '</ul>';
+	}
+
+
+	/**
+	 * A question type's label.
+	 *
+	 * @param  string $type One of Forms\Parser's TYPE_ constants.
+	 * @return string
+	 */
+	private static function type_label( string $type ): string {
+		return match ( $type ) {
+			'multiple' => __( 'multiple answers', 'cbf-slides-importer' ),
+			'essay'    => __( 'open answer, graded by hand', 'cbf-slides-importer' ),
+			default    => __( 'single answer', 'cbf-slides-importer' ),
+		};
 	}
 
 
