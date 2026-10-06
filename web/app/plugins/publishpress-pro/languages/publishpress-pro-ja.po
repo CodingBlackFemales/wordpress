@@ -1,0 +1,553 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Language: ja\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress "
+"Plannerは、WordPress内でコンテンツを計画し、公開するのに役立ちます。機能には、コンテンツカレンダー、カンバンボード、および通知が含まれま"
+"す。"
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "警告"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr "PublishPress Proを使用する前に、PublishPress Slackを無効にして削除してください。"
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr "PublishPress Proを使用する前に、PublishPress Remindersを無効にして削除してください。"
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr "複数のPublishPress Proが実行されているようです。一つを無効にして削除してください。"
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "ネットワーク管理者"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "コンテンツカレンダー Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "エラーが発生しました"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "ノンスの検証中にエラーが発生しました。このページを再読み込みして、もう一度お試しください。"
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "無効なフォームリクエストです。"
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "投稿データの取得中にエラーが発生しました。"
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "この投稿を編集する権限がありません。"
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "変更が保存されました！"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEOスコア"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "読みやすさ"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEOタイトル"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "メタディスクリプション"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "フォーカスキーワード"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "外部内部リンク"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "受信した内部リンク"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebookタイトル"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook説明"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook画像"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitterタイトル"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter説明"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter画像"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPressチェックリスト"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "チェックリスト要件は有効になっていません。"
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEOスコア"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "コンテンツボードプロ"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "コンテンツ概要プロ"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Elementor統合"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "ネットワーク管理者に通知"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "ライセンス"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "ライセンスキー："
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "管理画面にPublishPressのブランドを表示:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "コンテンツが公開された後"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "選択した公開日の前"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "金額"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "時間の単位"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "時間"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "日"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "週"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "月"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "この状態のコンテンツについて"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "リマインダー"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "スケジュールされた投稿を探す間隔:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "スケジュールされていません"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "今"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s 秒"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "決して"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "次の実行"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"スケジュールされた投稿をどのくらいの頻度で確認すべきですか？これにより、PublishPressがスケジュールされたコンテンツの通知を処理できるようにな"
+"ります。"
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "詳細についてはここをクリックしてください。"
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "10分ごと"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "15分ごと"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "20分ごと"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "30分ごと"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "45分ごと"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress リビジョン統合"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "リビジョンステータス"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "すべてのステータス"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "リビジョンを表示"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack チャンネル:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr "通知が送信される Slack チャンネル。例えば #general、@username、または user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Slack に接続するにはクリックしてください"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Slack に再接続するにはクリックしてください"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "続行"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "成功"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "エラー"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "秒"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "経過時間"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr "接続するにはクリックすると、新しいウィンドウが開き、Slack で PublishPress アプリを認証できます。"
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr "読み込まれたページで受け取った一時的な認証コードを下に貼り付け、続行をクリックしてください。"
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Slack 認証情報が保存されました。"
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr "Slackには新しいAPIがあり、古い設定がまもなく動作しなくなる可能性があります。通知が中断されないように、Slackに再接続してください。"
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "おめでとうございます！Slackの認証情報が保存されました。"
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "認証情報とキャッシュは正常に削除されました。"
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Slackのデフォルトチャンネルにテストメッセージを送信するにはクリックしてください"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "メッセージをSlackに送信しています..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "不明なエラーが発生しました。"
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "無効なノンスまたはリファラーです。"
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "おめでとうございます！チャンネル %s にテストメッセージが送信されました。"
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "認証："
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "デフォルトのSlackチャンネル/ユーザー："
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "通知テーマ："
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "フル - アクションボタン付きの通知本文"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "クリーン - 通知本文のみ"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"通知が送信されるデフォルトのSlackチャンネルです。例えば、#general、@username、user@email."
+"com、またはチャンネルIDです。ユーザーは自分のプロフィールでこれを上書きできます。"
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "コメント"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "編集"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "表示"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr "トークンが見つかりませんでした。PublishPress > 設定 > Slackに移動してSlackに再接続してください。"
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr "PublishPress > 設定 > Slackに移動してSlackに再接続してください"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr "PublishPressにSlack OAuthトークンが見つかりません。Slackに再接続してください"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "アクセスが拒否されました"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "無効なOAuthトークン"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "おめでとうございます！ PublishPress ProのSlack設定はすべて正常です。"
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Slackからのエラー："
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "PublshPress.comからのエラー："

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Statuses Pro">
+  <domain name="publishpress-statuses-pro">
+    <project name="PublishPress Statuses Pro" slug="publishpress-statuses-pro">
+      <source>
+        <directory>.</directory>
+      </source>
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/publishpress-statuses-pro.pot</file>
+      </template>
+    </project>
+  </domain>
+  <domain name="publishpress-statuses">
+    <project name="PublishPress Statuses" slug="publishpress-statuses">
+      <source>
+        <directory>lib/vendor/publishpress/publishpress-statuses</directory>
+      </source>
+      <target>
+        <directory>lib/vendor/publishpress/publishpress-statuses/languages</directory>
+      </target>
+      <template>
+        <file>lib/vendor/publishpress/publishpress-statuses/languages/publishpress-statuses.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>lib/vendor</directory>
+    <directory>lib/vendor/publishpress/publishpress-statuses/vendor</directory>
+  </exclude>
+</bundle>

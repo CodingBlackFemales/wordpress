@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Planner Pro">
+  <domain name="publishpress-pro">
+    <project name="PublishPress Planner Pro" slug="publishpress-pro">
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/publishpress-pro.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>vendor</directory>
+  </exclude>
+</bundle>

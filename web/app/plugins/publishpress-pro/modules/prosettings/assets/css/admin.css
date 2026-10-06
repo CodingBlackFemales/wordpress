@@ -1,0 +1,24 @@
+#publishpress_prosettings_options_license_key {
+    width: 300px;
+}
+
+.publishpress_license_key_status {
+    margin-left: 0;
+    font-weight: bold;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    padding: 4px;
+}
+
+.publishpress_license_key_status.valid {
+    color: #8181da;
+}
+
+.publishpress_license_key_status.invalid {
+    color: #f54d4d;
+}
+
+.publishpress_license_key_status_label {
+    color: black;
+    font-weight: normal;
+}

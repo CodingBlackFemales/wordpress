@@ -1,0 +1,82 @@
+
+/* Save As Button */
+#ppcs_save_draft_label,
+button.editor-post-save-draft, button.editor-post-switch-to-draft {
+white-space: nowrap;
+}
+
+#ppcs_save_draft_label {
+padding-right: 80px;
+}
+
+/* Status Dropdown */
+div.publishpress-extended-post-status .dashicons {
+  margin-right: 3px;
+}
+
+div.publishpress-extended-post-status div.components-base-control {
+width: 100%;
+}
+
+div.publishpress-extended-post-status div.components-base-control,
+div.publishpress-extended-post-status-published, 
+div.publishpress-extended-post-status-scheduled {
+display: none;
+}
+
+
+/* Pre-Publish Panel: Hide most other divs by default (will redisplay if Publish action is selected) */
+div.editor-post-publish-panel__prepublish div.components-panel__body {
+display: none;
+}
+
+div.editor-post-publish-panel__prepublish div.pp-statuses-workflow,
+div.editor-post-publish-panel__prepublish div.components-site-card {
+display: inherit;
+}
+
+
+/* Publication Workflow Radio Buttons */
+div.pp-statuses-workflow {
+border-top: none;
+padding-top: 0;
+}
+
+div.pp-statuses-workflow div.components-radio-control__option label {
+vertical-align: text-bottom !important;
+padding-left: 5px;
+}
+
+div.pp-statuses-workflow div.pp-editor-workflow-caption {
+padding-left: 25px;
+padding-bottom: 10px;
+}
+
+.pp-status-color {
+display: inline-block;
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-o-border-radius: 3px;
+}
+
+.pp-status-color-title {
+width: auto;
+height: auto;
+padding: 2px 3px 2px 3px;
+color: black;
+-webkit-user-select: none;  
+-moz-user-select: none;    
+-ms-user-select: none;      
+user-select: none;
+}
+
+.pp-status-color + strong {
+margin-left: 5px;
+}
+
+div.pp-statuses-workflow, div.pp-statuses-workflow span.dashicons {
+padding: 2px;
+}
+
+/*# sourceMappingURL=custom-status-block-editor.css.map */

@@ -1,0 +1,1378 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Statuses Free 1.3.1-rc\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-27T16:10:36+00:00\n"
+"PO-Revision-Date: 2026-09-01 04:44+0000\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: publishpress-statuses\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: publishpress-statuses.php:5
+#. Plugin Name of the plugin
+msgid "PublishPress Statuses Free"
+msgstr "PublishPress Statuses Free"
+
+#: publishpress-statuses.php:7, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/statuses"
+msgstr "https://publishpress.com/statuses"
+
+#: publishpress-statuses.php:9
+#. Description of the plugin
+msgid "Manage and create post statuses to customize your editorial workflow"
+msgstr "จัดการและสร้างสถานะโพสต์เพื่อปรับแต่งเวิร์กโฟลว์การแก้ไขของคุณ"
+
+#: publishpress-statuses.php:13
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-statuses.php:15, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: Admin.php:18
+#: Admin.php:430
+#: Admin.php:431
+#: PublishPress_Statuses.php:435
+#: PublishPress_Statuses.php:436
+#: StatusEditUI.php:75
+#: StatusesUI.php:92
+msgid "Statuses"
+msgstr "สถานะ"
+
+#: Admin.php:19
+msgid "Settings"
+msgstr "ตั้งค่า"
+
+#: Admin.php:22
+#: includes-core/CoreAdmin.php:40
+#: includes-core/CoreAdmin.php:41
+#: includes-core/PromoBanner.php:225
+#: StatusListTable.php:224
+#: StatusListTable.php:250
+msgid "Upgrade to Pro"
+msgstr "อัปเกรดเป็น Pro"
+
+#: Admin.php:369
+msgid ""
+"Are you sure you want to delete the post status? All posts with this status "
+"will be assigned to the default status."
+msgstr ""
+"คุณแน่ใจหรือว่าต้องการลบสถานะโพสต์? "
+"โพสต์ทั้งหมดที่มีสถานะนี้จะถูกกำหนดให้เป็นสถานะเริ่มต้น."
+
+#: Admin.php:441
+#: Admin.php:442
+#: StatusesUI.php:1189
+msgid "Add New"
+msgstr "เพิ่มใหม่"
+
+#: Admin.php:528
+#: PublishPress_Statuses.php:910
+msgid "Approve"
+msgstr "อนุมัติ"
+
+#: Admin.php:530
+#: PublishPress_Statuses.php:880
+msgid "Assign"
+msgstr "กำหนด"
+
+#: Admin.php:532
+#: PublishPress_Statuses.php:895
+msgid "Mark In Progress"
+msgstr "ทำเครื่องหมายในระหว่างดำเนินการ"
+
+#: Admin.php:545
+#. translators: %s is the status label
+#, php-format
+msgid "Set to %s"
+msgstr "ตั้งค่าเป็น %s"
+
+#: Admin.php:554
+#: PostEditGutenberg.php:91
+#: PostEditGutenberg.php:111
+#. translators: %s is the status label
+#, php-format
+msgid "Save as %s"
+msgstr "บันทึกเป็น %s"
+
+#: Admin.php:566
+#. translators: %s is the name of a custom public status
+#, php-format
+msgid "Public (%s)"
+msgstr "สาธารณะ (%s)"
+
+#: Admin.php:637
+#: PostEditClassic.php:179
+#: PostEditGutenberg.php:88
+#: PostEditGutenberg.php:297
+#: PostEditGutenbergStatuses.php:49
+#: PostEditGutenbergStatuses.php:69
+#: PostEditGutenbergStatuses.php:77
+msgid "Advance Status"
+msgstr "สถานะขั้นสูง"
+
+#: includes-core/CoreAdmin.php:19
+#, php-format
+msgid ""
+"You're using PublishPress Statuses Free. The Pro version has more features "
+"and support. %sUpgrade to Pro%s"
+msgstr ""
+"คุณกำลังใช้ PublishPress Statuses Free. รุ่น Pro "
+"มีคุณสมบัติและการสนับสนุนเพิ่มเติม. %sอัปเกรดเป็น Pro%s"
+
+#: includes-core/PromoBanner.php:68
+msgid "If you need help or have a new feature request, let us know."
+msgstr "หากคุณต้องการความช่วยเหลือหรือมีคำขอฟีเจอร์ใหม่ โปรดแจ้งให้เราทราบ."
+
+#: includes-core/PromoBanner.php:241
+msgid "Request Support"
+msgstr "ขอรับการสนับสนุน"
+
+#: includes-core/PromoBanner.php:248
+msgid "Detailed documentation is also available on the plugin website."
+msgstr "เอกสารรายละเอียดเพิ่มเติมสามารถดูได้ที่เว็บไซต์ของปลั๊กอิน."
+
+#: includes-core/PromoBanner.php:251
+msgid "View Knowledge Base"
+msgstr "ดูฐานความรู้"
+
+#: PostEditClassic.php:214
+msgid "Current Time"
+msgstr "เวลาปัจจุบัน"
+
+#: PostEditClassic.php:242
+#: PostEditClassic.php:267
+#. translators: %s is a status name
+#, php-format
+msgid "Submit as %s"
+msgstr "ส่งในฐานะ %s"
+
+#: PostEditClassic.php:328
+#. translators: %s is the name of a custom visibility status
+#, php-format
+msgid "%s, Sticky"
+msgstr "%s, ติดอยู่"
+
+#: PostEditClassicSubmitMetabox.php:59
+msgid "Visibility:"
+msgstr "การมองเห็น:"
+
+#: PostEditClassicSubmitMetabox.php:200
+msgid "Restore default behavior of publish button"
+msgstr "คืนค่าพฤติกรรมเริ่มต้นของปุ่มเผยแพร่"
+
+#: PostEditClassicSubmitMetabox.php:201
+msgid "Bypass sequence"
+msgstr "ข้ามลำดับ"
+
+#: PostEditClassicSubmitMetabox.php:437
+#. translators: %s is html markup
+#, php-format
+msgid "Publish %1$s on approval %2$s"
+msgstr "เผยแพร่ %1$s เมื่อได้รับอนุมัติ %2$s"
+
+#: PostEditGutenberg.php:85
+msgid "Publication Workflow"
+msgstr "การทำงานของการเผยแพร่"
+
+#: PostEditGutenberg.php:89
+msgid "Post Status"
+msgstr "สถานะโพสต์"
+
+#: PostEditGutenberg.php:92
+msgid "Set Selected Status"
+msgstr "ตั้งสถานะที่เลือก"
+
+#: PostEditGutenberg.php:93
+msgid "Keep Current Status"
+msgstr "เก็บสถานะปัจจุบัน"
+
+#: PostEditGutenberg.php:94
+msgid "Advance to Next Status"
+msgstr "ไปยังสถานะถัดไป"
+
+#: PostEditGutenberg.php:95
+msgid "Advance to Max Status"
+msgstr "ไปยังสถานะสูงสุด"
+
+#: PostEditGutenberg.php:96
+msgid "This post is currently published"
+msgstr "โพสต์นี้ถูกเผยแพร่แล้ว"
+
+#: PostEditGutenberg.php:97
+msgid "This post is currently scheduled"
+msgstr "โพสต์นี้ถูกกำหนดเวลาไว้แล้ว"
+
+#: PostEditGutenberg.php:293
+msgid "Save Draft"
+msgstr "บันทึกแบบร่าง"
+
+#: PostEditGutenbergStatuses.php:160
+#: StatusesUI.php:1354
+msgid "Workflow"
+msgstr "เวิร์กโฟลว์"
+
+#: PostEditGutenbergStatuses.php:166
+msgid "Submit Revision"
+msgstr "ส่งแก้ไข"
+
+#: publishpress-module/ModuleAdminUI_Base.php:101
+#. translators: %1$s is the plugin name, %2$s is the rating stars
+#, php-format
+msgid "If you like %1$s, please leave us a %2$s rating. Thank you!"
+msgstr "ถ้าคุณชอบ %1$s กรุณาให้คะแนน %2$s ขอบคุณครับ!"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+#, php-format
+msgid "About %s"
+msgstr "เกี่ยวกับ %s"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+msgid "About"
+msgstr "เกี่ยวกับ"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+#, php-format
+msgid "%s Documentation"
+msgstr "%s เอกสาร"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+msgid "Documentation"
+msgstr "เอกสาร"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact the PublishPress team"
+msgstr "ติดต่อทีม PublishPress"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact"
+msgstr "ติดต่อ"
+
+#: publishpress-statuses.php:118
+msgid "<strong>This plugin can be deleted.</strong>"
+msgstr "<strong>ปลั๊กอินนี้สามารถถูกลบได้.</strong>"
+
+#: publishpress-statuses.php:196
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Planner to "
+"version %s or higher."
+msgstr ""
+"ในการใช้ PublishPress Statuses โปรดอัปเกรด PublishPress Planner "
+"เป็นเวอร์ชัน %s หรือสูงกว่า."
+
+#: publishpress-statuses.php:213
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Permissions Pro "
+"to version %s or higher."
+msgstr ""
+"ในการใช้ PublishPress Statuses โปรดอัปเกรด PublishPress Permissions Pro "
+"เป็นเวอร์ชัน %s หรือสูงกว่า."
+
+#: publishpress-statuses.php:230
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Capabilities Pro "
+"to version %s or higher."
+msgstr ""
+"ในการใช้ PublishPress Statuses โปรดอัปเกรด PublishPress Capabilities Pro "
+"เป็นเวอร์ชัน %s หรือสูงกว่า."
+
+#: PublishPress_Statuses.php:397
+msgid ""
+"Can bypass normal status progression. User can publish immediately or move "
+"post to the furthest possible status."
+msgstr ""
+"สามารถข้ามความก้าวหน้าของสถานะปกติได้ "
+"ผู้ใช้สามารถเผยแพร่ได้ทันทีหรือย้ายโพสต์ไปยังสถานะที่ไกลที่สุดที่เป็นไปได้."
+
+#: PublishPress_Statuses.php:398
+msgid "Manage Statuses plugin settings."
+msgstr "จัดการการตั้งค่าปลั๊กอินสถานะ"
+
+#: PublishPress_Statuses.php:403
+msgid "Can unpublish posts even if Visibility Status is locked."
+msgstr "สามารถยกเลิกการเผยแพร่โพสต์แม้ว่าสถานะการมองเห็นจะถูกล็อก"
+
+#: PublishPress_Statuses.php:436
+msgid "Status"
+msgstr "สถานะ"
+
+#: PublishPress_Statuses.php:450
+msgid "Core Post Statuses"
+msgstr "สถานะโพสต์หลัก"
+
+#: PublishPress_Statuses.php:723
+msgid "New post, not yet submitted."
+msgstr "โพสต์ใหม่ ยังไม่ได้ส่ง"
+
+#: PublishPress_Statuses.php:745
+msgid "Post is awaiting review."
+msgstr "โพสต์รอการตรวจสอบ"
+
+#: PublishPress_Statuses.php:765
+msgid "Post is scheduled for publication."
+msgstr "โพสต์กำหนดเวลาสำหรับการเผยแพร่"
+
+#: PublishPress_Statuses.php:784
+msgid "Post is published, publicly visible."
+msgstr "โพสต์ถูกเผยแพร่ สามารถมองเห็นได้ต่อสาธารณะ"
+
+#: PublishPress_Statuses.php:803
+msgid "Post is published with private visibility."
+msgstr "โพสต์ถูกเผยแพร่ด้วยการมองเห็นแบบส่วนตัว"
+
+#: PublishPress_Statuses.php:863
+msgid "Pitch"
+msgstr "เสนอ"
+
+#: PublishPress_Statuses.php:866
+msgid "Idea proposed; waiting for acceptance."
+msgstr "แนวคิดถูกเสนอ รอการยอมรับ"
+
+#: PublishPress_Statuses.php:878
+msgid "Assigned"
+msgstr "มอบหมาย"
+
+#: PublishPress_Statuses.php:881
+msgid "Post idea assigned to writer."
+msgstr "แนวคิดโพสต์ที่มอบหมายให้กับนักเขียน"
+
+#: PublishPress_Statuses.php:893
+msgid "In Progress"
+msgstr "กำลังดำเนินการ"
+
+#: PublishPress_Statuses.php:896
+msgid "Writer is working on the post."
+msgstr "นักเขียนกำลังทำงานบนโพสต์"
+
+#: PublishPress_Statuses.php:908
+msgid "Approved"
+msgstr "ได้รับการอนุมัติ"
+
+#: PublishPress_Statuses.php:911
+msgid "Post has been approved for publication."
+msgstr "โพสต์ได้รับการอนุมัติสำหรับการเผยแพร่"
+
+#: PublishPress_Statuses.php:923
+msgid "Needs Work"
+msgstr "ต้องการการปรับปรุง"
+
+#: PublishPress_Statuses.php:925
+msgid "Set to Needs Work"
+msgstr "ตั้งค่าเป็นต้องการการปรับปรุง"
+
+#: PublishPress_Statuses.php:926
+msgid "Post needs work before further review."
+msgstr "โพสต์ต้องการการปรับปรุงก่อนการตรวจสอบเพิ่มเติม"
+
+#: PublishPress_Statuses.php:938
+msgid "Rejected"
+msgstr "ปฏิเสธ"
+
+#: PublishPress_Statuses.php:940
+msgid "Reject"
+msgstr "ปฏิเสธ"
+
+#: PublishPress_Statuses.php:941
+msgid "Post has been rejected."
+msgstr "โพสต์ถูกปฏิเสธแล้ว."
+
+#: PublishPress_Statuses.php:975
+msgid "Alternate Pre-Publication Workflow:"
+msgstr "กระบวนการทำงานก่อนเผยแพร่ทางเลือก:"
+
+#: PublishPress_Statuses.php:1070
+msgid "Disabled Statuses:"
+msgstr "สถานะที่ถูกปิดใช้งาน:"
+
+#: PublishPress_Statuses.php:1086
+msgid "Deferred"
+msgstr "ระงับ"
+
+#: PublishPress_Statuses.php:1088
+msgid "Defer"
+msgstr "ระงับ"
+
+#: PublishPress_Statuses.php:1089
+msgid "Post has been deferred for future consideration."
+msgstr "โพสต์ถูกระงับเพื่อพิจารณาในอนาคต."
+
+#: PublishPress_Statuses.php:1101
+msgid "Committee"
+msgstr "คณะกรรมการ"
+
+#: PublishPress_Statuses.php:1103
+msgid "Refer to Committee"
+msgstr "ส่งต่อไปยังคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1104
+msgid "Post has been referred to committee."
+msgstr "โพสต์ถูกส่งต่อไปยังคณะกรรมการ."
+
+#: PublishPress_Statuses.php:1117
+msgid "Committee Review"
+msgstr "การตรวจสอบของคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1119
+msgid "Set to Committee Review"
+msgstr "ตั้งค่าเป็นการตรวจสอบของคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1120
+msgid "Committee is reviewing the post."
+msgstr "คณะกรรมการกำลังตรวจสอบโพสต์."
+
+#: PublishPress_Statuses.php:1133
+msgid "Committee Progress"
+msgstr "ความก้าวหน้าของคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1135
+msgid "Set to Committee Progress"
+msgstr "ตั้งค่าเป็นความก้าวหน้าของคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1136
+msgid "Committee is editing the post."
+msgstr "คณะกรรมการกำลังแก้ไขโพสต์."
+
+#: PublishPress_Statuses.php:1149
+msgid "Committee Approved"
+msgstr "ได้รับการอนุมัติโดยคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1151
+msgid "Set Committee Approval"
+msgstr "ตั้งค่าอนุมัติโดยคณะกรรมการ"
+
+#: PublishPress_Statuses.php:1152
+msgid "Committee has approved the post."
+msgstr "คณะกรรมการได้อนุมัติโพสต์แล้ว."
+
+#: StatusAddNewUI.php:30
+msgid "Add New Status"
+msgstr "เพิ่มสถานะใหม่"
+
+#: StatusEditUI.php:41
+#: StatusEditUI.php:50
+#: StatusListTable.php:945
+msgid "Labels"
+msgstr "ป้ายกำกับ"
+
+#: StatusEditUI.php:56
+#: StatusEditUI.php:436
+#: StatusListTable.php:171
+msgid "Post Types"
+msgstr "ประเภทโพสต์"
+
+#: StatusEditUI.php:64
+#: StatusListTable.php:170
+msgid "Roles"
+msgstr "บทบาท"
+
+#: StatusEditUI.php:72
+msgid "Edit Status Labels"
+msgstr "แก้ไขป้ายกำกับสถานะ"
+
+#: StatusEditUI.php:79
+#: StatusEditUI.php:248
+msgid "Update Status"
+msgstr "อัปเดตสถานะ"
+
+#: StatusEditUI.php:109
+msgid "Post Access"
+msgstr "การเข้าถึงโพสต์"
+
+#: StatusEditUI.php:201
+msgid ""
+"Enforce type-specific post capabilitities for this status, or share "
+"capabilities with another status."
+msgstr ""
+"บังคับให้มีความสามารถในการโพสต์เฉพาะประเภทสำหรับสถานะนี้ "
+"หรือแบ่งปันความสามารถกับสถานะอื่น."
+
+#: StatusEditUI.php:298
+msgid "Slug"
+msgstr "สลัก"
+
+#: StatusEditUI.php:310
+msgid "The slug is the unique ID for the status."
+msgstr "Slug คือรหัสประจำตัวที่ไม่ซ้ำสำหรับสถานะนี้."
+
+#: StatusEditUI.php:320
+msgid "Color"
+msgstr "สี"
+
+#: StatusEditUI.php:332
+msgid "The color is used to identify the status."
+msgstr "สีใช้เพื่อระบุสถานะ."
+
+#: StatusEditUI.php:338
+#: StatusListTable.php:169
+msgid "Icon"
+msgstr "ไอคอน"
+
+#: StatusEditUI.php:354
+msgid "Select Icon"
+msgstr "เลือกไอคอน"
+
+#: StatusEditUI.php:360
+msgid "The icon is used to visually represent the status."
+msgstr "ไอคอนใช้เพื่อแสดงสถานะในรูปแบบภาพ."
+
+#: StatusEditUI.php:395
+msgid "Status Availability"
+msgstr "ความพร้อมใช้งานของสถานะ"
+
+#: StatusEditUI.php:398
+msgid "Choose which user roles can assign this status to a post."
+msgstr "เลือกบทบาทผู้ใช้ที่สามารถกำหนดสถานะนี้ให้กับโพสต์."
+
+#: StatusEditUI.php:439
+msgid "Choose which post types can be set to this status."
+msgstr "เลือกประเภทโพสต์ที่สามารถตั้งค่าสถานะนี้ได้."
+
+#: StatusEditUI.php:476
+msgid "All Post Types"
+msgstr "ประเภทโพสต์ทั้งหมด"
+
+#: StatusEditUI.php:526
+msgid "Upgrade to choose who can manage posts in each status"
+msgstr "อัปเกรดเพื่อเลือกว่าผู้ใดสามารถจัดการโพสต์ในแต่ละสถานะ"
+
+#: StatusEditUI.php:529
+msgid "Get PublishPress Statuses Pro for status-specific post access control."
+msgstr "รับ PublishPress Statuses Pro สำหรับการควบคุมการเข้าถึงโพสต์ตามสถานะเฉพาะ"
+
+#: StatusEditUI.php:535
+msgid "Control which roles can assign a status"
+msgstr "ควบคุมว่าใครสามารถกำหนดสถานะได้"
+
+#: StatusEditUI.php:538
+msgid "Control which roles can edit or delete posts per-status"
+msgstr "ควบคุมว่าใครสามารถแก้ไขหรือลบโพสต์ตามสถานะได้"
+
+#: StatusEditUI.php:541
+msgid "Set capabilities separately for each post type"
+msgstr "ตั้งค่าความสามารถแยกตามแต่ละ post type"
+
+#: StatusEditUI.php:544
+msgid "User-friendly checkbox grid to assign capabilities"
+msgstr "กริดช่องทำเครื่องหมายที่ใช้งานง่ายเพื่อกำหนดความสามารถ"
+
+#: StatusEditUI.php:553
+#: StatusListTable.php:674
+msgid "Get PublishPress Statuses Pro"
+msgstr "รับ PublishPress Statuses Pro"
+
+#: StatusEditUI.php:558
+#: StatusListTable.php:229
+#: StatusListTable.php:246
+#: StatusListTable.php:679
+msgid "Learn More"
+msgstr "เรียนรู้เพิ่มเติม"
+
+#: StatusEditUI.php:566
+msgid ""
+"Post Access for this status cannot be customized until status-specific "
+"capability requirements are enabled."
+msgstr ""
+"ไม่สามารถปรับแต่งการเข้าถึงโพสต์สำหรับสถานะนี้ได้จนกว่าจะเปิดใช้งานความสามาร"
+"ถเฉพาะสถานะ"
+
+#: StatusEditUI.php:572
+msgid "Status Capabilities"
+msgstr "ความสามารถของสถานะ"
+
+#: StatusEditUI.php:578
+msgid "Require status-specific capabilities for post editing, deletion"
+msgstr "ต้องการความสามารถเฉพาะสถานะสำหรับการแก้ไขและลบโพสต์"
+
+#: StatusEditUI.php:596
+msgid "Status Label"
+msgstr "ป้ายสถานะ"
+
+#: StatusEditUI.php:609
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr "ชื่อที่ใช้เพื่อระบุสถานะ (สูงสุด: 20 ตัวอักษร)"
+
+#: StatusEditUI.php:619
+#: StatusListTable.php:172
+msgid "Description"
+msgstr "คำอธิบาย"
+
+#: StatusEditUI.php:631
+msgid ""
+"The description is primarily for administrative use, to give you some "
+"context on what the custom status is to be used for."
+msgstr ""
+"คำอธิบายนี้ใช้สำหรับการบริหารเป็นหลัก "
+"เพื่อให้คุณมีบริบทเกี่ยวกับว่าสถานะที่กำหนดเองจะใช้สำหรับอะไร."
+
+#: StatusEditUI.php:644
+msgid "Save As Label"
+msgstr "บันทึกเป็นป้าย"
+
+#: StatusEditUI.php:652
+msgid "Submit Button Label"
+msgstr "ป้ายปุ่มส่ง"
+
+#: StatusesUI.php:64
+#. translators: %s is the status label
+#, php-format
+msgid "Edit Post Status: %s"
+msgstr "แก้ไขสถานะโพสต์: %s"
+
+#: StatusesUI.php:67
+#. translators: %s is the status label
+#, php-format
+msgid "%s Status - Edit"
+msgstr "%s สถานะ - แก้ไข"
+
+#: StatusesUI.php:75
+#. translators: %s is status type: "Workflow", "Visibility", "Revision", etc.
+#, php-format
+msgid "Add %s Status"
+msgstr "เพิ่ม %s สถานะ"
+
+#: StatusesUI.php:82
+msgid "Add Post Status"
+msgstr "เพิ่มสถานะโพสต์"
+
+#: StatusesUI.php:83
+msgid "Add Status"
+msgstr "เพิ่มสถานะ"
+
+#: StatusesUI.php:87
+#: StatusesUI.php:1330
+msgid "PublishPress Statuses Settings"
+msgstr "การตั้งค่า PublishPress Statuses"
+
+#: StatusesUI.php:88
+msgid "Statuses Settings"
+msgstr "การตั้งค่า สถานะ"
+
+#: StatusesUI.php:91
+msgid "Post Statuses"
+msgstr "สถานะโพสต์"
+
+#: StatusesUI.php:98
+msgid "Visibility Statuses"
+msgstr "สถานะการมองเห็น"
+
+#: StatusesUI.php:217
+msgid "Post status created. Select a tab for further configuration."
+msgstr "สถานะโพสต์ถูกสร้างขึ้นแล้ว เลือกแท็บสำหรับการตั้งค่าเพิ่มเติม."
+
+#: StatusesUI.php:219
+#: StatusesUI.php:224
+#. translators: %1$s is the status name, %2$s is the edit link
+#, php-format
+msgid "Post status %1$s updated. %2$s"
+msgstr "สถานะโพสต์ %1$s ได้รับการปรับปรุงแล้ว. %2$s"
+
+#: StatusesUI.php:220
+msgid "Settings updated"
+msgstr "การตั้งค่าได้รับการปรับปรุง"
+
+#: StatusesUI.php:221
+msgid ""
+"That post status doesn't seem to exist. Was a required plugin or setting "
+"deactivated?"
+msgstr ""
+"สถานะโพสต์นั้นดูเหมือนจะไม่มีอยู่จริง "
+"มีปลั๊กอินหรือการตั้งค่าที่จำเป็นถูกปิดใช้งานหรือไม่?"
+
+#: StatusesUI.php:222
+msgid "Default post status has been changed."
+msgstr "สถานะโพสต์เริ่มต้นได้ถูกเปลี่ยนแปลงแล้ว."
+
+#: StatusesUI.php:225
+msgid "Post status deleted."
+msgstr "สถานะโพสต์ถูกลบแล้ว."
+
+#: StatusesUI.php:226
+#: StatusHandler.php:869
+msgid "Status order updated."
+msgstr "ลำดับสถานะได้รับการปรับปรุง."
+
+#: StatusesUI.php:250
+msgid "Use on these Post Types:"
+msgstr "ใช้กับประเภทโพสต์เหล่านี้:"
+
+#: StatusesUI.php:259
+msgid "Workflow Guidance:"
+msgstr "แนวทางการทำงาน:"
+
+#: StatusesUI.php:268
+msgid "Manual Status Selection:"
+msgstr "การเลือกสถานะด้วยตนเอง:"
+
+#: StatusesUI.php:277
+msgid "New Status Position:"
+msgstr "สถานะใหม่:"
+
+#: StatusesUI.php:287
+msgid "Custom Visibility:"
+msgstr "การมองเห็นแบบกำหนดเอง:"
+
+#: StatusesUI.php:297
+msgid "Default Visibility Status:"
+msgstr "สถานะการมองเห็นเริ่มต้น:"
+
+#: StatusesUI.php:307
+msgid "Custom Visibility Editing:"
+msgstr "การแก้ไขการมองเห็นแบบกำหนดเอง:"
+
+#: StatusesUI.php:319
+msgid "Pending Review Status:"
+msgstr "สถานะรอการตรวจสอบ:"
+
+#: StatusesUI.php:329
+msgid "Planner Integration:"
+msgstr "การรวมการวางแผน:"
+
+#: StatusesUI.php:340
+msgid "Permissions Integration:"
+msgstr "การรวมสิทธิ์:"
+
+#: StatusesUI.php:350, fuzzy
+msgid "Gutenberg / Classic Editor:"
+msgstr "Gutenberg / Classic Editor:"
+
+#: StatusesUI.php:359
+msgid "Status Label Customization:"
+msgstr "การปรับแต่งป้ายสถานะ:"
+
+#: StatusesUI.php:374
+msgid "Import Operation:"
+msgstr "การนำเข้า:"
+
+#: StatusesUI.php:385
+msgid "Backup / Restore:"
+msgstr "สำรองข้อมูล / กู้คืน:"
+
+#: StatusesUI.php:415
+msgid "Supplemental Role of Editor covers custom statuses"
+msgstr "บทบาทเสริมของผู้แก้ไขครอบคลุมสถานะที่กำหนดเอง"
+
+#: StatusesUI.php:440
+msgid "Include custom statuses in Add New pop-up on Calendar"
+msgstr "รวมสถานะที่กำหนดเองในป๊อปอัพเพิ่มใหม่บนปฏิทิน"
+
+#: StatusesUI.php:465
+msgid "Hide status selection dropdown from non-Administrators in Gutenberg editor"
+msgstr "ซ่อนตัวเลือกสถานะจากผู้ใช้ที่ไม่ใช่ผู้ดูแลระบบในตัวแก้ไข Gutenberg"
+
+#: StatusesUI.php:492
+msgid "Sequence by default: Publish button defaults to next status in workflow"
+msgstr "เรียงลำดับตามค่าเริ่มต้น: ปุ่มเผยแพร่จะตั้งค่าเป็นสถานะถัดไปในเวิร์กโฟลว์"
+
+#: StatusesUI.php:506
+msgid "Bypass by default: Publish button defaults to maximum available status"
+msgstr "ข้ามตามค่าเริ่มต้น: ปุ่มเผยแพร่จะตั้งค่าเป็นสถานะสูงสุดที่มีอยู่"
+
+#: StatusesUI.php:520
+msgid "No workflow guidance"
+msgstr "ไม่มีคำแนะนำเวิร์กโฟลว์"
+
+#: StatusesUI.php:565
+msgid ""
+"Hide sub-statuses in the dropdown unless the post is set to the parent "
+"status or a sibling"
+msgstr ""
+"ซ่อนสถานะย่อยในรายการแบบเลื่อนลง "
+"เว้นแต่โพสต์จะตั้งค่าเป็นสถานะหลักหรือสถานะพี่น้อง"
+
+#: StatusesUI.php:571
+msgid ""
+"Sub-statuses may be nested below any top-level status. They function as "
+"branches in the Main Workflow or in an Alternate Workflow."
+msgstr ""
+"สถานะย่อยสามารถซ้อนอยู่ใต้สถานะระดับสูงใดๆ ได้ "
+"พวกมันทำงานเป็นสาขาในเวิร์กโฟลว์หลักหรือในเวิร์กโฟลว์ทางเลือก."
+
+#: StatusesUI.php:608
+msgid "Add new statuses to Main Workflow by default"
+msgstr "เพิ่มสถานะใหม่ไปยังเวิร์กโฟลว์หลักโดยค่าเริ่มต้น"
+
+#: StatusesUI.php:627
+msgid "Available to all users"
+msgstr "พร้อมให้บริการสำหรับผู้ใช้ทุกคน"
+
+#: StatusesUI.php:628
+msgid "Available to specified roles only"
+msgstr "พร้อมให้บริการสำหรับบทบาทที่กำหนดเท่านั้น"
+
+#: StatusesUI.php:634
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, the same control is applied to the Pending Review "
+"status."
+msgstr ""
+"ผู้ใช้สามารถกำหนดสถานะที่กำหนดเองให้กับโพสต์ได้เฉพาะเมื่อบทบาทของพวกเขาอนุญา"
+"ต ด้วยการตั้งค่าปัจจุบัน การควบคุมเดียวกันนี้จะนำไปใช้กับสถานะรอการตรวจสอบ."
+
+#: StatusesUI.php:636
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, those limitations will not be applied for the "
+"Pending Review status."
+msgstr ""
+"ผู้ใช้สามารถกำหนดสถานะที่กำหนดเองให้กับโพสต์ได้เฉพาะเมื่อบทบาทของพวกเขาอนุญา"
+"ต ด้วยการตั้งค่าปัจจุบัน "
+"ข้อจำกัดเหล่านั้นจะไม่ถูกนำไปใช้กับสถานะรอการตรวจสอบ."
+
+#: StatusesUI.php:645
+#. translators: %1$s and %2$s are link markup
+#, php-format
+msgid "View or set roles at %1$s Statuses > Statuses > Pending Review > Roles %2$s"
+msgstr "ดูหรือตั้งค่าบทบาทที่ %1$s สถานะ > สถานะ > รอการตรวจสอบ > บทบาท %2$s"
+
+#: StatusesUI.php:669
+msgid "Automatic Detection"
+msgstr "การตรวจจับอัตโนมัติ"
+
+#: StatusesUI.php:670
+msgid "Using Classic Editor"
+msgstr "ใช้ตัวแก้ไขคลาสสิก"
+
+#: StatusesUI.php:671
+msgid "Using Gutenberg Editor"
+msgstr "ใช้ตัวแก้ไข Gutenberg"
+
+#: StatusesUI.php:676
+msgid ""
+"If custom statuses in the post editor are not loaded correctly, prevent "
+"incorrect detection of editor by specifying it here."
+msgstr ""
+"หากสถานะที่กำหนดเองในตัวแก้ไขโพสต์ไม่โหลดอย่างถูกต้อง "
+"ให้ป้องกันการตรวจจับตัวแก้ไขที่ไม่ถูกต้องโดยการระบุที่นี่."
+
+#: StatusesUI.php:697
+msgid "For all plugin statuses"
+msgstr "สำหรับสถานะของปลั๊กอินทั้งหมด"
+
+#: StatusesUI.php:698
+msgid "For user-created plugin statuses only"
+msgstr "สำหรับสถานะของปลั๊กอินที่สร้างโดยผู้ใช้เท่านั้น"
+
+#: StatusesUI.php:703
+msgid ""
+"This controls which statuses can have their labels customized by editing "
+"Status properties. If a non-default entry is stored, it will override any "
+"language file strings."
+msgstr ""
+"นี่ควบคุมว่าสถานะใดสามารถมีป้ายกำกับที่ปรับแต่งได้โดยการแก้ไขคุณสมบัติสถานะ "
+"หากมีการเก็บข้อมูลที่ไม่เป็นค่าเริ่มต้น "
+"มันจะทำให้สตริงในไฟล์ภาษาที่จัดเก็บถูกเขียนทับ."
+
+#: StatusesUI.php:757
+#. translators: %1$s is the post type name, %2$s is the pp_custom_statuses feature
+#, php-format
+msgid ""
+"Disabled because add_post_type_support('%1$s', '%2$s') is included in a "
+"loaded file."
+msgstr ""
+"ปิดใช้งานเนื่องจาก add_post_type_support(''%1$s', ''%2$s') "
+"รวมอยู่ในไฟล์ที่โหลดแล้ว."
+
+#: StatusesUI.php:766
+msgid "Note: Post types can also be specified for each individual status."
+msgstr "หมายเหตุ: ประเภทโพสต์สามารถระบุได้สำหรับแต่ละสถานะเฉพาะ"
+
+#: StatusesUI.php:791
+msgid "Enable custom Visibility Statuses"
+msgstr "เปิดใช้งานสถานะการมองเห็นที่กำหนดเอง"
+
+#: StatusesUI.php:816
+msgid ""
+"Posts with custom Visibility also require status-specific capabilities for "
+"editing"
+msgstr "โพสต์ที่มีการมองเห็นที่กำหนดเองยังต้องการความสามารถเฉพาะสถานะสำหรับการแก้ไข"
+
+#: StatusesUI.php:897
+msgid "lock"
+msgstr "ล็อก"
+
+#: StatusesUI.php:924
+msgid "Locking also prevents posts from being unpublished"
+msgstr "การล็อกยังป้องกันไม่ให้โพสต์ถูกเพิกถอนการเผยแพร่"
+
+#: StatusesUI.php:934
+#, php-format
+msgid "This setting does not apply to %1$s Administrators%2$s."
+msgstr "การตั้งค่านี้ไม่ใช้กับ %1$s ผู้ดูแลระบบ %2$s."
+
+#: StatusesUI.php:935
+#, php-format
+msgid "You may assign a %1$s role capability %2$s to bypass this locking."
+msgstr "คุณสามารถกำหนด %1$s ความสามารถของบทบาท %2$s เพื่อข้ามการล็อกนี้ได้."
+
+#: StatusesUI.php:939
+msgid "This setting does not apply to Administrators."
+msgstr "การตั้งค่านี้ไม่ใช้กับผู้ดูแลระบบ."
+
+#: StatusesUI.php:944
+#, php-format
+msgid ""
+"If this setting is unchecked, the lock will only prevent selection of a "
+"different visibility status. %1$s %2$s See documentation%3$s."
+msgstr ""
+"หากการตั้งค่านี้ไม่ถูกเลือก "
+"การล็อกจะป้องกันเพียงการเลือกสถานะการมองเห็นที่แตกต่างออกไปเท่านั้น %1$s "
+"%2$s ดูเอกสาร%3$s."
+
+#: StatusesUI.php:964
+#: StatusesUI.php:1022
+msgid "Select..."
+msgstr "เลือก..."
+
+#: StatusesUI.php:967
+msgid "Re-run Planner import (with Status Control properties, ordering)"
+msgstr "นำเข้าผู้วางแผนใหม่ (พร้อมคุณสมบัติการควบคุมสถานะ การจัดลำดับ)"
+
+#: StatusesUI.php:968
+msgid "Re-run Planner import (ignoring Status Control configuration)"
+msgstr "นำเข้าผู้วางแผนใหม่ (ไม่สนใจการกำหนดค่าการควบคุมสถานะ)"
+
+#: StatusesUI.php:970
+msgid "Re-run Planner import"
+msgstr "นำเข้าผู้วางแผนใหม่"
+
+#: StatusesUI.php:976
+msgid ""
+"Status color, icon and position is automatically imported from PublishPress "
+"Planner. Select an option above to re-run the import, giving priority to "
+"Planner-defined status position."
+msgstr ""
+"สี สถานะ ไอคอน และตำแหน่งจะถูกนำเข้าจาก PublishPress Planner โดยอัตโนมัติ "
+"เลือกตัวเลือกด้านบนเพื่อทำการนำเข้าใหม่ "
+"โดยให้ความสำคัญกับตำแหน่งสถานะที่กำหนดโดย Planner."
+
+#: StatusesUI.php:1024
+msgid "Back up current colors, icons, labels and post types"
+msgstr "สำรองสี ไอคอน ป้ายชื่อ และประเภทโพสต์ปัจจุบัน"
+
+#: StatusesUI.php:1029
+msgid "Restore backup of status colors"
+msgstr "กู้คืนสำรองของสีสถานะ"
+
+#: StatusesUI.php:1033
+msgid "Restore backup of status icons"
+msgstr "กู้คืนสำรองของไอคอนสถานะ"
+
+#: StatusesUI.php:1037
+msgid "Restore backup of status labels"
+msgstr "กู้คืนสำรองของป้ายชื่อสถานะ"
+
+#: StatusesUI.php:1041
+msgid "Restore backup of status post types"
+msgstr "คืนค่าข้อมูลสำรองของประเภทโพสต์สถานะ"
+
+#: StatusesUI.php:1047
+msgid "Restore auto-backup of status colors"
+msgstr "คืนค่าข้อมูลสำรองอัตโนมัติของสีสถานะ"
+
+#: StatusesUI.php:1051
+msgid "Restore auto-backup of status icons"
+msgstr "คืนค่าข้อมูลสำรองอัตโนมัติของไอคอนสถานะ"
+
+#: StatusesUI.php:1055
+msgid "Restore auto-backup of status labels"
+msgstr "คืนค่าข้อมูลสำรองอัตโนมัติของป้ายชื่อสถานะ"
+
+#: StatusesUI.php:1059
+msgid "Restore auto-backup of status post types"
+msgstr "คืนค่าข้อมูลสำรองอัตโนมัติของประเภทโพสต์สถานะ"
+
+#: StatusesUI.php:1066
+msgid "Use default status colors"
+msgstr "ใช้สีสถานะเริ่มต้น"
+
+#: StatusesUI.php:1070
+msgid "Use default status icons"
+msgstr "ใช้ไอคอนสถานะเริ่มต้น"
+
+#: StatusesUI.php:1074
+msgid "Use default status labels"
+msgstr "ใช้ป้ายชื่อสถานะเริ่มต้น"
+
+#: StatusesUI.php:1078
+msgid "Use default status post types"
+msgstr "ใช้ประเภทโพสต์สถานะเริ่มต้น"
+
+#: StatusesUI.php:1082
+msgid "Use Planner plugin's default status colors"
+msgstr "ใช้สีสถานะเริ่มต้นของปลั๊กอิน Planner"
+
+#: StatusesUI.php:1086
+msgid "Use Planner plugin's default status icons"
+msgstr "ใช้ไอคอนสถานะเริ่มต้นของปลั๊กอิน Planner"
+
+#: StatusesUI.php:1125
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status: %s"
+msgstr "แก้ไขสถานะ: %s"
+
+#: StatusesUI.php:1128
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s: %2$s"
+msgstr "แก้ไข %1$s: %2$s"
+
+#: StatusesUI.php:1148
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status Labels: %s"
+msgstr "แก้ไขป้ายชื่อสถานะ: %s"
+
+#: StatusesUI.php:1151
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s Labels: %2$s"
+msgstr "แก้ไขป้ายชื่อ %1$s: %2$s"
+
+#: StatusesUI.php:1188
+#: StatusesUI.php:1316
+msgid "Add New Pre-Publication Status"
+msgstr "เพิ่มสถานะก่อนการเผยแพร่ใหม่"
+
+#: StatusesUI.php:1204
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For custom Visibility Statuses, %1$supgrade to PublishPress Statuses "
+"Pro%2$s."
+msgstr ""
+"สำหรับสถานะการมองเห็นที่กำหนดเอง %1$sอัปเกรดเป็น PublishPress Statuses "
+"Pro%2$s."
+
+#: StatusesUI.php:1218
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid "Note: Custom Visibility Statuses are %1$sdisabled%2$s."
+msgstr "หมายเหตุ: สถานะการมองเห็นที่กำหนดเองถูก %1$sปิดใช้งาน%2$s."
+
+#: StatusesUI.php:1241
+msgid "Pre-Publication"
+msgstr "ก่อนการเผยแพร่"
+
+#: StatusesUI.php:1249
+#: StatusesUI.php:1355
+msgid "Visibility"
+msgstr "การมองเห็น"
+
+#: StatusesUI.php:1260
+msgid "Revision"
+msgstr "การแก้ไข"
+
+#: StatusesUI.php:1316
+msgid "Add New Visibility Status"
+msgstr "เพิ่มสถานะการมองเห็นใหม่"
+
+#: StatusesUI.php:1320
+msgid "This status can be assigned to customize post privacy."
+msgstr "สถานะนี้สามารถกำหนดเพื่อปรับแต่งความเป็นส่วนตัวของโพสต์ได้."
+
+#: StatusesUI.php:1320
+msgid ""
+"This status can be assigned to an unpublished post using the Post Status "
+"dropdown."
+msgstr ""
+"สถานะนี้สามารถกำหนดให้กับโพสต์ที่ยังไม่ได้เผยแพร่โดยใช้เมนูดรอปดาวน์สถานะโพส"
+"ต์."
+
+#: StatusesUI.php:1356
+msgid "Integration"
+msgstr "การรวม"
+
+#: StatusesUI.php:1357
+msgid "Editor"
+msgstr "ผู้แก้ไข"
+
+#: StatusesUI.php:1358
+msgid "Advanced"
+msgstr "ขั้นสูง"
+
+#: StatusesUI.php:1359
+msgid "License"
+msgstr "ใบอนุญาต"
+
+#: StatusHandler.php:17
+#: StatusHandler.php:218
+msgid "Sorry, you do not have permission to edit custom statuses."
+msgstr "ขอโทษ, คุณไม่มีสิทธิ์ในการแก้ไขสถานะที่กำหนดเอง"
+
+#: StatusHandler.php:53
+#: StatusHandler.php:454
+msgid "Please enter a name for the status"
+msgstr "กรุณาใส่ชื่อสำหรับสถานะ"
+
+#: StatusHandler.php:57
+msgid "Please enter a slug for the status"
+msgstr "กรุณาใส่ชื่อสลักสำหรับสถานะ"
+
+#: StatusHandler.php:64
+#: StatusHandler.php:459
+msgid "Please enter a valid, non-numeric name for the status."
+msgstr "กรุณาใส่ชื่อที่ถูกต้องซึ่งไม่ใช่ตัวเลขสำหรับสถานะ"
+
+#: StatusHandler.php:81
+#: StatusHandler.php:478
+msgid "Status name cannot exceed 20 characters. Please try a shorter name."
+msgstr "ชื่อสถานะไม่สามารถเกิน 20 ตัวอักษรได้ กรุณาลองใช้ชื่อที่สั้นกว่า"
+
+#: StatusHandler.php:100
+msgid "Status slug cannot exceed 20 characters. Please try a shorter name."
+msgstr "ชื่อสลักสถานะไม่สามารถเกิน 20 ตัวอักษรได้ กรุณาลองใช้ชื่อที่สั้นกว่า"
+
+#: StatusHandler.php:110
+msgid "Name conflicts with existing status. Please choose another."
+msgstr "ชื่อซ้ำกับสถานะที่มีอยู่ กรุณาเลือกชื่ออื่น"
+
+#: StatusHandler.php:117
+msgid "Status name is restricted. Please choose another name."
+msgstr "ชื่อสถานะถูกจำกัด กรุณาเลือกชื่ออื่น"
+
+#: StatusHandler.php:141
+msgid "Could not add status: "
+msgstr "ไม่สามารถเพิ่มสถานะ: "
+
+#: StatusHandler.php:225
+#: StatusHandler.php:791
+msgid "Status does not exist."
+msgstr "สถานะไม่ได้มีอยู่"
+
+#: StatusHandler.php:230
+#: StatusHandler.php:786
+msgid "Could not delete the status: "
+msgstr "ไม่สามารถลบสถานะ: "
+
+#: StatusHandler.php:254
+#: StatusHandler.php:409
+msgid "Post status doesn't exist."
+msgstr "สถานะโพสต์ไม่มีอยู่"
+
+#: StatusHandler.php:387
+msgid "Error updating post status."
+msgstr "เกิดข้อผิดพลาดในการอัปเดตสถานะโพสต์"
+
+#: StatusHandler.php:538
+msgid "Error updating post status labels."
+msgstr "เกิดข้อผิดพลาดในการอัปเดตป้ายสถานะโพสต์"
+
+#: StatusHandler.php:714
+msgid "Cannot reassign to the status you want to delete"
+msgstr "ไม่สามารถกำหนดสถานะที่คุณต้องการลบใหม่ได้"
+
+#: StatusHandler.php:761
+msgid "Restricted status "
+msgstr "สถานะที่ถูกจำกัด "
+
+#: StatusHandler.php:788
+msgid "Status deleted"
+msgstr "สถานะถูกลบแล้ว"
+
+#: StatusHandler.php:810
+msgid "Status positions were not sent."
+msgstr "สถานะตำแหน่งไม่ได้ถูกส่ง"
+
+#: StatusListTable.php:166
+msgid "Position"
+msgstr "ตำแหน่ง"
+
+#: StatusListTable.php:167
+msgid "Status Name"
+msgstr "ชื่อสถานะ"
+
+#: StatusListTable.php:168
+msgid "Name"
+msgstr "ชื่อ"
+
+#: StatusListTable.php:197
+msgid "Upgrade to create an approval workflow for published content"
+msgstr "อัปเกรดเพื่อสร้างกระบวนการอนุมัติสำหรับเนื้อหาที่เผยแพร่"
+
+#: StatusListTable.php:200
+msgid ""
+"Create approval workflows using PublishPress Statuses Pro together with the "
+"PublishPress Revisions Pro plugin"
+msgstr ""
+"สร้างกระบวนการอนุมัติโดยใช้ PublishPress Statuses Pro ร่วมกับปลั๊กอิน "
+"PublishPress Revisions Pro"
+
+#: StatusListTable.php:206
+msgid ""
+"The PublishPress Revisions plugin allows users to submit changes to "
+"published posts"
+msgstr ""
+"ปลั๊กอิน PublishPress Revisions "
+"ช่วยให้ผู้ใช้สามารถส่งการเปลี่ยนแปลงไปยังโพสต์ที่เผยแพร่"
+
+#: StatusListTable.php:209
+msgid ""
+"PublishPress Statuses plugin enables you to add statuses for post changes "
+"created with Revisions"
+msgstr ""
+"ปลั๊กอิน PublishPress Statuses "
+"ช่วยให้คุณสามารถเพิ่มสถานะสำหรับการเปลี่ยนแปลงโพสต์ที่สร้างด้วย Revisions"
+
+#: StatusListTable.php:212
+msgid "Each post type can have different Revisions statuses"
+msgstr "แต่ละประเภทโพสต์สามารถมีสถานะ Revisions ที่แตกต่างกัน"
+
+#: StatusListTable.php:215
+msgid "You choose which users can manage content in each Revisions status"
+msgstr "คุณเลือกว่าผู้ใช้คนใดสามารถจัดการเนื้อหาในแต่ละสถานะ Revisions"
+
+#: StatusListTable.php:241
+msgid "Premium Feature"
+msgstr "ฟีเจอร์พรีเมียม"
+
+#: StatusListTable.php:242
+msgid "Install Statuses Pro to unlock custom revision statuses."
+msgstr "ติดตั้ง Statuses Pro เพื่อปลดล็อกสถานะการแก้ไขที่กำหนดเอง"
+
+#: StatusListTable.php:243
+msgid "Configure for any post type and role to match your editing workflow."
+msgstr "กำหนดค่าให้ตรงกับประเภทโพสต์และบทบาทใด ๆ เพื่อให้ตรงกับกระบวนการแก้ไขของคุณ"
+
+#: StatusListTable.php:308
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"เพื่อกำหนดและควบคุมสถานะของ Revision ให้ปรับปรุงปลั๊กอิน %1$sPublishPress "
+"Revisions%2$s เป็นเวอร์ชัน %3$s หรือสูงกว่า."
+
+#: StatusListTable.php:340
+msgid "Main Workflow:"
+msgstr "กระบวนการหลัก:"
+
+#: StatusListTable.php:366
+msgid "Drop any status here to include it in main workflow for new posts."
+msgstr "วางสถานะใด ๆ ที่นี่เพื่อรวมไว้ในกระบวนการหลักสำหรับโพสต์ใหม่"
+
+#: StatusListTable.php:402
+msgid ""
+"Statuses in the main workflow are presented for convenient default "
+"selection when updating an unpublished post."
+msgstr ""
+"สถานะในกระบวนการทำงานหลักจะแสดงเพื่อการเลือกค่าเริ่มต้นที่สะดวกเมื่ออัปเดตโพ"
+"สต์ที่ยังไม่ได้เผยแพร่."
+
+#: StatusListTable.php:410
+msgid ""
+"Statuses outside the main workflow are manually selectable when editing an "
+"unpublished post."
+msgstr ""
+"สถานะที่อยู่นอกกระบวนการทำงานหลักสามารถเลือกได้ด้วยตนเองเมื่อแก้ไขโพสต์ที่ยั"
+"งไม่ได้เผยแพร่."
+
+#: StatusListTable.php:442
+msgid ""
+"Drop any status here to make it manually selectable outside the main "
+"workflow."
+msgstr "ลากสถานะใด ๆ มาที่นี่เพื่อทำให้สามารถเลือกได้ด้วยตนเองนอกกระบวนการทำงานหลัก."
+
+#: StatusListTable.php:444
+#: StatusListTable.php:466
+msgid "Drop any status here to disable."
+msgstr "ลากสถานะใด ๆ มาที่นี่เพื่อปิดใช้งาน."
+
+#: StatusListTable.php:517
+msgid "Standard Publication:"
+msgstr "การเผยแพร่มาตรฐาน:"
+
+#: StatusListTable.php:524
+msgid "Visibility Statuses for Private Publication:"
+msgstr "สถานะการมองเห็นสำหรับการเผยแพร่ส่วนตัว:"
+
+#: StatusListTable.php:531
+msgid "Alternate Workflows:"
+msgstr "เวิร์กโฟลว์ทางเลือก:"
+
+#: StatusListTable.php:531
+#: StatusListTable.php:542
+#. translators: %s is the opening and closing <span> tags
+msgid "Disabled Statuses (drag to re-enable):"
+msgstr "สถานะที่ปิดใช้งาน (ลากเพื่อเปิดใช้งานอีกครั้ง):"
+
+#: StatusListTable.php:647
+msgid "Upgrade to choose who can view your non-public posts"
+msgstr "อัปเกรดเพื่อเลือกว่าผู้ใดสามารถดูโพสต์ที่ไม่เปิดเผยของคุณ"
+
+#: StatusListTable.php:650
+msgid ""
+"Upgrade to PublishPress Statuses Pro to define your own custom visibility "
+"statuses."
+msgstr ""
+"อัปเกรดเป็น PublishPress Statuses Pro "
+"เพื่อกำหนดสถานะการมองเห็นที่กำหนดเองของคุณเอง."
+
+#: StatusListTable.php:656
+msgid "Create multiple visibility statuses to show content to different users"
+msgstr "สร้างสถานะการมองเห็นหลายรายการเพื่อแสดงเนื้อหาให้กับผู้ใช้ที่แตกต่างกัน"
+
+#: StatusListTable.php:659
+msgid "Choose which user roles can see posts in each status"
+msgstr "เลือกว่าบทบาทผู้ใช้ใดสามารถดูโพสต์ในแต่ละสถานะ"
+
+#: StatusListTable.php:662
+msgid "Select which user roles can move posts to each status"
+msgstr "เลือกว่าบทบาทผู้ใช้ใดสามารถย้ายโพสต์ไปยังแต่ละสถานะ"
+
+#: StatusListTable.php:665
+msgid "Decide which user roles can edit posts in each status"
+msgstr "ตัดสินใจว่าบทบาทผู้ใช้ใดสามารถแก้ไขโพสต์ในแต่ละสถานะ"
+
+#: StatusListTable.php:762
+#. translators: %s is the list of post types
+#, php-format
+msgid "%s, more..."
+msgstr "%s, มากกว่า..."
+
+#: StatusListTable.php:844
+msgid "No custom statuses found."
+msgstr "ไม่พบสถานะที่กำหนดเอง."
+
+#: StatusListTable.php:915
+msgid "Core"
+msgstr "หลัก"
+
+#: StatusListTable.php:919
+msgid "Default"
+msgstr "ค่าเริ่มต้น"
+
+#: StatusListTable.php:949
+msgid "Disable"
+msgstr "ปิดใช้งาน"
+
+#: StatusListTable.php:953
+msgid "Enable"
+msgstr "เปิดใช้งาน"
+
+#: StatusListTable.php:957
+msgid "Delete"
+msgstr "ลบ"
+
+#: PublishPress_Statuses.php:865
+msgctxt "post action/button label"
+msgid "Pitch"
+msgstr "เสนอ"

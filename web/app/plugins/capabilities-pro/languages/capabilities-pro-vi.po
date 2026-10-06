@@ -1,0 +1,1293 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: capabilities-pro\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"Khả năng của PublishPress là plugin kiểm soát truy cập cho WordPress. Bạn "
+"có thể quản lý tất cả các vai trò người dùng WordPress của mình, từ Quản "
+"trị viên đến Người đăng ký."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "Lưu ý: Kiểm soát trạng thái bài viết tùy chỉnh là %1$sđã bị vô hiệu hóa%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr ""
+"Lưu ý: Khả năng chỉnh sửa bài viết theo trạng thái là %1$sđã bị vô hiệu "
+"hóa%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Menu Quản Trị"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Thao tác trên Menu quản trị cho phép bạn chỉnh sửa các liên kết menu của "
+"quản trị và kiểm soát ai có quyền truy cập."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "Bạn không có quyền quản lý các hạn chế menu."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "Cài đặt đã được cập nhật cho tất cả các vai trò."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "Cài đặt đã được cập nhật."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "Đang lưu thứ tự Menu..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "Đang lưu Tên Menu..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "Tên Menu không được để trống."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "Thay Đổi Biểu Tượng"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "Tìm biểu tượng..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "Biểu tượng menu đã được cập nhật"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "Lỗi khi cập nhật biểu tượng menu"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Menu trùng lặp với URL Menu này đã tồn tại"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Submenu trùng lặp với URL menu đã tồn tại"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "Bạn không có quyền để quản lý cài đặt."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "Trang Chủ"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "Lưu trữ Trang"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "Trang Đơn"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "Chọn trang..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "Bạn có thể chọn loại trang mà phần tử này sẽ được thêm vào."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "Chọn loại bài viết..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"Điều này sẽ thêm một metabox trên màn hình chỉnh sửa bài viết. Bạn có thể "
+"sử dụng tính năng này để thêm các lớp body chỉ cho bài viết đó."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Trạng Thái Hiển Thị"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Khả Năng Trạng Thái Hiển Thị"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "Đặt"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Đọc"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "Chỉnh sửa của người khác"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Xóa của người khác"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Có thể đặt bài viết thành trạng thái này"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Có thể đọc bài viết trong trạng thái này"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Có thể chỉnh sửa bài viết của người dùng khác trong trạng thái này"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Có thể xóa bài viết của người dùng khác trong trạng thái này"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "Cấu hình các thuộc tính trạng thái bài viết, loại bài viết"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "Bật tắt tất cả các khả năng cho trạng thái này"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: được phân công bởi Nhóm Quyền"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Khả năng này là %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "Điều này là cần thiết ngoài khả năng cụ thể theo loại."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "khả năng chia sẻ: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Trạng thái Tùy Chỉnh"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Trạng thái Sửa Đổi"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "Khả Năng Trạng Thái Sửa Đổi"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Khả Năng Trạng Thái Tùy Chỉnh"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Có thể chỉnh sửa bài viết của trạng thái này"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Có thể chỉnh sửa bài viết của người khác với trạng thái này"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Có thể xóa bài viết của trạng thái này"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Có thể xóa bài viết của người khác với trạng thái này"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "Cấu hình thuộc tính trạng thái, loại bài viết, yêu cầu khả năng"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Để kiểm soát việc chỉnh sửa và xóa các bản sửa đổi, hãy cài đặt plugin "
+"%1$sPublishPress Revisions%2$s và %3$sStatuses Pro%4$s."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr ""
+"Để xác định và kiểm soát trạng thái bản sửa đổi, hãy cài đặt plugin "
+"%1$sStatuses Pro%2$s."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Để xác định và kiểm soát trạng thái bản sửa đổi, hãy cài đặt plugin "
+"%1$sPublishPress Revisions%2$s."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Để xác định và kiểm soát trạng thái bản sửa đổi, hãy cập nhật plugin "
+"%1$sPublishPress Revisions%2$s lên phiên bản %3$s hoặc cao hơn."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Để kiểm soát việc chỉnh sửa và xóa bản sửa đổi, vui lòng đặt %1$sChế độ "
+"tương thích bản sửa đổi%2$s thành \"Kiểm soát truy cập bản sửa đổi nâng cao\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Để kích hoạt hoặc vô hiệu hóa việc thi hành khả năng chỉnh sửa tùy chỉnh "
+"cho bất kỳ trạng thái nào, hãy nhấp vào ô Truy cập Bài đăng của nó trong "
+"bảng %1$sStatuses%2$s, sau đó tải lại màn hình này."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "Chặn truy cập vào màn hình Plugins qua liên kết trực tiếp"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "Chặn truy cập vào màn hình Hồ Sơ qua liên kết trực tiếp"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Chặn truy cập vào Thư Viện Media qua liên kết trực tiếp"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "Chặn truy cập vào màn hình Giao diện qua liên kết trực tiếp"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"Chặn truy cập vào màn hình Người dùng và Thêm Người dùng mới qua liên kết "
+"trực tiếp"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "Chặn theo URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Nhập URL để bị chặn theo vai trò:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Chỉnh sửa:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Tiêu đề"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"Nhập tên/nhãn để xác định phần tử trong phần Bị chặn bởi URL của màn hình "
+"này."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Phân tách nhiều url bằng dấu phẩy. (ví dụ, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "Chặn Wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "Bật chế độ khớp tiền tố wildcard cho quy tắc URL này."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Khi được kích hoạt, người dùng sẽ bị chặn khỏi bất kỳ URL nào bắt đầu bằng "
+"giá trị đã nhập ở trên."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Hủy chỉnh sửa"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Thêm mới"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "Lưu chỉnh sửa"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "Đã xảy ra lỗi!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "Bạn không có quyền để quản lý các hạn chế tính năng admin."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "Hành động không hợp lệ. Tải lại trang này và thử lại."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Tất cả các trường đều là bắt buộc."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Mục tùy chỉnh đã được cập nhật thành công"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Mục tùy chỉnh mới đã được thêm thành công"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Bật ký tự đại diện"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Xem"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "Chỉnh sửa"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "Xóa"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Yêu cầu không hợp lệ!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Mục đã chọn đã được xóa thành công"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "Bạn không có quyền truy cập trang này."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Ẩn Hello Dolly khỏi danh sách plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr "Ẩn các liên kết hành động dòng plugin (Tạm ngưng, Kích hoạt, Xóa, v.v.)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Ẩn nút Thêm Bài Viết Mới khỏi màn hình bài viết"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "Ẩn nút Tạm ngưng dòng plugin khỏi tất cả danh sách plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "Ẩn nút Xóa dòng plugin khỏi tất cả danh sách plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "Ẩn các phần tử CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"Bạn có thể xóa các phần tử khác khỏi khu vực quản trị bằng cách thêm ID "
+"hoặc lớp của chúng bên dưới:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "Nhập tên/nhãn để xác định phần tử tùy chỉnh trên màn hình này."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "ID hoặc Lớp phần tử"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"ID hoặc lớp để ẩn. Phân cách nhiều giá trị bằng dấu phẩy (.custom-item-one, "
+".custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "URL mục tiêu"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Tùy chọn. Giới hạn quy tắc ẩn CSS này cho các URL quản trị cụ thể. Phân "
+"cách nhiều URL bằng dấu phẩy."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Khớp URL ký tự đại diện"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "Kích hoạt việc khớp tiền tố wildcard cho các URL mục tiêu."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Khi được kích hoạt, quy tắc này sẽ áp dụng nếu URL hiện tại bắt đầu bằng "
+"bất kỳ giá trị URL Mục tiêu nào."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "Phần tử CSS đã được cập nhật thành công."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Phần tử CSS mới đã được thêm thành công."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL mục tiêu"
+
+#: includes-pro/features/admin-features-css-hide.php:317, fuzzy
+msgid "URL wildcard"
+msgstr "URL wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "Kiểm tra bảo mật không thành công"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "Quyền truy cập bị từ chối"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "Cài đặt đã được cập nhật thành công."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "Thứ tự Menu Quản trị đã được đặt lại thành công. Đang tải lại trang..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "Tên Menu Quản trị đã được đặt lại thành công. Đang tải lại trang..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Bộ nhớ Cache Menu Quản trị đã được đặt lại thành công. Đang tải lại trang..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Menu Quản trị đã được đặt lại thành công. Đang tải lại trang..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "Menu đã được xóa thành công."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "Menu mới đã được thêm thành công. Đang tải lại trang..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "Dữ liệu không hợp lệ"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "Tên Menu đã được cập nhật cho tất cả các vai trò."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "Tên Menu đã được cập nhật."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "Thứ tự Menu đã được cập nhật."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "Lưu cho Tất cả Các Vai Trò"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "Loại:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "Liên kết Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "Liên kết Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "Dấu phân cách Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "Dấu phân cách Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "Vị trí:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "Sau"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "Tiêu đề Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "Menu Tùy Chỉnh của Tôi"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "Tiêu đề Menu là bắt buộc."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "Kiểu Dấu phân cách"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "Đường (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "Không gian Trống"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "Văn bản"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "Màu sắc Ngăn cách"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "URL Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Nhập một liên kết nội bộ như %1s hoặc một liên kết bên ngoài như %2s. Bất "
+"kỳ liên kết nào cũng chỉ có thể được sử dụng một lần cho một URL Menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "Menu với URL này đã tồn tại."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "Khả năng Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Đây là khả năng cần thiết để xem menu này. Ví dụ: %1s hoặc %2s Nếu bạn đang "
+"nhập một khả năng tùy chỉnh, hãy nhớ thêm và gán nó cho các vai trò ưa "
+"thích trên trang khả năng."
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "Khả năng Menu là bắt buộc."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "Biểu tượng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "Lưu Liên kết Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "Bật/Tắt tất cả"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "Liên kết Menu Mới"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(Không thể phát hiện tên menu)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Tên menu này không có sẵn trong dữ liệu toàn cầu của menu hoặc được đăng ký "
+"trực tiếp với menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s Vai trò"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "Tất cả Vai trò"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "Lưu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "Hủy"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Tùy chọn này đã bị vô hiệu hóa để ngăn chặn khóa hoàn toàn"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Bạn có chắc chắn muốn xóa %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Khả năng cần thiết để truy cập menu này là %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "Đổi tên Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "Di chuyển Lên"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "Di chuyển Xuống"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "Không tìm thấy menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "Cách sử dụng Menu Quản trị viên"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "khóa sử dụng"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "Không có thay đổi"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "Tính năng này bị từ chối"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "Xem Tài liệu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "Cài đặt Menu Quản trị"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "Ẩn Các Menu Con"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "Hiển thị Slug Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "Đặt lại Menu Quản trị"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Bạn có thể đặt lại thứ tự và tên menu quản trị về vị trí và tên gốc của "
+"chúng. Bạn cũng có thể đặt lại bộ nhớ cache của menu để khắc phục vấn đề "
+"menu bị thiếu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "Đặt lại Thứ tự Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "Đặt lại Menu Đã Cache"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "Đặt lại Tên Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "Đặt lại Tùy chọn Đã Chọn"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Thêm Hạn chế Biên tập viên Classic Mới"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"Bạn có thể xóa các phần tử khác khỏi màn hình chỉnh sửa bằng cách thêm ID "
+"hoặc lớp của chúng bên dưới:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Thêm Hạn chế Gutenberg Mới"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "Bạn không có quyền để quản lý các hạn chế tính năng biên tập viên."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr "Hành động không hợp lệ. Tải lại trang này và thử lại nếu có lỗi xảy ra."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Mục tùy chỉnh đã được cập nhật thành công. Lưu thay đổi để áp dụng các hạn "
+"chế."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "Mục tùy chỉnh mới đã được thêm. Lưu thay đổi để áp dụng các hạn chế."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Ẩn tab Mẫu trong trình biên tập khối"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Ẩn nút Chèn/chỉnh sửa liên kết trong Biên tập viên Classic"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Hạn chế Biên tập viên Classic Tùy chỉnh"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Hạn chế Gutenberg Tùy chỉnh"
+
+#: includes-pro/features/metaboxes.php:154, fuzzy
+msgid "Metaboxes"
+msgstr "Metaboxes"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "Menu Quản Trị"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "Đã xảy ra lỗi. Vui lòng thử lại hoặc liên hệ với đội ngũ hỗ trợ."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Giấy phép"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "Kích hoạt Khóa"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "Hủy kích hoạt Khóa"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Đang kết nối đến máy chủ publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "Yêu cầu không thể được xử lý do lỗi kết nối."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Vui lòng nhập khóa giấy phép được hiển thị trên biên lai đơn hàng của bạn."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "Đã xảy ra lỗi không xác định."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "Khóa đã được hủy kích hoạt."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "Khóa đã được kích hoạt."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "Khóa đã hết hạn."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "Khóa không hợp lệ."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "Đã xảy ra lỗi kích hoạt không xác định."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "Khóa được cung cấp không hợp lệ. Vui lòng kiểm tra lại thông tin của bạn."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Trang web này không hợp lệ để kích hoạt khóa."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "Khóa được cung cấp không thể được xác thực bởi publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "Khóa được cung cấp đã được kích hoạt trên một trang web khác."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Khóa đã được kích hoạt trên số lượng trang web cho phép."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "Đã xảy ra lỗi hủy kích hoạt không xác định."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Không thể vô hiệu hóa vì khóa cung cấp không hợp lệ."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Trang web này không hợp lệ để vô hiệu hóa khóa."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "Khóa được cung cấp không hoạt động trên trang web được chỉ định."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "Nếu điều này không đúng, <a href=\"%s\"> yêu cầu trợ giúp kích hoạt </a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "Vui lòng lưu cài đặt trước khi tải lên cấu hình trang web."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Bị khóa bởi Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Kiểm soát trạng thái tùy chỉnh"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Kiểm soát việc lựa chọn trạng thái bài viết tùy chỉnh. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "Áp dụng khả năng cụ thể cho trạng thái để chỉnh sửa và xóa bài viết."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Bật Trạng Thái Hiển Thị Tùy Chỉnh"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"Đối với Trạng thái Hiển thị, %1$s hãy kích hoạt mô-đun Kiểm soát Trạng "
+"thái%2$s trong Permissions Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr ""
+"Áp dụng khả năng chỉnh sửa cụ thể theo trạng thái và loại cho Trạng thái "
+"Hiển thị"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Kích hoạt Khóa Bản Quyền"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"Khóa giấy phép PublishPress của bạn đã hết hạn. Để tiếp tục nhận hỗ trợ ưu "
+"tiên, <a href=\"%s\">vui lòng gia hạn</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"Khóa giấy phép PublishPress của bạn sẽ hết hạn hôm nay. Để nhận cập nhật và "
+"hỗ trợ ưu tiên, <a href=\"%s\">vui lòng gia hạn</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "Khóa đã hết hạn"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "Vô hiệu hóa"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "Đã kích hoạt"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "Nhập khóa bản quyền của bạn"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "Kích hoạt"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "xem %s&nbsp;chi tiết"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "Cập nhật&nbsp;Có sẵn"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "Kiểm tra&nbsp;cập nhật"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "Tài khoản"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "Giá cả"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "Hiển thị thương hiệu PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Ẩn chân trang PublishPress và các thương hiệu khác."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Menu Quản trị: xử lý nhiều vai trò"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr ""
+"Cho phép nhất: Bất kỳ vai trò người dùng không bị hạn chế nào đều cho phép "
+"truy cập"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr ""
+"Hạn chế nhất: Bất kỳ vai trò người dùng nào bị hạn chế đều ngăn chặn truy "
+"cập"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Điều này kiểm soát xem quyền hạn nào được áp dụng nếu một người dùng có "
+"nhiều vai trò, quyền hạn tối đa hay tối thiểu."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Kiểm soát trạng thái tùy chỉnh bị vô hiệu hóa cho đến khi bạn kích hoạt "
+"%1$sPlugin Trạng thái PublishPress%2$s. Xem %3$sKhả năng > Cài đặt%4$s để "
+"biết chi tiết."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Kiểm soát trạng thái tùy chỉnh bị vô hiệu hóa cho đến khi bạn cài đặt "
+"%1$sPlugin Trạng thái PublishPress%2$s. Xem %3$sKhả năng > Cài đặt%4$s để "
+"biết chi tiết."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "Thay đổi đã được lưu!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "Lỗi: không thể lưu thay đổi."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "Đang xóa menu..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "Đang cập nhật Cài đặt..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "Bạn phải chọn ít nhất một tùy chọn để đặt lại."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "Đang đặt lại tùy chọn..."

@@ -1,0 +1,21 @@
+.publishpress-extended-post-privacy {
+    flex-flow: row wrap;
+    margin-top:0;
+  }
+  .publishpress-extended-post-privacy > * {
+    flex-basis: 45%;
+  }
+  .publishpress-extended-post-privacy .publishpress-extended-post-privacy-note {
+    flex-basis: 100%;
+  }
+  
+  .publishpress-extended-post-privacy select {
+    width: 120px;
+  }
+  
+  .publishpress-extended-post-privacy h4 {
+    font-size: inherit!important;
+    font-weight: normal;
+  }
+  
+  /*# sourceMappingURL=custom-privacy-block-editor.css.map */

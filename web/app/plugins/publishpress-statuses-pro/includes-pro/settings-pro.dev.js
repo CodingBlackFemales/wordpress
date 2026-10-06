@@ -1,0 +1,97 @@
+jQuery(document).ready(function ($) {
+    var statusesHideSpinners = function () {
+        $("#pp_statuses_license .waiting").hide();
+        $("#pp_statuses_license .button-secondary").prop('disabled', false);
+        $("#pp_statuses_license div.pp-key-hint span").hide();
+    }
+
+    var statusesRedrawActStatus = function (data, txtStatus) {
+        statusesHideSpinners();
+
+        var msg = '';
+        var captions = jQuery.parseJSON(statusesProSettings.keyStatus.replace(/&quot;/g, '"'));
+
+        if (typeof data != 'object' || typeof data['license'] == 'undefined') {
+            msg = statusesProSettings.errCaption;
+            $("#pp_statuses_license .pp-key-active").hide();
+            $("#pp_statuses_license .pp-key-expired").hide();
+        } else if (!jQuery.inArray(data['license'], captions)) {
+            msg = statusesProSettings.errCaption;
+        } else {
+            msg = captions[data['license']];
+
+            if (('valid' == data['license'])) {
+                statusesProSettings.activated = 1;
+                $("#pp_statuses_license #activation-button").html(statusesProSettings.deactivateCaption);
+                $("#pp_statuses_license #edd_key").hide();
+                $("#pp_statuses_license .pp-key-inactive").hide();
+                $("#pp_statuses_license .pp-key-active").show();
+            } else if ('expired' == data['license']) {
+                statusesProSettings.activated = 1;
+                statusesProSettings.expired = 1;
+                $("#pp_statuses_license #activation-button").html(statusesProSettings.deactivateCaption);
+                $("#pp_statuses_license #edd_key").show();
+                $("#pp_statuses_license .pp-key-active").hide();
+                $("#pp_statuses_license .pp-key-inactive").show();
+            } else {
+                statusesProSettings.activated = 0;
+                $("#pp_statuses_license #activation-button").html(statusesProSettings.activateCaption);
+                $("#pp_statuses_license #edd_key").show();
+                $("#pp_statuses_license #edd_key").val('');
+                $("span.pp-key-active").hide();
+                $("span.pp-key-expired").hide();
+                $("#pp_statuses_license .pp-key-inactive").show();
+            }
+        }
+
+        $("#pp_statuses_license #activation-status").html(msg).show();
+
+        if ('valid' == data['license'])
+            $("#pp_statuses_license #activation-reload").show();
+    }
+
+    var statusesAjaxConnectFailure = function (data, txtStatus) {
+        statusesHideSpinners();
+        $("#pp_statuses_license #activation-status").html(statusesProSettings.noConnectCaption);
+        return;
+    }
+
+    // click handlers for activate / deactivate button
+    $('#pp_statuses_license #activation-button').on('click', function (e) {
+        $(this).closest('td').find('.waiting').show();
+        $(this).prop('disabled', true);
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (1 == statusesProSettings.activated) {
+            var data = {'publishpress_statuses_ajax_settings': 'deactivate_key'};
+            $.ajax({
+                url: statusesProSettings.deactivateURL,
+                data: data,
+                dataType: "json",
+                cache: false,
+                success: statusesRedrawActStatus,
+                error: statusesAjaxConnectFailure
+            });
+        } else {
+            var key = jQuery.trim($("#pp_statuses_license #edd_key").val());
+
+            if (!key) {
+                $("#pp_statuses_license #activation-status").html(statusesProSettings.noEntryCaption);
+                statusesHideSpinners();
+                return;
+            }
+
+            var data = {'publishpress_statuses_ajax_settings': 'activate_key', 'key': key};
+            $.ajax({
+                url: statusesProSettings.activateURL,
+                data: data,
+                dataType: "json",
+                cache: false,
+                success: statusesRedrawActStatus,
+                error: statusesAjaxConnectFailure
+            });
+        }
+    });
+});

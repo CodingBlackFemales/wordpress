@@ -1,0 +1,1410 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Statuses Free 1.3.1-rc\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-27T16:10:36+00:00\n"
+"PO-Revision-Date: 2026-09-01 04:44+0000\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: publishpress-statuses\n"
+"Language: fa_IR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: publishpress-statuses.php:5
+#. Plugin Name of the plugin
+msgid "PublishPress Statuses Free"
+msgstr "PublishPress Statuses Free"
+
+#: publishpress-statuses.php:7, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/statuses"
+msgstr "https://publishpress.com/statuses"
+
+#: publishpress-statuses.php:9
+#. Description of the plugin
+msgid "Manage and create post statuses to customize your editorial workflow"
+msgstr "مدیریت و ایجاد وضعیت‌های پست برای سفارشی‌سازی جریان کار ویرایشی شما"
+
+#: publishpress-statuses.php:13
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-statuses.php:15, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: Admin.php:18
+#: Admin.php:430
+#: Admin.php:431
+#: PublishPress_Statuses.php:435
+#: PublishPress_Statuses.php:436
+#: StatusEditUI.php:75
+#: StatusesUI.php:92
+msgid "Statuses"
+msgstr "وضعیت‌ها"
+
+#: Admin.php:19
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: Admin.php:22
+#: includes-core/CoreAdmin.php:40
+#: includes-core/CoreAdmin.php:41
+#: includes-core/PromoBanner.php:225
+#: StatusListTable.php:224
+#: StatusListTable.php:250
+msgid "Upgrade to Pro"
+msgstr "ارتقا به پرو"
+
+#: Admin.php:369
+msgid ""
+"Are you sure you want to delete the post status? All posts with this status "
+"will be assigned to the default status."
+msgstr ""
+"آیا مطمئن هستید که می‌خواهید وضعیت پست را حذف کنید؟ همه پست‌ها با این وضعیت "
+"به وضعیت پیش‌فرض اختصاص داده خواهند شد."
+
+#: Admin.php:441
+#: Admin.php:442
+#: StatusesUI.php:1189
+msgid "Add New"
+msgstr "اضافه کردن جدید"
+
+#: Admin.php:528
+#: PublishPress_Statuses.php:910
+msgid "Approve"
+msgstr "تأیید"
+
+#: Admin.php:530
+#: PublishPress_Statuses.php:880
+msgid "Assign"
+msgstr "اختصاص دادن"
+
+#: Admin.php:532
+#: PublishPress_Statuses.php:895
+msgid "Mark In Progress"
+msgstr "علامت‌گذاری در حال پیشرفت"
+
+#: Admin.php:545
+#. translators: %s is the status label
+#, php-format
+msgid "Set to %s"
+msgstr "تنظیم به %s"
+
+#: Admin.php:554
+#: PostEditGutenberg.php:91
+#: PostEditGutenberg.php:111
+#. translators: %s is the status label
+#, php-format
+msgid "Save as %s"
+msgstr "ذخیره به عنوان %s"
+
+#: Admin.php:566
+#. translators: %s is the name of a custom public status
+#, php-format
+msgid "Public (%s)"
+msgstr "عمومی (%s)"
+
+#: Admin.php:637
+#: PostEditClassic.php:179
+#: PostEditGutenberg.php:88
+#: PostEditGutenberg.php:297
+#: PostEditGutenbergStatuses.php:49
+#: PostEditGutenbergStatuses.php:69
+#: PostEditGutenbergStatuses.php:77
+msgid "Advance Status"
+msgstr "وضعیت پیشرفته"
+
+#: includes-core/CoreAdmin.php:19
+#, php-format
+msgid ""
+"You're using PublishPress Statuses Free. The Pro version has more features "
+"and support. %sUpgrade to Pro%s"
+msgstr ""
+"شما از PublishPress Statuses Free استفاده می‌کنید. نسخه Pro ویژگی‌ها و "
+"پشتیبانی بیشتری دارد. %sترقی به Pro%s"
+
+#: includes-core/PromoBanner.php:68
+msgid "If you need help or have a new feature request, let us know."
+msgstr "اگر به کمک نیاز دارید یا درخواست ویژگی جدیدی دارید، به ما اطلاع دهید."
+
+#: includes-core/PromoBanner.php:241
+msgid "Request Support"
+msgstr "درخواست پشتیبانی"
+
+#: includes-core/PromoBanner.php:248
+msgid "Detailed documentation is also available on the plugin website."
+msgstr "مستندات دقیق نیز در وب‌سایت افزونه موجود است."
+
+#: includes-core/PromoBanner.php:251
+msgid "View Knowledge Base"
+msgstr "مشاهده پایگاه دانش"
+
+#: PostEditClassic.php:214
+msgid "Current Time"
+msgstr "زمان کنونی"
+
+#: PostEditClassic.php:242
+#: PostEditClassic.php:267
+#. translators: %s is a status name
+#, php-format
+msgid "Submit as %s"
+msgstr "به عنوان %s ارسال کنید"
+
+#: PostEditClassic.php:328
+#. translators: %s is the name of a custom visibility status
+#, php-format
+msgid "%s, Sticky"
+msgstr "%s، چسبنده"
+
+#: PostEditClassicSubmitMetabox.php:59
+msgid "Visibility:"
+msgstr "نمایش:"
+
+#: PostEditClassicSubmitMetabox.php:200
+msgid "Restore default behavior of publish button"
+msgstr "بازگرداندن رفتار پیش‌فرض دکمه انتشار"
+
+#: PostEditClassicSubmitMetabox.php:201
+msgid "Bypass sequence"
+msgstr "عبور از توالی"
+
+#: PostEditClassicSubmitMetabox.php:437
+#. translators: %s is html markup
+#, php-format
+msgid "Publish %1$s on approval %2$s"
+msgstr "انتشار %1$s با تأیید %2$s"
+
+#: PostEditGutenberg.php:85
+msgid "Publication Workflow"
+msgstr "گردش کار انتشار"
+
+#: PostEditGutenberg.php:89
+msgid "Post Status"
+msgstr "وضعیت پست"
+
+#: PostEditGutenberg.php:92
+msgid "Set Selected Status"
+msgstr "تنظیم وضعیت انتخاب شده"
+
+#: PostEditGutenberg.php:93
+msgid "Keep Current Status"
+msgstr "نگه داشتن وضعیت فعلی"
+
+#: PostEditGutenberg.php:94
+msgid "Advance to Next Status"
+msgstr "پیشرفت به وضعیت بعدی"
+
+#: PostEditGutenberg.php:95
+msgid "Advance to Max Status"
+msgstr "پیشرفت به حداکثر وضعیت"
+
+#: PostEditGutenberg.php:96
+msgid "This post is currently published"
+msgstr "این پست در حال حاضر منتشر شده است"
+
+#: PostEditGutenberg.php:97
+msgid "This post is currently scheduled"
+msgstr "این پست در حال حاضر زمان‌بندی شده است"
+
+#: PostEditGutenberg.php:293
+msgid "Save Draft"
+msgstr "ذخیره پیش‌نویس"
+
+#: PostEditGutenbergStatuses.php:160
+#: StatusesUI.php:1354
+msgid "Workflow"
+msgstr "جریان کار"
+
+#: PostEditGutenbergStatuses.php:166
+msgid "Submit Revision"
+msgstr "ارسال بازبینی"
+
+#: publishpress-module/ModuleAdminUI_Base.php:101
+#. translators: %1$s is the plugin name, %2$s is the rating stars
+#, php-format
+msgid "If you like %1$s, please leave us a %2$s rating. Thank you!"
+msgstr "اگر از %1$s خوشتان می‌آید، لطفاً برای ما یک امتیاز %2$s بگذارید. متشکرم!"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+#, php-format
+msgid "About %s"
+msgstr "درباره %s"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+msgid "About"
+msgstr "درباره"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+#, php-format
+msgid "%s Documentation"
+msgstr "%s مستندات"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+msgid "Documentation"
+msgstr "مستندات"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact the PublishPress team"
+msgstr "تماس با تیم PublishPress"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact"
+msgstr "تماس"
+
+#: publishpress-statuses.php:118
+msgid "<strong>This plugin can be deleted.</strong>"
+msgstr "<strong>این افزونه قابل حذف است.</strong>"
+
+#: publishpress-statuses.php:196
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Planner to "
+"version %s or higher."
+msgstr ""
+"برای استفاده از PublishPress Statuses، لطفاً PublishPress Planner را به "
+"نسخه %s یا بالاتر ارتقاء دهید."
+
+#: publishpress-statuses.php:213
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Permissions Pro "
+"to version %s or higher."
+msgstr ""
+"برای استفاده از PublishPress Statuses، لطفاً PublishPress Permissions Pro "
+"را به نسخه %s یا بالاتر ارتقاء دهید."
+
+#: publishpress-statuses.php:230
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Capabilities Pro "
+"to version %s or higher."
+msgstr ""
+"برای استفاده از PublishPress Statuses، لطفاً PublishPress Capabilities Pro "
+"را به نسخه %s یا بالاتر ارتقاء دهید."
+
+#: PublishPress_Statuses.php:397
+msgid ""
+"Can bypass normal status progression. User can publish immediately or move "
+"post to the furthest possible status."
+msgstr ""
+"می‌تواند پیشرفت وضعیت عادی را دور بزند. کاربر می‌تواند بلافاصله منتشر کند "
+"یا پست را به دورترین وضعیت ممکن منتقل کند."
+
+#: PublishPress_Statuses.php:398
+msgid "Manage Statuses plugin settings."
+msgstr "تنظیمات افزونه وضعیت‌ها را مدیریت کنید."
+
+#: PublishPress_Statuses.php:403
+msgid "Can unpublish posts even if Visibility Status is locked."
+msgstr "می‌تواند پست‌ها را حتی اگر وضعیت نمایشی قفل شده باشد، منتشر نکند."
+
+#: PublishPress_Statuses.php:436
+msgid "Status"
+msgstr "وضعیت"
+
+#: PublishPress_Statuses.php:450
+msgid "Core Post Statuses"
+msgstr "وضعیت‌های اصلی پست"
+
+#: PublishPress_Statuses.php:723
+msgid "New post, not yet submitted."
+msgstr "پست جدید، هنوز ارسال نشده است."
+
+#: PublishPress_Statuses.php:745
+msgid "Post is awaiting review."
+msgstr "پست در انتظار بررسی است."
+
+#: PublishPress_Statuses.php:765
+msgid "Post is scheduled for publication."
+msgstr "پست برای انتشار زمان‌بندی شده است."
+
+#: PublishPress_Statuses.php:784
+msgid "Post is published, publicly visible."
+msgstr "پست منتشر شده و به‌صورت عمومی قابل مشاهده است."
+
+#: PublishPress_Statuses.php:803
+msgid "Post is published with private visibility."
+msgstr "پست منتشر شده با نمای خصوصی."
+
+#: PublishPress_Statuses.php:863
+msgid "Pitch"
+msgstr "پیشنهاد"
+
+#: PublishPress_Statuses.php:866
+msgid "Idea proposed; waiting for acceptance."
+msgstr "ایده پیشنهاد شده؛ در انتظار پذیرش."
+
+#: PublishPress_Statuses.php:878
+msgid "Assigned"
+msgstr "محول شده"
+
+#: PublishPress_Statuses.php:881
+msgid "Post idea assigned to writer."
+msgstr "ایده پست به نویسنده محول شده است."
+
+#: PublishPress_Statuses.php:893
+msgid "In Progress"
+msgstr "در حال پیشرفت"
+
+#: PublishPress_Statuses.php:896
+msgid "Writer is working on the post."
+msgstr "نویسنده در حال کار بر روی پست است."
+
+#: PublishPress_Statuses.php:908
+msgid "Approved"
+msgstr "تأیید شده"
+
+#: PublishPress_Statuses.php:911
+msgid "Post has been approved for publication."
+msgstr "پست برای انتشار تأیید شده است."
+
+#: PublishPress_Statuses.php:923
+msgid "Needs Work"
+msgstr "نیاز به کار"
+
+#: PublishPress_Statuses.php:925
+msgid "Set to Needs Work"
+msgstr "تنظیم به نیاز به کار"
+
+#: PublishPress_Statuses.php:926
+msgid "Post needs work before further review."
+msgstr "پست قبل از بررسی بیشتر نیاز به کار دارد."
+
+#: PublishPress_Statuses.php:938
+msgid "Rejected"
+msgstr "رد شده"
+
+#: PublishPress_Statuses.php:940
+msgid "Reject"
+msgstr "رد کردن"
+
+#: PublishPress_Statuses.php:941
+msgid "Post has been rejected."
+msgstr "پست رد شده است."
+
+#: PublishPress_Statuses.php:975
+msgid "Alternate Pre-Publication Workflow:"
+msgstr "جریان کار جایگزین پیش از انتشار:"
+
+#: PublishPress_Statuses.php:1070
+msgid "Disabled Statuses:"
+msgstr "وضعیت‌های غیرفعال:"
+
+#: PublishPress_Statuses.php:1086
+msgid "Deferred"
+msgstr "به تعویق افتاده"
+
+#: PublishPress_Statuses.php:1088
+msgid "Defer"
+msgstr "به تعویق انداختن"
+
+#: PublishPress_Statuses.php:1089
+msgid "Post has been deferred for future consideration."
+msgstr "پست برای بررسی‌های آینده به تعویق افتاده است."
+
+#: PublishPress_Statuses.php:1101
+msgid "Committee"
+msgstr "کمیته"
+
+#: PublishPress_Statuses.php:1103
+msgid "Refer to Committee"
+msgstr "ارجاع به کمیته"
+
+#: PublishPress_Statuses.php:1104
+msgid "Post has been referred to committee."
+msgstr "پست به کمیته ارجاع داده شده است."
+
+#: PublishPress_Statuses.php:1117
+msgid "Committee Review"
+msgstr "بررسی کمیته"
+
+#: PublishPress_Statuses.php:1119
+msgid "Set to Committee Review"
+msgstr "تنظیم به بررسی کمیته"
+
+#: PublishPress_Statuses.php:1120
+msgid "Committee is reviewing the post."
+msgstr "کمیته در حال بررسی پست است."
+
+#: PublishPress_Statuses.php:1133
+msgid "Committee Progress"
+msgstr "پیشرفت کمیته"
+
+#: PublishPress_Statuses.php:1135
+msgid "Set to Committee Progress"
+msgstr "تنظیم به پیشرفت کمیته"
+
+#: PublishPress_Statuses.php:1136
+msgid "Committee is editing the post."
+msgstr "کمیته در حال ویرایش پست است."
+
+#: PublishPress_Statuses.php:1149
+msgid "Committee Approved"
+msgstr "تأیید کمیته"
+
+#: PublishPress_Statuses.php:1151
+msgid "Set Committee Approval"
+msgstr "تنظیم تأیید کمیته"
+
+#: PublishPress_Statuses.php:1152
+msgid "Committee has approved the post."
+msgstr "کمیته پست را تأیید کرده است."
+
+#: StatusAddNewUI.php:30
+msgid "Add New Status"
+msgstr "وضعیت جدید اضافه کنید"
+
+#: StatusEditUI.php:41
+#: StatusEditUI.php:50
+#: StatusListTable.php:945
+msgid "Labels"
+msgstr "برچسب‌ها"
+
+#: StatusEditUI.php:56
+#: StatusEditUI.php:436
+#: StatusListTable.php:171
+msgid "Post Types"
+msgstr "نوع‌های پست"
+
+#: StatusEditUI.php:64
+#: StatusListTable.php:170
+msgid "Roles"
+msgstr "نقش‌ها"
+
+#: StatusEditUI.php:72
+msgid "Edit Status Labels"
+msgstr "ویرایش برچسب‌های وضعیت"
+
+#: StatusEditUI.php:79
+#: StatusEditUI.php:248
+msgid "Update Status"
+msgstr "به‌روزرسانی وضعیت"
+
+#: StatusEditUI.php:109
+msgid "Post Access"
+msgstr "دسترسی به پست"
+
+#: StatusEditUI.php:201
+msgid ""
+"Enforce type-specific post capabilitities for this status, or share "
+"capabilities with another status."
+msgstr ""
+"اجبار قابلیت‌های پست خاص نوع برای این وضعیت، یا به اشتراک‌گذاری قابلیت‌ها "
+"با وضعیت دیگر."
+
+#: StatusEditUI.php:298
+msgid "Slug"
+msgstr "اسلاگ"
+
+#: StatusEditUI.php:310
+msgid "The slug is the unique ID for the status."
+msgstr "اسلاگ شناسه منحصر به فرد وضعیت است."
+
+#: StatusEditUI.php:320
+msgid "Color"
+msgstr "رنگ"
+
+#: StatusEditUI.php:332
+msgid "The color is used to identify the status."
+msgstr "رنگ برای شناسایی وضعیت استفاده می‌شود."
+
+#: StatusEditUI.php:338
+#: StatusListTable.php:169
+msgid "Icon"
+msgstr "آیکون"
+
+#: StatusEditUI.php:354
+msgid "Select Icon"
+msgstr "انتخاب آیکون"
+
+#: StatusEditUI.php:360
+msgid "The icon is used to visually represent the status."
+msgstr "آیکون برای نمایش بصری وضعیت استفاده می‌شود."
+
+#: StatusEditUI.php:395
+msgid "Status Availability"
+msgstr "دسترس‌پذیری وضعیت"
+
+#: StatusEditUI.php:398
+msgid "Choose which user roles can assign this status to a post."
+msgstr ""
+"انتخاب کنید که کدام نقش‌های کاربری می‌توانند این وضعیت را به یک پست اختصاص "
+"دهند."
+
+#: StatusEditUI.php:439
+msgid "Choose which post types can be set to this status."
+msgstr "انتخاب کنید که کدام نوع‌های پست می‌توانند به این وضعیت تنظیم شوند."
+
+#: StatusEditUI.php:476
+msgid "All Post Types"
+msgstr "همه نوع‌های پست"
+
+#: StatusEditUI.php:526
+msgid "Upgrade to choose who can manage posts in each status"
+msgstr "ارتقا برای انتخاب اینکه چه کسی می‌تواند پست‌ها را در هر وضعیت مدیریت کند"
+
+#: StatusEditUI.php:529
+msgid "Get PublishPress Statuses Pro for status-specific post access control."
+msgstr ""
+"برای کنترل دسترسی به پست‌های خاص وضعیت، PublishPress Statuses Pro را دریافت "
+"کنید."
+
+#: StatusEditUI.php:535
+msgid "Control which roles can assign a status"
+msgstr "کنترل کنید که کدام نقش‌ها می‌توانند یک وضعیت را اختصاص دهند"
+
+#: StatusEditUI.php:538
+msgid "Control which roles can edit or delete posts per-status"
+msgstr ""
+"کنترل کنید که کدام نقش‌ها می‌توانند پست‌ها را بر اساس وضعیت ویرایش یا حذف "
+"کنند"
+
+#: StatusEditUI.php:541
+msgid "Set capabilities separately for each post type"
+msgstr "قابلیت‌ها را به‌طور جداگانه برای هر نوع پست تنظیم کنید"
+
+#: StatusEditUI.php:544
+msgid "User-friendly checkbox grid to assign capabilities"
+msgstr "جدول چک باکس کاربرپسند برای اختصاص قابلیت‌ها"
+
+#: StatusEditUI.php:553
+#: StatusListTable.php:674
+msgid "Get PublishPress Statuses Pro"
+msgstr "PublishPress Statuses Pro را دریافت کنید"
+
+#: StatusEditUI.php:558
+#: StatusListTable.php:229
+#: StatusListTable.php:246
+#: StatusListTable.php:679
+msgid "Learn More"
+msgstr "بیشتر بدانید"
+
+#: StatusEditUI.php:566
+msgid ""
+"Post Access for this status cannot be customized until status-specific "
+"capability requirements are enabled."
+msgstr ""
+"دسترسی به پست برای این وضعیت تا زمانی که الزامات قابلیت‌های خاص وضعیت فعال "
+"نشود، قابل تنظیم نیست."
+
+#: StatusEditUI.php:572
+msgid "Status Capabilities"
+msgstr "قابلیت‌های وضعیت"
+
+#: StatusEditUI.php:578
+msgid "Require status-specific capabilities for post editing, deletion"
+msgstr "نیاز به قابلیت‌های خاص وضعیت برای ویرایش و حذف پست"
+
+#: StatusEditUI.php:596
+msgid "Status Label"
+msgstr "برچسب وضعیت"
+
+#: StatusEditUI.php:609
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr "نام برای شناسایی وضعیت استفاده می‌شود. (حداکثر: 20 کاراکتر)"
+
+#: StatusEditUI.php:619
+#: StatusListTable.php:172
+msgid "Description"
+msgstr "توضیحات"
+
+#: StatusEditUI.php:631
+msgid ""
+"The description is primarily for administrative use, to give you some "
+"context on what the custom status is to be used for."
+msgstr ""
+"توضیحات عمدتاً برای استفاده اداری است، تا به شما زمینه‌ای درباره استفاده از "
+"وضعیت سفارشی بدهد."
+
+#: StatusEditUI.php:644
+msgid "Save As Label"
+msgstr "ذخیره به عنوان برچسب"
+
+#: StatusEditUI.php:652
+msgid "Submit Button Label"
+msgstr "برچسب دکمه ارسال"
+
+#: StatusesUI.php:64
+#. translators: %s is the status label
+#, php-format
+msgid "Edit Post Status: %s"
+msgstr "ویرایش وضعیت پست: %s"
+
+#: StatusesUI.php:67
+#. translators: %s is the status label
+#, php-format
+msgid "%s Status - Edit"
+msgstr "%s وضعیت - ویرایش"
+
+#: StatusesUI.php:75
+#. translators: %s is status type: "Workflow", "Visibility", "Revision", etc.
+#, php-format
+msgid "Add %s Status"
+msgstr "اضافه کردن وضعیت %s"
+
+#: StatusesUI.php:82
+msgid "Add Post Status"
+msgstr "اضافه کردن وضعیت پست"
+
+#: StatusesUI.php:83
+msgid "Add Status"
+msgstr "اضافه کردن وضعیت"
+
+#: StatusesUI.php:87
+#: StatusesUI.php:1330
+msgid "PublishPress Statuses Settings"
+msgstr "تنظیمات PublishPress Statuses"
+
+#: StatusesUI.php:88
+msgid "Statuses Settings"
+msgstr "تنظیمات وضعیت‌ها"
+
+#: StatusesUI.php:91
+msgid "Post Statuses"
+msgstr "وضعیت‌های پست"
+
+#: StatusesUI.php:98
+msgid "Visibility Statuses"
+msgstr "وضعیت‌های نمایش"
+
+#: StatusesUI.php:217
+msgid "Post status created. Select a tab for further configuration."
+msgstr "وضعیت پست ایجاد شد. یک زبانه برای پیکربندی بیشتر انتخاب کنید."
+
+#: StatusesUI.php:219
+#: StatusesUI.php:224
+#. translators: %1$s is the status name, %2$s is the edit link
+#, php-format
+msgid "Post status %1$s updated. %2$s"
+msgstr "وضعیت پست %1$s به‌روزرسانی شد. %2$s"
+
+#: StatusesUI.php:220
+msgid "Settings updated"
+msgstr "تنظیمات به‌روزرسانی شد"
+
+#: StatusesUI.php:221
+msgid ""
+"That post status doesn't seem to exist. Was a required plugin or setting "
+"deactivated?"
+msgstr ""
+"به نظر می‌رسد که این وضعیت پست وجود ندارد. آیا یک افزونه یا تنظیم مورد نیاز "
+"غیرفعال شده است؟"
+
+#: StatusesUI.php:222
+msgid "Default post status has been changed."
+msgstr "وضعیت پیش‌فرض پست تغییر کرده است."
+
+#: StatusesUI.php:225
+msgid "Post status deleted."
+msgstr "وضعیت پست حذف شد."
+
+#: StatusesUI.php:226
+#: StatusHandler.php:869
+msgid "Status order updated."
+msgstr "ترتیب وضعیت به‌روزرسانی شد."
+
+#: StatusesUI.php:250
+msgid "Use on these Post Types:"
+msgstr "استفاده بر روی این نوع‌های پست:"
+
+#: StatusesUI.php:259
+msgid "Workflow Guidance:"
+msgstr "راهنمایی جریان کار:"
+
+#: StatusesUI.php:268
+msgid "Manual Status Selection:"
+msgstr "انتخاب وضعیت دستی:"
+
+#: StatusesUI.php:277
+msgid "New Status Position:"
+msgstr "وضعیت جدید:"
+
+#: StatusesUI.php:287
+msgid "Custom Visibility:"
+msgstr "نمایش سفارشی:"
+
+#: StatusesUI.php:297
+msgid "Default Visibility Status:"
+msgstr "وضعیت نمایش پیش‌فرض:"
+
+#: StatusesUI.php:307
+msgid "Custom Visibility Editing:"
+msgstr "ویرایش نمایش سفارشی:"
+
+#: StatusesUI.php:319
+msgid "Pending Review Status:"
+msgstr "وضعیت در انتظار بررسی:"
+
+#: StatusesUI.php:329
+msgid "Planner Integration:"
+msgstr "یکپارچه‌سازی برنامه‌ریز:"
+
+#: StatusesUI.php:340
+msgid "Permissions Integration:"
+msgstr "یکپارچه‌سازی مجوزها:"
+
+#: StatusesUI.php:350
+msgid "Gutenberg / Classic Editor:"
+msgstr "گوتنبرگ / ویرایشگر کلاسیک:"
+
+#: StatusesUI.php:359
+msgid "Status Label Customization:"
+msgstr "سفارشی‌سازی برچسب وضعیت:"
+
+#: StatusesUI.php:374
+msgid "Import Operation:"
+msgstr "عملیات واردات:"
+
+#: StatusesUI.php:385
+msgid "Backup / Restore:"
+msgstr "پشتیبان‌گیری / بازیابی:"
+
+#: StatusesUI.php:415
+msgid "Supplemental Role of Editor covers custom statuses"
+msgstr "نقش مکمل ویرایشگر وضعیت‌های سفارشی را پوشش می‌دهد"
+
+#: StatusesUI.php:440
+msgid "Include custom statuses in Add New pop-up on Calendar"
+msgstr "وضعیت‌های سفارشی را در پنجره‌ی بازشدن \"افزودن جدید\" در تقویم شامل کنید"
+
+#: StatusesUI.php:465
+msgid "Hide status selection dropdown from non-Administrators in Gutenberg editor"
+msgstr "مخفی کردن منوی انتخاب وضعیت از غیرمدیران در ویرایشگر گوتنبرگ"
+
+#: StatusesUI.php:492
+msgid "Sequence by default: Publish button defaults to next status in workflow"
+msgstr "ترتیب به‌طور پیش‌فرض: دکمه‌ی انتشار به وضعیت بعدی در گردش کار پیش‌فرض است"
+
+#: StatusesUI.php:506
+msgid "Bypass by default: Publish button defaults to maximum available status"
+msgstr "عبور به‌طور پیش‌فرض: دکمه‌ی انتشار به حداکثر وضعیت موجود پیش‌فرض است"
+
+#: StatusesUI.php:520
+msgid "No workflow guidance"
+msgstr "راهنمایی گردش کار وجود ندارد"
+
+#: StatusesUI.php:565
+msgid ""
+"Hide sub-statuses in the dropdown unless the post is set to the parent "
+"status or a sibling"
+msgstr ""
+"زیر وضعیت‌ها را در منوی کشویی پنهان کنید مگر اینکه پست به وضعیت والد یا "
+"خواهر تنظیم شده باشد"
+
+#: StatusesUI.php:571
+msgid ""
+"Sub-statuses may be nested below any top-level status. They function as "
+"branches in the Main Workflow or in an Alternate Workflow."
+msgstr ""
+"زیر وضعیت‌ها ممکن است در زیر هر وضعیت سطح بالا تو در تو شوند. آنها به عنوان "
+"شاخه‌هایی در جریان اصلی یا در یک جریان جایگزین عمل می‌کنند."
+
+#: StatusesUI.php:608
+msgid "Add new statuses to Main Workflow by default"
+msgstr "به‌طور پیش‌فرض وضعیت‌های جدید را به جریان اصلی کار اضافه کنید"
+
+#: StatusesUI.php:627
+msgid "Available to all users"
+msgstr "برای تمام کاربران در دسترس است"
+
+#: StatusesUI.php:628
+msgid "Available to specified roles only"
+msgstr "فقط برای نقش‌های مشخص در دسترس است"
+
+#: StatusesUI.php:634
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, the same control is applied to the Pending Review "
+"status."
+msgstr ""
+"کاربران تنها در صورتی می‌توانند یک وضعیت سفارشی به یک پست اختصاص دهند که "
+"نقش آنها اجازه دهد. با تنظیم فعلی، همان کنترل برای وضعیت انتظار بررسی اعمال "
+"می‌شود."
+
+#: StatusesUI.php:636
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, those limitations will not be applied for the "
+"Pending Review status."
+msgstr ""
+"کاربران تنها در صورتی می‌توانند یک وضعیت سفارشی به یک پست اختصاص دهند که "
+"نقش آنها اجازه دهد. با تنظیم فعلی، این محدودیت‌ها برای وضعیت انتظار بررسی "
+"اعمال نخواهند شد."
+
+#: StatusesUI.php:645
+#. translators: %1$s and %2$s are link markup
+#, php-format
+msgid "View or set roles at %1$s Statuses > Statuses > Pending Review > Roles %2$s"
+msgstr ""
+"مشاهده یا تنظیم نقش‌ها در %1$s وضعیت‌ها > وضعیت‌ها > در حال بررسی > نقش‌ها "
+"%2$s"
+
+#: StatusesUI.php:669
+msgid "Automatic Detection"
+msgstr "تشخیص خودکار"
+
+#: StatusesUI.php:670
+msgid "Using Classic Editor"
+msgstr "استفاده از ویرایشگر کلاسیک"
+
+#: StatusesUI.php:671
+msgid "Using Gutenberg Editor"
+msgstr "استفاده از ویرایشگر گوتنبرگ"
+
+#: StatusesUI.php:676
+msgid ""
+"If custom statuses in the post editor are not loaded correctly, prevent "
+"incorrect detection of editor by specifying it here."
+msgstr ""
+"اگر وضعیت‌های سفارشی در ویرایشگر پست به درستی بارگذاری نشوند، از تشخیص "
+"نادرست ویرایشگر با مشخص کردن آن در اینجا جلوگیری کنید."
+
+#: StatusesUI.php:697
+msgid "For all plugin statuses"
+msgstr "برای تمام وضعیت‌های پلاگین"
+
+#: StatusesUI.php:698
+msgid "For user-created plugin statuses only"
+msgstr "فقط برای وضعیت‌های ایجاد شده توسط کاربر"
+
+#: StatusesUI.php:703
+msgid ""
+"This controls which statuses can have their labels customized by editing "
+"Status properties. If a non-default entry is stored, it will override any "
+"language file strings."
+msgstr ""
+"این کنترل می‌کند کدام وضعیت‌ها می‌توانند برچسب‌های خود را با ویرایش "
+"ویژگی‌های وضعیت سفارشی کنند. اگر یک ورودی غیر پیش‌فرض ذخیره شود، هر رشته "
+"فایل زبانی را نادیده خواهد گرفت."
+
+#: StatusesUI.php:757
+#. translators: %1$s is the post type name, %2$s is the pp_custom_statuses feature
+#, php-format
+msgid ""
+"Disabled because add_post_type_support('%1$s', '%2$s') is included in a "
+"loaded file."
+msgstr ""
+"غیرفعال شده زیرا add_post_type_support('%1$s', '%2$s') در یک فایل بارگذاری "
+"شده گنجانده شده است."
+
+#: StatusesUI.php:766
+msgid "Note: Post types can also be specified for each individual status."
+msgstr "توجه: نوع‌های نوشته همچنین می‌توانند برای هر وضعیت فردی مشخص شوند."
+
+#: StatusesUI.php:791
+msgid "Enable custom Visibility Statuses"
+msgstr "فعال‌سازی وضعیت‌های نمایشی سفارشی"
+
+#: StatusesUI.php:816
+msgid ""
+"Posts with custom Visibility also require status-specific capabilities for "
+"editing"
+msgstr ""
+"پست‌ها با قابلیت Visibility سفارشی همچنین به قابلیت‌های خاص وضعیت برای "
+"ویرایش نیاز دارند"
+
+#: StatusesUI.php:897
+msgid "lock"
+msgstr "قفل"
+
+#: StatusesUI.php:924
+msgid "Locking also prevents posts from being unpublished"
+msgstr "قفل کردن همچنین از انتشار مجدد پست‌ها جلوگیری می‌کند"
+
+#: StatusesUI.php:934
+#, php-format
+msgid "This setting does not apply to %1$s Administrators%2$s."
+msgstr "این تنظیم برای %1$s مدیران %2$s اعمال نمی‌شود."
+
+#: StatusesUI.php:935
+#, php-format
+msgid "You may assign a %1$s role capability %2$s to bypass this locking."
+msgstr "شما می‌توانید یک %1$s قابلیت نقش %2$s برای دور زدن این قفل اختصاص دهید."
+
+#: StatusesUI.php:939
+msgid "This setting does not apply to Administrators."
+msgstr "این تنظیم برای مدیران اعمال نمی‌شود."
+
+#: StatusesUI.php:944
+#, php-format
+msgid ""
+"If this setting is unchecked, the lock will only prevent selection of a "
+"different visibility status. %1$s %2$s See documentation%3$s."
+msgstr ""
+"اگر این تنظیم غیر فعال باشد، قفل فقط از انتخاب وضعیت دیداری متفاوت جلوگیری "
+"می‌کند. %1$s %2$s به مستندات مراجعه کنید%3$s."
+
+#: StatusesUI.php:964
+#: StatusesUI.php:1022
+msgid "Select..."
+msgstr "انتخاب کنید..."
+
+#: StatusesUI.php:967
+msgid "Re-run Planner import (with Status Control properties, ordering)"
+msgstr ""
+"وارد کردن برنامه‌ریز را دوباره اجرا کنید (با ویژگی‌های کنترل وضعیت، "
+"ترتیب‌دهی)"
+
+#: StatusesUI.php:968
+msgid "Re-run Planner import (ignoring Status Control configuration)"
+msgstr ""
+"وارد کردن برنامه‌ریز را دوباره اجرا کنید (تنظیمات کنترل وضعیت را نادیده "
+"بگیرید)"
+
+#: StatusesUI.php:970
+msgid "Re-run Planner import"
+msgstr "وارد کردن برنامه‌ریز را دوباره اجرا کنید"
+
+#: StatusesUI.php:976
+msgid ""
+"Status color, icon and position is automatically imported from PublishPress "
+"Planner. Select an option above to re-run the import, giving priority to "
+"Planner-defined status position."
+msgstr ""
+"رنگ وضعیت، آیکون و موقعیت به‌صورت خودکار از PublishPress Planner وارد "
+"می‌شود. گزینه‌ای را در بالا انتخاب کنید تا واردات را دوباره اجرا کنید و به "
+"موقعیت وضعیت تعریف‌شده توسط Planner اولویت دهید."
+
+#: StatusesUI.php:1024
+msgid "Back up current colors, icons, labels and post types"
+msgstr "پشتیبان‌گیری از رنگ‌ها، آیکون‌ها، برچسب‌ها و نوع‌های نوشته فعلی"
+
+#: StatusesUI.php:1029
+msgid "Restore backup of status colors"
+msgstr "بازیابی پشتیبان رنگ‌های وضعیت"
+
+#: StatusesUI.php:1033
+msgid "Restore backup of status icons"
+msgstr "بازیابی پشتیبان آیکون‌های وضعیت"
+
+#: StatusesUI.php:1037
+msgid "Restore backup of status labels"
+msgstr "بازیابی پشتیبان برچسب‌های وضعیت"
+
+#: StatusesUI.php:1041
+msgid "Restore backup of status post types"
+msgstr "پشتیبان گیری از نوع پست وضعیت را بازیابی کنید"
+
+#: StatusesUI.php:1047
+msgid "Restore auto-backup of status colors"
+msgstr "پشتیبان گیری خودکار از رنگ‌های وضعیت را بازیابی کنید"
+
+#: StatusesUI.php:1051
+msgid "Restore auto-backup of status icons"
+msgstr "پشتیبان گیری خودکار از آیکون‌های وضعیت را بازیابی کنید"
+
+#: StatusesUI.php:1055
+msgid "Restore auto-backup of status labels"
+msgstr "پشتیبان گیری خودکار از برچسب‌های وضعیت را بازیابی کنید"
+
+#: StatusesUI.php:1059
+msgid "Restore auto-backup of status post types"
+msgstr "پشتیبان گیری خودکار از نوع پست وضعیت را بازیابی کنید"
+
+#: StatusesUI.php:1066
+msgid "Use default status colors"
+msgstr "از رنگ‌های وضعیت پیش‌فرض استفاده کنید"
+
+#: StatusesUI.php:1070
+msgid "Use default status icons"
+msgstr "از آیکون‌های وضعیت پیش‌فرض استفاده کنید"
+
+#: StatusesUI.php:1074
+msgid "Use default status labels"
+msgstr "از برچسب‌های وضعیت پیش‌فرض استفاده کنید"
+
+#: StatusesUI.php:1078
+msgid "Use default status post types"
+msgstr "از نوع پست وضعیت پیش‌فرض استفاده کنید"
+
+#: StatusesUI.php:1082
+msgid "Use Planner plugin's default status colors"
+msgstr "از رنگ‌های وضعیت پیش‌فرض افزونه Planner استفاده کنید"
+
+#: StatusesUI.php:1086
+msgid "Use Planner plugin's default status icons"
+msgstr "از آیکون‌های وضعیت پیش‌فرض افزونه Planner استفاده کنید"
+
+#: StatusesUI.php:1125
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status: %s"
+msgstr "ویرایش وضعیت: %s"
+
+#: StatusesUI.php:1128
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s: %2$s"
+msgstr "ویرایش %1$s: %2$s"
+
+#: StatusesUI.php:1148
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status Labels: %s"
+msgstr "ویرایش برچسب‌های وضعیت: %s"
+
+#: StatusesUI.php:1151
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s Labels: %2$s"
+msgstr "ویرایش برچسب‌های %1$s: %2$s"
+
+#: StatusesUI.php:1188
+#: StatusesUI.php:1316
+msgid "Add New Pre-Publication Status"
+msgstr "وضعیت جدید پیش‌انتشار را اضافه کنید"
+
+#: StatusesUI.php:1204
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For custom Visibility Statuses, %1$supgrade to PublishPress Statuses "
+"Pro%2$s."
+msgstr ""
+"برای وضعیت‌های دیداری سفارشی، %1$sبه PublishPress Statuses Pro%2$s ارتقا "
+"دهید."
+
+#: StatusesUI.php:1218
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid "Note: Custom Visibility Statuses are %1$sdisabled%2$s."
+msgstr "توجه: وضعیت‌های دیداری سفارشی %1$sغیرفعال هستند%2$s."
+
+#: StatusesUI.php:1241
+msgid "Pre-Publication"
+msgstr "پیش‌انتشار"
+
+#: StatusesUI.php:1249
+#: StatusesUI.php:1355
+msgid "Visibility"
+msgstr "دیداری"
+
+#: StatusesUI.php:1260
+msgid "Revision"
+msgstr "بازنگری"
+
+#: StatusesUI.php:1316
+msgid "Add New Visibility Status"
+msgstr "وضعیت جدید نمایان‌گری را اضافه کنید"
+
+#: StatusesUI.php:1320
+msgid "This status can be assigned to customize post privacy."
+msgstr "این وضعیت می‌تواند برای سفارشی‌سازی حریم خصوصی پست اختصاص داده شود."
+
+#: StatusesUI.php:1320
+msgid ""
+"This status can be assigned to an unpublished post using the Post Status "
+"dropdown."
+msgstr ""
+"این وضعیت می‌تواند به یک پست منتشرنشده با استفاده از منوی کشویی وضعیت پست "
+"اختصاص یابد."
+
+#: StatusesUI.php:1356
+msgid "Integration"
+msgstr "یکپارچگی"
+
+#: StatusesUI.php:1357
+msgid "Editor"
+msgstr "ویرایشگر"
+
+#: StatusesUI.php:1358
+msgid "Advanced"
+msgstr "پیشرفته"
+
+#: StatusesUI.php:1359
+msgid "License"
+msgstr "مجوز"
+
+#: StatusHandler.php:17
+#: StatusHandler.php:218
+msgid "Sorry, you do not have permission to edit custom statuses."
+msgstr "متأسفانه، شما اجازه ویرایش وضعیت‌های سفارشی را ندارید."
+
+#: StatusHandler.php:53
+#: StatusHandler.php:454
+msgid "Please enter a name for the status"
+msgstr "لطفاً یک نام برای وضعیت وارد کنید"
+
+#: StatusHandler.php:57
+msgid "Please enter a slug for the status"
+msgstr "لطفاً یک اسلاگ برای وضعیت وارد کنید"
+
+#: StatusHandler.php:64
+#: StatusHandler.php:459
+msgid "Please enter a valid, non-numeric name for the status."
+msgstr "لطفاً یک نام معتبر و غیر عددی برای وضعیت وارد کنید."
+
+#: StatusHandler.php:81
+#: StatusHandler.php:478
+msgid "Status name cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"نام وضعیت نمی‌تواند بیشتر از 20 کاراکتر باشد. لطفاً نام کوتاه‌تری را امتحان "
+"کنید."
+
+#: StatusHandler.php:100
+msgid "Status slug cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"اسلاگ وضعیت نمی‌تواند بیشتر از 20 کاراکتر باشد. لطفاً نام کوتاه‌تری را "
+"امتحان کنید."
+
+#: StatusHandler.php:110
+msgid "Name conflicts with existing status. Please choose another."
+msgstr "نام با وضعیت موجود تداخل دارد. لطفاً نام دیگری انتخاب کنید."
+
+#: StatusHandler.php:117
+msgid "Status name is restricted. Please choose another name."
+msgstr "نام وضعیت محدود است. لطفاً نام دیگری انتخاب کنید."
+
+#: StatusHandler.php:141
+msgid "Could not add status: "
+msgstr "نمی‌توان وضعیت را اضافه کرد: "
+
+#: StatusHandler.php:225
+#: StatusHandler.php:791
+msgid "Status does not exist."
+msgstr "وضعیت وجود ندارد."
+
+#: StatusHandler.php:230
+#: StatusHandler.php:786
+msgid "Could not delete the status: "
+msgstr "نمی‌توان وضعیت را حذف کرد: "
+
+#: StatusHandler.php:254
+#: StatusHandler.php:409
+msgid "Post status doesn't exist."
+msgstr "وضعیت پست وجود ندارد."
+
+#: StatusHandler.php:387
+msgid "Error updating post status."
+msgstr "خطا در به‌روزرسانی وضعیت پست."
+
+#: StatusHandler.php:538
+msgid "Error updating post status labels."
+msgstr "خطا در به‌روزرسانی برچسب‌های وضعیت پست."
+
+#: StatusHandler.php:714
+msgid "Cannot reassign to the status you want to delete"
+msgstr "نمی‌توان به وضعیت مورد نظر شما که می‌خواهید حذف کنید، مجدداً اختصاص داد"
+
+#: StatusHandler.php:761
+msgid "Restricted status "
+msgstr "وضعیت محدود شده "
+
+#: StatusHandler.php:788
+msgid "Status deleted"
+msgstr "وضعیت حذف شد"
+
+#: StatusHandler.php:810
+msgid "Status positions were not sent."
+msgstr "وضعیت‌ها ارسال نشدند."
+
+#: StatusListTable.php:166
+msgid "Position"
+msgstr "موقعیت"
+
+#: StatusListTable.php:167
+msgid "Status Name"
+msgstr "نام وضعیت"
+
+#: StatusListTable.php:168
+msgid "Name"
+msgstr "نام"
+
+#: StatusListTable.php:197
+msgid "Upgrade to create an approval workflow for published content"
+msgstr "به‌روزرسانی برای ایجاد یک گردش کار تأیید برای محتوای منتشر شده"
+
+#: StatusListTable.php:200
+msgid ""
+"Create approval workflows using PublishPress Statuses Pro together with the "
+"PublishPress Revisions Pro plugin"
+msgstr ""
+"جریان‌های تأیید را با استفاده از PublishPress Statuses Pro به همراه افزونه "
+"PublishPress Revisions Pro ایجاد کنید"
+
+#: StatusListTable.php:206
+msgid ""
+"The PublishPress Revisions plugin allows users to submit changes to "
+"published posts"
+msgstr ""
+"افزونه PublishPress Revisions به کاربران اجازه می‌دهد تغییرات را به پست‌های "
+"منتشرشده ارسال کنند"
+
+#: StatusListTable.php:209
+msgid ""
+"PublishPress Statuses plugin enables you to add statuses for post changes "
+"created with Revisions"
+msgstr ""
+"افزونه PublishPress Statuses به شما این امکان را می‌دهد که وضعیت‌هایی برای "
+"تغییرات پست ایجادشده با Revisions اضافه کنید"
+
+#: StatusListTable.php:212
+msgid "Each post type can have different Revisions statuses"
+msgstr "هر نوع پست می‌تواند وضعیت‌های Revisions متفاوتی داشته باشد"
+
+#: StatusListTable.php:215
+msgid "You choose which users can manage content in each Revisions status"
+msgstr ""
+"شما انتخاب می‌کنید که کدام کاربران می‌توانند محتوای هر وضعیت Revisions را "
+"مدیریت کنند"
+
+#: StatusListTable.php:241
+msgid "Premium Feature"
+msgstr "ویژگی پریمیوم"
+
+#: StatusListTable.php:242
+msgid "Install Statuses Pro to unlock custom revision statuses."
+msgstr "نصب Statuses Pro برای باز کردن وضعیت‌های تغییر سفارشی."
+
+#: StatusListTable.php:243
+msgid "Configure for any post type and role to match your editing workflow."
+msgstr ""
+"برای هر نوع پست و نقش پیکربندی کنید تا با گردش کار ویرایش شما مطابقت داشته "
+"باشد."
+
+#: StatusListTable.php:308
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"برای تعریف و کنترل وضعیت‌های Revision، افزونه %1$sPublishPress "
+"Revisions%2$s را به نسخه %3$s یا بالاتر به‌روزرسانی کنید."
+
+#: StatusListTable.php:340
+msgid "Main Workflow:"
+msgstr "گردش کار اصلی:"
+
+#: StatusListTable.php:366
+msgid "Drop any status here to include it in main workflow for new posts."
+msgstr ""
+"هر وضعیت را اینجا رها کنید تا آن را در گردش کار اصلی برای پست‌های جدید شامل "
+"کنید."
+
+#: StatusListTable.php:402
+msgid ""
+"Statuses in the main workflow are presented for convenient default "
+"selection when updating an unpublished post."
+msgstr ""
+"وضعیت‌ها در جریان اصلی به‌منظور انتخاب پیش‌فرض راحت هنگام به‌روزرسانی یک "
+"پست منتشرنشده ارائه می‌شوند."
+
+#: StatusListTable.php:410
+msgid ""
+"Statuses outside the main workflow are manually selectable when editing an "
+"unpublished post."
+msgstr ""
+"وضعیت‌های خارج از جریان اصلی هنگام ویرایش یک پست منتشرنشده به‌صورت دستی "
+"قابل انتخاب هستند."
+
+#: StatusListTable.php:442
+msgid ""
+"Drop any status here to make it manually selectable outside the main "
+"workflow."
+msgstr ""
+"هر وضعیت را در اینجا رها کنید تا به‌صورت دستی خارج از جریان اصلی قابل "
+"انتخاب شود."
+
+#: StatusListTable.php:444
+#: StatusListTable.php:466
+msgid "Drop any status here to disable."
+msgstr "هر وضعیت را اینجا رها کنید تا غیرفعال شود."
+
+#: StatusListTable.php:517
+msgid "Standard Publication:"
+msgstr "انتشار استاندارد:"
+
+#: StatusListTable.php:524
+msgid "Visibility Statuses for Private Publication:"
+msgstr "وضعیت‌های نمایش برای انتشار خصوصی:"
+
+#: StatusListTable.php:531
+msgid "Alternate Workflows:"
+msgstr "جریان‌های کاری جایگزین:"
+
+#: StatusListTable.php:531
+#: StatusListTable.php:542
+#. translators: %s is the opening and closing <span> tags
+msgid "Disabled Statuses (drag to re-enable):"
+msgstr "وضعیت‌های غیرفعال (بکشید تا دوباره فعال شود):"
+
+#: StatusListTable.php:647
+msgid "Upgrade to choose who can view your non-public posts"
+msgstr ""
+"برای انتخاب اینکه چه کسی می‌تواند پست‌های غیر عمومی شما را مشاهده کند ارتقا "
+"دهید"
+
+#: StatusListTable.php:650
+msgid ""
+"Upgrade to PublishPress Statuses Pro to define your own custom visibility "
+"statuses."
+msgstr ""
+"به PublishPress Statuses Pro ارتقا دهید تا وضعیت‌های دیداری سفارشی خود را "
+"تعریف کنید."
+
+#: StatusListTable.php:656
+msgid "Create multiple visibility statuses to show content to different users"
+msgstr "چندین وضعیت نمایش ایجاد کنید تا محتوا را به کاربران مختلف نشان دهید"
+
+#: StatusListTable.php:659
+msgid "Choose which user roles can see posts in each status"
+msgstr "انتخاب کنید که کدام نقش‌های کاربری می‌توانند پست‌ها را در هر وضعیت ببینند"
+
+#: StatusListTable.php:662
+msgid "Select which user roles can move posts to each status"
+msgstr ""
+"انتخاب کنید که کدام نقش‌های کاربری می‌توانند پست‌ها را به هر وضعیت منتقل "
+"کنند"
+
+#: StatusListTable.php:665
+msgid "Decide which user roles can edit posts in each status"
+msgstr ""
+"تصمیم بگیرید که کدام نقش‌های کاربری می‌توانند پست‌ها را در هر وضعیت ویرایش "
+"کنند"
+
+#: StatusListTable.php:762
+#. translators: %s is the list of post types
+#, php-format
+msgid "%s, more..."
+msgstr "%s، بیشتر..."
+
+#: StatusListTable.php:844
+msgid "No custom statuses found."
+msgstr "هیچ وضعیت سفارشی پیدا نشد."
+
+#: StatusListTable.php:915
+msgid "Core"
+msgstr "هسته"
+
+#: StatusListTable.php:919
+msgid "Default"
+msgstr "پیش‌فرض"
+
+#: StatusListTable.php:949
+msgid "Disable"
+msgstr "غیرفعال کردن"
+
+#: StatusListTable.php:953
+msgid "Enable"
+msgstr "فعال کردن"
+
+#: StatusListTable.php:957
+msgid "Delete"
+msgstr "حذف"
+
+#: PublishPress_Statuses.php:865
+msgctxt "post action/button label"
+msgid "Pitch"
+msgstr "پITCH"

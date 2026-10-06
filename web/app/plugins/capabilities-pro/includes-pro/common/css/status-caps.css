@@ -1,0 +1,102 @@
+tr.cme_status table td.post-cap {
+padding: 0 4px 0 4px;
+text-align: left;
+}
+
+tr.cme_status table td.post-cap label {
+padding-left: inherit;
+white-space: nowrap;
+}
+
+tr.cme_status td.status-label, tr.cme_status td.status-label a {
+padding:7px 5px 0 5px;
+font-weight: bold;
+vertical-align: text-top;
+}
+
+tr.cme_status td.status-label-advanced {
+font-weight: bold
+}
+
+tr.cme_status td input.toggle_status_caps {
+margin-top: 15px !important;
+}
+
+#cme-cap-type-tables-custom-status tr.cme_status td input.toggle_status_caps,
+#cme-cap-type-tables-revision-status tr.cme_status td input.toggle_status_caps,
+#cme-cap-type-tables-custom-privacy td input.toggle_status_caps
+{
+margin-left: 15px !important;
+}
+
+tr.cme_status td.status-caps {
+padding:5px 12px 5px 12px;
+border: 2px solid white;
+}
+
+tr.cme_status td.status-label {
+width: 18%;
+white-space: nowrap;
+}
+
+#cme-cap-type-tables-custom-privacy td.post-cap, #capabilities_content td.post-edit-cap {
+text-align: left;
+}
+
+#cme-cap-type-tables-custom-privacy table.cme-typecaps td:nth-child(2) {
+text-align: center;
+}
+
+#cme-cap-type-tables-custom-privacy td.status-caps {
+width: 20%;
+}
+
+#cme-cap-type-tables-custom-privacy tr.cme_status td.status-label {
+width: 18%;
+}
+
+#cme-cap-type-tables-custom-privacy.min-caps td.status-caps-set {
+width: 10%;
+}
+
+#cme-cap-type-tables-custom-privacy td.unused {
+background-color: white !important;
+}
+
+tr.cme_status td.pp-spacer {
+white-space: nowrap;
+width: 1px;
+}
+
+tr.cme_status td.status-caps-set {
+margin-bottom:12px;
+}
+
+tr.cme_status td.status-caps-set > div.ppc-tool-tip {
+margin-top: 6px;
+}
+
+td.status-caps input.cm-has-via-pp {
+background-color: #84fb84;
+}
+
+tr.cme_status div.row-spacer, tr.cme_status td.row-spacer {
+height:5px; 
+vertical-align:bottom;
+}
+
+.pp-capabilities-status-header, .pp-capabilities-status-header-min {
+font-weight: bold;
+}
+
+tr.pp-capabilities-status-header td, tr.pp-capabilities-status-header-min td {
+vertical-align: bottom !important;
+}
+
+table.cme-typecaps tr.cme_status td.status-label {
+padding: 10px;
+}
+
+tr.cme-status-footer {
+text-align: center
+}

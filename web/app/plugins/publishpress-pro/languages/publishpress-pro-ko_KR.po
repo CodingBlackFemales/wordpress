@@ -1,0 +1,553 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"퍼블리시프레스 플래너는 워드프레스 내에서 콘텐츠를 계획하고 게시하는 데 도움을 줍니다. 기능으로는 콘텐츠 달력, 칸반 보드 및 알림이 "
+"포함됩니다."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "퍼블리시프레스"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "경고"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr "퍼블리시프레스 프로를 사용하기 전에 퍼블리시프레스 슬랙을 비활성화하고 제거하십시오."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr "퍼블리시프레스 프로를 사용하기 전에 퍼블리시프레스 리마인더를 비활성화하고 제거하십시오."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr "여러 개의 퍼블리시프레스 프로가 실행되고 있는 것 같습니다. 그 중 하나를 비활성화하고 제거하십시오."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "네트워크 관리자"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "콘텐츠 달력 프로"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "오류가 발생했습니다"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "Nonce 유효성 검사 오류. 이 페이지를 다시 로드하고 다시 시도하십시오."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "유효하지 않은 양식 요청입니다."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "게시물 데이터 가져오기 오류."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "이 게시물을 편집할 권한이 없습니다."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "변경 사항이 저장되었습니다!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEO 점수"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "읽기 쉬움"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO 제목"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "메타 설명"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "포커스 키워드"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "외부 내부 링크"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "수신된 내부 링크"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "페이스북 제목"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "페이스북 설명"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "페이스북 이미지"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "트위터 제목"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "트위터 설명"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "트위터 이미지"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "퍼블리시프레스 체크리스트"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "체크리스트 요구 사항이 활성화되어 있지 않습니다."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352
+msgid "Yoast SEO"
+msgstr "요스트 SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEO 점수"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "콘텐츠 보드 프로"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "콘텐츠 개요 프로"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "엘리멘터 통합"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "네트워크 관리자에게 알리기"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "라이선스"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "라이선스 키:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "관리자에게 PublishPress 브랜딩 표시:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "콘텐츠가 게시된 후"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "선택한 게시 날짜 이전"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "금액"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "시간 단위"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "시간"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "일"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "주"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "개월"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "이 상태의 콘텐츠에 대해"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "알림"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "예약된 게시물을 찾기 위한 간격:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "예약되지 않음"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "지금"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s 초"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "절대"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "다음 실행"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr "예약된 게시물을 얼마나 자주 확인해야 합니까? 이는 PublishPress가 예약된 콘텐츠에 대한 알림을 처리할 수 있게 합니다."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "자세한 정보는 여기 클릭하십시오."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "10분마다"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "15분마다"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "20분마다"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "30분마다"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "45분마다"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress 수정 통합"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "수정 상태"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "모든 상태"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "수정 내용 보기"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74
+msgid "Slack"
+msgstr "슬랙"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "슬랙 채널:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr "알림이 전송될 슬랙 채널입니다. 예: #general, @username, 또는 user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "슬랙에 연결하려면 클릭하세요"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "슬랙에 다시 연결하려면 클릭하세요"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "계속"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "취소"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "성공"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "오류"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "초"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "경과 시간"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr "연결하려면 클릭하면 새로운 창이 열리고 슬랙에서 PublishPress 앱을 인증할 수 있습니다."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr "로드된 페이지에서 받은 임시 인증 코드를 아래에 붙여넣고 계속을 클릭하세요."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "슬랙 인증 정보가 저장되었습니다."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"Slack에 새로운 API가 있으며 곧 작동하지 않을 수 있는 레거시 구성 설정이 있습니다. 알림이 중단되지 않도록 Slack에 다시 "
+"연결해 주세요."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "축하합니다! Slack 인증 정보가 저장되었습니다."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "인증 정보와 캐시가 성공적으로 삭제되었습니다."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Slack의 기본 채널에 테스트 메시지를 보내려면 클릭하세요."
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Slack에 메시지를 보내는 중..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "알 수 없는 오류가 발생했습니다."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "유효하지 않은 nonce 또는 referer입니다."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "축하합니다! 채널 %s에 테스트 메시지가 전송되었습니다."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "인증:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "기본 Slack 채널/사용자:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "알림 테마:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "전체 - 액션 버튼이 포함된 알림 본문"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "간결함 - 알림 본문만"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"알림이 전송될 기본 Slack 채널입니다. 예: #general, @username, user@email.com 또는 채널 ID. "
+"사용자는 자신의 프로필에서 이를 재정의할 수 있습니다."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "댓글"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "편집"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "보기"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr "토큰을 찾을 수 없습니다. PublishPress > 설정 > Slack으로 이동하여 Slack에 다시 연결해 주세요."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr "PublishPress > 설정 > Slack으로 이동하여 Slack에 다시 연결해 주세요."
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr "PublishPress에서 Slack OAuth 토큰을 찾을 수 없습니다. Slack에 다시 연결해 주세요."
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "접근이 거부되었습니다"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "유효하지 않은 OAuth 토큰"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "안녕하세요, 축하합니다! PublishPress Pro의 Slack 설정이 모두 정상입니다."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Slack에서의 오류: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "PublshPress.com에서의 오류: "

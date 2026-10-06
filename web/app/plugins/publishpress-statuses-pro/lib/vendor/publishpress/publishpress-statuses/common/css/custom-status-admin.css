@@ -1,0 +1,1119 @@
+.publishpress-admin h1 {
+margin-top: 0;
+}
+
+div.publishpress-admin-wrapper h2 {
+font-size: 1.1em;
+font-weight: normal;
+margin-top: 5px;
+margin-bottom: 0;
+padding-top: 5px;
+}
+
+body.toplevel_page_publishpress-statuses div.nav-tab-wrapper {
+margin-top: 0;
+padding-top: 0;
+}
+
+body.toplevel_page_publishpress-statuses div.tablenav {
+margin: 0;
+}
+
+div.publishpress-admin-wrapper div.notice {
+margin: 10px 0 5px;
+}
+
+/* Update Notice, Counts above Statuses Table */
+.pp-float-notice {
+float: right;
+width: 40%;
+}
+
+div.pp-statuses-co-l-right span.displaying-num
+{
+padding-right: 5px;
+margin-bottom: 0;
+}
+
+div.pp-statuses-co-l-right div.tablenav-pages {
+margin-bottom: 0;
+}
+
+
+/* Statuses Table */
+div.col-wrap > div.pp-nested-list {
+margin-top: 0;
+margin-right: 5px;
+}
+
+.pp-nested-list {
+-webkit-user-select: none;  
+-moz-user-select: none;    
+-ms-user-select: none;      
+user-select: none;
+}
+
+#the_status_list {
+margin-bottom: 50px;
+}
+
+#the_status_list [data-toggle="tooltip"] .tooltip-text {
+min-width: 200px;
+}
+
+.pp-nested-list ol{
+list-style-type:none;
+clear:both;
+margin:0;
+border:1px solid #e5e5e5;
+border-radius:3px
+}
+
+.pp-nested-list ol li{
+margin:0;
+border-top:1px solid #e1e1e1;
+}
+
+.pp-nested-list ol ol{
+display:none;
+border-radius:0;
+list-style-type:none;
+border:0;
+-webkit-box-shadow:none;
+box-shadow:none;
+border-top:1px solid #e1e1e1
+}
+
+.pp-statuses-config-notice {
+margin-top: 15px;
+font-size: 16px;
+}
+
+.pp-statuses-config-notice a,
+.pp-statuses-config-notice a:link,
+.pp-statuses-config-notice a:active,
+.pp-statuses-config-notice a:visited
+{
+font-weight: bold;
+}
+
+/* Statuses Table Section Rows */
+.pp-nested-list .row {
+background-color:#fff;
+display:table;
+width:100%
+}
+
+#the_status_list li.section-row td.name {
+width: 100%;
+vertical-align: middle;
+}
+
+/* Add New Status button */
+div.publishpress-admin-wrapper a.add-new {
+margin-left: 10px;
+}
+
+
+
+/* Statuses Table: Spacer cell left of drag handle */
+#the_status_list .child-toggle {
+display:table-cell;
+width:0;
+text-align:left
+}
+#the_status_list .child-toggle .child-toggle-spacer {
+display:inline-block;
+vertical-align:middle;
+height:50px;
+width:1px
+}
+#the_status_list ol .child-toggle {
+width: 30px;
+}
+
+
+/* Status Row Drag Handle */
+#the_status_list .status-row  .handle {
+width: 30px;
+text-align: center;
+vertical-align: middle;
+display:inline-block;
+opacity:.2;
+cursor:move;
+position:relative;
+top:-1px;
+height:20px;
+-webkit-transition:all .2s ease;
+-o-transition:all .2s ease;
+transition:all .2s ease
+}
+
+#the_status_list .status-row  .handle-disabled {
+display:inline-block;
+opacity:0.01;
+position:relative;
+top:-1px;
+height:20px;
+width: 35px;
+}
+
+
+/* Status Row during drag operation */
+.pp-nested-list .ui-sortable-placeholder {
+display:block!important;
+position:relative;
+min-height:46px;
+border:1px dashed #0074a2!important;
+background-color:#effaff;
+margin:0
+}
+
+.pp-nested-list .ui-temp-placeholder {
+border-color: #999 !important;
+}
+
+#the_status_list li.section-row table.status-row td.name, 
+.pp-nested-list .ui-temp-placeholder table.status-row td {
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+font-size: 14px;
+}
+
+.pp-nested-list .ui-temp-placeholder table.status-row td {
+font-style: italic;
+color: #777;
+padding: 0;
+}
+
+.pp-nested-list .disabled-status table.status-row td,
+.pp-nested-list .disabled-status table.status-row td a {
+color: black !important;
+}
+
+#status_row__disabled table.status-row td,
+#status_row__disabled table.status-row td a
+{
+color: #777 !important;
+}
+
+
+/* Statuses Table: Moderation Statuses section */
+#the_status_list li.moderation-status, 
+#the_status_list li.moderation-status div.tpl-default {
+background-color: #fcfbe8;
+}
+
+
+
+/* Statuses Table: Alternate Moderation Statuses section */
+#the_status_list li.alternate-moderation-status div.tpl-default,
+#the_status_list li.alternate-moderation-status 
+{
+background-color: #f9f4e5;
+}
+
+
+/* Statuses Table: Visibility Statuses section */
+#the_status_list li.private-status div.tpl-default {
+background-color: #fcf0ea;
+}
+
+
+
+/* Statuses Table: Disabled Statuses section */
+#the_status_list > li.disabled-status {
+opacity: 50%;
+}
+
+#the_status_list li.disabled-status span.disable {
+display: none;
+}
+
+#the_status_list #status_row__disabled {
+opacity: 100%;
+}
+
+#the_status_list li.disabled-status,
+#the_status_list li.disabled-status div.tpl-default {
+background-color: #f4f4f4 !important;
+}
+
+
+
+/* Statuses Table Columns */
+.pp-nested-list .status-list-header{
+height:46px;
+}
+
+#the_status_list .check-column,
+#status_list_header .check-column {
+width:40px;
+text-align:center;
+display: none !important;  /* @todo: bulk deletion, bulk edit */
+}
+
+#the_status_list li div.row > div,
+#status_list_header div.row > div {
+display:table-cell;
+}
+
+#status_list_header > div {
+height: 100%;
+}
+
+#status_list_header th {
+text-align: left;
+}
+
+table.status-row th.name div {
+padding-left: 30px;
+}
+
+table.status-row th.name {
+width: 24%;
+}
+
+table.status-row td.name {
+width: 25%;
+padding-left: 3px;
+}
+
+table.status-row th.roles, table.status-row td.roles {
+width: 6%;
+}
+
+table.status-row th.icon, table.status-row td.icon {
+width: 65px !important;
+}
+
+#the_status_list ol.pp-nested-list table.status-row th.icon, #the_status_list ol.pp-nested-list table.status-row td.icon {
+width: 44px !important;
+}
+
+table.status-row th.post_types, table.status-row td.post_types {
+width: 17%;
+}
+
+#the_status_list ol.pp-nested-list table.status-row th.post_types,
+#the_status_list ol.pp-nested-list table.status-row td.post_types
+{
+width: 17.5%;
+}
+
+table.status-row th.enabled, table.status-row td.enabled {
+width: 14%;
+}
+
+#the_status_list ol.pp-nested-list table.status-row th.enabled,
+#the_status_list ol.pp-nested-list table.status-row td.enabled
+{
+width: 15%;
+}
+
+#the_status_list ol.pp-nested-list table.status-row th.description div:before,
+#the_status_list ol.pp-nested-list table.status-row td.description div:before
+{
+content: '\2014\00a0';
+}
+
+#the_status_list td.enabled a.pp-statuses-edit-post-access {
+display: none;
+}
+
+/* Statuses Table: Row content inside indentation structure */ 
+#the_status_list li.section-row div.row-inner {
+padding-top: 15px;
+display:table-cell;
+}
+
+.pp-nested-list .row-inner {
+vertical-align:middle;
+position:relative
+}
+
+table.status-row tr, table.status-row td {
+padding : 0;
+}
+
+table.status-row td {
+padding-top: 8px;
+padding-bottom: 4px;
+}
+
+.status-row td.name img.handle {
+padding-right: 5px;
+}
+
+table.status-row td.name div.row-actions {
+display: inline;
+padding-left: 20px;
+padding-top: 10px;
+}
+
+table.status-row td.name div.row-actions span.delete a {
+font-weight: bold;
+}
+
+.pp-statuses-color {
+width: 10px;
+height: 10px;
+margin-right: 5px;
+display: inline-block;
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+-o-border-radius: 3px;
+}
+
+table.status-row td.enabled div.row-actions {
+display: inline;
+padding-left: 20px;
+padding-top: 10px;
+}
+
+.pp-custom-status-hints {
+padding: 5px !important; 
+background-color: white;
+text-align: center;
+border: 1px solid #aaa;
+}
+
+.pp-custom-status-hints, .pp-custom-status-hints a {
+font-style: italic;
+font-size: 14px;
+}
+
+.pp-custom-status-hints a, .pp-custom-status-hints a:link, .pp-custom-status-hints a:visited {
+font-weight: bold;
+}
+
+tr.cme-postmeta-status {
+background-color: #e8e8e8;
+}
+
+
+/* Add Status Form */
+#addstatus .form-table th, #addstatus .form-table th label
+{
+text-align: left;
+line-height: 1.3;
+font-weight: 600;
+}
+
+#addstatus p.submit {
+margin-top: 10px;
+}
+
+#addstatus #label, #addstatus #slug,
+#editstatus #label, #editstatus #slug
+{
+width: 300px;
+}
+
+
+/* Icon Picker */
+div#publishpress_icon_pick_wrap {
+display: inline-block;
+cursor: pointer;
+padding-top: 1px;
+padding-bottom: 5px;
+margin-bottom: 10px;
+height: 36px;
+-webkit-user-select: none;  
+-moz-user-select: none;    
+-ms-user-select: none;      
+user-select: none;
+}
+
+div#publishpress_icon_pick_wrap span.dashicons {
+margin-right: 4px;
+line-height: 0.1;
+}
+
+body.toplevel_page_publishpress-statuses div.publishpress_icon_pick_button_label,
+body.statuses_page_publishpress-statuses-add-new div.publishpress_icon_pick_button_label
+{
+float: right;
+padding-top: 2px;
+padding-left: 5px;
+line-height: 2em !important;
+}
+
+
+
+/* Edit Status */
+div.publishpress-admin div.form-error p {
+color: #c00;
+} 
+
+div.pp-edit-status-back {
+float: right;
+font-size: 14px;
+}
+
+td.set-status-roles div,
+#pp-post_types_table div.agp-vspaced_input
+{
+padding-top: 5px;
+padding-bottom: 5px;
+}
+
+table.pp-statuses-options td.post-cap label {
+user-select: none;
+}
+
+div.pp-statuses-post-types label {
+padding-bottom: 5px;
+}
+
+body.toplevel_page_publishpress-statuses p.submit {
+margin-top: 10px;
+}
+
+
+
+/* Edit Status: Role Capabilities */
+#pp-post_access_table div.pp-subtext {
+margin-top: 10px;
+}
+
+table.pp-statuses-options table.cme-typecaps {
+margin-top: 20px;
+}
+
+table.pp-statuses-options table.cme-typecaps th {
+cursor: pointer;
+text-align: center;
+padding-top: 2px;
+padding-bottom: 2px;
+vertical-align: middle;
+}
+
+table.pp-statuses-options table.cme-typecaps td.status-caps {
+border: 1px solid #ddd;
+}
+
+table.pp-statuses-options table.cme-typecaps  th.pp-caps-status-label {
+color: #aaa;
+}
+
+table.pp-statuses-options table.cme-typecaps td.status-label-advanced {
+text-align: center;
+}
+
+table.pp-statuses-options table.cme-typecaps td.status-label-advanced span {
+text-align: center;
+font-weight: normal;
+font-size: 12px;
+}
+
+table.pp-statuses-options table.cme-typecaps td.status-label-advanced span a:hover {
+text-decoration: underline;
+}
+
+table.pp-statuses-options table.cme-typecaps td.status-caps-edit,
+table.pp-statuses-options table.cme-typecaps td.status-caps-edit_others,
+table.pp-statuses-options table.cme-typecaps td.status-caps-delete,
+table.pp-statuses-options table.cme-typecaps td.status-caps-delete_others
+{
+padding-top: 30px;
+}
+/* =========================================== */
+
+
+/* Setting */
+div.publishpress-admin form.basic-settings > table > tbody > tr {
+display: none;
+}
+
+.form-table .pp-settings-separation-top td, .form-table .pp-settings-separation-top th {
+padding-top: 40px !important;
+border-top: 1px solid #ccc;
+}
+
+.form-table .pp-settings-separation-bottom td, .form-table .pp-settings-separation-bottom th {
+padding-bottom: 40px !important;
+border-bottom: 1px solid #ccc;
+}
+
+.form-table .pp-settings-space-top td, .form-table .pp-settings-space-top th {
+padding-top: 25px !important;
+}
+
+.form-table .pp-settings-space-bottom td, .form-table .pp-settings-space-bottom th {
+padding-bottom: 25px !important;
+}
+
+.form-table .pp-statuses-settings-status-declutter {
+display: none;
+}
+
+body.statuses_page_publishpress-statuses-settings .form-table > tbody > tr {
+display: none;
+}
+
+body.statuses_page_publishpress-statuses-settings .wrap.publishpress-admin .nav-tab-wrapper a {
+margin-top: 0;
+}
+
+body.statuses_page_publishpress-statuses-settings div.publishpress-admin-wrapper h2 {
+font-style: normal;
+}
+
+.pp-option-footnote {
+font-style: italic;
+}
+
+.pp-option-footnote a,
+.pp-option-footnote a:link,
+.pp-option-footnote a:hover,
+.pp-option-footnote a:visited
+{
+text-decoration: underline !important;  
+}
+
+.form-wrap .c-input-group label {
+display: inline !important;
+-webkit-user-select: none;  
+-moz-user-select: none;    
+-ms-user-select: none;      
+user-select: none;
+}
+
+/* Sidebar Promo */
+.pp-statuses-sidebar h3.hndle {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.pp-statuses-sidebar .advertisement-box-content .inside ul {
+    margin-bottom: 20px;
+}
+
+.pp-statuses-sidebar .advertisement-box-content .inside ul li {
+    position: relative;
+    font-weight: 600;
+    font-size: .9em;
+}
+
+.pp-statuses-sidebar .advertisement-box-content .inside ul li:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background-color: #3C50FF;
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/></svg>");
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/></svg>");
+    mask-size: 16px;
+    -webkit-mask-size: 16px;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: left;
+    -webkit-mask-position: left;
+}
+
+.pp-statuses-sidebar .advertisement-box-content a.advert-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 1em;
+  text-decoration: underline;
+  color: #2271b1;
+}
+
+.pp-statuses-sidebar .advertisement-box-header {
+    background: #655897;
+    color: #ffffff;
+}
+
+.pp-statuses-sidebar .advertisement-box-content {
+    border: 1px solid #655897;
+}
+
+.pp-statuses-sidebar .box-banner-image {
+    background: #655997;
+    text-align: center;
+}
+
+.pp-statuses-sidebar .box-banner-image img {
+    max-width: 100%;
+}
+
+.pp-statuses-sidebar .ppc-advertisement-promo .advertisement-box-content .inside ul li {
+    padding-left: 22px;
+}
+
+.pp-statuses-sidebar .upgrade-btn a {
+    background: #FCB223;
+    color: #000 !important;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 9px 12px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid #fca871;
+    break-inside: avoid;
+    white-space: nowrap;
+}
+
+.pp-statuses-sidebar .upgrade-btn a:hover {
+    background: #fcca46;
+    color: #000 !important;
+}
+
+
+/* Settings */
+#pp_statuses_default_privacy {
+  display: flex;
+}
+
+#pp_statuses_default_privacy th, #pp_statuses_default_privacy td {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: none;
+  font-weight: inherit;
+  text-align: right;
+}
+
+#pp_statuses_default_privacy th {
+  width: 100px;
+  width: inherit;
+  text-align: right;
+  vertical-align: baseline;
+  padding-right: 0;
+}
+
+#pp_statuses_default_privacy td {
+  vertical-align: baseline;
+}
+
+
+div.pp-statuses-warning {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-left-width: 4px;
+  border-left-color: #dba617;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  padding: 12px;
+}
+
+.pp-visibility-statuses-promo
+{
+  background-color: white !important;
+}
+
+.pp-cta-section {
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  background-color: white;
+}
+.pp-cta-section h4 {
+  margin: 0 0 12px 0;
+  color: var(--text-muted);
+  font-size: 18px;
+  font-weight: 600;
+}
+#ppr-tab-statuses .pp-cta-section p,
+#ppr-tab-notifications .pp-cta-section p,
+#ppr-tab-statuses .pp-cta-section ul,
+#ppr-tab-notifications .pp-cta-section ul
+{
+  margin: 0 0 20px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+.pp-cta-section .pp-cta-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pp-cta-section .pp-cta-buttons .button-primary {
+  background: var(--cta-color);
+  border-color: var(--cta-color);
+  color: #414141 !important;
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-weight: normal;
+  transition: all 0.3s ease;
+}
+.pp-cta-section .pp-cta-buttons .button-primary:hover {
+  background: var(--cta-hover) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25) !important;
+}
+.pp-cta-section .pp-cta-buttons .pp-learn-more-link {
+  color: var(--primary-color);
+  background: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+  border: 1px solid;
+  line-height: 2.15384615;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-height: 30px;
+  padding: 8px 24px;
+  border-radius: 8px;
+}
+.pp-cta-section .pp-cta-buttons .pp-learn-more-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pp-cta-section p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.pp-revisions-pro-features {
+  text-align: center;
+}
+
+.pp-revisions-pro-features ul {
+  display: inline-block;
+  text-align: left;
+  padding-bottom: 10px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.pp-revisions-pro-features li {
+  margin-bottom: 8px !important;
+  border-top: none !important;
+}
+
+.pp-revisions-pro-features li:before {
+  content: '\2713';
+}
+
+.pp-upgrade-btn {
+  background: #FEB123 !important;
+  color: #000000 !important;
+  font-weight: normal !important;
+  font-size: 0.9rem !important;
+  text-decoration: none !important;
+}
+.pp-cta-section .pp-cta-buttons .pp-upgrade-btn:hover {
+  background: #fcca46 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: #fcca46;
+  color:#181818 !important;
+}
+
+#pp-statuses-promo .pp-cta-section {
+    padding-top: 34px;
+}
+
+.pp-pro-badge {
+    background: #6950bd;
+}
+
+#pp-statuses-promo .pp-pro-banner {
+    /*background: linear-gradient(135deg, #68589b 0%, #7b1fa2 100%);*/
+    background: #68589b;
+    border-radius: 8px;
+    padding: 0.7rem 1rem !important;
+    margin: 10px 0 10px 0 !important;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+  }
+#pp-statuses-promo .pp-pro-banner h2 {
+    font-size: 1.4rem;
+    font-style: normal;
+    margin: 0;
+    color: white !important;
+    margin-bottom: 0.3rem;
+    padding: 0;
+    text-align: left;
+  }
+#pp-statuses-promo .pp-pro-banner p {
+    opacity: 0.9;
+    margin-bottom: 2px;
+    font-size: 14px;
+  }
+
+  .pp-pro-badge-banner {
+    font-size: 0.9rem;
+    background: #FEB123;
+    color: #000000 !important;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 6px 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid #fca871;
+    break-inside: avoid;
+    white-space: nowrap;
+    max-width: 170px;
+  }
+  .pp-pro-badge-banner a {
+    color: #000000 !important;
+  }
+  .pp-pro-badge-banner:hover {
+    background-color: #F3AC04 !important;
+    border-color: #C58C07;
+    color: #333;
+    text-decoration: none !important;
+    text-shadow: none;
+  }
+
+  .pp-integration-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid #68589b;
+  }
+
+  .pp-integration-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  .pp-integration-card:hover .pp-upgrade-overlay
+  {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .pp-upgrade-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+  }
+  .pp-upgrade-overlay h4 {
+    color: #ff5722;
+    font-weight: 600;
+    margin: 0 auto 10px auto;
+    font-size: 16px;
+  }
+  .pp-upgrade-overlay p {
+    color: #333;
+    margin-bottom: 10px !important;
+    max-width: 300px;
+    line-height: 1.4;
+  }
+  .pp-upgrade-overlay .pp-upgrade-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .pp-upgrade-btn-secondary {
+    background: transparent;
+    border: 1px solid #68589b;
+    color: #68589b;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+  .pp-upgrade-btn-secondary:hover {
+    background: #f3e5f5;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .pp-upgrade-btn-primary {
+    background: #FEB123;
+    color: #000000 !important;
+    padding: 10px 16px;
+    margin-top: 4px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: inline-block;
+  }
+  .pp-upgrade-btn-primary:hover {
+    background: #fcca46;
+    color:#181818 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+  }
+
+    #pp-statuses-promo .pp-integration-card
+    {
+    border-left: initial;
+    padding: 0;
+    }
+    #pp-statuses-promo  .pp-upgrade-overlay
+    {
+    vertical-align: top;
+    padding-top: 50px;
+    }
+    #pp-statuses-promo  .pp-upgrade-overlay p
+    {
+    margin-top: 5px;
+    margin-bottom: 10px !important;
+    max-width: 550px;
+    }
+    #pp-statuses-promo  .pp-upgrade-overlay h4
+    {
+    font-size: 18px;
+    }
+    #pp-statuses-promo  .pp-upgrade-overlay p,
+    #pp-statuses-promo  .pp-upgrade-overlay a
+    {
+    font-size: 16px;
+    }
+    #pp-statuses-promo  .pp-upgrade-overlay a
+    {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    }
+
+  #pp_edit_status_caps .toggle_status_caps {
+  margin-top: 5px;
+  }
+
+  #pp-roles-search {
+  width: 250px;
+  }
+
+  #pp-search-results-summary {
+  padding: 3px;
+  }
+
+  @media (max-width: 540px) {
+    .pp-pro-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .pp-pro-badge-banner {
+        margin-top: 1rem;
+    }
+    .pp-pro-banner {
+        padding: 0.2rem;
+    }
+    .pp-pro-banner div p {
+        text-align: left;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .pp-integrations-upgrade-cta {
+        padding: 5px;
+    }
+    .pp-integrations-upgrade-cta h3 {
+        font-size: 20px;
+    }
+  }
+
+  @media (max-width: 455px) {
+    .pp-integration-card {
+      flex-direction: column;
+    }
+  }
+
+
+
+@media only screen and (min-width: 1075px) {
+    .pp-statuses-sidebar .ppc-advertisement-promo .upgrade-btn {
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: 782px) {
+  td.post-cap label span.pp-full-label {display: none;}
+
+  td.post-cap label span.pp-mobile-label,
+  td.status-caps-set label span.pp-mobile-label {
+    display: inline !important;
+  }
+
+  #pp_edit_status_caps th.status-label {
+    font-size: 18px;
+  }
+
+  td.post-cap label,
+  td.status-caps-set label {
+    vertical-align: top;
+  }
+
+  #pp_edit_status_caps tr.roles-header,
+  #pp_edit_status_caps tr.roles-header th
+  {
+    display: none !important;
+  }
+
+  #pp_edit_status_caps td.post-cap {
+    padding: 8px !important;
+  }
+
+  table.pp-statuses-options table.cme-typecaps td.status-caps-edit,
+  table.pp-statuses-options table.cme-typecaps td.status-caps-edit_others,
+  table.pp-statuses-options table.cme-typecaps td.status-caps-delete,
+  table.pp-statuses-options table.cme-typecaps td.status-caps-delete_others
+  {
+  padding-top: 15px;
+  }
+
+  #pp_edit_status_caps {
+    padding-left: 35%;
+    background-color: #e8e8e8;
+  }
+
+  #pp_edit_status_caps th {
+    padding-right: 50% !important;
+  }
+
+  div.pp-edit-status-back {
+    float: none;
+    text-align: right;
+  }
+
+  #pp_edit_status_caps input.toggle_status_caps {
+    margin-top: 5px;
+  }
+
+  table.cme-typecaps > tbody > tr > td {
+    border-right: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+    table.status-row div.row-actions {
+    padding-top: 20px;
+    }
+}

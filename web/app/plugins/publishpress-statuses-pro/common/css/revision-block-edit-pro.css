@@ -1,0 +1,11 @@
+div.editor-post-status div.rvy-current-status {
+display: none;
+}
+
+button.rvy-revision-preview {
+display: none;
+}
+
+div.publishpress-extended-post-status {
+display: inline !important;
+}

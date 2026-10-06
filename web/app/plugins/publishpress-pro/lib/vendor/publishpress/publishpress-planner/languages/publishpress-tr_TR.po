@@ -1,0 +1,3294 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Free plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner 4.0.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-14T18:33:45+00:00\n"
+"PO-Revision-Date: 2026-09-28 14:32+0000\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Domain: publishpress\n"
+"Language: tr_TR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: publishpress.php, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Free"
+msgstr "PublishPress Planner Free"
+
+#: publishpress.php
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress.php
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress Planner, WordPress içinde içerik planlamanıza ve yayınlamanıza "
+"yardımcı olur. Özellikler arasında bir içerik takvimi, kanban tahtası ve "
+"bildirimler bulunmaktadır."
+
+#: publishpress.php
+#: modules/calendar/library/calendar-utilities.php:1234
+#: modules/settings/settings.php:61
+#: modules/settings/views/footer-base.html.php:35
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress.php
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: common/php/class-module.php:338
+#: modules/calendar/calendar.php:1261
+msgid "Published"
+msgstr "Yayınlandı"
+
+#: common/php/class-module.php:339
+msgid "Draft"
+msgstr "Taslak"
+
+#: common/php/class-module.php:340
+#: modules/calendar/calendar.php:1256
+#: modules/content-board/content-board.php:979
+#: modules/notifications-log/library/NotificationsLogTable.php:529
+msgid "Scheduled"
+msgstr "Planlandı"
+
+#: common/php/class-module.php:341
+#: modules/content-board/content-board.php:989
+msgid "Private"
+msgstr "Gizli"
+
+#: common/php/class-module.php:342
+msgid "Pending Review"
+msgstr "Bekleyen yorum"
+
+#: common/php/class-module.php:343
+#: modules/calendar/library/calendar-methods.php:1252
+#: modules/calendar/library/calendar-utilities.php:1104
+#: modules/content-board/content-board.php:1195
+#: modules/content-board/content-board.php:1290
+#: modules/content-overview/content-overview.php:1267
+#: modules/content-overview/content-overview.php:1761
+msgid "Trash"
+msgstr "Çöpe At"
+
+#: common/php/class-module.php:772
+msgid "Roles"
+msgstr "Roller"
+
+#: common/php/class-module.php:775
+msgid "Role"
+msgstr "Rol"
+
+#: common/php/class-module.php:783
+msgid "Groups"
+msgstr "Gruplar"
+
+#: common/php/class-module.php:786
+msgid "Group"
+msgstr "Grup"
+
+#: common/php/class-module.php:794
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: common/php/class-module.php:804
+msgid "E-mails"
+msgstr "E-postalar"
+
+#: common/php/class-module.php:1051
+msgid "Equals (=)"
+msgstr "Eşittir (=)"
+
+#: common/php/class-module.php:1052
+msgid "Does not equal (!=)"
+msgstr "Eşit değildir (!=)"
+
+#: common/php/class-module.php:1053
+msgid "Greater than (>)"
+msgstr "Büyüktür (>)"
+
+#: common/php/class-module.php:1054
+msgid "Greater than or equals (>=)"
+msgstr "Büyük veya eşittir (>=)"
+
+#: common/php/class-module.php:1055
+msgid "Less than (<)"
+msgstr "Küçüktür (<)"
+
+#: common/php/class-module.php:1056
+msgid "Less than or equals (<=)"
+msgstr "Küçük veya eşittir (<=)"
+
+#: common/php/class-module.php:1057
+msgid "Like/Contains"
+msgstr "Gibi/İçerir"
+
+#: common/php/class-module.php:1058
+#, fuzzy
+msgid "Not Like"
+msgstr "Ayarlanmadı"
+
+#: common/php/class-module.php:1059
+msgid "Not Exists/Empty"
+msgstr "Yoktur/Boş"
+
+#: common/php/class-module.php:1112
+#: views/workflow_receiver_group_field.html.php:10
+#: views/workflow_receiver_role_field.html.php:9
+#: views/workflow_receiver_user_field.html.php:9
+#, php-format
+msgid "Select %s"
+msgstr "Seçin %s"
+
+#: common/php/class-module.php:1129
+#: modules/calendar/library/calendar-utilities.php:1191
+#: modules/content-overview/content-overview.php:850
+#: modules/content-overview/content-overview.php:874
+#: modules/content-overview/content-overview.php:926
+#: modules/content-overview/content-overview.php:995
+msgid "Revision Status"
+msgstr "Revizyon Durumu"
+
+#: common/php/class-module.php:1129
+#: modules/calendar/library/calendar-methods.php:424
+#: modules/calendar/library/calendar-methods.php:858
+#: modules/calendar/library/calendar-methods.php:1257
+#: modules/calendar/library/calendar-utilities.php:47
+#: modules/calendar/library/calendar-utilities.php:1070
+#: modules/calendar/library/calendar-utilities.php:1188
+#: modules/content-board/content-board.php:811
+#: modules/content-board/content-board.php:1295
+#: modules/content-board/library/content-board-utilities.php:594
+#: modules/content-board/library/content-board-utilities.php:1165
+#: modules/content-overview/content-overview.php:992
+#: modules/content-overview/content-overview.php:1272
+#: modules/content-overview/library/content-overview-utilities.php:491
+#: modules/content-overview/library/content-overview-utilities.php:703
+msgid "Post Status"
+msgstr "Gönderi Durumu"
+
+#: common/php/util.php:46
+msgid "(no title)"
+msgstr "(başlık yok)"
+
+#: core/Error.php:79
+msgid "Undefined error found"
+msgstr "Tanımlanmamış hata bulundu"
+
+#: core/Error.php:80
+#: modules/calendar/library/calendar-methods.php:779
+msgid "Invalid nonce"
+msgstr "Geçersiz doğrulama"
+
+#: core/Error.php:81
+msgid "Access denied"
+msgstr "Erişim reddedildi"
+
+#: includes.php:127
+#, php-format
+msgid ""
+"You're using PublishPress Planner Free. The Pro version has more features "
+"and support. %sUpgrade to Pro%s"
+msgstr ""
+"PublishPress Planner Ücretsiz sürümünü kullanıyorsunuz. Pro versiyonu daha "
+"fazla özellik ve destek sunar. %sPro'ya yükselt%s"
+
+#: includes.php:161
+msgid "Upgrade to Pro"
+msgstr "Pro ya yükselt"
+
+#: modules/async-notifications/async-notifications.php:71
+msgid "Async Notifications"
+msgstr "Eşzamansız Bildirimler"
+
+#: modules/async-notifications/async-notifications.php:180
+#, php-format
+msgid "Event: %s, Workflow ID: %s, Post ID: %s, User ID: %s"
+msgstr "Etkinlik: %s, İş Akışı Kimliği: %s, Gönderi IDsi: %s, Kullanıcı Kimliği: %s"
+
+#: modules/calendar/calendar.php:228
+#: modules/calendar/calendar.php:427
+#: modules/calendar/calendar.php:444
+#: modules/calendar/calendar.php:445
+msgid "Content Calendar"
+msgstr "İçerik Takvimi"
+
+#: modules/calendar/calendar.php:253
+msgid "Post date updated."
+msgstr "Yazı tarihi güncellendi."
+
+#: modules/calendar/calendar.php:254
+msgid "Post status updated."
+msgstr "Gönderi durumu güncellendi."
+
+#: modules/calendar/calendar.php:255
+msgid "There was an error updating the post. Please try again."
+msgstr "Gönderi güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz."
+
+#: modules/calendar/calendar.php:259
+#, php-format
+msgid ""
+"Updating the post date dynamically doesn't work for published content. "
+"Please <a href='%s'>edit the post</a>."
+msgstr ""
+"Yayınlanmış içerikler için gönderi tarihini dinamik olarak güncellemek "
+"çalışmaz. Lütfen <a href='%s'>gönderiyi düzenleyin</a>."
+
+#: modules/calendar/calendar.php:263
+msgid ""
+"iCal secret key regenerated. Please inform all users they will need to "
+"resubscribe."
+msgstr ""
+"iCal gizli anahtarı yeniden oluşturuldu. Lütfen tüm kullanıcılara yeniden "
+"abone olmaları gerektiğini bildirin."
+
+#: modules/calendar/calendar.php:271
+#: modules/editorial-comments/editorial-comments.php:82
+#: modules/editorial-metadata/editorial-metadata.php:119
+#: modules/notifications/notifications.php:96
+msgid "Overview"
+msgstr "Genel Bakış"
+
+#: modules/calendar/calendar.php:272
+msgid ""
+"<p>The calendar is a convenient week-by-week or month-by-month view into "
+"your content. Quickly see which stories are on track to being published on "
+"time, and which will need extra effort.</p>"
+msgstr ""
+"<p>Takvim, içeriğinizi haftalık veya aylık olarak görüntülemenizi sağlayan "
+"kullanışlı bir araçtır. Hangi hikayelerin zamanında yayımlanmak üzere yolda "
+"olduğunu ve hangilerinin ekstra çaba gerektireceğini hızlıca görün.</p>"
+
+#: modules/calendar/calendar.php:277
+msgid ""
+"<p><strong>For more information:</strong></p><p><a "
+"href=\"https://publishpress.com/features/calendar/\">Calendar "
+"Documentation</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">PublishPress on "
+"Github</a></p>"
+msgstr ""
+"<p><strong>Daha fazla bilgi için:</strong></p><p><a "
+"href=\"https://publishpress.com/features/calendar/\">Takvim "
+"Belgeleri</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">GitHub'da "
+"PublishPress</a></p>"
+
+#: modules/calendar/calendar.php:746
+#: modules/calendar/library/calendar-utilities.php:1266
+#: modules/content-board/content-board.php:1043
+msgid "Weeks"
+msgstr "Haftalar"
+
+#: modules/calendar/calendar.php:747
+msgid "Start Date"
+msgstr "Başlangıç Tarihi"
+
+#: modules/calendar/calendar.php:748
+#: modules/calendar/library/calendar-utilities.php:467
+#: modules/calendar/library/calendar-utilities.php:468
+#: modules/content-board/library/content-board-utilities.php:28
+#: modules/content-overview/library/content-overview-methods.php:253
+msgid "Me Mode"
+msgstr "Ben Modu"
+
+#: modules/calendar/calendar.php:749
+msgid "Show Revision"
+msgstr "Revizyonu Göster"
+
+#: modules/calendar/calendar.php:750
+#: modules/calendar/library/calendar-utilities.php:486
+#: modules/content-board/library/content-board-utilities.php:98
+#: modules/content-overview/library/content-overview-methods.php:323
+msgid "Search"
+msgstr "Ara"
+
+#: modules/calendar/calendar.php:928
+#: modules/content-board/library/content-board-methods.php:166
+#: modules/content-overview/content-overview.php:684
+msgid "Filter updated successfully."
+msgstr "Filtre başarıyla güncellendi."
+
+#: modules/calendar/calendar.php:935
+msgid "Filter reset successfully."
+msgstr "Filtre başarıyla sıfırlandı."
+
+#: modules/calendar/calendar.php:1008
+#: modules/content-board/content-board.php:709
+#: modules/content-overview/content-overview.php:847
+#: modules/content-overview/content-overview.php:871
+#: modules/content-overview/content-overview.php:923
+#: modules/notifications-log/library/NotificationsLogTable.php:500
+msgid "Status"
+msgstr "Durum"
+
+#: modules/calendar/calendar.php:1009
+#: modules/calendar/calendar.php:1240
+#: modules/calendar/library/calendar-methods.php:875
+#: modules/calendar/library/calendar-methods.php:1260
+#: modules/calendar/library/calendar-utilities.php:115
+#: modules/calendar/library/calendar-utilities.php:1075
+#: modules/calendar/library/calendar-utilities.php:1194
+#: modules/content-board/content-board.php:699
+#: modules/content-board/content-board.php:710
+#: modules/content-board/content-board.php:753
+#: modules/content-board/content-board.php:812
+#: modules/content-board/library/content-board-utilities.php:647
+#: modules/content-board/library/content-board-utilities.php:1180
+#: modules/content-overview/content-overview.php:854
+#: modules/content-overview/content-overview.php:877
+#: modules/content-overview/content-overview.php:930
+#: modules/content-overview/content-overview.php:998
+#: modules/content-overview/content-overview.php:1264
+#: modules/content-overview/library/content-overview-utilities.php:506
+#: modules/content-overview/library/content-overview-utilities.php:769
+#: modules/editorial-comments/library/EditorialCommentsTable.php:230
+msgid "Author"
+msgid_plural "Authors"
+msgstr[0] "Yazar"
+msgstr[1] "Yazarlar"
+
+#: modules/calendar/calendar.php:1010
+#: modules/calendar/calendar.php:1248
+#: modules/calendar/library/calendar-utilities.php:146
+#: modules/calendar/library/calendar-utilities.php:1054
+#: modules/calendar/library/calendar-utilities.php:1195
+#: modules/content-board/content-board.php:698
+#: modules/content-board/content-board.php:711
+#: modules/content-board/content-board.php:752
+#: modules/content-board/content-board.php:813
+#: modules/content-board/library/content-board-utilities.php:677
+#: modules/content-board/library/content-board-utilities.php:1153
+#: modules/content-overview/content-overview.php:853
+#: modules/content-overview/content-overview.php:878
+#: modules/content-overview/content-overview.php:929
+#: modules/content-overview/content-overview.php:999
+#: modules/content-overview/library/content-overview-utilities.php:479
+#: modules/content-overview/library/content-overview-utilities.php:799
+msgid "Post Type"
+msgstr "Yazı Tipi"
+
+#: modules/calendar/calendar.php:1131
+msgid "Post moved to the trash."
+msgid_plural "%d posts moved to the trash."
+msgstr[0] "Gönderi çöp kutusuna taşındı."
+msgstr[1] "%d gönderi çöp kutusuna taşındı."
+
+#: modules/calendar/calendar.php:1147
+#: modules/content-board/content-board.php:614
+#: modules/content-overview/library/content-overview-methods.php:214
+msgid "Undo"
+msgstr "Geri al"
+
+#: modules/calendar/calendar.php:1157
+msgid "Post restored from the Trash."
+msgid_plural "%d posts restored from the Trash."
+msgstr[0] "Gönderi Çöp Kutusundan kurtarıldı."
+msgstr[1] "%d gönderi Çöp Kutusundan kurtarıldı."
+
+#: modules/calendar/calendar.php:1189
+msgid "Initializing the calendar. Please wait..."
+msgstr "Takvim başlatılıyor. Lütfen bekleyin..."
+
+#: modules/calendar/calendar.php:1193
+msgid ""
+"It seems like it is taking too long. Please, try reloading the page again "
+"and check the browser console looking for errors."
+msgstr ""
+"Görünüşe göre çok uzun sürüyor. Lütfen sayfayı yeniden yüklemeyi deneyin ve "
+"tarayıcı konsolunda hataları kontrol edin."
+
+#: modules/calendar/calendar.php:1837
+msgid ""
+"The selected user doesn't have enough permissions to be set as the post "
+"author."
+msgstr "Seçilen kullanıcının gönderi yazarı olarak ayarlanacak yeterli izni yoktur."
+
+#: modules/calendar/library/calendar-methods.php:87
+msgid "Post types to show"
+msgstr "Gösterilecek gönderi türleri"
+
+#: modules/calendar/library/calendar-methods.php:95
+msgid "Show today's date in the first row"
+msgstr "Bugünün tarihini ilk satırda göster"
+
+#: modules/calendar/library/calendar-methods.php:103
+msgid "Enable subscriptions in iCal or Google Calendar"
+msgstr "iCal veya Google Takvim'de abonelikleri etkinleştir"
+
+#: modules/calendar/library/calendar-methods.php:111
+msgid "Allow public access to subscriptions in iCal or Google Calendar"
+msgstr "ICal veya Google Takvimdeki aboneliklere herkesin erişimine izin ver"
+
+#: modules/calendar/library/calendar-methods.php:119
+msgid "Statuses to display publish time"
+msgstr "Yayınlanma zamanı görüntülenecek durumlar"
+
+#: modules/calendar/library/calendar-methods.php:127
+msgid "Posts publish time format"
+msgstr "Gönderilerin yayınlanma zamanı formatı"
+
+#: modules/calendar/library/calendar-methods.php:135
+msgid "Default publish time for items created in the calendar"
+msgstr "Takvimde oluşturulan öğeler için varsayılan yayınlama zamanı"
+
+#: modules/calendar/library/calendar-methods.php:143
+msgid "Field used for sorting the calendar items in a day cell"
+msgstr " Alan, gün hücresindeki takvim öğelerini sıralamak için kullanılır"
+
+#: modules/calendar/library/calendar-methods.php:151
+msgid "Max visible posts per date"
+msgstr "Tarih başına maksimum görülebilir gönderi"
+
+#: modules/calendar/library/calendar-methods.php:159
+msgid "Always show complete post titles"
+msgstr "Her zaman tamamlanmış gönderi başlıklarını göster"
+
+#: modules/calendar/library/calendar-methods.php:179
+msgid "At least one post type must be selected"
+msgstr "En az bir gönderi türü seçilmesi gerekir"
+
+#: modules/calendar/library/calendar-methods.php:294
+msgid "edit"
+msgstr "düzenle"
+
+#: modules/calendar/library/calendar-methods.php:308
+#, php-format
+msgid ""
+"For Revisions integration on the Content Calendar, Overview and Content "
+"Board, please update %sPublishPress Revisions Pro%s."
+msgstr ""
+"İçerik Takvimi, Genel Bakış ve İçerik Tahtası için Revizyon entegrasyonu "
+"için lütfen %sPublishPress Revizyonları Pro%s güncelleyin."
+
+#: modules/calendar/library/calendar-methods.php:309
+#, php-format
+msgid ""
+"For Revisions integration on the Content Calendar, Overview and Content "
+"Board, please update %sPublishPress Revisions%s."
+msgstr ""
+"İçerik Takvimi, Genel Bakış ve İçerik Tahtası için Revizyon entegrasyonu "
+"için lütfen %sPublishPress Revizyonları%s güncelleyin."
+
+#: modules/calendar/library/calendar-methods.php:326
+#, php-format
+msgid ""
+"To refine your workflow with custom Post Statuses, install the "
+"%sPublishPress Statuses%s plugin."
+msgstr ""
+"Özel Gönderi Durumları ile iş akışınızı geliştirmek için %sPublishPress "
+"Durumları%s eklentisini yükleyin."
+
+#: modules/calendar/library/calendar-methods.php:340
+#, php-format
+msgid "For custom Revision Statuses, upgrade to %sPublishPress Statuses Pro%s."
+msgstr "Özel Revizyon Durumları için %sPublishPress Statuses Pro%s'ya yükseltin."
+
+#: modules/calendar/library/calendar-methods.php:423
+msgid "Publishing Time"
+msgstr "Yayınlanma Zamanı"
+
+#: modules/calendar/library/calendar-methods.php:479
+msgid "All posts"
+msgstr "Tüm gönderiler"
+
+#: modules/calendar/library/calendar-methods.php:527
+#: modules/dashboard/dashboard.php:368
+#: modules/dashboard/dashboard.php:391
+#: modules/dashboard/dashboard.php:425
+msgid "Disabled"
+msgstr "Devre dışı"
+
+#: modules/calendar/library/calendar-methods.php:528
+#: modules/dashboard/dashboard.php:369
+#: modules/dashboard/dashboard.php:392
+#: modules/dashboard/dashboard.php:426
+msgid "Enabled"
+msgstr "Etkinleştirildi"
+
+#: modules/calendar/library/calendar-methods.php:546
+msgid "Regenerate calendar feed secret"
+msgstr "Takvim özet akışı parolasını yeniden oluştur"
+
+#: modules/calendar/library/calendar-methods.php:788
+msgid "Invalid input"
+msgstr "Giriş Geçersiz"
+
+#: modules/calendar/library/calendar-methods.php:794
+msgid "Post not found"
+msgstr "Gönderi bulunamadı"
+
+#: modules/calendar/library/calendar-methods.php:799
+msgid "No enough permissions"
+msgstr "Yeterli izinler yok"
+
+#: modules/calendar/library/calendar-methods.php:808
+msgid "Invalid date"
+msgstr "Geçersiz tarih"
+
+#: modules/calendar/library/calendar-methods.php:853
+#: modules/content-board/content-board.php:421
+#: modules/content-board/library/content-board-utilities.php:244
+#: modules/content-board/library/content-board-utilities.php:1159
+#: modules/content-overview/content-overview.php:430
+#: modules/content-overview/library/content-overview-utilities.php:485
+msgid "Title"
+msgstr "Başlık"
+
+#: modules/calendar/library/calendar-methods.php:864
+msgid "Publish Time"
+msgstr "Yayınlanma Zamanı"
+
+#: modules/calendar/library/calendar-methods.php:885
+#: modules/content-board/library/content-board-utilities.php:1190
+#: modules/content-overview/library/content-overview-utilities.php:516
+msgid "Categories"
+msgstr "Kategoriler"
+
+#: modules/calendar/library/calendar-methods.php:894
+#: modules/content-board/library/content-board-utilities.php:1199
+#: modules/content-overview/library/content-overview-utilities.php:525
+msgid "Tags"
+msgstr "Etiketler"
+
+#: modules/calendar/library/calendar-methods.php:902
+#: modules/content-board/library/content-board-utilities.php:1207
+#: modules/content-overview/library/content-overview-utilities.php:533
+#: modules/improved-notifications/improved-notifications.php:1337
+#: views/workflow_help.html.php:2
+msgid "Content"
+msgstr "İçerik"
+
+#: modules/calendar/library/calendar-methods.php:1001
+msgid "Publish on"
+msgstr "Yayınla"
+
+#: modules/calendar/library/calendar-methods.php:1200
+#: modules/calendar/library/calendar-methods.php:1249
+#: modules/notifications-log/notifications-log.php:213
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+#: modules/calendar/library/calendar-methods.php:1201
+msgid "Loading item..."
+msgstr "Öğe yükleniyor..."
+
+#: modules/calendar/library/calendar-methods.php:1202
+msgid "Click to add"
+msgstr "Eklemek için tıklayın"
+
+#: modules/calendar/library/calendar-methods.php:1203
+msgid "Moving the item..."
+msgstr "Öğe taşıyor..."
+
+#: modules/calendar/library/calendar-methods.php:1204
+#, php-format
+msgid "Hide the %s last items"
+msgstr " %s son öğelerini gizle"
+
+#: modules/calendar/library/calendar-methods.php:1205
+#, php-format
+msgid "Show %s more"
+msgstr " %s daha fazla göster"
+
+#: modules/calendar/library/calendar-methods.php:1206
+#: modules/calendar/library/calendar-methods.php:1716
+msgid "Untitled"
+msgstr "Başlıksız"
+
+#: modules/calendar/library/calendar-methods.php:1207
+msgid "Refresh"
+msgstr "Yenile"
+
+#: modules/calendar/library/calendar-methods.php:1208
+msgid "Previous page"
+msgstr "Önceki sayfa"
+
+#: modules/calendar/library/calendar-methods.php:1209
+msgid "Previous week"
+msgstr "Geçen hafta"
+
+#: modules/calendar/library/calendar-methods.php:1210
+msgid "Next week"
+msgstr "Gelecek hafta"
+
+#: modules/calendar/library/calendar-methods.php:1211
+msgid "Next page"
+msgstr "Sonraki sayfa"
+
+#: modules/calendar/library/calendar-methods.php:1212
+#: modules/calendar/library/calendar-utilities.php:477
+#: modules/calendar/library/calendar-utilities.php:507
+msgid "Close"
+msgstr "Kapat"
+
+#: modules/calendar/library/calendar-methods.php:1213
+msgid "Save"
+msgstr "Kaydet"
+
+#: modules/calendar/library/calendar-methods.php:1214
+msgid "Saving..."
+msgstr "Kaydediliyor..."
+
+#: modules/calendar/library/calendar-methods.php:1215
+msgid "Save and edit"
+msgstr "Kaydet ve eüzenle"
+
+#: modules/calendar/library/calendar-methods.php:1216
+#, php-format
+msgid "Add content for %s"
+msgstr " %s için içerik ekleyin"
+
+#: modules/calendar/library/calendar-methods.php:1217
+msgid "Post type not found"
+msgstr "Gönderi türü bulunamadı"
+
+#: modules/calendar/library/calendar-methods.php:1218
+msgid "Post type:"
+msgstr "Gönderi tipi:"
+
+#: modules/calendar/library/calendar-methods.php:1219
+#: modules/content-board/library/content-board-utilities.php:1130
+#: modules/content-overview/library/content-overview-utilities.php:456
+msgid "Please, wait! Loading the form fields..."
+msgstr "Lütfen, bekleyin! Form alanları yükleniyor..."
+
+#: modules/calendar/library/calendar-methods.php:1220
+msgid "Sun"
+msgstr "Pazar"
+
+#: modules/calendar/library/calendar-methods.php:1221
+msgid "Mon"
+msgstr "Pazartesi"
+
+#: modules/calendar/library/calendar-methods.php:1222
+msgid "Tue"
+msgstr "Sal"
+
+#: modules/calendar/library/calendar-methods.php:1223
+msgid "Wed"
+msgstr "Çar"
+
+#: modules/calendar/library/calendar-methods.php:1224
+msgid "Thu"
+msgstr "Per"
+
+#: modules/calendar/library/calendar-methods.php:1225
+msgid "Fri"
+msgstr "Cuma"
+
+#: modules/calendar/library/calendar-methods.php:1226
+msgid "Sat"
+msgstr "Cumartesi"
+
+#: modules/calendar/library/calendar-methods.php:1227
+msgid "Jan"
+msgstr "Ocak"
+
+#: modules/calendar/library/calendar-methods.php:1228
+msgid "Feb"
+msgstr "Şubat"
+
+#: modules/calendar/library/calendar-methods.php:1229
+msgid "Mar"
+msgstr "Mart"
+
+#: modules/calendar/library/calendar-methods.php:1230
+msgid "Apr"
+msgstr "Nisan"
+
+#: modules/calendar/library/calendar-methods.php:1231
+msgid "May"
+msgstr "Mayıs"
+
+#: modules/calendar/library/calendar-methods.php:1232
+msgid "Jun"
+msgstr "Haziran"
+
+#: modules/calendar/library/calendar-methods.php:1233
+msgid "Jul"
+msgstr "Temmuz"
+
+#: modules/calendar/library/calendar-methods.php:1234
+msgid "Aug"
+msgstr "Ağustos"
+
+#: modules/calendar/library/calendar-methods.php:1235
+msgid "Sep"
+msgstr "Eylül"
+
+#: modules/calendar/library/calendar-methods.php:1236
+msgid "Oct"
+msgstr "Ekim"
+
+#: modules/calendar/library/calendar-methods.php:1237
+msgid "Nov"
+msgstr "Kas"
+
+#: modules/calendar/library/calendar-methods.php:1238
+msgid "Dec"
+msgstr "Aralık"
+
+#: modules/calendar/library/calendar-methods.php:1239
+#: modules/calendar/library/calendar-utilities.php:51
+#: modules/content-board/library/content-board-utilities.php:598
+#: modules/content-overview/library/content-overview-utilities.php:707
+msgid "All statuses"
+msgstr "Tüm durumlar"
+
+#: modules/calendar/library/calendar-methods.php:1240
+msgid "All categories"
+msgstr "Tüm kategoriler"
+
+#: modules/calendar/library/calendar-methods.php:1241
+msgid "All tags"
+msgstr "Tüm Etiketler"
+
+#: modules/calendar/library/calendar-methods.php:1242
+#: modules/calendar/library/calendar-utilities.php:117
+#: modules/calendar/library/calendar-utilities.php:120
+#: modules/content-board/library/content-board-utilities.php:649
+#: modules/content-board/library/content-board-utilities.php:652
+#: modules/content-overview/library/content-overview-utilities.php:771
+#: modules/content-overview/library/content-overview-utilities.php:774
+msgid "All authors"
+msgstr "Tüm Yazarlar"
+
+#: modules/calendar/library/calendar-methods.php:1243
+msgid "All types"
+msgstr "Tüm Türler"
+
+#: modules/calendar/library/calendar-methods.php:1244
+#: modules/calendar/library/calendar-utilities.php:513
+#, php-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] "%d hafta"
+msgstr[1] ""
+
+#: modules/calendar/library/calendar-methods.php:1245
+#, php-format
+msgid "%d weeks"
+msgstr "%d haftalar"
+
+#: modules/calendar/library/calendar-methods.php:1246
+msgid "Today"
+msgstr "Bugün"
+
+#: modules/calendar/library/calendar-methods.php:1247
+msgid "No terms"
+msgstr "Şart yok"
+
+#: modules/calendar/library/calendar-methods.php:1248
+#: modules/content-board/content-board.php:1268
+#: modules/content-overview/content-overview.php:1240
+msgid "No results found"
+msgstr "Sonuç bulunamadı"
+
+#: modules/calendar/library/calendar-methods.php:1250
+#: modules/content-board/content-board.php:1288
+#: modules/content-overview/content-overview.php:855
+#: modules/content-overview/content-overview.php:931
+#: modules/content-overview/content-overview.php:1265
+msgid "Post Date"
+msgstr "Yazı Tarihi"
+
+#: modules/calendar/library/calendar-methods.php:1251
+#: modules/calendar/library/calendar-utilities.php:1097
+#: modules/content-board/content-board.php:1183
+#: modules/content-board/content-board.php:1289
+#: modules/content-overview/content-overview.php:1266
+#: modules/content-overview/content-overview.php:1749
+#: modules/editorial-comments/editorial-comments.php:628
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:159
+msgid "Edit"
+msgstr "Düzenle"
+
+#: modules/calendar/library/calendar-methods.php:1253
+#: modules/calendar/library/calendar-utilities.php:1114
+#: modules/content-board/content-board.php:1224
+#: modules/content-board/content-board.php:1291
+#: modules/content-overview/content-overview.php:1268
+#: modules/content-overview/content-overview.php:1790
+msgid "Preview"
+msgstr "Önizleme"
+
+#: modules/calendar/library/calendar-methods.php:1254
+#: modules/calendar/library/calendar-utilities.php:1111
+#: modules/content-board/content-board.php:1211
+#: modules/content-board/content-board.php:1292
+#: modules/content-overview/content-overview.php:1269
+#: modules/content-overview/content-overview.php:1777
+msgid "View"
+msgstr "Göster"
+
+#: modules/calendar/library/calendar-methods.php:1255
+#: modules/content-board/content-board.php:1293
+#: modules/content-overview/content-overview.php:1270
+msgid "Previous Post"
+msgstr "Önceki Yazı"
+
+#: modules/calendar/library/calendar-methods.php:1256
+#: modules/content-board/content-board.php:1294
+#: modules/content-overview/content-overview.php:1271
+msgid "Next Post"
+msgstr "Sonraki Yazı"
+
+#: modules/calendar/library/calendar-methods.php:1258
+#: modules/content-board/content-board.php:1296
+#: modules/content-overview/content-overview.php:1273
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: modules/calendar/library/calendar-methods.php:1259
+#: modules/content-board/content-board.php:1297
+#: modules/content-overview/content-overview.php:1274
+msgid "Taxonomy not set."
+msgstr "Taksonomi ayarlanmamış."
+
+#: modules/calendar/library/calendar-methods.php:1699
+msgid "No date supplied."
+msgstr "Hiçbir tarih belirtilmemiş."
+
+#: modules/calendar/library/calendar-methods.php:1710
+msgid "The selected post type is not enabled for the calendar."
+msgstr "Seçilen gönderi türü takvim için etkinleştirilmemiş."
+
+#: modules/calendar/library/calendar-methods.php:1740
+msgid "Invalid Status supplied."
+msgstr "Geçersiz Durum sağlandı."
+
+#: modules/calendar/library/calendar-methods.php:1764
+msgid "Invalid Publish Date supplied."
+msgstr "Geçersiz Yayın Tarihi girildi."
+
+#: modules/calendar/library/calendar-methods.php:1833
+msgid "Post created successfully"
+msgstr "Yazı başarıyla oluşturuldu"
+
+#: modules/calendar/library/calendar-methods.php:1840
+msgid "Post could not be created"
+msgstr "Yazı oluşturulamadı"
+
+#: modules/calendar/library/calendar-utilities.php:54
+#: modules/content-overview/library/content-overview-utilities.php:710
+msgid "(Hide all)"
+msgstr "(Tümünü Gizle)"
+
+#: modules/calendar/library/calendar-utilities.php:90
+#: modules/calendar/library/calendar-utilities.php:93
+#: modules/content-board/library/content-board-utilities.php:624
+#: modules/content-board/library/content-board-utilities.php:627
+#: modules/content-overview/library/content-overview-utilities.php:746
+#: modules/content-overview/library/content-overview-utilities.php:749
+#, php-format
+msgid "All %s"
+msgstr "Tüm %s"
+
+#: modules/calendar/library/calendar-utilities.php:150
+#: modules/content-board/library/content-board-utilities.php:681
+#: modules/content-overview/library/content-overview-utilities.php:803
+msgid "All post types"
+msgstr "Tüm gönderi türleri"
+
+#: modules/calendar/library/calendar-utilities.php:169
+#: modules/calendar/library/calendar-utilities.php:485
+#: modules/content-board/library/content-board-utilities.php:97
+#: modules/content-board/library/content-board-utilities.php:700
+#: modules/content-overview/library/content-overview-methods.php:322
+#: modules/content-overview/library/content-overview-utilities.php:822
+msgid "Search box"
+msgstr "Arama kutusu"
+
+#: modules/calendar/library/calendar-utilities.php:198
+#: modules/calendar/library/calendar-utilities.php:309
+#: modules/calendar/library/calendar-utilities.php:347
+#: modules/calendar/library/calendar-utilities.php:433
+#: modules/content-board/content-board.php:1064
+#: modules/content-board/library/content-board-utilities.php:548
+#: modules/content-board/library/content-board-utilities.php:558
+#: modules/content-board/library/content-board-utilities.php:729
+#: modules/content-board/library/content-board-utilities.php:840
+#: modules/content-board/library/content-board-utilities.php:878
+#: modules/content-board/library/content-board-utilities.php:958
+#: modules/content-overview/library/content-overview-utilities.php:653
+#: modules/content-overview/library/content-overview-utilities.php:663
+#: modules/content-overview/library/content-overview-utilities.php:851
+#: modules/content-overview/library/content-overview-utilities.php:962
+#: modules/content-overview/library/content-overview-utilities.php:1000
+#: modules/content-overview/library/content-overview-utilities.php:1086
+msgid "Apply"
+msgstr "Uygula"
+
+#: modules/calendar/library/calendar-utilities.php:211
+#: modules/content-board/library/content-board-utilities.php:742
+#: modules/content-overview/library/content-overview-utilities.php:864
+msgid "Select option..."
+msgstr "Seçenek seçin..."
+
+#: modules/calendar/library/calendar-utilities.php:245
+#: modules/calendar/library/calendar-utilities.php:279
+#: modules/content-board/library/content-board-utilities.php:112
+#: modules/content-board/library/content-board-utilities.php:776
+#: modules/content-board/library/content-board-utilities.php:810
+#: modules/content-overview/library/content-overview-methods.php:337
+#: modules/content-overview/library/content-overview-utilities.php:898
+#: modules/content-overview/library/content-overview-utilities.php:932
+msgid "to"
+msgstr "için"
+
+#: modules/calendar/library/calendar-utilities.php:329
+#: modules/content-board/library/content-board-utilities.php:860
+#: modules/content-overview/library/content-overview-utilities.php:982
+msgid "Checked"
+msgstr "Kontrol edildi"
+
+#: modules/calendar/library/calendar-utilities.php:370
+#: modules/content-board/library/content-board-utilities.php:895
+#: modules/content-overview/library/content-overview-utilities.php:1023
+msgid "All status"
+msgstr "Tüm durumlar"
+
+#: modules/calendar/library/calendar-utilities.php:373
+#: modules/content-board/library/content-board-utilities.php:898
+#: modules/content-overview/library/content-overview-utilities.php:1026
+msgid "Passed"
+msgstr "Geçti"
+
+#: modules/calendar/library/calendar-utilities.php:374
+#: modules/content-board/library/content-board-utilities.php:899
+#: modules/content-overview/library/content-overview-utilities.php:1027
+#: modules/notifications-log/library/NotificationsLogTable.php:277
+#: modules/notifications-log/library/NotificationsLogTable.php:293
+msgid "Failed"
+msgstr "Başarısız Oldu."
+
+#: modules/calendar/library/calendar-utilities.php:473
+#: modules/content-board/library/content-board-utilities.php:42
+#: modules/content-overview/library/content-overview-methods.php:267
+msgid "Customize Filters"
+msgstr "Filtreleri Özelleştir"
+
+#: modules/calendar/library/calendar-utilities.php:485
+#: modules/content-board/library/content-board-utilities.php:97
+#: modules/content-overview/library/content-overview-methods.php:322
+msgid "Search content"
+msgstr "İçeriği ara"
+
+#: modules/calendar/library/calendar-utilities.php:502
+#: modules/calendar/library/calendar-utilities.php:503
+msgid "Period"
+msgstr "Dönem"
+
+#: modules/calendar/library/calendar-utilities.php:503
+#, php-format
+msgid "%1s weeks"
+msgstr "%1s hafta"
+
+#: modules/calendar/library/calendar-utilities.php:553
+#: modules/content-board/library/content-board-utilities.php:152
+#: modules/content-overview/library/content-overview-methods.php:377
+msgid "Reset Filters"
+msgstr "Filtreleri Sıfırla"
+
+#: modules/calendar/library/calendar-utilities.php:554
+#: modules/content-board/library/content-board-utilities.php:153
+#: modules/content-board/library/content-board-utilities.php:551
+#: modules/content-overview/library/content-overview-methods.php:378
+#: modules/content-overview/library/content-overview-utilities.php:656
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: modules/calendar/library/calendar-utilities.php:582
+#: modules/content-board/library/content-board-utilities.php:363
+#: modules/content-overview/library/content-overview-utilities.php:171
+msgid "Enable Filters"
+msgstr "Filtreleri Etkinleştir"
+
+#: modules/calendar/library/calendar-utilities.php:583
+#: modules/content-board/library/content-board-utilities.php:364
+#: modules/content-overview/library/content-overview-utilities.php:172
+msgid "Reorder Filters"
+msgstr "Filtreleri Yeniden Sırala"
+
+#: modules/calendar/library/calendar-utilities.php:588
+msgid "Enable or Disable Content calendar filter."
+msgstr "İçerik takvimi filtresini etkinleştir veya devre dışı bırak."
+
+#: modules/calendar/library/calendar-utilities.php:601
+#: modules/content-board/library/content-board-utilities.php:236
+#: modules/content-board/library/content-board-utilities.php:253
+#: modules/content-board/library/content-board-utilities.php:382
+#: modules/content-overview/library/content-overview-utilities.php:44
+#: modules/content-overview/library/content-overview-utilities.php:190
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:68
+msgid "Add New"
+msgstr "Yeni Ekle"
+
+#: modules/calendar/library/calendar-utilities.php:609
+#: modules/content-board/library/content-board-utilities.php:390
+#: modules/content-overview/library/content-overview-utilities.php:198
+msgid "Filter Title"
+msgstr "Filtre Başlığı"
+
+#: modules/calendar/library/calendar-utilities.php:613
+#: modules/content-board/library/content-board-utilities.php:248
+#: modules/content-overview/library/content-overview-utilities.php:56
+msgid "Search Metakey"
+msgstr "Metakey Ara"
+
+#: modules/calendar/library/calendar-utilities.php:618
+#: modules/content-board/library/content-board-utilities.php:399
+#: modules/content-overview/library/content-overview-utilities.php:207
+msgid "Add Filter"
+msgstr "Filtre Ekle"
+
+#: modules/calendar/library/calendar-utilities.php:661
+#: modules/content-board/library/content-board-utilities.php:442
+#: modules/content-overview/library/content-overview-utilities.php:250
+msgid "Drag to change enabled filters order."
+msgstr "Etkin filtrelerin sırasını değiştirmek için sürükleyin."
+
+#: modules/calendar/library/calendar-utilities.php:702
+#: modules/content-board/library/content-board-utilities.php:71
+#: modules/content-board/library/content-board-utilities.php:337
+#: modules/content-board/library/content-board-utilities.php:483
+#: modules/content-overview/library/content-overview-methods.php:296
+#: modules/content-overview/library/content-overview-utilities.php:145
+#: modules/content-overview/library/content-overview-utilities.php:291
+msgid "Apply Changes"
+msgstr "Değişiklikleri Uygula"
+
+#: modules/calendar/library/calendar-utilities.php:1059, fuzzy
+msgid "ID"
+msgstr "ID"
+
+#: modules/calendar/library/calendar-utilities.php:1064
+#: modules/content-board/library/content-board-utilities.php:116
+#: modules/content-overview/library/content-overview-methods.php:341
+#: modules/editorial-metadata/editorial-metadata.php:290
+#: modules/notifications-log/library/NotificationsLogTable.php:496
+msgid "Date"
+msgstr "Tarih"
+
+#: modules/calendar/library/calendar-utilities.php:1080
+msgid "Category"
+msgid_plural "Categories"
+msgstr[0] "Kategori"
+msgstr[1] "Kategoriler"
+
+#: modules/calendar/library/calendar-utilities.php:1085
+msgid "Tag"
+msgid_plural "Tags"
+msgstr[0] "Etiket"
+msgstr[1] "Etiketler"
+
+#: modules/calendar/library/calendar-utilities.php:1181
+#: modules/content-board/content-board.php:802
+#: modules/content-overview/content-overview.php:985
+msgid "Custom filters"
+msgstr "Özel filtreler"
+
+#: modules/calendar/library/calendar-utilities.php:1182
+#: modules/content-board/content-board.php:803
+#: modules/content-overview/content-overview.php:986
+msgid "Click the \"Add New\" button to create new filters."
+msgstr "Yeni filtreler oluşturmak için \"Yeni Ekle\" butonuna tıklayın."
+
+#: modules/calendar/library/calendar-utilities.php:1199
+#: modules/content-board/content-board.php:809
+#: modules/content-overview/content-overview.php:1003
+msgid "Inbuilt filters"
+msgstr "Dahili filtreler"
+
+#: modules/calendar/library/calendar-utilities.php:1206
+#: modules/content-board/content-board.php:760
+#: modules/content-board/content-board.php:820
+#: modules/content-overview/content-overview.php:943
+#: modules/content-overview/content-overview.php:1010
+#: modules/editorial-metadata/editorial-metadata.php:95
+#: modules/editorial-metadata/editorial-metadata.php:511
+#: modules/editorial-metadata/editorial-metadata.php:1720
+#: modules/editorial-metadata/editorial-metadata.php:1721
+msgid "Editorial Fields"
+msgstr "Editoryal Alanlar"
+
+#: modules/calendar/library/calendar-utilities.php:1207
+#: modules/content-board/content-board.php:761
+#: modules/content-board/content-board.php:821
+#: modules/content-overview/content-overview.php:944
+#: modules/content-overview/content-overview.php:1011
+msgid "You do not have any editorial fields enabled"
+msgstr "Etkinleştirilmiş editoryal alanınız yok"
+
+#: modules/calendar/library/calendar-utilities.php:1213
+#: modules/content-board/content-board.php:767
+#: modules/content-board/content-board.php:827
+#: modules/content-overview/content-overview.php:950
+#: modules/content-overview/content-overview.php:1017
+msgid "Taxonomies"
+msgstr "Taksonomiler"
+
+#: modules/calendar/library/calendar-utilities.php:1214
+#: modules/content-board/content-board.php:768
+#: modules/content-board/content-board.php:828
+#: modules/content-overview/content-overview.php:951
+#: modules/content-overview/content-overview.php:1018
+msgid "You do not have any public taxonomies"
+msgstr "Herhangi bir kamu taksonomisi yok"
+
+#: modules/calendar/library/calendar-utilities.php:1236
+msgid "Subscribe in iCal or Google Calendar"
+msgstr "ICal veya Google Takvime abone olun"
+
+#: modules/calendar/library/calendar-utilities.php:1241
+msgid "Start date"
+msgstr "Başlangıç tarihi"
+
+#: modules/calendar/library/calendar-utilities.php:1245
+msgid "Current week"
+msgstr "Bu hafta"
+
+#: modules/calendar/library/calendar-utilities.php:1247
+msgid "One month ago"
+msgstr "Bir ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1249
+msgid "Two months ago"
+msgstr "İki ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1251
+msgid "Three months ago"
+msgstr "Üç ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1253
+msgid "Four months ago"
+msgstr "Dört ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1255
+msgid "Five months ago"
+msgstr "Beş ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1257
+msgid "Six months ago"
+msgstr "Altı ay önce"
+
+#: modules/calendar/library/calendar-utilities.php:1263
+msgid "End date"
+msgstr "Bitiş Tarihi"
+
+#: modules/calendar/library/calendar-utilities.php:1268
+msgid "One week"
+msgstr "Bir hafta"
+
+#: modules/calendar/library/calendar-utilities.php:1270
+msgid "Two weeks"
+msgstr "İki hafta"
+
+#: modules/calendar/library/calendar-utilities.php:1272
+msgid "Three weeks"
+msgstr "Üç hafta"
+
+#: modules/calendar/library/calendar-utilities.php:1274
+msgid "Four weeks"
+msgstr "Dört hafta"
+
+#: modules/calendar/library/calendar-utilities.php:1278
+#: modules/content-board/content-board.php:1044
+msgid "Months"
+msgstr "Aylar"
+
+#: modules/calendar/library/calendar-utilities.php:1280
+msgid "One month"
+msgstr "Bir ay"
+
+#: modules/calendar/library/calendar-utilities.php:1283
+msgid "Two months"
+msgstr "İki ay"
+
+#: modules/calendar/library/calendar-utilities.php:1285
+msgid "Three months"
+msgstr "Üç ay"
+
+#: modules/calendar/library/calendar-utilities.php:1287
+msgid "Four months"
+msgstr "Dört ay sonra"
+
+#: modules/calendar/library/calendar-utilities.php:1289
+msgid "Five months"
+msgstr "Beş ay"
+
+#: modules/calendar/library/calendar-utilities.php:1291
+msgid "Six months"
+msgstr "Altı ay"
+
+#: modules/calendar/library/calendar-utilities.php:1293
+msgid "Seven months"
+msgstr "Yedi ay"
+
+#: modules/calendar/library/calendar-utilities.php:1295
+msgid "Eight months"
+msgstr "Sekiz ay"
+
+#: modules/calendar/library/calendar-utilities.php:1297
+msgid "Nine months"
+msgstr "Dokuz ay"
+
+#: modules/calendar/library/calendar-utilities.php:1299
+msgid "Ten months"
+msgstr "On ay"
+
+#: modules/calendar/library/calendar-utilities.php:1301
+msgid "Eleven months"
+msgstr "On bir ay"
+
+#: modules/calendar/library/calendar-utilities.php:1303
+msgid "Twelve months"
+msgstr "On iki ay"
+
+#: modules/calendar/library/calendar-utilities.php:1315
+msgid "Download .ics file"
+msgstr "  .ics dosyasını indir"
+
+#: modules/calendar/library/calendar-utilities.php:1322
+msgid "Copy to the clipboard"
+msgstr "Panoya kopyala"
+
+#: modules/calendar/library/calendar-utilities.php:1328
+msgid "Click here to subscribe in iCal or Google Calendar"
+msgstr "ICal veya Google Takvim'e abone olmak için buraya tıklayın"
+
+#: modules/content-board/content-board.php:142
+#: modules/content-board/content-board.php:379
+#: modules/content-board/content-board.php:396
+#: modules/content-board/content-board.php:397
+msgid "Content Board"
+msgstr "İçerik Tahtası"
+
+#: modules/content-board/content-board.php:743
+msgid "Custom Items"
+msgstr "Özel Öğeler"
+
+#: modules/content-board/content-board.php:744
+msgid "Click the \"Add New\" button to create new card data."
+msgstr "Yeni kart verileri oluşturmak için \"Yeni Ekle\" butonuna tıklayın."
+
+#: modules/content-board/content-board.php:750
+msgid "Inbuilt Card Data"
+msgstr "Dahili Kart Verileri"
+
+#: modules/content-board/content-board.php:847
+#: modules/content-board/library/content-board-methods.php:39
+#: modules/content-board/library/content-board-methods.php:107
+#: modules/content-overview/content-overview.php:1037
+msgid "An error occured"
+msgstr "Bir hata oluştu"
+
+#: modules/content-board/content-board.php:851
+#: modules/content-board/library/content-board-methods.php:43
+#: modules/content-board/library/content-board-methods.php:111
+#: modules/content-overview/content-overview.php:1041
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr ""
+"Nonce doğrulama hatası. Lütfen bu sayfayı yeniden yükleyin ve tekrar "
+"deneyin."
+
+#: modules/content-board/content-board.php:853
+#: modules/content-board/library/content-board-methods.php:45
+#: modules/content-board/library/content-board-methods.php:115
+#: modules/content-overview/content-overview.php:1043
+msgid "Invalid form request."
+msgstr "Geçersiz form isteği."
+
+#: modules/content-board/content-board.php:1026
+msgid "Move posts here to change their status"
+msgstr "Gönderileri buraya taşıyarak durumlarını değiştirin"
+
+#: modules/content-board/content-board.php:1029
+msgid "You do not have permission to move post to this status"
+msgstr "Bu duruma gönderi taşımak için izniniz yok"
+
+#: modules/content-board/content-board.php:1042
+msgid "Days"
+msgstr "Gün"
+
+#: modules/content-board/content-board.php:1045
+msgid "Years"
+msgstr "Yıl"
+
+#: modules/content-board/content-board.php:1054
+#: modules/content-board/content-board.php:1071
+msgid "Default Date"
+msgstr "Varsayılan Tarih"
+
+#: modules/content-board/content-board.php:1061
+msgid ""
+"This is the default publish date from today for posts moving to the "
+"Scheduled status."
+msgstr ""
+"Bu, Planlı duruma geçecek gönderiler için bugünkü varsayılan yayın "
+"tarihidir."
+
+#: modules/content-board/content-board.php:1105
+#: modules/content-board/content-board.php:1247
+msgid "Only editable posts will be moveable."
+msgstr "Sadece düzenlenebilir gönderiler taşınabilir."
+
+#: modules/content-board/content-board.php:1179
+#: modules/content-overview/content-overview.php:1745
+#: modules/dashboard/dashboard.php:299
+msgid "Edit this post"
+msgstr "Bu gönderiyi düzenle"
+
+#: modules/content-board/content-board.php:1191
+#: modules/content-overview/content-overview.php:1757
+msgid "Move this item to the Trash"
+msgstr "Bu öğeyi Çöp Kutusuna taşı"
+
+#: modules/content-board/content-board.php:1205
+#: modules/content-overview/content-overview.php:1771
+#, php-format
+msgid "View &#8220;%s&#8221;"
+msgstr " &#8220;%s&#8221; Göster"
+
+#: modules/content-board/content-board.php:1221
+#: modules/content-overview/content-overview.php:1787
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr "Önizleme &#8220;%s&#8221;"
+
+#: modules/content-board/content-board.php:1273
+#: modules/content-overview/content-overview.php:1245
+msgid "There are no posts in the range or filter specified."
+msgstr "Belirtilen aralıkta veya filtrede hiç gönderi yok."
+
+#: modules/content-board/content-board.php:1605
+#: modules/content-overview/content-overview.php:1625
+msgid "None"
+msgstr "Hiçbiri"
+
+#: modules/content-board/library/content-board-methods.php:53
+msgid "Error fetching post data."
+msgstr "Gönderi verileri alınırken hata oluştu."
+
+#: modules/content-board/library/content-board-methods.php:63
+msgid "You do not have permission to edit selected post."
+msgstr "Seçilen gönderiyi düzenlemek için izniniz yok."
+
+#: modules/content-board/library/content-board-methods.php:65
+msgid "You do not have permission to move post to selected post status."
+msgstr "Seçilen gönderi durumuna gönderi taşımak için izniniz yok."
+
+#: modules/content-board/library/content-board-methods.php:95
+#: modules/content-board/library/content-board-methods.php:125
+msgid "Changes saved!"
+msgstr "Değişiklikler kaydedildi!"
+
+#: modules/content-board/library/content-board-methods.php:113
+msgid "You do not have permission to update schedule settings."
+msgstr "Takvim ayarlarını güncelleme izniniz yok."
+
+#: modules/content-board/library/content-board-methods.php:152
+msgid "Card Data updated successfully."
+msgstr "Kart Verileri başarıyla güncellendi."
+
+#: modules/content-board/library/content-board-methods.php:174
+#: modules/content-overview/content-overview.php:692
+msgid "Settings updated successfully."
+msgstr "Ayarlar başarıyla güncellendi."
+
+#: modules/content-board/library/content-board-methods.php:252
+#: modules/content-overview/content-overview.php:770
+#, php-format
+msgid "%s created successfully. <a href=\"%s\" target=\"_blank\">Edit %s</a>"
+msgstr "%s başarıyla oluşturuldu. <a href=\"%s\" target=\"_blank\">Edit %s</a>"
+
+#: modules/content-board/library/content-board-methods.php:255
+#: modules/content-overview/content-overview.php:773
+#, php-format
+msgid "%s could not be created"
+msgstr "%s oluşturulamadı"
+
+#: modules/content-board/library/content-board-methods.php:260
+#: modules/content-overview/content-overview.php:778
+#, php-format
+msgid "You do not have permission to add new %s"
+msgstr "Yeni %s eklemek için izniniz yok"
+
+#: modules/content-board/library/content-board-methods.php:439
+#: modules/content-overview/library/content-overview-methods.php:160
+msgid "Post types to show:"
+msgstr "Gösterilecek gönderi türleri:"
+
+#: modules/content-board/library/content-board-utilities.php:32
+msgid "Customize Card Data"
+msgstr "Kart Verilerini Özelleştir"
+
+#: modules/content-board/library/content-board-utilities.php:51
+#: modules/content-overview/library/content-overview-methods.php:276
+msgid "Print"
+msgstr "Yazdır"
+
+#: modules/content-board/library/content-board-utilities.php:63
+#: modules/content-overview/library/content-overview-methods.php:288
+msgid "Maximum number of posts to display"
+msgstr "Görüntülenecek maksimum gönderi sayısı"
+
+#: modules/content-board/library/content-board-utilities.php:84
+#: modules/content-overview/library/content-overview-methods.php:309
+msgid "New Post"
+msgstr "Yeni Gönderi"
+
+#: modules/content-board/library/content-board-utilities.php:217
+msgid "Enable or Disable"
+msgstr "Etkinleştir veya Devre Dışı Bırak"
+
+#: modules/content-board/library/content-board-utilities.php:218
+msgid "Reorder"
+msgstr "Sıralamayı Değiştir"
+
+#: modules/content-board/library/content-board-utilities.php:223
+msgid "Enable or Disable Content Board Card Data."
+msgstr "İçerik Tahtası Kart Verilerini Etkinleştir veya Devre Dışı Bırak."
+
+#: modules/content-board/library/content-board-utilities.php:296
+msgid "Drag to change enabled card data order."
+msgstr "Etkinleştirilen kart veri sırasını değiştirmek için sürükleyin."
+
+#: modules/content-board/library/content-board-utilities.php:369
+msgid "Enable or Disable Content Board filter."
+msgstr "İçerik Tahtası filtresini Etkinleştir veya Devre Dışı Bırak."
+
+#: modules/content-board/library/content-board-utilities.php:394
+#: modules/content-overview/library/content-overview-utilities.php:202
+msgid "Select Metakey"
+msgstr "Metakey Seç"
+
+#: modules/content-board/library/content-board-utilities.php:509
+#: modules/content-overview/library/content-overview-utilities.php:614
+msgid "Show content from"
+msgstr "Buradaki içerikleri göster"
+
+#: modules/content-board/library/content-board-utilities.php:554
+#: modules/content-overview/library/content-overview-utilities.php:659
+#: modules/editorial-comments/editorial-comments.php:574
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:425
+msgid "Cancel"
+msgstr "İptal"
+
+#: modules/content-board/library/content-board-utilities.php:555
+#: modules/content-overview/library/content-overview-utilities.php:660
+msgid "Change"
+msgstr "Değiştir"
+
+#: modules/content-board/library/content-board-utilities.php:987
+#: modules/content-overview/library/content-overview-utilities.php:314
+#, php-format
+msgid "Add New %s"
+msgstr "Yeni %s Ekle"
+
+#: modules/content-board/library/content-board-utilities.php:1121
+#: modules/content-overview/library/content-overview-utilities.php:447
+#, php-format
+msgid "Create %s"
+msgstr "%s Oluştur"
+
+#: modules/content-board/library/content-board-utilities.php:1123
+#: modules/content-overview/library/content-overview-utilities.php:449
+msgid "Submit"
+msgstr "Gönder"
+
+#: modules/content-board/library/content-board-utilities.php:1171
+#: modules/content-overview/library/content-overview-utilities.php:497
+msgid "Publish Date"
+msgstr "Yayın Tarihi"
+
+#: modules/content-overview/content-overview.php:168
+#: modules/content-overview/content-overview.php:388
+#: modules/content-overview/content-overview.php:405
+#: modules/content-overview/content-overview.php:406
+msgid "Content Overview"
+msgstr "İçeriğe Genel Bakış"
+
+#: modules/content-overview/content-overview.php:670
+msgid "Column updated successfully."
+msgstr "Sütun başarıyla güncellendi."
+
+#: modules/content-overview/content-overview.php:856
+#: modules/content-overview/content-overview.php:932
+msgid "Last Modified"
+msgstr "Son Düzenleme"
+
+#: modules/content-overview/content-overview.php:916
+msgid "Custom Columns"
+msgstr "Özel Sütunlar"
+
+#: modules/content-overview/content-overview.php:917
+msgid "Click the \"Add New\" button to create new columns."
+msgstr "Yeni sütunlar oluşturmak için \"Yeni Ekle\" butonuna tıklayın."
+
+#: modules/content-overview/content-overview.php:936
+msgid "Inbuilt Columns"
+msgstr "Yerleşik Sütunlar"
+
+#: modules/content-overview/library/content-overview-methods.php:207
+msgid "Item moved to the trash."
+msgid_plural "%d items moved to the trash."
+msgstr[0] "Öğe çöp kutusuna taşındı."
+msgstr[1] "%d öğe çöp kutusuna taşındı."
+
+#: modules/content-overview/library/content-overview-methods.php:221
+msgid "Item restored from the Trash."
+msgid_plural "%d items restored from the Trash."
+msgstr[0] "Öğe çöp kutusundan geri yüklendi."
+msgstr[1] "%d öğe çöp kutusundan geri yüklendi."
+
+#: modules/content-overview/library/content-overview-methods.php:257
+msgid "Customize Columns"
+msgstr "Sütunları Özelleştir"
+
+#: modules/content-overview/library/content-overview-utilities.php:25
+msgid "Enable Columns"
+msgstr "Sütunları Etkinleştir"
+
+#: modules/content-overview/library/content-overview-utilities.php:26
+msgid "Reorder Columns"
+msgstr "Sütunları Yeniden Sırala"
+
+#: modules/content-overview/library/content-overview-utilities.php:31
+msgid "Enable or Disable Content Overview table column."
+msgstr "İçerik Genel Görünüm tablo sütununu Etkinleştir veya Devre Dışı Bırak."
+
+#: modules/content-overview/library/content-overview-utilities.php:52
+msgid "Column Title"
+msgstr "Sütun Başlığı"
+
+#: modules/content-overview/library/content-overview-utilities.php:61
+msgid "Add Column"
+msgstr "Sütun Ekle"
+
+#: modules/content-overview/library/content-overview-utilities.php:104
+msgid "Drag to change enabled columns order."
+msgstr "Sıralı sütunları değiştirmek için sürükleyin."
+
+#: modules/content-overview/library/content-overview-utilities.php:177
+msgid "Enable or Disable Content Overview filter."
+msgstr "İçerik Genel Görünüm filtresini Etkinleştir veya Devre Dışı Bırak."
+
+#: modules/dashboard/dashboard.php:56
+msgid "Dashboard Widgets"
+msgstr "Gösterge Tablosu Widget'ları"
+
+#: modules/dashboard/dashboard.php:70
+msgid "Widget Options"
+msgstr "Widget Seçenekleri"
+
+#: modules/dashboard/dashboard.php:165
+msgid "Unpublished Content"
+msgstr "Yayınlanmamış İçerik"
+
+#: modules/dashboard/dashboard.php:174
+#: modules/dashboard/dashboard.php:353
+msgid "Notepad"
+msgstr "Not Defteri"
+
+#: modules/dashboard/dashboard.php:183
+#: modules/dashboard/dashboard.php:346
+msgid "My Content Notifications"
+msgstr "İçerik Bildirimlerim"
+
+#: modules/dashboard/dashboard.php:211
+msgid "Posts at a Glance"
+msgstr "Gönderilere Hızlı Bakış"
+
+#: modules/dashboard/dashboard.php:305
+msgid "This post was last updated on "
+msgstr "Bu gönderi en son şu tarihte güncellenmiştir "
+
+#: modules/dashboard/dashboard.php:316
+msgid "Sorry! You're not subscribed to any posts!"
+msgstr "Üzgünüz! Hiçbir gönderiye abone değilsiniz!"
+
+#: modules/dashboard/dashboard.php:339
+msgid "Post Status Widget"
+msgstr "Gönderi Durumu Widgeti"
+
+#: modules/dashboard/dashboard.php:410
+msgid "The notifications module will need to be enabled for this widget to display."
+msgstr ""
+"Bu widgetin görüntülenmesi için bildirimler modülünün etkinleştirilmesi "
+"gerekir."
+
+#: modules/dashboard/widgets/dashboard-notepad.php:50
+msgid "Dashboard Note"
+msgstr "Kontrol Paneli Notu"
+
+#: modules/dashboard/widgets/dashboard-notepad.php:140
+#, php-format
+msgid "%1$s last updated on %2$s"
+msgstr "%1$s en son %2$s tarihinde güncellendi"
+
+#: modules/dashboard/widgets/dashboard-notepad.php:160
+#: modules/dashboard/widgets/dashboard-notepad.php:176
+msgid "Dashboard note"
+msgstr "Dashboard notu"
+
+#: modules/dashboard/widgets/dashboard-notepad.php:169
+msgid "Update Note"
+msgstr "Güncelleme Notu"
+
+#: modules/debug/debug.php:68
+msgid "Debug"
+msgstr "Hata ayıklama"
+
+#: modules/debug/debug.php:228
+#: modules/debug/debug.php:291
+msgid "PublishPress Debug Log"
+msgstr "PublishPress Hata Ayıklama Günlüğü"
+
+#: modules/debug/debug.php:242
+#: modules/debug/debug.php:243
+msgid "Debug Log"
+msgstr "Hata Ayıklama Günlüğü"
+
+#: modules/debug/debug.php:292
+msgid "File info"
+msgstr "Dosya bilgisi"
+
+#: modules/debug/debug.php:293
+msgid "Path"
+msgstr "Yol"
+
+#: modules/debug/debug.php:294
+msgid "Log content"
+msgstr "Günlük İçerik"
+
+#: modules/debug/debug.php:295
+msgid "Size"
+msgstr "Boyut"
+
+#: modules/debug/debug.php:296
+msgid "Created on"
+msgstr "Oluşturulma Tarihi"
+
+#: modules/debug/debug.php:297
+msgid "Modified on"
+msgstr "Değişiklik zamanı"
+
+#: modules/debug/debug.php:298
+msgid "Delete file"
+msgstr "Dosyayı silin"
+
+#: modules/debug/debug.php:299
+msgid "Debug data"
+msgstr "Hata ayıklama verileri"
+
+#: modules/debug/debug.php:300
+msgid "Log File"
+msgstr "Günlük Dosyası"
+
+#: modules/debug/debug.php:303
+msgid "Log file not found."
+msgstr "Günlük dosyası bulunamadı."
+
+#: modules/debug/debug.php:304
+msgid ""
+"If you see any error or look for information regarding PublishPress, please "
+"don't hesitate to contact the support team. E-mail us:"
+msgstr ""
+"Herhangi bir hata görürseniz veya PublishPress ile ilgili bilgi "
+"arıyorsanız, lütfen destek ekibiyle iletişime geçmekten çekinmeyin. Bize "
+"e-posta gönderin:"
+
+#: modules/debug/debug.php:308
+msgid "Click to delete the log file. Be careful, this operation can not be undone. "
+msgstr ""
+"Günlük dosyasını silmek için tıklayın. Dikkatli olun, bu işlem geri "
+"alınamaz. "
+
+#: modules/debug/debug.php:358
+msgid "Action nonce not found."
+msgstr "Tek seferlik eylem bulunamadı."
+
+#: modules/debug/debug.php:365
+msgid "Invalid action nonce."
+msgstr "Tek seferlik eylem geçersiz"
+
+#: modules/editorial-comments/editorial-comments.php:63
+#: modules/editorial-comments/editorial-comments.php:235
+#: modules/editorial-comments/editorial-comments.php:236
+#: modules/editorial-comments/editorial-comments.php:453
+msgid "Editorial Comments"
+msgstr "Editoryal Yorumlar"
+
+#: modules/editorial-comments/editorial-comments.php:78
+msgid "Choose Post Types"
+msgstr "Gönderi Türlerini Seç"
+
+#: modules/editorial-comments/editorial-comments.php:83
+msgid ""
+"<p>Editorial comments help you cut down on email overload and keep the "
+"conversation close to where it matters: your content. Threaded commenting "
+"in the admin, similar to what you find at the end of a blog post, allows "
+"writers and editors to privately leave feedback and discuss what needs to "
+"be changed before publication.</p><p>Anyone with access to view the story "
+"in progress will also have the ability to comment on it. If you have "
+"notifications enabled, those following the post will receive an email every "
+"time a comment is left.</p>"
+msgstr ""
+"<p>Editoryal yorumlar, e-posta aşırı yüklenmenizi azaltmanıza ve konuşmayı "
+"önemli yerlerde tutmanıza yardımcı olur: içeriğiniz. Yönetici panelindeki "
+"ipuçları, bir blog yazısının sonunda bulduğunuz gibi, yazarların ve "
+"editörlerin yayımlanmadan önce neyin değiştirilmesi gerektiğini özel olarak "
+"geri bildirim bırakmalarına ve tartışmalarına olanak tanır.</p><p>İlerleyen "
+"hikayeyi görüntüleme erişimi olan herkes de buna yorum yapma yeteneğine "
+"sahip olacaktır. Bildirimler etkinse, gönderiyi takip edenler her yorum "
+"bırakıldığında bir e-posta alacaktır.</p>"
+
+#: modules/editorial-comments/editorial-comments.php:88
+msgid ""
+"<p><strong>For more information:</strong></p><p><a "
+"href=\"https://publishpress.com/features/editorial-comments/\">Editorial "
+"Comments Documentation</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">PublishPress on "
+"Github</a></p>"
+msgstr ""
+"<p><strong>Daha fazla bilgi için:</strong></p><p><a "
+"href=\"https://publishpress.com/features/editorial-comments/\">Editoryal "
+"Yorumlar Belgeleri</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">GitHub'da "
+"PublishPress</a></p>"
+
+#: modules/editorial-comments/editorial-comments.php:205
+#: modules/editorial-comments/editorial-comments.php:717
+msgid "Remove"
+msgstr "Kaldır"
+
+#: modules/editorial-comments/editorial-comments.php:206
+#: modules/editorial-comments/library/EditorialCommentsTable.php:182
+#: modules/notifications-log/notifications-log.php:207
+msgid "All Posts"
+msgstr "Tüm Yazılar"
+
+#: modules/editorial-comments/editorial-comments.php:207
+#: modules/editorial-comments/library/EditorialCommentsTable.php:198
+msgid "All Users"
+msgstr "Tüm Kullanıcılar"
+
+#: modules/editorial-comments/editorial-comments.php:276
+#. translators: %s: search keywords
+#, php-format
+msgid "Search results for &#8220;%s&#8221;"
+msgstr "&#8220;%s&#8221; için arama sonuçları"
+
+#: modules/editorial-comments/editorial-comments.php:289
+msgid "Search Comments"
+msgstr "Yorumlarda Ara"
+
+#: modules/editorial-comments/editorial-comments.php:528
+msgid ""
+"You can add editorial comments to a post once you've saved it for the first "
+"time."
+msgstr "Gönderiyi ilk kez kaydettikten sonra editoryal yorumlar ekleyebilirsiniz."
+
+#: modules/editorial-comments/editorial-comments.php:548
+#: modules/editorial-comments/editorial-comments.php:552
+msgid "Add an editorial comment"
+msgstr "Bir editoryal bir yorum ekleyin"
+
+#: modules/editorial-comments/editorial-comments.php:558
+msgid "Attach file"
+msgstr "Dosya eki"
+
+#: modules/editorial-comments/editorial-comments.php:570
+msgid "Add Comment"
+msgstr "Yorum Ekle"
+
+#: modules/editorial-comments/editorial-comments.php:616
+msgid "Reply to this comment"
+msgstr "Bu yoruma yanıt yaz"
+
+#: modules/editorial-comments/editorial-comments.php:619
+msgid "Reply"
+msgstr "Yanıtla"
+
+#: modules/editorial-comments/editorial-comments.php:639
+#: modules/editorial-comments/library/EditorialCommentsTable.php:436
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:161
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:303
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:333
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:614
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:644
+#: modules/notifications-log/library/NotificationsLogTable.php:376
+#: modules/notifications-log/library/NotificationsLogTable.php:407
+msgid "Delete"
+msgstr "Sil"
+
+#: modules/editorial-comments/editorial-comments.php:684
+#, php-format
+msgid "said on %1$s at %2$s"
+msgstr "%1$s tarihinde %2$s'da söylendi"
+
+#: modules/editorial-comments/editorial-comments.php:745
+msgid ""
+"Nonce check failed. Please ensure you're supposed to be adding editorial "
+"comments."
+msgstr ""
+"Nonce kontrolü başarısız oldu. Lütfen editoryal yorumlar eklemeniz "
+"gerektiğinden emin olun."
+
+#: modules/editorial-comments/editorial-comments.php:753
+#: modules/editorial-comments/editorial-comments.php:894
+#: modules/editorial-comments/editorial-comments.php:1026
+#: modules/editorial-comments/editorial-comments.php:1142
+msgid "Invalid comment data"
+msgstr "Geçersiz yorum verileri"
+
+#: modules/editorial-comments/editorial-comments.php:766
+msgid ""
+"Sorry, you don't have the privileges to add editorial comments. Please talk "
+"to your Administrator."
+msgstr ""
+"Üzgünüm, editoryal yorumlar eklemek için yetkiniz yok. Lütfen Yöneticinizle "
+"konuşun."
+
+#: modules/editorial-comments/editorial-comments.php:776
+#: modules/editorial-comments/editorial-comments.php:940
+msgid "Please enter a comment."
+msgstr "Lütfen bir yorum ekleyin."
+
+#: modules/editorial-comments/editorial-comments.php:863
+#: modules/editorial-comments/editorial-comments.php:993
+#: modules/editorial-comments/editorial-comments.php:1103
+#: modules/editorial-comments/editorial-comments.php:1187
+msgid "There was a problem of some sort. Try again or contact your administrator."
+msgstr "Bir tür sorun oluştu. Tekrar deneyin veya yöneticinizle iletişime geçin."
+
+#: modules/editorial-comments/editorial-comments.php:883
+#: modules/editorial-comments/editorial-comments.php:1015
+#: modules/editorial-comments/editorial-comments.php:1132
+msgid ""
+"Nonce check failed. Please ensure you're supposed to be editing editorial "
+"comments."
+msgstr ""
+"Nonce kontrolü başarısız oldu. Lütfen editoryal yorumları düzenlemeniz "
+"gerektiğinden emin olun."
+
+#: modules/editorial-comments/editorial-comments.php:909
+#: modules/editorial-comments/editorial-comments.php:1041
+msgid ""
+"Sorry, you don't have the privileges to edit editorial comments. Please "
+"talk to your Administrator."
+msgstr ""
+"Üzgünüm, editoryal yorumları düzenlemek için yetkiniz yok. Lütfen "
+"Yöneticinizle konuşun."
+
+#: modules/editorial-comments/editorial-comments.php:927
+msgid ""
+"Sorry, you don't have the privileges to edit this editorial comment. Please "
+"talk to your Administrator."
+msgstr ""
+"Üzgünüm, bu editoryal yorumu düzenlemek için yetkiniz yok. Lütfen "
+"Yöneticinizle konuşun."
+
+#: modules/editorial-comments/editorial-comments.php:1057
+#: modules/editorial-comments/editorial-comments.php:1161
+msgid ""
+"Sorry, you don't have the privileges to delete this editorial comment. "
+"Please talk to your Administrator."
+msgstr ""
+"Üzgünüm, bu editoryal yorumu silmek için yetkiniz yok. Lütfen Yöneticinizle "
+"konuşun."
+
+#: modules/editorial-comments/editorial-comments.php:1078
+msgid "Sorry, you can't delete this editorial comment because it has some replies."
+msgstr ""
+"Üzgünüz, bu editoryal yorumu silemezsiniz çünkü bu yoruma verilmiş bazı "
+"yanıtlar var."
+
+#: modules/editorial-comments/editorial-comments.php:1179
+msgid "Comment deleted successfully."
+msgstr "Yorum başarıyla silindi."
+
+#: modules/editorial-comments/editorial-comments.php:1230
+msgid "Enable for these post types:"
+msgstr "Bu gönderi türleri için etkinleştir:"
+
+#: modules/editorial-comments/editorial-comments.php:1237
+msgid "Comment author name field:"
+msgstr "Yorum yazanın ad alanı:"
+
+#: modules/editorial-comments/editorial-comments.php:1262
+msgid "Nickname"
+msgstr "Takma Adı"
+
+#: modules/editorial-comments/editorial-comments.php:1263
+msgid "Username"
+msgstr "Kullanıcı Adı"
+
+#: modules/editorial-comments/editorial-comments.php:1264
+msgid "Display Name"
+msgstr "Adı Göster"
+
+#: modules/editorial-comments/editorial-comments.php:1265
+msgid "First Name"
+msgstr "İlk İsim"
+
+#: modules/editorial-comments/editorial-comments.php:1266
+msgid "Last Name"
+msgstr "Soyadı"
+
+#: modules/editorial-comments/editorial-comments.php:1267
+msgid "Email"
+msgstr "E-posta"
+
+#: modules/editorial-comments/editorial-comments.php:1268
+msgid "User Url"
+msgstr "Kullanıcı URL"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:158
+msgid "No editorial comments."
+msgstr "Hiçbir editoryal yorum yok."
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:180
+#: modules/notifications-log/library/NotificationsLogTable.php:566
+msgid "Filter by post"
+msgstr "Gönderiye göre filtrele"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:196
+msgid "Filter by user"
+msgstr "Kullanıcıya göre filtrele"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:212
+#: modules/notifications-log/library/NotificationsLogTable.php:653
+msgid "Filter"
+msgstr "Filtre"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:231
+msgid "Comment"
+msgstr "Yorum"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:233
+msgid "Post"
+msgstr "Yazı"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:235
+msgid "Submitted on"
+msgstr "Gönderme tarihi"
+
+#: modules/editorial-comments/library/EditorialCommentsTable.php:338
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-date-handler.php:201
+#: modules/notifications/notifications.php:1971
+#. translators: 1: Comment date, 2: Comment time.
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%2$s de %1$s"
+
+#: modules/editorial-metadata/editorial-metadata.php:109
+msgid "Editorial fields term added."
+msgstr "Editöryal alan terimi eklendi."
+
+#: modules/editorial-metadata/editorial-metadata.php:110
+msgid "Editorial fields term updated."
+msgstr "Editöryal alan terimi güncellendi."
+
+#: modules/editorial-metadata/editorial-metadata.php:111
+msgid "Editorial fields term doesn't exist."
+msgstr "Editöryal alan terimi mevcut değil."
+
+#: modules/editorial-metadata/editorial-metadata.php:112
+msgid "Editorial fields term deleted."
+msgstr "Editöryal alan terimi silindi."
+
+#: modules/editorial-metadata/editorial-metadata.php:113
+msgid "Editorial fields order updated."
+msgstr "Editöryal alan sırası güncellendi."
+
+#: modules/editorial-metadata/editorial-metadata.php:114
+msgid "Editorial fields visibility changed."
+msgstr "Editöryal alan görünürlüğü değiştirildi."
+
+#: modules/editorial-metadata/editorial-metadata.php:120
+msgid ""
+"<p>Keep track of important details about your content with editorial "
+"fields. This feature allows you to create as many date, text, number, etc. "
+"fields as you like, and then use them to store information like contact "
+"details or the location of an interview.</p><p>Once you’ve set your fields "
+"up, editorial fields integrates with both the calendar and the content "
+"overview. Make an editorial fields item visible to have it appear to the "
+"rest of your team. Keep it hidden to restrict the information between the "
+"writer and their editor.</p>"
+msgstr ""
+"<p>İçeriğinizle ilgili önemli ayrıntıları editoryal alanlarla takip edin. "
+"Bu özellik, istediğiniz kadar tarih, metin, sayı vb. alan oluşturmanızı "
+"sağlar ve ardından iletişim bilgileri veya bir görüşmenin yeri gibi "
+"bilgileri saklamak için kullanabilirsiniz.</p><p>Alanlarınızı ayarladıktan "
+"sonra, editoryal alanlar hem takvimle hem de içerik genel görünümüyle "
+"entegre olur. Editoryal alan öğesini görünür kılmak, ekibinizin geri "
+"kalanına görünmesini sağlar. Yazarı ve editörünüze bilgi kısıtlamak için "
+"gizli tutun.</p>"
+
+#: modules/editorial-metadata/editorial-metadata.php:125
+msgid ""
+"<p><strong>For more information:</strong></p><p><a "
+"href=\"https://publishpress.com/features/editorial-metadata/\">Editorial "
+"Fields Documentation</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">PublishPress on "
+"Github</a></p>"
+msgstr ""
+"<p><strong>Daha fazla bilgi için:</strong></p><p><a "
+"href=\"https://publishpress.com/features/editorial-metadata/\">Editoryal "
+"Alanlar Belgeleri</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">Github'da "
+"PublishPress</a></p>"
+
+#: modules/editorial-metadata/editorial-metadata.php:212
+msgid "First Draft Date"
+msgstr "İlk Taslak Tarihi"
+
+#: modules/editorial-metadata/editorial-metadata.php:215
+msgid "When the first draft needs to be ready."
+msgstr "İlk taslağın hazır olması gerektiği zaman"
+
+#: modules/editorial-metadata/editorial-metadata.php:220
+msgid "Assignment"
+msgstr "Ödev"
+
+#: modules/editorial-metadata/editorial-metadata.php:223
+msgid "What the post needs to cover."
+msgstr "Gönderinin kapsaması gerekenler."
+
+#: modules/editorial-metadata/editorial-metadata.php:288
+msgid "Checkbox"
+msgstr "Onay Kutusu"
+
+#: modules/editorial-metadata/editorial-metadata.php:289
+msgid "Dropdown Select"
+msgstr "Açılır Liste Seçimi"
+
+#: modules/editorial-metadata/editorial-metadata.php:291
+msgid "Location"
+msgstr "Konum"
+
+#: modules/editorial-metadata/editorial-metadata.php:292
+msgid "Number"
+msgstr "Numara"
+
+#: modules/editorial-metadata/editorial-metadata.php:293
+msgid "Paragraph"
+msgstr "Paragraf"
+
+#: modules/editorial-metadata/editorial-metadata.php:294
+msgid "Text"
+msgstr "Metin"
+
+#: modules/editorial-metadata/editorial-metadata.php:295
+msgid "User"
+msgstr "Kullanıcı"
+
+#: modules/editorial-metadata/editorial-metadata.php:372
+msgid ""
+"Are you sure you want to delete this term? Any metadata for this term will "
+"remain but will not be visible unless this term is re-added."
+msgstr ""
+"Bu terimi silmek istediğinizden emin misiniz? Bu terimle ilgili tüm meta "
+"veriler kalacak ama bu terim tekrar eklenmedikçe görünmeyecek."
+
+#: modules/editorial-metadata/editorial-metadata.php:453
+msgid "Search Editorial Fields"
+msgstr "Editöryal Alanları Ara"
+
+#: modules/editorial-metadata/editorial-metadata.php:454
+msgid "Popular Editorial Fields"
+msgstr "Popüler Editöryal Alanlar"
+
+#: modules/editorial-metadata/editorial-metadata.php:455
+msgid "All Editorial Fields"
+msgstr "Tüm Editöryal Alanlar"
+
+#: modules/editorial-metadata/editorial-metadata.php:456
+msgid "Edit Editorial Fields"
+msgstr "Editöryal Alanları Düzenle"
+
+#: modules/editorial-metadata/editorial-metadata.php:457
+msgid "Update Editorial Fields"
+msgstr "Editöryal Alanları Güncelle"
+
+#: modules/editorial-metadata/editorial-metadata.php:458
+msgid "Add New Editorial Fields"
+msgstr "Yeni Editöryal Alanlar Ekle"
+
+#: modules/editorial-metadata/editorial-metadata.php:459
+msgid "New Editorial Fields"
+msgstr "Yeni Editöryal Alanlar"
+
+#: modules/editorial-metadata/editorial-metadata.php:549
+msgid "No editorial fields available."
+msgstr "Hiçbir editoryal alan mevcut değil."
+
+#: modules/editorial-metadata/editorial-metadata.php:551
+#, php-format
+msgid " <a href=\"%s\">Add fields to get started</a>."
+msgstr " <a href=\"%s\">Başlamak için alan ekleyin</a>."
+
+#: modules/editorial-metadata/editorial-metadata.php:553
+msgid ""
+" Encourage your site administrator to configure your editorial workflow by "
+"adding editorial fields."
+msgstr ""
+"Site yöneticinizi editoryal iş akışınızı yapılandırması için editoryal "
+"alanlar eklemeye teşvik edin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1244
+#: modules/editorial-metadata/editorial-metadata.php:1401
+msgid "All options value and labels are required."
+msgstr "Tüm seçenek değerleri ve etiketler gereklidir."
+
+#: modules/editorial-metadata/editorial-metadata.php:1253
+msgid "Please enter a name for the editorial fields."
+msgstr "Lütfen editoryal alanlar için bir ad girin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1260
+msgid "Please enter a slug for the editorial fields."
+msgstr "Lütfen editoryal alanlar için bir slug girin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1266
+msgid "Name conflicts with existing term. Please choose another."
+msgstr "İsim mevcut şartla çakışıyor. Lütfen başka bir isim seçin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1273
+#: modules/editorial-metadata/editorial-metadata.php:1433
+msgid "Name already in use. Please choose another."
+msgstr "İsim zaten kullanılmış. Lütfen başka bir isim seçiniz."
+
+#: modules/editorial-metadata/editorial-metadata.php:1277
+msgid "Slug already in use. Please choose another."
+msgstr "Slug zaten kullanılıyor. Lütfen başka bir tane seçin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1283
+#: modules/editorial-metadata/editorial-metadata.php:1290
+#: modules/editorial-metadata/editorial-metadata.php:1446
+msgid "Name cannot exceed 200 characters. Please try a shorter name."
+msgstr "İsim 200 karakteri geçemez. Lütfen daha kısa bir isim deneyin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1300
+msgid "Please select a valid metadata type."
+msgstr "Lütfen geçerli bir meta veri türü seçin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1332
+msgid "Error adding term."
+msgstr "Terim eklenirken hata oluştu."
+
+#: modules/editorial-metadata/editorial-metadata.php:1410
+msgid "Please enter a name for the editorial fields"
+msgstr "Lütfen editoryal alanlar için bir ad girin"
+
+#: modules/editorial-metadata/editorial-metadata.php:1415
+msgid "Please enter a valid, non-numeric name for the editorial fields."
+msgstr "Lütfen editoryal alanlar için geçerli, sayısal olmayan bir ad girin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1424
+msgid "Metadata name conflicts with existing term. Please choose another."
+msgstr "Meta veri adı mevcut terimle çakışıyor. Lütfen başka bir terim seçin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1438
+msgid "Name conflicts with slug for another term. Please choose something else."
+msgstr "İsim başka bir şartın slugı ile çakışıyor. Lütfen başka bir şey seçin."
+
+#: modules/editorial-metadata/editorial-metadata.php:1482
+#: modules/editorial-metadata/editorial-metadata.php:1525
+msgid "Error updating term."
+msgstr "Terim güncellenirken hata oluştu."
+
+#: modules/editorial-metadata/editorial-metadata.php:1550
+msgid "Terms not set."
+msgstr "Şartlar ayarlanmamış."
+
+#: modules/editorial-metadata/editorial-metadata.php:1591
+msgid "Error deleting term."
+msgstr "Terim silinirken hata oluştu."
+
+#: modules/editorial-metadata/editorial-metadata.php:1638
+msgid "Register editorial fields for these post types:"
+msgstr "Bu gönderi türleri için editoryal alanları kaydedin:"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-checkbox-handler.php:109
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-checkbox-handler.php:143
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:350
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:659
+msgid "No"
+msgstr "Hayır"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-checkbox-handler.php:110
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-checkbox-handler.php:142
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:351
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:660
+msgid "Yes"
+msgstr "Evet"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-handler.php:84
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-handler.php:106
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-handler.php:127
+msgid "This editorial fields type is not yet supported."
+msgstr "Bu editoryal alan türü henüz desteklenmiyor."
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-handler.php:223
+msgid "Not set"
+msgstr "Ayarlanmadı"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-location-handler.php:82
+#, php-format
+msgid "View &#8220;%s&#8221; on Google Maps"
+msgstr "Google Haritalarda &#8220;%s&#8221; göster"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-select-handler.php:255
+#, php-format
+msgid "-- Select %s --"
+msgstr "-- %s seçin --"
+
+#: modules/editorial-metadata/input-handlers/editorial-metadata-input-user-handler.php:79
+msgid "-- Select a user --"
+msgstr "-- Bir kullanıcı seçin --"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:44
+msgid "Position"
+msgstr "Pozisyon"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:45
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:443
+msgid "Name"
+msgstr "İsim"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:46
+msgid "Post Types"
+msgstr "İçerik Türleri"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:47
+msgid "Field Type"
+msgstr "Alan Türü"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:48
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:176
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:474
+msgid "Description"
+msgstr "Açıklama"
+
+#: modules/editorial-metadata/library/editorial-metadata-list-table.php:135
+msgid "No editorial fields found."
+msgstr "Hiçbir editoryal alan bulunamadı."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:158
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:452
+msgid "The name is for labeling the editorial fields."
+msgstr "Ad, editoryal alanları etiketlemek için kullanılır."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:163
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:457, fuzzy
+msgid "Slug"
+msgstr "Slug"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:168
+msgid "The slug cannot be changed once the term has been created."
+msgstr "Koşul oluşturulduktan sonra slug değiştirilemez."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:184
+msgid ""
+"The description can be used to communicate with your team about what the "
+"field is for."
+msgstr ""
+"Açıklama, alanın ne amaçla kullanıldığı hakkında ekibinizle iletişim kurmak "
+"için kullanılabilir."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:193
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:491
+msgid "Type"
+msgstr "Tip"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:198
+msgid "The field type cannot be changed once created."
+msgstr "Oluşturulduktan sonra alan türü değiştirilemez."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:204
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:516
+msgid "User role"
+msgstr "Kullanıcı Rolü"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:211
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:523
+msgid "Select roles..."
+msgstr "Rolleri seçin..."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:223
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:537
+msgid ""
+"Filter the list of users in the editorial meta to users in the selected "
+"roles."
+msgstr ""
+"Editoryal meta listesindeki kullanıcıları seçilen rollerdeki kullanıcılarla "
+"filtreleyin."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:229
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:542
+msgid "Select Type"
+msgstr "Tür Seç"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:233
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:545
+msgid "Single Select"
+msgstr "Tekli Seçim"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:234
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:546
+msgid "Multiple Select"
+msgstr "Çoklu Seçim"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:251
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:566
+msgid "Indicate the select type."
+msgstr "Seçim türünü belirtin."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:258
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:571
+msgid "Dropdown Option"
+msgstr "Açılır Menü Seçenekleri"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:263
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:574
+msgid ""
+"Enter the dropdown option value and label. You can move options to change "
+"their order."
+msgstr ""
+"Açılır menü seçenek değeri ve etiketini girin. Seçeneklerin sırasını "
+"değiştirmek için taşınabilir."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:285
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:316
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:596
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:627
+msgid "Meta Value"
+msgstr "Meta Değeri"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:291
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:322
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:602
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:633
+msgid "Display Label"
+msgstr "Etiketi Göster"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:300
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:330
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:611
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:641
+msgid "Default option"
+msgstr "Varsayılan seçenek"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:338
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:649
+msgid "Add Another Option"
+msgstr "Başka Bir Seçenek Ekle"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:346
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:656
+msgid "Show on Content Calendar and Overview form"
+msgstr "İçerik Takvimi ve Genel Bakış formunda göster"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:361
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:674
+msgid ""
+"If enabled, this field will be available when adding new posts on the "
+"Content Calendar and Overview screen."
+msgstr ""
+"Etkinleştirilirse, bu alan İçerik Takvimi ve Genel Görünüm ekranında yeni "
+"gönderi eklerken kullanılabilir olacaktır."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:370
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:682
+msgid "Add to post types"
+msgstr "Gönderi türlerine ekle"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:375
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:686
+msgid "This field will be available for these post types."
+msgstr "Bu alan bu gönderi türleri için mevcut olacak."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:394
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:704
+msgid "Show on Post Types screen"
+msgstr "Gönderi Türleri ekranında göster"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:399
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:708
+msgid "This field will be viewable on the overview screens for these post types."
+msgstr "Bu alan, bu gönderi türleri için genel bakış ekranlarında görüntülenebilir."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:422
+msgid "Update Editorial fields term"
+msgstr "Editöryel alanları terimini güncelle"
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:466
+msgid ""
+"The \"slug\" is the URL-friendly version of the name. It is usually all "
+"lowercase and contains only letters, numbers, and hyphens."
+msgstr ""
+"“slug”, adın URL dostu versiyonudur. Genellikle tamamen küçük harflerle "
+"yazılır ve yalnızca harfler, sayılar ve tireler içerir."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:483
+msgid ""
+"The description can be used to communicate with your team about what the "
+"metadata is for."
+msgstr ""
+"Açıklama, meta verinin ne amaçla kullanıldığı hakkında ekibinizle iletişim "
+"kurmak için kullanılabilir."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:511
+msgid "Indicate the type of editorial fields."
+msgstr "Editöryel alanların türünü belirtin."
+
+#: modules/editorial-metadata/library/editorial-metadata-utilities.php:730
+msgid "Add New Editorial fields term"
+msgstr "Yeni Editöryel alanlar terimi ekle"
+
+#: modules/efmigration/efmigration.php:288
+msgid ""
+"Edit Flow should not be used alongside PublishPress Planner. If you want to "
+"use PublishPress Planner, please complete Edit Flow data migration and then "
+"deactivate Edit Flow."
+msgstr ""
+"Edit Flow, PublishPress Planner ile birlikte kullanılmamalıdır. "
+"PublishPress Planner'ı kullanmak istiyorsanız, lütfen Edit Flow veri göçünü "
+"tamamlayın ve ardından Edit Flow'u devre dışı bırakın."
+
+#: modules/improved-notifications/improved-notifications.php:102
+msgid "Advanced Notifications"
+msgstr "Gelişmiş Bildirimler"
+
+#: modules/improved-notifications/improved-notifications.php:257
+msgid "Duplicated notification threshold:"
+msgstr "Bildirim eşiği tekrarı:"
+
+#: modules/improved-notifications/improved-notifications.php:265
+msgid "Default notification channels:"
+msgstr "Varsayılan bildirim kanalları:"
+
+#: modules/improved-notifications/improved-notifications.php:363
+msgid "Existing Post is updated"
+msgstr "Mevcut Gönderi güncellendi"
+
+#: modules/improved-notifications/improved-notifications.php:409
+msgid "New Post is created in Draft status"
+msgstr "Yeni Gönderi Taslak durumunda oluşturuldu"
+
+#: modules/improved-notifications/improved-notifications.php:462
+msgid "New Post is Published"
+msgstr "Yeni Gönderi Yayınlandı"
+
+#: modules/improved-notifications/improved-notifications.php:501
+msgid "Notify on editorial comments"
+msgstr "Editoryal yorumları üzerinden bildir"
+
+#: modules/improved-notifications/improved-notifications.php:607
+msgid "minutes"
+msgstr "dakika"
+
+#: modules/improved-notifications/improved-notifications.php:611
+msgid ""
+"This will prevent too many notifications being sent for the same or similar "
+"events. Set this to a higher number if you are receiving duplicate emails."
+msgstr ""
+"Bu, aynı veya benzer olaylar için çok fazla bildirim gönderilmesini "
+"engelleyecektir. Tekrar eden e-postalar alıyorsanız, bunu daha yüksek bir "
+"sayıya ayarlayın."
+
+#: modules/improved-notifications/improved-notifications.php:657
+#: modules/improved-notifications/improved-notifications.php:1514
+#: views/user_profile_notification_channels.html.php:1
+msgid "Editorial Notifications"
+msgstr "Editoryal Bildirimler"
+
+#: modules/improved-notifications/improved-notifications.php:658
+#: modules/improved-notifications/improved-notifications.php:1515
+#: views/user_profile_notification_channels.html.php:6
+msgid "Choose the channels where each workflow will send notifications to:"
+msgstr "Her bir iş akışının bildirim göndereceği kanalları seç:"
+
+#: modules/improved-notifications/improved-notifications.php:662
+#: modules/improved-notifications/improved-notifications.php:1502
+#: modules/improved-notifications/improved-notifications.php:1519
+msgid "Muted"
+msgstr "Sessiz"
+
+#: modules/improved-notifications/improved-notifications.php:663
+#: modules/improved-notifications/improved-notifications.php:1520
+#: views/user_profile_notification_channels.html.php:14
+msgid "Workflows"
+msgstr "İş Akışları"
+
+#: modules/improved-notifications/improved-notifications.php:664
+#: modules/improved-notifications/improved-notifications.php:1521
+#: views/user_profile_notification_channels.html.php:15
+msgid "Channels"
+msgstr "Kanallar"
+
+#: modules/improved-notifications/improved-notifications.php:1104
+#: modules/notifications-log/notifications-log.php:75
+#: modules/notifications-log/notifications-log.php:266
+#: modules/notifications-log/notifications-log.php:492
+#: modules/notifications-log/notifications-log.php:493
+msgid "Notifications Log"
+msgstr "Bildirim Günlüğü"
+
+#: modules/improved-notifications/improved-notifications.php:1138
+msgid "Workflow Settings"
+msgstr "İş Akışı Ayarları"
+
+#: modules/improved-notifications/improved-notifications.php:1148
+#: views/settings_notification_channels.html.php:5
+#: views/user_profile_notification_channels.html.php:16
+msgid "Options"
+msgstr "Seçenekler"
+
+#: modules/improved-notifications/improved-notifications.php:1158
+msgid "Help"
+msgstr "Yardım"
+
+#: modules/improved-notifications/improved-notifications.php:1179
+#: modules/notifications-log/library/NotificationsLogTable.php:497
+msgid "When to notify?"
+msgstr "Ne zaman bildirilecek?"
+
+#: modules/improved-notifications/improved-notifications.php:1189
+#: modules/notifications-log/library/NotificationsLogTable.php:498
+msgid "For which content?"
+msgstr "Hangi içerik için düşünüyorsunuz?"
+
+#: modules/improved-notifications/improved-notifications.php:1199
+#: modules/notifications-log/library/NotificationsLogTable.php:499
+msgid "Who to notify?"
+msgstr "Kime bildirilecek?"
+
+#: modules/improved-notifications/improved-notifications.php:1209
+msgid "What to say?"
+msgstr "Ne demeli?"
+
+#: modules/improved-notifications/improved-notifications.php:1329
+msgid "Select at least one option for each section."
+msgstr "Her bölüm için en az bir seçenek seçiniz."
+
+#: modules/improved-notifications/improved-notifications.php:1333
+msgid ""
+"You can add dynamic information to the Subject or Body text using the "
+"following shortcodes:"
+msgstr ""
+"Aşağıdaki kısa kodları kullanarak Konu veya Metin gövdesine dinamik "
+"bilgiler ekleyebilirsiniz:"
+
+#: modules/improved-notifications/improved-notifications.php:1338
+msgid "Editorial Comment"
+msgstr "Editoryal Yorum"
+
+#: modules/improved-notifications/improved-notifications.php:1339
+msgid "User making changes or comments"
+msgstr "Değişiklikler veya yorumlar yapan kullanıcı"
+
+#: modules/improved-notifications/improved-notifications.php:1340
+msgid "Workflow"
+msgstr "İş Akışı"
+
+#: modules/improved-notifications/improved-notifications.php:1341
+msgid "Format"
+msgstr "Biçim"
+
+#: modules/improved-notifications/improved-notifications.php:1342
+msgid "Receiver"
+msgstr "Alıcı"
+
+#: modules/improved-notifications/improved-notifications.php:1343
+msgid "shortcode"
+msgstr "kısakod"
+
+#: modules/improved-notifications/improved-notifications.php:1344
+msgid "field"
+msgstr "alan"
+
+#: modules/improved-notifications/improved-notifications.php:1345
+msgid ""
+"On each shortcode, you can select one or more fields. If more than one, "
+"they will be displayed separated by \", \"."
+msgstr ""
+"Her kısa kodda bir veya daha fazla alan seçebilirsiniz. Birden fazla ise, "
+"“, ” ile ayrılmış olarak görüntülenecektir."
+
+#: modules/improved-notifications/improved-notifications.php:1349
+msgid "Available fields"
+msgstr "Seçilebilir Kutular"
+
+#: modules/improved-notifications/improved-notifications.php:1350
+msgid "Meta fields"
+msgstr "Meta alanlar"
+
+#: modules/improved-notifications/improved-notifications.php:1351
+msgid "Click here to read more about shortcode options..."
+msgstr ""
+"Kısa kod seçenekleri hakkında daha fazla bilgi okumak için buraya "
+"tıklayın..."
+
+#: modules/modules-settings/modules-settings.php:50
+msgid "Features"
+msgstr "Özellikler"
+
+#: modules/modules-settings/modules-settings.php:236
+msgid "Feel free to select only the features you need."
+msgstr "Yalnızca ihtiyacınız olan özellikleri seçmekten çekinmeyin, rahat olun."
+
+#: modules/modules-settings/modules-settings.php:242
+msgid "Enabled features"
+msgstr " Özellikler etkilendirilmiş"
+
+#: modules/notifications-log/library/ModuleErrors.php:54
+msgid "Invalid receiver for the notification"
+msgstr "Bildirim için geçersiz alıcı"
+
+#: modules/notifications-log/library/ModuleErrors.php:55
+msgid "Invalid channel for the notification"
+msgstr "Bildirim için geçersiz kanal"
+
+#: modules/notifications-log/library/ModuleErrors.php:56
+msgid "Notification log not found"
+msgstr "Bildirim günlüğü bulunamadı"
+
+#: modules/notifications-log/library/NotificationsLogModel.php:264
+msgid "The parent log was deleted or probably rescheduled"
+msgstr "Ana günlük silindi veya muhtemelen yeniden planlandı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:116
+#, php-format
+msgid "Workflow: %s"
+msgstr "İş akışı: %s"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:128
+#, php-format
+msgid "User: %s (%d)"
+msgstr "Kullanıcı: %s (%d)"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:157
+#, php-format
+msgid "Post type: %s"
+msgstr "Gönderi türü: %s"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:160
+#, php-format
+msgid "Post ID: %d"
+msgstr "Gönderi ID: %d"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:163
+#, fuzzy, php-format
+msgid "Blog ID: %d"
+msgstr "Blog ID: %d"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:233
+#, php-format
+msgid "Scheduled for %d receivers. Click here to display them."
+msgstr " %d alıcısı için planlandı. Onları görüntülemek için buraya tıklayın."
+
+#: modules/notifications-log/library/NotificationsLogTable.php:261
+msgid " Scheduled, but late"
+msgstr " Planlandı, ancak gecikti"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:263
+msgid " Scheduled"
+msgstr " Planlandı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:282
+#: modules/notifications-log/library/NotificationsLogTable.php:533
+msgid "Error"
+msgstr "Hata"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:283
+msgid "The notification was set as \"Scheduled\" but the cron task is not found"
+msgstr ""
+"Bildirim \"Zamanlandı\" olarak ayarlandı ancak ileri dönük çalışmasını "
+"sağlayacak görev, komut bulunamadı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:288
+msgid "Sent"
+msgstr "Gönderildi"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:291
+#: modules/notifications-log/library/NotificationsLogTable.php:525
+msgid "Skipped"
+msgstr "Atlandı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:304
+msgid "asynchronous"
+msgstr "eşzamansız"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:304
+msgid "synchronous"
+msgstr " eşzamanlı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:361
+#: modules/notifications-log/library/NotificationsLogTable.php:406
+msgid "Reschedule"
+msgstr "Yeniden zamanlamak"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:383, fuzzy
+msgid "Blog: "
+msgstr "Blog: "
+
+#: modules/notifications-log/library/NotificationsLogTable.php:408
+msgid "Delete All"
+msgstr "Hepsini Sil"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:517
+msgid "All"
+msgstr "Tümü"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:521
+msgid "Success"
+msgstr "Başarılı"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:582
+msgid "Filter by workflow"
+msgstr "İş akışına göre filtrele"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:589
+msgid "Filter by event"
+msgstr "Olaylara göre filtrele"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:593
+msgid "All events"
+msgstr "Bütün etkinlikler"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:607
+msgid "Filter by channel"
+msgstr "Kanalına göre filtrele"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:611
+msgid "All channels"
+msgstr "Tüm kanallar"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:628
+#: modules/notifications-log/library/NotificationsLogTable.php:631
+msgid "From date"
+msgstr "Tarihden itibaren"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:635
+#: modules/notifications-log/library/NotificationsLogTable.php:638
+msgid "To date"
+msgstr "Tarihine kadar"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:646
+msgid "Filter by receiver"
+msgstr "Alıcıya göre filtrele"
+
+#: modules/notifications-log/library/NotificationsLogTable.php:647
+msgid "All Receivers"
+msgstr "Tüm Alıcılar"
+
+#: modules/notifications-log/notifications-log.php:208
+msgid "All Workflows"
+msgstr "Tüm İş Akışları"
+
+#: modules/notifications-log/notifications-log.php:209
+msgid "All Actions"
+msgstr "Tüm Eylemler"
+
+#: modules/notifications-log/notifications-log.php:210
+msgid "All Channels"
+msgstr "Tüm Kanallar"
+
+#: modules/notifications-log/notifications-log.php:211
+msgid "All Statuses"
+msgstr "Tüm Durumlar"
+
+#: modules/notifications-log/notifications-log.php:212
+#: publishpress.php:1441
+#: publishpress.php:1446
+msgid "Notification"
+msgstr "Bildirim"
+
+#: modules/notifications-log/notifications-log.php:275
+#, php-format
+msgid "%s notification found."
+msgid_plural "%s notifications found."
+msgstr[0] "%s bildirimi bulundu."
+msgstr[1] "%s bildirimleri bulundu."
+
+#: modules/notifications-log/notifications-log.php:287
+msgid "No notifications found."
+msgstr "Bildirimler bulunamadı."
+
+#: modules/notifications-log/notifications-log.php:445
+#, php-format
+msgid ""
+"This notification is very similar to another one sent less than %d minutes "
+"ago for the same receiver"
+msgstr ""
+"Bu bildirim, aynı alıcı için %d dakika önce gönderilen başka birine çok "
+"benziyor"
+
+#: modules/notifications-log/notifications-log.php:820
+msgid "Subject:"
+msgstr "Konu:"
+
+#: modules/notifications-log/notifications-log.php:828
+msgid "Content:"
+msgstr "İçerik:"
+
+#: modules/notifications-log/notifications-log.php:838
+msgid ""
+"This is a preview of the scheduled message. The content can still change "
+"until the notification is sent."
+msgstr ""
+"Bu, planlanan mesajın önizlemesidir. İçerik, bildirim gönderilene kadar "
+"değişebilir."
+
+#: modules/notifications/notifications.php:75
+#: modules/notifications/notifications.php:559
+#: publishpress.php:1440
+#: publishpress.php:1445
+msgid "Notifications"
+msgstr "Bildirimler"
+
+#: modules/notifications/notifications.php:97
+msgid ""
+"<p>Notifications ensure you keep up to date with progress your most "
+"important content. Users can be subscribed to notifications on a post one "
+"by one or by selecting roles.</p><p>When enabled, notifications can be sent "
+"when a post changes status or an editorial comment is left by a writer or "
+"an editor.</p>"
+msgstr ""
+"<p>Bildirimler, en önemli içeriğinizin ilerlemesiyle güncel kalmanızı "
+"sağlar. Kullanıcılar, bir gönderiye tek tek ya da rollerini seçerek "
+"bildirimlere abone olabilir.</p><p>Açık olduğunda, bir gönderinin durumu "
+"değiştiğinde veya bir yazar ya da editör tarafından editoryal bir yorum "
+"bırakıldığında bildirimler gönderilebilir.</p>"
+
+#: modules/notifications/notifications.php:102
+msgid ""
+"<p><strong>For more information:</strong></p><p><a "
+"href=\"https://publishpress.com/features/notifications/\">Notifications "
+"Documentation</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">PublishPress on "
+"Github</a></p>"
+msgstr ""
+"<p><strong>Daha fazla bilgi için:</strong></p><p><a "
+"href=\"https://publishpress.com/features/notifications/\">Bildirimler "
+"Belgeleri</a></p><p><a "
+"href=\"https://github.com/ostraining/PublishPress\">Github'da "
+"PublishPress</a></p>"
+
+#: modules/notifications/notifications.php:300
+#: modules/notifications/notifications.php:303
+msgid "Notify User"
+msgstr "Kullanıcıyı Bilgilendir"
+
+#: modules/notifications/notifications.php:302
+msgid "Notify Users"
+msgstr "Kullanıcıları Bilgilendir"
+
+#: modules/notifications/notifications.php:315
+#: modules/notifications/notifications.php:318
+msgid "Notify Role"
+msgstr "Rolü Bilgilendir"
+
+#: modules/notifications/notifications.php:317
+msgid "Notify Roles"
+msgstr "Rolleri Bilgilendir"
+
+#: modules/notifications/notifications.php:331
+#: modules/notifications/notifications.php:334
+msgid "Notification Group"
+msgstr "Bildirim Grubu"
+
+#: modules/notifications/notifications.php:333
+msgid "Notification Groups"
+msgstr "Bildirim Grupları"
+
+#: modules/notifications/notifications.php:347
+#: modules/notifications/notifications.php:350
+msgid "Notify Email"
+msgstr "E-postaya Bildir"
+
+#: modules/notifications/notifications.php:349
+msgid "Notify Emails"
+msgstr "E-postalara bildir"
+
+#: modules/notifications/notifications.php:527
+#: modules/notifications/notifications.php:937
+msgid "Click to stop being notified on updates for this post"
+msgstr "Bu yazıda yapılan güncellemelerden haberdar olmayı durdurmak için tıklayın"
+
+#: modules/notifications/notifications.php:528
+#: modules/notifications/notifications.php:936
+msgid "Stop notifying me"
+msgstr "Beni bilgilendirmeyi durdur"
+
+#: modules/notifications/notifications.php:531
+#: modules/notifications/notifications.php:943
+msgid "Click to start being notified on updates for this post"
+msgstr "Bu yazıda yapılan güncellemelerden haberdar olmaya başlamak için tıklayın"
+
+#: modules/notifications/notifications.php:532
+#: modules/notifications/notifications.php:942
+msgid "Notify me"
+msgstr "Beni bilgilendir"
+
+#: modules/notifications/notifications.php:596
+msgid ""
+"Enter users, roles, or email addresses that should receive notifications "
+"for this post."
+msgstr ""
+"Bu gönderi için bildirim alması gereken kullanıcıları, rolleri veya e-posta "
+"adreslerini girin."
+
+#: modules/notifications/notifications.php:600
+msgid "Show active notifications"
+msgstr "Aktif bildirimleri göster"
+
+#: modules/notifications/notifications.php:639
+msgid ""
+"This won't have any effect unless you have at least one workflow targeting "
+"the \"Users who selected \"Notify me\" for the content\" option."
+msgstr ""
+"Bu, yalnızca \"İçerik için \"Beni bildir\" seçeneğini seçen kullanıcılar\" "
+"hedefleyen en az bir iş akışınız yoksa etkili olmayacaktır."
+
+#: modules/notifications/notifications.php:653
+msgid "Active Notifications"
+msgstr "Bildirimleri Etkinleştir"
+
+#: modules/notifications/notifications.php:681
+msgid "Workflow has users enrolled"
+msgstr "İş akışında kullanıcılar kayıtlı"
+
+#: modules/notifications/notifications.php:688
+#, php-format
+msgid "No active notifications found for this %s."
+msgstr "Bu %s için hiçbir aktif bildirim bulunamadı."
+
+#: modules/notifications/notifications.php:1051
+#, php-format
+msgid "You are receiving this email because you are subscribed to \"%s\"."
+msgstr " \"%s\" e abone olduğunuz için bu e-postayı alıyorsunuz."
+
+#: modules/notifications/notifications.php:1056
+#, php-format
+msgid "This email was sent %s."
+msgstr "Bu e-posta %s gönderildi."
+
+#: modules/notifications/notifications.php:1712
+msgid "Show the \"Notify me\" and \"Stop notifying me\" links for these post types:"
+msgstr ""
+"Bu gönderi türleri için \"Bana bildir\" ve \"Bana bildirmeyi durdur\" "
+"bağlantılarını gösterin:"
+
+#: modules/notifications/notifications.php:1720
+msgid "Email from:"
+msgstr "E-postayı gönderen:"
+
+#: modules/notifications/notifications.php:1728
+msgid "Always notify the author of the content:"
+msgstr "Her zaman içeriğin yazarını bilgilendirin:"
+
+#: modules/notifications/notifications.php:1736
+msgid "Always notify users who have edited the content:"
+msgstr "İçeriği düzenleyen kullanıcıları her zaman bilgilendirin:"
+
+#: modules/notifications/notifications.php:1744
+msgid "Blacklisted taxonomies for Notifications"
+msgstr "Bildirimler için kara listeye alınmış taksonomiler"
+
+#: modules/notifications/notifications.php:1858, fuzzy
+msgid "slug1,slug2"
+msgstr "slug1,slug2"
+
+#: modules/notifications/notifications.php:1864
+msgid ""
+"Add a list of taxonomy-slugs separated by comma that should not be loaded "
+"by the Taxonomy content filter when adding a new Notification Workflow."
+msgstr ""
+"Yeni Bir Bildirim İş Akışı eklerken, Taxonomy içerik filtresi tarafından "
+"yüklenmemesi gereken virgülle ayrılmış bir taksonomi slugları listesi "
+"ekleyin."
+
+#: modules/notifications/notifications.php:2000
+msgid "WordPress Scheduler"
+msgstr "WordPress Zamanlayıcısı"
+
+#: modules/notifications/notifications.php:2009
+#, php-format
+msgid "[%1$s] New %2$s Created: \"%3$s\""
+msgstr "[%1$s] Yeni %2$s Oluşturuldu: \"%3$s\""
+
+#: modules/notifications/notifications.php:2016
+#, php-format
+msgid "A new %1$s (#%2$s \"%3$s\" ) was created by %4$s %5$s"
+msgstr " %4$s %5$s tarafından yeni bir %1$s (#%2$s \"%3$s\" ) oluşturuldu"
+
+#: modules/notifications/notifications.php:2026
+#, php-format
+msgid "[%1$s] %2$s Trashed: \"%3$s\""
+msgstr "[%1$s] %2$s Çöpe atıldı: \"%3$s\""
+
+#: modules/notifications/notifications.php:2033
+#, php-format
+msgid "%1$s #%2$s \"%3$s\" was moved to the trash by %4$s %5$s"
+msgstr " %4$s %5$s tarafından %1$s #%2$s “%3$s” çöp kutusuna taşındı"
+
+#: modules/notifications/notifications.php:2043
+#, php-format
+msgid "[%1$s] %2$s Restored (from Trash ): \"%3$s\""
+msgstr "[%1$s] %2$s Geri yüklendi (Çöp Kutusundan): \"%3$s\""
+
+#: modules/notifications/notifications.php:2050
+#, php-format
+msgid "%1$s #%2$s \"%3$s\" was restored from trash by %4$s %5$s"
+msgstr "%1$s #%2$s \"%3$s\" çöp kutusundan %4$s %5$s tarafından geri yüklendi"
+
+#: modules/notifications/notifications.php:2073
+#, php-format
+msgid "[%1$s] %2$s Published: \"%3$s\""
+msgstr "[%1$s] %2$s Yayınlandı: \"%3$s\""
+
+#: modules/notifications/notifications.php:2080
+#, php-format
+msgid "%1$s #%2$s \"%3$s\" was published by %4$s %5$s"
+msgstr " %4$s %5$s tarafından %1$s #%2$s “%3$s” yayınlandı"
+
+#: modules/notifications/notifications.php:2090
+#, php-format
+msgid "[%1$s] %2$s Unpublished: \"%3$s\""
+msgstr "[%1$s] %2$s Yayınlanmadı: \"%3$s\""
+
+#: modules/notifications/notifications.php:2097
+#, php-format
+msgid "%1$s #%2$s \"%3$s\" was unpublished by %4$s %5$s"
+msgstr " %4$s %5$s tarafından %1$s #%2$s “%3$s” yayınlanmadı"
+
+#: modules/notifications/notifications.php:2107
+#, php-format
+msgid "[%1$s] %2$s Status Changed for \"%3$s\""
+msgstr "[%1$s] %2$s \"%3$s\" için Durum Değiştirildi"
+
+#: modules/notifications/notifications.php:2114
+#, php-format
+msgid "Status was changed for %1$s #%2$s \"%3$s\" by %4$s %5$s"
+msgstr "Durum %1$s #%2$s \"%3$s\" için %4$s %5$s tarafından değiştirildi"
+
+#: modules/notifications/notifications.php:2125
+#, php-format
+msgid "This action was taken on %1$s at %2$s %3$s"
+msgstr "Bu işlem %2$s %3$s de %1$s adresinde gerçekleştirilmiştir"
+
+#: modules/notifications/notifications.php:2138
+#, fuzzy, php-format
+msgid "%1$s => %2$s"
+msgstr "%1$s => %2$s"
+
+#: modules/notifications/notifications.php:2146
+#, php-format
+msgid "== %s Details =="
+msgstr "== %s Ayrıntılar =="
+
+#: modules/notifications/notifications.php:2147
+#, php-format
+msgid "Title: %s"
+msgstr "Başlık: %s"
+
+#: modules/notifications/notifications.php:2151
+#, php-format
+msgid "Author: %1$s (%2$s )"
+msgstr "Yazar: %1$s (%2$s )"
+
+#: modules/notifications/notifications.php:2165
+#: modules/notifications/notifications.php:2218
+msgid "== Actions =="
+msgstr "== Eylemler =="
+
+#: modules/notifications/notifications.php:2167
+#: modules/notifications/notifications.php:2224
+#, php-format
+msgid "Add editorial comment: %s"
+msgstr "Editoryal yorum ekle: %s"
+
+#: modules/notifications/notifications.php:2170
+#: modules/notifications/notifications.php:2227
+#, php-format
+msgid "Edit: %s"
+msgstr "Düzenle: %s"
+
+#: modules/notifications/notifications.php:2171
+#: modules/notifications/notifications.php:2228
+#, php-format
+msgid "View: %s"
+msgstr "Görünüm: %s"
+
+#: modules/notifications/notifications.php:2182
+#, php-format
+msgid "[%1$s] New Editorial Comment: \"%2$s\""
+msgstr "[%1$s] Yeni Editoryal Yorum: \"%2$s\""
+
+#: modules/notifications/notifications.php:2189
+#, php-format
+msgid "A new editorial comment was added to %3$s #%1$s \"%2$s\""
+msgstr " %3$s #%1$s “%2$s” e yeni bir editoryal yorum eklenti"
+
+#: modules/notifications/notifications.php:2196
+#, php-format
+msgid "%1$s (%2$s ) said on %3$s at %4$s:"
+msgstr "%1$s (%2$s ) %4$s te %3$s söyledi:"
+
+#: modules/notifications/notifications.php:2220
+#, php-format
+msgid "Reply: %s"
+msgstr "Yanıt: %s"
+
+#: modules/notifications/notifications.php:2231
+#, php-format
+msgid "You can see all editorial comments on this %s here: "
+msgstr "Bu konudaki tüm editoryal yorumları %s burada görebilirsiniz: "
+
+#: modules/reviews/reviews.php:66
+msgid "Reviews"
+msgstr "Değerlendirmeler"
+
+#: modules/settings/settings.php:124
+msgid "settings"
+msgstr "ayarlar"
+
+#: modules/settings/settings.php:141
+msgid "PublishPress Settings"
+msgstr "PublishPress Ayarları"
+
+#: modules/settings/settings.php:142
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: modules/settings/settings.php:266
+msgid "PublishPress Planner"
+msgstr "PublishPress Planlayıcı Pro"
+
+#: modules/settings/settings.php:269
+#, php-format
+msgid "If you like %s please leave us a %s rating. Thank you!"
+msgstr "Eğer %s beğendiyseniz lütfen bize %s puan bırakın. Teşekkür ederiz!"
+
+#: modules/settings/settings.php:289
+msgid "There are no PublishPress modules registered"
+msgstr "Kayıtlı PublishPress modülü yok"
+
+#: modules/settings/settings.php:380
+#, php-format
+msgid ""
+"Disabled because add_post_type_support('%1$s', '%2$s') is included in a "
+"loaded file."
+msgstr ""
+"add_post_type_support('%1$s', '%2$s') yüklü bir dosyada yer aldığı için "
+"devre dışı bırakıldı."
+
+#: modules/settings/settings.php:404
+#: publishpress.php:689
+msgid "Cheatin&#8217; uh?"
+msgstr "Hile&#8217; ha?"
+
+#: modules/settings/views/footer-base.html.php:21
+msgid "About"
+msgstr "Hakkında"
+
+#: modules/settings/views/footer-base.html.php:25
+msgid "Documentation"
+msgstr "Belgeler"
+
+#: modules/settings/views/footer-base.html.php:29
+msgid "Contact"
+msgstr "İletişim"
+
+#: modules/theeventscalendar-integration/theeventscalendar-integration.php:52
+msgid "The Events Calendar Integration"
+msgstr "Etkinlik Takvimi Entegrasyonu"
+
+#: modules/theeventscalendar-integration/theeventscalendar-integration.php:53
+msgid "Integrate with the The Events Calendar plugin"
+msgstr "Events Calendar eklentisi ile entegre edin"
+
+#: publishpress.php:604
+msgid "Planner"
+msgstr "Planlayıcı"
+
+#: publishpress.php:685
+msgid "Configure"
+msgstr "Yapılandır"
+
+#: publishpress.php:688
+msgid "Please correct your form errors below and try again."
+msgstr "Lütfen form hatalarınızı aşağıda düzeltin ve tekrar deneyin."
+
+#: publishpress.php:690
+msgid "You do not have necessary permissions to complete this action."
+msgstr "Bu eylemi tamamlamak için gerekli izinlere sahip değilsiniz."
+
+#: publishpress.php:694
+msgid "Post does not exist"
+msgstr "Yazı mevcut değil"
+
+#: publishpress.php:1442
+msgid "Add New Notification"
+msgstr "Yeni Bildirim Ekle"
+
+#: publishpress.php:1443
+msgid "Edit Notification"
+msgstr "Bildirimi Düzenle"
+
+#: publishpress.php:1444
+msgid "Search Notifications"
+msgstr "Bildirimlerde Ara"
+
+#: publishpress.php:1447
+#: publishpress.php:1448
+msgid "No notification found"
+msgstr "Bildirim bulunamadı"
+
+#: publishpress.php:1489
+msgid ""
+"PublishPress Planner tried to load multiple times. Please, deactivate and "
+"remove other instances of PublishPress, specially if you are using "
+"PublishPress Pro."
+msgstr ""
+"PublishPress Planner, birden fazla kez yüklemeye çalıştı. Lütfen diğer "
+"PublishPress örneklerini devre dışı bırakın ve kaldırın, özellikle "
+"PublishPress Pro kullanıyorsanız."
+
+#: publishpress.php:1497
+msgid "Warning"
+msgstr "Uyarı"
+
+#: modules/content-board/library/content-board-utilities.php:538
+#: modules/content-overview/library/content-overview-utilities.php:643
+#, fuzzy, php-format
+msgctxt "%1$s = start date, %2$s = end date"
+msgid " %1$s <div class=\"input-divider\">to</div> %2$s"
+msgstr " %1$s <div class=\"input-divider\">to</div> %2$s"
+
+#: modules/editorial-metadata/editorial-metadata.php:451
+msgctxt "taxonomy general name"
+msgid "Editorial Field"
+msgstr "Editoryal Alan"
+
+#: modules/editorial-metadata/editorial-metadata.php:452
+msgctxt "taxonomy singular name"
+msgid "Editorial Field"
+msgstr "Editoryal Alan"

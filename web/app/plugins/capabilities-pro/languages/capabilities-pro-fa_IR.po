@@ -1,0 +1,1284 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: capabilities-pro\n"
+"Language: fa_IR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: capabilities-pro.php:3
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "قابلیت‌های PublishPress Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"قابلیت‌های PublishPress افزونه کنترل دسترسی برای WordPress است. شما "
+"می‌توانید تمام نقش‌های کاربری WordPress خود را، از مدیران تا مشترکین، "
+"مدیریت کنید."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "توجه: کنترل وضعیت‌های پست سفارشی %1$sغیرفعال%2$s است."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr "توجه: قابلیت‌های ویرایش پست خاص وضعیت %1$sغیرفعال%2$s است."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "منوهای مدیریت"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"منوهای Admin به شما امکان می‌دهد پیوندهای منوی مدیر را ویرایش کنید و کنترل "
+"کنید که چه کسی به آن‌ها دسترسی دارد."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "شما مجوز مدیریت محدودیت‌های منو را ندارید."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "تنظیمات برای تمام نقش‌ها به‌روزرسانی شد."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "تنظیمات به‌روزرسانی شد."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "در حال ذخیره ترتیب منو..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "در حال ذخیره نام منو..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "نام منو نمی‌تواند خالی باشد."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "تغییر آیکون"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "جستجوی آیکون‌ها..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "آیکون منو به‌روزرسانی شد"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "خطا در به‌روزرسانی آیکون منو"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "منوی تکراری با این URL منو قبلاً وجود دارد"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "زیرمنوی تکراری با URL منو قبلاً وجود دارد"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "شما اجازه مدیریت تنظیمات را ندارید."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "صفحه اصلی"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "صفحات بایگانی"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "صفحات تکی"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "صفحات را انتخاب کنید..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "شما می‌توانید نوع صفحات را انتخاب کنید که این عنصر در آن اضافه خواهد شد."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "نوع پست‌ها را انتخاب کنید..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"این یک متاباکس در صفحه ویرایش پست اضافه خواهد کرد. می‌توانید از این ویژگی "
+"برای اضافه کردن کلاس‌های بدنه فقط برای آن پست استفاده کنید."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "وضعیت‌های نمایش"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "قابلیت‌های وضعیت نمایش"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "تنظیم"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "خواندن"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "ویرایش دیگران"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "حذف دیگران"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "می‌تواند پست‌ها را به این وضعیت تنظیم کند"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "می‌تواند پست‌ها را در این وضعیت بخواند"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "می‌تواند پست‌های دیگر کاربران را در این وضعیت ویرایش کند"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "می‌تواند پست‌های دیگر کاربران را در این وضعیت حذف کند"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "تنظیم ویژگی‌های وضعیت پست، نوع پست‌ها"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "تمام قابلیت‌ها را برای این وضعیت تغییر دهید"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: تخصیص داده شده توسط گروه مجوز"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "این قابلیت %s است"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "این علاوه بر قابلیت خاص نوع الزامی است."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "قابلیت مشترک: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "وضعیت‌های سفارشی"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "وضعیت‌های تجدید نظر"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "قابلیت‌های وضعیت تجدید نظر"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "قابلیت‌های وضعیت سفارشی"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "می‌تواند پست‌های این وضعیت را ویرایش کند"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "می‌تواند پست‌های دیگران را از این وضعیت ویرایش کند"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "می‌تواند پست‌های این وضعیت را حذف کند"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "می‌تواند پست‌های دیگران را از این وضعیت حذف کند"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "تنظیم ویژگی‌های وضعیت، نوع پست‌ها، الزامات قابلیت‌ها"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"برای کنترل ویرایش و حذف نسخه‌ها، افزونه‌های %1$sPublishPress Revisions%2$s "
+"و %3$sStatuses Pro%4$s را نصب کنید."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr "برای تعریف و کنترل وضعیت‌های نسخه، افزونه %1$sStatuses Pro%2$s را نصب کنید."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"برای تعریف و کنترل وضعیت‌های نسخه، افزونه %1$sPublishPress Revisions%2$s را "
+"نصب کنید."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"برای تعریف و کنترل وضعیت‌های نسخه، افزونه %1$sPublishPress Revisions%2$s را "
+"به نسخه %3$s یا بالاتر به‌روزرسانی کنید."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"برای کنترل ویرایش و حذف نسخه‌ها، لطفاً %1$sRevisions Compatibility Mode%2$s "
+"را روی \"کنترل دسترسی به نسخه‌های پیشرفته\" تنظیم کنید."
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"برای فعال یا غیرفعال کردن اجرای قابلیت‌های ویرایش سفارشی برای هر وضعیت، روی "
+"سلول دسترسی پست در %1$sجدول وضعیت‌ها%2$s کلیک کنید، سپس این صفحه را مجدداً "
+"بارگذاری کنید."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "مسدود کردن دسترسی به صفحه افزونه‌ها از طریق لینک مستقیم"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "مسدود کردن دسترسی به صفحه پروفایل از طریق لینک مستقیم"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "مسدود کردن دسترسی به کتابخانه رسانه از طریق لینک مستقیم"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "دسترسی به صفحه تم‌ها از طریق لینک مستقیم مسدود شود"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr "دسترسی به صفحه کاربران و افزودن کاربر جدید از طریق لینک مستقیم مسدود شود"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "مسدود کردن با URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "URL را برای مسدود شدن بر اساس نقش وارد کنید:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "ویرایش:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "عنوان"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"نام/برچسبی را برای شناسایی عنصر در بخش \"مسدود شده توسط URL\" این صفحه وارد "
+"کنید."
+
+#: includes-pro/features/admin-features-block-url.php:201
+msgid "URLs"
+msgstr "URLها"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "URLهای متعدد را با کاما جدا کنید. (مثال: %1$s، %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "مسدود کردن با کاراکتر جایگزین"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "برای این قانون URL، مطابقت پیشوند کاراکتر جایگزین را فعال کنید."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"هنگامی که فعال باشد، کاربران از هر URL که با مقداری که در بالا وارد شده است "
+"شروع می‌شود، مسدود می‌شوند."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "لغو ویرایش"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "افزودن جدید"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "ذخیره ویرایش"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "یک خطا رخ داد!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "شما اجازه مدیریت محدودیت‌های ویژگی admin را ندارید."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "عملیات نامعتبر است. این صفحه را دوباره بارگذاری کرده و دوباره تلاش کنید."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "تمامی فیلدها الزامی هستند."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "مورد سفارشی با موفقیت به‌روزرسانی شد"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "مورد سفارشی جدید با موفقیت اضافه شد"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Wildcard فعال شده"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "مشاهده"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "ویرایش"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "حذف"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "درخواست نامعتبر است!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "آیتم انتخاب شده با موفقیت حذف شد"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "شما اجازه دسترسی به این صفحه را ندارید."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "پنهان کردن Hello Dolly از لیست پلاگین‌ها"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr "پنهان کردن لینک‌های عملیات ردیف پلاگین (غیرفعال، فعال، حذف و غیره)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "پنهان کردن دکمه افزودن پست جدید از صفحه پست"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "پنهان کردن دکمه غیرفعال کردن ردیف پلاگین از تمام لیست‌های پلاگین"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "پنهان کردن دکمه حذف ردیف پلاگین از تمام لیست‌های پلاگین"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "پنهان کردن عناصر CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"شما می‌توانید عناصر دیگر را از ناحیه مدیریت با اضافه کردن شناسه‌ها یا "
+"کلاس‌های آن‌ها در زیر حذف کنید:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "نام/برچسب را وارد کنید تا عنصر سفارشی را در این صفحه شناسایی کنید."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "شناسه‌ها یا کلاس‌های عناصر"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"شناسه‌ها یا کلاس‌هایی برای پنهان کردن. مقادیر چندگانه را با کاما جدا کنید "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "آدرس‌های هدف"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"اختیاری. این قانون پنهان کردن CSS را به URLهای خاص مدیریت محدود کنید. "
+"URLهای چندگانه را با کاما جدا کنید."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "تطابق URL Wildcard"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "فعال کردن تطابق پیشوند wildcard برای URL های هدف."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"هنگامی که فعال باشد، این قانون اعمال می‌شود اگر URL فعلی با هر مقدار URL "
+"هدف شروع شود."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "عنصر CSS با موفقیت به‌روز شد."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "عنصر CSS جدید با موفقیت اضافه شد."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL هدف‌گذاری شده"
+
+#: includes-pro/features/admin-features-css-hide.php:317, fuzzy
+msgid "URL wildcard"
+msgstr "URL wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "بررسی امنیت ناموفق بود"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "دسترسی مجاز نیست"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "تنظیمات با موفقیت به‌روز شد."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "ترتیب منوی admin با موفقیت بازنشانی شد. در حال بارگذاری مجدد صفحه..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "نام‌های منوی admin با موفقیت بازنشانی شد. در حال بارگذاری مجدد صفحه..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "کش منوی admin با موفقیت بازنشانی شد. در حال بارگذاری مجدد صفحه..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "منوی admin با موفقیت بازنشانی شد. در حال بارگذاری مجدد صفحه..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "منو با موفقیت حذف شد."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "منوی جدید با موفقیت اضافه شد. در حال بارگذاری مجدد صفحه..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "داده نامعتبر"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "نام منو برای تمام نقش‌ها به‌روز شد."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "نام منو به‌روز شد."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "ترتیب منو به‌روز شد."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "ذخیره برای تمام نقش‌ها"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "نوع:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "لینک منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "لینک زیرمنو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "جداکننده منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "جداکننده زیرمنو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "موقعیت:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "بعد از"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "عنوان منو:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "منو سفارشی من"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "عنوان منو الزامی است."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "سبک جداکننده"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "خط (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "فضای خالی"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "متن"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "رنگ جداکننده"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "آدرس منو:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"یک لینک داخلی مانند %1s یا یک لینک خارجی مانند %2s وارد کنید. هر لینکی فقط "
+"می‌تواند یک بار برای یک URL منو استفاده شود."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "منویی با این آدرس از قبل وجود دارد."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "قابلیت منو:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"این قابلیت لازم برای مشاهده این منو است. به عنوان مثال: %1s یا %2s اگر شما "
+"یک قابلیت سفارشی وارد می‌کنید، به یاد داشته باشید که آن را اضافه کرده و به "
+"نقش‌های مورد نظر در صفحه قابلیت‌ها اختصاص دهید."
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "قابلیت منو الزامی است."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "آیکون منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "ذخیره لینک منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "تغییر وضعیت همه"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "لینک منوی جدید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(نمی‌توان نام منو را شناسایی کرد)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"این نام منو در داده‌های جهانی منو موجود نیست یا به طور مستقیم با منو ثبت "
+"نشده است."
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s نقش"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "همه نقش‌ها"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "ذخیره"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "لغو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "این گزینه غیرفعال است تا از قفل کامل جلوگیری شود"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "آیا مطمئن هستید که می‌خواهید %1s را حذف کنید؟ %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "امکان مورد نیاز برای دسترسی به این منو %s است"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "تغییر نام منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "بالا بردن"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "پایین بردن"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "هیچ منویی پیدا نشد"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "نحوه استفاده از منوهای ادمین"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "کلید استفاده"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "هیچ تغییری"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "این ویژگی رد شده است"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "مشاهده مستندات"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "تنظیمات منوی مدیریت"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "زیرمنوها را پنهان کنید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "نمایش شناسه‌های منو"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "تنظیمات منوی مدیریت را بازنشانی کنید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"شما می‌توانید ترتیب و نام منوهای مدیر را به موقعیت و نام‌های اصلی خود "
+"بازنشانی کنید. همچنین می‌توانید کش منو را برای رفع مشکل منوی گمشده بازنشانی "
+"کنید."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "ترتیب منو را بازنشانی کنید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "منوی کش شده را بازنشانی کنید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "نام‌های منو را بازنشانی کنید"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "گزینه انتخابی را بازنشانی کنید"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "محدودیت‌های جدید ویرایشگر کلاسیک را اضافه کنید"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"شما می‌توانید عناصر دیگر را از صفحه ویرایش با اضافه کردن شناسه‌ها یا "
+"کلاس‌های آن‌ها در زیر حذف کنید:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "محدودیت‌های جدید گوتنبرگ را اضافه کنید"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "شما اجازه مدیریت محدودیت‌های ویژگی ویرایشگر را ندارید."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"عملیات نامعتبر است. این صفحه را دوباره بارگذاری کنید و اگر خطا رخ داد "
+"دوباره تلاش کنید."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"آیتم سفارشی با موفقیت به‌روزرسانی شد. تغییرات را ذخیره کنید تا محدودیت‌ها "
+"اعمال شوند."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "آیتم سفارشی جدید اضافه شد. تغییرات را ذخیره کنید تا محدودیت‌ها اعمال شوند."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "زبان الگوها را در ویرایشگر بلوک پنهان کنید"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "دکمه درج/ویرایش لینک را در ویرایشگر کلاسیک پنهان کنید"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "محدودیت‌های سفارشی ویرایشگر کلاسیک"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "محدودیت‌های سفارشی گوتنبرگ"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "متاباکس‌ها"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "منوی مدیریت"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "خطایی رخ داده است. لطفاً دوباره تلاش کنید یا با تیم پشتیبانی تماس بگیرید."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "مجوز"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "فعال‌سازی کلید"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "غیرفعال‌سازی کلید"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "در حال اتصال به سرور PublishPress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "درخواست به دلیل خطای ارتباطی قابل پردازش نبود."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "لطفاً کلید مجوز نمایش داده شده در رسید سفارش خود را وارد کنید."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "خطای ناشناخته‌ای رخ داده است."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "کلید غیرفعال شده است."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "کلید فعال شده است."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "کلید منقضی شده است."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "کلید نامعتبر است."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "خطای ناشناخته‌ای در فعال‌سازی رخ داده است."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "کلید ارائه شده معتبر نیست. لطفاً ورودی خود را دوباره بررسی کنید."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "این سایت برای فعال‌سازی کلید معتبر نیست."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "کلید ارائه شده توسط PublishPress.com قابل تأیید نبود."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "کلید ارائه شده در سایت دیگری فعال است."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "کلید قبلاً بر روی تعداد مجاز سایت‌ها فعال شده است."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "خطای ناشناخته‌ای در غیرفعال‌سازی رخ داده است."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "قادر به غیرفعال کردن نیست زیرا کلید ارائه شده معتبر نیست."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "این سایت برای غیرفعال کردن کلید معتبر نیست."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "کلید ارائه شده در سایت مشخص شده فعال نیست."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "اگر این نادرست است، <a href=\"%s\">کمک برای فعال‌سازی را درخواست کنید</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "لطفاً قبل از بارگذاری پیکربندی سایت، تنظیمات را ذخیره کنید."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(قفل شده توسط Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "مدیریت وضعیت‌های سفارشی"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "مدیریت انتخاب وضعیت‌های پست سفارشی. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "اعمال قابلیت‌های خاص وضعیت برای ویرایش و حذف پست."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "فعال‌سازی وضعیت‌های قابل مشاهده سفارشی"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"برای وضعیت‌های قابل مشاهده، %1$senable ماژول کنترل وضعیت%2$s در Permissions "
+"Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr "اعمال قابلیت‌های ویرایش خاص وضعیت و نوع برای وضعیت‌های قابل مشاهده"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "فعال‌سازی کلید لایسنس"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"کلید لایسنس PublishPress شما منقضی شده است. برای ادامه پشتیبانی اولویت‌دار، "
+"<a href=\"%s\">لطفاً تجدید کنید</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"کلید لایسنس PublishPress شما امروز منقضی خواهد شد. برای به‌روزرسانی‌ها و "
+"پشتیبانی اولویت‌دار، <a href=\"%s\">لطفاً تجدید کنید</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"کلید مجوز PublishPress شما در %d روز منقضی خواهد شد. برای به‌روزرسانی‌ها و "
+"پشتیبانی اولویت‌دار، <a href=\\\"%s\\\">لطفاً تمدید کنید</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "کلید منقضی شده"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "غیرفعال کردن"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "فعال شده"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "کلید لایسنس خود را وارد کنید"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "فعال‌سازی"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "مشاهده جزئیات %s&nbsp;"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "به‌روزرسانی&nbsp;در دسترس"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "بررسی&nbsp;به‌روزرسانی"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "حساب"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "قیمت‌گذاری"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "نمایش برند PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "پاورقی PublishPress و سایر برندها را پنهان کنید."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "منوهای مدیریت: نحوه برخورد با نقش‌های متعدد"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "بیشترین اجازه: هر نقش کاربری غیرمحدود اجازه دسترسی می‌دهد"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "بیشترین محدودیت: هر نقش کاربری محدود جلوی دسترسی را می‌گیرد"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"این کنترل می‌کند که آیا مجوزهای بیشترین یا کمترین اجازه‌دهی اعمال می‌شود "
+"اگر یک کاربر چندین نقش داشته باشد."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"کنترل وضعیت سفارشی تا زمانی که شما %1$sPublishPress Statuses%2$s پلاگین را "
+"فعال نکنید غیرفعال است. برای جزئیات به %3$sCapabilities > Settings%4$s "
+"مراجعه کنید."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"کنترل وضعیت سفارشی تا زمانی که شما %1$sPublishPress Statuses%2$s پلاگین را "
+"نصب نکنید غیرفعال است. برای جزئیات به %3$sCapabilities > Settings%4$s "
+"مراجعه کنید."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "تغییرات ذخیره شد!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "خطا: تغییرات نمی‌توانند ذخیره شوند."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "حذف منو..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "به‌روزرسانی تنظیمات..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "شما باید حداقل یک گزینه را برای بازنشانی بررسی کنید."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "بازنشانی گزینه..."

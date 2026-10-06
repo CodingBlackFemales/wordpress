@@ -1,0 +1,1322 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-21T12:57:17+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: capabilities-pro\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);\n"
+"Language: ro-RO\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"Capabilitățile PublishPress sunt pluginul de control al accesului pentru "
+"WordPress. Puteți gestiona toate rolurile utilizatorilor WordPress, de la "
+"Administratori la Abonați."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr ""
+"Notă: Controlul statutelor personalizate ale postărilor este "
+"%1$sdezactivat%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr ""
+"Notă: Capacitățile de editare a postărilor specifice statutului sunt "
+"%1$sdezactivate%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Meniuri Admin"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Meniurile Admin vă permit să editați linkurile din meniul admin și să "
+"controlați cine are acces."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "Nu aveți permisiunea de a gestiona restricțiile meniului."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "Setările au fost actualizate pentru toate rolurile."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "Setările au fost actualizate."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "Se salvează ordinea meniului..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "Se salvează numele meniului..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "Numele meniului nu poate fi gol."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "Schimbă pictograma"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "Caută pictograme..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "Pictograma meniului a fost actualizată"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "Eroare la actualizarea pictogramei meniului"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Un meniu duplicat cu acest URL de meniu există deja"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Un submeniu duplicat cu acest URL de meniu există deja"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "Nu aveți permisiunea de a gestiona setările."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "Pagina principală"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "Pagini Arhivate"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "Pagini Unice"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "Selectați paginile..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "Puteți selecta tipuri de pagini unde acest element va fi adăugat."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "Selectați tipurile de postări..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"Aceasta va adăuga un metabox pe ecranul de editare a postării. Puteți "
+"folosi această funcție pentru a adăuga clase în corp doar pentru acea "
+"postare."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Stările de Vizibilitate"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Capabilitățile Stării de Vizibilitate"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "Setați"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Citiți"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "Editați altele"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Ștergeți altele"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Poate seta postările la această stare"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Poate citi postările în această stare"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Poate edita postările altor utilizatori în această stare"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Poate șterge postările altor utilizatori în această stare"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "Configurați proprietățile stării postării, tipurile de postări"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "Comutați toate capabilitățile pentru această stare"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: atribuit de Grupul de Permisiuni"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Această capabilitate este %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "Este necesar în plus față de capacitatea specifică tipului."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "capacitate partajată: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Stări personalizate"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Stări de revizuire"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "Capacități ale stărilor de revizuire"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Capacități ale stărilor personalizate"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Poate edita postările cu acest statut"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Poate edita postările altora cu acest statut"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Poate șterge postările cu acest statut"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Poate șterge postările altora cu acest statut"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr ""
+"Configurează proprietățile stării, tipurile de postări, cerințele de "
+"capacitate"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Pentru a controla editarea și ștergerea reviziilor, instalați pluginurile "
+"%1$sPublishPress Revisions%2$s și %3$sStatuses Pro%4$s."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr ""
+"Pentru a defini și controla statusurile Reviziei, instalați pluginul "
+"%1$sStatuses Pro%2$s."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Pentru a defini și controla statusurile Reviziei, instalați pluginul "
+"%1$sPublishPress Revisions%2$s."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Pentru a defini și controla statusurile Reviziei, actualizați pluginul "
+"%1$sPublishPress Revisions%2$s la versiunea %3$s sau mai mare."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Pentru a controla editarea și ștergerea reviziilor, vă rugăm să setați "
+"%1$sRevisions Compatibility Mode%2$s la \"Controlul accesului avansat la "
+"reviziile\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Pentru a activa sau dezactiva aplicarea capacităților de editare "
+"personalizate pentru orice status, faceți clic pe celula Post Access din "
+"%1$sTabela Statusuri%2$s, apoi reîncărcați acest ecran."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "Blochează accesul la ecranul Pluginuri prin link direct"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "Blochează accesul la ecranul Profil prin link direct"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Blochează accesul la Biblioteca Media prin link direct"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "Blochează accesul la ecranul Temelor prin link direct"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"Blochează accesul la ecranul Utilizatori și Adaugă utilizator nou prin link "
+"direct"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "Blochează prin URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Introdu URL-ul care urmează să fie blocat prin rol:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Editare:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Titlu"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"Introduceți numele/eticheta pentru a identifica elementul din secțiunea "
+"Blocat de URL a acestui ecran."
+
+#: includes-pro/features/admin-features-block-url.php:201
+msgid "URLs"
+msgstr "URL-uri"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Separă mai multe URL-uri prin virgulă. (de ex, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "Blocație cu wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "Activează potrivirea prefixului wildcard pentru această regulă URL."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Când este activat, utilizatorii sunt blocați de orice URL care începe cu "
+"valoarea introdusă mai sus."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Anulează editarea"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Adaugă nou"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "Salvează editarea"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "A apărut o eroare!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "Nu aveți permisiunea de a gestiona restricțiile funcțiilor admin."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "Acțiune invalidă. Reîncarcă această pagină și încearcă din nou."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Toate câmpurile sunt obligatorii."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Element personalizat actualizat cu succes"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Element personalizat nou adăugat cu succes"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Wildcard activat"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Vizualizare"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "Editare"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "Ștergere"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Cerere invalidă!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Elementul selectat a fost șters cu succes"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "Nu aveți permisiunea de a accesa această pagină."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Ascunde Hello Dolly din lista pluginurilor"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr ""
+"Ascunde linkurile de acțiune din rândul pluginului (Dezactivează, "
+"Activează, Șterge etc. butoane)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Ascunde butonul Adaugă Postare Nouă din ecranul postărilor"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr ""
+"Ascunde butonul Dezactivează din rândul pluginului din toate listele de "
+"pluginuri"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "Ascunde butonul Șterge din rândul pluginului din toate listele de pluginuri"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "Ascunde elementele CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"Puteți elimina alte elemente din zona de admin adăugându-le ID-urile sau "
+"clasele mai jos:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr ""
+"Introduceți numele/eticheta pentru a identifica elementul personalizat pe "
+"acest ecran."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "ID-uri sau Clase de Element"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"ID-uri sau clase de ascuns. Separați valorile multiple prin virgulă "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "URL-uri țintă"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Opțional. Restricționați această regulă CSS de ascundere la URL-uri admin "
+"specifice. Separați URL-urile multiple prin virgulă."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Potrivire URL Wildcard"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "Activați potrivirea prefixului wildcard pentru URL-urile țintă."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Când este activată, această regulă se aplică dacă URL-ul curent începe cu "
+"orice valoare de URL țintă."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "Elementul CSS actualizat cu succes."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Elementul CSS nou adăugat cu succes."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL țintă"
+
+#: includes-pro/features/admin-features-css-hide.php:317, fuzzy
+msgid "URL wildcard"
+msgstr "URL wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "Verificarea de securitate a eșuat"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "Permisiune refuzată"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "Setările actualizate cu succes."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "Ordinea meniului Admin resetată cu succes. Se reîncarcă pagina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "Numele meniului Admin resetat cu succes. Se reîncarcă pagina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Cache-ul meniului Admin resetat cu succes. Se reîncarcă pagina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Meniul Admin resetat cu succes. Se reîncarcă pagina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "Meniul șters cu succes."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "Meniul nou adăugat cu succes. Se reîncarcă pagina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "Date invalide"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "Numele meniului actualizat pentru toate rolurile."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "Numele meniului actualizat."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "Ordinea meniului actualizată."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "Salvează pentru Toate Rolurile"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "Tip:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "Link meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "Link submeniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "Separator meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "Separator submeniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "Poziție:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "După"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "Titlu meniu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "Meniul meu personalizat"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "Titlul meniului este obligatoriu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "Stil separator"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "Linie (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "Spațiu gol"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187, fuzzy
+msgid "Text"
+msgstr "Text"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "Culoare Separator"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "URL meniu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Introduceți un link intern cum ar fi %1s sau un link extern cum ar fi %2s. "
+"Orice link poate fi folosit o singură dată pentru un URL de meniu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "Meniul cu acest URL există deja."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "Capacitate meniu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Aceasta este capacitatea necesară pentru a vedea acest meniu. De exemplu: "
+"%1s sau %2s Dacă introduceți o capacitate personalizată, amintiți-vă să o "
+"adăugați și să o alocați rolurilor preferate pe pagina capacităților"
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "Capacitatea meniului este obligatorie."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "Iconiță meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "Salvează linkul meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "Comutare tot"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "Link nou pentru meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(Nu se poate detecta numele meniului)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Acest nume de meniu nu este disponibil în datele globale ale meniului sau "
+"înregistrat direct cu meniul"
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s Rol"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "Toate rolurile"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "Salvează"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "Anulează"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Această opțiune este dezactivată pentru a preveni blocarea completă"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Ești sigur că vrei să ștergi %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Capacitatea necesară pentru a accesa acest meniu este %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "Renumește meniu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "Mută în sus"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "Mută în jos"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "Niciun meniu găsit"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "Cum să folosești Meniurile Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "cheia de utilizare"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "Nicio modificare"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "Această caracteristică este refuzată"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "Vizualizează documentația"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "Setări Meniu Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "Ascunde Submeniuri"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "Arată Slug-urile Meniului"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "Resetează Meniurile Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Puteți reseta ordinea și numele meniului admin la pozițiile și numele lor "
+"originale. De asemenea, puteți reseta cache-ul meniului pentru a remedia "
+"problema meniului lipsă."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "Resetează Ordinea Meniului"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "Resetează Meniul Cached"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "Resetează Numele Meniului"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "Resetează Opțiunea Selectată"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Adaugă Noi Restricții Editor Clasic"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"Puteți elimina alte elemente de pe ecranul editorului adăugându-le ID-urile "
+"sau clasele mai jos:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Adaugă Noi Restricții Gutenberg"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "Nu aveți permisiunea de a gestiona restricțiile funcțiilor editor."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"Acțiune invalidă. Reîncarcă această pagină și încearcă din nou dacă a "
+"apărut o eroare."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Element personalizat actualizat cu succes. Salvează modificările pentru a "
+"aplica restricțiile."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr ""
+"Element personalizat nou adăugat. Salvează modificările pentru a aplica "
+"restricțiile."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Ascunde tab-ul Patterns în editorul de blocuri"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Ascunde butonul Inserare/editare link în Editorul Clasic"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Restricții Personalizate Editor Clasic"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Restricții Personalizate Gutenberg"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "Metabox-uri"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "Meniu Admin"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr ""
+"A apărut o eroare. Vă rugăm să încercați din nou sau să contactați echipa "
+"de suport."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Licență"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "Activează Cheia"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "Dezactivează Cheia"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Se conectează la serverul publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "Cererea nu a putut fi procesată din cauza unei erori de conexiune."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr ""
+"Vă rugăm să introduceți cheia de licență afișată pe chitanța comenzii "
+"dumneavoastră."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "A apărut o eroare neidentificată."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "Cheia a fost dezactivată."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "Cheia a fost activată."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "Cheia a expirat."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "Cheia este invalidă."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "A apărut o eroare necunoscută la activare."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "Cheia furnizată nu este validă. Vă rugăm să verificați din nou introducerea."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Acest site nu este valid pentru a activa cheia."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "Cheia furnizată nu a putut fi validată de publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "Cheia furnizată este deja activă pe un alt site."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Cheia a fost deja activată pe numărul permis de site-uri."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "A apărut o eroare necunoscută la dezactivare."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Imposibil de dezactivat deoarece cheia furnizată nu este validă."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Acest site nu este valid pentru a dezactiva cheia."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "Cheia furnizată nu este activă pe site-ul specificat."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr ""
+"Dacă aceasta este incorect, <a href=\"%s\">solicitați ajutor pentru "
+"activare</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "Vă rugăm să salvați setările înainte de a încărca configurația site-ului."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Blocat de Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Controlați statusurile personalizate"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Controlați selecția statusurilor personalizate pentru postări. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr ""
+"Aplicați capacități specifice statusului pentru editarea și ștergerea "
+"postărilor."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Activați Statusurile de Vizibilitate Personalizate"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"Pentru Stările de Vizibilitate, %1$sactivează modulul Control Status%2$s în "
+"Permisiuni Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr ""
+"Aplică capacități de editare specifice stării și tipului pentru Stările de "
+"Vizibilitate"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Activarea Cheii de Licență"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"Cheia ta de licență PublishPress a expirat. Pentru suport prioritar "
+"continuu, <a href=\"%s\">te rugăm să reînnoiești</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"Cheia ta de licență PublishPress va expira astăzi. Pentru actualizări și "
+"suport prioritar, <a href=\"%s\">te rugăm să reînnoiești</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Cheia ta de licență PublishPress va expira în %d zi. Pentru actualizări și "
+"suport prioritar, <a href=\"%s\">te rugăm să reînnoiești</a>."
+msgstr[1] ""
+"Cheia ta de licență PublishPress (pentru actualizările plugin-ului) va "
+"expira în %d zile. Pentru actualizări și suport prioritar, <a "
+"href=\"%s\">te rugăm să reînnoiești</a>."
+msgstr[2] ""
+"Cheia ta de licență PublishPress va expira în %d zile. Pentru actualizări "
+"și suport prioritar, <a href=\"%s\">te rugăm să reînnoiești</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "Cheia a expirat"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "Dezactivează"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "Activat"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "Introduceți cheia dvs. de licență"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "Activare"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "vizualiza %s&nbsp;detalii"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "Actualizare&nbsp;Disponibilă"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "Verificare&nbsp;Actualizare"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "Cont"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "Prețuri"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "Afișează Branding-ul PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Ascunde subsolul PublishPress și alte branduri."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Meniuri Admin: tratamentul rolurilor multiple"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr ""
+"Cel mai permisiv: Orice rol de utilizator care nu este restricționat "
+"permite accesul"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "Cel mai restrictiv: Orice rol de utilizator restricționat împiedică accesul"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Aceasta controlează dacă se aplică permisiunile cele mai permisive sau cele "
+"mai restrictive dacă un utilizator are mai multe roluri."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Controlul personalizat al stării este dezactivat până când activezi "
+"%1$sPluginul PublishPress Statuses%2$s. Vezi %3$sCapabilități > Setări%4$s "
+"pentru detalii."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Controlul personalizat al stării este dezactivat până când instalezi "
+"%1$sPluginul PublishPress Statuses%2$s. Vezi %3$sCapabilități > Setări%4$s "
+"pentru detalii."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "Modificări salvate!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "Eroare: modificările nu pot fi salvate."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "Ștergerea meniului..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "Actualizarea setărilor..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "Trebuie să verificați cel puțin o opțiune pentru a reseta."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "Resetarea opțiunii..."

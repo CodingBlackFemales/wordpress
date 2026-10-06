@@ -1,0 +1,582 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+">= 2 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+">= 2 && (n % 100 < 10 || n % 100 >= 20) ? 1: 2);\n"
+"(n%100<10 || n%100>=20) ? 1: 2);\n"
+"Language: lt_LT\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && n % 100 != 11 ? 0 : n % 10 >= 2 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress Planner padeda jums planuoti ir skelbti turinį WordPress. "
+"Funkcijos apima turinio kalendorių, kanban lentą ir pranešimus."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "Įspėjimas"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr ""
+"Prašome deaktyvuoti ir pašalinti PublishPress Slack prieš naudojant "
+"PublishPress Pro."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr ""
+"Prašome deaktyvuoti ir pašalinti PublishPress Priminimus prieš naudojant "
+"PublishPress Pro."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr ""
+"Atrodo, kad turite kelis PublishPress Pro veikiančius. Prašome deaktyvuoti "
+"ir pašalinti vieną iš jų."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "Tinklo administratorius"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "Turinio kalendorius Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "Įvyko klaida"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr ""
+"Klaida tikrinant nonce. Prašome perkrauti šią puslapį ir pabandyti dar "
+"kartą."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "Neteisingas formos užklausimas."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "Klaida gaunant įrašo duomenis."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "Neturite teisės redaguoti šio įrašo."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "Pakeitimai išsaugoti!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEO balas"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "Skaitymo lengvumas"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO pavadinimas"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "Meta aprašymas"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "Fokusavimo raktažodžiai"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "Išeinantys vidiniai nuorodos"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "Gauti vidiniai nuorodos"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebook pavadinimas"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook aprašymas"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook vaizdas"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitter pavadinimas"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter aprašymas"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter vaizdas"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPress sąrašai"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "Neturite jokių sąrašų reikalavimų."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEO balai"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "Turinio lenta Pro"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "Turinio apžvalga Pro"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Elementor integracija"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "Pranešti tinklo administratoriui"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "Licencija"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "Licencijos raktas:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "Rodyti PublishPress prekės ženklą administracijoje:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "Po to, kai turinys paskelbtas"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "Prieš pasirinktą paskelbimo datą"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "Kiekis"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "Laiko vienetas"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "Valandos"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "Dienos"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "Savaitės"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "Mėnesiai"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "Turiniui šioje būsenoje"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "Primins"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "Intervalas, per kurį ieškoti suplanuotų įrašų:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "Nenumatyta"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "dabar"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s sekundės"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "Niekada"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "Kitas vykdymas"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"Kaip dažnai turėtume tikrinti suplanuotus įrašus? Tai leidžia PublishPress "
+"apdoroti pranešimus apie suplanuotą turinį."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "Paspauskite čia, kad gautumėte daugiau informacijos."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "Kas 10 minučių"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "Kas 15 minučių"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "Kas 20 minučių"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "Kas 30 minučių"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "Kas 45 minutes"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress Revizijos Integracija"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "Revizijos Būklė"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "Visos būsenos"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "Rodyti Revizijas"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack kanalas:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr ""
+"Slack kanalas, į kurį bus siunčiama pranešimas. Pavyzdžiui, #general, "
+"@username, arba user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Paspauskite, kad prisijungtumėte prie Slack"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Paspauskite, kad vėl prisijungtumėte prie Slack"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "Tęsti"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "Atšaukti"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "Sėkmė"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "Klaida"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "sekundės"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "Praėjo laikas"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"Paspaudus prisijungti, atsidarys naujas langas, kad galėtumėte įgalinti "
+"PublishPress programą Slack."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr ""
+"Įklijuokite žemiau laikino autentifikavimo kodą, kurį gavote atsidariusioje "
+"puslapio, ir paspauskite Tęsti."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Slack autentifikavimo informacija išsaugota."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"„Slack“ turi naują API, o jūs turite seną konfigūraciją, kuri gali netrukus "
+"nustoti veikti. Prašome, vėl prisijungti prie „Slack“, kad išvengtumėte "
+"pranešimų nutraukimo."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "Sveikiname! „Slack“ autentifikacijos informacija buvo išsaugota."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "Autentifikacijos informacija ir talpykla buvo sėkmingai ištrinti."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Paspauskite, kad siųstumėte testinę žinutę į numatytąjį kanalą „Slack“"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Bandoma siųsti žinutę į „Slack“..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "Rasta nežinoma klaida."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Neteisingas nonce arba referer."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "Sveikiname! Testinė žinutė buvo išsiųsta į kanalą %s."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "Autentifikacija:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "Numatytasis „Slack“ kanalas/vartotojas:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "Pranešimų tema:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "Pilnas - Pranešimo turinys su veiksmų mygtukais"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "Švarus - Tik pranešimo turinys"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"Numatytasis „Slack“ kanalas, į kurį bus siunčiami pranešimai. Pavyzdžiui, "
+"#general, @username, user@email.com, arba kanalo ID. Vartotojai gali tai "
+"perrašyti savo profilyje."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "Komentaras"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "Peržiūrėti"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr ""
+"Nepavyko rasti žetono. Prašome, eikite į PublishPress > Nustatymai > Slack "
+"ir vėl prisijunkite prie „Slack“."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr ""
+"Prašome, eikite į PublishPress > Nustatymai > Slack ir vėl prisijunkite "
+"prie „Slack“"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr ""
+"„Slack“ OAuth žetonas nerastas „PublishPress“. Prašome, vėl prisijunkite "
+"prie „Slack“"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "Prieiga atmesta"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "Netinkamas OAuth žetonas"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr ""
+"Sveikas, sveikiname! Viskas atrodo gerai PublishPress Pro Slack "
+"nustatymuose."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Klaida iš Slack: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "Klaida iš PublshPress.com: "

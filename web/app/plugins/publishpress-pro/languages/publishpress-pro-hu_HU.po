@@ -1,0 +1,581 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hu-HU\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"A PublishPress Planner segít a tartalom tervezésében és közzétételében a "
+"WordPress-en belül. A funkciók közé tartozik egy tartalomnaptár, kanban "
+"tábla és értesítések."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "Figyelmeztetés"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr ""
+"Kérjük, deaktíválja és távolítsa el a PublishPress Slack-et a PublishPress "
+"Pro használata előtt."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr ""
+"Kérjük, deaktíválja és távolítsa el a PublishPress Emlékeztetőket a "
+"PublishPress Pro használata előtt."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr ""
+"Úgy tűnik, hogy több PublishPress Pro fut. Kérjük, deaktíváljon és "
+"távolítson el egyet közülük."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "Hálózati Adminisztrátor"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "Tartalom Naptár Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "Hiba történt"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr ""
+"Hiba a nonce érvényesítésekor. Kérjük, töltsd be újra ezt az oldalt, és "
+"próbáld újra."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "Érvénytelen űrlap kérés."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "Hiba a bejegyzés adatainak lekérésekor."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "Nincs engedélyed ennek a bejegyzésnek a szerkesztésére."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "Változások mentve!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEO pontszám"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "Olvashatóság"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO Cím"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "Meta leírás"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "Fókusz kulcsszavak"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "Kimenő belső linkek"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "Bejövő belső linkek"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebook cím"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook leírás"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook kép"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitter cím"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter leírás"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter kép"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPress ellenőrző listák"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "Nincsenek engedélyezve ellenőrző lista követelmények."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEO pontszámok"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "Tartalom táblázat Pro"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "Tartalom áttekintés Pro"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Elementor integráció"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "Értesítés a hálózati adminisztrátornak"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "Licenc"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "Licenckulcs:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "A PublishPress márka megjelenítése az admin felületen:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "A tartalom közzététele után"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "A kiválasztott közzétételi dátum előtt"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "Mennyiség"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "Időegység"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "Órák"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "Napok"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "Hetek"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "Hónapok"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "A tartalom ezen állapotban"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "Emlékeztetők"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "Időköz a ütemezett bejegyzések keresésére:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "Nincs ütemezve"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "most"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s másodperc"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "Soha"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "Következő futás"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"Milyen gyakran ellenőrizzük az ütemezett bejegyzéseket? Ez lehetővé teszi a "
+"PublishPress számára, hogy feldolgozza az értesítéseket az ütemezett "
+"tartalomról."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "Kattintson ide további információkért."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "10 percenként"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "15 percenként"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "20 percenként"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "30 percenként"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "Minden 45 percben"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress Revízió Integráció"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "Revízió állapot"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "Minden állapot"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "Revíziók megjelenítése"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack csatorna:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr ""
+"Slack csatorna, amelyre az értesítések kerülnek küldésre. Például #general, "
+"@felhasználónév, vagy user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Kattintson a Slackhez való csatlakozáshoz"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Kattintson a Slackhez való újracsatlakozáshoz"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "Folytatás"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "Mégse"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "Siker"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "Hiba"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "másodperc"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "Eltelt idő"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"Kattintás a csatlakozáshoz, egy új ablak fog megnyílni, ahol engedélyezheti "
+"a PublishPress alkalmazást a Slack-en."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr ""
+"Illessze be alul a ideiglenes hitelesítési kódot, amelyet a betöltött "
+"oldalon kapott, és kattintson a Folytatásra."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "A Slack hitelesítési információi tárolva vannak."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"A Slacknek új API-ja van, és van egy régi konfigurációja, amely hamarosan "
+"leállhat. Kérlek, csatlakozz újra a Slackhez, hogy elkerüld az értesítések "
+"megszakadását."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "Gratulálunk! A Slack hitelesítési információi elmentve."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "A hitelesítési információk és a gyorsítótár sikeresen törölve lettek."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Kattints a tesztüzenet elküldéséhez az alapértelmezett csatornára a Slack-en"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Próbálkozás az üzenet elküldésével a Slack-re..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "Ismeretlen hiba történt."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Érvénytelen nonce vagy referer."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "Gratulálunk! Egy tesztüzenet elküldve a(z) %s csatornára."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "Hitelesítés:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "Alapértelmezett Slack csatorna/felhasználó:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "Értesítési téma:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "Teljes - Értesítési szöveg akciógombokkal"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "Tiszta - Csak az értesítési szöveg"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"Alapértelmezett Slack csatorna, amelyre az értesítések el lesznek küldve. "
+"Például #general, @felhasználónév, user@email.com, vagy a csatorna ID. A "
+"felhasználók felülbírálhatják ezt a profiljukon."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "Megjegyzés"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "Megtekintés"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr ""
+"Nincs token találva. Kérlek, menj a PublishPress > Beállítások > Slack "
+"menüpontra, és csatlakozz újra a Slackhez."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr ""
+"Kérlek, menj a PublishPress > Beállítások > Slack menüpontra, és csatlakozz "
+"újra a Slackhez"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr ""
+"A Slack OAuth token nem található a PublishPress-ben. Kérlek, csatlakozz "
+"újra a Slackhez"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "Hozzáférés megtagadva"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "Érvénytelen OAuth token"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr ""
+"Szia, gratulálok! Minden rendben van a PublishPress Pro Slack "
+"beállításaival."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Hiba a Slacktól: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "Hiba a PublshPress.com-tól: "

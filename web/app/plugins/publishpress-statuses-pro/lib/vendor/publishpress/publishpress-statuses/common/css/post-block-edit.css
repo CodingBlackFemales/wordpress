@@ -1,0 +1,29 @@
+div.interface-preferences-modal #tab-panel-0-general-view fieldset:first-of-type div:first-of-type {
+display: none;
+}
+
+div.editor-post-publish-panel__footer div.components-checkbox-control div:first-of-type {
+display: none;
+}
+
+div.pp-statuses-workflow div.components-radio-control__option {
+display: block;
+}
+
+div.pp-statuses-workflow span.pp-status-color-title {
+margin-left: 5px;
+margin-top: 1px;
+}
+
+.publishpress-extended-post-status select {
+line-height: 1.5 !important;
+}
+
+.presspermit-save-button button {
+background: #655997 !important;
+color: white !important;
+}
+
+.editor-post-schedule__panel-dropdown {
+width: inherit;
+}

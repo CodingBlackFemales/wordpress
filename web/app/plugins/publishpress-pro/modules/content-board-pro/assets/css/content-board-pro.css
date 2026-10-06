@@ -1,0 +1,284 @@
+body.pp-content-board-page #TB_window {
+    width: 96% !important;
+    margin-left: 25px !important;
+    left: 0 !important;
+    border-radius: .75rem;
+    background: rgb(255, 255, 255);
+}
+
+body.pp-content-board-page #TB_title {
+    display: flex;
+    padding-bottom: 5px !important;
+    border-top-right-radius: .75rem;
+    border-top-left-radius: .75rem;
+    background: rgb(255, 255, 255);
+}
+
+body.pp-content-board-page #TB_ajaxWindowTitle {
+    float: unset !important;
+    overflow: unset !important;
+    margin-top: 3px;
+}
+
+body.pp-content-board-page #TB_closeWindowButton:focus,
+body.pp-content-board-page #TB_closeWindowButton:focus .tb-close-icon {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+body.pp-content-board-page #TB_ajaxContent {
+    width: 96% !important;
+    overflow: hidden;
+    padding-top: 0 !important;
+}
+
+body.pp-content-board-page #TB_closeWindowButton {
+    margin-top: 2px;
+    color: #655997;
+}
+
+.pp-popup-modal-header {
+    display: flex;
+    gap: 10px;
+}
+
+.pp-popup-modal-header span.dashicons {
+    vertical-align: text-bottom;
+}
+
+.pp-popup-modal-header .pp-modal-navigation-prev,
+.pp-popup-modal-header .pp-modal-navigation-next,
+.pp-popup-modal-header .pp-modal-navigation-current {
+    flex: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.pp-popup-modal-header .pp-modal-navigation-prev,
+.pp-popup-modal-header .pp-modal-navigation-next,
+.pp-popup-modal-header .pp-modal-navigation-current,
+.pp-popup-modal-header .meta {
+    border-right: 1px solid #ddd;
+}
+
+.pp-popup-modal-header .pp-modal-navigation-current {
+    text-align: center;
+}
+
+.pp-popup-modal-header .pp-modal-navigation-prev a:focus,
+.pp-popup-modal-header .pp-modal-navigation-next a:focus,
+.pp-popup-modal-header .meta a:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.pp-content-board-general-modal-container {
+    display: flex;
+}
+
+.pp-content-board-general-modal-container .modal-content-left {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 370px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: rgb(173, 179, 189) rgb(255, 255, 255);
+    scrollbar-width: thin;
+}
+
+.pp-content-board-general-modal-container .modal-content-left .main-post-content {
+    padding-right: 30px;
+    padding-left: 5px;
+}
+
+.pp-content-board-general-modal-container .modal-content-right {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pp-content-board-general-modal-container .modal-content-right .scrollable-content {
+    height: 370px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: rgb(173, 179, 189) rgb(255, 255, 255);
+    scrollbar-width: thin;
+}
+
+.pp-content-board-general-modal-container .modal-content-right .save-post-changes {
+    transition: background .2s cubic-bezier(.785, .135, .15, .86) 0s;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 3px;
+    border: 1px solid rgb(232, 234, 237);
+    cursor: pointer;
+    background-color: #655997;
+    color: rgb(255, 255, 255);
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: max-content;
+    float: right;
+}
+
+.pp-content-board-general-modal-container .modal-content-right .save-post-changes.disabled {
+    background-color: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+    color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+    border-color: light-dark(rgba(118, 118, 118, 0.3), rgba(195, 195, 195, 0.3));
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.pp-content-board-general-modal-container .modal-content-right .save-post-changes:not(.disabled) .spinner {
+    display: none;
+}
+
+.pp-content-board-general-modal-container .modal-content-right .save-post-changes.disabled .spinner {
+    margin-top: 0 !important;
+    margin-top: -1px;
+}
+
+.pp-content-board-general-modal-container .modal-content-left {
+    flex: 0 0 65%;
+    border-right: 1px solid #ddd;
+    margin-right: 10px;
+    padding-top: 0;
+}
+
+.pp-content-board-general-modal-container .modal-content-right {
+    flex: 0 0 35%;
+}
+
+.pp-content-board-general-modal-container .modal-post-title {
+    margin-bottom: 10px;
+}
+
+.pp-content-board-general-modal-container select,
+.pp-content-board-general-modal-container .select2-container,
+.pp-content-board-general-modal-container .date-time-pick {
+    width: 90% !important;
+}
+
+body.pp-content-board-page .select2-dropdown {
+    z-index: 9999999;
+}
+
+.pp-content-board-general-modal-container .modal-post-title textarea,
+.pp-content-board-general-modal-container .modal-post-title div {
+    width: 99%;
+    min-height: 50px;
+    box-sizing: border-box;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    resize: none;
+    overflow: auto;
+}
+
+/* For WebKit browsers */
+.pp-content-board-general-modal-container .modal-post-title textarea::-webkit-scrollbar {
+    width: 4px;
+}
+
+.pp-content-board-general-modal-container .modal-post-title textarea::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+.pp-content-board-general-modal-container .modal-post-title textarea::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.pp-content-board-general-modal-container .modal-post-title textarea::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+
+/* For Firefox */
+.pp-content-board-general-modal-container .modal-post-title textarea {
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #ffffff;
+}
+
+.pp-modal-description {
+    color: rgb(101, 111, 125);
+    font-size: .875rem;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.pp-modal-subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgb(42, 46, 52);
+}
+
+.pp-modal-title.taxonomy-title {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+}
+
+.pp-content-board-general-modal-container .modal-taxonomy-info .status-title-count {
+    display: none;
+}
+
+.pp-content-board-general-modal-container .modal-taxonomy-info {
+    display: grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(150px, 2fr);
+    gap: .25rem;
+    margin-bottom: 10px;
+}
+
+.pp-content-board-general-modal-container .modal-taxonomy-info span.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+}
+
+.pp-popup-modal-header .meta span a,
+.pp-popup-modal-header a {
+    color: #655997;
+    text-decoration: none;
+}
+
+.pp-popup-modal-header a {
+    margin-right: 13px;
+}
+
+.pp-popup-modal-header .meta span a:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.pp-popup-modal-header .meta.post-delete span.dashicons,
+.pp-popup-modal-header .meta.post-delete span a {
+    color: #b32d2e;
+}
+
+.pp-content-board-general-modal-container .column-icon {
+    margin-left: 0;
+    margin-right: 5px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    flex-grow: 0;
+    width: 16px;
+    height: 16px;
+    fill: green;
+    cursor: pointer;
+}
+
+.pp-content-board-general-modal-container .column-icon.red {
+    fill: red;
+}
+
+.pp-content-board-general-modal-container .column-icon.black {
+    fill: rgb(101, 111, 125);
+}

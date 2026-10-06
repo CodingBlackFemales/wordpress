@@ -1,0 +1,20 @@
+.publishpress-extended-post-privacy {
+display: flex;
+align-items: flex-start;
+}
+
+.publishpress-extended-post-privacy select {
+width: 130px !important;
+}
+
+.publishpress-extended-post-privacy-note {
+width: 100%;
+padding: 5px 60px 5px 10px;
+/*font-size: 0.9em;*/
+}
+
+.editor-post-publish-panel .editor-post-visibility {
+display: none;
+}
+
+/*# sourceMappingURL=custom-privacy-block-editor.css.map */

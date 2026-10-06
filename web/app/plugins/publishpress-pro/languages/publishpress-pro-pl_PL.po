@@ -1,0 +1,580 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"&& (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+"&& (n % 100 < 10 || n % 100 >= 20) ? 1: 2);\n"
+"(n%100<10 || n%100>=20) ? 1: 2);\n"
+"Language: pl_PL\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress Planner pomaga planować i publikować treści w WordPressie. "
+"Funkcje obejmują kalendarz treści, tablicę kanban i powiadomienia."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "Ostrzeżenie"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr ""
+"Proszę dezaktywować i usunąć PublishPress Slack przed użyciem PublishPress "
+"Pro."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr ""
+"Proszę dezaktywować i usunąć PublishPress Reminders przed użyciem "
+"PublishPress Pro."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr ""
+"Wygląda na to, że masz uruchomione wiele instancji PublishPress Pro. Proszę "
+"dezaktywować i usunąć jedną z nich."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "Administrator sieci"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "Kalendarz treści Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "Wystąpił błąd"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "Błąd walidacji nonce. Proszę odświeżyć tę stronę i spróbować ponownie."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "Nieprawidłowe żądanie formularza."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "Błąd podczas pobierania danych posta."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "Nie masz uprawnień do edytowania tego posta."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "Zmiany zapisane!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "Wynik SEO"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "Czytelność"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "Tytuł SEO"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "Opis Meta"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "Słowa kluczowe fokusowe"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "Wychodzące linki wewnętrzne"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "Otrzymane linki wewnętrzne"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Tytuł Facebooka"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Opis Facebooka"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Obrazek Facebooka"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Tytuł Twittera"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Opis Twittera"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Obrazek Twittera"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "Listy kontrolne PublishPress"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "Nie masz włączonych żadnych wymagań dotyczących list kontrolnych."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "Wyniki SEO"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "Tablica treści Pro"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "Przegląd treści Pro"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Integracja z Elementor"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "Powiadom administratora sieci"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "Licencja"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "Klucz licencyjny:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "Wyświetl markę PublishPress w panelu administracyjnym:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "Po opublikowaniu treści"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "Przed wybraną datą publikacji"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "Kwota"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "Jednostka czasu"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "Godziny"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "Dni"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "Tygodnie"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "Miesiące"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "Dla treści w tym statusie"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "Przypomnienia"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "Interwał do przeszukiwania zaplanowanych postów:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "Nie zaplanowane"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "teraz"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s sekund"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "Nigdy"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "Następne uruchomienie"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"Jak często powinniśmy sprawdzać zaplanowane posty? To umożliwia "
+"PublishPress przetwarzanie powiadomień o zaplanowanej treści."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "Kliknij tutaj, aby uzyskać więcej informacji."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "Co 10 minut"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "Co 15 minut"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "Co 20 minut"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "Co 30 minut"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "Co 45 minut"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "Integracja PublishPress Revision"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "Status rewizji"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "Wszystkie statusy"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "Pokaż rewizje"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Kanał Slack:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr ""
+"Kanał Slack, na który zostanie wysłane powiadomienie. Na przykład #general, "
+"@nazwa_użytkownika lub użytkownik@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Kliknij, aby połączyć się ze Slackiem"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Kliknij, aby ponownie połączyć się ze Slackiem"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "Kontynuuj"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "Sukces"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "Błąd"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "sekundy"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "Upłynę czas"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"Klikając, aby połączyć, otworzy się nowe okno, abyś mógł autoryzować "
+"aplikację PublishPress na Slacku."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr ""
+"Wklej poniżej tymczasowy kod autoryzacji, który otrzymałeś na załadowanej "
+"stronie, i kliknij Kontynuuj."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Informacje o autoryzacji Slack są przechowywane."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"Slack ma nowe API, a Ty masz przestarzałą konfigurację, która może wkrótce "
+"przestać działać. Proszę, połącz się ponownie ze Slackiem, aby uniknąć "
+"przerwania powiadomień."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "Gratulacje! Informacje o uwierzytelnieniu Slack zostały zapisane."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "Informacje o uwierzytelnieniu i pamięć podręczna zostały pomyślnie usunięte."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Kliknij, aby wysłać wiadomość testową do domyślnego kanału na Slacku"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Próba wysłania wiadomości do Slacka..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "Wykryto nieznany błąd."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Nieprawidłowy nonce lub referer."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "Gratulacje! Wiadomość testowa została wysłana do kanału %s."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "Uwierzytelnienie:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "Domyślny kanał/użytkownik Slack:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "Motyw powiadomień:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "Pełny - Treść powiadomienia z przyciskami akcji"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "Czysty - Tylko treść powiadomienia"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"Domyślny kanał Slack, na który będą wysyłane powiadomienia. Na przykład "
+"#general, @nazwa_użytkownika, user@email.com lub ID kanału. Użytkownicy "
+"mogą to nadpisać na swoim profilu."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "Komentarz"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "Edytuj"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "Zobacz"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr ""
+"Nie znaleziono tokena. Proszę, przejdź do PublishPress > Ustawienia > Slack "
+"i połącz się ponownie ze Slackiem."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr ""
+"Proszę, przejdź do PublishPress > Ustawienia > Slack i połącz się ponownie "
+"ze Slackiem"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr ""
+"Token OAuth Slack nie został znaleziony w PublishPress. Proszę, połącz się "
+"ponownie ze Slackiem"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "Odmowa dostępu"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "Nieprawidłowy token OAuth"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr ""
+"Hej, gratulacje! Wszystko wygląda dobrze w ustawieniach Slacka PublishPress "
+"Pro."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Błąd ze Slacka: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "Błąd z PublshPress.com: "

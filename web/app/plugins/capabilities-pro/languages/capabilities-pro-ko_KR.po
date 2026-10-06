@@ -1,0 +1,1245 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: capabilities-pro\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"PublishPress Capabilities는 WordPress의 접근 제어 플러그인입니다. 관리자로부터 구독자까지 모든 "
+"WordPress 사용자 역할을 관리할 수 있습니다."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "참고: 사용자 정의 게시물 상태의 제어는 %1$s비활성화됨%2$s입니다."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr "참고: 상태별 게시물 편집 기능은 %1$s비활성화됨%2$s입니다."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "관리자 메뉴"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr "Admin Menus는 관리자 메뉴 링크를 편집하고 접근할 수 있는 사용자를 제어할 수 있게 해줍니다."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "메뉴 제한을 관리할 권한이 없습니다."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "모든 역할에 대한 설정이 업데이트되었습니다."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "설정이 업데이트되었습니다."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "메뉴 순서 저장 중..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "메뉴 이름 저장 중..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "메뉴 이름은 비워둘 수 없습니다."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "아이콘 변경"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "아이콘 검색 중..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "메뉴 아이콘이 업데이트되었습니다"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "메뉴 아이콘 업데이트 오류"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "이 메뉴 URL로 중복된 메뉴가 이미 존재합니다"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "이미 존재하는 메뉴 URL로 중복된 하위 메뉴가 있습니다"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "설정을 관리할 권한이 없습니다."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "홈페이지"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "아카이브 페이지"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "단일 페이지"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "페이지 선택..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "이 요소가 추가될 페이지 유형을 선택할 수 있습니다."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "게시물 유형 선택..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr "이 기능은 게시물 편집 화면에 메타박스를 추가합니다. 이 기능을 사용하여 해당 게시물에만 본문 클래스를 추가할 수 있습니다."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "가시성 상태"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "가시성 상태 기능"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "설정"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "읽기"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "다른 항목 편집"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "다른 항목 삭제"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "게시물을 이 상태로 설정할 수 있습니다"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "이 상태의 게시물을 읽을 수 있습니다"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "이 상태에서 다른 사용자의 게시물을 편집할 수 있습니다"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "이 상태에서 다른 사용자의 게시물을 삭제할 수 있습니다"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "게시물 상태 속성, 게시물 유형 구성"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "이 상태의 모든 기능 전환"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: 권한 그룹에 의해 할당됨"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "이 기능은 %s입니다"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "유형별 기능 외에도 필요합니다."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "공유 기능: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "사용자 정의 상태"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "개정 상태"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "개정 상태 기능"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "사용자 정의 상태 기능"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "이 상태의 게시물을 편집할 수 있습니다"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "이 상태에서 다른 사람의 게시물을 편집할 수 있습니다"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "이 상태의 게시물을 삭제할 수 있습니다"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "이 상태에서 다른 사람의 게시물을 삭제할 수 있습니다"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "상태 속성, 게시물 유형, 권한 요구 사항 구성"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"수정 편집 및 삭제를 제어하려면 %1$sPublishPress Revisions%2$s 및 %3$sStatuses Pro%4$s "
+"플러그인을 설치하세요."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr "수정 상태를 정의하고 제어하려면 %1$sStatuses Pro%2$s 플러그인을 설치하세요."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr "수정 상태를 정의하고 제어하려면 %1$sPublishPress Revisions%2$s 플러그인을 설치하세요."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr "수정 상태를 정의하고 제어하려면 %1$sPublishPress Revisions%2$s 플러그인을 %3$s 버전으로 업데이트하세요."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"수정 편집 및 삭제를 제어하려면 %1$sRevisions Compatibility Mode%2$s를 \"향상된 수정 접근 제어\"로 "
+"설정하세요."
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"어떤 상태에 대해서도 사용자 정의 편집 기능의 시행을 활성화하거나 비활성화하려면 %1$sStatuses table%2$s에서 해당 "
+"게시물 접근 셀을 클릭한 후 이 화면을 새로 고치세요."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "직접 링크를 통해 플러그인 화면 접근 차단"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "직접 링크를 통해 프로필 화면 접근 차단"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "직접 링크를 통해 미디어 라이브러리 접근 차단"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "직접 링크를 통해 테마 화면 접근 차단"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr "직접 링크를 통해 사용자 및 새 사용자 추가 화면 접근 차단"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "URL로 차단"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "역할에 의해 차단될 URL 입력:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "편집 중:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "제목"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr "이 화면의 \"Blocked by URL\" 섹션에서 요소를 식별하는 이름/라벨을 입력하세요."
+
+#: includes-pro/features/admin-features-block-url.php:201
+msgid "URLs"
+msgstr "URL"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "여러 개의 URL은 쉼표로 구분하십시오. (예: %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "와일드카드 차단"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "이 URL 규칙에 대한 와일드카드 접두사 일치 활성화."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr "활성화되면, 사용자는 위에 입력한 값으로 시작하는 모든 URL에서 차단됩니다."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "편집 취소"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "새로 추가"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "편집 저장"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "오류가 발생했습니다!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "admin 기능 제한을 관리할 권한이 없습니다."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "잘못된 작업입니다. 이 페이지를 새로 고치고 다시 시도하세요."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "모든 필드는 필수입니다."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "사용자 정의 항목이 성공적으로 업데이트되었습니다"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "새 사용자 정의 항목이 성공적으로 추가되었습니다"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "와일드카드 활성화됨"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "보기"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "편집"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "삭제"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "잘못된 요청입니다!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "선택한 항목이 성공적으로 삭제되었습니다"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "이 페이지에 접근할 권한이 없습니다."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "플러그인 목록에서 Hello Dolly 숨기기"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr "플러그인 행 작업 링크 숨기기 (비활성화, 활성화, 삭제 등의 버튼)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "게시물 화면에서 새 게시물 추가 버튼 숨기기"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "모든 플러그인 목록에서 플러그인 행 비활성화 버튼 숨기기"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "모든 플러그인 목록에서 플러그인 행 삭제 버튼 숨기기"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "CSS 요소 숨기기"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr "아래에 ID 또는 클래스를 추가하여 관리자 영역에서 다른 요소를 제거할 수 있습니다:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "이 화면에서 사용자 정의 요소를 식별하기 위한 이름/레이블을 입력하세요."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "요소 ID 또는 클래스"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"숨길 ID 또는 클래스. 여러 값을 쉼표로 구분하세요 (.custom-item-one, .custom-item-two, "
+"#new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "대상 URL"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr "선택 사항. 특정 관리자 URL에 이 CSS 숨기기 규칙을 제한하세요. 여러 URL을 쉼표로 구분하세요."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "와일드카드 URL 일치"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "대상 URL에 대한 와일드카드 접두사 일치 활성화."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr "활성화되면, 현재 URL이 어떤 Target URL 값으로 시작할 경우 이 규칙이 적용됩니다."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "CSS 요소가 성공적으로 업데이트되었습니다."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "새 CSS 요소가 성공적으로 추가되었습니다."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "대상 URL"
+
+#: includes-pro/features/admin-features-css-hide.php:317
+msgid "URL wildcard"
+msgstr "URL 와일드카드"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "보안 검사 실패"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "권한이 거부되었습니다"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "설정이 성공적으로 업데이트되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "관리자 메뉴 순서가 성공적으로 재설정되었습니다. 페이지를 다시 로드하는 중..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "관리자 메뉴 이름이 성공적으로 재설정되었습니다. 페이지를 다시 로드하는 중..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "관리 메뉴 캐시가 성공적으로 재설정되었습니다. 페이지를 다시 로드하는 중..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "관리자 메뉴가 성공적으로 재설정되었습니다. 페이지를 다시 로드하는 중..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "메뉴가 성공적으로 삭제되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "새 메뉴가 성공적으로 추가되었습니다. 페이지를 새로고침하는 중..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "잘못된 데이터"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "모든 역할에 대해 메뉴 이름이 업데이트되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "메뉴 이름이 업데이트되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "메뉴 순서가 업데이트되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "모든 역할에 대해 저장"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "유형:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "메뉴 링크"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "하위 메뉴 링크"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "메뉴 구분선"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "하위 메뉴 구분 기호"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "위치:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "이후"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "메뉴 제목:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "내 사용자 정의 메뉴"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "메뉴 제목은 필수입니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "구분 기호 스타일"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "선 (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "빈 공간"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "텍스트"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "구분선 색상"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "메뉴 URL:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr "%1s와 같은 내부 링크 또는 %2s와 같은 외부 링크를 입력하세요. 메뉴 URL에 대해서는 어떤 링크도 한 번만 사용할 수 있습니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "이 URL을 가진 메뉴가 이미 존재합니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "메뉴 기능:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"이 메뉴를 보려면 필요한 권한입니다. 예: %1s 또는 %2s 사용자 정의 권한을 입력하는 경우, 권한 페이지에서 이를 추가하고 "
+"선호하는 역할에 할당하는 것을 잊지 마세요."
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "메뉴 기능이 필요합니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "메뉴 아이콘"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "메뉴 링크 저장"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "모두 전환"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "새 메뉴 링크"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(메뉴 이름을 감지할 수 없음)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr "이 메뉴 이름은 메뉴 전역 데이터에 없거나 메뉴와 직접 등록되지 않았습니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s 역할"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "모든 역할"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "저장"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "취소"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "완전 잠금을 방지하기 위해 이 옵션이 비활성화되었습니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "%1s를 삭제하시겠습니까? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "이 메뉴에 액세스하는 데 필요한 기능은 %s입니다"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "메뉴 이름 바꾸기"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "위로 이동"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "아래로 이동"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "메뉴를 찾을 수 없습니다"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "관리자 메뉴 사용 방법"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "사용 키"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "변경 없음"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "이 기능은 거부되었습니다"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "문서 보기"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "관리자 메뉴 설정"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "하위 메뉴 숨기기"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "메뉴 슬러그 표시"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "관리자 메뉴 재설정"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"관리자 메뉴의 순서와 이름을 원래 위치와 이름으로 재설정할 수 있습니다. 메뉴가 누락되는 문제를 해결하기 위해 메뉴 캐시를 재설정할 "
+"수도 있습니다."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "메뉴 순서 재설정"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "캐시된 메뉴 재설정"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "메뉴 이름 재설정"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "선택한 옵션 재설정"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "새 클래식 편집기 제한 추가"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr "아래에 ID 또는 클래스를 추가하여 편집기 화면에서 다른 요소를 제거할 수 있습니다:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "새 구텐베르크 제한 추가"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "편집자 기능 제한을 관리할 권한이 없습니다."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr "잘못된 작업입니다. 오류가 발생한 경우 이 페이지를 새로 고치고 다시 시도하세요."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr "사용자 정의 항목이 성공적으로 업데이트되었습니다. 제한을 적용하려면 변경 사항을 저장하세요."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "새 사용자 정의 항목이 추가되었습니다. 제한 사항을 적용하려면 변경사항을 저장하세요."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "블록 편집기에서 패턴 탭 숨기기"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "클래식 편집기에서 링크 삽입/편집 버튼 숨기기"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "사용자 정의 클래식 편집기 제한"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "사용자 정의 구텐베르크 제한"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "메타박스"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "관리 메뉴"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "오류가 발생했습니다. 다시 시도하거나 지원 팀에 문의하세요."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "라이센스"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "활성화 키"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "키 비활성화"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "publishpress.com 서버에 연결 중..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "연결 실패로 인해 요청을 처리할 수 없습니다."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "주문 영수증에 표시된 라이센스 키를 입력하세요."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "식별되지 않은 오류가 발생했습니다."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "키가 비활성화되었습니다."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "키가 활성화되었습니다."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "키가 만료되었습니다."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "키가 유효하지 않습니다."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "알 수 없는 활성화 오류가 발생했습니다."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "제공된 키가 유효하지 않습니다. 입력한 내용을 다시 확인하십시오."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "이 사이트는 키를 활성화하는 데 유효하지 않습니다."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "제공된 키를 publishpress.com에서 검증할 수 없습니다."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "제공된 키가 다른 사이트에서 이미 활성화되어 있습니다."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "키가 허용된 사이트 수에서 이미 활성화되었습니다."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "알 수 없는 비활성화 오류가 발생했습니다."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "제공된 키가 유효하지 않아 비활성화할 수 없습니다."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "이 사이트는 키를 비활성화하는 데 유효하지 않습니다."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "제공된 키가 지정된 사이트에서 활성화되어 있지 않습니다."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "잘못된 경우, <a href=\"%s\">활성화 도움 요청</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "사이트 구성을 업로드하기 전에 설정을 저장하세요."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(상태 프로에 의해 잠금)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "사용자 정의 상태 제어"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "사용자 정의 게시물 상태 선택 제어. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "게시물 편집 및 삭제를 위한 상태별 기능을 적용합니다."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "사용자 정의 가시성 상태 활성화"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr "가시성 상태의 경우, %1$s권한 프로에서 상태 제어 모듈%2$s를 활성화하십시오."
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr "가시성 상태에 대한 상태별 및 유형별 편집 기능을 적용하십시오."
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "라이센스 키 활성화"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"당신의 PublishPress 라이센스 키가 만료되었습니다. 우선 지원을 계속 받으시려면, <a href=\"%s\">갱신해 "
+"주십시오</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"당신의 PublishPress 라이센스 키가 오늘 만료됩니다. 업데이트 및 우선 지원을 위해 <a href=\"%s\">갱신해 "
+"주십시오</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "키가 만료되었습니다"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "비활성화"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "활성화됨"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "라이센스 키를 입력하세요"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "활성화"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "%s&nbsp;세부정보 보기"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "업데이트&nbsp;가능"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "업데이트&nbsp;확인"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "계정"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "가격 책정"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "PublishPress 브랜드 표시"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "PublishPress 바닥글 및 기타 브랜딩 숨기기."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "관리자 메뉴: 여러 역할 처리"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "가장 허용적인: 제한 없는 사용자 역할은 접근을 허용합니다"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "가장 제한적인: 제한된 사용자 역할은 접근을 차단합니다"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr "사용자가 여러 역할을 가질 경우, 가장 허용적이거나 제한적인 권한이 적용되는지를 제어합니다."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"%1$sPublishPress 상태%2$s 플러그인을 활성화할 때까지 사용자 정의 상태 제어가 비활성화됩니다. 자세한 내용은 "
+"%3$s기능 > 설정%4$s을 참조하십시오."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"%1$sPublishPress 상태%2$s 플러그인을 설치할 때까지 사용자 정의 상태 제어가 비활성화됩니다. 자세한 내용은 %3$s기능 "
+"> 설정%4$s을 참조하십시오."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "변경 사항이 저장되었습니다!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr " 오류: 변경 사항을 저장할 수 없습니다."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "메뉴 삭제 중..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "설정 업데이트 중..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "재설정하려면 최소한 하나의 옵션을 선택해야 합니다."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "옵션 재설정 중..."
