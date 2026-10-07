@@ -7142,15 +7142,15 @@
         },
         {
             "name": "wp-plugin/wp-job-manager",
-            "version": "2.4.7",
+            "version": "2.4.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-job-manager/",
-                "reference": "tags/2.4.7"
+                "reference": "tags/2.4.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.2.4.7.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-job-manager.2.4.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7169,7 +7169,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-job-manager",
                 "source": "https://plugins.svn.wordpress.org/wp-job-manager"
             },
-            "time": "2026-09-03T12:01:06+00:00"
+            "time": "2026-10-07T04:41:49+00:00"
         },
         {
             "name": "wp-plugin/wp-job-manager-xml-csv-listings-import",
