@@ -5,7 +5,7 @@
  * @package Requests\Transport
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
 /**
  * Base HTTP transport

@@ -46,6 +46,15 @@ class Cards extends Endpoint {
 	protected string $permission_required = 'read';
 
 	/**
+	 * The request parameter that must match the current user's ID.
+	 *
+	 * @since 5.1.6.1
+	 *
+	 * @var string
+	 */
+	protected string $owner_id_param = 'user_id';
+
+	/**
 	 * Validates the user ID.
 	 *
 	 * @since 4.25.0

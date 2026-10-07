@@ -31,14 +31,57 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 
 		const DATA_KEY = 'learndash_setup_wizard';
 
-		const CERTIFICATE_BUILDER_SLUG   = 'learndash-certificate-builder/learndash-certificate-builder.php';
-		const WOOCOMMERCE_SLUG           = 'woocommerce/woocommerce.php';
-		const LEARNDASH_WOOCOMMERCE_SLUG = 'learndash-woocommerce/learndash_woocommerce.php';
+		/**
+		 *  Certificate Builder plugin slug.
+		 *
+		 * @since 4.0.0
+		 * @deprecated 5.1.0 No longer used in the setup wizard.
+		 *
+		 * @var string
+		 */
+		const CERTIFICATE_BUILDER_SLUG = 'learndash-certificate-builder/learndash-certificate-builder.php'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
+
+		/**
+		 * WooCommerce plugin slug.
+		 *
+		 * @since 4.0.0
+		 * @deprecated 5.1.0 No longer used in the setup wizard.
+		 *
+		 * @var string
+		 */
+		const WOOCOMMERCE_SLUG = 'woocommerce/woocommerce.php'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
+
+		/**
+		 * LearnDash WooCommerce plugin slug.
+		 *
+		 * @since 4.0.0
+		 * @deprecated 5.1.0 No longer used in the setup wizard.
+		 *
+		 * @var string
+		 */
+		const LEARNDASH_WOOCOMMERCE_SLUG = 'learndash-woocommerce/learndash_woocommerce.php'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
 
 		const HANDLE = 'learndash-setup-wizard';
 
-		const LICENSE_KEY       = 'nss_plugin_license_sfwd_lms';
-		const LICENSE_EMAIL_KEY = 'nss_plugin_license_email_sfwd_lms';
+		/**
+		 * The option name for license key.
+		 *
+		 * @since 5.1.0
+		 * @deprecated Use learndash_get_license_key() instead.
+		 *
+		 * @var string
+		 */
+		const LICENSE_KEY = 'nss_plugin_license_sfwd_lms'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
+
+		/**
+		 * The option name for license email.
+		 *
+		 * @since 5.1.0
+		 * @deprecated Use learndash_get_license_email() instead.
+		 *
+		 * @var string
+		 */
+		const LICENSE_EMAIL_KEY = 'nss_plugin_license_email_sfwd_lms'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
 
 		const ADMIN_REDIRECT_PAGE       = 'admin.php?page=learndash-setup';
 		const FINAL_ADMIN_REDIRECT_PAGE = 'admin.php?page=learndash-setup';
@@ -65,7 +108,6 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 			add_action( 'admin_menu', array( $this, 'register_menu' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_init', array( $this, 'dismiss' ) );
-			add_action( 'wp_ajax_learndash_setup_wizard_verify_license', array( $this, 'verify_license' ) );
 			add_action( 'wp_ajax_learndash_setup_wizard_save_data', array( $this, 'save_data' ) );
 			add_action( 'wp_ajax_learndash_finalize', array( $this, 'finalize_setup' ) );
 			add_action( 'admin_post_stripe_connect_wizard_process', array( $this, 'enable_stripe_connect_and_redirect' ) );
@@ -190,7 +232,11 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		 * Dismiss
 		 */
 		public function dismiss() {
-			if ( ! isset( $_GET['page'] ) || ! isset( $_GET['dismiss'] ) || ! isset( $_GET['nonce'] ) ) {
+			if (
+				! isset( $_GET['page'] )
+				|| ! isset( $_GET['dismiss'] )
+				|| ! isset( $_GET['nonce'] )
+			) {
 				return;
 			}
 
@@ -276,35 +322,12 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 						$this->create_courses_listing_page();
 					}
 					break;
-				case 'process_certificate_builder':
-					// install certificate builder plugin.
-					if ( 'true' === $data['certificate_builder'] ) {
-						$ret = $this->maybe_install_a_plugin( self::CERTIFICATE_BUILDER_SLUG );
-						if ( true === $ret ) {
-							activate_plugin( self::CERTIFICATE_BUILDER_SLUG );
-						}
-					}
-					break;
-				case 'process_woo':
-					// install woocommerce plugin and learndash add-on.
-					if ( 'true' === $data['woocommerce'] ) {
-						$ret = $this->maybe_install_a_plugin( self::WOOCOMMERCE_SLUG );
-						if ( true === $ret ) {
-							activate_plugin( self::WOOCOMMERCE_SLUG );
-						}
-						$ret = $this->maybe_install_a_plugin( self::LEARNDASH_WOOCOMMERCE_SLUG );
-						if ( true === $ret ) {
-							activate_plugin( self::LEARNDASH_WOOCOMMERCE_SLUG );
-						}
-					}
-					break;
 				case 'update_settings':
-					// user from email address.
-					$from_email = 'yes' === $data['use_registered_email'] ? $data['email'] : filter_var( $data['notification_email'], FILTER_VALIDATE_EMAIL );
-					LearnDash_Settings_Section::set_section_setting( 'LearnDash_Settings_Section_Emails_Sender_Settings', 'from_email', $from_email );
-
 					// group access and management.
-					if ( is_array( $data['course_type'] ) && in_array( 'group_courses', $data['course_type'], true ) ) {
+					if (
+						is_array( $data['course_type'] )
+						&& in_array( 'group_courses', $data['course_type'], true )
+					) {
 						// optional group settings.
 						LearnDash_Settings_Section::set_section_setting( 'LearnDash_Settings_Groups_CPT', 'public', isset( $data['public_group'] ) && $data['public_group'] ? 'yes' : '' );
 						LearnDash_Settings_Section::set_section_setting( 'LearnDash_Settings_Groups_CPT', 'has_archive', isset( $data['group_archive_page'] ) && $data['group_archive_page'] ? 'yes' : '' );
@@ -348,7 +371,10 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		protected function maybe_install_a_plugin( string $slug ) {
 			$plugins = get_plugins();
 
-			if ( isset( $plugins[ $slug ] ) && is_plugin_inactive( $slug ) ) {
+			if (
+				isset( $plugins[ $slug ] )
+				&& is_plugin_inactive( $slug )
+			) {
 				return true; // plugin is installed but not activated.
 			}
 
@@ -509,7 +535,10 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		public function save_data() {
 			$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 
-			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'ld_setup_wizard_save_data' ) ) {
+			if (
+				empty( $nonce )
+				|| ! wp_verify_nonce( $nonce, 'ld_setup_wizard_save_data' )
+			) {
 				wp_send_json_error();
 			}
 
@@ -525,18 +554,31 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 
 		/**
 		 * Ajax endpoint, for trigger a request to validate the license key.
+		 *
+		 * @since 4.0.0
+		 * @deprecated 5.1.0 It's not used anymore.
+		 *
+		 * @return void
 		 */
 		public function verify_license() {
+			_deprecated_function( __METHOD__, '5.1.0' );
+
 			$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 
-			if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'ld_setup_wizard_verify_license' ) ) {
+			if (
+				empty( $nonce )
+				|| ! wp_verify_nonce( $nonce, 'ld_setup_wizard_verify_license' )
+			) {
 				wp_send_json_error();
 			}
 
 			$email       = isset( $_POST['email'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['email'] ) ) ) : '';
 			$license_key = isset( $_POST['license_key'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['license_key'] ) ) ) : '';
 
-			if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) || empty( $license_key ) ) {
+			if (
+				! filter_var( $email, FILTER_VALIDATE_EMAIL )
+				|| empty( $license_key )
+			) {
 				wp_send_json_error();
 			}
 
@@ -585,10 +627,9 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		private function get_scenes(): array {
 			$available_scenes = array(
 				'step-0' => esc_html__( 'Welcome', 'learndash' ),
-				'step-1' => esc_html__( 'Your Info', 'learndash' ),
-				'step-2' => esc_html__( 'Your Courses', 'learndash' ),
-				'step-3' => esc_html__( 'Payment', 'learndash' ),
-				'step-4' => esc_html__( 'Summary', 'learndash' ),
+				'step-1' => esc_html__( 'Your Courses', 'learndash' ),
+				'step-2' => esc_html__( 'Payment', 'learndash' ),
+				'step-3' => esc_html__( 'Summary', 'learndash' ),
 			);
 
 			/**
@@ -625,7 +666,10 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		 */
 		public function enqueue_scripts() {
 			$screen = get_current_screen();
-			if ( is_object( $screen ) && 'toplevel_page_learndash-setup-wizard' === $screen->id ) {
+			if (
+				is_object( $screen )
+				&& 'toplevel_page_learndash-setup-wizard' === $screen->id
+			) {
 				wp_register_style(
 					self::HANDLE,
 					LEARNDASH_LMS_PLUGIN_URL . 'assets/js/setup-wizard/dist/css/style.css',
@@ -687,7 +731,6 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 							),
 						),
 						'nonces'         => array(
-							'verify'                   => wp_create_nonce( 'ld_setup_wizard_verify_license' ),
 							'save'                     => wp_create_nonce( 'ld_setup_wizard_save_data' ),
 							'finalize'                 => wp_create_nonce( 'ld_setup_wizard_finalize' ),
 							'stripe_ajax_post_connect' => wp_create_nonce( Connection_Handler::$ajax_action_post_connect ),
@@ -695,11 +738,6 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 						'data'           => [
 							'scenes'                   => $scenes,
 							'scene'                    => $current_scene,
-							'email'                    => $data['email'] ?? get_option( self::LICENSE_EMAIL_KEY, '' ),
-							'license_key'              => $data['license_key'] ?? get_option( self::LICENSE_KEY, '' ),
-							'use_registered_email'     => $data['use_registered_email'] ?? 'yes',
-							'notification_email'       => $data['notification_email'] ?? '',
-							'license_validated'        => $data['license_validated'] ?? 'no',
 							'course_demo'              => $data['course_demo'] ?? 'no',
 							'courses_amount'           => $data['courses_amount'] ?? 'single',
 							'course_type'              => $data['course_type'] ?? array(),
@@ -715,10 +753,6 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 							'stripe_create_webhooks'   => $stripe_create_webhooks ? 'yes' : 'no',
 							'paypal_connected'         => Paypal_Payment_Gateway::account_is_connected(),
 						],
-						'plugins'        => array(
-							'certificate_builder' => is_plugin_active( self::CERTIFICATE_BUILDER_SLUG ),
-							'woocommerce'         => is_plugin_active( self::WOOCOMMERCE_SLUG ),
-						),
 						'currency_codes' => array(
 							'list' => learndash_currency_codes_list(),
 						),
@@ -765,7 +799,9 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 		}
 
 		/**
-		 * If there is no license key stored in the database, then we should show up the wizard
+		 * Determine if the setup wizard should be displayed.
+		 *
+		 * @since 4.0.0
 		 *
 		 * @return bool
 		 */
@@ -773,15 +809,11 @@ if ( ! class_exists( 'LearnDash_Setup_Wizard' ) ) {
 			$should_display = false;
 
 			$wizard_status = self::get_status();
-			// The wizard is in progress, but closed by an accident or something like that.
-			if ( self::STATUS_ONGOING === $wizard_status ) {
-				$should_display = true;
-			}
 
-			// No license key/email.
+			// The wizard status is empty or in progress.
 			if (
-				empty( get_option( self::LICENSE_KEY ) )
-				|| empty( get_option( self::LICENSE_EMAIL_KEY ) )
+				empty( $wizard_status )
+				|| self::STATUS_ONGOING === $wizard_status
 			) {
 				$should_display = true;
 			}

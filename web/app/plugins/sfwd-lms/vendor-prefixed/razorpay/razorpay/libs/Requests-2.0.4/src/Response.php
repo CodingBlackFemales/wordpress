@@ -7,12 +7,12 @@
  * @package Requests
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Cookie\Jar;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\Http;
-use WpOrg\Requests\Response\Headers;
+use StellarWP\Learndash\WpOrg\Requests\Cookie\Jar;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\Http;
+use StellarWP\Learndash\WpOrg\Requests\Response\Headers;
 
 /**
  * HTTP response class
@@ -40,7 +40,7 @@ class Response {
 	/**
 	 * Headers, as an associative array
 	 *
-	 * @var \WpOrg\Requests\Response\Headers Array-like object representing headers
+	 * @var \StellarWP\Learndash\WpOrg\Requests\Response\Headers Array-like object representing headers
 	 */
 	public $headers = [];
 
@@ -89,7 +89,7 @@ class Response {
 	/**
 	 * Cookies from the request
 	 *
-	 * @var \WpOrg\Requests\Cookie\Jar Array-like object representing a cookie jar
+	 * @var \StellarWP\Learndash\WpOrg\Requests\Cookie\Jar Array-like object representing a cookie jar
 	 */
 	public $cookies = [];
 
@@ -116,8 +116,8 @@ class Response {
 	 *
 	 * @param boolean $allow_redirects Set to false to throw on a 3xx as well
 	 *
-	 * @throws \WpOrg\Requests\Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
-	 * @throws \WpOrg\Requests\Exception\Http On non-successful status code. Exception class corresponds to "Status" + code (e.g. {@see \WpOrg\Requests\Exception\Http\Status404})
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\Http On non-successful status code. Exception class corresponds to "Status" + code (e.g. {@see \WpOrg\Requests\Exception\Http\Status404})
 	 */
 	public function throw_for_status($allow_redirects = true) {
 		if ($this->is_redirect()) {
@@ -150,7 +150,7 @@ class Response {
 	 *
 	 * @return array
 	 *
-	 * @throws \WpOrg\Requests\Exception If `$this->body` is not valid json.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception If `$this->body` is not valid json.
 	 */
 	public function decode_body($associative = true, $depth = 512, $options = 0) {
 		$data = json_decode($this->body, $associative, $depth, $options);

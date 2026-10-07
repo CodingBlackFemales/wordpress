@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use LearnDash\Core\Template\Views;
+use LearnDash\Core\Utilities\Cast;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
 
@@ -87,6 +88,7 @@ class WpProQuiz_Controller_Front {
 					'questionsNotSolved' => sprintf( esc_html_x( 'You must answer all %1$s before you can complete the %2$s.', 'placeholder: questions, quiz', 'learndash' ), learndash_get_custom_label_lower( 'questions' ), learndash_get_custom_label_lower( 'quiz' ) ),
 					'fieldsNotFilled'    => esc_html__( 'All fields have to be filled.', 'learndash' ),
 					'correctAnswer'      => esc_html__( 'Correct', 'learndash' ),
+					'selectedAnswer'     => esc_html__( 'Your answer', 'learndash' ),
 					'incorrectAnswer'    => sprintf(
 						// We are using @@LearnDash_Incorrect@@ as a placeholder to handle parsing in the wpProQuiz_front.js because that is where the answer is parsed.
 						// translators: placeholder: span open, correct answer placeholder, span close.
@@ -338,7 +340,7 @@ class WpProQuiz_Controller_Front {
 	 * @return false|string
 	 */
 	public static function ajaxQuizLoadDataWithoutCorrectAnswers( $data, $func ) {
-		$quiz_data = json_decode( self::ajaxQuizLoadData( $data, $func ), true );
+		$quiz_data = json_decode( Cast::to_string( self::ajaxQuizLoadData( $data, $func ) ), true );
 
 		if (
 			is_array( $quiz_data )
@@ -356,6 +358,18 @@ class WpProQuiz_Controller_Front {
 		return wp_json_encode( $quiz_data );
 	}
 
+	/**
+	 * Handles the AJAX request that loads a quiz's questions, used when the quiz displays a subset
+	 * of its questions. Restores the in-progress attempt's questions (recovering answered ones and
+	 * replacing any that no longer resolve) and returns the encoded quiz data for the front-end.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @param array<string, mixed> $data The AJAX request data (quiz pro ID, quiz post ID, nonce).
+	 * @param mixed                $func The requested function name.
+	 *
+	 * @return string|false|null JSON-encoded quiz data, false on encoding failure, or null when the quiz or its questions are unavailable.
+	 */
 	public static function ajaxQuizLoadData( $data, $func ) {
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
@@ -364,18 +378,21 @@ class WpProQuiz_Controller_Front {
 		}
 
 		if ( isset( $data['quizId'] ) ) {
-			$id = $data['quizId'];
+			$id = Cast::to_int( $data['quizId'] );
 		} else {
 			$id = 0;
 		}
 
 		if ( isset( $data['quiz'] ) ) {
-			$quiz_post_id = $data['quiz'];
+			$quiz_post_id = Cast::to_int( $data['quiz'] );
 		} else {
 			$quiz_post_id = 0;
 		}
 
-		if ( ( ! isset( $data['quiz_nonce'] ) ) || ( ! wp_verify_nonce( $data['quiz_nonce'], 'sfwd-quiz-nonce-' . $quiz_post_id . '-' . $id . '-' . $user_id ) ) ) {
+		if (
+			! isset( $data['quiz_nonce'] )
+			|| ! wp_verify_nonce( Cast::to_string( $data['quiz_nonce'] ), 'sfwd-quiz-nonce-' . $quiz_post_id . '-' . $id . '-' . $user_id )
+		) {
 			die();
 		}
 
@@ -420,15 +437,55 @@ class WpProQuiz_Controller_Front {
 				$value = ceil( $count * $value / 100 );
 			}
 
-			if ( $learndash_quiz_resume_enabled ) {
-				if ( ! empty( $learndash_quiz_resume_data ) && isset( $learndash_quiz_resume_data['randomQuestions'] ) ) {
-					if ( isset( $learndash_quiz_resume_data['randomOrder'] ) ) {
-						foreach ( $learndash_quiz_resume_data['randomOrder'] as $id => $value ) {
-								$question[] = $questionMapper->fetchById( $value );
-						}
+			/*
+			 * The order to resume from: the saved subset order if the front-end persisted it,
+			 * otherwise the questions that already have an answer (the numeric keys of the resume
+			 * data) so an in-progress attempt is never lost when the order was not saved.
+			 */
+			$learndash_resume_order = array();
+			if (
+				$learndash_quiz_resume_enabled
+				&& ! empty( $learndash_quiz_resume_data['randomOrder'] )
+			) {
+				$learndash_resume_order = array_map( array( Cast::class, 'to_int' ), array_values( $learndash_quiz_resume_data['randomOrder'] ) );
+			} elseif ( $learndash_quiz_resume_enabled ) {
+				foreach ( array_keys( (array) $learndash_quiz_resume_data ) as $learndash_resume_key ) {
+					if ( is_numeric( $learndash_resume_key ) ) {
+						$learndash_resume_order[] = Cast::to_int( $learndash_resume_key );
 					}
-				} else {
-						$question = $questionMapper->fetchAll( $quiz, true, $value );
+				}
+			}
+
+			if ( ! empty( $learndash_resume_order ) ) {
+				/*
+				 * Resuming an in-progress attempt: restore the saved/answered questions, replace any
+				 * that no longer resolve (deleted/updated) with other valid questions so the quiz
+				 * keeps its configured number of questions, and persist the healed order so later
+				 * resumes load the same set.
+				 */
+				$learndash_pool = $questionMapper->fetchAll( $quiz );
+
+				$question = WpProQuiz_Helper_QuestionOrder::get_resume_question_set( $learndash_pool, $learndash_resume_order, Cast::to_int( $value ) );
+
+				$learndash_healed_order = array();
+				foreach ( $question as $learndash_healed_question ) {
+					$learndash_healed_order[] = $learndash_healed_question->getId();
+				}
+
+				if (
+					! empty( $learndash_healed_order )
+					&& $learndash_healed_order !== $learndash_resume_order
+				) {
+					LDLMS_User_Quiz_Resume::update_user_quiz_resume_metadata(
+						$user_id,
+						$quiz_post_id,
+						$learndash_course_id,
+						0,
+						array(
+							'randomQuestions' => true,
+							'randomOrder'     => $learndash_healed_order,
+						)
+					);
 				}
 			} else {
 				$question = $questionMapper->fetchAll( $quiz, true, $value );

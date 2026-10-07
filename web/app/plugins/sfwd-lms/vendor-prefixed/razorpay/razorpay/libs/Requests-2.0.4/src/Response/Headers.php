@@ -5,12 +5,12 @@
  * @package Requests
  */
 
-namespace WpOrg\Requests\Response;
+namespace StellarWP\Learndash\WpOrg\Requests\Response;
 
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use WpOrg\Requests\Utility\FilteredIterator;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary;
+use StellarWP\Learndash\WpOrg\Requests\Utility\FilteredIterator;
 
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
@@ -48,7 +48,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	public function offsetSet($offset, $value) {
 		if ($offset === null) {
@@ -72,7 +72,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string $offset
 	 * @return array|null Header values
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not valid as an array key.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not valid as an array key.
 	 */
 	public function getValues($offset) {
 		if (!is_string($offset) && !is_int($offset)) {
@@ -96,7 +96,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string|array $value Value to flatten
 	 * @return string Flattened value
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or an array.
 	 */
 	public function flatten($value) {
 		if (is_string($value)) {

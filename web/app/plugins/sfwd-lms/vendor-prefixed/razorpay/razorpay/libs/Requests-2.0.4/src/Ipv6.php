@@ -5,10 +5,10 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Class to validate and to work with IPv6 addresses
@@ -38,7 +38,7 @@ final class Ipv6 {
 	 * @param string|Stringable $ip An IPv6 address
 	 * @return string The uncompressed IPv6 address
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or a stringable object.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or a stringable object.
 	 */
 	public static function uncompress($ip) {
 		if (InputValidator::is_string_or_stringable($ip) === false) {
@@ -89,7 +89,7 @@ final class Ipv6 {
 	 * Example:  FF01:0:0:0:0:0:0:101   ->  FF01::101
 	 *           0:0:0:0:0:0:0:1        ->  ::1
 	 *
-	 * @see \WpOrg\Requests\Ipv6::uncompress()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Ipv6::uncompress()
 	 *
 	 * @param string $ip An IPv6 address
 	 * @return string The compressed IPv6 address

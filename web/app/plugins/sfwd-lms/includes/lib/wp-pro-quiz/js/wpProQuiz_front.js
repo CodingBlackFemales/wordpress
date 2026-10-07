@@ -225,6 +225,7 @@ const localStorage = window.localStorage || {};
 			loadLock: 0,
 			isPrerequisite: 0,
 			isUserStartLocked: 0,
+			hasQuizStarted: 0,
 		};
 
 		const globalNames = {
@@ -283,6 +284,14 @@ const localStorage = window.localStorage || {};
 				if (!this.counter) {
 					return;
 				}
+
+				/*
+				 * intervalId holds a single countdown and stop() clears whatever it
+				 * points at, so any countdown already running is cleared here to keep
+				 * one timer per quiz.
+				 */
+				window.clearInterval( this.intervalId );
+
 				this.timer_cookie;
 				$.cookie.raw = true;
 
@@ -1746,6 +1755,14 @@ const localStorage = window.localStorage || {};
 					console.log('in startQuiz');
 				}
 
+				/*
+				 * The quiz starts once per page load. loadData marks the continuation of
+				 * a start already in progress, so that call is still allowed through.
+				 */
+				if ( ! loadData && quizStatus.hasQuizStarted ) {
+					return;
+				}
+
 				if (quizStatus.loadLock) {
 					quizStatus.isQuizStart = 1;
 
@@ -1782,6 +1799,8 @@ const localStorage = window.localStorage || {};
 						}
 					}
 
+					quizStatus.hasQuizStarted = 1;
+
 					globalElements.quizStartPage.hide();
 					$e.find('.wpProQuiz_loadQuiz').show();
 
@@ -1798,6 +1817,8 @@ const localStorage = window.localStorage || {};
 						return;
 					}
 				}
+
+				quizStatus.hasQuizStarted = 1;
 
 				plugin.methode.loadQuizData();
 				quiz_resume_data = learndash_prepare_quiz_resume_data(config);
@@ -1817,6 +1838,9 @@ const localStorage = window.localStorage || {};
 
 				questionTimer.startQuiz();
 
+				// Persisting the order has to wait until CookieInit() below has set up storage.
+				let questionsRandomized = false;
+
 				if (
 					bitOptions.randomQuestion &&
 					jQuery.isEmptyObject(quiz_resume_data) &&
@@ -1826,6 +1850,7 @@ const localStorage = window.localStorage || {};
 						globalElements.questionList,
 						'question'
 					);
+					questionsRandomized = true;
 				}
 
 				if (bitOptions.randomAnswer) {
@@ -1956,6 +1981,15 @@ const localStorage = window.localStorage || {};
 								return false;
 							}
 						});
+
+						/**
+						 * The saved question may no longer be in the rendered set (e.g. a
+						 * different random subset on resume); fall back to a valid question so
+						 * currentQuestion is never null.
+						 */
+						if (!currentQuestion || !currentQuestion.length) {
+							currentQuestion = $listItem.eq(0);
+						}
 					} else {
 						if (config.ld_script_debug == true) {
 							console.log(
@@ -2101,6 +2135,16 @@ const localStorage = window.localStorage || {};
 					cookie_name =
 						'ld_save_' + config.quizId + '_quiz_responses';
 					plugin.methode.CookieInit();
+				}
+
+				/*
+				 * Save here, after CookieInit() sets storage_name and loads cookie_value.
+				 * globalElements.listItems reflects the final order after category sorting.
+				 */
+				if (questionsRandomized && config.quiz_resume_enabled === '1') {
+					plugin.methode.saveRandomQuestions(
+						globalElements.listItems
+					);
 				}
 
 				//$('li.wpProQuiz_listItem', globalElements.questionList).each( function (idx, questionItem) {
@@ -2267,10 +2311,7 @@ const localStorage = window.localStorage || {};
 				}
 
 				// We hide the current question IF it is set.
-				if (
-					typeof currentQuestion !== 'undefined' &&
-					currentQuestion.length > 0
-				) {
+				if (currentQuestion && currentQuestion.length > 0) {
 					globalElements.questionList.children().each(function () {
 						if (
 							$(this).data('question-meta').question_pro_id !==
@@ -2281,6 +2322,13 @@ const localStorage = window.localStorage || {};
 						}
 					});
 				}
+
+				/**
+				 * Defensive: a stale resume reference may pass a null/undefined target.
+				 * Normalize to an empty jQuery object so the end-of-quiz handling below runs
+				 * instead of throwing on a missing question.
+				 */
+				obj = obj || $();
 
 				if (
 					!obj.length &&
@@ -2326,7 +2374,9 @@ const localStorage = window.localStorage || {};
 				}
 
 				//globalElements.questionList.children().hide();
-				currentQuestion.hide();
+				if (currentQuestion && currentQuestion.length) {
+					currentQuestion.hide();
+				}
 
 				currentQuestion = obj.show();
 
@@ -3012,7 +3062,6 @@ const localStorage = window.localStorage || {};
 			},
 			random(group, type) {
 				var type = type || false;
-				let randomized;
 				group.each(function () {
 					const answer_type = $(this).data('type');
 					let e;
@@ -3027,31 +3076,37 @@ const localStorage = window.localStorage || {};
 						e = $(this).children().get();
 					}
 					$(e).appendTo(e[0].parentNode);
-					randomized = e;
 				});
-				if (config.quiz_resume_enabled === '1') {
-					if (
-						'undefined' !== typeof randomized &&
-						type === 'question'
-					) {
-						plugin.methode.saveRandomQuestions(randomized);
-					}
-				}
 			},
 			saveRandomQuestions(questions) {
+				const $questions = jQuery(questions);
 				const orderedQuestions = [];
-				jQuery(questions).each(function (index, question) {
-					const id =
-						jQuery(question).data('question-meta').question_pro_id;
-					orderedQuestions.push(id);
+
+				$questions.each(function (index, question) {
+					const meta = jQuery(question).data('question-meta');
+					const id = meta ? parseInt(meta.question_pro_id, 10) : 0;
+
+					if (id > 0) {
+						orderedQuestions.push(id);
+					}
 				});
 
-				if (orderedQuestions.length > 0) {
-					plugin.methode.saveMetaDataToCookie({
-						randomQuestions: true,
-						randomOrder: orderedQuestions,
-					});
+				/*
+				 * Only a complete order is persisted. A partial one (e.g. a question
+				 * missing its data-question-meta) would drop questions from the
+				 * rendered set when the attempt is resumed.
+				 */
+				if (
+					orderedQuestions.length === 0 ||
+					orderedQuestions.length !== $questions.length
+				) {
+					return;
 				}
+
+				plugin.methode.saveMetaDataToCookie({
+					randomQuestions: true,
+					randomOrder: orderedQuestions,
+				});
 			},
 			sortCategories() {
 				const e = $('.wpProQuiz_list')
@@ -3494,7 +3549,15 @@ const localStorage = window.localStorage || {};
 				);
 			},
 			markCorrectIncorrect(result, $question, $questionList) {
-				if (typeof result.e.c === 'undefined') {
+				/*
+				 * Assessment answers are never right or wrong, so the server does not send
+				 * the correct answer map for them. They are marked from the student's own
+				 * response instead, and must not be filtered out here.
+				 */
+				if (
+					typeof result.e.c === 'undefined' &&
+					result.e.type !== 'assessment_answer'
+				) {
 					return;
 				}
 
@@ -3925,6 +3988,42 @@ const localStorage = window.localStorage || {};
 							)
 							.sortable('destroy');
 						break;
+					case 'assessment_answer': {
+						if (!result.e.r || !WpProQuizGlobal.selectedAnswer) {
+							break;
+						}
+
+						const $selectedLabel = $questionList
+							.find(
+								'input.wpProQuiz_questionInput[value="' +
+									result.e.r +
+									'"]'
+							)
+							.first()
+							.prop('checked', true)
+							.closest('label');
+
+						const selectedAnswerText = $('<div>')
+							.text($selectedLabel.text().trim())
+							.html();
+
+						/*
+						 * Assessments are scored but have no right answer, so the response box
+						 * reports back the student's own selection in place of "Correct".
+						 */
+						$question
+							.find(
+								'.wpProQuiz_correct .wpProQuiz_response_correct_label, .wpProQuiz_correct > span'
+							)
+							.first()
+							.html(
+								WpProQuizGlobal.selectedAnswer +
+									': "' +
+									selectedAnswerText +
+									'"'
+							);
+						break;
+					}
 				}
 			},
 			setCheckedStatusFromData(data, question, list) {
@@ -5048,6 +5147,9 @@ const localStorage = window.localStorage || {};
 						} else if (nextQuestion == 0 && lastQuestion > 0) {
 							nextQuestion = lastQuestion;
 						}
+
+						let resumed = false;
+
 						jQuery(globalElements.listItems).each(function (
 							index,
 							listItem
@@ -5070,6 +5172,8 @@ const localStorage = window.localStorage || {};
 									.find(globalNames.questionList)
 									.data('question_id');
 
+								resumed = true;
+
 								questionTimer.questionStart(questionId);
 								plugin.methode.showQuestionObject(
 									currentQuestion
@@ -5081,6 +5185,16 @@ const localStorage = window.localStorage || {};
 							// 	console.log("moveToNextUnansweredQuestion: not match: listItem[%o]", listItem);
 							// }
 						});
+
+						/**
+						 * The saved question is not in the rendered set (e.g. a different
+						 * random subset on resume); fall back to the first question so the
+						 * quiz never resumes with a null current question.
+						 */
+						if (!resumed) {
+							currentQuestion = globalElements.listItems.eq(0);
+							plugin.methode.showQuestionObject(currentQuestion);
+						}
 					}
 				}
 			},

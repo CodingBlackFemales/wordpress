@@ -5,18 +5,18 @@
  * @package Requests\Cookies
  */
 
-namespace WpOrg\Requests\Cookie;
+namespace StellarWP\Learndash\WpOrg\Requests\Cookie;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use ReturnTypeWillChange;
-use WpOrg\Requests\Cookie;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\HookManager;
-use WpOrg\Requests\Iri;
-use WpOrg\Requests\Response;
+use StellarWP\Learndash\WpOrg\Requests\Cookie;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\HookManager;
+use StellarWP\Learndash\WpOrg\Requests\Iri;
+use StellarWP\Learndash\WpOrg\Requests\Response;
 
 /**
  * Cookie holder object
@@ -36,7 +36,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	 *
 	 * @param array $cookies Existing cookie values
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array.
 	 */
 	public function __construct($cookies = []) {
 		if (is_array($cookies) === false) {
@@ -49,8 +49,8 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Normalise cookie data into a \WpOrg\Requests\Cookie
 	 *
-	 * @param string|\WpOrg\Requests\Cookie $cookie
-	 * @return \WpOrg\Requests\Cookie
+	 * @param string|\StellarWP\Learndash\WpOrg\Requests\Cookie $cookie
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Cookie
 	 */
 	public function normalize_cookie($cookie, $key = '') {
 		if ($cookie instanceof Cookie) {
@@ -92,7 +92,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet($offset, $value) {
@@ -126,7 +126,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Register the cookie handler with the request's hooking system
 	 *
-	 * @param \WpOrg\Requests\HookManager $hooks Hooking system
+	 * @param \StellarWP\Learndash\WpOrg\Requests\HookManager $hooks Hooking system
 	 */
 	public function register(HookManager $hooks) {
 		$hooks->register('requests.before_request', [$this, 'before_request']);
@@ -171,7 +171,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Parse all cookies from a response and attach them to the response
 	 *
-	 * @param \WpOrg\Requests\Response $response
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Response $response
 	 */
 	public function before_redirect_check(Response $response) {
 		$url = $response->url;

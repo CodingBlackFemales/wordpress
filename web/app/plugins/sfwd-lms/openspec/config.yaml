@@ -1,0 +1,24 @@
+schema: spec-driven
+
+# Project context. Shown to AI when creating artifacts. Constraints for the
+# agent — do not copy this block into the artifact.
+context: |
+  Agent conventions live in AGENTS.md. Read it before writing any change artifact.
+  Deprecation, phpstan-baseline, and TBD version rules are repo-wide: they belong
+  in AGENTS.md, not in a change. Change artifacts stay ticket-specific.
+
+# Per-artifact rules. Applied only when writing that artifact.
+rules:
+  proposal:
+    - Scope, motivation, and impact for this ticket only.
+    - Do not document repo-wide conventions; those are in AGENTS.md.
+  specs:
+    - Observable behavior for this ticket. No process or tooling rules.
+  design:
+    - Ticket-specific technical decisions only.
+    - If a paragraph would apply to any PR, put it in AGENTS.md instead of here.
+    - Do not restate deprecation, phpstan-baseline, changelog, or TBD-version rules.
+    - Keep it short enough to read in one sitting.
+  tasks:
+    - Implementation steps unique to this ticket.
+    - Point at AGENTS.md for how to deprecate, how to treat the phpstan baseline, and TBD versions.

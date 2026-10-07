@@ -2102,3 +2102,40 @@ function learndash_sanitize_version_string( string $version ): string {
 
 	return $version . $modifier;
 }
+
+/**
+ * Switches the current admin-ajax request's locale to the site (front-end) locale.
+ *
+ * AJAX handlers that render front-end content (course/profile/quiz blocks) hit
+ * `admin-ajax.php` where `is_admin()` is true, so `determine_locale()` returns
+ * `get_user_locale()` (the user's profile/admin language) instead of the site
+ * locale. Content then comes back in a different language than what the visitor
+ * sees on the page. This forces the site locale so the AJAX response matches.
+ *
+ * Only runs inside admin-ajax — callers outside that context would also need to
+ * pair this with `restore_previous_locale()` themselves, which is easy to miss.
+ *
+ * @since 5.1.4
+ *
+ * @return void
+ */
+function learndash_ajax_switch_to_site_locale() {
+	if (
+		! wp_doing_ajax()
+		|| ! function_exists( 'switch_to_locale' )
+	) {
+		return;
+	}
+
+	$site_locale    = get_locale();
+	$current_locale = determine_locale();
+
+	if (
+		empty( $site_locale )
+		|| $site_locale === $current_locale
+	) {
+		return;
+	}
+
+	switch_to_locale( $site_locale );
+}

@@ -3,7 +3,7 @@
  * Sign-in view.
  *
  * @since 4.18.0
- * @version 4.18.0
+ * @version 5.1.8
  *
  * @package LearnDash\Core
  *
@@ -74,6 +74,19 @@ if ( ! $learndash_license_key ) {
 				);
 				?>
 			</p>
+			<?php
+			/**
+			 * Passive notice shown when the submitted key is a unified (LWSW-) key. Its
+			 * message and link are populated from the AJAX response, which is the single
+			 * place unified keys are detected. See src/controller/class-signin-controller.php.
+			 */
+			?>
+			<div id="unified-key-notice" class="hidden w-full mb-8 p-6 rounded-lg bg-blue-50 text-center" style="border: 1px solid #bfdbfe;">
+				<p class="text-base mb-6 unified-key-message"></p>
+				<a class="hub-button blue unified-key-button" href="#" style="display: none;">
+					<span class="text"><?php esc_html_e( 'Open Software Manager', 'learndash' ); ?></span>
+				</a>
+			</div>
 			<form class="w-full mb-8" id="license">
 				<div class="mb-6">
 					<input class="block" style="max-width: 100%" placeholder="Email" name="email" id="email" type="text" value="<?php echo esc_attr( $learndash_license_email ); ?>"/>
@@ -132,8 +145,24 @@ if ( ! $learndash_license_key ) {
 				success: function (data) {
 					that.find('button').removeClass('loading').addClass('blue');
 					if (data.success === false) {
-						$('.error-message').text(data.data)
-						$('#error').removeClass('hidden')
+						/**
+						 * A unified (LWSW-) key was submitted. The server flags the response
+						 * with is_unified_license_key and includes the Software Manager URL.
+						 * Point the user there rather than activating it here, so they can
+						 * enter their key or view one that has already been detected.
+						 */
+						if (data.data && data.data.is_unified_license_key) {
+							var $notice = $('#unified-key-notice')
+							$notice.find('.unified-key-message').text(data.data.message)
+							if (data.data.redirect_url) {
+								$notice.find('.unified-key-button').attr('href', data.data.redirect_url).show()
+							}
+							$('#license').addClass('hidden')
+							$notice.removeClass('hidden')
+						} else {
+							$('.error-message').text(data.data)
+							$('#error').removeClass('hidden')
+						}
 					} else {
 						location.reload()
 					}

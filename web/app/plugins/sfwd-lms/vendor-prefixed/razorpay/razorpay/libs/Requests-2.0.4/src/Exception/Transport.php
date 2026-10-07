@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests\Exception;
+namespace StellarWP\Learndash\WpOrg\Requests\Exception;
 
-use WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
 
 /**
  * Transport Exception

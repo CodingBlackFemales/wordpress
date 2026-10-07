@@ -98,5 +98,6 @@ class Boot {
 		delete_site_option( 'learndash-hub-projects-api' );
 		delete_site_option( 'learndash_hub_update_plugins_cache' );
 		delete_site_option( $this->get_license_status_option_name() );
+		wp_clear_scheduled_hook( RemoteBanners::get_fetch_cron_hook() );
 	}
 }

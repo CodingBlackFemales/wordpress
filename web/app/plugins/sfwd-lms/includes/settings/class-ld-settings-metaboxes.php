@@ -864,7 +864,12 @@ if ( ! class_exists( 'LearnDash_Settings_Metabox' ) ) {
 			// Filter out fields that are not marked as show_in_rest.
 			$fields = array_filter(
 				$fields,
-				function ( array $field ): bool {
+				function ( $field ): bool {
+					// Third parties can add non-array entries through the learndash_settings_fields filter.
+					if ( ! is_array( $field ) ) {
+						return false;
+					}
+
 					return Cast::to_bool(
 						Arr::get( $field, 'args.rest.show_in_rest', false )
 					);

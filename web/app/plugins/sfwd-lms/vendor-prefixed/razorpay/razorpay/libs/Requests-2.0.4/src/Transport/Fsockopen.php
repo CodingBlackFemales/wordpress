@@ -5,17 +5,17 @@
  * @package Requests\Transport
  */
 
-namespace WpOrg\Requests\Transport;
+namespace StellarWP\Learndash\WpOrg\Requests\Transport;
 
-use WpOrg\Requests\Capability;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Port;
-use WpOrg\Requests\Requests;
-use WpOrg\Requests\Ssl;
-use WpOrg\Requests\Transport;
-use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Capability;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Port;
+use StellarWP\Learndash\WpOrg\Requests\Requests;
+use StellarWP\Learndash\WpOrg\Requests\Ssl;
+use StellarWP\Learndash\WpOrg\Requests\Transport;
+use StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * fsockopen HTTP transport
@@ -62,12 +62,12 @@ final class Fsockopen implements Transport {
 	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
 	 * @return string Raw HTTP result
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \WpOrg\Requests\Exception       On failure to connect to socket (`fsockopenerror`)
-	 * @throws \WpOrg\Requests\Exception       On socket timeout (`timeout`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception       On failure to connect to socket (`fsockopenerror`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception       On socket timeout (`timeout`)
 	 */
 	public function request($url, $headers = [], $data = [], $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -345,8 +345,8 @@ final class Fsockopen implements Transport {
 	 * @param array $options Global options, see {@see \WpOrg\Requests\Requests::response()} for documentation
 	 * @return array Array of \WpOrg\Requests\Response objects (may contain \WpOrg\Requests\Exception or string responses as well)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function request_multiple($requests, $options) {
 		// If you're not requesting, we can't get any responses ¯\_(ツ)_/¯
@@ -462,8 +462,8 @@ final class Fsockopen implements Transport {
 	 * @param resource $context Stream context
 	 * @return bool
 	 *
-	 * @throws \WpOrg\Requests\Exception On failure to connect via TLS (`fsockopen.ssl.connect_error`)
-	 * @throws \WpOrg\Requests\Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On failure to connect via TLS (`fsockopen.ssl.connect_error`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)
 	 */
 	public function verify_certificate_from_context($host, $context) {
 		$meta = stream_context_get_options($context);

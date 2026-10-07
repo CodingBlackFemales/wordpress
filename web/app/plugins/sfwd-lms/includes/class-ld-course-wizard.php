@@ -17,16 +17,78 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 	 * Course wizard class.
 	 */
 	class LearnDash_Course_Wizard {
-		const PLAYLIST_PROCESS_SERVER_ENDPOINT   = 'https://licensing.learndash.com/services/wp-json/learndash-playlist-parser/v1';
-		const PLAYLIST_PROCESS_SERVER_SSL_VERIFY = true; // false only for local testing.
+		/**
+		 * The endpoint for the playlist parser service.
+		 *
+		 * @since 4.1.0
+		 *
+		 * It's the default value. Use the `self::get_playlist_parser_endpoint()` method to get the current value.
+		 */
+		const PLAYLIST_PROCESS_SERVER_ENDPOINT = 'https://licensing.learndash.com/services/wp-json/learndash-playlist-parser/v1'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
+
+		/**
+		 * Whether to verify SSL for the playlist parser service.
+		 *
+		 * @since 4.1.0
+		 *
+		 * It's the default value. Use the `self::get_playlist_parser_ssl_verify()` method to get the current value.
+		 */
+		const PLAYLIST_PROCESS_SERVER_SSL_VERIFY = true; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
 
 		const HANDLE = 'learndash-course-wizard';
 
-		const LICENSE_KEY       = 'nss_plugin_license_sfwd_lms';
+		/**
+		 * The option name for license key.
+		 *
+		 * @since 4.1.0
+		 * @deprecated Use learndash_get_license_key() instead.
+		 *
+		 * @var string
+		 */
+		const LICENSE_KEY = 'nss_plugin_license_sfwd_lms'; // phpcs:ignore LearnDash.Classes.DisallowNonPrivateConst.ImplicitPublicConst -- Legacy code.
+
+		/**
+		 * The option name for license email.
+		 *
+		 * @since 4.1.0
+		 * @deprecated Use learndash_get_license_email() instead.
+		 *
+		 * @var string
+		 */
 		const LICENSE_EMAIL_KEY = 'nss_plugin_license_email_sfwd_lms';
 
 		const STEP_URL_PROCESS   = 'ld_cw_process';
 		const STEP_COURSE_CONFIG = 'ld_cw_config';
+
+		/**
+		 * Returns the playlist parser service endpoint URL.
+		 *
+		 * Can be overridden by defining LEARNDASH_PLAYLIST_PARSER_SERVICE_ENDPOINT in wp-config.php.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @return string
+		 */
+		public static function get_playlist_parser_endpoint(): string {
+			return defined( 'LEARNDASH_PLAYLIST_PARSER_SERVICE_ENDPOINT' )
+				? LEARNDASH_PLAYLIST_PARSER_SERVICE_ENDPOINT
+				: self::PLAYLIST_PROCESS_SERVER_ENDPOINT;
+		}
+
+		/**
+		 * Returns whether SSL verification should be performed for the playlist parser service.
+		 *
+		 * Can be overridden by defining LEARNDASH_PLAYLIST_PARSER_SERVICE_SSL_VERIFY in wp-config.php.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @return bool
+		 */
+		public static function get_playlist_parser_ssl_verify(): bool {
+			return defined( 'LEARNDASH_PLAYLIST_PARSER_SERVICE_SSL_VERIFY' )
+				? LEARNDASH_PLAYLIST_PARSER_SERVICE_SSL_VERIFY
+				: self::PLAYLIST_PROCESS_SERVER_SSL_VERIFY;
+		}
 
 		/**
 		 * Init the course wizard registering WP hooks
@@ -52,7 +114,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 			_deprecated_function( __METHOD__, '4.23.1', 'LearnDash\Modules\Admin\Header\Course_Wizard::add_header_buttons' );
 
 			$screen = get_current_screen();
-			if ( is_object( $screen ) && 'edit-' . learndash_get_post_type_slug( 'course' ) === $screen->id ) {
+			if (
+				is_object( $screen )
+				&& 'edit-' . learndash_get_post_type_slug( 'course' ) === $screen->id
+			) {
 				?>
 				<script>
 					window.onload = function() {
@@ -132,7 +197,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 		 */
 		public function enqueue_scripts() {
 			$screen = get_current_screen();
-			if ( is_object( $screen ) && 'toplevel_page_' . self::HANDLE === $screen->id ) {
+			if (
+				is_object( $screen )
+				&& 'toplevel_page_' . self::HANDLE === $screen->id
+			) {
 				wp_enqueue_style( 'ld-tailwindcss' );
 
 				wp_register_script(
@@ -190,7 +258,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 		 * Process the playlist URL
 		 */
 		public function process_url_action() {
-			if ( ! isset( $_REQUEST['ld_course_wizard_playlist_process'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['ld_course_wizard_playlist_process'] ) ), 'ld_course_wizard_playlist_process' ) ) {
+			if (
+				! isset( $_REQUEST['ld_course_wizard_playlist_process'] )
+				|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['ld_course_wizard_playlist_process'] ) ), 'ld_course_wizard_playlist_process' )
+			) {
 				learndash_safe_redirect( admin_url( 'admin.php?page=' . self::HANDLE ) ); // wrong call.
 			}
 
@@ -207,7 +278,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 		 * Create the course
 		 */
 		public function create_course_action() {
-			if ( ! isset( $_REQUEST['ld_course_wizard_create_course'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['ld_course_wizard_create_course'] ) ), 'ld_course_wizard_create_course' ) ) {
+			if (
+				! isset( $_REQUEST['ld_course_wizard_create_course'] )
+				|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['ld_course_wizard_create_course'] ) ), 'ld_course_wizard_create_course' )
+			) {
 				learndash_safe_redirect( admin_url( 'admin.php?page=' . self::HANDLE ) ); // wrong call.
 			}
 
@@ -250,15 +324,15 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 
 			// request server to process the playlist url.
 			$args = array(
-				'sslverify' => self::PLAYLIST_PROCESS_SERVER_SSL_VERIFY,
+				'sslverify' => self::get_playlist_parser_ssl_verify(),
 				'headers'   => array(
 					'Content-Type' => 'application/json',
 				),
 				'body'      => (string) wp_json_encode(
 					array(
 						'playlist_url'  => rawurlencode( $playlist_url ),
-						'license_email' => get_option( self::LICENSE_EMAIL_KEY ),
-						'license_key'   => get_option( self::LICENSE_KEY ),
+						'license_email' => learndash_get_license_email(),
+						'license_key'   => learndash_get_license_key(),
 						'site_url'      => rawurlencode( site_url() ),
 						'return_url'    => rawurlencode( $return_url ),
 					)
@@ -266,7 +340,7 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 				'timeout'   => 30,
 			);
 
-			$request = wp_remote_post( self::PLAYLIST_PROCESS_SERVER_ENDPOINT . '/process_url', $args );
+			$request = wp_remote_post( self::get_playlist_parser_endpoint() . '/process_url', $args );
 
 			if ( is_wp_error( $request ) ) {
 				$this->update_processing_data( $playlist_url, 'error_message', $request->get_error_message() );
@@ -275,7 +349,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 
 			$body = json_decode( wp_remote_retrieve_body( $request ) );
 
-			if ( ! $body || ! empty( $body->message ) ) {
+			if (
+				! $body
+				|| ! empty( $body->message )
+			) {
 				$this->update_processing_data( $playlist_url, 'error_message', ! empty( $body->message ) ? $body->message : __( 'Error on access LearnDash service. Please try it again in a few minutes.', 'learndash' ) );
 				learndash_safe_redirect( $return_url );
 			}
@@ -347,10 +424,16 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 			$transient_data = get_transient( $transient_name );
 			if ( false !== $transient_data ) {
 				// in case of error, we need to delete the transient.
-				if ( isset( $transient_data['error_message'] ) && ! empty( $transient_data['error_message'] ) ) {
+				if (
+					isset( $transient_data['error_message'] )
+					&& ! empty( $transient_data['error_message'] )
+				) {
 					$this->delete_processing_data( $playlist_url );
 					$process_data['error_message'] = $transient_data['error_message'];
-				} elseif ( ! isset( $transient_data['playlist_data'] ) || empty( $transient_data['playlist_data'] ) ) {
+				} elseif (
+					! isset( $transient_data['playlist_data'] )
+					|| empty( $transient_data['playlist_data'] )
+				) {
 					// we need to get the playlist data only if we are not loaded it yet.
 					$url_data = $this->get_playlist_data( $playlist_url );
 
@@ -372,7 +455,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 			}
 
 			// define control data.
-			if ( ! empty( $process_data['error_message'] ) || ! empty( $process_data['playlist_data'] ) ) {
+			if (
+				! empty( $process_data['error_message'] )
+				|| ! empty( $process_data['playlist_data'] )
+			) {
 				$process_data['current_step'] = self::STEP_COURSE_CONFIG;
 			}
 			$process_data['can_create_course'] = empty( $process_data['error_message'] ) && ! empty( $process_data['playlist_data'] );
@@ -403,17 +489,17 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 						'playlist_url'  => $encoded_playlist_url,
 						'license_email' => rawurlencode(
 							Cast::to_string(
-								get_option( self::LICENSE_EMAIL_KEY )
+								learndash_get_license_email()
 							)
 						),
-						'license_key'   => get_option( self::LICENSE_KEY ),
+						'license_key'   => learndash_get_license_key(),
 						'site_url'      => rawurlencode( site_url() ),
 						'return_url'    => rawurlencode( admin_url( 'admin.php?page=' . self::HANDLE . '&u=' . rawurlencode( $encoded_playlist_url ) ) ),
 					),
-					self::PLAYLIST_PROCESS_SERVER_ENDPOINT . '/url_data'
+					self::get_playlist_parser_endpoint() . '/url_data'
 				),
 				array(
-					'sslverify' => self::PLAYLIST_PROCESS_SERVER_SSL_VERIFY,
+					'sslverify' => self::get_playlist_parser_ssl_verify(),
 					'timeout'   => 30,
 				)
 			);
@@ -424,7 +510,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 			}
 
 			$body = json_decode( wp_remote_retrieve_body( $request ) );
-			if ( ! $body || ! empty( $body->message ) ) {
+			if (
+				! $body
+				|| ! empty( $body->message )
+			) {
 				return isset( $body->message ) ? $body->message : __( 'Error on access LearnDash service. Please try it again in a few minutes.', 'learndash' );
 			}
 			return $body->playlist_data;
@@ -734,7 +823,10 @@ if ( ! class_exists( 'LearnDash_Course_Wizard' ) ) {
 
 			learndash_update_setting( $course_id, 'course_price_type', sanitize_text_field( $course_price_type ) );
 			learndash_update_setting( $course_id, 'course_disable_lesson_progression', sanitize_text_field( $course_disable_lesson_progression ) );
-			if ( 'paynow' === $course_price_type || 'subscribe' === $course_price_type ) {
+			if (
+				'paynow' === $course_price_type
+				|| 'subscribe' === $course_price_type
+			) {
 				learndash_update_setting( $course_id, 'course_price', sanitize_text_field( $course_price ) );
 				if ( 'subscribe' === $course_price_type ) {
 					learndash_update_setting( $course_id, 'course_price_billing_p3', sanitize_text_field( $course_price_billing_number ) );

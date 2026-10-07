@@ -13,7 +13,7 @@
  */
 spl_autoload_register(
 	function ( $class ) {
-		$prefix   = 'TrustedLogin\\';
+		$prefix   = 'StellarWP\\Learndash\\TrustedLogin\\';
 		$base_dir = __DIR__ . '/src/';
 		$len      = strlen( $prefix );
 		if ( strncmp( $prefix, $class, $len ) !== 0 ) {
@@ -55,9 +55,9 @@ $config     = array(
 		'debug_data'    => true,
 	),
 );
-$config     = new \TrustedLogin\Config( $config );
+$config     = new \StellarWP\Learndash\TrustedLogin\Config( $config );
 try {
-	new \TrustedLogin\Client(
+	new \StellarWP\Learndash\TrustedLogin\Client(
 		$config
 	);
 } catch ( \Exception $exception ) {

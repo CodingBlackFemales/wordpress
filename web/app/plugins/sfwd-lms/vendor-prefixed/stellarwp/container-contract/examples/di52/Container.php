@@ -1,15 +1,22 @@
-<?php
+<?php declare( strict_types=1 );
 
-namespace Your\Namespace;
+namespace StellarWP\Learndash\Your\Namespace;
 
-use StellarWP\ContainerContract\ContainerInterface;
+use StellarWP\Learndash\StellarWP\ContainerContract\ContainerInterface;
 
 // If you are including lucatume\DI52 using Strauss (recommended), then:
-use Your\Namespace\lucatume\DI52\Container as DI52Container;
+use StellarWP\Learndash\Your\Namespace\lucatume\DI52\Container as DI52Container;
 
 // If you are including lucatume\DI52 directly, then you'd want to do:
-// use lucatume\DI52\Container as DI52Container;
+// use StellarWP\Learndash\lucatume\DI52\Container as DI52Container;
 
+/**
+ * @method mixed getVar(string $key, mixed|null $default = null)
+ * @method void register(string $serviceProviderClass, string ...$alias)
+ * @method self when(string $class)
+ * @method self needs(string $id)
+ * @method void give(mixed $implementation)
+ */
 class Container implements ContainerInterface {
 	/**
 	 * @var DI52Container

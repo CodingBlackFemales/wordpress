@@ -7,6 +7,7 @@
  * @package LearnDash
  */
 
+use LearnDash\Core\Utilities\Cast;
 use StellarWP\Learndash\StellarWP\DB\DB;
 
 defined( 'ABSPATH' ) || exit;
@@ -91,12 +92,18 @@ if ( ! class_exists( 'LearnDash_ProPanel_Activity' ) ) {
 					$activity_query_args = ld_propanel_load_activity_query_args( $activity_query_args, $post_data );
 
 					if ( ! empty( $activity_query_args ) ) {
+						$is_admin_exporter = learndash_is_admin_user( get_current_user_id() );
+
 						if (
 							! isset( $report_post_args['filters']['users_ids'] )
 							&& isset( $activity_query_args['user_ids'] )
 						) {
 							$report_post_args['filters']['users_ids'] = $activity_query_args['user_ids'];
-							// unset( $report_post_args['filters']['user_ids'] );
+						} elseif ( $is_admin_exporter ) {
+							// Admin context: pull every user ID that actually has activity rows
+							// for this template's activity types so the export matches the propanel
+							// display's ground truth instead of being constrained by WP_User_Query.
+							$report_post_args['filters']['users_ids'] = self::get_admin_export_user_ids( $template );
 						} else {
 							$report_post_args['filters']['users_ids'] = learndash_get_report_user_ids();
 						}
@@ -111,15 +118,53 @@ if ( ! class_exists( 'LearnDash_ProPanel_Activity' ) ) {
 							}
 						}
 
-						if ( ! empty( $report_post_args['filters']['users_ids'] ) ) {
+						if (
+							! empty( $report_post_args['filters']['users_ids'] )
+							&& ! $is_admin_exporter
+						) {
 							// Check if these user ids exist in the activity table, if not, we don't want stats for them.
-							$report_post_args['filters']['users_ids'] = DB::get_col(
-								DB::table( DB::raw( LDLMS_DB::get_table_name( 'user_activity' ) ) )
-									->select( 'user_id' )
-									->whereIn( 'user_id', $report_post_args['filters']['users_ids'] )
-									->groupBy( 'user_id' )
-									->getSql()
-							);
+							// Chunk the IN(...) clause to avoid exceeding MySQL's max_allowed_packet on sites with very large user bases.
+							// Admin context already pulled the list directly from the activity table above, so this intersection only protects the role-scoped paths (group leaders / regular users).
+
+							/**
+							 * Filters the chunk size used when intersecting the Reports list view's user set against
+							 * the user activity table (group-leader and regular-user role-scoped paths only).
+							 *
+							 * Distinct from `learndash_report_user_activity_export_chunk_size`, which controls the
+							 * per-chunk size of the background CSV export pipeline. This one only affects the
+							 * list-view intersection query that decides which users have any activity to display.
+							 *
+							 * Prevents oversized IN(...) clauses from exceeding MySQL's max_allowed_packet on sites
+							 * with very large user bases.
+							 *
+							 * @since 5.1.6
+							 *
+							 * @param int $chunk_size Number of user IDs per chunk. Default 500.
+							 *
+							 * @return int Number of user IDs per chunk.
+							 */
+							$chunk_size = Cast::to_int( apply_filters( 'learndash_report_activity_list_view_chunk_size', 500 ) );
+							if ( $chunk_size < 1 ) {
+								$chunk_size = 500;
+							}
+
+							$users_with_activity = array();
+
+							foreach ( array_chunk( $report_post_args['filters']['users_ids'], $chunk_size ) as $users_ids_chunk ) {
+								$chunk_result = DB::get_col(
+									DB::table( DB::raw( LDLMS_DB::get_table_name( 'user_activity' ) ) )
+										->select( 'user_id' )
+										->whereIn( 'user_id', $users_ids_chunk )
+										->groupBy( 'user_id' )
+										->getSql()
+								);
+
+								if ( ! empty( $chunk_result ) ) {
+									$users_with_activity = array_merge( $users_with_activity, $chunk_result );
+								}
+							}
+
+							$report_post_args['filters']['users_ids'] = array_values( array_unique( $users_with_activity ) );
 						}
 
 						if (
@@ -222,6 +267,60 @@ if ( ! class_exists( 'LearnDash_ProPanel_Activity' ) ) {
 			}
 
 			return $output;
+		}
+
+		/**
+		 * Returns every user ID that has activity rows for the template's activity types.
+		 *
+		 * Used by the admin-wide export path so the CSV covers every user the propanel
+		 * display would show — including users that learndash_get_report_user_ids() cannot
+		 * enumerate via WP_User_Query (deleted accounts with surviving activity rows,
+		 * externally imported accounts, etc.).
+		 *
+		 * @since 5.1.6
+		 *
+		 * @param string $template Propanel template slug. Expected: activity-quizzes, activity-courses.
+		 *
+		 * @return array<int> Distinct user IDs that have at least one matching activity row.
+		 */
+		private static function get_admin_export_user_ids( string $template ): array {
+			$default_activity_types = ( 'activity-quizzes' === $template )
+				? array( 'quiz' )
+				: array( 'course' );
+
+			/**
+			 * Filters the activity types used to pre-populate the admin-wide export user list.
+			 *
+			 * Default mapping: activity-quizzes → ['quiz'], activity-courses → ['course'].
+			 * Third-party propanel templates can hook this to declare which activity types
+			 * their export should cover.
+			 *
+			 * @since 5.1.6
+			 *
+			 * @param array  $activity_types Activity type slugs to scan. Default depends on template.
+			 * @param string $template       Propanel template slug.
+			 *
+			 * @return array Activity type slugs to scan.
+			 */
+			$activity_types = (array) apply_filters( 'learndash_report_admin_export_activity_types', $default_activity_types, $template );
+
+			if ( empty( $activity_types ) ) {
+				return array();
+			}
+
+			$user_ids = DB::get_col(
+				DB::table( DB::raw( LDLMS_DB::get_table_name( 'user_activity' ) ) )
+					->select( 'user_id' )
+					->whereIn( 'activity_type', $activity_types )
+					->groupBy( 'user_id' )
+					->getSql()
+			);
+
+			if ( ! is_array( $user_ids ) ) {
+				return array();
+			}
+
+			return array_values( array_unique( array_map( 'intval', $user_ids ) ) );
 		}
 
 

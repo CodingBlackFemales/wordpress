@@ -102,12 +102,12 @@ if ( class_exists( 'LearnDash_Settings_Section' ) && ! class_exists( 'LearnDash_
 				<div class="sfwd_input">
 					<label for="telemetry_opt_in_status_active" style="display: inline-block; margin-bottom: 5px;">
 						<input type="radio" value="<?php echo esc_attr( (string) Status::STATUS_ACTIVE ); ?>" name="telemetry_opt_in_status" id="telemetry_opt_in_status_active" <?php checked( Status::STATUS_ACTIVE, $opt_in_status_value ); ?>/>
-						<?php esc_html_e( 'Yes, share plugin usage data with LearnDash, part of the StellarWP family of brands', 'learndash' ); ?>
+						<?php esc_html_e( 'Yes, share plugin usage data with LearnDash, part of Liquid Web\'s software suite', 'learndash' ); ?>
 					</label><br/>
 
 					<label for="telemetry_opt_in_status_inactive">
 						<input type="radio" value="<?php echo esc_attr( (string) Status::STATUS_INACTIVE ); ?>" name="telemetry_opt_in_status" id="telemetry_opt_in_status_inactive" <?php checked( Status::STATUS_INACTIVE, $opt_in_status_value ); ?>/>
-						<?php esc_html_e( 'No, do not share plugin usage data with LearnDash, part of the StellarWP family of brands', 'learndash' ); ?>
+						<?php esc_html_e( 'No, do not share plugin usage data with LearnDash, part of Liquid Web\'s software suite', 'learndash' ); ?>
 					</label>
 				</div>
 			</div>

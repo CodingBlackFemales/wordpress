@@ -1615,89 +1615,306 @@ jQuery( function() {
 } );
 
 jQuery( function() {
-	jQuery( '.wrap-learndash-group-list table.groups a.learndash-data-group-reports-button' ).on( 'click', function( e ) {
-		e.preventDefault();
+	const groupReportsButtonSelector = '.wrap-learndash-group-list table.groups a.learndash-data-group-reports-button';
+	const groupReportsStorageKey = 'learndashDataGroupReportsExport:' + ajaxurl;
+	const groupReportsDisabledClass = 'learndash-data-group-reports-button--disabled';
+	const groupReportsAnnouncerSelector =
+		'#learndash-data-group-reports-announcer';
+	let groupReportsExportInProgress = false;
 
-		var form_nonce = jQuery( 'input#ld-group-list-view-nonce' ).val();
-		var data_template 	= jQuery( e.target ).attr( 'data-template' );
-		var data_slug 		= jQuery( e.target ).attr( 'data-slug' );
-		var data_nonce 		= jQuery( e.target ).attr( 'data-nonce' );
-		var data_group_id 	= jQuery( e.target ).attr( 'data-group-id' );
-		var updateElement 	= jQuery( 'span.status', e.target );
+	// Store the link labels before any percentage is appended so aria-label can reuse them.
+	jQuery( groupReportsButtonSelector ).each( function() {
+		const $button = jQuery( this );
 
-		// disable all other buttons
-		jQuery( '.wrap-learndash-group-list table.groups a.learndash-data-group-reports-button' ).prop( 'disabled', true );
-
-		var post_data = {
-			action: 'learndash_data_group_reports',
-			nonce: form_nonce,
-			data: {
-				init: 1,
-				nonce: data_nonce,
-				slug: data_slug,
-				group_id: data_group_id,
-			},
-		};
-		learndash_data_group_reports_do_ajax( post_data, updateElement );
+		$button.data( 'ldExportLabel', $button.text().trim() );
 	} );
-} );
 
-function learndash_data_group_reports_do_ajax( post_data, updateElement ) {
-	if ( ( typeof post_data === 'undefined' ) || ( post_data == '' ) ) {
-		active_post_data = {};
-		return false;
+	/**
+	 * Returns one of the export messages rendered next to the list table.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param {string} name Message name, either 'running' or 'finished'.
+	 *
+	 * @return {string} Localized message, or an empty string when it is unavailable.
+	 */
+	function learndashDataGroupReportsGetMessage( name ) {
+		return (
+			jQuery( groupReportsAnnouncerSelector ).attr(
+				'data-message-' + name
+			) || ''
+		);
 	}
 
-	jQuery.ajax( {
-		type: 'POST',
-		url: ajaxurl,
-		dataType: 'json',
-		cache: false,
-		data: post_data,
-		error: function( jqXHR, textStatus, errorThrown ) {
-		},
-		success: function( reply_data ) {
-			if ( typeof reply_data !== 'undefined' ) {
-				if ( typeof reply_data.data !== 'undefined' ) {
-					var total_count = 0;
-					if ( typeof reply_data.data.total_count !== 'undefined' ) {
-						total_count = parseInt( reply_data.data.total_count );
+	/**
+	 * Announces an export message to screen readers.
+	 *
+	 * The percentage shown on the link is not announced, so the live region carries
+	 * the start and finish updates instead.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param {string} message Message to announce.
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsAnnounce( message ) {
+		jQuery( groupReportsAnnouncerSelector ).text( message );
+	}
+
+	/**
+	 * Reads the active group export from browser storage.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @return {Object|null} Active export data, or null when none is stored.
+	 */
+	function learndashDataGroupReportsGetActiveExport() {
+		try {
+			return JSON.parse( window.localStorage.getItem( groupReportsStorageKey ) );
+		} catch ( error ) {
+			return null;
+		}
+	}
+
+	/**
+	 * Stores the active group export so polling can resume after a page refresh.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param {Object} exportData Active export data.
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsSetActiveExport( exportData ) {
+		try {
+			window.localStorage.setItem(
+				groupReportsStorageKey,
+				JSON.stringify( exportData )
+			);
+		} catch ( error ) {
+			// Continue polling in memory when browser storage is unavailable.
+		}
+	}
+
+	/**
+	 * Clears the stored active group export.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsClearActiveExport() {
+		try {
+			window.localStorage.removeItem( groupReportsStorageKey );
+		} catch ( error ) {
+			// Browser storage is unavailable.
+		}
+	}
+
+	/**
+	 * Disables all group export links while an export is running.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsDisableButtons() {
+		const message = learndashDataGroupReportsGetMessage( 'running' );
+
+		groupReportsExportInProgress = true;
+
+		jQuery( groupReportsButtonSelector ).each( function() {
+			const $button = jQuery( this );
+			const label = $button.data( 'ldExportLabel' );
+
+			$button
+				.prop( 'disabled', true )
+				.attr( 'aria-disabled', 'true' )
+				.attr( 'title', message )
+				.attr( 'aria-label', label ? label + '. ' + message : message )
+				.addClass( groupReportsDisabledClass );
+		} );
+
+		learndashDataGroupReportsAnnounce( message );
+	}
+
+	/**
+	 * Re-enables all group export links and clears their inline status text.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsRestoreButtons() {
+		groupReportsExportInProgress = false;
+
+		jQuery( groupReportsButtonSelector )
+			.prop( 'disabled', false )
+			.removeAttr( 'aria-disabled' )
+			.removeAttr( 'title' )
+			.removeAttr( 'aria-label' )
+			.removeClass( groupReportsDisabledClass );
+		jQuery( groupReportsButtonSelector + ' span.status' ).text( '' );
+	}
+
+	/**
+	 * Polls the shared export-status endpoint until the background export finishes,
+	 * shows the running percentage on the clicked link, and auto-downloads the CSV.
+	 *
+	 * Mirrors the Reports settings page and ProPanel pollers so all three surfaces
+	 * share the same Action Scheduler-backed export contract.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param {Object} $button    jQuery wrapper for the active export link.
+	 * @param {Object} exportData Active export data.
+	 *
+	 * @return {void}
+	 */
+	function learndashDataGroupReportsPollStatus( $button, exportData ) {
+		const poll = function() {
+			jQuery.ajax( {
+				type: 'POST',
+				url: ajaxurl,
+				dataType: 'json',
+				cache: false,
+				data: {
+					action: 'learndash_report_export_status',
+					slug: exportData.slug,
+					nonce: exportData.nonce,
+				},
+				error() {
+					setTimeout( poll, 2000 );
+				},
+				success( response ) {
+					if ( ! response || ! response.success || ! response.data ) {
+						learndashDataGroupReportsClearActiveExport();
+						learndashDataGroupReportsRestoreButtons();
+						return;
 					}
 
-					var result_count = 0;
-					if ( typeof reply_data.data.result_count !== 'undefined' ) {
-						result_count = parseInt( reply_data.data.result_count );
-					}
+					jQuery( 'span.status', $button ).text(
+						' ' + parseInt( response.data.percent, 10 ) + '%'
+					);
 
-					if ( result_count < total_count ) {
-						// Update the progress meter
-						if ( typeof updateElement !== 'undefined' ) {
-							if ( jQuery( updateElement ).length ) {
-								if ( typeof reply_data.data.progress_percent !== 'undefined' ) {
-									var progress_percent = parseInt( reply_data.data.progress_percent );
-									jQuery( updateElement ).html( ' ' + progress_percent + '%' );
-								}
-							}
+					if ( response.data.done ) {
+						learndashDataGroupReportsClearActiveExport();
+						learndashDataGroupReportsRestoreButtons();
+						learndashDataGroupReportsAnnounce(
+							learndashDataGroupReportsGetMessage( 'finished' )
+						);
+
+						if ( response.data.report_url ) {
+							window.location = response.data.report_url;
 						}
 
-						post_data.data = reply_data.data;
-						learndash_data_group_reports_do_ajax( post_data, updateElement );
-					} else {
-						// Re-enable the buttons
-						jQuery( '.wrap-learndash-group-list table.groups a.learndash-data-group-reports-button' ).prop( 'disabled', false );
-
-						// Clear our update element
-						jQuery( updateElement ).html( '' );
-
-						if ( ( typeof reply_data.data.report_download_link !== 'undefined' ) && ( reply_data.data.report_download_link != '' ) ) {
-							window.location.href = reply_data.data.report_download_link;
-						}
+						return;
 					}
+
+					setTimeout( poll, 2000 );
+				},
+			} );
+		};
+
+		poll();
+	}
+
+	jQuery( groupReportsButtonSelector ).on( 'click', function( e ) {
+		e.preventDefault();
+
+		if ( groupReportsExportInProgress ) {
+			return;
+		}
+
+		// Resolve from the anchor, not e.target, so clicks on the inner status span still work.
+		const $button = jQuery( this ).closest( 'a.learndash-data-group-reports-button' );
+		const formNonce = jQuery( 'input#ld-group-list-view-nonce' ).val();
+		const dataSlug = $button.attr( 'data-slug' );
+		const dataNonce = $button.attr( 'data-nonce' );
+		const dataGroupId = $button.attr( 'data-group-id' );
+
+		learndashDataGroupReportsDisableButtons();
+		jQuery( 'span.status', $button ).text( ' 0%' );
+
+		jQuery.ajax( {
+			type: 'POST',
+			url: ajaxurl,
+			dataType: 'json',
+			cache: false,
+			data: {
+				action: 'learndash_data_group_reports',
+				nonce: formNonce,
+				data: {
+					init: 1,
+					nonce: dataNonce,
+					slug: dataSlug,
+					group_id: dataGroupId,
+				},
+			},
+			error() {
+				learndashDataGroupReportsClearActiveExport();
+				learndashDataGroupReportsRestoreButtons();
+			},
+			success( replyData ) {
+				if (
+					! replyData ||
+					! replyData.data ||
+					typeof replyData.data.status === 'undefined'
+				) {
+					learndashDataGroupReportsRestoreButtons();
+					return;
 				}
-			}
-		},
+
+				// Another export already owns the scheduler; no transient was created for this nonce.
+				if ( replyData.data.status === 'running' ) {
+					learndashDataGroupReportsRestoreButtons();
+					return;
+				}
+
+				if ( replyData.data.status !== 'queued' ) {
+					learndashDataGroupReportsRestoreButtons();
+					return;
+				}
+
+				const exportData = {
+					slug: dataSlug,
+					nonce: dataNonce,
+					groupId: dataGroupId,
+				};
+
+				learndashDataGroupReportsSetActiveExport( exportData );
+				learndashDataGroupReportsPollStatus( $button, exportData );
+			},
+		} );
 	} );
-}
+
+	const activeExport = learndashDataGroupReportsGetActiveExport();
+
+	if (
+		activeExport &&
+		activeExport.slug &&
+		activeExport.nonce &&
+		activeExport.groupId
+	) {
+		const $activeButton = jQuery( groupReportsButtonSelector ).filter(
+			function() {
+				return (
+					jQuery( this ).attr( 'data-slug' ) === activeExport.slug &&
+					jQuery( this ).attr( 'data-group-id' ) === activeExport.groupId
+				);
+			}
+		).first();
+
+		learndashDataGroupReportsDisableButtons();
+
+		if ( $activeButton.length ) {
+			jQuery( 'span.status', $activeButton ).text( ' 0%' );
+		}
+
+		learndashDataGroupReportsPollStatus( $activeButton, activeExport );
+	}
+} );
 
 jQuery( function( $ ) {
 	$( '#email_group' ).on( 'click', function() {

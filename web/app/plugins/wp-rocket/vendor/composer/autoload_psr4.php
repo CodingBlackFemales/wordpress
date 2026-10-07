@@ -13,7 +13,6 @@ return array(
     'WPMedia\\PluginFamily\\' => array($vendorDir . '/wp-media/plugin-family/src'),
     'WPMedia\\Mixpanel\\' => array($vendorDir . '/wp-media/wp-mixpanel/src'),
     'WPMedia\\MCP\\OAuth\\' => array($vendorDir . '/wp-media/mcp-oauth/inc'),
-    'WPMedia\\Cloudflare\\' => array($baseDir . '/inc/Addon/Cloudflare'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
 );

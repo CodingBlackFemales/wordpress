@@ -213,6 +213,28 @@ class API extends Base {
 	}
 
 	/**
+	 * Removes retired plugins from the projects list.
+	 *
+	 * The catalog API still returns add-ons that have been retired and are no longer
+	 * supported. They are stripped out here so they don't appear on the Add-ons page.
+	 *
+	 * @since 5.1.3
+	 *
+	 * @param array<string,mixed> $projects Projects keyed by slug.
+	 *
+	 * @return array<string,mixed> Projects with retired entries removed.
+	 */
+	private function filter_retired_projects( array $projects ): array {
+		$retired_slugs = [
+			'learndash-2checkout'      => true,
+			'learndash-edd'            => true,
+			'learndash-event-espresso' => true,
+		];
+
+		return array_diff_key( $projects, $retired_slugs );
+	}
+
+	/**
 	 * Gets cached projects if the cache is valid.
 	 *
 	 * @since 4.21.1
@@ -392,6 +414,9 @@ class API extends Base {
 		if ( empty( $projects ) ) {
 			return [];
 		}
+
+		// Drop retired plugins from the projects list.
+		$projects = $this->filter_retired_projects( $projects );
 
 		$filtered_projects = [];
 

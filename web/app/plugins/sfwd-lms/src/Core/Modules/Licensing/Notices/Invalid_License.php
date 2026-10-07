@@ -50,7 +50,8 @@ class Invalid_License {
 							true
 						)
 						&& learndash_should_load_admin_assets()
-						&& ! learndash_is_license_hub_valid();
+						&& ! learndash_is_learndash_license_valid()
+						&& empty( get_option( LEARNDASH_LICENSE_KEY ) ); // Harbor will handle the notice for invalid legacy keys.
 				}
 			)
 			->dismissible()

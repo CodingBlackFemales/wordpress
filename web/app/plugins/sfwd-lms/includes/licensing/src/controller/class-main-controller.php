@@ -25,11 +25,25 @@ class Main_Controller extends Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->register_page(
-			__( 'Add-ons', 'learndash' ),
-			'learndash-hub',
-			array( new Projects_Controller(), 'display' ),
-			'learndash-lms'
+
+		// Defer the Harbor check to admin_menu so Harbor is fully initialized by then.
+		// register_page() cannot be used here because it would add a nested admin_menu hook that never fires.
+		add_action(
+			is_multisite() ? 'network_admin_menu' : 'admin_menu',
+			static function (): void {
+				if ( lw_harbor_is_product_license_active( 'learndash' ) ) {
+					return;
+				}
+				$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
+				add_submenu_page(
+					'learndash-lms',
+					__( 'Add-ons', 'learndash' ),
+					__( 'Add-ons', 'learndash' ),
+					$cap,
+					'learndash-hub',
+					[ new Projects_Controller(), 'display' ]
+				);
+			}
 		);
 
 		add_action( 'wp_loaded', [ $this, 'maybe_update' ] );

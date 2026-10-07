@@ -26,6 +26,15 @@ if ( ( ! class_exists( 'LD_REST_Echo_Controller_V1' ) ) && ( class_exists( 'WP_R
 		protected $version = 'v1';
 
 		/**
+		 * Maximum request body size accepted by this debug endpoint, in bytes.
+		 *
+		 * @since 5.0.5.1
+		 *
+		 * @var int
+		 */
+		private const MAX_BODY_BYTES = KB_IN_BYTES * 16;
+
+		/**
 		 * Constructor.
 		 *
 		 * @since 3.0.7
@@ -77,7 +86,18 @@ if ( ( ! class_exists( 'LD_REST_Echo_Controller_V1' ) ) && ( class_exists( 'WP_R
 		 * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
 		 */
 		public function get_response_permissions_check( $request ) {
-			return true;
+			if (
+				! defined( 'LEARNDASH_DEBUG' ) // @phpstan-ignore-line booleanOr.alwaysTrue -- Constant may or may not be defined by user.
+				|| ! LEARNDASH_DEBUG // @phpstan-ignore-line booleanNot.alwaysTrue -- Constant may or may not be defined by user.
+			) {
+				return new WP_Error(
+					'learndash_rest_forbidden',
+					__( 'Sorry, you are not allowed to access this endpoint.', 'learndash' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+
+			return true; // @phpstan-ignore-line deadCode.unreachable -- Constant may or may not be defined by user.
 		}
 
 		/**
@@ -90,17 +110,25 @@ if ( ( ! class_exists( 'LD_REST_Echo_Controller_V1' ) ) && ( class_exists( 'WP_R
 		 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 		 */
 		public function get_response( $request ) {
+			$request_body = $request->get_body();
+
+			if ( strlen( $request_body ) > self::MAX_BODY_BYTES ) {
+				return new WP_Error(
+					'learndash_rest_payload_too_large',
+					__( 'Request body exceeds the maximum allowed size.', 'learndash' ),
+					array( 'status' => 413 )
+				);
+			}
+
 			$response_array                  = array();
 			$response_array['method']        = $request->get_method();
 			$response_array['route']         = $request->get_route();
 			$response_array['authenticated'] = is_user_logged_in() ? 1 : 0;
 			$response_array['query_params']  = $request->get_query_params();
 
-			$request_body = $request->get_body();
 			if ( ! empty( $request_body ) ) {
-				$request_body                   = json_decode( $request_body, true );
 				$response_array['content-type'] = $request->get_header( 'content-type' );
-				$response_array['body']         = $request_body;
+				$response_array['body']         = json_decode( $request_body, true );
 			} else {
 				$response_array['body'] = '';
 			}

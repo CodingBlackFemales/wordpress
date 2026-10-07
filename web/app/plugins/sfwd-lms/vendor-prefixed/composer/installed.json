@@ -1,6 +1,6 @@
 {
-    "packages": {
-        "0": {
+    "packages": [
+        {
             "name": "lucatume/di52",
             "version": "3.3.7",
             "version_normalized": "3.3.7.0",
@@ -48,7 +48,7 @@
             },
             "install-path": "../lucatume/di52"
         },
-        "1": {
+        {
             "name": "myclabs/php-enum",
             "version": "1.8.5",
             "version_normalized": "1.8.5.0",
@@ -114,7 +114,88 @@
             ],
             "install-path": "../myclabs/php-enum"
         },
-        "2": {
+        {
+            "name": "nyholm/psr7",
+            "version": "1.8.2",
+            "version_normalized": "1.8.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/psr7.git",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0",
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "php-http/message-factory": "^1.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/error-handler": "^4.4"
+            },
+            "time": "2024-09-09T07:06:30+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\Nyholm\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                },
+                {
+                    "name": "Martijn van der Ven",
+                    "email": "martijn@vanderven.se"
+                }
+            ],
+            "description": "A fast PHP7 implementation of PSR-7",
+            "homepage": "https://tnyholm.se",
+            "keywords": [
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../nyholm/psr7"
+        },
+        {
             "name": "psr/container",
             "version": "1.1.1",
             "version_normalized": "1.1.1.0",
@@ -165,19 +246,188 @@
             },
             "install-path": "../psr/container"
         },
-        "3": {
-            "name": "razorpay/razorpay",
-            "version": "2.9.2",
-            "version_normalized": "2.9.2.0",
+        {
+            "name": "psr/http-client",
+            "version": "1.0.3",
+            "version_normalized": "1.0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/razorpay/razorpay-php.git",
-                "reference": "c5cf59941eb2d888e80371328d932e6e8266d352"
+                "url": "https://github.com/php-fig/http-client.git",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/razorpay/razorpay-php/zipball/c5cf59941eb2d888e80371328d932e6e8266d352",
-                "reference": "c5cf59941eb2d888e80371328d932e6e8266d352",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "time": "2023-09-23T14:17:50+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\Psr\\Http\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP clients",
+            "homepage": "https://github.com/php-fig/http-client",
+            "keywords": [
+                "http",
+                "http-client",
+                "psr",
+                "psr-18"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-client"
+            },
+            "install-path": "../psr/http-client"
+        },
+        {
+            "name": "psr/http-factory",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-factory.git",
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
+                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "time": "2024-04-15T12:06:14+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory"
+            },
+            "install-path": "../psr/http-factory"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.1",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "time": "2023-04-04T09:50:52+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/1.1"
+            },
+            "install-path": "../psr/http-message"
+        },
+        {
+            "name": "razorpay/razorpay",
+            "version": "2.9.3",
+            "version_normalized": "2.9.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/razorpay/razorpay-php.git",
+                "reference": "b724515d548083b9fba52e61f47c0c24136ab181"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/razorpay/razorpay-php/zipball/b724515d548083b9fba52e61f47c0c24136ab181",
+                "reference": "b724515d548083b9fba52e61f47c0c24136ab181",
                 "shasum": ""
             },
             "require": {
@@ -189,7 +439,7 @@
                 "phpunit/phpunit": "^9",
                 "raveren/kint": "1.*"
             },
-            "time": "2025-08-05T07:13:20+00:00",
+            "time": "2026-06-08T08:12:20+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -233,19 +483,19 @@
             },
             "install-path": "../razorpay/razorpay"
         },
-        "4": {
+        {
             "name": "rmccue/requests",
-            "version": "v2.0.17",
-            "version_normalized": "2.0.17.0",
+            "version": "v2.0.20",
+            "version_normalized": "2.0.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/Requests.git",
-                "reference": "74d1648cc34e16a42ea25d548fc73ec107a90421"
+                "reference": "c379f928584da604287bcb102ea52c0751a66584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/Requests/zipball/74d1648cc34e16a42ea25d548fc73ec107a90421",
-                "reference": "74d1648cc34e16a42ea25d548fc73ec107a90421",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/c379f928584da604287bcb102ea52c0751a66584",
+                "reference": "c379f928584da604287bcb102ea52c0751a66584",
                 "shasum": ""
             },
             "require": {
@@ -253,13 +503,11 @@
                 "php": ">=5.6"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
                 "php-parallel-lint/php-console-highlighter": "^0.5.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "php-parallel-lint/php-parallel-lint": "^1.4.0",
                 "phpcompatibility/php-compatibility": "^10.0.0@dev",
                 "requests/test-server": "dev-main",
-                "squizlabs/php_codesniffer": "^3.6",
-                "wp-coding-standards/wpcs": "^2.0",
+                "wp-coding-standards/wpcs": "^3.1",
                 "yoast/phpunit-polyfills": "^1.1.5"
             },
             "suggest": {
@@ -268,7 +516,7 @@
                 "ext-openssl": "For secure transport support",
                 "ext-zlib": "For improved performance when decompressing encoded streams"
             },
-            "time": "2025-12-12T17:47:19+00:00",
+            "time": "2026-08-31T09:07:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -322,7 +570,7 @@
             },
             "install-path": "../rmccue/requests"
         },
-        "6": {
+        {
             "name": "ssnepenthe/color-utils",
             "version": "0.4.2",
             "version_normalized": "0.4.2.0",
@@ -397,7 +645,7 @@
             },
             "install-path": "../ssnepenthe/color-utils"
         },
-        "7": {
+        {
             "name": "stellarwp/admin-notices",
             "version": "1.2.2",
             "version_normalized": "1.2.2.0",
@@ -453,7 +701,7 @@
             },
             "install-path": "../stellarwp/admin-notices"
         },
-        "8": {
+        {
             "name": "stellarwp/arrays",
             "version": "1.3.2",
             "version_normalized": "1.3.2.0",
@@ -503,19 +751,19 @@
             },
             "install-path": "../stellarwp/arrays"
         },
-        "9": {
+        {
             "name": "stellarwp/assets",
-            "version": "1.5.1",
-            "version_normalized": "1.5.1.0",
+            "version": "1.5.3",
+            "version_normalized": "1.5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/assets.git",
-                "reference": "d1e1852299f838a54fb5b296e77cc3788bc530ed"
+                "reference": "4b8264a7c9af2cabdee19533da8170c26e064526"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/assets/zipball/d1e1852299f838a54fb5b296e77cc3788bc530ed",
-                "reference": "d1e1852299f838a54fb5b296e77cc3788bc530ed",
+                "url": "https://api.github.com/repos/stellarwp/assets/zipball/4b8264a7c9af2cabdee19533da8170c26e064526",
+                "reference": "4b8264a7c9af2cabdee19533da8170c26e064526",
                 "shasum": ""
             },
             "require": {
@@ -536,7 +784,7 @@
                 "symfony/string": "^5.4",
                 "szepeviktor/phpstan-wordpress": "^1.1"
             },
-            "time": "2026-01-27T14:39:53+00:00",
+            "time": "2026-07-30T15:27:48+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -561,29 +809,29 @@
             "description": "A library for managing asset registration and enqueuing in WordPress.",
             "support": {
                 "issues": "https://github.com/stellarwp/assets/issues",
-                "source": "https://github.com/stellarwp/assets/tree/1.5.1"
+                "source": "https://github.com/stellarwp/assets/tree/1.5.3"
             },
             "install-path": "../stellarwp/assets"
         },
-        "10": {
+        {
             "name": "stellarwp/container-contract",
-            "version": "1.0.4",
-            "version_normalized": "1.0.4.0",
+            "version": "1.1.2",
+            "version_normalized": "1.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/container-contract.git",
-                "reference": "37becc9edbecb0ff95556048337600dd9cc888f0"
+                "reference": "ea6e93c95ddf95bbefaa0b6bc529f63ebdb1a8f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/container-contract/zipball/37becc9edbecb0ff95556048337600dd9cc888f0",
-                "reference": "37becc9edbecb0ff95556048337600dd9cc888f0",
+                "url": "https://api.github.com/repos/stellarwp/container-contract/zipball/ea6e93c95ddf95bbefaa0b6bc529f63ebdb1a8f1",
+                "reference": "ea6e93c95ddf95bbefaa0b6bc529f63ebdb1a8f1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0.0"
             },
-            "time": "2022-12-20T21:29:17+00:00",
+            "time": "2026-06-04T17:17:02+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -611,11 +859,11 @@
             ],
             "support": {
                 "issues": "https://github.com/stellarwp/container-contract/issues",
-                "source": "https://github.com/stellarwp/container-contract/tree/1.0.4"
+                "source": "https://github.com/stellarwp/container-contract/tree/1.1.2"
             },
             "install-path": "../stellarwp/container-contract"
         },
-        "11": {
+        {
             "name": "stellarwp/db",
             "version": "1.3.0",
             "version_normalized": "1.3.0.0",
@@ -674,7 +922,7 @@
             },
             "install-path": "../stellarwp/db"
         },
-        "12": {
+        {
             "name": "stellarwp/field-conditions",
             "version": "1.1.1",
             "version_normalized": "1.1.1.0",
@@ -727,7 +975,168 @@
             },
             "install-path": "../stellarwp/field-conditions"
         },
-        "13": {
+        {
+            "name": "stellarwp/harbor",
+            "version": "v1.6.0",
+            "version_normalized": "1.6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/harbor.git",
+                "reference": "e0253fa5512522a50dd73abe990d3591017494fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/harbor/zipball/e0253fa5512522a50dd73abe990d3591017494fb",
+                "reference": "e0253fa5512522a50dd73abe990d3591017494fb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "nyholm/psr7": "^1.0",
+                "php": ">=7.4",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1",
+                "stellarwp/container-contract": "^1.0",
+                "stellarwp/licensing-api-client-wordpress": "^2.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^1",
+                "dpanta94/phpstan-containers": "^0",
+                "exussum12/coverage-checker": "^1.1",
+                "lucatume/codeception-snapshot-assertions": "*",
+                "lucatume/di52": "^3",
+                "lucatume/wp-browser": "*",
+                "php-stubs/wp-cli-stubs": "^2",
+                "phpcompatibility/phpcompatibility-wp": "^2",
+                "phpspec/prophecy": "*",
+                "phpspec/prophecy-phpunit": "*",
+                "phpstan/phpstan": "^2",
+                "phpunit/phpunit": "*",
+                "stellarwp/coding-standards": "^2",
+                "szepeviktor/phpstan-wordpress": ">=1.0",
+                "wp-cli/wp-cli": "^2"
+            },
+            "time": "2026-07-27T14:52:06+00:00",
+            "bin": [
+                "bin/stellar-harbor"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\LiquidWeb\\Harbor\\": "src/Harbor/",
+                    "StellarWP\\Learndash\\LiquidWeb\\Harbor\\Views\\": "src/views/",
+                    "StellarWP\\Learndash\\LiquidWeb\\Harbor\\Build_Dir\\": "build/",
+                    "StellarWP\\Learndash\\LiquidWeb\\Harbor\\Build_Dev_Dir\\": "build-dev/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Liquid Web",
+                    "homepage": "https://liquidweb.com"
+                }
+            ],
+            "description": "A library that integrates a WordPress product with the Liquid Web licensing system.",
+            "support": {
+                "issues": "https://github.com/stellarwp/harbor/issues",
+                "source": "https://github.com/stellarwp/harbor/tree/v1.6.0"
+            },
+            "install-path": "../stellarwp/harbor"
+        },
+        {
+            "name": "stellarwp/licensing-api-client",
+            "version": "2.0.0",
+            "version_normalized": "2.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/licensing-api-client.git",
+                "reference": "6f9e0b3e49831f49b735a9544c5fb2fea4eeedeb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/licensing-api-client/zipball/6f9e0b3e49831f49b735a9544c5fb2fea4eeedeb",
+                "reference": "6f9e0b3e49831f49b735a9544c5fb2fea4eeedeb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "time": "2026-04-23T03:36:42+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\LiquidWeb\\LicensingApiClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "A PHP client for the Liquid Web Licensing API.",
+            "support": {
+                "source": "https://github.com/stellarwp/licensing-api-client/tree/2.0.0"
+            },
+            "install-path": "../stellarwp/licensing-api-client"
+        },
+        {
+            "name": "stellarwp/licensing-api-client-wordpress",
+            "version": "2.0.0",
+            "version_normalized": "2.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/licensing-api-client-wordpress.git",
+                "reference": "f4ece66587cd6de175ffd35d0fbc3dc06c76a1f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/licensing-api-client-wordpress/zipball/f4ece66587cd6de175ffd35d0fbc3dc06c76a1f8",
+                "reference": "f4ece66587cd6de175ffd35d0fbc3dc06c76a1f8",
+                "shasum": ""
+            },
+            "require": {
+                "nyholm/psr7": "^1.8",
+                "php": ">=7.4",
+                "stellarwp/licensing-api-client": "^2.0"
+            },
+            "time": "2026-04-23T03:38:52+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\LiquidWeb\\LicensingApiClientWordPress\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "WordPress transport and factory integration for the Liquid Web Licensing API client.",
+            "support": {
+                "source": "https://github.com/stellarwp/licensing-api-client-wordpress/tree/2.0.0"
+            },
+            "install-path": "../stellarwp/licensing-api-client-wordpress"
+        },
+        {
             "name": "stellarwp/models",
             "version": "1.2.3",
             "version_normalized": "1.2.3.0",
@@ -786,7 +1195,68 @@
             },
             "install-path": "../stellarwp/models"
         },
-        "14": {
+        {
+            "name": "stellarwp/plugin-absorber",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stellarwp/plugin-absorber",
+                "reference": "533c690eecc8f9f20762718ebfcfa3492687b2cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stellarwp/plugin-absorber/zipball/533c690eecc8f9f20762718ebfcfa3492687b2cb",
+                "reference": "533c690eecc8f9f20762718ebfcfa3492687b2cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4",
+                "stellarwp/container-contract": "^1.1"
+            },
+            "require-dev": {
+                "codeception/module-asserts": "^1.0",
+                "codeception/util-universalframework": "^1.0",
+                "lucatume/di52": "^3.0",
+                "lucatume/wp-browser": "^3.6.5",
+                "php-stubs/wordpress-stubs": "~6.4.0",
+                "phpstan/phpstan": "~1.12.0",
+                "phpunit/phpunit": "^9.5",
+                "szepeviktor/phpstan-wordpress": "~1.3.0"
+            },
+            "time": "2026-09-02T14:05:32+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "StellarWP\\Learndash\\Nexcess\\PluginAbsorber\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "StellarWP",
+                    "email": "dev@stellarwp.com"
+                }
+            ],
+            "description": "Safely load bundled WordPress plugins inside a host plugin, togglable or always-on, without fatal errors.",
+            "keywords": [
+                "bundled",
+                "loader",
+                "plugin",
+                "stellarwp",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/stellarwp/plugin-absorber/issues",
+                "source": "https://github.com/stellarwp/plugin-absorber"
+            },
+            "install-path": "../stellarwp/plugin-absorber"
+        },
+        {
             "name": "stellarwp/superglobals",
             "version": "1.3.0",
             "version_normalized": "1.3.0.0",
@@ -839,19 +1309,19 @@
             },
             "install-path": "../stellarwp/superglobals"
         },
-        "15": {
+        {
             "name": "stellarwp/telemetry",
-            "version": "2.3.4",
-            "version_normalized": "2.3.4.0",
+            "version": "2.4.1",
+            "version_normalized": "2.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/telemetry.git",
-                "reference": "74c7b819d574aa5fc1392f982fb32cedc18d4c6f"
+                "reference": "c1b3a43359475460a17589dd0442310a81f51b24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/telemetry/zipball/74c7b819d574aa5fc1392f982fb32cedc18d4c6f",
-                "reference": "74c7b819d574aa5fc1392f982fb32cedc18d4c6f",
+                "url": "https://api.github.com/repos/stellarwp/telemetry/zipball/c1b3a43359475460a17589dd0442310a81f51b24",
+                "reference": "c1b3a43359475460a17589dd0442310a81f51b24",
                 "shasum": ""
             },
             "require": {
@@ -870,7 +1340,7 @@
                 "the-events-calendar/coding-standards": "dev-master",
                 "wp-coding-standards/wpcs": "^3.0.0"
             },
-            "time": "2025-04-25T18:58:09+00:00",
+            "time": "2026-04-10T15:47:09+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -887,28 +1357,28 @@
             "description": "Telemetry library for StellarWP plugins.",
             "support": {
                 "issues": "https://github.com/stellarwp/telemetry/issues",
-                "source": "https://github.com/stellarwp/telemetry/tree/2.3.4"
+                "source": "https://github.com/stellarwp/telemetry/tree/2.4.1"
             },
             "install-path": "../stellarwp/telemetry"
         },
-        "16": {
+        {
             "name": "stellarwp/validation",
-            "version": "1.5.0",
-            "version_normalized": "1.5.0.0",
+            "version": "1.6.0",
+            "version_normalized": "1.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stellarwp/validation.git",
-                "reference": "cf610086713a8a20ad640b7f0da2bcf0e8a826a4"
+                "reference": "69d76a08410d8eadd8add4139241325d4df35142"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stellarwp/validation/zipball/cf610086713a8a20ad640b7f0da2bcf0e8a826a4",
-                "reference": "cf610086713a8a20ad640b7f0da2bcf0e8a826a4",
+                "url": "https://api.github.com/repos/stellarwp/validation/zipball/69d76a08410d8eadd8add4139241325d4df35142",
+                "reference": "69d76a08410d8eadd8add4139241325d4df35142",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "stellarwp/container-contract": "1.0.4",
+                "stellarwp/container-contract": "^1.1",
                 "stellarwp/field-conditions": "^1.0"
             },
             "require-dev": {
@@ -920,7 +1390,7 @@
                 "phpunit/phpunit": "~6.0",
                 "szepeviktor/phpstan-wordpress": "^1.3"
             },
-            "time": "2025-06-18T20:38:33+00:00",
+            "time": "2026-08-27T11:42:38+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -945,11 +1415,11 @@
             "description": "An end-to-end ready PHP validation library",
             "support": {
                 "issues": "https://github.com/stellarwp/validation/issues",
-                "source": "https://github.com/stellarwp/validation/tree/1.5.0"
+                "source": "https://github.com/stellarwp/validation/tree/1.6.0"
             },
             "install-path": "../stellarwp/validation"
         },
-        "17": {
+        {
             "name": "stripe/stripe-php",
             "version": "v13.18.0",
             "version_normalized": "13.18.0.0",
@@ -1011,7 +1481,7 @@
             },
             "install-path": "../stripe/stripe-php"
         },
-        "18": {
+        {
             "name": "trustedlogin/client",
             "version": "v1.9.0",
             "version_normalized": "1.9.0.0",
@@ -1073,7 +1543,7 @@
             },
             "install-path": "../trustedlogin/client"
         }
-    },
+    ],
     "dev": false,
     "dev-package-names": []
 }

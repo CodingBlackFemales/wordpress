@@ -5,7 +5,7 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
 use Exception as PHPException;
 

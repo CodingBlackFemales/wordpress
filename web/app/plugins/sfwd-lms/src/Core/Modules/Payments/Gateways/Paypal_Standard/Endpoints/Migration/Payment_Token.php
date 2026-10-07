@@ -42,13 +42,20 @@ class Payment_Token extends Endpoint {
 	/**
 	 * The permission required to access this endpoint.
 	 *
-	 * This endpoint is public.
-	 *
 	 * @since 4.25.3
 	 *
 	 * @var string
 	 */
-	protected string $permission_required = '';
+	protected string $permission_required = 'read';
+
+	/**
+	 * The request parameter that must match the current user's ID.
+	 *
+	 * @since 5.1.6.1
+	 *
+	 * @var string
+	 */
+	protected string $owner_id_param = 'user_id';
 
 	/**
 	 * Validates the token ID.

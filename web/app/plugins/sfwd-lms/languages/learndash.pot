@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the LearnDash LMS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: LearnDash LMS 5.0.5\n"
+"Project-Id-Version: LearnDash LMS 5.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learndash-core\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-07T19:34:05+00:00\n"
+"POT-Creation-Date: 2026-09-16T13:44:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: learndash\n"
@@ -205,6 +205,44 @@ msgstr ""
 msgid "Check Updates"
 msgstr ""
 
+#: includes/admin/class-learndash-admin-background-export.php:261
+msgid "Download the CSV file."
+msgstr ""
+
+#. translators: 1: report type label (e.g. Course, Quiz), 2: HTML link to download the exported CSV file.
+#: includes/admin/class-learndash-admin-background-export.php:266
+#, php-format
+msgid "Your %1$s report export is ready. %2$s"
+msgstr ""
+
+#. translators: %s: HTML link to download the exported CSV file.
+#: includes/admin/class-learndash-admin-background-export.php:273
+#, php-format
+msgid "Your report export is ready. %s"
+msgstr ""
+
+#. translators: %s: report type label (e.g. Course, Quiz).
+#: includes/admin/class-learndash-admin-background-export.php:309
+#, php-format
+msgid "Your %s report export is queued. Refresh this page to check progress."
+msgstr ""
+
+#: includes/admin/class-learndash-admin-background-export.php:314
+msgid "Your report export is queued. Refresh this page to check progress."
+msgstr ""
+
+#. translators: 1: report type label (e.g. Course, Quiz), 2: completion percentage.
+#: includes/admin/class-learndash-admin-background-export.php:332
+#, php-format
+msgid "Your %1$s report export is running (%2$d%%). Refresh this page to check progress."
+msgstr ""
+
+#. translators: %d: completion percentage.
+#: includes/admin/class-learndash-admin-background-export.php:340
+#, php-format
+msgid "Your report export is running (%d%%). Refresh this page to check progress."
+msgstr ""
+
 #: includes/admin/class-learndash-admin-binary-selector.php:135
 #: includes/admin/class-learndash-admin-binary-selector.php:136
 msgid "Search:"
@@ -369,10 +407,10 @@ msgstr ""
 
 #: includes/admin/class-learndash-admin-data-upgrades.php:593
 #: includes/admin/class-learndash-admin-data-upgrades.php:654
-#: includes/admin/class-learndash-admin-settings-data-reports.php:390
-#: includes/admin/class-learndash-admin-settings-data-reports.php:450
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:510
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:505
+#: includes/admin/class-learndash-admin-settings-data-reports.php:438
+#: includes/admin/class-learndash-admin-settings-data-reports.php:498
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:661
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:655
 msgid "ERROR: Cannot create working folder. Check that the parent folder is writable"
 msgstr ""
 
@@ -534,7 +572,6 @@ msgstr ""
 #: src/admin_views/modules/payments/gateways/paypal-standard/current-subscriptions/table-header.php:20
 #: themes/ld30/templates/modules/login-modal.php:400
 #: themes/legacy/templates/profile.php:70
-#: assets/js/setup-wizard/src/screen/step-1.jsx:104
 #: includes/licensing/assets/scripts/licensing.js:2291
 #: includes/licensing/frontend/src/Licensing/License.jsx:107
 #: includes/licensing/frontend/src/Settings/License.jsx:107
@@ -589,7 +626,15 @@ msgstr ""
 msgid "Sending..."
 msgstr ""
 
-#: includes/admin/class-learndash-admin-groups-users-list.php:339
+#: includes/admin/class-learndash-admin-groups-users-list.php:330
+msgid "An export is already running. Please wait until it finishes before starting a new one."
+msgstr ""
+
+#: includes/admin/class-learndash-admin-groups-users-list.php:331
+msgid "The export finished. The download starts automatically."
+msgstr ""
+
+#: includes/admin/class-learndash-admin-groups-users-list.php:347
 #: includes/reports/templates/reporting-filters/courses/ld-propanel-reporting-filter-course.php:32
 #: includes/licensing/assets/scripts/settings.js:2408
 #: includes/licensing/frontend/src/Settings/Permissions.jsx:154
@@ -597,14 +642,14 @@ msgid "Search Users"
 msgstr ""
 
 #. translators: placeholder: Groups.
-#: includes/admin/class-learndash-admin-groups-users-list.php:344
+#: includes/admin/class-learndash-admin-groups-users-list.php:352
 #: includes/class-ld-lms.php:2597
 #, php-format
 msgctxt "placeholder: Groups"
 msgid "Search %s"
 msgstr ""
 
-#: includes/admin/class-learndash-admin-groups-users-list.php:380
+#: includes/admin/class-learndash-admin-groups-users-list.php:388
 msgid "Update User"
 msgstr ""
 
@@ -714,7 +759,6 @@ msgstr ""
 #: themes/legacy/templates/profile.php:87
 #: themes/legacy/templates/profile.php:175
 #: themes/legacy/templates/quiz_progress_rows.php:85
-#: assets/js/setup-wizard/src/screen/step-2.jsx:197
 msgid "Certificate"
 msgstr ""
 
@@ -806,12 +850,13 @@ msgstr ""
 #: includes/admin/class-learndash-admin-menus-tabs.php:1870
 #: includes/admin/class-learndash-admin-menus-tabs.php:1914
 #: includes/admin/class-learndash-admin-menus-tabs.php:2203
-#: includes/ld-groups.php:2939
+#: includes/ld-groups.php:2948
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_QuizOverall.php:103
 #: includes/licensing/src/controller/class-settings-controller.php:27
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-coupon-settings.php:39
 #: includes/settings/settings-pages/class-ld-settings-page-assignments-options.php:31
 #: includes/settings/settings-sections/class-ld-settings-section-import-export.php:179
+#: includes/woocommerce/src/App/Admin/Pages/Settings.php:30
 #: src/Core/Modules/AI/Virtual_Instructor/Experiment.php:53
 #: src/Core/Modules/AI/Virtual_Instructor/Settings/Page.php:36
 #: src/Core/Modules/AI/Virtual_Instructor/Settings/Post_Metabox.php:83
@@ -893,7 +938,7 @@ msgid "Different points for each answer"
 msgstr ""
 
 #: includes/admin/class-learndash-admin-menus-tabs.php:1213
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:425
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:575
 #: includes/admin/ld-quiz-builder-helpers.php:136
 msgid "points"
 msgstr ""
@@ -925,7 +970,7 @@ msgid "Allow HTML"
 msgstr ""
 
 #: includes/admin/class-learndash-admin-menus-tabs.php:1219
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:89
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:90
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_QuestionEdit.php:372
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_Statistics.php:119
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_Statistics.php:258
@@ -1425,10 +1470,9 @@ msgstr ""
 #: themes/ld30/templates/quiz/partials/show_quiz_questions_box.php:927
 #: themes/legacy/templates/quiz/partials/show_quiz_questions_box.php:680
 #: themes/legacy/templates/quiz/partials/show_quiz_questions_box.php:736
-#: assets/js/setup-wizard/src/screen/step-1.jsx:249
-#: assets/js/setup-wizard/src/screen/step-2.jsx:292
-#: assets/js/setup-wizard/src/screen/step-3.jsx:246
-#: assets/js/setup-wizard/src/screen/step-4.jsx:457
+#: assets/js/setup-wizard/src/screen/step-1.jsx:262
+#: assets/js/setup-wizard/src/screen/step-2.jsx:218
+#: assets/js/setup-wizard/src/screen/step-3.jsx:362
 #: src/assets/dist/js/admin/modules/ai/virtual-instructor/setup-wizard.js:49
 #: src/assets/js/admin/modules/ai/virtual-instructor/components/react/Step.js:229
 msgid "Back"
@@ -1664,6 +1708,20 @@ msgstr ""
 #, php-format
 msgctxt "placeholder: Post title"
 msgid "View \"%s\""
+msgstr ""
+
+#: includes/admin/class-learndash-admin-settings-data-reports.php:306
+msgid "Your report is being processed in the background. You can safely leave or close this page; the download link will appear here as a notice once the export finishes."
+msgstr ""
+
+#: includes/admin/class-learndash-admin-settings-data-reports.php:307
+#: includes/settings/settings-pages/class-ld-settings-page-translations.php:111
+#: includes/settings/settings-pages/class-ld-settings-page-translations.php:120
+msgid "Dismiss this notice."
+msgstr ""
+
+#: includes/admin/class-learndash-admin-settings-data-reports.php:308
+msgid "The export could not be started. Please try again."
 msgstr ""
 
 #. translators: placeholder: Course.
@@ -2258,7 +2316,7 @@ msgid "Clone"
 msgstr ""
 
 #: includes/admin/classes-cloning/class-learndash-admin-cloning.php:171
-#: includes/class-ld-course-wizard.php:371
+#: includes/class-ld-course-wizard.php:454
 msgid "Request expired. Please try it again."
 msgstr ""
 
@@ -2312,135 +2370,121 @@ msgstr ""
 
 #. Translators: placeholders: Custom Course Label.
 #. Translators: placeholders: Custom Quiz Label.
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:118
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:113
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:122
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:120
 #, php-format
 msgid "Export User %s Data"
 msgstr ""
 
 #. translators: Export User Course Data Label.
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:141
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:145
 #: includes/deprecated/5.0.0/functions.php:709
 #, php-format
 msgctxt "Export User Course Data Label"
 msgid "Export User %s Data"
 msgstr ""
 
-#. translators: placeholders: result count, total count.
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:229
-#, php-format
-msgctxt "placeholders: result count, total count"
-msgid "%1$d of %2$s results"
-msgstr ""
-
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:409
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:381
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:560
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:531
 msgid "user_id"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:414
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:386
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:565
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:536
 msgid "name"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:420
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:392
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:571
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:542
 msgid "email"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:426
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:455
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:577
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:605
 msgid "course_id"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:431
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:461
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:582
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:611
 msgid "course_title"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:437
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:588
 msgid "steps_completed"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:442
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:593
 msgid "steps_total"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:447
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:598
 msgid "course_completed"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:452
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:603
 msgid "course_completed_on"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:717
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:899
 msgctxt "Course Complete Report label: NO"
 msgid "NO"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:722
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:727
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:904
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-courses.php:909
 msgctxt "Course Complete Report label: YES"
 msgid "YES"
 msgstr ""
 
 #. translators: Export User Quiz Data Label.
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:136
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:143
 #, php-format
 msgctxt "Export User Quiz Data Label"
 msgid "Export User %s Data"
 msgstr ""
 
-#. translators: placeholders: result count, total count.
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:362
-#, php-format
-msgctxt "placeholders: result count, total count"
-msgid "%1$d of %2$s Users"
-msgstr ""
-
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:398
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:548
 msgid "quiz_id"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:403
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:553
 msgid "quiz_title"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:409
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:559
 msgid "score"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:414
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:564
 msgid "total"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:419
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:569
 msgid "date"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:431
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:581
 msgid "points_total"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:437
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:587
 msgid "percentage"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:443
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:593
 msgid "time_spent"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:449
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:599
 msgid "passed"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:450
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:600
 msgctxt "Quiz Passed Report label: NO"
 msgid "NO"
 msgstr ""
 
-#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:683
+#: includes/admin/classes-data-reports-actions/class-learndash-admin-data-reports-user-quizzes.php:833
 msgctxt "Quiz Passed Report label: YES"
 msgid "YES"
 msgstr ""
@@ -2485,6 +2529,8 @@ msgstr ""
 #: includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-rename_wpproquiz-tables.php:567
 #: includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-user-meta-courses.php:276
 #: includes/admin/classes-data-upgrades-actions/class-learndash-admin-data-upgrades-user-meta-quizzes.php:284
+#: includes/notifications/includes/admin/class-status-page.php:72
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:76
 #: themes/ld30/templates/modern/course/accordion/lessons/lesson/attributes/progress.php:33
 #: themes/ld30/templates/modern/lesson/accordion/topics/topic/attributes/progress.php:33
 #: includes/licensing/frontend/src/Dashboard/Main.jsx:238
@@ -2502,7 +2548,7 @@ msgstr ""
 #: includes/class-ldlms-post-types.php:155
 #: includes/class-ldlms-post-types.php:161
 #: includes/deprecated/5.0.0/functions.php:2032
-#: includes/ld-groups.php:2176
+#: includes/ld-groups.php:2185
 #: includes/reports/templates/reporting-filters/status/ld-propanel-reporting-filter-status.php:69
 #: includes/settings/shortcodes-sections/ld_course_list.php:136
 #: includes/settings/shortcodes-sections/ld_group_list.php:135
@@ -2755,6 +2801,7 @@ msgid "Learndash admin filter with the \"%s\" type not found."
 msgstr ""
 
 #: includes/admin/classes-filters/class-learndash-admin-filter-meta-switch.php:33
+#: includes/notifications/templates/subscription-page.php:141
 #: includes/settings/settings-sections/class-ld-settings-section-assignments-cpt.php:107
 #: includes/settings/settings-sections/class-ld-settings-section-registration-fields.php:306
 #: src/Core/Modules/Course_Reviews/Admin/Metabox.php:81
@@ -2776,6 +2823,11 @@ msgstr ""
 #: includes/admin/classes-posts-edits/class-learndash-admin-assignment-edit.php:185
 #: includes/admin/classes-posts-listings/class-learndash-admin-assignments-listing.php:625
 #: includes/class-ld-gdpr.php:1269
+#: includes/notifications/includes/admin/class-settings.php:99
+#: includes/notifications/includes/admin/class-status-page.php:28
+#: includes/notifications/includes/admin/class-status-page.php:71
+#: includes/notifications/templates/admin/status-page.php:15
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:75
 #: src/admin_views/modules/payments/orders/edit/subscription/details/table-head.php:23
 #: themes/ld30/templates/modern/course/enrollment/status/pre-ordered.php:14
 #: themes/ld30/templates/modern/group/enrollment/status/pre-ordered.php:14
@@ -2965,7 +3017,8 @@ msgstr ""
 
 #: includes/admin/classes-posts-edits/class-learndash-admin-assignment-edit.php:50
 #: includes/class-ld-custom-label.php:151
-#: includes/ld-assignment-uploads.php:800
+#: includes/ld-assignment-uploads.php:810
+#: includes/notifications/includes/notification.php:1587
 #: includes/settings/settings-sections/class-ld-settings-section-general-rest-api.php:458
 msgid "Assignment"
 msgstr ""
@@ -2976,6 +3029,8 @@ msgstr ""
 #: includes/admin/classes-posts-edits/class-learndash-admin-assignment-edit.php:211
 #: includes/admin/classes-posts-edits/class-learndash-admin-assignment-edit.php:243
 #: includes/class-ld-semper-fi-module.php:1524
+#: includes/notifications/includes/meta-box.php:92
+#: includes/notifications/includes/meta-box.php:507
 #: includes/settings/class-ld-settings-fields.php:293
 msgid "Click for Help!"
 msgstr ""
@@ -4155,7 +4210,7 @@ msgid "All Price Types"
 msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-courses-listing.php:87
-#: includes/class-ld-course-wizard.php:564
+#: includes/class-ld-course-wizard.php:653
 #: includes/class-ld-lms.php:1764
 #: includes/rest-api/v2/class-ld-rest-price-types-controller.php:105
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php:443
@@ -4168,7 +4223,7 @@ msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-courses-listing.php:88
 #: includes/admin/classes-posts-listings/class-learndash-admin-groups-listing.php:57
-#: includes/class-ld-course-wizard.php:572
+#: includes/class-ld-course-wizard.php:661
 #: includes/class-ld-lms.php:1766
 #: includes/course-grid/includes/functions.php:331
 #: includes/course-grid/includes/functions.php:350
@@ -4191,7 +4246,7 @@ msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-courses-listing.php:89
 #: includes/admin/classes-posts-listings/class-learndash-admin-groups-listing.php:58
-#: includes/class-ld-course-wizard.php:580
+#: includes/class-ld-course-wizard.php:669
 #: includes/rest-api/v2/class-ld-rest-price-types-controller.php:123
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php:459
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-settings.php:525
@@ -4200,7 +4255,7 @@ msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-courses-listing.php:90
 #: includes/admin/classes-posts-listings/class-learndash-admin-groups-listing.php:59
-#: includes/class-ld-course-wizard.php:596
+#: includes/class-ld-course-wizard.php:685
 #: includes/class-ld-lms.php:1768
 #: includes/rest-api/v2/class-ld-rest-price-types-controller.php:133
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php:472
@@ -4214,7 +4269,7 @@ msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-courses-listing.php:91
 #: includes/admin/classes-posts-listings/class-learndash-admin-groups-listing.php:60
-#: includes/class-ld-course-wizard.php:625
+#: includes/class-ld-course-wizard.php:714
 #: includes/class-ld-lms.php:1765
 #: includes/rest-api/v2/class-ld-rest-price-types-controller.php:143
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php:485
@@ -4691,7 +4746,7 @@ msgid "Amount: %s"
 msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-transactions-listing.php:825
-#: includes/course/ld-course-steps-functions.php:1002
+#: includes/course/ld-course-steps-functions.php:1003
 #: includes/payments/gateways/class-learndash-unknown-gateway.php:82
 #: src/Core/Models/Commerce/One_Time_Payment.php:71
 msgid "Unknown"
@@ -4701,6 +4756,8 @@ msgstr ""
 #: includes/admin/classes-posts-listings/class-learndash-admin-transactions-listing.php:1080
 #: includes/lib/wp-pro-quiz/lib/model/WpProQuiz_Model_Form.php:126
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_StatisticsAjax.php:888
+#: includes/notifications/includes/meta-box.php:265
+#: includes/notifications/includes/shortcode.php:357
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-lesson-access-settings.php:453
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-access-settings.php:566
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-topic-access-settings.php:497
@@ -4757,9 +4814,8 @@ msgstr ""
 #: includes/widgets/ld_course_info.php:196
 #: includes/widgets/ld_user_status.php:186
 #: themes/legacy/templates/quiz/partials/show_quiz_form_box.php:119
-#: assets/js/setup-wizard/src/screen/step-1.jsx:203
-#: assets/js/setup-wizard/src/screen/step-2.jsx:105
-#: assets/js/setup-wizard/src/screen/step-3.jsx:74
+#: assets/js/setup-wizard/src/screen/step-1.jsx:105
+#: assets/js/setup-wizard/src/screen/step-2.jsx:74
 #: includes/gutenberg/blocks/ld-course-resume/index.js:147
 msgid "No"
 msgstr ""
@@ -4786,7 +4842,7 @@ msgstr ""
 
 #: includes/admin/classes-posts-listings/class-learndash-admin-transactions-listing.php:1034
 #: includes/ld-misc-functions.php:1180
-#: includes/reports/includes/class-ld-propanel-activity.php:835
+#: includes/reports/includes/class-ld-propanel-activity.php:934
 #: themes/ld30/templates/shortcodes/profile/quiz-row.php:80
 #: themes/legacy/templates/learndash_lesson_assignment_uploads_list.php:72
 msgid "View"
@@ -4801,6 +4857,9 @@ msgstr ""
 #: includes/admin/classes-posts-listings/class-learndash-admin-transactions-listing.php:1079
 #: includes/lib/wp-pro-quiz/lib/model/WpProQuiz_Model_Form.php:126
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_StatisticsAjax.php:888
+#: includes/notifications/includes/meta-box.php:264
+#: includes/notifications/includes/shortcode.php:354
+#: includes/notifications/templates/admin/status-page.php:22
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-lesson-access-settings.php:441
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-access-settings.php:554
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-topic-access-settings.php:485
@@ -4843,9 +4902,8 @@ msgstr ""
 #: includes/shortcodes/ld_quizinfo.php:165
 #: includes/site-health/class-site-health.php:660
 #: themes/legacy/templates/quiz/partials/show_quiz_form_box.php:113
-#: assets/js/setup-wizard/src/screen/step-1.jsx:188
-#: assets/js/setup-wizard/src/screen/step-2.jsx:88
-#: assets/js/setup-wizard/src/screen/step-3.jsx:66
+#: assets/js/setup-wizard/src/screen/step-1.jsx:88
+#: assets/js/setup-wizard/src/screen/step-2.jsx:66
 #: includes/gutenberg/blocks/ld-course-resume/index.js:143
 msgid "Yes"
 msgstr ""
@@ -5309,129 +5367,132 @@ msgctxt "placeholder: plugin title"
 msgid "%s: Translations"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:63
+#: includes/class-ld-course-wizard.php:128
 #: src/Core/Modules/Admin/Header/Course_Wizard.php:35
 msgid "Create from Video Playlist"
 msgstr ""
 
 #. translators: %s: Course label.
-#: includes/class-ld-course-wizard.php:84
-#: includes/class-ld-course-wizard.php:89
-#: includes/class-ld-course-wizard.php:124
+#: includes/class-ld-course-wizard.php:149
+#: includes/class-ld-course-wizard.php:154
+#: includes/class-ld-course-wizard.php:189
 #, php-format
 msgid "%s Creation Wizard"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:156
+#: includes/class-ld-course-wizard.php:224
 msgid "Load data from YouTube"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:160
+#: includes/class-ld-course-wizard.php:228
 msgid "YouTube icon"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:164
+#: includes/class-ld-course-wizard.php:232
 msgid "Load data from Vimeo"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:168
+#: includes/class-ld-course-wizard.php:236
 msgid "Vimeo icon"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:172
+#: includes/class-ld-course-wizard.php:240
 msgid "Load data from Wistia"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:176
+#: includes/class-ld-course-wizard.php:244
 msgid "Wistia icon"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:180
-#: includes/class-ld-course-wizard.php:530
+#: includes/class-ld-course-wizard.php:248
+#: includes/class-ld-course-wizard.php:619
 msgid "Load"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:279
-#: includes/class-ld-course-wizard.php:428
+#: includes/class-ld-course-wizard.php:356
+#: includes/class-ld-course-wizard.php:517
 msgid "Error on access LearnDash service. Please try it again in a few minutes."
 msgstr ""
 
 #. translators: course.
-#: includes/class-ld-course-wizard.php:447
+#: includes/class-ld-course-wizard.php:536
 #, php-format
 msgctxt "placeholder: course"
 msgid "Create a %s from a video playlist."
 msgstr ""
 
 #. translators: course.
-#: includes/class-ld-course-wizard.php:462
+#: includes/class-ld-course-wizard.php:551
 #, php-format
 msgctxt "placeholder: course"
 msgid "You can use a YouTube Playlist, a Vimeo Showcase or a Wistia Project URL to create a LearnDash %s in a few minutes."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:478
+#: includes/class-ld-course-wizard.php:567
 msgid "Please activate your license to use this feature."
 msgstr ""
 
 #. translators: course.
-#: includes/class-ld-course-wizard.php:493
+#: includes/class-ld-course-wizard.php:582
 #, php-format
 msgctxt "placeholder: course"
 msgid "Back to %s list"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:508
+#: includes/class-ld-course-wizard.php:597
 msgid "Create the course"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:528
+#: includes/class-ld-course-wizard.php:617
 msgid "Enter playlist URL"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:549
+#: includes/class-ld-course-wizard.php:638
 msgid "Try it again"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:557
+#: includes/class-ld-course-wizard.php:646
 msgid "How users will gain access to the course?"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:566
+#: includes/class-ld-course-wizard.php:655
 msgid "The course is not protected. Any user can access its content without the need to be logged-in or enrolled."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:574
+#: includes/class-ld-course-wizard.php:663
 msgid "The course is protected. Registration and enrollment are required in order to access the content."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:582
+#: includes/class-ld-course-wizard.php:671
 msgid "The course is protected via the LearnDash built-in PayPal and/or Stripe. Users need to purchase the course (one-time fee) in order to gain access."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:586
-#: includes/class-ld-course-wizard.php:602
+#: includes/class-ld-course-wizard.php:675
+#: includes/class-ld-course-wizard.php:691
 msgid "Course Price"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:598
+#: includes/class-ld-course-wizard.php:687
 msgid "The course is protected via the LearnDash built-in PayPal and/or Stripe. Users need to purchase the course (recurring fee) in order to gain access."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:608
+#: includes/class-ld-course-wizard.php:697
 #: includes/class-ld-lms.php:1810
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-enrollment.php:289
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-settings.php:364
 msgid "Billing Cycle"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:612
+#: includes/class-ld-course-wizard.php:701
 #: includes/settings/settings-billing-functions.php:59
 #: includes/settings/settings-billing-functions.php:124
 msgid "select interval"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:613
+#: includes/class-ld-course-wizard.php:702
+#: includes/notifications/includes/meta-box.php:249
+#: includes/notifications/includes/meta-box.php:272
+#: includes/notifications/includes/meta-box.php:282
 #: includes/settings/settings-billing-functions.php:60
 #: includes/settings/settings-billing-functions.php:125
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-lesson-access-settings.php:182
@@ -5440,58 +5501,58 @@ msgstr ""
 msgid "day(s)"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:614
+#: includes/class-ld-course-wizard.php:703
 #: includes/settings/settings-billing-functions.php:61
 #: includes/settings/settings-billing-functions.php:126
 msgid "week(s)"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:615
+#: includes/class-ld-course-wizard.php:704
 #: includes/settings/settings-billing-functions.php:62
 #: includes/settings/settings-billing-functions.php:127
 msgid "month(s)"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:616
+#: includes/class-ld-course-wizard.php:705
 #: includes/settings/settings-billing-functions.php:63
 #: includes/settings/settings-billing-functions.php:128
 msgid "year(s)"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:627
+#: includes/class-ld-course-wizard.php:716
 msgid "The course can only be accessed through admin enrollment (manual), group enrollment, or integration (shopping cart or membership) enrollment."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:635
+#: includes/class-ld-course-wizard.php:724
 msgid "How users will interact with the content?"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:642
+#: includes/class-ld-course-wizard.php:731
 msgid "Linear form"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:644
+#: includes/class-ld-course-wizard.php:733
 msgid "Requires the user to progress through the course in the designated step sequence."
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:649
+#: includes/class-ld-course-wizard.php:738
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-navigation-settings.php:97
 msgid "Free form"
 msgstr ""
 
-#: includes/class-ld-course-wizard.php:651
+#: includes/class-ld-course-wizard.php:740
 msgid "Allows the user to move freely through the course without following the designated step sequence."
 msgstr ""
 
 #. translators: placeholders: course name, lessons qty description.
-#: includes/class-ld-course-wizard.php:677
+#: includes/class-ld-course-wizard.php:766
 #, php-format
 msgctxt "placeholders: course name, lessons qty description"
 msgid "The course \"%1$s\" will be created with %2$s."
 msgstr ""
 
 #. translators: placeholders: number of lessons.
-#: includes/class-ld-course-wizard.php:680
+#: includes/class-ld-course-wizard.php:769
 #, php-format
 msgid "%s lesson"
 msgid_plural "%s lessons"
@@ -5579,6 +5640,8 @@ msgid "Open to access this content"
 msgstr ""
 
 #: includes/class-ld-cpt.php:67
+#: includes/notifications/includes/admin/class-settings.php:79
+#: includes/notifications/includes/admin/class-settings.php:118
 #: includes/quiz/ld-quiz-essays.php:35
 msgid "Add New"
 msgstr ""
@@ -5680,7 +5743,7 @@ msgid "Course"
 msgstr ""
 
 #: includes/class-ld-custom-label.php:79
-#: includes/class-ld-setup-wizard.php:434
+#: includes/class-ld-setup-wizard.php:460
 #: includes/settings/settings-sections/class-ld-settings-section-custom-labels.php:98
 msgid "Courses"
 msgstr ""
@@ -5764,6 +5827,7 @@ msgid "Groups"
 msgstr ""
 
 #: includes/class-ld-custom-label.php:147
+#: includes/notifications/includes/notification.php:1975
 #: includes/settings/settings-sections/class-ld-settings-section-custom-labels.php:186
 #: includes/settings/settings-sections/class-ld-settings-section-custom-labels.php:345
 #: themes/ld30/templates/shortcodes/user_groups_shortcode.php:28
@@ -5771,8 +5835,8 @@ msgid "Group Leader"
 msgstr ""
 
 #: includes/class-ld-custom-label.php:155
-#: includes/ld-assignment-uploads.php:799
-#: includes/ld-assignment-uploads.php:808
+#: includes/ld-assignment-uploads.php:809
+#: includes/ld-assignment-uploads.php:818
 #: themes/ld30/templates/assignment/listing.php:186
 #: themes/ld30/templates/shortcodes/profile/assignments.php:18
 #: themes/ld30/templates/shortcodes/profile/assignments.php:34
@@ -5780,6 +5844,7 @@ msgid "Assignments"
 msgstr ""
 
 #: includes/class-ld-custom-label.php:159
+#: includes/notifications/includes/notification.php:1590
 #: includes/settings/settings-sections/class-ld-settings-section-general-rest-api.php:467
 msgid "Essay"
 msgstr ""
@@ -5828,7 +5893,7 @@ msgid "Skip Event"
 msgstr ""
 
 #: includes/class-ld-custom-label.php:199
-#: themes/ld30/includes/helpers.php:2620
+#: themes/ld30/includes/helpers.php:2624
 msgid "Continue"
 msgstr ""
 
@@ -6435,7 +6500,7 @@ msgid "%s Type"
 msgstr ""
 
 #: includes/class-ld-gdpr.php:240
-#: assets/js/setup-wizard/src/screen/step-3.jsx:102
+#: assets/js/setup-wizard/src/screen/step-2.jsx:102
 msgid "Stripe"
 msgstr ""
 
@@ -6462,7 +6527,7 @@ msgstr ""
 #: includes/settings/settings-sections/settings-sections-payments/class-ld-settings-section-paypal-checkout.php:315
 #: src/Core/Modules/Payments/Gateways/Paypal/Assets.php:535
 #: src/Core/Modules/Payments/Gateways/Paypal/Profile_Handler.php:145
-#: assets/js/setup-wizard/src/screen/step-3.jsx:147
+#: assets/js/setup-wizard/src/screen/step-2.jsx:147
 msgid "PayPal"
 msgstr ""
 
@@ -6661,7 +6726,7 @@ msgstr ""
 #: includes/class-ldlms-post-types.php:154
 #: includes/class-ldlms-post-types.php:160
 #: includes/deprecated/5.0.0/functions.php:2019
-#: includes/ld-groups.php:2185
+#: includes/ld-groups.php:2194
 #: includes/reports/templates/ld-propanel-activity-rows.php:534
 #: includes/reports/templates/reporting-filters/courses/ld-propanel-reporting-filter-course-row.php:85
 #: includes/reports/templates/reporting-filters/groups/ld-propanel-reporting-filter-group-row.php:104
@@ -6693,7 +6758,7 @@ msgstr ""
 #: includes/course/ld-course-progress.php:2064
 #: includes/deprecated/5.0.0/functions.php:1885
 #: includes/deprecated/5.0.0/functions.php:2042
-#: includes/ld-groups.php:2170
+#: includes/ld-groups.php:2179
 #: includes/reports/templates/reporting-filters/status/ld-propanel-reporting-filter-status.php:73
 #: includes/settings/shortcodes-sections/ld_course_list.php:137
 #: includes/settings/shortcodes-sections/ld_group_list.php:136
@@ -9314,8 +9379,6 @@ msgid "The LearnDash licensing system has changed locations! You'll now find you
 msgstr ""
 
 #: includes/class-ld-lms.php:5458
-#: includes/licensing/src/controller/class-licensing-settings-page.php:46
-#: includes/licensing/src/controller/class-licensing-settings-page.php:47
 msgid "LMS License"
 msgstr ""
 
@@ -9323,10 +9386,8 @@ msgstr ""
 msgid "We hope you love LearnDash."
 msgstr ""
 
-#. translators: placeholder: username.
-#: includes/class-ld-lms.php:5520
-#, php-format
-msgid "Hi, %1$s! This is an invitation to help us improve LearnDash products by sharing product usage data with StellarWP. LearnDash is part of the StellarWP family of brands. If you opt-in we'll share some helpful WordPress and StellarWP product info with you from time to time. And if you skip this, that's okay! Our products will continue to work."
+#: includes/class-ld-lms.php:5518
+msgid "Want to help shape the future of LearnDash LMS? Opting in shares anonymous usage data with our team at Liquid Web, the company behind LearnDash LMS, so we can keep building tools that work better for you. You'll also receive product updates and important announcements via email—unsubscribe any time. Click 'Allow & Continue' below to join us."
 msgstr ""
 
 #. translators: placeholder: method name.
@@ -9341,7 +9402,7 @@ msgid "LearnDash Categories"
 msgstr ""
 
 #: includes/class-ld-semper-fi-module.php:681
-#: src/Core/Modules/Reports/Legacy/Settings/Page.php:133
+#: src/Core/Modules/Reports/Legacy/Settings/Page.php:140
 msgid "Loading..."
 msgstr ""
 
@@ -9466,38 +9527,34 @@ msgstr ""
 msgid "Options Updated."
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:452
+#: includes/class-ld-setup-wizard.php:478
 #: includes/settings/shortcodes-sections/ld_profile.php:32
 #: themes/legacy/templates/profile.php:47
 msgid "Profile"
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:474
-#: includes/class-ld-setup-wizard.php:587
-#: includes/class-ld-setup-wizard.php:605
+#: includes/class-ld-setup-wizard.php:500
+#: includes/class-ld-setup-wizard.php:629
+#: includes/class-ld-setup-wizard.php:646
 msgid "Welcome"
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:588
-msgid "Your Info"
-msgstr ""
-
-#: includes/class-ld-setup-wizard.php:589
+#: includes/class-ld-setup-wizard.php:630
 msgid "Your Courses"
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:590
+#: includes/class-ld-setup-wizard.php:631
 #: includes/settings/settings-sections/settings-sections-payments/class-ld-settings-section-paypal-checkout.php:177
 #: src/admin_views/modules/payments/orders/edit/details/payment/table-head.php:22
 msgid "Payment"
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:591
+#: includes/class-ld-setup-wizard.php:632
 msgid "Summary"
 msgstr ""
 
-#: includes/class-ld-setup-wizard.php:746
-#: includes/class-ld-setup-wizard.php:747
+#: includes/class-ld-setup-wizard.php:780
+#: includes/class-ld-setup-wizard.php:781
 msgid "Setup Wizard"
 msgstr ""
 
@@ -9652,8 +9709,8 @@ msgstr ""
 #: includes/coupon/ld-coupon-functions.php:645
 #: includes/coupon/ld-coupon-functions.php:895
 #: includes/payments/gateways/class-learndash-stripe-gateway.php:301
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:186
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:127
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:193
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:134
 #: src/Core/Modules/Payments/Gateways/Paypal_Standard/Migration/Processor.php:59
 msgid "Product not found."
 msgstr ""
@@ -9820,6 +9877,7 @@ msgid "Infinite Scrolling"
 msgstr ""
 
 #: includes/course-grid/includes/class-utilities.php:684
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:1517
 msgid "Disable"
 msgstr ""
 
@@ -10072,23 +10130,23 @@ msgstr ""
 msgid "Mark Incomplete"
 msgstr ""
 
-#: includes/course/ld-course-steps-functions.php:939
+#: includes/course/ld-course-steps-functions.php:940
 msgctxt "Password Protected post_status label"
 msgid "Password"
 msgstr ""
 
 #. translators: placeholder: post title, post status.
-#: includes/course/ld-course-steps-functions.php:1008
+#: includes/course/ld-course-steps-functions.php:1009
 #, php-format
 msgctxt "placeholder: post title, post status"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: includes/course/ld-course-steps-functions.php:1394
+#: includes/course/ld-course-steps-functions.php:1379
 msgid "Virtual"
 msgstr ""
 
-#: includes/course/ld-course-steps-functions.php:1396
+#: includes/course/ld-course-steps-functions.php:1381
 msgid "In-Person"
 msgstr ""
 
@@ -10155,8 +10213,8 @@ msgctxt "placeholders: Challenge Exams"
 msgid "You are using the Legacy LearnDash theme which does not support %1$s, please visit %2$s to select a newer theme."
 msgstr ""
 
-#: includes/exam/ld-exam-functions.php:574
-#: includes/exam/ld-exam-functions.php:609
+#: includes/exam/ld-exam-functions.php:582
+#: includes/exam/ld-exam-functions.php:617
 msgid "(pending)"
 msgstr ""
 
@@ -10418,72 +10476,72 @@ msgstr ""
 msgid "Assignment successfully uploaded."
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:447
+#: includes/ld-assignment-uploads.php:457
 #: includes/quiz/ld-quiz-essays.php:976
 msgid "Unable to write to UPLOADS directory. Is this directory writable by the server?"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:495
+#: includes/ld-assignment-uploads.php:505
 #: includes/quiz/ld-quiz-essays.php:1012
 msgid "Unable to write to directory. Is this directory writable by the server?"
 msgstr ""
 
 #. translators: placeholder: temporary file, file destination.
-#: includes/ld-assignment-uploads.php:504
+#: includes/ld-assignment-uploads.php:514
 #, php-format
 msgid "Error, the file %1$s could not be moved to: %2$s"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:801
+#: includes/ld-assignment-uploads.php:811
 msgid "Edit Assignment"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:802
+#: includes/ld-assignment-uploads.php:812
 msgid "View Assignment"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:803
+#: includes/ld-assignment-uploads.php:813
 msgid "View Assignments"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:804
+#: includes/ld-assignment-uploads.php:814
 msgid "Search Assignments"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:805
+#: includes/ld-assignment-uploads.php:815
 msgid "No assignment found"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:806
+#: includes/ld-assignment-uploads.php:816
 msgid "No assignment found in Trash"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:807
+#: includes/ld-assignment-uploads.php:817
 msgid "Parent:"
 msgstr ""
 
 #. translators: placeholder: points awarded values (30/100) 30%.
-#: includes/ld-assignment-uploads.php:981
+#: includes/ld-assignment-uploads.php:991
 #, php-format
 msgctxt "placeholder: points awarded values (30/100) 30%"
 msgid "Points Awarded: %s"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:1008
+#: includes/ld-assignment-uploads.php:1018
 #: includes/reports/templates/ld-propanel-activity-rows.php:124
 #: themes/ld30/includes/helpers.php:715
 msgid "Pending"
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:1151
+#: includes/ld-assignment-uploads.php:1161
 msgid "Uploaded file size exceeds allowed limit."
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:1168
+#: includes/ld-assignment-uploads.php:1178
 msgid "The uploaded file type is not allowed."
 msgstr ""
 
-#: includes/ld-assignment-uploads.php:1186
+#: includes/ld-assignment-uploads.php:1196
 msgid "Number of allowed assignment uploads reached."
 msgstr ""
 
@@ -10539,11 +10597,13 @@ msgstr ""
 #. translators: placeholder: Post Type Singular Label.
 #: includes/ld-certificates.php:479
 #: includes/ld-misc-functions.php:1191
+#: includes/notifications/includes/post-type.php:79
 msgid "Custom field updated."
 msgstr ""
 
 #: includes/ld-certificates.php:480
 #: includes/ld-misc-functions.php:1192
+#: includes/notifications/includes/post-type.php:80
 msgid "Custom field deleted."
 msgstr ""
 
@@ -10622,24 +10682,24 @@ msgid "No users found."
 msgstr ""
 
 #. translators: placeholders: Groups, link to Group settings page.
-#: includes/ld-groups.php:2942
+#: includes/ld-groups.php:2951
 #, php-format
 msgctxt "placeholders: Groups, link to Group settings page"
 msgid "%1$s are not public, please visit the %2$s page and set them to Public to enable access on the front end."
 msgstr ""
 
-#: includes/ld-license.php:259
+#: includes/ld-license.php:301
 msgid "License Activation Failed"
 msgstr ""
 
 #. Translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag, %3$s: Opening anchor tag, %4$s: Closing anchor tag.
-#: includes/ld-license.php:267
+#: includes/ld-license.php:309
 #, php-format
 msgid "We couldn't validate your LearnDash license. If you already have a valid license, please make sure you're using the latest version of LearnDash. %1$sCheck for updates%2$s or download the latest version from %3$syour account%4$s."
 msgstr ""
 
 #. Translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag, %3$s: Opening anchor tag, %4$s: Closing anchor tag.
-#: includes/ld-license.php:284
+#: includes/ld-license.php:326
 #, php-format
 msgid "If you're new to LearnDash, get %1$sa license here%2$s. Still need assistance? %3$sContact Support%4$s"
 msgstr ""
@@ -10989,8 +11049,8 @@ msgctxt "placeholder: Quiz"
 msgid "Advanced %s"
 msgstr ""
 
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:83
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:127
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:84
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:129
 #: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Preview.php:45
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_AdminToplist.php:78
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_QuestionOverall.php:203
@@ -11008,8 +11068,8 @@ msgid "Loading"
 msgstr ""
 
 #. translators: placeholder: question
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:85
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:129
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:86
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:131
 #: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Preview.php:47
 #, php-format
 msgctxt "placeholder: question"
@@ -11017,8 +11077,8 @@ msgid "You must answer this %s."
 msgstr ""
 
 #. translators: placeholder: questions, quiz.
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:87
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:131
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:88
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:133
 #: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Preview.php:49
 #, php-format
 msgctxt "placeholder: questions, quiz"
@@ -11026,14 +11086,18 @@ msgid "You must answer all %1$s before you can complete the %2$s."
 msgstr ""
 
 #. translators: placeholder: questions, quiz.
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:88
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:132
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:89
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:134
 #: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Preview.php:50
 msgid "All fields have to be filled."
 msgstr ""
 
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:91
+msgid "Your answer"
+msgstr ""
+
 #. translators: placeholder: span open, correct answer placeholder, span close.
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:93
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Front.php:95
 #, php-format
 msgid "Incorrect, %1$sCorrect Answer: %2$s%3$s"
 msgstr ""
@@ -11147,7 +11211,11 @@ msgctxt "placeholder: quiz"
 msgid "Create %s"
 msgstr ""
 
-#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Quiz.php:1360
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Quiz.php:1273
+msgid "Skipping user notification email: no email address found."
+msgstr ""
+
+#: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_Quiz.php:1447
 #: includes/lib/wp-pro-quiz/lib/controller/WpProQuiz_Controller_QuizCompleted.php:307
 #: themes/legacy/templates/quiz/partials/show_quiz_result_box.php:242
 msgid "Not categorized"
@@ -11359,6 +11427,7 @@ msgstr ""
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_Statistics.php:256
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_StatisticsAjax.php:929
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_StatisticsNew.php:137
+#: includes/notifications/includes/notification.php:1974
 #: includes/reports/templates/reporting-filters/courses/ld-propanel-reporting-filter-course.php:418
 #: includes/reports/templates/reporting-filters/courses/ld-propanel-reporting-filter-course.php:425
 #: includes/reports/templates/reporting-filters/courses/ld-propanel-reporting-filter-course.php:431
@@ -11424,19 +11493,19 @@ msgstr ""
 msgid "Delete all entries"
 msgstr ""
 
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:397
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:682
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:384
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:669
 msgid "Uploading"
 msgstr ""
 
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:407
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:692
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:394
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:679
 msgid "Success"
 msgstr ""
 
 #. translators: placeholder: Quiz.
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:418
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:703
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:405
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:690
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-display-content.php:609
 #: themes/legacy/templates/quiz/partials/show_quiz_check_page_box.php:31
 #: themes/legacy/templates/quiz/partials/show_quiz_review_buttons.php:41
@@ -11446,8 +11515,8 @@ msgid "%s Summary"
 msgstr ""
 
 #. translators: placeholder: Quiz.
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:426
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:711
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:413
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:698
 #: themes/ld30/templates/quiz/partials/show_quiz_questions_box.php:976
 #: themes/legacy/templates/quiz/partials/show_quiz_check_page_box.php:76
 #: themes/legacy/templates/quiz/partials/show_quiz_info_page_box.php:38
@@ -11458,8 +11527,8 @@ msgid "Finish %s"
 msgstr ""
 
 #. translators: placeholder: Quiz.
-#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:995
-#: includes/reports/includes/class-ld-propanel-activity.php:833
+#: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_FrontQuiz.php:982
+#: includes/reports/includes/class-ld-propanel-activity.php:932
 #, php-format
 msgctxt "placeholder: Quiz"
 msgid "View %s Statistics"
@@ -11573,6 +11642,7 @@ msgstr ""
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_GobalSettings.php:193
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_GobalSettings.php:265
 #: includes/lib/wp-pro-quiz/lib/view/WpProQuiz_View_GobalSettings.php:347
+#: includes/notifications/templates/subscription-page.php:160
 #: includes/settings/class-ld-settings-pages.php:764
 msgid "Save Changes"
 msgstr ""
@@ -13308,7 +13378,7 @@ msgid "We know you are excited to get started, but before you do it is very impo
 msgstr ""
 
 #: includes/licensing/frontend/src/signin.php:96
-#: includes/licensing/src/view/signin.php:90
+#: includes/licensing/src/view/signin.php:103
 #: includes/licensing/assets/scripts/licensing.js:2326
 #: includes/licensing/frontend/src/Licensing/License.jsx:152
 #: includes/licensing/frontend/src/Settings/License.jsx:152
@@ -13316,7 +13386,7 @@ msgid "Save License"
 msgstr ""
 
 #: includes/licensing/frontend/src/signin.php:103
-#: includes/licensing/src/view/signin.php:97
+#: includes/licensing/src/view/signin.php:110
 #: includes/settings/settings-pages/class-ld-settings-page-overview.php:284
 #: includes/licensing/assets/scripts/licensing.js:2281
 #: includes/licensing/frontend/src/Licensing/License.jsx:72
@@ -13325,7 +13395,7 @@ msgid "Your active license gives you access to product support and updates that 
 msgstr ""
 
 #: includes/licensing/frontend/src/signin.php:111
-#: includes/licensing/src/view/signin.php:105
+#: includes/licensing/src/view/signin.php:118
 #: includes/settings/settings-pages/class-ld-settings-page-overview.php:285
 #: includes/licensing/assets/scripts/licensing.js:2283
 #: includes/licensing/frontend/src/Licensing/License.jsx:80
@@ -13334,7 +13404,7 @@ msgid "Your license details were emailed to you after purchase."
 msgstr ""
 
 #: includes/licensing/frontend/src/signin.php:116
-#: includes/licensing/src/view/signin.php:110
+#: includes/licensing/src/view/signin.php:123
 #, php-format
 msgid "You can also find them listed <a class=\"text-blue-500\" target=\"_blank\" href=\"%s\">on your account.</a>"
 msgstr ""
@@ -13357,11 +13427,17 @@ msgstr ""
 msgid "Plugin install failed"
 msgstr ""
 
+#: includes/licensing/src/controller/class-licensing-settings-page.php:48
+#: includes/licensing/src/controller/class-licensing-settings-page.php:49
+msgid "Legacy License"
+msgstr ""
+
 #: includes/licensing/src/controller/class-licensing-settings-section.php:48
 msgid "License Visibility"
 msgstr ""
 
-#: includes/licensing/src/controller/class-main-controller.php:29
+#: includes/licensing/src/controller/class-main-controller.php:40
+#: includes/licensing/src/controller/class-main-controller.php:41
 #: includes/settings/settings-pages/class-ld-settings-page-addons.php:32
 #: includes/settings/settings-pages/class-ld-settings-page-overview.php:975
 #: includes/licensing/assets/scripts/projects.js:2378
@@ -13371,7 +13447,11 @@ msgstr ""
 msgid "Add-ons"
 msgstr ""
 
-#: includes/licensing/src/controller/class-signin-controller.php:51
+#: includes/licensing/src/controller/class-signin-controller.php:61
+msgid "That looks like a Unified license key, which cannot be activated on this Legacy License page. Please visit the Software Manager, where your key can be entered or, if it has already been entered, viewed."
+msgstr ""
+
+#: includes/licensing/src/controller/class-signin-controller.php:68
 msgid "Please provide a valid email and license key."
 msgstr ""
 
@@ -13389,12 +13469,931 @@ msgstr ""
 msgid "This license area is protected. If you feel like you've reached this page in error or would like to request access, please contact the site owner."
 msgstr ""
 
+#: includes/licensing/src/view/signin.php:87
+msgid "Open Software Manager"
+msgstr ""
+
 #: includes/loggers/class-learndash-import-export-logger.php:77
 msgid "Data Importing"
 msgstr ""
 
 #: includes/loggers/class-learndash-import-export-logger.php:80
 msgid "Data Exporting "
+msgstr ""
+
+#: includes/notifications/includes/admin/class-settings.php:54
+#: includes/notifications/includes/admin/class-settings.php:89
+#: includes/notifications/includes/admin/class-settings.php:128
+#: includes/notifications/includes/post-type.php:24
+#: includes/notifications/includes/post-type.php:35
+#: includes/notifications/src/Notifications/Logger.php:24
+msgid "Notifications"
+msgstr ""
+
+#: includes/notifications/includes/admin/class-settings.php:108
+#: includes/notifications/src/deprecated/class-logs-page.php:31
+#: includes/settings/settings-sections/class-ld-settings-section-logs.php:44
+msgid "Logs"
+msgstr ""
+
+#. translators: %s: Group label.
+#: includes/notifications/includes/admin/class-settings.php:165
+#, php-format
+msgctxt "Group label"
+msgid "-- Select %s --"
+msgstr ""
+
+#. translators: %s: Course label.
+#: includes/notifications/includes/admin/class-settings.php:167
+#, php-format
+msgctxt "Course label"
+msgid "-- Select %s --"
+msgstr ""
+
+#. translators: %s: Lesson label.
+#: includes/notifications/includes/admin/class-settings.php:169
+#, php-format
+msgctxt "Lesson label"
+msgid "-- Select %s --"
+msgstr ""
+
+#. translators: %s: Topic label.
+#: includes/notifications/includes/admin/class-settings.php:171
+#, php-format
+msgctxt "Topic label"
+msgid "-- Select %s --"
+msgstr ""
+
+#. translators: %s: Quiz label.
+#: includes/notifications/includes/admin/class-settings.php:173
+#, php-format
+msgctxt "Quiz label"
+msgid "-- Select %s --"
+msgstr ""
+
+#. translators: %s: Course label.
+#: includes/notifications/includes/admin/class-settings.php:175
+#, php-format
+msgctxt "Course label"
+msgid "-- Select %s First --"
+msgstr ""
+
+#. translators: %s: Lesson label.
+#: includes/notifications/includes/admin/class-settings.php:177
+#, php-format
+msgctxt "Lesson label"
+msgid "-- Select %s First --"
+msgstr ""
+
+#. translators: %s: Topic label.
+#: includes/notifications/includes/admin/class-settings.php:179
+#, php-format
+msgctxt "Topic label"
+msgid "-- Select %s First --"
+msgstr ""
+
+#. translators: %s: Quiz label.
+#: includes/notifications/includes/admin/class-settings.php:181
+#, php-format
+msgctxt "Quiz label"
+msgid "-- Select %s First --"
+msgstr ""
+
+#. translators: %1$s: Course label, %2$s: Lesson label, %3$s: Topic label.
+#: includes/notifications/includes/admin/class-settings.php:184
+#, php-format
+msgctxt "Course, lesson, or topic label"
+msgid "-- Select %1$s, %2$s, or %3$s First --"
+msgstr ""
+
+#. translators: %s: Lesson label.
+#: includes/notifications/includes/admin/class-settings.php:190
+#, php-format
+msgctxt "Lesson label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %s: Topic label.
+#: includes/notifications/includes/admin/class-settings.php:192
+#, php-format
+msgctxt "Topic label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %s: Quiz label.
+#: includes/notifications/includes/admin/class-settings.php:194
+#, php-format
+msgctxt "Quiz label"
+msgid "Any %s"
+msgstr ""
+
+#: includes/notifications/includes/admin/class-status-page.php:27
+msgid "LearnDash Notifications Status"
+msgstr ""
+
+#: includes/notifications/includes/admin/class-status-page.php:73
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:77
+msgid "Please keep this page open until the process is complete."
+msgstr ""
+
+#: includes/notifications/includes/admin/class-status-page.php:74
+#: includes/notifications/templates/admin/status-page.php:86
+#: includes/notifications/templates/admin/status-page.php:92
+#: includes/woocommerce/src/App/Modules/Retroactive_Access_Tool/Handler.php:72
+msgid "Run"
+msgstr ""
+
+#: includes/notifications/includes/admin/class-status-page.php:76
+msgid "Are you sure you want to empty scheduled notifications table? You can NOT undo this process. Please back up your database first!"
+msgstr ""
+
+#. translators: %s: Post type label.
+#: includes/notifications/includes/ajax.php:171
+#, php-format
+msgctxt "Post type label"
+msgid "Any %s"
+msgstr ""
+
+#: includes/notifications/includes/cron.php:88
+msgid "Every Minute"
+msgstr ""
+
+#. translators: %s: Notification data.
+#: includes/notifications/includes/logger.php:18
+#, php-format
+msgid "Notification with these data: %s was sent."
+msgstr ""
+
+#. translators: %s: Notification data.
+#: includes/notifications/includes/logger.php:26
+#, php-format
+msgid "Scheduled notification with these data: %s was sent."
+msgstr ""
+
+#. translators: %1$d: Timestamp the notification is scheduled for, %2$s: Notification data.
+#: includes/notifications/includes/logger.php:34
+#, php-format
+msgid "Scheduled notification for the timestamp: %1$d with these data: %2$s was stored in database."
+msgstr ""
+
+#. translators: %1$s: Notification data before the update, %2$s: Notification data after the update, %3$d: Number of affected rows, %4$s: Row or rows.
+#: includes/notifications/includes/logger.php:42
+#, php-format
+msgid "Scheduled notification with these data: %1$s was updated in database with these new data: %2$s. %3$d %4$s affected."
+msgstr ""
+
+#. translators: %1$s: Notification data before the update, %2$s: Notification data after the update, %3$d: Number of affected rows, %4$s: Row or rows.
+#. translators: %1$d: Number of deleted rows, %2$s: Row or rows.
+#: includes/notifications/includes/logger.php:42
+#: includes/notifications/includes/logger.php:52
+#: includes/notifications/includes/logger.php:64
+msgid "row was"
+msgid_plural "rows were"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %1$d: Number of deleted rows, %2$s: Row or rows.
+#: includes/notifications/includes/logger.php:52
+#, php-format
+msgid "Empty delayed emails table process was run. %1$d %2$s deleted from database."
+msgstr ""
+
+#. translators: %1$d: Number of deleted rows, %2$s: Row or rows.
+#: includes/notifications/includes/logger.php:64
+#, php-format
+msgid "Expired scheduled notifications were deleted. %1$d %2$s deleted from database."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:19
+msgid "Notification Settings"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:21
+msgid "Available Shortcodes"
+msgstr ""
+
+#. translators: %s: Sequence number of the condition, wrapped in a span tag.
+#: includes/notifications/includes/meta-box.php:123
+#, php-format
+msgctxt "The sequence of condition."
+msgid "Condition %s"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:134
+msgid "Condition"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:135
+msgid "Condition type to check."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:140
+msgid "-- Select Condition --"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:166
+msgid "Select an email trigger on the notification settings above to see available shortcodes."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:173
+msgid "Here are the available shortcodes for the email trigger selected:"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:189
+msgid "<em>Cumulative</em> is average for all quizzes of the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:191
+msgid "<em>Aggregate</em> is sum for all quizzes of the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:213
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:399
+msgid "Email trigger"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:214
+msgid "When this email will be sent."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:218
+msgid "-- Select an Email Trigger --"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:223
+msgid "Exclude Pre-Ordered Course"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:224
+msgid "Check to exclude pre-ordered course(s) from triggering this notification."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:228
+#: includes/settings/settings-sections/class-ld-settings-section-assignments-cpt.php:87
+#: includes/settings/settings-sections/class-ld-settings-section-questions-cpt.php:73
+msgid "Exclude"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:238
+msgid "Conditions"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:239
+msgid "Conditions to check before notification is being sent."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:247
+#: includes/notifications/includes/meta-box.php:280
+msgid "After how many days?"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:248
+#: includes/notifications/includes/meta-box.php:271
+#: includes/notifications/includes/meta-box.php:281
+msgid "Setting associated with the email trigger setting above."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:257
+msgid "One time only"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:258
+msgid "Check if you want to send this notification only one time."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:270
+msgid "Before how many days?"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:290
+msgid "Recipient"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:291
+msgid "Recipient of this email."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:298
+msgid "Additional Recipient"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:299
+msgid "Additional email addresses (separated by comma) that will also get this notification"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:305
+msgid "Delay"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:306
+msgid "How long this email is delayed after the trigger occurs (default is 0)."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:315
+msgid "Delay unit"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:316
+msgid "How long the notification will be delayed for. Specify minutes, hours or days."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:322
+msgid "Minutes"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:323
+msgid "Hours"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:324
+msgid "Days"
+msgstr ""
+
+#. translators: Post type label.
+#. translators: %s: Course, lesson, topic, or quiz label.
+#: includes/notifications/includes/meta-box.php:473
+#: includes/notifications/includes/post-type.php:323
+#, php-format
+msgid "Any %s"
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:695
+msgid "Display user's username."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:696
+msgid "Display user's email."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:697
+msgid "Display user's display name."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:698
+msgid "Display user's first name."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:699
+msgid "Display user's last name."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:703
+msgid "Display group title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:704
+msgid "Display group URL."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:708
+msgid "Display course title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:709
+msgid "Display course URL."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:713
+msgid "Display time when course is completed. <a href=\"http://php.net/manual/en/function.date.php\" target=\"_blank\">Click here</a> to see format options."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:714
+msgid "Display average points scored across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:715
+msgid "Display average points got across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:716
+msgid "Display average total points got across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:717
+msgid "Display average correct answers percentage across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:718
+msgid "Display average time spent across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:719
+msgid "Display average correct answer counted across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:720
+msgid "Display sum of correct answers percentage across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:721
+msgid "Display sum of points scored across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:722
+msgid "Display sum of points got across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:723
+msgid "Display sum of total points got across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:724
+msgid "Display sum of time spent across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:725
+msgid "Display sum of correct answer counted across all quizzes on the course."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:729
+msgid "Display lesson title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:730
+msgid "Display lesson URL."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:734
+msgid "Display topic title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:735
+msgid "Display topic URL."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:739
+msgid "Display quiz URL."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:740
+msgid "Display time when the quiz is taken. <a href=\"http://php.net/manual/en/function.date.php\" target=\"_blank\">Click here</a> to see format options."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:741
+msgid "Display correct percentage of the quiz."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:742
+msgid "Display whether the user passes the quiz or not. Display \"Yes\" or \"No\"."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:743
+msgid "Display quiz title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:744
+msgid "Display course title that quiz belongs to."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:745
+msgid "Display how long is taken to complete the quiz."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:746
+msgid "Display quiz result based on categories."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:750
+msgid "Display total points earned."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:751
+msgid "Display total points possible for the essay."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:755
+msgid "Display assignment title."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:756
+msgid "Display assignment file name."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:757
+msgid "Display assignment file link."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:758
+msgid "Display lesson title that the assignment belongs to."
+msgstr ""
+
+#: includes/notifications/includes/meta-box.php:759
+msgid "Display lesson type that the assignment belongs to."
+msgstr ""
+
+#. translators: 1: post type label, 2: post title
+#: includes/notifications/includes/notification.php:1604
+#, php-format
+msgid "New comment on %1$s \"%2$s\""
+msgstr ""
+
+#. translators: 1: comment author, 2: author IP, 3: author domain
+#: includes/notifications/includes/notification.php:1606
+#, php-format
+msgid "Author: %1$s (IP: %2$s, %3$s)"
+msgstr ""
+
+#. translators: %s: comment author email
+#: includes/notifications/includes/notification.php:1608
+#, php-format
+msgid "Email: %s"
+msgstr ""
+
+#. translators: %s: comment content
+#: includes/notifications/includes/notification.php:1610
+#, php-format
+msgid "Comment: %s"
+msgstr ""
+
+#. translators: %s: post type label
+#: includes/notifications/includes/notification.php:1612
+#, php-format
+msgid "You can see all comments on this %s here:"
+msgstr ""
+
+#. translators: %s: comment permalink
+#: includes/notifications/includes/notification.php:1615
+#, php-format
+msgid "Permalink: %s"
+msgstr ""
+
+#. translators: 1: title, 2: post title
+#: includes/notifications/includes/notification.php:1618
+#, php-format
+msgid "%1$s Comment: \"%2$s\""
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1718
+msgid "User enrolls into a group"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1719
+msgid "User enrolls into a course"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1720
+msgid "User completes a course"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1721
+msgid "User completes a lesson"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1722
+msgid "A scheduled lesson is available to user"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1723
+msgid "User completes a topic"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1724
+msgid "User passes a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1725
+msgid "User fails a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1726
+msgid "User submits a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1727
+msgid "User completes a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1728
+msgid "Essay has just been submitted"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1729
+msgid "Essay question has been put into graded status"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1730
+msgid "An assignment is uploaded"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1731
+msgid "An assignment is approved"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1732
+msgid "User hasn't logged in for \"X\" days"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1733
+msgid "\"X\" days before course expires"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1734
+msgid "\"X\" days after course expires"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1753
+msgid "User has not completed a quiz."
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1760
+msgid "User is enrolled to a group"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1764
+msgid "User is enrolled to a course"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1768
+msgid "User has completed a course"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1772
+msgid "User has completed a lesson"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1780
+msgid "User has completed a topic"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1792
+msgid "User has submitted a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1796
+msgid "User has completed a quiz"
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1800
+msgid "User has uploaded an assignment."
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1804
+msgid "User's assignment has been approved."
+msgstr ""
+
+#. translators: %s: Group label.
+#: includes/notifications/includes/notification.php:1851
+#, php-format
+msgctxt "Group label"
+msgid "%s that the notification is assigned to."
+msgstr ""
+
+#. translators: %s: Course label.
+#: includes/notifications/includes/notification.php:1864
+#, php-format
+msgctxt "Course label"
+msgid "%s that the notification is assigned to."
+msgstr ""
+
+#. translators: %s: Lesson label.
+#: includes/notifications/includes/notification.php:1894
+#, php-format
+msgctxt "Lesson label"
+msgid "%s that the notification is assigned to."
+msgstr ""
+
+#. translators: %s: Topic label.
+#: includes/notifications/includes/notification.php:1920
+#, php-format
+msgctxt "Topic label"
+msgid "%s that the notification is assigned to."
+msgstr ""
+
+#. translators: %s: Quiz label.
+#: includes/notifications/includes/notification.php:1944
+#, php-format
+msgctxt "Quiz label"
+msgid "%s that the notification is assigned to."
+msgstr ""
+
+#: includes/notifications/includes/notification.php:1976
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:912
+msgid "Admin"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:25
+msgid "Notification"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:26
+#: includes/notifications/includes/post-type.php:27
+msgid "Add New Notification"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:28
+msgid "Edit Notification"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:29
+msgid "New Notification"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:30
+msgid "View Notification"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:31
+msgid "Search Notifications"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:32
+msgid "No Notification found"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:33
+msgid "No Notification found in Trash"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:34
+msgid "Parent Notification:"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:41
+msgid "Notifications created for LearnDash."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:78
+#: includes/notifications/includes/post-type.php:81
+msgid "Notification updated."
+msgstr ""
+
+#. translators: %s: date and time of the revision
+#: includes/notifications/includes/post-type.php:83
+#, php-format
+msgid "Notification restored to revision from %s."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:84
+msgid "Notification published."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:85
+msgid "Notification saved."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:86
+msgid "Notification submitted."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:88
+msgid "Notification draft updated."
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:111
+msgid "Trigger"
+msgstr ""
+
+#. translators: %s: Courses label.
+#: includes/notifications/includes/post-type.php:144
+#, php-format
+msgctxt "Courses label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %s: Lessons label.
+#: includes/notifications/includes/post-type.php:165
+#, php-format
+msgctxt "Lessons label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %s: Topics label.
+#: includes/notifications/includes/post-type.php:186
+#, php-format
+msgctxt "Topics label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %s: Quizzes label.
+#: includes/notifications/includes/post-type.php:207
+#, php-format
+msgctxt "Quizzes label"
+msgid "Any %s"
+msgstr ""
+
+#. translators: %1$s: List of the displayed objects, %2$s: Paragraph opening tag, %3$d: Number of objects that are not displayed, %4$s: Paragraph closing tag.
+#: includes/notifications/includes/post-type.php:248
+#, php-format
+msgctxt "After mentioning object one by one"
+msgid "%1$s %2$sand %3$d other%4$s"
+msgid_plural "%1$s %2$s and %3$d others%4$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: Course, lesson, topic, or quiz label.
+#: includes/notifications/includes/post-type.php:321
+#, php-format
+msgid "Select %s"
+msgstr ""
+
+#: includes/notifications/includes/post-type.php:340
+msgid "Select Trigger"
+msgstr ""
+
+#. translators: %s: URL of the notification email subscription management page.
+#: includes/notifications/includes/subscription-manager.php:69
+#, php-format
+msgid "Don't want to receive this email anymore? <a href=\"%s\">Click here</a> to manage your notification email subscriptions."
+msgstr ""
+
+#: includes/notifications/includes/subscription-manager.php:118
+#: includes/notifications/templates/subscription-page.php:104
+msgid "LearnDash Notifications Subscription"
+msgstr ""
+
+#: includes/notifications/includes/tools.php:43
+msgid "Your ld_notifications_delayed_emails DB table has been successfully emptied."
+msgstr ""
+
+#: includes/notifications/src/deprecated/class-logs-page.php:30
+msgid "LearnDash Notifications Logs"
+msgstr ""
+
+#: includes/notifications/src/deprecated/LearnDash_Notifications.php:155
+msgid "LearnDash LMS - Notifications Add-on requires the following plugin(s) to be active:"
+msgstr ""
+
+#: includes/notifications/src/deprecated/LearnDash_Settings_Section_Translations_Learndash_Notifications.php:71
+msgid "LearnDash Notifications"
+msgstr ""
+
+#: includes/notifications/src/trigger.php:903
+msgid "Other actions"
+msgstr ""
+
+#. translators: %s: Date and time the course access expires on.
+#: includes/notifications/src/trigger/before-course-expire.php:73
+#, php-format
+msgid "The course will be expired at %s"
+msgstr ""
+
+#. translators: User ID and the last login timestamp.
+#: includes/notifications/src/trigger/user-login-track.php:181
+#, php-format
+msgid "User ID :%1$d - Last login: %2$s"
+msgstr ""
+
+#: includes/notifications/templates/admin/logs-page.php:21
+msgid "Clear all logs"
+msgstr ""
+
+#: includes/notifications/templates/admin/logs-page.php:41
+msgid "Clear log"
+msgstr ""
+
+#: includes/notifications/templates/admin/logs-page.php:48
+msgid "The logs are empty."
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:20
+msgid "Server Cron Setup"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:22
+#: includes/notifications/templates/admin/status-page.php:54
+msgid "Not yet detected"
+msgstr ""
+
+#. translators: %s: URL of the cron setup documentation.
+#: includes/notifications/templates/admin/status-page.php:28
+#, php-format
+msgid ", <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">click here</a> for cron setup instruction (it may take some times for this value to be updated)"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:44
+msgid "Queued Emails in DB"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:52
+msgid "Last Run"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:63
+msgid "Tools"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:74
+msgid "Empty DB Table"
+msgstr ""
+
+#: includes/notifications/templates/admin/status-page.php:90
+msgid "Fix Scheduled Notification Recipients"
+msgstr ""
+
+#: includes/notifications/templates/subscription-page.php:112
+msgid "Your notification settings has been successfully saved."
+msgstr ""
+
+#: includes/notifications/templates/subscription-page.php:117
+msgid "There is something wrong. Please try again later."
+msgstr ""
+
+#: includes/notifications/templates/subscription-page.php:138
+msgid "Triggers"
+msgstr ""
+
+#: includes/notifications/templates/subscription-page.php:144
+msgid "Select All"
 msgstr ""
 
 #. translators: placeholder: Course label.
@@ -14164,28 +15163,28 @@ msgctxt "placeholder: questions"
 msgid "Certificate Pending - %s still need to be graded, please check your profile for the status"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:31
+#: includes/reports/includes/class-ld-propanel-activity.php:32
 #: includes/reports/includes/class-ld-propanel-shortcodes.php:68
 msgid "LearnDash Activity"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:270
+#: includes/reports/includes/class-ld-propanel-activity.php:369
 msgid "course_total_time_on"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:278
+#: includes/reports/includes/class-ld-propanel-activity.php:377
 msgid "course_last_step_id"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:286
+#: includes/reports/includes/class-ld-propanel-activity.php:385
 msgid "course_last_step_type"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:294
+#: includes/reports/includes/class-ld-propanel-activity.php:393
 msgid "course_last_step_title"
 msgstr ""
 
-#: includes/reports/includes/class-ld-propanel-activity.php:302
+#: includes/reports/includes/class-ld-propanel-activity.php:401
 msgid "last_login_date"
 msgstr ""
 
@@ -14329,6 +15328,10 @@ msgstr ""
 
 #: includes/reports/includes/class-ld-propanel.php:425
 msgid "Wk"
+msgstr ""
+
+#: includes/reports/includes/class-ld-propanel.php:444
+msgid "The export status could not be retrieved. The export may still be running in the background — refresh the page in a few minutes to check."
 msgstr ""
 
 #: includes/reports/includes/class-ld-tinymce-courseinfo.php:20
@@ -15128,6 +16131,16 @@ msgstr ""
 #: includes/rest-api/v2/class-ld-rest-groups-users-controller.php:259
 #: includes/rest-api/v2/class-ld-rest-groups-users-controller.php:375
 msgid "Missing User IDs."
+msgstr ""
+
+#: includes/rest-api/v1/class-ld-rest-echo-controller.php:95
+#: includes/rest-api/v2/class-ld-rest-echo-controller.php:100
+msgid "Sorry, you are not allowed to access this endpoint."
+msgstr ""
+
+#: includes/rest-api/v1/class-ld-rest-echo-controller.php:118
+#: includes/rest-api/v2/class-ld-rest-echo-controller.php:123
+msgid "Request body exceeds the maximum allowed size."
 msgstr ""
 
 #. translators: group.
@@ -17095,17 +18108,17 @@ msgid "Extend %1$s Access"
 msgstr ""
 
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-extending.php:61
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:62
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:85
 msgid "New Expiration Date"
 msgstr ""
 
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-extending.php:68
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:100
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:123
 msgid "Extend Access For Users"
 msgstr ""
 
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-course-access-extending.php:78
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:107
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:130
 msgid "No enrolled users found."
 msgstr ""
 
@@ -18006,15 +19019,37 @@ msgctxt "placeholder: Group, Courses"
 msgid "Extend %1$s %2$s Access"
 msgstr ""
 
+#. translators: placeholders: %1$s: courses, %2$s: group.
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:51
+#, php-format
+msgctxt "placeholders: courses, group"
+msgid "This is a one-time tool used to manually update the access expiration date for the selected %1$s and users in this %2$s."
+msgstr ""
+
+#. translators: placeholders: %1$s: courses, %2$s: group.
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:57
+#, php-format
+msgctxt "placeholders: courses, group"
+msgid "Set the new expiration date, choose the %1$s and users it should apply to, then save the %2$s to apply the change."
+msgstr ""
+
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:61
+msgid "It does not automatically extend access going forward."
+msgstr ""
+
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:62
+msgid "Learn more about extending access."
+msgstr ""
+
 #. translators: placeholder: Course.
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:71
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:94
 #, php-format
 msgctxt "Extend Access To Courses"
 msgid "Extend Access To %s"
 msgstr ""
 
 #. translators: placeholder: courses.
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:82
+#: includes/settings/settings-metaboxes/class-ld-settings-metabox-group-access-extending.php:105
 #, php-format
 msgctxt "No enrolled courses found"
 msgid "No enrolled %s found."
@@ -19184,10 +20219,6 @@ msgstr ""
 msgid "How often statistics will be saved in minutes from the same IP. The \"statistics_ip_lock_enabled\" setting must be enabled for this to take effect."
 msgstr ""
 
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:399
-msgid "Email trigger"
-msgstr ""
-
 #. translators: placeholder: quiz.
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:403
 #, php-format
@@ -19424,10 +20455,6 @@ msgstr ""
 #: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:889
 #: includes/settings/settings-sections/class-ld-settings-section-emails-list.php:61
 msgid "Email Notifications"
-msgstr ""
-
-#: includes/settings/settings-metaboxes/class-ld-settings-metabox-quiz-admin-data-handling-settings.php:912
-msgid "Admin"
 msgstr ""
 
 #. translators: placeholder: Quiz.
@@ -20849,7 +21876,7 @@ msgid "A Brief Overview of LearnDash"
 msgstr ""
 
 #: includes/settings/settings-pages/class-ld-settings-page-help.php:333
-#: assets/js/setup-wizard/src/screen/step-4.jsx:124
+#: assets/js/setup-wizard/src/screen/step-3.jsx:117
 msgid "LearnDash 101"
 msgstr ""
 
@@ -20959,7 +21986,6 @@ msgstr ""
 
 #: includes/settings/settings-pages/class-ld-settings-page-overview.php:313
 #: src/deprecated/nss_plugin_updater_sfwd_lms.php:998
-#: assets/js/setup-wizard/src/screen/step-1.jsx:147
 msgid "Your license is valid."
 msgstr ""
 
@@ -21439,12 +22465,6 @@ msgstr ""
 msgid "Translations"
 msgstr ""
 
-#: includes/settings/settings-pages/class-ld-settings-page-translations.php:111
-#: includes/settings/settings-pages/class-ld-settings-page-translations.php:120
-#: assets/js/learndash-admin-settings-data-reports.js:164
-msgid "Dismiss this notice."
-msgstr ""
-
 #: includes/settings/settings-sections/class-ld-settings-section-ai-integrations.php:41
 msgid "AI Integrations"
 msgstr ""
@@ -21480,11 +22500,6 @@ msgstr ""
 msgid "Exclude From Search"
 msgstr ""
 
-#: includes/settings/settings-sections/class-ld-settings-section-assignments-cpt.php:87
-#: includes/settings/settings-sections/class-ld-settings-section-questions-cpt.php:73
-msgid "Exclude"
-msgstr ""
-
 #: includes/settings/settings-sections/class-ld-settings-section-assignments-cpt.php:93
 msgid "Publicly Viewable"
 msgstr ""
@@ -21495,7 +22510,7 @@ msgstr ""
 
 #: includes/settings/settings-sections/class-ld-settings-section-assignments-cpt.php:97
 #: includes/settings/settings-sections/class-ld-settings-section-groups-cpt.php:123
-#: assets/js/setup-wizard/src/App.js:34
+#: assets/js/setup-wizard/src/App.js:31
 msgid "Public"
 msgstr ""
 
@@ -23052,10 +24067,6 @@ msgctxt "placeholder: Lesson"
 msgid "Manage %s Tags via the Actions dropdown"
 msgstr ""
 
-#: includes/settings/settings-sections/class-ld-settings-section-logs.php:44
-msgid "Logs"
-msgstr ""
-
 #: includes/settings/settings-sections/class-ld-settings-section-logs.php:86
 #: includes/settings/settings-sections/class-ld-settings-section-logs.php:128
 msgid "Log not found."
@@ -23108,7 +24119,7 @@ msgstr ""
 
 #: includes/settings/settings-sections/class-ld-settings-section-payments-defaults.php:147
 #: includes/settings/settings-sections/settings-sections-payments/class-ld-settings-section-paypal-checkout.php:326
-#: assets/js/setup-wizard/src/screen/step-3.jsx:226
+#: assets/js/setup-wizard/src/screen/step-2.jsx:198
 msgid "Select your country"
 msgstr ""
 
@@ -24210,11 +25221,11 @@ msgid "Data Sharing"
 msgstr ""
 
 #: includes/settings/settings-sections/class-ld-settings-section-telemetry.php:105
-msgid "Yes, share plugin usage data with LearnDash, part of the StellarWP family of brands"
+msgid "Yes, share plugin usage data with LearnDash, part of Liquid Web's software suite"
 msgstr ""
 
 #: includes/settings/settings-sections/class-ld-settings-section-telemetry.php:110
-msgid "No, do not share plugin usage data with LearnDash, part of the StellarWP family of brands"
+msgid "No, do not share plugin usage data with LearnDash, part of Liquid Web's software suite"
 msgstr ""
 
 #: includes/settings/settings-sections/class-ld-settings-section-terms-pages.php:38
@@ -27985,9 +28996,8 @@ msgstr ""
 #: themes/ld30/templates/quiz/partials/show_quiz_questions_box.php:916
 #: themes/legacy/templates/quiz/partials/show_quiz_questions_box.php:691
 #: themes/legacy/templates/quiz/partials/show_quiz_questions_box.php:725
-#: assets/js/setup-wizard/src/screen/step-1.jsx:277
-#: assets/js/setup-wizard/src/screen/step-2.jsx:319
-#: assets/js/setup-wizard/src/screen/step-3.jsx:272
+#: assets/js/setup-wizard/src/screen/step-1.jsx:289
+#: assets/js/setup-wizard/src/screen/step-2.jsx:244
 #: src/assets/dist/js/admin/modules/ai/virtual-instructor/setup-wizard.js:49
 #: src/assets/js/admin/modules/ai/virtual-instructor/components/react/Step.js:209
 msgid "Next"
@@ -28331,6 +29341,160 @@ msgstr ""
 
 #: includes/widgets/learndash_replace_widgets_alert.php:21
 msgid "Notice: This widget may no longer be supported in future versions of LearnDash or WordPress, please use a block instead."
+msgstr ""
+
+#: includes/woocommerce/includes/class-cron.php:38
+msgid "Once per Minute"
+msgstr ""
+
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:157
+msgid "LearnDash LMS - WooCommerce Integration Add-on requires the following plugin(s) to be active:"
+msgstr ""
+
+#. translators: HTML string, Support doc link.
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:395
+#, php-format
+msgctxt "placeholders: HTML string, Support doc link"
+msgid "%1$s When customers checkout with 5 or more associated courses and groups in a single cart, course enrollment process is done in the background and you will need to set up a cron job. To set up a cron job please follow %2$s ."
+msgstr ""
+
+#. translators: LearnDash Courses.
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:413
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:559
+#, php-format
+msgctxt "LearnDash Courses"
+msgid "LearnDash %s"
+msgstr ""
+
+#. translators: LearnDash Groups.
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:435
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:578
+#, php-format
+msgctxt "LearnDash Groups"
+msgid "LearnDash %s"
+msgstr ""
+
+#. translators: HTML string, Support doc link.
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:541
+#, php-format
+msgctxt "placeholders: HTML string, Support doc link"
+msgid "%1$s When customers checkout with 5 or more associated courses and groups in a single cart, course enrollment process is done in the background and you will need to set up a cron job. To set up a cron job please follow %2$s."
+msgstr ""
+
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:1512
+msgid "WooCommerce subscription settings related to LearnDash."
+msgstr ""
+
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:1516
+msgid "Access Removal on Expiration"
+msgstr ""
+
+#: includes/woocommerce/includes/class-learndash-woocommerce.php:1518
+msgid "Check the box to disable course access removal on subscription expiration. By default, course access will be revoked when a subscription expires."
+msgstr ""
+
+#: includes/woocommerce/src/admin-views/notices/warnings/guest-checkout-enabled.php:24
+#: includes/woocommerce/src/deprecated/App/Admin/Translation.php:66
+msgid "LearnDash LMS - WooCommerce"
+msgstr ""
+
+#. translators: %1$s: opening "a" tag, %2$s: closing "a" tag, %3$s: Course, %4$s: Group.
+#: includes/woocommerce/src/admin-views/notices/warnings/guest-checkout-enabled.php:30
+#, php-format
+msgid "We've noticed that you have WooCommerce %1$sguest checkout%2$s enabled. Please note that purchasing a product with an associated LearnDash %3$s or %4$s still requires an account to ensure successful enrollment."
+msgstr ""
+
+#: includes/woocommerce/src/admin-views/settings/sections/enrollment-status.php:27
+msgid "Order Status"
+msgstr ""
+
+#: includes/woocommerce/src/admin-views/settings/sections/enrollment-status.php:30
+#: includes/woocommerce/src/admin-views/settings/sections/enrollment-status.php:74
+#: themes/ld30/templates/modern/course/enrollment/access/king/after-start.php:18
+#: themes/ld30/templates/modern/course/enrollment/access/king/label.php:20
+#: themes/ld30/templates/modern/group/enrollment/access/king/after-start.php:18
+#: themes/ld30/templates/modern/group/enrollment/access/king/label.php:20
+msgid "Access"
+msgstr ""
+
+#: includes/woocommerce/src/admin-views/settings/sections/enrollment-status.php:71
+msgid "Subscription Status"
+msgstr ""
+
+#. Translators: %1$s and %2$s are <strong> tags, %3$s and %4$s are <a> tags.
+#: includes/woocommerce/src/admin-views/settings/sections/enrollment-status.php:114
+#, php-format
+msgid "%1$sNote:%2$s These settings apply only to new WooCommerce orders created after saving. If you want these settings to apply to any past orders, you’ll need to run the %3$sretroactive tool%4$s."
+msgstr ""
+
+#: includes/woocommerce/src/App/Admin/Pages/Sections/Settings_Enrollment_Status.php:69
+#: src/admin_views/modules/payments/orders/edit/items/table-head.php:19
+#: includes/course-grid/includes/gutenberg/blocks/learndash-course-grid/index.js:732
+msgid "Enrollment Status"
+msgstr ""
+
+#: includes/woocommerce/src/App/Admin/Pages/Sections/Settings_Enrollment_Status.php:70
+msgid "Control the LearnDash enrollment status based on WooCommerce order and subscription statuses."
+msgstr ""
+
+#: includes/woocommerce/src/App/Admin/Pages/Sections/Settings_Enrollment_Status.php:255
+msgid "Deny"
+msgstr ""
+
+#: includes/woocommerce/src/App/Admin/Pages/Sections/Settings_Enrollment_Status.php:256
+msgid "Grant"
+msgstr ""
+
+#: includes/woocommerce/src/App/Admin/Pages/Settings.php:29
+msgid "LearnDash LMS - WooCommerce Settings"
+msgstr ""
+
+#: includes/woocommerce/src/App/Models/Products/Course.php:68
+#: includes/woocommerce/src/deprecated/WC_Product_Course.php:92
+msgid "Add to cart"
+msgstr ""
+
+#: includes/woocommerce/src/App/Models/Products/Course.php:69
+#: includes/woocommerce/src/deprecated/WC_Product_Course.php:93
+msgid "Read More"
+msgstr ""
+
+#: includes/woocommerce/src/App/Modules/Retroactive_Access_Tool/Handler.php:71
+msgid "Give LearnDash Students Retroactive Access"
+msgstr ""
+
+#. translators: %1$s and %2$s are replaced with the custom labels for courses and groups.
+#: includes/woocommerce/src/App/Modules/Retroactive_Access_Tool/Handler.php:75
+#, php-format
+msgid "Grant or deny LearnDash students %1$s and %2$s access, according to WooCommerce order and subscription status."
+msgstr ""
+
+#: includes/woocommerce/src/App/Modules/Retroactive_Access_Tool/Handler.php:85
+msgid "The LearnDash retroactive access tool has been initialized and currently is running in the background."
+msgstr ""
+
+#: includes/woocommerce/src/App/Modules/Retroactive_Access_Tool/Handler.php:88
+msgid "Another LearnDash retroactive access tool process is already running."
+msgstr ""
+
+#. translators: LearnDash course.
+#: includes/woocommerce/src/App/Modules/Subscription_Access_Expiration/Handler.php:209
+#, php-format
+msgctxt "LearnDash course"
+msgid "The paid-up term ended and %s access was withdrawn."
+msgstr ""
+
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:78
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:288
+msgid "Check LearnDash course access"
+msgstr ""
+
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:287
+msgid "LearnDash retroactive course access"
+msgstr ""
+
+#: includes/woocommerce/src/deprecated/Learndash_WooCommerce_Tools.php:289
+msgid "Check LearnDash course access of WooCommerce integration. Enroll and unenroll users according to WooCommerce purchase/subscription data."
 msgstr ""
 
 #: src/admin_views/common/badges/beta.php:17
@@ -28705,11 +29869,6 @@ msgstr ""
 #: src/admin_views/modules/payments/orders/edit/items/item/status.php:42
 #, php-format
 msgid "Edit %s access"
-msgstr ""
-
-#: src/admin_views/modules/payments/orders/edit/items/table-head.php:19
-#: includes/course-grid/includes/gutenberg/blocks/learndash-course-grid/index.js:732
-msgid "Enrollment Status"
 msgstr ""
 
 #: src/admin_views/modules/payments/orders/edit/items/table-head.php:23
@@ -30121,14 +31280,14 @@ msgstr ""
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Disconnect.php:62
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Reconnect.php:62
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Signup_Url.php:77
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:74
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:74
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:83
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:93
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:115
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:75
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:92
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:76
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:81
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:72
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:90
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:100
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:122
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:82
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:99
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:83
 msgid "PayPal client not found."
 msgstr ""
 
@@ -30140,17 +31299,17 @@ msgstr ""
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Disconnect.php:158
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Reconnect.php:166
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Signup_Url.php:143
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:163
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:182
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:174
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:235
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:215
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:239
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:172
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:226
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:243
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:261
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:169
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:170
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:183
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:183
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:242
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:222
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:246
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:179
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:233
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:244
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:268
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:176
 #: src/Core/Modules/REST/V1/Endpoints/Documentation.php:194
 #: src/Core/Modules/REST/V1/Endpoints/Profile/Remove_Card.php:184
 #: src/Core/Modules/REST/V1/OpenAPI.php:115
@@ -30170,16 +31329,16 @@ msgstr ""
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Disconnect.php:174
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Reconnect.php:187
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Signup_Url.php:159
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:187
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:206
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:219
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:264
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:408
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:255
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:223
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:242
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:282
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:220
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:194
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:207
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:228
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:271
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:415
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:262
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:230
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:249
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:289
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:227
 #: src/Core/Modules/REST/V1/Endpoints/Documentation.php:218
 #: src/Core/Modules/REST/V1/Endpoints/Profile/Remove_Card.php:200
 msgid "Success message."
@@ -30208,16 +31367,16 @@ msgstr ""
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Access_Token.php:226
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Reconnect.php:240
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Onboarding/Signup_Url.php:220
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:272
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:288
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:278
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:346
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:511
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:326
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:294
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:327
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:346
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:280
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:279
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:289
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:287
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:353
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:518
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:333
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:301
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:334
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:353
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:287
 msgid "Whether to use the sandbox environment."
 msgstr ""
 
@@ -30308,365 +31467,365 @@ msgstr ""
 msgid "Whether the request is from the setup wizard."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:80
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:75
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:79
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:87
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:82
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:80
 msgid "Payment gateway not found."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:108
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:190
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:115
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:197
 #, php-format
 msgid "PayPal %s canceled successfully."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:170
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:177
 #, php-format
 msgid "Returns the %s cancellation data."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:178
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:185
 #, php-format
 msgid "Indicates if the PayPal %s was canceled."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:222
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:229
 #, php-format
 msgid "Cancels a PayPal %s"
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:227
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:234
 #, php-format
 msgid "Cancels a PayPal %s."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:256
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:263
 #, php-format
 msgid "The PayPal %s ID to cancel."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:265
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cancel.php:272
 #, php-format
 msgid "The user ID to cancel the PayPal %s for."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:80
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:78
 msgid "PayPal payment token not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:114
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:152
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:115
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:159
 msgid "Your payment was declined."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:127
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:209
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:128
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:210
 #, php-format
 msgid "PayPal %s captured successfully."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:189
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:190
 #, php-format
 msgid "PayPal %s capture endpoint response data."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:197
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:198
 #, php-format
 msgid "The PayPal %s ID that was captured."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:241
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:242
 #, php-format
 msgid "Capture a PayPal %s"
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:246
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:247
 #, php-format
 msgid "Captures a PayPal %s to complete the payment."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:275
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:276
 #, php-format
 msgid "The PayPal %s ID to capture."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:283
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Capture.php:284
 msgid "The PayPal payer ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:87
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:121
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:141
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:98
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:96
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:128
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:148
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:105
 msgid "PayPal payment token handler not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:96
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:121
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:105
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:128
 #: src/Core/Modules/Payments/Gateways/Paypal_Standard/Migration/Processor.php:49
 msgid "User not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:111
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:120
 msgid "Invalid customer ID for this user."
 msgstr ""
 
 #. translators: %d: number of cards.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:122
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:131
 #, php-format
 msgid "%d card retrieved successfully."
 msgid_plural "%d cards retrieved successfully."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:179
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:188
 msgid "PayPal cards endpoint response data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:183
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:192
 msgid "Array of saved payment cards."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:189
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:198
 msgid "PayPal payment token ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:194
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:203
 msgid "Cardholder name."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:199
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:208
 msgid "Card brand (e.g., VISA, MASTERCARD)."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:204
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:213
 msgid "Last four digits of the card."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:209
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:218
 msgid "Card expiration date."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:220
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:229
 msgid "1 card retrieved successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:241
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:250
 msgid "List PayPal payment cards"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:242
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:251
 msgid "Retrieves the list of saved payment cards for a user."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:267
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:276
 msgid "User ID to retrieve cards for."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:273
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Cards.php:282
 msgid "PayPal customer ID to validate against the user."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:126
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:133
 #, php-format
 msgid "PayPal %s has already been processed."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:137
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:144
 msgid "Status helper not found."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:169
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:267
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:176
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:274
 #, php-format
 msgid "PayPal %s confirmed successfully."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:180
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:187
 #, php-format
 msgid "PayPal %s is not in a valid state to confirm."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:242
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:249
 #, php-format
 msgid "PayPal %s confirmation response data."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:250
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:238
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:257
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:245
 #, php-format
 msgid "The PayPal %s ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:257
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:264
 msgid "The URL to redirect the user to after confirmation."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:299
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:306
 #, php-format
 msgid "Confirm a PayPal %s"
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:304
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:311
 #, php-format
 msgid "Confirms a PayPal %s and returns the redirect URL."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:333
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:340
 #, php-format
 msgid "The PayPal %s ID to confirm."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:340
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Confirm_Order.php:347
 msgid "The PayPal user ID for the payment confirmation."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:99
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:127
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:81
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:115
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:106
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:134
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:88
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:122
 msgid "PayPal payment gateway not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:114
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:121
 msgid "Data builder not found."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:160
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:411
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:167
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:418
 #, php-format
 msgid "PayPal %s created successfully."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:222
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:229
 #, php-format
 msgid "PayPal %s creation endpoint response data."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:230
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:237
 #, php-format
 msgid "The created PayPal %s."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:247
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:254
 #, php-format
 msgid "The %s intent."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:256
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:263
 #, php-format
 msgid "The %s status."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:263
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:270
 msgid "The payment source information."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:267
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:274
 msgid "PayPal payment source details."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:273
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:280
 msgid "The purchase units."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:279
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:286
 msgid "The reference ID for the purchase unit."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:284
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:291
 msgid "The amount details."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:288
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:306
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:358
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:295
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:313
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:365
 msgid "The currency code."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:293
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:300
 msgid "The amount value."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:298
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:305
 msgid "The amount breakdown."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:302
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:309
 msgid "The item total."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:311
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:318
 msgid "The item total value."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:322
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:329
 msgid "The payee information."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:326
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:333
 msgid "The merchant ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:333
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:340
 msgid "The purchase unit description."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:338
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:345
 msgid "The purchase unit items."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:344
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:351
 msgid "The item name."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:349
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:356
 msgid "The item quantity."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:354
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:361
 msgid "The unit amount."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:363
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:370
 msgid "The unit amount value."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:378
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:385
 #, php-format
 msgid "The %s links for approval and capture."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:386
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:201
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:198
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:393
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:208
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:205
 #: src/Core/Modules/REST/Documentation_Migration/OpenAPI/Schemas/Assignment.php:129
 #: src/Core/Modules/REST/Documentation_Migration/OpenAPI/Schemas/Assignment.php:145
 #: src/Core/Modules/REST/Documentation_Migration/OpenAPI/Schemas/Assignment.php:161
@@ -30723,251 +31882,251 @@ msgstr ""
 msgid "The link URL."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:391
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:206
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:203
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:398
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:213
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:210
 msgid "The link relationship."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:396
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:211
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:208
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:403
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:218
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:215
 msgid "The HTTP method."
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:443
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:450
 #, php-format
 msgid "Create PayPal %s"
 msgstr ""
 
 #. translators: %s: order label.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:448
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:455
 #, php-format
 msgid "Creates a new PayPal %s for payment processing."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:478
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:485
 msgid "Array of product IDs to purchase."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:486
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:284
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:275
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:493
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:291
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:282
 msgid "User ID of the customer."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:491
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:289
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:498
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:296
 msgid "Whether to use the card fields."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:496
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:503
 msgid "Whether to save the payment method for future use."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:501
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:508
 msgid "The PayPal customer ID to use for the payment."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:506
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Order.php:513
 msgid "The PayPal vault ID to use for the payment."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:177
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:160
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:184
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:167
 msgid "Failed to save payment token for user."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:205
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:212
 msgid "PayPal payment token created and free trial started successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:244
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:251
 msgid "PayPal payment token creation endpoint response data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:248
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:235
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:255
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:242
 msgid "The URL to redirect the user after successful payment."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:256
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:263
 msgid "PayPal payment token created and saved successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:284
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:291
 msgid "Create PayPal Payment Token"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:285
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:292
 msgid "Creates a new PayPal payment token for vaulting payment methods."
-msgstr ""
-
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:307
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:334
-msgid "The PayPal setup token ID."
 msgstr ""
 
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:314
 #: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:341
-msgid "User ID to associate the payment token with."
+msgid "The PayPal setup token ID."
 msgstr ""
 
 #: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:321
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:348
+msgid "User ID to associate the payment token with."
+msgstr ""
+
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Payment_Token.php:328
 msgid "Product ID for the payment."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:89
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:84
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:96
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:91
 msgid "Setup token data builder not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:100
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:107
 msgid "This product does not require a setup token."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:119
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:224
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:126
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:231
 msgid "PayPal setup token created successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:177
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:184
 msgid "PayPal setup token creation endpoint response data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:181
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:188
 msgid "The created PayPal setup token."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:185
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:182
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:192
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:189
 msgid "The setup token ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:190
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:187
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:197
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:194
 msgid "The setup token status."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:195
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:192
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:202
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:199
 msgid "The setup token links for approval."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:252
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:259
 msgid "Create PayPal Setup Token"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:253
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:260
 msgid "Creates a new PayPal setup token for recurring payments with free trials."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:278
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Setup_Token.php:285
 msgid "Product ID for the setup token."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:176
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:243
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:183
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:250
 msgid "Trial started successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:231
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:238
 msgid "PayPal start trial endpoint response data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:271
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:278
 msgid "Start a free trial"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:272
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:279
 msgid "Starts a free trial for a user."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:288
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:295
 msgid "The user ID for the trial."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:295
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:302
 msgid "The product ID for the trial."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:302
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:309
 msgid "The PayPal token ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:309
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:316
 msgid "The PayPal customer ID."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:316
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Start_Trial.php:323
 msgid "The payment type."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:88
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:89
 msgid "Webhook client not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:169
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:170
 msgid "Payment token not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:191
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:260
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:192
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:261
 msgid "Webhook processed successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:248
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:249
 msgid "Webhook response data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:252
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:253
 msgid "Indicates if the webhook was processed successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:259
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:260
 msgid "Processing status message."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:281
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:282
 msgid "Handle PayPal webhook event"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:282
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:283
 msgid "Handles PayPal webhook notifications for payment events."
 msgstr ""
 
 #. translators: %s: List of missing headers.
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:353
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:354
 #, php-format
 msgid "Missing headers from the PayPal webhook request: %s"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:416
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:417
 msgid "Payment gateway not ready."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:427
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:428
 msgid "Event not processed by LearnDash."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:454
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:455
 msgid "Invalid webhook signature."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:496
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:497
 msgid "Custom data not set."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:505
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:506
 msgid "User ID not set."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:517
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:518
 msgid "Product IDs not set."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:526
+#: src/Core/Modules/Payments/Gateways/Paypal/Endpoints/Payments/Webhook.php:527
 msgid "LD version not set."
 msgstr ""
 
@@ -31087,70 +32246,70 @@ msgstr ""
 msgid "PayPal signup failed: %1$s"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:104
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:111
 msgid "PayPal Standard scheduler not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:110
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:117
 msgid "PayPal Standard subscriptions helper not found."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:181
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:188
 msgid "Not all migrations were scheduled, please try again later."
 msgstr ""
 
 #. translators: %1$d: number of migrations scheduled, %2$d: total products.
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:204
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:211
 #, php-format
 msgid "%1$d of %2$d migrations scheduled successfully."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:266
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:273
 msgid "PayPal payment token creation endpoint response data for migration."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:270
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:277
 msgid "Number of migrations successfully scheduled."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:275
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:282
 msgid "Total number of products provided."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:283
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:290
 msgid "PayPal payment token created successfully and migration scheduled."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:311
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:318
 msgid "Create PayPal Payment Token for Migration"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:312
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Payment_Token.php:319
 msgid "Creates a new PayPal payment token and schedules migration from PayPal Standard to PayPal Checkout."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:102
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:109
 msgid "Failed to create setup token data."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:115
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:221
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:122
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:228
 msgid "PayPal setup token created successfully for migration."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:174
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:181
 msgid "PayPal setup token creation endpoint response data for migration."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:178
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:185
 msgid "The created PayPal setup token for migration."
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:249
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:256
 msgid "Create PayPal Setup Token for Migration"
 msgstr ""
 
-#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:250
+#: src/Core/Modules/Payments/Gateways/Paypal_Standard/Endpoints/Migration/Setup_Token.php:257
 msgid "Creates a new PayPal setup token for migrating subscriptions from PayPal Standard to PayPal Checkout."
 msgstr ""
 
@@ -34151,22 +35310,32 @@ msgstr ""
 msgid "HAL links for the user."
 msgstr ""
 
-#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:98
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:110
 msgid "The Learndash-Experimental-Rest-Api header is required to access this endpoint."
 msgstr ""
 
-#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:859
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:872
 msgid "You must be logged in to access this endpoint."
 msgstr ""
 
+#. translators: %s: request parameter name.
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:891
+#, php-format
+msgid "Missing parameter(s): %s"
+msgstr ""
+
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:903
+msgid "You are not allowed to perform this action for another user."
+msgstr ""
+
 #. translators: %s: parameter name
-#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:894
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:939
 #, php-format
 msgid "Missing required parameter: %s"
 msgstr ""
 
 #. translators: 1: parameter name, 2: expected type
-#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:908
+#: src/Core/Modules/REST/V1/Contracts/Endpoint.php:953
 #, php-format
 msgid "Parameter %1$s must be of type %2$s."
 msgstr ""
@@ -34498,6 +35667,24 @@ msgstr ""
 msgid "Please update WordPress to at least version %1$s. %2$sSee all Technical Requirements%3$s."
 msgstr ""
 
+#. translators: %1$s - strong opening tag, %2$s - strong closing tag, %3$s - paragraph opening tag, %4$s - line break tag, %5$s - paragraph closing tag.
+#: src/Core/Modules/WooCommerce/Sub_Plugin.php:167
+#, php-format
+msgid "%1$sThe WooCommerce integration is now part of LearnDash LMS.%2$s %3$sThe WooCommerce integration features have been added directly into LearnDash — no separate plugin needed.%4$sIf the LearnDash LMS - WooCommerce Integration add-on was previously installed, it's no longer required and can be safely uninstalled.%5$s"
+msgstr ""
+
+#. translators: %s: minimum WooCommerce version.
+#: src/Core/Modules/WooCommerce/Sub_Plugin.php:189
+#, php-format
+msgid "LearnDash LMS - WooCommerce Integration requires <a href=\"https://woocommerce.com/\">WooCommerce</a> %s or later to be active."
+msgstr ""
+
+#. translators: %1$s - strong opening tag, %2$s - strong closing tag, %3$s - paragraph opening tag, %4$s - line break tag, %5$s - paragraph closing tag.
+#: src/Core/Notifications/Sub_Plugin.php:149
+#, php-format
+msgid "%1$sNotifications are now part of LearnDash LMS.%2$s %3$sThe notification features have been added directly into LearnDash, with no separate plugin needed.%4$sIf the LearnDash LMS - Notifications add-on was previously installed, it's no longer required and can be safely uninstalled.%5$s"
+msgstr ""
+
 #: src/Core/Services/ChatGPT.php:229
 msgid "The request has timed out. Please try it again with lower number of items. If the issue persists, please check your website server or Open AI service status."
 msgstr ""
@@ -34613,14 +35800,14 @@ msgstr ""
 
 #. translators: placeholder: step label.
 #: src/Core/Template/Views/Lesson.php:272
-#: src/Core/Template/Views/Topic.php:296
+#: src/Core/Template/Views/Topic.php:294
 #, php-format
 msgid "Please go back and complete the previous %s."
 msgstr ""
 
 #. translators: %1$s: Assignment label singular, %2$s: Assignment label plural
 #: src/Core/Template/Views/Lesson.php:319
-#: src/Core/Template/Views/Topic.php:344
+#: src/Core/Template/Views/Topic.php:341
 #, php-format
 msgid "You have an %1$s awaiting approval."
 msgid_plural "You have %2$s awaiting approval."
@@ -34628,13 +35815,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: placeholder: step label.
-#: src/Core/Template/Views/Topic.php:277
+#: src/Core/Template/Views/Topic.php:275
 #, php-format
 msgid "Back to %s"
 msgstr ""
 
 #. translators: placeholder: step label.
-#: src/Core/Template/Views/Topic.php:283
+#: src/Core/Template/Views/Topic.php:281
 #, php-format
 msgid "Please go back and watch the video for the previous %s."
 msgstr ""
@@ -36513,37 +37700,37 @@ msgid "verify failed"
 msgstr ""
 
 #: themes/ld30/includes/helpers.php:1635
-#: themes/ld30/includes/helpers.php:2044
+#: themes/ld30/includes/helpers.php:2048
 msgid "No attributes passed in"
 msgstr ""
 
-#: themes/ld30/includes/helpers.php:1684
-#: themes/ld30/includes/helpers.php:2231
+#: themes/ld30/includes/helpers.php:1686
+#: themes/ld30/includes/helpers.php:2235
 msgid "No Pagination Match"
 msgstr ""
 
 #. translators: placeholder: course.
-#: themes/ld30/includes/helpers.php:1737
+#: themes/ld30/includes/helpers.php:1741
 #, php-format
 msgctxt "placeholder: course"
 msgid "No %s ID supplied"
 msgstr ""
 
 #. translators: No topics for this lesson.
-#: themes/ld30/includes/helpers.php:1807
+#: themes/ld30/includes/helpers.php:1811
 #, php-format
 msgctxt "placeholder: topics, lesson"
 msgid "No %1$s for this $2$s"
 msgstr ""
 
 #. translators: placeholder: Course title.
-#: themes/ld30/includes/helpers.php:2623
+#: themes/ld30/includes/helpers.php:2627
 #, php-format
 msgid "Congratulations! You just completed %s."
 msgstr ""
 
 #. translators: placeholder: Lesson label.
-#: themes/ld30/includes/helpers.php:2632
+#: themes/ld30/includes/helpers.php:2636
 #, php-format
 msgid "Great Job! You've completed this %s - Keep it going!"
 msgstr ""
@@ -37076,13 +38263,6 @@ msgstr ""
 #, php-format
 msgctxt "When a course has ended"
 msgid "This %1$s ended on %2$s"
-msgstr ""
-
-#: themes/ld30/templates/modern/course/enrollment/access/king/after-start.php:18
-#: themes/ld30/templates/modern/course/enrollment/access/king/label.php:20
-#: themes/ld30/templates/modern/group/enrollment/access/king/after-start.php:18
-#: themes/ld30/templates/modern/group/enrollment/access/king/label.php:20
-msgid "Access"
 msgstr ""
 
 #. translators: placeholder: %s = course start date.
@@ -38703,14 +39883,6 @@ msgstr ""
 msgid "%s template updated."
 msgstr ""
 
-#: assets/js/learndash-admin-settings-data-reports.js:34
-msgid "Your report is being processed for export. Do not close or navigate away from this page until the report is ready."
-msgstr ""
-
-#: assets/js/learndash-admin-settings-data-reports.js:156
-msgid "Your report export is now completed."
-msgstr ""
-
 #: assets/js/learndash-payments.js:52
 #: assets/js/learndash-payments.js:60
 msgid "second"
@@ -38718,15 +39890,15 @@ msgid_plural "seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/js/setup-wizard/src/App.js:38
+#: assets/js/setup-wizard/src/App.js:35
 msgid "Private"
 msgstr ""
 
-#: assets/js/setup-wizard/src/App.js:45
+#: assets/js/setup-wizard/src/App.js:42
 msgid "Someone Else"
 msgstr ""
 
-#: assets/js/setup-wizard/src/App.js:49
+#: assets/js/setup-wizard/src/App.js:46
 msgid "Me"
 msgstr ""
 
@@ -38738,300 +39910,211 @@ msgstr ""
 msgid "Dismiss Setup Wizard"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-1.jsx:35
-msgid "Please enter the email address."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:40
-msgid "Please enter the license key."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:56
-msgid "The email and the license key do not match."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:86
-msgid "Let's start by getting your info"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:91
-msgid "Enter your License"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:95
-msgid "Your license details were emailed to you after purchase. You can also find them listed on"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:97
-msgid "your account"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:114
-msgid "Your purchase email"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:126
-msgid "License:"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:136
-msgid "Your license key"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:159
-msgid "Validate"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:169
-msgid "Communication Preferences"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:172
-msgid "Would you like to use the email above for all LearnDash emails and course notifications?"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-1.jsx:211
-msgid "What \"From:\" email address would you like to use?"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-2.jsx:61
+#: assets/js/setup-wizard/src/screen/step-1.jsx:61
 msgid "Tell us about your courses"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:66
+#: assets/js/setup-wizard/src/screen/step-1.jsx:66
 msgid "Do you want to import a demo course?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:69
+#: assets/js/setup-wizard/src/screen/step-1.jsx:69
 msgid "A fully built course that helps you to understand LearnDash."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:112
+#: assets/js/setup-wizard/src/screen/step-1.jsx:112
 msgid "How many courses are you planning to create?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:120
+#: assets/js/setup-wizard/src/screen/step-1.jsx:120
 msgid "Just One"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:127
+#: assets/js/setup-wizard/src/screen/step-1.jsx:127
 #: includes/gutenberg/blocks/ld-exam/ld-exam-question/edit.js:23
 msgid "Multiple"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:133
+#: assets/js/setup-wizard/src/screen/step-1.jsx:133
 msgid "What types of courses will you have?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:135
+#: assets/js/setup-wizard/src/screen/step-1.jsx:135
 msgid "Check all the apply."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:167
+#: assets/js/setup-wizard/src/screen/step-1.jsx:167
 msgid "Simple"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:170
+#: assets/js/setup-wizard/src/screen/step-1.jsx:170
 msgid "A video or text based course without certificates or quizzes."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:200
-#: assets/js/setup-wizard/src/screen/step-2.jsx:230
-msgid "A video or text based course including quizzes and certificates."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-2.jsx:227
+#: assets/js/setup-wizard/src/screen/step-1.jsx:197
 msgid "Timed"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:257
+#: assets/js/setup-wizard/src/screen/step-1.jsx:200
+msgid "A video or text based course including quizzes and certificates."
+msgstr ""
+
+#: assets/js/setup-wizard/src/screen/step-1.jsx:227
 msgid "Group Courses"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:260
+#: assets/js/setup-wizard/src/screen/step-1.jsx:230
 msgid "A course led by group leaders, perfect for cohorts, corporate training and classrooms."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:264
+#: assets/js/setup-wizard/src/screen/step-1.jsx:234
 msgid "Are your groups public or private?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-2.jsx:272
+#: assets/js/setup-wizard/src/screen/step-1.jsx:242
 msgid "Who will be leading your group courses?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:58
+#: assets/js/setup-wizard/src/screen/step-2.jsx:58
 msgid "Do you want to charge for your courses?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:81
+#: assets/js/setup-wizard/src/screen/step-2.jsx:81
 msgid "How would you like to accept payments?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:83
+#: assets/js/setup-wizard/src/screen/step-2.jsx:83
 msgid "Choose one."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:106
+#: assets/js/setup-wizard/src/screen/step-2.jsx:106
 msgid "With Stripe charge credit cards and pay low merchant fees."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:113
-#: assets/js/setup-wizard/src/screen/step-3.jsx:177
+#: assets/js/setup-wizard/src/screen/step-2.jsx:113
+#: assets/js/setup-wizard/src/screen/step-2.jsx:177
 msgid "Connect"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:119
-#: assets/js/setup-wizard/src/screen/step-3.jsx:183
+#: assets/js/setup-wizard/src/screen/step-2.jsx:119
+#: assets/js/setup-wizard/src/screen/step-2.jsx:183
 msgid "Connected"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:151
+#: assets/js/setup-wizard/src/screen/step-2.jsx:151
 msgid "Let customers pay using their PayPal account or credit card — no account required."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-3.jsx:210
-#: assets/js/setup-wizard/src/screen/step-4.jsx:411
-msgid "WooCommerce"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-3.jsx:214
-msgid "Use WooCommerce to manage payments, invoices and more. We'll install the plugins you need."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-3.jsx:221
+#: assets/js/setup-wizard/src/screen/step-2.jsx:193
 msgid "Which currency would you like to accept?"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:72
+#: assets/js/setup-wizard/src/screen/step-3.jsx:65
 msgid "Here's what we'll setup for you"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:76
+#: assets/js/setup-wizard/src/screen/step-3.jsx:69
 msgid "We will create the following pages for you:"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:86
+#: assets/js/setup-wizard/src/screen/step-3.jsx:79
 msgid "Registration, Registration Success, Reset Password & Profile"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:89
+#: assets/js/setup-wizard/src/screen/step-3.jsx:82
 msgid "Allow students to register for your courses, confirm successful registrations, reset their account passwords and view their progress in their own profile page."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:102
+#: assets/js/setup-wizard/src/screen/step-3.jsx:95
 msgid "Courses Listing"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:105
+#: assets/js/setup-wizard/src/screen/step-3.jsx:98
 msgid "Display all available courses."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:114
+#: assets/js/setup-wizard/src/screen/step-3.jsx:107
 msgid "We will create the following courses for you:"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:127
+#: assets/js/setup-wizard/src/screen/step-3.jsx:120
 msgid "A demo course to help you understand how to use LearnDash."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:137
+#: assets/js/setup-wizard/src/screen/step-3.jsx:130
 msgid "We will enable the following group settings:"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:141
+#: assets/js/setup-wizard/src/screen/step-3.jsx:134
 msgid "These settings can be changed at any time in learnDash LMS > Groups > Settings"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:152
+#: assets/js/setup-wizard/src/screen/step-3.jsx:145
 msgid "Groups will be made public on your site"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:155
+#: assets/js/setup-wizard/src/screen/step-3.jsx:148
 msgid "You can always change this later if you decide."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:169
+#: assets/js/setup-wizard/src/screen/step-3.jsx:162
 msgid "Group leaders will be enabled on your site"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:172
+#: assets/js/setup-wizard/src/screen/step-3.jsx:165
 msgid "They'll be able to create and manage users, enroll in managed groups, and have access to all content in any order."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:184
+#: assets/js/setup-wizard/src/screen/step-3.jsx:177
 msgid "+ Show all settings being updated"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:195
+#: assets/js/setup-wizard/src/screen/step-3.jsx:188
 msgid "Public Group"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:198
+#: assets/js/setup-wizard/src/screen/step-3.jsx:191
 msgid "Groups will be made public on your site."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:223
+#: assets/js/setup-wizard/src/screen/step-3.jsx:216
 msgid "Group Archive Page"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:226
+#: assets/js/setup-wizard/src/screen/step-3.jsx:219
 msgid "Enables the front end archive page where all groups are listed."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:251
+#: assets/js/setup-wizard/src/screen/step-3.jsx:244
 msgid "Manage Users: Basic"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:254
+#: assets/js/setup-wizard/src/screen/step-3.jsx:247
 msgid "Allow group leader to create and manage users."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:277
+#: assets/js/setup-wizard/src/screen/step-3.jsx:270
 msgid "Managed groups auto-enrollment"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:280
+#: assets/js/setup-wizard/src/screen/step-3.jsx:273
 msgid "Group Leader will be enrolled in managed groups."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:303
+#: assets/js/setup-wizard/src/screen/step-3.jsx:296
 msgid "Course Auto-enrollment"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:306
+#: assets/js/setup-wizard/src/screen/step-3.jsx:299
 msgid "Group Leader has access to all courses automatically."
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:329
+#: assets/js/setup-wizard/src/screen/step-3.jsx:322
 msgid "Bypass Course Limits"
 msgstr ""
 
-#: assets/js/setup-wizard/src/screen/step-4.jsx:332
+#: assets/js/setup-wizard/src/screen/step-3.jsx:325
 msgid "Group Leader can access course content in any order."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-4.jsx:357
-msgid "We'll install the following add-ons for you:"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-4.jsx:368
-msgid "Certificate Builder"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-4.jsx:371
-msgid "The easiest way to build certificates for your courses."
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-4.jsx:384
-#: assets/js/setup-wizard/src/screen/step-4.jsx:426
-#: includes/licensing/assets/scripts/projects.js:2634
-#: includes/licensing/frontend/src/Plugins/Projects.jsx:88
-msgid "Installed"
-msgstr ""
-
-#: assets/js/setup-wizard/src/screen/step-4.jsx:414
-msgid "Handle payments, coupons, invoices and more."
 msgstr ""
 
 #: includes/course-grid/includes/gutenberg/blocks/components/filter-panel-body.js:79
@@ -40888,7 +41971,7 @@ msgid "The current LearnDash template \"%s\" does not support this block. Please
 msgstr ""
 
 #. translators: placeholder: Status text.
-#: includes/lib/wp-pro-quiz/js/wpProQuiz_front.js:694
+#: includes/lib/wp-pro-quiz/js/wpProQuiz_front.js:703
 #, js-format
 msgid "Status: %s"
 msgstr ""
@@ -40926,6 +42009,11 @@ msgstr ""
 #: includes/licensing/assets/scripts/projects.js:2437
 #: includes/licensing/frontend/src/Plugins/Main.jsx:159
 msgid "Refresh Now."
+msgstr ""
+
+#: includes/licensing/assets/scripts/projects.js:2634
+#: includes/licensing/frontend/src/Plugins/Projects.jsx:88
+msgid "Installed"
 msgstr ""
 
 #: includes/licensing/assets/scripts/projects.js:2692

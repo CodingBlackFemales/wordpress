@@ -41,6 +41,29 @@ if (
 				LearnDash_Custom_Label::get_label( 'courses' )
 			);
 
+			// Section description/disclaimer explaining this is a one-time tool, not an automatic feature.
+			$courses_label = esc_html( LearnDash_Custom_Label::label_to_lower( 'courses' ) );
+			$group_label   = esc_html( LearnDash_Custom_Label::label_to_lower( 'group' ) );
+
+			$description_lines = [
+				sprintf(
+					// translators: placeholders: %1$s: courses, %2$s: group.
+					esc_html_x( 'This is a one-time tool used to manually update the access expiration date for the selected %1$s and users in this %2$s.', 'placeholders: courses, group', 'learndash' ),
+					$courses_label,
+					$group_label
+				),
+				sprintf(
+					// translators: placeholders: %1$s: courses, %2$s: group.
+					esc_html_x( 'Set the new expiration date, choose the %1$s and users it should apply to, then save the %2$s to apply the change.', 'placeholders: courses, group', 'learndash' ),
+					$courses_label,
+					$group_label
+				),
+				'<strong>' . esc_html__( 'It does not automatically extend access going forward.', 'learndash' ) . '</strong>',
+				'<a href="https://www.liquidweb.com/help-docs/software/learndash/course-management/extend-access" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Learn more about extending access.', 'learndash' ) . '</a>',
+			];
+
+			$this->settings_section_description = implode( '<br />', $description_lines );
+
 			$this->settings_fields_map = [
 				'new_expiration_date' => 'new_expiration_date',
 			];

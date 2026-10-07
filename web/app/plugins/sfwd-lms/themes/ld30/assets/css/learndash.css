@@ -5398,6 +5398,7 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%) translateX(25%);
+  transition: transform 0.3s ease;
   z-index: 9;
 }
 .learndash-wrapper .ld-focus .ld-focus-sidebar .ld-focus-sidebar-trigger:hover, .learndash-wrapper .ld-focus .ld-focus-sidebar .ld-focus-sidebar-trigger:focus {
@@ -5819,7 +5820,7 @@
   background-color: transparent;
   transform: translateX(calc(-100% + 50px));
 }
-.learndash-wrapper .ld-focus.ld-focus-sidebar-collapsed .ld-focus-sidebar-wrapper .ld-focus-sidebar-trigger .ld-icon {
+.learndash-wrapper .ld-focus.ld-focus-sidebar-collapsed .ld-focus-sidebar-trigger .ld-icon {
   transform: translateY(-50%) translateX(45%) rotate(180deg);
 }
 .learndash-wrapper .ld-focus.ld-focus-sidebar-collapsed .ld-course-navigation .ld-course-navigation-heading {
@@ -6065,8 +6066,8 @@
 .learndash-wrapper .ld-focus.ld-focus-position-rtl-left.ld-focus-sidebar-collapsed .ld-focus-sidebar {
   transform: translateX(calc(-1 * (-100% + 50px)));
 }
-.learndash-wrapper .ld-focus.ld-focus-position-right.ld-focus-sidebar-collapsed .ld-focus-sidebar-wrapper .ld-focus-sidebar-trigger .ld-icon,
-.learndash-wrapper .ld-focus.ld-focus-position-rtl-left.ld-focus-sidebar-collapsed .ld-focus-sidebar-wrapper .ld-focus-sidebar-trigger .ld-icon {
+.learndash-wrapper .ld-focus.ld-focus-position-right.ld-focus-sidebar-collapsed .ld-focus-sidebar-trigger .ld-icon,
+.learndash-wrapper .ld-focus.ld-focus-position-rtl-left.ld-focus-sidebar-collapsed .ld-focus-sidebar-trigger .ld-icon {
   transform: translateY(-50%) translateX(-45%) rotate(-180deg);
 }
 .learndash-wrapper .ld-focus.ld-focus-position-right.ld-focus-sidebar-collapsed .ld-focus-main,

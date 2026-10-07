@@ -53,7 +53,7 @@ class Opt_In_Template implements Template_Interface
      */
     public function get_args(string $stellar_slug)
     {
-        $optin_args = ['plugin_logo' => Resources::get_asset_path() . 'resources/images/stellar-logo.svg', 'plugin_logo_width' => 151, 'plugin_logo_height' => 32, 'plugin_logo_alt' => 'StellarWP Logo', 'plugin_name' => 'StellarWP', 'plugin_slug' => $stellar_slug, 'user_name' => wp_get_current_user()->display_name, 'permissions_url' => '#', 'tos_url' => '#', 'privacy_url' => 'https://stellarwp.com/privacy-policy/', 'opted_in_plugins_text' => __('See which plugins you have opted in to tracking for', 'stellarwp-telemetry')];
+        $optin_args = ['plugin_logo' => Resources::get_asset_path() . 'resources/images/liquid-web-logo.svg', 'plugin_logo_width' => 148, 'plugin_logo_height' => 32, 'plugin_logo_alt' => 'Liquid Web Logo', 'plugin_name' => 'Liquid Web', 'plugin_slug' => $stellar_slug, 'user_name' => wp_get_current_user()->display_name, 'permissions_url' => '#', 'tos_url' => '#', 'privacy_url' => 'https://stellarwp.com/privacy-policy/', 'opted_in_plugins_text' => __('See which plugins you have opted in to tracking for', 'stellarwp-telemetry')];
         $optin_args['opted_in_plugins'] = $this->get_opted_in_plugin_names();
         $optin_args['heading'] = sprintf(
             // Translators: The plugin name.
@@ -201,10 +201,7 @@ class Opt_In_Template implements Template_Interface
     {
         return sprintf(
             // Translators: The user name and the plugin name.
-            esc_html__('Hi, %1$s! This is an invitation to help our StellarWP community.
-				If you opt-in, some data about your usage of %2$s and future StellarWP Products will be shared with our teams (so they can work their butts off to improve).
-				We will also share some helpful info on WordPress, and our products from time to time.
-				And if you skip this, that’s okay! Our products still work just fine.', 'stellarwp-telemetry'),
+            esc_html__('Want to help shape the future of Liquid Web by Nexcess software products? Opting in shares anonymous usage data with our team at Liquid Web, giving us the insights we need to keep improving the tools you rely on.', 'stellarwp-telemetry'),
             $user_name,
             $plugin_name
         );

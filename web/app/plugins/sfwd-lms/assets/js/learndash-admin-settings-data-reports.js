@@ -1,3 +1,4 @@
+/* global learndashDataReports */
 jQuery( function () {
 	const loadingIcon = jQuery( '.ld-svgicon__refresh--reports' )
 		.clone()
@@ -12,11 +13,8 @@ jQuery( function () {
 			e.preventDefault();
 
 			const button = jQuery( this );
-			const container = jQuery( this ).parents(
-				'.ld-global-header-new-settings'
-			);
-			const dataNonce = jQuery( this ).attr( 'data-nonce' );
-			const dataSlug = jQuery( this ).attr( 'data-slug' );
+			const dataNonce = button.attr( 'data-nonce' );
+			const dataSlug = button.attr( 'data-slug' );
 
 			// Store original button HTML to use later.
 			if ( ! button.data( 'original-html' ) ) {
@@ -25,42 +23,57 @@ jQuery( function () {
 
 			button.prepend( loadingIcon );
 
-			jQuery( '.learndash-settings-page-wrap' ).prepend(
-				'<div class="notice notice-info ld-reports-notice ld-reports-notice--loading">' +
-					'<p>' +
-					loadingIcon.clone().attr( 'aria-hidden', 'true' )[ 0 ]
-						.outerHTML +
+			learndashDataReportsShowNotice(
+				'loading',
+				'info',
+				loadingIcon.clone().attr( 'aria-hidden', 'true' )[ 0 ]
+					.outerHTML +
 					'<span class="ld-reports-notice__text">' +
-					wp.i18n.__(
-						'Your report is being processed for export. Do not close or navigate away from this page until the report is ready.',
-						'learndash'
-					) +
+					learndashDataReports.messages.export_queued +
 					'</span>' +
-					'</p>' +
-					'</div>'
+					'<span class="ld-reports-notice__percent"></span>'
 			);
 
-			// disable all other buttons
 			jQuery( 'button.learndash-data-reports-button' ).prop(
 				'disabled',
 				true
 			);
 
-			// Hide all download buttons
 			jQuery(
 				'table#learndash-data-reports a.learndash-data-reports-download-link'
 			).hide();
 
-			const postData = {
-				action: 'learndash-data-reports',
+			// Fire the init request once to queue the background export, then poll the
+			// status endpoint for progress. The admin-notice fallback still delivers the
+			// download link if the user leaves the page.
+			jQuery.ajax( {
+				type: 'POST',
+				url: ajaxurl,
+				dataType: 'json',
+				cache: false,
 				data: {
-					init: 1,
-					slug: dataSlug,
-					nonce: dataNonce,
+					action: 'learndash-data-reports',
+					data: {
+						init: 1,
+						slug: dataSlug,
+						nonce: dataNonce,
+					},
 				},
-			};
-
-			learndash_data_reports_do_ajax( postData, container );
+				error() {
+					learndashDataReportsRestoreButtons();
+					jQuery( '.ld-reports-notice--loading' ).remove();
+					learndashDataReportsShowError(
+						learndashDataReports.messages.export_failed_start
+					);
+				},
+				success() {
+					// The export is queued and runs in the background. Keep the buttons
+					// disabled and poll for progress: the percentage shows in the notice and
+					// the CSV downloads automatically once it is ready. The admin-notice
+					// fallback still delivers the link if the user leaves the page.
+					learndashDataReportsPollStatus( dataSlug, dataNonce );
+				},
+			} );
 		}
 	);
 
@@ -74,101 +87,139 @@ jQuery( function () {
 	);
 } );
 
-// eslint-disable-next-line camelcase
-function learndash_data_reports_do_ajax( postData, container ) {
-	if ( typeof postData === 'undefined' || postData === '' ) {
-		return false;
-	}
+/**
+ * Builds a dismissible admin notice, prepends it to the settings page, and returns it.
+ *
+ * Centralizes the notice wrapper and dismiss button so the loading and error notices
+ * share the same markup.
+ *
+ * @since 5.1.6
+ *
+ * @param {string} modifier   Notice modifier for the ld-reports-notice--* class (e.g. 'loading', 'error').
+ * @param {string} noticeType WordPress notice type for the notice-* class (e.g. 'info', 'error').
+ * @param {string} bodyHtml   Inner HTML rendered inside the notice paragraph.
+ *
+ * @return {Object} The jQuery notice element that was prepended.
+ */
+function learndashDataReportsShowNotice( modifier, noticeType, bodyHtml ) {
+	const notice = jQuery(
+		'<div class="notice notice-' +
+			noticeType +
+			' is-dismissible ld-reports-notice ld-reports-notice--' +
+			modifier +
+			'">' +
+			'<p>' +
+			bodyHtml +
+			'</p>' +
+			'<button type="button" class="notice-dismiss"><span class="screen-reader-text">' +
+			learndashDataReports.messages.dismiss_notice +
+			'</span></button>' +
+			'</div>'
+	);
 
-	jQuery.ajax( {
-		type: 'POST',
-		url: ajaxurl,
-		dataType: 'json',
-		cache: false,
-		data: postData,
-		complete() {
-			// Remove loading icon and restore original button text
-			jQuery( 'button.learndash-data-reports-button' ).each( function () {
-				if ( jQuery( this ).data( 'original-html' ) ) {
-					jQuery( this ).html(
-						jQuery( this ).data( 'original-html' )
-					);
-				}
-			} );
-			// Re-enable the buttons.
-			jQuery( 'button.learndash-data-reports-button' ).prop(
-				'disabled',
-				false
-			);
+	jQuery( '.learndash-settings-page-wrap' ).prepend( notice );
 
-			jQuery( '.ld-reports-notice--loading' ).remove();
-		},
-		success( replyData ) {
-			if (
-				typeof replyData === 'undefined' ||
-				typeof replyData.data === 'undefined'
-			) {
-				return;
-			}
+	return notice;
+}
 
-			let totalCount = 0;
-			if ( typeof replyData.data.total_count !== 'undefined' ) {
-				totalCount = parseInt( replyData.data.total_count );
-			}
-
-			let resultCount = 0;
-			if ( typeof replyData.data.result_count !== 'undefined' ) {
-				resultCount = parseInt( replyData.data.result_count );
-			}
-
-			if ( resultCount < totalCount ) {
-				postData.data = replyData.data;
-				learndash_data_reports_do_ajax( postData, container );
-			} else if (
-				typeof replyData.data.report_download_link !== 'undefined' &&
-				replyData.data.report_download_link !== ''
-			) {
-				// Remove loading icon and restore original button text
-				jQuery( 'button.learndash-data-reports-button' ).each(
-					function () {
-						if ( jQuery( this ).data( 'original-html' ) ) {
-							jQuery( this ).html(
-								jQuery( this ).data( 'original-html' )
-							);
-						}
-					}
-				);
-				// Re-enable the buttons.
-				jQuery( 'button.learndash-data-reports-button' ).prop(
-					'disabled',
-					false
-				);
-
-				const checkIcon = jQuery( '.ld-svgicon__check--reports' )
-					.clone()
-					.removeClass( 'hidden' );
-
-				jQuery( '.learndash-settings-page-wrap' ).prepend(
-					'<div class="notice notice-success is-dismissible ld-reports-notice ld-reports-notice--ready">' +
-						'<p>' +
-						checkIcon[ 0 ].outerHTML +
-						'<span class="ld-reports-notice__text">' +
-						wp.i18n.__(
-							'Your report export is now completed.',
-							'learndash'
-						) +
-						'</span>' +
-						'</p>' +
-						'<button type="button" class="notice-dismiss"><span class="screen-reader-text">' +
-						'<span class="screen-reader-text">' +
-						wp.i18n.__( 'Dismiss this notice.', 'learndash' ) +
-						'</span>' +
-						'</button>' +
-						'</div>'
-				);
-
-				window.location.href = replyData.data.report_download_link;
-			}
-		},
+/**
+ * Restores every export button to its original markup and re-enables the buttons
+ * once the init request settles. The in-progress notice is intentionally left in
+ * place: the export continues in the background and its outcome is surfaced as an
+ * admin notice on the next page load.
+ *
+ * @since 5.1.6
+ *
+ * @return {void}
+ */
+function learndashDataReportsRestoreButtons() {
+	jQuery( 'button.learndash-data-reports-button' ).each( function () {
+		if ( jQuery( this ).data( 'original-html' ) ) {
+			jQuery( this ).html( jQuery( this ).data( 'original-html' ) );
+		}
 	} );
+
+	jQuery( 'button.learndash-data-reports-button' ).prop( 'disabled', false );
+}
+
+/**
+ * Prepends a dismissible error notice to the settings page and sets its text to
+ * the supplied message.
+ *
+ * @since 5.1.6
+ *
+ * @param {string} message Error message to display in the notice.
+ *
+ * @return {void}
+ */
+function learndashDataReportsShowError( message ) {
+	const notice = learndashDataReportsShowNotice(
+		'error',
+		'error',
+		'<span class="ld-reports-notice__text"></span>'
+	);
+
+	notice.find( '.ld-reports-notice__text' ).text( message );
+}
+
+/**
+ * Polls the read-only export-status endpoint until the export finishes, showing the
+ * percentage in the in-progress notice and auto-downloading the CSV when ready.
+ *
+ * The export buttons stay disabled while polling. If the status can't be read, the
+ * buttons are restored and the admin-notice fallback still delivers the link on the
+ * next page load.
+ *
+ * @since 5.1.6
+ *
+ * @param {string} slug  Report action slug (e.g. user-courses, user-quizzes).
+ * @param {string} nonce Per-export nonce used to locate the export and verify the request.
+ *
+ * @return {void}
+ */
+function learndashDataReportsPollStatus( slug, nonce ) {
+	const poll = function () {
+		jQuery.ajax( {
+			type: 'POST',
+			url: ajaxurl,
+			dataType: 'json',
+			cache: false,
+			data: {
+				action: 'learndash_report_export_status',
+				slug,
+				nonce,
+			},
+			error() {
+				jQuery( '.ld-reports-notice--loading' ).remove();
+				learndashDataReportsRestoreButtons();
+			},
+			success( response ) {
+				if ( ! response || ! response.success || ! response.data ) {
+					jQuery( '.ld-reports-notice--loading' ).remove();
+					learndashDataReportsRestoreButtons();
+					return;
+				}
+
+				const percent = parseInt( response.data.percent, 10 );
+				jQuery(
+					'.ld-reports-notice--loading .ld-reports-notice__percent'
+				).text( ' (' + percent + '%)' );
+
+				if ( response.data.done ) {
+					jQuery( '.ld-reports-notice--loading' ).remove();
+					learndashDataReportsRestoreButtons();
+
+					if ( response.data.report_url ) {
+						window.location = response.data.report_url;
+					}
+
+					return;
+				}
+
+				setTimeout( poll, 2000 );
+			},
+		} );
+	};
+
+	poll();
 }

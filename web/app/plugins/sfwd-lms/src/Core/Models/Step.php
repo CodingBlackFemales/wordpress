@@ -11,6 +11,8 @@ namespace LearnDash\Core\Models;
 
 use LDLMS_Post_Types;
 use LearnDash\Core\Mappers\Models\Step_Mapper;
+use LearnDash\Core\Models\Steps\Step_Visibility;
+use LearnDash\Core\Utilities\Cast;
 use LearnDash_Settings_Section;
 use WP_User;
 
@@ -154,7 +156,7 @@ abstract class Step extends Post {
 
 		$previous_step = null;
 
-		$previous_step_id = learndash_previous_post_link( null, 'id', $this->get_post() );
+		$previous_step_id = learndash_previous_post_link( null, 'id', $this->get_post(), $user_id );
 
 		if ( $previous_step_id ) {
 			$previous_step = Step_Mapper::create( (int) $previous_step_id );
@@ -194,7 +196,7 @@ abstract class Step extends Post {
 
 		$next_step = null;
 
-		$next_step_id = learndash_next_post_link( null, 'id', $this->get_post() );
+		$next_step_id = learndash_next_post_link( null, 'id', $this->get_post(), $user_id );
 
 		if ( $next_step_id ) {
 			$next_step = Step_Mapper::create( (int) $next_step_id );
@@ -498,6 +500,11 @@ abstract class Step extends Post {
 	/**
 	 * Returns whether the Course Step content should be visible.
 	 *
+	 * This decides whether the actual content is shown to the user, taking access, availability
+	 * dates, lesson progression, sample status, and prerequisites into account. As a final guard it
+	 * also requires the step to be structurally reachable via {@see Step::is_visible()}: content is
+	 * never visible when the step (or one of its ancestors) is hidden by its post status.
+	 *
 	 * @since 4.24.0
 	 *
 	 * @param WP_User|int|null $user The user ID or WP_User. If null or empty, the current user is used.
@@ -546,8 +553,8 @@ abstract class Step extends Post {
 				// If Lesson Progression is enabled, check if this Course Step is the next step to be completed.
 				$previous_incomplete_step_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course->get_id(), $this->get_id() );
 
-				if ( $previous_incomplete_step_id === $this->get_id() ) {
-					// If the step supports video progression, check if the content is visible for video progression.
+				if ( empty( $previous_incomplete_step_id ) ) {
+					// No earlier incomplete step, so this Course Step is the next one to be completed.
 					if ( method_exists( $this, 'is_content_visible_for_video_progression' ) ) {
 						$is_content_visible = $this->is_content_visible_for_video_progression( $user );
 					} else {
@@ -582,6 +589,15 @@ abstract class Step extends Post {
 			$is_content_visible = true;
 		}
 
+		// A step is never visible if any of its ancestor steps are not visible to the user.
+		// For example, a topic or quiz under a draft lesson must not be accessible.
+		if (
+			$course
+			&& ! $this->is_visible( $user )
+		) {
+			$is_content_visible = false;
+		}
+
 		/**
 		 * Filters whether the Course Step content should be visible.
 		 *
@@ -594,5 +610,42 @@ abstract class Step extends Post {
 		 * @return bool True if the content should be visible, false otherwise.
 		 */
 		return apply_filters( "learndash_model_{$this->get_post_type_key()}_is_content_visible", $is_content_visible, $this, $user );
+	}
+
+	/**
+	 * Returns whether the step and all of its ancestor steps are visible to the user.
+	 *
+	 * This is a structural visibility check only: it answers whether the step is reachable based on
+	 * post status (e.g. a draft is hidden from a regular student). A topic or quiz under a draft
+	 * (non-visible) lesson is not reachable, even when the topic or quiz itself is published.
+	 *
+	 * This is different from {@see Step::is_content_visible()}, which decides whether the actual
+	 * content should be shown to the user taking access, availability dates, lesson progression,
+	 * sample status, and prerequisites into account. `is_content_visible()` uses this method as one
+	 * of its checks: content is never visible when the step is not structurally visible.
+	 *
+	 * @since 5.1.5
+	 *
+	 * @param WP_User|int|null $user The user to control steps visibility. If null or empty, the current user is used.
+	 *
+	 * @return bool
+	 */
+	private function is_visible( $user = null ): bool {
+		$user        = $this->map_user( $user );
+		$user_id     = $user instanceof WP_User ? $user->ID : Cast::to_int( $user );
+		$user_object = $user instanceof WP_User ? $user : get_user_by( 'id', $user_id );
+
+		$step_ids = array_merge(
+			[ $this->get_id() ],
+			learndash_course_get_all_parent_step_ids( $this->get_course_id(), $this->get_id() )
+		);
+
+		$visible_step_ids = Step_Visibility::filter(
+			$step_ids,
+			$user_object instanceof WP_User ? $user_object : null
+		);
+
+		// All the steps in the chain (the step and its ancestors) must remain visible.
+		return count( $visible_step_ids ) === count( $step_ids );
 	}
 }

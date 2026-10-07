@@ -1640,6 +1640,8 @@ function learndash_30_ajax_profile_search() {
 		);
 	}
 
+	learndash_ajax_switch_to_site_locale();
+
 	if ( isset( $_GET['profile_search'] ) ) {
 		$atts['search']            = sanitize_text_field( $_GET['profile_search'] );
 		$_GET['ld-profile-search'] = sanitize_text_field( $_GET['profile_search'] );
@@ -1688,6 +1690,8 @@ function learndash_30_ajax_pager() {
 			)
 		);
 	}
+
+	learndash_ajax_switch_to_site_locale();
 
 	$course_id = ( isset( $_GET['course_id'] ) ? absint( $_GET['course_id'] ) : false );
 	$lesson_id = ( isset( $_GET['lesson_id'] ) ? absint( $_GET['lesson_id'] ) : false );

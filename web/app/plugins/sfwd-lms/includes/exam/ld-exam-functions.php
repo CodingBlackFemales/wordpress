@@ -571,6 +571,14 @@ function learndash_exam_process_ajax() {
 			if ( ( is_a( $exam_activity, 'LDLMS_Model_Activity' ) ) && ( property_exists( $exam_activity, 'activity_id' ) ) && ( ! empty( $exam_activity->activity_id ) ) ) {
 				learndash_delete_user_activity( $exam_activity->activity_id );
 
+				$course_exam_challenge_passed = Cast::to_int( learndash_get_setting( $exam_id, 'exam_challenge_course_passed' ) );
+
+				if ( empty( $course_exam_challenge_passed ) ) {
+					$course_exam_challenge_passed = $course_id;
+				}
+
+				learndash_delete_course_progress( $course_exam_challenge_passed, $user_id );
+
 				$json_data['link_text'] = esc_html__( '(pending)', 'learndash' );
 				wp_send_json_success( $json_data );
 			}

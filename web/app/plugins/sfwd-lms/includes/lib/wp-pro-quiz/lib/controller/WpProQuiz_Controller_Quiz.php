@@ -1255,7 +1255,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 			}
 
 			$email_params = array(
-				'email'   => $user->user_email,
+				'email'   => $this->get_user_notification_recipient( $quiz, $user ),
 				'subject' => $user_mail_subject,
 				'msg'     => $user_mail_message,
 				'headers' => $headers,
@@ -1268,7 +1268,12 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 			 * @param WpProQuiz_Model_Quiz  $quiz         Quiz object.
 			 */
 			$email_params = apply_filters( 'learndash_quiz_email', $email_params, $quiz );
-			wp_mail( $email_params['email'], $email_params['subject'], $email_params['msg'], $email_params['headers'] );
+
+			if ( empty( $email_params['email'] ) ) {
+				learndash_quiz_debug_log_message( __( 'Skipping user notification email: no email address found.', 'learndash' ) );
+			} else {
+				wp_mail( $email_params['email'], $email_params['subject'], $email_params['msg'], $email_params['headers'] );
+			}
 
 			if ( ( isset( $email_settings['user_mail_html'] ) ) && ( 'yes' === $email_settings['user_mail_html'] ) ) {
 				remove_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
@@ -1345,6 +1350,88 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 				remove_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
 			}
 		}
+	}
+
+	/**
+	 * Returns the recipient address for the quiz user notification.
+	 *
+	 * Logged-out visitors have no account address, so the address they submitted in an
+	 * Email custom field is used instead. It is the same value that is stored alongside
+	 * the quiz statistics.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param WpProQuiz_Model_Quiz $quiz Quiz object.
+	 * @param WP_User              $user The user who completed the quiz.
+	 *
+	 * @return string Recipient address, or an empty string when none is available.
+	 */
+	private function get_user_notification_recipient( WpProQuiz_Model_Quiz $quiz, WP_User $user ): string {
+		if ( ! empty( $user->user_email ) ) {
+			return $user->user_email;
+		}
+
+		return $this->get_submitted_custom_field_email( $quiz );
+	}
+
+	/**
+	 * Returns the email address submitted in the quiz Email custom fields.
+	 *
+	 * Required fields take precedence over optional ones. Within the same precedence, the
+	 * field displayed first wins.
+	 *
+	 * @since 5.1.10
+	 *
+	 * @param WpProQuiz_Model_Quiz $quiz Quiz object.
+	 *
+	 * @return string Submitted address, or an empty string when there is no valid one.
+	 */
+	private function get_submitted_custom_field_email( WpProQuiz_Model_Quiz $quiz ): string {
+		if ( ! $quiz->isFormActivated() ) {
+			return '';
+		}
+
+		$submitted_fields = isset( $this->_post['forms'] ) && is_array( $this->_post['forms'] )
+			? $this->_post['forms']
+			: [];
+
+		if ( empty( $submitted_fields ) ) {
+			return '';
+		}
+
+		$form_mapper = new WpProQuiz_Model_FormMapper();
+
+		$optional_email = '';
+
+		foreach ( $form_mapper->fetch( $quiz->getId() ) as $form ) {
+			if ( WpProQuiz_Model_Form::FORM_TYPE_EMAIL !== $form->getType() ) {
+				continue;
+			}
+
+			$submitted_value = isset( $submitted_fields[ $form->getFormId() ] )
+				? $submitted_fields[ $form->getFormId() ]
+				: '';
+
+			if ( ! is_string( $submitted_value ) ) {
+				continue;
+			}
+
+			$email = sanitize_email( trim( $submitted_value ) );
+
+			if ( ! is_email( $email ) ) {
+				continue;
+			}
+
+			if ( $form->isRequired() ) {
+				return $email;
+			}
+
+			if ( '' === $optional_email ) {
+				$optional_email = $email;
+			}
+		}
+
+		return $optional_email;
 	}
 
 	public function htmlEmailContent( $contentType ) {

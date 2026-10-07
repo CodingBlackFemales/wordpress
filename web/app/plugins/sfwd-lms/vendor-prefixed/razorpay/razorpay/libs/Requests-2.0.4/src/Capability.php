@@ -5,7 +5,7 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
 /**
  * Capability interface declaring the known capabilities.

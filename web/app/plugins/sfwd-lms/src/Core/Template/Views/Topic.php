@@ -257,48 +257,45 @@ class Topic extends View {
 		) {
 			$previous_incomplete_step = $context['progression']->get_previous_incomplete_step();
 
-			if ( $previous_incomplete_step instanceof Models\Step ) {
-				// If the previous incomplete step is the current topic, then maybe show the video required alert.
-				if ( $previous_incomplete_step->get_id() === $this->get_model()->get_id() ) {
-					$parent_step = $this->get_model()->get_parent_step();
+			if ( null === $previous_incomplete_step ) {
+				$parent_step = $this->get_model()->get_parent_step();
 
-					if (
-						$parent_step instanceof Models\Step
-						&& method_exists( $parent_step, 'requires_watching_video_before_sub_steps' )
-						&& method_exists( $parent_step, 'is_video_watched' )
-						&& $parent_step->requires_watching_video_before_sub_steps()
-						&& ! $parent_step->is_video_watched( get_current_user_id() )
-					) {
-						$alerts[] = [
-							'action_type' => 'link',
-							'id'          => 'topic-progression-video-required',
-							'link_text'   => sprintf(
-								// translators: placeholder: step label.
-								__( 'Back to %s', 'learndash' ),
-								$parent_step->get_post_type_label()
-							),
-							'link_url'    => $parent_step->get_permalink(),
-							'message'     => sprintf(
-								// translators: placeholder: step label.
-								__( 'Please go back and watch the video for the previous %s.', 'learndash' ),
-								$parent_step->get_post_type_label( true )
-							),
-							'type'        => 'warning',
-						];
-					}
-				} else {
-					// Otherwise, show the previous step required alert.
+				if (
+					$parent_step instanceof Models\Step
+					&& method_exists( $parent_step, 'requires_watching_video_before_sub_steps' )
+					&& method_exists( $parent_step, 'is_video_watched' )
+					&& $parent_step->requires_watching_video_before_sub_steps()
+					&& ! $parent_step->is_video_watched( get_current_user_id() )
+				) {
 					$alerts[] = [
 						'action_type' => 'link',
-						'id'          => 'topic-progression',
+						'id'          => 'topic-progression-video-required',
+						'link_text'   => sprintf(
+							// translators: placeholder: step label.
+							__( 'Back to %s', 'learndash' ),
+							$parent_step->get_post_type_label()
+						),
+						'link_url'    => $parent_step->get_permalink(),
 						'message'     => sprintf(
 							// translators: placeholder: step label.
-							__( 'Please go back and complete the previous %s.', 'learndash' ),
-							$previous_incomplete_step->get_post_type_label( true )
+							__( 'Please go back and watch the video for the previous %s.', 'learndash' ),
+							$parent_step->get_post_type_label( true )
 						),
 						'type'        => 'warning',
 					];
 				}
+			} elseif ( $previous_incomplete_step instanceof Models\Step ) {
+				// A genuine earlier incomplete step: show the previous-step-required alert.
+				$alerts[] = [
+					'action_type' => 'link',
+					'id'          => 'topic-progression',
+					'message'     => sprintf(
+						// translators: placeholder: step label.
+						__( 'Please go back and complete the previous %s.', 'learndash' ),
+						$previous_incomplete_step->get_post_type_label( true )
+					),
+					'type'        => 'warning',
+				];
 			}
 		}
 

@@ -10,7 +10,7 @@
  * @codeCoverageIgnore
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
 /*
  * Ensure the autoloader is only declared once.
@@ -18,7 +18,7 @@ namespace WpOrg\Requests;
  * and this file being required unconditionally could easily cause
  * fatal "Class already declared" errors.
  */
-if (class_exists('WpOrg\Requests\Autoload') === false) {
+if (class_exists('StellarWP\Learndash\WpOrg\Requests\Autoload') === false) {
 
 	/**
 	 * Autoloader for Requests for PHP.
@@ -39,65 +39,65 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 		 */
 		private static $deprecated_classes = [
 			// Interfaces.
-			'requests_auth'                              => '\WpOrg\Requests\Auth',
-			'requests_hooker'                            => '\WpOrg\Requests\HookManager',
-			'requests_proxy'                             => '\WpOrg\Requests\Proxy',
-			'requests_transport'                         => '\WpOrg\Requests\Transport',
+			'requests_auth'                              => '\StellarWP\Learndash\WpOrg\Requests\Auth',
+			'requests_hooker'                            => '\StellarWP\Learndash\WpOrg\Requests\HookManager',
+			'requests_proxy'                             => '\StellarWP\Learndash\WpOrg\Requests\Proxy',
+			'requests_transport'                         => '\StellarWP\Learndash\WpOrg\Requests\Transport',
 
 			// Classes.
-			'requests_cookie'                            => '\WpOrg\Requests\Cookie',
-			'requests_exception'                         => '\WpOrg\Requests\Exception',
-			'requests_hooks'                             => '\WpOrg\Requests\Hooks',
-			'requests_idnaencoder'                       => '\WpOrg\Requests\IdnaEncoder',
-			'requests_ipv6'                              => '\WpOrg\Requests\Ipv6',
-			'requests_iri'                               => '\WpOrg\Requests\Iri',
-			'requests_response'                          => '\WpOrg\Requests\Response',
-			'requests_session'                           => '\WpOrg\Requests\Session',
-			'requests_ssl'                               => '\WpOrg\Requests\Ssl',
-			'requests_auth_basic'                        => '\WpOrg\Requests\Auth\Basic',
-			'requests_cookie_jar'                        => '\WpOrg\Requests\Cookie\Jar',
-			'requests_proxy_http'                        => '\WpOrg\Requests\Proxy\Http',
-			'requests_response_headers'                  => '\WpOrg\Requests\Response\Headers',
-			'requests_transport_curl'                    => '\WpOrg\Requests\Transport\Curl',
-			'requests_transport_fsockopen'               => '\WpOrg\Requests\Transport\Fsockopen',
-			'requests_utility_caseinsensitivedictionary' => '\WpOrg\Requests\Utility\CaseInsensitiveDictionary',
-			'requests_utility_filterediterator'          => '\WpOrg\Requests\Utility\FilteredIterator',
-			'requests_exception_http'                    => '\WpOrg\Requests\Exception\Http',
-			'requests_exception_transport'               => '\WpOrg\Requests\Exception\Transport',
-			'requests_exception_transport_curl'          => '\WpOrg\Requests\Exception\Transport\Curl',
-			'requests_exception_http_304'                => '\WpOrg\Requests\Exception\Http\Status304',
-			'requests_exception_http_305'                => '\WpOrg\Requests\Exception\Http\Status305',
-			'requests_exception_http_306'                => '\WpOrg\Requests\Exception\Http\Status306',
-			'requests_exception_http_400'                => '\WpOrg\Requests\Exception\Http\Status400',
-			'requests_exception_http_401'                => '\WpOrg\Requests\Exception\Http\Status401',
-			'requests_exception_http_402'                => '\WpOrg\Requests\Exception\Http\Status402',
-			'requests_exception_http_403'                => '\WpOrg\Requests\Exception\Http\Status403',
-			'requests_exception_http_404'                => '\WpOrg\Requests\Exception\Http\Status404',
-			'requests_exception_http_405'                => '\WpOrg\Requests\Exception\Http\Status405',
-			'requests_exception_http_406'                => '\WpOrg\Requests\Exception\Http\Status406',
-			'requests_exception_http_407'                => '\WpOrg\Requests\Exception\Http\Status407',
-			'requests_exception_http_408'                => '\WpOrg\Requests\Exception\Http\Status408',
-			'requests_exception_http_409'                => '\WpOrg\Requests\Exception\Http\Status409',
-			'requests_exception_http_410'                => '\WpOrg\Requests\Exception\Http\Status410',
-			'requests_exception_http_411'                => '\WpOrg\Requests\Exception\Http\Status411',
-			'requests_exception_http_412'                => '\WpOrg\Requests\Exception\Http\Status412',
-			'requests_exception_http_413'                => '\WpOrg\Requests\Exception\Http\Status413',
-			'requests_exception_http_414'                => '\WpOrg\Requests\Exception\Http\Status414',
-			'requests_exception_http_415'                => '\WpOrg\Requests\Exception\Http\Status415',
-			'requests_exception_http_416'                => '\WpOrg\Requests\Exception\Http\Status416',
-			'requests_exception_http_417'                => '\WpOrg\Requests\Exception\Http\Status417',
-			'requests_exception_http_418'                => '\WpOrg\Requests\Exception\Http\Status418',
-			'requests_exception_http_428'                => '\WpOrg\Requests\Exception\Http\Status428',
-			'requests_exception_http_429'                => '\WpOrg\Requests\Exception\Http\Status429',
-			'requests_exception_http_431'                => '\WpOrg\Requests\Exception\Http\Status431',
-			'requests_exception_http_500'                => '\WpOrg\Requests\Exception\Http\Status500',
-			'requests_exception_http_501'                => '\WpOrg\Requests\Exception\Http\Status501',
-			'requests_exception_http_502'                => '\WpOrg\Requests\Exception\Http\Status502',
-			'requests_exception_http_503'                => '\WpOrg\Requests\Exception\Http\Status503',
-			'requests_exception_http_504'                => '\WpOrg\Requests\Exception\Http\Status504',
-			'requests_exception_http_505'                => '\WpOrg\Requests\Exception\Http\Status505',
-			'requests_exception_http_511'                => '\WpOrg\Requests\Exception\Http\Status511',
-			'requests_exception_http_unknown'            => '\WpOrg\Requests\Exception\Http\StatusUnknown',
+			'requests_cookie'                            => '\StellarWP\Learndash\WpOrg\Requests\Cookie',
+			'requests_exception'                         => '\StellarWP\Learndash\WpOrg\Requests\Exception',
+			'requests_hooks'                             => '\StellarWP\Learndash\WpOrg\Requests\Hooks',
+			'requests_idnaencoder'                       => '\StellarWP\Learndash\WpOrg\Requests\IdnaEncoder',
+			'requests_ipv6'                              => '\StellarWP\Learndash\WpOrg\Requests\Ipv6',
+			'requests_iri'                               => '\StellarWP\Learndash\WpOrg\Requests\Iri',
+			'requests_response'                          => '\StellarWP\Learndash\WpOrg\Requests\Response',
+			'requests_session'                           => '\StellarWP\Learndash\WpOrg\Requests\Session',
+			'requests_ssl'                               => '\StellarWP\Learndash\WpOrg\Requests\Ssl',
+			'requests_auth_basic'                        => '\StellarWP\Learndash\WpOrg\Requests\Auth\Basic',
+			'requests_cookie_jar'                        => '\StellarWP\Learndash\WpOrg\Requests\Cookie\Jar',
+			'requests_proxy_http'                        => '\StellarWP\Learndash\WpOrg\Requests\Proxy\Http',
+			'requests_response_headers'                  => '\StellarWP\Learndash\WpOrg\Requests\Response\Headers',
+			'requests_transport_curl'                    => '\StellarWP\Learndash\WpOrg\Requests\Transport\Curl',
+			'requests_transport_fsockopen'               => '\StellarWP\Learndash\WpOrg\Requests\Transport\Fsockopen',
+			'requests_utility_caseinsensitivedictionary' => '\StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary',
+			'requests_utility_filterediterator'          => '\StellarWP\Learndash\WpOrg\Requests\Utility\FilteredIterator',
+			'requests_exception_http'                    => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http',
+			'requests_exception_transport'               => '\StellarWP\Learndash\WpOrg\Requests\Exception\Transport',
+			'requests_exception_transport_curl'          => '\StellarWP\Learndash\WpOrg\Requests\Exception\Transport\Curl',
+			'requests_exception_http_304'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status304',
+			'requests_exception_http_305'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status305',
+			'requests_exception_http_306'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status306',
+			'requests_exception_http_400'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status400',
+			'requests_exception_http_401'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status401',
+			'requests_exception_http_402'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status402',
+			'requests_exception_http_403'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status403',
+			'requests_exception_http_404'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status404',
+			'requests_exception_http_405'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status405',
+			'requests_exception_http_406'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status406',
+			'requests_exception_http_407'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status407',
+			'requests_exception_http_408'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status408',
+			'requests_exception_http_409'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status409',
+			'requests_exception_http_410'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status410',
+			'requests_exception_http_411'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status411',
+			'requests_exception_http_412'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status412',
+			'requests_exception_http_413'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status413',
+			'requests_exception_http_414'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status414',
+			'requests_exception_http_415'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status415',
+			'requests_exception_http_416'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status416',
+			'requests_exception_http_417'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status417',
+			'requests_exception_http_418'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status418',
+			'requests_exception_http_428'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status428',
+			'requests_exception_http_429'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status429',
+			'requests_exception_http_431'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status431',
+			'requests_exception_http_500'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status500',
+			'requests_exception_http_501'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status501',
+			'requests_exception_http_502'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status502',
+			'requests_exception_http_503'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status503',
+			'requests_exception_http_504'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status504',
+			'requests_exception_http_505'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status505',
+			'requests_exception_http_511'                => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\Status511',
+			'requests_exception_http_unknown'            => '\StellarWP\Learndash\WpOrg\Requests\Exception\Http\StatusUnknown',
 		];
 
 		/**
@@ -115,9 +115,9 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 		 * @return void
 		 */
 		public static function register() {
-			if (defined('REQUESTS_AUTOLOAD_REGISTERED') === false) {
+			if (defined('LEARNDASH_REQUESTS_AUTOLOAD_REGISTERED') === false) {
 				spl_autoload_register([self::class, 'load'], true);
-				define('REQUESTS_AUTOLOAD_REGISTERED', true);
+				define('LEARNDASH_REQUESTS_AUTOLOAD_REGISTERED', true);
 			}
 		}
 
@@ -129,8 +129,8 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 		 * @return bool Whether a class was loaded or not.
 		 */
 		public static function load($class_name) {
-			// Check that the class starts with "Requests" (PSR-0) or "WpOrg\Requests" (PSR-4).
-			$psr_4_prefix_pos = strpos($class_name, 'WpOrg\\Requests\\');
+			// Check that the class starts with "Requests" (PSR-0) or "StellarWP\Learndash\WpOrg\Requests" (PSR-4).
+			$psr_4_prefix_pos = strpos($class_name, 'StellarWP\\Learndash\\WpOrg\\Requests\\');
 
 			if (stripos($class_name, 'Requests') !== 0 && $psr_4_prefix_pos !== 0) {
 				return false;
@@ -163,7 +163,7 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 				 * The constant needs to be defined before the first deprecated class is requested
 				 * via this autoloader.
 				 */
-				if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS') || REQUESTS_SILENCE_PSR0_DEPRECATIONS !== true) {
+				if (!defined('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS') || LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS !== true) {
 					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 					trigger_error(
 						'The PSR-0 `Requests_...` class names in the Request library are deprecated.'
@@ -172,8 +172,8 @@ if (class_exists('WpOrg\Requests\Autoload') === false) {
 					);
 
 					// Prevent the deprecation notice from being thrown twice.
-					if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
-						define('REQUESTS_SILENCE_PSR0_DEPRECATIONS', true);
+					if (!defined('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
+						define('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS', true);
 					}
 				}
 

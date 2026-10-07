@@ -788,31 +788,56 @@ class Tabs extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
     document.addEventListener('mousedown', this.handleClickOutside);
 
     /**
-     * WP 6.9+ compatibility fix.
-     * Subscribe to WordPress data store to continuously ensure metabox containers are not hidden.
+     * WP 7.0+ compatibility fix.
+     *
+     * In WP 7.0 the classic meta box area became a collapsible "Meta Boxes"
+     * pane (`.edit-post-meta-boxes-main`). It is collapsed unless the
+     * `metaBoxesMainIsOpen` preference is set, and while collapsed its
+     * height follows the resize handle (`__presenter`) height — which our
+     * editor CSS hides. With a zero-height handle the pane collapses to 0px
+     * with `overflow: hidden`, so third-party meta boxes (e.g. ACF) on the
+     * content tab become invisible and unreachable.
+     *
+     * Open the pane and give it a height through preference *defaults*.
+     * Defaults live in a separate reducer that the async persistence-layer
+     * load does not replace, so (unlike set()) they are not wiped when
+     * WordPress loads the user's saved preferences. An explicit open height
+     * is required because the skeleton content is a flex column and the
+     * pane has no intrinsic height, so an open-but-height-less pane would
+     * collapse to 0px.
      */
     if (typeof wp !== 'undefined' && wp.data && wp.data.subscribe) {
+      const applyMetaBoxPaneDefaults = () => {
+        const dispatch = wp.data.dispatch('core/preferences');
+        if (!dispatch || !dispatch.setDefaults) {
+          return false;
+        }
+        dispatch.setDefaults('core/edit-post', {
+          metaBoxesMainIsOpen: true,
+          metaBoxesMainOpenHeight: 300
+        });
+        return true;
+      };
+      let defaultsApplied = applyMetaBoxPaneDefaults();
       wp.data.subscribe(() => {
-        const preferencesStore = wp.data.select('core/preferences');
-        if (preferencesStore) {
-          try {
-            const isOpen = preferencesStore.get('core/edit-post', 'metaBoxesMainIsOpen');
-            if (!isOpen) {
-              // Ensure main metaboxes wrapper is not hidden.
-              const metaboxesWrapper = document.querySelector('.edit-post-layout__metaboxes[hidden]');
-              if (metaboxesWrapper) {
-                metaboxesWrapper.removeAttribute('hidden');
-              }
+        const select = wp.data.select('core/preferences');
+        const dispatch = wp.data.dispatch('core/preferences');
+        if (!select || !dispatch || !dispatch.set) {
+          return;
+        }
+        if (!defaultsApplied) {
+          defaultsApplied = applyMetaBoxPaneDefaults();
+        }
 
-              // Ensure metabox containers are not hidden.
-              const metaboxContainers = document.querySelectorAll('#normal-sortables[hidden], #advanced-sortables[hidden], #side-sortables[hidden]');
-              metaboxContainers.forEach(container => {
-                container.removeAttribute('hidden');
-              });
-            }
-          } catch (e) {
-            // Preferences store might not be available in all contexts.
-          }
+        /**
+         * The persistence layer loads saved preferences asynchronously
+         * after init and may carry a previously persisted collapsed
+         * state. Re-assert "open" so third-party meta boxes (e.g. ACF)
+         * stay visible. This only writes when the pane is not already
+         * open, so it self-stabilizes and cannot loop.
+         */
+        if (!select.get('core/edit-post', 'metaBoxesMainIsOpen')) {
+          dispatch.set('core/edit-post', 'metaBoxesMainIsOpen', true);
         }
       });
     }

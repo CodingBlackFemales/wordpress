@@ -7,6 +7,7 @@
  * @package LearnDash\Course_Steps
  */
 
+use LearnDash\Core\Models\Course;
 use LearnDash\Core\Utilities\Cast;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -1186,7 +1187,7 @@ function learndash_course_steps_delete_post_meta( $meta_id = 0, $object_id = '',
 			}
 		} elseif ( 'lesson_id' === $meta_key ) {
 			if ( in_array( get_post_type( $object_id ), learndash_get_post_types( 'course_steps' ), true ) ) {
-				$in_process = false;
+				$in_process = true;
 
 				$lesson_id_new     = absint( $meta_value );
 				$lesson_id_current = get_post_meta( $object_id, $meta_key, true );
@@ -1241,7 +1242,7 @@ function learndash_course_steps_add_post_meta( $object_id, $meta_key, $meta_valu
 			}
 		} elseif ( 'lesson_id' === $meta_key ) {
 			if ( in_array( get_post_type( $object_id ), learndash_get_post_types( 'course_steps' ), true ) ) {
-				$in_process = false;
+				$in_process = true;
 
 				$lesson_id = absint( $meta_value );
 				$course_id = get_post_meta( $lesson_id, 'course_id', true );
@@ -1259,44 +1260,28 @@ add_action( 'add_post_meta', 'learndash_course_steps_add_post_meta', 20, 3 );
 /**
  * Returns all step ids for a course in a linear (flattened) array.
  *
- * @since 4.11.0
+ * Steps that are not visible to the user (e.g. drafts for a regular student) are filtered out,
+ * so navigation and "Resume Course" never land on an inaccessible step.
  *
- * @param int $course_id Course post ID.
+ * @since 4.11.0
+ * @since 5.1.5 Added the `$user` parameter and visibility filtering, delegating to the Course model.
+ *
+ * @param int              $course_id Course post ID.
+ * @param WP_User|int|null $user      Optional. The user to control steps visibility.
+ *                                    If null or empty, the current user is used. Default null.
  *
  * @return int[] Array of step IDs.
  */
-function learndash_course_get_linear_step_ids( int $course_id ): array {
+function learndash_course_get_linear_step_ids( int $course_id, $user = null ): array {
 	if ( $course_id <= 0 ) {
 		return [];
 	}
 
-	$course_steps_handler = LDLMS_Factory_Post::course_steps( $course_id );
+	$course = Course::find( $course_id );
 
-	if ( ! $course_steps_handler instanceof LDLMS_Course_Steps ) {
-		return [];
-	}
-
-	$flattened_steps_with_post_type_prefix = $course_steps_handler->get_steps( 'l' );
-
-	if ( empty( $flattened_steps_with_post_type_prefix ) ) {
-		return [];
-	}
-
-	$step_ids = [];
-
-	// Extracting post ids from strings like "sfwd-lessons:272".
-	foreach ( $flattened_steps_with_post_type_prefix as $step_with_post_type_prefix ) {
-		[ , $step_id ] = explode(
-			':',
-			Cast::to_string( $step_with_post_type_prefix ) // Casting to be safe.
-		);
-
-		$step_id = Cast::to_int( $step_id );
-
-		if ( $step_id > 0 ) {
-			$step_ids[] = $step_id;
-		}
-	}
+	$step_ids = $course instanceof Course
+		? $course->get_linear_step_ids( $user )
+		: [];
 
 	/**
 	 * Filters the flattened step ids for a course.

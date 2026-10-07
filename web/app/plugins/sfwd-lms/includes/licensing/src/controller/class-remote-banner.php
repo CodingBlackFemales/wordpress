@@ -24,6 +24,35 @@ class RemoteBanners extends Controller {
 	const DISMISS_REMOTE_ACTION = 'dismiss_remote', IGNORE_REMOTE_SLUGS_NAME = 'ld_hub_remote_ignore';
 
 	/**
+	 * Cron hook used to fetch the remote banners in the background.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @var string
+	 */
+	protected static $fetch_cron_hook = 'learndash_hub_fetch_remote_banners';
+
+	/**
+	 * Transient name used to cache the remote banners.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @var string
+	 */
+	protected static $cache_name = 'learndash-hub-remote';
+
+	/**
+	 * Get the cron hook used to fetch the remote banners in the background.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @return string
+	 */
+	public static function get_fetch_cron_hook(): string {
+		return self::$fetch_cron_hook;
+	}
+
+	/**
 	 * Register hooks.
 	 *
 	 * @since 4.18.0
@@ -33,6 +62,7 @@ class RemoteBanners extends Controller {
 	public function register_hooks(): void {
 		add_action( 'admin_notices', array( $this, 'maybe_show_banners' ), 9999 );
 		add_action( 'wp_ajax_flag_remote_dismiss', array( $this, 'hide_banner' ) );
+		add_action( self::$fetch_cron_hook, array( $this, 'fetch_remote_banners' ) );
 	}
 
 	/**
@@ -93,18 +123,41 @@ class RemoteBanners extends Controller {
 	/**
 	 * Return the banners.
 	 *
+	 * Reads from the local cache only. When no cache is present, a background
+	 * cron event is scheduled to fetch the remote banners so the admin page is
+	 * never blocked waiting on the remote request.
+	 *
 	 * @since 4.18.0
+	 * @since 5.1.6 No longer performs a synchronous remote request; fetching is deferred to cron.
 	 *
 	 * @return array
 	 */
 	public function get_banners(): array {
-		$cache_name = 'learndash-hub-remote';
-		$cached     = get_transient( $cache_name );
+		$cached = get_transient( self::$cache_name );
 
 		if ( is_array( $cached ) ) {
 			return $cached;
 		}
 
+		// No cached banners yet. Fetch them in the background so the admin page load is not blocked by the remote request.
+		if ( ! wp_next_scheduled( self::$fetch_cron_hook ) ) {
+			wp_schedule_single_event( time(), self::$fetch_cron_hook );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Fetch the remote banners and store them in the cache.
+	 *
+	 * Runs in the background via cron so the remote request never blocks an
+	 * admin page load.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @return void
+	 */
+	public function fetch_remote_banners(): void {
 		$request = wp_remote_get(
 			REMOTE_SITE . '/wp-json/learndash/v2/banners',
 			array(
@@ -120,16 +173,14 @@ class RemoteBanners extends Controller {
 
 			if ( is_array( $data ) ) {
 				$ttl = $data['ttl'] ?? 15;
-				set_transient( $cache_name, $data['banners'], MINUTE_IN_SECONDS * $ttl );
+				set_transient( self::$cache_name, $data['banners'], MINUTE_IN_SECONDS * $ttl );
 
-				return $data['banners'];
+				return;
 			}
 		}
 
 		// fallback if anything wrong here, will try later in a minute.
-		set_transient( $cache_name, array(), MINUTE_IN_SECONDS );
-
-		return array();
+		set_transient( self::$cache_name, array(), MINUTE_IN_SECONDS );
 	}
 
 	/**

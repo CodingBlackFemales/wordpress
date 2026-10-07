@@ -110,12 +110,13 @@ function learndash_get_report_user_ids( $user_id = 0, $query_args = array() ) {
  * Gets the count of active/published courses.
  *
  * @since 2.3.0
+ * @since 5.1.6 Cached the scalar count.
  *
- * @param array  $query_args  Optional. The query arguments to get the course count. Default empty array.
+ * @param array  $query_args   Optional. The query arguments to get the course count. Default empty array.
  * @param string $return_field Optional. The `WP_Query` field to return. Default 'found_posts'.
  *
- * @return mixed  Returns the `WP_Query` object if the return_field is empty
- *                otherwise the specified `WP_Query` return field.
+ * @return mixed Returns the `WP_Query` object if the return_field is empty
+ *               otherwise the specified `WP_Query` return field.
  */
 function learndash_get_courses_count( $query_args = array(), $return_field = 'found_posts' ) {
 	$return = 0;
@@ -140,15 +141,39 @@ function learndash_get_courses_count( $query_args = array(), $return_field = 'fo
 		$query_args['paged']          = 1;
 	}
 
-	if ( ( is_array( $query_args ) ) && ( ! empty( $query_args ) ) ) {
-		$query = new WP_Query( $query_args );
-		if ( $query instanceof WP_Query ) {
-			if ( ( ! empty( $return_field ) ) && ( property_exists( $query, $return_field ) ) ) {
-				$return = $query->$return_field;
-			} else {
-				$return = $query;
-			}
+	if (
+		! is_array( $query_args )
+		|| empty( $query_args )
+	) {
+		return $return;
+	}
+
+	// An empty $return_field returns the WP_Query object, which is never cached; only a scalar field value is.
+	$cache_key = '';
+
+	if ( ! empty( $return_field ) ) {
+		$cache_args = $query_args;
+		ksort( $cache_args );
+		$cache_key = 'learndash_courses_count_' . md5( serialize( [ $cache_args, $return_field ] ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Deterministic cache key from query args.
+
+		$cached = LDLMS_Transients::get( $cache_key );
+		if ( false !== $cached ) {
+			return $cached;
 		}
+	}
+
+	$query = new WP_Query( $query_args );
+	if (
+		! empty( $return_field )
+		&& property_exists( $query, $return_field )
+	) {
+		$return = $query->$return_field;
+	} else {
+		$return = $query;
+	}
+
+	if ( is_scalar( $return ) ) {
+		LDLMS_Transients::set( $cache_key, $return, MINUTE_IN_SECONDS );
 	}
 
 	return $return;

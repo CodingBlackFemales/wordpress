@@ -133,7 +133,9 @@ if ( ( ! class_exists( 'LDLMS_Model_Activity' ) ) && ( class_exists( 'LDLMS_Mode
 					$name = $this_reflection_property->getName();
 					if ( $activity_reflection->hasProperty( $name ) ) {
 						$activity_property = $activity_reflection->getProperty( $name );
-						$activity_property->setAccessible( true );
+						if ( PHP_VERSION_ID < 80100 ) {
+							$activity_property->setAccessible( true );
+						}
 						$this->{$name} = $activity_property->getValue( $activity );
 					}
 				}

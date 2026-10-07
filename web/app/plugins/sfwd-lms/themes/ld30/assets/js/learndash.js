@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 jQuery(function ($) {
 	var hash = window.location.hash;
+	const expandableSidebarHeightPadding = 50;
 
 	learndashFocusModeSidebarAutoScroll();
 
@@ -261,31 +262,6 @@ jQuery(function ($) {
 
 		$('.ld-focus').addClass('ld-focus-sidebar-collapsed');
 		$('.ld-mobile-nav').removeClass('expanded');
-
-		if (
-			$('.ld-focus-sidebar-trigger .ld-icon').hasClass(
-				'ld-icon-arrow-left'
-			)
-		) {
-			$('.ld-focus-sidebar-trigger .ld-icon').removeClass(
-				'ld-icon-arrow-left'
-			);
-			$('.ld-focus-sidebar-trigger .ld-icon').addClass(
-				'ld-icon-arrow-right'
-			);
-		} else if (
-			$('.ld-focus-sidebar-trigger .ld-icon').hasClass(
-				'ld-icon-arrow-right'
-			)
-		) {
-			$('.ld-focus-sidebar-trigger .ld-icon').removeClass(
-				'ld-icon-arrow-right'
-			);
-			$('.ld-focus-sidebar-trigger .ld-icon').addClass(
-				'ld-icon-arrow-left'
-			);
-		}
-
 		$('[aria-controls="ld-focus-sidebar"]').attr('aria-expanded', 'false');
 
 		disableFocusTrap();
@@ -378,36 +354,28 @@ jQuery(function ($) {
 		// Show the wrapper
 		$('.ld-focus-sidebar-wrapper').show();
 
+		// Recalculate max-heights for expanded lesson items whose height was measured while
+		// the sidebar was hidden (display: none). When hidden, outerHeight() returns 0 and
+		// data-height is set to 0. A value > 0 means it was already measured correctly.
+		$( '.ld-focus-sidebar .ld-lesson-item-expanded.ld-expanded' ).each( function () {
+			const $lessonContainer = $( this );
+			if ( parseInt( $lessonContainer.attr( 'data-height' ), 10 ) > 0 ) {
+				return;
+			}
+			let recalcHeight = 0;
+			$lessonContainer.children().each( function () {
+				recalcHeight += $( this ).outerHeight();
+			} );
+			const newHeight = recalcHeight > 0 ? recalcHeight + expandableSidebarHeightPadding : 0;
+			$lessonContainer.attr( 'data-height', newHeight ).css( 'max-height', newHeight );
+		} );
+
 		// Flip classes to open the focus sidebar.
 		$('.ld-focus').removeClass('ld-focus-sidebar-collapsed');
 		$('.ld-mobile-nav').addClass('expanded');
 
 		// We need to wait for the sidebar to be opened before we can enable the focus trap.
 		enableFocusTrap();
-
-		if (
-			$('.ld-focus-sidebar-trigger .ld-icon').hasClass(
-				'ld-icon-arrow-left'
-			)
-		) {
-			$('.ld-focus-sidebar-trigger .ld-icon').removeClass(
-				'ld-icon-arrow-left'
-			);
-			$('.ld-focus-sidebar-trigger .ld-icon').addClass(
-				'ld-icon-arrow-right'
-			);
-		} else if (
-			$('.ld-focus-sidebar-trigger .ld-icon').hasClass(
-				'ld-icon-arrow-right'
-			)
-		) {
-			$('.ld-focus-sidebar-trigger .ld-icon').removeClass(
-				'ld-icon-arrow-right'
-			);
-			$('.ld-focus-sidebar-trigger .ld-icon').addClass(
-				'ld-icon-arrow-left'
-			);
-		}
 
 		$('[aria-controls="ld-focus-sidebar"]').attr('aria-expanded', 'true');
 
@@ -642,15 +610,17 @@ jQuery(function ($) {
 			}
 
 			let totalHeight = 0;
-			$container.find('> *').each(function () {
+			$container.children().each(function () {
 				totalHeight += $(this).outerHeight();
 			});
 
+			const finalHeightWithPadding = totalHeight > 0 ? totalHeight + expandableSidebarHeightPadding : 0;
+
 			// Writing to the attribute to make debugging easier.
-			$container.attr('data-height', totalHeight + 50);
+			$container.attr('data-height', finalHeightWithPadding);
 
 			$container.css({
-				'max-height': expand ? $container.data('height') : 0,
+				'max-height': expand ? finalHeightWithPadding : 0,
 			});
 
 			if (!expand) {

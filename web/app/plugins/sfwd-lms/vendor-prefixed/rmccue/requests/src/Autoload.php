@@ -115,9 +115,9 @@ if (class_exists('StellarWP\Learndash\WpOrg\Requests\Autoload') === false) {
 		 * @return void
 		 */
 		public static function register() {
-			if (defined('REQUESTS_AUTOLOAD_REGISTERED') === false) {
+			if (defined('LEARNDASH_REQUESTS_AUTOLOAD_REGISTERED') === false) {
 				spl_autoload_register([self::class, 'load'], true);
-				define('REQUESTS_AUTOLOAD_REGISTERED', true);
+				define('LEARNDASH_REQUESTS_AUTOLOAD_REGISTERED', true);
 			}
 		}
 
@@ -163,7 +163,7 @@ if (class_exists('StellarWP\Learndash\WpOrg\Requests\Autoload') === false) {
 				 * The constant needs to be defined before the first deprecated class is requested
 				 * via this autoloader.
 				 */
-				if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS') || REQUESTS_SILENCE_PSR0_DEPRECATIONS !== true) {
+				if (!defined('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS') || LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS !== true) {
 					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 					trigger_error(
 						'The PSR-0 `Requests_...` class names in the Requests library are deprecated.'
@@ -172,8 +172,8 @@ if (class_exists('StellarWP\Learndash\WpOrg\Requests\Autoload') === false) {
 					);
 
 					// Prevent the deprecation notice from being thrown twice.
-					if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
-						define('REQUESTS_SILENCE_PSR0_DEPRECATIONS', true);
+					if (!defined('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS')) {
+						define('LEARNDASH_REQUESTS_SILENCE_PSR0_DEPRECATIONS', true);
 					}
 				}
 

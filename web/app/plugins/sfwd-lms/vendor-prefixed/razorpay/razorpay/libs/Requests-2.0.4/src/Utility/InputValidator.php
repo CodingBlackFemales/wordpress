@@ -5,7 +5,7 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests\Utility;
+namespace StellarWP\Learndash\WpOrg\Requests\Utility;
 
 use ArrayAccess;
 use CurlHandle;

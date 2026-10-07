@@ -408,6 +408,15 @@ require_once dirname( __FILE__ ) . '/includes/admin/class-learndash-admin-action
 Learndash_Admin_Action_Scheduler::init_ld_scheduler();
 
 /**
+ * Support for the LearnDash background report export engine.
+ *
+ * Wired after the action scheduler wrapper (the engine builds one) and after the reports base
+ * class (loaded above), so the chunk dispatcher is registered.
+ */
+require_once __DIR__ . '/includes/admin/class-learndash-admin-background-export.php';
+Learndash_Admin_Background_Export::init();
+
+/**
  * Add Support for the Admin filters.
  */
 require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/admin/classes-filters/class-learndash-admin-filters.php';

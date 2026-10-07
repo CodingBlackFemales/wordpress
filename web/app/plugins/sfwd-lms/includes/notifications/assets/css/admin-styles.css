@@ -1,0 +1,115 @@
+.shortcodes-instruction {
+	display: none;
+	margin: 15px 0 15px 0;
+}
+
+.shortcodes-instruction .header-text {
+    margin-bottom: 10px;
+}
+
+.shortcodes-instruction .shortcode {
+    font-weight: bold;   
+}
+
+.shortcodes-instruction .additional-help-text {
+	margin-top: 20px;
+}
+
+/* Metabox */
+
+.sfwd_input > .sfwd_option_input select[name*="trigger"],
+.sfwd_input > .sfwd_option_input select[name*="conditions"] {
+	width: 99.5%;
+}
+
+.condition > .sfwd_input > .sfwd_option_label {
+	min-width: 100px;
+	max-width: 30%;
+	width: 25%;
+	flex: none;
+}
+
+.condition > .sfwd_input > .sfwd_option_input {
+	min-width: inherit;
+	max-width: inherit;
+}
+
+.sfwd_input {
+	display: flex;
+}
+
+.sfwd_input > .sfwd_option_input {
+	flex: 1 1 auto;
+}
+
+.sfwd_input > .sfwd_option_input .add-condition {
+	padding: 15px;
+	text-align: center;
+	border: 2px dashed #DDD;
+	cursor: pointer;
+}
+
+.sfwd_input > .sfwd_option_input .add-condition .dashicons {
+	color: #5C5C5C;
+}
+
+.sfwd_input > .sfwd_option_input .remove-condition {
+	float: right;
+    margin-top: -1px;
+}
+
+.sfwd_input .accordion-wrapper.conditions-wrapper.ui-accordion + .add-condition {
+	margin-top: 15px;
+}
+
+/* Select2 */	
+
+.select2-container--learndash.select2-container--open {
+	z-index: 999999;
+}
+
+body .sfwd_options .select2-container--learndash .select2-selection--multiple {
+	border: 1px solid #8c8f94 !important;
+}
+
+.select2-dropdown .select2-results__option {
+	margin: 0;
+}
+
+.sfwd_options .select2-container .select2-search--inline .select2-search__field {
+	width: 660px !important;
+}
+
+/* Accordion */
+
+.sfwd_input .accordion-wrapper .ui-accordion-header-icon {
+	float: left;
+    display: block;
+    margin-top: 0px;
+}
+
+.sfwd_input .accordion-wrapper .condition.ui-accordion-content {
+	height: auto !important;
+    padding: 0;
+    margin: 0;
+    display: block;
+	overflow-x: hidden;
+}
+
+/* Posts Filter Select2 */
+
+#posts-filter .select2-container {
+	max-width: 12.5rem;
+	width: auto !important;
+}
+
+/* Columns */
+.learndash-object-list {
+	list-style: disc;
+	margin: 0;
+	padding-left: 16px;
+}
+
+.learndash-object-list + .learndash-other-description {
+	padding-left: 16px;
+}

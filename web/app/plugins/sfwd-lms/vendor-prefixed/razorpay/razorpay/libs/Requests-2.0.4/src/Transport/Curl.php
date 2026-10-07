@@ -5,17 +5,17 @@
  * @package Requests\Transport
  */
 
-namespace WpOrg\Requests\Transport;
+namespace StellarWP\Learndash\WpOrg\Requests\Transport;
 
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
-use WpOrg\Requests\Capability;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Exception\Transport\Curl as CurlException;
-use WpOrg\Requests\Requests;
-use WpOrg\Requests\Transport;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Capability;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Exception\Transport\Curl as CurlException;
+use StellarWP\Learndash\WpOrg\Requests\Requests;
+use StellarWP\Learndash\WpOrg\Requests\Transport;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * cURL HTTP transport
@@ -64,7 +64,7 @@ final class Curl implements Transport {
 	/**
 	 * Hook dispatcher instance
 	 *
-	 * @var \WpOrg\Requests\Hooks
+	 * @var \StellarWP\Learndash\WpOrg\Requests\Hooks
 	 */
 	private $hooks;
 
@@ -139,11 +139,11 @@ final class Curl implements Transport {
 	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
 	 * @return string Raw HTTP result
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \WpOrg\Requests\Exception       On a cURL error (`curlerror`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception       On a cURL error (`curlerror`)
 	 */
 	public function request($url, $headers = [], $data = [], $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -233,8 +233,8 @@ final class Curl implements Transport {
 	 * @param array $options Global options
 	 * @return array Array of \WpOrg\Requests\Response objects (may contain \WpOrg\Requests\Exception or string responses as well)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function request_multiple($requests, $options) {
 		// If you're not requesting, we can't get any responses ¯\_(ツ)_/¯
@@ -465,7 +465,7 @@ final class Curl implements Transport {
 	 * @param string $response Response data from the body
 	 * @param array $options Request options
 	 * @return string|false HTTP response data including headers. False if non-blocking.
-	 * @throws \WpOrg\Requests\Exception
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception
 	 */
 	public function process_response($response, $options) {
 		if ($options['blocking'] === false) {

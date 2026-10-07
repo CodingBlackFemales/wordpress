@@ -4601,16 +4601,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _screen_step_1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./screen/step-1 */ "./src/screen/step-1.jsx");
 /* harmony import */ var _screen_step_2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./screen/step-2 */ "./src/screen/step-2.jsx");
 /* harmony import */ var _screen_step_3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./screen/step-3 */ "./src/screen/step-3.jsx");
-/* harmony import */ var _screen_step_4__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./screen/step-4 */ "./src/screen/step-4.jsx");
-/* harmony import */ var _data_setup_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./data/setup-context */ "./src/data/setup-context.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _data_setup_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./data/setup-context */ "./src/data/setup-context.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_8__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -4626,10 +4625,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var __ = wp.i18n.__;
 function App() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_6__.useState)(_data_setup_context__WEBPACK_IMPORTED_MODULE_5__.setupData),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)(_data_setup_context__WEBPACK_IMPORTED_MODULE_4__.setupData),
     _useState2 = _slicedToArray(_useState, 2),
     data = _useState2[0],
     updateData = _useState2[1];
@@ -4643,8 +4641,6 @@ function App() {
         return /*#__PURE__*/React.createElement(_screen_step_2__WEBPACK_IMPORTED_MODULE_2__.Step2, null);
       case 'step-3':
         return /*#__PURE__*/React.createElement(_screen_step_3__WEBPACK_IMPORTED_MODULE_3__.Step3, null);
-      case 'step-4':
-        return /*#__PURE__*/React.createElement(_screen_step_4__WEBPACK_IMPORTED_MODULE_4__.Step4, null);
     }
   };
   var groupAccess = [{
@@ -4661,19 +4657,18 @@ function App() {
     label: __('Me', 'learndash'),
     value: 'no'
   }];
-  return /*#__PURE__*/React.createElement(_data_setup_context__WEBPACK_IMPORTED_MODULE_5__.SetupProvider, {
+  return /*#__PURE__*/React.createElement(_data_setup_context__WEBPACK_IMPORTED_MODULE_4__.SetupProvider, {
     value: {
       data: data,
       updateData: updateData,
       saveDataDB: function saveDataDB(data) {
-        axios__WEBPACK_IMPORTED_MODULE_7___default().post(ajaxurl + '?action=learndash_setup_wizard_save_data', qs__WEBPACK_IMPORTED_MODULE_8___default().stringify({
+        axios__WEBPACK_IMPORTED_MODULE_6___default().post(ajaxurl + '?action=learndash_setup_wizard_save_data', qs__WEBPACK_IMPORTED_MODULE_7___default().stringify({
           nonce: ldSetupWizard.nonces.save,
           data: data
         }));
       },
       groupAccess: groupAccess,
       groupLeader: groupLeader,
-      plugins_status: ldSetupWizard.plugins,
       currencyCodes: ldSetupWizard.currency_codes
     }
   }, /*#__PURE__*/React.createElement("img", {
@@ -4683,7 +4678,7 @@ function App() {
   }), /*#__PURE__*/React.createElement("div", {
     className: "min-h-screen w-full bg-base-white pb-5"
   }, /*#__PURE__*/React.createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_9___default()("container p-5 mx-auto flex flex-col justify-between text-base-normal", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_8___default()("container p-5 mx-auto flex flex-col justify-between text-base-normal", {
       'min-h-screen': 'step-0' === data.scene
     })
   }, /*#__PURE__*/React.createElement("div", {
@@ -4852,296 +4847,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _data_setup_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/setup-context */ "./src/data/setup-context.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _footer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./footer */ "./src/screen/footer.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-var __ = wp.i18n.__;
-var Step1 = function Step1() {
-  var setup = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_data_setup_context__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.email),
-    _useState2 = _slicedToArray(_useState, 2),
-    email = _useState2[0],
-    setEmail = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.license_key),
-    _useState4 = _slicedToArray(_useState3, 2),
-    license = _useState4[0],
-    setLicense = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    loading = _useState6[0],
-    setLoading = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.use_registered_email),
-    _useState8 = _slicedToArray(_useState7, 2),
-    sameEmail = _useState8[0],
-    setSameEmail = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.notification_email),
-    _useState10 = _slicedToArray(_useState9, 2),
-    notificationEmail = _useState10[0],
-    setNotificationEmail = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.license_validated),
-    _useState12 = _slicedToArray(_useState11, 2),
-    valid = _useState12[0],
-    setValid = _useState12[1];
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-    _useState14 = _slicedToArray(_useState13, 2),
-    notifyValid = _useState14[0],
-    setNotifyValid = _useState14[1];
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      email: '',
-      license: ''
-    }),
-    _useState16 = _slicedToArray(_useState15, 2),
-    error = _useState16[0],
-    setError = _useState16[1];
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-    _useState18 = _slicedToArray(_useState17, 2),
-    notificationEmailError = _useState18[0],
-    setNotificationEmailError = _useState18[1];
-  var validateEmail = function validateEmail() {
-    setLoading(true);
-    var error = {
-      email: '',
-      license: ''
-    };
-    if (null === validateEmailFormat(email)) {
-      error.email = __('Please enter the email address.', 'learndash');
-      setValid(false);
-    }
-    if (undefined === license || license.length === 0) {
-      error.license = __('Please enter the license key.', 'learndash');
-      setValid(false);
-    }
-    if (error.email.length === 0 && error.license.length === 0) {
-      // trigger a request
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post(ajaxurl + '?action=learndash_setup_wizard_verify_license', qs__WEBPACK_IMPORTED_MODULE_3___default().stringify({
-        nonce: ldSetupWizard.nonces.verify,
-        email: email,
-        license_key: license
-      })).then(function (response) {
-        if (response.data.success === false) {
-          setValid(false);
-          setLoading(false);
-          error = {
-            email: '',
-            license: __('The email and the license key do not match.', 'learndash')
-          };
-          setError(error);
-        } else {
-          setValid(true);
-          setLoading(false);
-          setError({
-            email: '',
-            license: ''
-          });
-        }
-      });
-    } else {
-      setLoading(false);
-      setError(error);
-    }
-  };
-  var validateEmailFormat = function validateEmailFormat(email) {
-    return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-  };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "mx-auto mt-20 lg:w-2/5"
-  }, /*#__PURE__*/React.createElement("h1", {
-    className: "text-3xl font-medium mb-8"
-  }, __('Let\'s start by getting your info', 'learndash')), /*#__PURE__*/React.createElement("div", {
-    className: "mb-4"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "font-medium mb-2 inline-block text-base"
-  }, __('Enter your License', 'learndash')), /*#__PURE__*/React.createElement("p", {
-    className: "text-sm"
-  }, __('Your license details were emailed to you after purchase. You can also find them listed on', 'learndash'), "\xA0", /*#__PURE__*/React.createElement("a", {
-    target: "_blank",
-    href: ldSetupWizard.urls.support,
-    className: "text-blue-link underline whitespace-nowrap",
-    rel: "noreferrer"
-  }, __('your account', 'learndash')), ".")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "font-medium mb-2 block text-base",
-    htmlFor: "email"
-  }, __('Email', 'learndash')), /*#__PURE__*/React.createElement("input", {
-    className: "w-full py-2 px-3 text-base outline-0 border border-base-light-gray rounded",
-    id: "email",
-    onChange: function onChange(event) {
-      setEmail(event.target.value);
-      setValid(false);
-    },
-    placeholder: __('Your purchase email', 'learndash'),
-    type: "email",
-    value: email
-  }), error.email.length > 0 ? /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-semibold text-red-base"
-  }, error.email) : ''), /*#__PURE__*/React.createElement("div", {
-    className: "mb-4 mt-4"
-  }, /*#__PURE__*/React.createElement("label", {
-    className: "font-medium mb-2 block text-base cursor-pointer",
-    htmlFor: "license"
-  }, __('License:', 'learndash')), /*#__PURE__*/React.createElement("input", {
-    className: "w-full py-2 px-3 text-base outline-0 border border-base-light-gray rounded",
-    id: "license",
-    onChange: function onChange(event) {
-      setLicense(event.target.value);
-      setValid(false);
-    },
-    placeholder: __('Your license key', 'learndash'),
-    type: "text",
-    value: license
-  }), error.license.length > 0 ? /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-semibold text-red-base",
-    role: "alert"
-  }, error.license) : '', valid && /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-semibold text-green-base",
-    role: "alert"
-  }, __('Your license is valid.', 'learndash'))), /*#__PURE__*/React.createElement("div", {
-    className: "mb-6 "
-  }, /*#__PURE__*/React.createElement("button", {
-    type: "button",
-    className: "action-button validation-button blue large",
-    onClick: validateEmail
-  }, loading ? /*#__PURE__*/React.createElement("svg", {
-    className: "w-4 inline animate-spin",
-    style: {
-      filter: "invert(100%) brightness(150%)"
-    },
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 512 512"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"
-  })) : __('Validate', 'learndash'))), /*#__PURE__*/React.createElement("div", {
-    className: "border-t h-1 border-solid border-gray-light mb-5"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-3 mb-5"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "col-span-2"
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "font-medium mb-2 block text-sm cursor-pointer"
-  }, __('Communication Preferences', 'learndash')), /*#__PURE__*/React.createElement("p", {
-    className: "text-xs"
-  }, __('Would you like to use the email above for all LearnDash emails and course notifications?', 'learndash'))), /*#__PURE__*/React.createElement("div", {
-    className: "radio-button-group mt-auto mb-auto text-right"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    id: "use_the_email_yes",
-    name: "use_the_email",
-    onChange: function onChange(e) {
-      setSameEmail(e.currentTarget.value);
-      setNotifyValid(true);
-    },
-    checked: sameEmail === "yes",
-    value: "yes"
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "action-button radio white rounded-tr-none rounded-br-none",
-    htmlFor: "use_the_email_yes"
-  }, __('Yes', 'learndash')), /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    id: "use_the_email_no",
-    name: "use_the_email",
-    onChange: function onChange(e) {
-      setSameEmail(e.currentTarget.value);
-      setNotifyValid(null !== validateEmailFormat(notificationEmail));
-    },
-    checked: sameEmail === "no",
-    value: "no"
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "action-button radio white rounded-tl-none rounded-bl-none",
-    htmlFor: "use_the_email_no"
-  }, __('No', 'learndash')))), sameEmail === "no" && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
-    className: "text-xs font-semibold cursor-pointer mb-2 inline-block",
-    htmlFor: "notification_email"
-  }, __('What "From:" email address would you like to use?', 'learndash')), /*#__PURE__*/React.createElement("input", {
-    className: "w-full py-2 px-3 text-base outline-0 border border-base-light-gray rounded",
-    id: "notification_email",
-    onChange: function onChange(e) {
-      setNotificationEmail(e.target.value);
-      if (null === validateEmailFormat(e.target.value)) {
-        setNotificationEmailError('Please enter the email address.');
-        setNotifyValid(false);
-      } else {
-        setNotificationEmailError('');
-        setNotifyValid(true);
-      }
-    },
-    type: "text",
-    value: notificationEmail
-  }), notificationEmailError.length > 0 ? /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-semibold text-red-base"
-  }, notificationEmailError) : '')), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between mt-16"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    className: "action-link no-underline",
-    onClick: function onClick() {
-      setup.updateData(_objectSpread(_objectSpread({}, setup.data), {}, {
-        scene: setup.data.scenes[setup.data.scene].prev
-      }));
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    className: "w-3 inline-block mr-2",
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 448 512"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"
-  })), /*#__PURE__*/React.createElement("span", null, __('Back', 'learndash')))), /*#__PURE__*/React.createElement(_footer__WEBPACK_IMPORTED_MODULE_5__.Footer, null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-    onClick: function onClick() {
-      if (true === valid && true === notifyValid) {
-        var data = {
-          scene: setup.data.scenes[setup.data.scene].next,
-          email: email,
-          license_key: license,
-          use_registered_email: sameEmail,
-          notification_email: notificationEmail
-        };
-        setup.updateData(_objectSpread(_objectSpread({}, setup.data), data));
-        setup.saveDataDB(data);
-      }
-    },
-    disabled: false === valid || false === notifyValid,
-    className: classnames__WEBPACK_IMPORTED_MODULE_4___default()("action-button", {
-      'blue': valid && notifyValid
-    }),
-    type: "button"
-  }, __('Next', 'learndash')))));
-};
-
-/***/ }),
-
-/***/ "./src/screen/step-2.jsx":
-/*!*******************************!*\
-  !*** ./src/screen/step-2.jsx ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Step2": () => (/* binding */ Step2)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_setup_context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/setup-context */ "./src/data/setup-context.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _footer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./footer */ "./src/screen/footer.jsx");
@@ -5166,7 +4871,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var __ = wp.i18n.__;
-var Step2 = function Step2() {
+var Step1 = function Step1() {
   var setup = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_data_setup_context__WEBPACK_IMPORTED_MODULE_1__["default"]);
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.course_demo),
     _useState2 = _slicedToArray(_useState, 2),
@@ -5272,7 +4977,7 @@ var Step2 = function Step2() {
   }, __('Yes', 'learndash')), /*#__PURE__*/React.createElement("input", {
     type: "radio",
     name: "course_demo",
-    value: "multiple",
+    value: "no",
     id: "course_demo_disabled",
     checked: courseDemo === 'no',
     onChange: function onChange(e) {
@@ -5359,46 +5064,6 @@ var Step2 = function Step2() {
   }, /*#__PURE__*/React.createElement("span", {
     className: "font-medium block text-sm mb-1.5"
   }, __('Simple', 'learndash')), __('A video or text based course without certificates or quizzes.', 'learndash')))), /*#__PURE__*/React.createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("mt-3 checkbox-card", {
-      'selected': courseTypes.includes("certificate")
-    })
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "icon-selected",
-    src: ldSetupWizard.urls.assets + 'img/icon-course-selected.svg',
-    alt: ""
-  }), /*#__PURE__*/React.createElement("input", {
-    checked: courseTypes.includes("certificate"),
-    onChange: function onChange(e) {
-      if (courseTypes.includes("certificate") === false) {
-        setCourseTypes([].concat(_toConsumableArray(courseTypes), ['certificate']));
-      } else {
-        setCourseTypes(courseTypes.filter(function (e) {
-          return e !== 'certificate';
-        }));
-      }
-    },
-    className: "absolute",
-    style: {
-      'clip': 'rect(0,0,0,0)'
-    },
-    id: "certificate",
-    value: "certificate",
-    name: "course_type",
-    type: "checkbox"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "certificate",
-    className: "grid grid-cols-7 rounded-md py-2.5 px-4 border border-solid border-gray-light hover:cursor-pointer hover:border-blue-base"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "h-16 w-16 rounded-full bg-gray-icon flex items-center mr-3 justify-center "
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "inline-block w-6",
-    src: ldSetupWizard.urls.assets + 'img/icon-course-certificate.png',
-    alt: ""
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-col justify-center text-sm font-light col-span-6 pr-5"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "font-medium block text-sm mb-1.5"
-  }, __('Certificate', 'learndash')), __('A video or text based course including quizzes and certificates.', 'learndash')))), /*#__PURE__*/React.createElement("div", {
     className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("mt-3 checkbox-card", {
       'selected': courseTypes.includes("timed")
     })
@@ -5525,16 +5190,16 @@ var Step2 = function Step2() {
 
 /***/ }),
 
-/***/ "./src/screen/step-3.jsx":
+/***/ "./src/screen/step-2.jsx":
 /*!*******************************!*\
-  !*** ./src/screen/step-3.jsx ***!
+  !*** ./src/screen/step-2.jsx ***!
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Step3": () => (/* binding */ Step3)
+/* harmony export */   "Step2": () => (/* binding */ Step2)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -5567,7 +5232,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var __ = wp.i18n.__;
-var Step3 = function Step3() {
+var Step2 = function Step2() {
   var _ref2, _window$wp, _window$wp$dom, _window$wp$dom$safeHT, _window$ldSetupWizard, _window$ldSetupWizard2;
   var setup = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_data_setup_context__WEBPACK_IMPORTED_MODULE_1__["default"]);
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.charge),
@@ -5736,37 +5401,7 @@ var Step3 = function Step3() {
     }
   }, __('Connect', 'learndash')) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("button", {
     className: "action-button green large cursor-default"
-  }, __('Connected', 'learndash')))))), /*#__PURE__*/React.createElement("div", {
-    className: classnames__WEBPACK_IMPORTED_MODULE_2___default()("radio-button-group mx-auto payment flex space-x-6 -ml-6 mt-6", {
-      'items-start': chargeMethod.length > 0
-    })
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    checked: chargeMethod === "woocommerce",
-    onChange: function onChange(e) {
-      setChargeMethod(e.currentTarget.value);
-    },
-    id: "payment_woo",
-    name: "payment",
-    value: "woocommerce"
-  }), /*#__PURE__*/React.createElement("label", {
-    className: "payment-card inline-block action-button white pt-4 pb-4 pl-8 pr-8 w-full flex items-center",
-    htmlFor: "payment_woo"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "w-1/8"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "h-10 w-10 mb-5 rounded-full bg-gray-icon flex items-center justify-center"
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "inline-block w-6 mt-1",
-    src: ldSetupWizard.urls.assets + 'img/woocommerce.png',
-    alt: ""
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "w-7/8 pl-4"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "font-medium"
-  }, __('WooCommerce', 'learndash')), /*#__PURE__*/React.createElement("p", {
-    className: "font-normal mt-2.5"
-  }, __('Use WooCommerce to manage payments, invoices and more. We\'ll install the plugins you need.', 'learndash'))))), /*#__PURE__*/React.createElement("p", {
+  }, __('Connected', 'learndash')))))), /*#__PURE__*/React.createElement("p", {
     className: "font-normal text-base mt-10 mb-4"
   }, __('Which currency would you like to accept?', 'learndash')), /*#__PURE__*/React.createElement(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
     options: currencyCodes,
@@ -5814,16 +5449,16 @@ var Step3 = function Step3() {
 
 /***/ }),
 
-/***/ "./src/screen/step-4.jsx":
+/***/ "./src/screen/step-3.jsx":
 /*!*******************************!*\
-  !*** ./src/screen/step-4.jsx ***!
+  !*** ./src/screen/step-3.jsx ***!
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Step4": () => (/* binding */ Step4)
+/* harmony export */   "Step3": () => (/* binding */ Step3)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -5851,53 +5486,45 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var __ = wp.i18n.__;
-var Step4 = function Step4() {
+var Step3 = function Step3() {
   var setup = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_data_setup_context__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.course_type.includes("certificate") || setup.data.course_type.includes("timed") || setup.data.course_type.includes("group_courses")),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
-    CBInstall = _useState2[0],
-    setCBInstall = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(setup.data.charge === "yes" && setup.data.charge_method === "woocommerce"),
+    showAllSettings = _useState2[0],
+    setShowAllSettings = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_access),
     _useState4 = _slicedToArray(_useState3, 2),
-    WCInstall = _useState4[0],
-    setWCInstall = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    groupArchivePage = _useState4[0],
+    setGroupArchivePage = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_access),
     _useState6 = _slicedToArray(_useState5, 2),
-    showAllSettings = _useState6[0],
-    setShowAllSettings = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_access),
+    publicGroup = _useState6[0],
+    setPublicGroup = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
     _useState8 = _slicedToArray(_useState7, 2),
-    groupArchivePage = _useState8[0],
-    setGroupArchivePage = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_access),
+    manageUser = _useState8[0],
+    setManageUser = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
     _useState10 = _slicedToArray(_useState9, 2),
-    publicGroup = _useState10[0],
-    setPublicGroup = _useState10[1];
+    groupAutoEnroll = _useState10[0],
+    setGroupAutoEnroll = _useState10[1];
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
     _useState12 = _slicedToArray(_useState11, 2),
-    manageUser = _useState12[0],
-    setManageUser = _useState12[1];
+    courseAutoEnroll = _useState12[0],
+    setCourseAutoEnroll = _useState12[1];
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
     _useState14 = _slicedToArray(_useState13, 2),
-    groupAutoEnroll = _useState14[0],
-    setGroupAutoEnroll = _useState14[1];
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
-    _useState16 = _slicedToArray(_useState15, 2),
-    courseAutoEnroll = _useState16[0],
-    setCourseAutoEnroll = _useState16[1];
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('yes' === setup.data.group_leader),
-    _useState18 = _slicedToArray(_useState17, 2),
-    bypassCourseLimit = _useState18[0],
-    setByPassCourseLimit = _useState18[1];
+    bypassCourseLimit = _useState14[0],
+    setByPassCourseLimit = _useState14[1];
 
   // Because we will download and install plugins, it will make the request take long and can be timeout, better to
   // separate it to many small tasks.
-  var steps = ['save_default_currency', 'create_registration_pages', 'process_course_listing', 'process_certificate_builder', 'process_woo', 'update_settings'];
+  var steps = ['save_default_currency', 'create_registration_pages', 'process_course_listing', 'update_settings'];
   var step = 0;
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState20 = _slicedToArray(_useState19, 2),
-    loading = _useState20[0],
-    setLoading = _useState20[1];
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    loading = _useState16[0],
+    setLoading = _useState16[1];
   var finalize = function finalize() {
     setLoading(true);
     var curr_step = steps[step];
@@ -5913,9 +5540,7 @@ var Step4 = function Step4() {
         manage_user: manageUser,
         group_auto_enroll: groupAutoEnroll,
         course_auto_enroll: courseAutoEnroll,
-        bypass_course_limit: bypassCourseLimit,
-        certificate_builder: CBInstall,
-        woocommerce: WCInstall
+        bypass_course_limit: bypassCourseLimit
       })
     })).then(function (res) {
       if (res.data.data.completed === false) {
@@ -6171,83 +5796,7 @@ var Step4 = function Step4() {
     className: "w-9 h-3.5 bg-gray-light rounded-full shadow-inner"
   }), /*#__PURE__*/React.createElement("div", {
     className: "dot absolute w-5 h-5 bg-base-white rounded-full shadow -left-0 -top-1 transition"
-  })))))))), /*#__PURE__*/React.createElement("h2", {
-    className: "text-base font-medium mt-8"
-  }, __('We\'ll install the following add-ons for you:', 'learndash')), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center mt-4 overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "h-14 w-14 min-w-14 float-left rounded-full mr-4 bg-gray-icon flex items-center justify-center"
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "inline-block w-6",
-    src: ldSetupWizard.urls.assets + 'img/icon-course-certificate.png',
-    alt: ""
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between w-full"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
-    className: "font-medium text-sm block"
-  }, __('Certificate Builder', 'learndash')), /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-light pt-1 pr-6"
-  }, __('The easiest way to build certificates for your courses.', 'learndash'))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center justify-center mr-2"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "certificate-builder",
-    className: "flex items-center cursor-pointer"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "relative"
-  }, setup.plugins_status.certificate_builder === true ? /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-medium rounded-2xl bg-base-silver inline-block -mr-2 py-1.5 px-3"
-  }, __('Installed', 'learndash')) : /*#__PURE__*/React.createElement("div", {
-    className: "mr-3"
-  }, /*#__PURE__*/React.createElement("input", {
-    id: "certificate-builder",
-    checked: CBInstall,
-    onChange: function onChange(e) {
-      setCBInstall(e.target.checked);
-    },
-    type: "checkbox",
-    className: "sr-only toggle"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "w-9 h-3.5 bg-gray-light rounded-full shadow-inner"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "dot absolute w-5 h-5 bg-base-white rounded-full shadow -left-0 -top-1 transition"
-  }))))))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center mt-4 overflow-hidden"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "h-14 w-14 min-w-14 float-left rounded-full mr-4 bg-gray-icon flex items-center justify-center"
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "inline-block w-7 mt-1",
-    src: ldSetupWizard.urls.assets + 'img/woocommerce.png',
-    alt: ""
-  })), /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-between w-full"
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
-    className: "font-medium text-sm block"
-  }, __('WooCommerce', 'learndash')), /*#__PURE__*/React.createElement("p", {
-    className: "text-sm font-light pt-1 pr-6"
-  }, __('Handle payments, coupons, invoices and more.', 'learndash'))), /*#__PURE__*/React.createElement("div", {
-    className: "flex items-center"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "woocommerce",
-    className: "flex items-center cursor-pointer mr-2"
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "relative"
-  }, setup.plugins_status.woocommerce === true ? /*#__PURE__*/React.createElement("span", {
-    className: "text-xs font-medium rounded-2xl bg-base-silver inline-block -mr-2 py-1.5 px-3"
-  }, __('Installed', 'learndash')) : /*#__PURE__*/React.createElement("div", {
-    className: "mr-3"
-  }, /*#__PURE__*/React.createElement("input", {
-    id: "woocommerce",
-    checked: WCInstall,
-    onChange: function onChange(e) {
-      setWCInstall(e.currentTarget.checked);
-    },
-    type: "checkbox",
-    className: "sr-only toggle"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "w-9 h-3.5 bg-gray-light rounded-full shadow-inner"
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "dot absolute w-5 h-5 bg-base-white rounded-full shadow -left-0 -top-1 transition"
-  })))))))), /*#__PURE__*/React.createElement("div", {
+  }))))))))), /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between w-full bg-base-white pt-6 pb-10 px-5 fixed bottom-0 left-0"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
     className: "action-link no-underline",
