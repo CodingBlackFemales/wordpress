@@ -1,0 +1,231 @@
+# Copyright (C) 2026 LearnDash
+# This file is distributed under the same license as the LearnDash LMS - Zapier Integration plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: LearnDash LMS - Zapier Integration 2.3.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/learndash-zapier\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-01-20T17:14:16+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: learndash-zapier\n"
+
+#. Plugin Name of the plugin
+#: learndash_zapier.php
+#: src/App/Admin/Translation.php:51
+msgid "LearnDash LMS - Zapier Integration"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: learndash_zapier.php
+msgid "http://www.learndash.com"
+msgstr ""
+
+#. Description of the plugin
+#: learndash_zapier.php
+msgid "LearnDash LMS addon plugin that integrates LearnDash with Zapier"
+msgstr ""
+
+#. Author of the plugin
+#: learndash_zapier.php
+msgid "LearnDash"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:13
+#: includes/admin/class-settings-section.php:30
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-settings-section.php:57
+msgid "API Key"
+msgstr ""
+
+#: includes/admin/class-settings-section.php:58
+msgid "API key that needs to be entered to your Zapier account authentication settings when creating a new zap."
+msgstr ""
+
+#: includes/class-api.php:83
+msgid "Bad request: site URL needs to have trailing slash at the end of the URL."
+msgstr ""
+
+#: includes/class-api.php:89
+msgid "Invalid API key"
+msgstr ""
+
+#: includes/class-api.php:154
+msgid "Unknown request parameters"
+msgstr ""
+
+#: includes/class-api.php:159
+msgid "Success"
+msgstr ""
+
+#: includes/class-api.php:779
+#, php-format
+msgid "User could not be created. Error: %s"
+msgstr ""
+
+#: includes/class-api.php:782
+msgid "User account with specified email address does not exist."
+msgstr ""
+
+#: includes/class-translations-ld-zapier.php:28
+msgid "LearnDash Samcart"
+msgstr ""
+
+#: includes/deprecated/2.3.2/functions.php:38
+msgid "LearnDash LMS - Zapier Integration Add-on requires the following plugin(s) to be active:"
+msgstr ""
+
+#: learndash_zapier.php:64
+msgid "LearnDash LMS - Zapier Integration requires the following plugin(s) to be active:"
+msgstr ""
+
+#: learndash_zapier.php:175
+msgid "Zapier Triggers"
+msgstr ""
+
+#: learndash_zapier.php:176
+msgid "Zapier Trigger"
+msgstr ""
+
+#: learndash_zapier.php:177
+#: learndash_zapier.php:178
+msgid "Add Trigger"
+msgstr ""
+
+#: learndash_zapier.php:179
+#: learndash_zapier.php:180
+msgid "Edit Trigger"
+msgstr ""
+
+#: learndash_zapier.php:181
+msgid "Trigger"
+msgstr ""
+
+#: learndash_zapier.php:182
+#: learndash_zapier.php:183
+msgid "View Trigger"
+msgstr ""
+
+#: learndash_zapier.php:184
+msgid "Search Trigger"
+msgstr ""
+
+#: learndash_zapier.php:185
+msgid "No Trigger found"
+msgstr ""
+
+#: learndash_zapier.php:186
+msgid "No trigger found in Trash"
+msgstr ""
+
+#: learndash_zapier.php:232
+msgid "Triggers on this page are used for legacy webhook integration and not for LearnDash public Zapier app."
+msgstr ""
+
+#: learndash_zapier.php:249
+msgid "Zapier"
+msgstr ""
+
+#: learndash_zapier.php:261
+msgid "Example Templates"
+msgstr ""
+
+#: learndash_zapier.php:300
+#: learndash_zapier.php:320
+#: learndash_zapier.php:340
+msgid "Triggers (Webhooks)"
+msgstr ""
+
+#: learndash_zapier.php:358
+msgid "Trigger Settings"
+msgstr ""
+
+#: learndash_zapier.php:375
+msgid "Trigger Event"
+msgstr ""
+
+#: learndash_zapier.php:378
+msgid "Select"
+msgstr ""
+
+#: learndash_zapier.php:379
+msgid "Enrolled into course"
+msgstr ""
+
+#: learndash_zapier.php:380
+msgid "Course completed"
+msgstr ""
+
+#: learndash_zapier.php:381
+msgid "Lesson completed"
+msgstr ""
+
+#: learndash_zapier.php:382
+msgid "Topic completed"
+msgstr ""
+
+#: learndash_zapier.php:383
+msgid "Quiz passed"
+msgstr ""
+
+#: learndash_zapier.php:384
+msgid "Quiz failed"
+msgstr ""
+
+#: learndash_zapier.php:385
+msgid "Quiz completed"
+msgstr ""
+
+#: learndash_zapier.php:386
+msgid "Essay Submitted"
+msgstr ""
+
+#: learndash_zapier.php:389
+msgid "A trigger will be sent on the selected event to the URL configured below."
+msgstr ""
+
+#: learndash_zapier.php:396
+#, php-format
+msgid "Trigger %s"
+msgstr ""
+
+#: learndash_zapier.php:402
+#, php-format
+msgid "%s that you want to associate with the trigger."
+msgstr ""
+
+#: learndash_zapier.php:408
+msgid "Webhook URL"
+msgstr ""
+
+#: learndash_zapier.php:410
+msgid "This is the url of your Zapier webhook, provided by Zapier when creating a new Zap."
+msgstr ""
+
+#: learndash_zapier.php:771
+msgid "Courses"
+msgstr ""
+
+#: learndash_zapier.php:777
+msgid "Lessons"
+msgstr ""
+
+#: learndash_zapier.php:783
+msgid "Topics"
+msgstr ""
+
+#: learndash_zapier.php:789
+msgid "Quizzes"
+msgstr ""
+
+#: learndash_zapier.php:798
+#, php-format
+msgid "All %s"
+msgstr ""

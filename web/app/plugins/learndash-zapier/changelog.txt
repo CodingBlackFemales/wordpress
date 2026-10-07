@@ -1,0 +1,90 @@
+= [2.3.2] 2026-01-28 =
+
+* Tweak - LearnDash requirement has been updated to 4.6.0.
+* Tweak - Updated required PHP version to 7.4.
+* Tweak - Updated required WP version to 6.6.
+* Tweak - Added actions: `learndash_zapier_uninstall`.
+* Tweak - Deprecated classes: `LearnDash_Dependency_Check_LD_Zapier`.
+* Tweak - Deprecated functions: `learndash_zapier_check_dependency`.
+
+= [2.3.1] =
+
+* Fix - Resolved an issue where dependent plugins were not able to initialize fully before the API endpoints were loaded.
+
+= [2.3.0.1] =
+
+* Fix - Added priority to `api_endpoint` method to increase stability with other plugins.
+
+= [2.3.0] =
+
+* Fix - Quiz completed zap is not triggered after taking a quiz.
+* Fix - PHP warning for uncountable object.
+* Fix - Get object list methods may return data in incorrect format.
+* Fix - Undefined property error.
+* Fix - Undefined variable.
+* Fix - Made sure only return quiz result sample if it has same keys and value types as live data.
+* Tweak - Added quiz filter before sending trigger.
+* Tweak - Added topic filter before sending trigger.
+* Tweak - Added lesson filter before sending trigger.
+* Tweak - Added groups ids filter.
+* Tweak - Added get object list methods and update get sample to use courses_ids arg.
+* Tweak - Added get courses list trigger handler and add filter course before sending triggers.
+* Tweak - Updated return object list in ascending title order.
+* Tweak - Updated add trigger arguments to pull sample.
+* Tweak - Updated add request and payload arguments to polling triggers.
+* Tweak - Updated get object sample based on selected objects.
+* Tweak - Updated improve triggers hook filter before being sent.
+
+= [2.2.3] =
+
+* Fix - Fixed calls to Zapier URL preventing some triggers from working.
+
+= [2.2.2] =
+
+* Fix - Fixed can't send trigger due to incorrect hookUrl payload key name when adding subscription hook.
+* Fix - Fixed non static method can't be called statically.
+
+= [2.2.1] =
+
+* Feature - Added course enrollment via group.
+* Fix - Fixed group certificate link sample.
+* Fix - Fixed error response.
+* Fix - Fixed WP 5.8 compatibility error.
+* Tweak - Added "added to group" trigger.
+* Tweak - Added "group completed" trigger.
+* Tweak - Added course certificate link data in course completed trigger.
+* Tweak - Added ability to set username and display name.
+* Tweak - Updated get quiz result sample from the least recent user.
+* Tweak - Updated improve course payload.
+* Tweak - Updated make action payload filterable.
+
+= [2.2.0] =
+
+* Fix - Fixed quiz_result response doesn't match between sample and live data.
+* Fix - Fixed undefined variables error.
+* Fix - Fixed syntax error that causes PHP warning error to be thrown.
+* Tweak - Updated pass enrolled into course response payload to get_response method to get the same live and sample data.
+* Tweak - Updated change Zapier app learndash_before_course_completed hook to learndash.
+* Tweak - Updated Add site URL format validation to prevent integration issues.
+* Tweak - Updated make API response of user creation error more verbose.
+* Tweak - Added dependencies check.
+* Tweak - Added course_info sample data in course completed trigger.
+* Tweak - Added file_link value in essay payload response.
+* Tweak - Added user_groups information to API payload data.
+* Tweak - Added logic to ensure adding and sending hook only to unique hook URL.
+* Tweak - Added course_info response to course_completed trigger with data from courseinfo shortcode.
+
+= [2.1.0] =
+
+* Fix - Fixed add array wrapper for `get_sample` response because it is expected by Zapier.
+* Fix - Fixed get sample method returns wrapped response in array.
+* Tweak - Added first name and last name to user response.
+* Tweak - Added create user param to toggle course access function.
+* Tweak - Added create user param to get user and toggle group membership functions.
+* Tweak - Added `add_to_group` and `remove_from_group` actions handler and add toggle membership helper.
+* Tweak - Added `get_user helper` to automatically create user if it does not exist or return it if it exists.
+* Tweak - Updated to return the last quiz result sample from the last user to get the latest quiz result possible.
+* Tweak - Updated `get_trigger_sample` and `get_object_sample` to be more efficient.
+* Tweak - Updated `get_response()` parser method and update respective sections accordingly.
+* Tweak - Updated to make first and last name field not required.
+* Tweak - Updated `get_group_field` action handler and its helpers.
