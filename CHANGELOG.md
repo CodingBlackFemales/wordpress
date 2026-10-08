@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.57](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.56...v0.1.57) (2026-10-08)
+
+## [0.1.56](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.55...v0.1.56) (2026-10-05)
+
+### Features
+
+* extend importer to support quizzes ([d4c51d5](https://github.com/CodingBlackFemales/wordpress/commit/d4c51d5db564c0d73d05d15d80dc293ae5077742))
+* link topics and quizzes to imported sessions ([032dadc](https://github.com/CodingBlackFemales/wordpress/commit/032dadc32213dd39dc604dc8f98ba1066c096126))
+
+### Bug Fixes
+
+* resolve MySQL versioning error ([fa7fe7f](https://github.com/CodingBlackFemales/wordpress/commit/fa7fe7f028a869b45a0a82f2c44d04a84a319fca))
+
 ## [0.1.55](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.54...v0.1.55) (2026-09-12)
 
 ### Features
