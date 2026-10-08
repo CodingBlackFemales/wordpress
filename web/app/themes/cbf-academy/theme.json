@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "720px"
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "system-ui, sans-serif",
+          "name": "System Font",
+          "slug": "system-font"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--system-font)"
+    }
+  }
+}
