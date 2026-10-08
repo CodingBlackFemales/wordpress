@@ -1,0 +1,1138 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Statuses Free 1.3.1-rc\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-29T19:43:28+00:00\n"
+"PO-Revision-Date: 2026-04-30 15:02+0000\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: publishpress-statuses\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: or-RO\n"
+
+#: publishpress-statuses.php:3
+#. Plugin Name of the plugin
+msgid "PublishPress Statuses Free"
+msgstr "PublishPress Statuses Free"
+
+#: publishpress-statuses.php:4, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/statuses"
+msgstr "https://publishpress.com/statuses"
+
+#: publishpress-statuses.php:5
+#. Description of the plugin
+msgid "Manage and create post statuses to customize your editorial workflow"
+msgstr ""
+"ପୋଷ୍ଟ୍ ସ୍ଥିତିଗୁଡିକୁ ପରିଚାଳନା କରନ୍ତୁ ଏବଂ ସୃଷ୍ଟି କରନ୍ତୁ, ଯାହା ଆପଣଙ୍କର "
+"ସାମ୍ପାଦକୀୟ କାର୍ଯ୍ୟପ୍ରବାହକୁ କଷ୍ଟମାଇଜ୍ କରିବାକୁ ସାହାଯ୍ୟ କରିବ।"
+
+#: publishpress-statuses.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-statuses.php:8, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: Admin.php:18
+#: Admin.php:430
+#: Admin.php:431
+#: PublishPress_Statuses.php:429
+#: PublishPress_Statuses.php:430
+#: StatusesUI.php:92, fuzzy
+msgid "Statuses"
+msgstr "Statuses"
+
+#: Admin.php:19, fuzzy
+msgid "Settings"
+msgstr "Settings"
+
+#: Admin.php:22
+#: includes-core/CoreAdmin.php:40
+#: includes-core/CoreAdmin.php:41
+#: includes-core/CoreAdmin.php:117
+#: includes-core/PromoBanner.php:225
+#: StatusListTable.php:224
+#: StatusListTable.php:250, fuzzy
+msgid "Upgrade to Pro"
+msgstr "Upgrade to Pro"
+
+#: Admin.php:369
+msgid "Add New"
+msgstr "Add New"
+
+#: Admin.php:528
+#: PublishPress_Statuses.php:894, fuzzy
+msgid "Approve"
+msgstr "Approve"
+
+#: Admin.php:530
+#: PublishPress_Statuses.php:864, fuzzy
+msgid "Assign"
+msgstr "Assign"
+
+#: Admin.php:532
+#: PublishPress_Statuses.php:879, fuzzy
+msgid "Mark In Progress"
+msgstr "Mark In Progress"
+
+#: Admin.php:545
+#. translators: %s is the status label
+#, fuzzy, php-format
+msgid "Set to %s"
+msgstr "Set to %s"
+
+#: Admin.php:554
+#: PostEditGutenberg.php:81
+#: PostEditGutenberg.php:101
+#. translators: %s is the status label
+#, fuzzy, php-format
+msgid "Save as %s"
+msgstr "Save as %s"
+
+#: Admin.php:566
+#. translators: %s is the name of a custom public status
+#, fuzzy, php-format
+msgid "Public (%s)"
+msgstr "Public (%s)"
+
+#: Admin.php:637
+#: PostEditClassic.php:179
+#: PostEditGutenberg.php:78
+#: PostEditGutenberg.php:286
+#: PostEditGutenbergStatuses.php:49
+#: PostEditGutenbergStatuses.php:69
+#: PostEditGutenbergStatuses.php:77, fuzzy
+msgid "Advance Status"
+msgstr "Advance Status"
+
+#: includes-core/CoreAdmin.php:19
+#, php-format
+msgid "Upgrade to Statuses Pro"
+msgstr "Upgrade to Statuses Pro"
+
+#: includes-core/CoreAdmin.php:105
+msgid "Upgrade to PublishPress Statuses Pro for additional benefits:"
+msgstr "ଅତିରିକ୍ତ ଲାଭ ପାଇଁ PublishPress Statuses Pro କୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ:"
+
+#: includes-core/CoreAdmin.php:108
+msgid "Define revision statuses"
+msgstr "ସଂଶୋଧନ ସ୍ଥିତିଗୁଡିକୁ ସଂଜ୍ଞା କରନ୍ତୁ"
+
+#: includes-core/CoreAdmin.php:109
+msgid "Control revision status selection"
+msgstr "ସଂଶୋଧନ ସ୍ଥିତି ଚୟନର ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
+
+#: includes-core/CoreAdmin.php:110
+msgid "Customize revision workflow sequence"
+msgstr "ସଂଶୋଧନ କାର୍ଯ୍ୟପ୍ରବାହ କ୍ରମକୁ କଷ୍ଟମାଇଜ୍ କରନ୍ତୁ"
+
+#: includes-core/CoreAdmin.php:111
+msgid "Custom notifications, with PublishPress Planner"
+msgstr "PublishPress Planner ସହିତ କଷ୍ଟମ୍ ସୂଚନା"
+
+#: includes-core/CoreAdmin.php:112
+msgid "No ads inside the plugin"
+msgstr "ପ୍ଲଗିନ୍ ମଧ୍ୟରେ କୌଣସି ବିଜ୍ୟାପନ ନାହିଁ"
+
+#: includes-core/CoreAdmin.php:113
+msgid "Prompt, professional support"
+msgstr "ତତ୍କାଳ, ପେଶାଗତ ସମର୍ଥନ"
+
+#: includes-core/CoreAdmin.php:124
+msgid "Need Statuses Support?"
+msgstr "ସ୍ଥିତିଗୁଡିକୁ ସମର୍ଥନ ଆବଶ୍ୟକ କି?"
+
+#: includes-core/CoreAdmin.php:129
+#: includes-core/PromoBanner.php:68
+msgid "If you need help or have a new feature request, let us know."
+msgstr ""
+"ଯଦି ଆପଣଙ୍କୁ ସହାୟତା ଆବଶ୍ୟକ କିମ୍ବା କୌଣସି ନୂତନ ବିଶେଷତା ଅନୁରୋଧ ଅଛି, ଆମକୁ "
+"ଜଣାନ୍ତୁ।"
+
+#: includes-core/CoreAdmin.php:131
+#: includes-core/PromoBanner.php:241
+msgid "Request Support"
+msgstr "ସମର୍ଥନ ଅନୁରୋଧ କରନ୍ତୁ"
+
+#: includes-core/CoreAdmin.php:140
+#: includes-core/PromoBanner.php:248
+msgid "Detailed documentation is also available on the plugin website."
+msgstr "ବିସ୍ତୃତ ଡକ୍ୟୁମେଣ୍ଟେସନ୍ କେବଳ ପ୍ଲଗିନ୍ ୱେବସାଇଟ୍ରେ ଉପଲବ୍ଧ।"
+
+#: includes-core/CoreAdmin.php:142
+#: includes-core/PromoBanner.php:251
+msgid "View Knowledge Base"
+msgstr "ଜ୍ଞାନ ଆଧାର ଦେଖନ୍ତୁ"
+
+#: PostEditClassic.php:214
+msgid "Current Time"
+msgstr "ବର୍ତ୍ତମାନ ସମୟ"
+
+#: PostEditClassic.php:242
+#: PostEditClassic.php:267
+#. translators: %s is a status name
+#, php-format
+msgid "Submit as %s"
+msgstr "%s ଭାବରେ ଦାୟିକରଣ କରନ୍ତୁ"
+
+#: PostEditClassic.php:328
+#. translators: %s is the name of a custom visibility status
+#, fuzzy, php-format
+msgid "%s, Sticky"
+msgstr "%s, Sticky"
+
+#: PostEditClassicSubmitMetabox.php:59
+msgid "Visibility:"
+msgstr "ଦୃଶ୍ୟତା:"
+
+#: PostEditClassicSubmitMetabox.php:200
+msgid "Restore default behavior of publish button"
+msgstr "ପ୍ରକାଶ ବଟନ୍ ଡିଫଲ୍ଟ ବ୍ୟବହାର ପୁନସ୍ଥାପନ କରନ୍ତୁ"
+
+#: PostEditClassicSubmitMetabox.php:201
+msgid "Bypass sequence"
+msgstr "କ୍ରମକୁ ଅବହେଳା କରନ୍ତୁ"
+
+#: PostEditClassicSubmitMetabox.php:437
+#. translators: %s is html markup
+#, php-format
+msgid "Publish %1$s on approval %2$s"
+msgstr "ମାନ୍ୟତା %1$s ଉପରେ ପ୍ରକାଶ %2$s"
+
+#: PostEditGutenberg.php:75
+msgid "Publication Workflow"
+msgstr "ପ୍ରକାଶ କାର୍ଯ୍ୟପ୍ରବାହ"
+
+#: PostEditGutenberg.php:79
+msgid "Post Status"
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି"
+
+#: PostEditGutenberg.php:82
+msgid "Set Selected Status"
+msgstr "ଚୟିତ ଷ୍ଟେଟସ୍ ସେଟ୍ କରନ୍ତୁ"
+
+#: PostEditGutenberg.php:83
+msgid "Keep Current Status"
+msgstr "ବରତମାନ ଷ୍ଟେଟସ୍ ରକ୍ଷା କରନ୍ତୁ"
+
+#: PostEditGutenberg.php:84
+msgid "Advance to Next Status"
+msgstr "ନିକଟତମ ଷ୍ଟେଟସ୍ ପ୍ରଗତି କରନ୍ତୁ"
+
+#: PostEditGutenberg.php:85
+msgid "Advance to Max Status"
+msgstr "ସର୍ବାଧିକ ଷ୍ଟେଟସ୍ ପ୍ରଗତି କରନ୍ତୁ"
+
+#: PostEditGutenberg.php:86
+msgid "This post is currently published"
+msgstr "ଏହି ପୋଷ୍ଟ ବର୍ତ୍ତମାନ ପ୍ରକାଶିତ"
+
+#: PostEditGutenberg.php:87
+msgid "This post is currently scheduled"
+msgstr "ଏହି ପୋଷ୍ଟ ବର୍ତ୍ତମାନ ନିରଧାରିତ"
+
+#: PostEditGutenbergStatuses.php:160
+#: StatusesUI.php:1321
+msgid "Workflow"
+msgstr "କାର୍ୟପ୍ରବାହ"
+
+#: PostEditGutenbergStatuses.php:166
+msgid "Submit Revision"
+msgstr "ପୁନର୍ବିଶେଷଣ ଦାଖଲ କରନ୍ତୁ"
+
+#: publishpress-module/ModuleAdminUI_Base.php:101
+#. translators: %1$s is the plugin name, %2$s is the rating stars
+#, php-format
+msgid "If you like %1$s, please leave us a %2$s rating. Thank you!"
+msgstr "ଯଦି ଆପଣ %1$s ପସନ୍ଦ କରନ୍ତି, ଦୟାକରି ଆମକୁ %2$s ମୂଲ୍ୟାଙ୍କନ ଛାଡ଼ନ୍ତୁ। ଧନ୍ୟବାଦ!"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+#, php-format
+msgid "About %s"
+msgstr "%s ବିଷୟରେ"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+msgid "About"
+msgstr "ବିଷୟରେ"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+#, php-format
+msgid "%s Documentation"
+msgstr "%s ଡକ୍ୟୁମେଣ୍ଟେସନ୍"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+msgid "Documentation"
+msgstr "ଡକ୍ୟୁମେଣ୍ଟେସନ୍"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact the PublishPress team"
+msgstr "PublishPress ଦଳ ସହ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact"
+msgstr "ସମ୍ପର୍କ"
+
+#: publishpress-statuses.php:118
+msgid "<strong>This plugin can be deleted.</strong>"
+msgstr "<strong>ଏହି ପ୍ଲଗିନ୍ ମିଟାଇ ଦିଆଯାଇପାରିବ।</strong>"
+
+#: publishpress-statuses.php:196
+#. translators: %s is a version number
+#, php-format
+msgid "Manage Statuses plugin settings."
+msgstr "ସ୍ଥିତିଗତ ପ୍ଲଗଇନ୍ ସେଟିଂଗୁଡିକୁ ପରିଚାଳନା କରନ୍ତୁ।"
+
+#: PublishPress_Statuses.php:397
+msgid "Can unpublish posts even if Visibility Status is locked."
+msgstr "ଦୃଶ୍ୟତା ସ୍ଥିତି ଲକ୍ ଥିବା ସତ୍ତ୍ୱରେ ପୋଷ୍ଟଗୁଡିକୁ ଅନପ୍ଲିଶ୍ କରିପାରିବେ।"
+
+#: PublishPress_Statuses.php:430
+msgid "Status"
+msgstr "ସ୍ଥିତି"
+
+#: PublishPress_Statuses.php:444
+msgid "Core Post Statuses"
+msgstr "କୋର୍ ପୋଷ୍ଟ ସ୍ଥିତିଗୁଡିକ"
+
+#: PublishPress_Statuses.php:707
+msgid "New post, not yet submitted."
+msgstr "ନୂତନ ପୋଷ୍ଟ, ଏବେ ପର୍ଯ୍ୟନ୍ତ ଦାଖଲ ହୋଇନି।"
+
+#: PublishPress_Statuses.php:729
+msgid "Post is awaiting review."
+msgstr "ପୋଷ୍ଟ ସମୀକ୍ଷା ପାଇଁ ଅପେକ୍ଷାରେ ଅଛି।"
+
+#: PublishPress_Statuses.php:749
+msgid "Post is scheduled for publication."
+msgstr "ପୋଷ୍ଟ ପ୍ରକାଶ ପାଇଁ ନିର୍ଧାରିତ।"
+
+#: PublishPress_Statuses.php:768
+msgid "Post is published, publicly visible."
+msgstr "ପୋଷ୍ଟ ପ୍ରକାଶିତ, ସାଧାରଣତଃ ଦୃଶ୍ୟମାନ।"
+
+#: PublishPress_Statuses.php:787
+msgid "Post is published with private visibility."
+msgstr "ପୋଷ୍ଟ ଗୋପନୀୟ ଦୃଶ୍ୟତା ସହିତ ପ୍ରକାଶିତ।"
+
+#: PublishPress_Statuses.php:847
+msgid "Pitch"
+msgstr "ପିଚ୍"
+
+#: PublishPress_Statuses.php:850
+msgid "Idea proposed; waiting for acceptance."
+msgstr "ଆଇଡିଆ ପ୍ରସ୍ତାବିତ; ଗ୍ରହଣ ପାଇଁ ଅପେକ୍ଷାରେ।"
+
+#: PublishPress_Statuses.php:862
+msgid "Assigned"
+msgstr "ନିୟୋଜିତ"
+
+#: PublishPress_Statuses.php:865
+msgid "Post idea assigned to writer."
+msgstr "ପୋଷ୍ଟ ଆଇଡିଆ ଲେଖକଙ୍କୁ ନିୟୋଜିତ।"
+
+#: PublishPress_Statuses.php:877
+msgid "In Progress"
+msgstr "ଚାଲୁ ଅବସ୍ଥାରେ"
+
+#: PublishPress_Statuses.php:880
+msgid "Writer is working on the post."
+msgstr "ଲେଖକ ପୋଷ୍ଟରେ କାମ କରୁଛନ୍ତି।"
+
+#: PublishPress_Statuses.php:892
+msgid "Approved"
+msgstr "ମାନ୍ୟତା ପ୍ରାପ୍ତ"
+
+#: PublishPress_Statuses.php:895
+msgid "Post has been approved for publication."
+msgstr "ପୋଷ୍ଟ ପ୍ରକାଶ ପାଇଁ ମାନ୍ୟତା ପ୍ରାପ୍ତ ହେଉଛି।"
+
+#: PublishPress_Statuses.php:907
+msgid "Needs Work"
+msgstr "କାମ ଆବଶ୍ୟକ"
+
+#: PublishPress_Statuses.php:909
+msgid "Set to Needs Work"
+msgstr "କାମ ଆବଶ୍ୟକରେ ସେଟ୍ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:910
+msgid "Post needs work before further review."
+msgstr "ପୋଷ୍ଟରେ ଅଧିକ ସମୀକ୍ଷା ପୂର୍ବରୁ କାମ ଆବଶ୍ୟକ।"
+
+#: PublishPress_Statuses.php:922
+msgid "Rejected"
+msgstr "ଅପ୍ରତ୍ୟାଶିତ"
+
+#: PublishPress_Statuses.php:924
+msgid "Reject"
+msgstr "ଅପ୍ରତ୍ୟାଶିତ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:925
+msgid "Post has been rejected."
+msgstr "ପୋଷ୍ଟଟି ଅପ୍ରତ୍ୟାଶିତ ହୋଇଛି।"
+
+#: PublishPress_Statuses.php:959
+msgid "Alternate Pre-Publication Workflow:"
+msgstr "ବିକଳ୍ପ ପୂର୍ବ-ପ୍ରକାଶନ କାର୍ଯ୍ୟପଦ୍ଧତି:"
+
+#: PublishPress_Statuses.php:1054
+msgid "Disabled Statuses:"
+msgstr "ନିଷ୍କ୍ରିୟ ସ୍ଥିତି:"
+
+#: PublishPress_Statuses.php:1070
+msgid "Deferred"
+msgstr "ଅନୁସୂଚୀତ"
+
+#: PublishPress_Statuses.php:1072
+msgid "Defer"
+msgstr "ଅନୁସୂଚୀତ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:1073
+msgid "Post has been deferred for future consideration."
+msgstr "ପୋଷ୍ଟଟି ଭବିଷ୍ୟତ ଚିନ୍ତା ପାଇଁ ଅନୁସୂଚୀତ ହୋଇଛି।"
+
+#: PublishPress_Statuses.php:1085
+msgid "Committee"
+msgstr "କମିଟି"
+
+#: PublishPress_Statuses.php:1087
+msgid "Refer to Committee"
+msgstr "କମିଟିକୁ ସନ୍ଦର୍ଭ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:1088
+msgid "Post has been referred to committee."
+msgstr "ପୋଷ୍ଟଟି କମିଟିକୁ ସନ୍ଦର୍ଭ କରାଯାଇଛି।"
+
+#: PublishPress_Statuses.php:1101
+msgid "Committee Review"
+msgstr "କମିଟି ସମୀକ୍ଷା"
+
+#: PublishPress_Statuses.php:1103
+msgid "Set to Committee Review"
+msgstr "କମିଟି ସମୀକ୍ଷାକୁ ସେଟ୍ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:1104
+msgid "Committee is reviewing the post."
+msgstr "କମିଟି ପୋଷ୍ଟକୁ ସମୀକ୍ଷା କରୁଛି।"
+
+#: PublishPress_Statuses.php:1117
+msgid "Committee Progress"
+msgstr "କମିଟି ପ୍ରଗତି"
+
+#: PublishPress_Statuses.php:1119
+msgid "Set to Committee Progress"
+msgstr "କମିଟି ପ୍ରଗତିକୁ ସେଟ୍ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:1120
+msgid "Committee is editing the post."
+msgstr "କମିଟି ପୋଷ୍ଟକୁ ସଂପାଦନ କରୁଛି।"
+
+#: PublishPress_Statuses.php:1133
+msgid "Committee Approved"
+msgstr "କମିଟି ପ୍ରମାଣିତ"
+
+#: PublishPress_Statuses.php:1135
+msgid "Set Committee Approval"
+msgstr "କମିଟି ପ୍ରମାଣିତ କରନ୍ତୁ"
+
+#: PublishPress_Statuses.php:1136
+msgid "Committee has approved the post."
+msgstr "କମିଟି ପୋଷ୍ଟଟିକୁ ପ୍ରମାଣିତ କରିଛି।"
+
+#: StatusAddNewUI.php:30
+msgid "Add New Status"
+msgstr "ନୂତନ ସ୍ଥିତି ଯୋଗ କରନ୍ତୁ"
+
+#: StatusEditUI.php:41
+#: StatusEditUI.php:50
+#: StatusListTable.php:945
+msgid "Labels"
+msgstr "ଲେବଲ"
+
+#: StatusEditUI.php:56
+#: StatusEditUI.php:414
+#: StatusListTable.php:171
+msgid "Post Types"
+msgstr "ପୋଷ୍ଟ ପ୍ରକାର"
+
+#: StatusEditUI.php:64
+#: StatusListTable.php:170
+msgid "Roles"
+msgstr "ଭୂମିକା"
+
+#: StatusEditUI.php:72
+msgid "Edit Status Labels"
+msgstr "ସ୍ଥିତି ଲେବଲ ସମ୍ପାଦନ କରନ୍ତୁ"
+
+#: StatusEditUI.php:75
+msgid "Back to Statuses"
+msgstr "ସ୍ଥିତିକୁ ଫେରାନ୍ତୁ"
+
+#: StatusEditUI.php:92
+msgid "Post Access"
+msgstr "ପୋଷ୍ଟ ପ୍ରବେଶ"
+
+#: StatusEditUI.php:184
+msgid "Update Status"
+msgstr "ସ୍ଥିତି ଅଦ୍ୟତନ କରନ୍ତୁ"
+
+#: StatusEditUI.php:293
+msgid "The slug is the unique ID for the status."
+msgstr "ସ୍ଲଗ୍ ସ୍ଥିତି ପାଇଁ ବିଶିଷ୍ଟ ID ଅଟୁନ୍ଟି।"
+
+#: StatusEditUI.php:303
+msgid "Color"
+msgstr "ରଙ୍ଗ"
+
+#: StatusEditUI.php:315
+msgid "The color is used to identify the status."
+msgstr "ରଙ୍ଗଟି ସ୍ଥିତିକୁ ପରିଚୟ କରିବାକୁ ବ୍ୟବହାର କରାଯାଏ।"
+
+#: StatusEditUI.php:321
+#: StatusListTable.php:169
+msgid "Icon"
+msgstr "ଆଇକନ"
+
+#: StatusEditUI.php:337
+msgid "Select Icon"
+msgstr "ଆଇକନ ଚୟନ କରନ୍ତୁ"
+
+#: StatusEditUI.php:343
+msgid "The icon is used to visually represent the status."
+msgstr "ଆଇକନଟି ସ୍ଥିତିକୁ ଦୃଶ୍ୟମାନ ଭାବେ ପ୍ରତିନିଧିତ୍ବ କରିବାକୁ ବ୍ୟବହାର କରାଯାଏ।"
+
+#: StatusEditUI.php:378
+msgid "Status Availability"
+msgstr "ସ୍ଥିତି ଉପଲବ୍ଧତା"
+
+#: StatusEditUI.php:381
+msgid "Choose which user roles can assign this status to a post."
+msgstr "ଏହି ସ୍ଥିତିକୁ ପୋଷ୍ଟକୁ କେଉଁଠି ବ୍ୟବହାରକାରୀ ଭୂମିକା ନିର୍ଦ୍ଧାରଣ କରନ୍ତୁ।"
+
+#: StatusEditUI.php:417
+msgid "Choose which post types can be set to this status."
+msgstr "ଏହି ସ୍ଥିତି ପାଇଁ କେଉଁଠି ପୋଷ୍ଟ ପ୍ରକାର ନିର୍ଦ୍ଧାରଣ କରନ୍ତୁ।"
+
+#: StatusEditUI.php:454
+msgid "All Post Types"
+msgstr "ସମସ୍ତ ପୋଷ୍ଟ ପ୍ରକାର"
+
+#: StatusEditUI.php:504
+msgid "Upgrade to choose who can manage posts in each status"
+msgstr ""
+"କେଉଁଠି ପୋଷ୍ଟଗୁଡିକୁ ପ୍ରତିଟି ସ୍ଥିତିରେ କେଉଁଠି ବ୍ୟବସ୍ଥା କରିପାରିବେ ସେଥିରେ ଉନ୍ନତି "
+"କରନ୍ତୁ"
+
+#: StatusEditUI.php:507
+msgid "Get PublishPress Statuses Pro for status-specific post access control."
+msgstr "PublishPress Statuses Pro ପାଇଁ status-specific post access control ପାଆନ୍ତୁ।"
+
+#: StatusEditUI.php:513
+msgid "Control which roles can assign a status"
+msgstr "କେଉଁ ଭୂମିକାଗୁଡିକୁ ଏକ status ନିର୍ଦ୍ଧାରଣ କରିବାକୁ ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
+
+#: StatusEditUI.php:516
+msgid "Control which roles can edit or delete posts per-status"
+msgstr ""
+"କେଉଁ ଭୂମିକାଗୁଡିକୁ ପ୍ରତି-status ଅନୁସାରେ posts ସମ୍ପାଦନ କରିବା କିମ୍ବା ମିଳାଇବାକୁ "
+"ନିୟନ୍ତ୍ରଣ କରନ୍ତୁ"
+
+#: StatusEditUI.php:519
+msgid "Set capabilities separately for each post type"
+msgstr "ପ୍ରତ୍ୟେକ post type ପାଇଁ ସ୍ୱତନ୍ତ୍ର ଦକ୍ଷତା ସେଟ୍ କରନ୍ତୁ"
+
+#: StatusEditUI.php:522
+msgid "User-friendly checkbox grid to assign capabilities"
+msgstr "ଦକ୍ଷତା ନିର୍ଦ୍ଧାରଣ ପାଇଁ ଉପୟୋଗକାରୀ-ମିଳନସାର ସଂଖ୍ୟାବିନ୍ୟାସ"
+
+#: StatusEditUI.php:531
+#: StatusListTable.php:674
+msgid "Get PublishPress Statuses Pro"
+msgstr "PublishPress Statuses Pro ପାଇଁ ପାଆନ୍ତୁ"
+
+#: StatusEditUI.php:536
+#: StatusListTable.php:229
+#: StatusListTable.php:246
+#: StatusListTable.php:679
+msgid "Learn More"
+msgstr "ଅଧିକ ଜାଣନ୍ତୁ"
+
+#: StatusEditUI.php:545
+#, php-format
+msgid "Status Label"
+msgstr "Status Label"
+
+#: StatusEditUI.php:578
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr "ନାମଟି status କୁ ପରିଚୟ କରିବାକୁ ବ୍ୟବହୃତ ହୁଏ। (Max: 20 characters)"
+
+#: StatusEditUI.php:588
+msgid "Description"
+msgstr "ବ୍ୟାଖ୍ୟା"
+
+#: StatusEditUI.php:600
+msgid "Save As Label"
+msgstr "Label ଭାବରେ ସଂରକ୍ଷିତ କରନ୍ତୁ"
+
+#: StatusEditUI.php:620
+msgid "Submit Button Label"
+msgstr "ସମ୍ପ୍ରେଷଣ ବଟନ୍ ଲେବଲ୍"
+
+#: StatusesUI.php:64
+#. translators: %s is the status label
+#, php-format
+msgid "Edit Post Status: %s"
+msgstr "Post Status ସଂପାଦନ କରନ୍ତୁ: %s"
+
+#: StatusesUI.php:67
+#. translators: %s is the status label
+#, php-format
+msgid "%s Status - Edit"
+msgstr "%s Status - ସମ୍ପାଦନ କରନ୍ତୁ"
+
+#: StatusesUI.php:75
+#. translators: %s is status type: "Workflow", "Visibility", "Revision", etc.
+#, fuzzy, php-format
+msgid "Add %s Status"
+msgstr "Add %s Status"
+
+#: StatusesUI.php:82
+msgid "Add Post Status"
+msgstr "Post Status ଯୋଡନ୍ତୁ"
+
+#: StatusesUI.php:83
+msgid "Add Status"
+msgstr "Status ଯୋଡନ୍ତୁ"
+
+#: StatusesUI.php:87
+#: StatusesUI.php:1297, fuzzy
+msgid "PublishPress Statuses Settings"
+msgstr "PublishPress Statuses Settings"
+
+#: StatusesUI.php:88
+msgid "Statuses Settings"
+msgstr "ସ୍ଥିତି ସେଟିଂସ"
+
+#: StatusesUI.php:91
+msgid "Post Statuses"
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି"
+
+#: StatusesUI.php:98
+msgid "Visibility Statuses"
+msgstr "ଦୃଶ୍ୟମାନ ସ୍ଥିତି"
+
+#: StatusesUI.php:217
+msgid "Post status created. Select a tab for further configuration."
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି ସୃଷ୍ଟି ହୋଇଛି। ଅଧିକ କନଫିଗରେସନ ପାଇଁ ଏକ ଟାବ୍ ଚୟନ କରନ୍ତୁ।"
+
+#: StatusesUI.php:219
+#: StatusesUI.php:224
+#. translators: %1$s is the status name, %2$s is the edit link
+#, php-format
+msgid "Post status %1$s updated. %2$s"
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି %1$s ଅଦ୍ୟତନ ହୋଇଛି। %2$s"
+
+#: StatusesUI.php:220
+msgid "Settings updated"
+msgstr "ସେଟିଂସ ଅଦ୍ୟତନ ହୋଇଛି"
+
+#: StatusesUI.php:221
+msgid "Default post status has been changed."
+msgstr "ଡିଫଲ୍ଟ ପୋଷ୍ଟ ସ୍ଥିତି ବଦଳାଯାଇଛି।"
+
+#: StatusesUI.php:225
+msgid "Post status deleted."
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି ମିଳିଲା।"
+
+#: StatusesUI.php:226
+#: StatusHandler.php:832
+msgid "Status order updated."
+msgstr "ସ୍ଥିତି ଅନୁକ୍ରମ ଅଦ୍ୟତନ ହୋଇଛି।"
+
+#: StatusesUI.php:250
+msgid "Use on these Post Types:"
+msgstr "ଏହି ପୋଷ୍ଟ ପ୍ରକାରରେ ବ୍ୟବହାର କରନ୍ତୁ:"
+
+#: StatusesUI.php:259
+msgid "Workflow Guidance:"
+msgstr "କାର୍ଯ୍ୟପ୍ରବାହ ନିର୍ଦ୍ଦେଶନା:"
+
+#: StatusesUI.php:268
+msgid "Manual Status Selection:"
+msgstr "ହାତୋଇ ସ୍ଥିତି ଚୟନ:"
+
+#: StatusesUI.php:287
+msgid "Custom Visibility:"
+msgstr "କଷ୍ଟମ୍ ଦୃଶ୍ୟମାନତା:"
+
+#: StatusesUI.php:297
+msgid "Default Visibility Status:"
+msgstr "ଡିଫଲ୍ଟ ଦୃଶ୍ୟମାନ ସ୍ଥିତି:"
+
+#: StatusesUI.php:307
+msgid "Custom Visibility Editing:"
+msgstr "କଷ୍ଟମ୍ ଦୃଶ୍ୟମାନ ସମ୍ପାଦନ:"
+
+#: StatusesUI.php:319
+msgid "Pending Review Status:"
+msgstr "ପେଣ୍ଡିଂ ରିଭ୍ୟୁ ସ୍ଥିତି:"
+
+#: StatusesUI.php:329
+msgid "Planner Integration:"
+msgstr "ପ୍ଲାନର୍ ଇଣ୍ଟେଗ୍ରେସନ୍:"
+
+#: StatusesUI.php:340
+msgid "Permissions Integration:"
+msgstr "ପରିବେଶ ଇଣ୍ଟେଗ୍ରେସନ୍:"
+
+#: StatusesUI.php:350
+msgid "Gutenberg / Classic Editor:"
+msgstr "ଗୁଟେନବର୍ଗ / କ୍ଲାସିକ୍ ଏଡିଟର୍:"
+
+#: StatusesUI.php:359
+msgid "Status Label Customization:"
+msgstr "ସ୍ଥିତି ଲେବଲ୍ କଷ୍ଟମାଇଜେସନ୍:"
+
+#: StatusesUI.php:374
+msgid "Import Operation:"
+msgstr "ଆମଦାନୀ କାର୍ଯ୍ୟ:"
+
+#: StatusesUI.php:385
+msgid "Backup / Restore:"
+msgstr "ବ୍ୟାକପ୍ / ପୁଣର୍ନିର୍ମାଣ:"
+
+#: StatusesUI.php:415
+msgid "Supplemental Role of Editor covers custom statuses"
+msgstr "ସପ୍ଲିମେଣ୍ଟାଲ୍ ଭୂମିକା ଏଡିଟର୍ କଷ୍ଟମ୍ ସ୍ଥିତିଗୁଡିକୁ କଭର୍ କରେ"
+
+#: StatusesUI.php:440
+msgid "Include custom statuses in Add New pop-up on Calendar"
+msgstr "କ୍ୟାଲେଣ୍ଡରରେ ନୂତନ ଯୋଡନ୍ତୁ ପପ୍-ଅପ୍ରେ କଷ୍ଟମ୍ ସ୍ଥିତିଗୁଡିକୁ ଅନ୍ତର୍ଭୁକ୍ତ କରନ୍ତୁ"
+
+#: StatusesUI.php:465
+msgid "Hide status selection dropdown from non-Administrators in Gutenberg editor"
+msgstr "ଗୁଟେନବର୍ଗ୍ ଏଡିଟର୍ରୁ ନନ୍-ଏଡମିନିଷ୍ଟ୍ରେଟର୍ମାନେ ସ୍ଥିତି ଚୟନ ଡ୍ରପ୍ଡାଉନ୍ ଲୁଚାନ୍ତୁ"
+
+#: StatusesUI.php:492
+msgid "Sequence by default: Publish button defaults to next status in workflow"
+msgstr "ଡିଫଲ୍ଟ୍ ଦ୍ୱାରା କ୍ରମ: ପବ୍ଲିଶ୍ ବଟନ୍ କାର୍ଯ୍ୟପ୍ରବାହରେ ନିକଟ ଷ୍ଟେଟସ୍କୁ ଡିଫଲ୍ଟ୍ କରେ"
+
+#: StatusesUI.php:506
+msgid "Bypass by default: Publish button defaults to maximum available status"
+msgstr ""
+"ଡିଫଲ୍ଟ୍ ଦ୍ୱାରା ବାୟପାସ୍: ପବ୍ଲିଶ୍ ବଟନ୍ ଅଧିକାର ଥିବା ସର୍ବାଧିକ ସ୍ଥିତିକୁ ଡିଫଲ୍ଟ୍ "
+"କରେ"
+
+#: StatusesUI.php:520
+msgid "No workflow guidance"
+msgstr "କୌଣସି କାର୍ଯ୍ୟପ୍ରବାହ ଦିଗଦର୍ଶନ ନାହିଁ"
+
+#: StatusesUI.php:570
+msgid "Available to all users"
+msgstr "ସମସ୍ତ ବ୍ୟବହାରକାରୀଙ୍କ ପାଇଁ ଉପଲବ୍ଧ"
+
+#: StatusesUI.php:608
+msgid "Available to specified roles only"
+msgstr "କେବଳ ନିର୍ଦ୍ଧାରିତ ଭୂମିକା ପାଇଁ ଉପଲବ୍ଧ"
+
+#: StatusesUI.php:614
+msgid "View or set roles at %1$s Statuses > Statuses > Pending Review > Roles %2$s"
+msgstr ""
+"ଦେଖନ୍ତୁ କିମ୍ବା %1$s ସ୍ଥିତିଗୁଡିକୁ > ସ୍ଥିତିଗୁଡିକୁ > ପେଣ୍ଡିଂ ରିଭ୍ୟୁ > ଭୂମିକା "
+"%2$s ସେଟ୍ କରନ୍ତୁ"
+
+#: StatusesUI.php:649, fuzzy
+msgid "Automatic Detection"
+msgstr "Automatic Detection"
+
+#: StatusesUI.php:650
+msgid "Using Classic Editor"
+msgstr "Classic Editor ବ୍ୟବହାର କରିବା"
+
+#: StatusesUI.php:651
+msgid "Using Gutenberg Editor"
+msgstr "Gutenberg Editor ବ୍ୟବହାର କରିବା"
+
+#: StatusesUI.php:656
+msgid "For all plugin statuses"
+msgstr "ସମସ୍ତ ପ୍ଲଗିନ୍ ସ୍ଥିତି ପାଇଁ"
+
+#: StatusesUI.php:678
+msgid "For user-created plugin statuses only"
+msgstr "କେବଳ ବ୍ୟବହାରକାରୀ-ସୃଷ୍ଟ ପ୍ଲଗିନ୍ ସ୍ଥିତି ପାଇଁ"
+
+#: StatusesUI.php:683
+msgid "Note: Post types can also be specified for each individual status."
+msgstr ""
+"ଟିପ୍ପଣୀ: ପୋଷ୍ଟ୍ ପ୍ରକାରଗୁଡ଼ିକୁ ପ୍ରତ୍ୟେକ ବ୍ୟକ୍ତିଗତ ସ୍ଥିତି ପାଇଁ ନିର୍ଦ୍ଧାରିତ "
+"କରାଯାଇପାରିବ।"
+
+#: StatusesUI.php:771
+msgid "Enable custom Visibility Statuses"
+msgstr "କଷ୍ଟମ୍ ଭିଜିବିଲିଟି ସ୍ଥିତି ସକ୍ରିୟ କରନ୍ତୁ"
+
+#: StatusesUI.php:796
+msgid "lock"
+msgstr "ଲକ୍"
+
+#: StatusesUI.php:903
+msgid "If enabled, users need the %s to unpublish a post."
+msgstr ""
+"ଯଦି ସକ୍ରିୟ କରାଯାଇଛି, ବ୍ୟବହାରକାରୀଙ୍କୁ ପୋଷ୍ଟ୍‌କୁ ଅପ୍ରକାଶିତ କରିବା ପାଇଁ %s "
+"ଆବଶ୍ୟକ।"
+
+#: StatusesUI.php:914
+msgid "Select..."
+msgstr "ଚୟନ କରନ୍ତୁ..."
+
+#: StatusesUI.php:934
+msgid "Re-run Planner import (with Status Control properties, ordering)"
+msgstr "ପ୍ଲାନର୍ ଆମଦାନୀ ପୁନର୍ବାର କରନ୍ତୁ (ସ୍ଥିତି ନିୟନ୍ତ୍ରଣ ବିଶେଷତା, କ୍ରମବଦ୍ଧତା ସହିତ)"
+
+#: StatusesUI.php:935
+msgid "Re-run Planner import (ignoring Status Control configuration)"
+msgstr "ପ୍ଲାନର୍ ଆମଦାନୀ ପୁନର୍ବାର କରନ୍ତୁ (ସ୍ଥିତି ନିୟନ୍ତ୍ରଣ ବିନା)"
+
+#: StatusesUI.php:937
+msgid "Re-run Planner import"
+msgstr "ପ୍ଲାନର୍ ଆମଦାନୀ ପୁନର୍ବାର କରନ୍ତୁ"
+
+#: StatusesUI.php:943
+msgid "Back up current colors, icons, labels and post types"
+msgstr "ବର୍ତ୍ତମାନ ରଙ୍ଗ, ଆଇକନ୍, ଲେବେଲ୍ ଓ ପୋଷ୍ଟ୍ ପ୍ରକାରଗୁଡ଼ିକୁ ବ୍ୟାକ୍‌ଅପ୍ କରନ୍ତୁ"
+
+#: StatusesUI.php:996
+msgid "Restore backup of status colors"
+msgstr "ସ୍ଥିତିର ରଙ୍ଗର ବ୍ୟାକ୍‌ଅପ୍ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1000
+msgid "Restore backup of status icons"
+msgstr "ସ୍ଥିତିର ଆଇକନ୍‌ର ବ୍ୟାକ୍‌ଅପ୍ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1004
+msgid "Restore backup of status labels"
+msgstr "ସ୍ଥିତିର ଲେବେଲ୍‌ର ବ୍ୟାକ୍‌ଅପ୍ ପୁନରୁଦ୍ଧାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1008
+msgid "Restore backup of status post types"
+msgstr "ସ୍ଥିତି ପୋଷ୍ଟ ପ୍ରକାରର ବ୍ୟାକପ୍ ପୁନର୍ସ୍ଥାପନ କରନ୍ତୁ"
+
+#: StatusesUI.php:1014
+msgid "Restore auto-backup of status colors"
+msgstr "ସ୍ଥିତି ରଙ୍ଗର ଆଟୋ-ବ୍ୟାକପ୍ ପୁନର୍ସ୍ଥାପନ କରନ୍ତୁ"
+
+#: StatusesUI.php:1018
+msgid "Restore auto-backup of status icons"
+msgstr "ସ୍ଥିତି ଆଇକନ୍‌ର ଆଟୋ-ବ୍ୟାକପ୍ ପୁନର୍ସ୍ଥାପନ କରନ୍ତୁ"
+
+#: StatusesUI.php:1022
+msgid "Restore auto-backup of status labels"
+msgstr "ସ୍ଥିତି ଲେବେଲ୍‌ର ଆଟୋ-ବ୍ୟାକପ୍ ପୁନର୍ସ୍ଥାପନ କରନ୍ତୁ"
+
+#: StatusesUI.php:1026
+msgid "Restore auto-backup of status post types"
+msgstr "ସ୍ଥିତି ପୋଷ୍ଟ ପ୍ରକାରର ଆଟୋ-ବ୍ୟାକପ୍ ପୁନର୍ସ୍ଥାପନ କରନ୍ତୁ"
+
+#: StatusesUI.php:1033
+msgid "Use default status colors"
+msgstr "ଡିଫଲ୍ଟ ସ୍ଥିତି ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1037
+msgid "Use default status icons"
+msgstr "ଡିଫଲ୍ଟ ସ୍ଥିତି ଆଇକନ୍‌ଗୁଡିକ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1041
+msgid "Use default status labels"
+msgstr "ଡିଫଲ୍ଟ ସ୍ଥିତି ଲେବେଲ୍‌ଗୁଡିକ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1045
+msgid "Use default status post types"
+msgstr "ଡିଫଲ୍ଟ ସ୍ଥିତି ପୋଷ୍ଟ ପ୍ରକାର ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1049
+msgid "Use Planner plugin's default status colors"
+msgstr "Planner ପ୍ଲଗିନର ଡିଫଲ୍ଟ ସ୍ଥିତି ରଙ୍ଗ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1053
+msgid "Use Planner plugin's default status icons"
+msgstr "Planner ପ୍ଲଗିନର ଡିଫଲ୍ଟ ସ୍ଥିତି ଆଇକନ୍‌ଗୁଡିକ ବ୍ୟବହାର କରନ୍ତୁ"
+
+#: StatusesUI.php:1092
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status: %s"
+msgstr "ସ୍ଥିତି ସଂପାଦନ କରନ୍ତୁ: %s"
+
+#: StatusesUI.php:1095
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s: %2$s"
+msgstr "ସ୍ଥିତି %1$s ସଂପାଦନ କରନ୍ତୁ: %2$s"
+
+#: StatusesUI.php:1115
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status Labels: %s"
+msgstr "ସ୍ଥିତି ଲେବେଲ୍‌ଗୁଡିକ ସଂପାଦନ କରନ୍ତୁ: %s"
+
+#: StatusesUI.php:1118
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s Labels: %2$s"
+msgstr "ସ୍ଥିତି %1$s ଲେବେଲ୍‌ଗୁଡିକ ସଂପାଦନ କରନ୍ତୁ: %2$s"
+
+#: StatusesUI.php:1155
+#: StatusesUI.php:1283
+msgid "Add New Pre-Publication Status"
+msgstr "ନୂତନ ପ୍ରି-ପ୍ରକାଶ ସ୍ଥିତି ଯୋଡନ୍ତୁ"
+
+#: StatusesUI.php:1171
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid "Note: Custom Visibility Statuses are %1$sdisabled%2$s."
+msgstr "ନୋଟ୍: କଷ୍ଟମ୍ ଭିଜିବିଲିଟି ସ୍ଥିତିଗୁଡିକ %1$sନିଷ୍କ୍ରିୟ%2$s ଅଟେ."
+
+#: StatusesUI.php:1208
+msgid "Pre-Publication"
+msgstr "ପ୍ରି-ପ୍ରକାଶ"
+
+#: StatusesUI.php:1216
+#: StatusesUI.php:1322
+msgid "Visibility"
+msgstr "ଭିଜିବିଲିଟି"
+
+#: StatusesUI.php:1227
+msgid "Revision"
+msgstr "ସংশୋଧନ"
+
+#: StatusesUI.php:1287
+msgid "Integration"
+msgstr "ସମ୍ମିଳନ"
+
+#: StatusesUI.php:1324
+msgid "Editor"
+msgstr "ସାମ୍ପାଦକ"
+
+#: StatusesUI.php:1325
+msgid "Advanced"
+msgstr "ଅଧିକ"
+
+#: StatusesUI.php:1326
+msgid "License"
+msgstr "ଲାଇସେନ୍ସ"
+
+#: StatusHandler.php:17
+#: StatusHandler.php:186
+msgid "Sorry, you do not have permission to edit custom statuses."
+msgstr "ଦୁ:ଖିତ, ଆପଣଙ୍କର କଷ୍ଟମ୍ ସ୍ଥିତିଗୁଡିକୁ ସଂପାଦନ କରିବାକୁ ଅଧିକାର ନାହିଁ।"
+
+#: StatusHandler.php:53
+#: StatusHandler.php:417
+msgid "Please enter a name for the status"
+msgstr "ଦୟାକରି ସ୍ଥିତି ପାଇଁ ଏକ ନାମ ଦିଅନ୍ତୁ"
+
+#: StatusHandler.php:57
+msgid "Please enter a slug for the status"
+msgstr "ଦୟାକରି ସ୍ଥିତି ପାଇଁ ଏକ ସ୍ଲଗ୍ ଦିଅନ୍ତୁ"
+
+#: StatusHandler.php:64
+#: StatusHandler.php:422
+msgid "Please enter a valid, non-numeric name for the status."
+msgstr "ଦୟାକରି ସ୍ଥିତି ପାଇଁ ବାସ୍ତବ, ଗଣନାତ୍ମକ ନୁହେଁ ଏକ ନାମ ଦିଅନ୍ତୁ।"
+
+#: StatusHandler.php:81
+#: StatusHandler.php:441
+msgid "Status name cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"ସ୍ଥିତିର ନାମ 20 ଅକ୍ଷରକୁ ଅତିକ୍ରମ କରିପାରିବା ନାହିଁ। ଦୟାକରି ଏକ ଛୋଟ ନାମ ପରୀକ୍ଷା "
+"କରନ୍ତୁ।"
+
+#: StatusHandler.php:100
+msgid "Status slug cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"ସ୍ଥିତିର ସ୍ଲଗ୍ 20 ଅକ୍ଷରକୁ ଅତିକ୍ରମ କରିପାରିବା ନାହିଁ। ଦୟାକରି ଏକ ଛୋଟ ନାମ ପରୀକ୍ଷା "
+"କରନ୍ତୁ।"
+
+#: StatusHandler.php:110
+msgid "Name conflicts with existing status. Please choose another."
+msgstr "ନାମ ଅବସ୍ଥିତ ଗତ ସ୍ଥିତି ସହିତ ବିବାଧ। ଦୟାକରି ଅନ୍ୟ ଏକ ବାଛନ୍ତୁ।"
+
+#: StatusHandler.php:117
+msgid "Status name is restricted. Please choose another name."
+msgstr "ସ୍ଥିତିର ନାମ ନିୟମିତ। ଦୟାକରି ଅନ୍ୟ ଏକ ନାମ ବାଛନ୍ତୁ।"
+
+#: StatusHandler.php:141
+msgid "Could not add status: "
+msgstr "ସ୍ଥିତିକୁ ଯୋଡିବାକୁ ସମ୍ଭବ ହୋଇପାରୁନି: "
+
+#: StatusHandler.php:193
+#: StatusHandler.php:754
+msgid "Status does not exist."
+msgstr "ସ୍ଥିତି ଅବସ୍ଥିତ ନାହିଁ।"
+
+#: StatusHandler.php:198
+#: StatusHandler.php:749
+msgid "Could not delete the status: "
+msgstr "ସ୍ଥିତିକୁ ମିଟାଇବାକୁ ସମ୍ଭବ ହୋଇପାରୁନି: "
+
+#: StatusHandler.php:222
+#: StatusHandler.php:372
+msgid "Post status doesn't exist."
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି ଅବସ୍ଥିତ ନାହିଁ।"
+
+#: StatusHandler.php:350
+msgid "Error updating post status."
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତିକୁ ଅଦ୍ୟତନ କରିବାରେ ତ୍ରୁଟି।"
+
+#: StatusHandler.php:501
+msgid "Error updating post status labels."
+msgstr "ପୋଷ୍ଟ ସ୍ଥିତି ଲେବେଲ୍ଗୁଡିକୁ ଅଦ୍ୟତନ କରିବାରେ ତ୍ରୁଟି।"
+
+#: StatusHandler.php:677
+msgid "Cannot reassign to the status you want to delete"
+msgstr ""
+"ଆପଣ ଯାହା ବିଲୋପ କରିବାକୁ ଚାହାଁଛନ୍ତି ସେହି ସ୍ଥିତିକୁ ପুনର୍ନିୟୋଜିତ କରିବାକୁ ସମ୍ଭବ "
+"ନୁହେଁ"
+
+#: StatusHandler.php:724
+msgid "Restricted status "
+msgstr "ସୀମିତ ସ୍ଥିତି"
+
+#: StatusHandler.php:751
+msgid "Status deleted"
+msgstr "ସ୍ଥିତି ବିଲୋପ ହୋଇଛି"
+
+#: StatusHandler.php:773
+msgid "Status positions were not sent."
+msgstr "ସ୍ଥିତି ଅବସ୍ଥା ଦିଆଯାଇନି।"
+
+#: StatusListTable.php:166
+msgid "Position"
+msgstr "ଅବସ୍ଥା"
+
+#: StatusListTable.php:167
+msgid "Status Name"
+msgstr "ସ୍ଥିତି ନାମ"
+
+#: StatusListTable.php:197
+msgid "Upgrade to create an approval workflow for published content"
+msgstr "ପ୍ରକାଶିତ ସାମଗ୍ରୀ ପାଇଁ ଏକ ଅନୁମୋଦନ କାର୍ଯ୍ୟପ୍ରବାହ ସୃଷ୍ଟି କରିବାକୁ Upgrade କରନ୍ତୁ"
+
+#: StatusListTable.php:200
+msgid "Each post type can have different Revisions statuses"
+msgstr "ପ୍ରତ୍ୟେକ ପୋଷ୍ଟ ପ୍ରକାରରେ ବିଭିନ୍ନ Revisions ସ୍ଥିତି ହୋଇପାରେ"
+
+#: StatusListTable.php:215
+msgid "You choose which users can manage content in each Revisions status"
+msgstr ""
+"ଆପଣ ଚୟନ କରନ୍ତୁ କେଉଁ ବ୍ୟବହାରକାରୀ ପ୍ରତ୍ୟେକ Revisions ସ୍ଥିତିରେ ସାମଗ୍ରୀ "
+"ପରିଚାଳନା କରିପାରିବେ"
+
+#: StatusListTable.php:241
+msgid "Premium Feature"
+msgstr "ପ୍ରିମିୟମ ବିଶେଷତା"
+
+#: StatusListTable.php:242
+msgid "Install Statuses Pro to unlock custom revision statuses."
+msgstr "କଷ୍ଟମ୍ ରିଭିଜନ୍ ସ୍ଥିତିଗୁଡିକୁ ଅନଲକ୍ କରିବାକୁ Statuses Pro ଇନ୍ସ୍ଟଲ୍ କରନ୍ତୁ।"
+
+#: StatusListTable.php:243
+msgid "Configure for any post type and role to match your editing workflow."
+msgstr ""
+"ଆପଣଙ୍କର ସମ୍ପାଦନା କାର୍ଯ୍ୟପ୍ରବାହକୁ ମେଳ ଖାତିରେ କୌଣସି ପୋଷ୍ଟ ପ୍ରକାର ଓ ଭୂମିକା "
+"ପାଇଁ ବିନ୍ୟାସ କରନ୍ତୁ।"
+
+#: StatusListTable.php:308
+#, php-format
+msgid "Main Workflow:"
+msgstr "ମୁଖ୍ୟ କାର୍ଯ୍ୟପ୍ରବାହ:"
+
+#: StatusListTable.php:366
+msgid "Drop any status here to include it in main workflow for new posts."
+msgstr "ନୂତନ ପୋଷ୍ଟ ପାଇଁ ମୁଖ୍ୟ କାର୍ଯ୍ୟପ୍ରବାହରେ ଏହିଠାରେ କୌଣସି ସ୍ଥିତି ତ୍ରାସ କରନ୍ତୁ।"
+
+#: StatusListTable.php:402
+msgid "Drop any status here to disable."
+msgstr "ଏଠାରେ କୌଣସି ଷ୍ଟାଟସ୍ ଡ୍ରପ୍ କରନ୍ତୁ ଯାହାକି ଅକ୍ରିୟ କରିବା ପାଇଁ।"
+
+#: StatusListTable.php:517
+msgid "Standard Publication:"
+msgstr "ମାନକ ପ୍ରକାଶନ:"
+
+#: StatusListTable.php:524
+msgid "Visibility Statuses for Private Publication:"
+msgstr "ନିଜୀ ପ୍ରକାଶନ ପାଇଁ ଦୃଶ୍ୟତା ଷ୍ଟାଟସ୍:"
+
+#: StatusListTable.php:531
+msgid "Alternate Workflows:"
+msgstr "ବିକଳ୍ପ କାର୍ଯ୍ୟପ୍ରବାହ:"
+
+#: StatusListTable.php:531
+#: StatusListTable.php:542
+#. translators: %s is the opening and closing <span> tags
+msgid "Disabled Statuses (drag to re-enable):"
+msgstr "ଅକ୍ରିୟ ଷ୍ଟାଟସ୍ (ପुनର୍ ଉତ୍ତୋଳନ କରିବାକୁ ଡ୍ରାଗ୍ କରନ୍ତୁ):"
+
+#: StatusListTable.php:647
+msgid "Upgrade to choose who can view your non-public posts"
+msgstr ""
+"ଅପଗ୍ରେଡ୍ କରନ୍ତୁ ଯାହା ଦେଖିପାରିବ ବୋଲି ନିର୍ଣ୍ଣୟ କରିବା ପାଇଁ ଯେହିଁ ଆପଣଙ୍କର "
+"ନନ୍-ପ୍ରକାଶିତ ପୋଷ୍ଟଗୁଡିକୁ"
+
+#: StatusListTable.php:650
+msgid "Create multiple visibility statuses to show content to different users"
+msgstr ""
+"ବିଭିନ୍ନ ବ୍ୟବହାରକାରୀଙ୍କୁ ସାମଗ୍ରୀ ଦେଖାଇବା ପାଇଁ ଅନେକ ଦୃଶ୍ୟତା ଷ୍ଟାଟସ୍ ସୃଷ୍ଟି "
+"କରନ୍ତୁ"
+
+#: StatusListTable.php:659
+msgid "Choose which user roles can see posts in each status"
+msgstr ""
+"କେଉଁ ବ୍ୟବହାରକାରୀ ଭୂମିକାଗୁଡିକୁ ପୋଷ୍ଟଗୁଡିକୁ ପ୍ରତିଷ୍ଠିତ ଷ୍ଟାଟସ୍ ମଧ୍ୟରେ ଦେଖିବା "
+"ପାଇଁ ଚୟନ କରନ୍ତୁ"
+
+#: StatusListTable.php:662
+msgid "Select which user roles can move posts to each status"
+msgstr ""
+"କେଉଁ ବ୍ୟବହାରକାରୀ ଭୂମିକାଗୁଡିକୁ ପୋଷ୍ଟଗୁଡିକୁ ପ୍ରତିଷ୍ଠିତ ଷ୍ଟାଟସ୍ ମଧ୍ୟରେ "
+"ଚଳାଇବାକୁ ଚୟନ କରନ୍ତୁ"
+
+#: StatusListTable.php:665
+msgid "Decide which user roles can edit posts in each status"
+msgstr ""
+"କେଉଁ ବ୍ୟବହାରକାରୀ ଭୂମିକାଗୁଡିକୁ ପୋଷ୍ଟଗୁଡିକୁ ପ୍ରତିଷ୍ଠିତ ଷ୍ଟାଟସ୍ ମଧ୍ୟରେ ସମ୍ପାଦନ "
+"କରିବାକୁ ନିର୍ଣ୍ଣୟ କରନ୍ତୁ"
+
+#: StatusListTable.php:762
+#. translators: %s is the list of post types
+#, php-format
+msgid "%s, more..."
+msgstr "%s, ଅଧିକ..."
+
+#: StatusListTable.php:844
+msgid "No custom statuses found."
+msgstr "କୌଣସି କଷ୍ଟମ୍ ଷ୍ଟାଟସ୍ ମିଳିଲା ନାହିଁ।"
+
+#: StatusListTable.php:915
+msgid "Core"
+msgstr "କୋର୍"
+
+#: StatusListTable.php:919
+msgid "Default"
+msgstr "ଡିଫଲ୍ଟ"
+
+#: StatusListTable.php:953
+msgid "Delete"
+msgstr "ମିଟାନ୍ତୁ"
+
+#: PublishPress_Statuses.php:849
+msgctxt "post action/button label"

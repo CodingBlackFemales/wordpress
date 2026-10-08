@@ -417,6 +417,18 @@ function learndash_fileupload_process( $uploadfiles, $post_id ) {
 			// look only for uploaded files.
 			if ( 0 == $uploadfiles['error'][ $key ] ) {
 
+				// Validate the file extension for each file individually before processing.
+				$limit_file_exts = learndash_get_allowed_upload_mime_extensions_for_post( $post_id );
+				$filetype_mime   = wp_check_filetype( $uploadfiles['name'][ $key ], $limit_file_exts );
+
+				if (
+					empty( $filetype_mime['ext'] )
+					|| empty( $filetype_mime['type'] )
+					|| ! $limit_file_exts[ strtolower( $filetype_mime['ext'] ) ]
+				) {
+					continue;
+				}
+
 				$file_tmp = $uploadfiles['tmp_name'][ $key ];
 
 				$original_uploaded_filename = sanitize_text_field( $uploadfiles['name'][ $key ] );
@@ -429,8 +441,6 @@ function learndash_fileupload_process( $uploadfiles, $post_id ) {
 					include ABSPATH . 'wp-includes/pluggable.php';
 				}
 
-				// Before this function we have already validated the file extension/type via the function learndash_check_upload
-				// @2.5.4.
 				$file_uploaded_name = pathinfo( basename( $filename ), PATHINFO_FILENAME );
 				$file_ext           = pathinfo( basename( $filename ), PATHINFO_EXTENSION );
 

@@ -64,6 +64,13 @@ class Page extends LearnDash_Settings_Page {
 			LEARNDASH_SCRIPT_VERSION_TOKEN,
 			true
 		);
+		wp_localize_script(
+			'learndash-admin-settings-data-reports-script',
+			'learndashDataReports',
+			array(
+				'messages' => Learndash_Admin_Settings_Data_Reports::get_export_notice_messages(),
+			)
+		);
 		$learndash_assets_loaded['scripts']['learndash-admin-settings-data-reports-script'] = __FUNCTION__;
 
 		parent::load_settings_page();

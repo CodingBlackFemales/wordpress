@@ -1,10 +1,20 @@
 <?php
+/**
+ * Model for the form mapper.
+ *
+ * @package WP-Pro-Quiz
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-// phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
-class WpProQuiz_Model_FormMapper extends WpProQuiz_Model_Mapper {
 
+/**
+ * Model for the form mapper.
+ *
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName,WordPress.NamingConventions.ValidFunctionName,WordPress.NamingConventions.ValidHookName,PSR2.Classes.PropertyDeclaration.Underscore
+ */
+class WpProQuiz_Model_FormMapper extends WpProQuiz_Model_Mapper {
 	public function deleteForm( $formIds, $quizId ) {
 		return $this->_wpdb->query(
 			$this->_wpdb->prepare(
@@ -19,7 +29,11 @@ class WpProQuiz_Model_FormMapper extends WpProQuiz_Model_Mapper {
 	}
 
 	/**
-	 * @param WpProQuiz_Model_Form $forms
+	 * Update the form data.
+	 *
+	 * @param WpProQuiz_Model_Form[] $forms The forms to update.
+	 *
+	 * @return void
 	 */
 	public function update( $forms ) {
 		$values = $values2 = array();

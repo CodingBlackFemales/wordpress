@@ -1,0 +1,7 @@
+#editor div.edit-post-revision-status {
+display: none;
+}
+
+#editor span.presspermit-status-span div.rvy-current-status {
+display: none;
+}

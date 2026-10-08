@@ -1,0 +1,348 @@
+/**
+ * @package PublishPress
+ * @author PublishPress
+ *
+ * Copyright (c) 2022 PublishPress
+ *
+ * ------------------------------------------------------------------------------
+ * Based on Edit Flow
+ * Author: Daniel Bachhuber, Scott Bressler, Mohammad Jangda, Automattic, and
+ * others
+ * Copyright (c) 2009-2016 Mohammad Jangda, Daniel Bachhuber, et al.
+ * ------------------------------------------------------------------------------
+ *
+ * This file is part of PublishPress
+ *
+ * PublishPress is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PublishPress is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PublishPress.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+@charset "UTF-8";
+
+/* publishpress */
+@font-face {
+    font-family: "publishpress";
+    src: url("../font/publishpress.eot");
+    src: url("../font/publishpress.eot?#iefix") format("embedded-opentype"),
+    url("../font/publishpress.woff") format("woff"),
+    url("../font/publishpress.ttf") format("truetype"),
+    url("../font/publishpress.svg#1489675140") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.pp-content-overview-page .pp_select2-container,
+.pp-content-board-page .pp_select2-container,
+.pp-content-calendar-page .pp_select2-container {
+    z-index: 100051;
+}
+
+.pp-title-tooltip {
+    cursor: help;
+    position: relative;
+}
+
+.pp-title-tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #3c434a;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0px 4px 8px rgb(255, 255, 255);
+}
+
+.pp-title-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    box-shadow: -1px -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+[class^="pp-icon-"]:before,
+[class*=" pp-icon-"]:before {
+    font-family: "publishpress" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.pp-icon-print:before {
+    content: "\64";
+}
+
+.pp-page-icon {
+    font-size: 30px;
+    display: inline-block;
+}
+
+.pp-page-title {
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+
+.pp-module-settings {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.pp-module-settings:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.pp-module-settings td > button {
+    border: none !important;
+}
+
+.basic-settings h3:not(:first-of-type) {
+    margin-top: 35px;
+}
+
+.publishpress-admin .wp-picker-default {
+    padding: 0 10px;
+}
+
+.publishpress-admin .wp-picker-open {
+    margin-bottom: 5px;
+}
+
+.publishpress-admin h1 {
+    margin-top:8px;
+}
+
+div.pp-icon {
+    float:left;
+    margin: 5px 10px 0 0;
+}
+div.pp-icon img {
+    height:48px;
+}
+
+.pressshack-admin-wrapper .logo-header {
+    display: inline-block;
+    margin-right: 5px;
+    height: 50px;
+}
+
+.planner_page_pp-modules-settings #ui-datepicker-div.ui-widget-content .ui_tpicker_hour .ui-state-default,
+.planner_page_pp-modules-settings #ui-datepicker-div.ui-widget-content .ui_tpicker_minute .ui-state-default {
+    background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
+    padding: 0 30px 0 8px;
+}
+
+/* @TODO load this code through custom-status.css
+Status color box */
+
+.pp-status-color {
+    display: inline-block;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    padding: 2px 5px 2px 5px;
+}
+
+.pp-status-color + strong {
+    margin-left: 5px;
+}
+
+.psppca_field_warning {
+    font-style: italic;
+}
+
+.psppno_no_filter_warning,
+.psppno_no_events_warning {
+    font-style: italic;
+    color: #9c9c9c;
+}
+
+#wp-admin-bar-publishpress_debug {
+    background: #635A93 !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0 2px !important;
+}
+
+div.pp-plugin-prompt {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    border-width: 1px;
+    border-style: solid;
+    padding: 5px !important;
+    margin: 0 10px 10px 0;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #ffffe0;
+    border-color: #e6db55;
+}
+
+.pp-advertisement-right-sidebar .upgrade-btn a {
+    background: #FCB223;
+    color: #000 !important;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 9px 12px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid #fca871;
+    break-inside: avoid;
+    white-space: nowrap;
+}
+
+.pp-advertisement-right-sidebar .upgrade-btn a:hover {
+    background: #fcca46;
+    color: #000 !important;
+}
+
+.pp-advertisement-right-sidebar h3.hndle {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.pp-advertisement-right-sidebar .inside ul {
+    margin-bottom: 20px;
+}
+
+.pp-advertisement-right-sidebar .inside ul li {
+    position: relative;
+    padding-left: 22px;
+    font-weight: 600;
+    font-size: .9em;
+}
+
+.pp-advertisement-right-sidebar .inside ul li:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background-color: #3C50FF;
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/></svg>");
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/></svg>");
+    mask-size: 16px;
+    -webkit-mask-size: 16px;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: left;
+    -webkit-mask-position: left;
+}
+
+.pp-advertisement-right-sidebar a.advert-link {
+    display: block;
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+.pp-advertisement-right-sidebar .advertisement-box-header {
+    background: #655897;
+    color: #ffffff;
+}
+
+.pp-advertisement-right-sidebar .advertisement-box-content {
+    border: 1px solid #655897;
+}
+
+.pp-columns-wrapper.pp-enable-sidebar {
+	display: table;
+	width: 100%;
+}
+
+.pp-columns-wrapper.pp-enable-sidebar .pp-column-left {
+	width: 75%;
+}
+
+.pp-columns-wrapper.pp-enable-sidebar .pp-column-right {
+	width: calc( 25% - 20px );
+	margin-left: 20px;
+}
+
+.pp-columns-wrapper.pp-enable-sidebar .pp-column-left,
+.pp-columns-wrapper.pp-enable-sidebar .pp-column-right {
+	float: left;
+}
+
+.wrap.publishpress-admin .nav-tab-wrapper a {
+    margin-top: 10px;
+}
+
+.pp-admin-notice {
+    padding: 10px !important;
+    line-height: 18px;
+    position: relative;
+}
+
+@media (max-width: 1199px) {
+
+	.pp-columns-wrapper.pp-enable-sidebar .pp-column-left,
+	.pp-columns-wrapper.pp-enable-sidebar .pp-column-right {
+		float: none;
+		width: 100%;
+	}
+
+	.pp-columns-wrapper.pp-enable-sidebar .pp-column-right {
+		margin-left: 0;
+		margin-bottom: 20px;
+	}
+}
+
+@media only screen and (min-width: 1075px) {
+    .pp-advertisement-right-sidebar-message,
+    .upgrade-btn {
+        display: inline-block;
+    }
+
+    .pp-advertisement-right-sidebar-message {
+        margin-right: 25px;
+    }
+}
+
+@media only screen and (max-width: 1074px) {
+    .pp-advertisement-right-sidebar-message,
+    .upgrade-btn {
+        display: block;
+    }
+
+    .upgrade-btn {
+        margin-top: 20px;
+    }
+
+    .upgrade-btn a {
+        max-width: 170px;
+    }
+}

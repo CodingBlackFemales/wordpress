@@ -5,7 +5,7 @@
  * @package Requests\EventDispatcher
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
 /**
  * Event dispatcher

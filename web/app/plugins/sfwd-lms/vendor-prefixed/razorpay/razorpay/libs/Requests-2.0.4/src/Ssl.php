@@ -5,10 +5,10 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * SSL utilities for Requests
@@ -29,8 +29,8 @@ final class Ssl {
 	 * @param string|Stringable $host Host name to verify against
 	 * @param array $cert Certificate data from openssl_x509_parse()
 	 * @return bool
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $host argument is not a string or a stringable object.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $cert argument is not an array or array accessible.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $host argument is not a string or a stringable object.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $cert argument is not an array or array accessible.
 	 */
 	public static function verify_certificate($host, $cert) {
 		if (InputValidator::is_string_or_stringable($host) === false) {
@@ -93,7 +93,7 @@ final class Ssl {
 	 *
 	 * @param string|Stringable $reference Reference dNSName
 	 * @return boolean Is the name valid?
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or a stringable object.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or a stringable object.
 	 */
 	public static function verify_reference_name($reference) {
 		if (InputValidator::is_string_or_stringable($reference) === false) {
@@ -147,7 +147,7 @@ final class Ssl {
 	 * @param string|Stringable $host Requested host
 	 * @param string|Stringable $reference dNSName to match against
 	 * @return boolean Does the domain match?
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When either of the passed arguments is not a string or a stringable object.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When either of the passed arguments is not a string or a stringable object.
 	 */
 	public static function match_domain($host, $reference) {
 		if (InputValidator::is_string_or_stringable($host) === false) {

@@ -439,6 +439,12 @@ class LearnDash_ProPanel {
 					'lang'                       => ( isset( $_GET['lang'] ) ) ? esc_attr( $_GET['lang'] ) : '',
 					'flatpickr_locale'           => $flatpickr_locale,
 					'flatpickr_date_time_format' => $date_format . ' ' . $time_format,
+					'messages'                   => array_merge(
+						array(
+							'export_status_unavailable' => esc_html__( 'The export status could not be retrieved. The export may still be running in the background — refresh the page in a few minutes to check.', 'learndash' ),
+						),
+						Learndash_Admin_Settings_Data_Reports::get_export_notice_messages()
+					),
 				)
 			);
 			wp_enqueue_script( 'ld-propanel-script' );

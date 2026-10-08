@@ -466,14 +466,13 @@
 /* Gutenberg header styling */
 .block-editor-page #sfwd-header {
   position: fixed;
-  top: 46px;
+  /**
+   * The WP Admin Bar keeps its place in the Block Editor, fullscreen mode included: only
+   * distraction-free mode hides it, and Core zeroes the custom property when it does.
+   */
+  top: var(--wp-admin--admin-bar--height, 0px);
   padding-left: 10px;
   width: 100%;
-}
-@media (min-width: 782px) {
-  .block-editor-page #sfwd-header {
-    top: 32px;
-  }
 }
 .block-editor-page #sfwd-header .ld-global-header {
   position: relative;
@@ -483,14 +482,8 @@
 }
 
 .block-editor-page.is-fullscreen-mode #sfwd-header {
-  top: unset;
   padding-left: 0;
   width: 100%;
-}
-@media (min-width: 782px) {
-  .block-editor-page.is-fullscreen-mode #sfwd-header {
-    top: 0px;
-  }
 }
 
 .block-editor-page.ld-header-has-tabs .edit-post-layout.is-mode-visual.is-sidebar-opened.interface-interface-skeleton {
@@ -801,11 +794,6 @@ body:not(.block-editor-page) .learndash-settings-page-wrap #sfwd-header {
   .ld-header-has-tabs.is-fullscreen-mode .edit-post-sidebar,
   .ld-header-has-tabs .edit-post-sidebar {
     top: 214px;
-  }
-}
-@media (min-width: 782px) {
-  .ld-header-has-tabs.is-fullscreen-mode .edit-post-layout .editor-post-publish-panel {
-    top: 117px;
   }
 }
 

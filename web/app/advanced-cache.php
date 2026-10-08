@@ -23,8 +23,8 @@ if (
 }
 
 
-if ( file_exists( '/app/web/app/plugins/wp-rocket/inc/classes/dependencies/mobiledetect/mobiledetectlib/Mobile_Detect.php' ) && ! class_exists( 'WP_Rocket_Mobile_Detect' ) ) {
-	include_once '/app/web/app/plugins/wp-rocket/inc/classes/dependencies/mobiledetect/mobiledetectlib/Mobile_Detect.php';
+if ( file_exists( '/app/web/app/plugins/wp-rocket/inc/Dependencies/Detection/MobileDetect.php' ) && ! class_exists( 'WP_Rocket\Dependencies\Detection\MobileDetect' ) ) {
+	include_once '/app/web/app/plugins/wp-rocket/inc/Dependencies/Detection/MobileDetect.php';
 }
 
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit510ff1a520818825f667f6361886077d
+class ComposerStaticInit2039229f3ba2b9fb978709b5c8b1d8ed
 {
     public static $prefixLengthsPsr4 = array (
         'L' =>
@@ -48,6 +48,11 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
         'LearnDash\\Core\\Infrastructure\\File_Protection\\Provider' => __DIR__ . '/../..' . '/src/Core/Infrastructure/File_Protection/Provider.php',
         'LearnDash\\Core\\Infrastructure\\Provider' => __DIR__ . '/../..' . '/src/Core/Infrastructure/Provider.php',
         'LearnDash\\Core\\Libraries\\Assets\\Provider' => __DIR__ . '/../..' . '/src/Core/Libraries/Assets/Provider.php',
+        'LearnDash\\Core\\Libraries\\Harbor\\Addon_Legacy_Licenses' => __DIR__ . '/../..' . '/src/Core/Libraries/Harbor/Addon_Legacy_Licenses.php',
+        'LearnDash\\Core\\Libraries\\Harbor\\Provider' => __DIR__ . '/../..' . '/src/Core/Libraries/Harbor/Provider.php',
+        'LearnDash\\Core\\Libraries\\Plugin_Absorber\\Autoloaded_Sub_Plugin' => __DIR__ . '/../..' . '/src/Core/Libraries/Plugin_Absorber/Autoloaded_Sub_Plugin.php',
+        'LearnDash\\Core\\Libraries\\Plugin_Absorber\\Contracts\\Sub_Plugin' => __DIR__ . '/../..' . '/src/Core/Libraries/Plugin_Absorber/Contracts/Sub_Plugin.php',
+        'LearnDash\\Core\\Libraries\\Plugin_Absorber\\Provider' => __DIR__ . '/../..' . '/src/Core/Libraries/Plugin_Absorber/Provider.php',
         'LearnDash\\Core\\Libraries\\Provider' => __DIR__ . '/../..' . '/src/Core/Libraries/Provider.php',
         'LearnDash\\Core\\Licensing\\Provider' => __DIR__ . '/../..' . '/src/Core/Licensing/Provider.php',
         'LearnDash\\Core\\Licensing\\Status_Checker' => __DIR__ . '/../..' . '/src/Core/Licensing/Status_Checker.php',
@@ -91,6 +96,7 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
         'LearnDash\\Core\\Models\\Product' => __DIR__ . '/../..' . '/src/Core/Models/Product.php',
         'LearnDash\\Core\\Models\\Quiz' => __DIR__ . '/../..' . '/src/Core/Models/Quiz.php',
         'LearnDash\\Core\\Models\\Step' => __DIR__ . '/../..' . '/src/Core/Models/Step.php',
+        'LearnDash\\Core\\Models\\Steps\\Step_Visibility' => __DIR__ . '/../..' . '/src/Core/Models/Steps/Step_Visibility.php',
         'LearnDash\\Core\\Models\\Topic' => __DIR__ . '/../..' . '/src/Core/Models/Topic.php',
         'LearnDash\\Core\\Models\\Traits\\Has_Assignments' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Assignments.php',
         'LearnDash\\Core\\Models\\Traits\\Has_Materials' => __DIR__ . '/../..' . '/src/Core/Models/Traits/Has_Materials.php',
@@ -365,6 +371,7 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
         'LearnDash\\Core\\Modules\\Reports\\Dashboard\\Widgets\\Types\\ProPanel2_Widget' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Dashboard/Widgets/Types/ProPanel2_Widget.php',
         'LearnDash\\Core\\Modules\\Reports\\Disabled\\Notice' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Disabled/Notice.php',
         'LearnDash\\Core\\Modules\\Reports\\Disabled\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Disabled/Provider.php',
+        'LearnDash\\Core\\Modules\\Reports\\Export\\User_Enumeration' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Export/User_Enumeration.php',
         'LearnDash\\Core\\Modules\\Reports\\Legacy\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Legacy/Provider.php',
         'LearnDash\\Core\\Modules\\Reports\\Legacy\\Settings\\Page' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Legacy/Settings/Page.php',
         'LearnDash\\Core\\Modules\\Reports\\Legacy\\Settings\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/Reports/Legacy/Settings/Provider.php',
@@ -379,6 +386,10 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
         'LearnDash\\Core\\Modules\\Support\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/Support/Provider.php',
         'LearnDash\\Core\\Modules\\Support\\Requirements\\WordPress' => __DIR__ . '/../..' . '/src/Core/Modules/Support/Requirements/WordPress.php',
         'LearnDash\\Core\\Modules\\Support\\TrustedLogin\\TrustedLogin' => __DIR__ . '/../..' . '/src/Core/Modules/Support/TrustedLogin/TrustedLogin.php',
+        'LearnDash\\Core\\Modules\\WooCommerce\\Provider' => __DIR__ . '/../..' . '/src/Core/Modules/WooCommerce/Provider.php',
+        'LearnDash\\Core\\Modules\\WooCommerce\\Sub_Plugin' => __DIR__ . '/../..' . '/src/Core/Modules/WooCommerce/Sub_Plugin.php',
+        'LearnDash\\Core\\Notifications\\Provider' => __DIR__ . '/../..' . '/src/Core/Notifications/Provider.php',
+        'LearnDash\\Core\\Notifications\\Sub_Plugin' => __DIR__ . '/../..' . '/src/Core/Notifications/Sub_Plugin.php',
         'LearnDash\\Core\\Provider' => __DIR__ . '/../..' . '/src/Core/Provider.php',
         'LearnDash\\Core\\Repositories\\Charge' => __DIR__ . '/../..' . '/src/Core/Repositories/Charge.php',
         'LearnDash\\Core\\Repositories\\Repository' => __DIR__ . '/../..' . '/src/Core/Repositories/Repository.php',
@@ -479,6 +490,7 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
         'LearnDash\\Core\\Utilities\\Cast' => __DIR__ . '/../..' . '/src/Core/Utilities/Cast.php',
         'LearnDash\\Core\\Utilities\\Color' => __DIR__ . '/../..' . '/src/Core/Utilities/Color.php',
         'LearnDash\\Core\\Utilities\\Countries' => __DIR__ . '/../..' . '/src/Core/Utilities/Countries.php',
+        'LearnDash\\Core\\Utilities\\Dependency_Checker' => __DIR__ . '/../..' . '/src/Core/Utilities/Dependency_Checker.php',
         'LearnDash\\Core\\Utilities\\File' => __DIR__ . '/../..' . '/src/Core/Utilities/File.php',
         'LearnDash\\Core\\Utilities\\Location' => __DIR__ . '/../..' . '/src/Core/Utilities/Location.php',
         'LearnDash\\Core\\Utilities\\Sanitize' => __DIR__ . '/../..' . '/src/Core/Utilities/Sanitize.php',
@@ -502,9 +514,9 @@ class ComposerStaticInit510ff1a520818825f667f6361886077d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit510ff1a520818825f667f6361886077d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit510ff1a520818825f667f6361886077d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit510ff1a520818825f667f6361886077d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2039229f3ba2b9fb978709b5c8b1d8ed::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2039229f3ba2b9fb978709b5c8b1d8ed::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2039229f3ba2b9fb978709b5c8b1d8ed::$classMap;
 
         }, null, ClassLoader::class);
     }

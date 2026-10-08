@@ -1,0 +1,1269 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: capabilities-pro\n"
+"% 10 == 0) ? 2 : 3)));\n"
+"% 10 == 0) ? 2: 3)));\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 ? 0 : (n == 2 ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3)));\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"יכולות PublishPress הוא תוסף בקרת גישה עבור WordPress. אתה יכול לנהל את כל "
+"תפקידי המשתמשים שלך ב-WordPress, מאדמיניסטרטורים ועד מנויים."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "הערה: שליטה על מצב פוסטים מותאמים היא %1$sמושבת%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr "הערה: יכולות עריכת פוסטים ספציפיות למצב הן %1$sמושבת%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "תפריטי ניהול"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"תפריטי Admin מאפשרים לך לערוך את קישורי התפריט של המנהל ולשלוט מי יש לו "
+"גישה."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "אין לך הרשאה לנהל הגבלות תפריטים."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "ההגדרות עודכנו עבור כל התפקידים."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "ההגדרות עודכנו."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "שומר סדר תפריט..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "שומר שם תפריט..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "שם התפריט לא יכול להיות ריק."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "שנה סמל"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "מחפש סמלים..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "סמל התפריט עודכן"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "שגיאה בעדכון סמל התפריט"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "תפריט כפול עם כתובת ה-URL של התפריט הזה כבר קיים"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "תפריט משנה כפול עם כתובת ה-URL של התפריט כבר קיים"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "אין לך הרשאה לנהל את ההגדרות."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "דף הבית"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "דפי ארכיון"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "דפים בודדים"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "בחר דפים..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "ניתן לבחור סוגי דפים שבהם יתווסף אלמנט זה."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "בחר סוגי פוסטים..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"זה יוסיף תיבת מטה על מסך עריכת הפוסט. אתה יכול להשתמש בתכונה זו כדי להוסיף "
+"מחלקות גוף רק לפוסט הזה."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "מצבים של נראות"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "יכולות מצב נראות"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "הגדר"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "קרא"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "ערוך אחרים"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "מחק אחרים"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "יכול להגדיר פוסטים למצב זה"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "יכול לקרוא פוסטים במצב זה"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "יכול לערוך פוסטים של משתמשים אחרים במצב זה"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "יכול למחוק פוסטים של משתמשים אחרים במצב זה"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "כConfigure את מאפייני מצב הפוסט, סוגי פוסטים"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "החלף את כל היכולות עבור מצב זה"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: מוקצה על ידי קבוצת הרשאות"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "יכולת זו היא %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "נדרש בנוסף ליכולת הספציפית לסוג."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "יכולת משותפת: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "סטטוסים מותאמים אישית"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "סטטוסי גרסה"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "יכולות סטטוסי גרסה"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "יכולות סטטוס מותאמות אישית"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "יכול לערוך פוסטים של סטטוס זה"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "יכול לערוך פוסטים של אחרים של סטטוס זה"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "יכול למחוק פוסטים של סטטוס זה"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "יכול למחוק פוסטים של אחרים של סטטוס זה"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "הגדר את מאפייני הסטטוס, סוגי הפוסטים, דרישות היכולת"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"כדי לשלוט בעריכה ובמחיקה של גרסאות, התקן את %1$sPublishPress Revisions%2$s "
+"ואת %3$sStatuses Pro%4$s תוספים."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr "כדי להגדיר ולשלוט במצב גרסאות, התקן את %1$sStatuses Pro%2$s תוסף."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr "כדי להגדיר ולשלוט במצב גרסאות, התקן את %1$sPublishPress Revisions%2$s תוסף."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"כדי להגדיר ולשלוט במצב גרסאות, עדכן את %1$sPublishPress Revisions%2$s תוסף "
+"לגרסה %3$s או גבוהה יותר."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"כדי לשלוט בעריכה ובמחיקה של גרסאות, אנא הגדר את %1$sRevisions Compatibility "
+"Mode%2$s ל-\"בקרת גישה משופרת לגרסאות\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"כדי לאפשר או לבטל את אכיפת היכולות לעריכה מותאמת עבור כל מצב, לחץ על תא "
+"גישת הפוסט שלו בטבלת %1$sStatuses%2$s, ואז רענן את המסך הזה."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "חסום גישה למסך התוספים באמצעות קישור ישיר"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "חסום גישה למסך הפרופיל באמצעות קישור ישיר"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "חסום גישה לספריית המדיה באמצעות קישור ישיר"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "חסום גישה למסך נושאים דרך קישור ישיר"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr "חסום גישה למסך משתמשים והוספת משתמש חדש דרך קישור ישיר"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "חסום לפי URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "הכנס URL לחסימה לפי תפקיד:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "עריכה:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "כותרת"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr "הזן את השם/תווית כדי לזהות את האלמנט תחת סעיף \"חסום על ידי URL\" במסך זה."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "הפרד בין URLs מרובים באמצעות פסיק. (למשל, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "חסימה עם תו כללי"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "אפשר התאמה עם תו כללי עבור כלל ה-URL הזה."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr "כאשר זה מופעל, משתמשים חסומים מכל URL שמתחיל בערך שהוזן למעלה."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "בטל עריכה"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "הוסף חדש"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "שמור עריכה"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "אירעה שגיאה!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "אין לך הרשאה לנהל את ההגבלות על תכונות המנהל."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "פעולה לא חוקית. טען מחדש את העמוד הזה ונסה שוב."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "כל השדות נדרשים."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "פריט מותאם אישית עודכן בהצלחה"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "פריט מותאם אישית חדש נוסף בהצלחה"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "הפעלה Wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "צפה"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "ערוך"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "מחק"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "בקשה לא חוקית!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "הפריט הנבחר נמחק בהצלחה"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "אין לך הרשאה לגשת לדף הזה."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "הסתר את Hello Dolly מרשימת התוספים"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr "הסתר את קישורי הפעולה של שורת התוסף (כפתורי השבתה, הפעלה, מחיקה וכו')"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "הסתר את כפתור הוספת פוסט חדש ממסך הפוסטים"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "הסתר את כפתור ההשבתה של שורת התוסף מכל רשימות התוספים"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "הסתר את כפתור המחיקה של שורת התוסף מכל רשימות התוספים"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "הסתר אלמנטים של CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"אתה יכול להסיר אלמנטים אחרים מאזור המנהל על ידי הוספת ה-ID או המחלקות שלהם "
+"למטה:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "הכנס את השם/תווית כדי לזהות את האלמנט המותאם אישית במסך זה."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "ID או קלאסים של אלמנטים"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"IDs או מחלקות להסתיר. הפרד ערכים מרובים בפסיק (.custom-item-one, "
+".custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "כתובות URL יעד"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"אופציונלי. הגבל את כלל ההסתרה CSS הזה ל-URLs ספציפיים של המנהל. הפרד URLs "
+"מרובים בפסיק."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "התאמת URL Wildcard"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "אפשר התאמת תו מפתח Wildcard עבור כתובות URL יעד."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr "כאשר זה מופעל, כלל זה חל אם ה-URL הנוכחי מתחיל בכל ערך URL יעד."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "אלמנט CSS עודכן בהצלחה."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "אלמנט CSS חדש נוסף בהצלחה."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "כתובת URL יעד"
+
+#: includes-pro/features/admin-features-css-hide.php:317
+msgid "URL wildcard"
+msgstr "כתובת URL Wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "בדיקת אבטחה נכשלה"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "הרשאה נדחתה"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "הגדרות עודכנו בהצלחה."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "סדר תפריט מנהל אתחול בהצלחה. טוען מחדש את הדף..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "שמות תפריט מנהל אתחול בהצלחה. טוען מחדש את הדף..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "מטמון תפריט מנהל אתחול בהצלחה. טוען מחדש את הדף..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "תפריט מנהל אתחול בהצלחה. טוען מחדש את הדף..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "התפריט נמחק בהצלחה."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "תפריט חדש נוסף בהצלחה. טוען מחדש את הדף..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "נתונים לא תקפים"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "שם התפריט עודכן עבור כל התפקידים."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "שם התפריט עודכן."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "סדר התפריט עודכן."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "שמור עבור כל התפקידים"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "סוג:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "קישור לתפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "קישור לתפריט משנה"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "מפריד תפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "מפריד תפריט משנה"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "מיקום:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "אחרי"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "כותרת התפריט:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "התפריט המותאם שלי"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "יש להזין כותרת תפריט."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "סגנון מפריד"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "קו (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "מרחב ריק"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "טקסט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "צבע המפריד"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "כתובת URL של התפריט:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"הזן קישור פנימי כמו %1s או קישור חיצוני כמו %2s. כל קישור יכול לשמש רק פעם "
+"אחת עבור URL בתפריט."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "תפריט עם כתובת URL זו כבר קיים."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "יכולת התפריט:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"זו היכולת הנדרשת כדי לראות את התפריט הזה. לדוגמה: %1s או %2s אם אתה מזין "
+"יכולת מותאמת, זכור להוסיף ולהקצות אותה לתפקידים המועדפים בדף היכולות."
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "יכולת התפריט נדרשת."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "אייקון התפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "שמור קישור לתפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "החלף הכל"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "קישור תפריט חדש"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(לא ניתן לזהות את שם התפריט)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr "שם התפריט הזה אינו זמין בנתוני התפריט הגלובליים או רשום ישירות עם התפריט."
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s תפקיד"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "כל התפקידים"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "שמור"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "ביטול"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "אפשרות זו מושבתת כדי למנוע נעילה מוחלטת"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "האם אתה בטוח שברצונך למחוק את %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "היכולת הדרושה לגשת לתפריט זה היא %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "שנה שם תפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "הזז למעלה"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "הזז למטה"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "לא נמצא תפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "איך להשתמש בתפריטי מנהל"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "מפתח שימוש"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "אין שינוי"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "תכונה זו נדחתה"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "צפה בתיעוד"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "הגדרות תפריטי Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "הסתר תתי תפריטים"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "הצג סלוגים של תפריט"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "אפס את תפריטי Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"אתה יכול לאפס את סדר התפריט ושמות המנהל למיקומם ושמותיהם המקוריים. אתה יכול "
+"גם לאפס את מטמון התפריט כדי לתקן בעיית תפריט חסר."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "אפס את סדר התפריטים"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "אפס את התפריט במטמון"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "אפס את שמות התפריטים"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "אפס את האפשרות שנבחרה"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "הוסף הגבלות חדשות לעריכת קלאסית"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"אתה יכול להסיר אלמנטים אחרים ממסך העורך על ידי הוספת ה-ID או המחלקות שלהם "
+"למטה:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "הוסף הגבלות חדשות לגוטנברג"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "אין לך הרשאה לנהל את ההגבלות על תכונות העורך."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr "פעולה לא חוקית. טען מחדש את העמוד הזה ונסה שוב אם התרחשה שגיאה."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr "פריט מותאם אישית עודכן בהצלחה. שמור שינויים כדי להחיל את ההגבלות."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "פריט מותאם אישית חדש נוסף. שמור שינויים כדי להחיל את ההגבלות."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "הסתר את כרטיסיית התבניות בעורך הבלוקים"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "הסתר את כפתור הוספה/עריכה של קישור בעורך הקלאסי"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "הגבלות מותאמות אישית לעורך קלאסי"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "הגבלות מותאמות אישית לגוטנברג"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "מטריצות"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "תפריט ניהול"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "אירעה שגיאה. אנא נסה שוב או צור קשר עם צוות התמיכה."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "רשיון"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "הפעל מפתח"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "בטל הפעלת מפתח"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "מחבר לשרת publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "לא ניתן היה לעבד את הבקשה עקב כשל חיבור."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "אנא הזן את מפתח הרישוי המופיע על קבלת ההזמנה שלך."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "אירעה שגיאה בלתי מזוהה."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "המפתח בוטל."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "המפתח הופעל."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "המפתח פג תוקף."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "המפתח אינו חוקי."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "אירעה שגיאת הפעלה בלתי ידועה."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "המפתח שסופק אינו חוקי. אנא בדוק את הכניסה שלך שוב."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "האתר הזה אינו חוקי להפעלת המפתח."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "המפתח שסופק לא יכול היה להיות מאומת על ידי publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "המפתח שסופק כבר פעיל באתר אחר."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "המפתח כבר הופעל על מספר האתרים המותר."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "אירעה שגיאת בטול הפעלה בלתי ידועה."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "לא ניתן להשבית כי המפתח שסופק אינו תקין."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "האתר הזה אינו תקין כדי להשבית את המפתח."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "המפתח שסופק אינו פעיל באתר המוגדר."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "אם זה לא נכון, <a href=\"%s\">בקש עזרה בהפעלה</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "אנא שמור את ההגדרות לפני העלאת תצורת האתר."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(נעול על ידי Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "נהל סטטוסים מותאמים אישית"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "נהל את בחירת הסטטוסים המותאמים אישית. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "החל יכולות ספציפיות לסטטוס עבור עריכת פוסטים, מחיקה."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "אפשר סטטוסים מותאמים אישית של נראות"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr "לסטטוסים של נראות, %1$sהפעל את מודול בקרת הסטטוס%2$s בהגדרות גישה פרו"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr "החל יכולות עריכה ספציפיות לסטטוס ולסוג עבור סטטוסים של נראות"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "הפעלה של מפתח רישיון"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"מפתח הרישוי שלך ל-PublishPress פג תוקף. כדי לקבל תמיכה בעדיפות מתמשכת, <a "
+"href=\"%s\">אנא חידש</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"מפתח הרישוי שלך ל-PublishPress יפוג היום. לקבלת עדכונים ותמיכה בעדיפות, <a "
+"href=\"%s\">אנא חידש</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"מפתח הרישוי של PublishPress שלך יפוג בעוד %d יום. עבור עדכונים ותמיכה "
+"בעדיפות, <a href=\"%s\">אנא חידשו</a>."
+msgstr[1] ""
+"מפתח הרישוי של PublishPress שלך (לעדכוני תוסף) יפוג בעוד %d ימים. עבור "
+"עדכונים ותמיכה בעדיפות, <a href=\"%s\">אנא חידשו</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "המפתח פג תוקף"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "השבת"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "מופעל"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "הכנס את מפתח הרישיון שלך"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "הפעל"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "צפה ב%s&nbsp;פרטים"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "עדכון&nbsp;זמין"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "בדיקת&nbsp;עדכון"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "חשבון"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "תמחור"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "הצג את המיתוג של PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "הסתר את הפוטר של PublishPress ומיתוגים אחרים."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "תפריטי מנהל: טיפול בתפקידים מרובים"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "הרשאות מרביות: כל תפקיד משתמש שאינו מוגבל מאפשר גישה"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "הרשאות מגבילות: כל תפקיד משתמש מוגבל מונע גישה"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"זה שולט האם ההרשאות המקסימליות או המוגבלות ביותר ייושמו אם למשתמש יש "
+"תפקידים מרובים."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"בקרת סטטוס מותאם אישית מושבתת עד שתפעיל את תוסף %1$sPublishPress "
+"Statuses%2$s. ראה %3$sיכולות > הגדרות%4$s לפרטים."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"בקרת סטטוס מותאם אישית מושבתת עד שתתקין את תוסף %1$sPublishPress "
+"Statuses%2$s. ראה %3$sיכולות > הגדרות%4$s לפרטים."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "שינויים נשמרו!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "שגיאה: לא ניתן לשמור שינויים."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "מוחק תפריט..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "מעדכן הגדרות..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "עליך לסמן לפחות אפשרות אחת לאיפוס."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "מאפס אפשרות..."

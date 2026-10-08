@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests\Exception\Transport;
+namespace StellarWP\Learndash\WpOrg\Requests\Exception\Transport;
 
-use WpOrg\Requests\Exception\Transport;
+use StellarWP\Learndash\WpOrg\Requests\Exception\Transport;
 
 /**
  * CURL Transport Exception.

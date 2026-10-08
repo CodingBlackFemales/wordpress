@@ -47,6 +47,23 @@ class Signin_Controller extends Controller {
 		//phpcs:ignore
 		$key   = isset( $_POST['license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['license_key'] ) ) : '';
 
+		/**
+		 * Unified license keys always begin with the LWSW- prefix and
+		 * are not valid on this legacy screen. Detect them before the empty-field
+		 * check so a user pasting only the unified key (no email) still receives the
+		 * helpful redirect message instead of a generic validation error, then point
+		 * them to the Software Manager where unified keys are activated.
+		 */
+		if ( 0 === stripos( $key, 'LWSW-' ) ) {
+			wp_send_json_error(
+				array(
+					'is_unified_license_key' => true,
+					'message'                => __( 'That looks like a Unified license key, which cannot be activated on this Legacy License page. Please visit the Software Manager, where your key can be entered or, if it has already been entered, viewed.', 'learndash' ),
+					'redirect_url'           => lw_harbor_get_license_page_url(),
+				)
+			);
+		}
+
 		if ( empty( $email ) || empty( $key ) ) {
 			wp_send_json_error( __( 'Please provide a valid email and license key.', 'learndash' ) );
 		}

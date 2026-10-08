@@ -1,0 +1,1273 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: capabilities-pro\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"PublishPress Capabilities เป็นปลั๊กอินควบคุมการเข้าถึงสำหรับ WordPress "
+"คุณสามารถจัดการบทบาทผู้ใช้ WordPress ทั้งหมดของคุณ "
+"ตั้งแต่ผู้ดูแลระบบไปจนถึงผู้สมัครสมาชิก"
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "หมายเหตุ: การควบคุมสถานะโพสต์ที่กำหนดเองถูก %1$sปิดใช้งาน%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr "หมายเหตุ: ความสามารถในการแก้ไขโพสต์เฉพาะสถานะถูก %1$sปิดใช้งาน%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "เมนูผู้ดูแลระบบ"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"เมนูผู้ดูแลระบบช่วยให้คุณแก้ไขลิงก์เมนูผู้ดูแลระบบและควบคุมว่าใครมีสิทธิ์เข้"
+"าถึง"
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "คุณไม่มีสิทธิ์จัดการข้อจำกัดเมนู"
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "ตั้งค่าอัพเดตสำหรับทุกบทบาท."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "อัปเดตการตั้งค่าแล้ว"
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "กำลังบันทึกลำดับเมนู..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "กำลังบันทึกชื่อเมนู..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "ชื่อเมนูไม่สามารถว่างเปล่าได้"
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "เปลี่ยนไอคอน"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "ค้นหาไอคอน..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "อัปเดตไอคอนเมนู"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "เกิดข้อผิดพลาดในการอัปเดตไอคอนเมนู"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "มีเมนูที่ซ้ำกันกับ URL เมนูนี้อยู่แล้ว"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "มีซับเมนูที่ซ้ำกันกับ URL เมนูอยู่แล้ว"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "คุณไม่มีสิทธิ์ในการจัดการการตั้งค่า."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "หน้าแรก"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "หน้าเก็บถาวร"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "หน้าคนเดียว"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "เลือกหน้า..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "คุณสามารถเลือกประเภทหน้าที่จะเพิ่มองค์ประกอบนี้ได้。"
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "เลือกประเภทโพสต์..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"สิ่งนี้จะเพิ่มเมตาบ็อกซ์บนหน้าจอแก้ไขโพสต์ "
+"คุณสามารถใช้คุณสมบัตินี้เพื่อเพิ่มคลาสเนื้อหาเฉพาะสำหรับโพสต์นั้น"
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "สถานะการมองเห็น"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "ความสามารถในการตั้งค่าสถานะการมองเห็น"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "ตั้งค่า"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "อ่าน"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "แก้ไขของคนอื่น"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "ลบของคนอื่น"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "สามารถตั้งโพสต์ไปยังสถานะนี้"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "สามารถอ่านโพสต์ในสถานะนี้"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "สามารถแก้ไขโพสต์ของผู้ใช้อื่นในสถานะนี้"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "สามารถลบโพสต์ของผู้ใช้อื่นในสถานะนี้"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "กำหนดค่าคุณสมบัติสถานะโพสต์ ประเภทโพสต์"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "สลับความสามารถทั้งหมดสำหรับสถานะนี้"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: กำหนดโดยกลุ่มสิทธิ"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "ความสามารถนี้คือ %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "จำเป็นต้องมีนอกเหนือจากความสามารถเฉพาะประเภท"
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "ความสามารถที่ใช้ร่วมกัน: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "สถานะที่กำหนดเอง"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "สถานะการแก้ไข"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "ความสามารถสถานะการแก้ไข"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "ความสามารถสถานะที่กำหนดเอง"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "สามารถแก้ไขโพสต์ของสถานะนี้ได้"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "สามารถแก้ไขโพสต์ของคนอื่นในสถานะนี้ได้"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "สามารถลบโพสต์ของสถานะนี้ได้"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "สามารถลบโพสต์ของคนอื่นในสถานะนี้ได้"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "กำหนดค่าคุณสมบัติสถานะ, ประเภทโพสต์, ความต้องการความสามารถ"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"ในการควบคุมการแก้ไขและการลบการแก้ไข ให้ติดตั้งปลั๊กอิน %1$sPublishPress "
+"Revisions%2$s และ %3$sStatuses Pro%4$s"
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr "ในการกำหนดและควบคุมสถานะการแก้ไข ให้ติดตั้งปลั๊กอิน %1$sStatuses Pro%2$s"
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"ในการกำหนดและควบคุมสถานะการแก้ไข ให้ติดตั้งปลั๊กอิน %1$sPublishPress "
+"Revisions%2$s"
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"ในการกำหนดและควบคุมสถานะการแก้ไข ให้ปรับปรุงปลั๊กอิน %1$sPublishPress "
+"Revisions%2$s เป็นเวอร์ชัน %3$s หรือสูงกว่า"
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"ในการควบคุมการแก้ไขและการลบการแก้ไข กรุณาตั้งค่า %1$sRevisions "
+"Compatibility Mode%2$s เป็น \"Enhanced Revision access control\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"ในการเปิดใช้งานหรือปิดการบังคับใช้ความสามารถการแก้ไขที่กำหนดเองสำหรับสถานะใด"
+" ๆ ให้คลิกเซลล์ Post Access ของมันใน %1$sตารางสถานะ%2$s "
+"จากนั้นโหลดหน้าจอนี้อีกครั้ง"
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "บล็อกการเข้าถึงหน้าจอปลั๊กอินผ่านลิงก์ตรง"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "บล็อกการเข้าถึงหน้าจอโปรไฟล์ผ่านลิงก์ตรง"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "บล็อกการเข้าถึงห้องสมุดสื่อผ่านลิงก์ตรง"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "บล็อกการเข้าถึงหน้าธีมผ่านลิงก์ตรง"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr "บล็อกการเข้าถึงผู้ใช้และหน้าสร้างผู้ใช้ใหม่ผ่านลิงก์ตรง"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "บล็อกโดย URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "ป้อน URL ที่จะถูกบล็อกโดยบทบาท:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "การแก้ไข:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "ชื่อเรื่อง"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr "ป้อนชื่อ/ป้ายกำกับเพื่อระบุองค์ประกอบภายใต้ส่วนบล็อกโดย URL ของหน้าจอนี้."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "แยกหลายๆ URL ด้วยเครื่องหมายจุลภาค (e.g, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "บล็อกแบบ Wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "เปิดใช้งานการจับคู่พรีฟิกแบบ wildcard สำหรับกฎ URL นี้."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"เมื่อเปิดใช้งาน ผู้ใช้จะถูกบล็อกจาก URL ใดๆ "
+"ที่เริ่มต้นด้วยค่าที่ป้อนข้างต้น."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "ยกเลิกการแก้ไข"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "เพิ่มใหม่"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "บันทึกการแก้ไข"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "เกิดข้อผิดพลาดขึ้น!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "คุณไม่มีสิทธิ์ในการจัดการการจำกัดฟีเจอร์ของผู้ดูแลระบบ."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "การกระทำไม่ถูกต้อง โหลดหน้านี้ใหม่และลองอีกครั้ง."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "ทุกฟิลด์จำเป็นต้องกรอก."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "อัปเดตรายการที่กำหนดเองเรียบร้อยแล้ว"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "เพิ่มรายการที่กำหนดเองใหม่เรียบร้อยแล้ว"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "เปิดใช้งาน Wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "ดู"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "แก้ไข"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "ลบ"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "คำขอไม่ถูกต้อง!"
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "ลบรายการที่เลือกเรียบร้อยแล้ว"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "คุณไม่มีสิทธิ์เข้าถึงหน้านี้"
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "ซ่อน Hello Dolly จากรายการปลั๊กอิน"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr "ซ่อนลิงค์การกระทำแถวปลั๊กอิน (ปิดการใช้งาน, เปิดการใช้งาน, ลบ ฯลฯ)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "ซ่อนปุ่มเพิ่มโพสต์ใหม่จากหน้าข้อความ"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "ซ่อนปุ่มปิดการใช้งานแถวปลั๊กอินจากรายการปลั๊กอินทั้งหมด"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "ซ่อนปุ่มลบแถวปลั๊กอินจากรายการปลั๊กอินทั้งหมด"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "ซ่อนองค์ประกอบ CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"คุณสามารถลบองค์ประกอบอื่น ๆ จากพื้นที่ผู้ดูแลระบบโดยการเพิ่ม ID "
+"หรือคลาสของพวกเขาด้านล่าง:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "ใส่ชื่อ/ป้ายเพื่อระบุองค์ประกอบที่กำหนดเองในหน้าจอนี้"
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "ID หรือ คลาส ขององค์ประกอบ"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"ID หรือคลาสที่ต้องการซ่อน แยกค่าหลายค่าโดยใช้เครื่องหมายจุลภาค "
+"(.custom-item-one, .custom-item-two, #new-item-id)"
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "URLs เป้าหมาย"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"ไม่บังคับ จำกัดกฎการซ่อน CSS นี้ให้กับ URLs ผู้ดูแลระบบที่เฉพาะเจาะจง "
+"แยกหลาย URL โดยใช้เครื่องหมายจุลภาค"
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "การจับคู่ URL Wildcard"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "เปิดการจับคู่ด้วยตัวอักษรแทนที่สำหรับ URL เป้าหมาย."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"เมื่อเปิดใช้งาน กฎนี้จะนำไปใช้หาก URL ปัจจุบันเริ่มต้นด้วยค่า URL "
+"เป้าหมายใด ๆ."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "อัปเดตองค์ประกอบ CSS สำเร็จ."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "เพิ่มองค์ประกอบ CSS ใหม่สำเร็จ."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL ที่กำหนดเป้าหมาย"
+
+#: includes-pro/features/admin-features-css-hide.php:317
+msgid "URL wildcard"
+msgstr "URL ตัวอักษรแทนที่"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "การตรวจสอบความปลอดภัยล้มเหลว"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "การอนุญาตถูกปฏิเสธ"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "อัปเดตการตั้งค่าเรียบร้อยแล้ว."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "รีเซ็ตลำดับเมนูผู้ดูแลระบบเรียบร้อยแล้ว กำลังโหลดหน้า..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "รีเซ็ตชื่อเมนูผู้ดูแลระบบเรียบร้อยแล้ว กำลังโหลดหน้า..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "รีเซ็ตแคชเมนูผู้ดูแลระบบเรียบร้อยแล้ว กำลังโหลดหน้า..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "รีเซ็ตเมนูผู้ดูแลระบบเรียบร้อยแล้ว กำลังโหลดหน้า..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "ลบเมนูเรียบร้อยแล้ว."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "เพิ่มเมนูใหม่เรียบร้อยแล้ว กำลังโหลดหน้า..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "ข้อมูลไม่ถูกต้อง"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "อัปเดตชื่อเมนูสำหรับทุกบทบาท."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "อัปเดตชื่อเมนู."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "อัปเดตลำดับเมนู."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "บันทึกสำหรับทุกบทบาท"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "ประเภท:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "ลิงก์เมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "ลิงก์ซับเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "ตัวแบ่งเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "ตัวแบ่งซับเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "ตำแหน่ง:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "หลัง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "ชื่อเมนู:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "เมนูที่กำหนดเองของฉัน"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "ชื่อเมนูเป็นสิ่งที่จำเป็น."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "สไตล์ตัวแบ่ง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "เส้น (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "พื้นที่ว่าง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "ข้อความ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "สีของตัวแบ่ง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "URL เมนู:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"กรอกลิงก์ภายในเช่น %1s หรือลิงก์ภายนอกเช่น %2s ลิงก์ใด ๆ "
+"สามารถใช้ได้เพียงครั้งเดียวสำหรับ URL เมนู."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "เมนูที่มี URL นี้มีอยู่แล้ว."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "ความสามารถของเมนู:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"นี่คือความสามารถที่จำเป็นในการดูเมนูนี้ ตัวอย่างเช่น: %1s หรือ %2s "
+"หากคุณกำลังป้อนความสามารถที่กำหนดเอง "
+"โปรดจำไว้ว่าจะต้องเพิ่มและมอบหมายให้กับบทบาทที่ต้องการในหน้า ความสามารถ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "ความสามารถของเมนูเป็นสิ่งที่จำเป็น."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "ไอคอนเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "บันทึกลิงก์เมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "เปิด/ปิด ทั้งหมด"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "ลิงค์เมนูใหม่"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(ไม่สามารถตรวจสอบชื่อเมนูได้)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr "ชื่อเมนูนี้ไม่สามารถใช้งานได้ในข้อมูลเมนูทั่วโลกหรือลงทะเบียนโดยตรงกับเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s บทบาท"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "บทบาททั้งหมด"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "บันทึก"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "ตัวเลือกนี้ถูกปิดการใช้งานเพื่อป้องกันการล็อกเอาต์ทั้งหมด"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "คุณแน่ใจหรือว่าต้องการลบ %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "ความสามารถที่จำเป็นในการเข้าถึงเมนูนี้คือ %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "เปลี่ยนชื่อเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "เลื่อนขึ้น"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "เลื่อนลง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "ไม่พบเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "วิธีการใช้เมนูผู้ดูแลระบบ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "คีย์การใช้งาน"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "ไม่มีการเปลี่ยนแปลง"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "ฟีเจอร์นี้ถูกปฏิเสธ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "ดูเอกสาร"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "การตั้งค่าเมนูผู้ดูแลระบบ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "ซ่อนซับเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "แสดงสลักเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "รีเซ็ตเมนูผู้ดูแลระบบ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"คุณสามารถรีเซ็ตลำดับและชื่อเมนูผู้ดูแลระบบกลับไปยังตำแหน่งและชื่อเดิมได้ "
+"คุณยังสามารถรีเซ็ตแคชเมนูเพื่อแก้ไขปัญหาเมนูหายได้"
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "รีเซ็ตลำดับเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "รีเซ็ตแคชเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "รีเซ็ตชื่อเมนู"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "รีเซ็ตตัวเลือกที่เลือก"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "เพิ่มข้อจำกัดใหม่สำหรับ Classic Editor"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"คุณสามารถลบองค์ประกอบอื่นจากหน้าจอแก้ไขได้โดยการเพิ่ม ID "
+"หรือคลาสของพวกเขาด้านล่าง:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "เพิ่มข้อจำกัดใหม่สำหรับ Gutenberg"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "คุณไม่มีสิทธิ์ในการจัดการการจำกัดฟีเจอร์ของผู้แก้ไข."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr "การกระทำไม่ถูกต้อง โหลดหน้านี้อีกครั้งและลองใหม่หากเกิดข้อผิดพลาด"
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr "อัปเดตรายการที่กำหนดเองเรียบร้อยแล้ว บันทึกการเปลี่ยนแปลงเพื่อใช้ข้อจำกัด"
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "รายการที่กำหนดเองใหม่ถูกเพิ่มแล้ว บันทึกการเปลี่ยนแปลงเพื่อใช้ข้อจำกัด"
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "ซ่อนแท็บ Patterns ในบล็อกแก้ไข"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "ซ่อนปุ่มแทรก/แก้ไขลิงก์ใน Classic Editor"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "ข้อจำกัด Classic Editor ที่กำหนดเอง"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "ข้อจำกัด Gutenberg ที่กำหนดเอง"
+
+#: includes-pro/features/metaboxes.php:154, fuzzy
+msgid "Metaboxes"
+msgstr "Metaboxes"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "เมนูผู้ดูแลระบบ"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "เกิดข้อผิดพลาดขึ้น กรุณาลองอีกครั้งหรือ ติดต่อทีมสนับสนุน."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "ใบอนุญาต"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "เปิดใช้งานคีย์"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "ปิดใช้งานคีย์"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "กำลังเชื่อมต่อกับเซิร์ฟเวอร์ PublishPress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "ไม่สามารถดำเนินการคำขอได้เนื่องจากเกิดความล้มเหลวในการเชื่อมต่อ."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "กรุณาใส่คีย์ใบอนุญาตที่แสดงในใบเสร็จการสั่งซื้อของคุณ."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "เกิดข้อผิดพลาดที่ไม่สามารถระบุได้."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "คีย์ถูกปิดใช้งานแล้ว."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "คีย์ถูกเปิดใช้งานแล้ว."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "คีย์หมดอายุแล้ว."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "คีย์ไม่ถูกต้อง."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "เกิดข้อผิดพลาดในการเปิดใช้งานที่ไม่ทราบ."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "คีย์ที่ให้มาไม่ถูกต้อง กรุณาตรวจสอบการกรอกของคุณอีกครั้ง."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "เว็บไซต์นี้ไม่ถูกต้องในการเปิดใช้งานคีย์."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "ไม่สามารถตรวจสอบคีย์ที่ให้มาได้โดย PublishPress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "คีย์ที่ให้มาก่อนหน้านี้ถูกเปิดใช้งานแล้วในไซต์อื่น."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "คีย์ถูกเปิดใช้งานแล้วในจำนวนไซต์ที่อนุญาต."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "เกิดข้อผิดพลาดในการปิดใช้งานที่ไม่ทราบ."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "ไม่สามารถปิดการใช้งานได้เนื่องจากคีย์ที่ให้มาไม่ถูกต้อง."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "เว็บไซต์นี้ไม่ถูกต้องสำหรับการปิดการใช้งานคีย์."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "คีย์ที่ให้มายังไม่ถูกใช้งานในเว็บไซต์ที่ระบุ."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "หากข้อมูลนี้ไม่ถูกต้อง <a href=\"%s\">ขอความช่วยเหลือในการเปิดใช้งาน</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "กรุณาบันทึกการตั้งค่าก่อนที่จะอัปโหลดการกำหนดค่าของเว็บไซต์."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(ล็อกโดย Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "ควบคุมสถานะที่กำหนดเอง"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "ควบคุมการเลือกสถานะโพสต์ที่กำหนดเอง %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "ใช้ความสามารถเฉพาะสถานะสำหรับการแก้ไขและลบโพสต์."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "เปิดใช้งานสถานะการมองเห็นที่กำหนดเอง"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr "สำหรับสถานะการมองเห็น %1$sเปิดใช้งานโมดูลควบคุมสถานะ%2$s ใน Permissions Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr "ใช้ความสามารถในการแก้ไขเฉพาะสถานะและประเภทสำหรับสถานะการมองเห็น"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "การเปิดใช้งานคีย์ใบอนุญาต"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"คีย์ใบอนุญาตของคุณสำหรับ PublishPress หมดอายุแล้ว "
+"สำหรับการสนับสนุนที่มีลำดับความสำคัญต่อไป <a href=\"%s\">กรุณารีนิว</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"คีย์ใบอนุญาตของคุณสำหรับ PublishPress จะหมดอายุในวันนี้ "
+"สำหรับการอัปเดตและการสนับสนุนที่มีลำดับความสำคัญ <a "
+"href=\"%s\">กรุณารีนิว</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "คีย์หมดอายุ"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "ปิดการใช้งาน"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "เปิดใช้งานแล้ว"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "กรุณาใส่คีย์ใบอนุญาตของคุณ"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "เปิดใช้งาน"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "ดู %s&nbsp;รายละเอียด"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "อัปเดต&nbsp;พร้อมใช้งาน"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "ตรวจสอบ&nbsp;อัปเดต"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "บัญชี"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "ราคา"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "แสดงแบรนด์ PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "ซ่อนส่วนท้ายของ PublishPress และแบรนด์อื่น ๆ。"
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "เมนูผู้ดูแล: การจัดการบทบาทหลายบทบาท"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "อนุญาตมากที่สุด: บทบาทผู้ใช้ที่ไม่ถูกจำกัดใด ๆ อนุญาตการเข้าถึง"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "อนุญาตที่เข้มงวดที่สุด: บทบาทผู้ใช้ที่ถูกจำกัดใด ๆ ป้องกันการเข้าถึง"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"นี่ควบคุมว่าการอนุญาตที่อนุญาตมากที่สุดหรือเข้มงวดที่สุดจะถูกนำมาใช้หากผู้ใช"
+"้มีหลายบทบาท"
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"การควบคุมสถานะที่กำหนดเองถูกปิดใช้งานจนกว่าคุณจะเปิดใช้งานปลั๊กอิน "
+"%1$sPublishPress Statuses%2$s ดู %3$sความสามารถ > การตั้งค่า%4$s "
+"สำหรับรายละเอียด"
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"การควบคุมสถานะที่กำหนดเองถูกปิดใช้งานจนกว่าคุณจะติดตั้งปลั๊กอิน "
+"%1$sPublishPress Statuses%2$s ดู %3$sความสามารถ > การตั้งค่า%4$s "
+"สำหรับรายละเอียด"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "บันทึกการเปลี่ยนแปลงแล้ว!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "ข้อผิดพลาด: ไม่สามารถบันทึกการเปลี่ยนแปลงได้。"
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "กำลังลบเมนู..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "กำลังอัปเดตการตั้งค่า..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "คุณต้องเลือกอย่างน้อยหนึ่งตัวเลือกเพื่อตั้งค่าใหม่"
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "กำลังตั้งค่าตัวเลือกใหม่..."

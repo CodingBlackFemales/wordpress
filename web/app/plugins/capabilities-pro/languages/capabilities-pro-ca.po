@@ -1,0 +1,1363 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"POT-Creation-Date: 2026-06-11T10:05:14+00:00\n"
+"PO-Revision-Date: 2026-03-24 15:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: capabilities-pro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+#: capabilities-pro.php:5
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: capabilities-pro.php:7 capabilities-pro.php:15
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#. Description of the plugin
+#: capabilities-pro.php:9
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to Subscribers."
+msgstr ""
+"PublishPress Capabilities és el plugin de control d'accés per a WordPress. "
+"Pots gestionar tots els teus rols d'usuari de WordPress, des "
+"d'Administradors fins a Subscriptors."
+
+#. Author of the plugin
+#: capabilities-pro.php:13
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr ""
+"Nota: El control dels estats de publicació personalitzats és "
+"%1$sdesactivat%2$s."
+
+#: includes-pro/admin-load.php:96 includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr ""
+"Nota: Les capacitats d'edició de publicacions específiques d'estat són "
+"%1$sdesactivades%2$s."
+
+#: includes-pro/admin-load.php:185 includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:102
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Menús d'Administració"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:702
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Els menús d'administració permeten editar els enllaços del menú "
+"d'administració i controlar qui té accés."
+
+#: includes-pro/admin-load.php:242 includes-pro/admin-load.php:266
+msgid "You do not have permission to manage menu restrictions."
+msgstr "No teniu permís per gestionar les restriccions del menú."
+
+#: includes-pro/admin-load.php:289
+msgid "Settings updated."
+msgstr "Configuracions actualitzades."
+
+#: includes-pro/admin-load.php:303
+msgid "Saving Menu Order..."
+msgstr "Desant ordre del menú..."
+
+#: includes-pro/admin-load.php:304
+msgid "Saving Menu Name..."
+msgstr "Desant Nom de Menú..."
+
+#: includes-pro/admin-load.php:305
+msgid "Menu Name can not be empty."
+msgstr "El nom del menú no pot estar buit."
+
+#: includes-pro/admin-load.php:306
+msgid "Change Icon"
+msgstr "Canviar Icona"
+
+#: includes-pro/admin-load.php:307
+msgid "Search icons..."
+msgstr "Cercant icones..."
+
+#: includes-pro/admin-load.php:308
+msgid "Menu icon updated"
+msgstr "Icona del menú actualitzada"
+
+#: includes-pro/admin-load.php:309
+msgid "Error updating menu icon"
+msgstr "Error en actualitzar la icona del menú"
+
+#: includes-pro/admin-load.php:310
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Ja existeix un menú duplicat amb aquesta URL de menú"
+
+#: includes-pro/admin-load.php:311
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Ja existeix un submenú duplicat amb la URL del menú"
+
+#: includes-pro/admin-load.php:417
+#, fuzzy
+#| msgid "You do not have permission to manage menu restrictions."
+msgid "You do not have permission to manage settings."
+msgstr "No teniu permís per gestionar les restriccions del menú."
+
+#: includes-pro/admin-load.php:518
+msgid "Homepage"
+msgstr "Pàgina d'inici"
+
+#: includes-pro/admin-load.php:519
+msgid "Archive Pages"
+msgstr "Pàgines d'Arxiu"
+
+#: includes-pro/admin-load.php:520
+msgid "Single Pages"
+msgstr "Pàgines individuals"
+
+#: includes-pro/admin-load.php:523
+msgid "Select pages..."
+msgstr "Selecciona pàgines..."
+
+#: includes-pro/admin-load.php:532
+msgid "You can select page types where this element will be added."
+msgstr "Podeu seleccionar els tipus de pàgina on s'afegirà aquest element."
+
+#: includes-pro/admin-load.php:546
+msgid "Select post types..."
+msgstr "Selecciona tipus de publicacions..."
+
+#: includes-pro/admin-load.php:560
+msgid ""
+"This will add a metabox on the post editing screen. You can use this feature "
+"to add body classes only for that post."
+msgstr ""
+"Això afegirà una metabox a la pantalla d'edició de la publicació. Podeu "
+"utilitzar aquesta funció per afegir classes al cos només per a aquesta "
+"publicació."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Estats de Visibilitat"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Capacitats d'Estat de Visibilitat"
+
+#: includes-pro/admin-privacy.php:144 includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192 includes-pro/admin.php:199
+msgid "Set"
+msgstr "Estableix"
+
+#: includes-pro/admin-privacy.php:145 includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Llegir"
+
+#: includes-pro/admin-privacy.php:146 includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "Editar Altres"
+
+#: includes-pro/admin-privacy.php:147 includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Esborrar Altres"
+
+#: includes-pro/admin-privacy.php:157 includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Pot establir les publicacions en aquest estat"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Pot llegir les publicacions en aquest estat"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Pot editar les publicacions d'altres usuaris en aquest estat"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Pot suprimir les publicacions d'altres usuaris en aquest estat"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr ""
+"Configura les propietats de l'estat de la publicació, tipus de publicacions"
+
+#: includes-pro/admin-privacy.php:251 includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "Alternar totes les capacitats per a aquest estat"
+
+#: includes-pro/admin-privacy.php:279 includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400 includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: assignat per Grup de Permisos"
+
+#: includes-pro/admin-privacy.php:282 includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349 includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Aquesta capacitat és %s"
+
+#: includes-pro/admin-privacy.php:285 includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "Es requereix a més de la capacitat específica del tipus."
+
+#: includes-pro/admin-privacy.php:423 includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "capacitat compartida: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Estats Personalitzats"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Estats de Revisió"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr " capacitats d'Estat de Revisió"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Capacitats d'Estats Personalitzats"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Pot editar les publicacions d'aquest estat"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Pot editar les publicacions d'altres en aquest estat"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Pot suprimir les publicacions d'aquest estat"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Pot suprimir les publicacions d'altres en aquest estat"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr ""
+"Configura les propietats de l'estat, tipus de publicacions, requisits de "
+"capacitat"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Per controlar l'edició i eliminació de revisions, instal·leu els plugins "
+"%1$sPublishPress Revisions%2$s i %3$sStatuses Pro%4$s."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr ""
+"Per definir i controlar els estats de les revisions, instal·leu el plugin "
+"%1$sStatuses Pro%2$s."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Per definir i controlar els estats de les revisions, instal·leu el plugin "
+"%1$sPublishPress Revisions%2$s."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Per definir i controlar els estats de les revisions, actualitzeu el plugin "
+"%1$sPublishPress Revisions%2$s a la versió %3$s o superior."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Per controlar l'edició i eliminació de revisions, si us plau, configureu "
+"%1$sRevisions Compatibility Mode%2$s a \"Control d'accés de revisions "
+"millorat\""
+
+#: includes-pro/admin.php:612 includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Per activar o desactivar l'aplicació de les capacitats d'edició "
+"personalitzades per a qualsevol estat, feu clic a la seva cel·la d'Accés de "
+"Publicació a la taula de %1$sEstats%2$s, després torneu a carregar aquesta "
+"pantalla."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "Bloquejar l'accés a la pantalla de Plugins mitjançant enllaç directe"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "Bloquejar l'accés a la pantalla de Perfil mitjançant enllaç directe"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Bloquejar l'accés a la Biblioteca de Mitjans a través d'enllaç directe"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "Bloquejar l'accés a la pantalla de Temes mitjançant enllaç directe"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"Bloquejar l'accés a la pantalla d'Usuaris i a Afegir Nou Usuari mitjançant "
+"enllaç directe"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "Bloquejar per URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Introduïu l'URL a bloquejar per rol:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Editant:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Títol"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section of "
+"this screen."
+msgstr ""
+"Introduïu el nom/etiqueta per identificar l'element a la secció Bloquejat "
+"per URL d'aquesta pantalla."
+
+#: includes-pro/features/admin-features-block-url.php:201
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Separa múltiples urls amb coma. (p. ex, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "Bloqueig de comodins"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr ""
+"Activar la coincidència de prefixos de comodins per a aquesta regla d'URL."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Quan està activat, els usuaris són bloquejats de qualsevol URL que comenci "
+"amb el valor introduït anteriorment."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Cancel·lar Edició"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Afegir Nou"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "Desa Edició"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:408
+#: includes-pro/features/admin-menus/admin-menus-filters.php:458
+#: includes-pro/features/admin-menus/admin-menus-filters.php:500
+#: includes-pro/features/admin-menus/admin-menus-filters.php:553
+#: includes-pro/features/admin-menus/admin-menus-filters.php:605
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "S'ha produït un error!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+#, fuzzy
+#| msgid "You do not have permission to manage menu restrictions."
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "No teniu permís per gestionar les restriccions del menú."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr ""
+"Acció no vàlida. Torna a carregar aquesta pàgina i torna-ho a intentar."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Tots els camps són obligatoris."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Element personalitzat actualitzat amb èxit"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Nou element personalitzat afegit amb èxit"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Comodin activat"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Veure"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "Editar"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:474
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid "Delete"
+msgstr "Esborrar"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Sol·licitud no vàlida!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Element seleccionat eliminat amb èxit"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "No teniu permís per accedir a aquesta pàgina."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Amagar Hello Dolly de la llista de plugins"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr ""
+"Amagar els enllaços d'acció de la fila de plugins (Desactivar, Activar, "
+"Eliminar, etc. botons)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Amagar el botó Afegir nova entrada de la pantalla d'entrades"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr ""
+"Amagar el botó Desactivar de la fila de plugins de totes les llistes de "
+"plugins"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr ""
+"Amagar el botó Eliminar de la fila de plugins de totes les llistes de plugins"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "Amagar elements CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or classes "
+"below:"
+msgstr ""
+"Podeu eliminar altres elements de l'àrea d'administració afegint els seus "
+"IDs o classes a continuació:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr ""
+"Introduïu el nom/etiqueta per identificar l'element personalitzat en aquesta "
+"pantalla."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "IDs o classes d'element"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma (.custom-item-"
+"one, .custom-item-two, #new-item-id)."
+msgstr ""
+"IDs o classes per ocultar. Separa múltiples valors amb comes (.custom-item-"
+"one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "URLs objectiu"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Opcional. Restrigeix aquesta regla de CSS per amagar a URLs d'administració "
+"específiques. Separa múltiples URLs amb comes."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Coincidència d'URL de comodins"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr ""
+"Activar la coincidència de prefixos de comodins per a les URLs objectiu."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Quan està activat, aquesta regla s'aplica si l'URL actual comença amb "
+"qualsevol valor d'URL objectiu."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "Element CSS actualitzat amb èxit."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Nou element CSS afegit amb èxit."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL objectiu"
+
+#: includes-pro/features/admin-features-css-hide.php:317
+msgid "URL wildcard"
+msgstr "URL comodin"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:382
+#: includes-pro/features/admin-menus/admin-menus-filters.php:413
+#: includes-pro/features/admin-menus/admin-menus-filters.php:463
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:558
+#: includes-pro/features/admin-menus/admin-menus-filters.php:610
+msgid "Security check failed"
+msgstr "La comprovació de seguretat ha fallat"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:384
+#: includes-pro/features/admin-menus/admin-menus-filters.php:415
+#: includes-pro/features/admin-menus/admin-menus-filters.php:465
+#: includes-pro/features/admin-menus/admin-menus-filters.php:507
+#: includes-pro/features/admin-menus/admin-menus-filters.php:560
+#: includes-pro/features/admin-menus/admin-menus-filters.php:612
+msgid "Permission denied"
+msgstr "Permís denegat"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:396
+msgid "Settings updated successfully."
+msgstr "Configuracions actualitzades amb èxit."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:425
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr ""
+"L'ordre del menú d'administració s'ha restablert correctament. Tornant a "
+"carregar la pàgina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr ""
+"Els noms del menú d'administració s'han restablert correctament. Tornant a "
+"carregar la pàgina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:437
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr ""
+"El caché del Menú d'Admin s'ha restablert correctament. Recarregant pàgina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:441
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr ""
+"El menú d'administració s'ha restablert correctament. Tornant a carregar la "
+"pàgina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Menu deleted successfully."
+msgstr "Menú eliminat amb èxit."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:542
+msgid "New menu added successfully. Reloading page..."
+msgstr "Nou menú afegit amb èxit. Recarregant la pàgina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:570
+#: includes-pro/features/admin-menus/admin-menus-filters.php:617
+msgid "Invalid data"
+msgstr "Dades no vàlides"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:579
+msgid "Menu Name Updated for all roles."
+msgstr "Nom del menú actualitzat per a tots els rols."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:583
+#: includes-pro/features/admin-menus/admin-menus-filters.php:590
+msgid "Menu Name Updated."
+msgstr "Nom del menú actualitzat."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:621
+msgid "Menu Order Updated."
+msgstr "Ordre del menú actualitzat."
+
+#: includes-pro/features/admin-menus/admin-menus.php:145
+msgid "Type:"
+msgstr "Tipus:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:147
+msgid "Menu Link"
+msgstr "Enllaç del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:148
+msgid "Submenu Link"
+msgstr "Enllaç del submenú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:149
+msgid "Menu Separator"
+msgstr "Separador del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:150
+msgid "Submenu Separator"
+msgstr "Separador del submenú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:154
+msgid "Position:"
+msgstr "Posició:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "After"
+msgstr "Després"
+
+#: includes-pro/features/admin-menus/admin-menus.php:167
+msgid "Menu Title:"
+msgstr "Títol del menú:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:170
+msgid "My Custom Menu"
+msgstr "El meu menú personalitzat"
+
+#: includes-pro/features/admin-menus/admin-menus.php:172
+msgid "Menu Title is required."
+msgstr "El títol del menú és obligatori."
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Separator Style"
+msgstr "Estil de separador"
+
+#: includes-pro/features/admin-menus/admin-menus.php:177
+msgid "Line (____________________)"
+msgstr "Línia (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "Empty Space"
+msgstr "Espai buit"
+
+#: includes-pro/features/admin-menus/admin-menus.php:184
+msgid "Menu URL:"
+msgstr "URL del menú:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:188
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any link "
+"can only be used once for a Menu URL."
+msgstr ""
+"Introduïu un enllaç intern com %1s o un enllaç extern com %2s. Qualsevol "
+"enllaç només es pot utilitzar una vegada per a una URL de menú."
+
+#: includes-pro/features/admin-menus/admin-menus.php:195
+msgid "Menu with this url already exist."
+msgstr "El menú amb aquesta URL ja existeix."
+
+#: includes-pro/features/admin-menus/admin-menus.php:202
+msgid "Menu Capability:"
+msgstr "Capacitat del menú:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s If "
+"you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Aquesta és la capacitat requerida per veure aquest menú. Per exemple: %1s o "
+"%2s. Si esteu entrant una capacitat personalitzada, recordeu afegir-la i "
+"assignar-la als rols preferits a la pàgina de capacitats"
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability is required."
+msgstr "Es requereix la capacitat del menú."
+
+#: includes-pro/features/admin-menus/admin-menus.php:218
+msgid "Menu Icon"
+msgstr "Icona del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:223
+msgid "Save Menu Link"
+msgstr "Desa Enllaç de Menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:243
+#: includes-pro/features/admin-menus/admin-menus.php:266
+msgid "Toggle all"
+msgstr "Alternar tot"
+
+#: includes-pro/features/admin-menus/admin-menus.php:249
+msgid "New Menu Link"
+msgstr "Nou enllaç del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:414
+#: includes-pro/features/admin-menus/admin-menus.php:560
+msgid "(Can't detect menu name)"
+msgstr "(No es pot detectar el nom del menú)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:440
+#: includes-pro/features/admin-menus/admin-menus.php:582
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Aquest nom de menú no està disponible en les dades globals del menú o "
+"directament registrat amb el menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:451
+#: includes-pro/features/admin-menus/admin-menus.php:592
+#, php-format
+msgid "%s Role"
+msgstr "%s Rol"
+
+#: includes-pro/features/admin-menus/admin-menus.php:452
+#: includes-pro/features/admin-menus/admin-menus.php:593
+msgid "All Roles"
+msgstr "Tots els Rols"
+
+#: includes-pro/features/admin-menus/admin-menus.php:454
+#: includes-pro/features/admin-menus/admin-menus.php:596
+msgid "Save"
+msgstr "Desa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:457
+#: includes-pro/features/admin-menus/admin-menus.php:474
+#: includes-pro/features/admin-menus/admin-menus.php:599
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid "Cancel"
+msgstr "Cancel·lar"
+
+#: includes-pro/features/admin-menus/admin-menus.php:465
+#: includes-pro/features/admin-menus/admin-menus.php:607
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Aquesta opció està desactivada per evitar un bloqueig complet"
+
+#: includes-pro/features/admin-menus/admin-menus.php:474
+#: includes-pro/features/admin-menus/admin-menus.php:616
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Estàs segur que vols eliminar %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "La capacitat requerida per accedir a aquest menú és %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:489
+#: includes-pro/features/admin-menus/admin-menus.php:631
+msgid "Rename Menu"
+msgstr "Reanomena el Menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:495
+#: includes-pro/features/admin-menus/admin-menus.php:637
+msgid "Move Up"
+msgstr "Mou cap amunt"
+
+#: includes-pro/features/admin-menus/admin-menus.php:498
+#: includes-pro/features/admin-menus/admin-menus.php:640
+msgid "Move Down"
+msgstr "Mou cap avall"
+
+#: includes-pro/features/admin-menus/admin-menus.php:677
+msgid "No menu found"
+msgstr "No s'ha trobat cap menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:700
+msgid "How to use Admin Menus"
+msgstr "Com fer servir els Menús d'Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:704
+#: includes-pro/features/admin-menus/admin-menus.php:706
+msgid "usage key"
+msgstr "clau d'ús"
+
+#: includes-pro/features/admin-menus/admin-menus.php:705
+msgid "No change"
+msgstr "Sense canvis"
+
+#: includes-pro/features/admin-menus/admin-menus.php:707
+msgid "This feature is denied"
+msgstr "Aquesta funció està denegada"
+
+#: includes-pro/features/admin-menus/admin-menus.php:709
+msgid "View Documentation"
+msgstr "Veure Documentació"
+
+#: includes-pro/features/admin-menus/admin-menus.php:713
+msgid "Admin Menus Settings"
+msgstr "Configuració dels Menús d'Administració"
+
+#: includes-pro/features/admin-menus/admin-menus.php:716
+msgid "Hide Submenus"
+msgstr "Amagar submenús"
+
+#: includes-pro/features/admin-menus/admin-menus.php:718
+msgid "Show Menu Slugs"
+msgstr "Mostrar slugs de menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:723
+msgid "Reset Admin Menus"
+msgstr "Restableix Menús d'Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:725
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Podeu restablir l'ordre i el nom del menú d'administració a la seva posició "
+"i noms originals. També podeu restablir la memòria cau del menú per "
+"solucionar el problema del menú que falta."
+
+#: includes-pro/features/admin-menus/admin-menus.php:728
+msgid "Reset Menu Order"
+msgstr "Restablir l'ordre del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:730
+msgid "Reset Cached Menu"
+msgstr "Restablir el menú emmagatzemat a la memòria cau"
+
+#: includes-pro/features/admin-menus/admin-menus.php:732
+msgid "Reset Menu Names"
+msgstr "Restablir noms del menú"
+
+#: includes-pro/features/admin-menus/admin-menus.php:734
+msgid "Reset Selected Option"
+msgstr "Restableix Opció Seleccionada"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Afegir Noves Restriccions de l'Editor Clàssic"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"Podeu eliminar altres elements de la pantalla de l'editor afegint els seus "
+"IDs o classes a continuació:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Afegir Noves Restriccions de Gutenberg"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+#, fuzzy
+#| msgid "You do not have permission to manage menu restrictions."
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "No teniu permís per gestionar les restriccions del menú."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"Acció no vàlida. Torna a carregar aquesta pàgina i torna-ho a intentar si ha "
+"ocorregut un error."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Element personalitzat actualitzat amb èxit. Desa els canvis per aplicar les "
+"restriccions."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr ""
+"Nou element personalitzat afegit. Desa els canvis per aplicar les "
+"restriccions."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Amagar la pestanya Patrons a l'editor de blocs"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Amagar el botó Inserir/editar enllaç a l'Editor Clàssic"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Restriccions de l'Editor Clàssic Personalitzat"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Restriccions de Gutenberg Personalitzat"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "Metaboxes"
+
+#: includes-pro/functions-admin.php:38 includes-pro/settings-ui.php:441
+msgid "Admin Menu"
+msgstr "Menú d'Admin"
+
+#: includes-pro/pro-maint.php:46 includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr ""
+"S'ha produït un error. Si us plau, torna-ho a provar o contacta amb l'equip "
+"d'assistència."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Llicència"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "Activar Clau"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "Desactivar Clau"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Connectant-se al servidor publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr ""
+"La sol·licitud no s'ha pogut processar a causa d'una fallada de connexió."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr ""
+"Si us plau, introdueix la clau de llicència mostrada a la teva rebuda de "
+"comanda."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "S'ha produït un error no identificat."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "La clau ha estat desactivada."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "La clau ha estat activada."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "La clau ha caducat."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "La clau no és vàlida."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "S'ha produït un error d'activació desconegut."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr ""
+"La clau proporcionada no és vàlida. Si us plau, verifiqueu la vostra entrada."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Aquest lloc no és vàlid per activar la clau."
+
+#: includes-pro/settings-ui.php:58 includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "La clau proporcionada no s'ha pogut validar per publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "La clau proporcionada ja està activa en un altre lloc."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "La clau ja ha estat activada en el nombre permès de llocs."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "S'ha produït un error de desactivació desconegut."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "No es pot desactivar perquè la clau proporcionada no és vàlida."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Aquest lloc no és vàlid per desactivar la clau."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "La clau proporcionada no està activa al lloc especificat."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr ""
+"Si això és incorrecte, <a href=\"%s\">sol·licita ajuda per a l'activació</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr ""
+"Si us plau, desa la configuració abans de pujar la configuració del lloc."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Bloquejat per Estats Pro)"
+
+#: includes-pro/settings-ui.php:97 includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Controla els estats personalitzats"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Controla la selecció d'estats de publicació personalitzats. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr ""
+"Aplicar capacitats específiques de l'estat per a l'edició i eliminació de "
+"publicacions."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Activar estatus de visibilitat personalitzats"
+
+#. Translators: %1$s and %2$s is link markup
+#: includes-pro/settings-ui.php:162
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"Per als estatus de visibilitat, %1$sactiveu el mòdul de control "
+"d'estatus%2$s a Permisos Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr ""
+"Aplicar capacitats d'edició específiques de l'estat i del tipus per a Estats "
+"de Visibilitat"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Activació de la Clau de Llicència"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"La teva clau de llicència PublishPress ha caducat. Per a continuar amb "
+"suport prioritari, <a href=\"%s\">renova si us plau</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"La teva clau de llicència PublishPress caducarà avui. Per a actualitzacions "
+"i suport prioritari, <a href=\"%s\">renova si us plau</a>."
+
+#: includes-pro/settings-ui.php:311
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"La teva clau de llicència PublishPress caducarà en %d dia. Per a "
+"actualitzacions i suport prioritari, <a href=\"%s\">renova si us plau</a>."
+msgstr[1] ""
+"La teva clau de llicència PublishPress (per a actualitzacions de plugins) "
+"caducarà en %d dies. Per a actualitzacions i suport prioritari, <a "
+"href=\"%s\">renova si us plau</a>."
+
+#: includes-pro/settings-ui.php:333
+msgid "Key Expired"
+msgstr "Clau expirada"
+
+#: includes-pro/settings-ui.php:338 includes-pro/settings-ui.php:348
+msgid "Deactivate"
+msgstr "Desactivar"
+
+#: includes-pro/settings-ui.php:342
+msgid "Activated"
+msgstr "Activat"
+
+#: includes-pro/settings-ui.php:345
+msgid "Enter your license key"
+msgstr "Introduïu la vostra clau de llicència"
+
+#: includes-pro/settings-ui.php:348
+msgid "Activate"
+msgstr "Activar"
+
+#: includes-pro/settings-ui.php:374
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "veure %s&nbsp;detalls"
+
+#: includes-pro/settings-ui.php:384
+msgid "Update&nbsp;Available"
+msgstr "Actualització&nbsp;Disponible"
+
+#: includes-pro/settings-ui.php:391
+msgid "Update&nbsp;Check"
+msgstr "Actualització&nbsp;Comprovació"
+
+#: includes-pro/settings-ui.php:397
+msgid "Account"
+msgstr "Compte"
+
+#: includes-pro/settings-ui.php:403
+msgid "Pricing"
+msgstr "Preus"
+
+#: includes-pro/settings-ui.php:421
+msgid "Display PublishPress Branding"
+msgstr "Mostrar la Marca de PublishPress"
+
+#: includes-pro/settings-ui.php:423
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Amagar el peu de pàgina de PublishPress i altres marques."
+
+#: includes-pro/settings-ui.php:443
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Menús d'Administració: tractament de múltiples rols"
+
+#: includes-pro/settings-ui.php:446
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "Més permissiu: qualsevol rol d'usuari no restringit permet l'accés"
+
+#: includes-pro/settings-ui.php:449
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "Més restrictiu: qualsevol rol d'usuari restringit impedeix l'accés"
+
+#: includes-pro/settings-ui.php:453
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Això controla si s'apliquen permisos més permissius o restrictius si un "
+"usuari té múltiples rols."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"El control d'estats personalitzats està desactivat fins que activis el "
+"plugin %1$sPublishPress Statuses%2$s. Veure %3$sCapacitats > "
+"Configuració%4$s per a més detalls."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"El control d'estats personalitzats està desactivat fins que instal·lis el "
+"plugin %1$sPublishPress Statuses%2$s. Veure %3$sCapacitats > "
+"Configuració%4$s per a més detalls."
+
+#: includes-pro/common/js/admin.dev.js:477 includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:930
+msgid "Changes saved!"
+msgstr ""
+
+#: includes-pro/common/js/admin.dev.js:477 includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:930
+msgid " Error: changes can't be saved."
+msgstr ""
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:348
+msgid "Deleting menu..."
+msgstr ""
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:391
+#, fuzzy
+#| msgid "Admin Menus Settings"
+msgid "Updating Settings..."
+msgstr "Configuració dels Menús d'Administració"
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:415
+msgid "You must check at least one option to reset."
+msgstr ""
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:427
+#, fuzzy
+#| msgid "Reset Selected Option"
+msgid "Resetting option..."
+msgstr "Restableix Opció Seleccionada"
+
+#, fuzzy
+#~| msgid "Menu Capability is required."
+#~ msgid "Capability Requirements"
+#~ msgstr "Es requereix la capacitat del menú."
+
+#, fuzzy
+#~| msgid "Revision Status Capabilities"
+#~ msgid "(Default Capabilities)"
+#~ msgstr " capacitats d'Estat de Revisió"
+
+#, fuzzy
+#~| msgid "Toggle all capabilities for this status"
+#~ msgid "Custom Capabilities for this Status"
+#~ msgstr "Alternar totes les capacitats per a aquest estat"
+
+#, fuzzy, php-format
+#~| msgid "Can set posts to this status"
+#~ msgid "Role can set posts to the \"%s\" status"
+#~ msgstr "Pot establir les publicacions en aquest estat"
+
+#, fuzzy, php-format
+#~| msgid "Can edit other's posts of this status"
+#~ msgid "Role can edit other's \"%s\" posts"
+#~ msgstr "Pot editar les publicacions d'altres en aquest estat"
+
+#, fuzzy, php-format
+#~| msgid "Can delete other's posts of this status"
+#~ msgid "Role can delete other's \"%s\" posts"
+#~ msgstr "Pot suprimir les publicacions d'altres en aquest estat"
+
+#, fuzzy, php-format
+#~| msgid "Toggle all capabilities for this status"
+#~ msgid "Role Capabilities for \"%s\" status:"
+#~ msgstr "Alternar totes les capacitats per a aquest estat"
+
+#, fuzzy
+#~| msgid "Toggle all capabilities for this status"
+#~ msgid "Toggle all capabilities for this role"
+#~ msgstr "Alternar totes les capacitats per a aquest estat"
+
+#, fuzzy
+#~| msgid "My Custom Menu"
+#~ msgid "Custom"
+#~ msgstr "El meu menú personalitzat"
+
+#, fuzzy
+#~| msgid "My Custom Menu"
+#~ msgid "Custom Read"
+#~ msgstr "El meu menú personalitzat"
+
+#, fuzzy
+#~| msgid "Custom Statuses"
+#~ msgid "Post Status"
+#~ msgstr "Estats Personalitzats"
+
+#, fuzzy
+#~| msgid "Can read posts in this status"
+#~ msgid "Can create revisions of posts in this status"
+#~ msgstr "Pot llegir les publicacions en aquest estat"
+
+#, fuzzy
+#~| msgid "You do not have permission to access this page."
+#~ msgid "Sorry, you do not have permission to edit custom statuses."
+#~ msgstr "No teniu permís per accedir a aquesta pàgina."

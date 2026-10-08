@@ -412,12 +412,22 @@ class Projects extends Base {
 			return false;
 		}
 
+		// plugins_api() may return an array; normalize to stdClass so property access is consistent.
+		if ( is_array( $api ) ) {
+			$api = (object) $api;
+		}
+
+		// Bail if the API response is missing the download link or slug.
+		if ( ! isset( $api->download_link, $api->slug ) ) {
+			return false;
+		}
+
 		$upgrader = new \Plugin_Upgrader( $skin );
 		if ( $is_update ) {
 			$plugin_slug = $this->get_plugin_slug( $slug );
 			$result      = $upgrader->upgrade( $plugin_slug );
 		} else {
-			$result = $upgrader->install( $api->download_url );
+			$result = $upgrader->install( $api->download_link );
 		}
 
 		if ( true === $result ) {

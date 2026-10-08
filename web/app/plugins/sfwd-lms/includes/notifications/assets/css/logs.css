@@ -1,0 +1,20 @@
+.logs-page {
+    padding: 20px;
+}
+
+.clear-all-logs {
+    float: right;
+}
+
+.clearfix {
+    clear: both;
+}
+
+#logs-tab {
+    margin-top: 20px;
+}
+
+#logs-tab pre {
+    line-break: auto;
+    word-break: break-all;
+}

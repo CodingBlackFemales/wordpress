@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Capabilities Pro">
+  <domain name="capabilities-pro">
+    <project name="PublishPress Capabilities Pro" slug="capabilities-pro">
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/capabilities-pro.pot</file>
+      </template>
+    </project>
+  </domain>
+  <domain name="capability-manager-enhanced">
+    <project name="PublishPress Capabilities" slug="capability-manager-enhanced">
+      <source>
+        <directory>lib/vendor/publishpress/publishpress-capabilities</directory>
+      </source>
+      <target>
+        <directory>lib/vendor/publishpress/publishpress-capabilities/languages</directory>
+      </target>
+      <template>
+        <file>lib/vendor/publishpress/publishpress-capabilities/languages/capability-manager-enhanced.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>vendor</directory>
+  </exclude>
+</bundle>

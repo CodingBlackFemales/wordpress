@@ -1,0 +1,549 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr "PublishPress Planner 可以幫助您在 WordPress 中規劃和發佈內容。功能包括內容日曆、看板和通知。"
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "警告"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr "請在使用 PublishPress Pro 之前停用並移除 PublishPress Slack。"
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr "請在使用 PublishPress Pro 之前停用並移除 PublishPress Reminders。"
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr "看起來您有多個 PublishPress Pro 正在運行。請停用並移除其中一個。"
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "網路管理員"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "內容日曆 Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "發生錯誤"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "驗證 nonce 時出錯。請重新載入此頁面並再試一次。"
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "無效的表單請求。"
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "獲取文章資料時出錯。"
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "您沒有權限編輯此文章。"
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "變更已儲存！"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEO 分數"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "可讀性"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO 標題"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "元描述"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "焦點關鍵字"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "外部內部連結"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "接收的內部連結"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebook 標題"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook 描述"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook 圖片"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitter 標題"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter 描述"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter 圖片"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPress 清單"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "您尚未啟用任何清單需求。"
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEO 分數"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "內容板專業版"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "內容概覽專業版"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Elementor 整合"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "通知網絡管理員"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "授權"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "授權金鑰："
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "在管理介面中顯示 PublishPress 品牌："
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "內容發佈後"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "在選定的發佈日期之前"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "金額"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "時間單位"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "小時"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "天"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "週"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "月"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "對於此狀態的內容"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "提醒"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "查找排定文章的間隔："
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "未排程"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "現在"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s 秒"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "從不"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "下一次運行"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr "我們應該多久檢查一次排定文章？這使 PublishPress 能夠處理排定內容的通知。"
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "點此獲取更多資訊。"
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "每 10 分鐘"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "每 15 分鐘"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "每 20 分鐘"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "每 30 分鐘"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "每 45 分鐘"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress 修訂整合"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "修訂狀態"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "所有狀態"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "顯示修訂"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack 頻道："
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr "將發送通知的 Slack 頻道。例如 #general、@username 或 user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "點擊以連接到 Slack"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "點擊以重新連接到 Slack"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "繼續"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "取消"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "成功"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "錯誤"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "秒"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "經過時間"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr "點擊以連接，將會打開一個新窗口，以便您可以在 Slack 上授權 PublishPress 應用。"
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr "在下面粘貼您在加載的頁面上收到的臨時身份驗證代碼，然後點擊繼續。"
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Slack 身份驗證信息已儲存。"
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr "Slack 有一個新的 API，而您有一個可能很快會停止運作的舊配置。請重新連接到 Slack，以避免中斷通知。"
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "恭喜！Slack 認證資訊已儲存。"
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "認證資訊和快取已成功刪除。"
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "點擊以發送測試消息到 Slack 的預設頻道"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "正在嘗試將消息發送到 Slack..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "發現未知錯誤。"
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "無效的 nonce 或來源。"
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "恭喜！測試消息已發送到頻道 %s。"
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "認證："
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "預設 Slack 頻道/用戶："
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "通知主題："
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "完整 - 帶有操作按鈕的通知內容"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "簡潔 - 只有通知內容"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"通知將發送到的預設 Slack 頻道。例如 #general、@username、user@email.com 或頻道 "
+"ID。用戶可以在其個人資料中覆蓋此設置。"
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "評論"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "編輯"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "查看"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr "未找到令牌。請轉到 PublishPress > 設定 > Slack 並重新連接到 Slack。"
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr "請轉到 PublishPress > 設定 > Slack 並重新連接到 Slack"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr "在 PublishPress 中未找到 Slack OAuth 令牌。請重新連接到 Slack"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "存取被拒"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "無效的 OAuth 令牌"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "嘿，恭喜！PublishPress Pro 的 Slack 設定一切正常。"
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "來自 Slack 的錯誤："
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "來自 PublshPress.com 的錯誤："

@@ -127,10 +127,34 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		public function init_check_for_download_request() {
 			if ( isset( $_GET['ld-report-download'] ) ) {
 				if ( ( isset( $_GET['data-nonce'] ) ) && ( ! empty( $_GET['data-nonce'] ) ) && ( isset( $_GET['data-slug'] ) ) && ( ! empty( $_GET['data-slug'] ) ) ) {
-					if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['data-nonce'] ) ), 'learndash-data-reports-' . sanitize_text_field( wp_unslash( $_GET['data-slug'] ) ) . '-' . get_current_user_id() ) ) {
-						$transient_key = sanitize_text_field( wp_unslash( $_GET['data-slug'] ) ) . '_' . sanitize_text_field( wp_unslash( $_GET['data-nonce'] ) );
+					$data_slug   = sanitize_text_field( wp_unslash( $_GET['data-slug'] ) );
+					$data_nonce  = sanitize_text_field( wp_unslash( $_GET['data-nonce'] ) );
+					$nonce_valid = wp_verify_nonce( $data_nonce, 'learndash-data-reports-' . $data_slug . '-' . get_current_user_id() );
 
-						$transient_data = $this->get_transient( $transient_key );
+					$transient_key  = $data_slug . '_' . $data_nonce;
+					$transient_data = $this->get_transient( $transient_key );
+
+					/*
+					 * The per-session nonce rolls on WordPress' ~12-hour tick, so a long-running or
+					 * left-open export could no longer be downloaded once its nonce expires. The URL's
+					 * nonce is still the unguessable key of the export's own transient, so fall back
+					 * to the user who started this export when only the nonce's freshness has lapsed,
+					 * not its secrecy. Group leaders start exports from the group report list table,
+					 * so the fallback covers them too — an administrator capability here would strand
+					 * them on a report they are allowed to run.
+					 */
+					$is_owner = is_array( $transient_data )
+						&& isset( $transient_data['user_id'] )
+						&& Cast::to_int( $transient_data['user_id'] ) === get_current_user_id()
+						&& (
+							learndash_is_admin_user()
+							|| learndash_is_group_leader_user()
+						);
+
+					if (
+						$nonce_valid
+						|| $is_owner
+					) {
 						if ( ( isset( $transient_data['report_filename'] ) ) && ( ! empty( $transient_data['report_filename'] ) ) ) {
 							$report_filename = $transient_data['report_filename'];
 							if ( ( file_exists( $report_filename ) ) && ( is_readable( $report_filename ) ) ) {
@@ -255,10 +279,34 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 				LEARNDASH_SCRIPT_VERSION_TOKEN,
 				true
 			);
+			wp_localize_script(
+				'learndash-admin-settings-data-reports-script',
+				'learndashDataReports',
+				array(
+					'messages' => self::get_export_notice_messages(),
+				)
+			);
 			$learndash_assets_loaded['scripts']['learndash-admin-settings-data-reports-script'] = __FUNCTION__;
 
 			$this->init_report_actions();
 
+		}
+
+		/**
+		 * Returns the export notice strings shared by the Reports settings page and the
+		 * ProPanel widget, so the wording lives in one place instead of being repeated
+		 * in each script.
+		 *
+		 * @since 5.1.6
+		 *
+		 * @return array{ export_queued: string, dismiss_notice: string, export_failed_start: string } Notice keys mapped to translated, HTML-safe strings.
+		 */
+		public static function get_export_notice_messages(): array {
+			return array(
+				'export_queued'       => esc_html__( 'Your report is being processed in the background. You can safely leave or close this page; the download link will appear here as a notice once the export finishes.', 'learndash' ),
+				'dismiss_notice'      => esc_html__( 'Dismiss this notice.', 'learndash' ),
+				'export_failed_start' => esc_html__( 'The export could not be started. Please try again.', 'learndash' ),
+			);
 		}
 
 		/**
@@ -283,7 +331,7 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 		 *
 		 * @since 4.17.0
 		 *
-		 * @return array{class: string, instance: Learndash_Admin_Settings_Data_Reports, slug: string, text?: string}[]
+		 * @return array{class: string, instance: Learndash_Admin_Settings_Data_Reports, slug: string, label?: string, text?: string}[]
 		 */
 		public function get_report_actions(): array {
 			return $this->report_actions;
@@ -463,10 +511,30 @@ if ( ! class_exists( 'Learndash_Admin_Settings_Data_Reports' ) ) {
 							dirname( $ld_transient_filename )
 						);
 
-						$transient_fp = fopen( $ld_transient_filename, 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-						if ( $transient_fp ) {
-							fwrite( $transient_fp, serialize( $transient_data ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize, WordPress.WP.AlternativeFunctions.file_system_read_fwrite
-							fclose( $transient_fp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fclose
+						// Atomic write: stream to a unique temp file then rename into place.
+						// Writing directly to $ld_transient_filename truncates the live file before
+						// the payload is fully written, leaving a window where concurrent readers see
+						// an empty file and the export status endpoint reports "Export not found"
+						// mid-run. WP_Filesystem::move() wraps a POSIX rename, which is atomic on the
+						// file systems WordPress supports, so readers either see the previous full file
+						// or the new one — never a half-written intermediate.
+						global $wp_filesystem;
+
+						if ( ! $wp_filesystem ) {
+							require_once ABSPATH . 'wp-admin/includes/file.php';
+							WP_Filesystem();
+						}
+
+						if ( $wp_filesystem ) {
+							$tmp_filename  = $ld_transient_filename . '.tmp.' . uniqid( '', true );
+							$serialized    = serialize( $transient_data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- maybe_unserialize() on the read side requires PHP serialize format; JSON would not round-trip stored objects.
+							$wrote_tmp     = $wp_filesystem->put_contents( $tmp_filename, $serialized, FS_CHMOD_FILE );
+
+							if ( $wrote_tmp ) {
+								if ( ! $wp_filesystem->move( $tmp_filename, $ld_transient_filename, true ) ) {
+									$wp_filesystem->delete( $tmp_filename );
+								}
+							}
 						}
 					} else {
 						update_option( $options_key, $transient_data );
@@ -501,7 +569,7 @@ add_action(
  */
 function learndash_data_reports_ajax() { // phpcs:ignore Universal.Files.SeparateFunctionsFromOO.Mixed -- TODO: Move this function.
 	if (
-		! current_user_can( 'read' )
+		! current_user_can( LEARNDASH_ADMIN_CAPABILITY_CHECK )
 		|| empty( $_POST['data'] )
 		|| empty( $_POST['data']['nonce'] )
 	) {
@@ -530,3 +598,114 @@ function learndash_data_reports_ajax() { // phpcs:ignore Universal.Files.Separat
 }
 
 add_action( 'wp_ajax_learndash-data-reports', 'learndash_data_reports_ajax' );
+
+/**
+ * Data Reports export status AJAX handler.
+ *
+ * Reports background-export progress for the Reports settings page poller: the completion
+ * percentage, whether the export has finished, and the CSV download URL. The poller redirects
+ * to that URL to download the file automatically once the export is done.
+ *
+ * Administrators and group leaders may poll. The Reports settings page is administrator-only, but
+ * the same export runs from the group report list table and the dashboard reporting widgets, which
+ * group leaders can reach, so an administrator-only gate would leave them polling forever for an
+ * export they were allowed to start. Which export a caller may read is decided by the nonce or by
+ * ownership of the transient, not by the capability.
+ *
+ * @since 5.1.10
+ *
+ * @return void
+ */
+function learndash_report_export_status_ajax() { // phpcs:ignore Universal.Files.SeparateFunctionsFromOO.Mixed -- Mirrors learndash_data_reports_ajax() above.
+	if (
+		(
+			! learndash_is_admin_user()
+			&& ! learndash_is_group_leader_user()
+		)
+		|| empty( $_POST['slug'] )
+		|| empty( $_POST['nonce'] )
+	) {
+		wp_send_json_error();
+	}
+
+	$slug  = sanitize_text_field( wp_unslash( $_POST['slug'] ) );
+	$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
+
+	$nonce_valid = wp_verify_nonce( $nonce, 'learndash-data-reports-' . $slug . '-' . get_current_user_id() );
+
+	$reports        = new Learndash_Admin_Settings_Data_Reports();
+	$transient_data = $reports->get_transient( $slug . '_' . $nonce );
+
+	/*
+	 * The per-session nonce rolls on WordPress' ~12-hour tick, so a long-running export would
+	 * stop reporting progress once its nonce expires even though the background chunks keep
+	 * running. The polled nonce is still the unguessable key of the export's own transient, so
+	 * fall back to the export owner — already admitted by the capability check above — when only
+	 * the nonce's freshness has lapsed.
+	 */
+	$is_owner = is_array( $transient_data )
+		&& isset( $transient_data['user_id'] )
+		&& Cast::to_int( $transient_data['user_id'] ) === get_current_user_id();
+
+	if (
+		! $nonce_valid
+		&& ! $is_owner
+	) {
+		wp_send_json_error();
+	}
+
+	if (
+		! is_array( $transient_data )
+		|| empty( $transient_data['report_filename'] )
+	) {
+		wp_send_json_error();
+	}
+
+	$report_filename = Cast::to_string( $transient_data['report_filename'] );
+	$file_ready      =
+		file_exists( $report_filename )
+		&& is_readable( $report_filename );
+
+	$total  = isset( $transient_data['total_count'] ) ? Cast::to_int( $transient_data['total_count'] ) : 0;
+	$offset = isset( $transient_data['offset'] ) ? Cast::to_int( $transient_data['offset'] ) : 0;
+	$status = isset( $transient_data['status'] ) ? Cast::to_string( $transient_data['status'] ) : '';
+
+	/*
+	 * A failed export is reported as an error so the page stops polling. The partial CSV is still
+	 * on disk and would otherwise keep answering with a plausible percentage forever; the engine's
+	 * failure admin notice carries the reason.
+	 */
+	if ( 'export_failed' === $status ) {
+		wp_send_json_error();
+	}
+
+	/*
+	 * "Done" means the engine actually finished the chunk chain, not merely that the Action
+	 * Scheduler queue is currently empty (an interrupted chain looks idle too, and reporting
+	 * that as done would auto-download an incomplete CSV). The explicit status flag is the
+	 * primary signal; the offset/total comparison is a fallback for transients written before
+	 * that flag existed.
+	 */
+	$done = $file_ready
+		&& (
+			'export_complete' === $status
+			|| ( $total > 0 && $offset >= $total )
+		);
+
+	// Cap in-progress progress at 99% so the notice only reads 100% once the file is ready to download.
+	$percent = $done
+		? 100
+		: ( $total > 0 ? min( 99, Cast::to_int( floor( ( $offset / $total ) * 100 ) ) ) : 0 );
+
+	wp_send_json_success(
+		[
+			'percent'     => $percent,
+			'done'        => $done,
+			'offset'      => $offset,
+			'total_count' => $total,
+			'report_url'  => isset( $transient_data['report_url'] ) ? Cast::to_string( $transient_data['report_url'] ) : '',
+		]
+	);
+}
+
+add_action( 'wp_ajax_learndash_report_export_status', 'learndash_report_export_status_ajax' );

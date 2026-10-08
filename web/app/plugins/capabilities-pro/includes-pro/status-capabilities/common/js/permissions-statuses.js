@@ -1,0 +1,3 @@
+jQuery(document).ready(function($){$('li.page-row:not(.disabled-status) div.enabled > a').on('click',function(e){e.preventDefault();var status_name=$(this).closest('li.page-row').find('td.status_name div').html();var params={action:'pp_statuses_toggle_post_access',name:status_name,_wpnonce:PPPermissionsStatuses.ppNonce};jQuery.post(PPPermissionsStatuses.ajaxurl,params,function(retval){if(typeof retval['data']=='undefined'){return;}
+var data=retval['data'];if(typeof data['statusName']=='undefined'||typeof data['display']=='undefined'){return;}
+$('#the_status_list li.page-row td.status_name div.status_name').filter(function(){return $(this).text()===data['statusName'];}).closest('tr').find('div.enabled > a').html(data['display']);}).fail(function(){});return false;});});

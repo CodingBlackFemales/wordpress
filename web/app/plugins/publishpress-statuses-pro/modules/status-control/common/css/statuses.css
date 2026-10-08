@@ -1,0 +1,22 @@
+table.cme-typecaps > tbody > tr > td {
+border-right: 3px solid white;
+}
+
+
+
+tr.cme_status table td.post-cap {padding: 4px 4px 0 4px; text-align: left;}
+
+tr.cme_status td.status-label {padding:7px 5px 0 5px; font-weight: normal}
+tr.cme_status td.status-label-advanced {font-weight: bold}
+tr.cme_status td.status-caps {
+    padding:5px 12px 5px 12px;
+    border: 2px solid white;
+}
+tr.cme_status td.status-caps-set {margin-bottom:12px;}
+
+tr.cme_status div.row-spacer, tr.cme_status th.row-spacer {height:5px;}
+
+tr.cme-postmeta-status {background-color:#f8f8f8;}
+
+tr.cme-status-footer {text-align: center}
+

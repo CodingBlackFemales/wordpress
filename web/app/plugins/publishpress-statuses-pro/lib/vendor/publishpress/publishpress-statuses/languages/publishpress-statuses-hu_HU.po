@@ -1,0 +1,1431 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Statuses Free 1.3.3-beta\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-27T16:10:36+00:00\n"
+"PO-Revision-Date: 2026-09-01 04:44+0000\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: publishpress-statuses\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hu-HU\n"
+
+#: publishpress-statuses.php:5
+#. Plugin Name of the plugin
+msgid "PublishPress Statuses Free"
+msgstr "PublishPress Statuses Free"
+
+#: publishpress-statuses.php:7, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/statuses"
+msgstr "https://publishpress.com/statuses"
+
+#: publishpress-statuses.php:9
+#. Description of the plugin
+msgid "Manage and create post statuses to customize your editorial workflow"
+msgstr ""
+"Kezelje és hozzon létre bejegyzés státuszokat az editorial workflow "
+"testreszabásához"
+
+#: publishpress-statuses.php:13
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-statuses.php:15, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: Admin.php:18
+#: Admin.php:430
+#: Admin.php:431
+#: PublishPress_Statuses.php:435
+#: PublishPress_Statuses.php:436
+#: StatusEditUI.php:75
+#: StatusesUI.php:92, fuzzy
+msgid "Statuses"
+msgstr "Statuses"
+
+#: Admin.php:19
+msgid "Settings"
+msgstr "Beállítások"
+
+#: Admin.php:22
+#: includes-core/CoreAdmin.php:40
+#: includes-core/CoreAdmin.php:41
+#: includes-core/PromoBanner.php:225
+#: StatusListTable.php:224
+#: StatusListTable.php:250
+msgid "Upgrade to Pro"
+msgstr "Frissítés Pro verzióra"
+
+#: Admin.php:369
+msgid ""
+"Are you sure you want to delete the post status? All posts with this status "
+"will be assigned to the default status."
+msgstr ""
+"Biztos benne, hogy törölni szeretné a bejegyzés státuszt? Minden bejegyzés "
+"ezzel a státusszal az alapértelmezett státuszhoz lesz rendelve."
+
+#: Admin.php:441
+#: Admin.php:442
+#: StatusesUI.php:1189
+msgid "Add New"
+msgstr "Új hozzáadása"
+
+#: Admin.php:528
+#: PublishPress_Statuses.php:910
+msgid "Approve"
+msgstr "Jóváhagyás"
+
+#: Admin.php:530
+#: PublishPress_Statuses.php:880
+msgid "Assign"
+msgstr "Hozzárendelés"
+
+#: Admin.php:532
+#: PublishPress_Statuses.php:895
+msgid "Mark In Progress"
+msgstr "Folyamatban jelölés"
+
+#: Admin.php:545
+#. translators: %s is the status label
+#, php-format
+msgid "Set to %s"
+msgstr "Állítsa be %s-re"
+
+#: Admin.php:554
+#: PostEditGutenberg.php:91
+#: PostEditGutenberg.php:111
+#. translators: %s is the status label
+#, php-format
+msgid "Save as %s"
+msgstr "Mentés mint %s"
+
+#: Admin.php:566
+#. translators: %s is the name of a custom public status
+#, php-format
+msgid "Public (%s)"
+msgstr "Nyilvános (%s)"
+
+#: Admin.php:637
+#: PostEditClassic.php:179
+#: PostEditGutenberg.php:88
+#: PostEditGutenberg.php:297
+#: PostEditGutenbergStatuses.php:49
+#: PostEditGutenbergStatuses.php:69
+#: PostEditGutenbergStatuses.php:77
+msgid "Advance Status"
+msgstr "Státusz előrehaladása"
+
+#: includes-core/CoreAdmin.php:19
+#, php-format
+msgid ""
+"You're using PublishPress Statuses Free. The Pro version has more features "
+"and support. %sUpgrade to Pro%s"
+msgstr ""
+"A PublishPress Statuses Free-t használja. A Pro verzió több funkciót és "
+"támogatást kínál. %sFrissítés Pro verzióra%s"
+
+#: includes-core/PromoBanner.php:68
+msgid "If you need help or have a new feature request, let us know."
+msgstr "Ha segítségre van szüksége, vagy új funkciót szeretne kérni, tudassa velünk."
+
+#: includes-core/PromoBanner.php:241
+msgid "Request Support"
+msgstr "Támogatás kérése"
+
+#: includes-core/PromoBanner.php:248
+msgid "Detailed documentation is also available on the plugin website."
+msgstr "Részletes dokumentáció szintén elérhető a bővítmény weboldalán."
+
+#: includes-core/PromoBanner.php:251
+msgid "View Knowledge Base"
+msgstr "Tudásbázis megtekintése"
+
+#: PostEditClassic.php:214
+msgid "Current Time"
+msgstr "Jelenlegi idő"
+
+#: PostEditClassic.php:242
+#: PostEditClassic.php:267
+#. translators: %s is a status name
+#, php-format
+msgid "Submit as %s"
+msgstr "Küldés mint %s"
+
+#: PostEditClassic.php:328
+#. translators: %s is the name of a custom visibility status
+#, php-format
+msgid "%s, Sticky"
+msgstr "%s, Ragasztó"
+
+#: PostEditClassicSubmitMetabox.php:59
+msgid "Visibility:"
+msgstr "Láthatóság:"
+
+#: PostEditClassicSubmitMetabox.php:200
+msgid "Restore default behavior of publish button"
+msgstr "A közzétételi gomb alapértelmezett viselkedésének visszaállítása"
+
+#: PostEditClassicSubmitMetabox.php:201
+msgid "Bypass sequence"
+msgstr "Sorrend megkerülése"
+
+#: PostEditClassicSubmitMetabox.php:437
+#. translators: %s is html markup
+#, php-format
+msgid "Publish %1$s on approval %2$s"
+msgstr "Közzététel %1$s jóváhagyásra %2$s"
+
+#: PostEditGutenberg.php:85
+msgid "Publication Workflow"
+msgstr "Közzétételi munkafolyamat"
+
+#: PostEditGutenberg.php:89
+msgid "Post Status"
+msgstr "Bejegyzés állapota"
+
+#: PostEditGutenberg.php:92
+msgid "Set Selected Status"
+msgstr "Kiválasztott állapot beállítása"
+
+#: PostEditGutenberg.php:93
+msgid "Keep Current Status"
+msgstr "Jelenlegi állapot megőrzése"
+
+#: PostEditGutenberg.php:94
+msgid "Advance to Next Status"
+msgstr "Tovább lépés a következő állapothoz"
+
+#: PostEditGutenberg.php:95
+msgid "Advance to Max Status"
+msgstr "Tovább lépés a maximális állapothoz"
+
+#: PostEditGutenberg.php:96
+msgid "This post is currently published"
+msgstr "Ez a bejegyzés jelenleg publikálva van"
+
+#: PostEditGutenberg.php:97
+msgid "This post is currently scheduled"
+msgstr "Ez a bejegyzés jelenleg ütemezve van"
+
+#: PostEditGutenberg.php:293
+msgid "Save Draft"
+msgstr "Vázlat mentése"
+
+#: PostEditGutenbergStatuses.php:160
+#: StatusesUI.php:1354
+msgid "Workflow"
+msgstr "Munkafolyamat"
+
+#: PostEditGutenbergStatuses.php:166
+msgid "Submit Revision"
+msgstr "Javítás benyújtása"
+
+#: publishpress-module/ModuleAdminUI_Base.php:101
+#. translators: %1$s is the plugin name, %2$s is the rating stars
+#, php-format
+msgid "If you like %1$s, please leave us a %2$s rating. Thank you!"
+msgstr "Ha tetszik a %1$s, kérjük, hagyjon egy %2$s értékelést. Köszönjük!"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+#, php-format
+msgid "About %s"
+msgstr "A(z) %s-ról"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+msgid "About"
+msgstr "Ról ről"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+#, php-format
+msgid "%s Documentation"
+msgstr "%s Dokumentáció"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+msgid "Documentation"
+msgstr "Dokumentáció"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact the PublishPress team"
+msgstr "Lépjen kapcsolatba a PublishPress csapattal"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact"
+msgstr "Kapcsolat"
+
+#: publishpress-statuses.php:118
+msgid "<strong>This plugin can be deleted.</strong>"
+msgstr "<strong>Ez a bővítmény törölhető.</strong>"
+
+#: publishpress-statuses.php:196
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Planner to "
+"version %s or higher."
+msgstr ""
+"A PublishPress Statuses használatához kérjük, frissítse a PublishPress "
+"Planner-t a %s vagy újabb verzióra."
+
+#: publishpress-statuses.php:213
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Permissions Pro "
+"to version %s or higher."
+msgstr ""
+"A PublishPress Statuses használatához kérjük, frissítse a PublishPress "
+"Permissions Pro-t a %s vagy újabb verzióra."
+
+#: publishpress-statuses.php:230
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Capabilities Pro "
+"to version %s or higher."
+msgstr ""
+"A PublishPress Statuses használatához kérjük, frissítse a PublishPress "
+"Capabilities Pro-t a %s vagy újabb verzióra."
+
+#: PublishPress_Statuses.php:397
+msgid ""
+"Can bypass normal status progression. User can publish immediately or move "
+"post to the furthest possible status."
+msgstr ""
+"Megkerülheti a normál státusz előrehaladást. A felhasználó azonnal "
+"közzéteheti vagy a bejegyzést a lehető legtávolabbi státuszba helyezheti."
+
+#: PublishPress_Statuses.php:398
+msgid "Manage Statuses plugin settings."
+msgstr "A Státuszok kezelése bővítmény beállításai."
+
+#: PublishPress_Statuses.php:403
+msgid "Can unpublish posts even if Visibility Status is locked."
+msgstr ""
+"A bejegyzéseket vissza lehet vonni, még ha a láthatósági státusz is zárolva "
+"van."
+
+#: PublishPress_Statuses.php:436
+msgid "Status"
+msgstr "Státusz"
+
+#: PublishPress_Statuses.php:450
+msgid "Core Post Statuses"
+msgstr "Alap bejegyzés státuszok"
+
+#: PublishPress_Statuses.php:723
+msgid "New post, not yet submitted."
+msgstr "Új bejegyzés, még nem benyújtva."
+
+#: PublishPress_Statuses.php:745
+msgid "Post is awaiting review."
+msgstr "A bejegyzés felülvizsgálatra vár."
+
+#: PublishPress_Statuses.php:765
+msgid "Post is scheduled for publication."
+msgstr "A bejegyzés közzétételre van ütemezve."
+
+#: PublishPress_Statuses.php:784
+msgid "Post is published, publicly visible."
+msgstr "A bejegyzés közzétéve, nyilvánosan látható."
+
+#: PublishPress_Statuses.php:803
+msgid "Post is published with private visibility."
+msgstr "A bejegyzés közzétéve, privát láthatósággal."
+
+#: PublishPress_Statuses.php:863
+msgid "Pitch"
+msgstr "Javaslat"
+
+#: PublishPress_Statuses.php:866
+msgid "Idea proposed; waiting for acceptance."
+msgstr "Ötlet javasolt; várakozás az elfogadásra."
+
+#: PublishPress_Statuses.php:878
+msgid "Assigned"
+msgstr "Kijelölt"
+
+#: PublishPress_Statuses.php:881
+msgid "Post idea assigned to writer."
+msgstr "A bejegyzés ötlete a szerzőhöz van rendelve."
+
+#: PublishPress_Statuses.php:893
+msgid "In Progress"
+msgstr "Folyamatban"
+
+#: PublishPress_Statuses.php:896
+msgid "Writer is working on the post."
+msgstr "A szerző dolgozik a bejegyzésen."
+
+#: PublishPress_Statuses.php:908
+msgid "Approved"
+msgstr "Jóváhagyva"
+
+#: PublishPress_Statuses.php:911
+msgid "Post has been approved for publication."
+msgstr "A bejegyzés jóváhagyva a közzétételre."
+
+#: PublishPress_Statuses.php:923
+msgid "Needs Work"
+msgstr "Munkára van szükség"
+
+#: PublishPress_Statuses.php:925
+msgid "Set to Needs Work"
+msgstr "Munkára van szükség beállítva"
+
+#: PublishPress_Statuses.php:926
+msgid "Post needs work before further review."
+msgstr "A bejegyzést javítani kell a további áttekintés előtt."
+
+#: PublishPress_Statuses.php:938
+msgid "Rejected"
+msgstr "Elutasítva"
+
+#: PublishPress_Statuses.php:940
+msgid "Reject"
+msgstr "Elutasít"
+
+#: PublishPress_Statuses.php:941
+msgid "Post has been rejected."
+msgstr "A bejegyzés elutasításra került."
+
+#: PublishPress_Statuses.php:975
+msgid "Alternate Pre-Publication Workflow:"
+msgstr "Alternatív Előzetes Közzétételi Munkafolyamat:"
+
+#: PublishPress_Statuses.php:1070
+msgid "Disabled Statuses:"
+msgstr "Letiltott Állapotok:"
+
+#: PublishPress_Statuses.php:1086
+msgid "Deferred"
+msgstr "Elhalasztva"
+
+#: PublishPress_Statuses.php:1088
+msgid "Defer"
+msgstr "Elhalaszt"
+
+#: PublishPress_Statuses.php:1089
+msgid "Post has been deferred for future consideration."
+msgstr "A bejegyzés elhalasztásra került a jövőbeli megfontolásra."
+
+#: PublishPress_Statuses.php:1101
+msgid "Committee"
+msgstr "Bizottság"
+
+#: PublishPress_Statuses.php:1103
+msgid "Refer to Committee"
+msgstr "Hivatkozz a Bizottságra"
+
+#: PublishPress_Statuses.php:1104
+msgid "Post has been referred to committee."
+msgstr "A bejegyzést a bizottságnak továbbították."
+
+#: PublishPress_Statuses.php:1117
+msgid "Committee Review"
+msgstr "Bizottsági Áttekintés"
+
+#: PublishPress_Statuses.php:1119
+msgid "Set to Committee Review"
+msgstr "Átállítva Bizottsági Áttekintésre"
+
+#: PublishPress_Statuses.php:1120
+msgid "Committee is reviewing the post."
+msgstr "A bizottság a bejegyzést vizsgálja."
+
+#: PublishPress_Statuses.php:1133
+msgid "Committee Progress"
+msgstr "Bizottsági Haladás"
+
+#: PublishPress_Statuses.php:1135
+msgid "Set to Committee Progress"
+msgstr "Átállítva Bizottsági Haladásra"
+
+#: PublishPress_Statuses.php:1136
+msgid "Committee is editing the post."
+msgstr "A bizottság szerkeszti a bejegyzést."
+
+#: PublishPress_Statuses.php:1149
+msgid "Committee Approved"
+msgstr "Bizottság Által Jóváhagyva"
+
+#: PublishPress_Statuses.php:1151
+msgid "Set Committee Approval"
+msgstr "Állítsd be a Bizottság Jóváhagyását"
+
+#: PublishPress_Statuses.php:1152
+msgid "Committee has approved the post."
+msgstr "A bizottság jóváhagyta a bejegyzést."
+
+#: StatusAddNewUI.php:30
+msgid "Add New Status"
+msgstr "Új állapot hozzáadása"
+
+#: StatusEditUI.php:41
+#: StatusEditUI.php:50
+#: StatusListTable.php:945
+msgid "Labels"
+msgstr "Címkék"
+
+#: StatusEditUI.php:56
+#: StatusEditUI.php:436
+#: StatusListTable.php:171
+msgid "Post Types"
+msgstr "Bejegyzés típusok"
+
+#: StatusEditUI.php:64
+#: StatusListTable.php:170
+msgid "Roles"
+msgstr "Szerepek"
+
+#: StatusEditUI.php:72
+msgid "Edit Status Labels"
+msgstr "Állapot címkék szerkesztése"
+
+#: StatusEditUI.php:79
+#: StatusEditUI.php:248
+msgid "Update Status"
+msgstr "Állapot frissítése"
+
+#: StatusEditUI.php:109
+msgid "Post Access"
+msgstr "Bejegyzés hozzáférés"
+
+#: StatusEditUI.php:201
+msgid ""
+"Enforce type-specific post capabilitities for this status, or share "
+"capabilities with another status."
+msgstr ""
+"Kényszerítse a típus-specifikus bejegyzés képességeket ehhez az állapothoz, "
+"vagy ossza meg a képességeket egy másik állapottal."
+
+#: StatusEditUI.php:298, fuzzy
+msgid "Slug"
+msgstr "Slug"
+
+#: StatusEditUI.php:310
+msgid "The slug is the unique ID for the status."
+msgstr "A slug a státusz egyedi azonosítója."
+
+#: StatusEditUI.php:320
+msgid "Color"
+msgstr "Szín"
+
+#: StatusEditUI.php:332
+msgid "The color is used to identify the status."
+msgstr "A szín a státusz azonosítására szolgál."
+
+#: StatusEditUI.php:338
+#: StatusListTable.php:169
+msgid "Icon"
+msgstr "Ikon"
+
+#: StatusEditUI.php:354
+msgid "Select Icon"
+msgstr "Ikon kiválasztása"
+
+#: StatusEditUI.php:360
+msgid "The icon is used to visually represent the status."
+msgstr "Az ikon a státusz vizuális reprezentálására szolgál."
+
+#: StatusEditUI.php:395
+msgid "Status Availability"
+msgstr "Állapot elérhetőség"
+
+#: StatusEditUI.php:398
+msgid "Choose which user roles can assign this status to a post."
+msgstr ""
+"Válassza ki, mely felhasználói szerepek rendelhetik ezt az állapotot egy "
+"bejegyzéshez."
+
+#: StatusEditUI.php:439
+msgid "Choose which post types can be set to this status."
+msgstr "Válassza ki, mely bejegyzés típusok állíthatók be erre az állapotra."
+
+#: StatusEditUI.php:476
+msgid "All Post Types"
+msgstr "Minden Post Type"
+
+#: StatusEditUI.php:526
+msgid "Upgrade to choose who can manage posts in each status"
+msgstr "Frissítés a posztok kezelésének kiválasztásához minden státuszban"
+
+#: StatusEditUI.php:529
+msgid "Get PublishPress Statuses Pro for status-specific post access control."
+msgstr ""
+"Szerezze be a PublishPress Statuses Pro-t a státusz-specifikus poszt "
+"hozzáférés-vezérléshez."
+
+#: StatusEditUI.php:535
+msgid "Control which roles can assign a status"
+msgstr "Irányítsa, hogy mely szerepkörök rendelhetnek státuszt"
+
+#: StatusEditUI.php:538
+msgid "Control which roles can edit or delete posts per-status"
+msgstr ""
+"Irányítsa, hogy mely szerepkörök szerkeszthetik vagy törölhetik a posztokat "
+"státuszonként"
+
+#: StatusEditUI.php:541
+msgid "Set capabilities separately for each post type"
+msgstr "Állítson be jogosultságokat külön-külön minden post type-hoz"
+
+#: StatusEditUI.php:544
+msgid "User-friendly checkbox grid to assign capabilities"
+msgstr "Felhasználóbarát jelölőnégyzet rács a jogosultságok hozzárendeléséhez"
+
+#: StatusEditUI.php:553
+#: StatusListTable.php:674
+msgid "Get PublishPress Statuses Pro"
+msgstr "Szerezze be a PublishPress Statuses Pro-t"
+
+#: StatusEditUI.php:558
+#: StatusListTable.php:229
+#: StatusListTable.php:246
+#: StatusListTable.php:679
+msgid "Learn More"
+msgstr "Tudjon meg többet"
+
+#: StatusEditUI.php:566
+msgid ""
+"Post Access for this status cannot be customized until status-specific "
+"capability requirements are enabled."
+msgstr ""
+"A poszt hozzáférés ezen státuszhoz nem testreszabható, amíg a "
+"státusz-specifikus jogosultsági követelmények nincsenek engedélyezve."
+
+#: StatusEditUI.php:572
+msgid "Status Capabilities"
+msgstr "Státusz Jogosultságok"
+
+#: StatusEditUI.php:578
+msgid "Require status-specific capabilities for post editing, deletion"
+msgstr ""
+"Követeljen státusz-specifikus jogosultságokat a poszt szerkesztéséhez, "
+"törléséhez"
+
+#: StatusEditUI.php:596
+msgid "Status Label"
+msgstr "Státusz Címke"
+
+#: StatusEditUI.php:609
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr "A név a státusz azonosítására szolgál. (Max: 20 karakter)"
+
+#: StatusEditUI.php:619
+#: StatusListTable.php:172
+msgid "Description"
+msgstr "Leírás"
+
+#: StatusEditUI.php:631
+msgid ""
+"The description is primarily for administrative use, to give you some "
+"context on what the custom status is to be used for."
+msgstr ""
+"A leírás elsősorban adminisztratív használatra készült, hogy némi "
+"kontextust adjon arról, hogy mire szolgál a testreszabott státusz."
+
+#: StatusEditUI.php:644
+msgid "Save As Label"
+msgstr "Mentés címkévé"
+
+#: StatusEditUI.php:652
+msgid "Submit Button Label"
+msgstr "Küldés gomb címkéje"
+
+#: StatusesUI.php:64
+#. translators: %s is the status label
+#, php-format
+msgid "Edit Post Status: %s"
+msgstr "Post Státusz szerkesztése: %s"
+
+#: StatusesUI.php:67
+#. translators: %s is the status label
+#, php-format
+msgid "%s Status - Edit"
+msgstr "%s Státusz - Szerkesztés"
+
+#: StatusesUI.php:75
+#. translators: %s is status type: "Workflow", "Visibility", "Revision", etc.
+#, fuzzy, php-format
+msgid "Add %s Status"
+msgstr "Add %s Status"
+
+#: StatusesUI.php:82, fuzzy
+msgid "Add Post Status"
+msgstr "Add Post Status"
+
+#: StatusesUI.php:83, fuzzy
+msgid "Add Status"
+msgstr "Add Status"
+
+#: StatusesUI.php:87
+#: StatusesUI.php:1330, fuzzy
+msgid "PublishPress Statuses Settings"
+msgstr "PublishPress Statuses Settings"
+
+#: StatusesUI.php:88, fuzzy
+msgid "Statuses Settings"
+msgstr "Statuses Settings"
+
+#: StatusesUI.php:91, fuzzy
+msgid "Post Statuses"
+msgstr "Post Statuses"
+
+#: StatusesUI.php:98, fuzzy
+msgid "Visibility Statuses"
+msgstr "Visibility Statuses"
+
+#: StatusesUI.php:217, fuzzy
+msgid "Post status created. Select a tab for further configuration."
+msgstr "Post status created. Select a tab for further configuration."
+
+#: StatusesUI.php:219
+#: StatusesUI.php:224
+#. translators: %1$s is the status name, %2$s is the edit link
+#, fuzzy, php-format
+msgid "Post status %1$s updated. %2$s"
+msgstr "Post status %1$s updated. %2$s"
+
+#: StatusesUI.php:220, fuzzy
+msgid "Settings updated"
+msgstr "Settings updated"
+
+#: StatusesUI.php:221
+msgid ""
+"That post status doesn't seem to exist. Was a required plugin or setting "
+"deactivated?"
+msgstr ""
+"That post status doesn't seem to exist. Was a required plugin or setting "
+"deactivated?"
+
+#: StatusesUI.php:222, fuzzy
+msgid "Default post status has been changed."
+msgstr "Default post status has been changed."
+
+#: StatusesUI.php:225, fuzzy
+msgid "Post status deleted."
+msgstr "Post status deleted."
+
+#: StatusesUI.php:226
+#: StatusHandler.php:869, fuzzy
+msgid "Status order updated."
+msgstr "Status order updated."
+
+#: StatusesUI.php:250, fuzzy
+msgid "Use on these Post Types:"
+msgstr "Use on these Post Types:"
+
+#: StatusesUI.php:259, fuzzy
+msgid "Workflow Guidance:"
+msgstr "Workflow Guidance:"
+
+#: StatusesUI.php:268, fuzzy
+msgid "Manual Status Selection:"
+msgstr "Manual Status Selection:"
+
+#: StatusesUI.php:277
+msgid "New Status Position:"
+msgstr "Új státuszpozíció:"
+
+#: StatusesUI.php:287, fuzzy
+msgid "Custom Visibility:"
+msgstr "Custom Visibility:"
+
+#: StatusesUI.php:297, fuzzy
+msgid "Default Visibility Status:"
+msgstr "Default Visibility Status:"
+
+#: StatusesUI.php:307, fuzzy
+msgid "Custom Visibility Editing:"
+msgstr "Custom Visibility Editing:"
+
+#: StatusesUI.php:319
+msgid "Pending Review Status:"
+msgstr "Várakozó Felülvizsgálati Állapot:"
+
+#: StatusesUI.php:329
+msgid "Planner Integration:"
+msgstr "Tervező Integráció:"
+
+#: StatusesUI.php:340
+msgid "Permissions Integration:"
+msgstr "Engedélyek Integráció:"
+
+#: StatusesUI.php:350
+msgid "Gutenberg / Classic Editor:"
+msgstr "Gutenberg / Klasszikus Szerkesztő:"
+
+#: StatusesUI.php:359
+msgid "Status Label Customization:"
+msgstr "Állapotcímke Testreszabása:"
+
+#: StatusesUI.php:374
+msgid "Import Operation:"
+msgstr "Importálási Művelet:"
+
+#: StatusesUI.php:385
+msgid "Backup / Restore:"
+msgstr "Biztonsági Mentés / Visszaállítás:"
+
+#: StatusesUI.php:415
+msgid "Supplemental Role of Editor covers custom statuses"
+msgstr "A Szerkesztő kiegészítő szerepe egyedi állapotokat fed le"
+
+#: StatusesUI.php:440
+msgid "Include custom statuses in Add New pop-up on Calendar"
+msgstr "Egyedi állapotok megjelenítése az Új hozzáadása felugró ablakban a Naptáron"
+
+#: StatusesUI.php:465
+msgid "Hide status selection dropdown from non-Administrators in Gutenberg editor"
+msgstr ""
+"Állapotválasztó legördülő menü elrejtése nem-adminisztrátorok számára a "
+"Gutenberg szerkesztőben"
+
+#: StatusesUI.php:492
+msgid "Sequence by default: Publish button defaults to next status in workflow"
+msgstr ""
+"Alapértelmezett sorrend: A Közzététel gomb alapértelmezetten a következő "
+"állapotra vált a munkafolyamatban"
+
+#: StatusesUI.php:506
+msgid "Bypass by default: Publish button defaults to maximum available status"
+msgstr ""
+"Alapértelmezett megkerülés: A Közzététel gomb alapértelmezetten a "
+"maximálisan elérhető állapotra vált"
+
+#: StatusesUI.php:520
+msgid "No workflow guidance"
+msgstr "Nincs munkafolyamat útmutatás"
+
+#: StatusesUI.php:565
+msgid ""
+"Hide sub-statuses in the dropdown unless the post is set to the parent "
+"status or a sibling"
+msgstr ""
+"Rejtse el az alsó állapotokat a legördülő menüben, kivéve, ha a bejegyzést "
+"a szülő státuszra vagy egy testvérre állítják be"
+
+#: StatusesUI.php:571
+msgid ""
+"Sub-statuses may be nested below any top-level status. They function as "
+"branches in the Main Workflow or in an Alternate Workflow."
+msgstr ""
+"Az alsó állapotok bármely felső szintű állapot alatt fészkelhetők. Ágakként "
+"működnek a Fő Munkafolyamatban vagy egy Alternatív Munkafolyamatban."
+
+#: StatusesUI.php:608
+msgid "Add new statuses to Main Workflow by default"
+msgstr "Új státuszok hozzáadása az alapértelmezett Fő munkafolyamhoz"
+
+#: StatusesUI.php:627
+msgid "Available to all users"
+msgstr "Minden felhasználó számára elérhető"
+
+#: StatusesUI.php:628
+msgid "Available to specified roles only"
+msgstr "Csak a meghatározott szerepek számára elérhető"
+
+#: StatusesUI.php:634
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, the same control is applied to the Pending Review "
+"status."
+msgstr ""
+"A felhasználók csak akkor rendelhetnek egyedi állapotot egy bejegyzéshez, "
+"ha a szerepük lehetővé teszi. A jelenlegi beállítással ugyanez az "
+"ellenőrzés vonatkozik a Várakozó Felülvizsgálati állapotra."
+
+#: StatusesUI.php:636
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, those limitations will not be applied for the "
+"Pending Review status."
+msgstr ""
+"A felhasználók csak akkor rendelhetnek egyedi állapotot egy bejegyzéshez, "
+"ha a szerepük lehetővé teszi. A jelenlegi beállítással ezek a korlátozások "
+"nem vonatkoznak a Várakozó Felülvizsgálati állapotra."
+
+#: StatusesUI.php:645
+#. translators: %1$s and %2$s are link markup
+#, php-format
+msgid "View or set roles at %1$s Statuses > Statuses > Pending Review > Roles %2$s"
+msgstr ""
+"Szerepek megtekintése vagy beállítása itt: %1$s Állapotok > Állapotok > "
+"Várakozó Felülvizsgálat > Szerepek %2$s"
+
+#: StatusesUI.php:669
+msgid "Automatic Detection"
+msgstr "Automatikus észlelés"
+
+#: StatusesUI.php:670
+msgid "Using Classic Editor"
+msgstr "Klasszikus szerkesztő használata"
+
+#: StatusesUI.php:671
+msgid "Using Gutenberg Editor"
+msgstr "Gutenberg szerkesztő használata"
+
+#: StatusesUI.php:676
+msgid ""
+"If custom statuses in the post editor are not loaded correctly, prevent "
+"incorrect detection of editor by specifying it here."
+msgstr ""
+"Ha a bejegyzés szerkesztőben a testreszabott státuszok nem töltődnek be "
+"helyesen, akadályozza meg a szerkesztő helytelen észlelését az itt megadott "
+"beállítással."
+
+#: StatusesUI.php:697
+msgid "For all plugin statuses"
+msgstr "Minden bővítmény státusz számára"
+
+#: StatusesUI.php:698
+msgid "For user-created plugin statuses only"
+msgstr "Csak felhasználó által létrehozott bővítmény státuszok számára"
+
+#: StatusesUI.php:703
+msgid ""
+"This controls which statuses can have their labels customized by editing "
+"Status properties. If a non-default entry is stored, it will override any "
+"language file strings."
+msgstr ""
+"Ez szabályozza, hogy mely státuszok címkéi testreszabhatók a Státusz "
+"tulajdonságainak szerkesztésével. Ha egy nem alapértelmezett bejegyzés van "
+"tárolva, felülírja a bármely nyelvi fájl szövegét."
+
+#: StatusesUI.php:757
+#. translators: %1$s is the post type name, %2$s is the pp_custom_statuses feature
+#, php-format
+msgid ""
+"Disabled because add_post_type_support('%1$s', '%2$s') is included in a "
+"loaded file."
+msgstr ""
+"Letiltva, mert az add_post_type_support('%1$s', '%2$s') szerepel egy "
+"betöltött fájlban."
+
+#: StatusesUI.php:766
+msgid "Note: Post types can also be specified for each individual status."
+msgstr "Megjegyzés: A bejegyzéstípusokat egyes státuszokhoz is meg lehet határozni."
+
+#: StatusesUI.php:791
+msgid "Enable custom Visibility Statuses"
+msgstr "Testreszabott láthatósági státuszok engedélyezése"
+
+#: StatusesUI.php:816
+msgid ""
+"Posts with custom Visibility also require status-specific capabilities for "
+"editing"
+msgstr ""
+"A testreszabott láthatósággal rendelkező bejegyzésekhez státusz-specifikus "
+"jogosultságok is szükségesek a szerkesztéshez"
+
+#: StatusesUI.php:897
+msgid "lock"
+msgstr "zár"
+
+#: StatusesUI.php:924
+msgid "Locking also prevents posts from being unpublished"
+msgstr "A zárolás megakadályozza a bejegyzések közzétételének visszavonását is"
+
+#: StatusesUI.php:934
+#, php-format
+msgid "This setting does not apply to %1$s Administrators%2$s."
+msgstr "Ez a beállítás nem vonatkozik a %1$s rendszergazdákra %2$s."
+
+#: StatusesUI.php:935
+#, php-format
+msgid "You may assign a %1$s role capability %2$s to bypass this locking."
+msgstr ""
+"Hozzárendelhetsz egy %1$s szerepképességet %2$s, hogy megkerüld ezt a "
+"zárolást."
+
+#: StatusesUI.php:939
+msgid "This setting does not apply to Administrators."
+msgstr "Ez a beállítás nem vonatkozik a rendszergazdákra."
+
+#: StatusesUI.php:944
+#, php-format
+msgid ""
+"If this setting is unchecked, the lock will only prevent selection of a "
+"different visibility status. %1$s %2$s See documentation%3$s."
+msgstr ""
+"Ha ez a beállítás ki van kapcsolva, a zárolás csak egy másik láthatósági "
+"állapot kiválasztását akadályozza meg. %1$s %2$s Lásd a dokumentációt %3$s."
+
+#: StatusesUI.php:964
+#: StatusesUI.php:1022
+msgid "Select..."
+msgstr "Válasszon..."
+
+#: StatusesUI.php:967
+msgid "Re-run Planner import (with Status Control properties, ordering)"
+msgstr "A Planner import újra futtatása (Státuszvezérlés tulajdonságokkal, sorrend)"
+
+#: StatusesUI.php:968
+msgid "Re-run Planner import (ignoring Status Control configuration)"
+msgstr ""
+"A Planner import újra futtatása (a Státuszvezérlés konfiguráció figyelmen "
+"kívül hagyásával)"
+
+#: StatusesUI.php:970
+msgid "Re-run Planner import"
+msgstr "A Planner import újra futtatása"
+
+#: StatusesUI.php:976
+msgid ""
+"Status color, icon and position is automatically imported from PublishPress "
+"Planner. Select an option above to re-run the import, giving priority to "
+"Planner-defined status position."
+msgstr ""
+"A státusz színe, ikonja és pozíciója automatikusan beimportálásra kerül a "
+"PublishPress Plannerből. Válasszon egy lehetőséget a fenti import újra "
+"futtatásához, prioritást adva a Planner által meghatározott státusz "
+"pozíciónak."
+
+#: StatusesUI.php:1024
+msgid "Back up current colors, icons, labels and post types"
+msgstr "Jelenlegi színek, ikonok, címkék és bejegyzéstípusok biztonsági mentése"
+
+#: StatusesUI.php:1029
+msgid "Restore backup of status colors"
+msgstr "A státusz színek biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1033
+msgid "Restore backup of status icons"
+msgstr "A státusz ikonok biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1037
+msgid "Restore backup of status labels"
+msgstr "A státusz címkék biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1041
+msgid "Restore backup of status post types"
+msgstr "A státusz bejegyzéstípusok biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1047
+msgid "Restore auto-backup of status colors"
+msgstr "A státusz színek automatikus biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1051
+msgid "Restore auto-backup of status icons"
+msgstr "A státusz ikonok automatikus biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1055
+msgid "Restore auto-backup of status labels"
+msgstr "A státusz címkék automatikus biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1059
+msgid "Restore auto-backup of status post types"
+msgstr "A státusz bejegyzéstípusok automatikus biztonsági mentésének visszaállítása"
+
+#: StatusesUI.php:1066
+msgid "Use default status colors"
+msgstr "Alapértelmezett státusz színek használata"
+
+#: StatusesUI.php:1070
+msgid "Use default status icons"
+msgstr "Alapértelmezett státusz ikonok használata"
+
+#: StatusesUI.php:1074
+msgid "Use default status labels"
+msgstr "Alapértelmezett státusz címkék használata"
+
+#: StatusesUI.php:1078
+msgid "Use default status post types"
+msgstr "Alapértelmezett státusz bejegyzéstípusok használata"
+
+#: StatusesUI.php:1082
+msgid "Use Planner plugin's default status colors"
+msgstr "A Planner bővítmény alapértelmezett státusz színeinek használata"
+
+#: StatusesUI.php:1086
+msgid "Use Planner plugin's default status icons"
+msgstr "A Planner bővítmény alapértelmezett státusz ikonjainak használata"
+
+#: StatusesUI.php:1125
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status: %s"
+msgstr "Státusz szerkesztése: %s"
+
+#: StatusesUI.php:1128
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s: %2$s"
+msgstr "Szerkesztés %1$s: %2$s"
+
+#: StatusesUI.php:1148
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status Labels: %s"
+msgstr "Státusz címkék szerkesztése: %s"
+
+#: StatusesUI.php:1151
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s Labels: %2$s"
+msgstr "%1$s címkék szerkesztése: %2$s"
+
+#: StatusesUI.php:1188
+#: StatusesUI.php:1316
+msgid "Add New Pre-Publication Status"
+msgstr "Új előkiadási státusz hozzáadása"
+
+#: StatusesUI.php:1204
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For custom Visibility Statuses, %1$supgrade to PublishPress Statuses "
+"Pro%2$s."
+msgstr ""
+"A testreszabott láthatósági állapotokhoz, %1$sfrissíts a PublishPress "
+"Statuses Pro%2$s verzióra."
+
+#: StatusesUI.php:1218
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid "Note: Custom Visibility Statuses are %1$sdisabled%2$s."
+msgstr "Megjegyzés: A testreszabott láthatósági állapotok %1$sletiltva%2$s vannak."
+
+#: StatusesUI.php:1241
+msgid "Pre-Publication"
+msgstr "Előkiadás"
+
+#: StatusesUI.php:1249
+#: StatusesUI.php:1355
+msgid "Visibility"
+msgstr "Láthatóság"
+
+#: StatusesUI.php:1260
+msgid "Revision"
+msgstr "Revízió"
+
+#: StatusesUI.php:1316
+msgid "Add New Visibility Status"
+msgstr "Új láthatósági státusz hozzáadása"
+
+#: StatusesUI.php:1320
+msgid "This status can be assigned to customize post privacy."
+msgstr "Ez a státusz hozzárendelhető a bejegyzés adatvédelmének testreszabásához."
+
+#: StatusesUI.php:1320
+msgid ""
+"This status can be assigned to an unpublished post using the Post Status "
+"dropdown."
+msgstr ""
+"Ez az állapot egy közzé nem tett bejegyzéshez rendelhető a Bejegyzés "
+"állapot legördülő menü segítségével."
+
+#: StatusesUI.php:1356
+msgid "Integration"
+msgstr "Integráció"
+
+#: StatusesUI.php:1357
+msgid "Editor"
+msgstr "Szerkesztő"
+
+#: StatusesUI.php:1358
+msgid "Advanced"
+msgstr "Haladó"
+
+#: StatusesUI.php:1359
+msgid "License"
+msgstr "Licenc"
+
+#: StatusHandler.php:17
+#: StatusHandler.php:218
+msgid "Sorry, you do not have permission to edit custom statuses."
+msgstr ""
+"Sajnálom, nem rendelkezik engedéllyel a testreszabott állapotok "
+"szerkesztésére."
+
+#: StatusHandler.php:53
+#: StatusHandler.php:454
+msgid "Please enter a name for the status"
+msgstr "Kérjük, adjon meg egy nevet az állapothoz"
+
+#: StatusHandler.php:57
+msgid "Please enter a slug for the status"
+msgstr "Kérjük, adjon meg egy slug-ot az állapothoz"
+
+#: StatusHandler.php:64
+#: StatusHandler.php:459
+msgid "Please enter a valid, non-numeric name for the status."
+msgstr "Kérjük, adjon meg egy érvényes, nem numerikus nevet az állapothoz."
+
+#: StatusHandler.php:81
+#: StatusHandler.php:478
+msgid "Status name cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"Az állapot neve nem haladhatja meg a 20 karaktert. Kérjük, próbáljon meg "
+"egy rövidebb nevet."
+
+#: StatusHandler.php:100
+msgid "Status slug cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"Az állapot slug nem haladhatja meg a 20 karaktert. Kérjük, próbáljon meg "
+"egy rövidebb nevet."
+
+#: StatusHandler.php:110
+msgid "Name conflicts with existing status. Please choose another."
+msgstr "A név ütközik a meglévő állapottal. Kérjük, válasszon egy másikat."
+
+#: StatusHandler.php:117
+msgid "Status name is restricted. Please choose another name."
+msgstr "Az állapot neve korlátozott. Kérjük, válasszon egy másik nevet."
+
+#: StatusHandler.php:141
+msgid "Could not add status: "
+msgstr "Nem sikerült hozzáadni az állapotot: "
+
+#: StatusHandler.php:225
+#: StatusHandler.php:791
+msgid "Status does not exist."
+msgstr "Az állapot nem létezik."
+
+#: StatusHandler.php:230
+#: StatusHandler.php:786
+msgid "Could not delete the status: "
+msgstr "A státuszt nem lehet törölni: "
+
+#: StatusHandler.php:254
+#: StatusHandler.php:409
+msgid "Post status doesn't exist."
+msgstr "A post státusz nem létezik."
+
+#: StatusHandler.php:387
+msgid "Error updating post status."
+msgstr "Hiba a post státusz frissítésekor."
+
+#: StatusHandler.php:538
+msgid "Error updating post status labels."
+msgstr "Hiba a post státusz címkék frissítésekor."
+
+#: StatusHandler.php:714
+msgid "Cannot reassign to the status you want to delete"
+msgstr "Nem lehet átcsoportosítani a törölni kívánt státuszra"
+
+#: StatusHandler.php:761
+msgid "Restricted status "
+msgstr "Korlátozott státusz "
+
+#: StatusHandler.php:788
+msgid "Status deleted"
+msgstr "A státusz törölve"
+
+#: StatusHandler.php:810
+msgid "Status positions were not sent."
+msgstr "A státusz pozíciók nem lettek elküldve."
+
+#: StatusListTable.php:166
+msgid "Position"
+msgstr "Pozíció"
+
+#: StatusListTable.php:167
+msgid "Status Name"
+msgstr "Státusz neve"
+
+#: StatusListTable.php:168
+msgid "Name"
+msgstr "Név"
+
+#: StatusListTable.php:197
+msgid "Upgrade to create an approval workflow for published content"
+msgstr ""
+"Frissítsen, hogy jóváhagyási munkafolyamatot hozzon létre a közzétett "
+"tartalomhoz"
+
+#: StatusListTable.php:200
+msgid ""
+"Create approval workflows using PublishPress Statuses Pro together with the "
+"PublishPress Revisions Pro plugin"
+msgstr ""
+"Hozzon létre jóváhagyási munkafolyamatokat a PublishPress Statuses Pro és a "
+"PublishPress Revisions Pro bővítménnyel"
+
+#: StatusListTable.php:206
+msgid ""
+"The PublishPress Revisions plugin allows users to submit changes to "
+"published posts"
+msgstr ""
+"A PublishPress Revisions bővítmény lehetővé teszi a felhasználók számára, "
+"hogy változtatásokat nyújtsanak be a közzétett bejegyzésekhez"
+
+#: StatusListTable.php:209
+msgid ""
+"PublishPress Statuses plugin enables you to add statuses for post changes "
+"created with Revisions"
+msgstr ""
+"A PublishPress Statuses bővítmény lehetővé teszi, hogy státuszokat adjon "
+"hozzá a Revisions által létrehozott bejegyzésváltozásokhoz"
+
+#: StatusListTable.php:212
+msgid "Each post type can have different Revisions statuses"
+msgstr "Minden post type-nak lehetnek különböző Revisions státuszai"
+
+#: StatusListTable.php:215
+msgid "You choose which users can manage content in each Revisions status"
+msgstr ""
+"Ön választhatja ki, hogy mely felhasználók kezelhetik a tartalmat minden "
+"Revisions státuszban"
+
+#: StatusListTable.php:241
+msgid "Premium Feature"
+msgstr "Prémium funkció"
+
+#: StatusListTable.php:242
+msgid "Install Statuses Pro to unlock custom revision statuses."
+msgstr "Telepítse a Statuses Pro-t az egyedi revízió státuszok feloldásához."
+
+#: StatusListTable.php:243
+msgid "Configure for any post type and role to match your editing workflow."
+msgstr ""
+"Konfigurálja bármely post type-ra és szerepre, hogy illeszkedjen a "
+"szerkesztési munkafolyamatához."
+
+#: StatusListTable.php:308
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"A Revision státuszok meghatározásához és vezérléséhez frissítse a "
+"%1$sPublishPress Revisions%2$s bővítményt %3$s vagy újabb verzióra."
+
+#: StatusListTable.php:340
+msgid "Main Workflow:"
+msgstr "Fő munkafolyamat:"
+
+#: StatusListTable.php:366
+msgid "Drop any status here to include it in main workflow for new posts."
+msgstr ""
+"Húzzon bármilyen státuszt ide, hogy belefoglalja a fő munkafolyamatba az új "
+"bejegyzésekhez."
+
+#: StatusListTable.php:402
+msgid ""
+"Statuses in the main workflow are presented for convenient default "
+"selection when updating an unpublished post."
+msgstr ""
+"A fő munkafolyamatban lévő státuszok kényelmes alapértelmezett "
+"kiválasztásra vannak bemutatva, amikor egy közzé nem tett bejegyzést "
+"frissít."
+
+#: StatusListTable.php:410
+msgid ""
+"Statuses outside the main workflow are manually selectable when editing an "
+"unpublished post."
+msgstr ""
+"A fő munkafolyamon kívüli státuszok kézzel választhatók ki egy közzé nem "
+"tett bejegyzés szerkesztésekor."
+
+#: StatusListTable.php:442
+msgid ""
+"Drop any status here to make it manually selectable outside the main "
+"workflow."
+msgstr ""
+"Húzzon bármilyen státuszt ide, hogy kézzel választhatóvá tegye a fő "
+"munkafolyamon kívül."
+
+#: StatusListTable.php:444
+#: StatusListTable.php:466
+msgid "Drop any status here to disable."
+msgstr "Húzzon bármilyen státuszt ide a letiltáshoz."
+
+#: StatusListTable.php:517
+msgid "Standard Publication:"
+msgstr "Standard közzététel:"
+
+#: StatusListTable.php:524
+msgid "Visibility Statuses for Private Publication:"
+msgstr "Láthatósági státuszok privát közzétételhez:"
+
+#: StatusListTable.php:531
+msgid "Alternate Workflows:"
+msgstr "Alternatív munkafolyamatok:"
+
+#: StatusListTable.php:531
+#: StatusListTable.php:542
+#. translators: %s is the opening and closing <span> tags
+msgid "Disabled Statuses (drag to re-enable):"
+msgstr "Letiltott státuszok (húzza az újraengedélyezéshez):"
+
+#: StatusListTable.php:647
+msgid "Upgrade to choose who can view your non-public posts"
+msgstr "Frissítse, hogy kiválaszthassa, ki láthatja a nem nyilvános bejegyzéseit"
+
+#: StatusListTable.php:650
+msgid ""
+"Upgrade to PublishPress Statuses Pro to define your own custom visibility "
+"statuses."
+msgstr ""
+"Frissítse a PublishPress Statuses Pro-ra, hogy meghatározhassa saját egyedi "
+"láthatósági státuszait."
+
+#: StatusListTable.php:656
+msgid "Create multiple visibility statuses to show content to different users"
+msgstr ""
+"Hozzon létre több láthatósági státuszt, hogy különböző felhasználóknak "
+"mutasson tartalmat"
+
+#: StatusListTable.php:659
+msgid "Choose which user roles can see posts in each status"
+msgstr ""
+"Válassza ki, mely felhasználói szerepek láthatják a bejegyzéseket minden "
+"státuszban"
+
+#: StatusListTable.php:662
+msgid "Select which user roles can move posts to each status"
+msgstr ""
+"Válassza ki, mely felhasználói szerepek mozgathatják a bejegyzéseket minden "
+"státuszba"
+
+#: StatusListTable.php:665
+msgid "Decide which user roles can edit posts in each status"
+msgstr ""
+"Döntse el, mely felhasználói szerepek szerkeszthetik a bejegyzéseket minden "
+"státuszban"
+
+#: StatusListTable.php:762
+#. translators: %s is the list of post types
+#, php-format
+msgid "%s, more..."
+msgstr "%s, több..."
+
+#: StatusListTable.php:844
+msgid "No custom statuses found."
+msgstr "Nincsenek egyedi státuszok."
+
+#: StatusListTable.php:915
+msgid "Core"
+msgstr "Mag"
+
+#: StatusListTable.php:919
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: StatusListTable.php:949
+msgid "Disable"
+msgstr "Letiltás"
+
+#: StatusListTable.php:953
+msgid "Enable"
+msgstr "Engedélyezés"
+
+#: StatusListTable.php:957
+msgid "Delete"
+msgstr "Törlés"
+
+#: PublishPress_Statuses.php:865
+msgctxt "post action/button label"
+msgid "Pitch"
+msgstr "Döntés"

@@ -1,0 +1,45 @@
+{
+    "name": "publishpress/publishpress-capabilities-pro",
+    "type": "wordpress-plugin",
+    "description": "",
+    "license": "GPL-2",
+    "authors": [
+      {
+        "name": "PublishPress",
+        "email": "help@publishpress.com"
+      }
+    ],
+    "config": {
+      "preferred-install": {
+        "*": "dist"
+      },
+        "allow-plugins": {
+            "publishpress/dev-workspace": true,
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true,
+            "composer/installers": true
+        },
+      "process-timeout": 0
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+      "php": ">=7.2.5"
+    },
+    "require-dev": {
+    "publishpress/dev-workspace": "^1.0"
+  },
+    "scripts": {
+      "translate:repair-plurals": "vendor/bin/publishpress-translate --repair-plurals"
+    },
+    "extra": {
+      "plugin-name": "publishpress-capabilities-pro",
+      "plugin-slug": "capabilities-pro",
+      "plugin-folder": "capabilities-pro",
+      "version-constant": "PUBLISHPRESS_CAPS_PRO_VERSION",
+      "plugin-lang-domain": "capabilities-pro",
+      "plugin-github-repo": "publishpress/publishpress-capabilities-pro",
+      "plugin-composer-package": "publishpress/publishpress-capabilities"
+    }
+}

@@ -1,0 +1,1285 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-03-03 12:30+0000\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: capabilities-pro\n"
+"Language: yor\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"PublishPress Capabilities jẹ ohun itanna iṣakoso iraye si fun WordPress. O "
+"le ṣakoso gbogbo ipa olumulo WordPress rẹ, lati Awọn alakoso si Awọn "
+"alabapin."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "Akiyesi: Iṣakoso awọn ipo ifiweranṣẹ aṣa jẹ %1$sdídáná%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr "Akiyesi: Awọn agbara ṣiṣatunkọ ifiweranṣẹ pato ipo jẹ %1$sdídáná%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Àwọn Akọkọ Alakoso"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Àwọn Akọkọ Alakoso n jẹ ki o satunṣe awọn ọna asopọ akojọ alakoso ati "
+"ṣakoso ẹni ti o ni iraye si."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "O ko ni igbanilaaye lati ṣakoso awọn ihamọ akojọ."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "Awọn eto ti ni imudojuiwọn fun gbogbo ipa."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "Awọn eto ti ni imudojuiwọn."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "N fipamọ Iṣẹ Akojọ..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "N fipamọ Orukọ Akojọ..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "Orúkọ Menu kò le jẹ́ ofo."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "Yipada Aami"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "Wa awọn aami..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "Aami akojọ ti ni imudojuiwọn"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "Aṣiṣe imudojuiwọn aami akojọ"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Meni ti a ṣe ẹda pẹlu URL Meni yii ti wa tẹlẹ"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Meni abẹ ti a ṣe ẹda pẹlu URL meni ti wa tẹlẹ"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "Iwọ kò ni ìfẹ́sẹ̀kẹ́ àṣẹ láti ṣàkóso ìtọ́sọ́nà."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "Oju-iwe ile"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "Àwọn Ojú-iwe Iṣura"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "Awọn Oju-iwe Kan"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "Yan awọn oju-iwe..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr "O le yan awọn iru oju-iwe nibiti eroja yii yoo fi kun."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "Yan awọn iru ifiweranṣẹ..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"Eyi yoo fi metabox kun lori iboju ṣiṣatunkọ ifiweranṣẹ. O le lo ẹya yii "
+"lati fi awọn kilasi ara kun fun ifiweranṣẹ yẹn nikan."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Ipo Iwoye"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Ipo Iwoye Awọn Agbara"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "Ṣeto"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Ka"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "Ṣatunkọ Awọn miiran"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Pa Awọn miiran"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Le ṣeto awọn ifiweranṣẹ si ipo yii"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Le ka awọn ifiweranṣẹ ninu ipo yii"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Le ṣe atunṣe awọn ifiweranṣẹ awọn olumulo miiran ninu ipo yii"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Le paarẹ awọn ifiweranṣẹ awọn olumulo miiran ninu ipo yii"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "Ṣeto awọn ohun-ini ipo ifiweranṣẹ, awọn oriṣi ifiweranṣẹ"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "Yipada gbogbo awọn agbara fun ipo yii"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: tí a yàn nipasẹ Ẹgbẹ́ Àṣẹ"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Iṣẹ yii jẹ %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "O jẹ dandan ni afikun si agbara pato iru."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "agbara ti a pin: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Awọn ipo aṣa"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Awọn ipo atunṣe"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "Agbara ipo atunṣe"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Awọn agbara ipo aṣa"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Le ṣe atunṣe awọn ifiweranṣẹ ti ipo yii"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Le ṣe atunṣe awọn ifiweranṣẹ ti awọn miiran ninu ipo yii"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Le paarẹ awọn ifiweranṣẹ ti ipo yii"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Le paarẹ awọn ifiweranṣẹ ti awọn miiran ninu ipo yii"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr "Ṣeto awọn ohun-ini ipo, awọn oriṣi ifiweranṣẹ, awọn ibeere agbara"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Lati ṣakoso ṣiṣatunkọ atunṣe ati piparẹ, fi sori ẹrọ %1$sPublishPress "
+"Revisions%2$s ati %3$sStatuses Pro%4$s awọn afikun."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr "Lati ṣalaye ati ṣakoso ipo Atunṣe, fi sori ẹrọ %1$sPlugin Statuses Pro%2$s."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Lati ṣalaye ati ṣakoso ipo Atunṣe, fi sori ẹrọ %1$sPlugin PublishPress "
+"Revisions%2$s."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Lati ṣalaye ati ṣakoso ipo Atunṣe, ṣe imudojuiwọn %1$sPlugin PublishPress "
+"Revisions%2$s si ẹya %3$s tabi ga julọ."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Lati ṣakoso atunṣe ṣiṣatunkọ ati piparẹ, jọwọ ṣeto %1$sIpo Ibarapọ "
+"Atunṣe%2$s si \"Iṣakoso iraye si Atunṣe ti a mu pọ si\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Lati mu tabi pa iṣẹ ṣiṣe ṣiṣatunkọ aṣa fun ipo eyikeyi, tẹ cell Iwọle "
+"Ifiweranṣẹ rẹ ni %1$stabili Statuses%2$s, lẹhinna tun gbigbasilẹ iboju yii."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "Dena iraye si iboju Plugins nipasẹ ọna asopọ taara"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "Dena iraye si iboju Profaili nipasẹ ọna asopọ taara"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Dena iraye si Ile-ikawe Media nipasẹ ọna asopọ taara"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "Dena iraye si iboju Themes nipasẹ ọna asopọ taara"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"Dena iraye si iboju Awọn olumulo ati Fi Oluṣakoso Tuntun kun nipasẹ ọna "
+"asopọ taara"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "Dena nipasẹ URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Tẹ URL lati dènà nipasẹ ipa:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Ṣatunkọ:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Akole"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"Tẹ orukọ / aami lati ṣe idanimọ elementi labẹ apakan ti a dènà nipasẹ URL "
+"ti iboju yii."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Yapa awọn urls pupọ pẹlu koma. (e.g, %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "Ìdènà Wildcard"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "Mu ibamu prefix wildcard ṣiṣẹ fun ofin URL yii."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Nigbati a ba mu ṣiṣẹ, awọn olumulo ni a dènà lati eyikeyi URL ti o bẹrẹ "
+"pẹlu iye ti a tẹ sii loke."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Fagilee Atunṣe"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Fikun-un Tuntun"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "Fipamọ Ṣatunkọ"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "Aṣiṣe kan ṣẹlẹ!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "Iwọ kò ni ìfẹ́sẹ̀kẹ́ àṣẹ láti ṣàkóso àdéhùn àṣẹ admin."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "Iṣe ti ko tọ. Tun oju-iwe yii ṣe ki o si gbiyanju lẹẹkansi."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Gbogbo ààyè jẹ dandan."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Ẹlẹda aṣa ti ṣe imudojuiwọn ni aṣeyọri"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Ẹ̀yà tuntun ti a ṣe àtúnṣe ti ṣàfikún pẹ̀lú àseyọrí"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Wildcard ti ni mu ṣiṣẹ"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Wo"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "Ṣatunkọ"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "Pa"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Beere ti ko tọ!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Ohun ti a yan ti parẹ ni aṣeyọri"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "O ko ni igbanilaaye lati wọle si oju-iwe yii."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Tẹ Hello Dolly silẹ lati atokọ plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr ""
+"Tẹ awọn ọna asopọ igbese ila plugin silẹ (Deactivate, Activate, Delete ati "
+"bẹbẹ lọ bọtini)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Tẹ bọtini Fikun-un Ifiweranṣẹ tuntun silẹ lati iboju ifiweranṣẹ"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr "Tẹ bọtini Deactivate ila plugin silẹ lati gbogbo awọn atokọ plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "Tẹ bọtini Pa ila plugin silẹ lati gbogbo awọn atokọ plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "Tẹ Awọn eroja CSS silẹ"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"O le yọ awọn eroja miiran kuro ni agbegbe alakoso nipa fifi awọn ID tabi "
+"awọn kilasi wọn kun ni isalẹ:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr "Tẹ orukọ / aami lati ṣe idanimọ elementi aṣa lori iboju yii."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "ID Elementi tabi Awọn Kilasi"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"IDs tabi awọn kilasi lati pa. Ya awọn iye pupọ nipasẹ koma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "URLs Ibi-afẹde"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Aṣayan. Dín ìlànà CSS ìmúfún yìí sí URL adari pato. Ya awọn URL pupọ pẹlu "
+"koma."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Ibarapọ URL Wildcard"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "Mu ibamu prefix wildcard ṣiṣẹ fun awọn URL Target."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Nigbati a ba mu ṣiṣẹ, ofin yii n ṣiṣẹ ti URL lọwọlọwọ ba bẹrẹ pẹlu eyikeyi "
+"iye URL Target."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "Element CSS ti ṣe imudojuiwọn ni aṣeyọri."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Ẹ̀yà CSS tuntun ti ṣàfikún pẹ̀lú àseyọrí."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL ti a fojusi"
+
+#: includes-pro/features/admin-features-css-hide.php:317, fuzzy
+msgid "URL wildcard"
+msgstr "URL wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "Ayẹwo aabo kuna"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "Iwe-aṣẹ kọ"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "Awọn eto ti ni imudojuiwọn ni aṣeyọri."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "Iṣẹ Akọkọ alakoso tunṣe ni aṣeyọri. Nṣiṣẹ oju-iwe..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "Orukọ Akọkọ alakoso tunṣe ni aṣeyọri. Nṣiṣẹ oju-iwe..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Àkópọ̀kù Alákóso Ti túbọ̀ pada ni aṣeyọrí. Nṣiṣẹ́ oju-iwe..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Akoko alakoso tunṣe ni aṣeyọri. Nṣiṣẹ oju-iwe..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "Akojọ ti paarẹ ni aṣeyọri."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "Menu tuntun ti ṣàfikún pẹ̀lú àseyọrí. Nṣiṣẹ́ àtúnṣe oju-iwe..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "Data ti ko tọ"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "Orúkọ Menu ti ṣe àtúnṣe fún gbogbo ipa."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "Orúkọ Menu ti ṣe àtúnṣe."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "Ìtòsọ́kà Menu ti ṣe àtúnṣe."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "Fipamọ fun Gbogbo Ipa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "Iru:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "Ìjápọ̀ Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "Asopọ Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "Olùya Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "Yapa Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "Ipò:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "Lẹ́yìn"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "Orúkọ Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "Ìjápọ̀ Àwọn Tó N fẹ́ràn"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "Orúkọ Menu jẹ́ dandan."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "Iru Yapa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "Iwọn (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "Ibi ofo"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "Ọrọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "Awọ Iyatọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "URL Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Tẹ ọna asopọ inu kan gẹgẹbi %1s tabi ọna asopọ ita gẹgẹbi %2s. eyikeyi ọna "
+"asopọ le ṣee lo ẹẹkan nikan fun URL Menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "Menu pẹ̀lú URL yìí ti wà tìkára rẹ̀ tẹlẹ."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "Agbara Akojọ:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Eyi ni agbara ti a nilo lati wo akojọ aṣayan yii. Fun apẹẹrẹ: %1s tabi %2s "
+"Ti o ba n tẹ agbara aṣa kan, ranti lati fi kun ati assign si awọn ipa ti a "
+"fẹ lori oju-iwe awọn agbara"
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "Agbara Akojọ jẹ dandan."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "Aami Akojọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "Fipamọ Asopọ Akojọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "Yipada gbogbo"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "Ìjápọ tuntun"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(Kò le ṣe ìmúlẹ̀ orúkọ àkópọ̀kù)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Orukọ akojọ aṣayan yii ko si ni data akojọ aṣayan kariaye tabi ti "
+"forukọsilẹ taara pẹlu akojọ aṣayan naa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s Iṣẹ́"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "Gbogbo Awọn Ipa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "Fipamọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "Fagilee"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "A ti pa aṣayan yii lati yago fun pipade patapata"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Ṣe o da ọ loju pe o fẹ pa %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Agbara ti o nilo lati wọle si akojọ yii ni %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "Tun orukọ akojọ"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "Gbé soke"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "Gbé sílẹ̀"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "Ko si akojọ ti a ri"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "Bawo ni a ṣe le lo Awọn akojọ aṣayan Alakoso"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "bọtini lilo"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "Ko si ayipada"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "Ẹ̀tọ́ yìí ni a kọ́"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "Wo Iwe Itọsọna"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "Àwọn Eto Akọkọ Alakoso"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "Tẹ̀síwájú Submenus"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "Fi Tẹẹbu Slugs hàn"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "Tun akojọ adari"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"O le tunto aṣẹ akojọ alakoso ati orukọ si ipo ati awọn orukọ atilẹba wọn. O "
+"tun le tun akojọ kaṣe ṣe lati ṣatunṣe iṣoro ti iwọntunwọnsi akojọ ti o "
+"padanu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "Tunṣe Ilana Tẹẹbu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "Tunṣe Akọsori Tẹẹbu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "Tunṣe Orukọ Tẹẹbu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "Tun aṣayan ti a yan"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Fikun-un Tuntun Àwọn Ìdíwọ̀ Ẹlẹ́da Klásìkì"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"O le yọ awọn eroja miiran kuro ni iboju olootu nipa fifi awọn ID tabi awọn "
+"kilasi wọn kun ni isalẹ:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Fikun-un Tuntun Àwọn Ìdíwọ̀ Gutenberg"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "Iwọ kò ni ìfẹ́sẹ̀kẹ́ àṣẹ láti ṣàkóso àdéhùn àṣẹ onkọwe."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"Iṣe ti ko tọ. Tun oju-iwe yii ṣe ki o si gbiyanju lẹẹkansi ti o ba ṣẹlẹ ni "
+"aṣiṣe."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Ẹlẹda aṣa ti ṣe imudojuiwọn ni aṣeyọri. Fipamọ awọn ayipada lati lo awọn "
+"ihamọ."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr "Ẹ̀yà tuntun ti a ṣe àtúnṣe ti ṣàfikún. Fipamọ́ ìyípadà láti lo àwọn ìdènà."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Tẹ taabu Awọn aṣa silẹ ninu oluyẹwo bulọọki"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Tẹ bọtini Fikun / ṣatunkọ ọna asopọ ninu Oluyẹwo Classic"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Iwọn ihamọ Olutayo aṣa"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Iwọn ihamọ Gutenberg aṣa"
+
+#: includes-pro/features/metaboxes.php:154, fuzzy
+msgid "Metaboxes"
+msgstr "Metaboxes"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "Àkópọ̀kù Alákóso"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr "Aṣiṣe kan ṣẹlẹ. Jọwọ tún gbiyanju tabi kan si ẹgbẹ atilẹyin."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Iwe-aṣẹ"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "Mú ṣiṣẹ́ Bọtini"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "Dena Bọtini"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Nṣiṣẹ si olupin publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "A ko le ṣiṣẹ ibeere naa nitori ikuna asopọ."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Jọwọ tẹ bọtini iwe-aṣẹ ti a fi hàn lori ìmélẹ rẹ."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "Aṣiṣe kan ti a ko mọ ṣẹlẹ."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "Bọtini ti wa ni pa."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "Bọtini ti wa ni ṣiṣi."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "Bọtini ti parẹ."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "Bọtini naa ko wulo."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "Aṣiṣe iṣiṣẹ ti a ko mọ ṣẹlẹ."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "Bọtini ti a pese ko wulo. Jọwọ ṣayẹwo lẹẹkansii iwọntunwọnsi rẹ."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Aaye yii ko wulo lati ṣiṣi bọtini naa."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "Bọtini ti a pese ko le jẹrisi nipasẹ publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "Bọtini ti a pese ti wa ni ṣiṣi tẹlẹ lori aaye miiran."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Bọtini ti wa ni ṣiṣi silẹ tẹlẹ lori nọmba awọn aaye ti a gba laaye."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "Aṣiṣe ifagile ti a ko mọ ṣẹlẹ."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Ko le pa aṣẹ nitori bọtini ti a fun ni ko tọ."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Aaye yii ko wulo lati pa bọtini naa."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "Bọtini ti a pese ko si ni ṣiṣi lori aaye ti a sọ."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "Ti eyi ba jẹ eke, <a href=\"%s\">beere iranlọwọ iṣiṣẹ</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "Jọwọ fipamọ awọn eto ṣaaju ki o to gbe awọn eto aaye naa."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Ti di mọ́ nipasẹ Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Ṣakoso awọn ipo aṣa"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Ṣakoso yiyan ti awọn ipo ifiweranṣẹ aṣa. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr "Lo awọn agbara pataki ipo fun ṣiṣatunkọ ifiṣootọ, piparẹ."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Mu Ipo Afihan Aṣa ṣiṣẹ"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr "Fun Awọn Ipo Afihan, %1$senable modulu Iṣakoso Ipo%2$s ninu Awọn Iwe-aṣẹ Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr "Lo awọn agbara ṣiṣatunkọ pato ipo, pato iru fun Awọn ipo Wiwo"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Iṣiṣẹ Bọtini Iwe-aṣẹ"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"Bọtini iwe-aṣẹ PublishPress rẹ ti pari. Fun atilẹyin to ṣe pataki, <a "
+"href=\"%s\">jowo tunṣe</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"Bọtini iwe-aṣẹ PublishPress rẹ yoo pari loni. Fun awọn imudojuiwọn ati "
+"atilẹyin to ṣe pataki, <a href=\"%s\">jowo tunṣe</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[1] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "Bọtini ti pari"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "Dena"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "Ti mú ṣiṣẹ́"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "Tẹ bọtini iwe-aṣẹ rẹ"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "Mú ṣiṣẹ́"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "wo %s&nbsp; alaye"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "Imudojuiwọn&nbsp;Ti wa"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "Imudojuiwọn&nbsp;Ṣayẹwo"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "Àkọọlẹ"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "Iye owo"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "Fihan Brand PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Pa ẹsẹ PublishPress ati awọn ami miiran pamọ."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Àwọn Akọkọ Alakoso: itọju awọn ipa pupọ"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "Jùlọ ìfọwọ́sí: Ẹnikẹ́ni tó jẹ́ ipa olumulo tí kò ni àkóso gba wọlé"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "Jùlọ ìdènà: Ẹnikẹ́ni tó jẹ́ ipa olumulo tí ó ní àkóso kò gba wọlé"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Eyi n ṣakoso boya awọn igbanilaaye ti o ni itẹwọgba julọ tabi ti o ni ihamọ "
+"diẹ sii ni a lo ti olumulo ba ni awọn ipa pupọ."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Ìṣakoso ipo aṣa ti wa ni pipade titi iwọ o fi mu ṣiṣẹ %1$sPublishPress "
+"Statuses%2$s plugin. Wo %3$sAgbara > Eto%4$s fun alaye."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Ìṣakoso ipo aṣa ti wa ni pipade titi iwọ o fi fi sori ẹrọ %1$sPublishPress "
+"Statuses%2$s plugin. Wo %3$sAgbara > Eto%4$s fun alaye."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "Awọn ayipada ti fipamọ!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "Aṣiṣe: awọn ayipada ko le fipamọ."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "Nṣiṣẹ menu..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "Nṣiṣẹ Awọn Eto..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "O gbọdọ ṣayẹwo o kere ju aṣayan kan lati tun bẹrẹ."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "Nṣiṣẹ aṣayan..."

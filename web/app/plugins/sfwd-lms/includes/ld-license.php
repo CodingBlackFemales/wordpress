@@ -57,6 +57,43 @@ add_action(
 );
 
 /**
+ * Get the active LearnDash license key.
+ *
+ * Returns the Harbor unified license key when available, otherwise falls back
+ * to the license key stored in the site option.
+ *
+ * @since 5.1.0
+ *
+ * @return string
+ */
+function learndash_get_license_key(): string {
+	if ( lw_harbor_is_product_license_active( 'learndash' ) ) {
+		return lw_harbor_get_unified_license_key() ?? '';
+	}
+
+	return Cast::to_string( get_option( LEARNDASH_LICENSE_KEY, '' ) );
+}
+
+/**
+ * Get the active LearnDash license email address.
+ *
+ * Returns an empty string when a Harbor unified license key is in use, as the
+ * unified license does not require an email. Otherwise falls back to the email
+ * stored in the site option.
+ *
+ * @since 5.1.0
+ *
+ * @return string
+ */
+function learndash_get_license_email(): string {
+	if ( lw_harbor_is_product_license_active( 'learndash' ) ) {
+		return '';
+	}
+
+	return Cast::to_string( get_option( LEARNDASH_LICENSE_EMAIL_KEY, '' ) );
+}
+
+/**
  * Validate a license key.
  *
  * @since 4.3.1
@@ -74,7 +111,10 @@ function learndash_validate_hub_license( string $email, string $license_key, boo
 		return false; // legacy license system is not supported.
 	}
 
-	if ( empty( $email ) || empty( $license_key ) ) {
+	if (
+		empty( $email )
+		|| empty( $license_key )
+	) {
 		delete_option( LEARNDASH_HUB_LICENSE_CACHE_OPTION );
 		return false;
 	}
@@ -99,9 +139,9 @@ function learndash_is_license_hub_valid() {
 	$license_valid = get_option( LEARNDASH_HUB_LICENSE_CACHE_OPTION );
 
 	if (
-		! is_array( $license_valid ) ||
-		count( $license_valid ) !== 2 ||
-		$license_valid[0] < time() - LEARNDASH_HUB_LICENSE_CACHE_TIMEOUT
+		! is_array( $license_valid )
+		|| count( $license_valid ) !== 2
+		|| $license_valid[0] < time() - LEARNDASH_HUB_LICENSE_CACHE_TIMEOUT
 	) {
 		// recheck the license.
 		return learndash_validate_hub_license(
@@ -124,8 +164,8 @@ function learndash_get_last_license_hub_check_time() {
 	$license_valid = get_option( LEARNDASH_HUB_LICENSE_CACHE_OPTION );
 
 	if (
-		! is_array( $license_valid ) ||
-		count( $license_valid ) !== 2
+		! is_array( $license_valid )
+		|| count( $license_valid ) !== 2
 	) {
 		return 0;
 	}
@@ -137,12 +177,14 @@ function learndash_get_last_license_hub_check_time() {
  * Checks Whether the learndash license is valid or not.
  *
  * @since 3.4.0
- * @since 4.18.0 -- This is now an alias for learndash_is_license_hub_valid().
+ * @since 4.18.0 This is now an alias for learndash_is_license_hub_valid().
+ * @since 5.1.0 Added support for Harbor.
  *
  * @return bool
  */
 function learndash_is_learndash_license_valid() {
-	return learndash_is_license_hub_valid();
+	return learndash_is_license_hub_valid()
+		|| lw_harbor_is_product_license_active( 'learndash' );
 }
 
 /**
@@ -175,7 +217,7 @@ function learndash_updates_enabled() {
 		// @phpstan-ignore-next-line -- It is possible for this to not evaluate to true.
 		defined( 'LEARNDASH_UPDATES_ENABLED' )
 		// @phpstan-ignore-next-line -- It is possible for this to not evaluate to true.
-		&& ( true !== LEARNDASH_UPDATES_ENABLED )
+		&& true !== LEARNDASH_UPDATES_ENABLED
 	) {
 		$updates_enabled = false;
 	}

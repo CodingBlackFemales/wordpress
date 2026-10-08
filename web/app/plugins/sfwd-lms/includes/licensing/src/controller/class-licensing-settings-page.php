@@ -11,9 +11,11 @@ declare( strict_types=1 );
 
 namespace LearnDash\Hub\Controller;
 
+use LearnDash\Core\Utilities\Cast;
 use LearnDash\Hub\Traits\License;
 use LearnDash\Hub\Traits\Permission;
 use LearnDash_Settings_Page;
+use StellarWP\Learndash\StellarWP\SuperGlobals\SuperGlobals;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -43,8 +45,9 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) ) {
 			$this->parent_menu_page_url  = 'admin.php?page=learndash_lms_settings';
 			$this->menu_page_capability  = LEARNDASH_ADMIN_CAPABILITY_CHECK;
 			$this->settings_page_id      = 'learndash_hub_licensing';
-			$this->settings_page_title   = esc_html__( 'LMS License', 'learndash' );
-			$this->settings_tab_title    = esc_html__( 'LMS License', 'learndash' );
+			$this->settings_page_title   = esc_html__( 'Legacy License', 'learndash' );
+			$this->settings_tab_title    = esc_html__( 'Legacy License', 'learndash' );
+			$this->settings_tab_priority = 120;
 			$this->show_submit_meta      = false;
 			$this->show_quick_links_meta = false;
 
@@ -96,6 +99,9 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) ) {
 		 * @return void
 		 */
 		public function show_settings_page() {
+			// Display the legacy license page notice.
+			lw_harbor_display_legacy_license_page_notice( 'LearnDash' );
+
 			if ( ! $this->is_user_allowed() ) {
 				require_once $this->view_path . 'access_denied.php';
 				return;
@@ -108,6 +114,41 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) ) {
 
 			require_once $this->view_path . 'signin.php';
 		}
+
+		/**
+		 * Redirects the Legacy License page to the unified Software Manager when a
+		 * unified license already covers LearnDash.
+		 *
+		 * When a valid unified license is present for LearnDash, the
+		 * legacy email + key form serves no purpose and only invites confusion about
+		 * where to activate. Rather than render it, send the user straight to the
+		 * Software Manager where unified licenses are managed. Runs on admin_init so
+		 * the redirect happens before any page output.
+		 *
+		 * @since 5.1.8
+		 *
+		 * @return void
+		 */
+		public static function maybe_redirect_to_software_manager(): void {
+			$page = Cast::to_string( SuperGlobals::get_get_var( 'page', '' ) );
+
+			if (
+				'learndash_hub_licensing' !== $page
+				|| ! current_user_can( LEARNDASH_ADMIN_CAPABILITY_CHECK )
+				|| ! lw_harbor_is_product_license_active( 'learndash' )
+			) {
+				return;
+			}
+
+			$url = lw_harbor_get_license_page_url();
+
+			if ( empty( $url ) ) {
+				return;
+			}
+
+			wp_safe_redirect( $url );
+			exit;
+		}
 	}
 
 	add_action(
@@ -115,5 +156,10 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) ) {
 		function () {
 			Licensing_Settings::add_page_instance();
 		}
+	);
+
+	add_action(
+		'admin_init',
+		[ Licensing_Settings::class, 'maybe_redirect_to_software_manager' ]
 	);
 }

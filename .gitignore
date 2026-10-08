@@ -6,6 +6,7 @@ web/app/plugins/*
 !web/app/plugins/buddyboss-platform-pro
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git
+!web/app/plugins/capabilities-pro
 !web/app/plugins/cbf-academy
 !web/app/plugins/cbf-multisite
 !web/app/plugins/cbf-slides-importer
@@ -13,6 +14,8 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/ld-content-cloner
 !web/app/plugins/learndash-hub
 !web/app/plugins/learndash-zapier
+!web/app/plugins/publishpress-pro
+!web/app/plugins/publishpress-statuses-pro
 !web/app/plugins/sfwd-lms
 !web/app/plugins/woo-update-manager
 !web/app/plugins/woocommerce-give-products

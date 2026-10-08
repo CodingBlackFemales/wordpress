@@ -45,5 +45,6 @@ class Provider extends ServiceProvider {
 		$this->container->register( Extras\Provider::class );
 		$this->container->register( Admin\Provider::class );
 		$this->container->register( Course_Reviews\Provider::class );
+		$this->container->register( WooCommerce\Provider::class );
 	}
 }

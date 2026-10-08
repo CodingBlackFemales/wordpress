@@ -1,0 +1,20 @@
+.publishpress-extended-subpost-privacy {
+    flex-flow: row wrap;
+    margin-top:0;
+  }
+  .publishpress-extended-subpost-privacy > * {
+    flex-basis: 45%;
+  }
+  .publishpress-extended-subpost-privacy .publishpress-extended-subpost-privacy-note {
+    flex-basis: 100%;
+  }
+  
+  .publishpress-extended-subpost-privacy select {
+    width: 120px;
+  }
+  
+  .publishpress-extended-subpost-privacy h4 {
+    font-size: inherit!important;
+    font-weight: normal;
+  }
+  

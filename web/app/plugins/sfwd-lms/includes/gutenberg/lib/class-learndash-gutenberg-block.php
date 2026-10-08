@@ -259,13 +259,26 @@ if ( ! class_exists( 'LearnDash_Gutenberg_Block' ) ) {
 					continue;
 				}
 
-				if ( ( empty( $key ) ) || ( '' == $val ) || ( is_null( $val ) ) ) {
+				if (
+					empty( $key )
+					|| is_null( $val )
+				) {
 					continue;
 				}
 
-				if ( ! empty( $shortcode_str ) ) {
+				// Boolean false must be serialized (e.g. autop="false"). '' == false is true in PHP, so the
+				// attribute was omitted and shortcode defaults (e.g. student autop true) applied incorrectly.
+				if ( is_bool( $val ) ) {
 					$shortcode_str .= ' ';
+					$shortcode_str .= $key . '="' . ( $val ? 'true' : 'false' ) . '"';
+					continue;
 				}
+
+				if ( '' === trim( $val ) ) {
+					continue;
+				}
+
+				$shortcode_str .= ' ';
 				$shortcode_str .= $key . '="' . esc_attr( $val ) . '"';
 			}
 			$shortcode_str .= ']';

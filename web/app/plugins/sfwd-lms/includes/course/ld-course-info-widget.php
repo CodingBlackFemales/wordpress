@@ -316,6 +316,8 @@ function learndash_ajax_course_registered_pager() {
 
 	if ( ( isset( $_POST['nonce'] ) ) && ( ! empty( $_POST['nonce'] ) ) && ( wp_verify_nonce( $_POST['nonce'], 'learndash-pager' ) ) ) {
 
+		learndash_ajax_switch_to_site_locale();
+
 		add_filter(
 			'learndash_course_info_paged',
 			function( $paged = 1, $context = '' ) {
@@ -410,6 +412,8 @@ function learndash_ajax_course_progress_pager() {
 	}
 
 	if ( ( isset( $_POST['nonce'] ) ) && ( ! empty( $_POST['nonce'] ) ) && ( wp_verify_nonce( $_POST['nonce'], 'learndash-pager' ) ) ) {
+
+		learndash_ajax_switch_to_site_locale();
 
 		add_filter(
 			'learndash_course_info_paged',
@@ -511,6 +515,8 @@ function learndash_ajax_quiz_progress_pager() {
 			return '';
 		}
 
+		learndash_ajax_switch_to_site_locale();
+
 		add_filter(
 			'learndash_quiz_info_paged',
 			function( $paged = 1 ) {
@@ -597,6 +603,8 @@ function learndash_ajax_course_navigation_pager() {
 
 	if ( ( isset( $_POST['nonce'] ) ) && ( ! empty( $_POST['nonce'] ) ) && ( wp_verify_nonce( $_POST['nonce'], 'learndash-pager' ) ) ) {
 
+		learndash_ajax_switch_to_site_locale();
+
 		if ( ( isset( $_POST['paged'] ) ) && ( ! empty( $_POST['paged'] ) ) ) {
 			$paged = intval( $_POST['paged'] );
 		} else {
@@ -650,6 +658,8 @@ function learndash_ajax_course_navigation_admin_pager() {
 	$reply_data = array();
 
 	if ( ( isset( $_POST['nonce'] ) ) && ( ! empty( $_POST['nonce'] ) ) && ( wp_verify_nonce( $_POST['nonce'], 'learndash-pager' ) ) ) {
+
+		learndash_ajax_switch_to_site_locale();
 
 		if ( ( isset( $_POST['paged'] ) ) && ( ! empty( $_POST['paged'] ) ) ) {
 			$paged = intval( $_POST['paged'] );

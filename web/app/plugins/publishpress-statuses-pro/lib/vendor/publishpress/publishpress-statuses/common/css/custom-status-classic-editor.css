@@ -1,0 +1,16 @@
+/* Classic Editor: Add Status link */
+#submitdiv .pp-postsubmit-add-moderation {
+margin-left: 10px;
+}
+
+#submitdiv .pp-status-cancel {
+padding-top: 8px;
+}
+
+#submitdiv .pp-postsubmit-add-moderation {
+float: right;
+}
+
+#minor-publishing-actions #save-post {
+max-width: 188px !important;
+}

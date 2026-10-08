@@ -1,0 +1,204 @@
+/** Editorial Fields **/
+
+#pp_editorial_meta h3 {
+    padding-left: 22px;
+    background-image: url(editorial_metadata_s16.png);
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+}
+
+/* Spacing between each term */
+#pp_editorial_meta_meta_box div.pp_editorial_meta {
+    margin-bottom: 10px;
+}
+
+#pp_editorial_meta_meta_box div.pp_editorial_meta label,
+#pp_editorial_meta_meta_box div.pp_editorial_meta span.description {
+    display: block;
+}
+
+#pp_editorial_meta_meta_box div.pp_editorial_meta label {
+    font-weight: bold;
+    line-height: 1.3em;
+    margin-top: 5px;
+    padding-left: 2px;
+}
+
+#pp_editorial_meta_meta_box div.pp_editorial_meta_date input[readonly] {
+    background: #fff;
+    cursor: pointer;
+}
+
+body.planner_page_pp-editorial-metadata .form-wrap label:not(.post-type-label) {
+    line-height: 1.3;
+    font-weight: 600; 
+}
+
+body.planner_page_pp-editorial-metadata h3.nav-tab-wrapper {
+    margin-bottom: 5px;
+}
+
+/* Spacing for Google Maps link */
+#pp_editorial_meta_meta_box div.pp_editorial_meta_location div {
+    margin-top: 5px;
+    margin-left: 2px;
+}
+
+#pp_editorial_meta_meta_box span.description {
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.4em;
+    margin: 3px 0 5px;
+}
+
+#pp_editorial_meta_meta_box .pp_editorial_meta_checkbox input[type=checkbox] {
+    margin-top: 8px;
+}
+
+#pp_editorial_meta_meta_box .pp_editorial_meta_checkbox label span.description {
+    margin-top: 6px;
+}
+
+.pp_editorial_meta_user .select2-container,
+.pp-editorial-select2-wrapper .select2-container {
+    width: -webkit-fill-available !important;
+    width: -moz-available !important;
+}
+
+.pp-select2-field .select2-container {
+    width: 95% !important;
+}
+.pp-select2-field .select2-selection--multiple, 
+.pp-editorial-select2-wrapper .select2-selection--multiple {
+    overflow: hidden !important;
+    height: auto !important;
+}
+
+.pp-select2-field .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    padding-bottom: 9px !important;
+}
+
+.pp-select-options-wrap {
+    cursor: move;
+}
+
+.pp-editorial-select-field .pp-select-options-box {
+    display: flex;
+    background: #fafafa;
+    border: 1px solid #dfdfdf;
+    margin: 10px 0;
+    margin-top: 15px;
+    padding: 10px 5px;
+}
+
+.pp-select-options-box .entry-field {
+    margin-right: 10px;
+}
+
+.pp-editorial-select-field .delete-button {
+    margin-left: auto;
+}
+
+.pp-editorial-select-field .pp-select-options-box .select_dropdown_default_label {
+    flex-basis: 100%;
+    margin-top: 8px;
+}
+
+.pp-editorial-select-field .delete-button .delete {
+    color: #a00;
+    border-bottom: 1px solid #a00;
+    text-decoration: none;
+    padding: 0;
+}
+
+.pp-option-icon {
+    font: 400 20px/1 dashicons;
+    speak: none;
+    display: inline-block;
+    padding: 0 0 0 2px;
+    top: 5px;
+    position: relative;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none!important;
+    color: #888;
+}
+.pp-option-icon.move:before {
+    content: "\f329";
+}
+
+.checkbox-row p.description {
+    display: inline-block;
+}
+
+td.checkbox-row input {
+    vertical-align: text-top;
+}
+
+/*
+ * If editorial fields is in the main post column, allow the metadata to be laid out in
+ * multiple columns in browsers that support it.
+ */
+div#normal-sortables #pp_editorial_meta_meta_box {
+    -webkit-column-width: 250px;
+    -webkit-column-span: 50px;
+    -moz-column-width: 250px;
+    -moz-column-span: 50px;
+    column-width: 250px;
+    column-span: 50px;
+}
+
+div#normal-sortables #pp_editorial_meta_meta_box .pp_editorial_meta {
+    /* Get the items within the columns to break at reasonable points */
+    -webkit-column-break-inside: avoid;
+    -moz-column-break-inside: avoid;
+    column-break-inside: avoid;
+    /*
+     * Because the above isn't supported in some browsers yet, even those that support columns (Firefox), break
+     * properly in another way, per http://forrst.com/posts/Fixing_column_break_inside_avoid_in_CSS3_multi-tIz
+     */
+    display: inline-block;
+}
+
+div#normal-sortables #pp_editorial_meta_meta_box input[type=text],
+div#normal-sortables #pp_editorial_meta_meta_box textarea,
+div#normal-sortables #pp_editorial_meta_meta_box select,
+div#normal-sortables #pp_editorial_meta_meta_box label {
+    min-width: 250px;
+}
+
+div#side-sortables #pp_editorial_meta_meta_box input[type=text],
+div#side-sortables #pp_editorial_meta_meta_box textarea,
+div#side-sortables #pp_editorial_meta_meta_box select {
+    width: 98%;
+}
+
+div#side-sortables .pp_editorial_meta_checkbox label span.description {
+    float: right;
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 90%;
+}
+
+div#normal-sortables .pp_editorial_meta_checkbox label span.description {
+    float: right;
+    width: 93%;
+}
+
+div#normal-sortables .pp_editorial_meta_checkbox label {
+    width: 96%;
+}
+
+div#side-sortables .pp_editorial_meta_checkbox input {
+    margin-left: 4px;
+}
+
+.pp_editorial_metadata_not_set {
+    font-style: italic;
+}
+
+.block-editor-page .ui-datepicker {
+    z-index: 9999 !important;
+}

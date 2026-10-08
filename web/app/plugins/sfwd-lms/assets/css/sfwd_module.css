@@ -549,3 +549,10 @@ table.learndash-support-settings tbody th {
 .edit-post-header__settings .components-popover__content a:hover {
 	color: #007cba;
 }
+
+/* Pointer events stay on so the title tooltip can explain the inactive link. */
+.wrap-learndash-group-list a.learndash-data-group-reports-button--disabled,
+.wrap-learndash-group-list a.learndash-data-group-reports-button--disabled:hover {
+	color: #646970;
+	cursor: not-allowed;
+}

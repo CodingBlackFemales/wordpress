@@ -565,11 +565,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 
 										if ( $has_access ) {
 											$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-											if ( ( $previous_step_post_id ) && ( $previous_step_post_id === $post->ID ) ) {
-												$previous_lesson_completed = true;
-											} else {
-												$previous_lesson_completed = false;
-											}
+											$previous_lesson_completed = empty( $previous_step_post_id );
 										}
 									} else {
 										if ( $bypass_course_limits_admin_users ) {
@@ -577,11 +573,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 											remove_filter( 'learndash_content', 'lesson_visible_after', 1, 2 );
 										} else {
 											$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-											if ( ( $previous_step_post_id ) && ( $previous_step_post_id === $post->ID ) ) {
-												$previous_lesson_completed = true;
-											} else {
-												$previous_lesson_completed = false;
-											}
+											$previous_lesson_completed = empty( $previous_step_post_id );
 
 											/**
 											 * Filter to override previous step completed.
@@ -713,11 +705,7 @@ if ( ! class_exists( 'SFWD_CPT_Instance' ) ) {
 										remove_filter( 'learndash_content', 'lesson_visible_after', 1, 2 );
 									} else {
 										$previous_step_post_id = learndash_user_progress_get_previous_incomplete_step( $user_id, $course_id, $post->ID );
-										if ( ( $previous_step_post_id ) && ( $previous_step_post_id === $post->ID ) ) {
-											$previous_lesson_completed = true;
-										} else {
-											$previous_lesson_completed = false;
-										}
+										$previous_lesson_completed = empty( $previous_step_post_id );
 
 										/** This filter is documented in includes/class-ld-cpt-instance.php */
 										$previous_lesson_completed = apply_filters( 'learndash_previous_step_completed', $previous_lesson_completed, $post->ID, $user_id );

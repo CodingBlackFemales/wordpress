@@ -21,19 +21,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.1.0
  * @since 4.11.0 Added support for quizzes.
+ * @since 5.1.5 Added the `$user` parameter to control steps visibility.
  *
- * @param string|null  $default_value Default previous post link. Default empty string.
- *                                    Null type is added for backward compatibility.
- * @param string|bool  $url           Whether to return URL or ID instead of HTML output. Default false.
- *                                    If true, the URL is returned.
- *                                    If 'id', ID is returned.
- *                                    Otherwise, an HTML link is returned.
- * @param WP_Post|null $post          Current post. If not passed, the global post object is used.
+ * @param string|null      $default_value Default previous post link. Default empty string.
+ *                                        Null type is added for backward compatibility.
+ * @param string|bool      $url           Whether to return URL or ID instead of HTML output. Default false.
+ *                                        If true, the URL is returned.
+ *                                        If 'id', ID is returned.
+ *                                        Otherwise, an HTML link is returned.
+ * @param WP_Post|null     $post          Current post. If not passed, the global post object is used.
+ * @param WP_User|int|null $user          Current user to control steps visibility. If null or empty, the current user is used.
  *
  * @return string|int Previous post link URL or HTML link or Post ID depending on the `$url` parameter.
  *                    If a link cannot be generated, the default value will be returned.
  */
-function learndash_previous_post_link( $default_value = '', $url = false, $post = null ) {
+function learndash_previous_post_link( $default_value = '', $url = false, $post = null, $user = null ) {
 	// If a post is not passed, use the global post object.
 
 	if ( ! $post instanceof WP_Post ) {
@@ -79,7 +81,7 @@ function learndash_previous_post_link( $default_value = '', $url = false, $post 
 	}
 
 	$course_id             = Cast::to_int( learndash_get_course_id( $post ) );
-	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id );
+	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id, $user );
 	$current_step_position = array_search( $post->ID, $course_step_ids, true );
 
 	if ( false === $current_step_position ) {
@@ -188,19 +190,21 @@ function learndash_previous_post_link( $default_value = '', $url = false, $post 
  *
  * @since 2.1.0
  * @since 4.11.0 Added support for quizzes.
+ * @since 5.1.5 Added the `$user` parameter to control steps visibility.
  *
- * @param string|null  $default_value Default next post link. Default empty string.
- *                                    Null type is added for backward compatibility.
- * @param string|bool  $url           Whether to return URL or ID instead of HTML output. Default false.
- *                                    If true, the URL is returned.
- *                                    If 'id', ID is returned.
- *                                    Otherwise, an HTML link is returned.
- * @param WP_Post|null $post          Current post. If not passed, the global post object is used.
+ * @param string|null      $default_value Default next post link. Default empty string.
+ *                                        Null type is added for backward compatibility.
+ * @param string|bool      $url           Whether to return URL or ID instead of HTML output. Default false.
+ *                                        If true, the URL is returned.
+ *                                        If 'id', ID is returned.
+ *                                        Otherwise, an HTML link is returned.
+ * @param WP_Post|null     $post          Current post. If not passed, the global post object is used.
+ * @param WP_User|int|null $user          Current user to control steps visibility. If null or empty, the current user is used.
  *
  * @return string|int Next post link URL or HTML link or Post ID depending on the `$url` parameter.
  *                    If a link cannot be generated, the default value will be returned.
  */
-function learndash_next_post_link( $default_value = '', $url = false, $post = null ) {
+function learndash_next_post_link( $default_value = '', $url = false, $post = null, $user = null ) {
 	// If a post is not passed, use the global post object.
 
 	if ( ! $post instanceof WP_Post ) {
@@ -247,7 +251,7 @@ function learndash_next_post_link( $default_value = '', $url = false, $post = nu
 	}
 
 	$course_id             = Cast::to_int( learndash_get_course_id( $post ) );
-	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id );
+	$course_step_ids       = learndash_course_get_linear_step_ids( $course_id, $user );
 	$current_step_position = array_search( $post->ID, $course_step_ids, true );
 
 	if ( false === $current_step_position ) {

@@ -1,0 +1,1326 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-03-03 12:30+0000\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: capabilities-pro\n"
+"|| n % 10 == 6 || n % 10 == 9);\n"
+"|| n % 10 == 6 || n % 10 == 9);: \n"
+"Language: fil\n"
+"Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9);\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"Ang PublishPress Capabilities ay ang plugin para sa kontrol ng access para "
+"sa WordPress. Maaari mong pamahalaan ang lahat ng iyong mga tungkulin ng "
+"gumagamit sa WordPress, mula sa mga Administrator hanggang sa mga "
+"Subscriber."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr "Tandaan: Ang kontrol ng mga custom na estado ng post ay %1$sna-disable%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr ""
+"Tandaan: Ang kakayahan sa pag-edit ng post na tiyak sa estado ay "
+"%1$sna-disable%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Mga Admin Menu"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Ang mga Admin Menu ay nagbibigay-daan sa iyo upang i-edit ang mga link ng "
+"admin menu at kontrolin kung sino ang may access."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "Wala kang pahintulot na pamahalaan ang mga paghihigpit sa menu."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "Na-update ang mga setting para sa lahat ng papel."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "Na-update ang mga setting."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "Nagsasave ng Order ng Menu..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "Nagsasave ng Pangalan ng Menu..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "Hindi maaaring walang laman ang Pangalan ng Menu."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "Palitan ang Icon"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "Naghahanap ng mga icon..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "Na-update ang menu icon"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "Error sa pag-update ng icon ng menu"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "May umiiral nang duplicate na menu gamit ang Menu URL na ito"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "May umiiral nang duplicate na submenu gamit ang menu url"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "Wala kang pahintulot na pamahalaan ang mga setting."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "Pahinang Pangunahing"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "Mga Archive na Pahina"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "Mga Solitaryong Pahina"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "Pumili ng mga pahina..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr ""
+"Maaari mong piliin ang mga uri ng pahina kung saan idadagdag ang elementong "
+"ito."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "Pumili ng mga uri ng post..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"Ito ay magdadagdag ng metabox sa screen ng pag-edit ng post. Maaari mong "
+"gamitin ang tampok na ito upang magdagdag ng mga klase ng katawan para "
+"lamang sa post na iyon."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Mga Katayuan ng Visibility"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Kakayahan sa Katayuan ng Visibility"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "Itakda"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Bumasa"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "I-edit ang Iba"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Tanggalin ang Iba"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Maaaring itakda ang mga post sa status na ito"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Maaaring basahin ang mga post sa status na ito"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Maaaring i-edit ang mga post ng ibang mga gumagamit sa status na ito"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Maaaring tanggalin ang mga post ng ibang mga gumagamit sa status na ito"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "I-configure ang mga katangian ng post status, mga uri ng post"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "I-toggle lahat ng kakayahan para sa katayuang ito"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: itinalaga ng Permission Group"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Ang kakayahang ito ay %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "Kinakailangan ito bilang karagdagan sa kakayahan na partikular sa uri."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "naibahaging kakayahan: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Mga Custom na Status"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Mga Estado ng Rebisyon"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "Kakayahan sa Estado ng Rebisyon"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Mga Kakayahan ng Custom Status"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Maaaring i-edit ang mga post sa status na ito"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Maaaring i-edit ang mga post ng iba sa status na ito"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Maaaring tanggalin ang mga post sa status na ito"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Maaaring tanggalin ang mga post ng iba sa status na ito"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr ""
+"I-configure ang mga katangian ng status, mga uri ng post, mga kinakailangan "
+"sa kakayahan"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Upang kontrolin ang pag-edit at pagtanggal ng bersyon, i-install ang "
+"%1$sPublishPress Revisions%2$s at %3$sStatuses Pro%4$s plugins."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr ""
+"Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-install ang "
+"%1$sStatuses Pro%2$s na plugin."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-install ang "
+"%1$sPublishPress Revisions%2$s na plugin."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-update ang "
+"%1$sPublishPress Revisions%2$s na plugin sa bersyon %3$s o mas mataas."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Upang kontrolin ang pag-edit at pagtanggal ng bersyon, mangyaring itakda "
+"ang %1$sRevisions Compatibility Mode%2$s sa \"Pinahusay na kontrol sa "
+"pag-access ng bersyon\""
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Upang paganahin o huwag paganahin ang pagpapatupad ng mga pasadyang "
+"kakayahan sa pag-edit para sa anumang katayuan, i-click ang cell ng Post "
+"Access nito sa %1$sStatuses table%2$s, pagkatapos ay i-reload ang screen na "
+"ito."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "I-block ang pag-access sa Plugins screen sa pamamagitan ng direktang link"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "I-block ang pag-access sa Profile screen sa pamamagitan ng direktang link"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Harangan ang access sa Media Library sa pamamagitan ng direktang link"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "I-block ang pag-access sa Themes screen sa pamamagitan ng direktang link"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"I-block ang pag-access sa Users at Add New User screen sa pamamagitan ng "
+"direktang link"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "I-block ayon sa URL"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Ilagay ang URL na dapat i-block ayon sa papel:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Pag-e-edit:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Pamagat"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"Ilagay ang pangalan/label upang tukuyin ang elemento sa ilalim ng seksyon "
+"na Blocked by URL ng screen na ito."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Paghiwalayin ang maramihang urls gamit ang kuwit. (hal. %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216, fuzzy
+msgid "Wildcard Block"
+msgstr "Wildcard Block"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "Paganahin ang wildcard prefix matching para sa patakarang URL na ito."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Kapag nakabukas, ang mga gumagamit ay nahaharang mula sa anumang URL na "
+"nagsisimula sa halagang inilagay sa itaas."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Kanselahin ang Pag-edit"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Magdagdag ng Bago"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "I-save ang Pag-edit"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "Nagkaroon ng isang error!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr "Wala kang pahintulot na pamahalaan ang mga restriksyon sa tampok ng admin."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "Hindi wasto ang aksyon. I-reload ang pahinang ito at subukan muli."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Lahat ng mga patlang ay kinakailangan."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Na-update nang matagumpay ang custom na item"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Matagumpay na naidagdag ang bagong pasadyang item"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Wildcard nakabukas"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Tingnan"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "I-edit"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "Tanggalin"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Hindi wastong kahilingan!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Matagumpay na natanggal ang napiling item"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "Wala kang pahintulot na ma-access ang pahinang ito."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Itago ang Hello Dolly mula sa listahan ng mga plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr ""
+"Itago ang mga link ng aksyon ng row ng plugin (Deactivate, Activate, Delete "
+"atbp. na mga button)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Itago ang Add New Post button mula sa screen ng post"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr ""
+"Itago ang Deactivate button ng row ng plugin mula sa lahat ng listahan ng "
+"plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "Itago ang Delete button ng row ng plugin mula sa lahat ng listahan ng plugin"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "Itago ang mga Elemento ng CSS"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"Maaari mong alisin ang ibang mga elemento mula sa admin area sa pamamagitan "
+"ng pagdaragdag ng kanilang mga ID o klase sa ibaba:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr ""
+"Ilagay ang pangalan/label upang tukuyin ang pasadyang elemento sa screen na "
+"ito."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "Mga ID ng Elemento o Mga Klase"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"Mga ID o klase na itatago. Paghiwalayin ang maraming halaga gamit ang kuwit "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "Target na URLs"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Opsyonal. Limitahan ang patakarang CSS na ito sa mga tiyak na URL ng admin. "
+"Paghiwalayin ang maraming URL gamit ang kuwit."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Wildcard URL Tugma"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "Paganahin ang wildcard prefix matching para sa mga Target URL."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Kapag nakabukas, ang patakarang ito ay nalalapat kung ang kasalukuyang URL "
+"ay nagsisimula sa anumang halaga ng Target URL."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "Na-update nang matagumpay ang element ng CSS."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Matagumpay na naidagdag ang bagong elemento ng CSS."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL na tinarget"
+
+#: includes-pro/features/admin-features-css-hide.php:317, fuzzy
+msgid "URL wildcard"
+msgstr "URL wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "Nabigong suriin ang seguridad"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "Tanggihan ang pahintulot"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "Matagumpay na na-update ang mga setting."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "Matagumpay na na-reset ang Admin Menu Order. Naglo-load ng pahina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr ""
+"Matagumpay na na-reset ang mga Pangalan ng Admin Menu. Naglo-load ng "
+"pahina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Na-reset nang matagumpay ang Admin Menu Cache. Nag-re-reload ng pahina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Matagumpay na na-reset ang Admin Menu. Naglo-load ng pahina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "Matagumpay na natanggal ang Menu."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "Matagumpay na naidagdag ang bagong menu. Nag-re-reload ng pahina..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "Hindi wastong data"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "Nai-update ang Pangalan ng Menu para sa lahat ng tungkulin."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "Nai-update ang Pangalan ng Menu."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "Nai-update ang Order ng Menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "I-save para sa Lahat ng Papel"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "Uri:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "Link ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "Link ng Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "Separator ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "Separator ng Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162
+msgid "Position:"
+msgstr "Posisyon:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "Matapos"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "Pamagat ng Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "Aking Pasadyang Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "Kailangan ang Pamagat ng Menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "Estilo ng Separator"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "Linya (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "Walang Laman na Espasyo"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187
+msgid "Text"
+msgstr "Teksto"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "Kulay ng Separator"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "URL ng Menu:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Ilagay ang isang panloob na link tulad ng %1s o isang panlabas na link "
+"tulad ng %2s. Ang anumang link ay maaaring gamitin nang isang beses lamang "
+"para sa isang Menu URL."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "Umiiral na ang menu na may url na ito."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214, fuzzy
+msgid "Menu Capability:"
+msgstr "Menu Capability:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Ito ang kakayahang kinakailangan upang makita ang menu na ito. Halimbawa: "
+"%1s o %2s Kung ikaw ay naglalagay ng isang pasadyang kakayahan, tandaan na "
+"idagdag at i-assign ito sa mga paboritong tungkulin sa pahina ng kakayahan"
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "Kinakailangan ang Menu Capability."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230, fuzzy
+msgid "Menu Icon"
+msgstr "Menu Icon"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "I-save ang Link ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "I-toggle lahat"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "Bagong Ulat ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(Hindi ma-detect ang pangalan ng menu)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Ang pangalan ng menu na ito ay hindi available sa pandaigdigang data ng "
+"menu o direkta nang nakarehistro sa menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s Papel"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "Lahat ng Papel"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "I-save"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "Kanselahin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Ang opsyong ito ay hindi pinagana upang maiwasan ang kumpletong pag-lockout"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Sigurado ka bang nais mong tanggalin ang %1s? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Ang kakayahan na kinakailangan upang ma-access ang menu na ito ay %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "Palitan ang Pangalan ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "Ilipat Pataas"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "Ilipat Pababa"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "Walang natagpuang menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "Paano gamitin ang Admin Menus"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "susurian na key"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "Walang pagbabago"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "Ang tampok na ito ay tinanggihan"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "Tingnan ang Dokumentasyon"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "Mga Setting ng Admin Menus"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "Itago ang mga Submenu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "Ipakita ang mga Menu Slugs"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "I-reset ang mga Menu ng Admin"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Maaari mong i-reset ang pagkakasunod-sunod at pangalan ng admin menu sa "
+"kanilang orihinal na posisyon at pangalan. Maaari mo ring i-reset ang cache "
+"ng menu upang ayusin ang isyu ng nawawalang menu."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "I-reset ang Ayos ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "I-reset ang Cached Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "I-reset ang mga Pangalan ng Menu"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "I-reset ang Napiling Opsyon"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Magdagdag ng Bago na Mga Paghihigpit sa Classic Editor"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"Maaari mong alisin ang ibang mga elemento mula sa screen ng editor sa "
+"pamamagitan ng pagdaragdag ng kanilang mga ID o klase sa ibaba:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Magdagdag ng Bago na Mga Paghihigpit sa Gutenberg"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr "Wala kang pahintulot na pamahalaan ang mga restriksyon sa tampok ng editor."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"Hindi wasto ang aksyon. I-reload ang pahinang ito at subukan muli kung "
+"nagkaroon ng error."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Na-update nang matagumpay ang custom na item. I-save ang mga pagbabago "
+"upang mailapat ang mga restriksyon."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr ""
+"Naidagdag ang bagong pasadyang item. I-save ang mga pagbabago upang ilapat "
+"ang mga paghihigpit."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Itago ang tab na Patterns sa block editor"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Itago ang Insert/edit link button sa Classic Editor"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Mga Restriksyon ng Custom Classic Editor"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Mga Restriksyon ng Custom Gutenberg"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "Mga Metaboxes"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440, fuzzy
+msgid "Admin Menu"
+msgstr "Admin Menu"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr ""
+"Nagkaroon ng isang error. Pakisubukan muli o makipag-ugnayan sa support "
+"team."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Lisensya"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "I-activate ang Key"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "I-deactivate ang Key"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Kumokonekta sa server ng publishpress.com..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr "Ang kahilingan ay hindi ma-proseso dahil sa pagkabigo ng koneksyon."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Mangyaring ilagay ang susi ng lisensya na nakasaad sa iyong resibo ng order."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "Nagkaroon ng isang hindi natukoy na error."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "Ang susi ay na-deactivate na."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "Ang susi ay na-activate na."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "Ang susi ay nag-expire na."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "Ang susi ay hindi wasto."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "Nagkaroon ng isang hindi kilalang activation error."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "Ang ibinigay na susi ay hindi wasto. Pakisuri ang iyong entry."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Ang site na ito ay hindi wasto upang i-activate ang susi."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "Ang ibinigay na susi ay hindi ma-validate ng publishpress.com."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "Ang ibinigay na susi ay aktibo na sa ibang site."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Ang susi ay na-activate na sa pinapayagang bilang ng mga site."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "Nagkaroon ng isang hindi kilalang deactivation error."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Hindi ma-deactivate dahil ang ibinigay na key ay hindi wasto."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Ang site na ito ay hindi wasto upang i-deactivate ang susi."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "Ang ibinigay na susi ay hindi aktibo sa tinukoy na site."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "Kung ito ay mali, <a href=\"%s\">humiling ng tulong sa pag-activate</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr "Mangyaring i-save ang mga setting bago i-upload ang configuration ng site."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Naka-lock ng Statuses Pro)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Kontrolin ang mga custom na status"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Kontrolin ang pagpili ng mga custom na status ng post. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr ""
+"Mag-apply ng mga kakayahan na tiyak sa status para sa pag-edit at "
+"pagtanggal ng post."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Paganahin ang Pasadyang Katayuan ng Visibility"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"Para sa mga Katayuan ng Visibility, %1$senable ang Status Control "
+"module%2$s sa Permissions Pro"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr ""
+"Mag-apply ng mga kakayahan na tiyak sa status at uri para sa mga Kakayahang "
+"Visibility"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Pag-activate ng License Key"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"Nawala na ang bisa ng iyong PublishPress license key. Para sa patuloy na "
+"prayoridad na suporta, <a href=\"%s\">pakirenew</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"Ang iyong PublishPress license key ay mawawalan ng bisa ngayon. Para sa mga "
+"update at prayoridad na suporta, <a href=\"%s\">pakirenew</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Ang iyong PublishPress license key ay mag-eexpire sa %d araw. Para sa mga "
+"update at priyoridad na suporta, <a href=\"%s\">pakirenew</a>."
+msgstr[1] ""
+"Ang iyong PublishPress license key (para sa mga update ng plugin) ay "
+"mag-eexpire sa %d araw. Para sa mga update at priyoridad na suporta, <a "
+"href=\"%s\">pakirenew</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "Nawalang Key"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "I-deactivate"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "Na-activate"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "Ilagay ang iyong license key"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "I-activate"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "tingnan ang %s&nbsp;detalye"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "Available na Update&nbsp;"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "Suriin ang Update&nbsp;"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "Akaunt"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "Pagpepresyo"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "Ipakita ang Branding ng PublishPress"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Itago ang footer ng PublishPress at iba pang branding."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Mga Admin Menus: paggamot ng maraming papel"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr ""
+"Pinakamahusay na pahintulot: Anumang hindi-restricted na tungkulin ng user "
+"ay nagpapahintulot ng access"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr ""
+"Pinakamahigpit: Anumang restricted na tungkulin ng user ay pumipigil sa "
+"access"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Ito ang nagkokontrol kung ang pinaka-pinamumunuan o pinakamasalimuot na mga "
+"pahintulot ay ipinatutupad kung ang isang gumagamit ay may maraming "
+"tungkulin."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Naka-disable ang kontrol ng custom na status hanggang sa i-activate mo ang "
+"%1$sPlugin ng PublishPress Statuses%2$s. Tingnan ang %3$sMga Kakayahan > "
+"Mga Setting%4$s para sa mga detalye."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Naka-disable ang kontrol ng custom na status hanggang sa i-install mo ang "
+"%1$sPlugin ng PublishPress Statuses%2$s. Tingnan ang %3$sMga Kakayahan > "
+"Mga Setting%4$s para sa mga detalye."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "Naka-save ang mga pagbabago!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr " Error: hindi ma-save ang mga pagbabago."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "Binubura ang menu..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "Nina-update ang Mga Setting..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "Dapat kang pumili ng hindi bababa sa isang opsyon upang i-reset."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "Nina-reset ang opsyon..."

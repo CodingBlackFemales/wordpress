@@ -1,0 +1,577 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"Language: sl-SI\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress Planner vam pomaga načrtovati in objavljati vsebino v "
+"WordPressu. Značilnosti vključujejo koledar vsebine, kanban ploščo in "
+"obvestila."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "Opozorilo"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr ""
+"Prosimo, deaktivirajte in odstranite PublishPress Slack, preden uporabite "
+"PublishPress Pro."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr ""
+"Prosimo, deaktivirajte in odstranite PublishPress Reminders, preden "
+"uporabite PublishPress Pro."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr ""
+"Zdi se, da imate več različic PublishPress Pro aktivnih. Prosimo, "
+"deaktivirajte in odstranite eno od njih."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "Omrežni skrbnik"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "Koledar vsebine Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "Prišlo je do napake"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "Napaka pri preverjanju nonce. Prosimo, osvežite to stran in poskusite znova."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "Neveljavna zahteva za obrazec."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "Napaka pri pridobivanju podatkov objave."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "Nimate dovoljenja za urejanje te objave."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "Spremembe shranjene!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "SEO ocena"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "Berljivost"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO naslov"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "Meta opis"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "Ključne besede fokusa"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "Izhodne notranje povezave"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "Prejete notranje povezave"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebook naslov"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook opis"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook slika"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitter naslov"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter opis"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter slika"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPress kontrolni seznami"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "Nimate nobenih zahtevanih kontrolnih seznamov."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "SEO ocene"
+
+#: modules/content-board-pro/content-board-pro.php:55, fuzzy
+msgid "Content Board Pro"
+msgstr "Content Board Pro"
+
+#: modules/content-overview-pro/content-overview-pro.php:55, fuzzy
+msgid "Content Overview Pro"
+msgstr "Content Overview Pro"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "Elementor integracija"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "Obvesti omrežnega skrbnika"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "Licenca"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "Ključ licenca:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "Prikaži blagovno znamko PublishPress v administraciji:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "Po objavi vsebine"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "Pred izbranim datumom objave"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "Količina"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "Enota časa"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "Tunne"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "Dnevi"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "Tedni"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "Meseci"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "Za vsebino v tem statusu"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "Opomniki"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "Interval za iskanje načrtovanih objav:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "Niso načrtovani"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "zdaj"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s sekund"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "Nikoli"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "Naslednji zagon"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"Kako pogosto naj preverimo načrtovane objave? To omogoča PublishPressu, da "
+"obdeluje obvestila za načrtovano vsebino."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "Kliknite tukaj za več informacij."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "Vsakih 10 minut"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "Vsakih 15 minut"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "Vsakih 20 minut"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "Vsakih 30 minut"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "Vsake 45 minut"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "Integracija PublishPress Revision"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "Status revizije"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "Vsi statusi"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "Prikaži revizije"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack kanal:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr ""
+"Slack kanal, v katerega bo poslana obvestila. Na primer #general, "
+"@uporabnik, ali uporabnik@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Kliknite za povezavo s Slackom"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Kliknite za ponovno povezavo s Slackom"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "Nadaljuj"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "Uspeh"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "Napaka"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "sekunde"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "Minilo čas"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"Ob kliknjenju za povezavo se bo odprlo novo okno, kjer lahko avtorizirate "
+"aplikacijo PublishPress na Slacku."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr ""
+"Prilepite spodaj začasno avtorizacijsko kodo, ki ste jo prejeli na strani, "
+"ki se je naložila, in kliknite na Nadaljuj."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Informacije o avtorizaciji Slack so shranjene."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"Slack ima novo API in imate zastarelo konfiguracijo, ki bi lahko kmalu "
+"prenehala delovati. Prosimo, ponovno se povežite s Slackom, da se izognete "
+"prekinitvi obvestil."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "Čestitamo! Informacije o avtorizaciji Slack so shranjene."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "Informacije o avtorizaciji in predpomnilnik so bili uspešno izbrisani."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Kliknite za pošiljanje testne sporočila na privzeti kanal na Slacku"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Poskusite poslati sporočilo na Slack..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "Najdena neznana napaka."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Neveljaven nonce ali referer."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "Čestitamo! Testno sporočilo je bilo poslano na kanal %s."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "Avtorizacija:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "Privzeti Slack kanal/uporabnik:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "Tema obvestila:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "Polno - Telo obvestila z akcijskimi gumbi"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "Čisto - Le telo obvestila"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"Privzeti Slack kanal, na katerega bodo poslana obvestila. Na primer "
+"#general, @uporabniško_ime, uporabnik@email.com ali ID kanala. Uporabniki "
+"lahko to spremenijo v svojem profilu."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "Komentar"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "Uredi"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "Poglej"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr ""
+"Žeton ni bil najden. Prosimo, pojdite v PublishPress > Nastavitve > Slack "
+"in se ponovno povežite s Slackom."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr ""
+"Prosimo, pojdite v PublishPress > Nastavitve > Slack in se ponovno povežite "
+"s Slackom"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr ""
+"Žeton OAuth Slack ni bil najden v PublishPress. Prosimo, ponovno se "
+"povežite s Slackom"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "Dostop zavrnjen"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "Neveljavna OAuth žetona"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "Hej, čestitamo! Vse izgleda dobro v nastavitvah Slack za PublishPress Pro."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Napaka iz Slaka: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "Napaka iz PublshPress.com: "

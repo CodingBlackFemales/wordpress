@@ -5,13 +5,13 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests\Utility;
+namespace StellarWP\Learndash\WpOrg\Requests\Utility;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use ReturnTypeWillChange;
-use WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
 
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
@@ -77,7 +77,7 @@ class CaseInsensitiveDictionary implements ArrayAccess, IteratorAggregate {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet($offset, $value) {

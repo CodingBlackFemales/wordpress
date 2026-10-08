@@ -835,6 +835,7 @@ function learndash_get_groups( $id_only = false, $current_user_id = 0 ) {
  * Get a users group IDs.
  *
  * @since 2.1.0
+ * @since 5.1.8 Group Leaders now retain their explicit group memberships in addition to managed-group auto-enrollment, instead of the managed groups replacing them.
  *
  * @param int     $user_id          Optional. User ID. Default 0.
  * @param boolean $bypass_transient Optional. Whether to bypass transient cache or not. Default false.
@@ -854,17 +855,25 @@ function learndash_get_users_group_ids( $user_id = 0, $bypass_transient = false 
 		}
 
 		if ( false === $group_ids_transient ) {
-			if ( learndash_is_group_leader_user( $user_id ) && ( 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Groups_Group_Leader_User', 'groups_autoenroll_managed' ) ) ) {
-				$group_ids = learndash_get_administrators_group_ids( $user_id );
-			} else {
-				$all_user_meta = get_user_meta( $user_id );
-				if ( ! empty( $all_user_meta ) ) {
-					foreach ( $all_user_meta as $meta_key => $meta_set ) {
-						if ( 'learndash_group_users_' == substr( $meta_key, 0, strlen( 'learndash_group_users_' ) ) ) {
-							$group_ids = array_merge( $group_ids, $meta_set );
-						}
+			// Explicit group memberships (learndash_group_users_* meta) — always read.
+			$all_user_meta = get_user_meta( $user_id );
+			if ( ! empty( $all_user_meta ) ) {
+				foreach ( $all_user_meta as $meta_key => $meta_set ) {
+					if ( 'learndash_group_users_' == substr( $meta_key, 0, strlen( 'learndash_group_users_' ) ) ) {
+						$group_ids = array_merge( $group_ids, $meta_set );
 					}
 				}
+			}
+
+			/*
+			 * Group Leaders are also enrolled in the groups they manage when the setting is on.
+			 * Merge (not replace) so their explicit memberships above are never masked.
+			 */
+			if (
+				learndash_is_group_leader_user( $user_id )
+				&& 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_Groups_Group_Leader_User', 'groups_autoenroll_managed' )
+			) {
+				$group_ids = array_merge( $group_ids, learndash_get_administrators_group_ids( $user_id ) );
 			}
 
 			if ( ! empty( $group_ids ) ) {

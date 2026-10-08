@@ -5,12 +5,12 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests\Utility;
+namespace StellarWP\Learndash\WpOrg\Requests\Utility;
 
 use ArrayIterator;
 use ReturnTypeWillChange;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Iterator for arrays requiring filtered values
@@ -31,7 +31,7 @@ final class FilteredIterator extends ArrayIterator {
 	 * @param array $data
 	 * @param callable $callback Callback to be called on each value
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
 	 */
 	public function __construct($data, $callback) {
 		if (InputValidator::is_iterable($data) === false) {

@@ -1,0 +1,559 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"% 10 == 0) ? 2 : 3)));\n"
+"% 10 == 0) ? 2: 3)));\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 ? 0 : (n == 2 ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3)));\n"
+
+#: publishpress-pro.php:3
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "פאבלישפרס פלאנר פרו"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"פאבלישפרס פלאנר עוזר לך לתכנן ולפרסם תוכן בתוך וורדפרס. תכונות כוללות לוח "
+"שנה לתוכן, לוח קנבן, והתראות."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "פאבלישפרס"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "אזהרה"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr "אנא, כבה והסר את פאבלישפרס סלק לפני השימוש בפאבלישפרס פרו."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr "אנא, כבה והסר את פאבלישפרס רימיינדרס לפני השימוש בפאבלישפרס פרו."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr "נראה שיש לך מספר פאבלישפרס פרו פועלים. אנא, כבה והסר אחד מהם."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "מנהל רשת"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "לוח שנה לתוכן פרו"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "שגיאה התרחשה"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "שגיאה באימות נונס. אנא רענן את הדף הזה ונסה שוב."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "בקשה חסרה."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "שגיאה בשאיבת נתוני הפוסט."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "אין לך הרשאה לערוך את הפוסט הזה."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "שינויים נשמרו!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280
+msgid "SEO score"
+msgstr "ציון SEO"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "קריאות"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "כותרת SEO"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "תיאור מטא"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "מילות מפתח ממוקדות"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "קישורים פנימיים יוצאים"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "קישורים פנימיים שהתקבלו"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "כותרת פייסבוק"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "תיאור פייסבוק"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "תמונת פייסבוק"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "כותרת טוויטר"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "תיאור טוויטר"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "תמונת טוויטר"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "רשימות בדיקה של PublishPress"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "אין לך דרישות רשימות בדיקה מופעלות."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354
+msgid "SEO Scores"
+msgstr "ציוני SEO"
+
+#: modules/content-board-pro/content-board-pro.php:55
+msgid "Content Board Pro"
+msgstr "לוח תוכן פרו"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "סקירת תוכן פרו"
+
+#: modules/elementor/elementor.php:54
+msgid "Elementor Integration"
+msgstr "אינטגרציית Elementor"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "הודע למנהל הרשת"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "רישיון"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "מפתח רישיון:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "הצג את המיתוג של PublishPress בממשק הניהול:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "אחרי שהתוכן פורסם"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "לפני תאריך הפרסום שנבחר"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "כמות"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "יחידת זמן"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "שעות"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "ימים"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "שבועות"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "חודשים"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "עבור תוכן במצב זה"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "תזכורות"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "מרווח לחיפוש פוסטים מתוזמנים:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "לא מתוזמן"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "עכשיו"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s שניות"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "לעולם לא"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "הרצה הבאה"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"באיזו תדירות עלינו לבדוק עבור פוסטים מתוזמנים? זה מאפשר ל-PublishPress לעבד "
+"התראות עבור תוכן מתוזמן."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "לחץ כאן למידע נוסף."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "כל 10 דקות"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "כל 15 דקות"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "כל 20 דקות"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "כל 30 דקות"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "כל 45 דקות"
+
+#: modules/revision-integration/revision-integration.php:56
+msgid "PublishPress Revision Integration"
+msgstr "אינטגרציית Revision של PublishPress"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "סטטוס Revision"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "כל הסטטוסים"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "הצג שינויים"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "ערוץ Slack:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr "ערוץ Slack שבו תישלח ההודעה. לדוגמה #general, @username, או user@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "לחץ כדי להתחבר ל-Slack"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "לחץ כדי להתחבר מחדש ל-Slack"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "להמשיך"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "לבטל"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "הצלחה"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "שגיאה"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "שניות"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "זמן שחלף"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"בלחיצה על התחברות, ייפתח חלון חדש כדי שתוכל לאשר את אפליקציית PublishPress "
+"ב-Slack."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr "הדבק למטה את קוד האימות הזמני שקיבלת בעמוד שהוטען, ולחץ על להמשיך."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "פרטי האימות של Slack נשמרו."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"ל-Slack יש API חדש ולקונפיגורציה הישנה שלך עשויה להפסיק לעבוד בקרוב. אנא, "
+"התחבר מחדש ל-Slack כדי למנוע הפסקת התראות."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "מזל טוב! מידע האימות של Slack נשמר."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "מידע האימות והמטמון נמחקו בהצלחה."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "לחץ לשליחת הודעת בדיקה לערוץ ברירת המחדל ב-Slack"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "מנסה לשלוח את ההודעה ל-Slack..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "שגיאה לא ידועה נמצאה."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Nonce או Referer לא תקינים."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "מזל טוב! הודעת בדיקה נשלחה לערוץ %s."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "אימות:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "ערוץ/משתמש ברירת המחדל של Slack:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "נושא ההתראה:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "מלא - גוף ההתראה עם כפתורי פעולה"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "נקי - רק גוף ההתראה"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"ערוץ Slack ברירת המחדל שבו ההתראות יישלחו. לדוגמה #general, @username, "
+"user@email.com, או מזהה הערוץ. משתמשים יכולים לשנות זאת בפרופיל שלהם."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "הערה"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "עריכה"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "צפייה"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr "לא נמצא טוקן. אנא, עבור ל-PublishPress > הגדרות > Slack והתחבר מחדש ל-Slack."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr "אנא, עבור ל-PublishPress > הגדרות > Slack והתחבר מחדש ל-Slack"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr "טוקן OAuth של Slack לא נמצא ב-PublishPress. אנא, התחבר מחדש ל-Slack"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "גישה denied"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "אסימון OAuth לא תקף"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "היי, מזל טוב! הכל נראה טוב בהגדרות Slack של PublishPress Pro."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "שגיאה מ-Slack: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "שגיאה מ-PublishPress.com: "

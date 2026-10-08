@@ -2819,7 +2819,7 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 					),
 					'fields'             => array(),
 					'default_options'    => array(
-						null => array(
+						'' => array(
 							'type'    => 'html',
 							'save'    => false,
 							'default' => sprintf(
@@ -5515,13 +5515,9 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 
 					$args['heading'] = esc_html__( 'We hope you love LearnDash.', 'learndash' );
 
-					$args['intro'] = sprintf(
-						// translators: placeholder: username.
-						esc_html__(
-							'Hi, %1$s! This is an invitation to help us improve LearnDash products by sharing product usage data with StellarWP. LearnDash is part of the StellarWP family of brands. If you opt-in we\'ll share some helpful WordPress and StellarWP product info with you from time to time. And if you skip this, that\'s okay! Our products will continue to work.',
-							'learndash'
-						),
-						$args['user_name']
+					$args['intro'] = esc_html__(
+						'Want to help shape the future of LearnDash LMS? Opting in shares anonymous usage data with our team at Liquid Web, the company behind LearnDash LMS, so we can keep building tools that work better for you. You\'ll also receive product updates and important announcements via email—unsubscribe any time. Click \'Allow & Continue\' below to join us.',
+						'learndash'
 					);
 
 					$args['permissions_url'] = 'https://www.learndash.com/telemetry-tracking/';

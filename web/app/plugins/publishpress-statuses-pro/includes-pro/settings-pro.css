@@ -1,0 +1,59 @@
+/* --- Install Tab --- */
+#pp_statuses_license #edd_key {
+    width: 520px
+}
+
+#pp_statuses_license  #edd_key::-webkit-input-placeholder {color: #aaa;}
+#pp_statuses_license  #edd_key::-moz-placeholder {color: #aaa;}
+#pp_statuses_license  #edd_key::-moz-placeholder {color: #aaa;}
+#pp_statuses_license  #edd_key::-ms-input-placeholder {color: #aaa;}
+
+#pp_statuses_license #activation-button {
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+#pp_statuses_license #pp_support_waiting {
+    margin-right: 5px;
+}
+
+#pp_statuses_license .pp-key-label {
+    display: inline-block;
+    padding: 5px 10px 5px 0;
+}
+
+#pp_statuses_license .pp-installed-caption {
+    font-weight: 600;
+}
+
+#pp_statuses_license .pp-key-active {
+    font-weight: bold;
+    color: #070;
+    vertical-align: bottom;
+    margin-right: 0.5em
+}
+
+#pp_statuses_license .pp-key-inactive {
+    font-weight: bold;
+    vertical-align: bottom;
+    margin-right: 0.5em
+}
+
+#pp_statuses_license div.pp-key-wrap {
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
+
+#pp_statuses_license div.pp-key-hint {
+    margin-left: 120px;
+    margin-top: 10px;
+}
+
+#pp_statuses_license #activation-status {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#plugin-information-tabs {
+    display: none;
+}

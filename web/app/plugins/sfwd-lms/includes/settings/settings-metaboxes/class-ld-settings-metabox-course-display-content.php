@@ -585,6 +585,15 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 				if ( empty( $settings_values['course_lesson_per_page'] ) ) {
 					$settings_values['course_lesson_per_page_custom'] = '';
 					$settings_values['course_topic_per_page_custom']  = '';
+				} else {
+					$settings_values['course_lesson_per_page_custom'] = $this->resolve_per_page_value(
+						$settings_values['course_lesson_per_page_custom'],
+						'course_pagination_lessons'
+					);
+					$settings_values['course_topic_per_page_custom'] = $this->resolve_per_page_value(
+						$settings_values['course_topic_per_page_custom'],
+						'course_pagination_topics'
+					);
 				}
 
 				if ( ! isset( $settings_values['course_lesson_order_enabled'] ) ) {
@@ -628,6 +637,37 @@ if ( ( class_exists( 'LearnDash_Settings_Metabox' ) ) && ( ! class_exists( 'Lear
 			}
 
 			return $settings_values;
+		}
+
+		/**
+		 * Resolves a Custom Pagination per-page value, falling back to the global default
+		 * when the submitted value is not a positive integer.
+		 *
+		 * @since 5.1.7
+		 *
+		 * @param int|string $value              Submitted per-page value.
+		 * @param string     $global_setting_key Global pagination setting key to fall back to
+		 *                                       ('course_pagination_lessons' | 'course_pagination_topics').
+		 *
+		 * @return int A positive per-page value.
+		 */
+		private function resolve_per_page_value( $value, string $global_setting_key ): int {
+			$value = absint( $value );
+
+			if ( $value < 1 ) {
+				$value = absint(
+					LearnDash_Settings_Section::get_section_setting(
+						'LearnDash_Settings_Courses_Management_Display',
+						$global_setting_key
+					)
+				);
+			}
+
+			if ( $value < 1 ) {
+				$value = LEARNDASH_LMS_DEFAULT_WIDGET_PER_PAGE;
+			}
+
+			return $value;
 		}
 
 		// End of functions.

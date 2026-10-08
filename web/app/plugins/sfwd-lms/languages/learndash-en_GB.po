@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0\n"
+"X-Generator: GlotPress/4.1.0\n"
 "Language: en_GB\n"
 "Project-Id-Version: LearnDash LMS\n"
 
@@ -33452,7 +33452,7 @@ msgid ""
 "Points: $points\n"
 "Result: $result\n"
 "\n"
-msgstr "\n"
+msgstr ""
 
 #. translators: placeholder: Quiz, quiz.
 #: includes/lib/wp-pro-quiz/lib/model/WpProQuiz_Model_GlobalSettingsMapper.php:80
@@ -33465,7 +33465,7 @@ msgid ""
 "Points: $points\n"
 "Result: $result\n"
 "\n"
-msgstr "\n"
+msgstr ""
 
 #: includes/lib/wp-pro-quiz/lib/helper/WpProQuiz_Helper_ImportXml.php:47
 #: includes/lib/wp-pro-quiz/lib/helper/WpProQuiz_Helper_ImportXml.php:64

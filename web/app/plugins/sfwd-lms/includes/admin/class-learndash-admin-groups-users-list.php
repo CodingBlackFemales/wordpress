@@ -322,6 +322,14 @@ if ( ! class_exists( 'Learndash_Admin_Groups_Users_List' ) ) {
 
 						$this->list_table->views();
 						?>
+						<?php // Holds the export messages for JS and doubles as the live region announced to screen readers. ?>
+						<div
+							id="learndash-data-group-reports-announcer"
+							class="screen-reader-text"
+							role="status"
+							data-message-running="<?php esc_attr_e( 'An export is already running. Please wait until it finishes before starting a new one.', 'learndash' ); ?>"
+							data-message-finished="<?php esc_attr_e( 'The export finished. The download starts automatically.', 'learndash' ); ?>"
+						></div>
 						<form id="learndash-view-form" action="" method="<?php echo esc_attr( $this->form_method ); ?>">
 							<input type="hidden" name="page" value="group_admin_page" />
 							<?php

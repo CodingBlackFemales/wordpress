@@ -37,13 +37,11 @@ class Capture extends Endpoint {
 	/**
 	 * The permission required to access this endpoint.
 	 *
-	 * This endpoint is public.
-	 *
 	 * @since 4.25.0
 	 *
 	 * @var string
 	 */
-	protected string $permission_required = '';
+	protected string $permission_required = 'read';
 
 	/**
 	 * Validates the order ID.
@@ -99,11 +97,14 @@ class Capture extends Endpoint {
 			return $this->error_response( $capture->get_error_message() );
 		}
 
-		// Maybe save the payment token.
+		// Vault the token only when the captured order belongs to the current user.
 		$custom_id = json_decode( Cast::to_string( Arr::get( $capture, 'purchase_units.0.custom_id', '' ) ), true );
 		$user_id   = is_array( $custom_id ) ? Cast::to_int( Arr::get( $custom_id, 'user_id', 0 ) ) : 0;
 
-		if ( 0 !== $user_id ) {
+		if (
+			0 !== $user_id
+			&& $user_id === get_current_user_id()
+		) {
 			$payment_token->save_user_payment_token_from_order( $user_id, $capture );
 		}
 

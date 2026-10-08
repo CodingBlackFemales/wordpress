@@ -89,8 +89,6 @@ class Projects_Controller extends Controller {
 		add_action( 'wp_ajax_ld_hub_plugin_action', array( $this, 'plugin_action' ) );
 		add_action( 'wp_ajax_ld_hub_refresh_repo', array( $this, 'refresh_repo_data' ) );
 		add_action( 'wp_ajax_ld_hub_bulk_action', array( $this, 'bulk_action' ) );
-		add_filter( 'plugins_api', array( $this, 'filter_plugins_api' ), 10, 3 );
-		add_filter( 'site_transient_update_plugins', array( $this, 'push_update' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'process_plugin_update' ), 10, 2 );
 	}
 
@@ -212,6 +210,8 @@ class Projects_Controller extends Controller {
 		}
 
 		delete_option( 'learndash-hub-projects-api' );
+
+		lw_harbor_refresh_catalog(); // Force a synchronous re-fetch of the product catalog in Harbor.
 
 		wp_send_json_success( $this->make_data() );
 	}

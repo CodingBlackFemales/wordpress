@@ -1,0 +1,1337 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-21T12:57:17+00:00\n"
+"PO-Revision-Date: 2026-09-22 14:15+0000\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: capabilities-pro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: de-DE\n"
+
+#: capabilities-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Capabilities Pro"
+msgstr "PublishPress Capabilities Pro"
+
+#: capabilities-pro.php:4
+#: capabilities-pro.php:8
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: capabilities-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Capabilities is the access control plugin for WordPress. You "
+"can manage all your WordPress user roles, from Administrators to "
+"Subscribers."
+msgstr ""
+"PublishPress Capabilities ist das Zugriffssteuerungs-Plugin für WordPress. "
+"Sie können alle Ihre WordPress-Benutzerrollen verwalten, von "
+"Administratoren bis zu Abonnenten."
+
+#: capabilities-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: includes-pro/admin-load.php:86
+#, php-format
+msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
+msgstr ""
+"Hinweis: Die Kontrolle über benutzerdefinierte Beitragstatus ist "
+"%1$sdeaktiviert%2$s."
+
+#: includes-pro/admin-load.php:96
+#: includes-pro/admin.php:557
+#, php-format
+msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
+msgstr ""
+"Hinweis: Die status-spezifischen Bearbeitungsfunktionen für Beiträge sind "
+"%1$sdeaktiviert%2$s."
+
+#: includes-pro/admin-load.php:185
+#: includes-pro/admin-load.php:208
+#: includes-pro/features/admin-menus/admin-menus.php:106
+#: includes-pro/settings-ui.php:35
+msgid "Admin Menus"
+msgstr "Admin-Menüs"
+
+#: includes-pro/admin-load.php:209
+#: includes-pro/features/admin-menus/admin-menus.php:739
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Admin-Menüs ermöglichen es Ihnen, die Links im Admin-Menü zu bearbeiten und "
+"zu steuern, wer Zugang hat."
+
+#: includes-pro/admin-load.php:272
+#: includes-pro/admin-load.php:296
+msgid "You do not have permission to manage menu restrictions."
+msgstr "Sie haben keine Berechtigung, Menübeschränkungen zu verwalten."
+
+#: includes-pro/admin-load.php:345
+msgid "Settings updated for all roles."
+msgstr "Einstellungen für alle Rollen aktualisiert."
+
+#: includes-pro/admin-load.php:351
+msgid "Settings updated."
+msgstr "Einstellungen aktualisiert."
+
+#: includes-pro/admin-load.php:366
+msgid "Saving Menu Order..."
+msgstr "Menüordnung wird gespeichert..."
+
+#: includes-pro/admin-load.php:367
+msgid "Saving Menu Name..."
+msgstr "Menüname wird gespeichert..."
+
+#: includes-pro/admin-load.php:368
+msgid "Menu Name can not be empty."
+msgstr "Menüname darf nicht leer sein."
+
+#: includes-pro/admin-load.php:369
+msgid "Change Icon"
+msgstr "Symbol ändern"
+
+#: includes-pro/admin-load.php:370
+msgid "Search icons..."
+msgstr "Symbole suchen..."
+
+#: includes-pro/admin-load.php:371
+msgid "Menu icon updated"
+msgstr "Menü-Icon aktualisiert"
+
+#: includes-pro/admin-load.php:372
+msgid "Error updating menu icon"
+msgstr "Fehler beim Aktualisieren des Menüsymbols"
+
+#: includes-pro/admin-load.php:373
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Ein Menü mit dieser Menü-URL existiert bereits"
+
+#: includes-pro/admin-load.php:374
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Ein Untermenü mit dieser Menü-URL existiert bereits"
+
+#: includes-pro/admin-load.php:480
+msgid "You do not have permission to manage settings."
+msgstr "Sie haben nicht die Berechtigung, die Einstellungen zu verwalten."
+
+#: includes-pro/admin-load.php:581
+msgid "Homepage"
+msgstr "Startseite"
+
+#: includes-pro/admin-load.php:582
+msgid "Archive Pages"
+msgstr "Archivseiten"
+
+#: includes-pro/admin-load.php:583
+msgid "Single Pages"
+msgstr "Einzelne Seiten"
+
+#: includes-pro/admin-load.php:586
+msgid "Select pages..."
+msgstr "Seiten auswählen..."
+
+#: includes-pro/admin-load.php:595
+msgid "You can select page types where this element will be added."
+msgstr ""
+"Sie können die Seitentypen auswählen, zu denen dieses Element hinzugefügt "
+"wird."
+
+#: includes-pro/admin-load.php:609
+msgid "Select post types..."
+msgstr "Beitragsarten auswählen..."
+
+#: includes-pro/admin-load.php:623
+msgid ""
+"This will add a metabox on the post editing screen. You can use this "
+"feature to add body classes only for that post."
+msgstr ""
+"Dies wird ein Metabox auf dem Bildschirm zur Bearbeitung von Beiträgen "
+"hinzufügen. Sie können diese Funktion verwenden, um nur für diesen Beitrag "
+"Body-Klassen hinzuzufügen."
+
+#: includes-pro/admin-privacy.php:38
+msgid "Visibility Statuses"
+msgstr "Sichtbarkeitsstatus"
+
+#: includes-pro/admin-privacy.php:131
+msgid "Visibility Status Capabilities"
+msgstr "Sichtbarkeitsstatus-Fähigkeiten"
+
+#: includes-pro/admin-privacy.php:144
+#: includes-pro/admin-privacy.php:151
+#: includes-pro/admin.php:192
+#: includes-pro/admin.php:199
+msgid "Set"
+msgstr "Festlegen"
+
+#: includes-pro/admin-privacy.php:145
+#: includes-pro/admin-privacy.php:152
+msgid "Read"
+msgstr "Lesen"
+
+#: includes-pro/admin-privacy.php:146
+#: includes-pro/admin.php:194
+msgid "Edit Others"
+msgstr "Andere bearbeiten"
+
+#: includes-pro/admin-privacy.php:147
+#: includes-pro/admin.php:196
+msgid "Delete Others"
+msgstr "Andere löschen"
+
+#: includes-pro/admin-privacy.php:157
+#: includes-pro/admin-privacy.php:167
+#: includes-pro/admin.php:202
+msgid "Can set posts to this status"
+msgstr "Kann Beiträge auf diesen Status setzen"
+
+#: includes-pro/admin-privacy.php:158
+msgid "Can read posts in this status"
+msgstr "Kann Beiträge in diesem Status lesen"
+
+#: includes-pro/admin-privacy.php:159
+msgid "Can edit other users' posts in this status"
+msgstr "Kann Beiträge anderer Benutzer in diesem Status bearbeiten"
+
+#: includes-pro/admin-privacy.php:160
+msgid "Can delete other users' posts in this status"
+msgstr "Kann Beiträge anderer Benutzer in diesem Status löschen"
+
+#: includes-pro/admin-privacy.php:247
+msgid "Configure post status properties, post types"
+msgstr "Eigenschaften des Beitragsstatus, Beitragstypen konfigurieren"
+
+#: includes-pro/admin-privacy.php:251
+#: includes-pro/admin.php:314
+msgid "Toggle all capabilities for this status"
+msgstr "Alle Fähigkeiten für diesen Status umschalten"
+
+#: includes-pro/admin-privacy.php:279
+#: includes-pro/admin-privacy.php:383
+#: includes-pro/admin-privacy.php:400
+#: includes-pro/admin.php:346
+#: includes-pro/admin.php:451
+#, php-format
+msgid "%s: assigned by Permission Group"
+msgstr "%s: zugewiesen von der Berechtigungsgruppe"
+
+#: includes-pro/admin-privacy.php:282
+#: includes-pro/admin-privacy.php:402
+#: includes-pro/admin.php:349
+#: includes-pro/admin.php:454
+#, php-format
+msgid "This capability is %s"
+msgstr "Diese Fähigkeit ist %s"
+
+#: includes-pro/admin-privacy.php:285
+#: includes-pro/admin.php:352
+msgid "It is required in addition to the type-specific capability."
+msgstr "Es ist zusätzlich zur typenspezifischen Berechtigung erforderlich."
+
+#: includes-pro/admin-privacy.php:423
+#: includes-pro/admin.php:476
+#, php-format
+msgid "shared capability: %s"
+msgstr "geteilte Fähigkeit: %s"
+
+#: includes-pro/admin.php:61
+msgid "Custom Statuses"
+msgstr "Benutzerdefinierte Status"
+
+#: includes-pro/admin.php:65
+msgid "Revision Statuses"
+msgstr "Revisionsstatus"
+
+#: includes-pro/admin.php:177
+msgid "Revision Status Capabilities"
+msgstr "Fähigkeiten für den Revisionstatus"
+
+#: includes-pro/admin.php:177
+msgid "Custom Status Capabilities"
+msgstr "Fähigkeiten für benutzerdefinierte Status"
+
+#: includes-pro/admin.php:203
+msgid "Can edit posts of this status"
+msgstr "Kann Beiträge in diesem Status bearbeiten"
+
+#: includes-pro/admin.php:204
+msgid "Can edit other's posts of this status"
+msgstr "Kann Beiträge anderer in diesem Status bearbeiten"
+
+#: includes-pro/admin.php:205
+msgid "Can delete posts of this status"
+msgstr "Kann Beiträge in diesem Status löschen"
+
+#: includes-pro/admin.php:206
+msgid "Can delete other's posts of this status"
+msgstr "Kann Beiträge anderer in diesem Status löschen"
+
+#: includes-pro/admin.php:310
+msgid "Configure status properties, post types, capability requirements"
+msgstr ""
+"Eigenschaften des Status, Beitragstypen, Berechtigungsanforderungen "
+"konfigurieren"
+
+#: includes-pro/admin.php:573
+#, php-format
+msgid ""
+"To control revision editing and deletion, install the %1$sPublishPress "
+"Revisions%2$s and %3$sStatuses Pro%4$s plugins."
+msgstr ""
+"Um die Bearbeitung und Löschung von Revisionen zu steuern, installieren Sie "
+"die %1$sPublishPress Revisions%2$s und %3$sStatuses Pro%4$s Plugins."
+
+#: includes-pro/admin.php:581
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
+"plugin."
+msgstr ""
+"Um Revisionstatus zu definieren und zu steuern, installieren Sie das "
+"%1$sStatuses Pro%2$s-Plugin."
+
+#: includes-pro/admin.php:587
+#, php-format
+msgid ""
+"To define and control Revision statuses, install the %1$sPublishPress "
+"Revisions%2$s plugin."
+msgstr ""
+"Um Revisionstatus zu definieren und zu steuern, installieren Sie das "
+"%1$sPublishPress Revisions%2$s-Plugin."
+
+#: includes-pro/admin.php:594
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Um Revisionstatus zu definieren und zu steuern, aktualisieren Sie das "
+"%1$sPublishPress Revisions%2$s-Plugin auf Version %3$s oder höher."
+
+#: includes-pro/admin.php:604
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions "
+"Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Um die Bearbeitung und Löschung von Revisionen zu steuern, bitte "
+"%1$sRevisionskompatibilitätsmodus%2$s auf „Erweiterte Zugriffskontrolle für "
+"Revisionen“ setzen"
+
+#: includes-pro/admin.php:612
+#: includes-pro/admin.php:630
+#, php-format
+msgid ""
+"To enable or disable enforcement of custom editing capabilities for any "
+"status, click its Post Access cell in the %1$sStatuses table%2$s, then "
+"reload this screen."
+msgstr ""
+"Um die Durchsetzung benutzerdefinierter Bearbeitungsfähigkeiten für jeden "
+"Status zu aktivieren oder zu deaktivieren, klicken Sie auf die Zelle "
+"„Postzugriff“ in der %1$sStatus-Tabelle%2$s und laden Sie diesen Bildschirm "
+"neu."
+
+#: includes-pro/features/admin-features-block-url.php:50
+msgid "Block access to Plugins screen via direct link"
+msgstr "Zugriff auf den Plugins-Bildschirm über direkten Link blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:53
+msgid "Block access to Profile screen via direct link"
+msgstr "Zugriff auf den Profil-Bildschirm über direkten Link blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:56
+msgid "Block access to Media Library via direct link"
+msgstr "Zugriff auf die Mediendatenbank über direkten Link blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:59
+msgid "Block access to Themes screen via direct link"
+msgstr "Zugriff auf den Themes-Bildschirm über direkten Link blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:62
+msgid "Block access to Users and Add New User screen via direct link"
+msgstr ""
+"Zugriff auf den Benutzer- und Neuen Benutzer hinzufügen-Bildschirm über "
+"direkten Link blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:99
+msgid "Block by URL"
+msgstr "Nach URL blockieren"
+
+#: includes-pro/features/admin-features-block-url.php:173
+msgid "Enter URL to be blocked by role:"
+msgstr "Geben Sie die URL ein, die durch die Rolle blockiert werden soll:"
+
+#: includes-pro/features/admin-features-block-url.php:176
+#: includes-pro/features/admin-features-css-hide.php:178
+#: includes-pro/features/config/custom-config.php:38
+#: includes-pro/features/config/custom-config.php:112
+msgid "Editing:"
+msgstr "Bearbeitung:"
+
+#: includes-pro/features/admin-features-block-url.php:189
+#: includes-pro/features/admin-features-css-hide.php:191
+#: includes-pro/features/config/custom-config.php:50
+#: includes-pro/features/config/custom-config.php:125
+msgid "Title"
+msgstr "Titel"
+
+#: includes-pro/features/admin-features-block-url.php:194
+msgid ""
+"Enter the name/label to identify the element under Blocked by URL section "
+"of this screen."
+msgstr ""
+"Geben Sie den Namen/Bezeichnung ein, um das Element im Abschnitt \"Durch "
+"URL blockiert\" auf diesem Bildschirm zu identifizieren."
+
+#: includes-pro/features/admin-features-block-url.php:201, fuzzy
+msgid "URLs"
+msgstr "URLs"
+
+#: includes-pro/features/admin-features-block-url.php:209
+#, php-format
+msgid "Separate multiple urls by comma. (e.g, %1$s, %2$s)."
+msgstr "Trennen Sie mehrere URLs durch ein Komma. (z.B. %1$s, %2$s)."
+
+#: includes-pro/features/admin-features-block-url.php:216
+msgid "Wildcard Block"
+msgstr "Wildcard-Block"
+
+#: includes-pro/features/admin-features-block-url.php:221
+msgid "Enable wildcard prefix matching for this URL rule."
+msgstr "Wildcard-Präfixübereinstimmung für diese URL-Regel aktivieren."
+
+#: includes-pro/features/admin-features-block-url.php:225
+msgid ""
+"When enabled, users are blocked from any URL that starts with the value "
+"entered above."
+msgstr ""
+"Wenn aktiviert, werden Benutzer von jeder URL blockiert, die mit dem oben "
+"eingegebenen Wert beginnt."
+
+#: includes-pro/features/admin-features-block-url.php:237
+#: includes-pro/features/admin-features-css-hide.php:248
+#: includes-pro/features/config/custom-config.php:79
+#: includes-pro/features/config/custom-config.php:152
+msgid "Cancel Edit"
+msgstr "Bearbeitung abbrechen"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-block-url.php:242
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/admin-features-css-hide.php:254
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:83
+#: includes-pro/features/config/custom-config.php:155
+#: includes-pro/features/config/custom-config.php:156
+msgid "Add New"
+msgstr "Neu hinzufügen"
+
+#: includes-pro/features/admin-features-block-url.php:240
+#: includes-pro/features/admin-features-css-hide.php:252
+#: includes-pro/features/config/custom-config.php:82
+#: includes-pro/features/config/custom-config.php:155
+msgid "Save Edit"
+msgstr "Änderung speichern"
+
+#: includes-pro/features/admin-features-block-url.php:266
+#: includes-pro/features/admin-features-block-url.php:358
+#: includes-pro/features/admin-features-css-hide.php:278
+#: includes-pro/features/admin-features-css-hide.php:377
+#: includes-pro/features/admin-menus/admin-menus-filters.php:424
+#: includes-pro/features/admin-menus/admin-menus-filters.php:455
+#: includes-pro/features/admin-menus/admin-menus-filters.php:505
+#: includes-pro/features/admin-menus/admin-menus-filters.php:547
+#: includes-pro/features/admin-menus/admin-menus-filters.php:608
+#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/config/custom-config.php:179
+#: includes-pro/features/config/custom-config.php:248
+msgid "An error occured!"
+msgstr "Ein Fehler ist aufgetreten!"
+
+#: includes-pro/features/admin-features-block-url.php:270
+#: includes-pro/features/admin-features-block-url.php:362
+#: includes-pro/features/admin-features-css-hide.php:282
+#: includes-pro/features/admin-features-css-hide.php:381
+msgid "You do not have permission to manage admin feature restrictions."
+msgstr ""
+"Sie haben nicht die Berechtigung, die Einschränkungen für Admin-Funktionen "
+"zu verwalten."
+
+#: includes-pro/features/admin-features-block-url.php:281
+#: includes-pro/features/admin-features-block-url.php:370
+#: includes-pro/features/admin-features-css-hide.php:294
+#: includes-pro/features/admin-features-css-hide.php:389
+msgid "Invalid action. Reload this page and try again."
+msgstr "Ungültige Aktion. Laden Sie diese Seite neu und versuchen Sie es erneut."
+
+#: includes-pro/features/admin-features-block-url.php:283
+#: includes-pro/features/admin-features-css-hide.php:296
+#: includes-pro/features/config/custom-config.php:198
+msgid "All fields are required."
+msgstr "Alle Felder sind erforderlich."
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "Custom item updated successfully"
+msgstr "Benutzerdefiniertes Element erfolgreich aktualisiert"
+
+#: includes-pro/features/admin-features-block-url.php:294
+msgid "New custom item added successfully"
+msgstr "Neues benutzerdefiniertes Element erfolgreich hinzugefügt"
+
+#: includes-pro/features/admin-features-block-url.php:300
+msgid "Wildcard enabled"
+msgstr "Wildcard aktiviert"
+
+#: includes-pro/features/admin-features-block-url.php:324
+#: includes-pro/features/admin-features-css-hide.php:342
+msgid "View"
+msgstr "Anzeigen"
+
+#: includes-pro/features/admin-features-block-url.php:331
+#: includes-pro/features/admin-features-css-hide.php:350
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: includes-pro/features/admin-features-block-url.php:336
+#: includes-pro/features/admin-features-css-hide.php:355
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Delete"
+msgstr "Löschen"
+
+#: includes-pro/features/admin-features-block-url.php:372
+#: includes-pro/features/admin-features-css-hide.php:391
+#: includes-pro/features/config/custom-config.php:264
+msgid "Invalid request!."
+msgstr "Ungültige Anfrage!."
+
+#: includes-pro/features/admin-features-block-url.php:397
+#: includes-pro/features/admin-features-css-hide.php:416
+#: includes-pro/features/config/custom-config.php:283
+msgid "Selected item deleted successfully"
+msgstr "Ausgewählter Eintrag erfolgreich gelöscht"
+
+#: includes-pro/features/admin-features-block-url.php:477
+#: includes-pro/functions-admin.php:104
+msgid "You do not have permission to access this page."
+msgstr "Sie haben keine Berechtigung, auf diese Seite zuzugreifen."
+
+#: includes-pro/features/admin-features-css-hide.php:50
+msgid "Hide Hello Dolly from plugin list"
+msgstr "Hello Dolly aus der Plugin-Liste ausblenden"
+
+#: includes-pro/features/admin-features-css-hide.php:53
+msgid "Hide plugin row action links (Deactivate, Activate, Delete etc buttons)"
+msgstr ""
+"Aktion Links der Plugin-Zeile ausblenden (Deaktivieren, Aktivieren, Löschen "
+"usw. Schaltflächen)"
+
+#: includes-pro/features/admin-features-css-hide.php:56
+msgid "Hide Add New Post button from post screen"
+msgstr "Schaltfläche \"Neuen Beitrag hinzufügen\" vom Beitragsbildschirm ausblenden"
+
+#: includes-pro/features/admin-features-css-hide.php:59
+msgid "Hide plugin row Deactivate button from all plugin lists"
+msgstr ""
+"Schaltfläche \"Deaktivieren\" der Plugin-Zeile aus allen Plugin-Listen "
+"ausblenden"
+
+#: includes-pro/features/admin-features-css-hide.php:62
+msgid "Hide plugin row Delete button from all plugin lists"
+msgstr "Schaltfläche \"Löschen\" der Plugin-Zeile aus allen Plugin-Listen ausblenden"
+
+#: includes-pro/features/admin-features-css-hide.php:99
+msgid "Hide CSS Elements"
+msgstr "CSS-Elemente ausblenden"
+
+#: includes-pro/features/admin-features-css-hide.php:175
+msgid ""
+"You can remove other elements from admin area by adding their IDs or "
+"classes below:"
+msgstr ""
+"Sie können andere Elemente im Administrationsbereich entfernen, indem Sie "
+"deren IDs oder Klassen unten hinzufügen:"
+
+#: includes-pro/features/admin-features-css-hide.php:196
+#: includes-pro/features/config/custom-config.php:55
+#: includes-pro/features/config/custom-config.php:130
+msgid "Enter the name/label to identify the custom element on this screen."
+msgstr ""
+"Geben Sie den Namen/Bezeichnung ein, um das benutzerdefinierte Element auf "
+"diesem Bildschirm zu identifizieren."
+
+#: includes-pro/features/admin-features-css-hide.php:203
+#: includes-pro/features/config/custom-config.php:62
+#: includes-pro/features/config/custom-config.php:136
+msgid "Element IDs or Classes"
+msgstr "Element-IDs oder Klassen"
+
+#: includes-pro/features/admin-features-css-hide.php:208
+#: includes-pro/features/config/custom-config.php:67
+#: includes-pro/features/config/custom-config.php:141
+msgid ""
+"IDs or classes to hide. Separate multiple values by comma "
+"(.custom-item-one, .custom-item-two, #new-item-id)."
+msgstr ""
+"IDs oder Klassen, die ausgeblendet werden sollen. Trennen Sie mehrere Werte "
+"durch Kommas (.custom-item-one, .custom-item-two, #new-item-id)."
+
+#: includes-pro/features/admin-features-css-hide.php:215
+msgid "Target URLs"
+msgstr "Ziel-URLs"
+
+#: includes-pro/features/admin-features-css-hide.php:220
+msgid ""
+"Optional. Restrict this CSS hide rule to specific admin URLs. Separate "
+"multiple URLs by comma."
+msgstr ""
+"Optional. Beschränken Sie diese CSS-Ausblendregel auf spezifische "
+"Admin-URLs. Trennen Sie mehrere URLs durch Kommas."
+
+#: includes-pro/features/admin-features-css-hide.php:227
+msgid "Wildcard URL Match"
+msgstr "Wildcard-URL-Abgleich"
+
+#: includes-pro/features/admin-features-css-hide.php:232
+msgid "Enable wildcard prefix matching for Target URLs."
+msgstr "Wildcard-Präfixübereinstimmung für Ziel-URLs aktivieren."
+
+#: includes-pro/features/admin-features-css-hide.php:236
+msgid ""
+"When enabled, this rule applies if current URL starts with any Target URL "
+"value."
+msgstr ""
+"Wenn aktiviert, gilt diese Regel, wenn die aktuelle URL mit einem "
+"beliebigen Ziel-URL-Wert beginnt."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "CSS element updated successfully."
+msgstr "CSS-Element erfolgreich aktualisiert."
+
+#: includes-pro/features/admin-features-css-hide.php:309
+msgid "New CSS element added successfully."
+msgstr "Neues CSS-Element erfolgreich hinzugefügt."
+
+#: includes-pro/features/admin-features-css-hide.php:315
+msgid "URL targeted"
+msgstr "URL angesteuert"
+
+#: includes-pro/features/admin-features-css-hide.php:317
+msgid "URL wildcard"
+msgstr "URL-Wildcard"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:429
+#: includes-pro/features/admin-menus/admin-menus-filters.php:460
+#: includes-pro/features/admin-menus/admin-menus-filters.php:510
+#: includes-pro/features/admin-menus/admin-menus-filters.php:552
+#: includes-pro/features/admin-menus/admin-menus-filters.php:613
+#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+msgid "Security check failed"
+msgstr "Sicherheitsüberprüfung fehlgeschlagen"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:431
+#: includes-pro/features/admin-menus/admin-menus-filters.php:462
+#: includes-pro/features/admin-menus/admin-menus-filters.php:512
+#: includes-pro/features/admin-menus/admin-menus-filters.php:554
+#: includes-pro/features/admin-menus/admin-menus-filters.php:615
+#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+msgid "Permission denied"
+msgstr "Zugriff verweigert"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:443
+msgid "Settings updated successfully."
+msgstr "Einstellungen erfolgreich aktualisiert."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:472
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr ""
+"Die Reihenfolge des Admin-Menüs wurde erfolgreich zurückgesetzt. Seite wird "
+"neu geladen..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:478
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr ""
+"Die Namen des Admin-Menüs wurden erfolgreich zurückgesetzt. Seite wird neu "
+"geladen..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:484
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Admin-Menü-Cache erfolgreich zurückgesetzt. Seite wird neu geladen..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:488
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Das Admin-Menü wurde erfolgreich zurückgesetzt. Seite wird neu geladen..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:535
+msgid "Menu deleted successfully."
+msgstr "Menü erfolgreich gelöscht."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+msgid "New menu added successfully. Reloading page..."
+msgstr "Neues Menü erfolgreich hinzugefügt. Seite wird neu geladen..."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:625
+#: includes-pro/features/admin-menus/admin-menus-filters.php:672
+msgid "Invalid data"
+msgstr "Ungültige Daten"
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:634
+msgid "Menu Name Updated for all roles."
+msgstr "Menüname für alle Rollen aktualisiert."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:638
+#: includes-pro/features/admin-menus/admin-menus-filters.php:645
+msgid "Menu Name Updated."
+msgstr "Menüname aktualisiert."
+
+#: includes-pro/features/admin-menus/admin-menus-filters.php:676
+msgid "Menu Order Updated."
+msgstr "Menüordnung aktualisiert."
+
+#: includes-pro/features/admin-menus/admin-menus.php:136
+#: includes-pro/features/admin-menus/admin-menus.php:727
+msgid "Save for All Roles"
+msgstr "Für alle Rollen speichern"
+
+#: includes-pro/features/admin-menus/admin-menus.php:153
+msgid "Type:"
+msgstr "Typ:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:155
+msgid "Menu Link"
+msgstr "Menülink"
+
+#: includes-pro/features/admin-menus/admin-menus.php:156
+msgid "Submenu Link"
+msgstr "Untermenü-Link"
+
+#: includes-pro/features/admin-menus/admin-menus.php:157
+msgid "Menu Separator"
+msgstr "Menütrennzeichen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:158
+msgid "Submenu Separator"
+msgstr "Untermenü-Trenner"
+
+#: includes-pro/features/admin-menus/admin-menus.php:162, fuzzy
+msgid "Position:"
+msgstr "Position:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:164
+msgid "After"
+msgstr "Nach"
+
+#: includes-pro/features/admin-menus/admin-menus.php:175
+msgid "Menu Title:"
+msgstr "Menütitel:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:178
+msgid "My Custom Menu"
+msgstr "Mein benutzerdefiniertes Menü"
+
+#: includes-pro/features/admin-menus/admin-menus.php:180
+msgid "Menu Title is required."
+msgstr "Menütitel ist erforderlich."
+
+#: includes-pro/features/admin-menus/admin-menus.php:183
+msgid "Separator Style"
+msgstr "Trennstil"
+
+#: includes-pro/features/admin-menus/admin-menus.php:185
+msgid "Line (____________________)"
+msgstr "Zeile (____________________)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:186
+msgid "Empty Space"
+msgstr "Leerer Raum"
+
+#: includes-pro/features/admin-menus/admin-menus.php:187, fuzzy
+msgid "Text"
+msgstr "Text"
+
+#: includes-pro/features/admin-menus/admin-menus.php:191
+msgid "Separator Color"
+msgstr "Trennfarbe"
+
+#: includes-pro/features/admin-menus/admin-menus.php:196
+msgid "Menu URL:"
+msgstr "Menü-URL:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:200
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Geben Sie einen internen Link wie %1s oder einen externen Link wie %2s ein. "
+"Jeder Link kann nur einmal für eine Menü-URL verwendet werden."
+
+#: includes-pro/features/admin-menus/admin-menus.php:207
+msgid "Menu with this url already exist."
+msgstr "Menü mit dieser URL existiert bereits."
+
+#: includes-pro/features/admin-menus/admin-menus.php:214
+msgid "Menu Capability:"
+msgstr "Menüberechtigung:"
+
+#: includes-pro/features/admin-menus/admin-menus.php:219
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Dies ist die Fähigkeit, die erforderlich ist, um dieses Menü zu sehen. Zum "
+"Beispiel: %1s oder %2s Wenn Sie eine benutzerdefinierte Fähigkeit eingeben, "
+"denken Sie daran, sie hinzuzufügen und den bevorzugten Rollen auf der Seite "
+"für Fähigkeiten zuzuweisen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:226
+msgid "Menu Capability is required."
+msgstr "Menüberechtigung ist erforderlich."
+
+#: includes-pro/features/admin-menus/admin-menus.php:230
+msgid "Menu Icon"
+msgstr "Menü-Icon"
+
+#: includes-pro/features/admin-menus/admin-menus.php:235
+msgid "Save Menu Link"
+msgstr "Menülink speichern"
+
+#: includes-pro/features/admin-menus/admin-menus.php:255
+#: includes-pro/features/admin-menus/admin-menus.php:278
+msgid "Toggle all"
+msgstr "Alle umschalten"
+
+#: includes-pro/features/admin-menus/admin-menus.php:261
+msgid "New Menu Link"
+msgstr "Neuer Menülink"
+
+#: includes-pro/features/admin-menus/admin-menus.php:433
+#: includes-pro/features/admin-menus/admin-menus.php:594
+msgid "(Can't detect menu name)"
+msgstr "(Kann Menüname nicht erkennen)"
+
+#: includes-pro/features/admin-menus/admin-menus.php:459
+#: includes-pro/features/admin-menus/admin-menus.php:616
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Dieser Menüname ist in den globalen Menüdaten nicht verfügbar oder nicht "
+"direkt beim Menü registriert"
+
+#: includes-pro/features/admin-menus/admin-menus.php:470
+#: includes-pro/features/admin-menus/admin-menus.php:626
+#, php-format
+msgid "%s Role"
+msgstr "%s Rolle"
+
+#: includes-pro/features/admin-menus/admin-menus.php:471
+#: includes-pro/features/admin-menus/admin-menus.php:627
+msgid "All Roles"
+msgstr "Alle Rollen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:473
+#: includes-pro/features/admin-menus/admin-menus.php:630
+msgid "Save"
+msgstr "Speichern"
+
+#: includes-pro/features/admin-menus/admin-menus.php:476
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:633
+#: includes-pro/features/admin-menus/admin-menus.php:650
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:484
+#: includes-pro/features/admin-menus/admin-menus.php:641
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Diese Option ist deaktiviert, um eine vollständige Sperrung zu verhindern"
+
+#: includes-pro/features/admin-menus/admin-menus.php:493
+#: includes-pro/features/admin-menus/admin-menus.php:650
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Sind Sie sicher, dass Sie %1s löschen möchten? %2s %3s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:503
+#: includes-pro/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Die erforderliche Fähigkeit, um auf dieses Menü zuzugreifen, ist %s"
+
+#: includes-pro/features/admin-menus/admin-menus.php:508
+#: includes-pro/features/admin-menus/admin-menus.php:665
+msgid "Rename Menu"
+msgstr "Menü umbenennen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:514
+#: includes-pro/features/admin-menus/admin-menus.php:671
+msgid "Move Up"
+msgstr "Nach oben verschieben"
+
+#: includes-pro/features/admin-menus/admin-menus.php:517
+#: includes-pro/features/admin-menus/admin-menus.php:674
+msgid "Move Down"
+msgstr "Nach unten verschieben"
+
+#: includes-pro/features/admin-menus/admin-menus.php:711
+msgid "No menu found"
+msgstr "Kein Menü gefunden"
+
+#: includes-pro/features/admin-menus/admin-menus.php:737
+msgid "How to use Admin Menus"
+msgstr "So verwenden Sie Admin-Menüs"
+
+#: includes-pro/features/admin-menus/admin-menus.php:741
+#: includes-pro/features/admin-menus/admin-menus.php:743
+msgid "usage key"
+msgstr "Verwendungsschlüssel"
+
+#: includes-pro/features/admin-menus/admin-menus.php:742
+msgid "No change"
+msgstr "Keine Änderung"
+
+#: includes-pro/features/admin-menus/admin-menus.php:744
+msgid "This feature is denied"
+msgstr "Diese Funktion ist verweigert"
+
+#: includes-pro/features/admin-menus/admin-menus.php:746
+msgid "View Documentation"
+msgstr "Dokumentation anzeigen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:750
+msgid "Admin Menus Settings"
+msgstr "Einstellungen für Admin-Menüs"
+
+#: includes-pro/features/admin-menus/admin-menus.php:753
+msgid "Hide Submenus"
+msgstr "Untermenüs ausblenden"
+
+#: includes-pro/features/admin-menus/admin-menus.php:755
+msgid "Show Menu Slugs"
+msgstr "Menü-Slugs anzeigen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:760
+msgid "Reset Admin Menus"
+msgstr "Admin-Menüs zurücksetzen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:762
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Sie können die Reihenfolge und die Namen des Administrationsmenüs auf ihre "
+"ursprüngliche Position und Namen zurücksetzen. Sie können auch den "
+"Menü-Cache zurücksetzen, um das Problem mit dem fehlenden Menü zu beheben."
+
+#: includes-pro/features/admin-menus/admin-menus.php:765
+msgid "Reset Menu Order"
+msgstr "Menüreihenfolge zurücksetzen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:767
+msgid "Reset Cached Menu"
+msgstr "Cache-Menü zurücksetzen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:769
+msgid "Reset Menu Names"
+msgstr "Menünamen zurücksetzen"
+
+#: includes-pro/features/admin-menus/admin-menus.php:771
+msgid "Reset Selected Option"
+msgstr "Ausgewählte Option zurücksetzen"
+
+#: includes-pro/features/config/custom-config.php:29
+msgid "Add New Classic Editor Restrictions"
+msgstr "Neue Einschränkungen für den klassischen Editor hinzufügen"
+
+#: includes-pro/features/config/custom-config.php:35
+#: includes-pro/features/config/custom-config.php:110
+msgid ""
+"You can remove other elements from the editor screen by adding their IDs or "
+"classes below:"
+msgstr ""
+"Sie können andere Elemente im Editor-Bildschirm entfernen, indem Sie deren "
+"IDs oder Klassen unten hinzufügen:"
+
+#: includes-pro/features/config/custom-config.php:104
+msgid "Add New Gutenberg Restrictions"
+msgstr "Neue Gutenberg-Einschränkungen hinzufügen"
+
+#: includes-pro/features/config/custom-config.php:183
+#: includes-pro/features/config/custom-config.php:252
+msgid "You do not have permission to manage editor feature restrictions."
+msgstr ""
+"Sie haben nicht die Berechtigung, die Einschränkungen für Editor-Funktionen "
+"zu verwalten."
+
+#: includes-pro/features/config/custom-config.php:196
+#: includes-pro/features/config/custom-config.php:261
+msgid "Invalid action. Reload this page and try again if occured in error."
+msgstr ""
+"Ungültige Aktion. Laden Sie diese Seite neu und versuchen Sie es erneut, "
+"falls ein Fehler aufgetreten ist."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "Custom item updated successfully. Save changes to apply restrictions."
+msgstr ""
+"Benutzerdefiniertes Element erfolgreich aktualisiert. Änderungen speichern, "
+"um Einschränkungen anzuwenden."
+
+#: includes-pro/features/config/custom-config.php:218
+msgid "New custom item added. Save changes to apply restrictions."
+msgstr ""
+"Neues benutzerdefiniertes Element hinzugefügt. Änderungen speichern, um "
+"Einschränkungen anzuwenden."
+
+#: includes-pro/features/custom.php:39
+msgid "Hide the Patterns tab in the block editor"
+msgstr "Tab \"Muster\" im Block-Editor ausblenden"
+
+#: includes-pro/features/custom.php:63
+msgid "Hide the Insert/edit link button in the Classic Editor"
+msgstr "Schaltfläche \"Link einfügen/bearbeiten\" im klassischen Editor ausblenden"
+
+#: includes-pro/features/custom.php:131
+msgid "Custom Classic Editor Restrictions"
+msgstr "Einschränkungen des benutzerdefinierten klassischen Editors"
+
+#: includes-pro/features/custom.php:132
+msgid "Custom Gutenberg Restrictions"
+msgstr "Einschränkungen von Gutenberg anpassen"
+
+#: includes-pro/features/metaboxes.php:154
+msgid "Metaboxes"
+msgstr "Metaboxen"
+
+#: includes-pro/functions-admin.php:38
+#: includes-pro/settings-ui.php:440
+msgid "Admin Menu"
+msgstr "Admin-Menü"
+
+#: includes-pro/pro-maint.php:46
+#: includes-pro/pro-maint.php:59
+msgid "An error occurred. Please try again or contact the support team."
+msgstr ""
+"Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren "
+"Sie das Support-Team."
+
+#: includes-pro/settings-ui.php:29
+msgid "License"
+msgstr "Lizenz"
+
+#: includes-pro/settings-ui.php:44
+msgid "Activate Key"
+msgstr "Aktivierungsschlüssel"
+
+#: includes-pro/settings-ui.php:45
+msgid "Deactivate Key"
+msgstr "Schlüssel deaktivieren"
+
+#: includes-pro/settings-ui.php:46
+msgid "Connecting to publishpress.com server..."
+msgstr "Verbindung zum Server publishpress.com wird hergestellt..."
+
+#: includes-pro/settings-ui.php:47
+msgid "The request could not be processed due to a connection failure."
+msgstr ""
+"Die Anfrage konnte aufgrund eines Verbindungsfehlers nicht bearbeitet "
+"werden."
+
+#: includes-pro/settings-ui.php:48
+msgid "Please enter the license key shown on your order receipt."
+msgstr ""
+"Bitte geben Sie den Lizenzschlüssel ein, der auf Ihrem Bestellbeleg "
+"angezeigt wird."
+
+#: includes-pro/settings-ui.php:49
+msgid "An unidentified error occurred."
+msgstr "Ein nicht identifizierbarer Fehler ist aufgetreten."
+
+#: includes-pro/settings-ui.php:51
+msgid "The key has been deactivated."
+msgstr "Der Schlüssel wurde deaktiviert."
+
+#: includes-pro/settings-ui.php:52
+msgid "The key has been activated."
+msgstr "Der Schlüssel wurde aktiviert."
+
+#: includes-pro/settings-ui.php:53
+msgid "The key has expired."
+msgstr "Der Schlüssel ist abgelaufen."
+
+#: includes-pro/settings-ui.php:54
+msgid "The key is invalid."
+msgstr "Der Schlüssel ist ungültig."
+
+#: includes-pro/settings-ui.php:55
+msgid "An unknown activation error occurred."
+msgstr "Ein unbekannter Aktivierungsfehler ist aufgetreten."
+
+#: includes-pro/settings-ui.php:56
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr ""
+"Der bereitgestellte Schlüssel ist nicht gültig. Bitte überprüfen Sie Ihre "
+"Eingabe erneut."
+
+#: includes-pro/settings-ui.php:57
+msgid "This site is not valid to activate the key."
+msgstr "Diese Seite ist ungültig, um den Schlüssel zu aktivieren."
+
+#: includes-pro/settings-ui.php:58
+#: includes-pro/settings-ui.php:64
+msgid "The key provided could not be validated by publishpress.com."
+msgstr ""
+"Der bereitgestellte Schlüssel konnte von publishpress.com nicht validiert "
+"werden."
+
+#: includes-pro/settings-ui.php:59
+msgid "The key provided is already active on another site."
+msgstr "Der bereitgestellte Schlüssel ist bereits auf einer anderen Seite aktiv."
+
+#: includes-pro/settings-ui.php:60
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Der Schlüssel wurde bereits auf der erlaubten Anzahl von Seiten aktiviert."
+
+#: includes-pro/settings-ui.php:61
+msgid "An unknown deactivation error occurred."
+msgstr "Ein unbekannter Deaktivierungsfehler ist aufgetreten."
+
+#: includes-pro/settings-ui.php:62
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Deaktivierung nicht möglich, da der angegebene Schlüssel ungültig ist."
+
+#: includes-pro/settings-ui.php:63
+msgid "This site is not valid to deactivate the key."
+msgstr "Diese Seite ist ungültig, um den Schlüssel zu deaktivieren."
+
+#: includes-pro/settings-ui.php:65
+msgid "The key provided is not active on the specified site."
+msgstr "Der bereitgestellte Schlüssel ist auf der angegebenen Seite nicht aktiv."
+
+#: includes-pro/settings-ui.php:70
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr ""
+"Wenn dies falsch ist, <a href=\"%s\">fordern Sie Hilfe zur Aktivierung "
+"an</a>."
+
+#: includes-pro/settings-ui.php:71
+msgid "Please save settings before uploading site configuration."
+msgstr ""
+"Bitte speichern Sie die Einstellungen, bevor Sie die Konfiguration der "
+"Website hochladen."
+
+#: includes-pro/settings-ui.php:86
+msgid "(Locked on by Statuses Pro)"
+msgstr "(Von Status Pro gesperrt)"
+
+#: includes-pro/settings-ui.php:97
+#: includes-pro/settings-ui.php:207
+msgid "Control custom statuses"
+msgstr "Benutzerdefinierte Status steuern"
+
+#: includes-pro/settings-ui.php:103
+#, php-format
+msgid "Control selection of custom post statuses. %s"
+msgstr "Steuerung der Auswahl benutzerdefinierter Beitragsstatus. %s"
+
+#: includes-pro/settings-ui.php:120
+msgid "Apply status-specific capabilities for post editing, deletion."
+msgstr ""
+"Statusspezifische Berechtigungen für die Bearbeitung und Löschung von "
+"Beiträgen anwenden."
+
+#: includes-pro/settings-ui.php:154
+msgid "Enable Custom Visibility Statuses"
+msgstr "Benutzerdefinierte Sichtbarkeitsstatus aktivieren"
+
+#: includes-pro/settings-ui.php:162
+#. Translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For Visibility Statuses, %1$senable the Status Control module%2$s in "
+"Permissions Pro"
+msgstr ""
+"Für Sichtbarkeitsstatus, %1$sen Sie das Statuskontrollmodul%2$s in "
+"Permissions Pro aktiv"
+
+#: includes-pro/settings-ui.php:183
+msgid ""
+"Apply status-specific, type-specific editing capabilities for Visibility "
+"Statuses"
+msgstr ""
+"Statusspezifische, typenspezifische Bearbeitungsberechtigungen für "
+"Sichtbarkeitsstatus anwenden"
+
+#: includes-pro/settings-ui.php:248
+msgid "License Key Activation"
+msgstr "Aktivierung des Lizenzschlüssels"
+
+#: includes-pro/settings-ui.php:294
+#, php-format
+msgid ""
+"Your PublishPress license key has expired. For continued priority support, "
+"<a href=\"%s\">please renew</a>."
+msgstr ""
+"Ihr PublishPress-Lizenzschlüssel ist abgelaufen. Für fortgesetzten "
+"Prioritäts-Support, <a href=\"%s\">bitte erneuern</a>."
+
+#: includes-pro/settings-ui.php:305
+#, php-format
+msgid ""
+"Your PublishPress license key will expire today. For updates and priority "
+"support, <a href=\"%s\">please renew</a>."
+msgstr ""
+"Ihr PublishPress-Lizenzschlüssel läuft heute ab. Für Updates und "
+"Prioritätssupport, <a href=\"%s\">bitte erneuern</a>."
+
+#: includes-pro/settings-ui.php:310
+#, php-format
+msgid ""
+"Your PublishPress license key will expire in %d day. For updates and "
+"priority support, <a href=\"%s\">please renew</a>."
+msgid_plural ""
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Ihr PublishPress-Lizenzschlüssel läuft in %d Tag ab. Für Updates und "
+"Prioritätssupport, <a href=\"%s\">bitte erneuern</a>."
+msgstr[1] ""
+"Ihr PublishPress-Lizenzschlüssel (für Plugin-Updates) läuft in %d Tagen ab. "
+"Für Updates und Prioritätssupport, <a href=\"%s\">bitte erneuern</a>."
+
+#: includes-pro/settings-ui.php:332
+msgid "Key Expired"
+msgstr "Schlüssel abgelaufen"
+
+#: includes-pro/settings-ui.php:337
+#: includes-pro/settings-ui.php:347
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+#: includes-pro/settings-ui.php:341
+msgid "Activated"
+msgstr "Aktiviert"
+
+#: includes-pro/settings-ui.php:344
+msgid "Enter your license key"
+msgstr "Geben Sie Ihren Lizenzschlüssel ein"
+
+#: includes-pro/settings-ui.php:347
+msgid "Activate"
+msgstr "Aktivieren"
+
+#: includes-pro/settings-ui.php:373
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "Details anzeigen %s&nbsp;"
+
+#: includes-pro/settings-ui.php:383
+msgid "Update&nbsp;Available"
+msgstr "Update&nbsp;Verfügbar"
+
+#: includes-pro/settings-ui.php:390
+msgid "Update&nbsp;Check"
+msgstr "Update&nbsp;Überprüfen"
+
+#: includes-pro/settings-ui.php:396
+msgid "Account"
+msgstr "Konto"
+
+#: includes-pro/settings-ui.php:402
+msgid "Pricing"
+msgstr "Preisgestaltung"
+
+#: includes-pro/settings-ui.php:420
+msgid "Display PublishPress Branding"
+msgstr "PublishPress-Branding anzeigen"
+
+#: includes-pro/settings-ui.php:422
+msgid "Hide the PublishPress footer and other branding."
+msgstr "Blenden Sie die PublishPress-Fußzeile und andere Markenidentitäten aus."
+
+#: includes-pro/settings-ui.php:442
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Admin-Menüs: Behandlung mehrerer Rollen"
+
+#: includes-pro/settings-ui.php:445
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr ""
+"Am wenigsten restriktiv: Jede nicht eingeschränkte Benutzerrolle erlaubt "
+"Zugriff"
+
+#: includes-pro/settings-ui.php:448
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "Am restriktivsten: Jede eingeschränkte Benutzerrolle verhindert Zugriff"
+
+#: includes-pro/settings-ui.php:452
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Dies steuert, ob die permissivsten oder restriktivsten Berechtigungen "
+"angewendet werden, wenn ein Benutzer mehrere Rollen hat."
+
+#: includes-pro/statuses-intro.php:126
+#, php-format
+msgid ""
+"Custom status control is disabled until you activate the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Die Steuerung des benutzerdefinierten Status ist deaktiviert, bis Sie das "
+"%1$sPublishPress Statuses%2$s-Plugin aktivieren. Siehe %3$sFähigkeiten > "
+"Einstellungen%4$s für Details."
+
+#: includes-pro/statuses-intro.php:134
+#, php-format
+msgid ""
+"Custom status control is disabled until you install the %1$sPublishPress "
+"Statuses%2$s plugin. See %3$sCapabilities > Settings%4$s for details."
+msgstr ""
+"Die Steuerung des benutzerdefinierten Status ist deaktiviert, bis Sie das "
+"%1$sPublishPress Statuses%2$s-Plugin installieren. Siehe %3$sFähigkeiten > "
+"Einstellungen%4$s für Details."
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid "Changes saved!"
+msgstr "Änderungen gespeichert!"
+
+#: includes-pro/common/js/admin.dev.js:477
+#: includes-pro/common/js/admin.js:1
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
+msgid " Error: changes can't be saved."
+msgstr "Fehler: Änderungen können nicht gespeichert werden."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
+msgid "Deleting menu..."
+msgstr "Menü wird gelöscht..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
+msgid "Updating Settings..."
+msgstr "Einstellungen werden aktualisiert..."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
+msgid "You must check at least one option to reset."
+msgstr "Sie müssen mindestens eine Option auswählen, um zurückzusetzen."
+
+#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
+msgid "Resetting option..."
+msgstr "Option wird zurückgesetzt..."

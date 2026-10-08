@@ -6,10 +6,10 @@
  * @since   2.0.0
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
 
 /**
  * Find the correct port depending on the Request type.
@@ -56,8 +56,8 @@ final class Port {
 	 *
 	 * @return int
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
-	 * @throws \WpOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
 	 */
 	public static function get($type) {
 		if (!is_string($type)) {

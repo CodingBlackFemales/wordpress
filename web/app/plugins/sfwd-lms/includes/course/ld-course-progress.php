@@ -2966,7 +2966,8 @@ function learndash_course_get_step_completion_data(
 			learndash_next_post_link(
 				'',
 				'id',
-				get_post( $step_id )
+				get_post( $step_id ),
+				$user_id
 			)
 		);
 

@@ -1,0 +1,13 @@
+/* Statuses Table: Revision Statuses section */
+#the_status_list li.revision-status, 
+#the_status_list li.revision-status div.tpl-default {
+background-color: #fcfbe8;
+}
+
+
+/* Statuses Table: Alternate Revision Statuses section */
+#the_status_list li.alternate-revision-status div.tpl-default,
+#the_status_list li.alternate-revision-status 
+{
+background-color: #f9f4e5;
+}

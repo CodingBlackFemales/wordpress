@@ -1336,6 +1336,113 @@ var learnDashProPanel = jQuery( function ( $ ) {
 		}
 	}
 
+	/**
+	 * Surfaces the "export running in the background" notice for a ProPanel export.
+	 *
+	 * Action Scheduler owns iteration now: the export runs to completion in the
+	 * background and delivers its download link as an admin notice on the next page
+	 * load. Mirroring the Reports settings page, the widget shows this inline notice
+	 * when an export is queued instead of silently re-enabling the button with no
+	 * feedback.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @param {Object} updateElement The export button that triggered the export.
+	 *
+	 * @return {void}
+	 */
+	function showBackgroundExportNotice( updateElement ) {
+		var container = jQuery( updateElement ).closest( '.ld-propanel-widget' );
+
+		if ( ! container.length ) {
+			container = jQuery( updateElement ).closest( '.postbox' );
+		}
+
+		if ( ! container.length ) {
+			container = jQuery( updateElement ).parent();
+		}
+
+		container.find( '.ld-reports-notice--loading' ).remove();
+
+		container.prepend(
+			'<div class="notice notice-info is-dismissible ld-reports-notice ld-reports-notice--loading">' +
+				'<p><span class="ld-reports-notice__text">' +
+				ld_propanel_settings.messages.export_queued +
+				'</span></p>' +
+				'<button type="button" class="notice-dismiss"><span class="screen-reader-text">' +
+				ld_propanel_settings.messages.dismiss_notice +
+				'</span></button>' +
+			'</div>'
+		);
+
+		jQuery( document )
+			.off( 'click.ldReportsNotice', '.ld-reports-notice .notice-dismiss' )
+			.on( 'click.ldReportsNotice', '.ld-reports-notice .notice-dismiss', function () {
+				jQuery( this ).parents( '.ld-reports-notice' ).remove();
+			} );
+	}
+
+	/**
+	 * Polls the read-only export-status endpoint until the export finishes, showing
+	 * the running percentage on the button and auto-downloading the CSV when ready.
+	 *
+	 * The button stays disabled while polling. If the status can't be read, the
+	 * button is re-enabled and the admin-notice fallback still delivers the link on
+	 * the next page load.
+	 *
+	 * @since 5.1.6
+	 *
+	 * @param {Object} updateElement The export button that triggered the export.
+	 *
+	 * @return {void}
+	 */
+	function pollExportStatus( updateElement ) {
+		var slug  = jQuery( updateElement ).attr( 'data-slug' );
+		var nonce = jQuery( updateElement ).attr( 'data-nonce' );
+
+		var stopPolling = function () {
+			jQuery( updateElement ).prop( 'disabled', false );
+			jQuery( 'span.status', updateElement ).text( '' );
+		};
+
+		var poll = function () {
+			jQuery.ajax( {
+				url: ld_propanel_settings.ajaxurl,
+				method: 'POST',
+				dataType: 'json',
+				data: {
+					action: 'learndash_report_export_status',
+					slug: slug,
+					nonce: nonce
+				}
+			} ).done( function ( response ) {
+				if ( ! response || ! response.success || ! response.data ) {
+					stopPolling();
+					return;
+				}
+
+				jQuery( 'span.status', updateElement ).text( ' ' + parseInt( response.data.percent, 10 ) + '%' );
+
+				if ( response.data.done ) {
+					jQuery( '.ld-reports-notice--loading' ).remove();
+					stopPolling();
+
+					if ( response.data.report_url ) {
+						window.location = response.data.report_url;
+					}
+
+					return;
+				}
+
+				setTimeout( poll, 2000 );
+			} ).fail( function () {
+				stopPolling();
+			} );
+		};
+
+		poll();
+	}
+
 	function loadActivityTemplate( template, args, updateElement ) {
 		$.when(
 			$.ajax( {
@@ -1357,6 +1464,24 @@ var learnDashProPanel = jQuery( function ( $ ) {
 					var reply_data = response['data']['output']['rows_html'];
 
 					$(window).trigger('resize');
+
+					// Action Scheduler now owns iteration. The export runs to completion in
+					// the background and surfaces its download link as an admin notice, so the
+					// widget stops here instead of re-firing the template AJAX (which would
+					// re-truncate the CSV and enqueue duplicate background tasks).
+					if (
+						typeof reply_data['data'] !== 'undefined'
+						&& typeof reply_data['data']['status'] !== 'undefined'
+						&& reply_data['data']['status'] === 'queued'
+					) {
+						// Keep the button disabled and poll for progress: the button shows the
+						// running percentage and the CSV downloads automatically once it is ready.
+						jQuery(updateElement).prop('disabled', true);
+						jQuery('span.status', updateElement).text(' 0%');
+						showBackgroundExportNotice( updateElement );
+						pollExportStatus( updateElement );
+						return;
+					}
 
 					var total_count = 0;
 					if (typeof reply_data['data']['total_count'] !== 'undefined')

@@ -6,9 +6,9 @@
  * @since   1.6
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Hooks;
+use StellarWP\Learndash\WpOrg\Requests\Hooks;
 
 /**
  * Proxy connection interface
@@ -18,7 +18,7 @@ use WpOrg\Requests\Hooks;
  * Parameters should be passed via the constructor where possible, as this
  * makes it much easier for users to use your provider.
  *
- * @see \WpOrg\Requests\Hooks
+ * @see \StellarWP\Learndash\WpOrg\Requests\Hooks
  *
  * @package Requests\Proxy
  * @since   1.6
@@ -31,8 +31,8 @@ interface Proxy {
 	 * has set an instance as the 'auth' option. Use this callback to register all the
 	 * hooks you'll need.
 	 *
-	 * @see \WpOrg\Requests\Hooks::register()
-	 * @param \WpOrg\Requests\Hooks $hooks Hook system
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Hooks::register()
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Hooks $hooks Hook system
 	 */
 	public function register(Hooks $hooks);
 }

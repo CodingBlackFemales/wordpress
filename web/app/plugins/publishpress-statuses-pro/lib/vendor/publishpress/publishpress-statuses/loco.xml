@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Statuses Free">
+  <domain name="publishpress-statuses">
+    <project name="PublishPress Statuses Free" slug="publishpress-statuses">
+      <source>
+        <directory>.</directory>
+      </source>
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/publishpress-statuses.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>lib/vendor</directory>
+  </exclude>
+</bundle>

@@ -1,0 +1,1455 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the GPLv3.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Statuses Free 1.3.1-rc\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-27T16:10:36+00:00\n"
+"PO-Revision-Date: 2026-09-01 04:44+0000\n"
+"X-Generator: WP-CLI 2.13.0-alpha\n"
+"X-Domain: publishpress-statuses\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: el\n"
+
+#: publishpress-statuses.php:5
+#. Plugin Name of the plugin
+msgid "PublishPress Statuses Free"
+msgstr "PublishPress Statuses Free"
+
+#: publishpress-statuses.php:7, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/statuses"
+msgstr "https://publishpress.com/statuses"
+
+#: publishpress-statuses.php:9
+#. Description of the plugin
+msgid "Manage and create post statuses to customize your editorial workflow"
+msgstr ""
+"Διαχειριστείτε και δημιουργήστε καταστάσεις δημοσιεύσεων για να "
+"προσαρμόσετε τη ροή εργασίας σας"
+
+#: publishpress-statuses.php:13
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-statuses.php:15, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: Admin.php:18
+#: Admin.php:430
+#: Admin.php:431
+#: PublishPress_Statuses.php:435
+#: PublishPress_Statuses.php:436
+#: StatusEditUI.php:75
+#: StatusesUI.php:92
+msgid "Statuses"
+msgstr "Καταστάσεις"
+
+#: Admin.php:19
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: Admin.php:22
+#: includes-core/CoreAdmin.php:40
+#: includes-core/CoreAdmin.php:41
+#: includes-core/PromoBanner.php:225
+#: StatusListTable.php:224
+#: StatusListTable.php:250
+msgid "Upgrade to Pro"
+msgstr "Αναβάθμιση σε Pro"
+
+#: Admin.php:369
+msgid ""
+"Are you sure you want to delete the post status? All posts with this status "
+"will be assigned to the default status."
+msgstr ""
+"Είστε σίγουροι ότι θέλετε να διαγράψετε την κατάσταση ανάρτησης; Όλες οι "
+"αναρτήσεις με αυτή την κατάσταση θα ανατεθούν στην προεπιλεγμένη κατάσταση."
+
+#: Admin.php:441
+#: Admin.php:442
+#: StatusesUI.php:1189
+msgid "Add New"
+msgstr "Προσθήκη Νέου"
+
+#: Admin.php:528
+#: PublishPress_Statuses.php:910
+msgid "Approve"
+msgstr "Έγκριση"
+
+#: Admin.php:530
+#: PublishPress_Statuses.php:880
+msgid "Assign"
+msgstr "Ανάθεση"
+
+#: Admin.php:532
+#: PublishPress_Statuses.php:895
+msgid "Mark In Progress"
+msgstr "Σημείωση Σε Πρόοδο"
+
+#: Admin.php:545
+#. translators: %s is the status label
+#, php-format
+msgid "Set to %s"
+msgstr "Ορισμός σε %s"
+
+#: Admin.php:554
+#: PostEditGutenberg.php:91
+#: PostEditGutenberg.php:111
+#. translators: %s is the status label
+#, php-format
+msgid "Save as %s"
+msgstr "Αποθήκευση ως %s"
+
+#: Admin.php:566
+#. translators: %s is the name of a custom public status
+#, php-format
+msgid "Public (%s)"
+msgstr "Δημόσια (%s)"
+
+#: Admin.php:637
+#: PostEditClassic.php:179
+#: PostEditGutenberg.php:88
+#: PostEditGutenberg.php:297
+#: PostEditGutenbergStatuses.php:49
+#: PostEditGutenbergStatuses.php:69
+#: PostEditGutenbergStatuses.php:77
+msgid "Advance Status"
+msgstr "Προώθηση Κατάστασης"
+
+#: includes-core/CoreAdmin.php:19
+#, php-format
+msgid ""
+"You're using PublishPress Statuses Free. The Pro version has more features "
+"and support. %sUpgrade to Pro%s"
+msgstr ""
+"Χρησιμοποιείτε το PublishPress Statuses Free. Η Pro έκδοση έχει "
+"περισσότερες δυνατότητες και υποστήριξη. %sΑναβάθμιση στην Pro%s"
+
+#: includes-core/PromoBanner.php:68
+msgid "If you need help or have a new feature request, let us know."
+msgstr "Εάν χρειάζεστε βοήθεια ή έχετε αίτημα για νέα δυνατότητα, ενημερώστε μας."
+
+#: includes-core/PromoBanner.php:241
+msgid "Request Support"
+msgstr "Αίτηση υποστήριξης"
+
+#: includes-core/PromoBanner.php:248
+msgid "Detailed documentation is also available on the plugin website."
+msgstr "Λεπτομερής τεκμηρίωση είναι επίσης διαθέσιμη στον ιστότοπο του πρόσθετου."
+
+#: includes-core/PromoBanner.php:251
+msgid "View Knowledge Base"
+msgstr "Δείτε τη Βάση Γνώσεων"
+
+#: PostEditClassic.php:214
+msgid "Current Time"
+msgstr "Τρέχουσα ώρα"
+
+#: PostEditClassic.php:242
+#: PostEditClassic.php:267
+#. translators: %s is a status name
+#, php-format
+msgid "Submit as %s"
+msgstr "Υποβολή ως %s"
+
+#: PostEditClassic.php:328
+#. translators: %s is the name of a custom visibility status
+#, php-format
+msgid "%s, Sticky"
+msgstr "%s, Κολλώδης"
+
+#: PostEditClassicSubmitMetabox.php:59
+msgid "Visibility:"
+msgstr "Ορατότητα:"
+
+#: PostEditClassicSubmitMetabox.php:200
+msgid "Restore default behavior of publish button"
+msgstr "Επαναφορά προεπιλεγμένης συμπεριφοράς του κουμπιού δημοσίευσης"
+
+#: PostEditClassicSubmitMetabox.php:201
+msgid "Bypass sequence"
+msgstr "Παράκαμψη ακολουθίας"
+
+#: PostEditClassicSubmitMetabox.php:437
+#. translators: %s is html markup
+#, php-format
+msgid "Publish %1$s on approval %2$s"
+msgstr "Δημοσίευση %1$s με έγκριση %2$s"
+
+#: PostEditGutenberg.php:85
+msgid "Publication Workflow"
+msgstr "Ροή εργασίας δημοσίευσης"
+
+#: PostEditGutenberg.php:89
+msgid "Post Status"
+msgstr "Κατάσταση ανάρτησης"
+
+#: PostEditGutenberg.php:92
+msgid "Set Selected Status"
+msgstr "Ορισμός Επιλεγμένης Κατάστασης"
+
+#: PostEditGutenberg.php:93
+msgid "Keep Current Status"
+msgstr "Διατήρηση Τρέχουσας Κατάστασης"
+
+#: PostEditGutenberg.php:94
+msgid "Advance to Next Status"
+msgstr "Προχώρηση στην Επόμενη Κατάσταση"
+
+#: PostEditGutenberg.php:95
+msgid "Advance to Max Status"
+msgstr "Προχώρηση στην Μέγιστη Κατάσταση"
+
+#: PostEditGutenberg.php:96
+msgid "This post is currently published"
+msgstr "Αυτή η ανάρτηση είναι αυτή τη στιγμή δημοσιευμένη"
+
+#: PostEditGutenberg.php:97
+msgid "This post is currently scheduled"
+msgstr "Αυτή η ανάρτηση είναι προγραμματισμένη"
+
+#: PostEditGutenberg.php:293
+msgid "Save Draft"
+msgstr "Αποθήκευση προσχεδίου"
+
+#: PostEditGutenbergStatuses.php:160
+#: StatusesUI.php:1354
+msgid "Workflow"
+msgstr "Ροή Εργασίας"
+
+#: PostEditGutenbergStatuses.php:166
+msgid "Submit Revision"
+msgstr "Υποβολή Αναθεώρησης"
+
+#: publishpress-module/ModuleAdminUI_Base.php:101
+#. translators: %1$s is the plugin name, %2$s is the rating stars
+#, php-format
+msgid "If you like %1$s, please leave us a %2$s rating. Thank you!"
+msgstr "Αν σας αρέσει %1$s, παρακαλούμε αφήστε μας μια βαθμολογία %2$s. Ευχαριστώ!"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+#, php-format
+msgid "About %s"
+msgstr "Σχετικά με %s"
+
+#: publishpress-module/ModuleAdminUI_Base.php:112
+msgid "About"
+msgstr "Σχετικά"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+#, php-format
+msgid "%s Documentation"
+msgstr "%s Τεκμηρίωση"
+
+#: publishpress-module/ModuleAdminUI_Base.php:114
+msgid "Documentation"
+msgstr "Τεκμηρίωση"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact the PublishPress team"
+msgstr "Επικοινωνία με την ομάδα του PublishPress"
+
+#: publishpress-module/ModuleAdminUI_Base.php:116
+msgid "Contact"
+msgstr "Επικοινωνία"
+
+#: publishpress-statuses.php:118
+msgid "<strong>This plugin can be deleted.</strong>"
+msgstr "<strong>Αυτό το πρόσθετο μπορεί να διαγραφεί.</strong>"
+
+#: publishpress-statuses.php:196
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Planner to "
+"version %s or higher."
+msgstr ""
+"Για να χρησιμοποιήσετε το PublishPress Statuses, παρακαλώ αναβαθμίστε το "
+"PublishPress Planner στην έκδοση %s ή νεότερη."
+
+#: publishpress-statuses.php:213
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Permissions Pro "
+"to version %s or higher."
+msgstr ""
+"Για να χρησιμοποιήσετε το PublishPress Statuses, παρακαλώ αναβαθμίστε το "
+"PublishPress Permissions Pro στην έκδοση %s ή νεότερη."
+
+#: publishpress-statuses.php:230
+#. translators: %s is a version number
+#, php-format
+msgid ""
+"To use PublishPress Statuses, please upgrade PublishPress Capabilities Pro "
+"to version %s or higher."
+msgstr ""
+"Για να χρησιμοποιήσετε το PublishPress Statuses, παρακαλώ αναβαθμίστε το "
+"PublishPress Capabilities Pro στην έκδοση %s ή νεότερη."
+
+#: PublishPress_Statuses.php:397
+msgid ""
+"Can bypass normal status progression. User can publish immediately or move "
+"post to the furthest possible status."
+msgstr ""
+"Μπορεί να παρακαμφθεί η κανονική πρόοδος κατάστασης. Ο χρήστης μπορεί να "
+"δημοσιεύσει άμεσα ή να μετακινήσει την ανάρτηση στην πιο προχωρημένη "
+"κατάσταση."
+
+#: PublishPress_Statuses.php:398
+msgid "Manage Statuses plugin settings."
+msgstr "Διαχείριση ρυθμίσεων πρόσθετου Καταστάσεων."
+
+#: PublishPress_Statuses.php:403
+msgid "Can unpublish posts even if Visibility Status is locked."
+msgstr ""
+"Μπορεί να αφαιρέσει δημοσιεύσεις ακόμα και αν η Κατάσταση Ορατότητας είναι "
+"κλειδωμένη."
+
+#: PublishPress_Statuses.php:436
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: PublishPress_Statuses.php:450
+msgid "Core Post Statuses"
+msgstr "Βασικές Καταστάσεις Δημοσίευσης"
+
+#: PublishPress_Statuses.php:723
+msgid "New post, not yet submitted."
+msgstr "Νέα ανάρτηση, δεν έχει υποβληθεί ακόμη."
+
+#: PublishPress_Statuses.php:745
+msgid "Post is awaiting review."
+msgstr "Η ανάρτηση αναμένει έλεγχο."
+
+#: PublishPress_Statuses.php:765
+msgid "Post is scheduled for publication."
+msgstr "Η ανάρτηση έχει προγραμματιστεί για δημοσίευση."
+
+#: PublishPress_Statuses.php:784
+msgid "Post is published, publicly visible."
+msgstr "Η ανάρτηση έχει δημοσιευθεί, ορατή δημόσια."
+
+#: PublishPress_Statuses.php:803
+msgid "Post is published with private visibility."
+msgstr "Η ανάρτηση έχει δημοσιευθεί με ιδιωτική ορατότητα."
+
+#: PublishPress_Statuses.php:863
+msgid "Pitch"
+msgstr "Πρόταση"
+
+#: PublishPress_Statuses.php:866
+msgid "Idea proposed; waiting for acceptance."
+msgstr "Ιδέα προτεινόμενη; αναμένει αποδοχή."
+
+#: PublishPress_Statuses.php:878
+msgid "Assigned"
+msgstr "Ανατεθειμένο"
+
+#: PublishPress_Statuses.php:881
+msgid "Post idea assigned to writer."
+msgstr "Η ιδέα ανάρτησης ανατέθηκε στον συγγραφέα."
+
+#: PublishPress_Statuses.php:893
+msgid "In Progress"
+msgstr "Σε Πρόοδο"
+
+#: PublishPress_Statuses.php:896
+msgid "Writer is working on the post."
+msgstr "Ο συγγραφέας εργάζεται στην ανάρτηση."
+
+#: PublishPress_Statuses.php:908
+msgid "Approved"
+msgstr "Εγκεκριμένο"
+
+#: PublishPress_Statuses.php:911
+msgid "Post has been approved for publication."
+msgstr "Η ανάρτηση έχει εγκριθεί για δημοσίευση."
+
+#: PublishPress_Statuses.php:923
+msgid "Needs Work"
+msgstr "Χρειάζεται Δουλειά"
+
+#: PublishPress_Statuses.php:925
+msgid "Set to Needs Work"
+msgstr "Ρύθμιση σε Χρειάζεται Δουλειά"
+
+#: PublishPress_Statuses.php:926
+msgid "Post needs work before further review."
+msgstr "Η ανάρτηση χρειάζεται δουλειά πριν από περαιτέρω έλεγχο."
+
+#: PublishPress_Statuses.php:938
+msgid "Rejected"
+msgstr "Απορρίφθηκε"
+
+#: PublishPress_Statuses.php:940
+msgid "Reject"
+msgstr "Απόρριψη"
+
+#: PublishPress_Statuses.php:941
+msgid "Post has been rejected."
+msgstr "Η ανάρτηση έχει απορριφθεί."
+
+#: PublishPress_Statuses.php:975
+msgid "Alternate Pre-Publication Workflow:"
+msgstr "Εναλλακτική Ροή Εργασίας Προ δημοσίευση:"
+
+#: PublishPress_Statuses.php:1070
+msgid "Disabled Statuses:"
+msgstr "Απενεργοποιημένες Καταστάσεις:"
+
+#: PublishPress_Statuses.php:1086
+msgid "Deferred"
+msgstr "Αναβληθέν"
+
+#: PublishPress_Statuses.php:1088
+msgid "Defer"
+msgstr "Αναβολή"
+
+#: PublishPress_Statuses.php:1089
+msgid "Post has been deferred for future consideration."
+msgstr "Η ανάρτηση έχει αναβληθεί για μελλοντική εξέταση."
+
+#: PublishPress_Statuses.php:1101
+msgid "Committee"
+msgstr "Επιτροπή"
+
+#: PublishPress_Statuses.php:1103
+msgid "Refer to Committee"
+msgstr "Αναφορά στην Επιτροπή"
+
+#: PublishPress_Statuses.php:1104
+msgid "Post has been referred to committee."
+msgstr "Η ανάρτηση έχει αναφερθεί στην επιτροπή."
+
+#: PublishPress_Statuses.php:1117
+msgid "Committee Review"
+msgstr "Αξιολόγηση Επιτροπής"
+
+#: PublishPress_Statuses.php:1119
+msgid "Set to Committee Review"
+msgstr "Ορισμός σε Αξιολόγηση Επιτροπής"
+
+#: PublishPress_Statuses.php:1120
+msgid "Committee is reviewing the post."
+msgstr "Η επιτροπή αξιολογεί την ανάρτηση."
+
+#: PublishPress_Statuses.php:1133
+msgid "Committee Progress"
+msgstr "Πρόοδος Επιτροπής"
+
+#: PublishPress_Statuses.php:1135
+msgid "Set to Committee Progress"
+msgstr "Ορισμός σε Πρόοδο Επιτροπής"
+
+#: PublishPress_Statuses.php:1136
+msgid "Committee is editing the post."
+msgstr "Η επιτροπή επεξεργάζεται την ανάρτηση."
+
+#: PublishPress_Statuses.php:1149
+msgid "Committee Approved"
+msgstr "Εγκεκριμένο από την Επιτροπή"
+
+#: PublishPress_Statuses.php:1151
+msgid "Set Committee Approval"
+msgstr "Ορισμός Έγκρισης Επιτροπής"
+
+#: PublishPress_Statuses.php:1152
+msgid "Committee has approved the post."
+msgstr "Η επιτροπή έχει εγκρίνει την ανάρτηση."
+
+#: StatusAddNewUI.php:30
+msgid "Add New Status"
+msgstr "Προσθήκη Νέας Κατάστασης"
+
+#: StatusEditUI.php:41
+#: StatusEditUI.php:50
+#: StatusListTable.php:945
+msgid "Labels"
+msgstr "Ετικέτες"
+
+#: StatusEditUI.php:56
+#: StatusEditUI.php:436
+#: StatusListTable.php:171
+msgid "Post Types"
+msgstr "Τύποι Δημοσιεύσεων"
+
+#: StatusEditUI.php:64
+#: StatusListTable.php:170
+msgid "Roles"
+msgstr "Ρόλοι"
+
+#: StatusEditUI.php:72
+msgid "Edit Status Labels"
+msgstr "Επεξεργασία Ετικετών Κατάστασης"
+
+#: StatusEditUI.php:79
+#: StatusEditUI.php:248
+msgid "Update Status"
+msgstr "Ενημέρωση Κατάστασης"
+
+#: StatusEditUI.php:109
+msgid "Post Access"
+msgstr "Πρόσβαση Δημοσιεύσεων"
+
+#: StatusEditUI.php:201
+msgid ""
+"Enforce type-specific post capabilitities for this status, or share "
+"capabilities with another status."
+msgstr ""
+"Επιβολή τύπου συγκεκριμένων ικανοτήτων ανάρτησης για αυτή την κατάσταση ή "
+"κοινή χρήση ικανοτήτων με άλλη κατάσταση."
+
+#: StatusEditUI.php:298, fuzzy
+msgid "Slug"
+msgstr "Slug"
+
+#: StatusEditUI.php:310
+msgid "The slug is the unique ID for the status."
+msgstr "Το slug είναι το μοναδικό ID για την κατάσταση."
+
+#: StatusEditUI.php:320
+msgid "Color"
+msgstr "Χρώμα"
+
+#: StatusEditUI.php:332
+msgid "The color is used to identify the status."
+msgstr "Το χρώμα χρησιμοποιείται για την αναγνώριση της κατάστασης."
+
+#: StatusEditUI.php:338
+#: StatusListTable.php:169
+msgid "Icon"
+msgstr "Εικονίδιο"
+
+#: StatusEditUI.php:354
+msgid "Select Icon"
+msgstr "Επιλογή Εικονιδίου"
+
+#: StatusEditUI.php:360
+msgid "The icon is used to visually represent the status."
+msgstr "Το εικονίδιο χρησιμοποιείται για να αναπαραστήσει οπτικά την κατάσταση."
+
+#: StatusEditUI.php:395
+msgid "Status Availability"
+msgstr "Διαθεσιμότητα Κατάστασης"
+
+#: StatusEditUI.php:398
+msgid "Choose which user roles can assign this status to a post."
+msgstr ""
+"Επιλέξτε ποιους ρόλους χρηστών μπορούν να αναθέσουν αυτή την κατάσταση σε "
+"μια δημοσίευση."
+
+#: StatusEditUI.php:439
+msgid "Choose which post types can be set to this status."
+msgstr ""
+"Επιλέξτε ποιους τύπους δημοσιεύσεων μπορούν να οριστούν σε αυτή την "
+"κατάσταση."
+
+#: StatusEditUI.php:476
+msgid "All Post Types"
+msgstr "Όλοι οι Τύποι Δημοσιεύσεων"
+
+#: StatusEditUI.php:526
+msgid "Upgrade to choose who can manage posts in each status"
+msgstr ""
+"Αναβάθμιση για να επιλέξετε ποιοι μπορούν να διαχειρίζονται δημοσιεύσεις σε "
+"κάθε κατάσταση"
+
+#: StatusEditUI.php:529
+msgid "Get PublishPress Statuses Pro for status-specific post access control."
+msgstr ""
+"Αποκτήστε το PublishPress Statuses Pro για έλεγχο πρόσβασης σε αναρτήσεις "
+"ανά στάτους."
+
+#: StatusEditUI.php:535
+msgid "Control which roles can assign a status"
+msgstr "Ελέγξτε ποιους ρόλους μπορούν να αναθέσουν ένα στάτους"
+
+#: StatusEditUI.php:538
+msgid "Control which roles can edit or delete posts per-status"
+msgstr ""
+"Ελέγξτε ποιους ρόλους μπορούν να επεξεργαστούν ή να διαγράψουν αναρτήσεις "
+"ανά στάτους"
+
+#: StatusEditUI.php:541
+msgid "Set capabilities separately for each post type"
+msgstr "Ορίστε ικανότητες ξεχωριστά για κάθε post type"
+
+#: StatusEditUI.php:544
+msgid "User-friendly checkbox grid to assign capabilities"
+msgstr "Φιλικό προς το χρήστη πλέγμα επιλογών για την ανάθεση ικανοτήτων"
+
+#: StatusEditUI.php:553
+#: StatusListTable.php:674
+msgid "Get PublishPress Statuses Pro"
+msgstr "Αποκτήστε το PublishPress Statuses Pro"
+
+#: StatusEditUI.php:558
+#: StatusListTable.php:229
+#: StatusListTable.php:246
+#: StatusListTable.php:679
+msgid "Learn More"
+msgstr "Μάθετε περισσότερα"
+
+#: StatusEditUI.php:566
+msgid ""
+"Post Access for this status cannot be customized until status-specific "
+"capability requirements are enabled."
+msgstr ""
+"Η πρόσβαση στη δημοσίευση για αυτή την κατάσταση δεν μπορεί να προσαρμοστεί "
+"μέχρι να ενεργοποιηθούν οι απαιτήσεις ικανότητας συγκεκριμένες για την "
+"κατάσταση."
+
+#: StatusEditUI.php:572
+msgid "Status Capabilities"
+msgstr "Δυνατότητες Κατάστασης"
+
+#: StatusEditUI.php:578
+msgid "Require status-specific capabilities for post editing, deletion"
+msgstr ""
+"Απαιτούνται ικανότητες συγκεκριμένες για την κατάσταση για την επεξεργασία "
+"και διαγραφή δημοσιεύσεων"
+
+#: StatusEditUI.php:596
+msgid "Status Label"
+msgstr "Ετικέτα Στάτους"
+
+#: StatusEditUI.php:609
+msgid "The name is used to identify the status. (Max: 20 characters)"
+msgstr ""
+"Το όνομα χρησιμοποιείται για να προσδιορίσει το στάτους. (Μέγιστο: 20 "
+"χαρακτήρες)"
+
+#: StatusEditUI.php:619
+#: StatusListTable.php:172
+msgid "Description"
+msgstr "Περιγραφή"
+
+#: StatusEditUI.php:631
+msgid ""
+"The description is primarily for administrative use, to give you some "
+"context on what the custom status is to be used for."
+msgstr ""
+"Η περιγραφή προορίζεται κυρίως για διοικητική χρήση, για να σας δώσει "
+"κάποια συμφραζόμενα σχετικά με το σκοπό της προσαρμοσμένης κατάστασης."
+
+#: StatusEditUI.php:644
+msgid "Save As Label"
+msgstr "Αποθήκευση Ως Ετικέτα"
+
+#: StatusEditUI.php:652
+msgid "Submit Button Label"
+msgstr "Ετικέτα Κουμπιού Υποβολής"
+
+#: StatusesUI.php:64
+#. translators: %s is the status label
+#, php-format
+msgid "Edit Post Status: %s"
+msgstr "Επεξεργασία Στάτους Ανάρτησης: %s"
+
+#: StatusesUI.php:67
+#. translators: %s is the status label
+#, php-format
+msgid "%s Status - Edit"
+msgstr "%s Στάτους - Επεξεργασία"
+
+#: StatusesUI.php:75
+#. translators: %s is status type: "Workflow", "Visibility", "Revision", etc.
+#, php-format
+msgid "Add %s Status"
+msgstr "Προσθήκη %s Στάτους"
+
+#: StatusesUI.php:82
+msgid "Add Post Status"
+msgstr "Προσθήκη Στάτους Ανάρτησης"
+
+#: StatusesUI.php:83
+msgid "Add Status"
+msgstr "Προσθήκη Στάτους"
+
+#: StatusesUI.php:87
+#: StatusesUI.php:1330
+msgid "PublishPress Statuses Settings"
+msgstr "Ρυθμίσεις PublishPress Statuses"
+
+#: StatusesUI.php:88
+msgid "Statuses Settings"
+msgstr "Ρυθμίσεις Καταστάσεων"
+
+#: StatusesUI.php:91
+msgid "Post Statuses"
+msgstr "Καταστάσεις Δημοσίευσης"
+
+#: StatusesUI.php:98
+msgid "Visibility Statuses"
+msgstr "Καταστάσεις Ορατότητας"
+
+#: StatusesUI.php:217
+msgid "Post status created. Select a tab for further configuration."
+msgstr ""
+"Η κατάσταση δημοσίευσης δημιουργήθηκε. Επιλέξτε μια καρτέλα για περαιτέρω "
+"ρύθμιση."
+
+#: StatusesUI.php:219
+#: StatusesUI.php:224
+#. translators: %1$s is the status name, %2$s is the edit link
+#, php-format
+msgid "Post status %1$s updated. %2$s"
+msgstr "Η κατάσταση δημοσίευσης %1$s ενημερώθηκε. %2$s"
+
+#: StatusesUI.php:220
+msgid "Settings updated"
+msgstr "Οι ρυθμίσεις ενημερώθηκαν"
+
+#: StatusesUI.php:221
+msgid ""
+"That post status doesn't seem to exist. Was a required plugin or setting "
+"deactivated?"
+msgstr ""
+"Αυτή η κατάσταση ανάρτησης δεν φαίνεται να υπάρχει. Έχει απενεργοποιηθεί "
+"κάποιο απαιτούμενο πρόσθετο ή ρύθμιση;"
+
+#: StatusesUI.php:222
+msgid "Default post status has been changed."
+msgstr "Η προεπιλεγμένη κατάσταση δημοσίευσης έχει αλλάξει."
+
+#: StatusesUI.php:225
+msgid "Post status deleted."
+msgstr "Η κατάσταση δημοσίευσης διαγράφηκε."
+
+#: StatusesUI.php:226
+#: StatusHandler.php:869
+msgid "Status order updated."
+msgstr "Η σειρά των καταστάσεων ενημερώθηκε."
+
+#: StatusesUI.php:250
+msgid "Use on these Post Types:"
+msgstr "Χρήση σε αυτούς τους Τύπους Δημοσιεύσεων:"
+
+#: StatusesUI.php:259
+msgid "Workflow Guidance:"
+msgstr "Καθοδήγηση Ροής Εργασίας:"
+
+#: StatusesUI.php:268
+msgid "Manual Status Selection:"
+msgstr "Επιλογή Κατάστασης Χειροκίνητα:"
+
+#: StatusesUI.php:277
+msgid "New Status Position:"
+msgstr "Νέα Θέση Κατάστασης:"
+
+#: StatusesUI.php:287
+msgid "Custom Visibility:"
+msgstr "Προσαρμοσμένη Ορατότητα:"
+
+#: StatusesUI.php:297
+msgid "Default Visibility Status:"
+msgstr "Προεπιλεγμένη Κατάσταση Ορατότητας:"
+
+#: StatusesUI.php:307
+msgid "Custom Visibility Editing:"
+msgstr "Επεξεργασία Προσαρμοσμένης Ορατότητας:"
+
+#: StatusesUI.php:319
+msgid "Pending Review Status:"
+msgstr "Κατάσταση Αναμονής Επανεξέτασης:"
+
+#: StatusesUI.php:329
+msgid "Planner Integration:"
+msgstr "Ενσωμάτωση Σχεδίου:"
+
+#: StatusesUI.php:340
+msgid "Permissions Integration:"
+msgstr "Ενσωμάτωση Δικαιωμάτων:"
+
+#: StatusesUI.php:350
+msgid "Gutenberg / Classic Editor:"
+msgstr "Gutenberg / Κλασικός Επεξεργαστής:"
+
+#: StatusesUI.php:359
+msgid "Status Label Customization:"
+msgstr "Προσαρμογή Ετικέτας Κατάστασης:"
+
+#: StatusesUI.php:374
+msgid "Import Operation:"
+msgstr "Λειτουργία Εισαγωγής:"
+
+#: StatusesUI.php:385
+msgid "Backup / Restore:"
+msgstr "Αντίγραφο ασφαλείας / Επαναφορά:"
+
+#: StatusesUI.php:415
+msgid "Supplemental Role of Editor covers custom statuses"
+msgstr "Συμπληρωματικός Ρόλος Επεξεργαστή καλύπτει προσαρμοσμένες καταστάσεις"
+
+#: StatusesUI.php:440
+msgid "Include custom statuses in Add New pop-up on Calendar"
+msgstr ""
+"Συμπερίληψη προσαρμοσμένων καταστάσεων στο αναδυόμενο παράθυρο Προσθήκη "
+"Νέου στο Ημερολόγιο"
+
+#: StatusesUI.php:465
+msgid "Hide status selection dropdown from non-Administrators in Gutenberg editor"
+msgstr "Απόκρυψη επιλογής κατάστασης από μη Διαχειριστές στον επεξεργαστή Gutenberg"
+
+#: StatusesUI.php:492
+msgid "Sequence by default: Publish button defaults to next status in workflow"
+msgstr ""
+"Σειρά κατά προεπιλογή: Το κουμπί Δημοσίευσης προεπιλέγεται στην επόμενη "
+"κατάσταση της ροής εργασίας"
+
+#: StatusesUI.php:506
+msgid "Bypass by default: Publish button defaults to maximum available status"
+msgstr ""
+"Παράκαμψη κατά προεπιλογή: Το κουμπί Δημοσίευσης προεπιλέγεται στην μέγιστη "
+"διαθέσιμη κατάσταση"
+
+#: StatusesUI.php:520
+msgid "No workflow guidance"
+msgstr "Καμία καθοδήγηση ροής εργασίας"
+
+#: StatusesUI.php:565
+msgid ""
+"Hide sub-statuses in the dropdown unless the post is set to the parent "
+"status or a sibling"
+msgstr ""
+"Απόκρυψη υποκαταστάσεων στο αναπτυσσόμενο μενού εκτός αν η ανάρτηση έχει "
+"ρυθμιστεί στην γονική κατάσταση ή σε αδελφή"
+
+#: StatusesUI.php:571
+msgid ""
+"Sub-statuses may be nested below any top-level status. They function as "
+"branches in the Main Workflow or in an Alternate Workflow."
+msgstr ""
+"Οι υποκαταστάσεις μπορούν να είναι φωλιασμένες κάτω από οποιαδήποτε "
+"κατάσταση κορυφής. Λειτουργούν ως κλάδοι στην Κύρια Ροή Εργασίας ή σε μια "
+"Εναλλακτική Ροή Εργασίας."
+
+#: StatusesUI.php:608
+msgid "Add new statuses to Main Workflow by default"
+msgstr "Προσθήκη νέων καταστάσεων στο Κύριο Ροή Εργασίας από προεπιλογή"
+
+#: StatusesUI.php:627
+msgid "Available to all users"
+msgstr "Διαθέσιμο σε όλους τους χρήστες"
+
+#: StatusesUI.php:628
+msgid "Available to specified roles only"
+msgstr "Διαθέσιμο μόνο σε καθορισμένους ρόλους"
+
+#: StatusesUI.php:634
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, the same control is applied to the Pending Review "
+"status."
+msgstr ""
+"Οι χρήστες μπορούν να αναθέσουν μια προσαρμοσμένη κατάσταση σε μια ανάρτηση "
+"μόνο αν ο ρόλος τους το επιτρέπει. Με την τρέχουσα ρύθμιση, η ίδια ρύθμιση "
+"εφαρμόζεται στην κατάσταση Εκκρεμής Ανα revisión."
+
+#: StatusesUI.php:636
+msgid ""
+"Users can only assign a custom status to a post if their role allows it. "
+"With the current setting, those limitations will not be applied for the "
+"Pending Review status."
+msgstr ""
+"Οι χρήστες μπορούν να αναθέσουν μια προσαρμοσμένη κατάσταση σε μια ανάρτηση "
+"μόνο αν ο ρόλος τους το επιτρέπει. Με την τρέχουσα ρύθμιση, οι περιορισμοί "
+"αυτοί δεν θα εφαρμοστούν στην κατάσταση Εκκρεμής Ανα revisión."
+
+#: StatusesUI.php:645
+#. translators: %1$s and %2$s are link markup
+#, php-format
+msgid "View or set roles at %1$s Statuses > Statuses > Pending Review > Roles %2$s"
+msgstr ""
+"Προβολή ή ρύθμιση ρόλων στο %1$s Καταστάσεις > Καταστάσεις > Αναμονής "
+"Επισκόπησης > Ρόλοι %2$s"
+
+#: StatusesUI.php:669
+msgid "Automatic Detection"
+msgstr "Αυτόματη Ανίχνευση"
+
+#: StatusesUI.php:670
+msgid "Using Classic Editor"
+msgstr "Χρήση Κλασικού Επεξεργαστή"
+
+#: StatusesUI.php:671
+msgid "Using Gutenberg Editor"
+msgstr "Χρήση Επεξεργαστή Gutenberg"
+
+#: StatusesUI.php:676
+msgid ""
+"If custom statuses in the post editor are not loaded correctly, prevent "
+"incorrect detection of editor by specifying it here."
+msgstr ""
+"Αν οι προσαρμοσμένες καταστάσεις στον επεξεργαστή ανάρτησης δεν φορτωθούν "
+"σωστά, αποτρέψτε την εσφαλμένη ανίχνευση του επεξεργαστή δηλώνοντάς το εδώ."
+
+#: StatusesUI.php:697
+msgid "For all plugin statuses"
+msgstr "Για όλες τις καταστάσεις πρόσθετου"
+
+#: StatusesUI.php:698
+msgid "For user-created plugin statuses only"
+msgstr "Μόνο για καταστάσεις πρόσθετου που δημιουργούνται από χρήστες"
+
+#: StatusesUI.php:703
+msgid ""
+"This controls which statuses can have their labels customized by editing "
+"Status properties. If a non-default entry is stored, it will override any "
+"language file strings."
+msgstr ""
+"Αυτό ελέγχει ποιες καταστάσεις μπορούν να έχουν τις ετικέτες τους "
+"προσαρμοσμένες μέσω της επεξεργασίας των ιδιοτήτων κατάστασης. Αν "
+"αποθηκευτεί μια μη προεπιλεγμένη καταχώριση, θα αντικαταστήσει οποιαδήποτε "
+"αλφαβητική συμβολοσειρά αρχείου γλώσσας."
+
+#: StatusesUI.php:757
+#. translators: %1$s is the post type name, %2$s is the pp_custom_statuses feature
+#, php-format
+msgid ""
+"Disabled because add_post_type_support('%1$s', '%2$s') is included in a "
+"loaded file."
+msgstr ""
+"Απενεργοποιημένο επειδή η προσθήκη υποστήριξης τύπου ανάρτησης ('%1$s', "
+"'%2$s') περιλαμβάνεται σε ένα φορτωμένο αρχείο."
+
+#: StatusesUI.php:766
+msgid "Note: Post types can also be specified for each individual status."
+msgstr ""
+"Σημείωση: Οι τύποι αναρτήσεων μπορούν επίσης να καθοριστούν για κάθε "
+"μεμονωμένη κατάσταση."
+
+#: StatusesUI.php:791
+msgid "Enable custom Visibility Statuses"
+msgstr "Ενεργοποίηση προσαρμοσμένων Καταστάσεων Ορατότητας"
+
+#: StatusesUI.php:816
+msgid ""
+"Posts with custom Visibility also require status-specific capabilities for "
+"editing"
+msgstr ""
+"Οι αναρτήσεις με προσαρμοσμένη Ορατότητα απαιτούν επίσης ικανότητες "
+"συγκεκριμένες για την κατάσταση για την επεξεργασία"
+
+#: StatusesUI.php:897
+msgid "lock"
+msgstr "κλειδώστε"
+
+#: StatusesUI.php:924
+msgid "Locking also prevents posts from being unpublished"
+msgstr "Η κλείδωση αποτρέπει επίσης τις αναρτήσεις από το να αποσυρθούν"
+
+#: StatusesUI.php:934
+#, php-format
+msgid "This setting does not apply to %1$s Administrators%2$s."
+msgstr "Αυτή η ρύθμιση δεν ισχύει για %1$s Διαχειριστές %2$s."
+
+#: StatusesUI.php:935
+#, php-format
+msgid "You may assign a %1$s role capability %2$s to bypass this locking."
+msgstr ""
+"Μπορείτε να αναθέσετε μια %1$s ικανότητα ρόλου %2$s για να παρακάμψετε αυτή "
+"την κλείδωση."
+
+#: StatusesUI.php:939
+msgid "This setting does not apply to Administrators."
+msgstr "Αυτή η ρύθμιση δεν ισχύει για Διαχειριστές."
+
+#: StatusesUI.php:944
+#, php-format
+msgid ""
+"If this setting is unchecked, the lock will only prevent selection of a "
+"different visibility status. %1$s %2$s See documentation%3$s."
+msgstr ""
+"Εάν αυτή η ρύθμιση δεν είναι επιλεγμένη, το κλείδωμα θα αποτρέπει μόνο την "
+"επιλογή διαφορετικής κατάστασης ορατότητας. %1$s %2$s Δείτε την τεκμηρίωση "
+"%3$s."
+
+#: StatusesUI.php:964
+#: StatusesUI.php:1022
+msgid "Select..."
+msgstr "Επιλέξτε..."
+
+#: StatusesUI.php:967
+msgid "Re-run Planner import (with Status Control properties, ordering)"
+msgstr ""
+"Επαναλάβετε την εισαγωγή του Planner (με ιδιότητες ελέγχου κατάστασης, "
+"ταξινόμηση)"
+
+#: StatusesUI.php:968
+msgid "Re-run Planner import (ignoring Status Control configuration)"
+msgstr ""
+"Επαναλάβετε την εισαγωγή του Planner (αγνοώντας τη διαμόρφωση ελέγχου "
+"κατάστασης)"
+
+#: StatusesUI.php:970
+msgid "Re-run Planner import"
+msgstr "Επαναλάβετε την εισαγωγή του Planner"
+
+#: StatusesUI.php:976
+msgid ""
+"Status color, icon and position is automatically imported from PublishPress "
+"Planner. Select an option above to re-run the import, giving priority to "
+"Planner-defined status position."
+msgstr ""
+"Το χρώμα, το εικονίδιο και η θέση του status εισάγονται αυτόματα από το "
+"PublishPress Planner. Επιλέξτε μια επιλογή παραπάνω για να επαναλάβετε την "
+"εισαγωγή, δίνοντας προτεραιότητα στη θέση status που έχει ορίσει το Planner."
+
+#: StatusesUI.php:1024
+msgid "Back up current colors, icons, labels and post types"
+msgstr ""
+"Δημιουργία αντιγράφου ασφαλείας των τρεχουσών χρωμάτων, εικονιδίων, "
+"ετικετών και τύπων αναρτήσεων"
+
+#: StatusesUI.php:1029
+msgid "Restore backup of status colors"
+msgstr "Ανάκτηση αντιγράφου ασφαλείας των χρωμάτων κατάστασης"
+
+#: StatusesUI.php:1033
+msgid "Restore backup of status icons"
+msgstr "Ανάκτηση αντιγράφου ασφαλείας των εικονιδίων κατάστασης"
+
+#: StatusesUI.php:1037
+msgid "Restore backup of status labels"
+msgstr "Ανάκτηση αντιγράφου ασφαλείας των ετικετών κατάστασης"
+
+#: StatusesUI.php:1041
+msgid "Restore backup of status post types"
+msgstr "Επαναφορά αντιγράφου ασφαλείας τύπων αναρτήσεων καταστάσεων"
+
+#: StatusesUI.php:1047
+msgid "Restore auto-backup of status colors"
+msgstr "Επαναφορά αυτόματου αντιγράφου ασφαλείας χρωμάτων καταστάσεων"
+
+#: StatusesUI.php:1051
+msgid "Restore auto-backup of status icons"
+msgstr "Επαναφορά αυτόματου αντιγράφου ασφαλείας εικονιδίων καταστάσεων"
+
+#: StatusesUI.php:1055
+msgid "Restore auto-backup of status labels"
+msgstr "Επαναφορά αυτόματου αντιγράφου ασφαλείας ετικετών καταστάσεων"
+
+#: StatusesUI.php:1059
+msgid "Restore auto-backup of status post types"
+msgstr "Επαναφορά αυτόματου αντιγράφου ασφαλείας τύπων αναρτήσεων καταστάσεων"
+
+#: StatusesUI.php:1066
+msgid "Use default status colors"
+msgstr "Χρήση προεπιλεγμένων χρωμάτων καταστάσεων"
+
+#: StatusesUI.php:1070
+msgid "Use default status icons"
+msgstr "Χρήση προεπιλεγμένων εικονιδίων καταστάσεων"
+
+#: StatusesUI.php:1074
+msgid "Use default status labels"
+msgstr "Χρήση προεπιλεγμένων ετικετών καταστάσεων"
+
+#: StatusesUI.php:1078
+msgid "Use default status post types"
+msgstr "Χρήση προεπιλεγμένων τύπων αναρτήσεων καταστάσεων"
+
+#: StatusesUI.php:1082
+msgid "Use Planner plugin's default status colors"
+msgstr "Χρήση προεπιλεγμένων χρωμάτων καταστάσεων του πρόσθετου Planner"
+
+#: StatusesUI.php:1086
+msgid "Use Planner plugin's default status icons"
+msgstr "Χρήση προεπιλεγμένων εικονιδίων καταστάσεων του πρόσθετου Planner"
+
+#: StatusesUI.php:1125
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status: %s"
+msgstr "Επεξεργασία Κατάστασης: %s"
+
+#: StatusesUI.php:1128
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s: %2$s"
+msgstr "Επεξεργασία %1$s: %2$s"
+
+#: StatusesUI.php:1148
+#. translators: %s is the status name
+#, php-format
+msgid "Edit Status Labels: %s"
+msgstr "Επεξεργασία Ετικετών Καταστάσεων: %s"
+
+#: StatusesUI.php:1151
+#. translators: %s is the status name
+#, php-format
+msgid "Edit %1$s Labels: %2$s"
+msgstr "Επεξεργασία Ετικετών %1$s: %2$s"
+
+#: StatusesUI.php:1188
+#: StatusesUI.php:1316
+msgid "Add New Pre-Publication Status"
+msgstr "Προσθήκη Νέας Κατάστασης Προδημοσίευσης"
+
+#: StatusesUI.php:1204
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid ""
+"For custom Visibility Statuses, %1$supgrade to PublishPress Statuses "
+"Pro%2$s."
+msgstr ""
+"Για προσαρμοσμένα Visibility Statuses, %1$sαναβαθμίστε σε PublishPress "
+"Statuses Pro%2$s."
+
+#: StatusesUI.php:1218
+#. translators: %1$s and %2$s is link markup
+#, php-format
+msgid "Note: Custom Visibility Statuses are %1$sdisabled%2$s."
+msgstr ""
+"Σημείωση: Οι προσαρμοσμένες Καταστάσεις Ορατότητας είναι "
+"%1$sαπενεργοποιημένες%2$s."
+
+#: StatusesUI.php:1241
+msgid "Pre-Publication"
+msgstr "Προδημοσίευση"
+
+#: StatusesUI.php:1249
+#: StatusesUI.php:1355
+msgid "Visibility"
+msgstr "Ορατότητα"
+
+#: StatusesUI.php:1260
+msgid "Revision"
+msgstr "Αναθεώρηση"
+
+#: StatusesUI.php:1316
+msgid "Add New Visibility Status"
+msgstr "Προσθήκη Νέας Κατάστασης Ορατότητας"
+
+#: StatusesUI.php:1320
+msgid "This status can be assigned to customize post privacy."
+msgstr ""
+"Αυτή η κατάσταση μπορεί να ανατεθεί για να προσαρμόσει την ιδιωτικότητα της "
+"ανάρτησης."
+
+#: StatusesUI.php:1320
+msgid ""
+"This status can be assigned to an unpublished post using the Post Status "
+"dropdown."
+msgstr ""
+"Αυτό το status μπορεί να αποδοθεί σε μια μη δημοσιευμένη ανάρτηση "
+"χρησιμοποιώντας το αναπτυσσόμενο μενού Status ανάρτησης."
+
+#: StatusesUI.php:1356
+msgid "Integration"
+msgstr "Ενοποίηση"
+
+#: StatusesUI.php:1357
+msgid "Editor"
+msgstr "Επεξεργαστής"
+
+#: StatusesUI.php:1358
+msgid "Advanced"
+msgstr "Προηγμένα"
+
+#: StatusesUI.php:1359
+msgid "License"
+msgstr "Άδεια"
+
+#: StatusHandler.php:17
+#: StatusHandler.php:218
+msgid "Sorry, you do not have permission to edit custom statuses."
+msgstr "Λυπάμαι, δεν έχετε άδεια να επεξεργαστείτε προσαρμοσμένες καταστάσεις."
+
+#: StatusHandler.php:53
+#: StatusHandler.php:454
+msgid "Please enter a name for the status"
+msgstr "Παρακαλώ εισάγετε ένα όνομα για την κατάσταση"
+
+#: StatusHandler.php:57
+msgid "Please enter a slug for the status"
+msgstr "Παρακαλώ εισάγετε ένα slug για την κατάσταση"
+
+#: StatusHandler.php:64
+#: StatusHandler.php:459
+msgid "Please enter a valid, non-numeric name for the status."
+msgstr "Παρακαλώ εισάγετε ένα έγκυρο, μη αριθμητικό όνομα για την κατάσταση."
+
+#: StatusHandler.php:81
+#: StatusHandler.php:478
+msgid "Status name cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"Το όνομα της κατάστασης δεν μπορεί να υπερβαίνει τους 20 χαρακτήρες. "
+"Παρακαλώ δοκιμάστε ένα συντομότερο όνομα."
+
+#: StatusHandler.php:100
+msgid "Status slug cannot exceed 20 characters. Please try a shorter name."
+msgstr ""
+"Το slug της κατάστασης δεν μπορεί να υπερβαίνει τους 20 χαρακτήρες. "
+"Παρακαλώ δοκιμάστε ένα συντομότερο όνομα."
+
+#: StatusHandler.php:110
+msgid "Name conflicts with existing status. Please choose another."
+msgstr "Το όνομα συγκρούεται με υπάρχουσα κατάσταση. Παρακαλώ επιλέξτε άλλο."
+
+#: StatusHandler.php:117
+msgid "Status name is restricted. Please choose another name."
+msgstr ""
+"Το όνομα της κατάστασης είναι περιορισμένο. Παρακαλώ επιλέξτε ένα άλλο "
+"όνομα."
+
+#: StatusHandler.php:141
+msgid "Could not add status: "
+msgstr "Δεν ήταν δυνατή η προσθήκη κατάστασης: "
+
+#: StatusHandler.php:225
+#: StatusHandler.php:791
+msgid "Status does not exist."
+msgstr "Η κατάσταση δεν υπάρχει."
+
+#: StatusHandler.php:230
+#: StatusHandler.php:786
+msgid "Could not delete the status: "
+msgstr "Δεν ήταν δυνατή η διαγραφή της κατάστασης: "
+
+#: StatusHandler.php:254
+#: StatusHandler.php:409
+msgid "Post status doesn't exist."
+msgstr "Η κατάσταση ανάρτησης δεν υπάρχει."
+
+#: StatusHandler.php:387
+msgid "Error updating post status."
+msgstr "Σφάλμα κατά την ενημέρωση της κατάστασης ανάρτησης."
+
+#: StatusHandler.php:538
+msgid "Error updating post status labels."
+msgstr "Σφάλμα κατά την ενημέρωση των ετικετών κατάστασης ανάρτησης."
+
+#: StatusHandler.php:714
+msgid "Cannot reassign to the status you want to delete"
+msgstr "Δεν μπορεί να επανακαθοριστεί στην κατάσταση που θέλετε να διαγράψετε"
+
+#: StatusHandler.php:761
+msgid "Restricted status "
+msgstr "Περιορισμένη κατάσταση "
+
+#: StatusHandler.php:788
+msgid "Status deleted"
+msgstr "Η κατάσταση διαγράφηκε"
+
+#: StatusHandler.php:810
+msgid "Status positions were not sent."
+msgstr "Οι θέσεις κατάστασης δεν εστάλησαν."
+
+#: StatusListTable.php:166
+msgid "Position"
+msgstr "Θέση"
+
+#: StatusListTable.php:167
+msgid "Status Name"
+msgstr "Όνομα Κατάστασης"
+
+#: StatusListTable.php:168
+msgid "Name"
+msgstr "Όνομα"
+
+#: StatusListTable.php:197
+msgid "Upgrade to create an approval workflow for published content"
+msgstr ""
+"Αναβάθμιση για να δημιουργήσετε μια ροή εργασίας έγκρισης για δημοσιευμένο "
+"περιεχόμενο"
+
+#: StatusListTable.php:200
+msgid ""
+"Create approval workflows using PublishPress Statuses Pro together with the "
+"PublishPress Revisions Pro plugin"
+msgstr ""
+"Δημιουργήστε ροές έγκρισης χρησιμοποιώντας το PublishPress Statuses Pro "
+"μαζί με το πρόσθετο PublishPress Revisions Pro"
+
+#: StatusListTable.php:206
+msgid ""
+"The PublishPress Revisions plugin allows users to submit changes to "
+"published posts"
+msgstr ""
+"Το πρόσθετο PublishPress Revisions επιτρέπει στους χρήστες να υποβάλουν "
+"αλλαγές σε δημοσιευμένες αναρτήσεις"
+
+#: StatusListTable.php:209
+msgid ""
+"PublishPress Statuses plugin enables you to add statuses for post changes "
+"created with Revisions"
+msgstr ""
+"Το πρόσθετο PublishPress Statuses σας επιτρέπει να προσθέσετε statuses για "
+"αλλαγές αναρτήσεων που δημιουργήθηκαν με το Revisions"
+
+#: StatusListTable.php:212
+msgid "Each post type can have different Revisions statuses"
+msgstr "Κάθε τύπος άρθρου μπορεί να έχει διαφορετικές καταστάσεις Revisions"
+
+#: StatusListTable.php:215
+msgid "You choose which users can manage content in each Revisions status"
+msgstr ""
+"Επιλέγετε ποιους χρήστες μπορούν να διαχειρίζονται περιεχόμενο σε κάθε "
+"κατάσταση Revisions"
+
+#: StatusListTable.php:241
+msgid "Premium Feature"
+msgstr "Premium χαρακτηριστικό"
+
+#: StatusListTable.php:242
+msgid "Install Statuses Pro to unlock custom revision statuses."
+msgstr ""
+"Εγκαταστήστε το Statuses Pro για να ξεκλειδώσετε προσαρμοσμένες καταστάσεις "
+"αναθεώρησης."
+
+#: StatusListTable.php:243
+msgid "Configure for any post type and role to match your editing workflow."
+msgstr ""
+"Ρυθμίστε για οποιονδήποτε τύπο άρθρου και ρόλο για να ταιριάζει στη ροή "
+"εργασίας επεξεργασίας σας."
+
+#: StatusListTable.php:308
+#, php-format
+msgid ""
+"To define and control Revision statuses, update the %1$sPublishPress "
+"Revisions%2$s plugin to version %3$s or higher."
+msgstr ""
+"Για να ορίσετε και να ελέγξετε τα Revision statuses, ενημερώστε το "
+"%1$sPublishPress Revisions%2$s plugin στην έκδοση %3$s ή υψηλότερη."
+
+#: StatusListTable.php:340
+msgid "Main Workflow:"
+msgstr "Κύρια Ροή Εργασίας:"
+
+#: StatusListTable.php:366
+msgid "Drop any status here to include it in main workflow for new posts."
+msgstr ""
+"Ρίξτε οποιαδήποτε κατάσταση εδώ για να την συμπεριλάβετε στην κύρια ροή "
+"εργασίας για νέα άρθρα."
+
+#: StatusListTable.php:402
+msgid ""
+"Statuses in the main workflow are presented for convenient default "
+"selection when updating an unpublished post."
+msgstr ""
+"Τα statuses στην κύρια ροή εργασίας παρουσιάζονται για βολική προεπιλογή "
+"κατά την ενημέρωση μιας μη δημοσιευμένης ανάρτησης."
+
+#: StatusListTable.php:410
+msgid ""
+"Statuses outside the main workflow are manually selectable when editing an "
+"unpublished post."
+msgstr ""
+"Τα statuses εκτός της κύριας ροής εργασίας είναι επιλέξιμα χειροκίνητα κατά "
+"την επεξεργασία μιας μη δημοσιευμένης ανάρτησης."
+
+#: StatusListTable.php:442
+msgid ""
+"Drop any status here to make it manually selectable outside the main "
+"workflow."
+msgstr ""
+"Αφήστε οποιοδήποτε status εδώ για να το κάνετε επιλέξιμο χειροκίνητα εκτός "
+"της κύριας ροής εργασίας."
+
+#: StatusListTable.php:444
+#: StatusListTable.php:466
+msgid "Drop any status here to disable."
+msgstr "Ρίξτε οποιαδήποτε κατάσταση εδώ για να την απενεργοποιήσετε."
+
+#: StatusListTable.php:517
+msgid "Standard Publication:"
+msgstr "Πρότυπη Δημοσίευση:"
+
+#: StatusListTable.php:524
+msgid "Visibility Statuses for Private Publication:"
+msgstr "Καταστάσεις Ορατότητας για Ιδιωτική Δημοσίευση:"
+
+#: StatusListTable.php:531
+msgid "Alternate Workflows:"
+msgstr "Εναλλακτικές Ροές Εργασίας:"
+
+#: StatusListTable.php:531
+#: StatusListTable.php:542
+#. translators: %s is the opening and closing <span> tags
+msgid "Disabled Statuses (drag to re-enable):"
+msgstr "Απενεργοποιημένες Καταστάσεις (σύρετε για να επανενεργοποιήσετε):"
+
+#: StatusListTable.php:647
+msgid "Upgrade to choose who can view your non-public posts"
+msgstr ""
+"Αναβαθμίστε για να επιλέξετε ποιοι μπορούν να δουν τις μη δημόσιες "
+"δημοσιεύσεις σας"
+
+#: StatusListTable.php:650
+msgid ""
+"Upgrade to PublishPress Statuses Pro to define your own custom visibility "
+"statuses."
+msgstr ""
+"Αναβαθμίστε σε PublishPress Statuses Pro για να ορίσετε τα δικά σας "
+"προσαρμοσμένα visibility statuses."
+
+#: StatusListTable.php:656
+msgid "Create multiple visibility statuses to show content to different users"
+msgstr ""
+"Δημιουργήστε πολλές καταστάσεις ορατότητας για να δείξετε περιεχόμενο σε "
+"διαφορετικούς χρήστες"
+
+#: StatusListTable.php:659
+msgid "Choose which user roles can see posts in each status"
+msgstr ""
+"Επιλέξτε ποιους ρόλους χρηστών μπορούν να δουν δημοσιεύσεις σε κάθε "
+"κατάσταση"
+
+#: StatusListTable.php:662
+msgid "Select which user roles can move posts to each status"
+msgstr ""
+"Επιλέξτε ποιους ρόλους χρηστών μπορούν να μεταφέρουν δημοσιεύσεις σε κάθε "
+"κατάσταση"
+
+#: StatusListTable.php:665
+msgid "Decide which user roles can edit posts in each status"
+msgstr ""
+"Αποφασίστε ποιους ρόλους χρηστών μπορούν να επεξεργάζονται δημοσιεύσεις σε "
+"κάθε κατάσταση"
+
+#: StatusListTable.php:762
+#. translators: %s is the list of post types
+#, php-format
+msgid "%s, more..."
+msgstr "%s, περισσότερα..."
+
+#: StatusListTable.php:844
+msgid "No custom statuses found."
+msgstr "Δεν βρέθηκαν προσαρμοσμένες καταστάσεις."
+
+#: StatusListTable.php:915
+msgid "Core"
+msgstr "Πυρήνας"
+
+#: StatusListTable.php:919
+msgid "Default"
+msgstr "Προεπιλογή"
+
+#: StatusListTable.php:949
+msgid "Disable"
+msgstr "Απενεργοποίηση"
+
+#: StatusListTable.php:953
+msgid "Enable"
+msgstr "Ενεργοποίηση"
+
+#: StatusListTable.php:957
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: PublishPress_Statuses.php:865, fuzzy
+msgctxt "post action/button label"
+msgid "Pitch"
+msgstr "Pitch"

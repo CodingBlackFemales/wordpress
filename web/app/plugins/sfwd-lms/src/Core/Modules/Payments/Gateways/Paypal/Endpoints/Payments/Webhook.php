@@ -41,7 +41,8 @@ class Webhook extends Endpoint {
 	/**
 	 * The permission required to access this endpoint.
 	 *
-	 * This endpoint is public.
+	 * Intentionally public: PayPal calls this endpoint unauthenticated. The request is instead
+	 * verified by verify_webhook_signature().
 	 *
 	 * @since 4.25.0
 	 *

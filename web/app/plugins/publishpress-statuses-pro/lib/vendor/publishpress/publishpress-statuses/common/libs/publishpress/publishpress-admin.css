@@ -1,0 +1,111 @@
+/* PublishPress Page Styling, Footer */
+
+.publishpress-admin-wrapper a:link,
+.publishpress-admin-wrapper a:visited,
+.publishpress-admin-wrapper a:active,
+.publishpress-admin-wrapper a:hover {
+    text-decoration: none;
+}
+
+.publishpress-admin-wrapper a,
+.publishpress-admin-wrapper button,
+.publishpress-admin-wrapper button::before {
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -o-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+.publishpress-admin-wrapper a,
+.publishpress-admin-wrapper a div,
+.publishpress-admin-wrapper a p {
+    color: #655997;
+}
+
+.publishpress-admin-wrapper a:hover,
+.publishpress-admin-wrapper a:focus,
+.publishpress-admin-wrapper a:active,
+.publishpress-admin-wrapper a:hover div,
+.publishpress-admin-wrapper a:focus div,
+.publishpress-admin-wrapper a:active div,
+.publishpress-admin-wrapper a:hover p,
+.publishpress-admin-wrapper a:focus p,
+.publishpress-admin-wrapper a:active p,
+.publishpress-admin-wrapper a:hover .dashicons:before,
+.publishpress-admin-wrapper a:focus .dashicons:before,
+.publishpress-admin-wrapper a:active .dashicons:before {
+    color: #5A4F87;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -o-box-shadow: none;
+}
+
+.publishpress-admin-wrapper > header h1 a,
+.publishpress-admin-wrapper > header h1 a:hover,
+.publishpress-admin-wrapper > header h1 a:focus,
+.publishpress-admin-wrapper > header h1 a:active {
+    color: #23282d;
+}
+
+.publishpress-admin-wrapper .nav-tab-wrapper {
+    margin-top: 10px !important;
+}
+
+.publishpress-admin-wrapper .nav-tab-wrapper .nav-tab {
+    color: inherit;
+    margin-bottom: 0;
+}
+
+.publishpress-admin-wrapper .nav-tab-wrapper .nav-tab-active,
+.publishpress-admin-wrapper .nav-tab-wrapper .nav-tab:hover,
+.publishpress-admin-wrapper .nav-tab-wrapper .nav-tab:active,
+.publishpress-admin-wrapper .nav-tab-wrapper .nav-tab:focus {
+    border-top-color: #655997;
+    color: #655997;
+    background-color: white;
+}
+
+.publishpress-admin-wrapper > footer {
+    text-align: center;
+}
+
+.publishpress-admin-wrapper > footer > div.pp-rating {
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.publishpress-admin-wrapper > footer * {
+    color: #777;
+}
+
+.publishpress-admin-wrapper > footer > nav ul {
+    list-style: none;
+}
+
+.publishpress-admin-wrapper > footer > nav ul > li {
+    display: inline-block;
+}
+
+.publishpress-admin-wrapper > footer > nav ul > li:not(:first-child) {
+    margin-left: 15px;
+}
+
+.publishpress-admin-wrapper > footer > nav ul > li > a {
+    font-weight: bold;
+}
+
+.publishpress-admin-wrapper > footer .dashicons.dashicons-star-filled {
+    line-height: 18px;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    color: #FFB300;
+    -webkit-transition: color 200ms ease-in-out;
+    -moz-transition: color 200ms ease-in-out;
+    -o-transition: color 200ms ease-in-out;
+    transition: color 200ms ease-in-out;
+}
+.publishpress-admin-wrapper .pp-publishpress-logo img {
+    width: 170px;
+}

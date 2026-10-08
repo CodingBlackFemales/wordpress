@@ -3,13 +3,30 @@
  * Plugin Name: LearnDash LMS - Zapier Integration
  * Plugin URI: http://www.learndash.com
  * Description: LearnDash LMS addon plugin that integrates LearnDash with Zapier
- * Version: 2.3.0
+ * Version: 2.3.2
+ * Requires PHP: 7.4
+ * Requires at least: 6.6
+ * Tested up to: 6.9
  * Author: LearnDash
  * Author URI: http://www.learndash.com
+ *
+ * @package LearnDash\Zapier
  */
 
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor-prefixed/autoload.php';
+
+use LearnDash\Core\Autoloader;
+use LearnDash\Zapier\Plugin;
+use LearnDash\Zapier\Dependency_Checker;
+
 if ( ! defined( 'LEARNDASH_ZAPIER_VERSION' ) ) {
-	define( 'LEARNDASH_ZAPIER_VERSION', '2.3.0' );
+	define( 'LEARNDASH_ZAPIER_VERSION', '2.3.2' );
 }
 
 // Plugin file
@@ -27,45 +44,98 @@ if ( ! defined( 'LEARNDASH_ZAPIER_PLUGIN_URL' ) ) {
 	define( 'LEARNDASH_ZAPIER_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
+$learndash_zapier_dependency_checker = new Dependency_Checker();
+
+$learndash_zapier_dependency_checker->set_dependencies(
+	[
+		'sfwd-lms/sfwd_lms.php' => [
+			'label'            => '<a href="https://www.learndash.com" target="_blank">LearnDash LMS</a>',
+			'class'            => 'SFWD_LMS',
+			'version_constant' => 'LEARNDASH_VERSION',
+			'min_version'      => '4.6.0',
+		],
+	]
+);
+
+add_action(
+	'init',
+	function () use ( $learndash_zapier_dependency_checker ) {
+		$learndash_zapier_dependency_checker->set_message(
+			esc_html__( 'LearnDash LMS - Zapier Integration requires the following plugin(s) to be active:', 'learndash-zapier' )
+		);
+	}
+);
+
+add_action(
+	'learndash_init',
+	function () use ( $learndash_zapier_dependency_checker ) {
+		// If plugin requirements aren't met, don't run anything else to prevent possible fatal errors.
+		if ( ! $learndash_zapier_dependency_checker->check_dependency_results() || php_sapi_name() === 'cli' ) {
+			return;
+		}
+
+		require_once trailingslashit( LEARNDASH_ZAPIER_PLUGIN_PATH ) . 'includes/deprecated/deprecated-functions.php';
+		learndash_zapier_extra_autoloading();
+
+		learndash_zapier_includes();
+		learndash_zapier_hooks();
+
+		learndash_register_provider( Plugin::class );
+	}
+);
+
 /**
- * Check and set dependencies
+ * Setup the autoloader for extra classes, which are not in the src/App directory.
+ *
+ * @since 2.3.2
  *
  * @return void
  */
-function learndash_zapier_check_dependency() {
-	include LEARNDASH_ZAPIER_PLUGIN_PATH . 'includes/class-dependency-check.php';
+function learndash_zapier_extra_autoloading(): void {
+	$autoloader = Autoloader::instance();
 
-	LearnDash_Dependency_Check_LD_Zapier::get_instance()->set_dependencies(
-		array(
-			'sfwd-lms/sfwd_lms.php' => array(
-				'label'       => '<a href="https://learndash.com">LearnDash LMS</a>',
-				'class'       => 'SFWD_LMS',
-				'min_version' => '3.0.0',
-			),
-		)
-	);
+	// Iterate through all files under ./src/deprecated.
+	$iterator = new RecursiveDirectoryIterator( trailingslashit( LEARNDASH_ZAPIER_PLUGIN_PATH ) . 'src/deprecated/' );
+	$files    = new RecursiveIteratorIterator( $iterator, RecursiveIteratorIterator::SELF_FIRST );
 
-	LearnDash_Dependency_Check_LD_Zapier::get_instance()->set_message(
-		__( 'LearnDash LMS - Zapier Integration Add-on requires the following plugin(s) to be active:', 'learndash-zapier' )
-	);
-}
+	foreach ( $files as $file ) {
+		if (
+			! $file instanceof SplFileInfo
+			|| ! $file->isFile()
+			|| $file->getExtension() !== 'php'
+		) {
+			continue;
+		}
 
-//////////
-// Init //
-//////////
-add_action( 'plugins_loaded', 'learndash_zapier_load_translation' );
+		if ( strstr( $file->getRealPath(), 'functions' ) ) {
+			// If this was named functions.php in any directory, load it.
+			include_once $file->getRealPath();
+		} else {
+			// Construct the proper Class Name based on the file path.
+			$class_name = str_replace(
+				'/',
+				'\\',
+				(string) preg_replace(
+					'/.*?src\/deprecated\/(.*?)\.php/',
+					'$1',
+					$file->getRealPath()
+				)
+			);
 
-learndash_zapier_check_dependency();
+			if ( strpos( $class_name, '\\' ) !== false ) {
+				$class_name = 'LearnDash\\Zapier\\' . $class_name;
+			}
 
-add_action(
-	'plugins_loaded',
-	function() {
-		if ( LearnDash_Dependency_Check_LD_Zapier::get_instance()->check_dependency_results() ) {
-			learndash_zapier_includes();
-			learndash_zapier_hooks();
+			$autoloader->register_class( $class_name, $file->getRealPath() );
 		}
 	}
-);
+
+	$autoloader->register_autoloader();
+}
+//
+// Init //
+//
+add_action( 'plugins_loaded', 'learndash_zapier_load_translation' );
 
 function learndash_zapier_includes() {
 	if ( is_admin() ) {
@@ -77,7 +147,7 @@ function learndash_zapier_includes() {
 }
 
 function learndash_zapier_hooks() {
-	 add_action( 'init', 'ld_zapier_init', 1 );
+	add_action( 'init', 'ld_zapier_init', 20 );
 	add_action( 'wp', 'ld_zapier_disable_frontend' );
 	add_action( 'learndash_update_course_access', 'ld_zapier_learndash_update_course_access', 10, 4 );
 	add_action( 'ld_group_postdata_updated', 'ld_zapier_group_enrolled', 10, 4 );
@@ -100,43 +170,43 @@ function learndash_zapier_hooks() {
 }
 
 function ld_zapier_init() {
-	 $post_args = array(
-		 'labels' => array(
-			 'name' => __( 'Zapier Triggers', 'learndash-zapier' ),
-			 'singular_name' => __( 'Zapier Trigger', 'learndash-zapier' ),
-			 'add_new' => __( 'Add Trigger', 'learndash-zapier' ),
-			 'add_new_item' => __( 'Add Trigger', 'learndash-zapier' ),
-			 'edit' => __( 'Edit Trigger', 'learndash-zapier' ),
-			 'edit_item' => __( 'Edit Trigger', 'learndash-zapier' ),
-			 'new_item' => __( 'Trigger', 'learndash-zapier' ),
-			 'view' => __( 'View Trigger', 'learndash-zapier' ),
-			 'view_item' => __( 'View Trigger', 'learndash-zapier' ),
-			 'search_items' => __( 'Search Trigger', 'learndash-zapier' ),
-			 'not_found' => __( 'No Trigger found', 'learndash-zapier' ),
-			 'not_found_in_trash' => __( 'No trigger found in Trash', 'learndash-zapier' ),
-		 ),
-		 'public'              => false,
-		 'show_ui'             => true,
-		 'show_in_menu'        => false,
-		 'show_in_admin_bar'   => false,
-		 'menu_position'       => null,
-		 'menu_icon'           => null,
-		 'show_in_nav_menus'   => false,
-		 'publicly_queryable'  => false,
-		 'exclude_from_search' => true,
-		 'has_archive'         => false,
-		 'query_var'           => false,
-		 'can_export'          => true,
-		 'rewrite'             => false,
-		 'capability_type'     => 'post',
-		 'supports' => array(
-			 'title',
-		 ),
-		 'menu_icon' => 'dashicons-admin-generic',
-		 'has_archive' => false,
-	 );
-	 $post_args = apply_filters( 'learndash_post_args_zapier', $post_args );
-	 register_post_type( 'sfwd-zapier', $post_args );
+	$post_args = [
+		'labels'              => [
+			'name'               => __( 'Zapier Triggers', 'learndash-zapier' ),
+			'singular_name'      => __( 'Zapier Trigger', 'learndash-zapier' ),
+			'add_new'            => __( 'Add Trigger', 'learndash-zapier' ),
+			'add_new_item'       => __( 'Add Trigger', 'learndash-zapier' ),
+			'edit'               => __( 'Edit Trigger', 'learndash-zapier' ),
+			'edit_item'          => __( 'Edit Trigger', 'learndash-zapier' ),
+			'new_item'           => __( 'Trigger', 'learndash-zapier' ),
+			'view'               => __( 'View Trigger', 'learndash-zapier' ),
+			'view_item'          => __( 'View Trigger', 'learndash-zapier' ),
+			'search_items'       => __( 'Search Trigger', 'learndash-zapier' ),
+			'not_found'          => __( 'No Trigger found', 'learndash-zapier' ),
+			'not_found_in_trash' => __( 'No trigger found in Trash', 'learndash-zapier' ),
+		],
+		'public'              => false,
+		'show_ui'             => true,
+		'show_in_menu'        => false,
+		'show_in_admin_bar'   => false,
+		'menu_position'       => null,
+		'menu_icon'           => null,
+		'show_in_nav_menus'   => false,
+		'publicly_queryable'  => false,
+		'exclude_from_search' => true,
+		'has_archive'         => false,
+		'query_var'           => false,
+		'can_export'          => true,
+		'rewrite'             => false,
+		'capability_type'     => 'post',
+		'supports'            => [
+			'title',
+		],
+		'menu_icon'           => 'dashicons-admin-generic',
+		'has_archive'         => false,
+	];
+	$post_args = apply_filters( 'learndash_post_args_zapier', $post_args );
+	register_post_type( 'sfwd-zapier', $post_args );
 }
 
 function ld_zapier_disable_frontend() {
@@ -154,13 +224,13 @@ function ld_zapier_enqueue_script() {
 		return;
 	}
 
-	wp_enqueue_script( 'ld_zapier_admin', plugin_dir_url( __FILE__ ) . 'assets/js/admin.js', array( 'jquery' ) );
+	wp_enqueue_script( 'ld_zapier_admin', plugin_dir_url( __FILE__ ) . 'assets/js/admin.js', [ 'jquery' ] );
 	wp_localize_script(
 		'ld_zapier_admin',
 		'LD_Zapier_Params',
-		array(
+		[
 			'webhook_message' => __( 'Triggers on this page are used for legacy webhook integration and not for LearnDash public Zapier app.', 'learndash-zapier' ),
-		)
+		]
 	);
 }
 
@@ -174,14 +244,13 @@ function ld_zapier_menu() {
 }
 
 function ld_zapier_add_submenu_item( $submenu ) {
-
-	$notification_menu = array(
-		array(
+	$notification_menu = [
+		[
 			'name' => __( 'Zapier', 'learndash-zapier' ),
 			'cap'  => 'manage_options', // @TODO Need to confirm this capability on the menu.
 			'link' => 'admin.php?page=learndash-zapier-settings',
-		),
-	);
+		],
+	];
 
 	array_splice( $submenu, 10, 0, $notification_menu );
 
@@ -204,77 +273,73 @@ function learndash_zapier_output_templates_page() {
 function learndash_zapier_admin_tabs_set( $current_screen_parent_file, $tabs ) {
 	$screen = get_current_screen();
 	if ( ( $current_screen_parent_file == 'learndash-lms' && $screen->post_type == 'sfwd-zapier' ) || strstr( $screen->id, 'learndash-zapier-templates' ) ) {
-
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'admin.php?page=learndash-zapier-settings',
-				'name'          => __( 'Settings', 'learndash-thrivecart' ),
-				'id'            => 'learndash-zapier-settings',
-			),
+			[
+				'link' => 'admin.php?page=learndash-zapier-settings',
+				'name' => __( 'Settings', 'learndash-thrivecart' ),
+				'id'   => 'learndash-zapier-settings',
+			],
 			1
 		);
 
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'admin.php?page=learndash-zapier-templates',
-				'name'          => __( 'Example Templates', 'learndash-thrivecart' ),
-				'id'            => 'learndash-zapier-templates',
-			),
+			[
+				'link' => 'admin.php?page=learndash-zapier-templates',
+				'name' => __( 'Example Templates', 'learndash-thrivecart' ),
+				'id'   => 'learndash-zapier-templates',
+			],
 			2
 		);
 
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'edit.php?post_type=sfwd-zapier',
-				'name'          => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
-				'id'            => 'edit-sfwd-zapier',
-			),
+			[
+				'link' => 'edit.php?post_type=sfwd-zapier',
+				'name' => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
+				'id'   => 'edit-sfwd-zapier',
+			],
 			3
 		);
-
 	} elseif ( $current_screen_parent_file == 'edit.php?post_type=sfwd-zapier' && $screen->id !== 'admin_page_learndash-zapier-settings' ) {
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'admin.php?page=learndash-zapier-templates',
-				'name'          => __( 'Example Templates', 'learndash-thrivecart' ),
-				'id'            => 'learndash-zapier-templates',
-			),
+			[
+				'link' => 'admin.php?page=learndash-zapier-templates',
+				'name' => __( 'Example Templates', 'learndash-thrivecart' ),
+				'id'   => 'learndash-zapier-templates',
+			],
 			2
 		);
 
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'edit.php?post_type=sfwd-zapier',
-				'name'          => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
-				'id'            => 'edit-sfwd-zapier',
-			),
+			[
+				'link' => 'edit.php?post_type=sfwd-zapier',
+				'name' => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
+				'id'   => 'edit-sfwd-zapier',
+			],
 			3
 		);
-
 	} elseif ( $current_screen_parent_file == 'edit.php?post_type=sfwd-zapier' && $screen->id === 'admin_page_learndash-zapier-settings' ) {
-
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'admin.php?page=learndash-zapier-templates',
-				'name'          => __( 'Example Templates', 'learndash-thrivecart' ),
-				'id'            => 'learndash-zapier-templates',
-			),
+			[
+				'link' => 'admin.php?page=learndash-zapier-templates',
+				'name' => __( 'Example Templates', 'learndash-thrivecart' ),
+				'id'   => 'learndash-zapier-templates',
+			],
 			2
 		);
 
 		$tabs->add_admin_tab_item(
 			$current_screen_parent_file,
-			array(
-				'link'          => 'edit.php?post_type=sfwd-zapier',
-				'name'          => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
-				'id'            => 'edit-sfwd-zapier',
-			),
+			[
+				'link' => 'edit.php?post_type=sfwd-zapier',
+				'name' => __( 'Triggers (Webhooks)', 'learndash-zapier' ),
+				'id'   => 'edit-sfwd-zapier',
+			],
 			3
 		);
 	}
@@ -299,8 +364,8 @@ function ld_zapier_meta_box() {
 }
 
 function ld_zapier_meta_box_content( $zapier_data ) {
-	$events = ld_zapier_get_trigger_events();
-	$webhook_url = esc_html( get_post_meta( $zapier_data->ID, 'webhook', true ) );
+	$events         = ld_zapier_get_trigger_events();
+	$webhook_url    = esc_html( get_post_meta( $zapier_data->ID, 'webhook', true ) );
 	$zapier_trigger = get_post_meta( $zapier_data->ID, 'zapier_trigger', true );
 
 	wp_nonce_field( 'metabox', 'ld_zapier_nonce' );
@@ -327,7 +392,7 @@ function ld_zapier_meta_box_content( $zapier_data ) {
 		</tr>
 		<?php foreach ( $events as $post_type => $triggers ) : ?>
 		<tr class="zapier_trigger_<?php echo esc_attr( $post_type ); ?>" style="display: none;">
-			 <td style="width: 150px">
+			<td style="width: 150px">
 				<?php printf( __( 'Trigger %s', 'learndash-zapier' ), ucfirst( $post_type ) ); ?>
 			</td>
 			<td>
@@ -344,7 +409,7 @@ function ld_zapier_meta_box_content( $zapier_data ) {
 			<td><input type="text"  name="webhook" value="<?php echo $webhook_url; ?>" /><br>
 		<small><?php _e( 'This is the url of your Zapier webhook, provided by Zapier when creating a new Zap.', 'learndash-zapier' ); ?></small>
 		</td>
-		</tr>        
+		</tr>
 	</table>
 	<?php
 }
@@ -399,10 +464,10 @@ function ld_zapier_learndash_update_course_access( $user_id, $course_id, $access
 		return;
 	}
 
-	$data = array(
+	$data = [
 		'user'   => $user,
 		'course' => $course,
-	);
+	];
 
 	$data['course_started_on'] = ld_course_access_from( $data['course']->ID, $data['user']->ID );
 	$data['course_started_on'] = date( 'Y-m-d H:i:s', $data['course_started_on'] );
@@ -437,10 +502,10 @@ function ld_zapier_group_enrolled( $group_id, $group_leaders, $group_users, $gro
 				continue;
 			}
 
-			$data = array(
+			$data = [
 				'user'   => $user,
 				'course' => $course,
-			);
+			];
 
 			ld_zapier_debug( $data );
 
@@ -532,11 +597,11 @@ function ld_zapier_learndash_topic_completed( $data ) {
  * Send Zapier POST data when user submits new essay
  */
 function ld_zapier_new_essay_submitted( $id, $args ) {
-	$data = array();
+	$data = [];
 
 	$user = get_user_by( 'id', $args['post_author'] );
 	foreach ( $args as $key => $arg ) {
-		$key = str_replace( 'post_', '', $key );
+		$key          = str_replace( 'post_', '', $key );
 		$args[ $key ] = $arg;
 	}
 
@@ -577,9 +642,9 @@ function ld_zapier_learndash_quiz_passed( $data, $user ) {
 // Essay graded
 function ld_zapier_essay_graded( $quiz_id, $question_id, $updated_scoring, $essay ) {
 	if ( $essay->post_status == 'graded' ) {
-		$user_id   = $essay->post_author;
+		$user_id      = $essay->post_author;
 		$real_quiz_id = learndash_get_quiz_id_by_pro_quiz_id( $quiz_id );
-		$course_id = learndash_get_course_id( $real_quiz_id );
+		$course_id    = learndash_get_course_id( $real_quiz_id );
 
 		// Exit if user already has completed the course
 		if ( learndash_course_completed( $user_id, $course_id ) ) {
@@ -618,34 +683,33 @@ function ld_zapier_send_trigger( $type, $data ) {
 	$data['user_groups'] = learndash_get_users_group_ids( $data['user']->ID );
 	if ( is_array( $data['user_groups'] ) ) {
 		foreach ( $data['user_groups'] as $key => $group_id ) {
-			$data['user_groups'][ $key ] = array(
-				'id' => $group_id,
+			$data['user_groups'][ $key ] = [
+				'id'   => $group_id,
 				'name' => get_the_title( $group_id ),
-			);
+			];
 		}
 	}
 
 	$data = apply_filters( 'learndash_zapier_post_data', $data, $type );
 
-	$opt = array(
-		'post_type' => 'sfwd-zapier',
-		'meta_query' => array(
-			array(
-				'key' => 'zapier_trigger',
+	$opt = [
+		'post_type'      => 'sfwd-zapier',
+		'meta_query'     => [
+			[
+				'key'   => 'zapier_trigger',
 				'value' => $type,
-			),
-		),
+			],
+		],
 		'posts_per_page' => -1,
-	);
+	];
 
 	$data['trigger_type'] = $type;
-	$triggers = get_posts( $opt );
+	$triggers             = get_posts( $opt );
 	ld_zapier_debug( $opt );
 	ld_zapier_debug( $triggers );
 
 	if ( ! empty( $triggers ) ) {
 		foreach ( $triggers as $trigger ) {
-
 			// Check if course, lesson, topic, quiz ID match with the trigger template
 			foreach ( $events as $post_type => $trigger_events ) {
 				if ( in_array( $type, $trigger_events ) ) {
@@ -660,6 +724,7 @@ function ld_zapier_send_trigger( $type, $data ) {
 			$webhook_url = get_post_meta( $trigger->ID, 'webhook', true );
 			// Undefined variable $post_id
 			// ld_zapier_debug($webhook_url.":".$post_id);
+
 			if ( ! empty( $data['user']->data ) ) {
 				$user = $data['user'];
 
@@ -681,11 +746,11 @@ function ld_zapier_post( $url, $data ) {
 		return;
 	}
 
-	$args = array(
-		'method' => 'POST',
-		'timeout'       => 20,
-		'body'  => $data,
-	);
+	$args = [
+		'method'  => 'POST',
+		'timeout' => 20,
+		'body'    => $data,
+	];
 	ld_zapier_debug( $data );
 	return wp_remote_post( $url, $args );
 }
@@ -703,25 +768,25 @@ function ld_zapier_trigger_select( $post_type ) {
 	switch ( $post_type ) {
 		case 'course':
 			$options = get_posts( 'post_type=sfwd-courses&posts_per_page=-1&orderby=title&order=ASC' );
-			$plural = __( 'Courses', 'learndash-zapier' );
+			$plural  = __( 'Courses', 'learndash-zapier' );
 			$current = get_post_meta( get_the_ID(), 'zapier_trigger_course', true );
 			break;
 
 		case 'lesson':
 			$options = get_posts( 'post_type=sfwd-lessons&posts_per_page=-1&orderby=title&order=ASC' );
-			$plural = __( 'Lessons', 'learndash-zapier' );
+			$plural  = __( 'Lessons', 'learndash-zapier' );
 			$current = get_post_meta( get_the_ID(), 'zapier_trigger_lesson', true );
 			break;
 
 		case 'topic':
 			$options = get_posts( 'post_type=sfwd-topic&posts_per_page=-1&orderby=title&order=ASC' );
-			$plural = __( 'Topics', 'learndash-zapier' );
+			$plural  = __( 'Topics', 'learndash-zapier' );
 			$current = get_post_meta( get_the_ID(), 'zapier_trigger_topic', true );
 			break;
 
 		case 'quiz':
 			$options = get_posts( 'post_type=sfwd-quiz&posts_per_page=-1&orderby=title&order=ASC' );
-			$plural = __( 'Quizzes', 'learndash-zapier' );
+			$plural  = __( 'Quizzes', 'learndash-zapier' );
 			$current = get_post_meta( get_the_ID(), 'zapier_trigger_quiz', true );
 			break;
 	}
@@ -746,23 +811,23 @@ function ld_zapier_trigger_select( $post_type ) {
 }
 
 function ld_zapier_get_trigger_events() {
-	$events = array(
-		'course' => array(
+	$events = [
+		'course' => [
 			'enrolled_into_course',
 			'course_completed',
-		),
-		'lesson' => array(
+		],
+		'lesson' => [
 			'lesson_completed',
-		),
-		'topic' => array(
+		],
+		'topic'  => [
 			'topic_completed',
-		),
-		'quiz' => array(
+		],
+		'quiz'   => [
 			'quiz_passed',
 			'quiz_failed',
 			'quiz_completed',
-		),
-	);
+		],
+	];
 
 	return $events;
 }

@@ -1,0 +1,64 @@
+#publishpress_prosettings_slack_oauth_container .message-box {
+    padding: 7px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+#publishpress_prosettings_slack_oauth_container .message-box [class^="ppp-slack-icon-"] {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+#publishpress_prosettings_slack_oauth_container .message-box.warning {
+    background: #f3f3b6;
+    border: 1px solid #b7b771;
+    color: #383824;
+}
+
+#publishpress_prosettings_slack_oauth_container .message-box.success {
+    background: #b8ecb6;
+    border: 1px solid #6f916b;
+    color: #2a4128;
+}
+
+#publishpress_prosettings_slack_oauth_container .message-box.error {
+    background: #f3b6b6;
+    border: 1px solid #bb8b8b;
+    color: #663a3a;
+}
+
+.info {
+    color: gray;
+    padding-left: 0;
+    margin-top: 10px;;
+}
+
+#publishpress_prosettings_slack_oauth_container .fields-box {
+    margin: 15px 0;
+}
+
+#publishpress_prosettings_slack_oauth_container .fields-box input {
+    margin-right: 10px;
+    height: 40px;
+    width: 270px;
+    display: inline-block;
+}
+
+#publishpress_prosettings_slack_oauth_container .button [class^="ppp-slack-icon-"] {
+    margin-right: 5px;
+}
+
+#publishpress_prosettings_slack_oauth_container .button {
+    line-height: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-right: 5px;
+}
+
+.pp-slack-theme-preview img {
+    width: 430px;
+    margin-top: 10px;
+    margin-left: 20px;
+    border: 1px solid #cfcece;
+    display: block;
+}

@@ -1,0 +1,284 @@
+
+/* ====================================================== KEY ACTIVATION / STATUS */
+
+.publishpress-caps-manage table.capsman-key-activation td {
+padding-top:0;
+}
+
+.publishpress-caps-manage #edd_key {
+  width: 520px;
+  height: 34px;
+  line-height: 34px;
+  margin-bottom: 4px;
+}
+
+.publishpress-caps-manage div.edd-key-links {
+display: block;
+clear: both;
+}
+
+.publishpress-caps-manage div.edd-key-links a, .publishpress-caps-manage #akmin div.edd-key-links a {
+display: inline;
+padding: 4px;
+background-position: inherit;
+}
+
+.publishpress-caps-manage div.edd-key-links > a {
+  padding-left: 0;
+}
+
+.publishpress-caps-manage div.pp-key-label {
+float: left;
+  line-height: 34px;
+  margin-right: 10px;
+}
+
+.publishpress-caps-manage div.pp-key-license {
+margin-bottom: 10px;
+}
+
+.publishpress-caps-manage #activation-button {
+  margin-bottom: 4px;
+}
+
+.publishpress-caps-manage #pp_support_waiting {
+  margin: 0 5px 10px 0;
+}
+
+.publishpress-caps-manage span.pp-key-active,
+.publishpress-caps-manage span.pp-key-expired {
+font-weight: bold;
+}
+
+.publishpress-caps-manage span.pp-key-active {
+color: #080;
+}
+
+.publishpress-caps-manage span.pp-key-expired {
+  color: #f54d4d;
+}
+
+.publishpress-caps-manage #activation-status {
+margin-top: 10px;
+margin-bottom: 10px;
+  max-width: 380px;
+}
+
+#akmin .cme-custom-status-hints {
+padding: 10px 5px 5px 5px !important; 
+}
+
+.cme-custom-status-hints, .cme-custom-status-hints a {
+font-style: italic;
+font-size: 14px;
+}
+
+.cme-custom-status-hints a, .cme-custom-status-hints a:link, .cme-custom-status-hints a:visited {
+font-weight: bold;
+}
+
+.cme-subtext {
+color: #777;
+font-style: italic;
+margin-top: 2px;
+}
+
+
+/* ====================================================== CUSTOM STATUSES CAPABILITIES GRID */
+
+table.cme-typecaps tr.pp-capabilities-status-spacer {
+height: 5px;
+}
+
+#cme-cap-type-tables-custom-status td.status-caps,
+#cme-cap-type-tables-revision-status td.status-caps
+{
+user-select: none;
+}
+
+#cme-cap-type-tables-custom-status td.status-label a.pp-define,
+#cme-cap-type-tables-revision-status td.status-label a.pp-define
+{
+font-weight: normal;
+padding-left: 5px;
+}
+
+#cme-cap-type-tables-custom-status a.pp-define:hover,
+#cme-cap-type-tables-revision-status a.pp-define:hover
+{
+text-decoration: underline
+}
+
+/* ====================================================== ADMIN MENUS PERMISSION */
+
+.pp-capability-menus {
+    width: 100%;
+    overflow: unset;
+    background: #fff;
+    background: linear-gradient(90deg, #fafafa 0%, #fafafa 20%, #fff 20%, #fff 100%);
+}
+
+.pp-capability-menus .pp-capability-menus-wrap {
+    float: left;
+    width: 100%;
+    margin-left: -1px;
+    margin-right: 20px;
+}
+
+
+#pp-capability-menu-wrapper table {
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+}
+
+#pp-capability-menu-wrapper table td,
+#pp-capability-menu-wrapper table th {
+    padding: 10px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+#pp-capability-menu-wrapper table td h4.ppc-menu-row-section {
+    margin-bottom: 0;
+}
+
+#pp-capability-menu-wrapper table td {
+    padding: 9px;
+}
+
+#pp-capability-menu-wrapper table td.form-td {
+    padding: 0;
+}
+
+#pp-capability-menu-wrapper table td.ppc-menu-action {
+    width: 15%;
+}
+
+#pp-capability-menu-wrapper table tr:first-child .move-admin-menu.up,
+#pp-capability-menu-wrapper table tr:last-child .move-admin-menu.down {
+    visibility: hidden;
+}
+
+#pp-capability-menu-wrapper tbody tr:last-of-type td {
+    border-bottom: none;
+}
+
+#pp-capability-menu-wrapper tfoot th {
+    border-color: #eee;
+}
+
+
+body.capabilities_page_pp-capabilities-admin-menus .pp-capability-menus-select .restrict-column {
+    width: 70px !important;
+}
+
+table#akmin .pp-capability-menus-select .restrict-column {
+    text-align: center;
+    display: table-cell !important;
+    clear: none !important;
+}
+
+.pp-capability-menus .menu-item-link {
+    display: inline;
+    color: #0073aa;
+    margin: -4px;
+    line-height: inherit;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    border-radius: 0;
+    outline: none;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+}
+
+.pp-capability-menus .menu-item-link:hover,
+.pp-capability-menus .menu-item-link:focus {
+    border-color: #eee;
+    background: #fafafa;
+    cursor: pointer;
+}
+
+.pp-capability-menus .menu-item-link:active {
+    color: #0073aa;
+    border-color: #0073aa;
+}
+
+.pp-capability-menus .check-all-menu-link,
+.pp-capability-menus .check-all-menu-link:active {
+    color: #555;
+}
+
+.pp-capability-menus .menu-item-link.restricted,
+.pp-capability-menus .menu-item-link.restricted:active {
+    color: crimson;
+}
+
+.pp-capability-menus .menu-item-link.disabled,
+.pp-capability-menus .menu-item-link.disabled:active {
+    color: #555;
+}
+
+.pp-capability-menus .menu-item-link + .dashicons {
+    display: none;
+    margin-top: 1px;
+    margin-bottom: -1px;
+    line-height: inherit;
+}
+
+.pp-capability-menus .menu-item-link:hover + .dashicons,
+.pp-capability-menus .menu-item-link:focus + .dashicons {
+    display: inline-block;
+}
+
+.pp-capability-menus-wrapper .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.pp-capability-menus-wrapper .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.pp-capability-menus-wrapper .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+@media only screen and ( max-width: 782px ) {
+
+    .pp-capability-menus {
+        background: linear-gradient(90deg, #fafafa 0%, #fafafa 48px, #fff 48px, #fff 100%);
+    }
+
+    #pp-capability-menu-wrapper table td,
+    #pp-capability-menu-wrapper table th {
+        line-height: 24px;
+    }
+}
+
+.restrict-column input[type=checkbox]:checked:focus {
+    border-color: crimson;
+    box-shadow: 0 0 0 1px crimson;
+}
+
+.restrict-column input[type=checkbox]:checked::before {
+    content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiIHZpZXdCb3g9IjAgMCAyMCAyMCIgc3R5bGU9Ii1tcy10cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpOyAtd2Via2l0LXRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7IHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7Ij48cGF0aCBkPSJNMTQuOTUgNi40NkwxMS40MSAxMGwzLjU0IDMuNTRsLTEuNDEgMS40MUwxMCAxMS40MmwtMy41MyAzLjUzbC0xLjQyLTEuNDJMOC41OCAxMEw1LjA1IDYuNDdsMS40Mi0xLjQyTDEwIDguNThsMy41NC0zLjUzeiIgZmlsbD0iI2RjMTQzYyIvPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgwLCAwLCAwLCAwKSIgLz48L3N2Zz4=");
+}
+
+table#akmin tr td input[type=checkbox] {
+    margin: 0;
+}

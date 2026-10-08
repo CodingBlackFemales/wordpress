@@ -9,21 +9,21 @@
  * @package Requests
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Auth\Basic;
-use WpOrg\Requests\Capability;
-use WpOrg\Requests\Cookie\Jar;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Hooks;
-use WpOrg\Requests\IdnaEncoder;
-use WpOrg\Requests\Iri;
-use WpOrg\Requests\Proxy\Http;
-use WpOrg\Requests\Response;
-use WpOrg\Requests\Transport\Curl;
-use WpOrg\Requests\Transport\Fsockopen;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Auth\Basic;
+use StellarWP\Learndash\WpOrg\Requests\Capability;
+use StellarWP\Learndash\WpOrg\Requests\Cookie\Jar;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Hooks;
+use StellarWP\Learndash\WpOrg\Requests\IdnaEncoder;
+use StellarWP\Learndash\WpOrg\Requests\Iri;
+use StellarWP\Learndash\WpOrg\Requests\Proxy\Http;
+use StellarWP\Learndash\WpOrg\Requests\Response;
+use StellarWP\Learndash\WpOrg\Requests\Transport\Curl;
+use StellarWP\Learndash\WpOrg\Requests\Transport\Fsockopen;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Requests for PHP
@@ -102,8 +102,8 @@ class Requests {
 	/**
 	 * Option defaults.
 	 *
-	 * @see \WpOrg\Requests\Requests::get_default_options()
-	 * @see \WpOrg\Requests\Requests::request() for values returned by this method
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::get_default_options()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::request() for values returned by this method
 	 *
 	 * @since 2.0.0
 	 *
@@ -169,8 +169,8 @@ class Requests {
 	/**
 	 * Default certificate path.
 	 *
-	 * @see \WpOrg\Requests\Requests::get_certificate_path()
-	 * @see \WpOrg\Requests\Requests::set_certificate_path()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::get_certificate_path()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::set_certificate_path()
 	 *
 	 * @var string
 	 */
@@ -262,8 +262,8 @@ class Requests {
 	 * Get a working transport.
 	 *
 	 * @param array<string, bool> $capabilities Optional. Associative array of capabilities to test against, i.e. `['<capability>' => true]`.
-	 * @return \WpOrg\Requests\Transport
-	 * @throws \WpOrg\Requests\Exception If no valid transport is found (`notransport`).
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Transport
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception If no valid transport is found (`notransport`).
 	 */
 	protected static function get_transport(array $capabilities = []) {
 		$class = self::get_transport_class($capabilities);
@@ -292,11 +292,11 @@ class Requests {
 	}
 
 	/**#@+
-	 * @see \WpOrg\Requests\Requests::request()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $options
-	 * @return \WpOrg\Requests\Response
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Response
 	 */
 	/**
 	 * Send a GET request
@@ -328,12 +328,12 @@ class Requests {
 	/**#@-*/
 
 	/**#@+
-	 * @see \WpOrg\Requests\Requests::request()
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $data
 	 * @param array $options
-	 * @return \WpOrg\Requests\Response
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Response
 	 */
 	/**
 	 * Send a POST request
@@ -395,9 +395,9 @@ class Requests {
 	 *    (string|boolean, default: false)
 	 * - `auth`: Authentication handler or array of user/password details to use
 	 *    for Basic authentication
-	 *    (\WpOrg\Requests\Auth|array|boolean, default: false)
+	 *    (\StellarWP\Learndash\WpOrg\Requests\Auth|array|boolean, default: false)
 	 * - `proxy`: Proxy details to use for proxy by-passing and authentication
-	 *    (\WpOrg\Requests\Proxy|array|string|boolean, default: false)
+	 *    (\StellarWP\Learndash\WpOrg\Requests\Proxy|array|string|boolean, default: false)
 	 * - `max_bytes`: Limit for the response body size.
 	 *    (integer|boolean, default: false)
 	 * - `idn`: Enable IDN parsing
@@ -405,9 +405,9 @@ class Requests {
 	 * - `transport`: Custom transport. Either a class name, or a
 	 *    transport object. Defaults to the first working transport from
 	 *    {@see \WpOrg\Requests\Requests::getTransport()}
-	 *    (string|\WpOrg\Requests\Transport, default: {@see \WpOrg\Requests\Requests::getTransport()})
+	 *    (string|\StellarWP\Learndash\WpOrg\Requests\Transport, default: {@see \WpOrg\Requests\Requests::getTransport()})
 	 * - `hooks`: Hooks handler.
-	 *    (\WpOrg\Requests\HookManager, default: new WpOrg\Requests\Hooks())
+	 *    (\StellarWP\Learndash\WpOrg\Requests\HookManager, default: new \StellarWP\Learndash\WpOrg\Requests\Hooks())
 	 * - `verify`: Should we verify SSL certificates? Allows passing in a custom
 	 *    certificate file as a string. (Using true uses the system-wide root
 	 *    certificate store instead, but this may have different behaviour
@@ -424,12 +424,12 @@ class Requests {
 	 * @param array|null $data Data to send either as a query string for GET/HEAD requests, or in the body for POST requests
 	 * @param string $type HTTP request type (use Requests constants)
 	 * @param array $options Options for the request (see description for more information)
-	 * @return \WpOrg\Requests\Response
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Response
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $type argument is not a string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \WpOrg\Requests\Exception On invalid URLs (`nonhttp`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $type argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On invalid URLs (`nonhttp`)
 	 */
 	public static function request($url, $headers = [], $data = [], $type = self::GET, $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -492,11 +492,11 @@ class Requests {
 	 * - `data`: Associative array of data fields or a string. Same as the
 	 *    `$data` parameter to {@see \WpOrg\Requests\Requests::request()}
 	 *    (array|string, default: `array()`)
-	 * - `type`: HTTP request type (use \WpOrg\Requests\Requests constants). Same as the `$type`
+	 * - `type`: HTTP request type (use \StellarWP\Learndash\WpOrg\Requests\Requests constants). Same as the `$type`
 	 *    parameter to {@see \WpOrg\Requests\Requests::request()}
 	 *    (string, default: `\WpOrg\Requests\Requests::GET`)
 	 * - `cookies`: Associative array of cookie name to value, or cookie jar.
-	 *    (array|\WpOrg\Requests\Cookie\Jar)
+	 *    (array|\StellarWP\Learndash\WpOrg\Requests\Cookie\Jar)
 	 *
 	 * If the `$options` parameter is specified, individual requests will
 	 * inherit options from it. This can be used to use a single hooking system,
@@ -514,8 +514,8 @@ class Requests {
 	 * @param array $options Global and default options (see {@see \WpOrg\Requests\Requests::request()})
 	 * @return array Responses (either \WpOrg\Requests\Response or a \WpOrg\Requests\Exception object)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public static function request_multiple($requests, $options = []) {
 		if (InputValidator::has_array_access($requests) === false || InputValidator::is_iterable($requests) === false) {
@@ -600,7 +600,7 @@ class Requests {
 	/**
 	 * Get the default options
 	 *
-	 * @see \WpOrg\Requests\Requests::request() for values returned by this method
+	 * @see \StellarWP\Learndash\WpOrg\Requests\Requests::request() for values returned by this method
 	 * @param boolean $multirequest Is this a multirequest?
 	 * @return array Default option values
 	 */
@@ -629,7 +629,7 @@ class Requests {
 	 *
 	 * @param string|Stringable|bool $path Certificate path, pointing to a PEM file.
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or boolean.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or boolean.
 	 */
 	public static function set_certificate_path($path) {
 		if (InputValidator::is_string_or_stringable($path) === false && is_bool($path) === false) {
@@ -649,7 +649,7 @@ class Requests {
 	 * @param array $options Options for the request
 	 * @return void $options is updated with the results
 	 *
-	 * @throws \WpOrg\Requests\Exception When the $url is not an http(s) URL.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception When the $url is not an http(s) URL.
 	 */
 	protected static function set_defaults(&$url, &$headers, &$data, &$type, &$options) {
 		if (!preg_match('/^http(s)?:\/\//i', $url, $matches)) {
@@ -712,11 +712,11 @@ class Requests {
 	 * @param array $req_headers Original $headers array passed to {@link request()}, in case we need to follow redirects
 	 * @param array $req_data Original $data array passed to {@link request()}, in case we need to follow redirects
 	 * @param array $options Original $options array passed to {@link request()}, in case we need to follow redirects
-	 * @return \WpOrg\Requests\Response
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Response
 	 *
-	 * @throws \WpOrg\Requests\Exception On missing head/body separator (`requests.no_crlf_separator`)
-	 * @throws \WpOrg\Requests\Exception On missing head/body separator (`noversion`)
-	 * @throws \WpOrg\Requests\Exception On missing head/body separator (`toomanyredirects`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On missing head/body separator (`requests.no_crlf_separator`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On missing head/body separator (`noversion`)
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception On missing head/body separator (`toomanyredirects`)
 	 */
 	protected static function parse_response($headers, $url, $req_headers, $req_data, $options) {
 		$return = new Response();
@@ -888,7 +888,7 @@ class Requests {
 	 * @param iterable $dictionary Dictionary of header values
 	 * @return array List of headers
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not iterable.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not iterable.
 	 */
 	public static function flatten($dictionary) {
 		if (InputValidator::is_iterable($dictionary) === false) {
@@ -912,7 +912,7 @@ class Requests {
 	 * @param string $data Compressed data in one of the above formats
 	 * @return string Decompressed string
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
 	 */
 	public static function decompress($data) {
 		if (is_string($data) === false) {
@@ -979,7 +979,7 @@ class Requests {
 	 * @param string $gz_data String to decompress.
 	 * @return string|bool False on failure.
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
 	 */
 	public static function compatible_gzinflate($gz_data) {
 		if (is_string($gz_data) === false) {

@@ -5,13 +5,13 @@
  * @package Requests\Cookies
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Iri;
-use WpOrg\Requests\Response\Headers;
-use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Iri;
+use StellarWP\Learndash\WpOrg\Requests\Response\Headers;
+use StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Cookie storage object
@@ -39,7 +39,7 @@ class Cookie {
 	 * Valid keys are (currently) path, domain, expires, max-age, secure and
 	 * httponly.
 	 *
-	 * @var \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
+	 * @var \StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
 	 */
 	public $attributes = [];
 
@@ -68,15 +68,15 @@ class Cookie {
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @param array|\WpOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
+	 * @param array|\StellarWP\Learndash\WpOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
 	 * @param array $flags
 	 * @param int|null $reference_time
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $attributes argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $flags argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $reference_time argument is not an integer or null.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $attributes argument is not an array or iterable object with array access.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $flags argument is not an array.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $reference_time argument is not an integer or null.
 	 */
 	public function __construct($name, $value, $attributes = [], $flags = [], $reference_time = null) {
 		if (is_string($name) === false) {
@@ -156,7 +156,7 @@ class Cookie {
 	/**
 	 * Check if a cookie is valid for a given URI
 	 *
-	 * @param \WpOrg\Requests\Iri $uri URI to check
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Iri $uri URI to check
 	 * @return boolean Whether the cookie is valid for the given URI
 	 */
 	public function uri_matches(Iri $uri) {
@@ -403,10 +403,10 @@ class Cookie {
 	 * @param string $cookie_header Cookie header value (from a Set-Cookie header)
 	 * @param string $name
 	 * @param int|null $reference_time
-	 * @return \WpOrg\Requests\Cookie Parsed cookie object
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Cookie Parsed cookie object
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $cookie_header argument is not a string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $cookie_header argument is not a string.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
 	 */
 	public static function parse($cookie_header, $name = '', $reference_time = null) {
 		if (is_string($cookie_header) === false) {
@@ -461,8 +461,8 @@ class Cookie {
 	/**
 	 * Parse all Set-Cookie headers from request headers
 	 *
-	 * @param \WpOrg\Requests\Response\Headers $headers Headers to parse from
-	 * @param \WpOrg\Requests\Iri|null $origin URI for comparing cookie origins
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Response\Headers $headers Headers to parse from
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Iri|null $origin URI for comparing cookie origins
 	 * @param int|null $time Reference time for expiration calculation
 	 * @return array
 	 */

@@ -760,13 +760,21 @@ function learndash_user_set_course_progress( $user_id = 0, $course_id = 0, $prog
 /**
  * Utility function to get the previous incomplete course step for user.
  *
+ * Returns false when there is no previous incomplete step before $step_id — i.e. every
+ * step preceding it is complete. (Previously the passed $step_id was returned in that
+ * case as an "all-clear" sentinel, which callers could mistake for a real blocker.)
+ *
  * @since 3.4.0
  * @since 4.0.2 Added $return_parent_id parameter.
+ * @since 5.1.8   Returns false instead of the passed $step_id when no previous step is incomplete.
  *
  * @param integer $user_id          User ID.
  * @param integer $course_id        Course ID.
  * @param integer $step_id          Course Step ID.
  * @param bool    $return_parent_id Return the parent step id. Default true. See function code for details.
+ *
+ * @return int|false Step ID of the earliest incomplete step preceding $step_id, or false
+ *                   when there is no previous incomplete step (or on invalid input).
  */
 function learndash_user_progress_get_previous_incomplete_step( $user_id = 0, $course_id = 0, $step_id = 0, $return_parent_id = true ) {
 	$user_id = absint( $user_id );
@@ -794,7 +802,7 @@ function learndash_user_progress_get_previous_incomplete_step( $user_id = 0, $co
 		$step_key = get_post_type( $step_id ) . ':' . $step_id;
 		foreach ( $course_progress_steps as $progress_step_key => $progress_status ) {
 			if ( $step_key === $progress_step_key ) {
-				return $step_id;
+				return false;
 			} elseif ( ! (bool) $progress_status ) {
 				list( $progress_step_post_type, $progress_step_post_id ) = explode( ':', $progress_step_key );
 

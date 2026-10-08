@@ -5,13 +5,13 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests;
+namespace StellarWP\Learndash\WpOrg\Requests;
 
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Ipv6;
-use WpOrg\Requests\Port;
-use WpOrg\Requests\Utility\InputValidator;
+use StellarWP\Learndash\WpOrg\Requests\Exception;
+use StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument;
+use StellarWP\Learndash\WpOrg\Requests\Ipv6;
+use StellarWP\Learndash\WpOrg\Requests\Port;
+use StellarWP\Learndash\WpOrg\Requests\Utility\InputValidator;
 
 /**
  * IRI parser/serialiser/normaliser
@@ -248,7 +248,7 @@ class Iri {
 	 *
 	 * @param string|Stringable|null $iri
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $iri argument is not a string, Stringable or null.
+	 * @throws \StellarWP\Learndash\WpOrg\Requests\Exception\InvalidArgument When the passed $iri argument is not a string, Stringable or null.
 	 */
 	public function __construct($iri = null) {
 		if ($iri !== null && InputValidator::is_string_or_stringable($iri) === false) {
@@ -263,9 +263,9 @@ class Iri {
 	 *
 	 * Returns false if $base is not absolute, otherwise an IRI.
 	 *
-	 * @param \WpOrg\Requests\Iri|string $base (Absolute) Base IRI
-	 * @param \WpOrg\Requests\Iri|string $relative Relative IRI
-	 * @return \WpOrg\Requests\Iri|false
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Iri|string $base (Absolute) Base IRI
+	 * @param \StellarWP\Learndash\WpOrg\Requests\Iri|string $relative Relative IRI
+	 * @return \StellarWP\Learndash\WpOrg\Requests\Iri|false
 	 */
 	public static function absolutize($base, $relative) {
 		if (!($relative instanceof self)) {

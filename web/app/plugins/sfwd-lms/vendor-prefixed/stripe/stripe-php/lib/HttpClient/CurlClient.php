@@ -14,14 +14,14 @@ use StellarWP\Learndash\Stripe\Util;
 // defines them in cURL's source code.
 
 // Available since PHP 5.5.19 and 5.6.3
-if (!\defined('CURL_SSLVERSION_TLSv1_2')) {
-    \define('CURL_SSLVERSION_TLSv1_2', 6);
+if (!\defined('LEARNDASH_CURL_SSLVERSION_TLSv1_2')) {
+    \define('LEARNDASH_CURL_SSLVERSION_TLSv1_2', 6);
 }
 // @codingStandardsIgnoreEnd
 
 // Available since PHP 7.0.7 and cURL 7.47.0
-if (!\defined('CURL_HTTP_VERSION_2TLS')) {
-    \define('CURL_HTTP_VERSION_2TLS', 4);
+if (!\defined('LEARNDASH_CURL_HTTP_VERSION_2TLS')) {
+    \define('LEARNDASH_CURL_HTTP_VERSION_2TLS', 4);
 }
 
 class CurlClient implements ClientInterface, StreamingClientInterface
@@ -268,7 +268,7 @@ class CurlClient implements ClientInterface, StreamingClientInterface
 
         if (!isset($opts[\CURLOPT_HTTP_VERSION]) && $this->getEnableHttp2()) {
             // For HTTPS requests, enable HTTP/2, if supported
-            $opts[\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_2TLS;
+            $opts[\CURLOPT_HTTP_VERSION] = \LEARNDASH_CURL_HTTP_VERSION_2TLS;
         }
 
         // If the user didn't explicitly specify a CURLOPT_IPRESOLVE option, we

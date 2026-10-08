@@ -1,3 +1,98 @@
+= [5.2.0] 2026-09-16 =
+
+* Feature - Merged Notifications addon feature into LearnDash core.
+* Feature - Merged WooCommerce addon feature into LearnDash core.
+* Fix - Resolved an issue where REST API requests for LearnDash post types could fail with a fatal error when a third-party plugin added a non-array entry to the settings metabox fields.
+* Fix - Resolved quiz saving progress not working correctly when questions are set to display in a random order.
+* Tweak - Added constants: `LEARNDASH_MODULE_{$module_name}_DISABLED`.
+* Tweak - Added filters: `learndash_module_{$module_name}_disabled`.
+
+= [5.1.10] 2026-09-02 =
+
+* Fix - Resolved an issue where Export Progress and Export Results on the Group Administration page produced no download or progress indicator.
+* Fix - Resolved an issue where the "Back to Challenge Exams" button was not visible in the header while editing a challenge exam.
+* Fix - Resolved an issue where the quiz User Notification email was not sent to logged-out visitors, even when an Email custom field was filled in.
+* Fix - Resolved an issue where the quiz results view reported assessment questions as correct without showing which answer the student had selected.
+* Fix - Resolved an issue where starting a quiz more than once left an extra time limit countdown running, which repeatedly submitted the quiz to the server once the time expired.
+* Fix - Resolved an issue where the User Course Data and User Quiz Data report exports could return incomplete or empty CSV files, or fail to complete and download, on sites with a large number of users.
+* Tweak - Added functions: `learndash_report_export_status_ajax`.
+
+= [5.1.9] 2026-08-05 =
+
+* Fix - Added compatibility with PHP 8.5.
+* Tweak - Improved the unified licensing page experience.
+
+= [5.1.8] 2026-07-22 =
+
+* Fix - Resolved an issue where `learndash_user_progress_get_previous_incomplete_step()` returned the current step ID instead of false when no previous step was incomplete, which could cause integrations to treat the current step as a blocker.
+* Fix - Resolved an issue where a Group Leader could not be added as a member of another group while Managed Groups Auto-enrollment was enabled.
+* Fix - Resolved an issue where resetting a challenge exam from a user profile did not reset the associated course progress, leaving the course and its steps marked complete.
+* Tweak - Improved the consistency of the recursion guard used when saving course step post meta.
+* Tweak - Improved the discoverability of the unified software management screen by intercepting the entry of unified license keys on the legacy licensing screen.
+* Tweak - Updated functions: `learndash_get_users_group_ids`, `learndash_user_progress_get_previous_incomplete_step`.
+
+= [5.1.7] 2026-07-08 =
+
+* Fix - Prevented empty or zero Custom Pagination values from being saved on courses, which caused a fatal error on the modern course and lesson pages.
+
+= [5.1.6.1] 2026-06-29 =
+
+* Security - Tightened security around REST API endpoints.
+
+= [5.1.6] 2026-06-24 =
+
+* Fix - Reporting Pro-Panel CSV exports returned empty files on sites with very large user bases.
+* Fix - Resolved an issue where admin pages could be delayed by up to 10 seconds when the remote banners endpoint was slow or unreachable, by fetching banner data in the background instead of during the page load.
+* Fix - Resolved an issue where custom fields and meta boxes added by other plugins were hidden below the block editor on Lesson and Topic edit screens in WordPress 7.0 and later.
+* Fix - Resolved an issue where resuming a quiz that used randomized questions with a question subset could reset the quiz and lose already-answered questions; answered questions are now restored on resume and any that became unavailable are replaced.
+* Tweak - Cached the result of learndash_get_courses_count() so reporting views and synchronization routines no longer run an uncached query on every call.
+* Tweak - Added filters: `learndash_report_activity_list_view_chunk_size`, `learndash_report_admin_export_activity_types`, `learndash_report_user_activity_export_chunk_size`.
+
+= [5.1.5.1] 2026-06-22 =
+
+* Security - Tightened security around assignment file uploads.
+
+= [5.1.5] 2026-06-10 =
+
+* Fix - Resolved an issue where expanded lesson items in the Focus Mode sidebar were not fully rendering when the sidebar was initially collapsed.
+* Fix - Resolved an issue where students could reach topics and quizzes that belong to a draft lesson, either through the course navigation or a direct link.
+* Fix - Resolved an issue where the Resume Course button could redirect students to a draft or unavailable step, resulting in a 404 error.
+* Tweak - Added a disclaimer to the Extend Access section on the group edit screen to clarify that the access expiration date is a one-time tool and does not extend access automatically.
+* Tweak - Added filters: `learndash_model_{$post_type_key}_linear_step_ids`.
+* Tweak - Updated functions: `learndash_course_get_linear_step_ids`, `learndash_next_post_link`, `learndash_previous_post_link`.
+
+= [5.1.4] 2026-06-01 =
+
+* Fix - Resolved an issue on the Group Administration screen where the export file created when clicking "Export Progress" was returning the name and ID of the group instead the course ID and title.
+* Fix - Resolved an issue where the translation of Course pagination would not be applied during AJAX requests.
+* Fix - Resolved an issue where turning off Auto Paragraph on the "LearnDash Student" block in the block editor did not apply on the front end when the block wrapped nested LearnDash blocks (for example the LearnDash Profile block), which added unwanted paragraph markup and broke the course list layout.
+* Tweak - Added functions: `learndash_ajax_switch_to_site_locale`.
+
+= [5.1.3] 2026-05-26 =
+
+* Tweak - Improved the LearnDash add-ons update flow for legacy licenses.
+
+= [5.1.2] 2026-05-14 =
+
+* Tweak - The Settings -> Liquid Web Products page no longer requires an opt-in to communicate with external servers.
+
+= [5.1.1] 2026-05-13 =
+
+* Tweak - Moved the Liquid Web menu item to Settings -> Liquid Web Products.
+* Tweak - The Settings -> Liquid Web Products page now requires a opt-in to communicate with external servers.
+
+= [5.1.0] 2026-05-11 =
+
+* Feature - Integrate with Nexcess Licensing and Portal.
+* Tweak - Removed the license fields from the LearnDash setup wizard.
+* Tweak - Updated branding references from StellarWP to Nexcess.
+* Tweak - Added constants: `LEARNDASH_PLAYLIST_PARSER_SERVICE_ENDPOINT`, `LEARNDASH_PLAYLIST_PARSER_SERVICE_SSL_VERIFY`.
+* Tweak - Added functions: `learndash_get_license_email`, `learndash_get_license_key`.
+
+= [5.0.5.1] 2026-05-07 =
+
+* Security - Tightened security around REST API endpoints.
+
 = [5.0.5] 2026-04-08 =
 
 * Fix - Resolved an issue where group leaders with basic settings could not view or grade assignments submitted by users in their groups. Admins and advanced group leaders are unchanged and still see all assignments; author and group filters respect the same visibility rules.

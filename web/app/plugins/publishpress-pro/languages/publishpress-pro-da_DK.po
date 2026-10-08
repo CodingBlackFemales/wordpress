@@ -1,0 +1,576 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Planner Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Planner Pro 4.7.3-beta3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-10T09:46:29+00:00\n"
+"PO-Revision-Date: 2026-09-28 15:02+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: publishpress-pro\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: da-DK\n"
+
+#: publishpress-pro.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Planner Pro"
+msgstr "PublishPress Planner Pro"
+
+#: publishpress-pro.php:4
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: publishpress-pro.php:5
+#. Description of the plugin
+msgid ""
+"PublishPress Planner helps you plan and publish content inside WordPress. "
+"Features include a content calendar, kanban board, and notifications."
+msgstr ""
+"PublishPress Planner hjælper dig med at planlægge og udgive indhold i "
+"WordPress. Funktioner inkluderer en indholdskalender, kanban-tavle og "
+"notifikationer."
+
+#: publishpress-pro.php:7
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: publishpress-pro.php:8
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: checkup.php:42
+msgid "Warning"
+msgstr "Advarsel"
+
+#: checkup.php:56
+msgid ""
+"Please, deactivate and remove PublishPress Slack before using PublishPress "
+"Pro."
+msgstr ""
+"Deaktiver venligst og fjern PublishPress Slack før du bruger PublishPress "
+"Pro."
+
+#: checkup.php:64
+msgid ""
+"Please, deactivate and remove PublishPress Reminders before using "
+"PublishPress Pro."
+msgstr ""
+"Deaktiver venligst og fjern PublishPress Reminders før du bruger "
+"PublishPress Pro."
+
+#: checkup.php:77
+msgid ""
+"It seems like you have multiple PublishPress Pro running. Please, "
+"deactivate and remove one of them."
+msgstr ""
+"Det ser ud til, at du har flere PublishPress Pro kørende. Deaktiver "
+"venligst og fjern en af dem."
+
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:27
+#: core/Notifications/Workflow/Step/Receiver/Network_Admin.php:82
+msgid "Network Administrator"
+msgstr "Netværksadministrator"
+
+#: modules/calendar-pro/calendar-pro.php:56
+msgid "Content Calendar Pro"
+msgstr "Indholdskalender Pro"
+
+#: modules/calendar-pro/calendar-pro.php:130
+#: modules/content-board-pro/content-board-pro.php:139
+#: modules/content-overview-pro/content-overview-pro.php:139
+msgid "An error occured"
+msgstr "Der opstod en fejl"
+
+#: modules/calendar-pro/calendar-pro.php:133
+#: modules/content-board-pro/content-board-pro.php:143
+#: modules/content-overview-pro/content-overview-pro.php:143
+msgid "Error validating nonce. Please reload this page and try again."
+msgstr "Fejl ved validering af nonce. Opdater venligst denne side og prøv igen."
+
+#: modules/calendar-pro/calendar-pro.php:135
+#: modules/content-board-pro/content-board-pro.php:145
+#: modules/content-overview-pro/content-overview-pro.php:145
+msgid "Invalid form request."
+msgstr "Ugyldig formularanmodning."
+
+#: modules/calendar-pro/calendar-pro.php:147
+#: modules/content-board-pro/content-board-pro.php:157
+#: modules/content-overview-pro/content-overview-pro.php:157
+msgid "Error fetching post data."
+msgstr "Fejl ved hentning af indlægdata."
+
+#: modules/calendar-pro/calendar-pro.php:149
+#: modules/calendar-pro/calendar-pro.php:153
+#: modules/content-board-pro/content-board-pro.php:159
+#: modules/content-board-pro/content-board-pro.php:163
+#: modules/content-overview-pro/content-overview-pro.php:159
+#: modules/content-overview-pro/content-overview-pro.php:163
+msgid "You do not have permission to edit this post."
+msgstr "Du har ikke tilladelse til at redigere dette indlæg."
+
+#: modules/calendar-pro/calendar-pro.php:219
+#: modules/content-board-pro/content-board-pro.php:227
+#: modules/content-overview-pro/content-overview-pro.php:228
+msgid "Changes saved!"
+msgstr "Ændringer gemt!"
+
+#: modules/calendar-pro/calendar-pro.php:271
+#: modules/content-board-pro/content-board-pro.php:279
+#: modules/content-overview-pro/content-overview-pro.php:280, fuzzy
+msgid "SEO score"
+msgstr "SEO score"
+
+#: modules/calendar-pro/calendar-pro.php:272
+#: modules/calendar-pro/calendar-pro.php:316
+#: modules/content-board-pro/content-board-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:354
+#: modules/content-overview-pro/content-overview-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:355
+msgid "Readability"
+msgstr "Læsbarhed"
+
+#: modules/calendar-pro/calendar-pro.php:273
+#: modules/content-board-pro/content-board-pro.php:281
+#: modules/content-overview-pro/content-overview-pro.php:282
+msgid "SEO Title"
+msgstr "SEO titel"
+
+#: modules/calendar-pro/calendar-pro.php:274
+#: modules/content-board-pro/content-board-pro.php:282
+#: modules/content-overview-pro/content-overview-pro.php:283
+msgid "Meta Description"
+msgstr "Meta Beskrivelse"
+
+#: modules/calendar-pro/calendar-pro.php:275
+#: modules/content-board-pro/content-board-pro.php:283
+#: modules/content-overview-pro/content-overview-pro.php:284
+msgid "Focus Keywords"
+msgstr "Fokus Nøgleord"
+
+#: modules/calendar-pro/calendar-pro.php:276
+#: modules/content-board-pro/content-board-pro.php:284
+#: modules/content-overview-pro/content-overview-pro.php:285
+msgid "Outgoing internal links"
+msgstr "Udgående interne links"
+
+#: modules/calendar-pro/calendar-pro.php:277
+#: modules/content-board-pro/content-board-pro.php:285
+#: modules/content-overview-pro/content-overview-pro.php:286
+msgid "Received internal links"
+msgstr "Modtagne interne links"
+
+#: modules/calendar-pro/calendar-pro.php:278
+#: modules/content-board-pro/content-board-pro.php:286
+#: modules/content-overview-pro/content-overview-pro.php:287
+msgid "Facebook Title"
+msgstr "Facebook Titel"
+
+#: modules/calendar-pro/calendar-pro.php:279
+#: modules/content-board-pro/content-board-pro.php:287
+#: modules/content-overview-pro/content-overview-pro.php:288
+msgid "Facebook Description"
+msgstr "Facebook Beskrivelse"
+
+#: modules/calendar-pro/calendar-pro.php:280
+#: modules/content-board-pro/content-board-pro.php:288
+#: modules/content-overview-pro/content-overview-pro.php:289
+msgid "Facebook Image"
+msgstr "Facebook Billede"
+
+#: modules/calendar-pro/calendar-pro.php:281
+#: modules/content-board-pro/content-board-pro.php:289
+#: modules/content-overview-pro/content-overview-pro.php:290
+msgid "Twitter Title"
+msgstr "Twitter Titel"
+
+#: modules/calendar-pro/calendar-pro.php:282
+#: modules/content-board-pro/content-board-pro.php:290
+#: modules/content-overview-pro/content-overview-pro.php:291
+msgid "Twitter Description"
+msgstr "Twitter Beskrivelse"
+
+#: modules/calendar-pro/calendar-pro.php:283
+#: modules/content-board-pro/content-board-pro.php:291
+#: modules/content-overview-pro/content-overview-pro.php:292
+msgid "Twitter Image"
+msgstr "Twitter Billede"
+
+#: modules/calendar-pro/calendar-pro.php:304
+#: modules/content-board-pro/content-board-pro.php:311
+#: modules/content-board-pro/content-board-pro.php:342
+#: modules/content-overview-pro/content-overview-pro.php:312
+#: modules/content-overview-pro/content-overview-pro.php:343
+msgid "PublishPress Checklists"
+msgstr "PublishPress Tjeklister"
+
+#: modules/calendar-pro/calendar-pro.php:305
+#: modules/content-board-pro/content-board-pro.php:312
+#: modules/content-board-pro/content-board-pro.php:343
+#: modules/content-overview-pro/content-overview-pro.php:313
+#: modules/content-overview-pro/content-overview-pro.php:344
+msgid "You do not have any checklists requirement enabled."
+msgstr "Du har ikke nogen tjeklistekrav aktiveret."
+
+#: modules/calendar-pro/calendar-pro.php:313
+#: modules/content-board-pro/content-board-pro.php:320
+#: modules/content-board-pro/content-board-pro.php:351
+#: modules/content-overview-pro/content-overview-pro.php:321
+#: modules/content-overview-pro/content-overview-pro.php:352, fuzzy
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: modules/calendar-pro/calendar-pro.php:315
+#: modules/content-board-pro/content-board-pro.php:353
+#: modules/content-overview-pro/content-overview-pro.php:354, fuzzy
+msgid "SEO Scores"
+msgstr "SEO Scores"
+
+#: modules/content-board-pro/content-board-pro.php:55, fuzzy
+msgid "Content Board Pro"
+msgstr "Content Board Pro"
+
+#: modules/content-overview-pro/content-overview-pro.php:55
+msgid "Content Overview Pro"
+msgstr "Content Oversigt Pro"
+
+#: modules/elementor/elementor.php:54, fuzzy
+msgid "Elementor Integration"
+msgstr "Elementor Integration"
+
+#: modules/notifynetworkadmin/notifynetworkadmin.php:58
+msgid "Notify Network Admin"
+msgstr "Underret Netværksadministrator"
+
+#: modules/prosettings/prosettings.php:102
+msgid "License"
+msgstr "Licens"
+
+#: modules/prosettings/prosettings.php:185
+msgid "License key:"
+msgstr "Licensnøgle:"
+
+#: modules/prosettings/prosettings.php:193
+msgid "Display PublishPress branding in the admin:"
+msgstr "Vis PublishPress branding i admin:"
+
+#: modules/reminders/core/Workflow/Step/Event/AfterPublishing.php:29
+msgid "After the content is published"
+msgstr "Efter indholdet er publiceret"
+
+#: modules/reminders/core/Workflow/Step/Event/BeforePublishing.php:30
+msgid "Before the selected publish date"
+msgstr "Før den valgte publiceringsdato"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:76
+msgid "Amount"
+msgstr "Beløb"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:77
+msgid "Unit of time"
+msgstr "Tidsenhed"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:78
+msgid "Hours"
+msgstr "Timer"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:79
+msgid "Days"
+msgstr "Dage"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:80
+msgid "Weeks"
+msgstr "Uger"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:81
+msgid "Months"
+msgstr "Måneder"
+
+#: modules/reminders/core/Workflow/Step/Event/Filter/BaseTimer.php:82
+msgid "For content in this status"
+msgstr "For indhold i denne status"
+
+#: modules/reminders/reminders.php:54
+msgid "Reminders"
+msgstr "Påmindelser"
+
+#: modules/reminders/reminders.php:197
+msgid "Interval to look for scheduled posts:"
+msgstr "Interval for at se efter planlagte indlæg:"
+
+#: modules/reminders/reminders.php:221
+msgid "Not scheduled"
+msgstr "Ikke planlagt"
+
+#: modules/reminders/reminders.php:227
+msgid "now"
+msgstr "nu"
+
+#: modules/reminders/reminders.php:230
+#, php-format
+msgid "%s seconds"
+msgstr "%s sekunder"
+
+#: modules/reminders/reminders.php:241
+msgid "Never"
+msgstr "Aldrig"
+
+#: modules/reminders/reminders.php:249
+msgid "Next run"
+msgstr "Næste kørsel"
+
+#: modules/reminders/reminders.php:251
+msgid ""
+"How often should we check for scheduled posts? This enables PublishPress to "
+"process notifications for scheduled content."
+msgstr ""
+"Hvor ofte skal vi tjekke for planlagte indlæg? Dette gør det muligt for "
+"PublishPress at behandle meddelelser for planlagt indhold."
+
+#: modules/reminders/reminders.php:253
+msgid "Click here for more information."
+msgstr "Klik her for mere information."
+
+#: modules/reminders/reminders.php:304
+msgid "Every 10 minutes"
+msgstr "Hver 10. minut"
+
+#: modules/reminders/reminders.php:305
+msgid "Every 15 minutes"
+msgstr "Hver 15. minut"
+
+#: modules/reminders/reminders.php:306
+msgid "Every 20 minutes"
+msgstr "Hver 20. minut"
+
+#: modules/reminders/reminders.php:307
+msgid "Every 30 minutes"
+msgstr "Hver 30. minut"
+
+#: modules/reminders/reminders.php:308
+msgid "Every 45 minutes"
+msgstr "Hver 45 minutter"
+
+#: modules/revision-integration/revision-integration.php:56, fuzzy
+msgid "PublishPress Revision Integration"
+msgstr "PublishPress Revision Integration"
+
+#: modules/revision-integration/revision-integration.php:184
+#: modules/revision-integration/revision-integration.php:351
+#: modules/revision-integration/revision-integration.php:357
+#: modules/revision-integration/revision-integration.php:376
+#: modules/revision-integration/revision-integration.php:431
+#: modules/revision-integration/revision-integration.php:437
+msgid "Revision Status"
+msgstr "Revisionsstatus"
+
+#: modules/revision-integration/revision-integration.php:188
+msgid "All statuses"
+msgstr "Alle statusser"
+
+#: modules/revision-integration/revision-integration.php:276, fuzzy
+msgid "[Rev]"
+msgstr "[Rev]"
+
+#: modules/revision-integration/revision-integration.php:301
+msgid "Show Revisions"
+msgstr "Vis revisioner"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:27
+#: modules/slack/slack.php:74, fuzzy
+msgid "Slack"
+msgstr "Slack"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:188
+msgid "Slack channel:"
+msgstr "Slack-kanal:"
+
+#: modules/slack/library/Workflow/Step/Channel/Slack.php:189
+msgid ""
+"Slack channel in which notification will be sent to. For example #general, "
+"@username, or user@email.com"
+msgstr ""
+"Slack-kanalen, hvor notifikationen vil blive sendt til. For eksempel "
+"#general, @brugernavn, eller bruger@email.com"
+
+#: modules/slack/slack.php:292
+msgid "Click to connect to Slack"
+msgstr "Klik for at oprette forbindelse til Slack"
+
+#: modules/slack/slack.php:293
+msgid "Click to reconnect to Slack"
+msgstr "Klik for at genoprette forbindelsen til Slack"
+
+#: modules/slack/slack.php:294
+msgid "Continue"
+msgstr "Fortsæt"
+
+#: modules/slack/slack.php:295
+msgid "Cancel"
+msgstr "Annuller"
+
+#: modules/slack/slack.php:296
+msgid "Success"
+msgstr "Succes"
+
+#: modules/slack/slack.php:297
+msgid "Error"
+msgstr "Fejl"
+
+#: modules/slack/slack.php:298
+msgid "seconds"
+msgstr "sekunder"
+
+#: modules/slack/slack.php:299
+msgid "Elapsed time"
+msgstr "Forløbet tid"
+
+#: modules/slack/slack.php:300
+msgid ""
+"Clicking to connect, a new window will open so you can authorize the "
+"PublishPress App on Slack."
+msgstr ""
+"Når du klikker for at oprette forbindelse, åbnes et nyt vindue, så du kan "
+"godkende PublishPress App'en på Slack."
+
+#: modules/slack/slack.php:304
+msgid ""
+"Paste below the temporary authentication code you received on the page that "
+"loaded, and click on Continue."
+msgstr ""
+"Indsæt nedenfor den midlertidige godkendelseskode, du modtog på den side, "
+"der blev indlæst, og klik på Fortsæt."
+
+#: modules/slack/slack.php:308
+msgid "Slack authentication info is stored."
+msgstr "Slack-godkendelsesoplysninger er gemt."
+
+#: modules/slack/slack.php:313
+msgid ""
+"Slack has a new API and you have a legacy configuration that might stop "
+"working soon. Please, reconnect to Slack to avoid having the notifications "
+"interrupted."
+msgstr ""
+"Slack har en ny API, og du har en gammel konfiguration, der snart kan "
+"stoppe med at fungere. Vær venlig at genoprette forbindelsen til Slack for "
+"at undgå, at notifikationerne bliver afbrudt."
+
+#: modules/slack/slack.php:317
+msgid "Congrats! Slack authentication info is stored."
+msgstr "Tillykke! Slack autentifikationsoplysninger er gemt."
+
+#: modules/slack/slack.php:321
+msgid "Authentication info and cache were deleted successfully."
+msgstr "Autentifikationsoplysninger og cache blev slettet med succes."
+
+#: modules/slack/slack.php:326
+msgid "Click for sending a test message to the default channel on Slack"
+msgstr "Klik for at sende en testbesked til standardkanalen på Slack"
+
+#: modules/slack/slack.php:330
+msgid "Trying to send the message to Slack..."
+msgstr "Forsøger at sende beskeden til Slack..."
+
+#: modules/slack/slack.php:334
+msgid "Unknown error found."
+msgstr "Ukendt fejl fundet."
+
+#: modules/slack/slack.php:335
+msgid "Invalid nonce or referer."
+msgstr "Ugyldig nonce eller referer."
+
+#: modules/slack/slack.php:336
+#, php-format
+msgid "Congrats! A test message was sent to the channel %s."
+msgstr "Tillykke! En testbesked blev sendt til kanalen %s."
+
+#: modules/slack/slack.php:396
+msgid "Authentication:"
+msgstr "Autentifikation:"
+
+#: modules/slack/slack.php:404
+msgid "Default Slack Channel/User:"
+msgstr "Standard Slack Kanal/Bruger:"
+
+#: modules/slack/slack.php:412
+msgid "Notification theme:"
+msgstr "Notifikations tema:"
+
+#: modules/slack/slack.php:447
+msgid "Full - Notification body with action buttons"
+msgstr "Fuldt - Notifikationskrop med handlingsknapper"
+
+#: modules/slack/slack.php:451
+msgid "Clean - Only the notification body"
+msgstr "Renset - Kun notifikationskrop"
+
+#: modules/slack/slack.php:490
+msgid ""
+"Default Slack channel in which notifications will be sent to. For example "
+"#general, @username, user@email.com, or the channel ID. Users can override "
+"this on their profile."
+msgstr ""
+"Standard Slack-kanal, hvortil notifikationer vil blive sendt. For eksempel "
+"#general, @brugernavn, bruger@email.com, eller kanal-ID'en. Brugere kan "
+"overskrive dette på deres profil."
+
+#: modules/slack/slack.php:562
+msgid "Comment"
+msgstr "Kommentar"
+
+#: modules/slack/slack.php:573
+msgid "Edit"
+msgstr "Rediger"
+
+#: modules/slack/slack.php:584
+msgid "View"
+msgstr "Vis"
+
+#: modules/slack/slack.php:692
+msgid ""
+"No token found. Please, go to PublishPress > Settings > Slack and reconnect "
+"to Slack."
+msgstr ""
+"Ingen token fundet. Vær venlig at gå til PublishPress > Indstillinger > "
+"Slack og genoprette forbindelsen til Slack."
+
+#: modules/slack/slack.php:872
+msgid "Please, go to PublishPress > Settings > Slack and reconnect to Slack"
+msgstr ""
+"Vær venlig at gå til PublishPress > Indstillinger > Slack og genoprette "
+"forbindelsen til Slack"
+
+#: modules/slack/slack.php:879
+msgid "Slack OAuth token not found on PublishPress. Please, reconnect to Slack"
+msgstr ""
+"Slack OAuth token ikke fundet på PublishPress. Vær venlig at genoprette "
+"forbindelsen til Slack"
+
+#: modules/slack/slack.php:955
+#: modules/slack/slack.php:1005
+#: modules/slack/slack.php:1025
+msgid "Access denied"
+msgstr "Adgang nægtet"
+
+#: modules/slack/slack.php:964
+msgid "Invalid OAuth token"
+msgstr "Ugyldigt OAuth-token"
+
+#: modules/slack/slack.php:969
+msgid "Hey, congrats! Everything looks good on PublishPress Pro's Slack settings."
+msgstr "Hej, tillykke! Alt ser godt ud i PublishPress Pro's Slack-indstillinger."
+
+#: modules/slack/slack.php:981
+msgid "Error from Slack: "
+msgstr "Fejl fra Slack: "
+
+#: modules/slack/slack.php:1089
+msgid "Error from PublshPress.com: "
+msgstr "Fejl fra PublshPress.com: "

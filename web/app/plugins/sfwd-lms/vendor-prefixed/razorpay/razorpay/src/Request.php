@@ -9,8 +9,8 @@ use StellarWP\Learndash\Razorpay\Api\Errors;
 use StellarWP\Learndash\Razorpay\Api\Errors\ErrorCode;
 // Available since PHP 5.5.19 and 5.6.3
 // https://git.io/fAMVS | https://secure.php.net/manual/en/curl.constants.php
-if (defined('CURL_SSLVERSION_TLSv1_1') === false) {
-    define('CURL_SSLVERSION_TLSv1_1', 5);
+if (defined('LEARNDASH_CURL_SSLVERSION_TLSv1_1') === false) {
+    define('LEARNDASH_CURL_SSLVERSION_TLSv1_1', 5);
 }
 /**
  * Request class to communicate to the request libarary
@@ -63,7 +63,7 @@ class Request
     }
     public function setCurlSslOpts($curl)
     {
-        curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_1);
+        curl_setopt($curl, CURLOPT_SSLVERSION, LEARNDASH_CURL_SSLVERSION_TLSv1_1);
     }
     /**
      * Adds an additional header to all API requests

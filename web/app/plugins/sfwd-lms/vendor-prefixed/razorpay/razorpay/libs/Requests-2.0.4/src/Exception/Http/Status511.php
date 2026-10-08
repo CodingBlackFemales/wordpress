@@ -7,9 +7,9 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests\Exception\Http;
+namespace StellarWP\Learndash\WpOrg\Requests\Exception\Http;
 
-use WpOrg\Requests\Exception\Http;
+use StellarWP\Learndash\WpOrg\Requests\Exception\Http;
 
 /**
  * Exception for 511 Network Authentication Required responses

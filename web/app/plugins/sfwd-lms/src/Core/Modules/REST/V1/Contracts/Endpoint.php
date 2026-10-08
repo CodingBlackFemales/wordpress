@@ -52,6 +52,18 @@ abstract class Endpoint implements Interface_Endpoint {
 	protected string $permission_required = 'manage_options';
 
 	/**
+	 * The request parameter whose value must equal the current user's ID for access.
+	 *
+	 * When set, an authenticated request is authorized only if this parameter resolves to the
+	 * current user's ID. Empty string disables the owner check.
+	 *
+	 * @since 5.1.6.1
+	 *
+	 * @var string
+	 */
+	protected string $owner_id_param = '';
+
+	/**
 	 * Whether the endpoint is experimental.
 	 *
 	 * @since 4.25.0
@@ -835,6 +847,7 @@ abstract class Endpoint implements Interface_Endpoint {
 	 * Checks if the current user has permission to access this endpoint.
 	 *
 	 * @since 4.25.0
+	 * @since 5.1.6.1 Added owner-match authorization via $owner_id_param.
 	 *
 	 * @param WP_REST_Request<array<string,mixed>> $request The REST request object.
 	 *
@@ -863,7 +876,39 @@ abstract class Endpoint implements Interface_Endpoint {
 			);
 		}
 
-		return current_user_can( $permission );
+		if ( ! current_user_can( $permission ) ) {
+			return false;
+		}
+
+		if ( '' !== $this->owner_id_param ) {
+			$owner_id = Cast::to_int( $request->get_param( $this->owner_id_param ) );
+
+			if ( $owner_id <= 0 ) {
+				return new WP_Error(
+					'rest_missing_callback_param',
+					sprintf(
+						/* translators: %s: request parameter name. */
+						__( 'Missing parameter(s): %s', 'learndash' ),
+						$this->owner_id_param
+					),
+					[
+						'status' => 400,
+					]
+				);
+			}
+
+			if ( $owner_id !== get_current_user_id() ) {
+				return new WP_Error(
+					'rest_forbidden',
+					__( 'You are not allowed to perform this action for another user.', 'learndash' ),
+					[
+						'status' => 403,
+					]
+				);
+			}
+		}
+
+		return true;
 	}
 
 	/**

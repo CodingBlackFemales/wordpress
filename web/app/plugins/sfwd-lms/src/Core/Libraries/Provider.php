@@ -29,5 +29,7 @@ class Provider extends ServiceProvider {
 	 */
 	public function register(): void {
 		$this->container->register( Assets\Provider::class );
+		$this->container->register( Harbor\Provider::class );
+		$this->container->register( Plugin_Absorber\Provider::class );
 	}
 }
