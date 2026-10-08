@@ -1898,6 +1898,9 @@
           this._label("course") +
           "."
         : ".";
+      summary += overwrite
+        ? " New content is saved as a draft; content that already exists keeps its current status."
+        : " It is saved as a draft for you to review and publish.";
 
       // Build warning lines (no-course and overwrite).
       const warnings = [];

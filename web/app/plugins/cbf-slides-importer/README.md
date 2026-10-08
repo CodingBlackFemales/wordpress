@@ -148,7 +148,7 @@ Units marked cover or hidden are excluded from the generated content. **Preview 
 
 Triggering an import for a Drive file that was already imported with the same content-affecting settings returns a 409 and asks for confirmation. The check hashes the Drive file ID, mode, course and unit map — not the title or overwrite flag, which are post metadata rather than content. Local uploads have no stable identity and are not deduplicated.
 
-If any error occurs mid-batch, every post created by that job is reverted to draft so students never see partial content.
+Imported content is created as a **draft**, so it can be reviewed and published from LearnDash when it is ready. A post updated by Overwrite keeps the status it already had, so re-importing a live lesson changes its content without unpublishing it. Quiz questions are the exception: LearnDash only loads published question posts into a quiz, so they are published, and the draft quiz keeps them from learners. If any error occurs mid-batch, every post the job touched is set to draft so learners never see partial content.
 
 ## Bulk migration from a CSV
 
