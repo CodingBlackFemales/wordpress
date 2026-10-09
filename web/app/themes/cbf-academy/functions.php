@@ -29,6 +29,21 @@ function cbf_academy_theme_languages() {
 add_action( 'after_setup_theme', 'cbf_academy_theme_languages' );
 
 /**
+ * Version string for a theme asset: its modification time.
+ *
+ * The theme version only changes when it is bumped by hand, so browsers would
+ * otherwise keep serving a cached copy of an edited stylesheet or script.
+ *
+ * @param string $path Path relative to the theme directory, e.g. `assets/css/custom.css`.
+ * @return string
+ */
+function cbf_academy_asset_version( $path ) {
+	$file = get_stylesheet_directory() . '/' . $path;
+
+	return file_exists( $file ) ? (string) filemtime( $file ) : wp_get_theme( 'cbf-academy' )->get( 'Version' );
+}
+
+/**
  * Enqueues scripts and styles for child theme front-end.
  *
  * @since CBF Academy Theme  1.0.0
@@ -42,13 +57,11 @@ function cbf_academy_theme_scripts_styles() {
 	  * http://codex.wordpress.org/Function_Reference/wp_deregister_script
 	  * http://codex.wordpress.org/Function_Reference/wp_deregister_style
 	  **/
-	$version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
-
 	// Styles
-	wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri() . '/assets/css/custom.css', false, $version );
+	wp_enqueue_style( 'cbf-academy-css', get_stylesheet_directory_uri() . '/assets/css/custom.css', false, cbf_academy_asset_version( 'assets/css/custom.css' ) );
 
 	// Javascript
-	wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', false, $version );
+	wp_enqueue_script( 'cbf-academy-js', get_stylesheet_directory_uri() . '/assets/js/custom.js', false, cbf_academy_asset_version( 'assets/js/custom.js' ) );
 }
 add_action( 'wp_enqueue_scripts', 'cbf_academy_theme_scripts_styles', 9999 );
 
@@ -88,12 +101,11 @@ add_filter( 'option_buddypages-member-pages', 'cbf_academy_option_buddypages_mem
 add_action(
 	'enqueue_block_editor_assets',
 	function () {
-		$version = wp_get_theme( 'cbf-academy' )->get( 'Version' );
 		wp_enqueue_style(
 			'cbf-academy-editor-style',
 			get_stylesheet_directory_uri() . '/assets/css/editor-style.css',
 			array(),
-			$version
+			cbf_academy_asset_version( 'assets/css/editor-style.css' )
 		);
 	}
 );

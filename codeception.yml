@@ -8,6 +8,7 @@
 #   vendor/bin/codecept run -c web/app/plugins/cbf-slides-importer  # one project
 include:
   - web/app/plugins/cbf-slides-importer
+  - web/app/plugins/cbf-semantic-glossary
 paths:
   output: tests/_output
 settings:
