@@ -687,10 +687,28 @@ final class JobRunner {
 			return;
 		}
 
-		$config  = self::resolve_config( $job );
-		$outcome = self::batch_outcome( $result, (int) ( $config['course_id'] ?? 0 ), $config );
+		$config    = self::resolve_config( $job );
+		$course_id = (int) ( $config['course_id'] ?? 0 );
+		$outcome   = self::batch_outcome( $result, $course_id, $config );
+		$outcome   = self::with_review_note( $outcome, EditorialComments::for_row( $config, $outcome, $course_id, (int) $job['user_id'] ) );
 
 		BatchRunner::complete_row( $context['batch_id'], $context['line'], $outcome['outcome'], $outcome['extra'] );
+	}
+
+
+	/**
+	 * Append the editorial comment's outcome to a row's report detail.
+	 *
+	 * @param  array  $outcome { outcome, extra }.
+	 * @param  string $note    Note from EditorialComments, or ''.
+	 * @return array
+	 */
+	private static function with_review_note( array $outcome, string $note ): array {
+		if ( $note !== '' ) {
+			$outcome['extra']['detail'] = trim( ( $outcome['extra']['detail'] ?? '' ) . ' ' . $note );
+		}
+
+		return $outcome;
 	}
 
 

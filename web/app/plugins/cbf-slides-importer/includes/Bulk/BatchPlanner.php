@@ -21,6 +21,7 @@ namespace CodingBlackFemales\SlidesImporter\Bulk;
 
 use CodingBlackFemales\SlidesImporter\Document\ParserFactory;
 use CodingBlackFemales\SlidesImporter\Google\DriveClient;
+use CodingBlackFemales\SlidesImporter\Import\EditorialComments;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -69,6 +70,7 @@ final class BatchPlanner {
 		// Parents named by title can point at rows anywhere earlier in the file,
 		// so they are resolved once every row's own checks are done.
 		$planned = ParentResolver::resolve( $planned, self::course_parents( $course_id, $sessions ) );
+		$planned = self::note_reviews( $planned );
 
 		foreach ( $planned as $planned_row ) {
 			if ( $planned_row['status'] === 'ready' && $planned_row['heading'] !== '' ) {
@@ -81,6 +83,28 @@ final class BatchPlanner {
 			'headings' => array_values( $headings ),
 			'counts'   => self::counts( $planned ),
 		);
+	}
+
+
+	/**
+	 * Tell the editor where a row's review comment will not be added.
+	 *
+	 * @param  array $planned PlannedRow arrays.
+	 * @return array
+	 */
+	private static function note_reviews( array $planned ): array {
+		$settings = null;
+
+		foreach ( $planned as $i => $row ) {
+			if ( ( $row['comments'] ?? '' ) === '' ) {
+				continue;
+			}
+
+			$settings              ??= EditorialComments::settings();
+			$planned[ $i ]['notices'] = array_merge( $row['notices'], EditorialComments::preflight_notes( $row, $settings ) );
+		}
+
+		return $planned;
 	}
 
 

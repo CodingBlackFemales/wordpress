@@ -41,6 +41,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   heading:      string,  // '' on topic and quiz rows
  *   session_id:   int,     // parent given as a post ID; 0 otherwise
  *   parent_title: string,  // parent given as a title; '' otherwise
+ *   reviewer:     string,  // reviewer's email, when a comment was given
+ *   comments:     string,  // review comment; '' when none
  *   source:     array,   // DriveUrl::parse() result
  *   errors:     string[],
  *   notices:    string[]
@@ -71,6 +73,17 @@ final class CsvParser {
 	 * so files written for the old name keep working unchanged.
 	 */
 	const COLUMN_ALIASES = array( 'session_id' => 'parent' );
+
+	/**
+	 * Columns read when present but not required.
+	 *
+	 * `reviewer` (an email address) and `comments` become a PublishPress
+	 * editorial comment on the imported post, when that module is enabled.
+	 */
+	const OPTIONAL_COLUMNS = array( 'reviewer', 'comments' );
+
+	/** Longest accepted review comment. */
+	const MAX_COMMENT_LENGTH = 5000;
 
 	/**
 	 * Most rows a single CSV may contain.
@@ -240,7 +253,7 @@ final class CsvParser {
 			$key = (string) preg_replace( '/[\s-]+/', '_', $key );
 			$key = self::COLUMN_ALIASES[ $key ] ?? $key;
 
-			if ( in_array( $key, self::COLUMNS, true ) ) {
+			if ( in_array( $key, self::COLUMNS, true ) || in_array( $key, self::OPTIONAL_COLUMNS, true ) ) {
 				// A file carrying both `parent` and its old alias: the first wins,
 				// and the author is told which one was read.
 				if ( isset( $index[ $key ] ) ) {
@@ -292,12 +305,14 @@ final class CsvParser {
 
 		$type = self::TYPE_SYNONYMS[ strtolower( $raw_type ) ] ?? '';
 		$row  = array(
-			'line'       => $line,
-			'type'       => $type,
-			'title'      => self::clean_title( $title ),
+			'line'         => $line,
+			'type'         => $type,
+			'title'        => self::clean_title( $title ),
 			'heading'      => '',
 			'session_id'   => 0,
 			'parent_title' => '',
+			'reviewer'     => '',
+			'comments'     => '',
 			'source'       => DriveUrl::parse( $url ),
 			'errors'       => array(),
 			'notices'      => array(),
@@ -312,8 +327,74 @@ final class CsvParser {
 		);
 
 		self::validate_source( $row );
+		self::read_review(
+			$row,
+			self::field( $fields, $index, 'reviewer' ),
+			self::field( $fields, $index, 'comments' )
+		);
 
 		return $row;
+	}
+
+
+	/**
+	 * Read the review columns that become an editorial comment.
+	 *
+	 * Nothing here rejects a row: a review note is secondary to the content,
+	 * so a problem with it is reported and the content still imports. A
+	 * reviewer without a comment is normal — reviewed, nothing to add — and
+	 * produces nothing.
+	 *
+	 * @param array  $row      ParsedRow, updated in place.
+	 * @param string $reviewer Reviewer column value.
+	 * @param string $comments Comments column value.
+	 */
+	private static function read_review( array &$row, string $reviewer, string $comments ): void {
+		$comments = sanitize_textarea_field( $comments );
+
+		if ( $comments === '' ) {
+			return;
+		}
+
+		if ( mb_strlen( $comments ) > self::MAX_COMMENT_LENGTH ) {
+			$comments         = mb_substr( $comments, 0, self::MAX_COMMENT_LENGTH );
+			$row['notices'][] = sprintf(
+				/* translators: %d: maximum comment length */
+				__( 'The comment was longer than %d characters and has been shortened.', 'cbf-slides-importer' ),
+				self::MAX_COMMENT_LENGTH
+			);
+		}
+
+		$row['comments'] = $comments;
+		$row['reviewer'] = self::read_reviewer( $row, $reviewer );
+	}
+
+
+	/**
+	 * Read the reviewer's email address, noting when it cannot be used.
+	 *
+	 * @param  array  $row      ParsedRow, updated in place.
+	 * @param  string $reviewer Reviewer column value.
+	 * @return string Lower-cased email address, or '' when unusable.
+	 */
+	private static function read_reviewer( array &$row, string $reviewer ): string {
+		$email = strtolower( trim( $reviewer ) );
+
+		if ( $email === '' ) {
+			$row['notices'][] = __( 'No reviewer was given, so the editorial comment will be attributed to the person running the import.', 'cbf-slides-importer' );
+			return '';
+		}
+
+		if ( ! is_email( $email ) ) {
+			$row['notices'][] = sprintf(
+				/* translators: %s: the value found in the reviewer column */
+				__( 'Reviewer "%s" is not an email address, so the editorial comment will be attributed to the person running the import.', 'cbf-slides-importer' ),
+				sanitize_text_field( $reviewer )
+			);
+			return '';
+		}
+
+		return $email;
 	}
 
 
