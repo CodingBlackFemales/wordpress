@@ -1,0 +1,14 @@
+# Runs every plugin and theme's Codeception suites from the project root.
+#
+# Each included project keeps its own codeception.yml, namespace, suites and
+# bootstrap; this file only lists them. Add a new plugin's directory here once
+# it has a codeception.yml of its own.
+#
+#   composer test                                                  # everything
+#   vendor/bin/codecept run -c web/app/plugins/cbf-slides-importer  # one project
+include:
+  - web/app/plugins/cbf-slides-importer
+paths:
+  output: tests/_output
+settings:
+  colors: true

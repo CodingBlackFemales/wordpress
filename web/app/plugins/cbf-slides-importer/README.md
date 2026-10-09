@@ -302,7 +302,7 @@ composer phpcs     # WordPress coding standards
 composer phpcbf    # fix what can be fixed automatically
 ```
 
-`lando codecept run` works from anywhere in the project.
+Codeception is installed in the project root rather than here, so run `composer install` there first. The scripts above run this plugin's suites only; `composer test` in the project root runs every plugin and theme listed in the root `codeception.yml`. `lando codecept run` does the same, and `lando codecept run -c web/app/plugins/cbf-slides-importer` narrows it to this plugin.
 
 ### Tests
 

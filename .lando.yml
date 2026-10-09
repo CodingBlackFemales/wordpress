@@ -66,8 +66,8 @@ tooling:
   # for the web SAPI; overriding it per-invocation leaves that setting alone.
   codecept:
     service: appserver
-    description: Run the CBF Slides Importer test suite.
-    dir: /app/web/app/plugins/cbf-slides-importer
+    description: Run Codeception against every project listed in codeception.yml.
+    dir: /app
     cmd: php -d register_argc_argv=1 vendor/bin/codecept
   # https://github.com/lando/lando/issues/1668#issuecomment-772829423
   xdebug-on:
