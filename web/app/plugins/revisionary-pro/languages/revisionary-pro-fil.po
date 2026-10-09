@@ -1,0 +1,498 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Revisions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Revisions Pro 3.8.0-rc\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-03T22:24:42+00:00\n"
+"PO-Revision-Date: 2026-04-16 21:55+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: revisionary-pro\n"
+"|| n % 10 == 6 || n % 10 == 9);\n"
+"Language: fil\n"
+"Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9);\n"
+
+#: revisionary-pro.php:3
+#. Plugin Name of the plugin
+msgid "PublishPress Revisions Pro"
+msgstr "PublishPress Revisions Pro"
+
+#: revisionary-pro.php:4, fuzzy
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/revisionary/"
+msgstr "https://publishpress.com/revisionary/"
+
+#: revisionary-pro.php:5
+#. Description of the plugin
+msgid ""
+"Maintain published content with teamwork and precision using the Revisions "
+"model to submit, approve and schedule changes."
+msgstr ""
+"Panatilihin ang na-publish na nilalaman gamit ang pagtutulungan at "
+"katumpakan gamit ang Revisions model upang isumite, aprubahan at i-iskedyul "
+"ang mga pagbabago."
+
+#: revisionary-pro.php:6
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: revisionary-pro.php:7, fuzzy
+#. Author URI of the plugin
+msgid "https://publishpress.com"
+msgstr "https://publishpress.com"
+
+#: includes-pro/admin-load.php:71
+msgid "Current Post"
+msgstr "Kasalukuyang Post"
+
+#: includes-pro/compat.php:415
+msgid "Featured Image"
+msgstr "Itinatampok na Imahe"
+
+#: includes-pro/compat.php:587
+msgid "Requested Slug"
+msgstr "Hiniling na Slug"
+
+#: includes-pro/compat.php:590, fuzzy
+msgid "Beaver Builder Data"
+msgstr "Beaver Builder Data"
+
+#: includes-pro/compat.php:591
+msgid "Beaver Builder Settings"
+msgstr "Beaver Builder Mga Setting"
+
+#: includes-pro/compat.php:595
+msgid "Author(s)"
+msgstr "May-akda(s)"
+
+#: includes-pro/compat/beaver-builder.php:121
+#: includes-pro/compat/divi.php:106
+#: includes-pro/compat/divi.php:107
+#: includes-pro/compat/elementor.php:1024
+msgid "Approve"
+msgstr "Aprubahan"
+
+#: includes-pro/compat/beaver-builder.php:212, fuzzy
+msgid "Beaver Builder"
+msgstr "Beaver Builder"
+
+#: includes-pro/compat/divi.php:211
+#: includes-pro/compat/divi.php:212, fuzzy
+msgid "Divi"
+msgstr "Divi"
+
+#: includes-pro/compat/elementor.php:603
+msgid "Generate CSS file for revision if needed"
+msgstr "Bumuo ng CSS file para sa rebisyon kung kinakailangan"
+
+#: includes-pro/compat/elementor.php:604
+msgid "Also generate CSS for published pages"
+msgstr "Bumuo rin ng CSS para sa mga na-publish na pahina"
+
+#: includes-pro/compat/elementor.php:605, fuzzy
+msgid "Auto-submit Template Revisions"
+msgstr "Auto-submit Template Revisions"
+
+#: includes-pro/compat/elementor.php:606
+msgid "Send notifications for auto-submitted Template Revisions"
+msgstr "Magpadala ng mga notification para sa auto-submitted Template Revisions"
+
+#: includes-pro/compat/elementor.php:607
+msgid "Send notifications when a Template Revision is updated"
+msgstr "Magpadala ng mga notification kapag ang isang Template Revision ay na-update"
+
+#: includes-pro/compat/elementor.php:608
+msgid "Redirect to preview after editing a revision"
+msgstr "I-redirect sa preview pagkatapos ng pag-edit ng isang rebisyon"
+
+#: includes-pro/compat/elementor.php:609
+msgid "Generate CSS file for revision templates"
+msgstr "Gumawa ng CSS file para sa mga template ng rebisyon"
+
+#: includes-pro/compat/elementor.php:610
+msgid "Fully clear Elementor cache at revision publication"
+msgstr "Ganap na i-clear ang cache ng Elementor sa pag-publish ng rebisyon"
+
+#: includes-pro/compat/elementor.php:629
+#: includes-pro/compat/elementor.php:652, fuzzy
+msgid "Elementor:"
+msgstr "Elementor:"
+
+#: includes-pro/compat/elementor.php:639
+msgid ""
+"NOTE: You will also need to enable Elementor > Settings > Advanced > CSS "
+"Print Method > External."
+msgstr ""
+"TANDAAN: Kailangan mo ring i-enable ang Elementor > Mga Setting > Advanced "
+"> Paraan ng Pag-print ng CSS > External."
+
+#: includes-pro/compat/elementor.php:641
+msgid "Disable this setting if there is any problem with front end styling."
+msgstr ""
+"I-disable ang setting na ito kung may anumang problema sa front end na "
+"estilo."
+
+#: includes-pro/compat/elementor.php:647
+msgid "Leave this disabled for better performance if possible."
+msgstr "Iwanang naka-disable ito para sa mas mahusay na pagganap kung maaari."
+
+#: includes-pro/compat/elementor.php:662
+msgid ""
+"Redirect to preview if the revision is updated at least 15 seconds after "
+"loading the Elementor editor. This redirect relies on detection of UI "
+"messaging elements. Disable it here if it is triggered improperly"
+msgstr ""
+"I-redirect sa preview kung ang rebisyon ay na-update ng hindi bababa sa 15 "
+"segundo pagkatapos i-load ang Elementor editor. Ang redirect na ito ay "
+"umaasa sa pagtuklas ng mga elemento ng UI messaging. I-disable ito dito "
+"kung ito ay nai-trigger ng hindi tama"
+
+#: includes-pro/compat/elementor.php:966
+msgid "Approval done."
+msgstr "Nagawa na ang pag-apruba."
+
+#: includes-pro/compat/elementor.php:968
+msgid "Revision updated."
+msgstr "Na-update na ang rebisyon."
+
+#: includes-pro/compat/elementor.php:997
+#: includes-pro/compat/elementor.php:998, fuzzy
+msgid "Elementor"
+msgstr "Elementor"
+
+#: includes-pro/compat/elementor.php:1014
+msgid "Submit"
+msgstr "I-submit"
+
+#: includes-pro/compat/elementor.php:1016
+#: includes-pro/compat/elementor.php:1026
+#: includes-pro/compat/elementor.php:1032
+#: includes-pro/compat/elementor.php:1036
+msgid "Update"
+msgstr "I-update"
+
+#: includes-pro/compat/elementor.php:1024
+msgid "Publish"
+msgstr "I-publish"
+
+#: includes-pro/compat/wpml-translation-management.php:121
+#, php-format
+msgid "WPML Translation Management: %s translation flagged."
+msgid_plural "WPML Translation Management: %s translations flagged."
+msgstr[0] "WPML Translation Management: %s translation flagged."
+msgstr[1] "WPML Translation Management: %s translations flagged."
+
+#: includes-pro/compat/wpml-translation-management.php:123
+msgid "WPML Translation Management: Flags already synchronized"
+msgstr "WPML Translation Management: Ang mga flag ay naka-synchronize na"
+
+#: includes-pro/NotificationDefaults.php:298
+msgid "New Revision created"
+msgstr "Bagong Rebisyon na nilikha"
+
+#: includes-pro/NotificationDefaults.php:344
+msgid "Revision submitted"
+msgstr "Na-submit ang Rebisyon"
+
+#: includes-pro/NotificationDefaults.php:396
+msgid "Revision deferred or rejected"
+msgstr "Ang Rebisyon ay na-defer o tinanggihan"
+
+#: includes-pro/NotificationDefaults.php:455
+msgid "Revision scheduled"
+msgstr "Ang Rebisyon ay naka-schedule"
+
+#: includes-pro/NotificationDefaults.php:506
+msgid "Revision published"
+msgstr "Na-publish ang Rebisyon"
+
+#: includes-pro/NotificationDefaults.php:558
+msgid "Revision applied"
+msgstr "Nailapat na rebisyon"
+
+#: includes-pro/NotificationDefaults.php:610
+msgid "Scheduled Revision published"
+msgstr "Nailathalang Rebisyon"
+
+#: includes-pro/NotificationDefaults.php:656
+msgid "Revision status changed"
+msgstr "Nabagong katayuan ng rebisyon"
+
+#: includes-pro/pro-load.php:132
+#, php-format
+msgid ""
+"To control revision editing and deletion, please set %1$sRevisions > Post "
+"Types > Compatibility Mode%2$s to \"Enhanced Revision access control\""
+msgstr ""
+"Upang kontrolin ang pag-edit at pagtanggal ng rebisyon, mangyaring itakda "
+"ang %1$sRevisions > Post Types > Compatibility Mode%2$s sa \"Pinalawak na "
+"kontrol sa pag-access ng rebisyon\""
+
+#: includes-pro/pro-load.php:385
+#, php-format
+msgid "%sCompare%s%sView Current Draft%s"
+msgstr "%sIhambing%s%sTingnan ang Kasalukuyang Draft%s"
+
+#: includes-pro/pro-load.php:398
+#, php-format
+msgid "%sView Current Draft%s"
+msgstr "%sTingnan ang Kasalukuyang Draft%s"
+
+#: includes-pro/SettingsLicense.php:60
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, <a "
+"href=\"%s\">please renew</a>."
+msgstr ""
+"Nawalan na ng bisa ang iyong license key. Para sa patuloy na prayoridad na "
+"suporta, <a href=\"%s\">pakisuyo na i-renew</a>."
+
+#: includes-pro/SettingsLicense.php:71
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, <a "
+"href=\"%s\">please renew</a>."
+msgstr ""
+"Mag-e-expire ang iyong license key ngayon. Para sa mga update at prayoridad "
+"na suporta, <a href=\"%s\">pakisuyo na i-renew</a>."
+
+#: includes-pro/SettingsLicense.php:77
+#, php-format
+msgid ""
+"Your license key will expire in %d day. For updates and priority support, "
+"<a href=\"%s\">please renew</a>."
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+"Your license key (for plugin updates) will expire in %d days. For updates "
+"and priority support, <a href=\"%s\">please renew</a>."
+msgstr[0] ""
+"Ang iyong license key ay mag-eexpire sa %d araw. Para sa mga update at "
+"priyoridad na suporta, <a href=\"%s\">pakirenew</a>."
+msgstr[1] ""
+"Ang iyong license key (para sa mga update ng plugin) ay mag-eexpire sa %d "
+"araw. Para sa mga update at priyoridad na suporta, <a "
+"href=\"%s\">pakirenew</a>."
+
+#: includes-pro/SettingsLicense.php:92
+#, php-format
+msgid ""
+"For updates to PublishPress Revisions Pro, activate your %sPublishPress "
+"license key%s."
+msgstr ""
+"Para sa mga update sa PublishPress Revisions Pro, i-activate ang iyong "
+"%sPublishPress license key%s."
+
+#: includes-pro/SettingsLicense.php:105
+msgid "Key Expired"
+msgstr "Nawalang bisa ang Key"
+
+#: includes-pro/SettingsLicense.php:108
+#: includes-pro/SettingsLicense.php:119
+#: includes-pro/SettingsLicense.php:228
+msgid "Deactivate Key"
+msgstr "I-deactivate ang Key"
+
+#: includes-pro/SettingsLicense.php:111
+msgid "Key Activated"
+msgstr "Na-activate ang Key"
+
+#: includes-pro/SettingsLicense.php:112
+#: includes-pro/SettingsProUI.php:18, fuzzy
+msgid "License Key"
+msgstr "License Key"
+
+#: includes-pro/SettingsLicense.php:119
+#: includes-pro/SettingsLicense.php:227
+msgid "Activate Key"
+msgstr "I-activate ang Key"
+
+#: includes-pro/SettingsLicense.php:127
+msgid "review your account info"
+msgstr "suriin ang iyong impormasyon sa account"
+
+#: includes-pro/SettingsLicense.php:134
+msgid ""
+"note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"tandaan: Ang pag-renew ay hindi nangangailangan ng deactivation. Kung ikaw "
+"ay magde-deactivate, kinakailangan ang muling pagpasok ng license key."
+
+#: includes-pro/SettingsLicense.php:138
+msgid ""
+"note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"tandaan: Kung ikaw ay magde-deactivate, kinakailangan ang muling pagpasok "
+"ng license key para sa muling pag-activate."
+
+#: includes-pro/SettingsLicense.php:195
+#, fuzzy, php-format
+msgid "%1$s PublishPress Revisions Pro %2$s %3$s"
+msgstr "%1$s PublishPress Revisions Pro %2$s %3$s"
+
+#: includes-pro/SettingsLicense.php:196
+#, php-format
+msgid "%1$sInstalled Version:%2$s"
+msgstr "%1$sNaka-install na Bersyon:%2$s"
+
+#: includes-pro/SettingsLicense.php:203
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "tingnan ang %s&nbsp;mga detalye"
+
+#: includes-pro/SettingsLicense.php:214
+msgid "update check / install"
+msgstr "suriin / i-install ang update"
+
+#: includes-pro/SettingsLicense.php:229
+msgid "Connecting to publishpress.com server..."
+msgstr "Kumokonekta sa publishpress.com server..."
+
+#: includes-pro/SettingsLicense.php:230
+msgid "The request could not be processed due to a connection failure."
+msgstr "Ang kahilingan ay hindi maiproseso dahil sa pagkabigo sa koneksyon."
+
+#: includes-pro/SettingsLicense.php:231
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Mangyaring ilagay ang license key na nakikita sa iyong order receipt."
+
+#: includes-pro/SettingsLicense.php:232
+msgid "An unidentified error occurred."
+msgstr "Isang hindi natukoy na error ang nangyari."
+
+#: includes-pro/SettingsLicense.php:234
+msgid "The key has been deactivated."
+msgstr "Ang key ay na-deactivate na."
+
+#: includes-pro/SettingsLicense.php:235
+msgid "The key has been activated."
+msgstr "Ang key ay na-activate na."
+
+#: includes-pro/SettingsLicense.php:236
+msgid "The key has expired."
+msgstr "Ang key ay nag-expire na."
+
+#: includes-pro/SettingsLicense.php:237
+msgid "The key is invalid."
+msgstr "Ang key ay hindi wasto."
+
+#: includes-pro/SettingsLicense.php:238
+msgid "An unknown activation error occurred."
+msgstr "Isang hindi kilalang activation error ang nangyari."
+
+#: includes-pro/SettingsLicense.php:239
+msgid "The key provided is not valid. Please double-check your entry."
+msgstr "Ang ibinigay na key ay hindi wasto. Mangyaring suriin muli ang iyong entry."
+
+#: includes-pro/SettingsLicense.php:240
+msgid "This site is not valid to activate the key."
+msgstr "Ang site na ito ay hindi wasto para i-activate ang key."
+
+#: includes-pro/SettingsLicense.php:241
+#: includes-pro/SettingsLicense.php:247
+msgid "The key provided could not be validated by publishpress.com."
+msgstr "Ang ibinigay na key ay hindi ma-validate ng publishpress.com."
+
+#: includes-pro/SettingsLicense.php:242
+msgid "The key provided is already active on another site."
+msgstr "Ang ibinigay na key ay aktibo na sa ibang site."
+
+#: includes-pro/SettingsLicense.php:243
+msgid "The key has already been activated on the allowed number of sites."
+msgstr "Ang key ay na-activate na sa pinapayagang bilang ng mga site."
+
+#: includes-pro/SettingsLicense.php:244
+msgid "An unknown deactivation error occurred."
+msgstr "Isang hindi kilalang deactivation error ang nangyari."
+
+#: includes-pro/SettingsLicense.php:245
+msgid "Unable to deactivate because the provided key is not valid."
+msgstr "Hindi ma-deactivate dahil ang ibinigay na key ay hindi wasto."
+
+#: includes-pro/SettingsLicense.php:246
+msgid "This site is not valid to deactivate the key."
+msgstr "Ang site na ito ay hindi wasto para i-deactivate ang key."
+
+#: includes-pro/SettingsLicense.php:248
+msgid "The key provided is not active on the specified site."
+msgstr "Ang ibinigay na key ay hindi aktibo sa tinukoy na site."
+
+#: includes-pro/SettingsLicense.php:253
+#, php-format
+msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
+msgstr "Kung ito ay mali, <a href=\"%s\">humiling ng tulong sa pag-activate</a>."
+
+#: includes-pro/SettingsLicense.php:254
+msgid "Please save settings before uploading site configuration."
+msgstr "Mangyaring i-save ang mga setting bago mag-upload ng configuration ng site."
+
+#: includes-pro/SettingsProUI.php:16
+msgid "Use unfiltered preview links"
+msgstr "Gamitin ang mga unfiltered preview links"
+
+#: includes-pro/SettingsProUI.php:24
+msgid "Change Requests for Unpublished Posts"
+msgstr "Mga Kahilingan para sa Mga Hindi Nailathalang Post"
+
+#: includes-pro/SettingsProUI.php:24
+msgid "Revision Submission for Unpublished Posts"
+msgstr "Pagsumite ng Rebisyon para sa Mga Hindi Nailathalang Post"
+
+#: includes-pro/SettingsProUI.php:25
+msgid "Publish by Change Request"
+msgstr "I-publish sa pamamagitan ng Kahilingan sa Pagbabago"
+
+#: includes-pro/SettingsProUI.php:25
+msgid "Publish by Revision"
+msgstr "I-publish sa pamamagitan ng Rebisyon"
+
+#: includes-pro/SettingsProUI.php:28
+msgid "Prevent Redundant Revisions"
+msgstr "Pigilan ang Redundant na mga Rebisyon"
+
+#: includes-pro/SettingsProUI.php:52
+msgid ""
+"Approval of a Change Request to an unpublished post causes it to be "
+"published."
+msgstr ""
+"Ang pag-apruba ng isang Kahilingan sa Pagbabago sa isang hindi nailathalang "
+"post ay nagiging sanhi upang ito ay mailathala."
+
+#: includes-pro/SettingsProUI.php:53
+msgid "Approval of a Revision to an unpublished post causes it to be published."
+msgstr ""
+"Ang pag-apruba ng isang Rebisyon sa isang hindi nailathalang post ay "
+"nagiging sanhi upang ito ay mailathala."
+
+#: includes-pro/SettingsProUI.php:75
+msgid ""
+"Some third party plugins (including WPML with language subdomains) may "
+"require this for compatibility."
+msgstr ""
+"Ang ilang third party plugins (kabilang ang WPML na may mga language "
+"subdomains) ay maaaring mangailangan nito para sa pagiging tugma."
+
+#: includes-pro/SettingsProUI.php:83
+msgid ""
+"Prevent REST requests from generating revisions (which may be stored "
+"without ACF fields)."
+msgstr ""
+"Pigilan ang mga REST requests mula sa pagbuo ng mga rebisyon (na maaaring "
+"maimbak nang walang ACF fields)."
+
+#: includes-pro/SettingsProUI.php:91
+msgid ""
+"Revisors can request the deletion of a published post. The Deletion Queue "
+"is not shown until a deletion request exists."
+msgstr ""
+"Maaaring humiling ang mga revisors ng pagtanggal ng isang nailathalang "
+"post. Ang Queue ng Pagtanggal ay hindi ipinapakita hangga't walang umiiral "
+"na kahilingan para sa pagtanggal."

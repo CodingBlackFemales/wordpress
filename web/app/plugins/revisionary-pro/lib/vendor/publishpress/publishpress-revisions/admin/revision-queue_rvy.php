@@ -1,0 +1,336 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * @global string       $post_type
+ * @global WP_Post_Type $post_type_object
+ */
+global $post_type, $post_type_object, $wpdb;
+
+if ( ! $post_types = rvy_get_manageable_types() ) {
+	wp_die( esc_html__( 'You are not allowed to manage revisions.', 'revisionary' ) );
+}
+
+if (!rvy_get_option('pending_revisions') && !rvy_get_option('scheduled_revisions')) {
+	wp_die( sprintf(esc_html__( 
+		'%s and %s are both disabled. See Revisions > Settings.', 'revisionary' ), 
+		esc_html(pp_revisions_status_label('pending-revision', 'plural')),
+		esc_html(pp_revisions_status_label('future-revision', 'plural'))
+	));
+}
+
+if (rvy_get_option('revision_queue_capability') && !is_content_administrator_rvy() && !current_user_can('manage_revision_queue')) {
+	wp_die( esc_html__( 'You are not allowed to manage revisions.', 'revisionary' ) );
+}
+
+set_current_screen( 'revisionary-q' );
+
+$scheduled_only = ! empty( $_REQUEST['post_status'] ) && 'future-revision' === sanitize_key( $_REQUEST['post_status'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+if ( $scheduled_only && ! rvy_get_option( 'scheduled_publish_cron' ) && function_exists( 'rvy_load_scheduled_revisions' ) ) {
+	rvy_load_scheduled_revisions();
+}
+
+if (!empty($_REQUEST['post_type2'])) {										// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$_REQUEST['post_type'] = sanitize_key($_REQUEST['post_type2']);			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+if (!empty($_REQUEST['post_status2'])) {									// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$_REQUEST['post_status'] = sanitize_key($_REQUEST['post_status2']);		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+$_post_type = !empty($_REQUEST['post_type']) ? sanitize_key($_REQUEST['post_type']) : '';	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+if ($_post_type) {
+	add_action('admin_print_footer_scripts', 
+		function() use ($_post_type) {
+			?>
+			<script type="text/javascript">
+				/* <![CDATA[ */
+				jQuery(document).ready( function($) {
+					$('a.next-page').prop('href', $('a.next-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.last-page').prop('href', $('a.last-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.prev-page').prop('href', $('a.prev-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type);   // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+					$('a.first-page').prop('href', $('a.first-page').attr('href') + '&post_type=<?php echo sanitize_key($_post_type); // phpcs:ignore WordPress.Security.NonceVerification.Recommended?>');
+				});
+				/* ]]> */
+			</script>
+			<?php
+		}
+	);
+}
+
+require_once( dirname(__FILE__).'/class-list-table_rvy.php');
+
+$list_table_class = apply_filters('revisionary_list_table_class', 'Revisionary_List_Table');
+
+$wp_list_table = new $list_table_class(['screen' => 'revisionary-q', 'post_types' => $post_types, 'scheduled_only' => $scheduled_only]); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+$pagenum = $wp_list_table->get_pagenum();
+
+$parent_file = 'admin.php?page=revisionary-q';																		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+$submenu_file = $scheduled_only		 // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	? 'admin.php?page=revisionary-q&post_status=future-revision'
+	: 'admin.php?page=revisionary-q'; 
+
+$wp_list_table->prepare_items();
+
+$bulk_counts = array(
+	'deleted'   => isset( $_REQUEST['deleted'] )   ? absint( $_REQUEST['deleted'] )   : 0,							//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'updated' => 0,
+	'locked' => 0,
+	'submitted_count' => isset( $_REQUEST['submitted_count'] ) ? absint( $_REQUEST['submitted_count'] ) : 0,		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'declined_count' => isset( $_REQUEST['declined_count'] ) ? absint( $_REQUEST['declined_count'] ) : 0,			//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'approved_count' => isset( $_REQUEST['approved_count'] ) ? absint( $_REQUEST['approved_count'] ) : 0,			//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'unscheduled_count' => isset( $_REQUEST['unscheduled_count'] ) ? absint( $_REQUEST['unscheduled_count'] ) : 0, 	//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'published_count' => isset( $_REQUEST['published_count'] ) ? absint( $_REQUEST['published_count'] ) : 0,		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	'trashed' => 0,
+	'untrashed' => 0,
+);
+
+$bulk_messages = [];
+$bulk_messages['post'] = array(
+	'submitted_count'   => sprintf(esc_html(_n( '%s revision submitted.', '%s revisions submitted.', $bulk_counts['submitted_count'], 'revisionary' )), $bulk_counts['submitted_count']),
+	'declined_count'   => sprintf(esc_html(_n( '%s revision declined.', '%s revisions declined.', $bulk_counts['declined_count'], 'revisionary' )), $bulk_counts['declined_count']),
+	'approved_count'   => sprintf(esc_html(_n( '%s revision approved.', '%s revisions approved.', $bulk_counts['approved_count'], 'revisionary' )), $bulk_counts['approved_count']),
+	'unscheduled_count' => sprintf(esc_html(_n( '%s revision unscheduled.', '%s revisions unscheduled.', $bulk_counts['unscheduled_count'], 'revisionary' )), $bulk_counts['unscheduled_count']),
+	'published_count'   => sprintf(esc_html(_n( '%s revision published.', '%s revisions published.', $bulk_counts['published_count'], 'revisionary' )), $bulk_counts['published_count']),
+	'deleted'   => sprintf(esc_html(_n( '%s revision permanently deleted.', '%s revisions permanently deleted.', $bulk_counts['deleted'] )), $bulk_counts['deleted']),
+);
+
+$bulk_messages['page'] = $bulk_messages['post'];
+
+/**
+ * Filters the bulk action updated messages.
+ *
+ * By default, custom post types use the messages for the 'post' post type.
+ *
+ * @since 3.7.0
+ *
+ * @param array $bulk_messages Arrays of messages, each keyed by the corresponding post type. Messages are
+ *                             keyed with 'updated', 'locked', 'deleted', 'trashed', and 'untrashed'.
+ * @param array $bulk_counts   Array of item counts for each message, used to build internationalized strings.
+ */
+$bulk_messages = apply_filters( 'bulk_post_updated_messages', $bulk_messages, $bulk_counts );
+$bulk_counts = array_filter( $bulk_counts );
+
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
+?>
+<div class="wrap pressshack-admin-wrapper revision-q<?php echo $scheduled_only ? ' rvy-scheduled-queue' : ''; ?>">
+<header>
+<h1 class="wp-heading-inline"><?php
+
+echo '<span class="dashicons dashicons-backup"></span>&nbsp;';
+
+if ( ! empty( $_REQUEST['post_type'] ) ) {												//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$type_obj = get_post_type_object(sanitize_key($_REQUEST['post_type']));				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+}
+
+if (!empty($_REQUEST['published_post'])) {												//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($_post = get_post((int) $_REQUEST['published_post'])) {							//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$published_title = $_post->post_title;
+	}
+}
+
+$filters = [];
+
+if (!empty($_REQUEST['post_status'])) {																//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($status_obj = get_post_status_object(sanitize_key($_REQUEST['post_status']))) {				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filters['post_status'] = (!empty($status_obj->labels->plural)) ? $status_obj->labels->plural : $status_obj->label;
+	}
+}
+
+if (!empty($_REQUEST['post_type']) && !empty($published_title)) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['post_type'] = sprintf(_x('of %s "%s"', 'Revisions of Post "Post Title"', 'revisionary'), $type_obj->labels->singular_name, $published_title);
+
+} elseif (!empty($_REQUEST['post_type'])) {															//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['post_type'] = sprintf(_x('of %s', 'Posts / Pages / etc.', 'revisionary'), $type_obj->labels->name);
+
+} elseif (!empty($published_title)) {
+	$filters['post_type'] = sprintf(_x('of "%s"', 'Revisions of "Post Title"', 'revisionary'), $published_title);
+}
+
+if (!empty($_REQUEST['author'])) {																	 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($_user = new WP_User((int) $_REQUEST['author'])) {											 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filters['author'] = sprintf(_x('by %s ', 'Author Name', 'revisionary'), $_user->display_name);
+	}
+}
+
+if (!empty($_REQUEST['modified'])) {																//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$filters['modified'] = (!empty($_REQUEST['modified'])) 											//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	? sprintf(_x('on %s', 'revision date', 'revisionary'), date('Y-m-d', intval($_REQUEST['modified']))) 	//phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.DateTime.RestrictedFunctions.date_date
+	: '';
+}
+
+if (!empty($_REQUEST['post_author'])) {									//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ($_user = new WP_User((int) $_REQUEST['post_author'])) {										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$filters['post_author'] = sprintf(esc_html__(' (Post Author: %s)', 'revisionary'), $_user->display_name);
+	}
+}
+
+$filter_csv = ($filters) ? ' ' . implode(" ", $filters) : '';
+
+if ( $scheduled_only ) {
+	esc_html_e( 'Scheduled Revisions', 'revisionary' );
+} elseif (!empty($filters['post_status'])) {
+	echo esc_html($filter_csv);
+} else
+	printf( esc_html__('New Revisions %s', 'revisionary' ), esc_html($filter_csv));
+?></h1>
+
+<?php
+if ( isset( $_REQUEST['s'] ) && strlen( sanitize_text_field(wp_unslash($_REQUEST['s'])) ) ) {					//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	/* translators: %s: search keywords */															//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	printf( 
+		' <span class="subtitle">' . esc_html__( 'Search results for "%s"' ) . '</span>', 
+		esc_html(wp_strip_all_tags(sanitize_text_field(wp_unslash($_REQUEST['s'])))) 							//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	);
+}
+?>
+
+</header>
+<!--<hr class="wp-header-end">-->
+
+<?php
+
+// If we have a bulk message to issue:
+$messages = array();
+
+foreach ( $bulk_counts as $message => $count ) {
+	if ( 'trashed' == $message && isset( $_REQUEST['ids'] ) ) {										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$any_messages = true;
+		break;
+	} elseif (!empty($bulk_messages['post'][$message])) {
+		$any_messages = true;
+		break;
+	}
+}
+
+if (!empty($any_messages)) {
+	echo '<div id="message" class="updated notice is-dismissible"><p>';
+}
+
+foreach ( $bulk_counts as $message => $count ) {
+	if ( 'trashed' == $message && isset( $_REQUEST['ids'] ) ) {										//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$ids = preg_replace( '/[^0-9,]/', '', sanitize_text_field(wp_unslash($_REQUEST['ids'])));				//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		echo '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", "bulk-revision-queue" ) ) . '">' . esc_html__('Undo') . '</a> ';
+	
+	} elseif (!empty($bulk_messages['post'][$message])) {
+		echo esc_html($bulk_messages['post'][$message]) . ' ';
+	}
+}
+
+if (!empty($any_messages)) {
+	echo '</p></div>';
+}
+
+unset( $messages );
+
+if (!empty($_SERVER['REQUEST_URI'])) {
+	$_SERVER['REQUEST_URI'] = remove_query_arg( 
+		array( 'locked', 'skipped', 'updated', 'approved_count', 'published_count', 'deleted', 'trashed', 'untrashed' ), 
+		esc_url(esc_url_raw(wp_unslash($_SERVER['REQUEST_URI']))) 												//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	);
+}
+?>
+
+<?php
+$scheduled_empty_unfiltered = false;
+if ( $scheduled_only && ! $wp_list_table->has_items() ) {
+	$scheduled_filter_keys = ['action_status', 's', 'post_type2', 'post_type', 'cat', 'author', 'published_post', 'modified', 'post_author', 'm'];
+	$scheduled_empty_unfiltered = true;
+	foreach ( $scheduled_filter_keys as $filter_key ) {
+		if ( isset( $_REQUEST[$filter_key] ) && '' !== sanitize_text_field( wp_unslash( $_REQUEST[$filter_key] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$scheduled_empty_unfiltered = false;
+			break;
+		}
+	}
+}
+
+$new_empty_unfiltered = false;
+if ( ! $scheduled_only && ! $wp_list_table->has_items() ) {
+	$new_filter_keys = ['s', 'post_type2', 'post_type', 'cat', 'author', 'published_post', 'modified', 'post_author', 'm', 'all'];
+	$new_empty_unfiltered = true;
+	foreach ( $new_filter_keys as $filter_key ) {
+		if ( isset( $_REQUEST[$filter_key] ) && '' !== sanitize_text_field( wp_unslash( $_REQUEST[$filter_key] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$new_empty_unfiltered = false;
+			break;
+		}
+	}
+
+	if ( ! empty( $_REQUEST['post_status'] ) && 'all' !== sanitize_key( $_REQUEST['post_status'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$new_empty_unfiltered = false;
+	}
+}
+?>
+
+<form name="bulk-revisions" id="bulk-revisions" method="post" action="">
+
+<div class="revisionary-list-header-controls">
+	<?php $wp_list_table->views(); ?>
+	<?php $wp_list_table->search_box( esc_html__( 'Search Revisions', 'revisionary' ), 'revision' ); ?>
+</div>
+
+<input type="hidden" name="page" class="post_status_page" value="revisionary-q" />
+
+																								<?php //phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
+<input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr(sanitize_key($_REQUEST['post_status'])) : 'all'; ?>" />
+
+<?php if ( $scheduled_only && ! empty( $_REQUEST['action_status'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
+<input type="hidden" name="action_status" value="<?php echo esc_attr( sanitize_key( $_REQUEST['action_status'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>" />
+<?php endif; ?>
+
+<?php if ( ! empty( $_REQUEST['show_sticky'] ) ) { 													  //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+?>
+<input type="hidden" name="show_sticky" value="1" />
+<?php } ?>
+
+<?php if ( $scheduled_empty_unfiltered ) : ?>
+	<div class="revisionary-scheduled-empty">
+		<div class="revisionary-scheduled-empty-header">
+			<span class="revisionary-scheduled-empty-icon dashicons dashicons-calendar-alt" aria-hidden="true"></span>
+		<h3><?php esc_html_e( 'About Scheduled Revisions', 'revisionary' ); ?></h3>
+		</div>
+		<p><?php esc_html_e( 'The Scheduled Revisions feature allows you to choose a date and time to publish content updates.', 'revisionary' ); ?></p>
+		<ol>
+			<li><?php esc_html_e( 'Click "Create Revision".', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'Make your changes to the post.', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'Select a publishing date in the future.', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'Click the "Schedule Revision" button.', 'revisionary' ); ?></li>
+		</ol>
+	</div>
+<?php elseif ( $new_empty_unfiltered ) : ?>
+	<div class="revisionary-scheduled-empty revisionary-new-empty">
+		<div class="revisionary-scheduled-empty-header">
+			<span class="revisionary-scheduled-empty-icon dashicons dashicons-edit-page" aria-hidden="true"></span>
+			<h3><?php esc_html_e( 'About New Revisions', 'revisionary' ); ?></h3>
+		</div>
+		<p><?php esc_html_e( 'The New Revisions feature gives you a safe space to work on content updates.', 'revisionary' ); ?></p>
+		<ol>
+			<li><?php esc_html_e( 'Click "Create Revision".', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'Make your changes to the post.', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'Save your revision.', 'revisionary' ); ?></li>
+			<li><?php esc_html_e( 'When you\'re happy with it, click "Submit Revision". You can then share the revision with other users, or publish the update.', 'revisionary' ); ?></li>
+		</ol>
+	</div>
+<?php else : ?>
+	<?php $wp_list_table->display(); ?>
+<?php endif; ?>
+
+</form>
+
+<div id="ajax-response"></div>
+<br class="clear" />
+
+<?php
+do_action('revisionary_admin_footer');
+
+if ( $scheduled_only && ! rvy_get_option( 'scheduled_publish_cron' ) && function_exists( 'rvy_scheduled_revisions_modal_ui' ) ) {
+	rvy_scheduled_revisions_modal_ui();
+}
+?>
+
+</div>
+
+<?php

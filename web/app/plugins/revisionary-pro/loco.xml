@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bundle name="PublishPress Revisions Pro">
+  <domain name="revisionary-pro">
+    <project name="PublishPress Revisions Pro" slug="revisionary-pro">
+      <source>
+        <directory>.</directory>
+      </source>
+      <target>
+        <directory>languages</directory>
+      </target>
+      <template>
+        <file>languages/revisionary-pro.pot</file>
+      </template>
+    </project>
+  </domain>
+  <domain name="revisionary">
+    <project name="PublishPress Revisions" slug="revisionary">
+      <source>
+        <directory>lib/vendor/publishpress/publishpress-revisions</directory>
+      </source>
+      <target>
+        <directory>lib/vendor/publishpress/publishpress-revisions/languages</directory>
+      </target>
+      <template>
+        <file>lib/vendor/publishpress/publishpress-revisions/languages/revisionary.pot</file>
+      </template>
+    </project>
+  </domain>
+  <exclude>
+    <directory>lib/vendor</directory>
+    <directory>lib/vendor/publishpress/publishpress-revisions/vendor</directory>
+  </exclude>
+</bundle>
