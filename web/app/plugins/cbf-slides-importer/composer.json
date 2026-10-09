@@ -22,10 +22,7 @@
   "require-dev": {
     "composer/installers": "^2.3",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
-    "wp-coding-standards/wpcs": "^3.2",
-    "codeception/codeception": "^5.3.5",
-    "codeception/module-asserts": "^3.2",
-    "vlucas/phpdotenv": "^5.6"
+    "wp-coding-standards/wpcs": "^3.2"
   },
   "autoload": {
     "psr-4": {
@@ -51,13 +48,13 @@
       "phpcbf . --ignore=vendor,node_modules,assets --extensions=php -p"
     ],
     "test": [
-      "php -d register_argc_argv=1 vendor/bin/codecept run"
+      "php -d register_argc_argv=1 ../../../../vendor/bin/codecept run"
     ],
     "test:unit": [
-      "php -d register_argc_argv=1 vendor/bin/codecept run Unit"
+      "php -d register_argc_argv=1 ../../../../vendor/bin/codecept run Unit"
     ],
     "test:build": [
-      "php -d register_argc_argv=1 vendor/bin/codecept build"
+      "php -d register_argc_argv=1 ../../../../vendor/bin/codecept build"
     ]
   },
   "extra": {

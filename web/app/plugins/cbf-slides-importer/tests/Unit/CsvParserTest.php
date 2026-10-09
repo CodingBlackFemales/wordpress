@@ -183,7 +183,7 @@ final class CsvParserTest extends Unit {
 
 	/** Unknown columns are ignored with a notice rather than rejected. */
 	public function testUnknownColumnsAreIgnored(): void {
-		$csv = "heading,session_id,type,title,url,week,reviewer\n"
+		$csv = "heading,session_id,type,title,url,week,owner\n"
 			. '"Foundations","","session","Title","' . self::URL . '","1.0","Diego"' . "\n";
 
 		$result = CsvParser::parse( $csv );
@@ -345,5 +345,67 @@ final class CsvParserTest extends Unit {
 
 		$this->assertSame( 'Intro', $result['rows'][0]['parent_title'] );
 		$this->assertStringContainsString( 'duplicates an earlier column', implode( ' ', $result['notices'] ) );
+	}
+
+	/**
+	 * Parse one row with the optional review columns.
+	 *
+	 * @param  string $reviewer Reviewer column value.
+	 * @param  string $comments Comments column value.
+	 * @return array ParsedRow.
+	 */
+	private function reviewed( string $reviewer, string $comments ): array {
+		return CsvParser::parse(
+			$this->csv(
+				array( array( 'Foundations', '', 'session', 'Introduction to Git', self::URL, $reviewer, $comments ) ),
+				'heading,parent,type,title,url,reviewer,comments'
+			)
+		)['rows'][0];
+	}
+
+	/** The review columns are read when present, and the address is normalised. */
+	public function testReviewColumns(): void {
+		$row = $this->reviewed( ' Diego@Example.com ', "Too text heavy.\nAdd diagrams." );
+
+		$this->assertTrue( CsvParser::is_valid( $row ) );
+		$this->assertSame( 'diego@example.com', $row['reviewer'] );
+		$this->assertSame( "Too text heavy.\nAdd diagrams.", $row['comments'] );
+		$this->assertSame( array(), $row['notices'] );
+	}
+
+	/** Files without the review columns are unaffected: they are optional. */
+	public function testReviewColumnsAreOptional(): void {
+		$result = CsvParser::parse( $this->csv( array( array( 'Foundations', '', 'session', 'Intro', self::URL ) ) ) );
+
+		$this->assertSame( array(), $result['errors'] );
+		$this->assertSame( '', $result['rows'][0]['comments'] );
+	}
+
+	/** A reviewer with nothing to say is normal, and produces no comment and no notice. */
+	public function testReviewerWithoutComment(): void {
+		$row = $this->reviewed( 'diego@example.com', '' );
+
+		$this->assertSame( '', $row['comments'] );
+		$this->assertSame( '', $row['reviewer'] );
+		$this->assertSame( array(), $row['notices'] );
+	}
+
+	/** A comment never rejects a row; an unusable reviewer is noted and dropped. */
+	public function testUnusableReviewer(): void {
+		$missing = $this->reviewed( '', 'Needs work.' );
+		$invalid = $this->reviewed( 'Diego Giraldo', 'Needs work.' );
+
+		$this->assertTrue( CsvParser::is_valid( $missing ) );
+		$this->assertStringContainsString( 'No reviewer was given', $missing['notices'][0] );
+		$this->assertTrue( CsvParser::is_valid( $invalid ) );
+		$this->assertSame( '', $invalid['reviewer'] );
+		$this->assertStringContainsString( 'is not an email address', $invalid['notices'][0] );
+	}
+
+	public function testLongCommentIsShortened(): void {
+		$row = $this->reviewed( 'diego@example.com', str_repeat( 'a', CsvParser::MAX_COMMENT_LENGTH + 10 ) );
+
+		$this->assertSame( CsvParser::MAX_COMMENT_LENGTH, mb_strlen( $row['comments'] ) );
+		$this->assertStringContainsString( 'has been shortened', $row['notices'][0] );
 	}
 }

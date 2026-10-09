@@ -16,6 +16,7 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/learndash-zapier
 !web/app/plugins/publishpress-pro
 !web/app/plugins/publishpress-statuses-pro
+!web/app/plugins/revisionary-pro
 !web/app/plugins/sfwd-lms
 !web/app/plugins/woo-update-manager
 !web/app/plugins/woocommerce-give-products
@@ -97,3 +98,6 @@ web/.htaccess
 
 # Migration tool
 tools
+
+# Codeception
+tests/_output/

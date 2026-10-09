@@ -1,0 +1,128 @@
+.components-dropdown-menu__popover .components-popover__content{
+min-width: 260px;
+}
+
+div.publishpress-extended-post-privacy, div.publishpress-extended-post-status {
+display: none;
+}
+
+div.edit-post-post-status div.edit-post-post-schedule, div.edit-post-post-status div.edit-post-post-schedule div {
+display:inline-flex;
+}
+
+/* Classic Editor Trash button: Initial hide before js show with recaption */
+#submitdiv #submitpost a.submitdelete {
+display: none;
+}
+
+/* Classic Editor: Prevent transparent editor buttons from getting custom "is-revision" background color */
+#wpbody-content .page-title-action,
+#postdivrich #wp-content-media-buttons > button {
+background-color: white;
+}
+
+#submitdiv div.curtime {
+padding-bottom: 15px !important;
+}
+
+/* Prevent submission / scheduling of Post Expirator settings, for now */
+#expirationdatediv {
+display: none;
+}
+
+#minor-publishing-actions #save-post {
+padding-left: 5px;
+padding-right: 5px;
+}
+
+/* Gutenberg */
+a.rvy-post-preview.components-button.is-large {
+margin-right:5px;
+text-decoration: none;
+height: inherit;
+}
+
+div.editor-post-panel__row-control {
+padding-left: 5px;
+}
+
+div.editor-post-panel__row-control button, div.editor-post-panel__row-control a {
+padding-left: 0;
+}
+
+div.editor-post-schedule__panel-dropdown {
+text-align: left !important;
+}
+
+a.editor-post-preview, a.editor-post-preview.components-button.is-large {
+margin-right: 5px;
+}
+
+#rvy_compare_button {
+margin: 0 10px 8px 10px;
+}
+
+#misc-publishing-actions #rvy_compare_button {
+margin: inherit;
+margin-right: 10px;
+}
+
+#misc-publishing-actions a.rvy-direct-approve {
+margin-left: 5px;
+}
+
+div.components-panel__row button.editor-post-trash {
+height: 25px;
+margin-top: 20px;
+color: #6f1b1b;
+box-shadow: inset 0 0 0 1px #6f1b1b;
+}
+
+span.revision-submitting {
+font-weight: bold;
+}
+
+div.edit-post-post-status h2 {
+margin-top: 10px !important;
+}
+
+div.gutenberg-18-5 {
+padding-left: 12px;
+}
+
+div.rvy-author-selection {
+padding-top: 15px;
+}
+
+.rvy-creation-ui .rvy-save-revision-tip {
+margin-top: 0;
+margin-left: 2px;
+display: none;
+}
+
+#side-sortables .rvy-creation-ui .rvy-save-revision-tip {
+margin-top: 10px;
+}
+
+.rvy-creation-ui .rvy-save-revision-tip p {
+margin-top: 2px !important;
+margin-bottom: 2px !important;
+}
+
+.rvy-creation-ui .rvy-save-revision-tip [data-toggle="tooltip"] .tooltip-text {
+width: 175px !important;
+min-width: 175px !important;
+}
+
+#side-sortables .rvy-creation-ui .rvy-save-revision-tip p {
+margin-top: 1px !important;
+margin-bottom: 1px !important;
+}
+
+button.editor-post-trash {
+width: fit-content;
+}
+
+#publishing-action input.button-primary {
+display: none !important;
+}

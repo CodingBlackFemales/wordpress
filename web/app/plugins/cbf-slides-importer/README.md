@@ -161,6 +161,8 @@ Migrating a whole course one file at a time does not scale. Instead, upload a CS
 | `type`       | all rows     | `session` (or `lesson`), `topic` or `quiz`                                                                                                            |
 | `title`      | all rows     | Title of the created post                                                                                                                             |
 | `url`        | all rows     | Google Drive link to the source document; for `quiz` rows, the Google Form's editor link                                                              |
+| `reviewer`   | optional     | Email address of the person who reviewed the source. Used as the author of the editorial comment                                                       |
+| `comments`   | optional     | Review comment, added to the imported post as a PublishPress editorial comment                                                                         |
 
 Course and Overwrite are chosen once in the panel and apply to every row, so they are not columns.
 
@@ -173,6 +175,14 @@ Foundations,,session,Introduction to GitHub,https://drive.google.com/file/d/FILE
 ```
 
 A `quiz` row must link to a Google Form and every other row type must not; the report says so if they are mixed up. Use the form's editor link (`…/forms/d/FORM_ID/edit`). A form's public link (`…/forms/d/e/…/viewform`) carries a different ID that the Forms API cannot read, and is rejected with an explanation. Quiz rows follow the same rules as single imports: the connected account must be able to edit the form, and the row is skipped if the course already has a quiz with that title (enable Overwrite to replace its questions).
+
+### Review comments
+
+When PublishPress **Editorial Comments** is enabled for the post type, a row's `comments` value is added to its post as an editorial comment, visible in the Editorial Comments box in the editor and never to learners. It is attributed to the user whose email is in `reviewer`, or shown under that address when no user has it. With no `reviewer`, it is attributed to whoever runs the import.
+
+- A comment is added whether the row created, updated or reused its post, or was skipped because the post already exists in this course. It is never added twice: a re-run finds the same comment from the same author and leaves it.
+- A problem with a comment never stops its row. Pre-flight notes when Editorial Comments is off, does not cover the post type, or the reviewer has no account; the report notes whether each comment was added.
+- Followers are not notified, so a migration does not send one email per row. Return `true` from the `cbf_si_notify_editorial_comments` filter to fire PublishPress's notifications.
 
 ### Parents
 
@@ -292,7 +302,7 @@ composer phpcs     # WordPress coding standards
 composer phpcbf    # fix what can be fixed automatically
 ```
 
-`lando codecept run` works from anywhere in the project.
+Codeception is installed in the project root rather than here, so run `composer install` there first. The scripts above run this plugin's suites only; `composer test` in the project root runs every plugin and theme listed in the root `codeception.yml`. `lando codecept run` does the same, and `lando codecept run -c web/app/plugins/cbf-slides-importer` narrows it to this plugin.
 
 ### Tests
 
