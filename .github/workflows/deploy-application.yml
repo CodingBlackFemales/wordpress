@@ -52,6 +52,8 @@ jobs:
             composer install --no-dev --optimize-autoloader
             cd web/app/plugins/cbf-multisite
             npm ci && npm run build:assets
+            cd ../cbf-semantic-glossary
+            npm ci && npm run build:assets
 
   check:
     needs: [deploy]

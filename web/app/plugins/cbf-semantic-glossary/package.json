@@ -1,0 +1,47 @@
+{
+	"name": "cbf-semantic-glossary",
+	"version": "1.0.0",
+	"description": "Mark glossary terms in the block editor and render them as semantic, accessible HTML.",
+	"author": "Coding Black Females",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"keywords": [
+		"wordpress",
+		"wordpress plugin",
+		"glossary"
+	],
+	"config": {
+		"webpack": {
+			"js": "src/js/",
+			"css": "src/sass/"
+		},
+		"wp_org_slug": "cbf-semantic-glossary"
+	},
+	"scripts": {
+		"lint:php": "composer phpcs",
+		"fix:php": "composer phpcbf",
+		"lint:js": "wp-scripts lint-js src/js",
+		"fix:js": "wp-scripts lint-js src/js --fix",
+		"lint:css": "wp-scripts lint-style \"src/sass/**/*.scss\"",
+		"fix:css": "wp-scripts lint-style \"src/sass/**/*.scss\" --fix",
+		"test": "composer test",
+		"makepot": "wp i18n make-pot . i18n/languages/cbf-semantic-glossary.pot --exclude=node_modules,tests,vendor,assets",
+		"watch": "wp-scripts start",
+		"build:assets": "wp-scripts build",
+		"build": "npm run makepot && npm run build:assets"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^36.1.0",
+		"copy-webpack-plugin": "^14.0.0",
+		"glob": "^13.0.6",
+		"webpack-remove-empty-scripts": "^1.0.1"
+	},
+	"allowScripts": {
+		"core-js@3.50.0": true,
+		"unrs-resolver@1.12.2": true,
+		"@parcel/watcher@2.6.0": true
+	},
+	"dependencies": {
+		"@wordpress/icons": "^18.0.0"
+	}
+}

@@ -7,9 +7,7 @@ web/app/plugins/*
 !web/app/plugins/buddypages
 web/app/plugins/buddypages/.git
 !web/app/plugins/capabilities-pro
-!web/app/plugins/cbf-academy
-!web/app/plugins/cbf-multisite
-!web/app/plugins/cbf-slides-importer
+!web/app/plugins/cbf-*
 !web/app/plugins/conditional-profile-fields-for-buddypress
 !web/app/plugins/ld-content-cloner
 !web/app/plugins/learndash-hub
@@ -29,8 +27,7 @@ web/app/plugins/buddypages/.git
 !web/app/plugins/wp-rocket
 !web/app/plugins/wpforms
 web/app/mu-plugins/*
-!web/app/mu-plugins/cbf-custom-constants.php
-!web/app/mu-plugins/cbf-password-change-notification.php
+!web/app/mu-plugins/cbf-*
 web/app/themes/onepress/
 web/app/themes/twentytwentythree/
 web/app/upgrade

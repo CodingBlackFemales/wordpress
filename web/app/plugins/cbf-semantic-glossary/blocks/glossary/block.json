@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "cbf/glossary",
+	"title": "Glossary",
+	"category": "text",
+	"icon": "book-alt",
+	"description": "Lists every glossary term referenced in this post, alphabetically.",
+	"keywords": [ "definitions", "terms", "abbreviations" ],
+	"textdomain": "cbf-semantic-glossary",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "Glossary"
+		},
+		"level": {
+			"type": "number",
+			"enum": [ 2, 3, 4 ],
+			"default": 2
+		},
+		"showAlternatives": {
+			"type": "boolean",
+			"default": true
+		},
+		"backLinks": {
+			"type": "boolean",
+			"default": true
+		},
+		"showIndex": {
+			"type": "boolean",
+			"default": true
+		},
+		"indexMinEntries": {
+			"type": "number",
+			"minimum": 1
+		}
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"anchor": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"style": "cbf-semantic-glossary"
+}
