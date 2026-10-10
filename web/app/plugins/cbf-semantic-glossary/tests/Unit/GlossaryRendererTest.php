@@ -159,6 +159,25 @@ final class GlossaryRendererTest extends Unit {
 		$this->assertStringContainsString( '</dl><!--list--></section><!--3-->', $html );
 	}
 
+	public function testContentCanBeInsertedAroundTheList(): void {
+		add_filter( 'glossary_html_before_index', fn () => '<p class="intro">Intro</p>' );
+		add_filter( 'glossary_html_after_list', fn () => '<p class="outro">Outro</p>' );
+
+		$html = $this->render( array( Entries::branch() ) );
+
+		$this->assertStringContainsString( '</h3><p class="intro">Intro</p><dl class="glossary">', $html );
+		$this->assertStringContainsString( '</dl><p class="outro">Outro</p></section>', $html );
+	}
+
+	public function testBackLinkTargetIsFilterable(): void {
+		add_filter( 'glossary_back_link_href', fn ( $href, $entry ) => 'https://example.com/lesson/' . $href );
+
+		$this->assertStringContainsString(
+			'<a href="https://example.com/lesson/#ref-branch" class="glossary-backlink"',
+			$this->render( array( Entries::branch() ) )
+		);
+	}
+
 	/**
 	 * Entries named "Alpha 1", "Alpha 2", … with half under B.
 	 *

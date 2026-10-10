@@ -105,7 +105,10 @@ On touch screens (`@media (hover: none)`) the first mention of an abbreviation i
 | `glossary_reference_html`    | filter | A rendered inline reference                                                  |
 | `glossary_entries`           | filter | The entries a post's glossary lists, before ordering                         |
 | `glossary_entry_html`        | filter | One entry's `<div>`, e.g. to add an "Introduced in…" link                    |
+| `glossary_back_link_href`    | filter | Where an entry's ↩ back-link points (default: `#ref-{slug}` on the same page) |
+| `glossary_html_before_index` | filter | Markup between the heading and the A–Z index (empty by default), e.g. an introduction or controls |
 | `glossary_list_html`         | filter | The `<dl>`                                                                   |
+| `glossary_html_after_list`   | filter | Markup after the `<dl>`, inside the section (empty by default)               |
 | `glossary_html`              | filter | The whole glossary                                                           |
 | `glossary_index_min_entries` | filter | The site default for entries needed before the A–Z index appears; a block's own minimum overrides it |
 | `glossary_first_used_order`  | filter | Order of the posts using an entry; the first is "First used in"              |
