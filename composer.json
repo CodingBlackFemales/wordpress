@@ -108,6 +108,8 @@
     "wp-theme/twentytwentythree": "^1.6.0"
   },
   "require-dev": {
+    "codeception/codeception": "^5.3.5",
+    "codeception/module-asserts": "^3.2",
     "dealerdirect/phpcodesniffer-composer-installer": ">=1.2",
     "phpcompatibility/phpcompatibility-wp": ">=2.1.8",
     "psy/psysh": "^0.12.19",
@@ -173,14 +175,17 @@
     "post-update-cmd": [
       "@update-ssp"
     ],
-    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../cbf-slides-importer;composer install;cd ../../../..",
-    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../cbf-slides-importer;composer update;cd ../../../..",
+    "install-ssp": "cd web/app/plugins/cbf-multisite;composer install;cd ../cbf-slides-importer;composer install;cd ../cbf-semantic-glossary;composer install;cd ../cbf-semantic-glossary-learndash;composer install;cd ../../../..",
+    "update-ssp": "cd web/app/plugins/cbf-multisite;composer update;cd ../cbf-slides-importer;composer update;cd ../cbf-semantic-glossary;composer update;cd ../cbf-semantic-glossary-learndash;composer update;cd ../../../..",
     "lint": "phpcs --standard=phpcs.xml",
-    "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
+    "lint:all": "@lint ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/plugins/cbf-semantic-glossary ./web/app/plugins/cbf-semantic-glossary-learndash ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "fix": "phpcbf --standard=phpcs.xml",
-    "fix:all": "@fix  ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
+    "fix:all": "@fix  ./web/app/plugins/cbf-multisite ./web/app/plugins/cbf-slides-importer ./web/app/plugins/cbf-semantic-glossary ./web/app/plugins/cbf-semantic-glossary-learndash ./web/app/themes/cbf-academy ./web/app/themes/cbf-jobs",
     "test": [
-      "phpcs"
+      "php -d register_argc_argv=1 vendor/bin/codecept run"
+    ],
+    "test:build": [
+      "php -d register_argc_argv=1 vendor/bin/codecept build"
     ],
     "install:server": "composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader",
     "update:prod": "composer update $(composer show --direct --no-dev --name-only | sort | xargs)",

@@ -267,6 +267,16 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		fi
 	};
 
+	# Run search-replace against the destination. Objects of any class other than stdClass
+	# are skipped by WP-CLI with an "uninitialized class" warning per row; filter those out
+	# so real errors stay visible.
+	search_replace() {
+		# nomultios: otherwise zsh tees stdout into the pipe as well as fd 3
+		setopt localoptions pipefail nomultios
+		{ WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "$@" --all-tables-with-prefix --skip-tables="$SKIP_TABLES" 2>&1 1>&3 3>&- |
+			{ grep -v 'Skipping an uninitialized class'; true; } >&2; } 3>&1
+	};
+
 	sync_db() {
 		if [ "$SKIP_DB" = true ]
 		then
@@ -280,6 +290,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 		local SOURCEPATH
 		local SOURCESUBSITE
 		local EXPORTFILE
+		# Action Scheduler's queue is environment-specific, so leave those tables alone.
+		local SKIP_TABLES='*_actionscheduler_*'
 
 		echo "Syncing database..."
 		EXPORTFILE="${DEST[approot]}data/export-$(date +'%Y-%m-%d-%H%M%S').sql"
@@ -333,15 +345,31 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 			echo
 			echo "Replacing $SOURCESUBSITE (sub-site) with $DESTSUBSITE"
 			WP_CLI_SSH_BINARY="$DEST_WP" "$WPTO" @"$TO" db query "UPDATE wp_blogs SET domain='$DESTDOMAIN', path='$DESTPATH' WHERE domain='$SOURCEDOMAIN' AND path='$SOURCEPATH';" &&
-			WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "$SOURCESUBSITE" "$DESTSUBSITE" --all-tables-with-prefix
+			search_replace "$SOURCESUBSITE" "$DESTSUBSITE"
 		done
 
 		# Run search & replace for primary domain
 		echo
 		echo "Replacing ${SOURCE[domain]} (primary domain) with ${DEST[domain]}"
-		WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "${SOURCE[domain]}" "${DEST[domain]}" --all-tables-with-prefix
+		search_replace "${SOURCE[domain]}" "${DEST[domain]}"
+
+		# Run search & replace for root domain. These are plain replaces rather than
+		# --regex: a regex can't use WP-CLI's SQL LIKE prefilter, so every row of every
+		# table gets loaded into PHP and exhausts memory.
+		echo
 		echo "Replacing ${SOURCE[rootdomain]} (root domain) with ${DEST[rootdomain]}"
-		WP_CLI_SSH_BINARY="$DEST_WP" "$WP" @"$TO" search-replace "${SOURCE[rootdomain]}" "${DEST[rootdomain]}" --all-tables-with-prefix
+		# Park email addresses (@example.com) on a placeholder so the root replace skips them
+		local EMAILPLACEHOLDER="@cbf-sync-email-placeholder.invalid"
+		search_replace "@${SOURCE[rootdomain]}" "$EMAILPLACEHOLDER" &&
+		search_replace "${SOURCE[rootdomain]}" "${DEST[rootdomain]}" &&
+		search_replace "$EMAILPLACEHOLDER" "@${SOURCE[rootdomain]}"
+		# If the destination root domain contains the source one (e.g. staging.example.com
+		# vs example.com), the root replace also matched the sub-site and primary domains
+		# rewritten above, doubling the prefix (academy.staging.staging.example.com).
+		if [[ "${DEST[rootdomain]}" == *".${SOURCE[rootdomain]}" ]]; then
+			local DESTPREFIX="${DEST[rootdomain]%${SOURCE[rootdomain]}}"
+			search_replace "${DESTPREFIX}${DEST[rootdomain]}" "${DEST[rootdomain]}"
+		fi
 	};
 
 	sync_uploads() {

@@ -34,11 +34,10 @@ final class LearnDashImporter {
 	/**
 	 * Import a classified and rendered deck into LearnDash.
 	 *
-	 * Posts are created in their natural 'publish' state. If any errors occur
-	 * during the batch, all created posts are reverted to 'draft' so students
-	 * never see partial content (NR4). Using revert-on-error rather than a
-	 * temporary wp_insert_post_data filter avoids interfering with any other
-	 * concurrent post-creation processes.
+	 * New posts are created as drafts, so imported content is reviewed before
+	 * learners see it; a post updated by Overwrite keeps the status it had. If
+	 * any errors occur, every post the import touched is set to draft so
+	 * learners never see partial content (NR4).
 	 *
 	 * @param  array $classified_deck ParsedDeck with slide_type and rendered HTML.
 	 * @param  array $summary         Result summary from JobRunner (contains config, mode, img_dir, etc.).
@@ -215,6 +214,12 @@ final class LearnDashImporter {
 		$headers = array_keys( $row );
 		$rows    = array( array_values( $row ) );
 
+		// The bulk plugin always creates posts as published. Intercepting the insert
+		// itself, rather than unpublishing afterwards, means the post is never live
+		// and nothing hooked to publishing (notifications, auto-posting) fires.
+		$draft = self::draft_new_posts( $content_type );
+		add_filter( 'wp_insert_post_data', $draft, 10, 4 );
+
 		try {
 			$result = $plugin->run_import(
 				$content_type,
@@ -239,7 +244,34 @@ final class LearnDashImporter {
 		} catch ( \Throwable $e ) {
 			$errors[] = $e->getMessage();
 			return new WP_Error( 'cbf_si_import_exception', $e->getMessage() );
+		} finally {
+			remove_filter( 'wp_insert_post_data', $draft, 10 );
 		}
+	}
+
+
+	/**
+	 * A `wp_insert_post_data` filter that turns new published posts of one type
+	 * into drafts.
+	 *
+	 * Scoped tightly because it is active while the bulk plugin runs: only
+	 * inserts (not updates, so an overwritten post keeps its status), only the
+	 * post type being imported (not the attachments created for its images),
+	 * and only posts that would otherwise go live.
+	 *
+	 * @param  string $post_type Post type being imported.
+	 * @return \Closure
+	 */
+	private static function draft_new_posts( string $post_type ): \Closure {
+		return static function ( array $data, array $postarr, array $unsanitized_postarr, bool $update ) use ( $post_type ): array {
+			unset( $postarr, $unsanitized_postarr );
+
+			if ( ! $update && $data['post_type'] === $post_type && $data['post_status'] === 'publish' ) {
+				$data['post_status'] = 'draft';
+			}
+
+			return $data;
+		};
 	}
 
 

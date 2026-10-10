@@ -1,0 +1,162 @@
+/**
+ * Glossary front-end styles.
+ *
+ * Enqueued as `cbf-semantic-glossary`, so a theme can dequeue it and start
+ * over. Single-class selectors, with anything more specific wrapped in
+ * :where() so it adds nothing to specificity (except where a theme's abbr
+ * underline has to be beaten); no IDs, no !important.
+ *
+ * Custom properties a theme can set:
+ *
+ *   --glossary-ref-color            colour of referenced text (default: inherit)
+ *   --glossary-ref-background       tint behind referenced text (default: light blue)
+ *   --glossary-ref-underline-color  colour of its dotted underline (default: #3858e9)
+ *   --glossary-alt-color            colour of alternative terms (default: #6b7280)
+ *   --glossary-scroll-margin        space kept above anything jumped to, e.g. to clear a sticky header (default: 2rem)
+ *   --glossary-index-target         size of A–Z index targets (default: 32px; 38px on phones)
+ *   --glossary-index-background     tile behind each A–Z index letter (default: #eef2ff)
+ *   --glossary-index-hover-background  the tile on hover (default: #dbe3ff)
+ */
+
+// Inline references: styled as in the editor (body-coloured text, a tint and
+// a dotted underline) so they read as glossary terms rather than ordinary
+// links. The states are restated because themes colour links on hover and
+// visit. Themes whose link resets are more specific than this restyle
+// `.glossary-ref` themselves, using the custom properties above.
+
+.glossary-ref,
+.glossary-ref:visited,
+.glossary-ref:hover,
+.glossary-ref:focus {
+	background: var(--glossary-ref-background, rgba(56, 88, 233, 0.08));
+	color: var(--glossary-ref-color, inherit);
+	text-decoration: underline dotted var(--glossary-ref-underline-color, #3858e9);
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 4px;
+}
+
+.glossary-ref:hover,
+.glossary-ref:focus-visible {
+	text-decoration-style: solid;
+}
+
+// Keyboard focus. Themes commonly remove link outlines (`a { outline: 0 }`),
+// which would leave these links with no visible focus at all.
+.glossary-ref:focus-visible,
+.glossary-backlink:focus-visible,
+.glossary-index :where(a):focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
+
+// Jump targets: references (from back-links), definitions (from references)
+// and A–Z index targets. Themes with a sticky header raise the margin.
+.glossary-ref,
+.glossary :where(dfn),
+.glossary-entry {
+	scroll-margin-top: var(--glossary-scroll-margin, 2rem);
+}
+
+// The link's own underline is enough; a theme's abbr underline would double it.
+.glossary-ref abbr[title] {
+	text-decoration: none;
+}
+
+// Touch screens have no hover, so a title tooltip never appears: spell out
+// the abbreviation at its first mention instead. The expansion repeats what
+// the abbreviation's title says, so it is hidden from assistive technology
+// (the empty alternative text after the slash), which already has the title.
+@media (hover: none) {
+
+	.glossary-ref :where(abbr[title])::after {
+		content: " (" attr(title) ")";
+		content: " (" attr(title) ")" / "";
+	}
+}
+
+// The glossary.
+
+.glossary-index {
+	margin-block: 0 1.5rem;
+
+	:where(ol) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	:where(a) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: var(--glossary-index-target, 32px);
+		min-height: var(--glossary-index-target, 32px);
+		padding-inline: 0.25rem;
+		border-radius: 4px;
+		background: var(--glossary-index-background, #eef2ff);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	:where(a):hover {
+		background: var(--glossary-index-hover-background, #dbe3ff);
+	}
+
+	@media (max-width: 600px) {
+		--glossary-index-target: 38px;
+	}
+}
+
+.glossary {
+	margin: 0;
+	padding: 0;
+
+	:where(dt) {
+		font-weight: 700;
+	}
+
+	:where(dfn) {
+		font-style: normal;
+	}
+
+	// One step above a theme's `abbr[title]` underline (0,1,1): the term's
+	// expansion is already spelled out beside it.
+	abbr[title] {
+		text-decoration: none;
+	}
+
+	:where(dd) {
+		margin: 0.25rem 0 0;
+	}
+}
+
+.glossary-entry {
+	margin-block-end: 1.25rem;
+}
+
+// Alternative forms run on one line after the primary term: "Also: SCM
+// (Source code management), Revision control". The words come from here, not
+// the markup, so the <dt> elements hold only names.
+.glossary-alt {
+	display: inline;
+	color: var(--glossary-alt-color, #6b7280);
+	font-size: 0.875em;
+	font-weight: 400;
+}
+
+dt + .glossary-alt::before {
+	content: "Also: ";
+}
+
+.glossary-alt + .glossary-alt::before {
+	content: ", ";
+}
+
+// Follows the primary term, so it sits in the bold <dt>.
+.glossary-backlink {
+	font-weight: 400;
+	text-decoration: none;
+}

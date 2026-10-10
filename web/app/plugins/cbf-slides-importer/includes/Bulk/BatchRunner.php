@@ -414,7 +414,28 @@ final class BatchRunner {
 			$config['topic_id'] = (int) $parent['id'];
 		}
 
-		return $config;
+		return array_merge( $config, self::review_config( $row ) );
+	}
+
+
+	/**
+	 * The review comment a row carries into its job, for the editorial comment
+	 * added once the row's post exists.
+	 *
+	 * @param  array $row PlannedRow.
+	 * @return array{review?: array{reviewer: string, comments: string}}
+	 */
+	private static function review_config( array $row ): array {
+		if ( ( $row['comments'] ?? '' ) === '' ) {
+			return array();
+		}
+
+		return array(
+			'review' => array(
+				'reviewer' => (string) ( $row['reviewer'] ?? '' ),
+				'comments' => (string) $row['comments'],
+			),
+		);
 	}
 
 

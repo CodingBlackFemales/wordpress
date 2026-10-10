@@ -740,7 +740,8 @@
           '<p style="margin:8px 0 12px;color:#555;max-width:52em;">' +
           "Upload a CSV with a <code>heading</code>, <code>parent</code>, <code>type</code>, " +
           "<code>title</code> and <code>url</code> column. A topic or quiz names its parent by " +
-          "title, and the parent can be a row earlier in the same file. The file is checked " +
+          "title, and the parent can be a row earlier in the same file. Optional <code>reviewer</code> " +
+          "and <code>comments</code> columns add a PublishPress editorial comment. The file is checked " +
           "first — nothing is created until you confirm." +
           "</p>" +
           '<table style="border-collapse:collapse;">' +
@@ -1898,6 +1899,9 @@
           this._label("course") +
           "."
         : ".";
+      summary += overwrite
+        ? " New content is saved as a draft; content that already exists keeps its current status."
+        : " It is saved as a draft for you to review and publish.";
 
       // Build warning lines (no-course and overwrite).
       const warnings = [];

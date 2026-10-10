@@ -1,0 +1,11 @@
+{
+	"extends": "@wordpress/stylelint-config/scss",
+	"rules": {
+		"selector-class-pattern": [
+			"^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+			{
+				"message": "Class selectors should be lower case, hyphenated, and may use BEM __element and --modifier suffixes."
+			}
+		]
+	}
+}

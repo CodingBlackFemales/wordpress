@@ -1,0 +1,486 @@
+<?php
+namespace PublishPress;
+
+/**
+ * Description: Compare posts using the WordPress 7.0+ visual revisions interface, including in-edit panel and read-only comparison screens.
+ * 
+ * Specification, Testing, Review, Debug and Optimization: PublishPress
+ * Generator: ChatGPT 5.6
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+final class Visual_Post_Compare {
+	const PAGE_SLUG       = 'rvy-visual-compare';
+	const REST_NS         = 'rvy-visual-compare/v1';
+
+	/**
+	 * Resolve and authorize a Visual Compare object pair.
+	 *
+	 * @param int|WP_Post $revision Revision object or ID.
+	 * @return array|WP_Error
+	 */
+	public static function authorized_comparison( $revision ) {
+		$revision = $revision instanceof \WP_Post ? $revision : get_post( absint( $revision ) );
+		if ( ! $revision ) {
+			return new \WP_Error( 'vpc_invalid_revision', esc_html__( 'Invalid revision ID.', 'revisionary' ), array( 'status' => 400 ) );
+		}
+
+		$current_post_id = wp_is_post_revision( $revision );
+		if ( ! $current_post_id && rvy_in_revision_workflow( $revision ) ) {
+			$current_post_id = rvy_post_id( $revision );
+		}
+		$current_post = $current_post_id ? get_post( $current_post_id ) : null;
+
+		if ( ! $current_post || ! current_user_can( 'read_post', $revision->ID ) || ! current_user_can( 'read_post', $current_post->ID ) ) {
+			return new \WP_Error( 'vpc_forbidden', esc_html__( 'You are not allowed to view the revision.', 'revisionary' ), array( 'status' => 403 ) );
+		}
+
+		return array( 'revision' => $revision, 'current_post' => $current_post );
+	}
+
+	/**
+	 * Apply the same mutation gate to REST permissions, button payloads and execution.
+	 */
+	public static function can_apply_revision( $revision ) {
+		$context = self::authorized_comparison( $revision );
+		if ( is_wp_error( $context ) ) {
+			return false;
+		}
+
+		if ( wp_is_post_revision( $context['revision'] ) ) {
+			if ( ! current_user_can( 'edit_post', $context['current_post']->ID ) ) {
+				return false;
+			}
+
+			return ! rvy_get_option( 'revision_restore_require_cap' )
+				|| is_content_administrator_rvy()
+				|| current_user_can( 'restore_revisions' );
+		}
+
+		return (bool) current_user_can( 'approve_revision', $context['revision']->ID );
+	}
+
+	/**
+	 * Defines the reusable comparison sidebar instances.
+	 *
+	 * Each instance accepts post IDs and/or WP_Post objects. Optional sorting and
+	 * presentation settings are supplied through the fourth $args argument.
+	 *
+	 * @return array[]
+	 */
+	public static function comparison_sidebar_definitions($key = '', $posts = []) {
+		static $sidebars;
+
+		if (empty($current_post_id)) {
+			$current_post_id = rvy_detect_post_id();
+		}
+
+		if (!empty($sidebars)) {
+			return $sidebars;
+		}
+
+		$sidebars = [];
+		
+		return apply_filters('visual_post_compare_sidebars', $sidebars, $current_post_id, '\PublishPress\Visual_Post_Compare', compact('key', 'posts'));
+	}
+
+	/**
+	 * Builds one reusable comparison sidebar definition.
+	 *
+	 * @param string             $key        Stable sidebar key.
+	 * @param string             $label      Sidebar heading.
+	 * @param array<int|WP_Post> $post_items Post IDs and/or WP_Post objects.
+	 * @param array              $args       Optional sorting and presentation arguments.
+	 * @return array
+	 */
+	public static function comparison_sidebar_definition( $key, $label, array $post_items, array $args = array() ) {
+		$args = wp_parse_args(
+			$args,
+			array(
+				'sort_by'                     => 'post_modified',
+				'sort_order'                  => 'DESC',
+				'show_right_status'           => true,
+				'mime_type_status'			  => false,
+				'show_modified'               => true,
+				'show_post_date'              => true,
+				'slider_post_date'            => false,  // use post_date for slider position label instead of post_modifed
+				'post_date_prefix'            => esc_html__('Post Date: ', 'revisionary'),
+				'show_author'                 => true,
+			)
+		);
+
+		$allowed_sort_fields = array( 'post_modified', 'post_date', 'id' );
+		$sort_by             = in_array( $args['sort_by'], $allowed_sort_fields, true ) ? $args['sort_by'] : 'post_modified';
+		$sort_order          = 'ASC' === strtoupper( (string) $args['sort_order'] ) ? 'ASC' : 'DESC';
+		$posts               = array();
+		$seen                = array();
+
+		foreach ( $post_items as $post_item ) {
+			$post = $post_item instanceof \WP_Post ? $post_item : get_post( absint( $post_item ) );
+			if ( ! $post || isset( $seen[ $post->ID ] ) ) {
+				continue;
+			}
+			$seen[ $post->ID ] = true;
+			$posts[]           = $post;
+		}
+
+		$posts = self::sort_comparison_posts( $posts, $sort_by, $sort_order );
+
+		return array(
+			'key'              => sanitize_key( $key ),
+			'label'            => (string) $label,
+			'sortBy'           => $sort_by,
+			'sortOrder'        => $sort_order,
+			'posts'            => $posts,
+			'showRightStatus'  => (bool) $args['show_right_status'],
+			'mimeTypeStatus'   => (bool) $args['mime_type_status'],
+			'showModified'     => (bool) $args['show_modified'],
+			'showPostDate'     => (bool) $args['show_post_date'],
+			'sliderPostDate'     => (bool) $args['slider_post_date'],
+			'postDatePrefix'   => (string) $args['post_date_prefix'],
+			'showAuthor'       => (bool) $args['show_author'],
+		);
+	}
+
+	/**
+	 * Sorts comparison posts using the configured display order.
+	 *
+	 * @param WP_Post[] $posts      Posts to sort.
+	 * @param string    $sort_by    post_modified, post_date, or id.
+	 * @param string    $sort_order ASC or DESC.
+	 * @return WP_Post[]
+	 */
+	public static function sort_comparison_posts( array $posts, $sort_by = 'post_modified', $sort_order = 'DESC' ) {
+		$allowed_sort_fields = array( 'post_modified', 'post_date', 'id' );
+		$sort_by             = in_array( $sort_by, $allowed_sort_fields, true ) ? $sort_by : 'post_modified';
+		$sort_order          = 'ASC' === strtoupper( $sort_order ) ? 'ASC' : 'DESC';
+
+		usort(
+			$posts,
+			static function ( \WP_Post $a, \WP_Post $b ) use ( $sort_by, $sort_order ) {
+				if ( 'id' === $sort_by ) {
+					$comparison = $a->ID <=> $b->ID;
+				} else {
+					$comparison = strcmp( $a->{$sort_by}, $b->{$sort_by} );
+				}
+
+				return 'ASC' === $sort_order ? $comparison : -$comparison;
+			}
+		);
+
+		return $posts;
+	}
+
+	/**
+	 * Finds one sidebar definition by key.
+	 *
+	 * @param string $key Sidebar key.
+	 * @return array|null
+	 */
+	public static function comparison_sidebar_by_key( $key, $posts = [] ) {
+		$key = sanitize_key( $key );
+		foreach ( self::comparison_sidebar_definitions($key, $posts) as $definition ) {
+			if ( $definition['key'] === $key ) {
+				return $definition;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Parses and validates revision query argument.
+	 *
+	 * @return array|WP_Error
+	 */
+	private static function get_comparison_ids() {
+		$revision = isset( $_GET['revision'] ) ? absint( $_GET['revision'] ) : 0;		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		$post = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;					// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		if (!$post) {
+			if (!$post = wp_is_post_revision($revision)) {
+				if (rvy_in_revision_workflow($revision)) {
+					$post = rvy_post_id($revision);
+				}
+			}
+		}
+
+		if ( !$post || ($revision && ! get_post( $revision ) ) ) {
+			return new \WP_Error(
+				'vpc_missing_post',
+				__( 'Invalid revision ID.', 'revisionary' )
+			);
+		}
+
+		return array( 'post' => $post, 'revision' => $revision );
+	}
+
+	/**
+	 * Validates the dedicated comparison screen request.
+	 */
+	private static function validate_compare_screen() {
+		$compare_ids = self::get_comparison_ids();
+		if ( is_wp_error( $compare_ids ) ) {
+			wp_die( esc_html( $compare_ids->get_error_message() ), esc_html__( 'Compare Revisions', 'revisionary' ), array( 'response' => 400 ) );
+		}
+
+		if ( $compare_ids['revision'] ) {
+			$authorized = self::authorized_comparison( $compare_ids['revision'] );
+			if ( is_wp_error( $authorized ) || (int) $authorized['current_post']->ID !== (int) $compare_ids['post'] ) {
+				wp_die( esc_html__( 'You are not allowed to view the revision.', 'revisionary' ), esc_html__( 'Compare Revisions', 'revisionary' ), array( 'response' => 403 ) );
+			}
+		}
+
+		if ( ! current_user_can( 'read_post', $compare_ids['post'] ) ) {
+			wp_die( esc_html__( 'You are not allowed to view this comparison.', 'revisionary' ), esc_html__( 'Compare Revisions', 'revisionary' ), array( 'response' => 403 ) );
+		}
+	}
+
+	public static function route_compare_screen() {
+		self::validate_compare_screen();
+
+		global $title;
+		$title = esc_html__('Compare Revisions', 'revisionary');	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+	}
+
+	public static function render_compare_screen() {
+		self::validate_compare_screen();
+		?>
+		<div class="wrap visual-post-compare-only-wrap">
+			<div id="visual-post-compare-root">
+			</div>
+		</div>
+		<?php
+	}
+
+	public static function enqueue_compare_screen_assets( $hook_suffix ) {
+		global $revisionary;
+		
+		$compare_ids = self::get_comparison_ids();
+		if ( is_wp_error( $compare_ids ) ) {
+			return;
+		}
+
+		if (empty($compare_ids['revision']) && !empty($compare_ids['post']) && !empty($_REQUEST['revision_status'])) {	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$revision_status = sanitize_key($_REQUEST['revision_status']);												// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			if (rvy_is_revision_status($revision_status)) {
+				$args = compact('revision_status');
+
+				if ('future-revision' == $revision_status) {
+					$args['orderby'] = 'post_date_gmt';
+				}
+
+				if ($revision = $revisionary->get_last_revision($compare_ids['post'], false, $args)) {
+					$compare_ids['revision'] = $revision->ID;
+				}
+			}
+		}
+
+		if ( ! current_user_can( 'read_post', $compare_ids['post'] ) || ! current_user_can( 'read_post', $compare_ids['revision'] ) ) {
+			return;
+		}
+
+		$comparison_key = '';
+		
+		$headline 		= apply_filters(
+			'visual_post_compare_compare_screen_headline',
+			__('Compare Revisions', 'revisionary'),
+			$compare_ids['revision'],
+			$comparison_key
+		);
+
+		$approve_caption = apply_filters(
+			'visual_post_compare_compare_screen_approve_caption',
+			__('Approve', 'revisionary'),
+			$compare_ids['revision'],
+			$comparison_key
+		);
+
+		$current_post_first = apply_filters(
+			'visual_post_compare_compare_screen_current_post_first',
+			true,
+			$compare_ids['revision'],
+			$comparison_key
+		);
+
+		$current_post   = get_post( $compare_ids['post'] );
+		$revision_post  = get_post( $compare_ids['revision'] );
+		$styles         = array();
+
+		if ( $revision_post && class_exists( 'WP_Block_Editor_Context' ) && function_exists( 'get_block_editor_settings' ) ) {
+			$context  = new \WP_Block_Editor_Context( array( 'post' => $revision_post ) );
+			$settings = get_block_editor_settings( array(), $context );
+			if ( ! empty( $settings['styles'] ) && is_array( $settings['styles'] ) ) {
+				$styles = $settings['styles'];
+			}
+		}
+
+		wp_enqueue_style( 'wp-components' );
+		wp_enqueue_style( 'wp-block-editor' );
+		wp_enqueue_style( 'wp-block-library' );
+		wp_enqueue_style( 'wp-format-library' );
+		wp_enqueue_style( 'dashicons' );
+		$tooltips_enabled = '0' !== (string) get_option( 'rvy_visual_compare_tooltips', '1' );
+		$extra_markers_enabled = '1' === (string) get_option( 'rvy_visual_compare_extra_markers', '0' )
+			|| ( defined( 'REVISIONARY_VC_EXTRA_MARKERS' ) && REVISIONARY_VC_EXTRA_MARKERS && empty($_REQUEST['markerstyle']) );		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$html_attribute_changes_enabled = '1' === (string) get_option( 'rvy_visual_compare_attrib_changes', '0' )
+			|| defined( 'REVISIONARY_VC_HTML_ATTRIBS' );
+		$tooltip_template = '';
+		if ( $tooltips_enabled && isset( $revisionary->admin ) && method_exists( $revisionary->admin, 'tooltipText' ) ) {
+			$tooltip_template = $revisionary->admin->tooltipText( '', '__VPC_TOOLTIP__', false );
+			wp_enqueue_style(
+				'revisionary-tooltip',
+				RVY_URLPATH . '/common/css/_tooltip.css',
+				array(),
+				PUBLISHPRESS_REVISIONS_VERSION
+			);
+		}
+
+		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+
+		$script_path = plugin_dir_path( __FILE__ ) . "visual-post-compare-standalone{$suffix}.js";
+		$classic_path      = plugin_dir_path( __FILE__ ) . "visual-post-compare-classic{$suffix}.js";
+		$style_path  = plugin_dir_path( __FILE__ ) . 'visual-post-compare.css';
+		$script_dependencies = array( 'wp-api-fetch', 'wp-block-editor', 'wp-block-library', 'wp-block-serialization-default-parser', 'wp-blocks', 'wp-components', 'wp-element', 'wp-hooks', 'wp-i18n', 'wp-private-apis', 'wp-rich-text' );
+		$script_dependencies = apply_filters( 'visual_post_compare_script_dependencies', $script_dependencies );
+
+		if ( $current_post && ! has_blocks( $current_post->post_content ) ) {
+			wp_enqueue_script(
+				'visual-post-compare-classic',
+				plugins_url( "visual-post-compare-classic{$suffix}.js", __FILE__ ),
+				array( 'wp-blocks', 'wp-i18n', 'wp-rich-text' ),
+				file_exists( $classic_path ) ? filemtime( $classic_path ) : '0.11.0',
+				true
+			);
+			$script_dependencies[] = 'visual-post-compare-classic';
+		}
+
+		wp_enqueue_script(
+			'visual-post-compare-standalone',
+			plugins_url( "visual-post-compare-standalone{$suffix}.js", __FILE__ ),
+			$script_dependencies,
+			file_exists( $script_path ) ? filemtime( $script_path ) : '0.11.0',
+			true
+		);
+
+		wp_enqueue_style(
+			'rvy-visual-compare',
+			plugins_url( 'visual-post-compare.css', __FILE__ ),
+			array( 'wp-components', 'wp-block-editor', 'dashicons' ),
+			file_exists( $style_path ) ? filemtime( $style_path ) : '0.11.0'
+		);
+
+		wp_set_script_translations(
+            'visual-post-compare-standalone',
+            'revisionary',
+            plugin_basename(REVISIONARY_FILE) . '/languages'
+        );
+
+		wp_add_inline_script(
+			'visual-post-compare-standalone',
+			'window.VisualPostCompareStandalone=' . wp_json_encode(
+				array(
+					'current'          => $compare_ids['post'],
+					'revision'         => $compare_ids['revision'],
+					'comparisonKey'    => $comparison_key,
+					'headline'		   => is_scalar($headline) ? (string) $headline : esc_html__('Compare Revisions', 'revisionary'),
+					'currentPostFirst' => (bool) $current_post_first,
+					'restPath'         => '/' . self::REST_NS . '/comparison',
+					'approveRestPath'  => '/' . self::REST_NS . '/approve',
+					'comparisonModeRestPath' => '/' . self::REST_NS . '/comparison-mode',
+					'styles'           => $styles,
+					'tooltipsEnabled'  => $tooltips_enabled && ! empty( $tooltip_template ),
+					'tooltipTemplate'  => $tooltip_template,
+					'extraMarkers'     => (bool) $extra_markers_enabled,
+					'htmlAttributeChanges' => (bool) $html_attribute_changes_enabled,
+				)
+			) . ';',
+			'before'
+		);
+	}
+
+	public static function enqueue_editor_assets() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( ! $screen || ! method_exists( $screen, 'is_block_editor' ) || ! $screen->is_block_editor() ) {
+			return;
+		}
+
+		$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		$post = get_post( $post_id );
+		if ( ! $post || ( function_exists( 'use_block_editor_for_post' ) && ! use_block_editor_for_post( $post ) ) ) {
+			return;
+		}
+
+		self::load_editor_sidebar_builder();
+		$comparison_sidebars = Visual_Post_Compare_Editor_Sidebar_Builder::comparison_sidebars_for_editor( $post_id );
+
+		$script_path = plugin_dir_path( __FILE__ ) . 'visual-post-compare.js';
+		$style_path  = plugin_dir_path( __FILE__ ) . 'visual-post-compare-editor.css';
+
+		wp_enqueue_style(
+			'visual-post-compare-editor',
+			plugins_url( 'visual-post-compare-editor.css', __FILE__ ),
+			array( 'wp-components' ),
+			file_exists( $style_path ) ? filemtime( $style_path ) : '0.11.0'
+		);
+
+		wp_enqueue_script(
+			'rvy-visual-compare',
+			plugins_url( 'visual-post-compare.js', __FILE__ ),
+			array( 'wp-editor', 'wp-element', 'wp-i18n', 'wp-plugins' ),
+			file_exists( $script_path ) ? filemtime( $script_path ) : '0.11.0',
+			true
+		);
+
+		wp_add_inline_script(
+			'rvy-visual-compare',
+			'window.VisualPostCompare=' . wp_json_encode(
+				array(
+					'currentPostId'      => $post_id,
+					'comparisonSidebars' => $comparison_sidebars,
+					'debugMode'			 => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG
+				)
+			) . ';',
+			'before'
+		);
+	}
+
+	/**
+	 * Loads only the REST stack needed by the current REST request.
+	 */
+	public static function maybe_load_rest_handler() {
+		if ( (isset($_GET['rest_route']) && (false !== strpos( wp_unslash($_GET['rest_route']), self::REST_NS )))		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+		|| (isset($_SERVER['REQUEST_URI']) && (false !== strpos( wp_unslash($_SERVER['REQUEST_URI']), self::REST_NS ))) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
+		) {
+			self::load_dedicated_rest_handler();
+			Visual_Post_Compare_Dedicated_REST_Handler::register_routes();
+		}
+	}
+
+	private static function load_editor_sidebar_builder() {
+		if ( ! class_exists( 'PublishPress\Visual_Post_Compare_Editor_Sidebar_Builder', false ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-editor-sidebar-builder.php';
+		}
+	}
+
+	private static function load_dedicated_payload_builder() {
+		if ( ! class_exists( 'PublishPress\Visual_Post_Compare_Dedicated_Payload_Builder', false ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-dedicated-payload-builder.php';
+		}
+	}
+
+	private static function load_dedicated_rest_handler() {
+		self::load_dedicated_payload_builder();
+		if ( ! class_exists( 'PublishPress\Visual_Post_Compare_Dedicated_REST_Handler', false ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-dedicated-rest-handler.php';
+		}
+	}
+}

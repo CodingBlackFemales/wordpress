@@ -70,7 +70,23 @@ Config::define( 'WP_SITEURL', env( 'WP_SITEURL' ) );
  */
 Config::define( 'CONTENT_DIR', '/app' );
 Config::define( 'WP_CONTENT_DIR', $webroot_dir . Config::get( 'CONTENT_DIR' ) );
-Config::define( 'WP_CONTENT_URL', Config::get( 'WP_HOME' ) . Config::get( 'CONTENT_DIR' ) );
+
+/**
+ * Serve each site's plugin and theme assets from that site's own host.
+ *
+ * Built from WP_HOME alone, every subsite would load them from the main site's
+ * domain. WordPress 7.1 cross-origin isolates the block editor in Chromium
+ * (Document-Isolation-Policy plus crossorigin="anonymous" on cross-origin
+ * assets), so without CORS headers on the main domain every plugin script and
+ * stylesheet in a subsite's editor is blocked. Same-origin assets avoid that.
+ *
+ * Multisite only serves hosts it knows, the same trust DOMAIN_CURRENT_SITE
+ * below places in HTTP_HOST. WP-CLI and cron have no host and fall back to WP_HOME.
+ */
+$content_origin = isset( $_SERVER['HTTP_HOST'] )
+	? parse_url( Config::get( 'WP_HOME' ), PHP_URL_SCHEME ) . '://' . $_SERVER['HTTP_HOST']
+	: Config::get( 'WP_HOME' );
+Config::define( 'WP_CONTENT_URL', $content_origin . Config::get( 'CONTENT_DIR' ) );
 
 /**
  * DB settings

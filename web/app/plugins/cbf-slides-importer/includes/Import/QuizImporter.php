@@ -33,8 +33,9 @@ final class QuizImporter {
 	/**
 	 * Import a parsed quiz.
 	 *
-	 * Mirrors LearnDashImporter::import(): the same result shape, and every post
-	 * created is reverted to draft when anything goes wrong, so students never
+	 * Mirrors LearnDashImporter::import(): the same result shape, a new quiz is
+	 * created as a draft for review, an overwritten one keeps its status, and
+	 * everything is set to draft when anything goes wrong, so learners never
 	 * see a half-built quiz.
 	 *
 	 * @param  array $quiz    ParsedQuiz from Forms\Parser.
@@ -202,15 +203,17 @@ final class QuizImporter {
 		$post = array(
 			'post_title'   => $title,
 			'post_type'    => self::POST_TYPE,
-			'post_status'  => 'publish',
 			'post_content' => $description !== '' ? wpautop( esc_html( $description ) ) : '',
 		);
 
+		// A new quiz waits for review as a draft. One being overwritten keeps its
+		// status, so a live quiz is not pulled from learners by a re-import;
+		// wp_update_post() merges with the stored post, which is what keeps it.
 		if ( $existing ) {
-			$post['ID'] = $existing;
+			$id = wp_update_post( array_merge( $post, array( 'ID' => $existing ) ), true );
+		} else {
+			$id = wp_insert_post( array_merge( $post, array( 'post_status' => 'draft' ) ), true );
 		}
-
-		$id = wp_insert_post( $post, true );
 
 		if ( is_wp_error( $id ) ) {
 			throw new \RuntimeException( esc_html( $id->get_error_message() ) );
@@ -363,6 +366,10 @@ final class QuizImporter {
 		$body  = self::question_html( $item );
 		$type  = (string) $item['type'];
 
+		// Questions stay published even while their quiz is a draft: LearnDash
+		// only loads published question posts, so a draft question would vanish
+		// from the quiz once it is published. The draft quiz already keeps them
+		// out of learners' reach.
 		$post_id = wp_insert_post(
 			array(
 				'post_title'   => $title,

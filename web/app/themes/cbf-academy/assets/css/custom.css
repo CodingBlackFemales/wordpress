@@ -197,3 +197,49 @@ svg.cbf-er {
 .cbf-er .cbf-er-arrow {
   fill: #b07d00;
 }
+
+/*--------------------------------------------------------------
+Glossary (CBF Semantic Glossary plugin)
+The plugin ships theme-neutral styles; these adapt them to this
+theme and to LearnDash, which the plugin knows nothing about.
+--------------------------------------------------------------*/
+
+/* Keep glossary jump targets (#ref-…, #dfn-…, A–Z index) clear of
+   the sticky masthead. */
+:root {
+  --glossary-scroll-margin: 6rem;
+}
+
+/* LearnDash strips colour and underlines from links in lessons with
+   a five-class selector. Restate the plugin's reference style with
+   one that outranks it, so terms still read as glossary terms rather
+   than ordinary links. The BEM class names are LearnDash's own. */
+/* stylelint-disable selector-class-pattern */
+.learndash-wrapper:not(.ld-registration__outer-wrapper):not(.learndash-wrapper--modern)
+  a.glossary-ref:not(.button):not(.screen-reader-shortcut) {
+  color: var(--glossary-ref-color, inherit);
+  text-decoration: underline dotted var(--glossary-ref-underline-color, #3858e9);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.learndash-wrapper:not(.ld-registration__outer-wrapper):not(.learndash-wrapper--modern)
+  a.glossary-ref:not(.button):not(.screen-reader-shortcut):is(:hover, :focus-visible) {
+  text-decoration-style: solid;
+}
+/* stylelint-enable selector-class-pattern */
+
+/* A–Z index letters: the theme's link blue (#007cff) is too light on
+   the plugin's index tiles (about 3.5:1). This darker blue keeps them
+   above 4.5:1 on both the tile and its hover tint. Specific enough to
+   outrank `.learndash-wrapper a` inside lessons. */
+.glossary-index li a:is(:link, :visited, :hover, :focus) {
+  color: #1d4ed8;
+}
+
+/* Glossary entries: a rule down the left of each term and definition
+   set, as in the design mockups. */
+.glossary .glossary-entry {
+  padding-inline-start: 1rem;
+  border-inline-start: 3px solid #e5e7eb;
+}

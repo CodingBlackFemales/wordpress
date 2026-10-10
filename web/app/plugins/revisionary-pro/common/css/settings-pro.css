@@ -1,0 +1,121 @@
+/* --- Install Tab --- */
+#rvy-features_table span.publishpress, #rvy-features_table span.publishpress a, #rvy-features_table span.publishpress a:visited {
+    color: #655997;
+    font-weight: bold
+}
+
+#rvy-features #edd_key {
+    width: 300px
+}
+
+#rvy-features  #edd_key::-webkit-input-placeholder {color: #aaa;}
+#rvy-features  #edd_key::-moz-placeholder {color: #aaa;}
+#rvy-features  #edd_key::-moz-placeholder {color: #aaa;}
+#rvy-features  #edd_key::-ms-input-placeholder {color: #aaa;}
+
+
+#rvy-features #activation-button {
+    vertical-align: top
+}
+
+#rvy-features .pp-key-label {
+    padding-top:5px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+#rvy-features .pp-key-active {
+    font-weight: bold;
+    color: #070;
+    vertical-align: bottom;
+    margin-right: 0.5em
+}
+
+#rvy-features .pp-key-inactive {
+    font-weight: bold;
+    vertical-align: bottom;
+    margin-right: 0.5em
+}
+
+#rvy-features span.pp-key-warning {
+    color: #c00;
+    font-weight: normal
+}
+
+#rvy-features div.pp-key-wrap {
+    white-space: nowrap;
+}
+
+#rvy-features div.pp-key-refresh {
+    white-space: nowrap;
+    padding-left: 10px;
+    vertical-align:bottom;
+}
+
+#rvy-features div.pp-key-hint {
+    margin-left: 120px;
+    margin-top: 10px;
+}
+
+#rvy-features div.pp-key-hint-expired {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+#rvy-features .pp-install-list {
+    margin: 0.5em 0 1em 0
+}
+
+#rvy-features .pp-install-list li {
+    padding-left: 1em
+}
+
+#rvy-features #activation-status {
+    margin-bottom: 10px;
+    margin: 10px 0 0 110px;
+}
+
+#rvy-features .pp-feature-list-caption {
+    margin-top: 20px;
+}
+
+#rvy-features .pp-bullet-list {
+    list-style: disc;
+    padding-left: 15px;
+}
+
+div.pp-key-wrap {
+    white-space: nowrap;
+}
+
+div.pp-key-refresh, span.pp-key-refresh a {
+    white-space: nowrap;
+    padding-left: 10px;
+    vertical-align:middle;
+}
+
+div.pp-key-hint {
+    margin-left: 110px;
+    margin-top: 10px;
+}
+
+div.pp-key-hint-expired {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+#rvy-features_table h4 {
+    margin-bottom: 2px;
+}
+
+#pp_settings_form #activation-status {
+    margin-top: 20px;
+}
+
+#pp_settings_form #activation-error {
+    margin-top: 20px;
+}
+
+#plugin-information-footer {
+    display: none;
+}

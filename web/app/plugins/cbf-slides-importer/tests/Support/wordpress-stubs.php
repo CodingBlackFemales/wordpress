@@ -265,6 +265,29 @@ if ( ! function_exists( 'sanitize_text_field' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_textarea_field' ) ) {
+	/**
+	 * Like sanitize_text_field(), but keeps line breaks, as WordPress's does.
+	 *
+	 * @param string $value Raw value.
+	 */
+	function sanitize_textarea_field( $value ): string {
+		$value = wp_strip_all_tags( (string) $value );
+		$value = (string) preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $value );
+		return trim( $value );
+	}
+}
+
+if ( ! function_exists( 'is_email' ) ) {
+	/**
+	 * @param string $email Candidate address.
+	 * @return string|false The address, or false when it is not one.
+	 */
+	function is_email( $email ) {
+		return filter_var( (string) $email, FILTER_VALIDATE_EMAIL ) !== false ? (string) $email : false;
+	}
+}
+
 if ( ! function_exists( 'wp_strip_all_tags' ) ) {
 	/**
 	 * @param string $value Raw value.

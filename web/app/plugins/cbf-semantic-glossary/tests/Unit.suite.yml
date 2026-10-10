@@ -1,0 +1,17 @@
+# Unit suite: runs without a WordPress installation.
+#
+# Scanning, rendering, ordering, auditing, matching and the import/export
+# formats are plain PHP behind the EntrySource interface, touching only a few
+# WordPress helpers (escaping, translation, filters). Those are stubbed in
+# tests/Support/wordpress-stubs.php, which keeps these tests fast and runnable
+# anywhere: no database, no WP install.
+#
+# Code that needs WordPress (the Repository, the reference index table, REST
+# controllers, the edit screen, WP-CLI commands) is exercised through WP-CLI
+# against a real site instead; see the plugin README.
+actor: UnitTester
+modules:
+  enabled:
+    - Asserts
+    - \CodingBlackFemales\SemanticGlossary\Tests\Support\Helper\Filters
+step_decorators: ~
