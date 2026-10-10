@@ -14,6 +14,11 @@ on:
           - "staging"
           - "production"
 
+# Never run two deployments against the same environment at once
+concurrency:
+  group: deploy-${{ inputs.destinationEnvironment }}
+  cancel-in-progress: false
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   deploy:
@@ -24,42 +29,101 @@ jobs:
     environment:
       name: "${{ inputs.destinationEnvironment }}"
 
+    env:
+      # Plugins whose assets are compiled here and synced to the server, as the
+      # host's disk quota cannot hold their node_modules
+      ASSET_PLUGINS: cbf-multisite cbf-semantic-glossary cbf-semantic-glossary-learndash
+
     steps:
-      # Deploys specific branch/commit to target environment
-      - name: Deploy to target
-        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
-          script: |
-            # Non-interactive SSH does not load ~/.bashrc; nvm lives there.
-            export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-            if [ ! -s "$NVM_DIR/nvm.sh" ]; then
-              echo "::error::nvm not found at $NVM_DIR; cannot select a Node release"
-              exit 1
-            fi
-            . "$NVM_DIR/nvm.sh"
-            if ! nvm install --lts; then
-              echo "::error::Could not install or select the current Node LTS"
-              exit 1
-            fi
-            set -euo pipefail
-            cd ${{ secrets.SSH_PATH }}
-            git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
-            git pull
-            composer install --no-dev --optimize-autoloader
-            # Each plugin's node_modules is ~0.5-0.7 GB and only needed to build
-            # assets; keeping all of them exhausts the host's disk quota.
-            for plugin in cbf-multisite cbf-semantic-glossary cbf-semantic-glossary-learndash; do
-              (
-                cd "web/app/plugins/$plugin"
-                npm ci --no-audit --no-fund
-                npm run build:assets
-                rm -rf node_modules
-              )
-            done
+          persist-credentials: false
+
+      # Sets the Node version
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            web/app/plugins/cbf-multisite/package-lock.json
+            web/app/plugins/cbf-semantic-glossary/package-lock.json
+            web/app/plugins/cbf-semantic-glossary-learndash/package-lock.json
+
+      # Builds before touching the server, so a failed build leaves the site as it was
+      - name: Build plugin assets
+        run: |
+          for plugin in $ASSET_PLUGINS; do
+            (
+              cd "web/app/plugins/$plugin"
+              npm ci --no-audit --no-fund
+              npm run build:assets
+            )
+          done
+
+      - name: Configure SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_KEY: ${{ secrets.DESTINATION_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$SSH_KNOWN_HOSTS" ]; then
+            echo "::error::SSH_KNOWN_HOSTS secret is not set for this environment"
+            exit 1
+          fi
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host deploy-target
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ServerAliveInterval 30
+          EOF
+
+      # Moves the server to exactly the commit built above, then installs PHP dependencies
+      - name: Update code on target
+        env:
+          SSH_PATH: ${{ secrets.SSH_PATH }}
+          STASH_MESSAGE: "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
+        run: |
+          # Values below are expanded on the runner on purpose
+          # shellcheck disable=SC2029
+          # Resolve the remote root once, so the sync step targets an absolute path
+          remote_root=$(ssh deploy-target "cd $SSH_PATH && pwd -P")
+          echo "REMOTE_ROOT=$remote_root" >> "$GITHUB_ENV"
+
+          # ssh joins its arguments into one remote command line, so quote them for the remote shell
+          # shellcheck disable=SC2029
+          ssh deploy-target "bash -s -- $(printf '%q ' "$remote_root" "$GITHUB_SHA" "$STASH_MESSAGE")" <<'EOF'
+          set -euo pipefail
+          cd "$1"
+          git stash -m "$3"
+          git fetch
+          # Refuse a commit that is not on the branch this server tracks, such as
+          # a production deployment dispatched from develop
+          if ! git merge-base --is-ancestor "$2" '@{upstream}'; then
+            echo "::error::$2 is not on $(git rev-parse --abbrev-ref '@{upstream}'); refusing to deploy it"
+            exit 1
+          fi
+          git merge --ff-only "$2"
+          composer install --no-dev --optimize-autoloader
+          EOF
+
+      - name: Sync plugin assets to target
+        run: |
+          for plugin in $ASSET_PLUGINS; do
+            rsync -rlt --delete --chmod=D755,F644 \
+              "web/app/plugins/$plugin/assets/" \
+              "deploy-target:$REMOTE_ROOT/web/app/plugins/$plugin/assets/"
+          done
 
   check:
     needs: [deploy]
