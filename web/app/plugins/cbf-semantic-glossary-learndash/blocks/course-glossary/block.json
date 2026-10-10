@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "cbf/course-glossary",
+	"title": "Course Glossary",
+	"category": "text",
+	"icon": "book-alt",
+	"description": "Every glossary term from the lessons and topics the learner can access, alphabetically.",
+	"keywords": [ "glossary", "definitions", "terms", "learndash", "course" ],
+	"textdomain": "cbf-semantic-glossary-learndash",
+	"attributes": {
+		"course": {
+			"type": "number",
+			"default": 0
+		},
+		"heading": {
+			"type": "string",
+			"default": "Glossary"
+		},
+		"level": {
+			"type": "number",
+			"enum": [ 2, 3, 4 ],
+			"default": 2
+		},
+		"showFilter": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSource": {
+			"type": "boolean",
+			"default": true
+		},
+		"showAlternatives": {
+			"type": "boolean",
+			"default": true
+		},
+		"backLinks": {
+			"type": "boolean",
+			"default": true
+		},
+		"showIndex": {
+			"type": "boolean",
+			"default": true
+		},
+		"indexMinEntries": {
+			"type": "number",
+			"minimum": 1
+		},
+		"previewLocked": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"anchor": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "cbf-semantic-glossary-learndash-editor",
+	"viewScript": "cbf-semantic-glossary-learndash",
+	"style": "cbf-semantic-glossary-learndash"
+}

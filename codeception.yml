@@ -9,6 +9,7 @@
 include:
   - web/app/plugins/cbf-slides-importer
   - web/app/plugins/cbf-semantic-glossary
+  - web/app/plugins/cbf-semantic-glossary-learndash
 paths:
   output: tests/_output
 settings:

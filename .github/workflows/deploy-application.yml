@@ -54,6 +54,8 @@ jobs:
             npm ci && npm run build:assets
             cd ../cbf-semantic-glossary
             npm ci && npm run build:assets
+            cd ../cbf-semantic-glossary-learndash
+            npm ci && npm run build:assets
 
   check:
     needs: [deploy]

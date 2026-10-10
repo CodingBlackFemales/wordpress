@@ -1,0 +1,16 @@
+# Unit suite: runs without a WordPress or LearnDash installation.
+#
+# Ordering, first-use and lock bookkeeping, the course-level audit and the
+# course glossary's markup are plain PHP over core's render classes. The
+# WordPress helpers they touch come from core's unit stubs (plus a few more in
+# tests/Support/wordpress-stubs.php), so core must have run `composer install`.
+#
+# Reading courses from LearnDash (step order, access) is exercised through
+# WP-CLI against a real site instead: `wp glossary course terms --as-user` and
+# `wp glossary course render --as-user`; see the plugin README.
+actor: UnitTester
+modules:
+  enabled:
+    - Asserts
+    - \CodingBlackFemales\SemanticGlossaryLearnDash\Tests\Support\Helper\Filters
+step_decorators: ~
