@@ -18,10 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Report duplicate references, references to deleted entries, and unmarked known terms.
+ * Report duplicate references, references to deleted or unpublished entries, and unmarked known terms.
  *
  * `--fix` unmarks later duplicates and strips dead references, keeping their
- * text. It never marks terms: that is an editorial decision.
+ * text. It leaves references to unpublished entries alone (they start working
+ * once the entry is approved) and never marks terms: that is an editorial
+ * decision.
  *
  * Exits non-zero while duplicate or dead references remain, so CI can gate on
  * it. Unmarked terms are reported but do not fail the run unless --strict.
@@ -160,7 +162,7 @@ final class AuditCommand {
 	 * @param bool   $dry_run Whether this is a dry run.
 	 */
 	private static function action( string $type, bool $fixed, bool $dry_run ): string {
-		if ( $type === Auditor::UNMARKED || ! $fixed ) {
+		if ( ! $fixed || ! in_array( $type, Auditor::FIXABLE, true ) ) {
 			return '';
 		}
 
@@ -177,7 +179,7 @@ final class AuditCommand {
 	private static function fails( array $items, bool $strict ): bool {
 		foreach ( $items as $item ) {
 			$unfixed = $item['action'] !== 'fixed';
-			$counts  = $item['issue'] !== Auditor::UNMARKED || $strict;
+			$counts  = in_array( $item['issue'], Auditor::FIXABLE, true ) || ( $strict && $item['issue'] === Auditor::UNMARKED );
 
 			if ( $unfixed && $counts ) {
 				return true;

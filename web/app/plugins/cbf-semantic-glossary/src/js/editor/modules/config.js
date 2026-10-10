@@ -4,6 +4,7 @@
 const config = {
 	namespace: 'cbf-glossary/v1',
 	canCreate: false,
+	canPublish: false,
 	autoAppend: false,
 	indexMinEntries: 8,
 	...( window.cbfGlossary || {} ),

@@ -8,9 +8,9 @@
 namespace CodingBlackFemales\SemanticGlossary\Api;
 
 use CodingBlackFemales\SemanticGlossary\Audit\Auditor;
+use CodingBlackFemales\SemanticGlossary\Entry\Capabilities;
 use CodingBlackFemales\SemanticGlossary\Entry\Entry;
 use CodingBlackFemales\SemanticGlossary\Entry\Markdown;
-use CodingBlackFemales\SemanticGlossary\Entry\PostType;
 use CodingBlackFemales\SemanticGlossary\Entry\Repository;
 use CodingBlackFemales\SemanticGlossary\Entry\Search;
 use CodingBlackFemales\SemanticGlossary\Reference\Index;
@@ -29,8 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Routes under /wp-json/cbf-glossary/v1/:
  *
  * - GET  terms          search entries, or fetch some by ID (`include`), with usage counts
- * - POST terms          create an entry (Editors and above)
- * - POST terms/{id}     update an entry (Editors and above)
+ * - POST terms          create an entry (published, or a draft for users who cannot publish)
+ * - POST terms/{id}     update an entry
  * - POST audit          audit unsaved content: dead references and unmarked known terms
  *
  * Core's /wp/v2/glossary-terms endpoints exist too; these add what the editor
@@ -115,19 +115,19 @@ final class Controller {
 
 
 	/**
-	 * Anyone who can edit posts can look entries up and reference them.
+	 * Anyone who can edit some kind of content can look entries up and
+	 * reference them. Published entries are public anyway.
 	 */
 	public static function can_reference(): bool {
-		return current_user_can( 'edit_posts' );
+		return Capabilities::can_edit_content();
 	}
 
 
 	/**
-	 * Creating entries is for Editors and above.
+	 * Creating entries needs the glossary's own create capability.
 	 */
 	public static function can_create(): bool {
-		$type = get_post_type_object( PostType::NAME );
-		return $type !== null && current_user_can( $type->cap->create_posts );
+		return Capabilities::can_create();
 	}
 
 
@@ -140,9 +140,29 @@ final class Controller {
 		$include = array_map( 'intval', (array) $request['include'] );
 		$entries = $include !== array()
 			? array_values( Repository::instance()->find_many( $include ) )
-			: Search::rank( Repository::instance()->all_published(), (string) $request['search'], (int) $request['per_page'] );
+			: Search::rank( self::searchable(), (string) $request['search'], (int) $request['per_page'] );
 
 		return new WP_REST_Response( self::prepare( $entries ) );
+	}
+
+
+	/**
+	 * Entries the current user may find by searching.
+	 *
+	 * Published entries, plus unpublished ones the user can edit, so a draft a
+	 * colleague created is found (and referenced) rather than duplicated.
+	 *
+	 * @return Entry[]
+	 */
+	private static function searchable(): array {
+		if ( ! Capabilities::can_create() ) {
+			return Repository::instance()->all_published();
+		}
+
+		return array_filter(
+			Repository::instance()->all(),
+			fn ( Entry $entry ): bool => $entry->is_published() || current_user_can( 'edit_post', $entry->id )
+		);
 	}
 
 
@@ -153,7 +173,7 @@ final class Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public static function create_term( WP_REST_Request $request ) {
-		return self::save( $request, 0 );
+		return self::save( $request, 0, Capabilities::can_publish() ? 'publish' : 'draft' );
 	}
 
 
@@ -198,12 +218,23 @@ final class Controller {
 	/**
 	 * Create or update from a request.
 	 *
+	 * A new entry is published only for users allowed to publish entries;
+	 * anyone else's starts as a draft, the first stage of the site's editorial
+	 * workflow. Updates never change the status.
+	 *
 	 * @param WP_REST_Request $request Request.
 	 * @param int             $id      Entry ID, or 0 to create.
+	 * @param string          $status  Status for a new entry; ignored on update.
 	 * @return WP_REST_Response|WP_Error
 	 */
-	private static function save( WP_REST_Request $request, int $id ) {
-		$result = Repository::instance()->save( self::entry_data( $request ), $id );
+	private static function save( WP_REST_Request $request, int $id, string $status = '' ) {
+		$data = self::entry_data( $request );
+
+		if ( $id === 0 ) {
+			$data['status'] = $status;
+		}
+
+		$result = Repository::instance()->save( $data, $id );
 
 		if ( is_wp_error( $result ) ) {
 			return $result;

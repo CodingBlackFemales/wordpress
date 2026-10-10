@@ -178,16 +178,22 @@ function GlossarySidebar() {
 		);
 
 	const duplicates = [ ...groups.entries() ].filter(
-		( [ id, refs ] ) =>
-			refs.length > 1 && byId[ id ]?.entry?.status === 'publish'
+		( [ id, refs ] ) => refs.length > 1 && byId[ id ]?.entry
 	);
 	const dead = references.filter(
-		( ref ) =>
-			! ref.entryId ||
-			byId[ ref.entryId ]?.missing ||
-			( byId[ ref.entryId ]?.entry &&
-				byId[ ref.entryId ].entry.status !== 'publish' )
+		( ref ) => ! ref.entryId || byId[ ref.entryId ]?.missing
 	);
+	// Unpublished terms (drafts in review) render as plain text until published. Nothing
+	// for the author to fix, so they are listed but not counted.
+	const unpublished = [ ...groups.entries() ]
+		.filter(
+			( [ id ] ) =>
+				byId[ id ]?.entry && byId[ id ].entry.status !== 'publish'
+		)
+		.map( ( [ id, refs ] ) => ( {
+			entry: byId[ id ].entry,
+			ref: refs[ 0 ],
+		} ) );
 	const attentionCount = duplicates.length + dead.length + unmarked.length;
 
 	return (
@@ -262,7 +268,7 @@ function GlossarySidebar() {
 							{ sprintf(
 								/* translators: %s: referenced text */
 								__(
-									'“%s” refers to a deleted or unpublished term, so it renders as plain text.',
+									'“%s” refers to a deleted term, so it renders as plain text.',
 									'cbf-semantic-glossary'
 								),
 								ref.text
@@ -279,6 +285,45 @@ function GlossarySidebar() {
 							>
 								{ __( 'Unmark', 'cbf-semantic-glossary' ) }
 							</Button>
+							<Button
+								variant="link"
+								className="is-secondary"
+								onClick={ () =>
+									showBlock( selectBlock, ref.clientId )
+								}
+							>
+								{ __( 'Show', 'cbf-semantic-glossary' ) }
+							</Button>
+						</div>
+					</Attention>
+				) ) }
+
+				{ unpublished.map( ( { entry, ref } ) => (
+					<Attention key={ `unpublished-${ entry.id }` } tone="info">
+						<p>
+							{ sprintf(
+								/* translators: %s: term */
+								__(
+									'%s isn’t published yet, so it renders as plain text until it is.',
+									'cbf-semantic-glossary'
+								),
+								entry.term
+							) }
+						</p>
+						<div className="cbf-glossary-attention__actions">
+							{ entry.edit_link && (
+								<Button
+									variant="link"
+									href={ entry.edit_link }
+									target="_blank"
+									rel="noreferrer"
+								>
+									{ __(
+										'Open term',
+										'cbf-semantic-glossary'
+									) }
+								</Button>
+							) }
 							<Button
 								variant="link"
 								className="is-secondary"

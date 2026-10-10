@@ -61,10 +61,20 @@ final class AuditTest extends Unit {
 		$this->assertSame( array(), $findings );
 	}
 
-	public function testUnpublishedEntryReferencesAreDead(): void {
-		$findings = Auditor::audit( Entries::ref( 4, 'commit' ), Entries::standard() );
+	public function testUnpublishedEntryReferencesAreNotDead(): void {
+		$findings = Auditor::audit( Entries::ref( 4, 'commit' ) . ' ' . Entries::ref( 4, 'commits' ), Entries::standard() );
 
-		$this->assertSame( array( Auditor::DEAD ), array_column( $findings, 'type' ) );
+		$this->assertSame( array( Auditor::UNPUBLISHED, Auditor::DUPLICATE ), array_column( $findings, 'type' ) );
+	}
+
+	public function testFixLeavesUnpublishedReferencesAlone(): void {
+		$html = Entries::ref( 4, 'commit' ) . ' ' . Entries::ref( 4, 'commits' );
+
+		$result = Auditor::fix( $html, Entries::standard() );
+
+		$this->assertSame( Entries::ref( 4, 'commit' ) . ' commits', $result['html'] );
+		$this->assertSame( 1, $result['fixed'] );
+		$this->assertFalse( Auditor::has_fixable( Auditor::audit( $result['html'], Entries::standard() ) ) );
 	}
 
 	public function testFixUnwrapsLaterDuplicatesAndDeadReferencesOnly(): void {

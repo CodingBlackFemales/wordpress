@@ -54,6 +54,14 @@ $danger: #cc1818;
 		color: $warning;
 	}
 
+	&.is-unpublished {
+		color: #1e1e1e;
+
+		svg {
+			fill: $blue;
+		}
+	}
+
 	code {
 		color: #1e1e1e;
 		font-size: 11px;

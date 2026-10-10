@@ -22,7 +22,20 @@ After checkout, run `composer install` and `npm ci && npm run build:assets` in t
 | Slug       | post slug                         | Fixes the anchor `#dfn-{slug}`. Renaming the term never changes it                      |
 | Title      | post title                        | Copied from the canonical term, so list tables, search and revisions keep working       |
 
-Creating and editing entries is for Editors and above: every primitive capability of the post type maps to `edit_others_posts` or `delete_others_posts`. Authors and Contributors can still search for entries and reference them.
+**Capabilities**: entries have their own capability type, so each role's rights over them are set independently of its rights over posts (for example with PublishPress Capabilities). Administrators and Editors get every capability on activation.
+
+| Capability | Lets a role… |
+| --- | --- |
+| `edit_glossary_terms` | create entries and edit their own; also needed to open the Glossary admin menu |
+| `edit_others_glossary_terms` | edit other people's entries |
+| `edit_published_glossary_terms` | edit published entries |
+| `publish_glossary_terms` | publish entries; without it, new entries start as drafts |
+| `delete_glossary_terms`, `delete_others_glossary_terms`, `delete_published_glossary_terms` | delete entries |
+| `edit_private_glossary_terms`, `read_private_glossary_terms`, `delete_private_glossary_terms` | work with private entries |
+
+Searching for entries and referencing them only needs the right to edit some kind of content. That includes roles that edit only LearnDash content (`edit_courses`) and never had `edit_posts`.
+
+Entries created from the editor are published only for users with `publish_glossary_terms`; anyone else's start as drafts, the first stage of the editorial workflow. A reference to a draft (or otherwise unpublished) entry renders as plain text until it is published. The editor labels it "not published yet", and `wp glossary audit --fix` leaves it alone.
 
 **Inline reference**: a rich-text format on the selected text, stored as `<span class="glossary-ref" data-glossary-id="42">text</span>`. Only the entry ID is stored, so editing an entry updates every post. "Render as abbreviation" adds `data-glossary-abbr="true"`.
 
@@ -122,6 +135,7 @@ wp glossary render <post-id> [--glossary-only]
 
 Notes on behaviour:
 
+- `audit` reports references to entries that aren't published yet as `unpublished`; they never fail the run and `--fix` leaves them in place.
 - `term delete` refuses an entry that posts still reference, unless `--force`. Deletion is permanent, and references then render as plain text.
 - `term import` matches on slug. CSV has the columns `slug,term,abbr,alternatives,definition`, with alternatives packed as `term:abbr|term`.
 - `audit --fix` unmarks later duplicates and strips dead references. It never marks terms. It exits 1 while duplicate or dead references remain, and with `--strict` when unmarked terms are found too.
