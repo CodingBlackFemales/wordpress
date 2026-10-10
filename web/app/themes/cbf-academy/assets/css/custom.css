@@ -236,3 +236,10 @@ theme and to LearnDash, which the plugin knows nothing about.
 .glossary-index li a:is(:link, :visited, :hover, :focus) {
   color: #1d4ed8;
 }
+
+/* Glossary entries: a rule down the left of each term and definition
+   set, as in the design mockups. */
+.glossary .glossary-entry {
+  padding-inline-start: 1rem;
+  border-inline-start: 3px solid #e5e7eb;
+}
