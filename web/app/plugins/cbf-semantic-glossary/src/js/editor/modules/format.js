@@ -31,7 +31,14 @@ import {
 	useState,
 } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { check, closeSmall, pencil, postList, caution } from '@wordpress/icons';
+import {
+	caution,
+	check,
+	closeSmall,
+	info,
+	pencil,
+	postList,
+} from '@wordpress/icons';
 import {
 	applyFormat,
 	create,
@@ -332,13 +339,13 @@ function ExistingReference( {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ id ] );
 
-	if ( missing || ( entry && entry.status !== 'publish' ) ) {
+	if ( missing ) {
 		return (
 			<div className="cbf-glossary-popover__section">
 				<p className="cbf-glossary-status is-warning">
 					<Icon icon={ caution } size={ 18 } />
 					{ __(
-						'This entry has been deleted or unpublished, so the text renders as plain text.',
+						'This entry has been deleted, so the text renders as plain text.',
 						'cbf-semantic-glossary'
 					) }
 				</p>
@@ -387,7 +394,16 @@ function ExistingReference( {
 					</div>
 				</div>
 
-				{ isFirst ? (
+				{ entry.status !== 'publish' && (
+					<p className="cbf-glossary-status is-unpublished">
+						<Icon icon={ info } size={ 16 } />
+						{ __(
+							'Not published yet: renders as plain text until this term is published.',
+							'cbf-semantic-glossary'
+						) }
+					</p>
+				) }
+				{ entry.status === 'publish' && isFirst && (
 					<p className="cbf-glossary-status is-success">
 						<Icon icon={ check } size={ 16 } />
 						<span>
@@ -400,7 +416,8 @@ function ExistingReference( {
 							) }
 						</span>
 					</p>
-				) : (
+				) }
+				{ ! isFirst && (
 					<p className="cbf-glossary-status is-warning">
 						<Icon icon={ caution } size={ 16 } />
 						{ __(

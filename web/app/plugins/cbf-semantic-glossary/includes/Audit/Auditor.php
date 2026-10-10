@@ -18,21 +18,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Auditor.
  *
- * Three kinds of finding:
+ * Four kinds of finding:
  *
  * - duplicate: an entry marked again after its first mention. Renders as plain
  *   text, but is reported rather than silently stripped;
- * - dead: a reference to an entry that is deleted or unpublished;
+ * - dead: a reference to an entry that is deleted or trashed;
+ * - unpublished: a reference to an entry that exists but is not published
+ *   yet, e.g. a draft in review. Renders as plain text until it is published;
  * - unmarked: a known entry that occurs in the post without being marked.
  *
- * Duplicates and dead references are fixable mechanically. Unmarked terms are
- * an editorial decision, so fix() never touches them.
+ * Duplicates and dead references are fixable mechanically. Unpublished references
+ * are left alone (they start working once the entry is approved), and unmarked
+ * terms are an editorial decision, so fix() never touches either.
  */
 final class Auditor {
 
-	const DUPLICATE = 'duplicate';
-	const DEAD      = 'dead';
-	const UNMARKED  = 'unmarked';
+	const DUPLICATE   = 'duplicate';
+	const DEAD        = 'dead';
+	const UNPUBLISHED = 'unpublished';
+	const UNMARKED    = 'unmarked';
+
+	/**
+	 * Finding types fix() removes.
+	 */
+	const FIXABLE = array( self::DUPLICATE, self::DEAD );
 
 
 	/**
@@ -64,7 +73,8 @@ final class Auditor {
 	public static function fix( string $html, EntrySource $source ): array {
 		$references = Scanner::scan( $html );
 		$findings   = self::reference_findings( $references, $source->find_many( Scanner::entry_ids( $references ) ) );
-		$positions  = array_column( $findings, 'position' );
+		$fixable    = array_filter( $findings, fn ( array $finding ): bool => in_array( $finding['type'], self::FIXABLE, true ) );
+		$positions  = array_column( $fixable, 'position' );
 
 		return array(
 			'html'  => Scanner::replace( $html, array_fill_keys( $positions, null ), $references ),
@@ -79,14 +89,15 @@ final class Auditor {
 	 * @param array<int, array{type:string}> $findings Findings from audit().
 	 */
 	public static function has_fixable( array $findings ): bool {
-		return array_filter( $findings, fn ( array $finding ): bool => $finding['type'] !== self::UNMARKED ) !== array();
+		return array_filter( $findings, fn ( array $finding ): bool => in_array( $finding['type'], self::FIXABLE, true ) ) !== array();
 	}
 
 
 	/**
-	 * Duplicate and dead references.
+	 * Duplicate, dead and unpublished references.
 	 *
-	 * A duplicate of a dead reference is reported once, as dead.
+	 * A duplicate of a dead or unpublished reference is reported as dead or unpublished
+	 * only once; later ones are duplicates.
 	 *
 	 * @param Reference[]                                                     $references References in document order.
 	 * @param array<int, \CodingBlackFemales\SemanticGlossary\Entry\Entry>    $entries    Entries found, keyed by ID.
@@ -97,8 +108,7 @@ final class Auditor {
 		$seen     = array();
 
 		foreach ( $references as $reference ) {
-			$entry = $entries[ $reference->entry_id ] ?? null;
-			$type  = ( $entry === null || ! $entry->is_published() ) ? self::DEAD : ( isset( $seen[ $reference->entry_id ] ) ? self::DUPLICATE : null );
+			$type = self::reference_type( $entries[ $reference->entry_id ] ?? null, isset( $seen[ $reference->entry_id ] ) );
 
 			$seen[ $reference->entry_id ] = true;
 
@@ -113,6 +123,26 @@ final class Auditor {
 		}
 
 		return $findings;
+	}
+
+
+	/**
+	 * What, if anything, is wrong with one reference.
+	 *
+	 * @param \CodingBlackFemales\SemanticGlossary\Entry\Entry|null $entry The referenced entry, if it exists.
+	 * @param bool                                                    $seen  Whether the entry was referenced earlier.
+	 * @return string|null Finding type, or null when the reference is fine.
+	 */
+	private static function reference_type( $entry, bool $seen ): ?string {
+		if ( $seen ) {
+			return self::DUPLICATE;
+		}
+
+		if ( $entry === null ) {
+			return self::DEAD;
+		}
+
+		return $entry->is_published() ? null : self::UNPUBLISHED;
 	}
 
 

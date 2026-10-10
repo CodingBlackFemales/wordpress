@@ -15,9 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * PostType.
  *
  * Entries are global (shared by every post that references them), so editing
- * one changes many posts at once. That is why every primitive capability maps
- * to an Editor-level one: Authors and Contributors can reference entries but
- * not create or change them.
+ * one changes many posts at once. They have their own capability type (see
+ * Capabilities), so who may create, edit and publish them is decided per role;
+ * by default that is Editors and above.
  */
 final class PostType {
 
@@ -110,38 +110,12 @@ final class PostType {
 			'menu_icon'        => 'dashicons-book-alt',
 			'menu_position'    => 25,
 			'supports'         => array( 'custom-fields', 'revisions' ),
-			'capability_type'  => 'post',
-			'capabilities'     => self::capabilities(),
+			'capability_type'  => Capabilities::TYPE,
 			'map_meta_cap'     => true,
 			'hierarchical'     => false,
 			'rewrite'          => false,
 			'query_var'        => false,
 			'delete_with_user' => false,
-		);
-	}
-
-
-	/**
-	 * Primitive capabilities, all at Editor level.
-	 *
-	 * Reading stays at `read`, so anyone who can edit a post can see what an
-	 * entry says while referencing it.
-	 *
-	 * @return array<string, string>
-	 */
-	private static function capabilities(): array {
-		return array(
-			'edit_posts'             => 'edit_others_posts',
-			'edit_others_posts'      => 'edit_others_posts',
-			'edit_published_posts'   => 'edit_others_posts',
-			'edit_private_posts'     => 'edit_others_posts',
-			'publish_posts'          => 'edit_others_posts',
-			'create_posts'           => 'edit_others_posts',
-			'read_private_posts'     => 'read_private_posts',
-			'delete_posts'           => 'delete_others_posts',
-			'delete_others_posts'    => 'delete_others_posts',
-			'delete_published_posts' => 'delete_others_posts',
-			'delete_private_posts'   => 'delete_others_posts',
 		);
 	}
 

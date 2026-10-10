@@ -9,6 +9,7 @@
 
 namespace CodingBlackFemales\SemanticGlossary;
 
+use CodingBlackFemales\SemanticGlossary\Entry\Capabilities;
 use CodingBlackFemales\SemanticGlossary\Entry\PostType;
 use CodingBlackFemales\SemanticGlossary\Reference\Index;
 use CodingBlackFemales\SemanticGlossary\Reference\PostFields;
@@ -20,8 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Install class.
  *
- * Owns the reference index table. Entries themselves are ordinary posts and
- * need no schema.
+ * Owns the reference index table and the default role capabilities. Entries
+ * themselves are ordinary posts and need no schema.
  */
 final class Install {
 
@@ -31,9 +32,10 @@ final class Install {
 	const DB_VERSION_OPTION = 'cbf_glossary_db_version';
 
 	/**
-	 * Current schema version.
+	 * Current install version. Bumped whenever install() has new work to do on
+	 * existing sites (1.1.0 granted the glossary capabilities).
 	 */
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '1.1.0';
 
 
 	/**
@@ -41,6 +43,7 @@ final class Install {
 	 */
 	public static function install(): void {
 		self::create_tables();
+		Capabilities::grant_defaults();
 		update_option( self::DB_VERSION_OPTION, self::DB_VERSION );
 
 		/**
@@ -80,6 +83,7 @@ final class Install {
 
 		delete_option( self::DB_VERSION_OPTION );
 		delete_option( Settings::OPTION );
+		Capabilities::revoke_all();
 
 		foreach ( array( PostFields::EXTRA_META, PostFields::IGNORED_META ) as $key ) {
 			delete_post_meta_by_key( $key );

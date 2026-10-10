@@ -160,6 +160,14 @@ export default function TermSearch( {
 						<span className="cbf-glossary-search__body">
 							<span className="cbf-glossary-search__name">
 								{ entry.term }
+								{ entry.status !== 'publish' && (
+									<span className="cbf-glossary-tag">
+										{ __(
+											'not published',
+											'cbf-semantic-glossary'
+										) }
+									</span>
+								) }
 								{ otherNames( entry ).length > 0 && (
 									<span className="cbf-glossary-muted">
 										{ ' · ' }

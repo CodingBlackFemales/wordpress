@@ -11,6 +11,7 @@ import { chevronLeft, closeSmall, info, plus } from '@wordpress/icons';
 /**
  * Internal dependencies
  */
+import config from './config';
 import { looksLikeAbbreviation, matchForm } from './matching';
 import { store } from './store';
 
@@ -328,6 +329,18 @@ export default function TermForm( {
 					<div className="cbf-glossary-note">
 						<Icon icon={ info } size={ 16 } />
 						<span>{ note }</span>
+					</div>
+				) }
+
+				{ ! config.canPublish && (
+					<div className="cbf-glossary-note">
+						<Icon icon={ info } size={ 16 } />
+						<span>
+							{ __(
+								'The new term will be saved as a draft for review. Until it is published, it renders as plain text.',
+								'cbf-semantic-glossary'
+							) }
+						</span>
 					</div>
 				) }
 			</div>

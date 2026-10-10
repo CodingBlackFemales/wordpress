@@ -9,7 +9,7 @@ namespace CodingBlackFemales\SemanticGlossary\Editor;
 
 use CodingBlackFemales\SemanticGlossary\Api\Controller;
 use CodingBlackFemales\SemanticGlossary\Assets;
-use CodingBlackFemales\SemanticGlossary\Entry\PostType;
+use CodingBlackFemales\SemanticGlossary\Entry\Capabilities;
 use CodingBlackFemales\SemanticGlossary\Settings;
 
 
@@ -98,11 +98,10 @@ final class EditorAssets {
 	 * @return array<string, mixed>
 	 */
 	private static function config(): array {
-		$type = get_post_type_object( PostType::NAME );
-
 		return array(
 			'namespace'       => Controller::NAMESPACE,
-			'canCreate'       => $type !== null && current_user_can( $type->cap->create_posts ),
+			'canCreate'       => Capabilities::can_create(),
+			'canPublish'      => Capabilities::can_publish(),
 			'autoAppend'      => Settings::auto_append(),
 			'indexMinEntries' => Settings::index_min_entries(),
 		);
