@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.58](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.57...v0.1.58) (2026-10-10)
+
+### Features
+
+* add CBF Semantic Glossary plugin ([7f48176](https://github.com/CodingBlackFemales/wordpress/commit/7f48176696a11582efa31be40451ffc358cf6ea1))
+* add course-wide glossary for LearnDash courses ([2ccb9b5](https://github.com/CodingBlackFemales/wordpress/commit/2ccb9b5b8999ba5e3e3d93f5b317e4c012397131))
+* add glossary hooks for content around the list and back-link targets ([ffbfa1c](https://github.com/CodingBlackFemales/wordpress/commit/ffbfa1c4affd7a372b9cf20ec786e0d2fb7bf56f))
+* add support for Editorial Comments ([6e7e65e](https://github.com/CodingBlackFemales/wordpress/commit/6e7e65e5fd5f593bd59729d8b1c25aecf139f6e3))
+* give glossary terms their own capabilities ([2e6293e](https://github.com/CodingBlackFemales/wordpress/commit/2e6293e9a44f410086a469d643ba7d3098f11aa9))
+* import content in Draft status ([b9bd8e9](https://github.com/CodingBlackFemales/wordpress/commit/b9bd8e926e0263c5540b2a07090631bd7d0b8f9a))
+* improve block editor styling ([5f06998](https://github.com/CodingBlackFemales/wordpress/commit/5f0699855170407a73e3832e09ade4c87528c776))
+
+### Bug Fixes
+
+* serve subsite assets from their own host ([d5174d9](https://github.com/CodingBlackFemales/wordpress/commit/d5174d99826ba4a7a848d78bf451027a55b69f1c))
+* version theme assets by modification time ([f1ce138](https://github.com/CodingBlackFemales/wordpress/commit/f1ce138beb6921762e703b0c1825c4c9415f6959))
+
 ## [0.1.57](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.56...v0.1.57) (2026-10-08)
 
 ## [0.1.56](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.55...v0.1.56) (2026-10-05)
