@@ -50,12 +50,16 @@ jobs:
             git stash -m "Stashed by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ job.check_run_id }}"
             git pull
             composer install --no-dev --optimize-autoloader
-            cd web/app/plugins/cbf-multisite
-            npm ci && npm run build:assets
-            cd ../cbf-semantic-glossary
-            npm ci && npm run build:assets
-            cd ../cbf-semantic-glossary-learndash
-            npm ci && npm run build:assets
+            # Each plugin's node_modules is ~0.5-0.7 GB and only needed to build
+            # assets; keeping all of them exhausts the host's disk quota.
+            for plugin in cbf-multisite cbf-semantic-glossary cbf-semantic-glossary-learndash; do
+              (
+                cd "web/app/plugins/$plugin"
+                npm ci --no-audit --no-fund
+                npm run build:assets
+                rm -rf node_modules
+              )
+            done
 
   check:
     needs: [deploy]
