@@ -58,13 +58,36 @@ final class GlossaryRenderer {
 
 		$context = array_merge( $context, array( 'options' => $options ) );
 
+		/**
+		 * Filters markup placed between the glossary heading and the A–Z index.
+		 *
+		 * Empty by default. Integrations use it for an introduction or controls
+		 * (a course glossary's lesson filter, say).
+		 *
+		 * @param string               $html    Markup to insert.
+		 * @param GlossaryItem[]       $items   Ordered items.
+		 * @param array<string, mixed> $context Render context, including 'options'.
+		 */
+		$before = (string) apply_filters( 'glossary_html_before_index', '', $items, $context );
+
+		/**
+		 * Filters markup placed after the glossary's `<dl>`, inside its section.
+		 *
+		 * @param string               $html    Markup to insert.
+		 * @param GlossaryItem[]       $items   Ordered items.
+		 * @param array<string, mixed> $context Render context, including 'options'.
+		 */
+		$after = (string) apply_filters( 'glossary_html_after_list', '', $items, $context );
+
 		$html = sprintf(
-			'<section class="glossary-section" aria-labelledby="%1$s"><h%2$d id="%1$s" class="glossary-heading">%3$s</h%2$d>%4$s%5$s</section>',
+			'<section class="glossary-section" aria-labelledby="%1$s"><h%2$d id="%1$s" class="glossary-heading">%3$s</h%2$d>%4$s%5$s%6$s%7$s</section>',
 			esc_attr( $options->heading_id ),
 			$options->level,
 			wp_kses( $options->heading, Definition::ALLOWED_HTML ),
+			$before,
 			self::index( $items, $options ),
-			self::list( $items, $options, $context )
+			self::list( $items, $options, $context ),
+			$after
 		);
 
 		/**
@@ -153,7 +176,7 @@ final class GlossaryRenderer {
 	 */
 	private static function entry( GlossaryItem $item, Options $options, bool $is_target, array $context ): string {
 		$entry = $item->entry;
-		$terms = self::primary_term( $entry, self::back_link( $item, $options ) );
+		$terms = self::primary_term( $entry, self::back_link( $item, $options, $context ) );
 
 		if ( $options->show_alternatives ) {
 			foreach ( $entry->alternatives() as $form ) {
@@ -222,17 +245,31 @@ final class GlossaryRenderer {
 	 * Only rendered when the glossary sits in the same post as the reference
 	 * (callers turn the option off otherwise) and the entry is marked inline.
 	 *
-	 * @param GlossaryItem $item    Item.
-	 * @param Options      $options Presentation.
+	 * @param GlossaryItem         $item    Item.
+	 * @param Options              $options Presentation.
+	 * @param array<string, mixed> $context Render context.
 	 */
-	private static function back_link( GlossaryItem $item, Options $options ): string {
+	private static function back_link( GlossaryItem $item, Options $options, array $context ): string {
 		if ( ! $options->back_links || ! $item->has_inline ) {
 			return '';
 		}
 
+		/**
+		 * Filters where an entry's back-link points.
+		 *
+		 * Defaults to the first reference on the same page. A glossary listing
+		 * entries from other posts (a course glossary, say) points it at the
+		 * post where the entry is first referenced.
+		 *
+		 * @param string               $href    Link target.
+		 * @param Entry                $entry   The entry.
+		 * @param array<string, mixed> $context Render context, including 'options' and 'item'.
+		 */
+		$href = (string) apply_filters( 'glossary_back_link_href', '#' . $item->entry->ref_anchor(), $item->entry, array_merge( $context, array( 'item' => $item ) ) );
+
 		return sprintf(
-			'<a href="#%s" class="glossary-backlink" aria-label="%s">%s</a>',
-			esc_attr( $item->entry->ref_anchor() ),
+			'<a href="%s" class="glossary-backlink" aria-label="%s">%s</a>',
+			str_starts_with( $href, '#' ) ? esc_attr( $href ) : esc_url( $href ),
 			/* translators: %s: the glossary term */
 			esc_attr( sprintf( __( 'Back to where %s is used', 'cbf-semantic-glossary' ), $item->entry->display() ) ),
 			self::BACK_LINK
