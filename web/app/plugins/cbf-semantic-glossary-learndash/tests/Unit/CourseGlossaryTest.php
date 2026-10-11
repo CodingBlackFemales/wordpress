@@ -116,6 +116,41 @@ final class CourseGlossaryTest extends Unit {
 		$this->assertStringContainsString( '<p class="course-glossary-filter__status" aria-live="polite">2 lessons selected · 2 terms</p>', $html );
 	}
 
+	public function testIntroDefaultsByWhetherLessonsAreLocked(): void {
+		$open = array( Course::term( 10, 'Commit', 1 ) );
+
+		$this->assertStringContainsString(
+			'<p class="course-glossary-intro">Terms from the lessons you&#039;ve unlocked so far. New terms appear here as you progress.</p>',
+			CourseGlossary::render( $this->terms(), $this->options() )
+		);
+		$this->assertStringContainsString(
+			'<p class="course-glossary-intro">Terms from this course&#039;s lessons.</p>',
+			CourseGlossary::render( new CourseTerms( array( Course::step( 1 ) ), $open, $open ), $this->options() )
+		);
+	}
+
+	public function testEmptyIntroLeavesOutTheIntroduction(): void {
+		foreach ( array( '', ' ', '<script>alert(1)</script>' ) as $intro ) {
+			$html = CourseGlossary::render( $this->terms(), $this->options( array( 'intro' => $intro ) ) );
+
+			$this->assertStringNotContainsString( 'course-glossary-intro', $html );
+		}
+	}
+
+	public function testEmptyHeadingLeavesOutTheHeadingWhenNothingIsOpen(): void {
+		$terms = array( Course::term( 10, 'Commit', 1 ) );
+		$html  = CourseGlossary::render( new CourseTerms( array( Course::step( 1, Step::LOCKED ) ), array(), $terms ), $this->options( array( 'heading' => '' ) ) );
+
+		$this->assertStringStartsWith( '<section class="glossary-section"><p class="course-glossary-locked">', $html );
+	}
+
+	public function testCustomIntroReplacesTheDefaultAndKeepsInlineMarkup(): void {
+		$html = CourseGlossary::render( $this->terms(), $this->options( array( 'intro' => 'Key terms for <em>this cohort</em>.<script>alert(1)</script>' ) ) );
+
+		$this->assertStringContainsString( '<p class="course-glossary-intro">Key terms for <em>this cohort</em>.</p>', $html );
+		$this->assertStringNotContainsString( 'unlocked so far', $html );
+	}
+
 	public function testFilterIsLeftOutWithOnlyOneLessonToPick(): void {
 		$terms = array( Course::term( 10, 'Commit', 1 ) );
 		$html  = CourseGlossary::render( new CourseTerms( array( Course::step( 1 ) ), $terms, $terms ), $this->options() );
@@ -178,6 +213,7 @@ final class CourseGlossaryTest extends Unit {
 				'source' => 'false',
 				'index'  => '0',
 				'level'  => '3',
+				'intro'  => 'Terms for this cohort.',
 			),
 			'h'
 		);
@@ -187,6 +223,10 @@ final class CourseGlossaryTest extends Unit {
 		$this->assertFalse( $options->show_source );
 		$this->assertFalse( $options->glossary->show_index );
 		$this->assertSame( 3, $options->glossary->level );
+		$this->assertSame( 'Terms for this cohort.', $options->intro );
+		$this->assertNull( CourseOptions::from_shortcode( array(), 'h' )->intro );
+		$this->assertSame( '', CourseOptions::from_shortcode( array( 'intro' => '' ), 'h' )->intro );
+		$this->assertNull( CourseOptions::from_block( array(), 'h' )->intro );
 		$this->assertSame( 0, CourseOptions::from_shortcode( array( 'course' => 'current' ), 'h' )->course_id );
 	}
 

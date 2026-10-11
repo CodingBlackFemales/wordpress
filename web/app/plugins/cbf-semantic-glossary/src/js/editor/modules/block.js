@@ -116,6 +116,10 @@ function Edit( { attributes, setAttributes } ) {
 						__next40pxDefaultSize
 						__nextHasNoMarginBottom
 						label={ __( 'Heading text', 'cbf-semantic-glossary' ) }
+						help={ __(
+							'Leave empty for no heading.',
+							'cbf-semantic-glossary'
+						) }
 						value={ heading }
 						onChange={ ( value ) =>
 							setAttributes( { heading: value } )
@@ -252,7 +256,7 @@ function Edit( { attributes, setAttributes } ) {
 						allowedFormats={ [] }
 						withoutInteractiveFormatting
 						placeholder={ __(
-							'Glossary',
+							'No heading',
 							'cbf-semantic-glossary'
 						) }
 						aria-label={ __(

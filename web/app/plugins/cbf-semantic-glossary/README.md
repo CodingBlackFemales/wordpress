@@ -65,7 +65,7 @@ References and the glossary are rendered on `the_content` at priority 20, after 
 - Only the first reference to an entry links; later ones render as plain text. The sidebar and `wp glossary audit` report them; nothing strips them silently.
 - Text matching one of the entry's abbreviations (case-insensitively), or with the override set, renders as `<a href="#dfn-{slug}"><abbr title="{term}">t</abbr></a>`. The `title` is the term on that abbreviation's own row. Anything else renders as `<a href="#dfn-{slug}">t</a>`. The first reference carries `id="ref-{slug}"`.
 - A reference to a deleted or unpublished entry renders as plain text, never as a dead link.
-- The glossary is a `<section aria-labelledby>` holding the heading, the A–Z index and a `<dl class="glossary">`:
+- The glossary is a `<section aria-labelledby>` holding the heading, the A–Z index and a `<dl class="glossary">`. An empty heading (`heading=""`, or clearing it in the block) leaves out both the heading and `aria-labelledby`:
   - It has one `<div>` per entry, and several `<dt>` elements share one `<dd>`.
   - The `<dfn>`, the anchor and the back-link go on the primary `<dt>` only, and the abbreviation leads when there is one.
   - Entries are sorted by displayed term, so "VCS" sorts under V.

@@ -199,11 +199,20 @@ final class CourseGlossary {
 
 
 	/**
-	 * The introduction.
+	 * The introduction: the one set on the block or shortcode, or a default
+	 * that depends on whether lessons are still locked.
+	 *
+	 * An empty introduction is the author asking for none, so nothing is output.
 	 *
 	 * @param View $view The glossary.
 	 */
 	private static function intro( View $view ): string {
+		if ( $view->options->intro !== null ) {
+			$intro = trim( wp_kses( $view->options->intro, Definition::ALLOWED_HTML ) );
+
+			return $intro === '' ? '' : '<p class="course-glossary-intro">' . $intro . '</p>';
+		}
+
 		$text = $view->terms->locked_count() > 0
 			? __( "Terms from the lessons you've unlocked so far. New terms appear here as you progress.", 'cbf-semantic-glossary-learndash' )
 			: __( "Terms from this course's lessons.", 'cbf-semantic-glossary-learndash' );
@@ -319,13 +328,7 @@ final class CourseGlossary {
 	 */
 	private static function section_without_entries( View $view, array $context ): string {
 		$options = $view->options->glossary;
-		$html    = sprintf(
-			'<section class="glossary-section" aria-labelledby="%1$s"><h%2$d id="%1$s" class="glossary-heading">%3$s</h%2$d>%4$s</section>',
-			esc_attr( $options->heading_id ),
-			$options->level,
-			wp_kses( $options->heading, Definition::ALLOWED_HTML ),
-			self::placeholders( $view ) . self::locked_notice( $view )
-		);
+		$html    = GlossaryRenderer::section( $options, self::placeholders( $view ) . self::locked_notice( $view ) );
 
 		/** This filter is documented in cbf-semantic-glossary/includes/Render/GlossaryRenderer.php */
 		return (string) apply_filters( 'glossary_html', $html, array(), array_merge( $context, array( 'options' => $options ) ) );
