@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.60](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.59...v0.1.60) (2026-10-11)
+
+### Features
+
+* disable glossary heading and intro ([0fbcc3f](https://github.com/CodingBlackFemales/wordpress/commit/0fbcc3f41954d2b87db573641c3631b7c921a031))
+
+### Bug Fixes
+
+* resolve course glossary filter styling bug ([a587b17](https://github.com/CodingBlackFemales/wordpress/commit/a587b179baf047376355bda785c96e9e3d1cab0f))
+* resolve shortcode error in classic editor ([0cd1cde](https://github.com/CodingBlackFemales/wordpress/commit/0cd1cdef25b67fe83092c18010e3c5c3cf7d7590))
+
 ## [0.1.59](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.58...v0.1.59) (2026-10-10)
 
 ## [0.1.58](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.57...v0.1.58) (2026-10-10)
