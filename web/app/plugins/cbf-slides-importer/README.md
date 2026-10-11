@@ -298,7 +298,7 @@ Nothing else needs to change. The REST layer, job runner, preview and importer a
 composer install
 composer test      # Codeception suite
 composer test:unit # unit suite only
-composer phpcs     # WordPress coding standards
+composer phpcs     # the repository's phpcs.xml, as CI runs it
 composer phpcbf    # fix what can be fixed automatically
 ```
 

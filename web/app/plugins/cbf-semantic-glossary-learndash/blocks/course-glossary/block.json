@@ -17,6 +17,9 @@
 			"type": "string",
 			"default": "Glossary"
 		},
+		"intro": {
+			"type": "string"
+		},
 		"level": {
 			"type": "number",
 			"enum": [ 2, 3, 4 ],

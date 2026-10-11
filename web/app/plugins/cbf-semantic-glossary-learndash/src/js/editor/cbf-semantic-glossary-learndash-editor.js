@@ -19,6 +19,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 const BLOCK_NAME = 'cbf/course-glossary';
 
 const {
+	Button,
 	Disabled,
 	PanelBody,
 	RangeControl,
@@ -51,6 +52,7 @@ function Edit( { attributes, setAttributes } ) {
 	const {
 		course,
 		heading,
+		intro,
 		level,
 		showFilter,
 		showSource,
@@ -125,11 +127,60 @@ function Edit( { attributes, setAttributes } ) {
 							'Heading text',
 							'cbf-semantic-glossary-learndash'
 						) }
+						help={ __(
+							'Leave empty for no heading.',
+							'cbf-semantic-glossary-learndash'
+						) }
 						value={ heading }
 						onChange={ ( value ) =>
 							setAttributes( { heading: value } )
 						}
 					/>
+					<TextControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __(
+							'Introduction text',
+							'cbf-semantic-glossary-learndash'
+						) }
+						help={
+							intro === undefined
+								? __(
+										'Showing the default, which changes while lessons are still locked.',
+										'cbf-semantic-glossary-learndash'
+									)
+								: __(
+										'Leave empty for no introduction.',
+										'cbf-semantic-glossary-learndash'
+									)
+						}
+						placeholder={
+							intro === undefined
+								? __(
+										"Terms from this course's lessons.",
+										'cbf-semantic-glossary-learndash'
+									)
+								: undefined
+						}
+						value={ intro ?? '' }
+						onChange={ ( value ) =>
+							setAttributes( { intro: value } )
+						}
+					/>
+					{ intro !== undefined && (
+						<Button
+							__next40pxDefaultSize
+							variant="link"
+							onClick={ () =>
+								setAttributes( { intro: undefined } )
+							}
+						>
+							{ __(
+								'Use the default introduction',
+								'cbf-semantic-glossary-learndash'
+							) }
+						</Button>
+					) }
 					<ToggleGroupControl
 						__next40pxDefaultSize
 						__nextHasNoMarginBottom
@@ -263,6 +314,7 @@ function Edit( { attributes, setAttributes } ) {
 						attributes={ {
 							course,
 							heading,
+							intro,
 							level,
 							showFilter,
 							showSource,

@@ -29,13 +29,15 @@ final class CourseOptions {
 	 * @param bool    $show_filter    Whether to show the lesson filter.
 	 * @param bool    $show_source    Whether to show each entry's "Introduced in" line.
 	 * @param bool    $preview_locked Whether the editor preview shows locked lessons as placeholders.
+	 * @param ?string $intro          Introduction text, which may hold inline markup; null for the default, empty for none.
 	 */
 	public function __construct(
 		public readonly Options $glossary,
 		public readonly int $course_id = 0,
 		public readonly bool $show_filter = true,
 		public readonly bool $show_source = true,
-		public readonly bool $preview_locked = true
+		public readonly bool $preview_locked = true,
+		public readonly ?string $intro = null
 	) {}
 
 
@@ -52,6 +54,7 @@ final class CourseOptions {
 				'showFilter'    => true,
 				'showSource'    => true,
 				'previewLocked' => true,
+				'intro'         => null,
 			),
 			$attributes
 		);
@@ -61,7 +64,8 @@ final class CourseOptions {
 			max( 0, (int) $attributes['course'] ),
 			(bool) $attributes['showFilter'],
 			(bool) $attributes['showSource'],
-			(bool) $attributes['previewLocked']
+			(bool) $attributes['previewLocked'],
+			self::text( $attributes['intro'] )
 		);
 	}
 
@@ -71,7 +75,7 @@ final class CourseOptions {
 	 *
 	 * Takes core's `[glossary]` attributes (heading, level, alternatives,
 	 * backlinks, index, index_min), plus `course` ("current" or a course ID),
-	 * `filter` and `source` (yes/no, true/false or 1/0).
+	 * `intro`, `filter` and `source` (yes/no, true/false or 1/0).
 	 *
 	 * @param array<string, string>|string $atts       Shortcode attributes.
 	 * @param string                       $heading_id Heading ID.
@@ -82,6 +86,7 @@ final class CourseOptions {
 				'course' => 'current',
 				'filter' => true,
 				'source' => true,
+				'intro'  => null,
 			),
 			is_array( $atts ) ? $atts : array()
 		);
@@ -90,7 +95,9 @@ final class CourseOptions {
 			Options::from_shortcode( $atts, $heading_id ),
 			is_numeric( $atts['course'] ) ? max( 0, (int) $atts['course'] ) : 0,
 			self::flag( $atts['filter'] ),
-			self::flag( $atts['source'] )
+			self::flag( $atts['source'] ),
+			true,
+			self::text( $atts['intro'] )
 		);
 	}
 
@@ -101,7 +108,17 @@ final class CourseOptions {
 	 * @param string $heading_id Heading ID.
 	 */
 	public function with_heading_id( string $heading_id ): self {
-		return new self( $this->glossary->with_heading_id( $heading_id ), $this->course_id, $this->show_filter, $this->show_source, $this->preview_locked );
+		return new self( $this->glossary->with_heading_id( $heading_id ), $this->course_id, $this->show_filter, $this->show_source, $this->preview_locked, $this->intro );
+	}
+
+
+	/**
+	 * Optional text: null when unset, so an empty string can mean "none".
+	 *
+	 * @param mixed $value Attribute value.
+	 */
+	private static function text( $value ): ?string {
+		return $value === null ? null : (string) $value;
 	}
 
 

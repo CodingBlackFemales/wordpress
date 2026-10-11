@@ -10,8 +10,10 @@
 
 use CodingBlackFemales\SemanticGlossary\Reference\Usage;
 
+// Return rather than exit: Composer loads this file for every tool that uses
+// the plugin's autoloader, and exiting would end those runs silently.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	return;
 }
 
 if ( ! function_exists( 'glossary_get_terms_for_posts' ) ) {

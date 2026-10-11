@@ -32,6 +32,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *       </dl>
  *     </section>
  *
+ * An empty heading leaves out the `<h2>` and the section's `aria-labelledby`.
+ *
  * One `<div>` per entry; several `<dt>` share one `<dd>`. Only the primary
  * `<dt>` carries the `<dfn>`, the anchor and the back-link. "Also:" and the separators between
  * alternatives come from the stylesheet, not the markup.
@@ -79,16 +81,7 @@ final class GlossaryRenderer {
 		 */
 		$after = (string) apply_filters( 'glossary_html_after_list', '', $items, $context );
 
-		$html = sprintf(
-			'<section class="glossary-section" aria-labelledby="%1$s"><h%2$d id="%1$s" class="glossary-heading">%3$s</h%2$d>%4$s%5$s%6$s%7$s</section>',
-			esc_attr( $options->heading_id ),
-			$options->level,
-			wp_kses( $options->heading, Definition::ALLOWED_HTML ),
-			$before,
-			self::index( $items, $options ),
-			self::list( $items, $options, $context ),
-			$after
-		);
+		$html = self::section( $options, $before . self::index( $items, $options ) . self::list( $items, $options, $context ) . $after );
 
 		/**
 		 * Filters the complete glossary markup.
@@ -98,6 +91,32 @@ final class GlossaryRenderer {
 		 * @param array<string, mixed> $context Render context, including 'options'.
 		 */
 		return apply_filters( 'glossary_html', $html, $items, $context );
+	}
+
+
+	/**
+	 * The glossary's `<section>`, headed unless the heading is empty.
+	 *
+	 * An empty heading is the author asking for none, so neither the heading
+	 * nor the `aria-labelledby` pointing at it is output.
+	 *
+	 * @param Options $options Presentation.
+	 * @param string  $inner   Markup inside the section, after the heading.
+	 */
+	public static function section( Options $options, string $inner ): string {
+		$heading = trim( wp_kses( $options->heading, Definition::ALLOWED_HTML ) );
+
+		if ( $heading === '' ) {
+			return '<section class="glossary-section">' . $inner . '</section>';
+		}
+
+		return sprintf(
+			'<section class="glossary-section" aria-labelledby="%1$s"><h%2$d id="%1$s" class="glossary-heading">%3$s</h%2$d>%4$s</section>',
+			esc_attr( $options->heading_id ),
+			$options->level,
+			$heading,
+			$inner
+		);
 	}
 
 

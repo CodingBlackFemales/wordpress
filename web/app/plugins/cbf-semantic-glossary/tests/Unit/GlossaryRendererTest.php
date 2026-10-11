@@ -54,6 +54,15 @@ final class GlossaryRendererTest extends Unit {
 		);
 	}
 
+	public function testEmptyHeadingLeavesOutTheHeadingAndItsLabel(): void {
+		foreach ( array( '', '  ', '<script>alert(1)</script>' ) as $heading ) {
+			$this->assertStringStartsWith(
+				'<section class="glossary-section"><dl class="glossary">',
+				$this->render( array( Entries::branch() ), new Options( $heading, 2, true, true, true, 'gh' ) )
+			);
+		}
+	}
+
 	public function testTermWithoutAbbreviationHasNoExpansion(): void {
 		$items = GlossaryBuilder::items( array( Entries::branch() ), array() );
 
