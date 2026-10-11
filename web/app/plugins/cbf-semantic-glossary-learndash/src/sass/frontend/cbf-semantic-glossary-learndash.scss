@@ -106,8 +106,11 @@
 	line-height: 1.5;
 }
 
-// At least 24px square, per WCAG 2.2 target size.
-.course-glossary-filter__remove {
+// At least 24px square, per WCAG 2.2 target size. Qualified to outrank
+// BuddyBoss's `.buddypress .buddypress-wrap button` and its `:hover` and
+// `:focus` states (0,2,1 and 0,3,1), which restyle every button on group and
+// profile pages as a primary button; each state resets what the theme sets.
+.course-glossary-filter .course-glossary-filter__chip button.course-glossary-filter__remove {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -118,13 +121,21 @@
 	border: 0;
 	border-radius: 4px;
 	background: none;
+	box-shadow: none;
 	color: inherit;
 	font-size: 1rem;
 	line-height: 1;
 	cursor: pointer;
 
+	&:focus {
+		background: none;
+		box-shadow: none;
+		color: inherit;
+	}
+
 	&:hover {
 		background: rgba(0, 0, 0, 0.08);
+		color: inherit;
 	}
 
 	&:focus-visible {
