@@ -1,0 +1,266 @@
+<?php
+/**
+ * WP-CLI integration
+ *
+ * @package     CodingBlackFemales/Multisite/Customizations
+ * @version     1.0.0
+ */
+
+namespace CodingBlackFemales\Multisite\Customizations;
+
+use WP_CLI;
+use WP_Post;
+
+if ( ! defined( 'ABSPATH' ) || ! defined( 'WP_CLI' ) ) {
+	exit;
+}
+
+/**
+ * Manages the synced patterns that a theme ships as source files.
+ *
+ * Theme patterns in a theme's patterns/ folder register themselves, but they
+ * are never synced: inserting one copies its blocks. A synced pattern is a
+ * wp_block post, so it lives in the database. Themes keep the source of their
+ * synced patterns in synced-patterns/*.html, and this command creates or
+ * updates the posts from those files.
+ *
+ * Each file starts with a comment header:
+ *
+ *     <!--
+ *     Title: Learning checkpoint
+ *     Slug: cbf-academy/learning-checkpoint
+ *     Replaces: Learning Checkpoint
+ *     -->
+ *
+ * `Slug` identifies the pattern from then on. `Replaces` (optional) adopts an
+ * existing synced pattern with that title the first time, so every lesson that
+ * already references it picks up the new content.
+ *
+ * ## EXAMPLES
+ *
+ *     # Preview the changes on the academy site
+ *     $ wp cbf patterns sync --dry-run --url=https://academy.codingblackfemales.com
+ *
+ *     # Create or update the academy's synced patterns
+ *     $ wp cbf patterns sync --url=https://academy.codingblackfemales.com
+ */
+class Patterns_Command extends \WP_CLI_Command {
+
+	/**
+	 * Post meta holding a synced pattern's slug.
+	 */
+	const SLUG_META = '_cbf_pattern_slug';
+
+	/**
+	 * Folder in the active theme holding synced pattern sources.
+	 */
+	const SOURCE_DIR = 'synced-patterns';
+
+	/**
+	 * Post meta left behind by Otter Blocks' custom CSS, which the new content
+	 * no longer uses.
+	 */
+	const STALE_META = array( '_themeisle_gutenberg_block_styles', '_themeisle_gutenberg_block_stylesheet' );
+
+	/**
+	 * Creates or updates the synced patterns defined by the active theme.
+	 *
+	 * Patterns go into the pattern category named after the theme's prefix
+	 * (cbf-academy/… goes into "cbf-academy"), so they appear beside the
+	 * theme's own patterns in the inserter.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--dry-run]
+	 * : Report what would change without saving anything.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     $ wp cbf patterns sync --url=https://academy.codingblackfemales.com
+	 *     Updated: Learning checkpoint (5916)
+	 *     Created: Break (7426)
+	 *     Success: 1 created, 1 updated, 0 unchanged.
+	 *
+	 * @param string[]             $args       Positional arguments.
+	 * @param array<string, mixed> $assoc_args Associative arguments.
+	 */
+	public function sync( $args, $assoc_args ) {
+		$dry_run = ! empty( $assoc_args['dry-run'] );
+		$files   = glob( get_stylesheet_directory() . '/' . self::SOURCE_DIR . '/*.html' );
+
+		if ( empty( $files ) ) {
+			WP_CLI::error( sprintf( 'The active theme has no %s/*.html files.', self::SOURCE_DIR ) );
+		}
+
+		$counts = array(
+			'created'   => 0,
+			'updated'   => 0,
+			'unchanged' => 0,
+		);
+
+		foreach ( $files as $file ) {
+			$pattern = self::read( $file );
+			$post    = self::find( $pattern );
+			$result  = self::save( $pattern, $post, $dry_run );
+
+			++$counts[ $result ];
+			WP_CLI::log( sprintf( '%s%s: %s%s', $dry_run ? 'Would be ' : '', ucfirst( $result ), $pattern['title'], $post ? " ({$post->ID})" : '' ) );
+		}
+
+		WP_CLI::success( sprintf( '%s%d created, %d updated, %d unchanged.', $dry_run ? 'Dry run: ' : '', $counts['created'], $counts['updated'], $counts['unchanged'] ) );
+	}
+
+	/**
+	 * Reads a synced pattern source file.
+	 *
+	 * @param string $file Path to the file.
+	 * @return array{title: string, slug: string, replaces: string, content: string}
+	 */
+	private static function read( $file ) {
+		$raw = (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- A local theme file.
+
+		if ( ! preg_match( '/^\s*<!--(.*?)-->/s', $raw, $header ) ) {
+			WP_CLI::error( sprintf( '%s has no header comment.', basename( $file ) ) );
+		}
+
+		$fields = array();
+		foreach ( preg_split( '/\R/', trim( $header[1] ) ) as $line ) {
+			if ( preg_match( '/^\s*([A-Za-z ]+):\s*(.+?)\s*$/', $line, $match ) ) {
+				$fields[ strtolower( $match[1] ) ] = $match[2];
+			}
+		}
+
+		if ( empty( $fields['title'] ) || empty( $fields['slug'] ) ) {
+			WP_CLI::error( sprintf( '%s needs a Title and a Slug in its header.', basename( $file ) ) );
+		}
+
+		return array(
+			'title'    => $fields['title'],
+			'slug'     => $fields['slug'],
+			'replaces' => $fields['replaces'] ?? '',
+			'content'  => trim( substr( $raw, strlen( $header[0] ) ) ),
+		);
+	}
+
+	/**
+	 * The existing post for a pattern: by slug, else the pattern it replaces.
+	 *
+	 * @param array{title: string, slug: string, replaces: string, content: string} $pattern Pattern.
+	 */
+	private static function find( $pattern ) {
+		$query = array(
+			'post_type'   => 'wp_block',
+			'post_status' => 'any',
+			'numberposts' => 1,
+		);
+
+		$by_slug = array(
+			'meta_key'   => self::SLUG_META, // phpcs:ignore WordPress.DB.SlowDBQuery -- A handful of wp_block posts.
+			'meta_value' => $pattern['slug'], // phpcs:ignore WordPress.DB.SlowDBQuery
+		);
+
+		$posts = get_posts( array_merge( $query, $by_slug ) );
+
+		if ( ! $posts && $pattern['replaces'] !== '' ) {
+			$posts = get_posts( array_merge( $query, array( 'title' => $pattern['replaces'] ) ) );
+		}
+
+		return $posts ? $posts[0] : null;
+	}
+
+	/**
+	 * Creates or updates a pattern's post.
+	 *
+	 * @param array{title: string, slug: string, replaces: string, content: string} $pattern Pattern.
+	 * @param WP_Post|null                                                           $post    Existing post, if any.
+	 * @param bool                                                                   $dry_run Whether to only report.
+	 * @return string created, updated or unchanged.
+	 */
+	private static function save( $pattern, $post, $dry_run ) {
+		$result = self::status( $pattern, $post );
+
+		if ( $dry_run || $result === 'unchanged' ) {
+			return $result;
+		}
+
+		$id = wp_insert_post(
+			wp_slash(
+				array(
+					'ID'           => $post ? $post->ID : 0,
+					'post_type'    => 'wp_block',
+					'post_status'  => 'publish',
+					'post_title'   => $pattern['title'],
+					'post_content' => $pattern['content'],
+				)
+			),
+			true
+		);
+
+		if ( is_wp_error( $id ) ) {
+			WP_CLI::error( $id );
+		}
+
+		update_post_meta( $id, self::SLUG_META, $pattern['slug'] );
+		delete_post_meta( $id, 'wp_pattern_sync_status' );
+
+		foreach ( self::STALE_META as $key ) {
+			delete_post_meta( $id, $key );
+		}
+
+		self::categorise( $id, $pattern['slug'] );
+
+		return $result;
+	}
+
+	/**
+	 * What saving a pattern would do.
+	 *
+	 * @param array{title: string, slug: string, replaces: string, content: string} $pattern Pattern.
+	 * @param WP_Post|null                                                           $post    Existing post, if any.
+	 * @return string created, updated or unchanged.
+	 */
+	private static function status( $pattern, $post ) {
+		if ( ! $post ) {
+			return 'created';
+		}
+
+		$same = $post->post_title === $pattern['title']
+			&& trim( $post->post_content ) === $pattern['content']
+			&& get_post_meta( $post->ID, self::SLUG_META, true ) === $pattern['slug'];
+
+		return $same ? 'unchanged' : 'updated';
+	}
+
+	/**
+	 * Files a pattern under the category named by its slug's prefix.
+	 *
+	 * @param int    $id   Post ID.
+	 * @param string $slug Pattern slug, such as cbf-academy/learning-checkpoint.
+	 */
+	private static function categorise( $id, $slug ) {
+		$category = strtok( $slug, '/' );
+		$term     = get_term_by( 'slug', $category, 'wp_pattern_category' );
+
+		if ( ! $term ) {
+			$registered = \WP_Block_Pattern_Categories_Registry::get_instance()->get_registered( $category );
+			$created    = wp_insert_term( $registered['label'] ?? $category, 'wp_pattern_category', array( 'slug' => $category ) );
+
+			if ( is_wp_error( $created ) ) {
+				WP_CLI::error( $created );
+			}
+
+			$term_id = $created['term_id'];
+		} else {
+			$term_id = $term->term_id;
+		}
+
+		wp_set_object_terms( $id, array( (int) $term_id ), 'wp_pattern_category' );
+	}
+
+	/**
+	 * Registers the command.
+	 */
+	public static function hooks() {
+		WP_CLI::add_command( 'cbf patterns', self::class );
+	}
+}

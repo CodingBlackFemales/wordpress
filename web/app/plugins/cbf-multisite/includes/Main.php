@@ -90,6 +90,7 @@ final class Main {
 
 		if ( Utils::is_request( 'cli' ) ) {
 			Quiz_Results_Command::hooks();
+			Customizations\Patterns_Command::hooks();
 		}
 
 		// Common includes.
