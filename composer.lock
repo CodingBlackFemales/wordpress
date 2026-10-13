@@ -6439,15 +6439,15 @@
         },
         {
             "name": "wp-plugin/facebook-for-woocommerce",
-            "version": "3.7.6",
+            "version": "3.7.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.7.6"
+                "reference": "tags/3.7.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.7.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.7.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6466,7 +6466,7 @@
                 "issues": "https://wordpress.org/support/plugin/facebook-for-woocommerce",
                 "source": "https://plugins.svn.wordpress.org/facebook-for-woocommerce"
             },
-            "time": "2026-10-08T05:43:14+00:00"
+            "time": "2026-10-12T09:01:22+00:00"
         },
         {
             "name": "wp-plugin/header-footer-code-manager",
