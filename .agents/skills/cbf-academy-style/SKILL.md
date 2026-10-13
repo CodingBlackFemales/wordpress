@@ -76,7 +76,7 @@ These are the rules most often broken by default writing habits. Apply all of th
 **Terms and emphasis**
 
 - Define every new term in the sentence where it first appears. The prose definition always stays; the glossary backs it up.
-- Mark the first mention of each key term in the lesson or topic as a glossary term (see Glossary terms below). Later mentions get no markup.
+- Mark the first mention of each key term the lesson or topic teaches as a glossary term (see Glossary terms below). Later mentions, and terms taught in other lessons, get no markup.
 - A term that matters only in one place and doesn't merit a glossary entry gets `<em>` where it is defined.
 - Reserve `<strong>` for genuine emphasis and lead-in labels ("Done when", callout labels, UI element names in procedures).
 - Once a term has been explained, use it plainly. Do not add "as introduced earlier" or "from the previous topic" pointers to later mentions.
@@ -154,7 +154,7 @@ When other content repeats across lessons, it may need a new pattern. Do not cre
 The academy has one shared glossary (style guide section 16, "Glossary"). Marking a term links its first mention to the definition, lists it in the lesson's glossary, and adds it to the course glossary.
 
 - Mark subject terms the learner must remember and will meet again, and abbreviations. Not everyday words, terms the course level assumes, or product names (unless the lesson explains the product).
-- Mark the first mention in each lesson or topic, even if another lesson already marks it. Plurals and other forms can reference the base entry. For an abbreviation, mark the expanded form: "common table expression (CTE)".
+- Mark a term only in a lesson that teaches it, at its first mention. A term the lesson only uses, because another lesson teaches it, stays plain: "commit" is marked in the lesson that introduces Git, not in every later lesson that mentions commits. If the lesson depends on such terms, state them generically under Prerequisites. Plurals and other forms can reference the base entry. For an abbreviation, mark the expanded form: "common table expression (CTE)".
 - Use existing entries only. Find the ID on the environment you are editing:
 
   ```bash

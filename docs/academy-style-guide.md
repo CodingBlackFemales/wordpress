@@ -783,7 +783,7 @@ Use these forms consistently. Add to the list as you go; a new entry needs an ed
 
 ### Glossary
 
-The word list above settles how terms are spelled. The glossary settles what they mean. The academy keeps one shared glossary: each entry has a term, an optional abbreviation, any alternative names and a definition, and every lesson that uses the term references the same entry. Marking a term in a lesson does three things: its first mention links to the definition, the lesson's glossary lists it, and the course glossary shows it once the learner reaches that lesson, labelled with the lesson that introduced it.
+The word list above settles how terms are spelled. The glossary settles what they mean. The academy keeps one shared glossary: each entry has a term, an optional abbreviation, any alternative names and a definition, and every lesson that teaches the term references the same entry. Marking a term in a lesson does three things: its first mention links to the definition, the lesson's glossary lists it, and the course glossary shows it once the learner reaches that lesson, labelled with the lesson that introduced it.
 
 **What gets an entry.** A term the learner needs to remember and will meet again: concepts ("commit", "common table expression"), named techniques and abbreviations. Everyday words don't get one, and neither do terms the course level already assumes (section 5). Product names belong in the word list instead, unless the lesson explains what the product is.
 
@@ -792,7 +792,8 @@ The word list above settles how terms are spelled. The glossary settles what the
 - Define every new term in the prose, in the sentence where it first appears (section 6). The glossary backs that definition up; it never replaces it, and a learner should never have to open it to follow the lesson.
 - In the editor, select the term and choose **Glossary term** in the toolbar (<kbd>⌘</kbd><kbd>⇧</kbd><kbd>G</kbd>). The popover searches every entry's terms and abbreviations for the selected text. Pick the matching entry, or choose **Create new term** only when there is none.
 - Mark only the first mention in each lesson or topic. Later mentions stay plain. The **Glossary** sidebar lists any duplicates under **Needs attention**, where **Unmark later mentions** fixes them.
-- Mark the first mention in every lesson that uses the term, not only the first lesson in a course. Lessons are reused across courses in different orders, so each lesson's glossary must stand on its own.
+- Mark a term only in the lessons that teach it, where it belongs to the lesson's subject. A lesson that only uses a term taught elsewhere leaves it plain: "commit" and "repository" are marked in the lesson that introduces Git, not in every later lesson that mentions them. Marking them again would repeat definitions the learner already has and pad every lesson's glossary.
+- Treat the terms a lesson uses but doesn't teach as assumed knowledge. If the lesson depends on them, say so generically under **Prerequisites** (section 7), such as "basic Git: commits and branches". In the **Glossary** sidebar, choose **Ignore in this post** for each one so it stops being flagged as unmarked.
 - Mark the term as it appears in the sentence. Plurals and other forms are fine: "branches" can reference the "Branch" entry. Add a genuine synonym ("repo" for "repository") to the existing entry as an alternative term rather than creating a second entry.
 - For an abbreviation, follow section 5: write "common table expression (CTE)" and mark the full term. Mark the abbreviation on its own only where the course level lets you use it unexpanded.
 - When the word appears in a different sense ("a branch of the business"), leave it unmarked and choose **Ignore in this post** in the sidebar, so it stops being suggested.
@@ -810,7 +811,7 @@ The word list above settles how terms are spelled. The glossary settles what the
 **The glossaries learners see.**
 
 - **Lesson glossary:** every lesson and topic that marks a term gets a glossary at the end, after the summary and further reading. It is added automatically; add a **Glossary** block only to place it somewhere else.
-- **Course glossary:** the **Course Glossary** block lists the terms from every lesson the learner has unlocked, alphabetically, each linked to the lesson that introduced it. That is the first lesson, in course order, that marks the term. If an earlier lesson uses the term without marking it, the course audit (`wp glossary course audit`) reports it as `introduced-late`. Mark the term in that earlier lesson.
+- **Course glossary:** the **Course Glossary** block lists the terms from every lesson the learner has unlocked, alphabetically, each linked to the lesson that introduced it. That is the first lesson, in course order, that marks the term. If an earlier lesson uses the term without marking it, the course audit (`wp glossary course audit`) reports it as `introduced-late`: the course uses the term before it teaches it. Fix it as you would any concept used before it is taught (section 7): reorder the lessons, explain the term where it is first used and mark it there, or rewrite that passage without it.
 
 ## 17. Working with AI agents
 
@@ -826,7 +827,7 @@ Agents draft and edit material under a human editor. They follow this guide like
 6. Output WordPress block markup matching the appendix, not Markdown, unless asked otherwise.
 7. Finish with a short list of what you changed, what you removed, what you flagged and any glossary entries you propose. The editor should not have to diff the whole document to find out.
 8. Never mark a draft as reviewed. Review is a human step.
-9. Mark glossary terms with the markup in the appendix, using the IDs of existing entries. Don't create entries: where a key term has none, mark its first mention with `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` and list it in your report.
+9. Mark the glossary terms a lesson teaches with the markup in the appendix, using the IDs of existing entries. Leave terms it only uses plain. Don't create entries: where a key term has none, mark its first mention with `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` and list it in your report.
 
 **For humans directing agents**
 
@@ -861,7 +862,7 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] No "simply", "just", "easy", "obviously". No filler.
 - [ ] Sentences mostly under 25 words. One idea per paragraph.
 - [ ] Terms defined on first use. Abbreviations expanded on first use.
-- [ ] Key terms marked as glossary terms at their first mention in this lesson. The Glossary sidebar shows nothing under Needs attention, and no referenced entry is still a draft.
+- [ ] Key terms this lesson teaches are marked as glossary terms at their first mention. Terms it only uses are left plain and ignored in the Glossary sidebar, which shows nothing under Needs attention. No referenced entry is still a draft.
 - [ ] Word list applied. Product names spelled as their owners spell them.
 - [ ] Inclusive language. No gendered assumptions, no legacy technical terms without explanation.
 

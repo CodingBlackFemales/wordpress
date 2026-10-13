@@ -35,7 +35,7 @@ Work through the draft in this order. Doing everything at once produces inconsis
 
 - Turn bullet fragments into sentences and paragraphs. Use the speaker notes, where you have them, and the reference material for the reasoning.
 - Add the connective sentences between ideas.
-- Define each term on first use and check the definition matches the course's level. Mark the first mention of each key term as a [glossary term](academy-style-guide.md#glossary), reusing existing entries.
+- Define each term on first use and check the definition matches the course's level. Mark the first mention of each key term the lesson teaches as a [glossary term](academy-style-guide.md#glossary), reusing existing entries. Leave terms taught in other lessons plain.
 - Check that each H2 introduces one concept.
 - Apply [voice and tone](academy-style-guide.md#4-voice-and-tone) and [spelling](academy-style-guide.md#5-language-and-spelling).
 

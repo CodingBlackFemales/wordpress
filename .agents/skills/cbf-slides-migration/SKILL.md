@@ -82,7 +82,7 @@ Progress:
 
 - Turn bullet fragments into sentences and paragraphs. Supply the reasoning the presenter would have given, using the reviewer comments and notes in the user's references where they help. Presenter cues left in the slides, such as "ask for examples", become a **Reflect** or **Try it** callout, or are dropped.
 - Add the connecting sentences between ideas. The learner has no presenter to bridge them.
-- Define each term on first use, at the course's level, in the sentence where it appears. Mark the first mention of each key term as a glossary term (style guide section 16, "Glossary"), using existing entries only. Where a key term has no entry, add `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->`. A term that doesn't merit an entry gets `<em>` where it is defined.
+- Define each term on first use, at the course's level, in the sentence where it appears. Mark the first mention of each key term the lesson teaches as a glossary term (style guide section 16, "Glossary"), using existing entries only. Terms taught in other lessons stay plain. Where a key term has no entry, add `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->`. A term that doesn't merit an entry gets `<em>` where it is defined.
 - Check each H2 teaches one concept as Describe, Demonstrate, Do.
 - Apply the style guide's voice, tone and spelling rules.
 
@@ -111,7 +111,7 @@ Progress:
 - Apply the word list. Search for the known offenders: "LookerML", "Javascript", "DBT", "VSCode", "master", "trainee".
 - Check callout labels, heading case and list punctuation.
 - Check patterns: OS-specific steps in OS tabs, synced patterns (checkpoint, Q&A, break) as references, no placeholder text left.
-- Check glossary terms: each key term marked once, at its first mention.
+- Check glossary terms: each key term the lesson teaches marked once, at its first mention; terms it only uses left plain.
 - Run the linter from `cbf-academy-style` and fix every error:
 
 ```bash
