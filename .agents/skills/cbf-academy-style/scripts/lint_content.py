@@ -543,6 +543,21 @@ def check_glossary(text, out):
             seen[id_m.group(1)] = line
 
 
+def check_columns(text, out):
+    """Section 9: a column holding text is never narrower than half the content width."""
+    for m in re.finditer(r"<!--\s*wp:columns\b.*?<!--\s*/wp:columns\s*-->", text, flags=re.S):
+        cols = list(re.finditer(r"<!--\s*wp:column(?:\s+(\{.*?\}))?\s*-->(.*?)<!--\s*/wp:column\s*-->", m.group(0), flags=re.S))
+        for c in cols:
+            if not re.search(r"<!--\s*wp:(?:paragraph|list|heading)\b", c.group(2)):
+                continue
+            width_m = re.search(r'"width":"([\d.]+)%"', c.group(1) or "")
+            width = float(width_m.group(1)) if width_m else 100.0 / len(cols)
+            if width < 50:
+                out.append(Finding(line_of(text, m.start() + c.start()), WARNING, "column-width",
+                                   f"Text column at {width:.0f}% of the width. Text columns are never narrower "
+                                   "than half; use a 50/50 or wider split, or a table", strip_tags(c.group(2))[:40]))
+
+
 def check_links(text, out):
     for m in re.finditer(r"<a\b[^>]*>(.*?)</a>", text, flags=re.S | re.I):
         label = strip_tags(m.group(1)).lower().strip(" .")
@@ -631,6 +646,7 @@ def lint(text, content_type=None):
     check_patterns(text, out)
     check_placeholders(prose, out)
     check_glossary(text, out)
+    check_columns(text, out)
     check_objectives(text, out)
     if content_type == "lesson":
         check_lesson(text, out)

@@ -71,6 +71,7 @@ Read sections 2 to 6 before writing anything. Use sections 7 to 16 as a referenc
 		- [Lists](#lists)
 		- [Procedures](#procedures)
 		- [Tables](#tables)
+		- [Columns](#columns)
 	- [10. Code](#10-code)
 		- [Code blocks](#code-blocks)
 		- [Commands and output](#commands-and-output)
@@ -471,6 +472,15 @@ Prose:
 - Keep cells short. If a cell needs more than two sentences, the content belongs in prose.
 - Introduce the table with a sentence saying what it compares.
 - Do not use tables for layout.
+
+### Columns
+
+Columns put content side by side, such as an image beside the paragraph that explains it, or two short code blocks to compare. They stack on phones, so use them only where the side-by-side view helps on a wider screen.
+
+- A column that holds text, such as paragraphs, lists or headings, is never narrower than half the content width. Narrow text columns break prose into short, ragged lines that are slow to read.
+- Two columns at 50/50 are the most a text column can share. An uneven split, such as 60/40, puts the text in the wider column and the image or code in the narrower one.
+- Never place three or more text columns side by side. Compare several things in a table instead.
+- Leave **Stack on mobile** on.
 
 ## 10. Code
 
@@ -878,6 +888,7 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 **Media**
 
 - [ ] Every content image has alt text describing what matters.
+- [ ] No text column narrower than half the content width.
 - [ ] Content images that are not linked have Enlarge on click turned on.
 - [ ] Decorative images, logos and template furniture removed.
 - [ ] Screenshots cropped, sharp, free of personal data.

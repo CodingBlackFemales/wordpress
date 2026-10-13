@@ -72,6 +72,7 @@ These are the rules most often broken by default writing habits. Apply all of th
 - Headings describe the content ("Configure the connection", not "Configuration"). Avoid question headings, except one motivating "Why does X matter?" per lesson.
 - Write in sentences and paragraphs. A bullet without a verb is a fragment: give it a verb or fold it into prose. Introduce every list and table with a sentence.
 - One concept per H2, delivered as Describe, Demonstrate, Do.
+- In a Columns block, a column holding text is never narrower than half the content width: 50/50 at most, with the text in the wider column of an uneven split. Never three text columns; use a table.
 
 **Terms and emphasis**
 
@@ -181,7 +182,7 @@ Run the linter on every file you change, from the repository root:
 python3 .agents/skills/cbf-academy-style/scripts/lint_content.py <file> [<file> ...]
 ```
 
-It checks spelling, dashes, quotes, banned words, word-list offenders, headings, code block languages, prompts, alt text, callout labels and types, pasted copies of synced patterns, leftover `[placeholder]` text, and glossary references (missing IDs and duplicates). It exits 1 when it finds errors. Fix every error. Treat warnings as prompts for judgement: some are false positives (for example "just" meaning "only", or American spelling inside a product name). Re-run until no errors remain.
+It checks spelling, dashes, quotes, banned words, word-list offenders, headings, code block languages, prompts, alt text, callout labels and types, narrow text columns, pasted copies of synced patterns, leftover `[placeholder]` text, and glossary references (missing IDs and duplicates). It exits 1 when it finds errors. Fix every error. Treat warnings as prompts for judgement: some are false positives (for example "just" meaning "only", or American spelling inside a product name). Re-run until no errors remain.
 
 The linter cannot judge teaching quality. After it passes, read section 18 of the style guide and work through the checklist yourself, especially the Teaching block: nothing used before it is taught, Describe, Demonstrate, Do for each concept, and the level matches the course.
 
