@@ -2,7 +2,7 @@
 title: CBF Academy content style guide
 version: 0.1
 status: draft for team review
-updated: 2026-09-22
+updated: 2026-10-13
 open_decisions:
   - section: "[4. Voice and tone](#4-voice-and-tone)"
     question: Confirm the "professional and warm" register.
@@ -16,9 +16,6 @@ open_decisions:
   - section: "[10. Code](#10-code)"
     question: Use `sql` for all dbt code blocks, or `jinja2` where the highlighter supports it.
     recommendation: Check highlighter support, then decide.
-  - section: "[11. Callouts](#11-callouts)"
-    question: Keep one shared callout style, or add modifier classes per label (for example `cbf-callout--warning`) to the theme.
-    recommendation: Add modifier classes to the theme. Keep the bold labels either way.
   - section: "[15. Exercises, labs and quizzes](#15-exercises-labs-and-quizzes)"
     question: Where exercise solutions live. Separate document, a lesson step released after the session, or collapsible block.
     recommendation: Separate document, linked after the session.
@@ -29,8 +26,6 @@ open_decisions:
     question: Where this guide lives long term. This repo, a Google Doc, or a page on the platform.
     recommendation: This repo as the source of truth, with a read-only copy on the platform for authors without repo access.
 editorial_notes:
-  - section: "[12. Patterns](#12-patterns)"
-    note: The Learning Checkpoint pattern predates this guide and uses emoji, title case and upper-case colour names. It is exempt from the guide until it is restyled to match. Because it is synced, that is one edit, and it can be renamed "Learning checkpoint" at the same time.
   - section: "[15. Exercises, labs and quizzes](#15-exercises-labs-and-quizzes)"
     note: Intentionally short. Expand once the lesson standard has settled.
   - section: whole guide
@@ -409,7 +404,7 @@ Rules for shared guides:
 Deliver each concept in three steps, in this order. The mnemonic is **Describe, Demonstrate, Do**.
 
 1. **Describe.** Explain the concept and its rational, before any syntax or mechanics. A learner who knows why a branch exists will remember how to create one.
-2. **Demonstrate.** Show one worked example, with the code, the command or the steps and the result the learner should expect. Explain what the example does, not just what it says.
+2. **Demonstrate.** Show one worked example, with the code, the command or the steps and the result the learner should expect. Explain what the example does, not just what it says. Use the Demonstration pattern (section 12) where the example is a distinct step the instructor walks through.
 3. **Do.** Give the learner something to do with the idea straight away, even if it is only "run this and look at the output". This can be a step in the body, a "Try it" callout or an inline exercise, depending on how much practice the concept needs.
 
 Keep the cycle short. One concept per H2 section, and all three steps within it. If you find yourself describing three things before demonstrating any of them, split the section.
@@ -557,17 +552,17 @@ Comments are prose and follow the same rules as prose, including British spellin
 
 ## 11. Callouts
 
-The theme provides one callout style: a group block with the class `cbf-callout`. It was introduced for reflective questions and now serves as the general-purpose callout.
+Insert callouts from the **CBF Academy** category in the **Patterns** tab of the block inserter. Each one is a group block with the class `cbf-callout` and a modifier for its label, holding one paragraph that opens with the bold label: "**Tip.** Run `git help add` to open the manual page for any command." The theme draws each callout's icon and colour from its modifier class, so the label keeps its purpose clear without relying on colour.
 
-Give every callout a bold label as its first line so its purpose is clear without relying on colour. Use only these labels:
+Use only these labels:
 
-| Label | Use for |
-| --- | --- |
-| **Note** | Background or context the learner does not need to act on. |
-| **Tip** | A shortcut, a habit or a tool that makes the task easier. |
-| **Warning** | Something that will lose work, cost money or break an environment. |
-| **Try it** | A task under five minutes, done in place, with no marking. |
-| **Reflect** | A question for the learner to think about or discuss with their cohort. |
+| Label | Pattern | Class | Use for |
+| --- | --- | --- | --- |
+| **Note** | Note callout | `cbf-callout--note` | Background or context the learner does not need to act on. |
+| **Tip** | Tip callout | `cbf-callout--tip` | A shortcut, a habit or a tool that makes the task easier. |
+| **Warning** | Warning callout | `cbf-callout--warning` | Something that will lose work, cost money or break an environment. |
+| **Try it** | Try it callout | `cbf-callout--try` | A task under five minutes, done in place, with no marking. |
+| **Reflect** | Reflect callout | `cbf-callout--reflect` | A question for the learner to think about or discuss with their cohort. |
 
 Rules:
 
@@ -576,6 +571,7 @@ Rules:
 - Do not nest callouts or put headings or code blocks inside them. Short inline code is fine.
 - Do not open a lesson or topic with a callout. Say what it is first.
 - Warnings go before the step that can cause harm, not after.
+- Never add colour, icons or emoji to a callout. To change its type, insert the pattern for the type you need rather than editing the label.
 
 Markup is in the appendix.
 
@@ -590,12 +586,30 @@ There are two kinds:
 
 ### Current patterns
 
-The platform has two patterns:
+The **CBF Academy** category holds the activity patterns below and the callouts in section 11.
 
 | Pattern | Kind | Use for |
 | --- | --- | --- |
-| OS tabs | Unsynced | Steps that differ by operating system, mainly in shared setup guides. |
+| Learning objectives | Unsynced | The objectives that open every lesson (section 7). |
+| Demonstration | Unsynced | A worked example: the Demonstrate step for a concept, with the code or steps and the result to expect. |
+| Exercise | Unsynced | An inline exercise: the Do step for a concept. |
+| Homework | Unsynced | Work for learners to do on their own after the session. |
+| Pop quiz | Unsynced | Quick questions for the cohort, with the answers hidden until revealed. |
 | Learning checkpoint | Synced | Letting instructors check how learners are feeling about the material so far. |
+| Q&A | Synced | A pause for the cohort's questions in a live session. |
+| Break | Synced | A break in a live session. The instructor decides how long, so the content never gives a duration or a time. |
+| Recap | Unsynced | A short recap part-way through a long lesson. The closing summary stays a section (section 7). |
+| OS tabs | Unsynced | Steps that differ by operating system, mainly in shared setup guides. |
+
+**Activity patterns.** All the CBF Academy patterns carry class names only. The theme draws their icons, colours and type, so the design can change without editing a lesson.
+
+- Never style a pattern by hand: no colours, fonts, spacing or emoji, and no Additional CSS from plugins.
+- Keep the first line, the activity's label. It is locked so it can't be moved or deleted, but you can edit it, for example to number an exercise ("Exercise 2") when a lesson has more than one.
+- Replace every placeholder in square brackets.
+- Demonstrations, exercises, homework and pop quizzes have an H3 title, because they sit inside an H2 section and belong in the lesson's contents list. Checkpoints, breaks and Q&As use a styled paragraph instead, so they don't fill the contents list with repeated entries.
+- Add blocks inside an activity as you need them, such as extra steps, code blocks or a **Tip** callout for hints.
+- Don't add a pattern pointing to extended exercises, labs or skills checks. They're attached to the lesson, and the course navigation lists them automatically.
+- Put pop quiz answers in its **Show answers** block, never in the questions.
 
 **OS tabs.** The pattern holds one tab per operating system: macOS, Windows and Ubuntu, in that order.
 
@@ -610,14 +624,16 @@ The platform has two patterns:
 - Always insert the synced pattern. Never paste or detach a copy, since a copy no longer updates with the pattern and repeats markup in every lesson.
 - Never edit the checkpoint's content from inside a lesson. Changes to it are changes to every lesson that uses it, so agree them with the content editor.
 
+**Synced patterns.** The learning checkpoint, Q&A and break are synced. Their source lives in the academy theme's `synced-patterns/` folder, and `wp cbf patterns sync` creates or updates them on each site. Change the source file, not the pattern in the editor, so every environment stays the same.
+
 ### Creating a new pattern
 
-When the same content recurs across lessons, propose a new pattern rather than repeating it. Candidates include pop quizzes, question and answer breaks, break reminders and recap prompts. A pattern is worth creating when the content or its structure appears in two or more lessons, or is expected to.
+When the same content recurs across lessons, propose a new pattern rather than repeating it. A pattern is worth creating when the content or its structure appears in two or more lessons, or is expected to.
 
 1. Check the pattern library first. Extend or reuse an existing pattern where you can.
 2. Agree the new pattern with the content editor, as you would a new callout label.
 3. Choose synced if the content is identical everywhere, as with a standard question and answer prompt. Choose unsynced if only the structure repeats, as with a pop quiz whose questions change.
-4. Name it in sentence case with a noun phrase that says what it holds: "Pop quiz", "Question and answer break".
+4. Name it in sentence case with a noun phrase that says what it holds: "Pop quiz", "Learning checkpoint".
 5. Write the content to this guide. A pattern's mistakes appear in every lesson that uses it.
 6. Add it to the table of current patterns in this section, with when to use it.
 
@@ -684,7 +700,7 @@ Turn on **Enlarge on click** for content images that are not already linked. Scr
 **Exercises and labs.**
 
 - Title extended exercise and lab topics as set out in the naming convention in section 7.
-- Open with the context (what data, what tools, what they have just learned), then the task, then the expected outcome so the learner knows when they are done.
+- Open with the context (what data, what tools, what they have just learned), then the task, then the expected outcome so the learner knows when they are done. Inline exercises use the Exercise pattern, whose "**Done when**" line holds the expected outcome.
 - Name the dataset. If it is the sponsor's dataset, say how to get access.
 - Hints go in a **Tip** callout. Solutions go in a separate document linked at the end of the session, never inline where they are visible before the attempt.
 - Number sub-tasks and keep them independent where possible, so a learner who is stuck on one can continue.
@@ -838,7 +854,8 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] Links work and have descriptive text.
 - [ ] Renders correctly on a phone-width screen.
 - [ ] OS-specific steps use the OS tabs pattern, with no placeholder text or unused tabs left.
-- [ ] Learning checkpoints are the synced pattern, not pasted copies. Content repeated across lessons is a pattern or has been proposed as one.
+- [ ] Activities and callouts use the CBF Academy patterns, with no placeholder text left and no styling added by hand.
+- [ ] Learning checkpoints, Q&As and breaks are the synced patterns, not pasted copies. Content repeated across lessons is a pattern or has been proposed as one.
 
 ## Appendix: block markup reference
 
@@ -931,16 +948,41 @@ WHERE o.status = 'complete'</code></pre>
 
 **Callout**
 
+The modifier is one of `note`, `tip`, `warning`, `try` and `reflect`. Write `--` in the block comment's JSON as `\u002d\u002d`, as the editor does.
+
 ```html
-<!-- wp:group {"className":"cbf-callout"} -->
-<div class="wp-block-group cbf-callout">
-<!-- wp:paragraph -->
-<p><strong>Warning</strong></p>
+<!-- wp:group {"className":"cbf-callout cbf-callout\u002d\u002dwarning"} -->
+<div class="wp-block-group cbf-callout cbf-callout--warning"><!-- wp:paragraph -->
+<p><strong>Warning.</strong> <code>git reset --hard</code> discards uncommitted changes and cannot be undone. Commit or stash first.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+```
+
+**Activity (Exercise)**
+
+Every activity has the same shape: a group with `cbf-activity` and a type modifier, then a locked label paragraph. The pattern files in the academy theme's `patterns/` folder are the reference for each type.
+
+```html
+<!-- wp:group {"tagName":"section","className":"cbf-activity cbf-activity\u002d\u002dexercise"} -->
+<section class="wp-block-group cbf-activity cbf-activity--exercise"><!-- wp:paragraph {"className":"cbf-activity__label","lock":{"move":true,"remove":true}} -->
+<p class="cbf-activity__label"><strong>Exercise</strong></p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph -->
-<p><code>git reset --hard</code> discards uncommitted changes and cannot be undone. Commit or stash first.</p>
-<!-- /wp:paragraph -->
-</div>
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Add and delete files in a repository</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><!-- wp:list-item -->
+<li>Initialise a Git repository.</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>Create a file, stage it and commit it.</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph {"className":"cbf-activity__outcome"} -->
+<p class="cbf-activity__outcome"><strong>Done when</strong> <code>git log --oneline</code> shows both commits.</p>
+<!-- /wp:paragraph --></section>
 <!-- /wp:group -->
 ```
 
@@ -960,12 +1002,14 @@ WHERE o.status = 'complete'</code></pre>
 <!-- /wp:table -->
 ```
 
-**Synced pattern (Learning checkpoint)**
+**Synced pattern (Learning checkpoint, Q&A, Break)**
 
 A synced pattern is a reference to the pattern's post ID. IDs can differ between environments, so look the ID up on the environment you are editing rather than copying it from another lesson:
 
 ```bash
 wp @<env> post list --post_type=wp_block --name=learning-checkpoint --field=ID
+wp @<env> post list --post_type=wp_block --name=question-and-answer-break --field=ID
+wp @<env> post list --post_type=wp_block --name=break --field=ID
 ```
 
 ```html

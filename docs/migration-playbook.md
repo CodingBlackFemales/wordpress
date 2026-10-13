@@ -25,10 +25,10 @@ Work through the draft in this order. Doing everything at once produces inconsis
 
 **1. Structure pass.**
 
-- Delete the cover, closing, "any questions?" and contact slides. The importer removes the cover; check the rest.
+- Delete the cover, closing and contact slides, and the "any questions?" slide that ends a deck. The importer removes the cover; check the rest.
 - The importer turns slide titles into H2 headings and attempts to strip duplicate headings from sequential slides. That is a starting point, not a structure. Choose the H2s from section headers and content groupings, and merge consecutive slides on the same point.
 - Decide what belongs in the lesson and what belongs in attached topics by course type, not by size. The lesson holds what a part-time bootcamp or short course session delivers, including its inline exercises. Material that only a full-time bootcamp uses, such as afternoon exercise sets and labs, becomes extended exercise or lab topics attached to the lesson.
-- Replace confidence-poll slides ("How are you feeling?", red, yellow and green ratings) with the synced [Learning checkpoint pattern](academy-style-guide.md#12-patterns) at the end of the H2 section they follow. Note any other content repeated across decks, such as pop quizzes or question and answer slides, as candidates for a new pattern.
+- Replace activity slides with the [CBF Academy patterns](academy-style-guide.md#12-patterns), using the conversions below. Confidence polls ("How are you feeling?", red, yellow and green ratings) become the synced Learning checkpoint at the end of the H2 section they follow. Note any other content repeated across decks as a candidate for a new pattern.
 - Add the [lesson skeleton](academy-style-guide.md#7-course-structure): introduction, learning objectives, summary. Remove any "next steps" or "next session" slide rather than turning it into a section. Objectives often already exist on an early slide; rewrite them with observable verbs.
 
 **2. Prose pass.**
@@ -83,13 +83,21 @@ Work through the draft in this order. Doing everything at once produces inconsis
 | Screenshot of code | Code block, tested. |
 | Diagram built from shapes | SVG diagram, or a redrawn image with alt text. |
 | Highlighted line or arrow on code | Annotated code block. |
-| "Activity" or "Your turn" slide | [Try it callout](academy-style-guide.md#11-callouts) if under five minutes, otherwise an exercise. |
+| Learning objectives slide | Learning objectives pattern, rewritten with observable verbs. |
+| "Activity" or "Your turn" slide | [Try it callout](academy-style-guide.md#11-callouts) if under five minutes, otherwise the Exercise pattern. |
+| "Exercise" slide or section | Exercise pattern, with a "Done when" line. |
+| Pop quiz slide | Pop quiz pattern, with the answers in its Show answers block. |
 | Speaker notes, where available | Body prose. |
-| Recap or key takeaways slide | Summary section. |
+| Recap or key takeaways slide | Summary section at the end of the lesson; the Recap pattern part-way through. |
 | Confidence poll or "how are you feeling?" slide | Learning checkpoint pattern (synced). |
 | Separate instructions per operating system | OS tabs pattern. |
-| Content repeated across decks, such as a pop quiz or Q&A slide | An existing pattern, or a proposal for a new one. |
-| "Any questions?" slide | Deleted. |
+| Q&A or "any questions?" slide part-way through | Q&A pattern (synced). |
+| Break slide | Break pattern (synced). Drop any duration or return time. |
+| Worked example or "demo" slide | Demonstration pattern. |
+| Homework or "before next session" slide | Homework pattern. |
+| Pointer to extended exercises, a lab or a skills check | Deleted. Attach the topic or quiz to the lesson; the course navigation lists it. |
+| Other content repeated across decks | An existing pattern, or a proposal for a new one. |
+| "Any questions?" slide that ends the deck | Deleted. |
 | References slide | Further reading, with a sentence per link. |
 | Copyright and logo footers | Removed by the importer. Check none survived. |
 
