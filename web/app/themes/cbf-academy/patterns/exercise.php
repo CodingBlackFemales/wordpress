@@ -21,7 +21,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>[Context: what learners are working on, with which data or tools, and what they have just learned.]</p>
+<p>[Context: what learners are working on, with which data or tools, and which concept it practises.]</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:list {"ordered":true} -->
