@@ -116,23 +116,6 @@ pre[class*="language-"] .line-highlight {
 }
 
 /*--------------------------------------------------------------
-Callout box
-A branded prompt/question box used to draw attention to a reflective
-question or note within lesson content.
---------------------------------------------------------------*/
-.wp-block-group.cbf-callout {
-  margin: 0 0 1.6875rem;
-  padding: 1rem 1.25rem;
-  background-color: #f3f7fb;
-  border-left: 4px solid #b07d00;
-  border-radius: 4px;
-}
-
-.wp-block-group.cbf-callout > *:last-child {
-  margin-bottom: 0;
-}
-
-/*--------------------------------------------------------------
 Inline SVG schema / entity-relationship diagrams
 Class rules are duplicated in an embedded style block inside each SVG
 so colours survive WordPress sanitisation. These rules keep theming in

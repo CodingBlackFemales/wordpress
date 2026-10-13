@@ -109,3 +109,104 @@ add_action(
 		);
 	}
 );
+
+
+/****************************** LESSON CONTENT ******************************/
+
+/**
+ * Post types whose content uses the CBF Academy content styles.
+ *
+ * LearnDash steps, plus synced patterns so they look right when edited on
+ * their own screen.
+ *
+ * @return string[]
+ */
+function cbf_academy_content_post_types() {
+	return array( 'sfwd-courses', 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'wp_block' );
+}
+
+/**
+ * Whether the current request shows lesson content: a LearnDash page on the
+ * front end, or the block editor for one of those post types.
+ *
+ * @return bool
+ */
+function cbf_academy_is_content_request() {
+	if ( ! is_admin() ) {
+		return is_singular( cbf_academy_content_post_types() );
+	}
+
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	return $screen && in_array( $screen->post_type, cbf_academy_content_post_types(), true );
+}
+
+/**
+ * Enqueues the lesson content styles and their typefaces.
+ *
+ * Runs on enqueue_block_assets, so the styles reach the block editor canvas
+ * (an iframe) as well as the front end, and patterns look the same in both.
+ * The activity and callout patterns carry class names only; content.css holds
+ * everything visual about them.
+ */
+function cbf_academy_content_assets() {
+	if ( ! cbf_academy_is_content_request() ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'cbf-academy-fonts',
+		'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&display=swap',
+		array(),
+		null // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google Fonts versions its own files.
+	);
+
+	wp_enqueue_style(
+		'cbf-academy-content',
+		get_stylesheet_directory_uri() . '/assets/css/content.css',
+		array( 'cbf-academy-fonts' ),
+		cbf_academy_asset_version( 'assets/css/content.css' )
+	);
+}
+add_action( 'enqueue_block_assets', 'cbf_academy_content_assets' );
+
+/**
+ * Registers the "CBF Academy" pattern category.
+ *
+ * Holds the activity and callout patterns in patterns/. The synced patterns
+ * (learning checkpoint, Q&A, break) are created from
+ * synced-patterns/ with `wp cbf patterns sync`, and appear in the same
+ * category through the matching pattern category term.
+ */
+function cbf_academy_pattern_category() {
+	register_block_pattern_category(
+		'cbf-academy',
+		array(
+			'label'       => __( 'CBF Academy', 'cbf-academy' ),
+			'description' => __( 'Activities and callouts for lesson content.', 'cbf-academy' ),
+		)
+	);
+}
+add_action( 'init', 'cbf_academy_pattern_category' );
+
+/**
+ * Lets editors change the blocks inside the patterns they insert.
+ *
+ * WordPress 7 treats a group inserted from an unsynced pattern as a locked,
+ * content-only section: its text can be edited, but blocks can't be added,
+ * pasted or removed. Activities are templates to fill in, often with code
+ * blocks and extra steps, so that lock gets in the way. Synced patterns stay
+ * locked, as they should.
+ *
+ * @param array                   $settings Block editor settings.
+ * @param WP_Block_Editor_Context $context  Editor context.
+ * @return array
+ */
+function cbf_academy_block_editor_settings( $settings, $context ) {
+	if ( isset( $context->post ) && in_array( $context->post->post_type, cbf_academy_content_post_types(), true ) ) {
+		$settings['disableContentOnlyForUnsyncedPatterns'] = true;
+	}
+
+	return $settings;
+}
+add_filter( 'block_editor_settings_all', 'cbf_academy_block_editor_settings', 10, 2 );
