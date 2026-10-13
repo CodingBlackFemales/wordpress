@@ -22,6 +22,9 @@ open_decisions:
   - section: "[16. Terminology and word list](#16-terminology-and-word-list)"
     question: '"Learner" or "trainee" platform-wide. Some existing decks and planning documents say "trainees".'
     recommendation: '"Learner", because it covers bootcamp and short-course participants.'
+  - section: "[16. Terminology and word list](#glossary)"
+    question: Where each course's Course Glossary block lives. On the course page, or on a dedicated glossary step.
+    recommendation: On the course page, so learners can reach it from anywhere in the course.
   - section: "[1. Scope](#1-scope)"
     question: Where this guide lives long term. This repo, a Google Doc, or a page on the platform.
     recommendation: This repo as the source of truth, with a read-only copy on the platform for authors without repo access.
@@ -92,6 +95,7 @@ Read sections 2 to 6 before writing anything. Use sections 7 to 16 as a referenc
 		- [Products and technologies](#products-and-technologies)
 		- [General terms](#general-terms)
 		- [Academy terms](#academy-terms)
+		- [Glossary](#glossary)
 	- [17. Working with AI agents](#17-working-with-ai-agents)
 	- [18. Review checklist](#18-review-checklist)
 	- [Appendix: block markup reference](#appendix-block-markup-reference)
@@ -125,9 +129,10 @@ If you read nothing else, follow these.
 9. Every code block declares a language. Commands and their output go in separate blocks.
 10. Every content image has alt text. Decorative images are removed, not given empty alt text.
 11. Use the word list in section 16. For example, "LookML", "dbt", "GitHub" and "JavaScript" are the spellings to be used, consistently.
-12. Nothing is used before it is taught. If a lesson needs a concept it has not covered, explain it in place or move the material. Never point the learner to another module, and other lessons within a module only in generic terms.
-13. Use the OS tabs pattern for steps that differ by operating system and the synced Learning checkpoint pattern for learner check-ins. Propose a new pattern for anything else repeated across lessons (section 12).
-14. Run the review checklist in section 18 before handing work over.
+12. Define each new term in the sentence where it first appears, and mark that first mention as a glossary term (section 16).
+13. Nothing is used before it is taught. If a lesson needs a concept it has not covered, explain it in place or move the material. Never point the learner to another module, and other lessons within a module only in generic terms.
+14. Use the OS tabs pattern for steps that differ by operating system and the synced Learning checkpoint pattern for learner check-ins. Propose a new pattern for anything else repeated across lessons (section 12).
+15. Run the review checklist in section 18 before handing work over.
 
 ## 3. Who you are writing for
 
@@ -214,7 +219,7 @@ Do not change spelling inside:
 
 ### Abbreviations and acronyms
 
-Expand on first use in each lesson, then use the abbreviation: "common table expression (CTE)". Do not expand ones the level already assumes ("SQL" on an intermediate SQL course, "HTML" anywhere past week one). Write "for example" and "that is" in prose rather than "e.g." and "i.e.". In tables, "e.g." is acceptable to save space.
+Expand on first use in each lesson, then use the abbreviation: "common table expression (CTE)". A glossary entry shows an abbreviation's expansion on hover, but that never replaces expanding it in the text (section 16). Do not expand ones the level already assumes ("SQL" on an intermediate SQL course, "HTML" anywhere past week one). Write "for example" and "that is" in prose rather than "e.g." and "i.e.". In tables, "e.g." is acceptable to save space.
 
 ### Words to avoid
 
@@ -265,7 +270,7 @@ For example: "GitHub names the default branch `main`. Older projects and some tu
 **Plain English.**
 
 - Keep sentences short, ideally one clause and under 25 words. If a sentence needs a second reading, split it.
-- Define a term the first time it appears, in the sentence where it appears.
+- Define a term the first time it appears, in the sentence where it appears. If it is a key term, mark that mention as a glossary term (section 16).
 - Prefer the concrete to the abstract. "A query that reads the whole table" beats "an inefficient access pattern".
 - Analogies help beginners, but say where the analogy stops working.
 - Avoid idioms and cultural references that need explaining ("hit the ground running", "a game of two halves").
@@ -367,8 +372,10 @@ Every lesson follows this shape. The section names are the H2 headings unless no
 5. **Body.** A series of H2 sections holding the teaching. Topics are not part of the body: they are attached to the lesson as separate steps and referred to from the body where the learner needs them ("Before continuing, complete the Git setup guide attached to this lesson").
 6. **Summary.** Three to six bullets restating what the learner can now do, mirroring the objectives. This is where a learner checks their own understanding, so keep it concrete.
 
-Do not end a lesson with a "What's next" section. Pointing ahead couples the lesson to whatever follows it, which differs between courses. LearnDash navigation already takes the learner to the attached topics and the next step in their course.
 7. **Further reading** (optional). Three to five links with a sentence each saying what the link is for. Prefer official documentation.
+8. **Glossary** (automatic). Added at the end of any lesson that marks glossary terms (section 16). Do not write one by hand.
+
+Do not end a lesson with a "What's next" section. Pointing ahead couples the lesson to whatever follows it, which differs between courses. LearnDash navigation already takes the learner to the attached topics and the next step in their course.
 
 Objective verbs by level, adapted from Bloom's taxonomy:
 
@@ -774,6 +781,37 @@ Use these forms consistently. Add to the list as you go; a new entry needs an ed
 | skills check | quiz, test | "Quiz" is acceptable when naming the LearnDash block. |
 | CBF Academy | the Academy, CBF | Full name on first use per lesson; "the academy" afterwards. |
 
+### Glossary
+
+The word list above settles how terms are spelled. The glossary settles what they mean. The academy keeps one shared glossary: each entry has a term, an optional abbreviation, any alternative names and a definition, and every lesson that uses the term references the same entry. Marking a term in a lesson does three things: its first mention links to the definition, the lesson's glossary lists it, and the course glossary shows it once the learner reaches that lesson, labelled with the lesson that introduced it.
+
+**What gets an entry.** A term the learner needs to remember and will meet again: concepts ("commit", "common table expression"), named techniques and abbreviations. Everyday words don't get one, and neither do terms the course level already assumes (section 5). Product names belong in the word list instead, unless the lesson explains what the product is.
+
+**Marking terms.**
+
+- Define every new term in the prose, in the sentence where it first appears (section 6). The glossary backs that definition up; it never replaces it, and a learner should never have to open it to follow the lesson.
+- In the editor, select the term and choose **Glossary term** in the toolbar (<kbd>⌘</kbd><kbd>⇧</kbd><kbd>G</kbd>). The popover searches every entry's terms and abbreviations for the selected text. Pick the matching entry, or choose **Create new term** only when there is none.
+- Mark only the first mention in each lesson or topic. Later mentions stay plain. The **Glossary** sidebar lists any duplicates under **Needs attention**, where **Unmark later mentions** fixes them.
+- Mark the first mention in every lesson that uses the term, not only the first lesson in a course. Lessons are reused across courses in different orders, so each lesson's glossary must stand on its own.
+- Mark the term as it appears in the sentence. Plurals and other forms are fine: "branches" can reference the "Branch" entry. Add a genuine synonym ("repo" for "repository") to the existing entry as an alternative term rather than creating a second entry.
+- For an abbreviation, follow section 5: write "common table expression (CTE)" and mark the full term. Mark the abbreviation on its own only where the course level lets you use it unexpanded.
+- When the word appears in a different sense ("a branch of the business"), leave it unmarked and choose **Ignore in this post** in the sidebar, so it stops being suggested.
+- If a term matters only in one place and doesn't merit an entry, introduce it in italics where it is defined. Use bold for emphasis and labels, never for terms.
+
+**Writing an entry.** Create entries from the **Glossary term** popover, which has fields for the term, its abbreviation, alternative terms and the definition. For longer definitions, use the entry's own screen under **Glossary › All Terms**.
+
+- **Term:** sentence case, singular and spelled as in the word list: "Common table expression", "Branch". Proper nouns, abbreviations and code keep their own case: `HEAD`, `.gitignore`. Get it right first time: the entry's link anchor comes from the term when it is created and never changes, even if the term is renamed.
+- **Abbreviation:** only if the abbreviation is in common use ("CTE"). Text matching it renders as an abbreviation that expands on hover, and on touch screens its first mention is spelled out.
+- **Alternative terms:** genuine synonyms and other spellings ("repo"), each with its own abbreviation if it has one. The glossary lists them under the main term.
+- **Definition:** one or two plain sentences, about 40 words at most, that make sense on their own. Start with what it is, without repeating the term: "A snapshot of a repository at a point in time.", not "A commit is a snapshot…". The popover accepts `code`, `**bold**`, `*italic*` and `[links](url)`.
+- **Shared by every course:** entries are reused like shared guides (section 7). Never mention a lesson, course, dataset or cohort in a definition.
+- **Review:** if your role can't publish glossary entries, the entries you create start as drafts for an editor to review and publish. The editor labels a reference to one "not published yet", and learners see plain text until it is published, so check a lesson's entries are all published before it goes live.
+
+**The glossaries learners see.**
+
+- **Lesson glossary:** every lesson and topic that marks a term gets a glossary at the end, after the summary and further reading. It is added automatically; add a **Glossary** block only to place it somewhere else.
+- **Course glossary:** the **Course Glossary** block lists the terms from every lesson the learner has unlocked, alphabetically, each linked to the lesson that introduced it. That is the first lesson, in course order, that marks the term. If an earlier lesson uses the term without marking it, the course audit (`wp glossary course audit`) reports it as `introduced-late`. Mark the term in that earlier lesson.
+
 ## 17. Working with AI agents
 
 Agents draft and edit material under a human editor. They follow this guide like any other author, with these additional rules.
@@ -786,8 +824,9 @@ Agents draft and edit material under a human editor. They follow this guide like
 4. Keep code verbatim unless asked to change it. If you believe code is wrong, keep it and flag it.
 5. Flag anything uncertain with an HTML comment in the block markup, `<!-- REVIEW: ... -->`, so it is invisible to learners but visible to the editor. Say what you were unsure about and what you did.
 6. Output WordPress block markup matching the appendix, not Markdown, unless asked otherwise.
-7. Finish with a short list of what you changed, what you removed and what you flagged. The editor should not have to diff the whole document to find out.
+7. Finish with a short list of what you changed, what you removed, what you flagged and any glossary entries you propose. The editor should not have to diff the whole document to find out.
 8. Never mark a draft as reviewed. Review is a human step.
+9. Mark glossary terms with the markup in the appendix, using the IDs of existing entries. Don't create entries: where a key term has none, mark its first mention with `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` and list it in your report.
 
 **For humans directing agents**
 
@@ -822,6 +861,7 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] No "simply", "just", "easy", "obviously". No filler.
 - [ ] Sentences mostly under 25 words. One idea per paragraph.
 - [ ] Terms defined on first use. Abbreviations expanded on first use.
+- [ ] Key terms marked as glossary terms at their first mention in this lesson. The Glossary sidebar shows nothing under Needs attention, and no referenced entry is still a draft.
 - [ ] Word list applied. Product names spelled as their owners spell them.
 - [ ] Inclusive language. No gendered assumptions, no legacy technical terms without explanation.
 
@@ -1001,6 +1041,22 @@ Every activity has the same shape: a group with `cbf-activity` and a type modifi
 <figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>git status</code></td><td>Shows changed files.</td></tr><tr><td><code>git log</code></td><td>Shows commit history.</td></tr></tbody></table></figure>
 <!-- /wp:table -->
 ```
+
+**Glossary term**
+
+A reference stores only the entry's ID, so the entry can be edited without touching the lesson. Look the ID up on the environment you are editing:
+
+```bash
+wp @<env> glossary term list --search=commit --fields=id,term,abbr,status
+```
+
+```html
+<!-- wp:paragraph -->
+<p>Each snapshot, called a <span class="glossary-ref" data-glossary-id="<entry-id>">commit</span>, records who changed what, when and why.</p>
+<!-- /wp:paragraph -->
+```
+
+Text that matches one of the entry's abbreviations renders as an abbreviation by itself. To make other text do the same, add `data-glossary-abbr="true"` to the span.
 
 **Synced pattern (Learning checkpoint, Q&A, Break)**
 

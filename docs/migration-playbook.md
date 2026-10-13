@@ -35,7 +35,7 @@ Work through the draft in this order. Doing everything at once produces inconsis
 
 - Turn bullet fragments into sentences and paragraphs. Use the speaker notes, where you have them, and the reference material for the reasoning.
 - Add the connective sentences between ideas.
-- Define each term on first use and check the definition matches the course's level.
+- Define each term on first use and check the definition matches the course's level. Mark the first mention of each key term as a [glossary term](academy-style-guide.md#glossary), reusing existing entries.
 - Check that each H2 introduces one concept.
 - Apply [voice and tone](academy-style-guide.md#4-voice-and-tone) and [spelling](academy-style-guide.md#5-language-and-spelling).
 
@@ -62,6 +62,7 @@ Work through the draft in this order. Doing everything at once produces inconsis
 
 - Apply the [word list](academy-style-guide.md#16-terminology-and-word-list). Search for the known offenders: "LookerML", "Javascript", "DBT", "VSCode", "master".
 - Check callout labels, heading case and list punctuation.
+- Check the Glossary sidebar: nothing left under Needs attention, and every new entry proposed or reviewed.
 - Check [patterns](academy-style-guide.md#12-patterns): OS-specific steps in OS tabs, learning checkpoints inserted as the synced pattern rather than pasted copies, and no pattern placeholder text left behind.
 
 **7. Review.**
