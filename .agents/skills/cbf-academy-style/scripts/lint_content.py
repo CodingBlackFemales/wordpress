@@ -405,8 +405,9 @@ def check_code(text, out):
             out.append(Finding(line, ERROR, "annotations",
                                f"{len(items)} annotations. Five at most; split the block or move the explanation to prose"))
         for attrs in items:
-            if "data-line" not in attrs:
-                out.append(Finding(line, ERROR, "annotations", "Annotation item missing data-line attribute"))
+            if not re.search(r'\bvalue="\d+"', attrs):
+                out.append(Finding(line, ERROR, "annotations",
+                                   "Annotation item needs value=\"<line>\" matching a highlighted line"))
 
 
 def check_images(text, out):

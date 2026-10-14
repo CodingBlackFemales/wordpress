@@ -553,7 +553,7 @@ Use this pattern when a learner needs to understand particular lines rather than
 
 1. Turn on line numbers.
 2. In **Highlight lines**, list the lines to explain: `2,5-6`.
-3. Directly after the code block, add an ordered list with the class `code-annotations`. Each item carries a `data-line` attribute matching a highlighted line. The theme renders it as "L2:".
+3. Put the code block in a **Group** block with **figure** as its HTML element, and add a **Custom HTML** block after the code. It holds a `<figcaption>` with an ordered list with the class `code-annotations`. Give each item a `value` matching a highlighted line, and the theme labels it "Line 2:". The editor's List block can't set an item's value, which is why the list is HTML.
 
 Rules:
 
@@ -977,7 +977,8 @@ print(len(rows))</code></pre>
 **Annotated code block**
 
 ```html
-<!-- wp:code {"language":"sql","lineNumbers":true,"highlightLines":"2,5","title":"models/marts/orders.sql"} -->
+<!-- wp:group {"tagName":"figure","layout":{"type":"constrained"}} -->
+<figure class="wp-block-group"><!-- wp:code {"language":"sql","lineNumbers":true,"highlightLines":"2,5","title":"models/marts/orders.sql"} -->
 <pre class="wp-block-code"><code>SELECT
     o.order_id,
     o.customer_id,
@@ -986,16 +987,15 @@ FROM {{ ref('stg_orders') }} AS o
 WHERE o.status = 'complete'</code></pre>
 <!-- /wp:code -->
 
-<!-- wp:list {"ordered":true,"className":"code-annotations"} -->
-<ol class="wp-block-list code-annotations">
-<!-- wp:list-item -->
-<li data-line="2">Every column is listed explicitly. <code>SELECT *</code> would make the model change shape whenever the source did.</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li data-line="5"><code>ref()</code> tells dbt this model depends on <code>stg_orders</code>, so dbt builds them in the right order.</li>
-<!-- /wp:list-item -->
+<!-- wp:html -->
+<figcaption>
+<ol class="code-annotations" role="list">
+<li value="2">Every column is listed explicitly. <code>SELECT *</code> would make the model change shape whenever the source did.</li>
+<li value="5"><code>ref()</code> tells dbt this model depends on <code>stg_orders</code>, so dbt builds them in the right order.</li>
 </ol>
-<!-- /wp:list -->
+</figcaption>
+<!-- /wp:html --></figure>
+<!-- /wp:group -->
 ```
 
 **Callout**
