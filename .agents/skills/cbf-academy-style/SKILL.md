@@ -119,15 +119,33 @@ Never put week or day numbers, dates, cohort or sponsor names, "Part 1", the cou
 
 Agents output WordPress block markup. The forms you need most:
 
-- Code: the highlighter plugin reads the language and title from the markup, never the block comment, and the markup must match what it saves. A bash block is `<!-- wp:code -->` then `<pre class="wp-block-code language-bash"><code lang="bash" class="language-bash">`. Every block declares a language, using `bash`, `powershell`, `sql` (also for dbt and Jinja), `python`, `java`, `javascript`, `typescript`, `html`, `css`, `json`, `yaml`, or `text` for output and logs. For blocks over about five lines, add `{"lineNumbers":true}` to the comment and `line-numbers` to the `<pre>` classes. When the code lives in a file, add `data-title="path/to/file"` to the `<pre>`. Copy the appendix examples.
+- Code: every option goes in the block comment, and the HTML stays core's plain `<pre class="wp-block-code"><code>` (Code Block Highlighting 1.3+). A bash block is `<!-- wp:code {"language":"bash"} -->` then `<pre class="wp-block-code"><code>`. Every block declares a language, using `bash`, `powershell`, `sql` (also for dbt and Jinja), `python`, `java`, `javascript`, `typescript`, `html`, `css`, `json`, `yaml`, or `text` for output and logs. For blocks over about five lines, add `"lineNumbers":true`; when the code lives in a file, add `"title":"path/to/file"`. Keep the editor's order: `{"language":"python","lineNumbers":true,"highlightLines":"2,5","title":"load_orders.py"}`. Never put a language class, `lang`, `line-numbers`, `data-title` or `data-line` in the HTML: that is the pre-1.3 format, which the linter rejects. Copy the appendix examples.
 - Commands and output go in separate blocks: a `bash` block with no `$` prompt, introduced with "Run:", then a `text` block introduced with "You should see:". Show a PowerShell variant where Windows differs.
-- Annotated code: the Annotated code pattern (`web/app/themes/cbf-academy/patterns/annotated-code.php`): `"highlightLines":"2,5"` on the code block, inside a figure Group, then a Custom HTML block holding a `<figcaption>` with an ordered list with class `code-annotations` whose items carry `value="<line>"` (rendered "Line 2:"). Copy the appendix example. Aim for five annotations or fewer (the linter warns above that), each saying what the line does and why.
+- Annotated code: the Annotated code pattern (`web/app/themes/cbf-academy/patterns/annotated-code.php`): `"lineNumbers":true,"highlightLines":"2,5"` in the code block's comment, inside a figure Group, then a Custom HTML block holding a `<figcaption>` with an ordered list with class `code-annotations` whose items carry `value="<line>"` (rendered "Line 2:"). Copy the appendix example. Aim for five annotations or fewer (the linter warns above that), each saying what the line does and why.
 - Callouts: copy the callout pattern for the type from `web/app/themes/cbf-academy/patterns/callout-*.php`. Each is a `wp:group` with `cbf-callout` and a modifier (`cbf-callout--note`, `--tip`, `--warning`, `--try`, `--reflect`), holding one paragraph that opens with its bold label: `<strong>Tip.</strong> Run …`. Never add colour, icons or emoji; the theme draws them. To change type, use the other pattern rather than editing the label. No headings, code blocks or nested callouts inside. At most one per screen. Core teaching never goes in a callout. Warnings go before the risky step.
 - Glossary terms: `<span class="glossary-ref" data-glossary-id="<id>">term</span>` around the first mention only. The full markup and the abbreviation override are in the appendix.
-- Images: every content image has alt text describing what it tells the learner, under 125 characters, never starting "Image of" or "Screenshot of". Decorative images are deleted. Turn on Enlarge on click (`"lightbox":{"enabled":true}` in the `wp:image` attributes) unless the image is linked or is legible at its displayed size, such as an icon.
+- Images: every content image has alt text describing what it tells the learner, under 125 characters, never starting "Image of" or "Screenshot of". Decorative images are deleted. Turn on Enlarge on click (`"lightbox":{"enabled":true}` in the `wp:image` attributes) unless the image is linked or is legible at its displayed size, such as an icon. Centre every image outside a Columns block: `"align":"center"` in the attributes and `aligncenter` on the `<figure>`.
+- Tables: use the Stripes style, with `{"className":"is-style-stripes"}` in the `wp:table` comment and `is-style-stripes` in the `<figure>` classes. Always include a header row (`<thead>`).
 - Placeholders: `<kebab-case>` in angle brackets, explained on first use.
+- Diagrams: images, never inline SVG, so learners can enlarge them. See Diagrams below.
 
 Copy exact markup from the appendix of the style guide when producing a block type for the first time.
+
+## Diagrams
+
+Draw diagrams in the house style (style guide section 13, "Diagrams"), which uses the lesson content's design tokens: ink text and 2px connectors, white boxes with an ink-25% outline, groups as borderless ink-5% panels, at most one yellow box, 8px corners, and Atkinson Hyperlegible type. Keep one idea per diagram, label every group and arrow, and use the lesson's own names.
+
+1. Copy [assets/diagram-template.svg](assets/diagram-template.svg) to `docs/diagrams/<lesson-slug>/<name>.svg` and draw in it, keeping the viewBox 420px wide or less.
+2. Export a 2x lossless WebP, which renders with the bundled fonts in [assets/fonts/](assets/fonts/):
+
+   ```bash
+   .agents/skills/cbf-academy-style/scripts/export_diagram.sh docs/diagrams/<lesson-slug>/<name>.svg --out <dir>
+   ```
+
+3. Check the export by viewing it, at full size and scaled to 330px wide. Fix overlaps in the SVG and export again.
+4. Upload it (`wp @<env> media import <file> --title="…" --alt="…" --porcelain` prints the new ID; only with the user's go-ahead for that environment), then insert an image block: `{"lightbox":{"enabled":true},"id":<id>,"width":"<1x-width>px","sizeSlug":"full","linkDestination":"none","align":"center"}`, with `class="wp-image-<id>"` and `style="width:<1x-width>px"` on the `<img>`.
+
+Redraw third-party diagrams this way rather than reusing them, and flag any older inline `cbf-er` diagram for a redraw.
 
 ## Patterns
 
@@ -148,7 +166,7 @@ Patterns are block groups for content that recurs across lessons. They carry cla
 
 Don't add a pattern or a link pointing to extended exercises, labs or skills checks: they are attached to the lesson and the course navigation lists them.
 
-When other content repeats across lessons, it may need a new pattern. Do not create patterns yourself. Propose them in your report and mark each occurrence with `<!-- REVIEW: candidate for a "<name>" pattern -->`. A complete reusable procedure with its own outcome is a shared guide, not a pattern.
+When other content repeats across lessons, it may need a new pattern. Do not create patterns yourself. Propose them in your report and note each place it occurs in an editorial comment (see Review notes). A complete reusable procedure with its own outcome is a shared guide, not a pattern.
 
 ## Glossary terms
 
@@ -162,14 +180,26 @@ The academy has one shared glossary (style guide section 16, "Glossary"). Markin
   ./vendor/bin/wp @dev-academy glossary term list --search=<term> --fields=id,term,abbr,status
   ```
 
-- If a key term has no entry, do not create one and do not guess an ID. Leave the term unmarked and add `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` after the paragraph. Proposed definitions are one or two standalone sentences, about 40 words at most, that never mention a lesson, course or cohort.
+- If a key term has no entry, do not create one and do not guess an ID. Leave the term unmarked and propose an entry in an editorial comment (see Review notes), listing each term with its definition. Proposed definitions are one or two standalone sentences, about 40 words at most, that never mention a lesson, course or cohort.
 - A reference to a draft entry shows as plain text until an editor publishes it. Report any you used.
+
+## Review notes
+
+Review notes are PublishPress editorial comments on the post, never markup in the content. The whole editorial team sees them on the post and on the Planner's Editorial Comments screen. An HTML comment in the content is the wrong place: the block editor wraps a comment between blocks in an empty paragraph when someone saves the post.
+
+- While you draft, collect notes in a JSON file beside your working file: a list of `{"post": <id>, "content": "<text>"}` objects.
+- Write one note per issue. Start it with `Agent review, "<H2> > <H3>": ` naming the section, then say what you were unsure about or changed, and what you did. Group all of a post's proposed glossary entries into one note.
+- Post the notes when you push the content, with the user's go-ahead for that environment, attributed to the person you're working for:
+
+  ```bash
+  ./vendor/bin/wp @dev-academy eval-file .agents/skills/cbf-academy-style/scripts/add_editorial_comments.php <notes.json> <user-login>
+  ```
 
 ## Agent rules
 
 1. Do not change technical meaning. Restructure and rewrite prose freely, but keep code, commands and claims verbatim unless asked. If you believe something is wrong, keep it and flag it.
 2. Do not invent facts, versions, links, datasets or examples the source lacks. If asked to add them, list which ones you added.
-3. Flag anything uncertain with `<!-- REVIEW: what you were unsure about and what you did -->` in the markup.
+3. Flag anything uncertain, and every correction you made to the source, as a review note (see Review notes). Never put review notes in the content.
 4. Never mark content as reviewed. Review is a human step.
 5. Never push content to a WordPress environment (`wp post update`) without the user's explicit go-ahead for that environment.
 6. Never create, edit or publish glossary entries (`wp glossary term create`/`update`) unless the user asks. Propose them instead.
@@ -182,7 +212,7 @@ Run the linter on every file you change, from the repository root:
 python3 .agents/skills/cbf-academy-style/scripts/lint_content.py <file> [<file> ...]
 ```
 
-It checks spelling, dashes, quotes, banned words, word-list offenders, headings, code block languages, prompts, alt text, callout labels and types, narrow text columns, pasted copies of synced patterns, leftover `[placeholder]` text, and glossary references (missing IDs and duplicates). It exits 1 when it finds errors. Fix every error. Treat warnings as prompts for judgement: some are false positives (for example "just" meaning "only", or American spelling inside a product name). Re-run until no errors remain.
+It checks spelling, dashes, quotes, banned words, word-list offenders, headings, code block languages and pre-1.3 code markup, prompts, table styles, alt text, callout labels and types, narrow text columns, pasted copies of synced patterns, leftover `[placeholder]` text, and glossary references (missing IDs and duplicates). It exits 1 when it finds errors. Fix every error. Treat warnings as prompts for judgement: some are false positives (for example "just" meaning "only", or American spelling inside a product name). Re-run until no errors remain.
 
 The linter cannot judge teaching quality. After it passes, read section 18 of the style guide and work through the checklist yourself, especially the Teaching block: nothing used before it is taught, Describe, Demonstrate, Do for each concept, and the level matches the course.
 
@@ -200,7 +230,7 @@ End every task with this report, so the editor does not have to diff the file:
 - ...
 
 **Flagged for review:**
-- <!-- REVIEW --> comments added, with a one-line summary each
+- Review notes posted as editorial comments, with a one-line summary each
 
 **Patterns proposed:** repeated content that should become a pattern, and where it recurs (omit if none)
 

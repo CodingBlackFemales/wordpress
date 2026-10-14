@@ -87,6 +87,7 @@ Read sections 2 to 6 before writing anything. Use sections 7 to 16 as a referenc
 		- [When to use an image](#when-to-use-an-image)
 		- [Alt text](#alt-text)
 		- [Enlarge on click](#enlarge-on-click)
+		- [Alignment](#alignment)
 		- [Screenshots](#screenshots)
 		- [Diagrams](#diagrams)
 		- [Captions and file names](#captions-and-file-names)
@@ -471,6 +472,7 @@ Prose:
 - Always include a header row.
 - Keep cells short. If a cell needs more than two sentences, the content belongs in prose.
 - Introduce the table with a sentence saying what it compares.
+- Use the **Stripes** style, set in the table block's **Styles** panel. Alternating row shading helps the reader follow a row across the table, especially on a phone. Keep the table's fixed width cells setting on.
 - Do not use tables for layout.
 
 ### Columns
@@ -486,7 +488,7 @@ Columns put content side by side, such as an image beside the paragraph that exp
 
 ### Code blocks
 
-- Every code block declares a language. Use the Code Highlighting panel in the editor. In block markup, the language goes on the code element, `<code lang="sql" class="language-sql">`, not in the block comment (see the appendix).
+- Every code block declares a language. Use the Code Highlighting panel in the editor. In block markup, the language is the `language` attribute in the block comment, as in `<!-- wp:code {"language":"sql"} -->` (see the appendix).
 - Language names, as the platform's highlighter expects them:
 
 | Language | Value |
@@ -685,6 +687,10 @@ Turn on **Enlarge on click** for content images that are not already linked. Scr
 - An image that links somewhere, such as to the tool it shows, keeps its link instead. The two options cannot be combined.
 - You can leave it off for small images that are fully legible at their displayed size, such as an icon.
 
+### Alignment
+
+Centre every image that sits on its own in the lesson's single column: choose **Align centre** in the image block's toolbar, or set `"align":"center"` in block markup. A centred image reads as part of the text around it, whatever its width. An image inside a Columns block takes its place in the column, so leave its alignment unset.
+
 ### Screenshots
 
 - Crop to the window or element that matters. A full-screen capture of a 27-inch monitor is unreadable on a phone.
@@ -696,9 +702,30 @@ Turn on **Enlarge on click** for content images that are not already linked. Scr
 
 ### Diagrams
 
-- Prefer SVG so diagrams scale and stay sharp. The theme has an inline SVG pattern for entity-relationship and schema diagrams (class `cbf-er`); use it for tables and their relationships.
 - Keep one diagram to one idea. Two small diagrams beat one crowded one.
 - Label everything in the diagram in sentence case, and use the same names as the surrounding text and code.
+- Label every group and every arrow, so no meaning depends on colour.
+
+Draw diagrams in the house style, which uses the same design tokens as the lesson patterns, so a diagram looks like the activities and callouts around it:
+
+- **Type:** Atkinson Hyperlegible Next for labels, and Atkinson Hyperlegible Mono for commands and code. At 1x, headings are 16px bold, labels 15px and code 14px.
+- **Text and connectors:** ink (`#11181c`), with 2px connectors and solid arrowheads.
+- **Boxes:** white, with a 1.5px outline in ink at 25% opacity and 8px corners, like an activity panel.
+- **Groups:** borderless panels tinted with ink at 5%, like a callout, each with a heading.
+- **Emphasis:** at most one yellow (`#ffda65`) box, for the item the diagram is about.
+- **Background:** white, so the diagram reads in dark mode as a screenshot does.
+- **Size:** no wider than 420px at 1x, so labels stay legible at phone width.
+
+Make every diagram the same way:
+
+1. Copy the diagram template (`.agents/skills/cbf-academy-style/assets/diagram-template.svg`), which holds the house style, and draw the diagram as SVG.
+2. Save the source as `docs/diagrams/<lesson-slug>/<name>.svg`, with a descriptive kebab-case name. The source is what you edit when the diagram changes.
+3. Export it as a lossless WebP at twice its size: run `.agents/skills/cbf-academy-style/scripts/export_diagram.sh docs/diagrams/<lesson-slug>/<name>.svg`. The script uses the bundled Atkinson Hyperlegible fonts and prints the 1x size.
+4. Upload the WebP and insert it as an image block, centred, at its 1x width, with alt text and Enlarge on click.
+
+Diagrams are images rather than inline SVG because learners can enlarge an image, and an inline SVG can't be zoomed. The 2x export keeps the image sharp on high-resolution screens.
+
+Some older lessons draw entity-relationship diagrams as inline SVG (class `cbf-er`), in a palette that predates the visual identity. Redraw them in the house style when their lesson is migrated.
 
 ### Captions and file names
 
@@ -835,24 +862,24 @@ Agents draft and edit material under a human editor. They follow this guide like
 2. Do not change the technical meaning of source material. Restructure and rewrite freely; do not "correct" a claim, a command or a code sample without flagging it.
 3. Do not invent facts, version numbers, links, dataset names or examples that the source does not contain, unless asked to and then say which ones you added.
 4. Keep code verbatim unless asked to change it. If you believe code is wrong, keep it and flag it.
-5. Flag anything uncertain with an HTML comment in the block markup, `<!-- REVIEW: ... -->`, so it is invisible to learners but visible to the editor. Say what you were unsure about and what you did.
+5. Flag anything uncertain as an editorial comment on the post, never in the content. Start the comment with "Agent review", name the section it refers to, and say what you were unsure about and what you did. Editorial comments keep review notes out of the lesson and show them to the whole editorial team (see "Review notes" in the appendix). Don't use HTML comments for this: the block editor wraps a comment between blocks in an empty paragraph when the post is saved.
 6. Output WordPress block markup matching the appendix, not Markdown, unless asked otherwise.
 7. Finish with a short list of what you changed, what you removed, what you flagged and any glossary entries you propose. The editor should not have to diff the whole document to find out.
 8. Never mark a draft as reviewed. Review is a human step.
-9. Mark the glossary terms a lesson teaches with the markup in the appendix, using the IDs of existing entries. Leave terms it only uses plain. Don't create entries: where a key term has none, mark its first mention with `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` and list it in your report.
+9. Mark the glossary terms a lesson teaches with the markup in the appendix, using the IDs of existing entries. Leave terms it only uses plain. Don't create entries: where a key term has none, leave it unmarked and propose an entry, with a definition, in an editorial comment and in your report.
 
 **For humans directing agents**
 
 - Give the agent the source, the course level, the lesson's position in the course and any reference material, such as reviewer comments. It cannot infer these.
 - Ask for one kind of change at a time on large documents. "Fix the headings and structure" gets a better result than "edit this lesson".
-- Read every REVIEW comment before import, then delete them.
+- Read the agent's editorial comments on each post, which list everything it flagged, and resolve each one before the lesson goes live.
 - An agent's draft goes through the same review checklist as a human's.
 
 **Prompt preamble**
 
 Paste this at the start of any content task:
 
-> You are editing learning material for CBF Academy. Follow the CBF Academy content style guide at `docs/academy-style-guide.md`, in particular sections 4, 5, 7, 10, 12 and 17. Do not change technical meaning or invent facts. Flag uncertainties with `<!-- REVIEW: ... -->` comments. This course is at [level]. This lesson comes after [previous lesson] and before [next lesson]. Reference material for the source, such as reviewer comments: [paste, or "none"]. Output WordPress block markup. End with a list of changes, removals and flags.
+> You are editing learning material for CBF Academy. Follow the CBF Academy content style guide at `docs/academy-style-guide.md`, in particular sections 4, 5, 7, 10, 12 and 17. Do not change technical meaning or invent facts. Flag uncertainties as editorial comments on the post, never in the content. This course is at [level]. This lesson comes after [previous lesson] and before [next lesson]. Reference material for the source, such as reviewer comments: [paste, or "none"]. Output WordPress block markup. End with a list of changes, removals and flags.
 
 ## 18. Review checklist
 
@@ -891,10 +918,12 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 
 - [ ] Every content image has alt text describing what matters.
 - [ ] No text column narrower than half the content width.
+- [ ] Tables have a header row and use the Stripes style.
 - [ ] Content images that are not linked have Enlarge on click turned on.
+- [ ] Images outside Columns blocks are centred.
 - [ ] Decorative images, logos and template furniture removed.
 - [ ] Screenshots cropped, sharp, free of personal data.
-- [ ] Diagrams use the same names as the text and code.
+- [ ] Diagrams use the same names as the text and code, follow the house style, and are 2x WebP images with Enlarge on click.
 
 **Teaching**
 
@@ -963,13 +992,15 @@ These are the block forms the platform uses and the theme styles. Agents should 
 
 **Code block with language, title and line numbers**
 
-The attributes come from the WebberZone Code Block Highlighting plugin, which extends the core code block. Deactivating the plugin leaves the code intact.
+The attributes come from the WebberZone Code Block Highlighting plugin (version 1.3 or later), which extends the core code block. The plugin keeps every option in the block comment, and the HTML is the core block's plain `<pre class="wp-block-code"><code>`, so deactivating the plugin leaves the block valid.
 
-The plugin reads the language from `<code lang>` and the title from `<pre data-title>`, and saves line numbers and highlighted lines as classes and attributes on `<pre>`. The block comment holds only `lineNumbers`, `highlightLines` and `wordWrap`. Write the markup exactly as the plugin saves it, or the editor reports the block as invalid; a `language` or `title` in the block comment is ignored.
+- Write the options in this order, leaving out any you don't use: `language`, `lineNumbers`, `lineNumbersStart`, `wordWrap`, `highlightLines`, `maxHeight`, `downloadButton`, `colorScheme`, `title`. That is the order the editor saves them in.
+- Never add a language class, a `lang` attribute, `line-numbers`, `data-title` or `data-line` to the HTML. That was the markup of version 1.2 and earlier, which the editor converts when the post is next saved. To convert older posts in bulk, run `wp wzcbh migrate-code-blocks --dry-run` to see what would change, then without `--dry-run`.
+- The editor writes `[` inside a code block as `&#91;`, so WordPress doesn't read it as a shortcode. Either form is valid in markup you write; the editor saves the escaped one.
 
 ```html
-<!-- wp:code {"lineNumbers":true} -->
-<pre class="wp-block-code language-python line-numbers" data-title="load_orders.py"><code lang="python" class="language-python">import csv
+<!-- wp:code {"language":"python","lineNumbers":true,"title":"load_orders.py"} -->
+<pre class="wp-block-code"><code>import csv
 
 with open("orders.csv") as f:
     rows = list(csv.DictReader(f))
@@ -982,8 +1013,8 @@ print(len(rows))</code></pre>
 
 ```html
 <!-- wp:group {"tagName":"figure","metadata":{"patternName":"cbf-academy/annotated-code"},"layout":{"type":"constrained"},"allowedBlocks":["core/code","core/html"]} -->
-<figure class="wp-block-group"><!-- wp:code {"lineNumbers":true,"highlightLines":"2,5"} -->
-<pre class="wp-block-code language-sql line-numbers" data-title="models/marts/orders.sql" data-line="2,5"><code lang="sql" class="language-sql">SELECT
+<figure class="wp-block-group"><!-- wp:code {"language":"sql","lineNumbers":true,"highlightLines":"2,5","title":"models/marts/orders.sql"} -->
+<pre class="wp-block-code"><code>SELECT
     o.order_id,
     o.customer_id,
     o.order_date
@@ -1045,16 +1076,16 @@ Every activity has the same shape: a group with `cbf-activity` and a type modifi
 **Image with alt text and Enlarge on click**
 
 ```html
-<!-- wp:image {"lightbox":{"enabled":true},"linkDestination":"none"} -->
-<figure class="wp-block-image"><img src="media/bigquery-console-run-button.png" alt="BigQuery console with the Run button highlighted"/></figure>
+<!-- wp:image {"lightbox":{"enabled":true},"linkDestination":"none","align":"center"} -->
+<figure class="wp-block-image aligncenter"><img src="media/bigquery-console-run-button.png" alt="BigQuery console with the Run button highlighted"/></figure>
 <!-- /wp:image -->
 ```
 
-**Table**
+**Table (Stripes style)**
 
 ```html
-<!-- wp:table -->
-<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>git status</code></td><td>Shows changed files.</td></tr><tr><td><code>git log</code></td><td>Shows commit history.</td></tr></tbody></table></figure>
+<!-- wp:table {"className":"is-style-stripes"} -->
+<figure class="wp-block-table is-style-stripes"><table class="has-fixed-layout"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>git status</code></td><td>Shows changed files.</td></tr><tr><td><code>git log</code></td><td>Shows commit history.</td></tr></tbody></table></figure>
 <!-- /wp:table -->
 ```
 
@@ -1114,8 +1145,12 @@ Each tab is a `tabs-item` with a `title`. Keep the `title` attribute, the `data-
 <!-- /wp:themeisle-blocks/tabs -->
 ```
 
-**Review flag for editors (invisible to learners)**
+**Review notes**
 
-```html
-<!-- REVIEW: the source says "LookerML"; changed to "LookML" per the word list. Confirm this was not deliberate. -->
+Review notes are PublishPress editorial comments on the post, not markup. Add them in the **Editorial Comments** box below the editor. The team sees every post's comments on the **Planner › Editorial Comments** screen. Write one note per issue, starting with the section it refers to:
+
+```text
+Agent review, "Work with branches > Create a branch": The source says "LookerML"; changed to "LookML" per the word list. Confirm this was not deliberate.
 ```
+
+Agents add them from a list of notes with `.agents/skills/cbf-academy-style/scripts/add_editorial_comments.php`, attributed to the person they're working for.
