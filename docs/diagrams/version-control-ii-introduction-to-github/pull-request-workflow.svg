@@ -1,0 +1,45 @@
+<svg viewBox="0 0 400 540" width="400" height="540" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="prTitle prDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+  </style>
+  <title id="prTitle">The steps of a pull request, from feature branch to merge</title>
+  <desc id="prDesc">Create a feature branch, commit and push your changes, open a pull request, and reviewers discuss the changes. If they request changes, you commit and push again and the review continues. If not, the pull request is merged into the target branch.</desc>
+  <rect class="cbf-diagram-canvas" width="400" height="540"/>
+  <defs>
+    <marker id="prArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="cbf-diagram-node" x="35" y="16" width="240" height="46" rx="8"/>
+  <text class="cbf-diagram-label" x="155" y="44" text-anchor="middle">Create a feature branch</text>
+  <rect class="cbf-diagram-node" x="35" y="96" width="240" height="46" rx="8"/>
+  <text class="cbf-diagram-label" x="155" y="124" text-anchor="middle">Commit and push your changes</text>
+  <rect class="cbf-diagram-node" x="35" y="176" width="240" height="46" rx="8"/>
+  <text class="cbf-diagram-label" x="155" y="204" text-anchor="middle">Open a pull request</text>
+  <rect class="cbf-diagram-node" x="35" y="256" width="240" height="46" rx="8"/>
+  <text class="cbf-diagram-label" x="155" y="284" text-anchor="middle">Reviewers discuss the changes</text>
+  <line class="cbf-diagram-flow" x1="155" y1="62" x2="155" y2="94" marker-end="url(#prArrow)"/>
+  <line class="cbf-diagram-flow" x1="155" y1="142" x2="155" y2="174" marker-end="url(#prArrow)"/>
+  <line class="cbf-diagram-flow" x1="155" y1="222" x2="155" y2="254" marker-end="url(#prArrow)"/>
+  <line class="cbf-diagram-flow" x1="155" y1="302" x2="155" y2="328" marker-end="url(#prArrow)"/>
+  <polygon class="cbf-diagram-node" points="155,330 260,380 155,430 50,380"/>
+  <text class="cbf-diagram-label" x="155" y="376" text-anchor="middle">Changes</text>
+  <text class="cbf-diagram-label" x="155" y="395" text-anchor="middle">requested?</text>
+  <line class="cbf-diagram-flow" x1="155" y1="430" x2="155" y2="478" marker-end="url(#prArrow)"/>
+  <text class="cbf-diagram-label" x="165" y="459">No</text>
+  <path class="cbf-diagram-flow" d="M260,380 H370 V119 H277" marker-end="url(#prArrow)"/>
+  <text class="cbf-diagram-label" x="270" y="371">Yes</text>
+  <rect class="cbf-diagram-node-key" x="35" y="480" width="240" height="46" rx="8"/>
+  <text class="cbf-diagram-label" x="155" y="508" text-anchor="middle">Merge into the target branch</text>
+</svg>
