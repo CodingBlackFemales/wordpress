@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.400.1",
+            "version": "3.401.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c0cf2c322bc1a344aaf39250da8856563532f82b"
+                "reference": "4cdda6c2d836fa91a8177535530952c96a582f57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c0cf2c322bc1a344aaf39250da8856563532f82b",
-                "reference": "c0cf2c322bc1a344aaf39250da8856563532f82b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4cdda6c2d836fa91a8177535530952c96a582f57",
+                "reference": "4cdda6c2d836fa91a8177535530952c96a582f57",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.400.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.401.1"
             },
-            "time": "2026-10-09T18:11:15+00:00"
+            "time": "2026-10-13T18:14:25+00:00"
         },
         {
             "name": "composer/installers",
@@ -6041,12 +6041,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "d22846ef3af1a3a5c9d5d0fb450c59715d433036"
+                "reference": "095ae22ff9e010319f24b325ae98b29b989ec2e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/d22846ef3af1a3a5c9d5d0fb450c59715d433036",
-                "reference": "d22846ef3af1a3a5c9d5d0fb450c59715d433036",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/095ae22ff9e010319f24b325ae98b29b989ec2e4",
+                "reference": "095ae22ff9e010319f24b325ae98b29b989ec2e4",
                 "shasum": ""
             },
             "require": {
@@ -6119,7 +6119,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli/issues",
                 "source": "https://github.com/wp-cli/wp-cli"
             },
-            "time": "2026-10-08T05:47:46+00:00"
+            "time": "2026-10-10T10:00:59+00:00"
         },
         {
             "name": "wp-cli/wp-cli-bundle",
@@ -6127,12 +6127,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli-bundle.git",
-                "reference": "70b6c305d9ff41edfdd42fc5e61f094bcf131580"
+                "reference": "3225c038a6d277f6aab6ab323a416d8cdcd1115a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/70b6c305d9ff41edfdd42fc5e61f094bcf131580",
-                "reference": "70b6c305d9ff41edfdd42fc5e61f094bcf131580",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli-bundle/zipball/3225c038a6d277f6aab6ab323a416d8cdcd1115a",
+                "reference": "3225c038a6d277f6aab6ab323a416d8cdcd1115a",
                 "shasum": ""
             },
             "require": {
@@ -6201,7 +6201,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli-bundle/issues",
                 "source": "https://github.com/wp-cli/wp-cli-bundle"
             },
-            "time": "2026-10-09T12:52:58+00:00"
+            "time": "2026-10-11T07:13:46+00:00"
         },
         {
             "name": "wp-cli/wp-config-transformer",
@@ -6439,15 +6439,15 @@
         },
         {
             "name": "wp-plugin/facebook-for-woocommerce",
-            "version": "3.7.6",
+            "version": "3.7.8",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/facebook-for-woocommerce/",
-                "reference": "tags/3.7.6"
+                "reference": "tags/3.7.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.7.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/facebook-for-woocommerce.3.7.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6466,7 +6466,7 @@
                 "issues": "https://wordpress.org/support/plugin/facebook-for-woocommerce",
                 "source": "https://plugins.svn.wordpress.org/facebook-for-woocommerce"
             },
-            "time": "2026-10-08T05:43:14+00:00"
+            "time": "2026-10-12T09:01:22+00:00"
         },
         {
             "name": "wp-plugin/header-footer-code-manager",
@@ -6532,15 +6532,15 @@
         },
         {
             "name": "wp-plugin/jetpack",
-            "version": "16.3",
+            "version": "16.3.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/jetpack/",
-                "reference": "tags/16.3"
+                "reference": "tags/16.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/jetpack.16.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/jetpack.16.3.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6559,7 +6559,7 @@
                 "issues": "https://wordpress.org/support/plugin/jetpack",
                 "source": "https://plugins.svn.wordpress.org/jetpack"
             },
-            "time": "2026-10-06T21:10:33+00:00"
+            "time": "2026-10-12T20:08:20+00:00"
         },
         {
             "name": "wp-plugin/litespeed-cache",
@@ -6965,15 +6965,15 @@
         },
         {
             "name": "wp-plugin/webberzone-code-block-highlighting",
-            "version": "1.2.3",
+            "version": "1.3.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting/",
-                "reference": "tags/1.2.3"
+                "reference": "tags/1.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.2.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/webberzone-code-block-highlighting.1.3.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6992,7 +6992,7 @@
                 "issues": "https://wordpress.org/support/plugin/webberzone-code-block-highlighting",
                 "source": "https://plugins.svn.wordpress.org/webberzone-code-block-highlighting"
             },
-            "time": "2026-10-03T14:21:16+00:00"
+            "time": "2026-10-11T15:05:14+00:00"
         },
         {
             "name": "wp-plugin/woocommerce",
@@ -7054,7 +7054,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-gateway-stripe",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe"
             },
-            "time": "2026-10-05T14:57:42+00:00"
+            "time": "2026-10-13T12:31:42+00:00"
         },
         {
             "name": "wp-plugin/woocommerce-paypal-payments",
@@ -7120,15 +7120,15 @@
         },
         {
             "name": "wp-plugin/wp-graphql",
-            "version": "2.23.1",
+            "version": "2.24.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-graphql/",
-                "reference": "tags/2.23.1"
+                "reference": "tags/2.24.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.23.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.24.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7147,7 +7147,7 @@
                 "issues": "https://wordpress.org/support/plugin/wp-graphql",
                 "source": "https://plugins.svn.wordpress.org/wp-graphql"
             },
-            "time": "2026-09-22T18:41:24+00:00"
+            "time": "2026-10-14T03:17:09+00:00"
         },
         {
             "name": "wp-plugin/wp-job-manager",
@@ -8924,16 +8924,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "13.4.1",
+            "version": "13.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ccde40327c501eebff192614b0dcf11806418901"
+                "reference": "7b9ba83328f01ce299ef82161720195bd827a4bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ccde40327c501eebff192614b0dcf11806418901",
-                "reference": "ccde40327c501eebff192614b0dcf11806418901",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7b9ba83328f01ce299ef82161720195bd827a4bb",
+                "reference": "7b9ba83328f01ce299ef82161720195bd827a4bb",
                 "shasum": ""
             },
             "require": {
@@ -9004,7 +9004,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.4.1"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.4.2"
             },
             "funding": [
                 {
@@ -9012,7 +9012,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-10-05T05:51:21+00:00"
+            "time": "2026-10-12T15:29:04+00:00"
         },
         {
             "name": "psr/container",
@@ -9202,12 +9202,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "96cf8b77ade13bb6638d1b26d48a72deec75b7d0"
+                "reference": "7fcdbb9a0188bf16cf71a4f6a58069f3635e469e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/96cf8b77ade13bb6638d1b26d48a72deec75b7d0",
-                "reference": "96cf8b77ade13bb6638d1b26d48a72deec75b7d0",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7fcdbb9a0188bf16cf71a4f6a58069f3635e469e",
+                "reference": "7fcdbb9a0188bf16cf71a4f6a58069f3635e469e",
                 "shasum": ""
             },
             "conflict": {
@@ -9254,6 +9254,7 @@
                 "api-platform/hal": ">=4,<4.1.29|>=4.2,<4.2.25|>=4.3,<4.3.8",
                 "api-platform/json-api": ">=4,<4.1.29|>=4.2,<4.2.25|>=4.3,<4.3.8",
                 "appwrite/server-ce": "<=1.2.1",
+                "aptoma/twig-markdown": "<=3.4.1",
                 "arc/web": "<3",
                 "area17/twill": "<1.2.5|>=2,<2.5.3",
                 "artesaos/seotools": "<0.17.2",
@@ -9412,6 +9413,8 @@
                 "dompdf/dompdf": "<3.1.6",
                 "doublethreedigital/guest-entries": "<3.1.2",
                 "dreamfactory/df-core": "<1.0.4",
+                "drupal-pattern-lab/add-attributes-twig-extension": "<=1.0.1",
+                "drupal-pattern-lab/bem-twig-extension": "<=1.0.1",
                 "drupal-pattern-lab/unified-twig-extensions": "<=0.1",
                 "drupal/access_code": "<2.0.5",
                 "drupal/acquia_dam": "<1.1.5",
@@ -9616,6 +9619,7 @@
                 "islandora/islandora": ">=2,<2.4.1",
                 "ivankristianto/phpwhois": "<=4.3",
                 "j0k3r/graby": "<=2.5",
+                "j0k3r/httplug-ssrf-plugin": "<=3.0.1",
                 "jackalope/jackalope-doctrine-dbal": "<1.7.4",
                 "jambagecom/div2007": "<0.10.2",
                 "james-heinrich/getid3": "<1.9.21",
@@ -9842,6 +9846,7 @@
                 "paragonie/random_compat": "<2",
                 "paragonie/sodium_compat": "<1.24.1|>=2,<2.5.1",
                 "passbolt/passbolt_api": "<4.6.2",
+                "pattern-lab/drupal-twig-components": "<=2.2",
                 "paymenter/paymenter": "<=1.5.6",
                 "paypal/adaptivepayments-sdk-php": "<=3.9.2",
                 "paypal/invoice-sdk-php": "<=3.9",
@@ -10165,7 +10170,7 @@
                 "typo3/cms-felogin": ">=4.2,<4.2.3",
                 "typo3/cms-filelist": ">=11,<11.5.51|>=12,<12.4.46|>=13,<13.4.31|>=14,<14.3.3",
                 "typo3/cms-fluid": "<4.3.4|>=4.4,<4.4.1|>=8,<8.7.23|>=9,<9.5.4",
-                "typo3/cms-form": "<10.4.57|>=11,<11.5.51|>=12,<12.4.46|>=13,<13.4.31|>=14,<14.3.5",
+                "typo3/cms-form": "<10.4.57|>=11,<11.5.51|>=12,<12.4.46|>=13,<13.4.31|>=14,<14.3.9",
                 "typo3/cms-frontend": "<4.3.9|>=4.4,<4.4.5",
                 "typo3/cms-indexed-search": ">=10,<=10.4.47|>=11,<=11.5.41|>=12,<=12.4.24|>=13,<13.4.31|>=14,<14.3.3",
                 "typo3/cms-install": "<4.1.14|>=4.2,<4.2.16|>=4.3,<4.3.9|>=4.4,<4.4.5|>=12.2,<12.4.8|==13.4.2",
@@ -10346,7 +10351,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-08T22:58:27+00:00"
+            "time": "2026-10-13T16:53:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",
