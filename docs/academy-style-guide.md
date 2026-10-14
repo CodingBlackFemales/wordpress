@@ -558,7 +558,7 @@ Use this pattern when a learner needs to understand particular lines rather than
 
 Rules:
 
-- Annotate at most five lines per block. More than that means the block needs splitting, or the explanation belongs in prose.
+- Aim for five annotations or fewer per block. Beyond that, highlights stop standing out and learners lose their place moving between the code and the notes. Split the block into smaller examples, or move some of the explanation to prose. A longer list is fine when each note covers the same kind of line, such as one per data type.
 - Keep each annotation to one or two sentences.
 - Annotate what the line does and why it matters, not what it says. "Line 5: `ref()` tells dbt this model depends on `stg_orders`, so dbt builds them in the right order" is useful. "Line 5: calls ref" is not.
 
@@ -885,7 +885,7 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] Every example runs. Versions stated where they matter.
 - [ ] Placeholders in `<angle-brackets>` and explained.
 - [ ] No screenshots of code.
-- [ ] Annotated blocks have five or fewer annotations, each matching a highlighted line.
+- [ ] Each annotation matches a highlighted line. Blocks with more than five annotations have been considered for splitting.
 
 **Media**
 

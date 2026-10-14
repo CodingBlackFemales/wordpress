@@ -409,8 +409,9 @@ def check_code(text, out):
         items = re.findall(r"<li\b([^>]*)>", m.group(1), flags=re.I)
         line = line_of(text, m.start())
         if len(items) > 5:
-            out.append(Finding(line, ERROR, "annotations",
-                               f"{len(items)} annotations. Five at most; split the block or move the explanation to prose"))
+            out.append(Finding(line, WARNING, "annotations",
+                               f"{len(items)} annotations. Over five, consider splitting the block or moving "
+                               "some of the explanation to prose"))
         for attrs in items:
             if not re.search(r'\bvalue="\d+"', attrs):
                 out.append(Finding(line, ERROR, "annotations",
