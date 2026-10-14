@@ -190,6 +190,40 @@ function cbf_academy_pattern_category() {
 add_action( 'init', 'cbf_academy_pattern_category' );
 
 /**
+ * Offers only the CBF Academy patterns in lesson content.
+ *
+ * Core, Otter Blocks and the form plugins register dozens of page-building
+ * patterns that have no place in a lesson. Each pattern outside the CBF
+ * Academy category is limited to the site's other post types, so the editor
+ * hides it in LearnDash content and synced patterns but still offers it on
+ * pages. This runs after every plugin has registered its patterns.
+ */
+function cbf_academy_limit_patterns() {
+	$registry   = WP_Block_Patterns_Registry::get_instance();
+	$post_types = array_values( array_diff( get_post_types( array( 'show_in_rest' => true ) ), cbf_academy_content_post_types() ) );
+
+	foreach ( $registry->get_all_registered() as $pattern ) {
+		if ( in_array( 'cbf-academy', $pattern['categories'] ?? array(), true ) ) {
+			continue;
+		}
+
+		$name = $pattern['name'];
+		unset( $pattern['name'] );
+
+		$pattern['postTypes'] = isset( $pattern['postTypes'] )
+			? array_values( array_intersect( $pattern['postTypes'], $post_types ) )
+			: $post_types;
+
+		$registry->unregister( $name );
+		$registry->register( $name, $pattern );
+	}
+}
+add_action( 'init', 'cbf_academy_limit_patterns', PHP_INT_MAX );
+
+// The editor would otherwise fetch featured patterns from WordPress.org.
+add_filter( 'should_load_remote_block_patterns', '__return_false' );
+
+/**
  * Lets editors change the blocks inside the patterns they insert.
  *
  * WordPress 7 treats a group inserted from an unsynced pattern as a locked,

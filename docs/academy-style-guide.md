@@ -603,7 +603,7 @@ There are two kinds:
 
 ### Current patterns
 
-The **CBF Academy** category holds the activity patterns below and the callouts in section 11.
+The **CBF Academy** category holds the activity patterns below and the callouts in section 11. In courses, lessons, topics and quizzes, the inserter offers only these patterns; the page-building patterns from WordPress and plugins appear on other pages only.
 
 | Pattern | Kind | Use for |
 | --- | --- | --- |
