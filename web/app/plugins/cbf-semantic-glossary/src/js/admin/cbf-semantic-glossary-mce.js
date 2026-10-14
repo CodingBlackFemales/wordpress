@@ -8,7 +8,10 @@
 
 /* global tinymce */
 
-tinymce.PluginManager.add( 'glossary_code', ( editor ) => {
+// A function expression, not an arrow function: TinyMCE 4 instantiates each
+// plugin with `new`, and an arrow function can't be constructed, so the
+// editor would report "Failed to initialize plugin: glossary_code".
+tinymce.PluginManager.add( 'glossary_code', function ( editor ) {
 	editor.addButton( 'glossary_code', {
 		text: '</>',
 		tooltip: 'Inline code',
