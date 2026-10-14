@@ -368,12 +368,19 @@ def check_code(text, out):
         except json.JSONDecodeError:
             out.append(Finding(line, ERROR, "code-attrs", "Code block attributes are not valid JSON", m.group(1).strip()))
             attrs = {}
-        lang = attrs.get("language")
+        # The highlighter reads the language from <code lang>, never from the block comment.
+        lang_m = re.search(r'<code\b[^>]*\blang="([^"]+)"', m.group(2))
+        lang = lang_m.group(1) if lang_m else None
         body_m = re.search(r"<code[^>]*>(.*?)</code>", m.group(2), flags=re.S)
         body = body_m.group(1) if body_m else ""
         first = body.strip().splitlines()[0][:60] if body.strip() else ""
-        if not lang:
-            out.append(Finding(line, ERROR, "code-language", "Code block has no language. Set \"language\"", first))
+        if not lang and attrs.get("language"):
+            out.append(Finding(line, ERROR, "code-language",
+                               "Language set only in the block comment, which the highlighter ignores. "
+                               "Put it on the code element: <code lang=\"sql\" class=\"language-sql\">", first))
+        elif not lang:
+            out.append(Finding(line, ERROR, "code-language", "Code block has no language. Set it in the editor's "
+                               "Code Highlighting panel, or as <code lang=\"…\"> in markup", first))
         elif lang not in ALLOWED_LANGUAGES:
             hint = LANGUAGE_HINTS.get(lang.lower())
             msg = f"Language \"{lang}\" is not in the guide's list" + (f". Use \"{hint}\"" if hint else "")

@@ -142,24 +142,106 @@ class Patterns_Command extends \WP_CLI_Command {
 
 		foreach ( glob( get_stylesheet_directory() . '/patterns/*.php' ) as $file ) {
 			$header = get_file_data( $file, self::THEME_HEADERS );
-			$old    = $header['replaces'] !== '' && $header['slug'] !== '' ? self::find_unsynced( $header['replaces'] ) : null;
 
-			if ( ! $old ) {
-				continue;
+			if ( $header['replaces'] !== '' && $header['slug'] !== '' ) {
+				$replaced += self::replace_database_pattern( $header['replaces'], $header['slug'], $dry_run );
+				$replaced += self::replace_deleted_pattern( $header['replaces'], $header['slug'], $dry_run );
 			}
-
-			$posts = self::posts_built_from( $old->ID );
-
-			if ( ! $dry_run ) {
-				self::repoint( $posts, $old->ID, $header['slug'] );
-				wp_trash_post( $old->ID );
-			}
-
-			++$replaced;
-			WP_CLI::log( sprintf( '%sReplaced: %s (%d) with %s in %d posts', $dry_run ? 'Would be ' : '', $old->post_title, $old->ID, $header['slug'], count( $posts ) ) );
 		}
 
 		return $replaced;
+	}
+
+	/**
+	 * Replaces an unsynced database pattern with a theme pattern.
+	 *
+	 * @param string $title   Database pattern title.
+	 * @param string $slug    Theme pattern slug.
+	 * @param bool   $dry_run Whether to only report.
+	 * @return int 1 if the pattern was replaced, else 0.
+	 */
+	private static function replace_database_pattern( $title, $slug, $dry_run ) {
+		$old = self::find_unsynced( $title );
+
+		if ( ! $old ) {
+			return 0;
+		}
+
+		$posts = self::posts_built_from( $old->ID );
+
+		if ( ! $dry_run ) {
+			foreach ( $posts as $post_id ) {
+				self::replace_in_post( $post_id, self::pattern_marker( "core/block/{$old->ID}" ), self::pattern_marker( $slug ) );
+			}
+			wp_trash_post( $old->ID );
+		}
+
+		WP_CLI::log( sprintf( '%sReplaced: %s (%d) with %s in %d posts', $dry_run ? 'Would be ' : '', $old->post_title, $old->ID, $slug, count( $posts ) ) );
+
+		return 1;
+	}
+
+	/**
+	 * Points blocks inserted from a database pattern that no longer exists at
+	 * a theme pattern.
+	 *
+	 * Such blocks can only be recognised by the pattern name in their
+	 * metadata. A reference is left alone if its ID is still a pattern on
+	 * this site.
+	 *
+	 * @param string $title   Deleted pattern's title.
+	 * @param string $slug    Theme pattern slug.
+	 * @param bool   $dry_run Whether to only report.
+	 * @return int 1 if any blocks were found, else 0.
+	 */
+	private static function replace_deleted_pattern( $title, $slug, $dry_run ) {
+		$references = self::deleted_pattern_references( $title );
+
+		if ( ! $references ) {
+			return 0;
+		}
+
+		if ( ! $dry_run ) {
+			foreach ( $references as $post_id => $pattern_ids ) {
+				foreach ( $pattern_ids as $pattern_id ) {
+					self::replace_in_post( $post_id, self::pattern_marker( "core/block/{$pattern_id}", $title ), self::pattern_marker( $slug, $title ) );
+				}
+			}
+		}
+
+		$ids = array_unique( array_merge( ...array_values( $references ) ) );
+		WP_CLI::log( sprintf( '%sReplaced: %s (deleted pattern %s) with %s in %d posts', $dry_run ? 'Would be ' : '', $title, implode( ', ', $ids ), $slug, count( $references ) ) );
+
+		return 1;
+	}
+
+	/**
+	 * Blocks inserted from a deleted database pattern with a title.
+	 *
+	 * @param string $title Pattern title.
+	 * @return array<int, int[]> Pattern IDs referenced, by post ID.
+	 */
+	private static function deleted_pattern_references( $title ) {
+		global $wpdb;
+
+		$name  = self::json_string( $title );
+		$like  = '%' . $wpdb->esc_like( '"name":"' . $name . '"' ) . '%';
+		$regex = '/"patternName":"core\/block\/(\d+)","name":"' . preg_quote( $name, '/' ) . '"/';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- A one-off search of post content.
+		$posts = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_content FROM {$wpdb->posts} WHERE post_type <> 'revision' AND post_content LIKE %s", $like ) );
+
+		$references = array();
+		foreach ( $posts as $post ) {
+			preg_match_all( $regex, $post->post_content, $matches );
+			$deleted = array_filter( array_unique( array_map( 'intval', $matches[1] ) ), fn( $id ) => get_post_type( $id ) !== 'wp_block' );
+
+			if ( $deleted ) {
+				$references[ (int) $post->ID ] = array_values( $deleted );
+			}
+		}
+
+		return $references;
 	}
 
 	/**
@@ -199,33 +281,43 @@ class Patterns_Command extends \WP_CLI_Command {
 	}
 
 	/**
-	 * Points the blocks a database pattern inserted at the theme pattern.
+	 * Replaces a pattern reference in a post's block metadata.
 	 *
-	 * Only the patternName in each block's metadata changes. It is written
-	 * directly, so no content filter, revision or modified date is involved.
+	 * Only the patternName changes. It is written directly, so no content
+	 * filter, revision or modified date is involved.
 	 *
-	 * @param int[]  $posts      Post IDs.
-	 * @param int    $pattern_id Database pattern ID.
-	 * @param string $slug       Theme pattern slug.
+	 * @param int    $post_id Post ID.
+	 * @param string $from    Marker to replace.
+	 * @param string $to      Replacement marker.
 	 */
-	private static function repoint( $posts, $pattern_id, $slug ) {
+	private static function replace_in_post( $post_id, $from, $to ) {
 		global $wpdb;
 
-		foreach ( $posts as $post_id ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- See the method description.
-			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->posts} SET post_content = REPLACE( post_content, %s, %s ) WHERE ID = %d", self::pattern_marker( "core/block/{$pattern_id}" ), self::pattern_marker( $slug ), $post_id ) );
-			clean_post_cache( $post_id );
-		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- See the method description.
+		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->posts} SET post_content = REPLACE( post_content, %s, %s ) WHERE ID = %d", $from, $to, $post_id ) );
+		clean_post_cache( $post_id );
 	}
 
 	/**
-	 * How block metadata records the pattern a block was inserted from.
+	 * How block metadata records the pattern a block was inserted from, and
+	 * optionally the block's name, which follows it.
 	 *
-	 * @param string $name Pattern name.
+	 * @param string $pattern Pattern name, such as core/block/6101.
+	 * @param string $name    Block name, such as the pattern's title.
 	 * @return string
 	 */
-	private static function pattern_marker( $name ) {
-		return '"patternName":"' . $name . '"';
+	private static function pattern_marker( $pattern, $name = '' ) {
+		return '"patternName":"' . $pattern . '"' . ( $name !== '' ? ',"name":"' . self::json_string( $name ) . '"' : '' );
+	}
+
+	/**
+	 * A string as block attributes encode it, without the quotes.
+	 *
+	 * @param string $text Text.
+	 * @return string
+	 */
+	private static function json_string( $text ) {
+		return substr( serialize_block_attributes( array( $text ) ), 2, -2 );
 	}
 
 	/**

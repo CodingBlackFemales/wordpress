@@ -486,7 +486,7 @@ Columns put content side by side, such as an image beside the paragraph that exp
 
 ### Code blocks
 
-- Every code block declares a language. Use the Code Highlighting panel in the editor, or the `language` attribute in block markup (see the appendix).
+- Every code block declares a language. Use the Code Highlighting panel in the editor. In block markup, the language goes on the code element, `<code lang="sql" class="language-sql">`, not in the block comment (see the appendix).
 - Language names, as the platform's highlighter expects them:
 
 | Language | Value |
@@ -551,15 +551,16 @@ Use inline code for anything that appears literally in code or on screen: identi
 
 Use this pattern when a learner needs to understand particular lines rather than the block as a whole. It pairs the highlighter's **Highlight lines** setting with an ordered list of annotations, styled by the theme's `code-annotations` class.
 
-1. Turn on line numbers.
-2. In **Highlight lines**, list the lines to explain: `2,5-6`.
-3. Put the code block in a **Group** block with **figure** as its HTML element, and add a **Custom HTML** block after the code. It holds a `<figcaption>` with an ordered list with the class `code-annotations`. Give each item a `value` matching a highlighted line, and the theme labels it "Line 2:". The editor's List block can't set an item's value, which is why the list is HTML.
+1. Insert the **Annotated code** pattern. It holds a code block and, below it, a Custom HTML block with the annotations, wrapped in a figure.
+2. Paste the code, set its language and keep line numbers on.
+3. In **Highlight lines**, list the lines to explain: `2,5-6`.
+4. In the annotations, give each item a `value` matching a highlighted line, and the theme labels it "Line 2:". The editor's List block can't set an item's value, which is why the annotations are HTML.
 
 Rules:
 
 - Annotate at most five lines per block. More than that means the block needs splitting, or the explanation belongs in prose.
 - Keep each annotation to one or two sentences.
-- Annotate what the line does and why it matters, not what it says. "L5: `ref()` tells dbt this model depends on `stg_orders`, so dbt builds them in the right order" is useful. "L5: calls ref" is not.
+- Annotate what the line does and why it matters, not what it says. "Line 5: `ref()` tells dbt this model depends on `stg_orders`, so dbt builds them in the right order" is useful. "Line 5: calls ref" is not.
 
 Markup is in the appendix.
 
@@ -616,6 +617,7 @@ The **CBF Academy** category holds the activity patterns below and the callouts 
 | Q&A | Synced | A pause for the cohort's questions in a live session. |
 | Break | Synced | A break in a live session. The instructor decides how long, so the content never gives a duration or a time. |
 | Recap | Unsynced | A short recap part-way through a long lesson. The closing summary stays a section (section 7). |
+| Annotated code | Unsynced | A code block whose highlighted lines are explained in numbered notes (section 10). |
 | OS tabs | Unsynced | Steps that differ by operating system, mainly in shared setup guides. |
 
 **Activity patterns.** All the CBF Academy patterns carry class names only. The theme draws their icons, colours and type, so the design can change without editing a lesson.
@@ -963,9 +965,11 @@ These are the block forms the platform uses and the theme styles. Agents should 
 
 The attributes come from the WebberZone Code Block Highlighting plugin, which extends the core code block. Deactivating the plugin leaves the code intact.
 
+The plugin reads the language from `<code lang>` and the title from `<pre data-title>`, and saves line numbers and highlighted lines as classes and attributes on `<pre>`. The block comment holds only `lineNumbers`, `highlightLines` and `wordWrap`. Write the markup exactly as the plugin saves it, or the editor reports the block as invalid; a `language` or `title` in the block comment is ignored.
+
 ```html
-<!-- wp:code {"language":"python","lineNumbers":true,"title":"load_orders.py"} -->
-<pre class="wp-block-code"><code>import csv
+<!-- wp:code {"lineNumbers":true} -->
+<pre class="wp-block-code language-python line-numbers" data-title="load_orders.py"><code lang="python" class="language-python">import csv
 
 with open("orders.csv") as f:
     rows = list(csv.DictReader(f))
@@ -977,9 +981,9 @@ print(len(rows))</code></pre>
 **Annotated code block**
 
 ```html
-<!-- wp:group {"tagName":"figure","layout":{"type":"constrained"}} -->
-<figure class="wp-block-group"><!-- wp:code {"language":"sql","lineNumbers":true,"highlightLines":"2,5","title":"models/marts/orders.sql"} -->
-<pre class="wp-block-code"><code>SELECT
+<!-- wp:group {"tagName":"figure","metadata":{"patternName":"cbf-academy/annotated-code"},"layout":{"type":"constrained"},"allowedBlocks":["core/code","core/html"]} -->
+<figure class="wp-block-group"><!-- wp:code {"lineNumbers":true,"highlightLines":"2,5"} -->
+<pre class="wp-block-code language-sql line-numbers" data-title="models/marts/orders.sql" data-line="2,5"><code lang="sql" class="language-sql">SELECT
     o.order_id,
     o.customer_id,
     o.order_date
