@@ -132,6 +132,13 @@ the full redesign.
   font-family: var(--cbf-font-mono);
 }
 
+/* Centred images. Core gives a centred image block display: table, and
+   leaves the auto margins that centre it to a block theme's layout
+   styles, which this classic theme doesn't have. */
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) .wp-block-image.aligncenter {
+  margin-inline: auto;
+}
+
 /*--------------------------------------------------------------
 Activities
 <section> or <div> .cbf-activity.cbf-activity--{type}
