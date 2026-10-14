@@ -11,6 +11,8 @@ metadata:
 
 A deck was written to be presented: the presenter carried the reasoning, the connections and the examples. The migrated lesson has to carry them itself. Reproducing the slides in order as paragraphs is not a migration.
 
+Review notes are editorial comments on the post, never markup in the content: see "Review notes" in the `cbf-academy-style` skill.
+
 The canonical process is [references/migration-playbook.md](references/migration-playbook.md), a symlink to `docs/migration-playbook.md` (about 120 lines; read it in full on first use). The standard the result must meet is the CBF Academy style guide. Activate the `cbf-academy-style` skill alongside this one. If your client cannot, read `.agents/skills/cbf-academy-style/SKILL.md` before the prose pass.
 
 ## Inputs
@@ -21,7 +23,7 @@ Work from these sources:
 2. Reference material the user provides, such as a curriculum tracker export, reviewer comments, author notes or a course outline. Use whatever it holds about the lesson's position in the course, its review status and the changes reviewers asked for. If the user hasn't mentioned any, ask whether there is any before you start. If there is none, carry on without it.
 3. The course level and the course formats the lesson serves (short course, part-time bootcamp, full-time bootcamp). Ask if neither the references nor the user say.
 
-The imported content and the user's references are enough. Do not try to fetch the original decks from Google Drive, recover the importer's temporary files, or chase speaker notes. Where the slides leave the reasoning out and you can't supply it from the references or the surrounding content, write the best explanation you can and flag it with a REVIEW comment.
+The imported content and the user's references are enough. Do not try to fetch the original decks from Google Drive, recover the importer's temporary files, or chase speaker notes. Where the slides leave the reasoning out and you can't supply it from the references or the surrounding content, write the best explanation you can and flag it in a review note.
 
 If the user does give you a local `.pptx`, `scripts/deck_outline.py` prints its slides with their speaker notes (run it with `.venv-pptx/bin/python`). It is optional.
 
@@ -72,17 +74,17 @@ Progress:
 ### 1. Structure
 
 - Delete cover, closing, "any questions?", contact and agenda-timing slides.
-- Replace confidence-poll slides with the synced Learning checkpoint pattern at the end of the H2 section they follow (see Patterns).
+- Replace activity slides with the CBF Academy patterns, using the conversions below. Confidence polls become the synced Learning checkpoint at the end of the H2 section they follow (see Patterns).
 - Choose H2s from section headers and content groupings, not from slide titles. Merge consecutive slides on the same point. Turn importer H3/H4s that were only larger-font subtitles into prose.
 - Decide lesson versus topics by course format, not by size. The lesson holds what a part-time bootcamp or short course session delivers, including its inline exercises. Material only a full-time bootcamp uses (afternoon exercise sets, labs) becomes extended exercise or lab topics attached to the lesson.
-- Add the lesson skeleton: introduction, learning objectives, summary. Delete "next steps" or "next session" slides; do not turn them into a "What's next" section. Rewrite any objectives slide with observable verbs.
+- Add the lesson skeleton: introduction, the Learning objectives pattern, summary. Delete "next steps" or "next session" slides; do not turn them into a "What's next" section. Rewrite any objectives slide with observable verbs.
 - Propose the new title using the naming convention (see Renaming).
 
 ### 2. Prose
 
 - Turn bullet fragments into sentences and paragraphs. Supply the reasoning the presenter would have given, using the reviewer comments and notes in the user's references where they help. Presenter cues left in the slides, such as "ask for examples", become a **Reflect** or **Try it** callout, or are dropped.
 - Add the connecting sentences between ideas. The learner has no presenter to bridge them.
-- Define each term on first use, at the course's level, with `<em>` on the term.
+- Define each term on first use, at the course's level, in the sentence where it appears. Mark the first mention of each key term the lesson teaches as a glossary term (style guide section 16, "Glossary"), using existing entries only. Terms taught in other lessons stay plain. Where a key term has no entry, leave it unmarked and propose one in a review note. A term that doesn't merit an entry gets `<em>` where it is defined.
 - Check each H2 teaches one concept as Describe, Demonstrate, Do.
 - Apply the style guide's voice, tone and spelling rules.
 
@@ -92,13 +94,13 @@ Progress:
 - Split commands from output. Remove prompt characters.
 - Replace screenshots of code with code blocks. Retype if you must, and flag retyped code for testing.
 - Add annotations for the lines the slide pointed at with arrows or highlights.
-- Do not fix code silently. If it looks wrong, keep it and add `<!-- REVIEW: ... -->`. You cannot run every example; list the ones that need testing in your report.
+- Do not fix code silently. If it looks wrong, keep it and flag it in a review note. You cannot run every example; list the ones that need testing in your report.
 
 ### 4. Media
 
 - Remove decorative images, logos, "any questions?" graphics and template furniture. Keep every image that carries content.
 - Write alt text for each kept image, and turn on Enlarge on click for content images that are not linked.
-- Flag low-resolution or uncropped screenshots, and diagrams built from slide shapes that should be redrawn as SVG, with REVIEW comments. Do not attempt the redraw unless asked.
+- Flag low-resolution or uncropped screenshots, and diagrams built from slide shapes that should be redrawn in the house style (style guide section 13, "Diagrams"), in review notes. Do not attempt the redraw unless asked.
 
 ### 5. Sequencing
 
@@ -110,7 +112,8 @@ Progress:
 
 - Apply the word list. Search for the known offenders: "LookerML", "Javascript", "DBT", "VSCode", "master", "trainee".
 - Check callout labels, heading case and list punctuation.
-- Check patterns: OS-specific steps in OS tabs, checkpoints as the synced reference, no placeholder text left.
+- Check patterns: OS-specific steps in OS tabs, synced patterns (checkpoint, Q&A, break) as references, no placeholder text left.
+- Check glossary terms: each key term the lesson teaches marked once, at its first mention; terms it only uses left plain.
 - Run the linter from `cbf-academy-style` and fix every error:
 
 ```bash
@@ -135,14 +138,22 @@ python3 .agents/skills/cbf-academy-style/scripts/lint_content.py --type lesson "
 | Screenshot of code | Code block, flagged for testing. |
 | Diagram built from shapes | SVG diagram, or a redrawn image with alt text. |
 | Highlighted line or arrow on code | Annotated code block. |
-| "Activity" or "Your turn" slide | **Try it** callout if under five minutes, otherwise an exercise. |
+| Learning objectives slide | Learning objectives pattern, rewritten with observable verbs. |
+| "Activity" or "Your turn" slide | **Try it** callout if under five minutes, otherwise the Exercise pattern. |
+| "Exercise" slide or section | Exercise pattern, with a "Done when" line. |
+| Pop quiz slide | Pop quiz pattern, with the answers in its Show answers block. |
+| Worked example or "demo" slide | Demonstration pattern. |
+| Homework or "before next session" slide | Homework pattern. |
 | Speaker notes (if you have them) | Body prose. |
-| Recap or key takeaways slide | Summary section. |
+| Recap or key takeaways slide | Summary section at the end of the lesson; the Recap pattern part-way through. |
 | Agenda or session outline slide | Introduction and learning objectives. Timings deleted. |
 | Confidence poll or "how are you feeling?" slide | Learning checkpoint pattern (synced). |
 | Separate instructions per operating system | OS tabs pattern. |
-| Content repeated across decks (pop quiz, Q&A) | An existing pattern, or a proposal for a new one. |
-| "Any questions?" slide | Deleted. |
+| Q&A or "any questions?" slide part-way through | Q&A pattern (synced). |
+| Break slide | Break pattern (synced). Drop any duration or return time. |
+| Pointer to extended exercises, a lab or a skills check | Deleted. Attach the topic or quiz to the lesson; the course navigation lists it. |
+| Other content repeated across decks | An existing pattern, or a proposal for a new one. |
+| Closing "any questions?" slide | Deleted. |
 | References slide | Further reading, with a sentence per link. |
 | Copyright and logo footers | Deleted. |
 
@@ -167,15 +178,18 @@ The playbook has the full table. Two cases need the user's decision rather than 
 
 The style guide's section 12 covers patterns in full. During migration:
 
-- **Learning checkpoint** (synced): replaces confidence-poll slides. Insert it as a reference, never a copy. Look up its ID on the environment you are editing, since IDs can differ:
+- **Activity patterns** (unsynced): Learning objectives, Demonstration, Exercise, Homework, Pop quiz and Recap. Copy their markup from the theme's `web/app/themes/cbf-academy/patterns/` files, keep the locked label paragraph, and replace every placeholder in square brackets.
+- **Synced patterns**: Learning checkpoint (replaces confidence-poll slides), Q&A and Break. Insert each as a reference, never a copy. Look up the ID on the environment you are editing, since IDs can differ:
 
   ```bash
   ./vendor/bin/wp @dev-academy post list --post_type=wp_block --name=learning-checkpoint --field=ID
+  ./vendor/bin/wp @dev-academy post list --post_type=wp_block --name=question-and-answer-break --field=ID
+  ./vendor/bin/wp @dev-academy post list --post_type=wp_block --name=break --field=ID
   ```
 
-  Then insert `<!-- wp:block {"ref":<id>} /-->` at the end of the H2 section. Use two or three per lesson at natural breaks, not one per section.
+  Then insert `<!-- wp:block {"ref":<id>} /-->`. Put checkpoints at the end of an H2 section, two or three per lesson at natural breaks, not one per section.
 - **OS tabs** (unsynced): use for OS-specific instructions, mostly in setup topics. Copy the markup from the style guide's appendix.
-- **New patterns:** when the same content repeats across the decks you migrate (pop quizzes, question and answer breaks, break reminders), do not create a pattern yourself. List it under "Patterns proposed" in your report with where it recurs, and mark each place with `<!-- REVIEW: candidate for a "<name>" pattern -->`.
+- **New patterns:** when other content repeats across the decks you migrate, do not create a pattern yourself. List it under "Patterns proposed" in your report with where it recurs, and note each place in a review note.
 
 ## Gotchas
 
@@ -183,7 +197,7 @@ These come from real imported decks:
 
 - Copyright lines ("Copyright © 2022 Coding Black Females. All Rights Reserved. Do Not Redistribute.") and bare slide numbers on their own line survive some imports and most older plain-text exports. Delete them.
 - Agenda timings ("18:40 - end of part 1 - 5 minute break") and session labels ("Unit 00 - Session 01") are facilitation details. Delete them; they also break loose coupling.
-- Confidence polls ("I have no idea what you're talking about" / "I feel comfortable with everything you've said") are learning checkpoints. Replace each with the synced pattern. Some imported lessons hold pasted copies of the checkpoint (look for "How Are You Feeling?" in the markup); replace those with the synced reference too.
+- Confidence polls ("I have no idea what you're talking about" / "I feel comfortable with everything you've said") are learning checkpoints. Replace each with the synced pattern. Some imported lessons hold pasted copies of the checkpoint (look for "How Are You Feeling?" in the markup); replace those with the synced reference too. Break slides often give a duration ("5 minute break"); the Break pattern never does.
 - Emoji used as file or folder icons (📂 `sales_fact.data`) should become a file listing in a `text` code block.
 - The importer drops a slide's title from its body only when it would repeat the H2, and it skips slide 1 only. Duplicate headings across non-adjacent slides remain.
 - Imported image files are named like `slide_003_img_01.png`. Flag them for renaming to descriptive kebab-case names.
@@ -206,11 +220,13 @@ After each pass, report in this shape:
 - ...
 
 **Flagged for review:**
-- one line per <!-- REVIEW --> comment
+- one line per review note (editorial comment)
 
 **Decisions needed:** renames, lesson/topic splits, series or skills-check changes
 
 **Patterns proposed:** repeated content that should become a pattern, and where it recurs
+
+**Glossary entries proposed:** key terms with no entry, each with a proposed definition (omit if none)
 
 **Next pass:** <name>, and anything it depends on
 ```

@@ -105,7 +105,7 @@ pre[class*="language-"] .line-highlight {
 
 .code-annotations > li::before {
   color: #000;
-  content: "L" attr(data-line) ":";
+  content: "Line " attr(value) ":";
   font-weight: 700;
   margin-right: 0.5em;
 }
@@ -113,23 +113,6 @@ pre[class*="language-"] .line-highlight {
 /* Dark mode code annotations */
 .bb-sfwd-aside.bb-dark-theme .code-annotations li::before {
   color: #fff;
-}
-
-/*--------------------------------------------------------------
-Callout box
-A branded prompt/question box used to draw attention to a reflective
-question or note within lesson content.
---------------------------------------------------------------*/
-.wp-block-group.cbf-callout {
-  margin: 0 0 1.6875rem;
-  padding: 1rem 1.25rem;
-  background-color: #f3f7fb;
-  border-left: 4px solid #b07d00;
-  border-radius: 4px;
-}
-
-.wp-block-group.cbf-callout > *:last-child {
-  margin-bottom: 0;
 }
 
 /*--------------------------------------------------------------

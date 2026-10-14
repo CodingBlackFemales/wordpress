@@ -22,8 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * - whole words only;
  * - terms match case-insensitively, with an optional plural "s" or "es";
- * - abbreviations match case-sensitively ("IT" is not "it"), unless the
- *   abbreviation is itself lower case ("repo");
+ * - acronyms, abbreviations with a capital after the first character, match
+ *   case-sensitively ("IT" is not "it"); other abbreviations ("Repo", "repo")
+ *   match case-insensitively;
  * - forms shorter than two characters never match;
  * - text inside `<pre>`, HTML comments and existing references is skipped.
  *
@@ -127,12 +128,23 @@ final class TermMatcher {
 			}
 
 			if ( mb_strlen( $form['abbr'] ) >= self::MIN_LENGTH ) {
-				$flags      = mb_strtolower( $form['abbr'] ) === $form['abbr'] ? 'iu' : 'u';
+				$flags      = self::is_acronym( $form['abbr'] ) ? 'u' : 'iu';
 				$patterns[] = '/' . self::BEFORE . self::quote( $form['abbr'] ) . 's?' . self::AFTER . '/' . $flags;
 			}
 		}
 
 		return $patterns;
+	}
+
+
+	/**
+	 * Whether an abbreviation has a capital after its first character ("IT",
+	 * "VCS", "2FA", "PRs"), as opposed to sentence or lower case ("Repo").
+	 *
+	 * @param string $abbr Abbreviation.
+	 */
+	private static function is_acronym( string $abbr ): bool {
+		return (bool) preg_match( '/^.+\p{Lu}/u', $abbr );
 	}
 
 

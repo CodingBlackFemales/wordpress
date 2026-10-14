@@ -1,0 +1,42 @@
+<svg viewBox="0 0 316 262" width="316" height="262" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gitLocalTitle gitLocalDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+  </style>
+  <title id="gitLocalTitle">How git add and git commit move changes between the areas on your computer</title>
+  <desc id="gitLocalDesc">git add moves changes from the working directory to the staging area, and git commit moves the staged changes into the local repository.</desc>
+  <rect class="cbf-diagram-canvas" width="316" height="262"/>
+  <defs>
+    <marker id="gitLocalArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="cbf-diagram-zone" x="6" y="6" width="304" height="250" rx="8"/>
+  <text class="cbf-diagram-heading" x="18" y="30">Your computer</text>
+  <line class="cbf-diagram-lane" x1="60" y1="96" x2="60" y2="244"/>
+  <rect class="cbf-diagram-node" x="14" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="60" y="67" text-anchor="middle">Working</text>
+  <text class="cbf-diagram-label" x="60" y="86" text-anchor="middle">directory</text>
+  <line class="cbf-diagram-lane" x1="160" y1="96" x2="160" y2="244"/>
+  <rect class="cbf-diagram-node" x="114" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="160" y="67" text-anchor="middle">Staging</text>
+  <text class="cbf-diagram-label" x="160" y="86" text-anchor="middle">area</text>
+  <line class="cbf-diagram-lane" x1="260" y1="96" x2="260" y2="244"/>
+  <rect class="cbf-diagram-node" x="214" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="260" y="67" text-anchor="middle">Local</text>
+  <text class="cbf-diagram-label" x="260" y="86" text-anchor="middle">repository</text>
+  <line class="cbf-diagram-flow" x1="60" y1="150" x2="160" y2="150" marker-end="url(#gitLocalArrow)"/>
+  <text class="cbf-diagram-code" x="110" y="142" text-anchor="middle">git add</text>
+  <line class="cbf-diagram-flow" x1="160" y1="206" x2="260" y2="206" marker-end="url(#gitLocalArrow)"/>
+  <text class="cbf-diagram-code" x="210" y="198" text-anchor="middle">git commit</text>
+</svg>

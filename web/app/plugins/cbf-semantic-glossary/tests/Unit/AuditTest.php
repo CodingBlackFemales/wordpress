@@ -115,6 +115,33 @@ final class AuditTest extends Unit {
 		$this->assertSame( 'version   control system', TermMatcher::find( 'A version   control system and SCM.', array( $vcs ) )[0]['text'] );
 	}
 
+	public function testMatcherCaseRulesForAbbreviations(): void {
+		$abbreviation = fn ( string $abbr ): array => array(
+			new Entry(
+				8,
+				'entry',
+				array(
+					array(
+						'term' => 'Unrelated term',
+						'abbr' => $abbr,
+					),
+				)
+			),
+		);
+
+		// An acronym matches only in capitals, with an optional plural.
+		$this->assertSame( 'PRs', TermMatcher::find( 'Open PRs.', $abbreviation( 'PR' ) )[0]['text'] );
+		$this->assertSame( array(), TermMatcher::find( 'A pr or Pr.', $abbreviation( 'PR' ) ) );
+
+		// A sentence-case abbreviation matches in any case.
+		$this->assertSame( 'remote', TermMatcher::find( 'Push to the remote.', $abbreviation( 'Remote' ) )[0]['text'] );
+		$this->assertSame( 'Remotes', TermMatcher::find( 'Remotes differ.', $abbreviation( 'Remote' ) )[0]['text'] );
+
+		// A lowercase abbreviation matches in any case.
+		$this->assertSame( 'repo', TermMatcher::find( 'Clone the repo.', $abbreviation( 'repo' ) )[0]['text'] );
+		$this->assertSame( 'REPO', TermMatcher::find( 'REPO in capitals.', $abbreviation( 'repo' ) )[0]['text'] );
+	}
+
 	public function testMatcherSkipsTextAlreadyInsideReferences(): void {
 		$html = Entries::ref( 9, 'remote repository' ) . ' only.';
 

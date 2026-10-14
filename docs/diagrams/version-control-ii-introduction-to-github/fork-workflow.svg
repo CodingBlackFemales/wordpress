@@ -1,0 +1,44 @@
+<svg viewBox="0 0 420 470" width="420" height="470" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="forkTitle forkDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+  </style>
+  <title id="forkTitle">Forking a repository and offering changes back with a pull request</title>
+  <desc id="forkDesc">On GitHub, the upstream repository is forked to create your fork. Your fork is cloned to a local repository on your computer, where you edit and commit. You push the commits back to your fork, then open a pull request from your fork to the upstream repository.</desc>
+  <rect class="cbf-diagram-canvas" width="420" height="470"/>
+  <defs>
+    <marker id="forkArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="cbf-diagram-zone" x="6" y="6" width="408" height="272" rx="8"/>
+  <rect class="cbf-diagram-zone" x="6" y="290" width="408" height="174" rx="8"/>
+  <text class="cbf-diagram-heading" x="18" y="30">On GitHub</text>
+  <text class="cbf-diagram-heading" x="18" y="314">Your computer</text>
+  <rect class="cbf-diagram-node" x="110" y="44" width="200" height="48" rx="8"/>
+  <text class="cbf-diagram-label" x="210" y="73" text-anchor="middle">Upstream repository</text>
+  <rect class="cbf-diagram-node-key" x="110" y="196" width="200" height="48" rx="8"/>
+  <text class="cbf-diagram-label" x="210" y="225" text-anchor="middle">Your fork</text>
+  <rect class="cbf-diagram-node" x="110" y="336" width="200" height="48" rx="8"/>
+  <text class="cbf-diagram-label" x="210" y="365" text-anchor="middle">Local repository</text>
+  <line class="cbf-diagram-flow" x1="170" y1="92" x2="170" y2="194" marker-end="url(#forkArrow)"/>
+  <text class="cbf-diagram-label" x="160" y="148" text-anchor="end">Fork</text>
+  <line class="cbf-diagram-flow" x1="250" y1="196" x2="250" y2="94" marker-end="url(#forkArrow)"/>
+  <text class="cbf-diagram-label" x="260" y="148">Pull request</text>
+  <line class="cbf-diagram-flow" x1="170" y1="244" x2="170" y2="334" marker-end="url(#forkArrow)"/>
+  <text class="cbf-diagram-code" x="160" y="270" text-anchor="end">git clone</text>
+  <line class="cbf-diagram-flow" x1="250" y1="336" x2="250" y2="246" marker-end="url(#forkArrow)"/>
+  <text class="cbf-diagram-code" x="260" y="270">git push</text>
+  <path class="cbf-diagram-flow" d="M180,384 C180,428 240,428 240,386" marker-end="url(#forkArrow)"/>
+  <text class="cbf-diagram-label" x="210" y="452" text-anchor="middle">Edit and commit</text>
+</svg>
