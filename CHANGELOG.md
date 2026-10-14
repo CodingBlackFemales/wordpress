@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.61](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.60...v0.1.61) (2026-10-14)
+
+### Features
+
+* add academy diagram sources and export tooling ([a830f95](https://github.com/CodingBlackFemales/wordpress/commit/a830f958b129537c862ebdd7c37c0fc4a5feb0b0))
+* add CBF Academy activity and callout patterns ([be0f881](https://github.com/CodingBlackFemales/wordpress/commit/be0f8818d84377f3595f14dcfb77ba7da4094077))
+* add the Annotated code pattern and correct code block markup ([59f0256](https://github.com/CodingBlackFemales/wordpress/commit/59f0256cf3828f6d93a3e8cf80a063f2e44f37a9))
+* add wp cbf patterns sync command ([5696406](https://github.com/CodingBlackFemales/wordpress/commit/5696406fb1fa601d9660376f0b5ab4d59a98b4bb))
+* move the OS tabs pattern into the academy theme ([e505dc7](https://github.com/CodingBlackFemales/wordpress/commit/e505dc75b4e3fe6a2c3f891fa514e8411391d8b9))
+* offer only CBF Academy patterns in lesson content ([44bea3f](https://github.com/CodingBlackFemales/wordpress/commit/44bea3fdbcb3008636f4e0cef4d7bacaed95e388))
+* update academy content skills for patterns and the glossary ([c2f657a](https://github.com/CodingBlackFemales/wordpress/commit/c2f657aefd057dba2e05db7b99aa15e92986eeb6))
+
+### Bug Fixes
+
+* centre centred images in lesson content ([38fa0ae](https://github.com/CodingBlackFemales/wordpress/commit/38fa0ae193b7c48109e9d47af7901b87e0ce0be8))
+* centre the icon in the glossary Add form button ([86b47a5](https://github.com/CodingBlackFemales/wordpress/commit/86b47a5827da348e1b2d9012a13f154df365883f))
+* initialise the glossary inline-code button in TinyMCE ([3fc7aa1](https://github.com/CodingBlackFemales/wordpress/commit/3fc7aa1ef252d8b522901a7bf340986fb18bb50b))
+* keep the course outline out of the lesson table of contents ([b2fa075](https://github.com/CodingBlackFemales/wordpress/commit/b2fa07513831d66e83c51ff2c429b2a07927ca8e))
+* label code annotations from their value in CSS ([86631cd](https://github.com/CodingBlackFemales/wordpress/commit/86631cd960c3d24aec671ba9bedd58882d598f1c))
+* match sentence-case glossary abbreviations case-insensitively in the audit ([0f0cd0e](https://github.com/CodingBlackFemales/wordpress/commit/0f0cd0e2d4498e3d7e5666996f15244414d52729))
+* save the Annotated code pattern in the Code Block Highlighting 1.3 format ([d2c7324](https://github.com/CodingBlackFemales/wordpress/commit/d2c732470a50274864e1ec9343c6434061ef40c1))
+
 ## [0.1.60](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.59...v0.1.60) (2026-10-11)
 
 ### Features
