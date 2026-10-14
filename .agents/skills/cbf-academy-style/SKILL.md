@@ -180,7 +180,7 @@ The academy has one shared glossary (style guide section 16, "Glossary"). Markin
   ./vendor/bin/wp @dev-academy glossary term list --search=<term> --fields=id,term,abbr,status
   ```
 
-- If a key term has no entry, do not create one and do not guess an ID. Leave the term unmarked and propose an entry in an editorial comment (see Review notes), listing each term with its definition. Proposed definitions are one or two standalone sentences, about 40 words at most, that never mention a lesson, course or cohort.
+- If a key term has no entry, do not create one and do not guess an ID. Leave the term unmarked and propose an entry in an editorial comment (see Review notes), listing each term with its definition. Case proposed terms, alternative terms and abbreviations as the style guide's entry rules set out: sentence case, with acronyms in capitals. Proposed definitions are one or two standalone sentences, about 40 words at most, that never mention a lesson, course or cohort.
 - A reference to a draft entry shows as plain text until an editor publishes it. Report any you used.
 
 ## Review notes
