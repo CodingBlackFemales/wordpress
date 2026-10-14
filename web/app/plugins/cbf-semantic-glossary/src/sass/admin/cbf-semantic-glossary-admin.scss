@@ -77,12 +77,15 @@
 	color: #646970;
 }
 
-[data-glossary-form-add] {
+// Scoped under .wp-core-ui .button to outrank core's display and icon line-height rules.
+.wp-core-ui .button[data-glossary-form-add] {
 	display: inline-flex;
 	gap: 4px;
 	align-items: center;
 
 	.dashicons {
+		width: 16px;
+		height: 16px;
 		font-size: 16px;
 		line-height: 1;
 	}
