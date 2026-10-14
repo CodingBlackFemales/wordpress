@@ -36,6 +36,12 @@ if ( ! defined( 'ABSPATH' ) || ! defined( 'WP_CLI' ) ) {
  * existing synced pattern with that title the first time, so every lesson that
  * already references it picks up the new content.
  *
+ * A theme pattern in patterns/*.php can take over an unsynced database
+ * pattern in the same way, with a `Replaces: <title>` line in its header.
+ * Unsynced patterns are copied into posts, so there is no shared content to
+ * update: the posts built from the old pattern are pointed at the theme
+ * pattern instead, and the old pattern is moved to the bin.
+ *
  * ## EXAMPLES
  *
  *     # Preview the changes on the academy site
@@ -57,6 +63,14 @@ class Patterns_Command extends \WP_CLI_Command {
 	const SOURCE_DIR = 'synced-patterns';
 
 	/**
+	 * Theme pattern headers read here. WordPress ignores `Replaces`.
+	 */
+	const THEME_HEADERS = array(
+		'slug'     => 'Slug',
+		'replaces' => 'Replaces',
+	);
+
+	/**
 	 * Post meta left behind by Otter Blocks' custom CSS, which the new content
 	 * no longer uses.
 	 */
@@ -69,6 +83,10 @@ class Patterns_Command extends \WP_CLI_Command {
 	 * (cbf-academy/… goes into "cbf-academy"), so they appear beside the
 	 * theme's own patterns in the inserter.
 	 *
+	 * Then replaces any unsynced database pattern that a theme pattern names
+	 * in its `Replaces` header: posts built from it are pointed at the theme
+	 * pattern, and it is moved to the bin. Their content is not changed.
+	 *
 	 * ## OPTIONS
 	 *
 	 * [--dry-run]
@@ -79,7 +97,8 @@ class Patterns_Command extends \WP_CLI_Command {
 	 *     $ wp cbf patterns sync --url=https://academy.codingblackfemales.com
 	 *     Updated: Learning checkpoint (5916)
 	 *     Created: Break (7426)
-	 *     Success: 1 created, 1 updated, 0 unchanged.
+	 *     Replaced: OS tabs (6101) with cbf-academy/os-tabs in 10 posts
+	 *     Success: 1 created, 1 updated, 0 unchanged, 1 replaced.
 	 *
 	 * @param string[]             $args       Positional arguments.
 	 * @param array<string, mixed> $assoc_args Associative arguments.
@@ -107,7 +126,106 @@ class Patterns_Command extends \WP_CLI_Command {
 			WP_CLI::log( sprintf( '%s%s: %s%s', $dry_run ? 'Would be ' : '', ucfirst( $result ), $pattern['title'], $post ? " ({$post->ID})" : '' ) );
 		}
 
-		WP_CLI::success( sprintf( '%s%d created, %d updated, %d unchanged.', $dry_run ? 'Dry run: ' : '', $counts['created'], $counts['updated'], $counts['unchanged'] ) );
+		$replaced = self::replace_database_patterns( $dry_run );
+
+		WP_CLI::success( sprintf( '%s%d created, %d updated, %d unchanged, %d replaced.', $dry_run ? 'Dry run: ' : '', $counts['created'], $counts['updated'], $counts['unchanged'], $replaced ) );
+	}
+
+	/**
+	 * Replaces the unsynced database patterns that theme patterns take over.
+	 *
+	 * @param bool $dry_run Whether to only report.
+	 * @return int Number of patterns replaced.
+	 */
+	private static function replace_database_patterns( $dry_run ) {
+		$replaced = 0;
+
+		foreach ( glob( get_stylesheet_directory() . '/patterns/*.php' ) as $file ) {
+			$header = get_file_data( $file, self::THEME_HEADERS );
+			$old    = $header['replaces'] !== '' && $header['slug'] !== '' ? self::find_unsynced( $header['replaces'] ) : null;
+
+			if ( ! $old ) {
+				continue;
+			}
+
+			$posts = self::posts_built_from( $old->ID );
+
+			if ( ! $dry_run ) {
+				self::repoint( $posts, $old->ID, $header['slug'] );
+				wp_trash_post( $old->ID );
+			}
+
+			++$replaced;
+			WP_CLI::log( sprintf( '%sReplaced: %s (%d) with %s in %d posts', $dry_run ? 'Would be ' : '', $old->post_title, $old->ID, $header['slug'], count( $posts ) ) );
+		}
+
+		return $replaced;
+	}
+
+	/**
+	 * The unsynced database pattern with a title, unless it is in the bin.
+	 *
+	 * @param string $title Pattern title.
+	 * @return WP_Post|null
+	 */
+	private static function find_unsynced( $title ) {
+		$posts = get_posts(
+			array(
+				'post_type'   => 'wp_block',
+				'post_status' => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+				'title'       => $title,
+				'meta_key'    => 'wp_pattern_sync_status', // phpcs:ignore WordPress.DB.SlowDBQuery -- A handful of wp_block posts.
+				'meta_value'  => 'unsynced', // phpcs:ignore WordPress.DB.SlowDBQuery
+				'numberposts' => 1,
+			)
+		);
+
+		return $posts ? $posts[0] : null;
+	}
+
+	/**
+	 * Posts holding blocks inserted from a database pattern.
+	 *
+	 * @param int $pattern_id Pattern post ID.
+	 * @return int[]
+	 */
+	private static function posts_built_from( $pattern_id ) {
+		global $wpdb;
+
+		$marker = '%' . $wpdb->esc_like( self::pattern_marker( "core/block/{$pattern_id}" ) ) . '%';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- A one-off search of post content.
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type <> 'revision' AND post_content LIKE %s", $marker ) ) );
+	}
+
+	/**
+	 * Points the blocks a database pattern inserted at the theme pattern.
+	 *
+	 * Only the patternName in each block's metadata changes. It is written
+	 * directly, so no content filter, revision or modified date is involved.
+	 *
+	 * @param int[]  $posts      Post IDs.
+	 * @param int    $pattern_id Database pattern ID.
+	 * @param string $slug       Theme pattern slug.
+	 */
+	private static function repoint( $posts, $pattern_id, $slug ) {
+		global $wpdb;
+
+		foreach ( $posts as $post_id ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- See the method description.
+			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->posts} SET post_content = REPLACE( post_content, %s, %s ) WHERE ID = %d", self::pattern_marker( "core/block/{$pattern_id}" ), self::pattern_marker( $slug ), $post_id ) );
+			clean_post_cache( $post_id );
+		}
+	}
+
+	/**
+	 * How block metadata records the pattern a block was inserted from.
+	 *
+	 * @param string $name Pattern name.
+	 * @return string
+	 */
+	private static function pattern_marker( $name ) {
+		return '"patternName":"' . $name . '"';
 	}
 
 	/**
