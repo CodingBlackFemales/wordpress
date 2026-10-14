@@ -1,0 +1,41 @@
+<svg viewBox="0 0 420 300" width="420" height="300" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="branchTitle branchDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+    .cbf-diagram-point { fill: #11181c; }
+  </style>
+  <title id="branchTitle">Two feature branches splitting from the main branch and merging back into it</title>
+  <desc id="branchDesc">The main branch runs left to right through time. The feature-1 branch starts from the first commit on main, adds two commits, and merges back into main. The feature-2 branch starts from the second commit on main, adds two commits, and merges back later.</desc>
+  <rect class="cbf-diagram-canvas" width="420" height="300"/>
+  <defs>
+    <marker id="branchArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <path class="cbf-diagram-flow" d="M60,150 C60,230 80,230 110,230 L180,230 C215,230 240,230 240,150"/>
+  <path class="cbf-diagram-flow" d="M150,150 C150,70 170,70 200,70 L300,70 C330,70 350,70 350,150"/>
+  <line class="cbf-diagram-flow" x1="20" y1="150" x2="404" y2="150" marker-end="url(#branchArrow)"/>
+  <circle class="cbf-diagram-point" cx="60" cy="150" r="8"/>
+  <circle class="cbf-diagram-point" cx="150" cy="150" r="8"/>
+  <circle class="cbf-diagram-point" cx="240" cy="150" r="8"/>
+  <circle class="cbf-diagram-point" cx="350" cy="150" r="8"/>
+  <circle class="cbf-diagram-point" cx="110" cy="230" r="8"/>
+  <circle class="cbf-diagram-point" cx="180" cy="230" r="8"/>
+  <circle class="cbf-diagram-point" cx="200" cy="70" r="8"/>
+  <circle class="cbf-diagram-point" cx="300" cy="70" r="8"/>
+  <text class="cbf-diagram-code" x="20" y="136">main</text>
+  <text class="cbf-diagram-code" x="145" y="262" text-anchor="middle">feature-1</text>
+  <text class="cbf-diagram-code" x="250" y="52" text-anchor="middle">feature-2</text>
+  <text class="cbf-diagram-label" x="404" y="138" text-anchor="end">Time</text>
+  <text class="cbf-diagram-label" x="20" y="290">Each dot is a commit.</text>
+</svg>

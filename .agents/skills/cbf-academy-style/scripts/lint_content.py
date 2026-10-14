@@ -216,6 +216,13 @@ def make_prose(text, keep_urls=False):
     masked = re.sub(r"<pre\b.*?</pre>", blank, masked, flags=re.S | re.I)
     masked = re.sub(r"^(```|~~~).*?^\1[ \t]*$", blank, masked, flags=re.S | re.M)
     masked = re.sub(r"<(code|kbd|samp|var)\b[^>]*>.*?</\1>", blank, masked, flags=re.S | re.I)
+    # Inline SVG diagrams: style rules and code-styled labels aren't prose, and their
+    # title and description name commands that can't be marked up as code.
+    masked = re.sub(r"<style\b.*?</style>", blank, masked, flags=re.S | re.I)
+    masked = re.sub(r'<text\b[^>]*class="[^"]*\bcode\b[^"]*"[^>]*>.*?</text>|'
+                    r'<text\b[^>]*class="[^"]*-code\b[^"]*"[^>]*>.*?</text>', blank, masked, flags=re.S | re.I)
+    masked = re.sub(r"<(title|desc)\b[^>]*>.*?</\1>",
+                    lambda m: re.sub(r"\bgit [a-z][\w-]*", blank, m.group(0)), masked, flags=re.S | re.I)
     masked = re.sub(r"`[^`\n]+`", blank, masked)
     masked = re.sub(r"<[^>]+>", blank, masked)
     # Markdown link targets and bare URLs are not prose.
@@ -368,19 +375,31 @@ def check_code(text, out):
         except json.JSONDecodeError:
             out.append(Finding(line, ERROR, "code-attrs", "Code block attributes are not valid JSON", m.group(1).strip()))
             attrs = {}
-        # The highlighter reads the language from <code lang>, never from the block comment.
-        lang_m = re.search(r'<code\b[^>]*\blang="([^"]+)"', m.group(2))
-        lang = lang_m.group(1) if lang_m else None
+        # Code Block Highlighting 1.3+ keeps every option in the block comment and saves
+        # core's plain <pre class="wp-block-code"><code> markup.
+        lang = attrs.get("language")
         body_m = re.search(r"<code[^>]*>(.*?)</code>", m.group(2), flags=re.S)
         body = body_m.group(1) if body_m else ""
         first = body.strip().splitlines()[0][:60] if body.strip() else ""
-        if not lang and attrs.get("language"):
-            out.append(Finding(line, ERROR, "code-language",
-                               "Language set only in the block comment, which the highlighter ignores. "
-                               "Put it on the code element: <code lang=\"sql\" class=\"language-sql\">", first))
-        elif not lang:
+        pre_m = re.search(r"<pre\b([^>]*)>", m.group(2))
+        code_m = re.search(r"<code\b([^>]*)>", m.group(2))
+        pre_attrs = pre_m.group(1) if pre_m else ""
+        code_attrs = code_m.group(1) if code_m else ""
+        legacy = (re.search(r'class="[^"]*\b(?:language-[\w+-]+|line-numbers|word-wrap)\b', pre_attrs)
+                  or re.search(r"\b(?:data-title|data-line|data-start|title)=", pre_attrs)
+                  or re.search(r"\b(?:lang|class)=", code_attrs))
+        if legacy:
+            out.append(Finding(line, ERROR, "code-legacy",
+                               "Code block uses the markup of Code Block Highlighting 1.2 or earlier. Put the "
+                               "options in the block comment ({\"language\":\"bash\"}) and leave "
+                               "<pre class=\"wp-block-code\"><code> plain, or run wp wzcbh migrate-code-blocks",
+                               first))
+            if not lang:
+                legacy_lang = re.search(r'\blang="([^"]+)"', code_attrs)
+                lang = legacy_lang.group(1) if legacy_lang else None
+        if not lang:
             out.append(Finding(line, ERROR, "code-language", "Code block has no language. Set it in the editor's "
-                               "Code Highlighting panel, or as <code lang=\"…\"> in markup", first))
+                               "Code Highlighting panel, or as \"language\" in the block comment", first))
         elif lang not in ALLOWED_LANGUAGES:
             hint = LANGUAGE_HINTS.get(lang.lower())
             msg = f"Language \"{lang}\" is not in the guide's list" + (f". Use \"{hint}\"" if hint else "")
@@ -416,6 +435,59 @@ def check_code(text, out):
             if not re.search(r'\bvalue="\d+"', attrs):
                 out.append(Finding(line, ERROR, "annotations",
                                    "Annotation item needs value=\"<line>\" matching a highlighted line"))
+
+
+def check_review_notes(text, out):
+    """Section 17: review notes are editorial comments on the post, never content."""
+    for m in re.finditer(r"<!--\s*REVIEW\b", text):
+        out.append(Finding(line_of(text, m.start()), ERROR, "review-in-content",
+                           "Review note in the content. Post it as an editorial comment with "
+                           "add_editorial_comments.php and remove it from the markup"))
+
+
+def check_image_alignment(text, out):
+    """Section 13: an image outside a Columns block is centred."""
+    for m in re.finditer(r"<!--\s*wp:image(\s+\{.*?\})?\s*-->", text):
+        before = text[:m.start()]
+        depth = len(re.findall(r"<!--\s*wp:column[\s{-]", before)) - len(re.findall(r"<!--\s*/wp:column\s*-->", before))
+        if depth > 0:
+            continue
+        try:
+            attrs = json.loads(m.group(1)) if m.group(1) else {}
+        except json.JSONDecodeError:
+            attrs = {}
+        if attrs.get("align") != "center":
+            src = re.search(r'src="([^"]*)"', text[m.end():m.end() + 600])
+            out.append(Finding(line_of(text, m.start()), WARNING, "image-align",
+                               "Centre images outside Columns blocks (\"align\":\"center\", aligncenter on the figure)",
+                               src.group(1).rsplit("/", 1)[-1] if src else ""))
+
+
+def check_diagrams(text, out):
+    """Section 13: diagrams are 2x WebP images, so learners can enlarge them."""
+    for m in re.finditer(r"<svg\b", text, flags=re.I):
+        if not in_code(text, m.start()):
+            out.append(Finding(line_of(text, m.start()), WARNING, "diagram-inline",
+                               "Inline SVG diagram. Export it as a 2x WebP image with export_diagram.sh and insert "
+                               "it with Enlarge on click, so learners can zoom it"))
+
+
+def check_tables(text, out):
+    """Section 9: tables use the Stripes style and have a header row."""
+    for m in re.finditer(r"<!--\s*wp:table(\s+\{.*?\})?\s*-->(.*?)<!--\s*/wp:table\s*-->", text, flags=re.S):
+        line = line_of(text, m.start())
+        try:
+            attrs = json.loads(m.group(1)) if m.group(1) else {}
+        except json.JSONDecodeError:
+            attrs = {}
+        first_th = re.search(r"<th\b[^>]*>(.*?)</th>", m.group(2), flags=re.S)
+        label = strip_tags(first_th.group(1))[:40] if first_th else ""
+        if "is-style-stripes" not in attrs.get("className", "").split():
+            out.append(Finding(line, WARNING, "table-style",
+                               "Use the Stripes table style (\"className\":\"is-style-stripes\", and the same class "
+                               "on the figure)", label))
+        if "<thead" not in m.group(2):
+            out.append(Finding(line, ERROR, "table-header", "Table has no header row", label))
 
 
 def check_images(text, out):
@@ -650,6 +722,10 @@ def lint(text, content_type=None):
     check_headings(text, out)
     check_code(text, out)
     check_images(text, out)
+    check_tables(text, out)
+    check_diagrams(text, out)
+    check_review_notes(text, out)
+    check_image_alignment(text, out)
     check_callouts(text, out)
     check_links(text, out)
     check_patterns(text, out)

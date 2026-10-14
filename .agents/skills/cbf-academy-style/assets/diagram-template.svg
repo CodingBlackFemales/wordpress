@@ -1,0 +1,52 @@
+<!--
+  CBF Academy diagram template. Copy it to docs/diagrams/<lesson-slug>/<name>.svg,
+  replace the example shapes, then export with scripts/export_diagram.sh.
+
+  Classes (sizes are at 1x; the export doubles them):
+    cbf-diagram-canvas    white background, covering the whole viewBox
+    cbf-diagram-zone      borderless tinted panel grouping related items, with a heading
+    cbf-diagram-node      white box with an outline
+    cbf-diagram-node-key  yellow box: at most one per diagram, for the item it is about
+    cbf-diagram-heading   16px bold, for zone headings
+    cbf-diagram-label     15px, for box and arrow labels
+    cbf-diagram-code      14px monospace, for commands and code
+    cbf-diagram-lane      outline-coloured line, such as a swimlane
+    cbf-diagram-flow      2px ink connector; add marker-end="url(#arrow)" for a direction
+    cbf-diagram-point     ink dot, such as a commit on a branch line
+
+  Keep the viewBox 420 wide or less, so labels stay legible at phone width.
+  Use sentence case and the names the lesson text uses, and label every zone and arrow.
+-->
+<svg viewBox="0 0 420 260" width="420" height="260" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagramTitle diagramDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+    .cbf-diagram-point { fill: #11181c; }
+  </style>
+  <title id="diagramTitle">One sentence saying what the diagram shows</title>
+  <desc id="diagramDesc">A fuller description of the relationship, for screen readers.</desc>
+  <rect class="cbf-diagram-canvas" width="420" height="260"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="cbf-diagram-zone" x="6" y="6" width="408" height="248" rx="8"/>
+  <text class="cbf-diagram-heading" x="18" y="30">Zone heading</text>
+  <rect class="cbf-diagram-node" x="30" y="100" width="150" height="48" rx="8"/>
+  <text class="cbf-diagram-label" x="105" y="129" text-anchor="middle">First item</text>
+  <line class="cbf-diagram-flow" x1="180" y1="124" x2="238" y2="124" marker-end="url(#arrow)"/>
+  <text class="cbf-diagram-code" x="210" y="114" text-anchor="middle">cmd</text>
+  <rect class="cbf-diagram-node-key" x="240" y="100" width="150" height="48" rx="8"/>
+  <text class="cbf-diagram-label" x="315" y="129" text-anchor="middle">Key item</text>
+</svg>

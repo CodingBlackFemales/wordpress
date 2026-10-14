@@ -11,6 +11,8 @@ metadata:
 
 A deck was written to be presented: the presenter carried the reasoning, the connections and the examples. The migrated lesson has to carry them itself. Reproducing the slides in order as paragraphs is not a migration.
 
+Review notes are editorial comments on the post, never markup in the content: see "Review notes" in the `cbf-academy-style` skill.
+
 The canonical process is [references/migration-playbook.md](references/migration-playbook.md), a symlink to `docs/migration-playbook.md` (about 120 lines; read it in full on first use). The standard the result must meet is the CBF Academy style guide. Activate the `cbf-academy-style` skill alongside this one. If your client cannot, read `.agents/skills/cbf-academy-style/SKILL.md` before the prose pass.
 
 ## Inputs
@@ -21,7 +23,7 @@ Work from these sources:
 2. Reference material the user provides, such as a curriculum tracker export, reviewer comments, author notes or a course outline. Use whatever it holds about the lesson's position in the course, its review status and the changes reviewers asked for. If the user hasn't mentioned any, ask whether there is any before you start. If there is none, carry on without it.
 3. The course level and the course formats the lesson serves (short course, part-time bootcamp, full-time bootcamp). Ask if neither the references nor the user say.
 
-The imported content and the user's references are enough. Do not try to fetch the original decks from Google Drive, recover the importer's temporary files, or chase speaker notes. Where the slides leave the reasoning out and you can't supply it from the references or the surrounding content, write the best explanation you can and flag it with a REVIEW comment.
+The imported content and the user's references are enough. Do not try to fetch the original decks from Google Drive, recover the importer's temporary files, or chase speaker notes. Where the slides leave the reasoning out and you can't supply it from the references or the surrounding content, write the best explanation you can and flag it in a review note.
 
 If the user does give you a local `.pptx`, `scripts/deck_outline.py` prints its slides with their speaker notes (run it with `.venv-pptx/bin/python`). It is optional.
 
@@ -82,7 +84,7 @@ Progress:
 
 - Turn bullet fragments into sentences and paragraphs. Supply the reasoning the presenter would have given, using the reviewer comments and notes in the user's references where they help. Presenter cues left in the slides, such as "ask for examples", become a **Reflect** or **Try it** callout, or are dropped.
 - Add the connecting sentences between ideas. The learner has no presenter to bridge them.
-- Define each term on first use, at the course's level, in the sentence where it appears. Mark the first mention of each key term the lesson teaches as a glossary term (style guide section 16, "Glossary"), using existing entries only. Terms taught in other lessons stay plain. Where a key term has no entry, add `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->`. A term that doesn't merit an entry gets `<em>` where it is defined.
+- Define each term on first use, at the course's level, in the sentence where it appears. Mark the first mention of each key term the lesson teaches as a glossary term (style guide section 16, "Glossary"), using existing entries only. Terms taught in other lessons stay plain. Where a key term has no entry, leave it unmarked and propose one in a review note. A term that doesn't merit an entry gets `<em>` where it is defined.
 - Check each H2 teaches one concept as Describe, Demonstrate, Do.
 - Apply the style guide's voice, tone and spelling rules.
 
@@ -92,13 +94,13 @@ Progress:
 - Split commands from output. Remove prompt characters.
 - Replace screenshots of code with code blocks. Retype if you must, and flag retyped code for testing.
 - Add annotations for the lines the slide pointed at with arrows or highlights.
-- Do not fix code silently. If it looks wrong, keep it and add `<!-- REVIEW: ... -->`. You cannot run every example; list the ones that need testing in your report.
+- Do not fix code silently. If it looks wrong, keep it and flag it in a review note. You cannot run every example; list the ones that need testing in your report.
 
 ### 4. Media
 
 - Remove decorative images, logos, "any questions?" graphics and template furniture. Keep every image that carries content.
 - Write alt text for each kept image, and turn on Enlarge on click for content images that are not linked.
-- Flag low-resolution or uncropped screenshots, and diagrams built from slide shapes that should be redrawn as SVG, with REVIEW comments. Do not attempt the redraw unless asked.
+- Flag low-resolution or uncropped screenshots, and diagrams built from slide shapes that should be redrawn in the house style (style guide section 13, "Diagrams"), in review notes. Do not attempt the redraw unless asked.
 
 ### 5. Sequencing
 
@@ -187,7 +189,7 @@ The style guide's section 12 covers patterns in full. During migration:
 
   Then insert `<!-- wp:block {"ref":<id>} /-->`. Put checkpoints at the end of an H2 section, two or three per lesson at natural breaks, not one per section.
 - **OS tabs** (unsynced): use for OS-specific instructions, mostly in setup topics. Copy the markup from the style guide's appendix.
-- **New patterns:** when other content repeats across the decks you migrate, do not create a pattern yourself. List it under "Patterns proposed" in your report with where it recurs, and mark each place with `<!-- REVIEW: candidate for a "<name>" pattern -->`.
+- **New patterns:** when other content repeats across the decks you migrate, do not create a pattern yourself. List it under "Patterns proposed" in your report with where it recurs, and note each place in a review note.
 
 ## Gotchas
 
@@ -218,7 +220,7 @@ After each pass, report in this shape:
 - ...
 
 **Flagged for review:**
-- one line per <!-- REVIEW --> comment
+- one line per review note (editorial comment)
 
 **Decisions needed:** renames, lesson/topic splits, series or skills-check changes
 

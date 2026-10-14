@@ -1,0 +1,54 @@
+<svg viewBox="0 0 420 380" width="420" height="380" class="cbf-diagram" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gitFlowTitle gitFlowDesc">
+  <style>
+    /* CBF Academy visual identity: the design tokens in the academy theme's
+       assets/css/content.css (ink, outline, tint, yellow, Atkinson Hyperlegible). */
+    .cbf-diagram-canvas { fill: #fff; }
+    .cbf-diagram-zone { fill: rgba(17, 24, 28, 0.05); }
+    .cbf-diagram-node { fill: #fff; stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-node-key { fill: #ffda65; }
+    .cbf-diagram-heading { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 16px; font-weight: 700; fill: #11181c; }
+    .cbf-diagram-label { font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; font-size: 15px; fill: #11181c; }
+    .cbf-diagram-code { font-family: "Atkinson Hyperlegible Mono", ui-monospace, monospace; font-size: 14px; fill: #11181c; }
+    .cbf-diagram-lane { stroke: rgba(17, 24, 28, 0.25); stroke-width: 1.5; }
+    .cbf-diagram-flow { fill: none; stroke: #11181c; stroke-width: 2; }
+    .cbf-diagram-arrow { fill: #11181c; }
+  </style>
+  <title id="gitFlowTitle">Git commands that move work between your computer and a remote repository</title>
+  <desc id="gitFlowDesc">On your computer, git add moves changes from the working directory to the staging area, and git commit moves them to the local repository. git push sends commits from the local repository to the remote repository. git fetch brings the remote's commits into the local repository, and git pull brings them into the working directory as well.</desc>
+  <rect class="cbf-diagram-canvas" width="420" height="380"/>
+  <defs>
+    <marker id="gitFlowArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="cbf-diagram-arrow" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="cbf-diagram-zone" x="6" y="6" width="304" height="368" rx="8"/>
+  <rect class="cbf-diagram-zone" x="318" y="6" width="96" height="368" rx="8"/>
+  <text class="cbf-diagram-heading" x="18" y="30">Your computer</text>
+  <text class="cbf-diagram-heading" x="366" y="30" text-anchor="middle">Remote</text>
+  <line class="cbf-diagram-lane" x1="60" y1="96" x2="60" y2="362"/>
+  <rect class="cbf-diagram-node" x="14" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="60" y="67" text-anchor="middle">Working</text>
+  <text class="cbf-diagram-label" x="60" y="86" text-anchor="middle">directory</text>
+  <line class="cbf-diagram-lane" x1="160" y1="96" x2="160" y2="362"/>
+  <rect class="cbf-diagram-node" x="114" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="160" y="67" text-anchor="middle">Staging</text>
+  <text class="cbf-diagram-label" x="160" y="86" text-anchor="middle">area</text>
+  <line class="cbf-diagram-lane" x1="260" y1="96" x2="260" y2="362"/>
+  <rect class="cbf-diagram-node" x="214" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="260" y="67" text-anchor="middle">Local</text>
+  <text class="cbf-diagram-label" x="260" y="86" text-anchor="middle">repository</text>
+  <line class="cbf-diagram-lane" x1="366" y1="96" x2="366" y2="362"/>
+  <rect class="cbf-diagram-node" x="320" y="46" width="92" height="50" rx="8"/>
+  <text class="cbf-diagram-label" x="366" y="67" text-anchor="middle">Remote</text>
+  <text class="cbf-diagram-label" x="366" y="86" text-anchor="middle">repository</text>
+  <line class="cbf-diagram-flow" x1="60" y1="140" x2="160" y2="140" marker-end="url(#gitFlowArrow)"/>
+  <text class="cbf-diagram-code" x="110.0" y="132" text-anchor="middle">git add</text>
+  <line class="cbf-diagram-flow" x1="160" y1="192" x2="260" y2="192" marker-end="url(#gitFlowArrow)"/>
+  <text class="cbf-diagram-code" x="210.0" y="184" text-anchor="middle">git commit</text>
+  <line class="cbf-diagram-flow" x1="260" y1="244" x2="366" y2="244" marker-end="url(#gitFlowArrow)"/>
+  <text class="cbf-diagram-code" x="313.0" y="236" text-anchor="middle">git push</text>
+  <line class="cbf-diagram-flow" x1="366" y1="296" x2="260" y2="296" marker-end="url(#gitFlowArrow)"/>
+  <text class="cbf-diagram-code" x="313.0" y="288" text-anchor="middle">git fetch</text>
+  <line class="cbf-diagram-flow" x1="366" y1="346" x2="60" y2="346" marker-end="url(#gitFlowArrow)"/>
+  <text class="cbf-diagram-code" x="213.0" y="338" text-anchor="middle">git pull</text>
+</svg>
