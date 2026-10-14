@@ -14,7 +14,7 @@
 ?>
 <!-- wp:group {"tagName":"figure","layout":{"type":"constrained"},"allowedBlocks":["core/code","core/html"]} -->
 <figure class="wp-block-group"><!-- wp:code {"lineNumbers":true,"highlightLines":"2,5"} -->
-<pre class="wp-block-code line-numbers" data-line="2,5"><code>[Code. Set its language, and list the lines you explain under Highlight lines.]</code></pre>
+<pre class="wp-block-code"><code>&#91;Code. Set its language, and list the lines you explain under Highlight lines.]</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:html -->
