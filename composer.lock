@@ -7089,15 +7089,15 @@
         },
         {
             "name": "wp-plugin/woocommerce-services",
-            "version": "3.7.2",
+            "version": "3.7.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-services/",
-                "reference": "tags/3.7.2"
+                "reference": "tags/3.7.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.3.7.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-services.3.7.3.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7116,7 +7116,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-services",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-services"
             },
-            "time": "2026-10-08T10:52:10+00:00"
+            "time": "2026-10-14T15:57:10+00:00"
         },
         {
             "name": "wp-plugin/wp-graphql",
