@@ -6,8 +6,9 @@
 <p>[How it builds on what the learner already knows, described generically. Do not name or link another lesson.]</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading -->
-<h2 class="wp-block-heading">Learning objectives</h2>
+<!-- wp:group {"tagName":"section","className":"cbf-activity cbf-activity\u002d\u002dobjectives"} -->
+<section class="wp-block-group cbf-activity cbf-activity--objectives"><!-- wp:heading {"className":"cbf-activity__label","lock":{"move":true,"remove":true}} -->
+<h2 class="wp-block-heading cbf-activity__label">Learning objectives</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -15,18 +16,15 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:list -->
-<ul class="wp-block-list">
-<!-- wp:list-item -->
-<li>[Observable verb] [object].</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li>[Observable verb] [object].</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li>[Observable verb] [object].</li>
-<!-- /wp:list-item -->
-</ul>
-<!-- /wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>[Observable verb and outcome, such as "Explain what version control is for"]</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>[Second objective]</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>[Third objective]</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list --></section>
+<!-- /wp:group -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Prerequisites</h2>
@@ -41,38 +39,55 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>[Describe: the concept and why it matters, introducing new terms with <em>emphasis</em> where they are defined.]</p>
+<p>[Describe: the concept and why it matters. Define each new term in the sentence where it first appears, and mark its first mention as a glossary term.]</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p>[Demonstrate: introduce the worked example.] Run:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"bash"} -->
-<pre class="wp-block-code"><code>[command]</code></pre>
+<!-- wp:code -->
+<pre class="wp-block-code language-bash"><code lang="bash" class="language-bash">[command]</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>You should see:</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:code {"language":"text"} -->
-<pre class="wp-block-code"><code>[output, verbatim]</code></pre>
+<!-- wp:code -->
+<pre class="wp-block-code language-text"><code lang="text" class="language-text">[output, verbatim]</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
 <p>[Explain what the example did.]</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"className":"cbf-callout"} -->
-<div class="wp-block-group cbf-callout">
-<!-- wp:paragraph -->
-<p><strong>Try it</strong></p>
+<!-- wp:group {"tagName":"section","className":"cbf-activity cbf-activity\u002d\u002dexercise"} -->
+<section class="wp-block-group cbf-activity cbf-activity--exercise"><!-- wp:paragraph {"className":"cbf-activity__label","lock":{"move":true,"remove":true}} -->
+<p class="cbf-activity__label"><strong>Exercise</strong></p>
 <!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">[Exercise title]</h3>
+<!-- /wp:heading -->
+
 <!-- wp:paragraph -->
-<p>[Do: a task under five minutes, or replace this callout with an inline exercise.]</p>
+<p>[Context: what learners are working on, with which data or tools, and which concept it practises.]</p>
 <!-- /wp:paragraph -->
-</div>
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><!-- wp:list-item -->
+<li>[First step]</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>[Second step]</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>[Third step]</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph {"className":"cbf-activity__outcome"} -->
+<p class="cbf-activity__outcome"><strong>Done when</strong> [how learners can tell they have finished].</p>
+<!-- /wp:paragraph --></section>
 <!-- /wp:group -->
 
 <!-- wp:heading -->

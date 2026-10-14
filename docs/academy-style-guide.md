@@ -2,7 +2,7 @@
 title: CBF Academy content style guide
 version: 0.1
 status: draft for team review
-updated: 2026-09-22
+updated: 2026-10-13
 open_decisions:
   - section: "[4. Voice and tone](#4-voice-and-tone)"
     question: Confirm the "professional and warm" register.
@@ -16,21 +16,19 @@ open_decisions:
   - section: "[10. Code](#10-code)"
     question: Use `sql` for all dbt code blocks, or `jinja2` where the highlighter supports it.
     recommendation: Check highlighter support, then decide.
-  - section: "[11. Callouts](#11-callouts)"
-    question: Keep one shared callout style, or add modifier classes per label (for example `cbf-callout--warning`) to the theme.
-    recommendation: Add modifier classes to the theme. Keep the bold labels either way.
   - section: "[15. Exercises, labs and quizzes](#15-exercises-labs-and-quizzes)"
     question: Where exercise solutions live. Separate document, a lesson step released after the session, or collapsible block.
     recommendation: Separate document, linked after the session.
   - section: "[16. Terminology and word list](#16-terminology-and-word-list)"
     question: '"Learner" or "trainee" platform-wide. Some existing decks and planning documents say "trainees".'
     recommendation: '"Learner", because it covers bootcamp and short-course participants.'
+  - section: "[16. Terminology and word list](#glossary)"
+    question: Where each course's Course Glossary block lives. On the course page, or on a dedicated glossary step.
+    recommendation: On the course page, so learners can reach it from anywhere in the course.
   - section: "[1. Scope](#1-scope)"
     question: Where this guide lives long term. This repo, a Google Doc, or a page on the platform.
     recommendation: This repo as the source of truth, with a read-only copy on the platform for authors without repo access.
 editorial_notes:
-  - section: "[12. Patterns](#12-patterns)"
-    note: The Learning Checkpoint pattern predates this guide and uses emoji, title case and upper-case colour names. It is exempt from the guide until it is restyled to match. Because it is synced, that is one edit, and it can be renamed "Learning checkpoint" at the same time.
   - section: "[15. Exercises, labs and quizzes](#15-exercises-labs-and-quizzes)"
     note: Intentionally short. Expand once the lesson standard has settled.
   - section: whole guide
@@ -73,6 +71,7 @@ Read sections 2 to 6 before writing anything. Use sections 7 to 16 as a referenc
 		- [Lists](#lists)
 		- [Procedures](#procedures)
 		- [Tables](#tables)
+		- [Columns](#columns)
 	- [10. Code](#10-code)
 		- [Code blocks](#code-blocks)
 		- [Commands and output](#commands-and-output)
@@ -97,6 +96,7 @@ Read sections 2 to 6 before writing anything. Use sections 7 to 16 as a referenc
 		- [Products and technologies](#products-and-technologies)
 		- [General terms](#general-terms)
 		- [Academy terms](#academy-terms)
+		- [Glossary](#glossary)
 	- [17. Working with AI agents](#17-working-with-ai-agents)
 	- [18. Review checklist](#18-review-checklist)
 	- [Appendix: block markup reference](#appendix-block-markup-reference)
@@ -130,9 +130,10 @@ If you read nothing else, follow these.
 9. Every code block declares a language. Commands and their output go in separate blocks.
 10. Every content image has alt text. Decorative images are removed, not given empty alt text.
 11. Use the word list in section 16. For example, "LookML", "dbt", "GitHub" and "JavaScript" are the spellings to be used, consistently.
-12. Nothing is used before it is taught. If a lesson needs a concept it has not covered, explain it in place or move the material. Never point the learner to another module, and other lessons within a module only in generic terms.
-13. Use the OS tabs pattern for steps that differ by operating system and the synced Learning checkpoint pattern for learner check-ins. Propose a new pattern for anything else repeated across lessons (section 12).
-14. Run the review checklist in section 18 before handing work over.
+12. Define each new term in the sentence where it first appears, and mark that first mention as a glossary term (section 16).
+13. Nothing is used before it is taught. If a lesson needs a concept it has not covered, explain it in place or move the material. Never point the learner to another module, and other lessons within a module only in generic terms.
+14. Use the OS tabs pattern for steps that differ by operating system and the synced Learning checkpoint pattern for learner check-ins. Propose a new pattern for anything else repeated across lessons (section 12).
+15. Run the review checklist in section 18 before handing work over.
 
 ## 3. Who you are writing for
 
@@ -219,7 +220,7 @@ Do not change spelling inside:
 
 ### Abbreviations and acronyms
 
-Expand on first use in each lesson, then use the abbreviation: "common table expression (CTE)". Do not expand ones the level already assumes ("SQL" on an intermediate SQL course, "HTML" anywhere past week one). Write "for example" and "that is" in prose rather than "e.g." and "i.e.". In tables, "e.g." is acceptable to save space.
+Expand on first use in each lesson, then use the abbreviation: "common table expression (CTE)". A glossary entry shows an abbreviation's expansion on hover, but that never replaces expanding it in the text (section 16). Do not expand ones the level already assumes ("SQL" on an intermediate SQL course, "HTML" anywhere past week one). Write "for example" and "that is" in prose rather than "e.g." and "i.e.". In tables, "e.g." is acceptable to save space.
 
 ### Words to avoid
 
@@ -270,7 +271,7 @@ For example: "GitHub names the default branch `main`. Older projects and some tu
 **Plain English.**
 
 - Keep sentences short, ideally one clause and under 25 words. If a sentence needs a second reading, split it.
-- Define a term the first time it appears, in the sentence where it appears.
+- Define a term the first time it appears, in the sentence where it appears. If it is a key term, mark that mention as a glossary term (section 16).
 - Prefer the concrete to the abstract. "A query that reads the whole table" beats "an inefficient access pattern".
 - Analogies help beginners, but say where the analogy stops working.
 - Avoid idioms and cultural references that need explaining ("hit the ground running", "a game of two halves").
@@ -372,8 +373,10 @@ Every lesson follows this shape. The section names are the H2 headings unless no
 5. **Body.** A series of H2 sections holding the teaching. Topics are not part of the body: they are attached to the lesson as separate steps and referred to from the body where the learner needs them ("Before continuing, complete the Git setup guide attached to this lesson").
 6. **Summary.** Three to six bullets restating what the learner can now do, mirroring the objectives. This is where a learner checks their own understanding, so keep it concrete.
 
-Do not end a lesson with a "What's next" section. Pointing ahead couples the lesson to whatever follows it, which differs between courses. LearnDash navigation already takes the learner to the attached topics and the next step in their course.
 7. **Further reading** (optional). Three to five links with a sentence each saying what the link is for. Prefer official documentation.
+8. **Glossary** (automatic). Added at the end of any lesson that marks glossary terms (section 16). Do not write one by hand.
+
+Do not end a lesson with a "What's next" section. Pointing ahead couples the lesson to whatever follows it, which differs between courses. LearnDash navigation already takes the learner to the attached topics and the next step in their course.
 
 Objective verbs by level, adapted from Bloom's taxonomy:
 
@@ -409,7 +412,7 @@ Rules for shared guides:
 Deliver each concept in three steps, in this order. The mnemonic is **Describe, Demonstrate, Do**.
 
 1. **Describe.** Explain the concept and its rational, before any syntax or mechanics. A learner who knows why a branch exists will remember how to create one.
-2. **Demonstrate.** Show one worked example, with the code, the command or the steps and the result the learner should expect. Explain what the example does, not just what it says.
+2. **Demonstrate.** Show one worked example, with the code, the command or the steps and the result the learner should expect. Explain what the example does, not just what it says. Use the Demonstration pattern (section 12) where the example is a distinct step the instructor walks through.
 3. **Do.** Give the learner something to do with the idea straight away, even if it is only "run this and look at the output". This can be a step in the body, a "Try it" callout or an inline exercise, depending on how much practice the concept needs.
 
 Keep the cycle short. One concept per H2 section, and all three steps within it. If you find yourself describing three things before demonstrating any of them, split the section.
@@ -470,11 +473,20 @@ Prose:
 - Introduce the table with a sentence saying what it compares.
 - Do not use tables for layout.
 
+### Columns
+
+Columns put content side by side, such as an image beside the paragraph that explains it, or two short code blocks to compare. They stack on phones, so use them only where the side-by-side view helps on a wider screen.
+
+- A column that holds text, such as paragraphs, lists or headings, is never narrower than half the content width. Narrow text columns break prose into short, ragged lines that are slow to read.
+- Two columns at 50/50 are the most a text column can share. An uneven split, such as 60/40, puts the text in the wider column and the image or code in the narrower one.
+- Never place three or more text columns side by side. Compare several things in a table instead.
+- Leave **Stack on mobile** on.
+
 ## 10. Code
 
 ### Code blocks
 
-- Every code block declares a language. Use the Code Highlighting panel in the editor, or the `language` attribute in block markup (see the appendix).
+- Every code block declares a language. Use the Code Highlighting panel in the editor. In block markup, the language goes on the code element, `<code lang="sql" class="language-sql">`, not in the block comment (see the appendix).
 - Language names, as the platform's highlighter expects them:
 
 | Language | Value |
@@ -539,15 +551,16 @@ Use inline code for anything that appears literally in code or on screen: identi
 
 Use this pattern when a learner needs to understand particular lines rather than the block as a whole. It pairs the highlighter's **Highlight lines** setting with an ordered list of annotations, styled by the theme's `code-annotations` class.
 
-1. Turn on line numbers.
-2. In **Highlight lines**, list the lines to explain: `2,5-6`.
-3. Directly after the code block, add an ordered list with the class `code-annotations`. Each item carries a `data-line` attribute matching a highlighted line. The theme renders it as "L2:".
+1. Insert the **Annotated code** pattern. It holds a code block and, below it, a Custom HTML block with the annotations, wrapped in a figure.
+2. Paste the code, set its language and keep line numbers on.
+3. In **Highlight lines**, list the lines to explain: `2,5-6`.
+4. In the annotations, give each item a `value` matching a highlighted line, and the theme labels it "Line 2:". The editor's List block can't set an item's value, which is why the annotations are HTML.
 
 Rules:
 
-- Annotate at most five lines per block. More than that means the block needs splitting, or the explanation belongs in prose.
+- Aim for five annotations or fewer per block. Beyond that, highlights stop standing out and learners lose their place moving between the code and the notes. Split the block into smaller examples, or move some of the explanation to prose. A longer list is fine when each note covers the same kind of line, such as one per data type.
 - Keep each annotation to one or two sentences.
-- Annotate what the line does and why it matters, not what it says. "L5: `ref()` tells dbt this model depends on `stg_orders`, so dbt builds them in the right order" is useful. "L5: calls ref" is not.
+- Annotate what the line does and why it matters, not what it says. "Line 5: `ref()` tells dbt this model depends on `stg_orders`, so dbt builds them in the right order" is useful. "Line 5: calls ref" is not.
 
 Markup is in the appendix.
 
@@ -557,17 +570,17 @@ Comments are prose and follow the same rules as prose, including British spellin
 
 ## 11. Callouts
 
-The theme provides one callout style: a group block with the class `cbf-callout`. It was introduced for reflective questions and now serves as the general-purpose callout.
+Insert callouts from the **CBF Academy** category in the **Patterns** tab of the block inserter. Each one is a group block with the class `cbf-callout` and a modifier for its label, holding one paragraph that opens with the bold label: "**Tip.** Run `git help add` to open the manual page for any command." The theme draws each callout's icon and colour from its modifier class, so the label keeps its purpose clear without relying on colour.
 
-Give every callout a bold label as its first line so its purpose is clear without relying on colour. Use only these labels:
+Use only these labels:
 
-| Label | Use for |
-| --- | --- |
-| **Note** | Background or context the learner does not need to act on. |
-| **Tip** | A shortcut, a habit or a tool that makes the task easier. |
-| **Warning** | Something that will lose work, cost money or break an environment. |
-| **Try it** | A task under five minutes, done in place, with no marking. |
-| **Reflect** | A question for the learner to think about or discuss with their cohort. |
+| Label | Pattern | Class | Use for |
+| --- | --- | --- | --- |
+| **Note** | Note callout | `cbf-callout--note` | Background or context the learner does not need to act on. |
+| **Tip** | Tip callout | `cbf-callout--tip` | A shortcut, a habit or a tool that makes the task easier. |
+| **Warning** | Warning callout | `cbf-callout--warning` | Something that will lose work, cost money or break an environment. |
+| **Try it** | Try it callout | `cbf-callout--try` | A task under five minutes, done in place, with no marking. |
+| **Reflect** | Reflect callout | `cbf-callout--reflect` | A question for the learner to think about or discuss with their cohort. |
 
 Rules:
 
@@ -576,6 +589,7 @@ Rules:
 - Do not nest callouts or put headings or code blocks inside them. Short inline code is fine.
 - Do not open a lesson or topic with a callout. Say what it is first.
 - Warnings go before the step that can cause harm, not after.
+- Never add colour, icons or emoji to a callout. To change its type, insert the pattern for the type you need rather than editing the label.
 
 Markup is in the appendix.
 
@@ -590,12 +604,31 @@ There are two kinds:
 
 ### Current patterns
 
-The platform has two patterns:
+The **CBF Academy** category holds the activity patterns below and the callouts in section 11. In courses, lessons, topics and quizzes, the inserter offers only these patterns; the page-building patterns from WordPress and plugins appear on other pages only.
 
 | Pattern | Kind | Use for |
 | --- | --- | --- |
-| OS tabs | Unsynced | Steps that differ by operating system, mainly in shared setup guides. |
+| Learning objectives | Unsynced | The objectives that open every lesson (section 7). |
+| Demonstration | Unsynced | A worked example: the Demonstrate step for a concept, with the code or steps and the result to expect. |
+| Exercise | Unsynced | An inline exercise: the Do step for a concept. |
+| Homework | Unsynced | Work for learners to do on their own after the session. |
+| Pop quiz | Unsynced | Quick questions for the cohort, with the answers hidden until revealed. |
 | Learning checkpoint | Synced | Letting instructors check how learners are feeling about the material so far. |
+| Q&A | Synced | A pause for the cohort's questions in a live session. |
+| Break | Synced | A break in a live session. The instructor decides how long, so the content never gives a duration or a time. |
+| Recap | Unsynced | A short recap part-way through a long lesson. The closing summary stays a section (section 7). |
+| Annotated code | Unsynced | A code block whose highlighted lines are explained in numbered notes (section 10). |
+| OS tabs | Unsynced | Steps that differ by operating system, mainly in shared setup guides. |
+
+**Activity patterns.** All the CBF Academy patterns carry class names only. The theme draws their icons, colours and type, so the design can change without editing a lesson.
+
+- Never style a pattern by hand: no colours, fonts, spacing or emoji, and no Additional CSS from plugins.
+- Keep the first line, the activity's label. It is locked so it can't be moved or deleted, but you can edit it, for example to number an exercise ("Exercise 2") when a lesson has more than one.
+- Replace every placeholder in square brackets.
+- Demonstrations, exercises, homework and pop quizzes have an H3 title, because they sit inside an H2 section and belong in the lesson's contents list. Checkpoints, breaks and Q&As use a styled paragraph instead, so they don't fill the contents list with repeated entries.
+- Add blocks inside an activity as you need them, such as extra steps, code blocks or a **Tip** callout for hints.
+- Don't add a pattern pointing to extended exercises, labs or skills checks. They're attached to the lesson, and the course navigation lists them automatically.
+- Put pop quiz answers in its **Show answers** block, never in the questions.
 
 **OS tabs.** The pattern holds one tab per operating system: macOS, Windows and Ubuntu, in that order.
 
@@ -610,14 +643,16 @@ The platform has two patterns:
 - Always insert the synced pattern. Never paste or detach a copy, since a copy no longer updates with the pattern and repeats markup in every lesson.
 - Never edit the checkpoint's content from inside a lesson. Changes to it are changes to every lesson that uses it, so agree them with the content editor.
 
+**Synced patterns.** The learning checkpoint, Q&A and break are synced. Their source lives in the academy theme's `synced-patterns/` folder, and every deployment runs `wp cbf patterns sync` on the academy site to create or update them. Change the source file, not the pattern in the editor, so every environment stays the same.
+
 ### Creating a new pattern
 
-When the same content recurs across lessons, propose a new pattern rather than repeating it. Candidates include pop quizzes, question and answer breaks, break reminders and recap prompts. A pattern is worth creating when the content or its structure appears in two or more lessons, or is expected to.
+When the same content recurs across lessons, propose a new pattern rather than repeating it. A pattern is worth creating when the content or its structure appears in two or more lessons, or is expected to.
 
 1. Check the pattern library first. Extend or reuse an existing pattern where you can.
 2. Agree the new pattern with the content editor, as you would a new callout label.
 3. Choose synced if the content is identical everywhere, as with a standard question and answer prompt. Choose unsynced if only the structure repeats, as with a pop quiz whose questions change.
-4. Name it in sentence case with a noun phrase that says what it holds: "Pop quiz", "Question and answer break".
+4. Name it in sentence case with a noun phrase that says what it holds: "Pop quiz", "Learning checkpoint".
 5. Write the content to this guide. A pattern's mistakes appear in every lesson that uses it.
 6. Add it to the table of current patterns in this section, with when to use it.
 
@@ -684,7 +719,7 @@ Turn on **Enlarge on click** for content images that are not already linked. Scr
 **Exercises and labs.**
 
 - Title extended exercise and lab topics as set out in the naming convention in section 7.
-- Open with the context (what data, what tools, what they have just learned), then the task, then the expected outcome so the learner knows when they are done.
+- Open with the context (what data, what tools, what they have just learned), then the task, then the expected outcome so the learner knows when they are done. Inline exercises use the Exercise pattern, whose "**Done when**" line holds the expected outcome.
 - Name the dataset. If it is the sponsor's dataset, say how to get access.
 - Hints go in a **Tip** callout. Solutions go in a separate document linked at the end of the session, never inline where they are visible before the attempt.
 - Number sub-tasks and keep them independent where possible, so a learner who is stuck on one can continue.
@@ -758,6 +793,38 @@ Use these forms consistently. Add to the list as you go; a new entry needs an ed
 | skills check | quiz, test | "Quiz" is acceptable when naming the LearnDash block. |
 | CBF Academy | the Academy, CBF | Full name on first use per lesson; "the academy" afterwards. |
 
+### Glossary
+
+The word list above settles how terms are spelled. The glossary settles what they mean. The academy keeps one shared glossary: each entry has a term, an optional abbreviation, any alternative names and a definition, and every lesson that teaches the term references the same entry. Marking a term in a lesson does three things: its first mention links to the definition, the lesson's glossary lists it, and the course glossary shows it once the learner reaches that lesson, labelled with the lesson that introduced it.
+
+**What gets an entry.** A term the learner needs to remember and will meet again: concepts ("commit", "common table expression"), named techniques and abbreviations. Everyday words don't get one, and neither do terms the course level already assumes (section 5). Product names belong in the word list instead, unless the lesson explains what the product is.
+
+**Marking terms.**
+
+- Define every new term in the prose, in the sentence where it first appears (section 6). The glossary backs that definition up; it never replaces it, and a learner should never have to open it to follow the lesson.
+- In the editor, select the term and choose **Glossary term** in the toolbar (<kbd>⌘</kbd><kbd>⇧</kbd><kbd>G</kbd>). The popover searches every entry's terms and abbreviations for the selected text. Pick the matching entry, or choose **Create new term** only when there is none.
+- Mark only the first mention in each lesson or topic. Later mentions stay plain. The **Glossary** sidebar lists any duplicates under **Needs attention**, where **Unmark later mentions** fixes them.
+- Mark a term only in the lessons that teach it, where it belongs to the lesson's subject. A lesson that only uses a term taught elsewhere leaves it plain: "commit" and "repository" are marked in the lesson that introduces Git, not in every later lesson that mentions them. Marking them again would repeat definitions the learner already has and pad every lesson's glossary.
+- Treat the terms a lesson uses but doesn't teach as assumed knowledge. If the lesson depends on them, say so generically under **Prerequisites** (section 7), such as "basic Git: commits and branches". In the **Glossary** sidebar, choose **Ignore in this post** for each one so it stops being flagged as unmarked.
+- Mark the term as it appears in the sentence. Plurals and other forms are fine: "branches" can reference the "Branch" entry. Add a genuine synonym ("repo" for "repository") to the existing entry as an alternative term rather than creating a second entry.
+- For an abbreviation, follow section 5: write "common table expression (CTE)" and mark the full term. Mark the abbreviation on its own only where the course level lets you use it unexpanded.
+- When the word appears in a different sense ("a branch of the business"), leave it unmarked and choose **Ignore in this post** in the sidebar, so it stops being suggested.
+- If a term matters only in one place and doesn't merit an entry, introduce it in italics where it is defined. Use bold for emphasis and labels, never for terms.
+
+**Writing an entry.** Create entries from the **Glossary term** popover, which has fields for the term, its abbreviation, alternative terms and the definition. For longer definitions, use the entry's own screen under **Glossary › All Terms**.
+
+- **Term:** sentence case, singular and spelled as in the word list: "Common table expression", "Branch". Proper nouns, abbreviations and code keep their own case: `HEAD`, `.gitignore`. Get it right first time: the entry's link anchor comes from the term when it is created and never changes, even if the term is renamed.
+- **Abbreviation:** only if the abbreviation is in common use ("CTE"). Text matching it renders as an abbreviation that expands on hover, and on touch screens its first mention is spelled out.
+- **Alternative terms:** genuine synonyms and other spellings ("repo"), each with its own abbreviation if it has one. The glossary lists them under the main term.
+- **Definition:** one or two plain sentences, about 40 words at most, that make sense on their own. Start with what it is, without repeating the term: "A snapshot of a repository at a point in time.", not "A commit is a snapshot…". The popover accepts `code`, `**bold**`, `*italic*` and `[links](url)`.
+- **Shared by every course:** entries are reused like shared guides (section 7). Never mention a lesson, course, dataset or cohort in a definition.
+- **Review:** if your role can't publish glossary entries, the entries you create start as drafts for an editor to review and publish. The editor labels a reference to one "not published yet", and learners see plain text until it is published, so check a lesson's entries are all published before it goes live.
+
+**The glossaries learners see.**
+
+- **Lesson glossary:** every lesson and topic that marks a term gets a glossary at the end, after the summary and further reading. It is added automatically; add a **Glossary** block only to place it somewhere else.
+- **Course glossary:** the **Course Glossary** block lists the terms from every lesson the learner has unlocked, alphabetically, each linked to the lesson that introduced it. That is the first lesson, in course order, that marks the term. If an earlier lesson uses the term without marking it, the course audit (`wp glossary course audit`) reports it as `introduced-late`: the course uses the term before it teaches it. Fix it as you would any concept used before it is taught (section 7): reorder the lessons, explain the term where it is first used and mark it there, or rewrite that passage without it.
+
 ## 17. Working with AI agents
 
 Agents draft and edit material under a human editor. They follow this guide like any other author, with these additional rules.
@@ -770,8 +837,9 @@ Agents draft and edit material under a human editor. They follow this guide like
 4. Keep code verbatim unless asked to change it. If you believe code is wrong, keep it and flag it.
 5. Flag anything uncertain with an HTML comment in the block markup, `<!-- REVIEW: ... -->`, so it is invisible to learners but visible to the editor. Say what you were unsure about and what you did.
 6. Output WordPress block markup matching the appendix, not Markdown, unless asked otherwise.
-7. Finish with a short list of what you changed, what you removed and what you flagged. The editor should not have to diff the whole document to find out.
+7. Finish with a short list of what you changed, what you removed, what you flagged and any glossary entries you propose. The editor should not have to diff the whole document to find out.
 8. Never mark a draft as reviewed. Review is a human step.
+9. Mark the glossary terms a lesson teaches with the markup in the appendix, using the IDs of existing entries. Leave terms it only uses plain. Don't create entries: where a key term has none, mark its first mention with `<!-- REVIEW: glossary entry needed for "<term>": <proposed definition> -->` and list it in your report.
 
 **For humans directing agents**
 
@@ -806,6 +874,7 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] No "simply", "just", "easy", "obviously". No filler.
 - [ ] Sentences mostly under 25 words. One idea per paragraph.
 - [ ] Terms defined on first use. Abbreviations expanded on first use.
+- [ ] Key terms this lesson teaches are marked as glossary terms at their first mention. Terms it only uses are left plain and ignored in the Glossary sidebar, which shows nothing under Needs attention. No referenced entry is still a draft.
 - [ ] Word list applied. Product names spelled as their owners spell them.
 - [ ] Inclusive language. No gendered assumptions, no legacy technical terms without explanation.
 
@@ -816,11 +885,12 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] Every example runs. Versions stated where they matter.
 - [ ] Placeholders in `<angle-brackets>` and explained.
 - [ ] No screenshots of code.
-- [ ] Annotated blocks have five or fewer annotations, each matching a highlighted line.
+- [ ] Each annotation matches a highlighted line. Blocks with more than five annotations have been considered for splitting.
 
 **Media**
 
 - [ ] Every content image has alt text describing what matters.
+- [ ] No text column narrower than half the content width.
 - [ ] Content images that are not linked have Enlarge on click turned on.
 - [ ] Decorative images, logos and template furniture removed.
 - [ ] Screenshots cropped, sharp, free of personal data.
@@ -838,7 +908,8 @@ Copy this into the review and tick each line. A reviewer should be able to compl
 - [ ] Links work and have descriptive text.
 - [ ] Renders correctly on a phone-width screen.
 - [ ] OS-specific steps use the OS tabs pattern, with no placeholder text or unused tabs left.
-- [ ] Learning checkpoints are the synced pattern, not pasted copies. Content repeated across lessons is a pattern or has been proposed as one.
+- [ ] Activities and callouts use the CBF Academy patterns, with no placeholder text left and no styling added by hand.
+- [ ] Learning checkpoints, Q&As and breaks are the synced patterns, not pasted copies. Content repeated across lessons is a pattern or has been proposed as one.
 
 ## Appendix: block markup reference
 
@@ -894,9 +965,11 @@ These are the block forms the platform uses and the theme styles. Agents should 
 
 The attributes come from the WebberZone Code Block Highlighting plugin, which extends the core code block. Deactivating the plugin leaves the code intact.
 
+The plugin reads the language from `<code lang>` and the title from `<pre data-title>`, and saves line numbers and highlighted lines as classes and attributes on `<pre>`. The block comment holds only `lineNumbers`, `highlightLines` and `wordWrap`. Write the markup exactly as the plugin saves it, or the editor reports the block as invalid; a `language` or `title` in the block comment is ignored.
+
 ```html
-<!-- wp:code {"language":"python","lineNumbers":true,"title":"load_orders.py"} -->
-<pre class="wp-block-code"><code>import csv
+<!-- wp:code {"lineNumbers":true} -->
+<pre class="wp-block-code language-python line-numbers" data-title="load_orders.py"><code lang="python" class="language-python">import csv
 
 with open("orders.csv") as f:
     rows = list(csv.DictReader(f))
@@ -908,8 +981,9 @@ print(len(rows))</code></pre>
 **Annotated code block**
 
 ```html
-<!-- wp:code {"language":"sql","lineNumbers":true,"highlightLines":"2,5","title":"models/marts/orders.sql"} -->
-<pre class="wp-block-code"><code>SELECT
+<!-- wp:group {"tagName":"figure","metadata":{"patternName":"cbf-academy/annotated-code"},"layout":{"type":"constrained"},"allowedBlocks":["core/code","core/html"]} -->
+<figure class="wp-block-group"><!-- wp:code {"lineNumbers":true,"highlightLines":"2,5"} -->
+<pre class="wp-block-code language-sql line-numbers" data-title="models/marts/orders.sql" data-line="2,5"><code lang="sql" class="language-sql">SELECT
     o.order_id,
     o.customer_id,
     o.order_date
@@ -917,30 +991,54 @@ FROM {{ ref('stg_orders') }} AS o
 WHERE o.status = 'complete'</code></pre>
 <!-- /wp:code -->
 
-<!-- wp:list {"ordered":true,"className":"code-annotations"} -->
-<ol class="wp-block-list code-annotations">
-<!-- wp:list-item -->
-<li data-line="2">Every column is listed explicitly. <code>SELECT *</code> would make the model change shape whenever the source did.</li>
-<!-- /wp:list-item -->
-<!-- wp:list-item -->
-<li data-line="5"><code>ref()</code> tells dbt this model depends on <code>stg_orders</code>, so dbt builds them in the right order.</li>
-<!-- /wp:list-item -->
+<!-- wp:html -->
+<figcaption>
+<ol class="code-annotations" role="list">
+<li value="2">Every column is listed explicitly. <code>SELECT *</code> would make the model change shape whenever the source did.</li>
+<li value="5"><code>ref()</code> tells dbt this model depends on <code>stg_orders</code>, so dbt builds them in the right order.</li>
 </ol>
-<!-- /wp:list -->
+</figcaption>
+<!-- /wp:html --></figure>
+<!-- /wp:group -->
 ```
 
 **Callout**
 
+The modifier is one of `note`, `tip`, `warning`, `try` and `reflect`. Write `--` in the block comment's JSON as `\u002d\u002d`, as the editor does.
+
 ```html
-<!-- wp:group {"className":"cbf-callout"} -->
-<div class="wp-block-group cbf-callout">
-<!-- wp:paragraph -->
-<p><strong>Warning</strong></p>
+<!-- wp:group {"className":"cbf-callout cbf-callout\u002d\u002dwarning"} -->
+<div class="wp-block-group cbf-callout cbf-callout--warning"><!-- wp:paragraph -->
+<p><strong>Warning.</strong> <code>git reset --hard</code> discards uncommitted changes and cannot be undone. Commit or stash first.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+```
+
+**Activity (Exercise)**
+
+Every activity has the same shape: a group with `cbf-activity` and a type modifier, then a locked label paragraph. The pattern files in the academy theme's `patterns/` folder are the reference for each type.
+
+```html
+<!-- wp:group {"tagName":"section","className":"cbf-activity cbf-activity\u002d\u002dexercise"} -->
+<section class="wp-block-group cbf-activity cbf-activity--exercise"><!-- wp:paragraph {"className":"cbf-activity__label","lock":{"move":true,"remove":true}} -->
+<p class="cbf-activity__label"><strong>Exercise</strong></p>
 <!-- /wp:paragraph -->
-<!-- wp:paragraph -->
-<p><code>git reset --hard</code> discards uncommitted changes and cannot be undone. Commit or stash first.</p>
-<!-- /wp:paragraph -->
-</div>
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Add and delete files in a repository</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list"><!-- wp:list-item -->
+<li>Initialise a Git repository.</li>
+<!-- /wp:list-item --><!-- wp:list-item -->
+<li>Create a file, stage it and commit it.</li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph {"className":"cbf-activity__outcome"} -->
+<p class="cbf-activity__outcome"><strong>Done when</strong> <code>git log --oneline</code> shows both commits.</p>
+<!-- /wp:paragraph --></section>
 <!-- /wp:group -->
 ```
 
@@ -960,12 +1058,30 @@ WHERE o.status = 'complete'</code></pre>
 <!-- /wp:table -->
 ```
 
-**Synced pattern (Learning checkpoint)**
+**Glossary term**
+
+A reference stores only the entry's ID, so the entry can be edited without touching the lesson. Look the ID up on the environment you are editing:
+
+```bash
+wp @<env> glossary term list --search=commit --fields=id,term,abbr,status
+```
+
+```html
+<!-- wp:paragraph -->
+<p>Each snapshot, called a <span class="glossary-ref" data-glossary-id="<entry-id>">commit</span>, records who changed what, when and why.</p>
+<!-- /wp:paragraph -->
+```
+
+Text that matches one of the entry's abbreviations renders as an abbreviation by itself. To make other text do the same, add `data-glossary-abbr="true"` to the span.
+
+**Synced pattern (Learning checkpoint, Q&A, Break)**
 
 A synced pattern is a reference to the pattern's post ID. IDs can differ between environments, so look the ID up on the environment you are editing rather than copying it from another lesson:
 
 ```bash
 wp @<env> post list --post_type=wp_block --name=learning-checkpoint --field=ID
+wp @<env> post list --post_type=wp_block --name=question-and-answer-break --field=ID
+wp @<env> post list --post_type=wp_block --name=break --field=ID
 ```
 
 ```html

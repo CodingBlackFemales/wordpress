@@ -1,0 +1,426 @@
+/*--------------------------------------------------------------
+CBF Academy lesson content
+
+Styles for the CBF Academy activity and callout patterns (patterns/
+and synced-patterns/) and for the typography of lesson content.
+
+The patterns carry class names only: no colours, sizes or icons are
+saved in lesson content. Everything visual lives here, so the design
+can change without editing a single lesson.
+
+Loaded on the front end and in the block editor canvas, so patterns
+look the same in both (see functions.php).
+--------------------------------------------------------------*/
+
+/* Component classes use BEM element and modifier names
+   (cbf-activity__label, cbf-callout--tip), and the LearnDash
+   overrides use LearnDash's own class names. */
+/* stylelint-disable selector-class-pattern */
+
+/*--------------------------------------------------------------
+Design tokens
+Brand colours from the platform visual identity, then the roles they
+play. Components use the roles, so dark mode only swaps roles.
+--------------------------------------------------------------*/
+:root {
+  --cbf-ink: #11181c;
+  --cbf-off-white: #fff2ff;
+  --cbf-mustard: #f7bb21;
+  --cbf-yellow: #ffda65;
+  --cbf-lilac: #5949ff;
+  --cbf-navy: #121446;
+  --cbf-pink: #fb56cd;
+  --cbf-pink-deep: #c70591;
+  --cbf-dark-ink: #ecedee;
+  --cbf-dark-grey: #373337;
+
+  --cbf-text: var(--cbf-ink);
+  --cbf-outline: rgb(17 24 28 / 25%);
+  --cbf-tint: rgb(17 24 28 / 5%);
+  --cbf-action: var(--cbf-lilac);
+  --cbf-action-text: var(--cbf-off-white);
+  --cbf-action-hover: var(--cbf-navy);
+  --cbf-focus: var(--cbf-navy);
+  --cbf-emphasis: var(--cbf-pink-deep);
+  --cbf-disc: var(--cbf-mustard);
+  --cbf-disc-icon: var(--cbf-ink);
+  --cbf-highlight: var(--cbf-yellow);
+  --cbf-highlight-text: var(--cbf-ink);
+  --cbf-break: var(--cbf-yellow);
+  --cbf-break-text: var(--cbf-ink);
+  --cbf-break-disc: var(--cbf-off-white);
+
+  --cbf-font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --cbf-font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  --cbf-text-body: clamp(1rem, 0.948rem + 0.221vw, 1.125rem);
+  --cbf-text-lead: clamp(1.1875rem, 1.11rem + 0.332vw, 1.375rem);
+  --cbf-text-heading-sm: clamp(1.4375rem, 1.308rem + 0.553vw, 1.75rem);
+  --cbf-text-heading: clamp(1.75rem, 1.569rem + 0.774vw, 2.1875rem);
+
+  --cbf-radius-control: 6px;
+  --cbf-radius: 8px;
+  --cbf-panel-padding: clamp(1rem, 3vw, 1.75rem);
+  --cbf-gap: 0.75rem;
+}
+
+/* BuddyBoss's dark mode for lessons. */
+.bb-sfwd-aside.bb-dark-theme {
+  --cbf-text: var(--cbf-dark-ink);
+  --cbf-outline: rgb(236 237 238 / 30%);
+  --cbf-tint: rgb(236 237 238 / 7%);
+  --cbf-action: var(--cbf-mustard);
+  --cbf-action-text: var(--cbf-navy);
+  --cbf-action-hover: var(--cbf-yellow);
+  --cbf-focus: var(--cbf-mustard);
+  --cbf-emphasis: var(--cbf-pink);
+  --cbf-break: var(--cbf-dark-grey);
+  --cbf-break-text: var(--cbf-dark-ink);
+  --cbf-break-disc: var(--cbf-mustard);
+}
+
+/*--------------------------------------------------------------
+Lesson typography
+Scoped to LearnDash content (lessons, topics, quizzes and course
+pages) and the editor canvas, which only loads this stylesheet for
+those post types. The rest of the site keeps the theme's type until
+the full redesign.
+--------------------------------------------------------------*/
+.learndash-wrapper .ld-tab-content,
+.editor-styles-wrapper {
+  color: var(--cbf-text);
+  font-family: var(--cbf-font-body);
+  font-size: var(--cbf-text-body);
+  line-height: 1.65;
+}
+
+/* The lesson title sits in BuddyBoss's lesson header, outside the
+   LearnDash content. In the editor it is part of the canvas already. */
+.learndash-cpt .bb-lms-header .lms-header-title h1 {
+  font-family: var(--cbf-font-body);
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) :is(p, li, dd, dt, figcaption, summary, blockquote) {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) :is(h2, h3, h4, h5, h6) {
+  color: inherit;
+  font-family: var(--cbf-font-body);
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) h2 {
+  font-size: var(--cbf-text-heading);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) h3 {
+  font-size: var(--cbf-text-heading-sm);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) :is(h4, h5, h6) {
+  font-size: var(--cbf-text-lead);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+:is(.learndash-wrapper .ld-tab-content, .editor-styles-wrapper) :is(code, kbd, samp, pre) {
+  font-family: var(--cbf-font-mono);
+}
+
+/*--------------------------------------------------------------
+Activities
+<section> or <div> .cbf-activity.cbf-activity--{type}
+  p.cbf-activity__label   "Exercise", with its icon on a disc
+  h3 or p.cbf-activity__title
+  …content
+--------------------------------------------------------------*/
+.cbf-activity {
+  margin-block: 2rem;
+  margin-inline: 0;
+  padding: var(--cbf-panel-padding);
+  border: 1.5px solid var(--cbf-outline);
+  border-radius: var(--cbf-radius);
+  color: var(--cbf-text);
+}
+
+.wp-block-group.cbf-activity > * {
+  margin-block: 0;
+}
+
+.wp-block-group.cbf-activity > * + * {
+  margin-block-start: var(--cbf-gap);
+}
+
+/* The label: the activity's name at body size, after its icon disc.
+   The disc is ::before and the icon, a mask over it, is ::after. */
+.wp-block-group.cbf-activity .cbf-activity__label,
+.wp-block-group.cbf-activity :is(h2, h3, h4).cbf-activity__label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  margin: 0;
+  padding-inline-start: 3rem;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--cbf-text-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.wp-block-group.cbf-activity :is(h2, h3, h4).cbf-activity__label {
+  font-weight: 700;
+}
+
+.cbf-activity__label::before,
+.cbf-activity__label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.cbf-activity__label::before {
+  background: var(--cbf-disc);
+}
+
+.cbf-activity__label::after {
+  background: var(--cbf-disc-icon);
+  mask: var(--cbf-icon) center / 1.25rem no-repeat;
+}
+
+.wp-block-group.cbf-activity :is(h2, h3, h4):not(.cbf-activity__label),
+.wp-block-group.cbf-activity .cbf-activity__title {
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--cbf-text-heading-sm);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.cbf-activity :is(ul, ol) {
+  margin-inline: 0;
+  padding-inline-start: 1.5rem;
+}
+
+/* "Done when" at the start of an exercise's outcome. */
+.cbf-activity__outcome > strong:first-child {
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+  background: var(--cbf-highlight);
+  color: var(--cbf-highlight-text);
+}
+
+/* Pop quiz answers: a native <details>, its summary styled as a button. */
+.cbf-activity__answers > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0 1.25rem;
+  border-radius: var(--cbf-radius-control);
+  background: var(--cbf-action);
+  color: var(--cbf-action-text);
+  font-weight: 700;
+  line-height: 1.3;
+  list-style: none;
+  cursor: pointer;
+}
+
+.cbf-activity__answers > summary::-webkit-details-marker {
+  display: none;
+}
+
+.cbf-activity__answers > summary::after {
+  content: "";
+  width: 1.25rem;
+  height: 1.25rem;
+  background: currentcolor;
+  mask: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M6%209l6%206%206-6%27/%3E%3C/svg%3E) center / contain no-repeat;
+  transition: transform 0.2s ease;
+}
+
+.cbf-activity__answers[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+.cbf-activity__answers > summary:hover {
+  background: var(--cbf-action-hover);
+}
+
+.cbf-activity__answers > summary:focus-visible {
+  outline: 2px solid var(--cbf-focus);
+  outline-offset: 2px;
+}
+
+.cbf-activity__answers[open] > summary {
+  margin-block-end: var(--cbf-gap);
+}
+
+.cbf-activity__answers > :not(summary) {
+  margin-block: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .cbf-activity__answers > summary::after {
+    transition: none;
+  }
+}
+
+/* Learning checkpoint scale. Learners answer aloud or in the chat, so
+   this is a plain list, not buttons. The symbols are drawn by position:
+   the synced pattern fixes the order as red, yellow, green. */
+.cbf-activity .cbf-checkpoint__scale {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cbf-checkpoint__scale > li {
+  position: relative;
+  min-height: 1.75rem;
+  margin: 0;
+  padding-inline-start: 2.5rem;
+}
+
+.cbf-checkpoint__scale > li::before {
+  content: "";
+  position: absolute;
+  top: 0.05em;
+  inset-inline-start: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--cbf-rating) center / contain no-repeat;
+}
+
+.cbf-checkpoint__scale > li:nth-child(1) {
+  --cbf-rating: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%2711%27%20fill=%27%23B42318%27/%3E%3Cpath%20d=%27M8%208l8%208M16%208l-8%208%27%20stroke=%27%23FFF2FF%27%20stroke-width=%272.2%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E);
+}
+
+.cbf-checkpoint__scale > li:nth-child(2) {
+  --cbf-rating: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%2710.25%27%20fill=%27%23FFDA65%27%20stroke=%27%2311181C%27%20stroke-width=%271.5%27/%3E%3Cpath%20d=%27M12%206.5v7M12%2017v.5%27%20stroke=%27%2311181C%27%20stroke-width=%272.2%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E);
+}
+
+.cbf-checkpoint__scale > li:nth-child(3) {
+  --cbf-rating: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%2711%27%20fill=%27%23067647%27/%3E%3Cpath%20d=%27M7%2012.5l3.2%203.2L17%209%27%20fill=%27none%27%20stroke=%27%23FFF2FF%27%20stroke-width=%272.2%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E);
+}
+
+/* Break: a filled panel rather than an outline. */
+.cbf-activity--break {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M4%209h12v5a5%205%200%200%201-5%205H9a5%205%200%200%201-5-5V9z%27/%3E%3Cpath%20d=%27M16%2011h2a2%202%200%200%201%200%204h-2M8%203v3M12%203v3%27/%3E%3C/svg%3E);
+  --cbf-disc: var(--cbf-break-disc);
+  border-color: transparent;
+  background: var(--cbf-break);
+  color: var(--cbf-break-text);
+}
+
+/* Activity icons. */
+.cbf-activity--exercise {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%273%27%20y=%274%27%20width=%2718%27%20height=%2716%27%20rx=%272%27/%3E%3Cpath%20d=%27M7%209l3%203-3%203M13%2015h4%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--demonstration {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%273%27%20y=%274%27%20width=%2718%27%20height=%2712%27%20rx=%272%27/%3E%3Cpath%20d=%27M10.5%208l3.5%202-3.5%202z%27/%3E%3Cpath%20d=%27M8%2020h8M12%2016v4%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--homework {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M4%2011l8-7%208%207%27/%3E%3Cpath%20d=%27M6%209.5V20h12V9.5%27/%3E%3Cpath%20d=%27M10%2020v-5h4v5%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--quiz {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M13%202L4%2014h7l-1%208%209-12h-7l1-8z%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--checkpoint {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M5%2021V4M5%204h11l-2%204%202%204H5%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--questions {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M4%205h11v8H8l-4%203V5z%27/%3E%3Cpath%20d=%27M15%209h5v8l-3-2h-6v-2%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--recap {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M4%2012a8%208%200%200%201%2014-5.3L20%209M20%204v5h-5%27/%3E%3Cpath%20d=%27M20%2012a8%208%200%200%201-14%205.3L4%2015M4%2020v-5h5%27/%3E%3C/svg%3E);
+}
+
+.cbf-activity--objectives {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%279%27/%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%275%27/%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%271%27/%3E%3C/svg%3E);
+}
+
+/*--------------------------------------------------------------
+Callouts
+div.wp-block-group.cbf-callout.cbf-callout--{type}
+  p  "<strong>Tip.</strong> …", with the icon before the label
+--------------------------------------------------------------*/
+.wp-block-group.cbf-callout {
+  margin-block: 1.5rem;
+  margin-inline: 0;
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-radius: var(--cbf-radius);
+  background: var(--cbf-tint);
+  color: var(--cbf-text);
+}
+
+.wp-block-group.cbf-callout > * {
+  margin-block: 0;
+}
+
+.wp-block-group.cbf-callout > * + * {
+  margin-block-start: var(--cbf-gap);
+}
+
+[class*="cbf-callout--"] > :first-child::before {
+  content: "";
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-inline-end: 0.5rem;
+  vertical-align: -0.25em;
+  background: var(--cbf-callout-icon, currentcolor);
+  mask: var(--cbf-icon) center / contain no-repeat;
+}
+
+.wp-block-group.cbf-callout--warning {
+  background: var(--cbf-highlight);
+  color: var(--cbf-highlight-text);
+}
+
+.cbf-callout--try,
+.cbf-callout--reflect {
+  --cbf-callout-icon: var(--cbf-emphasis);
+}
+
+.cbf-callout--note {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%279%27/%3E%3Cpath%20d=%27M12%2011v6M12%207.5v.5%27/%3E%3C/svg%3E);
+}
+
+.cbf-callout--tip {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M9%2018h6M10%2021h4M12%203a6%206%200%200%200-4%2010.5c.7.7%201%201.5%201%202.5h6c0-1%20.3-1.8%201-2.5A6%206%200%200%200%2012%203z%27/%3E%3C/svg%3E);
+}
+
+.cbf-callout--warning {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M12%203l10%2018H2L12%203z%27/%3E%3Cpath%20d=%27M12%2010v5M12%2018v.5%27/%3E%3C/svg%3E);
+}
+
+.cbf-callout--try {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M7%204l12%208-12%208V4z%27/%3E%3C/svg%3E);
+}
+
+.cbf-callout--reflect {
+  --cbf-icon: url(data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%271.5%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M12%204c4.4%200%208%202.9%208%206.5S16.4%2017%2012%2017c-.9%200-1.8-.1-2.6-.3L5%2019l1.2-3.4C4.8%2014.4%204%2012.5%204%2010.5%204%206.9%207.6%204%2012%204z%27/%3E%3C/svg%3E);
+}
+
+/* stylelint-enable selector-class-pattern */

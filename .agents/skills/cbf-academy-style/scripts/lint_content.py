@@ -163,7 +163,8 @@ LANGUAGE_HINTS = {
     "jinja": "sql", "jinja2": "sql", "js": "javascript", "ts": "typescript",
     "yml": "yaml", "ps1": "powershell", "py": "python",
 }
-CALLOUT_LABELS = {"Note", "Tip", "Warning", "Try it", "Reflect"}
+# Callout label to its modifier class (section 11).
+CALLOUT_LABELS = {"Note": "note", "Tip": "tip", "Warning": "warning", "Try it": "try", "Reflect": "reflect"}
 WEAK_OBJECTIVE_VERBS = {"understand", "learn", "know", "appreciate", "be", "grasp", "gain", "become"}
 
 # Words that may be capitalised mid-heading without making it title case.
@@ -367,12 +368,19 @@ def check_code(text, out):
         except json.JSONDecodeError:
             out.append(Finding(line, ERROR, "code-attrs", "Code block attributes are not valid JSON", m.group(1).strip()))
             attrs = {}
-        lang = attrs.get("language")
+        # The highlighter reads the language from <code lang>, never from the block comment.
+        lang_m = re.search(r'<code\b[^>]*\blang="([^"]+)"', m.group(2))
+        lang = lang_m.group(1) if lang_m else None
         body_m = re.search(r"<code[^>]*>(.*?)</code>", m.group(2), flags=re.S)
         body = body_m.group(1) if body_m else ""
         first = body.strip().splitlines()[0][:60] if body.strip() else ""
-        if not lang:
-            out.append(Finding(line, ERROR, "code-language", "Code block has no language. Set \"language\"", first))
+        if not lang and attrs.get("language"):
+            out.append(Finding(line, ERROR, "code-language",
+                               "Language set only in the block comment, which the highlighter ignores. "
+                               "Put it on the code element: <code lang=\"sql\" class=\"language-sql\">", first))
+        elif not lang:
+            out.append(Finding(line, ERROR, "code-language", "Code block has no language. Set it in the editor's "
+                               "Code Highlighting panel, or as <code lang=\"…\"> in markup", first))
         elif lang not in ALLOWED_LANGUAGES:
             hint = LANGUAGE_HINTS.get(lang.lower())
             msg = f"Language \"{lang}\" is not in the guide's list" + (f". Use \"{hint}\"" if hint else "")
@@ -401,11 +409,13 @@ def check_code(text, out):
         items = re.findall(r"<li\b([^>]*)>", m.group(1), flags=re.I)
         line = line_of(text, m.start())
         if len(items) > 5:
-            out.append(Finding(line, ERROR, "annotations",
-                               f"{len(items)} annotations. Five at most; split the block or move the explanation to prose"))
+            out.append(Finding(line, WARNING, "annotations",
+                               f"{len(items)} annotations. Over five, consider splitting the block or moving "
+                               "some of the explanation to prose"))
         for attrs in items:
-            if "data-line" not in attrs:
-                out.append(Finding(line, ERROR, "annotations", "Annotation item missing data-line attribute"))
+            if not re.search(r'\bvalue="\d+"', attrs):
+                out.append(Finding(line, ERROR, "annotations",
+                                   "Annotation item needs value=\"<line>\" matching a highlighted line"))
 
 
 def check_images(text, out):
@@ -444,14 +454,23 @@ def check_images(text, out):
 
 OS_TAB_ORDER = ["macOS", "Windows", "Ubuntu"]
 CHECKPOINT_EMOJI = set("\U0001F6A6\U0001F534\U0001F7E1\U0001F7E2")
+# Activity modifier classes that belong to synced patterns, and the pattern's name.
+SYNCED_ACTIVITIES = {"checkpoint": "Learning checkpoint", "questions": "Q&A", "break": "Break"}
 
 
 def check_patterns(text, out):
-    """Section 12: synced Learning checkpoint and the OS tabs pattern."""
+    """Section 12: synced patterns, activity placeholders and the OS tabs pattern."""
     for m in re.finditer(r"How Are You Feeling\??", text, flags=re.I):
         out.append(Finding(line_of(text, m.start()), ERROR, "pattern-copy",
                            "Pasted copy of the Learning checkpoint pattern. Replace the whole group with the "
                            "synced reference <!-- wp:block {\"ref\":<id>} /-->", m.group(0)))
+    for m in re.finditer(r'<(?:div|section)\b[^>]*class="[^"]*\bcbf-activity--(%s)\b' % "|".join(SYNCED_ACTIVITIES), text):
+        if re.search(r"How Are You Feeling", text[m.start():m.start() + 2000], flags=re.I):
+            continue  # Already reported above.
+        name = SYNCED_ACTIVITIES[m.group(1)]
+        out.append(Finding(line_of(text, m.start()), ERROR, "pattern-copy",
+                           f"Pasted copy of the synced {name} pattern. Replace the whole group with the "
+                           "synced reference <!-- wp:block {\"ref\":<id>} /-->", name))
     for m in re.finditer(r"<!--\s*wp:themeisle-blocks/tabs\b(?!-item).*?<!--\s*/wp:themeisle-blocks/tabs\s*-->",
                          text, flags=re.S):
         line = line_of(text, m.start())
@@ -477,17 +496,26 @@ def check_patterns(text, out):
 
 
 def check_callouts(text, out):
-    for m in re.finditer(r'<div\b[^>]*class="[^"]*\bcbf-callout\b[^"]*"[^>]*>', text, flags=re.I):
+    """Section 11: a callout opens with its bold label, and its modifier class matches the label."""
+    for m in re.finditer(r'<div\b[^>]*class="([^"]*\bcbf-callout\b[^"]*)"[^>]*>', text, flags=re.I):
         line = line_of(text, m.start())
         end = text.find("<!-- /wp:group -->", m.end())
         region = text[m.end(): end if end != -1 else len(text)]
         first_p = re.search(r"<p\b[^>]*>(.*?)</p>", region, flags=re.S | re.I)
-        label_m = re.match(r"\s*<strong>(.*?)</strong>\s*$", first_p.group(1), flags=re.S) if first_p else None
-        if not label_m or label_m.group(1).strip() not in CALLOUT_LABELS:
+        label_m = re.match(r"\s*<strong>\s*([^<]*?)\.?\s*</strong>", first_p.group(1), flags=re.S) if first_p else None
+        label = label_m.group(1).strip() if label_m else ""
+        if label not in CALLOUT_LABELS:
             found = strip_tags(first_p.group(1))[:40] if first_p else ""
             out.append(Finding(line, ERROR, "callout-label",
-                               "Callout must open with a bold label on its own line: Note, Tip, Warning, Try it or Reflect",
-                               found))
+                               "Callout must open with its bold label (\"<strong>Tip.</strong> ...\"): "
+                               "Note, Tip, Warning, Try it or Reflect", found))
+        else:
+            modifier = re.search(r"\bcbf-callout--([\w-]+)", m.group(1))
+            if not modifier or modifier.group(1) != CALLOUT_LABELS[label]:
+                out.append(Finding(line, ERROR, "callout-type",
+                                   f"A {label} callout needs the class cbf-callout--{CALLOUT_LABELS[label]}. "
+                                   "Insert the pattern for its type rather than editing the label",
+                                   modifier.group(0) if modifier else m.group(1)))
         if re.search(r"<h[1-6]\b|wp:code|cbf-callout", region, flags=re.I):
             out.append(Finding(line, ERROR, "callout-content",
                                "No headings, code blocks or nested callouts inside a callout"))
@@ -495,6 +523,48 @@ def check_callouts(text, out):
     if first_block and first_block.group(1) == "group" and "cbf-callout" in first_block.group(2):
         out.append(Finding(line_of(text, first_block.start()), ERROR, "callout-position",
                            "Do not open a lesson or topic with a callout. Say what it is first"))
+
+
+def check_placeholders(prose, out):
+    """Sections 7 and 12: pattern and skeleton placeholders in square brackets are replaced."""
+    for m in re.finditer(r"\[[A-Z][^\[\]\n]{3,}\](?!\()", prose):
+        out.append(Finding(line_of(prose, m.start()), ERROR, "placeholder",
+                           "Placeholder text left in. Replace it, or delete the block",
+                           m.group(0)[:60]))
+
+
+def check_glossary(text, out):
+    """Section 16: each glossary entry is marked once, at its first mention, by ID."""
+    seen = {}
+    for m in re.finditer(r'<span\b[^>]*class="[^"]*\bglossary-ref\b[^"]*"[^>]*>(.*?)</span>', text, flags=re.S | re.I):
+        line = line_of(text, m.start())
+        id_m = re.search(r'data-glossary-id="(\d+)"', m.group(0))
+        if not id_m:
+            out.append(Finding(line, ERROR, "glossary-id",
+                               "Glossary reference without an entry ID. Look the ID up with wp glossary term list",
+                               strip_tags(m.group(1))))
+            continue
+        if id_m.group(1) in seen:
+            out.append(Finding(line, ERROR, "glossary-duplicate",
+                               f"Glossary entry {id_m.group(1)} is already marked on line {seen[id_m.group(1)]}. "
+                               "Mark only the first mention", strip_tags(m.group(1))))
+        else:
+            seen[id_m.group(1)] = line
+
+
+def check_columns(text, out):
+    """Section 9: a column holding text is never narrower than half the content width."""
+    for m in re.finditer(r"<!--\s*wp:columns\b.*?<!--\s*/wp:columns\s*-->", text, flags=re.S):
+        cols = list(re.finditer(r"<!--\s*wp:column(?:\s+(\{.*?\}))?\s*-->(.*?)<!--\s*/wp:column\s*-->", m.group(0), flags=re.S))
+        for c in cols:
+            if not re.search(r"<!--\s*wp:(?:paragraph|list|heading)\b", c.group(2)):
+                continue
+            width_m = re.search(r'"width":"([\d.]+)%"', c.group(1) or "")
+            width = float(width_m.group(1)) if width_m else 100.0 / len(cols)
+            if width < 50:
+                out.append(Finding(line_of(text, m.start() + c.start()), WARNING, "column-width",
+                                   f"Text column at {width:.0f}% of the width. Text columns are never narrower "
+                                   "than half; use a 50/50 or wider split, or a table", strip_tags(c.group(2))[:40]))
 
 
 def check_links(text, out):
@@ -583,6 +653,9 @@ def lint(text, content_type=None):
     check_callouts(text, out)
     check_links(text, out)
     check_patterns(text, out)
+    check_placeholders(prose, out)
+    check_glossary(text, out)
+    check_columns(text, out)
     check_objectives(text, out)
     if content_type == "lesson":
         check_lesson(text, out)

@@ -9,3 +9,20 @@
   margin-bottom: 32px;
   margin-top: 32px;
 }
+
+/* Pattern titles in the inserter's Patterns tab. WordPress prints a title
+   under user patterns but shows theme patterns' titles only as a tooltip,
+   so the CBF Academy patterns appeared as unlabelled previews. This shows
+   the title, which WordPress already puts in the preview's aria-label,
+   under every pattern that doesn't have one. Decorative only: screen
+   readers already announce the aria-label. */
+/* stylelint-disable selector-class-pattern */
+.block-editor-block-patterns-list__item[aria-label]:not(:has(.block-editor-patterns__pattern-details))::after {
+  content: attr(aria-label);
+  display: block;
+  padding-top: 8px;
+  color: #1e1e1e;
+  font-size: 12px;
+  line-height: 1.4;
+}
+/* stylelint-enable selector-class-pattern */
