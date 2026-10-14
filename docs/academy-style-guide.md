@@ -641,7 +641,7 @@ The **CBF Academy** category holds the activity patterns below and the callouts 
 - Always insert the synced pattern. Never paste or detach a copy, since a copy no longer updates with the pattern and repeats markup in every lesson.
 - Never edit the checkpoint's content from inside a lesson. Changes to it are changes to every lesson that uses it, so agree them with the content editor.
 
-**Synced patterns.** The learning checkpoint, Q&A and break are synced. Their source lives in the academy theme's `synced-patterns/` folder, and `wp cbf patterns sync` creates or updates them on each site. Change the source file, not the pattern in the editor, so every environment stays the same.
+**Synced patterns.** The learning checkpoint, Q&A and break are synced. Their source lives in the academy theme's `synced-patterns/` folder, and every deployment runs `wp cbf patterns sync` on the academy site to create or update them. Change the source file, not the pattern in the editor, so every environment stays the same.
 
 ### Creating a new pattern
 

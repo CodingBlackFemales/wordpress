@@ -125,6 +125,23 @@ jobs:
               "deploy-target:$REMOTE_ROOT/web/app/plugins/$plugin/assets/"
           done
 
+      # Synced patterns are posts, so the academy theme's synced-patterns/ files
+      # only reach lessons once they are written to the academy site's database
+      - name: Sync academy patterns on target
+        env:
+          ACADEMY_URL: ${{ vars.ACADEMY_URL }}
+        run: |
+          if [ -z "$ACADEMY_URL" ]; then
+            echo "::error::ACADEMY_URL variable is not set for this environment"
+            exit 1
+          fi
+          # shellcheck disable=SC2029
+          ssh deploy-target "bash -s -- $(printf '%q ' "$REMOTE_ROOT" "$ACADEMY_URL")" <<'EOF'
+          set -euo pipefail
+          cd "$1"
+          vendor/bin/wp cbf patterns sync --url="$2"
+          EOF
+
   check:
     needs: [deploy]
     # The type of runner that the job will run on
