@@ -33,33 +33,75 @@ jobs:
       # Plugins whose assets are compiled here and synced to the server, as the
       # host's disk quota cannot hold their node_modules
       ASSET_PLUGINS: cbf-multisite cbf-semantic-glossary cbf-semantic-glossary-learndash
+      # Part of the asset cache key, so a Node upgrade rebuilds the assets
+      NODE_VERSION: 24
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
+      # Most deployments don't change the plugins' scripts or styles, so the
+      # built assets are cached against everything the build reads. A hit skips
+      # Node, the installs and the builds.
+      - name: Restore plugin assets
+        id: assets-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            web/app/plugins/cbf-multisite/assets
+            web/app/plugins/cbf-semantic-glossary/assets
+            web/app/plugins/cbf-semantic-glossary-learndash/assets
+          key: plugin-assets-node${{ env.NODE_VERSION }}-${{ hashFiles('web/app/plugins/cbf-multisite/src/**', 'web/app/plugins/cbf-multisite/package*.json', 'web/app/plugins/cbf-multisite/webpack.config.js', 'web/app/plugins/cbf-semantic-glossary/src/**', 'web/app/plugins/cbf-semantic-glossary/package*.json', 'web/app/plugins/cbf-semantic-glossary/webpack.config.js', 'web/app/plugins/cbf-semantic-glossary-learndash/src/**', 'web/app/plugins/cbf-semantic-glossary-learndash/package*.json', 'web/app/plugins/cbf-semantic-glossary-learndash/webpack.config.js') }}
+
       # Sets the Node version
       - name: Setup Node.js
+        if: steps.assets-cache.outputs.cache-hit != 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: |
             web/app/plugins/cbf-multisite/package-lock.json
             web/app/plugins/cbf-semantic-glossary/package-lock.json
             web/app/plugins/cbf-semantic-glossary-learndash/package-lock.json
 
-      # Builds before touching the server, so a failed build leaves the site as it was
+      # Builds before touching the server, so a failed build leaves the site as it was.
+      # The plugins install and build at the same time; each one's output is
+      # printed in its own group once it finishes.
       - name: Build plugin assets
+        if: steps.assets-cache.outputs.cache-hit != 'true'
         run: |
+          declare -A pids
           for plugin in $ASSET_PLUGINS; do
             (
               cd "web/app/plugins/$plugin"
               npm ci --no-audit --no-fund
               npm run build:assets
-            )
+            ) > "$RUNNER_TEMP/$plugin.log" 2>&1 &
+            pids[$plugin]=$!
           done
+
+          failed=0
+          for plugin in $ASSET_PLUGINS; do
+            if wait "${pids[$plugin]}"; then result=built; else result=failed; failed=1; fi
+            echo "::group::$plugin ($result)"
+            cat "$RUNNER_TEMP/$plugin.log"
+            echo "::endgroup::"
+            if [ "$result" = failed ]; then echo "::error::$plugin assets failed to build"; fi
+          done
+          exit "$failed"
+
+      # Saved straight after the build, so later deployment steps can't stop it
+      - name: Save plugin assets
+        if: steps.assets-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            web/app/plugins/cbf-multisite/assets
+            web/app/plugins/cbf-semantic-glossary/assets
+            web/app/plugins/cbf-semantic-glossary-learndash/assets
+          key: ${{ steps.assets-cache.outputs.cache-primary-key }}
 
       - name: Configure SSH
         env:
