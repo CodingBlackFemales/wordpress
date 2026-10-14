@@ -244,3 +244,26 @@ function cbf_academy_block_editor_settings( $settings, $context ) {
 	return $settings;
 }
 add_filter( 'block_editor_settings_all', 'cbf_academy_block_editor_settings', 10, 2 );
+
+/**
+ * Builds the table of contents from the lesson content alone.
+ *
+ * Since 2.0.87, Easy Table of Contents reads headings from the fully filtered
+ * `the_content` output. On LearnDash steps that output is the whole LearnDash
+ * template, including the BuddyBoss course outline, whose first section title
+ * is an h3. That heading then leads the TOC and throws the numbering out
+ * (0.1, 1, 2…). Asking for a fresh pass over the post content keeps the TOC
+ * to the lesson's own headings.
+ *
+ * @param bool    $reuse Whether to reuse the filtered content.
+ * @param WP_Post $post  Post the TOC is built for.
+ * @return bool
+ */
+function cbf_academy_eztoc_reuse_filtered_content( $reuse, $post ) {
+	if ( in_array( $post->post_type, cbf_academy_content_post_types(), true ) ) {
+		return false;
+	}
+
+	return $reuse;
+}
+add_filter( 'eztoc_reuse_filtered_content', 'cbf_academy_eztoc_reuse_filtered_content', 10, 2 );
