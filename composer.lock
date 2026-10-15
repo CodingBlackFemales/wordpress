@@ -7027,15 +7027,15 @@
         },
         {
             "name": "wp-plugin/woocommerce-gateway-stripe",
-            "version": "11.0.1",
+            "version": "11.1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe/",
-                "reference": "tags/11.0.1"
+                "reference": "tags/11.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.11.0.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/woocommerce-gateway-stripe.11.1.0.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7054,7 +7054,7 @@
                 "issues": "https://wordpress.org/support/plugin/woocommerce-gateway-stripe",
                 "source": "https://plugins.svn.wordpress.org/woocommerce-gateway-stripe"
             },
-            "time": "2026-10-13T12:31:42+00:00"
+            "time": "2026-10-14T20:17:00+00:00"
         },
         {
             "name": "wp-plugin/woocommerce-paypal-payments",
