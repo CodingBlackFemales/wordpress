@@ -6872,15 +6872,15 @@
         },
         {
             "name": "wp-plugin/post-type-switcher",
-            "version": "4.0.1",
+            "version": "4.1.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/post-type-switcher/",
-                "reference": "tags/4.0.1"
+                "reference": "tags/4.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.4.0.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/post-type-switcher.4.1.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -6899,7 +6899,7 @@
                 "issues": "https://wordpress.org/support/plugin/post-type-switcher",
                 "source": "https://plugins.svn.wordpress.org/post-type-switcher"
             },
-            "time": "2026-03-24T16:51:13+00:00"
+            "time": "2026-10-15T18:32:05+00:00"
         },
         {
             "name": "wp-plugin/query-monitor",
