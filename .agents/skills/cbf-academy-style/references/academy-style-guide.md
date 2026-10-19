@@ -1,1 +1,0 @@
-../../../../docs/academy-style-guide.md
