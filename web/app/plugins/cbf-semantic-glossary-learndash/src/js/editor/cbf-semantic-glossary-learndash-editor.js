@@ -90,7 +90,7 @@ function Edit( { attributes, setAttributes } ) {
 							'cbf-semantic-glossary-learndash'
 						) }
 						help={ __(
-							'"Current course" follows the course this page belongs to.',
+							'"Current course" follows the course this page belongs to. On a group page, that is the group\'s course when it has only one; choose a course when it has several.',
 							'cbf-semantic-glossary-learndash'
 						) }
 						value={ String( course ) }

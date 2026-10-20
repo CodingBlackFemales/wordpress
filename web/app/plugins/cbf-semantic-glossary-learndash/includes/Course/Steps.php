@@ -115,19 +115,67 @@ final class Steps {
 
 
 	/**
-	 * The course a post belongs to: itself when it is a course, else its step's course.
+	 * The course a post belongs to: itself when it is a course, a group's only
+	 * course, else its step's course.
 	 *
 	 * With shared steps, LearnDash takes the course from the URL a step is viewed
-	 * under, so the same lesson can show each course's glossary.
+	 * under, so the same lesson can show each course's glossary. A group enrolled
+	 * in several courses has no single course, so it gets none (0) and the
+	 * glossary has to name one.
 	 *
 	 * @param int $post_id Post ID.
 	 */
 	public static function course_of( int $post_id ): int {
-		if ( get_post_type( $post_id ) === self::COURSE_TYPE ) {
+		$type = get_post_type( $post_id );
+
+		if ( $type === self::COURSE_TYPE ) {
 			return $post_id;
 		}
 
+		if ( $type === self::group_type() ) {
+			return self::only( self::group_course_ids( $post_id ) );
+		}
+
 		return (int) learndash_get_course_id( $post_id );
+	}
+
+
+	/**
+	 * Whether a post is a LearnDash group.
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public static function is_group( int $post_id ): bool {
+		return $post_id > 0 && get_post_type( $post_id ) === self::group_type();
+	}
+
+
+	/**
+	 * The courses a group is enrolled in.
+	 *
+	 * @param int $group_id Group ID.
+	 * @return int[]
+	 */
+	public static function group_course_ids( int $group_id ): array {
+		return array_values( array_map( 'intval', (array) learndash_group_enrolled_courses( $group_id ) ) );
+	}
+
+
+	/**
+	 * The one ID in a list, or 0 when there are none or several.
+	 *
+	 * @param int[] $ids IDs.
+	 */
+	public static function only( array $ids ): int {
+		return count( $ids ) === 1 ? (int) reset( $ids ) : 0;
+	}
+
+
+	/**
+	 * LearnDash's group post type, which a site can rename.
+	 */
+	private static function group_type(): string {
+		return (string) learndash_get_post_type_slug( 'group' );
 	}
 
 
