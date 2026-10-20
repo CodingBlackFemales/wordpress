@@ -23,8 +23,6 @@ class Admin_Menus_Filters
             add_action('wp_ajax_ppc_update_admin_menu_order_by_ajax', [$this, 'ajaxUpdateAdminMenuOrder']);
             // Admin menu title update ajax callback
             add_action('wp_ajax_ppc_update_admin_menu_title', [$this, 'ajaxUpdateAdminMenuTitle']);
-            // New admin menu ajax callback
-            add_action('wp_ajax_ppc_add_new_admin_menu', [$this, 'ajaxAddNewAdminMenu']);
             // Admin menu delete update ajax callback
             add_action('wp_ajax_ppc_delete_admin_menu', [$this, 'ajaxDeleteAdminMenu']);
             // Admin menu reset ajax callback
@@ -421,14 +419,14 @@ class Admin_Menus_Filters
     public function ajaxUpdateAdminMenuSettings() {
 
         $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
+        $response['message'] = __('An error occured!', 'capability-manager-enhanced');
         $response['content'] = '';
 
         // Verify nonce and capabilities
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
+        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-admin-menu-nonce')) {
+            $response['message'] =  __('Security check failed', 'capability-manager-enhanced');
         } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
+            $response['message'] =  __('Permission denied', 'capability-manager-enhanced');
         } else {
             $show_menu_slug    = !empty($_POST['show_menu_slug']) ? (int)($_POST['show_menu_slug']) : 0;
             $hide_submenu      = !empty($_POST['hide_submenu']) ? (int)($_POST['hide_submenu']) : 0;
@@ -440,7 +438,7 @@ class Admin_Menus_Filters
             update_option('ppc_admin_menus_settings', $admin_menu_settings);
 
             $response['status']  = 'success';
-            $response['message'] = __('Settings updated successfully.', 'capabilities-pro');
+            $response['message'] = __('Settings updated successfully.', 'capability-manager-enhanced');
         }
 
         wp_send_json($response);
@@ -452,14 +450,14 @@ class Admin_Menus_Filters
     public function ajaxResetAdminMenu() {
 
         $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
+        $response['message'] = __('An error occured!', 'capability-manager-enhanced');
         $response['content'] = '';
 
         // Verify nonce and capabilities
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
+        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-admin-menu-nonce')) {
+            $response['message'] =  __('Security check failed', 'capability-manager-enhanced');
         } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
+            $response['message'] =  __('Permission denied', 'capability-manager-enhanced');
         } else {
             $reset_order    = !empty($_POST['reset_order']) ? (int)($_POST['reset_order']) : 0;
             $reset_names    = !empty($_POST['reset_names']) ? (int)($_POST['reset_names']) : 0;
@@ -469,23 +467,23 @@ class Admin_Menus_Filters
             if (!empty($reset_order)) {
                 $menu_action++;
                 update_option('ppc_admin_menus_order', []);
-                $response_message = __('Admin Menu Order reset successfully. Reloading page...', 'capabilities-pro');
+                $response_message = __('Admin Menu Order reset successfully. Reloading page...', 'capability-manager-enhanced');
             }
 
             if (!empty($reset_names)) {
                 $menu_action++;
                 update_option('ppc_admin_menus_names', []);
-                $response_message = __('Admin Menu Names reset successfully. Reloading page...', 'capabilities-pro');
+                $response_message = __('Admin Menu Names reset successfully. Reloading page...', 'capability-manager-enhanced');
             }
 
             if (!empty($reset_menu)) {
                 $menu_action++;
                 $this->clearStoredData();
-                $response_message = __('Admin Menu Cache reset successfully. Reloading page...', 'capabilities-pro');
+                $response_message = __('Admin Menu Cache reset successfully. Reloading page...', 'capability-manager-enhanced');
             }
 
             if ($menu_action > 1) {
-                $response_message = __('Admin Menu reset successfully. Reloading page...', 'capabilities-pro');
+                $response_message = __('Admin Menu reset successfully. Reloading page...', 'capability-manager-enhanced');
             }
 
             $response['status']  = 'success';
@@ -502,14 +500,14 @@ class Admin_Menus_Filters
     public function ajaxDeleteAdminMenu() {
 
         $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
+        $response['message'] = __('An error occured!', 'capability-manager-enhanced');
         $response['content'] = '';
 
         // Verify nonce and capabilities
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
+        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-admin-menu-nonce')) {
+            $response['message'] =  __('Security check failed', 'capability-manager-enhanced');
         } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
+            $response['message'] =  __('Permission denied', 'capability-manager-enhanced');
         } else {
             $menu_type      = !empty($_POST['menu_type']) ? sanitize_text_field($_POST['menu_type']) : '';
             $menu_slug      = !empty($_POST['menu_slug']) ? sanitize_text_field($_POST['menu_slug']) : '';
@@ -532,69 +530,7 @@ class Admin_Menus_Filters
             $this->clearStoredData();
 
             $response['status']  = 'success';
-            $response['message'] = __('Menu deleted successfully.', 'capabilities-pro');
-        }
-
-        wp_send_json($response);
-    }
-
-    /**
-     * Ajax handler for adding new menu items
-     */
-    public function ajaxAddNewAdminMenu() {
-
-        $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
-        $response['content'] = '';
-
-        // Verify nonce and capabilities
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
-        } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
-        } else {
-            $form_menu_type      = !empty($_POST['form_menu_type']) ? sanitize_text_field($_POST['form_menu_type']) : '';
-            $menu_type   = !empty($_POST['menu_type']) ? sanitize_text_field($_POST['menu_type']) : '';
-            $menu_position = !empty($_POST['menu_position']) ? sanitize_text_field($_POST['menu_position']) : 0;
-            $menu_position_after    = !empty($_POST['menu_position_after']) ? sanitize_text_field($_POST['menu_position_after']) : '';
-            $menu_parent    = !empty($_POST['menu_parent']) ? sanitize_text_field($_POST['menu_parent']) : '';
-            $menu_data        = !empty($_POST['menu_data']) ? map_deep($_POST['menu_data'], 'sanitize_text_field') : [];
-            $menu_order        = !empty($_POST['menu_order']) ? map_deep($_POST['menu_order'], 'sanitize_text_field') : [];
-            $separator_color   = !empty($_POST['separator_color']) ? sanitize_hex_color(wp_unslash($_POST['separator_color'])) : '';
-
-            $custom_admin_menus = !empty(get_option('ppc_admin_menus_custom_menus')) ? (array) get_option('ppc_admin_menus_custom_menus', []) : [];
-
-            $new_menu = [
-                'form_menu_type' => $form_menu_type,
-                'menu_type' => $menu_type,
-                'menu_position' => $menu_position,
-                'menu_position_after' => $menu_position_after,
-                'menu_data' => $menu_data,
-            ];
-
-            if ($separator_color) {
-                $new_menu['separator_color'] = $separator_color;
-            }
-
-            if ($menu_type == 'menu') {
-                $custom_admin_menus['menus'][$menu_data[2]] = $new_menu;
-            } else {
-                $new_menu['menu_parent'] = $menu_parent;
-                $custom_admin_menus['submenus'][$menu_data[2]] = $new_menu;
-            }
-
-            // update new menu
-            update_option('ppc_admin_menus_custom_menus', $custom_admin_menus);
-
-            // update menu order
-            update_option('ppc_admin_menus_order', $menu_order);
-
-            // Force the next request to rebuild its menu snapshots with the new item.
-            $this->clearStoredData();
-
-            $response['status']  = 'success';
-            $response['redirect']  = admin_url('admin.php?page=pp-capabilities-admin-menus');
-            $response['message'] = __('New menu added successfully. Reloading page...', 'capabilities-pro');
+            $response['message'] = __('Menu deleted successfully.', 'capability-manager-enhanced');
         }
 
         wp_send_json($response);
@@ -605,14 +541,14 @@ class Admin_Menus_Filters
      */
     public function ajaxUpdateAdminMenuTitle() {
         $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
+        $response['message'] = __('An error occured!', 'capability-manager-enhanced');
         $response['content'] = '';
 
         // Verify nonce and capabilities
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
+        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-admin-menu-nonce')) {
+            $response['message'] =  __('Security check failed', 'capability-manager-enhanced');
         } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
+            $response['message'] =  __('Permission denied', 'capability-manager-enhanced');
         } else {
             $menu_id      = !empty($_POST['menu_id']) ? sanitize_text_field($_POST['menu_id']) : '';
             $menu_title   = !empty($_POST['menu_title']) ? sanitize_text_field($_POST['menu_title']) : '';
@@ -622,7 +558,7 @@ class Admin_Menus_Filters
             $scope        = !empty($_POST['scope']) ? sanitize_text_field($_POST['scope']) : 'role';
 
             if (empty($menu_id) || empty($menu_title)) {
-                $response['message'] = __('Invalid data', 'capabilities-pro');
+                $response['message'] = __('Invalid data', 'capability-manager-enhanced');
             } else {
                 $admin_menus_names = !empty(get_option('ppc_admin_menus_names')) ? (array) get_option('ppc_admin_menus_names', []) : [];
 
@@ -631,18 +567,18 @@ class Admin_Menus_Filters
                     foreach (wp_roles()->roles as $role_name => $role_info) {
                         self::updateMenuAndSubmenuNames($admin_menus_names, $role_name, $menu_id, $menu_type, $menu_title, $menu_icon);
                     }
-                    $response['message'] = __('Menu Name Updated for all roles.', 'capabilities-pro');
+                    $response['message'] = __('Menu Name Updated for all roles.', 'capability-manager-enhanced');
                 } else {
                     // Apply to current role only
                     self::updateMenuAndSubmenuNames($admin_menus_names, $current_role, $menu_id, $menu_type, $menu_title, $menu_icon);
-                    $response['message'] = __('Menu Name Updated.', 'capabilities-pro');
+                    $response['message'] = __('Menu Name Updated.', 'capability-manager-enhanced');
                 }
 
                 update_option('ppc_admin_menus_names', $admin_menus_names);
 
                 $response['menu_title'] = $menu_title;
                 $response['status']  = 'success';
-                $response['message'] = __('Menu Name Updated.', 'capabilities-pro');
+                $response['message'] = __('Menu Name Updated.', 'capability-manager-enhanced');
             }
         }
 
@@ -657,23 +593,23 @@ class Admin_Menus_Filters
     public function ajaxUpdateAdminMenuOrder()
     {
         $response['status']  = 'error';
-        $response['message'] = __('An error occured!', 'capabilities-pro');
+        $response['message'] = __('An error occured!', 'capability-manager-enhanced');
         $response['content'] = '';
 
         // Verify nonce
-        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-pro-feature-nonce')) {
-            $response['message'] =  __('Security check failed', 'capabilities-pro');
+        if (empty($_POST['nonce']) || !wp_verify_nonce(sanitize_key($_POST['nonce']), 'ppc-admin-menu-nonce')) {
+            $response['message'] =  __('Security check failed', 'capability-manager-enhanced');
         } elseif (!current_user_can('manage_capabilities_admin_menus')) {
-            $response['message'] =  __('Permission denied', 'capabilities-pro');
+            $response['message'] =  __('Permission denied', 'capability-manager-enhanced');
         } else {
             $menu_groups    = !empty($_POST['menu_groups']) ? map_deep($_POST['menu_groups'], 'sanitize_text_field') : '';
 
             if (empty($menu_groups)) {
-                $response['message'] = __('Invalid data', 'capabilities-pro');
+                $response['message'] = __('Invalid data', 'capability-manager-enhanced');
             } else {
                 update_option('ppc_admin_menus_order', $menu_groups);
                 $response['status']  = 'success';
-                $response['message'] = __('Menu Order Updated.', 'capabilities-pro');
+                $response['message'] = __('Menu Order Updated.', 'capability-manager-enhanced');
             }
         }
 

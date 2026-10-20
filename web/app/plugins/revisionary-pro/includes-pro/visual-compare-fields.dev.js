@@ -501,7 +501,7 @@
 										{ label: __('Many popular themes', 'revisionary'), integrationLink: true },
 									].map((item) => el('li', { key: item.label },
 										item.integrationLink && promo.integrationUrl
-											? el('a', { className: 'visual-post-compare-fields__integration-link', href: promo.integrationUrl }, item.label)
+											? el('a', { className: 'visual-post-compare-fields__integration-link', href: promo.integrationUrl, target: '_blank', rel: 'noopener noreferrer' }, item.label)
 											: item.label
 									))
 								),
@@ -676,10 +676,7 @@
 			...provider,
 			groups: (provider.groups || []).map((group) => ({
 				...group,
-				fields: (group.fields || []).filter((field) => !ignored.has(field.key) && !fieldValuesEqual(
-					compactFieldValue(field.current),
-					compactFieldValue(field.revision)
-				)),
+				fields: (group.fields || []).filter((field) => !ignored.has(field.key) && countFieldValueChanges(field.current, field.revision) > 0),
 			})).filter((group) => group.fields.length),
 		})).filter((provider) => provider.groups.length);
 	}

@@ -40,15 +40,6 @@ li.ppc-admin-menu-separator.text-separator a.menu-top {
     padding-left: 12px;
 }
 
-li.ppc-admin-menu-separator.text-separator .wp-menu-name,
-ul.wp-submenu li.ppc-admin-menu-separator.text-separator a {
-    color: hsla(0, 0%, 100%, .7);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
-
 ul.wp-submenu li.ppc-admin-menu-separator.text-separator {
     padding-top: 6px;
 }

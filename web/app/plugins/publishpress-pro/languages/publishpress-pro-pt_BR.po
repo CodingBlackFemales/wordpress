@@ -5,15 +5,17 @@ msgstr ""
 "Project-Id-Version: PublishPress Planner Pro\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
+"Language-Team: Portuguese (Brazil) "
+"<https://weblate.publishpress.com/projects/publishpress-planner-pro/"
+"publishpress-pro/pt_BR/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-06-28 01:28-0300\n"
-"PO-Revision-Date: 2026-09-28 15:02+0000\n"
-"X-Generator: Poedit 3.9\n"
+"PO-Revision-Date: 2026-10-02 19:10+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: publishpress-pro\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "Language: pt-BR\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -26,17 +28,17 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
-#: publishpress-pro.php:3, fuzzy
+#: publishpress-pro.php, fuzzy
 #. Plugin Name of the plugin
 msgid "PublishPress Planner Pro"
 msgstr "PublishPress Planner Pro"
 
-#: publishpress-pro.php:4
+#: publishpress-pro.php
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/"
 msgstr "https://publishpress.com/"
 
-#: publishpress-pro.php:5
+#: publishpress-pro.php
 #. Description of the plugin
 msgid ""
 "PublishPress Planner helps you plan and publish content inside WordPress. "
@@ -46,12 +48,12 @@ msgstr ""
 "Os recursos incluem: um calendário de conteúdo, quadro kanban e "
 "notificações."
 
-#: publishpress-pro.php:7
+#: publishpress-pro.php
 #. Author of the plugin
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: publishpress-pro.php:8
+#: publishpress-pro.php
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"

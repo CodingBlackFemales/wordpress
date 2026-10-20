@@ -355,17 +355,17 @@
         },
         {
             "name": "publishpress/publishpress-planner",
-            "version": "v4.8.1",
-            "version_normalized": "4.8.1.0",
+            "version": "v4.8.2",
+            "version_normalized": "4.8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/publishpress/publishpress-planner.git",
-                "reference": "570be84bd5e3ee498ab9336edce177af007c8a31"
+                "reference": "cab741de92d4038401074f4de67385d552963d8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/publishpress/publishpress-planner/zipball/570be84bd5e3ee498ab9336edce177af007c8a31",
-                "reference": "570be84bd5e3ee498ab9336edce177af007c8a31",
+                "url": "https://api.github.com/repos/publishpress/publishpress-planner/zipball/cab741de92d4038401074f4de67385d552963d8d",
+                "reference": "cab741de92d4038401074f4de67385d552963d8d",
                 "shasum": ""
             },
             "require": {
@@ -390,7 +390,7 @@
                 "szepeviktor/phpstan-wordpress": "^2.0",
                 "wp-coding-standards/wpcs": "^3.4.1"
             },
-            "time": "2026-09-28T16:27:33+00:00",
+            "time": "2026-10-13T11:50:20+00:00",
             "type": "wordpress-plugin",
             "extra": {
                 "plugin-name": "publishpress-planner",
@@ -495,7 +495,7 @@
             "description": "WordPress plugin to accelerate your publishing workflow.",
             "homepage": "http://publishpress.com/",
             "support": {
-                "source": "https://github.com/publishpress/publishpress-planner/tree/v4.8.1",
+                "source": "https://github.com/publishpress/publishpress-planner/tree/v4.8.2",
                 "issues": "https://github.com/publishpress/publishpress-planner/issues"
             },
             "install-path": "../publishpress/publishpress-planner"

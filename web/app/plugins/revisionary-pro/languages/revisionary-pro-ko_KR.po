@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-08-27T21:46:16+00:00\n"
-"PO-Revision-Date: 2026-10-01 22:33+0000\n"
+"PO-Revision-Date: 2026-10-15 20:08+0000\n"
 "X-Generator: Weblate 2026.6.1\n"
 "X-Domain: revisionary-pro\n"
 "Language: ko_KR\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "PublishPress Revisions Pro"
 msgstr "PublishPress Revisions Pro"
 
-#: revisionary-pro.php:4, fuzzy
+#: revisionary-pro.php:4
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/revisionary/"
 msgstr "https://publishpress.com/revisionary/"
@@ -40,7 +40,7 @@ msgstr "Revisions 모델을 사용하여 팀워크와 정밀도로 게시된 콘
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: revisionary-pro.php:7, fuzzy
+#: revisionary-pro.php:7
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"
@@ -195,7 +195,7 @@ msgstr "현재 게시물"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:405
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:415
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:415
-#: includes-pro/compat.php:915
+#: includes-pro/compat.php:992
 msgid "Featured Image"
 msgstr "추천 이미지"
 
@@ -272,7 +272,7 @@ msgstr "추천 이미지"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:577
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:587
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:587
-#: includes-pro/compat.php:1096
+#: includes-pro/compat.php:1173
 msgid "Requested Slug"
 msgstr "요청된 슬러그"
 
@@ -349,7 +349,7 @@ msgstr "요청된 슬러그"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:580
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:590
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:590
-#: includes-pro/compat.php:1099
+#: includes-pro/compat.php:1176
 msgid "Beaver Builder Data"
 msgstr "Beaver Builder 데이터"
 
@@ -426,7 +426,7 @@ msgstr "Beaver Builder 데이터"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:581
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:591
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:591
-#: includes-pro/compat.php:1100
+#: includes-pro/compat.php:1177
 msgid "Beaver Builder Settings"
 msgstr "Beaver Builder 설정"
 
@@ -503,7 +503,7 @@ msgstr "Beaver Builder 설정"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:585
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:595
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:595
-#: includes-pro/compat.php:1104
+#: includes-pro/compat.php:1181
 msgid "Author(s)"
 msgstr "작성자(들)"
 
@@ -799,10 +799,10 @@ msgstr "작성자(들)"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:106
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:107
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/beaver-builder.php:121
+#: includes-pro/compat/beaver-builder.php:136
 #: includes-pro/compat/divi.php:111
 #: includes-pro/compat/divi.php:112
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Approve"
 msgstr "승인"
 
@@ -879,7 +879,7 @@ msgstr "승인"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/beaver-builder.php:184
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
-#: includes-pro/compat/beaver-builder.php:230, fuzzy
+#: includes-pro/compat/beaver-builder.php:245, fuzzy
 msgid "Beaver Builder"
 msgstr "Beaver Builder"
 
@@ -1029,8 +1029,8 @@ msgstr "Beaver Builder"
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/divi.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:211
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:212
-#: includes-pro/compat/divi.php:238
-#: includes-pro/compat/divi.php:239, fuzzy
+#: includes-pro/compat/divi.php:241
+#: includes-pro/compat/divi.php:242, fuzzy
 msgid "Divi"
 msgstr "Divi"
 
@@ -1246,7 +1246,6 @@ msgstr "프론트 엔드에서 수정을 보기 또는 편집하는 데 문제�
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:604
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:658
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:658
-#: includes-pro/compat/elementor.php:666
 msgid ""
 "Redirect to preview if the revision is updated at least 15 seconds after "
 "loading the Elementor editor. This redirect relies on detection of UI "
@@ -1328,7 +1327,8 @@ msgstr ""
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:909
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:996
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:996
-#: includes-pro/compat/elementor.php:1024
+#: includes-pro/compat/elementor.php:1042
+#: includes-pro/compat/elementor.php:1158
 msgid "Approval done."
 msgstr "승인 완료."
 
@@ -1405,7 +1405,8 @@ msgstr "승인 완료."
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:911
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:998
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:998
-#: includes-pro/compat/elementor.php:1026
+#: includes-pro/compat/elementor.php:1044
+#: includes-pro/compat/elementor.php:1160
 msgid "Revision updated."
 msgstr "수정 업데이트됨."
 
@@ -1555,8 +1556,8 @@ msgstr "수정 업데이트됨."
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1027
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
-#: includes-pro/compat/elementor.php:1055
-#: includes-pro/compat/elementor.php:1056, fuzzy
+#: includes-pro/compat/elementor.php:1073
+#: includes-pro/compat/elementor.php:1074, fuzzy
 msgid "Elementor"
 msgstr "Elementor"
 
@@ -1633,7 +1634,7 @@ msgstr "Elementor"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:957
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
-#: includes-pro/compat/elementor.php:1072
+#: includes-pro/compat/elementor.php:1090
 msgid "Submit"
 msgstr "제출"
 
@@ -1929,11 +1930,11 @@ msgstr "제출"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1056
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1062
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1066
-#: includes-pro/compat.php:733
-#: includes-pro/compat/elementor.php:1074
-#: includes-pro/compat/elementor.php:1084
-#: includes-pro/compat/elementor.php:1090
-#: includes-pro/compat/elementor.php:1094
+#: includes-pro/compat.php:810
+#: includes-pro/compat/elementor.php:1092
+#: includes-pro/compat/elementor.php:1102
+#: includes-pro/compat/elementor.php:1108
+#: includes-pro/compat/elementor.php:1112
 msgid "Update"
 msgstr "업데이트"
 
@@ -2010,7 +2011,7 @@ msgstr "업데이트"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:967
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Publish"
 msgstr "게시"
 
@@ -2567,7 +2568,9 @@ msgid_plural ""
 msgstr[0] ""
 "Your license key (for plugin updates) will expire in %d days. For updates "
 "and priority support, <a href=\"%s\">please renew</a>."
-msgstr[0] "귀하의 라이센스 키는 %d 일 후에 만료됩니다. 업데이트 및 우선 지원을 위해 <a href=\"%s\">갱신해 주세요</a>."
+msgstr[0] ""
+"Your license key (for plugin updates) will expire in %d days. For updates "
+"and priority support, <a href=\"%s\">please renew</a>."
 
 #: dist/publishpress-revisions-pro-3.5.8.1/revisionary-pro/includes-pro/SettingsLicense.php:92
 #: dist/publishpress-revisions-pro-3.5.8.2/revisionary-pro/includes-pro/SettingsLicense.php:92
@@ -7635,50 +7638,56 @@ msgstr "수정 게시 시 Elementor 캐시 완전히 지우기"
 msgid "Leave this disabled for better performance if possible."
 msgstr "가능한 경우 성능 향상을 위해 이 설정을 비활성화 상태로 두세요."
 
-#: includes-pro/compat.php:550
+#: includes-pro/compat.php:627
 msgid "You are not allowed to suppress comparison fields."
 msgstr "비교 필드를 억제하는 것은 허용되지 않습니다."
 
-#: includes-pro/compat.php:551
+#: includes-pro/compat.php:628
 msgid "You are not allowed to change ignored fields."
 msgstr "무시된 필드를 변경하는 것은 허용되지 않습니다."
 
-#: includes-pro/compat.php:624
-#: includes-pro/compat.php:671
+#: includes-pro/compat.php:701
+#: includes-pro/compat.php:748
 #, php-format
 msgid "Review %d ignored / suppressed fields"
 msgstr "%d 개의 무시된 / 억제된 필드를 검토하세요"
 
-#: includes-pro/compat.php:625
-#: includes-pro/compat.php:672
-#: includes-pro/compat.php:699
+#: includes-pro/compat.php:702
+#: includes-pro/compat.php:749
+#: includes-pro/compat.php:776
 #, php-format
 msgid "Review %d ignored fields"
 msgstr "%d 개의 무시된 필드를 검토하세요"
 
-#: includes-pro/compat.php:696
+#: includes-pro/compat.php:773
 msgid "Revision Comparison"
 msgstr "수정 비교"
 
-#: includes-pro/compat.php:712
+#: includes-pro/compat.php:789
 msgid "Close"
 msgstr "닫기"
 
-#: includes-pro/compat.php:718
+#: includes-pro/compat.php:795
 msgid "Ignore Fields"
 msgstr "필드 무시"
 
-#: includes-pro/compat.php:719
+#: includes-pro/compat.php:796
 msgid "Changes to these fields will be hidden from the current user."
 msgstr "이 필드에 대한 변경 사항은 현재 사용자에게 숨겨집니다."
 
-#: includes-pro/compat.php:726
+#: includes-pro/compat.php:803
 msgid "Suppress Fields"
 msgstr "필드 억제"
 
-#: includes-pro/compat.php:727
+#: includes-pro/compat.php:804
 msgid "Changes to these fields will be hidden from all users."
 msgstr "이 필드에 대한 변경 사항은 모든 사용자에게 숨겨집니다."
+
+#: includes-pro/compat/elementor.php:666
+msgid ""
+"Redirect to the revision preview after submission or a revision status "
+"change in Elementor. Disable this option to remain in the editor."
+msgstr "제출 후 또는 Elementor에서 수정 상태 변경 후 수정 미리보기로 리디렉션합니다. 이 옵션을 비활성화하면 편집기에 남아 있습니다."
 
 #: includes-pro/SettingsLicense.php:77
 #, php-format

@@ -51,6 +51,7 @@ class CompatibilityManager
                 'features' => [
                     esc_html__('Front end Revision submission', 'revisionary'),
                     esc_html__('Front end Revision editing', 'revisionary'),
+                    esc_html__('Visual comparison of changes', 'revisionary'),
                     esc_html__('Revision preview and redirects', 'revisionary'),
                 ],
                 'enabled' => false,
@@ -66,6 +67,7 @@ class CompatibilityManager
                 'features' => [
                     esc_html__('Front end Revision submission', 'revisionary'),
                     esc_html__('Front end Revision editing', 'revisionary'),
+                    esc_html__('Visual comparison of changes', 'revisionary'),
                     esc_html__('Revision preview and redirects', 'revisionary'),
                 ],
                 'enabled' => false,
@@ -81,6 +83,7 @@ class CompatibilityManager
                 'features' => [
                     esc_html__('Front end Revision submission', 'revisionary'),
                     esc_html__('Front end Revision editing', 'revisionary'),
+                    esc_html__('Visual comparison of changes', 'revisionary'),
                     esc_html__('Revision preview and redirects', 'revisionary'),
                 ],
                 'enabled' => false,

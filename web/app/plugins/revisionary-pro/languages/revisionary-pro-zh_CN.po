@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-08-27T21:46:16+00:00\n"
-"PO-Revision-Date: 2026-10-01 22:37+0000\n"
+"PO-Revision-Date: 2026-10-15 20:09+0000\n"
 "X-Generator: Weblate 2026.6.1\n"
 "X-Domain: revisionary-pro\n"
 "Language: zh_CN\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "PublishPress Revisions Pro"
 msgstr "PublishPress Revisions Pro"
 
-#: revisionary-pro.php:4, fuzzy
+#: revisionary-pro.php:4
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/revisionary/"
 msgstr "https://publishpress.com/revisionary/"
@@ -40,7 +40,7 @@ msgstr "使用 Revisions 模型以团队合作和精确性维护已发布的内�
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: revisionary-pro.php:7, fuzzy
+#: revisionary-pro.php:7
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"
@@ -195,7 +195,7 @@ msgstr "当前文章"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:405
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:415
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:415
-#: includes-pro/compat.php:915
+#: includes-pro/compat.php:992
 msgid "Featured Image"
 msgstr "特色图片"
 
@@ -272,7 +272,7 @@ msgstr "特色图片"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:577
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:587
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:587
-#: includes-pro/compat.php:1096
+#: includes-pro/compat.php:1173
 msgid "Requested Slug"
 msgstr "请求的 slug"
 
@@ -349,7 +349,7 @@ msgstr "请求的 slug"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:580
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:590
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:590
-#: includes-pro/compat.php:1099
+#: includes-pro/compat.php:1176
 msgid "Beaver Builder Data"
 msgstr "Beaver Builder 数据"
 
@@ -426,7 +426,7 @@ msgstr "Beaver Builder 数据"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:581
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:591
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:591
-#: includes-pro/compat.php:1100
+#: includes-pro/compat.php:1177
 msgid "Beaver Builder Settings"
 msgstr "Beaver Builder 设置"
 
@@ -503,7 +503,7 @@ msgstr "Beaver Builder 设置"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:585
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:595
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:595
-#: includes-pro/compat.php:1104
+#: includes-pro/compat.php:1181
 msgid "Author(s)"
 msgstr "作者"
 
@@ -799,10 +799,10 @@ msgstr "作者"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:106
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:107
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/beaver-builder.php:121
+#: includes-pro/compat/beaver-builder.php:136
 #: includes-pro/compat/divi.php:111
 #: includes-pro/compat/divi.php:112
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Approve"
 msgstr "批准"
 
@@ -879,7 +879,7 @@ msgstr "批准"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/beaver-builder.php:184
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
-#: includes-pro/compat/beaver-builder.php:230, fuzzy
+#: includes-pro/compat/beaver-builder.php:245, fuzzy
 msgid "Beaver Builder"
 msgstr "Beaver Builder"
 
@@ -1029,8 +1029,8 @@ msgstr "Beaver Builder"
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/divi.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:211
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:212
-#: includes-pro/compat/divi.php:238
-#: includes-pro/compat/divi.php:239, fuzzy
+#: includes-pro/compat/divi.php:241
+#: includes-pro/compat/divi.php:242, fuzzy
 msgid "Divi"
 msgstr "Divi"
 
@@ -1244,7 +1244,6 @@ msgstr "如果在前端查看或编辑修订时出现任何问题，请禁用此
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:604
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:658
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:658
-#: includes-pro/compat/elementor.php:666
 msgid ""
 "Redirect to preview if the revision is updated at least 15 seconds after "
 "loading the Elementor editor. This redirect relies on detection of UI "
@@ -1326,7 +1325,8 @@ msgstr ""
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:909
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:996
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:996
-#: includes-pro/compat/elementor.php:1024
+#: includes-pro/compat/elementor.php:1042
+#: includes-pro/compat/elementor.php:1158
 msgid "Approval done."
 msgstr "审批完成。"
 
@@ -1403,7 +1403,8 @@ msgstr "审批完成。"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:911
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:998
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:998
-#: includes-pro/compat/elementor.php:1026
+#: includes-pro/compat/elementor.php:1044
+#: includes-pro/compat/elementor.php:1160
 msgid "Revision updated."
 msgstr "修订已更新。"
 
@@ -1553,8 +1554,8 @@ msgstr "修订已更新。"
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1027
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
-#: includes-pro/compat/elementor.php:1055
-#: includes-pro/compat/elementor.php:1056, fuzzy
+#: includes-pro/compat/elementor.php:1073
+#: includes-pro/compat/elementor.php:1074, fuzzy
 msgid "Elementor"
 msgstr "Elementor"
 
@@ -1631,7 +1632,7 @@ msgstr "Elementor"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:957
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
-#: includes-pro/compat/elementor.php:1072
+#: includes-pro/compat/elementor.php:1090
 msgid "Submit"
 msgstr "提交"
 
@@ -1927,11 +1928,11 @@ msgstr "提交"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1056
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1062
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1066
-#: includes-pro/compat.php:733
-#: includes-pro/compat/elementor.php:1074
-#: includes-pro/compat/elementor.php:1084
-#: includes-pro/compat/elementor.php:1090
-#: includes-pro/compat/elementor.php:1094
+#: includes-pro/compat.php:810
+#: includes-pro/compat/elementor.php:1092
+#: includes-pro/compat/elementor.php:1102
+#: includes-pro/compat/elementor.php:1108
+#: includes-pro/compat/elementor.php:1112
 msgid "Update"
 msgstr "更新"
 
@@ -2008,7 +2009,7 @@ msgstr "更新"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:967
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Publish"
 msgstr "发布"
 
@@ -2565,9 +2566,7 @@ msgid_plural ""
 msgstr[0] ""
 "Your license key (for plugin updates) will expire in %d days. For updates "
 "and priority support, <a href=\"%s\">please renew</a>."
-msgstr[0] ""
-"您的许可证密钥将在 %d 天内到期。有关更新和优先支持，<a href=\"%s\">请续订</a>。|您的许可证密钥（用于插件更新）将在 %d "
-"天内到期。有关更新和优先支持，<a href=\"%s\">请续订</a>。"
+msgstr[0] "您的许可证密钥将在 %d 天内到期。有关更新和优先支持，<a href=\\\"%s\\\">请续订</a>。"
 
 #: dist/publishpress-revisions-pro-3.5.8.1/revisionary-pro/includes-pro/SettingsLicense.php:92
 #: dist/publishpress-revisions-pro-3.5.8.2/revisionary-pro/includes-pro/SettingsLicense.php:92
@@ -7637,50 +7636,56 @@ msgstr "在发布修订时完全清除 Elementor 缓存"
 msgid "Leave this disabled for better performance if possible."
 msgstr "如果可能，请保持此设置禁用以获得更好的性能。"
 
-#: includes-pro/compat.php:550
+#: includes-pro/compat.php:627
 msgid "You are not allowed to suppress comparison fields."
 msgstr "您不允许抑制比较字段。"
 
-#: includes-pro/compat.php:551
+#: includes-pro/compat.php:628
 msgid "You are not allowed to change ignored fields."
 msgstr "您不允许更改被忽略的字段。"
 
-#: includes-pro/compat.php:624
-#: includes-pro/compat.php:671
+#: includes-pro/compat.php:701
+#: includes-pro/compat.php:748
 #, php-format
 msgid "Review %d ignored / suppressed fields"
 msgstr "审查 %d 个被忽略 / 被抑制的字段"
 
-#: includes-pro/compat.php:625
-#: includes-pro/compat.php:672
-#: includes-pro/compat.php:699
+#: includes-pro/compat.php:702
+#: includes-pro/compat.php:749
+#: includes-pro/compat.php:776
 #, php-format
 msgid "Review %d ignored fields"
 msgstr "审查 %d 个被忽略的字段"
 
-#: includes-pro/compat.php:696
+#: includes-pro/compat.php:773
 msgid "Revision Comparison"
 msgstr "修订比较"
 
-#: includes-pro/compat.php:712
+#: includes-pro/compat.php:789
 msgid "Close"
 msgstr "关闭"
 
-#: includes-pro/compat.php:718
+#: includes-pro/compat.php:795
 msgid "Ignore Fields"
 msgstr "忽略字段"
 
-#: includes-pro/compat.php:719
+#: includes-pro/compat.php:796
 msgid "Changes to these fields will be hidden from the current user."
 msgstr "对这些字段的更改将对当前用户隐藏。"
 
-#: includes-pro/compat.php:726
+#: includes-pro/compat.php:803
 msgid "Suppress Fields"
 msgstr "抑制字段"
 
-#: includes-pro/compat.php:727
+#: includes-pro/compat.php:804
 msgid "Changes to these fields will be hidden from all users."
 msgstr "对这些字段的更改将对所有用户隐藏。"
+
+#: includes-pro/compat/elementor.php:666
+msgid ""
+"Redirect to the revision preview after submission or a revision status "
+"change in Elementor. Disable this option to remain in the editor."
+msgstr "在提交或 Elementor 中修订状态更改后重定向到修订预览。禁用此选项以保持在编辑器中。"
 
 #: includes-pro/SettingsLicense.php:77
 #, php-format

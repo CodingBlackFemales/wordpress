@@ -5,13 +5,15 @@ msgstr ""
 "Project-Id-Version: PublishPress Capabilities Pro 2.42.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Czech "
+"<https://weblate.publishpress.com/projects/publishpress-capabilities-pro/"
+"capabilities-pro/cs/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-04-19T15:36:12+00:00\n"
-"PO-Revision-Date: 2026-09-22 14:15+0000\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"PO-Revision-Date: 2026-10-14 11:01+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: capabilities-pro\n"
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;\n"
@@ -44,12 +46,12 @@ msgstr ""
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: includes-pro/admin-load.php:86
+#: includes-pro/admin-load.php:85
 #, php-format
 msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
 msgstr "Poznámka: Řízení vlastních stavů příspěvků je %1$szakázáno%2$s."
 
-#: includes-pro/admin-load.php:96
+#: includes-pro/admin-load.php:95
 #: includes-pro/admin.php:557
 #, php-format
 msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
@@ -57,100 +59,35 @@ msgstr ""
 "Poznámka: Možnosti úprav příspěvků specifické pro status jsou "
 "%1$szakázány%2$s."
 
-#: includes-pro/admin-load.php:185
-#: includes-pro/admin-load.php:208
-#: includes-pro/features/admin-menus/admin-menus.php:106
-#: includes-pro/settings-ui.php:35, fuzzy
-msgid "Admin Menus"
-msgstr "Admin Menus"
-
-#: includes-pro/admin-load.php:209
-#: includes-pro/features/admin-menus/admin-menus.php:739
-msgid ""
-"Admin Menus allows you to edit the admin menu links and control who has "
-"access."
-msgstr ""
-"Admin Menus vám umožňuje upravit odkazy v administrátorském menu a řídit, "
-"kdo má přístup."
-
-#: includes-pro/admin-load.php:272
-#: includes-pro/admin-load.php:296
-msgid "You do not have permission to manage menu restrictions."
-msgstr "Nemáte oprávnění spravovat omezení menu."
-
-#: includes-pro/admin-load.php:345
-msgid "Settings updated for all roles."
-msgstr "Nastavení aktualizováno pro všechny role."
-
-#: includes-pro/admin-load.php:351
-msgid "Settings updated."
-msgstr "Nastavení aktualizováno."
-
-#: includes-pro/admin-load.php:366
-msgid "Saving Menu Order..."
-msgstr "Ukládání pořadí menu..."
-
-#: includes-pro/admin-load.php:367
-msgid "Saving Menu Name..."
-msgstr "Ukládání názvu menu..."
-
-#: includes-pro/admin-load.php:368
-msgid "Menu Name can not be empty."
-msgstr "Název menu nemůže být prázdný."
-
-#: includes-pro/admin-load.php:369
-msgid "Change Icon"
-msgstr "Změnit ikonu"
-
-#: includes-pro/admin-load.php:370
-msgid "Search icons..."
-msgstr "Hledat ikony..."
-
-#: includes-pro/admin-load.php:371
-msgid "Menu icon updated"
-msgstr "Ikona menu aktualizována"
-
-#: includes-pro/admin-load.php:372
-msgid "Error updating menu icon"
-msgstr "Chyba při aktualizaci ikony menu"
-
-#: includes-pro/admin-load.php:373
-msgid "Duplicate menu with this Menu URL already exists"
-msgstr "Duplicitní menu s tímto URL menu již existuje"
-
-#: includes-pro/admin-load.php:374
-msgid "Duplicate submenu with the menu url already exist"
-msgstr "Duplicitní podmenu s URL menu již existuje"
-
-#: includes-pro/admin-load.php:480
+#: includes-pro/admin-load.php:279
 msgid "You do not have permission to manage settings."
 msgstr "Nemáte oprávnění spravovat nastavení."
 
-#: includes-pro/admin-load.php:581
+#: includes-pro/admin-load.php:380
 msgid "Homepage"
 msgstr "Domovská stránka"
 
-#: includes-pro/admin-load.php:582
+#: includes-pro/admin-load.php:381
 msgid "Archive Pages"
 msgstr "Archivovat stránky"
 
-#: includes-pro/admin-load.php:583
+#: includes-pro/admin-load.php:382
 msgid "Single Pages"
 msgstr "Jednotlivé stránky"
 
-#: includes-pro/admin-load.php:586
+#: includes-pro/admin-load.php:385
 msgid "Select pages..."
 msgstr "Vyberte stránky..."
 
-#: includes-pro/admin-load.php:595
+#: includes-pro/admin-load.php:394
 msgid "You can select page types where this element will be added."
 msgstr "Můžete vybrat typy stránek, do kterých bude tento prvek přidán."
 
-#: includes-pro/admin-load.php:609
+#: includes-pro/admin-load.php:408
 msgid "Select post types..."
 msgstr "Vyberte typy příspěvků..."
 
-#: includes-pro/admin-load.php:623
+#: includes-pro/admin-load.php:422
 msgid ""
 "This will add a metabox on the post editing screen. You can use this "
 "feature to add body classes only for that post."
@@ -279,7 +216,7 @@ msgstr "Může mazat příspěvky ostatních tohoto stavu"
 msgid "Configure status properties, post types, capability requirements"
 msgstr "Nastavit vlastnosti stavu, typy příspěvků, požadavky na schopnosti"
 
-#: includes-pro/admin.php:573
+#: includes-pro/admin.php:579
 #, php-format
 msgid ""
 "To control revision editing and deletion, install the %1$sPublishPress "
@@ -288,7 +225,7 @@ msgstr ""
 "Pro řízení úprav a mazání revizí nainstalujte pluginy %1$sPublishPress "
 "Revisions%2$s a %3$sStatuses Pro%4$s."
 
-#: includes-pro/admin.php:581
+#: includes-pro/admin.php:584
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
@@ -297,7 +234,7 @@ msgstr ""
 "Pro definování a řízení stavů revize nainstalujte plugin %1$sStatuses "
 "Pro%2$s."
 
-#: includes-pro/admin.php:587
+#: includes-pro/admin.php:589
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sPublishPress "
@@ -306,7 +243,7 @@ msgstr ""
 "Pro definování a řízení stavů revize nainstalujte plugin %1$sPublishPress "
 "Revisions%2$s."
 
-#: includes-pro/admin.php:594
+#: includes-pro/admin.php:596
 #, php-format
 msgid ""
 "To define and control Revision statuses, update the %1$sPublishPress "
@@ -315,7 +252,7 @@ msgstr ""
 "Pro definování a řízení stavů revize aktualizujte plugin %1$sPublishPress "
 "Revisions%2$s na verzi %3$s nebo vyšší."
 
-#: includes-pro/admin.php:604
+#: includes-pro/admin.php:606
 #, php-format
 msgid ""
 "To control revision editing and deletion, please set %1$sRevisions "
@@ -324,8 +261,8 @@ msgstr ""
 "Pro řízení úprav a mazání revizí nastavte prosím %1$sRevisions "
 "Compatibility Mode%2$s na \"Vylepšená kontrola přístupu k revizím\""
 
-#: includes-pro/admin.php:612
-#: includes-pro/admin.php:630
+#: includes-pro/admin.php:614
+#: includes-pro/admin.php:642
 #, php-format
 msgid ""
 "To enable or disable enforcement of custom editing capabilities for any "
@@ -335,6 +272,14 @@ msgstr ""
 "Pro povolení nebo zakázání vynucení vlastních schopností úprav pro jakýkoli "
 "stav klikněte na jeho buňku Přístup k příspěvkům v %1$sTabulce stavů%2$s a "
 "poté tuto obrazovku znovu načtěte."
+
+#: includes-pro/admin.php:624
+msgid "Get Statuses Pro"
+msgstr "Získat Statusy Pro"
+
+#: includes-pro/admin.php:626
+msgid "Get PublishPress Revisions"
+msgstr "Získat PublishPress Revize"
 
 #: includes-pro/features/admin-features-block-url.php:50
 msgid "Block access to Plugins screen via direct link"
@@ -442,12 +387,7 @@ msgstr "Uložit úpravy"
 #: includes-pro/features/admin-features-block-url.php:358
 #: includes-pro/features/admin-features-css-hide.php:278
 #: includes-pro/features/admin-features-css-hide.php:377
-#: includes-pro/features/admin-menus/admin-menus-filters.php:424
-#: includes-pro/features/admin-menus/admin-menus-filters.php:455
-#: includes-pro/features/admin-menus/admin-menus-filters.php:505
-#: includes-pro/features/admin-menus/admin-menus-filters.php:547
-#: includes-pro/features/admin-menus/admin-menus-filters.php:608
-#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/admin-menus/admin-menus-pro.php:26
 #: includes-pro/features/config/custom-config.php:179
 #: includes-pro/features/config/custom-config.php:248
 msgid "An error occured!"
@@ -497,8 +437,6 @@ msgstr "Upravit"
 
 #: includes-pro/features/admin-features-block-url.php:336
 #: includes-pro/features/admin-features-css-hide.php:355
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
 msgid "Delete"
 msgstr "Smazat"
 
@@ -515,7 +453,6 @@ msgid "Selected item deleted successfully"
 msgstr "Vybraný prvek byl úspěšně smazán"
 
 #: includes-pro/features/admin-features-block-url.php:477
-#: includes-pro/functions-admin.php:104
 msgid "You do not have permission to access this page."
 msgstr "Nemáte oprávnění k přístupu na tuto stránku."
 
@@ -619,322 +556,17 @@ msgstr "Cílové URL"
 msgid "URL wildcard"
 msgstr "Divoké znaky URL"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:429
-#: includes-pro/features/admin-menus/admin-menus-filters.php:460
-#: includes-pro/features/admin-menus/admin-menus-filters.php:510
-#: includes-pro/features/admin-menus/admin-menus-filters.php:552
-#: includes-pro/features/admin-menus/admin-menus-filters.php:613
-#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+#: includes-pro/features/admin-menus/admin-menus-pro.php:31
 msgid "Security check failed"
 msgstr "Kontrola zabezpečení selhala"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:431
-#: includes-pro/features/admin-menus/admin-menus-filters.php:462
-#: includes-pro/features/admin-menus/admin-menus-filters.php:512
-#: includes-pro/features/admin-menus/admin-menus-filters.php:554
-#: includes-pro/features/admin-menus/admin-menus-filters.php:615
-#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+#: includes-pro/features/admin-menus/admin-menus-pro.php:33
 msgid "Permission denied"
 msgstr "Přístup odepřen"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:443
-msgid "Settings updated successfully."
-msgstr "Nastavení byla úspěšně aktualizována."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:472
-msgid "Admin Menu Order reset successfully. Reloading page..."
-msgstr "Pořadí administrátorského menu bylo úspěšně resetováno. Načítání stránky..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:478
-msgid "Admin Menu Names reset successfully. Reloading page..."
-msgstr "Názvy administrátorského menu byly úspěšně resetovány. Načítání stránky..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:484
-msgid "Admin Menu Cache reset successfully. Reloading page..."
-msgstr "Cache administrátorského menu byla úspěšně resetována. Načítání stránky..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:488
-msgid "Admin Menu reset successfully. Reloading page..."
-msgstr "Administrátorské menu bylo úspěšně resetováno. Načítání stránky..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:535
-msgid "Menu deleted successfully."
-msgstr "Menu bylo úspěšně smazáno."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+#: includes-pro/features/admin-menus/admin-menus-pro.php:76
 msgid "New menu added successfully. Reloading page..."
 msgstr "Nové menu bylo úspěšně přidáno. Načítání stránky..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:625
-#: includes-pro/features/admin-menus/admin-menus-filters.php:672
-msgid "Invalid data"
-msgstr "Neplatná data"
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:634
-msgid "Menu Name Updated for all roles."
-msgstr "Název menu byl aktualizován pro všechny role."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:638
-#: includes-pro/features/admin-menus/admin-menus-filters.php:645
-msgid "Menu Name Updated."
-msgstr "Název menu byl aktualizován."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:676
-msgid "Menu Order Updated."
-msgstr "Pořadí menu bylo aktualizováno."
-
-#: includes-pro/features/admin-menus/admin-menus.php:136
-#: includes-pro/features/admin-menus/admin-menus.php:727
-msgid "Save for All Roles"
-msgstr "Uložit pro všechny role"
-
-#: includes-pro/features/admin-menus/admin-menus.php:153
-msgid "Type:"
-msgstr "Typ:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:155
-msgid "Menu Link"
-msgstr "Odkaz v menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:156
-msgid "Submenu Link"
-msgstr "Odkaz v podmenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:157
-msgid "Menu Separator"
-msgstr "Oddělovač menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:158
-msgid "Submenu Separator"
-msgstr "Oddělovač podmenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:162
-msgid "Position:"
-msgstr "Pozice:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:164
-msgid "After"
-msgstr "Po"
-
-#: includes-pro/features/admin-menus/admin-menus.php:175
-msgid "Menu Title:"
-msgstr "Název menu:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:178
-msgid "My Custom Menu"
-msgstr "Moje vlastní menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:180
-msgid "Menu Title is required."
-msgstr "Název menu je povinný."
-
-#: includes-pro/features/admin-menus/admin-menus.php:183
-msgid "Separator Style"
-msgstr "Styl oddělovače"
-
-#: includes-pro/features/admin-menus/admin-menus.php:185
-msgid "Line (____________________)"
-msgstr "Čára (____________________)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:186
-msgid "Empty Space"
-msgstr "Prázdný prostor"
-
-#: includes-pro/features/admin-menus/admin-menus.php:187, fuzzy
-msgid "Text"
-msgstr "Text"
-
-#: includes-pro/features/admin-menus/admin-menus.php:191
-msgid "Separator Color"
-msgstr "Barva oddělovače"
-
-#: includes-pro/features/admin-menus/admin-menus.php:196
-msgid "Menu URL:"
-msgstr "URL menu:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:200
-#, php-format
-msgid ""
-"Enter an internal link such as %1s or an external link such as %2s. Any "
-"link can only be used once for a Menu URL."
-msgstr ""
-"Zadejte interní odkaz, například %1s, nebo externí odkaz, například %2s. "
-"Jakýkoli odkaz může být použit pouze jednou pro URL menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:207
-msgid "Menu with this url already exist."
-msgstr "Menu s tímto URL již existuje."
-
-#: includes-pro/features/admin-menus/admin-menus.php:214
-msgid "Menu Capability:"
-msgstr "Schopnost menu:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:219
-#, php-format
-msgid ""
-"This is the capability required to see this menu. For example: %1s or %2s "
-"If you're entering a custom capability, remember to add and assign it to "
-"preferred roles on the capabilities page"
-msgstr ""
-"Toto je schopnost potřebná k zobrazení tohoto menu. Například: %1s nebo "
-"%2s. Pokud zadáváte vlastní schopnost, nezapomeňte ji přidat a přiřadit "
-"preferovaným rolím na stránce schopností"
-
-#: includes-pro/features/admin-menus/admin-menus.php:226
-msgid "Menu Capability is required."
-msgstr "Schopnost menu je povinná."
-
-#: includes-pro/features/admin-menus/admin-menus.php:230
-msgid "Menu Icon"
-msgstr "Ikona menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:235
-msgid "Save Menu Link"
-msgstr "Uložit odkaz v menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:255
-#: includes-pro/features/admin-menus/admin-menus.php:278
-msgid "Toggle all"
-msgstr "Přepnout vše"
-
-#: includes-pro/features/admin-menus/admin-menus.php:261
-msgid "New Menu Link"
-msgstr "Nový odkaz v menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:433
-#: includes-pro/features/admin-menus/admin-menus.php:594
-msgid "(Can't detect menu name)"
-msgstr "(Nelze zjistit název menu)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:459
-#: includes-pro/features/admin-menus/admin-menus.php:616
-msgid ""
-"This menu name is not available in menu global data or directly registered "
-"with the menu"
-msgstr ""
-"Tento název menu není k dispozici v globálních datech menu nebo není přímo "
-"registrován v menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:470
-#: includes-pro/features/admin-menus/admin-menus.php:626
-#, fuzzy, php-format
-msgid "%s Role"
-msgstr "%s Role"
-
-#: includes-pro/features/admin-menus/admin-menus.php:471
-#: includes-pro/features/admin-menus/admin-menus.php:627
-msgid "All Roles"
-msgstr "Všechny role"
-
-#: includes-pro/features/admin-menus/admin-menus.php:473
-#: includes-pro/features/admin-menus/admin-menus.php:630
-msgid "Save"
-msgstr "Uložit"
-
-#: includes-pro/features/admin-menus/admin-menus.php:476
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:633
-#: includes-pro/features/admin-menus/admin-menus.php:650
-msgid "Cancel"
-msgstr "Zrušit"
-
-#: includes-pro/features/admin-menus/admin-menus.php:484
-#: includes-pro/features/admin-menus/admin-menus.php:641
-msgid "This option is disabled to prevent complete lockout"
-msgstr "Tato možnost je zakázána, aby se předešlo úplnému zablokování"
-
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
-#, php-format
-msgid "Are you sure you want to delete %1s? %2s %3s"
-msgstr "Opravdu chcete smazat %1s? %2s %3s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:503
-#: includes-pro/features/admin-menus/admin-menus.php:660
-#, php-format
-msgid "The capability required to access this menu is %s"
-msgstr "Požadovaná oprávnění pro přístup k tomuto menu je %s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:508
-#: includes-pro/features/admin-menus/admin-menus.php:665
-msgid "Rename Menu"
-msgstr "Přejmenovat menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:514
-#: includes-pro/features/admin-menus/admin-menus.php:671
-msgid "Move Up"
-msgstr "Posunout nahoru"
-
-#: includes-pro/features/admin-menus/admin-menus.php:517
-#: includes-pro/features/admin-menus/admin-menus.php:674
-msgid "Move Down"
-msgstr "Posunout dolů"
-
-#: includes-pro/features/admin-menus/admin-menus.php:711
-msgid "No menu found"
-msgstr "Žádné menu nebylo nalezeno"
-
-#: includes-pro/features/admin-menus/admin-menus.php:737
-msgid "How to use Admin Menus"
-msgstr "Jak používat administrátorská menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:741
-#: includes-pro/features/admin-menus/admin-menus.php:743
-msgid "usage key"
-msgstr "klíč použití"
-
-#: includes-pro/features/admin-menus/admin-menus.php:742
-msgid "No change"
-msgstr "Žádná změna"
-
-#: includes-pro/features/admin-menus/admin-menus.php:744
-msgid "This feature is denied"
-msgstr "Tato funkce je zamítnuta"
-
-#: includes-pro/features/admin-menus/admin-menus.php:746
-msgid "View Documentation"
-msgstr "Zobrazit dokumentaci"
-
-#: includes-pro/features/admin-menus/admin-menus.php:750
-msgid "Admin Menus Settings"
-msgstr "Nastavení administrátorských menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:753
-msgid "Hide Submenus"
-msgstr "Skrýt podmenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:755
-msgid "Show Menu Slugs"
-msgstr "Zobrazit slugs menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:760
-msgid "Reset Admin Menus"
-msgstr "Obnovit administrátorská menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:762
-msgid ""
-"You can reset admin menu order and name to their original position and "
-"names. You can also reset menu cache to fix issue of missing menu."
-msgstr ""
-"Můžete obnovit pořadí a názvy administrátorského menu na jejich původní "
-"pozice a názvy. Můžete také obnovit cache menu, abyste vyřešili problém s "
-"chybějícím menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:765
-msgid "Reset Menu Order"
-msgstr "Obnovit pořadí menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:767
-msgid "Reset Cached Menu"
-msgstr "Obnovit cache menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:769
-msgid "Reset Menu Names"
-msgstr "Obnovit názvy menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:771
-msgid "Reset Selected Option"
-msgstr "Obnovit vybranou možnost"
 
 #: includes-pro/features/config/custom-config.php:29
 msgid "Add New Classic Editor Restrictions"
@@ -993,11 +625,6 @@ msgstr "Vlastní omezení Gutenberg"
 msgid "Metaboxes"
 msgstr "Metaboxy"
 
-#: includes-pro/functions-admin.php:38
-#: includes-pro/settings-ui.php:440, fuzzy
-msgid "Admin Menu"
-msgstr "Admin Menu"
-
 #: includes-pro/pro-maint.php:46
 #: includes-pro/pro-maint.php:59
 msgid "An error occurred. Please try again or contact the support team."
@@ -1007,119 +634,119 @@ msgstr "Došlo k chybě. Zkuste to prosím znovu nebo kontaktujte tým podpory."
 msgid "License"
 msgstr "Licence"
 
-#: includes-pro/settings-ui.php:44
+#: includes-pro/settings-ui.php:43
 msgid "Activate Key"
 msgstr "Aktivovat klíč"
 
-#: includes-pro/settings-ui.php:45
+#: includes-pro/settings-ui.php:44
 msgid "Deactivate Key"
 msgstr "Deaktivovat klíč"
 
-#: includes-pro/settings-ui.php:46
+#: includes-pro/settings-ui.php:45
 msgid "Connecting to publishpress.com server..."
 msgstr "Připojuji se k serveru publishpress.com..."
 
-#: includes-pro/settings-ui.php:47
+#: includes-pro/settings-ui.php:46
 msgid "The request could not be processed due to a connection failure."
 msgstr "Žádost nemohla být zpracována kvůli chybě připojení."
 
-#: includes-pro/settings-ui.php:48
+#: includes-pro/settings-ui.php:47
 msgid "Please enter the license key shown on your order receipt."
 msgstr "Zadejte prosím licenční klíč uvedený na vašem potvrzení o objednávce."
 
-#: includes-pro/settings-ui.php:49
+#: includes-pro/settings-ui.php:48
 msgid "An unidentified error occurred."
 msgstr "Došlo k neidentifikované chybě."
 
-#: includes-pro/settings-ui.php:51
+#: includes-pro/settings-ui.php:50
 msgid "The key has been deactivated."
 msgstr "Klíč byl deaktivován."
 
-#: includes-pro/settings-ui.php:52
+#: includes-pro/settings-ui.php:51
 msgid "The key has been activated."
 msgstr "Klíč byl aktivován."
 
-#: includes-pro/settings-ui.php:53
+#: includes-pro/settings-ui.php:52
 msgid "The key has expired."
 msgstr "Klíč vypršel."
 
-#: includes-pro/settings-ui.php:54
+#: includes-pro/settings-ui.php:53
 msgid "The key is invalid."
 msgstr "Klíč je neplatný."
 
-#: includes-pro/settings-ui.php:55
+#: includes-pro/settings-ui.php:54
 msgid "An unknown activation error occurred."
 msgstr "Došlo k neznámé chybě aktivace."
 
-#: includes-pro/settings-ui.php:56
+#: includes-pro/settings-ui.php:55
 msgid "The key provided is not valid. Please double-check your entry."
 msgstr "Poskytnutý klíč není platný. Zkontrolujte prosím svůj vstup."
 
-#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:56
 msgid "This site is not valid to activate the key."
 msgstr "Tato stránka není platná pro aktivaci klíče."
 
-#: includes-pro/settings-ui.php:58
-#: includes-pro/settings-ui.php:64
+#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:63
 msgid "The key provided could not be validated by publishpress.com."
 msgstr "Poskytnutý klíč nemohl být ověřen serverem publishpress.com."
 
-#: includes-pro/settings-ui.php:59
+#: includes-pro/settings-ui.php:58
 msgid "The key provided is already active on another site."
 msgstr "Poskytnutý klíč je již aktivní na jiné stránce."
 
-#: includes-pro/settings-ui.php:60
+#: includes-pro/settings-ui.php:59
 msgid "The key has already been activated on the allowed number of sites."
 msgstr "Klíč již byl aktivován na povoleném počtu stránek."
 
-#: includes-pro/settings-ui.php:61
+#: includes-pro/settings-ui.php:60
 msgid "An unknown deactivation error occurred."
 msgstr "Došlo k neznámé chybě deaktivace."
 
-#: includes-pro/settings-ui.php:62
+#: includes-pro/settings-ui.php:61
 msgid "Unable to deactivate because the provided key is not valid."
 msgstr "Nelze deaktivovat, protože zadaný klíč není platný."
 
-#: includes-pro/settings-ui.php:63
+#: includes-pro/settings-ui.php:62
 msgid "This site is not valid to deactivate the key."
 msgstr "Tato stránka není platná pro deaktivaci klíče."
 
-#: includes-pro/settings-ui.php:65
+#: includes-pro/settings-ui.php:64
 msgid "The key provided is not active on the specified site."
 msgstr "Zadaný klíč není aktivní na určené stránce."
 
-#: includes-pro/settings-ui.php:70
+#: includes-pro/settings-ui.php:69
 #, php-format
 msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
 msgstr "Pokud je to nesprávné, <a href=\"%s\">požádejte o pomoc s aktivací</a>."
 
-#: includes-pro/settings-ui.php:71
+#: includes-pro/settings-ui.php:70
 msgid "Please save settings before uploading site configuration."
 msgstr "Před nahráním konfigurace webu prosím uložte nastavení."
 
-#: includes-pro/settings-ui.php:86
+#: includes-pro/settings-ui.php:85
 msgid "(Locked on by Statuses Pro)"
 msgstr "(Zamčeno pomocí Statuses Pro)"
 
-#: includes-pro/settings-ui.php:97
-#: includes-pro/settings-ui.php:207
+#: includes-pro/settings-ui.php:96
+#: includes-pro/settings-ui.php:206
 msgid "Control custom statuses"
 msgstr "Ovládat vlastní stavy"
 
-#: includes-pro/settings-ui.php:103
+#: includes-pro/settings-ui.php:102
 #, php-format
 msgid "Control selection of custom post statuses. %s"
 msgstr "Ovládat výběr vlastních stavů příspěvků. %s"
 
-#: includes-pro/settings-ui.php:120
+#: includes-pro/settings-ui.php:119
 msgid "Apply status-specific capabilities for post editing, deletion."
 msgstr "Použijte specifické schopnosti pro úpravy a mazání příspěvků podle stavu."
 
-#: includes-pro/settings-ui.php:154
+#: includes-pro/settings-ui.php:153
 msgid "Enable Custom Visibility Statuses"
 msgstr "Povolit vlastní viditelnost stavů"
 
-#: includes-pro/settings-ui.php:162
+#: includes-pro/settings-ui.php:161
 #. Translators: %1$s and %2$s is link markup
 #, php-format
 msgid ""
@@ -1129,7 +756,7 @@ msgstr ""
 "Pro viditelnost stavů, %1$zpovolení modulu Ovládání stavů%2$s v Permissions "
 "Pro"
 
-#: includes-pro/settings-ui.php:183
+#: includes-pro/settings-ui.php:182
 msgid ""
 "Apply status-specific, type-specific editing capabilities for Visibility "
 "Statuses"
@@ -1137,11 +764,11 @@ msgstr ""
 "Použijte specifické schopnosti pro úpravy podle stavu a typu pro "
 "viditelnost stavů"
 
-#: includes-pro/settings-ui.php:248
+#: includes-pro/settings-ui.php:247
 msgid "License Key Activation"
 msgstr "Aktivace licenčního klíče"
 
-#: includes-pro/settings-ui.php:294
+#: includes-pro/settings-ui.php:293
 #, php-format
 msgid ""
 "Your PublishPress license key has expired. For continued priority support, "
@@ -1150,7 +777,7 @@ msgstr ""
 "Váš licenční klíč PublishPress vypršel. Pro pokračování s prioritní "
 "podporou, <a href=\"%s\">prosím obnovte</a>."
 
-#: includes-pro/settings-ui.php:305
+#: includes-pro/settings-ui.php:304
 #, php-format
 msgid ""
 "Your PublishPress license key will expire today. For updates and priority "
@@ -1159,7 +786,7 @@ msgstr ""
 "Váš licenční klíč PublishPress vyprší dnes. Pro aktualizace a prioritní "
 "podporu, <a href=\"%s\">prosím obnovte</a>."
 
-#: includes-pro/settings-ui.php:310
+#: includes-pro/settings-ui.php:309
 #, php-format
 msgid ""
 "Your PublishPress license key will expire in %d day. For updates and "
@@ -1177,80 +804,60 @@ msgstr[1] ""
 "Váš klíč k licenci PublishPress (pro aktualizace pluginu) vyprší za %d dny. "
 "Pro aktualizace a prioritní podporu, <a href=\"%s\">prosím obnovte</a>."
 msgstr[2] ""
-"Váš klíč k licenci PublishPress vyprší za %d dny. Pro aktualizace a "
-"prioritní podporu, <a href=\"%s\">prosím obnovte</a>."
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>.Váš klíč "
+"k licenci PublishPress vyprší za %d dny. Pro aktualizace a prioritní "
+"podporu, <a href=\"%s\">prosím obnovte</a>."
 
-#: includes-pro/settings-ui.php:332
+#: includes-pro/settings-ui.php:331
 msgid "Key Expired"
 msgstr "Klíč vypršel"
 
-#: includes-pro/settings-ui.php:337
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:336
+#: includes-pro/settings-ui.php:346
 msgid "Deactivate"
 msgstr "Deaktivovat"
 
-#: includes-pro/settings-ui.php:341
+#: includes-pro/settings-ui.php:340
 msgid "Activated"
 msgstr "Aktivováno"
 
-#: includes-pro/settings-ui.php:344
+#: includes-pro/settings-ui.php:343
 msgid "Enter your license key"
 msgstr "Zadejte svůj licenční klíč"
 
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:346
 msgid "Activate"
 msgstr "Aktivovat"
 
-#: includes-pro/settings-ui.php:373
+#: includes-pro/settings-ui.php:372
 #, php-format
 msgid "view %s&nbsp;details"
 msgstr "zobrazit %s&nbsp;podrobnosti"
 
-#: includes-pro/settings-ui.php:383
+#: includes-pro/settings-ui.php:382
 msgid "Update&nbsp;Available"
 msgstr "Aktualizace&nbsp;dostupná"
 
-#: includes-pro/settings-ui.php:390
+#: includes-pro/settings-ui.php:389
 msgid "Update&nbsp;Check"
 msgstr "Kontrola&nbsp;aktualizací"
 
-#: includes-pro/settings-ui.php:396
+#: includes-pro/settings-ui.php:395
 msgid "Account"
 msgstr "Účet"
 
-#: includes-pro/settings-ui.php:402
+#: includes-pro/settings-ui.php:401
 msgid "Pricing"
 msgstr "Ceny"
 
-#: includes-pro/settings-ui.php:420
+#: includes-pro/settings-ui.php:419
 msgid "Display PublishPress Branding"
 msgstr "Zobrazit branding PublishPress"
 
-#: includes-pro/settings-ui.php:422
+#: includes-pro/settings-ui.php:421
 msgid "Hide the PublishPress footer and other branding."
 msgstr "Skrýt patičku PublishPress a další branding."
-
-#: includes-pro/settings-ui.php:442
-msgid "Admin Menus: treatment of multiple roles"
-msgstr "Admin menu: zacházení s více rolemi"
-
-#: includes-pro/settings-ui.php:445
-msgid "Most permissive: Any non-restricted user role allows access"
-msgstr ""
-"Nejvíce povolující: Jakákoli nepř restricted uživatelská role umožňuje "
-"přístup"
-
-#: includes-pro/settings-ui.php:448
-msgid "Most restrictive: Any restricted user role prevents access"
-msgstr "Nejvíce omezující: Jakákoli omezená uživatelská role brání přístupu"
-
-#: includes-pro/settings-ui.php:452
-msgid ""
-"This controls whether the most permissive or restrictive permissions are "
-"applied if a user has multiple roles."
-msgstr ""
-"To určuje, zda se použijí nejvíce povolující nebo omezující oprávnění, "
-"pokud má uživatel více rolí."
 
 #: includes-pro/statuses-intro.php:126
 #, php-format
@@ -1274,28 +881,10 @@ msgstr ""
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid "Changes saved!"
 msgstr "Změny uloženy!"
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid " Error: changes can't be saved."
 msgstr "Chyba: změny nelze uložit."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
-msgid "Deleting menu..."
-msgstr "Mazání menu..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
-msgid "Updating Settings..."
-msgstr "Aktualizace nastavení..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
-msgid "You must check at least one option to reset."
-msgstr "Musíte zaškrtnout alespoň jednu možnost pro reset."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
-msgid "Resetting option..."
-msgstr "Resetování možnosti..."

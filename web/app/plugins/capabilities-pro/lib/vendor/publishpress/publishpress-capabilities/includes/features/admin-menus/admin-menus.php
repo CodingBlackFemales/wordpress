@@ -18,7 +18,9 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-global $capsman, $menu, $submenu, $admin_global_menu, $admin_global_submenu;;
+global $capsman, $menu, $submenu, $admin_global_menu, $admin_global_submenu;
+
+$can_add_menu = (bool) apply_filters('pp_capabilities_admin_menus_new_menu_enabled', false);
 
 $ppc_global_menu     = (array)get_option('ppc_admin_menus_menu');
 $ppc_global_submenu  = (array)get_option('ppc_admin_menus_submenu');
@@ -103,7 +105,7 @@ $admin_child_menu_option = array_map(
 
 <div class="wrap publishpress-caps-manage pressshack-admin-wrapper pp-capability-menus-wrapper admin-menus">
     <div id="icon-capsman-admin" class="icon32"></div>
-    <h2><?php esc_html_e('Admin Menus', 'capabilities-pro'); ?></h2>
+    <h2><?php esc_html_e('Admin Menus', 'capability-manager-enhanced'); ?></h2>
 
     <form method="post" id="ppc-admin-menu-form" action="admin.php?page=pp-capabilities-admin-menus">
         <?php wp_nonce_field('pp-capabilities-admin-menus'); ?>
@@ -133,7 +135,7 @@ $admin_child_menu_option = array_map(
                                         class="button-primary ppc-admin-menu-submit" style="float:right" />
 
                                     <input type="submit" name="admin-menu-all-submit"
-                                        value="<?php esc_attr_e('Save for All Roles', 'capabilities-pro') ?>"
+                                        value="<?php esc_attr_e('Save for All Roles', 'capability-manager-enhanced') ?>"
                                         class="button-secondary ppc-admin-menu-submit" style="float:right; margin-right: 10px;" />
                                 </div>
 
@@ -146,22 +148,30 @@ $admin_child_menu_option = array_map(
 
                                                 <div class="ppc-new-menu-form">
                                                     <div class="admin-menu-response-message"></div>
-                                                    <div class="new-menu-fields" style="display: none;">
-                                                        <table class="menu-form-table">
+                                                    <div class="new-menu-fields<?php echo $can_add_menu ? '' : ' ppc-new-menu-promo'; ?>" style="display: none;">
+                                                        <?php if (!$can_add_menu): ?>
+                                                            <div class="pp-promo-overlay-row ppc-new-menu-promo-overlay">
+                                                                <div class="pp-promo-upgrade-notice">
+                                                                    <p><?php esc_html_e('Add custom menu links, submenu links, and separators to the WordPress admin menu. This feature is available in PublishPress Capabilities Pro.', 'capability-manager-enhanced'); ?></p>
+                                                                    <p><a href="https://publishpress.com/links/capabilities-banner" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Upgrade to Pro', 'capability-manager-enhanced'); ?></a></p>
+                                                                </div>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                        <table class="menu-form-table" <?php echo $can_add_menu ? '' : 'inert'; ?>>
                                                             <tr>
                                                                 <td>
-                                                                    <label for="menu-type"><?php esc_html_e('Type:', 'capabilities-pro'); ?></label>
+                                                                    <label for="menu-type"><?php esc_html_e('Type:', 'capability-manager-enhanced'); ?></label>
                                                                     <select id="menu-type" class="menu-type">
-                                                                        <option value="menu"><?php esc_html_e('Menu Link', 'capabilities-pro'); ?></option>
-                                                                        <option value="submenu"><?php esc_html_e('Submenu Link', 'capabilities-pro'); ?></option>
-                                                                        <option value="menu-separator"><?php esc_html_e('Menu Separator', 'capabilities-pro'); ?></option>
-                                                                        <option value="submenu-separator"><?php esc_html_e('Submenu Separator', 'capabilities-pro'); ?></option>
+                                                                        <option value="menu"><?php esc_html_e('Menu Link', 'capability-manager-enhanced'); ?></option>
+                                                                        <option value="submenu"><?php esc_html_e('Submenu Link', 'capability-manager-enhanced'); ?></option>
+                                                                        <option value="menu-separator"><?php esc_html_e('Menu Separator', 'capability-manager-enhanced'); ?></option>
+                                                                        <option value="submenu-separator"><?php esc_html_e('Submenu Separator', 'capability-manager-enhanced'); ?></option>
                                                                     </select>
                                                                 </td>
                                                                 <td>
-                                                                    <label for="menu-position"><?php esc_html_e('Position:', 'capabilities-pro'); ?></label>
+                                                                    <label for="menu-position"><?php esc_html_e('Position:', 'capability-manager-enhanced'); ?></label>
                                                                     <select id="menu-position" class="menu-position">
-                                                                        <option value="after"><?php esc_html_e('After', 'capabilities-pro'); ?></option>
+                                                                        <option value="after"><?php esc_html_e('After', 'capability-manager-enhanced'); ?></option>
                                                                     </select>
                                                                 </td>
                                                                 <td>
@@ -172,67 +182,67 @@ $admin_child_menu_option = array_map(
                                                             <tr>
                                                                 <td>
                                                                     <label for="menu-title">
-                                                                        <?php esc_html_e('Menu Title:', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu Title:', 'capability-manager-enhanced'); ?>
                                                                         <span class="required">*</span>
                                                                     </label>
-                                                                    <input type="text" id="menu-title" class="menu-title" value="<?php esc_attr_e('My Custom Menu', 'capabilities-pro'); ?>" />
+                                                                    <input type="text" id="menu-title" class="menu-title" value="<?php esc_attr_e('My Custom Menu', 'capability-manager-enhanced'); ?>" />
                                                                     <span class="required required-message hidden-element">
-                                                                        <?php esc_html_e('Menu Title is required.', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu Title is required.', 'capability-manager-enhanced'); ?>
                                                                     </span>
 
-                                                                    <label for="separator-style" class="hidden-element"><?php esc_html_e('Separator Style', 'capabilities-pro'); ?></label>
+                                                                    <label for="separator-style" class="hidden-element"><?php esc_html_e('Separator Style', 'capability-manager-enhanced'); ?></label>
                                                                     <select id="separator-style" class="separator-style hidden-element">
-                                                                        <option value="line"><?php esc_html_e('Line (____________________)', 'capabilities-pro'); ?></option>
-                                                                        <option value="empty"><?php esc_html_e('Empty Space', 'capabilities-pro'); ?></option>
-                                                                        <option value="text"><?php esc_html_e('Text', 'capabilities-pro'); ?></option>
+                                                                        <option value="line"><?php esc_html_e('Line (____________________)', 'capability-manager-enhanced'); ?></option>
+                                                                        <option value="empty"><?php esc_html_e('Empty Space', 'capability-manager-enhanced'); ?></option>
+                                                                        <option value="text"><?php esc_html_e('Text', 'capability-manager-enhanced'); ?></option>
 
                                                                     </select>
 
-                                                                    <label for="separator-color" class="hidden-element"><?php esc_html_e('Separator Color', 'capabilities-pro'); ?></label>
+                                                                    <label for="separator-color" class="hidden-element"><?php esc_html_e('Separator Color', 'capability-manager-enhanced'); ?></label>
                                                                     <input type="color" id="separator-color" class="separator-color hidden-element" value="#ffffff" />
                                                                 </td>
                                                                 <td colspan="2">
                                                                     <label for="menu-url">
-                                                                        <?php esc_html_e('Menu URL:', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu URL:', 'capability-manager-enhanced'); ?>
                                                                         <div class="ppc-tool-tip">
                                                                             <span class="dashicons dashicons-editor-help"></span>
                                                                             <div class="tool-tip-text">
-                                                                                <p><?php printf(__( 'Enter an internal link such as %1s or an external link such as %2s. Any link can only be used once for a Menu URL.', 'capabilities-pro' ), '<strong>/wp-admin/edit.php</strong>', '<strong>https://wordpress.org</strong>' ); ?></p>
+                                                                                <p><?php printf(__( 'Enter an internal link such as %1s or an external link such as %2s. Any link can only be used once for a Menu URL.', 'capability-manager-enhanced' ), '<strong>/wp-admin/edit.php</strong>', '<strong>https://wordpress.org</strong>' ); ?></p>
                                                                                 <i></i>
                                                                             </div>
                                                                         </div>
                                                                     </label>
                                                                     <input type="text" value="" id="menu-url" class="menu-url" />
                                                                     <span class="required required-message hidden-element">
-                                                                        <?php esc_html_e('Menu with this url already exist.', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu with this url already exist.', 'capability-manager-enhanced'); ?>
                                                                     </span></tr>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
                                                                     <label for="menu-capability">
-                                                                        <?php esc_html_e('Menu Capability:', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu Capability:', 'capability-manager-enhanced'); ?>
                                                                         <span class="required">*</span>
                                                                         <div class="ppc-tool-tip">
                                                                             <span class="dashicons dashicons-editor-help"></span>
                                                                             <div class="tool-tip-text">
-                                                                                <p><?php printf(__( 'This is the capability required to see this menu. For example: %1s or %2s If you\'re entering a custom capability, remember to add and assign it to preferred roles on the capabilities page', 'capabilities-pro' ), '<strong>read</strong>', '<strong>manage_options</strong>' ); ?></p>
+                                                                                <p><?php printf(__( 'This is the capability required to see this menu. For example: %1s or %2s If you\'re entering a custom capability, remember to add and assign it to preferred roles on the capabilities page', 'capability-manager-enhanced' ), '<strong>read</strong>', '<strong>manage_options</strong>' ); ?></p>
                                                                                     <i></i>
                                                                             </div>
                                                                         </div>
                                                                     </label>
                                                                     <input type="text" id="menu-capability" class="menu-capability" value="read" />
                                                                     <span class="required required-message hidden-element">
-                                                                        <?php esc_html_e('Menu Capability is required.', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Menu Capability is required.', 'capability-manager-enhanced'); ?>
                                                                     </span>
                                                                 </td>
                                                                 <td style="vertical-align: bottom;">
-                                                                    <button type="button" class="button button-small ppc-icon-selector-button select-icon-button" data-current="admin-generic"><i class="dashicons dashicons-admin-generic"></i> <span><?php esc_html_e('Menu Icon', 'capabilities-pro'); ?></span></button>
+                                                                    <button type="button" class="button button-small ppc-icon-selector-button select-icon-button" data-current="admin-generic"><i class="dashicons dashicons-admin-generic"></i> <span><?php esc_html_e('Menu Icon', 'capability-manager-enhanced'); ?></span></button>
                                                                 </td>
                                                                 <td style="vertical-align: bottom;">
-                                                                    <button style="float: right;" type="button" class="save-new-menu button-primary">
+                                                                    <button style="float: right;" type="button" class="save-new-menu button-primary" <?php disabled(!$can_add_menu); ?>>
                                                                         <span class="spinner admin-menu-spinner"></span>
-                                                                        <?php esc_html_e('Save Menu Link', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Save Menu Link', 'capability-manager-enhanced'); ?>
                                                                     </button>
                                                                 </td>
                                                             </tr>
@@ -252,13 +262,13 @@ $admin_child_menu_option = array_map(
                                                                 <label for="check-all-item">
                                                                 <span class="menu-item-link check-all-menu-link">
                                                                     <strong>
-                                                                    <?php esc_html_e('Toggle all', 'capabilities-pro'); ?>
+                                                                    <?php esc_html_e('Toggle all', 'capability-manager-enhanced'); ?>
                                                                     </strong>
                                                                 </span></label>
                                                             </td>
                                                             <td class="menu-column ppc-menu-action" style="text-align: right;">
                                                                 <div class="add-new-menu button-secondary">
-                                                                    <?php esc_html_e('New Menu Link', 'capabilities-pro'); ?>
+                                                                    <?php esc_html_e('New Menu Link', 'capability-manager-enhanced'); ?>
                                                                 </div>
                                                             </td>
 
@@ -275,7 +285,7 @@ $admin_child_menu_option = array_map(
                                                                 <label for="check-all-item-2">
                                                                     <span class="menu-item-link check-all-menu-link">
                                                                     <strong>
-                                                                        <?php esc_html_e('Toggle all', 'capabilities-pro'); ?>
+                                                                        <?php esc_html_e('Toggle all', 'capability-manager-enhanced'); ?>
                                                                     </strong>
                                                                     </span>
                                                                 </label>
@@ -430,7 +440,7 @@ $admin_child_menu_option = array_map(
 
                                                             if (empty($menu_title)) {
                                                                 $editable_menu = false;
-                                                                $menu_title = __( '(Can\'t detect menu name)', 'capabilities-pro' );
+                                                                $menu_title = __( '(Can\'t detect menu name)', 'capability-manager-enhanced' );
                                                             }
 
                                                             $item_menu_slug = $item[2];
@@ -456,7 +466,7 @@ $admin_child_menu_option = array_map(
                                                                                 <?php echo esc_html($menu_title); ?>
                                                                             </span>
                                                                             <?php if (!$editable_menu && !$separator_menu):?>
-                                                                                <span class="ppc-tool-tip"><span class="dashicons dashicons-info-outline"></span><span class="tool-tip-text"><p><?php esc_html_e('This menu name is not available in menu global data or directly registered with the menu', 'capabilities-pro');?>.</p><i></i></span></span>
+                                                                                <span class="ppc-tool-tip"><span class="dashicons dashicons-info-outline"></span><span class="tool-tip-text"><p><?php esc_html_e('This menu name is not available in menu global data or directly registered with the menu', 'capability-manager-enhanced');?>.</p><i></i></span></span>
                                                                             <?php endif;?>
                                                                             <?php if (!$separator_menu) : ?>
                                                                                 <small class="admin-menu-slug ppc-other-menu-element" style="<?php echo $show_menu_slug ? '' : 'display: none;'; ?>">
@@ -467,13 +477,13 @@ $admin_child_menu_option = array_map(
                                                                                 <input type="text" class="menu-title-input" value="<?php echo esc_attr($menu_title); ?>">
 
                 <select  class="rename-menu-scope">
-                    <option value="role"><?php printf(esc_html__('%s Role', 'capabilities-pro'), $role_caption); ?></option>
-                    <option value="all"><?php esc_html_e('All Roles', 'capabilities-pro'); ?></option>
+                    <option value="role"><?php printf(esc_html__('%s Role', 'capability-manager-enhanced'), $role_caption); ?></option>
+                    <option value="all"><?php esc_html_e('All Roles', 'capability-manager-enhanced'); ?></option>
                 </select>
-                                                                <button type="button" class="button button-small save-menu-title" title="<?php esc_attr_e('Save', 'capabilities-pro'); ?>">
+                                                                <button type="button" class="button button-small save-menu-title" title="<?php esc_attr_e('Save', 'capability-manager-enhanced'); ?>">
                                                                                     <span class="dashicons dashicons-saved"></span>
                                                                                 </button>
-                                                                                <button type="button" class="button button-small cancel-menu-title" title="<?php esc_attr_e('Cancel', 'capabilities-pro'); ?>">
+                                                                                <button type="button" class="button button-small cancel-menu-title" title="<?php esc_attr_e('Cancel', 'capability-manager-enhanced'); ?>">
                                                                                     <span class="dashicons dashicons-no"></span>
                                                                                 </button>
                                                                             </span>
@@ -481,7 +491,7 @@ $admin_child_menu_option = array_map(
                                                                     </span>
                                                                     </label>
 
-                                                                    <?php if (!empty($disabled_info)):?><span class="ppc-tool-tip"><span class="dashicons dashicons-info"></span><span class="tool-tip-text"><p> <?php esc_html_e('This option is disabled to prevent complete lockout', 'capabilities-pro');?>.</p><i></i></span></span>
+                                                                    <?php if (!empty($disabled_info)):?><span class="ppc-tool-tip"><span class="dashicons dashicons-info"></span><span class="tool-tip-text"><p> <?php esc_html_e('This option is disabled to prevent complete lockout', 'capability-manager-enhanced');?>.</p><i></i></span></span>
                                                                     <?php endif;?>
                                                                 </td>
                                                                 <td class="menu-column ppc-menu-item">
@@ -490,7 +500,7 @@ $admin_child_menu_option = array_map(
                                                                             <div class="ppc-tool-tip click-tooltip">
                                                                                 <span class="dashicons dashicons-trash delete"></span>
                                                                                 <div class="tool-tip-text">
-                                                                                    <p><?php printf(__( 'Are you sure you want to delete %1s? %2s %3s', 'capabilities-pro' ), '<strong>' . $menu_title . '</strong>', '<a class="delete-admin-menu" href="#">'. esc_html__('Delete', 'capabilities-pro') .'</a>', ' | <a class="cancel-click-tooltip" href="#">'. esc_html__('Cancel', 'capabilities-pro') .'</a>' ); ?></p>
+                                                                                    <p><?php printf(__( 'Are you sure you want to delete %1s? %2s %3s', 'capability-manager-enhanced' ), '<strong>' . $menu_title . '</strong>', '<a class="delete-admin-menu" href="#">'. esc_html__('Delete', 'capability-manager-enhanced') .'</a>', ' | <a class="cancel-click-tooltip" href="#">'. esc_html__('Cancel', 'capability-manager-enhanced') .'</a>' ); ?></p>
                                                                                     <i></i>
                                                                                 </div>
                                                                             </div>
@@ -500,21 +510,21 @@ $admin_child_menu_option = array_map(
                                                                         <div class="ppc-tool-tip">
                                                                             <span class="dashicons dashicons-editor-help"></span>
                                                                             <div class="tool-tip-text">
-                                                                                <p><?php printf(__( 'The capability required to access this menu is %s', 'capabilities-pro' ), '<strong>' . esc_html($item[1]) . '</strong>' ); ?></p>
+                                                                                <p><?php printf(__( 'The capability required to access this menu is %s', 'capability-manager-enhanced' ), '<strong>' . esc_html($item[1]) . '</strong>' ); ?></p>
                                                                                 <i></i>
                                                                             </div>
                                                                         </div>
                                                                         <?php if ($editable_menu):?>
-                                                                            <a class="rename-admin-menu" href="#" title="<?php esc_html_e('Rename Menu', 'capabilities-pro');?>">
+                                                                            <a class="rename-admin-menu" href="#" title="<?php esc_html_e('Rename Menu', 'capability-manager-enhanced');?>">
                                                                                 <span class="dashicons dashicons-edit"></span>
                                                                             </a>
                                                                         <?php else : ?>
                                                                             <a style="visibility: hidden;"><span class="dashicons dashicons-edit"></span></a>
                                                                         <?php endif; ?>
-                                                                        <a class="move-admin-menu up" href="#" title="<?php esc_html_e('Move Up', 'capabilities-pro');?>">
+                                                                        <a class="move-admin-menu up" href="#" title="<?php esc_html_e('Move Up', 'capability-manager-enhanced');?>">
                                                                             <span class="dashicons dashicons-arrow-up-alt2"></span>
                                                                         </a>
-                                                                        <a class="move-admin-menu down" href="#" title="<?php esc_html_e('Move Down', 'capabilities-pro');?>">
+                                                                        <a class="move-admin-menu down" href="#" title="<?php esc_html_e('Move Down', 'capability-manager-enhanced');?>">
                                                                             <span class="dashicons dashicons-arrow-down-alt2"></span>
                                                                         </a>
                                                                     </div>
@@ -591,7 +601,7 @@ $admin_child_menu_option = array_map(
 
                                                                 if (empty($sub_menu_title)) {
                                                                     $editable_menu = false;
-                                                                    $sub_menu_title = __( '(Can\'t detect menu name)', 'capabilities-pro' );
+                                                                    $sub_menu_title = __( '(Can\'t detect menu name)', 'capability-manager-enhanced' );
                                                                 }
                                                                 ?>
                                                                 <tr class="ppc-menu-row child-menu <?php echo esc_attr($additional_class);?>" data-main-slug="<?php echo esc_attr($submenu_slug);?>"  data-position="<?php echo esc_attr($menu_position);?>" data-parent-slug="<?php echo esc_attr($parent_menu_slug);?>" style="<?php echo $hide_submenu ? 'display: none;' : ''; ?>">
@@ -613,7 +623,7 @@ $admin_child_menu_option = array_map(
                                                                                 <?php echo esc_html($sub_menu_title); ?>
                                                                             </span>
                                                                             <?php if (!$editable_menu && !$separator_menu):?>
-                                                                                <span class="ppc-tool-tip"><span class="dashicons dashicons-info-outline"></span><span class="tool-tip-text"><p><?php esc_html_e('This menu name is not available in menu global data or directly registered with the menu', 'capabilities-pro');?>.</p><i></i></span></span>
+                                                                                <span class="ppc-tool-tip"><span class="dashicons dashicons-info-outline"></span><span class="tool-tip-text"><p><?php esc_html_e('This menu name is not available in menu global data or directly registered with the menu', 'capability-manager-enhanced');?>.</p><i></i></span></span>
                                                                             <?php endif;?>
                                                                             <?php if (!$separator_menu) : ?>
                                                                                 <small class="admin-menu-slug ppc-other-menu-element" style="<?php echo $show_menu_slug ? '' : 'display: none;'; ?>">
@@ -623,14 +633,14 @@ $admin_child_menu_option = array_map(
                                                                             <span class="ppc-admin-menu-rename-form" style="display: none;">
                                                                                 <input type="text" class="menu-title-input" value="<?php echo esc_attr($sub_menu_title); ?>">
                                                                                 <select  class="rename-menu-scope">
-                    <option value="role"><?php printf(esc_html__('%s Role', 'capabilities-pro'), $role_caption); ?></option>
-                    <option value="all"><?php esc_html_e('All Roles', 'capabilities-pro'); ?></option>
+                    <option value="role"><?php printf(esc_html__('%s Role', 'capability-manager-enhanced'), $role_caption); ?></option>
+                    <option value="all"><?php esc_html_e('All Roles', 'capability-manager-enhanced'); ?></option>
                 </select>
 
-                                                                           <button type="button" class="button button-small save-menu-title" title="<?php esc_attr_e('Save', 'capabilities-pro'); ?>">
+                                                                           <button type="button" class="button button-small save-menu-title" title="<?php esc_attr_e('Save', 'capability-manager-enhanced'); ?>">
                                                                                     <span class="dashicons dashicons-saved"></span>
                                                                                 </button>
-                                                                                <button type="button" class="button button-small cancel-menu-title" title="<?php esc_attr_e('Cancel', 'capabilities-pro'); ?>">
+                                                                                <button type="button" class="button button-small cancel-menu-title" title="<?php esc_attr_e('Cancel', 'capability-manager-enhanced'); ?>">
                                                                                     <span class="dashicons dashicons-no"></span>
                                                                                 </button>
                                                                             </span>
@@ -638,7 +648,7 @@ $admin_child_menu_option = array_map(
                                                                         </label>
 
                                                                         <?php if (!empty($disabled_info)):?>
-                                                                            <span class="ppc-tool-tip"><span class="dashicons dashicons-info"></span><span class="tool-tip-text"><p><?php esc_html_e('This option is disabled to prevent complete lockout', 'capabilities-pro');?>.</p><i></i></span></span>
+                                                                            <span class="ppc-tool-tip"><span class="dashicons dashicons-info"></span><span class="tool-tip-text"><p><?php esc_html_e('This option is disabled to prevent complete lockout', 'capability-manager-enhanced');?>.</p><i></i></span></span>
                                                                         <?php endif;?>
                                                                     </td>
                                                                     <td class="menu-column ppc-menu-item">
@@ -647,7 +657,7 @@ $admin_child_menu_option = array_map(
                                                                                 <div class="ppc-tool-tip click-tooltip">
                                                                                     <span class="dashicons dashicons-trash delete"></span>
                                                                                     <div class="tool-tip-text">
-                                                                                        <p><?php printf(__( 'Are you sure you want to delete %1s? %2s %3s', 'capabilities-pro' ), '<strong>' . $sub_menu_title . '</strong>', '<a class="delete-admin-menu" href="#">'. esc_html__('Delete', 'capabilities-pro') .'</a>', ' | <a class="cancel-click-tooltip" href="#">'. esc_html__('Cancel', 'capabilities-pro') .'</a>' ); ?></p>
+                                                                                        <p><?php printf(__( 'Are you sure you want to delete %1s? %2s %3s', 'capability-manager-enhanced' ), '<strong>' . $sub_menu_title . '</strong>', '<a class="delete-admin-menu" href="#">'. esc_html__('Delete', 'capability-manager-enhanced') .'</a>', ' | <a class="cancel-click-tooltip" href="#">'. esc_html__('Cancel', 'capability-manager-enhanced') .'</a>' ); ?></p>
                                                                                         <i></i>
                                                                                     </div>
                                                                                 </div>
@@ -657,21 +667,21 @@ $admin_child_menu_option = array_map(
                                                                             <div class="ppc-tool-tip">
                                                                                 <span class="dashicons dashicons-editor-help"></span>
                                                                                 <div class="tool-tip-text">
-                                                                                    <p><?php printf(__( 'The capability required to access this menu is %s', 'capabilities-pro' ), '<strong>' . esc_html($subitem[1]) . '</strong>' ); ?></p>
+                                                                                    <p><?php printf(__( 'The capability required to access this menu is %s', 'capability-manager-enhanced' ), '<strong>' . esc_html($subitem[1]) . '</strong>' ); ?></p>
                                                                                     <i></i>
                                                                                 </div>
                                                                             </div>
                                                                             <?php if ($editable_menu):?>
-                                                                                <a class="rename-admin-menu" href="#" title="<?php esc_html_e('Rename Menu', 'capabilities-pro');?>">
+                                                                                <a class="rename-admin-menu" href="#" title="<?php esc_html_e('Rename Menu', 'capability-manager-enhanced');?>">
                                                                                 <span class="dashicons dashicons-edit"></span>
                                                                                 </a>
                                                                             <?php else : ?>
                                                                                 <a style="visibility: hidden;"><span class="dashicons dashicons-edit"></span></a>
                                                                             <?php endif; ?>
-                                                                            <a class="move-admin-menu up" href="#" title="<?php esc_html_e('Move Up', 'capabilities-pro');?>">
+                                                                            <a class="move-admin-menu up" href="#" title="<?php esc_html_e('Move Up', 'capability-manager-enhanced');?>">
                                                                                 <span class="dashicons dashicons-arrow-up-alt2"></span>
                                                                             </a>
-                                                                            <a class="move-admin-menu down" href="#" title="<?php esc_html_e('Move Down', 'capabilities-pro');?>">
+                                                                            <a class="move-admin-menu down" href="#" title="<?php esc_html_e('Move Down', 'capability-manager-enhanced');?>">
                                                                                 <span class="dashicons dashicons-arrow-down-alt2"></span>
                                                                             </a>
                                                                         </div>
@@ -708,7 +718,7 @@ $admin_child_menu_option = array_map(
 
                                                     } else {
                                                         ?>
-                                                        <tr><td style="color: red;"> <?php esc_html_e('No menu found', 'capabilities-pro');?></td></tr>
+                                                        <tr><td style="color: red;"> <?php esc_html_e('No menu found', 'capability-manager-enhanced');?></td></tr>
                                                         <?php
                                                     }
 
@@ -724,7 +734,7 @@ $admin_child_menu_option = array_map(
                                     value="<?php esc_attr_e('Save Changes') ?>"
                                     class="button-primary ppc-admin-menu-submit" style="float: right; margin-top: 10px;"/>
                                 <input type="submit" name="admin-menu-all-submit"
-                                    value="<?php esc_attr_e('Save for All Roles', 'capabilities-pro') ?>"
+                                    value="<?php esc_attr_e('Save for All Roles', 'capability-manager-enhanced') ?>"
                                     class="button-secondary ppc-admin-menu-submit" style="float: right; margin-top: 10px; margin-right: 10px;"/>
                             </td>
                         </tr>
@@ -734,41 +744,41 @@ $admin_child_menu_option = array_map(
             </div><!-- .pp-column-left -->
             <div class="pp-column-right pp-capabilities-sidebar">
             <?php
-            $banner_title  = __('How to use Admin Menus', 'capabilities-pro');
+            $banner_title  = __('How to use Admin Menus', 'capability-manager-enhanced');
             $banner_messages = ['<p>'];
-            $banner_messages[] = esc_html__('Admin Menus allows you to edit the admin menu links and control who has access.', 'capabilities-pro');
+            $banner_messages[] = esc_html__('Admin Menus allows you to edit the admin menu links and control who has access.', 'capability-manager-enhanced');
             $banner_messages[] = '</p><p>';
-            $banner_messages[] = '<input type="checkbox" title="'. esc_attr__('usage key', 'capabilities-pro') .'" disabled> = '
-                . esc_html__('No change', 'capabilities-pro') . ' <br />';
-            $banner_messages[] = '<input type="checkbox" title="'. esc_attr__('usage key', 'capabilities-pro') .'" checked disabled> = '
-                . esc_html__('This feature is denied', 'capabilities-pro') . ' <br />';
+            $banner_messages[] = '<input type="checkbox" title="'. esc_attr__('usage key', 'capability-manager-enhanced') .'" disabled> = '
+                . esc_html__('No change', 'capability-manager-enhanced') . ' <br />';
+            $banner_messages[] = '<input type="checkbox" title="'. esc_attr__('usage key', 'capability-manager-enhanced') .'" checked disabled> = '
+                . esc_html__('This feature is denied', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '</p>';
-            $banner_messages[] = '<p><a class="button ppc-checkboxes-documentation-link" href="https://publishpress.com/knowledge-base/admin-menus-screen/"target="blank">' . esc_html__('View Documentation', 'capabilities-pro') . '</a></p>';
+            $banner_messages[] = '<p><a class="button ppc-checkboxes-documentation-link" href="https://publishpress.com/knowledge-base/admin-menus-screen/"target="blank">' . esc_html__('View Documentation', 'capability-manager-enhanced') . '</a></p>';
             pp_capabilities_sidebox_banner($banner_title, $banner_messages);
             ?>
             <?php
-            $banner_title  = __('Admin Menus Settings', 'capabilities-pro');
+            $banner_title  = __('Admin Menus Settings', 'capability-manager-enhanced');
             $banner_messages = ['<p>'];
             $banner_messages[] = '<input type="checkbox" class="admin-menu-setting-field hide-submenu" ' . checked($hide_submenu, true, false) . '> '
-                . esc_html__('Hide Submenus', 'capabilities-pro') . ' <br />';
+                . esc_html__('Hide Submenus', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '<input type="checkbox" class="admin-menu-setting-field show-menu-slug" ' . checked($show_menu_slug, true, false) . '> '
-                . esc_html__('Show Menu Slugs', 'capabilities-pro') . ' <br />';
+                . esc_html__('Show Menu Slugs', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '</p>';
             pp_capabilities_sidebox_banner($banner_title, $banner_messages);
             ?>
             <?php
-            $banner_title  = __('Reset Admin Menus', 'capabilities-pro');
+            $banner_title  = __('Reset Admin Menus', 'capability-manager-enhanced');
             $banner_messages = ['<p>'];
-            $banner_messages[] = esc_html__('You can reset admin menu order and name to their original position and names. You can also reset menu cache to fix issue of missing menu.', 'capabilities-pro');
+            $banner_messages[] = esc_html__('You can reset admin menu order and name to their original position and names. You can also reset menu cache to fix issue of missing menu.', 'capability-manager-enhanced');
             $banner_messages[] = '</p><p>';
             $banner_messages[] = '<input type="checkbox" class="reset-admin-menu-order"> '
-                . esc_html__('Reset Menu Order', 'capabilities-pro') . ' <br />';
+                . esc_html__('Reset Menu Order', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '<input type="checkbox" class="reset-admin-menu-cache"> '
-                . esc_html__('Reset Cached Menu', 'capabilities-pro') . ' <br />';
+                . esc_html__('Reset Cached Menu', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '<input type="checkbox" class="reset-admin-menu-names"> '
-                . esc_html__('Reset Menu Names', 'capabilities-pro') . ' <br />';
+                . esc_html__('Reset Menu Names', 'capability-manager-enhanced') . ' <br />';
             $banner_messages[] = '</p>';
-            $banner_messages[] = '<p><a style="color: red; border-color: red;" type="button" class="button ppc-reset-admin-menu-options">' . esc_html__('Reset Selected Option', 'capabilities-pro') . '</a><div class="clear"></div></p>';
+            $banner_messages[] = '<p><a style="color: red; border-color: red;" type="button" class="button ppc-reset-admin-menu-options">' . esc_html__('Reset Selected Option', 'capability-manager-enhanced') . '</a><div class="clear"></div></p>';
             pp_capabilities_sidebox_banner($banner_title, $banner_messages);
             ?>
             </div><!-- .pp-column-right -->

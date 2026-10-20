@@ -12,13 +12,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-08-27T21:46:16+00:00\n"
-"PO-Revision-Date: 2026-10-01 22:32+0000\n"
+"PO-Revision-Date: 2026-10-15 20:08+0000\n"
 "X-Generator: Weblate 2026.6.1\n"
 "X-Domain: revisionary-pro\n"
 "% 10 == 0) ? 2 : 3)));\n"
+"% 10 == 0) ? 2: 3)));\n"
 "n % 10 == 0) ? 2: 3));\n"
 "Language: he_IL\n"
-"% 10 == 0) ? 2: 3)));\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 ? 0 : (n == 2 ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3)));\n"
 
 #: revisionary-pro.php:3
@@ -26,7 +26,7 @@ msgstr ""
 msgid "PublishPress Revisions Pro"
 msgstr "PublishPress Revisions Pro"
 
-#: revisionary-pro.php:4, fuzzy
+#: revisionary-pro.php:4
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/revisionary/"
 msgstr "https://publishpress.com/revisionary/"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: revisionary-pro.php:7, fuzzy
+#: revisionary-pro.php:7
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"
@@ -200,7 +200,7 @@ msgstr "פוסט נוכחי"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:405
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:415
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:415
-#: includes-pro/compat.php:915
+#: includes-pro/compat.php:992
 msgid "Featured Image"
 msgstr "תמונה מוצגת"
 
@@ -277,7 +277,7 @@ msgstr "תמונה מוצגת"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:577
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:587
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:587
-#: includes-pro/compat.php:1096
+#: includes-pro/compat.php:1173
 msgid "Requested Slug"
 msgstr "סלאג המבוקש"
 
@@ -354,7 +354,7 @@ msgstr "סלאג המבוקש"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:580
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:590
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:590
-#: includes-pro/compat.php:1099
+#: includes-pro/compat.php:1176
 msgid "Beaver Builder Data"
 msgstr "נתוני Beaver Builder"
 
@@ -431,7 +431,7 @@ msgstr "נתוני Beaver Builder"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:581
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:591
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:591
-#: includes-pro/compat.php:1100
+#: includes-pro/compat.php:1177
 msgid "Beaver Builder Settings"
 msgstr "הגדרות Beaver Builder"
 
@@ -508,7 +508,7 @@ msgstr "הגדרות Beaver Builder"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat.php:585
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat.php:595
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat.php:595
-#: includes-pro/compat.php:1104
+#: includes-pro/compat.php:1181
 msgid "Author(s)"
 msgstr "מחבר(ים)"
 
@@ -804,10 +804,10 @@ msgstr "מחבר(ים)"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:106
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:107
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/beaver-builder.php:121
+#: includes-pro/compat/beaver-builder.php:136
 #: includes-pro/compat/divi.php:111
 #: includes-pro/compat/divi.php:112
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Approve"
 msgstr "אשר"
 
@@ -884,7 +884,7 @@ msgstr "אשר"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/beaver-builder.php:184
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/beaver-builder.php:212
-#: includes-pro/compat/beaver-builder.php:230, fuzzy
+#: includes-pro/compat/beaver-builder.php:245, fuzzy
 msgid "Beaver Builder"
 msgstr "Beaver Builder"
 
@@ -1034,8 +1034,8 @@ msgstr "Beaver Builder"
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/divi.php:212
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:211
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/divi.php:212
-#: includes-pro/compat/divi.php:238
-#: includes-pro/compat/divi.php:239, fuzzy
+#: includes-pro/compat/divi.php:241
+#: includes-pro/compat/divi.php:242, fuzzy
 msgid "Divi"
 msgstr "Divi"
 
@@ -1251,7 +1251,6 @@ msgstr "בטל הגדרה זו אם יש בעיה כלשהי בצפייה או �
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:604
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:658
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:658
-#: includes-pro/compat/elementor.php:666
 msgid ""
 "Redirect to preview if the revision is updated at least 15 seconds after "
 "loading the Elementor editor. This redirect relies on detection of UI "
@@ -1334,7 +1333,8 @@ msgstr ""
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:909
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:996
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:996
-#: includes-pro/compat/elementor.php:1024
+#: includes-pro/compat/elementor.php:1042
+#: includes-pro/compat/elementor.php:1158
 msgid "Approval done."
 msgstr "אישור בוצע."
 
@@ -1411,7 +1411,8 @@ msgstr "אישור בוצע."
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:911
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:998
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:998
-#: includes-pro/compat/elementor.php:1026
+#: includes-pro/compat/elementor.php:1044
+#: includes-pro/compat/elementor.php:1160
 msgid "Revision updated."
 msgstr "גרסה עודכנה."
 
@@ -1561,8 +1562,8 @@ msgstr "גרסה עודכנה."
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1027
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1028
-#: includes-pro/compat/elementor.php:1055
-#: includes-pro/compat/elementor.php:1056, fuzzy
+#: includes-pro/compat/elementor.php:1073
+#: includes-pro/compat/elementor.php:1074, fuzzy
 msgid "Elementor"
 msgstr "Elementor"
 
@@ -1639,7 +1640,7 @@ msgstr "Elementor"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:957
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1044
-#: includes-pro/compat/elementor.php:1072
+#: includes-pro/compat/elementor.php:1090
 msgid "Submit"
 msgstr "שלח"
 
@@ -1935,11 +1936,11 @@ msgstr "שלח"
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1056
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1062
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1066
-#: includes-pro/compat.php:733
-#: includes-pro/compat/elementor.php:1074
-#: includes-pro/compat/elementor.php:1084
-#: includes-pro/compat/elementor.php:1090
-#: includes-pro/compat/elementor.php:1094
+#: includes-pro/compat.php:810
+#: includes-pro/compat/elementor.php:1092
+#: includes-pro/compat/elementor.php:1102
+#: includes-pro/compat/elementor.php:1108
+#: includes-pro/compat/elementor.php:1112
 msgid "Update"
 msgstr "עדכן"
 
@@ -2016,7 +2017,7 @@ msgstr "עדכן"
 #: dist/publishpress-revisions-pro_3.7.9/revisionary-pro_3.7.9/includes-pro/compat/elementor.php:967
 #: dist/publishpress-revisions-pro_3.9.0-rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
 #: dist/publishpress-revisions-pro_3.9.0_rc2/revisionary-pro/includes-pro/compat/elementor.php:1054
-#: includes-pro/compat/elementor.php:1082
+#: includes-pro/compat/elementor.php:1100
 msgid "Publish"
 msgstr "פרסם"
 
@@ -2584,11 +2585,11 @@ msgstr[3] ""
 "Your license key (for plugin updates) will expire in %d days. For updates "
 "and priority support, <a href=\"%s\">please renew</a>."
 msgstr[0] ""
-"מפתח הרישוי שלך יפוג בעוד %d יום. עבור עדכונים ותמיכה עדיפה, <a "
-"href=\"%s\">אנא חנך מחדש</a>."
+"מפתח הרישוי שלך יפוג בעוד %d יום. לקבלת עדכונים ותמיכה עדיפות, <a "
+"href=\"%s\">אנא חידשו</a>."
 msgstr[1] ""
-"מפתח הרישוי שלך (לעדכוני תוסף) יפוג בעוד %d ימים. עבור עדכונים ותמיכה "
-"עדיפה, <a href=\"%s\">אנא חנך מחדש</a>."
+"מפתח הרישוי שלך (לעדכוני תוספים) יפוג בעוד %d ימים. לקבלת עדכונים ותמיכה "
+"עדיפות, <a href=\"%s\">אנא חידשו</a>."
 
 #: dist/publishpress-revisions-pro-3.5.8.1/revisionary-pro/includes-pro/SettingsLicense.php:92
 #: dist/publishpress-revisions-pro-3.5.8.2/revisionary-pro/includes-pro/SettingsLicense.php:92
@@ -7668,50 +7669,58 @@ msgstr "נקה לחלוטין את מטמון Elementor בעת פרסום גרס
 msgid "Leave this disabled for better performance if possible."
 msgstr "השאר זאת לא פעילה לשיפור ביצועים אם אפשר."
 
-#: includes-pro/compat.php:550
+#: includes-pro/compat.php:627
 msgid "You are not allowed to suppress comparison fields."
 msgstr "אינך מורשה לדכא שדות השוואה."
 
-#: includes-pro/compat.php:551
+#: includes-pro/compat.php:628
 msgid "You are not allowed to change ignored fields."
 msgstr "אינך מורשה לשנות שדות שמתעלמים מהם."
 
-#: includes-pro/compat.php:624
-#: includes-pro/compat.php:671
+#: includes-pro/compat.php:701
+#: includes-pro/compat.php:748
 #, php-format
 msgid "Review %d ignored / suppressed fields"
 msgstr "סקור %d שדות שמתעלמים מהם / מדוכאים"
 
-#: includes-pro/compat.php:625
-#: includes-pro/compat.php:672
-#: includes-pro/compat.php:699
+#: includes-pro/compat.php:702
+#: includes-pro/compat.php:749
+#: includes-pro/compat.php:776
 #, php-format
 msgid "Review %d ignored fields"
 msgstr "סקור %d שדות שמתעלמים מהם"
 
-#: includes-pro/compat.php:696
+#: includes-pro/compat.php:773
 msgid "Revision Comparison"
 msgstr "השוואת גרסאות"
 
-#: includes-pro/compat.php:712
+#: includes-pro/compat.php:789
 msgid "Close"
 msgstr "סגור"
 
-#: includes-pro/compat.php:718
+#: includes-pro/compat.php:795
 msgid "Ignore Fields"
 msgstr "התעלם משדות"
 
-#: includes-pro/compat.php:719
+#: includes-pro/compat.php:796
 msgid "Changes to these fields will be hidden from the current user."
 msgstr "שינויים בשדות אלה יהיו מוסתרים מהמשתמש הנוכחי."
 
-#: includes-pro/compat.php:726
+#: includes-pro/compat.php:803
 msgid "Suppress Fields"
 msgstr "דיכוי שדות"
 
-#: includes-pro/compat.php:727
+#: includes-pro/compat.php:804
 msgid "Changes to these fields will be hidden from all users."
 msgstr "שינויים בשדות אלה יהיו מוסתרים מכל המשתמשים."
+
+#: includes-pro/compat/elementor.php:666
+msgid ""
+"Redirect to the revision preview after submission or a revision status "
+"change in Elementor. Disable this option to remain in the editor."
+msgstr ""
+"מוצג מחדש לתצוגת גרסה לאחר הגשה או שינוי מצב גרסה ב-Elementor. השבת אפשרות "
+"זו כדי להישאר בעורך."
 
 #: includes-pro/SettingsLicense.php:77
 #, php-format

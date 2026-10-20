@@ -5,17 +5,19 @@ msgstr ""
 "Project-Id-Version: PublishPress Capabilities 2.42.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Hebrew "
+"<https://weblate.publishpress.com/projects/publishpress-capabilities/"
+"capability-manager-enhanced/he/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-04-19T15:36:09+00:00\n"
-"PO-Revision-Date: 2026-09-22 14:15+0000\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"PO-Revision-Date: 2026-10-14 11:19+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: capability-manager-enhanced\n"
-"% 10 == 0) ? 2 : 3)));\n"
-"% 10 == 0) ? 2: 3)));\n"
+"n % 10 == 0) ? 2 : 3));\n"
 "Language: he_IL\n"
+"% 10 == 0) ? 2: 3)));\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 ? 0 : (n == 2 ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3)));\n"
 
 #: capsman-enhanced.php:3
@@ -39,7 +41,7 @@ msgstr ""
 "כל תפקידי המשתמשים שלך ב-WordPress, מהמנהלים ועד המנויים."
 
 #: capsman-enhanced.php:7
-#: includes/manager.php:1721
+#: includes/manager.php:1738
 #. Author of the plugin
 msgid "PublishPress"
 msgstr "PublishPress"
@@ -80,37 +82,14 @@ msgstr ""
 "או מזהה. תכונה זו זמינה ב-PublishPress Capabilities Pro."
 
 #: includes-core/admin-features-promo.php:79
-#: includes-core/admin-menus-promo.php:62
 #: includes-core/CoreAdmin.php:56
 #: includes-core/editor-features-promo.php:79
 #: includes-core/frontend-features-promo.php:32
-#: includes/admin-load.php:1773
+#: includes/admin-load.php:1857
+#: includes/features/admin-menus/admin-menus.php:156
 #: includes/features/admin-styles/admin-styles-ui.php:353
 msgid "Upgrade to Pro"
 msgstr "שדרג ל-Pro"
-
-#: includes-core/admin-menus-promo.php:29
-msgid "Admin Menu Restrictions"
-msgstr "מגבלות תפריטי מנהל"
-
-#: includes-core/admin-menus-promo.php:54
-#: includes-core/admin-menus-promo.php:55
-msgid "Admin Menus feature preview"
-msgstr "תצוגה מקדימה של תכונות תפריטי מנהלים"
-
-#: includes-core/admin-menus-promo.php:58
-msgid ""
-"You can restrict access to admin menu screens. You can also edit, change, "
-"add, or remove links from the WordPress admin menu. This feature is "
-"available in PublishPress Capabilities Pro."
-msgstr ""
-"אתה יכול להגביל גישה למסכים בתפריט המנהל. אתה יכול גם לערוך, לשנות, להוסיף "
-"או להסיר קישורים מתפריט המנהל של WordPress. תכונה זו זמינה ב-PublishPress "
-"Capabilities Pro."
-
-#: includes-core/admin-menus-promo.php:136
-msgid "Loading"
-msgstr "טוען"
 
 #: includes-core/CoreAdmin.php:19
 #, php-format
@@ -121,36 +100,28 @@ msgstr ""
 "אתה משתמש ביכולות PublishPress חינם. גרסת Pro כוללת תכונות נוספות ותמיכה. "
 "%sשדרג ל-Pro%s"
 
-#: includes-core/CoreAdmin.php:92
-#: includes-core/CoreAdmin.php:159
-#: includes/functions-admin.php:536
-#: includes/roles/class/class-pp-roles-admin.php:556
-msgid "Admin Menus"
-msgstr "תפריטי מנהל"
-
-#: includes-core/CoreAdmin.php:137
+#: includes-core/CoreAdmin.php:106
 msgid "Hide CSS Elements"
 msgstr "הסתר אלמנטים CSS"
 
-#: includes-core/CoreAdmin.php:138
+#: includes-core/CoreAdmin.php:107
 msgid "Block by URL"
 msgstr "חסום לפי URL"
 
-#: includes-core/CoreAdmin.php:160
-msgid ""
-"Admin Menus allows you to edit the admin menu links and control who has "
-"access."
-msgstr "תפריטי מנהל מאפשרים לך לערוך את הקישורים בתפריט המנהל ולשלוט מי יש לו גישה."
+#: includes-core/CoreAdmin.php:128
+#: includes/features/frontend-features/frontend-features-ui.php:240
+msgid "Pages"
+msgstr "עמודים"
 
-#: includes-core/CoreAdmin.php:170
+#: includes-core/CoreAdmin.php:129
 msgid "Select pages..."
 msgstr "בחר דפים..."
 
-#: includes-core/CoreAdmin.php:175
+#: includes-core/CoreAdmin.php:134
 msgid "You can select page types where this element will be added."
 msgstr "אתה יכול לבחור סוגי דפים שבהם האלמנט הזה יתווסף."
 
-#: includes-core/CoreAdmin.php:177
+#: includes-core/CoreAdmin.php:136
 #: includes-core/frontend-features-promo.php:47
 #: includes-core/frontend-features-promo.php:48
 msgid "Layout spacer"
@@ -221,6 +192,10 @@ msgstr ""
 "זמינה ב-PublishPress Capabilities Pro."
 
 #: includes-core/frontend-features-promo.php:39
+msgid "Post types"
+msgstr "סוגי פוסטים"
+
+#: includes-core/frontend-features-promo.php:39
 msgid "Select post types..."
 msgstr "בחר סוגי פוסטים..."
 
@@ -232,195 +207,218 @@ msgstr ""
 "זה יוסיף תיבת מידע על מסך עריכת הפוסט. אתה יכול להשתמש בתכונה זו כדי להוסיף "
 "מחלקות גוף רק לפוסט הזה."
 
-#: includes/admin-load.php:401
+#: includes/admin-load.php:405
 msgid "Drag multiple roles selection to change roles order."
 msgstr "גרור את הבחירה של תפקידים מרובים כדי לשנות את סדר התפקידים."
 
-#: includes/admin-load.php:404
+#: includes/admin-load.php:408
 msgid "Page title"
 msgstr "כותרת דף"
 
-#: includes/admin-load.php:405, fuzzy
+#: includes/admin-load.php:409, fuzzy
 msgid "Rank Math SEO"
 msgstr "Rank Math SEO"
 
-#: includes/admin-load.php:406
-#: includes/settings-ui.php:298
+#: includes/admin-load.php:410
+#: includes/settings-ui.php:323
 msgid "No results match"
 msgstr "לא נמצאו תוצאות תואמות"
 
-#: includes/admin-load.php:544
-#: includes/admin-load.php:1568
-#: includes/admin-load.php:1581
-#: includes/admin-load.php:1786
-#: includes/functions-admin.php:414
-#: includes/functions-admin.php:500
+#: includes/admin-load.php:548
+#: includes/admin-load.php:1652
+#: includes/admin-load.php:1665
+#: includes/admin-load.php:1870
+#: includes/functions-admin.php:427
+#: includes/functions-admin.php:519
 #: includes/manager.php:442
 #: includes/roles/class/class-pp-roles-admin.php:667
 #: includes/settings-ui.php:35
 msgid "Capabilities"
 msgstr "יכולות"
 
-#: includes/admin-load.php:683
+#: includes/admin-load.php:687
 msgid "No permission!"
 msgstr "אין הרשאה!"
 
-#: includes/admin-load.php:693
+#: includes/admin-load.php:697
 msgid "Invalid nonce token!"
 msgstr "אסימון nonce לא חוקי!"
 
-#: includes/admin-load.php:698
-#: includes/admin-load.php:705
+#: includes/admin-load.php:702
+#: includes/admin-load.php:709
 msgid "Error: wrong data"
 msgstr "שגיאה: נתונים שגויים"
 
-#: includes/admin-load.php:725
+#: includes/admin-load.php:729
 msgid ""
 "Changes saved. Feature status synchronization has been queued for all "
 "network sites."
 msgstr "שינויים נשמרו. סנכרון מצב הפיצ'רים הוזמן לכל אתרי הרשת."
 
-#: includes/admin-load.php:731
+#: includes/admin-load.php:735
 #: common/js/admin.dev.js:1278
+#: includes/features/admin-menus/assets/js/admin-menus.js:723
 msgid "Changes saved!"
 msgstr "שינויים נשמרו!"
 
-#: includes/admin-load.php:742
+#: includes/admin-load.php:746
 #: includes/admin-notices/admin-notices.php:265
+#: includes/features/admin-menus/admin-menus-filters.php:422
+#: includes/features/admin-menus/admin-menus-filters.php:453
+#: includes/features/admin-menus/admin-menus-filters.php:503
+#: includes/features/admin-menus/admin-menus-filters.php:544
+#: includes/features/admin-menus/admin-menus-filters.php:596
 #: includes/features/frontend-features/frontend-features-action.php:41
 #: includes/features/frontend-features/frontend-features-action.php:110
 #: includes/features/restrict-profile-features.php:29
 msgid "An error occured!"
 msgstr "אירעה שגיאה!"
 
-#: includes/admin-load.php:747
+#: includes/admin-load.php:751
+#: includes/features/admin-menus/admin-menus-filters.php:427
+#: includes/features/admin-menus/admin-menus-filters.php:458
+#: includes/features/admin-menus/admin-menus-filters.php:508
+#: includes/features/admin-menus/admin-menus-filters.php:549
+#: includes/features/admin-menus/admin-menus-filters.php:601
 msgid "Security check failed"
 msgstr "בדיקת אבטחה נכשלה"
 
-#: includes/admin-load.php:749
+#: includes/admin-load.php:753
+#: includes/features/admin-menus/admin-menus-filters.php:429
+#: includes/features/admin-menus/admin-menus-filters.php:460
+#: includes/features/admin-menus/admin-menus-filters.php:510
+#: includes/features/admin-menus/admin-menus-filters.php:551
+#: includes/features/admin-menus/admin-menus-filters.php:603
 msgid "Permission denied"
 msgstr "גישה נדחתה"
 
-#: includes/admin-load.php:759
+#: includes/admin-load.php:763
+#: includes/features/admin-menus/admin-menus-filters.php:441
 msgid "Settings updated successfully."
 msgstr "ההגדרות עודכנו בהצלחה."
 
-#: includes/admin-load.php:824
+#: includes/admin-load.php:828
 #: includes/features/frontend-features/frontend-features.php:39
 #: includes/features/nav-menus.php:26
 msgid "Logged In Users"
 msgstr "משתמשים מחוברים"
 
-#: includes/admin-load.php:825
+#: includes/admin-load.php:829
 #: includes/features/frontend-features/frontend-features.php:40
 #: includes/features/nav-menus.php:26
 msgid "Logged Out Users"
 msgstr "משתמשים מנותקים"
 
-#: includes/admin-load.php:1026
+#: includes/admin-load.php:1030
 msgid "PublishPress Capabilities Menu Restriction"
 msgstr "הגבלות בתפריט יכולות PublishPress"
 
-#: includes/admin-load.php:1027
+#: includes/admin-load.php:1031
 msgid "Hide this menu item for the selected roles."
 msgstr "החבא פריט תפריט זה עבור התפקידים הנבחרים."
 
-#: includes/admin-load.php:1035
+#: includes/admin-load.php:1039
 msgid "Search roles"
 msgstr "חפש תפקידים"
 
-#: includes/admin-load.php:1041
+#: includes/admin-load.php:1045
 msgid "Search by role name"
 msgstr "חפש לפי שם תפקיד"
 
-#: includes/admin-load.php:1045
+#: includes/admin-load.php:1049
 msgid "No roles match your search."
 msgstr "אין תפקידים תואמים לחיפוש שלך."
 
-#: includes/admin-load.php:1046
+#: includes/admin-load.php:1050
 msgid "role shown"
 msgstr "תפקיד מוצג"
 
-#: includes/admin-load.php:1047
+#: includes/admin-load.php:1051
 msgid "roles shown"
 msgstr "תפקידים מוצגים"
 
-#: includes/admin-load.php:1070
+#: includes/admin-load.php:1074
 #, php-format
 msgid "Need a role-by-role overview? %1$sOpen Navigation Menu Restrictions%2$s."
 msgstr "צריך סקירה לפי תפקיד? %1$sפתח מגבלות תפריט הניווט%2$s."
 
-#: includes/admin-load.php:1281
+#: includes/admin-load.php:1285
 msgid "Permission"
 msgstr "הרשאה"
 
-#: includes/admin-load.php:1283
+#: includes/admin-load.php:1287
 msgid "Enabled"
 msgstr "מאפשר"
 
-#: includes/admin-load.php:1284
+#: includes/admin-load.php:1288
 msgid "Blocked"
 msgstr "חסום"
 
-#: includes/admin-load.php:1285
+#: includes/admin-load.php:1289
 msgid "Limited"
 msgstr "מוגבל"
 
-#: includes/admin-load.php:1303
+#: includes/admin-load.php:1307
 msgid "All content"
 msgstr "כל התוכן"
 
-#: includes/admin-load.php:1326
+#: includes/admin-load.php:1330
 #, php-format
 msgid "Item #%d"
 msgstr "פריט #%d"
 
-#: includes/admin-load.php:1328
+#: includes/admin-load.php:1332
 #, fuzzy, php-format
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: includes/admin-load.php:1334
+#: includes/admin-load.php:1338
 #, php-format
 msgid "%s: all items"
 msgstr "%s: כל הפריטים"
 
-#: includes/admin-load.php:1529
-#: includes/admin-load.php:1530
-#: includes/admin-load.php:1556
+#: includes/admin-load.php:1426
+#, php-format
+msgid "Group #%d"
+msgstr "קבוצה #%d"
+
+#: includes/admin-load.php:1613
+#: includes/admin-load.php:1614
+#: includes/admin-load.php:1640
 #: includes/user-capabilities-view.php:14
 msgid "User Capabilities"
 msgstr "יכולות משתמש"
 
-#: includes/admin-load.php:1584
+#: includes/admin-load.php:1668
 msgid "View Capabilities"
 msgstr "הצג יכולות"
 
-#: includes/admin-load.php:1720
-#: includes/admin-load.php:1735
+#: includes/admin-load.php:1804
+#: includes/admin-load.php:1819
 msgid "You do not have permission to view user capabilities."
 msgstr "אין לך הרשאה לצפות ביכולות המשתמש."
 
-#: includes/admin-load.php:1730
+#: includes/admin-load.php:1814
 #: includes/test-user.php:62
 msgid "Unable to retrieve user data."
 msgstr "לא ניתן לשלוף נתוני משתמש."
 
-#: includes/admin-load.php:1785
+#: includes/admin-load.php:1869
 #: includes/dashboard.php:23
 msgid "Dashboard"
 msgstr "לוח בקרה"
 
-#: includes/admin-load.php:1787
+#: includes/admin-load.php:1871
 #: includes/admin.php:177
-#: includes/functions-admin.php:409
-#: includes/functions-admin.php:493
+#: includes/functions-admin.php:422
+#: includes/functions-admin.php:512
 #: includes/roles/roles.php:8
 #: includes/settings-ui.php:34
 msgid "Roles"
 msgstr "תפקידים"
 
-#: includes/admin-load.php:1788
+#: includes/admin-load.php:1872
+#: includes/plugin-capabilities/publishpress-cart.php:31
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -448,16 +446,27 @@ msgstr "תפקיד נוכחי"
 #: includes/admin-notices/admin-notices.php:212
 #: includes/admin-notices/admin-notices.php:250
 #: includes/admin-notices/admin-notices.php:253
-#: includes/functions-admin.php:239
-#: includes/functions-admin.php:459
-#: includes/functions-admin.php:528
+#: includes/functions-admin.php:242
+#: includes/functions-admin.php:478
+#: includes/functions-admin.php:547
 msgid "Admin Notices"
 msgstr "הודעות מנהל"
+
+#: includes/admin-notices/admin-notices-settings.php:47
+#: includes/features/admin-features.php:69
+#: includes/features/admin-styles/admin-styles-ui.php:161
+#: includes/features/editor-features.php:82
+#: includes/features/frontend-features/frontend-features.php:90
+#: includes/features/nav-menus.php:73
+#: includes/features/profile-features.php:71
+#: includes/redirects/redirects.php:123
+msgid "Role to configure"
+msgstr "תפקיד להגדיר"
 
 #: includes/admin-notices/admin-notices-settings.php:60
 #: includes/admin-notices/admin-notices-settings.php:152
 #: includes/features/admin-styles/admin-styles-ui.php:180
-#: includes/features/admin-styles/admin-styles-ui.php:840
+#: includes/features/admin-styles/admin-styles-ui.php:842
 #: includes/redirects/redirects.php:117
 #: includes/redirects/redirects.php:324
 msgid "Save for all Roles"
@@ -466,8 +475,8 @@ msgstr "שמור עבור כל התפקידים"
 #: includes/admin-notices/admin-notices-settings.php:64
 #: includes/admin-notices/admin-notices-settings.php:156
 #: includes/features/admin-styles/admin-styles-ui.php:184
-#: includes/features/admin-styles/admin-styles-ui.php:844
-#: includes/features/admin-styles/admin-styles.php:1179
+#: includes/features/admin-styles/admin-styles-ui.php:846
+#: includes/features/admin-styles/admin-styles.php:1200
 #, php-format
 msgid "Save for %s"
 msgstr "שמור עבור %s"
@@ -520,7 +529,7 @@ msgstr ""
 "הודעות נוספות ופרסומות במקום אחד."
 
 #: includes/admin-notices/admin-notices-settings.php:172
-#: includes/features/admin-styles/admin-styles-ui.php:860
+#: includes/features/admin-styles/admin-styles-ui.php:862
 msgid "Features include:"
 msgstr "המאפיינים כוללים:"
 
@@ -539,11 +548,12 @@ msgstr "הגדר את נראות ההודעה לפי תפקיד המשתמש"
 #: includes/admin-notices/admin-notices-settings.php:178
 #: includes/admin.php:2059
 #: includes/features/admin-features.php:352
-#: includes/features/admin-styles/admin-styles-ui.php:867
+#: includes/features/admin-menus/admin-menus.php:756
+#: includes/features/admin-styles/admin-styles-ui.php:869
 #: includes/features/editor-features.php:247
 #: includes/features/frontend-features/frontend-features.php:256
 #: includes/features/nav-menus.php:308
-#: includes/features/profile-features.php:257
+#: includes/features/profile-features.php:260
 #: includes/redirects/redirects.php:339
 msgid "View Documentation"
 msgstr "צפה בתיעוד"
@@ -967,7 +977,7 @@ msgstr "יכולות הליבה של WordPress"
 
 #: includes/admin.php:1519
 #: includes/admin.php:1577
-#: includes/features/admin-styles/admin-styles.php:2066
+#: includes/features/admin-styles/admin-styles.php:2089
 #: includes/roles/class/class-pp-roles-admin.php:106
 msgid "General"
 msgstr "כללי"
@@ -1012,14 +1022,16 @@ msgstr "%1$s = הרשאה שניתנה %2$s"
 #: includes/admin.php:2016
 #: includes/features/admin-features.php:347
 #: includes/features/admin-features.php:349
+#: includes/features/admin-menus/admin-menus.php:751
+#: includes/features/admin-menus/admin-menus.php:753
 #: includes/features/editor-features.php:242
 #: includes/features/editor-features.php:244
 #: includes/features/frontend-features/frontend-features.php:251
 #: includes/features/frontend-features/frontend-features.php:253
 #: includes/features/nav-menus.php:303
 #: includes/features/nav-menus.php:305
-#: includes/features/profile-features.php:252
-#: includes/features/profile-features.php:254
+#: includes/features/profile-features.php:255
+#: includes/features/profile-features.php:257
 msgid "usage key"
 msgstr "מפתח שימוש"
 
@@ -1330,11 +1342,7 @@ msgstr "%s יובא בהצלחה מהנתונים שהועלו."
 msgid "No valid backup data found to import."
 msgstr "לא נמצאו נתוני גיבוי חוקיים לייבוא."
 
-#: includes/backup-handler.php:576
-msgid "Needed function to create default roles not found!"
-msgstr "פונקציה נדרשת ליצירת תפקידים ברירת מחדל לא נמצאה!"
-
-#: includes/backup-handler.php:595
+#: includes/backup-handler.php:577
 msgid "Roles and Capabilities reset to WordPress defaults"
 msgstr "תפקידים והיכולות הוחזרו לברירות המחדל של WordPress"
 
@@ -1347,7 +1355,7 @@ msgid "Restore"
 msgstr "שחזור"
 
 #: includes/backup.php:49
-#: includes/functions-admin.php:572
+#: includes/functions-admin.php:589
 msgid "Backup"
 msgstr "גיבוי"
 
@@ -1474,7 +1482,7 @@ msgstr "איפוס ברירות המחדל של WordPress"
 
 #: includes/backup.php:282
 #: includes/backup.php:363
-#: includes/features/profile-features.php:242
+#: includes/features/profile-features.php:245
 msgid "Warning:"
 msgstr "אזהרה:"
 
@@ -1583,10 +1591,12 @@ msgid "Admin Feature Restrictions"
 msgstr "מגבלות תכונת מנהל"
 
 #: includes/features/admin-features.php:175
+#: includes/features/admin-menus/admin-menus.php:265
+#: includes/features/admin-menus/admin-menus.php:288
 #: includes/features/nav-menus.php:127
 #: includes/features/nav-menus.php:147
-#: includes/features/profile-features.php:107
-#: includes/features/profile-features.php:126
+#: includes/features/profile-features.php:110
+#: includes/features/profile-features.php:129
 msgid "Toggle all"
 msgstr "הפעל הכל"
 
@@ -1609,24 +1619,26 @@ msgid "Edit"
 msgstr "עריכה"
 
 #: includes/features/admin-features.php:345
-#: includes/functions-admin.php:425
+#: includes/functions-admin.php:438
 msgid ""
 "Admin Features allows you to remove elements from the admin area and "
 "toolbar."
 msgstr "תכונות מנהל מאפשרות לך להסיר אלמנטים מאזור המנהל ופס הכלים."
 
 #: includes/features/admin-features.php:348
+#: includes/features/admin-menus/admin-menus.php:752
 #: includes/features/editor-features.php:243
 #: includes/features/frontend-features/frontend-features.php:252
 #: includes/features/nav-menus.php:304
-#: includes/features/profile-features.php:253
+#: includes/features/profile-features.php:256
 msgid "No change"
 msgstr "אין שינוי"
 
 #: includes/features/admin-features.php:350
+#: includes/features/admin-menus/admin-menus.php:754
 #: includes/features/editor-features.php:245
 #: includes/features/nav-menus.php:306
-#: includes/features/profile-features.php:255
+#: includes/features/profile-features.php:258
 msgid "This feature is denied"
 msgstr "תכונה זו נדחתה"
 
@@ -1640,16 +1652,371 @@ msgstr "הגדרות תכונות מנהל"
 
 #: includes/features/admin-features.php:359
 #: includes/features/admin-features.php:360
+#: includes/features/admin-menus/admin-menus.php:763
 msgid "Hide Submenus"
 msgstr "הסתר תפריטים משנה"
 
+#: includes/features/admin-menus/admin-menus-controller.php:71
+#: includes/features/admin-menus/admin-menus-controller.php:95
+msgid "You do not have permission to manage menu restrictions."
+msgstr "אין לך הרשאה לנהל את הגבלות התפריט."
+
+#: includes/features/admin-menus/admin-menus-controller.php:144
+msgid "Settings updated for all roles."
+msgstr "ההגדרות עודכנו עבור כל התפקידים."
+
+#: includes/features/admin-menus/admin-menus-controller.php:150
+#: includes/manager.php:683
+#: includes/manager.php:737
+#: includes/manager.php:785
+#: includes/manager.php:879
+#: includes/manager.php:928
+#: includes/manager.php:1010
+#: includes/manager.php:1091
+msgid "Settings updated."
+msgstr "הגדרות עודכנו."
+
+#: includes/features/admin-menus/admin-menus-controller.php:170
+msgid "Saving Menu Order..."
+msgstr "שומר סדר תפריט..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:171
+msgid "Saving Menu Name..."
+msgstr "שומר שם תפריט..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:172
+msgid "Menu Name can not be empty."
+msgstr "שם התפריט לא יכול להיות ריק."
+
+#: includes/features/admin-menus/admin-menus-controller.php:173
+msgid "Change Icon"
+msgstr "שנה אייקון"
+
+#: includes/features/admin-menus/admin-menus-controller.php:174
+msgid "Search icons..."
+msgstr "מחפש אייקונים..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:175
+msgid "Menu icon updated"
+msgstr "אייקון התפריט עודכן"
+
+#: includes/features/admin-menus/admin-menus-controller.php:176
+msgid "Error updating menu icon"
+msgstr "שגיאה בעדכון אייקון התפריט"
+
+#: includes/features/admin-menus/admin-menus-controller.php:177
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "תפריט כפול עם כתובת ה-URL של התפריט הזה כבר קיים"
+
+#: includes/features/admin-menus/admin-menus-controller.php:178
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "תפריט משנה כפול עם כתובת ה-URL של התפריט כבר קיים"
+
+#: includes/features/admin-menus/admin-menus-filters.php:470
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "סדר תפריט המנהל הוחזר בהצלחה. טוען מחדש את הדף..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:476
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "שמות תפריט המנהל הוחזרו בהצלחה. טוען מחדש את הדף..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:482
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "מטמון תפריט המנהל הוחזר בהצלחה. טוען מחדש את הדף..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:486
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "תפריט המנהל הוחזר בהצלחה. טוען מחדש את הדף..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:533
+msgid "Menu deleted successfully."
+msgstr "התפריט נמחק בהצלחה."
+
+#: includes/features/admin-menus/admin-menus-filters.php:561
+#: includes/features/admin-menus/admin-menus-filters.php:608
+msgid "Invalid data"
+msgstr "נתונים לא חוקיים"
+
+#: includes/features/admin-menus/admin-menus-filters.php:570
+msgid "Menu Name Updated for all roles."
+msgstr "שם התפריט עודכן עבור כל התפקידים."
+
+#: includes/features/admin-menus/admin-menus-filters.php:574
+#: includes/features/admin-menus/admin-menus-filters.php:581
+msgid "Menu Name Updated."
+msgstr "שם התפריט עודכן."
+
+#: includes/features/admin-menus/admin-menus-filters.php:612
+msgid "Menu Order Updated."
+msgstr "סדר התפריט עודכן."
+
+#: includes/features/admin-menus/admin-menus-functions.php:40
+#: includes/functions.php:805
+msgid "You do not have permission to access this page."
+msgstr "אין לך הרשאה לגשת לדף זה."
+
+#: includes/features/admin-menus/admin-menus.php:108
+#: includes/functions-admin.php:447
+#: includes/functions-admin.php:554
+#: includes/roles/class/class-pp-roles-admin.php:556
+#: includes/settings-ui.php:38
+msgid "Admin Menus"
+msgstr "תפריטי מנהל"
+
+#: includes/features/admin-menus/admin-menus.php:138
+#: includes/features/admin-menus/admin-menus.php:737
+msgid "Save for All Roles"
+msgstr "שמור עבור כל התפקידים"
+
+#: includes/features/admin-menus/admin-menus.php:155
+msgid ""
+"Add custom menu links, submenu links, and separators to the WordPress admin "
+"menu. This feature is available in PublishPress Capabilities Pro."
+msgstr ""
+"הוסף קישורים מותאמים אישית לתפריט, קישורי תפריט משני ומפרידים לתפריט הניהול "
+"של WordPress. פונקציה זו זמינה ב-PublishPress Capabilities Pro."
+
+#: includes/features/admin-menus/admin-menus.php:163
+msgid "Type:"
+msgstr "סוג:"
+
+#: includes/features/admin-menus/admin-menus.php:165
+msgid "Menu Link"
+msgstr "קישור לתפריט"
+
+#: includes/features/admin-menus/admin-menus.php:166
+msgid "Submenu Link"
+msgstr "קישור לתפריט משני"
+
+#: includes/features/admin-menus/admin-menus.php:167
+msgid "Menu Separator"
+msgstr "מפריד תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:168
+msgid "Submenu Separator"
+msgstr "מפריד תפריט משני"
+
+#: includes/features/admin-menus/admin-menus.php:172
+msgid "Position:"
+msgstr "מיקום:"
+
+#: includes/features/admin-menus/admin-menus.php:174
+msgid "After"
+msgstr "אחרי"
+
+#: includes/features/admin-menus/admin-menus.php:185
+msgid "Menu Title:"
+msgstr "כותרת תפריט:"
+
+#: includes/features/admin-menus/admin-menus.php:188
+msgid "My Custom Menu"
+msgstr "התפריט המותאם שלי"
+
+#: includes/features/admin-menus/admin-menus.php:190
+msgid "Menu Title is required."
+msgstr "כותרת התפריט נדרשת."
+
+#: includes/features/admin-menus/admin-menus.php:193
+msgid "Separator Style"
+msgstr "סגנון מפריד"
+
+#: includes/features/admin-menus/admin-menus.php:195
+msgid "Line (____________________)"
+msgstr "קו (____________________)"
+
+#: includes/features/admin-menus/admin-menus.php:196
+msgid "Empty Space"
+msgstr "מרווח ריק"
+
+#: includes/features/admin-menus/admin-menus.php:197
+#: includes/features/admin-styles/admin-styles-ui.php:396
+msgid "Text"
+msgstr "טקסט"
+
+#: includes/features/admin-menus/admin-menus.php:201
+msgid "Separator Color"
+msgstr "צבע מפריד"
+
+#: includes/features/admin-menus/admin-menus.php:206
+msgid "Menu URL:"
+msgstr "כתובת URL של התפריט:"
+
+#: includes/features/admin-menus/admin-menus.php:210
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"הכנס קישור פנימי כגון %1s או קישור חיצוני כגון %2s. כל קישור יכול לשמש רק "
+"פעם אחת עבור URL של תפריט."
+
+#: includes/features/admin-menus/admin-menus.php:217
+msgid "Menu with this url already exist."
+msgstr "תפריט עם URL זה כבר קיים."
+
+#: includes/features/admin-menus/admin-menus.php:224
+msgid "Menu Capability:"
+msgstr "יכולת תפריט:"
+
+#: includes/features/admin-menus/admin-menus.php:229
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"זו היכולת הנדרשת כדי לראות את התפריט הזה. לדוגמה: %1s או %2s אם אתה מכניס "
+"יכולת מותאמת אישית, זכור להוסיף ולהקצות אותה לתפקידים המועדפים בדף היכולות"
+
+#: includes/features/admin-menus/admin-menus.php:236
+msgid "Menu Capability is required."
+msgstr "יכולת תפריט נדרשת."
+
+#: includes/features/admin-menus/admin-menus.php:240
+msgid "Menu Icon"
+msgstr "אייקון תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:245
+msgid "Save Menu Link"
+msgstr "שמור קישור לתפריט"
+
+#: includes/features/admin-menus/admin-menus.php:271
+msgid "New Menu Link"
+msgstr "קישור תפריט חדש"
+
+#: includes/features/admin-menus/admin-menus.php:443
+#: includes/features/admin-menus/admin-menus.php:604
+msgid "(Can't detect menu name)"
+msgstr "(לא ניתן לזהות את שם התפריט)"
+
+#: includes/features/admin-menus/admin-menus.php:469
+#: includes/features/admin-menus/admin-menus.php:626
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr "שם התפריט הזה אינו זמין בנתוני תפריט גלובליים או לא נרשם ישירות עם התפריט"
+
+#: includes/features/admin-menus/admin-menus.php:480
+#: includes/features/admin-menus/admin-menus.php:636
+#, php-format
+msgid "%s Role"
+msgstr "%s תפקיד"
+
+#: includes/features/admin-menus/admin-menus.php:481
+#: includes/features/admin-menus/admin-menus.php:637
+#: includes/roles/class/class-pp-roles-admin.php:577
+msgid "All Roles"
+msgstr "כל התפקידים"
+
+#: includes/features/admin-menus/admin-menus.php:483
+#: includes/features/admin-menus/admin-menus.php:640
+msgid "Save"
+msgstr "שמור"
+
+#: includes/features/admin-menus/admin-menus.php:486
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:643
+#: includes/features/admin-menus/admin-menus.php:660
+#: includes/features/admin-styles/admin-styles-ui.php:473
+#: includes/features/admin-styles/admin-styles-ui.php:488
+msgid "Cancel"
+msgstr "ביטול"
+
+#: includes/features/admin-menus/admin-menus.php:494
+#: includes/features/admin-menus/admin-menus.php:651
+msgid "This option is disabled to prevent complete lockout"
+msgstr "אפשרות זו מושבתת כדי למנוע נעילה מוחלטת"
+
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "האם אתה בטוח שברצונך למחוק את %1s? %2s %3s"
+
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:660
+msgid "Delete"
+msgstr "מחק"
+
+#: includes/features/admin-menus/admin-menus.php:513
+#: includes/features/admin-menus/admin-menus.php:670
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "היכולת הנדרשת כדי לגשת לתפריט הזה היא %s"
+
+#: includes/features/admin-menus/admin-menus.php:518
+#: includes/features/admin-menus/admin-menus.php:675
+msgid "Rename Menu"
+msgstr "שנה שם תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:524
+#: includes/features/admin-menus/admin-menus.php:681
+msgid "Move Up"
+msgstr "העבר למעלה"
+
+#: includes/features/admin-menus/admin-menus.php:527
+#: includes/features/admin-menus/admin-menus.php:684
+msgid "Move Down"
+msgstr "העבר למטה"
+
+#: includes/features/admin-menus/admin-menus.php:721
+msgid "No menu found"
+msgstr "לא נמצא תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:747
+msgid "How to use Admin Menus"
+msgstr "איך להשתמש בתפריטי מנהל"
+
+#: includes/features/admin-menus/admin-menus.php:749
+#: includes/functions-admin.php:448
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr "תפריטי מנהל מאפשרים לך לערוך את הקישורים בתפריט המנהל ולשלוט מי יש לו גישה."
+
+#: includes/features/admin-menus/admin-menus.php:760
+msgid "Admin Menus Settings"
+msgstr "הגדרות תפריטי מנהל"
+
+#: includes/features/admin-menus/admin-menus.php:765
+msgid "Show Menu Slugs"
+msgstr "הצג סלוגים של תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:770
+msgid "Reset Admin Menus"
+msgstr "אפס תפריטי מנהל"
+
+#: includes/features/admin-menus/admin-menus.php:772
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"אתה יכול לאפס את סדר התפריטים ושמותיהם למקומם ושמותיהם המקוריים. אתה יכול "
+"גם לאפס את מטמון התפריטים כדי לתקן את הבעיה של תפריט חסר."
+
+#: includes/features/admin-menus/admin-menus.php:775
+msgid "Reset Menu Order"
+msgstr "אפס סדר תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:777
+msgid "Reset Cached Menu"
+msgstr "אפס תפריט במטמון"
+
+#: includes/features/admin-menus/admin-menus.php:779
+msgid "Reset Menu Names"
+msgstr "אפס שמות תפריט"
+
+#: includes/features/admin-menus/admin-menus.php:781
+msgid "Reset Selected Option"
+msgstr "אפס אפשרות נבחרה"
+
 #: includes/features/admin-styles/admin-styles-ui.php:55
-#: includes/features/admin-styles/admin-styles-ui.php:652
 #: includes/features/admin-styles/admin-styles-ui.php:653
-#: includes/features/admin-styles/admin-styles-ui.php:738
-#: includes/features/admin-styles/admin-styles-ui.php:739
-#: includes/features/admin-styles/admin-styles.php:2351
-#: includes/features/admin-styles/admin-styles.php:2438
+#: includes/features/admin-styles/admin-styles-ui.php:654
+#: includes/features/admin-styles/admin-styles-ui.php:740
+#: includes/features/admin-styles/admin-styles-ui.php:741
+#: includes/features/admin-styles/admin-styles.php:2374
+#: includes/features/admin-styles/admin-styles.php:2612
 msgid "Default"
 msgstr "ברירת מחדל"
 
@@ -1672,9 +2039,9 @@ msgid "Admin styles saved successfully."
 msgstr "סגנונות מנהל נשמרו בהצלחה."
 
 #: includes/features/admin-styles/admin-styles-ui.php:140
-#: includes/functions-admin.php:233
-#: includes/functions-admin.php:429
-#: includes/functions-admin.php:521
+#: includes/functions-admin.php:236
+#: includes/functions-admin.php:442
+#: includes/functions-admin.php:540
 msgid "Admin Styles"
 msgstr "סגנונות מנהל"
 
@@ -1750,16 +2117,13 @@ msgid "e.g. .publishpress-wrap h1, #my-plugin-header"
 msgstr "למשל .publishpress-wrap h1, #my-plugin-header"
 
 #: includes/features/admin-styles/admin-styles-ui.php:392
+#: includes/features/admin-styles/admin-styles-ui.php:393
 msgid "Variation"
 msgstr "גרסה"
 
 #: includes/features/admin-styles/admin-styles-ui.php:395
 msgid "Background"
 msgstr "רקע"
-
-#: includes/features/admin-styles/admin-styles-ui.php:396
-msgid "Text"
-msgstr "טקסט"
 
 #: includes/features/admin-styles/admin-styles-ui.php:397
 msgid "Border"
@@ -1777,18 +2141,13 @@ msgid "Remove"
 msgstr "הסר"
 
 #: includes/features/admin-styles/admin-styles-ui.php:428
-#: includes/features/admin-styles/admin-styles.php:1195
+#: includes/features/admin-styles/admin-styles.php:1218
 msgid "Custom Style Name"
 msgstr "שם סגנון מותאם"
 
 #: includes/features/admin-styles/admin-styles-ui.php:436
 msgid "e.g., Company Branding, Dark Mode"
 msgstr "למשל, מיתוג חברה, מצב כהה"
-
-#: includes/features/admin-styles/admin-styles-ui.php:473
-#: includes/features/admin-styles/admin-styles-ui.php:488
-msgid "Cancel"
-msgstr "ביטול"
 
 #: includes/features/admin-styles/admin-styles-ui.php:479
 #: includes/features/admin-styles/admin-styles-ui.php:487
@@ -1821,12 +2180,13 @@ msgstr ""
 "על 20px בפורמט SVG או PNG."
 
 #: includes/features/admin-styles/admin-styles-ui.php:539
+#: includes/features/admin-styles/admin-styles.php:1202
 msgid "Admin logo preview"
 msgstr "תצוגה מקדימה של הלוגו של המנהל"
 
 #: includes/features/admin-styles/admin-styles-ui.php:545
 #: includes/features/admin-styles/admin-styles-ui.php:581
-#: includes/features/admin-styles/admin-styles.php:1175
+#: includes/features/admin-styles/admin-styles.php:1196
 msgid "Select Image"
 msgstr "בחר תמונה"
 
@@ -1843,6 +2203,7 @@ msgstr ""
 "בפורמט SVG או PNG."
 
 #: includes/features/admin-styles/admin-styles-ui.php:574
+#: includes/features/admin-styles/admin-styles.php:1203
 msgid "Admin favicon preview"
 msgstr "תצוגה מקדימה של ה-favicon של המנהל"
 
@@ -1862,11 +2223,19 @@ msgstr "גופנים מוכנים"
 msgid "Custom Value"
 msgstr "ערך מותאם אישית"
 
-#: includes/features/admin-styles/admin-styles-ui.php:632
+#: includes/features/admin-styles/admin-styles-ui.php:610
+msgid "Admin font family preset"
+msgstr "הגדרת משפחת גופן עבור מנהל"
+
+#: includes/features/admin-styles/admin-styles-ui.php:621
+msgid "Custom admin font family"
+msgstr "משפחת גופן מותאמת אישית עבור מנהל"
+
+#: includes/features/admin-styles/admin-styles-ui.php:633
 msgid "Admin Font Size"
 msgstr "גודל גופן מנהל"
 
-#: includes/features/admin-styles/admin-styles-ui.php:635
+#: includes/features/admin-styles/admin-styles-ui.php:636
 msgid ""
 "Set a base font size for the admin area. Leave empty to use the default "
 "WordPress size."
@@ -1874,108 +2243,125 @@ msgstr ""
 "קבע גודל גופן בסיסי לאזור הניהול. השאר ריק כדי להשתמש בגודל ברירת המחדל של "
 "WordPress."
 
-#: includes/features/admin-styles/admin-styles-ui.php:655
-#: includes/features/admin-styles/admin-styles-ui.php:741
+#: includes/features/admin-styles/admin-styles-ui.php:656
+#: includes/features/admin-styles/admin-styles-ui.php:743
 msgid "Named Sizes"
 msgstr "גדלים עם שם"
 
-#: includes/features/admin-styles/admin-styles-ui.php:661
-#: includes/features/admin-styles/admin-styles-ui.php:747
+#: includes/features/admin-styles/admin-styles-ui.php:662
+#: includes/features/admin-styles/admin-styles-ui.php:749
 msgid "Pixel Sizes"
 msgstr "גדלים בפיקסלים"
 
-#: includes/features/admin-styles/admin-styles-ui.php:674
+#: includes/features/admin-styles/admin-styles-ui.php:675
 msgid "Typography Overrides"
 msgstr "הגדרות טיפוגרפיה"
 
-#: includes/features/admin-styles/admin-styles-ui.php:676
+#: includes/features/admin-styles/admin-styles-ui.php:677
 msgid "Optional target-specific typography rules for common admin elements."
 msgstr "כללים אופציונליים ספציפיים למטרה עבור אלמנטים נפוצים במנהל."
 
-#: includes/features/admin-styles/admin-styles-ui.php:682
+#: includes/features/admin-styles/admin-styles-ui.php:683
 msgid "Body Text"
 msgstr "טקסט גוף"
 
-#: includes/features/admin-styles/admin-styles-ui.php:683
-#: includes/features/admin-styles/admin-styles.php:2092
+#: includes/features/admin-styles/admin-styles-ui.php:684
+#: includes/features/admin-styles/admin-styles.php:2115
 msgid "Links"
 msgstr "קישורים"
 
-#: includes/features/admin-styles/admin-styles-ui.php:684
+#: includes/features/admin-styles/admin-styles-ui.php:685
 msgid "Headings"
 msgstr "כותרות"
 
-#: includes/features/admin-styles/admin-styles-ui.php:685
-#: includes/features/admin-styles/admin-styles.php:2216
+#: includes/features/admin-styles/admin-styles-ui.php:686
+#: includes/features/admin-styles/admin-styles.php:2239
+#: includes/functions-admin.php:270
+#: includes/settings-ui.php:53
 msgid "Admin Menu"
 msgstr "תפריט מנהל"
 
-#: includes/features/admin-styles/admin-styles-ui.php:686
-#: includes/features/admin-styles/admin-styles.php:2258
+#: includes/features/admin-styles/admin-styles-ui.php:687
+#: includes/features/admin-styles/admin-styles.php:2281
 msgid "Admin Bar"
 msgstr "שורת מנהל"
 
-#: includes/features/admin-styles/admin-styles-ui.php:687
+#: includes/features/admin-styles/admin-styles-ui.php:688
 msgid "Form Fields"
 msgstr "שדות טופס"
 
-#: includes/features/admin-styles/admin-styles-ui.php:688
-#: includes/features/admin-styles/admin-styles.php:2186
+#: includes/features/admin-styles/admin-styles-ui.php:689
+#: includes/features/admin-styles/admin-styles.php:2209
 msgid "Buttons"
 msgstr "כפתורים"
 
-#: includes/features/admin-styles/admin-styles-ui.php:694
+#: includes/features/admin-styles/admin-styles-ui.php:695
 msgid "Target"
 msgstr "מטרה"
 
-#: includes/features/admin-styles/admin-styles-ui.php:695
+#: includes/features/admin-styles/admin-styles-ui.php:696
 msgid "Font Family"
 msgstr "משפחת גופנים"
 
-#: includes/features/admin-styles/admin-styles-ui.php:696
+#: includes/features/admin-styles/admin-styles-ui.php:697
 msgid "Font Size"
 msgstr "גודל גופן"
 
-#: includes/features/admin-styles/admin-styles-ui.php:715
+#: includes/features/admin-styles/admin-styles-ui.php:716
 msgid "Preset"
 msgstr "הגדרה מראש"
 
-#: includes/features/admin-styles/admin-styles-ui.php:716
+#: includes/features/admin-styles/admin-styles-ui.php:717
 #: includes/roles/class/class-pp-roles-list-table.php:425
 msgid "Custom"
 msgstr "מותאם אישית"
 
-#: includes/features/admin-styles/admin-styles-ui.php:764
+#: includes/features/admin-styles/admin-styles-ui.php:721
+#, php-format
+msgid "Font family for %s"
+msgstr "משפחת גופן עבור %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:731
+#, php-format
+msgid "Custom font family for %s"
+msgstr "משפחת גופן מותאמת אישית עבור %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:739
+#, php-format
+msgid "Font size for %s"
+msgstr "גודל גופן עבור %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:766
 msgid "Admin Footer Text"
 msgstr "טקסט תחתון למנהל"
 
-#: includes/features/admin-styles/admin-styles-ui.php:767
+#: includes/features/admin-styles/admin-styles-ui.php:769
 msgid ""
 "Replace the default \"Thanks for creating with WordPress\" message in the "
 "admin footer."
 msgstr "החלף את הודעת ברירת המחדל \"תודה על היצירה עם WordPress\" בתחתית המנהל."
 
-#: includes/features/admin-styles/admin-styles-ui.php:781
+#: includes/features/admin-styles/admin-styles-ui.php:783
 msgid "Replace \"Howdy\""
 msgstr "החלף \"שלום\""
 
-#: includes/features/admin-styles/admin-styles-ui.php:784
+#: includes/features/admin-styles/admin-styles-ui.php:786
 msgid "Replace \"Howdy\" in the admin bar."
 msgstr "החלף \"שלום\" בשורת המנהל."
 
-#: includes/features/admin-styles/admin-styles-ui.php:797
+#: includes/features/admin-styles/admin-styles-ui.php:799
 msgid "Control Settings"
 msgstr "הגדרות בקרת"
 
-#: includes/features/admin-styles/admin-styles-ui.php:799
+#: includes/features/admin-styles/admin-styles-ui.php:801
 msgid "Control how admin styles are applied to users."
 msgstr "בקרת איך סגנונות המנהל מוחלים על משתמשים."
 
-#: includes/features/admin-styles/admin-styles-ui.php:808
+#: includes/features/admin-styles/admin-styles-ui.php:810
 msgid "Hide Admin Color Scheme settings in user profile"
 msgstr "הסתר הגדרות סקימת צבעי מנהל בפרופיל המשתמש"
 
-#: includes/features/admin-styles/admin-styles-ui.php:810
+#: includes/features/admin-styles/admin-styles-ui.php:812
 msgid ""
 "When enabled, users cannot see or change color scheme settings in their "
 "profile. Role-based settings will be applied."
@@ -1983,11 +2369,11 @@ msgstr ""
 "כאשר זה מופעל, משתמשים לא יכולים לראות או לשנות הגדרות סקימת צבעים בפרופיל "
 "שלהם. הגדרות מבוססות תפקיד ייושמו."
 
-#: includes/features/admin-styles/admin-styles-ui.php:818
+#: includes/features/admin-styles/admin-styles-ui.php:820
 msgid "Force role settings (override user selection)"
 msgstr "כפה הגדרות תפקיד (עזוב את בחירת המשתמש)"
 
-#: includes/features/admin-styles/admin-styles-ui.php:820
+#: includes/features/admin-styles/admin-styles-ui.php:822
 msgid ""
 "When enabled, role settings will always apply, overriding any user "
 "selection even if the color scheme UI is visible to them."
@@ -1995,7 +2381,7 @@ msgstr ""
 "כאשר זה מופעל, הגדרות התפקיד יחולו תמיד, עבירות כל בחירת משתמש גם אם ממשק "
 "הצבעים גלוי להם."
 
-#: includes/features/admin-styles/admin-styles-ui.php:858
+#: includes/features/admin-styles/admin-styles-ui.php:860
 msgid ""
 "Admin Styles allows you to customize the WordPress admin area with your own "
 "branding."
@@ -2003,498 +2389,498 @@ msgstr ""
 "Admin Styles מאפשר לך להתאים אישית את אזור הניהול של WordPress עם המיתוג "
 "שלך."
 
-#: includes/features/admin-styles/admin-styles-ui.php:862
+#: includes/features/admin-styles/admin-styles-ui.php:864
 msgid "Custom admin color schemes"
 msgstr "סקימות צבע מותאמות אישית לניהול"
 
-#: includes/features/admin-styles/admin-styles-ui.php:863
+#: includes/features/admin-styles/admin-styles-ui.php:865
 msgid "Replace the WordPress logo and favicon"
 msgstr "החלף את הלוגו של WordPress ואת ה-favicon"
 
-#: includes/features/admin-styles/admin-styles-ui.php:864
+#: includes/features/admin-styles/admin-styles-ui.php:866
 msgid "Custom footer text"
 msgstr "טקסט תחתון מותאם אישית"
 
-#: includes/features/admin-styles/admin-styles-ui.php:865
+#: includes/features/admin-styles/admin-styles-ui.php:867
 msgid "Replace \"Howdy\" text"
 msgstr "החלף את טקסט \"Howdy\""
 
-#: includes/features/admin-styles/admin-styles-ui.php:868
+#: includes/features/admin-styles/admin-styles-ui.php:870
 msgid "How to use Admin Styles"
 msgstr "איך להשתמש ב-Admin Styles"
 
-#: includes/features/admin-styles/admin-styles.php:856
+#: includes/features/admin-styles/admin-styles.php:876
 msgid "Security check failed."
 msgstr "בדיקת אבטחה נכשלה."
 
-#: includes/features/admin-styles/admin-styles.php:861
+#: includes/features/admin-styles/admin-styles.php:881
 #: includes/manager.php:800
 msgid "You do not have permission to manage admin styles."
 msgstr "אין לך הרשאה לנהל את סגנונות הניהול."
 
-#: includes/features/admin-styles/admin-styles.php:925
+#: includes/features/admin-styles/admin-styles.php:945
 msgid "No role specified."
 msgstr "לא צוין תפקיד."
 
-#: includes/features/admin-styles/admin-styles.php:1176
+#: includes/features/admin-styles/admin-styles.php:1197
 msgid "Use this Image"
 msgstr "השתמש בתמונה זו"
 
-#: includes/features/admin-styles/admin-styles.php:1177
+#: includes/features/admin-styles/admin-styles.php:1198
 msgid "Saving..."
 msgstr "שומר..."
 
-#: includes/features/admin-styles/admin-styles.php:1178
+#: includes/features/admin-styles/admin-styles.php:1199
 msgid "Settings saved."
 msgstr "ההגדרות נשמרו."
 
-#: includes/features/admin-styles/admin-styles.php:1180
+#: includes/features/admin-styles/admin-styles.php:1201
 msgid "Current logo preview"
 msgstr "תצוגה מקדימה של הלוגו הנוכחי"
 
-#: includes/features/admin-styles/admin-styles.php:1181
+#: includes/features/admin-styles/admin-styles.php:1204
 msgid "Add New Custom Style"
 msgstr "הוסף סגנון מותאם חדש"
 
-#: includes/features/admin-styles/admin-styles.php:1182
+#: includes/features/admin-styles/admin-styles.php:1205
 msgid "Edit Custom Style"
 msgstr "ערוך סגנון מותאם"
 
-#: includes/features/admin-styles/admin-styles.php:1183
+#: includes/features/admin-styles/admin-styles.php:1206
 #, php-format
 msgid "Are you sure you want to delete \"%s\" custom style?"
 msgstr "האם אתה בטוח שאתה רוצה למחוק את הסגנון המותאם \"%s\"?"
 
-#: includes/features/admin-styles/admin-styles.php:1184
+#: includes/features/admin-styles/admin-styles.php:1207
 msgid "this custom style"
 msgstr "סגנון מותאם זה"
 
-#: includes/features/admin-styles/admin-styles.php:1185
+#: includes/features/admin-styles/admin-styles.php:1208
 msgid "Primary Button"
 msgstr "כפתור ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:1186
+#: includes/features/admin-styles/admin-styles.php:1209
 msgid "Hover State"
 msgstr "מצב ריחוף"
 
-#: includes/features/admin-styles/admin-styles.php:1187
+#: includes/features/admin-styles/admin-styles.php:1210
 msgid "Notification"
 msgstr "התראה"
 
-#: includes/features/admin-styles/admin-styles.php:1188
+#: includes/features/admin-styles/admin-styles.php:1211
 msgid "Live preview of your custom color scheme"
 msgstr "תצוגה חיה של סכמת הצבעים המותאמת שלך"
 
-#: includes/features/admin-styles/admin-styles.php:1189
+#: includes/features/admin-styles/admin-styles.php:1212
 msgid "Custom Style Name is required."
 msgstr "שם הסגנון המותאם נדרש."
 
-#: includes/features/admin-styles/admin-styles.php:1190
+#: includes/features/admin-styles/admin-styles.php:1213
 msgid "Main Admin Color is required."
 msgstr "צבע המנהל הראשי נדרש."
 
-#: includes/features/admin-styles/admin-styles.php:1191, fuzzy
+#: includes/features/admin-styles/admin-styles.php:1214, fuzzy
 msgid "PublishPress Custom"
 msgstr "PublishPress Custom"
 
-#: includes/features/admin-styles/admin-styles.php:1192
+#: includes/features/admin-styles/admin-styles.php:1215
 msgid "Display Name"
 msgstr "שם תצוגה"
 
-#: includes/features/admin-styles/admin-styles.php:1193
+#: includes/features/admin-styles/admin-styles.php:1216
 msgid "Change how this style is displayed"
 msgstr "שנה כיצד הסגנון הזה מוצג"
 
-#: includes/features/admin-styles/admin-styles.php:1194
+#: includes/features/admin-styles/admin-styles.php:1217
 msgid "Enter a name for your custom style"
 msgstr "הזן שם עבור הסגנון המותאם שלך"
 
-#: includes/features/admin-styles/admin-styles.php:1208
+#: includes/features/admin-styles/admin-styles.php:1231
 msgid "Forest"
 msgstr "יער"
 
-#: includes/features/admin-styles/admin-styles.php:1225
+#: includes/features/admin-styles/admin-styles.php:1248
 msgid "Mint Breeze"
 msgstr "רוח מנטה"
 
-#: includes/features/admin-styles/admin-styles.php:1242
+#: includes/features/admin-styles/admin-styles.php:1265
 msgid "Cherry"
 msgstr "דובדבן"
 
-#: includes/features/admin-styles/admin-styles.php:1259
+#: includes/features/admin-styles/admin-styles.php:1282
 msgid "Graphite"
 msgstr "גרפיט"
 
-#: includes/features/admin-styles/admin-styles.php:1276
+#: includes/features/admin-styles/admin-styles.php:1299
 msgid "Midnight Teal"
 msgstr "טיל חצות"
 
-#: includes/features/admin-styles/admin-styles.php:1293
+#: includes/features/admin-styles/admin-styles.php:1316
 msgid "Sunrise"
 msgstr "זריחה"
 
-#: includes/features/admin-styles/admin-styles.php:1310
+#: includes/features/admin-styles/admin-styles.php:1333
 msgid "Desert Sand"
 msgstr "חול מדברי"
 
-#: includes/features/admin-styles/admin-styles.php:1327
+#: includes/features/admin-styles/admin-styles.php:1350
 msgid "Amber Glow"
 msgstr "זוהר ענבר"
 
-#: includes/features/admin-styles/admin-styles.php:1344
+#: includes/features/admin-styles/admin-styles.php:1367
 msgid "Citrus"
 msgstr "סיטרוס"
 
-#: includes/features/admin-styles/admin-styles.php:1361
+#: includes/features/admin-styles/admin-styles.php:1384
 msgid "Ocean Deep"
 msgstr "אוקיאנוס עמוק"
 
-#: includes/features/admin-styles/admin-styles.php:1378
+#: includes/features/admin-styles/admin-styles.php:1401
 msgid "Sage"
 msgstr "מרווה"
 
-#: includes/features/admin-styles/admin-styles.php:1395
+#: includes/features/admin-styles/admin-styles.php:1418
 msgid "Modern Slate"
 msgstr "Slate מודרני"
 
-#: includes/features/admin-styles/admin-styles.php:1412
+#: includes/features/admin-styles/admin-styles.php:1435
 msgid "Royal Plum"
 msgstr "שזיף מלכותי"
 
-#: includes/features/admin-styles/admin-styles.php:1429
+#: includes/features/admin-styles/admin-styles.php:1452
 msgid "Nordic"
 msgstr "נורדי"
 
-#: includes/features/admin-styles/admin-styles.php:1446
+#: includes/features/admin-styles/admin-styles.php:1469
 msgid "Lagoon"
 msgstr "אגם"
 
-#: includes/features/admin-styles/admin-styles.php:1463
+#: includes/features/admin-styles/admin-styles.php:1486
 msgid "Ink"
 msgstr "דיו"
 
-#: includes/features/admin-styles/admin-styles.php:1480
+#: includes/features/admin-styles/admin-styles.php:1503
 msgid "Orchid"
 msgstr "סחלב"
 
-#: includes/features/admin-styles/admin-styles.php:1497
+#: includes/features/admin-styles/admin-styles.php:1520
 msgid "Cobalt"
 msgstr "קובלט"
 
-#: includes/features/admin-styles/admin-styles.php:1514
+#: includes/features/admin-styles/admin-styles.php:1537
 msgid "Stone"
 msgstr "אבן"
 
-#: includes/features/admin-styles/admin-styles.php:1531
+#: includes/features/admin-styles/admin-styles.php:1554
 msgid "Facebook Classic"
 msgstr "פייסבוק קלאסי"
 
-#: includes/features/admin-styles/admin-styles.php:1548
+#: includes/features/admin-styles/admin-styles.php:1571
 msgid "Twitter Classic"
 msgstr "טוויטר קלאסי"
 
-#: includes/features/admin-styles/admin-styles.php:1565
+#: includes/features/admin-styles/admin-styles.php:1588
 msgid "Twitter Modern"
 msgstr "טוויטר מודרני"
 
-#: includes/features/admin-styles/admin-styles.php:2067
+#: includes/features/admin-styles/admin-styles.php:2090
 msgid "Main Admin Color settings"
 msgstr "הגדרות צבעי מנהל ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2070
+#: includes/features/admin-styles/admin-styles.php:2093
 msgid "Main Admin Color"
 msgstr "צבע מנהל ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2071
+#: includes/features/admin-styles/admin-styles.php:2094
 msgid "Primary brand color"
 msgstr "צבע מותג ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2074
+#: includes/features/admin-styles/admin-styles.php:2097
 msgid "Text Color"
 msgstr "צבע טקסט"
 
-#: includes/features/admin-styles/admin-styles.php:2075
+#: includes/features/admin-styles/admin-styles.php:2098
 msgid "Primary text color"
 msgstr "צבע טקסט ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2078
+#: includes/features/admin-styles/admin-styles.php:2101
 msgid "Highlight Color"
 msgstr "צבע הבלטה"
 
-#: includes/features/admin-styles/admin-styles.php:2079
+#: includes/features/admin-styles/admin-styles.php:2102
 msgid "Used for hovers and highlights"
 msgstr "שימוש בהעברות והדגשות"
 
-#: includes/features/admin-styles/admin-styles.php:2082
+#: includes/features/admin-styles/admin-styles.php:2105
 msgid "Notification Color"
 msgstr "צבע התראה"
 
-#: includes/features/admin-styles/admin-styles.php:2083
+#: includes/features/admin-styles/admin-styles.php:2106
 msgid "Used for alerts and notifications"
 msgstr "שימוש בהתראות והודעות"
 
-#: includes/features/admin-styles/admin-styles.php:2086
+#: includes/features/admin-styles/admin-styles.php:2109
 msgid "Background Color"
 msgstr "צבע רקע"
 
-#: includes/features/admin-styles/admin-styles.php:2087
+#: includes/features/admin-styles/admin-styles.php:2110
 msgid "Page background color"
 msgstr "צבע רקע לעמוד"
 
-#: includes/features/admin-styles/admin-styles.php:2093
+#: includes/features/admin-styles/admin-styles.php:2116
 msgid "Link element colors"
 msgstr "צבעי אלמנט קישור"
 
-#: includes/features/admin-styles/admin-styles.php:2096
+#: includes/features/admin-styles/admin-styles.php:2119
 msgid "Default Link Color"
 msgstr "צבע קישור ברירת מחדל"
 
-#: includes/features/admin-styles/admin-styles.php:2097
+#: includes/features/admin-styles/admin-styles.php:2120
 msgid "Standard link color"
 msgstr "צבע קישור סטנדרטי"
 
-#: includes/features/admin-styles/admin-styles.php:2100
+#: includes/features/admin-styles/admin-styles.php:2123
 msgid "Link Hover Color"
 msgstr "צבע קישור בהעברה"
 
-#: includes/features/admin-styles/admin-styles.php:2101
+#: includes/features/admin-styles/admin-styles.php:2124
 msgid "Color on hover"
 msgstr "צבע בהעברה"
 
-#: includes/features/admin-styles/admin-styles.php:2104
+#: includes/features/admin-styles/admin-styles.php:2127
 msgid "Delete Link Color"
 msgstr "צבע קישור מחיקה"
 
-#: includes/features/admin-styles/admin-styles.php:2105
+#: includes/features/admin-styles/admin-styles.php:2128
 msgid "Color for delete/trash actions"
 msgstr "צבע לפעולות מחיקה/אשפה"
 
-#: includes/features/admin-styles/admin-styles.php:2108
+#: includes/features/admin-styles/admin-styles.php:2131
 msgid "Trash Link Color"
 msgstr "צבע קישור אשפה"
 
-#: includes/features/admin-styles/admin-styles.php:2109
+#: includes/features/admin-styles/admin-styles.php:2132
 msgid "Color for trash actions"
 msgstr "צבע לפעולות אשפה"
 
-#: includes/features/admin-styles/admin-styles.php:2112
+#: includes/features/admin-styles/admin-styles.php:2135
 msgid "Spam Link Color"
 msgstr "צבע קישור ספאם"
 
-#: includes/features/admin-styles/admin-styles.php:2113
+#: includes/features/admin-styles/admin-styles.php:2136
 msgid "Color for spam actions"
 msgstr "צבע לפעולות ספאם"
 
-#: includes/features/admin-styles/admin-styles.php:2116
+#: includes/features/admin-styles/admin-styles.php:2139
 msgid "Inactive Link Color"
 msgstr "צבע קישור לא פעיל"
 
-#: includes/features/admin-styles/admin-styles.php:2117
+#: includes/features/admin-styles/admin-styles.php:2140
 msgid "Color for inactive items"
 msgstr "צבע עבור פריטים לא פעילים"
 
-#: includes/features/admin-styles/admin-styles.php:2122
+#: includes/features/admin-styles/admin-styles.php:2145
 msgid "Tables"
 msgstr "טבלאות"
 
-#: includes/features/admin-styles/admin-styles.php:2123
+#: includes/features/admin-styles/admin-styles.php:2146
 msgid "Table element colors"
 msgstr "צבעי אלמנט טבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2126
+#: includes/features/admin-styles/admin-styles.php:2149
 msgid "Table Header Background"
 msgstr "רקע כותרת הטבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2130
+#: includes/features/admin-styles/admin-styles.php:2153
 msgid "Table Header Text"
 msgstr "טקסט כותרת הטבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2134
+#: includes/features/admin-styles/admin-styles.php:2157
 msgid "Table Row Background"
 msgstr "רקע שורת הטבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2138
+#: includes/features/admin-styles/admin-styles.php:2161
 msgid "Table Row Text Color"
 msgstr "צבע טקסט שורת הטבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2142
+#: includes/features/admin-styles/admin-styles.php:2165
 msgid "Row Hover Background"
 msgstr "צבע הרקע של שורת ריחוף"
 
-#: includes/features/admin-styles/admin-styles.php:2146
+#: includes/features/admin-styles/admin-styles.php:2169
 msgid "Table Border Color"
 msgstr "צבע גבול הטבלה"
 
-#: includes/features/admin-styles/admin-styles.php:2150
+#: includes/features/admin-styles/admin-styles.php:2173
 msgid "Alternate Row Background"
 msgstr "צבע הרקע של שורה חלופית"
 
-#: includes/features/admin-styles/admin-styles.php:2154
+#: includes/features/admin-styles/admin-styles.php:2177
 msgid "Alternate Row Text Color"
 msgstr "צבע טקסט של שורה חלופית"
 
-#: includes/features/admin-styles/admin-styles.php:2160
+#: includes/features/admin-styles/admin-styles.php:2183
 msgid "Forms"
 msgstr "טפסים"
 
-#: includes/features/admin-styles/admin-styles.php:2161
+#: includes/features/admin-styles/admin-styles.php:2184
 msgid "Form input colors"
 msgstr "צבעי קלט בטפסים"
 
-#: includes/features/admin-styles/admin-styles.php:2164
+#: includes/features/admin-styles/admin-styles.php:2187
 msgid "Input Border Color"
 msgstr "צבע גבול הקלט"
 
-#: includes/features/admin-styles/admin-styles.php:2168
+#: includes/features/admin-styles/admin-styles.php:2191
 msgid "Input Focus Border"
 msgstr "גבול קלט במוקד"
 
-#: includes/features/admin-styles/admin-styles.php:2172
+#: includes/features/admin-styles/admin-styles.php:2195
 msgid "Input Background Color"
 msgstr "צבע הרקע של הקלט"
 
-#: includes/features/admin-styles/admin-styles.php:2176
+#: includes/features/admin-styles/admin-styles.php:2199
 msgid "Input Text Color"
 msgstr "צבע טקסט של הקלט"
 
-#: includes/features/admin-styles/admin-styles.php:2180
+#: includes/features/admin-styles/admin-styles.php:2203
 msgid "Placeholder Text Color"
 msgstr "צבע טקסט מציין"
 
-#: includes/features/admin-styles/admin-styles.php:2187
+#: includes/features/admin-styles/admin-styles.php:2210
 msgid "Button colors"
 msgstr "צבעי כפתורים"
 
-#: includes/features/admin-styles/admin-styles.php:2190
+#: includes/features/admin-styles/admin-styles.php:2213
 msgid "Primary Button Background"
 msgstr "רקע כפתור ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2194
+#: includes/features/admin-styles/admin-styles.php:2217
 msgid "Primary Button Text"
 msgstr "טקסט כפתור ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2198
+#: includes/features/admin-styles/admin-styles.php:2221
 msgid "Primary Button Hover"
 msgstr "ריחוף כפתור ראשי"
 
-#: includes/features/admin-styles/admin-styles.php:2202
+#: includes/features/admin-styles/admin-styles.php:2225
 msgid "Secondary Button Background"
 msgstr "רקע כפתור משני"
 
-#: includes/features/admin-styles/admin-styles.php:2206
+#: includes/features/admin-styles/admin-styles.php:2229
 msgid "Secondary Button Text"
 msgstr "טקסט כפתור משני"
 
-#: includes/features/admin-styles/admin-styles.php:2210
+#: includes/features/admin-styles/admin-styles.php:2233
 msgid "Secondary Button Hover"
 msgstr "ריחוף כפתור משני"
 
-#: includes/features/admin-styles/admin-styles.php:2217
+#: includes/features/admin-styles/admin-styles.php:2240
 msgid "Admin menu colors"
 msgstr "צבעי תפריט ניהול"
 
-#: includes/features/admin-styles/admin-styles.php:2220
+#: includes/features/admin-styles/admin-styles.php:2243
 msgid "Menu Background"
 msgstr "רקע תפריט"
 
-#: includes/features/admin-styles/admin-styles.php:2224
+#: includes/features/admin-styles/admin-styles.php:2247
 msgid "Menu Text Color"
 msgstr "צבע טקסט בתפריט"
 
-#: includes/features/admin-styles/admin-styles.php:2228
+#: includes/features/admin-styles/admin-styles.php:2251
 msgid "Menu Icon Color"
 msgstr "צבע אייקון בתפריט"
 
-#: includes/features/admin-styles/admin-styles.php:2232
+#: includes/features/admin-styles/admin-styles.php:2255
 msgid "Menu Hover Background"
 msgstr "רקע ריחוף בתפריט"
 
-#: includes/features/admin-styles/admin-styles.php:2236
+#: includes/features/admin-styles/admin-styles.php:2259
 msgid "Menu Hover Text"
 msgstr "טקסט ריחוף בתפריט"
 
-#: includes/features/admin-styles/admin-styles.php:2240
+#: includes/features/admin-styles/admin-styles.php:2263
 msgid "Current Menu Background"
 msgstr "רקע תפריט נוכחי"
 
-#: includes/features/admin-styles/admin-styles.php:2244
+#: includes/features/admin-styles/admin-styles.php:2267
 msgid "Current Menu Text"
 msgstr "טקסט תפריט נוכחי"
 
-#: includes/features/admin-styles/admin-styles.php:2248
+#: includes/features/admin-styles/admin-styles.php:2271
 msgid "Submenu Background"
 msgstr "רקע תפריט משנה"
 
-#: includes/features/admin-styles/admin-styles.php:2252
+#: includes/features/admin-styles/admin-styles.php:2275
 msgid "Submenu Text Color"
 msgstr "צבע טקסט בתפריט משנה"
 
-#: includes/features/admin-styles/admin-styles.php:2259
+#: includes/features/admin-styles/admin-styles.php:2282
 msgid "Admin bar colors"
 msgstr "צבעים של שורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2262
+#: includes/features/admin-styles/admin-styles.php:2285
 msgid "Admin Bar Background"
 msgstr "רקע שורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2266
+#: includes/features/admin-styles/admin-styles.php:2289
 msgid "Admin Bar Text"
 msgstr "טקסט שורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2270
+#: includes/features/admin-styles/admin-styles.php:2293
 msgid "Admin Bar Icon"
 msgstr "אייקון שורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2274
+#: includes/features/admin-styles/admin-styles.php:2297
 msgid "Admin Bar Hover Background"
 msgstr "רקע ריחוף בשורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2278
+#: includes/features/admin-styles/admin-styles.php:2301
 msgid "Admin Bar Hover Text"
 msgstr "טקסט ריחוף בשורת מנהל"
 
-#: includes/features/admin-styles/admin-styles.php:2284
+#: includes/features/admin-styles/admin-styles.php:2307
 msgid "Dashboard Widgets"
 msgstr "ווידג'טים בלוח הבקרה"
 
-#: includes/features/admin-styles/admin-styles.php:2285
+#: includes/features/admin-styles/admin-styles.php:2308
 msgid "Dashboard widget colors"
 msgstr "צבעים של ווידג'ט בלוח הבקרה"
 
-#: includes/features/admin-styles/admin-styles.php:2288
+#: includes/features/admin-styles/admin-styles.php:2311
 msgid "Widget Background"
 msgstr "רקע ווידג'ט"
 
-#: includes/features/admin-styles/admin-styles.php:2292
+#: includes/features/admin-styles/admin-styles.php:2315
 msgid "Widget Border"
 msgstr "גבול ווידג'ט"
 
-#: includes/features/admin-styles/admin-styles.php:2296
+#: includes/features/admin-styles/admin-styles.php:2319
 msgid "Widget Header Background"
 msgstr "רקע כותרת ווידג'ט"
 
-#: includes/features/admin-styles/admin-styles.php:2300
+#: includes/features/admin-styles/admin-styles.php:2323
 msgid "Widget Title Text"
 msgstr "טקסט כותרת ווידג'ט"
 
-#: includes/features/admin-styles/admin-styles.php:2304
+#: includes/features/admin-styles/admin-styles.php:2327
 msgid "Widget Body Text"
 msgstr "טקסט גוף ה-widget"
 
-#: includes/features/admin-styles/admin-styles.php:2308
+#: includes/features/admin-styles/admin-styles.php:2331
 msgid "Widget Link"
 msgstr "קישור ה-widget"
 
-#: includes/features/admin-styles/admin-styles.php:2312
+#: includes/features/admin-styles/admin-styles.php:2335
 msgid "Widget Link Hover"
 msgstr "ה-hover של קישור ה-widget"
 
-#: includes/features/admin-styles/admin-styles.php:2318
+#: includes/features/admin-styles/admin-styles.php:2341
 #: includes/roles/class/class-pp-roles-admin.php:123
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: includes/features/admin-styles/admin-styles.php:2319
+#: includes/features/admin-styles/admin-styles.php:2342
 msgid "Custom selector color rules"
 msgstr "כללי צבע בורר מותאמים אישית"
 
@@ -2502,6 +2888,12 @@ msgstr "כללי צבע בורר מותאמים אישית"
 #, php-format
 msgid "Classic Editor %s Restrictions"
 msgstr "מגבלות עורך הקלאסי %s"
+
+#: includes/features/editor-features-classic.php:7
+#: includes/features/editor-features-gutenberg.php:7
+#, php-format
+msgid "Select all %s editor restrictions"
+msgstr "בחר את כל ההגבלות של העורך %s"
 
 #: includes/features/editor-features-classic.php:162
 #: includes/features/editor-features-gutenberg.php:158
@@ -2548,7 +2940,7 @@ msgid "show Classic Editor controls"
 msgstr "הצג את בקרי עורך הקלאסי"
 
 #: includes/features/editor-features.php:240
-#: includes/functions-admin.php:420
+#: includes/functions-admin.php:433
 msgid "Editor Features allows you to remove elements from the post editing screen."
 msgstr "תכונות העורך מאפשרות לך להסיר רכיבים מעמוד עריכת הפוסט."
 
@@ -2602,9 +2994,9 @@ msgstr "הסתר כותרת קרדיט של Twenty Twenty-Three"
 
 #: includes/features/frontend-features/frontend-features-metaboxes.php:55
 #: includes/features/frontend-features/frontend-features.php:70
-#: includes/functions-admin.php:244
-#: includes/functions-admin.php:444
-#: includes/functions-admin.php:558
+#: includes/functions-admin.php:247
+#: includes/functions-admin.php:463
+#: includes/functions-admin.php:575
 msgid "Frontend Features"
 msgstr "תכונות קדמיות"
 
@@ -2613,6 +3005,11 @@ msgid "Choose Frontend Features that will apply to this post."
 msgstr "בחר תכונות קדמיות שיחולו על פוסט זה."
 
 #: includes/features/frontend-features/frontend-features-metaboxes.php:94
+#, php-format
+msgid "Select %1$s"
+msgstr "בחר %1$s"
+
+#: includes/features/frontend-features/frontend-features-metaboxes.php:95
 #, php-format
 msgid "Select %1$s..."
 msgstr "בחר %1$s..."
@@ -2657,6 +3054,10 @@ msgstr "הוסף CSS מותאם אישית"
 msgid "Add Body Class"
 msgstr "הוסף מחלקת גוף"
 
+#: includes/features/frontend-features/frontend-features-ui.php:79
+msgid "IDs or classes to hide"
+msgstr "מזהים או מחלקות להסתיר"
+
 #: includes/features/frontend-features/frontend-features-ui.php:81
 msgid ""
 "Enter IDs or classes to hide. Separate multiple values with a comma "
@@ -2665,6 +3066,11 @@ msgstr ""
 "הזן מזהים או מחלקות להסתיר. הפרד ערכים מרובים באמצעות פסיקים "
 "(.custom-item-one, .custom-item-two, #new-item-id)."
 
+#: includes/features/frontend-features/frontend-features-ui.php:87
+#: includes/features/frontend-features/frontend-features-ui.php:231
+msgid "Custom CSS"
+msgstr "CSS מותאם"
+
 #: includes/features/frontend-features/frontend-features-ui.php:92
 msgid ""
 "Enter custom CSS to be added to frontend pages. Examples: .custom-style-1 { "
@@ -2672,6 +3078,10 @@ msgid ""
 msgstr ""
 "הזן CSS מותאם אישית שיתווסף לדפי הקצה הקדמי. דוגמאות: .custom-style-1 { "
 "color: red; } #custom-header { background: red; } "
+
+#: includes/features/frontend-features/frontend-features-ui.php:96
+msgid "Body classes"
+msgstr "מחלקות גוף"
 
 #: includes/features/frontend-features/frontend-features-ui.php:98
 msgid "Enter classes to add the body HTML. Do not include the . before the HTML."
@@ -2736,14 +3146,6 @@ msgstr "זיהויים או מחלקות מוסתרות"
 msgid "Body Class"
 msgstr "מחלקת גוף"
 
-#: includes/features/frontend-features/frontend-features-ui.php:231
-msgid "Custom CSS"
-msgstr "CSS מותאם"
-
-#: includes/features/frontend-features/frontend-features-ui.php:240
-msgid "Pages"
-msgstr "עמודים"
-
 #: includes/features/frontend-features/frontend-features-ui.php:248
 msgid "Post Type Metabox"
 msgstr "תיבת מטא סוג פוסט"
@@ -2758,7 +3160,7 @@ msgid "Enable Frontend Features for %1$s Role"
 msgstr "אפשר תכונות צד קדמי עבור תפקיד %1$s"
 
 #: includes/features/frontend-features/frontend-features.php:249
-#: includes/functions-admin.php:445
+#: includes/functions-admin.php:464
 msgid ""
 "Frontend Features allows you to add or remove elements from the frontend of "
 "your site."
@@ -2785,7 +3187,7 @@ msgstr ""
 "תפריט."
 
 #: includes/features/nav-menus.php:301
-#: includes/functions-admin.php:450
+#: includes/functions-admin.php:469
 msgid "Navigation Menus allows you to block access to frontend menu links."
 msgstr "תפריטי ניווט מאפשרים לך לחסום גישה לקישורי תפריט צד קדמי."
 
@@ -2797,11 +3199,11 @@ msgstr "איך להשתמש בתפריטי ניווט"
 msgid "Profile Feature Restrictions"
 msgstr "הגבלות על תכונות פרופיל"
 
-#: includes/features/profile-features.php:141
+#: includes/features/profile-features.php:144
 msgid "Click the \"Find profile items for this role\" button."
 msgstr "לחץ על הכפתור \"מצא פריטי פרופיל עבור תפקיד זה\"."
 
-#: includes/features/profile-features.php:143
+#: includes/features/profile-features.php:146
 msgid ""
 "There are no users in this role. Please select a role that has users and is "
 "able to access the \"Profile\" screen."
@@ -2809,34 +3211,34 @@ msgstr ""
 "אין משתמשים בתפקיד זה. אנא בחר תפקיד שיש בו משתמשים ויכול לגשת למסך "
 "\"פרופיל\"."
 
-#: includes/features/profile-features.php:240
+#: includes/features/profile-features.php:243
 msgid "Allow PublishPress to find profile items for this role."
 msgstr "אפשר ל-PublishPress למצוא פריטי פרופיל עבור תפקיד זה."
 
-#: includes/features/profile-features.php:241
+#: includes/features/profile-features.php:244
 msgid "Find profile items for this role"
 msgstr "מצא פריטי פרופיל עבור תפקיד זה"
 
-#: includes/features/profile-features.php:242
+#: includes/features/profile-features.php:245
 #, php-format
 msgid "The %s role is not enabled for editing. The Find button is disabled."
 msgstr "תפקיד %s לא מופעל לעריכה. כפתור החיפוש מושבת."
 
-#: includes/features/profile-features.php:243
+#: includes/features/profile-features.php:246
 #, php-format
 msgid "This feature will test the \"Profile\" screen as a user in the %s role."
 msgstr "תכונה זו תבדוק את מסך \"פרופיל\" כמשתמש בתפקיד %s."
 
-#: includes/features/profile-features.php:245
+#: includes/features/profile-features.php:248
 msgid "Refresh Profile Features"
 msgstr "רענן תכונות פרופיל"
 
-#: includes/features/profile-features.php:250
-#: includes/functions-admin.php:435
+#: includes/features/profile-features.php:253
+#: includes/functions-admin.php:454
 msgid "Profile Features allows you to remove elements from the Profile screen."
 msgstr "תכונות פרופיל מאפשרות לך להסיר אלמנטים ממסך הפרופיל."
 
-#: includes/features/profile-features.php:258
+#: includes/features/profile-features.php:261
 msgid "How to use Profile Features"
 msgstr "איך להשתמש בתכונות פרופיל"
 
@@ -3067,76 +3469,76 @@ msgstr "תפקיד שסופק אינו חוקי."
 msgid "Profile features access enabled for this role."
 msgstr "גישה לתכונות פרופיל מופעלת עבור תפקיד זה."
 
-#: includes/functions-admin.php:217
-#: includes/functions-admin.php:419
-#: includes/functions-admin.php:507
+#: includes/functions-admin.php:220
+#: includes/functions-admin.php:432
+#: includes/functions-admin.php:526
 #: includes/roles/class/class-pp-roles-admin.php:553
 #: includes/settings-ui.php:36
 msgid "Editor Features"
 msgstr "תכונות עורך"
 
-#: includes/functions-admin.php:228
-#: includes/functions-admin.php:424
-#: includes/functions-admin.php:514
+#: includes/functions-admin.php:231
+#: includes/functions-admin.php:437
+#: includes/functions-admin.php:533
 #: includes/roles/class/class-pp-roles-admin.php:554
 msgid "Admin Features"
 msgstr "תכונות מנהל"
 
-#: includes/functions-admin.php:248
-#: includes/functions-admin.php:434
-#: includes/functions-admin.php:544
+#: includes/functions-admin.php:251
+#: includes/functions-admin.php:453
+#: includes/functions-admin.php:561
 #: includes/roles/class/class-pp-roles-admin.php:555
 #: includes/settings-ui.php:37
 msgid "Profile Features"
 msgstr "תכונות פרופיל"
 
-#: includes/functions-admin.php:254
-#: includes/functions-admin.php:439
-#: includes/functions-admin.php:551
+#: includes/functions-admin.php:257
+#: includes/functions-admin.php:458
+#: includes/functions-admin.php:568
 msgid "Redirects"
 msgstr "הפניות"
 
-#: includes/functions-admin.php:258
+#: includes/functions-admin.php:261
 msgid "Nav Menu"
 msgstr "תפריט ניווט"
 
-#: includes/functions-admin.php:262
+#: includes/functions-admin.php:265
 msgid "Application Password Capabilities"
 msgstr "יכולות סיסמת אפליקציה"
 
-#: includes/functions-admin.php:410
+#: includes/functions-admin.php:423
 msgid ""
 "Roles allows you to create, edit, and delete all the user roles on your "
 "site."
 msgstr "תפקידים מאפשרים לך ליצור, לערוך ולמחוק את כל תפקידי המשתמש באתר שלך."
 
-#: includes/functions-admin.php:415
+#: includes/functions-admin.php:428
 msgid "Capabilities allows you to change the permissions for any user role."
 msgstr "יכולות מאפשרות לך לשנות את ההרשאות עבור כל תפקיד משתמש."
 
-#: includes/functions-admin.php:430
+#: includes/functions-admin.php:443
 msgid "Admin Styles allows you to customize the admin area with your own branding."
 msgstr "סגנונות מנהל מאפשרים לך להתאים אישית את אזור המנהל עם המיתוג שלך."
 
-#: includes/functions-admin.php:440
+#: includes/functions-admin.php:459
 msgid ""
 "Redirects allows you to redirect users in a role after Registration, Login "
 "or Logout."
 msgstr "הפניות מאפשרות לך להפנות משתמשים בתפקיד לאחר רישום, כניסה או יציאה."
 
-#: includes/functions-admin.php:449
-#: includes/functions-admin.php:565
+#: includes/functions-admin.php:468
+#: includes/functions-admin.php:582
 #: includes/roles/class/class-pp-roles-admin.php:557
 msgid "Navigation Menus"
 msgstr "תפריטי ניווט"
 
-#: includes/functions-admin.php:454
-#: includes/settings-ui.php:39
+#: includes/functions-admin.php:473
+#: includes/settings-ui.php:40
 #: includes/test-user-ui.php:38
 msgid "User Testing"
 msgstr "בדיקות משתמשים"
 
-#: includes/functions-admin.php:455
+#: includes/functions-admin.php:474
 msgid ""
 "Test your site by instantly logging in as another user. Available accounts "
 "include any which the current user can edit."
@@ -3144,7 +3546,7 @@ msgstr ""
 "בדוק את האתר שלך על ידי כניסה מיידית כמשתמש אחר. חשבונות זמינים כוללים כל "
 "אחד שהמשתמש הנוכחי יכול לערוך."
 
-#: includes/functions-admin.php:460
+#: includes/functions-admin.php:479
 msgid ""
 "Remove Admin Notices from WordPress admin screen and organize them in to a "
 "single area."
@@ -3153,10 +3555,6 @@ msgstr "הסר הודעות מנהל משטח הניהול של WordPress ואר
 #: includes/functions.php:713
 msgid "Login permission denied."
 msgstr "הרשאת כניסה נדחתה."
-
-#: includes/functions.php:805
-msgid "You do not have permission to access this page."
-msgstr "אין לך הרשאה לגשת לדף זה."
 
 #: includes/functions.php:878
 msgid "Need PublishPress Capabilities Support?"
@@ -3316,16 +3714,6 @@ msgstr "אין לך הרשאה לנהל תפקידים."
 msgid "You do not have permission to manage editor features."
 msgstr "אין לך הרשאה לנהל תכונות עורך."
 
-#: includes/manager.php:683
-#: includes/manager.php:737
-#: includes/manager.php:785
-#: includes/manager.php:879
-#: includes/manager.php:928
-#: includes/manager.php:1010
-#: includes/manager.php:1091
-msgid "Settings updated."
-msgstr "הגדרות עודכנו."
-
 #: includes/manager.php:699
 #: includes/manager.php:721
 #: includes/manager.php:893
@@ -3384,34 +3772,67 @@ msgstr "אין לך הרשאה לבצע פעולה זו."
 msgid "Select at least one role to export."
 msgstr "בחר לפחות תפקיד אחד כדי לייצא."
 
-#: includes/manager.php:1698
+#: includes/manager.php:1654
+msgid ""
+"There are no users in this role on this site. Add a user to this role, then "
+"find profile items again."
+msgstr ""
+"אין משתמשים בתפקיד זה באתר הזה. הוסף משתמש לתפקיד זה, ואז מצא שוב את פריטי "
+"הפרופיל."
+
+#: includes/manager.php:1664
+msgid ""
+"Profile items could not be detected because User Testing is disabled, you "
+"cannot test the user in this role, or the user cannot access the Profile "
+"screen."
+msgstr ""
+"לא ניתן לזהות את פריטי הפרופיל מכיוון שהבדיקות של המשתמש מושבתות, אינך יכול "
+"לבדוק את המשתמש בתפקיד זה, או שהמשתמש אינו יכול לגשת למסך הפרופיל."
+
+#: includes/manager.php:1715
 #, php-format
 msgid "If you like %s, please leave us a %s rating. Thank you!"
 msgstr "אם אתה אוהב %s, אנא השאר לנו דירוג %s. תודה!"
 
-#: includes/manager.php:1709
+#: includes/manager.php:1726
 msgid "About PublishPress Capabilities"
 msgstr "על יכולות PublishPress"
 
-#: includes/manager.php:1709
+#: includes/manager.php:1726
 msgid "About"
 msgstr "על"
 
-#: includes/manager.php:1711
+#: includes/manager.php:1728
 msgid "Capabilites Documentation"
 msgstr "תיעוד יכולות"
 
-#: includes/manager.php:1711
+#: includes/manager.php:1728
 msgid "Documentation"
 msgstr "תיעוד"
 
-#: includes/manager.php:1713
+#: includes/manager.php:1730
 msgid "Contact the PublishPress team"
 msgstr "צור קשר עם צוות PublishPress"
 
-#: includes/manager.php:1713
+#: includes/manager.php:1730
 msgid "Contact"
 msgstr "צור קשר"
+
+#: includes/plugin-capabilities/publishpress-cart.php:34
+msgid "Products"
+msgstr "מוצרים"
+
+#: includes/plugin-capabilities/publishpress-cart.php:35
+msgid "Orders"
+msgstr "הזמנות"
+
+#: includes/plugin-capabilities/publishpress-cart.php:36
+msgid "Subscriptions"
+msgstr "מנויים"
+
+#: includes/plugin-capabilities/publishpress-cart.php:49
+msgid "Upsell Paths"
+msgstr "דרכי מכירה נוספות"
 
 #: includes/plugin-capabilities/publishpress-permissions.php:28
 msgid "Permissions & Access"
@@ -3994,10 +4415,6 @@ msgstr "העתק תפקיד"
 msgid "Create New Role"
 msgstr "צור תפקיד חדש"
 
-#: includes/roles/class/class-pp-roles-admin.php:577
-msgid "All Roles"
-msgstr "כל התפקידים"
-
 #: includes/roles/class/class-pp-roles-admin.php:682
 #, php-format
 msgid "These can be edited on the %1s Capabilities screen %2s"
@@ -4116,27 +4533,47 @@ msgstr "WordPress Core"
 msgid "Search Roles"
 msgstr "חפש תפקידים"
 
-#: includes/settings-ui.php:53
+#: includes/settings-ui.php:55
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "תפריטי מנהל: טיפול בריבוי תפקידים"
+
+#: includes/settings-ui.php:58
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr "הכי מתירני: כל תפקיד משתמש לא מוגבל מאפשר גישה"
+
+#: includes/settings-ui.php:61
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "הכי מגביל: כל תפקיד משתמש מוגבל מונע גישה"
+
+#: includes/settings-ui.php:65
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"זה שולט אם היתרים הכי מתירניים או הכי מגבילים מוחלים אם למשתמש יש תפקידים "
+"מרובים."
+
+#: includes/settings-ui.php:78
 msgid "Multiples roles on \"Add New User\" screen"
 msgstr "תפקידים מרובים במסך \"הוסף משתמש חדש\""
 
-#: includes/settings-ui.php:58
+#: includes/settings-ui.php:83
 msgid "This allows you to assign a new user to multiples roles."
 msgstr "זה מאפשר לך להקצות משתמש חדש לתפקידים מרובים."
 
-#: includes/settings-ui.php:66
+#: includes/settings-ui.php:91
 msgid "Multiples roles on \"User Edit\" screen"
 msgstr "תפקידים מרובים במסך \"עריכת משתמש\""
 
-#: includes/settings-ui.php:71
+#: includes/settings-ui.php:96
 msgid "This allows you to assign an existing user to multiple roles."
 msgstr "זה מאפשר לך להקצות משתמש קיים לתפקידים מרובים."
 
-#: includes/settings-ui.php:79
+#: includes/settings-ui.php:104
 msgid "Set login redirect cookie"
 msgstr "הגדר קובץ עוגייה להפניה להתחברות"
 
-#: includes/settings-ui.php:84
+#: includes/settings-ui.php:109
 msgid ""
 "Use cookie to determine pages users were viewing before login. This is "
 "useful when login redirect is not working correctly due to wp_get_referer() "
@@ -4145,12 +4582,12 @@ msgstr ""
 "השתמש בקובץ עוגייה כדי לקבוע אילו דפים המשתמשים צפו בהם לפני ההתחברות. זה "
 "מועיל כאשר הפניית ההתחברות לא פועלת כראוי בגלל מגבלה של wp_get_referer()."
 
-#: includes/settings-ui.php:97
-#: includes/settings-ui.php:144
+#: includes/settings-ui.php:122
+#: includes/settings-ui.php:169
 msgid "Show private post types"
 msgstr "הצג סוגי פוסטים פרטיים"
 
-#: includes/settings-ui.php:102
+#: includes/settings-ui.php:127
 msgid ""
 "This will show all post types on the \"Capabilities\" screen, even ones "
 "normally hidden in the WordPress admin area."
@@ -4158,11 +4595,11 @@ msgstr ""
 "זה יראה את כל סוגי הפוסטים במסך \"יכולות\", אפילו את אלו שנסתרים בדרך כלל "
 "באזור הניהול של WordPress."
 
-#: includes/settings-ui.php:110
+#: includes/settings-ui.php:135
 msgid "Show private taxonomies"
 msgstr "הצג טקסונומיות פרטיות"
 
-#: includes/settings-ui.php:115
+#: includes/settings-ui.php:140
 msgid ""
 "This will show all taxonomies on the \"Capabilities\" screen, even ones "
 "normally hidden in the WordPress admin area."
@@ -4170,11 +4607,11 @@ msgstr ""
 "זה יראה את כל הטקסונומיות במסך \"יכולות\", אפילו את אלו שנסתרים בדרך כלל "
 "באזור הניהול של WordPress."
 
-#: includes/settings-ui.php:123
+#: includes/settings-ui.php:148
 msgid "Application password capabilities"
 msgstr "יכולות סיסמת אפליקציה"
 
-#: includes/settings-ui.php:128
+#: includes/settings-ui.php:153
 msgid ""
 "Allow the Capabilities screen to deny selected capabilities for individual "
 "WordPress application passwords."
@@ -4182,7 +4619,7 @@ msgstr ""
 "אפשר למסך היכולות לדחות יכולות שנבחרו עבור סיסמאות אפליקציה אינדיבידואליות "
 "של WordPress."
 
-#: includes/settings-ui.php:149
+#: includes/settings-ui.php:174
 msgid ""
 "Show all post types on the \"Editor Features\" screen, even ones normally "
 "hidden in the WordPress admin area."
@@ -4190,55 +4627,55 @@ msgstr ""
 "הצג את כל סוגי הפוסטים במסך \"תכונות עורך\", אפילו את אלו שנסתרים בדרך כלל "
 "באזור הניהול של WordPress."
 
-#: includes/settings-ui.php:157
+#: includes/settings-ui.php:182
 msgid "Enable Classic Editor tab"
 msgstr "אפשר לשונית עורך קלאסי"
 
-#: includes/settings-ui.php:162
+#: includes/settings-ui.php:187
 msgid "Always show the Classic Editor tab in \"Editor Features\" screen."
 msgstr "הצג תמיד את לשונית העורך הקלאסי במסך \"תכונות עורך\"."
 
-#: includes/settings-ui.php:175
+#: includes/settings-ui.php:200
 msgid "Admin Bar modification"
 msgstr "שינוי שורת הניהול"
 
-#: includes/settings-ui.php:180
+#: includes/settings-ui.php:205
 msgid "When testing, display a caption and return link in the Admin Bar."
 msgstr "בעת בדיקה, הצג כותרת וקישור חזרה בשורת הניהול."
 
-#: includes/settings-ui.php:188
+#: includes/settings-ui.php:213
 msgid "Admin Bar search"
 msgstr "חיפוש בשורת הניהול"
 
-#: includes/settings-ui.php:193
+#: includes/settings-ui.php:218
 msgid "Add option to search and user testing in the Admin Bar."
 msgstr "הוסף אפשרות לחיפוש ובדיקת משתמשים בשורת הניהול."
 
-#: includes/settings-ui.php:201
+#: includes/settings-ui.php:226
 msgid "Front End footer notice"
 msgstr "הודעת תחתית בחזית"
 
-#: includes/settings-ui.php:206
+#: includes/settings-ui.php:231
 msgid "When testing, display a return link in the front end footer."
 msgstr "בעת בדיקה, הצג קישור חזרה בתחתית החזית."
 
-#: includes/settings-ui.php:217
+#: includes/settings-ui.php:242
 msgid "Exclude role from User Testing"
 msgstr "לשלול תפקיד מבחינת משתמשים"
 
-#: includes/settings-ui.php:224
+#: includes/settings-ui.php:249
 msgid "Select roles..."
 msgstr "בחר תפקידים..."
 
-#: includes/settings-ui.php:238
+#: includes/settings-ui.php:263
 msgid "Exclude users in selected roles from User Testing."
 msgstr "לשלול משתמשים בתפקידים שנבחרו מבחינת משתמשים."
 
-#: includes/settings-ui.php:252
+#: includes/settings-ui.php:277
 msgid "Automatically refresh profile elements"
 msgstr "עדכון אוטומטי של רכיבי פרופיל"
 
-#: includes/settings-ui.php:257
+#: includes/settings-ui.php:282
 msgid ""
 "Always try to automatically find profile elements. This may cause temporary "
 "issues when updating user roles that do not have access to the WordPress "
@@ -4395,6 +4832,7 @@ msgid ""
 msgstr "הגדרות הרשאות ישירות עבור משתמש זה. אלה נפרדות מיכולות תפקידים של WordPress."
 
 #: includes/user-capabilities-view.php:182
+#: includes/user-capabilities-view.php:242
 #, php-format
 msgid "Extra Roles (%d)"
 msgstr "תפקידים נוספים (%d)"
@@ -4404,6 +4842,7 @@ msgid "This user has no direct extra roles."
 msgstr "למשתמש הזה אין תפקידים נוספים ישירים."
 
 #: includes/user-capabilities-view.php:204
+#: includes/user-capabilities-view.php:250
 #, php-format
 msgid "Specific Permissions (%d)"
 msgstr "הרשאות ספציפיות (%d)"
@@ -4413,6 +4852,7 @@ msgid "This user has no direct specific permissions."
 msgstr "למשתמש הזה אין הרשאות ספציפיות ישירות."
 
 #: includes/user-capabilities-view.php:226
+#: includes/user-capabilities-view.php:261
 #, php-format
 msgid ""
 "Showing the first 50 of %d permissions. Use the Permissions editor to view "
@@ -4421,15 +4861,32 @@ msgstr ""
 "מראה את ה-50 הראשונים מתוך %d הרשאות. השתמש בעורך ההרשאות כדי לראות את "
 "הרשימה המלאה."
 
-#: includes/user-capabilities-view.php:238
+#: includes/user-capabilities-view.php:234
+msgid "Inherited Group Permissions"
+msgstr "הרשאות קבוצת ירושה"
+
+#: includes/user-capabilities-view.php:235
+msgid ""
+"Extra roles and specific permissions assigned to this user?s active groups, "
+"including WordPress role groups. These assignments are managed on the group."
+msgstr ""
+"תפקידים נוספים והרשאות ספציפיות שהוקצו לקבוצות הפעילות של משתמש זה, כולל "
+"קבוצות תפקידים של WordPress. ההקצאות הללו מנוהלות על ידי הקבוצה."
+
+#: includes/user-capabilities-view.php:237
+msgid "This user has no group-assigned extra roles or specific permissions."
+msgstr "למשתמש זה אין תפקידים נוספים או הרשאות ספציפיות שהוקצו על ידי הקבוצה."
+
+#: includes/user-capabilities-view.php:271
 msgid "Edit Extra Roles"
 msgstr "ערוך תפקידים נוספים"
 
-#: includes/user-capabilities-view.php:243
+#: includes/user-capabilities-view.php:276
 msgid "Edit Specific Permissions"
 msgstr "ערוך הרשאות ספציפיות"
 
 #: common/js/admin.dev.js:1118
+#: includes/features/admin-menus/assets/js/admin-menus.js:184
 msgid "Updating Settings..."
 msgstr "עדכון הגדרות..."
 
@@ -4443,5 +4900,18 @@ msgid "Error updating access."
 msgstr "שגיאה בעדכון גישה."
 
 #: common/js/admin.dev.js:1278
+#: includes/features/admin-menus/assets/js/admin-menus.js:723
 msgid " Error: changes can't be saved."
 msgstr "שגיאה: לא ניתן לשמור שינויים."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:141
+msgid "Deleting menu..."
+msgstr "מוחק תפריט..."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:208
+msgid "You must check at least one option to reset."
+msgstr "עליך לבחור לפחות אפשרות אחת לאיפוס."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:220
+msgid "Resetting option..."
+msgstr "מאפס אפשרות..."

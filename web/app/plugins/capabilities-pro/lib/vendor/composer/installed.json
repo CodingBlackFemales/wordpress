@@ -293,17 +293,17 @@
         },
         {
             "name": "publishpress/publishpress-capabilities",
-            "version": "v2.52.0",
-            "version_normalized": "2.52.0.0",
+            "version": "v2.53.0",
+            "version_normalized": "2.53.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/publishpress/publishpress-capabilities.git",
-                "reference": "c7ab226f0fa73a9e6291d0c8beeed6f2b5905d1a"
+                "reference": "31dd7dcd7f1d6b8db32f5dfd5b936d80b3ca5be0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/publishpress/publishpress-capabilities/zipball/c7ab226f0fa73a9e6291d0c8beeed6f2b5905d1a",
-                "reference": "c7ab226f0fa73a9e6291d0c8beeed6f2b5905d1a",
+                "url": "https://api.github.com/repos/publishpress/publishpress-capabilities/zipball/31dd7dcd7f1d6b8db32f5dfd5b936d80b3ca5be0",
+                "reference": "31dd7dcd7f1d6b8db32f5dfd5b936d80b3ca5be0",
                 "shasum": ""
             },
             "require": {
@@ -312,7 +312,7 @@
             "require-dev": {
                 "publishpress/dev-workspace": "^1.0"
             },
-            "time": "2026-09-22T15:03:32+00:00",
+            "time": "2026-10-14T15:08:03+00:00",
             "type": "wordpress-plugin",
             "extra": {
                 "plugin-name": "publishpress-capabilities",
@@ -334,7 +334,7 @@
                 }
             ],
             "support": {
-                "source": "https://github.com/publishpress/publishpress-capabilities/tree/v2.52.0",
+                "source": "https://github.com/publishpress/publishpress-capabilities/tree/v2.53.0",
                 "issues": "https://github.com/publishpress/publishpress-capabilities/issues"
             },
             "install-path": "../publishpress/publishpress-capabilities"

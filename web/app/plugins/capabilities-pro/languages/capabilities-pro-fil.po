@@ -5,17 +5,19 @@ msgstr ""
 "Project-Id-Version: PublishPress Capabilities Pro 2.13.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Filipino "
+"<https://weblate.publishpress.com/projects/publishpress-capabilities-pro/"
+"capabilities-pro/fil/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-03-03 12:30+0000\n"
-"PO-Revision-Date: 2026-09-22 14:15+0000\n"
-"X-Generator: Loco https://localise.biz/\n"
+"PO-Revision-Date: 2026-10-14 11:01+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: capabilities-pro\n"
 "|| n % 10 == 6 || n % 10 == 9);\n"
-"|| n % 10 == 6 || n % 10 == 9);: \n"
 "Language: fil\n"
+"|| n % 10 == 6 || n % 10 == 9);: \n"
 "Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9);\n"
 
 #: capabilities-pro.php:3, fuzzy
@@ -47,12 +49,12 @@ msgstr ""
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: includes-pro/admin-load.php:86
+#: includes-pro/admin-load.php:85
 #, php-format
 msgid "Note: Control of custom post statuses is %1$sdisabled%2$s."
 msgstr "Tandaan: Ang kontrol ng mga custom na estado ng post ay %1$sna-disable%2$s."
 
-#: includes-pro/admin-load.php:96
+#: includes-pro/admin-load.php:95
 #: includes-pro/admin.php:557
 #, php-format
 msgid "Note: Status-specific post editing capabilities are %1$sdisabled%2$s."
@@ -60,102 +62,37 @@ msgstr ""
 "Tandaan: Ang kakayahan sa pag-edit ng post na tiyak sa estado ay "
 "%1$sna-disable%2$s."
 
-#: includes-pro/admin-load.php:185
-#: includes-pro/admin-load.php:208
-#: includes-pro/features/admin-menus/admin-menus.php:106
-#: includes-pro/settings-ui.php:35
-msgid "Admin Menus"
-msgstr "Mga Admin Menu"
-
-#: includes-pro/admin-load.php:209
-#: includes-pro/features/admin-menus/admin-menus.php:739
-msgid ""
-"Admin Menus allows you to edit the admin menu links and control who has "
-"access."
-msgstr ""
-"Ang mga Admin Menu ay nagbibigay-daan sa iyo upang i-edit ang mga link ng "
-"admin menu at kontrolin kung sino ang may access."
-
-#: includes-pro/admin-load.php:272
-#: includes-pro/admin-load.php:296
-msgid "You do not have permission to manage menu restrictions."
-msgstr "Wala kang pahintulot na pamahalaan ang mga paghihigpit sa menu."
-
-#: includes-pro/admin-load.php:345
-msgid "Settings updated for all roles."
-msgstr "Na-update ang mga setting para sa lahat ng papel."
-
-#: includes-pro/admin-load.php:351
-msgid "Settings updated."
-msgstr "Na-update ang mga setting."
-
-#: includes-pro/admin-load.php:366
-msgid "Saving Menu Order..."
-msgstr "Nagsasave ng Order ng Menu..."
-
-#: includes-pro/admin-load.php:367
-msgid "Saving Menu Name..."
-msgstr "Nagsasave ng Pangalan ng Menu..."
-
-#: includes-pro/admin-load.php:368
-msgid "Menu Name can not be empty."
-msgstr "Hindi maaaring walang laman ang Pangalan ng Menu."
-
-#: includes-pro/admin-load.php:369
-msgid "Change Icon"
-msgstr "Palitan ang Icon"
-
-#: includes-pro/admin-load.php:370
-msgid "Search icons..."
-msgstr "Naghahanap ng mga icon..."
-
-#: includes-pro/admin-load.php:371
-msgid "Menu icon updated"
-msgstr "Na-update ang menu icon"
-
-#: includes-pro/admin-load.php:372
-msgid "Error updating menu icon"
-msgstr "Error sa pag-update ng icon ng menu"
-
-#: includes-pro/admin-load.php:373
-msgid "Duplicate menu with this Menu URL already exists"
-msgstr "May umiiral nang duplicate na menu gamit ang Menu URL na ito"
-
-#: includes-pro/admin-load.php:374
-msgid "Duplicate submenu with the menu url already exist"
-msgstr "May umiiral nang duplicate na submenu gamit ang menu url"
-
-#: includes-pro/admin-load.php:480
+#: includes-pro/admin-load.php:279
 msgid "You do not have permission to manage settings."
 msgstr "Wala kang pahintulot na pamahalaan ang mga setting."
 
-#: includes-pro/admin-load.php:581
+#: includes-pro/admin-load.php:380
 msgid "Homepage"
 msgstr "Pahinang Pangunahing"
 
-#: includes-pro/admin-load.php:582
+#: includes-pro/admin-load.php:381
 msgid "Archive Pages"
 msgstr "Mga Archive na Pahina"
 
-#: includes-pro/admin-load.php:583
+#: includes-pro/admin-load.php:382
 msgid "Single Pages"
 msgstr "Mga Solitaryong Pahina"
 
-#: includes-pro/admin-load.php:586
+#: includes-pro/admin-load.php:385
 msgid "Select pages..."
 msgstr "Pumili ng mga pahina..."
 
-#: includes-pro/admin-load.php:595
+#: includes-pro/admin-load.php:394
 msgid "You can select page types where this element will be added."
 msgstr ""
 "Maaari mong piliin ang mga uri ng pahina kung saan idadagdag ang elementong "
 "ito."
 
-#: includes-pro/admin-load.php:609
+#: includes-pro/admin-load.php:408
 msgid "Select post types..."
 msgstr "Pumili ng mga uri ng post..."
 
-#: includes-pro/admin-load.php:623
+#: includes-pro/admin-load.php:422
 msgid ""
 "This will add a metabox on the post editing screen. You can use this "
 "feature to add body classes only for that post."
@@ -287,7 +224,7 @@ msgstr ""
 "I-configure ang mga katangian ng status, mga uri ng post, mga kinakailangan "
 "sa kakayahan"
 
-#: includes-pro/admin.php:573
+#: includes-pro/admin.php:579
 #, php-format
 msgid ""
 "To control revision editing and deletion, install the %1$sPublishPress "
@@ -296,7 +233,7 @@ msgstr ""
 "Upang kontrolin ang pag-edit at pagtanggal ng bersyon, i-install ang "
 "%1$sPublishPress Revisions%2$s at %3$sStatuses Pro%4$s plugins."
 
-#: includes-pro/admin.php:581
+#: includes-pro/admin.php:584
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sStatuses Pro%2$s "
@@ -305,7 +242,7 @@ msgstr ""
 "Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-install ang "
 "%1$sStatuses Pro%2$s na plugin."
 
-#: includes-pro/admin.php:587
+#: includes-pro/admin.php:589
 #, php-format
 msgid ""
 "To define and control Revision statuses, install the %1$sPublishPress "
@@ -314,7 +251,7 @@ msgstr ""
 "Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-install ang "
 "%1$sPublishPress Revisions%2$s na plugin."
 
-#: includes-pro/admin.php:594
+#: includes-pro/admin.php:596
 #, php-format
 msgid ""
 "To define and control Revision statuses, update the %1$sPublishPress "
@@ -323,7 +260,7 @@ msgstr ""
 "Upang itakda at kontrolin ang mga katayuan ng Bersyon, i-update ang "
 "%1$sPublishPress Revisions%2$s na plugin sa bersyon %3$s o mas mataas."
 
-#: includes-pro/admin.php:604
+#: includes-pro/admin.php:606
 #, php-format
 msgid ""
 "To control revision editing and deletion, please set %1$sRevisions "
@@ -333,8 +270,8 @@ msgstr ""
 "ang %1$sRevisions Compatibility Mode%2$s sa \"Pinahusay na kontrol sa "
 "pag-access ng bersyon\""
 
-#: includes-pro/admin.php:612
-#: includes-pro/admin.php:630
+#: includes-pro/admin.php:614
+#: includes-pro/admin.php:642
 #, php-format
 msgid ""
 "To enable or disable enforcement of custom editing capabilities for any "
@@ -345,6 +282,14 @@ msgstr ""
 "kakayahan sa pag-edit para sa anumang katayuan, i-click ang cell ng Post "
 "Access nito sa %1$sStatuses table%2$s, pagkatapos ay i-reload ang screen na "
 "ito."
+
+#: includes-pro/admin.php:624
+msgid "Get Statuses Pro"
+msgstr "Kumuha ng Statuses Pro"
+
+#: includes-pro/admin.php:626
+msgid "Get PublishPress Revisions"
+msgstr "Kumuha ng PublishPress Revisions"
 
 #: includes-pro/features/admin-features-block-url.php:50
 msgid "Block access to Plugins screen via direct link"
@@ -452,12 +397,7 @@ msgstr "I-save ang Pag-edit"
 #: includes-pro/features/admin-features-block-url.php:358
 #: includes-pro/features/admin-features-css-hide.php:278
 #: includes-pro/features/admin-features-css-hide.php:377
-#: includes-pro/features/admin-menus/admin-menus-filters.php:424
-#: includes-pro/features/admin-menus/admin-menus-filters.php:455
-#: includes-pro/features/admin-menus/admin-menus-filters.php:505
-#: includes-pro/features/admin-menus/admin-menus-filters.php:547
-#: includes-pro/features/admin-menus/admin-menus-filters.php:608
-#: includes-pro/features/admin-menus/admin-menus-filters.php:660
+#: includes-pro/features/admin-menus/admin-menus-pro.php:26
 #: includes-pro/features/config/custom-config.php:179
 #: includes-pro/features/config/custom-config.php:248
 msgid "An error occured!"
@@ -507,8 +447,6 @@ msgstr "I-edit"
 
 #: includes-pro/features/admin-features-block-url.php:336
 #: includes-pro/features/admin-features-css-hide.php:355
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
 msgid "Delete"
 msgstr "Tanggalin"
 
@@ -525,7 +463,6 @@ msgid "Selected item deleted successfully"
 msgstr "Matagumpay na natanggal ang napiling item"
 
 #: includes-pro/features/admin-features-block-url.php:477
-#: includes-pro/functions-admin.php:104
 msgid "You do not have permission to access this page."
 msgstr "Wala kang pahintulot na ma-access ang pahinang ito."
 
@@ -633,325 +570,17 @@ msgstr "URL na tinarget"
 msgid "URL wildcard"
 msgstr "URL wildcard"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:429
-#: includes-pro/features/admin-menus/admin-menus-filters.php:460
-#: includes-pro/features/admin-menus/admin-menus-filters.php:510
-#: includes-pro/features/admin-menus/admin-menus-filters.php:552
-#: includes-pro/features/admin-menus/admin-menus-filters.php:613
-#: includes-pro/features/admin-menus/admin-menus-filters.php:665
+#: includes-pro/features/admin-menus/admin-menus-pro.php:31
 msgid "Security check failed"
 msgstr "Nabigong suriin ang seguridad"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:431
-#: includes-pro/features/admin-menus/admin-menus-filters.php:462
-#: includes-pro/features/admin-menus/admin-menus-filters.php:512
-#: includes-pro/features/admin-menus/admin-menus-filters.php:554
-#: includes-pro/features/admin-menus/admin-menus-filters.php:615
-#: includes-pro/features/admin-menus/admin-menus-filters.php:667
+#: includes-pro/features/admin-menus/admin-menus-pro.php:33
 msgid "Permission denied"
 msgstr "Tanggihan ang pahintulot"
 
-#: includes-pro/features/admin-menus/admin-menus-filters.php:443
-msgid "Settings updated successfully."
-msgstr "Matagumpay na na-update ang mga setting."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:472
-msgid "Admin Menu Order reset successfully. Reloading page..."
-msgstr "Matagumpay na na-reset ang Admin Menu Order. Naglo-load ng pahina..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:478
-msgid "Admin Menu Names reset successfully. Reloading page..."
-msgstr ""
-"Matagumpay na na-reset ang mga Pangalan ng Admin Menu. Naglo-load ng "
-"pahina..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:484
-msgid "Admin Menu Cache reset successfully. Reloading page..."
-msgstr "Na-reset nang matagumpay ang Admin Menu Cache. Nag-re-reload ng pahina..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:488
-msgid "Admin Menu reset successfully. Reloading page..."
-msgstr "Matagumpay na na-reset ang Admin Menu. Naglo-load ng pahina..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:535
-msgid "Menu deleted successfully."
-msgstr "Matagumpay na natanggal ang Menu."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:597
+#: includes-pro/features/admin-menus/admin-menus-pro.php:76
 msgid "New menu added successfully. Reloading page..."
 msgstr "Matagumpay na naidagdag ang bagong menu. Nag-re-reload ng pahina..."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:625
-#: includes-pro/features/admin-menus/admin-menus-filters.php:672
-msgid "Invalid data"
-msgstr "Hindi wastong data"
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:634
-msgid "Menu Name Updated for all roles."
-msgstr "Nai-update ang Pangalan ng Menu para sa lahat ng tungkulin."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:638
-#: includes-pro/features/admin-menus/admin-menus-filters.php:645
-msgid "Menu Name Updated."
-msgstr "Nai-update ang Pangalan ng Menu."
-
-#: includes-pro/features/admin-menus/admin-menus-filters.php:676
-msgid "Menu Order Updated."
-msgstr "Nai-update ang Order ng Menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:136
-#: includes-pro/features/admin-menus/admin-menus.php:727
-msgid "Save for All Roles"
-msgstr "I-save para sa Lahat ng Papel"
-
-#: includes-pro/features/admin-menus/admin-menus.php:153
-msgid "Type:"
-msgstr "Uri:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:155
-msgid "Menu Link"
-msgstr "Link ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:156
-msgid "Submenu Link"
-msgstr "Link ng Submenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:157
-msgid "Menu Separator"
-msgstr "Separator ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:158
-msgid "Submenu Separator"
-msgstr "Separator ng Submenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:162
-msgid "Position:"
-msgstr "Posisyon:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:164
-msgid "After"
-msgstr "Matapos"
-
-#: includes-pro/features/admin-menus/admin-menus.php:175
-msgid "Menu Title:"
-msgstr "Pamagat ng Menu:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:178
-msgid "My Custom Menu"
-msgstr "Aking Pasadyang Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:180
-msgid "Menu Title is required."
-msgstr "Kailangan ang Pamagat ng Menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:183
-msgid "Separator Style"
-msgstr "Estilo ng Separator"
-
-#: includes-pro/features/admin-menus/admin-menus.php:185
-msgid "Line (____________________)"
-msgstr "Linya (____________________)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:186
-msgid "Empty Space"
-msgstr "Walang Laman na Espasyo"
-
-#: includes-pro/features/admin-menus/admin-menus.php:187
-msgid "Text"
-msgstr "Teksto"
-
-#: includes-pro/features/admin-menus/admin-menus.php:191
-msgid "Separator Color"
-msgstr "Kulay ng Separator"
-
-#: includes-pro/features/admin-menus/admin-menus.php:196
-msgid "Menu URL:"
-msgstr "URL ng Menu:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:200
-#, php-format
-msgid ""
-"Enter an internal link such as %1s or an external link such as %2s. Any "
-"link can only be used once for a Menu URL."
-msgstr ""
-"Ilagay ang isang panloob na link tulad ng %1s o isang panlabas na link "
-"tulad ng %2s. Ang anumang link ay maaaring gamitin nang isang beses lamang "
-"para sa isang Menu URL."
-
-#: includes-pro/features/admin-menus/admin-menus.php:207
-msgid "Menu with this url already exist."
-msgstr "Umiiral na ang menu na may url na ito."
-
-#: includes-pro/features/admin-menus/admin-menus.php:214, fuzzy
-msgid "Menu Capability:"
-msgstr "Menu Capability:"
-
-#: includes-pro/features/admin-menus/admin-menus.php:219
-#, php-format
-msgid ""
-"This is the capability required to see this menu. For example: %1s or %2s "
-"If you're entering a custom capability, remember to add and assign it to "
-"preferred roles on the capabilities page"
-msgstr ""
-"Ito ang kakayahang kinakailangan upang makita ang menu na ito. Halimbawa: "
-"%1s o %2s Kung ikaw ay naglalagay ng isang pasadyang kakayahan, tandaan na "
-"idagdag at i-assign ito sa mga paboritong tungkulin sa pahina ng kakayahan"
-
-#: includes-pro/features/admin-menus/admin-menus.php:226
-msgid "Menu Capability is required."
-msgstr "Kinakailangan ang Menu Capability."
-
-#: includes-pro/features/admin-menus/admin-menus.php:230, fuzzy
-msgid "Menu Icon"
-msgstr "Menu Icon"
-
-#: includes-pro/features/admin-menus/admin-menus.php:235
-msgid "Save Menu Link"
-msgstr "I-save ang Link ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:255
-#: includes-pro/features/admin-menus/admin-menus.php:278
-msgid "Toggle all"
-msgstr "I-toggle lahat"
-
-#: includes-pro/features/admin-menus/admin-menus.php:261
-msgid "New Menu Link"
-msgstr "Bagong Ulat ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:433
-#: includes-pro/features/admin-menus/admin-menus.php:594
-msgid "(Can't detect menu name)"
-msgstr "(Hindi ma-detect ang pangalan ng menu)"
-
-#: includes-pro/features/admin-menus/admin-menus.php:459
-#: includes-pro/features/admin-menus/admin-menus.php:616
-msgid ""
-"This menu name is not available in menu global data or directly registered "
-"with the menu"
-msgstr ""
-"Ang pangalan ng menu na ito ay hindi available sa pandaigdigang data ng "
-"menu o direkta nang nakarehistro sa menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:470
-#: includes-pro/features/admin-menus/admin-menus.php:626
-#, php-format
-msgid "%s Role"
-msgstr "%s Papel"
-
-#: includes-pro/features/admin-menus/admin-menus.php:471
-#: includes-pro/features/admin-menus/admin-menus.php:627
-msgid "All Roles"
-msgstr "Lahat ng Papel"
-
-#: includes-pro/features/admin-menus/admin-menus.php:473
-#: includes-pro/features/admin-menus/admin-menus.php:630
-msgid "Save"
-msgstr "I-save"
-
-#: includes-pro/features/admin-menus/admin-menus.php:476
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:633
-#: includes-pro/features/admin-menus/admin-menus.php:650
-msgid "Cancel"
-msgstr "Kanselahin"
-
-#: includes-pro/features/admin-menus/admin-menus.php:484
-#: includes-pro/features/admin-menus/admin-menus.php:641
-msgid "This option is disabled to prevent complete lockout"
-msgstr "Ang opsyong ito ay hindi pinagana upang maiwasan ang kumpletong pag-lockout"
-
-#: includes-pro/features/admin-menus/admin-menus.php:493
-#: includes-pro/features/admin-menus/admin-menus.php:650
-#, php-format
-msgid "Are you sure you want to delete %1s? %2s %3s"
-msgstr "Sigurado ka bang nais mong tanggalin ang %1s? %2s %3s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:503
-#: includes-pro/features/admin-menus/admin-menus.php:660
-#, php-format
-msgid "The capability required to access this menu is %s"
-msgstr "Ang kakayahan na kinakailangan upang ma-access ang menu na ito ay %s"
-
-#: includes-pro/features/admin-menus/admin-menus.php:508
-#: includes-pro/features/admin-menus/admin-menus.php:665
-msgid "Rename Menu"
-msgstr "Palitan ang Pangalan ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:514
-#: includes-pro/features/admin-menus/admin-menus.php:671
-msgid "Move Up"
-msgstr "Ilipat Pataas"
-
-#: includes-pro/features/admin-menus/admin-menus.php:517
-#: includes-pro/features/admin-menus/admin-menus.php:674
-msgid "Move Down"
-msgstr "Ilipat Pababa"
-
-#: includes-pro/features/admin-menus/admin-menus.php:711
-msgid "No menu found"
-msgstr "Walang natagpuang menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:737
-msgid "How to use Admin Menus"
-msgstr "Paano gamitin ang Admin Menus"
-
-#: includes-pro/features/admin-menus/admin-menus.php:741
-#: includes-pro/features/admin-menus/admin-menus.php:743
-msgid "usage key"
-msgstr "susurian na key"
-
-#: includes-pro/features/admin-menus/admin-menus.php:742
-msgid "No change"
-msgstr "Walang pagbabago"
-
-#: includes-pro/features/admin-menus/admin-menus.php:744
-msgid "This feature is denied"
-msgstr "Ang tampok na ito ay tinanggihan"
-
-#: includes-pro/features/admin-menus/admin-menus.php:746
-msgid "View Documentation"
-msgstr "Tingnan ang Dokumentasyon"
-
-#: includes-pro/features/admin-menus/admin-menus.php:750
-msgid "Admin Menus Settings"
-msgstr "Mga Setting ng Admin Menus"
-
-#: includes-pro/features/admin-menus/admin-menus.php:753
-msgid "Hide Submenus"
-msgstr "Itago ang mga Submenu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:755
-msgid "Show Menu Slugs"
-msgstr "Ipakita ang mga Menu Slugs"
-
-#: includes-pro/features/admin-menus/admin-menus.php:760
-msgid "Reset Admin Menus"
-msgstr "I-reset ang mga Menu ng Admin"
-
-#: includes-pro/features/admin-menus/admin-menus.php:762
-msgid ""
-"You can reset admin menu order and name to their original position and "
-"names. You can also reset menu cache to fix issue of missing menu."
-msgstr ""
-"Maaari mong i-reset ang pagkakasunod-sunod at pangalan ng admin menu sa "
-"kanilang orihinal na posisyon at pangalan. Maaari mo ring i-reset ang cache "
-"ng menu upang ayusin ang isyu ng nawawalang menu."
-
-#: includes-pro/features/admin-menus/admin-menus.php:765
-msgid "Reset Menu Order"
-msgstr "I-reset ang Ayos ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:767
-msgid "Reset Cached Menu"
-msgstr "I-reset ang Cached Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:769
-msgid "Reset Menu Names"
-msgstr "I-reset ang mga Pangalan ng Menu"
-
-#: includes-pro/features/admin-menus/admin-menus.php:771
-msgid "Reset Selected Option"
-msgstr "I-reset ang Napiling Opsyon"
 
 #: includes-pro/features/config/custom-config.php:29
 msgid "Add New Classic Editor Restrictions"
@@ -1014,11 +643,6 @@ msgstr "Mga Restriksyon ng Custom Gutenberg"
 msgid "Metaboxes"
 msgstr "Mga Metaboxes"
 
-#: includes-pro/functions-admin.php:38
-#: includes-pro/settings-ui.php:440, fuzzy
-msgid "Admin Menu"
-msgstr "Admin Menu"
-
 #: includes-pro/pro-maint.php:46
 #: includes-pro/pro-maint.php:59
 msgid "An error occurred. Please try again or contact the support team."
@@ -1030,121 +654,121 @@ msgstr ""
 msgid "License"
 msgstr "Lisensya"
 
-#: includes-pro/settings-ui.php:44
+#: includes-pro/settings-ui.php:43
 msgid "Activate Key"
 msgstr "I-activate ang Key"
 
-#: includes-pro/settings-ui.php:45
+#: includes-pro/settings-ui.php:44
 msgid "Deactivate Key"
 msgstr "I-deactivate ang Key"
 
-#: includes-pro/settings-ui.php:46
+#: includes-pro/settings-ui.php:45
 msgid "Connecting to publishpress.com server..."
 msgstr "Kumokonekta sa server ng publishpress.com..."
 
-#: includes-pro/settings-ui.php:47
+#: includes-pro/settings-ui.php:46
 msgid "The request could not be processed due to a connection failure."
 msgstr "Ang kahilingan ay hindi ma-proseso dahil sa pagkabigo ng koneksyon."
 
-#: includes-pro/settings-ui.php:48
+#: includes-pro/settings-ui.php:47
 msgid "Please enter the license key shown on your order receipt."
 msgstr "Mangyaring ilagay ang susi ng lisensya na nakasaad sa iyong resibo ng order."
 
-#: includes-pro/settings-ui.php:49
+#: includes-pro/settings-ui.php:48
 msgid "An unidentified error occurred."
 msgstr "Nagkaroon ng isang hindi natukoy na error."
 
-#: includes-pro/settings-ui.php:51
+#: includes-pro/settings-ui.php:50
 msgid "The key has been deactivated."
 msgstr "Ang susi ay na-deactivate na."
 
-#: includes-pro/settings-ui.php:52
+#: includes-pro/settings-ui.php:51
 msgid "The key has been activated."
 msgstr "Ang susi ay na-activate na."
 
-#: includes-pro/settings-ui.php:53
+#: includes-pro/settings-ui.php:52
 msgid "The key has expired."
 msgstr "Ang susi ay nag-expire na."
 
-#: includes-pro/settings-ui.php:54
+#: includes-pro/settings-ui.php:53
 msgid "The key is invalid."
 msgstr "Ang susi ay hindi wasto."
 
-#: includes-pro/settings-ui.php:55
+#: includes-pro/settings-ui.php:54
 msgid "An unknown activation error occurred."
 msgstr "Nagkaroon ng isang hindi kilalang activation error."
 
-#: includes-pro/settings-ui.php:56
+#: includes-pro/settings-ui.php:55
 msgid "The key provided is not valid. Please double-check your entry."
 msgstr "Ang ibinigay na susi ay hindi wasto. Pakisuri ang iyong entry."
 
-#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:56
 msgid "This site is not valid to activate the key."
 msgstr "Ang site na ito ay hindi wasto upang i-activate ang susi."
 
-#: includes-pro/settings-ui.php:58
-#: includes-pro/settings-ui.php:64
+#: includes-pro/settings-ui.php:57
+#: includes-pro/settings-ui.php:63
 msgid "The key provided could not be validated by publishpress.com."
 msgstr "Ang ibinigay na susi ay hindi ma-validate ng publishpress.com."
 
-#: includes-pro/settings-ui.php:59
+#: includes-pro/settings-ui.php:58
 msgid "The key provided is already active on another site."
 msgstr "Ang ibinigay na susi ay aktibo na sa ibang site."
 
-#: includes-pro/settings-ui.php:60
+#: includes-pro/settings-ui.php:59
 msgid "The key has already been activated on the allowed number of sites."
 msgstr "Ang susi ay na-activate na sa pinapayagang bilang ng mga site."
 
-#: includes-pro/settings-ui.php:61
+#: includes-pro/settings-ui.php:60
 msgid "An unknown deactivation error occurred."
 msgstr "Nagkaroon ng isang hindi kilalang deactivation error."
 
-#: includes-pro/settings-ui.php:62
+#: includes-pro/settings-ui.php:61
 msgid "Unable to deactivate because the provided key is not valid."
 msgstr "Hindi ma-deactivate dahil ang ibinigay na key ay hindi wasto."
 
-#: includes-pro/settings-ui.php:63
+#: includes-pro/settings-ui.php:62
 msgid "This site is not valid to deactivate the key."
 msgstr "Ang site na ito ay hindi wasto upang i-deactivate ang susi."
 
-#: includes-pro/settings-ui.php:65
+#: includes-pro/settings-ui.php:64
 msgid "The key provided is not active on the specified site."
 msgstr "Ang ibinigay na susi ay hindi aktibo sa tinukoy na site."
 
-#: includes-pro/settings-ui.php:70
+#: includes-pro/settings-ui.php:69
 #, php-format
 msgid "If this is incorrect, <a href=\"%s\">request activation help</a>."
 msgstr "Kung ito ay mali, <a href=\"%s\">humiling ng tulong sa pag-activate</a>."
 
-#: includes-pro/settings-ui.php:71
+#: includes-pro/settings-ui.php:70
 msgid "Please save settings before uploading site configuration."
 msgstr "Mangyaring i-save ang mga setting bago i-upload ang configuration ng site."
 
-#: includes-pro/settings-ui.php:86
+#: includes-pro/settings-ui.php:85
 msgid "(Locked on by Statuses Pro)"
 msgstr "(Naka-lock ng Statuses Pro)"
 
-#: includes-pro/settings-ui.php:97
-#: includes-pro/settings-ui.php:207
+#: includes-pro/settings-ui.php:96
+#: includes-pro/settings-ui.php:206
 msgid "Control custom statuses"
 msgstr "Kontrolin ang mga custom na status"
 
-#: includes-pro/settings-ui.php:103
+#: includes-pro/settings-ui.php:102
 #, php-format
 msgid "Control selection of custom post statuses. %s"
 msgstr "Kontrolin ang pagpili ng mga custom na status ng post. %s"
 
-#: includes-pro/settings-ui.php:120
+#: includes-pro/settings-ui.php:119
 msgid "Apply status-specific capabilities for post editing, deletion."
 msgstr ""
 "Mag-apply ng mga kakayahan na tiyak sa status para sa pag-edit at "
 "pagtanggal ng post."
 
-#: includes-pro/settings-ui.php:154
+#: includes-pro/settings-ui.php:153
 msgid "Enable Custom Visibility Statuses"
 msgstr "Paganahin ang Pasadyang Katayuan ng Visibility"
 
-#: includes-pro/settings-ui.php:162
+#: includes-pro/settings-ui.php:161
 #. Translators: %1$s and %2$s is link markup
 #, php-format
 msgid ""
@@ -1154,7 +778,7 @@ msgstr ""
 "Para sa mga Katayuan ng Visibility, %1$senable ang Status Control "
 "module%2$s sa Permissions Pro"
 
-#: includes-pro/settings-ui.php:183
+#: includes-pro/settings-ui.php:182
 msgid ""
 "Apply status-specific, type-specific editing capabilities for Visibility "
 "Statuses"
@@ -1162,11 +786,11 @@ msgstr ""
 "Mag-apply ng mga kakayahan na tiyak sa status at uri para sa mga Kakayahang "
 "Visibility"
 
-#: includes-pro/settings-ui.php:248
+#: includes-pro/settings-ui.php:247
 msgid "License Key Activation"
 msgstr "Pag-activate ng License Key"
 
-#: includes-pro/settings-ui.php:294
+#: includes-pro/settings-ui.php:293
 #, php-format
 msgid ""
 "Your PublishPress license key has expired. For continued priority support, "
@@ -1175,7 +799,7 @@ msgstr ""
 "Nawala na ang bisa ng iyong PublishPress license key. Para sa patuloy na "
 "prayoridad na suporta, <a href=\"%s\">pakirenew</a>."
 
-#: includes-pro/settings-ui.php:305
+#: includes-pro/settings-ui.php:304
 #, php-format
 msgid ""
 "Your PublishPress license key will expire today. For updates and priority "
@@ -1184,7 +808,7 @@ msgstr ""
 "Ang iyong PublishPress license key ay mawawalan ng bisa ngayon. Para sa mga "
 "update at prayoridad na suporta, <a href=\"%s\">pakirenew</a>."
 
-#: includes-pro/settings-ui.php:310
+#: includes-pro/settings-ui.php:309
 #, php-format
 msgid ""
 "Your PublishPress license key will expire in %d day. For updates and "
@@ -1198,84 +822,61 @@ msgstr[0] ""
 "Ang iyong PublishPress license key ay mag-eexpire sa %d araw. Para sa mga "
 "update at priyoridad na suporta, <a href=\"%s\">pakirenew</a>."
 msgstr[1] ""
-"Ang iyong PublishPress license key (para sa mga update ng plugin) ay "
-"mag-eexpire sa %d araw. Para sa mga update at priyoridad na suporta, <a "
+"Your PublishPress license key (for plugin updates) will expire in %d days. "
+"For updates and priority support, <a href=\"%s\">please renew</a>.Ang iyong "
+"PublishPress license key (para sa mga update ng plugin) ay mag-eexpire sa "
+"%d araw. Para sa mga update at priyoridad na suporta, <a "
 "href=\"%s\">pakirenew</a>."
 
-#: includes-pro/settings-ui.php:332
+#: includes-pro/settings-ui.php:331
 msgid "Key Expired"
 msgstr "Nawalang Key"
 
-#: includes-pro/settings-ui.php:337
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:336
+#: includes-pro/settings-ui.php:346
 msgid "Deactivate"
 msgstr "I-deactivate"
 
-#: includes-pro/settings-ui.php:341
+#: includes-pro/settings-ui.php:340
 msgid "Activated"
 msgstr "Na-activate"
 
-#: includes-pro/settings-ui.php:344
+#: includes-pro/settings-ui.php:343
 msgid "Enter your license key"
 msgstr "Ilagay ang iyong license key"
 
-#: includes-pro/settings-ui.php:347
+#: includes-pro/settings-ui.php:346
 msgid "Activate"
 msgstr "I-activate"
 
-#: includes-pro/settings-ui.php:373
+#: includes-pro/settings-ui.php:372
 #, php-format
 msgid "view %s&nbsp;details"
 msgstr "tingnan ang %s&nbsp;detalye"
 
-#: includes-pro/settings-ui.php:383
+#: includes-pro/settings-ui.php:382
 msgid "Update&nbsp;Available"
 msgstr "Available na Update&nbsp;"
 
-#: includes-pro/settings-ui.php:390
+#: includes-pro/settings-ui.php:389
 msgid "Update&nbsp;Check"
 msgstr "Suriin ang Update&nbsp;"
 
-#: includes-pro/settings-ui.php:396
+#: includes-pro/settings-ui.php:395
 msgid "Account"
 msgstr "Akaunt"
 
-#: includes-pro/settings-ui.php:402
+#: includes-pro/settings-ui.php:401
 msgid "Pricing"
 msgstr "Pagpepresyo"
 
-#: includes-pro/settings-ui.php:420
+#: includes-pro/settings-ui.php:419
 msgid "Display PublishPress Branding"
 msgstr "Ipakita ang Branding ng PublishPress"
 
-#: includes-pro/settings-ui.php:422
+#: includes-pro/settings-ui.php:421
 msgid "Hide the PublishPress footer and other branding."
 msgstr "Itago ang footer ng PublishPress at iba pang branding."
-
-#: includes-pro/settings-ui.php:442
-msgid "Admin Menus: treatment of multiple roles"
-msgstr "Mga Admin Menus: paggamot ng maraming papel"
-
-#: includes-pro/settings-ui.php:445
-msgid "Most permissive: Any non-restricted user role allows access"
-msgstr ""
-"Pinakamahusay na pahintulot: Anumang hindi-restricted na tungkulin ng user "
-"ay nagpapahintulot ng access"
-
-#: includes-pro/settings-ui.php:448
-msgid "Most restrictive: Any restricted user role prevents access"
-msgstr ""
-"Pinakamahigpit: Anumang restricted na tungkulin ng user ay pumipigil sa "
-"access"
-
-#: includes-pro/settings-ui.php:452
-msgid ""
-"This controls whether the most permissive or restrictive permissions are "
-"applied if a user has multiple roles."
-msgstr ""
-"Ito ang nagkokontrol kung ang pinaka-pinamumunuan o pinakamasalimuot na mga "
-"pahintulot ay ipinatutupad kung ang isang gumagamit ay may maraming "
-"tungkulin."
 
 #: includes-pro/statuses-intro.php:126
 #, php-format
@@ -1299,28 +900,10 @@ msgstr ""
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid "Changes saved!"
 msgstr "Naka-save ang mga pagbabago!"
 
 #: includes-pro/common/js/admin.dev.js:477
 #: includes-pro/common/js/admin.js:1
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:919
 msgid " Error: changes can't be saved."
 msgstr " Error: hindi ma-save ang mga pagbabago."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:337
-msgid "Deleting menu..."
-msgstr "Binubura ang menu..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:380
-msgid "Updating Settings..."
-msgstr "Nina-update ang Mga Setting..."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:404
-msgid "You must check at least one option to reset."
-msgstr "Dapat kang pumili ng hindi bababa sa isang opsyon upang i-reset."
-
-#: includes-pro/features/admin-menus/assets/js/admin-menus.js:416
-msgid "Resetting option..."
-msgstr "Nina-reset ang opsyon..."

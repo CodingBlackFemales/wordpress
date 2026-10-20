@@ -5,13 +5,15 @@ msgstr ""
 "Project-Id-Version: PublishPress Capabilities 2.40.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Indonesian "
+"<https://weblate.publishpress.com/projects/publishpress-capabilities/"
+"capability-manager-enhanced/id/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-03-23T21:48:55+00:00\n"
-"PO-Revision-Date: 2026-09-22 14:15+0000\n"
-"X-Generator: Loco https://localise.biz/\n"
+"PO-Revision-Date: 2026-10-14 11:20+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: capability-manager-enhanced\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language: id-ID\n"
@@ -38,7 +40,7 @@ msgstr ""
 "hingga Pelanggan."
 
 #: capsman-enhanced.php:7
-#: includes/manager.php:1721
+#: includes/manager.php:1738
 #. Author of the plugin
 msgid "PublishPress"
 msgstr "PublishPress"
@@ -80,37 +82,14 @@ msgstr ""
 "PublishPress Capabilities Pro."
 
 #: includes-core/admin-features-promo.php:79
-#: includes-core/admin-menus-promo.php:62
 #: includes-core/CoreAdmin.php:56
 #: includes-core/editor-features-promo.php:79
 #: includes-core/frontend-features-promo.php:32
-#: includes/admin-load.php:1773
+#: includes/admin-load.php:1857
+#: includes/features/admin-menus/admin-menus.php:156
 #: includes/features/admin-styles/admin-styles-ui.php:353
 msgid "Upgrade to Pro"
 msgstr "Upgrade ke Pro"
-
-#: includes-core/admin-menus-promo.php:29
-msgid "Admin Menu Restrictions"
-msgstr "Pembatasan Menu Admin"
-
-#: includes-core/admin-menus-promo.php:54
-#: includes-core/admin-menus-promo.php:55
-msgid "Admin Menus feature preview"
-msgstr "Pratinjau fitur Menu Admin"
-
-#: includes-core/admin-menus-promo.php:58
-msgid ""
-"You can restrict access to admin menu screens. You can also edit, change, "
-"add, or remove links from the WordPress admin menu. This feature is "
-"available in PublishPress Capabilities Pro."
-msgstr ""
-"Anda dapat membatasi akses ke layar menu admin. Anda juga dapat mengedit, "
-"mengubah, menambahkan, atau menghapus tautan dari menu admin WordPress. "
-"Fitur ini tersedia di PublishPress Capabilities Pro."
-
-#: includes-core/admin-menus-promo.php:136
-msgid "Loading"
-msgstr "Memuat"
 
 #: includes-core/CoreAdmin.php:19
 #, php-format
@@ -121,38 +100,28 @@ msgstr ""
 "Anda sedang menggunakan PublishPress Capabilities Free. Versi Pro memiliki "
 "lebih banyak fitur dan dukungan. %sUpgrade ke Pro%s"
 
-#: includes-core/CoreAdmin.php:92
-#: includes-core/CoreAdmin.php:159
-#: includes/functions-admin.php:536
-#: includes/roles/class/class-pp-roles-admin.php:556
-msgid "Admin Menus"
-msgstr "Menu Admin"
-
-#: includes-core/CoreAdmin.php:137
+#: includes-core/CoreAdmin.php:106
 msgid "Hide CSS Elements"
 msgstr "Sembunyikan Elemen CSS"
 
-#: includes-core/CoreAdmin.php:138
+#: includes-core/CoreAdmin.php:107
 msgid "Block by URL"
 msgstr "Blokir berdasarkan URL"
 
-#: includes-core/CoreAdmin.php:160
-msgid ""
-"Admin Menus allows you to edit the admin menu links and control who has "
-"access."
-msgstr ""
-"Menu Admin memungkinkan Anda untuk mengedit tautan menu admin dan "
-"mengontrol siapa yang memiliki akses."
+#: includes-core/CoreAdmin.php:128
+#: includes/features/frontend-features/frontend-features-ui.php:240
+msgid "Pages"
+msgstr "Halaman"
 
-#: includes-core/CoreAdmin.php:170
+#: includes-core/CoreAdmin.php:129
 msgid "Select pages..."
 msgstr "Pilih halaman..."
 
-#: includes-core/CoreAdmin.php:175
+#: includes-core/CoreAdmin.php:134
 msgid "You can select page types where this element will be added."
 msgstr "Anda dapat memilih jenis halaman di mana elemen ini akan ditambahkan."
 
-#: includes-core/CoreAdmin.php:177
+#: includes-core/CoreAdmin.php:136
 #: includes-core/frontend-features-promo.php:47
 #: includes-core/frontend-features-promo.php:48
 msgid "Layout spacer"
@@ -223,6 +192,10 @@ msgstr ""
 "tertentu. Fitur ini tersedia di PublishPress Capabilities Pro."
 
 #: includes-core/frontend-features-promo.php:39
+msgid "Post types"
+msgstr "Tipe pos"
+
+#: includes-core/frontend-features-promo.php:39
 msgid "Select post types..."
 msgstr "Pilih jenis pos..."
 
@@ -234,49 +207,49 @@ msgstr ""
 "Ini akan menambahkan sebuah metabox pada layar pengeditan pos. Anda dapat "
 "menggunakan fitur ini untuk menambahkan kelas body hanya untuk pos tersebut."
 
-#: includes/admin-load.php:401
+#: includes/admin-load.php:405
 msgid "Drag multiple roles selection to change roles order."
 msgstr "Seret pemilihan beberapa peran untuk mengubah urutan peran."
 
-#: includes/admin-load.php:404
+#: includes/admin-load.php:408
 msgid "Page title"
 msgstr "Judul halaman"
 
-#: includes/admin-load.php:405, fuzzy
+#: includes/admin-load.php:409, fuzzy
 msgid "Rank Math SEO"
 msgstr "Rank Math SEO"
 
-#: includes/admin-load.php:406
-#: includes/settings-ui.php:298
+#: includes/admin-load.php:410
+#: includes/settings-ui.php:323
 msgid "No results match"
 msgstr "Tidak ada hasil yang cocok"
 
-#: includes/admin-load.php:544
-#: includes/admin-load.php:1568
-#: includes/admin-load.php:1581
-#: includes/admin-load.php:1786
-#: includes/functions-admin.php:414
-#: includes/functions-admin.php:500
+#: includes/admin-load.php:548
+#: includes/admin-load.php:1652
+#: includes/admin-load.php:1665
+#: includes/admin-load.php:1870
+#: includes/functions-admin.php:427
+#: includes/functions-admin.php:519
 #: includes/manager.php:442
 #: includes/roles/class/class-pp-roles-admin.php:667
 #: includes/settings-ui.php:35, fuzzy
 msgid "Capabilities"
 msgstr "Capabilities"
 
-#: includes/admin-load.php:683
+#: includes/admin-load.php:687
 msgid "No permission!"
 msgstr "Tidak ada izin!"
 
-#: includes/admin-load.php:693
+#: includes/admin-load.php:697
 msgid "Invalid nonce token!"
 msgstr "Token nonce tidak valid!"
 
-#: includes/admin-load.php:698
-#: includes/admin-load.php:705
+#: includes/admin-load.php:702
+#: includes/admin-load.php:709
 msgid "Error: wrong data"
 msgstr "Eror: data salah"
 
-#: includes/admin-load.php:725
+#: includes/admin-load.php:729
 msgid ""
 "Changes saved. Feature status synchronization has been queued for all "
 "network sites."
@@ -284,147 +257,170 @@ msgstr ""
 "Perubahan disimpan. Sinkronisasi status fitur telah dijadwalkan untuk semua "
 "situs jaringan."
 
-#: includes/admin-load.php:731
+#: includes/admin-load.php:735
 #: common/js/admin.dev.js:1278
+#: includes/features/admin-menus/assets/js/admin-menus.js:723
 msgid "Changes saved!"
 msgstr "Perubahan disimpan!"
 
-#: includes/admin-load.php:742
+#: includes/admin-load.php:746
 #: includes/admin-notices/admin-notices.php:265
+#: includes/features/admin-menus/admin-menus-filters.php:422
+#: includes/features/admin-menus/admin-menus-filters.php:453
+#: includes/features/admin-menus/admin-menus-filters.php:503
+#: includes/features/admin-menus/admin-menus-filters.php:544
+#: includes/features/admin-menus/admin-menus-filters.php:596
 #: includes/features/frontend-features/frontend-features-action.php:41
 #: includes/features/frontend-features/frontend-features-action.php:110
 #: includes/features/restrict-profile-features.php:29
 msgid "An error occured!"
 msgstr "Terjadi kesalahan!"
 
-#: includes/admin-load.php:747
+#: includes/admin-load.php:751
+#: includes/features/admin-menus/admin-menus-filters.php:427
+#: includes/features/admin-menus/admin-menus-filters.php:458
+#: includes/features/admin-menus/admin-menus-filters.php:508
+#: includes/features/admin-menus/admin-menus-filters.php:549
+#: includes/features/admin-menus/admin-menus-filters.php:601
 msgid "Security check failed"
 msgstr "Pemeriksaan keamanan gagal"
 
-#: includes/admin-load.php:749
+#: includes/admin-load.php:753
+#: includes/features/admin-menus/admin-menus-filters.php:429
+#: includes/features/admin-menus/admin-menus-filters.php:460
+#: includes/features/admin-menus/admin-menus-filters.php:510
+#: includes/features/admin-menus/admin-menus-filters.php:551
+#: includes/features/admin-menus/admin-menus-filters.php:603
 msgid "Permission denied"
 msgstr "Izin ditolak"
 
-#: includes/admin-load.php:759
+#: includes/admin-load.php:763
+#: includes/features/admin-menus/admin-menus-filters.php:441
 msgid "Settings updated successfully."
 msgstr "Pengaturan berhasil diperbarui."
 
-#: includes/admin-load.php:824
+#: includes/admin-load.php:828
 #: includes/features/frontend-features/frontend-features.php:39
 #: includes/features/nav-menus.php:26
 msgid "Logged In Users"
 msgstr "Pengguna Masuk"
 
-#: includes/admin-load.php:825
+#: includes/admin-load.php:829
 #: includes/features/frontend-features/frontend-features.php:40
 #: includes/features/nav-menus.php:26
 msgid "Logged Out Users"
 msgstr "Pengguna Keluar"
 
-#: includes/admin-load.php:1026
+#: includes/admin-load.php:1030
 msgid "PublishPress Capabilities Menu Restriction"
 msgstr "Pembatasan Menu PublishPress Capabilities"
 
-#: includes/admin-load.php:1027
+#: includes/admin-load.php:1031
 msgid "Hide this menu item for the selected roles."
 msgstr "Sembunyikan item menu ini untuk peran yang dipilih."
 
-#: includes/admin-load.php:1035
+#: includes/admin-load.php:1039
 msgid "Search roles"
 msgstr "Cari peran"
 
-#: includes/admin-load.php:1041
+#: includes/admin-load.php:1045
 msgid "Search by role name"
 msgstr "Cari berdasarkan nama peran"
 
-#: includes/admin-load.php:1045
+#: includes/admin-load.php:1049
 msgid "No roles match your search."
 msgstr "Tidak ada peran yang cocok dengan pencarian Anda."
 
-#: includes/admin-load.php:1046
+#: includes/admin-load.php:1050
 msgid "role shown"
 msgstr "peran ditampilkan"
 
-#: includes/admin-load.php:1047
+#: includes/admin-load.php:1051
 msgid "roles shown"
 msgstr "peran ditampilkan"
 
-#: includes/admin-load.php:1070
+#: includes/admin-load.php:1074
 #, php-format
 msgid "Need a role-by-role overview? %1$sOpen Navigation Menu Restrictions%2$s."
 msgstr "Butuh tinjauan peran-peran? %1$sBuka Pembatasan Menu Navigasi%2$s."
 
-#: includes/admin-load.php:1281
+#: includes/admin-load.php:1285
 msgid "Permission"
 msgstr "Izin"
 
-#: includes/admin-load.php:1283
+#: includes/admin-load.php:1287
 msgid "Enabled"
 msgstr "Diaktifkan"
 
-#: includes/admin-load.php:1284
+#: includes/admin-load.php:1288
 msgid "Blocked"
 msgstr "Diblokir"
 
-#: includes/admin-load.php:1285
+#: includes/admin-load.php:1289
 msgid "Limited"
 msgstr "Terbatas"
 
-#: includes/admin-load.php:1303
+#: includes/admin-load.php:1307
 msgid "All content"
 msgstr "Semua konten"
 
-#: includes/admin-load.php:1326
+#: includes/admin-load.php:1330
 #, fuzzy, php-format
 msgid "Item #%d"
 msgstr "Item #%d"
 
-#: includes/admin-load.php:1328
+#: includes/admin-load.php:1332
 #, fuzzy, php-format
 msgid "%1$s: %2$s"
 msgstr "%1$s: %2$s"
 
-#: includes/admin-load.php:1334
+#: includes/admin-load.php:1338
 #, php-format
 msgid "%s: all items"
 msgstr "%s: semua item"
 
-#: includes/admin-load.php:1529
-#: includes/admin-load.php:1530
-#: includes/admin-load.php:1556
+#: includes/admin-load.php:1426
+#, php-format
+msgid "Group #%d"
+msgstr "Grup #%d"
+
+#: includes/admin-load.php:1613
+#: includes/admin-load.php:1614
+#: includes/admin-load.php:1640
 #: includes/user-capabilities-view.php:14
 msgid "User Capabilities"
 msgstr "Kemampuan Pengguna"
 
-#: includes/admin-load.php:1584
+#: includes/admin-load.php:1668
 msgid "View Capabilities"
 msgstr "Lihat Kemampuan"
 
-#: includes/admin-load.php:1720
-#: includes/admin-load.php:1735
+#: includes/admin-load.php:1804
+#: includes/admin-load.php:1819
 msgid "You do not have permission to view user capabilities."
 msgstr "Anda tidak memiliki izin untuk melihat kemampuan pengguna."
 
-#: includes/admin-load.php:1730
+#: includes/admin-load.php:1814
 #: includes/test-user.php:62
 msgid "Unable to retrieve user data."
 msgstr "Tidak dapat mengambil data pengguna."
 
-#: includes/admin-load.php:1785
+#: includes/admin-load.php:1869
 #: includes/dashboard.php:23
 msgid "Dashboard"
 msgstr "Dasbor"
 
-#: includes/admin-load.php:1787
+#: includes/admin-load.php:1871
 #: includes/admin.php:177
-#: includes/functions-admin.php:409
-#: includes/functions-admin.php:493
+#: includes/functions-admin.php:422
+#: includes/functions-admin.php:512
 #: includes/roles/roles.php:8
 #: includes/settings-ui.php:34
 msgid "Roles"
 msgstr "Peran"
 
-#: includes/admin-load.php:1788
+#: includes/admin-load.php:1872
+#: includes/plugin-capabilities/publishpress-cart.php:31
 msgid "Settings"
 msgstr "Pengaturan"
 
@@ -452,16 +448,27 @@ msgstr "Peran Saat Ini"
 #: includes/admin-notices/admin-notices.php:212
 #: includes/admin-notices/admin-notices.php:250
 #: includes/admin-notices/admin-notices.php:253
-#: includes/functions-admin.php:239
-#: includes/functions-admin.php:459
-#: includes/functions-admin.php:528
+#: includes/functions-admin.php:242
+#: includes/functions-admin.php:478
+#: includes/functions-admin.php:547
 msgid "Admin Notices"
 msgstr "Pemberitahuan Admin"
+
+#: includes/admin-notices/admin-notices-settings.php:47
+#: includes/features/admin-features.php:69
+#: includes/features/admin-styles/admin-styles-ui.php:161
+#: includes/features/editor-features.php:82
+#: includes/features/frontend-features/frontend-features.php:90
+#: includes/features/nav-menus.php:73
+#: includes/features/profile-features.php:71
+#: includes/redirects/redirects.php:123
+msgid "Role to configure"
+msgstr "Peran untuk dikonfigurasi"
 
 #: includes/admin-notices/admin-notices-settings.php:60
 #: includes/admin-notices/admin-notices-settings.php:152
 #: includes/features/admin-styles/admin-styles-ui.php:180
-#: includes/features/admin-styles/admin-styles-ui.php:840
+#: includes/features/admin-styles/admin-styles-ui.php:842
 #: includes/redirects/redirects.php:117
 #: includes/redirects/redirects.php:324
 msgid "Save for all Roles"
@@ -470,8 +477,8 @@ msgstr "Simpan untuk semua Peran"
 #: includes/admin-notices/admin-notices-settings.php:64
 #: includes/admin-notices/admin-notices-settings.php:156
 #: includes/features/admin-styles/admin-styles-ui.php:184
-#: includes/features/admin-styles/admin-styles-ui.php:844
-#: includes/features/admin-styles/admin-styles.php:1179
+#: includes/features/admin-styles/admin-styles-ui.php:846
+#: includes/features/admin-styles/admin-styles.php:1200
 #, php-format
 msgid "Save for %s"
 msgstr "Simpan untuk %s"
@@ -524,7 +531,7 @@ msgstr ""
 "dengan mengorganisir pesan dan iklan tambahan ke dalam satu tempat."
 
 #: includes/admin-notices/admin-notices-settings.php:172
-#: includes/features/admin-styles/admin-styles-ui.php:860
+#: includes/features/admin-styles/admin-styles-ui.php:862
 msgid "Features include:"
 msgstr "Fitur termasuk:"
 
@@ -543,11 +550,12 @@ msgstr "Konfigurasi visibilitas pemberitahuan berdasarkan peran pengguna"
 #: includes/admin-notices/admin-notices-settings.php:178
 #: includes/admin.php:2059
 #: includes/features/admin-features.php:352
-#: includes/features/admin-styles/admin-styles-ui.php:867
+#: includes/features/admin-menus/admin-menus.php:756
+#: includes/features/admin-styles/admin-styles-ui.php:869
 #: includes/features/editor-features.php:247
 #: includes/features/frontend-features/frontend-features.php:256
 #: includes/features/nav-menus.php:308
-#: includes/features/profile-features.php:257
+#: includes/features/profile-features.php:260
 #: includes/redirects/redirects.php:339
 msgid "View Documentation"
 msgstr "Lihat Dokumentasi"
@@ -974,7 +982,7 @@ msgstr "Kemampuan Inti WordPress"
 
 #: includes/admin.php:1519
 #: includes/admin.php:1577
-#: includes/features/admin-styles/admin-styles.php:2066
+#: includes/features/admin-styles/admin-styles.php:2089
 #: includes/roles/class/class-pp-roles-admin.php:106
 msgid "General"
 msgstr "Umum"
@@ -1019,14 +1027,16 @@ msgstr "%1$s = Kemampuan diberikan %2$s"
 #: includes/admin.php:2016
 #: includes/features/admin-features.php:347
 #: includes/features/admin-features.php:349
+#: includes/features/admin-menus/admin-menus.php:751
+#: includes/features/admin-menus/admin-menus.php:753
 #: includes/features/editor-features.php:242
 #: includes/features/editor-features.php:244
 #: includes/features/frontend-features/frontend-features.php:251
 #: includes/features/frontend-features/frontend-features.php:253
 #: includes/features/nav-menus.php:303
 #: includes/features/nav-menus.php:305
-#: includes/features/profile-features.php:252
-#: includes/features/profile-features.php:254
+#: includes/features/profile-features.php:255
+#: includes/features/profile-features.php:257
 msgid "usage key"
 msgstr "kunci penggunaan"
 
@@ -1345,11 +1355,7 @@ msgstr "%s berhasil diimpor dari data yang diunggah."
 msgid "No valid backup data found to import."
 msgstr "Tidak ada data cadangan yang valid ditemukan untuk diimpor."
 
-#: includes/backup-handler.php:576
-msgid "Needed function to create default roles not found!"
-msgstr "Fungsi yang diperlukan untuk membuat peran default tidak ditemukan!"
-
-#: includes/backup-handler.php:595
+#: includes/backup-handler.php:577
 msgid "Roles and Capabilities reset to WordPress defaults"
 msgstr "Peran dan Capabilities diatur ulang ke pengaturan bawaan WordPress"
 
@@ -1362,7 +1368,7 @@ msgid "Restore"
 msgstr "Kembalikan"
 
 #: includes/backup.php:49
-#: includes/functions-admin.php:572
+#: includes/functions-admin.php:589
 msgid "Backup"
 msgstr "Pencadangan"
 
@@ -1494,7 +1500,7 @@ msgstr "Reset ke pengaturan bawaan WordPress"
 
 #: includes/backup.php:282
 #: includes/backup.php:363
-#: includes/features/profile-features.php:242
+#: includes/features/profile-features.php:245
 msgid "Warning:"
 msgstr "Peringatan:"
 
@@ -1609,10 +1615,12 @@ msgid "Admin Feature Restrictions"
 msgstr "Pembatasan Fitur Admin"
 
 #: includes/features/admin-features.php:175
+#: includes/features/admin-menus/admin-menus.php:265
+#: includes/features/admin-menus/admin-menus.php:288
 #: includes/features/nav-menus.php:127
 #: includes/features/nav-menus.php:147
-#: includes/features/profile-features.php:107
-#: includes/features/profile-features.php:126
+#: includes/features/profile-features.php:110
+#: includes/features/profile-features.php:129
 msgid "Toggle all"
 msgstr "Alihkan semua"
 
@@ -1635,24 +1643,26 @@ msgid "Edit"
 msgstr "Edit"
 
 #: includes/features/admin-features.php:345
-#: includes/functions-admin.php:425
+#: includes/functions-admin.php:438
 msgid ""
 "Admin Features allows you to remove elements from the admin area and "
 "toolbar."
 msgstr "Fitur Admin memungkinkan Anda menghapus elemen dari area admin dan toolbar."
 
 #: includes/features/admin-features.php:348
+#: includes/features/admin-menus/admin-menus.php:752
 #: includes/features/editor-features.php:243
 #: includes/features/frontend-features/frontend-features.php:252
 #: includes/features/nav-menus.php:304
-#: includes/features/profile-features.php:253
+#: includes/features/profile-features.php:256
 msgid "No change"
 msgstr "Tidak ada perubahan"
 
 #: includes/features/admin-features.php:350
+#: includes/features/admin-menus/admin-menus.php:754
 #: includes/features/editor-features.php:245
 #: includes/features/nav-menus.php:306
-#: includes/features/profile-features.php:255
+#: includes/features/profile-features.php:258
 msgid "This feature is denied"
 msgstr "Fitur ini ditolak"
 
@@ -1666,16 +1676,378 @@ msgstr "Pengaturan Fitur Admin"
 
 #: includes/features/admin-features.php:359
 #: includes/features/admin-features.php:360
+#: includes/features/admin-menus/admin-menus.php:763
 msgid "Hide Submenus"
 msgstr "Sembunyikan Submenu"
 
+#: includes/features/admin-menus/admin-menus-controller.php:71
+#: includes/features/admin-menus/admin-menus-controller.php:95
+msgid "You do not have permission to manage menu restrictions."
+msgstr "Anda tidak memiliki izin untuk mengelola pembatasan menu."
+
+#: includes/features/admin-menus/admin-menus-controller.php:144
+msgid "Settings updated for all roles."
+msgstr "Pengaturan diperbarui untuk semua peran."
+
+#: includes/features/admin-menus/admin-menus-controller.php:150
+#: includes/manager.php:683
+#: includes/manager.php:737
+#: includes/manager.php:785
+#: includes/manager.php:879
+#: includes/manager.php:928
+#: includes/manager.php:1010
+#: includes/manager.php:1091
+msgid "Settings updated."
+msgstr "Pengaturan diperbarui."
+
+#: includes/features/admin-menus/admin-menus-controller.php:170
+msgid "Saving Menu Order..."
+msgstr "Menyimpan Urutan Menu..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:171
+msgid "Saving Menu Name..."
+msgstr "Menyimpan Nama Menu..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:172
+msgid "Menu Name can not be empty."
+msgstr "Nama Menu tidak boleh kosong."
+
+#: includes/features/admin-menus/admin-menus-controller.php:173
+msgid "Change Icon"
+msgstr "Ubah Ikon"
+
+#: includes/features/admin-menus/admin-menus-controller.php:174
+msgid "Search icons..."
+msgstr "Cari ikon..."
+
+#: includes/features/admin-menus/admin-menus-controller.php:175
+msgid "Menu icon updated"
+msgstr "Ikon menu diperbarui"
+
+#: includes/features/admin-menus/admin-menus-controller.php:176
+msgid "Error updating menu icon"
+msgstr "Kesalahan saat memperbarui ikon menu"
+
+#: includes/features/admin-menus/admin-menus-controller.php:177
+msgid "Duplicate menu with this Menu URL already exists"
+msgstr "Menu duplikat dengan URL Menu ini sudah ada"
+
+#: includes/features/admin-menus/admin-menus-controller.php:178
+msgid "Duplicate submenu with the menu url already exist"
+msgstr "Submenu duplikat dengan URL menu sudah ada"
+
+#: includes/features/admin-menus/admin-menus-filters.php:470
+msgid "Admin Menu Order reset successfully. Reloading page..."
+msgstr "Urutan Menu Admin berhasil direset. Memuat ulang halaman..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:476
+msgid "Admin Menu Names reset successfully. Reloading page..."
+msgstr "Nama Menu Admin berhasil direset. Memuat ulang halaman..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:482
+msgid "Admin Menu Cache reset successfully. Reloading page..."
+msgstr "Cache Menu Admin berhasil direset. Memuat ulang halaman..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:486
+msgid "Admin Menu reset successfully. Reloading page..."
+msgstr "Menu Admin berhasil direset. Memuat ulang halaman..."
+
+#: includes/features/admin-menus/admin-menus-filters.php:533
+msgid "Menu deleted successfully."
+msgstr "Menu berhasil dihapus."
+
+#: includes/features/admin-menus/admin-menus-filters.php:561
+#: includes/features/admin-menus/admin-menus-filters.php:608
+msgid "Invalid data"
+msgstr "Data tidak valid"
+
+#: includes/features/admin-menus/admin-menus-filters.php:570
+msgid "Menu Name Updated for all roles."
+msgstr "Nama Menu Diperbarui untuk semua peran."
+
+#: includes/features/admin-menus/admin-menus-filters.php:574
+#: includes/features/admin-menus/admin-menus-filters.php:581
+msgid "Menu Name Updated."
+msgstr "Nama Menu Diperbarui."
+
+#: includes/features/admin-menus/admin-menus-filters.php:612
+msgid "Menu Order Updated."
+msgstr "Urutan Menu Diperbarui."
+
+#: includes/features/admin-menus/admin-menus-functions.php:40
+#: includes/functions.php:805
+msgid "You do not have permission to access this page."
+msgstr "Anda tidak punya hak akses untuk mengakses halaman ini."
+
+#: includes/features/admin-menus/admin-menus.php:108
+#: includes/functions-admin.php:447
+#: includes/functions-admin.php:554
+#: includes/roles/class/class-pp-roles-admin.php:556
+#: includes/settings-ui.php:38
+msgid "Admin Menus"
+msgstr "Menu Admin"
+
+#: includes/features/admin-menus/admin-menus.php:138
+#: includes/features/admin-menus/admin-menus.php:737
+msgid "Save for All Roles"
+msgstr "Simpan untuk Semua Peran"
+
+#: includes/features/admin-menus/admin-menus.php:155
+msgid ""
+"Add custom menu links, submenu links, and separators to the WordPress admin "
+"menu. This feature is available in PublishPress Capabilities Pro."
+msgstr ""
+"Tambahkan tautan menu kustom, tautan submenu, dan pemisah ke menu admin "
+"WordPress. Fitur ini tersedia di PublishPress Capabilities Pro."
+
+#: includes/features/admin-menus/admin-menus.php:163
+msgid "Type:"
+msgstr "Tipe:"
+
+#: includes/features/admin-menus/admin-menus.php:165
+msgid "Menu Link"
+msgstr "Tautan Menu"
+
+#: includes/features/admin-menus/admin-menus.php:166
+msgid "Submenu Link"
+msgstr "Tautan Submenu"
+
+#: includes/features/admin-menus/admin-menus.php:167
+msgid "Menu Separator"
+msgstr "Pemisah Menu"
+
+#: includes/features/admin-menus/admin-menus.php:168
+msgid "Submenu Separator"
+msgstr "Pemisah Submenu"
+
+#: includes/features/admin-menus/admin-menus.php:172
+msgid "Position:"
+msgstr "Posisi:"
+
+#: includes/features/admin-menus/admin-menus.php:174
+msgid "After"
+msgstr "Setelah"
+
+#: includes/features/admin-menus/admin-menus.php:185
+msgid "Menu Title:"
+msgstr "Judul Menu:"
+
+#: includes/features/admin-menus/admin-menus.php:188
+msgid "My Custom Menu"
+msgstr "Menu Kustom Saya"
+
+#: includes/features/admin-menus/admin-menus.php:190
+msgid "Menu Title is required."
+msgstr "Judul Menu diperlukan."
+
+#: includes/features/admin-menus/admin-menus.php:193
+msgid "Separator Style"
+msgstr "Gaya Pemisah"
+
+#: includes/features/admin-menus/admin-menus.php:195
+msgid "Line (____________________)"
+msgstr "Garis (____________________)"
+
+#: includes/features/admin-menus/admin-menus.php:196
+msgid "Empty Space"
+msgstr "Ruang Kosong"
+
+#: includes/features/admin-menus/admin-menus.php:197
+#: includes/features/admin-styles/admin-styles-ui.php:396
+msgid "Text"
+msgstr "Teks"
+
+#: includes/features/admin-menus/admin-menus.php:201
+msgid "Separator Color"
+msgstr "Warna Pemisah"
+
+#: includes/features/admin-menus/admin-menus.php:206
+msgid "Menu URL:"
+msgstr "URL Menu:"
+
+#: includes/features/admin-menus/admin-menus.php:210
+#, php-format
+msgid ""
+"Enter an internal link such as %1s or an external link such as %2s. Any "
+"link can only be used once for a Menu URL."
+msgstr ""
+"Masukkan tautan internal seperti %1s atau tautan eksternal seperti %2s. "
+"Tautan apa pun hanya dapat digunakan sekali untuk URL Menu."
+
+#: includes/features/admin-menus/admin-menus.php:217
+msgid "Menu with this url already exist."
+msgstr "Menu dengan URL ini sudah ada."
+
+#: includes/features/admin-menus/admin-menus.php:224
+msgid "Menu Capability:"
+msgstr "Kemampuan Menu:"
+
+#: includes/features/admin-menus/admin-menus.php:229
+#, php-format
+msgid ""
+"This is the capability required to see this menu. For example: %1s or %2s "
+"If you're entering a custom capability, remember to add and assign it to "
+"preferred roles on the capabilities page"
+msgstr ""
+"Ini adalah kemampuan yang diperlukan untuk melihat menu ini. Misalnya: %1s "
+"atau %2s Jika Anda memasukkan kemampuan kustom, ingatlah untuk "
+"menambahkannya dan menetapkannya ke peran yang diinginkan di halaman "
+"kemampuan"
+
+#: includes/features/admin-menus/admin-menus.php:236
+msgid "Menu Capability is required."
+msgstr "Kemampuan Menu diperlukan."
+
+#: includes/features/admin-menus/admin-menus.php:240
+msgid "Menu Icon"
+msgstr "Ikon Menu"
+
+#: includes/features/admin-menus/admin-menus.php:245
+msgid "Save Menu Link"
+msgstr "Simpan Tautan Menu"
+
+#: includes/features/admin-menus/admin-menus.php:271
+msgid "New Menu Link"
+msgstr "Tautan Menu Baru"
+
+#: includes/features/admin-menus/admin-menus.php:443
+#: includes/features/admin-menus/admin-menus.php:604
+msgid "(Can't detect menu name)"
+msgstr "(Tidak dapat mendeteksi nama menu)"
+
+#: includes/features/admin-menus/admin-menus.php:469
+#: includes/features/admin-menus/admin-menus.php:626
+msgid ""
+"This menu name is not available in menu global data or directly registered "
+"with the menu"
+msgstr ""
+"Nama menu ini tidak tersedia dalam data global menu atau tidak terdaftar "
+"langsung dengan menu"
+
+#: includes/features/admin-menus/admin-menus.php:480
+#: includes/features/admin-menus/admin-menus.php:636
+#, php-format
+msgid "%s Role"
+msgstr "%s Peran"
+
+#: includes/features/admin-menus/admin-menus.php:481
+#: includes/features/admin-menus/admin-menus.php:637
+#: includes/roles/class/class-pp-roles-admin.php:577
+msgid "All Roles"
+msgstr "Semua Peran"
+
+#: includes/features/admin-menus/admin-menus.php:483
+#: includes/features/admin-menus/admin-menus.php:640
+msgid "Save"
+msgstr "Simpan"
+
+#: includes/features/admin-menus/admin-menus.php:486
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:643
+#: includes/features/admin-menus/admin-menus.php:660
+#: includes/features/admin-styles/admin-styles-ui.php:473
+#: includes/features/admin-styles/admin-styles-ui.php:488
+msgid "Cancel"
+msgstr "Batal"
+
+#: includes/features/admin-menus/admin-menus.php:494
+#: includes/features/admin-menus/admin-menus.php:651
+msgid "This option is disabled to prevent complete lockout"
+msgstr "Opsi ini dinonaktifkan untuk mencegah penguncian total"
+
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:660
+#, php-format
+msgid "Are you sure you want to delete %1s? %2s %3s"
+msgstr "Apakah Anda yakin ingin menghapus %1s? %2s %3s"
+
+#: includes/features/admin-menus/admin-menus.php:503
+#: includes/features/admin-menus/admin-menus.php:660
+msgid "Delete"
+msgstr "Hapus"
+
+#: includes/features/admin-menus/admin-menus.php:513
+#: includes/features/admin-menus/admin-menus.php:670
+#, php-format
+msgid "The capability required to access this menu is %s"
+msgstr "Kemampuan yang diperlukan untuk mengakses menu ini adalah %s"
+
+#: includes/features/admin-menus/admin-menus.php:518
+#: includes/features/admin-menus/admin-menus.php:675
+msgid "Rename Menu"
+msgstr "Ganti Nama Menu"
+
+#: includes/features/admin-menus/admin-menus.php:524
+#: includes/features/admin-menus/admin-menus.php:681
+msgid "Move Up"
+msgstr "Pindah ke Atas"
+
+#: includes/features/admin-menus/admin-menus.php:527
+#: includes/features/admin-menus/admin-menus.php:684
+msgid "Move Down"
+msgstr "Pindah ke Bawah"
+
+#: includes/features/admin-menus/admin-menus.php:721
+msgid "No menu found"
+msgstr "Tidak ada menu yang ditemukan"
+
+#: includes/features/admin-menus/admin-menus.php:747
+msgid "How to use Admin Menus"
+msgstr "Cara menggunakan Menu Admin"
+
+#: includes/features/admin-menus/admin-menus.php:749
+#: includes/functions-admin.php:448
+msgid ""
+"Admin Menus allows you to edit the admin menu links and control who has "
+"access."
+msgstr ""
+"Menu Admin memungkinkan Anda untuk mengedit tautan menu admin dan "
+"mengontrol siapa yang memiliki akses."
+
+#: includes/features/admin-menus/admin-menus.php:760
+msgid "Admin Menus Settings"
+msgstr "Pengaturan Menu Admin"
+
+#: includes/features/admin-menus/admin-menus.php:765
+msgid "Show Menu Slugs"
+msgstr "Tampilkan Slug Menu"
+
+#: includes/features/admin-menus/admin-menus.php:770
+msgid "Reset Admin Menus"
+msgstr "Reset Menu Admin"
+
+#: includes/features/admin-menus/admin-menus.php:772
+msgid ""
+"You can reset admin menu order and name to their original position and "
+"names. You can also reset menu cache to fix issue of missing menu."
+msgstr ""
+"Anda dapat mereset urutan dan nama menu admin ke posisi dan nama aslinya. "
+"Anda juga dapat mereset cache menu untuk memperbaiki masalah menu yang "
+"hilang."
+
+#: includes/features/admin-menus/admin-menus.php:775
+msgid "Reset Menu Order"
+msgstr "Reset Urutan Menu"
+
+#: includes/features/admin-menus/admin-menus.php:777
+msgid "Reset Cached Menu"
+msgstr "Reset Menu yang Dicache"
+
+#: includes/features/admin-menus/admin-menus.php:779
+msgid "Reset Menu Names"
+msgstr "Reset Nama Menu"
+
+#: includes/features/admin-menus/admin-menus.php:781
+msgid "Reset Selected Option"
+msgstr "Reset Opsi yang Dipilih"
+
 #: includes/features/admin-styles/admin-styles-ui.php:55
-#: includes/features/admin-styles/admin-styles-ui.php:652
 #: includes/features/admin-styles/admin-styles-ui.php:653
-#: includes/features/admin-styles/admin-styles-ui.php:738
-#: includes/features/admin-styles/admin-styles-ui.php:739
-#: includes/features/admin-styles/admin-styles.php:2351
-#: includes/features/admin-styles/admin-styles.php:2438, fuzzy
+#: includes/features/admin-styles/admin-styles-ui.php:654
+#: includes/features/admin-styles/admin-styles-ui.php:740
+#: includes/features/admin-styles/admin-styles-ui.php:741
+#: includes/features/admin-styles/admin-styles.php:2374
+#: includes/features/admin-styles/admin-styles.php:2612, fuzzy
 msgid "Default"
 msgstr "Default"
 
@@ -1698,9 +2070,9 @@ msgid "Admin styles saved successfully."
 msgstr "Gaya admin berhasil disimpan."
 
 #: includes/features/admin-styles/admin-styles-ui.php:140
-#: includes/functions-admin.php:233
-#: includes/functions-admin.php:429
-#: includes/functions-admin.php:521
+#: includes/functions-admin.php:236
+#: includes/functions-admin.php:442
+#: includes/functions-admin.php:540
 msgid "Admin Styles"
 msgstr "Gaya Admin"
 
@@ -1782,16 +2154,13 @@ msgid "e.g. .publishpress-wrap h1, #my-plugin-header"
 msgstr "mis. .publishpress-wrap h1, #my-plugin-header"
 
 #: includes/features/admin-styles/admin-styles-ui.php:392
+#: includes/features/admin-styles/admin-styles-ui.php:393
 msgid "Variation"
 msgstr "Variasi"
 
 #: includes/features/admin-styles/admin-styles-ui.php:395
 msgid "Background"
 msgstr "Latar Belakang"
-
-#: includes/features/admin-styles/admin-styles-ui.php:396
-msgid "Text"
-msgstr "Teks"
 
 #: includes/features/admin-styles/admin-styles-ui.php:397
 msgid "Border"
@@ -1809,18 +2178,13 @@ msgid "Remove"
 msgstr "Hapus"
 
 #: includes/features/admin-styles/admin-styles-ui.php:428
-#: includes/features/admin-styles/admin-styles.php:1195
+#: includes/features/admin-styles/admin-styles.php:1218
 msgid "Custom Style Name"
 msgstr "Nama Gaya Kustom"
 
 #: includes/features/admin-styles/admin-styles-ui.php:436
 msgid "e.g., Company Branding, Dark Mode"
 msgstr "misalnya, Branding Perusahaan, Mode Gelap"
-
-#: includes/features/admin-styles/admin-styles-ui.php:473
-#: includes/features/admin-styles/admin-styles-ui.php:488
-msgid "Cancel"
-msgstr "Batal"
 
 #: includes/features/admin-styles/admin-styles-ui.php:479
 #: includes/features/admin-styles/admin-styles-ui.php:487
@@ -1853,12 +2217,13 @@ msgstr ""
 "Disarankan: 20px x 20px dalam format SVG atau PNG."
 
 #: includes/features/admin-styles/admin-styles-ui.php:539
+#: includes/features/admin-styles/admin-styles.php:1202
 msgid "Admin logo preview"
 msgstr "Prabala logo Admin"
 
 #: includes/features/admin-styles/admin-styles-ui.php:545
 #: includes/features/admin-styles/admin-styles-ui.php:581
-#: includes/features/admin-styles/admin-styles.php:1175
+#: includes/features/admin-styles/admin-styles.php:1196
 msgid "Select Image"
 msgstr "Pilih Gambar"
 
@@ -1875,6 +2240,7 @@ msgstr ""
 "32px dalam format SVG atau PNG."
 
 #: includes/features/admin-styles/admin-styles-ui.php:574
+#: includes/features/admin-styles/admin-styles.php:1203
 msgid "Admin favicon preview"
 msgstr "Prabala favicon Admin"
 
@@ -1894,11 +2260,19 @@ msgstr "Font Preset"
 msgid "Custom Value"
 msgstr "Nilai Kustom"
 
-#: includes/features/admin-styles/admin-styles-ui.php:632
+#: includes/features/admin-styles/admin-styles-ui.php:610
+msgid "Admin font family preset"
+msgstr "Preset keluarga font admin"
+
+#: includes/features/admin-styles/admin-styles-ui.php:621
+msgid "Custom admin font family"
+msgstr "Keluarga font admin kustom"
+
+#: includes/features/admin-styles/admin-styles-ui.php:633
 msgid "Admin Font Size"
 msgstr "Ukuran Font Admin"
 
-#: includes/features/admin-styles/admin-styles-ui.php:635
+#: includes/features/admin-styles/admin-styles-ui.php:636
 msgid ""
 "Set a base font size for the admin area. Leave empty to use the default "
 "WordPress size."
@@ -1906,82 +2280,99 @@ msgstr ""
 "Atur ukuran font dasar untuk area admin. Biarkan kosong untuk menggunakan "
 "ukuran default WordPress."
 
-#: includes/features/admin-styles/admin-styles-ui.php:655
-#: includes/features/admin-styles/admin-styles-ui.php:741
+#: includes/features/admin-styles/admin-styles-ui.php:656
+#: includes/features/admin-styles/admin-styles-ui.php:743
 msgid "Named Sizes"
 msgstr "Ukuran Bernama"
 
-#: includes/features/admin-styles/admin-styles-ui.php:661
-#: includes/features/admin-styles/admin-styles-ui.php:747
+#: includes/features/admin-styles/admin-styles-ui.php:662
+#: includes/features/admin-styles/admin-styles-ui.php:749
 msgid "Pixel Sizes"
 msgstr "Ukuran Piksel"
 
-#: includes/features/admin-styles/admin-styles-ui.php:674
+#: includes/features/admin-styles/admin-styles-ui.php:675
 msgid "Typography Overrides"
 msgstr "Override Tipografi"
 
-#: includes/features/admin-styles/admin-styles-ui.php:676
+#: includes/features/admin-styles/admin-styles-ui.php:677
 msgid "Optional target-specific typography rules for common admin elements."
 msgstr "Aturan tipografi khusus target opsional untuk elemen admin umum."
 
-#: includes/features/admin-styles/admin-styles-ui.php:682
+#: includes/features/admin-styles/admin-styles-ui.php:683
 msgid "Body Text"
 msgstr "Teks Tubuh"
 
-#: includes/features/admin-styles/admin-styles-ui.php:683
-#: includes/features/admin-styles/admin-styles.php:2092
+#: includes/features/admin-styles/admin-styles-ui.php:684
+#: includes/features/admin-styles/admin-styles.php:2115
 msgid "Links"
 msgstr "Tautan"
 
-#: includes/features/admin-styles/admin-styles-ui.php:684
+#: includes/features/admin-styles/admin-styles-ui.php:685
 msgid "Headings"
 msgstr "Judul"
 
-#: includes/features/admin-styles/admin-styles-ui.php:685
-#: includes/features/admin-styles/admin-styles.php:2216
+#: includes/features/admin-styles/admin-styles-ui.php:686
+#: includes/features/admin-styles/admin-styles.php:2239
+#: includes/functions-admin.php:270
+#: includes/settings-ui.php:53
 msgid "Admin Menu"
 msgstr "Menu Admin"
 
-#: includes/features/admin-styles/admin-styles-ui.php:686
-#: includes/features/admin-styles/admin-styles.php:2258
+#: includes/features/admin-styles/admin-styles-ui.php:687
+#: includes/features/admin-styles/admin-styles.php:2281
 msgid "Admin Bar"
 msgstr "Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles-ui.php:687
+#: includes/features/admin-styles/admin-styles-ui.php:688
 msgid "Form Fields"
 msgstr "Bidang Formulir"
 
-#: includes/features/admin-styles/admin-styles-ui.php:688
-#: includes/features/admin-styles/admin-styles.php:2186
+#: includes/features/admin-styles/admin-styles-ui.php:689
+#: includes/features/admin-styles/admin-styles.php:2209
 msgid "Buttons"
 msgstr "Tombol"
 
-#: includes/features/admin-styles/admin-styles-ui.php:694, fuzzy
+#: includes/features/admin-styles/admin-styles-ui.php:695, fuzzy
 msgid "Target"
 msgstr "Target"
 
-#: includes/features/admin-styles/admin-styles-ui.php:695
+#: includes/features/admin-styles/admin-styles-ui.php:696
 msgid "Font Family"
 msgstr "Keluarga Font"
 
-#: includes/features/admin-styles/admin-styles-ui.php:696
+#: includes/features/admin-styles/admin-styles-ui.php:697
 msgid "Font Size"
 msgstr "Ukuran Font"
 
-#: includes/features/admin-styles/admin-styles-ui.php:715, fuzzy
+#: includes/features/admin-styles/admin-styles-ui.php:716, fuzzy
 msgid "Preset"
 msgstr "Preset"
 
-#: includes/features/admin-styles/admin-styles-ui.php:716
+#: includes/features/admin-styles/admin-styles-ui.php:717
 #: includes/roles/class/class-pp-roles-list-table.php:425
 msgid "Custom"
 msgstr "Kustom"
 
-#: includes/features/admin-styles/admin-styles-ui.php:764
+#: includes/features/admin-styles/admin-styles-ui.php:721
+#, php-format
+msgid "Font family for %s"
+msgstr "Keluarga font untuk %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:731
+#, php-format
+msgid "Custom font family for %s"
+msgstr "Keluarga font kustom untuk %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:739
+#, php-format
+msgid "Font size for %s"
+msgstr "Ukuran font untuk %s"
+
+#: includes/features/admin-styles/admin-styles-ui.php:766
 msgid "Admin Footer Text"
 msgstr "Teks Footer Admin"
 
-#: includes/features/admin-styles/admin-styles-ui.php:767
+#: includes/features/admin-styles/admin-styles-ui.php:769
 msgid ""
 "Replace the default \"Thanks for creating with WordPress\" message in the "
 "admin footer."
@@ -1989,27 +2380,27 @@ msgstr ""
 "Ganti pesan default \"Terima kasih telah membuat dengan WordPress\" di "
 "footer admin."
 
-#: includes/features/admin-styles/admin-styles-ui.php:781
+#: includes/features/admin-styles/admin-styles-ui.php:783
 msgid "Replace \"Howdy\""
 msgstr "Ganti \"Howdy\""
 
-#: includes/features/admin-styles/admin-styles-ui.php:784
+#: includes/features/admin-styles/admin-styles-ui.php:786
 msgid "Replace \"Howdy\" in the admin bar."
 msgstr "Ganti \"Howdy\" di bilah admin."
 
-#: includes/features/admin-styles/admin-styles-ui.php:797
+#: includes/features/admin-styles/admin-styles-ui.php:799
 msgid "Control Settings"
 msgstr "Pengaturan Kontrol"
 
-#: includes/features/admin-styles/admin-styles-ui.php:799
+#: includes/features/admin-styles/admin-styles-ui.php:801
 msgid "Control how admin styles are applied to users."
 msgstr "Kontrol bagaimana gaya admin diterapkan kepada pengguna."
 
-#: includes/features/admin-styles/admin-styles-ui.php:808
+#: includes/features/admin-styles/admin-styles-ui.php:810
 msgid "Hide Admin Color Scheme settings in user profile"
 msgstr "Sembunyikan pengaturan Skema Warna Admin di profil pengguna"
 
-#: includes/features/admin-styles/admin-styles-ui.php:810
+#: includes/features/admin-styles/admin-styles-ui.php:812
 msgid ""
 "When enabled, users cannot see or change color scheme settings in their "
 "profile. Role-based settings will be applied."
@@ -2017,11 +2408,11 @@ msgstr ""
 "Ketika diaktifkan, pengguna tidak dapat melihat atau mengubah pengaturan "
 "skema warna di profil mereka. Pengaturan berbasis peran akan diterapkan."
 
-#: includes/features/admin-styles/admin-styles-ui.php:818
+#: includes/features/admin-styles/admin-styles-ui.php:820
 msgid "Force role settings (override user selection)"
 msgstr "Paksa pengaturan peran (override pemilihan pengguna)"
 
-#: includes/features/admin-styles/admin-styles-ui.php:820
+#: includes/features/admin-styles/admin-styles-ui.php:822
 msgid ""
 "When enabled, role settings will always apply, overriding any user "
 "selection even if the color scheme UI is visible to them."
@@ -2029,7 +2420,7 @@ msgstr ""
 "Ketika diaktifkan, pengaturan peran akan selalu diterapkan, mengesampingkan "
 "pilihan pengguna bahkan jika skema warna UI terlihat oleh mereka."
 
-#: includes/features/admin-styles/admin-styles-ui.php:858
+#: includes/features/admin-styles/admin-styles-ui.php:860
 msgid ""
 "Admin Styles allows you to customize the WordPress admin area with your own "
 "branding."
@@ -2037,498 +2428,498 @@ msgstr ""
 "Gaya Admin memungkinkan Anda untuk menyesuaikan area admin WordPress dengan "
 "branding Anda sendiri."
 
-#: includes/features/admin-styles/admin-styles-ui.php:862
+#: includes/features/admin-styles/admin-styles-ui.php:864
 msgid "Custom admin color schemes"
 msgstr "Skema warna admin kustom"
 
-#: includes/features/admin-styles/admin-styles-ui.php:863
+#: includes/features/admin-styles/admin-styles-ui.php:865
 msgid "Replace the WordPress logo and favicon"
 msgstr "Ganti logo WordPress dan favicon"
 
-#: includes/features/admin-styles/admin-styles-ui.php:864
+#: includes/features/admin-styles/admin-styles-ui.php:866
 msgid "Custom footer text"
 msgstr "Teks footer kustom"
 
-#: includes/features/admin-styles/admin-styles-ui.php:865
+#: includes/features/admin-styles/admin-styles-ui.php:867
 msgid "Replace \"Howdy\" text"
 msgstr "Ganti teks \"Howdy\""
 
-#: includes/features/admin-styles/admin-styles-ui.php:868
+#: includes/features/admin-styles/admin-styles-ui.php:870
 msgid "How to use Admin Styles"
 msgstr "Cara menggunakan Gaya Admin"
 
-#: includes/features/admin-styles/admin-styles.php:856
+#: includes/features/admin-styles/admin-styles.php:876
 msgid "Security check failed."
 msgstr "Pemeriksaan keamanan gagal."
 
-#: includes/features/admin-styles/admin-styles.php:861
+#: includes/features/admin-styles/admin-styles.php:881
 #: includes/manager.php:800
 msgid "You do not have permission to manage admin styles."
 msgstr "Anda tidak memiliki izin untuk mengelola gaya admin."
 
-#: includes/features/admin-styles/admin-styles.php:925
+#: includes/features/admin-styles/admin-styles.php:945
 msgid "No role specified."
 msgstr "Tidak ada peran yang ditentukan."
 
-#: includes/features/admin-styles/admin-styles.php:1176
+#: includes/features/admin-styles/admin-styles.php:1197
 msgid "Use this Image"
 msgstr "Gunakan Gambar Ini"
 
-#: includes/features/admin-styles/admin-styles.php:1177
+#: includes/features/admin-styles/admin-styles.php:1198
 msgid "Saving..."
 msgstr "Menyimpan..."
 
-#: includes/features/admin-styles/admin-styles.php:1178
+#: includes/features/admin-styles/admin-styles.php:1199
 msgid "Settings saved."
 msgstr "Pengaturan disimpan."
 
-#: includes/features/admin-styles/admin-styles.php:1180
+#: includes/features/admin-styles/admin-styles.php:1201
 msgid "Current logo preview"
 msgstr "Pratinjau logo saat ini"
 
-#: includes/features/admin-styles/admin-styles.php:1181
+#: includes/features/admin-styles/admin-styles.php:1204
 msgid "Add New Custom Style"
 msgstr "Tambah Gaya Kustom Baru"
 
-#: includes/features/admin-styles/admin-styles.php:1182
+#: includes/features/admin-styles/admin-styles.php:1205
 msgid "Edit Custom Style"
 msgstr "Edit Gaya Kustom"
 
-#: includes/features/admin-styles/admin-styles.php:1183
+#: includes/features/admin-styles/admin-styles.php:1206
 #, php-format
 msgid "Are you sure you want to delete \"%s\" custom style?"
 msgstr "Apakah Anda yakin ingin menghapus gaya kustom \"%s\"?"
 
-#: includes/features/admin-styles/admin-styles.php:1184
+#: includes/features/admin-styles/admin-styles.php:1207
 msgid "this custom style"
 msgstr "gaya kustom ini"
 
-#: includes/features/admin-styles/admin-styles.php:1185
+#: includes/features/admin-styles/admin-styles.php:1208
 msgid "Primary Button"
 msgstr "Tombol Utama"
 
-#: includes/features/admin-styles/admin-styles.php:1186
+#: includes/features/admin-styles/admin-styles.php:1209
 msgid "Hover State"
 msgstr "Status Hover"
 
-#: includes/features/admin-styles/admin-styles.php:1187
+#: includes/features/admin-styles/admin-styles.php:1210
 msgid "Notification"
 msgstr "Notifikasi"
 
-#: includes/features/admin-styles/admin-styles.php:1188
+#: includes/features/admin-styles/admin-styles.php:1211
 msgid "Live preview of your custom color scheme"
 msgstr "Prabaca langsung dari skema warna kustom Anda"
 
-#: includes/features/admin-styles/admin-styles.php:1189
+#: includes/features/admin-styles/admin-styles.php:1212
 msgid "Custom Style Name is required."
 msgstr "Nama Gaya Kustom diperlukan."
 
-#: includes/features/admin-styles/admin-styles.php:1190
+#: includes/features/admin-styles/admin-styles.php:1213
 msgid "Main Admin Color is required."
 msgstr "Warna Admin Utama diperlukan."
 
-#: includes/features/admin-styles/admin-styles.php:1191
+#: includes/features/admin-styles/admin-styles.php:1214
 msgid "PublishPress Custom"
 msgstr "PublishPress Kustom"
 
-#: includes/features/admin-styles/admin-styles.php:1192
+#: includes/features/admin-styles/admin-styles.php:1215
 msgid "Display Name"
 msgstr "Nama Tampilan"
 
-#: includes/features/admin-styles/admin-styles.php:1193
+#: includes/features/admin-styles/admin-styles.php:1216
 msgid "Change how this style is displayed"
 msgstr "Ubah cara gaya ini ditampilkan"
 
-#: includes/features/admin-styles/admin-styles.php:1194
+#: includes/features/admin-styles/admin-styles.php:1217
 msgid "Enter a name for your custom style"
 msgstr "Masukkan nama untuk gaya kustom Anda"
 
-#: includes/features/admin-styles/admin-styles.php:1208
+#: includes/features/admin-styles/admin-styles.php:1231
 msgid "Forest"
 msgstr "Hutan"
 
-#: includes/features/admin-styles/admin-styles.php:1225
+#: includes/features/admin-styles/admin-styles.php:1248
 msgid "Mint Breeze"
 msgstr "Angin Mint"
 
-#: includes/features/admin-styles/admin-styles.php:1242
+#: includes/features/admin-styles/admin-styles.php:1265
 msgid "Cherry"
 msgstr "Ceri"
 
-#: includes/features/admin-styles/admin-styles.php:1259
+#: includes/features/admin-styles/admin-styles.php:1282
 msgid "Graphite"
 msgstr "Grafit"
 
-#: includes/features/admin-styles/admin-styles.php:1276
+#: includes/features/admin-styles/admin-styles.php:1299
 msgid "Midnight Teal"
 msgstr "Teal Tengah Malam"
 
-#: includes/features/admin-styles/admin-styles.php:1293
+#: includes/features/admin-styles/admin-styles.php:1316
 msgid "Sunrise"
 msgstr "Fajar"
 
-#: includes/features/admin-styles/admin-styles.php:1310
+#: includes/features/admin-styles/admin-styles.php:1333
 msgid "Desert Sand"
 msgstr "Pasir Gurun"
 
-#: includes/features/admin-styles/admin-styles.php:1327
+#: includes/features/admin-styles/admin-styles.php:1350
 msgid "Amber Glow"
 msgstr "Cahaya Amber"
 
-#: includes/features/admin-styles/admin-styles.php:1344
+#: includes/features/admin-styles/admin-styles.php:1367
 msgid "Citrus"
 msgstr "Sitrus"
 
-#: includes/features/admin-styles/admin-styles.php:1361
+#: includes/features/admin-styles/admin-styles.php:1384
 msgid "Ocean Deep"
 msgstr "Samudera Dalam"
 
-#: includes/features/admin-styles/admin-styles.php:1378, fuzzy
+#: includes/features/admin-styles/admin-styles.php:1401, fuzzy
 msgid "Sage"
 msgstr "Sage"
 
-#: includes/features/admin-styles/admin-styles.php:1395
+#: includes/features/admin-styles/admin-styles.php:1418
 msgid "Modern Slate"
 msgstr "Batu Ardesia Modern"
 
-#: includes/features/admin-styles/admin-styles.php:1412
+#: includes/features/admin-styles/admin-styles.php:1435
 msgid "Royal Plum"
 msgstr "Plum Kerajaan"
 
-#: includes/features/admin-styles/admin-styles.php:1429
+#: includes/features/admin-styles/admin-styles.php:1452
 msgid "Nordic"
 msgstr "Nordik"
 
-#: includes/features/admin-styles/admin-styles.php:1446
+#: includes/features/admin-styles/admin-styles.php:1469
 msgid "Lagoon"
 msgstr "Laguna"
 
-#: includes/features/admin-styles/admin-styles.php:1463
+#: includes/features/admin-styles/admin-styles.php:1486
 msgid "Ink"
 msgstr "Tinta"
 
-#: includes/features/admin-styles/admin-styles.php:1480
+#: includes/features/admin-styles/admin-styles.php:1503
 msgid "Orchid"
 msgstr "Anggrek"
 
-#: includes/features/admin-styles/admin-styles.php:1497
+#: includes/features/admin-styles/admin-styles.php:1520
 msgid "Cobalt"
 msgstr "Kobalt"
 
-#: includes/features/admin-styles/admin-styles.php:1514
+#: includes/features/admin-styles/admin-styles.php:1537
 msgid "Stone"
 msgstr "Batu"
 
-#: includes/features/admin-styles/admin-styles.php:1531
+#: includes/features/admin-styles/admin-styles.php:1554
 msgid "Facebook Classic"
 msgstr "Facebook Klasik"
 
-#: includes/features/admin-styles/admin-styles.php:1548
+#: includes/features/admin-styles/admin-styles.php:1571
 msgid "Twitter Classic"
 msgstr "Twitter Klasik"
 
-#: includes/features/admin-styles/admin-styles.php:1565, fuzzy
+#: includes/features/admin-styles/admin-styles.php:1588, fuzzy
 msgid "Twitter Modern"
 msgstr "Twitter Modern"
 
-#: includes/features/admin-styles/admin-styles.php:2067
+#: includes/features/admin-styles/admin-styles.php:2090
 msgid "Main Admin Color settings"
 msgstr "Pengaturan Warna Admin Utama"
 
-#: includes/features/admin-styles/admin-styles.php:2070
+#: includes/features/admin-styles/admin-styles.php:2093
 msgid "Main Admin Color"
 msgstr "Warna Admin Utama"
 
-#: includes/features/admin-styles/admin-styles.php:2071
+#: includes/features/admin-styles/admin-styles.php:2094
 msgid "Primary brand color"
 msgstr "Warna merek utama"
 
-#: includes/features/admin-styles/admin-styles.php:2074
+#: includes/features/admin-styles/admin-styles.php:2097
 msgid "Text Color"
 msgstr "Warna Teks"
 
-#: includes/features/admin-styles/admin-styles.php:2075
+#: includes/features/admin-styles/admin-styles.php:2098
 msgid "Primary text color"
 msgstr "Warna teks utama"
 
-#: includes/features/admin-styles/admin-styles.php:2078
+#: includes/features/admin-styles/admin-styles.php:2101
 msgid "Highlight Color"
 msgstr "Warna Sorotan"
 
-#: includes/features/admin-styles/admin-styles.php:2079
+#: includes/features/admin-styles/admin-styles.php:2102
 msgid "Used for hovers and highlights"
 msgstr "Digunakan untuk hover dan sorotan"
 
-#: includes/features/admin-styles/admin-styles.php:2082
+#: includes/features/admin-styles/admin-styles.php:2105
 msgid "Notification Color"
 msgstr "Warna Notifikasi"
 
-#: includes/features/admin-styles/admin-styles.php:2083
+#: includes/features/admin-styles/admin-styles.php:2106
 msgid "Used for alerts and notifications"
 msgstr "Digunakan untuk peringatan dan notifikasi"
 
-#: includes/features/admin-styles/admin-styles.php:2086
+#: includes/features/admin-styles/admin-styles.php:2109
 msgid "Background Color"
 msgstr "Warna Latar Belakang"
 
-#: includes/features/admin-styles/admin-styles.php:2087
+#: includes/features/admin-styles/admin-styles.php:2110
 msgid "Page background color"
 msgstr "Warna latar belakang halaman"
 
-#: includes/features/admin-styles/admin-styles.php:2093
+#: includes/features/admin-styles/admin-styles.php:2116
 msgid "Link element colors"
 msgstr "Warna elemen tautan"
 
-#: includes/features/admin-styles/admin-styles.php:2096
+#: includes/features/admin-styles/admin-styles.php:2119
 msgid "Default Link Color"
 msgstr "Warna Tautan Default"
 
-#: includes/features/admin-styles/admin-styles.php:2097
+#: includes/features/admin-styles/admin-styles.php:2120
 msgid "Standard link color"
 msgstr "Warna tautan standar"
 
-#: includes/features/admin-styles/admin-styles.php:2100
+#: includes/features/admin-styles/admin-styles.php:2123
 msgid "Link Hover Color"
 msgstr "Warna Tautan Saat Melayang"
 
-#: includes/features/admin-styles/admin-styles.php:2101
+#: includes/features/admin-styles/admin-styles.php:2124
 msgid "Color on hover"
 msgstr "Warna saat melayang"
 
-#: includes/features/admin-styles/admin-styles.php:2104
+#: includes/features/admin-styles/admin-styles.php:2127
 msgid "Delete Link Color"
 msgstr "Warna Tautan Hapus"
 
-#: includes/features/admin-styles/admin-styles.php:2105
+#: includes/features/admin-styles/admin-styles.php:2128
 msgid "Color for delete/trash actions"
 msgstr "Warna untuk tindakan hapus/sampah"
 
-#: includes/features/admin-styles/admin-styles.php:2108
+#: includes/features/admin-styles/admin-styles.php:2131
 msgid "Trash Link Color"
 msgstr "Warna Tautan Sampah"
 
-#: includes/features/admin-styles/admin-styles.php:2109
+#: includes/features/admin-styles/admin-styles.php:2132
 msgid "Color for trash actions"
 msgstr "Warna untuk tindakan sampah"
 
-#: includes/features/admin-styles/admin-styles.php:2112
+#: includes/features/admin-styles/admin-styles.php:2135
 msgid "Spam Link Color"
 msgstr "Warna Tautan Spam"
 
-#: includes/features/admin-styles/admin-styles.php:2113
+#: includes/features/admin-styles/admin-styles.php:2136
 msgid "Color for spam actions"
 msgstr "Warna untuk tindakan spam"
 
-#: includes/features/admin-styles/admin-styles.php:2116
+#: includes/features/admin-styles/admin-styles.php:2139
 msgid "Inactive Link Color"
 msgstr "Warna Tautan Tidak Aktif"
 
-#: includes/features/admin-styles/admin-styles.php:2117
+#: includes/features/admin-styles/admin-styles.php:2140
 msgid "Color for inactive items"
 msgstr "Warna untuk item tidak aktif"
 
-#: includes/features/admin-styles/admin-styles.php:2122
+#: includes/features/admin-styles/admin-styles.php:2145
 msgid "Tables"
 msgstr "Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2123
+#: includes/features/admin-styles/admin-styles.php:2146
 msgid "Table element colors"
 msgstr "Warna elemen tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2126
+#: includes/features/admin-styles/admin-styles.php:2149
 msgid "Table Header Background"
 msgstr "Latar Belakang Judul Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2130
+#: includes/features/admin-styles/admin-styles.php:2153
 msgid "Table Header Text"
 msgstr "Teks Judul Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2134
+#: includes/features/admin-styles/admin-styles.php:2157
 msgid "Table Row Background"
 msgstr "Latar Belakang Baris Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2138
+#: includes/features/admin-styles/admin-styles.php:2161
 msgid "Table Row Text Color"
 msgstr "Warna Teks Baris Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2142
+#: includes/features/admin-styles/admin-styles.php:2165
 msgid "Row Hover Background"
 msgstr "Latar Belakang Hover Baris"
 
-#: includes/features/admin-styles/admin-styles.php:2146
+#: includes/features/admin-styles/admin-styles.php:2169
 msgid "Table Border Color"
 msgstr "Warna Border Tabel"
 
-#: includes/features/admin-styles/admin-styles.php:2150
+#: includes/features/admin-styles/admin-styles.php:2173
 msgid "Alternate Row Background"
 msgstr "Latar Belakang Baris Alternatif"
 
-#: includes/features/admin-styles/admin-styles.php:2154
+#: includes/features/admin-styles/admin-styles.php:2177
 msgid "Alternate Row Text Color"
 msgstr "Warna Teks Baris Alternatif"
 
-#: includes/features/admin-styles/admin-styles.php:2160
+#: includes/features/admin-styles/admin-styles.php:2183
 msgid "Forms"
 msgstr "Formulir"
 
-#: includes/features/admin-styles/admin-styles.php:2161
+#: includes/features/admin-styles/admin-styles.php:2184
 msgid "Form input colors"
 msgstr "Warna input formulir"
 
-#: includes/features/admin-styles/admin-styles.php:2164
+#: includes/features/admin-styles/admin-styles.php:2187
 msgid "Input Border Color"
 msgstr "Warna Border Input"
 
-#: includes/features/admin-styles/admin-styles.php:2168
+#: includes/features/admin-styles/admin-styles.php:2191
 msgid "Input Focus Border"
 msgstr "Border Fokus Input"
 
-#: includes/features/admin-styles/admin-styles.php:2172
+#: includes/features/admin-styles/admin-styles.php:2195
 msgid "Input Background Color"
 msgstr "Warna Latar Belakang Input"
 
-#: includes/features/admin-styles/admin-styles.php:2176
+#: includes/features/admin-styles/admin-styles.php:2199
 msgid "Input Text Color"
 msgstr "Warna Teks Input"
 
-#: includes/features/admin-styles/admin-styles.php:2180
+#: includes/features/admin-styles/admin-styles.php:2203
 msgid "Placeholder Text Color"
 msgstr "Warna Teks Placeholder"
 
-#: includes/features/admin-styles/admin-styles.php:2187
+#: includes/features/admin-styles/admin-styles.php:2210
 msgid "Button colors"
 msgstr "Warna tombol"
 
-#: includes/features/admin-styles/admin-styles.php:2190
+#: includes/features/admin-styles/admin-styles.php:2213
 msgid "Primary Button Background"
 msgstr "Latar Belakang Tombol Utama"
 
-#: includes/features/admin-styles/admin-styles.php:2194
+#: includes/features/admin-styles/admin-styles.php:2217
 msgid "Primary Button Text"
 msgstr "Teks Tombol Utama"
 
-#: includes/features/admin-styles/admin-styles.php:2198
+#: includes/features/admin-styles/admin-styles.php:2221
 msgid "Primary Button Hover"
 msgstr "Hover Tombol Utama"
 
-#: includes/features/admin-styles/admin-styles.php:2202
+#: includes/features/admin-styles/admin-styles.php:2225
 msgid "Secondary Button Background"
 msgstr "Latar Belakang Tombol Sekunder"
 
-#: includes/features/admin-styles/admin-styles.php:2206
+#: includes/features/admin-styles/admin-styles.php:2229
 msgid "Secondary Button Text"
 msgstr "Teks Tombol Sekunder"
 
-#: includes/features/admin-styles/admin-styles.php:2210
+#: includes/features/admin-styles/admin-styles.php:2233
 msgid "Secondary Button Hover"
 msgstr "Hover Tombol Sekunder"
 
-#: includes/features/admin-styles/admin-styles.php:2217
+#: includes/features/admin-styles/admin-styles.php:2240
 msgid "Admin menu colors"
 msgstr "Warna menu Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2220
+#: includes/features/admin-styles/admin-styles.php:2243
 msgid "Menu Background"
 msgstr "Latar Belakang Menu"
 
-#: includes/features/admin-styles/admin-styles.php:2224
+#: includes/features/admin-styles/admin-styles.php:2247
 msgid "Menu Text Color"
 msgstr "Warna Teks Menu"
 
-#: includes/features/admin-styles/admin-styles.php:2228
+#: includes/features/admin-styles/admin-styles.php:2251
 msgid "Menu Icon Color"
 msgstr "Warna Ikon Menu"
 
-#: includes/features/admin-styles/admin-styles.php:2232
+#: includes/features/admin-styles/admin-styles.php:2255
 msgid "Menu Hover Background"
 msgstr "Latar Belakang Hover Menu"
 
-#: includes/features/admin-styles/admin-styles.php:2236
+#: includes/features/admin-styles/admin-styles.php:2259
 msgid "Menu Hover Text"
 msgstr "Teks Hover Menu"
 
-#: includes/features/admin-styles/admin-styles.php:2240
+#: includes/features/admin-styles/admin-styles.php:2263
 msgid "Current Menu Background"
 msgstr "Latar Belakang Menu Saat Ini"
 
-#: includes/features/admin-styles/admin-styles.php:2244
+#: includes/features/admin-styles/admin-styles.php:2267
 msgid "Current Menu Text"
 msgstr "Teks Menu Saat Ini"
 
-#: includes/features/admin-styles/admin-styles.php:2248
+#: includes/features/admin-styles/admin-styles.php:2271
 msgid "Submenu Background"
 msgstr "Latar Belakang Submenu"
 
-#: includes/features/admin-styles/admin-styles.php:2252
+#: includes/features/admin-styles/admin-styles.php:2275
 msgid "Submenu Text Color"
 msgstr "Warna Teks Submenu"
 
-#: includes/features/admin-styles/admin-styles.php:2259
+#: includes/features/admin-styles/admin-styles.php:2282
 msgid "Admin bar colors"
 msgstr "Warna bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2262
+#: includes/features/admin-styles/admin-styles.php:2285
 msgid "Admin Bar Background"
 msgstr "Latar Belakang Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2266
+#: includes/features/admin-styles/admin-styles.php:2289
 msgid "Admin Bar Text"
 msgstr "Teks Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2270
+#: includes/features/admin-styles/admin-styles.php:2293
 msgid "Admin Bar Icon"
 msgstr "Ikon Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2274
+#: includes/features/admin-styles/admin-styles.php:2297
 msgid "Admin Bar Hover Background"
 msgstr "Latar Belakang Hover Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2278
+#: includes/features/admin-styles/admin-styles.php:2301
 msgid "Admin Bar Hover Text"
 msgstr "Teks Hover Bilah Admin"
 
-#: includes/features/admin-styles/admin-styles.php:2284
+#: includes/features/admin-styles/admin-styles.php:2307
 msgid "Dashboard Widgets"
 msgstr "Widget Dasbor"
 
-#: includes/features/admin-styles/admin-styles.php:2285
+#: includes/features/admin-styles/admin-styles.php:2308
 msgid "Dashboard widget colors"
 msgstr "Warna widget Dasbor"
 
-#: includes/features/admin-styles/admin-styles.php:2288
+#: includes/features/admin-styles/admin-styles.php:2311
 msgid "Widget Background"
 msgstr "Latar Belakang Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2292
+#: includes/features/admin-styles/admin-styles.php:2315
 msgid "Widget Border"
 msgstr "Bingkai Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2296
+#: includes/features/admin-styles/admin-styles.php:2319
 msgid "Widget Header Background"
 msgstr "Latar Belakang Judul Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2300
+#: includes/features/admin-styles/admin-styles.php:2323
 msgid "Widget Title Text"
 msgstr "Teks Judul Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2304
+#: includes/features/admin-styles/admin-styles.php:2327
 msgid "Widget Body Text"
 msgstr "Teks Isi Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2308
+#: includes/features/admin-styles/admin-styles.php:2331
 msgid "Widget Link"
 msgstr "Tautan Widget"
 
-#: includes/features/admin-styles/admin-styles.php:2312
+#: includes/features/admin-styles/admin-styles.php:2335
 msgid "Widget Link Hover"
 msgstr "Tautan Widget Saat Diarahkan"
 
-#: includes/features/admin-styles/admin-styles.php:2318
+#: includes/features/admin-styles/admin-styles.php:2341
 #: includes/roles/class/class-pp-roles-admin.php:123
 msgid "Advanced"
 msgstr "Lanjutan"
 
-#: includes/features/admin-styles/admin-styles.php:2319
+#: includes/features/admin-styles/admin-styles.php:2342
 msgid "Custom selector color rules"
 msgstr "Aturan warna pemilih kustom"
 
@@ -2536,6 +2927,12 @@ msgstr "Aturan warna pemilih kustom"
 #, php-format
 msgid "Classic Editor %s Restrictions"
 msgstr "Pembatasan Editor Klasik %s"
+
+#: includes/features/editor-features-classic.php:7
+#: includes/features/editor-features-gutenberg.php:7
+#, php-format
+msgid "Select all %s editor restrictions"
+msgstr "Pilih semua pembatasan editor %s"
 
 #: includes/features/editor-features-classic.php:162
 #: includes/features/editor-features-gutenberg.php:158
@@ -2582,7 +2979,7 @@ msgid "show Classic Editor controls"
 msgstr "tampilkan kontrol Editor Klasik"
 
 #: includes/features/editor-features.php:240
-#: includes/functions-admin.php:420
+#: includes/functions-admin.php:433
 msgid "Editor Features allows you to remove elements from the post editing screen."
 msgstr "Fitur Editor memungkinkan Anda menghapus elemen dari layar pengeditan pos."
 
@@ -2640,9 +3037,9 @@ msgstr "Sembunyikan Kredit Footer Twenty Twenty-Three"
 
 #: includes/features/frontend-features/frontend-features-metaboxes.php:55
 #: includes/features/frontend-features/frontend-features.php:70
-#: includes/functions-admin.php:244
-#: includes/functions-admin.php:444
-#: includes/functions-admin.php:558
+#: includes/functions-admin.php:247
+#: includes/functions-admin.php:463
+#: includes/functions-admin.php:575
 msgid "Frontend Features"
 msgstr "Fitur Frontend"
 
@@ -2651,6 +3048,11 @@ msgid "Choose Frontend Features that will apply to this post."
 msgstr "Pilih Fitur Frontend yang akan diterapkan pada pos ini."
 
 #: includes/features/frontend-features/frontend-features-metaboxes.php:94
+#, php-format
+msgid "Select %1$s"
+msgstr "Pilih %1$s"
+
+#: includes/features/frontend-features/frontend-features-metaboxes.php:95
 #, php-format
 msgid "Select %1$s..."
 msgstr "Pilih %1$s..."
@@ -2696,6 +3098,10 @@ msgstr "Tambahkan CSS Kustom"
 msgid "Add Body Class"
 msgstr "Tambahkan kelas Body"
 
+#: includes/features/frontend-features/frontend-features-ui.php:79
+msgid "IDs or classes to hide"
+msgstr "ID atau kelas untuk disembunyikan"
+
 #: includes/features/frontend-features/frontend-features-ui.php:81
 msgid ""
 "Enter IDs or classes to hide. Separate multiple values with a comma "
@@ -2704,6 +3110,11 @@ msgstr ""
 "Masukkan ID atau kelas yang ingin disembunyikan. Pisahkan nilai-nilai ganda "
 "dengan koma (.custom-item-one, .custom-item-two, #new-item-id)."
 
+#: includes/features/frontend-features/frontend-features-ui.php:87
+#: includes/features/frontend-features/frontend-features-ui.php:231
+msgid "Custom CSS"
+msgstr "CSS Kustom"
+
 #: includes/features/frontend-features/frontend-features-ui.php:92
 msgid ""
 "Enter custom CSS to be added to frontend pages. Examples: .custom-style-1 { "
@@ -2711,6 +3122,10 @@ msgid ""
 msgstr ""
 "Masukkan CSS kustom yang akan ditambahkan ke halaman frontend. Contoh: "
 ".custom-style-1 { color: red; } #custom-header { background: red; } "
+
+#: includes/features/frontend-features/frontend-features-ui.php:96
+msgid "Body classes"
+msgstr "Kelas Body"
 
 #: includes/features/frontend-features/frontend-features-ui.php:98
 msgid "Enter classes to add the body HTML. Do not include the . before the HTML."
@@ -2777,14 +3192,6 @@ msgstr "ID atau Class tersembunyi"
 msgid "Body Class"
 msgstr "Kelas Body"
 
-#: includes/features/frontend-features/frontend-features-ui.php:231
-msgid "Custom CSS"
-msgstr "CSS Kustom"
-
-#: includes/features/frontend-features/frontend-features-ui.php:240
-msgid "Pages"
-msgstr "Halaman"
-
 #: includes/features/frontend-features/frontend-features-ui.php:248
 msgid "Post Type Metabox"
 msgstr "Tipe Pos Metabox"
@@ -2799,7 +3206,7 @@ msgid "Enable Frontend Features for %1$s Role"
 msgstr "Aktifkan Fitur Frontend untuk Peran %1$s"
 
 #: includes/features/frontend-features/frontend-features.php:249
-#: includes/functions-admin.php:445
+#: includes/functions-admin.php:464
 msgid ""
 "Frontend Features allows you to add or remove elements from the frontend of "
 "your site."
@@ -2828,7 +3235,7 @@ msgstr ""
 "silakan tambahkan tautan menu."
 
 #: includes/features/nav-menus.php:301
-#: includes/functions-admin.php:450
+#: includes/functions-admin.php:469
 msgid "Navigation Menus allows you to block access to frontend menu links."
 msgstr "Menu Navigasi memungkinkan Anda memblokir akses ke tautan menu frontend."
 
@@ -2840,11 +3247,11 @@ msgstr "Cara menggunakan Menu Navigasi"
 msgid "Profile Feature Restrictions"
 msgstr "Pembatasan Fitur Profil"
 
-#: includes/features/profile-features.php:141
+#: includes/features/profile-features.php:144
 msgid "Click the \"Find profile items for this role\" button."
 msgstr "Klik tombol \"Temukan item profil untuk peran ini\"."
 
-#: includes/features/profile-features.php:143
+#: includes/features/profile-features.php:146
 msgid ""
 "There are no users in this role. Please select a role that has users and is "
 "able to access the \"Profile\" screen."
@@ -2852,34 +3259,34 @@ msgstr ""
 "Tidak ada pengguna dalam peran ini. Pilih peran yang memiliki pengguna dan "
 "dapat mengakses layar \"Profil\"."
 
-#: includes/features/profile-features.php:240
+#: includes/features/profile-features.php:243
 msgid "Allow PublishPress to find profile items for this role."
 msgstr "Izinkan PublishPress untuk menemukan item profil untuk peran ini."
 
-#: includes/features/profile-features.php:241
+#: includes/features/profile-features.php:244
 msgid "Find profile items for this role"
 msgstr "Temukan item profil untuk peran ini"
 
-#: includes/features/profile-features.php:242
+#: includes/features/profile-features.php:245
 #, php-format
 msgid "The %s role is not enabled for editing. The Find button is disabled."
 msgstr "Peran %s tidak diaktifkan untuk diedit. Tombol Temukan dinonaktifkan."
 
-#: includes/features/profile-features.php:243
+#: includes/features/profile-features.php:246
 #, php-format
 msgid "This feature will test the \"Profile\" screen as a user in the %s role."
 msgstr "Fitur ini akan menguji layar \"Profil\" sebagai pengguna dengan peran %s."
 
-#: includes/features/profile-features.php:245
+#: includes/features/profile-features.php:248
 msgid "Refresh Profile Features"
 msgstr "Perbarui Fitur Profil"
 
-#: includes/features/profile-features.php:250
-#: includes/functions-admin.php:435
+#: includes/features/profile-features.php:253
+#: includes/functions-admin.php:454
 msgid "Profile Features allows you to remove elements from the Profile screen."
 msgstr "Fitur Profil memungkinkan Anda menghapus elemen dari layar Profil."
 
-#: includes/features/profile-features.php:258
+#: includes/features/profile-features.php:261
 msgid "How to use Profile Features"
 msgstr "Cara menggunakan Fitur Profil"
 
@@ -3110,44 +3517,44 @@ msgstr "Peran yang diberikan tidak valid."
 msgid "Profile features access enabled for this role."
 msgstr "Akses fitur profil diaktifkan untuk peran ini."
 
-#: includes/functions-admin.php:217
-#: includes/functions-admin.php:419
-#: includes/functions-admin.php:507
+#: includes/functions-admin.php:220
+#: includes/functions-admin.php:432
+#: includes/functions-admin.php:526
 #: includes/roles/class/class-pp-roles-admin.php:553
 #: includes/settings-ui.php:36
 msgid "Editor Features"
 msgstr "Fitur Editor"
 
-#: includes/functions-admin.php:228
-#: includes/functions-admin.php:424
-#: includes/functions-admin.php:514
+#: includes/functions-admin.php:231
+#: includes/functions-admin.php:437
+#: includes/functions-admin.php:533
 #: includes/roles/class/class-pp-roles-admin.php:554
 msgid "Admin Features"
 msgstr "Fitur Admin"
 
-#: includes/functions-admin.php:248
-#: includes/functions-admin.php:434
-#: includes/functions-admin.php:544
+#: includes/functions-admin.php:251
+#: includes/functions-admin.php:453
+#: includes/functions-admin.php:561
 #: includes/roles/class/class-pp-roles-admin.php:555
 #: includes/settings-ui.php:37
 msgid "Profile Features"
 msgstr "Fitur Profil"
 
-#: includes/functions-admin.php:254
-#: includes/functions-admin.php:439
-#: includes/functions-admin.php:551
+#: includes/functions-admin.php:257
+#: includes/functions-admin.php:458
+#: includes/functions-admin.php:568
 msgid "Redirects"
 msgstr "Pengalihan"
 
-#: includes/functions-admin.php:258
+#: includes/functions-admin.php:261
 msgid "Nav Menu"
 msgstr "Menu Navigasi"
 
-#: includes/functions-admin.php:262
+#: includes/functions-admin.php:265
 msgid "Application Password Capabilities"
 msgstr "Kemampuan Kata Sandi Aplikasi"
 
-#: includes/functions-admin.php:410
+#: includes/functions-admin.php:423
 msgid ""
 "Roles allows you to create, edit, and delete all the user roles on your "
 "site."
@@ -3155,17 +3562,17 @@ msgstr ""
 "Roles memungkinkan Anda membuat, mengedit, dan menghapus semua peran "
 "pengguna di situs Anda."
 
-#: includes/functions-admin.php:415
+#: includes/functions-admin.php:428
 msgid "Capabilities allows you to change the permissions for any user role."
 msgstr "Capabilities memungkinkan Anda mengubah izin untuk setiap peran pengguna."
 
-#: includes/functions-admin.php:430
+#: includes/functions-admin.php:443
 msgid "Admin Styles allows you to customize the admin area with your own branding."
 msgstr ""
 "Gaya Admin memungkinkan Anda untuk menyesuaikan area admin dengan branding "
 "Anda sendiri."
 
-#: includes/functions-admin.php:440
+#: includes/functions-admin.php:459
 msgid ""
 "Redirects allows you to redirect users in a role after Registration, Login "
 "or Logout."
@@ -3173,19 +3580,19 @@ msgstr ""
 "Pengalihan memungkinkan Anda mengalihkan pengguna dalam peran setelah "
 "Pendaftaran, Masuk atau Keluar."
 
-#: includes/functions-admin.php:449
-#: includes/functions-admin.php:565
+#: includes/functions-admin.php:468
+#: includes/functions-admin.php:582
 #: includes/roles/class/class-pp-roles-admin.php:557
 msgid "Navigation Menus"
 msgstr "Menu Navigasi"
 
-#: includes/functions-admin.php:454
-#: includes/settings-ui.php:39
+#: includes/functions-admin.php:473
+#: includes/settings-ui.php:40
 #: includes/test-user-ui.php:38
 msgid "User Testing"
 msgstr "Testing Pengguna"
 
-#: includes/functions-admin.php:455
+#: includes/functions-admin.php:474
 msgid ""
 "Test your site by instantly logging in as another user. Available accounts "
 "include any which the current user can edit."
@@ -3193,7 +3600,7 @@ msgstr ""
 "Uji situs Anda dengan segera masuk sebagai pengguna lain. Akun yang "
 "tersedia termasuk yang dapat diedit oleh pengguna saat ini."
 
-#: includes/functions-admin.php:460
+#: includes/functions-admin.php:479
 msgid ""
 "Remove Admin Notices from WordPress admin screen and organize them in to a "
 "single area."
@@ -3204,10 +3611,6 @@ msgstr ""
 #: includes/functions.php:713
 msgid "Login permission denied."
 msgstr "Izin login ditolak"
-
-#: includes/functions.php:805
-msgid "You do not have permission to access this page."
-msgstr "Anda tidak punya hak akses untuk mengakses halaman ini."
 
 #: includes/functions.php:878
 msgid "Need PublishPress Capabilities Support?"
@@ -3373,16 +3776,6 @@ msgstr "Anda tidak punya izin untuk mengelola peran."
 msgid "You do not have permission to manage editor features."
 msgstr "Anda tidak memiliki izin untuk mengelola fitur editor."
 
-#: includes/manager.php:683
-#: includes/manager.php:737
-#: includes/manager.php:785
-#: includes/manager.php:879
-#: includes/manager.php:928
-#: includes/manager.php:1010
-#: includes/manager.php:1091
-msgid "Settings updated."
-msgstr "Pengaturan diperbarui."
-
 #: includes/manager.php:699
 #: includes/manager.php:721
 #: includes/manager.php:893
@@ -3443,36 +3836,70 @@ msgstr "Anda tidak memiliki izin untuk melakukan tindakan ini."
 msgid "Select at least one role to export."
 msgstr "Pilih setidaknya satu peran untuk diekspor."
 
-#: includes/manager.php:1698
+#: includes/manager.php:1654
+msgid ""
+"There are no users in this role on this site. Add a user to this role, then "
+"find profile items again."
+msgstr ""
+"Tidak ada pengguna dalam peran ini di situs ini. Tambahkan pengguna ke "
+"peran ini, lalu cari item profil lagi."
+
+#: includes/manager.php:1664
+msgid ""
+"Profile items could not be detected because User Testing is disabled, you "
+"cannot test the user in this role, or the user cannot access the Profile "
+"screen."
+msgstr ""
+"Item profil tidak dapat terdeteksi karena Pengujian Pengguna dinonaktifkan, "
+"Anda tidak dapat menguji pengguna dalam peran ini, atau pengguna tidak "
+"dapat mengakses layar Profil."
+
+#: includes/manager.php:1715
 #, php-format
 msgid "If you like %s, please leave us a %s rating. Thank you!"
 msgstr ""
 "Jika Anda menyukai %s, mohon pertimbangkan meninggalkan %s rating. Terima "
 "kasih!"
 
-#: includes/manager.php:1709
+#: includes/manager.php:1726
 msgid "About PublishPress Capabilities"
 msgstr "Tentang PublishPress Capabilities"
 
-#: includes/manager.php:1709
+#: includes/manager.php:1726
 msgid "About"
 msgstr "Tentang"
 
-#: includes/manager.php:1711
+#: includes/manager.php:1728
 msgid "Capabilites Documentation"
 msgstr "Dokumentasi Capabilities"
 
-#: includes/manager.php:1711
+#: includes/manager.php:1728
 msgid "Documentation"
 msgstr "Dokumentasi"
 
-#: includes/manager.php:1713
+#: includes/manager.php:1730
 msgid "Contact the PublishPress team"
 msgstr "Hubungi tim PublishPress"
 
-#: includes/manager.php:1713
+#: includes/manager.php:1730
 msgid "Contact"
 msgstr "Kontak"
+
+#: includes/plugin-capabilities/publishpress-cart.php:34
+msgid "Products"
+msgstr "Produk"
+
+#: includes/plugin-capabilities/publishpress-cart.php:35
+msgid "Orders"
+msgstr "Pesanan"
+
+#: includes/plugin-capabilities/publishpress-cart.php:36
+msgid "Subscriptions"
+msgstr "Langganan"
+
+#: includes/plugin-capabilities/publishpress-cart.php:49
+msgid "Upsell Paths"
+msgstr "Jalur Upsell"
 
 #: includes/plugin-capabilities/publishpress-permissions.php:28
 msgid "Permissions & Access"
@@ -4075,10 +4502,6 @@ msgstr "Salin Peran"
 msgid "Create New Role"
 msgstr "Buat Peran Baru"
 
-#: includes/roles/class/class-pp-roles-admin.php:577
-msgid "All Roles"
-msgstr "Semua Peran"
-
 #: includes/roles/class/class-pp-roles-admin.php:682
 #, php-format
 msgid "These can be edited on the %1s Capabilities screen %2s"
@@ -4173,27 +4596,49 @@ msgstr "WordPress Core"
 msgid "Search Roles"
 msgstr "Pilih Peran"
 
-#: includes/settings-ui.php:53
+#: includes/settings-ui.php:55
+msgid "Admin Menus: treatment of multiple roles"
+msgstr "Menu Admin: perlakuan terhadap beberapa peran"
+
+#: includes/settings-ui.php:58
+msgid "Most permissive: Any non-restricted user role allows access"
+msgstr ""
+"Paling permisif: Setiap peran pengguna yang tidak dibatasi memungkinkan "
+"akses"
+
+#: includes/settings-ui.php:61
+msgid "Most restrictive: Any restricted user role prevents access"
+msgstr "Paling ketat: Setiap peran pengguna yang dibatasi mencegah akses"
+
+#: includes/settings-ui.php:65
+msgid ""
+"This controls whether the most permissive or restrictive permissions are "
+"applied if a user has multiple roles."
+msgstr ""
+"Ini mengontrol apakah izin yang paling permisif atau paling ketat "
+"diterapkan jika pengguna memiliki beberapa peran."
+
+#: includes/settings-ui.php:78
 msgid "Multiples roles on \"Add New User\" screen"
 msgstr "Beberapa peran di layar \"Tambah Pengguna Baru\""
 
-#: includes/settings-ui.php:58
+#: includes/settings-ui.php:83
 msgid "This allows you to assign a new user to multiples roles."
 msgstr "Ini memungkinkan Anda menetapkan pengguna baru ke beberapa peran."
 
-#: includes/settings-ui.php:66
+#: includes/settings-ui.php:91
 msgid "Multiples roles on \"User Edit\" screen"
 msgstr "Beberapa peran di layar \"Edit Pengguna\""
 
-#: includes/settings-ui.php:71
+#: includes/settings-ui.php:96
 msgid "This allows you to assign an existing user to multiple roles."
 msgstr "Ini memungkinkan Anda menetapkan pengguna yang ada ke beberapa peran."
 
-#: includes/settings-ui.php:79
+#: includes/settings-ui.php:104
 msgid "Set login redirect cookie"
 msgstr "Mengatur cookie pengalihan login"
 
-#: includes/settings-ui.php:84
+#: includes/settings-ui.php:109
 msgid ""
 "Use cookie to determine pages users were viewing before login. This is "
 "useful when login redirect is not working correctly due to wp_get_referer() "
@@ -4203,12 +4648,12 @@ msgstr ""
 "login. Ini berguna ketika pengalihan login tidak berfungsi dengan benar "
 "karena keterbatasan wp_get_referer()."
 
-#: includes/settings-ui.php:97
-#: includes/settings-ui.php:144
+#: includes/settings-ui.php:122
+#: includes/settings-ui.php:169
 msgid "Show private post types"
 msgstr "Tampilkan jenis pos pribadi"
 
-#: includes/settings-ui.php:102
+#: includes/settings-ui.php:127
 msgid ""
 "This will show all post types on the \"Capabilities\" screen, even ones "
 "normally hidden in the WordPress admin area."
@@ -4216,11 +4661,11 @@ msgstr ""
 "Ini akan menampilkan semua jenis pos di layar \"Kemampuan\", bahkan yang "
 "biasanya tersembunyi di area admin WordPress."
 
-#: includes/settings-ui.php:110
+#: includes/settings-ui.php:135
 msgid "Show private taxonomies"
 msgstr "Tampilkan taksonomi pribadi"
 
-#: includes/settings-ui.php:115
+#: includes/settings-ui.php:140
 msgid ""
 "This will show all taxonomies on the \"Capabilities\" screen, even ones "
 "normally hidden in the WordPress admin area."
@@ -4228,11 +4673,11 @@ msgstr ""
 "Ini akan menampilkan semua taksonomi di layar \"Capabilities\", bahkan yang "
 "biasanya disembunyikan di area admin WordPress."
 
-#: includes/settings-ui.php:123
+#: includes/settings-ui.php:148
 msgid "Application password capabilities"
 msgstr "Kemampuan kata sandi aplikasi"
 
-#: includes/settings-ui.php:128
+#: includes/settings-ui.php:153
 msgid ""
 "Allow the Capabilities screen to deny selected capabilities for individual "
 "WordPress application passwords."
@@ -4240,7 +4685,7 @@ msgstr ""
 "Izinkan layar Kemampuan untuk menolak kemampuan yang dipilih untuk kata "
 "sandi aplikasi WordPress individual."
 
-#: includes/settings-ui.php:149
+#: includes/settings-ui.php:174
 msgid ""
 "Show all post types on the \"Editor Features\" screen, even ones normally "
 "hidden in the WordPress admin area."
@@ -4248,55 +4693,55 @@ msgstr ""
 "Tampilkan semua jenis pos di layar \"Fitur Editor\", bahkan yang biasanya "
 "disembunyikan di area admin WordPress."
 
-#: includes/settings-ui.php:157
+#: includes/settings-ui.php:182
 msgid "Enable Classic Editor tab"
 msgstr "Aktifkan tab Editor Klasik"
 
-#: includes/settings-ui.php:162
+#: includes/settings-ui.php:187
 msgid "Always show the Classic Editor tab in \"Editor Features\" screen."
 msgstr "Selalu tampilkan tab Editor Klasik di layar \"Fitur Editor\"."
 
-#: includes/settings-ui.php:175
+#: includes/settings-ui.php:200
 msgid "Admin Bar modification"
 msgstr "Modifikasi Admin Bar"
 
-#: includes/settings-ui.php:180
+#: includes/settings-ui.php:205
 msgid "When testing, display a caption and return link in the Admin Bar."
 msgstr "Ketika menguji, tampilkan keterangan dan tautan kembali di Admin Bar."
 
-#: includes/settings-ui.php:188
+#: includes/settings-ui.php:213
 msgid "Admin Bar search"
 msgstr "Pencarian Bar Admin"
 
-#: includes/settings-ui.php:193
+#: includes/settings-ui.php:218
 msgid "Add option to search and user testing in the Admin Bar."
 msgstr "Tambahkan opsi untuk pencarian dan pengujian pengguna di Bilah Admin."
 
-#: includes/settings-ui.php:201
+#: includes/settings-ui.php:226
 msgid "Front End footer notice"
 msgstr "Pemberitahuan footer Front End"
 
-#: includes/settings-ui.php:206
+#: includes/settings-ui.php:231
 msgid "When testing, display a return link in the front end footer."
 msgstr "Ketika menguji, tampilkan tautan kembali di footer frontend."
 
-#: includes/settings-ui.php:217
+#: includes/settings-ui.php:242
 msgid "Exclude role from User Testing"
 msgstr "Kecualikan peran dari Pengujian Pengguna"
 
-#: includes/settings-ui.php:224
+#: includes/settings-ui.php:249
 msgid "Select roles..."
 msgstr "Pilih peran..."
 
-#: includes/settings-ui.php:238
+#: includes/settings-ui.php:263
 msgid "Exclude users in selected roles from User Testing."
 msgstr "Kecualikan pengguna dalam peran terpilih dari Test Pengguna."
 
-#: includes/settings-ui.php:252
+#: includes/settings-ui.php:277
 msgid "Automatically refresh profile elements"
 msgstr "Perbarui elemen profil secara otomatis"
 
-#: includes/settings-ui.php:257
+#: includes/settings-ui.php:282
 msgid ""
 "Always try to automatically find profile elements. This may cause temporary "
 "issues when updating user roles that do not have access to the WordPress "
@@ -4456,6 +4901,7 @@ msgstr ""
 "peran WordPress."
 
 #: includes/user-capabilities-view.php:182
+#: includes/user-capabilities-view.php:242
 #, php-format
 msgid "Extra Roles (%d)"
 msgstr "Peran Tambahan (%d)"
@@ -4465,6 +4911,7 @@ msgid "This user has no direct extra roles."
 msgstr "Pengguna ini tidak memiliki peran tambahan langsung."
 
 #: includes/user-capabilities-view.php:204
+#: includes/user-capabilities-view.php:250
 #, php-format
 msgid "Specific Permissions (%d)"
 msgstr "Izin Khusus (%d)"
@@ -4474,6 +4921,7 @@ msgid "This user has no direct specific permissions."
 msgstr "Pengguna ini tidak memiliki izin khusus langsung."
 
 #: includes/user-capabilities-view.php:226
+#: includes/user-capabilities-view.php:261
 #, php-format
 msgid ""
 "Showing the first 50 of %d permissions. Use the Permissions editor to view "
@@ -4482,15 +4930,34 @@ msgstr ""
 "Menampilkan 50 izin pertama dari %d. Gunakan editor Izin untuk melihat "
 "daftar lengkap."
 
-#: includes/user-capabilities-view.php:238
+#: includes/user-capabilities-view.php:234
+msgid "Inherited Group Permissions"
+msgstr "Izin Grup yang Diwarisi"
+
+#: includes/user-capabilities-view.php:235
+msgid ""
+"Extra roles and specific permissions assigned to this user?s active groups, "
+"including WordPress role groups. These assignments are managed on the group."
+msgstr ""
+"Peran tambahan dan izin spesifik yang diberikan kepada grup aktif pengguna "
+"ini, termasuk grup peran WordPress. Penugasan ini dikelola di grup."
+
+#: includes/user-capabilities-view.php:237
+msgid "This user has no group-assigned extra roles or specific permissions."
+msgstr ""
+"Pengguna ini tidak memiliki peran tambahan atau izin spesifik yang "
+"ditugaskan ke grup."
+
+#: includes/user-capabilities-view.php:271
 msgid "Edit Extra Roles"
 msgstr "Edit Peran Tambahan"
 
-#: includes/user-capabilities-view.php:243
+#: includes/user-capabilities-view.php:276
 msgid "Edit Specific Permissions"
 msgstr "Edit Izin Khusus"
 
 #: common/js/admin.dev.js:1118
+#: includes/features/admin-menus/assets/js/admin-menus.js:184
 msgid "Updating Settings..."
 msgstr "Memperbarui Pengaturan..."
 
@@ -4504,5 +4971,18 @@ msgid "Error updating access."
 msgstr "Kesalahan saat memperbarui akses."
 
 #: common/js/admin.dev.js:1278
+#: includes/features/admin-menus/assets/js/admin-menus.js:723
 msgid " Error: changes can't be saved."
 msgstr "Kesalahan: perubahan tidak dapat disimpan."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:141
+msgid "Deleting menu..."
+msgstr "Menghapus menu..."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:208
+msgid "You must check at least one option to reset."
+msgstr "Anda harus memeriksa setidaknya satu opsi untuk mereset."
+
+#: includes/features/admin-menus/assets/js/admin-menus.js:220
+msgid "Resetting option..."
+msgstr "Mereset opsi..."

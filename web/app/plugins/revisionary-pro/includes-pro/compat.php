@@ -14,6 +14,10 @@ class RevisionaryCompat {
     private $creating_field_revision = false;
 
     function __construct() {
+        require_once __DIR__ . '/visual-compare-fields/BuilderCompare.php';
+        add_action('after_setup_theme', ['RevisionaryBuilderCompare', 'init'], 100);
+        add_action('init', ['RevisionaryBuilderCompare', 'init'], 2);
+
         add_action('wp_ajax_revisionary_update_ignored_meta_fields', [$this, 'ajaxUpdateIgnoredMetaFields']);
         add_action('revisionary_option_ui_visual_compare_options', [$this, 'ignoredMetaFieldsSettingsUI']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueIgnoredMetaFieldsSettings']);
@@ -272,39 +276,69 @@ class RevisionaryCompat {
     function fltCreateFieldRevision($check, $post_id, $meta_key, $meta_value, $operation_arg = false) {
         global $revisionary;
 
-        if (!rvy_get_option('archive_postmeta_on_edit')
+        if (null !== $check
         || $this->creating_field_revision
         || !empty($this->field_revision_created[$post_id])
-        || wp_is_post_revision($post_id)
+        || $this->isFrontEndPageView()
         ) {
             return $check;
         }
 
-        $post = get_post($post_id);
-        if (!$post instanceof WP_Post) {
-            return $check;
-        }
-
-        if (isset($revisionary->enabled_post_types_archive[$post->post_type])
-        && empty($revisionary->enabled_post_types_archive[$post->post_type])) {
-            return $check;
-        }
-
-        require_once REVISIONARY_PRO_ABSPATH . '/includes-pro/VisualCompareFields.php';
-        if (!RevisionaryVisualCompareFields::isRevisionTriggerMetaKey($post, $meta_key)
-        || !$this->isPostMetaChange($post_id, $meta_key, $meta_value, $operation_arg)) {
-            return $check;
-        }
-
+        // Provider callbacks, capability filters and metadata reads may write metadata.
+        // Guard the entire inspection, not just the eventual revision insertion.
         $this->creating_field_revision = true;
-        $revision_id = $this->putFieldRevision($post);
-        $this->creating_field_revision = false;
+        try {
+            if (!rvy_get_option('archive_postmeta_on_edit')
+            || wp_is_post_revision($post_id)) {
+                return $check;
+            }
 
-        if ($revision_id && !is_wp_error($revision_id)) {
-            $this->field_revision_created[$post_id] = true;
+            $post = get_post($post_id);
+            if (!$post instanceof WP_Post
+            || rvy_in_revision_workflow($post)
+            || !is_user_logged_in()
+            || !current_user_can('edit_post', $post_id)
+            || (defined('DOING_CRON') && DOING_CRON)
+            || empty($revisionary->enabled_post_types_archive[$post->post_type])
+            || 0 === wp_revisions_to_keep($post)) {
+                return $check;
+            }
+
+            // Like wp_save_post_revision(), don't archive auto-drafts or post types with revisions disabled
+            if (('auto-draft' == $post->post_status) || !wp_revisions_enabled($post)) {
+                return $check;
+            }
+
+            require_once REVISIONARY_PRO_ABSPATH . '/includes-pro/VisualCompareFields.php';
+            if (!RevisionaryVisualCompareFields::isRevisionTriggerMetaKey($post, $meta_key)
+            || !$this->isPostMetaChange($post_id, $meta_key, $meta_value, $operation_arg)) {
+                return $check;
+            }
+
+            $revision_id = $this->putFieldRevision($post);
+            if ($revision_id && !is_wp_error($revision_id)) {
+                $this->field_revision_created[$post_id] = true;
+            }
+        } finally {
+            $this->creating_field_revision = false;
         }
 
         return $check;
+    }
+
+    // Page builders and themes (e.g. Divi) update cache meta while rendering a page. Those writes are not edits,
+    // and the resulting revision insert fires save_post handlers which may purge the page's generated CSS mid-request.
+    private function isFrontEndPageView() {
+        if (is_admin() || wp_doing_ajax() || wp_doing_cron()
+        || (defined('REST_REQUEST') && REST_REQUEST)
+        || (defined('WP_CLI') && WP_CLI)
+        ) {
+            return false;
+        }
+
+        $method = !empty($_SERVER['REQUEST_METHOD']) ? strtoupper(sanitize_text_field(wp_unslash($_SERVER['REQUEST_METHOD']))) : '';
+
+        return in_array($method, ['GET', 'HEAD'], true);
     }
 
     private function putFieldRevision($post) {
@@ -313,6 +347,19 @@ class RevisionaryCompat {
 
         if ($revision_id && !is_wp_error($revision_id)) {
             do_action('_wp_put_post_revision', $revision_id, $post->ID);
+
+            // Direct insertion is needed for meta-only changes; apply normal retention too.
+            $keep = wp_revisions_to_keep($post);
+            if ($keep >= 0) {
+                $revisions = wp_get_post_revisions($post->ID, ['order' => 'ASC']);
+                $revisions = apply_filters('wp_save_post_revision_revisions_before_deletion', $revisions, $post->ID);
+                $delete = count($revisions) - $keep;
+                foreach (array_slice($revisions, 0, max(0, $delete)) as $old_revision) {
+                    if (false === strpos($old_revision->post_name, 'autosave')) {
+                        wp_delete_post_revision($old_revision->ID);
+                    }
+                }
+            }
         }
 
         return $revision_id;
@@ -326,14 +373,44 @@ class RevisionaryCompat {
             return !$operation_arg || !$values;
         }
 
+        // Compare database representations: integer/bool values are read back as strings.
+        $new_value = (string) maybe_serialize($meta_value);
         if ('delete_post_metadata' === $filter) {
             if ($operation_arg || !$values) {
                 return false;
             }
-            return '' === $meta_value || in_array($meta_value, $values, true);
+            if ('' === $meta_value || null === $meta_value || false === $meta_value) {
+                return true;
+            }
+            foreach ($values as $value) {
+                if ((string) maybe_serialize($value) === $new_value) {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        return 1 !== count($values) || maybe_serialize(reset($values)) !== maybe_serialize($meta_value);
+        if ('update_post_metadata' !== $filter) {
+            return false;
+        }
+        // WordPress adds a missing key even when a previous-value selector was supplied.
+        if (!$values) {
+            return true;
+        }
+
+        // WordPress uses empty() to decide whether a previous-value selector applies.
+        $has_previous = !empty($operation_arg);
+        $previous_value = (string) maybe_serialize($operation_arg);
+        foreach ($values as $value) {
+            $stored_value = (string) maybe_serialize($value);
+            if ($has_previous && $stored_value !== $previous_value) {
+                continue;
+            }
+            if ($stored_value !== $new_value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function actArchivePostMeta($revision_id, $post_id) {
@@ -363,7 +440,7 @@ class RevisionaryCompat {
             $skip_post_meta = array_keys($this->post_revision_fields['meta_input']);
         }
 
-        revisionary_copy_postmeta($post_id, $revision_id, compact('skip_post_meta'));
+        revisionary_copy_postmeta($post_id, $revision_id, ['skip_meta_keys' => $skip_post_meta]);
     }
 
     function fltVisualCompareScriptDependencies($dependencies) {

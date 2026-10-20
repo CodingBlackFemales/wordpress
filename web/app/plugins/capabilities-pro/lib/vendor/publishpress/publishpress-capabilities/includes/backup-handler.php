@@ -566,48 +566,15 @@ class Capsman_BackupHandler
 	 */
 	function backupToolReset ()
 	{
-        global $current_user;
-
 		check_admin_referer('capsman-reset-defaults');
-
-		require_once(ABSPATH . 'wp-admin/includes/schema.php');
-
-		if ( ! function_exists('populate_roles') ) {
-			ak_admin_error(__('Needed function to create default roles not found!', 'capability-manager-enhanced'));
+		require_once __DIR__ . '/recovery.php';
+		try {
+			\PublishPress\Capabilities\Recovery::resetRoles();
+		} catch (\RuntimeException $error) {
+			ak_admin_error($error->getMessage());
 			return;
 		}
-
-		$roles = array_keys( ak_get_roles(true) );
-
-		foreach ( $roles as $role) {
-			remove_role($role);
-		}
-
-		populate_roles();
-
-        $pp_capabilities = apply_filters('cme_publishpress_capabilities_capabilities', []);
-        $role = get_role('administrator');
-        foreach ($pp_capabilities as $cap) {
-            $role->add_cap($cap);
-            $current_user->allcaps[$cap] = true;
-        }
-
 		$msg = esc_html__('Roles and Capabilities reset to WordPress defaults', 'capability-manager-enhanced');
-
-		if ( function_exists( 'pp_populate_roles' ) ) {
-			pp_populate_roles();
-		} else {
-			// force PP to repopulate roles
-			$pp_ver = get_option( 'pp_c_version', true );
-			if ( $pp_ver && is_array($pp_ver) ) {
-				$pp_ver['version'] = ( preg_match( "/dev|alpha|beta|rc/i", $pp_ver['version'] ) ) ? '0.1-beta' : 0.1;
-			} else {
-				$pp_ver = array( 'version' => '0.1', 'db_version' => '1.0' );
-			}
-
-			update_option( 'pp_c_version', $pp_ver );
-			delete_option( 'ppperm_added_role_caps_10beta' );
-		}
 
 		ak_admin_notify($msg);
 	}

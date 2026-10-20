@@ -14,6 +14,7 @@ class RevisionaryBeaverBuilder
 	// minimal config retrieval to support pre-init usage by WP_Scoped_User before text domain is loaded
 	function __construct() {
 		add_action('wp_print_scripts', [$this, 'submissionRedirect']);
+		add_filter('fl_builder_post_types', [$this, 'previewPostTypes']);
 
 		add_filter('fl_builder_ui_bar_review', [$this, 'flt_publish_caption']);
 		add_filter('fl_builder_ui_bar_publish', [$this, 'flt_publish_caption']);
@@ -34,6 +35,20 @@ class RevisionaryBeaverBuilder
 		if (!defined('REVISIONARY_BEAVER_BUILDER_NO_DRAFT_PRIVATE_WORKAROUND')) {
 			add_filter('get_post_metadata', [$this, 'flt_builder_metadata_fix_array_index'], 50, 5);
 		}
+    }
+
+    function previewPostTypes($types) {
+        // Beaver's native enablement gate rejects the revision post type, so
+        // historical previews skip both native rendering and layout styles.
+        if (!is_admin() && is_singular()) {
+            $post = get_queried_object();
+            if ($post instanceof WP_Post && wp_is_post_revision($post)
+                && current_user_can('read_post', $post->ID)
+                && get_post_meta($post->ID, '_fl_builder_enabled', true)) {
+                $types[] = 'revision';
+            }
+        }
+        return array_values(array_unique($types));
     }
 
 	function flt_builder_metadata_fix_array_index($meta_value, $object_id, $meta_key, $single, $meta_type) {

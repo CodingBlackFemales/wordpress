@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-04-14T19:56:51+00:00\n"
-"PO-Revision-Date: 2026-09-28 15:02+0000\n"
-"X-Generator: Weblate 5.14.3\n"
+"PO-Revision-Date: 2026-10-02 19:10+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
 "X-Domain: publishpress-pro\n"
 "Language: fr_FR\n"
 "X-Poedit-Basepath: ..\n"
@@ -29,17 +29,17 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-1: vendor\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: publishpress-pro.php:3, fuzzy
+#: publishpress-pro.php, fuzzy
 #. Plugin Name of the plugin
 msgid "PublishPress Planner Pro"
 msgstr "PublishPress Planner Pro"
 
-#: publishpress-pro.php:4
+#: publishpress-pro.php
 #. Plugin URI of the plugin
 msgid "https://publishpress.com/"
 msgstr "https://publishpress.com/"
 
-#: publishpress-pro.php:5
+#: publishpress-pro.php
 #. Description of the plugin
 msgid ""
 "PublishPress Planner helps you plan and publish content inside WordPress. "
@@ -49,12 +49,12 @@ msgstr ""
 "Les fonctionnalités incluent un calendrier de contenu, tableau de board "
 "kanban et notifications."
 
-#: publishpress-pro.php:7
+#: publishpress-pro.php
 #. Author of the plugin
 msgid "PublishPress"
 msgstr "PublishPress"
 
-#: publishpress-pro.php:8
+#: publishpress-pro.php
 #. Author URI of the plugin
 msgid "https://publishpress.com"
 msgstr "https://publishpress.com"

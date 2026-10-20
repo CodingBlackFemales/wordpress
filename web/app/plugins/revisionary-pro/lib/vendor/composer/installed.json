@@ -355,17 +355,17 @@
         },
         {
             "name": "publishpress/publishpress-revisions",
-            "version": "v4.1.0",
-            "version_normalized": "4.1.0.0",
+            "version": "v4.2.0",
+            "version_normalized": "4.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/publishpress/publishpress-revisions.git",
-                "reference": "81b29abd911ec3f3e022114dabb768b31d810b4a"
+                "reference": "d85839c2d0f27cb3e91444a2983a04396418c5b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/publishpress/publishpress-revisions/zipball/81b29abd911ec3f3e022114dabb768b31d810b4a",
-                "reference": "81b29abd911ec3f3e022114dabb768b31d810b4a",
+                "url": "https://api.github.com/repos/publishpress/publishpress-revisions/zipball/d85839c2d0f27cb3e91444a2983a04396418c5b2",
+                "reference": "d85839c2d0f27cb3e91444a2983a04396418c5b2",
                 "shasum": ""
             },
             "require": {
@@ -374,7 +374,7 @@
             "require-dev": {
                 "publishpress/dev-workspace": "^1.2"
             },
-            "time": "2026-10-02T01:42:45+00:00",
+            "time": "2026-10-15T20:52:55+00:00",
             "type": "wordpress-plugin",
             "extra": {
                 "plugin-slug": "revisionary",
@@ -426,7 +426,7 @@
             ],
             "homepage": "https://publishpress.com/",
             "support": {
-                "source": "https://github.com/publishpress/publishpress-revisions/tree/v4.1.0",
+                "source": "https://github.com/publishpress/publishpress-revisions/tree/v4.2.0",
                 "issues": "https://github.com/publishpress/publishpress-revisions/issues"
             },
             "install-path": "../publishpress/publishpress-revisions"

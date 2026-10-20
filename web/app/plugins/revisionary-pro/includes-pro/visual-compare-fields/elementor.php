@@ -14,6 +14,7 @@ return [
         'blacklist' => [
             '_elementor_css', '_elementor_page_assets', '_elementor_controls_usage',
             '_elementor_oembed_cache', '_elementor_source_image_hash',
+            '_elementor_element_cache',
         ],
     ],
 ];

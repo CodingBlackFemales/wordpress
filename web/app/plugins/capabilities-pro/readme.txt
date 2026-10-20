@@ -6,7 +6,7 @@ Tags: user roles, capabilities, permissions, authors, editors, post types, taxon
 Requires at least: 5.5
 Requires PHP: 7.2.5
 Tested up to: 7.1
-Stable tag: 2.52.0
+Stable tag: 2.53.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
