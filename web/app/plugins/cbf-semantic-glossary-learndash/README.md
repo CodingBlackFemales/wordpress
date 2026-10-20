@@ -18,7 +18,7 @@ The block is `cbf/course-glossary` (named like core's `cbf/glossary`). In the Cl
 
 | Setting | Block attribute | Shortcode | Default |
 | --- | --- | --- | --- |
-| Course | `course` (0 = current) | `course` (`current` or an ID) | The course the page belongs to |
+| Course | `course` (0 = current) | `course` (`current` or an ID) | The course the page belongs to, or a group page's course when the group has only one |
 | Heading text | `heading` | `heading` | Glossary |
 | Heading level | `level` | `level` | 2 |
 | Introduction text | `intro` | `intro` | "Terms from this course's lessons.", or a note that more terms appear as lessons unlock |
@@ -28,6 +28,8 @@ The block is `cbf/course-glossary` (named like core's `cbf/glossary`). In the Cl
 | Back-links | `backLinks` | `backlinks` | On |
 | A–Z index | `showIndex`, `indexMinEntries` | `index`, `index_min` | On, with core's minimum |
 | Preview locked lessons in editor | `previewLocked` | n/a | On |
+
+On a LearnDash group page, "current" means the group's course when the group is enrolled in exactly one. A group with no courses or several has no current course, so the glossary needs one named. Until it has one, learners see nothing and anyone who can edit the page sees a notice saying why, on the page as well as in the editor preview, since the shortcode has no preview.
 
 An empty heading or introduction (`heading=""`, `intro=""`, or clearing the field in the block) leaves that element out. Only an unset introduction gets the default text; in the block, **Use the default introduction** returns to it.
 

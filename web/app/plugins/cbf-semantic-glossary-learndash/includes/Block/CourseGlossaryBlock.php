@@ -131,7 +131,8 @@ final class CourseGlossaryBlock {
 		$course_id = $options->course_id > 0 ? $options->course_id : Steps::course_of( $post_id );
 
 		if ( ! Steps::is_course( $course_id ) ) {
-			return $editor ? self::notice( __( 'This page is not part of a course. Choose a course in the block settings.', 'cbf-semantic-glossary-learndash' ) ) : '';
+			// Learners see nothing; anyone who can fix the page sees why, since a shortcode has no editor preview.
+			return $editor || current_user_can( 'edit_post', $post_id ) ? self::notice( self::no_course_message( $post_id ) ) : '';
 		}
 
 		if ( $editor ) {
@@ -220,7 +221,33 @@ final class CourseGlossaryBlock {
 
 
 	/**
-	 * A message shown only in the editor preview.
+	 * Why the glossary has no course, and how to give it one.
+	 *
+	 * @param int $post_id The post the glossary is placed in.
+	 */
+	private static function no_course_message( int $post_id ): string {
+		$how = __( 'Choose one in the block settings, or add course="<course ID>" to the shortcode.', 'cbf-semantic-glossary-learndash' );
+
+		if ( ! Steps::is_group( $post_id ) ) {
+			return __( 'This page is not part of a course.', 'cbf-semantic-glossary-learndash' ) . ' ' . $how;
+		}
+
+		$count = count( Steps::group_course_ids( $post_id ) );
+
+		if ( $count === 0 ) {
+			return __( 'This group is not enrolled in a course.', 'cbf-semantic-glossary-learndash' ) . ' ' . $how;
+		}
+
+		return sprintf(
+			/* translators: %d: number of courses */
+			_n( 'This group is enrolled in %d course.', 'This group is enrolled in %d courses, so the glossary needs to know which one to show.', $count, 'cbf-semantic-glossary-learndash' ),
+			$count
+		) . ' ' . $how;
+	}
+
+
+	/**
+	 * A message for editors, shown in the preview or to users who can edit the page.
 	 *
 	 * @param string $text Message.
 	 */
