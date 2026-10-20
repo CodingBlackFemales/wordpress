@@ -1,0 +1,1700 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/tr/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Language: tr_TR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: presspermit-pro.php:4
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "PublishPress İzinleri Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"PublishPress İzinleri, gönderilere, sayfalara, kategorilere, etiketlere ve "
+"daha fazlasına erişimi etkinleştirmenizi veya reddetmenizi sağlar."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"Gizlilik durumu \"premium\" olan sayfalar set_pages_premium ve "
+"edit_premium_pages yeteneklerini gerektirmeli mi? Eğer öyleyse, %1$sduruma "
+"özel bir Sayfa Editörü rolü atayabilirsiniz%2$s veya %3$syetkileri doğrudan "
+"bir role ekleyebilirsiniz%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"Not: Yayın öncesi iş akışı sırası ve dallanma %s ayrı bir ekranda %s "
+"yapılandırılmıştır."
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "Ek ayarlar %s modülü tarafından sağlanmaktadır."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"Not: Eğer devre dışı bırakırsanız, yeniden etkinleştirmek için lisans "
+"anahtarının tekrar girilmesi gerekecektir."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"Etkinleştirildiğinde, özel grup üyeliği ağ genelinde uygulanır (ancak rol "
+"atamaları yine de siteye özeldir)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "Ağ genelinde izin grupları oluşturabilir"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr "Grup düzenlemeye izin veriliyorsa, ağ grup üyeliğini de değiştirebilir"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"Bu özellik, /uploads/ klasöründeki dosyalara doğrudan URL erişimini kontrol "
+"edecektir. Varsayılan olarak, dosyalar, kullanıcının göremediği bir "
+"gönderiye eklenmişse engellenir."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"Çoklu site kurulumlarında Dosya Erişimi, %1$smain .htaccess dosyasının "
+"üzerindeki varsayılan ms-files.php kurallarına aşağıdaki kuralların "
+"eklenmesini gerektirecektir.%2$s"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "Ama .htaccess dosyanız eksik veya yazılamaz durumda!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr ".htaccess dosyasının bu kuralları içerecek şekilde güncellenmesi gerekiyor."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr ".htaccess dosyası gerekli tüm kurallara sahiptir."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"Bu kurallar otomatik olarak eklenmeyecektir. .htaccess dosyasını düzenlemek "
+"ve daha sonra işlevselliği istenmiyorsa kuralları kaldırmak sizin "
+"sorumluluğunuzdadır."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"Her yeni site ile birlikte ek bir kural eklemeniz gerekecektir. %1$sBu "
+"gerekliliği ortadan kaldırmak için \"WordPress ms-files kaldır\" "
+"araştırın.%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"Bir şeyler ters giderse .htacces dosyasını varsayılan içeriğine manuel "
+"olarak geri yüklemeniz gerekecektir. Devam edelim mi?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr ".htaccess dosyasını şimdi güncelle"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "yalnızca korumalı dosyaları olan siteler için"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "tüm siteler için"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "HİÇBİRİ: İzin kurallarını kaldır"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"Eklenti ağda etkinleştirilmediğinden, dosya filtrelemesi gereken her site "
+"için yukarıda gösterilen bir RewriteRule ekleyerek .htaccess dosyasını "
+"manuel olarak değiştirmeniz gerekecektir."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"Bu, dosya erişim özelliğini herhangi bir gönderiye eklenmemiş dosyalara "
+"genişletir. Bu, edit_private_files veya pp_list_all_files yeteneğine sahip "
+"kullanıcılar için geçerli olmayacaktır."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"Ekleli dosyaları, edit_private_files veya pp_list_all_files yeteneğine "
+"sahip olmayan kullanıcılara okunamaz hale getirin."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"Medya Kütüphanesi performansını artırmak için küçük resimler için dosya "
+"filtrelemesini devre dışı bırakın (boyut Ayarlar > Medya'da belirtilmiştir)."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"Bazı sitelerde, korunan dosyaların doğru bir şekilde teslim edilmesi için "
+"ek bir yönlendirme gereklidir. Mümkünse daha iyi performans için bunu devre "
+"dışı bırakın."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"Dosya Erişimi özelliği, %1$s.htaccess%2$s dosyasını "
+"%3$suploads/.htaccess%4$s konumunda kullanır. Normalde herhangi bir işlem "
+"gerekmez, ancak aşağıdaki düğmeye tıklamak, dosyaları koruyan URL "
+"anahtarlarını (bir sonraki site erişiminde) güncelleyecektir."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"Dosya Erişimi özelliği, %1$s.htaccess%2$s dosyasını "
+"%3$suploads/.htaccess%4$s konumunda kullanır. Normalde herhangi bir işlem "
+"gerekmez, ancak aşağıdaki düğmeye tıklamak, dosyaları koruyan URL "
+"anahtarlarını güncelleyecektir."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"En iyi uygulama, korunan dosyaların uzun süreli yer işaretlenmesini önlemek "
+"için yukarıdaki URL'ye periyodik olarak erişmektir (kendi cron hizmetinizi "
+"kullanarak)."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"Dosya erişim anahtarlarını yeniden oluşturmak için bir destek URL'sini "
+"etkinleştirecek özel bir anahtar sağlayın. Ardından, korunan dosyaların "
+"uzun süreli yer işaretlenmesini önlemek için URL'yi düzenli olarak "
+"çalıştırın (kendi cron hizmetinizi kullanarak)."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"Dosya Erişimi, FTP veya diğer manuel dosya kopyalama ile yüklenen dosyaları "
+"da koruyabilir, ancak bunları otomatik olarak tespit etmez. Korunacak "
+"dosyaları bulmak için aşağıdaki düğmeye tıklayarak yükleme klasörünüzü "
+"tarayın."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "Geçersiz dosya filtreleme anahtar argümanı."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "Lütfen Dosya Erişimi seçeneklerini yapılandırın!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr "wp-content klasörü, ana WordPress klasörünün dışına taşınamaz."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"Gönderi içeriğinde bağlantılı dosyalar %1$s içinde (veya onun alt "
+"klasöründe) olmalıdır. Dosyaları taşırken, bu URL'leri güncellemek için bir "
+"%2$s arama ve değiştirme eklentisi%3$s kullanmayı düşünün."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"Dosya Erişimi, FTP veya diğer manuel işlemlerle yüklenen dosyaları da "
+"koruyabilir, ancak otomatik olarak tespit etmez. Bu yardımcı program, "
+"yüklenen dosyaları bulup koruyabilir."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"Bu yardımcı programı cron görevi veya diğer doğrudan istek ile çalıştırmak "
+"için aşağıdaki URL'yi kullanın:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"Bu yardımcı programı doğrudan URL ile çalıştırmak için İzinler Ayarları'nda "
+"bir dosya filtreleme yeniden anahtarı ayarlayın"
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"Not: Yüklenen dosya eklerine doğrudan erişim filtrelenemez çünkü "
+"WP_CONTENT_DIR'iniz WordPress dalında değildir."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "İşlem geçersiz bir yapılandırma nedeniyle sonlandırıldı."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "%s gönderi / sayfa kontrol ediliyor..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s %2$s \"%3$s\" içinde filtrelenemeyen dosyayı atlıyor:%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s %2$s \"%3$s\" içinde kaybolan dosyayı atlıyor:%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s %2$s \"%3$s\" içinde yeni ek:%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s bağlantılı yükleme, gönderi / sayfa içeriğinizde bulundu."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s ek kaydı veritabanına eklendi."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "Tüm bağlantılı yüklemeler zaten ek olarak kaydedilmiştir."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"Burada etkinleştirilen durumlar, gönderi yayınlama için Görünürlük "
+"seçenekleri olarak kullanılabilir. Etkilenen gönderiler, karşılık gelen "
+"durum özel rol ataması olmadan erişilemez hale gelir."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"Burada etkinleştirilen durumlar, Taslak ile Yayınlanmış arasında ek adımlar "
+"olarak editörde mevcuttur."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"Durumlar, ek yetki gereksinimleri getirerek içeriğinizin erişilebilirliğini "
+"değiştirmektedir."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"Özel Yetenekleri etkinleştirmek için durum adının altındaki bağlantıyı açıp "
+"kapatın. Eğer etkinleştirilirse, Editör olmayanların o durumun "
+"gönderilerini düzenlemek için karşılık gelen %ssupplemental role%s "
+"ihtiyaçları olacaktır."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"Yayınlayamayan bir kullanıcı tarafından gönderi düzenlenirken, %sworkflow "
+"yapılandırılmıştır%s, Yayınla butonunun gönderiyi izin verilen bir sonraki "
+"iş akışı durumuna yükseltmesini sağlar."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"Yayınlayamayan bir kullanıcı tarafından gönderi düzenlenirken, %sworkflow "
+"yapılandırılmıştır%s, Yayınla butonunun gönderiyi izin verilen en yüksek "
+"sıralı iş akışı durumuna yükseltmesini sağlar."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"Yayınlayamayan bir kullanıcı tarafından gönderi düzenlenirken, Yayınla "
+"butonu, kullanıcının izin verilen en yüksek düzey durumuna gönderiyi "
+"yükseltecektir."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "Lütfen PublishPress %sDurumlar özelliğini%s etkinleştirin."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr ""
+"Gönderi Türünün kendisinin de %sİzinler%s etkinleştirilmiş olması "
+"gerektiğini unutmayın."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"Özel görünürlük durumlarını devre dışı bırakmak için önce gönderileri "
+"farklı bir duruma yeniden atayın."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"Not, bu yalnızca rol tanımı pp_moderate_any yeteneğini içeriyorsa "
+"geçerlidir."
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr "Özel Gizlilik veya İş Akışı durumlarını oluşturun veya düzenleyin."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "Özel Gizlilik durumlarını oluşturun veya düzenleyin."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"Bu rolün türüne özgü bir kopyası olarak oluşturulan Ekstra Roller, "
+"belirtilen özel durumların atanmasını sağlayacaktır."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"Editörlerin, iş akışı gönderileri (Atanmış, Devam Eden, Onaylı) için durum "
+"özel düzenleme yeteneklerine ihtiyaçları yoktur."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"Eğer etkinleştirilirse, Editör olmayanların 'İzinler' ekranı aracılığıyla "
+"düzenleme erişimi verilmesi gerekir."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"Eğer etkinleştirilirse, Hızlı Düzenle'de kolay durum ataması için bir "
+"Görünürlük Durumu açılır menüsü görünecektir."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"Eğer etkinleştirilirse, bu, PublishPress Durum eklentisine Görünürlük "
+"Durumları desteği ekleyecektir."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "Kullanıcı alanı ile eşleşecek gönderi özelliği veya meta alanı"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "Gönderi alanı ile eşleşecek kullanıcı özelliği veya meta alanı"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "Gönderi alanı ile eşleşecek kullanıcı meta alanı"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "Senkrasyona dahil edilecek kullanıcı rolü"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "Oluşturulan gönderiler için üst kimlik"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "Önerilen meta anahtar adlarından gönderi alanını seçin"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"Belirtilen rolün yeni bir kullanıcısı eklendiğinde, onlar için bir gönderi "
+"oluşturun veya atayın."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "Mevcut kullanıcılar için bir gönderi oluşturun veya atayın."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "Bu gönderi türü hiyerarşik değildir"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr "Seçilen rollerdeki her kullanıcı için otomatik olarak bir gönderi oluşturun."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"İpucu: Eğer %s özel alanlara sahipse (örneğin e-posta adresi), alan adı "
+"keşfine yardımcı olacak bir tane oluşturun."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr "Her kullanıcının kendi Kullanıcı Gönderilerini düzenlemesine izin verin."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"%s modülü tarafından sağlanan okunamaz içeriği teaser metni ile değiştirme "
+"ayarları."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"Bu sekmedeki ayarlar, tüm gönderi türleri için teaser filtrelemesi devre "
+"dışı olduğundan geçerli değildir."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"Bazı tarayıcılar kullanıcı girişine bakılmaksızın beslemeleri önbelleğe "
+"alacağından, nitelikli kullanıcılar için bile RSS içeriğini engelleyin."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"Bu özellik, kullanıcıların erişimlerinin engellendiği içerikleri "
+"görüntülemeye çalıştıklarında ne göreceklerini kontrol eder."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"Bu ayarlar, teaser'ın uygulandığı görünüm, bağlantı türleri ve görünürlük "
+"durumlarını ayarlar."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"Aşağıda seçtiğiniz terimlerle ilişkili okunamaz gönderilere bağlantıları "
+"gizleyerek Nav Menüsündeki Teaser ayarlarını geçersiz kılabilirsiniz."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"Okunamaz içeriği blog roll'unda ve bağlantı listelerinde gizli tutun, ancak "
+"doğrudan erişim denemelerinde teaser'ı gösterin."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"Okunamaz özel gönderileri gizleyin, ancak normal Gizlilik veya Rol "
+"Kısıtlamaları nedeniyle okunamaz olan gönderiler için bir teaser gösterin."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"Erişim izni olmayan bir gönderiyi görüntülemeye çalışan herhangi bir kişi "
+"varsa, teaser göstermek yerine başka bir gönderiye yönlendirin."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"Gönderi içeriğini veya alıntıyı özel metinle değiştirin, mümkünse bir "
+"çevrimiçi giriş formu da dahil edin. Gönderi başlığı ve alıntısından önce "
+"veya sonra metin de ekleyebilirsiniz."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"Bu virgülle ayrılmış türlerin okunamaz öğeleri, nav menü öğesi "
+"gizlenecektir."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr "Görünürlük Çemberi üyeliği, görüntüleme erişimini sınırlamaz."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr "Editoryal Çember üyeliği, düzenleme erişimini sınırlamaz."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"İzinler ajax'ı aracılığıyla kullanıcıları ararken, yalnızca mevcut siteye "
+"kayıtlı kullanıcıları döndürün."
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"Kullanıcı süper yönetici ise veya 'pp_manage_network_members' yeteneğine "
+"sahipse, İzinler ajax'ı ile yapılan kullanıcı aramaları tüm sitelerden "
+"kullanıcıları döndürür."
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"Kullanıcılar yalnızca BP grubunun moderatörü iseler, BuddyPress İzinler "
+"Grubu üyesi olarak sayılmalıdır."
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"Kullanıcılar yalnızca BP grubunun yöneticisi iseler, BuddyPress İzinler "
+"Grubu üyesi olarak sayılmalıdır."
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"CMS Sayfa Ağaç Görünümü eklentisi: kullanıcının ilişki izinlerine dayalı "
+"olarak (tüm hiyerarşik gönderi türleri için) 'ekle' bağlantılarını gizleyin."
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"CMS Sayfa Ağaç Görünümü eklentisi: kullanıcının sayfa ilişki izinlerine "
+"dayalı olarak (sayfalar için) 'ekle' bağlantılarını gizleyin."
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"CMS Sayfa Ağaç Görünümü eklentisi: kullanıcının ilişki izinlerine dayalı "
+"olarak (belirtilen hiyerarşik gönderi türü için) 'ekle' bağlantılarını "
+"gizleyin."
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr "İzinlerin, İç İçe Sayfalar listesini filtrelemesini tamamen engelle"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "İzinlerin, İç İçe Sayfalar listesini filtrelemesini zorla"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr "Hızlı Düzenleme yapmasına izin verilen rollerin virgülle ayrılmış listesi"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"Kontekst Menüsünü kullanmasına izin verilen rollerin virgülle ayrılmış "
+"listesi"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"Filtrelenmemiş kullanıcıların Bağlam Menüsünü kullanmalarına asla izin "
+"verme, hatta pp_force_quick_edit yeteneğine sahip olsalar bile"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"Kullanıcı filtrelenmemiş (Yönetici veya pp_nested_pages_unfiltered "
+"yeteneğine sahipse) olmadıkça Çocuk Ekle bağlantısını devre dışı bırak"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr ""
+"Kullanıcı filtrelenmemiş değilse Çocuk Sayfası Ekle bağlantısını devre dışı "
+"bırak"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr ""
+"Kullanıcı filtrelenmemiş değilse Sayfayı Önce Ekle bağlantısını devre dışı "
+"bırak"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr ""
+"Kullanıcı filtrelenmemiş değilse Sayfayı Sonra Ekle bağlantısını devre dışı "
+"bırak"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr "Kullanıcı filtrelenmemiş değilse Üstte Düşür bağlantısını devre dışı bırak"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr "Kullanıcı filtrelenmemiş değilse Altta Düşür bağlantısını devre dışı bırak"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "Kullanıcı filtrelenmemiş değilse Klon bağlantısını devre dışı bırak"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "Lisans"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "Lisans Anahtarı"
+
+#: includes-pro/SettingsTabInstall.php:29
+msgid "Version"
+msgstr "Sürüm"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "ayarlar"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "Anahtar Süresi Doldu"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "Anahtarı Devre Dışı Bırak"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "Anahtar Aktif"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "(lütfen publishpress.com anahtarını girin)"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "Anahtarı Aktif Et"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"Not: Yenileme, devre dışı bırakmayı gerektirmez. Eğer devre dışı "
+"bırakırsanız, lisans anahtarının yeniden girilmesi gerekecektir."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"Lisans anahtarınızın süresi doldu. Devam eden öncelikli destek için, "
+"%1$slütfen yenileyin%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"Lisans anahtarınız bugün sona erecek. Güncellemeler ve öncelikli destek "
+"için, %1$slütfen yenileyin%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"Lisans anahtarınız (eklenti güncellemeleri için) %1$d gün içinde sona "
+"erecek. Güncellemeler ve öncelikli destek için, %2$s lütfen yenileyin%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"Permissions Pro için güncellemeler almak için, %1$sPublishPress lisans "
+"anahtarınızı%2$s etkinleştirin."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "modül bilgilerini yenile"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "İzinler Pro Versiyonu: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "%s&nbsp;detaylarını görüntüle"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "güncelleme kontrolü / yükle"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "Veritabanı Şeması Versiyonu: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "Kurulum Geçmişi"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (önceki kurulum)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "WordPress Versiyonu: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "PHP Versiyonu: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr "İstek, bağlantı hatası nedeniyle işlenemedi."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr "Lütfen sipariş fişinizde gösterilen lisans anahtarını girin."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "Tanımsız bir hata oluştu."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "Anahtar devre dışı bırakıldı."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "Anahtar etkinleştirildi."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "Anahtarın süresi doldu."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "Anahtar geçersiz."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "Anahtar etkinleştirilemedi. Lütfen tekrar deneyin."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "Daire Üyeliği"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "Görüntüleme"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "Düzenleme"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s sadece daire yazarlarına özeldir, bu gönderi türleri için:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "Daire Aktivasyonu"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "Görünürlük Dairesi"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "Editoryal Daire"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"Bu gruptaki kullanıcılar yalnızca bu gruptaki diğer kullanıcılar tarafından "
+"yazılmış gönderileri görüntüleyebilirler."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"Bu gruptaki kullanıcılar yalnızca bu gruptaki diğer kullanıcılar tarafından "
+"yazılmış gönderileri düzenleyebilirler."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "Normal yetenek gereksinimleri de uygulanacaktır."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "Bu grup bir %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "Daireler, %s yeteneklerine sahip rollere uygulanamaz."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s kısıtlamaları%s bu role uygulanmaz. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "Gönderi türleri için kısıtlama uygula:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"Kullanıcılar, rollerine %1$s veya %2$s yeteneği eklenerek Çember "
+"kısıtlamalarından muaf tutulabilirler."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "Daire Türü"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "Görünürlük"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55
+msgid "Editorial"
+msgstr "Editoryal"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "Erişim Daire kısıtlamaları revizyonlara uygulanır"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "Şu konularda Konular Oluştur"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "Konu Oluşturma"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "Konu Oluştur"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "Şu konularda Yanıtlar Gönder"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "Yanıt Gönderimi"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "Yanıt Gönder"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "Daha fazla detay göster"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "BuddyPress Grubu"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "BP İzin Grubu"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "BP İzin Grupları"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "Yönet"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "BuddyPress Grupları"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr "O ana sayfayı seçmenize izin verilmedi."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "Gösterge Paneline Dön"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "İzin Reddedildi"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "O ana sayfayı seçmenize izin verilmedi."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "Ağ Grupları"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "Ağ Grubu"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "Tanıtım metni"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "Ağ"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "Gruplar"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73
+msgid "Forum Teaser"
+msgstr "Forum Tanıtımı"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "Ağ genelindeki gruplar"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "Tanıtım Konuları"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "Konu / Yanıt Yazarı Bağlantısını Gizle"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "Uyumluluk Paketi"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "Konu Tanıtım Metni (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "Yanıt Tanıtım Metni (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "İlk Yanıt"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "Diğer Yanıtlar"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "Giriş Yapılmamış"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "Giriş Yapmış Kullanıcılar"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "%s[login_form]%s kısa kodunu kullanarak bir giriş formu ekleyin."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "Konu ve Yanıtları Gizle"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "Konu ve Yanıtları Kandır"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "Konuları Göster, Yanıtları Kandır"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"Tek forum tanıtımı STYLESHEETPATH/press-permit/teaser-content-forum.php ile "
+"özelleştirilebilir"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[Bu konu ek izinler veya üyelik gerektiriyor.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[Bu konu site girişi gerektiriyor.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[giriş gerekli]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[Bu yanıt site girişi gerektiriyor.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "Dosya Erişimi"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "Dosya Erişim Sıfırlama Anahtarı:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "Küçük Küçük Resimler Filtrelenmemiş"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "Bağlı Olmayan Dosyaları Özel Yap"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "Bağlı Dosyaları Özel Yap"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sNot%2$s: Yüklenen dosya eklerine doğrudan erişim filtrelenemez çünkü "
+"mod_rewrite sunucunuzda etkin değil."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sNot%2$s: Yüklenen dosya eklerine doğrudan erişim, standart dışı "
+"YÜKLEMELER yolunuz yüzünden filtrelenmeyecektir."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sNot%2$s: Yüklenen dosya eklerine doğrudan erişim, WordPress kalıcı "
+"bağlantılar varsayılan olarak ayarlandığı için filtrelenemez."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "gerekli kuralları göster"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "Kopyala"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "Kopyalandı!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "Erişim Dosyasını Yenile"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "Ekler Aracı"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "Nginx entegrasyonu için %spublishpress.com belgelerine%s bakın."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "İzin Ayarlarına Geri Dön"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "FTP ile Yüklenen Dosyalar için Dosya Erişimi"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "FTP ile Yüklenen Dosyaları Bul"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr ""
+"Ağ ek dosya taraması sıraya alındı ve WP-Cron aracılığıyla arka planda "
+"devam edecektir."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr "Zaten bir ağ ek dosya taraması devam ediyor ya da planlanamadı."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "Site Yapılandırma Gereksinimleri"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"Doğrudan dosya URL'lerinin doğru erişim kontrolü için, siteniz bu "
+"gereksinimleri karşılamalıdır:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "Otomatik İşleme"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "Araç Uç Noktası URL'si:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "URL'yi Kopyala"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "Ayarlar'a Git"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "ÇALIŞIYOR"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "İşlem tamamlandı"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "Tekrar Tara"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr "%s için rol seçimi gereklidir. Lütfen en az bir rol seçin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"Bir Takım / Personel eklentisi kullanıyorsunuz gibi görünüyor. Gönderileri "
+"kullanıcılara senkronize etmek ve onlara düzenleme izni vermek için "
+"%1$sİzinler > Ayarlar > Gönderileri Senkronize Et%2$s bölümüne gidin"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "Kullanıcı Gönderileri"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "Gönderileri Senkronize Et"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "Kullanıcılar için Gönderi Oluştur"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "Yazar İzinlerini Ver"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "Gönderi Türleri"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "Gönderi Alanını Eşleştir"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "Kullanıcı Alanını Eşleştir"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "Kullanıcı Rolü"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "Üst Gönderi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "Miktar"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "Gönderi Durumu"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "Gönderi Başlığı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "Gönderi URL'si"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "Kullanıcı Görüntü Adı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "Kullanıcı e-posta"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "Kullanıcı girişi"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "Kullanıcı takma adı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "Oluşturulan Kullanıcı Gönderileri:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "Gönderi Türü"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "Gönderilerin kullanıcılar için nerede oluşturulacağını seçin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "Yeni Kullanıcılar"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "Yeni kullanıcılar için gönderiler oluşturun."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "Mevcut Kullanıcılar"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "Mevcut kullanıcılar için gönderiler oluşturun."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "Rol"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "Bu rollerdeki kullanıcılar için gönderiler oluşturun."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "Her kullanıcı için oluşturulacak gönderi sayısını ayarlayın."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434
+msgid "Status"
+msgstr "Durum"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "Oluşturulan gönderiler için durumu ayarlayın."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "Kullanıcı sayfaları için hiçbir gönderi türü etkinleştirilmemiştir."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "İzin Ayarlarına Git"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "Gelişmiş ayarları genişletmek/küçültmek için tıklayın"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(Tüm Roller)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "Yayınlandı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "Taslak"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "İnceleme Bekliyor"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "Özel"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "Çoğaltma Oluşturmaktan Kaçının"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"Bu ayar, bir kullanıcı için kopya gönderilerin oluşturulmasını önleyebilir. "
+"Seçilen alanlar eşleşirse, yeni bir gönderi oluşturulmayacaktır."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "Gönderi Eşleşme Alanı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr ""
+"Kullanıcılarla eşleştirmek için hangi gönderi alanını seçeceğinizi "
+"belirleyin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(diğer)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "seçiniz..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "iptal"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "Kullanıcı Eşleşme Alanı"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr ""
+"Gönderilerle eşleştirmek için hangi kullanıcı alanını seçeceğinizi "
+"belirleyin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "Mevcut Şablon Parametreleri"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"Özel şablonlar oluşturmak için Kullanıcı Eşleşme Alanında bu yer tutucuları "
+"kullanabilirsiniz:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "Örnekler:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "Ek Alan"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "Gönderi oluşturma için ek yapılandırma seçenekleri."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "Üst Gönderi Kimliği"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr ""
+"Hiyerarşik gönderi türleri için bir üst gönderinin Gönderi Kimliğini "
+"belirtin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "Üst gönderi kimliğini girin (üstsüz için 0)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "Kullanıcı Gönderileri Ayarlarında Doğrulama Hataları:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "Lütfen bu hataları düzeltin ve tekrar deneyin."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: Seçilen rol olmadığı için atlanıyor"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr ""
+"%s: PressPermit filtrelemesi etkinleştirildi (Çekirdek > Filtrelenmiş "
+"Gönderi Türleri)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: %3$s rolüne %2$s Yazar rolü eklenmiş"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "Belirsiz %1$s eşleşmesi (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "%1$s için belirsiz kullanıcı eşleşmesi (%2$s, gönderi id %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "%1$s için belirsiz kullanıcı eşleşmesi (%2$s, $post id %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "%1$s için belirsiz kullanıcı eşleşmesi (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s gönderi oluşturuldu."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s gönderi güncellendi."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "Tüm Roller"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: %2$s için tamamlandı."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: Tamamlandı."

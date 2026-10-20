@@ -1,0 +1,39 @@
+option.pp-scheduled {
+    color: #aaa;
+}
+
+option.pp-expired {
+    color: #c00;
+    text-decoration: line-through;
+}
+
+#pp_member_start, #pp_member_end {
+    width: 110px;
+}
+
+#pp-agent-selection_member-wrapper {
+    width: 100%;
+    max-width: 1000px;
+}
+#pp-agent-selection_member-wrapper td:first-child {
+    width: 340px;
+}
+.pp-members-current {
+    padding-left: 10px;
+}
+.pp-members-current #member {
+    max-width: calc(100% - 8px);
+    width: 100% !important;
+}
+.pp-member-select-to-date {
+    float: right;
+    margin-right: 40px;
+}
+#select_agents_member {
+    float: right;
+    margin-right: 40px;
+    margin-top: 12px !important;
+}
+#unselect_agents_member {
+    margin-top: 12px !important;
+}

@@ -1,0 +1,21 @@
+table.bp_groups .column-name img {
+    float: left;
+    margin-right: 10px;
+    margin-top: 1px;
+}
+
+div.ppbp-label {
+    margin-bottom: 5px;
+}
+
+div.ppbp-assignments-brief a {
+    text-decoration: none;
+}
+
+div.ppbp-assignments-brief a:hover {
+    text-decoration: underline;
+}
+
+table.bp_groups th.column-cb, table.bp_groups td.column-cb {
+    display: none;
+}

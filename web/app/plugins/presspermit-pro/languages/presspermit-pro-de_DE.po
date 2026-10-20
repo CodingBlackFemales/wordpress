@@ -1,0 +1,1740 @@
+# Copyright (C) 2026 PublishPress
+# This file is distributed under the same license as the PublishPress Permissions Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: PublishPress Permissions Pro 4.8.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: German "
+"<https://weblate.publishpress.com/projects/publishpress-permissions-pro/"
+"presspermit-pro/de/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-04-02T18:54:49+00:00\n"
+"PO-Revision-Date: 2026-10-01 19:50+0000\n"
+"X-Generator: Weblate 2026.6.1\n"
+"X-Domain: presspermit-pro\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: de-DE\n"
+
+#: presspermit-pro.php:4, fuzzy
+#. Plugin Name of the plugin
+msgid "PublishPress Permissions Pro"
+msgstr "PublishPress Permissions Pro"
+
+#: presspermit-pro.php:5
+#. Plugin URI of the plugin
+msgid "https://publishpress.com/permissions"
+msgstr "https://publishpress.com/permissions"
+
+#: presspermit-pro.php:6
+#. Description of the plugin
+msgid ""
+"PublishPress Permissions allows you to enable or deny access to posts, "
+"pages, categories, tags and more."
+msgstr ""
+"PublishPress Permissions ermöglicht es Ihnen, den Zugriff auf Beiträge, "
+"Seiten, Kategorien, Tags und mehr zu gewähren oder zu verweigern."
+
+#: presspermit-pro.php:8
+#. Author of the plugin
+msgid "PublishPress"
+msgstr "PublishPress"
+
+#: presspermit-pro.php:9
+#. Author URI of the plugin
+msgid "https://publishpress.com/"
+msgstr "https://publishpress.com/"
+
+#: includes-pro/admin-load.php:93
+#, php-format
+msgid ""
+"Should pages with privacy status \"premium\" require set_pages_premium and "
+"edit_premium_pages capabilities? If so, you can %1$sassign a "
+"status-specific Page Editor role%2$s or %3$sadd the capabilities directly "
+"to a role%4$s."
+msgstr ""
+"Sollten Seiten mit dem Datenschutzstatus \"premium\" die Berechtigungen "
+"set_pages_premium und edit_premium_pages benötigen? Wenn ja, können Sie "
+"%1$seine status-spezifische Seiten-Editor-Rolle zuweisen%2$s oder %3$sdie "
+"Berechtigungen direkt einer Rolle hinzufügen%4$s."
+
+#: includes-pro/admin-load.php:121
+#, php-format
+msgid ""
+"Note: Workflow sequence and branching for pre-publication is configured "
+"%son a separate screen%s"
+msgstr ""
+"Hinweis: Der Workflow-Ablauf und die Verzweigung für die "
+"Vorveröffentlichung sind %son einem separaten Bildschirm%s konfiguriert."
+
+#: includes-pro/admin-load.php:136
+#, php-format
+msgid "Additional settings provided by the %s module."
+msgstr "Zusätzliche Einstellungen werden durch das %s Modul bereitgestellt."
+
+#: includes-pro/admin-load.php:140
+msgid ""
+"Note: If you deactive, re-entry of the license key will be required for "
+"re-activation."
+msgstr ""
+"Hinweis: Wenn Sie deaktivieren, muss der Lizenzschlüssel für die "
+"Reaktivierung erneut eingegeben werden."
+
+#: includes-pro/admin-load.php:145
+msgid ""
+"If enabled, custom group membership is applied network-wide (though role "
+"assignments are still site-specific)."
+msgstr ""
+"Wenn aktiviert, wird die benutzerdefinierte Gruppenmitgliedschaft "
+"netzwerkweit angewendet (obwohl die Rollenzuweisungen weiterhin "
+"standortspezifisch sind)."
+
+#: includes-pro/admin-load.php:148
+msgid "Can create network-wide permission groups"
+msgstr "Kann netzwerkweite Berechtigungsgruppen erstellen"
+
+#: includes-pro/admin-load.php:151
+msgid "If group editing is allowed, can also modify network group membership"
+msgstr ""
+"Wenn die Gruppenbearbeitung erlaubt ist, kann auch die netzwerkweite "
+"Gruppenmitgliedschaft geändert werden"
+
+#: includes-pro/admin-load.php:156
+msgid ""
+"This feature will control direct URL access to files in /uploads/ folder. "
+"By default, files are blocked if they are attached to a post which the user "
+"can't view."
+msgstr ""
+"Diese Funktion steuert den direkten URL-Zugriff auf Dateien im "
+"/uploads/-Ordner. Standardmäßig sind Dateien blockiert, wenn sie an einen "
+"Beitrag angehängt sind, den der Benutzer nicht sehen kann."
+
+#: includes-pro/admin-load.php:159
+#, php-format
+msgid ""
+"File Access on multisite installations will require the following rules to "
+"be inserted above the stock ms-files.php rules in the %1$smain .htaccess "
+"file%2$s:"
+msgstr ""
+"Der Datei-Zugriff bei Multisite-Installationen erfordert, dass die "
+"folgenden Regeln über den Standardregeln von ms-files.php in der "
+"%1$shaupten .htaccess-Datei%2$s eingefügt werden:"
+
+#: includes-pro/admin-load.php:162
+msgid "But your .htaccess is missing or not writeable!"
+msgstr "Aber Ihre .htaccess fehlt oder ist nicht beschreibbar!"
+
+#: includes-pro/admin-load.php:165
+msgid ".htaccess needs to be updated to include these rules."
+msgstr "Die .htaccess muss aktualisiert werden, um diese Regeln einzuschließen."
+
+#: includes-pro/admin-load.php:168
+msgid ".htaccess file has all required rules."
+msgstr "Die .htaccess-Datei hat alle erforderlichen Regeln."
+
+#: includes-pro/admin-load.php:171
+msgid ""
+"These rules will not be inserted automatically.  You are responsible for "
+"editing .htaccess and later removing the rules if the functionality is no "
+"longer desired."
+msgstr ""
+"Diese Regeln werden nicht automatisch eingefügt. Sie sind verantwortlich "
+"für die Bearbeitung der .htaccess und das späterer Entfernen der Regeln, "
+"wenn die Funktionalität nicht mehr gewünscht ist."
+
+#: includes-pro/admin-load.php:174
+#, php-format
+msgid ""
+"Note that an additional rule will need to be added with each new site. "
+"%1$sTo eliminate this requirement, research \"WordPress remove "
+"ms-files\".%2$s"
+msgstr ""
+"Beachten Sie, dass mit jeder neuen Seite eine zusätzliche Regel hinzugefügt "
+"werden muss. %1$sUm diese Anforderung zu beseitigen, recherchieren Sie "
+"\"WordPress remove ms-files\".%2$s"
+
+#: includes-pro/admin-load.php:177
+msgid ""
+"You will need to manually restore the .htacces file to default contents if "
+"anything goes wrong. Proceed?"
+msgstr ""
+"Sie müssen die .htaccess-Datei manuell auf den Standardinhalt zurücksetzen, "
+"wenn etwas schiefgeht. Fortfahren?"
+
+#: includes-pro/admin-load.php:180
+msgid "Update .htaccess now"
+msgstr "Aktualisieren Sie .htaccess jetzt"
+
+#: includes-pro/admin-load.php:183
+msgid "only for sites with protected files"
+msgstr "nur für Seiten mit geschützten Dateien"
+
+#: includes-pro/admin-load.php:186
+msgid "for all sites"
+msgstr "für alle Seiten"
+
+#: includes-pro/admin-load.php:189
+msgid "NONE: remove Permissions rules"
+msgstr "KEINE: Berechtigungsregeln entfernen"
+
+#: includes-pro/admin-load.php:192
+msgid ""
+"Since the plugin is not network-activated, you will need to modify the "
+".htaccess file manually, inserting a RewriteRule as shown above for each "
+"site which needs file filtering."
+msgstr ""
+"Da das Plugin nicht netzwerkaktiviert ist, müssen Sie die .htaccess-Datei "
+"manuell bearbeiten und eine RewriteRule wie oben gezeigt für jede Seite "
+"einfügen, die eine Dateifilterung benötigt."
+
+#: includes-pro/admin-load.php:195
+msgid ""
+"This extends the File Access feature to files that are not attached to any "
+"post. This will not apply to user who have the edit_private_files or "
+"pp_list_all_files capability."
+msgstr ""
+"Dies erweitert die Datei-Zugriffs-Funktion auf Dateien, die an keinen "
+"Beitrag angehängt sind. Dies gilt nicht für Benutzer, die die Berechtigung "
+"edit_private_files oder pp_list_all_files haben."
+
+#: includes-pro/admin-load.php:198
+msgid ""
+"Make attached files unreadable to users who do not have the "
+"edit_private_files or pp_list_all_files capability."
+msgstr ""
+"Machen Sie angehängte Dateien für Benutzer, die nicht über die Berechtigung "
+"edit_private_files oder pp_list_all_files verfügen, unlesbar."
+
+#: includes-pro/admin-load.php:201
+msgid ""
+"Improve Media Library performance by disabling file filtering for "
+"thumbnails (size specified in Settings > Media)."
+msgstr ""
+"Verbessern Sie die Leistung der Medienbibliothek, indem Sie die "
+"Dateifilterung für Miniaturansichten (Größe in Einstellungen > Medien "
+"angegeben) deaktivieren."
+
+#: includes-pro/admin-load.php:204
+msgid ""
+"On some sites, an additional redirect is required to correctly deliver "
+"protected files. Leave this disabled for better performance if possible."
+msgstr ""
+"Auf einigen Seiten ist eine zusätzliche Weiterleitung erforderlich, um "
+"geschützte Dateien korrekt bereitzustellen. Lassen Sie dies deaktiviert für "
+"bessere Leistung, wenn möglich."
+
+#: includes-pro/admin-load.php:207
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys (at next site access) that protect "
+"the files."
+msgstr ""
+"Die Datei-Zugriffs-Funktion verwendet eine %1$s.htaccess%2$s-Datei, die "
+"sich in %3$suploads/.htaccess%4$s befindet. Normalerweise sind keine "
+"Maßnahmen erforderlich, aber durch Klicken auf die Schaltfläche unten "
+"werden die URL-Schlüssel (beim nächsten Seitenzugriff) aktualisiert, die "
+"die Dateien schützen."
+
+#: includes-pro/admin-load.php:210
+#, php-format
+msgid ""
+"The File Access feature uses an %1$s.htaccess%2$s file located at "
+"%3$suploads/.htaccess%4$s. Normally no action is needed, but clicking the "
+"button below will update the URL keys that protect the files."
+msgstr ""
+"Die Datei-Zugriffs-Funktion verwendet eine %1$s.htaccess%2$s-Datei, die "
+"sich in %3$suploads/.htaccess%4$s befindet. Normalerweise sind keine "
+"Maßnahmen erforderlich, aber durch Klicken auf die Schaltfläche unten "
+"werden die URL-Schlüssel aktualisiert, die die Dateien schützen."
+
+#: includes-pro/admin-load.php:213
+msgid ""
+"Best practice is to access the above url periodically (using your own cron "
+"service) to prevent long-term bookmarking of protected files."
+msgstr ""
+"Best Practice ist, die oben angegebene URL regelmäßig (unter Verwendung "
+"Ihres eigenen Cron-Dienstes) aufzurufen, um langfristiges Bookmarking "
+"geschützter Dateien zu verhindern."
+
+#: includes-pro/admin-load.php:216
+msgid ""
+"Supply a custom key which will enable a support url to regenerate file "
+"access keys.  Then execute the url regularly (using your own cron service) "
+"to prevent long-term bookmarking of protected files."
+msgstr ""
+"Liefern Sie einen benutzerdefinierten Schlüssel, der eine Support-URL "
+"aktiviert, um die Datei-Zugriffsschlüssel neu zu generieren. Führen Sie "
+"dann regelmäßig die URL aus (unter Verwendung Ihres eigenen Cron-Dienstes), "
+"um langfristiges Bookmarking geschützter Dateien zu verhindern."
+
+#: includes-pro/admin-load.php:219
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual file "
+"copy, but does not detect them automatically. Click the button below to "
+"scan your uploads folder for files to protect."
+msgstr ""
+"Der Datei-Zugriff kann auch Dateien schützen, die per FTP oder durch andere "
+"manuelle Dateiübertragungen hochgeladen wurden, erkennt sie jedoch nicht "
+"automatisch. Klicken Sie auf die Schaltfläche unten, um Ihren Upload-Ordner "
+"nach zu schützenden Dateien zu scannen."
+
+#: includes-pro/admin-load.php:223
+msgid "Invalid file filtering key argument."
+msgstr "Ungültiges Argument für den Dateifilter-Schlüssel."
+
+#: includes-pro/admin-load.php:226
+msgid "Please configure File Access options!"
+msgstr "Bitte konfigurieren Sie die Datei-Zugriffsoptionen!"
+
+#: includes-pro/admin-load.php:229
+msgid "The wp-content folder cannot be relocated outside the main WordPress folder."
+msgstr ""
+"Der wp-content-Ordner kann nicht außerhalb des Haupt-WordPress-Ordners "
+"verschoben werden."
+
+#: includes-pro/admin-load.php:238
+#, php-format
+msgid ""
+"Files linked in post content must be in %1$s (or a subfolder of it). If you "
+"move files, consider using a %2$s search and replace plugin%3$s to update "
+"those URLs."
+msgstr ""
+"Inhalte, die in Beiträgen verlinkt sind, müssen sich in %1$s (oder einem "
+"Unterordner davon) befinden. Wenn Sie Dateien verschieben, sollten Sie ein "
+"%2$s Suche und Ersetzen Plugin%3$s verwenden, um diese URLs zu "
+"aktualisieren."
+
+#: includes-pro/admin-load.php:241
+msgid ""
+"File Access can also protect files uploaded by FTP or other manual "
+"processes, but does not detect them automatically. This utility can find "
+"and protect any uploaded files."
+msgstr ""
+"Der Dateizugriff kann auch Dateien schützen, die über FTP oder andere "
+"manuelle Prozesse hochgeladen wurden, erkennt sie jedoch nicht automatisch. "
+"Dieses Tool kann alle hochgeladenen Dateien finden und schützen."
+
+#: includes-pro/admin-load.php:244
+msgid ""
+"To run this utility by cron task or other direct request, use the following "
+"URL:"
+msgstr ""
+"Um dieses Tool über einen Cron-Job oder eine andere direkte Anfrage "
+"auszuführen, verwenden Sie die folgende URL:"
+
+#: includes-pro/admin-load.php:247
+msgid ""
+"To run this utility by direct URL, set a file filtering regen key on "
+"Permissions Settings"
+msgstr ""
+"Um dieses Tool über eine direkte URL auszuführen, setzen Sie einen "
+"Dateifilterungs-regen Schlüssel in den Berechtigungseinstellungen."
+
+#: includes-pro/admin-load.php:250
+msgid ""
+"Note: Direct access to uploaded file attachments cannot be filtered because "
+"your WP_CONTENT_DIR is not in the WordPress branch."
+msgstr ""
+"Hinweis: Der direkte Zugriff auf hochgeladene Dateianhänge kann nicht "
+"gefiltert werden, da Ihr WP_CONTENT_DIR nicht im WordPress-Zweig enthalten "
+"ist."
+
+#: includes-pro/admin-load.php:253
+msgid "The operation was terminated due to an invalid configuration."
+msgstr "Der Vorgang wurde aufgrund einer ungültigen Konfiguration beendet."
+
+#: includes-pro/admin-load.php:256
+#, php-format
+msgid "Checking %s posts / pages..."
+msgstr "Überprüfe %s Beiträge / Seiten..."
+
+#: includes-pro/admin-load.php:259
+#, php-format
+msgid "%1$s skipping unfilterable file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s überspringt nicht filterbare Datei in %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:262
+#, php-format
+msgid "%1$s skipping missing file in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$s überspringt fehlende Datei in %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:265
+#: includes-pro/admin-load.php:268
+#, php-format
+msgid "%1$sNew attachment in %2$s \"%3$s\":%4$s %5$s"
+msgstr "%1$sNeuer Anhang in %2$s \"%3$s\":%4$s %5$s"
+
+#: includes-pro/admin-load.php:271
+#, php-format
+msgid "%s linked uploads were found in your post / page content."
+msgstr "%s verlinkte Uploads wurden in Ihrem Beitrag / Seiteninhalt gefunden."
+
+#: includes-pro/admin-load.php:274
+#, php-format
+msgid "%s attachment records were added to the database."
+msgstr "%s Anhangsdatensätze wurden der Datenbank hinzugefügt."
+
+#: includes-pro/admin-load.php:277
+msgid "All linked uploads are already registered as attachments."
+msgstr "Alle verlinkten Uploads sind bereits als Anhänge registriert."
+
+#: includes-pro/admin-load.php:282
+msgid ""
+"Statuses enabled here are available as Visibility options for post "
+"publishing. Affected posts become inaccessable without a corresponding "
+"status-specific role assignment."
+msgstr ""
+"Hier aktivierte Status sind als Sichtbarkeitsoptionen für die "
+"Veröffentlichung von Beiträgen verfügbar. Betroffene Beiträge werden ohne "
+"eine entsprechende status-spezifische Rollen-Zuweisung unzugänglich."
+
+#: includes-pro/admin-load.php:285
+msgid ""
+"Statuses enabled here are available in the editor as additional steps "
+"between Draft and Published."
+msgstr ""
+"Hier aktivierte Status sind im Editor als zusätzliche Schritte zwischen "
+"Entwurf und Veröffentlicht verfügbar."
+
+#: includes-pro/admin-load.php:288
+msgid ""
+"Statuses alter your content's accessibility by imposing additional "
+"capability requirements."
+msgstr ""
+"Status ändern die Zugänglichkeit Ihres Inhalts, indem sie zusätzliche "
+"Fähigkeitserfordernisse auferlegen."
+
+#: includes-pro/admin-load.php:291
+#, php-format
+msgid ""
+"Enable Custom Capabilities by toggling the link below status name. If "
+"enabled, non-Editors will need a corresponding %ssupplemental role%s to "
+"edit posts of that status."
+msgstr ""
+"Aktivieren Sie benutzerdefinierte Fähigkeiten, indem Sie den Link unter dem "
+"Statusnamen umschalten. Wenn aktiviert, benötigen Nicht-Redakteure eine "
+"entsprechende %ssupplemental role%s, um Beiträge dieses Status zu "
+"bearbeiten."
+
+#: includes-pro/admin-load.php:294
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button increment the post to the next workflow status "
+"permitted."
+msgstr ""
+"Für die Bearbeitung eines Beitrags durch einen Benutzer, der nicht "
+"veröffentlichen kann, ist %sworkflow konfiguriert%s, um den "
+"Veröffentlichungs-Button den Beitrag auf den nächsten workflow Status zu "
+"erhöhen, der erlaubt ist."
+
+#: includes-pro/admin-load.php:297
+#, php-format
+msgid ""
+"For post edit by a user who cannot publish, %sworkflow is configured%s to "
+"make the Publish button escalate the post to the highest-ordered workflow "
+"status permitted."
+msgstr ""
+"Für die Bearbeitung eines Beitrags durch einen Benutzer, der nicht "
+"veröffentlichen kann, ist %sworkflow konfiguriert%s, um den "
+"Veröffentlichungs-Button den Beitrag auf den am höchsten eingestuften "
+"workflow Status zu erhöhen, der erlaubt ist."
+
+#: includes-pro/admin-load.php:300
+msgid ""
+"For post edit by a user who cannot publish, the Publish button will "
+"escalate the post to the highest-order status permitted to the user."
+msgstr ""
+"Für die Bearbeitung eines Beitrags durch einen Benutzer, der nicht "
+"veröffentlichen kann, wird der Veröffentlichungs-Button den Beitrag auf den "
+"höchsten Status erhöhen, der dem Benutzer erlaubt ist."
+
+#: includes-pro/admin-load.php:303
+#, php-format
+msgid "Please enable the PublishPress %sStatuses feature%s."
+msgstr "Bitte aktivieren Sie die PublishPress %sStatus-Funktion%s."
+
+#: includes-pro/admin-load.php:306
+#, php-format
+msgid ""
+"Note that the Post Type itself will also need to have %sPermissions%s "
+"enabled."
+msgstr ""
+"Beachten Sie, dass auch der Beitragstyp %sBerechtigungen%s aktiviert haben "
+"muss."
+
+#: includes-pro/admin-load.php:314
+msgid ""
+"To disable custom visibility statuses, first re-assign posts to a different "
+"status."
+msgstr ""
+"Um benutzerdefinierte Sichtbarkeitsstatus zu deaktivieren, weisen Sie "
+"zuerst die Beiträge einem anderen Status zu."
+
+#: includes-pro/admin-load.php:317
+msgid ""
+"Note, this only applies if the role definition includes the pp_moderate_any "
+"capability"
+msgstr ""
+"Hinweis: Dies gilt nur, wenn die Rollendefinition die Fähigkeit "
+"pp_moderate_any umfasst."
+
+#: includes-pro/admin-load.php:320
+msgid "Create or edit custom Privacy or Workflow statuses."
+msgstr ""
+"Erstellen oder bearbeiten Sie benutzerdefinierte Datenschutz- oder "
+"Workflow-Status."
+
+#: includes-pro/admin-load.php:323
+msgid "Create or edit custom Privacy statuses."
+msgstr "Erstellen oder bearbeiten Sie benutzerdefinierte Datenschutz-Status."
+
+#: includes-pro/admin-load.php:326
+msgid ""
+"Extra Roles created as a type-specific copy of this role will enable "
+"assignment of specified custom statuses."
+msgstr ""
+"Zusätzliche Rollen, die als typenspezifische Kopie dieser Rolle erstellt "
+"wurden, ermöglichen die Zuweisung bestimmter benutzerdefinierter Status."
+
+#: includes-pro/admin-load.php:329
+msgid ""
+"Editors do not need status-specific editing capabilities for workflow posts "
+"(Assigned, In Progress, Approved)."
+msgstr ""
+"Redakteure benötigen keine status-spezifischen Bearbeitungsfähigkeiten für "
+"Workflow-Beiträge (Zugewiesen, In Bearbeitung, Genehmigt)."
+
+#: includes-pro/admin-load.php:332
+msgid ""
+"If enabled, non-Editors will need to be granted editing access via the "
+"\"Permissions\" screen."
+msgstr ""
+"Wenn aktiviert, müssen Nicht-Redakteuren über den Bildschirm "
+"\"Berechtigungen\" Bearbeitungszugriff gewährt werden."
+
+#: includes-pro/admin-load.php:335
+msgid ""
+"If enabled, a Visibility Status dropdown will appear in Quick Edit for easy "
+"status assignment."
+msgstr ""
+"Wenn aktiviert, wird ein Sichtbarkeitsstatus-Dropdown in der "
+"Schnellbearbeitung erscheinen, um die Statuszuweisung zu erleichtern."
+
+#: includes-pro/admin-load.php:338
+msgid ""
+"If enabled, this will add Visibility Statuses support to the PublishPress "
+"Status plugin."
+msgstr ""
+"Wenn aktiviert, wird dies die Unterstützung von Sichtbarkeitsstatus für das "
+"PublishPress Status-Plugin hinzufügen."
+
+#: includes-pro/admin-load.php:343
+msgid "Post property or meta field to match with user field"
+msgstr "Beitragsattribut oder Metafeld, um mit Benutzerfeld übereinzustimmen"
+
+#: includes-pro/admin-load.php:346
+msgid "User property or meta field to match with post field"
+msgstr "Benutzerattribut oder Metafeld, um mit Beitragsfeld übereinzustimmen"
+
+#: includes-pro/admin-load.php:349
+msgid "User meta field to match with post field"
+msgstr "Benutzermetafeld, um mit Beitragsfeld übereinzustimmen"
+
+#: includes-pro/admin-load.php:352
+msgid "User role to include in synchronization"
+msgstr "Benutzerrolle, die in die Synchronisierung einbezogen werden soll"
+
+#: includes-pro/admin-load.php:355
+msgid "Parent id for created posts"
+msgstr "Eltern-ID für erstellte Beiträge"
+
+#: includes-pro/admin-load.php:358
+msgid "Choose post field from suggested meta key names"
+msgstr "Wählen Sie ein Beitragsfeld aus den vorgeschlagenen Metaschlüsseln"
+
+#: includes-pro/admin-load.php:361
+msgid ""
+"When a new user of specified role is added, create or designate a post for "
+"them."
+msgstr ""
+"Wenn ein neuer Benutzer mit der angegebenen Rolle hinzugefügt wird, "
+"erstellen oder benennen Sie einen Beitrag für ihn."
+
+#: includes-pro/admin-load.php:364
+msgid "Create or designate a post for existing users."
+msgstr "Erstellen oder benennen Sie einen Beitrag für bestehende Benutzer."
+
+#: includes-pro/admin-load.php:367
+msgid "This post type is not hierarchical"
+msgstr "Dieser Beitragstyp ist nicht hierarchisch"
+
+#: includes-pro/admin-load.php:370
+msgid "Automatically create a post for each user in selected roles."
+msgstr ""
+"Erstellen Sie automatisch einen Beitrag für jeden Benutzer in den "
+"ausgewählten Rollen."
+
+#: includes-pro/admin-load.php:373
+#, php-format
+msgid ""
+"Hint: If %s have custom fields (like email address), create one to assist "
+"field name discovery."
+msgstr ""
+"Hinweis: Wenn %s benutzerdefinierte Felder (wie E-Mail-Adresse) haben, "
+"erstellen Sie eines, um die Entdeckung der Feldnamen zu unterstützen."
+
+#: includes-pro/admin-load.php:376
+msgid "Enable each user to edit their own User Posts."
+msgstr ""
+"Ermöglichen Sie jedem Benutzer, seine eigenen Benutzerbeiträge zu "
+"bearbeiten."
+
+#: includes-pro/admin-load.php:380
+#, php-format
+msgid ""
+"Settings for replacing unreadable content with teaser text, provided by the "
+"%s module."
+msgstr ""
+"Einstellungen zum Ersetzen von unlesbarem Inhalt durch Teaser-Text, "
+"bereitgestellt durch das %s-Modul."
+
+#: includes-pro/admin-load.php:383
+msgid ""
+"Settings on this tab do not apply because teaser filtering is disabled for "
+"all post types."
+msgstr ""
+"Einstellungen auf diesem Tab gelten nicht, da die Teaser-Filterung für alle "
+"Beitragstypen deaktiviert ist."
+
+#: includes-pro/admin-load.php:386
+msgid ""
+"Since some browsers will cache feeds without regard to user login, block "
+"RSS content even for qualified users."
+msgstr ""
+"Da einige Browser Feeds ohne Berücksichtigung der Benutzeranmeldung "
+"zwischenspeichern, blockieren Sie RSS-Inhalte auch für berechtigte Benutzer."
+
+#: includes-pro/admin-load.php:389
+msgid ""
+"This feature controls what users will see when trying to view content they "
+"are blocked from accessing."
+msgstr ""
+"Dieses Feature steuert, was Benutzer sehen, wenn sie versuchen, auf Inhalte "
+"zuzugreifen, auf die sie keinen Zugriff haben."
+
+#: includes-pro/admin-load.php:392
+msgid ""
+"These settings adjust which views, link types and visibility statuses the "
+"teaser is applied to."
+msgstr ""
+"Diese Einstellungen passen an, auf welche Ansichten, Linktypen und "
+"Sichtbarkeitsstatus der Teaser angewendet wird."
+
+#: includes-pro/admin-load.php:401
+msgid ""
+"You can override Teaser settings within the Nav Menu by hiding links to "
+"unreadable posts that are associated with the terms you select below."
+msgstr ""
+"Sie können Teaser-Einstellungen im Navigationsmenü außer Kraft setzen, "
+"indem Sie Links zu unlesbaren Beiträgen verbergen, die mit den Begriffen "
+"verknüpft sind, die Sie unten auswählen."
+
+#: includes-pro/admin-load.php:404
+msgid ""
+"Keep unreadable content hidden in the blogroll and link lists, but show the "
+"teaser on direct access attempts."
+msgstr ""
+"Halten Sie unlesbaren Inhalt im Blogroll und in Linklisten verborgen, "
+"zeigen Sie jedoch den Teaser bei direkten Zugriffsversuchen an."
+
+#: includes-pro/admin-load.php:407
+msgid ""
+"Hide unreadable private posts, but show a teaser for posts which are "
+"unreadable due to regular Privacy or Role Restrictions."
+msgstr ""
+"Verbergen Sie unlesbare private Beiträge, zeigen Sie jedoch einen Teaser "
+"für Beiträge an, die aufgrund regulärer Datenschutz- oder "
+"Rollenbeschränkungen unlesbar sind."
+
+#: includes-pro/admin-load.php:410
+msgid ""
+"If anyone tries to view a post they don't have access to, redirect to "
+"another post instead of displaying a teaser."
+msgstr ""
+"Wenn jemand versucht, einen Beitrag zu sehen, auf den er keinen Zugriff "
+"hat, leiten Sie zu einem anderen Beitrag weiter, anstatt einen Teaser "
+"anzuzeigen."
+
+#: includes-pro/admin-load.php:413
+msgid ""
+"Replace post content or excerpt with custom text, possibly including an "
+"inline login form. You can also add text before or after the post title and "
+"excerpt."
+msgstr ""
+"Ersetzen Sie den Inhalt oder Auszug des Beitrags durch benutzerdefinierten "
+"Text, möglicherweise einschließlich eines Inline-Anmeldeformulars. Sie "
+"können auch Text vor oder nach dem Titel und Auszug des Beitrags hinzufügen."
+
+#: includes-pro/admin-load.php:416
+msgid ""
+"Unreadable items of these comma-separated types will have nav menu item "
+"hidden."
+msgstr ""
+"Unlesbare Elemente dieser durch Kommas getrennten Typen haben den "
+"Navigationsmenüeintrag verborgen."
+
+#: includes-pro/admin-load.php:420
+msgid "Visibility Circle membership does not limit viewing access."
+msgstr ""
+"Die Mitgliedschaft im Sichtbarkeitskreis schränkt den Zugriff auf die "
+"Anzeige nicht ein."
+
+#: includes-pro/admin-load.php:423
+msgid "Editorial Circle membership does not limit editing access."
+msgstr ""
+"Die Mitgliedschaft im Redaktionskreis schränkt den Bearbeitungszugang nicht "
+"ein."
+
+#: includes-pro/admin-load.php:435
+msgid ""
+"When searching for users via Permissions ajax, return return only users "
+"registered to current site"
+msgstr ""
+"Wenn Sie nach Benutzern über die Berechtigungen-Ajax suchen, geben Sie nur "
+"Benutzer zurück, die auf der aktuellen Website registriert sind."
+
+#: includes-pro/admin-load.php:438
+msgid ""
+"If user is a super admin or has 'pp_manage_network_members' capability, "
+"user searches via Permissions ajax return users from all sites"
+msgstr ""
+"Wenn der Benutzer ein Super-Admin ist oder die Berechtigung "
+"'pp_manage_network_members' hat, gibt die Benutzersuche über die "
+"Berechtigungen-Ajax Benutzer von allen Websites zurück."
+
+#: includes-pro/admin-load.php:446
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"a moderator of the BP group"
+msgstr ""
+"Zählen Sie Benutzer als Mitglied einer BuddyPress-Berechtigungsgruppe nur, "
+"wenn sie Moderator der BP-Gruppe sind."
+
+#: includes-pro/admin-load.php:449
+msgid ""
+"Count users as a member of a BuddyPress Permissions Group only if they are "
+"an administrator of the BP group"
+msgstr ""
+"Zählen Sie Benutzer als Mitglied einer BuddyPress-Berechtigungsgruppe nur, "
+"wenn sie Administrator der BP-Gruppe sind."
+
+#: includes-pro/admin-load.php:457
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for all hierarchical post "
+"types) based on user's association permissions"
+msgstr ""
+"CMS-Seitenbaumansicht-Plugin: Verstecken Sie 'Hinzufügen'-Links (für alle "
+"hierarchischen Beitragstypen) basierend auf den Berechtigungen des "
+"Benutzers."
+
+#: includes-pro/admin-load.php:460
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for pages) based on user's "
+"page association permissions"
+msgstr ""
+"CMS-Seitenbaumansicht-Plugin: Verstecken Sie 'Hinzufügen'-Links (für "
+"Seiten) basierend auf den Berechtigungen des Benutzers für Seiten."
+
+#: includes-pro/admin-load.php:463
+msgid ""
+"CMS Page Tree View plugin: hide 'add' links (for specified hierarchical "
+"post type) based on user's association permissions"
+msgstr ""
+"CMS-Seitenbaumansicht-Plugin: Verstecken Sie 'Hinzufügen'-Links (für den "
+"angegebenen hierarchischen Beitragstyp) basierend auf den Berechtigungen "
+"des Benutzers."
+
+#: includes-pro/admin-load.php:470
+msgid "Prevent Permission from filtering the Nested Pages listing at all"
+msgstr ""
+"Verhindern, dass Berechtigungen die Auflistung der verschachtelten Seiten "
+"überhaupt filtern"
+
+#: includes-pro/admin-load.php:473
+msgid "Force Permissions to filter the Nested Pages listing"
+msgstr "Berechtigungen zwingen, die Auflistung der verschachtelten Seiten zu filtern"
+
+#: includes-pro/admin-load.php:476
+msgid "Comma-separated list of roles that are allowed to Quick Edit nested pages"
+msgstr ""
+"Durch Kommas getrennte Liste von Rollen, die das Quick Edit für "
+"verschachtelte Seiten verwenden dürfen"
+
+#: includes-pro/admin-load.php:479
+msgid "Comma-separated list of roles that are allowed to use the Context Menu"
+msgstr ""
+"Durch Kommas getrennte Liste von Rollen, die das Kontextmenü verwenden "
+"dürfen"
+
+#: includes-pro/admin-load.php:482
+msgid ""
+"Never allow unfiltered users to use the Context Menu, even if they have "
+"pp_force_quick_edit capability"
+msgstr ""
+"Erlaube niemals ungefilterten Benutzern die Nutzung des Kontextmenüs, "
+"selbst wenn sie über die pp_force_quick_edit Fähigkeit verfügen"
+
+#: includes-pro/admin-load.php:485
+msgid ""
+"Disable Add Child link unless user is unfiltered (Administrator or has "
+"pp_nested_pages_unfiltered capability)"
+msgstr ""
+"Deaktiviere den Link \"Kind hinzufügen\", es sei denn, der Benutzer ist "
+"ungefiltert (Administrator oder hat die Fähigkeit "
+"pp_nested_pages_unfiltered)"
+
+#: includes-pro/admin-load.php:488
+msgid "Disable Add Child Page link unless user is unfiltered"
+msgstr ""
+"Link \"Unterseite hinzufügen\" deaktivieren, es sei denn, der Benutzer ist "
+"ungefiltert"
+
+#: includes-pro/admin-load.php:491
+msgid "Disable Insert Page Before link unless user is unfiltered"
+msgstr ""
+"Link \"Seite vorher einfügen\" deaktivieren, es sei denn, der Benutzer ist "
+"ungefiltert"
+
+#: includes-pro/admin-load.php:494
+msgid "Disable Insert Page After link unless user is unfiltered"
+msgstr ""
+"Link \"Seite nachher einfügen\" deaktivieren, es sei denn, der Benutzer ist "
+"ungefiltert"
+
+#: includes-pro/admin-load.php:497
+msgid "Disable Push to Top link unless user is unfiltered"
+msgstr ""
+"Link \"Nach oben schieben\" deaktivieren, es sei denn, der Benutzer ist "
+"ungefiltert"
+
+#: includes-pro/admin-load.php:500
+msgid "Disable Push to Bottom link unless user is unfiltered"
+msgstr ""
+"Link \"Nach unten schieben\" deaktivieren, es sei denn, der Benutzer ist "
+"ungefiltert"
+
+#: includes-pro/admin-load.php:503
+msgid "Disable Clone link unless user is unfiltered"
+msgstr "Link \"Klonen\" deaktivieren, es sei denn, der Benutzer ist ungefiltert"
+
+#: includes-pro/SettingsTabInstall.php:21
+msgid "License"
+msgstr "Lizenz"
+
+#: includes-pro/SettingsTabInstall.php:28
+#: includes-pro/SettingsTabInstall.php:128
+msgid "License Key"
+msgstr "Lizenzschlüssel"
+
+#: includes-pro/SettingsTabInstall.php:29, fuzzy
+msgid "Version"
+msgstr "Version"
+
+#: includes-pro/SettingsTabInstall.php:41
+#: includes-pro/SettingsTabInstall.php:42
+msgid "settings"
+msgstr "Einstellungen"
+
+#: includes-pro/SettingsTabInstall.php:121
+msgid "Key Expired"
+msgstr "Schlüssel abgelaufen"
+
+#: includes-pro/SettingsTabInstall.php:124
+#: includes-pro/SettingsTabInstall.php:136
+#: includes-pro/SettingsTabInstall.php:348
+msgid "Deactivate Key"
+msgstr "Schlüssel deaktivieren"
+
+#: includes-pro/SettingsTabInstall.php:127
+msgid "Key Activated"
+msgstr "Schlüssel aktiviert"
+
+#: includes-pro/SettingsTabInstall.php:131
+msgid "(please enter publishpress.com key)"
+msgstr "(bitte geben Sie den Schlüssel von publishpress.com ein)"
+
+#: includes-pro/SettingsTabInstall.php:135
+#: includes-pro/SettingsTabInstall.php:347
+msgid "Activate Key"
+msgstr "Schlüssel aktivieren"
+
+#: includes-pro/SettingsTabInstall.php:146
+msgid ""
+"Note: Renewal does not require deactivation. If you do deactivate, re-entry "
+"of the license key will be required."
+msgstr ""
+"Hinweis: Eine Verlängerung erfordert keine Deaktivierung. Wenn du jedoch "
+"deaktivierst, ist die erneute Eingabe des Lizenzschlüssels erforderlich."
+
+#: includes-pro/SettingsTabInstall.php:178
+#: includes-pro/SettingsTabInstall.php:214
+#, php-format
+msgid ""
+"Your license key has expired. For continued priority support, %1$splease "
+"renew%2$s."
+msgstr ""
+"Ihr Lizenzschlüssel ist abgelaufen. Für weiterhin priorisierten Support, "
+"%1$sbitte erneuern%2$s."
+
+#: includes-pro/SettingsTabInstall.php:185
+#, php-format
+msgid ""
+"Your license key will expire today. For updates and priority support, "
+"%1$splease renew%2$s."
+msgstr ""
+"Ihr Lizenzschlüssel läuft heute ab. Für Updates und priorisierten Support, "
+"%1$sbitte erneuern%2$s."
+
+#: includes-pro/SettingsTabInstall.php:191
+#, php-format
+msgid ""
+"Your license key (for plugin updates) will expire in %1$d day(s). For "
+"updates and priority support, %2$splease renew%3$s."
+msgstr ""
+"Ihr Lizenzschlüssel (für Plugin-Updates) läuft in %1$d Tag(en) ab. Für "
+"Updates und priorisierten Support, %2$sbitte erneuern%3$s."
+
+#: includes-pro/SettingsTabInstall.php:199
+#, php-format
+msgid ""
+"For updates to Permissions Pro, activate your %1$sPublishPress license "
+"key%2$s."
+msgstr ""
+"Aktivieren Sie Ihren %1$sPublishPress Lizenzschlüssel%2$s für Updates zu "
+"Permissions Pro."
+
+#: includes-pro/SettingsTabInstall.php:208
+msgid "reload module info"
+msgstr "Modulinfo neu laden"
+
+#: includes-pro/SettingsTabInstall.php:258
+#: includes-pro/SettingsTabInstall.php:266
+#, php-format
+msgid "Permissions Pro Version: %1$s %2$s"
+msgstr "Berechtigungen Pro Version: %1$s %2$s"
+
+#: includes-pro/SettingsTabInstall.php:262
+#, php-format
+msgid "view %s&nbsp;details"
+msgstr "Details zu %s&nbsp;anzeigen"
+
+#: includes-pro/SettingsTabInstall.php:276
+msgid "update check / install"
+msgstr "Überprüfung / Installation aktualisieren"
+
+#: includes-pro/SettingsTabInstall.php:280
+#, php-format
+msgid "Database Schema Version: %s"
+msgstr "Datenbank-Schema-Version: %s"
+
+#: includes-pro/SettingsTabInstall.php:291
+msgid "Installation History"
+msgstr "Installationshistorie"
+
+#: includes-pro/SettingsTabInstall.php:313
+#, php-format
+msgid "%s (previous install)"
+msgstr "%s (frühere Installation)"
+
+#: includes-pro/SettingsTabInstall.php:330
+#, php-format
+msgid "WordPress Version: %s"
+msgstr "WordPress-Version: %s"
+
+#: includes-pro/SettingsTabInstall.php:334
+#, php-format
+msgid "PHP Version: %s"
+msgstr "PHP-Version: %s"
+
+#: includes-pro/SettingsTabInstall.php:349
+msgid "The request could not be processed due to a connection failure."
+msgstr ""
+"Die Anfrage konnte aufgrund eines Verbindungsfehlers nicht verarbeitet "
+"werden."
+
+#: includes-pro/SettingsTabInstall.php:350
+msgid "Please enter the license key shown on your order receipt."
+msgstr ""
+"Bitte geben Sie den Lizenzschlüssel ein, der auf Ihrem Bestellbeleg "
+"angezeigt wird."
+
+#: includes-pro/SettingsTabInstall.php:351
+msgid "An unidentified error occurred."
+msgstr "Ein nicht identifizierter Fehler ist aufgetreten."
+
+#: includes-pro/SettingsTabInstall.php:353
+msgid "The key has been deactivated."
+msgstr "Der Schlüssel wurde deaktiviert."
+
+#: includes-pro/SettingsTabInstall.php:354
+msgid "The key has been activated."
+msgstr "Der Schlüssel wurde aktiviert."
+
+#: includes-pro/SettingsTabInstall.php:355
+msgid "The key has expired."
+msgstr "Der Schlüssel ist abgelaufen."
+
+#: includes-pro/SettingsTabInstall.php:356
+msgid "The key is invalid."
+msgstr "Der Schlüssel ist ungültig."
+
+#: includes-pro/SettingsTabInstall.php:357
+msgid "The key could not be activated. Please retry."
+msgstr "Der Schlüssel konnte nicht aktiviert werden. Bitte versuchen Sie es erneut."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:19
+msgid "Circle Membership"
+msgstr "Kreismitgliedschaft"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Viewing"
+msgstr "Ansicht"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:21
+msgid "Editing"
+msgstr "Bearbeitung"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/Dashboard/Profile.php:27
+#, php-format
+msgid "%s is limited to circle authors only, for these post types:"
+msgstr "%s ist nur auf Autoren im Kreis beschränkt, für diese Beitragstypen:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:47
+msgid "Circle Activation"
+msgstr "Kreisaktivierung"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Visibility Circle"
+msgstr "Sichtbarkeit Kreis"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:57
+msgid "Editorial Circle"
+msgstr "Redaktioneller Kreis"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:75
+msgid ""
+"Users in this group will only be able to view posts that were authored by "
+"other users in this group."
+msgstr ""
+"Benutzer in dieser Gruppe können nur Beiträge sehen, die von anderen "
+"Benutzern in dieser Gruppe verfasst wurden."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:76
+msgid ""
+"Users in this group will only be able to edit posts that were authored by "
+"other users in this group."
+msgstr ""
+"Benutzer in dieser Gruppe können nur Beiträge bearbeiten, die von anderen "
+"Benutzern in dieser Gruppe verfasst wurden."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:78
+msgid "Normal capability requirements will also be enforced."
+msgstr "Normale Berechtigungsanforderungen werden ebenfalls durchgesetzt."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:82
+#, php-format
+msgid "This group is a %s"
+msgstr "Diese Gruppe ist ein %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:95
+#, php-format
+msgid "Circles cannot be enforced on roles with %s capabilities."
+msgstr "Kreise können bei Rollen mit %s Berechtigungen nicht durchgesetzt werden."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:104
+#, php-format
+msgid "%s%s restrictions%s do not apply to this role. %s"
+msgstr "%s%s Einschränkungen%s gelten nicht für diese Rolle. %s"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:135
+msgid "Apply limitation for post types:"
+msgstr "Einschränkung für Posttypen anwenden:"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupEdit.php:213
+#, php-format
+msgid ""
+"Users may be excused from Circle restrictions by adding the %1$s or %2$s "
+"capability to their role."
+msgstr ""
+"Benutzer können von den Einschränkungen des Kreises befreit werden, indem "
+"die %1$s oder %2$s Fähigkeit zu ihrer Rolle hinzugefügt wird."
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:14
+msgid "Circle Type"
+msgstr "Kreisart"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:47
+msgid "Visibility"
+msgstr "Sichtbarkeit"
+
+#: modules/presspermit-circles/classes/Permissions/Circles/UI/GroupsListing.php:55, fuzzy
+msgid "Editorial"
+msgstr "Editorial"
+
+#: modules/presspermit-circles/classes/Permissions/CirclesHooksAdmin.php:54
+msgid "Access Circle restrictions apply to revisions"
+msgstr "Zugriffskreis-Einschränkungen gelten für Revisionen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:39
+msgid "Create Topics in"
+msgstr "Themen erstellen in"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:40
+msgid "Topic Creation"
+msgstr "Themen Erstellung"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:41
+msgid "Create Topic"
+msgstr "Thema erstellen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:46
+msgid "Submit Replies in"
+msgstr "Antworten einreichen in"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:47
+msgid "Reply Submission"
+msgstr "Antwort Einreichung"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BBPress/HooksAdmin.php:48
+msgid "Submit Reply"
+msgstr "Antwort einreichen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/GroupsListTable.php:298
+msgid "Show more details"
+msgstr "Mehr Details anzeigen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/Hooks.php:37
+msgid "BuddyPress Group"
+msgstr "BuddyPress Gruppe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:160
+msgid "BP Permission Group"
+msgstr "BP Berechtigungsgruppe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:161
+msgid "BP Permission Groups"
+msgstr "BP Berechtigungsgruppen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:174
+msgid "Manage"
+msgstr "Verwalten"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/BuddyPress/PermissionGroups/HooksAdmin.php:185
+msgid "BuddyPress Groups"
+msgstr "BuddyPress Gruppen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:112
+msgid ""
+"Page creation was blocked because you are not allowed to select that parent "
+"page."
+msgstr ""
+"Die Seitenerstellung wurde blockiert, da du nicht berechtigt bist, diese "
+"übergeordnete Seite auszuwählen."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:113
+msgid "Back to Dashboard"
+msgstr "Zurück zum Dashboard"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:115
+msgid "Permission Denied"
+msgstr "Zugriff verweigert"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/CMSTreeView.php:117
+msgid "You are not allowed to select that parent page."
+msgstr "Sie dürfen diese übergeordnete Seite nicht auswählen."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Groups"
+msgstr "Netzwerk Gruppen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/NetwideGroups.php:19
+msgid "Network Group"
+msgstr "Netzwerk Gruppe"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:46
+msgid "Teaser text"
+msgstr "Teaser-Text"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:54
+msgid "Network"
+msgstr "Netzwerk"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:64
+msgid "Groups"
+msgstr "Gruppen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:73, fuzzy
+msgid "Forum Teaser"
+msgstr "Forum Teaser"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:88
+msgid "Network-wide groups"
+msgstr "Netzwerkweite Gruppen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:92
+msgid "Teaser Topics"
+msgstr "Teaser Themen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:93
+msgid "Hide Topic / Reply Author Link"
+msgstr "Thema / Antwort Autorlink ausblenden"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:126
+msgid "Compatibility Pack"
+msgstr "Kompatibilitätspaket"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:184
+#, php-format
+msgid "Topic Teaser Text (%s):"
+msgstr "Thema Teaser Text (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:185
+#, php-format
+msgid "Reply Teaser Text (%s):"
+msgstr "Antwort Teaser Text (%s):"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:189
+msgid "First Reply"
+msgstr "Erste Antwort"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:190
+msgid "Other Replies"
+msgstr "Weitere Antworten"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Not Logged In"
+msgstr "Nicht angemeldet"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:207
+msgid "Logged In Users"
+msgstr "Eingeloggt Benutzer"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:240
+#, php-format
+msgid "Insert a login form by using %s[login_form]%s shortcode."
+msgstr "Fügen Sie ein Anmeldeformular mit dem %s[login_form]%s Shortcode ein."
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:284
+msgid "Hide Topics and Replies"
+msgstr "Themen und Antworten ausblenden"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:285
+msgid "Tease Topics and Replies"
+msgstr "Themen und Antworten anreißen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:286
+msgid "Show Topics, Tease Replies"
+msgstr "Themen anzeigen, Antworten anreißen"
+
+#: modules/presspermit-compatibility/classes/Permissions/Compat/UI/Settings.php:320
+msgid ""
+"The single forum teaser may be customized by "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php"
+msgstr ""
+"Der Teaser für das einzelne Forum kann durch "
+"STYLESHEETPATH/press-permit/teaser-content-forum.php angepasst werden"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:237
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:241
+msgid "[This topic requires additional permissions or membership.]"
+msgstr "[Dieses Thema erfordert zusätzliche Berechtigungen oder Mitgliedschaft.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:238
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:242, fuzzy
+msgid "[...]"
+msgstr "[...]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:239
+msgid "[This topic requires site login.]"
+msgstr "[Dieses Thema erfordert eine Anmeldung auf der Seite.]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:240
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:244
+msgid "[login required]"
+msgstr "[Anmeldung erforderlich]"
+
+#: modules/presspermit-compatibility/classes/Permissions/CompatHooks.php:243
+msgid "[This reply requires site login.]"
+msgstr "[Diese Antwort erfordert eine Anmeldung auf der Seite.]"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:31
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:38
+msgid "File Access"
+msgstr "Dateizugriff"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:50
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:286
+msgid "File Access Reset Key:"
+msgstr "Dateizugriff Rücksetzschlüssel:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:51
+msgid "Small Thumbnails Unfiltered"
+msgstr "Kleine Thumbnails Ungefiltert"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:52
+msgid "Make Unattached Files Private"
+msgstr "Ungebundene Dateien privat machen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:53
+msgid "Make Attached Files Private"
+msgstr "Angehängte Dateien privat machen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:86
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because mod_rewrite is not enabled on your server."
+msgstr ""
+"%1$sHinweis%2$s: Direkter Zugriff auf hochgeladene Datei-Anhänge kann nicht "
+"gefiltert werden, da mod_rewrite auf deinem Server nicht aktiviert ist."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:92
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments will not be "
+"filtered due to your nonstandard UPLOADS path."
+msgstr ""
+"%1$sHinweis%2$s: Direkter Zugriff auf hochgeladene Datei-Anhänge wird "
+"aufgrund deines nicht standardmäßigen UPLOADS-Pfads nicht gefiltert."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:100
+#, php-format
+msgid ""
+"%1$sNote%2$s: Direct access to uploaded file attachments cannot be filtered "
+"because WordPress permalinks are set to default."
+msgstr ""
+"%1$sHinweis%2$s: Direkter Zugriff auf hochgeladene Datei-Anhänge kann nicht "
+"gefiltert werden, da die WordPress-Permalinks auf die Standardeinstellung "
+"gesetzt sind."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:160
+msgid "show required rules"
+msgstr "erforderliche Regeln anzeigen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:292
+msgid "Copy"
+msgstr "Kopieren"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:303
+msgid "Copied!"
+msgstr "Kopiert!"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:353
+msgid "Regenerate Access File"
+msgstr "Zugriffsdatei regenerieren"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:365
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:80
+msgid "Attachments Utility"
+msgstr "Anhänge-Dienstprogramm"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsTabFileAccess.php:375
+#, php-format
+msgid "For Nginx integration, see %spublishpress.com documentation%s."
+msgstr "Für die Nginx-Integration siehe die %spublishpress.com Dokumentation%s."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:83
+msgid "Back to Permissions Settings"
+msgstr "Zurück zu den Berechtigungseinstellungen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:88
+msgid "File Access for Files Uploaded via FTP"
+msgstr "Dateizugriff für über FTP hochgeladene Dateien"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:95
+msgid "Find Files Uploaded via FTP"
+msgstr "Finden Sie Dateien, die über FTP hochgeladen wurden"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:104
+msgid ""
+"The network attachment scan has been queued and will continue in the "
+"background via WP-Cron."
+msgstr ""
+"Der Netzwerkanhängescan wurde in die Warteschlange gestellt und wird im "
+"Hintergrund über WP-Cron fortgesetzt."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:106
+msgid "A network attachment scan is already in progress or could not be scheduled."
+msgstr ""
+"Ein Netzwerkanhängescan ist bereits im Gange oder konnte nicht geplant "
+"werden."
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:116
+msgid "Site Configuration Requirements"
+msgstr "Anforderungen für die Seitenkonfiguration"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:118
+msgid ""
+"For proper access control of direct file URLs, your site must meet these "
+"requirements:"
+msgstr ""
+"Für eine ordnungsgemäße Zugriffskontrolle von direkten Datei-URLs muss "
+"deine Seite diese Anforderungen erfüllen:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:150
+msgid "Automated Processing"
+msgstr "Automatisierte Verarbeitung"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:166
+msgid "Utility Endpoint URL:"
+msgstr "Dienstendpunkt-URL:"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:168
+msgid "Copy URL"
+msgstr "URL kopieren"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:173
+msgid "Go to Settings"
+msgstr "Zu den Einstellungen gehen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:270
+msgid "RUNNING"
+msgstr "LÄUFT"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:445
+msgid "Operation complete"
+msgstr "Vorgang abgeschlossen"
+
+#: modules/presspermit-file-access/classes/Permissions/FileAccess/UI/SettingsUtility.php:471
+msgid "Scan Again"
+msgstr "Erneut scannen"
+
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:178
+#: modules/presspermit-membership/classes/Permissions/Membership/UI/GroupEdit.php:184
+#, fuzzy, php-format
+msgid "%1$s (%2$s - %3$s)"
+msgstr "%1$s (%2$s - %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncHooksAdmin.php:169
+#, php-format
+msgid "Role selection is required for %s. Please select at least one role."
+msgstr ""
+"Die Rollenauswahl ist für %s erforderlich. Bitte wählen Sie mindestens eine "
+"Rolle aus."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/Helper.php:61
+#, php-format
+msgid ""
+"You seem to be using a Team / Staff plugin. To synchronize posts to users "
+"and give them editing permission, go to %1$sPermissions > Settings > Sync "
+"Posts%2$s"
+msgstr ""
+"Es scheint, dass du ein Team-/Mitarbeiter-Plugin verwendest. Um Beiträge "
+"mit Benutzern zu synchronisieren und ihnen Bearbeitungsrechte zu geben, "
+"gehe zu %1$sBerechtigungen > Einstellungen > Beiträge synchronisieren%2$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:33
+msgid "User Posts"
+msgstr "Benutzerbeiträge"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:41
+msgid "Synchronize Posts"
+msgstr "Beiträge synchronisieren"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:54
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:112
+msgid "Create Posts for Users"
+msgstr "Beiträge für Benutzer erstellen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:55
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:130
+msgid "Grant Author Permissions"
+msgstr "Autorenberechtigungen gewähren"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:56
+msgid "Post Types"
+msgstr "Beitragsarten"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:57
+msgid "Match Post Field"
+msgstr "Beitragsfeld zuordnen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:58
+msgid "Match User Field"
+msgstr "Benutzerfeld zuordnen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:59
+msgid "User Role"
+msgstr "Benutzerrolle"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:60
+msgid "Parent Post"
+msgstr "Übergeordneter Beitrag"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:61
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:430
+msgid "Quantity"
+msgstr "Menge"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:62
+msgid "Post Status"
+msgstr "Beitragsstatus"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:368
+msgid "Post Title"
+msgstr "Beitragstitel"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:369
+msgid "Post slug"
+msgstr "Beitrags-Slug"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:373
+msgid "User Display Name"
+msgstr "Benutzeranzeigename"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:374
+msgid "User email"
+msgstr "Benutzer-E-Mail"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:375
+msgid "User login"
+msgstr "Benutzer-Login"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:376
+msgid "User nicename"
+msgstr "Benutzerfreundlicher Name"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:401
+msgid "User Posts Created:"
+msgstr "Erstellte Benutzerbeiträge:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:414
+msgid "Post Type"
+msgstr "Beitragsart"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:415
+msgid "Select where posts will be created for users."
+msgstr "Wählen Sie, wo Beiträge für Benutzer erstellt werden sollen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:418
+msgid "New Users"
+msgstr "Neue Benutzer"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:419
+msgid "Create posts for new users."
+msgstr "Beiträge für neue Benutzer erstellen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:422
+msgid "Current Users"
+msgstr "Aktuelle Benutzer"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:423
+msgid "Create posts for existing users."
+msgstr "Beiträge für bestehende Benutzer erstellen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:426
+msgid "Role"
+msgstr "Rolle"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:427
+msgid "Create posts for users in these roles."
+msgstr "Beiträge für Benutzer in diesen Rollen erstellen."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:431
+msgid "Set the number of posts to create for each user."
+msgstr "Legen Sie die Anzahl der zu erstellenden Beiträge für jeden Benutzer fest."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:434, fuzzy
+msgid "Status"
+msgstr "Status"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:435
+msgid "Set the status for created posts."
+msgstr "Legen Sie den Status für erstellte Beiträge fest."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:443
+msgid "No post types are enabled for user pages."
+msgstr "Keine Beitragstypen sind für Benutzerseiten aktiviert."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:445
+msgid "Go to Permissions Settings"
+msgstr "Gehe zu den Berechtigungseinstellungen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:487
+msgid "Click to expand/collapse advanced settings"
+msgstr "Klicken Sie, um die erweiterten Einstellungen ein-/auszublenden"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:533
+msgid "(All Roles)"
+msgstr "(Alle Rollen)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:569
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:570
+msgid "Draft"
+msgstr "Entwurf"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:571
+msgid "Pending Review"
+msgstr "Zur Überprüfung ausstehend"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:572
+msgid "Private"
+msgstr "Privat"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:589
+msgid "Avoid Creating Duplicates"
+msgstr "Doppelte Einträge vermeiden"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:590
+msgid ""
+"This setting can prevent the creation of duplicate posts for a user. If the "
+"selected fields are a match, a new post will not be created."
+msgstr ""
+"Diese Einstellung kann die Erstellung doppelter Beiträge für einen Benutzer "
+"verhindern. Wenn die ausgewählten Felder übereinstimmen, wird kein neuer "
+"Beitrag erstellt."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:595
+msgid "Post Match Field"
+msgstr "Beitragsübereinstimmungsfeld"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:596
+msgid "Choose which post field to match with users."
+msgstr "Wählen Sie aus, welches Beitragsfeld mit Benutzern übereinstimmen soll."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:636
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:683
+msgid "(other)"
+msgstr "(andere)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:648
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:692
+msgid "select..."
+msgstr "auswählen..."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:649
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:693
+msgid "cancel"
+msgstr "abbrechen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:657
+msgid "User Match Field"
+msgstr "Benutzerübereinstimmungsfeld"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:658
+msgid "Select which user field to match with posts."
+msgstr "Wählen Sie aus, welches Benutzerfeld mit Beiträgen übereinstimmen soll."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:701
+msgid "Available Template Parameters"
+msgstr "Verfügbare Template-Parameter"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:704
+msgid ""
+"You can use these placeholders in the User Match Field to create custom "
+"templates:"
+msgstr ""
+"Du kannst diese Platzhalter im Benutzer-Match-Feld verwenden, um "
+"benutzerdefinierte Vorlagen zu erstellen:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:717
+msgid "Examples:"
+msgstr "Beispiele:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:731
+msgid "Additional Field"
+msgstr "Zusätzliches Feld"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:732
+msgid "Additional configuration options for post creation."
+msgstr "Zusätzliche Konfigurationsoptionen für die Beitragscreation."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:737
+msgid "Parent Post ID"
+msgstr "Elternbeitrags-ID"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:738
+msgid "Specify the Post ID of a parent post for hierarchical post types."
+msgstr ""
+"Geben Sie die Beitrags-ID eines Elternbeitrags für hierarchische "
+"Beitragstypen an."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:749
+msgid "Enter parent post ID (0 for no parent)"
+msgstr "Geben Sie die Elternbeitrags-ID ein (0 für keinen Elternbeitrag)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:895
+msgid "Validation Errors in User Posts Settings:"
+msgstr "Validierungsfehler in den Benutzereinstellungen für Beiträge:"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UI/SettingsTabSyncPosts.php:903
+msgid "Please fix these errors and try again."
+msgstr "Bitte beheben Sie diese Fehler und versuchen Sie es erneut."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:156
+#, php-format
+msgid "%s: Skipping because no roles are selected"
+msgstr "%s: Überspringen, da keine Rollen ausgewählt sind"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:190
+#, php-format
+msgid "%s: Enabled PressPermit filtering (Core > Filtered Post Types)"
+msgstr "%s: Aktivierte PressPermit-Filterung (Kern > Gefilterte Beitragstypen)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:208
+#, php-format
+msgid "%1$s: Assigned extra %2$s Author role to %3$s role"
+msgstr "%1$s: Zusätzliche %2$s Autorrolle der Rolle %3$s zugewiesen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:356
+#, php-format
+msgid "Ambiguous %1$s match (%2$s)"
+msgstr "Mehrdeutige %1$s Übereinstimmung (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:386
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, post id %3$s"
+msgstr "Mehrdeutige Benutzerübereinstimmung für %1$s (%2$s, Beitrag-ID %3$s"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:411
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s, $post id %3$s)"
+msgstr "Mehrdeutige Benutzerübereinstimmung für %1$s (%2$s, Beitrag-ID %3$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:560
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:584
+#, php-format
+msgid "Ambiguous user match for %1$s (%2$s)"
+msgstr "Mehrdeutige Benutzerübereinstimmung für %1$s (%2$s)"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:620
+#, php-format
+msgid "%1$s: %2$s posts created."
+msgstr "%1$s: %2$s Beiträge erstellt."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:626
+#, php-format
+msgid "%1$s: %2$s posts updated."
+msgstr "%1$s: %2$s Beiträge aktualisiert."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:642
+msgid "All Roles"
+msgstr "Alle Rollen"
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:646
+#, php-format
+msgid "%1$s: Done for %2$s."
+msgstr "%1$s: Fertig für %2$s."
+
+#: modules/presspermit-sync/classes/Permissions/SyncPosts/UserSync.php:648
+#, php-format
+msgid "%s: Done."
+msgstr "%s: Fertig."

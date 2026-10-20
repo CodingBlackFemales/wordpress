@@ -1,0 +1,211 @@
+@import "_tooltip";
+
+/* Vars */
+@main_color: #655997;
+@main_color_hover: #483f6b;
+@menu_color: #2271b1;
+@important_color: #feb123;
+@important_color_hover: #febe47;
+
+/* Buttons */
+
+.ppButtons() {
+  .pp-default-button {
+    border-color: @main_color;
+    color: @main_color;
+    border-width: 1px;
+
+    &:focus {
+      color: @main_color_hover;
+      border-color: @main_color_hover;
+      box-shadow: 0 0 0 1px @main_color_hover;
+      -moz-box-shadow: 0 0 0 1px @main_color_hover;
+      -webkit-box-shadow: 0 0 0 1px @main_color_hover;
+    }
+
+    &:hover,
+    &:active {
+      color: @main_color_hover;
+      border-color: @main_color_hover;
+    }
+  }
+
+  .pp-primary-button {
+    background: @main_color;
+    color: #fff;
+    border-color: @main_color;
+    border-width: 1px;
+
+    &:focus {
+      background: @main_color_hover;
+      color: #fff;
+      border-color: @main_color_hover;
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px @main_color_hover;
+    }
+
+    &:hover,
+    &:active {
+      background: @main_color_hover;
+      color: #fff;
+      border-color: @main_color_hover;
+    }
+  }
+
+  .pp-pro-button {
+    background: @important_color;
+    color: #222;
+    border-color: @important_color;
+    border-width: 1px;
+
+    &:focus {
+      background: @important_color_hover;
+      color: #222;
+      border-color: @important_color_hover;
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px @important_color_hover;
+      -moz-box-shadow: 0 0 0 1px #fff, 0 0 0 3px @important_color_hover;
+      -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 3px @important_color_hover;
+    }
+
+    &:hover,
+    &:active {
+      background: @important_color_hover;
+      color: #222;
+      border-color: @important_color_hover;
+    }
+  }
+}
+
+/* Tabs */
+
+.ppTabs() {
+  ul {
+
+    &.pp-list_horiz {
+      width: 100%;
+      clear: both;
+      float: left;
+      margin: 0 0 -1px 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        float: left;
+        margin: 0;
+
+        &:hover,
+        &:focus,
+        &:active {
+          outline: none;
+        }
+
+        &.agp-agent {
+          margin: 0 -1px 0 0;
+
+          a {
+            text-decoration: none;
+            color: #666;
+            padding: 10px 14px 10px;
+            display: block;
+
+            &:hover,
+            &:focus,
+            &:active {
+              text-decoration: none;
+              -webkit-box-shadow: none;
+              -moz-box-shadow: none;
+              box-shadow: none;
+              color: #222;
+            }
+          }
+        }
+
+        // Selected tab
+        &.agp-selected_agent {
+          border: 1px solid #ccc;
+          background-color: #fff;
+          border-bottom: 1px solid #fff;
+
+          a {
+            color: #222;
+          }
+        }
+
+        // Non selected tab
+        &.agp-unselected_agent {
+          border: 1px solid #ccc;
+          background: #f1f1f1;
+
+          a {
+            color: #666;
+          }
+        }
+      }
+    }
+  }
+
+  .pp-agents {
+    background-color: #fff;
+    padding: 0 0 0.2em 0.3em;
+    border: 1px solid #ccc;
+    margin: 0;
+    padding: 20px;
+
+    a {
+      color: @main_color;
+      text-decoration: none;
+
+      &:hover
+      &:focus,
+      &:focus {
+        color: @main_color_hover;
+        text-decoration: none;
+      }
+    }
+
+    input {
+      vertical-align: text-bottom;
+    }
+  }
+}
+
+/* Tables */
+
+.ppTables() {
+  table {
+    border-collapse: collapse;
+
+    tr {
+
+      th {
+
+      }
+
+      td {
+
+      }
+
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        user-select: none;
+        -moz-user-select: none;
+      }
+    }
+  }
+}
+
+/* Alert boxes */
+
+.ppAlertBoxes() {
+  .pp-edit-msg {
+    padding: .7em 0.9em;
+    margin: 0 0 10px 0;
+  }
+
+  .pp-error-note {
+    color: #dc3232;
+    border-color: #dc3232;
+    background-color: lighten(#dc3232, 45%);
+  }
+}

@@ -1,0 +1,1139 @@
+<?php
+namespace PublishPress\Permissions\Teaser\UI;
+
+/**
+ * Progressive Disclosure UI for Teaser Settings
+ * Implements modern card-based interface with step-by-step configuration
+ */
+class TeaserProgressiveUI {
+    use TeaserUIBaseTrait;
+
+    private $pp;
+    private $ui;
+    private $use_teaser;
+    private $arr_num_chars;
+    private $blockEditorActive;
+
+    public function __construct($pp, $ui, $use_teaser, $options_data, $blockEditorActive = true) {
+        $this->pp = $pp;
+        $this->ui = $ui;
+        $this->use_teaser = $use_teaser;
+        $this->arr_num_chars = $options_data['arr_num_chars'];
+        $this->blockEditorActive = $blockEditorActive;
+    }
+
+    public function render() {
+        ?>
+        <div id='teaser_usage-post' class="pp-teaser-progressive-ui">
+
+            <!-- Settings for each post type (shown/hidden based on selection) -->
+            <?php foreach ($this->use_teaser as $object_type => $teaser_setting) : ?>
+                <?php
+                if (!in_array($object_type, $this->getAvailablePostTypes(), true)) {
+                    // Skip unavailable post types
+                    continue;
+                }
+                $this->renderPostTypeSettings($object_type, $teaser_setting); ?>
+            <?php endforeach; ?>
+
+        </div>
+        <?php
+    }
+
+    private function getFirstPostType() {
+        $post_types = array_keys($this->use_teaser);
+
+        return $post_types ? reset($post_types) : 'post';
+    }
+
+    private function renderPostTypeSelector($select_id = 'pp_current_post_type') {
+        ?>
+        <div class="pp-post-type-selector">
+            <table class="widefat fixed striped teaser-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <strong><?php esc_html_e('Select Post Type to Configure', 'press-permit-core'); ?></strong>
+                            <?php $this->generateTooltip(esc_html__('Choose which post type you want to configure teaser settings for.', 'press-permit-core')); ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <?php $this->renderPostTypeSelectorControl($select_id); ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    private function renderPostTypeSelectorControl($select_id, $show_description = true) {
+        $first_post_type = $this->getFirstPostType();
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- POST data used only for display state, not saved
+        $current_post_type = isset($_POST['selected_post_type']) ? sanitize_key($_POST['selected_post_type']) : $first_post_type;
+        ?>
+        <div class="pp-field-group">
+            <select id="<?php echo esc_attr($select_id); ?>" class="regular-text pp-current-post-type">
+                <?php foreach ($this->use_teaser as $object_type => $teaser_setting) :
+                    $type_obj = get_post_type_object($object_type);
+                    $item_label = $type_obj ? $type_obj->labels->name : $object_type;
+                    ?>
+                    <option value="<?php echo esc_attr($object_type); ?>"<?php selected($object_type, $current_post_type); ?>>
+                        <?php echo esc_html($item_label); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <?php
+    }
+
+    private function renderPostTypeSelectorDescription() {
+        // No-op in PRO: all post types are always available.
+    }
+
+    private function getSharedAudienceOption($anonymous_option, $logged_option, $object_type) {
+        $value = $this->pp->getTypeOption($anonymous_option, $object_type);
+
+        if (!is_scalar($value) || '' === (string) $value) {
+            $value = $this->pp->getTypeOption($logged_option, $object_type);
+        }
+
+        return is_scalar($value) ? (string) $value : '';
+    }
+
+    private function getTeaserPreviewDeviceMode() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display preference only, not saved/processed
+        // phpcs:ignore WordPressVIPMinimum.Variables.RestrictedVariables.cache_constraints___COOKIE -- Admin UI preview preference only; not used for cached front-end output.
+        $device = isset($_COOKIE['pp_teaser_preview_device']) ? sanitize_key($_COOKIE['pp_teaser_preview_device']) : 'desktop';
+
+        return ('mobile' === $device) ? 'mobile' : 'desktop';
+    }
+
+    private function renderPostTypeSettings($object_type, $teaser_setting) {
+        $type_obj = get_post_type_object($object_type);
+        $item_label = $type_obj ? $type_obj->labels->name : $object_type;
+        if (is_bool($teaser_setting) || is_numeric($teaser_setting)) {
+            $teaser_setting = intval($teaser_setting);
+        }
+        ?>
+        <?php
+        // Get current post type from POST or use first one as default
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- POST data used only for display state, not saved
+        $current_post_type = isset($_POST['selected_post_type']) ? sanitize_key($_POST['selected_post_type']) : $this->getFirstPostType();
+        $is_current = ($object_type === $current_post_type);
+        $display_style = $is_current ? '' : 'display:none;';
+        $device_mode = $this->getTeaserPreviewDeviceMode();
+        $expanded_class = ('desktop' === $device_mode) ? ' is-desktop-expanded' : '';
+        ?>
+        <div class="pp-teaser-settings-container<?php echo $is_current ? ' active' : ''; ?>" data-post-type="<?php echo esc_attr($object_type); ?>" style="<?php echo esc_attr($display_style); ?>">
+            <div class="pp-teaser-settings-layout<?php echo esc_attr($expanded_class); ?>">
+                <div class="pp-teaser-settings-main">
+                    <!-- Combined Settings Table -->
+                    <?php $this->renderCombinedSettingsTable($object_type, $item_label, $teaser_setting); ?>
+
+                    <!-- Teaser Notice Style Settings (per post type) -->
+                    <div class="pp-conditional-settings pp-teaser-notice-style-settings">
+                    <?php $this->renderTeaserNoticeStyleSettings($object_type); ?>
+                    </div>
+
+                    <!-- Redirect Settings (shown only when redirect is selected) -->
+                    <div class="pp-conditional-settings pp-teaser-redirect-settings">
+                    <?php $this->renderRedirectSection($object_type); ?>
+                    </div>
+                </div>
+
+                <!-- Preview for this post type (sticks in view while the settings above are edited) -->
+                <div
+                    class="pp-teaser-preview-container<?php echo esc_attr($expanded_class . ($is_current ? ' active' : '')); ?>"
+                    data-post-type="<?php echo esc_attr($object_type); ?>"
+                    style="<?php echo esc_attr($display_style); ?>"
+                >
+                    <?php $this->renderTeaserPreview($object_type, $item_label, $teaser_setting, $device_mode); ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    public function renderTextOptions() {
+        ?>
+        <div id="teaser-text-options-post" class="pp-teaser-progressive-ui">
+            <?php foreach ($this->use_teaser as $object_type => $teaser_setting) : ?>
+                <?php
+                if (!in_array($object_type, $this->getAvailablePostTypes(), true)) {
+                    continue;
+                }
+
+                $this->renderPostTypeTextOptions($object_type);
+                ?>
+            <?php endforeach; ?>
+        </div>
+        <?php
+    }
+
+    private function renderPostTypeTextOptions($object_type) {
+        $type_obj = get_post_type_object($object_type);
+        $item_label = $type_obj ? $type_obj->labels->name : $object_type;
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- POST data used only for display state, not saved
+        $current_post_type = isset($_POST['selected_post_type']) ? sanitize_key($_POST['selected_post_type']) : $this->getFirstPostType();
+        $is_current = ($object_type === $current_post_type);
+        $display_style = $is_current ? '' : 'display:none;';
+        ?>
+        <div class="pp-teaser-text-options-container<?php echo $is_current ? ' active' : ''; ?>" data-post-type="<?php echo esc_attr($object_type); ?>" style="<?php echo esc_attr($display_style); ?>">
+            <table class="widefat fixed striped teaser-table pp-teaser-post-type-settings-table">
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: 75%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <strong><?php printf(esc_html__('Text Options for %s', 'press-permit-core'), esc_html($item_label)); ?></strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            <?php esc_html_e('Post Type', 'press-permit-core'); ?>
+                        </th>
+                        <td>
+                            <?php $this->renderPostTypeSelectorControl('pp_text_options_current_post_type_' . $object_type, false); ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <?php $this->renderTeaserTextCard($object_type); ?>
+        </div>
+        <?php
+    }
+
+    private function getBlockedMessage($object_type) {
+        return \PublishPress\Permissions\TeaserHooks::getTeaserOptionOrDefault('tease_replace_content', $object_type);
+    }
+
+    private function renderCombinedSettingsTable($object_type, $item_label, $teaser_setting) {
+        $name = "tease_post_types[$object_type]";
+        
+        // Get available teaser types
+        $base_captions = [
+            0 => esc_html__('WordPress default. Show "Page not found" screen', 'press-permit-core'),
+            1 => esc_html__("No Teaser Text", 'press-permit-core'),
+            'read_more' => esc_html__("Use content before Read More link as teaser text", 'press-permit-core'),
+            'excerpt' => esc_html__("Use Excerpt as teaser text", 'press-permit-core'),
+            'more' => esc_html__("Use Excerpt or pre-More as teaser text", 'press-permit-core'),
+            'x_chars' => esc_html__("Use Excerpt, pre-More or First X Characters as teaser text", 'press-permit-core'),
+            'redirect' => esc_html__("Redirect to another post", 'press-permit-core')
+        ];
+
+        $captions = apply_filters(
+            'presspermit_teaser_enable_options',
+            $base_captions,
+            $object_type,
+            $teaser_setting
+        );
+
+        $descriptions = [
+            0 => esc_html__("No teaser will be applied", 'press-permit-core'),
+            1 => esc_html__("Do not show teaser text before the blocked-user message", 'press-permit-core'),
+            'read_more' => esc_html__("Show a \"Read More\" link with a Teaser notice", 'press-permit-core'),
+            'excerpt' => esc_html__("Use the post excerpt as teaser content", 'press-permit-core'),
+            'more' => esc_html__("Use excerpt or content before More tag", 'press-permit-core'),
+            'x_chars' => esc_html__("Show the first X characters of the post content", 'press-permit-core'),
+            'redirect' => esc_html__("Redirect users to another page when they try to access restricted content", 'press-permit-core')
+        ];
+
+        if ($this->blockEditorActive) {
+            unset($captions['more']);
+            unset($descriptions['more']);
+            $captions['x_chars'] = esc_html__("Use first X characters of content as teaser text", 'press-permit-core');
+            $descriptions['x_chars'] = esc_html__("Use excerpt or first X characters of content", 'press-permit-core');
+
+            if ('more' === $teaser_setting) {
+                $teaser_setting = 'x_chars';
+            }
+        }
+
+        ?>
+        <table class="widefat fixed striped teaser-table pp-teaser-post-type-settings-table">
+            <colgroup>
+                <col style="width: 25%;">
+                <col style="width: 75%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <strong><?php printf(esc_html__('Teaser Settings for %s', 'press-permit-core'), esc_html($item_label)); ?></strong>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <?php esc_html_e('Post Type', 'press-permit-core'); ?>
+                        <?php $this->renderPostTypeSelectorDescription(); ?>
+                    </th>
+                    <td>
+                        <?php $this->renderPostTypeSelectorControl('pp_current_post_type_' . $object_type, false); ?>
+                    </td>
+                </tr>
+                <!-- Teaser Type Section -->
+                <?php
+                // Register the new options for saving
+                $this->ui->all_otype_options[] = 'x_chars_num_chars';
+                $this->ui->all_otype_options[] = 'excerpt_num_chars';
+                
+                // X Chars setting
+                $id_x_chars = 'x_chars_num_chars-' . $object_type;
+                $name_x_chars = "x_chars_num_chars[$object_type]";
+                
+                // Excerpt setting
+                $id_excerpt = 'excerpt_num_chars-' . $object_type;
+                $name_excerpt = "excerpt_num_chars[$object_type]";
+                
+                $default_num_chars = (defined('PP_TEASER_NUM_CHARS')) ? PP_TEASER_NUM_CHARS : 50;
+                
+                // Get values from new fields or fallback to legacy field for backward compatibility
+                $x_chars_value = $this->pp->getTypeOption('x_chars_num_chars', $object_type);
+                $excerpt_value = $this->pp->getTypeOption('excerpt_num_chars', $object_type);
+                
+                // Backward compatibility: if new fields are empty (but not '0'), use legacy field
+                if (($x_chars_value === false || $x_chars_value === '') && !empty($this->arr_num_chars[$object_type])) {
+                    $x_chars_value = $this->arr_num_chars[$object_type];
+                }
+                if (($excerpt_value === false || $excerpt_value === '') && !empty($this->arr_num_chars[$object_type])) {
+                    $excerpt_value = $this->arr_num_chars[$object_type];
+                }
+                
+                // Fallback to default if still empty
+                $x_chars_value = ($x_chars_value !== false && $x_chars_value !== '') ? $x_chars_value : $default_num_chars;
+                $excerpt_value = ($excerpt_value !== false && $excerpt_value !== '') ? $excerpt_value : $default_num_chars;
+                $num_style = ('x_chars' !== $teaser_setting) ? 'display:none;' : '';
+                $excerpt_num_style = ('excerpt' !== $teaser_setting) ? 'display:none;' : '';
+                ?>
+                <tr>
+                    <th style="width: 30%;">
+                        <?php esc_html_e('Teaser Type', 'press-permit-core'); ?>
+                    </th>
+                    <td>
+                        <select name="<?php echo esc_attr($name); ?>" class="regular-text pp-teaser-type-select">
+                            <?php foreach ($captions as $teaser_option_val => $teaser_caption) :
+                                $selected = ($teaser_setting === $teaser_option_val) ? ' selected' : '';
+                            ?>
+                                <option value="<?php echo esc_attr($teaser_option_val); ?>"<?php echo esc_attr($selected); ?>>
+                                    <?php echo esc_html($teaser_caption); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <span class="pp-num-chars-setting" style="<?php echo esc_attr($num_style); ?>; margin-left: 10px;">
+                            <span><?php esc_html_e('Show only the first', 'press-permit-core'); ?></span>
+                            <input type="number" id="<?php echo esc_attr($id_x_chars); ?>" name="<?php echo esc_attr($name_x_chars); ?>" value="<?php echo esc_attr($x_chars_value); ?>" min="10" max="1000" class="small-text" placeholder="<?php esc_attr_e('Chars', 'press-permit-core'); ?>">
+                            <span><?php esc_html_e('characters', 'press-permit-core'); ?></span>
+                        </span>
+                        
+                        <span class="pp-excerpt-chars-setting" style="<?php echo esc_attr($excerpt_num_style); ?>; margin-left: 10px;">
+                            <span><?php esc_html_e('Max', 'press-permit-core'); ?></span>
+                            <input type="number" id="<?php echo esc_attr($id_excerpt); ?>" name="<?php echo esc_attr($name_excerpt); ?>" value="<?php echo esc_attr($excerpt_value); ?>" min="10" max="1000" class="small-text" placeholder="<?php esc_attr_e('Chars', 'press-permit-core'); ?>">
+                            <span><?php esc_html_e('characters (leave empty for full excerpt)', 'press-permit-core'); ?></span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <?php
+    }
+
+    private function renderTeaserPreview($object_type, $item_label, $teaser_setting, $device_mode = 'desktop') {
+        $default_message = esc_html(\PublishPress\Permissions\TeaserHooks::getDefaultTeaserText());
+        $type_obj = get_post_type_object($object_type);
+        $singular_label = $type_obj ? $type_obj->labels->singular_name : $item_label;
+
+        // Not stripped: "Teaser Text" content preserves its formatting on the front end (see PostsTeaser::getTeaserText()).
+        $blocked_message = $this->getBlockedMessage($object_type);
+        // Not stripped: these notice messages preserve their formatting on the front end too
+        // (see PostsTeaser::wrapTeaserNotice() usage).
+
+        // Mirrors TeaserHooks::actMaybeRedirect()'s "Not Logged In" branch, matching what a
+        // blocked visitor previewing this page would actually experience.
+        $redirect_target_url = '';
+        $redirect_option_val = $this->pp->getTypeOption('teaser_redirect_anon', $object_type);
+        if ('(login)' === $redirect_option_val) {
+            $redirect_target_url = wp_login_url();
+        } elseif ('(select)' === $redirect_option_val) {
+            $redirect_page_id = $this->pp->getTypeOption('teaser_redirect_anon_page', $object_type);
+            if (is_numeric($redirect_page_id)) {
+                $redirect_post_type = $this->pp->getTypeOption('teaser_redirect_anon_post_type', $object_type) ?: 'page';
+                $redirect_post = get_post($redirect_page_id);
+                $redirect_target_url = ($redirect_post && 'publish' === $redirect_post->post_status && $redirect_post->post_type === $redirect_post_type)
+                    ? get_permalink($redirect_page_id)
+                    : wp_login_url();
+            }
+        } elseif ('(url)' === $redirect_option_val) {
+            $redirect_target_url = esc_url_raw((string) $this->pp->getTypeOption('teaser_redirect_anon_url', $object_type));
+        }
+        $redirect_message = $redirect_target_url
+            ? sprintf(
+                /* translators: %s is a link to the URL visitors without access are redirected to. */
+                esc_html__('Visitors without access are redirected to: %s', 'press-permit-core'),
+                '<a href="' . esc_url($redirect_target_url) . '">' . esc_html($redirect_target_url) . '</a>'
+            )
+            : '';
+
+        $theme_404_url = add_query_arg(
+            'pp_permissions_teaser_preview',
+            '404',
+            home_url('/')
+        );
+        $preview_posts = get_posts([
+            'post_type' => $object_type,
+            'post_status' => 'publish',
+            'posts_per_page' => 10,
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'no_found_rows' => true,
+        ]);
+        $selected_preview_post = $preview_posts ? reset($preview_posts) : null;
+        $theme_teaser_base_url = $selected_preview_post ? get_permalink($selected_preview_post) : home_url('/');
+        $theme_teaser_args = [
+            'pp_permissions_teaser_preview' => 'teaser',
+            'pp_permissions_teaser_post_type' => $object_type,
+            'pp_permissions_teaser_type' => (is_bool($teaser_setting) || is_numeric($teaser_setting)) ? (string) intval($teaser_setting) : $teaser_setting,
+        ];
+
+        if (!$selected_preview_post) {
+            $theme_teaser_args['pp_permissions_teaser_fallback'] = '404';
+        }
+
+        $theme_teaser_url = add_query_arg($theme_teaser_args, $theme_teaser_base_url);
+
+        $sample_title = sprintf(
+            /* translators: %s is the singular post type label, such as Post or Page. */
+            esc_html__('A Sample %s', 'press-permit-core'),
+            $singular_label
+        );
+        $sample_content = esc_html__(
+            'This is an example of the full content. The preview shows what a visitor without permission will see instead.',
+            'press-permit-core'
+        );
+        $sample_excerpt = esc_html__(
+            'This is a short excerpt from the restricted content.',
+            'press-permit-core'
+        );
+
+        if (is_bool($teaser_setting) || is_numeric($teaser_setting)) {
+            $teaser_setting = (string) intval($teaser_setting);
+        }
+        ?>
+        <section
+            class="pp-teaser-site-preview"
+            data-post-type="<?php echo esc_attr($object_type); ?>"
+            data-teaser-type="<?php echo esc_attr($teaser_setting); ?>"
+            data-sample-title="<?php echo esc_attr($sample_title); ?>"
+            data-sample-content="<?php echo esc_attr($sample_content); ?>"
+            data-sample-excerpt="<?php echo esc_attr($sample_excerpt); ?>"
+            data-default-message="<?php echo esc_attr($default_message); ?>"
+            data-redirect-message="<?php echo esc_attr($redirect_message); ?>"
+            data-preview-stylesheet-url="<?php echo esc_url(plugins_url('common/css/settings.css', PRESSPERMIT_TEASER_FILE)); ?>"
+            data-preview-document-title="<?php esc_attr_e('Teaser Preview', 'press-permit-core'); ?>"
+        >
+            <div class="pp-teaser-preview-panel-body">
+                <div class="pp-teaser-preview-frame">
+                    <div class="pp-teaser-preview-browser-bar">
+                        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+                        <strong><?php esc_html_e('Site Preview', 'press-permit-core'); ?></strong>
+                        <?php if ($preview_posts) : ?>
+                            <label class="pp-teaser-preview-post-select-label">
+                                <span class="screen-reader-text"><?php esc_html_e('Preview content', 'press-permit-core'); ?></span>
+                                <select class="pp-teaser-preview-post-select" data-post-type="<?php echo esc_attr($object_type); ?>" aria-label="<?php esc_attr_e('Preview content', 'press-permit-core'); ?>">
+                                    <?php foreach ($preview_posts as $preview_post) :
+                                        $preview_post_title = get_the_title($preview_post);
+                                        ?>
+                                        <option
+                                            value="<?php echo esc_attr($preview_post->ID); ?>"
+                                            data-preview-url="<?php echo esc_url(get_permalink($preview_post)); ?>"
+                                        >
+                                            <?php echo esc_html($preview_post_title); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </label>
+                        <?php endif; ?>
+                        <div class="pp-teaser-preview-device-toggle" role="group" aria-label="<?php esc_attr_e('Preview device', 'press-permit-core'); ?>">
+                            <button type="button" class="pp-teaser-preview-device-btn<?php echo ('desktop' === $device_mode) ? ' active' : ''; ?>" data-device="desktop" aria-pressed="<?php echo ('desktop' === $device_mode) ? 'true' : 'false'; ?>" title="<?php esc_attr_e('Desktop', 'press-permit-core'); ?>">
+                                <span class="dashicons dashicons-desktop" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" class="pp-teaser-preview-device-btn<?php echo ('mobile' === $device_mode) ? ' active' : ''; ?>" data-device="mobile" aria-pressed="<?php echo ('mobile' === $device_mode) ? 'true' : 'false'; ?>" title="<?php esc_attr_e('Mobile', 'press-permit-core'); ?>">
+                                <span class="dashicons dashicons-smartphone" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <a
+                            class="pp-teaser-preview-external-link"
+                            href="<?php echo esc_url($theme_404_url); ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="<?php esc_attr_e('Open full preview in a new tab', 'press-permit-core'); ?>"
+                            data-default-preview-url="<?php echo esc_url($theme_404_url); ?>"
+                            data-teaser-preview-url="<?php echo esc_url($theme_teaser_url); ?>"
+                        >
+                            <?php esc_html_e('Open full preview', 'press-permit-core'); ?>
+                            <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                        </a>
+                    </div>
+
+                    <article class="pp-teaser-preview-article" aria-live="polite">
+                        <div class="pp-teaser-preview-image" aria-hidden="true">
+                            <span><?php esc_html_e('Featured Image', 'press-permit-core'); ?></span>
+                        </div>
+                        <h2 class="pp-teaser-preview-title"></h2>
+
+                        <div class="pp-teaser-preview-state pp-teaser-preview-default-response">
+                            <div class="pp-teaser-preview-theme-loading" aria-live="polite">
+                                <span class="spinner is-active" aria-hidden="true"></span>
+                                <span><?php esc_html_e('Loading the preview from your active theme…', 'press-permit-core'); ?></span>
+                            </div>
+                            <div class="pp-teaser-preview-viewport" data-device="<?php echo esc_attr($device_mode); ?>">
+                                <div class="pp-teaser-preview-frame-sizer">
+                                    <iframe
+                                        class="pp-teaser-preview-theme-frame"
+                                        data-default-src="<?php echo esc_url($theme_404_url); ?>"
+                                        data-teaser-src="<?php echo esc_url($theme_teaser_url); ?>"
+                                        title="<?php esc_attr_e('Teaser preview from the active theme', 'press-permit-core'); ?>"
+                                        loading="lazy"
+                                        scrolling="yes"
+                                        sandbox="allow-same-origin allow-scripts"
+                                        referrerpolicy="same-origin"
+                                        aria-busy="true"
+                                    ></iframe>
+                                </div>
+                            </div>
+                            <div class="pp-teaser-preview-theme-error" hidden>
+                                <?php esc_html_e('The theme preview could not be displayed in this frame.', 'press-permit-core'); ?>
+                            </div>
+                        </div>
+
+                        <div class="pp-teaser-preview-state pp-teaser-preview-redirect-response">
+                            <span class="dashicons dashicons-redo" aria-hidden="true"></span>
+                            <div>
+                                <strong><?php esc_html_e('Visitor redirected', 'press-permit-core'); ?></strong>
+                                <p><?php esc_html_e('The restricted content is not shown. The visitor is sent to the configured destination.', 'press-permit-core'); ?></p>
+                            </div>
+                        </div>
+
+                        <div class="pp-teaser-preview-state pp-teaser-preview-content">
+                            <p class="pp-teaser-preview-body"></p>
+                            <div
+                                id="pp-teaser-site-notice-preview-<?php echo esc_attr($object_type); ?>"
+                                class="pp-teaser-notice-preview"
+                                data-teaser-text-default="<?php echo esc_attr($default_message); ?>"
+                                data-blocked-message="<?php echo esc_attr($blocked_message); ?>"
+                                data-current-teaser-type="<?php echo esc_attr($teaser_setting); ?>"
+                            >
+                                <?php echo esc_html($default_message); ?>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <?php
+    }
+
+    private function renderBlockedMessageCard($object_type) {
+        // Get Teaser Text mode content (HTML content from editors) - remove slashes added by WordPress
+        $blocked_message = $this->getBlockedMessage($object_type);
+        ?>
+        <div class="teaser-message-section" style="margin-top: 20px;">
+            <table class="widefat">
+                <thead>
+                    <tr>
+                        <th>
+                            <strong><?php esc_html_e('Message for Blocked Users', 'press-permit-core'); ?></strong>
+                            <?php $this->generateTooltip(esc_html__('This message is shown to users who are blocked from viewing the full content. It is shared across all teaser types.', 'press-permit-core')) ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="pp-required-field" data-field-action="replace" data-field-item="content" data-error-message="<?php echo esc_attr(esc_html__('This field is required.', 'press-permit-core')); ?>">
+                        <?php
+                        $option_basename = "tease_replace_content";
+                        $id = $object_type . '_' . $option_basename;
+                        $name = "{$option_basename}[{$object_type}]";
+
+                        $editor_settings = [
+                            'textarea_name' => $name,
+                            'textarea_rows' => 5,
+                            'media_buttons' => false,
+                            'teeny' => true,
+                            'quicktags' => ['buttons' => 'strong,em,link,ul,ol,li'],
+                            'tinymce' => [
+                                'toolbar1' => 'bold,italic,underline,strikethrough,link,unlink,bullist,numlist,blockquote,undo,redo',
+                                'toolbar2' => '',
+                                'toolbar3' => '',
+                            ]
+                        ];
+                        wp_editor($blocked_message, $id, $editor_settings);
+                        ?>
+                        <p class="pp-add-login-form">
+                            <?php
+                            printf(
+                                esc_html__('Insert a login form by using %s[login_form]%s shortcode.', 'press-permit-core'),
+                                '<a href="#">',
+                                '</a>'
+                            );
+                            ?>
+                        </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    private function renderTeaserTextCard($object_type) {
+        ?>
+        <?php $this->renderBlockedMessageCard($object_type); ?>
+
+        <div class="teaser-table">
+            <table class="widefat">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            <strong><?php esc_html_e('Text Configuration', 'press-permit-core'); ?></strong>
+                            <?php $this->generateTooltip(esc_html__('In addition to the Teaser and the Message for Blocked Users, you can show extra text around your content.', 'press-permit-core')) ?>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="pp-teaser-text-container">
+                <?php $this->renderTeaserTextFields($object_type); ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    private function renderTeaserTextFields($object_type) {
+        // Prepare teaser text options - EXCLUDE content/replace
+        $item_actions = [
+            'content' => ['prepend', 'append'],
+            'name' => ['prepend', 'append'],
+        ];
+
+        // Register all options
+        $trans_headings = [
+            'name' => esc_html__('post title', 'press-permit-core'),
+            'content' => esc_html__('post content', 'press-permit-core'),
+        ];
+
+        foreach ($item_actions as $item => $actions) {
+            $item_heading = ucfirst($item);
+
+            $actions_display = [
+                'prepend' => sprintf(esc_html__('Before %s', 'press-permit-core'), $trans_headings[$item]),
+                'append' => sprintf(esc_html__('After %s', 'press-permit-core'), $trans_headings[$item])
+            ];
+            ?>
+            <div class="pp-teaser-text-section">
+                <?php foreach ($actions as $action) :
+                    $option_basename = "tease_{$action}_{$item}_anon";
+                    $logged_option_basename = "tease_{$action}_{$item}";
+
+                    // Get per-post-type value
+                    $opt_val = $this->getSharedAudienceOption($option_basename, $logged_option_basename, $object_type);
+
+                    // Remove slashes that WordPress adds automatically
+                    if ($opt_val) {
+                        $opt_val = wp_unslash($opt_val);
+                    } else {
+                        $opt_val = '';
+                    }
+
+                    $id = $object_type . '_' . $option_basename;
+                    $name = "{$option_basename}[{$object_type}]";
+                    $logged_name = "{$logged_option_basename}[{$object_type}]";
+                    ?>
+                    <div class="pp-field-row pp-teaser-editor-row" data-field-action="<?php echo esc_attr($action); ?>" data-field-item="<?php echo esc_attr($item); ?>">
+                        <div>
+                            <label for="<?php echo esc_attr($id); ?>">
+                                <strong><?php echo esc_html($actions_display[$action]); ?></strong>
+                            </label>
+                        </div>
+                        <div>
+                            <?php if ('content' == $item) : 
+                                $editor_settings = [
+                                    'textarea_name' => $name,
+                                    'textarea_rows' => 5,
+                                    'media_buttons' => false,
+                                    'teeny' => true,
+                                    'quicktags' => ['buttons' => 'strong,em,link,ul,ol,li'],
+                                    'tinymce' => [
+                                        'toolbar1' => 'bold,italic,underline,strikethrough,link,unlink,bullist,numlist,blockquote,undo,redo',
+                                        'toolbar2' => '',
+                                        'toolbar3' => '',
+                                    ]
+                                ];
+                                wp_editor($opt_val, $id, $editor_settings);
+                                ?>
+                                <?php else : /* Use wp_editor for name and excerpt fields as well */ ?>
+                                    <?php
+                                    // Use a compact editor for these fields
+                                    $editor_settings = [
+                                        'textarea_name' => $name,
+                                        'textarea_rows' => 3,
+                                        'media_buttons' => false,
+                                        'teeny' => true,
+                                        'quicktags' => ['buttons' => 'strong,em,link'],
+                                        'tinymce' => [
+                                            'toolbar1' => 'bold,italic,link,unlink,undo,redo',
+                                            'toolbar2' => '',
+                                            'toolbar3' => ''
+                                        ]
+                                    ];
+                                    wp_editor($opt_val, $id, $editor_settings);
+                                    ?>
+                            <?php endif; ?>
+                            <input type="hidden" class="pp-sync-editor-value" data-source-editor="<?php echo esc_attr($id); ?>" name="<?php echo esc_attr($logged_name); ?>" value="<?php echo esc_attr($opt_val); ?>">
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <?php
+        }
+    }
+
+    private function renderRedirectSection($object_type = '') {
+        ?>
+        <div class="teaser-redirect-section" style="margin-top: 20px;">
+            <table class="widefat fixed striped teaser-table pp-teaser-redirect">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 15%;">
+                    <col style="width: 45%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="4">
+                            <strong><?php esc_html_e('Redirect Settings', 'press-permit-core');?></strong>
+                            <?php if ($this->ui->display_hints) : 
+                                $tooltip_text = \PublishPress\Permissions\UI\SettingsAdmin::getStr('teaser_redirect_page');
+                                if ($tooltip_text) {
+                                    $this->generateTooltip($tooltip_text);
+                                }
+                            endif; ?>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th><?php esc_html_e('Redirection', 'press-permit-core') ?></th>
+                        <th data-column="post-type" data-title="<?php esc_attr_e('Target Post Type', 'press-permit-core') ?>"><?php esc_html_e('Target Post Type', 'press-permit-core') ?></th>
+                        <th data-column="target" data-title="<?php esc_attr_e('Select Post', 'press-permit-core') ?>" data-url-title="<?php esc_attr_e('Custom URL', 'press-permit-core') ?>"><?php esc_html_e('Select Post', 'press-permit-core') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                // Not Logged In redirect
+                $id_basename = "teaser_redirect_anon";
+                $id = "{$id_basename}_{$object_type}";
+                $id_slug_basename = "teaser_redirect_anon_page";
+                $id_slug = "{$id_slug_basename}_{$object_type}";
+                $name = "{$id_basename}[{$object_type}]";
+                $name_slug = "{$id_slug_basename}[{$object_type}]";
+
+                // Get per-post-type redirect mode value
+                $redirect_mode = $this->pp->getTypeOption($id_basename, $object_type);
+
+                // Get per-post-type redirect page value
+                $redirect_page_id = $this->pp->getTypeOption($id_slug_basename, $object_type);
+
+                // Get redirect post type (default to 'page' for backward compatibility)
+                $redirect_post_type_basename = "teaser_redirect_anon_post_type";
+                $redirect_post_type_name = "{$redirect_post_type_basename}[{$object_type}]";
+                $redirect_post_type = $this->pp->getTypeOption($redirect_post_type_basename, $object_type) ?: 'page';
+                $redirect_url_basename = "teaser_redirect_anon_url";
+                $redirect_url_name = "{$redirect_url_basename}[{$object_type}]";
+                $redirect_url = $this->pp->getTypeOption($redirect_url_basename, $object_type);
+
+                // Register option for saving
+                $this->ui->all_otype_options[] = $redirect_post_type_basename;
+                $this->ui->all_otype_options[] = $redirect_url_basename;
+
+                // Get available public post types
+                $public_post_types = get_post_types(['public' => true], 'objects');
+                // Exclude attachment type
+                unset($public_post_types['attachment']);
+
+                ?>
+                <tr>
+                    <th>
+                        <label for='<?php echo esc_attr($id); ?>'>
+                        <?php esc_html_e('Not Logged In:', 'press-permit-core');
+                        ?>
+                        </label>
+                    </th>
+                    <td>
+                        <?php
+                        echo "<select name='" . esc_attr($name) . "' id='" . esc_attr($id) . "' class='teaser-redirect-mode' autocomplete='off'>";
+                        $captions = [
+                            0 => esc_html__("No redirect", 'press-permit-core'),
+                            '(login)' => esc_html__("Redirect to WordPress login", 'press-permit-core'),
+                            '(select)' => esc_html__("Redirect to a custom post", 'press-permit-core'),
+                            '(url)' => esc_html__("Redirect to a custom URL", 'press-permit-core'),
+                        ];
+
+                        foreach ($captions as $teaser_option_val => $teaser_caption) {
+                            $selected = ($redirect_mode == $teaser_option_val) ? ' selected ' : '';
+                            echo "\n\t<option value='" . esc_attr($teaser_option_val) . "'" . esc_attr($selected) . ">" . esc_html($teaser_caption) . "</option>";
+                        }
+
+                        echo '</select>';
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        $style = ('(select)' === $redirect_mode) ? '' : "display:none;";
+                        ?>
+                        <div class="pp-select-dynamic-wrapper" style="<?php echo esc_attr($style);?>">
+                            <!-- Post Type Selector -->
+                            <select class="teaser-redirect-post-type"
+                                    name="<?php echo esc_attr($redirect_post_type_name); ?>"
+                                    id="<?php echo esc_attr($redirect_post_type_basename . '_' . $object_type); ?>"
+                                    data-target-select="<?php echo esc_attr($id_slug); ?>"
+                                    style="width: 100%;">
+                                <?php foreach ($public_post_types as $post_type_key => $post_type_obj) : ?>
+                                    <option value="<?php echo esc_attr($post_type_key); ?>" <?php selected($redirect_post_type, $post_type_key); ?>>
+                                        <?php echo esc_html($post_type_obj->labels->singular_name); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <?php
+                        $style = ('(select)' === $redirect_mode) ? '' : "display:none;";
+                        ?>
+                        <div class="pp-select-dynamic-wrapper" style="<?php echo esc_attr($style);?>">
+                            <!-- Item Selector -->
+                            <select class="permissions_select_posts"
+                                    name="<?php echo esc_attr($name_slug); ?>"
+                                    id="<?php echo esc_attr($id_slug); ?>"
+                                    data-post-type="<?php echo esc_attr($redirect_post_type); ?>"
+                            >
+                                <?php if( isset( $redirect_page_id ) && ! empty( $redirect_page_id ) && is_numeric($redirect_page_id) ) : ?>
+                                    <option value="<?php echo (int) $redirect_page_id ?>" selected="selected"><?php echo esc_html(get_the_title( (int) $redirect_page_id ))?></option>
+                                <?php endif; ?>
+                            </select>
+
+                            <?php
+                            $custom_login_basename = "teaser_redirect_custom_login_page_anon";
+                            $custom_login_id = "{$custom_login_basename}_{$object_type}";
+                            $custom_login_name = "{$custom_login_basename}[{$object_type}]";
+                            $custom_login_val = $this->pp->getTypeOption($custom_login_basename, $object_type);
+                            ?>
+                            <input type="hidden" name="<?php echo esc_attr($custom_login_name);?>" value="0" />
+                            &nbsp;<label style="white-space:nowrap"><input type="checkbox" name="<?php echo esc_attr($custom_login_name);?>" value="1" <?php if ($custom_login_val) echo 'checked';?> /><?php esc_html_e('This is a custom login page', 'press-permit-core');?><?php $this->generateTooltip(esc_html__('After the user logs in, they will be redirected back to the original post they were viewing.', 'press-permit-core')); ?></label>
+                        </div>
+                        <div class="pp-custom-url-wrapper" style="<?php echo esc_attr(('(url)' === $redirect_mode) ? '' : 'display:none;'); ?>">
+                            <input type="url" name="<?php echo esc_attr($redirect_url_name); ?>" value="<?php echo esc_attr($redirect_url); ?>" class="regular-text" placeholder="https://example.com/">
+                        </div>
+                    </td>
+                </tr>
+
+                <?php
+                // Logged in redirect
+                $id_basename = "teaser_redirect";
+                $id = "{$id_basename}_{$object_type}";
+                $id_slug_basename = "teaser_redirect_page";
+                $id_slug = "{$id_slug_basename}_{$object_type}";
+                $name = "{$id_basename}[{$object_type}]";
+                $name_slug = "{$id_slug_basename}[{$object_type}]";
+
+                // Get per-post-type redirect mode value
+                $redirect_mode = $this->pp->getTypeOption($id_basename, $object_type);
+
+                // Get per-post-type redirect page value
+                $redirect_page_id = $this->pp->getTypeOption($id_slug_basename, $object_type);
+
+                // Get redirect post type (default to 'page' for backward compatibility)
+                $redirect_post_type_basename = "teaser_redirect_post_type";
+                $redirect_post_type_name = "{$redirect_post_type_basename}[{$object_type}]";
+                $redirect_post_type = $this->pp->getTypeOption($redirect_post_type_basename, $object_type) ?: 'page';
+                $redirect_url_basename = "teaser_redirect_url";
+                $redirect_url_name = "{$redirect_url_basename}[{$object_type}]";
+                $redirect_url = $this->pp->getTypeOption($redirect_url_basename, $object_type);
+
+                // Register option for saving
+                $this->ui->all_otype_options[] = $redirect_post_type_basename;
+                $this->ui->all_otype_options[] = $redirect_url_basename;
+
+                ?>
+                <tr>
+                    <th>
+                        <label for='<?php echo esc_attr($id); ?>'>
+                        <?php esc_html_e('Logged in Users:', 'press-permit-core');
+                        ?>
+                        </label>
+                    </th>
+                    <td>
+                        <?php
+                        echo "<select name='" . esc_attr($name) . "' id='" . esc_attr($id) . "' class='teaser-redirect-mode' autocomplete='off'>";
+                        $captions = [
+                            0 => esc_html__("No redirect", 'press-permit-core'),
+                            '(login)' => esc_html__("Redirect to WordPress login", 'press-permit-core'),
+                            '(select)' => esc_html__("Redirect to a custom post", 'press-permit-core'),
+                            '(url)' => esc_html__("Redirect to a custom URL", 'press-permit-core'),
+                        ];
+
+                        foreach ($captions as $teaser_option_val => $teaser_caption) {
+                            $selected = ($redirect_mode == $teaser_option_val) ? ' selected ' : '';
+                            echo "\n\t<option value='" . esc_attr($teaser_option_val) . "'" . esc_attr($selected) . ">" . esc_html($teaser_caption) . "</option>";
+                        }
+
+                        echo '</select>';
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        $style = ('(select)' === $redirect_mode) ? '' : "display:none;";
+                        ?>
+                        <div class="pp-select-dynamic-wrapper" style="<?php echo esc_attr($style);?>">
+                            <!-- Post Type Selector -->
+                            <select class="teaser-redirect-post-type"
+                                    name="<?php echo esc_attr($redirect_post_type_name); ?>"
+                                    id="<?php echo esc_attr($redirect_post_type_basename . '_' . $object_type); ?>"
+                                    data-target-select="<?php echo esc_attr($id_slug); ?>"
+                                    style="width: 100%;">
+                                <?php foreach ($public_post_types as $post_type_key => $post_type_obj) : ?>
+                                    <option value="<?php echo esc_attr($post_type_key); ?>" <?php selected($redirect_post_type, $post_type_key); ?>>
+                                        <?php echo esc_html($post_type_obj->labels->singular_name); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <?php
+                        $style = ('(select)' === $redirect_mode) ? '' : "display:none;";
+                        ?>
+                        <div class="pp-select-dynamic-wrapper" style="<?php echo esc_attr($style);?>">
+                            <!-- Item Selector -->
+                            <select class="permissions_select_posts"
+                                    name="<?php echo esc_attr($name_slug); ?>"
+                                    id="<?php echo esc_attr($id_slug); ?>"
+                                    data-post-type="<?php echo esc_attr($redirect_post_type); ?>"
+                            >
+                                <?php if( isset( $redirect_page_id ) && ! empty( $redirect_page_id ) && is_numeric($redirect_page_id) ) : ?>
+                                    <option value="<?php echo (int) $redirect_page_id ?>" selected="selected"><?php echo esc_html(get_the_title( (int) $redirect_page_id ))?></option>
+                                <?php endif; ?>
+                            </select>
+
+                            <?php
+                            $custom_login_basename = "teaser_redirect_custom_login_page";
+                            $custom_login_id = "{$custom_login_basename}_{$object_type}";
+                            $custom_login_name = "{$custom_login_basename}[{$object_type}]";
+                            $custom_login_val = $this->pp->getTypeOption($custom_login_basename, $object_type);
+                            ?>
+                            <input type="hidden" name="<?php echo esc_attr($custom_login_name);?>" value="0" />
+                            &nbsp;<label style="white-space:nowrap"><input type="checkbox" name="<?php echo esc_attr($custom_login_name);?>" value="1" <?php if ($custom_login_val) echo 'checked';?> /><?php esc_html_e('This is a custom login page', 'press-permit-core');?></label>
+                        </div>
+                        <div class="pp-custom-url-wrapper" style="<?php echo esc_attr(('(url)' === $redirect_mode) ? '' : 'display:none;'); ?>">
+                            <input type="url" name="<?php echo esc_attr($redirect_url_name); ?>" value="<?php echo esc_attr($redirect_url); ?>" class="regular-text" placeholder="https://example.com/">
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+
+    private function renderTeaserNoticeStyleSettings($object_type) {
+        // Get current style settings with defaults (per post type)
+        $bg_color = $this->pp->getTypeOption('teaser_notice_bg_color', $object_type) ?: '#f0f6fc';
+        $text_color = $this->pp->getTypeOption('teaser_notice_text_color', $object_type) ?: '#1d2327';
+        $border_color = $this->pp->getTypeOption('teaser_notice_border_color', $object_type) ?: '#0073aa';
+        $border_width = $this->pp->getTypeOption('teaser_notice_border_width', $object_type) ?: '4';
+        $border_position = $this->pp->getTypeOption('teaser_notice_border_position', $object_type) ?: 'left';
+        $padding = $this->pp->getTypeOption('teaser_notice_padding', $object_type) ?: '15';
+        $border_radius = $this->pp->getTypeOption('teaser_notice_border_radius', $object_type) ?: '0';
+        $font_size = $this->pp->getTypeOption('teaser_notice_font_size', $object_type) ?: '14';
+        // Validate border position to prevent XSS - whitelist allowed values
+        $allowed_border_positions = ['left', 'right', 'top', 'bottom', 'all'];
+        if (!in_array($border_position, $allowed_border_positions, true)) {
+            $border_position = 'left'; // Default to safe value if invalid
+        }
+
+        // Register options
+        $style_options = [
+            'teaser_notice_bg_color',
+            'teaser_notice_text_color', 
+            'teaser_notice_border_color',
+            'teaser_notice_border_width',
+            'teaser_notice_border_position',
+            'teaser_notice_padding',
+            'teaser_notice_border_radius',
+            'teaser_notice_font_size'
+        ];
+        
+        foreach ($style_options as $option) {
+            $this->ui->all_options[] = $option;
+        }
+        ?>
+        <div class="teaser-notice-style-section">
+            <table class="widefat">
+                <thead>
+                    <tr>
+                        <th>
+                            <strong><?php esc_html_e('Blocked User Message Style', 'press-permit-core'); ?></strong>
+                            <?php $this->generateTooltip(esc_html__('Customize the appearance of teaser message displayed to blocked users.', 'press-permit-core')); ?>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="pp-teaser-notice-style-fields">
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_bg_color_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Background Color', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="text"
+                                               name="teaser_notice_bg_color[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_bg_color_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($bg_color); ?>"
+                                               class="pp-color-picker"
+                                               data-default-color="#f0f6fc">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_text_color_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Text Color', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="text"
+                                               name="teaser_notice_text_color[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_text_color_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($text_color); ?>"
+                                               class="pp-color-picker"
+                                               data-default-color="#1d2327">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_border_color_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Border Color', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="text"
+                                               name="teaser_notice_border_color[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_border_color_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($border_color); ?>"
+                                               class="pp-color-picker"
+                                               data-default-color="#0073aa">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label>
+                                            <?php esc_html_e('Border Position', 'press-permit-core'); ?>
+                                        </label>
+                                        <?php
+                                        $border_position_options = [
+                                            'left' => esc_html__('Left', 'press-permit-core'),
+                                            'right' => esc_html__('Right', 'press-permit-core'),
+                                            'top' => esc_html__('Top', 'press-permit-core'),
+                                            'bottom' => esc_html__('Bottom', 'press-permit-core'),
+                                            'all' => esc_html__('All Sides', 'press-permit-core'),
+                                        ];
+                                        ?>
+                                        <div class="pp-border-position-group" role="radiogroup" aria-label="<?php esc_attr_e('Border Position', 'press-permit-core'); ?>">
+                                            <?php foreach ($border_position_options as $position_value => $position_label) : ?>
+                                                <label class="pp-border-position-option" title="<?php echo esc_attr($position_label); ?>">
+                                                    <input type="radio"
+                                                           name="teaser_notice_border_position[<?php echo esc_attr($object_type); ?>]"
+                                                           value="<?php echo esc_attr($position_value); ?>"
+                                                           class="pp-style-input"
+                                                        <?php checked($border_position, $position_value); ?>>
+                                                    <span class="pp-border-position-icon pp-border-position-icon--<?php echo esc_attr($position_value); ?>" aria-hidden="true"></span>
+                                                    <span class="screen-reader-text"><?php echo esc_html($position_label); ?></span>
+                                                </label>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_border_width_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Border Width (px)', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="number"
+                                               name="teaser_notice_border_width[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_border_width_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($border_width); ?>"
+                                               min="0"
+                                               max="20"
+                                               class="small-text pp-style-input">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_border_radius_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Border Radius (px)', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="number"
+                                               name="teaser_notice_border_radius[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_border_radius_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($border_radius); ?>"
+                                               min="0"
+                                               max="50"
+                                               class="small-text pp-style-input">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_font_size_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Font Size (px)', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="number"
+                                               name="teaser_notice_font_size[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_font_size_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($font_size); ?>"
+                                               min="10"
+                                               max="30"
+                                               class="small-text pp-style-input">
+                                    </div>
+
+                                    <div class="pp-field-row">
+                                        <label for="teaser_notice_padding_<?php echo esc_attr($object_type); ?>">
+                                            <?php esc_html_e('Padding (px)', 'press-permit-core'); ?>
+                                        </label>
+                                        <input type="number"
+                                               name="teaser_notice_padding[<?php echo esc_attr($object_type); ?>]"
+                                               id="teaser_notice_padding_<?php echo esc_attr($object_type); ?>"
+                                               value="<?php echo esc_attr($padding); ?>"
+                                               min="0"
+                                               max="50"
+                                               class="small-text pp-style-input">
+                                    </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    private function generateTooltip($tooltip, $text = '', $position = 'top', $useIcon = true)
+    {
+        if (!$tooltip) return;
+        ?>
+        <span data-toggle="tooltip" data-placement="<?php esc_attr_e($position); ?>">
+        <?php esc_html_e($text);?>
+        <span class="tooltip-text"><span><?php esc_html_e($tooltip);?></span><i></i></span>
+        <?php 
+        if ($useIcon) : ?>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 50 50" style="margin-left: 4px; vertical-align: text-bottom;">
+                <path d="M 25 2 C 12.264481 2 2 12.264481 2 25 C 2 37.735519 12.264481 48 25 48 C 37.735519 48 48 37.735519 48 25 C 48 12.264481 37.735519 2 25 2 z M 25 4 C 36.664481 4 46 13.335519 46 25 C 46 36.664481 36.664481 46 25 46 C 13.335519 46 4 36.664481 4 25 C 4 13.335519 13.335519 4 25 4 z M 25 11 A 3 3 0 0 0 25 17 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 23 23 L 23 36 L 21 36 L 21 38 L 29 38 L 29 36 L 27 36 L 27 21 L 21 21 z"></path>
+            </svg>
+        <?php
+        endif; ?>
+        </span>
+        <?php
+    }
+}

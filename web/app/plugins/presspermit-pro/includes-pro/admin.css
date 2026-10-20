@@ -1,0 +1,7 @@
+.pp-admin-notice a, .pp-admin-notice a:link, .pp-admin-notice a:visited, .pp-admin-notice a:hover {
+    text-decoration: underline !important;
+}
+
+#pp-permissions-wrapper div.pp-options-wrapper {
+    flex-basis: 100% !important;
+}
