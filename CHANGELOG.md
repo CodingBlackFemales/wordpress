@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.64](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.63...v0.1.64) (2026-10-21)
+
+### Bug Fixes
+
+* **academy:** apply Permissions course exceptions to LearnDash edit checks ([c2281a7](https://github.com/CodingBlackFemales/wordpress/commit/c2281a7d104b6b536cf57ede9bfa404649400e38))
+
 ## [0.1.63](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.62...v0.1.63) (2026-10-20)
 
 ## [0.1.62](https://github.com/CodingBlackFemales/wordpress/compare/v0.1.61...v0.1.62) (2026-10-19)
