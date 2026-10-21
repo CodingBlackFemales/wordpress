@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edb1067177d4a6a93d7beb152b5191e0",
+    "content-hash": "fa9c087faf9f1dc379f97a43342e6e72",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -7357,7 +7357,7 @@
         },
         {
             "name": "wpackagist-plugin/crisp",
-            "version": "0.48",
+            "version": "0.49",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/crisp/",
@@ -7365,7 +7365,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/crisp.zip?timestamp=1744623319"
+                "url": "https://downloads.wordpress.org/plugin/crisp.zip?timestamp=1792567158"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
